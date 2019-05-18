@@ -35,7 +35,6 @@
 // · Pricing table
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
 section.pricing {
-    background-image: url('../img/background/price.jpg');
     background-image: url('/assets/website/bg/price.jpg');
     background-position: center;
     background-size: cover;
@@ -154,6 +153,8 @@ section.trial {
         p {
             font-size: 1.5rem;
             font-size: 1.8rem; //desktop
+            margin: 0;
+            line-height: 1.1;
             color: $color-gray-700;
         }
             

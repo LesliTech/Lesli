@@ -1,0 +1,8 @@
+en:
+  website:
+    shared:
+      trial:
+        try: "Try"
+        today: "for free today."
+        signup: "crear cuenta"
+        create_account: "Create your account and get 3 months trial."
