@@ -1,0 +1,10 @@
+= form_for @website_landing do |f|
+  - if @website_landing.errors.any?
+    #error_explanation
+      %h2= "#{pluralize(@website_landing.errors.count, "error")} prohibited this website_landing from being saved:"
+      %ul
+        - @website_landing.errors.full_messages.each do |message|
+          %li= message
+
+  .actions
+    = f.submit 'Save'

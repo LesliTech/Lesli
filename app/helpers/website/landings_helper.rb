@@ -1,0 +1,2 @@
+module Website::LandingsHelper
+end

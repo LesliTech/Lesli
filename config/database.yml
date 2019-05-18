@@ -1,0 +1,14 @@
+development:
+  adapter: postgresql
+  database: leslicloud_development
+  username: hyrd_dev
+  password: test
+  host: localhost
+
+test:
+  database: leslicloud_test
+
+production:
+  database: leslicloud_production
+  username: myapp
+  password: <%= ENV['MYAPP_DATABASE_PASSWORD'] %>
