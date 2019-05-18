@@ -1,7 +1,8 @@
 Rails.application.routes.draw do
 
-    #root to: 'landing#index'
-    root to: 'website/landings#index'
+    devise_for :users
+    
+    root to: 'website/pages#landing'
 
     # Load routes by module name
     extend Websites
