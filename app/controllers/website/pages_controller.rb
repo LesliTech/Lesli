@@ -1,62 +1,63 @@
-class Website::PagesController < ApplicationController
-  before_action :set_website_page, only: [:show, :edit, :update, :destroy]
+class Website::PagesController < WebsiteController
+    before_action :set_website_page, only: [:show, :edit, :update, :destroy]
 
     def landing
-        render :index
+        render :landing
     end
 
-  # GET /website/pages
-  def index
+
+    # GET /website/pages
+    def index
     @website_pages = Website::Page.all
-  end
+    end
 
-  # GET /website/pages/1
-  def show
-  end
+    # GET /website/pages/1
+    def show
+    end
 
-  # GET /website/pages/new
-  def new
+    # GET /website/pages/new
+    def new
     @website_page = Website::Page.new
-  end
+    end
 
-  # GET /website/pages/1/edit
-  def edit
-  end
+    # GET /website/pages/1/edit
+    def edit
+    end
 
-  # POST /website/pages
-  def create
+    # POST /website/pages
+    def create
     @website_page = Website::Page.new(website_page_params)
 
     if @website_page.save
-      redirect_to @website_page, notice: 'Page was successfully created.'
+    redirect_to @website_page, notice: 'Page was successfully created.'
     else
-      render :new
+    render :new
     end
-  end
+    end
 
-  # PATCH/PUT /website/pages/1
-  def update
+    # PATCH/PUT /website/pages/1
+    def update
     if @website_page.update(website_page_params)
-      redirect_to @website_page, notice: 'Page was successfully updated.'
+    redirect_to @website_page, notice: 'Page was successfully updated.'
     else
-      render :edit
+    render :edit
     end
-  end
+    end
 
-  # DELETE /website/pages/1
-  def destroy
+    # DELETE /website/pages/1
+    def destroy
     @website_page.destroy
     redirect_to website_pages_url, notice: 'Page was successfully destroyed.'
-  end
+    end
 
-  private
+    private
     # Use callbacks to share common setup or constraints between actions.
     def set_website_page
-      @website_page = Website::Page.find(params[:id])
+    @website_page = Website::Page.find(params[:id])
     end
 
     # Only allow a trusted parameter "white list" through.
     def website_page_params
-      params.fetch(:website_page, {})
+    params.fetch(:website_page, {})
     end
 end

@@ -1,0 +1,15 @@
+{
+    "name": "leslicloud",
+    "title": "LesliCloud",
+    "homepage": "https://lesli.cloud",
+    "author": "Luis Donis <ldonis@lesli.tech>",
+    "license": "All rights reserved",
+    "devDependencies": {
+
+        "bootstrap-vue": "~2.0.0-rc"
+
+    },
+    "scripts": {
+
+    }
+}

@@ -1,0 +1,243 @@
+/*
+* Lesli
+*
+* (c) Copyright 2018 Lesli Technologies, S. A., all rights reserved.
+*
+* All the information provided by this website is protected by laws of Guatemala related 
+* to industrial property, intellectual property, copyright and relative international laws. 
+* Lesli Technologies, S. A. is the exclusive owner of all intellectual or industrial property
+* rights of the code, texts, trade mark, design, pictures and any other information.
+* Without the written permission of Lesli Technologies, S. A., any replication, modification,
+* transmission, publication is strictly forbidden.
+*
+* @author   Luis Donis <ldonis@lesli.tech>
+* @license  Propietary
+* @version  1.0.0
+* @link     https://www.lesli.tech
+*/
+
+
+// · Including Frameworks
+// · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
+@import '../../../../node_modules/bootstrap/scss/bootstrap';
+
+
+// · Template
+// · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
+@import 'partials/base';
+
+
+// · 
+// · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
+@import url('https://fonts.googleapis.com/css?family=Raleway:200,500');
+
+
+// · Pricing table
+// · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
+section.pricing {
+    background-image: url('../img/background/price.jpg');
+    background-position: center;
+    background-size: cover;
+    padding: 6rem 0;
+
+    h2 {
+        display: block;
+        text-align: center;
+        padding-bottom: 4rem;
+        color: $color-gray-900;
+        font-size: 2.2rem;
+    }
+
+    article {
+        //@include lesli-flex-grid(300px, 15px);
+        max-width: 1000px;
+        margin: 0 auto;
+        width: 90%;
+
+        div {
+            padding: 1rem 0 2rem;
+            border-radius: 6px;
+            text-align: center;
+            vertical-align: top;
+            margin-bottom: 1rem;
+            background-color: $color-white;
+            box-shadow: 0px 10px 13px -6px rgba(0, 0, 0, 0.08), 0px 20px 31px 3px rgba(0, 0, 0, 0.09), 0px 8px 20px 7px rgba(0, 0, 0, 0.02);
+
+            img {
+                margin-bottom: 1rem;
+            }
+
+            h3 {
+                text-transform: uppercase;
+                color: $color-gray-700;
+                font-weight: bold;
+                font-size: 1rem;
+            }
+                
+            ul {
+                display: block;
+                margin: 1rem auto;
+                width: 200px;
+
+                // plan features
+                li {
+                    color: $color-blue;
+                    font-weight: 400;
+                    font-size: .95rem;
+                    padding: .8rem 0;
+                    
+                    &:not(:last-child) {
+                        border-top: 1px solid rgba($color-gray, .3);
+                    }
+                        
+                    &:nth-child(4) {
+                        padding: 1.6rem 0;
+                    }
+
+                    span {
+                        font-size: 1.4rem;
+                        font-weight: bold;
+                        color: $color-gray-700;
+                    }
+
+                    // price
+                    a {
+                        margin: 25px 0;
+                        padding: 10px 30px;
+                        border-radius: 10px;
+                        border-radius: 3px;
+                        border: 1px solid #9dd1ff;
+                        color: #348EFE;
+                        transition: all 150ms ease-in-out;
+                    }
+                    
+                    // price description
+                    p {
+                        margin-top: 5px;
+                        font-size: .75rem;
+                    }
+
+                }
+
+            }
+
+        }
+
+    }
+
+}
+
+
+// · Trial offer
+// · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
+section.trial {
+    padding: 8rem 0;
+    margin-top: -10px;
+    background: linear-gradient(to bottom, #edf6ff 0%,rgba(255,255,255,0) 100%);
+
+    article {
+        width: 90%;
+        max-width: 1000px;
+        margin: 0 auto;
+        
+        div {
+            margin: .4rem auto 2rem;
+        }
+
+        img {
+            width: 140px;
+        }
+
+        p {
+            font-size: 1.5rem;
+            font-size: 1.8rem; //desktop
+            color: $color-gray-700;
+        }
+            
+        a {
+            font-size: .9rem;
+            font-weight: 400;
+            border-radius: 3px;
+            padding: .8rem 1rem;
+            color: $color-white;
+            text-transform: uppercase;
+            background-color: $color-blue;
+            box-shadow: 0 2px 5px 0 rgba($color-gray-700,.39);
+        }
+
+    }
+
+}
+
+
+// · Footer
+// · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
+footer {
+    margin-top: 2rem;
+
+    // social links
+    ul.social {
+        border-top: 1px solid darken($color-gray, 10);
+        padding: 1.4rem .4rem .8rem;
+        text-align: center;
+        display: block;
+        margin: 0 auto;
+        width: 90%;
+        
+        li {
+            width: 75px;
+            display: inline-block;
+            vertical-align: middle;
+        }
+                
+        svg {
+            width: 2rem;
+            fill: $color-gray-700;
+        }
+
+    }
+
+    // links
+    ul.links {
+        padding: 0;
+        display: block;
+        text-align: center;
+        margin: 0 auto 1rem;
+        width: 100%;
+        
+        li {
+            display: inline-block;
+            vertical-align: middle;
+            
+            a {
+                padding: 0 .5rem;
+                font-weight: 400;
+                font-size: .8rem;
+            }
+
+        }
+
+    }
+
+    // copy
+    div.copy {
+        padding-bottom: 1rem;
+        text-align: center;
+
+        p {
+            font-size: .8rem;
+            font-weight: 400;
+        }
+            
+        a {
+            font-size: .7rem;
+        }
+
+    }
+
+}
+
+
+.lesli-title {
+    font-family: 'Raleway', sans-serif;    
+}

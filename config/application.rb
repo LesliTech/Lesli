@@ -14,6 +14,15 @@ module LesliCloud
     # Load another routes directory
     config.autoload_paths += %W(#{config.root}/config/routes)
 
+    config.i18n.load_path += Dir[
+        Rails.root.join('config', 'locales', '**', '*.{rb,yml}'), 
+        Rails.root.join('config', 'locales', '**', '**', '*.{rb,yml}')
+    ]
+    config.i18n.available_locales = [:en, :es]
+    config.i18n.default_locale = :en
+
+    config.time_zone = 'Central America'
+
     # SES SMTP Settings
     config.action_mailer.smtp_settings = {
         user_name: 'AKIA6P562IZOMLG57DKK',
