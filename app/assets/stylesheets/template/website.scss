@@ -36,6 +36,7 @@
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
 section.pricing {
     background-image: url('../img/background/price.jpg');
+    background-image: url('/assets/website/bg/price.jpg');
     background-position: center;
     background-size: cover;
     padding: 6rem 0;
@@ -49,17 +50,17 @@ section.pricing {
     }
 
     article {
-        //@include lesli-flex-grid(300px, 15px);
         max-width: 1000px;
         margin: 0 auto;
         width: 90%;
 
-        div {
-            padding: 1rem 0 2rem;
-            border-radius: 6px;
+        .col div {
+            width: 99%;
             text-align: center;
+            border-radius: 6px;
+            margin: 0 auto 1rem;
             vertical-align: top;
-            margin-bottom: 1rem;
+            padding: 1rem 0 2rem;
             background-color: $color-white;
             box-shadow: 0px 10px 13px -6px rgba(0, 0, 0, 0.08), 0px 20px 31px 3px rgba(0, 0, 0, 0.09), 0px 8px 20px 7px rgba(0, 0, 0, 0.02);
 
@@ -75,6 +76,7 @@ section.pricing {
             }
                 
             ul {
+                padding: 0;
                 display: block;
                 margin: 1rem auto;
                 width: 200px;
@@ -85,6 +87,7 @@ section.pricing {
                     font-weight: 400;
                     font-size: .95rem;
                     padding: .8rem 0;
+                    list-style: none;
                     
                     &:not(:last-child) {
                         border-top: 1px solid rgba($color-gray, .3);
