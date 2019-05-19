@@ -32,6 +32,95 @@
 @import url('https://fonts.googleapis.com/css?family=Raleway:200,500');
 
 
+@mixin max-width() {
+    width: 98%;
+    margin: 0 auto;
+    max-width: 1140px;
+}
+
+@mixin lesli-flex($direction:row, $align: center, $justify: space-between) {
+
+    display: flex;
+    flex-direction: $direction;
+    justify-content: $justify;
+    align-items: $align;
+
+}
+
+@mixin lesli-flex-center($vertical: false) {
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    @if ($vertical) {
+        flex-direction: column;
+        height: 100%;
+    }
+
+}
+
+@mixin lesli-flex-grid($items-width: 150px, $gutter: 10px) {
+    
+    display: flex;
+    flex-wrap: wrap;
+
+    & > * {
+        flex: 1 1 $items-width;
+        margin: 0 $gutter;
+    }
+
+}
+
+// · Navigation menu
+// · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
+div.navigation {
+    @include lesli-flex();
+    padding: 1rem;
+
+    // logo container
+    div img {
+        width: 100px;
+    }
+
+    // links container
+    ul {
+        padding: 0;
+        @include lesli-flex();
+
+        a {
+            color: $color-gray-700;
+            display: inline-block;
+            padding: .8rem 0;
+            font-weight: 600;
+            width: 100px;
+        }
+        
+        li {
+            list-style: none;
+        }
+
+        // registration button
+        li:last-child a {
+            display: block;
+            border: none;
+            width: 200px;
+            padding: 1rem 0;
+            text-align: center;
+            color: $color-blue;
+            border-radius: 2px;
+            background-color: $color-white;
+            box-shadow: 0 0.1em 1em 0 #edf6ff;
+            background-color: #edf6ff;
+            border: 1px solid #bed2f0;
+            transition: all linear .2s;
+        }
+
+    }
+
+}
+
+
 // · Pricing table
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
 section.pricing {
@@ -154,7 +243,7 @@ section.trial {
             font-size: 1.5rem;
             font-size: 1.8rem; //desktop
             margin: 0;
-            line-height: 1.1;
+            line-height: 1.2;
             color: $color-gray-700;
         }
             
