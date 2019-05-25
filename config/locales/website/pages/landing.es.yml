@@ -27,7 +27,7 @@ es:
         features:
           description: "¿Que ofrecemos?"
           automation:
-            title: "Integracion &amp; Automatizacion"
+            title: "Integracion & Automatizacion"
             description: "Desde el marketing hasta la contabilidad, Lesli proporciona un conjunto de herramientas para gestionar todos los aspectos y flujos de trabajo de su negocio, todo en una plataforma."
           ai:
             title: "A. I. & machine learning"

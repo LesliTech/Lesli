@@ -1,14 +1,15 @@
 # Database
 ```
-LesliCloud
-├── lesli-cloud-core
-│   ├── catalogs  
-│   │   ├── account_plans
-│   │   ├── currencies
-│   │   └── user_roles  
-│   └── registration
-│       └── emails  
-├── lesli-cloud-team  
+LesliCloud 
+├── users 
+├── lesli-cloud-core 
+│   ├── account_plans 
+│   ├── account_details 
+│   ├── accounts 
+│   ├── currencies 
+│   ├── user_roles 
+│   └── user_role_privileges 
+├── lesli-cloud-team 
 │   ├── catalogs  
 │   └── employees  
 │       ├── details  
