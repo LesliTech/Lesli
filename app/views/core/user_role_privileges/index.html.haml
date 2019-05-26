@@ -1,0 +1,19 @@
+%h1 Listing core_user_role_privileges
+
+%table
+  %thead
+    %tr
+      %th
+      %th
+      %th
+
+  %tbody
+    - @core_user_role_privileges.each do |core_user_role_privilege|
+      %tr
+        %td= link_to 'Show', core_user_role_privilege
+        %td= link_to 'Edit', edit_core_user_role_privilege_path(core_user_role_privilege)
+        %td= link_to 'Destroy', core_user_role_privilege, method: :delete, data: { confirm: 'Are you sure?' }
+
+%br
+
+= link_to 'New User role privilege', new_core_user_role_privilege_path

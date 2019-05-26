@@ -1,5 +1,5 @@
 Rails.application.routes.draw do
-
+    
     devise_scope :user do
         get "user/register", to: "devise/registrations#new"
         get "user/logout", to: "devise/sessions#destroy"

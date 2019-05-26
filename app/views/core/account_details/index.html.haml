@@ -1,0 +1,19 @@
+%h1 Listing core_account_details
+
+%table
+  %thead
+    %tr
+      %th
+      %th
+      %th
+
+  %tbody
+    - @core_account_details.each do |core_account_detail|
+      %tr
+        %td= link_to 'Show', core_account_detail
+        %td= link_to 'Edit', edit_core_account_detail_path(core_account_detail)
+        %td= link_to 'Destroy', core_account_detail, method: :delete, data: { confirm: 'Are you sure?' }
+
+%br
+
+= link_to 'New Account detail', new_core_account_detail_path

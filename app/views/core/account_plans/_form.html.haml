@@ -1,0 +1,10 @@
+= form_for @core_account_plan do |f|
+  - if @core_account_plan.errors.any?
+    #error_explanation
+      %h2= "#{pluralize(@core_account_plan.errors.count, "error")} prohibited this core_account_plan from being saved:"
+      %ul
+        - @core_account_plan.errors.full_messages.each do |message|
+          %li= message
+
+  .actions
+    = f.submit 'Save'

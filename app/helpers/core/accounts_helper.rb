@@ -1,0 +1,2 @@
+module Core::AccountsHelper
+end

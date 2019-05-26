@@ -7,8 +7,9 @@ LesliCloud
 │   ├── account_details 
 │   ├── accounts 
 │   ├── currencies 
+│   ├── user_role_privileges 
 │   ├── user_roles 
-│   └── user_role_privileges 
+│   └── user_details 
 ├── lesli-cloud-team 
 │   ├── catalogs  
 │   └── employees  

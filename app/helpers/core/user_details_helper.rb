@@ -1,0 +1,2 @@
+module Core::UserDetailsHelper
+end
