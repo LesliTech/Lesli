@@ -1,0 +1,2 @@
+module Lesli::DashboardsHelper
+end

@@ -1,0 +1,10 @@
+= form_for @lesli_dashboard do |f|
+  - if @lesli_dashboard.errors.any?
+    #error_explanation
+      %h2= "#{pluralize(@lesli_dashboard.errors.count, "error")} prohibited this lesli_dashboard from being saved:"
+      %ul
+        - @lesli_dashboard.errors.full_messages.each do |message|
+          %li= message
+
+  .actions
+    = f.submit 'Save'

@@ -1,8 +1,8 @@
 development:
   adapter: postgresql
   database: leslicloud_development
-  username: hyrd_dev
-  password: test
+  username: lesli_cloud
+  password: lesli_cloud
   host: localhost
 
 test:

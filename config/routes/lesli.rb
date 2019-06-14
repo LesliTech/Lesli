@@ -1,8 +1,8 @@
-module Websites
+module Lesli
     def self.extended(router)
         router.instance_exec do
-            namespace :websites do
-                resources :landings
+            namespace :lesli do
+
             end
         end
     end
