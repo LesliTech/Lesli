@@ -1,15 +1,14 @@
 Rails.application.routes.draw do
-    
-    devise_scope :user do
-        get "user/register", to: "devise/registrations#new"
-        get "user/logout", to: "devise/sessions#destroy"
-        get "user/login", to: "devise/sessions#new"
-    end
-    devise_for :users
-    
-    root to: 'website/pages#landing'
 
-    # Load routes by module name
-    extend Websites
+  devise_for :users, controllers: {
+    confirmations: 'users/confirmations',
+    registrations: 'users/registrations',
+    sessions: 'users/sessions',
+    passwords: 'users/passwords'
+  }, path_names: {
+    sign_in: '/login'
+  }
+
+  #root to: 'frontend#index'
 
 end

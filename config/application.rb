@@ -11,26 +11,9 @@ module LesliCloud
     # Initialize configuration defaults for originally generated Rails version.
     config.load_defaults 5.2
 
-    # Load another routes directory
-    config.autoload_paths += %W(#{config.root}/config/routes)
-
-    config.i18n.load_path += Dir[
-        Rails.root.join('config', 'locales', '**', '*.{rb,yml}'), 
-        Rails.root.join('config', 'locales', '**', '**', '*.{rb,yml}')
-    ]
-    config.i18n.available_locales = [:en, :es]
-    config.i18n.default_locale = :es
-
-    config.time_zone = 'Central America'
-
-    # SES SMTP Settings
-    config.action_mailer.smtp_settings = {
-        user_name: 'AKIA6P562IZOMLG57DKK',
-        password: 'BP9pXKeyCH3gznFRLDKJ3uvYR2n1Cn4Dy6e+lmQXoOnA',
-        address: 'email-smtp.eu-west-1.amazonaws.com',
-        authentication: :plain,
-        port: '587'
-    }
-
+    # Settings in config/environments/* take precedence over those specified here.
+    # Application configuration can go into files in config/initializers
+    # -- all .rb files in that directory are automatically loaded after loading
+    # the framework and any gems in your application.
   end
 end

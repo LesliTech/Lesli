@@ -10,52 +10,10 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_05_25_220832) do
+ActiveRecord::Schema.define(version: 2019_06_24_215655) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
-
-  create_table "core_account_details", force: :cascade do |t|
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-  end
-
-  create_table "core_account_plans", force: :cascade do |t|
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-  end
-
-  create_table "core_accounts", force: :cascade do |t|
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.bigint "core_account_plans_id"
-    t.bigint "core_account_details_id"
-    t.index ["core_account_details_id"], name: "index_core_accounts_on_core_account_details_id"
-    t.index ["core_account_plans_id"], name: "index_core_accounts_on_core_account_plans_id"
-  end
-
-  create_table "core_user_details", force: :cascade do |t|
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.bigint "users_id"
-    t.bigint "core_user_roles_id"
-    t.bigint "core_accounts_id"
-    t.index ["core_accounts_id"], name: "index_core_user_details_on_core_accounts_id"
-    t.index ["core_user_roles_id"], name: "index_core_user_details_on_core_user_roles_id"
-    t.index ["users_id"], name: "index_core_user_details_on_users_id"
-  end
-
-  create_table "core_user_role_privileges", force: :cascade do |t|
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-  end
-
-  create_table "core_user_roles", force: :cascade do |t|
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.bigint "core_user_role_privileges_id"
-    t.index ["core_user_role_privileges_id"], name: "index_core_user_roles_on_core_user_role_privileges_id"
-  end
 
   create_table "users", force: :cascade do |t|
     t.string "email", default: "", null: false
@@ -83,10 +41,4 @@ ActiveRecord::Schema.define(version: 2019_05_25_220832) do
     t.index ["unlock_token"], name: "index_users_on_unlock_token", unique: true
   end
 
-  add_foreign_key "core_accounts", "core_account_details", column: "core_account_details_id"
-  add_foreign_key "core_accounts", "core_account_plans", column: "core_account_plans_id"
-  add_foreign_key "core_user_details", "core_accounts", column: "core_accounts_id"
-  add_foreign_key "core_user_details", "core_user_roles", column: "core_user_roles_id"
-  add_foreign_key "core_user_details", "users", column: "users_id"
-  add_foreign_key "core_user_roles", "core_user_role_privileges", column: "core_user_role_privileges_id"
 end

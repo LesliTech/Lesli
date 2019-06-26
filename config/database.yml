@@ -1,14 +1,9 @@
 development:
   adapter: postgresql
+  encoding: unicode
+  reconnect: false
   database: leslicloud_development
+  pool: 30
   username: lesli_cloud
   password: lesli_cloud
-  host: localhost
-
-test:
-  database: leslicloud_test
-
-production:
-  database: leslicloud_production
-  username: myapp
-  password: <%= ENV['MYAPP_DATABASE_PASSWORD'] %>
+  host: 127.0.0.1

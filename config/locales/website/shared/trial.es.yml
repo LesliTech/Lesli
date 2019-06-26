@@ -1,8 +1,0 @@
-es:
-  website:
-    shared:
-      trial:
-        try: "Prueba"
-        today: "hoy."
-        signup: "crear cuenta"
-        create_account: "Crea tu cuenta y obtén 3 meses gratis."

@@ -1,2 +1,0 @@
-module Website::PagesHelper
-end
