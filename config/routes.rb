@@ -1,9 +1,16 @@
 Rails.application.routes.draw do
 
+  devise_for :users
   devise_scope :user do
-    get "sign_in" => "users/sessions#new", :as => :new_user_session
-  end
+    get "/login" => "devise/sessions#new", :as => :new_user_session_root
 
-  #root to: 'frontend#index'
+    authenticated  do
+      #root to: 'lesli#dashboard'
+    end
+
+    unauthenticated do
+      #root to: 'frontend#index'
+    end
+  end
 
 end
