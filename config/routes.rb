@@ -5,12 +5,14 @@ Rails.application.routes.draw do
     get "/login" => "devise/sessions#new", :as => :new_user_session_root
 
     authenticated  do
-      #root to: 'lesli#dashboard'
+      root to: 'websites#home'
     end
 
     unauthenticated do
-      #root to: 'frontend#index'
+      root to: 'websites#home'
     end
   end
+
+  #extend Onboarding
 
 end
