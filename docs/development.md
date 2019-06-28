@@ -40,6 +40,9 @@ rails generate scaffold [namespace]/[object]
 
 example:
 rails generate scaffold students/personal_details
+
+uploaders:
+rails generate uploader core/attachments
 ```
 
 #### Rails dev server

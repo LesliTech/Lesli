@@ -36,6 +36,9 @@ gem 'devise'
 # Add can can gem to authorization and roles permissions
 gem "cancan"
 
+# Add carrierwave to upload documents
+gem 'carrierwave'
+
 # Use Redis adapter to run Action Cable in production
 # gem 'redis', '~> 4.0'
 # Use ActiveModel has_secure_password

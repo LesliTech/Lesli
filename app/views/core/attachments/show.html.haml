@@ -1,0 +1,6 @@
+%p#notice= notice
+= image_tag(@core_attachment.file_url) if @core_attachment.file?
+
+= link_to 'Edit', edit_core_attachment_path(@core_attachment)
+\|
+= link_to 'Back', core_attachments_path
