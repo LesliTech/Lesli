@@ -1,0 +1,19 @@
+%h1 Listing websites
+
+%table
+  %thead
+    %tr
+      %th
+      %th
+      %th
+
+  %tbody
+    - @websites.each do |website|
+      %tr
+        %td= link_to 'Show', website
+        %td= link_to 'Edit', edit_website_path(website)
+        %td= link_to 'Destroy', website, method: :delete, data: { confirm: 'Are you sure?' }
+
+%br
+
+= link_to 'New Website', new_website_path

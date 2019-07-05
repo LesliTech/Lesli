@@ -4,26 +4,33 @@ LesliCloud
     users 
     account_plans 
 
-    CloudCore
-    -  -  -  -  -  -  -  -  -  -  -  -  -  -
-    core/companies 
-    core/company_details 
-    core/company_contact_details 
-    core/company_users 
+    CloudPanel
+    -     -     -     -     -     -     -     -
+    panel/companies
+    panel/company_details 
+    panel/company_contact_details 
+    panel/company_users 
 
-    core/user_roles 
-    core/user_role_privileges 
-    core/user_details 
+    panel/user_roles 
+    panel/user_role_privileges 
+    panel/user_details 
+    panel/user_settings 
 
-    core/currencies 
+    panel/currencies 
 
-    core/attachments
-    core/activities (logs) 
-    core/comments 
-    core/actions (quick tasks) 
+    panel/attachments
+    panel/activities (logs) 
+    panel/comments 
+    panel/actions (quick tasks) 
+
+    panel/location_continents
+    panel/location_countries
+    panel/location_states
+    panel/location_cities
+    panel/locations 
 
     CloudTeam 
-    -  -  -  -  -  -  -  -  -  -  -  -  -  -
+    -     -     -     -     -     -     -     -
     team/employees 
     team/employee_details 
 
@@ -53,6 +60,13 @@ LesliCloud
     team/license_actions
 
     team/onboardings
+
+
+
+
+
+
+
 
     CloudLeaf
         catalogs  
@@ -85,17 +99,9 @@ LesliCloud
         projects  
             details  
     CloudChaos  
-        events  
-        events  
     CloudDriver
-        events  
-        events  
     CloudLesli
     CloudPortal
     CloudAuth
-        catalogs  
-            user_roles  
-        users
-            details  
     CloudPanel
 ```

@@ -1,11 +1,12 @@
 Rails.application.routes.draw do
 
-  namespace :core do
-    resources :attachments
-  end
+  resources :websites
+
   devise_for :users
   devise_scope :user do
-    get "/login" => "devise/sessions#new", :as => :new_user_session_root
+
+    get "/login" => "users/sessions#new", :as => :new_user_session_root
+    get "/logout" => "devise/sessions#destroy", :as => :destroy_user_session_root
 
     authenticated  do
       root to: 'websites#home'
