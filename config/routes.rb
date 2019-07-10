@@ -13,7 +13,7 @@ Rails.application.routes.draw do
     end
 
     unauthenticated do
-      root to: 'websites#home'
+      root to: 'websites#landing'
     end
   end
 

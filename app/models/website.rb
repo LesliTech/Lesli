@@ -1,2 +1,0 @@
-class Website < ApplicationRecord
-end

@@ -4,33 +4,50 @@ LesliCloud
     users 
     account_plans 
 
+
     CloudPanel
     -     -     -     -     -     -     -     -
     panel/companies
+
+    panel/catalog_currencies                  -> belongs to enum
+    panel/catalog_user_roles 
+    panel/catalog_user_role_privileges
+    panel/catalog_location_continents
+    panel/catalog_location_countries
+    panel/catalog_location_states
+    panel/catalog_location_cities
+
+    panel/core_attachments
+    panel/core_activities (logs) 
+    panel/core_comments 
+    panel/core_actions (quick tasks) 
+    panel/core_locations
+        address
+        zip_code
+        street_name
+        street_number
+        street_other 
+        geo_longitud
+        geo_latitud
+        geo_altitud
+
     panel/company_details 
     panel/company_contact_details 
-    panel/company_users 
 
-    panel/user_roles 
-    panel/user_role_privileges 
+    panel/users 
     panel/user_details 
     panel/user_settings 
+    panel/user_privileges
 
-    panel/currencies 
-
-    panel/attachments
-    panel/activities (logs) 
-    panel/comments 
-    panel/actions (quick tasks) 
-
-    panel/location_continents
-    panel/location_countries
-    panel/location_states
-    panel/location_cities
-    panel/locations 
 
     CloudTeam 
     -     -     -     -     -     -     -     -
+    team/core_attachments
+    team/core_activities (logs) 
+    team/core_comments 
+    team/core_actions (quick tasks) 
+    team/core_locations
+
     team/employees 
     team/employee_details 
 
