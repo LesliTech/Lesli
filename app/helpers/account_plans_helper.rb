@@ -1,0 +1,2 @@
+module AccountPlansHelper
+end

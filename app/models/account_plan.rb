@@ -1,0 +1,2 @@
+class AccountPlan < ApplicationRecord
+end

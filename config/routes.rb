@@ -1,5 +1,6 @@
 Rails.application.routes.draw do
 
+  resources :account_plans
     resources :websites
 
     devise_for :users
