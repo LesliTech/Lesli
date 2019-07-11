@@ -19,5 +19,6 @@ Rails.application.routes.draw do
     end
 
     mount TestEngine::Engine => "/testengine"
+    mount CloudPanel::Engine => "/panel"
 
 end

@@ -18,13 +18,13 @@ LesliCloud is proprietary software
 
 * Website: [https://lesli.cloud](https://lesli.cloud)
 
-* Documentation: [https://docs.lesli.cloud/](https://docs.lesli.cloud/)
+* Support: [https://forum.lesli.dev](https://forum.lesli.dev)
 
 * Issue tracker: [https://code.lesli.tech/LesliCloud](https://code.lesli.tech/LesliCloud)
 
-* Support: [https://forum.lesli.dev](https://forum.lesli.dev)
+* Documentation: [https://code.lesli.tech/LesliCloud/wiki](https://code.lesli.tech/LesliCloud/wiki)
 
-License
+#### License
 -------
 Copyright (c) 2019, Lesli Technologies, S. A.
 

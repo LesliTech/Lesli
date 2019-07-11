@@ -1,4 +1,10 @@
 PATH
+  remote: engines/CloudPanel
+  specs:
+    cloud_panel (0.1.0)
+      rails (~> 5.2.3)
+
+PATH
   remote: engines/test_engine
   specs:
     test_engine (0.1.0)
@@ -236,6 +242,7 @@ DEPENDENCIES
   capybara (>= 2.15)
   carrierwave
   chromedriver-helper
+  cloud_panel!
   devise
   haml-rails
   jbuilder (~> 2.5)
