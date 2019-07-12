@@ -1,5 +1,6 @@
 Rails.application.routes.draw do
 
+  resources :accounts
   resources :account_plans
     resources :websites
 
@@ -19,7 +20,8 @@ Rails.application.routes.draw do
         
     end
 
-    mount TestEngine::Engine => "/testengine"
+    #mount TestEngine::Engine => "/testengine"
+    mount CloudTeam::Engine => "/team"
     mount CloudPanel::Engine => "/panel"
 
 end

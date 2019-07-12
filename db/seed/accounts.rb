@@ -27,16 +27,7 @@ Building a better future, one line of code at a time.
 
 =end
 
-model = User.new
-model.email = 'admin@lesli.dev'
-model.password = 'lesli2020'
-model.password_confirmation = 'lesli2020'
+model = Account.new
+model.user = User.find(1)
+model.account_plan = AccountPlan.find(1)
 model.save!
-
-10.times do
-    model = User.new
-    model.email = Faker::Internet.email
-    model.password = 'Lesli2019'
-    model.password_confirmation = 'Lesli2019'
-    model.save!
-end
