@@ -23,5 +23,6 @@ Rails.application.routes.draw do
     #mount TestEngine::Engine => "/testengine"
     mount CloudTeam::Engine => "/team"
     mount CloudPanel::Engine => "/panel"
+    #mount CloudLesli::Engine => "/lesli"
 
 end

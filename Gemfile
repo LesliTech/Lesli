@@ -17,8 +17,8 @@ LesliCloud - Your Smart Business Assistant
 Powered by https://www.lesli.tech
 Building a better future, one line of code at a time.
 
+@dev      Luis Donis <ldonis@lesli.tech>
 @author   LesliTech <hello@lesli.tech>
-@author   Luis Donis <ldonis@lesli.tech>
 @license  Propietary - all rights reserved.
 @version  GIT: 1.0.0 alpha
 
@@ -48,7 +48,7 @@ gem 'sass-rails', '~> 5.0'
 gem 'uglifier', '>= 1.3.0'
 
 # Turbolinks makes navigating your web application faster. Read more: https://github.com/turbolinks/turbolinks
-gem 'turbolinks', '~> 5'
+# gem 'turbolinks', '~> 5'
 
 # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
 gem 'jbuilder', '~> 2.5'
@@ -112,8 +112,12 @@ end
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
 gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 
-gem 'test_engine', path: 'engines/test_engine'
+#gem 'test_engine', path: 'engines/test_engine'
+
+gem 'cloud_panel', path: 'engines/CloudPanel'
 
 gem 'cloud_team', path: 'engines/CloudTeam'
 
-gem 'cloud_panel', path: 'engines/CloudPanel'
+#gem 'cloud_driver', path: 'engines/CloudDriver'
+
+#gem 'cloud_lesli', path: 'engines/CloudLesli'
