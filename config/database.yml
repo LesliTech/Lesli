@@ -1,25 +1,40 @@
 development:
+    pool: 30
+    host: 127.0.0.1
     adapter: postgresql
     encoding: unicode
     reconnect: false
     database: leslicloud_development
-    pool: 30
     username: lesli_cloud
     password: lesli_cloud
-    host: 127.0.0.1
     migrations_paths:
         - "db/migrate"
         - "engines/CloudPanel/db/migrate"
         - "engines/CloudTeam/db/migrate"
+
 test:
+    pool: 30
+    host: 127.0.0.1
     adapter: postgresql
     encoding: unicode
     reconnect: false
     database: leslicloud_test
-    pool: 30
     username: lesli_cloud
     password: lesli_cloud
+    migrations_paths:
+        - "db/migrate"
+        - "engines/CloudPanel/db/migrate"
+        - "engines/CloudTeam/db/migrate"
+
+production:
+    pool: 30
     host: 127.0.0.1
+    adapter: postgresql
+    encoding: unicode
+    reconnect: false
+    database: <%= Rails.application.credentials.production[:database][:database] %>
+    username: <%= Rails.application.credentials.production[:database][:username] %>
+    password: <%= Rails.application.credentials.production[:database][:password] %>
     migrations_paths:
         - "db/migrate"
         - "engines/CloudPanel/db/migrate"
