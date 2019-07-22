@@ -1,10 +1,4 @@
 PATH
-  remote: engines/CloudPanel
-  specs:
-    cloud_panel (0.1.0)
-      rails (~> 5.2.3)
-
-PATH
   remote: engines/CloudTeam
   specs:
     cloud_team (0.1.0)
@@ -265,7 +259,6 @@ DEPENDENCIES
   capybara (>= 2.15)
   carrierwave
   chromedriver-helper
-  cloud_panel!
   cloud_team!
   devise
   faker

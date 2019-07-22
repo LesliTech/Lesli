@@ -304,6 +304,23 @@ ActiveRecord::Schema.define(version: 2019_07_15_182840) do
     t.index ["cloud_team_employees_id"], name: "index_cloud_team_employee_details_on_cloud_team_employees_id"
   end
 
+  create_table "cloud_team_employee_locations", force: :cascade do |t|
+    t.string "address"
+    t.string "zip_code"
+    t.string "street_name"
+    t.string "street_number"
+    t.string "street_other"
+    t.string "geo_longitud"
+    t.string "geo_latitud"
+    t.string "geo_altitud"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.bigint "cloud_team_employees_id"
+    t.bigint "cloud_panel_catalog_location_cities_id"
+    t.index ["cloud_panel_catalog_location_cities_id"], name: "team_employee_locations_panel_catalog_location_cities"
+    t.index ["cloud_team_employees_id"], name: "index_cloud_team_employee_locations_on_cloud_team_employees_id"
+  end
+
   create_table "cloud_team_employee_social_accounts", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -592,6 +609,8 @@ ActiveRecord::Schema.define(version: 2019_07_15_182840) do
   add_foreign_key "cloud_team_employee_contact_details", "cloud_team_employees", column: "cloud_team_employees_id"
   add_foreign_key "cloud_team_employee_contact_emergency_details", "cloud_team_employees", column: "cloud_team_employees_id"
   add_foreign_key "cloud_team_employee_details", "cloud_team_employees", column: "cloud_team_employees_id"
+  add_foreign_key "cloud_team_employee_locations", "cloud_panel_catalog_location_cities", column: "cloud_panel_catalog_location_cities_id"
+  add_foreign_key "cloud_team_employee_locations", "cloud_team_employees", column: "cloud_team_employees_id"
   add_foreign_key "cloud_team_employee_social_accounts", "cloud_team_employees", column: "cloud_team_employees_id"
   add_foreign_key "cloud_team_employees", "cloud_team_accounts", column: "cloud_team_accounts_id"
   add_foreign_key "cloud_team_team_actions", "cloud_team_accounts", column: "cloud_team_accounts_id"

@@ -5,6 +5,7 @@
 </p>
 
 <h3 align="center">LesliCloud</h3>
+<p align="center">Your smart business assistant</p>
 
 ---
 
