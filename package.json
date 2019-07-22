@@ -2,9 +2,10 @@
     "name": "leslicloud",
     "title": "LesliCloud",
     "homepage": "https://lesli.cloud",
-    "author": "LesliTech <hello@lesli.tech>",
     "developer": "Luis Donis <ldonis@lesli.tech>",
+    "author": "LesliTech <hello@lesli.tech>",
     "license": "All rights reserved",
+    "private": true,
     "devDependencies": {
 
         "@babel/core": "^7.5",
@@ -37,9 +38,11 @@
 
     },
     "scripts": {
+
         "frontend": "gulp frontend",
         "frontend:vue": "gulp vue",
         "frontend:scss": "gulp scss",
         "webpack": "webpack"
+
     }
 }
