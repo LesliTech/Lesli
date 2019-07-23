@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_07_15_182840) do
+ActiveRecord::Schema.define(version: 2019_07_15_165213) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -29,18 +29,53 @@ ActiveRecord::Schema.define(version: 2019_07_15_182840) do
     t.index ["users_id"], name: "index_accounts_on_users_id"
   end
 
-  create_table "cloud_panel_account_contact_details", force: :cascade do |t|
+  create_table "cloud_panel_account_currencies", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.bigint "cloud_panel_accounts_id"
-    t.index ["cloud_panel_accounts_id"], name: "account_contact_details_accounts"
+    t.index ["cloud_panel_accounts_id"], name: "index_cloud_panel_account_currencies_on_cloud_panel_accounts_id"
   end
 
-  create_table "cloud_panel_account_details", force: :cascade do |t|
+  create_table "cloud_panel_account_location_cities", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.bigint "cloud_panel_account_location_states_id"
+    t.index ["cloud_panel_account_location_states_id"], name: "panel_account_location_countries_account_location_states"
+  end
+
+  create_table "cloud_panel_account_location_continents", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.bigint "cloud_panel_accounts_id"
-    t.index ["cloud_panel_accounts_id"], name: "index_cloud_panel_account_details_on_cloud_panel_accounts_id"
+    t.index ["cloud_panel_accounts_id"], name: "panel_account_location_continents_account"
+  end
+
+  create_table "cloud_panel_account_location_countries", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.bigint "cloud_panel_account_location_continents_id"
+    t.index ["cloud_panel_account_location_continents_id"], name: "panel_account_location_countries_account_location_continents"
+  end
+
+  create_table "cloud_panel_account_location_states", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.bigint "cloud_panel_account_location_countries_id"
+    t.index ["cloud_panel_account_location_countries_id"], name: "panel_account_location_countries_account_location_countries"
+  end
+
+  create_table "cloud_panel_account_user_role_privileges", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.bigint "cloud_panel_accounts_id"
+    t.index ["cloud_panel_accounts_id"], name: "panel_account_usser_role_privileges_account"
+  end
+
+  create_table "cloud_panel_account_user_roles", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.bigint "cloud_panel_accounts_id"
+    t.index ["cloud_panel_accounts_id"], name: "index_cloud_panel_account_user_roles_on_cloud_panel_accounts_id"
   end
 
   create_table "cloud_panel_accounts", force: :cascade do |t|
@@ -49,60 +84,11 @@ ActiveRecord::Schema.define(version: 2019_07_15_182840) do
     t.index ["id", "accounts_id"], name: "index_cloud_panel_accounts_on_id_and_accounts_id", unique: true
   end
 
-  create_table "cloud_panel_catalog_currencies", force: :cascade do |t|
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.bigint "cloud_panel_catalogs_id"
-    t.index ["cloud_panel_catalogs_id"], name: "index_cloud_panel_catalog_currencies_on_cloud_panel_catalogs_id"
-  end
-
-  create_table "cloud_panel_catalog_location_cities", force: :cascade do |t|
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.bigint "cloud_panel_catalog_location_states_id"
-    t.index ["cloud_panel_catalog_location_states_id"], name: "catalog_location_cities_states"
-  end
-
-  create_table "cloud_panel_catalog_location_continents", force: :cascade do |t|
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.bigint "cloud_panel_catalogs_id"
-    t.index ["cloud_panel_catalogs_id"], name: "catalog_location_continents_catalogs"
-  end
-
-  create_table "cloud_panel_catalog_location_countries", force: :cascade do |t|
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.bigint "cloud_panel_catalog_location_continents_id"
-    t.index ["cloud_panel_catalog_location_continents_id"], name: "catalog_location_countries_continents"
-  end
-
-  create_table "cloud_panel_catalog_location_states", force: :cascade do |t|
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.bigint "cloud_panel_catalog_location_countries_id"
-    t.index ["cloud_panel_catalog_location_countries_id"], name: "catalog_location_states_countries"
-  end
-
-  create_table "cloud_panel_catalog_user_role_privileges", force: :cascade do |t|
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.bigint "cloud_panel_catalog_user_roles_id"
-    t.index ["cloud_panel_catalog_user_roles_id"], name: "catalog_user_role_privileges_user_roles"
-  end
-
-  create_table "cloud_panel_catalog_user_roles", force: :cascade do |t|
+  create_table "cloud_panel_company_details", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.bigint "cloud_panel_accounts_id"
-    t.index ["cloud_panel_accounts_id"], name: "index_cloud_panel_catalog_user_roles_on_cloud_panel_accounts_id"
-  end
-
-  create_table "cloud_panel_catalogs", force: :cascade do |t|
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.bigint "cloud_panel_accounts_id"
-    t.index ["cloud_panel_accounts_id"], name: "index_cloud_panel_catalogs_on_cloud_panel_accounts_id"
+    t.index ["cloud_panel_accounts_id"], name: "index_cloud_panel_company_details_on_cloud_panel_accounts_id"
   end
 
   create_table "cloud_panel_panel_actions", force: :cascade do |t|
@@ -137,6 +123,8 @@ ActiveRecord::Schema.define(version: 2019_07_15_182840) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.bigint "cloud_panel_users_id"
+    t.bigint "cloud_panel_panel_actions_id"
+    t.index ["cloud_panel_panel_actions_id"], name: "panel_user_attachments_panel_actions"
     t.index ["cloud_panel_users_id"], name: "index_cloud_panel_user_actions_on_cloud_panel_users_id"
   end
 
@@ -144,6 +132,8 @@ ActiveRecord::Schema.define(version: 2019_07_15_182840) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.bigint "cloud_panel_users_id"
+    t.bigint "cloud_panel_panel_activities_id"
+    t.index ["cloud_panel_panel_activities_id"], name: "panel_user_attachments_panel_activities"
     t.index ["cloud_panel_users_id"], name: "index_cloud_panel_user_activities_on_cloud_panel_users_id"
   end
 
@@ -151,6 +141,8 @@ ActiveRecord::Schema.define(version: 2019_07_15_182840) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.bigint "cloud_panel_users_id"
+    t.bigint "cloud_panel_panel_attachments_id"
+    t.index ["cloud_panel_panel_attachments_id"], name: "panel_user_attachments_panel_attachments"
     t.index ["cloud_panel_users_id"], name: "index_cloud_panel_user_attachments_on_cloud_panel_users_id"
   end
 
@@ -158,6 +150,8 @@ ActiveRecord::Schema.define(version: 2019_07_15_182840) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.bigint "cloud_panel_users_id"
+    t.bigint "cloud_panel_panel_comments_id"
+    t.index ["cloud_panel_panel_comments_id"], name: "panel_user_attachments_panel_comments"
     t.index ["cloud_panel_users_id"], name: "index_cloud_panel_user_comments_on_cloud_panel_users_id"
   end
 
@@ -186,7 +180,9 @@ ActiveRecord::Schema.define(version: 2019_07_15_182840) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.bigint "cloud_panel_accounts_id"
+    t.bigint "users_id"
     t.index ["cloud_panel_accounts_id"], name: "index_cloud_panel_users_on_cloud_panel_accounts_id"
+    t.index ["users_id"], name: "index_cloud_panel_users_on_users_id"
   end
 
   create_table "cloud_team_accounts", force: :cascade do |t|
@@ -305,19 +301,9 @@ ActiveRecord::Schema.define(version: 2019_07_15_182840) do
   end
 
   create_table "cloud_team_employee_locations", force: :cascade do |t|
-    t.string "address"
-    t.string "zip_code"
-    t.string "street_name"
-    t.string "street_number"
-    t.string "street_other"
-    t.string "geo_longitud"
-    t.string "geo_latitud"
-    t.string "geo_altitud"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.bigint "cloud_team_employees_id"
-    t.bigint "cloud_panel_catalog_location_cities_id"
-    t.index ["cloud_panel_catalog_location_cities_id"], name: "team_employee_locations_panel_catalog_location_cities"
     t.index ["cloud_team_employees_id"], name: "index_cloud_team_employee_locations_on_cloud_team_employees_id"
   end
 
@@ -484,9 +470,19 @@ ActiveRecord::Schema.define(version: 2019_07_15_182840) do
   end
 
   create_table "cloud_team_team_locations", force: :cascade do |t|
+    t.string "address"
+    t.string "zip_code"
+    t.string "street_name"
+    t.string "street_number"
+    t.string "street_other"
+    t.string "geo_longitud"
+    t.string "geo_latitud"
+    t.string "geo_altitud"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.bigint "cloud_team_accounts_id"
+    t.bigint "cloud_panel_account_location_cities_id"
+    t.index ["cloud_panel_account_location_cities_id"], name: "team_team_locations_account_location_cities"
     t.index ["cloud_team_accounts_id"], name: "index_cloud_team_team_locations_on_cloud_team_accounts_id"
   end
 
@@ -578,29 +574,32 @@ ActiveRecord::Schema.define(version: 2019_07_15_182840) do
 
   add_foreign_key "accounts", "account_plans", column: "account_plans_id"
   add_foreign_key "accounts", "users", column: "users_id"
-  add_foreign_key "cloud_panel_account_contact_details", "cloud_panel_accounts", column: "cloud_panel_accounts_id"
-  add_foreign_key "cloud_panel_account_details", "cloud_panel_accounts", column: "cloud_panel_accounts_id"
+  add_foreign_key "cloud_panel_account_currencies", "cloud_panel_accounts", column: "cloud_panel_accounts_id"
+  add_foreign_key "cloud_panel_account_location_cities", "cloud_panel_account_location_states", column: "cloud_panel_account_location_states_id"
+  add_foreign_key "cloud_panel_account_location_continents", "cloud_panel_accounts", column: "cloud_panel_accounts_id"
+  add_foreign_key "cloud_panel_account_location_countries", "cloud_panel_account_location_continents", column: "cloud_panel_account_location_continents_id"
+  add_foreign_key "cloud_panel_account_location_states", "cloud_panel_account_location_countries", column: "cloud_panel_account_location_countries_id"
+  add_foreign_key "cloud_panel_account_user_role_privileges", "cloud_panel_accounts", column: "cloud_panel_accounts_id"
+  add_foreign_key "cloud_panel_account_user_roles", "cloud_panel_accounts", column: "cloud_panel_accounts_id"
   add_foreign_key "cloud_panel_accounts", "accounts", column: "accounts_id"
-  add_foreign_key "cloud_panel_catalog_currencies", "cloud_panel_catalogs", column: "cloud_panel_catalogs_id"
-  add_foreign_key "cloud_panel_catalog_location_cities", "cloud_panel_catalog_location_states", column: "cloud_panel_catalog_location_states_id"
-  add_foreign_key "cloud_panel_catalog_location_continents", "cloud_panel_catalogs", column: "cloud_panel_catalogs_id"
-  add_foreign_key "cloud_panel_catalog_location_countries", "cloud_panel_catalog_location_continents", column: "cloud_panel_catalog_location_continents_id"
-  add_foreign_key "cloud_panel_catalog_location_states", "cloud_panel_catalog_location_countries", column: "cloud_panel_catalog_location_countries_id"
-  add_foreign_key "cloud_panel_catalog_user_role_privileges", "cloud_panel_catalog_user_roles", column: "cloud_panel_catalog_user_roles_id"
-  add_foreign_key "cloud_panel_catalog_user_roles", "cloud_panel_accounts", column: "cloud_panel_accounts_id"
-  add_foreign_key "cloud_panel_catalogs", "cloud_panel_accounts", column: "cloud_panel_accounts_id"
+  add_foreign_key "cloud_panel_company_details", "cloud_panel_accounts", column: "cloud_panel_accounts_id"
   add_foreign_key "cloud_panel_panel_actions", "cloud_panel_accounts", column: "cloud_panel_accounts_id"
   add_foreign_key "cloud_panel_panel_activities", "cloud_panel_accounts", column: "cloud_panel_accounts_id"
   add_foreign_key "cloud_panel_panel_attachments", "cloud_panel_accounts", column: "cloud_panel_accounts_id"
   add_foreign_key "cloud_panel_panel_comments", "cloud_panel_accounts", column: "cloud_panel_accounts_id"
+  add_foreign_key "cloud_panel_user_actions", "cloud_panel_panel_actions", column: "cloud_panel_panel_actions_id"
   add_foreign_key "cloud_panel_user_actions", "cloud_panel_users", column: "cloud_panel_users_id"
+  add_foreign_key "cloud_panel_user_activities", "cloud_panel_panel_activities", column: "cloud_panel_panel_activities_id"
   add_foreign_key "cloud_panel_user_activities", "cloud_panel_users", column: "cloud_panel_users_id"
+  add_foreign_key "cloud_panel_user_attachments", "cloud_panel_panel_attachments", column: "cloud_panel_panel_attachments_id"
   add_foreign_key "cloud_panel_user_attachments", "cloud_panel_users", column: "cloud_panel_users_id"
+  add_foreign_key "cloud_panel_user_comments", "cloud_panel_panel_comments", column: "cloud_panel_panel_comments_id"
   add_foreign_key "cloud_panel_user_comments", "cloud_panel_users", column: "cloud_panel_users_id"
   add_foreign_key "cloud_panel_user_details", "cloud_panel_users", column: "cloud_panel_users_id"
   add_foreign_key "cloud_panel_user_privileges", "cloud_panel_users", column: "cloud_panel_users_id"
   add_foreign_key "cloud_panel_user_settings", "cloud_panel_users", column: "cloud_panel_users_id"
   add_foreign_key "cloud_panel_users", "cloud_panel_accounts", column: "cloud_panel_accounts_id"
+  add_foreign_key "cloud_panel_users", "users", column: "users_id"
   add_foreign_key "cloud_team_accounts", "accounts", column: "accounts_id"
   add_foreign_key "cloud_team_employee_actions", "cloud_team_employees", column: "cloud_team_employees_id"
   add_foreign_key "cloud_team_employee_activities", "cloud_team_employees", column: "cloud_team_employees_id"
@@ -609,7 +608,6 @@ ActiveRecord::Schema.define(version: 2019_07_15_182840) do
   add_foreign_key "cloud_team_employee_contact_details", "cloud_team_employees", column: "cloud_team_employees_id"
   add_foreign_key "cloud_team_employee_contact_emergency_details", "cloud_team_employees", column: "cloud_team_employees_id"
   add_foreign_key "cloud_team_employee_details", "cloud_team_employees", column: "cloud_team_employees_id"
-  add_foreign_key "cloud_team_employee_locations", "cloud_panel_catalog_location_cities", column: "cloud_panel_catalog_location_cities_id"
   add_foreign_key "cloud_team_employee_locations", "cloud_team_employees", column: "cloud_team_employees_id"
   add_foreign_key "cloud_team_employee_social_accounts", "cloud_team_employees", column: "cloud_team_employees_id"
   add_foreign_key "cloud_team_employees", "cloud_team_accounts", column: "cloud_team_accounts_id"
@@ -617,5 +615,6 @@ ActiveRecord::Schema.define(version: 2019_07_15_182840) do
   add_foreign_key "cloud_team_team_activities", "cloud_team_accounts", column: "cloud_team_accounts_id"
   add_foreign_key "cloud_team_team_attachments", "cloud_team_accounts", column: "cloud_team_accounts_id"
   add_foreign_key "cloud_team_team_comments", "cloud_team_accounts", column: "cloud_team_accounts_id"
+  add_foreign_key "cloud_team_team_locations", "cloud_panel_account_location_cities", column: "cloud_panel_account_location_cities_id"
   add_foreign_key "cloud_team_team_locations", "cloud_team_accounts", column: "cloud_team_accounts_id"
 end
