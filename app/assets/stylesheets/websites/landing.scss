@@ -1,3 +1,4 @@
+/*
 Lesli
 
 Copyright (c) 2019, Lesli Technologies, S. A.
@@ -21,4 +22,24 @@ Building a better future, one line of code at a time.
 @version  GIT: 0.1.0 alpha
 
 //  · 
-// ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
+// ~·~        ~·~        ~·~        ~·~        ~·~        ~·~        ~·~        ~·~        ~·~
+*/
+
+@import "templates/website.scss";
+
+
+//  · Header
+header {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    min-height: 600px;
+    height: 100vh;
+    
+    img {
+        width: 98%;
+        max-width: 300px;
+    }
+
+}

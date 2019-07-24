@@ -7,8 +7,8 @@ Rails.application.routes.draw do
     devise_for :users
     devise_scope :user do
 
-        get "/login" => "users/sessions#new", :as => :new_user_session_root
-        get "/logout" => "devise/sessions#destroy", :as => :destroy_user_session_root
+        get "/login" => "users/sessions#new"
+        get "/logout" => "devise/sessions#destroy"
 
         authenticated  do
             root to: 'websites#home'
