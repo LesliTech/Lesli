@@ -249,6 +249,8 @@ ActiveRecord::Schema.define(version: 2019_07_15_165213) do
   create_table "cloud_team_contracts", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "cloud_team_employees_id"
+    t.index ["cloud_team_employees_id"], name: "index_cloud_team_contracts_on_cloud_team_employees_id"
   end
 
   create_table "cloud_team_employee_actions", force: :cascade do |t|
@@ -601,6 +603,7 @@ ActiveRecord::Schema.define(version: 2019_07_15_165213) do
   add_foreign_key "cloud_panel_users", "cloud_panel_accounts", column: "cloud_panel_accounts_id"
   add_foreign_key "cloud_panel_users", "users", column: "users_id"
   add_foreign_key "cloud_team_accounts", "accounts", column: "accounts_id"
+  add_foreign_key "cloud_team_contracts", "cloud_team_employees", column: "cloud_team_employees_id"
   add_foreign_key "cloud_team_employee_actions", "cloud_team_employees", column: "cloud_team_employees_id"
   add_foreign_key "cloud_team_employee_activities", "cloud_team_employees", column: "cloud_team_employees_id"
   add_foreign_key "cloud_team_employee_attachments", "cloud_team_employees", column: "cloud_team_employees_id"

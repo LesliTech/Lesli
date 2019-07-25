@@ -1,0 +1,159 @@
+/*
+Lesli
+
+Copyright (c) 2019, Lesli Technologies, S. A.
+
+All the information provided by this website is protected by laws of Guatemala related 
+to industrial property, intellectual property, copyright and relative international laws. 
+Lesli Technologies, S. A. is the exclusive owner of all intellectual or industrial property
+rights of the code, texts, trade mark, design, pictures and any other information.
+Without the written permission of Lesli Technologies, S. A., any replication, modification,
+transmission, publication is strictly forbidden.
+For more information read the license file including with this software.
+
+LesliCloud - Your Smart Business Assistant
+
+Powered by https://www.lesli.tech
+Building a better future, one line of code at a time.
+
+@dev      Luis Donis <ldonis@lesli.tech>
+@author   LesliTech <hello@lesli.tech>
+@license  Propietary - all rights reserved.
+@version  GIT: 0.1.0 alpha
+
+//  · 
+// ~·~        ~·~        ~·~        ~·~        ~·~        ~·~        ~·~        ~·~        ~·~
+*/
+
+
+
+//  · Lesli
+// ~·~        ~·~        ~·~        ~·~        ~·~        ~·~        ~·~        ~·~        ~·~
+$color-slate: (
+    "100": #8cd5ff,
+    "300": #64baff,
+    "500": #3689e6,
+    "510": #3A8CF0,
+    "520": rgb(58, 140, 240),
+    "530": #196EAF,
+    "700": #0d52bf,
+    "900": #002e99 
+);
+
+
+//  · Administration
+// ~·~        ~·~        ~·~        ~·~        ~·~        ~·~        ~·~        ~·~        ~·~
+$color-slate: (
+    "100": #95a3ab,
+    "300": #667885,
+    "500": #485a6c,
+    "700": #273445,
+    "900": #0e141f 
+);
+
+
+//  · Sales & Marketing
+// ~·~        ~·~        ~·~        ~·~        ~·~        ~·~        ~·~        ~·~        ~·~
+$color-grape: (
+    "100": #e4c6fa,
+    "300": #cd9ef7,
+    "500": #a56de2,
+    "700": #7239b3,
+    "900": #452981 
+);
+
+
+//  · Productivity & Workteam
+// ~·~        ~·~        ~·~        ~·~        ~·~        ~·~        ~·~        ~·~        ~·~
+$color-lime: (
+    "100": #d1ff82,
+    "300": #9bdb4d,
+    "500": #68b723,
+    "700": #3a9104,
+    "900": #206b00 
+);
+
+
+//  · Finance
+// ~·~        ~·~        ~·~        ~·~        ~·~        ~·~        ~·~        ~·~        ~·~
+$color-orange: (
+    "100": #ffc27d,
+    "300": #ffa154,
+    "500": #f37329,
+    "700": #cc3b02,
+    "900": #a62100 
+);
+
+
+//  · Analytics
+// ~·~        ~·~        ~·~        ~·~        ~·~        ~·~        ~·~        ~·~        ~·~
+$color-berry: (
+    "100": #ff8c82,
+    "300": #ed5353,
+    "500": #c6262e,
+    "700": #a10705,
+    "900": #7a0000 
+);
+
+
+//  · Intelligence
+// ~·~        ~·~        ~·~        ~·~        ~·~        ~·~        ~·~        ~·~        ~·~
+$color-cocoa: (
+    "100": #a3907c,
+    "300": #8a715e,
+    "500": #715344,
+    "700": #57392d,
+    "900": #3d211b 
+);
+
+
+//  · IT & Help Desk
+// ~·~        ~·~        ~·~        ~·~        ~·~        ~·~        ~·~        ~·~        ~·~
+$color-banana: (
+    "100": #fff394,
+    "300": #ffe16b,
+    "500": #f9c440,
+    "700": #d48e15,
+    "900": #ad5f00 
+);
+
+
+//  · Security & Privacy
+// ~·~        ~·~        ~·~        ~·~        ~·~        ~·~        ~·~        ~·~        ~·~
+$color-silver: (
+    "100": #fafafa,
+    "300": #d4d4d4,
+    "500": #abacae,
+    "700": #7e8087,
+    "900": #555761 
+);
+
+
+//  · Integrations
+// ~·~        ~·~        ~·~        ~·~        ~·~        ~·~        ~·~        ~·~        ~·~
+$color-black: (
+    "100": #666666,
+    "300": #4d4d4d,
+    "500": #333333,
+    "700": #1a1a1a,
+    "900": #000000 
+);
+
+
+
+//  · Global & common colors
+// ~·~        ~·~        ~·~        ~·~        ~·~        ~·~        ~·~        ~·~        ~·~
+$color-common: (
+    "white": rgb(255, 255, 255)
+);
+
+
+//  · Font families
+// ~·~        ~·~        ~·~        ~·~        ~·~        ~·~        ~·~        ~·~        ~·~
+$font-family-body: 'Open Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+$font-family-title: 'Montserrat', $font-family-body;
+$font-family-brand: 'Raleway', $font-family-title;
+
+$font-weight-light: 300;
+$font-weight-normal: 400;
+$font-weight-bold : 600;

@@ -1,17 +1,14 @@
 Rails.application.routes.draw do
 
-  resources :accounts
-  resources :account_plans
-    resources :websites
-
     devise_for :users
     devise_scope :user do
 
         get "/login" => "users/sessions#new"
         get "/logout" => "devise/sessions#destroy"
+        get "/register" => "users/registrations#new"
 
         authenticated  do
-            root to: 'websites#home'
+            root to: 'cloud_lesli/dashboards#simple'
         end
 
         unauthenticated do
@@ -20,9 +17,17 @@ Rails.application.routes.draw do
         
     end
 
-    #mount TestEngine::Engine => "/testengine"
-    mount CloudTeam::Engine => "/team"
-    mount CloudPanel::Engine => "/panel"
-    #mount CloudLesli::Engine => "/lesli"
+    authenticated :user do
+
+        resources :websites
+        resources :accounts
+        resources :account_plans
+
+        #mount TestEngine::Engine => "/testengine"
+        #mount CloudTeam::Engine => "/team"
+        #mount CloudPanel::Engine => "/panel"
+        mount CloudLesli::Engine => "/lesli"
+
+    end
 
 end

@@ -1,0 +1,131 @@
+/*
+Lesli
+
+Copyright (c) 2019, Lesli Technologies, S. A.
+
+All the information provided by this website is protected by laws of Guatemala related 
+to industrial property, intellectual property, copyright and relative international laws. 
+Lesli Technologies, S. A. is the exclusive owner of all intellectual or industrial property
+rights of the code, texts, trade mark, design, pictures and any other information.
+Without the written permission of Lesli Technologies, S. A., any replication, modification,
+transmission, publication is strictly forbidden.
+For more information read the license file including with this software.
+
+LesliCloud - Your Smart Business Assistant
+
+Powered by https://www.lesli.tech
+Building a better future, one line of code at a time.
+
+@dev      Luis Donis <ldonis@lesli.tech>
+@author   LesliTech <hello@lesli.tech>
+@license  Propietary - all rights reserved.
+@version  GIT: 0.1.0 alpha
+
+//  · Public website template
+// ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
+*/
+
+@import "common/templates/base.scss";
+
+
+//  · Login container
+section {
+    //background: linear-gradient(rgba($color-white,.75),rgba($color-white,.75));
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    justify-content: center;
+
+    img {
+        width: 125px;
+        margin-bottom: .5rem;
+    }
+
+    p.form-msg-error {
+        width: 90%;
+        max-width: 350px;
+        text-align: center;
+        //color: $color-white;
+        padding: 4px 0;
+        margin: 0rem auto .4rem;
+        //border: 1px solid $color-red;
+        //background-color: rgba($color-red, .8);
+    }
+
+    form {
+        width: 90%;
+        max-width: 350px;
+        margin: 0 auto;
+        text-align: center;
+        //background-color: rgba($color-white, 1);
+
+        // login button
+        button[type="submit"] {
+            //background-color: $color-brand-lesli-blue;
+            //color: $color-white;
+            padding: 1rem 0rem;
+            display: block;
+            border: none;
+            width: 100%;
+            border-radius: 0 0 .25rem .25rem;
+
+            &:hover {
+                cursor: pointer;
+            }
+
+        }
+
+        div.inputs {
+            padding: 2.2rem 3rem 0;
+
+            .input-group-append {
+                padding: .65rem;
+
+                i {
+                    //color: $color-gray;
+                }
+
+            }
+
+            input.form-control {
+                border: none;
+                //background-color: $color-white;
+                //color: $color-gray-700;
+                //margin-bottom: 2rem;
+                //padding: .6rem 5px;
+            }
+
+        }
+
+    }
+
+    div.links {
+        padding: .4rem 0;
+        text-align: center;
+
+        a {
+            display: block;
+            padding: .2rem 0;
+            //color: $color-brand-lesli-blue;
+            text-decoration: none;
+        }
+
+    }
+
+}
+
+section {
+    //background: linear-gradient(rgba($color-white,.75),rgba($color-white,.75)),url('../images/login-bg.full.jpg');
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+
+    form {
+        max-width: 350px;
+    }
+    
+}
