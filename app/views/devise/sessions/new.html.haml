@@ -1,19 +1,20 @@
 %section
     %a.logo{:href => root_path}
-        %img{:alt => "LesliCloud logo", :src => "https://cdn.lesli.tech/leslicloud/brand/leslicloud_isotipo-nomargin.png"}/
+        /%img{:alt => "LesliCloud logo", :src => "https://cdn.lesli.tech/leslicloud/brand/leslicloud_isotipo-nomargin.png"}/
 
     = form_for(resource, as: resource_name, url: session_path(resource_name)) do |f|
-        .inputs
-            .input-group
-                .input-group-prepend
-                    %span @
-                = f.email_field :email, autofocus: true, autocomplete: "email", class: "form-control"
-        .form-group
-            = f.label :email, class: ""
-            = f.email_field :email, autofocus: true, autocomplete: "email"
-        .field
-            = f.label :password
-            = f.password_field :password, autocomplete: "current-password"
+        .input-group
+            .input-group-prepend
+                .input-group-text @
+            = f.label :email, class: "sr-only"
+            = f.email_field :email, autofocus: true, autocomplete: "email", class: "form-control", placeholder: "Username"
+
+        .input-group
+            .input-group-prepend
+                .input-group-text @
+            = f.label :password, class: "sr-only"
+            = f.password_field :password, autocomplete: "current-password", class: "form-control", placeholder: "Password"
+
         - if devise_mapping.rememberable?
             .field
                 = f.check_box :remember_me

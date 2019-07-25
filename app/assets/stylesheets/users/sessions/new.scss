@@ -25,12 +25,12 @@ Building a better future, one line of code at a time.
 // ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
 */
 
-@import "common/templates/base.scss";
+@import "leslicloud/templates/application.scss";
 
 
 //  · Login container
 section {
-    //background: linear-gradient(rgba($color-white,.75),rgba($color-white,.75));
+    background: linear-gradient(rgba(lesli-color("white"),.75),rgba(lesli-color("white"),.75));
     background-repeat: no-repeat;
     background-position: center;
     background-size: cover;
@@ -49,7 +49,7 @@ section {
         width: 90%;
         max-width: 350px;
         text-align: center;
-        //color: $color-white;
+        color: lesli-color("white");
         padding: 4px 0;
         margin: 0rem auto .4rem;
         //border: 1px solid $color-red;
@@ -61,11 +61,11 @@ section {
         max-width: 350px;
         margin: 0 auto;
         text-align: center;
-        //background-color: rgba($color-white, 1);
+        background-color: rgba(lesli-color("white"), 1);
 
         // login button
         button[type="submit"] {
-            //background-color: $color-brand-lesli-blue;
+            background-color: lesli-color("lesli", "primary");
             //color: $color-white;
             padding: 1rem 0rem;
             display: block;
@@ -119,7 +119,7 @@ section {
 }
 
 section {
-    //background: linear-gradient(rgba($color-white,.75),rgba($color-white,.75)),url('../images/login-bg.full.jpg');
+    background: linear-gradient(rgba(lesli-color("white"),.75),rgba(lesli-color("white"),.75)),url("/assets/users/sessions/login-background.full.jpg");
     background-repeat: no-repeat;
     background-position: center;
     background-size: cover;

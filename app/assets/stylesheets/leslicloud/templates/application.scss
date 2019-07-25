@@ -25,18 +25,5 @@ Building a better future, one line of code at a time.
 // ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
 */
 
-
-@import "bootstrap/scss/functions"; 
-@import "bootstrap/scss/variables";
-
-
-//  · Begin bootstrap customization
-// ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
-$theme-colors: (
-    primary: red
-);
-
-
-//  · Import bootstrap framework
-// ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
-@import "bootstrap";
+@import "leslicloud/templates/bootstrap.scss";
+@import "leslicloud/settings/functions.scss";

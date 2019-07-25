@@ -1,0 +1,10 @@
+
+@function lesli-color($pallete, $variant: 100) {
+
+    $pallete: map-get($lesli-colors, $pallete);
+
+    $color: map-get($pallete, $variant);
+
+    @return $color;
+
+}
