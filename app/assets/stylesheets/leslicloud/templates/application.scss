@@ -25,143 +25,19 @@ Building a better future, one line of code at a time.
 // ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
 */
 
+
+//  · Theme bootstraping
+// ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
 @import "leslicloud/settings/variables.scss";
 @import "leslicloud/settings/functions.scss";
 @import "leslicloud/settings/fonts.scss";
 @import "leslicloud/templates/bootstrap.scss";
 
-// · Main header
-// · ~·~        ~·~        ~·~        ~·~        ~·~        ~·~        ~·~        ~·~        ~·~
-header {
-    //background-color: $color-white;
 
-    // top navigation bar
-    nav.navbar {
+//  · Loading components
+// ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
+@import "leslicloud/components/application_header";
 
-        padding: .6rem 1rem;
-        //@include app-util-box-shadow-border();
-        .navbar-collapse {
-            flex-grow: 1;
-            flex-basis: 0;
-        }
-            
-        // assistant controllers
-        .assistant {
-            button {
-                border: none;
-                margin-right: 5px;
-                //background-color: $color-white;
-                i {
-                    font-size: 1.4rem;
-                    //color: $color-black;
-                }
-                &:active{
-                    border: none;
-                }
-            }
-            input{
-                border: none;
-                border-radius: 0;
-            }
-        }
-
-        // brand items
-        .navbar-brand{
-                    
-            // Main logo
-            img {
-                width: 70px;
-            }
-
-        }
-
-        // user links
-        li.nav-item {
-            a.nav-link {
-                text-align: center;
-                //color: $color-gray-700;
-                i {
-                    font-size: 1.4rem;
-                    //color: $color-gray-700;
-                }
-            }
-        }
-
-        // user navigation menu
-        #navigation_user {
-
-            ul.navbar-nav {
-                
-                // icons | bell | exit
-                li:nth-child(1),
-                li:nth-child(3){
-                    padding-top: 6px;
-                }
-
-                i {
-                    //color: $color-black;
-                }
-
-            }
-
-            // user options
-            li.dropdown {
-
-                a.dropdown-toggle {
-                    &::after {
-                        display: none;
-                    }
-                    img {
-                        border-radius: 50%;
-                    }
-                }
-
-            }
-
-        }
-
-    }
-
-    // module navigation menu
-    nav.navigation_module {
-        padding: .2rem 2rem;
-        margin-bottom: 2rem;
-        //background-color: $color-white;
-        //border-bottom: 1px solid $color-gray-100;
-        box-shadow: 0px 15px 10px -15px rgba(0, 0, 0, 0.2), 0px 15px 10px -15px rgba(0, 0, 0, 0.12);
-
-        li.nav-item {
-            a.nav-link {
-                padding: .8rem 1.4rem;
-                transition: all linear .3s;
-                border-bottom: 1px solid transparent;
-
-                &:hover {
-                    //border-bottom-color: $color-blue;
-                    span, i {
-                        //color: $color-blue;
-                    }
-                }
-                
-                i,
-                span {
-                    //color: $color-black;
-                    vertical-align: middle;
-                    //color: $color-gray-700;
-                }
-                
-                i {
-                    font-size: 1rem;
-                }
-                span{
-                    font-weight: 400;
-                    font-size: .9rem;
-                }
-
-            }
-
-        }
-
-    }
-
+body {
+    background-color: rgb(240,240,245);
 }
