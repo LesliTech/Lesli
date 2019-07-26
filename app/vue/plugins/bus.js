@@ -1,3 +1,4 @@
+/*
 Lesli
 
 Copyright (c) 2019, Lesli Technologies, S. A.
@@ -15,10 +16,27 @@ LesliCloud - Your Smart Business Assistant
 Powered by https://www.lesli.tech
 Building a better future, one line of code at a time.
 
-@dev      Luis Donis <ldonis@lesli.tech>
-@author   LesliTech <hello@lesli.tech>
+@author   Luis Donis <ldonis@lesli.tech>
 @license  Propietary - all rights reserved.
-@version  GIT: 0.1.0 alpha
+@version  GIT: 1.0.0 alpha
+*/
 
-// ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
-//  · 
+
+// · Loading frameworks, libraries and tools
+// · ~·~        ~·~        ~·~        ~·~        ~·~        ~·~        ~·~        ~·~        ~·~
+import Vue from 'vue';
+
+
+// · Plugin initializing 
+// · ~·~        ~·~        ~·~        ~·~        ~·~        ~·~        ~·~        ~·~        ~·~
+export default {
+
+    install (Vue, options) {
+    
+        let bus = new Vue();
+
+        Vue.prototype.bus = bus
+
+    }
+    
+}

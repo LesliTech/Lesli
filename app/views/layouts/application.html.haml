@@ -14,13 +14,15 @@
         %link{:href => "https://fonts.googleapis.com/css?family=Open+Sans:300,400,600", :rel => "stylesheet"}
         = stylesheet_link_tag controller_path, media: 'all' if Rails.application.assets.find_asset("#{controller_path}.scss")
         = stylesheet_link_tag stylesheet_path, media: 'all' if Rails.application.assets.find_asset("#{stylesheet_path}.scss")
+        = javascript_include_tag "lesli" unless Rails.application.assets.find_asset("#{controller_path}.js")
+        :javascript
+            console.log("#{controller_path}")
+            console.log("#{stylesheet_path}")
     %body
-        - if notice
-            %p.alert.alert-success= notice
-        - if alert
-            %p.alert.alert-danger= alert
 
-        %main
+        %main#leslicloud_app
+            = render 'layouts/partials/application_alert'
+            %component-header
             =yield
 -#
     <p class="navbar-text pull-right">

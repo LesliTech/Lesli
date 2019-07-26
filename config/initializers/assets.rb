@@ -9,3 +9,5 @@ Rails.application.config.assets.paths << Rails.root.join('node_modules')
 Rails.application.config.assets.precompile += %w( cloud_lesli/*.css )
 Rails.application.config.assets.precompile += %w( websites/landing.css )
 Rails.application.config.assets.precompile += %w( users/*.css users/**/*.css )
+
+Rails.application.config.assets.precompile += %w( lesli.js )
