@@ -7,4 +7,4 @@ Rails.application.config.assets.paths << Rails.root.join('node_modules')
 
 # Precompile additional assets.
 Rails.application.config.assets.precompile += %w( websites/landing.css )
-Rails.application.config.assets.precompile += %w( users/sessions/*.css )
+Rails.application.config.assets.precompile += %w( users/*.css users/**/*.css )

@@ -1,0 +1,41 @@
+%section
+    %a.logo{:href => root_path}
+        %img{:alt => "LesliCloud logo", :src => "https://cdn.lesli.tech/leslicloud/brand/leslicloud_isotipo-nomargin.png"}/
+
+    = form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f|
+        = render "devise/shared/error_messages", resource: resource
+
+        .input-group
+            .input-group-prepend
+                .input-group-text
+                    %i.fas.fa-user
+            %input.form-control{:placeholder => "", :name=>"name", :type => "text", :placeholder => "Your name"}
+            /= f.text_field "name", autocomplete: "email", class: "form-control", placeholder: "Username"
+
+        .input-group
+            .input-group-prepend
+                .input-group-text
+                    %i.fas.fa-envelope
+            = f.label :email, class: "sr-only"
+            = f.email_field :email, autocomplete: "email", class: "form-control", placeholder: "Username"
+
+        .input-group
+            .input-group-prepend
+                .input-group-text
+                    %i.fas.fa-key
+            = f.label :password, class: "sr-only"
+            - if @minimum_password_length
+                = f.password_field :password, autocomplete: "current-password", class: "form-control", placeholder: "Your password (#{@minimum_password_length} characters minimum)"
+            - else 
+                = f.password_field :password, autocomplete: "current-password", class: "form-control", placeholder: "Your password"
+
+        .input-group
+            .input-group-prepend
+                .input-group-text
+                    %i.fas.fa-key
+            = f.label :password_confirmation, class: "sr-only"
+            = f.password_field :password_confirmation, autocomplete: "current-password", class: "form-control", placeholder: :password_confirmation
+
+        = f.submit "Sign up", class: "btn btn-primary"
+    .links
+        = render "devise/shared/links"

@@ -6,6 +6,7 @@ Rails.application.routes.draw do
         get "/login" => "users/sessions#new"
         get "/logout" => "devise/sessions#destroy"
         get "/register" => "users/registrations#new"
+        get "/password" => "users/passwords#new"
 
         authenticated  do
             root to: 'cloud_lesli/dashboards#simple'

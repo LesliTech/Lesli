@@ -25,17 +25,18 @@ Building a better future, one line of code at a time.
 // ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
 */
 
-
 @import "bootstrap/scss/functions"; 
 @import "bootstrap/scss/variables";
+@import "bootstrap/scss/mixins";
 
 
 //  · Begin bootstrap customization
 // ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
 $theme-colors: (
-    primary: red
+    primary: lesli-color(lesli, primary)
 );
 
+$enable-rounded: false;
 
 //  · Import bootstrap framework
 // ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~

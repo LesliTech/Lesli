@@ -12,9 +12,9 @@
         = csp_meta_tag
         /%link{:href => "/assets/img/brand/favicon.png", :rel => "icon", :type => "image/png"}/
         %link{:href => "https://fonts.googleapis.com/css?family=Open+Sans:300,400,600", :rel => "stylesheet"}
+        = stylesheet_link_tag controller_path, media: 'all' if Rails.application.assets.find_asset("#{controller_path}.scss")
         = stylesheet_link_tag stylesheet_path, media: 'all' if Rails.application.assets.find_asset("#{stylesheet_path}.scss")
     %body
-        = stylesheet_link_tag stylesheet_path
         - if notice
             %p.alert.alert-success= notice
         - if alert

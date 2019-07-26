@@ -1,5 +1,5 @@
 
-@function lesli-color($pallete, $variant: 100) {
+@function lesli-color($pallete, $variant: "500") {
 
     $pallete: map-get($lesli-colors, $pallete);
 

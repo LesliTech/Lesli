@@ -1,0 +1,16 @@
+%section
+    %a.logo{:href => root_path}
+        %img{:alt => "LesliCloud logo", :src => "https://cdn.lesli.tech/leslicloud/brand/leslicloud_isotipo-nomargin.png"}/
+
+    = render "devise/shared/error_messages", resource: resource
+    = form_for(resource, as: resource_name, url: password_path(resource_name), html: { method: :post }) do |f|
+        .input-group
+            .input-group-prepend
+                .input-group-text
+                    %i.fas.fa-envelope
+            = f.label :email, class: "sr-only"
+            = f.email_field :email, autocomplete: "current-password", class: "form-control", placeholder: :email
+            
+        = f.submit "Send me reset password instructions", class: "btn btn-primary"
+    .links
+        = render "devise/shared/links"
