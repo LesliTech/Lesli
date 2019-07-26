@@ -1,37 +1,11 @@
-
--stylesheet_path = [controller_path,action_name].join('/')
-
 !!!
 %html
     %head
-        %meta{:content => "text/html; charset=UTF-8", "http-equiv" => "Content-Type"}/
-        %meta{:charset => "utf-8"}/
-        %meta{:content => "width=device-width, initial-scale=1, shrink-to-fit=no", :name => "viewport"}/
-        %title LesliCloud • Your smart business assistant
-        = csrf_meta_tags
-        = csp_meta_tag
-        /%link{:href => "/assets/img/brand/favicon.png", :rel => "icon", :type => "image/png"}/
-        %link{:href => "https://fonts.googleapis.com/css?family=Open+Sans:300,400,600", :rel => "stylesheet"}
-        = stylesheet_link_tag controller_path, media: 'all' if Rails.application.assets.find_asset("#{controller_path}.scss")
-        = stylesheet_link_tag stylesheet_path, media: 'all' if Rails.application.assets.find_asset("#{stylesheet_path}.scss")
-        = javascript_include_tag "lesli" unless Rails.application.assets.find_asset("#{controller_path}.js")
-        :javascript
-            console.log("#{controller_path}")
-            console.log("#{stylesheet_path}")
+        = render 'layouts/partials/application_head'
+        = render 'layouts/partials/application_asset_css'
+        = render 'layouts/partials/application_asset_js'
     %body
-
-        %main#leslicloud_app
+        %main#lesli_cloud_app
             = render 'layouts/partials/application_alert'
             %component-header
             =yield
--#
-    <p class="navbar-text pull-right">
-      <% if user_signed_in? %>
-        Logged in as <strong><%= current_user.email %></strong>.
-        <%= link_to 'Edit profile', edit_user_registration_path, :class => 'navbar-link' %> |
-        <%= link_to "Logout", destroy_user_session_path, method: :delete, :class => 'navbar-link'  %>
-      <% else %>
-        <%= link_to "Sign up", new_user_registration_path, :class => 'navbar-link'  %> |
-        <%= link_to "Login", new_user_session_path, :class => 'navbar-link'  %>
-      <% end %>
-    </p>

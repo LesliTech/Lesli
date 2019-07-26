@@ -1,0 +1,15 @@
+
+- js_controller = controller_path.split('/')
+- js_controller = [js_controller[0],'apps',js_controller[1]].join('/')
+- js_controller_action = [js_controller,action_name].join('-')
+
+
+- # Load action javascript app (engine/controller/action)
+- # Load controller javascript app (engine/controller)
+- # Load global javascript app (lesli.js)
+- if Rails.application.assets.find_asset("#{js_controller_action}.js")
+    = javascript_include_tag js_controller_action
+- elsif Rails.application.assets.find_asset("#{js_controller}.js")
+    = javascript_include_tag js_controller
+- else
+    = javascript_include_tag "lesli"

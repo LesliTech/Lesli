@@ -25,6 +25,7 @@ Building a better future, one line of code at a time.
 //  · 
 */
 
+// engine/namespace/app
 
 //  · Including plugins and dependencies
 // ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
@@ -32,9 +33,10 @@ var fs = require('fs')
 var path = require('path')  
 var VueLoaderPlugin = require('vue-loader/lib/plugin')
 
+var webpackConfig = []
 
 // ·
-var webpackConfig = {
+var webpackbase = {
     watch: false,
     mode: "development",
     optimization: { minimize: false },
@@ -42,7 +44,7 @@ var webpackConfig = {
     entry: {"lesli": "./app/vue/apps/lesli.js",},
     output: {
         path: __dirname,
-        filename: "app/assets/javascripts/[name].js"
+        filename: "app/assets/javascripts/apps/[name].js"
     },
     resolve: {
         alias: {
@@ -93,36 +95,49 @@ var webpackConfig = {
     ]
 }
 
+webpackConfig.push(webpackbase)
 
-//  · Load directory apps 
-// ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
-/*
-let directories = fs.readdirSync('./app/vue/apps').filter(file => {
+// get engines
+fs.readdirSync('./engines').forEach(engine => {
 
-    // get only directories
-    if (fs.statSync('./' + file).isDirectory()) {
-        return true
+    let webpackEngine = Object.assign({}, webpackbase)
+    webpackEngine.output = Object.assign({}, webpackbase.output)
+    webpackEngine.entry = {}
+   
+
+    // remove entries from previous engine
+    webpackEngine.entry = {}
+    webpackEngine.output.filename = ""
+
+    // get app directories
+    fs.readdirSync(path.join('./engines', engine, 'app', 'vue')).forEach(app => {
+
+        // get app files
+        fs.readdirSync(path.join('./engines', engine, 'app', 'vue', app)).forEach(file => {
+
+            let filePath = './'+path.join('./engines', engine, 'app', 'vue', app, file)
+            let fileName = [app, file].join('-').replace('.js','')
+
+            webpackEngine.entry[fileName] = filePath
+
+        })
+
+    })
+    
+    if (Object.keys(webpackEngine.entry).length > 0) {
+
+        // javascripts engine folder
+        let javascripts_engine_folder = engine.replace(/[\w]([A-Z])/g, function(m) { return m[0] + "_" + m[1]; })
+        javascripts_engine_folder = javascripts_engine_folder.toLowerCase()
+
+        // set new output to engine app folder
+        webpackEngine.output.filename = `./engines/${engine}/app/assets/javascripts/${javascripts_engine_folder}/apps/[name].js`
+
+        // Configuration object for every engine
+        webpackConfig.push(webpackEngine)
+
     }
-
-    return false
 
 })
 
-directories.forEach(directory => {
-
-    // standard vue startpoint
-    let vuepath = './' + path.join(directory, 'vue', directory + '.js')
-
-    // vue app exists?
-    if (fs.existsSync(vuepath)) {
-
-        webpackConfig.entry[directory] = vuepath
-
-    }
-
-})
-*/
-
-
-// ·
 module.exports = webpackConfig
