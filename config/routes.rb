@@ -1,10 +1,10 @@
 Rails.application.routes.draw do
 
-    devise_for :users
+    devise_for :users, controllers: { registrations: 'users/registrations' }
     devise_scope :user do
 
         get "/login" => "users/sessions#new"
-        get "/logout" => "devise/sessions#destroy"
+        get "/logout" => "users/sessions#destroy"
         get "/register" => "users/registrations#new"
         get "/password" => "users/passwords#new"
 
