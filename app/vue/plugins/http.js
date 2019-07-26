@@ -16,38 +16,40 @@ LesliCloud - Your Smart Business Assistant
 Powered by https://www.lesli.tech
 Building a better future, one line of code at a time.
 
-@author   Luis Donis <ldonis@lesli.tech>
+@dev      Luis Donis <ldonis@lesli.tech>
+@author   LesliTech <hello@lesli.tech>
 @license  Propietary - all rights reserved.
-@version  GIT: 1.0.0 alpha
+@version  GIT: 0.1.0 alpha
+
+// ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
+//  · 
 */
 
 
-// · Loading frameworks, libraries and tools
-// · ~·~          ~·~          ~·~          ~·~          ~·~          ~·~          ~·~
+//  · Loading frameworks, libraries and tools
+// ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
 import axios from 'axios'
 
 
-// · Plugin initializing 
-// · ~·~          ~·~          ~·~          ~·~          ~·~          ~·~          ~·~
+//  · Plugin initializing 
+// ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
 export default {
 
     install (Vue, options) {
-    
-        let http = axios.create({ })
-        http.defaults.baseURL = options.config.raven.api
 
-        // if sessionStorage exists (browsers)
-        if (sessionStorage) {
+        // Get authentication token from rails
+        let meta = document.querySelector('meta[name="csrf-token"]')
+        let token = ''
 
-            // get authorization token from session storage
-            let authorization = sessionStorage.getItem('lesli-token')
-
-            if (authorization) {
-                //authorization = atob(authorization)
-                http.defaults.headers.common['Authorization'] = authorization
-            }
-
+        if (meta) {
+            token = meta.getAttribute('content')
         }
+    
+        let http = axios.create({
+            headers: { 'X-CSRF-Token': token }
+        })
+
+        // http.defaults.baseURL = options.
 
         http.interceptors.response.use(response => {
 

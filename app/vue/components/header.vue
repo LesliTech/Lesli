@@ -52,9 +52,3 @@ export default {
         </b-navbar>
     </header>
 </template>
-<style lang="scss">
-
-
-
-    
-</style>
