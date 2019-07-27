@@ -30,7 +30,7 @@ Building a better future, one line of code at a time.
 
 //  · Login container
 section {
-    background: linear-gradient(rgba(lesli-color("standard", "white"),.75),rgba(lesli-color("standard", "white"),.75));
+    background: linear-gradient(rgba(lesli-color(standard, white),.75),rgba(lesli-color(standard, white),.75));
     background-repeat: no-repeat;
     background-position: center;
     background-size: cover;
@@ -49,7 +49,7 @@ section {
         width: 90%;
         max-width: 350px;
         text-align: center;
-        color: lesli-color("standard", "white");
+        color: lesli-color(standard, white);
         padding: 4px 0;
         margin: 0rem auto .4rem;
         //border: 1px solid $color-red;
@@ -63,13 +63,13 @@ section {
         text-align: center;
         //border-radius: 2px;
         padding-top: 2rem;
-        background-color: rgba(lesli-color("standard", "white"), 1);
+        background-color: rgba(lesli-color(standard, white), 1);
 
         .input-group {
             padding: 0 3rem 1.8rem;
 
             .input-group-text {
-                background-color: lesli-color("standard", "white");
+                background-color: lesli-color(standard, white);
             }
 
             .input-group-text,
@@ -91,8 +91,7 @@ section {
 
         // login button
         input[type="submit"] {
-            //background-color: lesli-color("lesli", "primary");
-            color: lesli-color("standard", "white");
+            color: lesli-color(standard, white);
             padding: 1rem 0rem;
             display: block;
             border: none;

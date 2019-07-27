@@ -28,7 +28,7 @@ Building a better future, one line of code at a time.
 @import "users/devise.scss";
 
 section {
-    background: linear-gradient(rgba(lesli-color("standard", "white"),.75),rgba(lesli-color("standard", "white"),.75)),url("/assets/users/registrations/register-background.full.jpg");
+    background: linear-gradient(rgba(lesli-color(standard, white),.75),rgba(lesli-color(standard, white),.75)),url("/assets/users/registrations/register-background.full.jpg");
     background-repeat: no-repeat;
     background-position: center;
     background-size: cover;

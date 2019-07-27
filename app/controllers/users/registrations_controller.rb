@@ -1,8 +1,13 @@
 # frozen_string_literal: true
 
 class Users::RegistrationsController < Devise::RegistrationsController
-    # before_action :configure_sign_up_params, only: [:create]
+    layout 'application_empty'
+    before_action :configure_sign_up_params, only: [:create]
     # before_action :configure_account_update_params, only: [:update]
+
+    def resource_name
+        :user
+    end
 
     def resource
         @resource ||= User.new
@@ -15,9 +20,17 @@ class Users::RegistrationsController < Devise::RegistrationsController
     end
 
     # POST /resource
-    # def create
-    #   super
-    # end
+    def create
+        
+        user = build_resource(sign_up_params)
+        
+        if user.save
+            redirect_to root_path, notice: "Registration"
+        else
+            redirect_to register_path, error: user.errors.full_messages[0]
+        end
+        
+    end
 
     # GET /resource/edit
     # def edit
@@ -43,12 +56,12 @@ class Users::RegistrationsController < Devise::RegistrationsController
     #   super
     # end
 
-    # protected
+    protected
 
     # If you have extra params to permit, append them to the sanitizer.
-    # def configure_sign_up_params
-    #   devise_parameter_sanitizer.permit(:sign_up, keys: [:attribute])
-    # end
+    def configure_sign_up_params
+        devise_parameter_sanitizer.permit(:sign_up, keys: [:email, :password, :password_confirmation])
+    end
 
     # If you have extra params to permit, append them to the sanitizer.
     # def configure_account_update_params
