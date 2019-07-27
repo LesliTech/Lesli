@@ -37,7 +37,16 @@ Building a better future, one line of code at a time.
 //  · Loading components
 // ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
 @import "leslicloud/components/application_header";
+@import "leslicloud/overrides/bootstrap-content";
 
 body {
-    background-color: rgb(240,240,245);
+    background-color: rgb(238,238,245);
+}
+
+#lesli-cloud-app {
+
+    & > .container-fluid {
+        margin-top: 20px;
+        margin-bottom: 15px;
+    }
 }
