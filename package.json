@@ -27,7 +27,10 @@
         "vue-template-compiler": "^2.5",
         "axios": "^0.19",
         "chart.js": "^2.7",
-        "apexcharts": "^3.8"
+        "apexcharts": "^3.8",
+        "vue-apexcharts": "^1.4.0",
+        "v-calendar": "^1.0.0-beta.16",
+        "dayjs": "^1.8.15"
     },
     "scripts": {
         "frontend": "gulp frontend",

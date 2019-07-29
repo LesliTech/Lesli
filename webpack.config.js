@@ -37,7 +37,7 @@ var webpackConfig = []
 
 // ·
 var webpackbase = {
-    watch: false,
+    watch: true,
     mode: "development",
     optimization: { minimize: false },
     performance: { hints: false },
