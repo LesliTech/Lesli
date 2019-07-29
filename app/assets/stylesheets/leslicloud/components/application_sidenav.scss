@@ -21,30 +21,28 @@ Building a better future, one line of code at a time.
 @license  Propietary - all rights reserved.
 @version  GIT: 0.1.0 alpha
 
-//  · Functions
+//  · Application module navigation
 // ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
 */
 
+nav.sidenav {
+    width: 280px;
+    margin-left: -280px;
+    position: fixed;
+    z-index: 999;
+    background-color: lesli-color(standard, white);
+    ul {
+        display: flex;
+        flex-wrap: wrap;
+        padding: 0rem 1rem;
 
-//  · 
-// ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
-@function lesli-color($pallete, $variant: 500) {
-
-    $pallete: map-get($lesli-colors, $pallete);
-
-    $color: map-get($pallete, $variant);
-
-    @return $color;
-
-}
-
-
-//  · 
-// ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
-@function lesli-font($property, $selector) {
-
-    $property: map-get($lesli-font, $property);
-
-    @return map-get($property, $selector);
-
+        li {
+            flex: 1 1 60px;
+            color: white;
+            padding: 1rem;
+            text-align: center;
+            border-radius: 2px;
+            //border: 1px solid silver;
+        }
+    }
 }

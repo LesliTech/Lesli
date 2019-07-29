@@ -21,7 +21,7 @@ Building a better future, one line of code at a time.
 @license  Propietary - all rights reserved.
 @version  GIT: 0.1.0 alpha
 
-//  · Public website template
+//  · Application template
 // ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
 */
 
@@ -31,17 +31,26 @@ Building a better future, one line of code at a time.
 @import "leslicloud/settings/variables.scss";
 @import "leslicloud/settings/functions.scss";
 @import "leslicloud/settings/fonts.scss";
-@import "leslicloud/templates/bootstrap.scss";
+@import "leslicloud/overrides/bootstrap.scss";
 
 
 //  · Loading components
 // ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
 @import "leslicloud/components/application_header";
+@import "leslicloud/components/application_sidenav";
 @import "leslicloud/overrides/bootstrap-content";
+
+
+* {
+    font-family: lesli-font(family, body);
+    font-weight: lesli-font(weight, normal);
+}
+
 
 body {
     background-color: rgb(238,238,245);
 }
+
 
 #lesli-cloud-app {
 
@@ -50,30 +59,3 @@ body {
         margin-bottom: 15px;
     }
 }
-
-
-ol {
-    width: 98%;
-    display: flex;
-    margin: 0 auto;
-    padding: 2px 3px;
-    border-radius: 10px;
-    background-color: transparent;
-    justify-content: space-between;
-    border: 2px solid lesli-color(lesli, primary);
-    border: 2px solid lesli-color(silver, 300);
-    background-color: rgba(lesli-color(lesli, primary), .05);
-
-    li {
-        width: 10px;
-        height: 10px;
-        border-radius: 50%;
-        list-style-type: none;
-        background-color: lesli-color(lesli, primary);
-        border: 2px solid lesli-color(lesli, primary);
-        transition: background-color .2s ease;
-    }
-
-}
-
-

@@ -89,4 +89,28 @@ export default {
 </template>
 <style scoped>
 
+
+ol {
+    width: 98%;
+    display: flex;
+    margin: 0 auto;
+    padding: 2px 3px;
+    border-radius: 10px;
+    background-color: transparent;
+    justify-content: space-between;
+    border: 2px solid lesli-color(lesli, primary);
+    border: 2px solid lesli-color(silver, 300);
+    background-color: rgba(lesli-color(lesli, primary), .05);
+}
+
+li {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    list-style-type: none;
+    background-color: lesli-color(lesli, primary);
+    border: 2px solid lesli-color(lesli, primary);
+    transition: background-color .2s ease;
+}
+
 </style>

@@ -146,7 +146,6 @@ $lesli-colors: (
     ),
 
 
-
     //  · Global & common colors
     // ~·~        ~·~        ~·~        ~·~        ~·~        ~·~        ~·~        ~·~        ~·~
     standard: (
@@ -159,10 +158,16 @@ $lesli-colors: (
 
 //  · Font families
 // ~·~        ~·~        ~·~        ~·~        ~·~        ~·~        ~·~        ~·~        ~·~
-$font-family-body: 'Open Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif;
-$font-family-title: 'Montserrat', $font-family-body;
-$font-family-brand: 'Raleway', $font-family-title;
+$lesli-font: (
 
-$font-weight-light: 300;
-$font-weight-normal: 400;
-$font-weight-bold : 600;
+    family: (
+        body: 'Open Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif,
+        title: 'Montserrat', 'Open Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif
+    )
+
+    weight: (
+        light: 300,
+        normal: 400,
+        bold: 600
+    )
+)
