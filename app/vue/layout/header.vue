@@ -1,6 +1,21 @@
 <script>
 export default {
 
+    data() {
+        return {
+            chatbotIntent:''
+        }
+    },
+
+    methods: {
+
+        emitChatbotIntent() {
+            this.bus.$emit('main.layout.chatbox.postIntent', this.chatbotIntent)
+            this.chatbotIntent=""
+        }
+
+    }
+
 }
 </script>
 <template>
@@ -16,11 +31,9 @@ export default {
                 <b-button size="sm" type="submit" >
                     <i class="fas fa-microphone"></i>
                 </b-button>
-                <b-nav-form >
-                    <b-form-input
-                        size="sm" type="text" 
-                        placeholder="How can I help you today?"/>
-                </b-nav-form>
+                <form v-on:submit.prevent="emitChatbotIntent()">
+                    <input v-model="chatbotIntent" type="text" placeholder="Hello, how can I help you today? :)">
+                </form>
             </b-collapse>
 
             <!-- Brand container -->
