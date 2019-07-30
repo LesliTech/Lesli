@@ -26,7 +26,6 @@ export default {
             <!-- Brand container -->
             <b-navbar-brand href="/">
                 <img alt="LesliCloud logo" src="https://cdn.lesli.tech/leslicloud/brand/leslicloud_isotipo-nomargin.png" />
-                <!--img alt="..." src="https://cdn.lesli.tech/leslicloud/brand/leslicloud_isotipo-nomargin2.png"-->
             </b-navbar-brand>
 
             <!-- User navigation -->

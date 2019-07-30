@@ -29,14 +29,14 @@ Building a better future, one line of code at a time.
 
 model = User.new
 model.email = 'admin@lesli.dev'
-model.password = 'lesli2020'
-model.password_confirmation = 'lesli2020'
+model.password = 'admin@lesli.dev'
+model.password_confirmation = 'admin@lesli.dev'
 model.save!
 
 10.times do
     model = User.new
     model.email = Faker::Internet.email
-    model.password = 'Lesli2019'
-    model.password_confirmation = 'Lesli2019'
+    model.password = model.email
+    model.password_confirmation = model.email
     model.save!
 end

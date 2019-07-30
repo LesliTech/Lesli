@@ -160,14 +160,14 @@ $lesli-colors: (
 // ~·~        ~·~        ~·~        ~·~        ~·~        ~·~        ~·~        ~·~        ~·~
 $lesli-font: (
 
-    family: (
-        body: 'Open Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif,
-        title: 'Montserrat', 'Open Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif
-    )
-
     weight: (
         light: 300,
         normal: 400,
         bold: 600
     )
-)
+
+    );
+
+
+$lesli-font-family-body: 'Open Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+$lesli-font-family-title: 'Montserrat', $lesli-font-family-body

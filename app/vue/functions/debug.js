@@ -1,5 +1,4 @@
-=begin
-
+/*
 Lesli
 
 Copyright (c) 2019, Lesli Technologies, S. A.
@@ -17,17 +16,17 @@ LesliCloud - Your Smart Business Assistant
 Powered by https://www.lesli.tech
 Building a better future, one line of code at a time.
 
+@dev      Luis Donis <ldonis@lesli.tech>
 @author   LesliTech <hello@lesli.tech>
-@author   Luis Donis <ldonis@lesli.tech>
 @license  Propietary - all rights reserved.
-@version  GIT: 1.0.0 alpha
+@version  GIT: 0.1.0 alpha
 
-// · 
-// · ~·~        ~·~        ~·~        ~·~        ~·~        ~·~        ~·~        ~·~        ~·~
+//  · 
+// ~·~        ~·~        ~·~        ~·~        ~·~        ~·~        ~·~        ~·~        ~·~
+*/
 
-=end
+export default function(object) {
 
-model = Account.new
-model.user = User.find(1)
-model.account_plan = AccountPlan.find(1)
-model.save!
+    console.log(object)
+    
+}

@@ -43,6 +43,15 @@ Building a better future, one line of code at a time.
 // ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
 @function lesli-font($property, $selector) {
 
+    @if $property == "family" {
+        @if $selector == "body" {
+            @return $lesli-font-family-body;
+        }
+        @if $selector == "title" {
+            @return $lesli-font-family-title;
+        }
+    }
+
     $property: map-get($lesli-font, $property);
 
     @return map-get($property, $selector);

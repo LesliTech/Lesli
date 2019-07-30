@@ -1,0 +1,143 @@
+/*
+Lesli
+
+Copyright (c) 2019, Lesli Technologies, S. A.
+
+All the information provided by this website is protected by laws of Guatemala related 
+to industrial property, intellectual property, copyright and relative international laws. 
+Lesli Technologies, S. A. is the exclusive owner of all intellectual or industrial property
+rights of the code, texts, trade mark, design, pictures and any other information.
+Without the written permission of Lesli Technologies, S. A., any replication, modification,
+transmission, publication is strictly forbidden.
+For more information read the license file including with this software.
+
+LesliCloud - Your Smart Business Assistant
+
+Powered by https://www.lesli.tech
+Building a better future, one line of code at a time.
+
+@dev      Luis Donis <ldonis@lesli.tech>
+@author   LesliTech <hello@lesli.tech>
+@license  Propietary - all rights reserved.
+@version  GIT: 0.1.0 alpha
+
+//  · Application module navigation
+// ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
+*/
+
+.chatbox {
+    background-color: lesli-color(standard, white);
+    padding: 0rem 1.2rem;
+    position: fixed;
+    z-index: 999;
+    width: 375px;
+    bottom: 5px;
+    right: 5px;
+
+    .chat-header {
+        border-bottom: 1px solid lesli-color(silver, 300);
+        ul {
+            align-items: baseline;
+            justify-content: flex-end;
+
+            li:first-child {
+                margin-right: auto;
+            }
+        }
+    }
+
+    .chat-body {
+        padding: .8rem 0;
+
+        .intent,
+        .response {
+            display: flex;
+
+            p {
+                font-weight: 600;
+                font-size: .9rem;
+                //margin-bottom: .5rem;
+                display: inline-block;
+                padding: .2rem .8rem;
+                border-radius: 1rem;
+            }
+
+            // avatar
+            span {
+                width: 29px;
+                display: inline-block;
+
+                img {
+                    width: 100%;
+                }
+
+            }
+
+        }
+
+        .intent {
+            justify-content: start;
+
+            p {
+                margin-left: 0px;
+            }
+
+        }
+
+        .response {
+            justify-content: end;
+
+            p {
+                color: lesli-color(standard, white);
+                background-color: lesli-color(lesli, primary);
+                margin-right: 8px;
+            }
+
+        }
+
+    }
+
+    .chat-footer {
+        padding: .2rem 0 .8rem 0;
+
+        input {
+            border: none;
+            border-radius: 0px;
+            border-bottom: 1px solid lesli-color(silver, 300);
+            padding: .2rem .4rem;
+            width: 100%;
+        }
+    }
+
+     // · Loading animation
+     .loading-animation {
+        position:relative;
+        height:18px;
+        width:18px;
+
+        hr {
+            border:0;
+            margin:0;
+            width:40%;
+            height:40%;
+            position:absolute;
+            border-radius:50%;
+            animation:assistant-chatbox-spin 2s ease infinite;
+
+            &:first-child { background:#19A68C;animation-delay:-1.5s }
+            &:nth-child(2) { background:#F63D3A;animation-delay:-1s }
+            &:nth-child(3) { background:#FDA543;animation-delay:-0.5s }
+            &:last-child { background:#193B48 }
+
+        }
+
+        @keyframes assistant-chatbox-spin{
+            0%,100%{transform:translate(0)}
+            25%{transform:translate(160%)}
+            50%{transform:translate(160%, 160%)}
+            75%{transform:translate(0, 160%)}
+        }        
+
+    }
+
+}
