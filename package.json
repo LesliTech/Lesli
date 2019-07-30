@@ -6,6 +6,10 @@
     "author": "LesliTech <hello@lesli.tech>",
     "license": "All rights reserved",
     "private": true,
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/ldonis/ProjectRaven.git"
+    },
     "devDependencies": {
         "@babel/core": "^7.5",
         "@babel/preset-env": "^7.5",
