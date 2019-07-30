@@ -40,14 +40,24 @@ Building a better future, one line of code at a time.
             align-items: baseline;
             justify-content: flex-end;
 
-            li:first-child {
-                margin-right: auto;
+            li {
+                cursor: pointer;
+
+                &:first-child {
+                    margin-right: auto;
+                }
+
             }
+
         }
+        
     }
 
     .chat-body {
+        height: 100%;
         padding: .8rem 0;
+        max-height: 75vh;
+        overflow-y: scroll;
 
         .intent,
         .response {

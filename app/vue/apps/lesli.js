@@ -48,7 +48,7 @@ import documentFunction from 'LesliCloud/vue/functions/document'
 
 //  · Loading app layout
 // ~·~        ~·~        ~·~        ~·~        ~·~        ~·~        ~·~        ~·~        ~·~
-import componentHeader from 'LesliCloud/vue/components/header.vue'
+import componentHeader from 'LesliCloud/vue/layout/header.vue'
 //import layoutfooter from 'LesliCloud/vue/layout/footer-admin.vue'
 
 
