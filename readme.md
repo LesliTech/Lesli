@@ -1,6 +1,6 @@
 <p align="center" class="m-0">
 	<a href="https://lesli.cloud" target="_blank">
-		<img width="160" alt="LesliCloud imagotipo" src="https://cdn.lesli.tech/leslicloud/brand/leslicloud-logo.png" />
+		<img width="175" alt="LesliCloud imagotipo" src="https://cdn.lesli.tech/leslicloud/brand/leslicloud-logo.png" />
 	</a>
 </p>
 
