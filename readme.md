@@ -1,6 +1,6 @@
 <p align="center">
 	<a href="https://lesli.cloud" target="_blank">
-		<img width="90" alt="LesliCloud imagotipo" src="https://lesli.cloud/brand/.png" />
+		<img width="90" alt="LesliCloud imagotipo" src="https://cdn.lesli.tech/leslicloud/brand/leslicloud-logo.png" />
 	</a>
 </p>
 
@@ -9,7 +9,7 @@
 
 ---
 
-Version 1.0.0 alpha
+Version 0.1.0-alpha
 
 
 #### Website & documentation
@@ -19,11 +19,11 @@ LesliCloud is proprietary software
 
 * Website: [https://lesli.cloud](https://lesli.cloud)
 
-* Support: [https://forum.lesli.dev](https://forum.lesli.dev)
+* Support: [https://forum.lesli.cloud](https://forum.lesli.cloud)
 
-* Issue tracker: [https://code.lesli.tech/LesliCloud](https://code.lesli.tech/LesliCloud)
+* Issue tracker: [https://github.com/LesliTech/lesli.cloud](https://github.com/LesliTech/lesli.cloud)
 
-* Documentation: [https://code.lesli.tech/LesliCloud/wiki](https://code.lesli.tech/LesliCloud/wiki)
+* Documentation: [https://github.com/LesliTech/lesli.cloud/wiki](https://github.com/LesliTech/lesli.cloud/wiki)
 
 #### License
 -------
