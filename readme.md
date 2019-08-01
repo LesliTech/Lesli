@@ -3,7 +3,6 @@
 		<img width="160" alt="LesliCloud imagotipo" src="https://cdn.lesli.tech/leslicloud/brand/leslicloud-logo.png" />
 	</a>
 </p>
-<p align="center">Your smart business assistant</p>
 
 ---
 
