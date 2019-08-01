@@ -1,10 +1,8 @@
 <p align="center">
 	<a href="https://lesli.cloud" target="_blank">
-		<img width="90" alt="LesliCloud imagotipo" src="https://cdn.lesli.tech/leslicloud/brand/leslicloud-logo.png" />
+		<img width="150" alt="LesliCloud imagotipo" src="https://cdn.lesli.tech/leslicloud/brand/leslicloud-logo.png" />
 	</a>
 </p>
-
-<h3 align="center">LesliCloud</h3>
 <p align="center">Your smart business assistant</p>
 
 ---
