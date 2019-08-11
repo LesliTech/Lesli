@@ -9,8 +9,12 @@ export default {
 
     methods: {
 
+        emitSidenavShow() {
+            this.bus.$emit('lesli.layout.sidenav.show')
+        },
+
         emitChatbotIntent() {
-            this.bus.$emit('main.layout.chatbox.postIntent', this.chatbotIntent)
+            this.bus.$emit('lesli.component.chatbox.postIntent', this.chatbotIntent)
             this.chatbotIntent=""
         }
 
@@ -25,7 +29,7 @@ export default {
 
             <!-- Assistant controls -->
             <b-collapse is-nav class="assistant" id="1">
-                <button type="button" class="btn btn-link">
+                <button type="button" class="btn btn-link" @click="emitSidenavShow">
                     <i class="fas fa-bars"></i>
                 </button>
                 <b-button size="sm" type="submit" >
@@ -38,7 +42,7 @@ export default {
 
             <!-- Brand container -->
             <b-navbar-brand href="/">
-                <img alt="LesliCloud logo" src="https://cdn.lesli.tech/leslicloud/brand/leslicloud_isotipo-nomargin.png" />
+                <img alt="LesliCloud logo" src="/assets/brand/leslicloud-logo.svg" />
             </b-navbar-brand>
 
             <!-- User navigation -->
