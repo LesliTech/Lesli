@@ -26,18 +26,16 @@ Building a better future, one line of code at a time.
 */
 
 
+// · Defining variables
+// · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
 $lesli-colors: (
 
-
-    //  · lesli
-    // ~·~        ~·~        ~·~        ~·~        ~·~        ~·~        ~·~        ~·~        ~·~
+    // · lesli
     lesli: (
         primary: #196EAF
     ),
 
-
-    //  · blue
-    // ~·~        ~·~        ~·~        ~·~        ~·~        ~·~        ~·~        ~·~        ~·~
+    // · blue
     blue: (
         100: #8cd5ff,
         300: #64baff,
@@ -46,9 +44,7 @@ $lesli-colors: (
         900: #002e99 
     ),
 
-
-    //  · Administration
-    // ~·~        ~·~        ~·~        ~·~        ~·~        ~·~        ~·~        ~·~        ~·~
+    // · Administration
     slate: (
         100: #95a3ab,
         300: #667885,
@@ -57,9 +53,7 @@ $lesli-colors: (
         900: #0e141f 
     ),
 
-
-    //  · Sales & Marketing
-    // ~·~        ~·~        ~·~        ~·~        ~·~        ~·~        ~·~        ~·~        ~·~
+    // · Sales & Marketing
     grape: (
         100: #e4c6fa,
         300: #cd9ef7,
@@ -68,9 +62,7 @@ $lesli-colors: (
         900: #452981 
     ),
 
-
-    //  · Productivity & Workteam
-    // ~·~        ~·~        ~·~        ~·~        ~·~        ~·~        ~·~        ~·~        ~·~
+    // · Productivity & Workteam
     lime: (
         100: #d1ff82,
         300: #9bdb4d,
@@ -79,9 +71,7 @@ $lesli-colors: (
         900: #206b00 
     ),
 
-
-    //  · Finance
-    // ~·~        ~·~        ~·~        ~·~        ~·~        ~·~        ~·~        ~·~        ~·~
+    // · Finance
     orange: (
         100: #ffc27d,
         300: #ffa154,
@@ -90,9 +80,7 @@ $lesli-colors: (
         900: #a62100 
     ),
 
-
-    //  · Analytics
-    // ~·~        ~·~        ~·~        ~·~        ~·~        ~·~        ~·~        ~·~        ~·~
+    // · Analytics
     berry: (
         100: #ff8c82,
         300: #ed5353,
@@ -101,9 +89,7 @@ $lesli-colors: (
         900: #7a0000 
     ),
 
-
-    //  · Intelligence
-    // ~·~        ~·~        ~·~        ~·~        ~·~        ~·~        ~·~        ~·~        ~·~
+    // · Intelligence
     cocoa: (
         100: #a3907c,
         300: #8a715e,
@@ -113,8 +99,7 @@ $lesli-colors: (
     ),
 
 
-    //  · IT & Help Desk
-    // ~·~        ~·~        ~·~        ~·~        ~·~        ~·~        ~·~        ~·~        ~·~
+    // · IT & Help Desk
     banana: (
         100: #fff394,
         300: #ffe16b,
@@ -124,8 +109,7 @@ $lesli-colors: (
     ),
 
 
-    //  · Security & Privacy
-    // ~·~        ~·~        ~·~        ~·~        ~·~        ~·~        ~·~        ~·~        ~·~
+    // · Security & Privacy
     silver: (
         100: #fafafa,
         300: #d4d4d4,
@@ -135,8 +119,7 @@ $lesli-colors: (
     ),
 
 
-    //  · Integrations
-    // ~·~        ~·~        ~·~        ~·~        ~·~        ~·~        ~·~        ~·~        ~·~
+    // · Integrations
     black: (
         100: #666666,
         300: #4d4d4d,
@@ -146,8 +129,7 @@ $lesli-colors: (
     ),
 
 
-    //  · Global & common colors
-    // ~·~        ~·~        ~·~        ~·~        ~·~        ~·~        ~·~        ~·~        ~·~
+    // · Global & common colors
     standard: (
         white: rgb(255, 255, 255)
     )
@@ -166,8 +148,10 @@ $lesli-font: (
         bold: 600
     )
 
-    );
+);
 
 
+// · Font families
+// · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
 $lesli-font-family-body: 'Open Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif;
 $lesli-font-family-title: 'Montserrat', $lesli-font-family-body

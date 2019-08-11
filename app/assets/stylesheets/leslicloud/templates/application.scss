@@ -21,42 +21,51 @@ Building a better future, one line of code at a time.
 @license  Propietary - all rights reserved.
 @version  GIT: 0.1.0 alpha
 
-//  · Application template
-// ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
+// · Application template
+// · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
 */
 
 
-//  · Theme bootstraping
-// ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
+// · Theme bootstraping
+// · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
+
+/*
 @import "leslicloud/settings/variables.scss";
 @import "leslicloud/settings/functions.scss";
+*/
+
+@import "lesli-css";
 @import "leslicloud/settings/fonts.scss";
 @import "leslicloud/overrides/bootstrap.scss";
-
-
-//  · Loading components
-// ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
-@import "leslicloud/components/application_header";
-@import "leslicloud/components/application_sidenav";
-@import "leslicloud/components/application_chatbox";
 @import "leslicloud/overrides/bootstrap-content";
 
 
+// · Loading components
+// · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
+@import "leslicloud/layout/application_header";
+@import "leslicloud/layout/application_sidenav";
+@import "leslicloud/components/application_chatbox";
+
+
+// · 
 * {
     font-family: lesli-font(family, body);
     font-weight: lesli-font(weight, normal);
 }
 
 
+// · 
 body {
     background-color: rgb(238,238,245);
 }
 
 
+// · 
 #lesli-cloud-app {
 
     & > .container-fluid {
         margin-top: 20px;
         margin-bottom: 15px;
     }
+
 }
