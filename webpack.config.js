@@ -21,21 +21,20 @@ Building a better future, one line of code at a time.
 @license  Propietary - all rights reserved.
 @version  GIT: 0.1.0 alpha
 
-// ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
-//  · 
+// · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
+// · 
 */
 
-// engine/namespace/app
 
-//  · Including plugins and dependencies
-// ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
+// · Including plugins and dependencies
+// · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
 var fs = require('fs')
 var path = require('path')  
 var VueLoaderPlugin = require('vue-loader/lib/plugin')
 
 var webpackConfig = []
 
-// ·
+// · 
 var webpackbase = {
     watch: true,
     mode: "development",
@@ -97,17 +96,21 @@ var webpackbase = {
 
 webpackConfig.push(webpackbase)
 
-// get engines
+// · get engines
 fs.readdirSync('./engines').forEach(engine => {
 
     let webpackEngine = Object.assign({}, webpackbase)
     webpackEngine.output = Object.assign({}, webpackbase.output)
     webpackEngine.entry = {}
-   
 
     // remove entries from previous engine
     webpackEngine.entry = {}
     webpackEngine.output.filename = ""
+    
+    // if engine is not a dir
+    if (['.gitkeep'].includes(engine)) {
+        return
+    }
 
     // get app directories
     fs.readdirSync(path.join('./engines', engine, 'app', 'vue')).forEach(app => {
@@ -140,4 +143,5 @@ fs.readdirSync('./engines').forEach(engine => {
 
 })
 
+// · 
 module.exports = webpackConfig
