@@ -1,6 +1,6 @@
-<p align="center" class="m-0">
+<p align="center">
 	<a href="https://lesli.cloud" target="_blank">
-		<img width="250" alt="LesliCloud imagotipo" src="https://cdn.lesli.tech/leslicloud/brand/leslicloud-logo.png" />
+		<img width="250" alt="LesliCloud logo" src="https://cdn.lesli.tech/leslicloud/brand/leslicloud-logo.png" />
 	</a>
 </p>
 
@@ -33,3 +33,9 @@ rights of the code, texts, trade mark, design, pictures and any other informatio
 Without the written permission of Lesli Technologies, S. A., any replication, modification,
 transmission, publication is strictly forbidden.
 For more information read the license file including with this software.
+
+<p align="center">
+	<a href="https://www.lesli.tech" target="_blank">
+		<img alt="LesliTech logo" width="150" src="https://cdn.lesli.tech/leslitech/brand/leslitech-logo.svg" />
+	</a>
+</p>
