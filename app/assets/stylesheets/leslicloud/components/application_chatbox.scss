@@ -35,7 +35,9 @@ Building a better future, one line of code at a time.
     right: 5px;
 
     .chat-header {
+        cursor: pointer;
         border-bottom: 1px solid lesli-color(silver, 300);
+
         ul {
             align-items: baseline;
             justify-content: flex-end;

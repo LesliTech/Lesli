@@ -27,10 +27,17 @@ Building a better future, one line of code at a time.
 
 nav.sidenav {
     width: 280px;
-    margin-left: -280px;
-    position: fixed;
     z-index: 999;
+    position: fixed;
+    margin-left: -280px;
     background-color: lesli-color(standard, white);
+    transition: all linear .2s;
+
+    &.show,
+    &:hover {
+        margin-left: 0px;
+    }
+
     ul {
         display: flex;
         flex-wrap: wrap;

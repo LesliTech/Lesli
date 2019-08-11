@@ -27,12 +27,15 @@ Building a better future, one line of code at a time.
 
 header {
     background-color: lesli-color(standard, white);
-    box-shadow: 0 8px 10px -9px rgba(0,0,0,.05), 0 3px 14px 2px rgba(0,0,0,.01), 0 5px 5px -3px rgba(0,0,0,.05);
+    box-shadow: 0 8px 10px -9px 
+        rgba(0,0,0,.05), 0 3px 14px 2px 
+        rgba(0,0,0,.01), 0 5px 5px -3px 
+        rgba(0,0,0,.05);
 
     // top navigation bar
     nav.navbar {
+        padding: 0 1rem;
 
-        padding: .6rem 1rem;
         .navbar-collapse {
             flex-grow: 1;
             flex-basis: 0;
@@ -40,6 +43,7 @@ header {
             
         // assistant controllers
         .assistant {
+
             button {
                 border: none;
                 margin-right: 5px;
@@ -52,18 +56,26 @@ header {
                     border: none;
                 }
             }
+
+            form,
+            input {
+                width: 100%;
+            }
+
             input{
                 border: none;
                 border-radius: 0;
             }
+
         }
 
         // brand items
         .navbar-brand{
+            padding: 0;
                     
             // Main logo
             img {
-                width: 70px;
+                width: 100px;
             }
 
         }
