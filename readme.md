@@ -4,7 +4,9 @@
 	</a>
 </p>
 
----
+<h3 align="center">Your smart business assistant</h3>
+
+<hr/>
 
 Version 0.1.0-alpha
 

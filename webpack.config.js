@@ -19,7 +19,7 @@ Building a better future, one line of code at a time.
 @dev      Luis Donis <ldonis@lesli.tech>
 @author   LesliTech <hello@lesli.tech>
 @license  Propietary - all rights reserved.
-@version  GIT: 0.1.0 alpha
+@version  0.1.0-alpha
 
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
 // · 
@@ -36,14 +36,14 @@ var webpackConfig = []
 
 // · 
 var webpackbase = {
-    watch: true,
+    watch: false,
     mode: "development",
     optimization: { minimize: false },
     performance: { hints: false },
     entry: {"lesli": "./app/vue/apps/lesli.js",},
     output: {
         path: __dirname,
-        filename: "app/assets/javascripts/apps/[name].js"
+        filename: "app/assets/javascripts/[name].js"
     },
     resolve: {
         alias: {
@@ -101,6 +101,7 @@ fs.readdirSync('./engines').forEach(engine => {
 
     let webpackEngine = Object.assign({}, webpackbase)
     webpackEngine.output = Object.assign({}, webpackbase.output)
+    webpackEngine.output.filename = "app/assets/javascripts/apps/[name].js"
     webpackEngine.entry = {}
 
     // remove entries from previous engine
