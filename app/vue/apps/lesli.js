@@ -39,11 +39,11 @@ import pluginBus from 'LesliCloud/vue/plugins/bus'
 import pluginUrl from 'LesliCloud/vue/plugins/url'
 import pluginUtil from 'LesliCloud/vue/plugins/util'
 import pluginHttp from 'LesliCloud/vue/plugins/http'
+import pluginDebug from 'lesli-debug-message/vue'
 
 
 //  · Loading app functions
 // ~·~        ~·~        ~·~        ~·~        ~·~        ~·~        ~·~        ~·~        ~·~
-import debug from 'LesliCloud/vue/functions/debug'
 import functionDocument from 'LesliCloud/vue/functions/document'
 
 
@@ -65,6 +65,7 @@ Vue.use(pluginBus)
 Vue.use(pluginUrl)
 Vue.use(pluginUtil)
 Vue.use(pluginHttp)
+Vue.use(pluginDebug)
 Vue.use(VueBootstrap)
 
 
