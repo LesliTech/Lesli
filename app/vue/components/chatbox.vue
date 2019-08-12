@@ -37,7 +37,7 @@ export default {
             this.intents.push({type:'intent',text:this.intent})
             this.intent = ""
 
-            setTimeout(() => {
+            timeout = setTimeout(() => {
                 this.intents.push({
                     type: 'response',
                     text: new Date()
