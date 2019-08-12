@@ -32,6 +32,7 @@ nav.sidenav {
     margin-left: -280px;
     background-color: lesli-color(standard, white);
     transition: all linear .2s;
+    height: 100%;
 
     &.show,
     &:hover {
@@ -49,6 +50,7 @@ nav.sidenav {
             padding: 1rem;
             text-align: center;
             border-radius: 2px;
+            max-width: 85px;
             //border: 1px solid silver;
         }
     }

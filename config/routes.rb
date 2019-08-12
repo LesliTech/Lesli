@@ -29,7 +29,7 @@ Rails.application.routes.draw do
         resources :account_plans
 
         #mount TestEngine::Engine => "/testengine"
-        #mount CloudTeam::Engine => "/team"
+        mount CloudTeam::Engine => "/team"
         #mount CloudPanel::Engine => "/panel"
         mount CloudLesli::Engine => "/lesli"
 

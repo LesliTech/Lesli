@@ -1,3 +1,4 @@
+/*
 Lesli
 
 Copyright (c) 2019, Lesli Technologies, S. A.
@@ -20,5 +21,40 @@ Building a better future, one line of code at a time.
 @license  Propietary - all rights reserved.
 @version  0.1.0-alpha
 
-// · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
-// · 
+// ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
+//  · 
+*/
+
+
+//  · Plugin initializing 
+// ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
+export default {
+
+    install (Vue) {
+    
+        Vue.prototype.url = {
+
+            // · Redirect to specific url
+            go(url=null) {
+
+                url = new URL(url, leslicloud_request.root_url)
+
+                window.location.replace(url.href);
+                window.location.href = url.href;
+
+                return
+
+            },
+
+            // · Get well formated url
+            to(module=null, app=null) {
+
+                return new URL([module, app].join('/'), leslicloud_request.root_url)
+
+            }
+
+        }
+
+    }
+    
+}
