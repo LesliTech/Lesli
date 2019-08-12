@@ -1,15 +1,16 @@
 !!!
 %html
     %head
-        = render 'layouts/partials/application_head'
-        = render 'layouts/partials/application_data'
-        = render 'layouts/partials/application_asset_css'
-        = render 'layouts/partials/application_asset_js'
+        = render partial: 'layouts/partials/application-head'
+        = render partial: 'layouts/partials/application-data'
+        = render partial: 'layouts/partials/application-asset-css'
+        = render partial: 'layouts/partials/application-asset-js'
     %body
         %main#lesli-cloud-app
-            = render 'layouts/partials/application_alert'
-            %component-layout-header
-            %component-layout-sidenav
-            =yield
-            %component-lesli-chatbox
-        = render 'layouts/partials/application_footer'
+            = render partial: 'layouts/partials/application-alert'
+            = render partial: 'layouts/partials/application-layout-aside'
+            = render partial: 'layouts/partials/application-layout-header'
+            = render partial: 'layouts/partials/application-layout-navigation'
+            = yield
+            = render partial: 'layouts/partials/application-layout-chatbox'
+        = render partial: 'layouts/partials/application-footer'
