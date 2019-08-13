@@ -3,14 +3,18 @@ export default {
 
     data() {
         return {
-            chatbotIntent:''
+            chatbotIntent:'',
+            timer: null
         }
     },
 
     methods: {
 
         emitSidenavShow() {
-            this.bus.$emit('lesli.layout.sidenav.show')
+            clearTimeout(this.timer)
+            let el = document.getElementsByClassName('sidenav')[0]
+            el.classList.toggle('show')
+            this.timer = setTimeout(() => el.classList.remove('show'), 4000)
         },
 
         emitChatbotIntent() {
