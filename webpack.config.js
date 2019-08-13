@@ -30,16 +30,28 @@ Building a better future, one line of code at a time.
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
 var fs = require('fs')
 var path = require('path')  
+var TerserPlugin = require('terser-webpack-plugin')
 var VueLoaderPlugin = require('vue-loader/lib/plugin')
-
 var webpackConfig = []
+
+var production = true
 
 // · 
 var webpackbase = {
-    watch: true,
-    mode: "development",
-    optimization: { minimize: false },
-    performance: { hints: false },
+    watch: !production,
+    mode: production ? "production" : "development",
+    performance: { hints: production ? "warning" : false },
+    optimization: !production ? false :  {
+        minimizer: [
+            new TerserPlugin({
+                terserOptions: {
+                    output: {
+                        comments: false
+                    }
+                }
+            })
+        ]
+    },
     entry: {"lesli": "./app/vue/apps/lesli.js",},
     output: {
         path: __dirname,
@@ -49,7 +61,7 @@ var webpackbase = {
         alias: {
 
             // resolve vuejs
-            vue: 'vue/dist/vue.js',
+            vue: production ? 'vue/dist/vue.min.js' : 'vue/dist/vue.js',
 
             // Resolve alias necessary to load vue components from TheCrow
             LesliCloud: path.resolve(__dirname, './app')
@@ -57,7 +69,9 @@ var webpackbase = {
         },
         extensions: [".js"]
     },
+
     module:{
+
         rules:[{
             test: /\.vue$/,
             loader: 'vue-loader'
@@ -82,16 +96,29 @@ var webpackbase = {
                     }
                 }
             ]
+        },{
+            test: /\.m?js$/,
+            exclude: /(node_modules|bower_components)/,
+            use: {
+                loader: 'babel-loader',
+                options: {
+                    presets: ['@babel/preset-env']
+                }
+            }
         }]
+
     },
+
     watchOptions: {
         poll: 1000,
         aggregateTimeout: 300,
         ignored: /node_modules/
     },
+
     plugins:[
         new VueLoaderPlugin()
     ]
+      
 }
 
 webpackConfig.push(webpackbase)
@@ -138,7 +165,7 @@ fs.readdirSync('./engines').forEach(engine => {
         webpackEngine.output.filename = `./engines/${engine}/app/assets/javascripts/${javascripts_engine_folder}/apps/[name].js`
 
         // Configuration object for every engine
-        webpackConfig.push(webpackEngine)
+        //webpackConfig.push(webpackEngine)
 
     }
 
