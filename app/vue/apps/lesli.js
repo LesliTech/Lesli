@@ -49,14 +49,12 @@ import functionDocument from 'LesliCloud/vue/functions/document'
 
 //  · Loading app layout
 // ~·~        ~·~        ~·~        ~·~        ~·~        ~·~        ~·~        ~·~        ~·~
-import componentLesliChatbox from 'LesliCloud/vue/components/chatbox.vue'
 import componentLayoutHeader from 'LesliCloud/vue/layout/header.vue'
-import componentLayoutSidenav from 'LesliCloud/vue/layout/sidenav.vue'
+import componentLesliChatbox from 'LesliCloud/vue/layout/chatbox.vue'
 
 
 //  · Loading apps, modules and components
 // ~·~        ~·~        ~·~        ~·~        ~·~        ~·~        ~·~        ~·~        ~·~
-
 
 
 // · Initializing frameworks, libraries and tools
@@ -75,12 +73,7 @@ let cloud = new Vue({
 
     components: {
         'component-layout-header': componentLayoutHeader,
-        'component-layout-sidenav': componentLayoutSidenav,
-        'component-lesli-chatbox': componentLesliChatbox
-    },
-
-    mounted() {
-        console.log("Default lesli app")
+        'component-layout-chatbox': componentLesliChatbox
     }
 
 })
