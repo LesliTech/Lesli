@@ -12,12 +12,12 @@ Rails.application.routes.draw do
         get "/register" => "users/registrations#new"
         get "/password" => "users/passwords#new"
 
-        authenticated  do
-            root to: 'cloud_lesli/dashboards#simple'
+        authenticated do
+            root to: 'cloud_lesli/dashboards#simple', as: :root_authenticated
         end
 
         unauthenticated do
-            root to: 'websites#landing'
+            root to: 'websites#landing', as: :root_unauthenticated
         end
         
     end
@@ -29,7 +29,7 @@ Rails.application.routes.draw do
         resources :account_plans
 
         #mount TestEngine::Engine => "/testengine"
-        mount CloudTeam::Engine => "/team"
+        #mount CloudTeam::Engine => "/team"
         #mount CloudPanel::Engine => "/panel"
         mount CloudLesli::Engine => "/lesli"
 
