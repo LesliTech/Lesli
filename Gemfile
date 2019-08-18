@@ -33,7 +33,7 @@ git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 ruby '2.5.1'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
-gem 'rails', '~> 5.2.3'
+gem 'rails', '~> 6.0.0'
 
 # Use postgresql as the database for Active Record
 gem 'pg', '>= 0.18', '< 2.0'
@@ -42,16 +42,14 @@ gem 'pg', '>= 0.18', '< 2.0'
 gem 'puma', '~> 3.11'
 
 # Use SCSS for stylesheets
-gem 'sass-rails', '~> 5.0'
-
-# Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
-gem 'jbuilder', '~> 2.5'
+gem 'sass-rails', '~> 5'
 
 # HAML template procesor
 gem 'haml-rails'
 
 # Devise gem use for authentication
-gem 'devise'
+#gem 'devise'
+gem 'devise', git: 'https://github.com/plataformatec/devise.git'
 
 # Add can can gem to authorization and roles permissions
 gem "cancan"
@@ -82,12 +80,10 @@ end
 
 group :development do
 
-    # Access an interactive console on exception pages or by calling 'console' anywhere in the code.
     gem 'web-console', '>= 3.3.0'
 
     gem 'listen', '>= 3.0.5', '< 3.2'
     
-    # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
     gem 'spring'
 
     gem 'spring-watcher-listen', '~> 2.0.0'
@@ -113,9 +109,9 @@ gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 
 #gem 'test_engine', path: 'engines/test_engine'
 
-gem 'cloud_panel', path: 'engines/CloudPanel'
+#gem 'cloud_panel', path: 'engines/CloudPanel'
 
-gem 'cloud_team', path: 'engines/CloudTeam'
+#gem 'cloud_team', path: 'engines/CloudTeam'
 
 #gem 'cloud_driver', path: 'engines/CloudDriver'
 
