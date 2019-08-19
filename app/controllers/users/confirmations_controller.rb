@@ -18,10 +18,10 @@ class Users::ConfirmationsController < Devise::ConfirmationsController
 
         registration = UserServices::Registration.complete_registration(token)
 
-        if registration.successful
+        if registration[:successful]
             redirect_to root_path, notice: "User confirmed"
         else
-            redirect_to register_path, error: user.errors.full_messages[0]
+            redirect_to register_path, error: registration.errors
         end
 
     end
