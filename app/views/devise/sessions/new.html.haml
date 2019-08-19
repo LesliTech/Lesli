@@ -1,22 +1,22 @@
 %section
     %a.logo{:href => root_path}
-        %img{:alt => "LesliCloud logo", :src => "https://cdn.lesli.tech/leslicloud/brand/leslicloud_isotipo-nomargin.png"}/
+        %img{:alt => "LesliCloud logo", :src => "/assets/brand/leslicloud-logo.svg"}/
 
     = form_for(resource, as: resource_name, url: session_path(resource_name)) do |f|
-        .input-group
-            .input-group-prepend
-                .input-group-text
-                    %i.fas.fa-user
-            = f.label :email, class: "sr-only"
-            = f.email_field :email, autocomplete: "email", class: "form-control", placeholder: "Username"
 
-        .input-group
-            .input-group-prepend
-                .input-group-text
-                    %i.fas.fa-key
-            = f.label :password, class: "sr-only"
-            = f.password_field :password, autocomplete: "current-password", class: "form-control", placeholder: "Password"
-            
-        = f.submit "Log in", class: "btn btn-primary"
+        .field
+            %p.control.has-icons-left.has-icons-right
+                %input.input{:type => "email", :placeholder => "Username"}
+                %span.icon.is-small.is-left
+                    %i.fas.fa-envelope
+
+        .field
+            %p.control.has-icons-left
+                %input.input{:type => "password", :placeholder => "Password"}
+                %span.icon.is-small.is-left
+                    %i.fas.fa-lock
+
+        = f.submit "Log in", class: "button is-primary"
+
     .links
         = render "devise/shared/links"
