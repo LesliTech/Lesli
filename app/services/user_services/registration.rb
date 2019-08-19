@@ -7,19 +7,21 @@ module UserServices
             user = User.find_by(confirmation_token: confirmation_token)
 
             if user.confirmed?
-                return redirect_to login_path, notice: "User confirmed";
+                return {
+                    successful: true
+                }
             end
 
             # create account
             account = Account.where("users_id = ?", user.id).first_or_create({
                 user: user,
-                account_plans_id: 1
+                account_plans_id: 0 # trial account by default
             })
-            
+
             if !account.save
                 return {
                     successful: false,
-                    errors: errors.full_messages.to_sentence
+                    errors: account.errors.full_messages.to_sentence
                 }
             end
 
@@ -29,7 +31,7 @@ module UserServices
             if !user.save
                 return {
                     successful: false,
-                    errors: errors.full_messages.to_sentence
+                    errors: user.errors.full_messages.to_sentence
                 }
             end
 
