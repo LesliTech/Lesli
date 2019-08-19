@@ -18,6 +18,7 @@ Rails.application.routes.draw do
 
         unauthenticated do
             root to: 'websites#landing', as: :root_unauthenticated
+            root to: 'websites#landing'
         end
         
     end
