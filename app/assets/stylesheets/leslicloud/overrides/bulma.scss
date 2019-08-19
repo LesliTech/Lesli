@@ -22,24 +22,26 @@ Building a better future, one line of code at a time.
 @version  GIT: 0.1.0 alpha
 
 //  · 
-// ~·~        ~·~        ~·~        ~·~        ~·~        ~·~        ~·~        ~·~        ~·~
+// ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
 */
 
+@import "bulma/sass/utilities/_all";
 
-//  · Font families
-// ~·~        ~·~        ~·~        ~·~        ~·~        ~·~        ~·~        ~·~        ~·~
-$lesli-font: (
+// Set your colors
+$primary: lesli-color(lesli, primary);
+$primary-invert: findColorInvert(lesli-color(lesli, primary));
 
-    weight: (
-        light: 300,
-        normal: 400,
-        bold: 600
-    )
 
+// Setup $colors to use as bulma classes (e.g. 'is-twitter')
+$colors: (
+    "primary": ($primary, $primary-invert)
 );
 
+// Links
+$link: $primary;
+$link-invert: $primary-invert;
+$link-focus-border: $primary;
 
-// · Font families
-// · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
-$lesli-font-family-body: 'Open Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif;
-$lesli-font-family-title: 'Montserrat', $lesli-font-family-body
+// Import Bulma and Buefy styles
+@import "bulma/bulma.sass";
+@import "buefy/src/scss/buefy";

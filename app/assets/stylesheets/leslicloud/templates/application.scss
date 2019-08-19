@@ -28,24 +28,22 @@ Building a better future, one line of code at a time.
 
 // · Theme bootstraping
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
-
-/*
+@import "lesli-css/";
 @import "leslicloud/settings/variables.scss";
 @import "leslicloud/settings/functions.scss";
-*/
-/*
-@import "lesli-css";
 @import "leslicloud/settings/fonts.scss";
-//@import "leslicloud/overrides/bootstrap.scss";
-//@import "leslicloud/overrides/bootstrap-content";
+@import "leslicloud/overrides/bulma.scss";
 
 
 // · Loading components
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
+/*
 @import "leslicloud/layout/application_header";
 @import "leslicloud/layout/application_sidenav";
 @import "leslicloud/layout/application_module_navigation";
 @import "leslicloud/components/application_chatbox";
+*/
+
 
 
 // · 
@@ -70,4 +68,3 @@ body {
     }
 
 }
-*/

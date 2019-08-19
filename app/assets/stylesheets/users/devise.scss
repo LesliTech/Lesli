@@ -24,13 +24,19 @@ Building a better future, one line of code at a time.
 //  · Public website template
 // ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
 */
-/*
+
+
+//  · 
+// ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
 @import "leslicloud/templates/application.scss";
 
 
 //  · Login container
 section {
-    background: linear-gradient(rgba(lesli-color(standard, white),.75),rgba(lesli-color(standard, white),.75));
+    background: 
+        linear-gradient(
+            rgba(lesli-color(standard, white),.75),
+            rgba(lesli-color(standard, white),.75));
     background-repeat: no-repeat;
     background-position: center;
     background-size: cover;
@@ -41,8 +47,8 @@ section {
     justify-content: center;
 
     img {
-        width: 125px;
-        margin-bottom: .5rem;
+        width: 200px;
+        margin-bottom: -15px;
     }
 
     p.form-msg-error {
@@ -61,42 +67,28 @@ section {
         margin: 0 auto;
         max-width: 350px;
         text-align: center;
-        //border-radius: 2px;
+        border-radius: 2px;
         padding-top: 2rem;
         background-color: rgba(lesli-color(standard, white), 1);
 
-        .input-group {
-            padding: 0 3rem 1.8rem;
+        .field {
+            padding: 0 2.4rem 1.8rem;
 
-            .input-group-text {
-                background-color: lesli-color(standard, white);
-            }
-
-            .input-group-text,
-            input.form-control {
+            input.input {
                 border: none;
+                box-shadow: none;
                 border-radius: 0;
                 border-bottom: 1px solid lesli-color(silver);
-                //background-color: $color-white;
-                //color: $color-gray-700;
-                //margin-bottom: 2rem;
-                //padding: .6rem 5px;
             }
-        }
 
-        .form-check {
-            padding: 0;
-            margin: 0 auto 1rem;
         }
 
         // login button
         input[type="submit"] {
-            color: lesli-color(standard, white);
-            padding: 1rem 0rem;
-            display: block;
-            border: none;
-            width: 100%;
             border-radius: 0 0 2px 2px;
+            display: block;
+            width: 100%;
+            padding: 0.8rem 0rem 2.2rem;
 
             &:hover {
                 cursor: pointer;
@@ -118,4 +110,3 @@ section {
     }
 
 }
-*/
