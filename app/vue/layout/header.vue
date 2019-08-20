@@ -63,7 +63,7 @@ export default {
                     <div class="navbar-item">
 
                         <div class="navbar-item has-dropdown is-hoverable">
-                            <a class="navbar-link">
+                            <a class="navbar-link is-arrowless">
                                 <i class="fas fa-bell"></i>
                             </a>
                             <div class="navbar-dropdown is-boxed">
@@ -74,7 +74,7 @@ export default {
                         </div>
 
                         <div class="navbar-item has-dropdown is-hoverable">
-                            <a class="navbar-link" href="https://bulma.io/documentation/overview/start/">
+                            <a class="navbar-link is-arrowless" href="https://bulma.io/documentation/overview/start/">
                                 <figure class="image">
                                     <img class="is-rounded" src="https://placekitten.com/g/30/30" alt="profile thumbnail">
                                 </figure>
