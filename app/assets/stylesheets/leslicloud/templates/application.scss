@@ -63,9 +63,8 @@ body {
 // · 
 #lesli-cloud-app {
 
-    & > .container-fluid {
-        margin-top: 20px;
-        margin-bottom: 15px;
+    & > .container.is-fluid {
+        margin: 20px;
     }
 
 }
