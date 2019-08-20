@@ -4,6 +4,18 @@ PATH
     cloud_lesli (0.1.0)
       rails (~> 6.0.0)
 
+PATH
+  remote: engines/CloudPanel
+  specs:
+    cloud_panel (0.1.0)
+      rails (~> 6.0.0)
+
+PATH
+  remote: engines/CloudTeam
+  specs:
+    cloud_team (0.1.0)
+      rails (~> 6.0.0)
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -228,6 +240,8 @@ DEPENDENCIES
   cancan
   carrierwave
   cloud_lesli!
+  cloud_panel!
+  cloud_team!
   devise
   faker
   haml-rails
