@@ -27,7 +27,7 @@ class Users::RegistrationsController < Devise::RegistrationsController
         if user.save
             redirect_to root_path, notice: "Check your email to confirm your account"
         else
-            redirect_to register_path, error: user.errors.full_messages[0]
+            redirect_to register_path, error: user.errors.full_messages.to_sentence
         end
         
     end
