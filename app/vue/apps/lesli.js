@@ -30,7 +30,6 @@ Building a better future, one line of code at a time.
 // ~·~        ~·~        ~·~        ~·~        ~·~        ~·~        ~·~        ~·~        ~·~
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import VueBootstrap from 'bootstrap-vue'
 
 
 //  · Loading app plugins

@@ -34,14 +34,14 @@ var TerserPlugin = require('terser-webpack-plugin')
 var VueLoaderPlugin = require('vue-loader/lib/plugin')
 var webpackConfig = []
 
-var production = true
+var production = !true
 
 // · 
 var webpackbase = {
     watch: !production,
     mode: production ? "production" : "development",
     performance: { hints: production ? "warning" : false },
-    optimization: !production ? false :  {
+    optimization: !production ? { minimize: false } :  {
         minimizer: [
             new TerserPlugin({
                 terserOptions: {
@@ -165,7 +165,7 @@ fs.readdirSync('./engines').forEach(engine => {
         webpackEngine.output.filename = `./engines/${engine}/app/assets/javascripts/${javascripts_engine_folder}/apps/[name].js`
 
         // Configuration object for every engine
-        //webpackConfig.push(webpackEngine)
+        webpackConfig.push(webpackEngine)
 
     }
 

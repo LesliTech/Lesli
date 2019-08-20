@@ -28,48 +28,72 @@ export default {
 </script>
 <template>
     <header>
+
         <!-- User navigation area -->
-        <b-navbar toggleable="sm">
+        <nav class="navbar is-transparent">
 
-            <!-- Assistant controls -->
-            <b-collapse is-nav class="assistant" id="1">
-                <button type="button" class="btn btn-link" @click="emitSidenavShow">
-                    <i class="fas fa-bars"></i>
-                </button>
-                <b-button size="sm" type="submit" >
-                    <i class="fas fa-microphone"></i>
-                </b-button>
-                <form v-on:submit.prevent="emitChatbotIntent()">
-                    <input v-model="chatbotIntent" type="text" placeholder="Hello, how can I help you today? :)">
-                </form>
-            </b-collapse>
+            <div id="header-main-navbar" class="navbar-menu">
 
-            <!-- Brand container -->
-            <b-navbar-brand href="/">
-                <img alt="LesliCloud logo" src="/assets/brand/leslicloud-logo.svg" />
-            </b-navbar-brand>
+                <!-- Assistant controls -->
+                <div class="navbar-start">
 
-            <!-- User navigation -->
-            <b-collapse is-nav id="navigation_user">
-                <b-navbar-nav class="ml-auto">
-                    <b-nav-item-dropdown right> 
-                        <template slot="button-content">
-                            <i class="fas fa-bell"></i>
-                        </template>
-                        <b-dropdown-item href="#"></b-dropdown-item>
-                        <b-dropdown-item href="#"></b-dropdown-item>
-                    </b-nav-item-dropdown>
-                    <b-nav-item-dropdown right> 
-                        <template slot="button-content">
-                            <img src="https://placekitten.com/g/30/30" alt="BV">
-                        </template>
-                        <b-dropdown-item href="#">Profile</b-dropdown-item>
-                    </b-nav-item-dropdown>
-                    <b-nav-item href="urlTo('login', 'auth')">
-                        <i class="fas fa-sign-out-alt"></i>
-                    </b-nav-item>
-                </b-navbar-nav>
-            </b-collapse>
-        </b-navbar>
+                    <button type="button" class="button is-white" @click="emitSidenavShow">
+                        <i class="fas fa-bars"></i>
+                    </button>
+
+                    <button type="button" class="button is-white">
+                        <i class="fas fa-microphone"></i>
+                    </button>
+
+                    <form v-on:submit.prevent="emitChatbotIntent()">
+                        <input class="input" v-model="chatbotIntent" type="text" placeholder="Hello, how can I help you today? :)">
+                    </form>
+                    
+                </div>
+
+                <!-- Brand container -->
+                <div class="navbar-brand">
+                    <a class="navbar-item" href="/">
+                        <img alt="LesliCloud logo" src="/assets/brand/leslicloud-logo.svg" />
+                    </a>
+                </div>
+
+                <!-- User navigation -->
+                <div class="navbar-end">
+                    <div class="navbar-item">
+
+                        <div class="navbar-item has-dropdown is-hoverable">
+                            <a class="navbar-link">
+                                <i class="fas fa-bell"></i>
+                            </a>
+                            <div class="navbar-dropdown is-boxed">
+                                <a class="navbar-item" href="https://bulma.io/documentation/overview/start/">
+                                    Notification
+                                </a>
+                            </div>
+                        </div>
+
+                        <div class="navbar-item has-dropdown is-hoverable">
+                            <a class="navbar-link" href="https://bulma.io/documentation/overview/start/">
+                                <figure class="image">
+                                    <img class="is-rounded" src="https://placekitten.com/g/30/30" alt="profile thumbnail">
+                                </figure>
+                            </a>
+                            <div class="navbar-dropdown is-boxed">
+                                <a class="navbar-item" href="https://bulma.io/documentation/overview/start/">
+                                    Profile
+                                </a>
+                            </div>
+                        </div>
+
+                        <a class="navbar-item" href="/logout">
+                            <i class="fas fa-sign-out-alt"></i>
+                        </a>
+
+                    </div>
+                </div>
+            </div>
+        </nav>
+
     </header>
 </template>
