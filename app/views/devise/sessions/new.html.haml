@@ -6,13 +6,15 @@
 
         .field
             %p.control.has-icons-left
-                %input.input{:type => "email", :placeholder => "Username"}
+                = f.label :email, class: "sr-only"
+                = f.email_field :email, autocomplete: "email", class: "input", placeholder: "Username"
                 %span.icon.is-small.is-left
                     %i.fas.fa-envelope
 
         .field
             %p.control.has-icons-left
-                %input.input{:type => "password", :placeholder => "Password"}
+                = f.label :password, class: "sr-only"
+                = f.password_field :password, autocomplete: "current-password", class: "input", placeholder: "Password"
                 %span.icon.is-small.is-left
                     %i.fas.fa-lock
 

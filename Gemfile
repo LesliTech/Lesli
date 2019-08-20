@@ -49,7 +49,7 @@ gem 'haml-rails'
 
 # Devise gem use for authentication
 #gem 'devise'
-gem 'devise', git: 'https://github.com/plataformatec/devise.git'
+gem 'devise' #, git: 'https://github.com/plataformatec/devise.git'
 
 # Add can can gem to authorization and roles permissions
 gem "cancan"
