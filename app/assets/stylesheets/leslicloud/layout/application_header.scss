@@ -29,98 +29,62 @@ header {
     background-color: lesli-color(standard, white);
     box-shadow: 
         0 8px 10px -9px rgba(0,0,0,.05), 
-        0 3px 14px 2px rgba(0,0,0,.01), 
-        0 5px 5px -3px  rgba(0,0,0,.05);
+        0 3px 14px  2px rgba(0,0,0,.01), 
+        0 5px 5px  -3px rgba(0,0,0,.05);
 
     // top navigation bar
     nav.navbar {
         padding: 0 1rem;
 
-        .navbar-collapse {
-            flex-grow: 1;
-            flex-basis: 0;
+        #header-main-navbar {
+            justify-content: space-between;
         }
-            
-        // assistant controllers
-        .assistant {
+
+        // this helps to keep brand in the center of the navbar
+        .navbar-start,
+        .navbar-end,
+        .navbar-brand {
+            flex: 1;
+            display: flex;
+        }
+
+        // Assistant controls
+        .navbar-start {
+            align-items: center;
 
             button {
                 border: none;
-                margin-right: 5px;
-                background-color: lesli-color(standard, white);
-                i {
-                    font-size: 1.4rem;
-                    color: lesli-color(black, 100);
-                }
-                &:active{
-                    border: none;
-                }
-            }
-
-            form,
-            input {
-                width: 100%;
+                font-size: 1.3rem;
             }
 
             input{
                 border: none;
-                border-radius: 0;
+                box-shadow: none;
+                border-bottom: 1px solid lesli-color(silver, 100);
             }
 
         }
 
-        // brand items
-        .navbar-brand{
-            padding: 0;
-                    
-            // Main logo
-            img {
-                width: 100px;
+        // Brand container  
+        .navbar-brand {
+            justify-content: center;
+
+            a {
+                padding: 0;
+
+                img {
+                    max-height: 60px;
+                }
+
             }
 
         }
 
-        // user links
-        li.nav-item {
-            a.nav-link {
-                text-align: center;
-                color: lesli-color(silver);
-                i {
-                    font-size: 1.4rem;
-                    color: lesli-color(silver);
-                }
-            }
-        }
+        // User navigation
+        .navbar-end {
 
-        // user navigation menu
-        #navigation_user {
-
-            ul.navbar-nav {
-                
-                // icons | bell | exit
-                li:nth-child(1),
-                li:nth-child(3){
-                    padding-top: 6px;
-                }
-
-                i {
-                    color: lesli-color(black);
-                }
-
-            }
-
-            // user options
-            li.dropdown {
-
-                a.dropdown-toggle {
-                    &::after {
-                        display: none;
-                    }
-                    img {
-                        border-radius: 50%;
-                    }
-                }
-
+            i {
+                font-size: 1.3rem;
             }
 
         }
