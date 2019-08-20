@@ -1,0 +1,16 @@
+%section
+    %a.logo{:href => root_path}
+        %img{:alt => "LesliCloud logo", :src => "/assets/brand/leslicloud-logo.svg"}/
+
+    = form_for(resource, as: resource_name, url: confirmation_path(resource_name), html: { method: :post }) do |f|
+
+        .field
+            %p.control.has-icons-left
+                = f.label :email, class: "sr-only"
+                = f.email_field :email, autofocus: true, autocomplete: "email", class: "input", value: (resource.pending_reconfirmation? ? resource.unconfirmed_email : resource.email)
+                %span.icon.is-small.is-left
+                    %i.fas.fa-envelope
+            
+        = f.submit "Resend confirmation instructions", class: "button is-primary"
+    .links
+        = render "devise/shared/links"
