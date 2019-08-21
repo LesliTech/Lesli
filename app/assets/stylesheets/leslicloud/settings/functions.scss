@@ -19,29 +19,15 @@ Building a better future, one line of code at a time.
 @dev      Luis Donis <ldonis@lesli.tech>
 @author   LesliTech <hello@lesli.tech>
 @license  Propietary - all rights reserved.
-@version  GIT: 0.1.0 alpha
+@version  0.1.0-alpha
 
-//  · Functions
-// ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
+// · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
+// · 
 */
 
 
-//  · 
-// ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
-/*
-@function lesli-color($pallete, $variant: 500) {
-
-    $pallete: map-get($lesli-colors, $pallete);
-
-    $color: map-get($pallete, $variant);
-
-    @return $color;
-
-}
-*/
-
-//  · 
-// ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
+// · 
+// · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
 @function lesli-font($property, $selector) {
 
     @if $property == "family" {
