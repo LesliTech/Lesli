@@ -32,144 +32,155 @@ var fs = require('fs')
 var path = require('path')  
 var TerserPlugin = require('terser-webpack-plugin')
 var VueLoaderPlugin = require('vue-loader/lib/plugin')
+var webpack = require("webpack");
 var webpackConfig = []
 
-var production = !true
+function webpackConfigBuilder(compilationMode) {
 
-// · 
-var webpackbase = {
-    watch: !production,
-    mode: production ? "production" : "development",
-    performance: { hints: production ? "warning" : false },
-    optimization: !production ? { minimize: false } :  {
-        minimizer: [
-            new TerserPlugin({
-                terserOptions: {
-                    output: {
-                        comments: false
+    var production = compilationMode == "production" ? true : false
+
+    // · 
+    var webpackbase = {
+        watch: !production,
+        mode: production ? "production" : "development",
+        performance: { hints: false },
+        optimization: !production ? { minimize: false } :  {
+            minimizer: [
+                new TerserPlugin({
+                    terserOptions: {
+                        output: {
+                            comments: false
+                        }
+                    }
+                })
+            ]
+        },
+        entry: {"lesli": "./app/vue/apps/lesli.js",},
+        output: {
+            path: __dirname,
+            filename: "app/assets/javascripts/[name].js"
+        },
+        resolve: {
+            alias: {
+
+                // resolve vuejs
+                vue: production ? 'vue/dist/vue.min.js' : 'vue/dist/vue.js',
+
+                // Resolve alias necessary to load vue components from LesliClouds
+                LesliCloud: path.resolve(__dirname, './app')
+
+            },
+            extensions: [".js"]
+        },
+
+        module:{
+
+            rules:[{
+                test: /\.vue$/,
+                loader: 'vue-loader'
+            },{
+                test: /\.css$/,
+                use: [
+                    'style-loader', // creates style nodes from JS strings
+                    'css-loader',   // translates CSS into CommonJS
+                ]
+            },{
+                test: /\.scss$/,
+                use: [
+                    'style-loader', // creates style nodes from JS strings
+                    'css-loader',   // translates CSS into CommonJS
+                    {
+                        loader: 'sass-loader', // compiles Sass to CSS, using Node Sass by default
+                        options: {
+                            data: '@import "component.scss";',
+                            includePaths: [
+                                path.resolve(__dirname, "TheCrow/scss/")
+                            ]
+                        }
+                    }
+                ]
+            },{
+                test: /\.m?js$/,
+                exclude: /(node_modules|bower_components)/,
+                use: {
+                    loader: 'babel-loader',
+                    options: {
+                        presets: ['@babel/preset-env']
                     }
                 }
-            })
-        ]
-    },
-    entry: {"lesli": "./app/vue/apps/lesli.js",},
-    output: {
-        path: __dirname,
-        filename: "app/assets/javascripts/[name].js"
-    },
-    resolve: {
-        alias: {
-
-            // resolve vuejs
-            vue: production ? 'vue/dist/vue.min.js' : 'vue/dist/vue.js',
-
-            // Resolve alias necessary to load vue components from TheCrow
-            LesliCloud: path.resolve(__dirname, './app')
+            }]
 
         },
-        extensions: [".js"]
-    },
 
-    module:{
+        watchOptions: {
+            poll: 1000,
+            aggregateTimeout: 300,
+            ignored: /node_modules/
+        },
 
-        rules:[{
-            test: /\.vue$/,
-            loader: 'vue-loader'
-        },{
-            test: /\.css$/,
-            use: [
-                'style-loader', // creates style nodes from JS strings
-                'css-loader',   // translates CSS into CommonJS
-            ]
-        },{
-            test: /\.scss$/,
-            use: [
-                'style-loader', // creates style nodes from JS strings
-                'css-loader',   // translates CSS into CommonJS
-                {
-                    loader: 'sass-loader', // compiles Sass to CSS, using Node Sass by default
-                    options: {
-                        data: '@import "component.scss";',
-                        includePaths: [
-                            path.resolve(__dirname, "TheCrow/scss/")
-                        ]
-                    }
-                }
-            ]
-        },{
-            test: /\.m?js$/,
-            exclude: /(node_modules|bower_components)/,
-            use: {
-                loader: 'babel-loader',
-                options: {
-                    presets: ['@babel/preset-env']
-                }
-            }
-        }]
-
-    },
-
-    watchOptions: {
-        poll: 1000,
-        aggregateTimeout: 300,
-        ignored: /node_modules/
-    },
-
-    plugins:[
-        new VueLoaderPlugin()
-    ]
-      
-}
-
-webpackConfig.push(webpackbase)
-
-// · get engines
-fs.readdirSync('./engines').forEach(engine => {
-
-    let webpackEngine = Object.assign({}, webpackbase)
-    webpackEngine.output = Object.assign({}, webpackbase.output)
-    webpackEngine.output.filename = "app/assets/javascripts/apps/[name].js"
-    webpackEngine.entry = {}
-
-    // remove entries from previous engine
-    webpackEngine.entry = {}
-    webpackEngine.output.filename = ""
-    
-    // if engine is not a dir
-    if (['.gitkeep'].includes(engine)) {
-        return
+        plugins:[
+            new VueLoaderPlugin(),
+            new webpack.DefinePlugin({
+                leslicloud_app_mode_production: JSON.stringify(production),
+                leslicloud_app_mode_development: JSON.stringify(!production)
+            })
+        ]
+        
     }
 
-    // get app directories
-    fs.readdirSync(path.join('./engines', engine, 'app', 'vue')).forEach(app => {
+    webpackConfig.push(webpackbase)
 
-        // get app files
-        fs.readdirSync(path.join('./engines', engine, 'app', 'vue', app)).forEach(file => {
+    // · get engines
+    fs.readdirSync('./engines').forEach(engine => {
 
-            let filePath = './'+path.join('./engines', engine, 'app', 'vue', app, file)
-            let fileName = [app, file].join('-').replace('.js','')
+        let webpackEngine = Object.assign({}, webpackbase)
+        webpackEngine.output = Object.assign({}, webpackbase.output)
+        webpackEngine.output.filename = "app/assets/javascripts/apps/[name].js"
+        webpackEngine.entry = {}
 
-            webpackEngine.entry[fileName] = filePath
+        // remove entries from previous engine
+        webpackEngine.entry = {}
+        webpackEngine.output.filename = ""
+        
+        // if engine is not a dir
+        if (['.gitkeep'].includes(engine)) {
+            return
+        }
+
+        // get app directories
+        fs.readdirSync(path.join('./engines', engine, 'app', 'vue')).forEach(app => {
+
+            // get app files
+            fs.readdirSync(path.join('./engines', engine, 'app', 'vue', app)).forEach(file => {
+
+                let filePath = './'+path.join('./engines', engine, 'app', 'vue', app, file)
+                let fileName = [app, file].join('-').replace('.js','')
+
+                webpackEngine.entry[fileName] = filePath
+
+            })
 
         })
+        
+        if (Object.keys(webpackEngine.entry).length > 0) {
+
+            // javascripts engine folder
+            let javascripts_engine_folder = engine.replace(/[\w]([A-Z])/g, function(m) { return m[0] + "_" + m[1]; })
+            javascripts_engine_folder = javascripts_engine_folder.toLowerCase()
+
+            // set new output to engine app folder
+            webpackEngine.output.filename = `./engines/${engine}/app/assets/javascripts/${javascripts_engine_folder}/apps/[name].js`
+
+            // Configuration object for every engine
+            webpackConfig.push(webpackEngine)
+
+        }
 
     })
-    
-    if (Object.keys(webpackEngine.entry).length > 0) {
 
-        // javascripts engine folder
-        let javascripts_engine_folder = engine.replace(/[\w]([A-Z])/g, function(m) { return m[0] + "_" + m[1]; })
-        javascripts_engine_folder = javascripts_engine_folder.toLowerCase()
+    return webpackConfig
 
-        // set new output to engine app folder
-        webpackEngine.output.filename = `./engines/${engine}/app/assets/javascripts/${javascripts_engine_folder}/apps/[name].js`
-
-        // Configuration object for every engine
-        webpackConfig.push(webpackEngine)
-
-    }
-
-})
+}
 
 // · 
-module.exports = webpackConfig
+module.exports = webpackConfigBuilder
