@@ -42,7 +42,8 @@
 
     },
     "scripts": {
-        "webpack": "webpack --progress"
+        "webpack": "webpack --progress --env=development",
+        "webpack-production": "webpack --progress --env=production"
     }
     
 }
