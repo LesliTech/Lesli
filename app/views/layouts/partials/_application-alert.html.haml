@@ -1,4 +1,8 @@
 - if notice
-    %p.alert.alert-success= notice
+    .notification.is-primary
+        %button.delete
+        %p= notice
 - if alert
-    %p.alert.alert-danger= alert
+    .notification.is-warning
+        %button.delete
+        %p= alert
