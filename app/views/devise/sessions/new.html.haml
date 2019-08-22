@@ -2,6 +2,8 @@
     %a.logo{:href => root_path}
         %img{:alt => "LesliCloud logo", :src => "/assets/brand/leslicloud-logo.svg"}/
 
+    = render 'layouts/partials/application-alert'
+
     = form_for(resource, as: resource_name, url: session_path(resource_name)) do |f|
 
         .field
