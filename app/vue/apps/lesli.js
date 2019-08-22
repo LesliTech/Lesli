@@ -61,7 +61,6 @@ Vue.use(pluginBus)
 Vue.use(pluginUrl)
 Vue.use(pluginHttp)
 Vue.use(pluginDebug)
-Vue.use(VueBootstrap)
 
 
 // · LesliCloud app
