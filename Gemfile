@@ -116,3 +116,7 @@ gem 'cloud_team', path: 'engines/CloudTeam'
 #gem 'cloud_driver', path: 'engines/CloudDriver'
 
 gem 'cloud_lesli', path: 'engines/CloudLesli'
+
+gem 'cloud_courier', path: 'engines/CloudCourier'
+
+gem 'cloud_bell', path: 'engines/CloudBell'

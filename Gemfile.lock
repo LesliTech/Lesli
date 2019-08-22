@@ -1,4 +1,16 @@
 PATH
+  remote: engines/CloudBell
+  specs:
+    cloud_bell (0.1.0)
+      rails (~> 6.0.0)
+
+PATH
+  remote: engines/CloudCourier
+  specs:
+    cloud_courier (0.1.0)
+      rails (~> 6.0.0)
+
+PATH
   remote: engines/CloudLesli
   specs:
     cloud_lesli (0.1.0)
@@ -239,6 +251,8 @@ DEPENDENCIES
   byebug
   cancan
   carrierwave
+  cloud_bell!
+  cloud_courier!
   cloud_lesli!
   cloud_panel!
   cloud_team!
