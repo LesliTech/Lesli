@@ -50,15 +50,8 @@ section {
         margin-bottom: -15px;
     }
 
-    p.form-msg-error {
-        width: 90%;
-        max-width: 350px;
-        text-align: center;
-        color: lesli-color(standard, white);
-        padding: 4px 0;
-        margin: 0rem auto .4rem;
-        //border: 1px solid $color-red;
-        //background-color: rgba($color-red, .8);
+    .notification:not(:last-child) {
+        margin-bottom: 0.6rem;
     }
 
     form {
