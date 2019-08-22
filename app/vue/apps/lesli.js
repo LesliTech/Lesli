@@ -75,4 +75,11 @@ let cloud = new Vue({
 })
 
 // · 
-functionDocument.ready(() => cloud.$mount("#lesli-cloud-app"))
+functionDocument.ready(() => {
+
+    cloud.$mount("#lesli-cloud-app")
+
+    if (leslicloud_app_mode_production) debug.userWarningMessage()
+    if (leslicloud_app_mode_development) debug.info("Dashboard simple", "CloudLesli")
+    
+})
