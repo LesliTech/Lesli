@@ -120,3 +120,15 @@ gem 'cloud_lesli', path: 'engines/CloudLesli'
 gem 'cloud_courier', path: 'engines/CloudCourier'
 
 gem 'cloud_bell', path: 'engines/CloudBell'
+
+gem 'cloud_leaf', path: 'engines/CloudLeaf'
+
+gem 'cloud_driver', path: 'engines/CloudDriver'
+
+gem 'cloud_chaos', path: 'engines/CloudChaos'
+
+gem 'cloud_books', path: 'engines/CloudBooks'
+
+gem 'cloud_help', path: 'engines/CloudHelp'
+
+gem 'cloud_lock', path: 'engines/CloudLock'
