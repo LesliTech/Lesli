@@ -147,6 +147,10 @@ function webpackConfigBuilder(compilationMode) {
             return
         }
 
+        if (!fs.existsSync(path.join('./engines', engine, 'app', 'vue'))) {
+            return
+        }
+
         // get app directories
         fs.readdirSync(path.join('./engines', engine, 'app', 'vue')).forEach(app => {
 
