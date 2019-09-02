@@ -1,0 +1,19 @@
+%h1 Listing company_roles
+
+%table
+  %thead
+    %tr
+      %th
+      %th
+      %th
+
+  %tbody
+    - @company_roles.each do |company_role|
+      %tr
+        %td= link_to 'Show', company_role
+        %td= link_to 'Edit', edit_company_role_path(company_role)
+        %td= link_to 'Destroy', company_role, method: :delete, data: { confirm: 'Are you sure?' }
+
+%br
+
+= link_to 'New Role', new_company_role_path

@@ -39,10 +39,11 @@ export default {
 
                 url = new URL(url, leslicloud_request.root_url)
 
-                window.location.replace(url.href);
                 window.location.href = url.href;
 
-                return
+                if (window.location.hash != '#/' && window.location.hash.startsWith('#/')) {
+                    location.reload()
+                }
 
             },
 

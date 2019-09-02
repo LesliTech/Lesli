@@ -30,9 +30,9 @@ Building a better future, one line of code at a time.
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
 var fs = require('fs')
 var path = require('path')  
+var webpack = require("webpack")
 var TerserPlugin = require('terser-webpack-plugin')
 var VueLoaderPlugin = require('vue-loader/lib/plugin')
-var webpack = require("webpack");
 var webpackConfig = []
 
 function webpackConfigBuilder(compilationMode) {
@@ -66,25 +66,25 @@ function webpackConfigBuilder(compilationMode) {
                 // resolve vuejs
                 vue: production ? 'vue/dist/vue.min.js' : 'vue/dist/vue.js',
 
-                // Resolve alias necessary to load vue components from LesliClouds
+                // Resolve alias necessary to load vue components from LesliCloud
                 LesliCloud: path.resolve(__dirname, './app')
 
             },
             extensions: [".js"]
         },
 
-        module:{
+        module: {
 
             rules:[{
                 test: /\.vue$/,
                 loader: 'vue-loader'
-            },{
+            }, {
                 test: /\.css$/,
                 use: [
                     'style-loader', // creates style nodes from JS strings
                     'css-loader',   // translates CSS into CommonJS
                 ]
-            },{
+            }, {
                 test: /\.scss$/,
                 use: [
                     'style-loader', // creates style nodes from JS strings
@@ -94,12 +94,12 @@ function webpackConfigBuilder(compilationMode) {
                         options: {
                             data: '@import "component.scss";',
                             includePaths: [
-                                path.resolve(__dirname, "TheCrow/scss/")
+                                path.resolve(__dirname, "LesliCloud/scss/")
                             ]
                         }
                     }
                 ]
-            },{
+            }, {
                 test: /\.m?js$/,
                 exclude: /(node_modules|bower_components)/,
                 use: {
@@ -169,7 +169,8 @@ function webpackConfigBuilder(compilationMode) {
         if (Object.keys(webpackEngine.entry).length > 0) {
 
             // javascripts engine folder
-            let javascripts_engine_folder = engine.replace(/[\w]([A-Z])/g, function(m) { return m[0] + "_" + m[1]; })
+            //let javascripts_engine_folder = engine.replace(/[\w]([A-Z])/g, function(m) { return m[0] + "_" + m[1]; })
+            let javascripts_engine_folder = engine.replace(/[\w]([A-Z])/g, m => { return [m[0], m[1]].join("_") })
             javascripts_engine_folder = javascripts_engine_folder.toLowerCase()
 
             // set new output to engine app folder

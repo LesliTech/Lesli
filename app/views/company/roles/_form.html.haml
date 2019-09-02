@@ -1,0 +1,10 @@
+= form_for @company_role do |f|
+  - if @company_role.errors.any?
+    #error_explanation
+      %h2= "#{pluralize(@company_role.errors.count, "error")} prohibited this company_role from being saved:"
+      %ul
+        - @company_role.errors.full_messages.each do |message|
+          %li= message
+
+  .actions
+    = f.submit 'Save'

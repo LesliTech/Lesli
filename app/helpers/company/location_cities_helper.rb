@@ -1,0 +1,2 @@
+module Company::LocationCitiesHelper
+end

@@ -1,0 +1,19 @@
+%h1 Listing company_location_cities
+
+%table
+  %thead
+    %tr
+      %th
+      %th
+      %th
+
+  %tbody
+    - @company_location_cities.each do |company_location_city|
+      %tr
+        %td= link_to 'Show', company_location_city
+        %td= link_to 'Edit', edit_company_location_city_path(company_location_city)
+        %td= link_to 'Destroy', company_location_city, method: :delete, data: { confirm: 'Are you sure?' }
+
+%br
+
+= link_to 'New Location city', new_company_location_city_path

@@ -12,8 +12,8 @@
     },
     "devDependencies": {
 
-        "lesli-debug-message": "git@github.com:LesliTech/Lesli-Debug-Message.git#master",
-        "lesli-css": "git@github.com:LesliTech/LesliCSS.git#master",
+        "lesli-nodejs-debug-message": "git@github.com:LesliTech/lesli-nodejs-debug-message.git#master",
+        "lesli-css": "git@github.com:LesliTech/lesli-css.git#master",
 
         "@babel/core": "7.5.5",
         "@babel/preset-env": "7.5.5",
@@ -34,8 +34,8 @@
 
         "buefy": "0.8.2",
         "axios": "0.19",
-        "chart.js": "2.8.0",
         "dayjs": "1.8.15",
+        "chart.js": "2.8.0",
         "apexcharts": "3.8.4",
         "vue-apexcharts": "1.4.0",
         "v-calendar": "1.0.0-beta.16"
