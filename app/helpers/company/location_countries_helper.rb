@@ -1,0 +1,2 @@
+module Company::LocationCountriesHelper
+end

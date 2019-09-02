@@ -1,0 +1,19 @@
+%h1 Listing company_location_continents
+
+%table
+  %thead
+    %tr
+      %th
+      %th
+      %th
+
+  %tbody
+    - @company_location_continents.each do |company_location_continent|
+      %tr
+        %td= link_to 'Show', company_location_continent
+        %td= link_to 'Edit', edit_company_location_continent_path(company_location_continent)
+        %td= link_to 'Destroy', company_location_continent, method: :delete, data: { confirm: 'Are you sure?' }
+
+%br
+
+= link_to 'New Location continent', new_company_location_continent_path
