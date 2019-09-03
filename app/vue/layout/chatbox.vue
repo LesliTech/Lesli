@@ -11,11 +11,6 @@ export default {
     },
     mounted() {
 
-        for (let i = 0; i < 2; i++) {
-            this.intents.push({type:'intent',text:'My intent'})
-            this.intents.push({type:'response',text:'The response'})
-        }
-
         this.bus.$on('lesli.component.chatbox.postIntent', intent => {
             this.showchat=true
             this.openchat=true
@@ -37,7 +32,7 @@ export default {
             this.intents.push({type:'intent',text:this.intent})
             this.intent = ""
 
-            timeout = setTimeout(() => {
+            let timeout = setTimeout(() => {
                 this.intents.push({
                     type: 'response',
                     text: new Date()
@@ -55,19 +50,29 @@ export default {
 <template>
     <div class="chatbox" v-show="showchat">
         <div class="chat-header" @click="openchat=!openchat">
-            <ul class="nav">
-                <li class="nav-item">
-                    <a class="navbar-brand">
-                        LesliCloud 
+            <nav class="navbar" role="navigation" aria-label="main navigation">
+                <div class="navbar-brand">
+                    <a class="navbar-item">
+                        Lesli
                     </a>
-                </li>
-                <li class="nav-item" @click="openchat=!openchat">
-                    <a class="nav-link"><i class="fas fa-minus"></i></a>
-                </li>
-                <li class="nav-item" @click="showchat=!showchat">
-                    <i class="fas fa-times"></i>
-                </li>
-            </ul>
+                </div>
+                <div class="navbar-menu">
+                    <div class="navbar-start">
+                    </div>
+                    <div class="navbar-end">
+                        <div class="navbar-item">
+                            <div class="buttons">
+                                <a class="button is-white">
+                                    <i class="fas fa-minus"></i>
+                                </a>
+                                <a class="button is-white">
+                                    <i class="fas fa-times"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </nav>
         </div>
         <div class="chat-body" v-show="openchat">
              <div v-for="(intent, index) in intents" :key="index" :class="intent.type">
