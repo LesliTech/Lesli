@@ -62,10 +62,10 @@ export default {
                     <div class="navbar-end">
                         <div class="navbar-item">
                             <div class="buttons">
-                                <a class="button is-white">
+                                <a class="button is-white" @click="openchat=!openchat">
                                     <i class="fas fa-minus"></i>
                                 </a>
-                                <a class="button is-white">
+                                <a class="button is-white" @click="showchat=!showchat">
                                     <i class="fas fa-times"></i>
                                 </a>
                             </div>
