@@ -12,7 +12,7 @@ export default {
 
         emitSidenavShow() {
             clearTimeout(this.timer)
-            let el = document.getElementsByClassName('sidenav')[0]
+            let el = document.getElementsByTagName('aside')[0]
             el.classList.toggle('show')
             this.timer = setTimeout(() => el.classList.remove('show'), 4000)
         },

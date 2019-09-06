@@ -169,7 +169,6 @@ function webpackConfigBuilder(compilationMode) {
         if (Object.keys(webpackEngine.entry).length > 0) {
 
             // javascripts engine folder
-            //let javascripts_engine_folder = engine.replace(/[\w]([A-Z])/g, function(m) { return m[0] + "_" + m[1]; })
             let javascripts_engine_folder = engine.replace(/[\w]([A-Z])/g, m => { return [m[0], m[1]].join("_") })
             javascripts_engine_folder = javascripts_engine_folder.toLowerCase()
 
