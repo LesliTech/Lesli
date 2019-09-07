@@ -69,6 +69,6 @@ class AccountPlansController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def account_plan_params
-      params.fetch(:account_plan, {})
+      params.require(:account_plan).permit!
     end
 end

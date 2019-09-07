@@ -1,4 +1,5 @@
 = form_for @account_plan do |f|
+  = f.text_field :price
   - if @account_plan.errors.any?
     #error_explanation
       %h2= "#{pluralize(@account_plan.errors.count, "error")} prohibited this account_plan from being saved:"
