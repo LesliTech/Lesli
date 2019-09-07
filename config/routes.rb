@@ -1,27 +1,5 @@
 Rails.application.routes.draw do
 
-  resources :companies
-  namespace :company do
-    resources :location_cities
-  end
-  namespace :company do
-    resources :location_states
-  end
-  namespace :company do
-    resources :location_countries
-  end
-  namespace :company do
-    resources :location_continents
-  end
-  namespace :company do
-    resources :role_privileges
-  end
-  namespace :company do
-    resources :roles
-  end
-  namespace :company do
-    resources :currencies
-  end
     devise_for :users, controllers: { 
         registrations: 'users/registrations',
         confirmations: 'users/confirmations'

@@ -17,6 +17,7 @@ ActiveRecord::Schema.define(version: 8010208) do
 
   create_table "account_plans", force: :cascade do |t|
     t.string "name"
+    t.decimal "price", precision: 12, scale: 6
   end
 
   create_table "accounts", force: :cascade do |t|
