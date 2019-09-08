@@ -26,5 +26,9 @@ Building a better future, one line of code at a time.
 */
 
 
-// · 
-@import "leslicloud/templates/application.scss";
+// · sections
+// · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
+
+main > section.section {
+    padding: 20px;
+}

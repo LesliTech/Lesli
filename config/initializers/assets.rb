@@ -6,9 +6,9 @@ Rails.application.config.assets.version = '1.0'
 Rails.application.config.assets.paths << Rails.root.join('node_modules')
 
 # Precompile additional assets.
-Rails.application.config.assets.precompile += %w( account_plans.css )
+Rails.application.config.assets.precompile += %w( websites/*.css )
+Rails.application.config.assets.precompile += %w( accounts.css )
 Rails.application.config.assets.precompile += %w( users/*.css users/**/*.css )
-Rails.application.config.assets.precompile += %w( websites/landing.css )
 Rails.application.config.assets.precompile += %w( cloud_lesli/*.css  )
 Rails.application.config.assets.precompile += %w( cloud_team/*.css )
 

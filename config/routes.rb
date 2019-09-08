@@ -1,8 +1,9 @@
 Rails.application.routes.draw do
 
     devise_for :users, controllers: { 
-        registrations: 'users/registrations',
-        confirmations: 'users/confirmations'
+        registrations: "users/registrations",
+        confirmations: "users/confirmations",
+        sessions: "users/sessions"
     }
 
     devise_scope :user do
@@ -13,24 +14,23 @@ Rails.application.routes.draw do
         get "/password" => "users/passwords#new"
 
         authenticated do
-            root to: 'cloud_lesli/dashboards#simple', as: :root_authenticated
+            root to: "cloud_lesli/dashboards#simple", as: :root_authenticated
         end
 
         unauthenticated do
-            root to: 'websites#landing', as: :root_unauthenticated
-            root to: 'websites#landing'
+            root to: "websites#landing", as: :root_unauthenticated
+            root to: "websites#landing"
         end
         
     end
 
     authenticated :user do
 
-        resources :websites
-        resources :accounts
-        resources :account_plans
+        get "/account" => "accounts#new"
 
-        mount CloudTeam::Engine => "/team"
-        mount CloudPanel::Engine => "/panel"
+        resources :accounts
+        
+        #mount CloudPanel::Engine => "/panel"
         mount CloudLesli::Engine => "/lesli"
 
     end

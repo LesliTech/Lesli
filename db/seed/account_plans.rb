@@ -1,4 +1,5 @@
-/*
+=begin
+
 Lesli
 
 Copyright (c) 2019, Lesli Technologies, S. A.
@@ -16,15 +17,19 @@ LesliCloud - Your Smart Business Assistant
 Powered by https://www.lesli.tech
 Building a better future, one line of code at a time.
 
-@dev      Luis Donis <ldonis@lesli.tech>
 @author   LesliTech <hello@lesli.tech>
+@author   Luis Donis <ldonis@lesli.tech>
 @license  Propietary - all rights reserved.
-@version  0.1.0-alpha
-
-// · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
-// · 
-*/
-
+@version  GIT: 1.0.0 alpha
 
 // · 
-@import "leslicloud/templates/application.scss";
+// · ~·~        ~·~        ~·~        ~·~        ~·~        ~·~        ~·~        ~·~        ~·~
+
+=end
+
+model = AccountPlan.new
+model.email = 'admin@lesli.cloud'
+model.password = 'lesli2019'
+model.password_confirmation = 'lesli2019'
+model.confirm
+model.save!
