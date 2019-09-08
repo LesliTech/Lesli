@@ -8,6 +8,6 @@ class User < ApplicationRecord
             :validatable,
             :confirmable
     
-    has_one :account, foreign_key: 'users_id'
+    belongs_to :account , foreign_key: 'accounts_id'
 
 end

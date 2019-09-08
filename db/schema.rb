@@ -24,10 +24,8 @@ ActiveRecord::Schema.define(version: 8010208) do
     t.string "company_name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.bigint "users_id"
     t.bigint "account_plans_id"
     t.index ["account_plans_id"], name: "index_accounts_on_account_plans_id"
-    t.index ["users_id"], name: "index_accounts_on_users_id"
   end
 
   create_table "cloud_panel_accounts", force: :cascade do |t|
@@ -689,6 +687,8 @@ ActiveRecord::Schema.define(version: 8010208) do
     t.datetime "locked_at"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "accounts_id"
+    t.index ["accounts_id"], name: "index_users_on_accounts_id"
     t.index ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
@@ -696,7 +696,6 @@ ActiveRecord::Schema.define(version: 8010208) do
   end
 
   add_foreign_key "accounts", "account_plans", column: "account_plans_id"
-  add_foreign_key "accounts", "users", column: "users_id"
   add_foreign_key "cloud_panel_accounts", "accounts", column: "accounts_id"
   add_foreign_key "cloud_panel_panel_actions", "cloud_panel_accounts", column: "cloud_panel_accounts_id"
   add_foreign_key "cloud_panel_panel_activities", "cloud_panel_accounts", column: "cloud_panel_accounts_id"
@@ -786,4 +785,5 @@ ActiveRecord::Schema.define(version: 8010208) do
   add_foreign_key "company_location_states", "company_location_countries", column: "company_location_countries_id"
   add_foreign_key "company_role_privileges", "company_roles", column: "company_roles_id"
   add_foreign_key "company_roles", "accounts", column: "accounts_id"
+  add_foreign_key "users", "accounts", column: "accounts_id"
 end

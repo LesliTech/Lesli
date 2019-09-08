@@ -1,41 +1,52 @@
 class AccountsController < ApplicationController
-  before_action :set_account, only: [:show, :edit, :update, :destroy]
+    before_action :set_account, only: [:show, :edit, :update, :destroy]
+    layout 'application_devise'
 
-  # GET /accounts
-  # GET /accounts.json
-  def index
-    @accounts = Account.all
-  end
-
-  # GET /accounts/1
-  # GET /accounts/1.json
-  def show
-  end
-
-  # GET /accounts/new
-  def new
-    @account = Account.new
-  end
-
-  # GET /accounts/1/edit
-  def edit
-  end
-
-  # POST /accounts
-  # POST /accounts.json
-  def create
-    @account = Account.new(account_params)
-
-    respond_to do |format|
-      if @account.save
-        format.html { redirect_to @account, notice: 'Account was successfully created.' }
-        format.json { render :show, status: :created, location: @account }
-      else
-        format.html { render :new }
-        format.json { render json: @account.errors, status: :unprocessable_entity }
-      end
+    # GET /accounts
+    # GET /accounts.json
+    def index
     end
-  end
+
+    # GET /accounts/1
+    # GET /accounts/1.json
+    def show
+    end
+
+    # GET /accounts/new
+    def new
+        @account = Account.new
+    end
+
+    # GET /accounts/1/edit
+    def edit
+    end
+
+    # POST /accounts
+    # POST /accounts.json
+    def create
+
+        account = Account.new
+        account.company_name = "Lesli Technologies, S. A."
+        account.account_plans_id = 0
+        account.save
+
+        user = User.find(current_user.id)
+        user.account = account
+        user.save!
+
+        redirect_to root_path
+
+        #@account = Account.new(account_params)
+        #respond_to do |format|
+        #    if @account.save
+        #        format.html { redirect_to @account, notice: 'Account was successfully created.' }
+        #        format.json { render :show, status: :created, location: @account }
+        #    else
+        #        format.html { render :new }
+        #        format.json { render json: @account.errors, status: :unprocessable_entity }
+        #   end
+        #end
+    end
 
   # PATCH/PUT /accounts/1
   # PATCH/PUT /accounts/1.json
