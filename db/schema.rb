@@ -249,6 +249,16 @@ ActiveRecord::Schema.define(version: 8010208) do
   end
 
   create_table "cloud_team_employee_contact_details", force: :cascade do |t|
+    t.string "work_telephone"
+    t.string "work_mobile"
+    t.string "work_email"
+    t.string "work_address"
+    t.string "work_location"
+    t.string "personal_mobile_number"
+    t.string "personal_phone_number"
+    t.string "personal_email_address"
+    t.string "address"
+    t.string "location"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.bigint "cloud_team_employees_id"
@@ -256,6 +266,11 @@ ActiveRecord::Schema.define(version: 8010208) do
   end
 
   create_table "cloud_team_employee_contact_emergency_details", force: :cascade do |t|
+    t.string "full_name"
+    t.string "relation"
+    t.string "phone_number_1"
+    t.string "phone_number_2"
+    t.string "full_address"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.bigint "cloud_team_employees_id"
@@ -263,6 +278,22 @@ ActiveRecord::Schema.define(version: 8010208) do
   end
 
   create_table "cloud_team_employee_details", force: :cascade do |t|
+    t.string "first_name"
+    t.string "second_name"
+    t.string "third_name"
+    t.string "surname"
+    t.string "second_surname"
+    t.string "married_surname"
+    t.date "birthdate"
+    t.bigint "nationality_country_id"
+    t.string "identity_document_number"
+    t.string "passport_number"
+    t.integer "marital_status"
+    t.string "gender"
+    t.string "blood_group"
+    t.text "biography"
+    t.text "family_background"
+    t.text "health_details"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.bigint "cloud_team_employees_id"
@@ -277,6 +308,10 @@ ActiveRecord::Schema.define(version: 8010208) do
   end
 
   create_table "cloud_team_employee_social_accounts", force: :cascade do |t|
+    t.string "facebook"
+    t.string "twitter"
+    t.string "slack"
+    t.string "skype"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.bigint "cloud_team_employees_id"

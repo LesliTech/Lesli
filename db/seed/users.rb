@@ -28,9 +28,10 @@ Building a better future, one line of code at a time.
 =end
 
 model = User.new
-model.email = 'admin@lesli.dev'
-model.password = 'admin@lesli.dev'
-model.password_confirmation = 'admin@lesli.dev'
+model.email = 'admin@lesli.cloud'
+model.password = 'lesli2019'
+model.password_confirmation = 'lesli2019'
+model.confirm
 model.save!
 
 10.times do
@@ -38,5 +39,6 @@ model.save!
     model.email = Faker::Internet.email
     model.password = model.email
     model.password_confirmation = model.email
+    model.confirm
     model.save!
 end
