@@ -28,8 +28,7 @@ Building a better future, one line of code at a time.
 =end
 
 model = AccountPlan.new
-model.email = 'admin@lesli.cloud'
-model.password = 'lesli2019'
-model.password_confirmation = 'lesli2019'
-model.confirm
+model.id = 0
+model.name = "demo"
+model.price = 0.00
 model.save!

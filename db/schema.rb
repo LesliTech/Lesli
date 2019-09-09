@@ -21,7 +21,22 @@ ActiveRecord::Schema.define(version: 8010208) do
   end
 
   create_table "accounts", force: :cascade do |t|
+    t.boolean "status"
     t.string "company_name"
+    t.string "company_name_legal"
+    t.string "company_tag_line"
+    t.string "address"
+    t.string "website"
+    t.string "phone_number_1"
+    t.string "phone_number_2"
+    t.string "phone_number_3"
+    t.string "phone_number_4"
+    t.string "public_email"
+    t.string "github"
+    t.string "twitter"
+    t.string "youtube"
+    t.string "linkedin"
+    t.string "facebook"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.bigint "account_plans_id"
@@ -99,6 +114,12 @@ ActiveRecord::Schema.define(version: 8010208) do
   end
 
   create_table "cloud_panel_user_details", force: :cascade do |t|
+    t.string "first_name"
+    t.string "last_name"
+    t.string "phone_number"
+    t.string "mobile_number"
+    t.string "address"
+    t.string "settings"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.bigint "cloud_panel_users_id"
@@ -129,9 +150,6 @@ ActiveRecord::Schema.define(version: 8010208) do
   end
 
   create_table "cloud_team_accounts", force: :cascade do |t|
-    t.bigint "accounts_id"
-    t.index ["accounts_id"], name: "index_cloud_team_accounts_on_accounts_id"
-    t.index ["id", "accounts_id"], name: "index_cloud_team_accounts_on_id_and_accounts_id", unique: true
   end
 
   create_table "cloud_team_attendance_actions", force: :cascade do |t|
@@ -283,6 +301,12 @@ ActiveRecord::Schema.define(version: 8010208) do
     t.string "second_surname"
     t.string "married_surname"
     t.date "birthdate"
+    t.string "phone_number"
+    t.string "mobile_number"
+    t.string "fax"
+    t.string "email"
+    t.string "address"
+    t.string "location"
     t.bigint "nationality_country_id"
     t.string "identity_document_number"
     t.string "passport_number"
@@ -513,10 +537,16 @@ ActiveRecord::Schema.define(version: 8010208) do
   end
 
   create_table "cloud_team_team_comments", force: :cascade do |t|
+    t.integer "type"
+    t.string "text"
+    t.bigint "parent_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.bigint "cloud_team_accounts_id"
+    t.bigint "users_id"
     t.index ["cloud_team_accounts_id"], name: "index_cloud_team_team_comments_on_cloud_team_accounts_id"
+    t.index ["parent_id"], name: "index_cloud_team_team_comments_on_parent_id"
+    t.index ["users_id"], name: "index_cloud_team_team_comments_on_users_id"
   end
 
   create_table "cloud_team_team_locations", force: :cascade do |t|
@@ -714,7 +744,7 @@ ActiveRecord::Schema.define(version: 8010208) do
   add_foreign_key "cloud_panel_user_settings", "cloud_panel_users", column: "cloud_panel_users_id"
   add_foreign_key "cloud_panel_users", "cloud_panel_accounts", column: "cloud_panel_accounts_id"
   add_foreign_key "cloud_panel_users", "users", column: "users_id"
-  add_foreign_key "cloud_team_accounts", "accounts", column: "accounts_id"
+  add_foreign_key "cloud_team_accounts", "accounts", column: "id"
   add_foreign_key "cloud_team_attendance_actions", "cloud_team_attendances", column: "cloud_team_attendances_id"
   add_foreign_key "cloud_team_attendance_activities", "cloud_team_attendances", column: "cloud_team_attendances_id"
   add_foreign_key "cloud_team_attendance_attachments", "cloud_team_attendances", column: "cloud_team_attendances_id"
@@ -765,6 +795,8 @@ ActiveRecord::Schema.define(version: 8010208) do
   add_foreign_key "cloud_team_team_activities", "cloud_team_accounts", column: "cloud_team_accounts_id"
   add_foreign_key "cloud_team_team_attachments", "cloud_team_accounts", column: "cloud_team_accounts_id"
   add_foreign_key "cloud_team_team_comments", "cloud_team_accounts", column: "cloud_team_accounts_id"
+  add_foreign_key "cloud_team_team_comments", "cloud_team_team_comments", column: "parent_id"
+  add_foreign_key "cloud_team_team_comments", "users", column: "users_id"
   add_foreign_key "cloud_team_team_locations", "company_location_cities", column: "company_location_cities_id"
   add_foreign_key "cloud_team_trainning_actions", "cloud_team_trainnings", column: "cloud_team_trainnings_id"
   add_foreign_key "cloud_team_trainning_activities", "cloud_team_trainnings", column: "cloud_team_trainnings_id"
