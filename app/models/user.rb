@@ -8,6 +8,7 @@ class User < ApplicationRecord
             :validatable,
             :confirmable
     
-    belongs_to :account , foreign_key: 'accounts_id'
+    belongs_to :account , foreign_key: 'accounts_id', optional: true
+    has_one :user_detail, foreign_key: 'user_details_id'
 
 end

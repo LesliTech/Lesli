@@ -42,8 +42,9 @@
 
     },
     "scripts": {
+        "db:hard-reset": "rake db:drop && rake db:create && rake db:migrate && rake db:seed",
         "webpack": "webpack --progress --env=development",
-        "webpack-production": "webpack --progress --env=production"
+        "webpack:production": "webpack --progress --env=production"
     }
     
 }
