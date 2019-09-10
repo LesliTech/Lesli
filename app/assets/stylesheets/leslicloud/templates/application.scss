@@ -62,7 +62,17 @@ body {
 #lesli-cloud-app {
 
     & > .container.is-fluid {
-        margin: 20px;
+        //margin: 20px;
+    }
+
+    & > section.section > .header{
+        display: flex;
+        margin-bottom: 10px;
+        justify-content: space-between;
+
+        h2 {
+            font-size: 1.4rem;
+        }
     }
 
 }
