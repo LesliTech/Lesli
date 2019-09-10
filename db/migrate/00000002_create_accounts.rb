@@ -3,7 +3,7 @@ class CreateAccounts < ActiveRecord::Migration[5.2]
         create_table :accounts do |t|
             
             # account status
-            t.boolean   :status
+            t.integer   :status
 
             # company information
             t.string    :company_name

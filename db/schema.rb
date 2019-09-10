@@ -21,7 +21,7 @@ ActiveRecord::Schema.define(version: 8010208) do
   end
 
   create_table "accounts", force: :cascade do |t|
-    t.boolean "status"
+    t.integer "status"
     t.string "company_name"
     t.string "company_name_legal"
     t.string "company_tag_line"
@@ -150,6 +150,8 @@ ActiveRecord::Schema.define(version: 8010208) do
   end
 
   create_table "cloud_team_accounts", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "cloud_team_attendance_actions", force: :cascade do |t|
