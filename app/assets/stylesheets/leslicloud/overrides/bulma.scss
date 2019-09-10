@@ -59,11 +59,19 @@ $colors: mergeColorMaps(
 );
 
 
-
 // · Links
 $link: $primary;
 $link-invert: $primary-invert;
 $link-focus-border: $primary;
+
+
+// · Border radius
+$radius: 2px;
+$radius-small: 3px;
+$radius-large: 4px;
+
+$control-radius: $radius;
+$control-radius-small: $radius-small;
 
 
 // · Import Bulma and Buefy styles
