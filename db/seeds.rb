@@ -28,6 +28,7 @@ Building a better future, one line of code at a time.
 =end
 
 load "#{Rails.root}/db/seed/account_plans.rb"
+load "#{Rails.root}/db/seed/accounts.rb"
 load "#{Rails.root}/db/seed/users.rb"
 
 #CloudPanel::Engine.load_seed

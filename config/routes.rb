@@ -29,9 +29,8 @@ Rails.application.routes.draw do
         get "/account" => "accounts#new"
 
         resources :accounts
-        
-        #mount CloudPanel::Engine => "/panel"
         mount CloudLesli::Engine => "/lesli"
+        mount CloudTeam::Engine => "/team"
 
     end
 

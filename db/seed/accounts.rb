@@ -27,19 +27,8 @@ Building a better future, one line of code at a time.
 
 =end
 
-model = User.new
-model.email = 'admin@lesli.cloud'
-model.password = 'lesli2019'
-model.password_confirmation = 'lesli2019'
-model.accounts_id = 1
-model.confirm
+model = Account.new
+model.status = 1
+model.company_name = "Lesli Technologies, S. A."
+model.account_plans_id = 0
 model.save!
-
-10.times do
-    model = User.new
-    model.email = Faker::Internet.email
-    model.password = model.email
-    model.password_confirmation = model.email
-    model.confirm
-    model.save!
-end
