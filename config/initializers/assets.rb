@@ -13,5 +13,6 @@ Rails.application.config.assets.precompile += %w( cloud_lesli/*.css  )
 Rails.application.config.assets.precompile += %w( cloud_team/*.css )
 
 Rails.application.config.assets.precompile += %w( lesli.js )
-Rails.application.config.assets.precompile += %w( cloud_team/*.js cloud_team/**/*.js)
+Rails.application.config.assets.precompile += %w( i18n.js )
+Rails.application.config.assets.precompile += %w( cloud_team/*.js cloud_team/**/*.js )
 Rails.application.config.assets.precompile += %w( cloud_lesli/*.js cloud_lesli/**/*.js )
