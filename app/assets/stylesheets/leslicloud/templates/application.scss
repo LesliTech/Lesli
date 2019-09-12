@@ -75,4 +75,15 @@ body {
         }
     }
 
+
+    // · 
+    .translation_missing {
+
+        &:before {
+            content: 'Translation missing: ';
+        }
+        background-color: red;
+        color: white;
+    }
+
 }
