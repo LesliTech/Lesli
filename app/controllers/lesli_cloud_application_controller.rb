@@ -1,2 +1,0 @@
-class LesliCloudApplicationController < ApplicationController
-end

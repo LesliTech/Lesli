@@ -25,10 +25,10 @@ class AccountsController < ApplicationController
     # POST /accounts.json
     def create
 
-        account = Account.new
-        account.company_name = "Lesli Technologies, S. A."
+        account = Account.new(account_params)
         account.account_plans_id = 0
-        account.save
+        account.status = 1
+        account.save!
 
         user = User.find(current_user.id)
         user.account = account
@@ -36,16 +36,6 @@ class AccountsController < ApplicationController
 
         redirect_to root_path
 
-        #@account = Account.new(account_params)
-        #respond_to do |format|
-        #    if @account.save
-        #        format.html { redirect_to @account, notice: 'Account was successfully created.' }
-        #        format.json { render :show, status: :created, location: @account }
-        #    else
-        #        format.html { render :new }
-        #        format.json { render json: @account.errors, status: :unprocessable_entity }
-        #   end
-        #end
     end
 
   # PATCH/PUT /accounts/1
@@ -72,14 +62,16 @@ class AccountsController < ApplicationController
     end
   end
 
-  private
+    private
+
     # Use callbacks to share common setup or constraints between actions.
     def set_account
-      @account = Account.find(params[:id])
+        @account = Account.find(params[:id])
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def account_params
-      params.fetch(:account, {})
+        params.require(:account).permit(:company_name)
     end
+
 end

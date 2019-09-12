@@ -1,4 +1,7 @@
-%h1 New account
-= form_for @account do |f|
-    .actions
-        = f.submit 'Save'
+%section
+    %a.logo{:href => root_path}
+        %img{:alt => "LesliCloud logo", :src => "/assets/brand/leslicloud-logo.svg"}/
+
+    = render 'layouts/partials/application-alert'
+
+    = render 'form'

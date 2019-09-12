@@ -28,3 +28,78 @@ Building a better future, one line of code at a time.
 
 // · 
 @import "leslicloud/templates/application.scss";
+
+
+// · New account wizard
+// · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
+section {
+    background: linear-gradient(
+        rgba(lesli-color(standard, white),.75),
+        rgba(lesli-color(standard, white),.75)),
+        url("/assets/accounts/new-account-background.full.jpg");
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    justify-content: center;
+
+    img {
+        width: 200px;
+        margin-bottom: -15px;
+    }
+
+    .notification:not(:last-child) {
+        margin-bottom: 0.6rem;
+    }
+
+    form {
+        width: 90%;
+        margin: 0 auto;
+        max-width: 350px;
+        text-align: center;
+        border-radius: 2px;
+        padding-top: 2rem;
+        background-color: rgba(lesli-color(standard, white), 1);
+
+        .field {
+            padding: 0 2.4rem 1.8rem;
+
+            input.input {
+                border: none;
+                box-shadow: none;
+                border-radius: 0;
+                border-bottom: 1px solid lesli-color(silver);
+            }
+
+        }
+
+        // login button
+        input[type="submit"] {
+            border-radius: 0 0 2px 2px;
+            display: block;
+            width: 100%;
+            padding: 0.8rem 0rem 2.2rem;
+
+            &:hover {
+                cursor: pointer;
+            }
+
+        }
+
+    }
+
+    div.links {
+        padding: 1rem 0;
+        text-align: center;
+
+        a {
+            display: block;
+            text-decoration: none;
+        }
+
+    }
+
+}
