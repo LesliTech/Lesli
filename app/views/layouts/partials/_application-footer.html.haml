@@ -1,6 +1,11 @@
 %footer
-    %nav.navbar
-        %a.navbar-brand{:href => "root_path"} LesliCloud
-        %ul.nav.justify-content-end
-            %li.nav-item
-                %a.nav-link{:href => "#"} Privacy
+    %nav.navbar{"aria-label" => "main navigation", :role => "navigation"}
+        .navbar-brand
+            %a.navbar-item{:href => "https://bulma.io"}
+                LesliCloud
+
+        .navbar-menu
+            .navbar-start
+            .navbar-end
+                %a.navbar-item
+                    Privacy
