@@ -3,12 +3,47 @@ export default {
 
     data() {
         return {
-            chatbotIntent:'',
+            chatbotIntent: '',
+            microphone: true,
             timer: null
         }
     },
 
+    mounted() {
+
+        this.checkIfMicrophoneWorks()
+
+    },
+
     methods: {
+
+        checkIfMicrophoneWorks() {
+            window.SpeechRecognition = window.webkitSpeechRecognition || window.SpeechRecognition;
+            if (window.SpeechRecognition) {
+                this.microphone = true
+                return
+            }
+            this.microphone = false
+        },
+
+        talk() {
+            //var msg = new SpeechSynthesisUtterance('Hello World');
+            //window.speechSynthesis.speak(msg);
+        },
+
+        listen() {
+
+            window.SpeechRecognition = window.webkitSpeechRecognition || window.SpeechRecognition;
+
+            if (window.SpeechRecognition) {
+                const recognition = new window.SpeechRecognition();
+                recognition.onresult = (event) => {
+                    const speechToText = event.results[0][0].transcript;
+                }
+                recognition.start();
+            }
+
+        },
 
         emitSidenavShow() {
             clearTimeout(this.timer)
@@ -41,8 +76,9 @@ export default {
                         <i class="fas fa-bars"></i>
                     </button>
 
-                    <button type="button" class="button is-white">
-                        <i class="fas fa-microphone"></i>
+                    <button :disabled="!microphone" type="button" class="button is-white" @click="listen">
+                        <i v-if="microphone" class="fas fa-microphone"></i>
+                        <i v-if="!microphone" class="fas fa-microphone-slash"></i>
                     </button>
 
                     <form v-on:submit.prevent="emitChatbotIntent()">
