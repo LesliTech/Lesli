@@ -147,6 +147,7 @@ function webpackConfigBuilder(compilationMode) {
             return
         }
 
+        // check if vue folder exists for given engine
         if (!fs.existsSync(path.join('./engines', engine, 'app', 'vue'))) {
             return
         }
@@ -154,15 +155,10 @@ function webpackConfigBuilder(compilationMode) {
         // get app directories
         fs.readdirSync(path.join('./engines', engine, 'app', 'vue')).forEach(app => {
 
-            // get app files
-            fs.readdirSync(path.join('./engines', engine, 'app', 'vue', app)).forEach(file => {
+            let filePath = './'+path.join('./engines', engine, 'app', 'vue', app, app.concat('.js'))
+            let fileName = app
 
-                let filePath = './'+path.join('./engines', engine, 'app', 'vue', app, file)
-                let fileName = [app, file].join('-').replace('.js','')
-
-                webpackEngine.entry[fileName] = filePath
-
-            })
+            webpackEngine.entry[fileName] = filePath
 
         })
         
