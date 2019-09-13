@@ -12,5 +12,6 @@
             = render partial: 'layouts/partials/application-layout-aside'
             = render partial: 'layouts/partials/application-layout-navigation'
             = yield
+            %router-view
             = render partial: 'layouts/partials/application-layout-chatbox'
         = render partial: 'layouts/partials/application-footer'

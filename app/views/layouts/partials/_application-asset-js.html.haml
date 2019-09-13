@@ -8,7 +8,8 @@
 - # Load controller javascript app (engine/controller)
 - # Load global javascript app (lesli.js)
 - if Rails.application.assets.find_asset("#{js_controller_action}.js")
-    = javascript_include_tag js_controller_action
+    -# due Im using global vue apps with components per action, this way to load assets is not necessary anymore
+    -#= javascript_include_tag js_controller_action
 - elsif Rails.application.assets.find_asset("#{js_controller}.js")
     = javascript_include_tag js_controller
 - else
