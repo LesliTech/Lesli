@@ -37,11 +37,11 @@ import VueRouter from 'vue-router'
 import pluginBus from 'LesliCloud/vue/plugins/bus'
 import pluginUrl from 'LesliCloud/vue/plugins/url'
 import pluginHttp from 'LesliCloud/vue/plugins/http'
-//import pluginDebug from 'lesli-debug-message/vue'
 
 
 //  · Loading app functions
 // ~·~        ~·~        ~·~        ~·~        ~·~        ~·~        ~·~        ~·~        ~·~
+import "lesli-nodejs-debug-message/browser-bar"
 import debug from 'lesli-nodejs-debug-message/browser'
 import functionDocument from 'LesliCloud/vue/functions/document'
 
@@ -61,7 +61,6 @@ import componentLesliChatbox from 'LesliCloud/vue/layout/chatbox.vue'
 Vue.use(pluginBus)
 Vue.use(pluginUrl)
 Vue.use(pluginHttp)
-//Vue.use(pluginDebug)
 
 
 // · LesliCloud app

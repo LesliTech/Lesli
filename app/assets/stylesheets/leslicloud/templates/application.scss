@@ -87,3 +87,35 @@ body {
     }
 
 }
+
+footer,
+main {
+    display: none;
+}
+
+#lesli-debug-bar {
+    display: block;
+    width: 100%;
+    position: fixed;
+    bottom: 0px;
+    background-color: #e0e0e0;
+    overflow: hidden;
+    height: 50px;
+    padding: .8rem;
+
+    &:hover {
+        height: auto;
+        max-height: 100%;
+        overflow-y: scroll;
+    }
+
+    h2 {
+        display: block;
+        padding-bottom: .8rem;
+    }
+
+    b {
+        font-weight: 600;
+        font-size: 1.05rem;
+    }
+}
