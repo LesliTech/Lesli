@@ -49,9 +49,11 @@ export default {
             headers: { 'X-CSRF-Token': token }
         })
 
-        // http.defaults.baseURL = options.
-
         http.interceptors.response.use(response => {
+
+            if (window.debug) {
+                window.debug(response.data, "api method: " + response.request.responseURL)
+            }
 
             if(response.data.successful){
 

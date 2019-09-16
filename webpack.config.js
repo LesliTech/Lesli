@@ -118,7 +118,7 @@ function webpackConfigBuilder(compilationMode) {
             ignored: /node_modules/
         },
 
-        plugins:[
+        plugins: [
             new VueLoaderPlugin(),
             new webpack.DefinePlugin({
                 leslicloud_app_mode_production: JSON.stringify(production),
