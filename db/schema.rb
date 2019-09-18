@@ -239,6 +239,8 @@ ActiveRecord::Schema.define(version: 8010208) do
   end
 
   create_table "cloud_team_employee_actions", force: :cascade do |t|
+    t.text "content"
+    t.string "tags"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.bigint "cloud_team_employees_id"
@@ -246,6 +248,8 @@ ActiveRecord::Schema.define(version: 8010208) do
   end
 
   create_table "cloud_team_employee_activities", force: :cascade do |t|
+    t.integer "type"
+    t.string "value"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.bigint "cloud_team_employees_id"
@@ -253,6 +257,9 @@ ActiveRecord::Schema.define(version: 8010208) do
   end
 
   create_table "cloud_team_employee_attachments", force: :cascade do |t|
+    t.string "filename"
+    t.string "path"
+    t.integer "type"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.bigint "cloud_team_employees_id"
@@ -260,6 +267,8 @@ ActiveRecord::Schema.define(version: 8010208) do
   end
 
   create_table "cloud_team_employee_comments", force: :cascade do |t|
+    t.text "content"
+    t.string "tags"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.bigint "cloud_team_employees_id"
