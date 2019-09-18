@@ -1,0 +1,13 @@
+[{
+    "name": "description",
+    "type": "string"
+},{
+    "name": "deadline",
+    "type": "datetime"
+},{
+    "name": "status",
+    "type": "integer"
+},{
+    "name": "tags",
+    "type": "string"
+}]

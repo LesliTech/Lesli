@@ -1,0 +1,10 @@
+[{
+    "name": "filename",
+    "type": "string"
+},{
+    "name": "path",
+    "type": "string"
+},{
+    "name": "type",
+    "type": "integer"
+}]

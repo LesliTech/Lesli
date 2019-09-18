@@ -28,7 +28,7 @@ Building a better future, one line of code at a time.
 
 //  · Loading frameworks, libraries and tools
 // ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
-import Vue from 'vue';
+//import Vue from 'vue';
 
 
 //  · Plugin initializing 
