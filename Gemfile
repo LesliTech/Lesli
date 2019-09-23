@@ -30,7 +30,7 @@ Building a better future, one line of code at a time.
 source 'https://rubygems.org'
 git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
-ruby '2.5.1'
+ruby '2.6.3'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '~> 6.0.0'
@@ -110,24 +110,22 @@ gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 
 # Engines
 
-gem 'cloud_panel', path: 'engines/CloudPanel'
+#gem 'cloud_panel', path: 'engines/CloudPanel'
 
-gem 'cloud_team', path: 'engines/CloudTeam'
+#gem 'cloud_team', path: 'engines/CloudTeam'
 
 gem 'cloud_lesli', path: 'engines/CloudLesli'
 
-gem 'cloud_courier', path: 'engines/CloudCourier'
+#gem 'cloud_courier', path: 'engines/CloudCourier'
 
-gem 'cloud_bell', path: 'engines/CloudBell'
+#gem 'cloud_bell', path: 'engines/CloudBell'
 
-gem 'cloud_driver', path: 'engines/CloudDriver'
+#gem 'cloud_driver', path: 'engines/CloudDriver'
 
-gem 'cloud_books', path: 'engines/CloudBooks'
+#gem 'cloud_books', path: 'engines/CloudBooks'
 
-gem 'cloud_help', path: 'engines/CloudHelp'
+#gem 'cloud_help', path: 'engines/CloudHelp'
 
-gem 'cloud_lock', path: 'engines/CloudLock'
+#gem 'cloud_lock', path: 'engines/CloudLock'
 
-gem 'cloud_dev', path: 'engines/CloudDev'
-
-gem 'wahtari_crm_integrator', path: 'engines/WahtariCrmIntegrator'
+#gem 'cloud_kb', path: 'engines/CloudKb'
