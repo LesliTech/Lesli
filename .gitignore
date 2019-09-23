@@ -15,12 +15,16 @@
 /node_modules
 /yarn-error.log
 
-/public/assets
 .byebug_history
+
+/engines/*
+!/engines/.keep
 
 # Ignore master key for decrypting credentials and more.
 /config/master.key
-/config/database.yml
 
-/engines/*
+/config/credentials/staging.key
 
+/config/credentials/production.key
+
+/config/credentials/development.key

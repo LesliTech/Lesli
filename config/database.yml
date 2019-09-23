@@ -1,0 +1,23 @@
+common: &common
+    pool: 30
+    host: 127.0.0.1
+    adapter: postgresql
+    encoding: unicode
+    reconnect: false
+    migrations_paths:
+        - "db/migrate"
+        - "engines/CloudTeam/db/migrate"
+        - "engines/CloudPanel/db/migrate"
+
+development:
+    <<: *common
+    database: leslicloud_development
+    username: lesli_cloud
+    password: lesli_cloud
+
+production:
+    <<: *common
+    database: Rails.application.credentials.production.database.database
+    username: Rails.application.credentials.production.database.username
+    password: Rails.application.credentials.production.database.password
+
