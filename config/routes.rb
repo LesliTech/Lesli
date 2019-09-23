@@ -1,28 +1,28 @@
 Rails.application.routes.draw do
 
-    devise_for :users, controllers: { 
-        registrations: "users/registrations",
-        confirmations: "users/confirmations",
-        sessions: "users/sessions"
+    devise_for :users,
+    :controllers => { 
+        :registrations => "users/registrations",
+        :sessions => "users/sessions"
+    },
+    :path => "",
+    :path_names => {
+        :sign_in => 'login',
+        :sign_out => 'logout',
+        :sign_up => 'register',
+        :password => 'password',
+        :confirmation => 'confirmation'
     }
-
-    devise_scope :user do
-
-        get "/login" => "users/sessions#new"
-        get "/logout" => "users/sessions#destroy"
-        get "/register" => "users/registrations#new"
-        get "/password" => "users/passwords#new"
-        
-    end
 
     authenticated :user do
 
         root to: "cloud_lesli/dashboards#simple", as: :root_authenticated
-        
-        #get "/account" => "accounts#new"
-        resource :accounts
+
         mount CloudLesli::Engine => "/lesli"
-        mount CloudTeam::Engine => "/team"
+        #mount CloudTeam::Engine => "/team"
+        #mount CloudKb::Engine => "/kb"
+
+        resource :accounts
 
     end
 
