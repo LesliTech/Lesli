@@ -14,6 +14,8 @@ Rails.application.routes.draw do
         :confirmation => 'confirmation'
     }
 
+    root to: "websites#landing"
+
     authenticated :user do
 
         root to: "cloud_lesli/dashboards#simple", as: :root_authenticated
@@ -28,7 +30,6 @@ Rails.application.routes.draw do
 
     unauthenticated do
         root to: "websites#landing", as: :root_unauthenticated
-        root to: "websites#landing"
     end
 
 end
