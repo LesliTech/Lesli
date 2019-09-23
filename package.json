@@ -12,8 +12,8 @@
     },
     "devDependencies": {
 
-        "lesli-nodejs-debug-message": "git@github.com:LesliTech/lesli-nodejs-debug-message.git#master",
-        "lesli-css": "git@github.com:LesliTech/lesli-css.git#master",
+        "lesli-nodejs-debug-message": "ssh://git@github.com:LesliTech/lesli-nodejs-debug-message.git#master",
+        "lesli-css": "ssh://git@github.com:LesliTech/lesli-css.git#master",
 
         "@babel/core": "7.5.5",
         "@babel/preset-env": "7.5.5",

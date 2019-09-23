@@ -31,6 +31,11 @@ __Work with the database:__
 npm run db:hard-reset
 ```
 
+__Assets__
+```shell
+rake assets:precompile RAILS_ENV=production
+```
+
 
 #### Website & documentation
 -------
