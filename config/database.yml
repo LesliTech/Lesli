@@ -7,17 +7,22 @@ common: &common
     migrations_paths:
         - "db/migrate"
         - "engines/CloudTeam/db/migrate"
-        - "engines/CloudPanel/db/migrate"
 
 development:
     <<: *common
-    database: leslicloud_development
-    username: lesli_cloud
-    password: lesli_cloud
+    database: <%= Rails.application.credentials.db[:database] %>
+    username: <%= Rails.application.credentials.db[:username] %>
+    password: <%= Rails.application.credentials.db[:password] %>
+
+staging:
+    <<: *common
+    database: <%= Rails.application.credentials.db[:database] %>
+    username: <%= Rails.application.credentials.db[:username] %>
+    password: <%= Rails.application.credentials.db[:password] %>
 
 production:
     <<: *common
-    database: Rails.application.credentials.production.database.database
-    username: Rails.application.credentials.production.database.username
-    password: Rails.application.credentials.production.database.password
+    database: <%= Rails.application.credentials.db[:database] %>
+    username: <%= Rails.application.credentials.db[:username] %>
+    password: <%= Rails.application.credentials.db[:password] %>
 
