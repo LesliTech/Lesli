@@ -4,7 +4,7 @@ class DeviseFailureApp < Devise::FailureApp
         login_path(:subdomain => 'secure')
     end
 
-    # You need to override respond to eliminate recall
+    # respond to eliminate recall
     def respond
 
         if http_auth?
@@ -13,5 +13,6 @@ class DeviseFailureApp < Devise::FailureApp
             redirect
         end
 
-    end
+    end 
+
 end
