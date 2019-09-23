@@ -13,27 +13,8 @@ class Users::ConfirmationsController < Devise::ConfirmationsController
     # end
 
     # GET /resource/confirmation?confirmation_token=abcdef
-    def show
-
-        confirmation_token = params[:confirmation_token]
-
-        user = User.find_by(confirmation_token: confirmation_token)
-
-        user.confirmed_at = Time.now
-        user.confirmation_token = nil
-
-        user.save!
-
-        #registration = UserServices::Registration.complete_registration(token)
-        registration = { successful: true }
-
-        if registration[:successful]
-            redirect_to root_path, notice: "User confirmed"
-        else
-            redirect_to register_path, error: registration.errors
-        end
-
-    end
+    #def show
+    #end
 
     # protected
 
