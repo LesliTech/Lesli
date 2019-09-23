@@ -36,8 +36,7 @@ section {
         rgba(lesli-color(standard, white),.75),
         rgba(lesli-color(standard, white),.75)),
         url(asset-path("users/sessions/login-background.full.jpg"));
-    background-image: url(asset-path('colors.png'));
-    //background-repeat: no-repeat;
+    background-repeat: no-repeat;
     background-position: center;
     background-size: cover;
 
