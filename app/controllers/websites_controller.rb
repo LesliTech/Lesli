@@ -1,4 +1,4 @@
-class WebsitesController < ApplicationController
+class WebsitesController < PublicApplicationController
     layout 'public'
 
     def landing
