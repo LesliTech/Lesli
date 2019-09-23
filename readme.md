@@ -11,6 +11,27 @@
 Version 0.1.0-alpha
 
 
+#### Development
+-------
+
+__Exec server__
+```shell
+rails s --environment=production
+rails s --environment=development
+```
+
+__Edit credentials:__
+```shell
+EDITOR="code --wait" rails credentials:edit --environment development
+EDITOR="code --wait" rails credentials:edit
+```
+
+__Work with the database:__
+```js
+npm run db:hard-reset
+```
+
+
 #### Website & documentation
 -------
 
@@ -21,6 +42,7 @@ LesliCloud is proprietary software
 * Issue tracker: [https://github.com/LesliTech/lesli.cloud/issues](https://github.com/LesliTech/lesli.cloud/issues)
 
 * Documentation: [https://github.com/LesliTech/lesli.cloud/wiki](https://github.com/LesliTech/lesli.cloud/wiki)
+
 
 #### License
 -------
