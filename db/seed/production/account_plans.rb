@@ -27,6 +27,8 @@ Building a better future, one line of code at a time.
 
 =end
 
-load "#{Rails.root}/db/seed/production/account_plans.rb"
-load "#{Rails.root}/db/seed/production/accounts.rb"
-load "#{Rails.root}/db/seed/production/users.rb"
+model = AccountPlan.new
+model.id = 0
+model.name = "demo"
+model.price = 0.00
+model.save!
