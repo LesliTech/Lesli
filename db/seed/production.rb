@@ -27,6 +27,4 @@ Building a better future, one line of code at a time.
 
 =end
 
-load "#{Rails.root}/db/seed/#{Rails.env.downcase}.rb"
-
-#CloudPanel::Engine.load_seed
+load "#{Rails.root}/db/seed/production/users.rb"
