@@ -16,6 +16,10 @@ Rails.application.routes.draw do
 
     root to: "websites#landing"
 
+    unauthenticated do
+        root to: "websites#landing", as: :root_unauthenticated
+    end
+
     authenticated :user do
 
         root to: "cloud_lesli/dashboards#simple", as: :root_authenticated
@@ -26,10 +30,6 @@ Rails.application.routes.draw do
 
         resource :accounts
 
-    end
-
-    unauthenticated do
-        root to: "websites#landing", as: :root_unauthenticated
     end
 
 end
