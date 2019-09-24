@@ -1,22 +1,6 @@
 
-- js_controller = controller_path.split('/')
-- js_controller = [js_controller[0],'apps',js_controller[1]].join('/')
-- js_controller_action = [js_controller,action_name].join('-')
-
-
-- # Load action javascript app (engine/controller/action)
-- # Load controller javascript app (engine/controller)
-- # Load global javascript app (lesli.js)
-
--# - if Rails.application.assets.find_asset("#{js_controller_action}.js")
--#     -# due Im using global vue apps with components per action, this way to load assets is not necessary anymore
--#     -#= javascript_include_tag js_controller_action
--# - elsif Rails.application.assets.find_asset("#{js_controller}.js")
--#     = javascript_include_tag js_controller
--# - else
--#     = javascript_include_tag "lesli"
-
-= javascript_include_tag js_controller
+= javascript_include_tag controller_path
+-#= javascript_include_tag "lesli" if there is not an app for this request, I should load this file
 
 = javascript_include_tag "i18n"
 = javascript_include_tag "translations", skip_pipeline: true
