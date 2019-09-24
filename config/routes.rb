@@ -7,16 +7,12 @@ Rails.application.routes.draw do
     },
     :path => "",
     :path_names => {
-        :sign_in => 'login',
+        :sign_in  => 'login',
         :sign_out => 'logout',
-        :sign_up => 'register',
+        :sign_up  => 'register',
         :password => 'password',
         :confirmation => 'confirmation'
     }
-
-    unauthenticated do
-        root to: "websites#landing", as: :root_unauthenticated
-    end
 
     authenticated :user do
 
@@ -30,6 +26,7 @@ Rails.application.routes.draw do
 
     end
 
+    root to: "websites#landing", as: :root_unauthenticated
     root to: "websites#landing"
 
 end
