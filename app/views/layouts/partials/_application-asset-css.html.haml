@@ -1,8 +1,2 @@
 
-- css_controller = controller_path
-- css_controller_action = [controller_path,action_name].join('/')
-
-= stylesheet_link_tag css_controller, media: 'all'
-
--#= stylesheet_link_tag css_controller, media: 'all'        # if Rails.application.assets.find_asset("#{css_controller}.scss")
--#= stylesheet_link_tag css_controller_action, media: 'all' # if Rails.application.assets.find_asset("#{css_controller_action}.scss")
+= stylesheet_link_tag controller_path, media: 'all'

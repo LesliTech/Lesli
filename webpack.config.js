@@ -135,7 +135,7 @@ function webpackConfigBuilder(compilationMode) {
 
         let webpackEngine = Object.assign({}, webpackbase)
         webpackEngine.output = Object.assign({}, webpackbase.output)
-        webpackEngine.output.filename = "app/assets/javascripts/apps/[name].js"
+        webpackEngine.output.filename = ""
         webpackEngine.entry = {}
 
         // remove entries from previous engine
@@ -169,7 +169,7 @@ function webpackConfigBuilder(compilationMode) {
             javascripts_engine_folder = javascripts_engine_folder.toLowerCase()
 
             // set new output to engine app folder
-            webpackEngine.output.filename = `./engines/${engine}/app/assets/javascripts/${javascripts_engine_folder}/apps/[name].js`
+            webpackEngine.output.filename = `./engines/${engine}/app/assets/javascripts/${javascripts_engine_folder}/[name].js`
 
             // Configuration object for every engine
             webpackConfig.push(webpackEngine)
