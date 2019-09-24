@@ -14,8 +14,6 @@ Rails.application.routes.draw do
         :confirmation => 'confirmation'
     }
 
-    root to: "websites#landing"
-
     unauthenticated do
         root to: "websites#landing", as: :root_unauthenticated
     end
@@ -25,11 +23,13 @@ Rails.application.routes.draw do
         root to: "cloud_lesli/dashboards#simple", as: :root_authenticated
 
         mount CloudLesli::Engine => "/lesli"
-        #mount CloudTeam::Engine => "/team"
+        mount CloudTeam::Engine => "/team"
         #mount CloudKb::Engine => "/kb"
 
         resource :accounts
 
     end
+
+    root to: "websites#landing"
 
 end
