@@ -110,11 +110,15 @@ gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 
 # Engines
 
+gem 'cloud_lesli', path: 'engines/CloudLesli'
+
+gem 'cloud_team', path: 'engines/CloudTeam'
+
 #gem 'cloud_panel', path: 'engines/CloudPanel'
 
-#gem 'cloud_team', path: 'engines/CloudTeam'
 
-gem 'cloud_lesli', path: 'engines/CloudLesli'
+
+
 
 #gem 'cloud_courier', path: 'engines/CloudCourier'
 
