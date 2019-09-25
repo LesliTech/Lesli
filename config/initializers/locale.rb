@@ -2,7 +2,7 @@
 
 Rails.application.configure do
 
-    config.i18n.available_locales = [:en, :es, :de, :fr]
+    config.i18n.available_locales = [:de, :en, :es, :fr]
 
     config.i18n.default_locale = :en
 

@@ -1,4 +1,4 @@
-class LesliApplicationController < ActionController::Base
+class LesliApplicationController < ApplicationController
     before_action :authenticate_user!
     before_action :check_valid_account
 

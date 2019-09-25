@@ -26,6 +26,8 @@ Rails.application.routes.draw do
 
     end
 
+    #get :switch_locale, to: 'websites#switch_locale'
+
     root to: "websites#landing", as: :root_unauthenticated
     root to: "websites#landing"
 
