@@ -1,6 +1,5 @@
 
-= javascript_include_tag controller_path
--#= javascript_include_tag "lesli" if there is not an app for this request, I should load this file
+= javascript_include_tag [controller_path.split('/')[0], action_name].join('/')
 
 = javascript_include_tag "i18n"
 = javascript_include_tag "translations", skip_pipeline: true

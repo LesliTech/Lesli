@@ -16,7 +16,7 @@ Rails.application.routes.draw do
 
     authenticated :user do
 
-        root to: "cloud_lesli/dashboards#simple", as: :root_authenticated
+        root to: "cloud_lesli/dashboards#default", as: :root_authenticated
 
         mount CloudLesli::Engine => "/lesli"
         mount CloudTeam::Engine => "/team"
