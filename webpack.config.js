@@ -155,10 +155,18 @@ function webpackConfigBuilder(compilationMode) {
         // get app directories
         fs.readdirSync(path.join('./engines', engine, 'app', 'vue')).forEach(app => {
 
-            let filePath = './'+path.join('./engines', engine, 'app', 'vue', app, app.concat('.js'))
-            let fileName = app
+            fs.readdirSync(path.join('./engines', engine, 'app', 'vue', app)).forEach(action => {
 
-            webpackEngine.entry[fileName] = filePath
+                if (!action.endsWith('.js')) {
+                    return
+                }
+
+                let filePath = './'+path.join('./engines', engine, 'app', 'vue', app, action)
+                let fileName = action.replace('.js','')
+
+                webpackEngine.entry[fileName] = filePath
+
+            })
 
         })
         
