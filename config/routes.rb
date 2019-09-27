@@ -20,13 +20,11 @@ Rails.application.routes.draw do
 
         mount CloudLesli::Engine => "/lesli"
         mount CloudTeam::Engine => "/team"
-        #mount CloudKb::Engine => "/kb"
+        mount CloudKb::Engine => "/kb"
 
         resource :accounts
 
     end
-
-    #get :switch_locale, to: 'websites#switch_locale'
 
     root to: "websites#landing", as: :root_unauthenticated
     root to: "websites#landing"

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 1010210) do
+ActiveRecord::Schema.define(version: 2019_09_27_153811) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -43,16 +43,88 @@ ActiveRecord::Schema.define(version: 1010210) do
     t.index ["account_plans_id"], name: "index_accounts_on_account_plans_id"
   end
 
+  create_table "cloud_kb_accounts", force: :cascade do |t|
+  end
+
+  create_table "cloud_kb_article_actions", force: :cascade do |t|
+    t.string "description"
+    t.datetime "deadline"
+    t.integer "status"
+    t.string "tags"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.bigint "cloud_kb_articles_id"
+    t.index ["cloud_kb_articles_id"], name: "index_cloud_kb_article_actions_on_cloud_kb_articles_id"
+  end
+
+  create_table "cloud_kb_article_activities", force: :cascade do |t|
+    t.integer "type"
+    t.string "value"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.bigint "cloud_kb_articles_id"
+    t.index ["cloud_kb_articles_id"], name: "index_cloud_kb_article_activities_on_cloud_kb_articles_id"
+  end
+
+  create_table "cloud_kb_article_attachments", force: :cascade do |t|
+    t.string "filename"
+    t.string "path"
+    t.integer "type"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.bigint "cloud_kb_articles_id"
+    t.index ["cloud_kb_articles_id"], name: "index_cloud_kb_article_attachments_on_cloud_kb_articles_id"
+  end
+
+  create_table "cloud_kb_article_comments", force: :cascade do |t|
+    t.text "content"
+    t.string "tags"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.bigint "cloud_kb_article_comments_id"
+    t.bigint "cloud_kb_articles_id"
+    t.index ["cloud_kb_article_comments_id"], name: "article_comments"
+    t.index ["cloud_kb_articles_id"], name: "index_cloud_kb_article_comments_on_cloud_kb_articles_id"
+  end
+
+  create_table "cloud_kb_article_details", force: :cascade do |t|
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.bigint "cloud_kb_articles_id"
+    t.index ["cloud_kb_articles_id"], name: "index_cloud_kb_article_details_on_cloud_kb_articles_id"
+  end
+
+  create_table "cloud_kb_article_tags", force: :cascade do |t|
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.bigint "cloud_kb_accounts_id"
+    t.index ["cloud_kb_accounts_id"], name: "index_cloud_kb_article_tags_on_cloud_kb_accounts_id"
+  end
+
+  create_table "cloud_kb_article_topics", force: :cascade do |t|
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.bigint "cloud_kb_accounts_id"
+    t.index ["cloud_kb_accounts_id"], name: "index_cloud_kb_article_topics_on_cloud_kb_accounts_id"
+  end
+
+  create_table "cloud_kb_articles", force: :cascade do |t|
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.bigint "cloud_kb_accounts_id"
+    t.index ["cloud_kb_accounts_id"], name: "index_cloud_kb_articles_on_cloud_kb_accounts_id"
+  end
+
   create_table "cloud_team_accounts", force: :cascade do |t|
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
   end
 
   create_table "cloud_team_employee_actions", force: :cascade do |t|
-    t.text "content"
+    t.string "description"
+    t.datetime "deadline"
+    t.integer "status"
     t.string "tags"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
     t.bigint "cloud_team_employees_id"
     t.index ["cloud_team_employees_id"], name: "index_cloud_team_employee_actions_on_cloud_team_employees_id"
   end
@@ -164,8 +236,8 @@ ActiveRecord::Schema.define(version: 1010210) do
   end
 
   create_table "cloud_team_employees", force: :cascade do |t|
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
     t.bigint "cloud_team_accounts_id"
     t.index ["cloud_team_accounts_id"], name: "index_cloud_team_employees_on_cloud_team_accounts_id"
   end
@@ -248,6 +320,16 @@ ActiveRecord::Schema.define(version: 1010210) do
   end
 
   add_foreign_key "accounts", "account_plans", column: "account_plans_id"
+  add_foreign_key "cloud_kb_accounts", "accounts", column: "id"
+  add_foreign_key "cloud_kb_article_actions", "cloud_kb_articles", column: "cloud_kb_articles_id"
+  add_foreign_key "cloud_kb_article_activities", "cloud_kb_articles", column: "cloud_kb_articles_id"
+  add_foreign_key "cloud_kb_article_attachments", "cloud_kb_articles", column: "cloud_kb_articles_id"
+  add_foreign_key "cloud_kb_article_comments", "cloud_kb_article_comments", column: "cloud_kb_article_comments_id"
+  add_foreign_key "cloud_kb_article_comments", "cloud_kb_articles", column: "cloud_kb_articles_id"
+  add_foreign_key "cloud_kb_article_details", "cloud_kb_articles", column: "cloud_kb_articles_id"
+  add_foreign_key "cloud_kb_article_tags", "cloud_kb_accounts", column: "cloud_kb_accounts_id"
+  add_foreign_key "cloud_kb_article_topics", "cloud_kb_accounts", column: "cloud_kb_accounts_id"
+  add_foreign_key "cloud_kb_articles", "cloud_kb_accounts", column: "cloud_kb_accounts_id"
   add_foreign_key "cloud_team_accounts", "accounts", column: "id"
   add_foreign_key "cloud_team_employee_actions", "cloud_team_employees", column: "cloud_team_employees_id"
   add_foreign_key "cloud_team_employee_activities", "cloud_team_employees", column: "cloud_team_employees_id"
