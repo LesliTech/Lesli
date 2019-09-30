@@ -98,9 +98,9 @@ ol {
     border-radius: 10px;
     background-color: transparent;
     justify-content: space-between;
-    border: 2px solid lesli-color(lesli, primary);
-    border: 2px solid lesli-color(silver, 300);
-    background-color: rgba(lesli-color(lesli, primary), .05);
+    border: 2px solid blue;
+    border: 2px solid blue;
+    background-color: blue;
 }
 
 li {
@@ -108,8 +108,8 @@ li {
     height: 10px;
     border-radius: 50%;
     list-style-type: none;
-    background-color: lesli-color(lesli, primary);
-    border: 2px solid lesli-color(lesli, primary);
+    background-color: blue;
+    border: 2px solid blue;
     transition: background-color .2s ease;
 }
 

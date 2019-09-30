@@ -162,7 +162,7 @@ function webpackConfigBuilder(compilationMode) {
                 }
 
                 let filePath = './'+path.join('./engines', engine, 'app', 'vue', app, action)
-                let fileName = action.replace('.js','')
+                let fileName = [app, action.replace('.js','')].join('_')
 
                 webpackEngine.entry[fileName] = filePath
 
