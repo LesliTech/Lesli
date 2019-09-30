@@ -6,6 +6,7 @@ common: &common
     reconnect: false
     migrations_paths:
         - "db/migrate"
+        - "engines/CloudDriver/db/migrate"
         - "engines/CloudTeam/db/migrate"
         - "engines/CloudKb/db/migrate"
 

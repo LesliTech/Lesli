@@ -1,4 +1,10 @@
 PATH
+  remote: engines/CloudDriver
+  specs:
+    cloud_driver (0.1.0)
+      rails (~> 6.0.0)
+
+PATH
   remote: engines/CloudKb
   specs:
     cloud_kb (0.1.0)
@@ -244,6 +250,7 @@ DEPENDENCIES
   byebug
   cancan
   carrierwave
+  cloud_driver!
   cloud_kb!
   cloud_lesli!
   cloud_team!
