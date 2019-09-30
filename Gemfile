@@ -116,16 +116,10 @@ gem 'cloud_bell', path: 'engines/CloudBell'
 
 gem 'cloud_lesli', path: 'engines/CloudLesli'
 
+gem 'cloud_books', path: 'engines/CloudBooks'
+
 gem 'cloud_team', path: 'engines/CloudTeam'
 
+gem 'cloud_help', path: 'engines/CloudHelp'
+
 gem 'cloud_kb', path: 'engines/CloudKb'
-
-#gem 'cloud_panel', path: 'engines/CloudPanel'
-
-#gem 'cloud_courier', path: 'engines/CloudCourier'
-
-#gem 'cloud_books', path: 'engines/CloudBooks'
-
-#gem 'cloud_help', path: 'engines/CloudHelp'
-
-#gem 'cloud_lock', path: 'engines/CloudLock'

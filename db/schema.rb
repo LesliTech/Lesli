@@ -44,8 +44,6 @@ ActiveRecord::Schema.define(version: 7010206) do
   end
 
   create_table "cloud_bell_accounts", force: :cascade do |t|
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
   end
 
   create_table "cloud_bell_emails", force: :cascade do |t|
@@ -74,6 +72,11 @@ ActiveRecord::Schema.define(version: 7010206) do
     t.datetime "updated_at", precision: 6, null: false
     t.bigint "cloud_bell_accounts_id"
     t.index ["cloud_bell_accounts_id"], name: "index_cloud_bell_notifications_on_cloud_bell_accounts_id"
+  end
+
+  create_table "cloud_books_accounts", force: :cascade do |t|
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
   end
 
   create_table "cloud_driver_accounts", force: :cascade do |t|
