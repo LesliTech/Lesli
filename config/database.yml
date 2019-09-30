@@ -7,6 +7,7 @@ common: &common
     migrations_paths:
         - "db/migrate"
         - "engines/CloudDriver/db/migrate"
+        - "engines/CloudBell/db/migrate"
         - "engines/CloudTeam/db/migrate"
         - "engines/CloudKb/db/migrate"
 

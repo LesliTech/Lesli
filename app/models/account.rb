@@ -5,6 +5,7 @@ class Account < ApplicationRecord
 
     has_one :driver, class_name: "CloudDriver::Account", foreign_key: "id"
     has_one :team, class_name: "CloudTeam::Account", foreign_key: "id"
+    has_one :bell, class_name: "CloudBell::Account", foreign_key: "id"
     has_one :kb, class_name: "CloudKb::Account", foreign_key: "id"
 
 end

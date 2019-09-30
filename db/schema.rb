@@ -43,6 +43,39 @@ ActiveRecord::Schema.define(version: 7010206) do
     t.index ["account_plans_id"], name: "index_accounts_on_account_plans_id"
   end
 
+  create_table "cloud_bell_accounts", force: :cascade do |t|
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
+  create_table "cloud_bell_emails", force: :cascade do |t|
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.bigint "cloud_bell_accounts_id"
+    t.index ["cloud_bell_accounts_id"], name: "index_cloud_bell_emails_on_cloud_bell_accounts_id"
+  end
+
+  create_table "cloud_bell_messages", force: :cascade do |t|
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.bigint "cloud_bell_accounts_id"
+    t.index ["cloud_bell_accounts_id"], name: "index_cloud_bell_messages_on_cloud_bell_accounts_id"
+  end
+
+  create_table "cloud_bell_notification_types", force: :cascade do |t|
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.bigint "cloud_bell_accounts_id"
+    t.index ["cloud_bell_accounts_id"], name: "index_cloud_bell_notification_types_on_cloud_bell_accounts_id"
+  end
+
+  create_table "cloud_bell_notifications", force: :cascade do |t|
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.bigint "cloud_bell_accounts_id"
+    t.index ["cloud_bell_accounts_id"], name: "index_cloud_bell_notifications_on_cloud_bell_accounts_id"
+  end
+
   create_table "cloud_driver_accounts", force: :cascade do |t|
   end
 
@@ -407,6 +440,11 @@ ActiveRecord::Schema.define(version: 7010206) do
   end
 
   add_foreign_key "accounts", "account_plans", column: "account_plans_id"
+  add_foreign_key "cloud_bell_accounts", "accounts", column: "id"
+  add_foreign_key "cloud_bell_emails", "cloud_bell_accounts", column: "cloud_bell_accounts_id"
+  add_foreign_key "cloud_bell_messages", "cloud_bell_accounts", column: "cloud_bell_accounts_id"
+  add_foreign_key "cloud_bell_notification_types", "cloud_bell_accounts", column: "cloud_bell_accounts_id"
+  add_foreign_key "cloud_bell_notifications", "cloud_bell_accounts", column: "cloud_bell_accounts_id"
   add_foreign_key "cloud_driver_accounts", "accounts", column: "id"
   add_foreign_key "cloud_driver_calendar_actions", "cloud_driver_calendars", column: "cloud_driver_calendars_id"
   add_foreign_key "cloud_driver_calendar_activities", "cloud_driver_calendars", column: "cloud_driver_calendars_id"

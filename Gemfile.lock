@@ -1,4 +1,10 @@
 PATH
+  remote: engines/CloudBell
+  specs:
+    cloud_bell (0.1.0)
+      rails (~> 6.0.0)
+
+PATH
   remote: engines/CloudDriver
   specs:
     cloud_driver (0.1.0)
@@ -250,6 +256,7 @@ DEPENDENCIES
   byebug
   cancan
   carrierwave
+  cloud_bell!
   cloud_driver!
   cloud_kb!
   cloud_lesli!
