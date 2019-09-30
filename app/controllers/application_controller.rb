@@ -1,5 +1,6 @@
 class ApplicationController < ActionController::Base
 
+    # create method to switch locale
     around_action :switch_locale
 
     def switch_locale(&action)
