@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_09_27_153811) do
+ActiveRecord::Schema.define(version: 7010206) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -41,6 +41,93 @@ ActiveRecord::Schema.define(version: 2019_09_27_153811) do
     t.datetime "updated_at", null: false
     t.bigint "account_plans_id"
     t.index ["account_plans_id"], name: "index_accounts_on_account_plans_id"
+  end
+
+  create_table "cloud_driver_accounts", force: :cascade do |t|
+  end
+
+  create_table "cloud_driver_calendar_actions", force: :cascade do |t|
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.bigint "cloud_driver_calendars_id"
+    t.index ["cloud_driver_calendars_id"], name: "calendar_actions_calendars"
+  end
+
+  create_table "cloud_driver_calendar_activities", force: :cascade do |t|
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.bigint "cloud_driver_calendars_id"
+    t.index ["cloud_driver_calendars_id"], name: "calendar_activities_calendars"
+  end
+
+  create_table "cloud_driver_calendar_attachments", force: :cascade do |t|
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.bigint "cloud_driver_calendars_id"
+    t.index ["cloud_driver_calendars_id"], name: "calendar_attachments_calendars"
+  end
+
+  create_table "cloud_driver_calendar_comments", force: :cascade do |t|
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.bigint "cloud_driver_calendars_id"
+    t.index ["cloud_driver_calendars_id"], name: "calendar_comments_calendars"
+  end
+
+  create_table "cloud_driver_calendar_details", force: :cascade do |t|
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.bigint "cloud_driver_calendars_id"
+    t.index ["cloud_driver_calendars_id"], name: "calendar_details_calendars"
+  end
+
+  create_table "cloud_driver_calendars", force: :cascade do |t|
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.bigint "cloud_driver_accounts_id"
+    t.index ["cloud_driver_accounts_id"], name: "index_cloud_driver_calendars_on_cloud_driver_accounts_id"
+  end
+
+  create_table "cloud_driver_event_actions", force: :cascade do |t|
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.bigint "cloud_driver_events_id"
+    t.index ["cloud_driver_events_id"], name: "index_cloud_driver_event_actions_on_cloud_driver_events_id"
+  end
+
+  create_table "cloud_driver_event_activities", force: :cascade do |t|
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.bigint "cloud_driver_events_id"
+    t.index ["cloud_driver_events_id"], name: "index_cloud_driver_event_activities_on_cloud_driver_events_id"
+  end
+
+  create_table "cloud_driver_event_attachments", force: :cascade do |t|
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.bigint "cloud_driver_events_id"
+    t.index ["cloud_driver_events_id"], name: "index_cloud_driver_event_attachments_on_cloud_driver_events_id"
+  end
+
+  create_table "cloud_driver_event_comments", force: :cascade do |t|
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.bigint "cloud_driver_events_id"
+    t.index ["cloud_driver_events_id"], name: "index_cloud_driver_event_comments_on_cloud_driver_events_id"
+  end
+
+  create_table "cloud_driver_event_details", force: :cascade do |t|
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.bigint "cloud_driver_events_id"
+    t.index ["cloud_driver_events_id"], name: "index_cloud_driver_event_details_on_cloud_driver_events_id"
+  end
+
+  create_table "cloud_driver_events", force: :cascade do |t|
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.bigint "cloud_driver_calendars_id"
+    t.index ["cloud_driver_calendars_id"], name: "index_cloud_driver_events_on_cloud_driver_calendars_id"
   end
 
   create_table "cloud_kb_accounts", force: :cascade do |t|
@@ -320,6 +407,19 @@ ActiveRecord::Schema.define(version: 2019_09_27_153811) do
   end
 
   add_foreign_key "accounts", "account_plans", column: "account_plans_id"
+  add_foreign_key "cloud_driver_accounts", "accounts", column: "id"
+  add_foreign_key "cloud_driver_calendar_actions", "cloud_driver_calendars", column: "cloud_driver_calendars_id"
+  add_foreign_key "cloud_driver_calendar_activities", "cloud_driver_calendars", column: "cloud_driver_calendars_id"
+  add_foreign_key "cloud_driver_calendar_attachments", "cloud_driver_calendars", column: "cloud_driver_calendars_id"
+  add_foreign_key "cloud_driver_calendar_comments", "cloud_driver_calendars", column: "cloud_driver_calendars_id"
+  add_foreign_key "cloud_driver_calendar_details", "cloud_driver_calendars", column: "cloud_driver_calendars_id"
+  add_foreign_key "cloud_driver_calendars", "cloud_driver_accounts", column: "cloud_driver_accounts_id"
+  add_foreign_key "cloud_driver_event_actions", "cloud_driver_events", column: "cloud_driver_events_id"
+  add_foreign_key "cloud_driver_event_activities", "cloud_driver_events", column: "cloud_driver_events_id"
+  add_foreign_key "cloud_driver_event_attachments", "cloud_driver_events", column: "cloud_driver_events_id"
+  add_foreign_key "cloud_driver_event_comments", "cloud_driver_events", column: "cloud_driver_events_id"
+  add_foreign_key "cloud_driver_event_details", "cloud_driver_events", column: "cloud_driver_events_id"
+  add_foreign_key "cloud_driver_events", "cloud_driver_calendars", column: "cloud_driver_calendars_id"
   add_foreign_key "cloud_kb_accounts", "accounts", column: "id"
   add_foreign_key "cloud_kb_article_actions", "cloud_kb_articles", column: "cloud_kb_articles_id"
   add_foreign_key "cloud_kb_article_activities", "cloud_kb_articles", column: "cloud_kb_articles_id"
