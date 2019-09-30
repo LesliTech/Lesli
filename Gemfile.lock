@@ -5,9 +5,21 @@ PATH
       rails (~> 6.0.0)
 
 PATH
+  remote: engines/CloudBooks
+  specs:
+    cloud_books (0.1.0)
+      rails (~> 6.0.0)
+
+PATH
   remote: engines/CloudDriver
   specs:
     cloud_driver (0.1.0)
+      rails (~> 6.0.0)
+
+PATH
+  remote: engines/CloudHelp
+  specs:
+    cloud_help (0.1.0)
       rails (~> 6.0.0)
 
 PATH
@@ -257,7 +269,9 @@ DEPENDENCIES
   cancan
   carrierwave
   cloud_bell!
+  cloud_books!
   cloud_driver!
+  cloud_help!
   cloud_kb!
   cloud_lesli!
   cloud_team!
