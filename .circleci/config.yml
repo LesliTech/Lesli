@@ -5,5 +5,10 @@ jobs:
       - image: circleci/ruby:2.6.4
     steps:
       - checkout
-      - run: echo "A first hello"
       - run: ssh -oStrictHostKeyChecking=no -v $SERVER_USER@$SERVER_ADDRESS 'cd /var/www/lesli.cloud && git pull github master'
+        name: Database hard reset
+        command: |
+            rake db:drop && \
+            rake db:create && \
+            rake db:migrate && \
+            rake db:seed
