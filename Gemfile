@@ -123,3 +123,5 @@ gem 'cloud_team', path: 'engines/CloudTeam'
 gem 'cloud_help', path: 'engines/CloudHelp'
 
 gem 'cloud_kb', path: 'engines/CloudKb'
+
+gem 'cloud_panel', path: 'engines/CloudPanel'
