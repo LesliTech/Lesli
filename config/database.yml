@@ -11,6 +11,7 @@ common: &common
         - "engines/CloudPanel/db/migrate"
         - "engines/CloudBell/db/migrate"
         - "engines/CloudTeam/db/migrate"
+        - "engines/CloudLock/db/migrate"
         - "engines/CloudKb/db/migrate"
 
 development:

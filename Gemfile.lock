@@ -35,6 +35,12 @@ PATH
       rails (~> 6.0.0)
 
 PATH
+  remote: engines/CloudLock
+  specs:
+    cloud_lock (0.1.0)
+      rails (~> 6.0.0)
+
+PATH
   remote: engines/CloudPanel
   specs:
     cloud_panel (0.1.0)
@@ -280,6 +286,7 @@ DEPENDENCIES
   cloud_help!
   cloud_kb!
   cloud_lesli!
+  cloud_lock!
   cloud_panel!
   cloud_team!
   devise
