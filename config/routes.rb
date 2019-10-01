@@ -23,6 +23,7 @@ Rails.application.routes.draw do
         mount CloudBooks::Engine => "/books"
         mount CloudPanel::Engine => "/panel"
         mount CloudTeam::Engine => "/team"
+        mount CloudLock::Engine => "/lock"
         mount CloudBell::Engine => "/bell"
         mount CloudHelp::Engine => "/help"
         mount CloudKb::Engine => "/kb"

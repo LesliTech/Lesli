@@ -120,6 +120,8 @@ gem 'cloud_books', path: 'engines/CloudBooks'
 
 gem 'cloud_team', path: 'engines/CloudTeam'
 
+gem 'cloud_lock', path: 'engines/CloudLock'
+
 gem 'cloud_help', path: 'engines/CloudHelp'
 
 gem 'cloud_kb', path: 'engines/CloudKb'
