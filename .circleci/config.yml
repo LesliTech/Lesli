@@ -5,5 +5,8 @@ jobs:
       - image: circleci/ruby:2.6.4
     steps:
       - checkout
-      - run: ssh -oStrictHostKeyChecking=no -v $SERVER_USER@$SERVER_ADDRESS 'cd /var/www/lesli.cloud && git pull github master'
+      - run: ssh -oStrictHostKeyChecking=no -v $SERVER_USER@$SERVER_ADDRESS 
+      - run: cd /var/www/lesli.cloud
+      - run: git pull github master
+      - run: gem install bundler
       - run: rake db:drop
