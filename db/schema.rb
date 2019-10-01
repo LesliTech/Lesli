@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 7010206) do
+ActiveRecord::Schema.define(version: 8010001) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -236,6 +236,9 @@ ActiveRecord::Schema.define(version: 7010206) do
     t.datetime "updated_at", precision: 6, null: false
     t.bigint "cloud_kb_accounts_id"
     t.index ["cloud_kb_accounts_id"], name: "index_cloud_kb_articles_on_cloud_kb_accounts_id"
+  end
+
+  create_table "cloud_panel_accounts", force: :cascade do |t|
   end
 
   create_table "cloud_team_accounts", force: :cascade do |t|
@@ -471,6 +474,7 @@ ActiveRecord::Schema.define(version: 7010206) do
   add_foreign_key "cloud_kb_article_tags", "cloud_kb_accounts", column: "cloud_kb_accounts_id"
   add_foreign_key "cloud_kb_article_topics", "cloud_kb_accounts", column: "cloud_kb_accounts_id"
   add_foreign_key "cloud_kb_articles", "cloud_kb_accounts", column: "cloud_kb_accounts_id"
+  add_foreign_key "cloud_panel_accounts", "accounts", column: "id"
   add_foreign_key "cloud_team_accounts", "accounts", column: "id"
   add_foreign_key "cloud_team_employee_actions", "cloud_team_employees", column: "cloud_team_employees_id"
   add_foreign_key "cloud_team_employee_activities", "cloud_team_employees", column: "cloud_team_employees_id"

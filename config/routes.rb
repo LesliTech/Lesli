@@ -21,6 +21,7 @@ Rails.application.routes.draw do
         mount CloudDriver::Engine => "/driver"
         mount CloudLesli::Engine => "/lesli"
         mount CloudBooks::Engine => "/books"
+        mount CloudPanel::Engine => "/panel"
         mount CloudTeam::Engine => "/team"
         mount CloudBell::Engine => "/bell"
         mount CloudHelp::Engine => "/help"

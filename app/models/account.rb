@@ -8,6 +8,7 @@ class Account < ApplicationRecord
     has_one :bell, class_name: "CloudBell::Account", foreign_key: "id"
     has_one :kb, class_name: "CloudKb::Account", foreign_key: "id"
     has_one :books, class_name: "CloudBooks::Account", foreign_key: "id"
-    has_one :help, class_name: "CloudHelp::Acccounts", foreign_key: "id"
+    has_one :help, class_name: "CloudHelp::Account", foreign_key: "id"
+    has_one :panel, class_name: "CloudPanel::Account", foreign_key: "id"
 
 end
