@@ -6,8 +6,9 @@ jobs:
     steps:
       - checkout
       - run: ssh -oStrictHostKeyChecking=no -v $SERVER_USER@$SERVER_ADDRESS 'cd /var/www/lesli.cloud && git pull github master'
+      - run: 
         name: Database hard reset
-        command: |
+          command: |
             rake db:drop && \
             rake db:create && \
             rake db:migrate && \
