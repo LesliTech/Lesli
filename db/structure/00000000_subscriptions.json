@@ -1,0 +1,19 @@
+[{
+    "name": "get",
+    "type": "boolean"
+},{
+    "name": "post",
+    "type": "boolean"
+},{
+    "name": "put",
+    "type": "boolean"
+},{
+    "name": "patch",
+    "type": "boolean"
+},{
+    "name": "destroy",
+    "type": "boolean"
+},{
+    "name": "user",
+    "type": "bigint"
+}]

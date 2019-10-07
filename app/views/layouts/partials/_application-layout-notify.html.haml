@@ -1,0 +1,9 @@
+%component-layout-notify
+- if notice
+    .notification.is-primary
+        %button.delete
+        %p= notice
+- if alert
+    .notification.is-warning
+        %button.delete
+        %p= alert
