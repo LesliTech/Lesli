@@ -232,6 +232,9 @@ ActiveRecord::Schema.define(version: 8020001) do
   end
 
   create_table "cloud_kb_articles", force: :cascade do |t|
+    t.string "title"
+    t.text "content"
+    t.bigint "parent_id"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.bigint "cloud_kb_accounts_id"
@@ -477,6 +480,7 @@ ActiveRecord::Schema.define(version: 8020001) do
   add_foreign_key "cloud_kb_article_tags", "cloud_kb_accounts", column: "cloud_kb_accounts_id"
   add_foreign_key "cloud_kb_article_topics", "cloud_kb_accounts", column: "cloud_kb_accounts_id"
   add_foreign_key "cloud_kb_articles", "cloud_kb_accounts", column: "cloud_kb_accounts_id"
+  add_foreign_key "cloud_kb_articles", "cloud_kb_articles", column: "parent_id"
   add_foreign_key "cloud_lock_accounts", "accounts", column: "id"
   add_foreign_key "cloud_panel_accounts", "accounts", column: "id"
   add_foreign_key "cloud_team_accounts", "accounts", column: "id"

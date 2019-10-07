@@ -30,6 +30,7 @@ Building a better future, one line of code at a time.
 //  · Loading core framework and libraries
 // ~·~        ~·~        ~·~        ~·~        ~·~        ~·~        ~·~        ~·~        ~·~
 import dayjs from 'dayjs'
+import VCalendar from 'v-calendar';
 
 
 //  · Loading apps, modules and components
