@@ -12,6 +12,8 @@
     },
     "devDependencies": {
 
+        "@rails/actioncable": "6.0.0",
+
         "lesli-nodejs-debug-message": "ssh://git@github.com:LesliTech/lesli-nodejs-debug-message.git#master",
         "lesli-css": "ssh://git@github.com:LesliTech/lesli-css.git#master",
 

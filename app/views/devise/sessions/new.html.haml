@@ -2,7 +2,7 @@
     %a.logo{:href => root_path}
         = image_tag "brand/leslicloud-logo.png", alt: "LesliCloud logo" 
 
-    = render 'layouts/partials/application-alert'
+    = render 'layouts/partials/application-layout-notify'
 
     = form_for(resource, as: resource_name, url: session_path(resource_name)) do |f|
 
