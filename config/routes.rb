@@ -18,6 +18,7 @@ Rails.application.routes.draw do
 
         root to: "cloud_lesli/dashboards#default", as: :root_authenticated
 
+        mount CloudCourier::Engine => "/courier"
         mount CloudDriver::Engine => "/driver"
         mount CloudLesli::Engine => "/lesli"
         mount CloudBooks::Engine => "/books"
