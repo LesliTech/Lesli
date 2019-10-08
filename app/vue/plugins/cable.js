@@ -1,4 +1,3 @@
-<script>
 /*
 Lesli
 
@@ -27,36 +26,19 @@ Building a better future, one line of code at a time.
 */
 
 
-// · LesliCloud component
-// · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
+// · Loading core framework and libraries
+// · ~·~        ~·~        ~·~        ~·~        ~·~        ~·~        ~·~        ~·~        ~·~
+import { createConsumer } from "@rails/actioncable"
+
+
+//  · Plugin initializing 
+// ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
 export default {
-    data() {
-        return {
-            isActive: false,
-            type: "is-danger"
-        }
-    },
-    mounted() {
-        var self = this
-        this.cable.subscriptions.create("CloudCourier::Bell::WebNotificationChannel", {
-            received(data) {
-                self.isActive = true
-            }
-        })
+
+    install (Vue, options) {
+        
+        Vue.prototype.cable = createConsumer('courier/cable')
+
     }
+    
 }
-</script>
-<template>
-    <section class="component_notify">
-        <b-notification 
-            :type="type" 
-            :duration="4000" 
-            :active.sync="isActive" 
-            auto-close 
-            aria-close-label="Close notification">
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-        </b-notification>
-    </section>
-</template>
-
-
