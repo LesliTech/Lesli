@@ -37,7 +37,7 @@ export default {
 
     install (Vue, options) {
         
-        Vue.prototype.cable = createConsumer('courier/cable')
+        Vue.prototype.cable = createConsumer('/courier/cable')
 
     }
     

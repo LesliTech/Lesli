@@ -1,4 +1,4 @@
-class InstallAudited < ActiveRecord::Migration[6.0]
+class CreateAudited < ActiveRecord::Migration[6.0]
 
     def self.up
         create_table :audits, :force => true do |t|
