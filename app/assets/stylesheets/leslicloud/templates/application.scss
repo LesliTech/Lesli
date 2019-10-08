@@ -95,14 +95,15 @@ main {
 }
 
 #lesli-debug-bar {
-    display: block;
     width: 100%;
-    position: fixed;
     bottom: 0px;
-    background-color: #e0e0e0;
-    overflow: hidden;
     height: 50px;
+    display: block;
     padding: .8rem;
+    z-index: 99999;
+    position: fixed;
+    overflow: hidden;
+    background-color: #e0e0e0;
 
     &:hover {
         height: auto;
