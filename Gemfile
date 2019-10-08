@@ -45,20 +45,24 @@ gem 'sass-rails', '~> 5'
 # HAML template procesor
 gem 'haml-rails'
 
+# Add carrierwave to upload documents
+gem 'carrierwave'
+
+# logs
+gem "audited", "~> 4.9"
+
 # Use postgresql as the database for Active Record
 gem 'pg', '>= 0.18', '< 2.0'
+
+# Add can can gem to authorization and roles permissions
+gem "cancan"
+
 
 # Use Puma as the app server
 gem 'puma', '~> 3.11'
 
 #gem 'devise'
 gem 'devise' #, git: 'https://github.com/plataformatec/devise.git'
-
-# Add can can gem to authorization and roles permissions
-gem "cancan"
-
-# Add carrierwave to upload documents
-gem 'carrierwave'
 
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
