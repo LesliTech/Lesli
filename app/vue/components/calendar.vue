@@ -30,16 +30,22 @@ Building a better future, one line of code at a time.
 //  · Loading core framework and libraries
 // ~·~        ~·~        ~·~        ~·~        ~·~        ~·~        ~·~        ~·~        ~·~
 import dayjs from 'dayjs'
-import VCalendar from 'v-calendar';
+import { Calendar, setupCalendar } from 'v-calendar'
 
 
-//  · Loading apps, modules and components
+//  · Initializing 
 // ~·~        ~·~        ~·~        ~·~        ~·~        ~·~        ~·~        ~·~        ~·~
+setupCalendar({
+    componentPrefix: 'vc'
+})
 
 
 // · LesliCloud app
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
 export default {
+    components: {
+        'v-calendar': Calendar
+    },
     data() {
         return {
             attributes: [{
