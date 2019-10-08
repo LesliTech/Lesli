@@ -43,8 +43,8 @@ export default {
     },
     mounted() {
         var self = this
-        let consumer = createConsumer('http://0.0.0.0:3000/cable')
-        consumer.subscriptions.create("WebNotificationsChannel", {
+        let consumer = createConsumer('http://0.0.0.0:3000/courier/cable')
+        consumer.subscriptions.create("CloudCourier::WebNotificationsChannel", {
             received(data) {
                 console.log('notify component', data)
                 self.isActive = true
