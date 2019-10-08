@@ -1,0 +1,11 @@
+development:
+  adapter: async
+
+test:
+  adapter: async
+
+staging:
+  adapter: async
+
+production:
+  adapter: async
