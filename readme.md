@@ -14,7 +14,7 @@ Version 0.1.0-alpha
 #### Development
 -------
 
-__Exec server__
+__Run server__
 ```shell
 rails s --environment=production
 rails s --environment=development
@@ -28,7 +28,7 @@ EDITOR="code --wait" rails credentials:edit
 
 __Work with the database:__
 ```js
-npm run db:hard-reset
+npm run db:reset
 ```
 
 __Assets__
