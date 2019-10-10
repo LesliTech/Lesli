@@ -1,0 +1,46 @@
+[{
+    "name": "get",
+    "type": "boolean"
+},{
+    "name": "auditable_id", 
+    "type": "integer"
+},{
+    "name": "auditable_type",
+    "type": "string"
+},{
+    "name": "associated_id ",
+    "type": "integer"
+},{
+    "name": "associated_type",
+    "type": "string"
+},{
+    "name": "user_id",
+    "type": "integer"
+},{
+    "name": "user_type", 
+    "type": "string"
+},{
+    "name": "username", 
+    "type": "string"
+},{
+    "name": "action",
+    "type": "string"
+},{
+    "name": "audited_changes",
+    "type": "jsonb"
+},{
+    "name": "version", 
+    "type": "integer"
+},{
+    "name": "comment", 
+    "type": "string"
+},{
+    "name": "remote_address", 
+    "type": "string"
+},{
+    "name": "request_uuid", 
+    "type": "string"
+},{
+    "name": "created_at", 
+    "type": "datetime"
+}]
