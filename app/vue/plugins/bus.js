@@ -37,7 +37,16 @@ export default {
 
     install (Vue, options) {
     
-        let bus = new Vue();
+        let bus = new Vue()
+
+        document.addEventListener("keydown", e => {
+
+            if ((window.navigator.platform.match("Mac") ? e.metaKey : e.ctrlKey)  && e.keyCode == 83) {
+                e.preventDefault()
+                bus.$emit("cloud-ctrl-save")
+            }
+
+        }, false)
 
         Vue.prototype.bus = bus
 
