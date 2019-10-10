@@ -67,8 +67,6 @@ Vue.use(pluginUrl)
 Vue.use(pluginHttp)
 Vue.use(pluginCable)
 
-//Vue.config.ignoredElements = ['trix-editor', 'trix-toolbar']
-
 export default (module, app, components={}) => {
 
     functionDocument.ready(() => {
