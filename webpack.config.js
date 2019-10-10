@@ -42,7 +42,7 @@ function webpackConfigBuilder(compilationMode) {
     // · 
     var webpackbase = {
         watch: !production,
-        mode: production ? "production" : "development",
+        mode: production ? "production" : "production",
         performance: { hints: false },
         optimization: !production ? { minimize: false } :  {
             minimizer: [

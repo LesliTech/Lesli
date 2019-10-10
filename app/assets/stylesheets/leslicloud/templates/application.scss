@@ -89,6 +89,11 @@ body {
 
 }
 
+// overrides over trix editor
+.trix-button--icon-attach {
+    display: none !important;
+}
+
 footer,
 main {
     //display: none;
