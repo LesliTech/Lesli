@@ -12,7 +12,7 @@ class LesliApplicationController < ApplicationController
 
     end
 
-    def responseWithSuccess(data = nil)
+    def responseWithSuccessful(data = nil)
         render status: 200, json: {
             successful: true,
             data: data
