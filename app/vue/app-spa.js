@@ -59,7 +59,7 @@ import componentLayoutChatbox from 'LesliCloud/vue/layout/chatbox.vue'
 
 
 // · Initializing frameworks, libraries and tools
-// · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
+// · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
 Vue.use(Buefy)
 Vue.use(VueRouter)
 Vue.use(pluginBus)
@@ -69,32 +69,33 @@ Vue.use(pluginCable)
 
 
 
-// · LesliCloud app
-// · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
-let cloud = new Vue({
-
-    components: {
-        'component-layout-header': componentLayoutHeader,
-        'component-layout-notify': componentLayoutNotify,
-        'component-layout-chatbox': componentLayoutChatbox
-    },
-
-    //router: new VueRouter({})
-
-})
-
-
-cloud.run = (module, app) => {
+// · Vue app
+// · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
+export default (module, app, base_path, routes={}) => {
 
     functionDocument.ready(() => {
 
-        cloud.$mount("#lesli-cloud-app")
+        let cloud = new Vue({
+
+            components: {
+                'component-layout-header': componentLayoutHeader,
+                'component-layout-notify': componentLayoutNotify,
+                'component-layout-chatbox': componentLayoutChatbox
+            },
+
+            router: new VueRouter({
+                mode: "history",
+                base: base_path,
+                routes: routes
+            })
     
+        })
+
+        cloud.$mount("#lesli-cloud-app")
+
         if (leslicloud_app_mode_production) debug.userWarningMessage()
         if (leslicloud_app_mode_development) debug.info(app, module)
-      
+
     })
 
 }
-
-export default cloud

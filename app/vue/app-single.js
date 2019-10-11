@@ -59,7 +59,7 @@ import componentLayoutChatbox from 'LesliCloud/vue/layout/chatbox.vue'
 
 
 // · Initializing frameworks, libraries and tools
-// · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
+// · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
 Vue.use(Buefy)
 Vue.use(VueRouter)
 Vue.use(pluginBus)
@@ -67,6 +67,10 @@ Vue.use(pluginUrl)
 Vue.use(pluginHttp)
 Vue.use(pluginCable)
 
+
+
+// · Vue app
+// · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
 export default (module, app, components={}) => {
 
     functionDocument.ready(() => {
@@ -81,7 +85,7 @@ export default (module, app, components={}) => {
     
         })
 
-        cloud.$options.components  = { ...cloud.$options.components, ...components}
+        cloud.$options.components  = { ...cloud.$options.components, ...components }
 
         cloud.$mount("#lesli-cloud-app")
 
