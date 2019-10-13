@@ -46,7 +46,6 @@ import pluginCable from 'LesliCloud/vue/plugins/cable'
 // · Loading app functions
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
 import debug from 'lesli-nodejs-debug-message/browser'
-import functionDocument from 'LesliCloud/vue/functions/document'
 
 
 
@@ -73,25 +72,21 @@ Vue.use(pluginCable)
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
 export default (module, app, components={}) => {
 
-    functionDocument.ready(() => {
+    let cloud = new Vue({
 
-        let cloud = new Vue({
-
-            components: {
-                'component-layout-header': componentLayoutHeader,
-                'component-layout-notify': componentLayoutNotify,
-                'component-layout-chatbox': componentLayoutChatbox
-            }
-    
-        })
-
-        cloud.$options.components  = { ...cloud.$options.components, ...components }
-
-        cloud.$mount("#lesli-cloud-app")
-
-        if (leslicloud_app_mode_production) debug.userWarningMessage()
-        if (leslicloud_app_mode_development) debug.info(app, module)
+        components: {
+            'component-layout-header': componentLayoutHeader,
+            'component-layout-notify': componentLayoutNotify,
+            'component-layout-chatbox': componentLayoutChatbox
+        }
 
     })
+
+    cloud.$options.components  = { ...cloud.$options.components, ...components }
+
+    cloud.$mount("#lesli-cloud-app")
+
+    if (leslicloud_app_mode_production) debug.userWarningMessage()
+    if (leslicloud_app_mode_development) debug.info(app, module)
 
 }

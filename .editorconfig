@@ -10,11 +10,11 @@ end_of_line = lf
 insert_final_newline = true
 
 # Set default charset
-[*.{rb,ts,vue,js,json,yml,scss,styl,css,html,haml,erb,md}]
+[*.{rake, rb,ts,vue,js,json,yml,scss,styl,css,html,haml,erb,md}]
 charset = utf-8
 
 # 4 space indentation
-[*.{rb,ts,vue,js,json,yml,scss,styl,css,html,haml,erb,md}]
+[*.{rake, rb,ts,vue,js,json,yml,scss,styl,css,html,haml,erb,md}]
 indent_style = space
 indent_size = 4
 
