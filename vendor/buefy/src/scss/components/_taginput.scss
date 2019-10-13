@@ -1,0 +1,58 @@
+$taginput-height: 1.7em;
+
+.taginput {
+    .taginput-container {
+        &.is-focusable {
+            @extend .input;
+            padding-bottom: 0;
+            padding-top: calc(0.275em - 1px);
+            padding-left: 0;
+            align-items: center;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: flex-start;
+            height: auto;
+            cursor: text;
+        }
+
+        > .tag,
+        > .tags {
+            margin-bottom: calc(0.275em - 1px);
+            font-size: 0.9em;
+            height: $taginput-height;
+            .tag {
+                margin-bottom: 0;
+                font-size: 0.9em;
+                height: $taginput-height;
+                &.is-delete {
+                    width: $taginput-height;
+                }
+            }
+            &:not(:last-child) {
+                margin-left: 0.275rem;
+            }
+        }
+
+        .autocomplete {
+            flex: 1;
+            input {
+                height: $taginput-height;
+                margin-bottom: calc(0.275em - 1px);
+                padding-top: 0;
+                padding-bottom: 0;
+                border: none;
+                box-shadow: none;
+                min-width: 8em;
+                &:focus {
+                    box-shadow: none !important;
+                }
+            }
+            .icon {
+                height: $taginput-height;
+            }
+            > .control.is-loading::after {
+                top: 0.375em;
+            }
+        }
+    }
+}
