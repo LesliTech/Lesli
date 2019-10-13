@@ -16,7 +16,7 @@ Rails.application.routes.draw do
 
     authenticated :user do
 
-        root to: "cloud_lesli/dashboards#default", as: :root_authenticated
+        root to: redirect('/lesli'), as: :root_authenticated
 
         mount CloudCourier::Engine => "/courier"
         mount CloudDriver::Engine => "/driver"
