@@ -248,6 +248,8 @@ ActiveRecord::Schema.define(version: 8020001) do
 
   create_table "cloud_help_ticket_details", force: :cascade do |t|
     t.string "subject"
+    t.text "description"
+    t.string "tags"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.bigint "cloud_help_tickets_id"
@@ -286,13 +288,6 @@ ActiveRecord::Schema.define(version: 8020001) do
     t.datetime "updated_at", precision: 6, null: false
     t.bigint "cloud_help_accounts_id"
     t.index ["cloud_help_accounts_id"], name: "index_cloud_help_ticket_states_on_cloud_help_accounts_id"
-  end
-
-  create_table "cloud_help_ticket_tags", force: :cascade do |t|
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-    t.bigint "cloud_help_accounts_id"
-    t.index ["cloud_help_accounts_id"], name: "index_cloud_help_ticket_tags_on_cloud_help_accounts_id"
   end
 
   create_table "cloud_help_ticket_timelines", force: :cascade do |t|
@@ -633,7 +628,6 @@ ActiveRecord::Schema.define(version: 8020001) do
   add_foreign_key "cloud_help_ticket_priorities", "cloud_help_accounts", column: "cloud_help_accounts_id"
   add_foreign_key "cloud_help_ticket_sources", "cloud_help_accounts", column: "cloud_help_accounts_id"
   add_foreign_key "cloud_help_ticket_states", "cloud_help_accounts", column: "cloud_help_accounts_id"
-  add_foreign_key "cloud_help_ticket_tags", "cloud_help_accounts", column: "cloud_help_accounts_id"
   add_foreign_key "cloud_help_ticket_timelines", "cloud_help_tickets", column: "cloud_help_tickets_id"
   add_foreign_key "cloud_help_ticket_types", "cloud_help_accounts", column: "cloud_help_accounts_id"
   add_foreign_key "cloud_help_tickets", "cloud_help_accounts", column: "cloud_help_accounts_id"

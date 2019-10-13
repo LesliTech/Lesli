@@ -53,7 +53,6 @@
 
     },
     "scripts": {
-        "db:reset": "rails db:environment:set RAILS_ENV=development && rake db:drop && rake db:create && rake db:migrate && rake db:seed",
         "webpack:production": "webpack --progress --env=production",
         "webpack": "webpack --progress --env=development",
         "vendor": "./.dev/vendor.sh"

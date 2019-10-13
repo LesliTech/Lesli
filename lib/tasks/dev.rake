@@ -7,7 +7,7 @@ namespace :dev do
         system "cp node_modules/lesli-css/ vendor/ -ra"
         system "cp node_modules/bulma/ vendor/ -ra"
         system "cp node_modules/buefy/ vendor/ -ra"
-        system "git add --all && git commit -m \"Updatin vendors\""
+        system "git add --all && git commit -m \"Updating vendors\""
 
         system "cd ./engines/CloudBell"
         system "git push github master"
@@ -40,6 +40,17 @@ namespace :dev do
         system "git push github master"
 
         system "git push github master"
+
+    end
+
+    desc "TODO"
+    task reset: :environment do
+        
+        system "rails db:environment:set RAILS_ENV=development"
+        Rake::Task["db:drop"].invoke
+        Rake::Task["db:create"].invoke
+        Rake::Task["db:migrate"].invoke
+        Rake::Task["db:seed"].invoke
 
     end
 
@@ -95,4 +106,5 @@ namespace :dev do
         system "sudo service nginx restart"
 
     end
+
 end
