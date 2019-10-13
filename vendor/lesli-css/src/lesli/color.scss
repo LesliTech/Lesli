@@ -1,0 +1,146 @@
+/**
+Lesli
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+LesliCSS - SCSS Utilities for websites and web applications  
+
+Powered by https://www.lesli.tech
+Building a better future, one line of code at a time.
+
+@dev      Luis Donis <ldonis@lesli.tech>
+@author   LesliTech <hello@lesli.tech>
+@license  GPLv3 http://www.gnu.org/licenses/gpl-3.0.en.html
+@version  0.2.0-alpha
+
+// · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
+// · 
+*/
+
+
+// · LesliTech standard color pallete
+// · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
+@function lesli-color($pallete, $variant: 500) {
+
+    $lesli-colors: (
+
+        // · lesli
+        lesli: (
+            primary: #196EAF
+        ),
+
+        // · blue
+        blue: (
+            100: #8cd5ff,
+            300: #64baff,
+            500: #3689e6,
+            700: #0d52bf,
+            900: #002e99 
+        ),
+
+        // · Administration
+        slate: (
+            100: #95a3ab,
+            300: #667885,
+            500: #485a6c,
+            700: #273445,
+            900: #0e141f 
+        ),
+
+        // · Sales & Marketing
+        grape: (
+            100: #e4c6fa,
+            300: #cd9ef7,
+            500: #a56de2,
+            700: #7239b3,
+            900: #452981 
+        ),
+
+        // · Productivity & Workteam
+        lime: (
+            100: #d1ff82,
+            300: #9bdb4d,
+            500: #68b723,
+            700: #3a9104,
+            900: #206b00 
+        ),
+
+        // · Finance
+        orange: (
+            100: #ffc27d,
+            300: #ffa154,
+            500: #f37329,
+            700: #cc3b02,
+            900: #a62100 
+        ),
+
+        // · Analytics
+        berry: (
+            100: #ff8c82,
+            300: #ed5353,
+            500: #c6262e,
+            700: #a10705,
+            900: #7a0000 
+        ),
+
+        // · Intelligence
+        cocoa: (
+            100: #a3907c,
+            300: #8a715e,
+            500: #715344,
+            700: #57392d,
+            900: #3d211b 
+        ),
+
+        // · IT & Help Desk
+        banana: (
+            100: #fff394,
+            300: #ffe16b,
+            500: #f9c440,
+            700: #d48e15,
+            900: #ad5f00 
+        ),
+
+        // · Security & Privacy
+        silver: (
+            100: #fafafa,
+            300: #d4d4d4,
+            500: #abacae,
+            700: #7e8087,
+            900: #555761 
+        ),
+
+        // · Integrations
+        black: (
+            100: #666666,
+            300: #4d4d4d,
+            500: #333333,
+            700: #1a1a1a,
+            900: #000000 
+        ),
+
+        // · Global & common colors
+        standard: (
+            white: rgb(255, 255, 255)
+        )
+
+    );
+
+    $pallete: map-get($lesli-colors, $pallete);
+
+    $color: map-get($pallete, $variant);
+
+    @return $color;
+
+}

@@ -1,0 +1,67 @@
+/**
+Lesli
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+LesliCSS - SCSS Utilities for websites and web applications  
+
+Powered by https://www.lesli.tech
+Building a better future, one line of code at a time.
+
+@dev      Luis Donis <ldonis@lesli.tech>
+@author   LesliTech <hello@lesli.tech>
+@license  GPLv3 http://www.gnu.org/licenses/gpl-3.0.en.html
+@version  0.2.0-alpha
+
+// · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
+// · 
+*/
+
+
+//  · Font families
+// · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
+@function lesli-font($property, $selector, $default:'') {
+
+    // · 
+    $lesli-font: (
+
+        weight: (
+            light: 300,
+            normal: 400,
+            bold: 600
+        )
+
+    );
+
+    $lesli-font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    $lesli-font-family-body: $default, $lesli-font-family;
+    $lesli-font-family-title: $default, $lesli-font-family-body;
+
+    @if $property == "family" {
+
+        @if $selector == "body" {
+            @return $lesli-font-family-body;
+        }
+
+        @if $selector == "title" {
+            @return $lesli-font-family-title;
+        }
+        
+    }
+
+    $property: map-get($lesli-font, $property);
+
+    @return map-get($property, $selector);
+
+}
