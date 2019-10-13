@@ -24,6 +24,10 @@
         "webpack-cli": "3.3.6",
         "terser-webpack-plugin": "1.4.1",
 
+        "gulp-sass": "4.0.2",
+        "gulp-cli": "2.2.0",
+        "gulp": "4.0.2",
+
         "css-loader": "3.2.0",
         "sass-loader": "7.2.0",
         "style-loader": "1.0.0",
@@ -50,8 +54,9 @@
     },
     "scripts": {
         "db:reset": "rails db:environment:set RAILS_ENV=development && rake db:drop && rake db:create && rake db:migrate && rake db:seed",
+        "webpack:production": "webpack --progress --env=production",
         "webpack": "webpack --progress --env=development",
-        "webpack:production": "webpack --progress --env=production"
+        "vendor": "./.dev/vendor.sh"
     }
     
 }
