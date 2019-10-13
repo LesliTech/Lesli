@@ -46,6 +46,7 @@ import pluginCable from 'LesliCloud/vue/plugins/cable'
 // · Loading app functions
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
 import debug from 'lesli-nodejs-debug-message/browser'
+import document from 'LesliCloud/vue/functions/document.js'
 
 
 
@@ -84,9 +85,13 @@ export default (module, app, components={}) => {
 
     cloud.$options.components  = { ...cloud.$options.components, ...components }
 
-    cloud.$mount("#lesli-cloud-app")
+    document.ready(() => {
 
-    if (leslicloud_app_mode_production) debug.userWarningMessage()
-    if (leslicloud_app_mode_development) debug.info(app, module)
+        cloud.$mount("#lesli-cloud-app")
+
+        if (leslicloud_app_mode_production) debug.userWarningMessage()
+        if (leslicloud_app_mode_development) debug.info(app, module)
+
+    })
 
 }
