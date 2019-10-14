@@ -237,13 +237,14 @@ ActiveRecord::Schema.define(version: 8020001) do
 
   create_table "cloud_help_ticket_comments", force: :cascade do |t|
     t.text "content"
-    t.string "tags"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.bigint "cloud_help_ticket_comments_id"
+    t.bigint "users_id"
     t.bigint "cloud_help_tickets_id"
     t.index ["cloud_help_ticket_comments_id"], name: "ticket_comments"
     t.index ["cloud_help_tickets_id"], name: "index_cloud_help_ticket_comments_on_cloud_help_tickets_id"
+    t.index ["users_id"], name: "index_cloud_help_ticket_comments_on_users_id"
   end
 
   create_table "cloud_help_ticket_details", force: :cascade do |t|
@@ -307,8 +308,10 @@ ActiveRecord::Schema.define(version: 8020001) do
   create_table "cloud_help_tickets", force: :cascade do |t|
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.bigint "users_id"
     t.bigint "cloud_help_accounts_id"
     t.index ["cloud_help_accounts_id"], name: "index_cloud_help_tickets_on_cloud_help_accounts_id"
+    t.index ["users_id"], name: "index_cloud_help_tickets_on_users_id"
   end
 
   create_table "cloud_kb_accounts", force: :cascade do |t|
@@ -346,7 +349,6 @@ ActiveRecord::Schema.define(version: 8020001) do
 
   create_table "cloud_kb_article_comments", force: :cascade do |t|
     t.text "content"
-    t.string "tags"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.bigint "cloud_kb_article_comments_id"
@@ -427,7 +429,6 @@ ActiveRecord::Schema.define(version: 8020001) do
 
   create_table "cloud_team_employee_comments", force: :cascade do |t|
     t.text "content"
-    t.string "tags"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.bigint "cloud_team_employee_comments_id"
@@ -623,6 +624,7 @@ ActiveRecord::Schema.define(version: 8020001) do
   add_foreign_key "cloud_help_ticket_categories", "cloud_help_accounts", column: "cloud_help_accounts_id"
   add_foreign_key "cloud_help_ticket_comments", "cloud_help_ticket_comments", column: "cloud_help_ticket_comments_id"
   add_foreign_key "cloud_help_ticket_comments", "cloud_help_tickets", column: "cloud_help_tickets_id"
+  add_foreign_key "cloud_help_ticket_comments", "users", column: "users_id"
   add_foreign_key "cloud_help_ticket_details", "cloud_help_tickets", column: "cloud_help_tickets_id"
   add_foreign_key "cloud_help_ticket_follows", "cloud_help_tickets", column: "cloud_help_tickets_id"
   add_foreign_key "cloud_help_ticket_priorities", "cloud_help_accounts", column: "cloud_help_accounts_id"
@@ -631,6 +633,7 @@ ActiveRecord::Schema.define(version: 8020001) do
   add_foreign_key "cloud_help_ticket_timelines", "cloud_help_tickets", column: "cloud_help_tickets_id"
   add_foreign_key "cloud_help_ticket_types", "cloud_help_accounts", column: "cloud_help_accounts_id"
   add_foreign_key "cloud_help_tickets", "cloud_help_accounts", column: "cloud_help_accounts_id"
+  add_foreign_key "cloud_help_tickets", "users", column: "users_id"
   add_foreign_key "cloud_kb_accounts", "accounts", column: "id"
   add_foreign_key "cloud_kb_article_actions", "cloud_kb_articles", column: "cloud_kb_articles_id"
   add_foreign_key "cloud_kb_article_activities", "cloud_kb_articles", column: "cloud_kb_articles_id"
