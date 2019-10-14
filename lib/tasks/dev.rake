@@ -34,8 +34,7 @@ namespace :dev do
         system "cd /var/www/LesliCloud/lesli.cloud/engines/CloudLock"
         system "git push github master"
 
-        system "cd /var/www/LesliCloud/lesli.cloud/engines/CloudPanel"
-        system "git push github master"
+        system "cd /var/www/LesliCloud/lesli.cloud/engines/CloudPanel && git push github master"
 
         system "cd /var/www/LesliCloud/lesli.cloud/engines/CloudTeam"
         system "git push github master"
@@ -59,7 +58,7 @@ namespace :dev do
     desc "TODO"
     task install: :environment do
 
-        system "git pull origin master --no-edit"
+        system "cd /var/www/LesliCloud/lesli.cloud && git pull origin master --no-edit"
 
         system "cd /var/www/LesliCloud/lesli.cloud/engines/CloudBell"
         system "git pull origin master --no-edit"
@@ -85,8 +84,7 @@ namespace :dev do
         system "cd /var/www/LesliCloud/lesli.cloud/engines/CloudLock"
         system "git pull origin master --no-edit"
 
-        system "cd /var/www/LesliCloud/lesli.cloud/engines/CloudPanel"
-        system "git pull origin master --no-edit"
+        system "cd /var/www/LesliCloud/lesli.cloud/engines/CloudPanel && git pull origin master --no-edit"
 
         system "cd /var/www/LesliCloud/lesli.cloud/engines/CloudTeam"
         system "git pull origin master --no-edit"
