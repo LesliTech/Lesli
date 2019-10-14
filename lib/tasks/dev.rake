@@ -8,28 +8,20 @@ namespace :dev do
         system "cp node_modules/buefy/ vendor/ -ra"
         system "cp node_modules/lesli-css/ vendor/ -ra"
         system "cp node_modules/@fullcalendar/ vendor/ -ra"
+
         system "git add --all && git commit -m \"Updating vendors\""
 
         system "cd ./engines/CloudBell && git push github master"
-
         system "cd ./engines/CloudBooks && git push github master"
-
         system "cd ./engines/CloudCourier && git push github master"
-
         system "cd ./engines/CloudDriver && git push github master"
-
         system "cd ./engines/CloudHelp && git push github master"
-
         system "cd ./engines/CloudKb && git push github master"
-
         system "cd ./engines/CloudLesli && git push github master"
-
         system "cd ./engines/CloudLock && git push github master"
-
         system "cd ./engines/CloudPanel && git push github master"
-
         system "cd ./engines/CloudTeam && git push github master"
-
+        
         system "git push github master"
 
     end
@@ -38,10 +30,10 @@ namespace :dev do
     task reset: :environment do
         
         system "rails db:environment:set RAILS_ENV=development"
-        Rake::Task["db:drop"].invoke
-        Rake::Task["db:create"].invoke
-        Rake::Task["db:migrate"].invoke
-        Rake::Task["db:seed"].invoke
+        system "rake db:drop RAILS_ENV=development" 
+        system "rake db:create RAILS_ENV=development" 
+        system "rake db:migrate RAILS_ENV=development" 
+        system "rake db:seed RAILS_ENV=development" 
 
     end
 
@@ -49,25 +41,15 @@ namespace :dev do
     task install: :environment do
 
         system "git pull origin master --no-edit"
-
         system "cd ./engines/CloudBell && git pull origin master --no-edit"
-
         system "cd ./engines/CloudBooks && git pull origin master --no-edit"
-
         system "cd ./engines/CloudCourier && git pull origin master --no-edit"
-
         system "cd ./engines/CloudDriver && git pull origin master --no-edit"
-
         system "cd ./engines/CloudHelp && git pull origin master --no-edit"
-
         system "cd ./engines/CloudKb && git pull origin master --no-edit"
-
         system "cd ./engines/CloudLesli && git pull origin master --no-edit"
-
         system "cd ./engines/CloudLock && git pull origin master --no-edit"
-
         system "cd ./engines/CloudPanel && git pull origin master --no-edit"
-
         system "cd ./engines/CloudTeam && git pull origin master --no-edit"
 
         system "rvm use default"
@@ -75,13 +57,12 @@ namespace :dev do
         system "bundle install"
 
         system "rake db:drop RAILS_ENV=production DISABLE_DATABASE_ENVIRONMENT_CHECK=1"
-        Rake::Task["db:create"].invoke
-        Rake::Task["db:migrate"].invoke
-        Rake::Task["db:seed"].invoke
+        system "rake db:create RAILS_ENV=production" 
+        system "rake db:migrate RAILS_ENV=production" 
+        system "rake db:seed RAILS_ENV=production" 
 
         system "bundle exec rake assets:clean RAILS_ENV=production"
         system "bundle exec rake assets:precompile RAILS_ENV=production"
-
         system "sudo service nginx restart"
 
     end
