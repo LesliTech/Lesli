@@ -5,4 +5,4 @@ jobs:
       - image: circleci/ruby:2.6.4
     steps:
       - checkout
-      - run: ssh -oStrictHostKeyChecking=no -v $SERVER_USER@$SERVER_ADDRESS 'cd /var/www/lesli.cloud && rake dev:install RAILS_ENV=production'
+      - run: ssh -oStrictHostKeyChecking=no -v $SERVER_USER@$SERVER_ADDRESS 'cd /var/www && ./leslicloud-deploy'
