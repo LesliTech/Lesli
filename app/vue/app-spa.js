@@ -82,8 +82,8 @@ export default (module, app, base_path, routes={}) => {
         },
 
         router: new VueRouter({
-            mode: "history",
-            base: base_path,
+            //mode: "history",
+            //base: base_path,
             routes: routes
         })
 
