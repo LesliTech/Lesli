@@ -38,6 +38,12 @@ import componentCommentList from 'LesliCloud/vue/components/lists/comment.vue'
 // · Component show
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
 export default {
+    props: {
+        cloudModule: {
+            type: String,
+            required: true
+        }
+    },
     components: {
         'component-comment-form': componentCommentForm,
         'component-comment-list': componentCommentList
@@ -46,7 +52,7 @@ export default {
 </script>
 <template>
     <section class="section">
-        <component-comment-form module="/help/ticket/"></component-comment-form>
+        <component-comment-form :cloud-module="cloudModule"></component-comment-form>
         <component-comment-list></component-comment-list>
     </section>
 </template>

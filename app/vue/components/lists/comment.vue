@@ -45,7 +45,6 @@ export default {
                 if (result.successful) {
                     this.comments = result.data
                 }
-                console.log(result)
             }).catch(error => {
                 console.log(error)
             })
