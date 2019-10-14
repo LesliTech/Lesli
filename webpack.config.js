@@ -67,7 +67,8 @@ function webpackConfigBuilder(compilationMode) {
                 vue: production ? 'vue/dist/vue.min.js' : 'vue/dist/vue.js',
 
                 // Resolve alias necessary to load vue components from LesliCloud
-                LesliCloud: path.resolve(__dirname, './app')
+                LesliCloud: path.resolve(__dirname, './app'),
+                CloudDriver:  path.resolve(__dirname, './engines/CloudDriver/app')
 
             },
             extensions: [".js"]
