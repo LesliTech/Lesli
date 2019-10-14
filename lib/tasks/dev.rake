@@ -4,9 +4,10 @@ namespace :dev do
     task push: :environment do
 
         system "rm -r vendor/*"
-        system "cp node_modules/lesli-css/ vendor/ -ra"
         system "cp node_modules/bulma/ vendor/ -ra"
         system "cp node_modules/buefy/ vendor/ -ra"
+        system "cp node_modules/lesli-css/ vendor/ -ra"
+        system "cp node_modules/@fullcalendar/ vendor/ -ra"
         system "git add --all && git commit -m \"Updating vendors\""
 
         system "cd ./engines/CloudBell"
