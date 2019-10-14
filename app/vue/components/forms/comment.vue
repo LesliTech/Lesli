@@ -38,9 +38,8 @@ import VueTrix from "vue-trix"
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
 export default {
     props: {
-        module: {
-            type: String,
-            required: true
+        cloudModule: {
+            type: String
         }
     },
     components: {
@@ -60,7 +59,7 @@ export default {
 
             if (e) { e.preventDefault() }
 
-            this.http.post("/help/ticket/comments", {
+            this.http.post(`${this.cloudModule}/comments`, {
                 ticket_comment: this.comment
             }).then(result => {
                 if (result.successful) {
