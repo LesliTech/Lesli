@@ -95,7 +95,7 @@ namespace :dev do
         system "gem install bundler"
         system "bundle install"
 
-        Rake::Task["db:drop"].invoke
+        Rake::Task["db:drop"].invoke("DISABLE_DATABASE_ENVIRONMENT_CHECK=1")
         Rake::Task["db:create"].invoke
         Rake::Task["db:migrate"].invoke
         Rake::Task["db:seed"].invoke
