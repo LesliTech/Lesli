@@ -1,4 +1,4 @@
-class ApplicationCloudController < ApplicationController
+class ApplicationLesliController < ApplicationController
     before_action :authenticate_user!
     before_action :check_valid_account
     layout 'layouts/application'
