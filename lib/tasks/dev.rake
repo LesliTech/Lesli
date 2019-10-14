@@ -10,36 +10,26 @@ namespace :dev do
         system "cp node_modules/@fullcalendar/ vendor/ -ra"
         system "git add --all && git commit -m \"Updating vendors\""
 
-        system "cd /var/www/LesliCloud/lesli.cloud/engines/CloudBell"
-        system "git push github master"
+        system "cd ./engines/CloudBell && git push github master"
 
-        system "cd /var/www/LesliCloud/lesli.cloud/engines/CloudBooks"
-        system "git push github master"
+        system "cd ./engines/CloudBooks && git push github master"
 
-        system "cd /var/www/LesliCloud/lesli.cloud/engines/CloudCourier"
-        system "git push github master"
+        system "cd ./engines/CloudCourier && git push github master"
 
-        system "cd /var/www/LesliCloud/lesli.cloud/engines/CloudDriver"
-        system "git push github master"
+        system "cd ./engines/CloudDriver && git push github master"
 
-        system "cd /var/www/LesliCloud/lesli.cloud/engines/CloudHelp"
-        system "git push github master"
+        system "cd ./engines/CloudHelp && git push github master"
 
-        system "cd /var/www/LesliCloud/lesli.cloud/engines/CloudKb"
-        system "git push github master"
+        system "cd ./engines/CloudKb && git push github master"
 
-        system "cd /var/www/LesliCloud/lesli.cloud/engines/CloudLesli"
-        system "git push github master"
+        system "cd ./engines/CloudLesli && git push github master"
 
-        system "cd /var/www/LesliCloud/lesli.cloud/engines/CloudLock"
-        system "git push github master"
+        system "cd ./engines/CloudLock && git push github master"
 
-        system "cd /var/www/LesliCloud/lesli.cloud/engines/CloudPanel && git push github master"
+        system "cd ./engines/CloudPanel && git push github master"
 
-        system "cd /var/www/LesliCloud/lesli.cloud/engines/CloudTeam"
-        system "git push github master"
+        system "cd ./engines/CloudTeam && git push github master"
 
-        system "cd /var/www/LesliCloud/lesli.cloud"
         system "git push github master"
 
     end
@@ -58,38 +48,27 @@ namespace :dev do
     desc "TODO"
     task install: :environment do
 
-        system "cd /var/www/LesliCloud/lesli.cloud && git pull origin master --no-edit"
-
-        system "cd /var/www/LesliCloud/lesli.cloud/engines/CloudBell"
         system "git pull origin master --no-edit"
 
-        system "cd /var/www/LesliCloud/lesli.cloud/engines/CloudBooks"
-        system "git pull origin master --no-edit"
+        system "cd ./engines/CloudBell && git pull origin master --no-edit"
 
-        system "cd /var/www/LesliCloud/lesli.cloud/engines/CloudCourier"
-        system "git pull origin master --no-edit"
+        system "cd ./engines/CloudBooks && git pull origin master --no-edit"
 
-        system "cd /var/www/LesliCloud/lesli.cloud/engines/CloudDriver"
-        system "git pull origin master --no-edit"
+        system "cd ./engines/CloudCourier && git pull origin master --no-edit"
 
-        system "cd /var/www/LesliCloud/lesli.cloud/engines/CloudHelp"
-        system "git pull origin master --no-edit"
+        system "cd ./engines/CloudDriver && git pull origin master --no-edit"
 
-        system "cd /var/www/LesliCloud/lesli.cloud/engines/CloudKb"
-        system "git pull origin master --no-edit"
+        system "cd ./engines/CloudHelp && git pull origin master --no-edit"
 
-        system "cd /var/www/LesliCloud/lesli.cloud/engines/CloudLesli"
-        system "git pull origin master --no-edit"
+        system "cd ./engines/CloudKb && git pull origin master --no-edit"
 
-        system "cd /var/www/LesliCloud/lesli.cloud/engines/CloudLock"
-        system "git pull origin master --no-edit"
+        system "cd ./engines/CloudLesli && git pull origin master --no-edit"
 
-        system "cd /var/www/LesliCloud/lesli.cloud/engines/CloudPanel && git pull origin master --no-edit"
+        system "cd ./engines/CloudLock && git pull origin master --no-edit"
 
-        system "cd /var/www/LesliCloud/lesli.cloud/engines/CloudTeam"
-        system "git pull origin master --no-edit"
+        system "cd ./engines/CloudPanel && git pull origin master --no-edit"
 
-        system "cd /var/www/LesliCloud/lesli.cloud"
+        system "cd ./engines/CloudTeam && git pull origin master --no-edit"
 
         system "rvm use default"
         system "gem install bundler"
