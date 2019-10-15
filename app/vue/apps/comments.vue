@@ -42,6 +42,10 @@ export default {
         cloudModule: {
             type: String,
             required: true
+        },
+        cloudOwnerId: {
+            type: Number,
+            required: true
         }
     },
     components: {
@@ -52,7 +56,7 @@ export default {
 </script>
 <template>
     <section class="section">
-        <component-comment-form :cloud-module="cloudModule"></component-comment-form>
-        <component-comment-list></component-comment-list>
+        <component-comment-form :cloud-module="cloudModule" :cloud-owner-id="cloudOwnerId"></component-comment-form>
+        <component-comment-list :cloud-module="cloudModule" :cloud-owner-id="cloudOwnerId"></component-comment-list>
     </section>
 </template>

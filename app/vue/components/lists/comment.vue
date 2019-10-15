@@ -26,13 +26,22 @@ Building a better future, one line of code at a time.
 // · 
 */
 export default {
+    props: {
+        cloudModule: {
+            type: String,
+            required: true
+        },
+        cloudOwnerId: {
+            type: Number,
+            required: true
+        }
+    },
     data() {
         return {
             comments: []
         }
     },
     mounted() {
-        this.getComments()
         this.bus.$on("post:components/forms/comment", () => {
             this.getComments()
         })
@@ -41,7 +50,7 @@ export default {
 
         getComments() {
 
-            this.http.get("/help/ticket/comments").then(result => {
+            this.http.get(`/${this.cloudModule}s/${this.cloudOwnerId}/comments`).then(result => {
                 if (result.successful) {
                     this.comments = result.data
                 }
@@ -51,6 +60,11 @@ export default {
 
         }
 
+    },
+    watch: {
+        cloudOwnerId(cloudOwnerId) {
+            this.getComments()
+        }
     }
 }
 </script>
