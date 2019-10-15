@@ -39,7 +39,12 @@ import VueTrix from "vue-trix"
 export default {
     props: {
         cloudModule: {
-            type: String
+            type: String,
+            required: true
+        },
+        cloudOwnerId: {
+            type: Number,
+            required: true
         }
     },
     components: {
@@ -59,7 +64,10 @@ export default {
 
             if (e) { e.preventDefault() }
 
-            this.http.post(`${this.cloudModule}/comments`, {
+            // add owner id
+            this.comment[`cloud_${this.cloudModule.replace('/','_')}s_id`] = this.cloudOwnerId
+
+            this.http.post(`/${this.cloudModule}/comments`, {
                 ticket_comment: this.comment
             }).then(result => {
                 if (result.successful) {
