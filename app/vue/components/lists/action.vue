@@ -25,18 +25,6 @@ Building a better future, one line of code at a time.
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
 // · 
 */
-
-
-
-// · Import modules, components and apps
-// · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
-import componentActionForm from 'LesliCloud/vue/components/forms/action.vue'
-import componentActionList from 'LesliCloud/vue/components/lists/action.vue'
-
-
-
-// · Component show
-// · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
 export default {
     props: {
         cloudModule: {
@@ -47,15 +35,44 @@ export default {
             required: true
         }
     },
-    components: {
-        'component-action-form': componentActionForm,
-        'component-action-list': componentActionList
+    data() {
+        return {
+            actions: []
+        }
+    },
+    mounted() {
+        this.bus.$on("post:components/forms/actions", () => {
+            this.getActions()
+        })
+    },
+    methods: {
+
+        getActions() {
+            this.http.get(`/${this.cloudModule}s/${this.cloudOwnerId}/actions`).then(result => {
+                if (result.successful) {
+                    this.actions = result.data
+                }
+            }).catch(error => {
+                console.log(error)
+            })
+        }
+
+    },
+    watch: {
+        cloudOwnerId(cloudOwnerId) {
+            this.getActions()
+        }
     }
 }
 </script>
 <template>
     <section class="section">
-        <component-action-form :cloud-module="cloudModule" :cloud-owner-id="cloudOwnerId" />
-        <component-action-list :cloud-module="cloudModule" :cloud-owner-id="cloudOwnerId" />
+        <div class="card">
+            <div class="card-content">
+                <ul>
+                    <li v-for="action in actions" :key="action.id">{{ action.instructions }}</li>
+                </ul>
+            </div>
+        </div>
     </section>
 </template>
