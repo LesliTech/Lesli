@@ -28,12 +28,6 @@ Building a better future, one line of code at a time.
 
 
 
-// · Import modules, components and apps
-// · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
-import VueTrix from "vue-trix"
-
-
-
 // · Component
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
 export default {
@@ -46,33 +40,29 @@ export default {
             required: true
         }
     },
-    components: {
-        'component-trix-editor': VueTrix
-    },
     data() {
         return {
-            show_simple_form: true,
-            comment: {
-                content: ""
+            action: {
+                instructions: ""
             }
         }
     },
     methods: {
         
-        postComment(e) {
+        postAction(e) {
 
             if (e) { e.preventDefault() }
 
             // add owner id
-            this.comment[`cloud_${this.cloudModule.replace('/','_')}s_id`] = this.cloudOwnerId
+            this.action[`cloud_${this.cloudModule.replace('/','_')}s_id`] = this.cloudOwnerId
 
             this.http.post(`/${this.cloudModule}/comments`, {
-                ticket_comment: this.comment
+                action: this.comment
             }).then(result => {
                 if (result.successful) {
-                    this.comment.content = ""
+                    this.action.content = ""
                 }
-                this.bus.$emit("post:components/forms/comment")
+                this.bus.$emit("post:components/forms/action")
                 console.log(result)
             }).catch(error => {
                 console.log(error)
@@ -88,9 +78,8 @@ export default {
     <section class="section">
         <div class="card">
             <div class="card-content">
-                <form @submit="postComment">
-                    <input v-if="show_simple_form" class="input" type="text" v-model="comment.content" placeholder="Add a comment...">
-                    <component-trix-editor v-if="!show_simple_form" v-model="comment.content"></component-trix-editor>
+                <form @submit="postAction">
+                    <input class="input" type="text" v-model="action.instructions" placeholder="Add new action...">
                 </form>
             </div>
         </div>

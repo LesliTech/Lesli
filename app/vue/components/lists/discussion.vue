@@ -37,20 +37,20 @@ export default {
     },
     data() {
         return {
-            comments: []
+            discussions: []
         }
     },
     mounted() {
-        this.bus.$on("post:components/forms/comment", () => {
-            this.getComments()
+        this.bus.$on("post:components/forms/discussion", () => {
+            this.getDiscussions()
         })
     },
     methods: {
 
-        getComments() {
-            this.http.get(`/${this.cloudModule}s/${this.cloudOwnerId}/comments`).then(result => {
+        getDiscussions() {
+            this.http.get(`/${this.cloudModule}s/${this.cloudOwnerId}/discussions`).then(result => {
                 if (result.successful) {
-                    this.comments = result.data
+                    this.discussions = result.data
                 }
             }).catch(error => {
                 console.log(error)
@@ -60,14 +60,14 @@ export default {
     },
     watch: {
         cloudOwnerId(cloudOwnerId) {
-            this.getComments()
+            this.getDiscussions()
         }
     }
 }
 </script>
 <template>
     <section class="section">
-        <div class="box" v-for="comment in comments" :key="comment.id">
+        <div class="box" v-for="discussion in discussions" :key="discussion.id">
             <div class="media">
                 <div class="media-left">
                     <figure class="image is-64x64">
@@ -78,9 +78,9 @@ export default {
                     <div class="content">
                         <p>
                             <strong>John Smith</strong>
-                            <small>{{ comment.created_at }}</small>
+                            <small>{{ discussion.created_at }}</small>
                         </p>
-                        <div v-html="comment.content"></div>
+                        <div v-html="discussion.content"></div>
                         <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean efficitur sit amet massa fringilla egestas. Nullam condimentum luctus turpis.</p>
                     </div>
                 </div>

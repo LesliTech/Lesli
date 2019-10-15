@@ -30,8 +30,8 @@ Building a better future, one line of code at a time.
 
 // · Import modules, components and apps
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
-import componentCommentForm from 'LesliCloud/vue/components/forms/comment.vue'
-import componentCommentList from 'LesliCloud/vue/components/lists/comment.vue'
+import componentDiscussionForm from 'LesliCloud/vue/components/forms/discussion.vue'
+import componentDiscussionList from 'LesliCloud/vue/components/lists/discussion.vue'
 
 
 
@@ -48,14 +48,14 @@ export default {
         }
     },
     components: {
-        'component-comment-form': componentCommentForm,
-        'component-comment-list': componentCommentList
+        'component-discussion-form': componentDiscussionForm,
+        'component-discussion-list': componentDiscussionList
     }
 }
 </script>
 <template>
     <section class="section">
-        <component-comment-form :cloud-module="cloudModule" :cloud-owner-id="cloudOwnerId"></component-comment-form>
-        <component-comment-list :cloud-module="cloudModule" :cloud-owner-id="cloudOwnerId"></component-comment-list>
+        <component-discussion-form :cloud-module="cloudModule" :cloud-owner-id="cloudOwnerId" />
+        <component-discussion-list :cloud-module="cloudModule" :cloud-owner-id="cloudOwnerId" />
     </section>
 </template>
