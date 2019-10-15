@@ -83,6 +83,7 @@ export default (module, app, base_path, routes={}) => {
         },
 
         router: new VueRouter({
+            linkActiveClass: 'is-active',
             //mode: "history",
             //base: base_path,
             routes: routes
