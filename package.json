@@ -45,6 +45,7 @@
         "chart.js": "2.8.0",
         "apexcharts": "3.8.4",
         "vue-apexcharts": "1.4.0",
+        "bulma-extensions": "6.2.7",
         "v-calendar": "1.0.0-beta.22",
         "@fullcalendar/vue": "4.3.1",
         "@fullcalendar/core": "4.3.1",

@@ -33,6 +33,7 @@ Building a better future, one line of code at a time.
 @import "leslicloud/settings/functions.scss";
 @import "leslicloud/settings/fonts.scss";
 @import "leslicloud/overrides/bulma.scss";
+@import "leslicloud/overrides/bulma-extensions.scss";
 @import "leslicloud/overrides/bulma-layout.scss";
 @import "leslicloud/overrides/bulma-elements.scss";
 
@@ -92,37 +93,4 @@ body {
 // overrides over trix editor
 .trix-button--icon-attach {
     display: none !important;
-}
-
-footer,
-main {
-    //display: none;
-}
-
-#lesli-debug-bar {
-    width: 100%;
-    bottom: 0px;
-    height: 50px;
-    display: block;
-    padding: .8rem;
-    z-index: 99999;
-    position: fixed;
-    overflow: hidden;
-    background-color: #e0e0e0;
-
-    &:hover {
-        height: auto;
-        max-height: 100%;
-        overflow-y: scroll;
-    }
-
-    h2 {
-        display: block;
-        padding-bottom: .8rem;
-    }
-
-    b {
-        font-weight: 600;
-        font-size: 1.05rem;
-    }
 }
