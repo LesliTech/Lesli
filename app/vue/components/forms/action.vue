@@ -62,8 +62,7 @@ export default {
                 if (result.successful) {
                     this.action.instructions = ""
                 }
-                this.bus.$emit("post:components/forms/action")
-                console.log(result)
+                this.bus.$emit("post:components/forms/actions")
             }).catch(error => {
                 console.log(error)
             })
