@@ -25,7 +25,6 @@ export default {
             </div>
             <div class="navbar-end">
                 <router-link class="navbar-item" v-if="id" :to="`/${ id }/show`">Details</router-link>
-                <router-link class="navbar-item" v-if="id" :to="`/${ id }/edit`">Edit</router-link>
                 <router-link class="navbar-item" v-if="id" :to="`/${ id }/discussion`">Discussion</router-link>
                 <router-link class="navbar-item" v-if="id" :to="`/${ id }/actions`">Actions</router-link>
                 <router-link class="navbar-item" v-if="id" :to="`/${ id }/show`">Files</router-link>
