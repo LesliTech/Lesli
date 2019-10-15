@@ -32,7 +32,6 @@ export default {
             required: true
         },
         cloudOwnerId: {
-            type: Number,
             required: true
         }
     },
@@ -49,7 +48,6 @@ export default {
     methods: {
 
         getComments() {
-
             this.http.get(`/${this.cloudModule}s/${this.cloudOwnerId}/comments`).then(result => {
                 if (result.successful) {
                     this.comments = result.data
@@ -57,7 +55,6 @@ export default {
             }).catch(error => {
                 console.log(error)
             })
-
         }
 
     },

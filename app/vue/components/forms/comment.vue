@@ -43,7 +43,6 @@ export default {
             required: true
         },
         cloudOwnerId: {
-            type: Number,
             required: true
         }
     },
