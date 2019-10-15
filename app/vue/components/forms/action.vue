@@ -56,11 +56,11 @@ export default {
             // add owner id
             this.action[`cloud_${this.cloudModule.replace('/','_')}s_id`] = this.cloudOwnerId
 
-            this.http.post(`/${this.cloudModule}/comments`, {
-                action: this.comment
+            this.http.post(`/${this.cloudModule}/actions`, {
+                ticket_action: this.action
             }).then(result => {
                 if (result.successful) {
-                    this.action.content = ""
+                    this.action.instructions = ""
                 }
                 this.bus.$emit("post:components/forms/action")
                 console.log(result)
