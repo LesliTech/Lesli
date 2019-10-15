@@ -42,9 +42,6 @@ export default {
         cloudModule: {
             type: String,
             required: true
-        },
-        cloudOwnerId: {
-            required: true
         }
     },
     components: {
@@ -55,7 +52,7 @@ export default {
 </script>
 <template>
     <section class="section">
-        <component-discussion-form :cloud-module="cloudModule" :cloud-owner-id="cloudOwnerId" />
-        <component-discussion-list :cloud-module="cloudModule" :cloud-owner-id="cloudOwnerId" />
+        <component-discussion-form :cloud-module="cloudModule" :cloud-owner-id="$route.params['parent_id']" />
+        <component-discussion-list :cloud-module="cloudModule" :cloud-owner-id="$route.params['parent_id']" />
     </section>
 </template>
