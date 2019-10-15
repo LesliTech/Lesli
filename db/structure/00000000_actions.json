@@ -1,5 +1,8 @@
 [{
-    "name": "description",
+    "name": "type",
+    "type": "integer"
+},{
+    "name": "instructions",
     "type": "string"
 },{
     "name": "deadline",
