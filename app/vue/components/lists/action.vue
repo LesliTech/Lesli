@@ -41,6 +41,7 @@ export default {
         }
     },
     mounted() {
+        this.getActions()
         this.bus.$on("post:components/forms/actions", () => {
             this.getActions()
         })
@@ -57,11 +58,6 @@ export default {
             })
         }
 
-    },
-    watch: {
-        cloudOwnerId(cloudOwnerId) {
-            this.getActions()
-        }
     }
 }
 </script>
