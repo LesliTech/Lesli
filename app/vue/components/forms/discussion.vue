@@ -87,6 +87,11 @@ export default {
 <template>
     <section class="section">
         <div class="card">
+            <div class="card-header">
+                <h4 class="card-header-title">
+                    Add new comment
+                </h4>
+            </div>
             <div class="card-content">
                 <form @submit="postDiscussion">
                     <input v-if="show_simple_form" class="input" type="text" v-model="discussion.content" placeholder="Add a comment...">
