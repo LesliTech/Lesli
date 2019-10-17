@@ -202,7 +202,7 @@ ActiveRecord::Schema.define(version: 8020001) do
     t.integer "type"
     t.string "instructions"
     t.datetime "deadline"
-    t.integer "status"
+    t.boolean "complete"
     t.string "tags"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
@@ -322,7 +322,7 @@ ActiveRecord::Schema.define(version: 8020001) do
     t.integer "type"
     t.string "instructions"
     t.datetime "deadline"
-    t.integer "status"
+    t.boolean "complete"
     t.string "tags"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
@@ -403,7 +403,7 @@ ActiveRecord::Schema.define(version: 8020001) do
     t.integer "type"
     t.string "instructions"
     t.datetime "deadline"
-    t.integer "status"
+    t.boolean "complete"
     t.string "tags"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
