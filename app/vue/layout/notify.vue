@@ -30,32 +30,42 @@ Building a better future, one line of code at a time.
 // · LesliCloud component
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
 export default {
-    data() {
-        return {
-            isActive: false,
-            type: "is-danger"
-        }
-    },
     mounted() {
+
+        this.bus.$on('component:notify#alert', (message, type='primary') => {
+            this.$buefy.toast.open({
+                queue: true,
+                duration: 3500,
+                position: 'is-bottom-right',
+                message: message,
+                type: `is-${ type }`
+            })
+        })
+
+        this.bus.$on('component:notify#notification', (message, type='success') => {
+
+            this.$buefy.notification.open({
+                queue: true,
+                duration: 2000,
+                position: 'is-bottom-right',
+                message: message,
+                type: `is-${ type }`
+            })
+
+        })
+
         var self = this
         this.cable.subscriptions.create("CloudCourier::Bell::WebNotificationChannel", {
             received(data) {
-                self.isActive = true
+                console.log(data)
             }
         })
+
     }
 }
 </script>
 <template>
-    <section class="component_notify">
-        <b-notification 
-            :type="type" 
-            :duration="4000" 
-            :active.sync="isActive" 
-            auto-close 
-            aria-close-label="Close notification">
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-        </b-notification>
+    <section>
     </section>
 </template>
 

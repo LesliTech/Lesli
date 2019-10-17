@@ -40,6 +40,7 @@ import pluginBus from 'LesliCloud/vue/plugins/bus'
 import pluginUrl from 'LesliCloud/vue/plugins/url'
 import pluginHttp from 'LesliCloud/vue/plugins/http'
 import pluginCable from 'LesliCloud/vue/plugins/cable'
+import pluginNotify from 'LesliCloud/vue/plugins/notify'
 
 
 
@@ -66,6 +67,7 @@ Vue.use(pluginBus)
 Vue.use(pluginUrl)
 Vue.use(pluginHttp)
 Vue.use(pluginCable)
+Vue.use(pluginNotify)
 
 
 

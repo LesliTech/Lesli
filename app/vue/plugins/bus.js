@@ -33,18 +33,24 @@ export default {
 
     install (Vue, options) {
     
-        let bus = new Vue()
+        Vue.prototype.bus = new Vue()
 
         document.addEventListener("keydown", e => {
 
             if ((window.navigator.platform.match("Mac") ? e.metaKey : e.ctrlKey)  && e.keyCode == 83) {
                 e.preventDefault()
-                bus.$emit("cloud-ctrl-save")
+                Vue.prototype.bus.$emit("cloud-ctrl-save")
             }
 
         }, false)
 
-        Vue.prototype.bus = bus
+        Vue.prototype.notification = (message, type) => {
+            Vue.prototype.bus.$emit('component:notify#notification', message, type)
+        }
+
+        Vue.prototype.alert = (message, type) => {
+            Vue.prototype.bus.$emit('component:notify#alert', message, type)
+        }
 
     }
     
