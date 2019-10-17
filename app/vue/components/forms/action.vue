@@ -62,7 +62,7 @@ export default {
                 if (result.successful) {
                     this.action.instructions = ""
                 }
-                this.bus.$emit("post:components/forms/actions")
+                this.bus.$emit(`post:/${this.cloudModule}/actions`)
             }).catch(error => {
                 console.log(error)
             })
