@@ -42,7 +42,7 @@ export default {
     },
     mounted() {
         this.getActions()
-        this.bus.$on("post:components/forms/actions", () => {
+        this.bus.$on("post:/help/ticket/actions", () => {
             this.getActions()
         })
     },
@@ -52,6 +52,27 @@ export default {
             this.http.get(`/${this.cloudModule}s/${this.cloudOwnerId}/actions`).then(result => {
                 if (result.successful) {
                     this.actions = result.data
+                }
+            }).catch(error => {
+                console.log(error)
+            })
+        },
+
+        updateAsComplete(ticket) {
+            this.http.patch(`/help/ticket/actions/${ ticket.id }`, {
+                ticket_action: {
+                    id: ticket.id,
+                    complete: ticket.complete,
+                    cloud_help_tickets_id: ticket.cloud_help_tickets_id
+                }
+            }).then(result => {
+                if (result.successful) {
+                    if (result.data.complete == true) {
+                        this.alert('Task marked as completed!')
+                    }
+                    if (result.data.complete != true) {
+                        this.alert('Task marked as not completed!')
+                    }
                 }
             }).catch(error => {
                 console.log(error)
@@ -66,7 +87,15 @@ export default {
         <div class="card">
             <div class="card-content">
                 <ul>
-                    <li v-for="action in actions" :key="action.id">{{ action.instructions }}</li>
+                    <li class="field" v-for="action in actions" :key="action.id">
+                        <input class="is-checkradio" type="checkbox" v-model="action.complete" @change="updateAsComplete(action)">
+                        {{ action.instructions }}
+                        <!-- 
+                        <b-checkbox v-model="action.status" @change="updateAsComplete">
+                            {{ action.instructions }}
+                        </b-checkbox>
+                         -->
+                    </li>
                 </ul>
             </div>
         </div>
