@@ -51,7 +51,7 @@ export default {
 }
 </script>
 <template>
-    <section class="section">
+    <section>
         <component-discussion-form :cloud-module="cloudModule" :cloud-owner-id="$route.params.id" />
         <component-discussion-list :cloud-module="cloudModule" :cloud-owner-id="$route.params.id" />
     </section>
