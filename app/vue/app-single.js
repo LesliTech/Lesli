@@ -55,6 +55,7 @@ import document from 'LesliCloud/vue/functions/document.js'
 import componentLayoutHeader from 'LesliCloud/vue/layout/header.vue'
 import componentLayoutNotify from 'LesliCloud/vue/layout/notify.vue'
 import componentLayoutChatbox from 'LesliCloud/vue/layout/chatbox.vue'
+import componentLayoutNavigation from 'LesliCloud/vue/layout/navigation.vue'
 
 
 
@@ -78,7 +79,8 @@ export default (module, app, components={}) => {
         components: {
             'component-layout-header': componentLayoutHeader,
             'component-layout-notify': componentLayoutNotify,
-            'component-layout-chatbox': componentLayoutChatbox
+            'component-layout-chatbox': componentLayoutChatbox,
+            'component-layout-navigation': componentLayoutNavigation
         }
 
     })
