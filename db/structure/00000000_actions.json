@@ -8,8 +8,8 @@
     "name": "deadline",
     "type": "datetime"
 },{
-    "name": "status",
-    "type": "integer"
+    "name": "complete",
+    "type": "boolean"
 },{
     "name": "tags",
     "type": "string"
