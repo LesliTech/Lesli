@@ -88,13 +88,8 @@ export default {
             <div class="card-content">
                 <ul>
                     <li class="field" v-for="action in actions" :key="action.id">
-                        <input class="is-checkradio" type="checkbox" v-model="action.complete" @change="updateAsComplete(action)">
-                        {{ action.instructions }}
-                        <!-- 
-                        <b-checkbox v-model="action.status" @change="updateAsComplete">
-                            {{ action.instructions }}
-                        </b-checkbox>
-                         -->
+                        <input :id="action.id" class="is-checkradio" type="checkbox" v-model="action.complete" @change="updateAsComplete(action)">
+                        <label :for="action.id">{{ action.instructions }}</label>
                     </li>
                 </ul>
             </div>
