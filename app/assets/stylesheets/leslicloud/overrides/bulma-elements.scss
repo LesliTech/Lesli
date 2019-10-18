@@ -26,9 +26,18 @@ Building a better future, one line of code at a time.
 */
 
 
-// · Buttons
-// · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
-
+// · 
 .button:focus {
     box-shadow: none !important;
+}
+
+
+// · 
+.notices {
+
+    .toast {
+        padding: .5rem 1rem;
+        border-radius: 4px;
+    }
+
 }
