@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 8020001) do
+ActiveRecord::Schema.define(version: 2019_10_18_160714) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -219,16 +219,6 @@ ActiveRecord::Schema.define(version: 8020001) do
     t.index ["cloud_help_tickets_id"], name: "index_cloud_help_ticket_activities_on_cloud_help_tickets_id"
   end
 
-  create_table "cloud_help_ticket_attachments", force: :cascade do |t|
-    t.string "filename"
-    t.string "path"
-    t.integer "type"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-    t.bigint "cloud_help_tickets_id"
-    t.index ["cloud_help_tickets_id"], name: "index_cloud_help_ticket_attachments_on_cloud_help_tickets_id"
-  end
-
   create_table "cloud_help_ticket_categories", force: :cascade do |t|
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
@@ -258,17 +248,14 @@ ActiveRecord::Schema.define(version: 8020001) do
     t.index ["users_id"], name: "index_cloud_help_ticket_discussions_on_users_id"
   end
 
-  create_table "cloud_help_ticket_follows", force: :cascade do |t|
-    t.boolean "get"
-    t.boolean "post"
-    t.boolean "put"
-    t.boolean "patch"
-    t.boolean "destroy"
-    t.bigint "user"
+  create_table "cloud_help_ticket_files", force: :cascade do |t|
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.bigint "cloud_help_tickets_id"
-    t.index ["cloud_help_tickets_id"], name: "index_cloud_help_ticket_follows_on_cloud_help_tickets_id"
+  end
+
+  create_table "cloud_help_ticket_followers", force: :cascade do |t|
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
   end
 
   create_table "cloud_help_ticket_priorities", force: :cascade do |t|
@@ -623,13 +610,11 @@ ActiveRecord::Schema.define(version: 8020001) do
   add_foreign_key "cloud_help_slas", "cloud_help_accounts", column: "cloud_help_accounts_id"
   add_foreign_key "cloud_help_ticket_actions", "cloud_help_tickets", column: "cloud_help_tickets_id"
   add_foreign_key "cloud_help_ticket_activities", "cloud_help_tickets", column: "cloud_help_tickets_id"
-  add_foreign_key "cloud_help_ticket_attachments", "cloud_help_tickets", column: "cloud_help_tickets_id"
   add_foreign_key "cloud_help_ticket_categories", "cloud_help_accounts", column: "cloud_help_accounts_id"
   add_foreign_key "cloud_help_ticket_details", "cloud_help_tickets", column: "cloud_help_tickets_id"
   add_foreign_key "cloud_help_ticket_discussions", "cloud_help_ticket_discussions", column: "cloud_help_ticket_discussions_id"
   add_foreign_key "cloud_help_ticket_discussions", "cloud_help_tickets", column: "cloud_help_tickets_id"
   add_foreign_key "cloud_help_ticket_discussions", "users", column: "users_id"
-  add_foreign_key "cloud_help_ticket_follows", "cloud_help_tickets", column: "cloud_help_tickets_id"
   add_foreign_key "cloud_help_ticket_priorities", "cloud_help_accounts", column: "cloud_help_accounts_id"
   add_foreign_key "cloud_help_ticket_sources", "cloud_help_accounts", column: "cloud_help_accounts_id"
   add_foreign_key "cloud_help_ticket_states", "cloud_help_accounts", column: "cloud_help_accounts_id"
