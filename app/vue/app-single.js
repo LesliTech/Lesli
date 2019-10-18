@@ -29,8 +29,9 @@ Building a better future, one line of code at a time.
 // · Loading core framework and libraries
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
 import Vue from 'vue'
-import VueRouter from 'vue-router'
 import Buefy from 'buefy'
+import VueRouter from 'vue-router'
+import 'boxicons'
 
 
 
