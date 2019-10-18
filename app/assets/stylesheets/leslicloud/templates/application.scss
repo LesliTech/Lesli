@@ -38,6 +38,7 @@ Building a better future, one line of code at a time.
 @import "leslicloud/overrides/bulma-elements.scss";
 
 
+
 // · Loading components
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
 @import "leslicloud/layout/application_header";
@@ -45,6 +46,8 @@ Building a better future, one line of code at a time.
 @import "leslicloud/layout/application_aside";
 @import "leslicloud/layout/application_navigation";
 @import "leslicloud/layout/application_chatbox";
+@import "leslicloud/helpers/display";
+
 
 
 // · 
