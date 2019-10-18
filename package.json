@@ -41,6 +41,7 @@
         "buefy": "0.8.2",
         "axios": "0.19",
         "dayjs": "1.8.15",
+        "boxicons": "2.0.3",
         "vue-trix": "1.1.2",
         "chart.js": "2.8.0",
         "apexcharts": "3.8.4",
