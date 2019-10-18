@@ -129,7 +129,7 @@ function webpackConfigBuilder(compilationMode) {
         
     }
 
-    webpackConfig.push(webpackbase)
+    // webpackConfig.push(webpackbase)
 
     // · get engines
     fs.readdirSync('./engines').forEach(engine => {
