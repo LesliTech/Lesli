@@ -6,7 +6,7 @@ export default {
         }
     },
     mounted() {
-        if (this.$route.params.id) {
+        if (this.$route && this.$route.params.id) {
             this.id = this.$route.params.id
         }
     },
