@@ -6,6 +6,9 @@ export default {
             aside: {
                 timer: null
             },
+            notification: {
+                count: 0
+            },
             chatbotIntent: '',
             microphone: true
         }
@@ -14,6 +17,10 @@ export default {
     mounted() {
 
         this.checkIfMicrophoneWorks()
+
+        this.bus.$on('cloud/layout/header/notification', total => {
+            this.notification.count = total || 0
+        })
 
     },
 
@@ -104,7 +111,14 @@ export default {
                     <div class="navbar-item">
 
                         <a class="navbar-item" @click="emitNotify">
-                            <i class="fas fa-bell"></i>
+                            <i v-if="notification.count > 0" class="fas fa-bell has-text-link"></i>
+                            <i v-if="notification.count == 0" class="far fa-bell"></i>
+                            <span 
+                                v-if="notification.count > 0" 
+                                class="has-text-danger"
+                                id="notification_total">
+                                {{ notification.count }}
+                            </span>
                         </a>
 
                         <a class="navbar-item" href="/logout">
