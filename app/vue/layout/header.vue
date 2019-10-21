@@ -3,6 +3,11 @@ export default {
 
     data() {
         return {
+            notification: {
+                show: false,
+                timer: null,
+                list: []
+            },
             chatbotIntent: '',
             microphone: true,
             timer: null
@@ -12,6 +17,7 @@ export default {
     mounted() {
 
         this.checkIfMicrophoneWorks()
+        this.getNotifications()
 
     },
 
@@ -55,6 +61,21 @@ export default {
         emitChatbotIntent() {
             this.bus.$emit('lesli.component.chatbox.postIntent', this.chatbotIntent)
             this.chatbotIntent=""
+        },
+
+        showNotifications() {
+            this.notification.show = true
+            this.notification.timer = setTimeout(() => this.notification.show = false, 250000)
+        },
+
+        getNotifications() {
+            this.http.get('/bell/notifications.json').then(result => {
+                if (result.successful){
+                    this.notification.list = result.data
+                }
+            }).catch(error => {
+                console.log(error)
+            })
         }
 
     }
@@ -98,38 +119,15 @@ export default {
                 <div class="navbar-end">
                     <div class="navbar-item">
 
-                        <div class="navbar-item has-dropdown is-hoverable">
-                            <a class="navbar-link is-arrowless">
-                                <i class="fas fa-bell"></i>
-                            </a>
-                            <div class="navbar-dropdown is-boxed">
-                                <a class="navbar-item" href="https://bulma.io/documentation/overview/start/">
-                                    Notification
-                                </a>
-                                <a class="navbar-item" href="https://bulma.io/documentation/overview/start/">
-                                    Notification
-                                </a>
-                                <a class="navbar-item" href="https://bulma.io/documentation/overview/start/">
-                                    Notification
-                                </a>
-                                <a class="navbar-item" href="https://bulma.io/documentation/overview/start/">
-                                    Notification
-                                </a>
-                            </div>
-                        </div>
+                        <a class="navbar-item" @click="showNotifications">
+                            <i class="fas fa-bell"></i>
+                        </a>
 
-                        <div class="navbar-item has-dropdown is-hoverable">
-                            <a class="navbar-link is-arrowless" href="https://bulma.io/documentation/overview/start/">
-                                <figure class="image">
-                                    <img class="is-rounded" src="https://placekitten.com/g/30/30" alt="profile thumbnail">
-                                </figure>
-                            </a>
-                            <div class="navbar-dropdown is-boxed">
-                                <a class="navbar-item" href="https://bulma.io/documentation/overview/start/">
-                                    Profile
-                                </a>
-                            </div>
-                        </div>
+                        <a class="navbar-item" href="/logout">
+                            <figure class="image">
+                                <img class="is-rounded" src="https://placekitten.com/g/30/30" alt="profile thumbnail">
+                            </figure>
+                        </a>
 
                         <a class="navbar-item" href="/logout">
                             <i class="fas fa-sign-out-alt"></i>
@@ -139,6 +137,28 @@ export default {
                 </div>
             </div>
         </nav>
+
+        <div id="quickviewDefault" :class="[{ 'is-active': notification.show }, 'quickview']">
+            <header class="quickview-header" @click="notification.show = false">
+                <p class="title">Notifications</p>
+                <!-- <span class="delete" @click="notification.show = false"></span> -->
+                <i class="fas fa-chevron-right"></i>
+            </header>
+            <div class="quickview-body">
+                <div class="quickview-block">
+                    <div class="section">
+                        <ul class="menu-list">
+                            <li v-for="(notification, index) in notification.list" :key="index" >
+                                <a :href="notification.href">{{ notification.content }}</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <footer class="quickview-footer">
+            </footer>
+        </div>
+
 
     </header>
 </template>

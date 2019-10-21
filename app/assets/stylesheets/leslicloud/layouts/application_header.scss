@@ -89,6 +89,14 @@ header {
         // User navigation
         .navbar-end {
 
+            .has-dropdown {
+
+                .navbar-dropdown {
+                    z-index: 50;
+                }
+
+            }
+
             i {
                 font-size: 1.3rem;
             }
