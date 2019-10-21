@@ -3,21 +3,17 @@ export default {
 
     data() {
         return {
-            notification: {
-                show: false,
-                timer: null,
-                list: []
+            aside: {
+                timer: null
             },
             chatbotIntent: '',
-            microphone: true,
-            timer: null
+            microphone: true
         }
     },
 
     mounted() {
 
         this.checkIfMicrophoneWorks()
-        this.getNotifications()
 
     },
 
@@ -26,8 +22,7 @@ export default {
         checkIfMicrophoneWorks() {
             window.SpeechRecognition = window.webkitSpeechRecognition || window.SpeechRecognition;
             if (window.SpeechRecognition) {
-                this.microphone = true
-                return
+                return this.microphone = true
             }
             this.microphone = false
         },
@@ -51,31 +46,20 @@ export default {
 
         },
 
-        emitSidenavShow() {
+        showAside() {
             clearTimeout(this.timer)
             let el = document.getElementsByTagName('aside')[0]
             el.classList.toggle('show')
-            this.timer = setTimeout(() => el.classList.remove('show'), 4000)
+            this.aside.timer = setTimeout(() => el.classList.remove('show'), 4000)
         },
 
         emitChatbotIntent() {
-            this.bus.$emit('lesli.component.chatbox.postIntent', this.chatbotIntent)
+            this.bus.$emit('component/chatbox/intent', this.chatbotIntent)
             this.chatbotIntent=""
         },
 
-        showNotifications() {
-            this.notification.show = true
-            this.notification.timer = setTimeout(() => this.notification.show = false, 250000)
-        },
-
-        getNotifications() {
-            this.http.get('/bell/notifications.json').then(result => {
-                if (result.successful){
-                    this.notification.list = result.data
-                }
-            }).catch(error => {
-                console.log(error)
-            })
+        emitNotify() {
+            this.bus.$emit('cloud/layout/notify/notification#show')
         }
 
     }
@@ -93,7 +77,7 @@ export default {
                 <!-- Assistant controls -->
                 <div class="navbar-start">
 
-                    <button type="button" class="button is-white" @click="emitSidenavShow">
+                    <button type="button" class="button is-white" @click="showAside">
                         <i class="fas fa-bars"></i>
                     </button>
 
@@ -119,7 +103,7 @@ export default {
                 <div class="navbar-end">
                     <div class="navbar-item">
 
-                        <a class="navbar-item" @click="showNotifications">
+                        <a class="navbar-item" @click="emitNotify">
                             <i class="fas fa-bell"></i>
                         </a>
 
@@ -137,28 +121,5 @@ export default {
                 </div>
             </div>
         </nav>
-
-        <div id="quickviewDefault" :class="[{ 'is-active': notification.show }, 'quickview']">
-            <header class="quickview-header" @click="notification.show = false">
-                <p class="title">Notifications</p>
-                <!-- <span class="delete" @click="notification.show = false"></span> -->
-                <i class="fas fa-chevron-right"></i>
-            </header>
-            <div class="quickview-body">
-                <div class="quickview-block">
-                    <div class="section">
-                        <ul class="menu-list">
-                            <li v-for="(notification, index) in notification.list" :key="index" >
-                                <a :href="notification.href">{{ notification.content }}</a>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-            <footer class="quickview-footer">
-            </footer>
-        </div>
-
-
     </header>
 </template>

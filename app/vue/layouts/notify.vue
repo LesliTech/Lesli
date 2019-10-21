@@ -30,9 +30,20 @@ Building a better future, one line of code at a time.
 // · LesliCloud component
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
 export default {
+
+    data() {
+        return {
+            notification: {
+                show: false,
+                timer: null,
+                list: []
+            }
+        }
+    },
+
     mounted() {
 
-        this.bus.$on('component:notify#alert', (message, type='primary') => {
+        this.bus.$on('cloud/layout/notify/alert', (message, type='primary') => {
             this.$buefy.toast.open({
                 queue: true,
                 duration: 3500,
@@ -42,7 +53,7 @@ export default {
             })
         })
 
-        this.bus.$on('component:notify#notification', (message, type='success') => {
+        this.bus.$on('cloud/layout/notify/notification', (message, type='success') => {
 
             this.$buefy.notification.open({
                 queue: true,
@@ -54,18 +65,56 @@ export default {
 
         })
 
-        var self = this
-        this.cable.subscriptions.create("CloudCourier::Bell::WebNotificationChannel", {
-            received(data) {
-                console.log(data)
-            }
+        this.bus.$on('cloud/layout/notify/notification#show', (message, type='success') => {
+            this.showNotifications()
         })
+
+        this.showNotifications()
+
+    },
+
+    methods: {
+
+        getNotifications() {
+            this.http.get('/bell/notifications.json').then(result => {
+                if (result.successful){
+                    this.notification.list = result.data
+                }
+            }).catch(error => {
+                console.log(error)
+            })
+        },
+
+        showNotifications() {
+            this.getNotifications()
+            this.notification.show = true
+            this.notification.timer = setTimeout(() => this.notification.show = false, 250000)
+        }
 
     }
 }
 </script>
 <template>
     <section>
+        <div id="quickviewDefault" :class="[{ 'is-active': notification.show }, 'quickview']">
+            <header class="quickview-header" @click="notification.show = false">
+                <p class="title">Notifications</p>
+                <i class="fas fa-chevron-right"></i>
+            </header>
+            <div class="quickview-body">
+                <div class="quickview-block">
+                    <div class="section">
+                        <ul class="menu-list">
+                            <li v-for="(notification, index) in notification.list" :key="index" >
+                                <a :href="notification.href">{{ notification.content }}</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <footer class="quickview-footer">
+            </footer>
+        </div>
     </section>
 </template>
 
