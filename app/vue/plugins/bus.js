@@ -45,11 +45,11 @@ export default {
         }, false)
 
         Vue.prototype.notification = (message, type) => {
-            Vue.prototype.bus.$emit('component:notify#notification', message, type)
+            Vue.prototype.bus.$emit('cloud/layout/notify/notification', message, type)
         }
 
         Vue.prototype.alert = (message, type) => {
-            Vue.prototype.bus.$emit('component:notify#alert', message, type)
+            Vue.prototype.bus.$emit('cloud/layout/notify/alert', message, type)
         }
 
     }

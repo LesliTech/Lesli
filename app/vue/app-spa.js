@@ -52,10 +52,11 @@ import document from 'LesliCloud/vue/functions/document.js'
 
 // · Loading app layout
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
-import componentLayoutHeader from 'LesliCloud/vue/layouts/header.vue'
 import componentLayoutNotify from 'LesliCloud/vue/layouts/notify.vue'
+import componentLayoutHeader from 'LesliCloud/vue/layouts/header.vue'
 import componentLayoutChatbox from 'LesliCloud/vue/layouts/chatbox.vue'
 import componentLayoutNavigation from 'LesliCloud/vue/layouts/navigation.vue'
+
 
 
 // · Initializing frameworks, libraries and tools
@@ -76,8 +77,8 @@ export default (module, app, base_path, routes={}) => {
     let cloud = new Vue({
 
         components: {
-            'component-layout-header': componentLayoutHeader,
             'component-layout-notify': componentLayoutNotify,
+            'component-layout-header': componentLayoutHeader,
             'component-layout-chatbox': componentLayoutChatbox,
             'component-layout-navigation': componentLayoutNavigation
         },
