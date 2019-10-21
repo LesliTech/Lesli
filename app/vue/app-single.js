@@ -52,10 +52,10 @@ import document from 'LesliCloud/vue/functions/document.js'
 
 // · Loading app layout
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
-import componentLayoutHeader from 'LesliCloud/vue/layout/header.vue'
-import componentLayoutNotify from 'LesliCloud/vue/layout/notify.vue'
-import componentLayoutChatbox from 'LesliCloud/vue/layout/chatbox.vue'
-import componentLayoutNavigation from 'LesliCloud/vue/layout/navigation.vue'
+import componentLayoutHeader from 'LesliCloud/vue/layouts/header.vue'
+import componentLayoutNotify from 'LesliCloud/vue/layouts/notify.vue'
+import componentLayoutChatbox from 'LesliCloud/vue/layouts/chatbox.vue'
+import componentLayoutNavigation from 'LesliCloud/vue/layouts/navigation.vue'
 
 
 
