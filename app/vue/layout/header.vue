@@ -106,6 +106,15 @@ export default {
                                 <a class="navbar-item" href="https://bulma.io/documentation/overview/start/">
                                     Notification
                                 </a>
+                                <a class="navbar-item" href="https://bulma.io/documentation/overview/start/">
+                                    Notification
+                                </a>
+                                <a class="navbar-item" href="https://bulma.io/documentation/overview/start/">
+                                    Notification
+                                </a>
+                                <a class="navbar-item" href="https://bulma.io/documentation/overview/start/">
+                                    Notification
+                                </a>
                             </div>
                         </div>
 

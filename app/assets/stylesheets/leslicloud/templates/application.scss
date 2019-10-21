@@ -41,11 +41,11 @@ Building a better future, one line of code at a time.
 
 // · Loading components
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
-@import "leslicloud/layout/application_header";
-@import "leslicloud/layout/application_notify";
-@import "leslicloud/layout/application_aside";
-@import "leslicloud/layout/application_navigation";
-@import "leslicloud/layout/application_chatbox";
+@import "leslicloud/layouts/application_header";
+@import "leslicloud/layouts/application_notify";
+@import "leslicloud/layouts/application_aside";
+@import "leslicloud/layouts/application_navigation";
+@import "leslicloud/layouts/application_chatbox";
 @import "leslicloud/helpers/display";
 
 
