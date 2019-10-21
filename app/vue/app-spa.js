@@ -31,7 +31,6 @@ Building a better future, one line of code at a time.
 import Vue from 'vue'
 import Buefy from 'buefy'
 import VueRouter from 'vue-router'
-import 'boxicons'
 
 
 

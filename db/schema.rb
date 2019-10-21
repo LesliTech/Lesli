@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_10_18_160714) do
+ActiveRecord::Schema.define(version: 8020001) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -90,10 +90,17 @@ ActiveRecord::Schema.define(version: 2019_10_18_160714) do
   end
 
   create_table "cloud_bell_notifications", force: :cascade do |t|
+    t.string "content"
+    t.string "href"
+    t.boolean "read"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.bigint "cloud_bell_notification_types_id"
+    t.bigint "users_id"
     t.bigint "cloud_bell_accounts_id"
     t.index ["cloud_bell_accounts_id"], name: "index_cloud_bell_notifications_on_cloud_bell_accounts_id"
+    t.index ["cloud_bell_notification_types_id"], name: "bell_notifications_types"
+    t.index ["users_id"], name: "index_cloud_bell_notifications_on_users_id"
   end
 
   create_table "cloud_books_accounts", force: :cascade do |t|
@@ -220,6 +227,7 @@ ActiveRecord::Schema.define(version: 2019_10_18_160714) do
   end
 
   create_table "cloud_help_ticket_categories", force: :cascade do |t|
+    t.string "name"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.bigint "cloud_help_accounts_id"
@@ -232,7 +240,13 @@ ActiveRecord::Schema.define(version: 2019_10_18_160714) do
     t.string "tags"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.bigint "cloud_help_ticket_types_id"
+    t.bigint "cloud_help_ticket_states_id"
+    t.bigint "cloud_help_ticket_priorities_id"
     t.bigint "cloud_help_tickets_id"
+    t.index ["cloud_help_ticket_priorities_id"], name: "help_ticket_details_priorities"
+    t.index ["cloud_help_ticket_states_id"], name: "help_ticket_details_states"
+    t.index ["cloud_help_ticket_types_id"], name: "help_ticket_details_types"
     t.index ["cloud_help_tickets_id"], name: "index_cloud_help_ticket_details_on_cloud_help_tickets_id"
   end
 
@@ -259,6 +273,8 @@ ActiveRecord::Schema.define(version: 2019_10_18_160714) do
   end
 
   create_table "cloud_help_ticket_priorities", force: :cascade do |t|
+    t.string "name"
+    t.integer "weight"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.bigint "cloud_help_accounts_id"
@@ -266,6 +282,7 @@ ActiveRecord::Schema.define(version: 2019_10_18_160714) do
   end
 
   create_table "cloud_help_ticket_sources", force: :cascade do |t|
+    t.string "name"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.bigint "cloud_help_accounts_id"
@@ -273,6 +290,8 @@ ActiveRecord::Schema.define(version: 2019_10_18_160714) do
   end
 
   create_table "cloud_help_ticket_states", force: :cascade do |t|
+    t.string "name"
+    t.integer "number"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.bigint "cloud_help_accounts_id"
@@ -287,6 +306,7 @@ ActiveRecord::Schema.define(version: 2019_10_18_160714) do
   end
 
   create_table "cloud_help_ticket_types", force: :cascade do |t|
+    t.string "name"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.bigint "cloud_help_accounts_id"
@@ -593,6 +613,8 @@ ActiveRecord::Schema.define(version: 2019_10_18_160714) do
   add_foreign_key "cloud_bell_messages", "cloud_bell_accounts", column: "cloud_bell_accounts_id"
   add_foreign_key "cloud_bell_notification_types", "cloud_bell_accounts", column: "cloud_bell_accounts_id"
   add_foreign_key "cloud_bell_notifications", "cloud_bell_accounts", column: "cloud_bell_accounts_id"
+  add_foreign_key "cloud_bell_notifications", "cloud_bell_notification_types", column: "cloud_bell_notification_types_id"
+  add_foreign_key "cloud_bell_notifications", "users", column: "users_id"
   add_foreign_key "cloud_driver_accounts", "accounts", column: "id"
   add_foreign_key "cloud_driver_calendar_actions", "cloud_driver_calendars", column: "cloud_driver_calendars_id"
   add_foreign_key "cloud_driver_calendar_activities", "cloud_driver_calendars", column: "cloud_driver_calendars_id"
@@ -611,6 +633,9 @@ ActiveRecord::Schema.define(version: 2019_10_18_160714) do
   add_foreign_key "cloud_help_ticket_actions", "cloud_help_tickets", column: "cloud_help_tickets_id"
   add_foreign_key "cloud_help_ticket_activities", "cloud_help_tickets", column: "cloud_help_tickets_id"
   add_foreign_key "cloud_help_ticket_categories", "cloud_help_accounts", column: "cloud_help_accounts_id"
+  add_foreign_key "cloud_help_ticket_details", "cloud_help_ticket_priorities", column: "cloud_help_ticket_priorities_id"
+  add_foreign_key "cloud_help_ticket_details", "cloud_help_ticket_states", column: "cloud_help_ticket_states_id"
+  add_foreign_key "cloud_help_ticket_details", "cloud_help_ticket_types", column: "cloud_help_ticket_types_id"
   add_foreign_key "cloud_help_ticket_details", "cloud_help_tickets", column: "cloud_help_tickets_id"
   add_foreign_key "cloud_help_ticket_discussions", "cloud_help_ticket_discussions", column: "cloud_help_ticket_discussions_id"
   add_foreign_key "cloud_help_ticket_discussions", "cloud_help_tickets", column: "cloud_help_tickets_id"
