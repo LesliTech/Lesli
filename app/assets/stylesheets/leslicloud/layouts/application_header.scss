@@ -89,12 +89,14 @@ header {
         // User navigation
         .navbar-end {
 
-            .has-dropdown {
-
-                .navbar-dropdown {
-                    z-index: 50;
+            a:first-child {
+                position: relative;
+                span {
+                    top: 0;
+                    right: 5px;
+                    font-size: 13px;
+                    position: absolute;
                 }
-
             }
 
             i {

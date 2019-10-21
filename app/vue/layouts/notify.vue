@@ -65,11 +65,11 @@ export default {
 
         })
 
-        this.bus.$on('cloud/layout/notify/notification#show', (message, type='success') => {
+        this.bus.$on('cloud/layout/notify/notification#show', () => {
             this.showNotifications()
         })
 
-        this.showNotifications()
+        this.getNotifications()
 
     },
 
@@ -79,6 +79,7 @@ export default {
             this.http.get('/bell/notifications.json').then(result => {
                 if (result.successful){
                     this.notification.list = result.data
+                    this.emitNotifications()
                 }
             }).catch(error => {
                 console.log(error)
@@ -86,9 +87,15 @@ export default {
         },
 
         showNotifications() {
+            console.log("showing notifications")
             this.getNotifications()
             this.notification.show = true
             this.notification.timer = setTimeout(() => this.notification.show = false, 250000)
+        },
+
+        emitNotifications() {
+            this.bus.$emit('cloud/layout/header/notification', this.notification.list.length)
+            //this.bus.$emit('cloud/layout/header/notification', 0)
         }
 
     }
