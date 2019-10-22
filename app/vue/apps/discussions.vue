@@ -42,6 +42,9 @@ export default {
         cloudModule: {
             type: String,
             required: true
+        },
+        cloudObjectId: {
+            required: true
         }
     },
     components: {
@@ -51,8 +54,16 @@ export default {
 }
 </script>
 <template>
-    <section>
-        <component-discussion-form :cloud-module="cloudModule" :cloud-owner-id="$route.params.id" />
-        <component-discussion-list :cloud-module="cloudModule" :cloud-owner-id="$route.params.id" />
+    <section class="tile is-vertical">
+        <div class="tile is-parent">
+            <div class="tile is-child">
+                <component-discussion-form :cloud-module="cloudModule" :cloud-object-id="cloudObjectId" />
+            </div>
+        </div>
+        <div class="tile is-parent">
+            <div class="tile is-child">
+                <component-discussion-list :cloud-module="cloudModule" :cloud-object-id="cloudObjectId" />
+            </div>
+        </div>
     </section>
 </template>

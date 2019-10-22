@@ -42,7 +42,7 @@ export default {
             type: String,
             required: true
         },
-        cloudOwnerId: {
+        cloudObjectId: {
             required: true
         }
     },
@@ -64,7 +64,7 @@ export default {
             if (e) { e.preventDefault() }
 
             // add owner id
-            this.discussion[`cloud_${this.cloudModule.replace('/','_')}s_id`] = this.cloudOwnerId
+            this.discussion[`cloud_${this.cloudModule.replace('/','_')}s_id`] = this.cloudObjectId
 
             this.http.post(`/${this.cloudModule}/discussions`, {
                 ticket_discussion: this.discussion
@@ -85,19 +85,17 @@ export default {
 }
 </script>
 <template>
-    <section class="section">
-        <div class="card">
-            <div class="card-header">
-                <h4 class="card-header-title">
-                    Add new comment
-                </h4>
-            </div>
-            <div class="card-content">
-                <form @submit="postDiscussion">
-                    <input v-if="show_simple_form" class="input" type="text" v-model="discussion.content" placeholder="Add a comment...">
-                    <component-trix-editor v-if="!show_simple_form" v-model="discussion.content"></component-trix-editor>
-                </form>
-            </div>
+    <div class="card">
+        <div class="card-header">
+            <h4 class="card-header-title">
+                Add new comment
+            </h4>
         </div>
-    </section>
+        <div class="card-content">
+            <form @submit="postDiscussion">
+                <input v-if="show_simple_form" class="input" type="text" v-model="discussion.content" placeholder="Add a comment...">
+                <component-trix-editor v-if="!show_simple_form" v-model="discussion.content"></component-trix-editor>
+            </form>
+        </div>
+    </div>
 </template>

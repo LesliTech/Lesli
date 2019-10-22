@@ -39,6 +39,7 @@ export default {
 
                 url = new URL(url, leslicloud_request.root_url)
                 window.location.href = url.href;
+                //console.log(url)
 
             },
 

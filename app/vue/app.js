@@ -72,25 +72,30 @@ Vue.use(pluginCable)
 
 // · Vue app
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
-export default (module, app, base_path, routes={}) => {
+export default (module, app, base_path, components=null, routes=null) => {
 
-    let cloud = new Vue({
+    let cloud_builder = { }
 
-        components: {
+    cloud_builder['components'] = { 
+        ...{
             'component-layout-notify': componentLayoutNotify,
             'component-layout-header': componentLayoutHeader,
             'component-layout-chatbox': componentLayoutChatbox,
             'component-layout-navigation': componentLayoutNavigation
-        },
+        }, 
+        ...components 
+    }
 
-        router: new VueRouter({
+    if (routes) {
+        cloud_builder['router'] = new VueRouter({
             linkActiveClass: 'is-active',
             //mode: "history",
             //base: base_path,
             routes: routes
         })
+    }
 
-    })
+    let cloud = new Vue(cloud_builder)
 
     document.ready(() => {
 
