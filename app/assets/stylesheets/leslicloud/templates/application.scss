@@ -26,16 +26,21 @@ Building a better future, one line of code at a time.
 */
 
 
+//  · Public website template
+// · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
+@import url('https://fonts.googleapis.com/css?family=Montserrat|Open+Sans:300,400,600&display=swap');
+@import url('https://use.fontawesome.com/releases/v5.5.0/css/all.css');
+//@import "@fortawesome/fontawesome-free/css/all.css";
+
+
+
 // · Theme bootstraping
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
 @import "lesli-css/";
-@import "leslicloud/settings/variables.scss";
-@import "leslicloud/settings/functions.scss";
-@import "leslicloud/settings/fonts.scss";
-@import "leslicloud/overrides/bulma.scss";
-@import "leslicloud/overrides/bulma-extensions.scss";
-@import "leslicloud/overrides/bulma-layout.scss";
-@import "leslicloud/overrides/bulma-elements.scss";
+@import "leslicloud/bulma/loader.scss";
+@import "leslicloud/bulma/layout.scss";
+@import "leslicloud/bulma/elements.scss";
+@import "leslicloud/bulma/extensions.scss";
 
 
 
@@ -64,40 +69,17 @@ body {
 
 
 // · 
-#lesli-cloud-app {
+.translation_missing {
 
-    & > .container.is-fluid {
-        //margin: 20px;
+    &:before {
+        content: 'Translation missing: ';
     }
-
-    & > section.section > .header{
-        display: flex;
-        margin-bottom: 10px;
-        justify-content: space-between;
-
-        h2 {
-            font-size: 1.4rem;
-        }
-    }
-
-
-    // · 
-    .translation_missing {
-
-        &:before {
-            content: 'Translation missing: ';
-        }
-        background-color: red;
-        color: white;
-    }
-
+    background-color: red;
+    color: white;
 }
+
 
 // · overrides over trix editor
 .trix-button--icon-attach {
     display: none !important;
-}
-
-.component {
-    margin: 24px auto;
 }
