@@ -31,7 +31,7 @@ export default {
             type: String,
             required: true
         },
-        cloudOwnerId: {
+        cloudObjectId: {
             required: true
         }
     },
@@ -41,7 +41,7 @@ export default {
         }
     },
     mounted() {
-        this.getDiscussions()
+        //this.getDiscussions()
         this.bus.$on("post:components/forms/discussion", () => {
             this.getDiscussions()
         })
@@ -49,7 +49,7 @@ export default {
     methods: {
 
         getDiscussions() {
-            this.http.get(`/${this.cloudModule}s/${this.cloudOwnerId}/discussions`).then(result => {
+            this.http.get(`/${this.cloudModule}s/${this.cloudObjectId}/discussions`).then(result => {
                 if (result.successful) {
                     this.discussions = result.data
                 }
@@ -58,11 +58,16 @@ export default {
             })
         }
 
+    },
+    watch: {
+        cloudObjectId() {
+            this.getDiscussions()
+        }
     }
 }
 </script>
 <template>
-    <section class="section">
+    <section>
         <div class="box" v-for="discussion in discussions" :key="discussion.id">
             <div class="media">
                 <div class="media-left">
