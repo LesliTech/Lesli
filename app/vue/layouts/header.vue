@@ -115,7 +115,6 @@ export default {
                             <i v-if="notification.count == 0" class="far fa-bell"></i>
                             <span 
                                 v-if="notification.count > 0" 
-                                class="has-text-danger"
                                 id="notification_total">
                                 {{ notification.count }}
                             </span>
