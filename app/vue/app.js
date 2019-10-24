@@ -72,10 +72,14 @@ Vue.use(pluginCable)
 
 // · Vue app
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
-export default (module, app, base_path, components=null, routes=null) => {
+export default (module, app, base_path, components={}, routes=null) => {
 
+
+    // · Vue app configuration container
     let cloud_builder = { }
 
+
+    // · Default and custom components
     cloud_builder['components'] = { 
         ...{
             'component-layout-notify': componentLayoutNotify,
@@ -86,6 +90,8 @@ export default (module, app, base_path, components=null, routes=null) => {
         ...components 
     }
 
+
+    // · Routes for SPAs
     if (routes) {
         cloud_builder['router'] = new VueRouter({
             linkActiveClass: 'is-active',
@@ -95,8 +101,12 @@ export default (module, app, base_path, components=null, routes=null) => {
         })
     }
 
+
+    // · Building Vue cloud app
     let cloud = new Vue(cloud_builder)
 
+
+    // · Mount app once DOM is ready
     document.ready(() => {
 
         cloud.$mount("#lesli-cloud-app")

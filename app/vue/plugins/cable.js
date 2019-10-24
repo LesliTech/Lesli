@@ -26,6 +26,7 @@ Building a better future, one line of code at a time.
 */
 
 
+
 // · Loading core framework and libraries
 // · ~·~        ~·~        ~·~        ~·~        ~·~        ~·~        ~·~        ~·~        ~·~
 import { createConsumer } from "@rails/actioncable"
