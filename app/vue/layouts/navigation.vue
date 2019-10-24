@@ -10,6 +10,11 @@ export default {
             this.id = this.$route.params.id
         }
     },
+    methods: {
+        showActions() {
+            this.bus.$emit('cloud/layout/actions')
+        }
+    },
     watch: {
         '$route.params.id': function (id) {
             this.id = id
@@ -25,6 +30,7 @@ export default {
             </div>
             <div class="navbar-end">
                 <slot name="left"></slot>
+                <a class="navbar-item" v-if="id" @click="showActions">Actions</a>
                 <router-link class="navbar-item" v-if="id" :to="`/${ id }/actions`">Actions</router-link>
                 <router-link class="navbar-item" v-if="id" :to="`/${ id }/show`">Files</router-link>
                 <router-link class="navbar-item" v-if="id" :to="`/${ id }/show`">Activities</router-link>

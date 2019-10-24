@@ -59,6 +59,7 @@ import componentLayoutNavigation from 'LesliCloud/vue/layouts/navigation.vue'
 
 
 
+
 // · Initializing frameworks, libraries and tools
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
 Vue.use(Buefy)

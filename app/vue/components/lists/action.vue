@@ -25,18 +25,27 @@ Building a better future, one line of code at a time.
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
 // · 
 */
+
+
+import componentFormAction from '../forms/action.vue'
+
+
 export default {
     props: {
         cloudModule: {
             type: String,
             required: true
         },
-        cloudOwnerId: {
+        cloudId: {
             required: true
         }
     },
+    components: {
+        'component-form-action': componentFormAction
+    },
     data() {
         return {
+            show: false,
             actions: []
         }
     },
@@ -45,11 +54,12 @@ export default {
         this.bus.$on("post:/help/ticket/actions", () => {
             this.getActions()
         })
+        this.bus.$on("show:/help/ticket/actions", () => this.show = !this.show )
     },
     methods: {
 
         getActions() {
-            this.http.get(`/${this.cloudModule}s/${this.cloudOwnerId}/actions`).then(result => {
+            this.http.get(`/${this.cloudModule}s/${this.cloudId}/actions`).then(result => {
                 if (result.successful) {
                     this.actions = result.data
                 }
@@ -83,16 +93,27 @@ export default {
 }
 </script>
 <template>
-    <section class="section">
-        <div class="card">
-            <div class="card-content">
-                <ul>
-                    <li class="field" v-for="action in actions" :key="action.id">
-                        <input :id="action.id" class="is-checkradio" type="checkbox" v-model="action.complete" @change="updateAsComplete(action)">
-                        <label :for="action.id">{{ action.instructions }}</label>
-                    </li>
-                </ul>
+    <section>
+        <div :class="[{ 'is-active': show }, 'quickview']">
+            <header class="quickview-header" @click="show = false">
+                <p class="title">Actions</p>
+                <i class="fas fa-chevron-right"></i>
+            </header>
+            <div class="quickview-body">
+                <div class="quickview-block">
+                    <div class="section">
+                        <component-form-action class="box" :cloudModule="cloudModule" :cloudOwnerId="cloudId"/>
+                        <ul class="menu-list">
+                            <li class="field" v-for="action in actions" :key="action.id">
+                                <input :id="action.id" class="is-checkradio" type="checkbox" v-model="action.complete" @change="updateAsComplete(action)">
+                                <label :for="action.id">{{ action.instructions }}</label>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
             </div>
+            <footer class="quickview-footer">
+            </footer>
         </div>
     </section>
 </template>

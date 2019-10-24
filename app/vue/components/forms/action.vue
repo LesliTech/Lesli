@@ -74,13 +74,11 @@ export default {
 }
 </script>
 <template>
-    <section class="section">
-        <div class="card">
-            <div class="card-content">
-                <form @submit="postAction">
-                    <input class="input" type="text" v-model="action.instructions" placeholder="Add new action...">
-                </form>
-            </div>
+    <div class="card">
+        <div class="card-content">
+            <form @submit="postAction">
+                <input class="input" type="text" v-model="action.instructions" placeholder="Add new action...">
+            </form>
         </div>
-    </section>
+    </div>
 </template>
