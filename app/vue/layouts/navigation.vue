@@ -12,7 +12,7 @@ export default {
     },
     methods: {
         showActions() {
-            this.bus.$emit('cloud/layout/actions')
+            this.bus.$emit('show:/help/ticket/actions')
         }
     },
     watch: {
@@ -31,9 +31,8 @@ export default {
             <div class="navbar-end">
                 <slot name="left"></slot>
                 <a class="navbar-item" v-if="id" @click="showActions">Actions</a>
-                <router-link class="navbar-item" v-if="id" :to="`/${ id }/actions`">Actions</router-link>
-                <router-link class="navbar-item" v-if="id" :to="`/${ id }/show`">Files</router-link>
-                <router-link class="navbar-item" v-if="id" :to="`/${ id }/show`">Activities</router-link>
+                <a class="navbar-item" v-if="id" @click="showActions">Files</a>
+                <a class="navbar-item" v-if="id" @click="showActions">Activities</a>
             </div>
         </div>
     </nav>
