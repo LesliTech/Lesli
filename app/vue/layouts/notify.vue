@@ -129,7 +129,7 @@ export default {
 </script>
 <template>
     <section>
-        <div id="quickviewDefault" :class="[{ 'is-active': notification.show }, 'quickview']">
+        <div :class="[{ 'is-active': notification.show }, 'quickview']">
             <header class="quickview-header" @click="notification.show = false">
                 <p class="title">Notifications</p>
                 <i class="fas fa-chevron-right"></i>
