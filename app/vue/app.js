@@ -112,7 +112,7 @@ export default (module, app, base_path, components={}, routes=null) => {
         cloud.$mount("#lesli-cloud-app")
 
         if (leslicloud_app_mode_production) debug.userWarningMessage()
-        if (leslicloud_app_mode_development) debug.info(app, module)
+        if (leslicloud_app_mode_development) debug.info(`${base_path} ${app}`, module)
 
     })
 
