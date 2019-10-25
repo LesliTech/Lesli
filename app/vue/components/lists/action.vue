@@ -51,10 +51,10 @@ export default {
     },
     mounted() {
         this.getActions()
-        this.bus.$on("post:/help/ticket/actions", () => {
+        this.bus.$on(`post:/${this.cloudModule}/actions`, () => {
             this.getActions()
         })
-        this.bus.$on("show:/help/ticket/actions", () => this.show = !this.show )
+        this.bus.$on("show:/module/app/actions", () => this.show = !this.show )
     },
     methods: {
 
