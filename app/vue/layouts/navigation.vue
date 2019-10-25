@@ -12,7 +12,7 @@ export default {
     },
     methods: {
         showActions() {
-            this.bus.$emit('show:/help/ticket/actions')
+            this.bus.$emit("show:/module/app/actions")
         }
     },
     watch: {
