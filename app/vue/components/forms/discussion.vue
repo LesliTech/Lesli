@@ -73,7 +73,6 @@ export default {
                     this.discussion.content = ""
                 }
                 this.bus.$emit("post:components/forms/discussion")
-                console.log(result)
             }).catch(error => {
                 console.log(error)
             })

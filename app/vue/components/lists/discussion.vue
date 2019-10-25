@@ -41,7 +41,7 @@ export default {
         }
     },
     mounted() {
-        //this.getDiscussions()
+        this.getDiscussions()
         this.bus.$on("post:components/forms/discussion", () => {
             this.getDiscussions()
         })
