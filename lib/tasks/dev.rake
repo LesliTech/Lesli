@@ -1,6 +1,6 @@
 namespace :dev do
 
-    desc "TODO"
+    desc "Push everything to github master"
     task push: :environment do
 
         system "rm -r vendor/*"
@@ -26,7 +26,7 @@ namespace :dev do
 
     end
 
-    desc "TODO"
+    desc "Database hard-reset"
     task reset: :environment do
         
         system "rails db:environment:set RAILS_ENV=development"
@@ -37,9 +37,10 @@ namespace :dev do
 
     end
 
-    desc "TODO"
+    desc "LesliCloud fresh installation"
     task install: :environment do
 
+        system "sudo service nginx stop"
         system "git pull origin master --no-edit"
         system "cd ./engines/CloudBell && git pull origin master --no-edit"
         system "cd ./engines/CloudBooks && git pull origin master --no-edit"
