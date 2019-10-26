@@ -102,7 +102,7 @@ export default {
                 <!-- Brand container -->
                 <div class="navbar-brand">
                     <a class="navbar-item" href="/">
-                        <img alt="LesliCloud logo" src="/assets/brand/leslicloud-logo.svg" />
+                        <slot name="logo"></slot>
                     </a>
                 </div>
 
