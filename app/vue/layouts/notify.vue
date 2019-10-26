@@ -69,6 +69,10 @@ export default {
             this.showNotifications()
         })
 
+        this.bus.$on('cloud/layout/notify/notification#get', () => {
+            this.getNotifications()
+        })
+
         this.getNotifications()
 
     },
