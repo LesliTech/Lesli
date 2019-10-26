@@ -27,6 +27,12 @@ Building a better future, one line of code at a time.
 
 
 
+// · Loading core framework and libraries
+// · ~·~        ~·~        ~·~        ~·~        ~·~        ~·~        ~·~        ~·~        ~·~
+import { createConsumer } from "@rails/actioncable"
+
+
+
 //  · Plugin initializing 
 // ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
 export default {
@@ -51,6 +57,14 @@ export default {
         Vue.prototype.alert = (message, type) => {
             Vue.prototype.bus.$emit('cloud/layout/notify/alert', message, type)
         }
+
+        let cable = createConsumer('/courier/cable')
+        cable.subscriptions.create("CloudCourier::Bell::WebNotificationChannel", {
+            received(data) {
+                Vue.prototype.bus.$emit('cloud/layout/notify/notification#get')
+                console.log(data)
+            }
+        })
 
     }
     

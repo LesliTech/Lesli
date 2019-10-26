@@ -41,7 +41,7 @@ export default {
         Vue.prototype.cable = createConsumer('/courier/cable')
 
         /*
-        this.cable.subscriptions.create("CloudCourier::Bell::WebNotificationChannel", {
+        Vue.prototype.cable.subscriptions.create("CloudCourier::Bell::WebNotificationChannel", {
             received(data) {
                 console.log(data)
             }
