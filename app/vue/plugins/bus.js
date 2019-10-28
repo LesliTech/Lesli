@@ -16,13 +16,12 @@ LesliCloud - Your Smart Business Assistant
 Powered by https://www.lesli.tech
 Building a better future, one line of code at a time.
 
-@dev      Luis Donis <ldonis@lesli.tech>
 @author   LesliTech <hello@lesli.tech>
 @license  Propietary - all rights reserved.
-@version  GIT: 0.1.0 alpha
+@version  0.1.0-alpha
 
-// ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
-//  · 
+// · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
+// · 
 */
 
 
@@ -33,14 +32,41 @@ import { createConsumer } from "@rails/actioncable"
 
 
 
-//  · Plugin initializing 
-// ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
+// · Plugin initializing 
+// · ~·~        ~·~        ~·~        ~·~        ~·~        ~·~        ~·~        ~·~        ~·~
 export default {
 
     install (Vue, options) {
-    
+
+        // new vue instance as bus
         Vue.prototype.bus = new Vue()
 
+        // Vue bus aliases
+        Object.defineProperties(Vue.prototype.bus, {
+            subscribe: {
+                get() {
+                    return this.$on.bind(this)
+                }
+            },
+            publish: {
+                get() {
+                    return this.$emit.bind(this)
+                }
+            }
+        })
+
+        // · Global event helpers
+        Vue.prototype.notification = (message, type) => {
+            Vue.prototype.bus.publish('show:/cloud/layout/notify#notification', message, type)
+        }
+
+        Vue.prototype.alert = (message, type) => {
+            Vue.prototype.bus.publish('show:/cloud/layout/notify#alert', message, type)
+        }
+
+        // · Global DOM event listeners
+
+        // emit when ctrl + s is pressed
         document.addEventListener("keydown", e => {
 
             if ((window.navigator.platform.match("Mac") ? e.metaKey : e.ctrlKey)  && e.keyCode == 83) {
@@ -50,18 +76,10 @@ export default {
 
         }, false)
 
-        Vue.prototype.notification = (message, type) => {
-            Vue.prototype.bus.$emit('cloud/layout/notify/notification', message, type)
-        }
-
-        Vue.prototype.alert = (message, type) => {
-            Vue.prototype.bus.$emit('cloud/layout/notify/alert', message, type)
-        }
-
         let cable = createConsumer('/courier/cable')
-        cable.subscriptions.create("CloudCourier::Bell::WebNotificationChannel", {
+
+        cable.subscriptions.create("CloudCourier::LesliChannel", {
             received(data) {
-                Vue.prototype.bus.$emit('cloud/layout/notify/notification#get')
                 console.log(data)
             }
         })
