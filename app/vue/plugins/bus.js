@@ -80,7 +80,7 @@ export default {
 
         cable.subscriptions.create("CloudCourier::LesliChannel", {
             received(data) {
-                console.log(data)
+                Vue.prototype.bus.publish(data.channel, data)
             }
         })
 
