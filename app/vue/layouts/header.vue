@@ -6,6 +6,9 @@ export default {
             notification: {
                 count: 0
             },
+            aside: {
+                timer: null
+            },
             chatbotIntent: '',
             microphone: true
         }
@@ -35,7 +38,12 @@ export default {
             })
         },
 
-
+        openAside() {
+            clearTimeout(this.timer)
+            let el = document.getElementsByTagName('aside')[0]
+            el.classList.toggle('show')
+            this.aside.timer = setTimeout(() => el.classList.remove('show'), 4000)
+        },
 
 
 
@@ -89,7 +97,7 @@ export default {
                 <!-- Assistant controls -->
                 <div class="navbar-start">
 
-                    <button type="button" class="button is-white">
+                    <button type="button" class="button is-white" @click="openAside">
                         <i class="fas fa-bars"></i>
                     </button>
 
