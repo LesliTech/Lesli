@@ -3,9 +3,6 @@ export default {
 
     data() {
         return {
-            aside: {
-                timer: null
-            },
             notification: {
                 count: 0
             },
@@ -15,16 +12,33 @@ export default {
     },
 
     mounted() {
-
+        this.mountListeners()
+        this.getNotificationsCounter()
         this.checkIfMicrophoneWorks()
-
-        this.bus.$on('cloud/layout/header/notification', total => {
-            this.notification.count = total || 0
-        })
-
     },
 
     methods: {
+
+        mountListeners() {
+            this.bus.subscribe('/cloud/layout/header/notification#getNotificationsCounter', () => {
+                this.getNotificationsCounter()
+            })
+        },
+
+        getNotificationsCounter() {
+            this.http.get('/bell/notifications.json').then(result => {
+                if (result.successful) {
+                    this.notification.count = result.data.length
+                }
+            }).catch(error => {
+                console.log(error)
+            })
+        },
+
+
+
+
+
 
         checkIfMicrophoneWorks() {
             window.SpeechRecognition = window.webkitSpeechRecognition || window.SpeechRecognition;
@@ -53,21 +67,12 @@ export default {
 
         },
 
-        showAside() {
-            clearTimeout(this.timer)
-            let el = document.getElementsByTagName('aside')[0]
-            el.classList.toggle('show')
-            this.aside.timer = setTimeout(() => el.classList.remove('show'), 4000)
-        },
+        
 
         emitChatbotIntent() {
             this.bus.$emit('component/chatbox/intent', this.chatbotIntent)
             this.chatbotIntent=""
         },
-
-        emitNotify() {
-            this.bus.$emit('cloud/layout/notify/notification#show')
-        }
 
     }
 
@@ -84,7 +89,7 @@ export default {
                 <!-- Assistant controls -->
                 <div class="navbar-start">
 
-                    <button type="button" class="button is-white" @click="showAside">
+                    <button type="button" class="button is-white">
                         <i class="fas fa-bars"></i>
                     </button>
 
@@ -110,7 +115,7 @@ export default {
                 <div class="navbar-end">
                     <div class="navbar-item">
 
-                        <a class="navbar-item" @click="emitNotify">
+                        <a class="navbar-item">
                             <i v-if="notification.count > 0" class="fas fa-bell has-text-link"></i>
                             <i v-if="notification.count == 0" class="far fa-bell"></i>
                             <span 
