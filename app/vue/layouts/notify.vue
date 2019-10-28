@@ -40,66 +40,58 @@ export default {
             }
         }
     },
-
     mounted() {
-
-        this.bus.$on('cloud/layout/notify/alert', (message, type='primary') => {
-            this.$buefy.toast.open({
-                queue: true,
-                duration: 3500,
-                position: 'is-bottom-right',
-                message: message,
-                type: `is-${ type }`
-            })
-        })
-
-        this.bus.$on('cloud/layout/notify/notification', (message, type='success') => {
-
-            this.$buefy.notification.open({
-                queue: true,
-                duration: 2000,
-                position: 'is-bottom-right',
-                message: message,
-                type: `is-${ type }`
-            })
-
-        })
-
-        this.bus.$on('cloud/layout/notify/notification#show', () => {
-            this.showNotifications()
-        })
-
-        this.bus.$on('cloud/layout/notify/notification#get', () => {
-            this.getNotifications()
-        })
-
+        this.mountListeners()
         this.getNotifications()
-
     },
-
     methods: {
+
+        mountListeners() {
+            
+            this.bus.subscribe('show:/cloud/layout/notify#alert', (message, type='primary') => {
+                this.$buefy.toast.open({
+                    queue: true,
+                    duration: 3500,
+                    position: 'is-bottom-right',
+                    message: message,
+                    type: `is-${ type }`
+                })
+            })
+
+            this.bus.subscribe('show:/cloud/layout/notify#notification', (message, type='success') => {
+                this.$buefy.notification.open({
+                    queue: true,
+                    duration: 2000,
+                    position: 'is-bottom-right',
+                    message: message,
+                    type: `is-${ type }`
+                })
+            })
+
+            this.bus.subscribe('get:/cloud/layout/notify#notification', () => {
+                this.getNotifications()
+            })
+
+            this.bus.subscribe('open:/cloud/layout/notify#notification', () => {
+                this.openNotificationsPanel()
+            })
+
+        },
 
         getNotifications() {
             this.http.get('/bell/notifications.json').then(result => {
                 if (result.successful){
                     this.notification.list = result.data
-                    this.emitNotifications()
                 }
             }).catch(error => {
                 console.log(error)
             })
         },
 
-        showNotifications() {
-            console.log("showing notifications")
+        openNotificationsPanel() {
             this.getNotifications()
             this.notification.show = true
-            this.notification.timer = setTimeout(() => this.notification.show = false, 250000)
-        },
-
-        emitNotifications() {
-            this.bus.$emit('cloud/layout/header/notification', this.notification.list.length)
-            //this.bus.$emit('cloud/layout/header/notification', 0)
+            this.notification.timer = setTimeout(() => this.notification.show = false, 25000)
         },
 
         prepareDesktopNotification() {
