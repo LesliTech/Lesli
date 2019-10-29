@@ -11,6 +11,47 @@
 Version 0.1.0-alpha
 
 
+#### Development
+-------
+
+
+__Run server__
+```shell
+rails s --environment=test
+rails s --environment=production
+rails s --environment=development
+```
+
+
+__Work with git and github:__
+```shell
+rake dev:push #push all changes to github master
+rake dev:install
+```
+
+
+__Edit credentials:__
+```shell
+EDITOR="code --wait" rails credentials:edit --environment development
+EDITOR="code --wait" rails credentials:edit --environment production
+EDITOR="code --wait" rails credentials:edit --environment test
+EDITOR="code --wait" rails credentials:edit
+```
+
+
+__Work with the database:__
+```shell
+rake dev:reset #database hard reset
+```
+
+
+__Assets__
+```shell
+rake assets:clean RAILS_ENV=production
+rake assets:precompile RAILS_ENV=production
+```
+
+
 #### Website & documentation
 -------
 
@@ -22,7 +63,7 @@ LesliCloud is proprietary software
 
 * Documentation: [https://github.com/LesliTech/lesli.cloud/wiki](https://github.com/LesliTech/lesli.cloud/wiki)
 
-* [Development notes](./.dev/notes.md)
+* Development notes: [development.md](development.md)
 
 
 #### License
