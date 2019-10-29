@@ -56,8 +56,7 @@
     },
     "scripts": {
         "webpack:production": "webpack --progress --env=production",
-        "webpack": "webpack --progress --env=development",
-        "vendor": "./.dev/vendor.sh"
+        "webpack": "webpack --progress --env=development"
     }
     
 }
