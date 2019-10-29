@@ -6,6 +6,14 @@
         /= javascript_include_tag [controller_path, action_name].join('_')
         = javascript_include_tag 'websites_landing'
     %body{:class => "#{controller_path}-#{action_name}"}
-        = render 'layouts/partials/application-layout-notify'
+        - if notice
+            .notification.is-primary
+                %button.delete
+                %p= notice
+        - if alert
+            .notification.is-warning
+                %button.delete
+                %p= alert
+
         %main#lesli-cloud-app
             =yield
