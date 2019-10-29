@@ -3,6 +3,9 @@
     %head
         = render 'layouts/partials/application-head'
         = render 'layouts/partials/application-asset-css'
+        /= javascript_include_tag [controller_path, action_name].join('_')
+        = javascript_include_tag 'websites_landing'
     %body{:class => "#{controller_path}-#{action_name}"}
+        = render 'layouts/partials/application-layout-notify'
         %main#lesli-cloud-app
             =yield

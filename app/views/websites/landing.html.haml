@@ -1,13 +1,7 @@
 %header
     = image_tag 'brand/leslicloud-logo.png'
     = link_to "Login", new_user_session_path, :class => 'navbar-link'
-
+/
     = link_to "en", { :locale=>'en' }
     %br
     = link_to "es", { :locale=>'es' }
-    %br
-    = link_to "reload", {  }
-    %br
-    = t(".hello")
-    %br
-    = I18n.locale
