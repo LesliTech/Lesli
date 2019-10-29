@@ -55,7 +55,9 @@ function webpackConfigBuilder(compilationMode) {
                 })
             ]
         },
-        entry: {"lesli": "./app/vue/apps/lesli.js",},
+        entry: {
+            "websites_landing": "./app/vue/websites/landing.js"
+        },
         output: {
             path: __dirname,
             filename: "app/assets/javascripts/[name].js"
@@ -129,7 +131,7 @@ function webpackConfigBuilder(compilationMode) {
         
     }
 
-    // webpackConfig.push(webpackbase)
+    webpackConfig.push(webpackbase)
 
     // · get engines
     fs.readdirSync('./engines').forEach(engine => {
