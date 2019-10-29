@@ -56,7 +56,9 @@ function webpackConfigBuilder(compilationMode) {
             ]
         },
         entry: {
-            "websites_landing": "./app/vue/websites/landing.js"
+            "websites_landing": "./app/vue/websites/landing.js",
+            "users/sessions_new": "./app/vue/users/sessions_new.js",
+            "users/registrations_new": "./app/vue/users/registrations_new.js"
         },
         output: {
             path: __dirname,

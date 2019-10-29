@@ -3,17 +3,8 @@
     %head
         = render 'layouts/partials/application-head'
         = render 'layouts/partials/application-asset-css'
-        /= javascript_include_tag [controller_path, action_name].join('_')
-        = javascript_include_tag 'websites_landing'
+        /= render 'layouts/partials/application_public-asset-js'
     %body{:class => "#{controller_path}-#{action_name}"}
-        - if notice
-            .notification.is-primary
-                %button.delete
-                %p= notice
-        - if alert
-            .notification.is-warning
-                %button.delete
-                %p= alert
-
+        = render 'layouts/partials/application_public-notify'
         %main#lesli-cloud-app
             =yield

@@ -23,6 +23,7 @@ Rails.application.config.assets.precompile += %w( cloud_kb/*.css )
 
 Rails.application.config.assets.precompile += %w( i18n.js )
 Rails.application.config.assets.precompile += %w( websites_landing.js )
+Rails.application.config.assets.precompile += %w( users/*.js )
 Rails.application.config.assets.precompile += %w( cloud_driver/*.js )
 Rails.application.config.assets.precompile += %w( cloud_lesli/*.js )
 Rails.application.config.assets.precompile += %w( cloud_books/*.js )
