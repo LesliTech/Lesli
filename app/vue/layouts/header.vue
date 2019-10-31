@@ -45,9 +45,6 @@ export default {
             this.aside.timer = setTimeout(() => el.classList.remove('show'), 4000)
         },
 
-
-
-
         checkIfMicrophoneWorks() {
             window.SpeechRecognition = window.webkitSpeechRecognition || window.SpeechRecognition;
             if (window.SpeechRecognition) {
@@ -56,15 +53,19 @@ export default {
             this.microphone = false
         },
 
+        publishChatbotIntent() {
+            this.bus.publish('/cloud/layout/chatbox#postIntent', this.chatbotIntent)
+            this.chatbotIntent = ''
+        },
+
+
+
         talk() {
             //var msg = new SpeechSynthesisUtterance('Hello World');
             //window.speechSynthesis.speak(msg);
         },
-
         listen() {
-
             window.SpeechRecognition = window.webkitSpeechRecognition || window.SpeechRecognition;
-
             if (window.SpeechRecognition) {
                 const recognition = new window.SpeechRecognition();
                 recognition.onresult = (event) => {
@@ -72,15 +73,7 @@ export default {
                 }
                 recognition.start();
             }
-
-        },
-
-        
-
-        emitChatbotIntent() {
-            this.bus.$emit('component/chatbox/intent', this.chatbotIntent)
-            this.chatbotIntent=""
-        },
+        }
 
     }
 
@@ -106,9 +99,9 @@ export default {
                         <i v-if="!microphone" class="fas fa-microphone-slash"></i>
                     </button>
 
-                    <form v-on:submit.prevent="emitChatbotIntent()">
-                        <input class="input" v-model="chatbotIntent" type="text" placeholder="Hello, how can I help you today? :)">
-                    </form>
+                    <div>
+                        <input class="input" v-model="chatbotIntent" type="text" placeholder="Hello, how can I help you today? :)" @keyup.enter="publishChatbotIntent()">
+                    </div>
                     
                 </div>
 

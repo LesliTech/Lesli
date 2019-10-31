@@ -6,27 +6,23 @@ export default {
             intents:[ ],
             loading: false,
             openchat: false,
-            showchat: false
+            showchat: true
         }
     },
     mounted() {
-
-        this.bus.$on('lesli.component.chatbox.postIntent', intent => {
+        this.bus.subscribe('/cloud/layout/chatbox#postIntent', intent => {
             this.showchat=true
             this.openchat=true
-            this.postIntent(intent)
+            this.intent = intent
+            this.postIntent()
         })
-
     },
     methods: {
 
-        postIntent(intent=false) {
-
-            // postIntent can be called as function
-            if (intent) { this.intent = intent }
+        postIntent() {
 
             // do not process intent if intent is empty
-            if (intent == '') { return }
+            if (this.intent == '') { return }
 
             this.loading = true
             this.intents.push({type:'intent',text:this.intent})
@@ -91,9 +87,9 @@ export default {
             </div>
         </div>
         <div class="chat-footer" v-show="openchat">
-            <form v-on:submit.prevent="postIntent()">
-                <input v-model="intent" :disabled="loading" type="text" placeholder="How can I help you?">
-            </form>
+            <div>
+                <input v-model="intent" :disabled="loading" type="text" placeholder="How can I help you?" @keyup.enter="postIntent">
+            </div>
         </div>
     </div>
 </template>
