@@ -8,8 +8,8 @@ class User < ApplicationRecord
             :validatable,
             :confirmable
     
-    belongs_to :account , foreign_key: 'accounts_id', optional: true
-    has_one :user_detail, foreign_key: 'user_details_id'
-    has_many :notifications
+    has_one     :user_detail, foreign_key: 'user_details_id'
+    has_many    :notifications, class_name: 'CloudBell::Notification', foreign_key: 'users_id'
+    belongs_to  :account , foreign_key: 'accounts_id', optional: true
 
 end
