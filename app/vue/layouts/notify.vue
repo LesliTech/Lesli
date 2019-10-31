@@ -135,7 +135,7 @@ export default {
                     <div class="section">
                         <ul class="menu-list">
                             <li v-for="(notification, index) in notification.list" :key="index" >
-                                <a :href="notification.href">{{ notification.content }}</a>
+                                <a :href="notification.href">{{ notification.subject }}</a>
                             </li>
                         </ul>
                     </div>

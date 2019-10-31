@@ -116,7 +116,7 @@ export default {
                 <div class="navbar-end">
                     <div class="navbar-item">
 
-                        <a class="navbar-item">
+                        <a class="navbar-item" @click="bus.publish('open:/cloud/layout/notify#notification')">
                             <i v-if="notification.count > 0" class="fas fa-bell has-text-link"></i>
                             <i v-if="notification.count == 0" class="far fa-bell"></i>
                             <span 
