@@ -1,6 +1,6 @@
 class AccountsController < ApplicationController
     before_action :set_account, only: [:show, :edit, :update, :destroy]
-    layout 'application_devise'
+    layout 'application_public'
 
     # GET /accounts
     # GET /accounts.json
