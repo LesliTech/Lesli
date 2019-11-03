@@ -36,7 +36,7 @@ export default {
             type: String,
             required: true
         },
-        cloudOwnerId: {
+        cloudId: {
             required: true
         }
     },
@@ -54,11 +54,14 @@ export default {
             if (e) { e.preventDefault() }
 
             // add owner id
-            this.action[`cloud_${this.cloudModule.replace('/','_')}s_id`] = this.cloudOwnerId
+            this.action[`cloud_${this.cloudModule.replace('/','_')}s_id`] = this.cloudId
 
-            this.http.post(`/${this.cloudModule}/actions`, {
-                ticket_action: this.action
-            }).then(result => {
+            console.log(JSON.stringify(this.action))
+
+            let request_data = {}
+            request_data[`${this.cloudModule.split('/')[1]}_action`] = this.action
+
+            this.http.post(`/${this.cloudModule}/actions`, request_data).then(result => {
                 if (result.successful) {
                     this.action.instructions = ""
                 }

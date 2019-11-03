@@ -472,7 +472,7 @@ ActiveRecord::Schema.define(version: 8020001) do
     t.string "third_name"
     t.string "surname"
     t.string "second_surname"
-    t.string "married_surname"
+    t.string "married_name"
     t.date "birthdate"
     t.string "phone_number"
     t.string "mobile_number"
@@ -497,12 +497,14 @@ ActiveRecord::Schema.define(version: 8020001) do
 
   create_table "cloud_team_employee_discussions", force: :cascade do |t|
     t.text "content"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
     t.bigint "cloud_team_employee_discussions_id"
+    t.bigint "users_id"
     t.bigint "cloud_team_employees_id"
-    t.index ["cloud_team_employee_discussions_id"], name: "employee_discussions"
-    t.index ["cloud_team_employees_id"], name: "discussions_employees"
+    t.index ["cloud_team_employee_discussions_id"], name: "employee_discussions_discussions"
+    t.index ["cloud_team_employees_id"], name: "employee_discussions"
+    t.index ["users_id"], name: "index_cloud_team_employee_discussions_on_users_id"
   end
 
   create_table "cloud_team_employee_locations", force: :cascade do |t|
@@ -668,6 +670,7 @@ ActiveRecord::Schema.define(version: 8020001) do
   add_foreign_key "cloud_team_employee_details", "cloud_team_employees", column: "cloud_team_employees_id"
   add_foreign_key "cloud_team_employee_discussions", "cloud_team_employee_discussions", column: "cloud_team_employee_discussions_id"
   add_foreign_key "cloud_team_employee_discussions", "cloud_team_employees", column: "cloud_team_employees_id"
+  add_foreign_key "cloud_team_employee_discussions", "users", column: "users_id"
   add_foreign_key "cloud_team_employee_locations", "cloud_team_employees", column: "cloud_team_employees_id"
   add_foreign_key "cloud_team_employee_social_accounts", "cloud_team_employees", column: "cloud_team_employees_id"
   add_foreign_key "cloud_team_employees", "cloud_team_accounts", column: "cloud_team_accounts_id"
