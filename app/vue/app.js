@@ -73,6 +73,10 @@ Vue.use(pluginCable)
 
 // · Vue app
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
+// · module: Main module
+// · app: List of individual apps loaded
+// · base_path: for vue router
+// · example: app("CloudHelp", "[list|new|edit|show]", "help/tickets", {}, [])
 export default (module, app, base_path, components={}, routes=null) => {
 
 
@@ -96,8 +100,8 @@ export default (module, app, base_path, components={}, routes=null) => {
     if (routes) {
         cloud_builder['router'] = new VueRouter({
             linkActiveClass: 'is-active',
-            //mode: "history",
-            //base: base_path,
+            mode: "history",
+            base: base_path,
             routes: routes
         })
     }

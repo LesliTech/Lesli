@@ -31,7 +31,7 @@ export default {
             type: String,
             required: true
         },
-        cloudObjectId: {
+        cloudId: {
             required: true
         }
     },
@@ -49,7 +49,7 @@ export default {
     methods: {
 
         getDiscussions() {
-            this.http.get(`/${this.cloudModule}s/${this.cloudObjectId}/discussions`).then(result => {
+            this.http.get(`/${this.cloudModule}s/${this.cloudId}/discussions`).then(result => {
                 if (result.successful) {
                     this.discussions = result.data
                 }
@@ -82,7 +82,6 @@ export default {
                             <small>{{ discussion.created_at }}</small>
                         </p>
                         <div v-html="discussion.content"></div>
-                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean efficitur sit amet massa fringilla egestas. Nullam condimentum luctus turpis.</p>
                     </div>
                 </div>
                 <div class="media-right">

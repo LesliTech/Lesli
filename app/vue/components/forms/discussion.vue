@@ -42,7 +42,7 @@ export default {
             type: String,
             required: true
         },
-        cloudObjectId: {
+        cloudId: {
             required: true
         }
     },
@@ -64,11 +64,15 @@ export default {
             if (e) { e.preventDefault() }
 
             // add owner id
-            this.discussion[`cloud_${this.cloudModule.replace('/','_')}s_id`] = this.cloudObjectId
+            this.discussion[`cloud_${this.cloudModule.replace('/','_')}s_id`] = this.cloudId
 
-            this.http.post(`/${this.cloudModule}/discussions`, {
-                ticket_discussion: this.discussion
-            }).then(result => {
+            let request_data = {}
+            request_data[`${this.cloudModule.split('/')[1]}_discussion`] = this.discussion
+
+            //{"  ticket_discussion":{"content":"hola","cloud_help_tickets_id"  :"2"}}
+            //{"employee_discussion":{"content":"hola","cloud_team_employees_id":"1"}}
+
+            this.http.post(`/${this.cloudModule}/discussions`, request_data).then(result => {
                 if (result.successful) {
                     this.discussion.content = ""
                 }
