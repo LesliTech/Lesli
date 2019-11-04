@@ -100,8 +100,8 @@ export default (module, app, base_path, components={}, routes=null) => {
     if (routes) {
         cloud_builder['router'] = new VueRouter({
             linkActiveClass: 'is-active',
-            mode: "history",
-            base: base_path,
+            //mode: "history",
+            //base: base_path,
             routes: routes
         })
     }
