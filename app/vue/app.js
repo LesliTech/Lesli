@@ -77,7 +77,7 @@ Vue.use(pluginCable)
 // · app: List of individual apps loaded
 // · base_path: for vue router
 // · example: app("CloudHelp", "[list|new|edit|show]", "help/tickets", {}, [])
-export default (module, app, base_path, components={}, routes=null) => {
+export default (module, app, base_path, components=null, routes=null) => {
 
 
     // · Vue app configuration container
@@ -86,13 +86,19 @@ export default (module, app, base_path, components={}, routes=null) => {
 
     // · Default and custom components
     cloud_builder['components'] = { 
-        ...{
-            'component-layout-notify': componentLayoutNotify,
-            'component-layout-header': componentLayoutHeader,
-            'component-layout-chatbox': componentLayoutChatbox,
-            'component-layout-navigation': componentLayoutNavigation
-        }, 
-        ...components 
+        'component-layout-notify': componentLayoutNotify,
+        'component-layout-header': componentLayoutHeader,
+        'component-layout-chatbox': componentLayoutChatbox,
+        'component-layout-navigation': componentLayoutNavigation
+    }
+
+
+    // · Merge core and app components
+    if (components) {
+        cloud_builder.components = {
+            ...cloud_builder.components,
+            ...components
+        }
     }
 
 
@@ -100,8 +106,8 @@ export default (module, app, base_path, components={}, routes=null) => {
     if (routes) {
         cloud_builder['router'] = new VueRouter({
             linkActiveClass: 'is-active',
-            //mode: "history",
-            //base: base_path,
+            base: base_path,
+            mode: "history",
             routes: routes
         })
     }

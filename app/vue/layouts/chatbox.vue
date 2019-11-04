@@ -6,7 +6,7 @@ export default {
             intents:[ ],
             loading: false,
             openchat: false,
-            showchat: true
+            showchat: false
         }
     },
     mounted() {
