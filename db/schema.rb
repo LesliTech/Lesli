@@ -43,6 +43,27 @@ ActiveRecord::Schema.define(version: 8020001) do
     t.index ["account_plans_id"], name: "index_accounts_on_account_plans_id"
   end
 
+  create_table "active_storage_attachments", force: :cascade do |t|
+    t.string "name", null: false
+    t.string "record_type", null: false
+    t.bigint "record_id", null: false
+    t.bigint "blob_id", null: false
+    t.datetime "created_at", null: false
+    t.index ["blob_id"], name: "index_active_storage_attachments_on_blob_id"
+    t.index ["record_type", "record_id", "name", "blob_id"], name: "index_active_storage_attachments_uniqueness", unique: true
+  end
+
+  create_table "active_storage_blobs", force: :cascade do |t|
+    t.string "key", null: false
+    t.string "filename", null: false
+    t.string "content_type"
+    t.text "metadata"
+    t.bigint "byte_size", null: false
+    t.string "checksum", null: false
+    t.datetime "created_at", null: false
+    t.index ["key"], name: "index_active_storage_blobs_on_key", unique: true
+  end
+
   create_table "audits", force: :cascade do |t|
     t.integer "auditable_id"
     t.string "auditable_type"
@@ -263,8 +284,11 @@ ActiveRecord::Schema.define(version: 8020001) do
   end
 
   create_table "cloud_help_ticket_files", force: :cascade do |t|
+    t.string "name"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.bigint "cloud_help_tickets_id"
+    t.index ["cloud_help_tickets_id"], name: "index_cloud_help_ticket_files_on_cloud_help_tickets_id"
   end
 
   create_table "cloud_help_ticket_followers", force: :cascade do |t|
@@ -610,6 +634,7 @@ ActiveRecord::Schema.define(version: 8020001) do
   end
 
   add_foreign_key "accounts", "account_plans", column: "account_plans_id"
+  add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "cloud_bell_accounts", "accounts", column: "id"
   add_foreign_key "cloud_bell_emails", "cloud_bell_accounts", column: "cloud_bell_accounts_id"
   add_foreign_key "cloud_bell_messages", "cloud_bell_accounts", column: "cloud_bell_accounts_id"
@@ -641,6 +666,7 @@ ActiveRecord::Schema.define(version: 8020001) do
   add_foreign_key "cloud_help_ticket_discussions", "cloud_help_ticket_discussions", column: "cloud_help_ticket_discussions_id"
   add_foreign_key "cloud_help_ticket_discussions", "cloud_help_tickets", column: "cloud_help_tickets_id"
   add_foreign_key "cloud_help_ticket_discussions", "users", column: "users_id"
+  add_foreign_key "cloud_help_ticket_files", "cloud_help_tickets", column: "cloud_help_tickets_id"
   add_foreign_key "cloud_help_ticket_priorities", "cloud_help_accounts", column: "cloud_help_accounts_id"
   add_foreign_key "cloud_help_ticket_sources", "cloud_help_accounts", column: "cloud_help_accounts_id"
   add_foreign_key "cloud_help_ticket_states", "cloud_help_accounts", column: "cloud_help_accounts_id"
