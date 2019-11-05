@@ -58,9 +58,7 @@ export default {
     mounted() {
         this.getFiles()
         this.bus.subscribe("show:/module/app/files", () => this.show = !this.show )
-        this.bus.subscribe(`post:/${this.cloudModule}/files`, () => {
-            this.getFiles()
-        })
+        this.bus.subscribe(`post:/${this.cloudModule}/files`, () => this.getFiles() )
     },
     methods: {
         getFiles() {

@@ -54,16 +54,13 @@ export default {
 
             if (e) { e.preventDefault() }
 
-            // add owner id
-            this.file[`cloud_${this.cloudModule.replace('/','_')}s_id`] = this.cloudId
-
-            let request_data = {}
-            request_data[`${this.cloudModule.split('/')[1]}_file`] = this.file
+            let foreign_key = this.cloudModule.replace('/','_')
+            let field_key = this.cloudModule.split('/')[1]
 
             let formData = new FormData();
-            formData.append('ticket_file[name]', this.file.name)
-            formData.append('ticket_file[file]', this.file.file)
-            formData.append('ticket_file[cloud_help_tickets_id]', this.cloudId)
+            formData.append(`${field_key}_file[cloud_${foreign_key}s_id]`, this.cloudId)
+            formData.append(`${field_key}_file[name]`, this.file.name)
+            formData.append(`${field_key}_file[file]`, this.file.file)
 
             this.http.post(`/${this.cloudModule}/files`, formData, {
                 headers: {
