@@ -13,6 +13,10 @@ export default {
     methods: {
         showActions() {
             this.bus.$emit("show:/module/app/actions")
+        },
+        showFiles() {
+            console.log('emiting....')
+            this.bus.$emit("show:/module/app/files")
         }
     },
     watch: {
@@ -31,7 +35,7 @@ export default {
             <div class="navbar-end">
                 <slot name="left"></slot>
                 <a class="navbar-item" v-if="id" @click="showActions">Actions</a>
-                <a class="navbar-item" v-if="id" @click="showActions">Files</a>
+                <a class="navbar-item" v-if="id" @click="showFiles()">Files</a>
                 <a class="navbar-item" v-if="id" @click="showActions">Activities</a>
             </div>
         </div>
