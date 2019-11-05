@@ -43,7 +43,7 @@ export default {
     data() {
         return {
             file: {
-                name: "test",
+                name: "",
                 file: null
             }
         }
@@ -57,15 +57,13 @@ export default {
             // add owner id
             this.file[`cloud_${this.cloudModule.replace('/','_')}s_id`] = this.cloudId
 
-            console.log(JSON.stringify(this.file))
-
             let request_data = {}
             request_data[`${this.cloudModule.split('/')[1]}_file`] = this.file
 
             let formData = new FormData();
-            formData.append('ticket_file[name]', this.file.name);
-            formData.append('ticket_file[file]', this.file.file);
-            formData.append('ticket_file[cloud_help_tickets_id]', 1);
+            formData.append('ticket_file[name]', this.file.name)
+            formData.append('ticket_file[file]', this.file.file)
+            formData.append('ticket_file[cloud_help_tickets_id]', this.cloudId)
 
             this.http.post(`/${this.cloudModule}/files`, formData, {
                 headers: {
@@ -75,15 +73,13 @@ export default {
                 if (result.successful) {
                     this.file.name = ""
                 }
-                this.bus.$emit(`post:/${this.cloudModule}/files`)
+                this.bus.publish(`post:/${this.cloudModule}/files`)
             }).catch(error => {
                 console.log(error)
             })
 
         },
         handleFileUpload(test, files) {
-            console.log(test)
-            console.log(files[0])
             this.file.file = files[0];
         }
 
@@ -92,21 +88,10 @@ export default {
 }
 </script>
 <template>
-    <div class="card">
-        {{ file }}
-        <div class="card-content">
-            <form @submit="postFile">
-                <b-field class="file">
-                    <b-upload v-model="file.file">
-                        <a class="button is-primary">
-                            <b-icon icon="upload"></b-icon>
-                            <span>Click to upload</span>
-                        </a>
-                    </b-upload>
-                </b-field>
-                <input type="file" v-on:change="handleFileUpload($event.target.name, $event.target.files)">
-                <input class="input" type="text" v-model="file.name" placeholder="Add new file...">
-            </form>
-        </div>
+    <div class="box">
+        <form @submit="postFile">
+            <input type="file" @change="handleFileUpload($event.target.name, $event.target.files)">
+            <input class="input" type="text" v-model="file.name" placeholder="Add new file...">
+        </form>
     </div>
 </template>

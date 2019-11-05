@@ -285,6 +285,7 @@ ActiveRecord::Schema.define(version: 8020001) do
 
   create_table "cloud_help_ticket_files", force: :cascade do |t|
     t.string "name"
+    t.string "location"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.bigint "cloud_help_tickets_id"
