@@ -370,16 +370,6 @@ ActiveRecord::Schema.define(version: 8020001) do
     t.index ["cloud_kb_articles_id"], name: "index_cloud_kb_article_activities_on_cloud_kb_articles_id"
   end
 
-  create_table "cloud_kb_article_attachments", force: :cascade do |t|
-    t.string "filename"
-    t.string "path"
-    t.integer "type"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-    t.bigint "cloud_kb_articles_id"
-    t.index ["cloud_kb_articles_id"], name: "index_cloud_kb_article_attachments_on_cloud_kb_articles_id"
-  end
-
   create_table "cloud_kb_article_comments", force: :cascade do |t|
     t.text "content"
     t.datetime "created_at", precision: 6, null: false
@@ -451,16 +441,6 @@ ActiveRecord::Schema.define(version: 8020001) do
     t.index ["cloud_team_employees_id"], name: "index_cloud_team_employee_activities_on_cloud_team_employees_id"
   end
 
-  create_table "cloud_team_employee_attachments", force: :cascade do |t|
-    t.string "filename"
-    t.string "path"
-    t.integer "type"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-    t.bigint "cloud_team_employees_id"
-    t.index ["cloud_team_employees_id"], name: "team_employee_attachment_employees"
-  end
-
   create_table "cloud_team_employee_contact_details", force: :cascade do |t|
     t.string "work_telephone"
     t.string "work_mobile"
@@ -529,6 +509,14 @@ ActiveRecord::Schema.define(version: 8020001) do
     t.index ["cloud_team_employee_discussions_id"], name: "employee_discussions_discussions"
     t.index ["cloud_team_employees_id"], name: "employee_discussions"
     t.index ["users_id"], name: "index_cloud_team_employee_discussions_on_users_id"
+  end
+
+  create_table "cloud_team_employee_files", force: :cascade do |t|
+    t.string "name"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.bigint "cloud_team_employees_id"
+    t.index ["cloud_team_employees_id"], name: "index_cloud_team_employee_files_on_cloud_team_employees_id"
   end
 
   create_table "cloud_team_employee_locations", force: :cascade do |t|
@@ -677,7 +665,6 @@ ActiveRecord::Schema.define(version: 8020001) do
   add_foreign_key "cloud_kb_accounts", "accounts", column: "id"
   add_foreign_key "cloud_kb_article_actions", "cloud_kb_articles", column: "cloud_kb_articles_id"
   add_foreign_key "cloud_kb_article_activities", "cloud_kb_articles", column: "cloud_kb_articles_id"
-  add_foreign_key "cloud_kb_article_attachments", "cloud_kb_articles", column: "cloud_kb_articles_id"
   add_foreign_key "cloud_kb_article_comments", "cloud_kb_article_comments", column: "cloud_kb_article_comments_id"
   add_foreign_key "cloud_kb_article_comments", "cloud_kb_articles", column: "cloud_kb_articles_id"
   add_foreign_key "cloud_kb_article_details", "cloud_kb_articles", column: "cloud_kb_articles_id"
@@ -690,13 +677,13 @@ ActiveRecord::Schema.define(version: 8020001) do
   add_foreign_key "cloud_team_accounts", "accounts", column: "id"
   add_foreign_key "cloud_team_employee_actions", "cloud_team_employees", column: "cloud_team_employees_id"
   add_foreign_key "cloud_team_employee_activities", "cloud_team_employees", column: "cloud_team_employees_id"
-  add_foreign_key "cloud_team_employee_attachments", "cloud_team_employees", column: "cloud_team_employees_id"
   add_foreign_key "cloud_team_employee_contact_details", "cloud_team_employees", column: "cloud_team_employees_id"
   add_foreign_key "cloud_team_employee_contact_emergency_details", "cloud_team_employees", column: "cloud_team_employees_id"
   add_foreign_key "cloud_team_employee_details", "cloud_team_employees", column: "cloud_team_employees_id"
   add_foreign_key "cloud_team_employee_discussions", "cloud_team_employee_discussions", column: "cloud_team_employee_discussions_id"
   add_foreign_key "cloud_team_employee_discussions", "cloud_team_employees", column: "cloud_team_employees_id"
   add_foreign_key "cloud_team_employee_discussions", "users", column: "users_id"
+  add_foreign_key "cloud_team_employee_files", "cloud_team_employees", column: "cloud_team_employees_id"
   add_foreign_key "cloud_team_employee_locations", "cloud_team_employees", column: "cloud_team_employees_id"
   add_foreign_key "cloud_team_employee_social_accounts", "cloud_team_employees", column: "cloud_team_employees_id"
   add_foreign_key "cloud_team_employees", "cloud_team_accounts", column: "cloud_team_accounts_id"
