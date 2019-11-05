@@ -45,9 +45,6 @@ gem 'sass-rails', '~> 5'
 # HAML template procesor
 gem 'haml-rails'
 
-# Add carrierwave to upload documents
-gem 'carrierwave'
-
 # logs
 gem "audited", "~> 4.9"
 
