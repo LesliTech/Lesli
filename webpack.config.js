@@ -140,12 +140,10 @@ function webpackConfigBuilder(compilationMode) {
 
         let webpackEngine = Object.assign({}, webpackbase)
         webpackEngine.output = Object.assign({}, webpackbase.output)
-        webpackEngine.output.filename = ""
-        webpackEngine.entry = {}
 
         // remove entries from previous engine
-        webpackEngine.entry = {}
         webpackEngine.output.filename = ""
+        webpackEngine.entry = {}
         
         // if engine is not a dir
         if (['.gitkeep'].includes(engine)) {
