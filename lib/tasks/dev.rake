@@ -42,6 +42,7 @@ namespace :dev do
     task install: :environment do
 
         system "sudo service nginx stop"
+        system "git checkout ."
         system "git pull origin master --no-edit"
         system "cd ./engines/CloudBell && git pull origin master --no-edit"
         system "cd ./engines/CloudBooks && git pull origin master --no-edit"
@@ -54,7 +55,7 @@ namespace :dev do
         system "cd ./engines/CloudPanel && git pull origin master --no-edit"
         system "cd ./engines/CloudTeam && git pull origin master --no-edit"
 
-        system "rvm use default"
+        #system "rvm use default"
         system "gem install bundler"
         system "bundle install"
 
