@@ -36,7 +36,7 @@ export default {
 
             // · Redirect to specific url
             go(url=null) {
-
+                // · defined in /app/views/layouts/partials/_application-data.html.haml
                 url = new URL(url, leslicloud_request.root_url)
                 window.location.href = url.href;
                 //console.log(url)
@@ -46,7 +46,7 @@ export default {
             // · Get well formated url
             to(engine=null, module=null, app=null) {
 
-                return new URL([engine, module, app].filter(item=>item).join('/'), leslicloud_request.root_url)
+                return new URL([engine, module, app].join('/'), leslicloud_request.root_url)
 
             }
 

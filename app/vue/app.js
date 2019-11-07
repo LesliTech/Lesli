@@ -120,7 +120,7 @@ export default (module, app, base_path, components=null, routes=null) => {
     document.ready(() => {
 
         cloud.$mount("#lesli-cloud-app")
-
+        // · Defined in webpack.config.js
         if (leslicloud_app_mode_production) debug.userWarningMessage()
         if (leslicloud_app_mode_development) debug.info(`${base_path} ${app}`, module)
 
