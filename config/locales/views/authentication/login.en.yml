@@ -1,0 +1,8 @@
+en:
+  authentication:
+    login:
+      actions:
+        log_in: Log In
+      labels:
+        email: Email
+        password: Password

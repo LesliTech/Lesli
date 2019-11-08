@@ -22,7 +22,7 @@ class Users::SessionsController < Devise::SessionsController
 
     # Register invalid login attempt
     def invalid_login_attempt
-        responseWithError('Invalid email or password')
+        responseWithError(t('devise.errors.custom.invalid_credentials'))
     end
 
     # Configuring the sign_in parameters
