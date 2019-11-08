@@ -93,6 +93,8 @@ namespace :dev do
             system "rake db:migrate RAILS_ENV=production" 
             system "rake db:seed RAILS_ENV=production" 
 
+            system "whenever --update-crontab"
+
             system "bundle exec rake assets:clean RAILS_ENV=production"
             system "bundle exec rake assets:precompile RAILS_ENV=production"
             system "sudo service nginx restart"
