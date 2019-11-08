@@ -1,6 +1,37 @@
+=begin
 
- set :output, "/log/cron.log"
+Lesli
 
- every 1.day, at: ['2:00 am', '2:00 pm', '4:00 pm', '6:00 pm', '8:00 pm', '10:00 pm', '11:59 pm'] do
-   rake "dev:install"
+Copyright (c) 2019, Lesli Technologies, S. A.
+
+All the information provided by this website is protected by laws of Guatemala related 
+to industrial property, intellectual property, copyright and relative international laws. 
+Lesli Technologies, S. A. is the exclusive owner of all intellectual or industrial property
+rights of the code, texts, trade mark, design, pictures and any other information.
+Without the written permission of Lesli Technologies, S. A., any replication, modification,
+transmission, publication is strictly forbidden.
+For more information read the license file including with this software.
+
+LesliCloud - Your Smart Business Assistant
+
+Powered by https://www.lesli.tech
+Building a better future, one line of code at a time.
+
+@author   LesliTech <hello@lesli.tech>
+@license  Propietary - all rights reserved.
+@version  0.1.0-alpha
+
+// · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
+// · 
+
+=end
+
+
+# Save log file 
+set :output, "/log/cron.log"
+
+
+# Automatic self deploy
+every 1.day, at: ['2:00 am', '2:00 pm', '4:00 pm', '6:00 pm', '8:00 pm', '10:00 pm', '11:59 pm'] do
+    rake "dev:app:install"
 end

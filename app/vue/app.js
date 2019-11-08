@@ -39,7 +39,6 @@ import VueRouter from 'vue-router'
 import pluginBus from 'LesliCloud/vue/plugins/bus'
 import pluginUrl from 'LesliCloud/vue/plugins/url'
 import pluginHttp from 'LesliCloud/vue/plugins/http'
-import pluginCable from 'LesliCloud/vue/plugins/cable'
 
 
 
@@ -55,6 +54,7 @@ import document from 'LesliCloud/vue/functions/document.js'
 import componentLayoutNotify from 'LesliCloud/vue/layouts/notify.vue'
 import componentLayoutHeader from 'LesliCloud/vue/layouts/header.vue'
 import componentLayoutChatbox from 'LesliCloud/vue/layouts/chatbox.vue'
+import componentLayoutEmptyData from 'LesliCloud/vue/layouts/empty-data.vue'
 import componentLayoutNavigation from 'LesliCloud/vue/layouts/navigation.vue'
 
 // · Initializing frameworks, libraries and tools
@@ -64,7 +64,7 @@ Vue.use(Buefy)
 Vue.use(VueRouter)
 Vue.use(pluginUrl)
 Vue.use(pluginHttp)
-
+Vue.component('component-layout-empty-data', componentLayoutEmptyData)
 
 
 // · Vue app
@@ -77,7 +77,6 @@ export default (module, app, base_path, components=null, routes=null, public_acc
 
     if(! public_accessibility){
         Vue.use(pluginBus)
-        Vue.use(pluginCable)
     }
 
     // · Vue app configuration container

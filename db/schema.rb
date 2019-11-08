@@ -370,21 +370,33 @@ ActiveRecord::Schema.define(version: 8020001) do
     t.index ["cloud_kb_articles_id"], name: "index_cloud_kb_article_activities_on_cloud_kb_articles_id"
   end
 
-  create_table "cloud_kb_article_comments", force: :cascade do |t|
-    t.text "content"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-    t.bigint "cloud_kb_article_comments_id"
-    t.bigint "cloud_kb_articles_id"
-    t.index ["cloud_kb_article_comments_id"], name: "article_comments"
-    t.index ["cloud_kb_articles_id"], name: "index_cloud_kb_article_comments_on_cloud_kb_articles_id"
-  end
-
   create_table "cloud_kb_article_details", force: :cascade do |t|
+    t.string "title"
+    t.text "content"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.bigint "cloud_kb_articles_id"
     t.index ["cloud_kb_articles_id"], name: "index_cloud_kb_article_details_on_cloud_kb_articles_id"
+  end
+
+  create_table "cloud_kb_article_discussions", force: :cascade do |t|
+    t.text "content"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.bigint "cloud_kb_article_discussions_id"
+    t.bigint "users_id"
+    t.bigint "cloud_kb_articles_id"
+    t.index ["cloud_kb_article_discussions_id"], name: "article_comments"
+    t.index ["cloud_kb_articles_id"], name: "index_cloud_kb_article_discussions_on_cloud_kb_articles_id"
+    t.index ["users_id"], name: "index_cloud_kb_article_discussions_on_users_id"
+  end
+
+  create_table "cloud_kb_article_files", force: :cascade do |t|
+    t.string "name"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.bigint "cloud_kb_articles_id"
+    t.index ["cloud_kb_articles_id"], name: "index_cloud_kb_article_files_on_cloud_kb_articles_id"
   end
 
   create_table "cloud_kb_article_tags", force: :cascade do |t|
@@ -402,13 +414,14 @@ ActiveRecord::Schema.define(version: 8020001) do
   end
 
   create_table "cloud_kb_articles", force: :cascade do |t|
-    t.string "title"
-    t.text "content"
-    t.bigint "parent_id"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.bigint "users_id"
     t.bigint "cloud_kb_accounts_id"
+    t.bigint "cloud_kb_articles_id"
     t.index ["cloud_kb_accounts_id"], name: "index_cloud_kb_articles_on_cloud_kb_accounts_id"
+    t.index ["cloud_kb_articles_id"], name: "index_cloud_kb_articles_on_cloud_kb_articles_id"
+    t.index ["users_id"], name: "index_cloud_kb_articles_on_users_id"
   end
 
   create_table "cloud_lock_accounts", force: :cascade do |t|
@@ -665,13 +678,16 @@ ActiveRecord::Schema.define(version: 8020001) do
   add_foreign_key "cloud_kb_accounts", "accounts", column: "id"
   add_foreign_key "cloud_kb_article_actions", "cloud_kb_articles", column: "cloud_kb_articles_id"
   add_foreign_key "cloud_kb_article_activities", "cloud_kb_articles", column: "cloud_kb_articles_id"
-  add_foreign_key "cloud_kb_article_comments", "cloud_kb_article_comments", column: "cloud_kb_article_comments_id"
-  add_foreign_key "cloud_kb_article_comments", "cloud_kb_articles", column: "cloud_kb_articles_id"
   add_foreign_key "cloud_kb_article_details", "cloud_kb_articles", column: "cloud_kb_articles_id"
+  add_foreign_key "cloud_kb_article_discussions", "cloud_kb_article_discussions", column: "cloud_kb_article_discussions_id"
+  add_foreign_key "cloud_kb_article_discussions", "cloud_kb_articles", column: "cloud_kb_articles_id"
+  add_foreign_key "cloud_kb_article_discussions", "users", column: "users_id"
+  add_foreign_key "cloud_kb_article_files", "cloud_kb_articles", column: "cloud_kb_articles_id"
   add_foreign_key "cloud_kb_article_tags", "cloud_kb_accounts", column: "cloud_kb_accounts_id"
   add_foreign_key "cloud_kb_article_topics", "cloud_kb_accounts", column: "cloud_kb_accounts_id"
   add_foreign_key "cloud_kb_articles", "cloud_kb_accounts", column: "cloud_kb_accounts_id"
-  add_foreign_key "cloud_kb_articles", "cloud_kb_articles", column: "parent_id"
+  add_foreign_key "cloud_kb_articles", "cloud_kb_articles", column: "cloud_kb_articles_id"
+  add_foreign_key "cloud_kb_articles", "users", column: "users_id"
   add_foreign_key "cloud_lock_accounts", "accounts", column: "id"
   add_foreign_key "cloud_panel_accounts", "accounts", column: "id"
   add_foreign_key "cloud_team_accounts", "accounts", column: "id"
