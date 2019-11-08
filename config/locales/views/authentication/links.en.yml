@@ -1,0 +1,6 @@
+en:
+  authentication:
+    links:
+      sign_up:  Sign up
+      reset_password: Forgot your password?
+      resend_confirmation_email: Didn't receive confirmation instructions?
