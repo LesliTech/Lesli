@@ -28,4 +28,20 @@ RSpec.describe Users::RegistrationsController, type: :controller do
             expect(flash[:success]).to match(/Check your email to confirm your account/)
         end
     end
+    
+    describe "Sign up" do
+        it "Register a new user" do
+            post :create, params: {
+                sign_up: {
+                    email: "new_user@gmail.com",
+                    paswword: "lomax202020",
+                    password_confirmation: "lomax202020"
+                }
+            }
+            expect(response).to redirect_to('/register')
+            expect(response.status).to eq(302) 
+        end
+    end
+
 end
+
