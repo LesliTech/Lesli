@@ -16,13 +16,12 @@ LesliCloud - Your Smart Business Assistant
 Powered by https://www.lesli.tech
 Building a better future, one line of code at a time.
 
-@dev      Luis Donis <ldonis@lesli.tech>
 @author   LesliTech <hello@lesli.tech>
 @license  Propietary - all rights reserved.
-@version  GIT: 0.1.0 alpha
+@version  0.1.0-alpha
 
-// · 
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
+// · 
 */
 
 
@@ -69,13 +68,14 @@ Vue.use(pluginHttp)
 Vue.component('component-layout-empty-data', componentLayoutEmptyData)
 
 
+
 // · Vue app
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
 // · module: Main module
 // · app: List of individual apps loaded
 // · base_path: for vue router
-// · example: app("CloudHelp", "[list|new|edit|show]", "help/tickets", {}, [])
-export default (module, app, base_path, components=null, routes=null) => {
+// · example: app("CloudHelp", "[list|new|edit|show]", "help/tickets", [])
+export default (module, apps, base_path, routes=[]) => {
 
 
     // · Vue app configuration container
@@ -91,24 +91,13 @@ export default (module, app, base_path, components=null, routes=null) => {
     }
 
 
-    // · Merge core and app components
-    if (components) {
-        cloud_builder.components = {
-            ...cloud_builder.components,
-            ...components
-        }
-    }
-
-
     // · Routes for SPAs
-    if (routes) {
-        cloud_builder['router'] = new VueRouter({
-            linkActiveClass: 'is-active',
-            base: base_path,
-            mode: "history",
-            routes: routes
-        })
-    }
+    cloud_builder['router'] = new VueRouter({
+        linkActiveClass: 'is-active',
+        base: base_path,
+        mode: "history",
+        routes: routes
+    })
 
 
     // · Building Vue cloud app
@@ -121,7 +110,7 @@ export default (module, app, base_path, components=null, routes=null) => {
         cloud.$mount("#lesli-cloud-app")
 
         if (leslicloud_app_mode_production) debug.userWarningMessage()
-        if (leslicloud_app_mode_development) debug.info(`${base_path} ${app}`, module)
+        if (leslicloud_app_mode_development) debug.info(`${base_path} ${apps}`, module)
 
     })
 
