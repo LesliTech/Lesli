@@ -37,6 +37,7 @@ import app from 'LesliCloud/vue/app'
 import appLogin from './apps/login.vue'
 import appConfirmation from './apps/confirmation.vue'
 import appRegistration from './apps/register.vue'
+import appPassword from './apps/password.vue'
 
 
 
@@ -54,4 +55,7 @@ app("Lesli", "[login|confirmation|register]", "", [{
 },{
     path: "/register",
     component: appRegistration,
+},{
+    path: "/password/new",
+    component: appPassword,
 }], true)
