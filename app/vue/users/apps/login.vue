@@ -3,9 +3,10 @@ export default {
    data(){
       return{
          translations: {
-            login: I18n.t('authentication.login'),
-            links: I18n.t('authentication.links'),
-            sessions: I18n.t('devise.sessions')
+            links: I18n.t('users.links'),
+            login: I18n.t('users.login'),
+            sessions: I18n.t('devise.sessions'),
+            shared: I18n.t('users.shared')
          },
          sign_in: {
             email: '',
@@ -63,14 +64,15 @@ export default {
          </transition>
          <div class="field">
             <p class="control has-icons-left">
-               <label class="sr-only" type="email" for="user_email">
-                  {{translations.login.labels.email}}
+               <label class="sr-only">
+                  {{translations.shared.fields.email}}
                </label>
                <input 
                   class="input" 
+                  type="email"
                   v-model="sign_in.email"
                   required="true"
-                  :placeholder="translations.login.labels.email"
+                  :placeholder="translations.shared.fields.email"
                />
                <span class="icon is-small is-left">
                   <i class="fas fa-envelope"></i>
@@ -80,14 +82,14 @@ export default {
          <div class="field">
             <p class="control has-icons-left">
                <label class="sr-only" for="user_password">
-                  {{translations.login.labels.password}}
+                  {{translations.shared.fields.password}}
                </label>
                <input 
                   type="password"
                   class="input"
                   required="true"
                   v-model="sign_in.password"
-                  :placeholder="translations.login.labels.password"
+                  :placeholder="translations.shared.fields.password"
                />
                <span class="icon is-small is-left">
                   <i class="fas fa-lock"></i>
