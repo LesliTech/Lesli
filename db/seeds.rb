@@ -29,4 +29,5 @@ Building a better future, one line of code at a time.
 
 load "#{Rails.root}/db/seed/#{Rails.env.downcase}.rb"
 CloudBell::Engine.load_seed
+CloudKb::Engine.load_seed
 #CloudPanel::Engine.load_seed
