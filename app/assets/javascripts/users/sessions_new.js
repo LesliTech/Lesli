@@ -30225,7 +30225,7 @@ var registervue_type_template_id_29860e78_render = function() {
       {
         ref: "form",
         attrs: { id: "registration_user" },
-        on: { submit: _vm.sig_up }
+        on: { submit: _vm.signUp }
       },
       [
         _c("transition", { attrs: { name: "fade" } }, [
@@ -30244,6 +30244,7 @@ var registervue_type_template_id_29860e78_render = function() {
               ])
             : _vm._e()
         ]),
+        _vm._v(" "),
         _c("div", { staticClass: "field" }, [
           _c("p", { staticClass: "control has-icons-left" }, [
             _c("label", { staticClass: "sr-only" }, [
@@ -30482,18 +30483,11 @@ registervue_type_template_id_29860e78_render._withStripped = true
       }
     };
   },
-  mounted: function mounted() {
-    this.preventFormSubmission();
-  },
   methods: {
-    preventFormSubmission: function preventFormSubmission() {
-      this.$refs.form.addEventListener('submit', function (event) {
-        event.preventDefault();
-      });
-    },
-    sig_up: function sig_up() {
+    signUp: function signUp(event) {
       var _this = this;
 
+      event.preventDefault();
       var data = {
         user: this.sign_up
       };
@@ -30526,7 +30520,7 @@ registervue_type_template_id_29860e78_render._withStripped = true
 
       if (password && password_confirmation) {
         if (password !== password_confirmation) {
-          this.showNotification(this.translations.registration.errors.unmatched_passwords, 'is-danger');
+          this.showNotification(this.translations.shared.errors.unmatched_passwords, 'is-danger');
           return;
         }
       }
@@ -30571,8 +30565,8 @@ var register_component = componentNormalizer_normalizeComponent(
 if (false) { var register_api; }
 register_component.options.__file = "app/vue/users/apps/register.vue"
 /* harmony default export */ var register = (register_component.exports);
-// CONCATENATED MODULE: ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./app/vue/users/apps/password.vue?vue&type=template&id=72d3c8bc&
-var passwordvue_type_template_id_72d3c8bc_render = function() {
+// CONCATENATED MODULE: ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./app/vue/users/apps/password/new.vue?vue&type=template&id=f701a566&
+var newvue_type_template_id_f701a566_render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
@@ -30713,7 +30707,7 @@ var passwordvue_type_template_id_72d3c8bc_render = function() {
     ])
   ])
 }
-var passwordvue_type_template_id_72d3c8bc_staticRenderFns = [
+var newvue_type_template_id_f701a566_staticRenderFns = [
   function() {
     var _vm = this
     var _h = _vm.$createElement
@@ -30723,13 +30717,13 @@ var passwordvue_type_template_id_72d3c8bc_staticRenderFns = [
     ])
   }
 ]
-passwordvue_type_template_id_72d3c8bc_render._withStripped = true
+newvue_type_template_id_f701a566_render._withStripped = true
 
 
-// CONCATENATED MODULE: ./app/vue/users/apps/password.vue?vue&type=template&id=72d3c8bc&
+// CONCATENATED MODULE: ./app/vue/users/apps/password/new.vue?vue&type=template&id=f701a566&
 
-// CONCATENATED MODULE: ./node_modules/babel-loader/lib??ref--3!./node_modules/vue-loader/lib??vue-loader-options!./app/vue/users/apps/password.vue?vue&type=script&lang=js&
-/* harmony default export */ var passwordvue_type_script_lang_js_ = ({
+// CONCATENATED MODULE: ./node_modules/babel-loader/lib??ref--3!./node_modules/vue-loader/lib??vue-loader-options!./app/vue/users/apps/password/new.vue?vue&type=script&lang=js&
+/* harmony default export */ var newvue_type_script_lang_js_ = ({
   data: function data() {
     return {
       translations: {
@@ -30766,7 +30760,7 @@ passwordvue_type_template_id_72d3c8bc_render._withStripped = true
       };
       this.http.post(this.url.to(null, null, '/password'), data).then(function (response) {
         if (response.successful) {
-          _this.showNotification(_this.translations.password.notifications.success, 'is-success');
+          _this.showNotification(_this.translations.password.notifications.create.success, 'is-success');
 
           setTimeout(function () {
             _this.goTo('/login');
@@ -30788,9 +30782,9 @@ passwordvue_type_template_id_72d3c8bc_render._withStripped = true
     }
   }
 });
-// CONCATENATED MODULE: ./app/vue/users/apps/password.vue?vue&type=script&lang=js&
- /* harmony default export */ var apps_passwordvue_type_script_lang_js_ = (passwordvue_type_script_lang_js_); 
-// CONCATENATED MODULE: ./app/vue/users/apps/password.vue
+// CONCATENATED MODULE: ./app/vue/users/apps/password/new.vue?vue&type=script&lang=js&
+ /* harmony default export */ var password_newvue_type_script_lang_js_ = (newvue_type_script_lang_js_); 
+// CONCATENATED MODULE: ./app/vue/users/apps/password/new.vue
 
 
 
@@ -30798,10 +30792,10 @@ passwordvue_type_template_id_72d3c8bc_render._withStripped = true
 
 /* normalize component */
 
-var password_component = componentNormalizer_normalizeComponent(
-  apps_passwordvue_type_script_lang_js_,
-  passwordvue_type_template_id_72d3c8bc_render,
-  passwordvue_type_template_id_72d3c8bc_staticRenderFns,
+var new_component = componentNormalizer_normalizeComponent(
+  password_newvue_type_script_lang_js_,
+  newvue_type_template_id_f701a566_render,
+  newvue_type_template_id_f701a566_staticRenderFns,
   false,
   null,
   null,
@@ -30810,9 +30804,340 @@ var password_component = componentNormalizer_normalizeComponent(
 )
 
 /* hot reload */
-if (false) { var password_api; }
-password_component.options.__file = "app/vue/users/apps/password.vue"
-/* harmony default export */ var apps_password = (password_component.exports);
+if (false) { var new_api; }
+new_component.options.__file = "app/vue/users/apps/password/new.vue"
+/* harmony default export */ var password_new = (new_component.exports);
+// CONCATENATED MODULE: ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./app/vue/users/apps/password/edit.vue?vue&type=template&id=1b6b8d2d&
+var editvue_type_template_id_1b6b8d2d_render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("section", [
+    _c("a", { staticClass: "logo", attrs: { href: _vm.url.to() } }, [
+      _c("img", {
+        attrs: {
+          src: "/assets/brand/leslicloud-logo.png",
+          alt: "LesliCloud Logo"
+        }
+      })
+    ]),
+    _vm._v(" "),
+    _c(
+      "form",
+      {
+        ref: "form",
+        attrs: { id: "registration_user" },
+        on: { submit: _vm.resetPassword }
+      },
+      [
+        _c("transition", { attrs: { name: "fade" } }, [
+          _vm.notification.exists
+            ? _c("div", { class: _vm.notificationClass }, [
+                _c("button", {
+                  staticClass: "delete",
+                  attrs: { type: "button" },
+                  on: { click: _vm.dismissNotification }
+                }),
+                _vm._v(
+                  "\n            " +
+                    _vm._s(_vm.notification.message) +
+                    "\n         "
+                )
+              ])
+            : _vm._e()
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "field" }, [
+          _c("p", { staticClass: "control has-icons-left" }, [
+            _c(
+              "label",
+              { staticClass: "sr-only", attrs: { for: "user_password" } },
+              [
+                _vm._v(
+                  "\n               " +
+                    _vm._s(_vm.translations.shared.fields.password) +
+                    "\n            "
+                )
+              ]
+            ),
+            _vm._v(" "),
+            _c("input", {
+              directives: [
+                {
+                  name: "model",
+                  rawName: "v-model",
+                  value: _vm.password.password,
+                  expression: "password.password"
+                }
+              ],
+              staticClass: "input",
+              attrs: {
+                type: "password",
+                required: "true",
+                minlength: "6",
+                placeholder: _vm.translations.shared.fields.new_password
+              },
+              domProps: { value: _vm.password.password },
+              on: {
+                change: _vm.verifyPasswords,
+                input: function($event) {
+                  if ($event.target.composing) {
+                    return
+                  }
+                  _vm.$set(_vm.password, "password", $event.target.value)
+                }
+              }
+            }),
+            _vm._v(" "),
+            _vm._m(0)
+          ])
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "field" }, [
+          _c("p", { staticClass: "control has-icons-left" }, [
+            _c(
+              "label",
+              { staticClass: "sr-only", attrs: { for: "user_password" } },
+              [
+                _vm._v(
+                  "\n               " +
+                    _vm._s(_vm.translations.shared.fields.password) +
+                    "\n            "
+                )
+              ]
+            ),
+            _vm._v(" "),
+            _c("input", {
+              directives: [
+                {
+                  name: "model",
+                  rawName: "v-model",
+                  value: _vm.password.password_confirmation,
+                  expression: "password.password_confirmation"
+                }
+              ],
+              staticClass: "input",
+              attrs: {
+                type: "password",
+                required: "true",
+                placeholder:
+                  _vm.translations.shared.fields.password_confirmation
+              },
+              domProps: { value: _vm.password.password_confirmation },
+              on: {
+                change: _vm.verifyPasswords,
+                input: function($event) {
+                  if ($event.target.composing) {
+                    return
+                  }
+                  _vm.$set(
+                    _vm.password,
+                    "password_confirmation",
+                    $event.target.value
+                  )
+                }
+              }
+            }),
+            _vm._v(" "),
+            _vm._m(1)
+          ])
+        ]),
+        _vm._v(" "),
+        _c("input", {
+          staticClass: "button is-primary",
+          attrs: { type: "submit" },
+          domProps: { value: _vm.translations.password.actions.change_password }
+        })
+      ],
+      1
+    ),
+    _vm._v(" "),
+    _c("div", { staticClass: "links" }, [
+      _c(
+        "a",
+        {
+          on: {
+            click: function($event) {
+              return _vm.goTo("/login")
+            }
+          }
+        },
+        [
+          _vm._v(
+            "\n         " + _vm._s(_vm.translations.links.login) + "\n      "
+          )
+        ]
+      ),
+      _vm._v(" "),
+      _c(
+        "a",
+        {
+          on: {
+            click: function($event) {
+              return _vm.goTo("/register")
+            }
+          }
+        },
+        [
+          _vm._v(
+            "\n         " + _vm._s(_vm.translations.links.sign_up) + "\n      "
+          )
+        ]
+      ),
+      _vm._v(" "),
+      _c(
+        "a",
+        {
+          on: {
+            click: function($event) {
+              return _vm.goTo("/confirmation/new")
+            }
+          }
+        },
+        [
+          _vm._v(
+            "\n         " +
+              _vm._s(_vm.translations.links.resend_confirmation_email) +
+              "\n      "
+          )
+        ]
+      )
+    ])
+  ])
+}
+var editvue_type_template_id_1b6b8d2d_staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("span", { staticClass: "icon is-small is-left" }, [
+      _c("i", { staticClass: "fas fa-lock" })
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("span", { staticClass: "icon is-small is-left" }, [
+      _c("i", { staticClass: "fas fa-lock" })
+    ])
+  }
+]
+editvue_type_template_id_1b6b8d2d_render._withStripped = true
+
+
+// CONCATENATED MODULE: ./app/vue/users/apps/password/edit.vue?vue&type=template&id=1b6b8d2d&
+
+// CONCATENATED MODULE: ./node_modules/babel-loader/lib??ref--3!./node_modules/vue-loader/lib??vue-loader-options!./app/vue/users/apps/password/edit.vue?vue&type=script&lang=js&
+/* harmony default export */ var editvue_type_script_lang_js_ = ({
+  data: function data() {
+    return {
+      translations: {
+        links: I18n.t('users.links'),
+        password: I18n.t('users.password'),
+        sessions: I18n.t('devise.sessions'),
+        shared: I18n.t('users.shared')
+      },
+      password: {
+        password: '',
+        password_confirmation: '',
+        reset_password_token: ''
+      },
+      notification: {
+        exists: false,
+        message: '',
+        type: 'is-danger'
+      }
+    };
+  },
+  mounted: function mounted() {
+    this.setResetPasswordToken();
+  },
+  methods: {
+    setResetPasswordToken: function setResetPasswordToken() {
+      this.password.reset_password_token = this.$route.query.reset_password_token;
+    },
+    resetPassword: function resetPassword(event) {
+      var _this = this;
+
+      event.preventDefault();
+      var data = {
+        user: this.password
+      };
+      this.http.put(this.url.to(null, null, '/password'), data).then(function (response) {
+        if (response.successful) {
+          _this.showNotification(_this.translations.password.notifications.update.success, 'is-success');
+
+          setTimeout(function () {
+            _this.goTo('/login');
+          }, 2500);
+        } else {
+          _this.showNotification(response.error.message, 'is-danger');
+        }
+      })["catch"](function (err) {
+        console.log(err);
+      });
+    },
+    dismissNotification: function dismissNotification() {
+      this.notification.exists = false;
+    },
+    showNotification: function showNotification(message) {
+      var type = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 'is-info';
+      this.notification.message = message;
+      this.notification.type = type;
+      this.notification.exists = true;
+    },
+    verifyPasswords: function verifyPasswords() {
+      var password = this.password.password;
+      var password_confirmation = this.password.password_confirmation;
+
+      if (password && password_confirmation) {
+        if (password !== password_confirmation) {
+          this.showNotification(this.translations.shared.errors.unmatched_passwords, 'is-danger');
+          return;
+        }
+      }
+
+      this.dismissNotification();
+    },
+    dismissError: function dismissError() {
+      this.error.exists = false;
+    },
+    goTo: function goTo(url) {
+      this.$router.push("".concat(url));
+    }
+  },
+  computed: {
+    notificationClass: function notificationClass() {
+      return "notification ".concat(this.notification.type);
+    }
+  }
+});
+// CONCATENATED MODULE: ./app/vue/users/apps/password/edit.vue?vue&type=script&lang=js&
+ /* harmony default export */ var password_editvue_type_script_lang_js_ = (editvue_type_script_lang_js_); 
+// CONCATENATED MODULE: ./app/vue/users/apps/password/edit.vue
+
+
+
+
+
+/* normalize component */
+
+var edit_component = componentNormalizer_normalizeComponent(
+  password_editvue_type_script_lang_js_,
+  editvue_type_template_id_1b6b8d2d_render,
+  editvue_type_template_id_1b6b8d2d_staticRenderFns,
+  false,
+  null,
+  null,
+  null
+  
+)
+
+/* hot reload */
+if (false) { var edit_api; }
+edit_component.options.__file = "app/vue/users/apps/password/edit.vue"
+/* harmony default export */ var edit = (edit_component.exports);
 // CONCATENATED MODULE: ./app/vue/users/sessions_new.js
 /*
 Lesli
@@ -30848,6 +31173,7 @@ Building a better future, one line of code at a time.
 
 
 
+
  // · 
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
 
@@ -30865,7 +31191,10 @@ app("Lesli", "[login|confirmation|register]", "", [{
   component: register
 }, {
   path: "/password/new",
-  component: apps_password
+  component: password_new
+}, {
+  path: "/password/edit",
+  component: edit
 }], true);
 
 /***/ })

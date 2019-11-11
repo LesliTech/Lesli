@@ -5,3 +5,6 @@ en:
         email: Email
         password: Password
         password_confirmation: Password confirmation
+        new_password: New password
+      errors:
+        unmatched_passwords: Passwords do not match
