@@ -71,7 +71,7 @@ export default {
 
             if ((window.navigator.platform.match("Mac") ? e.metaKey : e.ctrlKey)  && e.keyCode == 83) {
                 e.preventDefault()
-                Vue.prototype.bus.$emit("cloud-ctrl-save")
+                Vue.prototype.bus.publish("keyboard-ctrl-save")
             }
 
         }, false)

@@ -370,8 +370,21 @@ ActiveRecord::Schema.define(version: 8020001) do
     t.index ["cloud_kb_articles_id"], name: "index_cloud_kb_article_activities_on_cloud_kb_articles_id"
   end
 
+  create_table "cloud_kb_article_categories", force: :cascade do |t|
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.bigint "cloud_kb_articles_id"
+    t.bigint "cloud_kb_catalog_article_categories_id"
+    t.index ["cloud_kb_articles_id"], name: "index_cloud_kb_article_categories_on_cloud_kb_articles_id"
+    t.index ["cloud_kb_catalog_article_categories_id"], name: "article_catalog_categories"
+  end
+
   create_table "cloud_kb_article_details", force: :cascade do |t|
     t.string "title"
+    t.string "excerpt"
+    t.string "tags"
+    t.string "slug"
+    t.integer "status"
     t.text "content"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
@@ -399,18 +412,25 @@ ActiveRecord::Schema.define(version: 8020001) do
     t.index ["cloud_kb_articles_id"], name: "index_cloud_kb_article_files_on_cloud_kb_articles_id"
   end
 
-  create_table "cloud_kb_article_tags", force: :cascade do |t|
+  create_table "cloud_kb_article_followers", force: :cascade do |t|
+    t.boolean "get"
+    t.boolean "post"
+    t.boolean "put"
+    t.boolean "patch"
+    t.boolean "destroy"
+    t.bigint "user"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.bigint "cloud_kb_accounts_id"
-    t.index ["cloud_kb_accounts_id"], name: "index_cloud_kb_article_tags_on_cloud_kb_accounts_id"
+    t.bigint "cloud_kb_articles_id"
+    t.index ["cloud_kb_articles_id"], name: "index_cloud_kb_article_followers_on_cloud_kb_articles_id"
   end
 
-  create_table "cloud_kb_article_topics", force: :cascade do |t|
+  create_table "cloud_kb_article_taxonomy_terms", force: :cascade do |t|
+    t.string "permalink"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.bigint "cloud_kb_accounts_id"
-    t.index ["cloud_kb_accounts_id"], name: "index_cloud_kb_article_topics_on_cloud_kb_accounts_id"
+    t.bigint "cloud_kb_articles_id"
+    t.index ["cloud_kb_articles_id"], name: "index_cloud_kb_article_taxonomy_terms_on_cloud_kb_articles_id"
   end
 
   create_table "cloud_kb_articles", force: :cascade do |t|
@@ -422,6 +442,21 @@ ActiveRecord::Schema.define(version: 8020001) do
     t.index ["cloud_kb_accounts_id"], name: "index_cloud_kb_articles_on_cloud_kb_accounts_id"
     t.index ["cloud_kb_articles_id"], name: "index_cloud_kb_articles_on_cloud_kb_articles_id"
     t.index ["users_id"], name: "index_cloud_kb_articles_on_users_id"
+  end
+
+  create_table "cloud_kb_catalog_article_categories", force: :cascade do |t|
+    t.string "name"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.bigint "cloud_kb_catalogs_id"
+    t.index ["cloud_kb_catalogs_id"], name: "article_categories_catalogs"
+  end
+
+  create_table "cloud_kb_catalogs", force: :cascade do |t|
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.bigint "cloud_kb_accounts_id"
+    t.index ["cloud_kb_accounts_id"], name: "index_cloud_kb_catalogs_on_cloud_kb_accounts_id"
   end
 
   create_table "cloud_lock_accounts", force: :cascade do |t|
@@ -678,16 +713,20 @@ ActiveRecord::Schema.define(version: 8020001) do
   add_foreign_key "cloud_kb_accounts", "accounts", column: "id"
   add_foreign_key "cloud_kb_article_actions", "cloud_kb_articles", column: "cloud_kb_articles_id"
   add_foreign_key "cloud_kb_article_activities", "cloud_kb_articles", column: "cloud_kb_articles_id"
+  add_foreign_key "cloud_kb_article_categories", "cloud_kb_articles", column: "cloud_kb_articles_id"
+  add_foreign_key "cloud_kb_article_categories", "cloud_kb_catalog_article_categories", column: "cloud_kb_catalog_article_categories_id"
   add_foreign_key "cloud_kb_article_details", "cloud_kb_articles", column: "cloud_kb_articles_id"
   add_foreign_key "cloud_kb_article_discussions", "cloud_kb_article_discussions", column: "cloud_kb_article_discussions_id"
   add_foreign_key "cloud_kb_article_discussions", "cloud_kb_articles", column: "cloud_kb_articles_id"
   add_foreign_key "cloud_kb_article_discussions", "users", column: "users_id"
   add_foreign_key "cloud_kb_article_files", "cloud_kb_articles", column: "cloud_kb_articles_id"
-  add_foreign_key "cloud_kb_article_tags", "cloud_kb_accounts", column: "cloud_kb_accounts_id"
-  add_foreign_key "cloud_kb_article_topics", "cloud_kb_accounts", column: "cloud_kb_accounts_id"
+  add_foreign_key "cloud_kb_article_followers", "cloud_kb_articles", column: "cloud_kb_articles_id"
+  add_foreign_key "cloud_kb_article_taxonomy_terms", "cloud_kb_articles", column: "cloud_kb_articles_id"
   add_foreign_key "cloud_kb_articles", "cloud_kb_accounts", column: "cloud_kb_accounts_id"
   add_foreign_key "cloud_kb_articles", "cloud_kb_articles", column: "cloud_kb_articles_id"
   add_foreign_key "cloud_kb_articles", "users", column: "users_id"
+  add_foreign_key "cloud_kb_catalog_article_categories", "cloud_kb_catalogs", column: "cloud_kb_catalogs_id"
+  add_foreign_key "cloud_kb_catalogs", "cloud_kb_accounts", column: "cloud_kb_accounts_id"
   add_foreign_key "cloud_lock_accounts", "accounts", column: "id"
   add_foreign_key "cloud_panel_accounts", "accounts", column: "id"
   add_foreign_key "cloud_team_accounts", "accounts", column: "id"
