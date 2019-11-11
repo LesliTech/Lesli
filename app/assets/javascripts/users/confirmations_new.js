@@ -29696,6 +29696,8 @@ var loginvue_type_template_id_f6cb2dd0_render = function() {
       "form",
       { ref: "form", attrs: { id: "new_user" }, on: { submit: _vm.login } },
       [
+        _c("progress-bar", { attrs: { active: _vm.progress_bar_active } }),
+        _vm._v(" "),
         _c("form-notification", {
           attrs: {
             message: _vm.notification.message,
@@ -29956,7 +29958,69 @@ var notification_component = componentNormalizer_normalizeComponent(
 if (false) { var notification_api; }
 notification_component.options.__file = "app/vue/users/components/notification.vue"
 /* harmony default export */ var components_notification = (notification_component.exports);
+// CONCATENATED MODULE: ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./app/vue/users/components/progress_bar.vue?vue&type=template&id=371c587e&
+var progress_barvue_type_template_id_371c587e_render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("span", [
+    _vm.active
+      ? _c("progress", {
+          staticClass: "progress is-very-small is-primary",
+          attrs: { max: "100" }
+        })
+      : _vm._e(),
+    _vm._v(" "),
+    !_vm.active
+      ? _c("progress", {
+          staticClass: "progress is-very-small is-primary",
+          attrs: { max: "100", value: "0" }
+        })
+      : _vm._e()
+  ])
+}
+var progress_barvue_type_template_id_371c587e_staticRenderFns = []
+progress_barvue_type_template_id_371c587e_render._withStripped = true
+
+
+// CONCATENATED MODULE: ./app/vue/users/components/progress_bar.vue?vue&type=template&id=371c587e&
+
+// CONCATENATED MODULE: ./node_modules/babel-loader/lib??ref--3!./node_modules/vue-loader/lib??vue-loader-options!./app/vue/users/components/progress_bar.vue?vue&type=script&lang=js&
+/* harmony default export */ var progress_barvue_type_script_lang_js_ = ({
+  props: {
+    active: {
+      type: Boolean,
+      "default": false
+    }
+  }
+});
+// CONCATENATED MODULE: ./app/vue/users/components/progress_bar.vue?vue&type=script&lang=js&
+ /* harmony default export */ var components_progress_barvue_type_script_lang_js_ = (progress_barvue_type_script_lang_js_); 
+// CONCATENATED MODULE: ./app/vue/users/components/progress_bar.vue
+
+
+
+
+
+/* normalize component */
+
+var progress_bar_component = componentNormalizer_normalizeComponent(
+  components_progress_barvue_type_script_lang_js_,
+  progress_barvue_type_template_id_371c587e_render,
+  progress_barvue_type_template_id_371c587e_staticRenderFns,
+  false,
+  null,
+  null,
+  null
+  
+)
+
+/* hot reload */
+if (false) { var progress_bar_api; }
+progress_bar_component.options.__file = "app/vue/users/components/progress_bar.vue"
+/* harmony default export */ var progress_bar = (progress_bar_component.exports);
 // CONCATENATED MODULE: ./node_modules/babel-loader/lib??ref--3!./node_modules/vue-loader/lib??vue-loader-options!./app/vue/users/apps/login.vue?vue&type=script&lang=js&
+
 
 /* harmony default export */ var loginvue_type_script_lang_js_ = ({
   data: function data() {
@@ -29971,6 +30035,8 @@ notification_component.options.__file = "app/vue/users/components/notification.v
         email: '',
         password: ''
       },
+      progress_bar_active: false,
+      progress_value: 0,
       notification: {
         show: false,
         message: '',
@@ -29986,7 +30052,10 @@ notification_component.options.__file = "app/vue/users/components/notification.v
       var data = {
         sign_in: this.sign_in
       };
+      this.progress_bar_active = true;
       this.http.post(this.url.to(null, null, 'login'), data).then(function (response) {
+        _this.progress_bar_active = false;
+
         if (response.successful) {
           _this.url.go('/lesli');
         } else {
@@ -30007,7 +30076,8 @@ notification_component.options.__file = "app/vue/users/components/notification.v
     }
   },
   components: {
-    'form-notification': components_notification
+    'form-notification': components_notification,
+    'progress-bar': progress_bar
   }
 });
 // CONCATENATED MODULE: ./app/vue/users/apps/login.vue?vue&type=script&lang=js&
@@ -30058,6 +30128,8 @@ var confirmationvue_type_template_id_4c9890d6_render = function() {
         on: { submit: _vm.confirmEmail }
       },
       [
+        _c("progress-bar", { attrs: { active: _vm.progress_bar_active } }),
+        _vm._v(" "),
         _c("form-notification", {
           attrs: {
             message: _vm.notification.message,
@@ -30192,6 +30264,7 @@ confirmationvue_type_template_id_4c9890d6_render._withStripped = true
 
 // CONCATENATED MODULE: ./node_modules/babel-loader/lib??ref--3!./node_modules/vue-loader/lib??vue-loader-options!./app/vue/users/apps/confirmation.vue?vue&type=script&lang=js&
 
+
 /* harmony default export */ var confirmationvue_type_script_lang_js_ = ({
   data: function data() {
     return {
@@ -30203,6 +30276,7 @@ confirmationvue_type_template_id_4c9890d6_render._withStripped = true
       confirmation: {
         email: ''
       },
+      progress_bar_active: false,
       notification: {
         show: false,
         message: '',
@@ -30224,7 +30298,10 @@ confirmationvue_type_template_id_4c9890d6_render._withStripped = true
       var data = {
         user: this.confirmation
       };
+      this.progress_bar_active = true;
       this.http.post(this.url.to(null, null, '/confirmation'), data).then(function (response) {
+        _this.progress_bar_active = false;
+
         if (response.successful) {
           _this.showNotification(_this.translations.confirmation.notifications.success, 'is-success');
 
@@ -30243,7 +30320,8 @@ confirmationvue_type_template_id_4c9890d6_render._withStripped = true
     }
   },
   components: {
-    'form-notification': components_notification
+    'form-notification': components_notification,
+    'progress-bar': progress_bar
   }
 });
 // CONCATENATED MODULE: ./app/vue/users/apps/confirmation.vue?vue&type=script&lang=js&
@@ -30294,6 +30372,8 @@ var registervue_type_template_id_29860e78_render = function() {
         on: { submit: _vm.register }
       },
       [
+        _c("progress-bar", { attrs: { active: _vm.progress_bar_active } }),
+        _vm._v(" "),
         _c("form-notification", {
           attrs: {
             message: _vm.notification.message,
@@ -30525,6 +30605,7 @@ registervue_type_template_id_29860e78_render._withStripped = true
 
 // CONCATENATED MODULE: ./node_modules/babel-loader/lib??ref--3!./node_modules/vue-loader/lib??vue-loader-options!./app/vue/users/apps/register.vue?vue&type=script&lang=js&
 
+
 /* harmony default export */ var registervue_type_script_lang_js_ = ({
   data: function data() {
     return {
@@ -30539,6 +30620,7 @@ registervue_type_template_id_29860e78_render._withStripped = true
         password: '',
         password_confirmation: ''
       },
+      progress_bar_active: false,
       notification: {
         show: false,
         message: '',
@@ -30554,7 +30636,10 @@ registervue_type_template_id_29860e78_render._withStripped = true
       var data = {
         user: this.sign_up
       };
+      this.progress_bar_active = true;
       this.http.post(this.url.to(null, null, null), data).then(function (response) {
+        _this.progress_bar_active = false;
+
         if (response.successful) {
           _this.showNotification(_this.translations.registration.notifications.success, 'is-success');
 
@@ -30592,7 +30677,8 @@ registervue_type_template_id_29860e78_render._withStripped = true
     }
   },
   components: {
-    'form-notification': components_notification
+    'form-notification': components_notification,
+    'progress-bar': progress_bar
   }
 });
 // CONCATENATED MODULE: ./app/vue/users/apps/register.vue?vue&type=script&lang=js&
@@ -30643,6 +30729,8 @@ var newvue_type_template_id_f701a566_render = function() {
         on: { submit: _vm.resetPassword }
       },
       [
+        _c("progress-bar", { attrs: { active: _vm.progress_bar_active } }),
+        _vm._v(" "),
         _c("form-notification", {
           attrs: {
             message: _vm.notification.message,
@@ -30775,6 +30863,7 @@ newvue_type_template_id_f701a566_render._withStripped = true
 
 // CONCATENATED MODULE: ./node_modules/babel-loader/lib??ref--3!./node_modules/vue-loader/lib??vue-loader-options!./app/vue/users/apps/password/new.vue?vue&type=script&lang=js&
 
+
 /* harmony default export */ var newvue_type_script_lang_js_ = ({
   data: function data() {
     return {
@@ -30786,6 +30875,7 @@ newvue_type_template_id_f701a566_render._withStripped = true
       password: {
         email: ''
       },
+      progress_bar_active: false,
       notification: {
         show: false,
         message: '',
@@ -30807,7 +30897,10 @@ newvue_type_template_id_f701a566_render._withStripped = true
       var data = {
         user: this.password
       };
+      this.progress_bar_active = true;
       this.http.post(this.url.to(null, null, '/password'), data).then(function (response) {
+        _this.progress_bar_active = false;
+
         if (response.successful) {
           _this.showNotification(_this.translations.password.notifications.create.success, 'is-success');
 
@@ -30826,7 +30919,8 @@ newvue_type_template_id_f701a566_render._withStripped = true
     }
   },
   components: {
-    'form-notification': components_notification
+    'form-notification': components_notification,
+    'progress-bar': progress_bar
   }
 });
 // CONCATENATED MODULE: ./app/vue/users/apps/password/new.vue?vue&type=script&lang=js&
@@ -30877,6 +30971,8 @@ var editvue_type_template_id_1b6b8d2d_render = function() {
         on: { submit: _vm.resetPassword }
       },
       [
+        _c("progress-bar", { attrs: { active: _vm.progress_bar_active } }),
+        _vm._v(" "),
         _c("form-notification", {
           attrs: {
             message: _vm.notification.message,
@@ -31073,6 +31169,7 @@ editvue_type_template_id_1b6b8d2d_render._withStripped = true
 
 // CONCATENATED MODULE: ./node_modules/babel-loader/lib??ref--3!./node_modules/vue-loader/lib??vue-loader-options!./app/vue/users/apps/password/edit.vue?vue&type=script&lang=js&
 
+
 /* harmony default export */ var editvue_type_script_lang_js_ = ({
   data: function data() {
     return {
@@ -31087,6 +31184,7 @@ editvue_type_template_id_1b6b8d2d_render._withStripped = true
         password_confirmation: '',
         reset_password_token: ''
       },
+      progress_bar_active: false,
       notification: {
         show: false,
         message: '',
@@ -31108,7 +31206,10 @@ editvue_type_template_id_1b6b8d2d_render._withStripped = true
       var data = {
         user: this.password
       };
+      this.progress_bar_active = true;
       this.http.put(this.url.to(null, null, '/password'), data).then(function (response) {
+        _this.progress_bar_active = false;
+
         if (response.successful) {
           _this.showNotification(_this.translations.password.notifications.update.success, 'is-success');
 
@@ -31146,7 +31247,8 @@ editvue_type_template_id_1b6b8d2d_render._withStripped = true
     }
   },
   components: {
-    'form-notification': components_notification
+    'form-notification': components_notification,
+    'progress-bar': progress_bar
   }
 });
 // CONCATENATED MODULE: ./app/vue/users/apps/password/edit.vue?vue&type=script&lang=js&
