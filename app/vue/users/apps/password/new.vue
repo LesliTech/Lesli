@@ -31,7 +31,7 @@ export default {
          let data = {user: this.password}
          this.http.post(this.url.to(null,null,'/password'),data).then((response)=>{
             if(response.successful){
-               this.showNotification(this.translations.password.notifications.success,'is-success');
+               this.showNotification(this.translations.password.notifications.create.success,'is-success');
                setTimeout(()=>{
                   this.goTo('/login');
                },5000);

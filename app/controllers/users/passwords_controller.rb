@@ -24,9 +24,15 @@ class Users::PasswordsController < Devise::PasswordsController
   # end
 
   # PUT /resource/password
-  # def update
-  #   super
-  # end
+  def update
+    super do |resource|
+      if resource.errors.empty?
+        return responseWithSuccessful
+      else
+        return responseWithError(resource.errors.full_messages.to_sentence)
+      end
+    end
+  end
 
   # protected
 
