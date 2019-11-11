@@ -9,13 +9,17 @@ class Users::SessionsController < Devise::SessionsController
         params = sign_in_params
         resource = User.find_for_database_authentication(email: params[:email])
         return invalid_login_attempt unless resource
-     
-        if resource.valid_password?(params[:password])
-            sign_in :user, resource
-            return responseWithSuccessful
+
+        unless resource.valid_password?(params[:password])
+            return invalid_login_attempt
         end
-     
-        invalid_login_attempt
+        
+        unless resource.confirmed?
+            return responseWithError(t('devise.errors.custom.confirmation_required'))
+        end
+
+        sign_in :user, resource
+        return responseWithSuccessful
     end
 
     private

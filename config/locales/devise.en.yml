@@ -55,6 +55,7 @@ en:
       unlocked: "Your account has been unlocked successfully. Please sign in to continue."
     errors:
       custom:
+        confirmation_required: "Please confirm your email before proceeding"
         invalid_credentials: "Invalid email or password"
       messages:
         already_confirmed: "was already confirmed, please try signing in"
