@@ -1,4 +1,7 @@
 <script>
+
+import notification from '../../components/notification.vue'
+
 export default {
    data(){
       return {
@@ -11,24 +14,21 @@ export default {
             email: ''
          },
          notification: {
-            exists: false,
+            show: false,
             message: '',
             type: 'is-danger'
          }
       }
    },
    methods: {
-      dismissNotification(){
-         this.notification.exists = false;
-      },
-      showNotification(message,type='is-info'){
+      showNotification(message,type='is-danger'){
          this.notification.message = message;
          this.notification.type = type;
-         this.notification.exists = true;
+         this.notification.show = true;
       },
       resetPassword(event){
          event.preventDefault();
-         let data = {user: this.password}
+         let data = {user: this.password};
          this.http.post(this.url.to(null,null,'/password'),data).then((response)=>{
             if(response.successful){
                this.showNotification(this.translations.password.notifications.create.success,'is-success');
@@ -36,7 +36,7 @@ export default {
                   this.goTo('/login');
                },5000);
             }else{
-               this.showNotification(response.error.message,'is-danger');
+               this.showNotification(response.error.message);
             }
          }).catch((err)=>{
             console.log(err);
@@ -46,10 +46,8 @@ export default {
          this.$router.push(`${url}`);
       }
    },
-   computed: {
-      notificationClass(){
-         return `notification ${this.notification.type}`;
-      }
+   components:{
+      'form-notification':notification
    }
 }
 </script>
@@ -60,12 +58,12 @@ export default {
          <img src="/assets/brand/leslicloud-logo.png" alt="LesliCloud Logo">
       </a>
       <form ref="form" id="new_password" @submit="resetPassword">
-         <transition name="fade">
-            <div v-if="notification.exists" :class="notificationClass">
-               <button type="button" class="delete" @click="dismissNotification"></button>
-               {{notification.message}}
-            </div>
-         </transition>
+         <form-notification
+            :message="notification.message"
+            :type="notification.type"
+            :show.sync="notification.show"
+         >
+         </form-notification>
          <div class="field">
             <p class="control has-icons-left">
                <label class="sr-only">

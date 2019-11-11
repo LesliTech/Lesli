@@ -29696,20 +29696,18 @@ var loginvue_type_template_id_f6cb2dd0_render = function() {
       "form",
       { ref: "form", attrs: { id: "new_user" }, on: { submit: _vm.login } },
       [
-        _c("transition", { attrs: { name: "fade" } }, [
-          _vm.error.exists
-            ? _c("div", { staticClass: "notification is-danger" }, [
-                _c("button", {
-                  staticClass: "delete",
-                  attrs: { type: "button" },
-                  on: { click: _vm.dismissError }
-                }),
-                _vm._v(
-                  "\n            " + _vm._s(_vm.error.message) + "\n         "
-                )
-              ])
-            : _vm._e()
-        ]),
+        _c("form-notification", {
+          attrs: {
+            message: _vm.notification.message,
+            type: _vm.notification.type,
+            show: _vm.notification.show
+          },
+          on: {
+            "update:show": function($event) {
+              return _vm.$set(_vm.notification, "show", $event)
+            }
+          }
+        }),
         _vm._v(" "),
         _c("div", { staticClass: "field" }, [
           _c("p", { staticClass: "control has-icons-left" }, [
@@ -29882,7 +29880,84 @@ loginvue_type_template_id_f6cb2dd0_render._withStripped = true
 
 // CONCATENATED MODULE: ./app/vue/users/apps/login.vue?vue&type=template&id=f6cb2dd0&
 
+// CONCATENATED MODULE: ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./app/vue/users/components/notification.vue?vue&type=template&id=02094d68&
+var notificationvue_type_template_id_02094d68_render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("transition", { attrs: { name: "fade" } }, [
+    _vm.show
+      ? _c("div", { class: _vm.notificationClass }, [
+          _c("button", {
+            staticClass: "delete",
+            attrs: { type: "button" },
+            on: { click: _vm.dismissNotification }
+          }),
+          _vm._v("\n      " + _vm._s(_vm.message) + "\n   ")
+        ])
+      : _vm._e()
+  ])
+}
+var notificationvue_type_template_id_02094d68_staticRenderFns = []
+notificationvue_type_template_id_02094d68_render._withStripped = true
+
+
+// CONCATENATED MODULE: ./app/vue/users/components/notification.vue?vue&type=template&id=02094d68&
+
+// CONCATENATED MODULE: ./node_modules/babel-loader/lib??ref--3!./node_modules/vue-loader/lib??vue-loader-options!./app/vue/users/components/notification.vue?vue&type=script&lang=js&
+/* harmony default export */ var notificationvue_type_script_lang_js_ = ({
+  props: {
+    message: {
+      type: String,
+      "default": ''
+    },
+    show: {
+      type: Boolean,
+      "default": false
+    },
+    type: {
+      type: String,
+      "default": 'is-info'
+    }
+  },
+  methods: {
+    dismissNotification: function dismissNotification() {
+      this.$emit('update:show', false);
+    }
+  },
+  computed: {
+    notificationClass: function notificationClass() {
+      return "notification ".concat(this.type);
+    }
+  }
+});
+// CONCATENATED MODULE: ./app/vue/users/components/notification.vue?vue&type=script&lang=js&
+ /* harmony default export */ var components_notificationvue_type_script_lang_js_ = (notificationvue_type_script_lang_js_); 
+// CONCATENATED MODULE: ./app/vue/users/components/notification.vue
+
+
+
+
+
+/* normalize component */
+
+var notification_component = componentNormalizer_normalizeComponent(
+  components_notificationvue_type_script_lang_js_,
+  notificationvue_type_template_id_02094d68_render,
+  notificationvue_type_template_id_02094d68_staticRenderFns,
+  false,
+  null,
+  null,
+  null
+  
+)
+
+/* hot reload */
+if (false) { var notification_api; }
+notification_component.options.__file = "app/vue/users/components/notification.vue"
+/* harmony default export */ var components_notification = (notification_component.exports);
 // CONCATENATED MODULE: ./node_modules/babel-loader/lib??ref--3!./node_modules/vue-loader/lib??vue-loader-options!./app/vue/users/apps/login.vue?vue&type=script&lang=js&
+
 /* harmony default export */ var loginvue_type_script_lang_js_ = ({
   data: function data() {
     return {
@@ -29896,24 +29971,18 @@ loginvue_type_template_id_f6cb2dd0_render._withStripped = true
         email: '',
         password: ''
       },
-      error: {
-        exists: false,
-        message: ''
+      notification: {
+        show: false,
+        message: '',
+        type: 'is-danger'
       }
     };
   },
-  mounted: function mounted() {
-    this.preventFormSubmission();
-  },
   methods: {
-    preventFormSubmission: function preventFormSubmission() {
-      this.$refs.form.addEventListener('submit', function (event) {
-        event.preventDefault();
-      });
-    },
-    login: function login() {
+    login: function login(event) {
       var _this = this;
 
+      event.preventDefault();
       var data = {
         sign_in: this.sign_in
       };
@@ -29921,19 +29990,24 @@ loginvue_type_template_id_f6cb2dd0_render._withStripped = true
         if (response.successful) {
           _this.url.go('/lesli');
         } else {
-          _this.error.exists = true;
-          _this.error.message = response.error.message;
+          _this.showNotification(response.error.message);
         }
       })["catch"](function (err) {
         console.log(err);
       });
     },
-    dismissError: function dismissError() {
-      this.error.exists = false;
+    showNotification: function showNotification(message) {
+      var type = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 'is-danger';
+      this.notification.message = message;
+      this.notification.type = type;
+      this.notification.show = true;
     },
     goTo: function goTo(url) {
       this.$router.push("".concat(url));
     }
+  },
+  components: {
+    'form-notification': components_notification
   }
 });
 // CONCATENATED MODULE: ./app/vue/users/apps/login.vue?vue&type=script&lang=js&
@@ -29984,22 +30058,18 @@ var confirmationvue_type_template_id_4c9890d6_render = function() {
         on: { submit: _vm.confirmEmail }
       },
       [
-        _c("transition", { attrs: { name: "fade" } }, [
-          _vm.notification.exists
-            ? _c("div", { class: _vm.notificationClass }, [
-                _c("button", {
-                  staticClass: "delete",
-                  attrs: { type: "button" },
-                  on: { click: _vm.dismissNotification }
-                }),
-                _vm._v(
-                  "\n            " +
-                    _vm._s(_vm.notification.message) +
-                    "\n         "
-                )
-              ])
-            : _vm._e()
-        ]),
+        _c("form-notification", {
+          attrs: {
+            message: _vm.notification.message,
+            type: _vm.notification.type,
+            show: _vm.notification.show
+          },
+          on: {
+            "update:show": function($event) {
+              return _vm.$set(_vm.notification, "show", $event)
+            }
+          }
+        }),
         _vm._v(" "),
         _c("div", { staticClass: "field" }, [
           _c("p", { staticClass: "control has-icons-left" }, [
@@ -30121,6 +30191,7 @@ confirmationvue_type_template_id_4c9890d6_render._withStripped = true
 // CONCATENATED MODULE: ./app/vue/users/apps/confirmation.vue?vue&type=template&id=4c9890d6&
 
 // CONCATENATED MODULE: ./node_modules/babel-loader/lib??ref--3!./node_modules/vue-loader/lib??vue-loader-options!./app/vue/users/apps/confirmation.vue?vue&type=script&lang=js&
+
 /* harmony default export */ var confirmationvue_type_script_lang_js_ = ({
   data: function data() {
     return {
@@ -30133,21 +30204,18 @@ confirmationvue_type_template_id_4c9890d6_render._withStripped = true
         email: ''
       },
       notification: {
-        exists: false,
+        show: false,
         message: '',
         type: 'is-danger'
       }
     };
   },
   methods: {
-    dismissNotification: function dismissNotification() {
-      this.notification.exists = false;
-    },
     showNotification: function showNotification(message) {
-      var type = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 'is-info';
+      var type = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 'is-danger';
       this.notification.message = message;
       this.notification.type = type;
-      this.notification.exists = true;
+      this.notification.show = true;
     },
     confirmEmail: function confirmEmail(event) {
       var _this = this;
@@ -30164,7 +30232,7 @@ confirmationvue_type_template_id_4c9890d6_render._withStripped = true
             _this.goTo('/login');
           }, 5000);
         } else {
-          _this.showNotification(response.error.message, 'is-danger');
+          _this.showNotification(response.error.message);
         }
       })["catch"](function (err) {
         console.log(err);
@@ -30174,10 +30242,8 @@ confirmationvue_type_template_id_4c9890d6_render._withStripped = true
       this.$router.push("".concat(url));
     }
   },
-  computed: {
-    notificationClass: function notificationClass() {
-      return "notification ".concat(this.notification.type);
-    }
+  components: {
+    'form-notification': components_notification
   }
 });
 // CONCATENATED MODULE: ./app/vue/users/apps/confirmation.vue?vue&type=script&lang=js&
@@ -30225,25 +30291,21 @@ var registervue_type_template_id_29860e78_render = function() {
       {
         ref: "form",
         attrs: { id: "registration_user" },
-        on: { submit: _vm.signUp }
+        on: { submit: _vm.register }
       },
       [
-        _c("transition", { attrs: { name: "fade" } }, [
-          _vm.notification.exists
-            ? _c("div", { class: _vm.notificationClass }, [
-                _c("button", {
-                  staticClass: "delete",
-                  attrs: { type: "button" },
-                  on: { click: _vm.dismissNotification }
-                }),
-                _vm._v(
-                  "\n            " +
-                    _vm._s(_vm.notification.message) +
-                    "\n         "
-                )
-              ])
-            : _vm._e()
-        ]),
+        _c("form-notification", {
+          attrs: {
+            message: _vm.notification.message,
+            type: _vm.notification.type,
+            show: _vm.notification.show
+          },
+          on: {
+            "update:show": function($event) {
+              return _vm.$set(_vm.notification, "show", $event)
+            }
+          }
+        }),
         _vm._v(" "),
         _c("div", { staticClass: "field" }, [
           _c("p", { staticClass: "control has-icons-left" }, [
@@ -30462,6 +30524,7 @@ registervue_type_template_id_29860e78_render._withStripped = true
 // CONCATENATED MODULE: ./app/vue/users/apps/register.vue?vue&type=template&id=29860e78&
 
 // CONCATENATED MODULE: ./node_modules/babel-loader/lib??ref--3!./node_modules/vue-loader/lib??vue-loader-options!./app/vue/users/apps/register.vue?vue&type=script&lang=js&
+
 /* harmony default export */ var registervue_type_script_lang_js_ = ({
   data: function data() {
     return {
@@ -30477,14 +30540,14 @@ registervue_type_template_id_29860e78_render._withStripped = true
         password_confirmation: ''
       },
       notification: {
-        exists: false,
+        show: false,
         message: '',
         type: 'is-danger'
       }
     };
   },
   methods: {
-    signUp: function signUp(event) {
+    register: function register(event) {
       var _this = this;
 
       event.preventDefault();
@@ -30499,20 +30562,17 @@ registervue_type_template_id_29860e78_render._withStripped = true
             _this.goTo('/login');
           }, 5000);
         } else {
-          _this.showNotification(response.error.message, 'is-danger');
+          _this.showNotification(response.error.message);
         }
       })["catch"](function (err) {
         console.log(err);
       });
     },
-    dismissNotification: function dismissNotification() {
-      this.notification.exists = false;
-    },
     showNotification: function showNotification(message) {
-      var type = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 'is-info';
+      var type = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 'is-danger';
       this.notification.message = message;
       this.notification.type = type;
-      this.notification.exists = true;
+      this.notification.show = true;
     },
     verifyPasswords: function verifyPasswords() {
       var password = this.sign_up.password;
@@ -30520,24 +30580,19 @@ registervue_type_template_id_29860e78_render._withStripped = true
 
       if (password && password_confirmation) {
         if (password !== password_confirmation) {
-          this.showNotification(this.translations.shared.errors.unmatched_passwords, 'is-danger');
+          this.showNotification(this.translations.shared.errors.unmatched_passwords);
           return;
         }
       }
 
-      this.dismissNotification();
-    },
-    dismissError: function dismissError() {
-      this.error.exists = false;
+      this.notification.show = false;
     },
     goTo: function goTo(url) {
       this.$router.push("".concat(url));
     }
   },
-  computed: {
-    notificationClass: function notificationClass() {
-      return "notification ".concat(this.notification.type);
-    }
+  components: {
+    'form-notification': components_notification
   }
 });
 // CONCATENATED MODULE: ./app/vue/users/apps/register.vue?vue&type=script&lang=js&
@@ -30588,22 +30643,18 @@ var newvue_type_template_id_f701a566_render = function() {
         on: { submit: _vm.resetPassword }
       },
       [
-        _c("transition", { attrs: { name: "fade" } }, [
-          _vm.notification.exists
-            ? _c("div", { class: _vm.notificationClass }, [
-                _c("button", {
-                  staticClass: "delete",
-                  attrs: { type: "button" },
-                  on: { click: _vm.dismissNotification }
-                }),
-                _vm._v(
-                  "\n            " +
-                    _vm._s(_vm.notification.message) +
-                    "\n         "
-                )
-              ])
-            : _vm._e()
-        ]),
+        _c("form-notification", {
+          attrs: {
+            message: _vm.notification.message,
+            type: _vm.notification.type,
+            show: _vm.notification.show
+          },
+          on: {
+            "update:show": function($event) {
+              return _vm.$set(_vm.notification, "show", $event)
+            }
+          }
+        }),
         _vm._v(" "),
         _c("div", { staticClass: "field" }, [
           _c("p", { staticClass: "control has-icons-left" }, [
@@ -30723,6 +30774,7 @@ newvue_type_template_id_f701a566_render._withStripped = true
 // CONCATENATED MODULE: ./app/vue/users/apps/password/new.vue?vue&type=template&id=f701a566&
 
 // CONCATENATED MODULE: ./node_modules/babel-loader/lib??ref--3!./node_modules/vue-loader/lib??vue-loader-options!./app/vue/users/apps/password/new.vue?vue&type=script&lang=js&
+
 /* harmony default export */ var newvue_type_script_lang_js_ = ({
   data: function data() {
     return {
@@ -30735,21 +30787,18 @@ newvue_type_template_id_f701a566_render._withStripped = true
         email: ''
       },
       notification: {
-        exists: false,
+        show: false,
         message: '',
         type: 'is-danger'
       }
     };
   },
   methods: {
-    dismissNotification: function dismissNotification() {
-      this.notification.exists = false;
-    },
     showNotification: function showNotification(message) {
-      var type = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 'is-info';
+      var type = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 'is-danger';
       this.notification.message = message;
       this.notification.type = type;
-      this.notification.exists = true;
+      this.notification.show = true;
     },
     resetPassword: function resetPassword(event) {
       var _this = this;
@@ -30766,7 +30815,7 @@ newvue_type_template_id_f701a566_render._withStripped = true
             _this.goTo('/login');
           }, 5000);
         } else {
-          _this.showNotification(response.error.message, 'is-danger');
+          _this.showNotification(response.error.message);
         }
       })["catch"](function (err) {
         console.log(err);
@@ -30776,10 +30825,8 @@ newvue_type_template_id_f701a566_render._withStripped = true
       this.$router.push("".concat(url));
     }
   },
-  computed: {
-    notificationClass: function notificationClass() {
-      return "notification ".concat(this.notification.type);
-    }
+  components: {
+    'form-notification': components_notification
   }
 });
 // CONCATENATED MODULE: ./app/vue/users/apps/password/new.vue?vue&type=script&lang=js&
@@ -30830,22 +30877,18 @@ var editvue_type_template_id_1b6b8d2d_render = function() {
         on: { submit: _vm.resetPassword }
       },
       [
-        _c("transition", { attrs: { name: "fade" } }, [
-          _vm.notification.exists
-            ? _c("div", { class: _vm.notificationClass }, [
-                _c("button", {
-                  staticClass: "delete",
-                  attrs: { type: "button" },
-                  on: { click: _vm.dismissNotification }
-                }),
-                _vm._v(
-                  "\n            " +
-                    _vm._s(_vm.notification.message) +
-                    "\n         "
-                )
-              ])
-            : _vm._e()
-        ]),
+        _c("form-notification", {
+          attrs: {
+            message: _vm.notification.message,
+            type: _vm.notification.type,
+            show: _vm.notification.show
+          },
+          on: {
+            "update:show": function($event) {
+              return _vm.$set(_vm.notification, "show", $event)
+            }
+          }
+        }),
         _vm._v(" "),
         _c("div", { staticClass: "field" }, [
           _c("p", { staticClass: "control has-icons-left" }, [
@@ -31029,6 +31072,7 @@ editvue_type_template_id_1b6b8d2d_render._withStripped = true
 // CONCATENATED MODULE: ./app/vue/users/apps/password/edit.vue?vue&type=template&id=1b6b8d2d&
 
 // CONCATENATED MODULE: ./node_modules/babel-loader/lib??ref--3!./node_modules/vue-loader/lib??vue-loader-options!./app/vue/users/apps/password/edit.vue?vue&type=script&lang=js&
+
 /* harmony default export */ var editvue_type_script_lang_js_ = ({
   data: function data() {
     return {
@@ -31044,7 +31088,7 @@ editvue_type_template_id_1b6b8d2d_render._withStripped = true
         reset_password_token: ''
       },
       notification: {
-        exists: false,
+        show: false,
         message: '',
         type: 'is-danger'
       }
@@ -31072,20 +31116,17 @@ editvue_type_template_id_1b6b8d2d_render._withStripped = true
             _this.goTo('/login');
           }, 2500);
         } else {
-          _this.showNotification(response.error.message, 'is-danger');
+          _this.showNotification(response.error.message);
         }
       })["catch"](function (err) {
         console.log(err);
       });
     },
-    dismissNotification: function dismissNotification() {
-      this.notification.exists = false;
-    },
     showNotification: function showNotification(message) {
-      var type = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 'is-info';
+      var type = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 'is-danger';
       this.notification.message = message;
       this.notification.type = type;
-      this.notification.exists = true;
+      this.notification.show = true;
     },
     verifyPasswords: function verifyPasswords() {
       var password = this.password.password;
@@ -31093,24 +31134,19 @@ editvue_type_template_id_1b6b8d2d_render._withStripped = true
 
       if (password && password_confirmation) {
         if (password !== password_confirmation) {
-          this.showNotification(this.translations.shared.errors.unmatched_passwords, 'is-danger');
+          this.showNotification(this.translations.shared.errors.unmatched_passwords);
           return;
         }
       }
 
-      this.dismissNotification();
-    },
-    dismissError: function dismissError() {
-      this.error.exists = false;
+      this.notification.show = false;
     },
     goTo: function goTo(url) {
       this.$router.push("".concat(url));
     }
   },
-  computed: {
-    notificationClass: function notificationClass() {
-      return "notification ".concat(this.notification.type);
-    }
+  components: {
+    'form-notification': components_notification
   }
 });
 // CONCATENATED MODULE: ./app/vue/users/apps/password/edit.vue?vue&type=script&lang=js&
