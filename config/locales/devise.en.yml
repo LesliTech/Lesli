@@ -4,7 +4,7 @@ en:
   devise:
     confirmations:
       confirmed: "Your email address has been successfully confirmed."
-      send_instructions: "You will receive an email with instructions for how to confirm your email address in a few minutes."
+      send_instructions: ""
       send_paranoid_instructions: "If your email address exists in our database, you will receive an email with instructions for how to confirm your email address in a few minutes."
     failure:
       already_authenticated: "You are already signed in."
@@ -57,6 +57,7 @@ en:
       custom:
         confirmation_required: "Please confirm your email before proceeding"
         invalid_credentials: "Invalid email or password"
+        confirmation_email_not_sent: "An error ocurred while sending the instructions. Please check the email address is correct"
       messages:
         already_confirmed: "was already confirmed, please try signing in"
         confirmation_period_expired: "needs to be confirmed within %{period}, please request a new one"
