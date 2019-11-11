@@ -27,21 +27,5 @@ Building a better future, one line of code at a time.
 
 
 // · 
-@import "users/devise.scss";
+@import "users/shared.scss";
 
-
-// · 
-section {
-    background: linear-gradient(
-        rgba(lesli-color(standard, white),.75),
-        rgba(lesli-color(standard, white),.75)),
-        url("/assets/users/registrations/register-background.full.jpg");
-    background-repeat: no-repeat;
-    background-position: center;
-    background-size: cover;
-
-    form {
-        max-width: 450px;
-    }
-    
-}
