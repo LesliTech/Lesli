@@ -1,4 +1,7 @@
 <script>
+
+import notification from '../../components/notification.vue'
+
 export default {
    data(){
       return{
@@ -14,7 +17,7 @@ export default {
             reset_password_token: ''
          },
          notification: {
-            exists: false,
+            show: false,
             message: '',
             type: 'is-danger'
          }
@@ -29,7 +32,7 @@ export default {
       },
       resetPassword(event){
          event.preventDefault();
-         let data = {user: this.password}
+         let data = {user: this.password};
          this.http.put(this.url.to(null,null,'/password'),data).then((response)=>{
             if(response.successful){
                this.showNotification(this.translations.password.notifications.update.success,'is-success');
@@ -37,42 +40,34 @@ export default {
                   this.goTo('/login');
                },2500);
             }else{
-               this.showNotification(response.error.message, 'is-danger');
+               this.showNotification(response.error.message);
             }
          }).catch((err)=>{
             console.log(err);
          });
       },
-      dismissNotification(){
-         this.notification.exists = false;
-      },
-      showNotification(message,type='is-info'){
+      showNotification(message,type='is-danger'){
          this.notification.message = message;
          this.notification.type = type;
-         this.notification.exists = true;
+         this.notification.show = true;
       },
       verifyPasswords(){
          let password = this.password.password;
          let password_confirmation = this.password.password_confirmation;
          if(password && password_confirmation){
             if(password !== password_confirmation){
-               this.showNotification(this.translations.shared.errors.unmatched_passwords,'is-danger');
+               this.showNotification(this.translations.shared.errors.unmatched_passwords);
                return;
             }
          }
-         this.dismissNotification();
-      },
-      dismissError(){
-         this.error.exists = false;
+         this.notification.show = false;
       },
       goTo(url){
          this.$router.push(`${url}`);
       }
    },
-   computed: {
-      notificationClass(){
-         return `notification ${this.notification.type}`;
-      }
+   components:{
+      'form-notification':notification
    }
 }
 </script>
@@ -82,12 +77,12 @@ export default {
          <img src="/assets/brand/leslicloud-logo.png" alt="LesliCloud Logo">
       </a>
       <form ref="form" id="registration_user" @submit="resetPassword">
-         <transition name="fade">
-            <div v-if="notification.exists" :class="notificationClass">
-               <button type="button" class="delete" @click="dismissNotification"></button>
-               {{notification.message}}
-            </div>
-         </transition>
+         <form-notification
+            :message="notification.message"
+            :type="notification.type"
+            :show.sync="notification.show"
+         >
+         </form-notification>
          <div class="field">
             <p class="control has-icons-left">
                <label class="sr-only" for="user_password">

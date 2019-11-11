@@ -1,4 +1,7 @@
 <script>
+
+import notification from '../components/notification.vue'
+
 export default {
    data(){
       return{
@@ -12,40 +15,38 @@ export default {
             email: '',
             password: ''
          },
-         error: {
-            exists: false,
-            message: ''
+         notification: {
+            show: false,
+            message: '',
+            type: 'is-danger'
          }
       }
    },
-   mounted(){
-      this.preventFormSubmission();
-   },
    methods:{
-      preventFormSubmission(){
-         this.$refs.form.addEventListener('submit',(event)=>{
-            event.preventDefault();
-         });
-      },
-      login(){
-         let data = {sign_in: this.sign_in}
+      login(event){
+         event.preventDefault();
+         let data = {sign_in: this.sign_in};
          this.http.post(this.url.to(null,null,'login'),data).then((response)=>{
             if(response.successful){
                this.url.go('/lesli');
             }else{
-               this.error.exists = true;
-               this.error.message = response.error.message;
+               this.showNotification(response.error.message);
             }
          }).catch((err)=>{
             console.log(err);
          });
       },
-      dismissError(){
-         this.error.exists = false;
+      showNotification(message, type='is-danger'){
+         this.notification.message = message;
+         this.notification.type = type;
+         this.notification.show = true;
       },
       goTo(url){
          this.$router.push(`${url}`);
       }
+   },
+   components:{
+      'form-notification':notification
    }
 }
 </script>
@@ -55,12 +56,12 @@ export default {
          <img src="/assets/brand/leslicloud-logo.png" alt="LesliCloud Logo">
       </a>
       <form ref="form" id="new_user" @submit="login">
-         <transition name="fade">
-            <div v-if="error.exists" class="notification is-danger">
-               <button type="button" class="delete" @click="dismissError"></button>
-               {{error.message}}
-            </div>
-         </transition>
+         <form-notification
+            :message="notification.message"
+            :type="notification.type"
+            :show.sync="notification.show"
+         >
+         </form-notification>
          <div class="field">
             <p class="control has-icons-left">
                <label class="sr-only">

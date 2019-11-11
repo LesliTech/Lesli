@@ -1,4 +1,7 @@
 <script>
+
+import notification from '../components/notification.vue'
+
 export default {
    data(){
       return{
@@ -14,16 +17,16 @@ export default {
             password_confirmation: ''
          },
          notification: {
-            exists: false,
+            show: false,
             message: '',
             type: 'is-danger'
          }
       }
    },
    methods:{
-      signUp(event){
+      register(event){
          event.preventDefault();
-         let data = {user: this.sign_up}
+         let data = {user: this.sign_up};
          this.http.post(this.url.to(null,null,null),data).then((response)=>{
             if(response.successful){
                this.showNotification(this.translations.registration.notifications.success,'is-success');
@@ -31,42 +34,34 @@ export default {
                   this.goTo('/login');
                },5000);
             }else{
-               this.showNotification(response.error.message, 'is-danger');
+               this.showNotification(response.error.message);
             }
          }).catch((err)=>{
             console.log(err);
          });
       },
-      dismissNotification(){
-         this.notification.exists = false;
-      },
-      showNotification(message,type='is-info'){
+      showNotification(message,type='is-danger'){
          this.notification.message = message;
          this.notification.type = type;
-         this.notification.exists = true;
+         this.notification.show = true;
       },
       verifyPasswords(){
          let password = this.sign_up.password;
          let password_confirmation = this.sign_up.password_confirmation;
          if(password && password_confirmation){
             if(password !== password_confirmation){
-               this.showNotification(this.translations.shared.errors.unmatched_passwords,'is-danger');
+               this.showNotification(this.translations.shared.errors.unmatched_passwords);
                return;
             }
          }
-         this.dismissNotification();
-      },
-      dismissError(){
-         this.error.exists = false;
+         this.notification.show = false;
       },
       goTo(url){
          this.$router.push(`${url}`);
       }
    },
-   computed: {
-      notificationClass(){
-         return `notification ${this.notification.type}`;
-      }
+   components:{
+      'form-notification':notification
    }
 }
 </script>
@@ -75,13 +70,13 @@ export default {
       <a class="logo" :href="url.to()">
          <img src="/assets/brand/leslicloud-logo.png" alt="LesliCloud Logo">
       </a>
-      <form ref="form" id="registration_user" @submit="signUp">
-         <transition name="fade">
-            <div v-if="notification.exists" :class="notificationClass">
-               <button type="button" class="delete" @click="dismissNotification"></button>
-               {{notification.message}}
-            </div>
-         </transition>
+      <form ref="form" id="registration_user" @submit="register">
+         <form-notification
+            :message="notification.message"
+            :type="notification.type"
+            :show.sync="notification.show"
+         >
+         </form-notification>
          <div class="field">
             <p class="control has-icons-left">
                <label class="sr-only">
