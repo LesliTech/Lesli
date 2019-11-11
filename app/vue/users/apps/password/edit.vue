@@ -1,6 +1,7 @@
 <script>
 
 import notification from '../../components/notification.vue'
+import progressBar from '../../components/progress_bar.vue'
 
 export default {
    data(){
@@ -16,6 +17,7 @@ export default {
             password_confirmation: '',
             reset_password_token: ''
          },
+         progress_bar_active: false,
          notification: {
             show: false,
             message: '',
@@ -33,7 +35,9 @@ export default {
       resetPassword(event){
          event.preventDefault();
          let data = {user: this.password};
+         this.progress_bar_active = true;
          this.http.put(this.url.to(null,null,'/password'),data).then((response)=>{
+            this.progress_bar_active = false;
             if(response.successful){
                this.showNotification(this.translations.password.notifications.update.success,'is-success');
                setTimeout(()=>{
@@ -67,7 +71,8 @@ export default {
       }
    },
    components:{
-      'form-notification':notification
+      'form-notification':notification,
+      'progress-bar': progressBar
    }
 }
 </script>
@@ -77,6 +82,7 @@ export default {
          <img src="/assets/brand/leslicloud-logo.png" alt="LesliCloud Logo">
       </a>
       <form ref="form" id="registration_user" @submit="resetPassword">
+         <progress-bar :active="progress_bar_active"/>
          <form-notification
             :message="notification.message"
             :type="notification.type"

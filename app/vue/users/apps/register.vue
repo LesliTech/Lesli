@@ -1,6 +1,7 @@
 <script>
 
 import notification from '../components/notification.vue'
+import progressBar from '../components/progress_bar.vue'
 
 export default {
    data(){
@@ -16,6 +17,7 @@ export default {
             password: '',
             password_confirmation: ''
          },
+         progress_bar_active: false,
          notification: {
             show: false,
             message: '',
@@ -27,7 +29,9 @@ export default {
       register(event){
          event.preventDefault();
          let data = {user: this.sign_up};
+         this.progress_bar_active = true;
          this.http.post(this.url.to(null,null,null),data).then((response)=>{
+            this.progress_bar_active = false;
             if(response.successful){
                this.showNotification(this.translations.registration.notifications.success,'is-success');
                setTimeout(()=>{
@@ -61,7 +65,8 @@ export default {
       }
    },
    components:{
-      'form-notification':notification
+      'form-notification':notification,
+      'progress-bar': progressBar
    }
 }
 </script>
@@ -71,6 +76,7 @@ export default {
          <img src="/assets/brand/leslicloud-logo.png" alt="LesliCloud Logo">
       </a>
       <form ref="form" id="registration_user" @submit="register">
+         <progress-bar :active="progress_bar_active"/>
          <form-notification
             :message="notification.message"
             :type="notification.type"
