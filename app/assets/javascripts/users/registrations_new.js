@@ -29682,7 +29682,7 @@ var loginvue_type_template_id_f6cb2dd0_render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("section", [
+  return _c("section", { attrs: { id: "sessions" } }, [
     _c("a", { staticClass: "logo", attrs: { href: _vm.url.to() } }, [
       _c("img", {
         attrs: {
@@ -30110,7 +30110,7 @@ var confirmationvue_type_template_id_4c9890d6_render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("section", [
+  return _c("section", { attrs: { id: "confirmations" } }, [
     _c("a", { staticClass: "logo", attrs: { href: _vm.url.to() } }, [
       _c("img", {
         attrs: {
@@ -30354,7 +30354,7 @@ var registervue_type_template_id_29860e78_render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("section", [
+  return _c("section", { attrs: { id: "registrations" } }, [
     _c("a", { staticClass: "logo", attrs: { href: _vm.url.to() } }, [
       _c("img", {
         attrs: {
@@ -30711,7 +30711,7 @@ var newvue_type_template_id_f701a566_render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("section", [
+  return _c("section", { attrs: { id: "passwords" } }, [
     _c("a", { staticClass: "logo", attrs: { href: _vm.url.to() } }, [
       _c("img", {
         attrs: {
@@ -30953,7 +30953,7 @@ var editvue_type_template_id_1b6b8d2d_render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("section", [
+  return _c("section", { attrs: { id: "passwords" } }, [
     _c("a", { staticClass: "logo", attrs: { href: _vm.url.to() } }, [
       _c("img", {
         attrs: {

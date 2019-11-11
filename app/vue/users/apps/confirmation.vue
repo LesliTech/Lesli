@@ -58,7 +58,7 @@ export default {
 </script>
 
 <template>
-   <section>
+   <section id="confirmations">
       <a class="logo" :href="url.to()">
          <img src="/assets/brand/leslicloud-logo.png" alt="LesliCloud Logo">
       </a>
