@@ -24,7 +24,7 @@ class Users::RegistrationsController < Devise::RegistrationsController
     def create
         user = build_resource(sign_up_params)
         if user.save
-            responseWithSuccessful('Check your email to confirm your account')
+            responseWithSuccessful
         else
             responseWithError(user.errors.full_messages.to_sentence)
         end

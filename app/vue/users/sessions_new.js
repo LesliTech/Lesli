@@ -35,15 +35,23 @@ import app from 'LesliCloud/vue/app'
 // · Import apps and components
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
 import appLogin from './apps/login.vue'
+import appConfirmation from './apps/confirmation.vue'
+import appRegistration from './apps/register.vue'
 
 
 
 // · 
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
-app("Lesli", "[login]", "", null, [{
+app("Lesli", "[login|confirmation|register]", "", [{
     path: "/",
     redirect: "/login",
 },{
     path: "/login",
     component: appLogin,
+},{
+    path: "/confirmation/new",
+    component: appConfirmation,
+},{
+    path: "/register",
+    component: appRegistration,
 }], true)

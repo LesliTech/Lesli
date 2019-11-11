@@ -20,26 +20,22 @@ export default {
          }
       }
    },
-
    mounted(){
       this.preventFormSubmission();
    },
-   
    methods:{
       preventFormSubmission(){
          this.$refs.form.addEventListener('submit',(event)=>{
             event.preventDefault();
          });
       },
-
       sig_up(){
          let data = {user: this.sign_up}
-         this.showLoadingNotification();
          this.http.post(this.url.to(null,null,null),data).then((response)=>{
             if(response.successful){
                this.showNotification(this.translations.registration.notifications.success,'is-success');
                setTimeout(()=>{
-                  this.url.go('/login');
+                  this.goTo('/login');
                },5000);
             }else{
                this.showNotification(response.error.message, 'is-danger');
@@ -48,23 +44,14 @@ export default {
             console.log(err);
          });
       },
-
       dismissNotification(){
          this.notification.exists = false;
       },
-
       showNotification(message,type='is-info'){
          this.notification.message = message;
          this.notification.type = type;
          this.notification.exists = true;
       },
-
-      showLoadingNotification(){
-         this.notification.exists = true;
-         this.notification.type = '';
-         this.notification.message = '<i class="fas fa-circle-notch"></i>'
-      },
-
       verifyPasswords(){
          let password = this.sign_up.password;
          let password_confirmation = this.sign_up.password_confirmation;
@@ -75,9 +62,14 @@ export default {
             }
          }
          this.dismissNotification();
+      },
+      dismissError(){
+         this.error.exists = false;
+      },
+      goTo(url){
+         this.$router.push(`${url}`);
       }
    },
-
    computed: {
       notificationClass(){
          return `notification ${this.notification.type}`;
@@ -88,7 +80,7 @@ export default {
 <template>
    <section>
       <a class="logo" :href="url.to()">
-         <img src="assets/brand/leslicloud-logo.png" alt="LesliCloud Logo">
+         <img src="/assets/brand/leslicloud-logo.png" alt="LesliCloud Logo">
       </a>
       <form ref="form" id="registration_user" @submit="sig_up">
          <transition name="fade">
@@ -153,10 +145,10 @@ export default {
          <input class="button is-primary" type="submit" :value="translations.registration.actions.sign_up" />
       </form>
       <div class="links">
-         <a :href="url.to(null, null, '/login')">
+         <a @click="goTo('/login')">
             {{translations.links.login}}
          </a>
-         <a :href="url.to(null, null, '/confirmation/new')">
+         <a @click="goTo('/confirmation/new')">
             {{translations.links.resend_confirmation_email}}
          </a>
       </div>

@@ -18,18 +18,15 @@ export default {
          }
       }
    },
-
    mounted(){
       this.preventFormSubmission();
    },
-   
    methods:{
       preventFormSubmission(){
          this.$refs.form.addEventListener('submit',(event)=>{
             event.preventDefault();
          });
       },
-
       login(){
          let data = {sign_in: this.sign_in}
          this.http.post(this.url.to(null,null,'login'),data).then((response)=>{
@@ -43,9 +40,11 @@ export default {
             console.log(err);
          });
       },
-
       dismissError(){
          this.error.exists = false;
+      },
+      goTo(url){
+         this.$router.push(`${url}`);
       }
    }
 }
@@ -53,7 +52,7 @@ export default {
 <template>
    <section>
       <a class="logo" :href="url.to()">
-         <img src="assets/brand/leslicloud-logo.png" alt="LesliCloud Logo">
+         <img src="/assets/brand/leslicloud-logo.png" alt="LesliCloud Logo">
       </a>
       <form ref="form" id="new_user" @submit="login">
          <transition name="fade">
@@ -99,13 +98,13 @@ export default {
          <input class="button is-primary" type="submit" :value="translations.login.actions.log_in" />
       </form>
       <div class="links">
-         <a :href="url.to(null, null, '/register')">
+         <a @click="goTo('/register')">
             {{translations.links.sign_up}}
          </a>
-         <a :href="url.to(null, null, '/password/new')">
+         <a @click="goTo('/password/new')">
             {{translations.links.reset_password}}
          </a>
-         <a :href="url.to(null, null, '/confirmation/new')">
+         <a @click="goTo('/confirmation/new')">
             {{translations.links.resend_confirmation_email}}
          </a>
       </div>
