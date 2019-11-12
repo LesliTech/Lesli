@@ -24,18 +24,21 @@ class AccountsController < ApplicationController
     # POST /accounts
     # POST /accounts.json
     def create
-
         account = Account.new(account_params)
         account.account_plans_id = 0
         account.status = 1
         account.save!
+        if account.errors.any?
+            return responseWithError(account.errors.full_messages.to_sentence)
+        end
 
-        user = User.find(current_user.id)
-        user.account = account
-        user.save!
+        current_user.account = account
+        current_user.save!
+        if current_user.errors.any?
+            return responseWithError(current_user.errors.full_messages.to_sentence)
+        end
 
-        redirect_to root_path
-
+        responseWithSuccessful
     end
 
   # PATCH/PUT /accounts/1
