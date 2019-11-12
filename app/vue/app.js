@@ -75,7 +75,7 @@ Vue.component('component-layout-empty-data', componentLayoutEmptyData)
 // · app: List of individual apps loaded
 // · base_path: for vue router
 // · example: app("CloudHelp", "[list|new|edit|show]", "help/tickets", [])
-export default (module, apps, base_path, routes=[]) => {
+export default (module, apps, base_path, routes=[], components=null) => {
 
 
     // · Vue app configuration container
@@ -91,6 +91,15 @@ export default (module, apps, base_path, routes=[]) => {
     }
 
 
+    // · Merge core and app components
+    if (components) {
+        cloud_builder.components = {
+            ...cloud_builder.components,
+            ...components
+        }
+    }
+
+    
     // · Routes for SPAs
     cloud_builder['router'] = new VueRouter({
         linkActiveClass: 'is-active',
