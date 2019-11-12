@@ -1,7 +1,7 @@
 <script>
 
-import notification from '../../components/notification.vue'
-import progressBar from '../../components/progress_bar.vue'
+import notification from '../../../components/forms/notification.vue'
+import progressBar from '../../../components/forms/progress_bar.vue'
 
 export default {
    data(){

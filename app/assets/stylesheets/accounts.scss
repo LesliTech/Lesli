@@ -61,8 +61,16 @@ section {
         max-width: 350px;
         text-align: center;
         border-radius: 2px;
-        padding-top: 2rem;
         background-color: rgba(lesli-color(standard, white), 1);
+
+        .progress.is-very-small{
+            border-radius: 0px;
+            height:0.2rem;
+        }
+
+        .field:nth-child(2) {
+            padding-top: 2rem;
+        }
 
         .field {
             padding: 0 2.4rem 1.8rem;
