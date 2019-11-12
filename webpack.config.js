@@ -61,7 +61,8 @@ function webpackConfigBuilder(compilationMode) {
             "users/registrations_new": "./app/vue/users/registrations_new.js",
             "users/confirmations_new": "./app/vue/users/confirmations_new.js",
             "users/passwords_new": "./app/vue/users/passwords_new.js",
-            "users/passwords_edit": "./app/vue/users/passwords_edit.js"
+            "users/passwords_edit": "./app/vue/users/passwords_edit.js",
+            "accounts_new": "./app/vue/accounts/new.js"
         },
         output: {
             path: __dirname,

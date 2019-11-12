@@ -113,7 +113,7 @@ ActiveRecord::Schema.define(version: 8020001) do
     t.text "body"
     t.string "href"
     t.string "format"
-    t.boolean "read"
+    t.boolean "read", default: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.bigint "cloud_bell_notification_deliverer_id"
