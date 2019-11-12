@@ -1,14 +1,62 @@
-/*! Buefy v0.8.2 | MIT License | github.com/buefy/buefy */
+/*! Buefy v0.8.6 | MIT License | github.com/buefy/buefy */
 (function (global, factory) {
     typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports) :
     typeof define === 'function' && define.amd ? define(['exports'], factory) :
     (global = global || self, factory(global.Dropdown = {}));
 }(this, function (exports) { 'use strict';
 
+    var findFocusable = function findFocusable(element) {
+      if (!element) {
+        return null;
+      }
+
+      return element.querySelectorAll("a[href],\n                                     area[href],\n                                     input:not([disabled]),\n                                     select:not([disabled]),\n                                     textarea:not([disabled]),\n                                     button:not([disabled]),\n                                     iframe,\n                                     object,\n                                     embed,\n                                     *[tabindex],\n                                     *[contenteditable]");
+    };
+
+    var onKeyDown;
+
+    var bind = function bind(el, _ref) {
+      var _ref$value = _ref.value,
+          value = _ref$value === void 0 ? true : _ref$value;
+
+      if (value) {
+        var focusable = findFocusable(el);
+
+        if (focusable && focusable.length > 0) {
+          var firstFocusable = focusable[0];
+          var lastFocusable = focusable[focusable.length - 1];
+
+          onKeyDown = function onKeyDown(event) {
+            if (event.target === firstFocusable && event.shiftKey && event.key === 'Tab') {
+              event.preventDefault();
+              lastFocusable.focus();
+            } else if (event.target === lastFocusable && !event.shiftKey && event.key === 'Tab') {
+              event.preventDefault();
+              firstFocusable.focus();
+            }
+          };
+
+          el.addEventListener('keydown', onKeyDown);
+          firstFocusable.focus();
+        }
+      }
+    };
+
+    var unbind = function unbind(el) {
+      el.removeEventListener('keydown', onKeyDown);
+    };
+
+    var directive = {
+      bind: bind,
+      unbind: unbind
+    };
+
     var config = {
       defaultContainerElement: null,
       defaultIconPack: 'mdi',
       defaultIconComponent: null,
+      defaultIconPrev: 'chevron-left',
+      defaultIconNext: 'chevron-right',
       defaultDialogConfirmText: null,
       defaultDialogCancelText: null,
       defaultSnackbarDuration: 3500,
@@ -43,13 +91,21 @@
       defaultDatepickerYearsRange: [-100, 3],
       defaultDatepickerNearbyMonthDays: true,
       defaultDatepickerNearbySelectableMonthDays: false,
-      defaultDatepickerShowWeekNumber: false
+      defaultDatepickerShowWeekNumber: false,
+      defaultTrapFocus: false,
+      defaultButtonRounded: false,
+      customIconPacks: null // TODO defaultTrapFocus to true in the next breaking change
+
     };
     var config$1 = config;
 
     //
+    var DEFAULT_CLOSE_OPTIONS = ['escape', 'outside'];
     var script = {
       name: 'BDropdown',
+      directives: {
+        trapFocus: directive
+      },
       props: {
         value: {
           type: [String, Number, Boolean, Object, Array, Function],
@@ -79,10 +135,19 @@
           default: 'fade'
         },
         multiple: Boolean,
+        trapFocus: {
+          type: Boolean,
+          default: config$1.defaultTrapFocus
+        },
         closeOnClick: {
           type: Boolean,
           default: true
-        }
+        },
+        canClose: {
+          type: [Array, Boolean],
+          default: true
+        },
+        expanded: Boolean
       },
       data: function data() {
         return {
@@ -100,11 +165,15 @@
             'is-hoverable': this.hoverable,
             'is-inline': this.inline,
             'is-active': this.isActive || this.inline,
-            'is-mobile-modal': this.isMobileModal
+            'is-mobile-modal': this.isMobileModal,
+            'is-expanded': this.expanded
           }];
         },
         isMobileModal: function isMobileModal() {
           return this.mobileModal && !this.inline && !this.hoverable;
+        },
+        cancelOptions: function cancelOptions() {
+          return typeof this.canClose === 'boolean' ? this.canClose ? DEFAULT_CLOSE_OPTIONS : [] : this.canClose;
         },
         ariaRoleMenu: function ariaRoleMenu() {
           return this.ariaRole === 'menu' || this.ariaRole === 'list' ? this.ariaRole : null;
@@ -247,8 +316,20 @@
         * Close dropdown if clicked outside.
         */
         clickedOutside: function clickedOutside(event) {
+          if (this.cancelOptions.indexOf('outside') < 0) return;
           if (this.inline) return;
           if (!this.isInWhiteList(event.target)) this.isActive = false;
+        },
+
+        /**
+         * Keypress event that is bound to the document
+         */
+        keyPress: function keyPress(event) {
+          // Esc key
+          if (this.isActive && event.keyCode === 27) {
+            if (this.cancelOptions.indexOf('escape') < 0) return;
+            this.isActive = false;
+          }
         },
 
         /**
@@ -278,11 +359,13 @@
       created: function created() {
         if (typeof window !== 'undefined') {
           document.addEventListener('click', this.clickedOutside);
+          document.addEventListener('keyup', this.keyPress);
         }
       },
       beforeDestroy: function beforeDestroy() {
         if (typeof window !== 'undefined') {
           document.removeEventListener('click', this.clickedOutside);
+          document.removeEventListener('keyup', this.keyPress);
         }
       }
     };
@@ -376,7 +459,7 @@
     const __vue_script__ = script;
 
     /* template */
-    var __vue_render__ = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"dropdown",class:_vm.rootClasses},[(!_vm.inline)?_c('div',{ref:"trigger",staticClass:"dropdown-trigger",attrs:{"role":"button","aria-haspopup":"true"},on:{"click":_vm.toggle}},[_vm._t("trigger")],2):_vm._e(),_vm._v(" "),_c('transition',{attrs:{"name":_vm.animation}},[(_vm.isMobileModal)?_c('div',{directives:[{name:"show",rawName:"v-show",value:(_vm.isActive),expression:"isActive"}],staticClass:"background",attrs:{"aria-hidden":!_vm.isActive}}):_vm._e()]),_vm._v(" "),_c('transition',{attrs:{"name":_vm.animation}},[_c('div',{directives:[{name:"show",rawName:"v-show",value:((!_vm.disabled && (_vm.isActive || _vm.isHoverable)) || _vm.inline),expression:"(!disabled && (isActive || isHoverable)) || inline"}],ref:"dropdownMenu",staticClass:"dropdown-menu",attrs:{"aria-hidden":!_vm.isActive}},[_c('div',{staticClass:"dropdown-content",attrs:{"role":_vm.ariaRoleMenu}},[_vm._t("default")],2)])])],1)};
+    var __vue_render__ = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"dropdown",class:_vm.rootClasses},[(!_vm.inline)?_c('div',{ref:"trigger",staticClass:"dropdown-trigger",attrs:{"role":"button","aria-haspopup":"true"},on:{"click":_vm.toggle}},[_vm._t("trigger")],2):_vm._e(),_vm._v(" "),_c('transition',{attrs:{"name":_vm.animation}},[(_vm.isMobileModal)?_c('div',{directives:[{name:"show",rawName:"v-show",value:(_vm.isActive),expression:"isActive"}],staticClass:"background",attrs:{"aria-hidden":!_vm.isActive}}):_vm._e()]),_vm._v(" "),_c('transition',{attrs:{"name":_vm.animation}},[_c('div',{directives:[{name:"show",rawName:"v-show",value:((!_vm.disabled && (_vm.isActive || _vm.isHoverable)) || _vm.inline),expression:"(!disabled && (isActive || isHoverable)) || inline"},{name:"trap-focus",rawName:"v-trap-focus",value:(_vm.trapFocus),expression:"trapFocus"}],ref:"dropdownMenu",staticClass:"dropdown-menu",attrs:{"aria-hidden":!_vm.isActive}},[_c('div',{staticClass:"dropdown-content",attrs:{"role":_vm.ariaRoleMenu}},[_vm._t("default")],2)])])],1)};
     var __vue_staticRenderFns__ = [];
 
       /* style */
@@ -546,8 +629,6 @@
     };
     use(Plugin);
 
-    exports.Dropdown = Dropdown;
-    exports.DropdownItem = DropdownItem;
     exports.default = Plugin;
 
     Object.defineProperty(exports, '__esModule', { value: true });

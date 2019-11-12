@@ -1,9 +1,23 @@
-/*! Buefy v0.8.2 | MIT License | github.com/buefy/buefy */
+/*! Buefy v0.8.6 | MIT License | github.com/buefy/buefy */
 (function (global, factory) {
   typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports) :
   typeof define === 'function' && define.amd ? define(['exports'], factory) :
   (global = global || self, factory(global.Pagination = {}));
 }(this, function (exports) { 'use strict';
+
+  function _typeof(obj) {
+    if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") {
+      _typeof = function (obj) {
+        return typeof obj;
+      };
+    } else {
+      _typeof = function (obj) {
+        return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj;
+      };
+    }
+
+    return _typeof(obj);
+  }
 
   function _defineProperty(obj, key, value) {
     if (key in obj) {
@@ -20,178 +34,82 @@
     return obj;
   }
 
-  var config = {
-    defaultContainerElement: null,
-    defaultIconPack: 'mdi',
-    defaultIconComponent: null,
-    defaultDialogConfirmText: null,
-    defaultDialogCancelText: null,
-    defaultSnackbarDuration: 3500,
-    defaultSnackbarPosition: null,
-    defaultToastDuration: 2000,
-    defaultToastPosition: null,
-    defaultNotificationDuration: 2000,
-    defaultNotificationPosition: null,
-    defaultTooltipType: 'is-primary',
-    defaultTooltipAnimated: false,
-    defaultTooltipDelay: 0,
-    defaultInputAutocomplete: 'on',
-    defaultDateFormatter: null,
-    defaultDateParser: null,
-    defaultDateCreator: null,
-    defaultDayNames: null,
-    defaultMonthNames: null,
-    defaultFirstDayOfWeek: null,
-    defaultUnselectableDaysOfWeek: null,
-    defaultTimeFormatter: null,
-    defaultTimeParser: null,
-    defaultModalCanCancel: ['escape', 'x', 'outside', 'button'],
-    defaultModalScroll: null,
-    defaultDatepickerMobileNative: true,
-    defaultTimepickerMobileNative: true,
-    defaultNoticeQueue: true,
-    defaultInputHasCounter: true,
-    defaultTaginputHasCounter: true,
-    defaultUseHtml5Validation: true,
-    defaultDropdownMobileModal: true,
-    defaultFieldLabelPosition: null,
-    defaultDatepickerYearsRange: [-100, 3],
-    defaultDatepickerNearbyMonthDays: true,
-    defaultDatepickerNearbySelectableMonthDays: false,
-    defaultDatepickerShowWeekNumber: false
-  };
-  var config$1 = config;
+  function ownKeys(object, enumerableOnly) {
+    var keys = Object.keys(object);
+
+    if (Object.getOwnPropertySymbols) {
+      keys.push.apply(keys, Object.getOwnPropertySymbols(object));
+    }
+
+    if (enumerableOnly) keys = keys.filter(function (sym) {
+      return Object.getOwnPropertyDescriptor(object, sym).enumerable;
+    });
+    return keys;
+  }
+
+  function _objectSpread2(target) {
+    for (var i = 1; i < arguments.length; i++) {
+      var source = arguments[i] != null ? arguments[i] : {};
+
+      if (i % 2) {
+        ownKeys(source, true).forEach(function (key) {
+          _defineProperty(target, key, source[key]);
+        });
+      } else if (Object.getOwnPropertyDescriptors) {
+        Object.defineProperties(target, Object.getOwnPropertyDescriptors(source));
+      } else {
+        ownKeys(source).forEach(function (key) {
+          Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key));
+        });
+      }
+    }
+
+    return target;
+  }
 
   //
+  //
+  //
+  //
+  //
+  //
+  //
+  //
+  //
+  //
+  //
+  //
+  //
+  //
+  //
+  //
   var script = {
-    name: 'BIcon',
+    name: 'BPaginationButton',
     props: {
-      type: [String, Object],
-      pack: String,
-      icon: String,
-      size: String,
-      customSize: String,
-      customClass: String,
-      both: Boolean // This is used internally to show both MDI and FA icon
-
-    },
-    computed: {
-      /**
-      * Internal icon name based on the pack.
-      * If pack is 'fa', gets the equivalent FA icon name of the MDI,
-      * internal icons are always MDI.
-      */
-      newIcon: function newIcon() {
-        return this.newPack === 'mdi' ? "".concat(this.newPack, "-").concat(this.icon) : this.addFAPrefix(this.getEquivalentIconOf(this.icon));
+      page: {
+        type: Object,
+        required: true
       },
-      newPack: function newPack() {
-        return this.pack || config$1.defaultIconPack;
-      },
-      newType: function newType() {
-        if (!this.type) return;
-        var splitType = [];
-
-        if (typeof this.type === 'string') {
-          splitType = this.type.split('-');
-        } else {
-          for (var key in this.type) {
-            if (this.type[key]) {
-              splitType = key.split('-');
-              break;
-            }
-          }
-        }
-
-        if (splitType.length <= 1) return;
-        return "has-text-".concat(splitType[1]);
-      },
-      newCustomSize: function newCustomSize() {
-        return this.customSize || this.customSizeByPack;
-      },
-      customSizeByPack: function customSizeByPack() {
-        var defaultSize = this.newPack === 'mdi' ? 'mdi-24px' : this.addFAPrefix('lg');
-        var mediumSize = this.newPack === 'mdi' ? 'mdi-36px' : this.addFAPrefix('2x');
-        var largeSize = this.newPack === 'mdi' ? 'mdi-48px' : this.addFAPrefix('3x');
-
-        switch (this.size) {
-          case 'is-small':
-            return;
-
-          case 'is-medium':
-            return mediumSize;
-
-          case 'is-large':
-            return largeSize;
-
-          default:
-            return defaultSize;
+      tag: {
+        type: String,
+        default: 'a',
+        validator: function validator(value) {
+          return ['a', 'button', 'input', 'router-link', 'nuxt-link', 'n-link', 'NuxtLink', 'NLink'].indexOf(value) >= 0;
         }
       },
-      useIconComponent: function useIconComponent() {
-        return config$1.defaultIconComponent;
+      disabled: {
+        type: Boolean,
+        default: false
       }
     },
-    methods: {
-      addFAPrefix: function addFAPrefix(value) {
-        if (this.useIconComponent) {
-          return value;
+    computed: {
+      href: function href() {
+        if (this.tag === 'a') {
+          return '#';
         }
-
-        return "fa-".concat(value);
       },
-
-      /**
-      * Equivalent FA icon name of the MDI.
-      */
-      getEquivalentIconOf: function getEquivalentIconOf(value) {
-        // Only transform the class if the both prop is set to true
-        if (!this.both) {
-          return value;
-        }
-
-        switch (value) {
-          case 'check':
-            return 'check';
-
-          case 'information':
-            return 'info-circle';
-
-          case 'check-circle':
-            return 'check-circle';
-
-          case 'alert':
-            return 'exclamation-triangle';
-
-          case 'alert-circle':
-            return 'exclamation-circle';
-
-          case 'arrow-up':
-            return 'arrow-up';
-
-          case 'chevron-right':
-            return 'angle-right';
-
-          case 'chevron-left':
-            return 'angle-left';
-
-          case 'chevron-down':
-            return 'angle-down';
-
-          case 'eye':
-            return 'eye';
-
-          case 'eye-off':
-            return 'eye-slash';
-
-          case 'menu-down':
-            return 'caret-down';
-
-          case 'menu-up':
-            return 'caret-up';
-
-          default:
-            return value;
-        }
+      isDisabled: function isDisabled() {
+        return this.disabled || this.page.disabled;
       }
     }
   };
@@ -285,7 +203,9 @@
   const __vue_script__ = script;
 
   /* template */
-  var __vue_render__ = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('span',{staticClass:"icon",class:[_vm.newType, _vm.size]},[(!_vm.useIconComponent)?_c('i',{class:[_vm.newPack, _vm.newIcon, _vm.newCustomSize, _vm.customClass]}):_c(_vm.useIconComponent,{tag:"component",class:[_vm.customClass],attrs:{"icon":[_vm.newPack, _vm.newIcon],"size":_vm.newCustomSize}})],1)};
+  var __vue_render__ = function () {
+  var _obj;
+  var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c(_vm.tag,_vm._b({tag:"component",staticClass:"pagination-link",class:( _obj = { 'is-current': _vm.page.isCurrent }, _obj[_vm.page.class] = true, _obj ),attrs:{"role":"button","href":_vm.href,"disabled":_vm.isDisabled,"aria-label":_vm.page['aria-label'],"aria-current":_vm.page.isCurrent},on:{"click":function($event){$event.preventDefault();_vm.page.click($event);}}},'component',_vm.$attrs,false),[_vm._t("default",[_vm._v(_vm._s(_vm.page.number))])],2)};
   var __vue_staticRenderFns__ = [];
 
     /* style */
@@ -302,7 +222,7 @@
     
 
     
-    var Icon = normalizeComponent_1(
+    var PaginationButton = normalizeComponent_1(
       { render: __vue_render__, staticRenderFns: __vue_staticRenderFns__ },
       __vue_inject_styles__,
       __vue_script__,
@@ -313,9 +233,258 @@
       undefined
     );
 
+  var config = {
+    defaultContainerElement: null,
+    defaultIconPack: 'mdi',
+    defaultIconComponent: null,
+    defaultIconPrev: 'chevron-left',
+    defaultIconNext: 'chevron-right',
+    defaultDialogConfirmText: null,
+    defaultDialogCancelText: null,
+    defaultSnackbarDuration: 3500,
+    defaultSnackbarPosition: null,
+    defaultToastDuration: 2000,
+    defaultToastPosition: null,
+    defaultNotificationDuration: 2000,
+    defaultNotificationPosition: null,
+    defaultTooltipType: 'is-primary',
+    defaultTooltipAnimated: false,
+    defaultTooltipDelay: 0,
+    defaultInputAutocomplete: 'on',
+    defaultDateFormatter: null,
+    defaultDateParser: null,
+    defaultDateCreator: null,
+    defaultDayNames: null,
+    defaultMonthNames: null,
+    defaultFirstDayOfWeek: null,
+    defaultUnselectableDaysOfWeek: null,
+    defaultTimeFormatter: null,
+    defaultTimeParser: null,
+    defaultModalCanCancel: ['escape', 'x', 'outside', 'button'],
+    defaultModalScroll: null,
+    defaultDatepickerMobileNative: true,
+    defaultTimepickerMobileNative: true,
+    defaultNoticeQueue: true,
+    defaultInputHasCounter: true,
+    defaultTaginputHasCounter: true,
+    defaultUseHtml5Validation: true,
+    defaultDropdownMobileModal: true,
+    defaultFieldLabelPosition: null,
+    defaultDatepickerYearsRange: [-100, 3],
+    defaultDatepickerNearbyMonthDays: true,
+    defaultDatepickerNearbySelectableMonthDays: false,
+    defaultDatepickerShowWeekNumber: false,
+    defaultTrapFocus: false,
+    defaultButtonRounded: false,
+    customIconPacks: null // TODO defaultTrapFocus to true in the next breaking change
+
+  };
+  var config$1 = config;
+
+  /**
+  * Merge function to replace Object.assign with deep merging possibility
+  */
+
+  var isObject = function isObject(item) {
+    return _typeof(item) === 'object' && !Array.isArray(item);
+  };
+
+  var mergeFn = function mergeFn(target, source) {
+    var isDeep = function isDeep(prop) {
+      return isObject(source[prop]) && target.hasOwnProperty(prop) && isObject(target[prop]);
+    };
+
+    var replaced = Object.getOwnPropertyNames(source).map(function (prop) {
+      return _defineProperty({}, prop, isDeep(prop) ? mergeFn(target[prop], source[prop]) : source[prop]);
+    }).reduce(function (a, b) {
+      return _objectSpread2({}, a, {}, b);
+    }, {});
+    return _objectSpread2({}, target, {}, replaced);
+  };
+
+  var merge = mergeFn;
+
+  var mdiIcons = {
+    sizes: {
+      'default': 'mdi-24px',
+      'is-small': null,
+      'is-medium': 'mdi-36px',
+      'is-large': 'mdi-48px'
+    },
+    iconPrefix: 'mdi-'
+  };
+
+  var faIcons = function faIcons() {
+    var faIconPrefix = config$1 && config$1.defaultIconComponent ? '' : 'fa-';
+    return {
+      sizes: {
+        'default': faIconPrefix + 'lg',
+        'is-small': null,
+        'is-medium': faIconPrefix + '2x',
+        'is-large': faIconPrefix + '3x'
+      },
+      iconPrefix: faIconPrefix,
+      internalIcons: {
+        'information': 'info-circle',
+        'alert': 'exclamation-triangle',
+        'alert-circle': 'exclamation-circle',
+        'chevron-right': 'angle-right',
+        'chevron-left': 'angle-left',
+        'chevron-down': 'angle-down',
+        'eye-off': 'eye-slash',
+        'menu-down': 'caret-down',
+        'menu-up': 'caret-up'
+      }
+    };
+  };
+
+  var getIcons = function getIcons() {
+    var icons = {
+      mdi: mdiIcons,
+      fa: faIcons(),
+      fas: faIcons(),
+      far: faIcons(),
+      fad: faIcons(),
+      fab: faIcons(),
+      fal: faIcons()
+    };
+
+    if (config$1 && config$1.customIconPacks) {
+      icons = merge(icons, config$1.customIconPacks);
+    }
+
+    return icons;
+  };
+
+  //
   var script$1 = {
+    name: 'BIcon',
+    props: {
+      type: [String, Object],
+      component: String,
+      pack: String,
+      icon: String,
+      size: String,
+      customSize: String,
+      customClass: String,
+      both: Boolean // This is used internally to show both MDI and FA icon
+
+    },
+    computed: {
+      iconConfig: function iconConfig() {
+        var allIcons = getIcons();
+        return allIcons[this.newPack];
+      },
+      iconPrefix: function iconPrefix() {
+        if (this.iconConfig && this.iconConfig.iconPrefix) {
+          return this.iconConfig.iconPrefix;
+        }
+
+        return '';
+      },
+
+      /**
+      * Internal icon name based on the pack.
+      * If pack is 'fa', gets the equivalent FA icon name of the MDI,
+      * internal icons are always MDI.
+      */
+      newIcon: function newIcon() {
+        return "".concat(this.iconPrefix).concat(this.getEquivalentIconOf(this.icon));
+      },
+      newPack: function newPack() {
+        return this.pack || config$1.defaultIconPack;
+      },
+      newType: function newType() {
+        if (!this.type) return;
+        var splitType = [];
+
+        if (typeof this.type === 'string') {
+          splitType = this.type.split('-');
+        } else {
+          for (var key in this.type) {
+            if (this.type[key]) {
+              splitType = key.split('-');
+              break;
+            }
+          }
+        }
+
+        if (splitType.length <= 1) return;
+        return "has-text-".concat(splitType[1]);
+      },
+      newCustomSize: function newCustomSize() {
+        return this.customSize || this.customSizeByPack;
+      },
+      customSizeByPack: function customSizeByPack() {
+        if (this.iconConfig && this.iconConfig.sizes) {
+          if (this.size && this.iconConfig.sizes[this.size] !== undefined) {
+            return this.iconConfig.sizes[this.size];
+          } else if (this.iconConfig.sizes.default) {
+            return this.iconConfig.sizes.default;
+          }
+        }
+
+        return null;
+      },
+      useIconComponent: function useIconComponent() {
+        return this.component || config$1.defaultIconComponent;
+      }
+    },
+    methods: {
+      /**
+      * Equivalent icon name of the MDI.
+      */
+      getEquivalentIconOf: function getEquivalentIconOf(value) {
+        // Only transform the class if the both prop is set to true
+        if (!this.both) {
+          return value;
+        }
+
+        if (this.iconConfig && this.iconConfig.internalIcons && this.iconConfig.internalIcons[value]) {
+          return this.iconConfig.internalIcons[value];
+        }
+
+        return value;
+      }
+    }
+  };
+
+  /* script */
+  const __vue_script__$1 = script$1;
+
+  /* template */
+  var __vue_render__$1 = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('span',{staticClass:"icon",class:[_vm.newType, _vm.size]},[(!_vm.useIconComponent)?_c('i',{class:[_vm.newPack, _vm.newIcon, _vm.newCustomSize, _vm.customClass]}):_c(_vm.useIconComponent,{tag:"component",class:[_vm.customClass],attrs:{"icon":[_vm.newPack, _vm.newIcon],"size":_vm.newCustomSize}})],1)};
+  var __vue_staticRenderFns__$1 = [];
+
+    /* style */
+    const __vue_inject_styles__$1 = undefined;
+    /* scoped */
+    const __vue_scope_id__$1 = undefined;
+    /* module identifier */
+    const __vue_module_identifier__$1 = undefined;
+    /* functional template */
+    const __vue_is_functional_template__$1 = false;
+    /* style inject */
+    
+    /* style inject SSR */
+    
+
+    
+    var Icon = normalizeComponent_1(
+      { render: __vue_render__$1, staticRenderFns: __vue_staticRenderFns__$1 },
+      __vue_inject_styles__$1,
+      __vue_script__$1,
+      __vue_scope_id__$1,
+      __vue_is_functional_template__$1,
+      __vue_module_identifier__$1,
+      undefined,
+      undefined
+    );
+
+  var _components;
+  var script$2 = {
     name: 'BPagination',
-    components: _defineProperty({}, Icon.name, Icon),
+    components: (_components = {}, _defineProperty(_components, Icon.name, Icon), _defineProperty(_components, PaginationButton.name, PaginationButton), _components),
     props: {
       total: [Number, String],
       perPage: {
@@ -339,6 +508,14 @@
       rounded: Boolean,
       order: String,
       iconPack: String,
+      iconPrev: {
+        type: String,
+        default: config$1.defaultIconPrev
+      },
+      iconNext: {
+        type: String,
+        default: config$1.defaultIconNext
+      },
       ariaNextLabel: String,
       ariaPreviousLabel: String,
       ariaPageLabel: String,
@@ -420,8 +597,6 @@
       * Also add the click event to the array.
       */
       pagesInRange: function pagesInRange() {
-        var _this = this;
-
         if (this.simple) return;
         var left = Math.max(1, this.current - this.beforeCurrent);
 
@@ -437,27 +612,8 @@
 
         var pages = [];
 
-        var _loop = function _loop(i) {
-          pages.push({
-            number: i,
-            isCurrent: _this.current === i,
-            click: function click(event) {
-              if (_this.current === i) return;
-
-              _this.$emit('change', i);
-
-              _this.$emit('update:current', i); // Set focus on element to keep tab order
-
-
-              _this.$nextTick(function () {
-                return event.target.focus();
-              });
-            }
-          });
-        };
-
         for (var i = left; i <= right; i++) {
-          _loop(i);
+          pages.push(this.getPage(i));
         }
 
         return pages;
@@ -475,35 +631,55 @@
       /**
       * Previous button click listener.
       */
-      prev: function prev() {
-        if (!this.hasPrev) return;
-        this.$emit('change', this.current - 1);
-        this.$emit('update:current', this.current - 1);
-      },
-
-      /**
-      * First button click listener.
-      */
-      first: function first() {
-        this.$emit('change', 1);
-        this.$emit('update:current', 1);
-      },
-
-      /**
-      * Last button click listener.
-      */
-      last: function last() {
-        this.$emit('change', this.pageCount);
-        this.$emit('update:current', this.pageCount);
+      prev: function prev(event) {
+        this.changePage(this.current - 1, event);
       },
 
       /**
       * Next button click listener.
       */
-      next: function next() {
-        if (!this.hasNext) return;
-        this.$emit('change', this.current + 1);
-        this.$emit('update:current', this.current + 1);
+      next: function next(event) {
+        this.changePage(this.current + 1, event);
+      },
+
+      /**
+      * First button click listener.
+      */
+      first: function first(event) {
+        this.changePage(1, event);
+      },
+
+      /**
+      * Last button click listener.
+      */
+      last: function last(event) {
+        this.changePage(this.pageCount, event);
+      },
+      changePage: function changePage(num, event) {
+        if (this.current === num || num < 1 || num > this.pageCount) return;
+        this.$emit('change', num);
+        this.$emit('update:current', num); // Set focus on element to keep tab order
+
+        if (event && event.target) {
+          this.$nextTick(function () {
+            return event.target.focus();
+          });
+        }
+      },
+      getPage: function getPage(num) {
+        var _this = this;
+
+        var options = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
+        return {
+          number: num,
+          isCurrent: this.current === num,
+          click: function click(event) {
+            return _this.changePage(num, event);
+          },
+          disabled: options.disabled || false,
+          class: options.class || '',
+          'aria-label': options['aria-label'] || this.getAriaPageLabel(num, this.current === num)
+        };
       },
 
       /**
@@ -522,20 +698,28 @@
   };
 
   /* script */
-  const __vue_script__$1 = script$1;
+  const __vue_script__$2 = script$2;
 
   /* template */
-  var __vue_render__$1 = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('nav',{staticClass:"pagination",class:_vm.rootClasses},[_c('a',{staticClass:"pagination-previous",attrs:{"role":"button","href":"#","disabled":!_vm.hasPrev,"aria-label":_vm.ariaPreviousLabel},on:{"click":function($event){$event.preventDefault();_vm.prev($event);}}},[_c('b-icon',{attrs:{"icon":"chevron-left","pack":_vm.iconPack,"both":"","aria-hidden":"true"}})],1),_vm._v(" "),_c('a',{staticClass:"pagination-next",attrs:{"role":"button","href":"#","disabled":!_vm.hasNext,"aria-label":_vm.ariaNextLabel},on:{"click":function($event){$event.preventDefault();_vm.next($event);}}},[_c('b-icon',{attrs:{"icon":"chevron-right","pack":_vm.iconPack,"both":"","aria-hidden":"true"}})],1),_vm._v(" "),(!_vm.simple)?_c('ul',{staticClass:"pagination-list"},[(_vm.hasFirst)?_c('li',[_c('a',{staticClass:"pagination-link",attrs:{"role":"button","href":"#","aria-label":_vm.getAriaPageLabel(1, false)},on:{"click":function($event){$event.preventDefault();_vm.first($event);}}},[_vm._v("\n                1\n            ")])]):_vm._e(),_vm._v(" "),(_vm.hasFirstEllipsis)?_c('li',[_c('span',{staticClass:"pagination-ellipsis"},[_vm._v("…")])]):_vm._e(),_vm._v(" "),_vm._l((_vm.pagesInRange),function(page){return _c('li',{key:page.number},[_c('a',{staticClass:"pagination-link",class:{ 'is-current': page.isCurrent },attrs:{"role":"button","href":"#","aria-label":_vm.getAriaPageLabel(page.number, page.isCurrent),"aria-current":page.isCurrent},on:{"click":function($event){$event.preventDefault();page.click($event);}}},[_vm._v("\n                "+_vm._s(page.number)+"\n            ")])])}),_vm._v(" "),(_vm.hasLastEllipsis)?_c('li',[_c('span',{staticClass:"pagination-ellipsis"},[_vm._v("…")])]):_vm._e(),_vm._v(" "),(_vm.hasLast)?_c('li',[_c('a',{staticClass:"pagination-link",attrs:{"role":"button","href":"#","aria-label":_vm.getAriaPageLabel(_vm.pageCount, false)},on:{"click":function($event){$event.preventDefault();_vm.last($event);}}},[_vm._v("\n                "+_vm._s(_vm.pageCount)+"\n            ")])]):_vm._e()],2):_vm._e(),_vm._v(" "),(_vm.simple)?_c('small',{staticClass:"info"},[(_vm.perPage == 1)?[_vm._v("\n            "+_vm._s(_vm.firstItem)+" / "+_vm._s(_vm.total)+"\n        ")]:[_vm._v("\n            "+_vm._s(_vm.firstItem)+"-"+_vm._s(Math.min(_vm.current * _vm.perPage, _vm.total))+" / "+_vm._s(_vm.total)+"\n        ")]],2):_vm._e()])};
-  var __vue_staticRenderFns__$1 = [];
+  var __vue_render__$2 = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('nav',{staticClass:"pagination",class:_vm.rootClasses},[(_vm.$scopedSlots.previous)?_vm._t("previous",[_c('b-icon',{attrs:{"icon":_vm.iconPrev,"pack":_vm.iconPack,"both":"","aria-hidden":"true"}})],{page:_vm.getPage(_vm.current - 1, {
+              disabled: !_vm.hasPrev,
+              class: 'pagination-previous',
+              'aria-label': _vm.ariaPreviousLabel
+      })}):_c('BPaginationButton',{staticClass:"pagination-previous",attrs:{"disabled":!_vm.hasPrev,"page":_vm.getPage(_vm.current - 1)}},[_c('b-icon',{attrs:{"icon":_vm.iconPrev,"pack":_vm.iconPack,"both":"","aria-hidden":"true"}})],1),_vm._v(" "),(_vm.$scopedSlots.next)?_vm._t("next",[_c('b-icon',{attrs:{"icon":_vm.iconNext,"pack":_vm.iconPack,"both":"","aria-hidden":"true"}})],{page:_vm.getPage(_vm.current + 1, {
+              disabled: !_vm.hasNext,
+              class: 'pagination-next',
+              'aria-label': _vm.ariaNextLabel
+      })}):_c('BPaginationButton',{staticClass:"pagination-next",attrs:{"disabled":!_vm.hasNext,"page":_vm.getPage(_vm.current + 1)}},[_c('b-icon',{attrs:{"icon":_vm.iconNext,"pack":_vm.iconPack,"both":"","aria-hidden":"true"}})],1),_vm._v(" "),(_vm.simple)?_c('small',{staticClass:"info"},[(_vm.perPage == 1)?[_vm._v("\n            "+_vm._s(_vm.firstItem)+" / "+_vm._s(_vm.total)+"\n        ")]:[_vm._v("\n            "+_vm._s(_vm.firstItem)+"-"+_vm._s(Math.min(_vm.current * _vm.perPage, _vm.total))+" / "+_vm._s(_vm.total)+"\n        ")]],2):_c('ul',{staticClass:"pagination-list"},[(_vm.hasFirst)?_c('li',[(_vm.$scopedSlots.default)?_vm._t("default",null,{page:_vm.getPage(1)}):_c('BPaginationButton',{attrs:{"page":_vm.getPage(1)}})],2):_vm._e(),_vm._v(" "),(_vm.hasFirstEllipsis)?_c('li',[_c('span',{staticClass:"pagination-ellipsis"},[_vm._v("…")])]):_vm._e(),_vm._v(" "),_vm._l((_vm.pagesInRange),function(page){return _c('li',{key:page.number},[(_vm.$scopedSlots.default)?_vm._t("default",null,{page:page}):_c('BPaginationButton',{attrs:{"page":page}})],2)}),_vm._v(" "),(_vm.hasLastEllipsis)?_c('li',[_c('span',{staticClass:"pagination-ellipsis"},[_vm._v("…")])]):_vm._e(),_vm._v(" "),(_vm.hasLast)?_c('li',[(_vm.$scopedSlots.default)?_vm._t("default",null,{page:_vm.getPage(_vm.pageCount)}):_c('BPaginationButton',{attrs:{"page":_vm.getPage(_vm.pageCount)}})],2):_vm._e()],2)],2)};
+  var __vue_staticRenderFns__$2 = [];
 
     /* style */
-    const __vue_inject_styles__$1 = undefined;
+    const __vue_inject_styles__$2 = undefined;
     /* scoped */
-    const __vue_scope_id__$1 = undefined;
+    const __vue_scope_id__$2 = undefined;
     /* module identifier */
-    const __vue_module_identifier__$1 = undefined;
+    const __vue_module_identifier__$2 = undefined;
     /* functional template */
-    const __vue_is_functional_template__$1 = false;
+    const __vue_is_functional_template__$2 = false;
     /* style inject */
     
     /* style inject SSR */
@@ -543,12 +727,12 @@
 
     
     var Pagination = normalizeComponent_1(
-      { render: __vue_render__$1, staticRenderFns: __vue_staticRenderFns__$1 },
-      __vue_inject_styles__$1,
-      __vue_script__$1,
-      __vue_scope_id__$1,
-      __vue_is_functional_template__$1,
-      __vue_module_identifier__$1,
+      { render: __vue_render__$2, staticRenderFns: __vue_staticRenderFns__$2 },
+      __vue_inject_styles__$2,
+      __vue_script__$2,
+      __vue_scope_id__$2,
+      __vue_is_functional_template__$2,
+      __vue_module_identifier__$2,
       undefined,
       undefined
     );
@@ -565,11 +749,11 @@
   var Plugin = {
     install: function install(Vue) {
       registerComponent(Vue, Pagination);
+      registerComponent(Vue, PaginationButton);
     }
   };
   use(Plugin);
 
-  exports.Pagination = Pagination;
   exports.default = Plugin;
 
   Object.defineProperty(exports, '__esModule', { value: true });

@@ -2,10 +2,10 @@
 
 Object.defineProperty(exports, '__esModule', { value: true });
 
-require('./chunk-545f01b1.js');
-var __chunk_4 = require('./chunk-c146745e.js');
+require('./chunk-98a92ff2.js');
+var __chunk_4 = require('./chunk-191e0131.js');
 var __chunk_6 = require('./chunk-13e039f5.js');
-var __chunk_15 = require('./chunk-f1df1c63.js');
+var __chunk_18 = require('./chunk-f1df1c63.js');
 
 //
 var script = {
@@ -14,7 +14,7 @@ var script = {
   inheritAttrs: false,
   props: {
     value: {
-      type: [Object, Function, __chunk_15.File, Array]
+      type: [Object, Function, __chunk_18.File, Array]
     },
     multiple: Boolean,
     disabled: Boolean,
@@ -206,5 +206,4 @@ var Plugin = {
 };
 __chunk_6.use(Plugin);
 
-exports.Upload = Upload;
 exports.default = Plugin;
