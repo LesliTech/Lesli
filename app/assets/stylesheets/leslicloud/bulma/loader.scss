@@ -25,6 +25,7 @@ Building a better future, one line of code at a time.
 // · 
 */
 
+$primary: lesli-color(lesli, primary);
 
 // · 
 @import "bulma/sass/utilities/_all";
@@ -40,6 +41,7 @@ $custom-colors: (
     
 );
 
+/*
 
 // · Override framework colors
 $colors: mergeColorMaps(
@@ -58,6 +60,7 @@ $colors: mergeColorMaps(
     $custom-colors
 );
 
+*/
 
 // · Links
 $link: $primary;
@@ -77,9 +80,3 @@ $control-radius-small: $radius-small;
 // · Import Bulma and Buefy styles
 @import "bulma/bulma.sass";
 @import "buefy/src/scss/buefy";
-
-
-.card.box {
-    padding: 0px;
-}
-  
