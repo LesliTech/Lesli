@@ -1,9 +1,23 @@
-/*! Buefy v0.8.2 | MIT License | github.com/buefy/buefy */
+/*! Buefy v0.8.6 | MIT License | github.com/buefy/buefy */
 (function (global, factory) {
   typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports) :
   typeof define === 'function' && define.amd ? define(['exports'], factory) :
   (global = global || self, factory(global.Datepicker = {}));
 }(this, function (exports) { 'use strict';
+
+  function _typeof(obj) {
+    if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") {
+      _typeof = function (obj) {
+        return typeof obj;
+      };
+    } else {
+      _typeof = function (obj) {
+        return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj;
+      };
+    }
+
+    return _typeof(obj);
+  }
 
   function _defineProperty(obj, key, value) {
     if (key in obj) {
@@ -20,10 +34,45 @@
     return obj;
   }
 
+  function ownKeys(object, enumerableOnly) {
+    var keys = Object.keys(object);
+
+    if (Object.getOwnPropertySymbols) {
+      keys.push.apply(keys, Object.getOwnPropertySymbols(object));
+    }
+
+    if (enumerableOnly) keys = keys.filter(function (sym) {
+      return Object.getOwnPropertyDescriptor(object, sym).enumerable;
+    });
+    return keys;
+  }
+
+  function _objectSpread2(target) {
+    for (var i = 1; i < arguments.length; i++) {
+      var source = arguments[i] != null ? arguments[i] : {};
+
+      if (i % 2) {
+        ownKeys(source, true).forEach(function (key) {
+          _defineProperty(target, key, source[key]);
+        });
+      } else if (Object.getOwnPropertyDescriptors) {
+        Object.defineProperties(target, Object.getOwnPropertyDescriptors(source));
+      } else {
+        ownKeys(source).forEach(function (key) {
+          Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key));
+        });
+      }
+    }
+
+    return target;
+  }
+
   var config = {
     defaultContainerElement: null,
     defaultIconPack: 'mdi',
     defaultIconComponent: null,
+    defaultIconPrev: 'chevron-left',
+    defaultIconNext: 'chevron-right',
     defaultDialogConfirmText: null,
     defaultDialogCancelText: null,
     defaultSnackbarDuration: 3500,
@@ -58,7 +107,11 @@
     defaultDatepickerYearsRange: [-100, 3],
     defaultDatepickerNearbyMonthDays: true,
     defaultDatepickerNearbySelectableMonthDays: false,
-    defaultDatepickerShowWeekNumber: false
+    defaultDatepickerShowWeekNumber: false,
+    defaultTrapFocus: false,
+    defaultButtonRounded: false,
+    customIconPacks: null // TODO defaultTrapFocus to true in the next breaking change
+
   };
   var config$1 = config;
 
@@ -169,29 +222,17 @@
         this.isFocused = true;
         this.$emit('focus', $event);
       },
-
-      /**
-       * Check HTML5 validation, set isValid property.
-       * If validation fail, send 'is-danger' type,
-       * and error message to parent if it's a Field.
-       */
-      checkHtml5Validity: function checkHtml5Validity() {
+      getElement: function getElement() {
+        return this.$el.querySelector(this.$data._elementRef);
+      },
+      setInvalid: function setInvalid() {
+        var type = 'is-danger';
+        var message = this.validationMessage || this.getElement().validationMessage;
+        this.setValidity(type, message);
+      },
+      setValidity: function setValidity(type, message) {
         var _this2 = this;
 
-        if (!this.useHtml5Validation) return;
-        if (this.$refs[this.$data._elementRef] === undefined) return;
-        var el = this.$el.querySelector(this.$data._elementRef);
-        var type = null;
-        var message = null;
-        var isValid = true;
-
-        if (!el.checkValidity()) {
-          type = 'is-danger';
-          message = this.validationMessage || el.validationMessage;
-          isValid = false;
-        }
-
-        this.isValid = isValid;
         this.$nextTick(function () {
           if (_this2.parentField) {
             // Set type only if not defined
@@ -205,14 +246,52 @@
             }
           }
         });
+      },
+
+      /**
+       * Check HTML5 validation, set isValid property.
+       * If validation fail, send 'is-danger' type,
+       * and error message to parent if it's a Field.
+       */
+      checkHtml5Validity: function checkHtml5Validity() {
+        if (!this.useHtml5Validation) return;
+        if (this.$refs[this.$data._elementRef] === undefined) return;
+
+        if (!this.getElement().checkValidity()) {
+          this.setInvalid();
+          this.isValid = false;
+        } else {
+          this.setValidity(null, null);
+          this.isValid = true;
+        }
+
         return this.isValid;
       }
     }
   };
 
   /**
-   * Get value of an object property/path even if it's nested
-   */
+  * Merge function to replace Object.assign with deep merging possibility
+  */
+
+  var isObject = function isObject(item) {
+    return _typeof(item) === 'object' && !Array.isArray(item);
+  };
+
+  var mergeFn = function mergeFn(target, source) {
+    var isDeep = function isDeep(prop) {
+      return isObject(source[prop]) && target.hasOwnProperty(prop) && isObject(target[prop]);
+    };
+
+    var replaced = Object.getOwnPropertyNames(source).map(function (prop) {
+      return _defineProperty({}, prop, isDeep(prop) ? mergeFn(target[prop], source[prop]) : source[prop]);
+    }).reduce(function (a, b) {
+      return _objectSpread2({}, a, {}, b);
+    }, {});
+    return _objectSpread2({}, target, {}, replaced);
+  };
+
+  var merge = mergeFn;
   /**
    * Mobile detection
    * https://www.abeautifulsite.net/detecting-mobile-devices-with-javascript
@@ -239,9 +318,59 @@
     }
   };
 
+  var findFocusable = function findFocusable(element) {
+    if (!element) {
+      return null;
+    }
+
+    return element.querySelectorAll("a[href],\n                                     area[href],\n                                     input:not([disabled]),\n                                     select:not([disabled]),\n                                     textarea:not([disabled]),\n                                     button:not([disabled]),\n                                     iframe,\n                                     object,\n                                     embed,\n                                     *[tabindex],\n                                     *[contenteditable]");
+  };
+
+  var onKeyDown;
+
+  var bind = function bind(el, _ref) {
+    var _ref$value = _ref.value,
+        value = _ref$value === void 0 ? true : _ref$value;
+
+    if (value) {
+      var focusable = findFocusable(el);
+
+      if (focusable && focusable.length > 0) {
+        var firstFocusable = focusable[0];
+        var lastFocusable = focusable[focusable.length - 1];
+
+        onKeyDown = function onKeyDown(event) {
+          if (event.target === firstFocusable && event.shiftKey && event.key === 'Tab') {
+            event.preventDefault();
+            lastFocusable.focus();
+          } else if (event.target === lastFocusable && !event.shiftKey && event.key === 'Tab') {
+            event.preventDefault();
+            firstFocusable.focus();
+          }
+        };
+
+        el.addEventListener('keydown', onKeyDown);
+        firstFocusable.focus();
+      }
+    }
+  };
+
+  var unbind = function unbind(el) {
+    el.removeEventListener('keydown', onKeyDown);
+  };
+
+  var directive = {
+    bind: bind,
+    unbind: unbind
+  };
+
   //
+  var DEFAULT_CLOSE_OPTIONS = ['escape', 'outside'];
   var script = {
     name: 'BDropdown',
+    directives: {
+      trapFocus: directive
+    },
     props: {
       value: {
         type: [String, Number, Boolean, Object, Array, Function],
@@ -271,10 +400,19 @@
         default: 'fade'
       },
       multiple: Boolean,
+      trapFocus: {
+        type: Boolean,
+        default: config$1.defaultTrapFocus
+      },
       closeOnClick: {
         type: Boolean,
         default: true
-      }
+      },
+      canClose: {
+        type: [Array, Boolean],
+        default: true
+      },
+      expanded: Boolean
     },
     data: function data() {
       return {
@@ -292,11 +430,15 @@
           'is-hoverable': this.hoverable,
           'is-inline': this.inline,
           'is-active': this.isActive || this.inline,
-          'is-mobile-modal': this.isMobileModal
+          'is-mobile-modal': this.isMobileModal,
+          'is-expanded': this.expanded
         }];
       },
       isMobileModal: function isMobileModal() {
         return this.mobileModal && !this.inline && !this.hoverable;
+      },
+      cancelOptions: function cancelOptions() {
+        return typeof this.canClose === 'boolean' ? this.canClose ? DEFAULT_CLOSE_OPTIONS : [] : this.canClose;
       },
       ariaRoleMenu: function ariaRoleMenu() {
         return this.ariaRole === 'menu' || this.ariaRole === 'list' ? this.ariaRole : null;
@@ -439,8 +581,20 @@
       * Close dropdown if clicked outside.
       */
       clickedOutside: function clickedOutside(event) {
+        if (this.cancelOptions.indexOf('outside') < 0) return;
         if (this.inline) return;
         if (!this.isInWhiteList(event.target)) this.isActive = false;
+      },
+
+      /**
+       * Keypress event that is bound to the document
+       */
+      keyPress: function keyPress(event) {
+        // Esc key
+        if (this.isActive && event.keyCode === 27) {
+          if (this.cancelOptions.indexOf('escape') < 0) return;
+          this.isActive = false;
+        }
       },
 
       /**
@@ -470,11 +624,13 @@
     created: function created() {
       if (typeof window !== 'undefined') {
         document.addEventListener('click', this.clickedOutside);
+        document.addEventListener('keyup', this.keyPress);
       }
     },
     beforeDestroy: function beforeDestroy() {
       if (typeof window !== 'undefined') {
         document.removeEventListener('click', this.clickedOutside);
+        document.removeEventListener('keyup', this.keyPress);
       }
     }
   };
@@ -568,7 +724,7 @@
   const __vue_script__ = script;
 
   /* template */
-  var __vue_render__ = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"dropdown",class:_vm.rootClasses},[(!_vm.inline)?_c('div',{ref:"trigger",staticClass:"dropdown-trigger",attrs:{"role":"button","aria-haspopup":"true"},on:{"click":_vm.toggle}},[_vm._t("trigger")],2):_vm._e(),_vm._v(" "),_c('transition',{attrs:{"name":_vm.animation}},[(_vm.isMobileModal)?_c('div',{directives:[{name:"show",rawName:"v-show",value:(_vm.isActive),expression:"isActive"}],staticClass:"background",attrs:{"aria-hidden":!_vm.isActive}}):_vm._e()]),_vm._v(" "),_c('transition',{attrs:{"name":_vm.animation}},[_c('div',{directives:[{name:"show",rawName:"v-show",value:((!_vm.disabled && (_vm.isActive || _vm.isHoverable)) || _vm.inline),expression:"(!disabled && (isActive || isHoverable)) || inline"}],ref:"dropdownMenu",staticClass:"dropdown-menu",attrs:{"aria-hidden":!_vm.isActive}},[_c('div',{staticClass:"dropdown-content",attrs:{"role":_vm.ariaRoleMenu}},[_vm._t("default")],2)])])],1)};
+  var __vue_render__ = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"dropdown",class:_vm.rootClasses},[(!_vm.inline)?_c('div',{ref:"trigger",staticClass:"dropdown-trigger",attrs:{"role":"button","aria-haspopup":"true"},on:{"click":_vm.toggle}},[_vm._t("trigger")],2):_vm._e(),_vm._v(" "),_c('transition',{attrs:{"name":_vm.animation}},[(_vm.isMobileModal)?_c('div',{directives:[{name:"show",rawName:"v-show",value:(_vm.isActive),expression:"isActive"}],staticClass:"background",attrs:{"aria-hidden":!_vm.isActive}}):_vm._e()]),_vm._v(" "),_c('transition',{attrs:{"name":_vm.animation}},[_c('div',{directives:[{name:"show",rawName:"v-show",value:((!_vm.disabled && (_vm.isActive || _vm.isHoverable)) || _vm.inline),expression:"(!disabled && (isActive || isHoverable)) || inline"},{name:"trap-focus",rawName:"v-trap-focus",value:(_vm.trapFocus),expression:"trapFocus"}],ref:"dropdownMenu",staticClass:"dropdown-menu",attrs:{"aria-hidden":!_vm.isActive}},[_c('div',{staticClass:"dropdown-content",attrs:{"role":_vm.ariaRoleMenu}},[_vm._t("default")],2)])])],1)};
   var __vue_staticRenderFns__ = [];
 
     /* style */
@@ -721,11 +877,64 @@
       undefined
     );
 
+  var mdiIcons = {
+    sizes: {
+      'default': 'mdi-24px',
+      'is-small': null,
+      'is-medium': 'mdi-36px',
+      'is-large': 'mdi-48px'
+    },
+    iconPrefix: 'mdi-'
+  };
+
+  var faIcons = function faIcons() {
+    var faIconPrefix = config$1 && config$1.defaultIconComponent ? '' : 'fa-';
+    return {
+      sizes: {
+        'default': faIconPrefix + 'lg',
+        'is-small': null,
+        'is-medium': faIconPrefix + '2x',
+        'is-large': faIconPrefix + '3x'
+      },
+      iconPrefix: faIconPrefix,
+      internalIcons: {
+        'information': 'info-circle',
+        'alert': 'exclamation-triangle',
+        'alert-circle': 'exclamation-circle',
+        'chevron-right': 'angle-right',
+        'chevron-left': 'angle-left',
+        'chevron-down': 'angle-down',
+        'eye-off': 'eye-slash',
+        'menu-down': 'caret-down',
+        'menu-up': 'caret-up'
+      }
+    };
+  };
+
+  var getIcons = function getIcons() {
+    var icons = {
+      mdi: mdiIcons,
+      fa: faIcons(),
+      fas: faIcons(),
+      far: faIcons(),
+      fad: faIcons(),
+      fab: faIcons(),
+      fal: faIcons()
+    };
+
+    if (config$1 && config$1.customIconPacks) {
+      icons = merge(icons, config$1.customIconPacks);
+    }
+
+    return icons;
+  };
+
   //
   var script$2 = {
     name: 'BIcon',
     props: {
       type: [String, Object],
+      component: String,
       pack: String,
       icon: String,
       size: String,
@@ -735,13 +944,25 @@
 
     },
     computed: {
+      iconConfig: function iconConfig() {
+        var allIcons = getIcons();
+        return allIcons[this.newPack];
+      },
+      iconPrefix: function iconPrefix() {
+        if (this.iconConfig && this.iconConfig.iconPrefix) {
+          return this.iconConfig.iconPrefix;
+        }
+
+        return '';
+      },
+
       /**
       * Internal icon name based on the pack.
       * If pack is 'fa', gets the equivalent FA icon name of the MDI,
       * internal icons are always MDI.
       */
       newIcon: function newIcon() {
-        return this.newPack === 'mdi' ? "".concat(this.newPack, "-").concat(this.icon) : this.addFAPrefix(this.getEquivalentIconOf(this.icon));
+        return "".concat(this.iconPrefix).concat(this.getEquivalentIconOf(this.icon));
       },
       newPack: function newPack() {
         return this.pack || config$1.defaultIconPack;
@@ -768,39 +989,23 @@
         return this.customSize || this.customSizeByPack;
       },
       customSizeByPack: function customSizeByPack() {
-        var defaultSize = this.newPack === 'mdi' ? 'mdi-24px' : this.addFAPrefix('lg');
-        var mediumSize = this.newPack === 'mdi' ? 'mdi-36px' : this.addFAPrefix('2x');
-        var largeSize = this.newPack === 'mdi' ? 'mdi-48px' : this.addFAPrefix('3x');
-
-        switch (this.size) {
-          case 'is-small':
-            return;
-
-          case 'is-medium':
-            return mediumSize;
-
-          case 'is-large':
-            return largeSize;
-
-          default:
-            return defaultSize;
+        if (this.iconConfig && this.iconConfig.sizes) {
+          if (this.size && this.iconConfig.sizes[this.size] !== undefined) {
+            return this.iconConfig.sizes[this.size];
+          } else if (this.iconConfig.sizes.default) {
+            return this.iconConfig.sizes.default;
+          }
         }
+
+        return null;
       },
       useIconComponent: function useIconComponent() {
-        return config$1.defaultIconComponent;
+        return this.component || config$1.defaultIconComponent;
       }
     },
     methods: {
-      addFAPrefix: function addFAPrefix(value) {
-        if (this.useIconComponent) {
-          return value;
-        }
-
-        return "fa-".concat(value);
-      },
-
       /**
-      * Equivalent FA icon name of the MDI.
+      * Equivalent icon name of the MDI.
       */
       getEquivalentIconOf: function getEquivalentIconOf(value) {
         // Only transform the class if the both prop is set to true
@@ -808,49 +1013,11 @@
           return value;
         }
 
-        switch (value) {
-          case 'check':
-            return 'check';
-
-          case 'information':
-            return 'info-circle';
-
-          case 'check-circle':
-            return 'check-circle';
-
-          case 'alert':
-            return 'exclamation-triangle';
-
-          case 'alert-circle':
-            return 'exclamation-circle';
-
-          case 'arrow-up':
-            return 'arrow-up';
-
-          case 'chevron-right':
-            return 'angle-right';
-
-          case 'chevron-left':
-            return 'angle-left';
-
-          case 'chevron-down':
-            return 'angle-down';
-
-          case 'eye':
-            return 'eye';
-
-          case 'eye-off':
-            return 'eye-slash';
-
-          case 'menu-down':
-            return 'caret-down';
-
-          case 'menu-up':
-            return 'caret-up';
-
-          default:
-            return value;
+        if (this.iconConfig && this.iconConfig.internalIcons && this.iconConfig.internalIcons[value]) {
+          return this.iconConfig.internalIcons[value];
         }
+
+        return value;
       }
     }
   };
@@ -1509,6 +1676,8 @@
           return false;
         }
       },
+      range: Boolean,
+      multiple: Boolean,
       rulesForFirstWeek: {
         type: Number,
         default: function _default() {
@@ -1533,8 +1702,7 @@
         return year % 4 === 0 && year % 100 !== 0 || year % 400 === 0;
       },
       getSetDayOfYear: function getSetDayOfYear(input) {
-        var dayOfYear = Math.round((input - new Date(input.getFullYear(), 0, 1)) / 864e5) + 1;
-        return dayOfYear;
+        return Math.round((input - new Date(input.getFullYear(), 0, 1)) / 864e5) + 1;
       },
       weeksInYear: function weeksInYear(year, dow, doy) {
         var weekOffset = this.firstWeekOffset(year, dow, doy);
@@ -1644,9 +1812,10 @@
       * Build classObject for cell using validations
       */
       classObject: function classObject(day) {
-        function dateMatch(dateOne, dateTwo) {
+        function dateMatch(dateOne, dateTwo, multiple) {
           // if either date is null or undefined, return false
-          if (!dateOne || !dateTwo) {
+          // if using multiple flag, return false
+          if (!dateOne || !dateTwo || multiple) {
             return false;
           }
 
@@ -1659,8 +1828,8 @@
           return dateOne.getDate() === dateTwo.getDate() && dateOne.getFullYear() === dateTwo.getFullYear() && dateOne.getMonth() === dateTwo.getMonth();
         }
 
-        function dateWithin(dateOne, dates) {
-          if (!Array.isArray(dates)) {
+        function dateWithin(dateOne, dates, multiple) {
+          if (!Array.isArray(dates) || multiple) {
             return false;
           }
 
@@ -1668,10 +1837,10 @@
         }
 
         return {
-          'is-selected': dateMatch(day, this.selectedDate) || dateWithin(day, this.selectedDate),
-          'is-first-selected': dateMatch(day, Array.isArray(this.selectedDate) && this.selectedDate[0]),
-          'is-within-selected': dateWithin(day, this.selectedDate),
-          'is-last-selected': dateMatch(day, Array.isArray(this.selectedDate) && this.selectedDate[1]),
+          'is-selected': dateMatch(day, this.selectedDate) || dateWithin(day, this.selectedDate, this.multiple),
+          'is-first-selected': dateMatch(day, Array.isArray(this.selectedDate) && this.selectedDate[0], this.multiple),
+          'is-within-selected': dateWithin(day, this.selectedDate, this.multiple),
+          'is-last-selected': dateMatch(day, Array.isArray(this.selectedDate) && this.selectedDate[1], this.multiple),
           'is-within-hovered-range': this.hoveredDateRange && this.hoveredDateRange.length === 2 && (dateMatch(day, this.hoveredDateRange) || dateWithin(day, this.hoveredDateRange)),
           'is-first-hovered': dateMatch(day, Array.isArray(this.hoveredDateRange) && this.hoveredDateRange[0]),
           'is-within-hovered': dateWithin(day, this.hoveredDateRange),
@@ -1684,9 +1853,7 @@
         };
       },
       setRangeHoverEndDate: function setRangeHoverEndDate(day) {
-        var isRangeInput = Array.isArray(this.selectedDate);
-
-        if (isRangeInput) {
+        if (this.range) {
           this.$emit('rangeHoverEndDate', day);
         }
       }
@@ -1763,13 +1930,15 @@
           return 4;
         }
       },
-      range: Boolean
+      range: Boolean,
+      multiple: Boolean
     },
     data: function data() {
       return {
         selectedBeginDate: undefined,
         selectedEndDate: undefined,
-        hoveredEndDate: undefined
+        hoveredEndDate: undefined,
+        multipleSelectedDates: []
       };
     },
     computed: {
@@ -1825,22 +1994,11 @@
         var month = this.focused.month;
         var year = this.focused.year;
         var weeksInThisMonth = [];
-        var daysInThisMonth = new Date(year, month + 1, 0).getDate();
         var startingDay = 1;
 
-        while (startingDay <= daysInThisMonth + 6) {
+        while (weeksInThisMonth.length < 6) {
           var newWeek = this.weekBuilder(startingDay, month, year);
-          var weekValid = false;
-          newWeek.forEach(function (day) {
-            if (day.getMonth() === month) {
-              weekValid = true;
-            }
-          });
-
-          if (weekValid) {
-            weeksInThisMonth.push(newWeek);
-          }
-
+          weeksInThisMonth.push(newWeek);
           startingDay += 7;
         }
 
@@ -1867,10 +2025,12 @@
       * Emit input event with selected date as payload for v-model in parent
       */
       updateSelectedDate: function updateSelectedDate(date) {
-        if (!this.range) {
+        if (!this.range && !this.multiple) {
           this.$emit('input', date);
-        } else {
+        } else if (this.range) {
           this.handleSelectRangeDate(date);
+        } else if (this.multiple) {
+          this.handleSelectMultipleDates(date);
         }
       },
 
@@ -1895,6 +2055,24 @@
         } else {
           this.selectedBeginDate = date;
         }
+      },
+
+      /*
+      * If selected date already exists list of selected dates, remove it from the list
+      * Otherwise, add date to list of selected dates
+      */
+      handleSelectMultipleDates: function handleSelectMultipleDates(date) {
+        if (this.multipleSelectedDates.find(function (selectedDate) {
+          return selectedDate.valueOf() === date.valueOf();
+        })) {
+          this.multipleSelectedDates = this.multipleSelectedDates.filter(function (selectedDate) {
+            return selectedDate.valueOf() !== date.valueOf();
+          });
+        } else {
+          this.multipleSelectedDates.push(date);
+        }
+
+        this.$emit('input', this.multipleSelectedDates);
       },
 
       /*
@@ -1925,10 +2103,7 @@
       eventsInThisWeek: function eventsInThisWeek(week) {
         return this.eventsInThisMonth.filter(function (event) {
           var stripped = new Date(Date.parse(event.date));
-          stripped.setHours(0);
-          stripped.setMinutes(0);
-          stripped.setSeconds(0);
-          stripped.setMilliseconds(0);
+          stripped.setHours(0, 0, 0, 0);
           var timed = stripped.getTime();
           return week.some(function (weekDate) {
             return weekDate.getTime() === timed;
@@ -1945,7 +2120,7 @@
   const __vue_script__$8 = script$8;
 
   /* template */
-  var __vue_render__$7 = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('section',{staticClass:"datepicker-table"},[_c('header',{staticClass:"datepicker-header"},_vm._l((_vm.visibleDayNames),function(day,index){return _c('div',{key:index,staticClass:"datepicker-cell"},[_vm._v("\n            "+_vm._s(day)+"\n        ")])})),_vm._v(" "),_c('div',{staticClass:"datepicker-body",class:{'has-events':_vm.hasEvents}},_vm._l((_vm.weeksInThisMonth),function(week,index){return _c('b-datepicker-table-row',{key:index,attrs:{"selected-date":_vm.value,"week":week,"month":_vm.focused.month,"min-date":_vm.minDate,"max-date":_vm.maxDate,"disabled":_vm.disabled,"unselectable-dates":_vm.unselectableDates,"unselectable-days-of-week":_vm.unselectableDaysOfWeek,"selectable-dates":_vm.selectableDates,"events":_vm.eventsInThisWeek(week),"indicators":_vm.indicators,"date-creator":_vm.dateCreator,"nearby-month-days":_vm.nearbyMonthDays,"nearby-selectable-month-days":_vm.nearbySelectableMonthDays,"show-week-number":_vm.showWeekNumber,"first-day-of-week":_vm.firstDayOfWeek,"rules-for-first-week":_vm.rulesForFirstWeek,"range":_vm.range,"hovered-date-range":_vm.hoveredDateRange},on:{"select":_vm.updateSelectedDate,"rangeHoverEndDate":_vm.setRangeHoverEndDate}})}))])};
+  var __vue_render__$7 = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('section',{staticClass:"datepicker-table"},[_c('header',{staticClass:"datepicker-header"},_vm._l((_vm.visibleDayNames),function(day,index){return _c('div',{key:index,staticClass:"datepicker-cell"},[_vm._v("\n            "+_vm._s(day)+"\n        ")])})),_vm._v(" "),_c('div',{staticClass:"datepicker-body",class:{'has-events':_vm.hasEvents}},_vm._l((_vm.weeksInThisMonth),function(week,index){return _c('b-datepicker-table-row',{key:index,attrs:{"selected-date":_vm.value,"week":week,"month":_vm.focused.month,"min-date":_vm.minDate,"max-date":_vm.maxDate,"disabled":_vm.disabled,"unselectable-dates":_vm.unselectableDates,"unselectable-days-of-week":_vm.unselectableDaysOfWeek,"selectable-dates":_vm.selectableDates,"events":_vm.eventsInThisWeek(week),"indicators":_vm.indicators,"date-creator":_vm.dateCreator,"nearby-month-days":_vm.nearbyMonthDays,"nearby-selectable-month-days":_vm.nearbySelectableMonthDays,"show-week-number":_vm.showWeekNumber,"first-day-of-week":_vm.firstDayOfWeek,"rules-for-first-week":_vm.rulesForFirstWeek,"range":_vm.range,"hovered-date-range":_vm.hoveredDateRange,"multiple":_vm.multiple},on:{"select":_vm.updateSelectedDate,"rangeHoverEndDate":_vm.setRangeHoverEndDate}})}))])};
   var __vue_staticRenderFns__$7 = [];
 
     /* style */
@@ -2209,14 +2384,15 @@
 
   var defaultDateFormatter = function defaultDateFormatter(date, vm) {
     var targetDates = Array.isArray(date) ? date : [date];
-    return targetDates.map(function (date) {
+    var dates = targetDates.map(function (date) {
       var yyyyMMdd = date.getFullYear() + '/' + (date.getMonth() + 1) + '/' + date.getDate();
       var d = new Date(yyyyMMdd);
       return !vm.isTypeMonth ? d.toLocaleDateString() : d.toLocaleDateString(undefined, {
         year: 'numeric',
         month: '2-digit'
       });
-    }).join(' - ');
+    });
+    return !vm.multiple ? dates.join(' - ') : dates.join(', ');
   };
 
   var defaultDateParser = function defaultDateParser(date, vm) {
@@ -2332,6 +2508,14 @@
         default: 'dots'
       },
       openOnFocus: Boolean,
+      iconPrev: {
+        type: String,
+        default: config$1.defaultIconPrev
+      },
+      iconNext: {
+        type: String,
+        default: config$1.defaultIconNext
+      },
       yearsRange: {
         type: Array,
         default: function _default() {
@@ -2371,10 +2555,18 @@
       range: {
         type: Boolean,
         default: false
+      },
+      closeOnClick: {
+        type: Boolean,
+        default: true
+      },
+      multiple: {
+        type: Boolean,
+        default: false
       }
     },
     data: function data() {
-      var focusedDate = Array.isArray(this.value) ? this.value[0] : this.value || this.focusedDate || this.dateCreator();
+      var focusedDate = (Array.isArray(this.value) ? this.value[0] : this.value) || this.focusedDate || this.dateCreator();
       return {
         dateSelected: this.value,
         focusedDateData: {
@@ -2392,7 +2584,7 @@
         },
         set: function set(value) {
           this.updateInternalState(value);
-          this.togglePicker(false);
+          if (!this.multiple) this.togglePicker(false);
           this.$emit('input', value);
         }
       },
@@ -2459,7 +2651,7 @@
       */
       value: function value(_value) {
         this.updateInternalState(_value);
-        this.togglePicker(false);
+        if (!this.multiple) this.togglePicker(false);
         !this.isValid && this.$refs.input.checkHtml5Validity();
       },
       focusedDate: function focusedDate(value) {
@@ -2488,7 +2680,7 @@
       onChange: function onChange(value) {
         var date = this.dateParser(value, this);
 
-        if (date && !isNaN(date)) {
+        if (date && (!isNaN(date) || Array.isArray(date) && date.length === 2 && !isNaN(date[0]) && !isNaN(date[1]))) {
           this.computedValue = date;
         } else {
           // Force refresh input value when not valid date
@@ -2588,10 +2780,10 @@
       */
       onChangeNativePicker: function onChangeNativePicker(event) {
         var date = event.target.value;
-        this.computedValue = date ? new Date(date + ' 00:00:00') : null;
+        this.computedValue = date ? new Date(date + 'T00:00:00') : null;
       },
       updateInternalState: function updateInternalState(value) {
-        var currentDate = Array.isArray(value) ? value[0] : !value ? this.dateCreator() : value;
+        var currentDate = Array.isArray(value) ? !value.length ? this.dateCreator() : value[0] : !value ? this.dateCreator() : value;
         this.focusedDateData = {
           month: currentDate.getMonth(),
           year: currentDate.getFullYear()
@@ -2604,7 +2796,9 @@
       */
       togglePicker: function togglePicker(active) {
         if (this.$refs.dropdown) {
-          this.$refs.dropdown.isActive = typeof active === 'boolean' ? active : !this.$refs.dropdown.isActive;
+          if (this.closeOnClick) {
+            this.$refs.dropdown.isActive = typeof active === 'boolean' ? active : !this.$refs.dropdown.isActive;
+          }
         }
       },
 
@@ -2668,7 +2862,7 @@
   const __vue_script__$a = script$a;
 
   /* template */
-  var __vue_render__$9 = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"datepicker control",class:[_vm.size, {'is-expanded': _vm.expanded}]},[(!_vm.isMobile || _vm.inline)?_c('b-dropdown',{ref:"dropdown",attrs:{"position":_vm.position,"disabled":_vm.disabled,"inline":_vm.inline}},[(!_vm.inline)?_c('b-input',_vm._b({ref:"input",attrs:{"slot":"trigger","autocomplete":"off","value":_vm.formatValue(_vm.computedValue),"placeholder":_vm.placeholder,"size":_vm.size,"icon":_vm.icon,"icon-pack":_vm.iconPack,"rounded":_vm.rounded,"loading":_vm.loading,"disabled":_vm.disabled,"readonly":!_vm.editable,"use-html5-validation":_vm.useHtml5Validation},on:{"focus":_vm.handleOnFocus,"blur":_vm.onBlur},nativeOn:{"click":function($event){_vm.onInputClick($event);},"keyup":function($event){if(!('button' in $event)&&_vm._k($event.keyCode,"enter",13,$event.key)){ return null; }_vm.togglePicker(true);},"change":function($event){_vm.onChange($event.target.value);}},slot:"trigger"},'b-input',_vm.$attrs,false)):_vm._e(),_vm._v(" "),_c('b-dropdown-item',{attrs:{"disabled":_vm.disabled,"custom":""}},[_c('header',{staticClass:"datepicker-header"},[(_vm.$slots.header !== undefined && _vm.$slots.header.length)?[_vm._t("header")]:_c('div',{staticClass:"pagination field is-centered",class:_vm.size},[_c('a',{directives:[{name:"show",rawName:"v-show",value:(!_vm.showPrev && !_vm.disabled),expression:"!showPrev && !disabled"}],staticClass:"pagination-previous",attrs:{"role":"button","href":"#","disabled":_vm.disabled},on:{"click":function($event){$event.preventDefault();_vm.prev($event);},"keydown":[function($event){if(!('button' in $event)&&_vm._k($event.keyCode,"enter",13,$event.key)){ return null; }$event.preventDefault();_vm.prev($event);},function($event){if(!('button' in $event)&&_vm._k($event.keyCode,"space",32,$event.key)){ return null; }$event.preventDefault();_vm.prev($event);}]}},[_c('b-icon',{attrs:{"icon":"chevron-left","pack":_vm.iconPack,"both":"","type":"is-primary is-clickable"}})],1),_vm._v(" "),_c('a',{directives:[{name:"show",rawName:"v-show",value:(!_vm.showNext && !_vm.disabled),expression:"!showNext && !disabled"}],staticClass:"pagination-next",attrs:{"role":"button","href":"#","disabled":_vm.disabled},on:{"click":function($event){$event.preventDefault();_vm.next($event);},"keydown":[function($event){if(!('button' in $event)&&_vm._k($event.keyCode,"enter",13,$event.key)){ return null; }$event.preventDefault();_vm.next($event);},function($event){if(!('button' in $event)&&_vm._k($event.keyCode,"space",32,$event.key)){ return null; }$event.preventDefault();_vm.next($event);}]}},[_c('b-icon',{attrs:{"icon":"chevron-right","pack":_vm.iconPack,"both":"","type":"is-primary is-clickable"}})],1),_vm._v(" "),_c('div',{staticClass:"pagination-list"},[_c('b-field',[(!_vm.isTypeMonth)?_c('b-select',{attrs:{"disabled":_vm.disabled,"size":_vm.size},model:{value:(_vm.focusedDateData.month),callback:function ($$v) {_vm.$set(_vm.focusedDateData, "month", $$v);},expression:"focusedDateData.month"}},_vm._l((_vm.monthNames),function(month,index){return _c('option',{key:month,domProps:{"value":index}},[_vm._v("\n                                    "+_vm._s(month)+"\n                                ")])})):_vm._e(),_vm._v(" "),_c('b-select',{attrs:{"disabled":_vm.disabled,"size":_vm.size},model:{value:(_vm.focusedDateData.year),callback:function ($$v) {_vm.$set(_vm.focusedDateData, "year", $$v);},expression:"focusedDateData.year"}},_vm._l((_vm.listOfYears),function(year){return _c('option',{key:year,domProps:{"value":year}},[_vm._v("\n                                    "+_vm._s(year)+"\n                                ")])}))],1)],1)])],2),_vm._v(" "),(!_vm.isTypeMonth)?_c('div',{staticClass:"datepicker-content"},[_c('b-datepicker-table',{attrs:{"day-names":_vm.dayNames,"month-names":_vm.monthNames,"first-day-of-week":_vm.firstDayOfWeek,"rules-for-first-week":_vm.rulesForFirstWeek,"min-date":_vm.minDate,"max-date":_vm.maxDate,"focused":_vm.focusedDateData,"disabled":_vm.disabled,"unselectable-dates":_vm.unselectableDates,"unselectable-days-of-week":_vm.unselectableDaysOfWeek,"selectable-dates":_vm.selectableDates,"events":_vm.events,"indicators":_vm.indicators,"date-creator":_vm.dateCreator,"type-month":_vm.isTypeMonth,"nearby-month-days":_vm.nearbyMonthDays,"nearby-selectable-month-days":_vm.nearbySelectableMonthDays,"show-week-number":_vm.showWeekNumber,"range":_vm.range},on:{"close":function($event){_vm.togglePicker(false);}},model:{value:(_vm.computedValue),callback:function ($$v) {_vm.computedValue=$$v;},expression:"computedValue"}})],1):_c('div',[_c('b-datepicker-month',{attrs:{"month-names":_vm.monthNames,"min-date":_vm.minDate,"max-date":_vm.maxDate,"focused":_vm.focusedDateData,"disabled":_vm.disabled,"unselectable-dates":_vm.unselectableDates,"unselectable-days-of-week":_vm.unselectableDaysOfWeek,"selectable-dates":_vm.selectableDates,"events":_vm.events,"indicators":_vm.indicators,"date-creator":_vm.dateCreator},on:{"close":function($event){_vm.togglePicker(false);}},model:{value:(_vm.computedValue),callback:function ($$v) {_vm.computedValue=$$v;},expression:"computedValue"}})],1),_vm._v(" "),(_vm.$slots.default !== undefined && _vm.$slots.default.length)?_c('footer',{staticClass:"datepicker-footer"},[_vm._t("default")],2):_vm._e()])],1):_c('b-input',_vm._b({ref:"input",attrs:{"type":!_vm.isTypeMonth ? 'date' : 'month',"autocomplete":"off","value":_vm.formatNative(_vm.computedValue),"placeholder":_vm.placeholder,"size":_vm.size,"icon":_vm.icon,"icon-pack":_vm.iconPack,"loading":_vm.loading,"max":_vm.formatNative(_vm.maxDate),"min":_vm.formatNative(_vm.minDate),"disabled":_vm.disabled,"readonly":false,"show-week-number":_vm.showWeekNumber,"use-html5-validation":_vm.useHtml5Validation},on:{"focus":_vm.handleOnFocus,"blur":_vm.onBlur},nativeOn:{"change":function($event){_vm.onChangeNativePicker($event);}}},'b-input',_vm.$attrs,false))],1)};
+  var __vue_render__$9 = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"datepicker control",class:[_vm.size, {'is-expanded': _vm.expanded}]},[(!_vm.isMobile || _vm.inline)?_c('b-dropdown',{ref:"dropdown",attrs:{"position":_vm.position,"disabled":_vm.disabled,"inline":_vm.inline}},[(!_vm.inline)?_c('b-input',_vm._b({ref:"input",attrs:{"slot":"trigger","autocomplete":"off","value":_vm.formatValue(_vm.computedValue),"placeholder":_vm.placeholder,"size":_vm.size,"icon":_vm.icon,"icon-pack":_vm.iconPack,"rounded":_vm.rounded,"loading":_vm.loading,"disabled":_vm.disabled,"readonly":!_vm.editable,"use-html5-validation":_vm.useHtml5Validation},on:{"focus":_vm.handleOnFocus,"blur":_vm.onBlur},nativeOn:{"click":function($event){_vm.onInputClick($event);},"keyup":function($event){if(!('button' in $event)&&_vm._k($event.keyCode,"enter",13,$event.key)){ return null; }_vm.togglePicker(true);},"change":function($event){_vm.onChange($event.target.value);}},slot:"trigger"},'b-input',_vm.$attrs,false)):_vm._e(),_vm._v(" "),_c('b-dropdown-item',{attrs:{"disabled":_vm.disabled,"custom":""}},[_c('header',{staticClass:"datepicker-header"},[(_vm.$slots.header !== undefined && _vm.$slots.header.length)?[_vm._t("header")]:_c('div',{staticClass:"pagination field is-centered",class:_vm.size},[_c('a',{directives:[{name:"show",rawName:"v-show",value:(!_vm.showPrev && !_vm.disabled),expression:"!showPrev && !disabled"}],staticClass:"pagination-previous",attrs:{"role":"button","href":"#","disabled":_vm.disabled},on:{"click":function($event){$event.preventDefault();_vm.prev($event);},"keydown":[function($event){if(!('button' in $event)&&_vm._k($event.keyCode,"enter",13,$event.key)){ return null; }$event.preventDefault();_vm.prev($event);},function($event){if(!('button' in $event)&&_vm._k($event.keyCode,"space",32,$event.key)){ return null; }$event.preventDefault();_vm.prev($event);}]}},[_c('b-icon',{attrs:{"icon":_vm.iconPrev,"pack":_vm.iconPack,"both":"","type":"is-primary is-clickable"}})],1),_vm._v(" "),_c('a',{directives:[{name:"show",rawName:"v-show",value:(!_vm.showNext && !_vm.disabled),expression:"!showNext && !disabled"}],staticClass:"pagination-next",attrs:{"role":"button","href":"#","disabled":_vm.disabled},on:{"click":function($event){$event.preventDefault();_vm.next($event);},"keydown":[function($event){if(!('button' in $event)&&_vm._k($event.keyCode,"enter",13,$event.key)){ return null; }$event.preventDefault();_vm.next($event);},function($event){if(!('button' in $event)&&_vm._k($event.keyCode,"space",32,$event.key)){ return null; }$event.preventDefault();_vm.next($event);}]}},[_c('b-icon',{attrs:{"icon":_vm.iconNext,"pack":_vm.iconPack,"both":"","type":"is-primary is-clickable"}})],1),_vm._v(" "),_c('div',{staticClass:"pagination-list"},[_c('b-field',[(!_vm.isTypeMonth)?_c('b-select',{attrs:{"disabled":_vm.disabled,"size":_vm.size},model:{value:(_vm.focusedDateData.month),callback:function ($$v) {_vm.$set(_vm.focusedDateData, "month", $$v);},expression:"focusedDateData.month"}},_vm._l((_vm.monthNames),function(month,index){return _c('option',{key:month,domProps:{"value":index}},[_vm._v("\n                                    "+_vm._s(month)+"\n                                ")])})):_vm._e(),_vm._v(" "),_c('b-select',{attrs:{"disabled":_vm.disabled,"size":_vm.size},model:{value:(_vm.focusedDateData.year),callback:function ($$v) {_vm.$set(_vm.focusedDateData, "year", $$v);},expression:"focusedDateData.year"}},_vm._l((_vm.listOfYears),function(year){return _c('option',{key:year,domProps:{"value":year}},[_vm._v("\n                                    "+_vm._s(year)+"\n                                ")])}))],1)],1)])],2),_vm._v(" "),(!_vm.isTypeMonth)?_c('div',{staticClass:"datepicker-content"},[_c('b-datepicker-table',{attrs:{"day-names":_vm.dayNames,"month-names":_vm.monthNames,"first-day-of-week":_vm.firstDayOfWeek,"rules-for-first-week":_vm.rulesForFirstWeek,"min-date":_vm.minDate,"max-date":_vm.maxDate,"focused":_vm.focusedDateData,"disabled":_vm.disabled,"unselectable-dates":_vm.unselectableDates,"unselectable-days-of-week":_vm.unselectableDaysOfWeek,"selectable-dates":_vm.selectableDates,"events":_vm.events,"indicators":_vm.indicators,"date-creator":_vm.dateCreator,"type-month":_vm.isTypeMonth,"nearby-month-days":_vm.nearbyMonthDays,"nearby-selectable-month-days":_vm.nearbySelectableMonthDays,"show-week-number":_vm.showWeekNumber,"range":_vm.range,"multiple":_vm.multiple},on:{"close":function($event){_vm.togglePicker(false);}},model:{value:(_vm.computedValue),callback:function ($$v) {_vm.computedValue=$$v;},expression:"computedValue"}})],1):_c('div',[_c('b-datepicker-month',{attrs:{"month-names":_vm.monthNames,"min-date":_vm.minDate,"max-date":_vm.maxDate,"focused":_vm.focusedDateData,"disabled":_vm.disabled,"unselectable-dates":_vm.unselectableDates,"unselectable-days-of-week":_vm.unselectableDaysOfWeek,"selectable-dates":_vm.selectableDates,"events":_vm.events,"indicators":_vm.indicators,"date-creator":_vm.dateCreator},on:{"close":function($event){_vm.togglePicker(false);}},model:{value:(_vm.computedValue),callback:function ($$v) {_vm.computedValue=$$v;},expression:"computedValue"}})],1),_vm._v(" "),(_vm.$slots.default !== undefined && _vm.$slots.default.length)?_c('footer',{staticClass:"datepicker-footer"},[_vm._t("default")],2):_vm._e()])],1):_c('b-input',_vm._b({ref:"input",attrs:{"type":!_vm.isTypeMonth ? 'date' : 'month',"autocomplete":"off","value":_vm.formatNative(_vm.computedValue),"placeholder":_vm.placeholder,"size":_vm.size,"icon":_vm.icon,"icon-pack":_vm.iconPack,"loading":_vm.loading,"max":_vm.formatNative(_vm.maxDate),"min":_vm.formatNative(_vm.minDate),"disabled":_vm.disabled,"readonly":false,"use-html5-validation":_vm.useHtml5Validation},on:{"focus":_vm.onFocus,"blur":_vm.onBlur},nativeOn:{"change":function($event){_vm.onChangeNativePicker($event);}}},'b-input',_vm.$attrs,false))],1)};
   var __vue_staticRenderFns__$9 = [];
 
     /* style */
@@ -2712,7 +2906,6 @@
   };
   use(Plugin);
 
-  exports.Datepicker = Datepicker;
   exports.default = Plugin;
 
   Object.defineProperty(exports, '__esModule', { value: true });

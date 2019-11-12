@@ -32,7 +32,8 @@
                 :range="range"
                 :hovered-date-range="hoveredDateRange"
                 @select="updateSelectedDate"
-                @rangeHoverEndDate="setRangeHoverEndDate"/>
+                @rangeHoverEndDate="setRangeHoverEndDate"
+                :multiple="multiple"/>
         </div>
     </section>
 </template>
@@ -74,13 +75,15 @@ export default {
             type: Number,
             default: () => 4
         },
-        range: Boolean
+        range: Boolean,
+        multiple: Boolean
     },
     data() {
         return {
             selectedBeginDate: undefined,
             selectedEndDate: undefined,
-            hoveredEndDate: undefined
+            hoveredEndDate: undefined,
+            multipleSelectedDates: []
         }
     },
     computed: {
@@ -134,24 +137,12 @@ export default {
             const month = this.focused.month
             const year = this.focused.year
             const weeksInThisMonth = []
-            const daysInThisMonth = new Date(year, month + 1, 0).getDate()
 
             let startingDay = 1
 
-            while (startingDay <= daysInThisMonth + 6) {
+            while (weeksInThisMonth.length < 6) {
                 const newWeek = this.weekBuilder(startingDay, month, year)
-                let weekValid = false
-
-                newWeek.forEach((day) => {
-                    if (day.getMonth() === month) {
-                        weekValid = true
-                    }
-                })
-
-                if (weekValid) {
-                    weeksInThisMonth.push(newWeek)
-                }
-
+                weeksInThisMonth.push(newWeek)
                 startingDay += 7
             }
 
@@ -175,10 +166,12 @@ export default {
         * Emit input event with selected date as payload for v-model in parent
         */
         updateSelectedDate(date) {
-            if (!this.range) {
+            if (!this.range && !this.multiple) {
                 this.$emit('input', date)
-            } else {
+            } else if (this.range) {
                 this.handleSelectRangeDate(date)
+            } else if (this.multiple) {
+                this.handleSelectMultipleDates(date)
             }
         },
 
@@ -202,6 +195,25 @@ export default {
             } else {
                 this.selectedBeginDate = date
             }
+        },
+
+        /*
+        * If selected date already exists list of selected dates, remove it from the list
+        * Otherwise, add date to list of selected dates
+        */
+        handleSelectMultipleDates(date) {
+            if (
+                this.multipleSelectedDates.find((selectedDate) =>
+                    selectedDate.valueOf() === date.valueOf()
+                )
+            ) {
+                this.multipleSelectedDates = this.multipleSelectedDates.filter((selectedDate) =>
+                    selectedDate.valueOf() !== date.valueOf()
+                )
+            } else {
+                this.multipleSelectedDates.push(date)
+            }
+            this.$emit('input', this.multipleSelectedDates)
         },
 
         /*
@@ -242,10 +254,7 @@ export default {
         eventsInThisWeek(week) {
             return this.eventsInThisMonth.filter((event) => {
                 const stripped = new Date(Date.parse(event.date))
-                stripped.setHours(0)
-                stripped.setMinutes(0)
-                stripped.setSeconds(0)
-                stripped.setMilliseconds(0)
+                stripped.setHours(0, 0, 0, 0)
                 const timed = stripped.getTime()
 
                 return week.some((weekDate) => weekDate.getTime() === timed)

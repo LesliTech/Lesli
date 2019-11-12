@@ -2,20 +2,20 @@
 
 Object.defineProperty(exports, '__esModule', { value: true });
 
-var __chunk_1 = require('./chunk-9f6a8079.js');
-var __chunk_2 = require('./chunk-59b91990.js');
-var __chunk_3 = require('./chunk-545f01b1.js');
-var __chunk_4 = require('./chunk-c146745e.js');
-require('./chunk-60061aa8.js');
+var __chunk_1 = require('./chunk-a535ca7c.js');
+var __chunk_2 = require('./chunk-f920b094.js');
+var __chunk_3 = require('./chunk-98a92ff2.js');
+var __chunk_4 = require('./chunk-191e0131.js');
+require('./chunk-ef3fcce1.js');
 var __chunk_6 = require('./chunk-13e039f5.js');
-require('./chunk-f0c597f9.js');
-var __chunk_8 = require('./chunk-5b2a3329.js');
-var __chunk_21 = require('./chunk-77f69fca.js');
+require('./chunk-555220c3.js');
+var __chunk_8 = require('./chunk-f549f4e5.js');
+var __chunk_24 = require('./chunk-77f69fca.js');
 
 var _components;
 var script = {
   name: 'BTaginput',
-  components: (_components = {}, __chunk_1._defineProperty(_components, __chunk_8.Autocomplete.name, __chunk_8.Autocomplete), __chunk_1._defineProperty(_components, __chunk_21.Tag.name, __chunk_21.Tag), _components),
+  components: (_components = {}, __chunk_1._defineProperty(_components, __chunk_8.Autocomplete.name, __chunk_8.Autocomplete), __chunk_1._defineProperty(_components, __chunk_24.Tag.name, __chunk_24.Tag), _components),
   mixins: [__chunk_4.FormElementMixin],
   inheritAttrs: false,
   props: {
@@ -125,7 +125,7 @@ var script = {
       return this.hasHeaderSlot ? 'header' : 'dontrender';
     },
     footerSlotName: function footerSlotName() {
-      return this.hasHeaderSlot ? 'footer' : 'dontrender';
+      return this.hasFooterSlot ? 'footer' : 'dontrender';
     },
     hasDefaultSlot: function hasDefaultSlot() {
       return !!this.$scopedSlots.default;
@@ -293,5 +293,4 @@ var Plugin = {
 };
 __chunk_6.use(Plugin);
 
-exports.Taginput = Taginput;
 exports.default = Plugin;

@@ -2,12 +2,13 @@
 
 Object.defineProperty(exports, '__esModule', { value: true });
 
-var __chunk_1 = require('./chunk-9f6a8079.js');
-require('./chunk-545f01b1.js');
-var __chunk_4 = require('./chunk-c146745e.js');
-var __chunk_5 = require('./chunk-60061aa8.js');
+var __chunk_1 = require('./chunk-a535ca7c.js');
+require('./chunk-f920b094.js');
+require('./chunk-98a92ff2.js');
+var __chunk_4 = require('./chunk-191e0131.js');
+var __chunk_5 = require('./chunk-ef3fcce1.js');
 var __chunk_6 = require('./chunk-13e039f5.js');
-var __chunk_7 = require('./chunk-f0c597f9.js');
+var __chunk_7 = require('./chunk-555220c3.js');
 
 var _components;
 var script = {
@@ -64,6 +65,8 @@ var script = {
         'has-addons': this.controlsPosition === 'compact'
       }, {
         'is-grouped': this.controlsPosition !== 'compact'
+      }, {
+        'is-expanded': this.expanded
       }];
     },
     buttonClasses: function buttonClasses() {
@@ -187,5 +190,4 @@ var Plugin = {
 };
 __chunk_6.use(Plugin);
 
-exports.Numberinput = Numberinput;
 exports.default = Plugin;

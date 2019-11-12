@@ -1,4 +1,5 @@
-import { r as removeElement } from './chunk-e5fce48f.js';
+import './chunk-40949afc.js';
+import { r as removeElement } from './chunk-d3a97e18.js';
 import { _ as __vue_normalize__, r as registerComponent, a as registerComponentProgrammatic, u as use } from './chunk-cca88db8.js';
 import Vue from 'vue';
 import { H as HTMLElement } from './chunk-b9bdb0e4.js';
@@ -156,4 +157,4 @@ var Plugin = {
 use(Plugin);
 
 export default Plugin;
-export { Loading, LoadingProgrammatic };
+export { LoadingProgrammatic };

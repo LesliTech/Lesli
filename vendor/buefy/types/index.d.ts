@@ -29,6 +29,8 @@ export declare type BuefyConfig = {
     defaultContainerElement?: string,
     defaultIconPack?: string;
     defaultIconComponent?: string;
+    defaultIconPrev?: string;
+    defaultIconNext?: string;
     defaultDialogConfirmText?: string;
     defaultDialogCancelText?: string;
     defaultSnackbarDuration?: number;
@@ -64,6 +66,10 @@ export declare type BuefyConfig = {
     defaultDatepickerNearbyMonthDays?: boolean;
     defaultDatepickerNearbySelectableMonthDays?: boolean;
     defaultDatepickerShowWeekNumber?: boolean;
+    customIconPacks?: any;
+    defaultClockpickerHoursLabel?: string;
+    defaultClockpickerMinutesLabel?: string;
+    defaultTrapFocus?: boolean;
 };
 
 declare const _default: {

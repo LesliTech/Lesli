@@ -2,8 +2,10 @@
 
 Object.defineProperty(exports, '__esModule', { value: true });
 
-require('./chunk-545f01b1.js');
-var __chunk_5 = require('./chunk-60061aa8.js');
+require('./chunk-a535ca7c.js');
+require('./chunk-f920b094.js');
+require('./chunk-98a92ff2.js');
+var __chunk_5 = require('./chunk-ef3fcce1.js');
 var __chunk_6 = require('./chunk-13e039f5.js');
 
 var Plugin = {
@@ -13,5 +15,4 @@ var Plugin = {
 };
 __chunk_6.use(Plugin);
 
-exports.Icon = __chunk_5.Icon;
 exports.default = Plugin;

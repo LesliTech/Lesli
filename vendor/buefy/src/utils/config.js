@@ -2,6 +2,8 @@ let config = {
     defaultContainerElement: null,
     defaultIconPack: 'mdi',
     defaultIconComponent: null,
+    defaultIconPrev: 'chevron-left',
+    defaultIconNext: 'chevron-right',
     defaultDialogConfirmText: null,
     defaultDialogCancelText: null,
     defaultSnackbarDuration: 3500,
@@ -36,8 +38,12 @@ let config = {
     defaultDatepickerYearsRange: [-100, 3],
     defaultDatepickerNearbyMonthDays: true,
     defaultDatepickerNearbySelectableMonthDays: false,
-    defaultDatepickerShowWeekNumber: false
-}
+    defaultDatepickerShowWeekNumber: false,
+    defaultTrapFocus: false,
+    defaultButtonRounded: false,
+
+    customIconPacks: null
+} // TODO defaultTrapFocus to true in the next breaking change
 
 export default config
 
