@@ -370,20 +370,10 @@ ActiveRecord::Schema.define(version: 8020001) do
     t.index ["cloud_kb_articles_id"], name: "index_cloud_kb_article_activities_on_cloud_kb_articles_id"
   end
 
-  create_table "cloud_kb_article_categories", force: :cascade do |t|
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-    t.bigint "cloud_kb_articles_id"
-    t.bigint "cloud_kb_catalog_article_categories_id"
-    t.index ["cloud_kb_articles_id"], name: "index_cloud_kb_article_categories_on_cloud_kb_articles_id"
-    t.index ["cloud_kb_catalog_article_categories_id"], name: "article_catalog_categories"
-  end
-
   create_table "cloud_kb_article_details", force: :cascade do |t|
     t.string "title"
     t.string "excerpt"
     t.string "tags"
-    t.string "slug"
     t.integer "status"
     t.text "content"
     t.datetime "created_at", precision: 6, null: false
@@ -428,7 +418,8 @@ ActiveRecord::Schema.define(version: 8020001) do
   end
 
   create_table "cloud_kb_article_taxonomy_terms", force: :cascade do |t|
-    t.string "permalink"
+    t.string "path"
+    t.string "slug"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.bigint "cloud_kb_articles_id"
@@ -448,6 +439,7 @@ ActiveRecord::Schema.define(version: 8020001) do
 
   create_table "cloud_kb_catalog_article_categories", force: :cascade do |t|
     t.string "name"
+    t.string "slug"
     t.string "ancestry"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
@@ -717,8 +709,6 @@ ActiveRecord::Schema.define(version: 8020001) do
   add_foreign_key "cloud_kb_accounts", "accounts", column: "id"
   add_foreign_key "cloud_kb_article_actions", "cloud_kb_articles", column: "cloud_kb_articles_id"
   add_foreign_key "cloud_kb_article_activities", "cloud_kb_articles", column: "cloud_kb_articles_id"
-  add_foreign_key "cloud_kb_article_categories", "cloud_kb_articles", column: "cloud_kb_articles_id"
-  add_foreign_key "cloud_kb_article_categories", "cloud_kb_catalog_article_categories", column: "cloud_kb_catalog_article_categories_id"
   add_foreign_key "cloud_kb_article_details", "cloud_kb_articles", column: "cloud_kb_articles_id"
   add_foreign_key "cloud_kb_article_details", "cloud_kb_catalog_article_categories", column: "cloud_kb_catalog_article_categories_id"
   add_foreign_key "cloud_kb_article_discussions", "cloud_kb_article_discussions", column: "cloud_kb_article_discussions_id"
