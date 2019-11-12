@@ -1,30 +1,36 @@
 # frozen_string_literal: true
 
 class Users::ConfirmationsController < Devise::ConfirmationsController
-    layout 'application_public'
-    # GET /resource/confirmation/new
-    # def new
-    #   super
-    # end
+  layout 'application_public'
+  # GET /resource/confirmation/new
+  # def new
+  #  super
+  # end
 
-    # POST /resource/confirmation
-    # def create
-    #   super
-    # end
+  # POST /resource/confirmation
+  def create
+    super do |resource|
+      if successfully_sent?(resource)
+        return responseWithSuccessful
+      else
+        return responseWithError(t('devise.errors.custom.confirmation_email_not_sent'))
+      end
+    end
+  end
 
-    # GET /resource/confirmation?confirmation_token=abcdef
-    #def show
-    #end
+  # GET /resource/confirmation?confirmation_token=abcdef
+  #def show
+  #end
 
-    # protected
+  # protected
 
-    # The path used after resending confirmation instructions.
-    # def after_resending_confirmation_instructions_path_for(resource_name)
-    #   super(resource_name)
-    # end
+  # The path used after resending confirmation instructions.
+  # def after_resending_confirmation_instructions_path_for(resource_name)
+  #  super(resource_name)
+  # end
 
-    # The path used after confirmation.
-    # def after_confirmation_path_for(resource_name, resource)
-    #   super(resource_name, resource)
-    # end
+  # The path used after confirmation.
+  # def after_confirmation_path_for(resource_name, resource)
+  #  super(resource_name, resource)
+  # end
 end

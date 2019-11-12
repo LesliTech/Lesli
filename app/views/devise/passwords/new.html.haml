@@ -1,16 +1,1 @@
-%section
-    %a.logo{:href => root_path}
-        %img{:alt => "LesliCloud logo", :src => "/assets/brand/leslicloud-logo.svg"}/
-
-    = form_for(resource, as: resource_name, url: password_path(resource_name), html: { method: :post }) do |f|
-
-        .field
-            %p.control.has-icons-left
-                = f.label :email, class: "sr-only"
-                = f.email_field :email, autocomplete: "current-password", class: "input", placeholder: :email
-                %span.icon.is-small.is-left
-                    %i.fas.fa-envelope
-            
-        = f.submit "Send me reset password instructions", class: "button is-primary"
-    .links
-        = render "devise/shared/links"
+%router-view.section
