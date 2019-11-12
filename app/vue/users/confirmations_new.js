@@ -16,38 +16,13 @@ LesliCloud - Your Smart Business Assistant
 Powered by https://www.lesli.tech
 Building a better future, one line of code at a time.
 
-@dev      Luis Donis <ldonis@lesli.tech>
+@dev      Carlos Hermosilla
 @author   LesliTech <hello@lesli.tech>
 @license  Propietary - all rights reserved.
 @version  GIT: 0.1.0 alpha
 
-//  · 
-// ~·~        ~·~        ~·~        ~·~        ~·~        ~·~        ~·~        ~·~        ~·~
+// · 
+// · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
 */
 
-
-
-// · Loading core framework and libraries
-// · ~·~        ~·~        ~·~        ~·~        ~·~        ~·~        ~·~        ~·~        ~·~
-import { createConsumer } from "@rails/actioncable"
-
-
-//  · Plugin initializing 
-// ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
-export default {
-
-    install (Vue, options) {
-        
-        Vue.prototype.cable = createConsumer('/courier/cable')
-
-        /*
-        Vue.prototype.cable.subscriptions.create("CloudCourier::Bell::WebNotificationChannel", {
-            received(data) {
-                console.log(data)
-            }
-        })
-        */
-
-    }
-    
-}
+import './sessions_new'

@@ -30,6 +30,7 @@ Rails.application.routes.draw do
         mount CloudBell::Engine => "/bell"
         mount CloudHelp::Engine => "/help"
         mount CloudKb::Engine => "/kb"
+        mount CloudDev::Engine => "/dev"
 
         resource :accounts
 
