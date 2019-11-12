@@ -81,7 +81,7 @@
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 39);
+/******/ 	return __webpack_require__(__webpack_require__.s = 45);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -29845,7 +29845,13 @@ exports.clearImmediate = (typeof self !== "undefined" && self.clearImmediate) ||
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(5), __webpack_require__(10)))
 
 /***/ }),
-/* 39 */
+/* 39 */,
+/* 40 */,
+/* 41 */,
+/* 42 */,
+/* 43 */,
+/* 44 */,
+/* 45 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -29854,210 +29860,120 @@ __webpack_require__.r(__webpack_exports__);
 // EXTERNAL MODULE: ./app/vue/app.js + 86 modules
 var app = __webpack_require__(18);
 
-// CONCATENATED MODULE: ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./app/vue/users/apps/login.vue?vue&type=template&id=f6cb2dd0&
+// CONCATENATED MODULE: ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./app/vue/accounts/apps/new.vue?vue&type=template&id=3effa6b7&
 var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("section", { attrs: { id: "sessions" } }, [
-    _c("a", { staticClass: "logo", attrs: { href: _vm.url.to() } }, [
-      _c("img", {
-        attrs: {
-          src: "/assets/brand/leslicloud-logo.png",
-          alt: "LesliCloud Logo"
-        }
-      })
-    ]),
-    _vm._v(" "),
-    _c(
-      "form",
-      { ref: "form", attrs: { id: "new_user" }, on: { submit: _vm.login } },
-      [
-        _c("progress-bar", { attrs: { active: _vm.progress_bar_active } }),
-        _vm._v(" "),
-        _c("form-notification", {
-          attrs: {
-            message: _vm.notification.message,
-            type: _vm.notification.type,
-            show: _vm.notification.show
-          },
-          on: {
-            "update:show": function($event) {
-              return _vm.$set(_vm.notification, "show", $event)
-            }
-          }
-        }),
-        _vm._v(" "),
-        _c("div", { staticClass: "field" }, [
-          _c("p", { staticClass: "control has-icons-left" }, [
-            _c("label", { staticClass: "sr-only" }, [
-              _vm._v(
-                "\n               " +
-                  _vm._s(_vm.translations.shared.fields.email) +
-                  "\n            "
-              )
-            ]),
-            _vm._v(" "),
-            _c("input", {
-              directives: [
-                {
-                  name: "model",
-                  rawName: "v-model",
-                  value: _vm.sign_in.email,
-                  expression: "sign_in.email"
-                }
-              ],
-              staticClass: "input",
-              attrs: {
-                type: "email",
-                required: "true",
-                placeholder: _vm.translations.shared.fields.email
-              },
-              domProps: { value: _vm.sign_in.email },
-              on: {
-                input: function($event) {
-                  if ($event.target.composing) {
-                    return
-                  }
-                  _vm.$set(_vm.sign_in, "email", $event.target.value)
-                }
-              }
-            }),
-            _vm._v(" "),
-            _vm._m(0)
-          ])
-        ]),
-        _vm._v(" "),
-        _c("div", { staticClass: "field" }, [
-          _c("p", { staticClass: "control has-icons-left" }, [
-            _c(
-              "label",
-              { staticClass: "sr-only", attrs: { for: "user_password" } },
-              [
-                _vm._v(
-                  "\n               " +
-                    _vm._s(_vm.translations.shared.fields.password) +
-                    "\n            "
-                )
-              ]
-            ),
-            _vm._v(" "),
-            _c("input", {
-              directives: [
-                {
-                  name: "model",
-                  rawName: "v-model",
-                  value: _vm.sign_in.password,
-                  expression: "sign_in.password"
-                }
-              ],
-              staticClass: "input",
-              attrs: {
-                type: "password",
-                required: "true",
-                placeholder: _vm.translations.shared.fields.password
-              },
-              domProps: { value: _vm.sign_in.password },
-              on: {
-                input: function($event) {
-                  if ($event.target.composing) {
-                    return
-                  }
-                  _vm.$set(_vm.sign_in, "password", $event.target.value)
-                }
-              }
-            }),
-            _vm._v(" "),
-            _vm._m(1)
-          ])
-        ]),
-        _vm._v(" "),
-        _c("input", {
-          staticClass: "button is-primary",
-          attrs: { type: "submit" },
-          domProps: { value: _vm.translations.login.actions.log_in }
-        })
-      ],
-      1
-    ),
-    _vm._v(" "),
-    _c("div", { staticClass: "links" }, [
-      _c(
-        "a",
-        {
-          on: {
-            click: function($event) {
-              return _vm.goTo("/register")
-            }
-          }
-        },
-        [
-          _vm._v(
-            "\n         " + _vm._s(_vm.translations.links.sign_up) + "\n      "
-          )
-        ]
-      ),
-      _vm._v(" "),
-      _c(
-        "a",
-        {
-          on: {
-            click: function($event) {
-              return _vm.goTo("/password/new")
-            }
-          }
-        },
-        [
-          _vm._v(
-            "\n         " +
-              _vm._s(_vm.translations.links.reset_password) +
-              "\n      "
-          )
-        ]
-      ),
-      _vm._v(" "),
-      _c(
-        "a",
-        {
-          on: {
-            click: function($event) {
-              return _vm.goTo("/confirmation/new")
-            }
-          }
-        },
-        [
-          _vm._v(
-            "\n         " +
-              _vm._s(_vm.translations.links.resend_confirmation_email) +
-              "\n      "
-          )
-        ]
-      )
-    ])
-  ])
+  return _c("section", [_vm._m(0), _vm._v(" "), _c("account-form")], 1)
 }
 var staticRenderFns = [
   function() {
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("span", { staticClass: "icon is-small is-left" }, [
-      _c("i", { staticClass: "fas fa-envelope" })
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("span", { staticClass: "icon is-small is-left" }, [
-      _c("i", { staticClass: "fas fa-lock" })
+    return _c("a", { staticClass: "logo", attrs: { href: "/" } }, [
+      _c("img", {
+        attrs: {
+          alt: "LesliCloud logo",
+          src: "/assets/brand/leslicloud-logo.svg"
+        }
+      })
     ])
   }
 ]
 render._withStripped = true
 
 
-// CONCATENATED MODULE: ./app/vue/users/apps/login.vue?vue&type=template&id=f6cb2dd0&
+// CONCATENATED MODULE: ./app/vue/accounts/apps/new.vue?vue&type=template&id=3effa6b7&
+
+// CONCATENATED MODULE: ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./app/vue/accounts/components/form.vue?vue&type=template&id=4bb350ce&
+var formvue_type_template_id_4bb350ce_render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c(
+    "form",
+    { on: { submit: _vm.createCompany } },
+    [
+      _c("progress-bar", { attrs: { active: _vm.progress_bar_active } }),
+      _vm._v(" "),
+      _c("form-notification", {
+        attrs: {
+          message: _vm.notification.message,
+          type: _vm.notification.type,
+          show: _vm.notification.show
+        },
+        on: {
+          "update:show": function($event) {
+            return _vm.$set(_vm.notification, "show", $event)
+          }
+        }
+      }),
+      _vm._v(" "),
+      _c("div", { staticClass: "field" }, [
+        _c("p", { staticClass: "control has-icons-left" }, [
+          _c("label", { staticClass: "sr-only" }, [
+            _vm._v(
+              "\n            " +
+                _vm._s(_vm.translations.fields.company_name) +
+                "\n         "
+            )
+          ]),
+          _vm._v(" "),
+          _c("input", {
+            directives: [
+              {
+                name: "model",
+                rawName: "v-model",
+                value: _vm.account.company_name,
+                expression: "account.company_name"
+              }
+            ],
+            staticClass: "input",
+            attrs: {
+              type: "text",
+              required: "true",
+              placeholder: _vm.translations.fields.company_name
+            },
+            domProps: { value: _vm.account.company_name },
+            on: {
+              input: function($event) {
+                if ($event.target.composing) {
+                  return
+                }
+                _vm.$set(_vm.account, "company_name", $event.target.value)
+              }
+            }
+          }),
+          _vm._v(" "),
+          _vm._m(0)
+        ])
+      ]),
+      _vm._v(" "),
+      _c("input", {
+        staticClass: "button is-primary",
+        attrs: { type: "submit" },
+        domProps: { value: _vm.translations.actions.save }
+      })
+    ],
+    1
+  )
+}
+var formvue_type_template_id_4bb350ce_staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("span", { staticClass: "icon is-small is-left" }, [
+      _c("i", { staticClass: "fas fa-building" })
+    ])
+  }
+]
+formvue_type_template_id_4bb350ce_render._withStripped = true
+
+
+// CONCATENATED MODULE: ./app/vue/accounts/components/form.vue?vue&type=template&id=4bb350ce&
 
 // EXTERNAL MODULE: ./app/vue/components/forms/notification.vue + 4 modules
 var notification = __webpack_require__(4);
@@ -30065,21 +29981,15 @@ var notification = __webpack_require__(4);
 // EXTERNAL MODULE: ./app/vue/components/forms/progress_bar.vue + 4 modules
 var progress_bar = __webpack_require__(3);
 
-// CONCATENATED MODULE: ./node_modules/babel-loader/lib??ref--3!./node_modules/vue-loader/lib??vue-loader-options!./app/vue/users/apps/login.vue?vue&type=script&lang=js&
+// CONCATENATED MODULE: ./node_modules/babel-loader/lib??ref--3!./node_modules/vue-loader/lib??vue-loader-options!./app/vue/accounts/components/form.vue?vue&type=script&lang=js&
 
 
-/* harmony default export */ var loginvue_type_script_lang_js_ = ({
+/* harmony default export */ var formvue_type_script_lang_js_ = ({
   data: function data() {
     return {
-      translations: {
-        links: I18n.t('users.links'),
-        login: I18n.t('users.login'),
-        sessions: I18n.t('devise.sessions'),
-        shared: I18n.t('users.shared')
-      },
-      sign_in: {
-        email: '',
-        password: ''
+      translations: I18n.t('accounts.form'),
+      account: {
+        company_name: ''
       },
       progress_bar_active: false,
       notification: {
@@ -30090,15 +30000,21 @@ var progress_bar = __webpack_require__(3);
     };
   },
   methods: {
-    login: function login(event) {
+    showNotification: function showNotification(message) {
+      var type = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 'is-danger';
+      this.notification.message = message;
+      this.notification.type = type;
+      this.notification.show = true;
+    },
+    createCompany: function createCompany(event) {
       var _this = this;
 
       event.preventDefault();
       var data = {
-        sign_in: this.sign_in
+        account: this.account
       };
       this.progress_bar_active = true;
-      this.http.post(this.url.to(null, null, 'login'), data).then(function (response) {
+      this.http.post(this.url.to(null, null, '/accounts'), data).then(function (response) {
         _this.progress_bar_active = false;
 
         if (response.successful) {
@@ -30109,15 +30025,6 @@ var progress_bar = __webpack_require__(3);
       })["catch"](function (err) {
         console.log(err);
       });
-    },
-    showNotification: function showNotification(message) {
-      var type = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 'is-danger';
-      this.notification.message = message;
-      this.notification.type = type;
-      this.notification.show = true;
-    },
-    goTo: function goTo(url) {
-      this.$router.push("".concat(url));
     }
   },
   components: {
@@ -30125,12 +30032,12 @@ var progress_bar = __webpack_require__(3);
     'progress-bar': progress_bar["a" /* default */]
   }
 });
-// CONCATENATED MODULE: ./app/vue/users/apps/login.vue?vue&type=script&lang=js&
- /* harmony default export */ var apps_loginvue_type_script_lang_js_ = (loginvue_type_script_lang_js_); 
+// CONCATENATED MODULE: ./app/vue/accounts/components/form.vue?vue&type=script&lang=js&
+ /* harmony default export */ var components_formvue_type_script_lang_js_ = (formvue_type_script_lang_js_); 
 // EXTERNAL MODULE: ./node_modules/vue-loader/lib/runtime/componentNormalizer.js
 var componentNormalizer = __webpack_require__(0);
 
-// CONCATENATED MODULE: ./app/vue/users/apps/login.vue
+// CONCATENATED MODULE: ./app/vue/accounts/components/form.vue
 
 
 
@@ -30139,7 +30046,39 @@ var componentNormalizer = __webpack_require__(0);
 /* normalize component */
 
 var component = Object(componentNormalizer["a" /* default */])(
-  apps_loginvue_type_script_lang_js_,
+  components_formvue_type_script_lang_js_,
+  formvue_type_template_id_4bb350ce_render,
+  formvue_type_template_id_4bb350ce_staticRenderFns,
+  false,
+  null,
+  null,
+  null
+  
+)
+
+/* hot reload */
+if (false) { var api; }
+component.options.__file = "app/vue/accounts/components/form.vue"
+/* harmony default export */ var components_form = (component.exports);
+// CONCATENATED MODULE: ./node_modules/babel-loader/lib??ref--3!./node_modules/vue-loader/lib??vue-loader-options!./app/vue/accounts/apps/new.vue?vue&type=script&lang=js&
+
+/* harmony default export */ var newvue_type_script_lang_js_ = ({
+  components: {
+    'account-form': components_form
+  }
+});
+// CONCATENATED MODULE: ./app/vue/accounts/apps/new.vue?vue&type=script&lang=js&
+ /* harmony default export */ var apps_newvue_type_script_lang_js_ = (newvue_type_script_lang_js_); 
+// CONCATENATED MODULE: ./app/vue/accounts/apps/new.vue
+
+
+
+
+
+/* normalize component */
+
+var new_component = Object(componentNormalizer["a" /* default */])(
+  apps_newvue_type_script_lang_js_,
   render,
   staticRenderFns,
   false,
@@ -30150,1181 +30089,10 @@ var component = Object(componentNormalizer["a" /* default */])(
 )
 
 /* hot reload */
-if (false) { var api; }
-component.options.__file = "app/vue/users/apps/login.vue"
-/* harmony default export */ var login = (component.exports);
-// CONCATENATED MODULE: ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./app/vue/users/apps/confirmation.vue?vue&type=template&id=4c9890d6&
-var confirmationvue_type_template_id_4c9890d6_render = function() {
-  var _vm = this
-  var _h = _vm.$createElement
-  var _c = _vm._self._c || _h
-  return _c("section", { attrs: { id: "confirmations" } }, [
-    _c("a", { staticClass: "logo", attrs: { href: _vm.url.to() } }, [
-      _c("img", {
-        attrs: {
-          src: "/assets/brand/leslicloud-logo.png",
-          alt: "LesliCloud Logo"
-        }
-      })
-    ]),
-    _vm._v(" "),
-    _c(
-      "form",
-      {
-        ref: "form",
-        attrs: { id: "new_confirmation" },
-        on: { submit: _vm.confirmEmail }
-      },
-      [
-        _c("progress-bar", { attrs: { active: _vm.progress_bar_active } }),
-        _vm._v(" "),
-        _c("form-notification", {
-          attrs: {
-            message: _vm.notification.message,
-            type: _vm.notification.type,
-            show: _vm.notification.show
-          },
-          on: {
-            "update:show": function($event) {
-              return _vm.$set(_vm.notification, "show", $event)
-            }
-          }
-        }),
-        _vm._v(" "),
-        _c("div", { staticClass: "field" }, [
-          _c("p", { staticClass: "control has-icons-left" }, [
-            _c("label", { staticClass: "sr-only" }, [
-              _vm._v(
-                "\n               " +
-                  _vm._s(_vm.translations.shared.fields.email) +
-                  "\n            "
-              )
-            ]),
-            _vm._v(" "),
-            _c("input", {
-              directives: [
-                {
-                  name: "model",
-                  rawName: "v-model",
-                  value: _vm.confirmation.email,
-                  expression: "confirmation.email"
-                }
-              ],
-              staticClass: "input",
-              attrs: {
-                type: "email",
-                required: "true",
-                placeholder: _vm.translations.shared.fields.email
-              },
-              domProps: { value: _vm.confirmation.email },
-              on: {
-                input: function($event) {
-                  if ($event.target.composing) {
-                    return
-                  }
-                  _vm.$set(_vm.confirmation, "email", $event.target.value)
-                }
-              }
-            }),
-            _vm._v(" "),
-            _vm._m(0)
-          ])
-        ]),
-        _vm._v(" "),
-        _c("input", {
-          staticClass: "button is-primary",
-          attrs: { type: "submit" },
-          domProps: {
-            value: _vm.translations.confirmation.actions.resend_email
-          }
-        })
-      ],
-      1
-    ),
-    _vm._v(" "),
-    _c("div", { staticClass: "links" }, [
-      _c(
-        "a",
-        {
-          on: {
-            click: function($event) {
-              return _vm.goTo("/login")
-            }
-          }
-        },
-        [
-          _vm._v(
-            "\n         " + _vm._s(_vm.translations.links.login) + "\n      "
-          )
-        ]
-      ),
-      _vm._v(" "),
-      _c(
-        "a",
-        {
-          on: {
-            click: function($event) {
-              return _vm.goTo("/register")
-            }
-          }
-        },
-        [
-          _vm._v(
-            "\n         " + _vm._s(_vm.translations.links.sign_up) + "\n      "
-          )
-        ]
-      ),
-      _vm._v(" "),
-      _c(
-        "a",
-        {
-          on: {
-            click: function($event) {
-              return _vm.goTo("/password/new")
-            }
-          }
-        },
-        [
-          _vm._v(
-            "\n         " +
-              _vm._s(_vm.translations.links.reset_password) +
-              "\n      "
-          )
-        ]
-      )
-    ])
-  ])
-}
-var confirmationvue_type_template_id_4c9890d6_staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("span", { staticClass: "icon is-small is-left" }, [
-      _c("i", { staticClass: "fas fa-envelope" })
-    ])
-  }
-]
-confirmationvue_type_template_id_4c9890d6_render._withStripped = true
-
-
-// CONCATENATED MODULE: ./app/vue/users/apps/confirmation.vue?vue&type=template&id=4c9890d6&
-
-// CONCATENATED MODULE: ./node_modules/babel-loader/lib??ref--3!./node_modules/vue-loader/lib??vue-loader-options!./app/vue/users/apps/confirmation.vue?vue&type=script&lang=js&
-
-
-/* harmony default export */ var confirmationvue_type_script_lang_js_ = ({
-  data: function data() {
-    return {
-      translations: {
-        links: I18n.t('users.links'),
-        confirmation: I18n.t('users.confirmation'),
-        shared: I18n.t('users.shared')
-      },
-      confirmation: {
-        email: ''
-      },
-      progress_bar_active: false,
-      notification: {
-        show: false,
-        message: '',
-        type: 'is-danger'
-      }
-    };
-  },
-  methods: {
-    showNotification: function showNotification(message) {
-      var type = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 'is-danger';
-      this.notification.message = message;
-      this.notification.type = type;
-      this.notification.show = true;
-    },
-    confirmEmail: function confirmEmail(event) {
-      var _this = this;
-
-      event.preventDefault();
-      var data = {
-        user: this.confirmation
-      };
-      this.progress_bar_active = true;
-      this.http.post(this.url.to(null, null, '/confirmation'), data).then(function (response) {
-        _this.progress_bar_active = false;
-
-        if (response.successful) {
-          _this.showNotification(_this.translations.confirmation.notifications.success, 'is-success');
-
-          setTimeout(function () {
-            _this.goTo('/login');
-          }, 5000);
-        } else {
-          _this.showNotification(response.error.message);
-        }
-      })["catch"](function (err) {
-        console.log(err);
-      });
-    },
-    goTo: function goTo(url) {
-      this.$router.push("".concat(url));
-    }
-  },
-  components: {
-    'form-notification': notification["a" /* default */],
-    'progress-bar': progress_bar["a" /* default */]
-  }
-});
-// CONCATENATED MODULE: ./app/vue/users/apps/confirmation.vue?vue&type=script&lang=js&
- /* harmony default export */ var apps_confirmationvue_type_script_lang_js_ = (confirmationvue_type_script_lang_js_); 
-// CONCATENATED MODULE: ./app/vue/users/apps/confirmation.vue
-
-
-
-
-
-/* normalize component */
-
-var confirmation_component = Object(componentNormalizer["a" /* default */])(
-  apps_confirmationvue_type_script_lang_js_,
-  confirmationvue_type_template_id_4c9890d6_render,
-  confirmationvue_type_template_id_4c9890d6_staticRenderFns,
-  false,
-  null,
-  null,
-  null
-  
-)
-
-/* hot reload */
-if (false) { var confirmation_api; }
-confirmation_component.options.__file = "app/vue/users/apps/confirmation.vue"
-/* harmony default export */ var confirmation = (confirmation_component.exports);
-// CONCATENATED MODULE: ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./app/vue/users/apps/register.vue?vue&type=template&id=29860e78&
-var registervue_type_template_id_29860e78_render = function() {
-  var _vm = this
-  var _h = _vm.$createElement
-  var _c = _vm._self._c || _h
-  return _c("section", { attrs: { id: "registrations" } }, [
-    _c("a", { staticClass: "logo", attrs: { href: _vm.url.to() } }, [
-      _c("img", {
-        attrs: {
-          src: "/assets/brand/leslicloud-logo.png",
-          alt: "LesliCloud Logo"
-        }
-      })
-    ]),
-    _vm._v(" "),
-    _c(
-      "form",
-      {
-        ref: "form",
-        attrs: { id: "registration_user" },
-        on: { submit: _vm.register }
-      },
-      [
-        _c("progress-bar", { attrs: { active: _vm.progress_bar_active } }),
-        _vm._v(" "),
-        _c("form-notification", {
-          attrs: {
-            message: _vm.notification.message,
-            type: _vm.notification.type,
-            show: _vm.notification.show
-          },
-          on: {
-            "update:show": function($event) {
-              return _vm.$set(_vm.notification, "show", $event)
-            }
-          }
-        }),
-        _vm._v(" "),
-        _c("div", { staticClass: "field" }, [
-          _c("p", { staticClass: "control has-icons-left" }, [
-            _c("label", { staticClass: "sr-only" }, [
-              _vm._v(
-                "\n               " +
-                  _vm._s(_vm.translations.shared.fields.email) +
-                  "\n            "
-              )
-            ]),
-            _vm._v(" "),
-            _c("input", {
-              directives: [
-                {
-                  name: "model",
-                  rawName: "v-model",
-                  value: _vm.sign_up.email,
-                  expression: "sign_up.email"
-                }
-              ],
-              staticClass: "input",
-              attrs: {
-                type: "email",
-                required: "true",
-                placeholder: _vm.translations.shared.fields.email
-              },
-              domProps: { value: _vm.sign_up.email },
-              on: {
-                input: function($event) {
-                  if ($event.target.composing) {
-                    return
-                  }
-                  _vm.$set(_vm.sign_up, "email", $event.target.value)
-                }
-              }
-            }),
-            _vm._v(" "),
-            _vm._m(0)
-          ])
-        ]),
-        _vm._v(" "),
-        _c("div", { staticClass: "field" }, [
-          _c("p", { staticClass: "control has-icons-left" }, [
-            _c(
-              "label",
-              { staticClass: "sr-only", attrs: { for: "user_password" } },
-              [
-                _vm._v(
-                  "\n               " +
-                    _vm._s(_vm.translations.shared.fields.password) +
-                    "\n            "
-                )
-              ]
-            ),
-            _vm._v(" "),
-            _c("input", {
-              directives: [
-                {
-                  name: "model",
-                  rawName: "v-model",
-                  value: _vm.sign_up.password,
-                  expression: "sign_up.password"
-                }
-              ],
-              staticClass: "input",
-              attrs: {
-                type: "password",
-                required: "true",
-                minlength: "6",
-                placeholder:
-                  _vm.translations.shared.fields.password +
-                  " " +
-                  _vm.translations.registration.fields.password_length
-              },
-              domProps: { value: _vm.sign_up.password },
-              on: {
-                change: _vm.verifyPasswords,
-                input: function($event) {
-                  if ($event.target.composing) {
-                    return
-                  }
-                  _vm.$set(_vm.sign_up, "password", $event.target.value)
-                }
-              }
-            }),
-            _vm._v(" "),
-            _vm._m(1)
-          ])
-        ]),
-        _vm._v(" "),
-        _c("div", { staticClass: "field" }, [
-          _c("p", { staticClass: "control has-icons-left" }, [
-            _c(
-              "label",
-              { staticClass: "sr-only", attrs: { for: "user_password" } },
-              [
-                _vm._v(
-                  "\n               " +
-                    _vm._s(_vm.translations.shared.fields.password) +
-                    "\n            "
-                )
-              ]
-            ),
-            _vm._v(" "),
-            _c("input", {
-              directives: [
-                {
-                  name: "model",
-                  rawName: "v-model",
-                  value: _vm.sign_up.password_confirmation,
-                  expression: "sign_up.password_confirmation"
-                }
-              ],
-              staticClass: "input",
-              attrs: {
-                type: "password",
-                required: "true",
-                placeholder:
-                  _vm.translations.shared.fields.password_confirmation
-              },
-              domProps: { value: _vm.sign_up.password_confirmation },
-              on: {
-                change: _vm.verifyPasswords,
-                input: function($event) {
-                  if ($event.target.composing) {
-                    return
-                  }
-                  _vm.$set(
-                    _vm.sign_up,
-                    "password_confirmation",
-                    $event.target.value
-                  )
-                }
-              }
-            }),
-            _vm._v(" "),
-            _vm._m(2)
-          ])
-        ]),
-        _vm._v(" "),
-        _c("input", {
-          staticClass: "button is-primary",
-          attrs: { type: "submit" },
-          domProps: { value: _vm.translations.registration.actions.sign_up }
-        })
-      ],
-      1
-    ),
-    _vm._v(" "),
-    _c("div", { staticClass: "links" }, [
-      _c(
-        "a",
-        {
-          on: {
-            click: function($event) {
-              return _vm.goTo("/login")
-            }
-          }
-        },
-        [
-          _vm._v(
-            "\n         " + _vm._s(_vm.translations.links.login) + "\n      "
-          )
-        ]
-      ),
-      _vm._v(" "),
-      _c(
-        "a",
-        {
-          on: {
-            click: function($event) {
-              return _vm.goTo("/confirmation/new")
-            }
-          }
-        },
-        [
-          _vm._v(
-            "\n         " +
-              _vm._s(_vm.translations.links.resend_confirmation_email) +
-              "\n      "
-          )
-        ]
-      )
-    ])
-  ])
-}
-var registervue_type_template_id_29860e78_staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("span", { staticClass: "icon is-small is-left" }, [
-      _c("i", { staticClass: "fas fa-envelope" })
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("span", { staticClass: "icon is-small is-left" }, [
-      _c("i", { staticClass: "fas fa-lock" })
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("span", { staticClass: "icon is-small is-left" }, [
-      _c("i", { staticClass: "fas fa-lock" })
-    ])
-  }
-]
-registervue_type_template_id_29860e78_render._withStripped = true
-
-
-// CONCATENATED MODULE: ./app/vue/users/apps/register.vue?vue&type=template&id=29860e78&
-
-// CONCATENATED MODULE: ./node_modules/babel-loader/lib??ref--3!./node_modules/vue-loader/lib??vue-loader-options!./app/vue/users/apps/register.vue?vue&type=script&lang=js&
-
-
-/* harmony default export */ var registervue_type_script_lang_js_ = ({
-  data: function data() {
-    return {
-      translations: {
-        links: I18n.t('users.links'),
-        registration: I18n.t('users.registration'),
-        sessions: I18n.t('devise.sessions'),
-        shared: I18n.t('users.shared')
-      },
-      sign_up: {
-        email: '',
-        password: '',
-        password_confirmation: ''
-      },
-      progress_bar_active: false,
-      notification: {
-        show: false,
-        message: '',
-        type: 'is-danger'
-      }
-    };
-  },
-  methods: {
-    register: function register(event) {
-      var _this = this;
-
-      event.preventDefault();
-      var data = {
-        user: this.sign_up
-      };
-      this.progress_bar_active = true;
-      this.http.post(this.url.to(null, null, null), data).then(function (response) {
-        _this.progress_bar_active = false;
-
-        if (response.successful) {
-          _this.showNotification(_this.translations.registration.notifications.success, 'is-success');
-
-          setTimeout(function () {
-            _this.goTo('/login');
-          }, 5000);
-        } else {
-          _this.showNotification(response.error.message);
-        }
-      })["catch"](function (err) {
-        console.log(err);
-      });
-    },
-    showNotification: function showNotification(message) {
-      var type = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 'is-danger';
-      this.notification.message = message;
-      this.notification.type = type;
-      this.notification.show = true;
-    },
-    verifyPasswords: function verifyPasswords() {
-      var password = this.sign_up.password;
-      var password_confirmation = this.sign_up.password_confirmation;
-
-      if (password && password_confirmation) {
-        if (password !== password_confirmation) {
-          this.showNotification(this.translations.shared.errors.unmatched_passwords);
-          return;
-        }
-      }
-
-      this.notification.show = false;
-    },
-    goTo: function goTo(url) {
-      this.$router.push("".concat(url));
-    }
-  },
-  components: {
-    'form-notification': notification["a" /* default */],
-    'progress-bar': progress_bar["a" /* default */]
-  }
-});
-// CONCATENATED MODULE: ./app/vue/users/apps/register.vue?vue&type=script&lang=js&
- /* harmony default export */ var apps_registervue_type_script_lang_js_ = (registervue_type_script_lang_js_); 
-// CONCATENATED MODULE: ./app/vue/users/apps/register.vue
-
-
-
-
-
-/* normalize component */
-
-var register_component = Object(componentNormalizer["a" /* default */])(
-  apps_registervue_type_script_lang_js_,
-  registervue_type_template_id_29860e78_render,
-  registervue_type_template_id_29860e78_staticRenderFns,
-  false,
-  null,
-  null,
-  null
-  
-)
-
-/* hot reload */
-if (false) { var register_api; }
-register_component.options.__file = "app/vue/users/apps/register.vue"
-/* harmony default export */ var register = (register_component.exports);
-// CONCATENATED MODULE: ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./app/vue/users/apps/password/new.vue?vue&type=template&id=f701a566&
-var newvue_type_template_id_f701a566_render = function() {
-  var _vm = this
-  var _h = _vm.$createElement
-  var _c = _vm._self._c || _h
-  return _c("section", { attrs: { id: "passwords" } }, [
-    _c("a", { staticClass: "logo", attrs: { href: _vm.url.to() } }, [
-      _c("img", {
-        attrs: {
-          src: "/assets/brand/leslicloud-logo.png",
-          alt: "LesliCloud Logo"
-        }
-      })
-    ]),
-    _vm._v(" "),
-    _c(
-      "form",
-      {
-        ref: "form",
-        attrs: { id: "new_password" },
-        on: { submit: _vm.resetPassword }
-      },
-      [
-        _c("progress-bar", { attrs: { active: _vm.progress_bar_active } }),
-        _vm._v(" "),
-        _c("form-notification", {
-          attrs: {
-            message: _vm.notification.message,
-            type: _vm.notification.type,
-            show: _vm.notification.show
-          },
-          on: {
-            "update:show": function($event) {
-              return _vm.$set(_vm.notification, "show", $event)
-            }
-          }
-        }),
-        _vm._v(" "),
-        _c("div", { staticClass: "field" }, [
-          _c("p", { staticClass: "control has-icons-left" }, [
-            _c("label", { staticClass: "sr-only" }, [
-              _vm._v(
-                "\n               " +
-                  _vm._s(_vm.translations.shared.fields.email) +
-                  "\n            "
-              )
-            ]),
-            _vm._v(" "),
-            _c("input", {
-              directives: [
-                {
-                  name: "model",
-                  rawName: "v-model",
-                  value: _vm.password.email,
-                  expression: "password.email"
-                }
-              ],
-              staticClass: "input",
-              attrs: {
-                type: "email",
-                required: "true",
-                placeholder: _vm.translations.shared.fields.email
-              },
-              domProps: { value: _vm.password.email },
-              on: {
-                input: function($event) {
-                  if ($event.target.composing) {
-                    return
-                  }
-                  _vm.$set(_vm.password, "email", $event.target.value)
-                }
-              }
-            }),
-            _vm._v(" "),
-            _vm._m(0)
-          ])
-        ]),
-        _vm._v(" "),
-        _c("input", {
-          staticClass: "button is-primary",
-          attrs: { type: "submit" },
-          domProps: { value: _vm.translations.password.actions.reset_password }
-        })
-      ],
-      1
-    ),
-    _vm._v(" "),
-    _c("div", { staticClass: "links" }, [
-      _c(
-        "a",
-        {
-          on: {
-            click: function($event) {
-              return _vm.goTo("/login")
-            }
-          }
-        },
-        [
-          _vm._v(
-            "\n         " + _vm._s(_vm.translations.links.login) + "\n      "
-          )
-        ]
-      ),
-      _vm._v(" "),
-      _c(
-        "a",
-        {
-          on: {
-            click: function($event) {
-              return _vm.goTo("/register")
-            }
-          }
-        },
-        [
-          _vm._v(
-            "\n         " + _vm._s(_vm.translations.links.sign_up) + "\n      "
-          )
-        ]
-      ),
-      _vm._v(" "),
-      _c(
-        "a",
-        {
-          on: {
-            click: function($event) {
-              return _vm.goTo("/confirmation/new")
-            }
-          }
-        },
-        [
-          _vm._v(
-            "\n         " +
-              _vm._s(_vm.translations.links.resend_confirmation_email) +
-              "\n      "
-          )
-        ]
-      )
-    ])
-  ])
-}
-var newvue_type_template_id_f701a566_staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("span", { staticClass: "icon is-small is-left" }, [
-      _c("i", { staticClass: "fas fa-envelope" })
-    ])
-  }
-]
-newvue_type_template_id_f701a566_render._withStripped = true
-
-
-// CONCATENATED MODULE: ./app/vue/users/apps/password/new.vue?vue&type=template&id=f701a566&
-
-// CONCATENATED MODULE: ./node_modules/babel-loader/lib??ref--3!./node_modules/vue-loader/lib??vue-loader-options!./app/vue/users/apps/password/new.vue?vue&type=script&lang=js&
-
-
-/* harmony default export */ var newvue_type_script_lang_js_ = ({
-  data: function data() {
-    return {
-      translations: {
-        links: I18n.t('users.links'),
-        password: I18n.t('users.password'),
-        shared: I18n.t('users.shared')
-      },
-      password: {
-        email: ''
-      },
-      progress_bar_active: false,
-      notification: {
-        show: false,
-        message: '',
-        type: 'is-danger'
-      }
-    };
-  },
-  methods: {
-    showNotification: function showNotification(message) {
-      var type = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 'is-danger';
-      this.notification.message = message;
-      this.notification.type = type;
-      this.notification.show = true;
-    },
-    resetPassword: function resetPassword(event) {
-      var _this = this;
-
-      event.preventDefault();
-      var data = {
-        user: this.password
-      };
-      this.progress_bar_active = true;
-      this.http.post(this.url.to(null, null, '/password'), data).then(function (response) {
-        _this.progress_bar_active = false;
-
-        if (response.successful) {
-          _this.showNotification(_this.translations.password.notifications.create.success, 'is-success');
-
-          setTimeout(function () {
-            _this.goTo('/login');
-          }, 5000);
-        } else {
-          _this.showNotification(response.error.message);
-        }
-      })["catch"](function (err) {
-        console.log(err);
-      });
-    },
-    goTo: function goTo(url) {
-      this.$router.push("".concat(url));
-    }
-  },
-  components: {
-    'form-notification': notification["a" /* default */],
-    'progress-bar': progress_bar["a" /* default */]
-  }
-});
-// CONCATENATED MODULE: ./app/vue/users/apps/password/new.vue?vue&type=script&lang=js&
- /* harmony default export */ var password_newvue_type_script_lang_js_ = (newvue_type_script_lang_js_); 
-// CONCATENATED MODULE: ./app/vue/users/apps/password/new.vue
-
-
-
-
-
-/* normalize component */
-
-var new_component = Object(componentNormalizer["a" /* default */])(
-  password_newvue_type_script_lang_js_,
-  newvue_type_template_id_f701a566_render,
-  newvue_type_template_id_f701a566_staticRenderFns,
-  false,
-  null,
-  null,
-  null
-  
-)
-
-/* hot reload */
 if (false) { var new_api; }
-new_component.options.__file = "app/vue/users/apps/password/new.vue"
-/* harmony default export */ var password_new = (new_component.exports);
-// CONCATENATED MODULE: ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./app/vue/users/apps/password/edit.vue?vue&type=template&id=1b6b8d2d&
-var editvue_type_template_id_1b6b8d2d_render = function() {
-  var _vm = this
-  var _h = _vm.$createElement
-  var _c = _vm._self._c || _h
-  return _c("section", { attrs: { id: "passwords" } }, [
-    _c("a", { staticClass: "logo", attrs: { href: _vm.url.to() } }, [
-      _c("img", {
-        attrs: {
-          src: "/assets/brand/leslicloud-logo.png",
-          alt: "LesliCloud Logo"
-        }
-      })
-    ]),
-    _vm._v(" "),
-    _c(
-      "form",
-      {
-        ref: "form",
-        attrs: { id: "registration_user" },
-        on: { submit: _vm.resetPassword }
-      },
-      [
-        _c("progress-bar", { attrs: { active: _vm.progress_bar_active } }),
-        _vm._v(" "),
-        _c("form-notification", {
-          attrs: {
-            message: _vm.notification.message,
-            type: _vm.notification.type,
-            show: _vm.notification.show
-          },
-          on: {
-            "update:show": function($event) {
-              return _vm.$set(_vm.notification, "show", $event)
-            }
-          }
-        }),
-        _vm._v(" "),
-        _c("div", { staticClass: "field" }, [
-          _c("p", { staticClass: "control has-icons-left" }, [
-            _c(
-              "label",
-              { staticClass: "sr-only", attrs: { for: "user_password" } },
-              [
-                _vm._v(
-                  "\n               " +
-                    _vm._s(_vm.translations.shared.fields.password) +
-                    "\n            "
-                )
-              ]
-            ),
-            _vm._v(" "),
-            _c("input", {
-              directives: [
-                {
-                  name: "model",
-                  rawName: "v-model",
-                  value: _vm.password.password,
-                  expression: "password.password"
-                }
-              ],
-              staticClass: "input",
-              attrs: {
-                type: "password",
-                required: "true",
-                minlength: "6",
-                placeholder: _vm.translations.shared.fields.new_password
-              },
-              domProps: { value: _vm.password.password },
-              on: {
-                change: _vm.verifyPasswords,
-                input: function($event) {
-                  if ($event.target.composing) {
-                    return
-                  }
-                  _vm.$set(_vm.password, "password", $event.target.value)
-                }
-              }
-            }),
-            _vm._v(" "),
-            _vm._m(0)
-          ])
-        ]),
-        _vm._v(" "),
-        _c("div", { staticClass: "field" }, [
-          _c("p", { staticClass: "control has-icons-left" }, [
-            _c(
-              "label",
-              { staticClass: "sr-only", attrs: { for: "user_password" } },
-              [
-                _vm._v(
-                  "\n               " +
-                    _vm._s(_vm.translations.shared.fields.password) +
-                    "\n            "
-                )
-              ]
-            ),
-            _vm._v(" "),
-            _c("input", {
-              directives: [
-                {
-                  name: "model",
-                  rawName: "v-model",
-                  value: _vm.password.password_confirmation,
-                  expression: "password.password_confirmation"
-                }
-              ],
-              staticClass: "input",
-              attrs: {
-                type: "password",
-                required: "true",
-                placeholder:
-                  _vm.translations.shared.fields.password_confirmation
-              },
-              domProps: { value: _vm.password.password_confirmation },
-              on: {
-                change: _vm.verifyPasswords,
-                input: function($event) {
-                  if ($event.target.composing) {
-                    return
-                  }
-                  _vm.$set(
-                    _vm.password,
-                    "password_confirmation",
-                    $event.target.value
-                  )
-                }
-              }
-            }),
-            _vm._v(" "),
-            _vm._m(1)
-          ])
-        ]),
-        _vm._v(" "),
-        _c("input", {
-          staticClass: "button is-primary",
-          attrs: { type: "submit" },
-          domProps: { value: _vm.translations.password.actions.change_password }
-        })
-      ],
-      1
-    ),
-    _vm._v(" "),
-    _c("div", { staticClass: "links" }, [
-      _c(
-        "a",
-        {
-          on: {
-            click: function($event) {
-              return _vm.goTo("/login")
-            }
-          }
-        },
-        [
-          _vm._v(
-            "\n         " + _vm._s(_vm.translations.links.login) + "\n      "
-          )
-        ]
-      ),
-      _vm._v(" "),
-      _c(
-        "a",
-        {
-          on: {
-            click: function($event) {
-              return _vm.goTo("/register")
-            }
-          }
-        },
-        [
-          _vm._v(
-            "\n         " + _vm._s(_vm.translations.links.sign_up) + "\n      "
-          )
-        ]
-      ),
-      _vm._v(" "),
-      _c(
-        "a",
-        {
-          on: {
-            click: function($event) {
-              return _vm.goTo("/confirmation/new")
-            }
-          }
-        },
-        [
-          _vm._v(
-            "\n         " +
-              _vm._s(_vm.translations.links.resend_confirmation_email) +
-              "\n      "
-          )
-        ]
-      )
-    ])
-  ])
-}
-var editvue_type_template_id_1b6b8d2d_staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("span", { staticClass: "icon is-small is-left" }, [
-      _c("i", { staticClass: "fas fa-lock" })
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("span", { staticClass: "icon is-small is-left" }, [
-      _c("i", { staticClass: "fas fa-lock" })
-    ])
-  }
-]
-editvue_type_template_id_1b6b8d2d_render._withStripped = true
-
-
-// CONCATENATED MODULE: ./app/vue/users/apps/password/edit.vue?vue&type=template&id=1b6b8d2d&
-
-// CONCATENATED MODULE: ./node_modules/babel-loader/lib??ref--3!./node_modules/vue-loader/lib??vue-loader-options!./app/vue/users/apps/password/edit.vue?vue&type=script&lang=js&
-
-
-/* harmony default export */ var editvue_type_script_lang_js_ = ({
-  data: function data() {
-    return {
-      translations: {
-        links: I18n.t('users.links'),
-        password: I18n.t('users.password'),
-        sessions: I18n.t('devise.sessions'),
-        shared: I18n.t('users.shared')
-      },
-      password: {
-        password: '',
-        password_confirmation: '',
-        reset_password_token: ''
-      },
-      progress_bar_active: false,
-      notification: {
-        show: false,
-        message: '',
-        type: 'is-danger'
-      }
-    };
-  },
-  mounted: function mounted() {
-    this.setResetPasswordToken();
-  },
-  methods: {
-    setResetPasswordToken: function setResetPasswordToken() {
-      this.password.reset_password_token = this.$route.query.reset_password_token;
-    },
-    resetPassword: function resetPassword(event) {
-      var _this = this;
-
-      event.preventDefault();
-      var data = {
-        user: this.password
-      };
-      this.progress_bar_active = true;
-      this.http.put(this.url.to(null, null, '/password'), data).then(function (response) {
-        _this.progress_bar_active = false;
-
-        if (response.successful) {
-          _this.showNotification(_this.translations.password.notifications.update.success, 'is-success');
-
-          setTimeout(function () {
-            _this.goTo('/login');
-          }, 2500);
-        } else {
-          _this.showNotification(response.error.message);
-        }
-      })["catch"](function (err) {
-        console.log(err);
-      });
-    },
-    showNotification: function showNotification(message) {
-      var type = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 'is-danger';
-      this.notification.message = message;
-      this.notification.type = type;
-      this.notification.show = true;
-    },
-    verifyPasswords: function verifyPasswords() {
-      var password = this.password.password;
-      var password_confirmation = this.password.password_confirmation;
-
-      if (password && password_confirmation) {
-        if (password !== password_confirmation) {
-          this.showNotification(this.translations.shared.errors.unmatched_passwords);
-          return;
-        }
-      }
-
-      this.notification.show = false;
-    },
-    goTo: function goTo(url) {
-      this.$router.push("".concat(url));
-    }
-  },
-  components: {
-    'form-notification': notification["a" /* default */],
-    'progress-bar': progress_bar["a" /* default */]
-  }
-});
-// CONCATENATED MODULE: ./app/vue/users/apps/password/edit.vue?vue&type=script&lang=js&
- /* harmony default export */ var password_editvue_type_script_lang_js_ = (editvue_type_script_lang_js_); 
-// CONCATENATED MODULE: ./app/vue/users/apps/password/edit.vue
-
-
-
-
-
-/* normalize component */
-
-var edit_component = Object(componentNormalizer["a" /* default */])(
-  password_editvue_type_script_lang_js_,
-  editvue_type_template_id_1b6b8d2d_render,
-  editvue_type_template_id_1b6b8d2d_staticRenderFns,
-  false,
-  null,
-  null,
-  null
-  
-)
-
-/* hot reload */
-if (false) { var edit_api; }
-edit_component.options.__file = "app/vue/users/apps/password/edit.vue"
-/* harmony default export */ var edit = (edit_component.exports);
-// CONCATENATED MODULE: ./app/vue/users/sessions_new.js
+new_component.options.__file = "app/vue/accounts/apps/new.vue"
+/* harmony default export */ var apps_new = (new_component.exports);
+// CONCATENATED MODULE: ./app/vue/accounts/new.js
 /*
 Lesli
 
@@ -31356,32 +30124,16 @@ Building a better future, one line of code at a time.
  // · Import apps and components
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
 
-
-
-
-
  // · 
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
 
-Object(app["a" /* default */])("Lesli", "[login|confirmation|register]", "", [{
+Object(app["a" /* default */])("Lesli", "[new]", "", [{
   path: "/",
-  redirect: "/login"
+  redirect: "/accounts/new"
 }, {
-  path: "/login",
-  component: login
-}, {
-  path: "/confirmation/new",
-  component: confirmation
-}, {
-  path: "/register",
-  component: register
-}, {
-  path: "/password/new",
-  component: password_new
-}, {
-  path: "/password/edit",
-  component: edit
-}], true);
+  path: "/accounts/new",
+  component: apps_new
+}]);
 
 /***/ })
 /******/ ]);
