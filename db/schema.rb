@@ -388,8 +388,10 @@ ActiveRecord::Schema.define(version: 8020001) do
     t.text "content"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.bigint "cloud_kb_catalog_article_categories_id"
     t.bigint "cloud_kb_articles_id"
     t.index ["cloud_kb_articles_id"], name: "index_cloud_kb_article_details_on_cloud_kb_articles_id"
+    t.index ["cloud_kb_catalog_article_categories_id"], name: "kb_article_details_catalog_article_categories"
   end
 
   create_table "cloud_kb_article_discussions", force: :cascade do |t|
@@ -718,6 +720,7 @@ ActiveRecord::Schema.define(version: 8020001) do
   add_foreign_key "cloud_kb_article_categories", "cloud_kb_articles", column: "cloud_kb_articles_id"
   add_foreign_key "cloud_kb_article_categories", "cloud_kb_catalog_article_categories", column: "cloud_kb_catalog_article_categories_id"
   add_foreign_key "cloud_kb_article_details", "cloud_kb_articles", column: "cloud_kb_articles_id"
+  add_foreign_key "cloud_kb_article_details", "cloud_kb_catalog_article_categories", column: "cloud_kb_catalog_article_categories_id"
   add_foreign_key "cloud_kb_article_discussions", "cloud_kb_article_discussions", column: "cloud_kb_article_discussions_id"
   add_foreign_key "cloud_kb_article_discussions", "cloud_kb_articles", column: "cloud_kb_articles_id"
   add_foreign_key "cloud_kb_article_discussions", "users", column: "users_id"
