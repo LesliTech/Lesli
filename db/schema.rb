@@ -446,6 +446,7 @@ ActiveRecord::Schema.define(version: 8020001) do
 
   create_table "cloud_kb_catalog_article_categories", force: :cascade do |t|
     t.string "name"
+    t.string "ancestry"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.bigint "cloud_kb_catalogs_id"
@@ -453,6 +454,7 @@ ActiveRecord::Schema.define(version: 8020001) do
   end
 
   create_table "cloud_kb_catalogs", force: :cascade do |t|
+    t.string "name"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.bigint "cloud_kb_accounts_id"
