@@ -45,8 +45,8 @@ export default {
 
             // · Get well formated url
             to(engine=null, module=null, app=null) {
-
-                return new URL([engine, module, app].join('/'), leslicloud_request.root_url)
+                //  · Filter allows to ignore null values
+                return new URL([engine, module, app].filter(item=>item).join('/'), leslicloud_request.root_url)
 
             }
 
