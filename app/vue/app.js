@@ -62,7 +62,7 @@ import componentLayoutNavigation from 'LesliCloud/vue/layouts/navigation.vue'
 // · If the file is public accessible, and no extra components no websockets are created
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
 Vue.use(Buefy)
-//Vue.use(pluginBus)
+Vue.use(pluginBus)
 Vue.use(VueRouter)
 Vue.use(pluginUrl)
 Vue.use(pluginHttp)
@@ -76,24 +76,18 @@ Vue.component('component-layout-empty-data', componentLayoutEmptyData)
 // · app: List of individual apps loaded
 // · base_path: for vue router
 // · example: app("CloudHelp", "[list|new|edit|show]", "help/tickets", [])
-export default (module, apps, base_path, routes=[], public_accessibility=false) => {
-
-    if (!public_accessibility) {
-        Vue.use(pluginBus)
-    }
+export default (module, apps, base_path, routes=[]) => {
 
     // · Vue app configuration container
     let cloud_builder = { }
 
 
     // · Default and custom components for logged users
-    if (!public_accessibility) {
-        cloud_builder['components'] = { 
-            'component-layout-notify': componentLayoutNotify,
-            'component-layout-header': componentLayoutHeader,
-            'component-layout-chatbox': componentLayoutChatbox,
-            'component-layout-navigation': componentLayoutNavigation
-        }
+    cloud_builder['components'] = { 
+        'component-layout-notify': componentLayoutNotify,
+        'component-layout-header': componentLayoutHeader,
+        'component-layout-chatbox': componentLayoutChatbox,
+        'component-layout-navigation': componentLayoutNavigation
     }
 
     
