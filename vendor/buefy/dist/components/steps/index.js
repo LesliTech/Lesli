@@ -1,9 +1,23 @@
-/*! Buefy v0.8.2 | MIT License | github.com/buefy/buefy */
+/*! Buefy v0.8.6 | MIT License | github.com/buefy/buefy */
 (function (global, factory) {
   typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports) :
   typeof define === 'function' && define.amd ? define(['exports'], factory) :
   (global = global || self, factory(global.Steps = {}));
 }(this, function (exports) { 'use strict';
+
+  function _typeof(obj) {
+    if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") {
+      _typeof = function (obj) {
+        return typeof obj;
+      };
+    } else {
+      _typeof = function (obj) {
+        return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj;
+      };
+    }
+
+    return _typeof(obj);
+  }
 
   function _defineProperty(obj, key, value) {
     if (key in obj) {
@@ -20,10 +34,45 @@
     return obj;
   }
 
+  function ownKeys(object, enumerableOnly) {
+    var keys = Object.keys(object);
+
+    if (Object.getOwnPropertySymbols) {
+      keys.push.apply(keys, Object.getOwnPropertySymbols(object));
+    }
+
+    if (enumerableOnly) keys = keys.filter(function (sym) {
+      return Object.getOwnPropertyDescriptor(object, sym).enumerable;
+    });
+    return keys;
+  }
+
+  function _objectSpread2(target) {
+    for (var i = 1; i < arguments.length; i++) {
+      var source = arguments[i] != null ? arguments[i] : {};
+
+      if (i % 2) {
+        ownKeys(source, true).forEach(function (key) {
+          _defineProperty(target, key, source[key]);
+        });
+      } else if (Object.getOwnPropertyDescriptors) {
+        Object.defineProperties(target, Object.getOwnPropertyDescriptors(source));
+      } else {
+        ownKeys(source).forEach(function (key) {
+          Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key));
+        });
+      }
+    }
+
+    return target;
+  }
+
   var config = {
     defaultContainerElement: null,
     defaultIconPack: 'mdi',
     defaultIconComponent: null,
+    defaultIconPrev: 'chevron-left',
+    defaultIconNext: 'chevron-right',
     defaultDialogConfirmText: null,
     defaultDialogCancelText: null,
     defaultSnackbarDuration: 3500,
@@ -58,15 +107,95 @@
     defaultDatepickerYearsRange: [-100, 3],
     defaultDatepickerNearbyMonthDays: true,
     defaultDatepickerNearbySelectableMonthDays: false,
-    defaultDatepickerShowWeekNumber: false
+    defaultDatepickerShowWeekNumber: false,
+    defaultTrapFocus: false,
+    defaultButtonRounded: false,
+    customIconPacks: null // TODO defaultTrapFocus to true in the next breaking change
+
   };
   var config$1 = config;
+
+  /**
+  * Merge function to replace Object.assign with deep merging possibility
+  */
+
+  var isObject = function isObject(item) {
+    return _typeof(item) === 'object' && !Array.isArray(item);
+  };
+
+  var mergeFn = function mergeFn(target, source) {
+    var isDeep = function isDeep(prop) {
+      return isObject(source[prop]) && target.hasOwnProperty(prop) && isObject(target[prop]);
+    };
+
+    var replaced = Object.getOwnPropertyNames(source).map(function (prop) {
+      return _defineProperty({}, prop, isDeep(prop) ? mergeFn(target[prop], source[prop]) : source[prop]);
+    }).reduce(function (a, b) {
+      return _objectSpread2({}, a, {}, b);
+    }, {});
+    return _objectSpread2({}, target, {}, replaced);
+  };
+
+  var merge = mergeFn;
+
+  var mdiIcons = {
+    sizes: {
+      'default': 'mdi-24px',
+      'is-small': null,
+      'is-medium': 'mdi-36px',
+      'is-large': 'mdi-48px'
+    },
+    iconPrefix: 'mdi-'
+  };
+
+  var faIcons = function faIcons() {
+    var faIconPrefix = config$1 && config$1.defaultIconComponent ? '' : 'fa-';
+    return {
+      sizes: {
+        'default': faIconPrefix + 'lg',
+        'is-small': null,
+        'is-medium': faIconPrefix + '2x',
+        'is-large': faIconPrefix + '3x'
+      },
+      iconPrefix: faIconPrefix,
+      internalIcons: {
+        'information': 'info-circle',
+        'alert': 'exclamation-triangle',
+        'alert-circle': 'exclamation-circle',
+        'chevron-right': 'angle-right',
+        'chevron-left': 'angle-left',
+        'chevron-down': 'angle-down',
+        'eye-off': 'eye-slash',
+        'menu-down': 'caret-down',
+        'menu-up': 'caret-up'
+      }
+    };
+  };
+
+  var getIcons = function getIcons() {
+    var icons = {
+      mdi: mdiIcons,
+      fa: faIcons(),
+      fas: faIcons(),
+      far: faIcons(),
+      fad: faIcons(),
+      fab: faIcons(),
+      fal: faIcons()
+    };
+
+    if (config$1 && config$1.customIconPacks) {
+      icons = merge(icons, config$1.customIconPacks);
+    }
+
+    return icons;
+  };
 
   //
   var script = {
     name: 'BIcon',
     props: {
       type: [String, Object],
+      component: String,
       pack: String,
       icon: String,
       size: String,
@@ -76,13 +205,25 @@
 
     },
     computed: {
+      iconConfig: function iconConfig() {
+        var allIcons = getIcons();
+        return allIcons[this.newPack];
+      },
+      iconPrefix: function iconPrefix() {
+        if (this.iconConfig && this.iconConfig.iconPrefix) {
+          return this.iconConfig.iconPrefix;
+        }
+
+        return '';
+      },
+
       /**
       * Internal icon name based on the pack.
       * If pack is 'fa', gets the equivalent FA icon name of the MDI,
       * internal icons are always MDI.
       */
       newIcon: function newIcon() {
-        return this.newPack === 'mdi' ? "".concat(this.newPack, "-").concat(this.icon) : this.addFAPrefix(this.getEquivalentIconOf(this.icon));
+        return "".concat(this.iconPrefix).concat(this.getEquivalentIconOf(this.icon));
       },
       newPack: function newPack() {
         return this.pack || config$1.defaultIconPack;
@@ -109,39 +250,23 @@
         return this.customSize || this.customSizeByPack;
       },
       customSizeByPack: function customSizeByPack() {
-        var defaultSize = this.newPack === 'mdi' ? 'mdi-24px' : this.addFAPrefix('lg');
-        var mediumSize = this.newPack === 'mdi' ? 'mdi-36px' : this.addFAPrefix('2x');
-        var largeSize = this.newPack === 'mdi' ? 'mdi-48px' : this.addFAPrefix('3x');
-
-        switch (this.size) {
-          case 'is-small':
-            return;
-
-          case 'is-medium':
-            return mediumSize;
-
-          case 'is-large':
-            return largeSize;
-
-          default:
-            return defaultSize;
+        if (this.iconConfig && this.iconConfig.sizes) {
+          if (this.size && this.iconConfig.sizes[this.size] !== undefined) {
+            return this.iconConfig.sizes[this.size];
+          } else if (this.iconConfig.sizes.default) {
+            return this.iconConfig.sizes.default;
+          }
         }
+
+        return null;
       },
       useIconComponent: function useIconComponent() {
-        return config$1.defaultIconComponent;
+        return this.component || config$1.defaultIconComponent;
       }
     },
     methods: {
-      addFAPrefix: function addFAPrefix(value) {
-        if (this.useIconComponent) {
-          return value;
-        }
-
-        return "fa-".concat(value);
-      },
-
       /**
-      * Equivalent FA icon name of the MDI.
+      * Equivalent icon name of the MDI.
       */
       getEquivalentIconOf: function getEquivalentIconOf(value) {
         // Only transform the class if the both prop is set to true
@@ -149,49 +274,11 @@
           return value;
         }
 
-        switch (value) {
-          case 'check':
-            return 'check';
-
-          case 'information':
-            return 'info-circle';
-
-          case 'check-circle':
-            return 'check-circle';
-
-          case 'alert':
-            return 'exclamation-triangle';
-
-          case 'alert-circle':
-            return 'exclamation-circle';
-
-          case 'arrow-up':
-            return 'arrow-up';
-
-          case 'chevron-right':
-            return 'angle-right';
-
-          case 'chevron-left':
-            return 'angle-left';
-
-          case 'chevron-down':
-            return 'angle-down';
-
-          case 'eye':
-            return 'eye';
-
-          case 'eye-off':
-            return 'eye-slash';
-
-          case 'menu-down':
-            return 'caret-down';
-
-          case 'menu-up':
-            return 'caret-up';
-
-          default:
-            return value;
+        if (this.iconConfig && this.iconConfig.internalIcons && this.iconConfig.internalIcons[value]) {
+          return this.iconConfig.internalIcons[value];
         }
+
+        return value;
       }
     }
   };
@@ -381,6 +468,14 @@
         default: false
       },
       iconPack: String,
+      iconPrev: {
+        type: String,
+        default: config$1.defaultIconPrev
+      },
+      iconNext: {
+        type: String,
+        default: config$1.defaultIconNext
+      },
       hasNavigation: {
         type: Boolean,
         default: true
@@ -407,28 +502,28 @@
       },
 
       /**
-          * Check the first visible step index.
-          */
+       * Check the first visible step index.
+       */
       firstVisibleStepIndex: function firstVisibleStepIndex() {
-        return this.stepItems.findIndex(function (step, idx) {
+        return this.stepItems.map(function (step, idx) {
           return step.visible;
-        });
+        }).indexOf(true);
       },
 
       /**
-          * Check if previous button is available.
-          */
+       * Check if previous button is available.
+       */
       hasPrev: function hasPrev() {
         return this.firstVisibleStepIndex >= 0 && this.activeStep > this.firstVisibleStepIndex;
       },
 
       /**
-          * Check the last visible step index.
-          */
+       * Check the last visible step index.
+       */
       lastVisibleStepIndex: function lastVisibleStepIndex() {
-        var idx = this.reversedStepItems.findIndex(function (step, idx) {
+        var idx = this.reversedStepItems.map(function (step, idx) {
           return step.visible;
-        });
+        }).indexOf(true);
 
         if (idx >= 0) {
           return this.stepItems.length - 1 - idx;
@@ -438,10 +533,22 @@
       },
 
       /**
-          * Check if next button is available.
-          */
+       * Check if next button is available.
+       */
       hasNext: function hasNext() {
         return this.lastVisibleStepIndex >= 0 && this.activeStep < this.lastVisibleStepIndex;
+      },
+      navigationProps: function navigationProps() {
+        return {
+          previous: {
+            disabled: !this.hasPrev,
+            action: this.prev
+          },
+          next: {
+            disabled: !this.hasNext,
+            action: this.next
+          }
+        };
       }
     },
     watch: {
@@ -497,15 +604,15 @@
       },
 
       /**
-          * Previous button click listener.
-          */
+       * Previous button click listener.
+       */
       prev: function prev() {
         var _this = this;
 
         if (!this.hasPrev) return;
-        var prevItemIdx = this.reversedStepItems.findIndex(function (step, idx) {
+        var prevItemIdx = this.reversedStepItems.map(function (step, idx) {
           return _this.stepItems.length - 1 - idx < _this.activeStep && step.visible;
-        });
+        }).indexOf(true);
 
         if (prevItemIdx >= 0) {
           prevItemIdx = this.stepItems.length - 1 - prevItemIdx;
@@ -516,15 +623,15 @@
       },
 
       /**
-          * Previous button click listener.
-          */
+       * Previous button click listener.
+       */
       next: function next() {
         var _this2 = this;
 
         if (!this.hasNext) return;
-        var nextItemIdx = this.stepItems.findIndex(function (step, idx) {
+        var nextItemIdx = this.stepItems.map(function (step, idx) {
           return idx > _this2.activeStep && step.visible;
-        });
+        }).indexOf(true);
         this.$emit('input', nextItemIdx);
         this.changeStep(nextItemIdx);
       }
@@ -543,7 +650,7 @@
   var __vue_render__$1 = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"b-steps"},[_c('nav',{staticClass:"steps",class:_vm.mainClasses},[_c('ul',{staticClass:"step-items"},_vm._l((_vm.stepItems),function(stepItem,index){return _c('li',{directives:[{name:"show",rawName:"v-show",value:(stepItem.visible),expression:"stepItem.visible"}],key:index,staticClass:"step-item",class:[stepItem.type || _vm.type, {
                       'is-active': _vm.activeStep === index,
                       'is-previous': _vm.activeStep > index
-              }]},[_c('a',{staticClass:"step-link",class:{'is-clickable': _vm.isItemClickable(stepItem, index)},on:{"click":function($event){_vm.isItemClickable(stepItem, index) && _vm.stepClick(index);}}},[_c('div',{staticClass:"step-marker"},[(stepItem.icon)?_c('b-icon',{attrs:{"icon":stepItem.icon,"pack":stepItem.iconPack,"size":_vm.size}}):_vm._e()],1),_vm._v(" "),_c('div',{staticClass:"step-details"},[_c('span',{staticClass:"step-title"},[_vm._v(_vm._s(stepItem.label))])])])])}))]),_vm._v(" "),_c('section',{staticClass:"step-content",class:{'is-transitioning': _vm.isTransitioning}},[_vm._t("default")],2),_vm._v(" "),(_vm.hasNavigation)?_c('nav',{staticClass:"step-navigation"},[_c('a',{staticClass:"pagination-previous",attrs:{"role":"button","href":"#","disabled":!_vm.hasPrev,"aria-label":_vm.ariaPreviousLabel},on:{"click":function($event){$event.preventDefault();_vm.prev($event);}}},[_c('b-icon',{attrs:{"icon":"chevron-left","pack":_vm.iconPack,"both":"","aria-hidden":"true"}})],1),_vm._v(" "),_c('a',{staticClass:"pagination-next",attrs:{"role":"button","href":"#","disabled":!_vm.hasNext,"aria-label":_vm.ariaNextLabel},on:{"click":function($event){$event.preventDefault();_vm.next($event);}}},[_c('b-icon',{attrs:{"icon":"chevron-right","pack":_vm.iconPack,"both":"","aria-hidden":"true"}})],1)]):_vm._e()])};
+              }]},[_c('a',{staticClass:"step-link",class:{'is-clickable': _vm.isItemClickable(stepItem, index)},on:{"click":function($event){_vm.isItemClickable(stepItem, index) && _vm.stepClick(index);}}},[_c('div',{staticClass:"step-marker"},[(stepItem.icon)?_c('b-icon',{attrs:{"icon":stepItem.icon,"pack":stepItem.iconPack,"size":_vm.size}}):_vm._e()],1),_vm._v(" "),_c('div',{staticClass:"step-details"},[_c('span',{staticClass:"step-title"},[_vm._v(_vm._s(stepItem.label))])])])])}))]),_vm._v(" "),_c('section',{staticClass:"step-content",class:{'is-transitioning': _vm.isTransitioning}},[_vm._t("default")],2),_vm._v(" "),_vm._t("navigation",[(_vm.hasNavigation)?_c('nav',{staticClass:"step-navigation"},[_c('a',{staticClass:"pagination-previous",attrs:{"role":"button","disabled":_vm.navigationProps.previous.disabled,"aria-label":_vm.ariaPreviousLabel},on:{"click":function($event){$event.preventDefault();_vm.navigationProps.previous.action($event);}}},[_c('b-icon',{attrs:{"icon":_vm.iconPrev,"pack":_vm.iconPack,"both":"","aria-hidden":"true"}})],1),_vm._v(" "),_c('a',{staticClass:"pagination-next",attrs:{"role":"button","disabled":_vm.navigationProps.next.disabled,"aria-label":_vm.ariaNextLabel},on:{"click":function($event){$event.preventDefault();_vm.navigationProps.next.action($event);}}},[_c('b-icon',{attrs:{"icon":_vm.iconNext,"pack":_vm.iconPack,"both":"","aria-hidden":"true"}})],1)]):_vm._e()],{previous:_vm.navigationProps.previous,next:_vm.navigationProps.next})],2)};
   var __vue_staticRenderFns__$1 = [];
 
     /* style */
@@ -712,8 +819,6 @@
   };
   use(Plugin);
 
-  exports.StepItem = StepItem;
-  exports.Steps = Steps;
   exports.default = Plugin;
 
   Object.defineProperty(exports, '__esModule', { value: true });

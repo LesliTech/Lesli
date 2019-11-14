@@ -1,9 +1,23 @@
-/*! Buefy v0.8.2 | MIT License | github.com/buefy/buefy */
+/*! Buefy v0.8.6 | MIT License | github.com/buefy/buefy */
 (function (global, factory) {
   typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports) :
   typeof define === 'function' && define.amd ? define(['exports'], factory) :
   (global = global || self, factory(global.Timepicker = {}));
 }(this, function (exports) { 'use strict';
+
+  function _typeof(obj) {
+    if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") {
+      _typeof = function (obj) {
+        return typeof obj;
+      };
+    } else {
+      _typeof = function (obj) {
+        return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj;
+      };
+    }
+
+    return _typeof(obj);
+  }
 
   function _defineProperty(obj, key, value) {
     if (key in obj) {
@@ -20,10 +34,45 @@
     return obj;
   }
 
+  function ownKeys(object, enumerableOnly) {
+    var keys = Object.keys(object);
+
+    if (Object.getOwnPropertySymbols) {
+      keys.push.apply(keys, Object.getOwnPropertySymbols(object));
+    }
+
+    if (enumerableOnly) keys = keys.filter(function (sym) {
+      return Object.getOwnPropertyDescriptor(object, sym).enumerable;
+    });
+    return keys;
+  }
+
+  function _objectSpread2(target) {
+    for (var i = 1; i < arguments.length; i++) {
+      var source = arguments[i] != null ? arguments[i] : {};
+
+      if (i % 2) {
+        ownKeys(source, true).forEach(function (key) {
+          _defineProperty(target, key, source[key]);
+        });
+      } else if (Object.getOwnPropertyDescriptors) {
+        Object.defineProperties(target, Object.getOwnPropertyDescriptors(source));
+      } else {
+        ownKeys(source).forEach(function (key) {
+          Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key));
+        });
+      }
+    }
+
+    return target;
+  }
+
   var config = {
     defaultContainerElement: null,
     defaultIconPack: 'mdi',
     defaultIconComponent: null,
+    defaultIconPrev: 'chevron-left',
+    defaultIconNext: 'chevron-right',
     defaultDialogConfirmText: null,
     defaultDialogCancelText: null,
     defaultSnackbarDuration: 3500,
@@ -58,7 +107,11 @@
     defaultDatepickerYearsRange: [-100, 3],
     defaultDatepickerNearbyMonthDays: true,
     defaultDatepickerNearbySelectableMonthDays: false,
-    defaultDatepickerShowWeekNumber: false
+    defaultDatepickerShowWeekNumber: false,
+    defaultTrapFocus: false,
+    defaultButtonRounded: false,
+    customIconPacks: null // TODO defaultTrapFocus to true in the next breaking change
+
   };
   var config$1 = config;
 
@@ -169,29 +222,17 @@
         this.isFocused = true;
         this.$emit('focus', $event);
       },
-
-      /**
-       * Check HTML5 validation, set isValid property.
-       * If validation fail, send 'is-danger' type,
-       * and error message to parent if it's a Field.
-       */
-      checkHtml5Validity: function checkHtml5Validity() {
+      getElement: function getElement() {
+        return this.$el.querySelector(this.$data._elementRef);
+      },
+      setInvalid: function setInvalid() {
+        var type = 'is-danger';
+        var message = this.validationMessage || this.getElement().validationMessage;
+        this.setValidity(type, message);
+      },
+      setValidity: function setValidity(type, message) {
         var _this2 = this;
 
-        if (!this.useHtml5Validation) return;
-        if (this.$refs[this.$data._elementRef] === undefined) return;
-        var el = this.$el.querySelector(this.$data._elementRef);
-        var type = null;
-        var message = null;
-        var isValid = true;
-
-        if (!el.checkValidity()) {
-          type = 'is-danger';
-          message = this.validationMessage || el.validationMessage;
-          isValid = false;
-        }
-
-        this.isValid = isValid;
         this.$nextTick(function () {
           if (_this2.parentField) {
             // Set type only if not defined
@@ -205,14 +246,52 @@
             }
           }
         });
+      },
+
+      /**
+       * Check HTML5 validation, set isValid property.
+       * If validation fail, send 'is-danger' type,
+       * and error message to parent if it's a Field.
+       */
+      checkHtml5Validity: function checkHtml5Validity() {
+        if (!this.useHtml5Validation) return;
+        if (this.$refs[this.$data._elementRef] === undefined) return;
+
+        if (!this.getElement().checkValidity()) {
+          this.setInvalid();
+          this.isValid = false;
+        } else {
+          this.setValidity(null, null);
+          this.isValid = true;
+        }
+
         return this.isValid;
       }
     }
   };
 
   /**
-   * Get value of an object property/path even if it's nested
-   */
+  * Merge function to replace Object.assign with deep merging possibility
+  */
+
+  var isObject = function isObject(item) {
+    return _typeof(item) === 'object' && !Array.isArray(item);
+  };
+
+  var mergeFn = function mergeFn(target, source) {
+    var isDeep = function isDeep(prop) {
+      return isObject(source[prop]) && target.hasOwnProperty(prop) && isObject(target[prop]);
+    };
+
+    var replaced = Object.getOwnPropertyNames(source).map(function (prop) {
+      return _defineProperty({}, prop, isDeep(prop) ? mergeFn(target[prop], source[prop]) : source[prop]);
+    }).reduce(function (a, b) {
+      return _objectSpread2({}, a, {}, b);
+    }, {});
+    return _objectSpread2({}, target, {}, replaced);
+  };
+
+  var merge = mergeFn;
   /**
    * Mobile detection
    * https://www.abeautifulsite.net/detecting-mobile-devices-with-javascript
@@ -490,11 +569,11 @@
         this.updateDateSelected(this.hoursSelected, this.minutesSelected, this.enableSeconds ? this.secondsSelected : 0, value);
       },
       onHoursChange: function onHoursChange(value) {
-        if (!this.minutesSelected && this.defaultMinutes) {
+        if (!this.minutesSelected && typeof this.defaultMinutes !== 'undefined') {
           this.minutesSelected = this.defaultMinutes;
         }
 
-        if (!this.secondsSelected && this.defaultSeconds) {
+        if (!this.secondsSelected && typeof this.defaultSeconds !== 'undefined') {
           this.secondsSelected = this.defaultSeconds;
         }
 
@@ -549,7 +628,10 @@
 
         if (this.minTime) {
           var minHours = this.minTime.getHours();
-          disabled = hour < minHours;
+          var noMinutesAvailable = this.minutes.every(function (minute) {
+            return _this.isMinuteDisabledForHour(hour, minute.value);
+          });
+          disabled = hour < minHours || noMinutesAvailable;
         }
 
         if (this.maxTime) {
@@ -576,6 +658,25 @@
 
         return disabled;
       },
+      isMinuteDisabledForHour: function isMinuteDisabledForHour(hour, minute) {
+        var disabled = false;
+
+        if (this.minTime) {
+          var minHours = this.minTime.getHours();
+          var minMinutes = this.minTime.getMinutes();
+          disabled = hour === minHours && minute < minMinutes;
+        }
+
+        if (this.maxTime) {
+          if (!disabled) {
+            var maxHours = this.maxTime.getHours();
+            var maxMinutes = this.maxTime.getMinutes();
+            disabled = hour === maxHours && minute > maxMinutes;
+          }
+        }
+
+        return disabled;
+      },
       isMinuteDisabled: function isMinuteDisabled(minute) {
         var _this2 = this;
 
@@ -585,19 +686,7 @@
           if (this.isHourDisabled(this.hoursSelected)) {
             disabled = true;
           } else {
-            if (this.minTime) {
-              var minHours = this.minTime.getHours();
-              var minMinutes = this.minTime.getMinutes();
-              disabled = this.hoursSelected === minHours && minute < minMinutes;
-            }
-
-            if (this.maxTime) {
-              if (!disabled) {
-                var maxHours = this.maxTime.getHours();
-                var maxMinutes = this.maxTime.getMinutes();
-                disabled = this.hoursSelected === maxHours && minute > maxMinutes;
-              }
-            }
+            disabled = this.isMinuteDisabledForHour(this.hoursSelected, minute);
           }
 
           if (this.unselectableTimes) {
@@ -779,9 +868,59 @@
     }
   };
 
+  var findFocusable = function findFocusable(element) {
+    if (!element) {
+      return null;
+    }
+
+    return element.querySelectorAll("a[href],\n                                     area[href],\n                                     input:not([disabled]),\n                                     select:not([disabled]),\n                                     textarea:not([disabled]),\n                                     button:not([disabled]),\n                                     iframe,\n                                     object,\n                                     embed,\n                                     *[tabindex],\n                                     *[contenteditable]");
+  };
+
+  var onKeyDown;
+
+  var bind = function bind(el, _ref) {
+    var _ref$value = _ref.value,
+        value = _ref$value === void 0 ? true : _ref$value;
+
+    if (value) {
+      var focusable = findFocusable(el);
+
+      if (focusable && focusable.length > 0) {
+        var firstFocusable = focusable[0];
+        var lastFocusable = focusable[focusable.length - 1];
+
+        onKeyDown = function onKeyDown(event) {
+          if (event.target === firstFocusable && event.shiftKey && event.key === 'Tab') {
+            event.preventDefault();
+            lastFocusable.focus();
+          } else if (event.target === lastFocusable && !event.shiftKey && event.key === 'Tab') {
+            event.preventDefault();
+            firstFocusable.focus();
+          }
+        };
+
+        el.addEventListener('keydown', onKeyDown);
+        firstFocusable.focus();
+      }
+    }
+  };
+
+  var unbind = function unbind(el) {
+    el.removeEventListener('keydown', onKeyDown);
+  };
+
+  var directive = {
+    bind: bind,
+    unbind: unbind
+  };
+
   //
+  var DEFAULT_CLOSE_OPTIONS = ['escape', 'outside'];
   var script = {
     name: 'BDropdown',
+    directives: {
+      trapFocus: directive
+    },
     props: {
       value: {
         type: [String, Number, Boolean, Object, Array, Function],
@@ -811,10 +950,19 @@
         default: 'fade'
       },
       multiple: Boolean,
+      trapFocus: {
+        type: Boolean,
+        default: config$1.defaultTrapFocus
+      },
       closeOnClick: {
         type: Boolean,
         default: true
-      }
+      },
+      canClose: {
+        type: [Array, Boolean],
+        default: true
+      },
+      expanded: Boolean
     },
     data: function data() {
       return {
@@ -832,11 +980,15 @@
           'is-hoverable': this.hoverable,
           'is-inline': this.inline,
           'is-active': this.isActive || this.inline,
-          'is-mobile-modal': this.isMobileModal
+          'is-mobile-modal': this.isMobileModal,
+          'is-expanded': this.expanded
         }];
       },
       isMobileModal: function isMobileModal() {
         return this.mobileModal && !this.inline && !this.hoverable;
+      },
+      cancelOptions: function cancelOptions() {
+        return typeof this.canClose === 'boolean' ? this.canClose ? DEFAULT_CLOSE_OPTIONS : [] : this.canClose;
       },
       ariaRoleMenu: function ariaRoleMenu() {
         return this.ariaRole === 'menu' || this.ariaRole === 'list' ? this.ariaRole : null;
@@ -979,8 +1131,20 @@
       * Close dropdown if clicked outside.
       */
       clickedOutside: function clickedOutside(event) {
+        if (this.cancelOptions.indexOf('outside') < 0) return;
         if (this.inline) return;
         if (!this.isInWhiteList(event.target)) this.isActive = false;
+      },
+
+      /**
+       * Keypress event that is bound to the document
+       */
+      keyPress: function keyPress(event) {
+        // Esc key
+        if (this.isActive && event.keyCode === 27) {
+          if (this.cancelOptions.indexOf('escape') < 0) return;
+          this.isActive = false;
+        }
       },
 
       /**
@@ -1010,11 +1174,13 @@
     created: function created() {
       if (typeof window !== 'undefined') {
         document.addEventListener('click', this.clickedOutside);
+        document.addEventListener('keyup', this.keyPress);
       }
     },
     beforeDestroy: function beforeDestroy() {
       if (typeof window !== 'undefined') {
         document.removeEventListener('click', this.clickedOutside);
+        document.removeEventListener('keyup', this.keyPress);
       }
     }
   };
@@ -1108,7 +1274,7 @@
   const __vue_script__ = script;
 
   /* template */
-  var __vue_render__ = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"dropdown",class:_vm.rootClasses},[(!_vm.inline)?_c('div',{ref:"trigger",staticClass:"dropdown-trigger",attrs:{"role":"button","aria-haspopup":"true"},on:{"click":_vm.toggle}},[_vm._t("trigger")],2):_vm._e(),_vm._v(" "),_c('transition',{attrs:{"name":_vm.animation}},[(_vm.isMobileModal)?_c('div',{directives:[{name:"show",rawName:"v-show",value:(_vm.isActive),expression:"isActive"}],staticClass:"background",attrs:{"aria-hidden":!_vm.isActive}}):_vm._e()]),_vm._v(" "),_c('transition',{attrs:{"name":_vm.animation}},[_c('div',{directives:[{name:"show",rawName:"v-show",value:((!_vm.disabled && (_vm.isActive || _vm.isHoverable)) || _vm.inline),expression:"(!disabled && (isActive || isHoverable)) || inline"}],ref:"dropdownMenu",staticClass:"dropdown-menu",attrs:{"aria-hidden":!_vm.isActive}},[_c('div',{staticClass:"dropdown-content",attrs:{"role":_vm.ariaRoleMenu}},[_vm._t("default")],2)])])],1)};
+  var __vue_render__ = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"dropdown",class:_vm.rootClasses},[(!_vm.inline)?_c('div',{ref:"trigger",staticClass:"dropdown-trigger",attrs:{"role":"button","aria-haspopup":"true"},on:{"click":_vm.toggle}},[_vm._t("trigger")],2):_vm._e(),_vm._v(" "),_c('transition',{attrs:{"name":_vm.animation}},[(_vm.isMobileModal)?_c('div',{directives:[{name:"show",rawName:"v-show",value:(_vm.isActive),expression:"isActive"}],staticClass:"background",attrs:{"aria-hidden":!_vm.isActive}}):_vm._e()]),_vm._v(" "),_c('transition',{attrs:{"name":_vm.animation}},[_c('div',{directives:[{name:"show",rawName:"v-show",value:((!_vm.disabled && (_vm.isActive || _vm.isHoverable)) || _vm.inline),expression:"(!disabled && (isActive || isHoverable)) || inline"},{name:"trap-focus",rawName:"v-trap-focus",value:(_vm.trapFocus),expression:"trapFocus"}],ref:"dropdownMenu",staticClass:"dropdown-menu",attrs:{"aria-hidden":!_vm.isActive}},[_c('div',{staticClass:"dropdown-content",attrs:{"role":_vm.ariaRoleMenu}},[_vm._t("default")],2)])])],1)};
   var __vue_staticRenderFns__ = [];
 
     /* style */
@@ -1261,11 +1427,64 @@
       undefined
     );
 
+  var mdiIcons = {
+    sizes: {
+      'default': 'mdi-24px',
+      'is-small': null,
+      'is-medium': 'mdi-36px',
+      'is-large': 'mdi-48px'
+    },
+    iconPrefix: 'mdi-'
+  };
+
+  var faIcons = function faIcons() {
+    var faIconPrefix = config$1 && config$1.defaultIconComponent ? '' : 'fa-';
+    return {
+      sizes: {
+        'default': faIconPrefix + 'lg',
+        'is-small': null,
+        'is-medium': faIconPrefix + '2x',
+        'is-large': faIconPrefix + '3x'
+      },
+      iconPrefix: faIconPrefix,
+      internalIcons: {
+        'information': 'info-circle',
+        'alert': 'exclamation-triangle',
+        'alert-circle': 'exclamation-circle',
+        'chevron-right': 'angle-right',
+        'chevron-left': 'angle-left',
+        'chevron-down': 'angle-down',
+        'eye-off': 'eye-slash',
+        'menu-down': 'caret-down',
+        'menu-up': 'caret-up'
+      }
+    };
+  };
+
+  var getIcons = function getIcons() {
+    var icons = {
+      mdi: mdiIcons,
+      fa: faIcons(),
+      fas: faIcons(),
+      far: faIcons(),
+      fad: faIcons(),
+      fab: faIcons(),
+      fal: faIcons()
+    };
+
+    if (config$1 && config$1.customIconPacks) {
+      icons = merge(icons, config$1.customIconPacks);
+    }
+
+    return icons;
+  };
+
   //
   var script$2 = {
     name: 'BIcon',
     props: {
       type: [String, Object],
+      component: String,
       pack: String,
       icon: String,
       size: String,
@@ -1275,13 +1494,25 @@
 
     },
     computed: {
+      iconConfig: function iconConfig() {
+        var allIcons = getIcons();
+        return allIcons[this.newPack];
+      },
+      iconPrefix: function iconPrefix() {
+        if (this.iconConfig && this.iconConfig.iconPrefix) {
+          return this.iconConfig.iconPrefix;
+        }
+
+        return '';
+      },
+
       /**
       * Internal icon name based on the pack.
       * If pack is 'fa', gets the equivalent FA icon name of the MDI,
       * internal icons are always MDI.
       */
       newIcon: function newIcon() {
-        return this.newPack === 'mdi' ? "".concat(this.newPack, "-").concat(this.icon) : this.addFAPrefix(this.getEquivalentIconOf(this.icon));
+        return "".concat(this.iconPrefix).concat(this.getEquivalentIconOf(this.icon));
       },
       newPack: function newPack() {
         return this.pack || config$1.defaultIconPack;
@@ -1308,39 +1539,23 @@
         return this.customSize || this.customSizeByPack;
       },
       customSizeByPack: function customSizeByPack() {
-        var defaultSize = this.newPack === 'mdi' ? 'mdi-24px' : this.addFAPrefix('lg');
-        var mediumSize = this.newPack === 'mdi' ? 'mdi-36px' : this.addFAPrefix('2x');
-        var largeSize = this.newPack === 'mdi' ? 'mdi-48px' : this.addFAPrefix('3x');
-
-        switch (this.size) {
-          case 'is-small':
-            return;
-
-          case 'is-medium':
-            return mediumSize;
-
-          case 'is-large':
-            return largeSize;
-
-          default:
-            return defaultSize;
+        if (this.iconConfig && this.iconConfig.sizes) {
+          if (this.size && this.iconConfig.sizes[this.size] !== undefined) {
+            return this.iconConfig.sizes[this.size];
+          } else if (this.iconConfig.sizes.default) {
+            return this.iconConfig.sizes.default;
+          }
         }
+
+        return null;
       },
       useIconComponent: function useIconComponent() {
-        return config$1.defaultIconComponent;
+        return this.component || config$1.defaultIconComponent;
       }
     },
     methods: {
-      addFAPrefix: function addFAPrefix(value) {
-        if (this.useIconComponent) {
-          return value;
-        }
-
-        return "fa-".concat(value);
-      },
-
       /**
-      * Equivalent FA icon name of the MDI.
+      * Equivalent icon name of the MDI.
       */
       getEquivalentIconOf: function getEquivalentIconOf(value) {
         // Only transform the class if the both prop is set to true
@@ -1348,49 +1563,11 @@
           return value;
         }
 
-        switch (value) {
-          case 'check':
-            return 'check';
-
-          case 'information':
-            return 'info-circle';
-
-          case 'check-circle':
-            return 'check-circle';
-
-          case 'alert':
-            return 'exclamation-triangle';
-
-          case 'alert-circle':
-            return 'exclamation-circle';
-
-          case 'arrow-up':
-            return 'arrow-up';
-
-          case 'chevron-right':
-            return 'angle-right';
-
-          case 'chevron-left':
-            return 'angle-left';
-
-          case 'chevron-down':
-            return 'angle-down';
-
-          case 'eye':
-            return 'eye';
-
-          case 'eye-off':
-            return 'eye-slash';
-
-          case 'menu-down':
-            return 'caret-down';
-
-          case 'menu-up':
-            return 'caret-up';
-
-          default:
-            return value;
+        if (this.iconConfig && this.iconConfig.internalIcons && this.iconConfig.internalIcons[value]) {
+          return this.iconConfig.internalIcons[value];
         }
+
+        return value;
       }
     }
   };
@@ -2045,7 +2222,6 @@
   };
   use(Plugin);
 
-  exports.Timepicker = Timepicker;
   exports.default = Plugin;
 
   Object.defineProperty(exports, '__esModule', { value: true });

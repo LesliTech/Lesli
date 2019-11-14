@@ -16,13 +16,12 @@ LesliCloud - Your Smart Business Assistant
 Powered by https://www.lesli.tech
 Building a better future, one line of code at a time.
 
-@dev      Luis Donis <ldonis@lesli.tech>
 @author   LesliTech <hello@lesli.tech>
 @license  Propietary - all rights reserved.
-@version  GIT: 0.1.0 alpha
+@version  0.1.0-alpha
 
-// · 
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
+// · 
 */
 
 
@@ -60,13 +59,15 @@ import componentLayoutNavigation from 'LesliCloud/vue/layouts/navigation.vue'
 
 
 // · Initializing frameworks, libraries and tools
+// · If the file is public accessible, and no extra components no websockets are created
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
 Vue.use(Buefy)
-Vue.use(VueRouter)
 Vue.use(pluginBus)
+Vue.use(VueRouter)
 Vue.use(pluginUrl)
 Vue.use(pluginHttp)
 Vue.component('component-layout-empty-data', componentLayoutEmptyData)
+
 
 
 // · Vue app
@@ -74,15 +75,14 @@ Vue.component('component-layout-empty-data', componentLayoutEmptyData)
 // · module: Main module
 // · app: List of individual apps loaded
 // · base_path: for vue router
-// · example: app("CloudHelp", "[list|new|edit|show]", "help/tickets", {}, [])
-export default (module, app, base_path, components=null, routes=null) => {
-
+// · example: app("CloudHelp", "[list|new|edit|show]", "help/tickets", [])
+export default (module, apps, base_path, routes=[]) => {
 
     // · Vue app configuration container
     let cloud_builder = { }
 
 
-    // · Default and custom components
+    // · Default and custom components for logged users
     cloud_builder['components'] = { 
         'component-layout-notify': componentLayoutNotify,
         'component-layout-header': componentLayoutHeader,
@@ -90,25 +90,14 @@ export default (module, app, base_path, components=null, routes=null) => {
         'component-layout-navigation': componentLayoutNavigation
     }
 
-
-    // · Merge core and app components
-    if (components) {
-        cloud_builder.components = {
-            ...cloud_builder.components,
-            ...components
-        }
-    }
-
-
+    
     // · Routes for SPAs
-    if (routes) {
-        cloud_builder['router'] = new VueRouter({
-            linkActiveClass: 'is-active',
-            base: base_path,
-            mode: "history",
-            routes: routes
-        })
-    }
+    cloud_builder['router'] = new VueRouter({
+        linkActiveClass: 'is-active',
+        base: base_path,
+        mode: "history",
+        routes: routes
+    })
 
 
     // · Building Vue cloud app
@@ -119,9 +108,9 @@ export default (module, app, base_path, components=null, routes=null) => {
     document.ready(() => {
 
         cloud.$mount("#lesli-cloud-app")
-
+        // · Defined in webpack.config.js
         if (leslicloud_app_mode_production) debug.userWarningMessage()
-        if (leslicloud_app_mode_development) debug.info(`${base_path} ${app}`, module)
+        if (leslicloud_app_mode_development) debug.info(`${base_path} ${apps}`, module)
 
     })
 

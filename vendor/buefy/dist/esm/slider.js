@@ -1,7 +1,7 @@
-import { _ as _defineProperty, b as _toConsumableArray } from './chunk-d6200087.js';
-import './chunk-9e3207cc.js';
+import { a as _defineProperty, c as _toConsumableArray } from './chunk-40949afc.js';
+import './chunk-9d997597.js';
 import { _ as __vue_normalize__, r as registerComponent, u as use } from './chunk-cca88db8.js';
-import { T as Tooltip } from './chunk-411d6eea.js';
+import { T as Tooltip } from './chunk-4b99852f.js';
 
 var script = {
   name: 'BSliderThumb',
@@ -19,7 +19,8 @@ var script = {
     tooltip: {
       type: Boolean,
       default: true
-    }
+    },
+    customFormatter: Function
   },
   data: function data() {
     return {
@@ -54,11 +55,9 @@ var script = {
       return {
         left: this.currentPosition
       };
-    }
-  },
-  watch: {
-    dragging: function dragging(val) {
-      this.$parent.dragging = val;
+    },
+    tooltipLabel: function tooltipLabel() {
+      return typeof this.customFormatter !== 'undefined' ? this.customFormatter(this.value) : this.value.toString();
     }
   },
   methods: {
@@ -85,28 +84,29 @@ var script = {
       if (this.disabled || this.value === this.min) return;
       this.newPosition = parseFloat(this.currentPosition) - this.step / (this.max - this.min) * 100;
       this.setPosition(this.newPosition);
-      this.$parent.emitChange();
+      this.$parent.emitValue('change');
     },
     onRightKeyDown: function onRightKeyDown() {
       if (this.disabled || this.value === this.max) return;
       this.newPosition = parseFloat(this.currentPosition) + this.step / (this.max - this.min) * 100;
       this.setPosition(this.newPosition);
-      this.$parent.emitChange();
+      this.$parent.emitValue('change');
     },
     onHomeKeyDown: function onHomeKeyDown() {
       if (this.disabled || this.value === this.min) return;
       this.newPosition = 0;
       this.setPosition(this.newPosition);
-      this.$parent.emitChange();
+      this.$parent.emitValue('change');
     },
     onEndKeyDown: function onEndKeyDown() {
       if (this.disabled || this.value === this.max) return;
       this.newPosition = 100;
       this.setPosition(this.newPosition);
-      this.$parent.emitChange();
+      this.$parent.emitValue('change');
     },
     onDragStart: function onDragStart(event) {
       this.dragging = true;
+      this.$emit('dragstart');
 
       if (event.type === 'touchstart') {
         event.clientX = event.touches[0].clientX;
@@ -128,18 +128,14 @@ var script = {
       }
     },
     onDragEnd: function onDragEnd() {
-      var _this = this;
+      this.dragging = false;
+      this.$emit('dragend');
 
       if (this.value !== this.oldValue) {
-        this.$parent.emitChange();
+        this.$parent.emitValue('change');
       }
 
-      setTimeout(function () {
-        // defer to prevent triggering click on the track
-        _this.dragging = false;
-
-        _this.setPosition(_this.newPosition);
-      });
+      this.setPosition(this.newPosition);
 
       if (typeof window !== 'undefined') {
         document.removeEventListener('mousemove', this.onDragging);
@@ -175,7 +171,7 @@ var script = {
 const __vue_script__ = script;
 
 /* template */
-var __vue_render__ = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"b-slider-thumb-wrapper",class:{ 'is-dragging': _vm.dragging },style:(_vm.wrapperStyle)},[_c('b-tooltip',{attrs:{"label":_vm.value.toString(),"type":_vm.type,"always":_vm.dragging || _vm.isFocused,"active":!_vm.disabled && _vm.tooltip}},[_c('div',_vm._b({staticClass:"b-slider-thumb",attrs:{"tabindex":_vm.disabled ? false : 0},on:{"mousedown":_vm.onButtonDown,"touchstart":_vm.onButtonDown,"focus":_vm.onFocus,"blur":_vm.onBlur,"keydown":[function($event){if(!('button' in $event)&&_vm._k($event.keyCode,"left",37,$event.key)){ return null; }if('button' in $event && $event.button !== 0){ return null; }$event.preventDefault();_vm.onLeftKeyDown($event);},function($event){if(!('button' in $event)&&_vm._k($event.keyCode,"right",39,$event.key)){ return null; }if('button' in $event && $event.button !== 2){ return null; }$event.preventDefault();_vm.onRightKeyDown($event);},function($event){if(!('button' in $event)&&_vm._k($event.keyCode,"down",40,$event.key)){ return null; }$event.preventDefault();_vm.onLeftKeyDown($event);},function($event){if(!('button' in $event)&&_vm._k($event.keyCode,"up",38,$event.key)){ return null; }$event.preventDefault();_vm.onRightKeyDown($event);},function($event){if(!('button' in $event)&&_vm._k($event.keyCode,"home",undefined,$event.key)){ return null; }$event.preventDefault();_vm.onHomeKeyDown($event);},function($event){if(!('button' in $event)&&_vm._k($event.keyCode,"end",undefined,$event.key)){ return null; }$event.preventDefault();_vm.onEndKeyDown($event);}]}},'div',_vm.$attrs,false))])],1)};
+var __vue_render__ = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"b-slider-thumb-wrapper",class:{ 'is-dragging': _vm.dragging },style:(_vm.wrapperStyle)},[_c('b-tooltip',{attrs:{"label":_vm.tooltipLabel,"type":_vm.type,"always":_vm.dragging || _vm.isFocused,"active":!_vm.disabled && _vm.tooltip}},[_c('div',_vm._b({staticClass:"b-slider-thumb",attrs:{"tabindex":_vm.disabled ? false : 0},on:{"mousedown":_vm.onButtonDown,"touchstart":_vm.onButtonDown,"focus":_vm.onFocus,"blur":_vm.onBlur,"keydown":[function($event){if(!('button' in $event)&&_vm._k($event.keyCode,"left",37,$event.key)){ return null; }if('button' in $event && $event.button !== 0){ return null; }$event.preventDefault();_vm.onLeftKeyDown($event);},function($event){if(!('button' in $event)&&_vm._k($event.keyCode,"right",39,$event.key)){ return null; }if('button' in $event && $event.button !== 2){ return null; }$event.preventDefault();_vm.onRightKeyDown($event);},function($event){if(!('button' in $event)&&_vm._k($event.keyCode,"down",40,$event.key)){ return null; }$event.preventDefault();_vm.onLeftKeyDown($event);},function($event){if(!('button' in $event)&&_vm._k($event.keyCode,"up",38,$event.key)){ return null; }$event.preventDefault();_vm.onRightKeyDown($event);},function($event){if(!('button' in $event)&&_vm._k($event.keyCode,"home",undefined,$event.key)){ return null; }$event.preventDefault();_vm.onHomeKeyDown($event);},function($event){if(!('button' in $event)&&_vm._k($event.keyCode,"end",undefined,$event.key)){ return null; }$event.preventDefault();_vm.onEndKeyDown($event);}]}},'div',_vm.$attrs,false))])],1)};
 var __vue_staticRenderFns__ = [];
 
   /* style */
@@ -321,6 +317,11 @@ var script$2 = {
       type: Boolean,
       default: false
     },
+    lazy: {
+      type: Boolean,
+      default: false
+    },
+    customFormatter: Function,
     ariaLabel: [String, Array]
   },
   data: function data() {
@@ -329,12 +330,14 @@ var script$2 = {
       value2: null,
       dragging: false,
       isRange: false,
-      newTooltipType: this.tooltipType ? this.tooltipType : this.type,
       _isSlider: true // Used by Thumb and Tick
 
     };
   },
   computed: {
+    newTooltipType: function newTooltipType() {
+      return this.tooltipType ? this.tooltipType : this.type;
+    },
     tickValues: function tickValues() {
       if (!this.ticks || this.min > this.max || this.step === 0) return [];
       var result = [];
@@ -388,27 +391,17 @@ var script$2 = {
     value: function value(_value) {
       this.setValues(_value);
     },
-    value1: function value1(val) {
-      this.isThumbReversed = this.value1 > this.value2;
-
-      if (this.isRange) {
-        this.$emit('input', [this.minValue, this.maxValue]);
-      } else {
-        this.$emit('input', val);
-      }
+    value1: function value1() {
+      this.onInternalValueUpdate();
     },
-    value2: function value2(val) {
-      this.isThumbReversed = this.value1 > this.value2;
-
-      if (this.isRange) {
-        this.$emit('input', [this.minValue, this.maxValue]);
-      }
+    value2: function value2() {
+      this.onInternalValueUpdate();
     },
     min: function min() {
-      this.setValues();
+      this.setValues(this.value);
     },
     max: function max() {
-      this.setValues();
+      this.setValues(this.value);
     }
   },
   methods: {
@@ -426,10 +419,24 @@ var script$2 = {
       } else {
         this.isRange = false;
         this.value1 = isNaN(newValue) ? this.min : Math.min(this.max, Math.max(this.min, newValue));
+        this.value2 = null;
+      }
+    },
+    onInternalValueUpdate: function onInternalValueUpdate() {
+      if (this.isRange) {
+        this.isThumbReversed = this.value1 > this.value2;
+      }
+
+      if (!this.lazy || !this.dragging) {
+        this.emitValue('input');
+      }
+
+      if (this.dragging) {
+        this.emitValue('dragging');
       }
     },
     onSliderClick: function onSliderClick(event) {
-      if (this.disabled || this.dragging) return;
+      if (this.disabled || this.isTrackClickDisabled) return;
       var sliderOffsetLeft = this.$refs.slider.getBoundingClientRect().left;
       var percent = (event.clientX - sliderOffsetLeft) / this.sliderSize * 100;
       var targetValue = this.min + percent * (this.max - this.min) / 100;
@@ -450,15 +457,35 @@ var script$2 = {
         }
       }
 
-      this.emitChange();
+      this.emitValue('change');
     },
-    emitChange: function emitChange() {
-      this.$emit('change', this.isRange ? [this.minValue, this.maxValue] : this.value1);
+    onDragStart: function onDragStart() {
+      this.dragging = true;
+      this.$emit('dragstart');
+    },
+    onDragEnd: function onDragEnd() {
+      var _this = this;
+
+      this.isTrackClickDisabled = true;
+      setTimeout(function () {
+        // avoid triggering onSliderClick after dragend
+        _this.isTrackClickDisabled = false;
+      }, 0);
+      this.dragging = false;
+      this.$emit('dragend');
+
+      if (this.lazy) {
+        this.emitValue('input');
+      }
+    },
+    emitValue: function emitValue(type) {
+      this.$emit(type, this.isRange ? [this.minValue, this.maxValue] : this.value1);
     }
   },
   created: function created() {
-    this.setValues(this.value);
     this.isThumbReversed = false;
+    this.isTrackClickDisabled = false;
+    this.setValues(this.value);
   }
 };
 
@@ -466,7 +493,7 @@ var script$2 = {
 const __vue_script__$2 = script$2;
 
 /* template */
-var __vue_render__$2 = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"b-slider",class:[_vm.size, _vm.type, _vm.rootClasses]},[_c('div',{ref:"slider",staticClass:"b-slider-track",on:{"click":_vm.onSliderClick}},[_c('div',{staticClass:"b-slider-fill",style:(_vm.barStyle)}),_vm._v(" "),(_vm.ticks)?_vm._l((_vm.tickValues),function(val,key){return _c('b-slider-tick',{key:key,attrs:{"value":val}})}):_vm._e(),_vm._v(" "),_vm._t("default"),_vm._v(" "),_c('b-slider-thumb',{ref:"button1",attrs:{"type":_vm.newTooltipType,"tooltip":_vm.tooltip,"role":"slider","aria-valuenow":_vm.value1,"aria-valuemin":_vm.min,"aria-valuemax":_vm.max,"aria-orientation":"horizontal","aria-label":Array.isArray(_vm.ariaLabel) ? _vm.ariaLabel[0] : _vm.ariaLabel,"aria-disabled":_vm.disabled},model:{value:(_vm.value1),callback:function ($$v) {_vm.value1=$$v;},expression:"value1"}}),_vm._v(" "),(_vm.isRange)?_c('b-slider-thumb',{ref:"button2",attrs:{"type":_vm.newTooltipType,"tooltip":_vm.tooltip,"role":"slider","aria-valuenow":_vm.value2,"aria-valuemin":_vm.min,"aria-valuemax":_vm.max,"aria-orientation":"horizontal","aria-label":Array.isArray(_vm.ariaLabel) ? _vm.ariaLabel[1] : '',"aria-disabled":_vm.disabled},model:{value:(_vm.value2),callback:function ($$v) {_vm.value2=$$v;},expression:"value2"}}):_vm._e()],2)])};
+var __vue_render__$2 = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"b-slider",class:[_vm.size, _vm.type, _vm.rootClasses]},[_c('div',{ref:"slider",staticClass:"b-slider-track",on:{"click":_vm.onSliderClick}},[_c('div',{staticClass:"b-slider-fill",style:(_vm.barStyle)}),_vm._v(" "),(_vm.ticks)?_vm._l((_vm.tickValues),function(val,key){return _c('b-slider-tick',{key:key,attrs:{"value":val}})}):_vm._e(),_vm._v(" "),_vm._t("default"),_vm._v(" "),_c('b-slider-thumb',{ref:"button1",attrs:{"type":_vm.newTooltipType,"tooltip":_vm.tooltip,"custom-formatter":_vm.customFormatter,"role":"slider","aria-valuenow":_vm.value1,"aria-valuemin":_vm.min,"aria-valuemax":_vm.max,"aria-orientation":"horizontal","aria-label":Array.isArray(_vm.ariaLabel) ? _vm.ariaLabel[0] : _vm.ariaLabel,"aria-disabled":_vm.disabled},on:{"dragstart":_vm.onDragStart,"dragend":_vm.onDragEnd},model:{value:(_vm.value1),callback:function ($$v) {_vm.value1=$$v;},expression:"value1"}}),_vm._v(" "),(_vm.isRange)?_c('b-slider-thumb',{ref:"button2",attrs:{"type":_vm.newTooltipType,"tooltip":_vm.tooltip,"custom-formatter":_vm.customFormatter,"role":"slider","aria-valuenow":_vm.value2,"aria-valuemin":_vm.min,"aria-valuemax":_vm.max,"aria-orientation":"horizontal","aria-label":Array.isArray(_vm.ariaLabel) ? _vm.ariaLabel[1] : '',"aria-disabled":_vm.disabled},on:{"dragstart":_vm.onDragStart,"dragend":_vm.onDragEnd},model:{value:(_vm.value2),callback:function ($$v) {_vm.value2=$$v;},expression:"value2"}}):_vm._e()],2)])};
 var __vue_staticRenderFns__$2 = [];
 
   /* style */
@@ -503,4 +530,3 @@ var Plugin = {
 use(Plugin);
 
 export default Plugin;
-export { Slider, SliderTick };

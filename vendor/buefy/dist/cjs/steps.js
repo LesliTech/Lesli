@@ -2,16 +2,17 @@
 
 Object.defineProperty(exports, '__esModule', { value: true });
 
-var __chunk_1 = require('./chunk-9f6a8079.js');
-require('./chunk-545f01b1.js');
-var __chunk_5 = require('./chunk-60061aa8.js');
+var __chunk_1 = require('./chunk-a535ca7c.js');
+require('./chunk-f920b094.js');
+var __chunk_3 = require('./chunk-98a92ff2.js');
+var __chunk_5 = require('./chunk-ef3fcce1.js');
 var __chunk_6 = require('./chunk-13e039f5.js');
-var __chunk_20 = require('./chunk-3dffe6e7.js');
+var __chunk_23 = require('./chunk-3dffe6e7.js');
 
 var _components;
 var script = {
   name: 'BSteps',
-  components: (_components = {}, __chunk_1._defineProperty(_components, __chunk_5.Icon.name, __chunk_5.Icon), __chunk_1._defineProperty(_components, __chunk_20.SlotComponent.name, __chunk_20.SlotComponent), _components),
+  components: (_components = {}, __chunk_1._defineProperty(_components, __chunk_5.Icon.name, __chunk_5.Icon), __chunk_1._defineProperty(_components, __chunk_23.SlotComponent.name, __chunk_23.SlotComponent), _components),
   props: {
     value: Number,
     type: [String, Object],
@@ -25,6 +26,14 @@ var script = {
       default: false
     },
     iconPack: String,
+    iconPrev: {
+      type: String,
+      default: __chunk_3.config.defaultIconPrev
+    },
+    iconNext: {
+      type: String,
+      default: __chunk_3.config.defaultIconNext
+    },
     hasNavigation: {
       type: Boolean,
       default: true
@@ -51,28 +60,28 @@ var script = {
     },
 
     /**
-        * Check the first visible step index.
-        */
+     * Check the first visible step index.
+     */
     firstVisibleStepIndex: function firstVisibleStepIndex() {
-      return this.stepItems.findIndex(function (step, idx) {
+      return this.stepItems.map(function (step, idx) {
         return step.visible;
-      });
+      }).indexOf(true);
     },
 
     /**
-        * Check if previous button is available.
-        */
+     * Check if previous button is available.
+     */
     hasPrev: function hasPrev() {
       return this.firstVisibleStepIndex >= 0 && this.activeStep > this.firstVisibleStepIndex;
     },
 
     /**
-        * Check the last visible step index.
-        */
+     * Check the last visible step index.
+     */
     lastVisibleStepIndex: function lastVisibleStepIndex() {
-      var idx = this.reversedStepItems.findIndex(function (step, idx) {
+      var idx = this.reversedStepItems.map(function (step, idx) {
         return step.visible;
-      });
+      }).indexOf(true);
 
       if (idx >= 0) {
         return this.stepItems.length - 1 - idx;
@@ -82,10 +91,22 @@ var script = {
     },
 
     /**
-        * Check if next button is available.
-        */
+     * Check if next button is available.
+     */
     hasNext: function hasNext() {
       return this.lastVisibleStepIndex >= 0 && this.activeStep < this.lastVisibleStepIndex;
+    },
+    navigationProps: function navigationProps() {
+      return {
+        previous: {
+          disabled: !this.hasPrev,
+          action: this.prev
+        },
+        next: {
+          disabled: !this.hasNext,
+          action: this.next
+        }
+      };
     }
   },
   watch: {
@@ -141,15 +162,15 @@ var script = {
     },
 
     /**
-        * Previous button click listener.
-        */
+     * Previous button click listener.
+     */
     prev: function prev() {
       var _this = this;
 
       if (!this.hasPrev) return;
-      var prevItemIdx = this.reversedStepItems.findIndex(function (step, idx) {
+      var prevItemIdx = this.reversedStepItems.map(function (step, idx) {
         return _this.stepItems.length - 1 - idx < _this.activeStep && step.visible;
-      });
+      }).indexOf(true);
 
       if (prevItemIdx >= 0) {
         prevItemIdx = this.stepItems.length - 1 - prevItemIdx;
@@ -160,15 +181,15 @@ var script = {
     },
 
     /**
-        * Previous button click listener.
-        */
+     * Previous button click listener.
+     */
     next: function next() {
       var _this2 = this;
 
       if (!this.hasNext) return;
-      var nextItemIdx = this.stepItems.findIndex(function (step, idx) {
+      var nextItemIdx = this.stepItems.map(function (step, idx) {
         return idx > _this2.activeStep && step.visible;
-      });
+      }).indexOf(true);
       this.$emit('input', nextItemIdx);
       this.changeStep(nextItemIdx);
     }
@@ -187,7 +208,7 @@ const __vue_script__ = script;
 var __vue_render__ = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"b-steps"},[_c('nav',{staticClass:"steps",class:_vm.mainClasses},[_c('ul',{staticClass:"step-items"},_vm._l((_vm.stepItems),function(stepItem,index){return _c('li',{directives:[{name:"show",rawName:"v-show",value:(stepItem.visible),expression:"stepItem.visible"}],key:index,staticClass:"step-item",class:[stepItem.type || _vm.type, {
                     'is-active': _vm.activeStep === index,
                     'is-previous': _vm.activeStep > index
-            }]},[_c('a',{staticClass:"step-link",class:{'is-clickable': _vm.isItemClickable(stepItem, index)},on:{"click":function($event){_vm.isItemClickable(stepItem, index) && _vm.stepClick(index);}}},[_c('div',{staticClass:"step-marker"},[(stepItem.icon)?_c('b-icon',{attrs:{"icon":stepItem.icon,"pack":stepItem.iconPack,"size":_vm.size}}):_vm._e()],1),_vm._v(" "),_c('div',{staticClass:"step-details"},[_c('span',{staticClass:"step-title"},[_vm._v(_vm._s(stepItem.label))])])])])}))]),_vm._v(" "),_c('section',{staticClass:"step-content",class:{'is-transitioning': _vm.isTransitioning}},[_vm._t("default")],2),_vm._v(" "),(_vm.hasNavigation)?_c('nav',{staticClass:"step-navigation"},[_c('a',{staticClass:"pagination-previous",attrs:{"role":"button","href":"#","disabled":!_vm.hasPrev,"aria-label":_vm.ariaPreviousLabel},on:{"click":function($event){$event.preventDefault();_vm.prev($event);}}},[_c('b-icon',{attrs:{"icon":"chevron-left","pack":_vm.iconPack,"both":"","aria-hidden":"true"}})],1),_vm._v(" "),_c('a',{staticClass:"pagination-next",attrs:{"role":"button","href":"#","disabled":!_vm.hasNext,"aria-label":_vm.ariaNextLabel},on:{"click":function($event){$event.preventDefault();_vm.next($event);}}},[_c('b-icon',{attrs:{"icon":"chevron-right","pack":_vm.iconPack,"both":"","aria-hidden":"true"}})],1)]):_vm._e()])};
+            }]},[_c('a',{staticClass:"step-link",class:{'is-clickable': _vm.isItemClickable(stepItem, index)},on:{"click":function($event){_vm.isItemClickable(stepItem, index) && _vm.stepClick(index);}}},[_c('div',{staticClass:"step-marker"},[(stepItem.icon)?_c('b-icon',{attrs:{"icon":stepItem.icon,"pack":stepItem.iconPack,"size":_vm.size}}):_vm._e()],1),_vm._v(" "),_c('div',{staticClass:"step-details"},[_c('span',{staticClass:"step-title"},[_vm._v(_vm._s(stepItem.label))])])])])}))]),_vm._v(" "),_c('section',{staticClass:"step-content",class:{'is-transitioning': _vm.isTransitioning}},[_vm._t("default")],2),_vm._v(" "),_vm._t("navigation",[(_vm.hasNavigation)?_c('nav',{staticClass:"step-navigation"},[_c('a',{staticClass:"pagination-previous",attrs:{"role":"button","disabled":_vm.navigationProps.previous.disabled,"aria-label":_vm.ariaPreviousLabel},on:{"click":function($event){$event.preventDefault();_vm.navigationProps.previous.action($event);}}},[_c('b-icon',{attrs:{"icon":_vm.iconPrev,"pack":_vm.iconPack,"both":"","aria-hidden":"true"}})],1),_vm._v(" "),_c('a',{staticClass:"pagination-next",attrs:{"role":"button","disabled":_vm.navigationProps.next.disabled,"aria-label":_vm.ariaNextLabel},on:{"click":function($event){$event.preventDefault();_vm.navigationProps.next.action($event);}}},[_c('b-icon',{attrs:{"icon":_vm.iconNext,"pack":_vm.iconPack,"both":"","aria-hidden":"true"}})],1)]):_vm._e()],{previous:_vm.navigationProps.previous,next:_vm.navigationProps.next})],2)};
 var __vue_staticRenderFns__ = [];
 
   /* style */
@@ -347,6 +368,4 @@ var Plugin = {
 };
 __chunk_6.use(Plugin);
 
-exports.StepItem = StepItem;
-exports.Steps = Steps;
 exports.default = Plugin;

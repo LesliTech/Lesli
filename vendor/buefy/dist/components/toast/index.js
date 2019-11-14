@@ -1,4 +1,4 @@
-/*! Buefy v0.8.2 | MIT License | github.com/buefy/buefy */
+/*! Buefy v0.8.6 | MIT License | github.com/buefy/buefy */
 (function (global, factory) {
     typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports, require('vue')) :
     typeof define === 'function' && define.amd ? define(['exports', 'vue'], factory) :
@@ -11,6 +11,8 @@
       defaultContainerElement: null,
       defaultIconPack: 'mdi',
       defaultIconComponent: null,
+      defaultIconPrev: 'chevron-left',
+      defaultIconNext: 'chevron-right',
       defaultDialogConfirmText: null,
       defaultDialogCancelText: null,
       defaultSnackbarDuration: 3500,
@@ -45,13 +47,14 @@
       defaultDatepickerYearsRange: [-100, 3],
       defaultDatepickerNearbyMonthDays: true,
       defaultDatepickerNearbySelectableMonthDays: false,
-      defaultDatepickerShowWeekNumber: false
+      defaultDatepickerShowWeekNumber: false,
+      defaultTrapFocus: false,
+      defaultButtonRounded: false,
+      customIconPacks: null // TODO defaultTrapFocus to true in the next breaking change
+
     };
     var config$1 = config;
 
-    /**
-     * Get value of an object property/path even if it's nested
-     */
     function removeElement(el) {
       if (typeof el.remove !== 'undefined') {
         el.remove();
@@ -162,8 +165,8 @@
           }
         },
         setupContainer: function setupContainer() {
-          this.parentTop = document.querySelector('.notices.is-top');
-          this.parentBottom = document.querySelector('.notices.is-bottom');
+          this.parentTop = document.querySelector((this.newContainer ? this.newContainer : 'body') + '>.notices.is-top');
+          this.parentBottom = document.querySelector((this.newContainer ? this.newContainer : 'body') + '>.notices.is-bottom');
           if (this.parentTop && this.parentBottom) return;
 
           if (!this.parentTop) {
