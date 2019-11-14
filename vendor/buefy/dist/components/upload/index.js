@@ -1,4 +1,4 @@
-/*! Buefy v0.8.2 | MIT License | github.com/buefy/buefy */
+/*! Buefy v0.8.6 | MIT License | github.com/buefy/buefy */
 (function (global, factory) {
     typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports) :
     typeof define === 'function' && define.amd ? define(['exports'], factory) :
@@ -9,6 +9,8 @@
       defaultContainerElement: null,
       defaultIconPack: 'mdi',
       defaultIconComponent: null,
+      defaultIconPrev: 'chevron-left',
+      defaultIconNext: 'chevron-right',
       defaultDialogConfirmText: null,
       defaultDialogCancelText: null,
       defaultSnackbarDuration: 3500,
@@ -43,7 +45,11 @@
       defaultDatepickerYearsRange: [-100, 3],
       defaultDatepickerNearbyMonthDays: true,
       defaultDatepickerNearbySelectableMonthDays: false,
-      defaultDatepickerShowWeekNumber: false
+      defaultDatepickerShowWeekNumber: false,
+      defaultTrapFocus: false,
+      defaultButtonRounded: false,
+      customIconPacks: null // TODO defaultTrapFocus to true in the next breaking change
+
     };
     var config$1 = config;
 
@@ -154,29 +160,17 @@
           this.isFocused = true;
           this.$emit('focus', $event);
         },
-
-        /**
-         * Check HTML5 validation, set isValid property.
-         * If validation fail, send 'is-danger' type,
-         * and error message to parent if it's a Field.
-         */
-        checkHtml5Validity: function checkHtml5Validity() {
+        getElement: function getElement() {
+          return this.$el.querySelector(this.$data._elementRef);
+        },
+        setInvalid: function setInvalid() {
+          var type = 'is-danger';
+          var message = this.validationMessage || this.getElement().validationMessage;
+          this.setValidity(type, message);
+        },
+        setValidity: function setValidity(type, message) {
           var _this2 = this;
 
-          if (!this.useHtml5Validation) return;
-          if (this.$refs[this.$data._elementRef] === undefined) return;
-          var el = this.$el.querySelector(this.$data._elementRef);
-          var type = null;
-          var message = null;
-          var isValid = true;
-
-          if (!el.checkValidity()) {
-            type = 'is-danger';
-            message = this.validationMessage || el.validationMessage;
-            isValid = false;
-          }
-
-          this.isValid = isValid;
           this.$nextTick(function () {
             if (_this2.parentField) {
               // Set type only if not defined
@@ -190,6 +184,25 @@
               }
             }
           });
+        },
+
+        /**
+         * Check HTML5 validation, set isValid property.
+         * If validation fail, send 'is-danger' type,
+         * and error message to parent if it's a Field.
+         */
+        checkHtml5Validity: function checkHtml5Validity() {
+          if (!this.useHtml5Validation) return;
+          if (this.$refs[this.$data._elementRef] === undefined) return;
+
+          if (!this.getElement().checkValidity()) {
+            this.setInvalid();
+            this.isValid = false;
+          } else {
+            this.setValidity(null, null);
+            this.isValid = true;
+          }
+
           return this.isValid;
         }
       }
@@ -493,7 +506,6 @@
     };
     use(Plugin);
 
-    exports.Upload = Upload;
     exports.default = Plugin;
 
     Object.defineProperty(exports, '__esModule', { value: true });

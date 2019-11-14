@@ -1,6 +1,7 @@
-import { _ as _defineProperty } from './chunk-d6200087.js';
-import './chunk-9e3207cc.js';
-import { I as Icon } from './chunk-e84b4047.js';
+import { a as _defineProperty } from './chunk-40949afc.js';
+import './chunk-d3a97e18.js';
+import { c as config } from './chunk-9d997597.js';
+import { I as Icon } from './chunk-2b1ca282.js';
 import { _ as __vue_normalize__, r as registerComponent, u as use } from './chunk-cca88db8.js';
 
 var script = {
@@ -14,9 +15,15 @@ var script = {
     iconPack: String,
     iconLeft: String,
     iconRight: String,
-    rounded: Boolean,
+    rounded: {
+      type: Boolean,
+      default: function _default() {
+        return config.defaultButtonRounded;
+      }
+    },
     loading: Boolean,
     outlined: Boolean,
+    expanded: Boolean,
     inverted: Boolean,
     focused: Boolean,
     active: Boolean,
@@ -58,6 +65,7 @@ var __vue_render__ = function () {var _vm=this;var _h=_vm.$createElement;var _c=
         'is-rounded': _vm.rounded,
         'is-loading': _vm.loading,
         'is-outlined': _vm.outlined,
+        'is-fullwidth': _vm.expanded,
         'is-inverted': _vm.inverted,
         'is-focused': _vm.focused,
         'is-active': _vm.active,
@@ -99,4 +107,3 @@ var Plugin = {
 use(Plugin);
 
 export default Plugin;
-export { Button };

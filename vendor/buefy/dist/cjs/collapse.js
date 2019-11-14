@@ -4,23 +4,6 @@ Object.defineProperty(exports, '__esModule', { value: true });
 
 var __chunk_6 = require('./chunk-13e039f5.js');
 
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 var script = {
   name: 'BCollapse',
   props: {
@@ -35,6 +18,13 @@ var script = {
     ariaId: {
       type: String,
       default: ''
+    },
+    position: {
+      type: String,
+      default: 'is-top',
+      validator: function validator(value) {
+        return ['is-top', 'is-bottom'].indexOf(value) > -1;
+      }
     }
   },
   data: function data() {
@@ -56,6 +46,34 @@ var script = {
       this.$emit('update:open', this.isOpen);
       this.$emit(this.isOpen ? 'open' : 'close');
     }
+  },
+  render: function render(createElement) {
+    var trigger = createElement('div', {
+      staticClass: 'collapse-trigger',
+      on: {
+        click: this.toggle
+      }
+    }, this.$scopedSlots.trigger ? [this.$scopedSlots.trigger({
+      open: this.isOpen
+    })] : [this.$slots.trigger]);
+    var content = createElement('transition', {
+      props: {
+        name: this.animation
+      }
+    }, [createElement('div', {
+      staticClass: 'collapse-content',
+      attrs: {
+        'id': this.ariaId,
+        'aria-expanded': this.isOpen
+      },
+      directives: [{
+        name: 'show',
+        value: this.isOpen
+      }]
+    }, this.$slots.default)]);
+    return createElement('div', {
+      staticClass: 'collapse'
+    }, this.position === 'is-top' ? [trigger, content] : [content, trigger]);
   }
 };
 
@@ -63,8 +81,6 @@ var script = {
 const __vue_script__ = script;
 
 /* template */
-var __vue_render__ = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"collapse"},[_c('div',{staticClass:"collapse-trigger",on:{"click":_vm.toggle}},[_vm._t("trigger",null,{open:_vm.isOpen})],2),_vm._v(" "),_c('transition',{attrs:{"name":_vm.animation}},[_c('div',{directives:[{name:"show",rawName:"v-show",value:(_vm.isOpen),expression:"isOpen"}],staticClass:"collapse-content",attrs:{"id":_vm.ariaId,"aria-expanded":_vm.isOpen}},[_vm._t("default")],2)])],1)};
-var __vue_staticRenderFns__ = [];
 
   /* style */
   const __vue_inject_styles__ = undefined;
@@ -73,7 +89,7 @@ var __vue_staticRenderFns__ = [];
   /* module identifier */
   const __vue_module_identifier__ = undefined;
   /* functional template */
-  const __vue_is_functional_template__ = false;
+  const __vue_is_functional_template__ = undefined;
   /* style inject */
   
   /* style inject SSR */
@@ -81,7 +97,7 @@ var __vue_staticRenderFns__ = [];
 
   
   var Collapse = __chunk_6.__vue_normalize__(
-    { render: __vue_render__, staticRenderFns: __vue_staticRenderFns__ },
+    {},
     __vue_inject_styles__,
     __vue_script__,
     __vue_scope_id__,
@@ -98,5 +114,4 @@ var Plugin = {
 };
 __chunk_6.use(Plugin);
 
-exports.Collapse = Collapse;
 exports.default = Plugin;
