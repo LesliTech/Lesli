@@ -2,9 +2,10 @@
 
 Object.defineProperty(exports, '__esModule', { value: true });
 
-var __chunk_1 = require('./chunk-9f6a8079.js');
-require('./chunk-545f01b1.js');
-var __chunk_5 = require('./chunk-60061aa8.js');
+var __chunk_1 = require('./chunk-a535ca7c.js');
+require('./chunk-f920b094.js');
+var __chunk_3 = require('./chunk-98a92ff2.js');
+var __chunk_5 = require('./chunk-ef3fcce1.js');
 var __chunk_6 = require('./chunk-13e039f5.js');
 
 var script = {
@@ -18,9 +19,15 @@ var script = {
     iconPack: String,
     iconLeft: String,
     iconRight: String,
-    rounded: Boolean,
+    rounded: {
+      type: Boolean,
+      default: function _default() {
+        return __chunk_3.config.defaultButtonRounded;
+      }
+    },
     loading: Boolean,
     outlined: Boolean,
+    expanded: Boolean,
     inverted: Boolean,
     focused: Boolean,
     active: Boolean,
@@ -62,6 +69,7 @@ var __vue_render__ = function () {var _vm=this;var _h=_vm.$createElement;var _c=
         'is-rounded': _vm.rounded,
         'is-loading': _vm.loading,
         'is-outlined': _vm.outlined,
+        'is-fullwidth': _vm.expanded,
         'is-inverted': _vm.inverted,
         'is-focused': _vm.focused,
         'is-active': _vm.active,
@@ -102,5 +110,4 @@ var Plugin = {
 };
 __chunk_6.use(Plugin);
 
-exports.Button = Button;
 exports.default = Plugin;

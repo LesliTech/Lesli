@@ -81,14 +81,16 @@
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 0);
+/******/ 	return __webpack_require__(__webpack_require__.s = 39);
 /******/ })
 /************************************************************************/
-/******/ ([
-/* 0 */
+/******/ ({
+
+/***/ 39:
 /***/ (function(module, exports) {
 
 console.log('javascript works for websites/landing');
 
 /***/ })
-/******/ ]);
+
+/******/ });

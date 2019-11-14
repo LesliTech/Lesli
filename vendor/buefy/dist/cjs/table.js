@@ -2,26 +2,36 @@
 
 Object.defineProperty(exports, '__esModule', { value: true });
 
-var __chunk_1 = require('./chunk-9f6a8079.js');
-var __chunk_2 = require('./chunk-59b91990.js');
-require('./chunk-545f01b1.js');
-require('./chunk-c146745e.js');
-var __chunk_5 = require('./chunk-60061aa8.js');
+var __chunk_1 = require('./chunk-a535ca7c.js');
+var __chunk_2 = require('./chunk-f920b094.js');
+require('./chunk-98a92ff2.js');
+require('./chunk-191e0131.js');
+var __chunk_5 = require('./chunk-ef3fcce1.js');
 var __chunk_6 = require('./chunk-13e039f5.js');
+var __chunk_7 = require('./chunk-555220c3.js');
 var __chunk_9 = require('./chunk-96ce35a2.js');
-var __chunk_13 = require('./chunk-1b1231ce.js');
-var __chunk_18 = require('./chunk-876befa8.js');
-var __chunk_20 = require('./chunk-3dffe6e7.js');
+var __chunk_14 = require('./chunk-dd8f96ae.js');
+var __chunk_21 = require('./chunk-f41ddc92.js');
+var __chunk_23 = require('./chunk-3dffe6e7.js');
 
 var _components;
 var script = {
   name: 'BTableMobileSort',
-  components: (_components = {}, __chunk_1._defineProperty(_components, __chunk_13.Select.name, __chunk_13.Select), __chunk_1._defineProperty(_components, __chunk_5.Icon.name, __chunk_5.Icon), _components),
+  components: (_components = {}, __chunk_1._defineProperty(_components, __chunk_14.Select.name, __chunk_14.Select), __chunk_1._defineProperty(_components, __chunk_5.Icon.name, __chunk_5.Icon), _components),
   props: {
     currentSortColumn: Object,
     isAsc: Boolean,
     columns: Array,
-    placeholder: String
+    placeholder: String,
+    iconPack: String,
+    sortIcon: {
+      type: String,
+      default: 'arrow-up'
+    },
+    sortIconSize: {
+      type: String,
+      default: 'is-small'
+    }
   },
   data: function data() {
     return {
@@ -57,7 +67,7 @@ var script = {
 const __vue_script__ = script;
 
 /* template */
-var __vue_render__ = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"field table-mobile-sort"},[_c('div',{staticClass:"field has-addons"},[_c('b-select',{attrs:{"expanded":""},model:{value:(_vm.mobileSort),callback:function ($$v) {_vm.mobileSort=$$v;},expression:"mobileSort"}},[(_vm.placeholder)?[_c('option',{directives:[{name:"show",rawName:"v-show",value:(_vm.showPlaceholder),expression:"showPlaceholder"}],attrs:{"selected":"","disabled":"","hidden":""},domProps:{"value":{}}},[_vm._v("\n                    "+_vm._s(_vm.placeholder)+"\n                ")])]:_vm._e(),_vm._v(" "),_vm._l((_vm.columns),function(column,index){return (column.sortable)?_c('option',{key:index,domProps:{"value":column}},[_vm._v("\n                "+_vm._s(column.label)+"\n            ")]):_vm._e()})],2),_vm._v(" "),_c('div',{staticClass:"control"},[_c('button',{staticClass:"button is-primary",on:{"click":_vm.sort}},[_c('b-icon',{directives:[{name:"show",rawName:"v-show",value:(_vm.currentSortColumn === _vm.mobileSort),expression:"currentSortColumn === mobileSort"}],class:{ 'is-desc': !_vm.isAsc },attrs:{"icon":"arrow-up","size":"is-small","both":""}})],1)])],1)])};
+var __vue_render__ = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"field table-mobile-sort"},[_c('div',{staticClass:"field has-addons"},[_c('b-select',{attrs:{"expanded":""},model:{value:(_vm.mobileSort),callback:function ($$v) {_vm.mobileSort=$$v;},expression:"mobileSort"}},[(_vm.placeholder)?[_c('option',{directives:[{name:"show",rawName:"v-show",value:(_vm.showPlaceholder),expression:"showPlaceholder"}],attrs:{"selected":"","disabled":"","hidden":""},domProps:{"value":{}}},[_vm._v("\n                    "+_vm._s(_vm.placeholder)+"\n                ")])]:_vm._e(),_vm._v(" "),_vm._l((_vm.columns),function(column,index){return (column.sortable)?_c('option',{key:index,domProps:{"value":column}},[_vm._v("\n                "+_vm._s(column.label)+"\n            ")]):_vm._e()})],2),_vm._v(" "),_c('div',{staticClass:"control"},[_c('button',{staticClass:"button is-primary",on:{"click":_vm.sort}},[_c('b-icon',{directives:[{name:"show",rawName:"v-show",value:(_vm.currentSortColumn === _vm.mobileSort),expression:"currentSortColumn === mobileSort"}],class:{ 'is-desc': !_vm.isAsc },attrs:{"icon":_vm.sortIcon,"pack":_vm.iconPack,"size":_vm.sortIconSize,"both":""}})],1)])],1)])};
 var __vue_staticRenderFns__ = [];
 
   /* style */
@@ -104,6 +114,7 @@ var script$1 = {
     width: [Number, String],
     numeric: Boolean,
     centered: Boolean,
+    searchable: Boolean,
     sortable: Boolean,
     visible: {
       type: Boolean,
@@ -196,7 +207,7 @@ var __vue_staticRenderFns__$1 = [];
 var _components$1;
 var script$2 = {
   name: 'BTable',
-  components: (_components$1 = {}, __chunk_1._defineProperty(_components$1, __chunk_9.Checkbox.name, __chunk_9.Checkbox), __chunk_1._defineProperty(_components$1, __chunk_5.Icon.name, __chunk_5.Icon), __chunk_1._defineProperty(_components$1, __chunk_18.Pagination.name, __chunk_18.Pagination), __chunk_1._defineProperty(_components$1, __chunk_20.SlotComponent.name, __chunk_20.SlotComponent), __chunk_1._defineProperty(_components$1, TableMobileSort.name, TableMobileSort), __chunk_1._defineProperty(_components$1, TableColumn.name, TableColumn), _components$1),
+  components: (_components$1 = {}, __chunk_1._defineProperty(_components$1, __chunk_9.Checkbox.name, __chunk_9.Checkbox), __chunk_1._defineProperty(_components$1, __chunk_5.Icon.name, __chunk_5.Icon), __chunk_1._defineProperty(_components$1, __chunk_7.Input.name, __chunk_7.Input), __chunk_1._defineProperty(_components$1, __chunk_21.Pagination.name, __chunk_21.Pagination), __chunk_1._defineProperty(_components$1, __chunk_23.SlotComponent.name, __chunk_23.SlotComponent), __chunk_1._defineProperty(_components$1, TableMobileSort.name, TableMobileSort), __chunk_1._defineProperty(_components$1, TableColumn.name, TableColumn), _components$1),
   props: {
     data: {
       type: Array,
@@ -334,9 +345,11 @@ var script$2 = {
       newData: this.data,
       newDataTotal: this.backendPagination ? this.total : this.data.length,
       newCheckedRows: __chunk_1._toConsumableArray(this.checkedRows),
+      lastCheckedRowIndex: null,
       newCurrentPage: this.currentPage,
       currentSortColumn: {},
       isAsc: true,
+      filters: {},
       firstTimeSort: true,
       // Used by first time initSort
       _isTable: true // Used by TableColumn
@@ -422,6 +435,15 @@ var script$2 = {
     },
 
     /**
+    * Check if has any searchable column.
+    */
+    hasSearchablenewColumns: function hasSearchablenewColumns() {
+      return this.newColumns.some(function (column) {
+        return column.searchable;
+      });
+    },
+
+    /**
     * Return total column count based if it's checkable or expanded
     */
     columnCount: function columnCount() {
@@ -483,11 +505,21 @@ var script$2 = {
     newColumns: function newColumns(value) {
       this.checkSort();
     },
+    filters: {
+      handler: function handler(value) {
+        var _this4 = this;
+
+        this.newData = this.data.filter(function (row) {
+          return _this4.isRowFiltered(row);
+        });
+      },
+      deep: true
+    },
 
     /**
-        * When the user wants to control the detailed rows via props.
-        * Or wants to open the details of certain row with the router for example.
-        */
+    * When the user wants to control the detailed rows via props.
+    * Or wants to open the details of certain row with the router for example.
+    */
     openedDetailed: function openedDetailed(expandedRows) {
       this.visibleDetailRows = expandedRows;
     },
@@ -576,15 +608,15 @@ var script$2 = {
     * Add or remove all rows in current page.
     */
     checkAll: function checkAll() {
-      var _this4 = this;
+      var _this5 = this;
 
       var isAllChecked = this.isAllChecked;
       this.visibleData.forEach(function (currentRow) {
-        _this4.removeCheckedRow(currentRow);
+        _this5.removeCheckedRow(currentRow);
 
         if (!isAllChecked) {
-          if (_this4.isRowCheckable(currentRow)) {
-            _this4.newCheckedRows.push(currentRow);
+          if (_this5.isRowCheckable(currentRow)) {
+            _this5.newCheckedRows.push(currentRow);
           }
         }
       });
@@ -596,10 +628,14 @@ var script$2 = {
 
     /**
     * Row checkbox click listener.
-    * Add or remove a single row.
     */
-    checkRow: function checkRow(row) {
-      if (!this.isRowChecked(row)) {
+    checkRow: function checkRow(row, index, event) {
+      var lastIndex = this.lastCheckedRowIndex;
+      this.lastCheckedRowIndex = index;
+
+      if (event.shiftKey && lastIndex !== null && index !== lastIndex) {
+        this.shiftCheckRow(row, index, lastIndex);
+      } else if (!this.isRowChecked(row)) {
         this.newCheckedRows.push(row);
       } else {
         this.removeCheckedRow(row);
@@ -608,6 +644,25 @@ var script$2 = {
       this.$emit('check', this.newCheckedRows, row); // Emit checked rows to update user variable
 
       this.$emit('update:checkedRows', this.newCheckedRows);
+    },
+
+    /**
+     * Check row when shift is pressed.
+     */
+    shiftCheckRow: function shiftCheckRow(row, index, lastCheckedRowIndex) {
+      var _this6 = this;
+
+      // Get the subset of the list between the two indicies
+      var subset = this.visibleData.slice(Math.min(index, lastCheckedRowIndex), Math.max(index, lastCheckedRowIndex) + 1); // Determine the operation based on the state of the clicked checkbox
+
+      var shouldCheck = !this.isRowChecked(row);
+      subset.forEach(function (item) {
+        _this6.removeCheckedRow(item);
+
+        if (shouldCheck && _this6.isRowCheckable(item)) {
+          _this6.newCheckedRows.push(item);
+        }
+      });
     },
 
     /**
@@ -668,6 +723,24 @@ var script$2 = {
     },
     isActiveCustomDetailRow: function isActiveCustomDetailRow(row) {
       return this.detailed && this.customDetailRow && this.isVisibleDetailRow(row);
+    },
+    isRowFiltered: function isRowFiltered(row) {
+      for (var key in this.filters) {
+        // remove key if empty
+        if (!this.filters[key]) {
+          delete this.filters[key];
+          return true;
+        }
+
+        if (Number.isInteger(row[key])) {
+          if (row[key] !== Number(this.filters[key])) return false;
+        } else {
+          var re = new RegExp(this.filters[key]);
+          if (!row[key].match(re)) return false;
+        }
+      }
+
+      return true;
     },
 
     /**
@@ -745,7 +818,7 @@ var script$2 = {
     * Initial sorted column based on the default-sort prop.
     */
     initSort: function initSort() {
-      var _this5 = this;
+      var _this7 = this;
 
       if (!this.defaultSort) return;
       var sortField = '';
@@ -763,9 +836,9 @@ var script$2 = {
 
       this.newColumns.forEach(function (column) {
         if (column.field === sortField) {
-          _this5.isAsc = sortDirection.toLowerCase() !== 'desc';
+          _this7.isAsc = sortDirection.toLowerCase() !== 'desc';
 
-          _this5.sort(column, true);
+          _this7.sort(column, true);
         }
       });
     },
@@ -775,6 +848,17 @@ var script$2 = {
     */
     handleDragStart: function handleDragStart(event, row, index) {
       this.$emit('dragstart', {
+        event: event,
+        row: row,
+        index: index
+      });
+    },
+
+    /**
+    * Emits drag leave event
+    */
+    handleDragEnd: function handleDragEnd(event, row, index) {
+      this.$emit('dragend', {
         event: event,
         row: row,
         index: index
@@ -824,18 +908,21 @@ var script$2 = {
 const __vue_script__$2 = script$2;
 
 /* template */
-var __vue_render__$2 = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"b-table",class:{ 'is-loading': _vm.loading }},[(_vm.mobileCards && _vm.hasSortablenewColumns)?_c('b-table-mobile-sort',{attrs:{"current-sort-column":_vm.currentSortColumn,"is-asc":_vm.isAsc,"columns":_vm.newColumns,"placeholder":_vm.mobileSortPlaceholder},on:{"sort":function (column) { return _vm.sort(column); }}}):_vm._e(),_vm._v(" "),(_vm.paginated && (_vm.paginationPosition === 'top' || _vm.paginationPosition === 'both'))?_c('div',{staticClass:"top level"},[_c('div',{staticClass:"level-left"},[_vm._t("top-left")],2),_vm._v(" "),_c('div',{staticClass:"level-right"},[(_vm.paginated)?_c('div',{staticClass:"level-item"},[_c('b-pagination',{attrs:{"icon-pack":_vm.iconPack,"total":_vm.newDataTotal,"per-page":_vm.perPage,"simple":_vm.paginationSimple,"size":_vm.paginationSize,"current":_vm.newCurrentPage,"aria-next-label":_vm.ariaNextLabel,"aria-previous-label":_vm.ariaPreviousLabel,"aria-page-label":_vm.ariaPageLabel,"aria-current-label":_vm.ariaCurrentLabel},on:{"change":_vm.pageChanged}})],1):_vm._e()])]):_vm._e(),_vm._v(" "),_c('div',{staticClass:"table-wrapper"},[_c('table',{staticClass:"table",class:_vm.tableClasses,attrs:{"tabindex":!_vm.focusable ? false : 0},on:{"keydown":[function($event){if(!('button' in $event)&&_vm._k($event.keyCode,"up",38,$event.key)){ return null; }if($event.target !== $event.currentTarget){ return null; }$event.preventDefault();_vm.pressedArrow(-1);},function($event){if(!('button' in $event)&&_vm._k($event.keyCode,"down",40,$event.key)){ return null; }if($event.target !== $event.currentTarget){ return null; }$event.preventDefault();_vm.pressedArrow(1);}]}},[(_vm.newColumns.length)?_c('thead',[_c('tr',[(_vm.showDetailRowIcon)?_c('th',{attrs:{"width":"40px"}}):_vm._e(),_vm._v(" "),(_vm.checkable && _vm.checkboxPosition === 'left')?_c('th',{staticClass:"checkbox-cell"},[(_vm.headerCheckable)?[_c('b-checkbox',{attrs:{"value":_vm.isAllChecked,"disabled":_vm.isAllUncheckable},nativeOn:{"change":function($event){_vm.checkAll($event);}}})]:_vm._e()],2):_vm._e(),_vm._v(" "),_vm._l((_vm.visibleColumns),function(column,index){return _c('th',{key:index,class:{
+var __vue_render__$2 = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"b-table",class:{ 'is-loading': _vm.loading }},[(_vm.mobileCards && _vm.hasSortablenewColumns)?_c('b-table-mobile-sort',{attrs:{"current-sort-column":_vm.currentSortColumn,"is-asc":_vm.isAsc,"columns":_vm.newColumns,"placeholder":_vm.mobileSortPlaceholder,"icon-pack":_vm.iconPack,"sort-icon":_vm.sortIcon,"sort-icon-size":_vm.sortIconSize},on:{"sort":function (column) { return _vm.sort(column); }}}):_vm._e(),_vm._v(" "),(_vm.paginated && (_vm.paginationPosition === 'top' || _vm.paginationPosition === 'both'))?_c('div',{staticClass:"top level"},[_c('div',{staticClass:"level-left"},[_vm._t("top-left")],2),_vm._v(" "),_c('div',{staticClass:"level-right"},[(_vm.paginated)?_c('div',{staticClass:"level-item"},[_c('b-pagination',{attrs:{"icon-pack":_vm.iconPack,"total":_vm.newDataTotal,"per-page":_vm.perPage,"simple":_vm.paginationSimple,"size":_vm.paginationSize,"current":_vm.newCurrentPage,"aria-next-label":_vm.ariaNextLabel,"aria-previous-label":_vm.ariaPreviousLabel,"aria-page-label":_vm.ariaPageLabel,"aria-current-label":_vm.ariaCurrentLabel},on:{"change":_vm.pageChanged}})],1):_vm._e()])]):_vm._e(),_vm._v(" "),_c('div',{staticClass:"table-wrapper"},[_c('table',{staticClass:"table",class:_vm.tableClasses,attrs:{"tabindex":!_vm.focusable ? false : 0},on:{"keydown":[function($event){if(!('button' in $event)&&_vm._k($event.keyCode,"up",38,$event.key)){ return null; }if($event.target !== $event.currentTarget){ return null; }$event.preventDefault();_vm.pressedArrow(-1);},function($event){if(!('button' in $event)&&_vm._k($event.keyCode,"down",40,$event.key)){ return null; }if($event.target !== $event.currentTarget){ return null; }$event.preventDefault();_vm.pressedArrow(1);}]}},[(_vm.newColumns.length)?_c('thead',[_c('tr',[(_vm.showDetailRowIcon)?_c('th',{attrs:{"width":"40px"}}):_vm._e(),_vm._v(" "),(_vm.checkable && _vm.checkboxPosition === 'left')?_c('th',{staticClass:"checkbox-cell"},[(_vm.headerCheckable)?[_c('b-checkbox',{attrs:{"value":_vm.isAllChecked,"disabled":_vm.isAllUncheckable},nativeOn:{"change":function($event){_vm.checkAll($event);}}})]:_vm._e()],2):_vm._e(),_vm._v(" "),_vm._l((_vm.visibleColumns),function(column,index){return _c('th',{key:index,class:{
                             'is-current-sort': _vm.currentSortColumn === column,
                             'is-sortable': column.sortable
                         },style:({
-                            width: column.width === undefined ? null : column.width + 'px'
+                            width: column.width === undefined ? null :
+                            (isNaN(column.width) ? column.width : column.width + 'px')
                         }),on:{"click":function($event){$event.stopPropagation();_vm.sort(column);}}},[_c('div',{staticClass:"th-wrap",class:{
                                 'is-numeric': column.numeric,
                                 'is-centered': column.centered
-                        }},[(column.$scopedSlots && column.$scopedSlots.header)?[_c('b-slot-component',{attrs:{"component":column,"scoped":true,"name":"header","tag":"span","props":{ column: column, index: index }}})]:(_vm.$scopedSlots.header)?[_vm._t("header",null,{column:column,index:index})]:[_vm._v(_vm._s(column.label))],_vm._v(" "),_c('b-icon',{directives:[{name:"show",rawName:"v-show",value:(_vm.currentSortColumn === column),expression:"currentSortColumn === column"}],class:{ 'is-desc': !_vm.isAsc },attrs:{"icon":_vm.sortIcon,"pack":_vm.iconPack,"both":"","size":_vm.sortIconSize}})],2)])}),_vm._v(" "),(_vm.checkable && _vm.checkboxPosition === 'right')?_c('th',{staticClass:"checkbox-cell"},[(_vm.headerCheckable)?[_c('b-checkbox',{attrs:{"value":_vm.isAllChecked,"disabled":_vm.isAllUncheckable},nativeOn:{"change":function($event){_vm.checkAll($event);}}})]:_vm._e()],2):_vm._e()],2)]):_vm._e(),_vm._v(" "),(_vm.visibleData.length)?_c('tbody',[_vm._l((_vm.visibleData),function(row,index){return [_c('tr',{key:_vm.customRowKey ? row[_vm.customRowKey] : index,class:[_vm.rowClass(row, index), {
+                        }},[(column.$scopedSlots && column.$scopedSlots.header)?[_c('b-slot-component',{attrs:{"component":column,"scoped":true,"name":"header","tag":"span","props":{ column: column, index: index }}})]:(_vm.$scopedSlots.header)?[_vm._t("header",null,{column:column,index:index})]:[_vm._v(_vm._s(column.label))],_vm._v(" "),_c('b-icon',{directives:[{name:"show",rawName:"v-show",value:(_vm.currentSortColumn === column),expression:"currentSortColumn === column"}],class:{ 'is-desc': !_vm.isAsc },attrs:{"icon":_vm.sortIcon,"pack":_vm.iconPack,"both":"","size":_vm.sortIconSize}})],2)])}),_vm._v(" "),(_vm.checkable && _vm.checkboxPosition === 'right')?_c('th',{staticClass:"checkbox-cell"},[(_vm.headerCheckable)?[_c('b-checkbox',{attrs:{"value":_vm.isAllChecked,"disabled":_vm.isAllUncheckable},nativeOn:{"change":function($event){_vm.checkAll($event);}}})]:_vm._e()],2):_vm._e()],2),_vm._v(" "),(_vm.hasSearchablenewColumns)?_c('tr',_vm._l((_vm.visibleColumns),function(column,index){return _c('th',{key:index,style:({
+                            width: column.width === undefined ? null
+                        : (isNaN(column.width) ? column.width : column.width + 'px') })},[_c('div',{staticClass:"th-wrap"},[(column.searchable)?[_c('b-input',{attrs:{"type":column.numeric ? 'number' : 'text'},model:{value:(_vm.filters[column.field]),callback:function ($$v) {_vm.$set(_vm.filters, column.field, $$v);},expression:"filters[column.field]"}})]:_vm._e()],2)])})):_vm._e()]):_vm._e(),_vm._v(" "),(_vm.visibleData.length)?_c('tbody',[_vm._l((_vm.visibleData),function(row,index){return [_c('tr',{key:_vm.customRowKey ? row[_vm.customRowKey] : index,class:[_vm.rowClass(row, index), {
                             'is-selected': row === _vm.selected,
                             'is-checked': _vm.isRowChecked(row),
-                        }],attrs:{"draggable":_vm.draggable},on:{"click":function($event){_vm.selectRow(row);},"dblclick":function($event){_vm.$emit('dblclick', row);},"mouseenter":function($event){_vm.$emit('mouseenter', row);},"mouseleave":function($event){_vm.$emit('mouseleave', row);},"contextmenu":function($event){_vm.$emit('contextmenu', row, $event);},"dragstart":function($event){_vm.handleDragStart($event, row, index);},"drop":function($event){_vm.handleDrop($event, row, index);},"dragover":function($event){_vm.handleDragOver($event, row, index);},"dragleave":function($event){_vm.handleDragLeave($event, row, index);}}},[(_vm.showDetailRowIcon)?_c('td',{staticClass:"chevron-cell"},[(_vm.hasDetailedVisible(row))?_c('a',{attrs:{"role":"button"},on:{"click":function($event){$event.stopPropagation();_vm.toggleDetails(row);}}},[_c('b-icon',{class:{'is-expanded': _vm.isVisibleDetailRow(row)},attrs:{"icon":"chevron-right","pack":_vm.iconPack,"both":""}})],1):_vm._e()]):_vm._e(),_vm._v(" "),(_vm.checkable && _vm.checkboxPosition === 'left')?_c('td',{staticClass:"checkbox-cell"},[_c('b-checkbox',{attrs:{"disabled":!_vm.isRowCheckable(row),"value":_vm.isRowChecked(row)},nativeOn:{"change":function($event){_vm.checkRow(row);},"click":function($event){$event.stopPropagation();}}})],1):_vm._e(),_vm._v(" "),(_vm.$scopedSlots.default)?_vm._t("default",null,{row:row,index:index}):_vm._l((_vm.newColumns),function(column){return _c('BTableColumn',_vm._b({key:column.field,attrs:{"internal":""}},'BTableColumn',column,false),[(column.renderHtml)?_c('span',{domProps:{"innerHTML":_vm._s(_vm.getValueByPath(row, column.field))}}):[_vm._v("\n                                    "+_vm._s(_vm.getValueByPath(row, column.field))+"\n                                ")]],2)}),_vm._v(" "),(_vm.checkable && _vm.checkboxPosition === 'right')?_c('td',{staticClass:"checkbox-cell"},[_c('b-checkbox',{attrs:{"disabled":!_vm.isRowCheckable(row),"value":_vm.isRowChecked(row)},nativeOn:{"change":function($event){_vm.checkRow(row);},"click":function($event){$event.stopPropagation();}}})],1):_vm._e()],2),_vm._v(" "),(_vm.isActiveDetailRow(row))?_c('tr',{staticClass:"detail"},[_c('td',{attrs:{"colspan":_vm.columnCount}},[_c('div',{staticClass:"detail-container"},[_vm._t("detail",null,{row:row,index:index})],2)])]):_vm._e(),_vm._v(" "),(_vm.isActiveCustomDetailRow(row))?_vm._t("detail",null,{row:row,index:index}):_vm._e()]})],2):_c('tbody',[_c('tr',{staticClass:"is-empty"},[_c('td',{attrs:{"colspan":_vm.columnCount}},[_vm._t("empty")],2)])]),_vm._v(" "),(_vm.$slots.footer !== undefined)?_c('tfoot',[_c('tr',{staticClass:"table-footer"},[(_vm.hasCustomFooterSlot())?_vm._t("footer"):_c('th',{attrs:{"colspan":_vm.columnCount}},[_vm._t("footer")],2)],2)]):_vm._e()])]),_vm._v(" "),((_vm.checkable && _vm.hasBottomLeftSlot()) ||
+                        }],attrs:{"draggable":_vm.draggable},on:{"click":function($event){_vm.selectRow(row);},"dblclick":function($event){_vm.$emit('dblclick', row);},"mouseenter":function($event){_vm.$emit('mouseenter', row);},"mouseleave":function($event){_vm.$emit('mouseleave', row);},"contextmenu":function($event){_vm.$emit('contextmenu', row, $event);},"dragstart":function($event){_vm.handleDragStart($event, row, index);},"dragend":function($event){_vm.handleDragEnd($event, row, index);},"drop":function($event){_vm.handleDrop($event, row, index);},"dragover":function($event){_vm.handleDragOver($event, row, index);},"dragleave":function($event){_vm.handleDragLeave($event, row, index);}}},[(_vm.showDetailRowIcon)?_c('td',{staticClass:"chevron-cell"},[(_vm.hasDetailedVisible(row))?_c('a',{attrs:{"role":"button"},on:{"click":function($event){$event.stopPropagation();_vm.toggleDetails(row);}}},[_c('b-icon',{class:{'is-expanded': _vm.isVisibleDetailRow(row)},attrs:{"icon":"chevron-right","pack":_vm.iconPack,"both":""}})],1):_vm._e()]):_vm._e(),_vm._v(" "),(_vm.checkable && _vm.checkboxPosition === 'left')?_c('td',{staticClass:"checkbox-cell"},[_c('b-checkbox',{attrs:{"disabled":!_vm.isRowCheckable(row),"value":_vm.isRowChecked(row)},nativeOn:{"click":function($event){$event.preventDefault();$event.stopPropagation();_vm.checkRow(row, index, $event);}}})],1):_vm._e(),_vm._v(" "),(_vm.$scopedSlots.default)?_vm._t("default",null,{row:row,index:index}):_vm._l((_vm.newColumns),function(column){return _c('BTableColumn',_vm._b({key:column.field,attrs:{"internal":""}},'BTableColumn',column,false),[(column.renderHtml)?_c('span',{domProps:{"innerHTML":_vm._s(_vm.getValueByPath(row, column.field))}}):[_vm._v("\n                                    "+_vm._s(_vm.getValueByPath(row, column.field))+"\n                                ")]],2)}),_vm._v(" "),(_vm.checkable && _vm.checkboxPosition === 'right')?_c('td',{staticClass:"checkbox-cell"},[_c('b-checkbox',{attrs:{"disabled":!_vm.isRowCheckable(row),"value":_vm.isRowChecked(row)},nativeOn:{"click":function($event){$event.preventDefault();$event.stopPropagation();_vm.checkRow(row, index, $event);}}})],1):_vm._e()],2),_vm._v(" "),(_vm.isActiveDetailRow(row))?_c('tr',{staticClass:"detail"},[_c('td',{attrs:{"colspan":_vm.columnCount}},[_c('div',{staticClass:"detail-container"},[_vm._t("detail",null,{row:row,index:index})],2)])]):_vm._e(),_vm._v(" "),(_vm.isActiveCustomDetailRow(row))?_vm._t("detail",null,{row:row,index:index}):_vm._e()]})],2):_c('tbody',[_c('tr',{staticClass:"is-empty"},[_c('td',{attrs:{"colspan":_vm.columnCount}},[_vm._t("empty")],2)])]),_vm._v(" "),(_vm.$slots.footer !== undefined)?_c('tfoot',[_c('tr',{staticClass:"table-footer"},[(_vm.hasCustomFooterSlot())?_vm._t("footer"):_c('th',{attrs:{"colspan":_vm.columnCount}},[_vm._t("footer")],2)],2)]):_vm._e()])]),_vm._v(" "),((_vm.checkable && _vm.hasBottomLeftSlot()) ||
         (_vm.paginated && (_vm.paginationPosition === 'bottom' || _vm.paginationPosition === 'both')))?_c('div',{staticClass:"level"},[_c('div',{staticClass:"level-left"},[_vm._t("bottom-left")],2),_vm._v(" "),_c('div',{staticClass:"level-right"},[(_vm.paginated)?_c('div',{staticClass:"level-item"},[_c('b-pagination',{attrs:{"icon-pack":_vm.iconPack,"total":_vm.newDataTotal,"per-page":_vm.perPage,"simple":_vm.paginationSimple,"size":_vm.paginationSize,"current":_vm.newCurrentPage,"aria-next-label":_vm.ariaNextLabel,"aria-previous-label":_vm.ariaPreviousLabel,"aria-page-label":_vm.ariaPageLabel,"aria-current-label":_vm.ariaCurrentLabel},on:{"change":_vm.pageChanged}})],1):_vm._e()])]):_vm._e()],1)};
 var __vue_staticRenderFns__$2 = [];
 
@@ -872,6 +959,4 @@ var Plugin = {
 };
 __chunk_6.use(Plugin);
 
-exports.Table = Table;
-exports.TableColumn = TableColumn;
 exports.default = Plugin;

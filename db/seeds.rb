@@ -1,5 +1,4 @@
 =begin
-
 Lesli
 
 Copyright (c) 2019, Lesli Technologies, S. A.
@@ -18,15 +17,13 @@ Powered by https://www.lesli.tech
 Building a better future, one line of code at a time.
 
 @author   LesliTech <hello@lesli.tech>
-@author   Luis Donis <ldonis@lesli.tech>
 @license  Propietary - all rights reserved.
-@version  GIT: 1.0.0 alpha
+@version  0.1.0-alpha
 
+// · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
 // · 
-// · ~·~        ~·~        ~·~        ~·~        ~·~        ~·~        ~·~        ~·~        ~·~
-
 =end
 
 load "#{Rails.root}/db/seed/#{Rails.env.downcase}.rb"
 CloudBell::Engine.load_seed
-#CloudPanel::Engine.load_seed
+CloudKb::Engine.load_seed

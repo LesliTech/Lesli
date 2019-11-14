@@ -2,16 +2,17 @@
 
 Object.defineProperty(exports, '__esModule', { value: true });
 
-var __chunk_1 = require('./chunk-9f6a8079.js');
-require('./chunk-545f01b1.js');
-var __chunk_5 = require('./chunk-60061aa8.js');
+var __chunk_1 = require('./chunk-a535ca7c.js');
+require('./chunk-f920b094.js');
+require('./chunk-98a92ff2.js');
+var __chunk_5 = require('./chunk-ef3fcce1.js');
 var __chunk_6 = require('./chunk-13e039f5.js');
-var __chunk_20 = require('./chunk-3dffe6e7.js');
+var __chunk_23 = require('./chunk-3dffe6e7.js');
 
 var _components;
 var script = {
   name: 'BTabs',
-  components: (_components = {}, __chunk_1._defineProperty(_components, __chunk_5.Icon.name, __chunk_5.Icon), __chunk_1._defineProperty(_components, __chunk_20.SlotComponent.name, __chunk_20.SlotComponent), _components),
+  components: (_components = {}, __chunk_1._defineProperty(_components, __chunk_5.Icon.name, __chunk_5.Icon), __chunk_1._defineProperty(_components, __chunk_23.SlotComponent.name, __chunk_23.SlotComponent), _components),
   props: {
     value: Number,
     expanded: Boolean,
@@ -25,7 +26,8 @@ var script = {
     destroyOnHide: {
       type: Boolean,
       default: false
-    }
+    },
+    vertical: Boolean
   },
   data: function data() {
     return {
@@ -38,11 +40,16 @@ var script = {
     };
   },
   computed: {
-    navClasses: function navClasses() {
-      return [this.type, this.size, this.position, {
+    mainClasses: function mainClasses() {
+      return __chunk_1._defineProperty({
         'is-fullwidth': this.expanded,
-        'is-toggle-rounded is-toggle': this.type === 'is-toggle-rounded'
-      }];
+        'is-vertical': this.vertical
+      }, this.position, this.position && this.vertical);
+    },
+    navClasses: function navClasses() {
+      var _ref2;
+
+      return [this.type, this.size, (_ref2 = {}, __chunk_1._defineProperty(_ref2, this.position, this.position && !this.vertical), __chunk_1._defineProperty(_ref2, 'is-fullwidth', this.expanded), __chunk_1._defineProperty(_ref2, 'is-toggle-rounded is-toggle', this.type === 'is-toggle-rounded'), _ref2)];
     }
   },
   watch: {
@@ -67,7 +74,7 @@ var script = {
     * Change the active tab and emit change event.
     */
     changeTab: function changeTab(newIndex) {
-      if (this.activeTab === newIndex) return;
+      if (this.activeTab === newIndex || this.tabItems[newIndex] === undefined) return;
 
       if (this.activeTab < this.tabItems.length) {
         this.tabItems[this.activeTab].deactivate(this.activeTab, newIndex);
@@ -97,7 +104,7 @@ var script = {
 const __vue_script__ = script;
 
 /* template */
-var __vue_render__ = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"b-tabs",class:{ 'is-fullwidth': _vm.expanded }},[_c('nav',{staticClass:"tabs",class:_vm.navClasses},[_c('ul',_vm._l((_vm.tabItems),function(tabItem,index){return _c('li',{directives:[{name:"show",rawName:"v-show",value:(tabItem.visible),expression:"tabItem.visible"}],key:index,class:{ 'is-active': _vm.activeTab === index, 'is-disabled': tabItem.disabled }},[_c('a',{on:{"click":function($event){_vm.tabClick(index);}}},[(tabItem.$slots.header)?[_c('b-slot-component',{attrs:{"component":tabItem,"name":"header","tag":"span"}})]:[(tabItem.icon)?_c('b-icon',{attrs:{"icon":tabItem.icon,"pack":tabItem.iconPack,"size":_vm.size}}):_vm._e(),_vm._v(" "),_c('span',[_vm._v(_vm._s(tabItem.label))])]],2)])}))]),_vm._v(" "),_c('section',{staticClass:"tab-content",class:{'is-transitioning': _vm.isTransitioning}},[_vm._t("default")],2)])};
+var __vue_render__ = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"b-tabs",class:_vm.mainClasses},[_c('nav',{staticClass:"tabs",class:_vm.navClasses},[_c('ul',_vm._l((_vm.tabItems),function(tabItem,index){return _c('li',{directives:[{name:"show",rawName:"v-show",value:(tabItem.visible),expression:"tabItem.visible"}],key:index,class:{ 'is-active': _vm.activeTab === index, 'is-disabled': tabItem.disabled }},[_c('a',{on:{"click":function($event){_vm.tabClick(index);}}},[(tabItem.$slots.header)?[_c('b-slot-component',{attrs:{"component":tabItem,"name":"header","tag":"span"}})]:[(tabItem.icon)?_c('b-icon',{attrs:{"icon":tabItem.icon,"pack":tabItem.iconPack,"size":_vm.size}}):_vm._e(),_vm._v(" "),_c('span',[_vm._v(_vm._s(tabItem.label))])]],2)])}))]),_vm._v(" "),_c('section',{staticClass:"tab-content",class:{'is-transitioning': _vm.isTransitioning}},[_vm._t("default")],2)])};
 var __vue_staticRenderFns__ = [];
 
   /* style */
@@ -190,9 +197,7 @@ var script$1 = {
         name: 'show',
         value: this.isActive && this.visible
       }],
-      attrs: {
-        'class': 'tab-item'
-      }
+      class: 'tab-item'
     }, this.$slots.default); // check animated prop
 
     if (this.$parent.animated) {
@@ -253,6 +258,4 @@ var Plugin = {
 };
 __chunk_6.use(Plugin);
 
-exports.TabItem = TabItem;
-exports.Tabs = Tabs;
 exports.default = Plugin;

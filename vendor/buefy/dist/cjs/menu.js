@@ -2,9 +2,10 @@
 
 Object.defineProperty(exports, '__esModule', { value: true });
 
-var __chunk_1 = require('./chunk-9f6a8079.js');
-require('./chunk-545f01b1.js');
-var __chunk_5 = require('./chunk-60061aa8.js');
+var __chunk_1 = require('./chunk-a535ca7c.js');
+require('./chunk-f920b094.js');
+require('./chunk-98a92ff2.js');
+var __chunk_5 = require('./chunk-ef3fcce1.js');
 var __chunk_6 = require('./chunk-13e039f5.js');
 
 //
@@ -55,7 +56,11 @@ var script$1 = {
   props: {
     label: String,
     icon: String,
-    iconPack: String
+    iconPack: String,
+    ariaRole: {
+      type: String,
+      default: ''
+    }
   },
   render: function render(createElement, context) {
     var vlabel = null;
@@ -77,7 +82,8 @@ var script$1 = {
 
     var vnode = createElement('ul', {
       attrs: {
-        'class': 'menu-list'
+        'class': 'menu-list',
+        'role': context.props.ariaRole === 'menu' ? context.props.ariaRole : null
       }
     }, slots.default);
     return vlabel ? [vlabel, vnode] : vnode;
@@ -135,6 +141,10 @@ var script$2 = {
       validator: function validator(value) {
         return ['a', 'router-link', 'nuxt-link', 'n-link', 'NuxtLink', 'NLink'].indexOf(value) >= 0;
       }
+    },
+    ariaRole: {
+      type: String,
+      default: ''
     }
   },
   data: function data() {
@@ -142,6 +152,11 @@ var script$2 = {
       newActive: this.active,
       newExpanded: this.expanded
     };
+  },
+  computed: {
+    ariaRoleMenu: function ariaRoleMenu() {
+      return this.ariaRole === 'menuitem' ? this.ariaRole : null;
+    }
   },
   watch: {
     active: function active(value) {
@@ -185,10 +200,10 @@ var script$2 = {
 const __vue_script__$2 = script$2;
 
 /* template */
-var __vue_render__$1 = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('li',[_c(_vm.tag,_vm._b({tag:"component",class:{
+var __vue_render__$1 = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('li',{attrs:{"role":_vm.ariaRoleMenu}},[_c(_vm.tag,_vm._b({tag:"component",class:{
             'is-active': _vm.newActive,
             'is-disabled': _vm.disabled
-        },on:{"click":function($event){_vm.onClick($event);}}},'component',_vm.$attrs,false),[(_vm.icon)?_c('b-icon',{attrs:{"icon":_vm.icon,"pack":_vm.iconPack,"size":"is-small"}}):_vm._e(),_vm._v(" "),(_vm.label)?_c('span',[_vm._v(_vm._s(_vm.label))]):_vm._t("label",null,{expanded:_vm.newExpanded,active:_vm.newActive})],2),_vm._v(" "),(_vm.$slots.default)?[_c('transition',{attrs:{"name":_vm.animation}},[_c('ul',{directives:[{name:"show",rawName:"v-show",value:(_vm.newExpanded),expression:"newExpanded"}]},[_vm._t("default")],2)])]:_vm._e()],2)};
+        },on:{"click":function($event){_vm.onClick($event);}},nativeOn:{"click":function($event){_vm.onClick($event);}}},'component',_vm.$attrs,false),[(_vm.icon)?_c('b-icon',{attrs:{"icon":_vm.icon,"pack":_vm.iconPack,"size":"is-small"}}):_vm._e(),_vm._v(" "),(_vm.label)?_c('span',[_vm._v(_vm._s(_vm.label))]):_vm._t("label",null,{expanded:_vm.newExpanded,active:_vm.newActive})],2),_vm._v(" "),(_vm.$slots.default)?[_c('transition',{attrs:{"name":_vm.animation}},[_c('ul',{directives:[{name:"show",rawName:"v-show",value:(_vm.newExpanded),expression:"newExpanded"}]},[_vm._t("default")],2)])]:_vm._e()],2)};
 var __vue_staticRenderFns__$1 = [];
 
   /* style */
@@ -225,7 +240,4 @@ var Plugin = {
 };
 __chunk_6.use(Plugin);
 
-exports.Menu = Menu;
-exports.MenuItem = MenuItem;
-exports.MenuList = MenuList;
 exports.default = Plugin;
