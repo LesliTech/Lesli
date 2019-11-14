@@ -22,7 +22,7 @@ LesliCloud is proprietary software
 
 * Documentation: [https://github.com/LesliTech/lesli.cloud/wiki](https://github.com/LesliTech/lesli.cloud/wiki)
 
-* [Development notes](./.dev/notes.md)
+* Documentation: [https://cloud.lesli.tech/kb](https://cloud.lesli.tech/kb)
 
 
 #### License
