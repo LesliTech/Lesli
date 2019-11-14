@@ -4,10 +4,11 @@ Object.defineProperty(exports, '__esModule', { value: true });
 
 function _interopDefault (ex) { return (ex && (typeof ex === 'object') && 'default' in ex) ? ex['default'] : ex; }
 
-var __chunk_2 = require('./chunk-59b91990.js');
+require('./chunk-a535ca7c.js');
+var __chunk_2 = require('./chunk-f920b094.js');
 var __chunk_6 = require('./chunk-13e039f5.js');
 var Vue = _interopDefault(require('vue'));
-var __chunk_15 = require('./chunk-f1df1c63.js');
+var __chunk_18 = require('./chunk-f1df1c63.js');
 
 //
 var script = {
@@ -15,7 +16,7 @@ var script = {
   props: {
     active: Boolean,
     programmatic: Boolean,
-    container: [Object, Function, __chunk_15.HTMLElement],
+    container: [Object, Function, __chunk_18.HTMLElement],
     isFullPage: {
       type: Boolean,
       default: true
@@ -161,6 +162,5 @@ var Plugin = {
 };
 __chunk_6.use(Plugin);
 
-exports.Loading = Loading;
 exports.LoadingProgrammatic = LoadingProgrammatic;
 exports.default = Plugin;

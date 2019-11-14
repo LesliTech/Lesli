@@ -1,4 +1,4 @@
-/*! Buefy v0.8.2 | MIT License | github.com/buefy/buefy */
+/*! Buefy v0.8.6 | MIT License | github.com/buefy/buefy */
 (function (global, factory) {
     typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports, require('vue')) :
     typeof define === 'function' && define.amd ? define(['exports', 'vue'], factory) :
@@ -7,9 +7,52 @@
 
     Vue = Vue && Vue.hasOwnProperty('default') ? Vue['default'] : Vue;
 
-    /**
-     * Get value of an object property/path even if it's nested
-     */
+    var findFocusable = function findFocusable(element) {
+      if (!element) {
+        return null;
+      }
+
+      return element.querySelectorAll("a[href],\n                                     area[href],\n                                     input:not([disabled]),\n                                     select:not([disabled]),\n                                     textarea:not([disabled]),\n                                     button:not([disabled]),\n                                     iframe,\n                                     object,\n                                     embed,\n                                     *[tabindex],\n                                     *[contenteditable]");
+    };
+
+    var onKeyDown;
+
+    var bind = function bind(el, _ref) {
+      var _ref$value = _ref.value,
+          value = _ref$value === void 0 ? true : _ref$value;
+
+      if (value) {
+        var focusable = findFocusable(el);
+
+        if (focusable && focusable.length > 0) {
+          var firstFocusable = focusable[0];
+          var lastFocusable = focusable[focusable.length - 1];
+
+          onKeyDown = function onKeyDown(event) {
+            if (event.target === firstFocusable && event.shiftKey && event.key === 'Tab') {
+              event.preventDefault();
+              lastFocusable.focus();
+            } else if (event.target === lastFocusable && !event.shiftKey && event.key === 'Tab') {
+              event.preventDefault();
+              firstFocusable.focus();
+            }
+          };
+
+          el.addEventListener('keydown', onKeyDown);
+          firstFocusable.focus();
+        }
+      }
+    };
+
+    var unbind = function unbind(el) {
+      el.removeEventListener('keydown', onKeyDown);
+    };
+
+    var directive = {
+      bind: bind,
+      unbind: unbind
+    };
+
     function removeElement(el) {
       if (typeof el.remove !== 'undefined') {
         el.remove();
@@ -22,6 +65,8 @@
       defaultContainerElement: null,
       defaultIconPack: 'mdi',
       defaultIconComponent: null,
+      defaultIconPrev: 'chevron-left',
+      defaultIconNext: 'chevron-right',
       defaultDialogConfirmText: null,
       defaultDialogCancelText: null,
       defaultSnackbarDuration: 3500,
@@ -56,13 +101,20 @@
       defaultDatepickerYearsRange: [-100, 3],
       defaultDatepickerNearbyMonthDays: true,
       defaultDatepickerNearbySelectableMonthDays: false,
-      defaultDatepickerShowWeekNumber: false
+      defaultDatepickerShowWeekNumber: false,
+      defaultTrapFocus: false,
+      defaultButtonRounded: false,
+      customIconPacks: null // TODO defaultTrapFocus to true in the next breaking change
+
     };
     var config$1 = config;
 
     //
     var script = {
       name: 'BModal',
+      directives: {
+        trapFocus: directive
+      },
       props: {
         active: Boolean,
         component: [Object, Function],
@@ -99,13 +151,25 @@
           }
         },
         fullScreen: Boolean,
-        customClass: String
+        trapFocus: {
+          type: Boolean,
+          default: config$1.defaultTrapFocus
+        },
+        customClass: String,
+        ariaRole: {
+          type: String,
+          validator: function validator(value) {
+            return ['dialog', 'alertdialog'].indexOf(value) >= 0;
+          }
+        },
+        ariaModal: Boolean
       },
       data: function data() {
         return {
           isActive: this.active || false,
           savedScrollTop: null,
-          newWidth: typeof this.width === 'number' ? this.width + 'px' : this.width
+          newWidth: typeof this.width === 'number' ? this.width + 'px' : this.width,
+          animating: true
         };
       },
       computed: {
@@ -200,6 +264,20 @@
         keyPress: function keyPress(event) {
           // Esc key
           if (this.isActive && event.keyCode === 27) this.cancel('escape');
+        },
+
+        /**
+        * Transition after-enter hook
+        */
+        afterEnter: function afterEnter() {
+          this.animating = false;
+        },
+
+        /**
+        * Transition before-leave hook
+        */
+        beforeLeave: function beforeLeave() {
+          this.animating = true;
         }
       },
       created: function created() {
@@ -317,7 +395,7 @@
     const __vue_script__ = script;
 
     /* template */
-    var __vue_render__ = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('transition',{attrs:{"name":_vm.animation}},[(_vm.isActive)?_c('div',{staticClass:"modal is-active",class:[{'is-full-screen': _vm.fullScreen}, _vm.customClass]},[_c('div',{staticClass:"modal-background",on:{"click":function($event){_vm.cancel('outside');}}}),_vm._v(" "),_c('div',{staticClass:"animation-content",class:{ 'modal-content': !_vm.hasModalCard },style:(_vm.customStyle)},[(_vm.component)?_c(_vm.component,_vm._g(_vm._b({tag:"component",on:{"close":_vm.close}},'component',_vm.props,false),_vm.events)):(_vm.content)?_c('div',{domProps:{"innerHTML":_vm._s(_vm.content)}}):_vm._t("default")],2),_vm._v(" "),(_vm.showX)?_c('button',{staticClass:"modal-close is-large",attrs:{"type":"button"},on:{"click":function($event){_vm.cancel('x');}}}):_vm._e()]):_vm._e()])};
+    var __vue_render__ = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('transition',{attrs:{"name":_vm.animation},on:{"after-enter":_vm.afterEnter,"before-leave":_vm.beforeLeave}},[(_vm.isActive)?_c('div',{directives:[{name:"trap-focus",rawName:"v-trap-focus",value:(_vm.trapFocus),expression:"trapFocus"}],staticClass:"modal is-active",class:[{'is-full-screen': _vm.fullScreen}, _vm.customClass],attrs:{"role":_vm.ariaRole,"aria-modal":_vm.ariaModal}},[_c('div',{staticClass:"modal-background",on:{"click":function($event){_vm.cancel('outside');}}}),_vm._v(" "),_c('div',{staticClass:"animation-content",class:{ 'modal-content': !_vm.hasModalCard },style:(_vm.customStyle)},[(_vm.component)?_c(_vm.component,_vm._g(_vm._b({tag:"component",on:{"close":_vm.close}},'component',_vm.props,false),_vm.events)):(_vm.content)?_c('div',{domProps:{"innerHTML":_vm._s(_vm.content)}}):_vm._t("default"),_vm._v(" "),(_vm.showX && !_vm.animating)?_c('button',{staticClass:"modal-close is-large",attrs:{"type":"button"},on:{"click":function($event){_vm.cancel('x');}}}):_vm._e()],2)]):_vm._e()])};
     var __vue_staticRenderFns__ = [];
 
       /* style */
@@ -391,7 +469,6 @@
     };
     use(Plugin);
 
-    exports.Modal = Modal;
     exports.ModalProgrammatic = ModalProgrammatic;
     exports.default = Plugin;
 

@@ -1,6 +1,7 @@
-import { _ as _defineProperty } from './chunk-d6200087.js';
-import './chunk-9e3207cc.js';
-import { I as Icon } from './chunk-e84b4047.js';
+import { a as _defineProperty } from './chunk-40949afc.js';
+import './chunk-d3a97e18.js';
+import './chunk-9d997597.js';
+import { I as Icon } from './chunk-2b1ca282.js';
 import { _ as __vue_normalize__, r as registerComponent, u as use } from './chunk-cca88db8.js';
 import { S as SlotComponent } from './chunk-0e3f4fb5.js';
 
@@ -21,7 +22,8 @@ var script = {
     destroyOnHide: {
       type: Boolean,
       default: false
-    }
+    },
+    vertical: Boolean
   },
   data: function data() {
     return {
@@ -34,11 +36,16 @@ var script = {
     };
   },
   computed: {
-    navClasses: function navClasses() {
-      return [this.type, this.size, this.position, {
+    mainClasses: function mainClasses() {
+      return _defineProperty({
         'is-fullwidth': this.expanded,
-        'is-toggle-rounded is-toggle': this.type === 'is-toggle-rounded'
-      }];
+        'is-vertical': this.vertical
+      }, this.position, this.position && this.vertical);
+    },
+    navClasses: function navClasses() {
+      var _ref2;
+
+      return [this.type, this.size, (_ref2 = {}, _defineProperty(_ref2, this.position, this.position && !this.vertical), _defineProperty(_ref2, 'is-fullwidth', this.expanded), _defineProperty(_ref2, 'is-toggle-rounded is-toggle', this.type === 'is-toggle-rounded'), _ref2)];
     }
   },
   watch: {
@@ -63,7 +70,7 @@ var script = {
     * Change the active tab and emit change event.
     */
     changeTab: function changeTab(newIndex) {
-      if (this.activeTab === newIndex) return;
+      if (this.activeTab === newIndex || this.tabItems[newIndex] === undefined) return;
 
       if (this.activeTab < this.tabItems.length) {
         this.tabItems[this.activeTab].deactivate(this.activeTab, newIndex);
@@ -93,7 +100,7 @@ var script = {
 const __vue_script__ = script;
 
 /* template */
-var __vue_render__ = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"b-tabs",class:{ 'is-fullwidth': _vm.expanded }},[_c('nav',{staticClass:"tabs",class:_vm.navClasses},[_c('ul',_vm._l((_vm.tabItems),function(tabItem,index){return _c('li',{directives:[{name:"show",rawName:"v-show",value:(tabItem.visible),expression:"tabItem.visible"}],key:index,class:{ 'is-active': _vm.activeTab === index, 'is-disabled': tabItem.disabled }},[_c('a',{on:{"click":function($event){_vm.tabClick(index);}}},[(tabItem.$slots.header)?[_c('b-slot-component',{attrs:{"component":tabItem,"name":"header","tag":"span"}})]:[(tabItem.icon)?_c('b-icon',{attrs:{"icon":tabItem.icon,"pack":tabItem.iconPack,"size":_vm.size}}):_vm._e(),_vm._v(" "),_c('span',[_vm._v(_vm._s(tabItem.label))])]],2)])}))]),_vm._v(" "),_c('section',{staticClass:"tab-content",class:{'is-transitioning': _vm.isTransitioning}},[_vm._t("default")],2)])};
+var __vue_render__ = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"b-tabs",class:_vm.mainClasses},[_c('nav',{staticClass:"tabs",class:_vm.navClasses},[_c('ul',_vm._l((_vm.tabItems),function(tabItem,index){return _c('li',{directives:[{name:"show",rawName:"v-show",value:(tabItem.visible),expression:"tabItem.visible"}],key:index,class:{ 'is-active': _vm.activeTab === index, 'is-disabled': tabItem.disabled }},[_c('a',{on:{"click":function($event){_vm.tabClick(index);}}},[(tabItem.$slots.header)?[_c('b-slot-component',{attrs:{"component":tabItem,"name":"header","tag":"span"}})]:[(tabItem.icon)?_c('b-icon',{attrs:{"icon":tabItem.icon,"pack":tabItem.iconPack,"size":_vm.size}}):_vm._e(),_vm._v(" "),_c('span',[_vm._v(_vm._s(tabItem.label))])]],2)])}))]),_vm._v(" "),_c('section',{staticClass:"tab-content",class:{'is-transitioning': _vm.isTransitioning}},[_vm._t("default")],2)])};
 var __vue_staticRenderFns__ = [];
 
   /* style */
@@ -186,9 +193,7 @@ var script$1 = {
         name: 'show',
         value: this.isActive && this.visible
       }],
-      attrs: {
-        'class': 'tab-item'
-      }
+      class: 'tab-item'
     }, this.$slots.default); // check animated prop
 
     if (this.$parent.animated) {
@@ -250,4 +255,3 @@ var Plugin = {
 use(Plugin);
 
 export default Plugin;
-export { TabItem, Tabs };

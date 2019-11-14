@@ -1,32 +1,26 @@
 {
-  "_args": [
-    [
-      "buefy@0.8.2",
-      "/var/www/LesliCloud/lesli.cloud"
-    ]
-  ],
-  "_development": true,
-  "_from": "buefy@0.8.2",
-  "_id": "buefy@0.8.2",
+  "_from": "buefy@0.8.6",
+  "_id": "buefy@0.8.6",
   "_inBundle": false,
-  "_integrity": "sha512-fS4sXYE0ge7fN5tP9k67j1fSCS/yxbTrnEhJ5MBt89gcbmVe5x8/SAXdADjx5W4SdERtjKjE9mzoIoRb+ZC29Q==",
+  "_integrity": "sha512-7woxrdwANcnJbe7lofPxkJLGRRGIVwFXOo0kzEpiNB6alQj18NV6UrdAKse+LWCOADz+AeHe5gyc6qdgRjG5mw==",
   "_location": "/buefy",
   "_phantomChildren": {},
   "_requested": {
     "type": "version",
     "registry": true,
-    "raw": "buefy@0.8.2",
+    "raw": "buefy@0.8.6",
     "name": "buefy",
     "escapedName": "buefy",
-    "rawSpec": "0.8.2",
+    "rawSpec": "0.8.6",
     "saveSpec": null,
-    "fetchSpec": "0.8.2"
+    "fetchSpec": "0.8.6"
   },
   "_requiredBy": [
     "#DEV:/"
   ],
-  "_resolved": "https://registry.npmjs.org/buefy/-/buefy-0.8.2.tgz",
-  "_spec": "0.8.2",
+  "_resolved": "https://registry.npmjs.org/buefy/-/buefy-0.8.6.tgz",
+  "_shasum": "a8d7e570914b95d8d5aadc40f87bcdfbaf552f0e",
+  "_spec": "buefy@0.8.6",
   "_where": "/var/www/LesliCloud/lesli.cloud",
   "author": {
     "name": "Rafael Beraldo",
@@ -40,9 +34,11 @@
   "bugs": {
     "url": "https://github.com/buefy/buefy/issues"
   },
+  "bundleDependencies": false,
   "dependencies": {
     "bulma": "0.7.5"
   },
+  "deprecated": false,
   "description": "Lightweight UI components for Vue.js based on Bulma",
   "devDependencies": {
     "@babel/core": "^7.3.4",
@@ -91,7 +87,7 @@
     "optimize-js-plugin": "0.0.4",
     "ora": "1.2.0",
     "pre-commit": "1.2.2",
-    "prerender-spa-plugin": "3.2.1",
+    "prerender-spa-plugin": "3.4.0",
     "raw-loader": "0.5.1",
     "rimraf": "2.6.0",
     "rollup": "1.17.0",
@@ -106,6 +102,7 @@
     "scrollreveal": "3.3.6",
     "semver": "5.3.0",
     "shelljs": "0.8.3",
+    "sinon": "^7.5.0",
     "sortablejs": "1.7.0",
     "uglifyjs-webpack-plugin": "1.2.5",
     "url-loader": "0.5.8",
@@ -182,7 +179,7 @@
     "start": "node build/dev-server.js",
     "test": "npm run lint && npm run unit",
     "test:watch": "npm run unit -- --watchAll",
-    "unit": "jest"
+    "unit": "jest --runInBand"
   },
   "sideEffects": [
     "*.css",
@@ -190,5 +187,5 @@
   ],
   "typings": "types/index.d.ts",
   "unpkg": "dist/buefy.min.js",
-  "version": "0.8.2"
+  "version": "0.8.6"
 }

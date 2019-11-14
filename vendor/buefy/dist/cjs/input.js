@@ -2,12 +2,13 @@
 
 Object.defineProperty(exports, '__esModule', { value: true });
 
-require('./chunk-9f6a8079.js');
-require('./chunk-545f01b1.js');
-require('./chunk-c146745e.js');
-require('./chunk-60061aa8.js');
+require('./chunk-a535ca7c.js');
+require('./chunk-f920b094.js');
+require('./chunk-98a92ff2.js');
+require('./chunk-191e0131.js');
+require('./chunk-ef3fcce1.js');
 var __chunk_6 = require('./chunk-13e039f5.js');
-var __chunk_7 = require('./chunk-f0c597f9.js');
+var __chunk_7 = require('./chunk-555220c3.js');
 
 var Plugin = {
   install: function install(Vue) {
@@ -16,5 +17,4 @@ var Plugin = {
 };
 __chunk_6.use(Plugin);
 
-exports.Input = __chunk_7.Input;
 exports.default = Plugin;

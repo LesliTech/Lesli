@@ -1,11 +1,11 @@
-import './chunk-d6200087.js';
-import './chunk-e5fce48f.js';
-import { c as config } from './chunk-9e3207cc.js';
-import './chunk-e84b4047.js';
+import './chunk-40949afc.js';
+import './chunk-d3a97e18.js';
+import { c as config } from './chunk-9d997597.js';
+import './chunk-2b1ca282.js';
 import { _ as __vue_normalize__, r as registerComponent, a as registerComponentProgrammatic, u as use } from './chunk-cca88db8.js';
 import Vue from 'vue';
-import { M as MessageMixin } from './chunk-edd8ff91.js';
-import { N as NoticeMixin } from './chunk-daeac852.js';
+import { M as MessageMixin } from './chunk-7fdceba8.js';
+import { N as NoticeMixin } from './chunk-8d9f2e97.js';
 
 //
 var script = {
@@ -132,4 +132,4 @@ var Plugin = {
 use(Plugin);
 
 export default Plugin;
-export { Notification, NotificationProgrammatic };
+export { NotificationProgrammatic };
