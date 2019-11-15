@@ -93,6 +93,7 @@ export default {
             this.notification.show = true
             this.notification.timer = setTimeout(() => this.notification.show = false, 25000)
         },
+        
 
         prepareDesktopNotification() {
 
@@ -118,6 +119,16 @@ export default {
                 });
             }
             
+        },
+
+        readNotification(index) {
+            var notification = this.notification.list[index]
+            // In this case, there is no need to wait for a response
+            this.http.put(`/bell/api/notifications/${notification.id}/read`).catch(error => {
+                console.log(error)
+            })
+            window.location.href = notification.href
+
         }
 
     }
@@ -135,7 +146,7 @@ export default {
                     <div class="section">
                         <ul class="menu-list">
                             <li v-for="(notification, index) in notification.list" :key="index" >
-                                <a :href="notification.href">{{ notification.subject }}</a>
+                                <a @click="readNotification(index)" href="#">{{ notification.subject }}</a>
                             </li>
                         </ul>
                     </div>

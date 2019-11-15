@@ -1,4 +1,4 @@
-/*! Buefy v0.8.2 | MIT License | github.com/buefy/buefy */
+/*! Buefy v0.8.6 | MIT License | github.com/buefy/buefy */
 (function (global, factory) {
     typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports) :
     typeof define === 'function' && define.amd ? define(['exports'], factory) :
@@ -138,7 +138,11 @@
       props: {
         label: String,
         icon: String,
-        iconPack: String
+        iconPack: String,
+        ariaRole: {
+          type: String,
+          default: ''
+        }
       },
       render: function render(createElement, context) {
         var vlabel = null;
@@ -160,7 +164,8 @@
 
         var vnode = createElement('ul', {
           attrs: {
-            'class': 'menu-list'
+            'class': 'menu-list',
+            'role': context.props.ariaRole === 'menu' ? context.props.ariaRole : null
           }
         }, slots.default);
         return vlabel ? [vlabel, vnode] : vnode;
@@ -197,6 +202,20 @@
         undefined
       );
 
+    function _typeof(obj) {
+      if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") {
+        _typeof = function (obj) {
+          return typeof obj;
+        };
+      } else {
+        _typeof = function (obj) {
+          return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj;
+        };
+      }
+
+      return _typeof(obj);
+    }
+
     function _defineProperty(obj, key, value) {
       if (key in obj) {
         Object.defineProperty(obj, key, {
@@ -212,10 +231,45 @@
       return obj;
     }
 
+    function ownKeys(object, enumerableOnly) {
+      var keys = Object.keys(object);
+
+      if (Object.getOwnPropertySymbols) {
+        keys.push.apply(keys, Object.getOwnPropertySymbols(object));
+      }
+
+      if (enumerableOnly) keys = keys.filter(function (sym) {
+        return Object.getOwnPropertyDescriptor(object, sym).enumerable;
+      });
+      return keys;
+    }
+
+    function _objectSpread2(target) {
+      for (var i = 1; i < arguments.length; i++) {
+        var source = arguments[i] != null ? arguments[i] : {};
+
+        if (i % 2) {
+          ownKeys(source, true).forEach(function (key) {
+            _defineProperty(target, key, source[key]);
+          });
+        } else if (Object.getOwnPropertyDescriptors) {
+          Object.defineProperties(target, Object.getOwnPropertyDescriptors(source));
+        } else {
+          ownKeys(source).forEach(function (key) {
+            Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key));
+          });
+        }
+      }
+
+      return target;
+    }
+
     var config = {
       defaultContainerElement: null,
       defaultIconPack: 'mdi',
       defaultIconComponent: null,
+      defaultIconPrev: 'chevron-left',
+      defaultIconNext: 'chevron-right',
       defaultDialogConfirmText: null,
       defaultDialogCancelText: null,
       defaultSnackbarDuration: 3500,
@@ -250,15 +304,95 @@
       defaultDatepickerYearsRange: [-100, 3],
       defaultDatepickerNearbyMonthDays: true,
       defaultDatepickerNearbySelectableMonthDays: false,
-      defaultDatepickerShowWeekNumber: false
+      defaultDatepickerShowWeekNumber: false,
+      defaultTrapFocus: false,
+      defaultButtonRounded: false,
+      customIconPacks: null // TODO defaultTrapFocus to true in the next breaking change
+
     };
     var config$1 = config;
+
+    /**
+    * Merge function to replace Object.assign with deep merging possibility
+    */
+
+    var isObject = function isObject(item) {
+      return _typeof(item) === 'object' && !Array.isArray(item);
+    };
+
+    var mergeFn = function mergeFn(target, source) {
+      var isDeep = function isDeep(prop) {
+        return isObject(source[prop]) && target.hasOwnProperty(prop) && isObject(target[prop]);
+      };
+
+      var replaced = Object.getOwnPropertyNames(source).map(function (prop) {
+        return _defineProperty({}, prop, isDeep(prop) ? mergeFn(target[prop], source[prop]) : source[prop]);
+      }).reduce(function (a, b) {
+        return _objectSpread2({}, a, {}, b);
+      }, {});
+      return _objectSpread2({}, target, {}, replaced);
+    };
+
+    var merge = mergeFn;
+
+    var mdiIcons = {
+      sizes: {
+        'default': 'mdi-24px',
+        'is-small': null,
+        'is-medium': 'mdi-36px',
+        'is-large': 'mdi-48px'
+      },
+      iconPrefix: 'mdi-'
+    };
+
+    var faIcons = function faIcons() {
+      var faIconPrefix = config$1 && config$1.defaultIconComponent ? '' : 'fa-';
+      return {
+        sizes: {
+          'default': faIconPrefix + 'lg',
+          'is-small': null,
+          'is-medium': faIconPrefix + '2x',
+          'is-large': faIconPrefix + '3x'
+        },
+        iconPrefix: faIconPrefix,
+        internalIcons: {
+          'information': 'info-circle',
+          'alert': 'exclamation-triangle',
+          'alert-circle': 'exclamation-circle',
+          'chevron-right': 'angle-right',
+          'chevron-left': 'angle-left',
+          'chevron-down': 'angle-down',
+          'eye-off': 'eye-slash',
+          'menu-down': 'caret-down',
+          'menu-up': 'caret-up'
+        }
+      };
+    };
+
+    var getIcons = function getIcons() {
+      var icons = {
+        mdi: mdiIcons,
+        fa: faIcons(),
+        fas: faIcons(),
+        far: faIcons(),
+        fad: faIcons(),
+        fab: faIcons(),
+        fal: faIcons()
+      };
+
+      if (config$1 && config$1.customIconPacks) {
+        icons = merge(icons, config$1.customIconPacks);
+      }
+
+      return icons;
+    };
 
     //
     var script$2 = {
       name: 'BIcon',
       props: {
         type: [String, Object],
+        component: String,
         pack: String,
         icon: String,
         size: String,
@@ -268,13 +402,25 @@
 
       },
       computed: {
+        iconConfig: function iconConfig() {
+          var allIcons = getIcons();
+          return allIcons[this.newPack];
+        },
+        iconPrefix: function iconPrefix() {
+          if (this.iconConfig && this.iconConfig.iconPrefix) {
+            return this.iconConfig.iconPrefix;
+          }
+
+          return '';
+        },
+
         /**
         * Internal icon name based on the pack.
         * If pack is 'fa', gets the equivalent FA icon name of the MDI,
         * internal icons are always MDI.
         */
         newIcon: function newIcon() {
-          return this.newPack === 'mdi' ? "".concat(this.newPack, "-").concat(this.icon) : this.addFAPrefix(this.getEquivalentIconOf(this.icon));
+          return "".concat(this.iconPrefix).concat(this.getEquivalentIconOf(this.icon));
         },
         newPack: function newPack() {
           return this.pack || config$1.defaultIconPack;
@@ -301,39 +447,23 @@
           return this.customSize || this.customSizeByPack;
         },
         customSizeByPack: function customSizeByPack() {
-          var defaultSize = this.newPack === 'mdi' ? 'mdi-24px' : this.addFAPrefix('lg');
-          var mediumSize = this.newPack === 'mdi' ? 'mdi-36px' : this.addFAPrefix('2x');
-          var largeSize = this.newPack === 'mdi' ? 'mdi-48px' : this.addFAPrefix('3x');
-
-          switch (this.size) {
-            case 'is-small':
-              return;
-
-            case 'is-medium':
-              return mediumSize;
-
-            case 'is-large':
-              return largeSize;
-
-            default:
-              return defaultSize;
+          if (this.iconConfig && this.iconConfig.sizes) {
+            if (this.size && this.iconConfig.sizes[this.size] !== undefined) {
+              return this.iconConfig.sizes[this.size];
+            } else if (this.iconConfig.sizes.default) {
+              return this.iconConfig.sizes.default;
+            }
           }
+
+          return null;
         },
         useIconComponent: function useIconComponent() {
-          return config$1.defaultIconComponent;
+          return this.component || config$1.defaultIconComponent;
         }
       },
       methods: {
-        addFAPrefix: function addFAPrefix(value) {
-          if (this.useIconComponent) {
-            return value;
-          }
-
-          return "fa-".concat(value);
-        },
-
         /**
-        * Equivalent FA icon name of the MDI.
+        * Equivalent icon name of the MDI.
         */
         getEquivalentIconOf: function getEquivalentIconOf(value) {
           // Only transform the class if the both prop is set to true
@@ -341,49 +471,11 @@
             return value;
           }
 
-          switch (value) {
-            case 'check':
-              return 'check';
-
-            case 'information':
-              return 'info-circle';
-
-            case 'check-circle':
-              return 'check-circle';
-
-            case 'alert':
-              return 'exclamation-triangle';
-
-            case 'alert-circle':
-              return 'exclamation-circle';
-
-            case 'arrow-up':
-              return 'arrow-up';
-
-            case 'chevron-right':
-              return 'angle-right';
-
-            case 'chevron-left':
-              return 'angle-left';
-
-            case 'chevron-down':
-              return 'angle-down';
-
-            case 'eye':
-              return 'eye';
-
-            case 'eye-off':
-              return 'eye-slash';
-
-            case 'menu-down':
-              return 'caret-down';
-
-            case 'menu-up':
-              return 'caret-up';
-
-            default:
-              return value;
+          if (this.iconConfig && this.iconConfig.internalIcons && this.iconConfig.internalIcons[value]) {
+            return this.iconConfig.internalIcons[value];
           }
+
+          return value;
         }
       }
     };
@@ -441,6 +533,10 @@
           validator: function validator(value) {
             return ['a', 'router-link', 'nuxt-link', 'n-link', 'NuxtLink', 'NLink'].indexOf(value) >= 0;
           }
+        },
+        ariaRole: {
+          type: String,
+          default: ''
         }
       },
       data: function data() {
@@ -448,6 +544,11 @@
           newActive: this.active,
           newExpanded: this.expanded
         };
+      },
+      computed: {
+        ariaRoleMenu: function ariaRoleMenu() {
+          return this.ariaRole === 'menuitem' ? this.ariaRole : null;
+        }
       },
       watch: {
         active: function active(value) {
@@ -491,10 +592,10 @@
     const __vue_script__$3 = script$3;
 
     /* template */
-    var __vue_render__$2 = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('li',[_c(_vm.tag,_vm._b({tag:"component",class:{
+    var __vue_render__$2 = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('li',{attrs:{"role":_vm.ariaRoleMenu}},[_c(_vm.tag,_vm._b({tag:"component",class:{
                 'is-active': _vm.newActive,
                 'is-disabled': _vm.disabled
-            },on:{"click":function($event){_vm.onClick($event);}}},'component',_vm.$attrs,false),[(_vm.icon)?_c('b-icon',{attrs:{"icon":_vm.icon,"pack":_vm.iconPack,"size":"is-small"}}):_vm._e(),_vm._v(" "),(_vm.label)?_c('span',[_vm._v(_vm._s(_vm.label))]):_vm._t("label",null,{expanded:_vm.newExpanded,active:_vm.newActive})],2),_vm._v(" "),(_vm.$slots.default)?[_c('transition',{attrs:{"name":_vm.animation}},[_c('ul',{directives:[{name:"show",rawName:"v-show",value:(_vm.newExpanded),expression:"newExpanded"}]},[_vm._t("default")],2)])]:_vm._e()],2)};
+            },on:{"click":function($event){_vm.onClick($event);}},nativeOn:{"click":function($event){_vm.onClick($event);}}},'component',_vm.$attrs,false),[(_vm.icon)?_c('b-icon',{attrs:{"icon":_vm.icon,"pack":_vm.iconPack,"size":"is-small"}}):_vm._e(),_vm._v(" "),(_vm.label)?_c('span',[_vm._v(_vm._s(_vm.label))]):_vm._t("label",null,{expanded:_vm.newExpanded,active:_vm.newActive})],2),_vm._v(" "),(_vm.$slots.default)?[_c('transition',{attrs:{"name":_vm.animation}},[_c('ul',{directives:[{name:"show",rawName:"v-show",value:(_vm.newExpanded),expression:"newExpanded"}]},[_vm._t("default")],2)])]:_vm._e()],2)};
     var __vue_staticRenderFns__$2 = [];
 
       /* style */
@@ -540,9 +641,6 @@
     };
     use(Plugin);
 
-    exports.Menu = Menu;
-    exports.MenuItem = MenuItem;
-    exports.MenuList = MenuList;
     exports.default = Plugin;
 
     Object.defineProperty(exports, '__esModule', { value: true });

@@ -140,5 +140,4 @@ var Plugin = {
 };
 __chunk_6.use(Plugin);
 
-exports.Switch = Switch;
 exports.default = Plugin;

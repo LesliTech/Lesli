@@ -1,14 +1,18 @@
-import { _ as _defineProperty } from './chunk-d6200087.js';
-import { r as removeElement } from './chunk-e5fce48f.js';
-import { c as config } from './chunk-9e3207cc.js';
-import { I as Icon } from './chunk-e84b4047.js';
+import { a as _defineProperty } from './chunk-40949afc.js';
+import { r as removeElement } from './chunk-d3a97e18.js';
+import { c as config } from './chunk-9d997597.js';
+import { I as Icon } from './chunk-2b1ca282.js';
 import { _ as __vue_normalize__, r as registerComponent, a as registerComponentProgrammatic, u as use } from './chunk-cca88db8.js';
+import { t as trapFocus } from './chunk-dc5f834f.js';
 import Vue from 'vue';
-import { M as Modal } from './chunk-a5ea70d0.js';
+import { M as Modal } from './chunk-db89429e.js';
 
 var script = {
   name: 'BDialog',
   components: _defineProperty({}, Icon.name, Icon),
+  directives: {
+    trapFocus: trapFocus
+  },
   extends: Modal,
   props: {
     title: String,
@@ -48,7 +52,18 @@ var script = {
     focusOn: {
       type: String,
       default: 'confirm'
-    }
+    },
+    trapFocus: {
+      type: Boolean,
+      default: config.defaultTrapFocus
+    },
+    ariaRole: {
+      type: String,
+      validator: function validator(value) {
+        return ['dialog', 'alertdialog'].indexOf(value) >= 0;
+      }
+    },
+    ariaModal: Boolean
   },
   data: function data() {
     var prompt = this.hasInput ? this.inputAttrs.value || '' : '';
@@ -157,7 +172,7 @@ var script = {
 const __vue_script__ = script;
 
 /* template */
-var __vue_render__ = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('transition',{attrs:{"name":_vm.animation}},[(_vm.isActive)?_c('div',{staticClass:"dialog modal is-active",class:_vm.size},[_c('div',{staticClass:"modal-background",on:{"click":function($event){_vm.cancel('outside');}}}),_vm._v(" "),_c('div',{staticClass:"modal-card animation-content"},[(_vm.title)?_c('header',{staticClass:"modal-card-head"},[_c('p',{staticClass:"modal-card-title"},[_vm._v(_vm._s(_vm.title))])]):_vm._e(),_vm._v(" "),_c('section',{staticClass:"modal-card-body",class:{ 'is-titleless': !_vm.title, 'is-flex': _vm.hasIcon }},[_c('div',{staticClass:"media"},[(_vm.hasIcon)?_c('div',{staticClass:"media-left"},[_c('b-icon',{attrs:{"icon":_vm.icon ? _vm.icon : _vm.iconByType,"pack":_vm.iconPack,"type":_vm.type,"both":!_vm.icon,"size":"is-large"}})],1):_vm._e(),_vm._v(" "),_c('div',{staticClass:"media-content"},[_c('p',{domProps:{"innerHTML":_vm._s(_vm.message)}}),_vm._v(" "),(_vm.hasInput)?_c('div',{staticClass:"field"},[_c('div',{staticClass:"control"},[_c('input',_vm._b({directives:[{name:"model",rawName:"v-model",value:(_vm.prompt),expression:"prompt"}],ref:"input",staticClass:"input",class:{ 'is-danger': _vm.validationMessage },domProps:{"value":(_vm.prompt)},on:{"keyup":function($event){if(!('button' in $event)&&_vm._k($event.keyCode,"enter",13,$event.key)){ return null; }_vm.confirm($event);},"input":function($event){if($event.target.composing){ return; }_vm.prompt=$event.target.value;}}},'input',_vm.inputAttrs,false))]),_vm._v(" "),_c('p',{staticClass:"help is-danger"},[_vm._v(_vm._s(_vm.validationMessage))])]):_vm._e()])])]),_vm._v(" "),_c('footer',{staticClass:"modal-card-foot"},[(_vm.showCancel)?_c('button',{ref:"cancelButton",staticClass:"button",on:{"click":function($event){_vm.cancel('button');}}},[_vm._v("\n                    "+_vm._s(_vm.cancelText)+"\n                ")]):_vm._e(),_vm._v(" "),_c('button',{ref:"confirmButton",staticClass:"button",class:_vm.type,on:{"click":_vm.confirm}},[_vm._v("\n                    "+_vm._s(_vm.confirmText)+"\n                ")])])])]):_vm._e()])};
+var __vue_render__ = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('transition',{attrs:{"name":_vm.animation}},[(_vm.isActive)?_c('div',{directives:[{name:"trap-focus",rawName:"v-trap-focus",value:(_vm.trapFocus),expression:"trapFocus"}],staticClass:"dialog modal is-active",class:_vm.size,attrs:{"role":_vm.ariaRole,"aria-modal":_vm.ariaModal}},[_c('div',{staticClass:"modal-background",on:{"click":function($event){_vm.cancel('outside');}}}),_vm._v(" "),_c('div',{staticClass:"modal-card animation-content"},[(_vm.title)?_c('header',{staticClass:"modal-card-head"},[_c('p',{staticClass:"modal-card-title"},[_vm._v(_vm._s(_vm.title))])]):_vm._e(),_vm._v(" "),_c('section',{staticClass:"modal-card-body",class:{ 'is-titleless': !_vm.title, 'is-flex': _vm.hasIcon }},[_c('div',{staticClass:"media"},[(_vm.hasIcon && (_vm.icon || _vm.iconByType))?_c('div',{staticClass:"media-left"},[_c('b-icon',{attrs:{"icon":_vm.icon ? _vm.icon : _vm.iconByType,"pack":_vm.iconPack,"type":_vm.type,"both":!_vm.icon,"size":"is-large"}})],1):_vm._e(),_vm._v(" "),_c('div',{staticClass:"media-content"},[_c('p',{domProps:{"innerHTML":_vm._s(_vm.message)}}),_vm._v(" "),(_vm.hasInput)?_c('div',{staticClass:"field"},[_c('div',{staticClass:"control"},[_c('input',_vm._b({directives:[{name:"model",rawName:"v-model",value:(_vm.prompt),expression:"prompt"}],ref:"input",staticClass:"input",class:{ 'is-danger': _vm.validationMessage },domProps:{"value":(_vm.prompt)},on:{"keyup":function($event){if(!('button' in $event)&&_vm._k($event.keyCode,"enter",13,$event.key)){ return null; }_vm.confirm($event);},"input":function($event){if($event.target.composing){ return; }_vm.prompt=$event.target.value;}}},'input',_vm.inputAttrs,false))]),_vm._v(" "),_c('p',{staticClass:"help is-danger"},[_vm._v(_vm._s(_vm.validationMessage))])]):_vm._e()])])]),_vm._v(" "),_c('footer',{staticClass:"modal-card-foot"},[(_vm.showCancel)?_c('button',{ref:"cancelButton",staticClass:"button",on:{"click":function($event){_vm.cancel('button');}}},[_vm._v("\n                    "+_vm._s(_vm.cancelText)+"\n                ")]):_vm._e(),_vm._v(" "),_c('button',{ref:"confirmButton",staticClass:"button",class:_vm.type,on:{"click":_vm.confirm}},[_vm._v("\n                    "+_vm._s(_vm.confirmText)+"\n                ")])])])]):_vm._e()])};
 var __vue_staticRenderFns__ = [];
 
   /* style */

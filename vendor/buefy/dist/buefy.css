@@ -1,4 +1,4 @@
-/*! Buefy v0.8.2 | MIT License | github.com/buefy/buefy */
+/*! Buefy v0.8.6 | MIT License | github.com/buefy/buefy */
 .is-noscroll {
   position: fixed;
   overflow-y: hidden;
@@ -11008,6 +11008,7 @@ label.panel-block:hover {
   border-radius: 4px;
   border: 2px solid #7a7a7a;
   transition: background 150ms ease-out;
+  background: transparent;
 }
 
 .b-checkbox.checkbox input[type=checkbox]:checked + .check {
@@ -11170,6 +11171,10 @@ label.panel-block:hover {
 
 .b-checkbox.checkbox .control-label {
   padding-left: 0.5em;
+}
+
+.b-checkbox.checkbox.button {
+  display: flex;
 }
 
 .b-checkbox.checkbox[disabled] {
@@ -11679,6 +11684,10 @@ label.panel-block:hover {
   width: 100%;
 }
 
+.datepicker .dropdown.is-disabled {
+  opacity: 1;
+}
+
 .datepicker .dropdown-item, .datepicker .dropdown .dropdown-menu .has-link a, .dropdown .dropdown-menu .has-link .datepicker a {
   font-size: inherit;
 }
@@ -11687,10 +11696,6 @@ label.panel-block:hover {
   padding-bottom: 0.875rem;
   margin-bottom: 0.875rem;
   border-bottom: 1px solid #dbdbdb;
-}
-
-.datepicker .datepicker-content {
-  height: 16.25rem;
 }
 
 .datepicker .datepicker-footer {
@@ -12001,6 +12006,22 @@ label.panel-block:hover {
   white-space: nowrap;
 }
 
+.dropdown.is-expanded {
+  width: 100%;
+}
+
+.dropdown.is-expanded .dropdown-trigger {
+  width: 100%;
+}
+
+.dropdown.is-expanded .dropdown-menu {
+  width: 100%;
+}
+
+.dropdown.is-expanded.is-mobile-modal .dropdown-menu {
+  max-width: 100%;
+}
+
 .dropdown:not(.is-disabled) .dropdown-menu .dropdown-item.is-disabled, .dropdown:not(.is-disabled) .dropdown-menu .has-link a.is-disabled {
   opacity: 0.5;
 }
@@ -12042,7 +12063,7 @@ label.panel-block:hover {
 }
 
 @media screen and (max-width: 1023px) {
-  .dropdown.is-mobile-modal .dropdown-menu {
+  .dropdown.is-mobile-modal > .dropdown-menu {
     position: fixed;
     width: calc(100vw - 40px);
     max-width: 460px;
@@ -12056,7 +12077,7 @@ label.panel-block:hover {
     overflow-y: auto;
     z-index: 50;
   }
-  .dropdown.is-mobile-modal .dropdown-menu .dropdown-item, .dropdown.is-mobile-modal .dropdown-menu .has-link a {
+  .dropdown.is-mobile-modal > .dropdown-menu > .dropdown-content > .dropdown-item, .dropdown .dropdown-menu .has-link .dropdown.is-mobile-modal > .dropdown-menu > .dropdown-content > a {
     padding: 1rem 1.5rem;
   }
 }
@@ -12098,6 +12119,24 @@ label.panel-block:hover {
 .taginput .field.has-addons .control .control .taginput-container.is-focusable,
 .field.has-addons .control .control .select select {
   border-radius: 0;
+}
+
+.field.has-addons .b-numberinput:not(:first-child) .control:first-child .button,
+.field.has-addons .b-numberinput:not(:first-child) .control:first-child .input,
+.field.has-addons .b-numberinput:not(:first-child) .control:first-child .taginput .taginput-container.is-focusable,
+.taginput .field.has-addons .b-numberinput:not(:first-child) .control:first-child .taginput-container.is-focusable,
+.field.has-addons .b-numberinput:not(:first-child) .control:first-child .select select {
+  border-bottom-left-radius: 0;
+  border-top-left-radius: 0;
+}
+
+.field.has-addons .b-numberinput:not(:last-child) .control:last-child .button,
+.field.has-addons .b-numberinput:not(:last-child) .control:last-child .input,
+.field.has-addons .b-numberinput:not(:last-child) .control:last-child .taginput .taginput-container.is-focusable,
+.taginput .field.has-addons .b-numberinput:not(:last-child) .control:last-child .taginput-container.is-focusable,
+.field.has-addons .b-numberinput:not(:last-child) .control:last-child .select select {
+  border-bottom-right-radius: 0;
+  border-top-right-radius: 0;
 }
 
 .field.is-floating-label {
@@ -12145,12 +12184,17 @@ label.panel-block:hover {
   box-shadow: none;
 }
 
-.field.is-floating-label .taginput .taginput-container.is-focusable {
+.field.is-floating-label .taginput .taginput-container {
   padding-top: 0.475em;
 }
 
-.field.is-floating-label .taginput .taginput-container.is-focusable.is-focused {
+.field.is-floating-label .taginput .taginput-container.is-focused {
   box-shadow: none;
+}
+
+.field.is-floating-label .taginput .counter {
+  float: none;
+  text-align: right;
 }
 
 .field.is-floating-in-label {
@@ -12217,11 +12261,28 @@ label.panel-block:hover {
   margin-top: calc(3.25em / 2 - (1.5rem * 3 / 4) / 2);
 }
 
-.field.is-floating-in-label .taginput .taginput-container.is-focusable {
+.field.is-floating-in-label .taginput .taginput-container {
   padding-top: calc(3.25em / 2 - (1.5rem * 3 / 4) / 2 + (0.275em - 1px));
 }
 
+.field.is-floating-in-label .taginput .counter {
+  float: none;
+  text-align: right;
+}
+
 .field.is-floating-in-label.has-numberinput .b-numberinput .control .button {
+  height: 3.25em;
+}
+
+.field.is-floating-in-label.has-addons .control .button,
+.field.is-floating-in-label.has-addons .control .input,
+.field.is-floating-in-label.has-addons .control .taginput .taginput-container.is-focusable,
+.taginput .field.is-floating-in-label.has-addons .control .taginput-container.is-focusable,
+.field.is-floating-in-label.has-addons .control .select select, .field.is-floating-in-label.is-grouped .control .button,
+.field.is-floating-in-label.is-grouped .control .input,
+.field.is-floating-in-label.is-grouped .control .taginput .taginput-container.is-focusable,
+.taginput .field.is-floating-in-label.is-grouped .control .taginput-container.is-focusable,
+.field.is-floating-in-label.is-grouped .control .select select {
   height: 3.25em;
 }
 
@@ -12357,11 +12418,6 @@ label.panel-block:hover {
 .notification .media {
   padding-top: 0;
   border: 0;
-}
-
-.notification > .delete {
-  right: 0.5rem !important;
-  top: 0.5rem !important;
 }
 
 .modal.is-full-screen > .animation-content,
@@ -12603,6 +12659,14 @@ label.panel-block:hover {
   flex-direction: column-reverse;
 }
 
+.notices.is-bottom .notification {
+  margin-bottom: 0;
+}
+
+.notices.is-bottom .notification:not(:first-child) {
+  margin-bottom: 1.5rem;
+}
+
 .notices.has-custom-container {
   position: absolute;
 }
@@ -12619,6 +12683,11 @@ label.panel-block:hover {
 }
 
 .b-numberinput.field.is-grouped div.control {
+  flex-grow: 1;
+  flex-shrink: 1;
+}
+
+.b-numberinput.field.has-addons.is-expanded {
   flex-grow: 1;
   flex-shrink: 1;
 }
@@ -12687,6 +12756,7 @@ label.panel-block:hover {
   font-size: calc(1rem / 1.5);
   line-height: 1rem;
   font-weight: bold;
+  color: white;
 }
 
 .progress-wrapper .progress {
@@ -12706,6 +12776,10 @@ label.panel-block:hover {
 .progress-wrapper .progress.is-large + .progress-value {
   font-size: calc(1.5rem / 1.5);
   line-height: 1.5rem;
+}
+
+.progress-wrapper .progress:indeterminate::-ms-fill {
+  animation-name: none;
 }
 
 .progress-wrapper .progress::-webkit-progress-value {
@@ -12903,6 +12977,10 @@ label.panel-block:hover {
   padding-left: 0.5em;
 }
 
+.b-radio.radio.button {
+  display: flex;
+}
+
 .b-radio.radio[disabled] {
   opacity: 0.5;
 }
@@ -12964,7 +13042,90 @@ label.panel-block:hover {
   font-size: 1.5rem;
 }
 
+.rate {
+  align-items: center;
+  display: flex;
+}
+
+.rate:not(:last-child) {
+  margin-bottom: 0.75rem;
+}
+
+.rate.is-spaced .rate-item:not(:last-child) {
+  margin-right: 0.25rem;
+}
+
+.rate.is-disabled .rate-item {
+  cursor: initial;
+}
+
+.rate.is-disabled .rate-item:hover {
+  transform: none;
+}
+
+.rate.is-rtl .rate-item {
+  order: 1;
+}
+
+.rate.is-rtl .rate-text {
+  margin-left: 0;
+  margin-right: 0.35rem;
+}
+
+.rate .rate-item {
+  cursor: pointer;
+  display: inline-flex;
+  position: relative;
+  transition: all 0.3s;
+}
+
+.rate .rate-item:hover {
+  transform: scale(1.1);
+}
+
+.rate .rate-item.set-on .icon,
+.rate .rate-item.set-half .is-half {
+  color: #ffd83d;
+}
+
+.rate .rate-item.set-half .is-half {
+  position: absolute;
+  left: 0;
+  top: 0;
+  overflow: hidden;
+}
+
+.rate .icon {
+  color: #dbdbdb;
+  line-height: 1;
+  pointer-events: none;
+  width: inherit;
+}
+
+.rate .is-half > i {
+  position: absolute;
+  left: 0;
+}
+
+.rate .rate-text {
+  font-size: calc(1rem / 1.25);
+  margin-left: 0.35rem;
+}
+
+.rate .rate-text.is-small {
+  font-size: calc(0.75rem / 1.25);
+}
+
+.rate .rate-text.is-medium {
+  font-size: calc(1.25rem / 1.25);
+}
+
+.rate .rate-text.is-large {
+  font-size: calc(1.5rem / 1.25);
+}
+
 .select select {
+  text-rendering: auto !important;
   padding-right: 2.5em;
 }
 
@@ -13011,14 +13172,18 @@ label.panel-block:hover {
   background: #dbdbdb;
   border-radius: 4px;
   border: 0px solid #7a7a7a;
+  top: 50%;
+  transform: translateY(-50%);
 }
 
 .b-slider .b-slider-thumb-wrapper {
   display: inline-flex;
   align-items: center;
   position: absolute;
-  transform: translateX(-50%);
   cursor: grab;
+  transform: translate(-50%, -50%);
+  top: 50%;
+  flex-direction: column;
 }
 
 .b-slider .b-slider-thumb-wrapper .b-slider-thumb {
@@ -13074,6 +13239,8 @@ label.panel-block:hover {
   font-size: 0.75rem;
   position: absolute;
   top: calc(0.5rem / 2 + 2px);
+  left: 50%;
+  transform: translateX(-50%);
 }
 
 .b-slider.is-small .b-slider-track {
@@ -13093,6 +13260,8 @@ label.panel-block:hover {
   font-size: 0.75rem;
   position: absolute;
   top: calc(0.375rem / 2 + 2px);
+  left: 50%;
+  transform: translateX(-50%);
 }
 
 .b-slider.is-medium .b-slider-track {
@@ -13112,6 +13281,8 @@ label.panel-block:hover {
   font-size: 0.75rem;
   position: absolute;
   top: calc(0.625rem / 2 + 2px);
+  left: 50%;
+  transform: translateX(-50%);
 }
 
 .b-slider.is-large .b-slider-track {
@@ -13131,6 +13302,8 @@ label.panel-block:hover {
   font-size: 0.75rem;
   position: absolute;
   top: calc(0.75rem / 2 + 2px);
+  left: 50%;
+  transform: translateX(-50%);
 }
 
 .b-slider.is-white .b-slider-fill {
@@ -13175,10 +13348,9 @@ label.panel-block:hover {
 
 .b-slider .b-slider-tick {
   position: absolute;
-  display: flex;
-  justify-content: center;
   width: 3px;
-  transform: translateX(-50%);
+  transform: translate(-50%, -50%);
+  top: 50%;
   background: #b5b5b5;
   border-radius: 4px;
 }
@@ -13207,7 +13379,7 @@ MIT (https://github.com/Wikiki/bulma-steps/blob/master/LICENSE)
   margin-top: 0;
   position: relative;
   flex-grow: 1;
-  flex-basis: 0;
+  flex-basis: 1em;
 }
 
 .b-steps .steps .step-items .step-item .step-link {
@@ -13230,7 +13402,7 @@ MIT (https://github.com/Wikiki/bulma-steps/blob/master/LICENSE)
   z-index: 1;
 }
 
-.b-steps .steps .step-items .step-item.is-white::before {
+.b-steps .steps .step-items .step-item.is-white::before, .b-steps .steps .step-items .step-item.is-white::after {
   background: linear-gradient(to left, #dbdbdb 50%, white 50%);
   background-size: 200% 100%;
   background-position: right bottom;
@@ -13242,7 +13414,7 @@ MIT (https://github.com/Wikiki/bulma-steps/blob/master/LICENSE)
   color: white;
 }
 
-.b-steps .steps .step-items .step-item.is-white.is-active::before {
+.b-steps .steps .step-items .step-item.is-white.is-active::before, .b-steps .steps .step-items .step-item.is-white.is-active::after {
   background-position: left bottom;
 }
 
@@ -13251,11 +13423,11 @@ MIT (https://github.com/Wikiki/bulma-steps/blob/master/LICENSE)
   background-color: white;
 }
 
-.b-steps .steps .step-items .step-item.is-white.is-previous::before {
+.b-steps .steps .step-items .step-item.is-white.is-previous::before, .b-steps .steps .step-items .step-item.is-white.is-previous::after {
   background-position: left bottom;
 }
 
-.b-steps .steps .step-items .step-item.is-black::before {
+.b-steps .steps .step-items .step-item.is-black::before, .b-steps .steps .step-items .step-item.is-black::after {
   background: linear-gradient(to left, #dbdbdb 50%, #0a0a0a 50%);
   background-size: 200% 100%;
   background-position: right bottom;
@@ -13267,7 +13439,7 @@ MIT (https://github.com/Wikiki/bulma-steps/blob/master/LICENSE)
   color: #0a0a0a;
 }
 
-.b-steps .steps .step-items .step-item.is-black.is-active::before {
+.b-steps .steps .step-items .step-item.is-black.is-active::before, .b-steps .steps .step-items .step-item.is-black.is-active::after {
   background-position: left bottom;
 }
 
@@ -13276,11 +13448,11 @@ MIT (https://github.com/Wikiki/bulma-steps/blob/master/LICENSE)
   background-color: #0a0a0a;
 }
 
-.b-steps .steps .step-items .step-item.is-black.is-previous::before {
+.b-steps .steps .step-items .step-item.is-black.is-previous::before, .b-steps .steps .step-items .step-item.is-black.is-previous::after {
   background-position: left bottom;
 }
 
-.b-steps .steps .step-items .step-item.is-light::before {
+.b-steps .steps .step-items .step-item.is-light::before, .b-steps .steps .step-items .step-item.is-light::after {
   background: linear-gradient(to left, #dbdbdb 50%, whitesmoke 50%);
   background-size: 200% 100%;
   background-position: right bottom;
@@ -13292,7 +13464,7 @@ MIT (https://github.com/Wikiki/bulma-steps/blob/master/LICENSE)
   color: whitesmoke;
 }
 
-.b-steps .steps .step-items .step-item.is-light.is-active::before {
+.b-steps .steps .step-items .step-item.is-light.is-active::before, .b-steps .steps .step-items .step-item.is-light.is-active::after {
   background-position: left bottom;
 }
 
@@ -13301,11 +13473,11 @@ MIT (https://github.com/Wikiki/bulma-steps/blob/master/LICENSE)
   background-color: whitesmoke;
 }
 
-.b-steps .steps .step-items .step-item.is-light.is-previous::before {
+.b-steps .steps .step-items .step-item.is-light.is-previous::before, .b-steps .steps .step-items .step-item.is-light.is-previous::after {
   background-position: left bottom;
 }
 
-.b-steps .steps .step-items .step-item.is-dark::before {
+.b-steps .steps .step-items .step-item.is-dark::before, .b-steps .steps .step-items .step-item.is-dark::after {
   background: linear-gradient(to left, #dbdbdb 50%, #363636 50%);
   background-size: 200% 100%;
   background-position: right bottom;
@@ -13317,7 +13489,7 @@ MIT (https://github.com/Wikiki/bulma-steps/blob/master/LICENSE)
   color: #363636;
 }
 
-.b-steps .steps .step-items .step-item.is-dark.is-active::before {
+.b-steps .steps .step-items .step-item.is-dark.is-active::before, .b-steps .steps .step-items .step-item.is-dark.is-active::after {
   background-position: left bottom;
 }
 
@@ -13326,11 +13498,11 @@ MIT (https://github.com/Wikiki/bulma-steps/blob/master/LICENSE)
   background-color: #363636;
 }
 
-.b-steps .steps .step-items .step-item.is-dark.is-previous::before {
+.b-steps .steps .step-items .step-item.is-dark.is-previous::before, .b-steps .steps .step-items .step-item.is-dark.is-previous::after {
   background-position: left bottom;
 }
 
-.b-steps .steps .step-items .step-item.is-primary::before {
+.b-steps .steps .step-items .step-item.is-primary::before, .b-steps .steps .step-items .step-item.is-primary::after {
   background: linear-gradient(to left, #dbdbdb 50%, #7957d5 50%);
   background-size: 200% 100%;
   background-position: right bottom;
@@ -13342,7 +13514,7 @@ MIT (https://github.com/Wikiki/bulma-steps/blob/master/LICENSE)
   color: #7957d5;
 }
 
-.b-steps .steps .step-items .step-item.is-primary.is-active::before {
+.b-steps .steps .step-items .step-item.is-primary.is-active::before, .b-steps .steps .step-items .step-item.is-primary.is-active::after {
   background-position: left bottom;
 }
 
@@ -13351,11 +13523,11 @@ MIT (https://github.com/Wikiki/bulma-steps/blob/master/LICENSE)
   background-color: #7957d5;
 }
 
-.b-steps .steps .step-items .step-item.is-primary.is-previous::before {
+.b-steps .steps .step-items .step-item.is-primary.is-previous::before, .b-steps .steps .step-items .step-item.is-primary.is-previous::after {
   background-position: left bottom;
 }
 
-.b-steps .steps .step-items .step-item.is-link::before {
+.b-steps .steps .step-items .step-item.is-link::before, .b-steps .steps .step-items .step-item.is-link::after {
   background: linear-gradient(to left, #dbdbdb 50%, #7957d5 50%);
   background-size: 200% 100%;
   background-position: right bottom;
@@ -13367,7 +13539,7 @@ MIT (https://github.com/Wikiki/bulma-steps/blob/master/LICENSE)
   color: #7957d5;
 }
 
-.b-steps .steps .step-items .step-item.is-link.is-active::before {
+.b-steps .steps .step-items .step-item.is-link.is-active::before, .b-steps .steps .step-items .step-item.is-link.is-active::after {
   background-position: left bottom;
 }
 
@@ -13376,11 +13548,11 @@ MIT (https://github.com/Wikiki/bulma-steps/blob/master/LICENSE)
   background-color: #7957d5;
 }
 
-.b-steps .steps .step-items .step-item.is-link.is-previous::before {
+.b-steps .steps .step-items .step-item.is-link.is-previous::before, .b-steps .steps .step-items .step-item.is-link.is-previous::after {
   background-position: left bottom;
 }
 
-.b-steps .steps .step-items .step-item.is-info::before {
+.b-steps .steps .step-items .step-item.is-info::before, .b-steps .steps .step-items .step-item.is-info::after {
   background: linear-gradient(to left, #dbdbdb 50%, #167df0 50%);
   background-size: 200% 100%;
   background-position: right bottom;
@@ -13392,7 +13564,7 @@ MIT (https://github.com/Wikiki/bulma-steps/blob/master/LICENSE)
   color: #167df0;
 }
 
-.b-steps .steps .step-items .step-item.is-info.is-active::before {
+.b-steps .steps .step-items .step-item.is-info.is-active::before, .b-steps .steps .step-items .step-item.is-info.is-active::after {
   background-position: left bottom;
 }
 
@@ -13401,11 +13573,11 @@ MIT (https://github.com/Wikiki/bulma-steps/blob/master/LICENSE)
   background-color: #167df0;
 }
 
-.b-steps .steps .step-items .step-item.is-info.is-previous::before {
+.b-steps .steps .step-items .step-item.is-info.is-previous::before, .b-steps .steps .step-items .step-item.is-info.is-previous::after {
   background-position: left bottom;
 }
 
-.b-steps .steps .step-items .step-item.is-success::before {
+.b-steps .steps .step-items .step-item.is-success::before, .b-steps .steps .step-items .step-item.is-success::after {
   background: linear-gradient(to left, #dbdbdb 50%, #23d160 50%);
   background-size: 200% 100%;
   background-position: right bottom;
@@ -13417,7 +13589,7 @@ MIT (https://github.com/Wikiki/bulma-steps/blob/master/LICENSE)
   color: #23d160;
 }
 
-.b-steps .steps .step-items .step-item.is-success.is-active::before {
+.b-steps .steps .step-items .step-item.is-success.is-active::before, .b-steps .steps .step-items .step-item.is-success.is-active::after {
   background-position: left bottom;
 }
 
@@ -13426,11 +13598,11 @@ MIT (https://github.com/Wikiki/bulma-steps/blob/master/LICENSE)
   background-color: #23d160;
 }
 
-.b-steps .steps .step-items .step-item.is-success.is-previous::before {
+.b-steps .steps .step-items .step-item.is-success.is-previous::before, .b-steps .steps .step-items .step-item.is-success.is-previous::after {
   background-position: left bottom;
 }
 
-.b-steps .steps .step-items .step-item.is-warning::before {
+.b-steps .steps .step-items .step-item.is-warning::before, .b-steps .steps .step-items .step-item.is-warning::after {
   background: linear-gradient(to left, #dbdbdb 50%, #ffdd57 50%);
   background-size: 200% 100%;
   background-position: right bottom;
@@ -13442,7 +13614,7 @@ MIT (https://github.com/Wikiki/bulma-steps/blob/master/LICENSE)
   color: #ffdd57;
 }
 
-.b-steps .steps .step-items .step-item.is-warning.is-active::before {
+.b-steps .steps .step-items .step-item.is-warning.is-active::before, .b-steps .steps .step-items .step-item.is-warning.is-active::after {
   background-position: left bottom;
 }
 
@@ -13451,11 +13623,11 @@ MIT (https://github.com/Wikiki/bulma-steps/blob/master/LICENSE)
   background-color: #ffdd57;
 }
 
-.b-steps .steps .step-items .step-item.is-warning.is-previous::before {
+.b-steps .steps .step-items .step-item.is-warning.is-previous::before, .b-steps .steps .step-items .step-item.is-warning.is-previous::after {
   background-position: left bottom;
 }
 
-.b-steps .steps .step-items .step-item.is-danger::before {
+.b-steps .steps .step-items .step-item.is-danger::before, .b-steps .steps .step-items .step-item.is-danger::after {
   background: linear-gradient(to left, #dbdbdb 50%, #ff3860 50%);
   background-size: 200% 100%;
   background-position: right bottom;
@@ -13467,7 +13639,7 @@ MIT (https://github.com/Wikiki/bulma-steps/blob/master/LICENSE)
   color: #ff3860;
 }
 
-.b-steps .steps .step-items .step-item.is-danger.is-active::before {
+.b-steps .steps .step-items .step-item.is-danger.is-active::before, .b-steps .steps .step-items .step-item.is-danger.is-active::after {
   background-position: left bottom;
 }
 
@@ -13476,7 +13648,7 @@ MIT (https://github.com/Wikiki/bulma-steps/blob/master/LICENSE)
   background-color: #ff3860;
 }
 
-.b-steps .steps .step-items .step-item.is-danger.is-previous::before {
+.b-steps .steps .step-items .step-item.is-danger.is-previous::before, .b-steps .steps .step-items .step-item.is-danger.is-previous::after {
   background-position: left bottom;
 }
 
@@ -13488,19 +13660,23 @@ MIT (https://github.com/Wikiki/bulma-steps/blob/master/LICENSE)
   text-align: center;
 }
 
-.b-steps .steps .step-items .step-item:not(:first-child) {
-  flex-basis: 1em;
-  flex-grow: 1;
+.b-steps .steps .step-items .step-item:not(:first-child), .b-steps .steps .step-items .step-item:only-child {
   flex-shrink: 1;
 }
 
-.b-steps .steps .step-items .step-item:not(:first-child)::before {
+.b-steps .steps .step-items .step-item:not(:first-child)::before, .b-steps .steps .step-items .step-item:only-child::before {
   content: " ";
   display: block;
   position: absolute;
 }
 
-.b-steps .steps .step-items .step-item::before {
+.b-steps .steps .step-items .step-item:only-child::after {
+  content: " ";
+  display: block;
+  position: absolute;
+}
+
+.b-steps .steps .step-items .step-item::before, .b-steps .steps .step-items .step-item::after {
   background: linear-gradient(to left, #dbdbdb 50%, #7957d5 50%);
   background-size: 200% 100%;
   background-position: right bottom;
@@ -13516,7 +13692,7 @@ MIT (https://github.com/Wikiki/bulma-steps/blob/master/LICENSE)
   color: #7957d5;
 }
 
-.b-steps .steps .step-items .step-item.is-active::before {
+.b-steps .steps .step-items .step-item.is-active::before, .b-steps .steps .step-items .step-item.is-active::after {
   background-position: left bottom;
 }
 
@@ -13525,7 +13701,7 @@ MIT (https://github.com/Wikiki/bulma-steps/blob/master/LICENSE)
   background-color: #7957d5;
 }
 
-.b-steps .steps .step-items .step-item.is-previous::before {
+.b-steps .steps .step-items .step-item.is-previous::before, .b-steps .steps .step-items .step-item.is-previous::after {
   background-position: left bottom;
 }
 
@@ -13569,12 +13745,48 @@ MIT (https://github.com/Wikiki/bulma-steps/blob/master/LICENSE)
   font-weight: 600;
 }
 
-.b-steps .steps .step-items .step-item:not(:first-child)::before {
+.b-steps .steps .step-items .step-item:not(:first-child)::before, .b-steps .steps .step-items .step-item:only-child::before {
   height: 0.2em;
   width: 100%;
   bottom: 0;
   left: -50%;
   top: 1rem;
+}
+
+.b-steps .steps .step-items .step-item:only-child::after {
+  height: 0.2em;
+  bottom: 0;
+  top: 1rem;
+}
+
+.b-steps .steps .step-items .step-item:only-child::before, .b-steps .steps .step-items .step-item:only-child::after {
+  width: 25%;
+  left: 50%;
+}
+
+.b-steps .steps .step-items .step-item:only-child::before {
+  right: 50%;
+  left: auto;
+}
+
+@media screen and (max-width: 768px) {
+  .b-steps .steps .step-items .step-item:not(.is-active) {
+    display: none;
+  }
+  .b-steps .steps .step-items .step-item::before, .b-steps .steps .step-items .step-item::after, .b-steps .steps .step-items .step-item:not(:first-child)::before {
+    content: " ";
+    display: block;
+    position: absolute;
+    height: 0.2em;
+    width: 25%;
+    bottom: 0;
+    left: 50%;
+    top: 1rem;
+  }
+  .b-steps .steps .step-items .step-item::before, .b-steps .steps .step-items .step-item:not(:first-child)::before {
+    right: 50%;
+    left: auto;
+  }
 }
 
 .b-steps .steps.is-small {
@@ -13605,12 +13817,48 @@ MIT (https://github.com/Wikiki/bulma-steps/blob/master/LICENSE)
   font-weight: 600;
 }
 
-.b-steps .steps.is-small .step-items .step-item:not(:first-child)::before {
+.b-steps .steps.is-small .step-items .step-item:not(:first-child)::before, .b-steps .steps.is-small .step-items .step-item:only-child::before {
   height: 0.2em;
   width: 100%;
   bottom: 0;
   left: -50%;
   top: 0.75rem;
+}
+
+.b-steps .steps.is-small .step-items .step-item:only-child::after {
+  height: 0.2em;
+  bottom: 0;
+  top: 0.75rem;
+}
+
+.b-steps .steps.is-small .step-items .step-item:only-child::before, .b-steps .steps.is-small .step-items .step-item:only-child::after {
+  width: 25%;
+  left: 50%;
+}
+
+.b-steps .steps.is-small .step-items .step-item:only-child::before {
+  right: 50%;
+  left: auto;
+}
+
+@media screen and (max-width: 768px) {
+  .b-steps .steps.is-small .step-items .step-item:not(.is-active) {
+    display: none;
+  }
+  .b-steps .steps.is-small .step-items .step-item::before, .b-steps .steps.is-small .step-items .step-item::after, .b-steps .steps.is-small .step-items .step-item:not(:first-child)::before {
+    content: " ";
+    display: block;
+    position: absolute;
+    height: 0.2em;
+    width: 25%;
+    bottom: 0;
+    left: 50%;
+    top: 0.75rem;
+  }
+  .b-steps .steps.is-small .step-items .step-item::before, .b-steps .steps.is-small .step-items .step-item:not(:first-child)::before {
+    right: 50%;
+    left: auto;
+  }
 }
 
 .b-steps .steps.is-medium {
@@ -13641,12 +13889,48 @@ MIT (https://github.com/Wikiki/bulma-steps/blob/master/LICENSE)
   font-weight: 600;
 }
 
-.b-steps .steps.is-medium .step-items .step-item:not(:first-child)::before {
+.b-steps .steps.is-medium .step-items .step-item:not(:first-child)::before, .b-steps .steps.is-medium .step-items .step-item:only-child::before {
   height: 0.2em;
   width: 100%;
   bottom: 0;
   left: -50%;
   top: 1.25rem;
+}
+
+.b-steps .steps.is-medium .step-items .step-item:only-child::after {
+  height: 0.2em;
+  bottom: 0;
+  top: 1.25rem;
+}
+
+.b-steps .steps.is-medium .step-items .step-item:only-child::before, .b-steps .steps.is-medium .step-items .step-item:only-child::after {
+  width: 25%;
+  left: 50%;
+}
+
+.b-steps .steps.is-medium .step-items .step-item:only-child::before {
+  right: 50%;
+  left: auto;
+}
+
+@media screen and (max-width: 768px) {
+  .b-steps .steps.is-medium .step-items .step-item:not(.is-active) {
+    display: none;
+  }
+  .b-steps .steps.is-medium .step-items .step-item::before, .b-steps .steps.is-medium .step-items .step-item::after, .b-steps .steps.is-medium .step-items .step-item:not(:first-child)::before {
+    content: " ";
+    display: block;
+    position: absolute;
+    height: 0.2em;
+    width: 25%;
+    bottom: 0;
+    left: 50%;
+    top: 1.25rem;
+  }
+  .b-steps .steps.is-medium .step-items .step-item::before, .b-steps .steps.is-medium .step-items .step-item:not(:first-child)::before {
+    right: 50%;
+    left: auto;
+  }
 }
 
 .b-steps .steps.is-large {
@@ -13677,7 +13961,7 @@ MIT (https://github.com/Wikiki/bulma-steps/blob/master/LICENSE)
   font-weight: 600;
 }
 
-.b-steps .steps.is-large .step-items .step-item:not(:first-child)::before {
+.b-steps .steps.is-large .step-items .step-item:not(:first-child)::before, .b-steps .steps.is-large .step-items .step-item:only-child::before {
   height: 0.2em;
   width: 100%;
   bottom: 0;
@@ -13685,10 +13969,47 @@ MIT (https://github.com/Wikiki/bulma-steps/blob/master/LICENSE)
   top: 1.5rem;
 }
 
+.b-steps .steps.is-large .step-items .step-item:only-child::after {
+  height: 0.2em;
+  bottom: 0;
+  top: 1.5rem;
+}
+
+.b-steps .steps.is-large .step-items .step-item:only-child::before, .b-steps .steps.is-large .step-items .step-item:only-child::after {
+  width: 25%;
+  left: 50%;
+}
+
+.b-steps .steps.is-large .step-items .step-item:only-child::before {
+  right: 50%;
+  left: auto;
+}
+
+@media screen and (max-width: 768px) {
+  .b-steps .steps.is-large .step-items .step-item:not(.is-active) {
+    display: none;
+  }
+  .b-steps .steps.is-large .step-items .step-item::before, .b-steps .steps.is-large .step-items .step-item::after, .b-steps .steps.is-large .step-items .step-item:not(:first-child)::before {
+    content: " ";
+    display: block;
+    position: absolute;
+    height: 0.2em;
+    width: 25%;
+    bottom: 0;
+    left: 50%;
+    top: 1.5rem;
+  }
+  .b-steps .steps.is-large .step-items .step-item::before, .b-steps .steps.is-large .step-items .step-item:not(:first-child)::before {
+    right: 50%;
+    left: auto;
+  }
+}
+
 .switch {
   cursor: pointer;
   display: inline-flex;
   align-items: center;
+  position: relative;
   -webkit-touch-callout: none;
   -webkit-user-select: none;
   -moz-user-select: none;
@@ -13914,6 +14235,7 @@ MIT (https://github.com/Wikiki/bulma-steps/blob/master/LICENSE)
 }
 
 .switch.is-outlined input[type=checkbox]:checked + .check.is-white {
+  background: transparent;
   border-color: white;
 }
 
@@ -13922,6 +14244,7 @@ MIT (https://github.com/Wikiki/bulma-steps/blob/master/LICENSE)
 }
 
 .switch.is-outlined input[type=checkbox]:checked + .check.is-black {
+  background: transparent;
   border-color: #0a0a0a;
 }
 
@@ -13930,6 +14253,7 @@ MIT (https://github.com/Wikiki/bulma-steps/blob/master/LICENSE)
 }
 
 .switch.is-outlined input[type=checkbox]:checked + .check.is-light {
+  background: transparent;
   border-color: whitesmoke;
 }
 
@@ -13938,6 +14262,7 @@ MIT (https://github.com/Wikiki/bulma-steps/blob/master/LICENSE)
 }
 
 .switch.is-outlined input[type=checkbox]:checked + .check.is-dark {
+  background: transparent;
   border-color: #363636;
 }
 
@@ -13946,6 +14271,7 @@ MIT (https://github.com/Wikiki/bulma-steps/blob/master/LICENSE)
 }
 
 .switch.is-outlined input[type=checkbox]:checked + .check.is-primary {
+  background: transparent;
   border-color: #7957d5;
 }
 
@@ -13954,6 +14280,7 @@ MIT (https://github.com/Wikiki/bulma-steps/blob/master/LICENSE)
 }
 
 .switch.is-outlined input[type=checkbox]:checked + .check.is-link {
+  background: transparent;
   border-color: #7957d5;
 }
 
@@ -13962,6 +14289,7 @@ MIT (https://github.com/Wikiki/bulma-steps/blob/master/LICENSE)
 }
 
 .switch.is-outlined input[type=checkbox]:checked + .check.is-info {
+  background: transparent;
   border-color: #167df0;
 }
 
@@ -13970,6 +14298,7 @@ MIT (https://github.com/Wikiki/bulma-steps/blob/master/LICENSE)
 }
 
 .switch.is-outlined input[type=checkbox]:checked + .check.is-success {
+  background: transparent;
   border-color: #23d160;
 }
 
@@ -13978,6 +14307,7 @@ MIT (https://github.com/Wikiki/bulma-steps/blob/master/LICENSE)
 }
 
 .switch.is-outlined input[type=checkbox]:checked + .check.is-warning {
+  background: transparent;
   border-color: #ffdd57;
 }
 
@@ -13986,6 +14316,7 @@ MIT (https://github.com/Wikiki/bulma-steps/blob/master/LICENSE)
 }
 
 .switch.is-outlined input[type=checkbox]:checked + .check.is-danger {
+  background: transparent;
   border-color: #ff3860;
 }
 
@@ -14314,6 +14645,81 @@ MIT (https://github.com/Wikiki/bulma-steps/blob/master/LICENSE)
   width: 100%;
 }
 
+.b-tabs.is-vertical {
+  display: flex;
+  flex-direction: row;
+}
+
+.b-tabs.is-vertical .tabs ul {
+  flex-direction: column;
+  border-bottom-color: transparent;
+}
+
+.b-tabs.is-vertical .tabs ul li {
+  width: 100%;
+}
+
+.b-tabs.is-vertical .tabs ul li a {
+  justify-content: left;
+}
+
+.b-tabs.is-vertical .tabs.is-boxed li a {
+  border-bottom-color: transparent !important;
+  border-right-color: #dbdbdb !important;
+  border-radius: 4px 0 0 4px;
+}
+
+.b-tabs.is-vertical .tabs.is-boxed li.is-active a {
+  border-bottom-color: #dbdbdb !important;
+  border-right-color: transparent !important;
+}
+
+.b-tabs.is-vertical .tabs.is-toggle li + li {
+  margin-left: 0;
+}
+
+.b-tabs.is-vertical .tabs.is-toggle li:first-child a {
+  border-radius: 4px 4px 0 0;
+}
+
+.b-tabs.is-vertical .tabs.is-toggle li:last-child a {
+  border-radius: 0 0 4px 4px;
+}
+
+.b-tabs.is-vertical .tabs.is-fullwidth li a {
+  height: 100%;
+}
+
+.b-tabs.is-vertical .tab-content {
+  flex-grow: 1;
+}
+
+.b-tabs.is-vertical.is-right {
+  flex-direction: row-reverse;
+}
+
+.b-tabs.is-vertical.is-right .tabs ul a {
+  flex-direction: row-reverse;
+}
+
+.b-tabs.is-vertical.is-right .tabs ul a .icon:first-child {
+  margin-right: 0;
+  margin-left: 0.5em;
+}
+
+.b-tabs.is-vertical.is-right .tabs.is-boxed li a {
+  border-bottom-color: transparent !important;
+  border-right-color: transparent !important;
+  border-left-color: #dbdbdb !important;
+  border-radius: 0 4px 4px 0;
+}
+
+.b-tabs.is-vertical.is-right .tabs.is-boxed li.is-active a {
+  border-bottom-color: #dbdbdb !important;
+  border-right-color: #dbdbdb !important;
+  border-left-color: transparent !important;
+}
+
 .tag .has-ellipsis {
   max-width: 10em;
   overflow: hidden;
@@ -14390,6 +14796,10 @@ MIT (https://github.com/Wikiki/bulma-steps/blob/master/LICENSE)
 .timepicker .dropdown,
 .timepicker .dropdown-trigger {
   width: 100%;
+}
+
+.timepicker .dropdown.is-disabled {
+  opacity: 1;
 }
 
 .timepicker .dropdown-item, .timepicker .dropdown .dropdown-menu .has-link a, .dropdown .dropdown-menu .has-link .timepicker a {
@@ -15007,4 +15417,13 @@ MIT (https://github.com/Wikiki/bulma-steps/blob/master/LICENSE)
 .upload .upload-draggable:hover.is-danger, .upload .upload-draggable.is-hovered.is-danger {
   border-color: #ff3860;
   background: rgba(255, 56, 96, 0.05);
+}
+
+@media screen and (-ms-high-contrast: active), screen and (-ms-high-contrast: none) {
+  .upload input[type=file] {
+    z-index: auto;
+  }
+  .upload .upload-draggable + input[type=file] {
+    z-index: -1;
+  }
 }
