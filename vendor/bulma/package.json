@@ -1,32 +1,27 @@
 {
-  "_args": [
-    [
-      "bulma@0.7.5",
-      "/var/www/LesliCloud/lesli.cloud"
-    ]
-  ],
-  "_development": true,
-  "_from": "bulma@0.7.5",
-  "_id": "bulma@0.7.5",
+  "_from": "bulma",
+  "_id": "bulma@0.8.0",
   "_inBundle": false,
-  "_integrity": "sha512-cX98TIn0I6sKba/DhW0FBjtaDpxTelU166pf7ICXpCCuplHWyu6C9LYZmL5PEsnePIeJaiorsTEzzNk3Tsm1hw==",
+  "_integrity": "sha512-nhf3rGyiZh/VM7FrSJ/5KeLlfaFkXz0nYcXriynfPH4vVpnxnqyEwaNGdNCVzHyyCA3cHgkQAMpdF/SFbFGZfA==",
   "_location": "/bulma",
   "_phantomChildren": {},
   "_requested": {
-    "type": "version",
+    "type": "tag",
     "registry": true,
-    "raw": "bulma@0.7.5",
+    "raw": "bulma",
     "name": "bulma",
     "escapedName": "bulma",
-    "rawSpec": "0.7.5",
+    "rawSpec": "",
     "saveSpec": null,
-    "fetchSpec": "0.7.5"
+    "fetchSpec": "latest"
   },
   "_requiredBy": [
-    "/buefy"
+    "#USER",
+    "/"
   ],
-  "_resolved": "https://registry.npmjs.org/bulma/-/bulma-0.7.5.tgz",
-  "_spec": "0.7.5",
+  "_resolved": "https://registry.npmjs.org/bulma/-/bulma-0.8.0.tgz",
+  "_shasum": "ac1606431703a4761b18a4a2d5cc1fa864a2aece",
+  "_spec": "bulma",
   "_where": "/var/www/LesliCloud/lesli.cloud",
   "author": {
     "name": "Jeremy Thomas",
@@ -36,13 +31,15 @@
   "bugs": {
     "url": "https://github.com/jgthms/bulma/issues"
   },
+  "bundleDependencies": false,
+  "deprecated": false,
   "description": "Modern CSS framework based on Flexbox",
   "devDependencies": {
-    "autoprefixer": "^9.5.1",
+    "autoprefixer": "^9.6.1",
     "clean-css-cli": "^4.3.0",
     "node-sass": "^4.12.0",
-    "postcss-cli": "^6.1.2",
-    "rimraf": "^2.6.3"
+    "postcss-cli": "^6.1.3",
+    "rimraf": "^2.7.1"
   },
   "files": [
     "css",
@@ -77,5 +74,5 @@
   },
   "style": "bulma/css/bulma.min.css",
   "unpkg": "css/bulma.css",
-  "version": "0.7.5"
+  "version": "0.8.0"
 }

@@ -1,9 +1,10 @@
-import { _ as _defineProperty } from './chunk-d6200087.js';
-import './chunk-9e3207cc.js';
-import { F as FormElementMixin } from './chunk-10c85529.js';
-import { I as Icon } from './chunk-e84b4047.js';
+import { a as _defineProperty } from './chunk-40949afc.js';
+import './chunk-d3a97e18.js';
+import './chunk-9d997597.js';
+import { F as FormElementMixin } from './chunk-02b123d5.js';
+import { I as Icon } from './chunk-2b1ca282.js';
 import { _ as __vue_normalize__, r as registerComponent, u as use } from './chunk-cca88db8.js';
-import { I as Input } from './chunk-98e86f40.js';
+import { I as Input } from './chunk-9b7023ac.js';
 
 var _components;
 var script = {
@@ -60,6 +61,8 @@ var script = {
         'has-addons': this.controlsPosition === 'compact'
       }, {
         'is-grouped': this.controlsPosition !== 'compact'
+      }, {
+        'is-expanded': this.expanded
       }];
     },
     buttonClasses: function buttonClasses() {
@@ -184,4 +187,3 @@ var Plugin = {
 use(Plugin);
 
 export default Plugin;
-export { Numberinput };

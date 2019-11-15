@@ -31,6 +31,25 @@ class ApplicationController < ActionController::Base
 
     end
 
+    # JSON successful response
+    def responseWithSuccessful(data = nil)
+        render status: 200, json: {
+            successful: true,
+            data: data
+        }.to_json
+    end
+
+    # JSON failure response
+    def responseWithError(message = "", details = nil)
+        render status: 200, json: {
+            successful: false,
+            error: {
+                message: message,
+                details: details
+            }
+        }.to_json
+    end
+
     private
 
     def get_browser_locale

@@ -20,15 +20,13 @@ class Users::RegistrationsController < Devise::RegistrationsController
         super
     end
 
-    # POST /resource
+    # POST /
     def create
-        
         user = build_resource(sign_up_params)
-        
         if user.save
-            redirect_to root_path, notice: "Check your email to confirm your account"
+            responseWithSuccessful
         else
-            redirect_to new_user_registration_path(user), alert: user.errors.full_messages.to_sentence
+            responseWithError(user.errors.full_messages.to_sentence)
         end
         
     end
