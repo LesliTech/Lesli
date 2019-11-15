@@ -44,6 +44,7 @@ namespace :dev do
             system "cd ./engines/CloudLock && git pull github master"
             system "cd ./engines/CloudPanel && git pull github master"
             system "cd ./engines/CloudTeam && git pull github master"
+
             system "git pull github master"
 
         end
@@ -97,6 +98,7 @@ namespace :dev do
 
             system "bundle exec rake assets:clean RAILS_ENV=production"
             system "bundle exec rake assets:precompile RAILS_ENV=production"
+            
             system "sudo service nginx restart"
 
         end
