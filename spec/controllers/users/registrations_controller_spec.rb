@@ -1,4 +1,3 @@
-
 require 'rails_helper'
 require 'spec_helper'
 
@@ -12,20 +11,57 @@ RSpec.describe Users::RegistrationsController, type: :controller do
         request.env["devise.mapping"] = Devise.mappings[:user]
     end
 
-    describe "Devise user registration (sign_up)" do
+    describe "Sign up" do
         it "Register a new user" do
             post :create, params: {
-                sign_up: {
-                    email: "mail@gmail.com",
-                    password: "abcd1234",
-                    password_confirmation: "abcd12340"
+                user: {
+                    user: "new_user@gmail.com",
+                    password: "lomax202020",
+                    password_confirmation: "lomax202020"
                 }
             }
-            expect(response).to have_http_status(:redirect)
-            expect(response.status).to eq(302)
-            expect(response).to redirect_to(root_path)
-            expect(flash[:success]).to be_present
-            expect(flash[:success]).to match(/Check your email to confirm your account/)
+            expect(response.status).to eq(200)
         end
     end
+
+    describe "User already exists" do
+        it "User" do
+            post :create, params: {
+                user: {
+                    email: "ldavila@gmail.com",
+                    password: "123456",
+                    password_confirmation: "123456"
+                }
+            }
+            expect(JSON.parse(response.body)).to eql({"error"=>{"details"=>nil, "message"=>"Email has already been taken"}, "successful"=>false})
+        end
+    end
+
+    describe "User and password in blank" do
+        it "User and password" do
+            post :create, params: {
+                user: {
+                    email: "",
+                    paswword: "",
+                    password_confirmation: ""
+                }
+            }
+            expect(JSON.parse(response.body)).to eql({"error"=>{"details"=>nil, "message"=>"Email can't be blank, Password can't be blank, and Password confirmation doesn't match Password"}, "successful"=>false})
+        end
+    end
+
+    describe "Password doesn't match" do
+        it "Password" do
+            post :create, params: {
+                user: {
+                    email: "ldavila12456@gmail.com",
+                    paswword: '',
+                    password_confirmation: '1245'
+                }
+            }
+            expect(JSON.parse(response.body)).to eql({"error"=>{"details"=>nil, "message"=>"Password can't be blank and Password confirmation doesn't match Password"}, "successful"=>false})
+        end
+    end
+
 end
+
