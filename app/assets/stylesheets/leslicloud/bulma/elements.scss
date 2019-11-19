@@ -26,13 +26,15 @@ Building a better future, one line of code at a time.
 */
 
 
-// · 
+// · Buttons
+// · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
 .button:focus {
     box-shadow: none !important;
 }
 
 
-// · 
+// · Alerts, Notices and Toasts
+// · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
 .notices {
 
     .toast {
@@ -42,8 +44,12 @@ Building a better future, one line of code at a time.
 
 }
 
+// · Tables
+// · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
+table.table.is-hoverable {
 
-// · 
-.component {
-    margin: 24px auto;
+    tbody tr:hover {
+        cursor: pointer;
+    }
+
 }
