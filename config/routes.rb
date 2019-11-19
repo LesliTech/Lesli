@@ -1,5 +1,19 @@
 Rails.application.routes.draw do
 
+  namespace :lock do
+    resources :user_details
+  end
+  namespace :lock do
+    resources :user_privileges
+  end
+  namespace :lock do
+    resources :user_role_privileges
+  end
+  namespace :lock do
+    resources :user_roles
+  end
+  resources :locks
+  resources :settings
     devise_for :users,
     :controllers => { 
         :registrations => "users/registrations",
@@ -20,8 +34,14 @@ Rails.application.routes.draw do
 
         root to: redirect('/lesli'), as: :root_authenticated
 
+        # mount engine if CloudEngine folder exists
+
+        mount CloudDriver::Engine => "/driver" unless defined?(CloudDriver)
+
+
+=begin
         mount CloudCourier::Engine => "/courier"
-        mount CloudDriver::Engine => "/driver"
+        
         mount CloudLesli::Engine => "/lesli"
         mount CloudBooks::Engine => "/books"
         mount CloudPanel::Engine => "/panel"
@@ -31,7 +51,7 @@ Rails.application.routes.draw do
         mount CloudHelp::Engine => "/help"
         mount CloudKb::Engine => "/kb"
         mount CloudDev::Engine => "/dev"
-
+=end
         resource :accounts
 
     end

@@ -1,6 +1,5 @@
 class Account < ApplicationRecord
 
-    belongs_to :account_plan, foreign_key: 'account_plans_id'
     has_many :user, foreign_key: 'users_id'
 
     has_one :kb,    class_name: "CloudKb::Account",     foreign_key: "id"

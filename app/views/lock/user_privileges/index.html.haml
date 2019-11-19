@@ -1,0 +1,19 @@
+%h1 Listing lock_user_privileges
+
+%table
+  %thead
+    %tr
+      %th
+      %th
+      %th
+
+  %tbody
+    - @lock_user_privileges.each do |lock_user_privilege|
+      %tr
+        %td= link_to 'Show', lock_user_privilege
+        %td= link_to 'Edit', edit_lock_user_privilege_path(lock_user_privilege)
+        %td= link_to 'Destroy', lock_user_privilege, method: :delete, data: { confirm: 'Are you sure?' }
+
+%br
+
+= link_to 'New User privilege', new_lock_user_privilege_path

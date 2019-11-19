@@ -1,0 +1,19 @@
+%h1 Listing lock_user_details
+
+%table
+  %thead
+    %tr
+      %th
+      %th
+      %th
+
+  %tbody
+    - @lock_user_details.each do |lock_user_detail|
+      %tr
+        %td= link_to 'Show', lock_user_detail
+        %td= link_to 'Edit', edit_lock_user_detail_path(lock_user_detail)
+        %td= link_to 'Destroy', lock_user_detail, method: :delete, data: { confirm: 'Are you sure?' }
+
+%br
+
+= link_to 'New User detail', new_lock_user_detail_path

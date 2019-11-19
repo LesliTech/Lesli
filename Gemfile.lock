@@ -1,67 +1,7 @@
 PATH
-  remote: engines/CloudBell
-  specs:
-    cloud_bell (0.1.0)
-      rails (~> 6.0.0)
-
-PATH
-  remote: engines/CloudBooks
-  specs:
-    cloud_books (0.1.0)
-      rails (~> 6.0.0)
-
-PATH
-  remote: engines/CloudCourier
-  specs:
-    cloud_courier (0.1.0)
-      rails (~> 6.0.0)
-
-PATH
-  remote: engines/CloudDev
-  specs:
-    cloud_dev (0.1.0)
-      rails (~> 6.0.0)
-
-PATH
   remote: engines/CloudDriver
   specs:
     cloud_driver (0.1.0)
-      rails (~> 6.0.0)
-
-PATH
-  remote: engines/CloudHelp
-  specs:
-    cloud_help (0.1.0)
-      rails (~> 6.0.0)
-
-PATH
-  remote: engines/CloudKb
-  specs:
-    cloud_kb (0.1.0)
-      rails (~> 6.0.0)
-
-PATH
-  remote: engines/CloudLesli
-  specs:
-    cloud_lesli (0.1.0)
-      rails (~> 6.0.0)
-
-PATH
-  remote: engines/CloudLock
-  specs:
-    cloud_lock (0.1.0)
-      rails (~> 6.0.0)
-
-PATH
-  remote: engines/CloudPanel
-  specs:
-    cloud_panel (0.1.0)
-      rails (~> 6.0.0)
-
-PATH
-  remote: engines/CloudTeam
-  specs:
-    cloud_team (0.1.0)
       rails (~> 6.0.0)
 
 GEM
@@ -310,17 +250,7 @@ DEPENDENCIES
   bootsnap (>= 1.1.0)
   byebug
   cancan
-  cloud_bell!
-  cloud_books!
-  cloud_courier!
-  cloud_dev!
   cloud_driver!
-  cloud_help!
-  cloud_kb!
-  cloud_lesli!
-  cloud_lock!
-  cloud_panel!
-  cloud_team!
   devise
   faker
   haml-rails
