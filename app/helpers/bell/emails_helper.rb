@@ -1,0 +1,2 @@
+module Bell::EmailsHelper
+end
