@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 3060203) do
+ActiveRecord::Schema.define(version: 304) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -36,42 +36,28 @@ ActiveRecord::Schema.define(version: 3060203) do
     t.datetime "updated_at", null: false
   end
 
-  create_table "cloud_bell_accounts", force: :cascade do |t|
-  end
-
-  create_table "cloud_bell_emails", force: :cascade do |t|
+  create_table "bell_emails", force: :cascade do |t|
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.bigint "cloud_bell_accounts_id"
-    t.index ["cloud_bell_accounts_id"], name: "index_cloud_bell_emails_on_cloud_bell_accounts_id"
+    t.bigint "bells_id"
+    t.index ["bells_id"], name: "index_bell_emails_on_bells_id"
   end
 
-  create_table "cloud_bell_messages", force: :cascade do |t|
+  create_table "bell_messages", force: :cascade do |t|
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.bigint "cloud_bell_accounts_id"
-    t.index ["cloud_bell_accounts_id"], name: "index_cloud_bell_messages_on_cloud_bell_accounts_id"
+    t.bigint "bells_id"
+    t.index ["bells_id"], name: "index_bell_messages_on_bells_id"
   end
 
-  create_table "cloud_bell_notification_deliverers", force: :cascade do |t|
+  create_table "bell_notifications", force: :cascade do |t|
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.bigint "bells_id"
+    t.index ["bells_id"], name: "index_bell_notifications_on_bells_id"
   end
 
-  create_table "cloud_bell_notifications", force: :cascade do |t|
-    t.string "subject"
-    t.text "body"
-    t.string "href"
-    t.string "format"
-    t.boolean "read", default: false
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-    t.bigint "cloud_bell_notification_deliverer_id"
-    t.bigint "users_id"
-    t.bigint "cloud_bell_accounts_id"
-    t.index ["cloud_bell_accounts_id"], name: "index_cloud_bell_notifications_on_cloud_bell_accounts_id"
-    t.index ["cloud_bell_notification_deliverer_id"], name: "bell_notifications_deliverers"
-    t.index ["users_id"], name: "index_cloud_bell_notifications_on_users_id"
+  create_table "bells", force: :cascade do |t|
   end
 
   create_table "lock_user_details", force: :cascade do |t|
@@ -137,12 +123,10 @@ ActiveRecord::Schema.define(version: 3060203) do
     t.index ["unlock_token"], name: "index_users_on_unlock_token", unique: true
   end
 
-  add_foreign_key "cloud_bell_accounts", "accounts", column: "id"
-  add_foreign_key "cloud_bell_emails", "cloud_bell_accounts", column: "cloud_bell_accounts_id"
-  add_foreign_key "cloud_bell_messages", "cloud_bell_accounts", column: "cloud_bell_accounts_id"
-  add_foreign_key "cloud_bell_notifications", "cloud_bell_accounts", column: "cloud_bell_accounts_id"
-  add_foreign_key "cloud_bell_notifications", "cloud_bell_notification_deliverers"
-  add_foreign_key "cloud_bell_notifications", "users", column: "users_id"
+  add_foreign_key "bell_emails", "bells", column: "bells_id"
+  add_foreign_key "bell_messages", "bells", column: "bells_id"
+  add_foreign_key "bell_notifications", "bells", column: "bells_id"
+  add_foreign_key "bells", "accounts", column: "id"
   add_foreign_key "lock_user_details", "users", column: "users_id"
   add_foreign_key "lock_user_privileges", "users", column: "users_id"
   add_foreign_key "lock_user_role_privileges", "lock_user_roles", column: "lock_user_roles_id"

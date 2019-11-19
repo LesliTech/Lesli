@@ -1,5 +1,15 @@
 Rails.application.routes.draw do
 
+  namespace :bell do
+    resources :emails
+  end
+  namespace :bell do
+    resources :messages
+  end
+  namespace :bell do
+    resources :notifications
+  end
+  resources :bells
   namespace :lock do
     resources :user_details
   end
