@@ -1,0 +1,2 @@
+module Lock::UserDetailsHelper
+end

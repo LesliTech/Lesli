@@ -120,6 +120,7 @@ end
 
 # Engines
 
+=begin
 gem 'cloud_driver', path: 'engines/CloudDriver'
 
 gem 'cloud_bell', path: 'engines/CloudBell'
@@ -141,3 +142,9 @@ gem 'cloud_panel', path: 'engines/CloudPanel'
 gem 'cloud_courier', path: 'engines/CloudCourier'
 
 gem 'cloud_dev', path: 'engines/CloudDev'
+=end
+
+['CloudDriver'].each do |engine|
+    engine_sym_name = engine.downcase.sub('cloud', 'cloud_')
+    gem engine_sym_name, path: File.expand_path("../engines/#{engine}", __FILE__)
+end

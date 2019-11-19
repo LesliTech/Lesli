@@ -12,4 +12,8 @@ class User < ApplicationRecord
     has_many    :notifications, class_name: 'CloudBell::Notification', foreign_key: 'users_id'
     belongs_to  :account , foreign_key: 'accounts_id', optional: true
 
+    def revoke_access
+        update_attributes(active: false)
+    end
+
 end
