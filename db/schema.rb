@@ -262,9 +262,11 @@ ActiveRecord::Schema.define(version: 8020001) do
 
   create_table "cloud_help_ticket_categories", force: :cascade do |t|
     t.string "name"
+    t.string "ancestry"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.bigint "cloud_help_accounts_id"
+    t.index ["ancestry"], name: "index_cloud_help_ticket_categories_on_ancestry"
     t.index ["cloud_help_accounts_id"], name: "index_cloud_help_ticket_categories_on_cloud_help_accounts_id"
   end
 
@@ -337,7 +339,6 @@ ActiveRecord::Schema.define(version: 8020001) do
 
   create_table "cloud_help_ticket_states", force: :cascade do |t|
     t.string "name"
-    t.integer "number"
     t.boolean "initial", default: false
     t.boolean "final", default: false
     t.datetime "created_at", precision: 6, null: false
