@@ -33,6 +33,9 @@ class CreateUsers < ActiveRecord::Migration[5.2]
 
             t.boolean   :active, default: true, null: false
 
+            # acts_as_paranoid
+            t.datetime :deleted_at, index: true
+
             t.timestamps null: false
 
         end

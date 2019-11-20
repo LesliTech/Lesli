@@ -50,12 +50,16 @@ gem 'pg', '>= 0.18', '< 2.0'
 # Add can can gem to authorization and roles permissions
 gem "cancan"
 
+# ActsAsParanoid
+gem 'acts_as_paranoid'
+
 # Use Puma as the app server
 gem 'puma', '~> 3.11'
 
 #gem 'devise'
 gem 'devise' #, git: 'https://github.com/plataformatec/devise.git'
 
+# cron manager
 gem 'whenever'
 
 gem 'ancestry'
