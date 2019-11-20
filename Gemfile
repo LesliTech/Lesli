@@ -44,15 +44,11 @@ gem 'sass-rails', '~> 5'
 # HAML template procesor
 gem 'haml-rails'
 
-# logs
-gem "audited", "~> 4.9"
-
 # Use postgresql as the database for Active Record
 gem 'pg', '>= 0.18', '< 2.0'
 
 # Add can can gem to authorization and roles permissions
 gem "cancan"
-
 
 # Use Puma as the app server
 gem 'puma', '~> 3.11'
