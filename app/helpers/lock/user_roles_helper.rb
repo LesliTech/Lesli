@@ -1,2 +1,0 @@
-module Lock::UserRolesHelper
-end

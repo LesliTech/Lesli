@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 304) do
+ActiveRecord::Schema.define(version: 2019_11_20_004734) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -60,32 +60,9 @@ ActiveRecord::Schema.define(version: 304) do
   create_table "bells", force: :cascade do |t|
   end
 
-  create_table "lock_user_details", force: :cascade do |t|
+  create_table "lock_roles", force: :cascade do |t|
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.bigint "users_id"
-    t.index ["users_id"], name: "index_lock_user_details_on_users_id"
-  end
-
-  create_table "lock_user_privileges", force: :cascade do |t|
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-    t.bigint "users_id"
-    t.index ["users_id"], name: "index_lock_user_privileges_on_users_id"
-  end
-
-  create_table "lock_user_role_privileges", force: :cascade do |t|
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-    t.bigint "lock_user_roles_id"
-    t.index ["lock_user_roles_id"], name: "index_lock_user_role_privileges_on_lock_user_roles_id"
-  end
-
-  create_table "lock_user_roles", force: :cascade do |t|
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-    t.bigint "locks_id"
-    t.index ["locks_id"], name: "index_lock_user_roles_on_locks_id"
   end
 
   create_table "locks", force: :cascade do |t|
@@ -127,10 +104,6 @@ ActiveRecord::Schema.define(version: 304) do
   add_foreign_key "bell_messages", "bells", column: "bells_id"
   add_foreign_key "bell_notifications", "bells", column: "bells_id"
   add_foreign_key "bells", "accounts", column: "id"
-  add_foreign_key "lock_user_details", "users", column: "users_id"
-  add_foreign_key "lock_user_privileges", "users", column: "users_id"
-  add_foreign_key "lock_user_role_privileges", "lock_user_roles", column: "lock_user_roles_id"
-  add_foreign_key "lock_user_roles", "locks", column: "locks_id"
   add_foreign_key "locks", "accounts", column: "id"
   add_foreign_key "settings", "accounts", column: "id"
   add_foreign_key "users", "accounts", column: "accounts_id"

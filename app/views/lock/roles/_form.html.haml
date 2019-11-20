@@ -1,0 +1,10 @@
+= form_for @lock_role do |f|
+  - if @lock_role.errors.any?
+    #error_explanation
+      %h2= "#{pluralize(@lock_role.errors.count, "error")} prohibited this lock_role from being saved:"
+      %ul
+        - @lock_role.errors.full_messages.each do |message|
+          %li= message
+
+  .actions
+    = f.submit 'Save'
