@@ -113,7 +113,7 @@ ActiveRecord::Schema.define(version: 8020001) do
     t.text "body"
     t.string "href"
     t.string "format"
-    t.boolean "read", default: false
+    t.boolean "read"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.bigint "cloud_bell_notification_deliverer_id"
@@ -508,19 +508,23 @@ ActiveRecord::Schema.define(version: 8020001) do
     t.datetime "deadline"
     t.boolean "complete"
     t.string "tags"
+    t.datetime "deleted_at"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.bigint "cloud_team_employees_id"
     t.index ["cloud_team_employees_id"], name: "index_cloud_team_employee_actions_on_cloud_team_employees_id"
+    t.index ["deleted_at"], name: "index_cloud_team_employee_actions_on_deleted_at"
   end
 
   create_table "cloud_team_employee_activities", force: :cascade do |t|
     t.integer "type"
     t.string "value"
+    t.datetime "deleted_at"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.bigint "cloud_team_employees_id"
     t.index ["cloud_team_employees_id"], name: "index_cloud_team_employee_activities_on_cloud_team_employees_id"
+    t.index ["deleted_at"], name: "index_cloud_team_employee_activities_on_deleted_at"
   end
 
   create_table "cloud_team_employee_contact_details", force: :cascade do |t|
@@ -534,10 +538,12 @@ ActiveRecord::Schema.define(version: 8020001) do
     t.string "personal_email_address"
     t.string "address"
     t.string "location"
+    t.datetime "deleted_at"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.bigint "cloud_team_employees_id"
     t.index ["cloud_team_employees_id"], name: "team_employee_contact_details_employees"
+    t.index ["deleted_at"], name: "index_cloud_team_employee_contact_details_on_deleted_at"
   end
 
   create_table "cloud_team_employee_contact_emergency_details", force: :cascade do |t|
@@ -546,6 +552,7 @@ ActiveRecord::Schema.define(version: 8020001) do
     t.string "phone_number_1"
     t.string "phone_number_2"
     t.string "full_address"
+    t.datetime "deleted_at"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.bigint "cloud_team_employees_id"
@@ -575,14 +582,17 @@ ActiveRecord::Schema.define(version: 8020001) do
     t.text "biography"
     t.text "family_background"
     t.text "health_details"
+    t.datetime "deleted_at"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.bigint "cloud_team_employees_id"
     t.index ["cloud_team_employees_id"], name: "index_cloud_team_employee_details_on_cloud_team_employees_id"
+    t.index ["deleted_at"], name: "index_cloud_team_employee_details_on_deleted_at"
   end
 
   create_table "cloud_team_employee_discussions", force: :cascade do |t|
     t.text "content"
+    t.datetime "deleted_at"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.bigint "cloud_team_employee_discussions_id"
@@ -590,22 +600,27 @@ ActiveRecord::Schema.define(version: 8020001) do
     t.bigint "cloud_team_employees_id"
     t.index ["cloud_team_employee_discussions_id"], name: "employee_discussions_discussions"
     t.index ["cloud_team_employees_id"], name: "employee_discussions"
+    t.index ["deleted_at"], name: "index_cloud_team_employee_discussions_on_deleted_at"
     t.index ["users_id"], name: "index_cloud_team_employee_discussions_on_users_id"
   end
 
   create_table "cloud_team_employee_files", force: :cascade do |t|
     t.string "name"
+    t.datetime "deleted_at"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.bigint "cloud_team_employees_id"
     t.index ["cloud_team_employees_id"], name: "index_cloud_team_employee_files_on_cloud_team_employees_id"
+    t.index ["deleted_at"], name: "index_cloud_team_employee_files_on_deleted_at"
   end
 
   create_table "cloud_team_employee_locations", force: :cascade do |t|
+    t.datetime "deleted_at"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.bigint "cloud_team_employees_id"
     t.index ["cloud_team_employees_id"], name: "index_cloud_team_employee_locations_on_cloud_team_employees_id"
+    t.index ["deleted_at"], name: "index_cloud_team_employee_locations_on_deleted_at"
   end
 
   create_table "cloud_team_employee_social_accounts", force: :cascade do |t|
@@ -613,17 +628,21 @@ ActiveRecord::Schema.define(version: 8020001) do
     t.string "twitter"
     t.string "slack"
     t.string "skype"
+    t.datetime "deleted_at"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.bigint "cloud_team_employees_id"
     t.index ["cloud_team_employees_id"], name: "team_employee_social_account_employees"
+    t.index ["deleted_at"], name: "index_cloud_team_employee_social_accounts_on_deleted_at"
   end
 
   create_table "cloud_team_employees", force: :cascade do |t|
+    t.datetime "deleted_at"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.bigint "cloud_team_accounts_id"
     t.index ["cloud_team_accounts_id"], name: "index_cloud_team_employees_on_cloud_team_accounts_id"
+    t.index ["deleted_at"], name: "index_cloud_team_employees_on_deleted_at"
   end
 
   create_table "company_currencies", force: :cascade do |t|
@@ -693,11 +712,13 @@ ActiveRecord::Schema.define(version: 8020001) do
     t.integer "failed_attempts", default: 0, null: false
     t.string "unlock_token"
     t.datetime "locked_at"
+    t.datetime "deleted_at"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.bigint "accounts_id"
     t.index ["accounts_id"], name: "index_users_on_accounts_id"
     t.index ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true
+    t.index ["deleted_at"], name: "index_users_on_deleted_at"
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
     t.index ["unlock_token"], name: "index_users_on_unlock_token", unique: true
