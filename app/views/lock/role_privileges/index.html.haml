@@ -1,0 +1,19 @@
+%h1 Listing lock_role_privileges
+
+%table
+  %thead
+    %tr
+      %th
+      %th
+      %th
+
+  %tbody
+    - @lock_role_privileges.each do |lock_role_privilege|
+      %tr
+        %td= link_to 'Show', lock_role_privilege
+        %td= link_to 'Edit', edit_lock_role_privilege_path(lock_role_privilege)
+        %td= link_to 'Destroy', lock_role_privilege, method: :delete, data: { confirm: 'Are you sure?' }
+
+%br
+
+= link_to 'New Role privilege', new_lock_role_privilege_path

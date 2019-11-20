@@ -1,20 +1,5 @@
 Rails.application.routes.draw do
 
-  namespace :lock do
-    resources :roles
-  end
-  namespace :bell do
-    resources :emails
-  end
-  namespace :bell do
-    resources :messages
-  end
-  namespace :bell do
-    resources :notifications
-  end
-  resources :bells
-  resources :locks
-  resources :settings
     devise_for :users,
     :controllers => { 
         :registrations => "users/registrations",
@@ -44,10 +29,23 @@ Rails.application.routes.draw do
         mount CloudHelp::Engine => "/help" if defined?(CloudHelp)
         mount CloudKb::Engine => "/kb" if defined?(CloudKb)
 
-        #mount CloudCourier::Engine => "/courier"
-        #mount CloudLesli::Engine => "/lesli"
-
         resource :accounts
+
+        resources :settings
+
+        resources :locks
+        namespace :lock do
+            resources :roles
+            resources :role_overrides
+            resources :role_privileges
+        end
+
+        resources :bells
+        namespace :bell do
+            resources :emails
+            resources :messages
+            resources :notifications
+        end
 
     end
 
