@@ -114,33 +114,10 @@ group :test do
     
 end
 
-# Engines
+# Loading installed engines
 
-=begin
-gem 'cloud_driver', path: 'engines/CloudDriver'
-
-gem 'cloud_bell', path: 'engines/CloudBell'
-
-gem 'cloud_lesli', path: 'engines/CloudLesli'
-
-gem 'cloud_books', path: 'engines/CloudBooks'
-
-gem 'cloud_team', path: 'engines/CloudTeam'
-
-gem 'cloud_lock', path: 'engines/CloudLock'
-
-gem 'cloud_help', path: 'engines/CloudHelp'
-
-gem 'cloud_kb', path: 'engines/CloudKb'
-
-gem 'cloud_panel', path: 'engines/CloudPanel'
-
-gem 'cloud_courier', path: 'engines/CloudCourier'
-
-gem 'cloud_dev', path: 'engines/CloudDev'
-=end
-
-['CloudDriver'].each do |engine|
+['CloudDriver','CloudBooks','CloudTeam','CloudHelp','CloudKb','CloudPanel'].each do |engine|
     engine_sym_name = engine.downcase.sub('cloud', 'cloud_')
-    gem engine_sym_name, path: File.expand_path("../engines/#{engine}", __FILE__)
+    engine_installation_path = File.expand_path("../engines/#{engine}", __FILE__)
+    gem engine_sym_name, path: engine_installation_path if File.exists?(engine_installation_path)
 end

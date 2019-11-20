@@ -1,5 +1,8 @@
 Rails.application.routes.draw do
 
+  namespace :lock do
+    resources :roles
+  end
   namespace :bell do
     resources :emails
   end
@@ -10,18 +13,6 @@ Rails.application.routes.draw do
     resources :notifications
   end
   resources :bells
-  namespace :lock do
-    resources :user_details
-  end
-  namespace :lock do
-    resources :user_privileges
-  end
-  namespace :lock do
-    resources :user_role_privileges
-  end
-  namespace :lock do
-    resources :user_roles
-  end
   resources :locks
   resources :settings
     devise_for :users,
@@ -44,24 +35,18 @@ Rails.application.routes.draw do
 
         root to: redirect('/lesli'), as: :root_authenticated
 
-        # mount engine if CloudEngine folder exists
+        mount CloudDriver::Engine => "/driver" if defined?(CloudDriver)
+        mount CloudBooks::Engine => "/books" if defined?(CloudBooks)
+        mount CloudPanel::Engine => "/panel" if defined?(CloudPanel)
+        mount CloudTeam::Engine => "/team" if defined?(CloudTeam)
+        mount CloudLock::Engine => "/lock" if defined?(CloudLock)
+        mount CloudBell::Engine => "/bell" if defined?(CloudBell)
+        mount CloudHelp::Engine => "/help" if defined?(CloudHelp)
+        mount CloudKb::Engine => "/kb" if defined?(CloudKb)
 
-        mount CloudDriver::Engine => "/driver" unless defined?(CloudDriver)
+        #mount CloudCourier::Engine => "/courier"
+        #mount CloudLesli::Engine => "/lesli"
 
-
-=begin
-        mount CloudCourier::Engine => "/courier"
-        
-        mount CloudLesli::Engine => "/lesli"
-        mount CloudBooks::Engine => "/books"
-        mount CloudPanel::Engine => "/panel"
-        mount CloudTeam::Engine => "/team"
-        mount CloudLock::Engine => "/lock"
-        mount CloudBell::Engine => "/bell"
-        mount CloudHelp::Engine => "/help"
-        mount CloudKb::Engine => "/kb"
-        mount CloudDev::Engine => "/dev"
-=end
         resource :accounts
 
     end
