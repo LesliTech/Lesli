@@ -28,8 +28,6 @@ module LesliCloud
 
         config.autoload_paths << Rails.root.join('lib')
 
-        config.action_cable.mount_path = '/cable'
-
     end
 
 end
