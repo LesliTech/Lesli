@@ -1,6 +1,6 @@
 class LesliChannel < ApplicationCable::Channel
     def subscribed
-        stream_from "Lesli"
+        stream_for "Lesli"
     end
 
     def unsubscribed

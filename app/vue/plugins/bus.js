@@ -80,14 +80,11 @@ export default {
 
         cable.subscriptions.create("LesliChannel", {
             connected() {
-                console.log('channel connected')
             },
             received(data) {
-                console.log('channel received')
                 Vue.prototype.bus.publish(data.channel, data)
             },
             disconnected() {
-                console.log('channel disconnected')
             },
         })
 
