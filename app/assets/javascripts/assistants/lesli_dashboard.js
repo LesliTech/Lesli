@@ -30063,13 +30063,18 @@ Building a better future, one line of code at a time.
         Vue.prototype.bus.publish("keyboard-ctrl-save");
       }
     }, false);
-    var cable = Object(action_cable["createConsumer"])();
+    var cable = Object(action_cable["createConsumer"])('/cable');
     cable.subscriptions.create("LesliChannel", {
-      connected: function connected() {},
+      connected: function connected() {
+        console.log('channel connected');
+      },
       received: function received(data) {
+        console.log('channel received');
         Vue.prototype.bus.publish(data.channel, data);
       },
-      disconnected: function disconnected() {}
+      disconnected: function disconnected() {
+        console.log('channel disconnected');
+      }
     });
   }
 });
