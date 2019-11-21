@@ -1,0 +1,10 @@
+= form_for @bell_message do |f|
+  - if @bell_message.errors.any?
+    #error_explanation
+      %h2= "#{pluralize(@bell_message.errors.count, "error")} prohibited this bell_message from being saved:"
+      %ul
+        - @bell_message.errors.full_messages.each do |message|
+          %li= message
+
+  .actions
+    = f.submit 'Save'

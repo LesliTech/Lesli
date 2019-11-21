@@ -19,7 +19,7 @@
 .byebug_history
 
 /engines/*
-!/engines/.keep
+!/engines/.gitkeep
 
 # Ignore master key for decrypting credentials and more.
 /config/master.key

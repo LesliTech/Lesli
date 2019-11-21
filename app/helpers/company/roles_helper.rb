@@ -1,2 +1,0 @@
-module Company::RolesHelper
-end

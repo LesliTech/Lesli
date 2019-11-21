@@ -44,15 +44,14 @@ gem 'sass-rails', '~> 5'
 # HAML template procesor
 gem 'haml-rails'
 
-# logs
-gem "audited", "~> 4.9"
-
 # Use postgresql as the database for Active Record
 gem 'pg', '>= 0.18', '< 2.0'
 
 # Add can can gem to authorization and roles permissions
 gem "cancan"
 
+# ActsAsParanoid
+gem 'acts_as_paranoid'
 
 # Use Puma as the app server
 gem 'puma', '~> 3.11'
@@ -60,6 +59,7 @@ gem 'puma', '~> 3.11'
 #gem 'devise'
 gem 'devise' #, git: 'https://github.com/plataformatec/devise.git'
 
+# cron manager
 gem 'whenever'
 
 gem 'ancestry'
@@ -118,26 +118,10 @@ group :test do
     
 end
 
-# Engines
+# Loading installed engines
 
-gem 'cloud_driver', path: 'engines/CloudDriver'
-
-gem 'cloud_bell', path: 'engines/CloudBell'
-
-gem 'cloud_lesli', path: 'engines/CloudLesli'
-
-gem 'cloud_books', path: 'engines/CloudBooks'
-
-gem 'cloud_team', path: 'engines/CloudTeam'
-
-gem 'cloud_lock', path: 'engines/CloudLock'
-
-gem 'cloud_help', path: 'engines/CloudHelp'
-
-gem 'cloud_kb', path: 'engines/CloudKb'
-
-gem 'cloud_panel', path: 'engines/CloudPanel'
-
-gem 'cloud_courier', path: 'engines/CloudCourier'
-
-gem 'cloud_dev', path: 'engines/CloudDev'
+['CloudDriver','CloudBooks','CloudTeam','CloudHelp','CloudKb','CloudPanel'].each do |engine|
+    engine_sym_name = engine.downcase.sub('cloud', 'cloud_')
+    engine_installation_path = File.expand_path("../engines/#{engine}", __FILE__)
+    gem engine_sym_name, path: engine_installation_path if File.exists?(engine_installation_path)
+end

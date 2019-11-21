@@ -1,0 +1,2 @@
+module Bell::NotificationsHelper
+end

@@ -1,3 +1,3 @@
 = javascript_include_tag "i18n"
 = javascript_include_tag "translations", skip_pipeline: true
-= javascript_include_tag [controller_path.split('/')[0],[controller_path.split('/')[1], action_name].join('_')].join('/')
+= javascript_include_tag [controller_path.split('/')[0],[controller_path.split('/')[1], action_name].compact().join('_')].join('/')
