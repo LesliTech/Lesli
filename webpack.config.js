@@ -16,7 +16,6 @@ LesliCloud - Your Smart Business Assistant
 Powered by https://www.lesli.tech
 Building a better future, one line of code at a time.
 
-@dev      Luis Donis <ldonis@lesli.tech>
 @author   LesliTech <hello@lesli.tech>
 @license  Propietary - all rights reserved.
 @version  0.1.0-alpha
@@ -62,7 +61,8 @@ function webpackConfigBuilder(compilationMode) {
             "users/confirmations_new": "./app/vue/users/confirmations_new.js",
             "users/passwords_new": "./app/vue/users/passwords_new.js",
             "users/passwords_edit": "./app/vue/users/passwords_edit.js",
-            "accounts_new": "./app/vue/accounts/new.js"
+            "accounts_new": "./app/vue/accounts/new.js",
+            "assistants/lesli_dashboard": "./app/vue/assistants/lesli_dashboard.js"
         },
         output: {
             path: __dirname,
