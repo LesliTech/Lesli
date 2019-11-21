@@ -49,4 +49,6 @@ Rails.application.routes.draw do
     root to: "websites#landing", as: :root_unauthenticated
     root to: "websites#landing"
 
+    mount ActionCable.server => '/cable'
+
 end
