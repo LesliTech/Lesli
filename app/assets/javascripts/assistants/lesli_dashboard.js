@@ -30063,11 +30063,13 @@ Building a better future, one line of code at a time.
         Vue.prototype.bus.publish("keyboard-ctrl-save");
       }
     }, false);
-    var cable = Object(action_cable["createConsumer"])('/courier/cable');
-    cable.subscriptions.create("CloudCourier::LesliChannel", {
+    var cable = Object(action_cable["createConsumer"])();
+    cable.subscriptions.create("LesliChannel", {
+      connected: function connected() {},
       received: function received(data) {
         Vue.prototype.bus.publish(data.channel, data);
-      }
+      },
+      disconnected: function disconnected() {}
     });
   }
 });
