@@ -1,0 +1,2 @@
+module Lock::RolePrivilegesHelper
+end

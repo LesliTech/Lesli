@@ -1,0 +1,19 @@
+%h1 Listing bell_notifications
+
+%table
+  %thead
+    %tr
+      %th
+      %th
+      %th
+
+  %tbody
+    - @bell_notifications.each do |bell_notification|
+      %tr
+        %td= link_to 'Show', bell_notification
+        %td= link_to 'Edit', edit_bell_notification_path(bell_notification)
+        %td= link_to 'Destroy', bell_notification, method: :delete, data: { confirm: 'Are you sure?' }
+
+%br
+
+= link_to 'New Notification', new_bell_notification_path

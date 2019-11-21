@@ -1,0 +1,19 @@
+%h1 Listing bell_messages
+
+%table
+  %thead
+    %tr
+      %th
+      %th
+      %th
+
+  %tbody
+    - @bell_messages.each do |bell_message|
+      %tr
+        %td= link_to 'Show', bell_message
+        %td= link_to 'Edit', edit_bell_message_path(bell_message)
+        %td= link_to 'Destroy', bell_message, method: :delete, data: { confirm: 'Are you sure?' }
+
+%br
+
+= link_to 'New Message', new_bell_message_path

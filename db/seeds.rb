@@ -25,6 +25,6 @@ Building a better future, one line of code at a time.
 =end
 
 load "#{Rails.root}/db/seed/#{Rails.env.downcase}.rb"
-CloudBell::Engine.load_seed
-CloudKb::Engine.load_seed
-CloudHelp::Engine.load_seed
+#CloudBell::Engine.load_seed
+#CloudKb::Engine.load_seed
+#CloudHelp::Engine.load_seed

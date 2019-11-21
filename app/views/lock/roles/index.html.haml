@@ -1,0 +1,19 @@
+%h1 Listing lock_roles
+
+%table
+  %thead
+    %tr
+      %th
+      %th
+      %th
+
+  %tbody
+    - @lock_roles.each do |lock_role|
+      %tr
+        %td= link_to 'Show', lock_role
+        %td= link_to 'Edit', edit_lock_role_path(lock_role)
+        %td= link_to 'Destroy', lock_role, method: :delete, data: { confirm: 'Are you sure?' }
+
+%br
+
+= link_to 'New Role', new_lock_role_path

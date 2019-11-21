@@ -30,5 +30,4 @@ Building a better future, one line of code at a time.
 model = Account.new
 model.status = 1
 model.company_name = "Lesli Technologies, S. A."
-model.account_plans_id = 0
 model.save!
