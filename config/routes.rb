@@ -1,5 +1,6 @@
 Rails.application.routes.draw do
 
+  
     devise_for :users,
     :controllers => { 
         :registrations => "users/registrations",
@@ -40,12 +41,7 @@ Rails.application.routes.draw do
             resources :role_privileges
         end
 
-        resources :bells
-        namespace :bell do
-            resources :emails
-            resources :messages
-            resources :notifications
-        end
+        extend Assistant
 
     end
 
