@@ -76,15 +76,18 @@ export default {
 
         }, false)
 
-        let cable = createConsumer()
+        let cable = createConsumer('/cable')
 
         cable.subscriptions.create("LesliChannel", {
             connected() {
+                console.log('channel connected')
             },
             received(data) {
+                console.log('channel received')
                 Vue.prototype.bus.publish(data.channel, data)
             },
             disconnected() {
+                console.log('channel disconnected')
             },
         })
 
