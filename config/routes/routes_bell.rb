@@ -1,4 +1,4 @@
-module Bell
+module RoutesBell
     def self.extended(router)
         router.instance_exec do
             resources :bells

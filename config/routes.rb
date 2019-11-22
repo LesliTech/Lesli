@@ -42,7 +42,7 @@ Rails.application.routes.draw do
         end
 
         extend Assistant
-        extend Bell
+        extend RoutesBell
 
     end
 
