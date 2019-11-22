@@ -1,11 +1,11 @@
-class AssistantsController < ApplicationController
+class AssistantsController < ApplicationLesliController
 
     def lesli_dashboard
-        Courier::NotificationJob.perform_now(
-            user: current_user,
-            subject: 'New notification',
-            href: '/test'
-        )
+        #Courier::NotificationJob.perform_now(
+        #    user: current_user,
+        #    subject: 'New notification',
+        #    href: '/test'
+        #)
     end
 
 end
