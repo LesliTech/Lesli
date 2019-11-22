@@ -1,7 +1,7 @@
 class ApplicationLesliController < ApplicationController
+    before_action :check_valid_account
     before_action :check_account
     before_action :authenticate_user
-    before_action :check_valid_account
     
     layout 'layouts/application'
 
@@ -18,7 +18,7 @@ class ApplicationLesliController < ApplicationController
     def check_account
         if current_user.account.bell.blank?
             # insert reference to the core account
-            current_user.account.bell = CloudTeam::Account.new
+            current_user.account.bell = Bell.new
             current_user.account.bell.account = current_user.account
             current_user.account.bell.save!
         end
