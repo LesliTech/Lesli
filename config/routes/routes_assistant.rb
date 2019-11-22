@@ -1,4 +1,4 @@
-module Assistant
+module RoutesAssistant
     def self.extended(router)
         router.instance_exec do
 
