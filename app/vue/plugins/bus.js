@@ -76,12 +76,16 @@ export default {
 
         }, false)
 
-        let cable = createConsumer('/courier/cable')
+        let cable = createConsumer('/cable')
 
-        cable.subscriptions.create("CloudCourier::LesliChannel", {
+        cable.subscriptions.create("LesliChannel", {
+            connected() {
+            },
             received(data) {
                 Vue.prototype.bus.publish(data.channel, data)
-            }
+            },
+            disconnected() {
+            },
         })
 
     }
