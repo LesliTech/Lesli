@@ -25,7 +25,6 @@ class AccountsController < ApplicationController
     # POST /accounts.json
     def create
         account = Account.new(account_params)
-        account.account_plans_id = 0
         account.status = 1
         account.save!
         if account.errors.any?

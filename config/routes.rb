@@ -41,7 +41,7 @@ Rails.application.routes.draw do
             resources :role_privileges
         end
 
-        extend Assistant
+        extend RoutesAssistant
         extend RoutesBell
 
     end
