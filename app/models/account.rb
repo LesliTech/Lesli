@@ -2,7 +2,7 @@ class Account < ApplicationRecord
 
     has_many :user, foreign_key: 'users_id'
 
-    has_one :bell, foreign_key: "id"
+    has_one :bell, class_name: "Bell", foreign_key: "id"
     has_one :lock, foreign_key: 'id'
 
     #has_one :kb,    class_name: "CloudKb::Account",     foreign_key: "id"
