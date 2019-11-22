@@ -153,6 +153,7 @@ export default {
                 </div>
             </div>
             <footer class="quickview-footer">
+                <a href="/bell/notifications">all notifications</a>
             </footer>
         </div>
     </section>

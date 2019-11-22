@@ -81,7 +81,7 @@
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 50);
+/******/ 	return __webpack_require__(__webpack_require__.s = 51);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -29974,16 +29974,10 @@ exports.clearImmediate = (typeof self !== "undefined" && self.clearImmediate) ||
 
 
 /***/ }),
-/* 45 */,
-/* 46 */,
-/* 47 */,
-/* 48 */,
-/* 49 */,
-/* 50 */
+/* 45 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-__webpack_require__.r(__webpack_exports__);
 
 // EXTERNAL MODULE: ./node_modules/vue/dist/vue.js
 var vue = __webpack_require__(0);
@@ -30141,12 +30135,23 @@ var render = function() {
           ])
         ]),
         _vm._v(" "),
-        _c("footer", { staticClass: "quickview-footer" })
+        _vm._m(0)
       ]
     )
   ])
 }
-var staticRenderFns = []
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("footer", { staticClass: "quickview-footer" }, [
+      _c("a", { attrs: { href: "/bell/notifications" } }, [
+        _vm._v("all notifications")
+      ])
+    ])
+  }
+]
 render._withStripped = true
 
 
@@ -31098,7 +31103,7 @@ vue_default.a.component('component-layout-empty-data', empty_data); // · Vue ap
 // · base_path: for vue router
 // · example: app("CloudHelp", "[list|new|edit|show]", "help/tickets", [])
 
-/* harmony default export */ var app = (function (module, apps, base_path) {
+/* harmony default export */ var app = __webpack_exports__["a"] = (function (module, apps, base_path) {
   var routes = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : [];
   // · Vue app configuration container
   var cloud_builder = {}; // · Default and custom components for logged users
@@ -31126,10 +31131,24 @@ vue_default.a.component('component-layout-empty-data', empty_data); // · Vue ap
     if (true) browser_default.a.info("".concat(base_path, " ").concat(apps), module);
   });
 });
-// CONCATENATED MODULE: ./app/vue/assistants/lesli_dashboard.js
+
+/***/ }),
+/* 46 */,
+/* 47 */,
+/* 48 */,
+/* 49 */,
+/* 50 */,
+/* 51 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var LesliCloud_vue_app__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(45);
 /*
 Lesli
+
 Copyright (c) 2019, Lesli Technologies, S. A.
+
 All the information provided by this website is protected by laws of Guatemala related 
 to industrial property, intellectual property, copyright and relative international laws. 
 Lesli Technologies, S. A. is the exclusive owner of all intellectual or industrial property
@@ -31137,12 +31156,16 @@ rights of the code, texts, trade mark, design, pictures and any other informatio
 Without the written permission of Lesli Technologies, S. A., any replication, modification,
 transmission, publication is strictly forbidden.
 For more information read the license file including with this software.
+
 LesliCloud - Your Smart Business Assistant
+
 Powered by https://www.lesli.tech
 Building a better future, one line of code at a time.
+
 @author   LesliTech <hello@lesli.tech>
 @license  Propietary - all rights reserved.
 @version  0.1.0-alpha
+
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
 // · 
 */
@@ -31153,7 +31176,7 @@ Building a better future, one line of code at a time.
 // · Cloud app
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
 
-app("CloudCore", "[dashboard]", "/lesli", []);
+Object(LesliCloud_vue_app__WEBPACK_IMPORTED_MODULE_0__[/* default */ "a"])("CloudCore", "[dashboard]", "/lesli", []);
 
 /***/ })
 /******/ ]);
