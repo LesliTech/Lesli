@@ -4,6 +4,16 @@ common: &common
     adapter: postgresql
     encoding: unicode
     reconnect: false
+    migrations_paths:
+        - "db/migrate"
+        - "engines/CloudDriver/db/migrate"
+        - "engines/CloudBooks/db/migrate"
+        - "engines/CloudPanel/db/migrate"
+        - "engines/CloudBell/db/migrate"
+        - "engines/CloudTeam/db/migrate"
+        - "engines/CloudLock/db/migrate"
+        - "engines/CloudHelp/db/migrate"
+        - "engines/CloudKb/db/migrate"
 
 development:
     <<: *common
