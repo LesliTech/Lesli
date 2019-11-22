@@ -3,10 +3,10 @@ class Bell::NotificationsController < ApplicationController
 
     # GET /bell/notifications
     def index
-        @bell_notifications = current_user.notifications.where(read: false)
+        bell_notifications = current_user.notifications.where(read: false)
         respond_to do |format|
-            format.html
-            format.json { responseWithSuccessful(@bell_notifications) }
+            format.html { @bell_notifications = bell_notifications }
+            format.json { responseWithSuccessful(bell_notifications) }
         end
     end
 

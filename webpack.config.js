@@ -62,6 +62,7 @@ function webpackConfigBuilder(compilationMode) {
             "users/passwords_edit": "./app/vue/users/passwords_edit.js",
             "users/registrations_new": "./app/vue/users/registrations_new.js",
             "users/confirmations_new": "./app/vue/users/confirmations_new.js",
+            "bell/notifications_index": "./app/vue/bell/notifications_index.js",
             "assistants/lesli_dashboard": "./app/vue/assistants/lesli_dashboard.js"
         },
         output: {

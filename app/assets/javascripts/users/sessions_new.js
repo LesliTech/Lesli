@@ -12482,6 +12482,77 @@ function normalizeComponent (
 
 "use strict";
 
+// CONCATENATED MODULE: ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./app/vue/components/forms/progress_bar.vue?vue&type=template&id=3fb1ff25&
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("span", [
+    _vm.active
+      ? _c("progress", {
+          staticClass: "progress is-very-small is-primary",
+          attrs: { max: "100" }
+        })
+      : _vm._e(),
+    _vm._v(" "),
+    !_vm.active
+      ? _c("progress", {
+          staticClass: "progress is-very-small is-primary",
+          attrs: { max: "100", value: "0" }
+        })
+      : _vm._e()
+  ])
+}
+var staticRenderFns = []
+render._withStripped = true
+
+
+// CONCATENATED MODULE: ./app/vue/components/forms/progress_bar.vue?vue&type=template&id=3fb1ff25&
+
+// CONCATENATED MODULE: ./node_modules/babel-loader/lib??ref--3!./node_modules/vue-loader/lib??vue-loader-options!./app/vue/components/forms/progress_bar.vue?vue&type=script&lang=js&
+/* harmony default export */ var progress_barvue_type_script_lang_js_ = ({
+  props: {
+    active: {
+      type: Boolean,
+      "default": false
+    }
+  }
+});
+// CONCATENATED MODULE: ./app/vue/components/forms/progress_bar.vue?vue&type=script&lang=js&
+ /* harmony default export */ var forms_progress_barvue_type_script_lang_js_ = (progress_barvue_type_script_lang_js_); 
+// EXTERNAL MODULE: ./node_modules/vue-loader/lib/runtime/componentNormalizer.js
+var componentNormalizer = __webpack_require__(2);
+
+// CONCATENATED MODULE: ./app/vue/components/forms/progress_bar.vue
+
+
+
+
+
+/* normalize component */
+
+var component = Object(componentNormalizer["a" /* default */])(
+  forms_progress_barvue_type_script_lang_js_,
+  render,
+  staticRenderFns,
+  false,
+  null,
+  null,
+  null
+  
+)
+
+/* hot reload */
+if (false) { var api; }
+component.options.__file = "app/vue/components/forms/progress_bar.vue"
+/* harmony default export */ var progress_bar = __webpack_exports__["a"] = (component.exports);
+
+/***/ }),
+/* 4 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+
 // CONCATENATED MODULE: ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./app/vue/components/forms/notification.vue?vue&type=template&id=0a9ef40f&
 var render = function() {
   var _vm = this
@@ -12561,77 +12632,6 @@ var component = Object(componentNormalizer["a" /* default */])(
 if (false) { var api; }
 component.options.__file = "app/vue/components/forms/notification.vue"
 /* harmony default export */ var notification = __webpack_exports__["a"] = (component.exports);
-
-/***/ }),
-/* 4 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-
-// CONCATENATED MODULE: ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./app/vue/components/forms/progress_bar.vue?vue&type=template&id=3fb1ff25&
-var render = function() {
-  var _vm = this
-  var _h = _vm.$createElement
-  var _c = _vm._self._c || _h
-  return _c("span", [
-    _vm.active
-      ? _c("progress", {
-          staticClass: "progress is-very-small is-primary",
-          attrs: { max: "100" }
-        })
-      : _vm._e(),
-    _vm._v(" "),
-    !_vm.active
-      ? _c("progress", {
-          staticClass: "progress is-very-small is-primary",
-          attrs: { max: "100", value: "0" }
-        })
-      : _vm._e()
-  ])
-}
-var staticRenderFns = []
-render._withStripped = true
-
-
-// CONCATENATED MODULE: ./app/vue/components/forms/progress_bar.vue?vue&type=template&id=3fb1ff25&
-
-// CONCATENATED MODULE: ./node_modules/babel-loader/lib??ref--3!./node_modules/vue-loader/lib??vue-loader-options!./app/vue/components/forms/progress_bar.vue?vue&type=script&lang=js&
-/* harmony default export */ var progress_barvue_type_script_lang_js_ = ({
-  props: {
-    active: {
-      type: Boolean,
-      "default": false
-    }
-  }
-});
-// CONCATENATED MODULE: ./app/vue/components/forms/progress_bar.vue?vue&type=script&lang=js&
- /* harmony default export */ var forms_progress_barvue_type_script_lang_js_ = (progress_barvue_type_script_lang_js_); 
-// EXTERNAL MODULE: ./node_modules/vue-loader/lib/runtime/componentNormalizer.js
-var componentNormalizer = __webpack_require__(2);
-
-// CONCATENATED MODULE: ./app/vue/components/forms/progress_bar.vue
-
-
-
-
-
-/* normalize component */
-
-var component = Object(componentNormalizer["a" /* default */])(
-  forms_progress_barvue_type_script_lang_js_,
-  render,
-  staticRenderFns,
-  false,
-  null,
-  null,
-  null
-  
-)
-
-/* hot reload */
-if (false) { var api; }
-component.options.__file = "app/vue/components/forms/progress_bar.vue"
-/* harmony default export */ var progress_bar = __webpack_exports__["a"] = (component.exports);
 
 /***/ }),
 /* 5 */
@@ -29903,10 +29903,10 @@ render._withStripped = true
 // CONCATENATED MODULE: ./app/vue/users/apps/login.vue?vue&type=template&id=f6cb2dd0&
 
 // EXTERNAL MODULE: ./app/vue/components/forms/notification.vue + 4 modules
-var notification = __webpack_require__(3);
+var notification = __webpack_require__(4);
 
 // EXTERNAL MODULE: ./app/vue/components/forms/progress_bar.vue + 4 modules
-var progress_bar = __webpack_require__(4);
+var progress_bar = __webpack_require__(3);
 
 // CONCATENATED MODULE: ./node_modules/babel-loader/lib??ref--3!./node_modules/vue-loader/lib??vue-loader-options!./app/vue/users/apps/login.vue?vue&type=script&lang=js&
 
