@@ -29,3 +29,4 @@ Building a better future, one line of code at a time.
 
 load "#{Rails.root}/db/seed/development/accounts.rb"
 load "#{Rails.root}/db/seed/development/users.rb"
+load "#{Rails.root}/db/seed/development/bells.rb"
