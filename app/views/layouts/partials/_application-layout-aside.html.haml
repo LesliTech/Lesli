@@ -1,35 +1,52 @@
 %aside
     %nav
         %ul
-            %li
-                = link_to "/team" do
-                    = image_tag "cloudteam/brand/team-logo.svg", alt: "CloudTeam logo"
-                    team
 
-            %li
-                = link_to "/driver" do
-                    = image_tag "clouddriver/brand/driver-logo.svg", alt: "CloudDriver logo"
-                    driver
+            -# Notifications management
             %li
                 = link_to "/bell" do
                     = image_tag "cloudbell/brand/bell-logo.svg", alt: "CloudBell logo"
                     bell
-            %li
-                = link_to "/books" do
-                    = image_tag "cloudbooks/brand/books-logo.svg", alt: "CloudBooks logo"
-                    books
-            %li
-                = link_to "/help" do
-                    = image_tag "cloudhelp/brand/help-logo.svg", alt: "CloudHelp logo"
-                    help
-            %li
-                = link_to "/kb" do
-                    = image_tag "cloudkb/brand/kb-logo.svg", alt: "CloudKb logo"
-                    kb
-            %li
-                = link_to "/panel" do
-                    = image_tag "cloudpanel/brand/panel-logo.svg", alt: "CloudPanel logo"
-                    panel
+
+
+            -# Notifications management
+            - if defined?(CloudTeam)
+                %li
+                    = link_to "/team" do
+                        = image_tag "cloudteam/brand/team-logo.svg", alt: "CloudTeam logo"
+                        team
+
+            - if defined?(CloudDriver)
+                %li
+                    = link_to "/driver" do
+                        = image_tag "clouddriver/brand/driver-logo.svg", alt: "CloudDriver logo"
+                        driver
+
+
+            - if defined?(CloudBooks)
+                %li
+                    = link_to "/books" do
+                        = image_tag "cloudbooks/brand/books-logo.svg", alt: "CloudBooks logo"
+                        books
+
+            - if defined?(CloudHelp)
+                %li
+                    = link_to "/help" do
+                        = image_tag "cloudhelp/brand/help-logo.svg", alt: "CloudHelp logo"
+                        help
+
+            - if defined?(CloudKb)
+                %li
+                    = link_to "/kb" do
+                        = image_tag "cloudkb/brand/kb-logo.svg", alt: "CloudKb logo"
+                        kb
+
+            - if defined?(CloudPanel)
+                %li
+                    = link_to "/panel" do
+                        = image_tag "cloudpanel/brand/panel-logo.svg", alt: "CloudPanel logo"
+                        panel
+
             %li
                 = link_to "/lock" do
                     = image_tag "cloudlock/brand/lock-logo.svg", alt: "CloudLock logo"
