@@ -1,4 +1,4 @@
-class AssistantsController < ApplicationController
+class AssistantsController < ApplicationLesliController
 
     def lesli_dashboard
         Courier::NotificationJob.perform_now(
