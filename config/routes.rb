@@ -1,5 +1,6 @@
 Rails.application.routes.draw do
 
+  
     devise_for :users,
     :controllers => { 
         :registrations => "users/registrations",
@@ -40,16 +41,14 @@ Rails.application.routes.draw do
             resources :role_privileges
         end
 
-        resources :bells
-        namespace :bell do
-            resources :emails
-            resources :messages
-            resources :notifications
-        end
+        extend Assistant
+        extend Bell
 
     end
 
     root to: "websites#landing", as: :root_unauthenticated
     root to: "websites#landing"
+
+    mount ActionCable.server => '/cable'
 
 end

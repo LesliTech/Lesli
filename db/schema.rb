@@ -51,10 +51,17 @@ ActiveRecord::Schema.define(version: 304) do
   end
 
   create_table "bell_notifications", force: :cascade do |t|
+    t.string "subject"
+    t.text "body"
+    t.string "href"
+    t.string "format"
+    t.boolean "read", default: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.bigint "bells_id"
+    t.bigint "users_id"
     t.index ["bells_id"], name: "index_bell_notifications_on_bells_id"
+    t.index ["users_id"], name: "index_bell_notifications_on_users_id"
   end
 
   create_table "bells", force: :cascade do |t|
@@ -105,6 +112,7 @@ ActiveRecord::Schema.define(version: 304) do
     t.integer "failed_attempts", default: 0, null: false
     t.string "unlock_token"
     t.datetime "locked_at"
+    t.boolean "active", default: true, null: false
     t.datetime "deleted_at"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -120,6 +128,7 @@ ActiveRecord::Schema.define(version: 304) do
   add_foreign_key "bell_emails", "bells", column: "bells_id"
   add_foreign_key "bell_messages", "bells", column: "bells_id"
   add_foreign_key "bell_notifications", "bells", column: "bells_id"
+  add_foreign_key "bell_notifications", "users", column: "users_id"
   add_foreign_key "bells", "accounts", column: "id"
   add_foreign_key "lock_role_overrides", "locks", column: "locks_id"
   add_foreign_key "lock_role_privileges", "locks", column: "locks_id"
