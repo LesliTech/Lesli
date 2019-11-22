@@ -16,19 +16,6 @@ class ApplicationLesliController < ApplicationController
     end
 
     def check_account
-
-        p '*     *     *     *     *     *     *     *     *     *     *     *     *     *'
-        p '*     *     *     *     *     *     *     *     *     *     *     *     *     *'
-        p '*     *     *     *     *     *     *     *     *     *     *     *     *     *'
-        p '*     *     *     *     *     *     *     *     *     *     *     *     *     *'
-        p '*     *     *     *     *     *     *     *     *     *     *     *     *     *'
-        p current_user.account.lock
-        p '*     *     *     *     *     *     *     *     *     *     *     *     *     *'
-        p '*     *     *     *     *     *     *     *     *     *     *     *     *     *'
-        p '*     *     *     *     *     *     *     *     *     *     *     *     *     *'
-        p '*     *     *     *     *     *     *     *     *     *     *     *     *     *'
-        p '*     *     *     *     *     *     *     *     *     *     *     *     *     *'
-
         if current_user.account.bell.blank?
             # insert reference to the core account
             current_user.account.bell = CloudTeam::Account.new
