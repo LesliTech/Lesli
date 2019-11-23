@@ -241,6 +241,23 @@ ActiveRecord::Schema.define(version: 1010211) do
   create_table "settings", force: :cascade do |t|
   end
 
+  create_table "translation_strings", force: :cascade do |t|
+    t.string "entry"
+    t.string "lang_en"
+    t.string "lang_es"
+    t.string "lang_de"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.bigint "translations_id"
+    t.index ["translations_id"], name: "index_translation_strings_on_translations_id"
+  end
+
+  create_table "translations", force: :cascade do |t|
+    t.string "file"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
   create_table "users", force: :cascade do |t|
     t.string "email", default: "", null: false
     t.string "encrypted_password", default: "", null: false
@@ -295,5 +312,6 @@ ActiveRecord::Schema.define(version: 1010211) do
   add_foreign_key "lock_roles", "locks", column: "locks_id"
   add_foreign_key "locks", "accounts", column: "id"
   add_foreign_key "settings", "accounts", column: "id"
+  add_foreign_key "translation_strings", "translations", column: "translations_id"
   add_foreign_key "users", "accounts", column: "accounts_id"
 end
