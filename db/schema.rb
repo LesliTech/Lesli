@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 1010211) do
+ActiveRecord::Schema.define(version: 7020309) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -46,6 +46,15 @@ ActiveRecord::Schema.define(version: 1010211) do
     t.index ["record_type", "record_id", "name", "blob_id"], name: "index_active_storage_attachments_uniqueness", unique: true
   end
 
+  create_table "active_storage_attachments2", force: :cascade do |t|
+    t.string "name", null: false
+    t.string "record_type", null: false
+    t.bigint "record_id", null: false
+    t.bigint "blob_id", null: false
+    t.datetime "created_at", null: false
+    t.index ["blob_id"], name: "index_active_storage_attachments2_on_blob_id"
+  end
+
   create_table "active_storage_blobs", force: :cascade do |t|
     t.string "key", null: false
     t.string "filename", null: false
@@ -55,6 +64,17 @@ ActiveRecord::Schema.define(version: 1010211) do
     t.string "checksum", null: false
     t.datetime "created_at", null: false
     t.index ["key"], name: "index_active_storage_blobs_on_key", unique: true
+  end
+
+  create_table "active_storage_blobs2", force: :cascade do |t|
+    t.string "key", null: false
+    t.string "filename", null: false
+    t.string "content_type"
+    t.text "metadata"
+    t.bigint "byte_size", null: false
+    t.string "checksum", null: false
+    t.datetime "created_at", null: false
+    t.index ["key"], name: "index_active_storage_blobs2_on_key", unique: true
   end
 
   create_table "bell_emails", force: :cascade do |t|
@@ -86,6 +106,175 @@ ActiveRecord::Schema.define(version: 1010211) do
   end
 
   create_table "bells", force: :cascade do |t|
+  end
+
+  create_table "cloud_help_accounts", force: :cascade do |t|
+  end
+
+  create_table "cloud_help_sla_assignments", force: :cascade do |t|
+    t.string "next_sla"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.bigint "cloud_help_ticket_types_id"
+    t.bigint "cloud_help_ticket_categories_id"
+    t.bigint "cloud_help_slas_id"
+    t.index ["cloud_help_slas_id"], name: "help_sla_assignments_slas"
+    t.index ["cloud_help_ticket_categories_id"], name: "help_ticket_sla_assignments_categories"
+    t.index ["cloud_help_ticket_types_id"], name: "help_ticket_sla_assignments_types"
+  end
+
+  create_table "cloud_help_slas", force: :cascade do |t|
+    t.string "name"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.bigint "cloud_help_accounts_id"
+    t.index ["cloud_help_accounts_id"], name: "index_cloud_help_slas_on_cloud_help_accounts_id"
+  end
+
+  create_table "cloud_help_ticket_actions", force: :cascade do |t|
+    t.integer "type"
+    t.string "instructions"
+    t.datetime "deadline"
+    t.boolean "complete"
+    t.string "tags"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.bigint "cloud_help_tickets_id"
+    t.index ["cloud_help_tickets_id"], name: "index_cloud_help_ticket_actions_on_cloud_help_tickets_id"
+  end
+
+  create_table "cloud_help_ticket_activities", force: :cascade do |t|
+    t.integer "type"
+    t.string "value"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.bigint "cloud_help_tickets_id"
+    t.index ["cloud_help_tickets_id"], name: "index_cloud_help_ticket_activities_on_cloud_help_tickets_id"
+  end
+
+  create_table "cloud_help_ticket_categories", force: :cascade do |t|
+    t.string "name"
+    t.string "ancestry"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.bigint "cloud_help_accounts_id"
+    t.index ["ancestry"], name: "index_cloud_help_ticket_categories_on_ancestry"
+    t.index ["cloud_help_accounts_id"], name: "index_cloud_help_ticket_categories_on_cloud_help_accounts_id"
+  end
+
+  create_table "cloud_help_ticket_details", force: :cascade do |t|
+    t.string "subject"
+    t.text "description"
+    t.string "tags"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.bigint "cloud_help_ticket_types_id"
+    t.bigint "cloud_help_ticket_workflows_id"
+    t.bigint "cloud_help_ticket_priorities_id"
+    t.bigint "cloud_help_ticket_sources_id"
+    t.bigint "cloud_help_ticket_categories_id"
+    t.bigint "cloud_help_tickets_id"
+    t.index ["cloud_help_ticket_categories_id"], name: "help_ticket_details_categories"
+    t.index ["cloud_help_ticket_priorities_id"], name: "help_ticket_details_priorities"
+    t.index ["cloud_help_ticket_sources_id"], name: "help_ticket_details_sources"
+    t.index ["cloud_help_ticket_types_id"], name: "help_ticket_details_types"
+    t.index ["cloud_help_ticket_workflows_id"], name: "help_ticket_details_workflows"
+    t.index ["cloud_help_tickets_id"], name: "index_cloud_help_ticket_details_on_cloud_help_tickets_id"
+  end
+
+  create_table "cloud_help_ticket_discussions", force: :cascade do |t|
+    t.text "content"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.bigint "cloud_help_ticket_discussions_id"
+    t.bigint "users_id"
+    t.bigint "cloud_help_tickets_id"
+    t.index ["cloud_help_ticket_discussions_id"], name: "ticket_comments"
+    t.index ["cloud_help_tickets_id"], name: "index_cloud_help_ticket_discussions_on_cloud_help_tickets_id"
+    t.index ["users_id"], name: "index_cloud_help_ticket_discussions_on_users_id"
+  end
+
+  create_table "cloud_help_ticket_files", force: :cascade do |t|
+    t.string "name"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.bigint "cloud_help_tickets_id"
+    t.index ["cloud_help_tickets_id"], name: "index_cloud_help_ticket_files_on_cloud_help_tickets_id"
+  end
+
+  create_table "cloud_help_ticket_followers", force: :cascade do |t|
+    t.datetime "deleted_at"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.bigint "cloud_help_tickets_id"
+    t.bigint "users_id"
+    t.index ["cloud_help_tickets_id"], name: "index_cloud_help_ticket_followers_on_cloud_help_tickets_id"
+    t.index ["users_id"], name: "index_cloud_help_ticket_followers_on_users_id"
+  end
+
+  create_table "cloud_help_ticket_priorities", force: :cascade do |t|
+    t.string "name"
+    t.integer "weight"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.bigint "cloud_help_accounts_id"
+    t.index ["cloud_help_accounts_id"], name: "index_cloud_help_ticket_priorities_on_cloud_help_accounts_id"
+  end
+
+  create_table "cloud_help_ticket_sources", force: :cascade do |t|
+    t.string "name"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.bigint "cloud_help_accounts_id"
+    t.index ["cloud_help_accounts_id"], name: "index_cloud_help_ticket_sources_on_cloud_help_accounts_id"
+  end
+
+  create_table "cloud_help_ticket_states", force: :cascade do |t|
+    t.string "name"
+    t.boolean "initial", default: false
+    t.boolean "final", default: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.bigint "cloud_help_accounts_id"
+    t.index ["cloud_help_accounts_id"], name: "index_cloud_help_ticket_states_on_cloud_help_accounts_id"
+  end
+
+  create_table "cloud_help_ticket_timelines", force: :cascade do |t|
+    t.integer "action"
+    t.string "description"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.bigint "cloud_help_tickets_id"
+    t.index ["cloud_help_tickets_id"], name: "index_cloud_help_ticket_timelines_on_cloud_help_tickets_id"
+  end
+
+  create_table "cloud_help_ticket_types", force: :cascade do |t|
+    t.string "name"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.bigint "cloud_help_accounts_id"
+    t.index ["cloud_help_accounts_id"], name: "index_cloud_help_ticket_types_on_cloud_help_accounts_id"
+  end
+
+  create_table "cloud_help_ticket_workflows", force: :cascade do |t|
+    t.string "next_states"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.bigint "cloud_help_ticket_types_id"
+    t.bigint "cloud_help_ticket_categories_id"
+    t.bigint "cloud_help_ticket_states_id"
+    t.index ["cloud_help_ticket_categories_id"], name: "help_ticket_workflows_categories"
+    t.index ["cloud_help_ticket_states_id"], name: "help_ticket_workflows_states"
+    t.index ["cloud_help_ticket_types_id"], name: "help_ticket_workflows_types"
+  end
+
+  create_table "cloud_help_tickets", force: :cascade do |t|
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.bigint "users_id"
+    t.bigint "cloud_help_accounts_id"
+    t.index ["cloud_help_accounts_id"], name: "index_cloud_help_tickets_on_cloud_help_accounts_id"
+    t.index ["users_id"], name: "index_cloud_help_tickets_on_users_id"
   end
 
   create_table "cloud_team_accounts", force: :cascade do |t|
@@ -323,6 +512,36 @@ ActiveRecord::Schema.define(version: 1010211) do
   add_foreign_key "bell_notifications", "bells", column: "bells_id"
   add_foreign_key "bell_notifications", "users", column: "users_id"
   add_foreign_key "bells", "accounts", column: "id"
+  add_foreign_key "cloud_help_accounts", "accounts", column: "id"
+  add_foreign_key "cloud_help_sla_assignments", "cloud_help_slas", column: "cloud_help_slas_id"
+  add_foreign_key "cloud_help_sla_assignments", "cloud_help_ticket_categories", column: "cloud_help_ticket_categories_id"
+  add_foreign_key "cloud_help_sla_assignments", "cloud_help_ticket_types", column: "cloud_help_ticket_types_id"
+  add_foreign_key "cloud_help_slas", "cloud_help_accounts", column: "cloud_help_accounts_id"
+  add_foreign_key "cloud_help_ticket_actions", "cloud_help_tickets", column: "cloud_help_tickets_id"
+  add_foreign_key "cloud_help_ticket_activities", "cloud_help_tickets", column: "cloud_help_tickets_id"
+  add_foreign_key "cloud_help_ticket_categories", "cloud_help_accounts", column: "cloud_help_accounts_id"
+  add_foreign_key "cloud_help_ticket_details", "cloud_help_ticket_categories", column: "cloud_help_ticket_categories_id"
+  add_foreign_key "cloud_help_ticket_details", "cloud_help_ticket_priorities", column: "cloud_help_ticket_priorities_id"
+  add_foreign_key "cloud_help_ticket_details", "cloud_help_ticket_sources", column: "cloud_help_ticket_sources_id"
+  add_foreign_key "cloud_help_ticket_details", "cloud_help_ticket_types", column: "cloud_help_ticket_types_id"
+  add_foreign_key "cloud_help_ticket_details", "cloud_help_ticket_workflows", column: "cloud_help_ticket_workflows_id"
+  add_foreign_key "cloud_help_ticket_details", "cloud_help_tickets", column: "cloud_help_tickets_id"
+  add_foreign_key "cloud_help_ticket_discussions", "cloud_help_ticket_discussions", column: "cloud_help_ticket_discussions_id"
+  add_foreign_key "cloud_help_ticket_discussions", "cloud_help_tickets", column: "cloud_help_tickets_id"
+  add_foreign_key "cloud_help_ticket_discussions", "users", column: "users_id"
+  add_foreign_key "cloud_help_ticket_files", "cloud_help_tickets", column: "cloud_help_tickets_id"
+  add_foreign_key "cloud_help_ticket_followers", "cloud_help_tickets", column: "cloud_help_tickets_id"
+  add_foreign_key "cloud_help_ticket_followers", "users", column: "users_id"
+  add_foreign_key "cloud_help_ticket_priorities", "cloud_help_accounts", column: "cloud_help_accounts_id"
+  add_foreign_key "cloud_help_ticket_sources", "cloud_help_accounts", column: "cloud_help_accounts_id"
+  add_foreign_key "cloud_help_ticket_states", "cloud_help_accounts", column: "cloud_help_accounts_id"
+  add_foreign_key "cloud_help_ticket_timelines", "cloud_help_tickets", column: "cloud_help_tickets_id"
+  add_foreign_key "cloud_help_ticket_types", "cloud_help_accounts", column: "cloud_help_accounts_id"
+  add_foreign_key "cloud_help_ticket_workflows", "cloud_help_ticket_categories", column: "cloud_help_ticket_categories_id"
+  add_foreign_key "cloud_help_ticket_workflows", "cloud_help_ticket_states", column: "cloud_help_ticket_states_id"
+  add_foreign_key "cloud_help_ticket_workflows", "cloud_help_ticket_types", column: "cloud_help_ticket_types_id"
+  add_foreign_key "cloud_help_tickets", "cloud_help_accounts", column: "cloud_help_accounts_id"
+  add_foreign_key "cloud_help_tickets", "users", column: "users_id"
   add_foreign_key "cloud_team_accounts", "accounts", column: "id"
   add_foreign_key "cloud_team_employee_actions", "cloud_team_employees", column: "cloud_team_employees_id"
   add_foreign_key "cloud_team_employee_activities", "cloud_team_employees", column: "cloud_team_employees_id"
