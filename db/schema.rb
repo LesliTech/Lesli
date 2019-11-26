@@ -279,6 +279,13 @@ ActiveRecord::Schema.define(version: 1010211) do
     t.datetime "updated_at", precision: 6, null: false
   end
 
+  create_table "user_details", force: :cascade do |t|
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.bigint "users_id"
+    t.index ["users_id"], name: "index_user_details_on_users_id"
+  end
+
   create_table "users", force: :cascade do |t|
     t.string "email", default: "", null: false
     t.string "encrypted_password", default: "", null: false
@@ -335,5 +342,6 @@ ActiveRecord::Schema.define(version: 1010211) do
   add_foreign_key "locks", "accounts", column: "id"
   add_foreign_key "settings", "accounts", column: "id"
   add_foreign_key "translation_strings", "translations", column: "translations_id"
+  add_foreign_key "user_details", "users", column: "users_id"
   add_foreign_key "users", "accounts", column: "accounts_id"
 end
