@@ -38,6 +38,7 @@ import VueRouter from 'vue-router'
 import pluginBus from 'LesliCloud/vue/plugins/bus'
 import pluginUrl from 'LesliCloud/vue/plugins/url'
 import pluginHttp from 'LesliCloud/vue/plugins/http'
+import pluginDate from 'LesliCloud/vue/plugins/date'
 
 
 
@@ -66,6 +67,7 @@ Vue.use(pluginBus)
 Vue.use(VueRouter)
 Vue.use(pluginUrl)
 Vue.use(pluginHttp)
+Vue.use(pluginDate)
 Vue.component('component-layout-empty-data', componentLayoutEmptyData)
 
 
