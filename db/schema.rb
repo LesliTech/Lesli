@@ -454,6 +454,7 @@ ActiveRecord::Schema.define(version: 7020309) do
   create_table "translation_strings", force: :cascade do |t|
     t.string "entry"
     t.string "lang_en"
+    t.json "lang_en_j"
     t.string "lang_es"
     t.string "lang_de"
     t.datetime "created_at", precision: 6, null: false

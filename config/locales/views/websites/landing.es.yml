@@ -1,4 +1,6 @@
-es:
-    websites:
-        landing:
-            hello: "hello funciona"
+---
+:en:
+  :websites:
+    :landing:
+      :hello: hello works
+--- {}
