@@ -56,7 +56,6 @@ export default {
         }
     },
     mounted() {
-        this.getFiles()
         this.bus.subscribe("show:/module/app/files", () => this.show = !this.show )
         this.bus.subscribe(`post:/${this.cloudModule}/files`, () => this.getFiles() )
     },
@@ -69,6 +68,13 @@ export default {
             }).catch(error => {
                 console.log(error)
             })
+        }
+    },
+    watch: {
+        cloudId(){
+            if(this.cloudId){
+                this.getFiles()
+            }
         }
     }
 }
