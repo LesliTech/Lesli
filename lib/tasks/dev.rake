@@ -1,5 +1,66 @@
 namespace :dev do
 
+    desc ""
+    task translations: :environment do
+
+        translation_files = Dir[Rails.root.join('config', 'locales', '**','**','**','**')]
+        translation_files = Dir[Rails.root.join('config', 'locales', '*')]
+
+        entries = YAML.load_file(translation_files[2]).first
+
+        lang = entries[0]
+        name_space = ''
+
+        translation_file = Translation.find_or_create_by({
+            file: translation_files[2]
+        })
+
+        def recursive_entry(entries, name_space, fileid)
+            if entries.is_a?(Array)
+                if entries[1].is_a?(Hash)
+                    name_space = name_space + entries.first + '.'
+                    recursive_entry(entries[1], name_space, fileid)
+                else
+                    TranslationString.create({
+                        entry: name_space + entries[0],
+                        lang_en: entries[1],
+                        translations_id: fileid
+                    })
+                end
+            end
+
+            if entries.is_a?(Hash)
+                entries.each do |entry|
+                    if entry.is_a?(Array)
+                        recursive_entry(entry, name_space, fileid)
+                    end
+                end
+            end
+
+        end
+
+        recursive_entry(entries[1], lang + '.', translation_file.id)
+
+    end
+
+    desc ""
+    task translation_generate: :environment do
+
+        translation_strings = []
+        translation_strings_raw = TranslationString.all
+
+        translation_strings_raw.each_with_index do |string, index|
+            translation_strings.push({
+                "#{string.entry}": string.lang_en
+            })
+        end
+
+        File.open(Rails.root.join("test.yml"), "w") do |file|
+            file.write(translation_strings.to_yaml)
+        end
+
+    end
+
     namespace :git do
 
         desc "Push everything to github master"

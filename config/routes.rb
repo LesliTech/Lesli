@@ -1,6 +1,8 @@
 Rails.application.routes.draw do
 
-  
+  namespace :user do
+    resources :details
+  end
     devise_for :users,
     :controllers => { 
         :registrations => "users/registrations",
@@ -43,6 +45,8 @@ Rails.application.routes.draw do
 
         extend RoutesAssistant
         extend RoutesBell
+
+        resources :translations
 
     end
 

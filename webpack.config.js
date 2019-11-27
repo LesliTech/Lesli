@@ -55,13 +55,14 @@ function webpackConfigBuilder(compilationMode) {
             ]
         },
         entry: {
+            "accounts_new": "./app/vue/accounts/new.js",
             "websites_landing": "./app/vue/websites/landing.js",
             "users/sessions_new": "./app/vue/users/sessions_new.js",
-            "users/registrations_new": "./app/vue/users/registrations_new.js",
-            "users/confirmations_new": "./app/vue/users/confirmations_new.js",
             "users/passwords_new": "./app/vue/users/passwords_new.js",
             "users/passwords_edit": "./app/vue/users/passwords_edit.js",
-            "accounts_new": "./app/vue/accounts/new.js",
+            "users/registrations_new": "./app/vue/users/registrations_new.js",
+            "users/confirmations_new": "./app/vue/users/confirmations_new.js",
+            "bell/notifications_index": "./app/vue/bell/notifications_index.js",
             "assistants/lesli_dashboard": "./app/vue/assistants/lesli_dashboard.js"
         },
         output: {

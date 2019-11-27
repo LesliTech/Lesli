@@ -1,0 +1,2 @@
+class TranslationString < ApplicationRecord
+end
