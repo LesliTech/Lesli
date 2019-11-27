@@ -46,18 +46,35 @@ namespace :dev do
     desc ""
     task translation_generate: :environment do
 
-        translation_strings = []
+
+        file = File.new(Rails.root.join("test.yml"), "w+")
+
         translation_strings_raw = TranslationString.all
 
-        translation_strings_raw.each_with_index do |string, index|
-            translation_strings.push({
-                "#{string.entry}": string.lang_en
-            })
+        translation_strings_raw.each do |string|
+
+            
+            key = ''
+            value = string[:lang_en]
+
+            name_spaces = string[:entry].split('.').each do
+                key.insert(0, "    ")
+            end
+
+
+            p string
+            p name_spaces.last
+            p '#' + key + '#'
+            p '~     ~     ~     ~     ~     ~     ~     ~     ~     ~     ~     ~     ~     ~'
+            file.write(key + name_spaces.last + ': ' + value + "\n")
+
         end
 
-        File.open(Rails.root.join("test.yml"), "w") do |file|
-            file.write(translation_strings.to_yaml)
-        end
+        file.close
+
+        #File.open(Rails.root.join("test.yml"), "w") do |file|
+        #    file.write(translation_strings.to_yaml)
+        #end
 
     end
 

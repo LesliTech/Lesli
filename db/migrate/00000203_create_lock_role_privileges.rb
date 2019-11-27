@@ -1,6 +1,7 @@
 class CreateLockRolePrivileges < ActiveRecord::Migration[6.0]
     def change
         create_table :lock_role_privileges do |t|
+            t.string :subject #, required: true
             t.boolean :privilege_get, default: false
             t.boolean :privilege_post, default: false
             t.boolean :privilege_put, default: false
