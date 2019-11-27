@@ -50,7 +50,6 @@ export default {
         }
     },
     mounted() {
-        this.getActions()
         this.bus.$on(`post:/${this.cloudModule}/actions`, () => {
             this.getActions()
         })
@@ -89,6 +88,13 @@ export default {
             })
         }
 
+    },
+    watch: {
+        cloudId(){
+            if(this.cloudId){
+                this.getActions()
+            }
+        }
     }
 }
 </script>

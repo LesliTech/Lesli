@@ -41,7 +41,6 @@ export default {
         }
     },
     mounted() {
-        this.getDiscussions()
         this.bus.$on("post:components/forms/discussion", () => {
             this.getDiscussions()
         })
@@ -60,8 +59,10 @@ export default {
 
     },
     watch: {
-        cloudObjectId() {
-            this.getDiscussions()
+        cloudId(){
+            if(this.cloudId){
+                this.getDiscussions()
+            }
         }
     }
 }
