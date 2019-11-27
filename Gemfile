@@ -47,8 +47,8 @@ gem 'haml-rails'
 # Use postgresql as the database for Active Record
 gem 'pg', '>= 0.18', '< 2.0'
 
-# Add can can gem to authorization and roles permissions
-gem "cancan"
+# Add can can can gem to authorization and roles permissions
+gem "cancancan"
 
 # ActsAsParanoid
 gem 'acts_as_paranoid'

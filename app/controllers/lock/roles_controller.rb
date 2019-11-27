@@ -29,7 +29,6 @@ class Lock::RolesController < ApplicationController
       render :new
     end
   end
-
   # PATCH/PUT /lock/roles/1
   def update
     if @lock_role.update(lock_role_params)

@@ -1,4 +1,4 @@
-class Courier::NotificationJob < ApplicationJob
+class Courier::Bell::NotificationJob < ApplicationJob
     queue_as :default
     def perform(user:, subject:, body:nil, href:nil, format:'info')
         Bell::Notification.new({
