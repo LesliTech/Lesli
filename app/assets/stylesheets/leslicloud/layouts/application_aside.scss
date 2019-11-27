@@ -36,7 +36,7 @@ aside {
     margin-left: -301px;
     background-color: lesli-color(standard, white);
     transition: all linear .2s;
-    height: 100%;
+    height: calc(100% - 60px);
 
     &.show,
     &:hover {

@@ -17,7 +17,6 @@ LesliCloud - Your Smart Business Assistant
 Powered by https://www.lesli.tech
 Building a better future, one line of code at a time.
 
-@dev      Luis Donis <ldonis@lesli.tech>
 @author   LesliTech <hello@lesli.tech>
 @license  Propietary - all rights reserved.
 @version  0.1.0-alpha
@@ -78,7 +77,7 @@ export default {
                 <div class="media-content">
                     <div class="content">
                         <p>
-                            <strong>John Smith</strong>
+                            <strong>{{ discussion.email }}</strong>
                             <small>{{ discussion.created_at }}</small>
                         </p>
                         <div v-html="discussion.content"></div>

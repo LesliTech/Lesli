@@ -2,3 +2,9 @@
 en:
     hello: "hello works"
     hola2: "hola2 works"
+    subindex1:
+        subindex1_string1: "subindex 1 string 1"
+        subindex1_string2: "subindex 1 string 2"
+        subindex2:
+            subindex2_string1: "subindex 2 string 1"
+            subindex2_string2: "subindex 2 string 2"
