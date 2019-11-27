@@ -7,6 +7,7 @@ class CreateTranslations < ActiveRecord::Migration[6.0]
         create_table :translation_strings do |t|
             t.string    :entry
             t.string    :lang_en
+            t.json      :lang_en_j
             t.string    :lang_es
             t.string    :lang_de
             t.timestamps
