@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_11_26_170845) do
+ActiveRecord::Schema.define(version: 404) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -87,18 +87,8 @@ ActiveRecord::Schema.define(version: 2019_11_26_170845) do
   create_table "bells", force: :cascade do |t|
   end
 
-  create_table "lock_role_overrides", force: :cascade do |t|
-    t.boolean "get", default: false
-    t.boolean "post", default: false
-    t.boolean "put", default: false
-    t.boolean "delete", default: false
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-    t.bigint "locks_id"
-    t.index ["locks_id"], name: "index_lock_role_overrides_on_locks_id"
-  end
-
   create_table "lock_role_privileges", force: :cascade do |t|
+    t.string "subject"
     t.boolean "privilege_get", default: false
     t.boolean "privilege_post", default: false
     t.boolean "privilege_put", default: false
@@ -118,8 +108,6 @@ ActiveRecord::Schema.define(version: 2019_11_26_170845) do
   end
 
   create_table "locks", force: :cascade do |t|
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
   end
 
   create_table "settings", force: :cascade do |t|
@@ -148,15 +136,6 @@ ActiveRecord::Schema.define(version: 2019_11_26_170845) do
     t.datetime "updated_at", precision: 6, null: false
     t.bigint "users_id"
     t.index ["users_id"], name: "index_user_details_on_users_id"
-  end
-
-  create_table "user_role_overrides", id: false, force: :cascade do |t|
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-    t.bigint "users_id"
-    t.bigint "lock_role_overrides_id"
-    t.index ["lock_role_overrides_id"], name: "index_user_role_overrides_on_lock_role_overrides_id"
-    t.index ["users_id"], name: "index_user_role_overrides_on_users_id"
   end
 
   create_table "users", force: :cascade do |t|
@@ -195,14 +174,11 @@ ActiveRecord::Schema.define(version: 2019_11_26_170845) do
   add_foreign_key "bell_notifications", "bells", column: "bells_id"
   add_foreign_key "bell_notifications", "users", column: "users_id"
   add_foreign_key "bells", "accounts", column: "id"
-  add_foreign_key "lock_role_overrides", "locks", column: "locks_id"
   add_foreign_key "lock_role_privileges", "lock_roles", column: "lock_roles_id"
   add_foreign_key "lock_roles", "locks", column: "locks_id"
   add_foreign_key "locks", "accounts", column: "id"
   add_foreign_key "settings", "accounts", column: "id"
   add_foreign_key "translation_strings", "translations", column: "translations_id"
   add_foreign_key "user_details", "users", column: "users_id"
-  add_foreign_key "user_role_overrides", "lock_role_overrides", column: "lock_role_overrides_id"
-  add_foreign_key "user_role_overrides", "users", column: "users_id"
   add_foreign_key "users", "accounts", column: "accounts_id"
 end
