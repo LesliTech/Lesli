@@ -1,7 +1,6 @@
 class ApplicationLesliController < ApplicationController
     before_action :check_valid_account
     before_action :check_account
-    before_action :check_detail
     before_action :authenticate_user
     
     layout 'layouts/application'
@@ -41,14 +40,6 @@ class ApplicationLesliController < ApplicationController
             privilege.lock_role = role
             privilege.save!
         end
-    end
-
-    def check_detail
-
-        return if current_user.detail.blank?
-        return if controller_name == "details"
-        redirect_to "/user/details/new" if current_user.details.blank?
-
     end
 
     def authenticate_user
