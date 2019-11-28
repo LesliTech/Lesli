@@ -1,8 +1,5 @@
 Rails.application.routes.draw do
 
-  namespace :user do
-    resources :details
-  end
     devise_for :users,
     :controllers => { 
         :registrations => "users/registrations",
@@ -11,6 +8,7 @@ Rails.application.routes.draw do
         :sessions => "users/sessions"
     },
     :path => "",
+    :path_prefix => "my",
     :path_names => {
         :sign_in  => 'login',
         :sign_out => 'logout',
@@ -18,6 +16,10 @@ Rails.application.routes.draw do
         :password => 'password',
         :confirmation => 'confirmation'
     }
+    resources :users
+    namespace :user do
+        resources :details
+    end
 
     authenticated :user do
 
@@ -33,7 +35,7 @@ Rails.application.routes.draw do
         mount CloudKb::Engine => "/kb" if defined?(CloudKb)
 
         resource :accounts
-
+        resources :translations
         resources :settings
 
         resources :locks
@@ -43,10 +45,12 @@ Rails.application.routes.draw do
             resources :role_privileges
         end
 
+        
+
         extend RoutesAssistant
         extend RoutesBell
 
-        resources :translations
+
 
     end
 

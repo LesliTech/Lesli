@@ -81,7 +81,7 @@
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 50);
+/******/ 	return __webpack_require__(__webpack_require__.s = 51);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -12032,7 +12032,7 @@
 
 }));
 
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(5), __webpack_require__(41).setImmediate))
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(5), __webpack_require__(40).setImmediate))
 
 /***/ }),
 /* 1 */
@@ -12042,7 +12042,7 @@
 
 
 var bind = __webpack_require__(7);
-var isBuffer = __webpack_require__(24);
+var isBuffer = __webpack_require__(23);
 
 /*global toString:true*/
 
@@ -12482,77 +12482,6 @@ function normalizeComponent (
 
 "use strict";
 
-// CONCATENATED MODULE: ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./app/vue/components/forms/progress_bar.vue?vue&type=template&id=3fb1ff25&
-var render = function() {
-  var _vm = this
-  var _h = _vm.$createElement
-  var _c = _vm._self._c || _h
-  return _c("span", [
-    _vm.active
-      ? _c("progress", {
-          staticClass: "progress is-very-small is-primary",
-          attrs: { max: "100" }
-        })
-      : _vm._e(),
-    _vm._v(" "),
-    !_vm.active
-      ? _c("progress", {
-          staticClass: "progress is-very-small is-primary",
-          attrs: { max: "100", value: "0" }
-        })
-      : _vm._e()
-  ])
-}
-var staticRenderFns = []
-render._withStripped = true
-
-
-// CONCATENATED MODULE: ./app/vue/components/forms/progress_bar.vue?vue&type=template&id=3fb1ff25&
-
-// CONCATENATED MODULE: ./node_modules/babel-loader/lib??ref--3!./node_modules/vue-loader/lib??vue-loader-options!./app/vue/components/forms/progress_bar.vue?vue&type=script&lang=js&
-/* harmony default export */ var progress_barvue_type_script_lang_js_ = ({
-  props: {
-    active: {
-      type: Boolean,
-      "default": false
-    }
-  }
-});
-// CONCATENATED MODULE: ./app/vue/components/forms/progress_bar.vue?vue&type=script&lang=js&
- /* harmony default export */ var forms_progress_barvue_type_script_lang_js_ = (progress_barvue_type_script_lang_js_); 
-// EXTERNAL MODULE: ./node_modules/vue-loader/lib/runtime/componentNormalizer.js
-var componentNormalizer = __webpack_require__(2);
-
-// CONCATENATED MODULE: ./app/vue/components/forms/progress_bar.vue
-
-
-
-
-
-/* normalize component */
-
-var component = Object(componentNormalizer["a" /* default */])(
-  forms_progress_barvue_type_script_lang_js_,
-  render,
-  staticRenderFns,
-  false,
-  null,
-  null,
-  null
-  
-)
-
-/* hot reload */
-if (false) { var api; }
-component.options.__file = "app/vue/components/forms/progress_bar.vue"
-/* harmony default export */ var progress_bar = __webpack_exports__["a"] = (component.exports);
-
-/***/ }),
-/* 4 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-
 // CONCATENATED MODULE: ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./app/vue/components/forms/notification.vue?vue&type=template&id=0a9ef40f&
 var render = function() {
   var _vm = this
@@ -12632,6 +12561,77 @@ var component = Object(componentNormalizer["a" /* default */])(
 if (false) { var api; }
 component.options.__file = "app/vue/components/forms/notification.vue"
 /* harmony default export */ var notification = __webpack_exports__["a"] = (component.exports);
+
+/***/ }),
+/* 4 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+
+// CONCATENATED MODULE: ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./app/vue/components/forms/progress_bar.vue?vue&type=template&id=3fb1ff25&
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("span", [
+    _vm.active
+      ? _c("progress", {
+          staticClass: "progress is-very-small is-primary",
+          attrs: { max: "100" }
+        })
+      : _vm._e(),
+    _vm._v(" "),
+    !_vm.active
+      ? _c("progress", {
+          staticClass: "progress is-very-small is-primary",
+          attrs: { max: "100", value: "0" }
+        })
+      : _vm._e()
+  ])
+}
+var staticRenderFns = []
+render._withStripped = true
+
+
+// CONCATENATED MODULE: ./app/vue/components/forms/progress_bar.vue?vue&type=template&id=3fb1ff25&
+
+// CONCATENATED MODULE: ./node_modules/babel-loader/lib??ref--3!./node_modules/vue-loader/lib??vue-loader-options!./app/vue/components/forms/progress_bar.vue?vue&type=script&lang=js&
+/* harmony default export */ var progress_barvue_type_script_lang_js_ = ({
+  props: {
+    active: {
+      type: Boolean,
+      "default": false
+    }
+  }
+});
+// CONCATENATED MODULE: ./app/vue/components/forms/progress_bar.vue?vue&type=script&lang=js&
+ /* harmony default export */ var forms_progress_barvue_type_script_lang_js_ = (progress_barvue_type_script_lang_js_); 
+// EXTERNAL MODULE: ./node_modules/vue-loader/lib/runtime/componentNormalizer.js
+var componentNormalizer = __webpack_require__(2);
+
+// CONCATENATED MODULE: ./app/vue/components/forms/progress_bar.vue
+
+
+
+
+
+/* normalize component */
+
+var component = Object(componentNormalizer["a" /* default */])(
+  forms_progress_barvue_type_script_lang_js_,
+  render,
+  staticRenderFns,
+  false,
+  null,
+  null,
+  null
+  
+)
+
+/* hot reload */
+if (false) { var api; }
+component.options.__file = "app/vue/components/forms/progress_bar.vue"
+/* harmony default export */ var progress_bar = __webpack_exports__["a"] = (component.exports);
 
 /***/ }),
 /* 5 */
@@ -15538,7 +15538,7 @@ module.exports = function isCancel(value) {
 /* WEBPACK VAR INJECTION */(function(process) {
 
 var utils = __webpack_require__(1);
-var normalizeHeaderName = __webpack_require__(29);
+var normalizeHeaderName = __webpack_require__(28);
 
 var DEFAULT_CONTENT_TYPE = {
   'Content-Type': 'application/x-www-form-urlencoded'
@@ -15834,10 +15834,10 @@ process.umask = function() { return 0; };
 
 
 var utils = __webpack_require__(1);
-var settle = __webpack_require__(30);
+var settle = __webpack_require__(29);
 var buildURL = __webpack_require__(8);
-var parseHeaders = __webpack_require__(32);
-var isURLSameOrigin = __webpack_require__(33);
+var parseHeaders = __webpack_require__(31);
+var isURLSameOrigin = __webpack_require__(32);
 var createError = __webpack_require__(13);
 
 module.exports = function xhrAdapter(config) {
@@ -15930,7 +15930,7 @@ module.exports = function xhrAdapter(config) {
     // This is only done if running in a standard browser environment.
     // Specifically not if we're in a web worker, or react-native.
     if (utils.isStandardBrowserEnv()) {
-      var cookies = __webpack_require__(34);
+      var cookies = __webpack_require__(33);
 
       // Add xsrf header
       var xsrfValue = (config.withCredentials || isURLSameOrigin(config.url)) && config.xsrfCookieName ?
@@ -16014,7 +16014,7 @@ module.exports = function xhrAdapter(config) {
 "use strict";
 
 
-var enhanceError = __webpack_require__(31);
+var enhanceError = __webpack_require__(30);
 
 /**
  * Create an Error with the specified message, config, error code, request and response.
@@ -16265,7 +16265,7 @@ Building a better future, one line of code at a time.
 /* 18 */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(23);
+module.exports = __webpack_require__(22);
 
 /***/ }),
 /* 19 */
@@ -16298,7 +16298,7 @@ Building a better future, one line of code at a time.
 // · 
 */
 
-module.exports = __webpack_require__(39)
+module.exports = __webpack_require__(38)
 
 
 /***/ }),
@@ -28289,90 +28289,6 @@ use(Buefy);
 
 /***/ }),
 /* 22 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(0);
-/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vue__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var buefy__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(21);
-/* harmony import */ var vue_router__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(6);
-/* harmony import */ var LesliCloud_vue_plugins_url__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(16);
-/* harmony import */ var LesliCloud_vue_plugins_http__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(17);
-/* harmony import */ var lesli_nodejs_debug_message_browser__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(19);
-/* harmony import */ var lesli_nodejs_debug_message_browser__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(lesli_nodejs_debug_message_browser__WEBPACK_IMPORTED_MODULE_5__);
-/* harmony import */ var LesliCloud_vue_functions_document_js__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(20);
-/*
-Lesli
-
-Copyright (c) 2019, Lesli Technologies, S. A.
-
-All the information provided by this website is protected by laws of Guatemala related 
-to industrial property, intellectual property, copyright and relative international laws. 
-Lesli Technologies, S. A. is the exclusive owner of all intellectual or industrial property
-rights of the code, texts, trade mark, design, pictures and any other information.
-Without the written permission of Lesli Technologies, S. A., any replication, modification,
-transmission, publication is strictly forbidden.
-For more information read the license file including with this software.
-
-LesliCloud - Your Smart Business Assistant
-
-Powered by https://www.lesli.tech
-Building a better future, one line of code at a time.
-
-@author   LesliTech <hello@lesli.tech>
-@license  Propietary - all rights reserved.
-@version  0.1.0-alpha
-
-// · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
-// · 
-*/
-// · Loading core framework and libraries
-// · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
-
-
- // · Loading app plugins
-// · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
-
-
- // · Loading app functions
-// · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
-
-
- // · Initializing frameworks, libraries and tools
-// · If the file is public accessible, and no extra components no websockets are created
-// · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
-
-vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(buefy__WEBPACK_IMPORTED_MODULE_1__[/* default */ "a"]);
-vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vue_router__WEBPACK_IMPORTED_MODULE_2__[/* default */ "a"]);
-vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(LesliCloud_vue_plugins_url__WEBPACK_IMPORTED_MODULE_3__[/* default */ "a"]);
-vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(LesliCloud_vue_plugins_http__WEBPACK_IMPORTED_MODULE_4__[/* default */ "a"]); // · Vue app
-// · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
-// · module: Main module
-// · app: List of individual apps loaded
-// · base_path: for vue router
-// · example: app("CloudHelp", "[list|new|edit|show]", "help/tickets", [])
-
-/* harmony default export */ __webpack_exports__["a"] = (function (module, apps, base_path) {
-  var routes = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : [];
-  // · Building Vue cloud app
-  var cloud = new vue__WEBPACK_IMPORTED_MODULE_0___default.a({
-    router: new vue_router__WEBPACK_IMPORTED_MODULE_2__[/* default */ "a"]({
-      linkActiveClass: 'is-active',
-      base: base_path,
-      mode: "history",
-      routes: routes
-    })
-  }); // · Mount app once DOM is ready
-
-  LesliCloud_vue_functions_document_js__WEBPACK_IMPORTED_MODULE_6__[/* default */ "a"].ready(function () {
-    cloud.$mount("#lesli-cloud-app");
-    if (false) {}
-    if (true) lesli_nodejs_debug_message_browser__WEBPACK_IMPORTED_MODULE_5___default.a.info("".concat(base_path, " ").concat(apps), module);
-  });
-});
-
-/***/ }),
-/* 23 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -28380,7 +28296,7 @@ vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(LesliCloud_vue_plugins_http__WEBP
 
 var utils = __webpack_require__(1);
 var bind = __webpack_require__(7);
-var Axios = __webpack_require__(25);
+var Axios = __webpack_require__(24);
 var mergeConfig = __webpack_require__(14);
 var defaults = __webpack_require__(10);
 
@@ -28416,14 +28332,14 @@ axios.create = function create(instanceConfig) {
 
 // Expose Cancel & CancelToken
 axios.Cancel = __webpack_require__(15);
-axios.CancelToken = __webpack_require__(37);
+axios.CancelToken = __webpack_require__(36);
 axios.isCancel = __webpack_require__(9);
 
 // Expose all/spread
 axios.all = function all(promises) {
   return Promise.all(promises);
 };
-axios.spread = __webpack_require__(38);
+axios.spread = __webpack_require__(37);
 
 module.exports = axios;
 
@@ -28432,7 +28348,7 @@ module.exports.default = axios;
 
 
 /***/ }),
-/* 24 */
+/* 23 */
 /***/ (function(module, exports) {
 
 /*!
@@ -28449,7 +28365,7 @@ module.exports = function isBuffer (obj) {
 
 
 /***/ }),
-/* 25 */
+/* 24 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -28457,8 +28373,8 @@ module.exports = function isBuffer (obj) {
 
 var utils = __webpack_require__(1);
 var buildURL = __webpack_require__(8);
-var InterceptorManager = __webpack_require__(26);
-var dispatchRequest = __webpack_require__(27);
+var InterceptorManager = __webpack_require__(25);
+var dispatchRequest = __webpack_require__(26);
 var mergeConfig = __webpack_require__(14);
 
 /**
@@ -28542,7 +28458,7 @@ module.exports = Axios;
 
 
 /***/ }),
-/* 26 */
+/* 25 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -28601,18 +28517,18 @@ module.exports = InterceptorManager;
 
 
 /***/ }),
-/* 27 */
+/* 26 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
 var utils = __webpack_require__(1);
-var transformData = __webpack_require__(28);
+var transformData = __webpack_require__(27);
 var isCancel = __webpack_require__(9);
 var defaults = __webpack_require__(10);
-var isAbsoluteURL = __webpack_require__(35);
-var combineURLs = __webpack_require__(36);
+var isAbsoluteURL = __webpack_require__(34);
+var combineURLs = __webpack_require__(35);
 
 /**
  * Throws a `Cancel` if cancellation has been requested.
@@ -28694,7 +28610,7 @@ module.exports = function dispatchRequest(config) {
 
 
 /***/ }),
-/* 28 */
+/* 27 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -28721,7 +28637,7 @@ module.exports = function transformData(data, headers, fns) {
 
 
 /***/ }),
-/* 29 */
+/* 28 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -28740,7 +28656,7 @@ module.exports = function normalizeHeaderName(headers, normalizedName) {
 
 
 /***/ }),
-/* 30 */
+/* 29 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -28772,7 +28688,7 @@ module.exports = function settle(resolve, reject, response) {
 
 
 /***/ }),
-/* 31 */
+/* 30 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -28821,7 +28737,7 @@ module.exports = function enhanceError(error, config, code, request, response) {
 
 
 /***/ }),
-/* 32 */
+/* 31 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -28881,7 +28797,7 @@ module.exports = function parseHeaders(headers) {
 
 
 /***/ }),
-/* 33 */
+/* 32 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -28956,7 +28872,7 @@ module.exports = (
 
 
 /***/ }),
-/* 34 */
+/* 33 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -29016,7 +28932,7 @@ module.exports = (
 
 
 /***/ }),
-/* 35 */
+/* 34 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -29037,7 +28953,7 @@ module.exports = function isAbsoluteURL(url) {
 
 
 /***/ }),
-/* 36 */
+/* 35 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -29058,7 +28974,7 @@ module.exports = function combineURLs(baseURL, relativeURL) {
 
 
 /***/ }),
-/* 37 */
+/* 36 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -29122,7 +29038,7 @@ module.exports = CancelToken;
 
 
 /***/ }),
-/* 38 */
+/* 37 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -29156,7 +29072,7 @@ module.exports = function spread(callback) {
 
 
 /***/ }),
-/* 39 */
+/* 38 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /*
@@ -29189,7 +29105,7 @@ Building a better future, one line of code at a time.
 
 // · Loading node modules
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
-let utils = __webpack_require__(40)
+let utils = __webpack_require__(39)
 
 
 // · 
@@ -29255,7 +29171,7 @@ module.exports = new browserDebugService
 
 
 /***/ }),
-/* 40 */
+/* 39 */
 /***/ (function(module, exports) {
 
 /*
@@ -29425,7 +29341,7 @@ module.exports = new Utils
 
 
 /***/ }),
-/* 41 */
+/* 40 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(global) {var scope = (typeof global !== "undefined" && global) ||
@@ -29481,7 +29397,7 @@ exports._unrefActive = exports.active = function(item) {
 };
 
 // setimmediate attaches itself to the global object
-__webpack_require__(42);
+__webpack_require__(41);
 // On some exotic environments, it's not clear which object `setimmediate` was
 // able to install onto.  Search each possibility in the same order as the
 // `setimmediate` library.
@@ -29495,7 +29411,7 @@ exports.clearImmediate = (typeof self !== "undefined" && self.clearImmediate) ||
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(5)))
 
 /***/ }),
-/* 42 */
+/* 41 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(global, process) {(function (global, undefined) {
@@ -29688,6 +29604,90 @@ exports.clearImmediate = (typeof self !== "undefined" && self.clearImmediate) ||
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(5), __webpack_require__(11)))
 
 /***/ }),
+/* 42 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(0);
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vue__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var buefy__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(21);
+/* harmony import */ var vue_router__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(6);
+/* harmony import */ var LesliCloud_vue_plugins_url__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(16);
+/* harmony import */ var LesliCloud_vue_plugins_http__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(17);
+/* harmony import */ var lesli_nodejs_debug_message_browser__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(19);
+/* harmony import */ var lesli_nodejs_debug_message_browser__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(lesli_nodejs_debug_message_browser__WEBPACK_IMPORTED_MODULE_5__);
+/* harmony import */ var LesliCloud_vue_functions_document_js__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(20);
+/*
+Lesli
+
+Copyright (c) 2019, Lesli Technologies, S. A.
+
+All the information provided by this website is protected by laws of Guatemala related 
+to industrial property, intellectual property, copyright and relative international laws. 
+Lesli Technologies, S. A. is the exclusive owner of all intellectual or industrial property
+rights of the code, texts, trade mark, design, pictures and any other information.
+Without the written permission of Lesli Technologies, S. A., any replication, modification,
+transmission, publication is strictly forbidden.
+For more information read the license file including with this software.
+
+LesliCloud - Your Smart Business Assistant
+
+Powered by https://www.lesli.tech
+Building a better future, one line of code at a time.
+
+@author   LesliTech <hello@lesli.tech>
+@license  Propietary - all rights reserved.
+@version  0.1.0-alpha
+
+// · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
+// · 
+*/
+// · Loading core framework and libraries
+// · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
+
+
+ // · Loading app plugins
+// · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
+
+
+ // · Loading app functions
+// · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
+
+
+ // · Initializing frameworks, libraries and tools
+// · If the file is public accessible, and no extra components no websockets are created
+// · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
+
+vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(buefy__WEBPACK_IMPORTED_MODULE_1__[/* default */ "a"]);
+vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vue_router__WEBPACK_IMPORTED_MODULE_2__[/* default */ "a"]);
+vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(LesliCloud_vue_plugins_url__WEBPACK_IMPORTED_MODULE_3__[/* default */ "a"]);
+vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(LesliCloud_vue_plugins_http__WEBPACK_IMPORTED_MODULE_4__[/* default */ "a"]); // · Vue app
+// · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
+// · module: Main module
+// · app: List of individual apps loaded
+// · base_path: for vue router
+// · example: app("CloudHelp", "[list|new|edit|show]", "help/tickets", [])
+
+/* harmony default export */ __webpack_exports__["a"] = (function (module, apps, base_path) {
+  var routes = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : [];
+  // · Building Vue cloud app
+  var cloud = new vue__WEBPACK_IMPORTED_MODULE_0___default.a({
+    router: new vue_router__WEBPACK_IMPORTED_MODULE_2__[/* default */ "a"]({
+      linkActiveClass: 'is-active',
+      base: base_path,
+      mode: "history",
+      routes: routes
+    })
+  }); // · Mount app once DOM is ready
+
+  LesliCloud_vue_functions_document_js__WEBPACK_IMPORTED_MODULE_6__[/* default */ "a"].ready(function () {
+    cloud.$mount("#lesli-cloud-app");
+    if (false) {}
+    if (true) lesli_nodejs_debug_message_browser__WEBPACK_IMPORTED_MODULE_5___default.a.info("".concat(base_path, " ").concat(apps), module);
+  });
+});
+
+/***/ }),
 /* 43 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -29695,7 +29695,7 @@ exports.clearImmediate = (typeof self !== "undefined" && self.clearImmediate) ||
 __webpack_require__.r(__webpack_exports__);
 
 // EXTERNAL MODULE: ./app/vue/public.js
-var vue_public = __webpack_require__(22);
+var vue_public = __webpack_require__(42);
 
 // CONCATENATED MODULE: ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./app/vue/users/apps/login.vue?vue&type=template&id=f6cb2dd0&
 var render = function() {
@@ -29903,10 +29903,10 @@ render._withStripped = true
 // CONCATENATED MODULE: ./app/vue/users/apps/login.vue?vue&type=template&id=f6cb2dd0&
 
 // EXTERNAL MODULE: ./app/vue/components/forms/notification.vue + 4 modules
-var notification = __webpack_require__(4);
+var notification = __webpack_require__(3);
 
 // EXTERNAL MODULE: ./app/vue/components/forms/progress_bar.vue + 4 modules
-var progress_bar = __webpack_require__(3);
+var progress_bar = __webpack_require__(4);
 
 // CONCATENATED MODULE: ./node_modules/babel-loader/lib??ref--3!./node_modules/vue-loader/lib??vue-loader-options!./app/vue/users/apps/login.vue?vue&type=script&lang=js&
 
@@ -31233,7 +31233,8 @@ Object(vue_public["a" /* default */])("Lesli", "[login|confirmation|register]", 
 /* 47 */,
 /* 48 */,
 /* 49 */,
-/* 50 */
+/* 50 */,
+/* 51 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
