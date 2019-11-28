@@ -35,7 +35,7 @@ class ApplicationLesliController < ApplicationController
             redirect_to root, notice: "Please Login to view that page!"
         end
     end
-
+    
     def check_valid_account
 
         return if current_user.blank?
@@ -74,10 +74,6 @@ class ApplicationLesliController < ApplicationController
             
         end
 
-    def authenticate_user
-        if !user_signed_in?
-          #  notice: "Please Login to view that page!"
-        end
-    end
 
+    end
 end
