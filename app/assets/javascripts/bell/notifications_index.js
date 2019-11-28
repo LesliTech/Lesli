@@ -30073,6 +30073,63 @@ var url = __webpack_require__(16);
 // EXTERNAL MODULE: ./app/vue/plugins/http.js
 var http = __webpack_require__(17);
 
+// CONCATENATED MODULE: ./app/vue/plugins/date.js
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(source, true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(source).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+/* harmony default export */ var date = ({
+  install: function install(Vue, options) {
+    //date will be returned in standard format YYYY-MM-DD
+    var today = function today() {
+      var date = new Date(); //We do not use time so date type inputs will accept the value
+
+      return date.toISOString().substr(0, 10);
+    };
+
+    var date_options = {
+      year: 'numeric',
+      month: '2-digit',
+      day: '2-digit',
+      timeZone: 'UTC'
+    };
+
+    var datetime_options = _objectSpread({}, date_options, {}, {
+      hour: '2-digit',
+      minute: '2-digit',
+      second: '2-digit'
+    });
+
+    var full_date_options = _objectSpread({}, datetime_options, {}, {
+      weekday: 'long'
+    }); //date should be given in standard format YYYY-MM-DD
+
+
+    var toLocalFormat = function toLocalFormat(date) {
+      var include_time = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : false;
+      var full_date = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : false;
+      date = new Date(date);
+      var options = date_options;
+
+      if (include_time) {
+        options = datetime_options;
+      }
+
+      if (full_date) {
+        options = full_date_options;
+      }
+
+      return date.toLocaleDateString(I18n.currentLocale(), options);
+    };
+
+    Vue.prototype.date = {
+      today: today,
+      toLocalFormat: toLocalFormat
+    };
+  }
+});
 // EXTERNAL MODULE: ./node_modules/lesli-nodejs-debug-message/browser.js
 var browser = __webpack_require__(19);
 var browser_default = /*#__PURE__*/__webpack_require__.n(browser);
@@ -31076,6 +31133,7 @@ Building a better future, one line of code at a time.
 
 
 
+
  // · Loading app functions
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
 
@@ -31096,6 +31154,7 @@ vue_default.a.use(bus);
 vue_default.a.use(vue_router_esm["a" /* default */]);
 vue_default.a.use(url["a" /* default */]);
 vue_default.a.use(http["a" /* default */]);
+vue_default.a.use(date);
 vue_default.a.component('component-layout-empty-data', empty_data); // · Vue app
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
 // · module: Main module
@@ -31146,7 +31205,7 @@ vue_default.a.component('component-layout-empty-data', empty_data); // · Vue ap
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 
-// EXTERNAL MODULE: ./app/vue/app.js + 26 modules
+// EXTERNAL MODULE: ./app/vue/app.js + 27 modules
 var app = __webpack_require__(45);
 
 // CONCATENATED MODULE: ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./app/vue/bell/apps/list.vue?vue&type=template&id=04e42a74&

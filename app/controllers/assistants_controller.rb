@@ -8,6 +8,7 @@ class AssistantsController < ApplicationLesliController
             subject: 'New notification',
             href: '/test'
         )
+        #responseWithSuccessful([User.all, CourierService.call])
     end
 
 end
