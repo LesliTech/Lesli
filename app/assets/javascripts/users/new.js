@@ -81,7 +81,7 @@
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 55);
+/******/ 	return __webpack_require__(__webpack_require__.s = 56);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -31193,15 +31193,7 @@ vue_default.a.component('component-layout-empty-data', empty_data); // · Vue ap
 
 /***/ }),
 /* 46 */,
-/* 47 */,
-/* 48 */,
-/* 49 */,
-/* 50 */,
-/* 51 */,
-/* 52 */,
-/* 53 */,
-/* 54 */,
-/* 55 */
+/* 47 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -31210,47 +31202,115 @@ __webpack_require__.r(__webpack_exports__);
 // EXTERNAL MODULE: ./app/vue/app.js + 27 modules
 var app = __webpack_require__(45);
 
-// CONCATENATED MODULE: ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./app/vue/users/form.vue?vue&type=template&id=6847ff50&
+// CONCATENATED MODULE: ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./app/vue/users/apps/list.vue?vue&type=template&id=707ff1bf&
 var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", [
-    _c("button", { on: { click: _vm.create } }, [_vm._v("send")])
+  return _c("section", [
+    _c("div", { staticClass: "card" }, [
+      _c(
+        "div",
+        { staticClass: "card-header" },
+        [
+          _c(
+            "router-link",
+            { staticClass: "button is-link", attrs: { to: "/new" } },
+            [_vm._v("New user")]
+          ),
+          _vm._v(" "),
+          _c(
+            "router-link",
+            { staticClass: "button is-link", attrs: { to: "/invite" } },
+            [_vm._v("invite user")]
+          )
+        ],
+        1
+      ),
+      _vm._v(" "),
+      _c(
+        "div",
+        { staticClass: "card-content" },
+        [
+          _c("b-table", {
+            attrs: { data: _vm.users, columns: _vm.columns, hoverable: true },
+            on: { click: _vm.clickUser }
+          })
+        ],
+        1
+      )
+    ])
   ])
 }
 var staticRenderFns = []
 render._withStripped = true
 
 
-// CONCATENATED MODULE: ./app/vue/users/form.vue?vue&type=template&id=6847ff50&
+// CONCATENATED MODULE: ./app/vue/users/apps/list.vue?vue&type=template&id=707ff1bf&
 
-// CONCATENATED MODULE: ./node_modules/babel-loader/lib??ref--3!./node_modules/vue-loader/lib??vue-loader-options!./app/vue/users/form.vue?vue&type=script&lang=js&
-/* harmony default export */ var formvue_type_script_lang_js_ = ({
+// CONCATENATED MODULE: ./node_modules/babel-loader/lib??ref--3!./node_modules/vue-loader/lib??vue-loader-options!./app/vue/users/apps/list.vue?vue&type=script&lang=js&
+/*
+Lesli
+
+Copyright (c) 2019, Lesli Technologies, S. A.
+
+All the information provided by this website is protected by laws of Guatemala related 
+to industrial property, intellectual property, copyright and relative international laws. 
+Lesli Technologies, S. A. is the exclusive owner of all intellectual or industrial property
+rights of the code, texts, trade mark, design, pictures and any other information.
+Without the written permission of Lesli Technologies, S. A., any replication, modification,
+transmission, publication is strictly forbidden.
+For more information read the license file including with this software.
+
+LesliCloud - Your Smart Business Assistant
+
+Powered by https://www.lesli.tech
+Building a better future, one line of code at a time.
+
+@author   LesliTech <hello@lesli.tech>
+@license  Propietary - all rights reserved.
+@version  0.1.0-alpha
+
+// · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
+// · 
+*/
+/* harmony default export */ var listvue_type_script_lang_js_ = ({
+  data: function data() {
+    return {
+      users: [],
+      columns: [{
+        field: 'id',
+        label: 'ID'
+      }, {
+        field: 'email',
+        label: 'Email'
+      }]
+    };
+  },
+  mounted: function mounted() {
+    this.getUsers();
+  },
   methods: {
-    create: function create() {
-      this.http.post('/admin/users', {
-        user: {
-          email: 'prueba1@mail.com',
-          password: '123456sdd',
-          detail_attributes: {
-            name: 'ldonis'
-          }
-        }
-      }).then(function (result) {
-        return console.log(result);
+    getUsers: function getUsers() {
+      var _this = this;
+
+      this.http.get('/admin/users.json').then(function (result) {
+        _this.users = result.data;
       })["catch"](function (error) {
-        return console.log(error);
+        console.log(error);
       });
+    },
+    clickUser: function clickUser(user) {
+      this.$router.push("".concat(user.id));
     }
   }
 });
-// CONCATENATED MODULE: ./app/vue/users/form.vue?vue&type=script&lang=js&
- /* harmony default export */ var users_formvue_type_script_lang_js_ = (formvue_type_script_lang_js_); 
+// CONCATENATED MODULE: ./app/vue/users/apps/list.vue?vue&type=script&lang=js&
+ /* harmony default export */ var apps_listvue_type_script_lang_js_ = (listvue_type_script_lang_js_); 
 // EXTERNAL MODULE: ./node_modules/vue-loader/lib/runtime/componentNormalizer.js
 var componentNormalizer = __webpack_require__(2);
 
-// CONCATENATED MODULE: ./app/vue/users/form.vue
+// CONCATENATED MODULE: ./app/vue/users/apps/list.vue
 
 
 
@@ -31259,7 +31319,7 @@ var componentNormalizer = __webpack_require__(2);
 /* normalize component */
 
 var component = Object(componentNormalizer["a" /* default */])(
-  users_formvue_type_script_lang_js_,
+  apps_listvue_type_script_lang_js_,
   render,
   staticRenderFns,
   false,
@@ -31271,19 +31331,248 @@ var component = Object(componentNormalizer["a" /* default */])(
 
 /* hot reload */
 if (false) { var api; }
-component.options.__file = "app/vue/users/form.vue"
-/* harmony default export */ var users_form = (component.exports);
-// CONCATENATED MODULE: ./app/vue/users/new.js
+component.options.__file = "app/vue/users/apps/list.vue"
+/* harmony default export */ var list = (component.exports);
+// CONCATENATED MODULE: ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./app/vue/users/apps/invite.vue?vue&type=template&id=7e31f72c&
+var invitevue_type_template_id_7e31f72c_render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("section", [
+    _c("div", { staticClass: "card" }, [
+      _c("div", { staticClass: "card-header" }, [
+        _vm._v("\n            invite user\n        ")
+      ]),
+      _vm._v(" "),
+      _c("div", { staticClass: "card-content" }, [
+        _c("form", [
+          _c("div", { staticClass: "field" }, [
+            _c("label", { staticClass: "label" }, [_vm._v("Name")]),
+            _vm._v(" "),
+            _c("div", { staticClass: "control" }, [
+              _c("input", {
+                directives: [
+                  {
+                    name: "model",
+                    rawName: "v-model",
+                    value: _vm.user.detail_attributes.name,
+                    expression: "user.detail_attributes.name"
+                  }
+                ],
+                staticClass: "input",
+                attrs: { type: "text", placeholder: "Text input" },
+                domProps: { value: _vm.user.detail_attributes.name },
+                on: {
+                  input: function($event) {
+                    if ($event.target.composing) {
+                      return
+                    }
+                    _vm.$set(
+                      _vm.user.detail_attributes,
+                      "name",
+                      $event.target.value
+                    )
+                  }
+                }
+              })
+            ])
+          ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "field" }, [
+            _c("label", { staticClass: "label" }, [_vm._v("Email")]),
+            _vm._v(" "),
+            _c("div", { staticClass: "control" }, [
+              _c("input", {
+                directives: [
+                  {
+                    name: "model",
+                    rawName: "v-model",
+                    value: _vm.user.email,
+                    expression: "user.email"
+                  }
+                ],
+                staticClass: "input",
+                attrs: { type: "text", placeholder: "Text input" },
+                domProps: { value: _vm.user.email },
+                on: {
+                  input: function($event) {
+                    if ($event.target.composing) {
+                      return
+                    }
+                    _vm.$set(_vm.user, "email", $event.target.value)
+                  }
+                }
+              })
+            ])
+          ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "field" }, [
+            _c("label", { staticClass: "label" }, [_vm._v("Message")]),
+            _vm._v(" "),
+            _c("div", { staticClass: "control" }, [
+              _c("textarea", {
+                directives: [
+                  {
+                    name: "model",
+                    rawName: "v-model",
+                    value: _vm.user.detail_attributes.message,
+                    expression: "user.detail_attributes.message"
+                  }
+                ],
+                staticClass: "textarea",
+                attrs: { placeholder: "Textarea" },
+                domProps: { value: _vm.user.detail_attributes.message },
+                on: {
+                  input: function($event) {
+                    if ($event.target.composing) {
+                      return
+                    }
+                    _vm.$set(
+                      _vm.user.detail_attributes,
+                      "message",
+                      $event.target.value
+                    )
+                  }
+                }
+              })
+            ])
+          ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "field is-grouped" }, [
+            _c("div", { staticClass: "control" }, [
+              _c(
+                "button",
+                {
+                  staticClass: "button is-link",
+                  on: { click: _vm.postInvite }
+                },
+                [_vm._v("Submit")]
+              )
+            ])
+          ])
+        ])
+      ])
+    ])
+  ])
+}
+var invitevue_type_template_id_7e31f72c_staticRenderFns = []
+invitevue_type_template_id_7e31f72c_render._withStripped = true
+
+
+// CONCATENATED MODULE: ./app/vue/users/apps/invite.vue?vue&type=template&id=7e31f72c&
+
+// CONCATENATED MODULE: ./node_modules/babel-loader/lib??ref--3!./node_modules/vue-loader/lib??vue-loader-options!./app/vue/users/apps/invite.vue?vue&type=script&lang=js&
+/*
+Lesli
+
+Copyright (c) 2019, Lesli Technologies, S. A.
+
+All the information provided by this website is protected by laws of Guatemala related 
+to industrial property, intellectual property, copyright and relative international laws. 
+Lesli Technologies, S. A. is the exclusive owner of all intellectual or industrial property
+rights of the code, texts, trade mark, design, pictures and any other information.
+Without the written permission of Lesli Technologies, S. A., any replication, modification,
+transmission, publication is strictly forbidden.
+For more information read the license file including with this software.
+
+LesliCloud - Your Smart Business Assistant
+
+Powered by https://www.lesli.tech
+Building a better future, one line of code at a time.
+
+@author   LesliTech <hello@lesli.tech>
+@license  Propietary - all rights reserved.
+@version  0.1.0-alpha
+
+// · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
+// · 
+*/
+/* harmony default export */ var invitevue_type_script_lang_js_ = ({
+  data: function data() {
+    return {
+      user: {
+        email: 'ldonis.emc2@gmail.com',
+        detail_attributes: {
+          name: 'Luis Donis',
+          message: 'Welcome to the jungle!'
+        }
+      }
+    };
+  },
+  mounted: function mounted() {},
+  methods: {
+    postInvite: function postInvite(e) {
+      e.preventDefault();
+      this.http.post('/admin/users', {
+        user: this.user
+      }).then(function (result) {
+        console.log(result);
+      })["catch"](function (error) {
+        console.log(error);
+      });
+    }
+  }
+});
+// CONCATENATED MODULE: ./app/vue/users/apps/invite.vue?vue&type=script&lang=js&
+ /* harmony default export */ var apps_invitevue_type_script_lang_js_ = (invitevue_type_script_lang_js_); 
+// CONCATENATED MODULE: ./app/vue/users/apps/invite.vue
+
+
+
+
+
+/* normalize component */
+
+var invite_component = Object(componentNormalizer["a" /* default */])(
+  apps_invitevue_type_script_lang_js_,
+  invitevue_type_template_id_7e31f72c_render,
+  invitevue_type_template_id_7e31f72c_staticRenderFns,
+  false,
+  null,
+  null,
+  null
+  
+)
+
+/* hot reload */
+if (false) { var invite_api; }
+invite_component.options.__file = "app/vue/users/apps/invite.vue"
+/* harmony default export */ var invite = (invite_component.exports);
+// CONCATENATED MODULE: ./app/vue/users/index.js
+/*
+
+*/
  // · Import apps and components
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
+
 
  // · Cloud app
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
 
-Object(app["a" /* default */])("CloudCore", "[dashdfdsafdasfdboard]", "/admin/users/new", [{
+Object(app["a" /* default */])("AdminUsers", "[list]", "/admin/users", [{
   path: '/',
-  component: users_form
+  component: list
+}, {
+  path: '/new',
+  component: invite
 }]);
+
+/***/ }),
+/* 48 */,
+/* 49 */,
+/* 50 */,
+/* 51 */,
+/* 52 */,
+/* 53 */,
+/* 54 */,
+/* 55 */,
+/* 56 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _index__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(47);
+
 
 /***/ })
 /******/ ]);
