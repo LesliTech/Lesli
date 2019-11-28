@@ -1,10 +1,16 @@
 class UsersController < ApplicationLesliController
   before_action :set_user, only: [:show, :edit, :update, :destroy]
 
-  # GET /Users
-  def index
-    @users = User.all
-  end
+    # GET /Users
+    def index
+        users = current_user.account.users
+            .left_joins(:detail)
+            .order(:id)
+        respond_to do |format|
+            format.html {  }
+            format.json { responseWithSuccessful(users) }
+        end
+    end
 
   # GET /Users/1
   def show
@@ -21,13 +27,6 @@ class UsersController < ApplicationLesliController
 
   # POST /Users
   def create
-
-    p '*     *     *     *     *     *     *     *     *     *     *     *     *     *'
-    p '*     *     *     *     *     *     *     *     *     *     *     *     *     *'
-    p '*     *     *     *     *     *     *     *     *     *     *     *     *     *'
-    p '*     *     *     *     *     *     *     *     *     *     *     *     *     *'
-    p '*     *     *     *     *     *     *     *     *     *     *     *     *     *'
-    p params
 
     @user = User.new(user_params)
     if @user.save
