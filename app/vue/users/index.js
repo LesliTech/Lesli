@@ -8,6 +8,7 @@ import app from 'LesliCloud/vue/app'
 // · Import apps and components
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
 import componentList from './apps/list.vue'
+import componentInvite from './apps/invite.vue'
 
 
 
@@ -16,4 +17,7 @@ import componentList from './apps/list.vue'
 app("AdminUsers", "[list]", "/admin/users", [{
     path :'/',
     component: componentList
+}, {
+    path :'/new',
+    component: componentInvite
 }])

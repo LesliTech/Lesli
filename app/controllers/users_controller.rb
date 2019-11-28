@@ -16,25 +16,33 @@ class UsersController < ApplicationLesliController
   def show
   end
 
-  # GET /Users/new
-  def new
-    @user = User.new
-  end
+    # GET /Users/new
+    def new
+    end
 
   # GET /Users/1/edit
   def edit
   end
 
-  # POST /Users
-  def create
+    # POST /Users
+    def create
 
-    @user = User.new(user_params)
-    if @user.save
-        responseWithSuccessful(@user)
-    else
-        responseWithError("error creating employee", @user.errors.full_messages)
+        generated_password = Devise.friendly_token.first(64)
+
+        @user = User.new(user_params)
+
+        @user.password = generated_password
+        @user.password_confirmation = generated_password
+        @user.accounts_id = current_user.account.id
+        @user.confirm
+
+        if @user.save
+            responseWithSuccessful(@user)
+        else
+            responseWithError("error creating user", @user.errors.full_messages)
+        end
+
     end
-  end
 
   # PATCH/PUT /Users/1
   def update
@@ -51,10 +59,15 @@ class UsersController < ApplicationLesliController
     redirect_to Users_url, notice: 'user was successfully destroyed.'
   end
 
-  private
+    private
+
     # Use callbacks to share common setup or constraints between actions.
     def set_user
-      @user = user.find(params[:id])
+
+        user_id = params[:id] unless params[:id].blank?
+        user_id = params[:user_id] unless params[:user_id].blank?
+        @user = User.find(params[:id])
+
     end
 
     # Only allow a trusted parameter "white list" through.
@@ -70,4 +83,5 @@ class UsersController < ApplicationLesliController
             ]
         )
     end
+
 end
