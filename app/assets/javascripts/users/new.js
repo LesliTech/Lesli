@@ -31229,7 +31229,7 @@ render._withStripped = true
 /* harmony default export */ var formvue_type_script_lang_js_ = ({
   methods: {
     create: function create() {
-      this.http.post('/users', {
+      this.http.post('/admin/users', {
         user: {
           email: 'prueba1@mail.com',
           password: '123456sdd',
@@ -31280,7 +31280,7 @@ component.options.__file = "app/vue/users/form.vue"
  // · Cloud app
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
 
-Object(app["a" /* default */])("CloudCore", "[dashdfdsafdasfdboard]", "/users/new", [{
+Object(app["a" /* default */])("CloudCore", "[dashdfdsafdasfdboard]", "/admin/users/new", [{
   path: '/',
   component: users_form
 }]);

@@ -3,7 +3,7 @@ export default {
     
     methods: {
         create() {
-            this.http.post('/users', {
+            this.http.post('/admin/users', {
                 user: {
                     email: 'prueba1@mail.com',
                     password: '123456sdd',

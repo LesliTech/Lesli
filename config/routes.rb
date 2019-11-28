@@ -8,7 +8,6 @@ Rails.application.routes.draw do
         :sessions => "users/sessions"
     },
     :path => "",
-    :path_prefix => "my",
     :path_names => {
         :sign_in  => 'login',
         :sign_out => 'logout',
@@ -16,9 +15,12 @@ Rails.application.routes.draw do
         :password => 'password',
         :confirmation => 'confirmation'
     }
-    resources :users
-    namespace :user do
-        resources :details
+    
+    scope "admin" do
+        resources :users
+        namespace :user do
+            resources :details
+        end
     end
 
     authenticated :user do
