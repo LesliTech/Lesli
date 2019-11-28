@@ -15,13 +15,6 @@ Rails.application.routes.draw do
         :password => 'password',
         :confirmation => 'confirmation'
     }
-    
-    scope "admin" do
-        resources :users
-        namespace :user do
-            resources :details
-        end
-    end
 
     authenticated :user do
 
@@ -47,12 +40,15 @@ Rails.application.routes.draw do
             resources :role_privileges
         end
 
-        
+        scope "admin" do
+            resources :users
+            namespace :user do
+                resources :details
+            end
+        end
 
         extend RoutesAssistant
         extend RoutesBell
-
-
 
     end
 
