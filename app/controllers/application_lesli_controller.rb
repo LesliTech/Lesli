@@ -1,7 +1,7 @@
 class ApplicationLesliController < ApplicationController
     before_action :check_valid_account
-    before_action :check_account_with_bell
     before_action :check_account
+    before_action :check_detail
     before_action :authenticate_user
     
     layout 'layouts/application'
@@ -14,18 +14,13 @@ class ApplicationLesliController < ApplicationController
         redirect_to "/accounts/new" if current_user.account.blank?
 
     end
-
-    def check_account_with_bell
-        if current_user.account.bell.blank?
+    
+    def check_account
+        if current_user.account.lock.blank? && current_user.account.bell.blank?
             # insert reference to the core account
             current_user.account.bell = Bell.new
             current_user.account.bell.account = current_user.account
             current_user.account.bell.save!
-        end
-    end
-    
-    def check_account
-        if current_user.account.lock.blank?
             #Create a Lock for account
             current_user.account.lock = Lock.new
             current_user.account.lock.account = current_user.account
@@ -48,9 +43,17 @@ class ApplicationLesliController < ApplicationController
         end
     end
 
+    def check_detail
+
+        return if current_user.detail.blank?
+        return if controller_name == "details"
+        redirect_to "/user/details/new" if current_user.details.blank?
+
+    end
+
     def authenticate_user
         if !user_signed_in?
-            redirect_to root, notice: "Please Login to view that page!"
+          #  notice: "Please Login to view that page!"
         end
     end
 
