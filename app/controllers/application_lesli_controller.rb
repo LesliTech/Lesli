@@ -74,6 +74,8 @@ class ApplicationLesliController < ApplicationController
             
         end
 
+    end
+
     def authenticate_user
         if !user_signed_in?
           #  notice: "Please Login to view that page!"
