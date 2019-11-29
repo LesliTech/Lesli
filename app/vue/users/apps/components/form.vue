@@ -2,24 +2,20 @@
 export default {
        data(){
       return{
+        user_id: null,
         user: {
-            email: '',
-            password: '',
         }
       }
    },
     methods: {
-        create() {
-            this.http.post('/admin/users', {
-                user: {
-                    email: 'prueba1@mail.com',
-                    password: '123456sdd',
-                    detail_attributes: {
-                        name: 'ldonis'
-                    }
+        getEmployee() {
+            this.http.get(`/admin/users/${this.user_id}.json`).then(result => {
+                if (result.successful) {
+                    this.user = result.data
                 }
-            }).then(result => console.log(result))
-            .catch(error => console.log(error))
+            }).catch(error => {
+                console.log(error)
+            })
         },
         postEmployee(e) {
             if (e) { e.preventDefault() }
