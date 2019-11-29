@@ -14,7 +14,27 @@ class UsersController < ApplicationLesliController
 
   # GET /Users/1
   def show
-  end
+    user = current_user.account.users
+        .joins(:detail)
+        .select( 
+            :id, :first_name, :last_name, :telephone, :address
+        ).find(@user.id)
+    respond_to do |format|  
+        format.html {  }
+        format.json { 
+            responseWithSuccessful({
+                id: user[:id],
+                detail_attributes: {
+                    id: user[:id],
+                    first_name: user[:first_name],
+                    last_name: user[:last_name],
+                    telephone: user[:telephone],
+                    address: user[:address]
+                }
+            }) 
+        }
+    end
+end
 
     # GET /Users/new
     def new
