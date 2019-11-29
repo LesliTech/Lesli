@@ -31,7 +31,7 @@ export default {
             user: {
                 email: 'ldonis.emc2@gmail.com',
                 detail_attributes: {
-                    name: 'Luis Donis',
+                    first_name: 'Luis',
                     message: 'Welcome to the jungle!'
                 }
             }
@@ -68,7 +68,7 @@ export default {
                     <div class="field">
                         <label class="label">Name</label>
                         <div class="control">
-                            <input class="input" type="text" placeholder="Text input" v-model="user.detail_attributes.name">
+                            <input class="input" type="text" placeholder="Text input" v-model="user.detail_attributes.first_name">
                         </div>
                     </div>
                     <div class="field">
