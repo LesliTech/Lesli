@@ -37,29 +37,39 @@ export default {
     <section class="section">
         <div class="card">
             <div class="card-header">
-                <h4 class="card-header-title">Nuevo Usuario</h4>
+                <h4 class="card-header-title">New user</h4>
+                <input class="button is-primary" type="submit" value="Edit" required>
+                <input class="button is-danger" type="submit" value="Destroy" required>
+                
             </div>
             <div class="card-content">
                 <form @submit="postEmployee">
-                    <div class="field">
-                        <div class="control">
-                            <input 
-                                class="input is-primary" type="text" placeholder="Correo" required
-                                v-model="user.email">
-                        </div>
-                    </div>
-                    <div class="field" style="margin-top: 10px">
-                        <div class="control">
-                            <input 
-                                class="input is-primary" type="text" placeholder="password" required
-                                v-model="user.password">
-                        </div>
-                    </div>
-                    <div class="field">
-                        <div class="control">
-                            <input class="button is-primary" type="submit" value="Crear" required>
-                        </div>
-                    </div>
+                       <div class="columns">
+                                <div class="column is-4">
+                                    <label class="label">First name</label>
+                                    <div class="control">
+                                        <input 
+                                            class="input is-primary" type="text" placeholder="Luis"
+                                            >
+                                    </div>        
+                                </div>
+                                <div class="column is-4">
+                                    <label class="label">Last name</label>
+                                    <div class="control">
+                                        <input 
+                                            class="input is-primary" type="text" placeholder="Davila"
+                                           >
+                                    </div>        
+                                </div>
+                                <div class="column is-4">
+                                    <label class="label"> Street </label>
+                                    <div class="control">
+                                        <input 
+                                            class="input is-primary" type="text" placeholder="3rt street"
+                                           >
+                                    </div>        
+                                </div>
+                            </div>
                 </form>
             </div>
         </div>

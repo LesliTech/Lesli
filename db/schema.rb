@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 404) do
+ActiveRecord::Schema.define(version: 1010211) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -88,6 +88,153 @@ ActiveRecord::Schema.define(version: 404) do
   create_table "bells", force: :cascade do |t|
   end
 
+  create_table "cloud_team_accounts", force: :cascade do |t|
+  end
+
+  create_table "cloud_team_employee_actions", force: :cascade do |t|
+    t.integer "type"
+    t.string "instructions"
+    t.datetime "deadline"
+    t.boolean "complete"
+    t.string "tags"
+    t.datetime "deleted_at"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.bigint "cloud_team_employees_id"
+    t.index ["cloud_team_employees_id"], name: "index_cloud_team_employee_actions_on_cloud_team_employees_id"
+    t.index ["deleted_at"], name: "index_cloud_team_employee_actions_on_deleted_at"
+  end
+
+  create_table "cloud_team_employee_activities", force: :cascade do |t|
+    t.integer "type"
+    t.string "value"
+    t.datetime "deleted_at"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.bigint "cloud_team_employees_id"
+    t.index ["cloud_team_employees_id"], name: "index_cloud_team_employee_activities_on_cloud_team_employees_id"
+    t.index ["deleted_at"], name: "index_cloud_team_employee_activities_on_deleted_at"
+  end
+
+  create_table "cloud_team_employee_contact_details", force: :cascade do |t|
+    t.string "work_telephone"
+    t.string "work_mobile"
+    t.string "work_email"
+    t.string "work_address"
+    t.string "work_location"
+    t.string "personal_mobile_number"
+    t.string "personal_phone_number"
+    t.string "personal_email_address"
+    t.string "address"
+    t.string "location"
+    t.datetime "deleted_at"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.bigint "cloud_team_employees_id"
+    t.index ["cloud_team_employees_id"], name: "team_employee_contact_details_employees"
+    t.index ["deleted_at"], name: "index_cloud_team_employee_contact_details_on_deleted_at"
+  end
+
+  create_table "cloud_team_employee_contact_emergency_details", force: :cascade do |t|
+    t.string "full_name"
+    t.string "relation"
+    t.string "phone_number_1"
+    t.string "phone_number_2"
+    t.string "full_address"
+    t.datetime "deleted_at"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.bigint "cloud_team_employees_id"
+    t.index ["cloud_team_employees_id"], name: "team_employee_contact_emergency_details_employees"
+    t.index ["deleted_at"], name: "team_employee_contact_emergency_details_deleted_at"
+  end
+
+  create_table "cloud_team_employee_details", force: :cascade do |t|
+    t.string "first_name"
+    t.string "second_name"
+    t.string "third_name"
+    t.string "surname"
+    t.string "second_surname"
+    t.string "married_name"
+    t.date "birthdate"
+    t.string "phone_number"
+    t.string "mobile_number"
+    t.string "fax"
+    t.string "email"
+    t.string "address"
+    t.string "location"
+    t.bigint "nationality_country_id"
+    t.string "identity_document_number"
+    t.string "passport_number"
+    t.integer "marital_status"
+    t.string "gender"
+    t.string "blood_group"
+    t.text "biography"
+    t.text "family_background"
+    t.text "health_details"
+    t.datetime "deleted_at"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.bigint "cloud_team_employees_id"
+    t.index ["cloud_team_employees_id"], name: "index_cloud_team_employee_details_on_cloud_team_employees_id"
+    t.index ["deleted_at"], name: "index_cloud_team_employee_details_on_deleted_at"
+  end
+
+  create_table "cloud_team_employee_discussions", force: :cascade do |t|
+    t.text "content"
+    t.datetime "deleted_at"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.bigint "cloud_team_employee_discussions_id"
+    t.bigint "users_id"
+    t.bigint "cloud_team_employees_id"
+    t.index ["cloud_team_employee_discussions_id"], name: "employee_discussions_discussions"
+    t.index ["cloud_team_employees_id"], name: "employee_discussions"
+    t.index ["deleted_at"], name: "index_cloud_team_employee_discussions_on_deleted_at"
+    t.index ["users_id"], name: "index_cloud_team_employee_discussions_on_users_id"
+  end
+
+  create_table "cloud_team_employee_files", force: :cascade do |t|
+    t.string "name"
+    t.datetime "deleted_at"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.bigint "cloud_team_employees_id"
+    t.index ["cloud_team_employees_id"], name: "index_cloud_team_employee_files_on_cloud_team_employees_id"
+    t.index ["deleted_at"], name: "index_cloud_team_employee_files_on_deleted_at"
+  end
+
+  create_table "cloud_team_employee_locations", force: :cascade do |t|
+    t.datetime "deleted_at"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.bigint "cloud_team_employees_id"
+    t.index ["cloud_team_employees_id"], name: "index_cloud_team_employee_locations_on_cloud_team_employees_id"
+    t.index ["deleted_at"], name: "index_cloud_team_employee_locations_on_deleted_at"
+  end
+
+  create_table "cloud_team_employee_social_accounts", force: :cascade do |t|
+    t.string "facebook"
+    t.string "twitter"
+    t.string "slack"
+    t.string "skype"
+    t.datetime "deleted_at"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.bigint "cloud_team_employees_id"
+    t.index ["cloud_team_employees_id"], name: "team_employee_social_account_employees"
+    t.index ["deleted_at"], name: "index_cloud_team_employee_social_accounts_on_deleted_at"
+  end
+
+  create_table "cloud_team_employees", force: :cascade do |t|
+    t.datetime "deleted_at"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.bigint "cloud_team_accounts_id"
+    t.index ["cloud_team_accounts_id"], name: "index_cloud_team_employees_on_cloud_team_accounts_id"
+    t.index ["deleted_at"], name: "index_cloud_team_employees_on_deleted_at"
+  end
+
   create_table "lock_role_privileges", force: :cascade do |t|
     t.string "subject"
     t.boolean "privilege_get", default: false
@@ -134,6 +281,10 @@ ActiveRecord::Schema.define(version: 404) do
 
   create_table "user_details", force: :cascade do |t|
     t.string "name"
+    t.string "first_name"
+    t.string "last_name"
+    t.string "telephone"
+    t.string "address"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.bigint "users_id"
@@ -177,6 +328,19 @@ ActiveRecord::Schema.define(version: 404) do
   add_foreign_key "bell_notifications", "bells", column: "bells_id"
   add_foreign_key "bell_notifications", "users", column: "users_id"
   add_foreign_key "bells", "accounts", column: "id"
+  add_foreign_key "cloud_team_accounts", "accounts", column: "id"
+  add_foreign_key "cloud_team_employee_actions", "cloud_team_employees", column: "cloud_team_employees_id"
+  add_foreign_key "cloud_team_employee_activities", "cloud_team_employees", column: "cloud_team_employees_id"
+  add_foreign_key "cloud_team_employee_contact_details", "cloud_team_employees", column: "cloud_team_employees_id"
+  add_foreign_key "cloud_team_employee_contact_emergency_details", "cloud_team_employees", column: "cloud_team_employees_id"
+  add_foreign_key "cloud_team_employee_details", "cloud_team_employees", column: "cloud_team_employees_id"
+  add_foreign_key "cloud_team_employee_discussions", "cloud_team_employee_discussions", column: "cloud_team_employee_discussions_id"
+  add_foreign_key "cloud_team_employee_discussions", "cloud_team_employees", column: "cloud_team_employees_id"
+  add_foreign_key "cloud_team_employee_discussions", "users", column: "users_id"
+  add_foreign_key "cloud_team_employee_files", "cloud_team_employees", column: "cloud_team_employees_id"
+  add_foreign_key "cloud_team_employee_locations", "cloud_team_employees", column: "cloud_team_employees_id"
+  add_foreign_key "cloud_team_employee_social_accounts", "cloud_team_employees", column: "cloud_team_employees_id"
+  add_foreign_key "cloud_team_employees", "cloud_team_accounts", column: "cloud_team_accounts_id"
   add_foreign_key "lock_role_privileges", "lock_roles", column: "lock_roles_id"
   add_foreign_key "lock_roles", "locks", column: "locks_id"
   add_foreign_key "locks", "accounts", column: "id"

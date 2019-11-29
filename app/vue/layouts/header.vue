@@ -126,11 +126,16 @@ export default {
                             </span>
                         </a>
 
-                        <a class="navbar-item" href="/admin/users">
+                        <a class="navbar-item" href="/admin/users/">
                             <figure class="image">
                                 <img class="is-rounded" src="https://placekitten.com/g/30/30" alt="profile thumbnail">
                             </figure>
                         </a>
+
+                        <a class="navbar-item" href="/admin/users">
+                            <i class="fas fa-users"></i>
+                        </a>
+
 
                         <a class="navbar-item" href="/logout">
                             <i class="fas fa-sign-out-alt"></i>

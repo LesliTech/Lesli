@@ -30493,7 +30493,9 @@ var headervue_type_template_id_3d30b590_render = function() {
               _vm._v(" "),
               _vm._m(0),
               _vm._v(" "),
-              _vm._m(1)
+              _vm._m(1),
+              _vm._v(" "),
+              _vm._m(2)
             ])
           ])
         ]
@@ -30508,7 +30510,7 @@ var headervue_type_template_id_3d30b590_staticRenderFns = [
     var _c = _vm._self._c || _h
     return _c(
       "a",
-      { staticClass: "navbar-item", attrs: { href: "/admin/users" } },
+      { staticClass: "navbar-item", attrs: { href: "/admin/users/" } },
       [
         _c("figure", { staticClass: "image" }, [
           _c("img", {
@@ -30520,6 +30522,16 @@ var headervue_type_template_id_3d30b590_staticRenderFns = [
           })
         ])
       ]
+    )
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c(
+      "a",
+      { staticClass: "navbar-item", attrs: { href: "/admin/users" } },
+      [_c("i", { staticClass: "fas fa-users" })]
     )
   },
   function() {
@@ -31711,69 +31723,7 @@ var formvue_type_template_id_32b5070c_render = function() {
       _vm._m(0),
       _vm._v(" "),
       _c("div", { staticClass: "card-content" }, [
-        _c("form", { on: { submit: _vm.postEmployee } }, [
-          _c("div", { staticClass: "field" }, [
-            _c("div", { staticClass: "control" }, [
-              _c("input", {
-                directives: [
-                  {
-                    name: "model",
-                    rawName: "v-model",
-                    value: _vm.user.email,
-                    expression: "user.email"
-                  }
-                ],
-                staticClass: "input is-primary",
-                attrs: { type: "text", placeholder: "Correo", required: "" },
-                domProps: { value: _vm.user.email },
-                on: {
-                  input: function($event) {
-                    if ($event.target.composing) {
-                      return
-                    }
-                    _vm.$set(_vm.user, "email", $event.target.value)
-                  }
-                }
-              })
-            ])
-          ]),
-          _vm._v(" "),
-          _c(
-            "div",
-            { staticClass: "field", staticStyle: { "margin-top": "10px" } },
-            [
-              _c("div", { staticClass: "control" }, [
-                _c("input", {
-                  directives: [
-                    {
-                      name: "model",
-                      rawName: "v-model",
-                      value: _vm.user.password,
-                      expression: "user.password"
-                    }
-                  ],
-                  staticClass: "input is-primary",
-                  attrs: {
-                    type: "text",
-                    placeholder: "password",
-                    required: ""
-                  },
-                  domProps: { value: _vm.user.password },
-                  on: {
-                    input: function($event) {
-                      if ($event.target.composing) {
-                        return
-                      }
-                      _vm.$set(_vm.user, "password", $event.target.value)
-                    }
-                  }
-                })
-              ])
-            ]
-          ),
-          _vm._v(" "),
-          _vm._m(1)
-        ])
+        _c("form", { on: { submit: _vm.postEmployee } }, [_vm._m(1)])
       ])
     ])
   ])
@@ -31784,19 +31734,55 @@ var formvue_type_template_id_32b5070c_staticRenderFns = [
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
     return _c("div", { staticClass: "card-header" }, [
-      _c("h4", { staticClass: "card-header-title" }, [_vm._v("Nuevo Usuario")])
+      _c("h4", { staticClass: "card-header-title" }, [_vm._v("New user")]),
+      _vm._v(" "),
+      _c("input", {
+        staticClass: "button is-primary",
+        attrs: { type: "submit", value: "Edit", required: "" }
+      }),
+      _vm._v(" "),
+      _c("input", {
+        staticClass: "button is-danger",
+        attrs: { type: "submit", value: "Destroy", required: "" }
+      })
     ])
   },
   function() {
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "field" }, [
-      _c("div", { staticClass: "control" }, [
-        _c("input", {
-          staticClass: "button is-primary",
-          attrs: { type: "submit", value: "Crear", required: "" }
-        })
+    return _c("div", { staticClass: "columns" }, [
+      _c("div", { staticClass: "column is-4" }, [
+        _c("label", { staticClass: "label" }, [_vm._v("First name")]),
+        _vm._v(" "),
+        _c("div", { staticClass: "control" }, [
+          _c("input", {
+            staticClass: "input is-primary",
+            attrs: { type: "text", placeholder: "Luis" }
+          })
+        ])
+      ]),
+      _vm._v(" "),
+      _c("div", { staticClass: "column is-4" }, [
+        _c("label", { staticClass: "label" }, [_vm._v("Last name")]),
+        _vm._v(" "),
+        _c("div", { staticClass: "control" }, [
+          _c("input", {
+            staticClass: "input is-primary",
+            attrs: { type: "text", placeholder: "Davila" }
+          })
+        ])
+      ]),
+      _vm._v(" "),
+      _c("div", { staticClass: "column is-4" }, [
+        _c("label", { staticClass: "label" }, [_vm._v(" Street ")]),
+        _vm._v(" "),
+        _c("div", { staticClass: "control" }, [
+          _c("input", {
+            staticClass: "input is-primary",
+            attrs: { type: "text", placeholder: "3rt street" }
+          })
+        ])
       ])
     ])
   }
