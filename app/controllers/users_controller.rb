@@ -76,10 +76,14 @@ class UsersController < ApplicationLesliController
             :id,
             :email,
             :password,
+            :password_confirmation,
             :created_at, 
             detail_attributes: [
                 :id,
-                :name
+                :first_name,
+                :last_name,
+                :telephone,
+                :address
             ]
         )
     end
