@@ -22,7 +22,7 @@ export default {
                 user: this.user
             }).then(result => {
                 if (result.successful) {
-                this.$router.push('/admin/users')
+                this.$router.push('/')
                 }
             }).catch(error => {
                 console.log(error)
@@ -70,13 +70,13 @@ export default {
                         <div class="column is-4">
                             <label class="label">Last name</label>
                             <input 
-                                class="input is-primary" type="text" placeholder="password" required
+                                class="input is-primary" type="text" placeholder="password" 
                                 v-model="user.detail_attributes.last_name">
                         </div>    
                         <div class="column is-4">
                             <label class="label">Telephone</label>
                             <input 
-                                class="input is-primary" type="text" placeholder="password" required
+                                class="input is-primary" type="text" placeholder="password" 
                                 v-model="user.detail_attributes.telephone">
                         </div>       
                     </div>
@@ -84,7 +84,7 @@ export default {
                         <div class="column is-4">
                             <label class="label">Address</label>
                             <input 
-                                class="input is-primary" type="text" placeholder="First name" required
+                                class="input is-primary" type="text" placeholder="First name" 
                                 v-model="user.detail_attributes.address">
                         </div>        
                         <div class="column is-4" style="padding: 2.75rem;">
