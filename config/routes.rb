@@ -29,32 +29,20 @@ Rails.application.routes.draw do
         mount CloudHelp::Engine => "/help" if defined?(CloudHelp)
         mount CloudKb::Engine => "/kb" if defined?(CloudKb)
 
-        resource :accounts
+        resources :accounts
         resources :translations
         resources :settings
 
-        resources :locks
-        namespace :lock do
-            resources :roles
-            resources :role_overrides
-            resources :role_privileges
-        end
-
-        scope "admin" do
-            resources :users
-            namespace :user do
-                resources :details
-            end
-        end
-
         extend RoutesAssistant
+        extend RoutesAdmin
+        extend RoutesLock
         extend RoutesBell
+
+        mount ActionCable.server => '/cable'
 
     end
 
     root to: "websites#landing", as: :root_unauthenticated
     root to: "websites#landing"
-
-    mount ActionCable.server => '/cable'
 
 end
