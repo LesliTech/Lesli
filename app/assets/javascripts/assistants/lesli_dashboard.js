@@ -30493,7 +30493,9 @@ var headervue_type_template_id_3d30b590_render = function() {
               _vm._v(" "),
               _vm._m(0),
               _vm._v(" "),
-              _vm._m(1)
+              _vm._m(1),
+              _vm._v(" "),
+              _vm._m(2)
             ])
           ])
         ]
@@ -30508,7 +30510,7 @@ var headervue_type_template_id_3d30b590_staticRenderFns = [
     var _c = _vm._self._c || _h
     return _c(
       "a",
-      { staticClass: "navbar-item", attrs: { href: "/admin/users" } },
+      { staticClass: "navbar-item", attrs: { href: "/admin/users/" } },
       [
         _c("figure", { staticClass: "image" }, [
           _c("img", {
@@ -30520,6 +30522,16 @@ var headervue_type_template_id_3d30b590_staticRenderFns = [
           })
         ])
       ]
+    )
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c(
+      "a",
+      { staticClass: "navbar-item", attrs: { href: "/admin/users" } },
+      [_c("i", { staticClass: "fas fa-users" })]
     )
   },
   function() {
