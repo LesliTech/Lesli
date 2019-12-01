@@ -11,21 +11,22 @@ import componentList from './apps/user/list.vue'
 import componentInvite from './apps/user/invite.vue'
 import appNewUser from './apps/user/new.vue'
 import appform from './apps/components/form.vue'
+import appShow from './apps/user/show.vue'
 
 
 
 // · Cloud app
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
-app("AdminUsers", "[list|new|show|edit]", "/admin/users", [{
+app("AdminUsers", "[list|new|invite|show|edit]", "/admin/users", [{
     path :'/',
-    component: componentList,
+    component: componentList, //list
 }, {
     path :'/new',
-    component: appNewUser,
+    component: appNewUser,  //new
 }, {
     path :'/invite',
-    component: componentInvite,
+    component: componentInvite,  //invite
 },{
     path :'/:id',
-    component: appform,
+    component: appShow, //show
 }])
