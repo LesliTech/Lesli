@@ -31706,7 +31706,7 @@ var newvue_type_template_id_c08c4a06_render = function() {
                   }
                 ],
                 staticClass: "input is-primary",
-                attrs: { type: "text", placeholder: "password", required: "" },
+                attrs: { type: "text", placeholder: "password" },
                 domProps: { value: _vm.user.detail_attributes.last_name },
                 on: {
                   input: function($event) {
@@ -31736,7 +31736,7 @@ var newvue_type_template_id_c08c4a06_render = function() {
                   }
                 ],
                 staticClass: "input is-primary",
-                attrs: { type: "text", placeholder: "password", required: "" },
+                attrs: { type: "text", placeholder: "password" },
                 domProps: { value: _vm.user.detail_attributes.telephone },
                 on: {
                   input: function($event) {
@@ -31768,11 +31768,7 @@ var newvue_type_template_id_c08c4a06_render = function() {
                   }
                 ],
                 staticClass: "input is-primary",
-                attrs: {
-                  type: "text",
-                  placeholder: "First name",
-                  required: ""
-                },
+                attrs: { type: "text", placeholder: "First name" },
                 domProps: { value: _vm.user.detail_attributes.address },
                 on: {
                   input: function($event) {
@@ -31859,7 +31855,7 @@ newvue_type_template_id_c08c4a06_render._withStripped = true
         user: this.user
       }).then(function (result) {
         if (result.successful) {
-          _this.$router.push('/admin/users');
+          _this.$router.push('/');
         }
       })["catch"](function (error) {
         console.log(error);
@@ -32231,6 +32227,353 @@ var form_component = Object(componentNormalizer["a" /* default */])(
 if (false) { var form_api; }
 form_component.options.__file = "app/vue/users/apps/components/form.vue"
 /* harmony default export */ var components_form = (form_component.exports);
+// CONCATENATED MODULE: ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./app/vue/users/apps/user/show.vue?vue&type=template&id=18515e20&
+var showvue_type_template_id_18515e20_render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("section", { staticClass: "section" }, [
+    _c("div", { staticClass: "card" }, [
+      _vm._m(0),
+      _vm._v(" "),
+      _c("div", { staticClass: "card-content" }, [
+        _c("form", { on: { submit: _vm.putDetail } }, [
+          _c("div", { staticClass: "columns" }, [
+            _c("div", { staticClass: "column is-4" }, [
+              _c("label", { staticClass: "label" }, [_vm._v("Email")]),
+              _vm._v(" "),
+              _c("input", {
+                directives: [
+                  {
+                    name: "model",
+                    rawName: "v-model",
+                    value: _vm.user.email,
+                    expression: "user.email"
+                  }
+                ],
+                staticClass: "input is-primary",
+                attrs: { type: "email", placeholder: "Email", required: "" },
+                domProps: { value: _vm.user.email },
+                on: {
+                  input: function($event) {
+                    if ($event.target.composing) {
+                      return
+                    }
+                    _vm.$set(_vm.user, "email", $event.target.value)
+                  }
+                }
+              })
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "column is-4" }, [
+              _c("label", { staticClass: "label" }, [_vm._v("Password")]),
+              _vm._v(" "),
+              _c("input", {
+                directives: [
+                  {
+                    name: "model",
+                    rawName: "v-model",
+                    value: _vm.user.password,
+                    expression: "user.password"
+                  }
+                ],
+                staticClass: "input is-primary",
+                attrs: {
+                  type: "password",
+                  placeholder: "Password",
+                  required: ""
+                },
+                domProps: { value: _vm.user.password },
+                on: {
+                  input: function($event) {
+                    if ($event.target.composing) {
+                      return
+                    }
+                    _vm.$set(_vm.user, "password", $event.target.value)
+                  }
+                }
+              })
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "column is-4" }, [
+              _c("label", { staticClass: "label" }, [
+                _vm._v("Password confirmation")
+              ]),
+              _vm._v(" "),
+              _c("input", {
+                directives: [
+                  {
+                    name: "model",
+                    rawName: "v-model",
+                    value: _vm.user.password_confirmation,
+                    expression: "user.password_confirmation"
+                  }
+                ],
+                staticClass: "input is-primary",
+                attrs: {
+                  type: "password",
+                  placeholder: "Password confirmation",
+                  required: ""
+                },
+                domProps: { value: _vm.user.password_confirmation },
+                on: {
+                  input: function($event) {
+                    if ($event.target.composing) {
+                      return
+                    }
+                    _vm.$set(
+                      _vm.user,
+                      "password_confirmation",
+                      $event.target.value
+                    )
+                  }
+                }
+              })
+            ])
+          ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "columns" }, [
+            _c("div", { staticClass: "column is-4" }, [
+              _c("label", { staticClass: "label" }, [_vm._v("First name")]),
+              _vm._v(" "),
+              _c("input", {
+                directives: [
+                  {
+                    name: "model",
+                    rawName: "v-model",
+                    value: _vm.user.detail_attributes.first_name,
+                    expression: "user.detail_attributes.first_name"
+                  }
+                ],
+                staticClass: "input is-primary",
+                attrs: {
+                  type: "text",
+                  placeholder: "First name",
+                  required: ""
+                },
+                domProps: { value: _vm.user.detail_attributes.first_name },
+                on: {
+                  input: function($event) {
+                    if ($event.target.composing) {
+                      return
+                    }
+                    _vm.$set(
+                      _vm.user.detail_attributes,
+                      "first_name",
+                      $event.target.value
+                    )
+                  }
+                }
+              })
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "column is-4" }, [
+              _c("label", { staticClass: "label" }, [_vm._v("Last name")]),
+              _vm._v(" "),
+              _c("input", {
+                directives: [
+                  {
+                    name: "model",
+                    rawName: "v-model",
+                    value: _vm.user.detail_attributes.last_name,
+                    expression: "user.detail_attributes.last_name"
+                  }
+                ],
+                staticClass: "input is-primary",
+                attrs: { type: "text", placeholder: "password", required: "" },
+                domProps: { value: _vm.user.detail_attributes.last_name },
+                on: {
+                  input: function($event) {
+                    if ($event.target.composing) {
+                      return
+                    }
+                    _vm.$set(
+                      _vm.user.detail_attributes,
+                      "last_name",
+                      $event.target.value
+                    )
+                  }
+                }
+              })
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "column is-4" }, [
+              _c("label", { staticClass: "label" }, [_vm._v("Telephone")]),
+              _vm._v(" "),
+              _c("input", {
+                directives: [
+                  {
+                    name: "model",
+                    rawName: "v-model",
+                    value: _vm.user.detail_attributes.telephone,
+                    expression: "user.detail_attributes.telephone"
+                  }
+                ],
+                staticClass: "input is-primary",
+                attrs: { type: "text", placeholder: "password", required: "" },
+                domProps: { value: _vm.user.detail_attributes.telephone },
+                on: {
+                  input: function($event) {
+                    if ($event.target.composing) {
+                      return
+                    }
+                    _vm.$set(
+                      _vm.user.detail_attributes,
+                      "telephone",
+                      $event.target.value
+                    )
+                  }
+                }
+              })
+            ])
+          ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "columns" }, [
+            _c("div", { staticClass: "column is-4" }, [
+              _c("label", { staticClass: "label" }, [_vm._v("Address")]),
+              _vm._v(" "),
+              _c("input", {
+                directives: [
+                  {
+                    name: "model",
+                    rawName: "v-model",
+                    value: _vm.user.detail_attributes.address,
+                    expression: "user.detail_attributes.address"
+                  }
+                ],
+                staticClass: "input is-primary",
+                attrs: {
+                  type: "text",
+                  placeholder: "First name",
+                  required: ""
+                },
+                domProps: { value: _vm.user.detail_attributes.address },
+                on: {
+                  input: function($event) {
+                    if ($event.target.composing) {
+                      return
+                    }
+                    _vm.$set(
+                      _vm.user.detail_attributes,
+                      "address",
+                      $event.target.value
+                    )
+                  }
+                }
+              })
+            ]),
+            _vm._v(" "),
+            _vm._m(1)
+          ])
+        ])
+      ])
+    ])
+  ])
+}
+var showvue_type_template_id_18515e20_staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "card-header" }, [
+      _c("h4", { staticClass: "card-header-title" }, [_vm._v("New user")])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c(
+      "div",
+      { staticClass: "column is-4", staticStyle: { padding: "2.75rem" } },
+      [
+        _c("div", { staticClass: "field" }, [
+          _c("div", { staticClass: "control" }, [
+            _c("input", {
+              staticClass: "button is-primary",
+              attrs: { type: "submit", value: "Save", required: "" }
+            })
+          ])
+        ])
+      ]
+    )
+  }
+]
+showvue_type_template_id_18515e20_render._withStripped = true
+
+
+// CONCATENATED MODULE: ./app/vue/users/apps/user/show.vue?vue&type=template&id=18515e20&
+
+// CONCATENATED MODULE: ./node_modules/babel-loader/lib??ref--3!./node_modules/vue-loader/lib??vue-loader-options!./app/vue/users/apps/user/show.vue?vue&type=script&lang=js&
+/* harmony default export */ var showvue_type_script_lang_js_ = ({
+  data: function data() {
+    return {
+      user_id: null,
+      user: {
+        detail_attributes: {}
+      }
+    };
+  },
+  mounted: function mounted() {
+    this.user_id = this.$route.params.id;
+    this.getUser();
+  },
+  methods: {
+    getUser: function getUser() {
+      var _this = this;
+
+      this.http.get("/admin/users/".concat(this.user_id, ".json")).then(function (result) {
+        if (result.successful) {
+          _this.user = result.data;
+        }
+      })["catch"](function (error) {
+        console.log(error);
+      });
+    },
+    putDetail: function putDetail(e) {
+      var _this2 = this;
+
+      if (e) {
+        e.preventDefault();
+      }
+
+      this.http.put("/admin/users/".concat(this.users_id), {
+        user: this.user
+      }).then(function (result) {
+        if (result.successful) {
+          _this2.alert("User updated successfuly");
+        }
+      })["catch"](function (error) {
+        console.log(error);
+      });
+    }
+  }
+});
+// CONCATENATED MODULE: ./app/vue/users/apps/user/show.vue?vue&type=script&lang=js&
+ /* harmony default export */ var user_showvue_type_script_lang_js_ = (showvue_type_script_lang_js_); 
+// CONCATENATED MODULE: ./app/vue/users/apps/user/show.vue
+
+
+
+
+
+/* normalize component */
+
+var show_component = Object(componentNormalizer["a" /* default */])(
+  user_showvue_type_script_lang_js_,
+  showvue_type_template_id_18515e20_render,
+  showvue_type_template_id_18515e20_staticRenderFns,
+  false,
+  null,
+  null,
+  null
+  
+)
+
+/* hot reload */
+if (false) { var show_api; }
+show_component.options.__file = "app/vue/users/apps/user/show.vue"
+/* harmony default export */ var show = (show_component.exports);
 // CONCATENATED MODULE: ./app/vue/users/index.js
 /*
 
@@ -32241,21 +32584,26 @@ form_component.options.__file = "app/vue/users/apps/components/form.vue"
 
 
 
+
  // · Cloud app
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
 
-Object(app["a" /* default */])("AdminUsers", "[list|new|show|edit]", "/admin/users", [{
+Object(app["a" /* default */])("AdminUsers", "[list|new|invite|show|edit]", "/admin/users", [{
   path: '/',
-  component: list
+  component: list //list
+
 }, {
   path: '/new',
-  component: user_new
+  component: user_new //new
+
 }, {
   path: '/invite',
-  component: invite
+  component: invite //invite
+
 }, {
   path: '/:id',
-  component: components_form
+  component: show //show
+
 }]);
 
 /***/ }),
