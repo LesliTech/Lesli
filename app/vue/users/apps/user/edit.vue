@@ -48,6 +48,6 @@ export default {
 </script>
 <template>
     <section v-if="user_id" class="section">
-        <component-form :is-editable="false" />
+        <component-form />
     </section>
 </template>
