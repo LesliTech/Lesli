@@ -35,7 +35,7 @@ Rails.application.routes.draw do
 
         extend RoutesAssistant
         extend RoutesAdmin
-        extend RoutesLock
+        #extend RoutesLock
         extend RoutesBell
 
         mount ActionCable.server => '/cable'

@@ -47,7 +47,8 @@
                         = image_tag "cloudpanel/brand/panel-logo.svg", alt: "CloudPanel logo"
                         panel
 
-            %li
-                = link_to "/lock" do
-                    = image_tag "cloudlock/brand/lock-logo.svg", alt: "CloudLock logo"
-                    lock
+            - if defined?(CloudLock)
+                %li
+                    = link_to "/lock" do
+                        = image_tag "cloudlock/brand/lock-logo.svg", alt: "CloudLock logo"
+                        lock
