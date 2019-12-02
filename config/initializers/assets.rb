@@ -29,6 +29,8 @@ Rails.application.config.assets.precompile += %w( websites_landing.js )
 Rails.application.config.assets.precompile += %w( accounts_new.js )
 
 Rails.application.config.assets.precompile += %w( users/index.js )
+Rails.application.config.assets.precompile += %w( users/show.js )
+Rails.application.config.assets.precompile += %w( users/edit.js )
 Rails.application.config.assets.precompile += %w( users/new.js )
 Rails.application.config.assets.precompile += %w( users/*.js )
 Rails.application.config.assets.precompile += %w( bell/*.js )
