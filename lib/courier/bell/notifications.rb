@@ -1,7 +1,7 @@
 module Courier
     module Bell
         class Notifications
-            def self.getNotifications(user:, subject:, body:nil, href:nil, format:'info')
+            def self.send(user:, subject:, body:nil, href:nil, format:'info')
                 ::Bell::Notification.new({
                     body: body,
                     href: href,
