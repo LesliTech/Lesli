@@ -1,8 +1,5 @@
 Rails.application.routes.draw do
 
-  namespace :user do
-    resources :details
-  end
     devise_for :users,
     :controllers => { 
         :registrations => "users/registrations",
@@ -32,27 +29,20 @@ Rails.application.routes.draw do
         mount CloudHelp::Engine => "/help" if defined?(CloudHelp)
         mount CloudKb::Engine => "/kb" if defined?(CloudKb)
 
-        resource :accounts
-
+        resources :accounts
+        resources :translations
         resources :settings
 
-        resources :locks
-        namespace :lock do
-            resources :roles
-            resources :role_overrides
-            resources :role_privileges
-        end
-
         extend RoutesAssistant
+        extend RoutesAdmin
+        extend RoutesLock
         extend RoutesBell
 
-        resources :translations
+        mount ActionCable.server => '/cable'
 
     end
 
     root to: "websites#landing", as: :root_unauthenticated
     root to: "websites#landing"
-
-    mount ActionCable.server => '/cable'
 
 end
