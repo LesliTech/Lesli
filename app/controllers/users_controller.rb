@@ -5,6 +5,7 @@ class UsersController < ApplicationLesliController
     def index
         users = current_user.account.users
             .left_joins(:detail)
+            .select(:id, :first_name, :last_name, :email)
             .order(:id)
         respond_to do |format|
             format.html {  }
