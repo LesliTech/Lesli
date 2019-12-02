@@ -1,4 +1,10 @@
 PATH
+  remote: engines/CloudHelp
+  specs:
+    cloud_help (0.1.0)
+      rails (~> 6.0.0)
+
+PATH
   remote: engines/CloudBell
   specs:
     cloud_bell (0.1.0)
@@ -258,6 +264,7 @@ DEPENDENCIES
   byebug
   cancancan
   cloud_bell!
+  cloud_help!
   cloud_lock!
   devise
   faker
