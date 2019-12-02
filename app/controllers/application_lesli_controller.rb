@@ -50,29 +50,6 @@ class ApplicationLesliController < ApplicationController
             current_user.account.bell = Bell.new
             current_user.account.bell.account = current_user.account
             current_user.account.bell.save!
-            #Create a Lock for account
-            current_user.account.lock = Lock.new
-            current_user.account.lock.account = current_user.account
-            current_user.account.lock.save!
-
-            #Create a Lock_role to the Lock
-            role= Lock::Role.new(
-                name: "admin", 
-                locks_id: current_user.account.lock.id)
-            role.lock = current_user.account.lock
-            role.save!
-
-            #Create privileges to the lock_roles
-            privilege = Lock::RolePrivilege.new(
-                privilege_get: true,
-                privilege_post: true,
-                privilege_put: true,
-                privilege_delete: true,
-                lock_roles_id: current_user.account.lock.lock_roles )
-            privilege.lock_role = role
-            privilege.save!
-            
         end
-
     end
 end
