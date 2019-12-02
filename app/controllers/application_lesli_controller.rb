@@ -25,7 +25,6 @@ Building a better future, one line of code at a time.
 =end
 class ApplicationLesliController < ApplicationController
     before_action :authenticate_user
-    before_action :check_valid_account
     before_action :check_account
     
     layout 'layouts/application'
@@ -36,20 +35,12 @@ class ApplicationLesliController < ApplicationController
         end
     end
     
-    def check_valid_account
+    def check_account
 
         return if current_user.blank?
         return if controller_name == "accounts"
         redirect_to "/accounts/new" if current_user.account.blank?
 
     end
-    
-    def check_account
-        if current_user.account.bell.blank?
-            # insert reference to the core account
-            current_user.account.bell = Bell.new
-            current_user.account.bell.account = current_user.account
-            current_user.account.bell.save!
-        end
-    end
+
 end

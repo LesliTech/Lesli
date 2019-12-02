@@ -2,13 +2,13 @@ module Courier
     module Bell
         class Notifications
             def self.send(user:, subject:, body:nil, href:nil, format:'info')
-                ::Bell::Notification.new({
+                CloudBell::Notification.new({
                     body: body,
                     href: href,
                     format: format,
                     subject: subject,
                     users_id: user.id,
-                    bells_id: user.account.id
+                    cloud_bell_accounts_id: user.account.id
                 }).save!
                 LesliChannel.broadcast_to("Lesli", channel: "/cloud/layout/header/notification#getNotificationsCounter")
             end
