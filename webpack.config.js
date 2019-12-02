@@ -59,6 +59,8 @@ function webpackConfigBuilder(compilationMode) {
             "websites_landing": "./app/vue/websites/landing.js",
             "users/index": "./app/vue/users/index.js",
             "users/new": "./app/vue/users/new.js",
+            "users/edit": "./app/vue/users/edit.js",
+            "users/show": "./app/vue/users/show.js",
             "users/sessions_new": "./app/vue/users/sessions_new.js",
             "users/passwords_new": "./app/vue/users/passwords_new.js",
             "users/passwords_edit": "./app/vue/users/passwords_edit.js",

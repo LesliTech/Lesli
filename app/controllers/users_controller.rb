@@ -26,7 +26,6 @@ class UsersController < ApplicationLesliController
             responseWithSuccessful({
                 id: user[:id],
                 detail_attributes: {
-                    id: user[:id],
                     first_name: user[:first_name],
                     last_name: user[:last_name],
                     telephone: user[:telephone],
@@ -68,7 +67,7 @@ end
   # PATCH/PUT /Users/1
   def update
     if @user.update(user_params)
-      redirect_to @user, notice: 'user was successfully updated.'
+        responseWithSuccessful(@user)
     else
       render :edit
     end
@@ -87,7 +86,7 @@ end
 
         user_id = params[:id] unless params[:id].blank?
         user_id = params[:user_id] unless params[:user_id].blank?
-        @user = User.find(params[:id])
+        @user = User.find(user_id)
 
     end
 
