@@ -45,7 +45,7 @@ class ApplicationLesliController < ApplicationController
     end
     
     def check_account
-        if current_user.account.lock.blank? && current_user.account.bell.blank?
+        if current_user.account.bell.blank?
             # insert reference to the core account
             current_user.account.bell = Bell.new
             current_user.account.bell.account = current_user.account
