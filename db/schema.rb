@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 99999999) do
+ActiveRecord::Schema.define(version: 8020207) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -57,21 +57,10 @@ ActiveRecord::Schema.define(version: 99999999) do
     t.index ["key"], name: "index_active_storage_blobs_on_key", unique: true
   end
 
-  create_table "bell_emails", force: :cascade do |t|
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-    t.bigint "bells_id"
-    t.index ["bells_id"], name: "index_bell_emails_on_bells_id"
+  create_table "cloud_bell_accounts", force: :cascade do |t|
   end
 
-  create_table "bell_messages", force: :cascade do |t|
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-    t.bigint "bells_id"
-    t.index ["bells_id"], name: "index_bell_messages_on_bells_id"
-  end
-
-  create_table "bell_notifications", force: :cascade do |t|
+  create_table "cloud_bell_notifications", force: :cascade do |t|
     t.string "subject"
     t.text "body"
     t.string "href"
@@ -79,13 +68,10 @@ ActiveRecord::Schema.define(version: 99999999) do
     t.boolean "read", default: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.bigint "bells_id"
     t.bigint "users_id"
-    t.index ["bells_id"], name: "index_bell_notifications_on_bells_id"
-    t.index ["users_id"], name: "index_bell_notifications_on_users_id"
-  end
-
-  create_table "bells", force: :cascade do |t|
+    t.bigint "cloud_bell_accounts_id"
+    t.index ["cloud_bell_accounts_id"], name: "index_cloud_bell_notifications_on_cloud_bell_accounts_id"
+    t.index ["users_id"], name: "index_cloud_bell_notifications_on_users_id"
   end
 
   create_table "cloud_lock_accounts", force: :cascade do |t|
@@ -139,61 +125,6 @@ ActiveRecord::Schema.define(version: 99999999) do
     t.datetime "updated_at", precision: 6, null: false
   end
 
-  create_table "lock_role_privileges", force: :cascade do |t|
-    t.string "subject"
-    t.boolean "privilege_get", default: false
-    t.boolean "privilege_post", default: false
-    t.boolean "privilege_put", default: false
-    t.boolean "privilege_delete", default: false
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-    t.bigint "lock_roles_id"
-    t.index ["lock_roles_id"], name: "index_lock_role_privileges_on_lock_roles_id"
-  end
-
-  create_table "lock_roles", force: :cascade do |t|
-    t.string "name"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-    t.bigint "locks_id"
-    t.index ["locks_id"], name: "index_lock_roles_on_locks_id"
-  end
-
-  create_table "locks", force: :cascade do |t|
-  end
-
-  create_table "settings", force: :cascade do |t|
-  end
-
-  create_table "translation_strings", force: :cascade do |t|
-    t.string "entry"
-    t.string "lang_en"
-    t.json "lang_en_j"
-    t.string "lang_es"
-    t.string "lang_de"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-    t.bigint "translations_id"
-    t.index ["translations_id"], name: "index_translation_strings_on_translations_id"
-  end
-
-  create_table "translations", force: :cascade do |t|
-    t.string "file"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-  end
-
-  create_table "user_details", force: :cascade do |t|
-    t.string "first_name"
-    t.string "last_name"
-    t.string "telephone"
-    t.string "address"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-    t.bigint "users_id"
-    t.index ["users_id"], name: "index_user_details_on_users_id"
-  end
-
   create_table "users", force: :cascade do |t|
     t.string "email", default: "", null: false
     t.string "encrypted_password", default: "", null: false
@@ -226,17 +157,9 @@ ActiveRecord::Schema.define(version: 99999999) do
   end
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
-  add_foreign_key "bell_emails", "bells", column: "bells_id"
-  add_foreign_key "bell_messages", "bells", column: "bells_id"
-  add_foreign_key "bell_notifications", "bells", column: "bells_id"
-  add_foreign_key "bell_notifications", "users", column: "users_id"
-  add_foreign_key "bells", "accounts", column: "id"
+  add_foreign_key "cloud_bell_accounts", "accounts", column: "id"
+  add_foreign_key "cloud_bell_notifications", "cloud_bell_accounts", column: "cloud_bell_accounts_id"
+  add_foreign_key "cloud_bell_notifications", "users", column: "users_id"
   add_foreign_key "cloud_lock_accounts", "accounts", column: "id"
-  add_foreign_key "lock_role_privileges", "lock_roles", column: "lock_roles_id"
-  add_foreign_key "lock_roles", "locks", column: "locks_id"
-  add_foreign_key "locks", "accounts", column: "id"
-  add_foreign_key "settings", "accounts", column: "id"
-  add_foreign_key "translation_strings", "translations", column: "translations_id"
-  add_foreign_key "user_details", "users", column: "users_id"
   add_foreign_key "users", "accounts", column: "accounts_id"
 end
