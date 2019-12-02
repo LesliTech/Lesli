@@ -2,6 +2,7 @@
 - engine = controller_path.split('/')[0]
 = render partial: 'layouts/partials/clouddriver-module-navigation'  if engine == "cloud_driver"
 = render partial: 'layouts/partials/cloudpanel-module-navigation'   if engine == "cloud_panel"
+= render partial: 'layouts/partials/cloudlock-module-navigation'    if engine == "cloud_lock"
 = render partial: 'layouts/partials/cloudbell-module-navigation'    if engine == "cloud_bell"
 = render partial: 'layouts/partials/cloudteam-module-navigation'    if engine == "cloud_team"
 = render partial: 'layouts/partials/cloudhelp-module-navigation'    if engine == "cloud_help"
