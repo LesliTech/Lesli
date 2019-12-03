@@ -2,6 +2,9 @@ module Courier
     module Bell
         class Notifications
             def self.send(user:, subject:, body:nil, href:nil, format:'info')
+                unless defined? CloudBell
+                    return
+                end
                 CloudBell::Notification.new({
                     body: body,
                     href: href,

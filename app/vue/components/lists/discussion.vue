@@ -40,28 +40,33 @@ export default {
         }
     },
     mounted() {
-        this.bus.$on("post:components/forms/discussion", () => {
-            this.getDiscussions()
-        })
+        this.getDiscussions()
+        this.initListener()
     },
     methods: {
 
-        getDiscussions() {
-            this.http.get(`/${this.cloudModule}s/${this.cloudId}/discussions`).then(result => {
-                if (result.successful) {
-                    this.discussions = result.data
-                }
-            }).catch(error => {
-                console.log(error)
+        initListener(){
+            this.bus.$on("post:components/forms/discussion", () => {
+                this.getDiscussions()
             })
+        },
+
+        getDiscussions() {
+            if(this.cloudId){
+                this.http.get(`/${this.cloudModule}s/${this.cloudId}/discussions`).then(result => {
+                    if (result.successful) {
+                        this.discussions = result.data
+                    }
+                }).catch(error => {
+                    console.log(error)
+                })
+            }
         }
 
     },
     watch: {
         cloudId(){
-            if(this.cloudId){
-                this.getDiscussions()
-            }
+            this.getDiscussions()
         }
     }
 }
