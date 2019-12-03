@@ -27,4 +27,4 @@ Building a better future, one line of code at a time.
 
 =end
 
-Bell.create(account: Account.first)
+#Bell.create(account: Account.first)

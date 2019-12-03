@@ -1,5 +1,5 @@
-=begin
-
+<script>
+/*
 Lesli
 
 Copyright (c) 2019, Lesli Technologies, S. A.
@@ -23,15 +23,31 @@ Building a better future, one line of code at a time.
 
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
 // · 
+*/
 
-=end
+// · Import libraries and tools
+// · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
 
+import componentForm from '../components/form.vue'
 
-# Save log file 
-set :output, "/log/cron.log"
-
-
-# Automatic self deploy
-every 1.day, at: ['2:00 am', '2:00 pm', '6:00 pm', '10:00 pm'] do
-    rake "dev:app:install"
-end
+// · Component
+// · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
+export default {
+    components: {
+        'component-form': componentForm
+    },
+    data(){
+        return{
+            user_id: null,
+        }
+    },
+    mounted(){
+        this.user_id =this.$route.params.id
+   },
+}
+</script>
+<template>
+    <section v-if="user_id" class="section">
+        <component-form />
+    </section>
+</template>

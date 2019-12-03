@@ -10,7 +10,7 @@ class User < ApplicationRecord
     
     belongs_to  :account , foreign_key: 'accounts_id', optional: true
 
-    has_many    :notifications, class_name: 'Bell::Notification', foreign_key: 'users_id'
+    has_many    :notifications, class_name: 'CloudBell::Notification', foreign_key: 'users_id'
     has_many    :permissions
 
     has_one :detail, dependent: :delete, inverse_of: :user, autosave: true, foreign_key: 'users_id'

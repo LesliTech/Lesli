@@ -81,7 +81,7 @@
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 51);
+/******/ 	return __webpack_require__(__webpack_require__.s = 49);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -12477,163 +12477,8 @@ module.exports = {
 
 
 /***/ }),
-/* 3 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-
-// CONCATENATED MODULE: ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./app/vue/components/forms/progress_bar.vue?vue&type=template&id=3fb1ff25&
-var render = function() {
-  var _vm = this
-  var _h = _vm.$createElement
-  var _c = _vm._self._c || _h
-  return _c("span", [
-    _vm.active
-      ? _c("progress", {
-          staticClass: "progress is-very-small is-primary",
-          attrs: { max: "100" }
-        })
-      : _vm._e(),
-    _vm._v(" "),
-    !_vm.active
-      ? _c("progress", {
-          staticClass: "progress is-very-small is-primary",
-          attrs: { max: "100", value: "0" }
-        })
-      : _vm._e()
-  ])
-}
-var staticRenderFns = []
-render._withStripped = true
-
-
-// CONCATENATED MODULE: ./app/vue/components/forms/progress_bar.vue?vue&type=template&id=3fb1ff25&
-
-// CONCATENATED MODULE: ./node_modules/babel-loader/lib??ref--3!./node_modules/vue-loader/lib??vue-loader-options!./app/vue/components/forms/progress_bar.vue?vue&type=script&lang=js&
-/* harmony default export */ var progress_barvue_type_script_lang_js_ = ({
-  props: {
-    active: {
-      type: Boolean,
-      "default": false
-    }
-  }
-});
-// CONCATENATED MODULE: ./app/vue/components/forms/progress_bar.vue?vue&type=script&lang=js&
- /* harmony default export */ var forms_progress_barvue_type_script_lang_js_ = (progress_barvue_type_script_lang_js_); 
-// EXTERNAL MODULE: ./node_modules/vue-loader/lib/runtime/componentNormalizer.js
-var componentNormalizer = __webpack_require__(1);
-
-// CONCATENATED MODULE: ./app/vue/components/forms/progress_bar.vue
-
-
-
-
-
-/* normalize component */
-
-var component = Object(componentNormalizer["a" /* default */])(
-  forms_progress_barvue_type_script_lang_js_,
-  render,
-  staticRenderFns,
-  false,
-  null,
-  null,
-  null
-  
-)
-
-/* hot reload */
-if (false) { var api; }
-component.options.__file = "app/vue/components/forms/progress_bar.vue"
-/* harmony default export */ var progress_bar = __webpack_exports__["a"] = (component.exports);
-
-/***/ }),
-/* 4 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-
-// CONCATENATED MODULE: ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./app/vue/components/forms/notification.vue?vue&type=template&id=0a9ef40f&
-var render = function() {
-  var _vm = this
-  var _h = _vm.$createElement
-  var _c = _vm._self._c || _h
-  return _c("transition", { attrs: { name: "fade" } }, [
-    _vm.show
-      ? _c("div", { class: _vm.notificationClass }, [
-          _c("button", {
-            staticClass: "delete",
-            attrs: { type: "button" },
-            on: { click: _vm.dismissNotification }
-          }),
-          _vm._v("\n      " + _vm._s(_vm.message) + "\n   ")
-        ])
-      : _vm._e()
-  ])
-}
-var staticRenderFns = []
-render._withStripped = true
-
-
-// CONCATENATED MODULE: ./app/vue/components/forms/notification.vue?vue&type=template&id=0a9ef40f&
-
-// CONCATENATED MODULE: ./node_modules/babel-loader/lib??ref--3!./node_modules/vue-loader/lib??vue-loader-options!./app/vue/components/forms/notification.vue?vue&type=script&lang=js&
-/* harmony default export */ var notificationvue_type_script_lang_js_ = ({
-  props: {
-    message: {
-      type: String,
-      "default": ''
-    },
-    show: {
-      type: Boolean,
-      "default": false
-    },
-    type: {
-      type: String,
-      "default": 'is-info'
-    }
-  },
-  methods: {
-    dismissNotification: function dismissNotification() {
-      this.$emit('update:show', false);
-    }
-  },
-  computed: {
-    notificationClass: function notificationClass() {
-      return "notification ".concat(this.type);
-    }
-  }
-});
-// CONCATENATED MODULE: ./app/vue/components/forms/notification.vue?vue&type=script&lang=js&
- /* harmony default export */ var forms_notificationvue_type_script_lang_js_ = (notificationvue_type_script_lang_js_); 
-// EXTERNAL MODULE: ./node_modules/vue-loader/lib/runtime/componentNormalizer.js
-var componentNormalizer = __webpack_require__(1);
-
-// CONCATENATED MODULE: ./app/vue/components/forms/notification.vue
-
-
-
-
-
-/* normalize component */
-
-var component = Object(componentNormalizer["a" /* default */])(
-  forms_notificationvue_type_script_lang_js_,
-  render,
-  staticRenderFns,
-  false,
-  null,
-  null,
-  null
-  
-)
-
-/* hot reload */
-if (false) { var api; }
-component.options.__file = "app/vue/components/forms/notification.vue"
-/* harmony default export */ var notification = __webpack_exports__["a"] = (component.exports);
-
-/***/ }),
+/* 3 */,
+/* 4 */,
 /* 5 */
 /***/ (function(module, exports) {
 
@@ -29604,19 +29449,1671 @@ exports.clearImmediate = (typeof self !== "undefined" && self.clearImmediate) ||
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(5), __webpack_require__(11)))
 
 /***/ }),
-/* 42 */
+/* 42 */,
+/* 43 */
+/***/ (function(module, exports, __webpack_require__) {
+
+(function(global, factory) {
+   true ? factory(exports) : undefined;
+})(this, function(exports) {
+  "use strict";
+  var adapters = {
+    logger: self.console,
+    WebSocket: self.WebSocket
+  };
+  var logger = {
+    log: function log() {
+      if (this.enabled) {
+        var _adapters$logger;
+        for (var _len = arguments.length, messages = Array(_len), _key = 0; _key < _len; _key++) {
+          messages[_key] = arguments[_key];
+        }
+        messages.push(Date.now());
+        (_adapters$logger = adapters.logger).log.apply(_adapters$logger, [ "[ActionCable]" ].concat(messages));
+      }
+    }
+  };
+  var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function(obj) {
+    return typeof obj;
+  } : function(obj) {
+    return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj;
+  };
+  var classCallCheck = function(instance, Constructor) {
+    if (!(instance instanceof Constructor)) {
+      throw new TypeError("Cannot call a class as a function");
+    }
+  };
+  var createClass = function() {
+    function defineProperties(target, props) {
+      for (var i = 0; i < props.length; i++) {
+        var descriptor = props[i];
+        descriptor.enumerable = descriptor.enumerable || false;
+        descriptor.configurable = true;
+        if ("value" in descriptor) descriptor.writable = true;
+        Object.defineProperty(target, descriptor.key, descriptor);
+      }
+    }
+    return function(Constructor, protoProps, staticProps) {
+      if (protoProps) defineProperties(Constructor.prototype, protoProps);
+      if (staticProps) defineProperties(Constructor, staticProps);
+      return Constructor;
+    };
+  }();
+  var now = function now() {
+    return new Date().getTime();
+  };
+  var secondsSince = function secondsSince(time) {
+    return (now() - time) / 1e3;
+  };
+  var clamp = function clamp(number, min, max) {
+    return Math.max(min, Math.min(max, number));
+  };
+  var ConnectionMonitor = function() {
+    function ConnectionMonitor(connection) {
+      classCallCheck(this, ConnectionMonitor);
+      this.visibilityDidChange = this.visibilityDidChange.bind(this);
+      this.connection = connection;
+      this.reconnectAttempts = 0;
+    }
+    ConnectionMonitor.prototype.start = function start() {
+      if (!this.isRunning()) {
+        this.startedAt = now();
+        delete this.stoppedAt;
+        this.startPolling();
+        addEventListener("visibilitychange", this.visibilityDidChange);
+        logger.log("ConnectionMonitor started. pollInterval = " + this.getPollInterval() + " ms");
+      }
+    };
+    ConnectionMonitor.prototype.stop = function stop() {
+      if (this.isRunning()) {
+        this.stoppedAt = now();
+        this.stopPolling();
+        removeEventListener("visibilitychange", this.visibilityDidChange);
+        logger.log("ConnectionMonitor stopped");
+      }
+    };
+    ConnectionMonitor.prototype.isRunning = function isRunning() {
+      return this.startedAt && !this.stoppedAt;
+    };
+    ConnectionMonitor.prototype.recordPing = function recordPing() {
+      this.pingedAt = now();
+    };
+    ConnectionMonitor.prototype.recordConnect = function recordConnect() {
+      this.reconnectAttempts = 0;
+      this.recordPing();
+      delete this.disconnectedAt;
+      logger.log("ConnectionMonitor recorded connect");
+    };
+    ConnectionMonitor.prototype.recordDisconnect = function recordDisconnect() {
+      this.disconnectedAt = now();
+      logger.log("ConnectionMonitor recorded disconnect");
+    };
+    ConnectionMonitor.prototype.startPolling = function startPolling() {
+      this.stopPolling();
+      this.poll();
+    };
+    ConnectionMonitor.prototype.stopPolling = function stopPolling() {
+      clearTimeout(this.pollTimeout);
+    };
+    ConnectionMonitor.prototype.poll = function poll() {
+      var _this = this;
+      this.pollTimeout = setTimeout(function() {
+        _this.reconnectIfStale();
+        _this.poll();
+      }, this.getPollInterval());
+    };
+    ConnectionMonitor.prototype.getPollInterval = function getPollInterval() {
+      var _constructor$pollInte = this.constructor.pollInterval, min = _constructor$pollInte.min, max = _constructor$pollInte.max, multiplier = _constructor$pollInte.multiplier;
+      var interval = multiplier * Math.log(this.reconnectAttempts + 1);
+      return Math.round(clamp(interval, min, max) * 1e3);
+    };
+    ConnectionMonitor.prototype.reconnectIfStale = function reconnectIfStale() {
+      if (this.connectionIsStale()) {
+        logger.log("ConnectionMonitor detected stale connection. reconnectAttempts = " + this.reconnectAttempts + ", pollInterval = " + this.getPollInterval() + " ms, time disconnected = " + secondsSince(this.disconnectedAt) + " s, stale threshold = " + this.constructor.staleThreshold + " s");
+        this.reconnectAttempts++;
+        if (this.disconnectedRecently()) {
+          logger.log("ConnectionMonitor skipping reopening recent disconnect");
+        } else {
+          logger.log("ConnectionMonitor reopening");
+          this.connection.reopen();
+        }
+      }
+    };
+    ConnectionMonitor.prototype.connectionIsStale = function connectionIsStale() {
+      return secondsSince(this.pingedAt ? this.pingedAt : this.startedAt) > this.constructor.staleThreshold;
+    };
+    ConnectionMonitor.prototype.disconnectedRecently = function disconnectedRecently() {
+      return this.disconnectedAt && secondsSince(this.disconnectedAt) < this.constructor.staleThreshold;
+    };
+    ConnectionMonitor.prototype.visibilityDidChange = function visibilityDidChange() {
+      var _this2 = this;
+      if (document.visibilityState === "visible") {
+        setTimeout(function() {
+          if (_this2.connectionIsStale() || !_this2.connection.isOpen()) {
+            logger.log("ConnectionMonitor reopening stale connection on visibilitychange. visbilityState = " + document.visibilityState);
+            _this2.connection.reopen();
+          }
+        }, 200);
+      }
+    };
+    return ConnectionMonitor;
+  }();
+  ConnectionMonitor.pollInterval = {
+    min: 3,
+    max: 30,
+    multiplier: 5
+  };
+  ConnectionMonitor.staleThreshold = 6;
+  var INTERNAL = {
+    message_types: {
+      welcome: "welcome",
+      disconnect: "disconnect",
+      ping: "ping",
+      confirmation: "confirm_subscription",
+      rejection: "reject_subscription"
+    },
+    disconnect_reasons: {
+      unauthorized: "unauthorized",
+      invalid_request: "invalid_request",
+      server_restart: "server_restart"
+    },
+    default_mount_path: "/cable",
+    protocols: [ "actioncable-v1-json", "actioncable-unsupported" ]
+  };
+  var message_types = INTERNAL.message_types, protocols = INTERNAL.protocols;
+  var supportedProtocols = protocols.slice(0, protocols.length - 1);
+  var indexOf = [].indexOf;
+  var Connection = function() {
+    function Connection(consumer) {
+      classCallCheck(this, Connection);
+      this.open = this.open.bind(this);
+      this.consumer = consumer;
+      this.subscriptions = this.consumer.subscriptions;
+      this.monitor = new ConnectionMonitor(this);
+      this.disconnected = true;
+    }
+    Connection.prototype.send = function send(data) {
+      if (this.isOpen()) {
+        this.webSocket.send(JSON.stringify(data));
+        return true;
+      } else {
+        return false;
+      }
+    };
+    Connection.prototype.open = function open() {
+      if (this.isActive()) {
+        logger.log("Attempted to open WebSocket, but existing socket is " + this.getState());
+        return false;
+      } else {
+        logger.log("Opening WebSocket, current state is " + this.getState() + ", subprotocols: " + protocols);
+        if (this.webSocket) {
+          this.uninstallEventHandlers();
+        }
+        this.webSocket = new adapters.WebSocket(this.consumer.url, protocols);
+        this.installEventHandlers();
+        this.monitor.start();
+        return true;
+      }
+    };
+    Connection.prototype.close = function close() {
+      var _ref = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {
+        allowReconnect: true
+      }, allowReconnect = _ref.allowReconnect;
+      if (!allowReconnect) {
+        this.monitor.stop();
+      }
+      if (this.isActive()) {
+        return this.webSocket.close();
+      }
+    };
+    Connection.prototype.reopen = function reopen() {
+      logger.log("Reopening WebSocket, current state is " + this.getState());
+      if (this.isActive()) {
+        try {
+          return this.close();
+        } catch (error) {
+          logger.log("Failed to reopen WebSocket", error);
+        } finally {
+          logger.log("Reopening WebSocket in " + this.constructor.reopenDelay + "ms");
+          setTimeout(this.open, this.constructor.reopenDelay);
+        }
+      } else {
+        return this.open();
+      }
+    };
+    Connection.prototype.getProtocol = function getProtocol() {
+      if (this.webSocket) {
+        return this.webSocket.protocol;
+      }
+    };
+    Connection.prototype.isOpen = function isOpen() {
+      return this.isState("open");
+    };
+    Connection.prototype.isActive = function isActive() {
+      return this.isState("open", "connecting");
+    };
+    Connection.prototype.isProtocolSupported = function isProtocolSupported() {
+      return indexOf.call(supportedProtocols, this.getProtocol()) >= 0;
+    };
+    Connection.prototype.isState = function isState() {
+      for (var _len = arguments.length, states = Array(_len), _key = 0; _key < _len; _key++) {
+        states[_key] = arguments[_key];
+      }
+      return indexOf.call(states, this.getState()) >= 0;
+    };
+    Connection.prototype.getState = function getState() {
+      if (this.webSocket) {
+        for (var state in adapters.WebSocket) {
+          if (adapters.WebSocket[state] === this.webSocket.readyState) {
+            return state.toLowerCase();
+          }
+        }
+      }
+      return null;
+    };
+    Connection.prototype.installEventHandlers = function installEventHandlers() {
+      for (var eventName in this.events) {
+        var handler = this.events[eventName].bind(this);
+        this.webSocket["on" + eventName] = handler;
+      }
+    };
+    Connection.prototype.uninstallEventHandlers = function uninstallEventHandlers() {
+      for (var eventName in this.events) {
+        this.webSocket["on" + eventName] = function() {};
+      }
+    };
+    return Connection;
+  }();
+  Connection.reopenDelay = 500;
+  Connection.prototype.events = {
+    message: function message(event) {
+      if (!this.isProtocolSupported()) {
+        return;
+      }
+      var _JSON$parse = JSON.parse(event.data), identifier = _JSON$parse.identifier, message = _JSON$parse.message, reason = _JSON$parse.reason, reconnect = _JSON$parse.reconnect, type = _JSON$parse.type;
+      switch (type) {
+       case message_types.welcome:
+        this.monitor.recordConnect();
+        return this.subscriptions.reload();
+
+       case message_types.disconnect:
+        logger.log("Disconnecting. Reason: " + reason);
+        return this.close({
+          allowReconnect: reconnect
+        });
+
+       case message_types.ping:
+        return this.monitor.recordPing();
+
+       case message_types.confirmation:
+        return this.subscriptions.notify(identifier, "connected");
+
+       case message_types.rejection:
+        return this.subscriptions.reject(identifier);
+
+       default:
+        return this.subscriptions.notify(identifier, "received", message);
+      }
+    },
+    open: function open() {
+      logger.log("WebSocket onopen event, using '" + this.getProtocol() + "' subprotocol");
+      this.disconnected = false;
+      if (!this.isProtocolSupported()) {
+        logger.log("Protocol is unsupported. Stopping monitor and disconnecting.");
+        return this.close({
+          allowReconnect: false
+        });
+      }
+    },
+    close: function close(event) {
+      logger.log("WebSocket onclose event");
+      if (this.disconnected) {
+        return;
+      }
+      this.disconnected = true;
+      this.monitor.recordDisconnect();
+      return this.subscriptions.notifyAll("disconnected", {
+        willAttemptReconnect: this.monitor.isRunning()
+      });
+    },
+    error: function error() {
+      logger.log("WebSocket onerror event");
+    }
+  };
+  var extend = function extend(object, properties) {
+    if (properties != null) {
+      for (var key in properties) {
+        var value = properties[key];
+        object[key] = value;
+      }
+    }
+    return object;
+  };
+  var Subscription = function() {
+    function Subscription(consumer) {
+      var params = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
+      var mixin = arguments[2];
+      classCallCheck(this, Subscription);
+      this.consumer = consumer;
+      this.identifier = JSON.stringify(params);
+      extend(this, mixin);
+    }
+    Subscription.prototype.perform = function perform(action) {
+      var data = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
+      data.action = action;
+      return this.send(data);
+    };
+    Subscription.prototype.send = function send(data) {
+      return this.consumer.send({
+        command: "message",
+        identifier: this.identifier,
+        data: JSON.stringify(data)
+      });
+    };
+    Subscription.prototype.unsubscribe = function unsubscribe() {
+      return this.consumer.subscriptions.remove(this);
+    };
+    return Subscription;
+  }();
+  var Subscriptions = function() {
+    function Subscriptions(consumer) {
+      classCallCheck(this, Subscriptions);
+      this.consumer = consumer;
+      this.subscriptions = [];
+    }
+    Subscriptions.prototype.create = function create(channelName, mixin) {
+      var channel = channelName;
+      var params = (typeof channel === "undefined" ? "undefined" : _typeof(channel)) === "object" ? channel : {
+        channel: channel
+      };
+      var subscription = new Subscription(this.consumer, params, mixin);
+      return this.add(subscription);
+    };
+    Subscriptions.prototype.add = function add(subscription) {
+      this.subscriptions.push(subscription);
+      this.consumer.ensureActiveConnection();
+      this.notify(subscription, "initialized");
+      this.sendCommand(subscription, "subscribe");
+      return subscription;
+    };
+    Subscriptions.prototype.remove = function remove(subscription) {
+      this.forget(subscription);
+      if (!this.findAll(subscription.identifier).length) {
+        this.sendCommand(subscription, "unsubscribe");
+      }
+      return subscription;
+    };
+    Subscriptions.prototype.reject = function reject(identifier) {
+      var _this = this;
+      return this.findAll(identifier).map(function(subscription) {
+        _this.forget(subscription);
+        _this.notify(subscription, "rejected");
+        return subscription;
+      });
+    };
+    Subscriptions.prototype.forget = function forget(subscription) {
+      this.subscriptions = this.subscriptions.filter(function(s) {
+        return s !== subscription;
+      });
+      return subscription;
+    };
+    Subscriptions.prototype.findAll = function findAll(identifier) {
+      return this.subscriptions.filter(function(s) {
+        return s.identifier === identifier;
+      });
+    };
+    Subscriptions.prototype.reload = function reload() {
+      var _this2 = this;
+      return this.subscriptions.map(function(subscription) {
+        return _this2.sendCommand(subscription, "subscribe");
+      });
+    };
+    Subscriptions.prototype.notifyAll = function notifyAll(callbackName) {
+      var _this3 = this;
+      for (var _len = arguments.length, args = Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++) {
+        args[_key - 1] = arguments[_key];
+      }
+      return this.subscriptions.map(function(subscription) {
+        return _this3.notify.apply(_this3, [ subscription, callbackName ].concat(args));
+      });
+    };
+    Subscriptions.prototype.notify = function notify(subscription, callbackName) {
+      for (var _len2 = arguments.length, args = Array(_len2 > 2 ? _len2 - 2 : 0), _key2 = 2; _key2 < _len2; _key2++) {
+        args[_key2 - 2] = arguments[_key2];
+      }
+      var subscriptions = void 0;
+      if (typeof subscription === "string") {
+        subscriptions = this.findAll(subscription);
+      } else {
+        subscriptions = [ subscription ];
+      }
+      return subscriptions.map(function(subscription) {
+        return typeof subscription[callbackName] === "function" ? subscription[callbackName].apply(subscription, args) : undefined;
+      });
+    };
+    Subscriptions.prototype.sendCommand = function sendCommand(subscription, command) {
+      var identifier = subscription.identifier;
+      return this.consumer.send({
+        command: command,
+        identifier: identifier
+      });
+    };
+    return Subscriptions;
+  }();
+  var Consumer = function() {
+    function Consumer(url) {
+      classCallCheck(this, Consumer);
+      this._url = url;
+      this.subscriptions = new Subscriptions(this);
+      this.connection = new Connection(this);
+    }
+    Consumer.prototype.send = function send(data) {
+      return this.connection.send(data);
+    };
+    Consumer.prototype.connect = function connect() {
+      return this.connection.open();
+    };
+    Consumer.prototype.disconnect = function disconnect() {
+      return this.connection.close({
+        allowReconnect: false
+      });
+    };
+    Consumer.prototype.ensureActiveConnection = function ensureActiveConnection() {
+      if (!this.connection.isActive()) {
+        return this.connection.open();
+      }
+    };
+    createClass(Consumer, [ {
+      key: "url",
+      get: function get$$1() {
+        return createWebSocketURL(this._url);
+      }
+    } ]);
+    return Consumer;
+  }();
+  function createWebSocketURL(url) {
+    if (typeof url === "function") {
+      url = url();
+    }
+    if (url && !/^wss?:/i.test(url)) {
+      var a = document.createElement("a");
+      a.href = url;
+      a.href = a.href;
+      a.protocol = a.protocol.replace("http", "ws");
+      return a.href;
+    } else {
+      return url;
+    }
+  }
+  function createConsumer() {
+    var url = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : getConfig("url") || INTERNAL.default_mount_path;
+    return new Consumer(url);
+  }
+  function getConfig(name) {
+    var element = document.head.querySelector("meta[name='action-cable-" + name + "']");
+    if (element) {
+      return element.getAttribute("content");
+    }
+  }
+  exports.Connection = Connection;
+  exports.ConnectionMonitor = ConnectionMonitor;
+  exports.Consumer = Consumer;
+  exports.INTERNAL = INTERNAL;
+  exports.Subscription = Subscription;
+  exports.Subscriptions = Subscriptions;
+  exports.adapters = adapters;
+  exports.createWebSocketURL = createWebSocketURL;
+  exports.logger = logger;
+  exports.createConsumer = createConsumer;
+  exports.getConfig = getConfig;
+  Object.defineProperty(exports, "__esModule", {
+    value: true
+  });
+});
+
+
+/***/ }),
+/* 44 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(0);
-/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vue__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var buefy__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(21);
-/* harmony import */ var vue_router__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(6);
-/* harmony import */ var LesliCloud_vue_plugins_url__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(16);
-/* harmony import */ var LesliCloud_vue_plugins_http__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(17);
-/* harmony import */ var lesli_nodejs_debug_message_browser__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(19);
-/* harmony import */ var lesli_nodejs_debug_message_browser__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(lesli_nodejs_debug_message_browser__WEBPACK_IMPORTED_MODULE_5__);
-/* harmony import */ var LesliCloud_vue_functions_document_js__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(20);
+
+// EXTERNAL MODULE: ./node_modules/vue/dist/vue.js
+var vue = __webpack_require__(0);
+var vue_default = /*#__PURE__*/__webpack_require__.n(vue);
+
+// EXTERNAL MODULE: ./node_modules/buefy/dist/esm/index.js + 60 modules
+var esm = __webpack_require__(21);
+
+// EXTERNAL MODULE: ./node_modules/vue-router/dist/vue-router.esm.js
+var vue_router_esm = __webpack_require__(6);
+
+// EXTERNAL MODULE: ./node_modules/@rails/actioncable/app/assets/javascripts/action_cable.js
+var action_cable = __webpack_require__(43);
+
+// CONCATENATED MODULE: ./app/vue/plugins/bus.js
+/*
+Lesli
+
+Copyright (c) 2019, Lesli Technologies, S. A.
+
+All the information provided by this website is protected by laws of Guatemala related 
+to industrial property, intellectual property, copyright and relative international laws. 
+Lesli Technologies, S. A. is the exclusive owner of all intellectual or industrial property
+rights of the code, texts, trade mark, design, pictures and any other information.
+Without the written permission of Lesli Technologies, S. A., any replication, modification,
+transmission, publication is strictly forbidden.
+For more information read the license file including with this software.
+
+LesliCloud - Your Smart Business Assistant
+
+Powered by https://www.lesli.tech
+Building a better future, one line of code at a time.
+
+@author   LesliTech <hello@lesli.tech>
+@license  Propietary - all rights reserved.
+@version  0.1.0-alpha
+
+// · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
+// · 
+*/
+// · Loading core framework and libraries
+// · ~·~        ~·~        ~·~        ~·~        ~·~        ~·~        ~·~        ~·~        ~·~
+ // · Plugin initializing 
+// · ~·~        ~·~        ~·~        ~·~        ~·~        ~·~        ~·~        ~·~        ~·~
+
+/* harmony default export */ var bus = ({
+  install: function install(Vue, options) {
+    // new vue instance as bus
+    Vue.prototype.bus = new Vue(); // Vue bus aliases
+
+    Object.defineProperties(Vue.prototype.bus, {
+      subscribe: {
+        get: function get() {
+          return this.$on.bind(this);
+        }
+      },
+      publish: {
+        get: function get() {
+          return this.$emit.bind(this);
+        }
+      }
+    }); // · Global event helpers
+
+    Vue.prototype.notification = function (message, type) {
+      Vue.prototype.bus.publish('show:/cloud/layout/notify#notification', message, type);
+    };
+
+    Vue.prototype.alert = function (message, type) {
+      Vue.prototype.bus.publish('show:/cloud/layout/notify#alert', message, type);
+    }; // · Global DOM event listeners
+    // emit when ctrl + s is pressed
+
+
+    document.addEventListener("keydown", function (e) {
+      if ((window.navigator.platform.match("Mac") ? e.metaKey : e.ctrlKey) && e.keyCode == 83) {
+        e.preventDefault();
+        Vue.prototype.bus.publish("keyboard-ctrl-save");
+      }
+    }, false);
+    var cable = Object(action_cable["createConsumer"])('/cable');
+    cable.subscriptions.create("LesliChannel", {
+      connected: function connected() {},
+      received: function received(data) {
+        Vue.prototype.bus.publish(data.channel, data);
+      },
+      disconnected: function disconnected() {}
+    });
+  }
+});
+// EXTERNAL MODULE: ./app/vue/plugins/url.js
+var url = __webpack_require__(16);
+
+// EXTERNAL MODULE: ./app/vue/plugins/http.js
+var http = __webpack_require__(17);
+
+// CONCATENATED MODULE: ./app/vue/plugins/date.js
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(source, true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(source).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+/* harmony default export */ var date = ({
+  install: function install(Vue, options) {
+    //date will be returned in standard format YYYY-MM-DD
+    var today = function today() {
+      var date = new Date(); //We do not use time so date type inputs will accept the value
+
+      return date.toISOString().substr(0, 10);
+    };
+
+    var date_options = {
+      year: 'numeric',
+      month: '2-digit',
+      day: '2-digit',
+      timeZone: 'UTC'
+    };
+
+    var datetime_options = _objectSpread({}, date_options, {}, {
+      hour: '2-digit',
+      minute: '2-digit',
+      second: '2-digit'
+    });
+
+    var full_date_options = _objectSpread({}, datetime_options, {}, {
+      weekday: 'long'
+    }); //date should be given in standard format YYYY-MM-DD
+
+
+    var toLocalFormat = function toLocalFormat(date) {
+      var include_time = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : false;
+      var full_date = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : false;
+      date = new Date(date);
+      var options = date_options;
+
+      if (include_time) {
+        options = datetime_options;
+      }
+
+      if (full_date) {
+        options = full_date_options;
+      }
+
+      return date.toLocaleDateString(I18n.currentLocale(), options);
+    };
+
+    Vue.prototype.date = {
+      today: today,
+      toLocalFormat: toLocalFormat
+    };
+  }
+});
+// EXTERNAL MODULE: ./node_modules/lesli-nodejs-debug-message/browser.js
+var browser = __webpack_require__(19);
+var browser_default = /*#__PURE__*/__webpack_require__.n(browser);
+
+// EXTERNAL MODULE: ./app/vue/functions/document.js
+var functions_document = __webpack_require__(20);
+
+// CONCATENATED MODULE: ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./app/vue/layouts/header.vue?vue&type=template&id=3d30b590&
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("header", [
+    _c("nav", { staticClass: "navbar is-transparent" }, [
+      _c(
+        "div",
+        { staticClass: "navbar-menu", attrs: { id: "header-main-navbar" } },
+        [
+          _c("div", { staticClass: "navbar-start" }, [
+            _c(
+              "button",
+              {
+                staticClass: "button is-white",
+                attrs: { type: "button" },
+                on: { click: _vm.openAside }
+              },
+              [_c("i", { staticClass: "fas fa-bars" })]
+            ),
+            _vm._v(" "),
+            _c(
+              "button",
+              {
+                staticClass: "button is-white",
+                attrs: { disabled: !_vm.microphone, type: "button" },
+                on: { click: _vm.listen }
+              },
+              [
+                _vm.microphone
+                  ? _c("i", { staticClass: "fas fa-microphone" })
+                  : _vm._e(),
+                _vm._v(" "),
+                !_vm.microphone
+                  ? _c("i", { staticClass: "fas fa-microphone-slash" })
+                  : _vm._e()
+              ]
+            ),
+            _vm._v(" "),
+            _c("div", [
+              _c("input", {
+                directives: [
+                  {
+                    name: "model",
+                    rawName: "v-model",
+                    value: _vm.chatbotIntent,
+                    expression: "chatbotIntent"
+                  }
+                ],
+                staticClass: "input",
+                attrs: {
+                  type: "text",
+                  placeholder: "Hello, how can I help you today? :)"
+                },
+                domProps: { value: _vm.chatbotIntent },
+                on: {
+                  keyup: function($event) {
+                    if (
+                      !$event.type.indexOf("key") &&
+                      _vm._k($event.keyCode, "enter", 13, $event.key, "Enter")
+                    ) {
+                      return null
+                    }
+                    return _vm.publishChatbotIntent()
+                  },
+                  input: function($event) {
+                    if ($event.target.composing) {
+                      return
+                    }
+                    _vm.chatbotIntent = $event.target.value
+                  }
+                }
+              })
+            ])
+          ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "navbar-brand" }, [
+            _c(
+              "a",
+              { staticClass: "navbar-item", attrs: { href: "/" } },
+              [_vm._t("logo")],
+              2
+            )
+          ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "navbar-end" }, [
+            _c("div", { staticClass: "navbar-item" }, [
+              _c(
+                "a",
+                {
+                  staticClass: "navbar-item",
+                  on: {
+                    click: function($event) {
+                      return _vm.bus.publish(
+                        "open:/cloud/layout/notify#notification"
+                      )
+                    }
+                  }
+                },
+                [
+                  _vm.notification.count > 0
+                    ? _c("i", { staticClass: "fas fa-bell has-text-link" })
+                    : _vm._e(),
+                  _vm._v(" "),
+                  _vm.notification.count == 0
+                    ? _c("i", { staticClass: "far fa-bell" })
+                    : _vm._e(),
+                  _vm._v(" "),
+                  _vm.notification.count > 0
+                    ? _c("span", { attrs: { id: "notification_total" } }, [
+                        _vm._v(
+                          "\n                            " +
+                            _vm._s(_vm.notification.count) +
+                            "\n                        "
+                        )
+                      ])
+                    : _vm._e()
+                ]
+              ),
+              _vm._v(" "),
+              _vm._m(0),
+              _vm._v(" "),
+              _vm._m(1),
+              _vm._v(" "),
+              _vm._m(2)
+            ])
+          ])
+        ]
+      )
+    ])
+  ])
+}
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c(
+      "a",
+      { staticClass: "navbar-item", attrs: { href: "/admin/users/" } },
+      [
+        _c("figure", { staticClass: "image" }, [
+          _c("img", {
+            staticClass: "is-rounded",
+            attrs: {
+              src: "https://placekitten.com/g/30/30",
+              alt: "profile thumbnail"
+            }
+          })
+        ])
+      ]
+    )
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c(
+      "a",
+      { staticClass: "navbar-item", attrs: { href: "/admin/users" } },
+      [_c("i", { staticClass: "fas fa-users" })]
+    )
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("a", { staticClass: "navbar-item", attrs: { href: "/logout" } }, [
+      _c("i", { staticClass: "fas fa-sign-out-alt" })
+    ])
+  }
+]
+render._withStripped = true
+
+
+// CONCATENATED MODULE: ./app/vue/layouts/header.vue?vue&type=template&id=3d30b590&
+
+// CONCATENATED MODULE: ./node_modules/babel-loader/lib??ref--3!./node_modules/vue-loader/lib??vue-loader-options!./app/vue/layouts/header.vue?vue&type=script&lang=js&
+/* harmony default export */ var headervue_type_script_lang_js_ = ({
+  data: function data() {
+    return {
+      notification: {
+        count: 0
+      },
+      aside: {
+        timer: null
+      },
+      chatbotIntent: '',
+      microphone: true
+    };
+  },
+  mounted: function mounted() {
+    this.mountListeners();
+    this.getNotificationsCounter();
+    this.checkIfMicrophoneWorks();
+  },
+  methods: {
+    mountListeners: function mountListeners() {
+      var _this = this;
+
+      this.bus.subscribe('/cloud/layout/header/notification#getNotificationsCounter', function () {
+        _this.getNotificationsCounter();
+      });
+    },
+    getNotificationsCounter: function getNotificationsCounter() {
+      var _this2 = this;
+
+      this.http.get('/bell/notifications.json').then(function (result) {
+        if (result.successful) {
+          _this2.notification.count = result.data.length;
+        }
+      })["catch"](function (error) {
+        console.log(error);
+      });
+    },
+    openAside: function openAside() {
+      clearTimeout(this.timer);
+      var el = document.getElementsByTagName('aside')[0];
+      el.classList.toggle('show');
+      this.aside.timer = setTimeout(function () {
+        return el.classList.remove('show');
+      }, 4000);
+    },
+    checkIfMicrophoneWorks: function checkIfMicrophoneWorks() {
+      window.SpeechRecognition = window.webkitSpeechRecognition || window.SpeechRecognition;
+
+      if (window.SpeechRecognition) {
+        return this.microphone = true;
+      }
+
+      this.microphone = false;
+    },
+    publishChatbotIntent: function publishChatbotIntent() {
+      this.bus.publish('/cloud/layout/chatbox#postIntent', this.chatbotIntent);
+      this.chatbotIntent = '';
+    },
+    talk: function talk() {//var msg = new SpeechSynthesisUtterance('Hello World');
+      //window.speechSynthesis.speak(msg);
+    },
+    listen: function listen() {
+      window.SpeechRecognition = window.webkitSpeechRecognition || window.SpeechRecognition;
+
+      if (window.SpeechRecognition) {
+        var recognition = new window.SpeechRecognition();
+
+        recognition.onresult = function (event) {
+          var speechToText = event.results[0][0].transcript;
+        };
+
+        recognition.start();
+      }
+    }
+  }
+});
+// CONCATENATED MODULE: ./app/vue/layouts/header.vue?vue&type=script&lang=js&
+ /* harmony default export */ var layouts_headervue_type_script_lang_js_ = (headervue_type_script_lang_js_); 
+// EXTERNAL MODULE: ./node_modules/vue-loader/lib/runtime/componentNormalizer.js
+var componentNormalizer = __webpack_require__(1);
+
+// CONCATENATED MODULE: ./app/vue/layouts/header.vue
+
+
+
+
+
+/* normalize component */
+
+var component = Object(componentNormalizer["a" /* default */])(
+  layouts_headervue_type_script_lang_js_,
+  render,
+  staticRenderFns,
+  false,
+  null,
+  null,
+  null
+  
+)
+
+/* hot reload */
+if (false) { var api; }
+component.options.__file = "app/vue/layouts/header.vue"
+/* harmony default export */ var header = (component.exports);
+// CONCATENATED MODULE: ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./app/vue/layouts/chatbox.vue?vue&type=template&id=1e258058&
+var chatboxvue_type_template_id_1e258058_render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c(
+    "div",
+    {
+      directives: [
+        {
+          name: "show",
+          rawName: "v-show",
+          value: _vm.showchat,
+          expression: "showchat"
+        }
+      ],
+      staticClass: "chatbox"
+    },
+    [
+      _c(
+        "div",
+        {
+          staticClass: "chat-header",
+          on: {
+            click: function($event) {
+              _vm.openchat = !_vm.openchat
+            }
+          }
+        },
+        [
+          _c(
+            "nav",
+            {
+              staticClass: "navbar",
+              attrs: { role: "navigation", "aria-label": "main navigation" }
+            },
+            [
+              _vm._m(0),
+              _vm._v(" "),
+              _c("div", { staticClass: "navbar-menu" }, [
+                _c("div", { staticClass: "navbar-start" }),
+                _vm._v(" "),
+                _c("div", { staticClass: "navbar-end" }, [
+                  _c("div", { staticClass: "navbar-item" }, [
+                    _c("div", { staticClass: "buttons" }, [
+                      _c(
+                        "a",
+                        {
+                          staticClass: "button is-white",
+                          on: {
+                            click: function($event) {
+                              _vm.openchat = !_vm.openchat
+                            }
+                          }
+                        },
+                        [_c("i", { staticClass: "fas fa-minus" })]
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "a",
+                        {
+                          staticClass: "button is-white",
+                          on: {
+                            click: function($event) {
+                              _vm.showchat = !_vm.showchat
+                            }
+                          }
+                        },
+                        [_c("i", { staticClass: "fas fa-times" })]
+                      )
+                    ])
+                  ])
+                ])
+              ])
+            ]
+          )
+        ]
+      ),
+      _vm._v(" "),
+      _c(
+        "div",
+        {
+          directives: [
+            {
+              name: "show",
+              rawName: "v-show",
+              value: _vm.openchat,
+              expression: "openchat"
+            }
+          ],
+          staticClass: "chat-body"
+        },
+        [
+          _vm._l(_vm.intents, function(intent, index) {
+            return _c("div", { key: index, class: intent.type }, [
+              intent.type == "intent"
+                ? _c("span", [
+                    _c("img", {
+                      attrs: { src: "/assets/brand/leslicloud-logo.png" }
+                    })
+                  ])
+                : _vm._e(),
+              _vm._v(" "),
+              _c("p", [_vm._v(_vm._s(intent.text))]),
+              _vm._v(" "),
+              intent.type == "response"
+                ? _c("span", [
+                    _c("img", {
+                      attrs: {
+                        src:
+                          "https://cdn.lesli.tech/leslicloud/brand/leslicloud_isotipo-nomargin.png"
+                      }
+                    })
+                  ])
+                : _vm._e()
+            ])
+          }),
+          _vm._v(" "),
+          _vm.loading
+            ? _c("div", { staticClass: "response" }, [_vm._m(1)])
+            : _vm._e()
+        ],
+        2
+      ),
+      _vm._v(" "),
+      _c(
+        "div",
+        {
+          directives: [
+            {
+              name: "show",
+              rawName: "v-show",
+              value: _vm.openchat,
+              expression: "openchat"
+            }
+          ],
+          staticClass: "chat-footer"
+        },
+        [
+          _c("div", [
+            _c("input", {
+              directives: [
+                {
+                  name: "model",
+                  rawName: "v-model",
+                  value: _vm.intent,
+                  expression: "intent"
+                }
+              ],
+              attrs: {
+                disabled: _vm.loading,
+                type: "text",
+                placeholder: "How can I help you?"
+              },
+              domProps: { value: _vm.intent },
+              on: {
+                keyup: function($event) {
+                  if (
+                    !$event.type.indexOf("key") &&
+                    _vm._k($event.keyCode, "enter", 13, $event.key, "Enter")
+                  ) {
+                    return null
+                  }
+                  return _vm.postIntent($event)
+                },
+                input: function($event) {
+                  if ($event.target.composing) {
+                    return
+                  }
+                  _vm.intent = $event.target.value
+                }
+              }
+            })
+          ])
+        ]
+      )
+    ]
+  )
+}
+var chatboxvue_type_template_id_1e258058_staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "navbar-brand" }, [
+      _c("a", { staticClass: "navbar-item" }, [
+        _vm._v("\n                    Lesli\n                ")
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "loading-animation" }, [
+      _c("hr"),
+      _c("hr"),
+      _c("hr"),
+      _c("hr")
+    ])
+  }
+]
+chatboxvue_type_template_id_1e258058_render._withStripped = true
+
+
+// CONCATENATED MODULE: ./app/vue/layouts/chatbox.vue?vue&type=template&id=1e258058&
+
+// CONCATENATED MODULE: ./node_modules/babel-loader/lib??ref--3!./node_modules/vue-loader/lib??vue-loader-options!./app/vue/layouts/chatbox.vue?vue&type=script&lang=js&
+/* harmony default export */ var chatboxvue_type_script_lang_js_ = ({
+  data: function data() {
+    return {
+      intent: "",
+      intents: [],
+      loading: false,
+      openchat: false,
+      showchat: false
+    };
+  },
+  mounted: function mounted() {
+    var _this = this;
+
+    this.bus.subscribe('/cloud/layout/chatbox#postIntent', function (intent) {
+      _this.showchat = true;
+      _this.openchat = true;
+      _this.intent = intent;
+
+      _this.postIntent();
+    });
+  },
+  methods: {
+    postIntent: function postIntent() {
+      var _this2 = this;
+
+      // do not process intent if intent is empty
+      if (this.intent == '') {
+        return;
+      }
+
+      this.loading = true;
+      this.intents.push({
+        type: 'intent',
+        text: this.intent
+      });
+      this.intent = "";
+      var timeout = setTimeout(function () {
+        _this2.intents.push({
+          type: 'response',
+          text: new Date()
+        });
+
+        _this2.loading = false;
+        var chatBody = document.getElementsByClassName("chat-body")[0];
+        chatBody.scrollTop = chatBody.scrollHeight;
+      }, 800);
+    }
+  }
+});
+// CONCATENATED MODULE: ./app/vue/layouts/chatbox.vue?vue&type=script&lang=js&
+ /* harmony default export */ var layouts_chatboxvue_type_script_lang_js_ = (chatboxvue_type_script_lang_js_); 
+// CONCATENATED MODULE: ./app/vue/layouts/chatbox.vue
+
+
+
+
+
+/* normalize component */
+
+var chatbox_component = Object(componentNormalizer["a" /* default */])(
+  layouts_chatboxvue_type_script_lang_js_,
+  chatboxvue_type_template_id_1e258058_render,
+  chatboxvue_type_template_id_1e258058_staticRenderFns,
+  false,
+  null,
+  null,
+  null
+  
+)
+
+/* hot reload */
+if (false) { var chatbox_api; }
+chatbox_component.options.__file = "app/vue/layouts/chatbox.vue"
+/* harmony default export */ var chatbox = (chatbox_component.exports);
+// CONCATENATED MODULE: ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./app/vue/layouts/empty-data.vue?vue&type=template&id=2e65fed5&
+var empty_datavue_type_template_id_2e65fed5_render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _vm._m(0)
+}
+var empty_datavue_type_template_id_2e65fed5_staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("section", { staticClass: "component-empty" }, [
+      _c("div", { staticClass: "card" }, [
+        _c("div", { staticClass: "card-content" }, [
+          _c("div", { staticClass: "image" }),
+          _vm._v(" "),
+          _c("p", [_vm._v("No data available")])
+        ])
+      ])
+    ])
+  }
+]
+empty_datavue_type_template_id_2e65fed5_render._withStripped = true
+
+
+// CONCATENATED MODULE: ./app/vue/layouts/empty-data.vue?vue&type=template&id=2e65fed5&
+
+// CONCATENATED MODULE: ./node_modules/babel-loader/lib??ref--3!./node_modules/vue-loader/lib??vue-loader-options!./app/vue/layouts/empty-data.vue?vue&type=script&lang=js&
+/*
+Lesli
+
+Copyright (c) 2019, Lesli Technologies, S. A.
+
+All the information provided by this website is protected by laws of Guatemala related 
+to industrial property, intellectual property, copyright and relative international laws. 
+Lesli Technologies, S. A. is the exclusive owner of all intellectual or industrial property
+rights of the code, texts, trade mark, design, pictures and any other information.
+Without the written permission of Lesli Technologies, S. A., any replication, modification,
+transmission, publication is strictly forbidden.
+For more information read the license file including with this software.
+
+LesliCloud - Your Smart Business Assistant
+
+Powered by https://www.lesli.tech
+Building a better future, one line of code at a time.
+
+@author   LesliTech <hello@lesli.tech>
+@license  Propietary - all rights reserved.
+@version  0.1.0-alpha
+
+// · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
+// · 
+*/
+/* harmony default export */ var empty_datavue_type_script_lang_js_ = ({});
+// CONCATENATED MODULE: ./app/vue/layouts/empty-data.vue?vue&type=script&lang=js&
+ /* harmony default export */ var layouts_empty_datavue_type_script_lang_js_ = (empty_datavue_type_script_lang_js_); 
+// CONCATENATED MODULE: ./app/vue/layouts/empty-data.vue
+
+
+
+
+
+/* normalize component */
+
+var empty_data_component = Object(componentNormalizer["a" /* default */])(
+  layouts_empty_datavue_type_script_lang_js_,
+  empty_datavue_type_template_id_2e65fed5_render,
+  empty_datavue_type_template_id_2e65fed5_staticRenderFns,
+  false,
+  null,
+  null,
+  null
+  
+)
+
+/* hot reload */
+if (false) { var empty_data_api; }
+empty_data_component.options.__file = "app/vue/layouts/empty-data.vue"
+/* harmony default export */ var empty_data = (empty_data_component.exports);
+// CONCATENATED MODULE: ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./app/vue/layouts/navigation.vue?vue&type=template&id=70d7a082&
+var navigationvue_type_template_id_70d7a082_render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("nav", { staticClass: "module-navigation navbar is-transparent" }, [
+    _c("div", { staticClass: "navbar-menu" }, [
+      _c("div", { staticClass: "navbar-start" }, [_vm._t("right")], 2),
+      _vm._v(" "),
+      _c(
+        "div",
+        { staticClass: "navbar-end" },
+        [
+          _vm._t("left"),
+          _vm._v(" "),
+          _vm.id
+            ? _c(
+                "a",
+                { staticClass: "navbar-item", on: { click: _vm.showActions } },
+                [_vm._v("Actions")]
+              )
+            : _vm._e(),
+          _vm._v(" "),
+          _vm.id
+            ? _c(
+                "a",
+                { staticClass: "navbar-item", on: { click: _vm.showFiles } },
+                [_vm._v("Files")]
+              )
+            : _vm._e(),
+          _vm._v(" "),
+          _vm.id
+            ? _c(
+                "a",
+                { staticClass: "navbar-item", on: { click: _vm.showActions } },
+                [_vm._v("Activities")]
+              )
+            : _vm._e()
+        ],
+        2
+      )
+    ])
+  ])
+}
+var navigationvue_type_template_id_70d7a082_staticRenderFns = []
+navigationvue_type_template_id_70d7a082_render._withStripped = true
+
+
+// CONCATENATED MODULE: ./app/vue/layouts/navigation.vue?vue&type=template&id=70d7a082&
+
+// CONCATENATED MODULE: ./node_modules/babel-loader/lib??ref--3!./node_modules/vue-loader/lib??vue-loader-options!./app/vue/layouts/navigation.vue?vue&type=script&lang=js&
+/* harmony default export */ var navigationvue_type_script_lang_js_ = ({
+  data: function data() {
+    return {
+      id: null
+    };
+  },
+  mounted: function mounted() {
+    if (this.$route && this.$route.params.id) {
+      this.id = this.$route.params.id;
+    }
+  },
+  methods: {
+    showActions: function showActions() {
+      this.bus.publish("show:/module/app/actions");
+    },
+    showFiles: function showFiles() {
+      this.bus.publish("show:/module/app/files");
+    }
+  },
+  watch: {
+    '$route.params.id': function $routeParamsId(id) {
+      this.id = id;
+    }
+  }
+});
+// CONCATENATED MODULE: ./app/vue/layouts/navigation.vue?vue&type=script&lang=js&
+ /* harmony default export */ var layouts_navigationvue_type_script_lang_js_ = (navigationvue_type_script_lang_js_); 
+// CONCATENATED MODULE: ./app/vue/layouts/navigation.vue
+
+
+
+
+
+/* normalize component */
+
+var navigation_component = Object(componentNormalizer["a" /* default */])(
+  layouts_navigationvue_type_script_lang_js_,
+  navigationvue_type_template_id_70d7a082_render,
+  navigationvue_type_template_id_70d7a082_staticRenderFns,
+  false,
+  null,
+  null,
+  null
+  
+)
+
+/* hot reload */
+if (false) { var navigation_api; }
+navigation_component.options.__file = "app/vue/layouts/navigation.vue"
+/* harmony default export */ var navigation = (navigation_component.exports);
+// CONCATENATED MODULE: ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./app/vue/layouts/notification.vue?vue&type=template&id=e9871b54&
+var notificationvue_type_template_id_e9871b54_render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("section", [
+    _c(
+      "div",
+      { class: [{ "is-active": _vm.notification.show }, "quickview"] },
+      [
+        _c(
+          "header",
+          {
+            staticClass: "quickview-header",
+            on: {
+              click: function($event) {
+                _vm.notification.show = false
+              }
+            }
+          },
+          [
+            _c("p", { staticClass: "title" }, [_vm._v("Notifications")]),
+            _vm._v(" "),
+            _c("i", { staticClass: "fas fa-chevron-right" })
+          ]
+        ),
+        _vm._v(" "),
+        _c("div", { staticClass: "quickview-body" }, [
+          _c("div", { staticClass: "quickview-block" }, [
+            _c("div", { staticClass: "section" }, [
+              _c(
+                "ul",
+                { staticClass: "menu-list" },
+                _vm._l(_vm.notification.list, function(notification, index) {
+                  return _c("li", { key: index }, [
+                    _c(
+                      "a",
+                      {
+                        attrs: { href: "#" },
+                        on: {
+                          click: function($event) {
+                            return _vm.readNotification(index)
+                          }
+                        }
+                      },
+                      [_vm._v(_vm._s(notification.subject))]
+                    )
+                  ])
+                }),
+                0
+              )
+            ])
+          ])
+        ]),
+        _vm._v(" "),
+        _vm._m(0)
+      ]
+    )
+  ])
+}
+var notificationvue_type_template_id_e9871b54_staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("footer", { staticClass: "quickview-footer" }, [
+      _c("a", { attrs: { href: "/bell/notifications" } }, [
+        _vm._v("all notifications")
+      ])
+    ])
+  }
+]
+notificationvue_type_template_id_e9871b54_render._withStripped = true
+
+
+// CONCATENATED MODULE: ./app/vue/layouts/notification.vue?vue&type=template&id=e9871b54&
+
+// CONCATENATED MODULE: ./node_modules/babel-loader/lib??ref--3!./node_modules/vue-loader/lib??vue-loader-options!./app/vue/layouts/notification.vue?vue&type=script&lang=js&
+/*
+Lesli
+
+Copyright (c) 2019, Lesli Technologies, S. A.
+
+All the information provided by this website is protected by laws of Guatemala related 
+to industrial property, intellectual property, copyright and relative international laws. 
+Lesli Technologies, S. A. is the exclusive owner of all intellectual or industrial property
+rights of the code, texts, trade mark, design, pictures and any other information.
+Without the written permission of Lesli Technologies, S. A., any replication, modification,
+transmission, publication is strictly forbidden.
+For more information read the license file including with this software.
+
+LesliCloud - Your Smart Business Assistant
+
+Powered by https://www.lesli.tech
+Building a better future, one line of code at a time.
+
+@dev      Luis Donis <ldonis@lesli.tech>
+@author   LesliTech <hello@lesli.tech>
+@license  Propietary - all rights reserved.
+@version  GIT: 0.1.0 alpha
+
+//  · 
+// ~·~        ~·~        ~·~        ~·~        ~·~        ~·~        ~·~        ~·~        ~·~
+*/
+// · LesliCloud component
+// · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
+/* harmony default export */ var notificationvue_type_script_lang_js_ = ({
+  data: function data() {
+    return {
+      notification: {
+        show: false,
+        timer: null,
+        list: []
+      }
+    };
+  },
+  mounted: function mounted() {
+    this.mountListeners();
+    this.getNotifications();
+  },
+  methods: {
+    mountListeners: function mountListeners() {
+      var _this = this;
+
+      this.bus.subscribe('show:/cloud/layout/notify#alert', function (message) {
+        var type = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 'primary';
+
+        _this.$buefy.toast.open({
+          queue: true,
+          duration: 3500,
+          position: 'is-bottom-right',
+          message: message,
+          type: "is-".concat(type)
+        });
+      });
+      this.bus.subscribe('show:/cloud/layout/notify#notification', function (message) {
+        var type = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 'success';
+
+        _this.$buefy.notification.open({
+          queue: true,
+          duration: 2000,
+          position: 'is-bottom-right',
+          message: message,
+          type: "is-".concat(type)
+        });
+      });
+      this.bus.subscribe('get:/cloud/layout/notify#notification', function () {
+        _this.getNotifications();
+      });
+      this.bus.subscribe('open:/cloud/layout/notify#notification', function () {
+        _this.openNotificationsPanel();
+      });
+    },
+    getNotifications: function getNotifications() {
+      var _this2 = this;
+
+      this.http.get('/bell/notifications.json').then(function (result) {
+        if (result.successful) {
+          _this2.notification.list = result.data;
+        }
+      })["catch"](function (error) {
+        console.log(error);
+      });
+    },
+    openNotificationsPanel: function openNotificationsPanel() {
+      var _this3 = this;
+
+      this.getNotifications();
+      this.notification.show = true;
+      this.notification.timer = setTimeout(function () {
+        return _this3.notification.show = false;
+      }, 25000);
+    },
+    prepareDesktopNotification: function prepareDesktopNotification() {
+      if (!("Notification" in window)) {
+        console.log("This browser does not support desktop notification");
+        return;
+      } // Let's check whether notification permissions have already been granted
+
+
+      if (Notification.permission === "granted") {
+        // If it's okay let's create a notification
+        var notification = new Notification("Hi there!");
+        return;
+      } // Otherwise, we need to ask the user for permission
+
+
+      if (Notification.permission !== "denied") {
+        Notification.requestPermission().then(function (permission) {
+          // If the user accepts, let's create a notification
+          if (permission === "granted") {
+            var notification = new Notification("Hi there!");
+          }
+        });
+      }
+    },
+    readNotification: function readNotification(index) {
+      var notification = this.notification.list[index]; // In this case, there is no need to wait for a response
+
+      this.http.put("/bell/api/notifications/".concat(notification.id, "/read"))["catch"](function (error) {
+        console.log(error);
+      });
+      window.location.href = notification.href;
+    }
+  }
+});
+// CONCATENATED MODULE: ./app/vue/layouts/notification.vue?vue&type=script&lang=js&
+ /* harmony default export */ var layouts_notificationvue_type_script_lang_js_ = (notificationvue_type_script_lang_js_); 
+// CONCATENATED MODULE: ./app/vue/layouts/notification.vue
+
+
+
+
+
+/* normalize component */
+
+var notification_component = Object(componentNormalizer["a" /* default */])(
+  layouts_notificationvue_type_script_lang_js_,
+  notificationvue_type_template_id_e9871b54_render,
+  notificationvue_type_template_id_e9871b54_staticRenderFns,
+  false,
+  null,
+  null,
+  null
+  
+)
+
+/* hot reload */
+if (false) { var notification_api; }
+notification_component.options.__file = "app/vue/layouts/notification.vue"
+/* harmony default export */ var notification = (notification_component.exports);
+// CONCATENATED MODULE: ./app/vue/app.js
 /*
 Lesli
 
@@ -29650,332 +31147,185 @@ Building a better future, one line of code at a time.
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
 
 
+
+
  // · Loading app functions
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
+
+
+ // · Loading app layout
+// · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
+
+
+
 
 
  // · Initializing frameworks, libraries and tools
 // · If the file is public accessible, and no extra components no websockets are created
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
 
-vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(buefy__WEBPACK_IMPORTED_MODULE_1__[/* default */ "a"]);
-vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vue_router__WEBPACK_IMPORTED_MODULE_2__[/* default */ "a"]);
-vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(LesliCloud_vue_plugins_url__WEBPACK_IMPORTED_MODULE_3__[/* default */ "a"]);
-vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(LesliCloud_vue_plugins_http__WEBPACK_IMPORTED_MODULE_4__[/* default */ "a"]); // · Vue app
+vue_default.a.use(esm["a" /* default */]);
+vue_default.a.use(bus);
+vue_default.a.use(vue_router_esm["a" /* default */]);
+vue_default.a.use(url["a" /* default */]);
+vue_default.a.use(http["a" /* default */]);
+vue_default.a.use(date);
+vue_default.a.component('component-layout-empty-data', empty_data); // · Vue app
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
 // · module: Main module
 // · app: List of individual apps loaded
 // · base_path: for vue router
 // · example: app("CloudHelp", "[list|new|edit|show]", "help/tickets", [])
 
-/* harmony default export */ __webpack_exports__["a"] = (function (module, apps, base_path) {
+/* harmony default export */ var app = __webpack_exports__["a"] = (function (module, apps, base_path) {
   var routes = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : [];
-  // · Building Vue cloud app
-  var cloud = new vue__WEBPACK_IMPORTED_MODULE_0___default.a({
-    router: new vue_router__WEBPACK_IMPORTED_MODULE_2__[/* default */ "a"]({
-      linkActiveClass: 'is-active',
-      base: base_path,
-      mode: "history",
-      routes: routes
-    })
-  }); // · Mount app once DOM is ready
+  // · Vue app configuration container
+  var cloud_builder = {}; // · Default and custom components for logged users
 
-  LesliCloud_vue_functions_document_js__WEBPACK_IMPORTED_MODULE_6__[/* default */ "a"].ready(function () {
-    cloud.$mount("#lesli-cloud-app");
+  cloud_builder['components'] = {
+    'component-layout-header': header,
+    'component-layout-chatbox': chatbox,
+    'component-layout-navigation': navigation,
+    'component-layout-notification': notification
+  }; // · Routes for SPAs
+
+  cloud_builder['router'] = new vue_router_esm["a" /* default */]({
+    linkActiveClass: 'is-active',
+    base: base_path,
+    mode: "history",
+    routes: routes
+  }); // · Building Vue cloud app
+
+  var cloud = new vue_default.a(cloud_builder); // · Mount app once DOM is ready
+
+  functions_document["a" /* default */].ready(function () {
+    cloud.$mount("#lesli-cloud-app"); // · Defined in webpack.config.js
+
     if (false) {}
-    if (true) lesli_nodejs_debug_message_browser__WEBPACK_IMPORTED_MODULE_5___default.a.info("".concat(base_path, " ").concat(apps), module);
+    if (true) browser_default.a.info("".concat(base_path, " ").concat(apps), module);
   });
 });
 
 /***/ }),
-/* 43 */,
-/* 44 */,
-/* 45 */
+/* 45 */,
+/* 46 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 
-// EXTERNAL MODULE: ./app/vue/public.js
-var vue_public = __webpack_require__(42);
+// EXTERNAL MODULE: ./app/vue/app.js + 27 modules
+var app = __webpack_require__(44);
 
-// CONCATENATED MODULE: ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./app/vue/users/apps/login.vue?vue&type=template&id=f6cb2dd0&
+// CONCATENATED MODULE: ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./app/vue/users/apps/user/list.vue?vue&type=template&id=583e6e11&
 var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("section", { attrs: { id: "sessions" } }, [
-    _c("a", { staticClass: "logo", attrs: { href: _vm.url.to() } }, [
-      _c("img", {
-        attrs: {
-          src: "/assets/brand/leslicloud-logo.png",
-          alt: "LesliCloud Logo"
-        }
-      })
-    ]),
-    _vm._v(" "),
-    _c(
-      "form",
-      { ref: "form", attrs: { id: "new_user" }, on: { submit: _vm.login } },
-      [
-        _c("progress-bar", { attrs: { active: _vm.progress_bar_active } }),
-        _vm._v(" "),
-        _c("form-notification", {
-          attrs: {
-            message: _vm.notification.message,
-            type: _vm.notification.type,
-            show: _vm.notification.show
-          },
-          on: {
-            "update:show": function($event) {
-              return _vm.$set(_vm.notification, "show", $event)
-            }
-          }
-        }),
-        _vm._v(" "),
-        _c("div", { staticClass: "field" }, [
-          _c("p", { staticClass: "control has-icons-left" }, [
-            _c("label", { staticClass: "sr-only" }, [
-              _vm._v(
-                "\n               " +
-                  _vm._s(_vm.translations.shared.fields.email) +
-                  "\n            "
-              )
-            ]),
-            _vm._v(" "),
-            _c("input", {
-              directives: [
-                {
-                  name: "model",
-                  rawName: "v-model",
-                  value: _vm.sign_in.email,
-                  expression: "sign_in.email"
-                }
-              ],
-              staticClass: "input",
-              attrs: {
-                type: "email",
-                required: "true",
-                placeholder: _vm.translations.shared.fields.email
-              },
-              domProps: { value: _vm.sign_in.email },
-              on: {
-                input: function($event) {
-                  if ($event.target.composing) {
-                    return
-                  }
-                  _vm.$set(_vm.sign_in, "email", $event.target.value)
-                }
-              }
-            }),
-            _vm._v(" "),
-            _vm._m(0)
-          ])
-        ]),
-        _vm._v(" "),
-        _c("div", { staticClass: "field" }, [
-          _c("p", { staticClass: "control has-icons-left" }, [
-            _c(
-              "label",
-              { staticClass: "sr-only", attrs: { for: "user_password" } },
-              [
-                _vm._v(
-                  "\n               " +
-                    _vm._s(_vm.translations.shared.fields.password) +
-                    "\n            "
-                )
-              ]
-            ),
-            _vm._v(" "),
-            _c("input", {
-              directives: [
-                {
-                  name: "model",
-                  rawName: "v-model",
-                  value: _vm.sign_in.password,
-                  expression: "sign_in.password"
-                }
-              ],
-              staticClass: "input",
-              attrs: {
-                type: "password",
-                required: "true",
-                placeholder: _vm.translations.shared.fields.password
-              },
-              domProps: { value: _vm.sign_in.password },
-              on: {
-                input: function($event) {
-                  if ($event.target.composing) {
-                    return
-                  }
-                  _vm.$set(_vm.sign_in, "password", $event.target.value)
-                }
-              }
-            }),
-            _vm._v(" "),
-            _vm._m(1)
-          ])
-        ]),
-        _vm._v(" "),
-        _c("input", {
-          staticClass: "button is-primary",
-          attrs: { type: "submit" },
-          domProps: { value: _vm.translations.login.actions.log_in }
-        })
-      ],
-      1
-    ),
-    _vm._v(" "),
-    _c("div", { staticClass: "links" }, [
+  return _c("section", [
+    _c("div", { staticClass: "card" }, [
       _c(
-        "a",
-        {
-          on: {
-            click: function($event) {
-              return _vm.goTo("/register")
-            }
-          }
-        },
+        "div",
+        { staticClass: "card-header" },
         [
-          _vm._v(
-            "\n         " + _vm._s(_vm.translations.links.sign_up) + "\n      "
+          _c(
+            "router-link",
+            { staticClass: "button is-link", attrs: { to: "/new" } },
+            [_vm._v("New user")]
+          ),
+          _vm._v(" "),
+          _c(
+            "router-link",
+            { staticClass: "button is-link", attrs: { to: "/invite" } },
+            [_vm._v("invite user")]
           )
-        ]
+        ],
+        1
       ),
       _vm._v(" "),
       _c(
-        "a",
-        {
-          on: {
-            click: function($event) {
-              return _vm.goTo("/password/new")
-            }
-          }
-        },
+        "div",
+        { staticClass: "card-content" },
         [
-          _vm._v(
-            "\n         " +
-              _vm._s(_vm.translations.links.reset_password) +
-              "\n      "
-          )
-        ]
-      ),
-      _vm._v(" "),
-      _c(
-        "a",
-        {
-          on: {
-            click: function($event) {
-              return _vm.goTo("/confirmation/new")
-            }
-          }
-        },
-        [
-          _vm._v(
-            "\n         " +
-              _vm._s(_vm.translations.links.resend_confirmation_email) +
-              "\n      "
-          )
-        ]
+          _c("b-table", {
+            attrs: { data: _vm.users, columns: _vm.columns, hoverable: true },
+            on: { click: _vm.clickUser }
+          })
+        ],
+        1
       )
     ])
   ])
 }
-var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("span", { staticClass: "icon is-small is-left" }, [
-      _c("i", { staticClass: "fas fa-envelope" })
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("span", { staticClass: "icon is-small is-left" }, [
-      _c("i", { staticClass: "fas fa-lock" })
-    ])
-  }
-]
+var staticRenderFns = []
 render._withStripped = true
 
 
-// CONCATENATED MODULE: ./app/vue/users/apps/login.vue?vue&type=template&id=f6cb2dd0&
+// CONCATENATED MODULE: ./app/vue/users/apps/user/list.vue?vue&type=template&id=583e6e11&
 
-// EXTERNAL MODULE: ./app/vue/components/forms/notification.vue + 4 modules
-var notification = __webpack_require__(4);
+// CONCATENATED MODULE: ./node_modules/babel-loader/lib??ref--3!./node_modules/vue-loader/lib??vue-loader-options!./app/vue/users/apps/user/list.vue?vue&type=script&lang=js&
+/*
+Lesli
 
-// EXTERNAL MODULE: ./app/vue/components/forms/progress_bar.vue + 4 modules
-var progress_bar = __webpack_require__(3);
+Copyright (c) 2019, Lesli Technologies, S. A.
 
-// CONCATENATED MODULE: ./node_modules/babel-loader/lib??ref--3!./node_modules/vue-loader/lib??vue-loader-options!./app/vue/users/apps/login.vue?vue&type=script&lang=js&
+All the information provided by this website is protected by laws of Guatemala related 
+to industrial property, intellectual property, copyright and relative international laws. 
+Lesli Technologies, S. A. is the exclusive owner of all intellectual or industrial property
+rights of the code, texts, trade mark, design, pictures and any other information.
+Without the written permission of Lesli Technologies, S. A., any replication, modification,
+transmission, publication is strictly forbidden.
+For more information read the license file including with this software.
 
+LesliCloud - Your Smart Business Assistant
 
-/* harmony default export */ var loginvue_type_script_lang_js_ = ({
+Powered by https://www.lesli.tech
+Building a better future, one line of code at a time.
+
+@author   LesliTech <hello@lesli.tech>
+@license  Propietary - all rights reserved.
+@version  0.1.0-alpha
+
+// · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
+// · 
+*/
+/* harmony default export */ var listvue_type_script_lang_js_ = ({
   data: function data() {
     return {
-      translations: {
-        links: I18n.t('users.links'),
-        login: I18n.t('users.login'),
-        sessions: I18n.t('devise.sessions'),
-        shared: I18n.t('users.shared')
-      },
-      sign_in: {
-        email: '',
-        password: ''
-      },
-      progress_bar_active: false,
-      notification: {
-        show: false,
-        message: '',
-        type: 'is-danger'
-      }
+      users: [],
+      columns: [{
+        field: 'id',
+        label: 'ID'
+      }, {
+        field: 'email',
+        label: 'Email'
+      }]
     };
   },
+  mounted: function mounted() {
+    this.getUsers();
+  },
   methods: {
-    login: function login(event) {
+    getUsers: function getUsers() {
       var _this = this;
 
-      event.preventDefault();
-      var data = {
-        sign_in: this.sign_in
-      };
-      this.progress_bar_active = true;
-      this.http.post(this.url.to(null, null, 'login'), data).then(function (response) {
-        _this.progress_bar_active = false;
-
-        if (response.successful) {
-          _this.url.go('/lesli');
-        } else {
-          _this.showNotification(response.error.message);
-        }
-      })["catch"](function (err) {
-        console.log(err);
+      this.http.get('/admin/users.json').then(function (result) {
+        _this.users = result.data;
+      })["catch"](function (error) {
+        console.log(error);
       });
     },
-    showNotification: function showNotification(message) {
-      var type = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 'is-danger';
-      this.notification.message = message;
-      this.notification.type = type;
-      this.notification.show = true;
-    },
-    goTo: function goTo(url) {
-      this.$router.push("".concat(url));
+    clickUser: function clickUser(user) {
+      this.$router.push("".concat(user.id));
     }
-  },
-  components: {
-    'form-notification': notification["a" /* default */],
-    'progress-bar': progress_bar["a" /* default */]
   }
 });
-// CONCATENATED MODULE: ./app/vue/users/apps/login.vue?vue&type=script&lang=js&
- /* harmony default export */ var apps_loginvue_type_script_lang_js_ = (loginvue_type_script_lang_js_); 
+// CONCATENATED MODULE: ./app/vue/users/apps/user/list.vue?vue&type=script&lang=js&
+ /* harmony default export */ var user_listvue_type_script_lang_js_ = (listvue_type_script_lang_js_); 
 // EXTERNAL MODULE: ./node_modules/vue-loader/lib/runtime/componentNormalizer.js
 var componentNormalizer = __webpack_require__(1);
 
-// CONCATENATED MODULE: ./app/vue/users/apps/login.vue
+// CONCATENATED MODULE: ./app/vue/users/apps/user/list.vue
 
 
 
@@ -29984,7 +31334,7 @@ var componentNormalizer = __webpack_require__(1);
 /* normalize component */
 
 var component = Object(componentNormalizer["a" /* default */])(
-  apps_loginvue_type_script_lang_js_,
+  user_listvue_type_script_lang_js_,
   render,
   staticRenderFns,
   false,
@@ -29996,230 +31346,195 @@ var component = Object(componentNormalizer["a" /* default */])(
 
 /* hot reload */
 if (false) { var api; }
-component.options.__file = "app/vue/users/apps/login.vue"
-/* harmony default export */ var login = (component.exports);
-// CONCATENATED MODULE: ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./app/vue/users/apps/confirmation.vue?vue&type=template&id=4c9890d6&
-var confirmationvue_type_template_id_4c9890d6_render = function() {
+component.options.__file = "app/vue/users/apps/user/list.vue"
+/* harmony default export */ var list = (component.exports);
+// CONCATENATED MODULE: ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./app/vue/users/apps/user/invite.vue?vue&type=template&id=9a109788&
+var invitevue_type_template_id_9a109788_render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("section", { attrs: { id: "confirmations" } }, [
-    _c("a", { staticClass: "logo", attrs: { href: _vm.url.to() } }, [
-      _c("img", {
-        attrs: {
-          src: "/assets/brand/leslicloud-logo.png",
-          alt: "LesliCloud Logo"
-        }
-      })
-    ]),
-    _vm._v(" "),
-    _c(
-      "form",
-      {
-        ref: "form",
-        attrs: { id: "new_confirmation" },
-        on: { submit: _vm.confirmEmail }
-      },
-      [
-        _c("progress-bar", { attrs: { active: _vm.progress_bar_active } }),
-        _vm._v(" "),
-        _c("form-notification", {
-          attrs: {
-            message: _vm.notification.message,
-            type: _vm.notification.type,
-            show: _vm.notification.show
-          },
-          on: {
-            "update:show": function($event) {
-              return _vm.$set(_vm.notification, "show", $event)
-            }
-          }
-        }),
-        _vm._v(" "),
-        _c("div", { staticClass: "field" }, [
-          _c("p", { staticClass: "control has-icons-left" }, [
-            _c("label", { staticClass: "sr-only" }, [
-              _vm._v(
-                "\n               " +
-                  _vm._s(_vm.translations.shared.fields.email) +
-                  "\n            "
-              )
-            ]),
+  return _c("section", [
+    _c("div", { staticClass: "card" }, [
+      _c("div", { staticClass: "card-header" }, [
+        _vm._v("\n            invite user\n        ")
+      ]),
+      _vm._v(" "),
+      _c("div", { staticClass: "card-content" }, [
+        _c("form", [
+          _c("div", { staticClass: "field" }, [
+            _c("label", { staticClass: "label" }, [_vm._v("Name")]),
             _vm._v(" "),
-            _c("input", {
-              directives: [
-                {
-                  name: "model",
-                  rawName: "v-model",
-                  value: _vm.confirmation.email,
-                  expression: "confirmation.email"
-                }
-              ],
-              staticClass: "input",
-              attrs: {
-                type: "email",
-                required: "true",
-                placeholder: _vm.translations.shared.fields.email
-              },
-              domProps: { value: _vm.confirmation.email },
-              on: {
-                input: function($event) {
-                  if ($event.target.composing) {
-                    return
+            _c("div", { staticClass: "control" }, [
+              _c("input", {
+                directives: [
+                  {
+                    name: "model",
+                    rawName: "v-model",
+                    value: _vm.user.detail_attributes.first_name,
+                    expression: "user.detail_attributes.first_name"
                   }
-                  _vm.$set(_vm.confirmation, "email", $event.target.value)
+                ],
+                staticClass: "input",
+                attrs: { type: "text", placeholder: "Text input" },
+                domProps: { value: _vm.user.detail_attributes.first_name },
+                on: {
+                  input: function($event) {
+                    if ($event.target.composing) {
+                      return
+                    }
+                    _vm.$set(
+                      _vm.user.detail_attributes,
+                      "first_name",
+                      $event.target.value
+                    )
+                  }
                 }
-              }
-            }),
+              })
+            ])
+          ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "field" }, [
+            _c("label", { staticClass: "label" }, [_vm._v("Email")]),
             _vm._v(" "),
-            _vm._m(0)
+            _c("div", { staticClass: "control" }, [
+              _c("input", {
+                directives: [
+                  {
+                    name: "model",
+                    rawName: "v-model",
+                    value: _vm.user.email,
+                    expression: "user.email"
+                  }
+                ],
+                staticClass: "input",
+                attrs: { type: "text", placeholder: "Text input" },
+                domProps: { value: _vm.user.email },
+                on: {
+                  input: function($event) {
+                    if ($event.target.composing) {
+                      return
+                    }
+                    _vm.$set(_vm.user, "email", $event.target.value)
+                  }
+                }
+              })
+            ])
+          ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "field" }, [
+            _c("label", { staticClass: "label" }, [_vm._v("Message")]),
+            _vm._v(" "),
+            _c("div", { staticClass: "control" }, [
+              _c("textarea", {
+                directives: [
+                  {
+                    name: "model",
+                    rawName: "v-model",
+                    value: _vm.user.detail_attributes.message,
+                    expression: "user.detail_attributes.message"
+                  }
+                ],
+                staticClass: "textarea",
+                attrs: { placeholder: "Textarea" },
+                domProps: { value: _vm.user.detail_attributes.message },
+                on: {
+                  input: function($event) {
+                    if ($event.target.composing) {
+                      return
+                    }
+                    _vm.$set(
+                      _vm.user.detail_attributes,
+                      "message",
+                      $event.target.value
+                    )
+                  }
+                }
+              })
+            ])
+          ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "field is-grouped" }, [
+            _c("div", { staticClass: "control" }, [
+              _c(
+                "button",
+                {
+                  staticClass: "button is-link",
+                  on: { click: _vm.postInvite }
+                },
+                [_vm._v("Submit")]
+              )
+            ])
           ])
-        ]),
-        _vm._v(" "),
-        _c("input", {
-          staticClass: "button is-primary",
-          attrs: { type: "submit" },
-          domProps: {
-            value: _vm.translations.confirmation.actions.resend_email
-          }
-        })
-      ],
-      1
-    ),
-    _vm._v(" "),
-    _c("div", { staticClass: "links" }, [
-      _c(
-        "a",
-        {
-          on: {
-            click: function($event) {
-              return _vm.goTo("/login")
-            }
-          }
-        },
-        [
-          _vm._v(
-            "\n         " + _vm._s(_vm.translations.links.login) + "\n      "
-          )
-        ]
-      ),
-      _vm._v(" "),
-      _c(
-        "a",
-        {
-          on: {
-            click: function($event) {
-              return _vm.goTo("/register")
-            }
-          }
-        },
-        [
-          _vm._v(
-            "\n         " + _vm._s(_vm.translations.links.sign_up) + "\n      "
-          )
-        ]
-      ),
-      _vm._v(" "),
-      _c(
-        "a",
-        {
-          on: {
-            click: function($event) {
-              return _vm.goTo("/password/new")
-            }
-          }
-        },
-        [
-          _vm._v(
-            "\n         " +
-              _vm._s(_vm.translations.links.reset_password) +
-              "\n      "
-          )
-        ]
-      )
+        ])
+      ])
     ])
   ])
 }
-var confirmationvue_type_template_id_4c9890d6_staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("span", { staticClass: "icon is-small is-left" }, [
-      _c("i", { staticClass: "fas fa-envelope" })
-    ])
-  }
-]
-confirmationvue_type_template_id_4c9890d6_render._withStripped = true
+var invitevue_type_template_id_9a109788_staticRenderFns = []
+invitevue_type_template_id_9a109788_render._withStripped = true
 
 
-// CONCATENATED MODULE: ./app/vue/users/apps/confirmation.vue?vue&type=template&id=4c9890d6&
+// CONCATENATED MODULE: ./app/vue/users/apps/user/invite.vue?vue&type=template&id=9a109788&
 
-// CONCATENATED MODULE: ./node_modules/babel-loader/lib??ref--3!./node_modules/vue-loader/lib??vue-loader-options!./app/vue/users/apps/confirmation.vue?vue&type=script&lang=js&
+// CONCATENATED MODULE: ./node_modules/babel-loader/lib??ref--3!./node_modules/vue-loader/lib??vue-loader-options!./app/vue/users/apps/user/invite.vue?vue&type=script&lang=js&
+/*
+Lesli
 
+Copyright (c) 2019, Lesli Technologies, S. A.
 
-/* harmony default export */ var confirmationvue_type_script_lang_js_ = ({
+All the information provided by this website is protected by laws of Guatemala related 
+to industrial property, intellectual property, copyright and relative international laws. 
+Lesli Technologies, S. A. is the exclusive owner of all intellectual or industrial property
+rights of the code, texts, trade mark, design, pictures and any other information.
+Without the written permission of Lesli Technologies, S. A., any replication, modification,
+transmission, publication is strictly forbidden.
+For more information read the license file including with this software.
+
+LesliCloud - Your Smart Business Assistant
+
+Powered by https://www.lesli.tech
+Building a better future, one line of code at a time.
+
+@author   LesliTech <hello@lesli.tech>
+@license  Propietary - all rights reserved.
+@version  0.1.0-alpha
+
+// · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
+// · 
+*/
+/* harmony default export */ var invitevue_type_script_lang_js_ = ({
   data: function data() {
     return {
-      translations: {
-        links: I18n.t('users.links'),
-        confirmation: I18n.t('users.confirmation'),
-        shared: I18n.t('users.shared')
-      },
-      confirmation: {
-        email: ''
-      },
-      progress_bar_active: false,
-      notification: {
-        show: false,
-        message: '',
-        type: 'is-danger'
+      user: {
+        email: 'ldonis.emc2@gmail.com',
+        detail_attributes: {
+          first_name: 'Luis',
+          message: 'Welcome to the jungle!'
+        }
       }
     };
   },
+  mounted: function mounted() {},
   methods: {
-    showNotification: function showNotification(message) {
-      var type = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 'is-danger';
-      this.notification.message = message;
-      this.notification.type = type;
-      this.notification.show = true;
-    },
-    confirmEmail: function confirmEmail(event) {
+    postInvite: function postInvite(e) {
       var _this = this;
 
-      event.preventDefault();
-      var data = {
-        user: this.confirmation
-      };
-      this.progress_bar_active = true;
-      this.http.post(this.url.to(null, null, '/confirmation'), data).then(function (response) {
-        _this.progress_bar_active = false;
+      e.preventDefault();
+      this.http.post('/admin/users', {
+        user: this.user
+      }).then(function (result) {
+        _this.$router.push('/');
 
-        if (response.successful) {
-          _this.showNotification(_this.translations.confirmation.notifications.success, 'is-success');
-
-          setTimeout(function () {
-            _this.goTo('/login');
-          }, 5000);
-        } else {
-          _this.showNotification(response.error.message);
-        }
-      })["catch"](function (err) {
-        console.log(err);
+        console.log(result);
+      })["catch"](function (error) {
+        console.log(error);
       });
-    },
-    goTo: function goTo(url) {
-      this.$router.push("".concat(url));
     }
-  },
-  components: {
-    'form-notification': notification["a" /* default */],
-    'progress-bar': progress_bar["a" /* default */]
   }
 });
-// CONCATENATED MODULE: ./app/vue/users/apps/confirmation.vue?vue&type=script&lang=js&
- /* harmony default export */ var apps_confirmationvue_type_script_lang_js_ = (confirmationvue_type_script_lang_js_); 
-// CONCATENATED MODULE: ./app/vue/users/apps/confirmation.vue
+// CONCATENATED MODULE: ./app/vue/users/apps/user/invite.vue?vue&type=script&lang=js&
+ /* harmony default export */ var user_invitevue_type_script_lang_js_ = (invitevue_type_script_lang_js_); 
+// CONCATENATED MODULE: ./app/vue/users/apps/user/invite.vue
 
 
 
@@ -30227,10 +31542,10 @@ confirmationvue_type_template_id_4c9890d6_render._withStripped = true
 
 /* normalize component */
 
-var confirmation_component = Object(componentNormalizer["a" /* default */])(
-  apps_confirmationvue_type_script_lang_js_,
-  confirmationvue_type_template_id_4c9890d6_render,
-  confirmationvue_type_template_id_4c9890d6_staticRenderFns,
+var invite_component = Object(componentNormalizer["a" /* default */])(
+  user_invitevue_type_script_lang_js_,
+  invitevue_type_template_id_9a109788_render,
+  invitevue_type_template_id_9a109788_staticRenderFns,
   false,
   null,
   null,
@@ -30239,586 +31554,347 @@ var confirmation_component = Object(componentNormalizer["a" /* default */])(
 )
 
 /* hot reload */
-if (false) { var confirmation_api; }
-confirmation_component.options.__file = "app/vue/users/apps/confirmation.vue"
-/* harmony default export */ var confirmation = (confirmation_component.exports);
-// CONCATENATED MODULE: ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./app/vue/users/apps/register.vue?vue&type=template&id=29860e78&
-var registervue_type_template_id_29860e78_render = function() {
+if (false) { var invite_api; }
+invite_component.options.__file = "app/vue/users/apps/user/invite.vue"
+/* harmony default export */ var invite = (invite_component.exports);
+// CONCATENATED MODULE: ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./app/vue/users/apps/user/new.vue?vue&type=template&id=c08c4a06&
+var newvue_type_template_id_c08c4a06_render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("section", { attrs: { id: "registrations" } }, [
-    _c("a", { staticClass: "logo", attrs: { href: _vm.url.to() } }, [
-      _c("img", {
-        attrs: {
-          src: "/assets/brand/leslicloud-logo.png",
-          alt: "LesliCloud Logo"
-        }
-      })
-    ]),
-    _vm._v(" "),
-    _c(
-      "form",
-      {
-        ref: "form",
-        attrs: { id: "registration_user" },
-        on: { submit: _vm.register }
-      },
-      [
-        _c("progress-bar", { attrs: { active: _vm.progress_bar_active } }),
-        _vm._v(" "),
-        _c("form-notification", {
-          attrs: {
-            message: _vm.notification.message,
-            type: _vm.notification.type,
-            show: _vm.notification.show
-          },
-          on: {
-            "update:show": function($event) {
-              return _vm.$set(_vm.notification, "show", $event)
-            }
-          }
-        }),
-        _vm._v(" "),
-        _c("div", { staticClass: "field" }, [
-          _c("p", { staticClass: "control has-icons-left" }, [
-            _c("label", { staticClass: "sr-only" }, [
-              _vm._v(
-                "\n               " +
-                  _vm._s(_vm.translations.shared.fields.email) +
-                  "\n            "
-              )
+  return _c("section", { staticClass: "section" }, [
+    _c("div", { staticClass: "card" }, [
+      _vm._m(0),
+      _vm._v(" "),
+      _c("div", { staticClass: "card-content" }, [
+        _c("form", { on: { submit: _vm.postUser } }, [
+          _c("div", { staticClass: "columns" }, [
+            _c("div", { staticClass: "column is-4" }, [
+              _c("label", { staticClass: "label" }, [_vm._v("Email")]),
+              _vm._v(" "),
+              _c("input", {
+                directives: [
+                  {
+                    name: "model",
+                    rawName: "v-model",
+                    value: _vm.user.email,
+                    expression: "user.email"
+                  }
+                ],
+                staticClass: "input is-primary",
+                attrs: { type: "email", placeholder: "Email", required: "" },
+                domProps: { value: _vm.user.email },
+                on: {
+                  input: function($event) {
+                    if ($event.target.composing) {
+                      return
+                    }
+                    _vm.$set(_vm.user, "email", $event.target.value)
+                  }
+                }
+              })
             ]),
             _vm._v(" "),
-            _c("input", {
-              directives: [
-                {
-                  name: "model",
-                  rawName: "v-model",
-                  value: _vm.sign_up.email,
-                  expression: "sign_up.email"
-                }
-              ],
-              staticClass: "input",
-              attrs: {
-                type: "email",
-                required: "true",
-                placeholder: _vm.translations.shared.fields.email
-              },
-              domProps: { value: _vm.sign_up.email },
-              on: {
-                input: function($event) {
-                  if ($event.target.composing) {
-                    return
+            _c("div", { staticClass: "column is-4" }, [
+              _c("label", { staticClass: "label" }, [_vm._v("Password")]),
+              _vm._v(" "),
+              _c("input", {
+                directives: [
+                  {
+                    name: "model",
+                    rawName: "v-model",
+                    value: _vm.user.password,
+                    expression: "user.password"
                   }
-                  _vm.$set(_vm.sign_up, "email", $event.target.value)
-                }
-              }
-            }),
-            _vm._v(" "),
-            _vm._m(0)
-          ])
-        ]),
-        _vm._v(" "),
-        _c("div", { staticClass: "field" }, [
-          _c("p", { staticClass: "control has-icons-left" }, [
-            _c(
-              "label",
-              { staticClass: "sr-only", attrs: { for: "user_password" } },
-              [
-                _vm._v(
-                  "\n               " +
-                    _vm._s(_vm.translations.shared.fields.password) +
-                    "\n            "
-                )
-              ]
-            ),
-            _vm._v(" "),
-            _c("input", {
-              directives: [
-                {
-                  name: "model",
-                  rawName: "v-model",
-                  value: _vm.sign_up.password,
-                  expression: "sign_up.password"
-                }
-              ],
-              staticClass: "input",
-              attrs: {
-                type: "password",
-                required: "true",
-                minlength: "6",
-                placeholder:
-                  _vm.translations.shared.fields.password +
-                  " " +
-                  _vm.translations.registration.fields.password_length
-              },
-              domProps: { value: _vm.sign_up.password },
-              on: {
-                change: _vm.verifyPasswords,
-                input: function($event) {
-                  if ($event.target.composing) {
-                    return
+                ],
+                staticClass: "input is-primary",
+                attrs: {
+                  type: "password",
+                  placeholder: "Password",
+                  required: ""
+                },
+                domProps: { value: _vm.user.password },
+                on: {
+                  input: function($event) {
+                    if ($event.target.composing) {
+                      return
+                    }
+                    _vm.$set(_vm.user, "password", $event.target.value)
                   }
-                  _vm.$set(_vm.sign_up, "password", $event.target.value)
                 }
-              }
-            }),
+              })
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "column is-4" }, [
+              _c("label", { staticClass: "label" }, [
+                _vm._v("Password confirmation")
+              ]),
+              _vm._v(" "),
+              _c("input", {
+                directives: [
+                  {
+                    name: "model",
+                    rawName: "v-model",
+                    value: _vm.user.password_confirmation,
+                    expression: "user.password_confirmation"
+                  }
+                ],
+                staticClass: "input is-primary",
+                attrs: {
+                  type: "password",
+                  placeholder: "Password confirmation",
+                  required: ""
+                },
+                domProps: { value: _vm.user.password_confirmation },
+                on: {
+                  input: function($event) {
+                    if ($event.target.composing) {
+                      return
+                    }
+                    _vm.$set(
+                      _vm.user,
+                      "password_confirmation",
+                      $event.target.value
+                    )
+                  }
+                }
+              })
+            ])
+          ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "columns" }, [
+            _c("div", { staticClass: "column is-4" }, [
+              _c("label", { staticClass: "label" }, [_vm._v("First name")]),
+              _vm._v(" "),
+              _c("input", {
+                directives: [
+                  {
+                    name: "model",
+                    rawName: "v-model",
+                    value: _vm.user.detail_attributes.first_name,
+                    expression: "user.detail_attributes.first_name"
+                  }
+                ],
+                staticClass: "input is-primary",
+                attrs: {
+                  type: "text",
+                  placeholder: "First name",
+                  required: ""
+                },
+                domProps: { value: _vm.user.detail_attributes.first_name },
+                on: {
+                  input: function($event) {
+                    if ($event.target.composing) {
+                      return
+                    }
+                    _vm.$set(
+                      _vm.user.detail_attributes,
+                      "first_name",
+                      $event.target.value
+                    )
+                  }
+                }
+              })
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "column is-4" }, [
+              _c("label", { staticClass: "label" }, [_vm._v("Last name")]),
+              _vm._v(" "),
+              _c("input", {
+                directives: [
+                  {
+                    name: "model",
+                    rawName: "v-model",
+                    value: _vm.user.detail_attributes.last_name,
+                    expression: "user.detail_attributes.last_name"
+                  }
+                ],
+                staticClass: "input is-primary",
+                attrs: { type: "text", placeholder: "password" },
+                domProps: { value: _vm.user.detail_attributes.last_name },
+                on: {
+                  input: function($event) {
+                    if ($event.target.composing) {
+                      return
+                    }
+                    _vm.$set(
+                      _vm.user.detail_attributes,
+                      "last_name",
+                      $event.target.value
+                    )
+                  }
+                }
+              })
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "column is-4" }, [
+              _c("label", { staticClass: "label" }, [_vm._v("Telephone")]),
+              _vm._v(" "),
+              _c("input", {
+                directives: [
+                  {
+                    name: "model",
+                    rawName: "v-model",
+                    value: _vm.user.detail_attributes.telephone,
+                    expression: "user.detail_attributes.telephone"
+                  }
+                ],
+                staticClass: "input is-primary",
+                attrs: { type: "text", placeholder: "password" },
+                domProps: { value: _vm.user.detail_attributes.telephone },
+                on: {
+                  input: function($event) {
+                    if ($event.target.composing) {
+                      return
+                    }
+                    _vm.$set(
+                      _vm.user.detail_attributes,
+                      "telephone",
+                      $event.target.value
+                    )
+                  }
+                }
+              })
+            ])
+          ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "columns" }, [
+            _c("div", { staticClass: "column is-4" }, [
+              _c("label", { staticClass: "label" }, [_vm._v("Address")]),
+              _vm._v(" "),
+              _c("input", {
+                directives: [
+                  {
+                    name: "model",
+                    rawName: "v-model",
+                    value: _vm.user.detail_attributes.address,
+                    expression: "user.detail_attributes.address"
+                  }
+                ],
+                staticClass: "input is-primary",
+                attrs: { type: "text", placeholder: "First name" },
+                domProps: { value: _vm.user.detail_attributes.address },
+                on: {
+                  input: function($event) {
+                    if ($event.target.composing) {
+                      return
+                    }
+                    _vm.$set(
+                      _vm.user.detail_attributes,
+                      "address",
+                      $event.target.value
+                    )
+                  }
+                }
+              })
+            ]),
             _vm._v(" "),
             _vm._m(1)
           ])
-        ]),
-        _vm._v(" "),
-        _c("div", { staticClass: "field" }, [
-          _c("p", { staticClass: "control has-icons-left" }, [
-            _c(
-              "label",
-              { staticClass: "sr-only", attrs: { for: "user_password" } },
-              [
-                _vm._v(
-                  "\n               " +
-                    _vm._s(_vm.translations.shared.fields.password) +
-                    "\n            "
-                )
-              ]
-            ),
-            _vm._v(" "),
-            _c("input", {
-              directives: [
-                {
-                  name: "model",
-                  rawName: "v-model",
-                  value: _vm.sign_up.password_confirmation,
-                  expression: "sign_up.password_confirmation"
-                }
-              ],
-              staticClass: "input",
-              attrs: {
-                type: "password",
-                required: "true",
-                placeholder:
-                  _vm.translations.shared.fields.password_confirmation
-              },
-              domProps: { value: _vm.sign_up.password_confirmation },
-              on: {
-                change: _vm.verifyPasswords,
-                input: function($event) {
-                  if ($event.target.composing) {
-                    return
-                  }
-                  _vm.$set(
-                    _vm.sign_up,
-                    "password_confirmation",
-                    $event.target.value
-                  )
-                }
-              }
-            }),
-            _vm._v(" "),
-            _vm._m(2)
-          ])
-        ]),
-        _vm._v(" "),
-        _c("input", {
-          staticClass: "button is-primary",
-          attrs: { type: "submit" },
-          domProps: { value: _vm.translations.registration.actions.sign_up }
-        })
-      ],
-      1
-    ),
-    _vm._v(" "),
-    _c("div", { staticClass: "links" }, [
-      _c(
-        "a",
-        {
-          on: {
-            click: function($event) {
-              return _vm.goTo("/login")
-            }
-          }
-        },
-        [
-          _vm._v(
-            "\n         " + _vm._s(_vm.translations.links.login) + "\n      "
-          )
-        ]
-      ),
-      _vm._v(" "),
-      _c(
-        "a",
-        {
-          on: {
-            click: function($event) {
-              return _vm.goTo("/confirmation/new")
-            }
-          }
-        },
-        [
-          _vm._v(
-            "\n         " +
-              _vm._s(_vm.translations.links.resend_confirmation_email) +
-              "\n      "
-          )
-        ]
-      )
+        ])
+      ])
     ])
   ])
 }
-var registervue_type_template_id_29860e78_staticRenderFns = [
+var newvue_type_template_id_c08c4a06_staticRenderFns = [
   function() {
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("span", { staticClass: "icon is-small is-left" }, [
-      _c("i", { staticClass: "fas fa-envelope" })
+    return _c("div", { staticClass: "card-header" }, [
+      _c("h4", { staticClass: "card-header-title" }, [_vm._v("New user")])
     ])
   },
   function() {
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("span", { staticClass: "icon is-small is-left" }, [
-      _c("i", { staticClass: "fas fa-lock" })
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("span", { staticClass: "icon is-small is-left" }, [
-      _c("i", { staticClass: "fas fa-lock" })
-    ])
-  }
-]
-registervue_type_template_id_29860e78_render._withStripped = true
-
-
-// CONCATENATED MODULE: ./app/vue/users/apps/register.vue?vue&type=template&id=29860e78&
-
-// CONCATENATED MODULE: ./node_modules/babel-loader/lib??ref--3!./node_modules/vue-loader/lib??vue-loader-options!./app/vue/users/apps/register.vue?vue&type=script&lang=js&
-
-
-/* harmony default export */ var registervue_type_script_lang_js_ = ({
-  data: function data() {
-    return {
-      translations: {
-        links: I18n.t('users.links'),
-        registration: I18n.t('users.registration'),
-        sessions: I18n.t('devise.sessions'),
-        shared: I18n.t('users.shared')
-      },
-      sign_up: {
-        email: '',
-        password: '',
-        password_confirmation: ''
-      },
-      progress_bar_active: false,
-      notification: {
-        show: false,
-        message: '',
-        type: 'is-danger'
-      }
-    };
-  },
-  methods: {
-    register: function register(event) {
-      var _this = this;
-
-      event.preventDefault();
-      var data = {
-        user: this.sign_up
-      };
-      this.progress_bar_active = true;
-      this.http.post(this.url.to(null, null, null), data).then(function (response) {
-        _this.progress_bar_active = false;
-
-        if (response.successful) {
-          _this.showNotification(_this.translations.registration.notifications.success, 'is-success');
-
-          setTimeout(function () {
-            _this.goTo('/login');
-          }, 5000);
-        } else {
-          _this.showNotification(response.error.message);
-        }
-      })["catch"](function (err) {
-        console.log(err);
-      });
-    },
-    showNotification: function showNotification(message) {
-      var type = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 'is-danger';
-      this.notification.message = message;
-      this.notification.type = type;
-      this.notification.show = true;
-    },
-    verifyPasswords: function verifyPasswords() {
-      var password = this.sign_up.password;
-      var password_confirmation = this.sign_up.password_confirmation;
-
-      if (password && password_confirmation) {
-        if (password !== password_confirmation) {
-          this.showNotification(this.translations.shared.errors.unmatched_passwords);
-          return;
-        }
-      }
-
-      this.notification.show = false;
-    },
-    goTo: function goTo(url) {
-      this.$router.push("".concat(url));
-    }
-  },
-  components: {
-    'form-notification': notification["a" /* default */],
-    'progress-bar': progress_bar["a" /* default */]
-  }
-});
-// CONCATENATED MODULE: ./app/vue/users/apps/register.vue?vue&type=script&lang=js&
- /* harmony default export */ var apps_registervue_type_script_lang_js_ = (registervue_type_script_lang_js_); 
-// CONCATENATED MODULE: ./app/vue/users/apps/register.vue
-
-
-
-
-
-/* normalize component */
-
-var register_component = Object(componentNormalizer["a" /* default */])(
-  apps_registervue_type_script_lang_js_,
-  registervue_type_template_id_29860e78_render,
-  registervue_type_template_id_29860e78_staticRenderFns,
-  false,
-  null,
-  null,
-  null
-  
-)
-
-/* hot reload */
-if (false) { var register_api; }
-register_component.options.__file = "app/vue/users/apps/register.vue"
-/* harmony default export */ var register = (register_component.exports);
-// CONCATENATED MODULE: ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./app/vue/users/apps/password/new.vue?vue&type=template&id=f701a566&
-var newvue_type_template_id_f701a566_render = function() {
-  var _vm = this
-  var _h = _vm.$createElement
-  var _c = _vm._self._c || _h
-  return _c("section", { attrs: { id: "passwords" } }, [
-    _c("a", { staticClass: "logo", attrs: { href: _vm.url.to() } }, [
-      _c("img", {
-        attrs: {
-          src: "/assets/brand/leslicloud-logo.png",
-          alt: "LesliCloud Logo"
-        }
-      })
-    ]),
-    _vm._v(" "),
-    _c(
-      "form",
-      {
-        ref: "form",
-        attrs: { id: "new_password" },
-        on: { submit: _vm.resetPassword }
-      },
+    return _c(
+      "div",
+      { staticClass: "column is-4", staticStyle: { padding: "2.75rem" } },
       [
-        _c("progress-bar", { attrs: { active: _vm.progress_bar_active } }),
-        _vm._v(" "),
-        _c("form-notification", {
-          attrs: {
-            message: _vm.notification.message,
-            type: _vm.notification.type,
-            show: _vm.notification.show
-          },
-          on: {
-            "update:show": function($event) {
-              return _vm.$set(_vm.notification, "show", $event)
-            }
-          }
-        }),
-        _vm._v(" "),
         _c("div", { staticClass: "field" }, [
-          _c("p", { staticClass: "control has-icons-left" }, [
-            _c("label", { staticClass: "sr-only" }, [
-              _vm._v(
-                "\n               " +
-                  _vm._s(_vm.translations.shared.fields.email) +
-                  "\n            "
-              )
-            ]),
-            _vm._v(" "),
+          _c("div", { staticClass: "control" }, [
             _c("input", {
-              directives: [
-                {
-                  name: "model",
-                  rawName: "v-model",
-                  value: _vm.password.email,
-                  expression: "password.email"
-                }
-              ],
-              staticClass: "input",
-              attrs: {
-                type: "email",
-                required: "true",
-                placeholder: _vm.translations.shared.fields.email
-              },
-              domProps: { value: _vm.password.email },
-              on: {
-                input: function($event) {
-                  if ($event.target.composing) {
-                    return
-                  }
-                  _vm.$set(_vm.password, "email", $event.target.value)
-                }
-              }
-            }),
-            _vm._v(" "),
-            _vm._m(0)
+              staticClass: "button is-primary",
+              attrs: { type: "submit", value: "Save", required: "" }
+            })
           ])
-        ]),
-        _vm._v(" "),
-        _c("input", {
-          staticClass: "button is-primary",
-          attrs: { type: "submit" },
-          domProps: { value: _vm.translations.password.actions.reset_password }
-        })
-      ],
-      1
-    ),
-    _vm._v(" "),
-    _c("div", { staticClass: "links" }, [
-      _c(
-        "a",
-        {
-          on: {
-            click: function($event) {
-              return _vm.goTo("/login")
-            }
-          }
-        },
-        [
-          _vm._v(
-            "\n         " + _vm._s(_vm.translations.links.login) + "\n      "
-          )
-        ]
-      ),
-      _vm._v(" "),
-      _c(
-        "a",
-        {
-          on: {
-            click: function($event) {
-              return _vm.goTo("/register")
-            }
-          }
-        },
-        [
-          _vm._v(
-            "\n         " + _vm._s(_vm.translations.links.sign_up) + "\n      "
-          )
-        ]
-      ),
-      _vm._v(" "),
-      _c(
-        "a",
-        {
-          on: {
-            click: function($event) {
-              return _vm.goTo("/confirmation/new")
-            }
-          }
-        },
-        [
-          _vm._v(
-            "\n         " +
-              _vm._s(_vm.translations.links.resend_confirmation_email) +
-              "\n      "
-          )
-        ]
-      )
-    ])
-  ])
-}
-var newvue_type_template_id_f701a566_staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("span", { staticClass: "icon is-small is-left" }, [
-      _c("i", { staticClass: "fas fa-envelope" })
-    ])
+        ])
+      ]
+    )
   }
 ]
-newvue_type_template_id_f701a566_render._withStripped = true
+newvue_type_template_id_c08c4a06_render._withStripped = true
 
 
-// CONCATENATED MODULE: ./app/vue/users/apps/password/new.vue?vue&type=template&id=f701a566&
+// CONCATENATED MODULE: ./app/vue/users/apps/user/new.vue?vue&type=template&id=c08c4a06&
 
-// CONCATENATED MODULE: ./node_modules/babel-loader/lib??ref--3!./node_modules/vue-loader/lib??vue-loader-options!./app/vue/users/apps/password/new.vue?vue&type=script&lang=js&
+// CONCATENATED MODULE: ./node_modules/babel-loader/lib??ref--3!./node_modules/vue-loader/lib??vue-loader-options!./app/vue/users/apps/user/new.vue?vue&type=script&lang=js&
+/*
+Lesli
 
+Copyright (c) 2019, Lesli Technologies, S. A.
 
+All the information provided by this website is protected by laws of Guatemala related 
+to industrial property, intellectual property, copyright and relative international laws. 
+Lesli Technologies, S. A. is the exclusive owner of all intellectual or industrial property
+rights of the code, texts, trade mark, design, pictures and any other information.
+Without the written permission of Lesli Technologies, S. A., any replication, modification,
+transmission, publication is strictly forbidden.
+For more information read the license file including with this software.
+
+LesliCloud - Your Smart Business Assistant
+
+Powered by https://www.lesli.tech
+Building a better future, one line of code at a time.
+
+@author   LesliTech <hello@lesli.tech>
+@license  Propietary - all rights reserved.
+@version  0.1.0-alpha
+
+// · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
+// · 
+*/
 /* harmony default export */ var newvue_type_script_lang_js_ = ({
   data: function data() {
     return {
-      translations: {
-        links: I18n.t('users.links'),
-        password: I18n.t('users.password'),
-        shared: I18n.t('users.shared')
-      },
-      password: {
-        email: ''
-      },
-      progress_bar_active: false,
-      notification: {
-        show: false,
-        message: '',
-        type: 'is-danger'
+      user: {
+        email: '',
+        password: '',
+        password_confirmation: '',
+        detail_attributes: {
+          first_name: '',
+          last_name: '',
+          telephone: '',
+          address: ''
+        }
       }
     };
   },
   methods: {
-    showNotification: function showNotification(message) {
-      var type = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 'is-danger';
-      this.notification.message = message;
-      this.notification.type = type;
-      this.notification.show = true;
-    },
-    resetPassword: function resetPassword(event) {
+    postUser: function postUser(e) {
       var _this = this;
 
-      event.preventDefault();
-      var data = {
-        user: this.password
-      };
-      this.progress_bar_active = true;
-      this.http.post(this.url.to(null, null, '/password'), data).then(function (response) {
-        _this.progress_bar_active = false;
+      if (e) {
+        e.preventDefault();
+      }
 
-        if (response.successful) {
-          _this.showNotification(_this.translations.password.notifications.create.success, 'is-success');
-
-          setTimeout(function () {
-            _this.goTo('/login');
-          }, 5000);
-        } else {
-          _this.showNotification(response.error.message);
+      this.http.post('/admin/users', {
+        user: this.user
+      }).then(function (result) {
+        if (result.successful) {
+          _this.$router.push('/');
         }
-      })["catch"](function (err) {
-        console.log(err);
+      })["catch"](function (error) {
+        console.log(error);
       });
-    },
-    goTo: function goTo(url) {
-      this.$router.push("".concat(url));
     }
-  },
-  components: {
-    'form-notification': notification["a" /* default */],
-    'progress-bar': progress_bar["a" /* default */]
   }
 });
-// CONCATENATED MODULE: ./app/vue/users/apps/password/new.vue?vue&type=script&lang=js&
- /* harmony default export */ var password_newvue_type_script_lang_js_ = (newvue_type_script_lang_js_); 
-// CONCATENATED MODULE: ./app/vue/users/apps/password/new.vue
+// CONCATENATED MODULE: ./app/vue/users/apps/user/new.vue?vue&type=script&lang=js&
+ /* harmony default export */ var user_newvue_type_script_lang_js_ = (newvue_type_script_lang_js_); 
+// CONCATENATED MODULE: ./app/vue/users/apps/user/new.vue
 
 
 
@@ -30827,9 +31903,9 @@ newvue_type_template_id_f701a566_render._withStripped = true
 /* normalize component */
 
 var new_component = Object(componentNormalizer["a" /* default */])(
-  password_newvue_type_script_lang_js_,
-  newvue_type_template_id_f701a566_render,
-  newvue_type_template_id_f701a566_staticRenderFns,
+  user_newvue_type_script_lang_js_,
+  newvue_type_template_id_c08c4a06_render,
+  newvue_type_template_id_c08c4a06_staticRenderFns,
   false,
   null,
   null,
@@ -30839,314 +31915,579 @@ var new_component = Object(componentNormalizer["a" /* default */])(
 
 /* hot reload */
 if (false) { var new_api; }
-new_component.options.__file = "app/vue/users/apps/password/new.vue"
-/* harmony default export */ var password_new = (new_component.exports);
-// CONCATENATED MODULE: ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./app/vue/users/apps/password/edit.vue?vue&type=template&id=1b6b8d2d&
-var editvue_type_template_id_1b6b8d2d_render = function() {
+new_component.options.__file = "app/vue/users/apps/user/new.vue"
+/* harmony default export */ var user_new = (new_component.exports);
+// CONCATENATED MODULE: ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./app/vue/users/apps/user/show.vue?vue&type=template&id=18515e20&
+var showvue_type_template_id_18515e20_render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("section", { attrs: { id: "passwords" } }, [
-    _c("a", { staticClass: "logo", attrs: { href: _vm.url.to() } }, [
-      _c("img", {
-        attrs: {
-          src: "/assets/brand/leslicloud-logo.png",
-          alt: "LesliCloud Logo"
-        }
-      })
-    ]),
-    _vm._v(" "),
-    _c(
-      "form",
-      {
-        ref: "form",
-        attrs: { id: "registration_user" },
-        on: { submit: _vm.resetPassword }
-      },
-      [
-        _c("progress-bar", { attrs: { active: _vm.progress_bar_active } }),
-        _vm._v(" "),
-        _c("form-notification", {
+  return _vm.user_id
+    ? _c(
+        "section",
+        { staticClass: "section" },
+        [_c("component-form", { attrs: { "is-editable": false } })],
+        1
+      )
+    : _vm._e()
+}
+var showvue_type_template_id_18515e20_staticRenderFns = []
+showvue_type_template_id_18515e20_render._withStripped = true
+
+
+// CONCATENATED MODULE: ./app/vue/users/apps/user/show.vue?vue&type=template&id=18515e20&
+
+// CONCATENATED MODULE: ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./app/vue/users/apps/components/form.vue?vue&type=template&id=32b5070c&
+var formvue_type_template_id_32b5070c_render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c(
+    "section",
+    { staticClass: "section" },
+    [
+      _c(
+        "b-modal",
+        {
           attrs: {
-            message: _vm.notification.message,
-            type: _vm.notification.type,
-            show: _vm.notification.show
+            active: _vm.modal.active,
+            "has-modal-card": "",
+            "trap-focus": "",
+            "aria-role": "dialog",
+            "aria-modal": ""
           },
           on: {
-            "update:show": function($event) {
-              return _vm.$set(_vm.notification, "show", $event)
-            }
-          }
-        }),
-        _vm._v(" "),
-        _c("div", { staticClass: "field" }, [
-          _c("p", { staticClass: "control has-icons-left" }, [
-            _c(
-              "label",
-              { staticClass: "sr-only", attrs: { for: "user_password" } },
-              [
-                _vm._v(
-                  "\n               " +
-                    _vm._s(_vm.translations.shared.fields.password) +
-                    "\n            "
-                )
-              ]
-            ),
-            _vm._v(" "),
-            _c("input", {
-              directives: [
-                {
-                  name: "model",
-                  rawName: "v-model",
-                  value: _vm.password.password,
-                  expression: "password.password"
-                }
-              ],
-              staticClass: "input",
-              attrs: {
-                type: "password",
-                required: "true",
-                minlength: "6",
-                placeholder: _vm.translations.shared.fields.new_password
-              },
-              domProps: { value: _vm.password.password },
-              on: {
-                change: _vm.verifyPasswords,
-                input: function($event) {
-                  if ($event.target.composing) {
-                    return
-                  }
-                  _vm.$set(_vm.password, "password", $event.target.value)
-                }
-              }
-            }),
-            _vm._v(" "),
-            _vm._m(0)
-          ])
-        ]),
-        _vm._v(" "),
-        _c("div", { staticClass: "field" }, [
-          _c("p", { staticClass: "control has-icons-left" }, [
-            _c(
-              "label",
-              { staticClass: "sr-only", attrs: { for: "user_password" } },
-              [
-                _vm._v(
-                  "\n               " +
-                    _vm._s(_vm.translations.shared.fields.password) +
-                    "\n            "
-                )
-              ]
-            ),
-            _vm._v(" "),
-            _c("input", {
-              directives: [
-                {
-                  name: "model",
-                  rawName: "v-model",
-                  value: _vm.password.password_confirmation,
-                  expression: "password.password_confirmation"
-                }
-              ],
-              staticClass: "input",
-              attrs: {
-                type: "password",
-                required: "true",
-                placeholder:
-                  _vm.translations.shared.fields.password_confirmation
-              },
-              domProps: { value: _vm.password.password_confirmation },
-              on: {
-                change: _vm.verifyPasswords,
-                input: function($event) {
-                  if ($event.target.composing) {
-                    return
-                  }
-                  _vm.$set(
-                    _vm.password,
-                    "password_confirmation",
-                    $event.target.value
-                  )
-                }
-              }
-            }),
-            _vm._v(" "),
-            _vm._m(1)
-          ])
-        ]),
-        _vm._v(" "),
-        _c("input", {
-          staticClass: "button is-primary",
-          attrs: { type: "submit" },
-          domProps: { value: _vm.translations.password.actions.change_password }
-        })
-      ],
-      1
-    ),
-    _vm._v(" "),
-    _c("div", { staticClass: "links" }, [
-      _c(
-        "a",
-        {
-          on: {
-            click: function($event) {
-              return _vm.goTo("/login")
+            "update:active": function($event) {
+              return _vm.$set(_vm.modal, "active", $event)
             }
           }
         },
         [
-          _vm._v(
-            "\n         " + _vm._s(_vm.translations.links.login) + "\n      "
-          )
+          _c("div", { staticClass: "card" }, [
+            _c("div", { staticClass: "card-header is-danger" }, [
+              _c("h2", { staticClass: "card-header-title" }, [
+                _vm._v("\n                    Delete\n                ")
+              ])
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "card-content" }, [
+              _vm._v(
+                "\n                Are you sure to delete this user?\n            "
+              )
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "card-footer has-text-right" }, [
+              _c(
+                "button",
+                {
+                  staticClass: "card-footer-item button is-danger",
+                  on: { click: _vm.deteleDetail }
+                },
+                [_vm._v("\n                    Yes\n                ")]
+              ),
+              _vm._v(" "),
+              _c(
+                "button",
+                {
+                  staticClass: "card-footer-item button is-secondary",
+                  on: {
+                    click: function($event) {
+                      _vm.modal.active = false
+                    }
+                  }
+                },
+                [_vm._v("\n                    Cancel\n                ")]
+              )
+            ])
+          ])
         ]
       ),
       _vm._v(" "),
-      _c(
-        "a",
-        {
-          on: {
-            click: function($event) {
-              return _vm.goTo("/register")
-            }
-          }
-        },
-        [
-          _vm._v(
-            "\n         " + _vm._s(_vm.translations.links.sign_up) + "\n      "
-          )
-        ]
-      ),
-      _vm._v(" "),
-      _c(
-        "a",
-        {
-          on: {
-            click: function($event) {
-              return _vm.goTo("/confirmation/new")
-            }
-          }
-        },
-        [
-          _vm._v(
-            "\n         " +
-              _vm._s(_vm.translations.links.resend_confirmation_email) +
-              "\n      "
-          )
-        ]
-      )
-    ])
-  ])
+      _c("div", { staticClass: "card" }, [
+        _c(
+          "div",
+          { staticClass: "card-header" },
+          [
+            _c("h4", { staticClass: "card-header-title" }, [
+              _vm._v(
+                "\n               User details - " +
+                  _vm._s(
+                    _vm.user.id + " - " + _vm.user.detail_attributes.first_name
+                  ) +
+                  "\n            "
+              )
+            ]),
+            _vm._v(" "),
+            _c(
+              "router-link",
+              {
+                staticClass: "card-header-icon",
+                attrs: { to: "/" + _vm.user_id + "/edit" }
+              },
+              [
+                _c("i", { staticClass: "fas fa-edit" }),
+                _vm._v("\n                Edit\n            ")
+              ]
+            ),
+            _vm._v(" "),
+            _c(
+              "a",
+              {
+                staticClass: "card-header-icon",
+                on: {
+                  click: function($event) {
+                    _vm.modal.active = true
+                  }
+                }
+              },
+              [
+                _c("i", { staticClass: "fas fa-eraser" }),
+                _vm._v("\n                Delete\n            ")
+              ]
+            ),
+            _vm._v(" "),
+            _c(
+              "router-link",
+              { staticClass: "card-header-icon", attrs: { to: "/" } },
+              [
+                _c("i", { staticClass: "fas fa-undo" }),
+                _vm._v("\n                Return\n            ")
+              ]
+            )
+          ],
+          1
+        ),
+        _vm._v(" "),
+        _c("div", { staticClass: "card-content" }, [
+          _c("form", { on: { submit: _vm.putDetail } }, [
+            _c("fieldset", { attrs: { disabled: !_vm.isEditable } }, [
+              _c("div", { staticClass: "columns" }, [
+                _c("div", { staticClass: "column is-4" }, [
+                  _c("label", { staticClass: "label" }, [_vm._v("First name")]),
+                  _vm._v(" "),
+                  _c("input", {
+                    directives: [
+                      {
+                        name: "model",
+                        rawName: "v-model",
+                        value: _vm.user.detail_attributes.first_name,
+                        expression: "user.detail_attributes.first_name"
+                      }
+                    ],
+                    staticClass: "input is-primary",
+                    attrs: {
+                      type: "text",
+                      placeholder: "First name",
+                      required: ""
+                    },
+                    domProps: { value: _vm.user.detail_attributes.first_name },
+                    on: {
+                      input: function($event) {
+                        if ($event.target.composing) {
+                          return
+                        }
+                        _vm.$set(
+                          _vm.user.detail_attributes,
+                          "first_name",
+                          $event.target.value
+                        )
+                      }
+                    }
+                  })
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "column is-4" }, [
+                  _c("label", { staticClass: "label" }, [_vm._v("Last name")]),
+                  _vm._v(" "),
+                  _c("input", {
+                    directives: [
+                      {
+                        name: "model",
+                        rawName: "v-model",
+                        value: _vm.user.detail_attributes.last_name,
+                        expression: "user.detail_attributes.last_name"
+                      }
+                    ],
+                    staticClass: "input is-primary",
+                    attrs: {
+                      type: "text",
+                      placeholder: "password",
+                      required: ""
+                    },
+                    domProps: { value: _vm.user.detail_attributes.last_name },
+                    on: {
+                      input: function($event) {
+                        if ($event.target.composing) {
+                          return
+                        }
+                        _vm.$set(
+                          _vm.user.detail_attributes,
+                          "last_name",
+                          $event.target.value
+                        )
+                      }
+                    }
+                  })
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "column is-4" }, [
+                  _c("label", { staticClass: "label" }, [_vm._v("Telephone")]),
+                  _vm._v(" "),
+                  _c("input", {
+                    directives: [
+                      {
+                        name: "model",
+                        rawName: "v-model",
+                        value: _vm.user.detail_attributes.telephone,
+                        expression: "user.detail_attributes.telephone"
+                      }
+                    ],
+                    staticClass: "input is-primary",
+                    attrs: {
+                      type: "text",
+                      placeholder: "password",
+                      required: ""
+                    },
+                    domProps: { value: _vm.user.detail_attributes.telephone },
+                    on: {
+                      input: function($event) {
+                        if ($event.target.composing) {
+                          return
+                        }
+                        _vm.$set(
+                          _vm.user.detail_attributes,
+                          "telephone",
+                          $event.target.value
+                        )
+                      }
+                    }
+                  })
+                ])
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "columns" }, [
+                _c("div", { staticClass: "column is-4" }, [
+                  _c("label", { staticClass: "label" }, [_vm._v("Address")]),
+                  _vm._v(" "),
+                  _c("input", {
+                    directives: [
+                      {
+                        name: "model",
+                        rawName: "v-model",
+                        value: _vm.user.detail_attributes.address,
+                        expression: "user.detail_attributes.address"
+                      }
+                    ],
+                    staticClass: "input is-primary",
+                    attrs: {
+                      type: "text",
+                      placeholder: "First name",
+                      required: ""
+                    },
+                    domProps: { value: _vm.user.detail_attributes.address },
+                    on: {
+                      input: function($event) {
+                        if ($event.target.composing) {
+                          return
+                        }
+                        _vm.$set(
+                          _vm.user.detail_attributes,
+                          "address",
+                          $event.target.value
+                        )
+                      }
+                    }
+                  })
+                ]),
+                _vm._v(" "),
+                _vm._m(0)
+              ])
+            ])
+          ])
+        ])
+      ])
+    ],
+    1
+  )
 }
-var editvue_type_template_id_1b6b8d2d_staticRenderFns = [
+var formvue_type_template_id_32b5070c_staticRenderFns = [
   function() {
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("span", { staticClass: "icon is-small is-left" }, [
-      _c("i", { staticClass: "fas fa-lock" })
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("span", { staticClass: "icon is-small is-left" }, [
-      _c("i", { staticClass: "fas fa-lock" })
-    ])
+    return _c(
+      "div",
+      { staticClass: "column is-4", staticStyle: { padding: "2.75rem" } },
+      [
+        _c("div", { staticClass: "field" }, [
+          _c("div", { staticClass: "control" }, [
+            _c("input", {
+              staticClass: "button is-primary",
+              attrs: { type: "submit", value: "Save", required: "" }
+            })
+          ])
+        ])
+      ]
+    )
   }
 ]
-editvue_type_template_id_1b6b8d2d_render._withStripped = true
+formvue_type_template_id_32b5070c_render._withStripped = true
 
 
-// CONCATENATED MODULE: ./app/vue/users/apps/password/edit.vue?vue&type=template&id=1b6b8d2d&
+// CONCATENATED MODULE: ./app/vue/users/apps/components/form.vue?vue&type=template&id=32b5070c&
 
-// CONCATENATED MODULE: ./node_modules/babel-loader/lib??ref--3!./node_modules/vue-loader/lib??vue-loader-options!./app/vue/users/apps/password/edit.vue?vue&type=script&lang=js&
+// CONCATENATED MODULE: ./node_modules/babel-loader/lib??ref--3!./node_modules/vue-loader/lib??vue-loader-options!./app/vue/users/apps/components/form.vue?vue&type=script&lang=js&
+/*
+Lesli
 
+Copyright (c) 2019, Lesli Technologies, S. A.
 
-/* harmony default export */ var editvue_type_script_lang_js_ = ({
+All the information provided by this website is protected by laws of Guatemala related 
+to industrial property, intellectual property, copyright and relative international laws. 
+Lesli Technologies, S. A. is the exclusive owner of all intellectual or industrial property
+rights of the code, texts, trade mark, design, pictures and any other information.
+Without the written permission of Lesli Technologies, S. A., any replication, modification,
+transmission, publication is strictly forbidden.
+For more information read the license file including with this software.
+
+LesliCloud - Your Smart Business Assistant
+
+Powered by https://www.lesli.tech
+Building a better future, one line of code at a time.
+
+@author   LesliTech <hello@lesli.tech>
+@license  Propietary - all rights reserved.
+@version  0.1.0-alpha
+
+// · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
+// · 
+*/
+/* harmony default export */ var formvue_type_script_lang_js_ = ({
+  props: {
+    isEditable: {
+      type: Boolean,
+      "default": true
+    }
+  },
   data: function data() {
     return {
-      translations: {
-        links: I18n.t('users.links'),
-        password: I18n.t('users.password'),
-        sessions: I18n.t('devise.sessions'),
-        shared: I18n.t('users.shared')
+      user_id: null,
+      user: {
+        detail_attributes: {}
       },
-      password: {
-        password: '',
-        password_confirmation: '',
-        reset_password_token: ''
-      },
-      progress_bar_active: false,
-      notification: {
-        show: false,
-        message: '',
-        type: 'is-danger'
+      modal: {
+        active: false
       }
     };
   },
   mounted: function mounted() {
-    this.setResetPasswordToken();
+    this.user_id = this.$route.params.id;
+    this.getUser();
   },
   methods: {
-    setResetPasswordToken: function setResetPasswordToken() {
-      this.password.reset_password_token = this.$route.query.reset_password_token;
-    },
-    resetPassword: function resetPassword(event) {
+    getUser: function getUser() {
       var _this = this;
 
-      event.preventDefault();
-      var data = {
-        user: this.password
-      };
-      this.progress_bar_active = true;
-      this.http.put(this.url.to(null, null, '/password'), data).then(function (response) {
-        _this.progress_bar_active = false;
-
-        if (response.successful) {
-          _this.showNotification(_this.translations.password.notifications.update.success, 'is-success');
-
-          setTimeout(function () {
-            _this.goTo('/login');
-          }, 2500);
-        } else {
-          _this.showNotification(response.error.message);
+      this.http.get("/admin/users/".concat(this.user_id, ".json")).then(function (result) {
+        if (result.successful) {
+          _this.user = result.data;
         }
-      })["catch"](function (err) {
-        console.log(err);
+      })["catch"](function (error) {
+        console.log(error);
       });
     },
-    showNotification: function showNotification(message) {
-      var type = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 'is-danger';
-      this.notification.message = message;
-      this.notification.type = type;
-      this.notification.show = true;
-    },
-    verifyPasswords: function verifyPasswords() {
-      var password = this.password.password;
-      var password_confirmation = this.password.password_confirmation;
+    putDetail: function putDetail(e) {
+      var _this2 = this;
 
-      if (password && password_confirmation) {
-        if (password !== password_confirmation) {
-          this.showNotification(this.translations.shared.errors.unmatched_passwords);
-          return;
-        }
+      if (e) {
+        e.preventDefault();
       }
 
-      this.notification.show = false;
+      this.http.put("/admin/users/".concat(this.user_id), {
+        user: this.user
+      }).then(function (result) {
+        if (result.successful) {
+          _this2.alert("User updated successfuly");
+
+          _this2.$router.push('/');
+        }
+      })["catch"](function (error) {
+        console.log(error);
+      });
     },
-    goTo: function goTo(url) {
-      this.$router.push("".concat(url));
+    deteleDetail: function deteleDetail() {
+      var _this3 = this;
+
+      this.http["delete"]("/admin/users/".concat(this.user_id)).then(function (result) {
+        if (result.successful) {
+          _this3.alert("Detail deleted", 'success');
+
+          _this3.$router.push('/');
+        } else {
+          _this3.alert(result.error, 'danger');
+        }
+      })["catch"](function (error) {
+        console.log(error);
+      });
     }
-  },
-  components: {
-    'form-notification': notification["a" /* default */],
-    'progress-bar': progress_bar["a" /* default */]
   }
 });
-// CONCATENATED MODULE: ./app/vue/users/apps/password/edit.vue?vue&type=script&lang=js&
- /* harmony default export */ var password_editvue_type_script_lang_js_ = (editvue_type_script_lang_js_); 
-// CONCATENATED MODULE: ./app/vue/users/apps/password/edit.vue
+// CONCATENATED MODULE: ./app/vue/users/apps/components/form.vue?vue&type=script&lang=js&
+ /* harmony default export */ var components_formvue_type_script_lang_js_ = (formvue_type_script_lang_js_); 
+// CONCATENATED MODULE: ./app/vue/users/apps/components/form.vue
+
+
+
+
+
+/* normalize component */
+
+var form_component = Object(componentNormalizer["a" /* default */])(
+  components_formvue_type_script_lang_js_,
+  formvue_type_template_id_32b5070c_render,
+  formvue_type_template_id_32b5070c_staticRenderFns,
+  false,
+  null,
+  null,
+  null
+  
+)
+
+/* hot reload */
+if (false) { var form_api; }
+form_component.options.__file = "app/vue/users/apps/components/form.vue"
+/* harmony default export */ var components_form = (form_component.exports);
+// CONCATENATED MODULE: ./node_modules/babel-loader/lib??ref--3!./node_modules/vue-loader/lib??vue-loader-options!./app/vue/users/apps/user/show.vue?vue&type=script&lang=js&
+/*
+Lesli
+
+Copyright (c) 2019, Lesli Technologies, S. A.
+
+All the information provided by this website is protected by laws of Guatemala related 
+to industrial property, intellectual property, copyright and relative international laws. 
+Lesli Technologies, S. A. is the exclusive owner of all intellectual or industrial property
+rights of the code, texts, trade mark, design, pictures and any other information.
+Without the written permission of Lesli Technologies, S. A., any replication, modification,
+transmission, publication is strictly forbidden.
+For more information read the license file including with this software.
+
+LesliCloud - Your Smart Business Assistant
+
+Powered by https://www.lesli.tech
+Building a better future, one line of code at a time.
+
+@author   LesliTech <hello@lesli.tech>
+@license  Propietary - all rights reserved.
+@version  0.1.0-alpha
+
+// · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
+// · 
+*/
+// · Import libraries and tools
+// · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
+ // · Component
+// · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
+
+/* harmony default export */ var showvue_type_script_lang_js_ = ({
+  components: {
+    'component-form': components_form
+  },
+  data: function data() {
+    return {
+      user_id: null
+    };
+  },
+  mounted: function mounted() {
+    this.user_id = this.$route.params.id;
+  }
+});
+// CONCATENATED MODULE: ./app/vue/users/apps/user/show.vue?vue&type=script&lang=js&
+ /* harmony default export */ var user_showvue_type_script_lang_js_ = (showvue_type_script_lang_js_); 
+// CONCATENATED MODULE: ./app/vue/users/apps/user/show.vue
+
+
+
+
+
+/* normalize component */
+
+var show_component = Object(componentNormalizer["a" /* default */])(
+  user_showvue_type_script_lang_js_,
+  showvue_type_template_id_18515e20_render,
+  showvue_type_template_id_18515e20_staticRenderFns,
+  false,
+  null,
+  null,
+  null
+  
+)
+
+/* hot reload */
+if (false) { var show_api; }
+show_component.options.__file = "app/vue/users/apps/user/show.vue"
+/* harmony default export */ var show = (show_component.exports);
+// CONCATENATED MODULE: ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./app/vue/users/apps/user/edit.vue?vue&type=template&id=6786957d&
+var editvue_type_template_id_6786957d_render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _vm.user_id
+    ? _c("section", { staticClass: "section" }, [_c("component-form")], 1)
+    : _vm._e()
+}
+var editvue_type_template_id_6786957d_staticRenderFns = []
+editvue_type_template_id_6786957d_render._withStripped = true
+
+
+// CONCATENATED MODULE: ./app/vue/users/apps/user/edit.vue?vue&type=template&id=6786957d&
+
+// CONCATENATED MODULE: ./node_modules/babel-loader/lib??ref--3!./node_modules/vue-loader/lib??vue-loader-options!./app/vue/users/apps/user/edit.vue?vue&type=script&lang=js&
+/*
+Lesli
+
+Copyright (c) 2019, Lesli Technologies, S. A.
+
+All the information provided by this website is protected by laws of Guatemala related 
+to industrial property, intellectual property, copyright and relative international laws. 
+Lesli Technologies, S. A. is the exclusive owner of all intellectual or industrial property
+rights of the code, texts, trade mark, design, pictures and any other information.
+Without the written permission of Lesli Technologies, S. A., any replication, modification,
+transmission, publication is strictly forbidden.
+For more information read the license file including with this software.
+
+LesliCloud - Your Smart Business Assistant
+
+Powered by https://www.lesli.tech
+Building a better future, one line of code at a time.
+
+@author   LesliTech <hello@lesli.tech>
+@license  Propietary - all rights reserved.
+@version  0.1.0-alpha
+
+// · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
+// · 
+*/
+// · Import libraries and tools
+// · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
+ // · Component
+// · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
+
+/* harmony default export */ var editvue_type_script_lang_js_ = ({
+  components: {
+    'component-form': components_form
+  },
+  data: function data() {
+    return {
+      user_id: null
+    };
+  },
+  mounted: function mounted() {
+    this.user_id = this.$route.params.id;
+  }
+});
+// CONCATENATED MODULE: ./app/vue/users/apps/user/edit.vue?vue&type=script&lang=js&
+ /* harmony default export */ var user_editvue_type_script_lang_js_ = (editvue_type_script_lang_js_); 
+// CONCATENATED MODULE: ./app/vue/users/apps/user/edit.vue
 
 
 
@@ -31155,9 +32496,9 @@ editvue_type_template_id_1b6b8d2d_render._withStripped = true
 /* normalize component */
 
 var edit_component = Object(componentNormalizer["a" /* default */])(
-  password_editvue_type_script_lang_js_,
-  editvue_type_template_id_1b6b8d2d_render,
-  editvue_type_template_id_1b6b8d2d_staticRenderFns,
+  user_editvue_type_script_lang_js_,
+  editvue_type_template_id_6786957d_render,
+  editvue_type_template_id_6786957d_staticRenderFns,
   false,
   null,
   null,
@@ -31167,37 +32508,12 @@ var edit_component = Object(componentNormalizer["a" /* default */])(
 
 /* hot reload */
 if (false) { var edit_api; }
-edit_component.options.__file = "app/vue/users/apps/password/edit.vue"
+edit_component.options.__file = "app/vue/users/apps/user/edit.vue"
 /* harmony default export */ var edit = (edit_component.exports);
-// CONCATENATED MODULE: ./app/vue/users/sessions_new.js
+// CONCATENATED MODULE: ./app/vue/users/index.js
 /*
-Lesli
 
-Copyright (c) 2019, Lesli Technologies, S. A.
-
-All the information provided by this website is protected by laws of Guatemala related 
-to industrial property, intellectual property, copyright and relative international laws. 
-Lesli Technologies, S. A. is the exclusive owner of all intellectual or industrial property
-rights of the code, texts, trade mark, design, pictures and any other information.
-Without the written permission of Lesli Technologies, S. A., any replication, modification,
-transmission, publication is strictly forbidden.
-For more information read the license file including with this software.
-
-LesliCloud - Your Smart Business Assistant
-
-Powered by https://www.lesli.tech
-Building a better future, one line of code at a time.
-
-@dev      Carlos Hermosilla
-@author   LesliTech <hello@lesli.tech>
-@license  Propietary - all rights reserved.
-@version  GIT: 0.1.0 alpha
-
-// · 
-// · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
 */
-// · Import main app
-// · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
  // · Import apps and components
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
 
@@ -31205,67 +32521,40 @@ Building a better future, one line of code at a time.
 
 
 
- // · 
+ // · Cloud app
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
 
-Object(vue_public["a" /* default */])("Lesli", "[login|confirmation|register]", "", [{
-  path: "/",
-  redirect: "/login"
+Object(app["a" /* default */])("AdminUsers", "[list|new|invite|show|edit]", "/admin/users", [{
+  path: '/',
+  component: list //list
+
 }, {
-  path: "/login",
-  component: login
+  path: '/new',
+  component: user_new //new
+
 }, {
-  path: "/confirmation/new",
-  component: confirmation
+  path: '/invite',
+  component: invite //invite
+
 }, {
-  path: "/register",
-  component: register
+  path: '/:id',
+  component: show //show
+
 }, {
-  path: "/password/new",
-  component: password_new
-}, {
-  path: "/password/edit",
-  component: edit
-}], true);
+  path: '/:id/edit',
+  component: edit //show
+
+}]);
 
 /***/ }),
-/* 46 */,
 /* 47 */,
 /* 48 */,
-/* 49 */,
-/* 50 */,
-/* 51 */
+/* 49 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _sessions_new__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(45);
-/*
-Lesli
-
-Copyright (c) 2019, Lesli Technologies, S. A.
-
-All the information provided by this website is protected by laws of Guatemala related 
-to industrial property, intellectual property, copyright and relative international laws. 
-Lesli Technologies, S. A. is the exclusive owner of all intellectual or industrial property
-rights of the code, texts, trade mark, design, pictures and any other information.
-Without the written permission of Lesli Technologies, S. A., any replication, modification,
-transmission, publication is strictly forbidden.
-For more information read the license file including with this software.
-
-LesliCloud - Your Smart Business Assistant
-
-Powered by https://www.lesli.tech
-Building a better future, one line of code at a time.
-
-@dev      Carlos Hermosilla
-@author   LesliTech <hello@lesli.tech>
-@license  Propietary - all rights reserved.
-@version  GIT: 0.1.0 alpha
-
-// · 
-// · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
-*/
+/* harmony import */ var _index__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(46);
 
 
 /***/ })

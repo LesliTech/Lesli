@@ -30,13 +30,8 @@ Rails.application.routes.draw do
         mount CloudKb::Engine => "/kb" if defined?(CloudKb)
 
         resources :accounts
-        resources :translations
-        resources :settings
-
+            
         extend RoutesAssistant
-        extend RoutesAdmin
-        #extend RoutesLock
-        extend RoutesBell
 
         mount ActionCable.server => '/cable'
 
