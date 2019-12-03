@@ -5,9 +5,9 @@ PATH
       rails (~> 6.0.0)
 
 PATH
-  remote: engines/CloudHelp
+  remote: engines/CloudLesli
   specs:
-    cloud_help (0.1.0)
+    cloud_lesli (0.1.0)
       rails (~> 6.0.0)
 
 PATH
@@ -264,7 +264,7 @@ DEPENDENCIES
   byebug
   cancancan
   cloud_bell!
-  cloud_help!
+  cloud_lesli!
   cloud_lock!
   devise
   faker
