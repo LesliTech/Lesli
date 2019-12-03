@@ -1,21 +1,3 @@
-PATH
-  remote: engines/CloudHelp
-  specs:
-    cloud_help (0.1.0)
-      rails (~> 6.0.0)
-
-PATH
-  remote: engines/CloudBell
-  specs:
-    cloud_bell (0.1.0)
-      rails (~> 6.0.0)
-
-PATH
-  remote: engines/CloudLock
-  specs:
-    cloud_lock (0.1.0)
-      rails (~> 6.0.0)
-
 GEM
   remote: https://rubygems.org/
   specs:
@@ -263,9 +245,6 @@ DEPENDENCIES
   bootsnap (>= 1.1.0)
   byebug
   cancancan
-  cloud_bell!
-  cloud_help!
-  cloud_lock!
   devise
   faker
   haml-rails
