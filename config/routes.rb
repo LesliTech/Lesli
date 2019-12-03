@@ -19,10 +19,6 @@ Rails.application.routes.draw do
     authenticated :user do
 
         resources :accounts
-        resources :dashboards
-
-        root to: redirect('/lesli'), as: :root_authenticated if defined?(CloudLesli)
-        root to: "dashboards#empty", as: :root_authenticated if !defined?(CloudLesli)
 
         mount CloudDriver::Engine => "/driver" if defined?(CloudDriver)
         mount CloudBooks::Engine  => "/books"  if defined?(CloudBooks)
@@ -35,6 +31,9 @@ Rails.application.routes.draw do
         mount CloudKb::Engine     => "/kb"     if defined?(CloudKb)
 
         mount ActionCable.server => '/cable'
+
+        root to: redirect('/lesli'), as: :root_authenticated if defined?(CloudLesli)
+        root to: "dashboards#empty", as: :root_authenticated if !defined?(CloudLesli)
 
     end
 
