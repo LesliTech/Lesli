@@ -18,20 +18,21 @@ Rails.application.routes.draw do
 
     authenticated :user do
 
-        root to: redirect('/lesli'), as: :root_authenticated
+        resources :accounts
+        resources :dashboards
+
+        root to: redirect('/lesli'), as: :root_authenticated if defined?(CloudLesli)
+        root to: "dashboards#empty", as: :root_authenticated if !defined?(CloudLesli)
 
         mount CloudDriver::Engine => "/driver" if defined?(CloudDriver)
-        mount CloudBooks::Engine => "/books" if defined?(CloudBooks)
-        mount CloudPanel::Engine => "/panel" if defined?(CloudPanel)
-        mount CloudTeam::Engine => "/team" if defined?(CloudTeam)
-        mount CloudLock::Engine => "/lock" if defined?(CloudLock)
-        mount CloudBell::Engine => "/bell" if defined?(CloudBell)
-        mount CloudHelp::Engine => "/help" if defined?(CloudHelp)
-        mount CloudKb::Engine => "/kb" if defined?(CloudKb)
-
-        resources :accounts
-            
-        extend RoutesAssistant
+        mount CloudBooks::Engine  => "/books"  if defined?(CloudBooks)
+        mount CloudPanel::Engine  => "/panel"  if defined?(CloudPanel)
+        mount CloudLesli::Engine  => "/lesli"  if defined?(CloudLesli)
+        mount CloudTeam::Engine   => "/team"   if defined?(CloudTeam)
+        mount CloudLock::Engine   => "/lock"   if defined?(CloudLock)
+        mount CloudBell::Engine   => "/bell"   if defined?(CloudBell)
+        mount CloudHelp::Engine   => "/help"   if defined?(CloudHelp)
+        mount CloudKb::Engine     => "/kb"     if defined?(CloudKb)
 
         mount ActionCable.server => '/cable'
 
