@@ -13,7 +13,7 @@ class User < ApplicationRecord
     has_many    :notifications, class_name: 'CloudBell::Notification', foreign_key: 'users_id'
     has_many    :permissions
 
-    has_one :detail, dependent: :delete, inverse_of: :user, autosave: true, foreign_key: 'users_id'
+    has_one :detail, class_name: 'CloudLock::User::Detail', foreign_key: 'users_id', dependent: :delete, inverse_of: :user, autosave: true
     accepts_nested_attributes_for :detail
 
     def revoke_access
