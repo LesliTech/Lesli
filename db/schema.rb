@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 8020207) do
+ActiveRecord::Schema.define(version: 2) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -57,75 +57,6 @@ ActiveRecord::Schema.define(version: 8020207) do
     t.index ["key"], name: "index_active_storage_blobs_on_key", unique: true
   end
 
-  create_table "cloud_bell_accounts", force: :cascade do |t|
-  end
-
-  create_table "cloud_bell_notifications", force: :cascade do |t|
-    t.string "subject"
-    t.text "body"
-    t.string "href"
-    t.string "format"
-    t.boolean "read", default: false
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-    t.bigint "users_id"
-    t.bigint "cloud_bell_accounts_id"
-    t.index ["cloud_bell_accounts_id"], name: "index_cloud_bell_notifications_on_cloud_bell_accounts_id"
-    t.index ["users_id"], name: "index_cloud_bell_notifications_on_users_id"
-  end
-
-  create_table "cloud_lock_accounts", force: :cascade do |t|
-  end
-
-  create_table "cloud_lock_role_privileges", force: :cascade do |t|
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-  end
-
-  create_table "cloud_lock_roles", force: :cascade do |t|
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-  end
-
-  create_table "cloud_lock_user_actions", force: :cascade do |t|
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-  end
-
-  create_table "cloud_lock_user_activities", force: :cascade do |t|
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-  end
-
-  create_table "cloud_lock_user_details", force: :cascade do |t|
-    t.string "first_name"
-    t.string "last_name"
-    t.string "telephone"
-    t.string "address"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-    t.bigint "users_id"
-    t.index ["users_id"], name: "index_cloud_lock_user_details_on_users_id"
-  end
-
-  create_table "cloud_lock_user_discussions", force: :cascade do |t|
-    t.text "content"
-    t.datetime "deleted_at"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-    t.index ["deleted_at"], name: "index_cloud_lock_user_discussions_on_deleted_at"
-  end
-
-  create_table "cloud_lock_user_files", force: :cascade do |t|
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-  end
-
-  create_table "cloud_lock_user_followers", force: :cascade do |t|
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-  end
-
   create_table "users", force: :cascade do |t|
     t.string "email", default: "", null: false
     t.string "encrypted_password", default: "", null: false
@@ -158,10 +89,5 @@ ActiveRecord::Schema.define(version: 8020207) do
   end
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
-  add_foreign_key "cloud_bell_accounts", "accounts", column: "id"
-  add_foreign_key "cloud_bell_notifications", "cloud_bell_accounts", column: "cloud_bell_accounts_id"
-  add_foreign_key "cloud_bell_notifications", "users", column: "users_id"
-  add_foreign_key "cloud_lock_accounts", "accounts", column: "id"
-  add_foreign_key "cloud_lock_user_details", "users", column: "users_id"
   add_foreign_key "users", "accounts", column: "accounts_id"
 end
