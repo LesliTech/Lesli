@@ -57,16 +57,12 @@ function webpackConfigBuilder(compilationMode) {
         entry: {
             "accounts_new": "./app/vue/accounts/new.js",
             "websites_landing": "./app/vue/websites/landing.js",
-            "users/index": "./app/vue/users/index.js",
-            "users/new": "./app/vue/users/new.js",
-            "users/edit": "./app/vue/users/edit.js",
-            "users/show": "./app/vue/users/show.js",
             "users/sessions_new": "./app/vue/users/sessions_new.js",
             "users/passwords_new": "./app/vue/users/passwords_new.js",
             "users/passwords_edit": "./app/vue/users/passwords_edit.js",
             "users/registrations_new": "./app/vue/users/registrations_new.js",
             "users/confirmations_new": "./app/vue/users/confirmations_new.js",
-            "assistants/lesli_dashboard": "./app/vue/assistants/lesli_dashboard.js"
+            "dashboards/empty": "./app/vue/dashboards/empty.js"
         },
         output: {
             path: __dirname,
