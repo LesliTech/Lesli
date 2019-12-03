@@ -4,9 +4,13 @@ module Courier
             def self.list()
 
                 employees = []
+                if defined? (CloudLock)
+                    return ::User.left_joins(:detail).select(:id, :email, :first_name, :last_name, :created_at).order(:id)
+                else
+                    return ::User.select(:id, :email, :created_at).order(:id)
+                end
 
-                users = ::User.left_joins(:detail).select(:id, :email, :first_name, :last_name, :created_at).order(:id)
-                
+
                 if defined?(CloudTeam)
                     employees = ::CloudTeam::Employee.all
                 end

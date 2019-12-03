@@ -11,6 +11,7 @@ class User < ApplicationRecord
     belongs_to  :account , foreign_key: 'accounts_id', optional: true
 
     has_many    :notifications, class_name: 'CloudBell::Notification', foreign_key: 'users_id'
+    has_many    :ticket_assignments, class_name: 'CloudHelp::Ticket::Assignment', as: :assignable
     has_many    :permissions
 
     has_one :detail, dependent: :delete, inverse_of: :user, autosave: true, foreign_key: 'users_id'
@@ -22,6 +23,11 @@ class User < ApplicationRecord
 
     def ability
         @ability ||= Ability.new(self)
+    end
+
+    # used by CloudHelp::Ticket to show the name of the assignable (either user or team)
+    def assignable_name
+        email
     end
 
 end
