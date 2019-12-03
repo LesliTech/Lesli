@@ -81,7 +81,7 @@
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 53);
+/******/ 	return __webpack_require__(__webpack_require__.s = 55);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -30136,242 +30136,8 @@ var browser_default = /*#__PURE__*/__webpack_require__.n(browser);
 // EXTERNAL MODULE: ./app/vue/functions/document.js
 var functions_document = __webpack_require__(20);
 
-// CONCATENATED MODULE: ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./app/vue/layouts/notify.vue?vue&type=template&id=26199bf4&
-var render = function() {
-  var _vm = this
-  var _h = _vm.$createElement
-  var _c = _vm._self._c || _h
-  return _c("section", [
-    _c(
-      "div",
-      { class: [{ "is-active": _vm.notification.show }, "quickview"] },
-      [
-        _c(
-          "header",
-          {
-            staticClass: "quickview-header",
-            on: {
-              click: function($event) {
-                _vm.notification.show = false
-              }
-            }
-          },
-          [
-            _c("p", { staticClass: "title" }, [_vm._v("Notifications")]),
-            _vm._v(" "),
-            _c("i", { staticClass: "fas fa-chevron-right" })
-          ]
-        ),
-        _vm._v(" "),
-        _c("div", { staticClass: "quickview-body" }, [
-          _c("div", { staticClass: "quickview-block" }, [
-            _c("div", { staticClass: "section" }, [
-              _c(
-                "ul",
-                { staticClass: "menu-list" },
-                _vm._l(_vm.notification.list, function(notification, index) {
-                  return _c("li", { key: index }, [
-                    _c(
-                      "a",
-                      {
-                        attrs: { href: "#" },
-                        on: {
-                          click: function($event) {
-                            return _vm.readNotification(index)
-                          }
-                        }
-                      },
-                      [_vm._v(_vm._s(notification.subject))]
-                    )
-                  ])
-                }),
-                0
-              )
-            ])
-          ])
-        ]),
-        _vm._v(" "),
-        _vm._m(0)
-      ]
-    )
-  ])
-}
-var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("footer", { staticClass: "quickview-footer" }, [
-      _c("a", { attrs: { href: "/bell/notifications" } }, [
-        _vm._v("all notifications")
-      ])
-    ])
-  }
-]
-render._withStripped = true
-
-
-// CONCATENATED MODULE: ./app/vue/layouts/notify.vue?vue&type=template&id=26199bf4&
-
-// CONCATENATED MODULE: ./node_modules/babel-loader/lib??ref--3!./node_modules/vue-loader/lib??vue-loader-options!./app/vue/layouts/notify.vue?vue&type=script&lang=js&
-/*
-Lesli
-
-Copyright (c) 2019, Lesli Technologies, S. A.
-
-All the information provided by this website is protected by laws of Guatemala related 
-to industrial property, intellectual property, copyright and relative international laws. 
-Lesli Technologies, S. A. is the exclusive owner of all intellectual or industrial property
-rights of the code, texts, trade mark, design, pictures and any other information.
-Without the written permission of Lesli Technologies, S. A., any replication, modification,
-transmission, publication is strictly forbidden.
-For more information read the license file including with this software.
-
-LesliCloud - Your Smart Business Assistant
-
-Powered by https://www.lesli.tech
-Building a better future, one line of code at a time.
-
-@dev      Luis Donis <ldonis@lesli.tech>
-@author   LesliTech <hello@lesli.tech>
-@license  Propietary - all rights reserved.
-@version  GIT: 0.1.0 alpha
-
-//  · 
-// ~·~        ~·~        ~·~        ~·~        ~·~        ~·~        ~·~        ~·~        ~·~
-*/
-// · LesliCloud component
-// · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
-/* harmony default export */ var notifyvue_type_script_lang_js_ = ({
-  data: function data() {
-    return {
-      notification: {
-        show: false,
-        timer: null,
-        list: []
-      }
-    };
-  },
-  mounted: function mounted() {
-    this.mountListeners();
-    this.getNotifications();
-  },
-  methods: {
-    mountListeners: function mountListeners() {
-      var _this = this;
-
-      this.bus.subscribe('show:/cloud/layout/notify#alert', function (message) {
-        var type = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 'primary';
-
-        _this.$buefy.toast.open({
-          queue: true,
-          duration: 3500,
-          position: 'is-bottom-right',
-          message: message,
-          type: "is-".concat(type)
-        });
-      });
-      this.bus.subscribe('show:/cloud/layout/notify#notification', function (message) {
-        var type = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 'success';
-
-        _this.$buefy.notification.open({
-          queue: true,
-          duration: 2000,
-          position: 'is-bottom-right',
-          message: message,
-          type: "is-".concat(type)
-        });
-      });
-      this.bus.subscribe('get:/cloud/layout/notify#notification', function () {
-        _this.getNotifications();
-      });
-      this.bus.subscribe('open:/cloud/layout/notify#notification', function () {
-        _this.openNotificationsPanel();
-      });
-    },
-    getNotifications: function getNotifications() {
-      var _this2 = this;
-
-      this.http.get('/bell/notifications.json').then(function (result) {
-        if (result.successful) {
-          _this2.notification.list = result.data;
-        }
-      })["catch"](function (error) {
-        console.log(error);
-      });
-    },
-    openNotificationsPanel: function openNotificationsPanel() {
-      var _this3 = this;
-
-      this.getNotifications();
-      this.notification.show = true;
-      this.notification.timer = setTimeout(function () {
-        return _this3.notification.show = false;
-      }, 25000);
-    },
-    prepareDesktopNotification: function prepareDesktopNotification() {
-      if (!("Notification" in window)) {
-        console.log("This browser does not support desktop notification");
-        return;
-      } // Let's check whether notification permissions have already been granted
-
-
-      if (Notification.permission === "granted") {
-        // If it's okay let's create a notification
-        var notification = new Notification("Hi there!");
-        return;
-      } // Otherwise, we need to ask the user for permission
-
-
-      if (Notification.permission !== "denied") {
-        Notification.requestPermission().then(function (permission) {
-          // If the user accepts, let's create a notification
-          if (permission === "granted") {
-            var notification = new Notification("Hi there!");
-          }
-        });
-      }
-    },
-    readNotification: function readNotification(index) {
-      var notification = this.notification.list[index]; // In this case, there is no need to wait for a response
-
-      this.http.put("/bell/api/notifications/".concat(notification.id, "/read"))["catch"](function (error) {
-        console.log(error);
-      });
-      window.location.href = notification.href;
-    }
-  }
-});
-// CONCATENATED MODULE: ./app/vue/layouts/notify.vue?vue&type=script&lang=js&
- /* harmony default export */ var layouts_notifyvue_type_script_lang_js_ = (notifyvue_type_script_lang_js_); 
-// EXTERNAL MODULE: ./node_modules/vue-loader/lib/runtime/componentNormalizer.js
-var componentNormalizer = __webpack_require__(1);
-
-// CONCATENATED MODULE: ./app/vue/layouts/notify.vue
-
-
-
-
-
-/* normalize component */
-
-var component = Object(componentNormalizer["a" /* default */])(
-  layouts_notifyvue_type_script_lang_js_,
-  render,
-  staticRenderFns,
-  false,
-  null,
-  null,
-  null
-  
-)
-
-/* hot reload */
-if (false) { var api; }
-component.options.__file = "app/vue/layouts/notify.vue"
-/* harmony default export */ var notify = (component.exports);
 // CONCATENATED MODULE: ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./app/vue/layouts/header.vue?vue&type=template&id=3d30b590&
-var headervue_type_template_id_3d30b590_render = function() {
+var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
@@ -30503,7 +30269,7 @@ var headervue_type_template_id_3d30b590_render = function() {
     ])
   ])
 }
-var headervue_type_template_id_3d30b590_staticRenderFns = [
+var staticRenderFns = [
   function() {
     var _vm = this
     var _h = _vm.$createElement
@@ -30543,7 +30309,7 @@ var headervue_type_template_id_3d30b590_staticRenderFns = [
     ])
   }
 ]
-headervue_type_template_id_3d30b590_render._withStripped = true
+render._withStripped = true
 
 
 // CONCATENATED MODULE: ./app/vue/layouts/header.vue?vue&type=template&id=3d30b590&
@@ -30627,6 +30393,9 @@ headervue_type_template_id_3d30b590_render._withStripped = true
 });
 // CONCATENATED MODULE: ./app/vue/layouts/header.vue?vue&type=script&lang=js&
  /* harmony default export */ var layouts_headervue_type_script_lang_js_ = (headervue_type_script_lang_js_); 
+// EXTERNAL MODULE: ./node_modules/vue-loader/lib/runtime/componentNormalizer.js
+var componentNormalizer = __webpack_require__(1);
+
 // CONCATENATED MODULE: ./app/vue/layouts/header.vue
 
 
@@ -30635,10 +30404,10 @@ headervue_type_template_id_3d30b590_render._withStripped = true
 
 /* normalize component */
 
-var header_component = Object(componentNormalizer["a" /* default */])(
+var component = Object(componentNormalizer["a" /* default */])(
   layouts_headervue_type_script_lang_js_,
-  headervue_type_template_id_3d30b590_render,
-  headervue_type_template_id_3d30b590_staticRenderFns,
+  render,
+  staticRenderFns,
   false,
   null,
   null,
@@ -30647,9 +30416,9 @@ var header_component = Object(componentNormalizer["a" /* default */])(
 )
 
 /* hot reload */
-if (false) { var header_api; }
-header_component.options.__file = "app/vue/layouts/header.vue"
-/* harmony default export */ var header = (header_component.exports);
+if (false) { var api; }
+component.options.__file = "app/vue/layouts/header.vue"
+/* harmony default export */ var header = (component.exports);
 // CONCATENATED MODULE: ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./app/vue/layouts/chatbox.vue?vue&type=template&id=1e258058&
 var chatboxvue_type_template_id_1e258058_render = function() {
   var _vm = this
@@ -31113,6 +30882,237 @@ var navigation_component = Object(componentNormalizer["a" /* default */])(
 if (false) { var navigation_api; }
 navigation_component.options.__file = "app/vue/layouts/navigation.vue"
 /* harmony default export */ var navigation = (navigation_component.exports);
+// CONCATENATED MODULE: ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./app/vue/layouts/notification.vue?vue&type=template&id=e9871b54&
+var notificationvue_type_template_id_e9871b54_render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("section", [
+    _c(
+      "div",
+      { class: [{ "is-active": _vm.notification.show }, "quickview"] },
+      [
+        _c(
+          "header",
+          {
+            staticClass: "quickview-header",
+            on: {
+              click: function($event) {
+                _vm.notification.show = false
+              }
+            }
+          },
+          [
+            _c("p", { staticClass: "title" }, [_vm._v("Notifications")]),
+            _vm._v(" "),
+            _c("i", { staticClass: "fas fa-chevron-right" })
+          ]
+        ),
+        _vm._v(" "),
+        _c("div", { staticClass: "quickview-body" }, [
+          _c("div", { staticClass: "quickview-block" }, [
+            _c("div", { staticClass: "section" }, [
+              _c(
+                "ul",
+                { staticClass: "menu-list" },
+                _vm._l(_vm.notification.list, function(notification, index) {
+                  return _c("li", { key: index }, [
+                    _c(
+                      "a",
+                      {
+                        attrs: { href: "#" },
+                        on: {
+                          click: function($event) {
+                            return _vm.readNotification(index)
+                          }
+                        }
+                      },
+                      [_vm._v(_vm._s(notification.subject))]
+                    )
+                  ])
+                }),
+                0
+              )
+            ])
+          ])
+        ]),
+        _vm._v(" "),
+        _vm._m(0)
+      ]
+    )
+  ])
+}
+var notificationvue_type_template_id_e9871b54_staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("footer", { staticClass: "quickview-footer" }, [
+      _c("a", { attrs: { href: "/bell/notifications" } }, [
+        _vm._v("all notifications")
+      ])
+    ])
+  }
+]
+notificationvue_type_template_id_e9871b54_render._withStripped = true
+
+
+// CONCATENATED MODULE: ./app/vue/layouts/notification.vue?vue&type=template&id=e9871b54&
+
+// CONCATENATED MODULE: ./node_modules/babel-loader/lib??ref--3!./node_modules/vue-loader/lib??vue-loader-options!./app/vue/layouts/notification.vue?vue&type=script&lang=js&
+/*
+Lesli
+
+Copyright (c) 2019, Lesli Technologies, S. A.
+
+All the information provided by this website is protected by laws of Guatemala related 
+to industrial property, intellectual property, copyright and relative international laws. 
+Lesli Technologies, S. A. is the exclusive owner of all intellectual or industrial property
+rights of the code, texts, trade mark, design, pictures and any other information.
+Without the written permission of Lesli Technologies, S. A., any replication, modification,
+transmission, publication is strictly forbidden.
+For more information read the license file including with this software.
+
+LesliCloud - Your Smart Business Assistant
+
+Powered by https://www.lesli.tech
+Building a better future, one line of code at a time.
+
+@dev      Luis Donis <ldonis@lesli.tech>
+@author   LesliTech <hello@lesli.tech>
+@license  Propietary - all rights reserved.
+@version  GIT: 0.1.0 alpha
+
+//  · 
+// ~·~        ~·~        ~·~        ~·~        ~·~        ~·~        ~·~        ~·~        ~·~
+*/
+// · LesliCloud component
+// · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
+/* harmony default export */ var notificationvue_type_script_lang_js_ = ({
+  data: function data() {
+    return {
+      notification: {
+        show: false,
+        timer: null,
+        list: []
+      }
+    };
+  },
+  mounted: function mounted() {
+    this.mountListeners();
+    this.getNotifications();
+  },
+  methods: {
+    mountListeners: function mountListeners() {
+      var _this = this;
+
+      this.bus.subscribe('show:/cloud/layout/notify#alert', function (message) {
+        var type = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 'primary';
+
+        _this.$buefy.toast.open({
+          queue: true,
+          duration: 3500,
+          position: 'is-bottom-right',
+          message: message,
+          type: "is-".concat(type)
+        });
+      });
+      this.bus.subscribe('show:/cloud/layout/notify#notification', function (message) {
+        var type = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 'success';
+
+        _this.$buefy.notification.open({
+          queue: true,
+          duration: 2000,
+          position: 'is-bottom-right',
+          message: message,
+          type: "is-".concat(type)
+        });
+      });
+      this.bus.subscribe('get:/cloud/layout/notify#notification', function () {
+        _this.getNotifications();
+      });
+      this.bus.subscribe('open:/cloud/layout/notify#notification', function () {
+        _this.openNotificationsPanel();
+      });
+    },
+    getNotifications: function getNotifications() {
+      var _this2 = this;
+
+      this.http.get('/bell/notifications.json').then(function (result) {
+        if (result.successful) {
+          _this2.notification.list = result.data;
+        }
+      })["catch"](function (error) {
+        console.log(error);
+      });
+    },
+    openNotificationsPanel: function openNotificationsPanel() {
+      var _this3 = this;
+
+      this.getNotifications();
+      this.notification.show = true;
+      this.notification.timer = setTimeout(function () {
+        return _this3.notification.show = false;
+      }, 25000);
+    },
+    prepareDesktopNotification: function prepareDesktopNotification() {
+      if (!("Notification" in window)) {
+        console.log("This browser does not support desktop notification");
+        return;
+      } // Let's check whether notification permissions have already been granted
+
+
+      if (Notification.permission === "granted") {
+        // If it's okay let's create a notification
+        var notification = new Notification("Hi there!");
+        return;
+      } // Otherwise, we need to ask the user for permission
+
+
+      if (Notification.permission !== "denied") {
+        Notification.requestPermission().then(function (permission) {
+          // If the user accepts, let's create a notification
+          if (permission === "granted") {
+            var notification = new Notification("Hi there!");
+          }
+        });
+      }
+    },
+    readNotification: function readNotification(index) {
+      var notification = this.notification.list[index]; // In this case, there is no need to wait for a response
+
+      this.http.put("/bell/api/notifications/".concat(notification.id, "/read"))["catch"](function (error) {
+        console.log(error);
+      });
+      window.location.href = notification.href;
+    }
+  }
+});
+// CONCATENATED MODULE: ./app/vue/layouts/notification.vue?vue&type=script&lang=js&
+ /* harmony default export */ var layouts_notificationvue_type_script_lang_js_ = (notificationvue_type_script_lang_js_); 
+// CONCATENATED MODULE: ./app/vue/layouts/notification.vue
+
+
+
+
+
+/* normalize component */
+
+var notification_component = Object(componentNormalizer["a" /* default */])(
+  layouts_notificationvue_type_script_lang_js_,
+  notificationvue_type_template_id_e9871b54_render,
+  notificationvue_type_template_id_e9871b54_staticRenderFns,
+  false,
+  null,
+  null,
+  null
+  
+)
+
+/* hot reload */
+if (false) { var notification_api; }
+notification_component.options.__file = "app/vue/layouts/notification.vue"
+/* harmony default export */ var notification = (notification_component.exports);
 // CONCATENATED MODULE: ./app/vue/app.js
 /*
 Lesli
@@ -31183,10 +31183,10 @@ vue_default.a.component('component-layout-empty-data', empty_data); // · Vue ap
   var cloud_builder = {}; // · Default and custom components for logged users
 
   cloud_builder['components'] = {
-    'component-layout-notify': notify,
     'component-layout-header': header,
     'component-layout-chatbox': chatbox,
-    'component-layout-navigation': navigation
+    'component-layout-navigation': navigation,
+    'component-layout-notification': notification
   }; // · Routes for SPAs
 
   cloud_builder['router'] = new vue_router_esm["a" /* default */]({
@@ -31215,7 +31215,9 @@ vue_default.a.component('component-layout-empty-data', empty_data); // · Vue ap
 /* 50 */,
 /* 51 */,
 /* 52 */,
-/* 53 */
+/* 53 */,
+/* 54 */,
+/* 55 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";

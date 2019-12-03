@@ -30136,242 +30136,8 @@ var browser_default = /*#__PURE__*/__webpack_require__.n(browser);
 // EXTERNAL MODULE: ./app/vue/functions/document.js
 var functions_document = __webpack_require__(20);
 
-// CONCATENATED MODULE: ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./app/vue/layouts/notify.vue?vue&type=template&id=26199bf4&
-var render = function() {
-  var _vm = this
-  var _h = _vm.$createElement
-  var _c = _vm._self._c || _h
-  return _c("section", [
-    _c(
-      "div",
-      { class: [{ "is-active": _vm.notification.show }, "quickview"] },
-      [
-        _c(
-          "header",
-          {
-            staticClass: "quickview-header",
-            on: {
-              click: function($event) {
-                _vm.notification.show = false
-              }
-            }
-          },
-          [
-            _c("p", { staticClass: "title" }, [_vm._v("Notifications")]),
-            _vm._v(" "),
-            _c("i", { staticClass: "fas fa-chevron-right" })
-          ]
-        ),
-        _vm._v(" "),
-        _c("div", { staticClass: "quickview-body" }, [
-          _c("div", { staticClass: "quickview-block" }, [
-            _c("div", { staticClass: "section" }, [
-              _c(
-                "ul",
-                { staticClass: "menu-list" },
-                _vm._l(_vm.notification.list, function(notification, index) {
-                  return _c("li", { key: index }, [
-                    _c(
-                      "a",
-                      {
-                        attrs: { href: "#" },
-                        on: {
-                          click: function($event) {
-                            return _vm.readNotification(index)
-                          }
-                        }
-                      },
-                      [_vm._v(_vm._s(notification.subject))]
-                    )
-                  ])
-                }),
-                0
-              )
-            ])
-          ])
-        ]),
-        _vm._v(" "),
-        _vm._m(0)
-      ]
-    )
-  ])
-}
-var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("footer", { staticClass: "quickview-footer" }, [
-      _c("a", { attrs: { href: "/bell/notifications" } }, [
-        _vm._v("all notifications")
-      ])
-    ])
-  }
-]
-render._withStripped = true
-
-
-// CONCATENATED MODULE: ./app/vue/layouts/notify.vue?vue&type=template&id=26199bf4&
-
-// CONCATENATED MODULE: ./node_modules/babel-loader/lib??ref--3!./node_modules/vue-loader/lib??vue-loader-options!./app/vue/layouts/notify.vue?vue&type=script&lang=js&
-/*
-Lesli
-
-Copyright (c) 2019, Lesli Technologies, S. A.
-
-All the information provided by this website is protected by laws of Guatemala related 
-to industrial property, intellectual property, copyright and relative international laws. 
-Lesli Technologies, S. A. is the exclusive owner of all intellectual or industrial property
-rights of the code, texts, trade mark, design, pictures and any other information.
-Without the written permission of Lesli Technologies, S. A., any replication, modification,
-transmission, publication is strictly forbidden.
-For more information read the license file including with this software.
-
-LesliCloud - Your Smart Business Assistant
-
-Powered by https://www.lesli.tech
-Building a better future, one line of code at a time.
-
-@dev      Luis Donis <ldonis@lesli.tech>
-@author   LesliTech <hello@lesli.tech>
-@license  Propietary - all rights reserved.
-@version  GIT: 0.1.0 alpha
-
-//  · 
-// ~·~        ~·~        ~·~        ~·~        ~·~        ~·~        ~·~        ~·~        ~·~
-*/
-// · LesliCloud component
-// · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
-/* harmony default export */ var notifyvue_type_script_lang_js_ = ({
-  data: function data() {
-    return {
-      notification: {
-        show: false,
-        timer: null,
-        list: []
-      }
-    };
-  },
-  mounted: function mounted() {
-    this.mountListeners();
-    this.getNotifications();
-  },
-  methods: {
-    mountListeners: function mountListeners() {
-      var _this = this;
-
-      this.bus.subscribe('show:/cloud/layout/notify#alert', function (message) {
-        var type = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 'primary';
-
-        _this.$buefy.toast.open({
-          queue: true,
-          duration: 3500,
-          position: 'is-bottom-right',
-          message: message,
-          type: "is-".concat(type)
-        });
-      });
-      this.bus.subscribe('show:/cloud/layout/notify#notification', function (message) {
-        var type = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 'success';
-
-        _this.$buefy.notification.open({
-          queue: true,
-          duration: 2000,
-          position: 'is-bottom-right',
-          message: message,
-          type: "is-".concat(type)
-        });
-      });
-      this.bus.subscribe('get:/cloud/layout/notify#notification', function () {
-        _this.getNotifications();
-      });
-      this.bus.subscribe('open:/cloud/layout/notify#notification', function () {
-        _this.openNotificationsPanel();
-      });
-    },
-    getNotifications: function getNotifications() {
-      var _this2 = this;
-
-      this.http.get('/bell/notifications.json').then(function (result) {
-        if (result.successful) {
-          _this2.notification.list = result.data;
-        }
-      })["catch"](function (error) {
-        console.log(error);
-      });
-    },
-    openNotificationsPanel: function openNotificationsPanel() {
-      var _this3 = this;
-
-      this.getNotifications();
-      this.notification.show = true;
-      this.notification.timer = setTimeout(function () {
-        return _this3.notification.show = false;
-      }, 25000);
-    },
-    prepareDesktopNotification: function prepareDesktopNotification() {
-      if (!("Notification" in window)) {
-        console.log("This browser does not support desktop notification");
-        return;
-      } // Let's check whether notification permissions have already been granted
-
-
-      if (Notification.permission === "granted") {
-        // If it's okay let's create a notification
-        var notification = new Notification("Hi there!");
-        return;
-      } // Otherwise, we need to ask the user for permission
-
-
-      if (Notification.permission !== "denied") {
-        Notification.requestPermission().then(function (permission) {
-          // If the user accepts, let's create a notification
-          if (permission === "granted") {
-            var notification = new Notification("Hi there!");
-          }
-        });
-      }
-    },
-    readNotification: function readNotification(index) {
-      var notification = this.notification.list[index]; // In this case, there is no need to wait for a response
-
-      this.http.put("/bell/api/notifications/".concat(notification.id, "/read"))["catch"](function (error) {
-        console.log(error);
-      });
-      window.location.href = notification.href;
-    }
-  }
-});
-// CONCATENATED MODULE: ./app/vue/layouts/notify.vue?vue&type=script&lang=js&
- /* harmony default export */ var layouts_notifyvue_type_script_lang_js_ = (notifyvue_type_script_lang_js_); 
-// EXTERNAL MODULE: ./node_modules/vue-loader/lib/runtime/componentNormalizer.js
-var componentNormalizer = __webpack_require__(1);
-
-// CONCATENATED MODULE: ./app/vue/layouts/notify.vue
-
-
-
-
-
-/* normalize component */
-
-var component = Object(componentNormalizer["a" /* default */])(
-  layouts_notifyvue_type_script_lang_js_,
-  render,
-  staticRenderFns,
-  false,
-  null,
-  null,
-  null
-  
-)
-
-/* hot reload */
-if (false) { var api; }
-component.options.__file = "app/vue/layouts/notify.vue"
-/* harmony default export */ var notify = (component.exports);
 // CONCATENATED MODULE: ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./app/vue/layouts/header.vue?vue&type=template&id=3d30b590&
-var headervue_type_template_id_3d30b590_render = function() {
+var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
@@ -30503,7 +30269,7 @@ var headervue_type_template_id_3d30b590_render = function() {
     ])
   ])
 }
-var headervue_type_template_id_3d30b590_staticRenderFns = [
+var staticRenderFns = [
   function() {
     var _vm = this
     var _h = _vm.$createElement
@@ -30543,7 +30309,7 @@ var headervue_type_template_id_3d30b590_staticRenderFns = [
     ])
   }
 ]
-headervue_type_template_id_3d30b590_render._withStripped = true
+render._withStripped = true
 
 
 // CONCATENATED MODULE: ./app/vue/layouts/header.vue?vue&type=template&id=3d30b590&
@@ -30627,6 +30393,9 @@ headervue_type_template_id_3d30b590_render._withStripped = true
 });
 // CONCATENATED MODULE: ./app/vue/layouts/header.vue?vue&type=script&lang=js&
  /* harmony default export */ var layouts_headervue_type_script_lang_js_ = (headervue_type_script_lang_js_); 
+// EXTERNAL MODULE: ./node_modules/vue-loader/lib/runtime/componentNormalizer.js
+var componentNormalizer = __webpack_require__(1);
+
 // CONCATENATED MODULE: ./app/vue/layouts/header.vue
 
 
@@ -30635,10 +30404,10 @@ headervue_type_template_id_3d30b590_render._withStripped = true
 
 /* normalize component */
 
-var header_component = Object(componentNormalizer["a" /* default */])(
+var component = Object(componentNormalizer["a" /* default */])(
   layouts_headervue_type_script_lang_js_,
-  headervue_type_template_id_3d30b590_render,
-  headervue_type_template_id_3d30b590_staticRenderFns,
+  render,
+  staticRenderFns,
   false,
   null,
   null,
@@ -30647,9 +30416,9 @@ var header_component = Object(componentNormalizer["a" /* default */])(
 )
 
 /* hot reload */
-if (false) { var header_api; }
-header_component.options.__file = "app/vue/layouts/header.vue"
-/* harmony default export */ var header = (header_component.exports);
+if (false) { var api; }
+component.options.__file = "app/vue/layouts/header.vue"
+/* harmony default export */ var header = (component.exports);
 // CONCATENATED MODULE: ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./app/vue/layouts/chatbox.vue?vue&type=template&id=1e258058&
 var chatboxvue_type_template_id_1e258058_render = function() {
   var _vm = this
@@ -31113,6 +30882,237 @@ var navigation_component = Object(componentNormalizer["a" /* default */])(
 if (false) { var navigation_api; }
 navigation_component.options.__file = "app/vue/layouts/navigation.vue"
 /* harmony default export */ var navigation = (navigation_component.exports);
+// CONCATENATED MODULE: ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./app/vue/layouts/notification.vue?vue&type=template&id=e9871b54&
+var notificationvue_type_template_id_e9871b54_render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("section", [
+    _c(
+      "div",
+      { class: [{ "is-active": _vm.notification.show }, "quickview"] },
+      [
+        _c(
+          "header",
+          {
+            staticClass: "quickview-header",
+            on: {
+              click: function($event) {
+                _vm.notification.show = false
+              }
+            }
+          },
+          [
+            _c("p", { staticClass: "title" }, [_vm._v("Notifications")]),
+            _vm._v(" "),
+            _c("i", { staticClass: "fas fa-chevron-right" })
+          ]
+        ),
+        _vm._v(" "),
+        _c("div", { staticClass: "quickview-body" }, [
+          _c("div", { staticClass: "quickview-block" }, [
+            _c("div", { staticClass: "section" }, [
+              _c(
+                "ul",
+                { staticClass: "menu-list" },
+                _vm._l(_vm.notification.list, function(notification, index) {
+                  return _c("li", { key: index }, [
+                    _c(
+                      "a",
+                      {
+                        attrs: { href: "#" },
+                        on: {
+                          click: function($event) {
+                            return _vm.readNotification(index)
+                          }
+                        }
+                      },
+                      [_vm._v(_vm._s(notification.subject))]
+                    )
+                  ])
+                }),
+                0
+              )
+            ])
+          ])
+        ]),
+        _vm._v(" "),
+        _vm._m(0)
+      ]
+    )
+  ])
+}
+var notificationvue_type_template_id_e9871b54_staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("footer", { staticClass: "quickview-footer" }, [
+      _c("a", { attrs: { href: "/bell/notifications" } }, [
+        _vm._v("all notifications")
+      ])
+    ])
+  }
+]
+notificationvue_type_template_id_e9871b54_render._withStripped = true
+
+
+// CONCATENATED MODULE: ./app/vue/layouts/notification.vue?vue&type=template&id=e9871b54&
+
+// CONCATENATED MODULE: ./node_modules/babel-loader/lib??ref--3!./node_modules/vue-loader/lib??vue-loader-options!./app/vue/layouts/notification.vue?vue&type=script&lang=js&
+/*
+Lesli
+
+Copyright (c) 2019, Lesli Technologies, S. A.
+
+All the information provided by this website is protected by laws of Guatemala related 
+to industrial property, intellectual property, copyright and relative international laws. 
+Lesli Technologies, S. A. is the exclusive owner of all intellectual or industrial property
+rights of the code, texts, trade mark, design, pictures and any other information.
+Without the written permission of Lesli Technologies, S. A., any replication, modification,
+transmission, publication is strictly forbidden.
+For more information read the license file including with this software.
+
+LesliCloud - Your Smart Business Assistant
+
+Powered by https://www.lesli.tech
+Building a better future, one line of code at a time.
+
+@dev      Luis Donis <ldonis@lesli.tech>
+@author   LesliTech <hello@lesli.tech>
+@license  Propietary - all rights reserved.
+@version  GIT: 0.1.0 alpha
+
+//  · 
+// ~·~        ~·~        ~·~        ~·~        ~·~        ~·~        ~·~        ~·~        ~·~
+*/
+// · LesliCloud component
+// · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
+/* harmony default export */ var notificationvue_type_script_lang_js_ = ({
+  data: function data() {
+    return {
+      notification: {
+        show: false,
+        timer: null,
+        list: []
+      }
+    };
+  },
+  mounted: function mounted() {
+    this.mountListeners();
+    this.getNotifications();
+  },
+  methods: {
+    mountListeners: function mountListeners() {
+      var _this = this;
+
+      this.bus.subscribe('show:/cloud/layout/notify#alert', function (message) {
+        var type = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 'primary';
+
+        _this.$buefy.toast.open({
+          queue: true,
+          duration: 3500,
+          position: 'is-bottom-right',
+          message: message,
+          type: "is-".concat(type)
+        });
+      });
+      this.bus.subscribe('show:/cloud/layout/notify#notification', function (message) {
+        var type = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 'success';
+
+        _this.$buefy.notification.open({
+          queue: true,
+          duration: 2000,
+          position: 'is-bottom-right',
+          message: message,
+          type: "is-".concat(type)
+        });
+      });
+      this.bus.subscribe('get:/cloud/layout/notify#notification', function () {
+        _this.getNotifications();
+      });
+      this.bus.subscribe('open:/cloud/layout/notify#notification', function () {
+        _this.openNotificationsPanel();
+      });
+    },
+    getNotifications: function getNotifications() {
+      var _this2 = this;
+
+      this.http.get('/bell/notifications.json').then(function (result) {
+        if (result.successful) {
+          _this2.notification.list = result.data;
+        }
+      })["catch"](function (error) {
+        console.log(error);
+      });
+    },
+    openNotificationsPanel: function openNotificationsPanel() {
+      var _this3 = this;
+
+      this.getNotifications();
+      this.notification.show = true;
+      this.notification.timer = setTimeout(function () {
+        return _this3.notification.show = false;
+      }, 25000);
+    },
+    prepareDesktopNotification: function prepareDesktopNotification() {
+      if (!("Notification" in window)) {
+        console.log("This browser does not support desktop notification");
+        return;
+      } // Let's check whether notification permissions have already been granted
+
+
+      if (Notification.permission === "granted") {
+        // If it's okay let's create a notification
+        var notification = new Notification("Hi there!");
+        return;
+      } // Otherwise, we need to ask the user for permission
+
+
+      if (Notification.permission !== "denied") {
+        Notification.requestPermission().then(function (permission) {
+          // If the user accepts, let's create a notification
+          if (permission === "granted") {
+            var notification = new Notification("Hi there!");
+          }
+        });
+      }
+    },
+    readNotification: function readNotification(index) {
+      var notification = this.notification.list[index]; // In this case, there is no need to wait for a response
+
+      this.http.put("/bell/api/notifications/".concat(notification.id, "/read"))["catch"](function (error) {
+        console.log(error);
+      });
+      window.location.href = notification.href;
+    }
+  }
+});
+// CONCATENATED MODULE: ./app/vue/layouts/notification.vue?vue&type=script&lang=js&
+ /* harmony default export */ var layouts_notificationvue_type_script_lang_js_ = (notificationvue_type_script_lang_js_); 
+// CONCATENATED MODULE: ./app/vue/layouts/notification.vue
+
+
+
+
+
+/* normalize component */
+
+var notification_component = Object(componentNormalizer["a" /* default */])(
+  layouts_notificationvue_type_script_lang_js_,
+  notificationvue_type_template_id_e9871b54_render,
+  notificationvue_type_template_id_e9871b54_staticRenderFns,
+  false,
+  null,
+  null,
+  null
+  
+)
+
+/* hot reload */
+if (false) { var notification_api; }
+notification_component.options.__file = "app/vue/layouts/notification.vue"
+/* harmony default export */ var notification = (notification_component.exports);
 // CONCATENATED MODULE: ./app/vue/app.js
 /*
 Lesli
@@ -31183,10 +31183,10 @@ vue_default.a.component('component-layout-empty-data', empty_data); // · Vue ap
   var cloud_builder = {}; // · Default and custom components for logged users
 
   cloud_builder['components'] = {
-    'component-layout-notify': notify,
     'component-layout-header': header,
     'component-layout-chatbox': chatbox,
-    'component-layout-navigation': navigation
+    'component-layout-navigation': navigation,
+    'component-layout-notification': notification
   }; // · Routes for SPAs
 
   cloud_builder['router'] = new vue_router_esm["a" /* default */]({
@@ -31517,10 +31517,14 @@ Building a better future, one line of code at a time.
   mounted: function mounted() {},
   methods: {
     postInvite: function postInvite(e) {
+      var _this = this;
+
       e.preventDefault();
       this.http.post('/admin/users', {
         user: this.user
       }).then(function (result) {
+        _this.$router.push('/');
+
         console.log(result);
       })["catch"](function (error) {
         console.log(error);
@@ -31563,7 +31567,7 @@ var newvue_type_template_id_c08c4a06_render = function() {
       _vm._m(0),
       _vm._v(" "),
       _c("div", { staticClass: "card-content" }, [
-        _c("form", { on: { submit: _vm.postEmployee } }, [
+        _c("form", { on: { submit: _vm.postUser } }, [
           _c("div", { staticClass: "columns" }, [
             _c("div", { staticClass: "column is-4" }, [
               _c("label", { staticClass: "label" }, [_vm._v("Email")]),
@@ -31827,6 +31831,31 @@ newvue_type_template_id_c08c4a06_render._withStripped = true
 // CONCATENATED MODULE: ./app/vue/users/apps/user/new.vue?vue&type=template&id=c08c4a06&
 
 // CONCATENATED MODULE: ./node_modules/babel-loader/lib??ref--3!./node_modules/vue-loader/lib??vue-loader-options!./app/vue/users/apps/user/new.vue?vue&type=script&lang=js&
+/*
+Lesli
+
+Copyright (c) 2019, Lesli Technologies, S. A.
+
+All the information provided by this website is protected by laws of Guatemala related 
+to industrial property, intellectual property, copyright and relative international laws. 
+Lesli Technologies, S. A. is the exclusive owner of all intellectual or industrial property
+rights of the code, texts, trade mark, design, pictures and any other information.
+Without the written permission of Lesli Technologies, S. A., any replication, modification,
+transmission, publication is strictly forbidden.
+For more information read the license file including with this software.
+
+LesliCloud - Your Smart Business Assistant
+
+Powered by https://www.lesli.tech
+Building a better future, one line of code at a time.
+
+@author   LesliTech <hello@lesli.tech>
+@license  Propietary - all rights reserved.
+@version  0.1.0-alpha
+
+// · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
+// · 
+*/
 /* harmony default export */ var newvue_type_script_lang_js_ = ({
   data: function data() {
     return {
@@ -31844,7 +31873,7 @@ newvue_type_template_id_c08c4a06_render._withStripped = true
     };
   },
   methods: {
-    postEmployee: function postEmployee(e) {
+    postUser: function postUser(e) {
       var _this = this;
 
       if (e) {
@@ -31888,258 +31917,300 @@ var new_component = Object(componentNormalizer["a" /* default */])(
 if (false) { var new_api; }
 new_component.options.__file = "app/vue/users/apps/user/new.vue"
 /* harmony default export */ var user_new = (new_component.exports);
+// CONCATENATED MODULE: ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./app/vue/users/apps/user/show.vue?vue&type=template&id=18515e20&
+var showvue_type_template_id_18515e20_render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _vm.user_id
+    ? _c(
+        "section",
+        { staticClass: "section" },
+        [_c("component-form", { attrs: { "is-editable": false } })],
+        1
+      )
+    : _vm._e()
+}
+var showvue_type_template_id_18515e20_staticRenderFns = []
+showvue_type_template_id_18515e20_render._withStripped = true
+
+
+// CONCATENATED MODULE: ./app/vue/users/apps/user/show.vue?vue&type=template&id=18515e20&
+
 // CONCATENATED MODULE: ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./app/vue/users/apps/components/form.vue?vue&type=template&id=32b5070c&
 var formvue_type_template_id_32b5070c_render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("section", { staticClass: "section" }, [
-    _c("div", { staticClass: "card" }, [
-      _vm._m(0),
-      _vm._v(" "),
-      _c("div", { staticClass: "card-content" }, [
-        _c("form", { on: { submit: _vm.postEmployee } }, [
-          _c("div", { staticClass: "columns" }, [
-            _c("div", { staticClass: "column is-4" }, [
-              _c("label", { staticClass: "label" }, [_vm._v("Email")]),
-              _vm._v(" "),
-              _c("input", {
-                directives: [
-                  {
-                    name: "model",
-                    rawName: "v-model",
-                    value: _vm.user.email,
-                    expression: "user.email"
-                  }
-                ],
-                staticClass: "input is-primary",
-                attrs: { type: "email", placeholder: "Email", required: "" },
-                domProps: { value: _vm.user.email },
-                on: {
-                  input: function($event) {
-                    if ($event.target.composing) {
-                      return
-                    }
-                    _vm.$set(_vm.user, "email", $event.target.value)
-                  }
-                }
-              })
+  return _c(
+    "section",
+    { staticClass: "section" },
+    [
+      _c(
+        "b-modal",
+        {
+          attrs: {
+            active: _vm.modal.active,
+            "has-modal-card": "",
+            "trap-focus": "",
+            "aria-role": "dialog",
+            "aria-modal": ""
+          },
+          on: {
+            "update:active": function($event) {
+              return _vm.$set(_vm.modal, "active", $event)
+            }
+          }
+        },
+        [
+          _c("div", { staticClass: "card" }, [
+            _c("div", { staticClass: "card-header is-danger" }, [
+              _c("h2", { staticClass: "card-header-title" }, [
+                _vm._v("\n                    Delete\n                ")
+              ])
             ]),
             _vm._v(" "),
-            _c("div", { staticClass: "column is-4" }, [
-              _c("label", { staticClass: "label" }, [_vm._v("Password")]),
-              _vm._v(" "),
-              _c("input", {
-                directives: [
-                  {
-                    name: "model",
-                    rawName: "v-model",
-                    value: _vm.user.password,
-                    expression: "user.password"
-                  }
-                ],
-                staticClass: "input is-primary",
-                attrs: {
-                  type: "password",
-                  placeholder: "Password",
-                  required: ""
+            _c("div", { staticClass: "card-content" }, [
+              _vm._v(
+                "\n                Are you sure to delete this user?\n            "
+              )
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "card-footer has-text-right" }, [
+              _c(
+                "button",
+                {
+                  staticClass: "card-footer-item button is-danger",
+                  on: { click: _vm.deteleDetail }
                 },
-                domProps: { value: _vm.user.password },
-                on: {
-                  input: function($event) {
-                    if ($event.target.composing) {
-                      return
+                [_vm._v("\n                    Yes\n                ")]
+              ),
+              _vm._v(" "),
+              _c(
+                "button",
+                {
+                  staticClass: "card-footer-item button is-secondary",
+                  on: {
+                    click: function($event) {
+                      _vm.modal.active = false
                     }
-                    _vm.$set(_vm.user, "password", $event.target.value)
                   }
-                }
-              })
+                },
+                [_vm._v("\n                    Cancel\n                ")]
+              )
+            ])
+          ])
+        ]
+      ),
+      _vm._v(" "),
+      _c("div", { staticClass: "card" }, [
+        _c(
+          "div",
+          { staticClass: "card-header" },
+          [
+            _c("h4", { staticClass: "card-header-title" }, [
+              _vm._v(
+                "\n               User details - " +
+                  _vm._s(
+                    _vm.user.id + " - " + _vm.user.detail_attributes.first_name
+                  ) +
+                  "\n            "
+              )
             ]),
             _vm._v(" "),
-            _c("div", { staticClass: "column is-4" }, [
-              _c("label", { staticClass: "label" }, [
-                _vm._v("Password confirmation")
+            _c(
+              "router-link",
+              {
+                staticClass: "card-header-icon",
+                attrs: { to: "/" + _vm.user_id + "/edit" }
+              },
+              [
+                _c("i", { staticClass: "fas fa-edit" }),
+                _vm._v("\n                Edit\n            ")
+              ]
+            ),
+            _vm._v(" "),
+            _c(
+              "a",
+              {
+                staticClass: "card-header-icon",
+                on: {
+                  click: function($event) {
+                    _vm.modal.active = true
+                  }
+                }
+              },
+              [
+                _c("i", { staticClass: "fas fa-eraser" }),
+                _vm._v("\n                Delete\n            ")
+              ]
+            ),
+            _vm._v(" "),
+            _c(
+              "router-link",
+              { staticClass: "card-header-icon", attrs: { to: "/" } },
+              [
+                _c("i", { staticClass: "fas fa-undo" }),
+                _vm._v("\n                Return\n            ")
+              ]
+            )
+          ],
+          1
+        ),
+        _vm._v(" "),
+        _c("div", { staticClass: "card-content" }, [
+          _c("form", { on: { submit: _vm.putDetail } }, [
+            _c("fieldset", { attrs: { disabled: !_vm.isEditable } }, [
+              _c("div", { staticClass: "columns" }, [
+                _c("div", { staticClass: "column is-4" }, [
+                  _c("label", { staticClass: "label" }, [_vm._v("First name")]),
+                  _vm._v(" "),
+                  _c("input", {
+                    directives: [
+                      {
+                        name: "model",
+                        rawName: "v-model",
+                        value: _vm.user.detail_attributes.first_name,
+                        expression: "user.detail_attributes.first_name"
+                      }
+                    ],
+                    staticClass: "input is-primary",
+                    attrs: {
+                      type: "text",
+                      placeholder: "First name",
+                      required: ""
+                    },
+                    domProps: { value: _vm.user.detail_attributes.first_name },
+                    on: {
+                      input: function($event) {
+                        if ($event.target.composing) {
+                          return
+                        }
+                        _vm.$set(
+                          _vm.user.detail_attributes,
+                          "first_name",
+                          $event.target.value
+                        )
+                      }
+                    }
+                  })
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "column is-4" }, [
+                  _c("label", { staticClass: "label" }, [_vm._v("Last name")]),
+                  _vm._v(" "),
+                  _c("input", {
+                    directives: [
+                      {
+                        name: "model",
+                        rawName: "v-model",
+                        value: _vm.user.detail_attributes.last_name,
+                        expression: "user.detail_attributes.last_name"
+                      }
+                    ],
+                    staticClass: "input is-primary",
+                    attrs: {
+                      type: "text",
+                      placeholder: "password",
+                      required: ""
+                    },
+                    domProps: { value: _vm.user.detail_attributes.last_name },
+                    on: {
+                      input: function($event) {
+                        if ($event.target.composing) {
+                          return
+                        }
+                        _vm.$set(
+                          _vm.user.detail_attributes,
+                          "last_name",
+                          $event.target.value
+                        )
+                      }
+                    }
+                  })
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "column is-4" }, [
+                  _c("label", { staticClass: "label" }, [_vm._v("Telephone")]),
+                  _vm._v(" "),
+                  _c("input", {
+                    directives: [
+                      {
+                        name: "model",
+                        rawName: "v-model",
+                        value: _vm.user.detail_attributes.telephone,
+                        expression: "user.detail_attributes.telephone"
+                      }
+                    ],
+                    staticClass: "input is-primary",
+                    attrs: {
+                      type: "text",
+                      placeholder: "password",
+                      required: ""
+                    },
+                    domProps: { value: _vm.user.detail_attributes.telephone },
+                    on: {
+                      input: function($event) {
+                        if ($event.target.composing) {
+                          return
+                        }
+                        _vm.$set(
+                          _vm.user.detail_attributes,
+                          "telephone",
+                          $event.target.value
+                        )
+                      }
+                    }
+                  })
+                ])
               ]),
               _vm._v(" "),
-              _c("input", {
-                directives: [
-                  {
-                    name: "model",
-                    rawName: "v-model",
-                    value: _vm.user.password_confirmation,
-                    expression: "user.password_confirmation"
-                  }
-                ],
-                staticClass: "input is-primary",
-                attrs: {
-                  type: "password",
-                  placeholder: "Password confirmation",
-                  required: ""
-                },
-                domProps: { value: _vm.user.password_confirmation },
-                on: {
-                  input: function($event) {
-                    if ($event.target.composing) {
-                      return
+              _c("div", { staticClass: "columns" }, [
+                _c("div", { staticClass: "column is-4" }, [
+                  _c("label", { staticClass: "label" }, [_vm._v("Address")]),
+                  _vm._v(" "),
+                  _c("input", {
+                    directives: [
+                      {
+                        name: "model",
+                        rawName: "v-model",
+                        value: _vm.user.detail_attributes.address,
+                        expression: "user.detail_attributes.address"
+                      }
+                    ],
+                    staticClass: "input is-primary",
+                    attrs: {
+                      type: "text",
+                      placeholder: "First name",
+                      required: ""
+                    },
+                    domProps: { value: _vm.user.detail_attributes.address },
+                    on: {
+                      input: function($event) {
+                        if ($event.target.composing) {
+                          return
+                        }
+                        _vm.$set(
+                          _vm.user.detail_attributes,
+                          "address",
+                          $event.target.value
+                        )
+                      }
                     }
-                    _vm.$set(
-                      _vm.user,
-                      "password_confirmation",
-                      $event.target.value
-                    )
-                  }
-                }
-              })
+                  })
+                ]),
+                _vm._v(" "),
+                _vm._m(0)
+              ])
             ])
-          ]),
-          _vm._v(" "),
-          _c("div", { staticClass: "columns" }, [
-            _c("div", { staticClass: "column is-4" }, [
-              _c("label", { staticClass: "label" }, [_vm._v("First name")]),
-              _vm._v(" "),
-              _c("input", {
-                directives: [
-                  {
-                    name: "model",
-                    rawName: "v-model",
-                    value: _vm.user.detail_attributes.first_name,
-                    expression: "user.detail_attributes.first_name"
-                  }
-                ],
-                staticClass: "input is-primary",
-                attrs: {
-                  type: "text",
-                  placeholder: "First name",
-                  required: ""
-                },
-                domProps: { value: _vm.user.detail_attributes.first_name },
-                on: {
-                  input: function($event) {
-                    if ($event.target.composing) {
-                      return
-                    }
-                    _vm.$set(
-                      _vm.user.detail_attributes,
-                      "first_name",
-                      $event.target.value
-                    )
-                  }
-                }
-              })
-            ]),
-            _vm._v(" "),
-            _c("div", { staticClass: "column is-4" }, [
-              _c("label", { staticClass: "label" }, [_vm._v("Last name")]),
-              _vm._v(" "),
-              _c("input", {
-                directives: [
-                  {
-                    name: "model",
-                    rawName: "v-model",
-                    value: _vm.user.detail_attributes.last_name,
-                    expression: "user.detail_attributes.last_name"
-                  }
-                ],
-                staticClass: "input is-primary",
-                attrs: { type: "text", placeholder: "password", required: "" },
-                domProps: { value: _vm.user.detail_attributes.last_name },
-                on: {
-                  input: function($event) {
-                    if ($event.target.composing) {
-                      return
-                    }
-                    _vm.$set(
-                      _vm.user.detail_attributes,
-                      "last_name",
-                      $event.target.value
-                    )
-                  }
-                }
-              })
-            ]),
-            _vm._v(" "),
-            _c("div", { staticClass: "column is-4" }, [
-              _c("label", { staticClass: "label" }, [_vm._v("Telephone")]),
-              _vm._v(" "),
-              _c("input", {
-                directives: [
-                  {
-                    name: "model",
-                    rawName: "v-model",
-                    value: _vm.user.detail_attributes.telephone,
-                    expression: "user.detail_attributes.telephone"
-                  }
-                ],
-                staticClass: "input is-primary",
-                attrs: { type: "text", placeholder: "password", required: "" },
-                domProps: { value: _vm.user.detail_attributes.telephone },
-                on: {
-                  input: function($event) {
-                    if ($event.target.composing) {
-                      return
-                    }
-                    _vm.$set(
-                      _vm.user.detail_attributes,
-                      "telephone",
-                      $event.target.value
-                    )
-                  }
-                }
-              })
-            ])
-          ]),
-          _vm._v(" "),
-          _c("div", { staticClass: "columns" }, [
-            _c("div", { staticClass: "column is-4" }, [
-              _c("label", { staticClass: "label" }, [_vm._v("Address")]),
-              _vm._v(" "),
-              _c("input", {
-                directives: [
-                  {
-                    name: "model",
-                    rawName: "v-model",
-                    value: _vm.user.detail_attributes.address,
-                    expression: "user.detail_attributes.address"
-                  }
-                ],
-                staticClass: "input is-primary",
-                attrs: {
-                  type: "text",
-                  placeholder: "First name",
-                  required: ""
-                },
-                domProps: { value: _vm.user.detail_attributes.address },
-                on: {
-                  input: function($event) {
-                    if ($event.target.composing) {
-                      return
-                    }
-                    _vm.$set(
-                      _vm.user.detail_attributes,
-                      "address",
-                      $event.target.value
-                    )
-                  }
-                }
-              })
-            ]),
-            _vm._v(" "),
-            _vm._m(1)
           ])
         ])
       ])
-    ])
-  ])
+    ],
+    1
+  )
 }
 var formvue_type_template_id_32b5070c_staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "card-header" }, [
-      _c("h4", { staticClass: "card-header-title" }, [_vm._v("New user")])
-    ])
-  },
   function() {
     var _vm = this
     var _h = _vm.$createElement
@@ -32166,35 +32237,94 @@ formvue_type_template_id_32b5070c_render._withStripped = true
 // CONCATENATED MODULE: ./app/vue/users/apps/components/form.vue?vue&type=template&id=32b5070c&
 
 // CONCATENATED MODULE: ./node_modules/babel-loader/lib??ref--3!./node_modules/vue-loader/lib??vue-loader-options!./app/vue/users/apps/components/form.vue?vue&type=script&lang=js&
+/*
+Lesli
+
+Copyright (c) 2019, Lesli Technologies, S. A.
+
+All the information provided by this website is protected by laws of Guatemala related 
+to industrial property, intellectual property, copyright and relative international laws. 
+Lesli Technologies, S. A. is the exclusive owner of all intellectual or industrial property
+rights of the code, texts, trade mark, design, pictures and any other information.
+Without the written permission of Lesli Technologies, S. A., any replication, modification,
+transmission, publication is strictly forbidden.
+For more information read the license file including with this software.
+
+LesliCloud - Your Smart Business Assistant
+
+Powered by https://www.lesli.tech
+Building a better future, one line of code at a time.
+
+@author   LesliTech <hello@lesli.tech>
+@license  Propietary - all rights reserved.
+@version  0.1.0-alpha
+
+// · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
+// · 
+*/
 /* harmony default export */ var formvue_type_script_lang_js_ = ({
+  props: {
+    isEditable: {
+      type: Boolean,
+      "default": true
+    }
+  },
   data: function data() {
     return {
+      user_id: null,
       user: {
-        email: '',
-        password: '',
-        password_confirmation: '',
-        detail_attributes: {
-          first_name: '',
-          last_name: '',
-          telephone: '',
-          address: ''
-        }
+        detail_attributes: {}
+      },
+      modal: {
+        active: false
       }
     };
   },
+  mounted: function mounted() {
+    this.user_id = this.$route.params.id;
+    this.getUser();
+  },
   methods: {
-    postEmployee: function postEmployee(e) {
+    getUser: function getUser() {
       var _this = this;
+
+      this.http.get("/admin/users/".concat(this.user_id, ".json")).then(function (result) {
+        if (result.successful) {
+          _this.user = result.data;
+        }
+      })["catch"](function (error) {
+        console.log(error);
+      });
+    },
+    putDetail: function putDetail(e) {
+      var _this2 = this;
 
       if (e) {
         e.preventDefault();
       }
 
-      this.http.post('/admin/users', {
+      this.http.put("/admin/users/".concat(this.user_id), {
         user: this.user
       }).then(function (result) {
         if (result.successful) {
-          _this.$router.push('/admin/users');
+          _this2.alert("User updated successfuly");
+
+          _this2.$router.push('/');
+        }
+      })["catch"](function (error) {
+        console.log(error);
+      });
+    },
+    deteleDetail: function deteleDetail() {
+      var _this3 = this;
+
+      this.http["delete"]("/admin/users/".concat(this.user_id)).then(function (result) {
+        if (result.successful) {
+          _this3.alert("Detail deleted", 'success');
+
+          _this3.$router.push('/');
+        } else {
+          _this3.alert(result.error, 'danger');
         }
       })["catch"](function (error) {
         console.log(error);
@@ -32227,326 +32357,48 @@ var form_component = Object(componentNormalizer["a" /* default */])(
 if (false) { var form_api; }
 form_component.options.__file = "app/vue/users/apps/components/form.vue"
 /* harmony default export */ var components_form = (form_component.exports);
-// CONCATENATED MODULE: ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./app/vue/users/apps/user/show.vue?vue&type=template&id=18515e20&
-var showvue_type_template_id_18515e20_render = function() {
-  var _vm = this
-  var _h = _vm.$createElement
-  var _c = _vm._self._c || _h
-  return _c("section", { staticClass: "section" }, [
-    _c("div", { staticClass: "card" }, [
-      _vm._m(0),
-      _vm._v(" "),
-      _c("div", { staticClass: "card-content" }, [
-        _c("form", { on: { submit: _vm.putDetail } }, [
-          _c("div", { staticClass: "columns" }, [
-            _c("div", { staticClass: "column is-4" }, [
-              _c("label", { staticClass: "label" }, [_vm._v("Email")]),
-              _vm._v(" "),
-              _c("input", {
-                directives: [
-                  {
-                    name: "model",
-                    rawName: "v-model",
-                    value: _vm.user.email,
-                    expression: "user.email"
-                  }
-                ],
-                staticClass: "input is-primary",
-                attrs: { type: "email", placeholder: "Email", required: "" },
-                domProps: { value: _vm.user.email },
-                on: {
-                  input: function($event) {
-                    if ($event.target.composing) {
-                      return
-                    }
-                    _vm.$set(_vm.user, "email", $event.target.value)
-                  }
-                }
-              })
-            ]),
-            _vm._v(" "),
-            _c("div", { staticClass: "column is-4" }, [
-              _c("label", { staticClass: "label" }, [_vm._v("Password")]),
-              _vm._v(" "),
-              _c("input", {
-                directives: [
-                  {
-                    name: "model",
-                    rawName: "v-model",
-                    value: _vm.user.password,
-                    expression: "user.password"
-                  }
-                ],
-                staticClass: "input is-primary",
-                attrs: {
-                  type: "password",
-                  placeholder: "Password",
-                  required: ""
-                },
-                domProps: { value: _vm.user.password },
-                on: {
-                  input: function($event) {
-                    if ($event.target.composing) {
-                      return
-                    }
-                    _vm.$set(_vm.user, "password", $event.target.value)
-                  }
-                }
-              })
-            ]),
-            _vm._v(" "),
-            _c("div", { staticClass: "column is-4" }, [
-              _c("label", { staticClass: "label" }, [
-                _vm._v("Password confirmation")
-              ]),
-              _vm._v(" "),
-              _c("input", {
-                directives: [
-                  {
-                    name: "model",
-                    rawName: "v-model",
-                    value: _vm.user.password_confirmation,
-                    expression: "user.password_confirmation"
-                  }
-                ],
-                staticClass: "input is-primary",
-                attrs: {
-                  type: "password",
-                  placeholder: "Password confirmation",
-                  required: ""
-                },
-                domProps: { value: _vm.user.password_confirmation },
-                on: {
-                  input: function($event) {
-                    if ($event.target.composing) {
-                      return
-                    }
-                    _vm.$set(
-                      _vm.user,
-                      "password_confirmation",
-                      $event.target.value
-                    )
-                  }
-                }
-              })
-            ])
-          ]),
-          _vm._v(" "),
-          _c("div", { staticClass: "columns" }, [
-            _c("div", { staticClass: "column is-4" }, [
-              _c("label", { staticClass: "label" }, [_vm._v("First name")]),
-              _vm._v(" "),
-              _c("input", {
-                directives: [
-                  {
-                    name: "model",
-                    rawName: "v-model",
-                    value: _vm.user.detail_attributes.first_name,
-                    expression: "user.detail_attributes.first_name"
-                  }
-                ],
-                staticClass: "input is-primary",
-                attrs: {
-                  type: "text",
-                  placeholder: "First name",
-                  required: ""
-                },
-                domProps: { value: _vm.user.detail_attributes.first_name },
-                on: {
-                  input: function($event) {
-                    if ($event.target.composing) {
-                      return
-                    }
-                    _vm.$set(
-                      _vm.user.detail_attributes,
-                      "first_name",
-                      $event.target.value
-                    )
-                  }
-                }
-              })
-            ]),
-            _vm._v(" "),
-            _c("div", { staticClass: "column is-4" }, [
-              _c("label", { staticClass: "label" }, [_vm._v("Last name")]),
-              _vm._v(" "),
-              _c("input", {
-                directives: [
-                  {
-                    name: "model",
-                    rawName: "v-model",
-                    value: _vm.user.detail_attributes.last_name,
-                    expression: "user.detail_attributes.last_name"
-                  }
-                ],
-                staticClass: "input is-primary",
-                attrs: { type: "text", placeholder: "password", required: "" },
-                domProps: { value: _vm.user.detail_attributes.last_name },
-                on: {
-                  input: function($event) {
-                    if ($event.target.composing) {
-                      return
-                    }
-                    _vm.$set(
-                      _vm.user.detail_attributes,
-                      "last_name",
-                      $event.target.value
-                    )
-                  }
-                }
-              })
-            ]),
-            _vm._v(" "),
-            _c("div", { staticClass: "column is-4" }, [
-              _c("label", { staticClass: "label" }, [_vm._v("Telephone")]),
-              _vm._v(" "),
-              _c("input", {
-                directives: [
-                  {
-                    name: "model",
-                    rawName: "v-model",
-                    value: _vm.user.detail_attributes.telephone,
-                    expression: "user.detail_attributes.telephone"
-                  }
-                ],
-                staticClass: "input is-primary",
-                attrs: { type: "text", placeholder: "password", required: "" },
-                domProps: { value: _vm.user.detail_attributes.telephone },
-                on: {
-                  input: function($event) {
-                    if ($event.target.composing) {
-                      return
-                    }
-                    _vm.$set(
-                      _vm.user.detail_attributes,
-                      "telephone",
-                      $event.target.value
-                    )
-                  }
-                }
-              })
-            ])
-          ]),
-          _vm._v(" "),
-          _c("div", { staticClass: "columns" }, [
-            _c("div", { staticClass: "column is-4" }, [
-              _c("label", { staticClass: "label" }, [_vm._v("Address")]),
-              _vm._v(" "),
-              _c("input", {
-                directives: [
-                  {
-                    name: "model",
-                    rawName: "v-model",
-                    value: _vm.user.detail_attributes.address,
-                    expression: "user.detail_attributes.address"
-                  }
-                ],
-                staticClass: "input is-primary",
-                attrs: {
-                  type: "text",
-                  placeholder: "First name",
-                  required: ""
-                },
-                domProps: { value: _vm.user.detail_attributes.address },
-                on: {
-                  input: function($event) {
-                    if ($event.target.composing) {
-                      return
-                    }
-                    _vm.$set(
-                      _vm.user.detail_attributes,
-                      "address",
-                      $event.target.value
-                    )
-                  }
-                }
-              })
-            ]),
-            _vm._v(" "),
-            _vm._m(1)
-          ])
-        ])
-      ])
-    ])
-  ])
-}
-var showvue_type_template_id_18515e20_staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "card-header" }, [
-      _c("h4", { staticClass: "card-header-title" }, [_vm._v("New user")])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c(
-      "div",
-      { staticClass: "column is-4", staticStyle: { padding: "2.75rem" } },
-      [
-        _c("div", { staticClass: "field" }, [
-          _c("div", { staticClass: "control" }, [
-            _c("input", {
-              staticClass: "button is-primary",
-              attrs: { type: "submit", value: "Save", required: "" }
-            })
-          ])
-        ])
-      ]
-    )
-  }
-]
-showvue_type_template_id_18515e20_render._withStripped = true
-
-
-// CONCATENATED MODULE: ./app/vue/users/apps/user/show.vue?vue&type=template&id=18515e20&
-
 // CONCATENATED MODULE: ./node_modules/babel-loader/lib??ref--3!./node_modules/vue-loader/lib??vue-loader-options!./app/vue/users/apps/user/show.vue?vue&type=script&lang=js&
+/*
+Lesli
+
+Copyright (c) 2019, Lesli Technologies, S. A.
+
+All the information provided by this website is protected by laws of Guatemala related 
+to industrial property, intellectual property, copyright and relative international laws. 
+Lesli Technologies, S. A. is the exclusive owner of all intellectual or industrial property
+rights of the code, texts, trade mark, design, pictures and any other information.
+Without the written permission of Lesli Technologies, S. A., any replication, modification,
+transmission, publication is strictly forbidden.
+For more information read the license file including with this software.
+
+LesliCloud - Your Smart Business Assistant
+
+Powered by https://www.lesli.tech
+Building a better future, one line of code at a time.
+
+@author   LesliTech <hello@lesli.tech>
+@license  Propietary - all rights reserved.
+@version  0.1.0-alpha
+
+// · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
+// · 
+*/
+// · Import libraries and tools
+// · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
+ // · Component
+// · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
+
 /* harmony default export */ var showvue_type_script_lang_js_ = ({
+  components: {
+    'component-form': components_form
+  },
   data: function data() {
     return {
-      user_id: null,
-      user: {
-        detail_attributes: {}
-      }
+      user_id: null
     };
   },
   mounted: function mounted() {
     this.user_id = this.$route.params.id;
-    this.getUser();
-  },
-  methods: {
-    getUser: function getUser() {
-      var _this = this;
-
-      this.http.get("/admin/users/".concat(this.user_id, ".json")).then(function (result) {
-        if (result.successful) {
-          _this.user = result.data;
-        }
-      })["catch"](function (error) {
-        console.log(error);
-      });
-    },
-    putDetail: function putDetail(e) {
-      var _this2 = this;
-
-      if (e) {
-        e.preventDefault();
-      }
-
-      this.http.put("/admin/users/".concat(this.users_id), {
-        user: this.user
-      }).then(function (result) {
-        if (result.successful) {
-          _this2.alert("User updated successfuly");
-        }
-      })["catch"](function (error) {
-        console.log(error);
-      });
-    }
   }
 });
 // CONCATENATED MODULE: ./app/vue/users/apps/user/show.vue?vue&type=script&lang=js&
@@ -32574,6 +32426,90 @@ var show_component = Object(componentNormalizer["a" /* default */])(
 if (false) { var show_api; }
 show_component.options.__file = "app/vue/users/apps/user/show.vue"
 /* harmony default export */ var show = (show_component.exports);
+// CONCATENATED MODULE: ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./app/vue/users/apps/user/edit.vue?vue&type=template&id=6786957d&
+var editvue_type_template_id_6786957d_render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _vm.user_id
+    ? _c("section", { staticClass: "section" }, [_c("component-form")], 1)
+    : _vm._e()
+}
+var editvue_type_template_id_6786957d_staticRenderFns = []
+editvue_type_template_id_6786957d_render._withStripped = true
+
+
+// CONCATENATED MODULE: ./app/vue/users/apps/user/edit.vue?vue&type=template&id=6786957d&
+
+// CONCATENATED MODULE: ./node_modules/babel-loader/lib??ref--3!./node_modules/vue-loader/lib??vue-loader-options!./app/vue/users/apps/user/edit.vue?vue&type=script&lang=js&
+/*
+Lesli
+
+Copyright (c) 2019, Lesli Technologies, S. A.
+
+All the information provided by this website is protected by laws of Guatemala related 
+to industrial property, intellectual property, copyright and relative international laws. 
+Lesli Technologies, S. A. is the exclusive owner of all intellectual or industrial property
+rights of the code, texts, trade mark, design, pictures and any other information.
+Without the written permission of Lesli Technologies, S. A., any replication, modification,
+transmission, publication is strictly forbidden.
+For more information read the license file including with this software.
+
+LesliCloud - Your Smart Business Assistant
+
+Powered by https://www.lesli.tech
+Building a better future, one line of code at a time.
+
+@author   LesliTech <hello@lesli.tech>
+@license  Propietary - all rights reserved.
+@version  0.1.0-alpha
+
+// · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
+// · 
+*/
+// · Import libraries and tools
+// · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
+ // · Component
+// · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
+
+/* harmony default export */ var editvue_type_script_lang_js_ = ({
+  components: {
+    'component-form': components_form
+  },
+  data: function data() {
+    return {
+      user_id: null
+    };
+  },
+  mounted: function mounted() {
+    this.user_id = this.$route.params.id;
+  }
+});
+// CONCATENATED MODULE: ./app/vue/users/apps/user/edit.vue?vue&type=script&lang=js&
+ /* harmony default export */ var user_editvue_type_script_lang_js_ = (editvue_type_script_lang_js_); 
+// CONCATENATED MODULE: ./app/vue/users/apps/user/edit.vue
+
+
+
+
+
+/* normalize component */
+
+var edit_component = Object(componentNormalizer["a" /* default */])(
+  user_editvue_type_script_lang_js_,
+  editvue_type_template_id_6786957d_render,
+  editvue_type_template_id_6786957d_staticRenderFns,
+  false,
+  null,
+  null,
+  null
+  
+)
+
+/* hot reload */
+if (false) { var edit_api; }
+edit_component.options.__file = "app/vue/users/apps/user/edit.vue"
+/* harmony default export */ var edit = (edit_component.exports);
 // CONCATENATED MODULE: ./app/vue/users/index.js
 /*
 
@@ -32603,6 +32539,10 @@ Object(app["a" /* default */])("AdminUsers", "[list|new|invite|show|edit]", "/ad
 }, {
   path: '/:id',
   component: show //show
+
+}, {
+  path: '/:id/edit',
+  component: edit //show
 
 }]);
 

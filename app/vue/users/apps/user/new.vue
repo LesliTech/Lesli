@@ -1,22 +1,49 @@
 <script>
+/*
+Lesli
+
+Copyright (c) 2019, Lesli Technologies, S. A.
+
+All the information provided by this website is protected by laws of Guatemala related 
+to industrial property, intellectual property, copyright and relative international laws. 
+Lesli Technologies, S. A. is the exclusive owner of all intellectual or industrial property
+rights of the code, texts, trade mark, design, pictures and any other information.
+Without the written permission of Lesli Technologies, S. A., any replication, modification,
+transmission, publication is strictly forbidden.
+For more information read the license file including with this software.
+
+LesliCloud - Your Smart Business Assistant
+
+Powered by https://www.lesli.tech
+Building a better future, one line of code at a time.
+
+@author   LesliTech <hello@lesli.tech>
+@license  Propietary - all rights reserved.
+@version  0.1.0-alpha
+
+// · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
+// · 
+*/
+
+
 export default {
     data(){
-    return{
-        user: {
-            email: '',
-            password: '',
-            password_confirmation: '',
-            detail_attributes: {
-                first_name: '',
-                last_name: '',
-                telephone: '',
-                address: ''
+        return{
+            user: {
+                email: '',
+                password: '',
+                password_confirmation: '',
+                detail_attributes: {
+                    first_name: '',
+                    last_name: '',
+                    telephone: '',
+                    address: ''
+                }
             }
         }
-    }
-},
+    },
     methods: {
-        postEmployee(e) {
+        postUser(e) {
             if (e) { e.preventDefault() }
             this.http.post('/admin/users', {
                 user: this.user
@@ -39,7 +66,7 @@ export default {
                 <h4 class="card-header-title">New user</h4>
             </div>
             <div class="card-content">
-                <form @submit="postEmployee">
+                <form @submit="postUser">
                     <div class="columns">
                         <div class="column is-4">
                             <label class="label">Email</label>

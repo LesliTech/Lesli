@@ -10,8 +10,8 @@ import app from 'LesliCloud/vue/app'
 import componentList from './apps/user/list.vue'
 import componentInvite from './apps/user/invite.vue'
 import appNewUser from './apps/user/new.vue'
-import appform from './apps/components/form.vue'
 import appShow from './apps/user/show.vue'
+import appEdit from './apps/user/edit.vue'
 
 
 
@@ -29,4 +29,7 @@ app("AdminUsers", "[list|new|invite|show|edit]", "/admin/users", [{
 },{
     path :'/:id',
     component: appShow, //show
+},{
+    path :'/:id/edit',
+    component: appEdit, //show
 }])

@@ -48,6 +48,7 @@ export default {
             this.http.post('/admin/users', {
                 user: this.user
             }).then(result => {
+                this.$router.push('/')
                 console.log(result)
             }).catch(error => {
                 console.log(error)
