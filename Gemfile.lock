@@ -1,4 +1,10 @@
 PATH
+  remote: engines/CloudTeam
+  specs:
+    cloud_team (0.1.0)
+      rails (~> 6.0.0)
+
+PATH
   remote: engines/CloudLesli
   specs:
     cloud_lesli (0.1.0)
@@ -259,6 +265,7 @@ DEPENDENCIES
   cancancan
   cloud_lesli!
   cloud_lock!
+  cloud_team!
   devise
   faker
   haml-rails
