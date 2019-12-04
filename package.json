@@ -11,25 +11,33 @@
         "url": "git+https://github.com/LesliTech/lesli.cloud.git"
     },
     "devDependencies": {
+
         "@rails/actioncable": "6.0.0",
+
         "lesli-nodejs-debug-message": "ssh://git@github.com:LesliTech/lesli-nodejs-debug-message.git#master",
         "lesli-css": "ssh://git@github.com:LesliTech/lesli-css.git#master",
+
         "@babel/core": "7.5.5",
         "@babel/preset-env": "7.5.5",
+
         "webpack": "4.39.1",
         "webpack-cli": "3.3.6",
         "terser-webpack-plugin": "1.4.1",
+
         "gulp-sass": "4.0.2",
         "gulp-cli": "2.2.0",
         "gulp": "4.0.2",
+
         "css-loader": "3.2.0",
         "sass-loader": "7.2.0",
         "style-loader": "1.0.0",
         "babel-loader": "8.0.6",
+
         "vue": "2.6.10",
         "vue-router": "3.1.2",
         "vue-loader": "15.7.1",
         "vue-template-compiler": "2.6.10",
+
         "buefy": "0.8.6",
         "bulma": "0.8.0",
         "axios": "0.19",
@@ -43,10 +51,12 @@
         "vue-mermaid": "0.0.10",
         "bulma-extensions": "6.2.7",
         "v-calendar": "1.0.0-beta.22",
+        
         "@fullcalendar/vue": "4.3.1",
         "@fullcalendar/core": "4.3.1",
         "@fullcalendar/daygrid": "4.3.0",
         "@fullcalendar/timegrid": "4.3.0",
+
         "@fortawesome/fontawesome-free": "5.11.2",
         "@fortawesome/free-solid-svg-icons":"5.11.2",
         "@fortawesome/fontawesome-svg-core": "1.2.25",
@@ -57,4 +67,5 @@
         "webpack:production": "webpack --progress --env=production",
         "webpack": "webpack --progress --env=development"
     }
+    
 }
