@@ -2,14 +2,12 @@
     %nav
         %ul
 
-            -# Notifications management
-            %li
-                = link_to "/bell/notifications" do
-                    = image_tag "cloudbell/brand/bell-logo.svg", alt: "CloudBell logo"
-                    bell
+            - if defined?(CloudBell)
+                %li
+                    = link_to "/bell/notifications" do
+                        = image_tag "cloudbell/brand/bell-logo.svg", alt: "CloudBell logo"
+                        bell
 
-
-            -# Notifications management
             - if defined?(CloudTeam)
                 %li
                     = link_to "/team" do
