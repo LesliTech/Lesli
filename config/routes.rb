@@ -20,8 +20,7 @@ Rails.application.routes.draw do
 
         resources :accounts
 
-        mount CloudDriver::Engine => "/driver" if defined?(CloudDriver)
-        mount CloudBooks::Engine  => "/books"  if defined?(CloudBooks)
+        mount ActionCable.server  => '/cable'
         mount CloudPanel::Engine  => "/panel"  if defined?(CloudPanel)
         mount CloudLesli::Engine  => "/lesli"  if defined?(CloudLesli)
         mount CloudTeam::Engine   => "/team"   if defined?(CloudTeam)
@@ -30,14 +29,11 @@ Rails.application.routes.draw do
         mount CloudHelp::Engine   => "/help"   if defined?(CloudHelp)
         mount CloudKb::Engine     => "/kb"     if defined?(CloudKb)
 
-        mount ActionCable.server => '/cable'
-
         root to: redirect('/lesli'), as: :root_authenticated if defined?(CloudLesli)
         root to: "dashboards#empty", as: :root_authenticated if !defined?(CloudLesli)
 
     end
 
     root to: "websites#landing", as: :root_unauthenticated
-    root to: "websites#landing"
 
 end
