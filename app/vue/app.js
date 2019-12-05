@@ -69,14 +69,14 @@ import componentLayoutNotification from 'LesliCloud/vue/layouts/notification.vue
 // · If the file is public accessible, and no extra components no websockets are created
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
 library.add(fas)
-Vue.component('font-awesome-icon', FontAwesomeIcon)
-Vue.use(Buefy, { defaultIconPack: 'fas' })
 
 Vue.use(pluginBus)
 Vue.use(VueRouter)
 Vue.use(pluginUrl)
 Vue.use(pluginHttp)
 Vue.use(pluginDate)
+Vue.use(Buefy, { defaultIconPack: 'fas' })
+Vue.component('font-awesome-icon', FontAwesomeIcon)
 Vue.component('component-layout-empty-data', componentLayoutEmptyData)
 
 

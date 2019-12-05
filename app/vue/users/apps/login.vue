@@ -32,7 +32,7 @@ export default {
          this.http.post(this.url.to(null,null,'login'),data).then((response)=>{
             this.progress_bar_active = false;
             if(response.successful){
-               this.url.go('/lesli');
+               this.url.go('/');
             }else{
                this.showNotification(response.error.message);
             }
