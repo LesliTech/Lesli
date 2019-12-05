@@ -20,7 +20,7 @@ Rails.application.routes.draw do
 
         resources :accounts
 
-        mount ActionCable.server  => '/cable'
+        mount ActionCable.server  => "/cable"
         mount CloudPanel::Engine  => "/panel"  if defined?(CloudPanel)
         mount CloudLesli::Engine  => "/lesli"  if defined?(CloudLesli)
         mount CloudTeam::Engine   => "/team"   if defined?(CloudTeam)
