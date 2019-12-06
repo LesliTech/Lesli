@@ -120,7 +120,7 @@ end
 
 # Loading installed engines
 
-['CloudLesli', 'CloudBell', 'CloudLock', 'CloudDriver','CloudBooks','CloudTeam','CloudHelp','CloudKb','CloudPanel'].each do |engine|
+['CloudLesli', 'CloudBell', 'CloudLock', 'CloudTeam','CloudHelp','CloudKb','CloudPanel'].each do |engine|
     engine_sym_name = engine.downcase.sub('cloud', 'cloud_')
     engine_installation_path = File.expand_path("../engines/#{engine}", __FILE__)
     gem engine_sym_name, path: engine_installation_path if File.exists?(engine_installation_path)

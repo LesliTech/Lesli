@@ -9,7 +9,7 @@ class User < ApplicationRecord
             :confirmable
     
     belongs_to  :account , foreign_key: 'accounts_id', optional: true
-
+    belongs_to :role, class_name: 'CloudLock::Role', foreign_key:'cloud_lock_roles_id', optional: true
     has_many    :notifications, class_name: 'CloudBell::Notification', foreign_key: 'users_id'
     has_many    :ticket_assignments, class_name: 'CloudHelp::Ticket::Assignment', foreign_key: 'users_id'
     has_many    :permissions
