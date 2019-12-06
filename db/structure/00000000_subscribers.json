@@ -1,0 +1,10 @@
+[{
+    "name": "event",
+    "type": "integer"
+},{
+    "name": "type",
+    "type": "integer"
+},{
+    "name": "users_id",
+    "type": "bigint"
+}]
