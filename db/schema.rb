@@ -65,6 +65,7 @@ ActiveRecord::Schema.define(version: 8020207) do
     t.text "body"
     t.string "href"
     t.string "format"
+    t.string "sender"
     t.boolean "read", default: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
@@ -78,6 +79,7 @@ ActiveRecord::Schema.define(version: 8020207) do
   end
 
   create_table "cloud_lock_role_privileges", force: :cascade do |t|
+    t.string "privilege_model"
     t.boolean "privilege_get", default: false
     t.boolean "privilege_post", default: false
     t.boolean "privilege_put", default: false
@@ -304,7 +306,9 @@ ActiveRecord::Schema.define(version: 8020207) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.bigint "accounts_id"
+    t.bigint "cloud_lock_roles_id"
     t.index ["accounts_id"], name: "index_users_on_accounts_id"
+    t.index ["cloud_lock_roles_id"], name: "index_users_on_cloud_lock_roles_id"
     t.index ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true
     t.index ["deleted_at"], name: "index_users_on_deleted_at"
     t.index ["email"], name: "index_users_on_email", unique: true
@@ -334,4 +338,5 @@ ActiveRecord::Schema.define(version: 8020207) do
   add_foreign_key "cloud_team_employee_social_accounts", "cloud_team_employees", column: "cloud_team_employees_id"
   add_foreign_key "cloud_team_employees", "cloud_team_accounts", column: "cloud_team_accounts_id"
   add_foreign_key "users", "accounts", column: "accounts_id"
+  add_foreign_key "users", "cloud_lock_roles", column: "cloud_lock_roles_id"
 end
