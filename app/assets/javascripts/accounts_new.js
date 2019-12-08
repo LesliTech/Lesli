@@ -29791,11 +29791,11 @@ var progress_bar = __webpack_require__(3);
         user: this.user
       };
       this.progress_bar_active = true;
-      this.http.post(this.url.to(null, null, '/accounts'), data).then(function (response) {
+      this.http.post(this.url.to(null, null, '/account'), data).then(function (response) {
         _this.progress_bar_active = false;
 
         if (response.successful) {
-          _this.url.go('/lesli');
+          _this.url.go('/');
         } else {
           _this.showNotification(response.error.message);
         }
@@ -29906,9 +29906,9 @@ Building a better future, one line of code at a time.
 
 Object(vue_public["a" /* default */])("Lesli", "[new]", "", [{
   path: "/",
-  redirect: "/accounts/new"
+  redirect: "/account/new"
 }, {
-  path: "/accounts/new",
+  path: "/account/new",
   component: apps_new
 }]);
 

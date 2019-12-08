@@ -39,7 +39,7 @@ class ApplicationLesliController < ApplicationController
 
         return if current_user.blank?
         return if controller_name == "accounts"
-        redirect_to "/accounts/new" if current_user.account.blank?
+        redirect_to "/account/new" if current_user.account.blank?
 
     end
 
