@@ -29688,9 +29688,9 @@ var formvue_type_template_id_4bb350ce_render = function() {
         _c("p", { staticClass: "control has-icons-left" }, [
           _c("label", { staticClass: "sr-only" }, [
             _vm._v(
-              "\n            " +
+              "\n                " +
                 _vm._s(_vm.translations.fields.company_name) +
-                "\n         "
+                "\n            "
             )
           ]),
           _vm._v(" "),
@@ -29764,6 +29764,9 @@ var progress_bar = __webpack_require__(3);
       account: {
         company_name: ''
       },
+      user: {
+        name: ''
+      },
       progress_bar_active: false,
       notification: {
         show: false,
@@ -29784,7 +29787,8 @@ var progress_bar = __webpack_require__(3);
 
       event.preventDefault();
       var data = {
-        account: this.account
+        account: this.account,
+        user: this.user
       };
       this.progress_bar_active = true;
       this.http.post(this.url.to(null, null, '/accounts'), data).then(function (response) {
