@@ -14,10 +14,18 @@ class User < ApplicationRecord
     has_many    :ticket_assignments, class_name: 'CloudHelp::Ticket::Assignment', foreign_key: 'users_id'
     has_many    :permissions
 
-    #has_one :account, foreign_key: 'users_id'
-
     has_one :detail, class_name: 'CloudLock::User::Detail', foreign_key: 'users_id', dependent: :delete, inverse_of: :user, autosave: true
     accepts_nested_attributes_for :detail
+
+    def name
+        unless detail.blank?
+            unless detail.first_name.blank? && detail.last_name.blank?
+                return [detail.first_name, detail.last_name].join(' ') 
+            end
+            return detail.first_name unless detail.first_name.blank? 
+        end
+        return email
+    end
 
     def revoke_access
         update_attributes(active: false)

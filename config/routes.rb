@@ -18,7 +18,7 @@ Rails.application.routes.draw do
 
     authenticated :user do
 
-        resources :accounts
+        resource :account
 
         mount ActionCable.server  => "/cable"
         mount CloudPanel::Engine  => "/panel"  if defined?(CloudPanel)

@@ -31,10 +31,10 @@ export default {
             event.preventDefault();
             let data = {account: this.account, user: this.user};
             this.progress_bar_active = true;
-            this.http.post(this.url.to(null,null,'/accounts'),data).then((response)=>{
+            this.http.post(this.url.to(null,null,'/account'),data).then((response)=>{
                 this.progress_bar_active = false;
                 if(response.successful){
-                    this.url.go('/lesli');
+                    this.url.go('/');
                 }else{
                     this.showNotification(response.error.message);
                 }

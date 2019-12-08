@@ -10,6 +10,21 @@ class AccountsController < ApplicationController
     # GET /accounts/1
     # GET /accounts/1.json
     def show
+        respond_to do |format|
+            format.json {
+                responseWithSuccessful({
+                    account: {
+                        id: current_user.account.id,
+                        name: current_user.account.company_name
+                    },
+                    user: {
+                        id: current_user.id,
+                        email: current_user.email,
+                        name: current_user.name
+                    }
+                })
+            }
+        end
     end
 
     # GET /accounts/new
@@ -68,7 +83,7 @@ class AccountsController < ApplicationController
 
     # Use callbacks to share common setup or constraints between actions.
     def set_account
-        @account = Account.find(params[:id])
+        @account = current_user.account
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.
