@@ -14,6 +14,8 @@ class User < ApplicationRecord
     has_many    :ticket_assignments, class_name: 'CloudHelp::Ticket::Assignment', foreign_key: 'users_id'
     has_many    :permissions
 
+    #has_one :account, foreign_key: 'users_id'
+
     has_one :detail, class_name: 'CloudLock::User::Detail', foreign_key: 'users_id', dependent: :delete, inverse_of: :user, autosave: true
     accepts_nested_attributes_for :detail
 
