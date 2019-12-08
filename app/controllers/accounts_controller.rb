@@ -1,5 +1,5 @@
-class AccountsController < ApplicationController
-    before_action :set_account, only: [:show, :edit, :update, :destroy]
+class AccountsController < ApplicationLesliController
+    before_action :set_account, only: [:edit, :update, :destroy]
     layout 'application_public'
 
     # GET /accounts
@@ -12,17 +12,7 @@ class AccountsController < ApplicationController
     def show
         respond_to do |format|
             format.json {
-                responseWithSuccessful({
-                    account: {
-                        id: current_user.account.id,
-                        name: current_user.account.company_name
-                    },
-                    user: {
-                        id: current_user.id,
-                        email: current_user.email,
-                        name: current_user.name
-                    }
-                })
+                responseWithSuccessful(set_account_global)
             }
         end
     end

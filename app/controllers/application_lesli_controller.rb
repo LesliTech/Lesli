@@ -26,6 +26,7 @@ Building a better future, one line of code at a time.
 class ApplicationLesliController < ApplicationController
     before_action :authenticate_user
     before_action :check_account
+    before_action :set_account_global
     
     layout 'layouts/application'
 
@@ -40,6 +41,24 @@ class ApplicationLesliController < ApplicationController
         return if current_user.blank?
         return if controller_name == "accounts"
         redirect_to "/account/new" if current_user.account.blank?
+
+    end
+
+    def set_account_global
+        @account = {
+            company: {
+                id: current_user.account.id,
+                name: current_user.account.company_name
+            },
+            user: {
+                id: current_user.id,
+                email: current_user.email,
+                name: current_user.name
+            },
+            notifications: {
+                count: current_user.notifications.length
+            }
+        }
 
     end
 
