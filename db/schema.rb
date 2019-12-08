@@ -34,6 +34,8 @@ ActiveRecord::Schema.define(version: 8020207) do
     t.string "facebook"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "users_id"
+    t.index ["users_id"], name: "index_accounts_on_users_id"
   end
 
   create_table "active_storage_attachments", force: :cascade do |t|
@@ -316,6 +318,7 @@ ActiveRecord::Schema.define(version: 8020207) do
     t.index ["unlock_token"], name: "index_users_on_unlock_token", unique: true
   end
 
+  add_foreign_key "accounts", "users", column: "users_id"
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "cloud_bell_accounts", "accounts", column: "id"
   add_foreign_key "cloud_bell_notifications", "cloud_bell_accounts", column: "cloud_bell_accounts_id"
