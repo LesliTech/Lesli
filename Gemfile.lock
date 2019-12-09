@@ -1,31 +1,7 @@
 PATH
-  remote: engines/CloudBabel
+  remote: engines/CloudDriver
   specs:
-    cloud_babel (0.1.0)
-      rails (~> 6.0.0)
-
-PATH
-  remote: engines/CloudBell
-  specs:
-    cloud_bell (0.1.0)
-      rails (~> 6.0.0)
-
-PATH
-  remote: engines/CloudLesli
-  specs:
-    cloud_lesli (0.1.0)
-      rails (~> 6.0.0)
-
-PATH
-  remote: engines/CloudLock
-  specs:
-    cloud_lock (0.1.0)
-      rails (~> 6.0.0)
-
-PATH
-  remote: engines/CloudTeam
-  specs:
-    cloud_team (0.1.0)
+    cloud_driver (0.1.0)
       rails (~> 6.0.0)
 
 GEM
@@ -275,11 +251,7 @@ DEPENDENCIES
   bootsnap (>= 1.1.0)
   byebug
   cancancan
-  cloud_babel!
-  cloud_bell!
-  cloud_lesli!
-  cloud_lock!
-  cloud_team!
+  cloud_driver!
   devise
   faker
   haml-rails
