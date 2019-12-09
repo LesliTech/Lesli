@@ -2,7 +2,7 @@
     "name": "event",
     "type": "integer"
 },{
-    "name": "type",
+    "name": "notification_type",
     "type": "integer"
 },{
     "name": "users_id",
