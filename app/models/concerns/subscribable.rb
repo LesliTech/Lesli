@@ -17,7 +17,9 @@ module Subscribable include ActiveSupport::Concern
             Courier::Bell::Notifications.send(
                 user: subscriber.user,
                 subject: subject,
-                href: build_reference
+                href: build_reference,
+                type: subscriber.notification_type,
+                cloud_object_type: module_name
             )
         end
     end
@@ -48,6 +50,10 @@ module Subscribable include ActiveSupport::Concern
 
     def class_subscriber
         "#{self.class.name}::Subscriber".constantize
+    end
+
+    def module_name
+        path = self.class.name.sub("Cloud","").sub("::","/")
     end
 
 end
