@@ -5,6 +5,7 @@ module Courier
                 unless defined? CloudBell
                     return
                 end
+                return if user.account.bell.blank?
                 CloudBell::Notification.new({
                     body: body,
                     href: href,
