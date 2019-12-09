@@ -64,7 +64,7 @@ class ApplicationLesliController < ApplicationController
             user: {
                 id: current_user.id,
                 email: current_user.email,
-                name: current_user.name
+                name: current_user.email
             },
             notifications: {
                 count: current_user.notifications.length
