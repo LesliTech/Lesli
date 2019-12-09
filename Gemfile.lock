@@ -1,4 +1,10 @@
 PATH
+  remote: engines/CloudBabel
+  specs:
+    cloud_babel (0.1.0)
+      rails (~> 6.0.0)
+
+PATH
   remote: engines/CloudBell
   specs:
     cloud_bell (0.1.0)
@@ -269,6 +275,7 @@ DEPENDENCIES
   bootsnap (>= 1.1.0)
   byebug
   cancancan
+  cloud_babel!
   cloud_bell!
   cloud_lesli!
   cloud_lock!

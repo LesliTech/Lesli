@@ -50,3 +50,8 @@
                     = link_to "/lock" do
                         = image_tag "cloudlock/brand/lock-logo.svg", alt: "CloudLock logo"
                         lock
+            - if defined?(CloudBabel)
+                %li
+                    = link_to "/babel" do
+                        = image_tag "cloudbabel/brand/babel-logo.svg", alt: "CloudBabel logo"
+                        babel
