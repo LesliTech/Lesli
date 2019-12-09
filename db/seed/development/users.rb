@@ -35,6 +35,9 @@ model.accounts_id = 1
 model.confirm
 model.save!
 
+model.account.user = model
+model.account.save!
+
 10.times do
     model = User.new
     model.email = Faker::Internet.email
