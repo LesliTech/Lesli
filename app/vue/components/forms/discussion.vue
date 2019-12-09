@@ -17,7 +17,6 @@ LesliCloud - Your Smart Business Assistant
 Powered by https://www.lesli.tech
 Building a better future, one line of code at a time.
 
-@dev      Luis Donis <ldonis@lesli.tech>
 @author   LesliTech <hello@lesli.tech>
 @license  Propietary - all rights reserved.
 @version  0.1.0-alpha
@@ -64,15 +63,15 @@ export default {
             if (e) { e.preventDefault() }
 
             // add owner id
-            this.discussion[`cloud_${this.cloudModule.replace('/','_')}s_id`] = this.cloudId
+            this.discussion[`cloud_${this.cloudModule.replace('/','_')}_id`] = this.cloudId
 
             let request_data = {}
-            request_data[`${this.cloudModule.split('/')[1]}_discussion`] = this.discussion
+            request_data[`${this.cloudModule.split('/')[1].slice(0,-1)}_discussion`] = this.discussion
 
             //{"  ticket_discussion":{"content":"hola","cloud_help_tickets_id"  :"2"}}
             //{"employee_discussion":{"content":"hola","cloud_team_employees_id":"1"}}
 
-            this.http.post(`/${this.cloudModule}/discussions`, request_data).then(result => {
+            this.http.post(`/${this.cloudModule}/${this.cloudId}/discussions`, request_data).then(result => {
                 if (result.successful) {
                     this.discussion.content = ""
                 }

@@ -41,8 +41,8 @@ import appNew from './apps/new.vue'
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
 app("Lesli", "[new]", "", [{
     path: "/",
-    redirect: "/accounts/new",
+    redirect: "/account/new",
 },{
-    path: "/accounts/new",
+    path: "/account/new",
     component: appNew,
 }])

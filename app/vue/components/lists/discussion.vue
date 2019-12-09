@@ -53,7 +53,7 @@ export default {
 
         getDiscussions() {
             if(this.cloudId){
-                this.http.get(`/${this.cloudModule}s/${this.cloudId}/discussions`).then(result => {
+                this.http.get(`/${this.cloudModule}/${this.cloudId}/discussions.json`).then(result => {
                     if (result.successful) {
                         this.discussions = result.data
                     }
