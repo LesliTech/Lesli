@@ -46,30 +46,26 @@ class ApplicationLesliController < ApplicationController
 
     def set_account_global
         @account = {
-            company: {
+            user: { 
+                id: current_user.id,
+                email: current_user.email,
+                name: current_user.name
             },
-            user: {
-            },
-            notifications: {
+            company: { },
+            notifications: { 
+                count: Courier::Bell::Notifications.count()
             }
         }
 
         return @account if current_user.account.blank?
 
-        @account = {
-            company: {
-                id: current_user.account.id,
-                name: current_user.account.company_name
-            },
-            user: {
-                id: current_user.id,
-                email: current_user.email,
-                name: current_user.email
-            },
-            notifications: {
-                count: current_user.notifications.length
-            }
+        # add company information (account)
+        @account[:company] = {
+            id: current_user.account.id,
+            name: current_user.account.company_name
         }
+
+        return @account
 
     end
 

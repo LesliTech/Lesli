@@ -139,7 +139,12 @@ function webpackConfigBuilder(compilationMode) {
     webpackConfig.push(webpackbase)
 
     // · get engines
-    fs.readdirSync('./engines').forEach(engine => {
+    let engines = [
+        'CloudLesli', 'CloudBell', 'CloudLock', 'CloudTeam', 
+        'CloudHelp', 'CloudKb','CloudPanel', 'CloudBabel', 'CloudDriver'
+    ];
+
+    engines.forEach(engine => {
 
         let webpackEngine = Object.assign({}, webpackbase)
         webpackEngine.output = Object.assign({}, webpackbase.output)
