@@ -16,6 +16,9 @@ export default {
         },
         showFiles() {
             this.bus.publish("show:/module/app/files")
+        },
+        showSubscriptions() {
+            this.bus.publish("show:/module/app/subscriptions")
         }
     },
     watch: {
@@ -33,6 +36,7 @@ export default {
             </div>
             <div class="navbar-end">
                 <slot name="left"></slot>
+                <a class="navbar-item" v-if="id" @click="showSubscriptions">Subscriptions</a>
                 <a class="navbar-item" v-if="id" @click="showActions">Actions</a>
                 <a class="navbar-item" v-if="id" @click="showFiles">Files</a>
                 <a class="navbar-item" v-if="id" @click="showActions">Activities</a>
