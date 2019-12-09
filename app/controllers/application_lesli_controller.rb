@@ -47,6 +47,17 @@ class ApplicationLesliController < ApplicationController
     def set_account_global
         @account = {
             company: {
+            },
+            user: {
+            },
+            notifications: {
+            }
+        }
+
+        return @account if current_user.account.blank?
+
+        @account = {
+            company: {
                 id: current_user.account.id,
                 name: current_user.account.company_name
             },
