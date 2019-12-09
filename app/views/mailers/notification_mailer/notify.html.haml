@@ -1,0 +1,19 @@
+= "We are sending you this email to notify you that #{@subject}." 
+- if @body
+    = @body
+%br
+%br
+You can click this
+= link_to "link", "http://#{url_options[:host]}#{@href}"
+to access the resource.
+%br
+%br
+%br
+= "This is an email notification regarding your subscription to a #{@cloud_object_type} in lesli cloud."
+%br
+If you do not wish to receive more notification please follow this
+= link_to "link", "http://#{url_options[:host]}#{@href}"
+so you can modify your subscription for this resource.
+%hr
+%div{ style: "text-align: center;" }
+    2019-2020 Lesli Cloud
