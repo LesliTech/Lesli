@@ -1,9 +1,3 @@
-PATH
-  remote: engines/CloudDriver
-  specs:
-    cloud_driver (0.1.0)
-      rails (~> 6.0.0)
-
 GEM
   remote: https://rubygems.org/
   specs:
@@ -251,7 +245,6 @@ DEPENDENCIES
   bootsnap (>= 1.1.0)
   byebug
   cancancan
-  cloud_driver!
   devise
   faker
   haml-rails

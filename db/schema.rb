@@ -76,25 +76,46 @@ ActiveRecord::Schema.define(version: 3010306) do
     t.index ["cloud_driver_calendars_id"], name: "calendar_activities_calendars"
   end
 
-  create_table "cloud_driver_calendar_attachments", force: :cascade do |t|
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-    t.bigint "cloud_driver_calendars_id"
-    t.index ["cloud_driver_calendars_id"], name: "calendar_attachments_calendars"
-  end
-
-  create_table "cloud_driver_calendar_comments", force: :cascade do |t|
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-    t.bigint "cloud_driver_calendars_id"
-    t.index ["cloud_driver_calendars_id"], name: "calendar_comments_calendars"
-  end
-
   create_table "cloud_driver_calendar_details", force: :cascade do |t|
+    t.string "name"
+    t.string "color", default: "100,100,200"
+    t.boolean "default", default: false
+    t.boolean "active", default: true
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.bigint "cloud_driver_calendars_id"
     t.index ["cloud_driver_calendars_id"], name: "calendar_details_calendars"
+  end
+
+  create_table "cloud_driver_calendar_discussions", force: :cascade do |t|
+    t.text "content"
+    t.datetime "deleted_at"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.bigint "cloud_driver_calendar_discussions_id"
+    t.bigint "users_id"
+    t.bigint "cloud_driver_calendars_id"
+    t.index ["cloud_driver_calendar_discussions_id"], name: "calendar_discussions"
+    t.index ["cloud_driver_calendars_id"], name: "driver_calendar_discussions"
+    t.index ["users_id"], name: "index_cloud_driver_calendar_discussions_on_users_id"
+  end
+
+  create_table "cloud_driver_calendar_files", force: :cascade do |t|
+    t.string "name"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.bigint "cloud_driver_calendars_id"
+    t.index ["cloud_driver_calendars_id"], name: "index_cloud_driver_calendar_files_on_cloud_driver_calendars_id"
+  end
+
+  create_table "cloud_driver_calendar_subscribers", force: :cascade do |t|
+    t.integer "event"
+    t.integer "notification_type"
+    t.bigint "users_id"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.bigint "cloud_driver_calendars_id"
+    t.index ["cloud_driver_calendars_id"], name: "driver_calendar_subscribers_calendars"
   end
 
   create_table "cloud_driver_calendars", force: :cascade do |t|
@@ -133,10 +154,17 @@ ActiveRecord::Schema.define(version: 3010306) do
   end
 
   create_table "cloud_driver_event_details", force: :cascade do |t|
+    t.string "name"
+    t.text "description"
+    t.datetime "time_start"
+    t.datetime "time_end"
+    t.text "location"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.bigint "cloud_driver_events_id"
+    t.bigint "users_id"
     t.index ["cloud_driver_events_id"], name: "index_cloud_driver_event_details_on_cloud_driver_events_id"
+    t.index ["users_id"], name: "index_cloud_driver_event_details_on_users_id"
   end
 
   create_table "cloud_driver_events", force: :cascade do |t|
@@ -182,15 +210,20 @@ ActiveRecord::Schema.define(version: 3010306) do
   add_foreign_key "cloud_driver_accounts", "accounts", column: "id"
   add_foreign_key "cloud_driver_calendar_actions", "cloud_driver_calendars", column: "cloud_driver_calendars_id"
   add_foreign_key "cloud_driver_calendar_activities", "cloud_driver_calendars", column: "cloud_driver_calendars_id"
-  add_foreign_key "cloud_driver_calendar_attachments", "cloud_driver_calendars", column: "cloud_driver_calendars_id"
-  add_foreign_key "cloud_driver_calendar_comments", "cloud_driver_calendars", column: "cloud_driver_calendars_id"
   add_foreign_key "cloud_driver_calendar_details", "cloud_driver_calendars", column: "cloud_driver_calendars_id"
+  add_foreign_key "cloud_driver_calendar_discussions", "cloud_driver_calendar_discussions", column: "cloud_driver_calendar_discussions_id"
+  add_foreign_key "cloud_driver_calendar_discussions", "cloud_driver_calendars", column: "cloud_driver_calendars_id"
+  add_foreign_key "cloud_driver_calendar_discussions", "users", column: "users_id"
+  add_foreign_key "cloud_driver_calendar_files", "cloud_driver_calendars", column: "cloud_driver_calendars_id"
+  add_foreign_key "cloud_driver_calendar_subscribers", "cloud_driver_calendars", column: "cloud_driver_calendars_id"
+  add_foreign_key "cloud_driver_calendar_subscribers", "users", column: "users_id"
   add_foreign_key "cloud_driver_calendars", "cloud_driver_accounts", column: "cloud_driver_accounts_id"
   add_foreign_key "cloud_driver_event_actions", "cloud_driver_events", column: "cloud_driver_events_id"
   add_foreign_key "cloud_driver_event_activities", "cloud_driver_events", column: "cloud_driver_events_id"
   add_foreign_key "cloud_driver_event_attachments", "cloud_driver_events", column: "cloud_driver_events_id"
   add_foreign_key "cloud_driver_event_comments", "cloud_driver_events", column: "cloud_driver_events_id"
   add_foreign_key "cloud_driver_event_details", "cloud_driver_events", column: "cloud_driver_events_id"
+  add_foreign_key "cloud_driver_event_details", "users", column: "users_id"
   add_foreign_key "cloud_driver_events", "cloud_driver_calendars", column: "cloud_driver_calendars_id"
   add_foreign_key "users", "accounts", column: "accounts_id"
 end
