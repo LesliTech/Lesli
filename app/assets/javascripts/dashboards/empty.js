@@ -17420,7 +17420,7 @@ Building a better future, one line of code at a time.
 // ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
 
 /* harmony default export */ __webpack_exports__["a"] = ({
-  install: function install(Vue, options) {
+  install: function install(Vue, _options) {
     // Get authentication token from rails
     var meta = document.querySelector('meta[name="csrf-token"]');
     var token = '';
@@ -17453,8 +17453,10 @@ Building a better future, one line of code at a time.
     }, function (error) {
       var message = "";
 
-      if (error.response.data.error.message) {
+      if (error.response.data.error && error.response.data.error.message) {
         message = error.response.data.error.message;
+      } else {
+        message = "Ajax ".concat(error.config.method, " to url ").concat(error.config.url, " ").concat(error.message);
       }
 
       return {

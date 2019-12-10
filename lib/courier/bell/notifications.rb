@@ -2,11 +2,25 @@ module Courier
     module Bell
         class Notifications
 
-            def self.send(user:, subject:, body:nil, href:nil, format:'info')
-                unless defined? CloudBell
+            def self.send(user:, subject:, body:nil, href:nil, format:'info', type: 'web', cloud_object_type: 'resource')
+                unless (defined? CloudBell && user.account.bell.present?)
                     return
                 end
-                return if user.account.bell.blank?
+
+                case type
+                when 'web'
+                    self.send_web(user, subject, body, href, format)
+                when 'email'
+                    self.send_email(user, subject, body, href, format, cloud_object_type)
+                else
+                    self.send_web(user, subject, body, href, format)
+                    
+                end
+            end
+
+            private
+
+            def self.send_web(user, subject, body, href, format)
                 CloudBell::Notification.new({
                     body: body,
                     href: href,
@@ -23,6 +37,17 @@ module Courier
                     return 0
                 end
                 current_user.notifications.length
+            end
+
+            def self.send_email(user, subject, body, href, format, cloud_object_type)
+                NotificationMailer.with(
+                    user: user,
+                    subject: subject,
+                    body: body,
+                    href: href,
+                    format: format,
+                    cloud_object_type: cloud_object_type
+                ).notify.deliver_later
             end
         end
     end

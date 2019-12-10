@@ -35,7 +35,7 @@ import axios from 'axios'
 // ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
 export default {
 
-    install (Vue, options) {
+    install (Vue, _options) {
 
         // Get authentication token from rails
         let meta = document.querySelector('meta[name="csrf-token"]')
@@ -70,11 +70,12 @@ export default {
             }
 
         }, error => {
-
-            let message = ""
             
-            if (error.response.data.error.message) {
+            let message = ""
+            if (error.response.data.error && error.response.data.error.message) {
                 message = error.response.data.error.message
+            }else{
+                message = `Ajax ${error.config.method} to url ${error.config.url} ${error.message}`
             }
 
             return {
