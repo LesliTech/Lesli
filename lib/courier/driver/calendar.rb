@@ -4,7 +4,7 @@ module Courier
             def initialize(calendar="default")
                 @calendar="default"
             end
-            def self.registerEvent(user, title:, description:nil, time_start:nil, time_end:nil, location:nil)
+            def self.registerEvent(user, title:, description:nil, time_start:nil, time_end:nil, location:nil, url:nil)
                 unless defined? CloudDriver
                     return
                 end
@@ -17,7 +17,8 @@ module Courier
                         description: description,
                         time_start: time_start,
                         time_end: time_end,
-                        location: location
+                        location: location,
+                        url: url
                     }
                 })
             end
