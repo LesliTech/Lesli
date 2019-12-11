@@ -81,7 +81,7 @@
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 41);
+/******/ 	return __webpack_require__(__webpack_require__.s = 49);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -12032,7 +12032,7 @@
 
 }));
 
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(5), __webpack_require__(36).setImmediate))
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(5), __webpack_require__(23).setImmediate))
 
 /***/ }),
 /* 1 */
@@ -12041,8 +12041,8 @@
 "use strict";
 
 
-var bind = __webpack_require__(6);
-var isBuffer = __webpack_require__(19);
+var bind = __webpack_require__(7);
+var isBuffer = __webpack_require__(25);
 
 /*global toString:true*/
 
@@ -12661,740 +12661,6 @@ module.exports = g;
 
 /***/ }),
 /* 6 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-module.exports = function bind(fn, thisArg) {
-  return function wrap() {
-    var args = new Array(arguments.length);
-    for (var i = 0; i < args.length; i++) {
-      args[i] = arguments[i];
-    }
-    return fn.apply(thisArg, args);
-  };
-};
-
-
-/***/ }),
-/* 7 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-var utils = __webpack_require__(1);
-
-function encode(val) {
-  return encodeURIComponent(val).
-    replace(/%40/gi, '@').
-    replace(/%3A/gi, ':').
-    replace(/%24/g, '$').
-    replace(/%2C/gi, ',').
-    replace(/%20/g, '+').
-    replace(/%5B/gi, '[').
-    replace(/%5D/gi, ']');
-}
-
-/**
- * Build a URL by appending params to the end
- *
- * @param {string} url The base of the url (e.g., http://www.google.com)
- * @param {object} [params] The params to be appended
- * @returns {string} The formatted url
- */
-module.exports = function buildURL(url, params, paramsSerializer) {
-  /*eslint no-param-reassign:0*/
-  if (!params) {
-    return url;
-  }
-
-  var serializedParams;
-  if (paramsSerializer) {
-    serializedParams = paramsSerializer(params);
-  } else if (utils.isURLSearchParams(params)) {
-    serializedParams = params.toString();
-  } else {
-    var parts = [];
-
-    utils.forEach(params, function serialize(val, key) {
-      if (val === null || typeof val === 'undefined') {
-        return;
-      }
-
-      if (utils.isArray(val)) {
-        key = key + '[]';
-      } else {
-        val = [val];
-      }
-
-      utils.forEach(val, function parseValue(v) {
-        if (utils.isDate(v)) {
-          v = v.toISOString();
-        } else if (utils.isObject(v)) {
-          v = JSON.stringify(v);
-        }
-        parts.push(encode(key) + '=' + encode(v));
-      });
-    });
-
-    serializedParams = parts.join('&');
-  }
-
-  if (serializedParams) {
-    var hashmarkIndex = url.indexOf('#');
-    if (hashmarkIndex !== -1) {
-      url = url.slice(0, hashmarkIndex);
-    }
-
-    url += (url.indexOf('?') === -1 ? '?' : '&') + serializedParams;
-  }
-
-  return url;
-};
-
-
-/***/ }),
-/* 8 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-module.exports = function isCancel(value) {
-  return !!(value && value.__CANCEL__);
-};
-
-
-/***/ }),
-/* 9 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-/* WEBPACK VAR INJECTION */(function(process) {
-
-var utils = __webpack_require__(1);
-var normalizeHeaderName = __webpack_require__(24);
-
-var DEFAULT_CONTENT_TYPE = {
-  'Content-Type': 'application/x-www-form-urlencoded'
-};
-
-function setContentTypeIfUnset(headers, value) {
-  if (!utils.isUndefined(headers) && utils.isUndefined(headers['Content-Type'])) {
-    headers['Content-Type'] = value;
-  }
-}
-
-function getDefaultAdapter() {
-  var adapter;
-  // Only Node.JS has a process variable that is of [[Class]] process
-  if (typeof process !== 'undefined' && Object.prototype.toString.call(process) === '[object process]') {
-    // For node use HTTP adapter
-    adapter = __webpack_require__(11);
-  } else if (typeof XMLHttpRequest !== 'undefined') {
-    // For browsers use XHR adapter
-    adapter = __webpack_require__(11);
-  }
-  return adapter;
-}
-
-var defaults = {
-  adapter: getDefaultAdapter(),
-
-  transformRequest: [function transformRequest(data, headers) {
-    normalizeHeaderName(headers, 'Accept');
-    normalizeHeaderName(headers, 'Content-Type');
-    if (utils.isFormData(data) ||
-      utils.isArrayBuffer(data) ||
-      utils.isBuffer(data) ||
-      utils.isStream(data) ||
-      utils.isFile(data) ||
-      utils.isBlob(data)
-    ) {
-      return data;
-    }
-    if (utils.isArrayBufferView(data)) {
-      return data.buffer;
-    }
-    if (utils.isURLSearchParams(data)) {
-      setContentTypeIfUnset(headers, 'application/x-www-form-urlencoded;charset=utf-8');
-      return data.toString();
-    }
-    if (utils.isObject(data)) {
-      setContentTypeIfUnset(headers, 'application/json;charset=utf-8');
-      return JSON.stringify(data);
-    }
-    return data;
-  }],
-
-  transformResponse: [function transformResponse(data) {
-    /*eslint no-param-reassign:0*/
-    if (typeof data === 'string') {
-      try {
-        data = JSON.parse(data);
-      } catch (e) { /* Ignore */ }
-    }
-    return data;
-  }],
-
-  /**
-   * A timeout in milliseconds to abort a request. If set to 0 (default) a
-   * timeout is not created.
-   */
-  timeout: 0,
-
-  xsrfCookieName: 'XSRF-TOKEN',
-  xsrfHeaderName: 'X-XSRF-TOKEN',
-
-  maxContentLength: -1,
-
-  validateStatus: function validateStatus(status) {
-    return status >= 200 && status < 300;
-  }
-};
-
-defaults.headers = {
-  common: {
-    'Accept': 'application/json, text/plain, */*'
-  }
-};
-
-utils.forEach(['delete', 'get', 'head'], function forEachMethodNoData(method) {
-  defaults.headers[method] = {};
-});
-
-utils.forEach(['post', 'put', 'patch'], function forEachMethodWithData(method) {
-  defaults.headers[method] = utils.merge(DEFAULT_CONTENT_TYPE);
-});
-
-module.exports = defaults;
-
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(10)))
-
-/***/ }),
-/* 10 */
-/***/ (function(module, exports) {
-
-// shim for using process in browser
-var process = module.exports = {};
-
-// cached from whatever global is present so that test runners that stub it
-// don't break things.  But we need to wrap it in a try catch in case it is
-// wrapped in strict mode code which doesn't define any globals.  It's inside a
-// function because try/catches deoptimize in certain engines.
-
-var cachedSetTimeout;
-var cachedClearTimeout;
-
-function defaultSetTimout() {
-    throw new Error('setTimeout has not been defined');
-}
-function defaultClearTimeout () {
-    throw new Error('clearTimeout has not been defined');
-}
-(function () {
-    try {
-        if (typeof setTimeout === 'function') {
-            cachedSetTimeout = setTimeout;
-        } else {
-            cachedSetTimeout = defaultSetTimout;
-        }
-    } catch (e) {
-        cachedSetTimeout = defaultSetTimout;
-    }
-    try {
-        if (typeof clearTimeout === 'function') {
-            cachedClearTimeout = clearTimeout;
-        } else {
-            cachedClearTimeout = defaultClearTimeout;
-        }
-    } catch (e) {
-        cachedClearTimeout = defaultClearTimeout;
-    }
-} ())
-function runTimeout(fun) {
-    if (cachedSetTimeout === setTimeout) {
-        //normal enviroments in sane situations
-        return setTimeout(fun, 0);
-    }
-    // if setTimeout wasn't available but was latter defined
-    if ((cachedSetTimeout === defaultSetTimout || !cachedSetTimeout) && setTimeout) {
-        cachedSetTimeout = setTimeout;
-        return setTimeout(fun, 0);
-    }
-    try {
-        // when when somebody has screwed with setTimeout but no I.E. maddness
-        return cachedSetTimeout(fun, 0);
-    } catch(e){
-        try {
-            // When we are in I.E. but the script has been evaled so I.E. doesn't trust the global object when called normally
-            return cachedSetTimeout.call(null, fun, 0);
-        } catch(e){
-            // same as above but when it's a version of I.E. that must have the global object for 'this', hopfully our context correct otherwise it will throw a global error
-            return cachedSetTimeout.call(this, fun, 0);
-        }
-    }
-
-
-}
-function runClearTimeout(marker) {
-    if (cachedClearTimeout === clearTimeout) {
-        //normal enviroments in sane situations
-        return clearTimeout(marker);
-    }
-    // if clearTimeout wasn't available but was latter defined
-    if ((cachedClearTimeout === defaultClearTimeout || !cachedClearTimeout) && clearTimeout) {
-        cachedClearTimeout = clearTimeout;
-        return clearTimeout(marker);
-    }
-    try {
-        // when when somebody has screwed with setTimeout but no I.E. maddness
-        return cachedClearTimeout(marker);
-    } catch (e){
-        try {
-            // When we are in I.E. but the script has been evaled so I.E. doesn't  trust the global object when called normally
-            return cachedClearTimeout.call(null, marker);
-        } catch (e){
-            // same as above but when it's a version of I.E. that must have the global object for 'this', hopfully our context correct otherwise it will throw a global error.
-            // Some versions of I.E. have different rules for clearTimeout vs setTimeout
-            return cachedClearTimeout.call(this, marker);
-        }
-    }
-
-
-
-}
-var queue = [];
-var draining = false;
-var currentQueue;
-var queueIndex = -1;
-
-function cleanUpNextTick() {
-    if (!draining || !currentQueue) {
-        return;
-    }
-    draining = false;
-    if (currentQueue.length) {
-        queue = currentQueue.concat(queue);
-    } else {
-        queueIndex = -1;
-    }
-    if (queue.length) {
-        drainQueue();
-    }
-}
-
-function drainQueue() {
-    if (draining) {
-        return;
-    }
-    var timeout = runTimeout(cleanUpNextTick);
-    draining = true;
-
-    var len = queue.length;
-    while(len) {
-        currentQueue = queue;
-        queue = [];
-        while (++queueIndex < len) {
-            if (currentQueue) {
-                currentQueue[queueIndex].run();
-            }
-        }
-        queueIndex = -1;
-        len = queue.length;
-    }
-    currentQueue = null;
-    draining = false;
-    runClearTimeout(timeout);
-}
-
-process.nextTick = function (fun) {
-    var args = new Array(arguments.length - 1);
-    if (arguments.length > 1) {
-        for (var i = 1; i < arguments.length; i++) {
-            args[i - 1] = arguments[i];
-        }
-    }
-    queue.push(new Item(fun, args));
-    if (queue.length === 1 && !draining) {
-        runTimeout(drainQueue);
-    }
-};
-
-// v8 likes predictible objects
-function Item(fun, array) {
-    this.fun = fun;
-    this.array = array;
-}
-Item.prototype.run = function () {
-    this.fun.apply(null, this.array);
-};
-process.title = 'browser';
-process.browser = true;
-process.env = {};
-process.argv = [];
-process.version = ''; // empty string to avoid regexp issues
-process.versions = {};
-
-function noop() {}
-
-process.on = noop;
-process.addListener = noop;
-process.once = noop;
-process.off = noop;
-process.removeListener = noop;
-process.removeAllListeners = noop;
-process.emit = noop;
-process.prependListener = noop;
-process.prependOnceListener = noop;
-
-process.listeners = function (name) { return [] }
-
-process.binding = function (name) {
-    throw new Error('process.binding is not supported');
-};
-
-process.cwd = function () { return '/' };
-process.chdir = function (dir) {
-    throw new Error('process.chdir is not supported');
-};
-process.umask = function() { return 0; };
-
-
-/***/ }),
-/* 11 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-var utils = __webpack_require__(1);
-var settle = __webpack_require__(25);
-var buildURL = __webpack_require__(7);
-var parseHeaders = __webpack_require__(27);
-var isURLSameOrigin = __webpack_require__(28);
-var createError = __webpack_require__(12);
-
-module.exports = function xhrAdapter(config) {
-  return new Promise(function dispatchXhrRequest(resolve, reject) {
-    var requestData = config.data;
-    var requestHeaders = config.headers;
-
-    if (utils.isFormData(requestData)) {
-      delete requestHeaders['Content-Type']; // Let the browser set it
-    }
-
-    var request = new XMLHttpRequest();
-
-    // HTTP basic authentication
-    if (config.auth) {
-      var username = config.auth.username || '';
-      var password = config.auth.password || '';
-      requestHeaders.Authorization = 'Basic ' + btoa(username + ':' + password);
-    }
-
-    request.open(config.method.toUpperCase(), buildURL(config.url, config.params, config.paramsSerializer), true);
-
-    // Set the request timeout in MS
-    request.timeout = config.timeout;
-
-    // Listen for ready state
-    request.onreadystatechange = function handleLoad() {
-      if (!request || request.readyState !== 4) {
-        return;
-      }
-
-      // The request errored out and we didn't get a response, this will be
-      // handled by onerror instead
-      // With one exception: request that using file: protocol, most browsers
-      // will return status as 0 even though it's a successful request
-      if (request.status === 0 && !(request.responseURL && request.responseURL.indexOf('file:') === 0)) {
-        return;
-      }
-
-      // Prepare the response
-      var responseHeaders = 'getAllResponseHeaders' in request ? parseHeaders(request.getAllResponseHeaders()) : null;
-      var responseData = !config.responseType || config.responseType === 'text' ? request.responseText : request.response;
-      var response = {
-        data: responseData,
-        status: request.status,
-        statusText: request.statusText,
-        headers: responseHeaders,
-        config: config,
-        request: request
-      };
-
-      settle(resolve, reject, response);
-
-      // Clean up request
-      request = null;
-    };
-
-    // Handle browser request cancellation (as opposed to a manual cancellation)
-    request.onabort = function handleAbort() {
-      if (!request) {
-        return;
-      }
-
-      reject(createError('Request aborted', config, 'ECONNABORTED', request));
-
-      // Clean up request
-      request = null;
-    };
-
-    // Handle low level network errors
-    request.onerror = function handleError() {
-      // Real errors are hidden from us by the browser
-      // onerror should only fire if it's a network error
-      reject(createError('Network Error', config, null, request));
-
-      // Clean up request
-      request = null;
-    };
-
-    // Handle timeout
-    request.ontimeout = function handleTimeout() {
-      reject(createError('timeout of ' + config.timeout + 'ms exceeded', config, 'ECONNABORTED',
-        request));
-
-      // Clean up request
-      request = null;
-    };
-
-    // Add xsrf header
-    // This is only done if running in a standard browser environment.
-    // Specifically not if we're in a web worker, or react-native.
-    if (utils.isStandardBrowserEnv()) {
-      var cookies = __webpack_require__(29);
-
-      // Add xsrf header
-      var xsrfValue = (config.withCredentials || isURLSameOrigin(config.url)) && config.xsrfCookieName ?
-        cookies.read(config.xsrfCookieName) :
-        undefined;
-
-      if (xsrfValue) {
-        requestHeaders[config.xsrfHeaderName] = xsrfValue;
-      }
-    }
-
-    // Add headers to the request
-    if ('setRequestHeader' in request) {
-      utils.forEach(requestHeaders, function setRequestHeader(val, key) {
-        if (typeof requestData === 'undefined' && key.toLowerCase() === 'content-type') {
-          // Remove Content-Type if data is undefined
-          delete requestHeaders[key];
-        } else {
-          // Otherwise add header to the request
-          request.setRequestHeader(key, val);
-        }
-      });
-    }
-
-    // Add withCredentials to request if needed
-    if (config.withCredentials) {
-      request.withCredentials = true;
-    }
-
-    // Add responseType to request if needed
-    if (config.responseType) {
-      try {
-        request.responseType = config.responseType;
-      } catch (e) {
-        // Expected DOMException thrown by browsers not compatible XMLHttpRequest Level 2.
-        // But, this can be suppressed for 'json' type as it can be parsed by default 'transformResponse' function.
-        if (config.responseType !== 'json') {
-          throw e;
-        }
-      }
-    }
-
-    // Handle progress if needed
-    if (typeof config.onDownloadProgress === 'function') {
-      request.addEventListener('progress', config.onDownloadProgress);
-    }
-
-    // Not all browsers support upload events
-    if (typeof config.onUploadProgress === 'function' && request.upload) {
-      request.upload.addEventListener('progress', config.onUploadProgress);
-    }
-
-    if (config.cancelToken) {
-      // Handle cancellation
-      config.cancelToken.promise.then(function onCanceled(cancel) {
-        if (!request) {
-          return;
-        }
-
-        request.abort();
-        reject(cancel);
-        // Clean up request
-        request = null;
-      });
-    }
-
-    if (requestData === undefined) {
-      requestData = null;
-    }
-
-    // Send the request
-    request.send(requestData);
-  });
-};
-
-
-/***/ }),
-/* 12 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-var enhanceError = __webpack_require__(26);
-
-/**
- * Create an Error with the specified message, config, error code, request and response.
- *
- * @param {string} message The error message.
- * @param {Object} config The config.
- * @param {string} [code] The error code (for example, 'ECONNABORTED').
- * @param {Object} [request] The request.
- * @param {Object} [response] The response.
- * @returns {Error} The created error.
- */
-module.exports = function createError(message, config, code, request, response) {
-  var error = new Error(message);
-  return enhanceError(error, config, code, request, response);
-};
-
-
-/***/ }),
-/* 13 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-var utils = __webpack_require__(1);
-
-/**
- * Config-specific merge-function which creates a new config-object
- * by merging two configuration objects together.
- *
- * @param {Object} config1
- * @param {Object} config2
- * @returns {Object} New object resulting from merging config2 to config1
- */
-module.exports = function mergeConfig(config1, config2) {
-  // eslint-disable-next-line no-param-reassign
-  config2 = config2 || {};
-  var config = {};
-
-  utils.forEach(['url', 'method', 'params', 'data'], function valueFromConfig2(prop) {
-    if (typeof config2[prop] !== 'undefined') {
-      config[prop] = config2[prop];
-    }
-  });
-
-  utils.forEach(['headers', 'auth', 'proxy'], function mergeDeepProperties(prop) {
-    if (utils.isObject(config2[prop])) {
-      config[prop] = utils.deepMerge(config1[prop], config2[prop]);
-    } else if (typeof config2[prop] !== 'undefined') {
-      config[prop] = config2[prop];
-    } else if (utils.isObject(config1[prop])) {
-      config[prop] = utils.deepMerge(config1[prop]);
-    } else if (typeof config1[prop] !== 'undefined') {
-      config[prop] = config1[prop];
-    }
-  });
-
-  utils.forEach([
-    'baseURL', 'transformRequest', 'transformResponse', 'paramsSerializer',
-    'timeout', 'withCredentials', 'adapter', 'responseType', 'xsrfCookieName',
-    'xsrfHeaderName', 'onUploadProgress', 'onDownloadProgress', 'maxContentLength',
-    'validateStatus', 'maxRedirects', 'httpAgent', 'httpsAgent', 'cancelToken',
-    'socketPath'
-  ], function defaultToConfig2(prop) {
-    if (typeof config2[prop] !== 'undefined') {
-      config[prop] = config2[prop];
-    } else if (typeof config1[prop] !== 'undefined') {
-      config[prop] = config1[prop];
-    }
-  });
-
-  return config;
-};
-
-
-/***/ }),
-/* 14 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-/**
- * A `Cancel` is an object that is thrown when an operation is canceled.
- *
- * @class
- * @param {string=} message The message.
- */
-function Cancel(message) {
-  this.message = message;
-}
-
-Cancel.prototype.toString = function toString() {
-  return 'Cancel' + (this.message ? ': ' + this.message : '');
-};
-
-Cancel.prototype.__CANCEL__ = true;
-
-module.exports = Cancel;
-
-
-/***/ }),
-/* 15 */
-/***/ (function(module, exports, __webpack_require__) {
-
-module.exports = __webpack_require__(18);
-
-/***/ }),
-/* 16 */
-/***/ (function(module, exports, __webpack_require__) {
-
-/*
-Lesli
-
-Copyright (c) 2019, Lesli Technologies, S. A.
-
-All the information provided by this website is protected by laws of Guatemala related 
-to industrial property, intellectual property, copyright and relative international laws. 
-Lesli Technologies, S. A. is the exclusive owner of all intellectual or industrial property
-rights of the code, texts, trade mark, design, pictures and any other information.
-Without the written permission of Lesli Technologies, S. A., any replication, modification,
-transmission, publication is strictly forbidden.
-For more information read the license file including with this software.
-
-Lesli Debug Message 
-
-Powered by https://www.lesli.tech
-Building a better future, one line of code at a time.
-
-@dev      Luis Donis <ldonis@lesli.tech>
-@author   LesliTech <hello@lesli.tech>
-@license  Propietary - all rights reserved.
-@version  GIT: 0.1.0 alpha
-
-// · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
-// · 
-*/
-
-module.exports = __webpack_require__(34)
-
-
-/***/ }),
-/* 17 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -16157,456 +15423,617 @@ if (inBrowser && window.Vue) {
 
 
 /***/ }),
-/* 18 */
+/* 7 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var utils = __webpack_require__(1);
-var bind = __webpack_require__(6);
-var Axios = __webpack_require__(20);
-var mergeConfig = __webpack_require__(13);
-var defaults = __webpack_require__(9);
-
-/**
- * Create an instance of Axios
- *
- * @param {Object} defaultConfig The default config for the instance
- * @return {Axios} A new instance of Axios
- */
-function createInstance(defaultConfig) {
-  var context = new Axios(defaultConfig);
-  var instance = bind(Axios.prototype.request, context);
-
-  // Copy axios.prototype to instance
-  utils.extend(instance, Axios.prototype, context);
-
-  // Copy context to instance
-  utils.extend(instance, context);
-
-  return instance;
-}
-
-// Create the default instance to be exported
-var axios = createInstance(defaults);
-
-// Expose Axios class to allow class inheritance
-axios.Axios = Axios;
-
-// Factory for creating new instances
-axios.create = function create(instanceConfig) {
-  return createInstance(mergeConfig(axios.defaults, instanceConfig));
-};
-
-// Expose Cancel & CancelToken
-axios.Cancel = __webpack_require__(14);
-axios.CancelToken = __webpack_require__(32);
-axios.isCancel = __webpack_require__(8);
-
-// Expose all/spread
-axios.all = function all(promises) {
-  return Promise.all(promises);
-};
-axios.spread = __webpack_require__(33);
-
-module.exports = axios;
-
-// Allow use of default import syntax in TypeScript
-module.exports.default = axios;
-
-
-/***/ }),
-/* 19 */
-/***/ (function(module, exports) {
-
-/*!
- * Determine if an object is a Buffer
- *
- * @author   Feross Aboukhadijeh <https://feross.org>
- * @license  MIT
- */
-
-module.exports = function isBuffer (obj) {
-  return obj != null && obj.constructor != null &&
-    typeof obj.constructor.isBuffer === 'function' && obj.constructor.isBuffer(obj)
-}
-
-
-/***/ }),
-/* 20 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-var utils = __webpack_require__(1);
-var buildURL = __webpack_require__(7);
-var InterceptorManager = __webpack_require__(21);
-var dispatchRequest = __webpack_require__(22);
-var mergeConfig = __webpack_require__(13);
-
-/**
- * Create a new instance of Axios
- *
- * @param {Object} instanceConfig The default config for the instance
- */
-function Axios(instanceConfig) {
-  this.defaults = instanceConfig;
-  this.interceptors = {
-    request: new InterceptorManager(),
-    response: new InterceptorManager()
+module.exports = function bind(fn, thisArg) {
+  return function wrap() {
+    var args = new Array(arguments.length);
+    for (var i = 0; i < args.length; i++) {
+      args[i] = arguments[i];
+    }
+    return fn.apply(thisArg, args);
   };
+};
+
+
+/***/ }),
+/* 8 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var utils = __webpack_require__(1);
+
+function encode(val) {
+  return encodeURIComponent(val).
+    replace(/%40/gi, '@').
+    replace(/%3A/gi, ':').
+    replace(/%24/g, '$').
+    replace(/%2C/gi, ',').
+    replace(/%20/g, '+').
+    replace(/%5B/gi, '[').
+    replace(/%5D/gi, ']');
 }
 
 /**
- * Dispatch a request
+ * Build a URL by appending params to the end
  *
- * @param {Object} config The config specific for this request (merged with this.defaults)
+ * @param {string} url The base of the url (e.g., http://www.google.com)
+ * @param {object} [params] The params to be appended
+ * @returns {string} The formatted url
  */
-Axios.prototype.request = function request(config) {
+module.exports = function buildURL(url, params, paramsSerializer) {
   /*eslint no-param-reassign:0*/
-  // Allow for axios('example/url'[, config]) a la fetch API
-  if (typeof config === 'string') {
-    config = arguments[1] || {};
-    config.url = arguments[0];
+  if (!params) {
+    return url;
+  }
+
+  var serializedParams;
+  if (paramsSerializer) {
+    serializedParams = paramsSerializer(params);
+  } else if (utils.isURLSearchParams(params)) {
+    serializedParams = params.toString();
   } else {
-    config = config || {};
+    var parts = [];
+
+    utils.forEach(params, function serialize(val, key) {
+      if (val === null || typeof val === 'undefined') {
+        return;
+      }
+
+      if (utils.isArray(val)) {
+        key = key + '[]';
+      } else {
+        val = [val];
+      }
+
+      utils.forEach(val, function parseValue(v) {
+        if (utils.isDate(v)) {
+          v = v.toISOString();
+        } else if (utils.isObject(v)) {
+          v = JSON.stringify(v);
+        }
+        parts.push(encode(key) + '=' + encode(v));
+      });
+    });
+
+    serializedParams = parts.join('&');
   }
 
-  config = mergeConfig(this.defaults, config);
-  config.method = config.method ? config.method.toLowerCase() : 'get';
+  if (serializedParams) {
+    var hashmarkIndex = url.indexOf('#');
+    if (hashmarkIndex !== -1) {
+      url = url.slice(0, hashmarkIndex);
+    }
 
-  // Hook up interceptors middleware
-  var chain = [dispatchRequest, undefined];
-  var promise = Promise.resolve(config);
-
-  this.interceptors.request.forEach(function unshiftRequestInterceptors(interceptor) {
-    chain.unshift(interceptor.fulfilled, interceptor.rejected);
-  });
-
-  this.interceptors.response.forEach(function pushResponseInterceptors(interceptor) {
-    chain.push(interceptor.fulfilled, interceptor.rejected);
-  });
-
-  while (chain.length) {
-    promise = promise.then(chain.shift(), chain.shift());
+    url += (url.indexOf('?') === -1 ? '?' : '&') + serializedParams;
   }
 
-  return promise;
+  return url;
 };
 
-Axios.prototype.getUri = function getUri(config) {
-  config = mergeConfig(this.defaults, config);
-  return buildURL(config.url, config.params, config.paramsSerializer).replace(/^\?/, '');
+
+/***/ }),
+/* 9 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+module.exports = function isCancel(value) {
+  return !!(value && value.__CANCEL__);
 };
 
-// Provide aliases for supported request methods
-utils.forEach(['delete', 'get', 'head', 'options'], function forEachMethodNoData(method) {
-  /*eslint func-names:0*/
-  Axios.prototype[method] = function(url, config) {
-    return this.request(utils.merge(config || {}, {
-      method: method,
-      url: url
-    }));
-  };
+
+/***/ }),
+/* 10 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+/* WEBPACK VAR INJECTION */(function(process) {
+
+var utils = __webpack_require__(1);
+var normalizeHeaderName = __webpack_require__(30);
+
+var DEFAULT_CONTENT_TYPE = {
+  'Content-Type': 'application/x-www-form-urlencoded'
+};
+
+function setContentTypeIfUnset(headers, value) {
+  if (!utils.isUndefined(headers) && utils.isUndefined(headers['Content-Type'])) {
+    headers['Content-Type'] = value;
+  }
+}
+
+function getDefaultAdapter() {
+  var adapter;
+  // Only Node.JS has a process variable that is of [[Class]] process
+  if (typeof process !== 'undefined' && Object.prototype.toString.call(process) === '[object process]') {
+    // For node use HTTP adapter
+    adapter = __webpack_require__(12);
+  } else if (typeof XMLHttpRequest !== 'undefined') {
+    // For browsers use XHR adapter
+    adapter = __webpack_require__(12);
+  }
+  return adapter;
+}
+
+var defaults = {
+  adapter: getDefaultAdapter(),
+
+  transformRequest: [function transformRequest(data, headers) {
+    normalizeHeaderName(headers, 'Accept');
+    normalizeHeaderName(headers, 'Content-Type');
+    if (utils.isFormData(data) ||
+      utils.isArrayBuffer(data) ||
+      utils.isBuffer(data) ||
+      utils.isStream(data) ||
+      utils.isFile(data) ||
+      utils.isBlob(data)
+    ) {
+      return data;
+    }
+    if (utils.isArrayBufferView(data)) {
+      return data.buffer;
+    }
+    if (utils.isURLSearchParams(data)) {
+      setContentTypeIfUnset(headers, 'application/x-www-form-urlencoded;charset=utf-8');
+      return data.toString();
+    }
+    if (utils.isObject(data)) {
+      setContentTypeIfUnset(headers, 'application/json;charset=utf-8');
+      return JSON.stringify(data);
+    }
+    return data;
+  }],
+
+  transformResponse: [function transformResponse(data) {
+    /*eslint no-param-reassign:0*/
+    if (typeof data === 'string') {
+      try {
+        data = JSON.parse(data);
+      } catch (e) { /* Ignore */ }
+    }
+    return data;
+  }],
+
+  /**
+   * A timeout in milliseconds to abort a request. If set to 0 (default) a
+   * timeout is not created.
+   */
+  timeout: 0,
+
+  xsrfCookieName: 'XSRF-TOKEN',
+  xsrfHeaderName: 'X-XSRF-TOKEN',
+
+  maxContentLength: -1,
+
+  validateStatus: function validateStatus(status) {
+    return status >= 200 && status < 300;
+  }
+};
+
+defaults.headers = {
+  common: {
+    'Accept': 'application/json, text/plain, */*'
+  }
+};
+
+utils.forEach(['delete', 'get', 'head'], function forEachMethodNoData(method) {
+  defaults.headers[method] = {};
 });
 
 utils.forEach(['post', 'put', 'patch'], function forEachMethodWithData(method) {
-  /*eslint func-names:0*/
-  Axios.prototype[method] = function(url, data, config) {
-    return this.request(utils.merge(config || {}, {
-      method: method,
-      url: url,
-      data: data
-    }));
-  };
+  defaults.headers[method] = utils.merge(DEFAULT_CONTENT_TYPE);
 });
 
-module.exports = Axios;
+module.exports = defaults;
+
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(11)))
+
+/***/ }),
+/* 11 */
+/***/ (function(module, exports) {
+
+// shim for using process in browser
+var process = module.exports = {};
+
+// cached from whatever global is present so that test runners that stub it
+// don't break things.  But we need to wrap it in a try catch in case it is
+// wrapped in strict mode code which doesn't define any globals.  It's inside a
+// function because try/catches deoptimize in certain engines.
+
+var cachedSetTimeout;
+var cachedClearTimeout;
+
+function defaultSetTimout() {
+    throw new Error('setTimeout has not been defined');
+}
+function defaultClearTimeout () {
+    throw new Error('clearTimeout has not been defined');
+}
+(function () {
+    try {
+        if (typeof setTimeout === 'function') {
+            cachedSetTimeout = setTimeout;
+        } else {
+            cachedSetTimeout = defaultSetTimout;
+        }
+    } catch (e) {
+        cachedSetTimeout = defaultSetTimout;
+    }
+    try {
+        if (typeof clearTimeout === 'function') {
+            cachedClearTimeout = clearTimeout;
+        } else {
+            cachedClearTimeout = defaultClearTimeout;
+        }
+    } catch (e) {
+        cachedClearTimeout = defaultClearTimeout;
+    }
+} ())
+function runTimeout(fun) {
+    if (cachedSetTimeout === setTimeout) {
+        //normal enviroments in sane situations
+        return setTimeout(fun, 0);
+    }
+    // if setTimeout wasn't available but was latter defined
+    if ((cachedSetTimeout === defaultSetTimout || !cachedSetTimeout) && setTimeout) {
+        cachedSetTimeout = setTimeout;
+        return setTimeout(fun, 0);
+    }
+    try {
+        // when when somebody has screwed with setTimeout but no I.E. maddness
+        return cachedSetTimeout(fun, 0);
+    } catch(e){
+        try {
+            // When we are in I.E. but the script has been evaled so I.E. doesn't trust the global object when called normally
+            return cachedSetTimeout.call(null, fun, 0);
+        } catch(e){
+            // same as above but when it's a version of I.E. that must have the global object for 'this', hopfully our context correct otherwise it will throw a global error
+            return cachedSetTimeout.call(this, fun, 0);
+        }
+    }
+
+
+}
+function runClearTimeout(marker) {
+    if (cachedClearTimeout === clearTimeout) {
+        //normal enviroments in sane situations
+        return clearTimeout(marker);
+    }
+    // if clearTimeout wasn't available but was latter defined
+    if ((cachedClearTimeout === defaultClearTimeout || !cachedClearTimeout) && clearTimeout) {
+        cachedClearTimeout = clearTimeout;
+        return clearTimeout(marker);
+    }
+    try {
+        // when when somebody has screwed with setTimeout but no I.E. maddness
+        return cachedClearTimeout(marker);
+    } catch (e){
+        try {
+            // When we are in I.E. but the script has been evaled so I.E. doesn't  trust the global object when called normally
+            return cachedClearTimeout.call(null, marker);
+        } catch (e){
+            // same as above but when it's a version of I.E. that must have the global object for 'this', hopfully our context correct otherwise it will throw a global error.
+            // Some versions of I.E. have different rules for clearTimeout vs setTimeout
+            return cachedClearTimeout.call(this, marker);
+        }
+    }
+
+
+
+}
+var queue = [];
+var draining = false;
+var currentQueue;
+var queueIndex = -1;
+
+function cleanUpNextTick() {
+    if (!draining || !currentQueue) {
+        return;
+    }
+    draining = false;
+    if (currentQueue.length) {
+        queue = currentQueue.concat(queue);
+    } else {
+        queueIndex = -1;
+    }
+    if (queue.length) {
+        drainQueue();
+    }
+}
+
+function drainQueue() {
+    if (draining) {
+        return;
+    }
+    var timeout = runTimeout(cleanUpNextTick);
+    draining = true;
+
+    var len = queue.length;
+    while(len) {
+        currentQueue = queue;
+        queue = [];
+        while (++queueIndex < len) {
+            if (currentQueue) {
+                currentQueue[queueIndex].run();
+            }
+        }
+        queueIndex = -1;
+        len = queue.length;
+    }
+    currentQueue = null;
+    draining = false;
+    runClearTimeout(timeout);
+}
+
+process.nextTick = function (fun) {
+    var args = new Array(arguments.length - 1);
+    if (arguments.length > 1) {
+        for (var i = 1; i < arguments.length; i++) {
+            args[i - 1] = arguments[i];
+        }
+    }
+    queue.push(new Item(fun, args));
+    if (queue.length === 1 && !draining) {
+        runTimeout(drainQueue);
+    }
+};
+
+// v8 likes predictible objects
+function Item(fun, array) {
+    this.fun = fun;
+    this.array = array;
+}
+Item.prototype.run = function () {
+    this.fun.apply(null, this.array);
+};
+process.title = 'browser';
+process.browser = true;
+process.env = {};
+process.argv = [];
+process.version = ''; // empty string to avoid regexp issues
+process.versions = {};
+
+function noop() {}
+
+process.on = noop;
+process.addListener = noop;
+process.once = noop;
+process.off = noop;
+process.removeListener = noop;
+process.removeAllListeners = noop;
+process.emit = noop;
+process.prependListener = noop;
+process.prependOnceListener = noop;
+
+process.listeners = function (name) { return [] }
+
+process.binding = function (name) {
+    throw new Error('process.binding is not supported');
+};
+
+process.cwd = function () { return '/' };
+process.chdir = function (dir) {
+    throw new Error('process.chdir is not supported');
+};
+process.umask = function() { return 0; };
 
 
 /***/ }),
-/* 21 */
+/* 12 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
 var utils = __webpack_require__(1);
+var settle = __webpack_require__(31);
+var buildURL = __webpack_require__(8);
+var parseHeaders = __webpack_require__(33);
+var isURLSameOrigin = __webpack_require__(34);
+var createError = __webpack_require__(13);
 
-function InterceptorManager() {
-  this.handlers = [];
-}
+module.exports = function xhrAdapter(config) {
+  return new Promise(function dispatchXhrRequest(resolve, reject) {
+    var requestData = config.data;
+    var requestHeaders = config.headers;
 
-/**
- * Add a new interceptor to the stack
- *
- * @param {Function} fulfilled The function to handle `then` for a `Promise`
- * @param {Function} rejected The function to handle `reject` for a `Promise`
- *
- * @return {Number} An ID used to remove interceptor later
- */
-InterceptorManager.prototype.use = function use(fulfilled, rejected) {
-  this.handlers.push({
-    fulfilled: fulfilled,
-    rejected: rejected
-  });
-  return this.handlers.length - 1;
-};
-
-/**
- * Remove an interceptor from the stack
- *
- * @param {Number} id The ID that was returned by `use`
- */
-InterceptorManager.prototype.eject = function eject(id) {
-  if (this.handlers[id]) {
-    this.handlers[id] = null;
-  }
-};
-
-/**
- * Iterate over all the registered interceptors
- *
- * This method is particularly useful for skipping over any
- * interceptors that may have become `null` calling `eject`.
- *
- * @param {Function} fn The function to call for each interceptor
- */
-InterceptorManager.prototype.forEach = function forEach(fn) {
-  utils.forEach(this.handlers, function forEachHandler(h) {
-    if (h !== null) {
-      fn(h);
+    if (utils.isFormData(requestData)) {
+      delete requestHeaders['Content-Type']; // Let the browser set it
     }
-  });
-};
 
-module.exports = InterceptorManager;
+    var request = new XMLHttpRequest();
 
-
-/***/ }),
-/* 22 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-var utils = __webpack_require__(1);
-var transformData = __webpack_require__(23);
-var isCancel = __webpack_require__(8);
-var defaults = __webpack_require__(9);
-var isAbsoluteURL = __webpack_require__(30);
-var combineURLs = __webpack_require__(31);
-
-/**
- * Throws a `Cancel` if cancellation has been requested.
- */
-function throwIfCancellationRequested(config) {
-  if (config.cancelToken) {
-    config.cancelToken.throwIfRequested();
-  }
-}
-
-/**
- * Dispatch a request to the server using the configured adapter.
- *
- * @param {object} config The config that is to be used for the request
- * @returns {Promise} The Promise to be fulfilled
- */
-module.exports = function dispatchRequest(config) {
-  throwIfCancellationRequested(config);
-
-  // Support baseURL config
-  if (config.baseURL && !isAbsoluteURL(config.url)) {
-    config.url = combineURLs(config.baseURL, config.url);
-  }
-
-  // Ensure headers exist
-  config.headers = config.headers || {};
-
-  // Transform request data
-  config.data = transformData(
-    config.data,
-    config.headers,
-    config.transformRequest
-  );
-
-  // Flatten headers
-  config.headers = utils.merge(
-    config.headers.common || {},
-    config.headers[config.method] || {},
-    config.headers || {}
-  );
-
-  utils.forEach(
-    ['delete', 'get', 'head', 'post', 'put', 'patch', 'common'],
-    function cleanHeaderConfig(method) {
-      delete config.headers[method];
+    // HTTP basic authentication
+    if (config.auth) {
+      var username = config.auth.username || '';
+      var password = config.auth.password || '';
+      requestHeaders.Authorization = 'Basic ' + btoa(username + ':' + password);
     }
-  );
 
-  var adapter = config.adapter || defaults.adapter;
+    request.open(config.method.toUpperCase(), buildURL(config.url, config.params, config.paramsSerializer), true);
 
-  return adapter(config).then(function onAdapterResolution(response) {
-    throwIfCancellationRequested(config);
+    // Set the request timeout in MS
+    request.timeout = config.timeout;
 
-    // Transform response data
-    response.data = transformData(
-      response.data,
-      response.headers,
-      config.transformResponse
-    );
+    // Listen for ready state
+    request.onreadystatechange = function handleLoad() {
+      if (!request || request.readyState !== 4) {
+        return;
+      }
 
-    return response;
-  }, function onAdapterRejection(reason) {
-    if (!isCancel(reason)) {
-      throwIfCancellationRequested(config);
+      // The request errored out and we didn't get a response, this will be
+      // handled by onerror instead
+      // With one exception: request that using file: protocol, most browsers
+      // will return status as 0 even though it's a successful request
+      if (request.status === 0 && !(request.responseURL && request.responseURL.indexOf('file:') === 0)) {
+        return;
+      }
 
-      // Transform response data
-      if (reason && reason.response) {
-        reason.response.data = transformData(
-          reason.response.data,
-          reason.response.headers,
-          config.transformResponse
-        );
+      // Prepare the response
+      var responseHeaders = 'getAllResponseHeaders' in request ? parseHeaders(request.getAllResponseHeaders()) : null;
+      var responseData = !config.responseType || config.responseType === 'text' ? request.responseText : request.response;
+      var response = {
+        data: responseData,
+        status: request.status,
+        statusText: request.statusText,
+        headers: responseHeaders,
+        config: config,
+        request: request
+      };
+
+      settle(resolve, reject, response);
+
+      // Clean up request
+      request = null;
+    };
+
+    // Handle browser request cancellation (as opposed to a manual cancellation)
+    request.onabort = function handleAbort() {
+      if (!request) {
+        return;
+      }
+
+      reject(createError('Request aborted', config, 'ECONNABORTED', request));
+
+      // Clean up request
+      request = null;
+    };
+
+    // Handle low level network errors
+    request.onerror = function handleError() {
+      // Real errors are hidden from us by the browser
+      // onerror should only fire if it's a network error
+      reject(createError('Network Error', config, null, request));
+
+      // Clean up request
+      request = null;
+    };
+
+    // Handle timeout
+    request.ontimeout = function handleTimeout() {
+      reject(createError('timeout of ' + config.timeout + 'ms exceeded', config, 'ECONNABORTED',
+        request));
+
+      // Clean up request
+      request = null;
+    };
+
+    // Add xsrf header
+    // This is only done if running in a standard browser environment.
+    // Specifically not if we're in a web worker, or react-native.
+    if (utils.isStandardBrowserEnv()) {
+      var cookies = __webpack_require__(35);
+
+      // Add xsrf header
+      var xsrfValue = (config.withCredentials || isURLSameOrigin(config.url)) && config.xsrfCookieName ?
+        cookies.read(config.xsrfCookieName) :
+        undefined;
+
+      if (xsrfValue) {
+        requestHeaders[config.xsrfHeaderName] = xsrfValue;
       }
     }
 
-    return Promise.reject(reason);
-  });
-};
-
-
-/***/ }),
-/* 23 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-var utils = __webpack_require__(1);
-
-/**
- * Transform the data for a request or a response
- *
- * @param {Object|String} data The data to be transformed
- * @param {Array} headers The headers for the request or response
- * @param {Array|Function} fns A single function or Array of functions
- * @returns {*} The resulting transformed data
- */
-module.exports = function transformData(data, headers, fns) {
-  /*eslint no-param-reassign:0*/
-  utils.forEach(fns, function transform(fn) {
-    data = fn(data, headers);
-  });
-
-  return data;
-};
-
-
-/***/ }),
-/* 24 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-var utils = __webpack_require__(1);
-
-module.exports = function normalizeHeaderName(headers, normalizedName) {
-  utils.forEach(headers, function processHeader(value, name) {
-    if (name !== normalizedName && name.toUpperCase() === normalizedName.toUpperCase()) {
-      headers[normalizedName] = value;
-      delete headers[name];
+    // Add headers to the request
+    if ('setRequestHeader' in request) {
+      utils.forEach(requestHeaders, function setRequestHeader(val, key) {
+        if (typeof requestData === 'undefined' && key.toLowerCase() === 'content-type') {
+          // Remove Content-Type if data is undefined
+          delete requestHeaders[key];
+        } else {
+          // Otherwise add header to the request
+          request.setRequestHeader(key, val);
+        }
+      });
     }
+
+    // Add withCredentials to request if needed
+    if (config.withCredentials) {
+      request.withCredentials = true;
+    }
+
+    // Add responseType to request if needed
+    if (config.responseType) {
+      try {
+        request.responseType = config.responseType;
+      } catch (e) {
+        // Expected DOMException thrown by browsers not compatible XMLHttpRequest Level 2.
+        // But, this can be suppressed for 'json' type as it can be parsed by default 'transformResponse' function.
+        if (config.responseType !== 'json') {
+          throw e;
+        }
+      }
+    }
+
+    // Handle progress if needed
+    if (typeof config.onDownloadProgress === 'function') {
+      request.addEventListener('progress', config.onDownloadProgress);
+    }
+
+    // Not all browsers support upload events
+    if (typeof config.onUploadProgress === 'function' && request.upload) {
+      request.upload.addEventListener('progress', config.onUploadProgress);
+    }
+
+    if (config.cancelToken) {
+      // Handle cancellation
+      config.cancelToken.promise.then(function onCanceled(cancel) {
+        if (!request) {
+          return;
+        }
+
+        request.abort();
+        reject(cancel);
+        // Clean up request
+        request = null;
+      });
+    }
+
+    if (requestData === undefined) {
+      requestData = null;
+    }
+
+    // Send the request
+    request.send(requestData);
   });
 };
 
 
 /***/ }),
-/* 25 */
+/* 13 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var createError = __webpack_require__(12);
+var enhanceError = __webpack_require__(32);
 
 /**
- * Resolve or reject a Promise based on response status.
+ * Create an Error with the specified message, config, error code, request and response.
  *
- * @param {Function} resolve A function that resolves the promise.
- * @param {Function} reject A function that rejects the promise.
- * @param {object} response The response.
- */
-module.exports = function settle(resolve, reject, response) {
-  var validateStatus = response.config.validateStatus;
-  if (!validateStatus || validateStatus(response.status)) {
-    resolve(response);
-  } else {
-    reject(createError(
-      'Request failed with status code ' + response.status,
-      response.config,
-      null,
-      response.request,
-      response
-    ));
-  }
-};
-
-
-/***/ }),
-/* 26 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-/**
- * Update an Error with the specified config, error code, and response.
- *
- * @param {Error} error The error to update.
+ * @param {string} message The error message.
  * @param {Object} config The config.
  * @param {string} [code] The error code (for example, 'ECONNABORTED').
  * @param {Object} [request] The request.
  * @param {Object} [response] The response.
- * @returns {Error} The error.
+ * @returns {Error} The created error.
  */
-module.exports = function enhanceError(error, config, code, request, response) {
-  error.config = config;
-  if (code) {
-    error.code = code;
-  }
-
-  error.request = request;
-  error.response = response;
-  error.isAxiosError = true;
-
-  error.toJSON = function() {
-    return {
-      // Standard
-      message: this.message,
-      name: this.name,
-      // Microsoft
-      description: this.description,
-      number: this.number,
-      // Mozilla
-      fileName: this.fileName,
-      lineNumber: this.lineNumber,
-      columnNumber: this.columnNumber,
-      stack: this.stack,
-      // Axios
-      config: this.config,
-      code: this.code
-    };
-  };
-  return error;
+module.exports = function createError(message, config, code, request, response) {
+  var error = new Error(message);
+  return enhanceError(error, config, code, request, response);
 };
 
 
 /***/ }),
-/* 27 */
+/* 14 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -16614,2444 +16041,83 @@ module.exports = function enhanceError(error, config, code, request, response) {
 
 var utils = __webpack_require__(1);
 
-// Headers whose duplicates are ignored by node
-// c.f. https://nodejs.org/api/http.html#http_message_headers
-var ignoreDuplicateOf = [
-  'age', 'authorization', 'content-length', 'content-type', 'etag',
-  'expires', 'from', 'host', 'if-modified-since', 'if-unmodified-since',
-  'last-modified', 'location', 'max-forwards', 'proxy-authorization',
-  'referer', 'retry-after', 'user-agent'
-];
-
 /**
- * Parse headers into an object
+ * Config-specific merge-function which creates a new config-object
+ * by merging two configuration objects together.
  *
- * ```
- * Date: Wed, 27 Aug 2014 08:58:49 GMT
- * Content-Type: application/json
- * Connection: keep-alive
- * Transfer-Encoding: chunked
- * ```
- *
- * @param {String} headers Headers needing to be parsed
- * @returns {Object} Headers parsed into an object
+ * @param {Object} config1
+ * @param {Object} config2
+ * @returns {Object} New object resulting from merging config2 to config1
  */
-module.exports = function parseHeaders(headers) {
-  var parsed = {};
-  var key;
-  var val;
-  var i;
+module.exports = function mergeConfig(config1, config2) {
+  // eslint-disable-next-line no-param-reassign
+  config2 = config2 || {};
+  var config = {};
 
-  if (!headers) { return parsed; }
-
-  utils.forEach(headers.split('\n'), function parser(line) {
-    i = line.indexOf(':');
-    key = utils.trim(line.substr(0, i)).toLowerCase();
-    val = utils.trim(line.substr(i + 1));
-
-    if (key) {
-      if (parsed[key] && ignoreDuplicateOf.indexOf(key) >= 0) {
-        return;
-      }
-      if (key === 'set-cookie') {
-        parsed[key] = (parsed[key] ? parsed[key] : []).concat([val]);
-      } else {
-        parsed[key] = parsed[key] ? parsed[key] + ', ' + val : val;
-      }
+  utils.forEach(['url', 'method', 'params', 'data'], function valueFromConfig2(prop) {
+    if (typeof config2[prop] !== 'undefined') {
+      config[prop] = config2[prop];
     }
   });
 
-  return parsed;
+  utils.forEach(['headers', 'auth', 'proxy'], function mergeDeepProperties(prop) {
+    if (utils.isObject(config2[prop])) {
+      config[prop] = utils.deepMerge(config1[prop], config2[prop]);
+    } else if (typeof config2[prop] !== 'undefined') {
+      config[prop] = config2[prop];
+    } else if (utils.isObject(config1[prop])) {
+      config[prop] = utils.deepMerge(config1[prop]);
+    } else if (typeof config1[prop] !== 'undefined') {
+      config[prop] = config1[prop];
+    }
+  });
+
+  utils.forEach([
+    'baseURL', 'transformRequest', 'transformResponse', 'paramsSerializer',
+    'timeout', 'withCredentials', 'adapter', 'responseType', 'xsrfCookieName',
+    'xsrfHeaderName', 'onUploadProgress', 'onDownloadProgress', 'maxContentLength',
+    'validateStatus', 'maxRedirects', 'httpAgent', 'httpsAgent', 'cancelToken',
+    'socketPath'
+  ], function defaultToConfig2(prop) {
+    if (typeof config2[prop] !== 'undefined') {
+      config[prop] = config2[prop];
+    } else if (typeof config1[prop] !== 'undefined') {
+      config[prop] = config1[prop];
+    }
+  });
+
+  return config;
 };
 
 
 /***/ }),
-/* 28 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-var utils = __webpack_require__(1);
-
-module.exports = (
-  utils.isStandardBrowserEnv() ?
-
-  // Standard browser envs have full support of the APIs needed to test
-  // whether the request URL is of the same origin as current location.
-    (function standardBrowserEnv() {
-      var msie = /(msie|trident)/i.test(navigator.userAgent);
-      var urlParsingNode = document.createElement('a');
-      var originURL;
-
-      /**
-    * Parse a URL to discover it's components
-    *
-    * @param {String} url The URL to be parsed
-    * @returns {Object}
-    */
-      function resolveURL(url) {
-        var href = url;
-
-        if (msie) {
-        // IE needs attribute set twice to normalize properties
-          urlParsingNode.setAttribute('href', href);
-          href = urlParsingNode.href;
-        }
-
-        urlParsingNode.setAttribute('href', href);
-
-        // urlParsingNode provides the UrlUtils interface - http://url.spec.whatwg.org/#urlutils
-        return {
-          href: urlParsingNode.href,
-          protocol: urlParsingNode.protocol ? urlParsingNode.protocol.replace(/:$/, '') : '',
-          host: urlParsingNode.host,
-          search: urlParsingNode.search ? urlParsingNode.search.replace(/^\?/, '') : '',
-          hash: urlParsingNode.hash ? urlParsingNode.hash.replace(/^#/, '') : '',
-          hostname: urlParsingNode.hostname,
-          port: urlParsingNode.port,
-          pathname: (urlParsingNode.pathname.charAt(0) === '/') ?
-            urlParsingNode.pathname :
-            '/' + urlParsingNode.pathname
-        };
-      }
-
-      originURL = resolveURL(window.location.href);
-
-      /**
-    * Determine if a URL shares the same origin as the current location
-    *
-    * @param {String} requestURL The URL to test
-    * @returns {boolean} True if URL shares the same origin, otherwise false
-    */
-      return function isURLSameOrigin(requestURL) {
-        var parsed = (utils.isString(requestURL)) ? resolveURL(requestURL) : requestURL;
-        return (parsed.protocol === originURL.protocol &&
-            parsed.host === originURL.host);
-      };
-    })() :
-
-  // Non standard browser envs (web workers, react-native) lack needed support.
-    (function nonStandardBrowserEnv() {
-      return function isURLSameOrigin() {
-        return true;
-      };
-    })()
-);
-
-
-/***/ }),
-/* 29 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-var utils = __webpack_require__(1);
-
-module.exports = (
-  utils.isStandardBrowserEnv() ?
-
-  // Standard browser envs support document.cookie
-    (function standardBrowserEnv() {
-      return {
-        write: function write(name, value, expires, path, domain, secure) {
-          var cookie = [];
-          cookie.push(name + '=' + encodeURIComponent(value));
-
-          if (utils.isNumber(expires)) {
-            cookie.push('expires=' + new Date(expires).toGMTString());
-          }
-
-          if (utils.isString(path)) {
-            cookie.push('path=' + path);
-          }
-
-          if (utils.isString(domain)) {
-            cookie.push('domain=' + domain);
-          }
-
-          if (secure === true) {
-            cookie.push('secure');
-          }
-
-          document.cookie = cookie.join('; ');
-        },
-
-        read: function read(name) {
-          var match = document.cookie.match(new RegExp('(^|;\\s*)(' + name + ')=([^;]*)'));
-          return (match ? decodeURIComponent(match[3]) : null);
-        },
-
-        remove: function remove(name) {
-          this.write(name, '', Date.now() - 86400000);
-        }
-      };
-    })() :
-
-  // Non standard browser env (web workers, react-native) lack needed support.
-    (function nonStandardBrowserEnv() {
-      return {
-        write: function write() {},
-        read: function read() { return null; },
-        remove: function remove() {}
-      };
-    })()
-);
-
-
-/***/ }),
-/* 30 */
+/* 15 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
 /**
- * Determines whether the specified URL is absolute
- *
- * @param {string} url The URL to test
- * @returns {boolean} True if the specified URL is absolute, otherwise false
- */
-module.exports = function isAbsoluteURL(url) {
-  // A URL is considered absolute if it begins with "<scheme>://" or "//" (protocol-relative URL).
-  // RFC 3986 defines scheme name as a sequence of characters beginning with a letter and followed
-  // by any combination of letters, digits, plus, period, or hyphen.
-  return /^([a-z][a-z\d\+\-\.]*:)?\/\//i.test(url);
-};
-
-
-/***/ }),
-/* 31 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-/**
- * Creates a new URL by combining the specified URLs
- *
- * @param {string} baseURL The base URL
- * @param {string} relativeURL The relative URL
- * @returns {string} The combined URL
- */
-module.exports = function combineURLs(baseURL, relativeURL) {
-  return relativeURL
-    ? baseURL.replace(/\/+$/, '') + '/' + relativeURL.replace(/^\/+/, '')
-    : baseURL;
-};
-
-
-/***/ }),
-/* 32 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-var Cancel = __webpack_require__(14);
-
-/**
- * A `CancelToken` is an object that can be used to request cancellation of an operation.
+ * A `Cancel` is an object that is thrown when an operation is canceled.
  *
  * @class
- * @param {Function} executor The executor function.
+ * @param {string=} message The message.
  */
-function CancelToken(executor) {
-  if (typeof executor !== 'function') {
-    throw new TypeError('executor must be a function.');
-  }
-
-  var resolvePromise;
-  this.promise = new Promise(function promiseExecutor(resolve) {
-    resolvePromise = resolve;
-  });
-
-  var token = this;
-  executor(function cancel(message) {
-    if (token.reason) {
-      // Cancellation has already been requested
-      return;
-    }
-
-    token.reason = new Cancel(message);
-    resolvePromise(token.reason);
-  });
+function Cancel(message) {
+  this.message = message;
 }
 
-/**
- * Throws a `Cancel` if cancellation has been requested.
- */
-CancelToken.prototype.throwIfRequested = function throwIfRequested() {
-  if (this.reason) {
-    throw this.reason;
-  }
+Cancel.prototype.toString = function toString() {
+  return 'Cancel' + (this.message ? ': ' + this.message : '');
 };
 
-/**
- * Returns an object that contains a new `CancelToken` and a function that, when called,
- * cancels the `CancelToken`.
- */
-CancelToken.source = function source() {
-  var cancel;
-  var token = new CancelToken(function executor(c) {
-    cancel = c;
-  });
-  return {
-    token: token,
-    cancel: cancel
-  };
-};
+Cancel.prototype.__CANCEL__ = true;
 
-module.exports = CancelToken;
+module.exports = Cancel;
 
 
 /***/ }),
-/* 33 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-/**
- * Syntactic sugar for invoking a function and expanding an array for arguments.
- *
- * Common use case would be to use `Function.prototype.apply`.
- *
- *  ```js
- *  function f(x, y, z) {}
- *  var args = [1, 2, 3];
- *  f.apply(null, args);
- *  ```
- *
- * With `spread` this example can be re-written.
- *
- *  ```js
- *  spread(function(x, y, z) {})([1, 2, 3]);
- *  ```
- *
- * @param {Function} callback
- * @returns {Function}
- */
-module.exports = function spread(callback) {
-  return function wrap(arr) {
-    return callback.apply(null, arr);
-  };
-};
-
-
-/***/ }),
-/* 34 */
-/***/ (function(module, exports, __webpack_require__) {
-
-/*
-Lesli
-
-Copyright (c) 2019, Lesli Technologies, S. A.
-
-All the information provided by this website is protected by laws of Guatemala related 
-to industrial property, intellectual property, copyright and relative international laws. 
-Lesli Technologies, S. A. is the exclusive owner of all intellectual or industrial property
-rights of the code, texts, trade mark, design, pictures and any other information.
-Without the written permission of Lesli Technologies, S. A., any replication, modification,
-transmission, publication is strictly forbidden.
-For more information read the license file including with this software.
-
-Lesli Debug Message 
-
-Powered by https://www.lesli.tech
-Building a better future, one line of code at a time.
-
-@dev      Luis Donis <ldonis@lesli.tech>
-@author   LesliTech <hello@lesli.tech>
-@license  Propietary - all rights reserved.
-@version  GIT: 0.1.0 alpha
-
-// · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
-// · 
-*/
-
-
-// · Loading node modules
-// · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
-let utils = __webpack_require__(35)
-
-
-// · 
-// · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
-class browserDebugService {
-
-
-    // · write informatie message
-    log(message, module = null) {
-        console.log(utils.buildMessage(message, module, "log"))
-    }
-
-    // · write informatie message
-    msg(message, module = null) {
-        console.log(utils.buildMessage(message, module, "msg"))
-    }
-
-    // · write informatie message
-    info(message, module = null) {
-        console.info('%c'+utils.buildMessage(message, module, "info"), utils.stylesFor("info"))
-    }
-
-    // · write warning message
-    warn(message, module = null) {
-        console.warn('%c'+utils.buildMessage(message, module, "warn"), utils.stylesFor("warn"))
-    }
-
-    // · write warning message
-    error(message, module = null) {
-        console.error('%c'+utils.buildMessage(message, module, "error"), utils.stylesFor("error"))
-    }
-
-    // · write warning message
-    fatal(message, module = null) {
-        console.error('%c'+utils.buildMessage(message, module, "error"), utils.stylesFor("fatal"))
-    }
-
-    userWarningMessage(title=null, message=null, link=null) {
-
-        if (!title) {
-            title = "DANGER!"
-        }
-
-        if (!message) {
-            message = "This is a browser feature intended for developers."
-            message += "If someone told you to copy-paste something here to enable a feature or \"hack\" someone's account,"
-            message += "it is a scam and will give them access to your information and possible all your online accounts."
-        }
-
-        if (!link) {
-            link = "See https://wikipedia.org/wiki/Self-XSS for more information."
-        }
-
-        console.log('%c'+title, 'color:#c0392b;font-size:56px;font-weight:600;line-height:1;')
-        console.log('%c'+message, 'background-color:#ffffff;color:#1a1a1a;font-size:18px;font-weight:400;line-height:1.1;')
-        
-    }
-
-}
-
-// · 
-module.exports = new browserDebugService
-
-
-/***/ }),
-/* 35 */
-/***/ (function(module, exports) {
-
-/*
-Lesli
-
-Copyright (c) 2019, Lesli Technologies, S. A.
-
-All the information provided by this website is protected by laws of Guatemala related 
-to industrial property, intellectual property, copyright and relative international laws. 
-Lesli Technologies, S. A. is the exclusive owner of all intellectual or industrial property
-rights of the code, texts, trade mark, design, pictures and any other information.
-Without the written permission of Lesli Technologies, S. A., any replication, modification,
-transmission, publication is strictly forbidden.
-For more information read the license file including with this software.
-
-Lesli Debug Message 
-
-Powered by https://www.lesli.tech
-Building a better future, one line of code at a time.
-
-@dev      Luis Donis <ldonis@lesli.tech>
-@author   LesliTech <hello@lesli.tech>
-@license  Propietary - all rights reserved.
-@version  GIT: 0.1.0 alpha
-
-// · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
-// · 
-*/
-
-
-// · 
-// · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
-class Utils {
-
-    // · 
-    buildDate() {
-
-        let date = new Date()
-        let year = date.getFullYear()
-        let month = date.getMonth() + 1
-        let day = date.getDate()
-        let hour = date.getHours()
-        let minutes = date.getMinutes()
-        let milliseconds = date.getMilliseconds()
-
-        day = (day < 10) ? "0" + day : day
-        hour = (hour < 10) ? "0" + hour : hour
-        month = (month < 10) ? "0" + month : month
-        minutes = (minutes < 10) ? "0" + minutes : minutes
-        
-        return `${year}-${month}-${day} ${hour}:${minutes}:${milliseconds}`
-
-    }
-
-    // · 
-    buildMessage(message, module, level) {
-
-        // desire output format
-        // [2010-01-17 11:43:37.987] [ERROR] (cheese module) - Cheese is too ripe!
-        // [2010-01-17 11:43:37.990] [FATAL] (cheese module) - Cheese was breeding ground for listeria.
-        let newMessage = `[${this.buildDate()}] [${level.toUpperCase()}]`
-
-        if (module) {
-            newMessage += ` (${module})`
-        }
-
-        newMessage = newMessage.concat(" - ").concat(message)
-
-        return newMessage
-
-    }
-
-    // · 
-    stylesFor(type) {
-
-        let lineheight="1.5;"
-        let fontsize="14px;"
-        let padding="2px;"
-
-        let info = "background-color:#3498db;color:#ffffff;"
-        let warn = "background-color:#f1c40f;color:#000000;"
-        let error = "background-color:#e74c3c;color:#ffffff;"
-        let fatal = "background-color:#c0392b;color:#fff394;"
-
-        let style = ""
-
-        switch (type) {
-            case "info": style = info; break;
-            case "warn": style = warn; break;
-            case "error": style = error; break;
-            case "fatal": style = fatal; break;
-        }
-
-        style += "padding:" + padding
-        style += "font-size:" + fontsize
-        style += "line-height:" + lineheight
-
-        return style
-
-    }
-
-    // · 
-    print_r (data, level = 1) {
-
-        let isArray = Array.isArray(data);
-
-        let comma = ","
-        let string = ""
-        let padding_key = ""
-        let padding_prop = ""
-        let newline = "\n"
-
-        for(let i=0;i<(4*level);i++) {
-            padding_prop += " "
-        }
-
-        if (level > 1) {
-            padding_key = padding_prop.slice(0, padding_prop.length - 4)
-        }
-
-        if (typeof data == "object" && !Array.isArray(data)) {
-
-            string += padding_key + "{" + newline
-
-            for(let property in data) {
-
-                if (typeof data[property] == "object") {
-                    string += padding_prop + property + ": " + this.print_r(data[property], level+1) + comma + newline
-                } else {
-                    string += padding_prop + property + ": " + data[property] + comma + newline
-                }
-                
-            }
-
-            string += padding_key + "}"
-
-        } 
-
-        if (typeof data == "object" && Array.isArray(data)) {
-
-            string += "[" + newline
-
-            for(let property in data) {
-
-                if (typeof data[property] == "object") {
-                    string += this.print_r(data[property], level+1) + comma + newline
-                } else {
-                    string += padding_prop + data[property] + newline
-                }
-
-            }
-
-            string += padding_key + "]"
-
-        }
-
-        // trying to remove last comma if is the end of object or array
-        //string = string.replace(/,\n/g, "0")
-
-        return string
-
-    }
-
-}
-
-module.exports = new Utils
-
-
-/***/ }),
-/* 36 */
-/***/ (function(module, exports, __webpack_require__) {
-
-/* WEBPACK VAR INJECTION */(function(global) {var scope = (typeof global !== "undefined" && global) ||
-            (typeof self !== "undefined" && self) ||
-            window;
-var apply = Function.prototype.apply;
-
-// DOM APIs, for completeness
-
-exports.setTimeout = function() {
-  return new Timeout(apply.call(setTimeout, scope, arguments), clearTimeout);
-};
-exports.setInterval = function() {
-  return new Timeout(apply.call(setInterval, scope, arguments), clearInterval);
-};
-exports.clearTimeout =
-exports.clearInterval = function(timeout) {
-  if (timeout) {
-    timeout.close();
-  }
-};
-
-function Timeout(id, clearFn) {
-  this._id = id;
-  this._clearFn = clearFn;
-}
-Timeout.prototype.unref = Timeout.prototype.ref = function() {};
-Timeout.prototype.close = function() {
-  this._clearFn.call(scope, this._id);
-};
-
-// Does not start the time, just sets up the members needed.
-exports.enroll = function(item, msecs) {
-  clearTimeout(item._idleTimeoutId);
-  item._idleTimeout = msecs;
-};
-
-exports.unenroll = function(item) {
-  clearTimeout(item._idleTimeoutId);
-  item._idleTimeout = -1;
-};
-
-exports._unrefActive = exports.active = function(item) {
-  clearTimeout(item._idleTimeoutId);
-
-  var msecs = item._idleTimeout;
-  if (msecs >= 0) {
-    item._idleTimeoutId = setTimeout(function onTimeout() {
-      if (item._onTimeout)
-        item._onTimeout();
-    }, msecs);
-  }
-};
-
-// setimmediate attaches itself to the global object
-__webpack_require__(37);
-// On some exotic environments, it's not clear which object `setimmediate` was
-// able to install onto.  Search each possibility in the same order as the
-// `setimmediate` library.
-exports.setImmediate = (typeof self !== "undefined" && self.setImmediate) ||
-                       (typeof global !== "undefined" && global.setImmediate) ||
-                       (this && this.setImmediate);
-exports.clearImmediate = (typeof self !== "undefined" && self.clearImmediate) ||
-                         (typeof global !== "undefined" && global.clearImmediate) ||
-                         (this && this.clearImmediate);
-
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(5)))
-
-/***/ }),
-/* 37 */
-/***/ (function(module, exports, __webpack_require__) {
-
-/* WEBPACK VAR INJECTION */(function(global, process) {(function (global, undefined) {
-    "use strict";
-
-    if (global.setImmediate) {
-        return;
-    }
-
-    var nextHandle = 1; // Spec says greater than zero
-    var tasksByHandle = {};
-    var currentlyRunningATask = false;
-    var doc = global.document;
-    var registerImmediate;
-
-    function setImmediate(callback) {
-      // Callback can either be a function or a string
-      if (typeof callback !== "function") {
-        callback = new Function("" + callback);
-      }
-      // Copy function arguments
-      var args = new Array(arguments.length - 1);
-      for (var i = 0; i < args.length; i++) {
-          args[i] = arguments[i + 1];
-      }
-      // Store and register the task
-      var task = { callback: callback, args: args };
-      tasksByHandle[nextHandle] = task;
-      registerImmediate(nextHandle);
-      return nextHandle++;
-    }
-
-    function clearImmediate(handle) {
-        delete tasksByHandle[handle];
-    }
-
-    function run(task) {
-        var callback = task.callback;
-        var args = task.args;
-        switch (args.length) {
-        case 0:
-            callback();
-            break;
-        case 1:
-            callback(args[0]);
-            break;
-        case 2:
-            callback(args[0], args[1]);
-            break;
-        case 3:
-            callback(args[0], args[1], args[2]);
-            break;
-        default:
-            callback.apply(undefined, args);
-            break;
-        }
-    }
-
-    function runIfPresent(handle) {
-        // From the spec: "Wait until any invocations of this algorithm started before this one have completed."
-        // So if we're currently running a task, we'll need to delay this invocation.
-        if (currentlyRunningATask) {
-            // Delay by doing a setTimeout. setImmediate was tried instead, but in Firefox 7 it generated a
-            // "too much recursion" error.
-            setTimeout(runIfPresent, 0, handle);
-        } else {
-            var task = tasksByHandle[handle];
-            if (task) {
-                currentlyRunningATask = true;
-                try {
-                    run(task);
-                } finally {
-                    clearImmediate(handle);
-                    currentlyRunningATask = false;
-                }
-            }
-        }
-    }
-
-    function installNextTickImplementation() {
-        registerImmediate = function(handle) {
-            process.nextTick(function () { runIfPresent(handle); });
-        };
-    }
-
-    function canUsePostMessage() {
-        // The test against `importScripts` prevents this implementation from being installed inside a web worker,
-        // where `global.postMessage` means something completely different and can't be used for this purpose.
-        if (global.postMessage && !global.importScripts) {
-            var postMessageIsAsynchronous = true;
-            var oldOnMessage = global.onmessage;
-            global.onmessage = function() {
-                postMessageIsAsynchronous = false;
-            };
-            global.postMessage("", "*");
-            global.onmessage = oldOnMessage;
-            return postMessageIsAsynchronous;
-        }
-    }
-
-    function installPostMessageImplementation() {
-        // Installs an event handler on `global` for the `message` event: see
-        // * https://developer.mozilla.org/en/DOM/window.postMessage
-        // * http://www.whatwg.org/specs/web-apps/current-work/multipage/comms.html#crossDocumentMessages
-
-        var messagePrefix = "setImmediate$" + Math.random() + "$";
-        var onGlobalMessage = function(event) {
-            if (event.source === global &&
-                typeof event.data === "string" &&
-                event.data.indexOf(messagePrefix) === 0) {
-                runIfPresent(+event.data.slice(messagePrefix.length));
-            }
-        };
-
-        if (global.addEventListener) {
-            global.addEventListener("message", onGlobalMessage, false);
-        } else {
-            global.attachEvent("onmessage", onGlobalMessage);
-        }
-
-        registerImmediate = function(handle) {
-            global.postMessage(messagePrefix + handle, "*");
-        };
-    }
-
-    function installMessageChannelImplementation() {
-        var channel = new MessageChannel();
-        channel.port1.onmessage = function(event) {
-            var handle = event.data;
-            runIfPresent(handle);
-        };
-
-        registerImmediate = function(handle) {
-            channel.port2.postMessage(handle);
-        };
-    }
-
-    function installReadyStateChangeImplementation() {
-        var html = doc.documentElement;
-        registerImmediate = function(handle) {
-            // Create a <script> element; its readystatechange event will be fired asynchronously once it is inserted
-            // into the document. Do so, thus queuing up the task. Remember to clean up once it's been called.
-            var script = doc.createElement("script");
-            script.onreadystatechange = function () {
-                runIfPresent(handle);
-                script.onreadystatechange = null;
-                html.removeChild(script);
-                script = null;
-            };
-            html.appendChild(script);
-        };
-    }
-
-    function installSetTimeoutImplementation() {
-        registerImmediate = function(handle) {
-            setTimeout(runIfPresent, 0, handle);
-        };
-    }
-
-    // If supported, we should attach to the prototype of global, since that is where setTimeout et al. live.
-    var attachTo = Object.getPrototypeOf && Object.getPrototypeOf(global);
-    attachTo = attachTo && attachTo.setTimeout ? attachTo : global;
-
-    // Don't get fooled by e.g. browserify environments.
-    if ({}.toString.call(global.process) === "[object process]") {
-        // For Node.js before 0.9
-        installNextTickImplementation();
-
-    } else if (canUsePostMessage()) {
-        // For non-IE10 modern browsers
-        installPostMessageImplementation();
-
-    } else if (global.MessageChannel) {
-        // For web workers, where supported
-        installMessageChannelImplementation();
-
-    } else if (doc && "onreadystatechange" in doc.createElement("script")) {
-        // For IE 6–8
-        installReadyStateChangeImplementation();
-
-    } else {
-        // For older browsers
-        installSetTimeoutImplementation();
-    }
-
-    attachTo.setImmediate = setImmediate;
-    attachTo.clearImmediate = clearImmediate;
-}(typeof self === "undefined" ? typeof global === "undefined" ? this : global : self));
-
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(5), __webpack_require__(10)))
-
-/***/ }),
-/* 38 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-
-// EXTERNAL MODULE: ./app/vue/public.js
-var vue_public = __webpack_require__(49);
-
-// CONCATENATED MODULE: ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./app/vue/users/apps/login.vue?vue&type=template&id=f6cb2dd0&
-var render = function() {
-  var _vm = this
-  var _h = _vm.$createElement
-  var _c = _vm._self._c || _h
-  return _c("section", { attrs: { id: "sessions" } }, [
-    _c("a", { staticClass: "logo", attrs: { href: _vm.url.to() } }, [
-      _c("img", {
-        attrs: {
-          src: "/assets/brand/leslicloud-logo.png",
-          alt: "LesliCloud Logo"
-        }
-      })
-    ]),
-    _vm._v(" "),
-    _c(
-      "form",
-      { ref: "form", attrs: { id: "new_user" }, on: { submit: _vm.login } },
-      [
-        _c("progress-bar", { attrs: { active: _vm.progress_bar_active } }),
-        _vm._v(" "),
-        _c("form-notification", {
-          attrs: {
-            message: _vm.notification.message,
-            type: _vm.notification.type,
-            show: _vm.notification.show
-          },
-          on: {
-            "update:show": function($event) {
-              return _vm.$set(_vm.notification, "show", $event)
-            }
-          }
-        }),
-        _vm._v(" "),
-        _c("div", { staticClass: "field" }, [
-          _c("p", { staticClass: "control has-icons-left" }, [
-            _c("label", { staticClass: "sr-only" }, [
-              _vm._v(
-                "\n               " +
-                  _vm._s(_vm.translations.shared.fields.email) +
-                  "\n            "
-              )
-            ]),
-            _vm._v(" "),
-            _c("input", {
-              directives: [
-                {
-                  name: "model",
-                  rawName: "v-model",
-                  value: _vm.sign_in.email,
-                  expression: "sign_in.email"
-                }
-              ],
-              staticClass: "input",
-              attrs: {
-                type: "email",
-                required: "true",
-                placeholder: _vm.translations.shared.fields.email
-              },
-              domProps: { value: _vm.sign_in.email },
-              on: {
-                input: function($event) {
-                  if ($event.target.composing) {
-                    return
-                  }
-                  _vm.$set(_vm.sign_in, "email", $event.target.value)
-                }
-              }
-            }),
-            _vm._v(" "),
-            _vm._m(0)
-          ])
-        ]),
-        _vm._v(" "),
-        _c("div", { staticClass: "field" }, [
-          _c("p", { staticClass: "control has-icons-left" }, [
-            _c(
-              "label",
-              { staticClass: "sr-only", attrs: { for: "user_password" } },
-              [
-                _vm._v(
-                  "\n               " +
-                    _vm._s(_vm.translations.shared.fields.password) +
-                    "\n            "
-                )
-              ]
-            ),
-            _vm._v(" "),
-            _c("input", {
-              directives: [
-                {
-                  name: "model",
-                  rawName: "v-model",
-                  value: _vm.sign_in.password,
-                  expression: "sign_in.password"
-                }
-              ],
-              staticClass: "input",
-              attrs: {
-                type: "password",
-                required: "true",
-                placeholder: _vm.translations.shared.fields.password
-              },
-              domProps: { value: _vm.sign_in.password },
-              on: {
-                input: function($event) {
-                  if ($event.target.composing) {
-                    return
-                  }
-                  _vm.$set(_vm.sign_in, "password", $event.target.value)
-                }
-              }
-            }),
-            _vm._v(" "),
-            _vm._m(1)
-          ])
-        ]),
-        _vm._v(" "),
-        _c("input", {
-          staticClass: "button is-primary",
-          attrs: { type: "submit" },
-          domProps: { value: _vm.translations.login.actions.log_in }
-        })
-      ],
-      1
-    ),
-    _vm._v(" "),
-    _c("div", { staticClass: "links" }, [
-      _c(
-        "a",
-        {
-          on: {
-            click: function($event) {
-              return _vm.goTo("/register")
-            }
-          }
-        },
-        [
-          _vm._v(
-            "\n         " + _vm._s(_vm.translations.links.sign_up) + "\n      "
-          )
-        ]
-      ),
-      _vm._v(" "),
-      _c(
-        "a",
-        {
-          on: {
-            click: function($event) {
-              return _vm.goTo("/password/new")
-            }
-          }
-        },
-        [
-          _vm._v(
-            "\n         " +
-              _vm._s(_vm.translations.links.reset_password) +
-              "\n      "
-          )
-        ]
-      ),
-      _vm._v(" "),
-      _c(
-        "a",
-        {
-          on: {
-            click: function($event) {
-              return _vm.goTo("/confirmation/new")
-            }
-          }
-        },
-        [
-          _vm._v(
-            "\n         " +
-              _vm._s(_vm.translations.links.resend_confirmation_email) +
-              "\n      "
-          )
-        ]
-      )
-    ])
-  ])
-}
-var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("span", { staticClass: "icon is-small is-left" }, [
-      _c("i", { staticClass: "fas fa-envelope" })
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("span", { staticClass: "icon is-small is-left" }, [
-      _c("i", { staticClass: "fas fa-lock" })
-    ])
-  }
-]
-render._withStripped = true
-
-
-// CONCATENATED MODULE: ./app/vue/users/apps/login.vue?vue&type=template&id=f6cb2dd0&
-
-// EXTERNAL MODULE: ./app/vue/components/forms/notification.vue + 4 modules
-var notification = __webpack_require__(4);
-
-// EXTERNAL MODULE: ./app/vue/components/forms/progress_bar.vue + 4 modules
-var progress_bar = __webpack_require__(3);
-
-// CONCATENATED MODULE: ./node_modules/babel-loader/lib??ref--3!./node_modules/vue-loader/lib??vue-loader-options!./app/vue/users/apps/login.vue?vue&type=script&lang=js&
-
-
-/* harmony default export */ var loginvue_type_script_lang_js_ = ({
-  data: function data() {
-    return {
-      translations: {
-        links: I18n.t('users.links'),
-        login: I18n.t('users.login'),
-        sessions: I18n.t('devise.sessions'),
-        shared: I18n.t('users.shared')
-      },
-      sign_in: {
-        email: '',
-        password: ''
-      },
-      progress_bar_active: false,
-      notification: {
-        show: false,
-        message: '',
-        type: 'is-danger'
-      }
-    };
-  },
-  methods: {
-    login: function login(event) {
-      var _this = this;
-
-      event.preventDefault();
-      var data = {
-        sign_in: this.sign_in
-      };
-      this.progress_bar_active = true;
-      this.http.post(this.url.to(null, null, 'login'), data).then(function (response) {
-        _this.progress_bar_active = false;
-
-        if (response.successful) {
-          _this.url.go('/');
-        } else {
-          _this.showNotification(response.error.message);
-        }
-      })["catch"](function (err) {
-        console.log(err);
-      });
-    },
-    showNotification: function showNotification(message) {
-      var type = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 'is-danger';
-      this.notification.message = message;
-      this.notification.type = type;
-      this.notification.show = true;
-    },
-    goTo: function goTo(url) {
-      this.$router.push("".concat(url));
-    }
-  },
-  components: {
-    'form-notification': notification["a" /* default */],
-    'progress-bar': progress_bar["a" /* default */]
-  }
-});
-// CONCATENATED MODULE: ./app/vue/users/apps/login.vue?vue&type=script&lang=js&
- /* harmony default export */ var apps_loginvue_type_script_lang_js_ = (loginvue_type_script_lang_js_); 
-// EXTERNAL MODULE: ./node_modules/vue-loader/lib/runtime/componentNormalizer.js
-var componentNormalizer = __webpack_require__(2);
-
-// CONCATENATED MODULE: ./app/vue/users/apps/login.vue
-
-
-
-
-
-/* normalize component */
-
-var component = Object(componentNormalizer["a" /* default */])(
-  apps_loginvue_type_script_lang_js_,
-  render,
-  staticRenderFns,
-  false,
-  null,
-  null,
-  null
-  
-)
-
-/* hot reload */
-if (false) { var api; }
-component.options.__file = "app/vue/users/apps/login.vue"
-/* harmony default export */ var login = (component.exports);
-// CONCATENATED MODULE: ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./app/vue/users/apps/confirmation.vue?vue&type=template&id=4c9890d6&
-var confirmationvue_type_template_id_4c9890d6_render = function() {
-  var _vm = this
-  var _h = _vm.$createElement
-  var _c = _vm._self._c || _h
-  return _c("section", { attrs: { id: "confirmations" } }, [
-    _c("a", { staticClass: "logo", attrs: { href: _vm.url.to() } }, [
-      _c("img", {
-        attrs: {
-          src: "/assets/brand/leslicloud-logo.png",
-          alt: "LesliCloud Logo"
-        }
-      })
-    ]),
-    _vm._v(" "),
-    _c(
-      "form",
-      {
-        ref: "form",
-        attrs: { id: "new_confirmation" },
-        on: { submit: _vm.confirmEmail }
-      },
-      [
-        _c("progress-bar", { attrs: { active: _vm.progress_bar_active } }),
-        _vm._v(" "),
-        _c("form-notification", {
-          attrs: {
-            message: _vm.notification.message,
-            type: _vm.notification.type,
-            show: _vm.notification.show
-          },
-          on: {
-            "update:show": function($event) {
-              return _vm.$set(_vm.notification, "show", $event)
-            }
-          }
-        }),
-        _vm._v(" "),
-        _c("div", { staticClass: "field" }, [
-          _c("p", { staticClass: "control has-icons-left" }, [
-            _c("label", { staticClass: "sr-only" }, [
-              _vm._v(
-                "\n               " +
-                  _vm._s(_vm.translations.shared.fields.email) +
-                  "\n            "
-              )
-            ]),
-            _vm._v(" "),
-            _c("input", {
-              directives: [
-                {
-                  name: "model",
-                  rawName: "v-model",
-                  value: _vm.confirmation.email,
-                  expression: "confirmation.email"
-                }
-              ],
-              staticClass: "input",
-              attrs: {
-                type: "email",
-                required: "true",
-                placeholder: _vm.translations.shared.fields.email
-              },
-              domProps: { value: _vm.confirmation.email },
-              on: {
-                input: function($event) {
-                  if ($event.target.composing) {
-                    return
-                  }
-                  _vm.$set(_vm.confirmation, "email", $event.target.value)
-                }
-              }
-            }),
-            _vm._v(" "),
-            _vm._m(0)
-          ])
-        ]),
-        _vm._v(" "),
-        _c("input", {
-          staticClass: "button is-primary",
-          attrs: { type: "submit" },
-          domProps: {
-            value: _vm.translations.confirmation.actions.resend_email
-          }
-        })
-      ],
-      1
-    ),
-    _vm._v(" "),
-    _c("div", { staticClass: "links" }, [
-      _c(
-        "a",
-        {
-          on: {
-            click: function($event) {
-              return _vm.goTo("/login")
-            }
-          }
-        },
-        [
-          _vm._v(
-            "\n         " + _vm._s(_vm.translations.links.login) + "\n      "
-          )
-        ]
-      ),
-      _vm._v(" "),
-      _c(
-        "a",
-        {
-          on: {
-            click: function($event) {
-              return _vm.goTo("/register")
-            }
-          }
-        },
-        [
-          _vm._v(
-            "\n         " + _vm._s(_vm.translations.links.sign_up) + "\n      "
-          )
-        ]
-      ),
-      _vm._v(" "),
-      _c(
-        "a",
-        {
-          on: {
-            click: function($event) {
-              return _vm.goTo("/password/new")
-            }
-          }
-        },
-        [
-          _vm._v(
-            "\n         " +
-              _vm._s(_vm.translations.links.reset_password) +
-              "\n      "
-          )
-        ]
-      )
-    ])
-  ])
-}
-var confirmationvue_type_template_id_4c9890d6_staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("span", { staticClass: "icon is-small is-left" }, [
-      _c("i", { staticClass: "fas fa-envelope" })
-    ])
-  }
-]
-confirmationvue_type_template_id_4c9890d6_render._withStripped = true
-
-
-// CONCATENATED MODULE: ./app/vue/users/apps/confirmation.vue?vue&type=template&id=4c9890d6&
-
-// CONCATENATED MODULE: ./node_modules/babel-loader/lib??ref--3!./node_modules/vue-loader/lib??vue-loader-options!./app/vue/users/apps/confirmation.vue?vue&type=script&lang=js&
-
-
-/* harmony default export */ var confirmationvue_type_script_lang_js_ = ({
-  data: function data() {
-    return {
-      translations: {
-        links: I18n.t('users.links'),
-        confirmation: I18n.t('users.confirmation'),
-        shared: I18n.t('users.shared')
-      },
-      confirmation: {
-        email: ''
-      },
-      progress_bar_active: false,
-      notification: {
-        show: false,
-        message: '',
-        type: 'is-danger'
-      }
-    };
-  },
-  methods: {
-    showNotification: function showNotification(message) {
-      var type = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 'is-danger';
-      this.notification.message = message;
-      this.notification.type = type;
-      this.notification.show = true;
-    },
-    confirmEmail: function confirmEmail(event) {
-      var _this = this;
-
-      event.preventDefault();
-      var data = {
-        user: this.confirmation
-      };
-      this.progress_bar_active = true;
-      this.http.post(this.url.to(null, null, '/confirmation'), data).then(function (response) {
-        _this.progress_bar_active = false;
-
-        if (response.successful) {
-          _this.showNotification(_this.translations.confirmation.notifications.success, 'is-success');
-
-          setTimeout(function () {
-            _this.goTo('/login');
-          }, 5000);
-        } else {
-          _this.showNotification(response.error.message);
-        }
-      })["catch"](function (err) {
-        console.log(err);
-      });
-    },
-    goTo: function goTo(url) {
-      this.$router.push("".concat(url));
-    }
-  },
-  components: {
-    'form-notification': notification["a" /* default */],
-    'progress-bar': progress_bar["a" /* default */]
-  }
-});
-// CONCATENATED MODULE: ./app/vue/users/apps/confirmation.vue?vue&type=script&lang=js&
- /* harmony default export */ var apps_confirmationvue_type_script_lang_js_ = (confirmationvue_type_script_lang_js_); 
-// CONCATENATED MODULE: ./app/vue/users/apps/confirmation.vue
-
-
-
-
-
-/* normalize component */
-
-var confirmation_component = Object(componentNormalizer["a" /* default */])(
-  apps_confirmationvue_type_script_lang_js_,
-  confirmationvue_type_template_id_4c9890d6_render,
-  confirmationvue_type_template_id_4c9890d6_staticRenderFns,
-  false,
-  null,
-  null,
-  null
-  
-)
-
-/* hot reload */
-if (false) { var confirmation_api; }
-confirmation_component.options.__file = "app/vue/users/apps/confirmation.vue"
-/* harmony default export */ var confirmation = (confirmation_component.exports);
-// CONCATENATED MODULE: ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./app/vue/users/apps/register.vue?vue&type=template&id=29860e78&
-var registervue_type_template_id_29860e78_render = function() {
-  var _vm = this
-  var _h = _vm.$createElement
-  var _c = _vm._self._c || _h
-  return _c("section", { attrs: { id: "registrations" } }, [
-    _c("a", { staticClass: "logo", attrs: { href: _vm.url.to() } }, [
-      _c("img", {
-        attrs: {
-          src: "/assets/brand/leslicloud-logo.png",
-          alt: "LesliCloud Logo"
-        }
-      })
-    ]),
-    _vm._v(" "),
-    _c(
-      "form",
-      {
-        ref: "form",
-        attrs: { id: "registration_user" },
-        on: { submit: _vm.register }
-      },
-      [
-        _c("progress-bar", { attrs: { active: _vm.progress_bar_active } }),
-        _vm._v(" "),
-        _c("form-notification", {
-          attrs: {
-            message: _vm.notification.message,
-            type: _vm.notification.type,
-            show: _vm.notification.show
-          },
-          on: {
-            "update:show": function($event) {
-              return _vm.$set(_vm.notification, "show", $event)
-            }
-          }
-        }),
-        _vm._v(" "),
-        _c("div", { staticClass: "field" }, [
-          _c("p", { staticClass: "control has-icons-left" }, [
-            _c("label", { staticClass: "sr-only" }, [
-              _vm._v(
-                "\n               " +
-                  _vm._s(_vm.translations.shared.fields.email) +
-                  "\n            "
-              )
-            ]),
-            _vm._v(" "),
-            _c("input", {
-              directives: [
-                {
-                  name: "model",
-                  rawName: "v-model",
-                  value: _vm.sign_up.email,
-                  expression: "sign_up.email"
-                }
-              ],
-              staticClass: "input",
-              attrs: {
-                type: "email",
-                required: "true",
-                placeholder: _vm.translations.shared.fields.email
-              },
-              domProps: { value: _vm.sign_up.email },
-              on: {
-                input: function($event) {
-                  if ($event.target.composing) {
-                    return
-                  }
-                  _vm.$set(_vm.sign_up, "email", $event.target.value)
-                }
-              }
-            }),
-            _vm._v(" "),
-            _vm._m(0)
-          ])
-        ]),
-        _vm._v(" "),
-        _c("div", { staticClass: "field" }, [
-          _c("p", { staticClass: "control has-icons-left" }, [
-            _c(
-              "label",
-              { staticClass: "sr-only", attrs: { for: "user_password" } },
-              [
-                _vm._v(
-                  "\n               " +
-                    _vm._s(_vm.translations.shared.fields.password) +
-                    "\n            "
-                )
-              ]
-            ),
-            _vm._v(" "),
-            _c("input", {
-              directives: [
-                {
-                  name: "model",
-                  rawName: "v-model",
-                  value: _vm.sign_up.password,
-                  expression: "sign_up.password"
-                }
-              ],
-              staticClass: "input",
-              attrs: {
-                type: "password",
-                required: "true",
-                minlength: "6",
-                placeholder:
-                  _vm.translations.shared.fields.password +
-                  " " +
-                  _vm.translations.registration.fields.password_length
-              },
-              domProps: { value: _vm.sign_up.password },
-              on: {
-                change: _vm.verifyPasswords,
-                input: function($event) {
-                  if ($event.target.composing) {
-                    return
-                  }
-                  _vm.$set(_vm.sign_up, "password", $event.target.value)
-                }
-              }
-            }),
-            _vm._v(" "),
-            _vm._m(1)
-          ])
-        ]),
-        _vm._v(" "),
-        _c("div", { staticClass: "field" }, [
-          _c("p", { staticClass: "control has-icons-left" }, [
-            _c(
-              "label",
-              { staticClass: "sr-only", attrs: { for: "user_password" } },
-              [
-                _vm._v(
-                  "\n               " +
-                    _vm._s(_vm.translations.shared.fields.password) +
-                    "\n            "
-                )
-              ]
-            ),
-            _vm._v(" "),
-            _c("input", {
-              directives: [
-                {
-                  name: "model",
-                  rawName: "v-model",
-                  value: _vm.sign_up.password_confirmation,
-                  expression: "sign_up.password_confirmation"
-                }
-              ],
-              staticClass: "input",
-              attrs: {
-                type: "password",
-                required: "true",
-                placeholder:
-                  _vm.translations.shared.fields.password_confirmation
-              },
-              domProps: { value: _vm.sign_up.password_confirmation },
-              on: {
-                change: _vm.verifyPasswords,
-                input: function($event) {
-                  if ($event.target.composing) {
-                    return
-                  }
-                  _vm.$set(
-                    _vm.sign_up,
-                    "password_confirmation",
-                    $event.target.value
-                  )
-                }
-              }
-            }),
-            _vm._v(" "),
-            _vm._m(2)
-          ])
-        ]),
-        _vm._v(" "),
-        _c("input", {
-          staticClass: "button is-primary",
-          attrs: { type: "submit" },
-          domProps: { value: _vm.translations.registration.actions.sign_up }
-        })
-      ],
-      1
-    ),
-    _vm._v(" "),
-    _c("div", { staticClass: "links" }, [
-      _c(
-        "a",
-        {
-          on: {
-            click: function($event) {
-              return _vm.goTo("/login")
-            }
-          }
-        },
-        [
-          _vm._v(
-            "\n         " + _vm._s(_vm.translations.links.login) + "\n      "
-          )
-        ]
-      ),
-      _vm._v(" "),
-      _c(
-        "a",
-        {
-          on: {
-            click: function($event) {
-              return _vm.goTo("/confirmation/new")
-            }
-          }
-        },
-        [
-          _vm._v(
-            "\n         " +
-              _vm._s(_vm.translations.links.resend_confirmation_email) +
-              "\n      "
-          )
-        ]
-      )
-    ])
-  ])
-}
-var registervue_type_template_id_29860e78_staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("span", { staticClass: "icon is-small is-left" }, [
-      _c("i", { staticClass: "fas fa-envelope" })
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("span", { staticClass: "icon is-small is-left" }, [
-      _c("i", { staticClass: "fas fa-lock" })
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("span", { staticClass: "icon is-small is-left" }, [
-      _c("i", { staticClass: "fas fa-lock" })
-    ])
-  }
-]
-registervue_type_template_id_29860e78_render._withStripped = true
-
-
-// CONCATENATED MODULE: ./app/vue/users/apps/register.vue?vue&type=template&id=29860e78&
-
-// CONCATENATED MODULE: ./node_modules/babel-loader/lib??ref--3!./node_modules/vue-loader/lib??vue-loader-options!./app/vue/users/apps/register.vue?vue&type=script&lang=js&
-
-
-/* harmony default export */ var registervue_type_script_lang_js_ = ({
-  data: function data() {
-    return {
-      translations: {
-        links: I18n.t('users.links'),
-        registration: I18n.t('users.registration'),
-        sessions: I18n.t('devise.sessions'),
-        shared: I18n.t('users.shared')
-      },
-      sign_up: {
-        email: '',
-        password: '',
-        password_confirmation: ''
-      },
-      progress_bar_active: false,
-      notification: {
-        show: false,
-        message: '',
-        type: 'is-danger'
-      }
-    };
-  },
-  methods: {
-    register: function register(event) {
-      var _this = this;
-
-      event.preventDefault();
-      var data = {
-        user: this.sign_up
-      };
-      this.progress_bar_active = true;
-      this.http.post(this.url.to(null, null, null), data).then(function (response) {
-        _this.progress_bar_active = false;
-
-        if (response.successful) {
-          _this.showNotification(_this.translations.registration.notifications.success, 'is-success');
-
-          setTimeout(function () {
-            _this.goTo('/login');
-          }, 5000);
-        } else {
-          _this.showNotification(response.error.message);
-        }
-      })["catch"](function (err) {
-        console.log(err);
-      });
-    },
-    showNotification: function showNotification(message) {
-      var type = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 'is-danger';
-      this.notification.message = message;
-      this.notification.type = type;
-      this.notification.show = true;
-    },
-    verifyPasswords: function verifyPasswords() {
-      var password = this.sign_up.password;
-      var password_confirmation = this.sign_up.password_confirmation;
-
-      if (password && password_confirmation) {
-        if (password !== password_confirmation) {
-          this.showNotification(this.translations.shared.errors.unmatched_passwords);
-          return;
-        }
-      }
-
-      this.notification.show = false;
-    },
-    goTo: function goTo(url) {
-      this.$router.push("".concat(url));
-    }
-  },
-  components: {
-    'form-notification': notification["a" /* default */],
-    'progress-bar': progress_bar["a" /* default */]
-  }
-});
-// CONCATENATED MODULE: ./app/vue/users/apps/register.vue?vue&type=script&lang=js&
- /* harmony default export */ var apps_registervue_type_script_lang_js_ = (registervue_type_script_lang_js_); 
-// CONCATENATED MODULE: ./app/vue/users/apps/register.vue
-
-
-
-
-
-/* normalize component */
-
-var register_component = Object(componentNormalizer["a" /* default */])(
-  apps_registervue_type_script_lang_js_,
-  registervue_type_template_id_29860e78_render,
-  registervue_type_template_id_29860e78_staticRenderFns,
-  false,
-  null,
-  null,
-  null
-  
-)
-
-/* hot reload */
-if (false) { var register_api; }
-register_component.options.__file = "app/vue/users/apps/register.vue"
-/* harmony default export */ var register = (register_component.exports);
-// CONCATENATED MODULE: ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./app/vue/users/apps/password/new.vue?vue&type=template&id=f701a566&
-var newvue_type_template_id_f701a566_render = function() {
-  var _vm = this
-  var _h = _vm.$createElement
-  var _c = _vm._self._c || _h
-  return _c("section", { attrs: { id: "passwords" } }, [
-    _c("a", { staticClass: "logo", attrs: { href: _vm.url.to() } }, [
-      _c("img", {
-        attrs: {
-          src: "/assets/brand/leslicloud-logo.png",
-          alt: "LesliCloud Logo"
-        }
-      })
-    ]),
-    _vm._v(" "),
-    _c(
-      "form",
-      {
-        ref: "form",
-        attrs: { id: "new_password" },
-        on: { submit: _vm.resetPassword }
-      },
-      [
-        _c("progress-bar", { attrs: { active: _vm.progress_bar_active } }),
-        _vm._v(" "),
-        _c("form-notification", {
-          attrs: {
-            message: _vm.notification.message,
-            type: _vm.notification.type,
-            show: _vm.notification.show
-          },
-          on: {
-            "update:show": function($event) {
-              return _vm.$set(_vm.notification, "show", $event)
-            }
-          }
-        }),
-        _vm._v(" "),
-        _c("div", { staticClass: "field" }, [
-          _c("p", { staticClass: "control has-icons-left" }, [
-            _c("label", { staticClass: "sr-only" }, [
-              _vm._v(
-                "\n               " +
-                  _vm._s(_vm.translations.shared.fields.email) +
-                  "\n            "
-              )
-            ]),
-            _vm._v(" "),
-            _c("input", {
-              directives: [
-                {
-                  name: "model",
-                  rawName: "v-model",
-                  value: _vm.password.email,
-                  expression: "password.email"
-                }
-              ],
-              staticClass: "input",
-              attrs: {
-                type: "email",
-                required: "true",
-                placeholder: _vm.translations.shared.fields.email
-              },
-              domProps: { value: _vm.password.email },
-              on: {
-                input: function($event) {
-                  if ($event.target.composing) {
-                    return
-                  }
-                  _vm.$set(_vm.password, "email", $event.target.value)
-                }
-              }
-            }),
-            _vm._v(" "),
-            _vm._m(0)
-          ])
-        ]),
-        _vm._v(" "),
-        _c("input", {
-          staticClass: "button is-primary",
-          attrs: { type: "submit" },
-          domProps: { value: _vm.translations.password.actions.reset_password }
-        })
-      ],
-      1
-    ),
-    _vm._v(" "),
-    _c("div", { staticClass: "links" }, [
-      _c(
-        "a",
-        {
-          on: {
-            click: function($event) {
-              return _vm.goTo("/login")
-            }
-          }
-        },
-        [
-          _vm._v(
-            "\n         " + _vm._s(_vm.translations.links.login) + "\n      "
-          )
-        ]
-      ),
-      _vm._v(" "),
-      _c(
-        "a",
-        {
-          on: {
-            click: function($event) {
-              return _vm.goTo("/register")
-            }
-          }
-        },
-        [
-          _vm._v(
-            "\n         " + _vm._s(_vm.translations.links.sign_up) + "\n      "
-          )
-        ]
-      ),
-      _vm._v(" "),
-      _c(
-        "a",
-        {
-          on: {
-            click: function($event) {
-              return _vm.goTo("/confirmation/new")
-            }
-          }
-        },
-        [
-          _vm._v(
-            "\n         " +
-              _vm._s(_vm.translations.links.resend_confirmation_email) +
-              "\n      "
-          )
-        ]
-      )
-    ])
-  ])
-}
-var newvue_type_template_id_f701a566_staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("span", { staticClass: "icon is-small is-left" }, [
-      _c("i", { staticClass: "fas fa-envelope" })
-    ])
-  }
-]
-newvue_type_template_id_f701a566_render._withStripped = true
-
-
-// CONCATENATED MODULE: ./app/vue/users/apps/password/new.vue?vue&type=template&id=f701a566&
-
-// CONCATENATED MODULE: ./node_modules/babel-loader/lib??ref--3!./node_modules/vue-loader/lib??vue-loader-options!./app/vue/users/apps/password/new.vue?vue&type=script&lang=js&
-
-
-/* harmony default export */ var newvue_type_script_lang_js_ = ({
-  data: function data() {
-    return {
-      translations: {
-        links: I18n.t('users.links'),
-        password: I18n.t('users.password'),
-        shared: I18n.t('users.shared')
-      },
-      password: {
-        email: ''
-      },
-      progress_bar_active: false,
-      notification: {
-        show: false,
-        message: '',
-        type: 'is-danger'
-      }
-    };
-  },
-  methods: {
-    showNotification: function showNotification(message) {
-      var type = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 'is-danger';
-      this.notification.message = message;
-      this.notification.type = type;
-      this.notification.show = true;
-    },
-    resetPassword: function resetPassword(event) {
-      var _this = this;
-
-      event.preventDefault();
-      var data = {
-        user: this.password
-      };
-      this.progress_bar_active = true;
-      this.http.post(this.url.to(null, null, '/password'), data).then(function (response) {
-        _this.progress_bar_active = false;
-
-        if (response.successful) {
-          _this.showNotification(_this.translations.password.notifications.create.success, 'is-success');
-
-          setTimeout(function () {
-            _this.goTo('/login');
-          }, 5000);
-        } else {
-          _this.showNotification(response.error.message);
-        }
-      })["catch"](function (err) {
-        console.log(err);
-      });
-    },
-    goTo: function goTo(url) {
-      this.$router.push("".concat(url));
-    }
-  },
-  components: {
-    'form-notification': notification["a" /* default */],
-    'progress-bar': progress_bar["a" /* default */]
-  }
-});
-// CONCATENATED MODULE: ./app/vue/users/apps/password/new.vue?vue&type=script&lang=js&
- /* harmony default export */ var password_newvue_type_script_lang_js_ = (newvue_type_script_lang_js_); 
-// CONCATENATED MODULE: ./app/vue/users/apps/password/new.vue
-
-
-
-
-
-/* normalize component */
-
-var new_component = Object(componentNormalizer["a" /* default */])(
-  password_newvue_type_script_lang_js_,
-  newvue_type_template_id_f701a566_render,
-  newvue_type_template_id_f701a566_staticRenderFns,
-  false,
-  null,
-  null,
-  null
-  
-)
-
-/* hot reload */
-if (false) { var new_api; }
-new_component.options.__file = "app/vue/users/apps/password/new.vue"
-/* harmony default export */ var password_new = (new_component.exports);
-// CONCATENATED MODULE: ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./app/vue/users/apps/password/edit.vue?vue&type=template&id=1b6b8d2d&
-var editvue_type_template_id_1b6b8d2d_render = function() {
-  var _vm = this
-  var _h = _vm.$createElement
-  var _c = _vm._self._c || _h
-  return _c("section", { attrs: { id: "passwords" } }, [
-    _c("a", { staticClass: "logo", attrs: { href: _vm.url.to() } }, [
-      _c("img", {
-        attrs: {
-          src: "/assets/brand/leslicloud-logo.png",
-          alt: "LesliCloud Logo"
-        }
-      })
-    ]),
-    _vm._v(" "),
-    _c(
-      "form",
-      {
-        ref: "form",
-        attrs: { id: "registration_user" },
-        on: { submit: _vm.resetPassword }
-      },
-      [
-        _c("progress-bar", { attrs: { active: _vm.progress_bar_active } }),
-        _vm._v(" "),
-        _c("form-notification", {
-          attrs: {
-            message: _vm.notification.message,
-            type: _vm.notification.type,
-            show: _vm.notification.show
-          },
-          on: {
-            "update:show": function($event) {
-              return _vm.$set(_vm.notification, "show", $event)
-            }
-          }
-        }),
-        _vm._v(" "),
-        _c("div", { staticClass: "field" }, [
-          _c("p", { staticClass: "control has-icons-left" }, [
-            _c(
-              "label",
-              { staticClass: "sr-only", attrs: { for: "user_password" } },
-              [
-                _vm._v(
-                  "\n               " +
-                    _vm._s(_vm.translations.shared.fields.password) +
-                    "\n            "
-                )
-              ]
-            ),
-            _vm._v(" "),
-            _c("input", {
-              directives: [
-                {
-                  name: "model",
-                  rawName: "v-model",
-                  value: _vm.password.password,
-                  expression: "password.password"
-                }
-              ],
-              staticClass: "input",
-              attrs: {
-                type: "password",
-                required: "true",
-                minlength: "6",
-                placeholder: _vm.translations.shared.fields.new_password
-              },
-              domProps: { value: _vm.password.password },
-              on: {
-                change: _vm.verifyPasswords,
-                input: function($event) {
-                  if ($event.target.composing) {
-                    return
-                  }
-                  _vm.$set(_vm.password, "password", $event.target.value)
-                }
-              }
-            }),
-            _vm._v(" "),
-            _vm._m(0)
-          ])
-        ]),
-        _vm._v(" "),
-        _c("div", { staticClass: "field" }, [
-          _c("p", { staticClass: "control has-icons-left" }, [
-            _c(
-              "label",
-              { staticClass: "sr-only", attrs: { for: "user_password" } },
-              [
-                _vm._v(
-                  "\n               " +
-                    _vm._s(_vm.translations.shared.fields.password) +
-                    "\n            "
-                )
-              ]
-            ),
-            _vm._v(" "),
-            _c("input", {
-              directives: [
-                {
-                  name: "model",
-                  rawName: "v-model",
-                  value: _vm.password.password_confirmation,
-                  expression: "password.password_confirmation"
-                }
-              ],
-              staticClass: "input",
-              attrs: {
-                type: "password",
-                required: "true",
-                placeholder:
-                  _vm.translations.shared.fields.password_confirmation
-              },
-              domProps: { value: _vm.password.password_confirmation },
-              on: {
-                change: _vm.verifyPasswords,
-                input: function($event) {
-                  if ($event.target.composing) {
-                    return
-                  }
-                  _vm.$set(
-                    _vm.password,
-                    "password_confirmation",
-                    $event.target.value
-                  )
-                }
-              }
-            }),
-            _vm._v(" "),
-            _vm._m(1)
-          ])
-        ]),
-        _vm._v(" "),
-        _c("input", {
-          staticClass: "button is-primary",
-          attrs: { type: "submit" },
-          domProps: { value: _vm.translations.password.actions.change_password }
-        })
-      ],
-      1
-    ),
-    _vm._v(" "),
-    _c("div", { staticClass: "links" }, [
-      _c(
-        "a",
-        {
-          on: {
-            click: function($event) {
-              return _vm.goTo("/login")
-            }
-          }
-        },
-        [
-          _vm._v(
-            "\n         " + _vm._s(_vm.translations.links.login) + "\n      "
-          )
-        ]
-      ),
-      _vm._v(" "),
-      _c(
-        "a",
-        {
-          on: {
-            click: function($event) {
-              return _vm.goTo("/register")
-            }
-          }
-        },
-        [
-          _vm._v(
-            "\n         " + _vm._s(_vm.translations.links.sign_up) + "\n      "
-          )
-        ]
-      ),
-      _vm._v(" "),
-      _c(
-        "a",
-        {
-          on: {
-            click: function($event) {
-              return _vm.goTo("/confirmation/new")
-            }
-          }
-        },
-        [
-          _vm._v(
-            "\n         " +
-              _vm._s(_vm.translations.links.resend_confirmation_email) +
-              "\n      "
-          )
-        ]
-      )
-    ])
-  ])
-}
-var editvue_type_template_id_1b6b8d2d_staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("span", { staticClass: "icon is-small is-left" }, [
-      _c("i", { staticClass: "fas fa-lock" })
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("span", { staticClass: "icon is-small is-left" }, [
-      _c("i", { staticClass: "fas fa-lock" })
-    ])
-  }
-]
-editvue_type_template_id_1b6b8d2d_render._withStripped = true
-
-
-// CONCATENATED MODULE: ./app/vue/users/apps/password/edit.vue?vue&type=template&id=1b6b8d2d&
-
-// CONCATENATED MODULE: ./node_modules/babel-loader/lib??ref--3!./node_modules/vue-loader/lib??vue-loader-options!./app/vue/users/apps/password/edit.vue?vue&type=script&lang=js&
-
-
-/* harmony default export */ var editvue_type_script_lang_js_ = ({
-  data: function data() {
-    return {
-      translations: {
-        links: I18n.t('users.links'),
-        password: I18n.t('users.password'),
-        sessions: I18n.t('devise.sessions'),
-        shared: I18n.t('users.shared')
-      },
-      password: {
-        password: '',
-        password_confirmation: '',
-        reset_password_token: ''
-      },
-      progress_bar_active: false,
-      notification: {
-        show: false,
-        message: '',
-        type: 'is-danger'
-      }
-    };
-  },
-  mounted: function mounted() {
-    this.setResetPasswordToken();
-  },
-  methods: {
-    setResetPasswordToken: function setResetPasswordToken() {
-      this.password.reset_password_token = this.$route.query.reset_password_token;
-    },
-    resetPassword: function resetPassword(event) {
-      var _this = this;
-
-      event.preventDefault();
-      var data = {
-        user: this.password
-      };
-      this.progress_bar_active = true;
-      this.http.put(this.url.to(null, null, '/password'), data).then(function (response) {
-        _this.progress_bar_active = false;
-
-        if (response.successful) {
-          _this.showNotification(_this.translations.password.notifications.update.success, 'is-success');
-
-          setTimeout(function () {
-            _this.goTo('/login');
-          }, 2500);
-        } else {
-          _this.showNotification(response.error.message);
-        }
-      })["catch"](function (err) {
-        console.log(err);
-      });
-    },
-    showNotification: function showNotification(message) {
-      var type = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 'is-danger';
-      this.notification.message = message;
-      this.notification.type = type;
-      this.notification.show = true;
-    },
-    verifyPasswords: function verifyPasswords() {
-      var password = this.password.password;
-      var password_confirmation = this.password.password_confirmation;
-
-      if (password && password_confirmation) {
-        if (password !== password_confirmation) {
-          this.showNotification(this.translations.shared.errors.unmatched_passwords);
-          return;
-        }
-      }
-
-      this.notification.show = false;
-    },
-    goTo: function goTo(url) {
-      this.$router.push("".concat(url));
-    }
-  },
-  components: {
-    'form-notification': notification["a" /* default */],
-    'progress-bar': progress_bar["a" /* default */]
-  }
-});
-// CONCATENATED MODULE: ./app/vue/users/apps/password/edit.vue?vue&type=script&lang=js&
- /* harmony default export */ var password_editvue_type_script_lang_js_ = (editvue_type_script_lang_js_); 
-// CONCATENATED MODULE: ./app/vue/users/apps/password/edit.vue
-
-
-
-
-
-/* normalize component */
-
-var edit_component = Object(componentNormalizer["a" /* default */])(
-  password_editvue_type_script_lang_js_,
-  editvue_type_template_id_1b6b8d2d_render,
-  editvue_type_template_id_1b6b8d2d_staticRenderFns,
-  false,
-  null,
-  null,
-  null
-  
-)
-
-/* hot reload */
-if (false) { var edit_api; }
-edit_component.options.__file = "app/vue/users/apps/password/edit.vue"
-/* harmony default export */ var edit = (edit_component.exports);
-// CONCATENATED MODULE: ./app/vue/users/sessions_new.js
-/*
-Lesli
-
-Copyright (c) 2019, Lesli Technologies, S. A.
-
-All the information provided by this website is protected by laws of Guatemala related 
-to industrial property, intellectual property, copyright and relative international laws. 
-Lesli Technologies, S. A. is the exclusive owner of all intellectual or industrial property
-rights of the code, texts, trade mark, design, pictures and any other information.
-Without the written permission of Lesli Technologies, S. A., any replication, modification,
-transmission, publication is strictly forbidden.
-For more information read the license file including with this software.
-
-LesliCloud - Your Smart Business Assistant
-
-Powered by https://www.lesli.tech
-Building a better future, one line of code at a time.
-
-@dev      Carlos Hermosilla
-@author   LesliTech <hello@lesli.tech>
-@license  Propietary - all rights reserved.
-@version  GIT: 0.1.0 alpha
-
-// · 
-// · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
-*/
-// · Import main app
-// · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
- // · Import apps and components
-// · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
-
-
-
-
-
- // · 
-// · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
-
-Object(vue_public["a" /* default */])("Lesli", "[login|confirmation|register]", "", [{
-  path: "/",
-  redirect: "/login"
-}, {
-  path: "/login",
-  component: login
-}, {
-  path: "/confirmation/new",
-  component: confirmation
-}, {
-  path: "/register",
-  component: register
-}, {
-  path: "/password/new",
-  component: password_new
-}, {
-  path: "/password/edit",
-  component: edit
-}], true);
-
-/***/ }),
-/* 39 */,
-/* 40 */,
-/* 41 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _sessions_new__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(38);
-/*
-Lesli
-
-Copyright (c) 2019, Lesli Technologies, S. A.
-
-All the information provided by this website is protected by laws of Guatemala related 
-to industrial property, intellectual property, copyright and relative international laws. 
-Lesli Technologies, S. A. is the exclusive owner of all intellectual or industrial property
-rights of the code, texts, trade mark, design, pictures and any other information.
-Without the written permission of Lesli Technologies, S. A., any replication, modification,
-transmission, publication is strictly forbidden.
-For more information read the license file including with this software.
-
-LesliCloud - Your Smart Business Assistant
-
-Powered by https://www.lesli.tech
-Building a better future, one line of code at a time.
-
-@dev      Carlos Hermosilla
-@author   LesliTech <hello@lesli.tech>
-@license  Propietary - all rights reserved.
-@version  GIT: 0.1.0 alpha
-
-// · 
-// · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
-*/
-
-
-/***/ }),
-/* 42 */,
-/* 43 */,
-/* 44 */
+/* 16 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -19108,12 +16174,11 @@ Building a better future, one line of code at a time.
 });
 
 /***/ }),
-/* 45 */,
-/* 46 */
+/* 17 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(15);
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(18);
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_0__);
 /*
 Lesli
@@ -19199,7 +16264,47 @@ Building a better future, one line of code at a time.
 });
 
 /***/ }),
-/* 47 */
+/* 18 */
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports = __webpack_require__(24);
+
+/***/ }),
+/* 19 */
+/***/ (function(module, exports, __webpack_require__) {
+
+/*
+Lesli
+
+Copyright (c) 2019, Lesli Technologies, S. A.
+
+All the information provided by this website is protected by laws of Guatemala related 
+to industrial property, intellectual property, copyright and relative international laws. 
+Lesli Technologies, S. A. is the exclusive owner of all intellectual or industrial property
+rights of the code, texts, trade mark, design, pictures and any other information.
+Without the written permission of Lesli Technologies, S. A., any replication, modification,
+transmission, publication is strictly forbidden.
+For more information read the license file including with this software.
+
+Lesli Debug Message 
+
+Powered by https://www.lesli.tech
+Building a better future, one line of code at a time.
+
+@dev      Luis Donis <ldonis@lesli.tech>
+@author   LesliTech <hello@lesli.tech>
+@license  Propietary - all rights reserved.
+@version  GIT: 0.1.0 alpha
+
+// · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
+// · 
+*/
+
+module.exports = __webpack_require__(40)
+
+
+/***/ }),
+/* 20 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -19236,7 +16341,7 @@ Building a better future, one line of code at a time.
 });
 
 /***/ }),
-/* 48 */
+/* 21 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -31185,19 +28290,19 @@ use(Buefy);
 
 
 /***/ }),
-/* 49 */
+/* 22 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(0);
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vue__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var buefy__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(48);
-/* harmony import */ var vue_router__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(17);
-/* harmony import */ var LesliCloud_vue_plugins_url__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(44);
-/* harmony import */ var LesliCloud_vue_plugins_http__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(46);
-/* harmony import */ var lesli_nodejs_debug_message_browser__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(16);
+/* harmony import */ var buefy__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(21);
+/* harmony import */ var vue_router__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(6);
+/* harmony import */ var LesliCloud_vue_plugins_url__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(16);
+/* harmony import */ var LesliCloud_vue_plugins_http__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(17);
+/* harmony import */ var lesli_nodejs_debug_message_browser__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(19);
 /* harmony import */ var lesli_nodejs_debug_message_browser__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(lesli_nodejs_debug_message_browser__WEBPACK_IMPORTED_MODULE_5__);
-/* harmony import */ var LesliCloud_vue_functions_document_js__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(47);
+/* harmony import */ var LesliCloud_vue_functions_document_js__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(20);
 /*
 Lesli
 
@@ -31267,6 +28372,2901 @@ vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(LesliCloud_vue_plugins_http__WEBP
     if (true) lesli_nodejs_debug_message_browser__WEBPACK_IMPORTED_MODULE_5___default.a.info("".concat(base_path, " ").concat(apps), module);
   });
 });
+
+/***/ }),
+/* 23 */
+/***/ (function(module, exports, __webpack_require__) {
+
+/* WEBPACK VAR INJECTION */(function(global) {var scope = (typeof global !== "undefined" && global) ||
+            (typeof self !== "undefined" && self) ||
+            window;
+var apply = Function.prototype.apply;
+
+// DOM APIs, for completeness
+
+exports.setTimeout = function() {
+  return new Timeout(apply.call(setTimeout, scope, arguments), clearTimeout);
+};
+exports.setInterval = function() {
+  return new Timeout(apply.call(setInterval, scope, arguments), clearInterval);
+};
+exports.clearTimeout =
+exports.clearInterval = function(timeout) {
+  if (timeout) {
+    timeout.close();
+  }
+};
+
+function Timeout(id, clearFn) {
+  this._id = id;
+  this._clearFn = clearFn;
+}
+Timeout.prototype.unref = Timeout.prototype.ref = function() {};
+Timeout.prototype.close = function() {
+  this._clearFn.call(scope, this._id);
+};
+
+// Does not start the time, just sets up the members needed.
+exports.enroll = function(item, msecs) {
+  clearTimeout(item._idleTimeoutId);
+  item._idleTimeout = msecs;
+};
+
+exports.unenroll = function(item) {
+  clearTimeout(item._idleTimeoutId);
+  item._idleTimeout = -1;
+};
+
+exports._unrefActive = exports.active = function(item) {
+  clearTimeout(item._idleTimeoutId);
+
+  var msecs = item._idleTimeout;
+  if (msecs >= 0) {
+    item._idleTimeoutId = setTimeout(function onTimeout() {
+      if (item._onTimeout)
+        item._onTimeout();
+    }, msecs);
+  }
+};
+
+// setimmediate attaches itself to the global object
+__webpack_require__(42);
+// On some exotic environments, it's not clear which object `setimmediate` was
+// able to install onto.  Search each possibility in the same order as the
+// `setimmediate` library.
+exports.setImmediate = (typeof self !== "undefined" && self.setImmediate) ||
+                       (typeof global !== "undefined" && global.setImmediate) ||
+                       (this && this.setImmediate);
+exports.clearImmediate = (typeof self !== "undefined" && self.clearImmediate) ||
+                         (typeof global !== "undefined" && global.clearImmediate) ||
+                         (this && this.clearImmediate);
+
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(5)))
+
+/***/ }),
+/* 24 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var utils = __webpack_require__(1);
+var bind = __webpack_require__(7);
+var Axios = __webpack_require__(26);
+var mergeConfig = __webpack_require__(14);
+var defaults = __webpack_require__(10);
+
+/**
+ * Create an instance of Axios
+ *
+ * @param {Object} defaultConfig The default config for the instance
+ * @return {Axios} A new instance of Axios
+ */
+function createInstance(defaultConfig) {
+  var context = new Axios(defaultConfig);
+  var instance = bind(Axios.prototype.request, context);
+
+  // Copy axios.prototype to instance
+  utils.extend(instance, Axios.prototype, context);
+
+  // Copy context to instance
+  utils.extend(instance, context);
+
+  return instance;
+}
+
+// Create the default instance to be exported
+var axios = createInstance(defaults);
+
+// Expose Axios class to allow class inheritance
+axios.Axios = Axios;
+
+// Factory for creating new instances
+axios.create = function create(instanceConfig) {
+  return createInstance(mergeConfig(axios.defaults, instanceConfig));
+};
+
+// Expose Cancel & CancelToken
+axios.Cancel = __webpack_require__(15);
+axios.CancelToken = __webpack_require__(38);
+axios.isCancel = __webpack_require__(9);
+
+// Expose all/spread
+axios.all = function all(promises) {
+  return Promise.all(promises);
+};
+axios.spread = __webpack_require__(39);
+
+module.exports = axios;
+
+// Allow use of default import syntax in TypeScript
+module.exports.default = axios;
+
+
+/***/ }),
+/* 25 */
+/***/ (function(module, exports) {
+
+/*!
+ * Determine if an object is a Buffer
+ *
+ * @author   Feross Aboukhadijeh <https://feross.org>
+ * @license  MIT
+ */
+
+module.exports = function isBuffer (obj) {
+  return obj != null && obj.constructor != null &&
+    typeof obj.constructor.isBuffer === 'function' && obj.constructor.isBuffer(obj)
+}
+
+
+/***/ }),
+/* 26 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var utils = __webpack_require__(1);
+var buildURL = __webpack_require__(8);
+var InterceptorManager = __webpack_require__(27);
+var dispatchRequest = __webpack_require__(28);
+var mergeConfig = __webpack_require__(14);
+
+/**
+ * Create a new instance of Axios
+ *
+ * @param {Object} instanceConfig The default config for the instance
+ */
+function Axios(instanceConfig) {
+  this.defaults = instanceConfig;
+  this.interceptors = {
+    request: new InterceptorManager(),
+    response: new InterceptorManager()
+  };
+}
+
+/**
+ * Dispatch a request
+ *
+ * @param {Object} config The config specific for this request (merged with this.defaults)
+ */
+Axios.prototype.request = function request(config) {
+  /*eslint no-param-reassign:0*/
+  // Allow for axios('example/url'[, config]) a la fetch API
+  if (typeof config === 'string') {
+    config = arguments[1] || {};
+    config.url = arguments[0];
+  } else {
+    config = config || {};
+  }
+
+  config = mergeConfig(this.defaults, config);
+  config.method = config.method ? config.method.toLowerCase() : 'get';
+
+  // Hook up interceptors middleware
+  var chain = [dispatchRequest, undefined];
+  var promise = Promise.resolve(config);
+
+  this.interceptors.request.forEach(function unshiftRequestInterceptors(interceptor) {
+    chain.unshift(interceptor.fulfilled, interceptor.rejected);
+  });
+
+  this.interceptors.response.forEach(function pushResponseInterceptors(interceptor) {
+    chain.push(interceptor.fulfilled, interceptor.rejected);
+  });
+
+  while (chain.length) {
+    promise = promise.then(chain.shift(), chain.shift());
+  }
+
+  return promise;
+};
+
+Axios.prototype.getUri = function getUri(config) {
+  config = mergeConfig(this.defaults, config);
+  return buildURL(config.url, config.params, config.paramsSerializer).replace(/^\?/, '');
+};
+
+// Provide aliases for supported request methods
+utils.forEach(['delete', 'get', 'head', 'options'], function forEachMethodNoData(method) {
+  /*eslint func-names:0*/
+  Axios.prototype[method] = function(url, config) {
+    return this.request(utils.merge(config || {}, {
+      method: method,
+      url: url
+    }));
+  };
+});
+
+utils.forEach(['post', 'put', 'patch'], function forEachMethodWithData(method) {
+  /*eslint func-names:0*/
+  Axios.prototype[method] = function(url, data, config) {
+    return this.request(utils.merge(config || {}, {
+      method: method,
+      url: url,
+      data: data
+    }));
+  };
+});
+
+module.exports = Axios;
+
+
+/***/ }),
+/* 27 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var utils = __webpack_require__(1);
+
+function InterceptorManager() {
+  this.handlers = [];
+}
+
+/**
+ * Add a new interceptor to the stack
+ *
+ * @param {Function} fulfilled The function to handle `then` for a `Promise`
+ * @param {Function} rejected The function to handle `reject` for a `Promise`
+ *
+ * @return {Number} An ID used to remove interceptor later
+ */
+InterceptorManager.prototype.use = function use(fulfilled, rejected) {
+  this.handlers.push({
+    fulfilled: fulfilled,
+    rejected: rejected
+  });
+  return this.handlers.length - 1;
+};
+
+/**
+ * Remove an interceptor from the stack
+ *
+ * @param {Number} id The ID that was returned by `use`
+ */
+InterceptorManager.prototype.eject = function eject(id) {
+  if (this.handlers[id]) {
+    this.handlers[id] = null;
+  }
+};
+
+/**
+ * Iterate over all the registered interceptors
+ *
+ * This method is particularly useful for skipping over any
+ * interceptors that may have become `null` calling `eject`.
+ *
+ * @param {Function} fn The function to call for each interceptor
+ */
+InterceptorManager.prototype.forEach = function forEach(fn) {
+  utils.forEach(this.handlers, function forEachHandler(h) {
+    if (h !== null) {
+      fn(h);
+    }
+  });
+};
+
+module.exports = InterceptorManager;
+
+
+/***/ }),
+/* 28 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var utils = __webpack_require__(1);
+var transformData = __webpack_require__(29);
+var isCancel = __webpack_require__(9);
+var defaults = __webpack_require__(10);
+var isAbsoluteURL = __webpack_require__(36);
+var combineURLs = __webpack_require__(37);
+
+/**
+ * Throws a `Cancel` if cancellation has been requested.
+ */
+function throwIfCancellationRequested(config) {
+  if (config.cancelToken) {
+    config.cancelToken.throwIfRequested();
+  }
+}
+
+/**
+ * Dispatch a request to the server using the configured adapter.
+ *
+ * @param {object} config The config that is to be used for the request
+ * @returns {Promise} The Promise to be fulfilled
+ */
+module.exports = function dispatchRequest(config) {
+  throwIfCancellationRequested(config);
+
+  // Support baseURL config
+  if (config.baseURL && !isAbsoluteURL(config.url)) {
+    config.url = combineURLs(config.baseURL, config.url);
+  }
+
+  // Ensure headers exist
+  config.headers = config.headers || {};
+
+  // Transform request data
+  config.data = transformData(
+    config.data,
+    config.headers,
+    config.transformRequest
+  );
+
+  // Flatten headers
+  config.headers = utils.merge(
+    config.headers.common || {},
+    config.headers[config.method] || {},
+    config.headers || {}
+  );
+
+  utils.forEach(
+    ['delete', 'get', 'head', 'post', 'put', 'patch', 'common'],
+    function cleanHeaderConfig(method) {
+      delete config.headers[method];
+    }
+  );
+
+  var adapter = config.adapter || defaults.adapter;
+
+  return adapter(config).then(function onAdapterResolution(response) {
+    throwIfCancellationRequested(config);
+
+    // Transform response data
+    response.data = transformData(
+      response.data,
+      response.headers,
+      config.transformResponse
+    );
+
+    return response;
+  }, function onAdapterRejection(reason) {
+    if (!isCancel(reason)) {
+      throwIfCancellationRequested(config);
+
+      // Transform response data
+      if (reason && reason.response) {
+        reason.response.data = transformData(
+          reason.response.data,
+          reason.response.headers,
+          config.transformResponse
+        );
+      }
+    }
+
+    return Promise.reject(reason);
+  });
+};
+
+
+/***/ }),
+/* 29 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var utils = __webpack_require__(1);
+
+/**
+ * Transform the data for a request or a response
+ *
+ * @param {Object|String} data The data to be transformed
+ * @param {Array} headers The headers for the request or response
+ * @param {Array|Function} fns A single function or Array of functions
+ * @returns {*} The resulting transformed data
+ */
+module.exports = function transformData(data, headers, fns) {
+  /*eslint no-param-reassign:0*/
+  utils.forEach(fns, function transform(fn) {
+    data = fn(data, headers);
+  });
+
+  return data;
+};
+
+
+/***/ }),
+/* 30 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var utils = __webpack_require__(1);
+
+module.exports = function normalizeHeaderName(headers, normalizedName) {
+  utils.forEach(headers, function processHeader(value, name) {
+    if (name !== normalizedName && name.toUpperCase() === normalizedName.toUpperCase()) {
+      headers[normalizedName] = value;
+      delete headers[name];
+    }
+  });
+};
+
+
+/***/ }),
+/* 31 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var createError = __webpack_require__(13);
+
+/**
+ * Resolve or reject a Promise based on response status.
+ *
+ * @param {Function} resolve A function that resolves the promise.
+ * @param {Function} reject A function that rejects the promise.
+ * @param {object} response The response.
+ */
+module.exports = function settle(resolve, reject, response) {
+  var validateStatus = response.config.validateStatus;
+  if (!validateStatus || validateStatus(response.status)) {
+    resolve(response);
+  } else {
+    reject(createError(
+      'Request failed with status code ' + response.status,
+      response.config,
+      null,
+      response.request,
+      response
+    ));
+  }
+};
+
+
+/***/ }),
+/* 32 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+/**
+ * Update an Error with the specified config, error code, and response.
+ *
+ * @param {Error} error The error to update.
+ * @param {Object} config The config.
+ * @param {string} [code] The error code (for example, 'ECONNABORTED').
+ * @param {Object} [request] The request.
+ * @param {Object} [response] The response.
+ * @returns {Error} The error.
+ */
+module.exports = function enhanceError(error, config, code, request, response) {
+  error.config = config;
+  if (code) {
+    error.code = code;
+  }
+
+  error.request = request;
+  error.response = response;
+  error.isAxiosError = true;
+
+  error.toJSON = function() {
+    return {
+      // Standard
+      message: this.message,
+      name: this.name,
+      // Microsoft
+      description: this.description,
+      number: this.number,
+      // Mozilla
+      fileName: this.fileName,
+      lineNumber: this.lineNumber,
+      columnNumber: this.columnNumber,
+      stack: this.stack,
+      // Axios
+      config: this.config,
+      code: this.code
+    };
+  };
+  return error;
+};
+
+
+/***/ }),
+/* 33 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var utils = __webpack_require__(1);
+
+// Headers whose duplicates are ignored by node
+// c.f. https://nodejs.org/api/http.html#http_message_headers
+var ignoreDuplicateOf = [
+  'age', 'authorization', 'content-length', 'content-type', 'etag',
+  'expires', 'from', 'host', 'if-modified-since', 'if-unmodified-since',
+  'last-modified', 'location', 'max-forwards', 'proxy-authorization',
+  'referer', 'retry-after', 'user-agent'
+];
+
+/**
+ * Parse headers into an object
+ *
+ * ```
+ * Date: Wed, 27 Aug 2014 08:58:49 GMT
+ * Content-Type: application/json
+ * Connection: keep-alive
+ * Transfer-Encoding: chunked
+ * ```
+ *
+ * @param {String} headers Headers needing to be parsed
+ * @returns {Object} Headers parsed into an object
+ */
+module.exports = function parseHeaders(headers) {
+  var parsed = {};
+  var key;
+  var val;
+  var i;
+
+  if (!headers) { return parsed; }
+
+  utils.forEach(headers.split('\n'), function parser(line) {
+    i = line.indexOf(':');
+    key = utils.trim(line.substr(0, i)).toLowerCase();
+    val = utils.trim(line.substr(i + 1));
+
+    if (key) {
+      if (parsed[key] && ignoreDuplicateOf.indexOf(key) >= 0) {
+        return;
+      }
+      if (key === 'set-cookie') {
+        parsed[key] = (parsed[key] ? parsed[key] : []).concat([val]);
+      } else {
+        parsed[key] = parsed[key] ? parsed[key] + ', ' + val : val;
+      }
+    }
+  });
+
+  return parsed;
+};
+
+
+/***/ }),
+/* 34 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var utils = __webpack_require__(1);
+
+module.exports = (
+  utils.isStandardBrowserEnv() ?
+
+  // Standard browser envs have full support of the APIs needed to test
+  // whether the request URL is of the same origin as current location.
+    (function standardBrowserEnv() {
+      var msie = /(msie|trident)/i.test(navigator.userAgent);
+      var urlParsingNode = document.createElement('a');
+      var originURL;
+
+      /**
+    * Parse a URL to discover it's components
+    *
+    * @param {String} url The URL to be parsed
+    * @returns {Object}
+    */
+      function resolveURL(url) {
+        var href = url;
+
+        if (msie) {
+        // IE needs attribute set twice to normalize properties
+          urlParsingNode.setAttribute('href', href);
+          href = urlParsingNode.href;
+        }
+
+        urlParsingNode.setAttribute('href', href);
+
+        // urlParsingNode provides the UrlUtils interface - http://url.spec.whatwg.org/#urlutils
+        return {
+          href: urlParsingNode.href,
+          protocol: urlParsingNode.protocol ? urlParsingNode.protocol.replace(/:$/, '') : '',
+          host: urlParsingNode.host,
+          search: urlParsingNode.search ? urlParsingNode.search.replace(/^\?/, '') : '',
+          hash: urlParsingNode.hash ? urlParsingNode.hash.replace(/^#/, '') : '',
+          hostname: urlParsingNode.hostname,
+          port: urlParsingNode.port,
+          pathname: (urlParsingNode.pathname.charAt(0) === '/') ?
+            urlParsingNode.pathname :
+            '/' + urlParsingNode.pathname
+        };
+      }
+
+      originURL = resolveURL(window.location.href);
+
+      /**
+    * Determine if a URL shares the same origin as the current location
+    *
+    * @param {String} requestURL The URL to test
+    * @returns {boolean} True if URL shares the same origin, otherwise false
+    */
+      return function isURLSameOrigin(requestURL) {
+        var parsed = (utils.isString(requestURL)) ? resolveURL(requestURL) : requestURL;
+        return (parsed.protocol === originURL.protocol &&
+            parsed.host === originURL.host);
+      };
+    })() :
+
+  // Non standard browser envs (web workers, react-native) lack needed support.
+    (function nonStandardBrowserEnv() {
+      return function isURLSameOrigin() {
+        return true;
+      };
+    })()
+);
+
+
+/***/ }),
+/* 35 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var utils = __webpack_require__(1);
+
+module.exports = (
+  utils.isStandardBrowserEnv() ?
+
+  // Standard browser envs support document.cookie
+    (function standardBrowserEnv() {
+      return {
+        write: function write(name, value, expires, path, domain, secure) {
+          var cookie = [];
+          cookie.push(name + '=' + encodeURIComponent(value));
+
+          if (utils.isNumber(expires)) {
+            cookie.push('expires=' + new Date(expires).toGMTString());
+          }
+
+          if (utils.isString(path)) {
+            cookie.push('path=' + path);
+          }
+
+          if (utils.isString(domain)) {
+            cookie.push('domain=' + domain);
+          }
+
+          if (secure === true) {
+            cookie.push('secure');
+          }
+
+          document.cookie = cookie.join('; ');
+        },
+
+        read: function read(name) {
+          var match = document.cookie.match(new RegExp('(^|;\\s*)(' + name + ')=([^;]*)'));
+          return (match ? decodeURIComponent(match[3]) : null);
+        },
+
+        remove: function remove(name) {
+          this.write(name, '', Date.now() - 86400000);
+        }
+      };
+    })() :
+
+  // Non standard browser env (web workers, react-native) lack needed support.
+    (function nonStandardBrowserEnv() {
+      return {
+        write: function write() {},
+        read: function read() { return null; },
+        remove: function remove() {}
+      };
+    })()
+);
+
+
+/***/ }),
+/* 36 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+/**
+ * Determines whether the specified URL is absolute
+ *
+ * @param {string} url The URL to test
+ * @returns {boolean} True if the specified URL is absolute, otherwise false
+ */
+module.exports = function isAbsoluteURL(url) {
+  // A URL is considered absolute if it begins with "<scheme>://" or "//" (protocol-relative URL).
+  // RFC 3986 defines scheme name as a sequence of characters beginning with a letter and followed
+  // by any combination of letters, digits, plus, period, or hyphen.
+  return /^([a-z][a-z\d\+\-\.]*:)?\/\//i.test(url);
+};
+
+
+/***/ }),
+/* 37 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+/**
+ * Creates a new URL by combining the specified URLs
+ *
+ * @param {string} baseURL The base URL
+ * @param {string} relativeURL The relative URL
+ * @returns {string} The combined URL
+ */
+module.exports = function combineURLs(baseURL, relativeURL) {
+  return relativeURL
+    ? baseURL.replace(/\/+$/, '') + '/' + relativeURL.replace(/^\/+/, '')
+    : baseURL;
+};
+
+
+/***/ }),
+/* 38 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var Cancel = __webpack_require__(15);
+
+/**
+ * A `CancelToken` is an object that can be used to request cancellation of an operation.
+ *
+ * @class
+ * @param {Function} executor The executor function.
+ */
+function CancelToken(executor) {
+  if (typeof executor !== 'function') {
+    throw new TypeError('executor must be a function.');
+  }
+
+  var resolvePromise;
+  this.promise = new Promise(function promiseExecutor(resolve) {
+    resolvePromise = resolve;
+  });
+
+  var token = this;
+  executor(function cancel(message) {
+    if (token.reason) {
+      // Cancellation has already been requested
+      return;
+    }
+
+    token.reason = new Cancel(message);
+    resolvePromise(token.reason);
+  });
+}
+
+/**
+ * Throws a `Cancel` if cancellation has been requested.
+ */
+CancelToken.prototype.throwIfRequested = function throwIfRequested() {
+  if (this.reason) {
+    throw this.reason;
+  }
+};
+
+/**
+ * Returns an object that contains a new `CancelToken` and a function that, when called,
+ * cancels the `CancelToken`.
+ */
+CancelToken.source = function source() {
+  var cancel;
+  var token = new CancelToken(function executor(c) {
+    cancel = c;
+  });
+  return {
+    token: token,
+    cancel: cancel
+  };
+};
+
+module.exports = CancelToken;
+
+
+/***/ }),
+/* 39 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+/**
+ * Syntactic sugar for invoking a function and expanding an array for arguments.
+ *
+ * Common use case would be to use `Function.prototype.apply`.
+ *
+ *  ```js
+ *  function f(x, y, z) {}
+ *  var args = [1, 2, 3];
+ *  f.apply(null, args);
+ *  ```
+ *
+ * With `spread` this example can be re-written.
+ *
+ *  ```js
+ *  spread(function(x, y, z) {})([1, 2, 3]);
+ *  ```
+ *
+ * @param {Function} callback
+ * @returns {Function}
+ */
+module.exports = function spread(callback) {
+  return function wrap(arr) {
+    return callback.apply(null, arr);
+  };
+};
+
+
+/***/ }),
+/* 40 */
+/***/ (function(module, exports, __webpack_require__) {
+
+/*
+Lesli
+
+Copyright (c) 2019, Lesli Technologies, S. A.
+
+All the information provided by this website is protected by laws of Guatemala related 
+to industrial property, intellectual property, copyright and relative international laws. 
+Lesli Technologies, S. A. is the exclusive owner of all intellectual or industrial property
+rights of the code, texts, trade mark, design, pictures and any other information.
+Without the written permission of Lesli Technologies, S. A., any replication, modification,
+transmission, publication is strictly forbidden.
+For more information read the license file including with this software.
+
+Lesli Debug Message 
+
+Powered by https://www.lesli.tech
+Building a better future, one line of code at a time.
+
+@dev      Luis Donis <ldonis@lesli.tech>
+@author   LesliTech <hello@lesli.tech>
+@license  Propietary - all rights reserved.
+@version  GIT: 0.1.0 alpha
+
+// · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
+// · 
+*/
+
+
+// · Loading node modules
+// · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
+let utils = __webpack_require__(41)
+
+
+// · 
+// · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
+class browserDebugService {
+
+
+    // · write informatie message
+    log(message, module = null) {
+        console.log(utils.buildMessage(message, module, "log"))
+    }
+
+    // · write informatie message
+    msg(message, module = null) {
+        console.log(utils.buildMessage(message, module, "msg"))
+    }
+
+    // · write informatie message
+    info(message, module = null) {
+        console.info('%c'+utils.buildMessage(message, module, "info"), utils.stylesFor("info"))
+    }
+
+    // · write warning message
+    warn(message, module = null) {
+        console.warn('%c'+utils.buildMessage(message, module, "warn"), utils.stylesFor("warn"))
+    }
+
+    // · write warning message
+    error(message, module = null) {
+        console.error('%c'+utils.buildMessage(message, module, "error"), utils.stylesFor("error"))
+    }
+
+    // · write warning message
+    fatal(message, module = null) {
+        console.error('%c'+utils.buildMessage(message, module, "error"), utils.stylesFor("fatal"))
+    }
+
+    userWarningMessage(title=null, message=null, link=null) {
+
+        if (!title) {
+            title = "DANGER!"
+        }
+
+        if (!message) {
+            message = "This is a browser feature intended for developers."
+            message += "If someone told you to copy-paste something here to enable a feature or \"hack\" someone's account,"
+            message += "it is a scam and will give them access to your information and possible all your online accounts."
+        }
+
+        if (!link) {
+            link = "See https://wikipedia.org/wiki/Self-XSS for more information."
+        }
+
+        console.log('%c'+title, 'color:#c0392b;font-size:56px;font-weight:600;line-height:1;')
+        console.log('%c'+message, 'background-color:#ffffff;color:#1a1a1a;font-size:18px;font-weight:400;line-height:1.1;')
+        
+    }
+
+}
+
+// · 
+module.exports = new browserDebugService
+
+
+/***/ }),
+/* 41 */
+/***/ (function(module, exports) {
+
+/*
+Lesli
+
+Copyright (c) 2019, Lesli Technologies, S. A.
+
+All the information provided by this website is protected by laws of Guatemala related 
+to industrial property, intellectual property, copyright and relative international laws. 
+Lesli Technologies, S. A. is the exclusive owner of all intellectual or industrial property
+rights of the code, texts, trade mark, design, pictures and any other information.
+Without the written permission of Lesli Technologies, S. A., any replication, modification,
+transmission, publication is strictly forbidden.
+For more information read the license file including with this software.
+
+Lesli Debug Message 
+
+Powered by https://www.lesli.tech
+Building a better future, one line of code at a time.
+
+@dev      Luis Donis <ldonis@lesli.tech>
+@author   LesliTech <hello@lesli.tech>
+@license  Propietary - all rights reserved.
+@version  GIT: 0.1.0 alpha
+
+// · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
+// · 
+*/
+
+
+// · 
+// · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
+class Utils {
+
+    // · 
+    buildDate() {
+
+        let date = new Date()
+        let year = date.getFullYear()
+        let month = date.getMonth() + 1
+        let day = date.getDate()
+        let hour = date.getHours()
+        let minutes = date.getMinutes()
+        let milliseconds = date.getMilliseconds()
+
+        day = (day < 10) ? "0" + day : day
+        hour = (hour < 10) ? "0" + hour : hour
+        month = (month < 10) ? "0" + month : month
+        minutes = (minutes < 10) ? "0" + minutes : minutes
+        
+        return `${year}-${month}-${day} ${hour}:${minutes}:${milliseconds}`
+
+    }
+
+    // · 
+    buildMessage(message, module, level) {
+
+        // desire output format
+        // [2010-01-17 11:43:37.987] [ERROR] (cheese module) - Cheese is too ripe!
+        // [2010-01-17 11:43:37.990] [FATAL] (cheese module) - Cheese was breeding ground for listeria.
+        let newMessage = `[${this.buildDate()}] [${level.toUpperCase()}]`
+
+        if (module) {
+            newMessage += ` (${module})`
+        }
+
+        newMessage = newMessage.concat(" - ").concat(message)
+
+        return newMessage
+
+    }
+
+    // · 
+    stylesFor(type) {
+
+        let lineheight="1.5;"
+        let fontsize="14px;"
+        let padding="2px;"
+
+        let info = "background-color:#3498db;color:#ffffff;"
+        let warn = "background-color:#f1c40f;color:#000000;"
+        let error = "background-color:#e74c3c;color:#ffffff;"
+        let fatal = "background-color:#c0392b;color:#fff394;"
+
+        let style = ""
+
+        switch (type) {
+            case "info": style = info; break;
+            case "warn": style = warn; break;
+            case "error": style = error; break;
+            case "fatal": style = fatal; break;
+        }
+
+        style += "padding:" + padding
+        style += "font-size:" + fontsize
+        style += "line-height:" + lineheight
+
+        return style
+
+    }
+
+    // · 
+    print_r (data, level = 1) {
+
+        let isArray = Array.isArray(data);
+
+        let comma = ","
+        let string = ""
+        let padding_key = ""
+        let padding_prop = ""
+        let newline = "\n"
+
+        for(let i=0;i<(4*level);i++) {
+            padding_prop += " "
+        }
+
+        if (level > 1) {
+            padding_key = padding_prop.slice(0, padding_prop.length - 4)
+        }
+
+        if (typeof data == "object" && !Array.isArray(data)) {
+
+            string += padding_key + "{" + newline
+
+            for(let property in data) {
+
+                if (typeof data[property] == "object") {
+                    string += padding_prop + property + ": " + this.print_r(data[property], level+1) + comma + newline
+                } else {
+                    string += padding_prop + property + ": " + data[property] + comma + newline
+                }
+                
+            }
+
+            string += padding_key + "}"
+
+        } 
+
+        if (typeof data == "object" && Array.isArray(data)) {
+
+            string += "[" + newline
+
+            for(let property in data) {
+
+                if (typeof data[property] == "object") {
+                    string += this.print_r(data[property], level+1) + comma + newline
+                } else {
+                    string += padding_prop + data[property] + newline
+                }
+
+            }
+
+            string += padding_key + "]"
+
+        }
+
+        // trying to remove last comma if is the end of object or array
+        //string = string.replace(/,\n/g, "0")
+
+        return string
+
+    }
+
+}
+
+module.exports = new Utils
+
+
+/***/ }),
+/* 42 */
+/***/ (function(module, exports, __webpack_require__) {
+
+/* WEBPACK VAR INJECTION */(function(global, process) {(function (global, undefined) {
+    "use strict";
+
+    if (global.setImmediate) {
+        return;
+    }
+
+    var nextHandle = 1; // Spec says greater than zero
+    var tasksByHandle = {};
+    var currentlyRunningATask = false;
+    var doc = global.document;
+    var registerImmediate;
+
+    function setImmediate(callback) {
+      // Callback can either be a function or a string
+      if (typeof callback !== "function") {
+        callback = new Function("" + callback);
+      }
+      // Copy function arguments
+      var args = new Array(arguments.length - 1);
+      for (var i = 0; i < args.length; i++) {
+          args[i] = arguments[i + 1];
+      }
+      // Store and register the task
+      var task = { callback: callback, args: args };
+      tasksByHandle[nextHandle] = task;
+      registerImmediate(nextHandle);
+      return nextHandle++;
+    }
+
+    function clearImmediate(handle) {
+        delete tasksByHandle[handle];
+    }
+
+    function run(task) {
+        var callback = task.callback;
+        var args = task.args;
+        switch (args.length) {
+        case 0:
+            callback();
+            break;
+        case 1:
+            callback(args[0]);
+            break;
+        case 2:
+            callback(args[0], args[1]);
+            break;
+        case 3:
+            callback(args[0], args[1], args[2]);
+            break;
+        default:
+            callback.apply(undefined, args);
+            break;
+        }
+    }
+
+    function runIfPresent(handle) {
+        // From the spec: "Wait until any invocations of this algorithm started before this one have completed."
+        // So if we're currently running a task, we'll need to delay this invocation.
+        if (currentlyRunningATask) {
+            // Delay by doing a setTimeout. setImmediate was tried instead, but in Firefox 7 it generated a
+            // "too much recursion" error.
+            setTimeout(runIfPresent, 0, handle);
+        } else {
+            var task = tasksByHandle[handle];
+            if (task) {
+                currentlyRunningATask = true;
+                try {
+                    run(task);
+                } finally {
+                    clearImmediate(handle);
+                    currentlyRunningATask = false;
+                }
+            }
+        }
+    }
+
+    function installNextTickImplementation() {
+        registerImmediate = function(handle) {
+            process.nextTick(function () { runIfPresent(handle); });
+        };
+    }
+
+    function canUsePostMessage() {
+        // The test against `importScripts` prevents this implementation from being installed inside a web worker,
+        // where `global.postMessage` means something completely different and can't be used for this purpose.
+        if (global.postMessage && !global.importScripts) {
+            var postMessageIsAsynchronous = true;
+            var oldOnMessage = global.onmessage;
+            global.onmessage = function() {
+                postMessageIsAsynchronous = false;
+            };
+            global.postMessage("", "*");
+            global.onmessage = oldOnMessage;
+            return postMessageIsAsynchronous;
+        }
+    }
+
+    function installPostMessageImplementation() {
+        // Installs an event handler on `global` for the `message` event: see
+        // * https://developer.mozilla.org/en/DOM/window.postMessage
+        // * http://www.whatwg.org/specs/web-apps/current-work/multipage/comms.html#crossDocumentMessages
+
+        var messagePrefix = "setImmediate$" + Math.random() + "$";
+        var onGlobalMessage = function(event) {
+            if (event.source === global &&
+                typeof event.data === "string" &&
+                event.data.indexOf(messagePrefix) === 0) {
+                runIfPresent(+event.data.slice(messagePrefix.length));
+            }
+        };
+
+        if (global.addEventListener) {
+            global.addEventListener("message", onGlobalMessage, false);
+        } else {
+            global.attachEvent("onmessage", onGlobalMessage);
+        }
+
+        registerImmediate = function(handle) {
+            global.postMessage(messagePrefix + handle, "*");
+        };
+    }
+
+    function installMessageChannelImplementation() {
+        var channel = new MessageChannel();
+        channel.port1.onmessage = function(event) {
+            var handle = event.data;
+            runIfPresent(handle);
+        };
+
+        registerImmediate = function(handle) {
+            channel.port2.postMessage(handle);
+        };
+    }
+
+    function installReadyStateChangeImplementation() {
+        var html = doc.documentElement;
+        registerImmediate = function(handle) {
+            // Create a <script> element; its readystatechange event will be fired asynchronously once it is inserted
+            // into the document. Do so, thus queuing up the task. Remember to clean up once it's been called.
+            var script = doc.createElement("script");
+            script.onreadystatechange = function () {
+                runIfPresent(handle);
+                script.onreadystatechange = null;
+                html.removeChild(script);
+                script = null;
+            };
+            html.appendChild(script);
+        };
+    }
+
+    function installSetTimeoutImplementation() {
+        registerImmediate = function(handle) {
+            setTimeout(runIfPresent, 0, handle);
+        };
+    }
+
+    // If supported, we should attach to the prototype of global, since that is where setTimeout et al. live.
+    var attachTo = Object.getPrototypeOf && Object.getPrototypeOf(global);
+    attachTo = attachTo && attachTo.setTimeout ? attachTo : global;
+
+    // Don't get fooled by e.g. browserify environments.
+    if ({}.toString.call(global.process) === "[object process]") {
+        // For Node.js before 0.9
+        installNextTickImplementation();
+
+    } else if (canUsePostMessage()) {
+        // For non-IE10 modern browsers
+        installPostMessageImplementation();
+
+    } else if (global.MessageChannel) {
+        // For web workers, where supported
+        installMessageChannelImplementation();
+
+    } else if (doc && "onreadystatechange" in doc.createElement("script")) {
+        // For IE 6–8
+        installReadyStateChangeImplementation();
+
+    } else {
+        // For older browsers
+        installSetTimeoutImplementation();
+    }
+
+    attachTo.setImmediate = setImmediate;
+    attachTo.clearImmediate = clearImmediate;
+}(typeof self === "undefined" ? typeof global === "undefined" ? this : global : self));
+
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(5), __webpack_require__(11)))
+
+/***/ }),
+/* 43 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+
+// EXTERNAL MODULE: ./app/vue/public.js
+var vue_public = __webpack_require__(22);
+
+// CONCATENATED MODULE: ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./app/vue/users/apps/login.vue?vue&type=template&id=f6cb2dd0&
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("section", { attrs: { id: "sessions" } }, [
+    _c("a", { staticClass: "logo", attrs: { href: _vm.url.to() } }, [
+      _c("img", {
+        attrs: {
+          src: "/assets/brand/leslicloud-logo.png",
+          alt: "LesliCloud Logo"
+        }
+      })
+    ]),
+    _vm._v(" "),
+    _c(
+      "form",
+      { ref: "form", attrs: { id: "new_user" }, on: { submit: _vm.login } },
+      [
+        _c("progress-bar", { attrs: { active: _vm.progress_bar_active } }),
+        _vm._v(" "),
+        _c("form-notification", {
+          attrs: {
+            message: _vm.notification.message,
+            type: _vm.notification.type,
+            show: _vm.notification.show
+          },
+          on: {
+            "update:show": function($event) {
+              return _vm.$set(_vm.notification, "show", $event)
+            }
+          }
+        }),
+        _vm._v(" "),
+        _c("div", { staticClass: "field" }, [
+          _c("p", { staticClass: "control has-icons-left" }, [
+            _c("label", { staticClass: "sr-only" }, [
+              _vm._v(
+                "\n               " +
+                  _vm._s(_vm.translations.shared.fields.email) +
+                  "\n            "
+              )
+            ]),
+            _vm._v(" "),
+            _c("input", {
+              directives: [
+                {
+                  name: "model",
+                  rawName: "v-model",
+                  value: _vm.sign_in.email,
+                  expression: "sign_in.email"
+                }
+              ],
+              staticClass: "input",
+              attrs: {
+                type: "email",
+                required: "true",
+                placeholder: _vm.translations.shared.fields.email
+              },
+              domProps: { value: _vm.sign_in.email },
+              on: {
+                input: function($event) {
+                  if ($event.target.composing) {
+                    return
+                  }
+                  _vm.$set(_vm.sign_in, "email", $event.target.value)
+                }
+              }
+            }),
+            _vm._v(" "),
+            _vm._m(0)
+          ])
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "field" }, [
+          _c("p", { staticClass: "control has-icons-left" }, [
+            _c(
+              "label",
+              { staticClass: "sr-only", attrs: { for: "user_password" } },
+              [
+                _vm._v(
+                  "\n               " +
+                    _vm._s(_vm.translations.shared.fields.password) +
+                    "\n            "
+                )
+              ]
+            ),
+            _vm._v(" "),
+            _c("input", {
+              directives: [
+                {
+                  name: "model",
+                  rawName: "v-model",
+                  value: _vm.sign_in.password,
+                  expression: "sign_in.password"
+                }
+              ],
+              staticClass: "input",
+              attrs: {
+                type: "password",
+                required: "true",
+                placeholder: _vm.translations.shared.fields.password
+              },
+              domProps: { value: _vm.sign_in.password },
+              on: {
+                input: function($event) {
+                  if ($event.target.composing) {
+                    return
+                  }
+                  _vm.$set(_vm.sign_in, "password", $event.target.value)
+                }
+              }
+            }),
+            _vm._v(" "),
+            _vm._m(1)
+          ])
+        ]),
+        _vm._v(" "),
+        _c("input", {
+          staticClass: "button is-primary",
+          attrs: { type: "submit" },
+          domProps: { value: _vm.translations.login.actions.log_in }
+        })
+      ],
+      1
+    ),
+    _vm._v(" "),
+    _c("div", { staticClass: "links" }, [
+      _c(
+        "a",
+        {
+          on: {
+            click: function($event) {
+              return _vm.goTo("/register")
+            }
+          }
+        },
+        [
+          _vm._v(
+            "\n         " + _vm._s(_vm.translations.links.sign_up) + "\n      "
+          )
+        ]
+      ),
+      _vm._v(" "),
+      _c(
+        "a",
+        {
+          on: {
+            click: function($event) {
+              return _vm.goTo("/password/new")
+            }
+          }
+        },
+        [
+          _vm._v(
+            "\n         " +
+              _vm._s(_vm.translations.links.reset_password) +
+              "\n      "
+          )
+        ]
+      ),
+      _vm._v(" "),
+      _c(
+        "a",
+        {
+          on: {
+            click: function($event) {
+              return _vm.goTo("/confirmation/new")
+            }
+          }
+        },
+        [
+          _vm._v(
+            "\n         " +
+              _vm._s(_vm.translations.links.resend_confirmation_email) +
+              "\n      "
+          )
+        ]
+      )
+    ])
+  ])
+}
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("span", { staticClass: "icon is-small is-left" }, [
+      _c("i", { staticClass: "fas fa-envelope" })
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("span", { staticClass: "icon is-small is-left" }, [
+      _c("i", { staticClass: "fas fa-lock" })
+    ])
+  }
+]
+render._withStripped = true
+
+
+// CONCATENATED MODULE: ./app/vue/users/apps/login.vue?vue&type=template&id=f6cb2dd0&
+
+// EXTERNAL MODULE: ./app/vue/components/forms/notification.vue + 4 modules
+var notification = __webpack_require__(4);
+
+// EXTERNAL MODULE: ./app/vue/components/forms/progress_bar.vue + 4 modules
+var progress_bar = __webpack_require__(3);
+
+// CONCATENATED MODULE: ./node_modules/babel-loader/lib??ref--3!./node_modules/vue-loader/lib??vue-loader-options!./app/vue/users/apps/login.vue?vue&type=script&lang=js&
+
+
+/* harmony default export */ var loginvue_type_script_lang_js_ = ({
+  data: function data() {
+    return {
+      translations: {
+        links: I18n.t('users.links'),
+        login: I18n.t('users.login'),
+        sessions: I18n.t('devise.sessions'),
+        shared: I18n.t('users.shared')
+      },
+      sign_in: {
+        email: '',
+        password: ''
+      },
+      progress_bar_active: false,
+      notification: {
+        show: false,
+        message: '',
+        type: 'is-danger'
+      }
+    };
+  },
+  methods: {
+    login: function login(event) {
+      var _this = this;
+
+      event.preventDefault();
+      var data = {
+        sign_in: this.sign_in
+      };
+      this.progress_bar_active = true;
+      this.http.post(this.url.to(null, null, 'login'), data).then(function (response) {
+        _this.progress_bar_active = false;
+
+        if (response.successful) {
+          _this.url.go('/');
+        } else {
+          _this.showNotification(response.error.message);
+        }
+      })["catch"](function (err) {
+        console.log(err);
+      });
+    },
+    showNotification: function showNotification(message) {
+      var type = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 'is-danger';
+      this.notification.message = message;
+      this.notification.type = type;
+      this.notification.show = true;
+    },
+    goTo: function goTo(url) {
+      this.$router.push("".concat(url));
+    }
+  },
+  components: {
+    'form-notification': notification["a" /* default */],
+    'progress-bar': progress_bar["a" /* default */]
+  }
+});
+// CONCATENATED MODULE: ./app/vue/users/apps/login.vue?vue&type=script&lang=js&
+ /* harmony default export */ var apps_loginvue_type_script_lang_js_ = (loginvue_type_script_lang_js_); 
+// EXTERNAL MODULE: ./node_modules/vue-loader/lib/runtime/componentNormalizer.js
+var componentNormalizer = __webpack_require__(2);
+
+// CONCATENATED MODULE: ./app/vue/users/apps/login.vue
+
+
+
+
+
+/* normalize component */
+
+var component = Object(componentNormalizer["a" /* default */])(
+  apps_loginvue_type_script_lang_js_,
+  render,
+  staticRenderFns,
+  false,
+  null,
+  null,
+  null
+  
+)
+
+/* hot reload */
+if (false) { var api; }
+component.options.__file = "app/vue/users/apps/login.vue"
+/* harmony default export */ var login = (component.exports);
+// CONCATENATED MODULE: ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./app/vue/users/apps/confirmation.vue?vue&type=template&id=4c9890d6&
+var confirmationvue_type_template_id_4c9890d6_render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("section", { attrs: { id: "confirmations" } }, [
+    _c("a", { staticClass: "logo", attrs: { href: _vm.url.to() } }, [
+      _c("img", {
+        attrs: {
+          src: "/assets/brand/leslicloud-logo.png",
+          alt: "LesliCloud Logo"
+        }
+      })
+    ]),
+    _vm._v(" "),
+    _c(
+      "form",
+      {
+        ref: "form",
+        attrs: { id: "new_confirmation" },
+        on: { submit: _vm.confirmEmail }
+      },
+      [
+        _c("progress-bar", { attrs: { active: _vm.progress_bar_active } }),
+        _vm._v(" "),
+        _c("form-notification", {
+          attrs: {
+            message: _vm.notification.message,
+            type: _vm.notification.type,
+            show: _vm.notification.show
+          },
+          on: {
+            "update:show": function($event) {
+              return _vm.$set(_vm.notification, "show", $event)
+            }
+          }
+        }),
+        _vm._v(" "),
+        _c("div", { staticClass: "field" }, [
+          _c("p", { staticClass: "control has-icons-left" }, [
+            _c("label", { staticClass: "sr-only" }, [
+              _vm._v(
+                "\n               " +
+                  _vm._s(_vm.translations.shared.fields.email) +
+                  "\n            "
+              )
+            ]),
+            _vm._v(" "),
+            _c("input", {
+              directives: [
+                {
+                  name: "model",
+                  rawName: "v-model",
+                  value: _vm.confirmation.email,
+                  expression: "confirmation.email"
+                }
+              ],
+              staticClass: "input",
+              attrs: {
+                type: "email",
+                required: "true",
+                placeholder: _vm.translations.shared.fields.email
+              },
+              domProps: { value: _vm.confirmation.email },
+              on: {
+                input: function($event) {
+                  if ($event.target.composing) {
+                    return
+                  }
+                  _vm.$set(_vm.confirmation, "email", $event.target.value)
+                }
+              }
+            }),
+            _vm._v(" "),
+            _vm._m(0)
+          ])
+        ]),
+        _vm._v(" "),
+        _c("input", {
+          staticClass: "button is-primary",
+          attrs: { type: "submit" },
+          domProps: {
+            value: _vm.translations.confirmation.actions.resend_email
+          }
+        })
+      ],
+      1
+    ),
+    _vm._v(" "),
+    _c("div", { staticClass: "links" }, [
+      _c(
+        "a",
+        {
+          on: {
+            click: function($event) {
+              return _vm.goTo("/login")
+            }
+          }
+        },
+        [
+          _vm._v(
+            "\n         " + _vm._s(_vm.translations.links.login) + "\n      "
+          )
+        ]
+      ),
+      _vm._v(" "),
+      _c(
+        "a",
+        {
+          on: {
+            click: function($event) {
+              return _vm.goTo("/register")
+            }
+          }
+        },
+        [
+          _vm._v(
+            "\n         " + _vm._s(_vm.translations.links.sign_up) + "\n      "
+          )
+        ]
+      ),
+      _vm._v(" "),
+      _c(
+        "a",
+        {
+          on: {
+            click: function($event) {
+              return _vm.goTo("/password/new")
+            }
+          }
+        },
+        [
+          _vm._v(
+            "\n         " +
+              _vm._s(_vm.translations.links.reset_password) +
+              "\n      "
+          )
+        ]
+      )
+    ])
+  ])
+}
+var confirmationvue_type_template_id_4c9890d6_staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("span", { staticClass: "icon is-small is-left" }, [
+      _c("i", { staticClass: "fas fa-envelope" })
+    ])
+  }
+]
+confirmationvue_type_template_id_4c9890d6_render._withStripped = true
+
+
+// CONCATENATED MODULE: ./app/vue/users/apps/confirmation.vue?vue&type=template&id=4c9890d6&
+
+// CONCATENATED MODULE: ./node_modules/babel-loader/lib??ref--3!./node_modules/vue-loader/lib??vue-loader-options!./app/vue/users/apps/confirmation.vue?vue&type=script&lang=js&
+
+
+/* harmony default export */ var confirmationvue_type_script_lang_js_ = ({
+  data: function data() {
+    return {
+      translations: {
+        links: I18n.t('users.links'),
+        confirmation: I18n.t('users.confirmation'),
+        shared: I18n.t('users.shared')
+      },
+      confirmation: {
+        email: ''
+      },
+      progress_bar_active: false,
+      notification: {
+        show: false,
+        message: '',
+        type: 'is-danger'
+      }
+    };
+  },
+  methods: {
+    showNotification: function showNotification(message) {
+      var type = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 'is-danger';
+      this.notification.message = message;
+      this.notification.type = type;
+      this.notification.show = true;
+    },
+    confirmEmail: function confirmEmail(event) {
+      var _this = this;
+
+      event.preventDefault();
+      var data = {
+        user: this.confirmation
+      };
+      this.progress_bar_active = true;
+      this.http.post(this.url.to(null, null, '/confirmation'), data).then(function (response) {
+        _this.progress_bar_active = false;
+
+        if (response.successful) {
+          _this.showNotification(_this.translations.confirmation.notifications.success, 'is-success');
+
+          setTimeout(function () {
+            _this.goTo('/login');
+          }, 5000);
+        } else {
+          _this.showNotification(response.error.message);
+        }
+      })["catch"](function (err) {
+        console.log(err);
+      });
+    },
+    goTo: function goTo(url) {
+      this.$router.push("".concat(url));
+    }
+  },
+  components: {
+    'form-notification': notification["a" /* default */],
+    'progress-bar': progress_bar["a" /* default */]
+  }
+});
+// CONCATENATED MODULE: ./app/vue/users/apps/confirmation.vue?vue&type=script&lang=js&
+ /* harmony default export */ var apps_confirmationvue_type_script_lang_js_ = (confirmationvue_type_script_lang_js_); 
+// CONCATENATED MODULE: ./app/vue/users/apps/confirmation.vue
+
+
+
+
+
+/* normalize component */
+
+var confirmation_component = Object(componentNormalizer["a" /* default */])(
+  apps_confirmationvue_type_script_lang_js_,
+  confirmationvue_type_template_id_4c9890d6_render,
+  confirmationvue_type_template_id_4c9890d6_staticRenderFns,
+  false,
+  null,
+  null,
+  null
+  
+)
+
+/* hot reload */
+if (false) { var confirmation_api; }
+confirmation_component.options.__file = "app/vue/users/apps/confirmation.vue"
+/* harmony default export */ var confirmation = (confirmation_component.exports);
+// CONCATENATED MODULE: ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./app/vue/users/apps/register.vue?vue&type=template&id=29860e78&
+var registervue_type_template_id_29860e78_render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("section", { attrs: { id: "registrations" } }, [
+    _c("a", { staticClass: "logo", attrs: { href: _vm.url.to() } }, [
+      _c("img", {
+        attrs: {
+          src: "/assets/brand/leslicloud-logo.png",
+          alt: "LesliCloud Logo"
+        }
+      })
+    ]),
+    _vm._v(" "),
+    _c(
+      "form",
+      {
+        ref: "form",
+        attrs: { id: "registration_user" },
+        on: { submit: _vm.register }
+      },
+      [
+        _c("progress-bar", { attrs: { active: _vm.progress_bar_active } }),
+        _vm._v(" "),
+        _c("form-notification", {
+          attrs: {
+            message: _vm.notification.message,
+            type: _vm.notification.type,
+            show: _vm.notification.show
+          },
+          on: {
+            "update:show": function($event) {
+              return _vm.$set(_vm.notification, "show", $event)
+            }
+          }
+        }),
+        _vm._v(" "),
+        _c("div", { staticClass: "field" }, [
+          _c("p", { staticClass: "control has-icons-left" }, [
+            _c("label", { staticClass: "sr-only" }, [
+              _vm._v(
+                "\n               " +
+                  _vm._s(_vm.translations.shared.fields.email) +
+                  "\n            "
+              )
+            ]),
+            _vm._v(" "),
+            _c("input", {
+              directives: [
+                {
+                  name: "model",
+                  rawName: "v-model",
+                  value: _vm.sign_up.email,
+                  expression: "sign_up.email"
+                }
+              ],
+              staticClass: "input",
+              attrs: {
+                type: "email",
+                required: "true",
+                placeholder: _vm.translations.shared.fields.email
+              },
+              domProps: { value: _vm.sign_up.email },
+              on: {
+                input: function($event) {
+                  if ($event.target.composing) {
+                    return
+                  }
+                  _vm.$set(_vm.sign_up, "email", $event.target.value)
+                }
+              }
+            }),
+            _vm._v(" "),
+            _vm._m(0)
+          ])
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "field" }, [
+          _c("p", { staticClass: "control has-icons-left" }, [
+            _c(
+              "label",
+              { staticClass: "sr-only", attrs: { for: "user_password" } },
+              [
+                _vm._v(
+                  "\n               " +
+                    _vm._s(_vm.translations.shared.fields.password) +
+                    "\n            "
+                )
+              ]
+            ),
+            _vm._v(" "),
+            _c("input", {
+              directives: [
+                {
+                  name: "model",
+                  rawName: "v-model",
+                  value: _vm.sign_up.password,
+                  expression: "sign_up.password"
+                }
+              ],
+              staticClass: "input",
+              attrs: {
+                type: "password",
+                required: "true",
+                minlength: "6",
+                placeholder:
+                  _vm.translations.shared.fields.password +
+                  " " +
+                  _vm.translations.registration.fields.password_length
+              },
+              domProps: { value: _vm.sign_up.password },
+              on: {
+                change: _vm.verifyPasswords,
+                input: function($event) {
+                  if ($event.target.composing) {
+                    return
+                  }
+                  _vm.$set(_vm.sign_up, "password", $event.target.value)
+                }
+              }
+            }),
+            _vm._v(" "),
+            _vm._m(1)
+          ])
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "field" }, [
+          _c("p", { staticClass: "control has-icons-left" }, [
+            _c(
+              "label",
+              { staticClass: "sr-only", attrs: { for: "user_password" } },
+              [
+                _vm._v(
+                  "\n               " +
+                    _vm._s(_vm.translations.shared.fields.password) +
+                    "\n            "
+                )
+              ]
+            ),
+            _vm._v(" "),
+            _c("input", {
+              directives: [
+                {
+                  name: "model",
+                  rawName: "v-model",
+                  value: _vm.sign_up.password_confirmation,
+                  expression: "sign_up.password_confirmation"
+                }
+              ],
+              staticClass: "input",
+              attrs: {
+                type: "password",
+                required: "true",
+                placeholder:
+                  _vm.translations.shared.fields.password_confirmation
+              },
+              domProps: { value: _vm.sign_up.password_confirmation },
+              on: {
+                change: _vm.verifyPasswords,
+                input: function($event) {
+                  if ($event.target.composing) {
+                    return
+                  }
+                  _vm.$set(
+                    _vm.sign_up,
+                    "password_confirmation",
+                    $event.target.value
+                  )
+                }
+              }
+            }),
+            _vm._v(" "),
+            _vm._m(2)
+          ])
+        ]),
+        _vm._v(" "),
+        _c("input", {
+          staticClass: "button is-primary",
+          attrs: { type: "submit" },
+          domProps: { value: _vm.translations.registration.actions.sign_up }
+        })
+      ],
+      1
+    ),
+    _vm._v(" "),
+    _c("div", { staticClass: "links" }, [
+      _c(
+        "a",
+        {
+          on: {
+            click: function($event) {
+              return _vm.goTo("/login")
+            }
+          }
+        },
+        [
+          _vm._v(
+            "\n         " + _vm._s(_vm.translations.links.login) + "\n      "
+          )
+        ]
+      ),
+      _vm._v(" "),
+      _c(
+        "a",
+        {
+          on: {
+            click: function($event) {
+              return _vm.goTo("/confirmation/new")
+            }
+          }
+        },
+        [
+          _vm._v(
+            "\n         " +
+              _vm._s(_vm.translations.links.resend_confirmation_email) +
+              "\n      "
+          )
+        ]
+      )
+    ])
+  ])
+}
+var registervue_type_template_id_29860e78_staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("span", { staticClass: "icon is-small is-left" }, [
+      _c("i", { staticClass: "fas fa-envelope" })
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("span", { staticClass: "icon is-small is-left" }, [
+      _c("i", { staticClass: "fas fa-lock" })
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("span", { staticClass: "icon is-small is-left" }, [
+      _c("i", { staticClass: "fas fa-lock" })
+    ])
+  }
+]
+registervue_type_template_id_29860e78_render._withStripped = true
+
+
+// CONCATENATED MODULE: ./app/vue/users/apps/register.vue?vue&type=template&id=29860e78&
+
+// CONCATENATED MODULE: ./node_modules/babel-loader/lib??ref--3!./node_modules/vue-loader/lib??vue-loader-options!./app/vue/users/apps/register.vue?vue&type=script&lang=js&
+
+
+/* harmony default export */ var registervue_type_script_lang_js_ = ({
+  data: function data() {
+    return {
+      translations: {
+        links: I18n.t('users.links'),
+        registration: I18n.t('users.registration'),
+        sessions: I18n.t('devise.sessions'),
+        shared: I18n.t('users.shared')
+      },
+      sign_up: {
+        email: '',
+        password: '',
+        password_confirmation: ''
+      },
+      progress_bar_active: false,
+      notification: {
+        show: false,
+        message: '',
+        type: 'is-danger'
+      }
+    };
+  },
+  methods: {
+    register: function register(event) {
+      var _this = this;
+
+      event.preventDefault();
+      var data = {
+        user: this.sign_up
+      };
+      this.progress_bar_active = true;
+      this.http.post(this.url.to(null, null, null), data).then(function (response) {
+        _this.progress_bar_active = false;
+
+        if (response.successful) {
+          _this.showNotification(_this.translations.registration.notifications.success, 'is-success');
+
+          setTimeout(function () {
+            _this.goTo('/login');
+          }, 5000);
+        } else {
+          _this.showNotification(response.error.message);
+        }
+      })["catch"](function (err) {
+        console.log(err);
+      });
+    },
+    showNotification: function showNotification(message) {
+      var type = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 'is-danger';
+      this.notification.message = message;
+      this.notification.type = type;
+      this.notification.show = true;
+    },
+    verifyPasswords: function verifyPasswords() {
+      var password = this.sign_up.password;
+      var password_confirmation = this.sign_up.password_confirmation;
+
+      if (password && password_confirmation) {
+        if (password !== password_confirmation) {
+          this.showNotification(this.translations.shared.errors.unmatched_passwords);
+          return;
+        }
+      }
+
+      this.notification.show = false;
+    },
+    goTo: function goTo(url) {
+      this.$router.push("".concat(url));
+    }
+  },
+  components: {
+    'form-notification': notification["a" /* default */],
+    'progress-bar': progress_bar["a" /* default */]
+  }
+});
+// CONCATENATED MODULE: ./app/vue/users/apps/register.vue?vue&type=script&lang=js&
+ /* harmony default export */ var apps_registervue_type_script_lang_js_ = (registervue_type_script_lang_js_); 
+// CONCATENATED MODULE: ./app/vue/users/apps/register.vue
+
+
+
+
+
+/* normalize component */
+
+var register_component = Object(componentNormalizer["a" /* default */])(
+  apps_registervue_type_script_lang_js_,
+  registervue_type_template_id_29860e78_render,
+  registervue_type_template_id_29860e78_staticRenderFns,
+  false,
+  null,
+  null,
+  null
+  
+)
+
+/* hot reload */
+if (false) { var register_api; }
+register_component.options.__file = "app/vue/users/apps/register.vue"
+/* harmony default export */ var register = (register_component.exports);
+// CONCATENATED MODULE: ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./app/vue/users/apps/password/new.vue?vue&type=template&id=f701a566&
+var newvue_type_template_id_f701a566_render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("section", { attrs: { id: "passwords" } }, [
+    _c("a", { staticClass: "logo", attrs: { href: _vm.url.to() } }, [
+      _c("img", {
+        attrs: {
+          src: "/assets/brand/leslicloud-logo.png",
+          alt: "LesliCloud Logo"
+        }
+      })
+    ]),
+    _vm._v(" "),
+    _c(
+      "form",
+      {
+        ref: "form",
+        attrs: { id: "new_password" },
+        on: { submit: _vm.resetPassword }
+      },
+      [
+        _c("progress-bar", { attrs: { active: _vm.progress_bar_active } }),
+        _vm._v(" "),
+        _c("form-notification", {
+          attrs: {
+            message: _vm.notification.message,
+            type: _vm.notification.type,
+            show: _vm.notification.show
+          },
+          on: {
+            "update:show": function($event) {
+              return _vm.$set(_vm.notification, "show", $event)
+            }
+          }
+        }),
+        _vm._v(" "),
+        _c("div", { staticClass: "field" }, [
+          _c("p", { staticClass: "control has-icons-left" }, [
+            _c("label", { staticClass: "sr-only" }, [
+              _vm._v(
+                "\n               " +
+                  _vm._s(_vm.translations.shared.fields.email) +
+                  "\n            "
+              )
+            ]),
+            _vm._v(" "),
+            _c("input", {
+              directives: [
+                {
+                  name: "model",
+                  rawName: "v-model",
+                  value: _vm.password.email,
+                  expression: "password.email"
+                }
+              ],
+              staticClass: "input",
+              attrs: {
+                type: "email",
+                required: "true",
+                placeholder: _vm.translations.shared.fields.email
+              },
+              domProps: { value: _vm.password.email },
+              on: {
+                input: function($event) {
+                  if ($event.target.composing) {
+                    return
+                  }
+                  _vm.$set(_vm.password, "email", $event.target.value)
+                }
+              }
+            }),
+            _vm._v(" "),
+            _vm._m(0)
+          ])
+        ]),
+        _vm._v(" "),
+        _c("input", {
+          staticClass: "button is-primary",
+          attrs: { type: "submit" },
+          domProps: { value: _vm.translations.password.actions.reset_password }
+        })
+      ],
+      1
+    ),
+    _vm._v(" "),
+    _c("div", { staticClass: "links" }, [
+      _c(
+        "a",
+        {
+          on: {
+            click: function($event) {
+              return _vm.goTo("/login")
+            }
+          }
+        },
+        [
+          _vm._v(
+            "\n         " + _vm._s(_vm.translations.links.login) + "\n      "
+          )
+        ]
+      ),
+      _vm._v(" "),
+      _c(
+        "a",
+        {
+          on: {
+            click: function($event) {
+              return _vm.goTo("/register")
+            }
+          }
+        },
+        [
+          _vm._v(
+            "\n         " + _vm._s(_vm.translations.links.sign_up) + "\n      "
+          )
+        ]
+      ),
+      _vm._v(" "),
+      _c(
+        "a",
+        {
+          on: {
+            click: function($event) {
+              return _vm.goTo("/confirmation/new")
+            }
+          }
+        },
+        [
+          _vm._v(
+            "\n         " +
+              _vm._s(_vm.translations.links.resend_confirmation_email) +
+              "\n      "
+          )
+        ]
+      )
+    ])
+  ])
+}
+var newvue_type_template_id_f701a566_staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("span", { staticClass: "icon is-small is-left" }, [
+      _c("i", { staticClass: "fas fa-envelope" })
+    ])
+  }
+]
+newvue_type_template_id_f701a566_render._withStripped = true
+
+
+// CONCATENATED MODULE: ./app/vue/users/apps/password/new.vue?vue&type=template&id=f701a566&
+
+// CONCATENATED MODULE: ./node_modules/babel-loader/lib??ref--3!./node_modules/vue-loader/lib??vue-loader-options!./app/vue/users/apps/password/new.vue?vue&type=script&lang=js&
+
+
+/* harmony default export */ var newvue_type_script_lang_js_ = ({
+  data: function data() {
+    return {
+      translations: {
+        links: I18n.t('users.links'),
+        password: I18n.t('users.password'),
+        shared: I18n.t('users.shared')
+      },
+      password: {
+        email: ''
+      },
+      progress_bar_active: false,
+      notification: {
+        show: false,
+        message: '',
+        type: 'is-danger'
+      }
+    };
+  },
+  methods: {
+    showNotification: function showNotification(message) {
+      var type = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 'is-danger';
+      this.notification.message = message;
+      this.notification.type = type;
+      this.notification.show = true;
+    },
+    resetPassword: function resetPassword(event) {
+      var _this = this;
+
+      event.preventDefault();
+      var data = {
+        user: this.password
+      };
+      this.progress_bar_active = true;
+      this.http.post(this.url.to(null, null, '/password'), data).then(function (response) {
+        _this.progress_bar_active = false;
+
+        if (response.successful) {
+          _this.showNotification(_this.translations.password.notifications.create.success, 'is-success');
+
+          setTimeout(function () {
+            _this.goTo('/login');
+          }, 5000);
+        } else {
+          _this.showNotification(response.error.message);
+        }
+      })["catch"](function (err) {
+        console.log(err);
+      });
+    },
+    goTo: function goTo(url) {
+      this.$router.push("".concat(url));
+    }
+  },
+  components: {
+    'form-notification': notification["a" /* default */],
+    'progress-bar': progress_bar["a" /* default */]
+  }
+});
+// CONCATENATED MODULE: ./app/vue/users/apps/password/new.vue?vue&type=script&lang=js&
+ /* harmony default export */ var password_newvue_type_script_lang_js_ = (newvue_type_script_lang_js_); 
+// CONCATENATED MODULE: ./app/vue/users/apps/password/new.vue
+
+
+
+
+
+/* normalize component */
+
+var new_component = Object(componentNormalizer["a" /* default */])(
+  password_newvue_type_script_lang_js_,
+  newvue_type_template_id_f701a566_render,
+  newvue_type_template_id_f701a566_staticRenderFns,
+  false,
+  null,
+  null,
+  null
+  
+)
+
+/* hot reload */
+if (false) { var new_api; }
+new_component.options.__file = "app/vue/users/apps/password/new.vue"
+/* harmony default export */ var password_new = (new_component.exports);
+// CONCATENATED MODULE: ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./app/vue/users/apps/password/edit.vue?vue&type=template&id=1b6b8d2d&
+var editvue_type_template_id_1b6b8d2d_render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("section", { attrs: { id: "passwords" } }, [
+    _c("a", { staticClass: "logo", attrs: { href: _vm.url.to() } }, [
+      _c("img", {
+        attrs: {
+          src: "/assets/brand/leslicloud-logo.png",
+          alt: "LesliCloud Logo"
+        }
+      })
+    ]),
+    _vm._v(" "),
+    _c(
+      "form",
+      {
+        ref: "form",
+        attrs: { id: "registration_user" },
+        on: { submit: _vm.resetPassword }
+      },
+      [
+        _c("progress-bar", { attrs: { active: _vm.progress_bar_active } }),
+        _vm._v(" "),
+        _c("form-notification", {
+          attrs: {
+            message: _vm.notification.message,
+            type: _vm.notification.type,
+            show: _vm.notification.show
+          },
+          on: {
+            "update:show": function($event) {
+              return _vm.$set(_vm.notification, "show", $event)
+            }
+          }
+        }),
+        _vm._v(" "),
+        _c("div", { staticClass: "field" }, [
+          _c("p", { staticClass: "control has-icons-left" }, [
+            _c(
+              "label",
+              { staticClass: "sr-only", attrs: { for: "user_password" } },
+              [
+                _vm._v(
+                  "\n               " +
+                    _vm._s(_vm.translations.shared.fields.password) +
+                    "\n            "
+                )
+              ]
+            ),
+            _vm._v(" "),
+            _c("input", {
+              directives: [
+                {
+                  name: "model",
+                  rawName: "v-model",
+                  value: _vm.password.password,
+                  expression: "password.password"
+                }
+              ],
+              staticClass: "input",
+              attrs: {
+                type: "password",
+                required: "true",
+                minlength: "6",
+                placeholder: _vm.translations.shared.fields.new_password
+              },
+              domProps: { value: _vm.password.password },
+              on: {
+                change: _vm.verifyPasswords,
+                input: function($event) {
+                  if ($event.target.composing) {
+                    return
+                  }
+                  _vm.$set(_vm.password, "password", $event.target.value)
+                }
+              }
+            }),
+            _vm._v(" "),
+            _vm._m(0)
+          ])
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "field" }, [
+          _c("p", { staticClass: "control has-icons-left" }, [
+            _c(
+              "label",
+              { staticClass: "sr-only", attrs: { for: "user_password" } },
+              [
+                _vm._v(
+                  "\n               " +
+                    _vm._s(_vm.translations.shared.fields.password) +
+                    "\n            "
+                )
+              ]
+            ),
+            _vm._v(" "),
+            _c("input", {
+              directives: [
+                {
+                  name: "model",
+                  rawName: "v-model",
+                  value: _vm.password.password_confirmation,
+                  expression: "password.password_confirmation"
+                }
+              ],
+              staticClass: "input",
+              attrs: {
+                type: "password",
+                required: "true",
+                placeholder:
+                  _vm.translations.shared.fields.password_confirmation
+              },
+              domProps: { value: _vm.password.password_confirmation },
+              on: {
+                change: _vm.verifyPasswords,
+                input: function($event) {
+                  if ($event.target.composing) {
+                    return
+                  }
+                  _vm.$set(
+                    _vm.password,
+                    "password_confirmation",
+                    $event.target.value
+                  )
+                }
+              }
+            }),
+            _vm._v(" "),
+            _vm._m(1)
+          ])
+        ]),
+        _vm._v(" "),
+        _c("input", {
+          staticClass: "button is-primary",
+          attrs: { type: "submit" },
+          domProps: { value: _vm.translations.password.actions.change_password }
+        })
+      ],
+      1
+    ),
+    _vm._v(" "),
+    _c("div", { staticClass: "links" }, [
+      _c(
+        "a",
+        {
+          on: {
+            click: function($event) {
+              return _vm.goTo("/login")
+            }
+          }
+        },
+        [
+          _vm._v(
+            "\n         " + _vm._s(_vm.translations.links.login) + "\n      "
+          )
+        ]
+      ),
+      _vm._v(" "),
+      _c(
+        "a",
+        {
+          on: {
+            click: function($event) {
+              return _vm.goTo("/register")
+            }
+          }
+        },
+        [
+          _vm._v(
+            "\n         " + _vm._s(_vm.translations.links.sign_up) + "\n      "
+          )
+        ]
+      ),
+      _vm._v(" "),
+      _c(
+        "a",
+        {
+          on: {
+            click: function($event) {
+              return _vm.goTo("/confirmation/new")
+            }
+          }
+        },
+        [
+          _vm._v(
+            "\n         " +
+              _vm._s(_vm.translations.links.resend_confirmation_email) +
+              "\n      "
+          )
+        ]
+      )
+    ])
+  ])
+}
+var editvue_type_template_id_1b6b8d2d_staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("span", { staticClass: "icon is-small is-left" }, [
+      _c("i", { staticClass: "fas fa-lock" })
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("span", { staticClass: "icon is-small is-left" }, [
+      _c("i", { staticClass: "fas fa-lock" })
+    ])
+  }
+]
+editvue_type_template_id_1b6b8d2d_render._withStripped = true
+
+
+// CONCATENATED MODULE: ./app/vue/users/apps/password/edit.vue?vue&type=template&id=1b6b8d2d&
+
+// CONCATENATED MODULE: ./node_modules/babel-loader/lib??ref--3!./node_modules/vue-loader/lib??vue-loader-options!./app/vue/users/apps/password/edit.vue?vue&type=script&lang=js&
+
+
+/* harmony default export */ var editvue_type_script_lang_js_ = ({
+  data: function data() {
+    return {
+      translations: {
+        links: I18n.t('users.links'),
+        password: I18n.t('users.password'),
+        sessions: I18n.t('devise.sessions'),
+        shared: I18n.t('users.shared')
+      },
+      password: {
+        password: '',
+        password_confirmation: '',
+        reset_password_token: ''
+      },
+      progress_bar_active: false,
+      notification: {
+        show: false,
+        message: '',
+        type: 'is-danger'
+      }
+    };
+  },
+  mounted: function mounted() {
+    this.setResetPasswordToken();
+  },
+  methods: {
+    setResetPasswordToken: function setResetPasswordToken() {
+      this.password.reset_password_token = this.$route.query.reset_password_token;
+    },
+    resetPassword: function resetPassword(event) {
+      var _this = this;
+
+      event.preventDefault();
+      var data = {
+        user: this.password
+      };
+      this.progress_bar_active = true;
+      this.http.put(this.url.to(null, null, '/password'), data).then(function (response) {
+        _this.progress_bar_active = false;
+
+        if (response.successful) {
+          _this.showNotification(_this.translations.password.notifications.update.success, 'is-success');
+
+          setTimeout(function () {
+            _this.goTo('/login');
+          }, 2500);
+        } else {
+          _this.showNotification(response.error.message);
+        }
+      })["catch"](function (err) {
+        console.log(err);
+      });
+    },
+    showNotification: function showNotification(message) {
+      var type = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 'is-danger';
+      this.notification.message = message;
+      this.notification.type = type;
+      this.notification.show = true;
+    },
+    verifyPasswords: function verifyPasswords() {
+      var password = this.password.password;
+      var password_confirmation = this.password.password_confirmation;
+
+      if (password && password_confirmation) {
+        if (password !== password_confirmation) {
+          this.showNotification(this.translations.shared.errors.unmatched_passwords);
+          return;
+        }
+      }
+
+      this.notification.show = false;
+    },
+    goTo: function goTo(url) {
+      this.$router.push("".concat(url));
+    }
+  },
+  components: {
+    'form-notification': notification["a" /* default */],
+    'progress-bar': progress_bar["a" /* default */]
+  }
+});
+// CONCATENATED MODULE: ./app/vue/users/apps/password/edit.vue?vue&type=script&lang=js&
+ /* harmony default export */ var password_editvue_type_script_lang_js_ = (editvue_type_script_lang_js_); 
+// CONCATENATED MODULE: ./app/vue/users/apps/password/edit.vue
+
+
+
+
+
+/* normalize component */
+
+var edit_component = Object(componentNormalizer["a" /* default */])(
+  password_editvue_type_script_lang_js_,
+  editvue_type_template_id_1b6b8d2d_render,
+  editvue_type_template_id_1b6b8d2d_staticRenderFns,
+  false,
+  null,
+  null,
+  null
+  
+)
+
+/* hot reload */
+if (false) { var edit_api; }
+edit_component.options.__file = "app/vue/users/apps/password/edit.vue"
+/* harmony default export */ var edit = (edit_component.exports);
+// CONCATENATED MODULE: ./app/vue/users/sessions_new.js
+/*
+Lesli
+
+Copyright (c) 2019, Lesli Technologies, S. A.
+
+All the information provided by this website is protected by laws of Guatemala related 
+to industrial property, intellectual property, copyright and relative international laws. 
+Lesli Technologies, S. A. is the exclusive owner of all intellectual or industrial property
+rights of the code, texts, trade mark, design, pictures and any other information.
+Without the written permission of Lesli Technologies, S. A., any replication, modification,
+transmission, publication is strictly forbidden.
+For more information read the license file including with this software.
+
+LesliCloud - Your Smart Business Assistant
+
+Powered by https://www.lesli.tech
+Building a better future, one line of code at a time.
+
+@dev      Carlos Hermosilla
+@author   LesliTech <hello@lesli.tech>
+@license  Propietary - all rights reserved.
+@version  GIT: 0.1.0 alpha
+
+// · 
+// · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
+*/
+// · Import main app
+// · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
+ // · Import apps and components
+// · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
+
+
+
+
+
+ // · 
+// · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
+
+Object(vue_public["a" /* default */])("Lesli", "[login|confirmation|register]", "", [{
+  path: "/",
+  redirect: "/login"
+}, {
+  path: "/login",
+  component: login
+}, {
+  path: "/confirmation/new",
+  component: confirmation
+}, {
+  path: "/register",
+  component: register
+}, {
+  path: "/password/new",
+  component: password_new
+}, {
+  path: "/password/edit",
+  component: edit
+}], true);
+
+/***/ }),
+/* 44 */,
+/* 45 */,
+/* 46 */,
+/* 47 */,
+/* 48 */,
+/* 49 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _sessions_new__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(43);
+/*
+Lesli
+
+Copyright (c) 2019, Lesli Technologies, S. A.
+
+All the information provided by this website is protected by laws of Guatemala related 
+to industrial property, intellectual property, copyright and relative international laws. 
+Lesli Technologies, S. A. is the exclusive owner of all intellectual or industrial property
+rights of the code, texts, trade mark, design, pictures and any other information.
+Without the written permission of Lesli Technologies, S. A., any replication, modification,
+transmission, publication is strictly forbidden.
+For more information read the license file including with this software.
+
+LesliCloud - Your Smart Business Assistant
+
+Powered by https://www.lesli.tech
+Building a better future, one line of code at a time.
+
+@dev      Carlos Hermosilla
+@author   LesliTech <hello@lesli.tech>
+@license  Propietary - all rights reserved.
+@version  GIT: 0.1.0 alpha
+
+// · 
+// · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
+*/
+
 
 /***/ })
 /******/ ]);
