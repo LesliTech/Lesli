@@ -61,7 +61,8 @@ function webpackConfigBuilder(compilationMode) {
             "users/passwords_new": "./app/vue/users/passwords_new.js",
             "users/passwords_edit": "./app/vue/users/passwords_edit.js",
             "users/registrations_new": "./app/vue/users/registrations_new.js",
-            "users/confirmations_new": "./app/vue/users/confirmations_new.js"
+            "users/confirmations_new": "./app/vue/users/confirmations_new.js",
+            "dashboards/empty": "./app/vue/dashboards/empty.js"
         },
         output: {
             path: __dirname,
@@ -139,7 +140,12 @@ function webpackConfigBuilder(compilationMode) {
     webpackConfig.push(webpackbase)
 
     // · get engines
-    fs.readdirSync('./engines').forEach(engine => {
+    let engines = [
+        'CloudLesli', 'CloudBell', 'CloudLock', 'CloudTeam', 
+        'CloudHelp', 'CloudKb','CloudPanel', 'CloudBabel', 'CloudDriver'
+    ];
+
+    engines.forEach(engine => {
 
         let webpackEngine = Object.assign({}, webpackbase)
         webpackEngine.output = Object.assign({}, webpackbase.output)
