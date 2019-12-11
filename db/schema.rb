@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 3010306) do
+ActiveRecord::Schema.define(version: 2019_12_11_001731) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -57,6 +57,40 @@ ActiveRecord::Schema.define(version: 3010306) do
     t.string "checksum", null: false
     t.datetime "created_at", null: false
     t.index ["key"], name: "index_active_storage_blobs_on_key", unique: true
+  end
+
+  create_table "cloud_babel_dashboards", force: :cascade do |t|
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
+  create_table "cloud_babel_translation_object_strings", force: :cascade do |t|
+    t.string "label"
+    t.string "es"
+    t.string "en"
+    t.string "de"
+    t.string "fr"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
+  create_table "cloud_babel_translation_objects", force: :cascade do |t|
+    t.string "type"
+    t.string "method"
+    t.string "section"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.bigint "cloud_babel_translation_object_strings_id"
+    t.index ["cloud_babel_translation_object_strings_id"], name: "babel_translation_objects_translation_object_strings"
+  end
+
+  create_table "cloud_babel_translations", force: :cascade do |t|
+    t.string "module_name"
+    t.string "class_name"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.bigint "cloud_babel_translation_objects_id"
+    t.index ["cloud_babel_translation_objects_id"], name: "babel_translations_translation_objects"
   end
 
   create_table "cloud_driver_accounts", force: :cascade do |t|
@@ -154,11 +188,12 @@ ActiveRecord::Schema.define(version: 3010306) do
   end
 
   create_table "cloud_driver_event_details", force: :cascade do |t|
-    t.string "name"
+    t.string "title"
     t.text "description"
     t.datetime "time_start"
     t.datetime "time_end"
-    t.text "location"
+    t.string "location"
+    t.string "url"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.bigint "cloud_driver_events_id"
@@ -207,6 +242,8 @@ ActiveRecord::Schema.define(version: 3010306) do
 
   add_foreign_key "accounts", "users", column: "users_id"
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
+  add_foreign_key "cloud_babel_translation_objects", "cloud_babel_translation_object_strings", column: "cloud_babel_translation_object_strings_id"
+  add_foreign_key "cloud_babel_translations", "cloud_babel_translation_objects", column: "cloud_babel_translation_objects_id"
   add_foreign_key "cloud_driver_accounts", "accounts", column: "id"
   add_foreign_key "cloud_driver_calendar_actions", "cloud_driver_calendars", column: "cloud_driver_calendars_id"
   add_foreign_key "cloud_driver_calendar_activities", "cloud_driver_calendars", column: "cloud_driver_calendars_id"

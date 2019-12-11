@@ -13,7 +13,7 @@ module Courier
                 event = CloudDriver::Event.create({
                     calendar: calendar,
                     detail_attributes: {
-                        name: title,
+                        title: title,
                         description: description,
                         time_start: time_start,
                         time_end: time_end,
