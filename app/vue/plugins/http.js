@@ -35,7 +35,7 @@ import axios from 'axios'
 // ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
 export default {
 
-    install (Vue, _options) {
+    install (Vue, options) {
 
         // Get authentication token from rails
         let meta = document.querySelector('meta[name="csrf-token"]')

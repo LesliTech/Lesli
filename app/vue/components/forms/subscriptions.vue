@@ -55,7 +55,7 @@ export default {
         this.parseCloudModule()
         this.setTranslations()
         this.getEvents()
-        this.bus.$on("show:/module/app/subscriptions", () => this.show = !this.show )
+        this.bus.subscribe("show:/module/app/subscriptions", () => this.show = !this.show )
     },
 
     methods: {
@@ -73,7 +73,7 @@ export default {
         getEvents(){
             if(this.cloudId){
                 let module = this.cloudModule.split('/')
-                this.http.get(`/${this.module_name}/api/${this.resource_name}s/${this.cloudId}/subscription_events`).then(result => {
+                this.http.get(`/${this.module_name}/${this.resource_name}s/${this.cloudId}/subscribers`).then(result => {
                     if (result.successful) {
                         this.events = result.data
                     } else {
@@ -103,7 +103,7 @@ export default {
                 }
             }
             this.show = false
-            this.http.put(`/${this.module_name}/api/${this.resource_name}s/${this.cloudId}/subscribe`, data).then(result => {
+            this.http.put(`/${this.module_name}/${this.resource_name}s/${this.cloudId}`, data).then(result => {
                 if (result.successful) {
                     this.events = result.data
                     this.alert(this.translations.messages.subscribe.successful)
