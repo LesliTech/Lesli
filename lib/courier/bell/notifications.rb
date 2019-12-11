@@ -32,11 +32,11 @@ module Courier
                 LesliChannel.broadcast_to("Lesli", channel: "/cloud/layout/header/notification#getNotificationsCounter")
             end
 
-            def self.count()
+            def self.count(user)
                 unless defined? CloudBell
                     return 0
                 end
-                current_user.notifications.length
+                user.notifications.length
             end
 
             def self.send_email(user, subject, body, href, format, cloud_object_type)
