@@ -21,6 +21,7 @@ Rails.application.routes.draw do
         resource :account
 
         mount ActionCable.server  => "/cable"
+        mount CloudDriver::Engine => "/driver" if defined?(CloudDriver)
         mount CloudBabel::Engine  => "/babel"  if defined?(CloudBabel)
         mount CloudPanel::Engine  => "/panel"  if defined?(CloudPanel)
         mount CloudLesli::Engine  => "/lesli"  if defined?(CloudLesli)

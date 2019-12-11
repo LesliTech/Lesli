@@ -1,6 +1,7 @@
 module Courier
     module Bell
         class Notifications
+
             def self.send(user:, subject:, body:nil, href:nil, format:'info', type: 'web', cloud_object_type: 'resource')
                 unless (defined? CloudBell && user.account.bell.present?)
                     return
@@ -31,6 +32,13 @@ module Courier
                 LesliChannel.broadcast_to("Lesli", channel: "/cloud/layout/header/notification#getNotificationsCounter")
             end
 
+            def self.count()
+                unless defined? CloudBell
+                    return 0
+                end
+                current_user.notifications.length
+            end
+
             def self.send_email(user, subject, body, href, format, cloud_object_type)
                 NotificationMailer.with(
                     user: user,
@@ -41,7 +49,6 @@ module Courier
                     cloud_object_type: cloud_object_type
                 ).notify.deliver_later
             end
-
         end
     end
 end
