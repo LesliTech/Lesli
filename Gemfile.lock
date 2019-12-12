@@ -1,13 +1,19 @@
 PATH
-  remote: engines/CloudDriver
+  remote: engines/CloudTeam
   specs:
-    cloud_driver (0.1.0)
+    cloud_team (0.1.0)
       rails (~> 6.0.0)
 
 PATH
   remote: engines/CloudBabel
   specs:
     cloud_babel (0.1.0)
+      rails (~> 6.0.0)
+
+PATH
+  remote: engines/CloudDriver
+  specs:
+    cloud_driver (0.1.0)
       rails (~> 6.0.0)
 
 GEM
@@ -259,6 +265,7 @@ DEPENDENCIES
   cancancan
   cloud_babel!
   cloud_driver!
+  cloud_team!
   devise
   faker
   haml-rails
