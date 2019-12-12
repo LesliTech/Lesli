@@ -5,10 +5,7 @@ module Courier
                 @calendar="default"
             end
             def self.registerEvent(user, title:, description:nil, time_start:nil, time_end:nil, location:nil, url:nil)
-                unless defined? CloudDriver
-                    return
-                end
-
+                return unless defined? CloudDriver
                 calendar = CloudDriver::Calendar.default
                 event = CloudDriver::Event.create({
                     calendar: calendar,
