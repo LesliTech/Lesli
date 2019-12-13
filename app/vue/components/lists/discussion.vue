@@ -103,7 +103,10 @@ export default {
                             <strong>{{ discussion.data.email }}</strong>
                             <small>{{ date.toLocalFormat(discussion.data.created_at, false, true) }}</small>
                         </p>
-                        <div v-html="discussion.data.content"></div>
+                        <div>
+                            <b v-if="discussion.data.response_to">{{discussion.data.response_to}}</b>
+                            <span v-html="discussion.data.content"></span>
+                        </div>
                         <div class="has-text-right">
                             <a 
                                 v-if="! discussion.data.show_response_form"
@@ -135,13 +138,32 @@ export default {
                                                 <strong>{{ response.email }}</strong>
                                                 <small>{{ date.toLocalFormat(response.created_at, false, true) }}</small>
                                             </p>
-                                            <div v-html="response.content"></div>
+                                            <div>
+                                                <span class="has-text-weight-bold" v-if="response.response_to">
+                                                    {{response.response_to}}
+                                                </span>
+                                                <span v-html="response.content"></span>
+                                            </div>
+                                            <div class="has-text-right">
+                                                <a 
+                                                    v-if="! response.show_response_form"
+                                                    href="javascript:void(0);"
+                                                    @click="showResponseForm(response)"
+                                                ><small>Respond</small></a>
+                                                <a 
+                                                    v-else
+                                                    href="javascript:void(0);"
+                                                    @click="hideResponseForm(response)"
+                                                ><small>Cancel</small></a>
+                                                <component-discussion-response
+                                                    v-if="response.show_response_form"
+                                                    :focus="response.focus"
+                                                    :cloud-module="cloudModule"
+                                                    :cloud-id="cloudId"
+                                                    :discussion-id="response.id"
+                                                />
+                                            </div>
                                         </div>
-                                    </div>
-                                    <div class="media-right">
-                                        <span class="icon is-small">
-                                            <!-- <i class="fas fa-reply"></i> -->
-                                        </span>
                                     </div>
                                 </div>
                             </div>
