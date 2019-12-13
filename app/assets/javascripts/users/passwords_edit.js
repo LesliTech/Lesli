@@ -16212,7 +16212,7 @@ Building a better future, one line of code at a time.
 // ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
 
 /* harmony default export */ __webpack_exports__["a"] = ({
-  install: function install(Vue, _options) {
+  install: function install(Vue, options) {
     // Get authentication token from rails
     var meta = document.querySelector('meta[name="csrf-token"]');
     var token = '';

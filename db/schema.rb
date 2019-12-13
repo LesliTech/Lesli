@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_12_11_001731) do
+ActiveRecord::Schema.define(version: 90000003) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -59,11 +59,6 @@ ActiveRecord::Schema.define(version: 2019_12_11_001731) do
     t.index ["key"], name: "index_active_storage_blobs_on_key", unique: true
   end
 
-  create_table "cloud_babel_dashboards", force: :cascade do |t|
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-  end
-
   create_table "cloud_babel_translation_object_strings", force: :cascade do |t|
     t.string "label"
     t.string "es"
@@ -93,158 +88,74 @@ ActiveRecord::Schema.define(version: 2019_12_11_001731) do
     t.datetime "updated_at", precision: 6, null: false
   end
 
-  create_table "cloud_driver_accounts", force: :cascade do |t|
-  end
-
-  create_table "cloud_driver_calendar_actions", force: :cascade do |t|
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-    t.bigint "cloud_driver_calendars_id"
-    t.index ["cloud_driver_calendars_id"], name: "calendar_actions_calendars"
-  end
-
-  create_table "cloud_driver_calendar_activities", force: :cascade do |t|
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-    t.bigint "cloud_driver_calendars_id"
-    t.index ["cloud_driver_calendars_id"], name: "calendar_activities_calendars"
-  end
-
-  create_table "cloud_driver_calendar_details", force: :cascade do |t|
-    t.string "name"
-    t.string "color", default: "100,100,200"
-    t.boolean "default", default: false
-    t.boolean "active", default: true
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-    t.bigint "cloud_driver_calendars_id"
-    t.index ["cloud_driver_calendars_id"], name: "calendar_details_calendars"
-  end
-
-  create_table "cloud_driver_calendar_discussions", force: :cascade do |t|
-    t.text "content"
-    t.datetime "deleted_at"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-    t.bigint "cloud_driver_calendar_discussions_id"
-    t.bigint "users_id"
-    t.bigint "cloud_driver_calendars_id"
-    t.index ["cloud_driver_calendar_discussions_id"], name: "calendar_discussions"
-    t.index ["cloud_driver_calendars_id"], name: "driver_calendar_discussions"
-    t.index ["users_id"], name: "index_cloud_driver_calendar_discussions_on_users_id"
-  end
-
-  create_table "cloud_driver_calendar_files", force: :cascade do |t|
-    t.string "name"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-    t.bigint "cloud_driver_calendars_id"
-    t.index ["cloud_driver_calendars_id"], name: "index_cloud_driver_calendar_files_on_cloud_driver_calendars_id"
-  end
-
-  create_table "cloud_driver_calendar_subscribers", force: :cascade do |t|
-    t.integer "event"
-    t.integer "notification_type"
-    t.bigint "users_id"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-    t.bigint "cloud_driver_calendars_id"
-    t.index ["cloud_driver_calendars_id"], name: "driver_calendar_subscribers_calendars"
-  end
-
-  create_table "cloud_driver_calendars", force: :cascade do |t|
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-    t.bigint "cloud_driver_accounts_id"
-    t.index ["cloud_driver_accounts_id"], name: "index_cloud_driver_calendars_on_cloud_driver_accounts_id"
-  end
-
-  create_table "cloud_driver_event_actions", force: :cascade do |t|
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-    t.bigint "cloud_driver_events_id"
-    t.index ["cloud_driver_events_id"], name: "index_cloud_driver_event_actions_on_cloud_driver_events_id"
-  end
-
-  create_table "cloud_driver_event_activities", force: :cascade do |t|
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-    t.bigint "cloud_driver_events_id"
-    t.index ["cloud_driver_events_id"], name: "index_cloud_driver_event_activities_on_cloud_driver_events_id"
-  end
-
-  create_table "cloud_driver_event_attachments", force: :cascade do |t|
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-    t.bigint "cloud_driver_events_id"
-    t.index ["cloud_driver_events_id"], name: "index_cloud_driver_event_attachments_on_cloud_driver_events_id"
-  end
-
-  create_table "cloud_driver_event_comments", force: :cascade do |t|
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-    t.bigint "cloud_driver_events_id"
-    t.index ["cloud_driver_events_id"], name: "index_cloud_driver_event_comments_on_cloud_driver_events_id"
-  end
-
-  create_table "cloud_driver_event_details", force: :cascade do |t|
-    t.string "title"
-    t.text "description"
-    t.datetime "time_start"
-    t.datetime "time_end"
-    t.string "location"
-    t.string "url"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-    t.bigint "cloud_driver_events_id"
-    t.bigint "users_id"
-    t.index ["cloud_driver_events_id"], name: "index_cloud_driver_event_details_on_cloud_driver_events_id"
-    t.index ["users_id"], name: "index_cloud_driver_event_details_on_users_id"
-  end
-
-  create_table "cloud_driver_events", force: :cascade do |t|
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-    t.bigint "cloud_driver_calendars_id"
-    t.index ["cloud_driver_calendars_id"], name: "index_cloud_driver_events_on_cloud_driver_calendars_id"
-  end
-
   create_table "cloud_team_accounts", force: :cascade do |t|
   end
 
   create_table "cloud_team_attendance_actions", force: :cascade do |t|
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.bigint "cloud_team_employees_id"
+    t.index ["cloud_team_employees_id"], name: "index_cloud_team_attendance_actions_on_cloud_team_employees_id"
   end
 
   create_table "cloud_team_attendance_activities", force: :cascade do |t|
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.bigint "cloud_team_employees_id"
+    t.index ["cloud_team_employees_id"], name: "team_attendance_activities_employees"
   end
 
   create_table "cloud_team_attendance_details", force: :cascade do |t|
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.bigint "cloud_team_employees_id"
+    t.index ["cloud_team_employees_id"], name: "index_cloud_team_attendance_details_on_cloud_team_employees_id"
   end
 
   create_table "cloud_team_attendance_discussions", force: :cascade do |t|
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.bigint "cloud_team_employees_id"
+    t.bigint "cloud_team_attendance_discussions_id"
+    t.bigint "users_id"
+    t.index ["cloud_team_attendance_discussions_id"], name: "team_attendance_discussions"
+    t.index ["cloud_team_employees_id"], name: "team_attendance_discussions_employees"
+    t.index ["users_id"], name: "index_cloud_team_attendance_discussions_on_users_id"
   end
 
   create_table "cloud_team_attendance_files", force: :cascade do |t|
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.bigint "cloud_team_employees_id"
+    t.index ["cloud_team_employees_id"], name: "index_cloud_team_attendance_files_on_cloud_team_employees_id"
   end
 
   create_table "cloud_team_attendance_subscribers", force: :cascade do |t|
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.bigint "cloud_team_employees_id"
+    t.index ["cloud_team_employees_id"], name: "team_attendance_subscribers_employees"
+  end
+
+  create_table "cloud_team_attendance_time_details", force: :cascade do |t|
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.bigint "cloud_team_attendance_time_headers_id"
+    t.index ["cloud_team_attendance_time_headers_id"], name: "team_attendance_time_details_headers"
+  end
+
+  create_table "cloud_team_attendance_time_headers", force: :cascade do |t|
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.bigint "cloud_team_employees_id"
+    t.index ["cloud_team_employees_id"], name: "team_attendance_time_headers_employees"
   end
 
   create_table "cloud_team_attendances", force: :cascade do |t|
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.bigint "cloud_team_employees_id"
+    t.index ["cloud_team_employees_id"], name: "index_cloud_team_attendances_on_cloud_team_employees_id"
   end
 
   create_table "cloud_team_contract_actions", force: :cascade do |t|
@@ -426,8 +337,10 @@ ActiveRecord::Schema.define(version: 2019_12_11_001731) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.bigint "cloud_team_accounts_id"
+    t.bigint "users_id"
     t.index ["cloud_team_accounts_id"], name: "index_cloud_team_employees_on_cloud_team_accounts_id"
     t.index ["deleted_at"], name: "index_cloud_team_employees_on_deleted_at"
+    t.index ["users_id"], name: "index_cloud_team_employees_on_users_id"
   end
 
   create_table "cloud_team_leave_actions", force: :cascade do |t|
@@ -745,25 +658,18 @@ ActiveRecord::Schema.define(version: 2019_12_11_001731) do
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "cloud_babel_translation_object_strings", "cloud_babel_translation_objects", column: "cloud_babel_translation_objects_id"
   add_foreign_key "cloud_babel_translation_objects", "cloud_babel_translations", column: "cloud_babel_translations_id"
-  add_foreign_key "cloud_driver_accounts", "accounts", column: "id"
-  add_foreign_key "cloud_driver_calendar_actions", "cloud_driver_calendars", column: "cloud_driver_calendars_id"
-  add_foreign_key "cloud_driver_calendar_activities", "cloud_driver_calendars", column: "cloud_driver_calendars_id"
-  add_foreign_key "cloud_driver_calendar_details", "cloud_driver_calendars", column: "cloud_driver_calendars_id"
-  add_foreign_key "cloud_driver_calendar_discussions", "cloud_driver_calendar_discussions", column: "cloud_driver_calendar_discussions_id"
-  add_foreign_key "cloud_driver_calendar_discussions", "cloud_driver_calendars", column: "cloud_driver_calendars_id"
-  add_foreign_key "cloud_driver_calendar_discussions", "users", column: "users_id"
-  add_foreign_key "cloud_driver_calendar_files", "cloud_driver_calendars", column: "cloud_driver_calendars_id"
-  add_foreign_key "cloud_driver_calendar_subscribers", "cloud_driver_calendars", column: "cloud_driver_calendars_id"
-  add_foreign_key "cloud_driver_calendar_subscribers", "users", column: "users_id"
-  add_foreign_key "cloud_driver_calendars", "cloud_driver_accounts", column: "cloud_driver_accounts_id"
-  add_foreign_key "cloud_driver_event_actions", "cloud_driver_events", column: "cloud_driver_events_id"
-  add_foreign_key "cloud_driver_event_activities", "cloud_driver_events", column: "cloud_driver_events_id"
-  add_foreign_key "cloud_driver_event_attachments", "cloud_driver_events", column: "cloud_driver_events_id"
-  add_foreign_key "cloud_driver_event_comments", "cloud_driver_events", column: "cloud_driver_events_id"
-  add_foreign_key "cloud_driver_event_details", "cloud_driver_events", column: "cloud_driver_events_id"
-  add_foreign_key "cloud_driver_event_details", "users", column: "users_id"
-  add_foreign_key "cloud_driver_events", "cloud_driver_calendars", column: "cloud_driver_calendars_id"
   add_foreign_key "cloud_team_accounts", "accounts", column: "id"
+  add_foreign_key "cloud_team_attendance_actions", "cloud_team_employees", column: "cloud_team_employees_id"
+  add_foreign_key "cloud_team_attendance_activities", "cloud_team_employees", column: "cloud_team_employees_id"
+  add_foreign_key "cloud_team_attendance_details", "cloud_team_employees", column: "cloud_team_employees_id"
+  add_foreign_key "cloud_team_attendance_discussions", "cloud_team_attendance_discussions", column: "cloud_team_attendance_discussions_id"
+  add_foreign_key "cloud_team_attendance_discussions", "cloud_team_employees", column: "cloud_team_employees_id"
+  add_foreign_key "cloud_team_attendance_discussions", "users", column: "users_id"
+  add_foreign_key "cloud_team_attendance_files", "cloud_team_employees", column: "cloud_team_employees_id"
+  add_foreign_key "cloud_team_attendance_subscribers", "cloud_team_employees", column: "cloud_team_employees_id"
+  add_foreign_key "cloud_team_attendance_time_details", "cloud_team_attendance_time_headers", column: "cloud_team_attendance_time_headers_id"
+  add_foreign_key "cloud_team_attendance_time_headers", "cloud_team_employees", column: "cloud_team_employees_id"
+  add_foreign_key "cloud_team_attendances", "cloud_team_employees", column: "cloud_team_employees_id"
   add_foreign_key "cloud_team_employee_actions", "cloud_team_employees", column: "cloud_team_employees_id"
   add_foreign_key "cloud_team_employee_activities", "cloud_team_employees", column: "cloud_team_employees_id"
   add_foreign_key "cloud_team_employee_contact_details", "cloud_team_employees", column: "cloud_team_employees_id"
@@ -776,5 +682,6 @@ ActiveRecord::Schema.define(version: 2019_12_11_001731) do
   add_foreign_key "cloud_team_employee_locations", "cloud_team_employees", column: "cloud_team_employees_id"
   add_foreign_key "cloud_team_employee_social_accounts", "cloud_team_employees", column: "cloud_team_employees_id"
   add_foreign_key "cloud_team_employees", "cloud_team_accounts", column: "cloud_team_accounts_id"
+  add_foreign_key "cloud_team_employees", "users", column: "users_id"
   add_foreign_key "users", "accounts", column: "accounts_id"
 end

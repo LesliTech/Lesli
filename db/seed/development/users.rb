@@ -27,22 +27,27 @@ Building a better future, one line of code at a time.
 
 =end
 
-model = User.new
-model.email = 'admin@lesli.cloud'
-model.password = 'lesli2019'
-model.password_confirmation = 'lesli2019'
-model.accounts_id = 1
-model.confirm
-model.save!
+User.find_or_create_by(email: 'admin@lesli.cloud') do |user|
+    user.password = 'lesli2019'
+    user.password_confirmation = 'lesli2019'
+    user.accounts_id = 1
+    user.confirm
 
-model.account.user = model
-model.account.save!
-
-10.times do
-    model = User.new
-    model.email = Faker::Internet.email
-    model.password = model.email
-    model.password_confirmation = model.email
-    model.confirm
-    model.save!
+    user.account.user = user
+    user.account.save!
 end
+
+
+Account.all.each do |account|
+    2.times do
+        model = User.new
+        model.email = Faker::Internet.email
+        model.password = model.email
+        model.password_confirmation = model.email
+        model.account = account
+        model.confirm
+        model.save!
+    end
+end
+
+p "Users successfully created!"

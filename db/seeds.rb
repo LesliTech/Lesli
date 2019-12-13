@@ -24,14 +24,6 @@ Building a better future, one line of code at a time.
 // · 
 =end
 
+p "Loading seeds for #{Rails.env.downcase}"
 load "#{Rails.root}/db/seed/#{Rails.env.downcase}.rb"
 
-# Loading engine seeds dymanically
-CloudDriver::Engine.load_seed if defined?(CloudDriver)
-CloudBooks::Engine.load_seed if defined?(CloudBooks)
-CloudPanel::Engine.load_seed if defined?(CloudPanel)
-CloudTeam::Engine.load_seed if defined?(CloudTeam)
-CloudLock::Engine.load_seed if defined?(CloudLock)
-CloudBell::Engine.load_seed if defined?(CloudBell)
-CloudHelp::Engine.load_seed if defined?(CloudHelp)
-CloudKb::Engine.load_seed if defined?(CloudKb)
