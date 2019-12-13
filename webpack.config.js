@@ -141,8 +141,30 @@ function webpackConfigBuilder(compilationMode) {
 
     // · get engines
     let engines = [
-        'CloudLesli', 'CloudBell', 'CloudLock', 'CloudTeam', 
-        'CloudHelp', 'CloudKb','CloudPanel', 'CloudBabel', 'CloudDriver'
+        'CloudTeam',
+        'CloudHappy',
+        'CloudSeller',
+        'CloudLeaf',
+        'CloudDrop',
+        'CloudMailer',
+        'CloudDriver',
+        'CloudChaos',
+        'CloudClock',
+        'CloudPizza',
+        'CloudNotes',
+        'CloudLesli',
+        'CloudSocial',
+        'CloudBell',
+        'CloudBooks',
+        'CloudWallet',
+        'CloudThings',
+        'CloudKB',
+        'CloudHelp',
+        'CloudPortal',
+        'CloudBug',
+        'CloudPanel',
+        'CloudLock',
+        'CloudBabel'
     ];
 
     engines.forEach(engine => {
