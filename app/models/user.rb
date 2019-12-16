@@ -32,8 +32,6 @@ class User < ApplicationRecord
         return email
     end
 
-    
-
     def revoke_access
         update_attributes(active: false)
     end

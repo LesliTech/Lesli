@@ -88,6 +88,68 @@ ActiveRecord::Schema.define(version: 90000003) do
     t.datetime "updated_at", precision: 6, null: false
   end
 
+  create_table "cloud_lock_accounts", force: :cascade do |t|
+  end
+
+  create_table "cloud_lock_role_privileges", force: :cascade do |t|
+    t.string "privilege_model"
+    t.boolean "privilege_get", default: false
+    t.boolean "privilege_post", default: false
+    t.boolean "privilege_put", default: false
+    t.boolean "privilege_delete", default: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.bigint "cloud_lock_roles_id"
+    t.index ["cloud_lock_roles_id"], name: "index_cloud_lock_role_privileges_on_cloud_lock_roles_id"
+  end
+
+  create_table "cloud_lock_roles", force: :cascade do |t|
+    t.string "name"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.bigint "cloud_lock_accounts_id"
+    t.index ["cloud_lock_accounts_id"], name: "index_cloud_lock_roles_on_cloud_lock_accounts_id"
+  end
+
+  create_table "cloud_lock_user_actions", force: :cascade do |t|
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
+  create_table "cloud_lock_user_activities", force: :cascade do |t|
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
+  create_table "cloud_lock_user_details", force: :cascade do |t|
+    t.string "first_name"
+    t.string "last_name"
+    t.string "telephone"
+    t.string "address"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.bigint "users_id"
+    t.index ["users_id"], name: "index_cloud_lock_user_details_on_users_id"
+  end
+
+  create_table "cloud_lock_user_discussions", force: :cascade do |t|
+    t.text "content"
+    t.datetime "deleted_at"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["deleted_at"], name: "index_cloud_lock_user_discussions_on_deleted_at"
+  end
+
+  create_table "cloud_lock_user_files", force: :cascade do |t|
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
+  create_table "cloud_lock_user_followers", force: :cascade do |t|
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
   create_table "cloud_team_accounts", force: :cascade do |t|
   end
 
@@ -646,7 +708,9 @@ ActiveRecord::Schema.define(version: 90000003) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.bigint "accounts_id"
+    t.bigint "cloud_lock_roles_id"
     t.index ["accounts_id"], name: "index_users_on_accounts_id"
+    t.index ["cloud_lock_roles_id"], name: "index_users_on_cloud_lock_roles_id"
     t.index ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true
     t.index ["deleted_at"], name: "index_users_on_deleted_at"
     t.index ["email"], name: "index_users_on_email", unique: true
@@ -658,6 +722,10 @@ ActiveRecord::Schema.define(version: 90000003) do
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "cloud_babel_translation_object_strings", "cloud_babel_translation_objects", column: "cloud_babel_translation_objects_id"
   add_foreign_key "cloud_babel_translation_objects", "cloud_babel_translations", column: "cloud_babel_translations_id"
+  add_foreign_key "cloud_lock_accounts", "accounts", column: "id"
+  add_foreign_key "cloud_lock_role_privileges", "cloud_lock_roles", column: "cloud_lock_roles_id"
+  add_foreign_key "cloud_lock_roles", "cloud_lock_accounts", column: "cloud_lock_accounts_id"
+  add_foreign_key "cloud_lock_user_details", "users", column: "users_id"
   add_foreign_key "cloud_team_accounts", "accounts", column: "id"
   add_foreign_key "cloud_team_attendance_actions", "cloud_team_employees", column: "cloud_team_employees_id"
   add_foreign_key "cloud_team_attendance_activities", "cloud_team_employees", column: "cloud_team_employees_id"
@@ -684,4 +752,5 @@ ActiveRecord::Schema.define(version: 90000003) do
   add_foreign_key "cloud_team_employees", "cloud_team_accounts", column: "cloud_team_accounts_id"
   add_foreign_key "cloud_team_employees", "users", column: "users_id"
   add_foreign_key "users", "accounts", column: "accounts_id"
+  add_foreign_key "users", "cloud_lock_roles", column: "cloud_lock_roles_id"
 end
