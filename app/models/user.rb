@@ -54,6 +54,14 @@ class User < ApplicationRecord
                 self.account.driver.account = self.account
                 self.account.driver.save!
             end
+            if self.account.driver.calendars.default.blank?
+                self.account.driver.calendars.create({
+                    detail_attributes: {
+                        name: self.name,
+                        default: true
+                    }
+                })
+            end
         end
         if defined? CloudBell
             if self.account.bell.blank?
