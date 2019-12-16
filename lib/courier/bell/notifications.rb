@@ -3,9 +3,7 @@ module Courier
         class Notifications
 
             def self.send(user:, subject:, body:nil, href:nil, format:'info', type: 'web', cloud_object_type: 'resource')
-                unless (defined? CloudBell && user.account.bell.present?)
-                    return
-                end
+                return unless defined? CloudBell
 
                 case type
                 when 'web'
