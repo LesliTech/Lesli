@@ -60,6 +60,7 @@ export default {
             let formData = new FormData()
             formData.append(`${field_key}_file[name]`, this.file.name)
             formData.append(`${field_key}_file[file]`, this.file.file)
+            formData.append(`${field_key}_file[cloud_${foreign_key}s_id]`, this.cloudId)
 
             this.http.post(`/${this.cloudModule}s/${this.cloudId}/files`, formData, {
                 headers: {
