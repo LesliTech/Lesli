@@ -26,6 +26,7 @@ Building a better future, one line of code at a time.
 */
 
 .module-navigation {
+    overflow-y: auto;
     background-color: lesli-color(standard, white);
     box-shadow: 0 8px 10px -9px 
         rgba(0,0,0,.05), 0 3px 14px 2px 
