@@ -48,6 +48,13 @@ class User < ApplicationRecord
                 self.account.team.save!
             end
         end
+        if defined? CloudDriver
+            if self.account.driver.blank?
+                self.account.driver = CloudDriver::Account.new
+                self.account.driver.account = self.account
+                self.account.driver.save!
+            end
+        end
         if defined? CloudBell
             if self.account.bell.blank?
                 self.account.bell = CloudBell::Account.new
