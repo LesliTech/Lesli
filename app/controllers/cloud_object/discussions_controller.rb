@@ -37,7 +37,7 @@ module CloudObject
 
         # Only allow a trusted parameter "white list" through.
         def cloud_object_discussion_params
-            params.require(:ticket_discussion).permit(
+            params.require("#{dynamic_info[:object_name]}_discussion".to_sym).permit(
                 :content,
                 "cloud_#{dynamic_info[:module_name]}_#{dynamic_info[:object_name]}s_id".to_sym,
                 "cloud_#{dynamic_info[:module_name]}_#{dynamic_info[:object_name]}_discussions_id".to_sym
