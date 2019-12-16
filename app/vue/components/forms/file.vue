@@ -57,27 +57,31 @@ export default {
             let foreign_key = this.cloudModule.replace('/','_')
             let field_key = this.cloudModule.split('/')[1]
 
-            let formData = new FormData();
-            formData.append(`${field_key}_file[cloud_${foreign_key}s_id]`, this.cloudId)
+            let formData = new FormData()
             formData.append(`${field_key}_file[name]`, this.file.name)
             formData.append(`${field_key}_file[file]`, this.file.file)
 
-            this.http.post(`/${this.cloudModule}/files`, formData, {
+            this.http.post(`/${this.cloudModule}s/${this.cloudId}/files`, formData, {
                 headers: {
                     'Content-Type': 'multipart/form-data'
                 }
             }).then(result => {
                 if (result.successful) {
                     this.file.name = ""
+                    this.$refs.file.value = null
+                    this.bus.publish(`post:/${this.cloudModule}/files`)
+                    this.alert("File successfully uploaded")
+                } else {
+                    this.alert(result.error.message, 'danger')
                 }
-                this.bus.publish(`post:/${this.cloudModule}/files`)
             }).catch(error => {
                 console.log(error)
             })
 
         },
         handleFileUpload(test, files) {
-            this.file.file = files[0];
+            this.file.file = files[0]
+            this.$refs.input.focus()
         }
 
     }
@@ -87,8 +91,13 @@ export default {
 <template>
     <div class="box">
         <form @submit="postFile">
-            <input type="file" @change="handleFileUpload($event.target.name, $event.target.files)">
-            <input class="input" type="text" v-model="file.name" placeholder="Add new file...">
+            <input class="wrap-file" type="file" ref="file" @change="handleFileUpload($event.target.name, $event.target.files)">
+            <input v-model="file.name" class="input" type="text" ref="input" placeholder="Add a name to the file...">
         </form>
     </div>
 </template>
+<style scoped>
+    .wrap-file{
+        width: 100%;
+    }
+</style>
