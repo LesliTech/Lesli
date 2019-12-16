@@ -4,11 +4,11 @@ module Subscribable include ActiveSupport::Concern
     def add_subscriber(user, event=nil, notification_type=nil)
         notification_type = :web unless notification_type
         if event
-            subscribers.create(user: user, event: event, notification_type: class_subscriber.notification_types[notification_type])
+            subscribers.create(user: user, event: event, notification_type: dynamic_class.notification_types[notification_type])
         end
         
-        class_subscriber.events.values.each do |event|
-            subscribers.create(user: user, event: event, notification_type: class_subscriber.notification_types[notification_type])
+        dynamic_class.events.values.each do |event|
+            subscribers.create(user: user, event: event, notification_type: dynamic_class.notification_types[notification_type])
         end
     end
 
@@ -26,7 +26,7 @@ module Subscribable include ActiveSupport::Concern
 
     def subscription_events
         data = { }
-        events = class_subscriber.events.keys
+        events = dynamic_class.events.keys
         events.each do |event|
             data[event] = {
                 event: event,
@@ -48,7 +48,7 @@ module Subscribable include ActiveSupport::Concern
         "/#{path[0]}/#{path[1]}s/#{id}"
     end
 
-    def class_subscriber
+    def dynamic_class
         "#{self.class.name}::Subscriber".constantize
     end
 
