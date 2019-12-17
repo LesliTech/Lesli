@@ -51,9 +51,7 @@ export default {
     methods: {
 
         initListener(){
-            this.bus.$on("post:components/forms/discussion", () => {
-                this.getDiscussions()
-            })
+            this.bus.subscribe("post:components/forms/discussion", () =>  this.getDiscussions() )
         },
 
         getDiscussions() {
