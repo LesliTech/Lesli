@@ -56,10 +56,17 @@ export default {
         }
     },
     mounted() {
-        this.bus.subscribe("show:/module/app/files", () => this.show = !this.show )
-        this.bus.subscribe(`post:/${this.cloudModule}/files`, () => this.getFiles() )
+        this.getFiles()
+        this.initListeners()
+
+        
     },
     methods: {
+        initListeners(){
+            this.bus.subscribe("show:/module/app/files", () => this.show = !this.show )
+            this.bus.subscribe(`post:/${this.cloudModule}/files`, () => this.getFiles() )
+        },
+
         getFiles() {
             this.http.get(`/${this.cloudModule}s/${this.cloudId}/files`).then(result => {
                 if (result.successful) {
@@ -92,7 +99,9 @@ export default {
                         <component-form-file class="box" :cloudModule="cloudModule" :cloudId="cloudId"/>
                         <ul class="menu-list">
                             <li class="field" v-for="file in files" :key="file.id">
-                                {{ file.name }}
+                                <a :href="`/${cloudModule}s/${cloudId}/files/${file.id}`">
+                                    {{ file.name }}
+                                </a>
                             </li>
                         </ul>
                     </div>
@@ -103,3 +112,8 @@ export default {
         </div>
     </section>
 </template>
+<style scoped>
+    .menu-list{
+        word-wrap: break-word;
+    }
+</style>
