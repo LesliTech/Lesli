@@ -1,0 +1,8 @@
+en:
+  accounts:
+    form:
+      fields:
+        company_name: Company Name
+        name: Name
+      actions:
+        save: Save
