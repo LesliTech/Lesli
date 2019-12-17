@@ -1,8 +1,13 @@
 %header
     = image_tag 'brand/leslicloud-logo.png'
     = link_to "Login", new_user_session_path, :class => 'navbar-link'
-    = I18n.t('websites.landing.hello')
-
+    %br
+    %br
+    = I18n.t('core.websites.show.header.title')
+    %br
+    %br
     = link_to "en", { :locale=>'en' }
     %br
     = link_to "es", { :locale=>'es' }
+    %br
+    = link_to "de", { :locale=>'de' }

@@ -1,7 +1,7 @@
 PATH
-  remote: engines/CloudTeam
+  remote: engines/CloudBabel
   specs:
-    cloud_team (0.1.0)
+    cloud_babel (0.1.0)
       rails (~> 6.0.0)
 
 GEM
@@ -251,7 +251,7 @@ DEPENDENCIES
   bootsnap (>= 1.1.0)
   byebug
   cancancan
-  cloud_team!
+  cloud_babel!
   devise
   faker
   haml-rails
