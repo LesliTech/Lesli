@@ -168,11 +168,6 @@ export default {
                         </div>
                     </div>
                 </div>
-                <div class="media-right">
-                    <span class="icon is-small">
-                        <!-- <i class="fas fa-reply"></i> -->
-                    </span>
-                </div>
             </div>
         </div>
     </section>

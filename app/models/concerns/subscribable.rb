@@ -24,7 +24,7 @@ module Subscribable include ActiveSupport::Concern
         end
     end
 
-    def subscription_events
+    def subscription_events(user)
         data = { }
         events = dynamic_class.events.keys
         events.each do |event|
@@ -33,7 +33,7 @@ module Subscribable include ActiveSupport::Concern
                 subscribed: false
             }
         end
-        subscribers.each do |subscriber|
+        subscribers.where(users_id: user.id).each do |subscriber|
             data[subscriber.event][:id] = subscriber.id
             data[subscriber.event][:subscribed] = true
             data[subscriber.event][:notification_type] = subscriber.notification_type

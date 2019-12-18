@@ -43,7 +43,7 @@ export default {
             show: false,
             events: [],
             module_name: null,
-            resource_name: null,
+            object_name: null,
             master_fields: {
                 subscribed: false,
                 notification_type: 'web'
@@ -63,17 +63,17 @@ export default {
         parseCloudModule(){
             let module_data = this.cloudModule.split('/')
             this.module_name = module_data[0]
-            this.resource_name = module_data[1]
+            this.object_name = module_data[1]
         },
 
         setTranslations(){
-            this.translations = I18n.t(`cloud_${this.module_name}.${this.resource_name}s.subscriptions`)
+            this.translations = I18n.t(`cloud_${this.module_name}.${this.object_name}s.subscriptions`)
         },
 
         getEvents(){
             if(this.cloudId){
                 let module = this.cloudModule.split('/')
-                this.http.get(`/${this.module_name}/${this.resource_name}s/${this.cloudId}/subscribers`).then(result => {
+                this.http.get(`/${this.module_name}/${this.object_name}s/${this.cloudId}/subscribers`).then(result => {
                     if (result.successful) {
                         this.events = result.data
                     } else {
@@ -97,13 +97,12 @@ export default {
                 return event
             })
             
-            let data = {
-                ticket: {
-                    subscribers_attributes: events
-                }
+            let form_data = {}
+            form_data[this.object_name] = {
+                subscribers_attributes: events
             }
             this.show = false
-            this.http.put(`/${this.module_name}/${this.resource_name}s/${this.cloudId}`, data).then(result => {
+            this.http.put(`/${this.module_name}/${this.object_name}s/${this.cloudId}`, form_data).then(result => {
                 if (result.successful) {
                     this.events = result.data
                     this.alert(this.translations.messages.subscribe.successful)
@@ -203,7 +202,7 @@ export default {
     </section>
 </template>
 <style scoped>
-.clickable{
-    cursor: pointer;
-}
+    .clickable{
+        cursor: pointer;
+    }
 </style>
