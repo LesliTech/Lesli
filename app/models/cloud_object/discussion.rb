@@ -1,6 +1,5 @@
 module CloudObject
     class Discussion < ApplicationRecord
-
         self.abstract_class = true
 
         def self.detailed_info(account, cloud_id)

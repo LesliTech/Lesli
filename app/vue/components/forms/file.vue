@@ -40,29 +40,42 @@ export default {
             required: true
         }
     },
+
     data() {
         return {
+            module_name: null,
+            object_name: null,
             file: {
                 name: "",
                 file: null
             }
         }
     },
+    
+    mounted(){
+        this.parseCloudModule()
+    },
+
     methods: {
+
+        parseCloudModule(){
+            let module_data = this.cloudModule.split('/')
+            this.module_name = module_data[0]
+            this.object_name = module_data[1]
+        },
         
         postFile(e) {
 
             if (e) { e.preventDefault() }
 
             let foreign_key = this.cloudModule.replace('/','_')
-            let field_key = this.cloudModule.split('/')[1]
 
-            let formData = new FormData()
-            formData.append(`${field_key}_file[name]`, this.file.name)
-            formData.append(`${field_key}_file[file]`, this.file.file)
-            formData.append(`${field_key}_file[cloud_${foreign_key}s_id]`, this.cloudId)
+            let form_data = new FormData()
+            form_data.append(`${this.object_name}_file[name]`, this.file.name)
+            form_data.append(`${this.object_name}_file[file]`, this.file.file)
+            form_data.append(`${this.object_name}_file[cloud_${foreign_key}s_id]`, this.cloudId)
 
-            this.http.post(`/${this.cloudModule}s/${this.cloudId}/files`, formData, {
+            this.http.post(`/${this.cloudModule}s/${this.cloudId}/files`, form_data, {
                 headers: {
                     'Content-Type': 'multipart/form-data'
                 }

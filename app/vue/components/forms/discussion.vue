@@ -36,6 +36,11 @@ import VueTrix from "vue-trix"
 // · Component
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
 export default {
+
+    components: {
+        'component-trix-editor': VueTrix
+    },
+
     props: {
         cloudModule: {
             type: String,
@@ -45,18 +50,29 @@ export default {
             required: true
         }
     },
-    components: {
-        'component-trix-editor': VueTrix
-    },
+
     data() {
         return {
+            module_name: null,
+            object_name: null,
             show_simple_form: true,
             discussion: {
                 content: ""
             }
         }
     },
+
+    mounted(){
+        this.parseCloudModule()
+    },
+
     methods: {
+
+        parseCloudModule(){
+            let module_data = this.cloudModule.split('/')
+            this.module_name = module_data[0]
+            this.object_name = module_data[1]
+        },
         
         postDiscussion(e) {
 
@@ -65,13 +81,10 @@ export default {
             // add owner id
             this.discussion[`cloud_${this.cloudModule.replace('/','_')}s_id`] = this.cloudId
 
-            let request_data = {}
-            request_data[`${this.cloudModule.split('/')[1]}_discussion`] = this.discussion
+            let form_data = {}
+            form_data[`${this.object_name}_discussion`] = this.discussion
 
-            //{"  ticket_discussion":{"content":"hola","cloud_help_tickets_id"  :"2"}}
-            //{"employee_discussion":{"content":"hola","cloud_team_employees_id":"1"}}
-
-            this.http.post(`/${this.cloudModule}s/${this.cloudId}/discussions`, request_data).then(result => {
+            this.http.post(`/${this.cloudModule}s/${this.cloudId}/discussions`, form_data).then(result => {
                 if (result.successful) {
                     this.discussion.content = ""
                 }
