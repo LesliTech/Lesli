@@ -2,7 +2,7 @@
 :en:
   core:
     websites:
-      views:
-        delete:
+      models:
+        destroy:
           messages:
             label_demo: Label demo

@@ -1,8 +1,8 @@
 ---
-:en:
+:de:
   core:
     websites:
-      views:
-        delete:
+      controllers:
+        destroy:
           messages:
             label_demo: Label demo

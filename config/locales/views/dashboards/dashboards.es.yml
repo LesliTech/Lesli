@@ -1,7 +1,7 @@
 ---
 :es:
   core:
-    websites:
+    dashboards:
       views:
         delete:
           messages:
