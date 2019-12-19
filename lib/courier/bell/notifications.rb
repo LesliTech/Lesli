@@ -34,7 +34,7 @@ module Courier
                 unless defined? CloudBell
                     return 0
                 end
-                user.notifications.length
+                CloudBell::Notification.where(users_id: user.id, read: false).count
             end
 
             def self.send_email(user, subject, body, href, format, cloud_object_type)

@@ -50,36 +50,37 @@ export default {
         }
     },
     mounted() {
-        this.bus.$on(`post:/${this.cloudModule}/actions`, () => {
-            this.getActions()
-        })
-        this.bus.$on("show:/module/app/actions", () => this.show = !this.show )
+        this.getActions()
+        this.mountListeners()
     },
     methods: {
 
-        getActions() {
-            this.http.get(`/${this.cloudModule}s/${this.cloudId}/actions`).then(result => {
-                if (result.successful) {
-                    this.actions = result.data
-                }
-            }).catch(error => {
-                console.log(error)
+        mountListeners(){
+            this.bus.subscribe(`post:/${this.cloudModule}/actions`, () => {
+                this.getActions()
             })
+            this.bus.subscribe("show:/module/app/actions", () => this.show = !this.show )
         },
 
-        updateAsComplete(ticket) {
-            this.http.patch(`/help/ticket/actions/${ ticket.id }`, {
-                ticket_action: {
-                    id: ticket.id,
-                    complete: ticket.complete,
-                    cloud_help_tickets_id: ticket.cloud_help_tickets_id
-                }
-            }).then(result => {
-                if (result.successful) {
-                    if (result.data.complete == true) {
-                        this.alert('Task marked as completed!')
+        getActions() {
+            if(this.cloudId){
+                this.http.get(`/${this.cloudModule}s/${this.cloudId}/actions`).then(result => {
+                    if (result.successful) {
+                        this.actions = result.data
                     }
-                    if (result.data.complete != true) {
+                }).catch(error => {
+                    console.log(error)
+                })
+            }
+        },
+
+        patchAction(action) {
+            let form_data =  { ticket_action: action }
+            this.http.patch(`/${this.cloudModule}s/${this.cloudId}/actions/${ action.id }`, form_data).then(result => {
+                if (result.successful) {
+                    if (action.complete == true) {
+                        this.alert('Task marked as completed!')
+                    }else{
                         this.alert('Task marked as not completed!')
                     }
                 }
@@ -91,9 +92,7 @@ export default {
     },
     watch: {
         cloudId(){
-            if(this.cloudId){
-                this.getActions()
-            }
+            this.getActions()
         }
     }
 }
@@ -103,7 +102,7 @@ export default {
         <div :class="[{ 'is-active': show }, 'quickview']">
             <header class="quickview-header" @click="show = false">
                 <p class="title">Actions</p>
-                <i class="fas fa-chevron-right"></i>
+                <i class="fas fa-chevron-right clickable"></i>
             </header>
             <div class="quickview-body">
                 <div class="quickview-block">
@@ -111,7 +110,7 @@ export default {
                         <component-form-action class="box" :cloudModule="cloudModule" :cloudId="cloudId"/>
                         <ul class="menu-list">
                             <li class="field" v-for="action in actions" :key="action.id">
-                                <input :id="action.id" class="is-checkradio" type="checkbox" v-model="action.complete" @change="updateAsComplete(action)">
+                                <input :id="action.id" class="is-checkradio" type="checkbox" v-model="action.complete" @change="patchAction(action)">
                                 <label :for="action.id">{{ action.instructions }}</label>
                             </li>
                         </ul>
@@ -123,3 +122,8 @@ export default {
         </div>
     </section>
 </template>
+<style scoped>
+    .clickable{
+        cursor: pointer;
+    }
+</style>

@@ -40,14 +40,28 @@ export default {
             required: true
         }
     },
+
     data() {
         return {
+            module_name: null,
+            object_name: null,
             action: {
                 instructions: ""
             }
         }
     },
+
+    mounted(){
+        this.parseCloudModule()
+    },
+
     methods: {
+
+        parseCloudModule(){
+            let module_data = this.cloudModule.split('/')
+            this.module_name = module_data[0]
+            this.object_name = module_data[1]
+        },
         
         postAction(e) {
 
@@ -56,12 +70,10 @@ export default {
             // add owner id
             this.action[`cloud_${this.cloudModule.replace('/','_')}s_id`] = this.cloudId
 
-            console.log(JSON.stringify(this.action))
-
             let request_data = {}
-            request_data[`${this.cloudModule.split('/')[1]}_action`] = this.action
+            request_data[`${this.object_name}_action`] = this.action
 
-            this.http.post(`/${this.cloudModule}/actions`, request_data).then(result => {
+            this.http.post(`/${this.cloudModule}s/${this.cloudId}/actions`, request_data).then(result => {
                 if (result.successful) {
                     this.action.instructions = ""
                 }
