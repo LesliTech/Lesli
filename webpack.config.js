@@ -158,7 +158,7 @@ function webpackConfigBuilder(compilationMode) {
         'CloudBooks',
         'CloudWallet',
         'CloudThings',
-        'CloudKB',
+        'CloudKb',
         'CloudHelp',
         'CloudPortal',
         'CloudBug',

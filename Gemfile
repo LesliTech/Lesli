@@ -119,7 +119,6 @@ group :test do
 end
 
 # Loading installed engines
-
 [
     'CloudTeam',
     'CloudHappy',
@@ -138,7 +137,7 @@ end
     'CloudBooks',
     'CloudWallet',
     'CloudThings',
-    'CloudKB',
+    'CloudKb',
     'CloudHelp',
     'CloudPortal',
     'CloudBug',
