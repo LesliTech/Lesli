@@ -91,7 +91,7 @@ export default {
         <div :class="[{ 'is-active': show }, 'quickview']">
             <header class="quickview-header" @click="show = false">
                 <p class="title">Files</p>
-                <i class="fas fa-chevron-right"></i>
+                <i class="fas fa-chevron-right clickable"></i>
             </header>
             <div class="quickview-body">
                 <div class="quickview-block">
@@ -115,5 +115,8 @@ export default {
 <style scoped>
     .menu-list{
         word-wrap: break-word;
+    }
+    .clickable{
+        cursor: pointer;
     }
 </style>

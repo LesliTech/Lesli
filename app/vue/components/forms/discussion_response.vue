@@ -15,14 +15,29 @@ export default {
             required: true
         }
     },
+
     data() {
         return {
+            module_name: null,
+            object_name: null,
             discussion: {
                 content: ""
             }
         }
     },
+
+    mounted(){
+        this.parseCloudModule()
+    },
+
     methods: {
+
+        parseCloudModule(){
+            let module_data = this.cloudModule.split('/')
+            this.module_name = module_data[0]
+            this.object_name = module_data[1]
+        },
+
         postDiscussion(e) {
 
             if (e) { e.preventDefault() }
@@ -37,7 +52,7 @@ export default {
             this.discussion[`cloud_${module_prefix}_discussions_id`] = this.discussionId
 
             let request_data = {}
-            request_data[`${this.cloudModule.split('/')[1]}_discussion`] = this.discussion
+            request_data[`${this.object_name}_discussion`] = this.discussion
 
             this.http.post(`/${this.cloudModule}s/${this.cloudId}/discussions`, request_data).then(result => {
                 if (result.successful) {
