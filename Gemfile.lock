@@ -1,10 +1,4 @@
 PATH
-  remote: engines/CloudTeam
-  specs:
-    cloud_team (0.1.0)
-      rails (~> 6.0.0)
-
-PATH
   remote: engines/CloudBabel
   specs:
     cloud_babel (0.1.0)
@@ -258,7 +252,6 @@ DEPENDENCIES
   byebug
   cancancan
   cloud_babel!
-  cloud_team!
   devise
   faker
   haml-rails

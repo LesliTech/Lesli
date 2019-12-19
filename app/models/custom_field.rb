@@ -1,0 +1,2 @@
+class CustomField < ApplicationRecord
+end
