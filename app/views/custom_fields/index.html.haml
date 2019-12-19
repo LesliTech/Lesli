@@ -1,0 +1,19 @@
+%h1 Listing custom_fields
+
+%table
+  %thead
+    %tr
+      %th
+      %th
+      %th
+
+  %tbody
+    - @custom_fields.each do |custom_field|
+      %tr
+        %td= link_to 'Show', custom_field
+        %td= link_to 'Edit', edit_custom_field_path(custom_field)
+        %td= link_to 'Destroy', custom_field, method: :delete, data: { confirm: 'Are you sure?' }
+
+%br
+
+= link_to 'New Custom field', new_custom_field_path

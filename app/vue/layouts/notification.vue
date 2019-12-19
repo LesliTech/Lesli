@@ -41,7 +41,6 @@ export default {
         }
     },
     mounted() {
-        this.getNotifications()
         this.mountListeners()
     },
     methods: {

@@ -1,20 +1,139 @@
 ---
 :es:
   core:
+    custom_fields:
+      views:
+        index:
+          messages:
+            label_demo: Etiqueta de demo
+        show:
+          messages:
+            label_demo: Etiqueta de demo
+        new:
+          messages:
+            label_demo: Etiqueta de demo
+        edit:
+          messages:
+            label_demo: Etiqueta de demo
+        delete:
+          messages:
+            label_demo: Etiqueta de demo
+    users/sessions:
+      views:
+        index:
+          messages:
+            label_demo: Etiqueta de demo
+        show:
+          messages:
+            label_demo: Etiqueta de demo
+        new:
+          messages:
+            label_demo: Etiqueta de demo
+        edit:
+          messages:
+            label_demo: Etiqueta de demo
+        delete:
+          messages:
+            label_demo: Etiqueta de demo
+    users/passwords:
+      views:
+        index:
+          messages:
+            label_demo: Etiqueta de demo
+        show:
+          messages:
+            label_demo: Etiqueta de demo
+        new:
+          messages:
+            label_demo: Etiqueta de demo
+        edit:
+          messages:
+            label_demo: Etiqueta de demo
+        delete:
+          messages:
+            label_demo: Etiqueta de demo
+    users/registrations:
+      views:
+        index:
+          messages:
+            label_demo: Etiqueta de demo
+        show:
+          messages:
+            label_demo: Etiqueta de demo
+        new:
+          messages:
+            label_demo: Etiqueta de demo
+        edit:
+          messages:
+            label_demo: Etiqueta de demo
+        delete:
+          messages:
+            label_demo: Etiqueta de demo
+    users/confirmations:
+      views:
+        index:
+          messages:
+            label_demo: Etiqueta de demo
+        show:
+          messages:
+            label_demo: Etiqueta de demo
+        new:
+          messages:
+            label_demo: Etiqueta de demo
+        edit:
+          messages:
+            label_demo: Etiqueta de demo
+        delete:
+          messages:
+            label_demo: Etiqueta de demo
+    accounts:
+      views:
+        index:
+          messages:
+            label_demo: Etiqueta de demo
+        show:
+          messages:
+            label_demo: Etiqueta de demo
+        new:
+          messages:
+            label_demo: Etiqueta de demo
+        edit:
+          messages:
+            label_demo: Etiqueta de demo
+        delete:
+          messages:
+            label_demo: Etiqueta de demo
+    dashboards:
+      views:
+        index:
+          messages:
+            label_demo: Etiqueta de demo
+        show:
+          messages:
+            label_demo: Etiqueta de demo
+        new:
+          messages:
+            label_demo: Etiqueta de demo
+        edit:
+          messages:
+            label_demo: Etiqueta de demo
+        delete:
+          messages:
+            label_demo: Etiqueta de demo
     websites:
       views:
-        create:
-          actions:
-            label_demo_for_actions: Etiqueta de demo para actions
+        index:
           messages:
-            label_demo_for_messages: Etiqueta de demo para messages
-        update:
-          actions:
-            label_demo_for_actions: Etiqueta de demo para actions
+            label_demo: Etiqueta de demo
+        show:
           messages:
-            label_demo_for_messages: Etiqueta de demo para messages
-        destroy:
-          actions:
-            label_demo_for_actions: Etiqueta de demo para actions
+            label_demo: Etiqueta de demo
+        new:
           messages:
-            label_demo_for_messages: Etiqueta de demo para messages
+            label_demo: Etiqueta de demo
+        edit:
+          messages:
+            label_demo: Etiqueta de demo
+        delete:
+          messages:
+            label_demo: Etiqueta de demo

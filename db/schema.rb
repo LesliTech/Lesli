@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 90000004) do
+ActiveRecord::Schema.define(version: 2019_12_18_031543) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -60,15 +60,19 @@ ActiveRecord::Schema.define(version: 90000004) do
   end
 
   create_table "cloud_babel_translation_object_group_labels", force: :cascade do |t|
+    t.string "context"
     t.string "label"
     t.string "es"
     t.string "en"
     t.string "de"
     t.string "fr"
+    t.integer "status"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.bigint "users_id"
     t.bigint "cloud_babel_translation_object_groups_id"
     t.index ["cloud_babel_translation_object_groups_id"], name: "babel_translation_object_group_labels_groups"
+    t.index ["users_id"], name: "babel_translation_object_group_labels_users"
   end
 
   create_table "cloud_babel_translation_object_groups", force: :cascade do |t|
@@ -95,539 +99,23 @@ ActiveRecord::Schema.define(version: 90000004) do
     t.datetime "updated_at", precision: 6, null: false
   end
 
-  create_table "cloud_team_accounts", force: :cascade do |t|
-  end
-
-  create_table "cloud_team_attendance_actions", force: :cascade do |t|
+  create_table "custom_fields", force: :cascade do |t|
+    t.string "module_name"
+    t.string "model_name"
+    t.string "field_label"
+    t.string "field_name"
+    t.string "field_type"
+    t.string "field_instructions"
+    t.boolean "field_is_required"
+    t.string "default_value"
+    t.json "allowed_values"
+    t.string "placeholder_text"
+    t.string "formatting"
+    t.integer "character_limit"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.bigint "cloud_team_employees_id"
-    t.index ["cloud_team_employees_id"], name: "index_cloud_team_attendance_actions_on_cloud_team_employees_id"
-  end
-
-  create_table "cloud_team_attendance_activities", force: :cascade do |t|
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-    t.bigint "cloud_team_employees_id"
-    t.index ["cloud_team_employees_id"], name: "team_attendance_activities_employees"
-  end
-
-  create_table "cloud_team_attendance_details", force: :cascade do |t|
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-    t.bigint "cloud_team_employees_id"
-    t.index ["cloud_team_employees_id"], name: "index_cloud_team_attendance_details_on_cloud_team_employees_id"
-  end
-
-  create_table "cloud_team_attendance_discussions", force: :cascade do |t|
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-    t.bigint "cloud_team_employees_id"
-    t.bigint "cloud_team_attendance_discussions_id"
     t.bigint "users_id"
-    t.index ["cloud_team_attendance_discussions_id"], name: "team_attendance_discussions"
-    t.index ["cloud_team_employees_id"], name: "team_attendance_discussions_employees"
-    t.index ["users_id"], name: "index_cloud_team_attendance_discussions_on_users_id"
-  end
-
-  create_table "cloud_team_attendance_files", force: :cascade do |t|
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-    t.bigint "cloud_team_employees_id"
-    t.index ["cloud_team_employees_id"], name: "index_cloud_team_attendance_files_on_cloud_team_employees_id"
-  end
-
-  create_table "cloud_team_attendance_subscribers", force: :cascade do |t|
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-    t.bigint "cloud_team_employees_id"
-    t.index ["cloud_team_employees_id"], name: "team_attendance_subscribers_employees"
-  end
-
-  create_table "cloud_team_attendance_time_details", force: :cascade do |t|
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-    t.bigint "cloud_team_attendance_time_headers_id"
-    t.index ["cloud_team_attendance_time_headers_id"], name: "team_attendance_time_details_headers"
-  end
-
-  create_table "cloud_team_attendance_time_headers", force: :cascade do |t|
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-    t.bigint "cloud_team_employees_id"
-    t.index ["cloud_team_employees_id"], name: "team_attendance_time_headers_employees"
-  end
-
-  create_table "cloud_team_attendances", force: :cascade do |t|
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-    t.bigint "cloud_team_employees_id"
-    t.index ["cloud_team_employees_id"], name: "index_cloud_team_attendances_on_cloud_team_employees_id"
-  end
-
-  create_table "cloud_team_contract_actions", force: :cascade do |t|
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-  end
-
-  create_table "cloud_team_contract_activities", force: :cascade do |t|
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-  end
-
-  create_table "cloud_team_contract_details", force: :cascade do |t|
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-  end
-
-  create_table "cloud_team_contract_discussions", force: :cascade do |t|
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-  end
-
-  create_table "cloud_team_contract_files", force: :cascade do |t|
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-  end
-
-  create_table "cloud_team_contract_subscribers", force: :cascade do |t|
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-  end
-
-  create_table "cloud_team_contracts", force: :cascade do |t|
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-  end
-
-  create_table "cloud_team_employee_actions", force: :cascade do |t|
-    t.integer "type"
-    t.string "instructions"
-    t.datetime "deadline"
-    t.boolean "complete"
-    t.string "tags"
-    t.datetime "deleted_at"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-    t.bigint "cloud_team_employees_id"
-    t.index ["cloud_team_employees_id"], name: "index_cloud_team_employee_actions_on_cloud_team_employees_id"
-    t.index ["deleted_at"], name: "index_cloud_team_employee_actions_on_deleted_at"
-  end
-
-  create_table "cloud_team_employee_activities", force: :cascade do |t|
-    t.integer "type"
-    t.string "value"
-    t.datetime "deleted_at"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.bigint "cloud_team_employees_id"
-    t.index ["cloud_team_employees_id"], name: "index_cloud_team_employee_activities_on_cloud_team_employees_id"
-    t.index ["deleted_at"], name: "index_cloud_team_employee_activities_on_deleted_at"
-  end
-
-  create_table "cloud_team_employee_contact_details", force: :cascade do |t|
-    t.string "work_telephone"
-    t.string "work_mobile"
-    t.string "work_email"
-    t.string "work_address"
-    t.string "work_location"
-    t.string "personal_mobile_number"
-    t.string "personal_phone_number"
-    t.string "personal_email_address"
-    t.string "address"
-    t.string "location"
-    t.datetime "deleted_at"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.bigint "cloud_team_employees_id"
-    t.index ["cloud_team_employees_id"], name: "team_employee_contact_details_employees"
-    t.index ["deleted_at"], name: "index_cloud_team_employee_contact_details_on_deleted_at"
-  end
-
-  create_table "cloud_team_employee_contact_emergency_details", force: :cascade do |t|
-    t.string "full_name"
-    t.string "relation"
-    t.string "phone_number_1"
-    t.string "phone_number_2"
-    t.string "full_address"
-    t.datetime "deleted_at"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.bigint "cloud_team_employees_id"
-    t.index ["cloud_team_employees_id"], name: "team_employee_contact_emergency_details_employees"
-    t.index ["deleted_at"], name: "team_employee_contact_emergency_details_deleted_at"
-  end
-
-  create_table "cloud_team_employee_details", force: :cascade do |t|
-    t.string "first_name"
-    t.string "second_name"
-    t.string "third_name"
-    t.string "surname"
-    t.string "second_surname"
-    t.string "married_name"
-    t.date "birthdate"
-    t.string "phone_number"
-    t.string "mobile_number"
-    t.string "fax"
-    t.string "email"
-    t.string "address"
-    t.string "location"
-    t.bigint "nationality_country_id"
-    t.string "identity_document_number"
-    t.string "passport_number"
-    t.integer "marital_status"
-    t.string "gender"
-    t.string "blood_group"
-    t.text "biography"
-    t.text "family_background"
-    t.text "health_details"
-    t.datetime "deleted_at"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.bigint "cloud_team_employees_id"
-    t.index ["cloud_team_employees_id"], name: "index_cloud_team_employee_details_on_cloud_team_employees_id"
-    t.index ["deleted_at"], name: "index_cloud_team_employee_details_on_deleted_at"
-  end
-
-  create_table "cloud_team_employee_discussions", force: :cascade do |t|
-    t.text "content"
-    t.datetime "deleted_at"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-    t.bigint "cloud_team_employee_discussions_id"
-    t.bigint "users_id"
-    t.bigint "cloud_team_employees_id"
-    t.index ["cloud_team_employee_discussions_id"], name: "employee_discussions_discussions"
-    t.index ["cloud_team_employees_id"], name: "employee_discussions"
-    t.index ["users_id"], name: "index_cloud_team_employee_discussions_on_users_id"
-  end
-
-  create_table "cloud_team_employee_files", force: :cascade do |t|
-    t.string "name"
-    t.datetime "deleted_at"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-    t.bigint "cloud_team_employees_id"
-    t.index ["cloud_team_employees_id"], name: "index_cloud_team_employee_files_on_cloud_team_employees_id"
-    t.index ["deleted_at"], name: "index_cloud_team_employee_files_on_deleted_at"
-  end
-
-  create_table "cloud_team_employee_locations", force: :cascade do |t|
-    t.datetime "deleted_at"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.bigint "cloud_team_employees_id"
-    t.index ["cloud_team_employees_id"], name: "index_cloud_team_employee_locations_on_cloud_team_employees_id"
-    t.index ["deleted_at"], name: "index_cloud_team_employee_locations_on_deleted_at"
-  end
-
-  create_table "cloud_team_employee_social_accounts", force: :cascade do |t|
-    t.string "facebook"
-    t.string "twitter"
-    t.string "slack"
-    t.string "skype"
-    t.datetime "deleted_at"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.bigint "cloud_team_employees_id"
-    t.index ["cloud_team_employees_id"], name: "team_employee_social_account_employees"
-    t.index ["deleted_at"], name: "index_cloud_team_employee_social_accounts_on_deleted_at"
-  end
-
-  create_table "cloud_team_employee_subscribers", force: :cascade do |t|
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-  end
-
-  create_table "cloud_team_employees", force: :cascade do |t|
-    t.datetime "deleted_at"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-    t.bigint "cloud_team_accounts_id"
-    t.bigint "users_id"
-    t.index ["cloud_team_accounts_id"], name: "index_cloud_team_employees_on_cloud_team_accounts_id"
-    t.index ["deleted_at"], name: "index_cloud_team_employees_on_deleted_at"
-    t.index ["users_id"], name: "index_cloud_team_employees_on_users_id"
-  end
-
-  create_table "cloud_team_leave_actions", force: :cascade do |t|
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-  end
-
-  create_table "cloud_team_leave_activities", force: :cascade do |t|
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-  end
-
-  create_table "cloud_team_leave_details", force: :cascade do |t|
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-  end
-
-  create_table "cloud_team_leave_discussions", force: :cascade do |t|
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-  end
-
-  create_table "cloud_team_leave_files", force: :cascade do |t|
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-  end
-
-  create_table "cloud_team_leave_subscribers", force: :cascade do |t|
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-  end
-
-  create_table "cloud_team_leaves", force: :cascade do |t|
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-  end
-
-  create_table "cloud_team_offboarding_actions", force: :cascade do |t|
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-  end
-
-  create_table "cloud_team_offboarding_activities", force: :cascade do |t|
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-  end
-
-  create_table "cloud_team_offboarding_details", force: :cascade do |t|
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-  end
-
-  create_table "cloud_team_offboarding_discussions", force: :cascade do |t|
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-  end
-
-  create_table "cloud_team_offboarding_files", force: :cascade do |t|
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-  end
-
-  create_table "cloud_team_offboarding_subscribers", force: :cascade do |t|
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-  end
-
-  create_table "cloud_team_offboardings", force: :cascade do |t|
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-  end
-
-  create_table "cloud_team_onboarding_actions", force: :cascade do |t|
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-  end
-
-  create_table "cloud_team_onboarding_activities", force: :cascade do |t|
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-  end
-
-  create_table "cloud_team_onboarding_details", force: :cascade do |t|
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-  end
-
-  create_table "cloud_team_onboarding_discussions", force: :cascade do |t|
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-  end
-
-  create_table "cloud_team_onboarding_files", force: :cascade do |t|
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-  end
-
-  create_table "cloud_team_onboarding_subscribers", force: :cascade do |t|
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-  end
-
-  create_table "cloud_team_onboardings", force: :cascade do |t|
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-  end
-
-  create_table "cloud_team_performance_actions", force: :cascade do |t|
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-  end
-
-  create_table "cloud_team_performance_activities", force: :cascade do |t|
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-  end
-
-  create_table "cloud_team_performance_details", force: :cascade do |t|
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-  end
-
-  create_table "cloud_team_performance_discussions", force: :cascade do |t|
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-  end
-
-  create_table "cloud_team_performance_files", force: :cascade do |t|
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-  end
-
-  create_table "cloud_team_performance_subscribers", force: :cascade do |t|
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-  end
-
-  create_table "cloud_team_performances", force: :cascade do |t|
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-  end
-
-  create_table "cloud_team_recruiting_actions", force: :cascade do |t|
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-  end
-
-  create_table "cloud_team_recruiting_activities", force: :cascade do |t|
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-  end
-
-  create_table "cloud_team_recruiting_details", force: :cascade do |t|
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-  end
-
-  create_table "cloud_team_recruiting_discussions", force: :cascade do |t|
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-  end
-
-  create_table "cloud_team_recruiting_files", force: :cascade do |t|
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-  end
-
-  create_table "cloud_team_recruiting_subscribers", force: :cascade do |t|
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-  end
-
-  create_table "cloud_team_recruitings", force: :cascade do |t|
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-  end
-
-  create_table "cloud_team_succession_actions", force: :cascade do |t|
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-  end
-
-  create_table "cloud_team_succession_activities", force: :cascade do |t|
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-  end
-
-  create_table "cloud_team_succession_details", force: :cascade do |t|
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-  end
-
-  create_table "cloud_team_succession_discussions", force: :cascade do |t|
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-  end
-
-  create_table "cloud_team_succession_files", force: :cascade do |t|
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-  end
-
-  create_table "cloud_team_succession_subscribers", force: :cascade do |t|
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-  end
-
-  create_table "cloud_team_successions", force: :cascade do |t|
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-  end
-
-  create_table "cloud_team_trainning_actions", force: :cascade do |t|
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-  end
-
-  create_table "cloud_team_trainning_activities", force: :cascade do |t|
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-  end
-
-  create_table "cloud_team_trainning_details", force: :cascade do |t|
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-  end
-
-  create_table "cloud_team_trainning_discussions", force: :cascade do |t|
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-  end
-
-  create_table "cloud_team_trainning_files", force: :cascade do |t|
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-  end
-
-  create_table "cloud_team_trainning_subscribers", force: :cascade do |t|
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-  end
-
-  create_table "cloud_team_trainnings", force: :cascade do |t|
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-  end
-
-  create_table "cloud_team_vacation_actions", force: :cascade do |t|
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-  end
-
-  create_table "cloud_team_vacation_activities", force: :cascade do |t|
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-  end
-
-  create_table "cloud_team_vacation_details", force: :cascade do |t|
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-  end
-
-  create_table "cloud_team_vacation_discussions", force: :cascade do |t|
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-  end
-
-  create_table "cloud_team_vacation_files", force: :cascade do |t|
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-  end
-
-  create_table "cloud_team_vacation_subscribers", force: :cascade do |t|
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-  end
-
-  create_table "cloud_team_vacations", force: :cascade do |t|
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.index ["users_id"], name: "index_custom_fields_on_users_id"
   end
 
   create_table "users", force: :cascade do |t|
@@ -664,32 +152,9 @@ ActiveRecord::Schema.define(version: 90000004) do
   add_foreign_key "accounts", "users", column: "users_id"
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "cloud_babel_translation_object_group_labels", "cloud_babel_translation_object_groups", column: "cloud_babel_translation_object_groups_id"
+  add_foreign_key "cloud_babel_translation_object_group_labels", "users", column: "users_id"
   add_foreign_key "cloud_babel_translation_object_groups", "cloud_babel_translation_objects", column: "cloud_babel_translation_objects_id"
   add_foreign_key "cloud_babel_translation_objects", "cloud_babel_translations", column: "cloud_babel_translations_id"
-  add_foreign_key "cloud_team_accounts", "accounts", column: "id"
-  add_foreign_key "cloud_team_attendance_actions", "cloud_team_employees", column: "cloud_team_employees_id"
-  add_foreign_key "cloud_team_attendance_activities", "cloud_team_employees", column: "cloud_team_employees_id"
-  add_foreign_key "cloud_team_attendance_details", "cloud_team_employees", column: "cloud_team_employees_id"
-  add_foreign_key "cloud_team_attendance_discussions", "cloud_team_attendance_discussions", column: "cloud_team_attendance_discussions_id"
-  add_foreign_key "cloud_team_attendance_discussions", "cloud_team_employees", column: "cloud_team_employees_id"
-  add_foreign_key "cloud_team_attendance_discussions", "users", column: "users_id"
-  add_foreign_key "cloud_team_attendance_files", "cloud_team_employees", column: "cloud_team_employees_id"
-  add_foreign_key "cloud_team_attendance_subscribers", "cloud_team_employees", column: "cloud_team_employees_id"
-  add_foreign_key "cloud_team_attendance_time_details", "cloud_team_attendance_time_headers", column: "cloud_team_attendance_time_headers_id"
-  add_foreign_key "cloud_team_attendance_time_headers", "cloud_team_employees", column: "cloud_team_employees_id"
-  add_foreign_key "cloud_team_attendances", "cloud_team_employees", column: "cloud_team_employees_id"
-  add_foreign_key "cloud_team_employee_actions", "cloud_team_employees", column: "cloud_team_employees_id"
-  add_foreign_key "cloud_team_employee_activities", "cloud_team_employees", column: "cloud_team_employees_id"
-  add_foreign_key "cloud_team_employee_contact_details", "cloud_team_employees", column: "cloud_team_employees_id"
-  add_foreign_key "cloud_team_employee_contact_emergency_details", "cloud_team_employees", column: "cloud_team_employees_id"
-  add_foreign_key "cloud_team_employee_details", "cloud_team_employees", column: "cloud_team_employees_id"
-  add_foreign_key "cloud_team_employee_discussions", "cloud_team_employee_discussions", column: "cloud_team_employee_discussions_id"
-  add_foreign_key "cloud_team_employee_discussions", "cloud_team_employees", column: "cloud_team_employees_id"
-  add_foreign_key "cloud_team_employee_discussions", "users", column: "users_id"
-  add_foreign_key "cloud_team_employee_files", "cloud_team_employees", column: "cloud_team_employees_id"
-  add_foreign_key "cloud_team_employee_locations", "cloud_team_employees", column: "cloud_team_employees_id"
-  add_foreign_key "cloud_team_employee_social_accounts", "cloud_team_employees", column: "cloud_team_employees_id"
-  add_foreign_key "cloud_team_employees", "cloud_team_accounts", column: "cloud_team_accounts_id"
-  add_foreign_key "cloud_team_employees", "users", column: "users_id"
+  add_foreign_key "custom_fields", "users", column: "users_id"
   add_foreign_key "users", "accounts", column: "accounts_id"
 end
