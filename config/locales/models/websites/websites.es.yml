@@ -2,7 +2,7 @@
 :es:
   core:
     websites:
-      views:
-        delete:
+      models:
+        destroy:
           messages:
             label_demo: Etiqueta de demo
