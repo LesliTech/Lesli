@@ -5,26 +5,44 @@ namespace :dev do
         desc "Push everything to github master"
         task push: :environment do
 
+            [
+                'CloudTeam',
+                'CloudHappy',
+                'CloudSeller',
+                'CloudLeaf',
+                'CloudDrop',
+                'CloudMailer',
+                'CloudDriver',
+                'CloudChaos',
+                'CloudClock',
+                'CloudPizza',
+                'CloudNotes',
+                'CloudLesli',
+                'CloudSocial',
+                'CloudBell',
+                'CloudBooks',
+                'CloudWallet',
+                'CloudThings',
+                'CloudKb',
+                'CloudHelp',
+                'CloudPortal',
+                'CloudBug',
+                'CloudPanel',
+                'CloudLock',
+                'CloudBabel'
+            ].each do |engine|
+                engine_path = File.expand_path("./engines/#{engine}", __FILE__)
+                system "cd ./engines/#{engine} && git push github master" if File.exists?(engine_path)
+            end
+            
             system "rm -r vendor/*"
+            system "cp node_modules/buefy/ vendor/ -ra"
             system "cp node_modules/bulma/ vendor/ -ra"
             system "cp node_modules/bulma-extensions/ vendor/ -ra"
-            system "cp node_modules/buefy/ vendor/ -ra"
-            system "cp node_modules/lesli-css/ vendor/ -ra"
             system "cp node_modules/@fullcalendar/ vendor/ -ra"
+            system "cp node_modules/lesli-css/ vendor/ -ra"
 
             system "git add --all && git commit -m \"Update vendors\""
-
-            system "cd ./engines/CloudBell && git push github master"
-            system "cd ./engines/CloudBooks && git push github master"
-            system "cd ./engines/CloudCourier && git push github master"
-            system "cd ./engines/CloudDev && git push github master"
-            system "cd ./engines/CloudDriver && git push github master"
-            system "cd ./engines/CloudHelp && git push github master"
-            system "cd ./engines/CloudKb && git push github master"
-            system "cd ./engines/CloudLesli && git push github master"
-            system "cd ./engines/CloudLock && git push github master"
-            system "cd ./engines/CloudPanel && git push github master"
-            system "cd ./engines/CloudTeam && git push github master"
             
             system "git push github master"
 
@@ -33,17 +51,34 @@ namespace :dev do
         desc "Pull everything from github master"
         task pull: :environment do
 
-            system "cd ./engines/CloudBell && git pull github master"
-            system "cd ./engines/CloudBooks && git pull github master"
-            system "cd ./engines/CloudCourier && git pull github master"
-            system "cd ./engines/CloudDev && git pull github master"
-            system "cd ./engines/CloudDriver && git pull github master"
-            system "cd ./engines/CloudHelp && git pull github master"
-            system "cd ./engines/CloudKb && git pull github master"
-            system "cd ./engines/CloudLesli && git pull github master"
-            system "cd ./engines/CloudLock && git pull github master"
-            system "cd ./engines/CloudPanel && git pull github master"
-            system "cd ./engines/CloudTeam && git pull github master"
+            [
+                'CloudTeam',
+                'CloudHappy',
+                'CloudSeller',
+                'CloudLeaf',
+                'CloudDrop',
+                'CloudMailer',
+                'CloudDriver',
+                'CloudChaos',
+                'CloudClock',
+                'CloudPizza',
+                'CloudNotes',
+                'CloudLesli',
+                'CloudSocial',
+                'CloudBell',
+                'CloudBooks',
+                'CloudWallet',
+                'CloudThings',
+                'CloudKb',
+                'CloudHelp',
+                'CloudPortal',
+                'CloudBug',
+                'CloudPanel',
+                'CloudLock',
+                'CloudBabel'
+            ].each do |engine|
+                system "cd ./engines/#{engine} && git pull github master"
+            end
 
             system "git pull github master"
 
