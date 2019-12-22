@@ -31,10 +31,10 @@ namespace :dev do
                 'CloudLock',
                 'CloudBabel'
             ].each do |engine|
-                engine_path = File.expand_path("./engines/#{engine}", __FILE__)
+                engine_path = Rails.root.join('engines')# File.expand_path("./engines/#{engine}", __FILE__)
                 p engine_path
                 p '-     -     -     -     -     -     -     -     -     -     -     -     -     -     -'
-                system "cd ./engines/#{engine} && git push github master" if File.exists?(engine_path)
+                #system "cd ./engines/#{engine} && git push github master" if File.exists?(engine_path)
             end
             
             system "rm -r vendor/*"
