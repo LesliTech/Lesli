@@ -32,6 +32,8 @@ namespace :dev do
                 'CloudBabel'
             ].each do |engine|
                 engine_path = File.expand_path("./engines/#{engine}", __FILE__)
+                p engine_path
+                p '-     -     -     -     -     -     -     -     -     -     -     -     -     -     -'
                 system "cd ./engines/#{engine} && git push github master" if File.exists?(engine_path)
             end
             
