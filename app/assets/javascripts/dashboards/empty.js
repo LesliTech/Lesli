@@ -39557,7 +39557,10 @@ var navigationvue_type_template_id_70d7a082_render = function() {
           _vm.id
             ? _c(
                 "a",
-                { staticClass: "navbar-item", on: { click: _vm.showActions } },
+                {
+                  staticClass: "navbar-item",
+                  on: { click: _vm.showActivities }
+                },
                 [_vm._v("Activities")]
               )
             : _vm._e()
@@ -39594,6 +39597,9 @@ navigationvue_type_template_id_70d7a082_render._withStripped = true
     },
     showSubscriptions: function showSubscriptions() {
       this.bus.publish("show:/module/app/subscriptions");
+    },
+    showActivities: function showActivities() {
+      this.bus.publish("show:/module/app/activities");
     }
   },
   watch: {
