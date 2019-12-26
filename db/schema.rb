@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_12_18_031543) do
+ActiveRecord::Schema.define(version: 7010209) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -165,25 +165,6 @@ ActiveRecord::Schema.define(version: 2019_12_18_031543) do
     t.index ["cloud_kb_accounts_id"], name: "index_cloud_kb_catalog_categories_on_cloud_kb_accounts_id"
   end
 
-  create_table "custom_fields", force: :cascade do |t|
-    t.string "module_name"
-    t.string "model_name"
-    t.string "field_label"
-    t.string "field_name"
-    t.string "field_type"
-    t.string "field_instructions"
-    t.boolean "field_is_required"
-    t.string "default_value"
-    t.json "allowed_values"
-    t.string "placeholder_text"
-    t.string "formatting"
-    t.integer "character_limit"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-    t.bigint "users_id"
-    t.index ["users_id"], name: "index_custom_fields_on_users_id"
-  end
-
   create_table "users", force: :cascade do |t|
     t.string "email", default: "", null: false
     t.string "encrypted_password", default: "", null: false
@@ -233,6 +214,5 @@ ActiveRecord::Schema.define(version: 2019_12_18_031543) do
   add_foreign_key "cloud_kb_articles", "cloud_kb_articles", column: "cloud_kb_articles_id"
   add_foreign_key "cloud_kb_articles", "users", column: "users_id"
   add_foreign_key "cloud_kb_catalog_categories", "cloud_kb_accounts", column: "cloud_kb_accounts_id"
-  add_foreign_key "custom_fields", "users", column: "users_id"
   add_foreign_key "users", "accounts", column: "accounts_id"
 end
