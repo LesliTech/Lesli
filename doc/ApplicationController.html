@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>
+  Class: ApplicationController
+  
+    &mdash; Documentation by YARD 0.9.20
+  
+</title>
+
+  <link rel="stylesheet" href="css/style.css" type="text/css" charset="utf-8" />
+
+  <link rel="stylesheet" href="css/common.css" type="text/css" charset="utf-8" />
+
+<script type="text/javascript" charset="utf-8">
+  pathId = "ApplicationController";
+  relpath = '';
+</script>
+
+
+  <script type="text/javascript" charset="utf-8" src="js/jquery.js"></script>
+
+  <script type="text/javascript" charset="utf-8" src="js/app.js"></script>
+
+
+  </head>
+  <body>
+    <div class="nav_wrap">
+      <iframe id="nav" src="class_list.html?1"></iframe>
+      <div id="resizer"></div>
+    </div>
+
+    <div id="main" tabindex="-1">
+      <div id="header">
+        <div id="menu">
+  
+    <a href="_index.html">Index (A)</a> &raquo;
+    
+    
+    <span class="title">ApplicationController</span>
+  
+</div>
+
+        <div id="search">
+  
+    <a class="full_list_link" id="class_list_link"
+        href="class_list.html">
+
+        <svg width="24" height="24">
+          <rect x="0" y="4" width="24" height="4" rx="1" ry="1"></rect>
+          <rect x="0" y="12" width="24" height="4" rx="1" ry="1"></rect>
+          <rect x="0" y="20" width="24" height="4" rx="1" ry="1"></rect>
+        </svg>
+    </a>
+  
+</div>
+        <div class="clear"></div>
+      </div>
+
+      <div id="content"><h1>Class: ApplicationController
+  
+  
+  
+</h1>
+<div class="box_info">
+  
+  <dl>
+    <dt>Inherits:</dt>
+    <dd>
+      <span class="inheritName">ActionController::Base</span>
+      
+        <ul class="fullTree">
+          <li>Object</li>
+          
+            <li class="next">ActionController::Base</li>
+          
+            <li class="next">ApplicationController</li>
+          
+        </ul>
+        <a href="#" class="inheritanceTree">show all</a>
+      
+    </dd>
+  </dl>
+  
+
+  
+  
+  
+  
+  
+
+  
+
+  
+  <dl>
+    <dt>Defined in:</dt>
+    <dd>app/controllers/application_controller.rb</dd>
+  </dl>
+  
+</div>
+
+<div id="subclasses">
+  <h2>Direct Known Subclasses</h2>
+  <p class="children"><span class='object_link'><a href="ApplicationLesliController.html" title="ApplicationLesliController (class)">ApplicationLesliController</a></span>, <span class='object_link'><a href="ApplicationPublicController.html" title="ApplicationPublicController (class)">ApplicationPublicController</a></span>, <span class='object_link'><a href="CloudObject/ActionsController.html" title="CloudObject::ActionsController (class)">CloudObject::ActionsController</a></span>, <span class='object_link'><a href="CloudObject/DiscussionsController.html" title="CloudObject::DiscussionsController (class)">CloudObject::DiscussionsController</a></span>, <span class='object_link'><a href="CloudObject/FilesController.html" title="CloudObject::FilesController (class)">CloudObject::FilesController</a></span>, <span class='object_link'><a href="CustomFieldsController.html" title="CustomFieldsController (class)">CustomFieldsController</a></span></p>
+</div>
+
+
+
+
+
+
+
+  
+    <h2>
+      Instance Method Summary
+      <small><a href="#" class="summary_toggle">collapse</a></small>
+    </h2>
+
+    <ul class="summary">
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#responseWithError-instance_method" title="#responseWithError (instance method)">#<strong>responseWithError</strong>(message = &quot;&quot;, details = nil)  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>JSON failure response.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#responseWithSuccessful-instance_method" title="#responseWithSuccessful (instance method)">#<strong>responseWithSuccessful</strong>(data = nil)  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>JSON successful response.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#switch_locale-instance_method" title="#switch_locale (instance method)">#<strong>switch_locale</strong>(&amp;action)  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>create method to switch locale around_action :switch_locale.</p>
+</div></span>
+  
+</li>
+
+      
+    </ul>
+  
+
+
+  
+
+  <div id="instance_method_details" class="method_details_list">
+    <h2>Instance Method Details</h2>
+
+    
+      <div class="method_details first">
+  <h3 class="signature first" id="responseWithError-instance_method">
+  
+    #<strong>responseWithError</strong>(message = &quot;&quot;, details = nil)  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>JSON failure response</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+42
+43
+44
+45
+46
+47
+48
+49
+50</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'app/controllers/application_controller.rb', line 42</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_responseWithError'>responseWithError</span><span class='lparen'>(</span><span class='id identifier rubyid_message'>message</span> <span class='op'>=</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='id identifier rubyid_details'>details</span> <span class='op'>=</span> <span class='kw'>nil</span><span class='rparen'>)</span>
+    <span class='id identifier rubyid_render'>render</span> <span class='label'>status:</span> <span class='int'>200</span><span class='comma'>,</span> <span class='label'>json:</span> <span class='lbrace'>{</span>
+        <span class='label'>successful:</span> <span class='kw'>false</span><span class='comma'>,</span>
+        <span class='label'>error:</span> <span class='lbrace'>{</span>
+            <span class='label'>message:</span> <span class='id identifier rubyid_message'>message</span><span class='comma'>,</span>
+            <span class='label'>details:</span> <span class='id identifier rubyid_details'>details</span>
+        <span class='rbrace'>}</span>
+    <span class='rbrace'>}</span><span class='period'>.</span><span class='id identifier rubyid_to_json'>to_json</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="responseWithSuccessful-instance_method">
+  
+    #<strong>responseWithSuccessful</strong>(data = nil)  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>JSON successful response</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+35
+36
+37
+38
+39</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'app/controllers/application_controller.rb', line 35</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_responseWithSuccessful'>responseWithSuccessful</span><span class='lparen'>(</span><span class='id identifier rubyid_data'>data</span> <span class='op'>=</span> <span class='kw'>nil</span><span class='rparen'>)</span>
+    <span class='id identifier rubyid_response_body'>response_body</span> <span class='op'>=</span> <span class='lbrace'>{</span> <span class='label'>successful:</span> <span class='kw'>true</span> <span class='rbrace'>}</span>
+    <span class='id identifier rubyid_response_body'>response_body</span><span class='lbracket'>[</span><span class='symbol'>:data</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='id identifier rubyid_data'>data</span> <span class='kw'>unless</span> <span class='id identifier rubyid_data'>data</span><span class='period'>.</span><span class='id identifier rubyid_blank?'>blank?</span>
+    <span class='id identifier rubyid_render'>render</span> <span class='label'>status:</span> <span class='int'>200</span><span class='comma'>,</span> <span class='label'>json:</span> <span class='id identifier rubyid_response_body'>response_body</span><span class='period'>.</span><span class='id identifier rubyid_to_json'>to_json</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="switch_locale-instance_method">
+  
+    #<strong>switch_locale</strong>(&amp;action)  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>create method to switch locale around_action :switch_locale</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'app/controllers/application_controller.rb', line 6</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_switch_locale'>switch_locale</span><span class='lparen'>(</span><span class='op'>&amp;</span><span class='id identifier rubyid_action'>action</span><span class='rparen'>)</span>
+
+    <span class='comment'># using configured default language first
+</span>    <span class='id identifier rubyid_locale'>locale</span> <span class='op'>=</span> <span class='const'>I18n</span><span class='period'>.</span><span class='id identifier rubyid_default_locale'>default_locale</span>
+
+    <span class='comment'># check configured language of user browser
+</span>    <span class='id identifier rubyid_browser_locale'>browser_locale</span> <span class='op'>=</span> <span class='id identifier rubyid_get_browser_locale'>get_browser_locale</span>
+    <span class='kw'>if</span> <span class='id identifier rubyid_browser_locale'>browser_locale</span>
+        <span class='id identifier rubyid_locale'>locale</span> <span class='op'>=</span> <span class='id identifier rubyid_browser_locale'>browser_locale</span>
+    <span class='kw'>end</span>
+
+    <span class='comment'># check if there is a locale in the current session
+</span>    <span class='kw'>if</span> <span class='id identifier rubyid_session'>session</span><span class='lbracket'>[</span><span class='symbol'>:locale</span><span class='rbracket'>]</span>
+        <span class='id identifier rubyid_locale'>locale</span> <span class='op'>=</span> <span class='id identifier rubyid_session'>session</span><span class='lbracket'>[</span><span class='symbol'>:locale</span><span class='rbracket'>]</span>
+    <span class='kw'>end</span>
+
+    <span class='comment'># locale requested by the user
+</span>    <span class='kw'>if</span> <span class='id identifier rubyid_params'>params</span><span class='lbracket'>[</span><span class='symbol'>:locale</span><span class='rbracket'>]</span>
+        <span class='id identifier rubyid_locale'>locale</span> <span class='op'>=</span> <span class='id identifier rubyid_params'>params</span><span class='lbracket'>[</span><span class='symbol'>:locale</span><span class='rbracket'>]</span>
+        <span class='id identifier rubyid_session'>session</span><span class='lbracket'>[</span><span class='symbol'>:locale</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='id identifier rubyid_locale'>locale</span>
+    <span class='kw'>end</span>
+
+    <span class='comment'># I should check locale in the database here
+</span>
+    <span class='const'>I18n</span><span class='period'>.</span><span class='id identifier rubyid_with_locale'>with_locale</span><span class='lparen'>(</span><span class='id identifier rubyid_locale'>locale</span><span class='comma'>,</span> <span class='op'>&amp;</span><span class='id identifier rubyid_action'>action</span><span class='rparen'>)</span>
+
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+  </div>
+
+</div>
+
+      <div id="footer">
+  Generated on Thu Dec 26 10:50:32 2019 by
+  <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
+  0.9.20 (ruby-2.6.4).
+</div>
+
+    </div>
+  </body>
+</html>

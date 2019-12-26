@@ -243,6 +243,7 @@ GEM
     websocket-extensions (0.1.4)
     whenever (1.0.0)
       chronic (>= 0.6.3)
+    yard (0.9.20)
     zeitwerk (2.1.10)
 
 PLATFORMS
@@ -273,6 +274,7 @@ DEPENDENCIES
   tzinfo-data
   web-console (>= 3.3.0)
   whenever
+  yard
 
 RUBY VERSION
    ruby 2.6.4p104

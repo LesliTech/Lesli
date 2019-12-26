@@ -1,10 +1,18 @@
+# Converts the object into textual markup given a specific format.
+#
+# @param format [Symbol] the format type, `:text` or `:html`
+# @return [String] the object converted into the expected format.
 class AccountsController < ApplicationLesliController
     before_action :set_account, only: [:edit, :update, :destroy]
     layout 'application_public'
 
     # GET /accounts
     # GET /accounts.json
+    # Handles a request
+    # @param request [Request] the request object
+    # @return [String] the resulting webpage
     def index
+        
     end
 
     # GET /accounts/1
