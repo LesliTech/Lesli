@@ -1,2 +1,0 @@
-class CustomField < ApplicationRecord
-end
