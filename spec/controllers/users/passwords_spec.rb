@@ -1,12 +1,6 @@
 require 'rails_helper'
-require 'spec_helper'
-
-RSpec.configure do |config|
-    config.include Devise::Test::ControllerHelpers, :type => :controller
-end
 
 RSpec.describe Users::PasswordsController, type: :controller do
-
     before :each do
         request.env["devise.mapping"] = Devise.mappings[:user]
     end
