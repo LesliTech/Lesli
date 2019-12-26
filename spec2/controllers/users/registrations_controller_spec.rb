@@ -11,6 +11,7 @@ RSpec.describe Users::RegistrationsController, type: :controller do
         request.env["devise.mapping"] = Devise.mappings[:user]
     end
 
+=begin     
     describe "Sign up" do
         it "Register a new user" do
             post :create, params: {
@@ -62,6 +63,7 @@ RSpec.describe Users::RegistrationsController, type: :controller do
             expect(JSON.parse(response.body)).to eql({"error"=>{"details"=>nil, "message"=>"Password can't be blank and Password confirmation doesn't match Password"}, "successful"=>false})
         end
     end
+=end
 
 end
 
