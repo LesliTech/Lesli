@@ -70,6 +70,13 @@ class User < ApplicationRecord
                 self.account.bell.save!
             end
         end
+        if defined? CloudKb
+            if self.account.kb.blank?
+                self.account.kb = CloudKb::Account.new
+                self.account.kb.account = self.account
+                self.account.kb.save!
+            end
+        end
     end
 
 end
