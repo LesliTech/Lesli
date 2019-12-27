@@ -138,11 +138,11 @@ ActiveRecord::Schema.define(version: 7010209) do
   create_table "cloud_kb_article_terms", force: :cascade do |t|
     t.string "slug"
     t.string "path"
-    t.integer "views"
+    t.integer "views", default: 0
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.bigint "cloud_kb_article_details_id"
-    t.index ["cloud_kb_article_details_id"], name: "index_cloud_kb_article_terms_on_cloud_kb_article_details_id"
+    t.bigint "cloud_kb_articles_id"
+    t.index ["cloud_kb_articles_id"], name: "index_cloud_kb_article_terms_on_cloud_kb_articles_id"
   end
 
   create_table "cloud_kb_articles", force: :cascade do |t|
@@ -210,7 +210,7 @@ ActiveRecord::Schema.define(version: 7010209) do
   add_foreign_key "cloud_kb_article_discussions", "users", column: "users_id"
   add_foreign_key "cloud_kb_article_files", "cloud_kb_articles", column: "cloud_kb_articles_id"
   add_foreign_key "cloud_kb_article_subscribers", "cloud_kb_articles", column: "cloud_kb_articles_id"
-  add_foreign_key "cloud_kb_article_terms", "cloud_kb_article_details", column: "cloud_kb_article_details_id"
+  add_foreign_key "cloud_kb_article_terms", "cloud_kb_articles", column: "cloud_kb_articles_id"
   add_foreign_key "cloud_kb_articles", "cloud_kb_accounts", column: "cloud_kb_accounts_id"
   add_foreign_key "cloud_kb_articles", "cloud_kb_articles", column: "cloud_kb_articles_id"
   add_foreign_key "cloud_kb_articles", "users", column: "users_id"
