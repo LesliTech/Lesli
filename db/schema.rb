@@ -91,7 +91,6 @@ ActiveRecord::Schema.define(version: 7010209) do
   end
 
   create_table "cloud_kb_article_details", force: :cascade do |t|
-    t.string "slug"
     t.string "title"
     t.string "excerpt"
     t.string "tags"
@@ -137,7 +136,9 @@ ActiveRecord::Schema.define(version: 7010209) do
   end
 
   create_table "cloud_kb_article_terms", force: :cascade do |t|
+    t.string "slug"
     t.string "path"
+    t.integer "views"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.bigint "cloud_kb_article_details_id"
