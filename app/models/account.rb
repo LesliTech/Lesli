@@ -13,7 +13,7 @@ class Account < ApplicationRecord
     has_one :panel,  class_name: "CloudPanel::Account",  foreign_key: "id"
     has_one :driver, class_name: "CloudDriver::Account", foreign_key: "id"
 
-    after_save :check_accounts
+    after_create :check_accounts
 
     def check_accounts
 
