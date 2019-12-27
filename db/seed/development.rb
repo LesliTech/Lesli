@@ -31,6 +31,7 @@ Building a better future, one line of code at a time.
 load "#{Rails.root}/db/seed/development/accounts.rb"
 load "#{Rails.root}/db/seed/development/users.rb"
 
+=begin
 # Loading engine seeds dymanically 
 CloudDriver::Engine.load_seed if defined?(CloudDriver)
 CloudBooks::Engine.load_seed if defined?(CloudBooks)
@@ -40,3 +41,4 @@ CloudLock::Engine.load_seed if defined?(CloudLock)
 CloudBell::Engine.load_seed if defined?(CloudBell)
 CloudHelp::Engine.load_seed if defined?(CloudHelp)
 CloudKb::Engine.load_seed if defined?(CloudKb)
+=end
