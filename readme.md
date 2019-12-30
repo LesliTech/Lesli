@@ -20,8 +20,6 @@ LesliCloud is proprietary software
 
 * Issue tracker: [https://github.com/LesliTech/lesli.cloud/issues](https://github.com/LesliTech/lesli.cloud/issues)
 
-* Documentation: [https://github.com/LesliTech/lesli.cloud/wiki](https://github.com/LesliTech/lesli.cloud/wiki)
-
 * Documentation: [https://cloud.lesli.tech/kb](https://cloud.lesli.tech/kb)
 
 
