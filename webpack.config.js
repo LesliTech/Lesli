@@ -34,13 +34,17 @@ var TerserPlugin = require('terser-webpack-plugin')
 var VueLoaderPlugin = require('vue-loader/lib/plugin')
 var webpackConfig = []
 
-function webpackConfigBuilder(compilationMode) {
+function webpackConfigBuilder(env) {
 
-    var production = compilationMode == "production" ? true : false
+    // set mode
+    env.mode = env.mode ? env.mode : 'development'
+    env.watch = env.watch ? env.watch : false
+
+    var production = env.mode == "production" ? true : false
 
     // · 
     var webpackbase = {
-        watch: !production,
+        watch: env.watch == 'true',
         mode: production ? "production" : "production",
         performance: { hints: false },
         optimization: !production ? { minimize: false } :  {
