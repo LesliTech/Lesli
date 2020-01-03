@@ -4,9 +4,10 @@ RSpec.describe "Websites", type: :request do
 
     describe "GET /websites" do
 
-        it "does not render a different template" do
+        it "it render landing page" do
             get "/"
-            expect(response).to have_http_status(200)
+            expect(response).to have_http_status(:success) 
+            expect(response.headers["Content-Type"]).to eq "text/html; charset=utf-8"
             expect(response).to render_template(:landing)
         end
 
