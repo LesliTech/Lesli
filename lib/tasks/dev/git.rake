@@ -1,36 +1,42 @@
 namespace :dev do
 
+    def get_engines
+        [
+            'CloudTeam',
+            'CloudHappy',
+            'CloudSeller',
+            'CloudLeaf',
+            'CloudDrop',
+            'CloudMailer',
+            'CloudDriver',
+            'CloudChaos',
+            'CloudClock',
+            'CloudPizza',
+            'CloudNotes',
+            'CloudLesli',
+            'CloudSocial',
+            'CloudBell',
+            'CloudBooks',
+            'CloudWallet',
+            'CloudThings',
+            'CloudKb',
+            'CloudHelp',
+            'CloudPortal',
+            'CloudBug',
+            'CloudPanel',
+            'CloudLock',
+            'CloudBabel'
+        ]
+    end
+
     namespace :git do
 
         desc "Push everything to github master"
         task push: :environment do
 
-            [
-                'CloudTeam',
-                'CloudHappy',
-                'CloudSeller',
-                'CloudLeaf',
-                'CloudDrop',
-                'CloudMailer',
-                'CloudDriver',
-                'CloudChaos',
-                'CloudClock',
-                'CloudPizza',
-                'CloudNotes',
-                'CloudLesli',
-                'CloudSocial',
-                'CloudBell',
-                'CloudBooks',
-                'CloudWallet',
-                'CloudThings',
-                'CloudKb',
-                'CloudHelp',
-                'CloudPortal',
-                'CloudBug',
-                'CloudPanel',
-                'CloudLock',
-                'CloudBabel'
-            ].each do |engine|
+            engines = get_engines
+
+            engines.each do |engine|
                 engine_path = Rails.root.join('engines', engine)
                 system "cd ./engines/#{engine} && git push github master" if File.exists?(engine_path)
             end
