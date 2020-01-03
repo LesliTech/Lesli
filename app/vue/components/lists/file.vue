@@ -68,20 +68,20 @@ export default {
         },
 
         getFiles() {
-            this.http.get(`/${this.cloudModule}s/${this.cloudId}/files`).then(result => {
-                if (result.successful) {
-                    this.files = result.data
-                }
-            }).catch(error => {
-                console.log(error)
-            })
+            if(this.cloudId){
+                this.http.get(`/${this.cloudModule}s/${this.cloudId}/files`).then(result => {
+                    if (result.successful) {
+                        this.files = result.data
+                    }
+                }).catch(error => {
+                    console.log(error)
+                })
+            }
         }
     },
     watch: {
         cloudId(){
-            if(this.cloudId){
-                this.getFiles()
-            }
+            this.getFiles()
         }
     }
 }
