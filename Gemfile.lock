@@ -1,7 +1,7 @@
 PATH
-  remote: engines/CloudPanel
+  remote: engines/CloudHelp
   specs:
-    cloud_panel (0.1.0)
+    cloud_help (0.1.0)
       rails (~> 6.0.0)
 
 PATH
@@ -14,6 +14,12 @@ PATH
   remote: engines/CloudLesli
   specs:
     cloud_lesli (0.1.0)
+      rails (~> 6.0.0)
+
+PATH
+  remote: engines/CloudPanel
+  specs:
+    cloud_panel (0.1.0)
       rails (~> 6.0.0)
 
 GEM
@@ -268,6 +274,7 @@ DEPENDENCIES
   bootsnap (>= 1.1.0)
   byebug
   cancancan
+  cloud_help!
   cloud_kb!
   cloud_lesli!
   cloud_panel!
