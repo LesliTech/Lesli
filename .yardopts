@@ -1,0 +1,1 @@
+yardoc app/**/*.rb engines/**/app/**/*.rb --tag license --tag description
