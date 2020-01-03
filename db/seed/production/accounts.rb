@@ -27,7 +27,6 @@ Building a better future, one line of code at a time.
 
 =end
 
-model = Account.new
-model.status = 1
-model.company_name = "Lesli Technologies, S. A."
-model.save!
+model = Account.find_or_create_by(company_name: "Lesli Technologies, S. A.") do |account|
+    account.status = 1
+end
