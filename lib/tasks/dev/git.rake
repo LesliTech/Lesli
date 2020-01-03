@@ -34,6 +34,8 @@ namespace :dev do
         desc "Push everything to github master"
         task push: :environment do
 
+            Rake::Task["dev:git:rename_origin"].invoke
+
             engines = get_engines
 
             engines.each do |engine|
@@ -57,34 +59,27 @@ namespace :dev do
         desc "Pull everything from github master"
         task pull: :environment do
 
-            [
-                'CloudTeam',
-                'CloudHappy',
-                'CloudSeller',
-                'CloudLeaf',
-                'CloudDrop',
-                'CloudMailer',
-                'CloudDriver',
-                'CloudChaos',
-                'CloudClock',
-                'CloudPizza',
-                'CloudNotes',
-                'CloudLesli',
-                'CloudSocial',
-                'CloudBell',
-                'CloudBooks',
-                'CloudWallet',
-                'CloudThings',
-                'CloudKb',
-                'CloudHelp',
-                'CloudPortal',
-                'CloudBug',
-                'CloudPanel',
-                'CloudLock',
-                'CloudBabel'
-            ].each do |engine|
+            Rake::Task["dev:git:rename_origin"].invoke
+
+            engines = get_engines
+
+            engines.each do |engine|
                 engine_path = Rails.root.join('engines', engine)
                 system "cd ./engines/#{engine} && git pull github master" if File.exists?(engine_path)
+            end
+
+            system "git pull github master"
+
+        end
+
+        desc "Rename remote origin"
+        task rename_origin: :environment do
+
+            engines = get_engines
+
+            engines.each do |engine|
+                engine_path = Rails.root.join('engines', engine)
+                system "cd ./engines/#{engine} && git remote rename origin github" if File.exists?(engine_path)
             end
 
             system "git pull github master"
