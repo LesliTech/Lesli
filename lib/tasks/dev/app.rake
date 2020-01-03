@@ -24,6 +24,8 @@ namespace :dev do
             system "bundle exec rake assets:clean RAILS_ENV=production"
             system "bundle exec rake assets:precompile RAILS_ENV=production"
             
+            system "sudo chmod 755 public/ -R"
+
             system "sudo service nginx restart"
 
         end
