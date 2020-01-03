@@ -5,16 +5,19 @@ namespace :dev do
         desc "LesliCloud fresh installation"
         task install: :environment do
 
-            system "sudo service nginx stop"
-            system "git checkout ."
-            system "git pull origin master --no-edit"
-            
-            Rake::Task["dev:git:pull"].invoke
-
             system "gem install bundler"
             system "bundle install"
 
-            Rake::Task["dev:db:reset"].invoke
+            system "sudo service nginx stop"
+            system "git checkout ."
+
+            Rake::Task["dev:git:pull"].invoke
+
+            system "rails db:environment:set RAILS_ENV=production"
+            system "rake db:drop RAILS_ENV=production DISABLE_DATABASE_ENVIRONMENT_CHECK=1" 
+            system "rake db:create RAILS_ENV=production" 
+            system "rake db:migrate RAILS_ENV=production" 
+            system "rake db:seed RAILS_ENV=production" 
 
             system "whenever --update-crontab"
 
