@@ -1,4 +1,6 @@
 
+.byebug_history
+
 # Ignore bundler config.
 /.bundle
 
@@ -8,6 +10,9 @@
 !/log/.keep
 !/tmp/.keep
 
+# Ignore generated documentation
+/doc
+
 # Ignore uploaded files in development
 /storage/*
 !/storage/.keep
@@ -15,8 +20,6 @@
 /public/assets
 /node_modules
 /yarn-error.log
-
-.byebug_history
 
 /engines/*
 !/engines/.gitkeep

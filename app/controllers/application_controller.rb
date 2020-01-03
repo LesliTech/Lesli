@@ -1,7 +1,7 @@
 class ApplicationController < ActionController::Base
 
     # create method to switch locale
-    around_action :switch_locale
+    #around_action :switch_locale
 
     def switch_locale(&action)
 
@@ -33,10 +33,9 @@ class ApplicationController < ActionController::Base
 
     # JSON successful response
     def responseWithSuccessful(data = nil)
-        render status: 200, json: {
-            successful: true,
-            data: data
-        }.to_json
+        response_body = { successful: true }
+        response_body[:data] = data unless data.blank?
+        render status: 200, json: response_body.to_json
     end
 
     # JSON failure response

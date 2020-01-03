@@ -7,8 +7,6 @@ class User < ApplicationRecord
             :trackable, 
             :validatable,
             :confirmable
-
-    after_save :check_accounts    
     
     belongs_to  :account , foreign_key: 'accounts_id', optional: true
     belongs_to  :role, class_name: 'CloudLock::Role', foreign_key:'cloud_lock_roles_id', optional: true
@@ -38,38 +36,6 @@ class User < ApplicationRecord
 
     def ability
         @ability ||= Ability.new(self)
-    end
-
-    def check_accounts
-        if defined? CloudTeam
-            if self.account.team.blank?
-                self.account.team = CloudTeam::Account.new
-                self.account.team.account = self.account
-                self.account.team.save!
-            end
-        end
-        if defined? CloudDriver
-            if self.account.driver.blank?
-                self.account.driver = CloudDriver::Account.new
-                self.account.driver.account = self.account
-                self.account.driver.save!
-            end
-            if self.account.driver.calendars.default.blank?
-                self.account.driver.calendars.create({
-                    detail_attributes: {
-                        name: self.name,
-                        default: true
-                    }
-                })
-            end
-        end
-        if defined? CloudBell
-            if self.account.bell.blank?
-                self.account.bell = CloudBell::Account.new
-                self.account.bell.account = self.account
-                self.account.bell.save!
-            end
-        end
     end
 
 end
