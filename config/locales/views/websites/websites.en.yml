@@ -3,18 +3,6 @@
   core:
     websites:
       views:
-        create:
-          actions:
-            label_demo_for_actions: Label demo for actions
+        delete:
           messages:
-            label_demo_for_messages: Label demo for messages
-        update:
-          actions:
-            label_demo_for_actions: Label demo for actions
-          messages:
-            label_demo_for_messages: Label demo for messages
-        destroy:
-          actions:
-            label_demo_for_actions: Label demo for actions
-          messages:
-            label_demo_for_messages: Label demo for messages
+            label_demo: Label demo

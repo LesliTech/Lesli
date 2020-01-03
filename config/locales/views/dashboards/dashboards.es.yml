@@ -1,0 +1,8 @@
+---
+:es:
+  core:
+    dashboards:
+      views:
+        delete:
+          messages:
+            label_demo: Etiqueta de demo

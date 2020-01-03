@@ -1,0 +1,8 @@
+---
+:de:
+  core:
+    dashboards:
+      models:
+        destroy:
+          messages:
+            label_demo: Label demo

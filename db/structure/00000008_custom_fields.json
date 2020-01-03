@@ -1,0 +1,17 @@
+module
+[controller|entity|model]
+field_label
+field_name
+field_type
+field_instructions
+required?
+default_value
+allowed_values
+placeholder_text
+formatting
+character_limit
+
+[{
+    "name": "name",
+    "type": "string"
+}]

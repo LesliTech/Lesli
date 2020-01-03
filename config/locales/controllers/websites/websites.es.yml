@@ -1,0 +1,8 @@
+---
+:es:
+  core:
+    websites:
+      controllers:
+        destroy:
+          messages:
+            label_demo: Etiqueta de demo

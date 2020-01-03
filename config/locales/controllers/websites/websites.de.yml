@@ -1,0 +1,8 @@
+---
+:de:
+  core:
+    websites:
+      controllers:
+        destroy:
+          messages:
+            label_demo: Label demo
