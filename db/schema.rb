@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 7010209) do
+ActiveRecord::Schema.define(version: 90000004) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -57,6 +57,46 @@ ActiveRecord::Schema.define(version: 7010209) do
     t.string "checksum", null: false
     t.datetime "created_at", null: false
     t.index ["key"], name: "index_active_storage_blobs_on_key", unique: true
+  end
+
+  create_table "cloud_babel_translation_object_group_labels", force: :cascade do |t|
+    t.string "context"
+    t.string "label"
+    t.string "es"
+    t.string "en"
+    t.string "de"
+    t.string "fr"
+    t.integer "status"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.bigint "users_id"
+    t.bigint "cloud_babel_translation_object_groups_id"
+    t.index ["cloud_babel_translation_object_groups_id"], name: "babel_translation_object_group_labels_groups"
+    t.index ["users_id"], name: "babel_translation_object_group_labels_users"
+  end
+
+  create_table "cloud_babel_translation_object_groups", force: :cascade do |t|
+    t.string "method"
+    t.string "section"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.bigint "cloud_babel_translation_objects_id"
+    t.index ["cloud_babel_translation_objects_id"], name: "babel_translation_object_groups_objects"
+  end
+
+  create_table "cloud_babel_translation_objects", force: :cascade do |t|
+    t.string "object_type"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.bigint "cloud_babel_translations_id"
+    t.index ["cloud_babel_translations_id"], name: "babel_translations_translation_objects"
+  end
+
+  create_table "cloud_babel_translations", force: :cascade do |t|
+    t.string "module_name"
+    t.string "class_name"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
   end
 
   create_table "cloud_kb_accounts", force: :cascade do |t|
@@ -199,6 +239,10 @@ ActiveRecord::Schema.define(version: 7010209) do
 
   add_foreign_key "accounts", "users", column: "users_id"
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
+  add_foreign_key "cloud_babel_translation_object_group_labels", "cloud_babel_translation_object_groups", column: "cloud_babel_translation_object_groups_id"
+  add_foreign_key "cloud_babel_translation_object_group_labels", "users", column: "users_id"
+  add_foreign_key "cloud_babel_translation_object_groups", "cloud_babel_translation_objects", column: "cloud_babel_translation_objects_id"
+  add_foreign_key "cloud_babel_translation_objects", "cloud_babel_translations", column: "cloud_babel_translations_id"
   add_foreign_key "cloud_kb_accounts", "accounts", column: "id"
   add_foreign_key "cloud_kb_article_actions", "cloud_kb_articles", column: "cloud_kb_articles_id"
   add_foreign_key "cloud_kb_article_activities", "cloud_kb_articles", column: "cloud_kb_articles_id"
