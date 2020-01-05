@@ -10,7 +10,7 @@
 !/log/.keep
 !/tmp/.keep
 
-# Ignore generated documentation
+# Ignore auto-generated documentation
 /doc
 
 # Ignore uploaded files in development

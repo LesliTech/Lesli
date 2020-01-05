@@ -7,7 +7,7 @@ RSpec.describe "Websites", type: :request do
         it "it render landing page" do
             get "/"
             expect(response).to have_http_status(:success) 
-            expect(response.headers["Content-Type"]).to eq "text/html; charset=utf-8"
+            expect(response.content_type).to eq('text/html; charset=utf-8')
             expect(response).to render_template(:landing)
         end
 
