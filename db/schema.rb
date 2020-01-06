@@ -99,6 +99,24 @@ ActiveRecord::Schema.define(version: 90000004) do
     t.datetime "updated_at", precision: 6, null: false
   end
 
+  create_table "cloud_bell_accounts", force: :cascade do |t|
+  end
+
+  create_table "cloud_bell_notifications", force: :cascade do |t|
+    t.string "subject"
+    t.text "body"
+    t.string "href"
+    t.string "format"
+    t.string "sender"
+    t.boolean "read", default: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.bigint "users_id"
+    t.bigint "cloud_bell_accounts_id"
+    t.index ["cloud_bell_accounts_id"], name: "index_cloud_bell_notifications_on_cloud_bell_accounts_id"
+    t.index ["users_id"], name: "index_cloud_bell_notifications_on_users_id"
+  end
+
   create_table "cloud_driver_accounts", force: :cascade do |t|
   end
 
@@ -429,6 +447,9 @@ ActiveRecord::Schema.define(version: 90000004) do
   add_foreign_key "cloud_babel_translation_object_group_labels", "users", column: "users_id"
   add_foreign_key "cloud_babel_translation_object_groups", "cloud_babel_translation_objects", column: "cloud_babel_translation_objects_id"
   add_foreign_key "cloud_babel_translation_objects", "cloud_babel_translations", column: "cloud_babel_translations_id"
+  add_foreign_key "cloud_bell_accounts", "accounts", column: "id"
+  add_foreign_key "cloud_bell_notifications", "cloud_bell_accounts", column: "cloud_bell_accounts_id"
+  add_foreign_key "cloud_bell_notifications", "users", column: "users_id"
   add_foreign_key "cloud_driver_accounts", "accounts", column: "id"
   add_foreign_key "cloud_driver_calendar_actions", "cloud_driver_calendars", column: "cloud_driver_calendars_id"
   add_foreign_key "cloud_driver_calendar_activities", "cloud_driver_calendars", column: "cloud_driver_calendars_id"
