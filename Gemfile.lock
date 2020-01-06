@@ -11,9 +11,9 @@ PATH
       rails (~> 6.0.0)
 
 PATH
-  remote: engines/CloudLesli
+  remote: engines/CloudLock
   specs:
-    cloud_lesli (0.1.0)
+    cloud_lock (0.1.0)
       rails (~> 6.0.0)
 
 PATH
@@ -276,7 +276,7 @@ DEPENDENCIES
   cancancan
   cloud_babel!
   cloud_kb!
-  cloud_lesli!
+  cloud_lock!
   cloud_panel!
   devise
   faker
