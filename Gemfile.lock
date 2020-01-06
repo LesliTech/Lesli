@@ -1,13 +1,7 @@
 PATH
-  remote: engines/CloudBell
+  remote: engines/CloudKb
   specs:
-    cloud_bell (0.1.0)
-      rails (~> 6.0.0)
-
-PATH
-  remote: engines/CloudLesli
-  specs:
-    cloud_lesli (0.1.0)
+    cloud_kb (0.1.0)
       rails (~> 6.0.0)
 
 PATH
@@ -17,15 +11,21 @@ PATH
       rails (~> 6.0.0)
 
 PATH
+  remote: engines/CloudBell
+  specs:
+    cloud_bell (0.1.0)
+      rails (~> 6.0.0)
+
+PATH
   remote: engines/CloudDriver
   specs:
     cloud_driver (0.1.0)
       rails (~> 6.0.0)
 
 PATH
-  remote: engines/CloudKb
+  remote: engines/CloudLesli
   specs:
-    cloud_kb (0.1.0)
+    cloud_lesli (0.1.0)
       rails (~> 6.0.0)
 
 PATH
