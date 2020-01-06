@@ -1,4 +1,10 @@
 PATH
+  remote: engines/CloudDriver
+  specs:
+    cloud_driver (0.1.0)
+      rails (~> 6.0.0)
+
+PATH
   remote: engines/CloudBabel
   specs:
     cloud_babel (0.1.0)
@@ -275,6 +281,7 @@ DEPENDENCIES
   byebug
   cancancan
   cloud_babel!
+  cloud_driver!
   cloud_kb!
   cloud_lock!
   cloud_panel!
