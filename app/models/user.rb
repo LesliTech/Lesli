@@ -18,6 +18,8 @@ class User < ApplicationRecord
     has_many    :notifications, class_name: 'CloudBell::Notification', foreign_key: 'users_id'
     has_many    :ticket_assignments, class_name: 'CloudHelp::Ticket::Assignment', foreign_key: 'users_id'
 
+    after_create :check_user
+
     def name
         if defined? CloudLock
             unless detail.blank?
@@ -32,6 +34,21 @@ class User < ApplicationRecord
 
     def revoke_access
         update_attributes(active: false)
+    end
+
+    private 
+
+    def check_user
+
+        if defined? CloudDriver
+            self.account.driver.calendars.create({
+                detail_attributes: {
+                    name: self.name,
+                    default: true
+                }
+            })
+        end
+
     end
 
     def ability
