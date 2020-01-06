@@ -81,15 +81,19 @@
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 47);
+/******/ 	return __webpack_require__(__webpack_require__.s = "./app/vue/websites/landing.js");
 /******/ })
 /************************************************************************/
 /******/ ({
 
-/***/ 47:
+/***/ "./app/vue/websites/landing.js":
+/*!*************************************!*\
+  !*** ./app/vue/websites/landing.js ***!
+  \*************************************/
+/*! no static exports found */
 /***/ (function(module, exports) {
 
-console.log('javascript works for websites/landing');
+eval("console.log('javascript works for websites/landing');\n\n//# sourceURL=webpack:///./app/vue/websites/landing.js?");
 
 /***/ })
 

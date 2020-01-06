@@ -45,7 +45,7 @@ function webpackConfigBuilder(env) {
     // · 
     var webpackbase = {
         watch: env.watch == 'true',
-        mode: production ? "production" : "production",
+        mode: production ? "production" : "development",
         performance: { hints: false },
         optimization: !production ? { minimize: false } :  {
             minimizer: [
@@ -79,8 +79,7 @@ function webpackConfigBuilder(env) {
                 vue: production ? 'vue/dist/vue.min.js' : 'vue/dist/vue.js',
 
                 // Resolve alias necessary to load vue components from LesliCloud
-                LesliCloud: path.resolve(__dirname, './app'),
-                CloudDriver:  path.resolve(__dirname, './engines/CloudDriver/app')
+                LesliCloud: path.resolve(__dirname, './app')
 
             },
             extensions: [".js"]
@@ -142,7 +141,7 @@ function webpackConfigBuilder(env) {
     }
 
     webpackConfig.push(webpackbase)
-
+    /*
     // · get engines
     let engines = [
         'CloudTeam',
@@ -223,7 +222,7 @@ function webpackConfigBuilder(env) {
         }
 
     })
-
+    */
     return webpackConfig
 
 }
