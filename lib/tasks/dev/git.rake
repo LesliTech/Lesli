@@ -43,6 +43,8 @@ namespace :dev do
                 system "cd ./engines/#{engine} && git push github master" if File.exists?(engine_path)
             end
             
+            system "git add --all && git commit -m \"Dev update\""
+
             system "rm -r vendor/*"
             system "cp node_modules/buefy/ vendor/ -ra"
             system "cp node_modules/bulma/ vendor/ -ra"
