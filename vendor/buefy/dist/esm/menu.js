@@ -1,7 +1,7 @@
-import { a as _defineProperty } from './chunk-40949afc.js';
-import './chunk-d3a97e18.js';
-import './chunk-9d997597.js';
-import { I as Icon } from './chunk-2b1ca282.js';
+import { _ as _defineProperty } from './chunk-b91774bc.js';
+import './helpers.js';
+import './chunk-b76a6c1d.js';
+import { I as Icon } from './chunk-3802ee87.js';
 import { _ as __vue_normalize__, r as registerComponent, u as use } from './chunk-cca88db8.js';
 
 //
@@ -11,7 +11,19 @@ import { _ as __vue_normalize__, r as registerComponent, u as use } from './chun
 //
 //
 var script = {
-  name: 'BMenu'
+  name: 'BMenu',
+  props: {
+    accordion: {
+      type: Boolean,
+      default: true
+    }
+  },
+  data: function data() {
+    return {
+      _isMenu: true // Used by MenuItem
+
+    };
+  }
 };
 
 /* script */
@@ -182,8 +194,11 @@ var script$2 = {
         if (item !== _this) {
           _this.reset(item);
 
-          item.newExpanded = false;
-          item.$emit('update:expanded', item.newActive);
+          if (!parent.$data._isMenu || parent.$data._isMenu && parent.accordion) {
+            item.newExpanded = false;
+            item.$emit('update:expanded', item.newActive);
+          }
+
           item.newActive = false;
           item.$emit('update:active', item.newActive);
         }
@@ -197,9 +212,9 @@ const __vue_script__$2 = script$2;
 
 /* template */
 var __vue_render__$1 = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('li',{attrs:{"role":_vm.ariaRoleMenu}},[_c(_vm.tag,_vm._b({tag:"component",class:{
-            'is-active': _vm.newActive,
-            'is-disabled': _vm.disabled
-        },on:{"click":function($event){_vm.onClick($event);}},nativeOn:{"click":function($event){_vm.onClick($event);}}},'component',_vm.$attrs,false),[(_vm.icon)?_c('b-icon',{attrs:{"icon":_vm.icon,"pack":_vm.iconPack,"size":"is-small"}}):_vm._e(),_vm._v(" "),(_vm.label)?_c('span',[_vm._v(_vm._s(_vm.label))]):_vm._t("label",null,{expanded:_vm.newExpanded,active:_vm.newActive})],2),_vm._v(" "),(_vm.$slots.default)?[_c('transition',{attrs:{"name":_vm.animation}},[_c('ul',{directives:[{name:"show",rawName:"v-show",value:(_vm.newExpanded),expression:"newExpanded"}]},[_vm._t("default")],2)])]:_vm._e()],2)};
+                'is-active': _vm.newActive,
+                'is-disabled': _vm.disabled
+            },on:{"click":function($event){_vm.onClick($event);}},nativeOn:{"click":function($event){_vm.onClick($event);}}},'component',_vm.$attrs,false),[(_vm.icon)?_c('b-icon',{attrs:{"icon":_vm.icon,"pack":_vm.iconPack,"size":"is-small"}}):_vm._e(),_vm._v(" "),(_vm.label)?_c('span',[_vm._v(_vm._s(_vm.label))]):_vm._t("label",null,{expanded:_vm.newExpanded,active:_vm.newActive})],2),_vm._v(" "),(_vm.$slots.default)?[_c('transition',{attrs:{"name":_vm.animation}},[_c('ul',{directives:[{name:"show",rawName:"v-show",value:(_vm.newExpanded),expression:"newExpanded"}]},[_vm._t("default")],2)])]:_vm._e()],2)};
 var __vue_staticRenderFns__$1 = [];
 
   /* style */
@@ -237,3 +252,4 @@ var Plugin = {
 use(Plugin);
 
 export default Plugin;
+export { Menu as BMenu, MenuItem as BMenuItem, MenuList as BMenuList };

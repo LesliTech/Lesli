@@ -2,24 +2,26 @@
 
 Object.defineProperty(exports, '__esModule', { value: true });
 
-function _interopDefault (ex) { return (ex && (typeof ex === 'object') && 'default' in ex) ? ex['default'] : ex; }
+require('./chunk-f98e7e80.js');
+var helpers = require('./helpers.js');
+var __chunk_2 = require('./chunk-8806479f.js');
+var __chunk_5 = require('./chunk-13e039f5.js');
+require('./chunk-c5b5b708.js');
+var __chunk_17 = require('./chunk-ee63440d.js');
 
-require('./chunk-a535ca7c.js');
-require('./chunk-f920b094.js');
-require('./chunk-98a92ff2.js');
-var __chunk_6 = require('./chunk-13e039f5.js');
-require('./chunk-68185b37.js');
-var Vue = _interopDefault(require('vue'));
-var __chunk_17 = require('./chunk-7f391163.js');
-
+var localVueInstance;
 var ModalProgrammatic = {
   open: function open(params) {
-    var content;
     var parent;
-    if (typeof params === 'string') content = params;
+
+    if (typeof params === 'string') {
+      params = {
+        content: params
+      };
+    }
+
     var defaultParam = {
-      programmatic: true,
-      content: content
+      programmatic: true
     };
 
     if (params.parent) {
@@ -27,8 +29,8 @@ var ModalProgrammatic = {
       delete params.parent;
     }
 
-    var propsData = Object.assign(defaultParam, params);
-    var vm = typeof window !== 'undefined' && window.Vue ? window.Vue : Vue;
+    var propsData = helpers.merge(defaultParam, params);
+    var vm = typeof window !== 'undefined' && window.Vue ? window.Vue : localVueInstance || __chunk_2.VueInstance;
     var ModalComponent = vm.extend(__chunk_17.Modal);
     return new ModalComponent({
       parent: parent,
@@ -39,11 +41,13 @@ var ModalProgrammatic = {
 };
 var Plugin = {
   install: function install(Vue) {
-    __chunk_6.registerComponent(Vue, __chunk_17.Modal);
-    __chunk_6.registerComponentProgrammatic(Vue, 'modal', ModalProgrammatic);
+    localVueInstance = Vue;
+    __chunk_5.registerComponent(Vue, __chunk_17.Modal);
+    __chunk_5.registerComponentProgrammatic(Vue, 'modal', ModalProgrammatic);
   }
 };
-__chunk_6.use(Plugin);
+__chunk_5.use(Plugin);
 
+exports.BModal = __chunk_17.Modal;
 exports.ModalProgrammatic = ModalProgrammatic;
 exports.default = Plugin;

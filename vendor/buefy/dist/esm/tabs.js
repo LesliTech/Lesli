@@ -1,7 +1,7 @@
-import { a as _defineProperty } from './chunk-40949afc.js';
-import './chunk-d3a97e18.js';
-import './chunk-9d997597.js';
-import { I as Icon } from './chunk-2b1ca282.js';
+import { _ as _defineProperty } from './chunk-b91774bc.js';
+import './helpers.js';
+import './chunk-b76a6c1d.js';
+import { I as Icon } from './chunk-3802ee87.js';
 import { _ as __vue_normalize__, r as registerComponent, u as use } from './chunk-cca88db8.js';
 import { S as SlotComponent } from './chunk-0e3f4fb5.js';
 
@@ -28,7 +28,7 @@ var script = {
   data: function data() {
     return {
       activeTab: this.value || 0,
-      tabItems: [],
+      defaultSlots: [],
       contentHeight: 0,
       isTransitioning: false,
       _isTabs: true // Used internally by TabItem
@@ -46,6 +46,13 @@ var script = {
       var _ref2;
 
       return [this.type, this.size, (_ref2 = {}, _defineProperty(_ref2, this.position, this.position && !this.vertical), _defineProperty(_ref2, 'is-fullwidth', this.expanded), _defineProperty(_ref2, 'is-toggle-rounded is-toggle', this.type === 'is-toggle-rounded'), _ref2)];
+    },
+    tabItems: function tabItems() {
+      return this.defaultSlots.filter(function (vnode) {
+        return vnode.componentInstance && vnode.componentInstance.$data && vnode.componentInstance.$data._isTabItem;
+      }).map(function (vnode) {
+        return vnode.componentInstance;
+      });
     }
   },
   watch: {
@@ -66,6 +73,10 @@ var script = {
     }
   },
   methods: {
+    refreshSlots: function refreshSlots() {
+      this.defaultSlots = this.$slots.default;
+    },
+
     /**
     * Change the active tab and emit change event.
     */
@@ -85,6 +96,7 @@ var script = {
     * Tab click listener, emit input event and change active tab.
     */
     tabClick: function tabClick(value) {
+      if (this.activeTab === value) return;
       this.$emit('input', value);
       this.changeTab(value);
     }
@@ -93,6 +105,8 @@ var script = {
     if (this.activeTab < this.tabItems.length) {
       this.tabItems[this.activeTab].isActive = true;
     }
+
+    this.refreshSlots();
   }
 };
 
@@ -143,7 +157,9 @@ var script$1 = {
   data: function data() {
     return {
       isActive: false,
-      transitionName: null
+      transitionName: null,
+      _isTabItem: true // Used internally by Tab
+
     };
   },
   methods: {
@@ -169,14 +185,10 @@ var script$1 = {
       throw new Error('You should wrap bTabItem on a bTabs');
     }
 
-    this.$parent.tabItems.push(this);
+    this.$parent.refreshSlots();
   },
   beforeDestroy: function beforeDestroy() {
-    var index = this.$parent.tabItems.indexOf(this);
-
-    if (index >= 0) {
-      this.$parent.tabItems.splice(index, 1);
-    }
+    this.$parent.refreshSlots();
   },
   render: function render(createElement) {
     var _this = this;
@@ -255,3 +267,4 @@ var Plugin = {
 use(Plugin);
 
 export default Plugin;
+export { TabItem as BTabItem, Tabs as BTabs };

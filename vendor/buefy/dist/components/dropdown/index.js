@@ -1,4 +1,4 @@
-/*! Buefy v0.8.6 | MIT License | github.com/buefy/buefy */
+/*! Buefy v0.8.9 | MIT License | github.com/buefy/buefy */
 (function (global, factory) {
     typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports) :
     typeof define === 'function' && define.amd ? define(['exports'], factory) :
@@ -37,7 +37,6 @@
           };
 
           el.addEventListener('keydown', onKeyDown);
-          firstFocusable.focus();
         }
       }
     };
@@ -72,6 +71,7 @@
       defaultDateFormatter: null,
       defaultDateParser: null,
       defaultDateCreator: null,
+      defaultTimeCreator: null,
       defaultDayNames: null,
       defaultMonthNames: null,
       defaultFirstDayOfWeek: null,
@@ -92,12 +92,12 @@
       defaultDatepickerNearbyMonthDays: true,
       defaultDatepickerNearbySelectableMonthDays: false,
       defaultDatepickerShowWeekNumber: false,
+      defaultDatepickerMobileModal: true,
       defaultTrapFocus: false,
       defaultButtonRounded: false,
-      customIconPacks: null // TODO defaultTrapFocus to true in the next breaking change
-
-    };
-    var config$1 = config;
+      defaultCarouselInterval: 3500,
+      customIconPacks: null
+    }; // TODO defaultTrapFocus to true in the next breaking change
 
     //
     var DEFAULT_CLOSE_OPTIONS = ['escape', 'outside'];
@@ -123,7 +123,7 @@
         mobileModal: {
           type: Boolean,
           default: function _default() {
-            return config$1.defaultDropdownMobileModal;
+            return config.defaultDropdownMobileModal;
           }
         },
         ariaRole: {
@@ -137,7 +137,7 @@
         multiple: Boolean,
         trapFocus: {
           type: Boolean,
-          default: config$1.defaultTrapFocus
+          default: config.defaultTrapFocus
         },
         closeOnClick: {
           type: Boolean,
@@ -202,8 +202,6 @@
         *   3. Close the dropdown.
         */
         selectItem: function selectItem(value) {
-          var _this = this;
-
           if (this.multiple) {
             if (this.selected) {
               var index = this.selected.indexOf(value);
@@ -231,11 +229,7 @@
             this.isActive = !this.closeOnClick;
 
             if (this.hoverable && this.closeOnClick) {
-              this.isHoverable = false; // Timeout for the animation complete before destroying
-
-              setTimeout(function () {
-                _this.isHoverable = true;
-              }, 250);
+              this.isHoverable = false;
             }
           }
         },
@@ -336,7 +330,7 @@
         * Toggle dropdown if it's not disabled.
         */
         toggle: function toggle() {
-          var _this2 = this;
+          var _this = this;
 
           if (this.disabled) return;
 
@@ -344,15 +338,20 @@
             // if not active, toggle after clickOutside event
             // this fixes toggling programmatic
             this.$nextTick(function () {
-              var value = !_this2.isActive;
-              _this2.isActive = value; // Vue 2.6.x ???
+              var value = !_this.isActive;
+              _this.isActive = value; // Vue 2.6.x ???
 
               setTimeout(function () {
-                return _this2.isActive = value;
+                return _this.isActive = value;
               });
             });
           } else {
             this.isActive = !this.isActive;
+          }
+        },
+        checkHoverable: function checkHoverable() {
+          if (this.hoverable) {
+            this.isHoverable = true;
           }
         }
       },
@@ -459,7 +458,7 @@
     const __vue_script__ = script;
 
     /* template */
-    var __vue_render__ = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"dropdown",class:_vm.rootClasses},[(!_vm.inline)?_c('div',{ref:"trigger",staticClass:"dropdown-trigger",attrs:{"role":"button","aria-haspopup":"true"},on:{"click":_vm.toggle}},[_vm._t("trigger")],2):_vm._e(),_vm._v(" "),_c('transition',{attrs:{"name":_vm.animation}},[(_vm.isMobileModal)?_c('div',{directives:[{name:"show",rawName:"v-show",value:(_vm.isActive),expression:"isActive"}],staticClass:"background",attrs:{"aria-hidden":!_vm.isActive}}):_vm._e()]),_vm._v(" "),_c('transition',{attrs:{"name":_vm.animation}},[_c('div',{directives:[{name:"show",rawName:"v-show",value:((!_vm.disabled && (_vm.isActive || _vm.isHoverable)) || _vm.inline),expression:"(!disabled && (isActive || isHoverable)) || inline"},{name:"trap-focus",rawName:"v-trap-focus",value:(_vm.trapFocus),expression:"trapFocus"}],ref:"dropdownMenu",staticClass:"dropdown-menu",attrs:{"aria-hidden":!_vm.isActive}},[_c('div',{staticClass:"dropdown-content",attrs:{"role":_vm.ariaRoleMenu}},[_vm._t("default")],2)])])],1)};
+    var __vue_render__ = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"dropdown",class:_vm.rootClasses},[(!_vm.inline)?_c('div',{ref:"trigger",staticClass:"dropdown-trigger",attrs:{"role":"button","aria-haspopup":"true"},on:{"click":_vm.toggle,"mouseenter":_vm.checkHoverable}},[_vm._t("trigger")],2):_vm._e(),_vm._v(" "),_c('transition',{attrs:{"name":_vm.animation}},[(_vm.isMobileModal)?_c('div',{directives:[{name:"show",rawName:"v-show",value:(_vm.isActive),expression:"isActive"}],staticClass:"background",attrs:{"aria-hidden":!_vm.isActive}}):_vm._e()]),_vm._v(" "),_c('transition',{attrs:{"name":_vm.animation}},[_c('div',{directives:[{name:"show",rawName:"v-show",value:((!_vm.disabled && (_vm.isActive || _vm.isHoverable)) || _vm.inline),expression:"(!disabled && (isActive || isHoverable)) || inline"},{name:"trap-focus",rawName:"v-trap-focus",value:(_vm.trapFocus),expression:"trapFocus"}],ref:"dropdownMenu",staticClass:"dropdown-menu",attrs:{"aria-hidden":!_vm.isActive}},[_c('div',{staticClass:"dropdown-content",attrs:{"role":_vm.ariaRoleMenu}},[_vm._t("default")],2)])])],1)};
     var __vue_staticRenderFns__ = [];
 
       /* style */
@@ -629,6 +628,8 @@
     };
     use(Plugin);
 
+    exports.BDropdown = Dropdown;
+    exports.BDropdownItem = DropdownItem;
     exports.default = Plugin;
 
     Object.defineProperty(exports, '__esModule', { value: true });

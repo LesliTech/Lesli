@@ -1,27 +1,31 @@
-import Vue from 'vue'
 import Notification from './Notification'
 import NotificationNotice from './NotificationNotice'
 
-import config from '../../utils/config'
+import config, { VueInstance } from '../../utils/config'
+import { merge } from '../../utils/helpers'
 import { use, registerComponent, registerComponentProgrammatic } from '../../utils/plugins'
+
+let localVueInstance
 
 const NotificationProgrammatic = {
     open(params) {
-        let message
         let parent
-        if (typeof params === 'string') message = params
+        if (typeof params === 'string') {
+            params = {
+                message: params
+            }
+        }
 
         const defaultParam = {
-            message,
             position: config.defaultNotificationPosition || 'is-top-right'
         }
         if (params.parent) {
             parent = params.parent
             delete params.parent
         }
-        const propsData = Object.assign(defaultParam, typeof params === 'string' ? {} : params)
+        const propsData = merge(defaultParam, params)
 
-        const vm = typeof window !== 'undefined' && window.Vue ? window.Vue : Vue
+        const vm = typeof window !== 'undefined' && window.Vue ? window.Vue : localVueInstance || VueInstance
         const NotificationNoticeComponent = vm.extend(NotificationNotice)
         return new NotificationNoticeComponent({
             parent,
@@ -33,6 +37,7 @@ const NotificationProgrammatic = {
 
 const Plugin = {
     install(Vue) {
+        localVueInstance = Vue
         registerComponent(Vue, Notification)
         registerComponentProgrammatic(Vue, 'notification', NotificationProgrammatic)
     }
@@ -43,5 +48,6 @@ use(Plugin)
 export default Plugin
 
 export {
-    NotificationProgrammatic
+    NotificationProgrammatic,
+    Notification as BNotification
 }
