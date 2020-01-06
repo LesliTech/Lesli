@@ -29,7 +29,7 @@ namespace :dev do
             system "sudo service nginx restart"
 
             file = File.open(Rails.root.join("public", "dev-deploy-log.txt"), "w+")
-            file.write("Last successful deploy at: #{Time.current.strftime('%Y/%m/%d %H:%M:%S')}\r\n")
+            file.write("Last successful deploy at: #{Time.now.strftime('%Y/%m/%d %H:%M:%S')}\r\n")
             file.close
 
         end
