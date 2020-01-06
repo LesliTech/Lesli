@@ -11,50 +11,51 @@
     },
     "devDependencies": {
 
-        "@rails/actioncable": "6.0.0",
+        "@rails/actioncable": "6.0.2-1",
 
         "lesli-js-debug-message": "ssh://git@github.com:LesliTech/lesli-js-debug-message.git#master",
         "lesli-css": "ssh://git@github.com:LesliTech/lesli-css.git#master",
 
-        "@babel/core": "7.5.5",
-        "@babel/preset-env": "7.5.5",
+        "@babel/core": "7.7.7",
+        "@babel/preset-env": "7.7.7",
 
-        "webpack": "4.39.1",
-        "webpack-cli": "3.3.6",
-        "terser-webpack-plugin": "1.4.1",
+        "webpack": "4.41.5",
+        "webpack-cli": "3.3.10",
+        "terser-webpack-plugin": "2.3.1",
 
-        "css-loader": "3.2.0",
-        "sass-loader": "7.2.0",
-        "style-loader": "1.0.0",
+        "css-loader": "3.4.1",
+        "sass-loader": "8.0.0",
+        "style-loader": "1.1.2",
         "babel-loader": "8.0.6",
 
-        "vue": "2.6.10",
-        "vue-router": "3.1.2",
-        "vue-loader": "15.7.1",
-        "vue-template-compiler": "2.6.10",
+        "vue": "2.6.11",
+        "vue-router": "3.1.3",
+        "vue-loader": "15.8.3",
+        "vue-template-compiler": "2.6.11",
 
-        "buefy": "0.8.6",
+        "buefy": "0.8.9",
         "bulma": "0.8.0",
         "axios": "0.19",
-        "dayjs": "1.8.15",
-        "vue-trix": "1.1.2",
-        "mermaid": "8.4.2",
-        "chart.js": "2.8.0",
-        "apexcharts": "3.8.4",
-        "vue-apexcharts": "1.4.0",
-        "vue-mermaid": "0.0.10",
+        "quill": "1.3.7",
+        "dayjs": "1.8.19",
+        "mermaid": "8.4.4",
+        "chart.js": "2.9.3",
+        "vue-trix": "1.1.6",
+        "v-calendar": "1.0.1",
+        "apexcharts": "3.12.0",
+        "vue-mermaid": "0.0.12",
+        "vue-apexcharts": "1.5.1",
         "bulma-extensions": "6.2.7",
-        "v-calendar": "1.0.0-beta.22",
         
         "@fullcalendar/vue": "4.3.1",
         "@fullcalendar/core": "4.3.1",
         "@fullcalendar/daygrid": "4.3.0",
         "@fullcalendar/timegrid": "4.3.0",
 
-        "@fortawesome/fontawesome-free": "5.11.2",
-        "@fortawesome/free-solid-svg-icons":"5.11.2",
-        "@fortawesome/fontawesome-svg-core": "1.2.25",
-        "@fortawesome/vue-fontawesome":"0.1.8"
+        "@fortawesome/fontawesome-free": "5.12.0",
+        "@fortawesome/free-solid-svg-icons":"5.12.0",
+        "@fortawesome/fontawesome-svg-core": "1.2.26",
+        "@fortawesome/vue-fontawesome":"0.1.9"
 
     },
     "scripts": {
