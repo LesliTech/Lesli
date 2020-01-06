@@ -334,6 +334,9 @@ ActiveRecord::Schema.define(version: 90000004) do
     t.boolean "privilege_show", default: false
     t.boolean "privilege_update", default: false
     t.boolean "privilege_destroy", default: false
+    t.boolean "privilege_options", default: false
+    t.boolean "privilege_default", default: false
+    t.boolean "privilege_empty", default: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.bigint "cloud_lock_roles_id"

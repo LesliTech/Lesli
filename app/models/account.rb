@@ -4,14 +4,14 @@ class Account < ApplicationRecord
 
     has_many :users, foreign_key: 'accounts_id'
 
-    has_one :kb,     class_name: "CloudKb::Account",     foreign_key: "id"
-    has_one :bell,   class_name: "CloudBell::Account",   foreign_key: "id"
-    has_one :lock,   class_name: "CloudLock::Account",   foreign_key: "id"
     has_one :team,   class_name: "CloudTeam::Account",   foreign_key: "id"
+    has_one :driver, class_name: "CloudDriver::Account", foreign_key: "id"
+    has_one :bell,   class_name: "CloudBell::Account",   foreign_key: "id"
+    has_one :kb,     class_name: "CloudKb::Account",     foreign_key: "id"
+    has_one :lock,   class_name: "CloudLock::Account",   foreign_key: "id"
     has_one :help,   class_name: "CloudHelp::Account",   foreign_key: "id"
     has_one :books,  class_name: "CloudBooks::Account",  foreign_key: "id"
     has_one :panel,  class_name: "CloudPanel::Account",  foreign_key: "id"
-    has_one :driver, class_name: "CloudDriver::Account", foreign_key: "id"
 
     after_create :check_accounts
 
@@ -24,6 +24,7 @@ class Account < ApplicationRecord
                 self.team.save!
             end
         end
+
         if defined? CloudDriver
             if self.driver.blank?
                 self.driver = CloudDriver::Account.new
@@ -31,6 +32,7 @@ class Account < ApplicationRecord
                 self.driver.save!
             end
         end
+
         if defined? CloudBell
             if self.bell.blank?
                 self.bell = CloudBell::Account.new
@@ -38,11 +40,20 @@ class Account < ApplicationRecord
                 self.bell.save!
             end
         end
+
         if defined? CloudKb
             if self.kb.blank?
                 self.kb = CloudKb::Account.new
                 self.kb.account = self
                 self.kb.save!
+            end
+        end
+
+        if defined? CloudLock
+            if self.lock.blank?
+                self.lock = CloudLock::Account.new
+                self.lock.account = self
+                self.lock.save!
             end
         end
 
