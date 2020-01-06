@@ -42,7 +42,7 @@ import pluginHttp from 'LesliCloud/vue/plugins/http'
 
 // · Loading app functions
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
-import debug from 'lesli-nodejs-debug-message/browser'
+import debug from 'lesli-js-debug-message/browser'
 import document from 'LesliCloud/vue/functions/document.js'
 
 

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 90000004) do
+ActiveRecord::Schema.define(version: 90000005) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -59,7 +59,7 @@ ActiveRecord::Schema.define(version: 90000004) do
     t.index ["key"], name: "index_active_storage_blobs_on_key", unique: true
   end
 
-  create_table "cloud_babel_translation_object_group_labels", force: :cascade do |t|
+  create_table "cloud_babel_translation_object_group_section_labels", force: :cascade do |t|
     t.string "context"
     t.string "label"
     t.string "es"
@@ -70,14 +70,21 @@ ActiveRecord::Schema.define(version: 90000004) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.bigint "users_id"
+    t.bigint "cloud_babel_translation_object_group_sections_id"
+    t.index ["cloud_babel_translation_object_group_sections_id"], name: "babel_translation_object_group_section_labels_sections"
+    t.index ["users_id"], name: "babel_translation_object_group_section_labels_users"
+  end
+
+  create_table "cloud_babel_translation_object_group_sections", force: :cascade do |t|
+    t.string "name"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
     t.bigint "cloud_babel_translation_object_groups_id"
-    t.index ["cloud_babel_translation_object_groups_id"], name: "babel_translation_object_group_labels_groups"
-    t.index ["users_id"], name: "babel_translation_object_group_labels_users"
+    t.index ["cloud_babel_translation_object_groups_id"], name: "babel_translation_object_group_sections_groups"
   end
 
   create_table "cloud_babel_translation_object_groups", force: :cascade do |t|
     t.string "method"
-    t.string "section"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.bigint "cloud_babel_translation_objects_id"
@@ -443,8 +450,9 @@ ActiveRecord::Schema.define(version: 90000004) do
 
   add_foreign_key "accounts", "users", column: "users_id"
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
-  add_foreign_key "cloud_babel_translation_object_group_labels", "cloud_babel_translation_object_groups", column: "cloud_babel_translation_object_groups_id"
-  add_foreign_key "cloud_babel_translation_object_group_labels", "users", column: "users_id"
+  add_foreign_key "cloud_babel_translation_object_group_section_labels", "cloud_babel_translation_object_group_sections", column: "cloud_babel_translation_object_group_sections_id"
+  add_foreign_key "cloud_babel_translation_object_group_section_labels", "users", column: "users_id"
+  add_foreign_key "cloud_babel_translation_object_group_sections", "cloud_babel_translation_object_groups", column: "cloud_babel_translation_object_groups_id"
   add_foreign_key "cloud_babel_translation_object_groups", "cloud_babel_translation_objects", column: "cloud_babel_translation_objects_id"
   add_foreign_key "cloud_babel_translation_objects", "cloud_babel_translations", column: "cloud_babel_translations_id"
   add_foreign_key "cloud_bell_accounts", "accounts", column: "id"
