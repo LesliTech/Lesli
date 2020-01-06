@@ -3,7 +3,7 @@
 exports[`BDatepicker render correctly 1`] = `
 <div class="datepicker control">
     <bdropdown-stub mobilemodal="true" ariarole="" animation="fade" closeonclick="true" canclose="true">
-        <binput-stub type="text" hascounter="true" customclass="" autocomplete="off" readonly="readonly" use-html5-validation="true"></binput-stub>
+        <binput-stub type="text" hascounter="true" customclass="" autocomplete="off" readonly="true" use-html5-validation="true"></binput-stub>
         <bdropdownitem-stub custom="true" focusable="true" ariarole="">
             <header class="datepicker-header">
                 <div class="pagination field is-centered"><a role="button" href="#" class="pagination-previous">
@@ -13,7 +13,7 @@ exports[`BDatepicker render correctly 1`] = `
                     </a>
                     <div class="pagination-list">
                         <bfield-stub addons="true">
-                            <bselect-stub value="9">
+                            <bselect-stub value="7">
                                 <option value="0">
                                     January
                                 </option>
@@ -51,10 +51,7 @@ exports[`BDatepicker render correctly 1`] = `
                                     December
                                 </option>
                             </bselect-stub>
-                            <bselect-stub value="2019">
-                                <option value="2022">
-                                    2022
-                                </option>
+                            <bselect-stub value="2018">
                                 <option value="2021">
                                     2021
                                 </option>
@@ -363,6 +360,9 @@ exports[`BDatepicker render correctly 1`] = `
                                 </option>
                                 <option value="1919">
                                     1919
+                                </option>
+                                <option value="1918">
+                                    1918
                                 </option>
                             </bselect-stub>
                         </bfield-stub>

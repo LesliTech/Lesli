@@ -1,12 +1,101 @@
-/*! Buefy v0.8.6 | MIT License | github.com/buefy/buefy */
+/*! Buefy v0.8.9 | MIT License | github.com/buefy/buefy */
 (function (global, factory) {
-  typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports, require('vue')) :
-  typeof define === 'function' && define.amd ? define(['exports', 'vue'], factory) :
-  (global = global || self, factory(global.Loading = {}, global.Vue));
-}(this, function (exports, Vue) { 'use strict';
+  typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports) :
+  typeof define === 'function' && define.amd ? define(['exports'], factory) :
+  (global = global || self, factory(global.Loading = {}));
+}(this, function (exports) { 'use strict';
 
-  Vue = Vue && Vue.hasOwnProperty('default') ? Vue['default'] : Vue;
+  function _typeof(obj) {
+    if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") {
+      _typeof = function (obj) {
+        return typeof obj;
+      };
+    } else {
+      _typeof = function (obj) {
+        return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj;
+      };
+    }
 
+    return _typeof(obj);
+  }
+
+  function _defineProperty(obj, key, value) {
+    if (key in obj) {
+      Object.defineProperty(obj, key, {
+        value: value,
+        enumerable: true,
+        configurable: true,
+        writable: true
+      });
+    } else {
+      obj[key] = value;
+    }
+
+    return obj;
+  }
+
+  function ownKeys(object, enumerableOnly) {
+    var keys = Object.keys(object);
+
+    if (Object.getOwnPropertySymbols) {
+      var symbols = Object.getOwnPropertySymbols(object);
+      if (enumerableOnly) symbols = symbols.filter(function (sym) {
+        return Object.getOwnPropertyDescriptor(object, sym).enumerable;
+      });
+      keys.push.apply(keys, symbols);
+    }
+
+    return keys;
+  }
+
+  function _objectSpread2(target) {
+    for (var i = 1; i < arguments.length; i++) {
+      var source = arguments[i] != null ? arguments[i] : {};
+
+      if (i % 2) {
+        ownKeys(Object(source), true).forEach(function (key) {
+          _defineProperty(target, key, source[key]);
+        });
+      } else if (Object.getOwnPropertyDescriptors) {
+        Object.defineProperties(target, Object.getOwnPropertyDescriptors(source));
+      } else {
+        ownKeys(Object(source)).forEach(function (key) {
+          Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key));
+        });
+      }
+    }
+
+    return target;
+  }
+
+  /**
+   * Merge function to replace Object.assign with deep merging possibility
+   */
+
+  var isObject = function isObject(item) {
+    return _typeof(item) === 'object' && !Array.isArray(item);
+  };
+
+  var mergeFn = function mergeFn(target, source) {
+    var deep = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : false;
+
+    if (deep || !Object.assign) {
+      var isDeep = function isDeep(prop) {
+        return isObject(source[prop]) && target !== null && target.hasOwnProperty(prop) && isObject(target[prop]);
+      };
+
+      var replaced = Object.getOwnPropertyNames(source).map(function (prop) {
+        return _defineProperty({}, prop, isDeep(prop) ? mergeFn(target[prop], source[prop], deep) : source[prop]);
+      }).reduce(function (a, b) {
+        return _objectSpread2({}, a, {}, b);
+      }, {});
+      return _objectSpread2({}, target, {}, replaced);
+    } else {
+      return Object.assign(target, source);
+    }
+  };
+
+  var merge = mergeFn;
   function removeElement(el) {
     if (typeof el.remove !== 'undefined') {
       el.remove();
@@ -235,6 +324,8 @@
       undefined
     );
 
+  var VueInstance;
+
   var use = function use(plugin) {
     if (typeof window !== 'undefined' && window.Vue) {
       window.Vue.use(plugin);
@@ -248,13 +339,14 @@
     Vue.prototype.$buefy[property] = component;
   };
 
+  var localVueInstance;
   var LoadingProgrammatic = {
     open: function open(params) {
       var defaultParam = {
         programmatic: true
       };
-      var propsData = Object.assign(defaultParam, params);
-      var vm = typeof window !== 'undefined' && window.Vue ? window.Vue : Vue;
+      var propsData = merge(defaultParam, params);
+      var vm = typeof window !== 'undefined' && window.Vue ? window.Vue : localVueInstance || VueInstance;
       var LoadingComponent = vm.extend(Loading);
       return new LoadingComponent({
         el: document.createElement('div'),
@@ -264,12 +356,14 @@
   };
   var Plugin = {
     install: function install(Vue) {
+      localVueInstance = Vue;
       registerComponent(Vue, Loading);
       registerComponentProgrammatic(Vue, 'loading', LoadingProgrammatic);
     }
   };
   use(Plugin);
 
+  exports.BLoading = Loading;
   exports.LoadingProgrammatic = LoadingProgrammatic;
   exports.default = Plugin;
 

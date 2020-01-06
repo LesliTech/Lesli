@@ -45,7 +45,7 @@ const defaultTimeParser = (timeString, vm) => {
         if (vm.computedValue && !isNaN(vm.computedValue)) {
             d = new Date(vm.computedValue)
         } else {
-            d = new Date()
+            d = vm.timeCreator()
             d.setMilliseconds(0)
         }
         d.setSeconds(seconds)
@@ -115,12 +115,26 @@ export default {
                 return config.defaultTimepickerMobileNative
             }
         },
+        timeCreator: {
+            type: Function,
+            default: () => {
+                if (typeof config.defaultTimeCreator === 'function') {
+                    return config.defaultTimeCreator()
+                } else {
+                    return new Date()
+                }
+            }
+        },
         position: String,
         unselectableTimes: Array,
         openOnFocus: Boolean,
         enableSeconds: Boolean,
         defaultMinutes: Number,
-        defaultSeconds: Number
+        defaultSeconds: Number,
+        focusable: {
+            type: Boolean,
+            default: true
+        }
     },
     data() {
         return {
@@ -174,6 +188,7 @@ export default {
         },
 
         minutes() {
+            if (!this.incrementMinutes || this.incrementMinutes < 1) throw new Error('Minute increment cannot be null or less than 1.')
             const minutes = []
             for (let i = 0; i < 60; i += this.incrementMinutes) {
                 minutes.push({
@@ -185,6 +200,7 @@ export default {
         },
 
         seconds() {
+            if (!this.incrementSeconds || this.incrementSeconds < 1) throw new Error('Second increment cannot be null or less than 1.')
             const seconds = []
             for (let i = 0; i < 60; i += this.incrementSeconds) {
                 seconds.push({
@@ -285,7 +301,7 @@ export default {
                 if (this.computedValue && !isNaN(this.computedValue)) {
                     time = new Date(this.computedValue)
                 } else {
-                    time = new Date()
+                    time = this.timeCreator()
                     time.setMilliseconds(0)
                 }
                 time.setHours(hours)
@@ -538,6 +554,14 @@ export default {
             // Esc key
             if (this.$refs.dropdown && this.$refs.dropdown.isActive && event.keyCode === 27) {
                 this.toggle(false)
+            }
+        },
+        /**
+         * Emit 'blur' event on dropdown is not active (closed)
+         */
+        onActiveChange(value) {
+            if (!value) {
+                this.onBlur()
             }
         }
     },

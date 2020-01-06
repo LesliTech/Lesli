@@ -2,7 +2,7 @@
 
 Object.defineProperty(exports, '__esModule', { value: true });
 
-var __chunk_6 = require('./chunk-13e039f5.js');
+var __chunk_5 = require('./chunk-13e039f5.js');
 
 //
 //
@@ -129,7 +129,7 @@ var __vue_staticRenderFns__ = [];
   
 
   
-  var Progress = __chunk_6.__vue_normalize__(
+  var Progress = __chunk_5.__vue_normalize__(
     { render: __vue_render__, staticRenderFns: __vue_staticRenderFns__ },
     __vue_inject_styles__,
     __vue_script__,
@@ -142,9 +142,10 @@ var __vue_staticRenderFns__ = [];
 
 var Plugin = {
   install: function install(Vue) {
-    __chunk_6.registerComponent(Vue, Progress);
+    __chunk_5.registerComponent(Vue, Progress);
   }
 };
-__chunk_6.use(Plugin);
+__chunk_5.use(Plugin);
 
+exports.BProgress = Progress;
 exports.default = Plugin;

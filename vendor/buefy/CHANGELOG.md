@@ -1,5 +1,71 @@
 # Buefy Changelog
 
+## 0.8.9
+
+### New features
+
+* Add ``infinite-scroll`` prop to autocomplete and taginput (thanks @mateuswetah) 
+* Add scss variables to loading and snackbar (thanks @service-paradis)
+* Add range start and end events to datepicker (thanks @lunfel)
+* Add ``close`` event to notification, snackbar and toast (thanks @service-paradis)
+* Add new props to carousel and ``carousel-list`` (thanks @apolokaklab)
+* Add ``aria-role`` prop to snackbar (thanks @service-paradis)
+* Remove Vue import and registration of Vue instance (thanks @afwn90cj93201nixr2e1re)
+* #2075 Add ``focusable`` prop to datepicker
+* #2085 Add ``blur`` event on picker close
+
+### Fixes
+
+* Fix taginput when autocomplete without template
+* Fix default modal background color (thanks @francoism90)
+* Fix #1387 maintain tabitems/stepitems order (thanks @service-paradis)
+* Fix #2023 ``increment-minutes`` and ``increment-seconds`` props to timepicker (thanks @GerryWilko)
+* Fix #2037 datepicker selection when multiple
+* Fix #2049 indicator style name 'is-boxs' -> 'is-boxes' (thanks @apolokaklab)
+* Fix #2062 align last tag on taginput with maxtags (thanks @andrei-dracea)
+* Fix #2093 ``trap-focus`` on programmatic modal (thanks @service-paradis)
+
+## 0.8.8
+
+### New features
+
+* Add ``subheadings`` prop/slot to table (thanks @arambert)
+* Add ``container`` prop to dialog (thanks @service-paradis)
+* Add touch events to carousel on mobile
+
+### Fixes
+
+* Fix custom icon pack improving merge internal function (thanks @service-paradis)
+* Fix #2006 tabs when nested each other (thanks @service-paradis)
+
+## 0.8.7
+
+### New features
+
+* **New component: Carousel**, [see docs](https://buefy.org/documentation/carousel) (thanks @apolokaklab)
+* Add ``controls`` prop to number input (thanks @afwn90cj93201nixr2e1re)
+* Add ``accordion`` prop to menu
+* Add ``icon-click`` event to input (thanks @service-paradis)
+* Add multiple support to Datepicker when type is ``month`` 
+* Add more customization variables for dropdown and loading (thanks @HugoHeneault)
+* Add more customization variables for datepicker (thanks @service-paradis)
+* Add ``defaultDatepickerMobileModal`` constructor option (thanks @ievhen-soloviov)
+* #2000 Add ``time-creator`` prop to timepicker
+
+### Fixes
+
+* Fix IE compatibility using multiple datepicker
+* Fix datetimepicker ignores expanded prop (thanks @cypressious)
+* Fix disabled checkbox in table (thanks @yxngl)
+* Fix page number count when filtering data (thanks @yxngl)
+* Fix placeholder to datetimepicker (thanks @yxngl)
+* Fix #1812 extending a component
+* Fix #1909, #1902, #1898 issues on searchable table column (thanks @dauriata and @service-paradis)
+* Fix #1951 modal a11y improvements (thanks @service-paradis)
+* Fix #1963 erase numberinput value
+* Fix #1972 using min and max native datepicker and timepicker props
+* Fix #1986 setting 00:00 on datetimepicker
+
 ## 0.8.6
 
 ### New features

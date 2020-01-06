@@ -2,16 +2,13 @@
 
 Object.defineProperty(exports, '__esModule', { value: true });
 
-function _interopDefault (ex) { return (ex && (typeof ex === 'object') && 'default' in ex) ? ex['default'] : ex; }
-
-require('./chunk-a535ca7c.js');
-require('./chunk-f920b094.js');
-var __chunk_3 = require('./chunk-98a92ff2.js');
-require('./chunk-ef3fcce1.js');
-var __chunk_6 = require('./chunk-13e039f5.js');
-var Vue = _interopDefault(require('vue'));
-var __chunk_19 = require('./chunk-845068dc.js');
-var __chunk_20 = require('./chunk-fa58a866.js');
+require('./chunk-f98e7e80.js');
+var helpers = require('./helpers.js');
+var __chunk_2 = require('./chunk-8806479f.js');
+require('./chunk-45103eda.js');
+var __chunk_5 = require('./chunk-13e039f5.js');
+var __chunk_19 = require('./chunk-c9dab2a3.js');
+var __chunk_20 = require('./chunk-c72ff630.js');
 
 //
 var script = {
@@ -44,7 +41,7 @@ var __vue_staticRenderFns__ = [];
   
 
   
-  var Notification = __chunk_6.__vue_normalize__(
+  var Notification = __chunk_5.__vue_normalize__(
     { render: __vue_render__, staticRenderFns: __vue_staticRenderFns__ },
     __vue_inject_styles__,
     __vue_script__,
@@ -67,7 +64,7 @@ var script$1 = {
   },
   data: function data() {
     return {
-      newDuration: this.duration || __chunk_3.config.defaultNotificationDuration
+      newDuration: this.duration || __chunk_2.config.defaultNotificationDuration
     };
   }
 };
@@ -93,7 +90,7 @@ var __vue_staticRenderFns__$1 = [];
   
 
   
-  var NotificationNotice = __chunk_6.__vue_normalize__(
+  var NotificationNotice = __chunk_5.__vue_normalize__(
     { render: __vue_render__$1, staticRenderFns: __vue_staticRenderFns__$1 },
     __vue_inject_styles__$1,
     __vue_script__$1,
@@ -104,14 +101,19 @@ var __vue_staticRenderFns__$1 = [];
     undefined
   );
 
+var localVueInstance;
 var NotificationProgrammatic = {
   open: function open(params) {
-    var message;
     var parent;
-    if (typeof params === 'string') message = params;
+
+    if (typeof params === 'string') {
+      params = {
+        message: params
+      };
+    }
+
     var defaultParam = {
-      message: message,
-      position: __chunk_3.config.defaultNotificationPosition || 'is-top-right'
+      position: __chunk_2.config.defaultNotificationPosition || 'is-top-right'
     };
 
     if (params.parent) {
@@ -119,8 +121,8 @@ var NotificationProgrammatic = {
       delete params.parent;
     }
 
-    var propsData = Object.assign(defaultParam, typeof params === 'string' ? {} : params);
-    var vm = typeof window !== 'undefined' && window.Vue ? window.Vue : Vue;
+    var propsData = helpers.merge(defaultParam, params);
+    var vm = typeof window !== 'undefined' && window.Vue ? window.Vue : localVueInstance || __chunk_2.VueInstance;
     var NotificationNoticeComponent = vm.extend(NotificationNotice);
     return new NotificationNoticeComponent({
       parent: parent,
@@ -131,11 +133,13 @@ var NotificationProgrammatic = {
 };
 var Plugin = {
   install: function install(Vue) {
-    __chunk_6.registerComponent(Vue, Notification);
-    __chunk_6.registerComponentProgrammatic(Vue, 'notification', NotificationProgrammatic);
+    localVueInstance = Vue;
+    __chunk_5.registerComponent(Vue, Notification);
+    __chunk_5.registerComponentProgrammatic(Vue, 'notification', NotificationProgrammatic);
   }
 };
-__chunk_6.use(Plugin);
+__chunk_5.use(Plugin);
 
+exports.BNotification = Notification;
 exports.NotificationProgrammatic = NotificationProgrammatic;
 exports.default = Plugin;

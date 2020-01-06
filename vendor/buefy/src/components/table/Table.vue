@@ -109,7 +109,47 @@
                             </template>
                         </th>
                     </tr>
+                    <tr v-if="hasCustomSubheadings" class="is-subheading">
+                        <th v-if="showDetailRowIcon" width="40px"/>
+                        <th v-if="checkable && checkboxPosition === 'left'" />
+                        <th
+                            v-for="(column, index) in visibleColumns"
+                            :key="index"
+                            :style="{
+                                width: column.width === undefined ? null
+                            : (isNaN(column.width) ? column.width : column.width + 'px') }">
+                            <div
+                                class="th-wrap"
+                                :class="{
+                                    'is-numeric': column.numeric,
+                                    'is-centered': column.centered
+                            }">
+                                <template
+                                    v-if="column.$scopedSlots && column.$scopedSlots.subheading"
+                                >
+                                    <b-slot-component
+                                        :component="column"
+                                        :scoped="true"
+                                        name="subheading"
+                                        tag="span"
+                                        :props="{ column, index }"
+                                    />
+                                </template>
+                                <template v-else-if="$scopedSlots.subheading">
+                                    <slot
+                                        name="subheading"
+                                        :column="column"
+                                        :index="index"
+                                    />
+                                </template>
+                                <template v-else>{{ column.subheading }}</template>
+                            </div>
+                        </th>
+                        <th v-if="checkable && checkboxPosition === 'right'" />
+                    </tr>
                     <tr v-if="hasSearchablenewColumns">
+                        <th v-if="showDetailRowIcon" width="40px"/>
+                        <th v-if="checkable && checkboxPosition === 'left'" />
                         <th
                             v-for="(column, index) in visibleColumns"
                             :key="index"
@@ -124,6 +164,7 @@
                                 </template>
                             </div>
                         </th>
+                        <th v-if="checkable && checkboxPosition === 'right'" />
                     </tr>
                 </thead>
                 <tbody v-if="visibleData.length">
@@ -408,7 +449,7 @@ export default {
         customRowKey: String,
         draggable: {
             type: Boolean,
-            defualt: false
+            default: false
         },
         ariaNextLabel: String,
         ariaPreviousLabel: String,
@@ -520,6 +561,16 @@ export default {
         },
 
         /**
+        * Check if has any column using subheading.
+        */
+        hasCustomSubheadings() {
+            if (this.$scopedSlots && this.$scopedSlots.subheading) return true
+            return this.newColumns.some((column) => {
+                return column.subheading || (column.$scopedSlots && column.$scopedSlots.subheading)
+            })
+        },
+
+        /**
         * Return total column count based if it's checkable or expanded
         */
         columnCount() {
@@ -589,6 +640,9 @@ export default {
             handler(value) {
                 this.newData = this.data.filter(
                     (row) => this.isRowFiltered(row))
+                if (!this.backendPagination) {
+                    this.newDataTotal = this.newData.length
+                }
             },
             deep: true
         },
@@ -716,6 +770,7 @@ export default {
         * Row checkbox click listener.
         */
         checkRow(row, index, event) {
+            if (!this.isRowCheckable(row)) return
             const lastIndex = this.lastCheckedRowIndex
             this.lastCheckedRowIndex = index
 
@@ -829,11 +884,14 @@ export default {
                     delete this.filters[key]
                     return true
                 }
-                if (Number.isInteger(row[key])) {
-                    if (row[key] !== Number(this.filters[key])) return false
+                let value = this.getValueByPath(row, key)
+                if (value == null) return false
+                if (Number.isInteger(value)) {
+                    if (value !== Number(this.filters[key])) return false
                 } else {
-                    const re = new RegExp(this.filters[key])
-                    if (!row[key].match(re)) return false
+                    const re = new RegExp(this.filters[key], 'i')
+                    if (typeof value === 'boolean') value = `${value}`
+                    if (!value.match(re)) return false
                 }
             }
             return true
@@ -845,7 +903,7 @@ export default {
             */
         handleDetailKey(index) {
             const key = this.detailKey
-            return !key.length
+            return !key.length || !index
                 ? index
                 : index[key]
         },

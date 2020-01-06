@@ -1,4 +1,4 @@
-/*! Buefy v0.8.6 | MIT License | github.com/buefy/buefy */
+/*! Buefy v0.8.9 | MIT License | github.com/buefy/buefy */
 (function (global, factory) {
   typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports) :
   typeof define === 'function' && define.amd ? define(['exports'], factory) :
@@ -38,12 +38,13 @@
     var keys = Object.keys(object);
 
     if (Object.getOwnPropertySymbols) {
-      keys.push.apply(keys, Object.getOwnPropertySymbols(object));
+      var symbols = Object.getOwnPropertySymbols(object);
+      if (enumerableOnly) symbols = symbols.filter(function (sym) {
+        return Object.getOwnPropertyDescriptor(object, sym).enumerable;
+      });
+      keys.push.apply(keys, symbols);
     }
 
-    if (enumerableOnly) keys = keys.filter(function (sym) {
-      return Object.getOwnPropertyDescriptor(object, sym).enumerable;
-    });
     return keys;
   }
 
@@ -52,13 +53,13 @@
       var source = arguments[i] != null ? arguments[i] : {};
 
       if (i % 2) {
-        ownKeys(source, true).forEach(function (key) {
+        ownKeys(Object(source), true).forEach(function (key) {
           _defineProperty(target, key, source[key]);
         });
       } else if (Object.getOwnPropertyDescriptors) {
         Object.defineProperties(target, Object.getOwnPropertyDescriptors(source));
       } else {
-        ownKeys(source).forEach(function (key) {
+        ownKeys(Object(source)).forEach(function (key) {
           Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key));
         });
       }
@@ -205,7 +206,7 @@
   /* template */
   var __vue_render__ = function () {
   var _obj;
-  var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c(_vm.tag,_vm._b({tag:"component",staticClass:"pagination-link",class:( _obj = { 'is-current': _vm.page.isCurrent }, _obj[_vm.page.class] = true, _obj ),attrs:{"role":"button","href":_vm.href,"disabled":_vm.isDisabled,"aria-label":_vm.page['aria-label'],"aria-current":_vm.page.isCurrent},on:{"click":function($event){$event.preventDefault();_vm.page.click($event);}}},'component',_vm.$attrs,false),[_vm._t("default",[_vm._v(_vm._s(_vm.page.number))])],2)};
+  var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c(_vm.tag,_vm._b({tag:"component",staticClass:"pagination-link",class:( _obj = { 'is-current': _vm.page.isCurrent }, _obj[_vm.page.class] = true, _obj ),attrs:{"role":"button","href":_vm.href,"disabled":_vm.isDisabled,"aria-label":_vm.page['aria-label'],"aria-current":_vm.page.isCurrent},on:{"click":function($event){$event.preventDefault();return _vm.page.click($event)}}},'component',_vm.$attrs,false),[_vm._t("default",[_vm._v(_vm._s(_vm.page.number))])],2)};
   var __vue_staticRenderFns__ = [];
 
     /* style */
@@ -254,6 +255,7 @@
     defaultDateFormatter: null,
     defaultDateParser: null,
     defaultDateCreator: null,
+    defaultTimeCreator: null,
     defaultDayNames: null,
     defaultMonthNames: null,
     defaultFirstDayOfWeek: null,
@@ -274,32 +276,38 @@
     defaultDatepickerNearbyMonthDays: true,
     defaultDatepickerNearbySelectableMonthDays: false,
     defaultDatepickerShowWeekNumber: false,
+    defaultDatepickerMobileModal: true,
     defaultTrapFocus: false,
     defaultButtonRounded: false,
-    customIconPacks: null // TODO defaultTrapFocus to true in the next breaking change
-
-  };
-  var config$1 = config;
+    defaultCarouselInterval: 3500,
+    customIconPacks: null
+  }; // TODO defaultTrapFocus to true in the next breaking change
 
   /**
-  * Merge function to replace Object.assign with deep merging possibility
-  */
+   * Merge function to replace Object.assign with deep merging possibility
+   */
 
   var isObject = function isObject(item) {
     return _typeof(item) === 'object' && !Array.isArray(item);
   };
 
   var mergeFn = function mergeFn(target, source) {
-    var isDeep = function isDeep(prop) {
-      return isObject(source[prop]) && target.hasOwnProperty(prop) && isObject(target[prop]);
-    };
+    var deep = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : false;
 
-    var replaced = Object.getOwnPropertyNames(source).map(function (prop) {
-      return _defineProperty({}, prop, isDeep(prop) ? mergeFn(target[prop], source[prop]) : source[prop]);
-    }).reduce(function (a, b) {
-      return _objectSpread2({}, a, {}, b);
-    }, {});
-    return _objectSpread2({}, target, {}, replaced);
+    if (deep || !Object.assign) {
+      var isDeep = function isDeep(prop) {
+        return isObject(source[prop]) && target !== null && target.hasOwnProperty(prop) && isObject(target[prop]);
+      };
+
+      var replaced = Object.getOwnPropertyNames(source).map(function (prop) {
+        return _defineProperty({}, prop, isDeep(prop) ? mergeFn(target[prop], source[prop], deep) : source[prop]);
+      }).reduce(function (a, b) {
+        return _objectSpread2({}, a, {}, b);
+      }, {});
+      return _objectSpread2({}, target, {}, replaced);
+    } else {
+      return Object.assign(target, source);
+    }
   };
 
   var merge = mergeFn;
@@ -315,7 +323,7 @@
   };
 
   var faIcons = function faIcons() {
-    var faIconPrefix = config$1 && config$1.defaultIconComponent ? '' : 'fa-';
+    var faIconPrefix = config && config.defaultIconComponent ? '' : 'fa-';
     return {
       sizes: {
         'default': faIconPrefix + 'lg',
@@ -349,8 +357,8 @@
       fal: faIcons()
     };
 
-    if (config$1 && config$1.customIconPacks) {
-      icons = merge(icons, config$1.customIconPacks);
+    if (config && config.customIconPacks) {
+      icons = merge(icons, config.customIconPacks, true);
     }
 
     return icons;
@@ -392,7 +400,7 @@
         return "".concat(this.iconPrefix).concat(this.getEquivalentIconOf(this.icon));
       },
       newPack: function newPack() {
-        return this.pack || config$1.defaultIconPack;
+        return this.pack || config.defaultIconPack;
       },
       newType: function newType() {
         if (!this.type) return;
@@ -427,7 +435,7 @@
         return null;
       },
       useIconComponent: function useIconComponent() {
-        return this.component || config$1.defaultIconComponent;
+        return this.component || config.defaultIconComponent;
       }
     },
     methods: {
@@ -510,11 +518,11 @@
       iconPack: String,
       iconPrev: {
         type: String,
-        default: config$1.defaultIconPrev
+        default: config.defaultIconPrev
       },
       iconNext: {
         type: String,
-        default: config$1.defaultIconNext
+        default: config.defaultIconNext
       },
       ariaNextLabel: String,
       ariaPreviousLabel: String,
@@ -702,14 +710,14 @@
 
   /* template */
   var __vue_render__$2 = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('nav',{staticClass:"pagination",class:_vm.rootClasses},[(_vm.$scopedSlots.previous)?_vm._t("previous",[_c('b-icon',{attrs:{"icon":_vm.iconPrev,"pack":_vm.iconPack,"both":"","aria-hidden":"true"}})],{page:_vm.getPage(_vm.current - 1, {
-              disabled: !_vm.hasPrev,
-              class: 'pagination-previous',
-              'aria-label': _vm.ariaPreviousLabel
-      })}):_c('BPaginationButton',{staticClass:"pagination-previous",attrs:{"disabled":!_vm.hasPrev,"page":_vm.getPage(_vm.current - 1)}},[_c('b-icon',{attrs:{"icon":_vm.iconPrev,"pack":_vm.iconPack,"both":"","aria-hidden":"true"}})],1),_vm._v(" "),(_vm.$scopedSlots.next)?_vm._t("next",[_c('b-icon',{attrs:{"icon":_vm.iconNext,"pack":_vm.iconPack,"both":"","aria-hidden":"true"}})],{page:_vm.getPage(_vm.current + 1, {
-              disabled: !_vm.hasNext,
-              class: 'pagination-next',
-              'aria-label': _vm.ariaNextLabel
-      })}):_c('BPaginationButton',{staticClass:"pagination-next",attrs:{"disabled":!_vm.hasNext,"page":_vm.getPage(_vm.current + 1)}},[_c('b-icon',{attrs:{"icon":_vm.iconNext,"pack":_vm.iconPack,"both":"","aria-hidden":"true"}})],1),_vm._v(" "),(_vm.simple)?_c('small',{staticClass:"info"},[(_vm.perPage == 1)?[_vm._v("\n            "+_vm._s(_vm.firstItem)+" / "+_vm._s(_vm.total)+"\n        ")]:[_vm._v("\n            "+_vm._s(_vm.firstItem)+"-"+_vm._s(Math.min(_vm.current * _vm.perPage, _vm.total))+" / "+_vm._s(_vm.total)+"\n        ")]],2):_c('ul',{staticClass:"pagination-list"},[(_vm.hasFirst)?_c('li',[(_vm.$scopedSlots.default)?_vm._t("default",null,{page:_vm.getPage(1)}):_c('BPaginationButton',{attrs:{"page":_vm.getPage(1)}})],2):_vm._e(),_vm._v(" "),(_vm.hasFirstEllipsis)?_c('li',[_c('span',{staticClass:"pagination-ellipsis"},[_vm._v("…")])]):_vm._e(),_vm._v(" "),_vm._l((_vm.pagesInRange),function(page){return _c('li',{key:page.number},[(_vm.$scopedSlots.default)?_vm._t("default",null,{page:page}):_c('BPaginationButton',{attrs:{"page":page}})],2)}),_vm._v(" "),(_vm.hasLastEllipsis)?_c('li',[_c('span',{staticClass:"pagination-ellipsis"},[_vm._v("…")])]):_vm._e(),_vm._v(" "),(_vm.hasLast)?_c('li',[(_vm.$scopedSlots.default)?_vm._t("default",null,{page:_vm.getPage(_vm.pageCount)}):_c('BPaginationButton',{attrs:{"page":_vm.getPage(_vm.pageCount)}})],2):_vm._e()],2)],2)};
+                  disabled: !_vm.hasPrev,
+                  class: 'pagination-previous',
+                  'aria-label': _vm.ariaPreviousLabel
+          })}):_c('BPaginationButton',{staticClass:"pagination-previous",attrs:{"disabled":!_vm.hasPrev,"page":_vm.getPage(_vm.current - 1)}},[_c('b-icon',{attrs:{"icon":_vm.iconPrev,"pack":_vm.iconPack,"both":"","aria-hidden":"true"}})],1),_vm._v(" "),(_vm.$scopedSlots.next)?_vm._t("next",[_c('b-icon',{attrs:{"icon":_vm.iconNext,"pack":_vm.iconPack,"both":"","aria-hidden":"true"}})],{page:_vm.getPage(_vm.current + 1, {
+                  disabled: !_vm.hasNext,
+                  class: 'pagination-next',
+                  'aria-label': _vm.ariaNextLabel
+          })}):_c('BPaginationButton',{staticClass:"pagination-next",attrs:{"disabled":!_vm.hasNext,"page":_vm.getPage(_vm.current + 1)}},[_c('b-icon',{attrs:{"icon":_vm.iconNext,"pack":_vm.iconPack,"both":"","aria-hidden":"true"}})],1),_vm._v(" "),(_vm.simple)?_c('small',{staticClass:"info"},[(_vm.perPage == 1)?[_vm._v("\r\n                "+_vm._s(_vm.firstItem)+" / "+_vm._s(_vm.total)+"\r\n            ")]:[_vm._v("\r\n                "+_vm._s(_vm.firstItem)+"-"+_vm._s(Math.min(_vm.current * _vm.perPage, _vm.total))+" / "+_vm._s(_vm.total)+"\r\n            ")]],2):_c('ul',{staticClass:"pagination-list"},[(_vm.hasFirst)?_c('li',[(_vm.$scopedSlots.default)?_vm._t("default",null,{page:_vm.getPage(1)}):_c('BPaginationButton',{attrs:{"page":_vm.getPage(1)}})],2):_vm._e(),_vm._v(" "),(_vm.hasFirstEllipsis)?_c('li',[_c('span',{staticClass:"pagination-ellipsis"},[_vm._v("…")])]):_vm._e(),_vm._v(" "),_vm._l((_vm.pagesInRange),function(page){return _c('li',{key:page.number},[(_vm.$scopedSlots.default)?_vm._t("default",null,{page:page}):_c('BPaginationButton',{attrs:{"page":page}})],2)}),_vm._v(" "),(_vm.hasLastEllipsis)?_c('li',[_c('span',{staticClass:"pagination-ellipsis"},[_vm._v("…")])]):_vm._e(),_vm._v(" "),(_vm.hasLast)?_c('li',[(_vm.$scopedSlots.default)?_vm._t("default",null,{page:_vm.getPage(_vm.pageCount)}):_c('BPaginationButton',{attrs:{"page":_vm.getPage(_vm.pageCount)}})],2):_vm._e()],2)],2)};
   var __vue_staticRenderFns__$2 = [];
 
     /* style */
@@ -754,6 +762,8 @@
   };
   use(Plugin);
 
+  exports.BPagination = Pagination;
+  exports.BPaginationButton = PaginationButton;
   exports.default = Plugin;
 
   Object.defineProperty(exports, '__esModule', { value: true });

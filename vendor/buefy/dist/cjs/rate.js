@@ -2,15 +2,15 @@
 
 Object.defineProperty(exports, '__esModule', { value: true });
 
-var __chunk_1 = require('./chunk-a535ca7c.js');
-require('./chunk-f920b094.js');
-require('./chunk-98a92ff2.js');
-var __chunk_5 = require('./chunk-ef3fcce1.js');
-var __chunk_6 = require('./chunk-13e039f5.js');
+var __chunk_1 = require('./chunk-f98e7e80.js');
+require('./helpers.js');
+require('./chunk-8806479f.js');
+var __chunk_4 = require('./chunk-45103eda.js');
+var __chunk_5 = require('./chunk-13e039f5.js');
 
 var script = {
   name: 'BRate',
-  components: __chunk_1._defineProperty({}, __chunk_5.Icon.name, __chunk_5.Icon),
+  components: __chunk_1._defineProperty({}, __chunk_4.Icon.name, __chunk_4.Icon),
   props: {
     value: {
       type: Number,
@@ -122,7 +122,7 @@ var __vue_staticRenderFns__ = [];
   
 
   
-  var Rate = __chunk_6.__vue_normalize__(
+  var Rate = __chunk_5.__vue_normalize__(
     { render: __vue_render__, staticRenderFns: __vue_staticRenderFns__ },
     __vue_inject_styles__,
     __vue_script__,
@@ -135,9 +135,10 @@ var __vue_staticRenderFns__ = [];
 
 var Plugin = {
   install: function install(Vue) {
-    __chunk_6.registerComponent(Vue, Rate);
+    __chunk_5.registerComponent(Vue, Rate);
   }
 };
-__chunk_6.use(Plugin);
+__chunk_5.use(Plugin);
 
+exports.BRate = Rate;
 exports.default = Plugin;

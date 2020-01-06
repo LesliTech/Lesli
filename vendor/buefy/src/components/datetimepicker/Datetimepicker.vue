@@ -9,6 +9,7 @@
         :loading="loading"
         :inline="inline"
         :editable="editable"
+        :expanded="expanded"
         :close-on-click="false"
         :date-formatter="defaultDatetimeFormatter"
         :date-parser="defaultDatetimeParser"
@@ -17,9 +18,11 @@
         :icon="icon"
         :icon-pack="iconPack"
         :size="datepickerSize"
+        :placeholder="placeholder"
         :range="false"
         :disabled="disabled"
         :mobile-native="mobileNative"
+        :focusable="focusable"
         @change-month="$emit('change-month', $event)"
         @change-year="$emit('change-year', $event)">
         <nav class="level is-mobile">
@@ -39,6 +42,7 @@
                     :max-time="maxTime"
                     :size="timepickerSize"
                     :disabled="timepickerDisabled"
+                    :focusable="focusable"
                 />
             </div>
             <div
@@ -124,7 +128,11 @@ export default {
             }
         },
         datepicker: Object,
-        timepicker: Object
+        timepicker: Object,
+        focusable: {
+            type: Boolean,
+            default: true
+        }
     },
     data() {
         return {
@@ -141,7 +149,10 @@ export default {
                     let val = new Date(value.getTime())
                     if (this.newValue) {
                         // restore time part
-                        if (value.getHours() === 0 &&
+                        if ((value.getDate() !== this.newValue.getDate() ||
+                            value.getMonth() !== this.newValue.getMonth() ||
+                            value.getFullYear() !== this.newValue.getFullYear()) &&
+                            value.getHours() === 0 &&
                             value.getMinutes() === 0 &&
                             value.getSeconds() === 0) {
                             val.setHours(this.newValue.getHours(),
@@ -168,20 +179,21 @@ export default {
             return this.mobileNative && isMobile.any()
         },
         minDate() {
-            if (!this.minDatetime) return null
+            if (!this.minDatetime) return this.datepicker ? this.datepicker.minDate : null
             return new Date(this.minDatetime.getFullYear(),
                 this.minDatetime.getMonth(),
                 this.minDatetime.getDate(), 0, 0, 0, 0)
         },
         maxDate() {
-            if (!this.maxDatetime) return null
+            if (!this.maxDatetime) return this.datepicker ? this.datepicker.maxDate : null
             return new Date(this.maxDatetime.getFullYear(),
                 this.maxDatetime.getMonth(),
                 this.maxDatetime.getDate(), 0, 0, 0, 0)
         },
         minTime() {
-            if (!this.minDatetime) return null
-            if (this.newValue === null || typeof this.newValue === 'undefined') return null
+            if (!this.minDatetime || (this.newValue === null || typeof this.newValue === 'undefined')) {
+                return this.timepicker ? this.timepicker.minTime : null
+            }
             if (this.minDatetime.getFullYear() === this.newValue.getFullYear() &&
                 this.minDatetime.getMonth() === this.newValue.getMonth() &&
                 this.minDatetime.getDate() === this.newValue.getDate()) {
@@ -189,8 +201,9 @@ export default {
             }
         },
         maxTime() {
-            if (!this.maxDatetime) return null
-            if (this.newValue === null || typeof this.newValue === 'undefined') return null
+            if (!this.maxDatetime || (this.newValue === null || typeof this.newValue === 'undefined')) {
+                return this.timepicker ? this.timepicker.maxTime : null
+            }
             if (this.maxDatetime.getFullYear() === this.newValue.getFullYear() &&
                 this.maxDatetime.getMonth() === this.newValue.getMonth() &&
                 this.maxDatetime.getDate() === this.newValue.getDate()) {
