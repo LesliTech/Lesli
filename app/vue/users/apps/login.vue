@@ -7,10 +7,7 @@ export default {
    data(){
       return{
          translations: {
-            links: I18n.t('users.links'),
-            login: I18n.t('users.login'),
-            sessions: I18n.t('devise.sessions'),
-            shared: I18n.t('users.shared')
+
          },
          sign_in: {
             email: '',
@@ -71,14 +68,14 @@ export default {
          <div class="field">
             <p class="control has-icons-left">
                <label class="sr-only">
-                  {{translations.shared.fields.email}}
+                  {c{ctranslations.shared.fields.email}}
                </label>
                <input 
                   class="input" 
                   type="email"
                   v-model="sign_in.email"
                   required="true"
-                  :placeholder="translations.shared.fields.email"
+                  placeholder="translations.shared.fields.email"
                />
                <span class="icon is-small is-left">
                   <i class="fas fa-envelope"></i>
@@ -88,31 +85,31 @@ export default {
          <div class="field">
             <p class="control has-icons-left">
                <label class="sr-only" for="user_password">
-                  {{translations.shared.fields.password}}
+                  {c{ctranslations.shared.fields.password}}
                </label>
                <input 
                   type="password"
                   class="input"
                   required="true"
                   v-model="sign_in.password"
-                  :placeholder="translations.shared.fields.password"
+                  placeholder="translations.shared.fields.password"
                />
                <span class="icon is-small is-left">
                   <i class="fas fa-lock"></i>
                </span>
             </p>
          </div>
-         <input class="button is-primary" type="submit" :value="translations.login.actions.log_in" />
+         <input class="button is-primary" type="submit" value="translations.login.actions.log_in" />
       </form>
       <div class="links">
          <a @click="goTo('/register')">
-            {{translations.links.sign_up}}
+            {c{ctranslations.links.sign_up}}
          </a>
          <a @click="goTo('/password/new')">
-            {{translations.links.reset_password}}
+            {c{ctranslations.links.reset_password}}
          </a>
          <a @click="goTo('/confirmation/new')">
-            {{translations.links.resend_confirmation_email}}
+            {c{ctranslations.links.resend_confirmation_email}}
          </a>
       </div>
    </section>
