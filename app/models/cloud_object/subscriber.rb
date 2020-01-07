@@ -162,7 +162,7 @@ module CloudObject
         private
 
 =begin
-@return [Hash] Hash that contains information about the class. It changes depending on the subclass that inherits from this base class
+@return [Hash] Hash that contains information about the class
 @description Returns dynamic information based on the current implementation of this abstract class
 @example
     dynamic_info = CloudHelp::Ticket::Subscriber.dynamic_info
