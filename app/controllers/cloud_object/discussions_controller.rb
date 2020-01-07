@@ -13,7 +13,8 @@ module CloudObject
         # POST /cloud_object/1/discussions
         def create
             module_name = dynamic_info[:module_name]
-            object_name = dynamic_info[:object_name] 
+            object_name = dynamic_info[:object_name]
+            subscriber_model = dynamic_info[:subscriber_model]
 
             cloud_object_dicussion = dynamic_info[:model].new(
                 cloud_object_discussion_params.merge({
@@ -29,7 +30,7 @@ module CloudObject
                     "cloud_#{module_name}.controllers.#{object_name}.discussions.notifications.created",
                     "#{object_name}_id".to_sym => cloud_object.id
                 )
-                cloud_object.notify_subscribers(message, :comment_created)
+                subscriber_model.notify_subscribers(cloud_object, message, :comment_created)
             else
                 responseWithError(cloud_object_dicussion.errors.full_messages.to_sentence)
             end
@@ -54,7 +55,8 @@ module CloudObject
             {
                 module_name: module_info[0].sub("Cloud", "").downcase,
                 object_name: module_info[1].downcase,
-                model: "#{module_info[0]}::#{module_info[1]}::Discussion".constantize
+                model: "#{module_info[0]}::#{module_info[1]}::Discussion".constantize,
+                subscriber_model: "#{module_info[0]}::#{module_info[1]}::Subscriber".constantize
             }
         end
 
