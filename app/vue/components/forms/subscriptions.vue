@@ -85,28 +85,78 @@ export default {
             }
         },
 
-        putSubscriptions(e){
-            if (e) { e.preventDefault() }
-
-            let events = this.events.filter(event => {
-                return event.id || event.subscribed
-            }).map(event => {
-                if(! event.subscribed){
-                    event._destroy = true
+        submitSubscription(subscription_event, show_alerts = true){
+            if(subscription_event.id){
+                if(subscription_event.subscribed){
+                    this.patchSubscription(subscription_event, show_alerts)
+                }else{
+                    this.deleteSubscription(subscription_event, show_alerts)
                 }
-                return event
-            })
-            
-            let form_data = {}
-            form_data[this.object_name] = {
-                subscribers_attributes: events
+            }else{
+                if(subscription_event.subscribed){
+                    this.postSubscription(subscription_event, show_alerts)
+                }
             }
-            this.show = false
-            this.http.put(`/${this.module_name}/${this.object_name}s/${this.cloudId}`, form_data).then(result => {
+        },
+
+        postSubscription(subscription_event, show_alerts){
+            subscription_event[`cloud_${this.module_name}_${this.object_name}s_id`] = this.cloudId
+            let data = {
+                subscriber: subscription_event
+            }
+
+            this.http.post(
+                `/${this.module_name}/${this.object_name}s/${this.cloudId}/subscribers`,
+                data
+            ).then(result =>{
                 if (result.successful) {
-                    this.events = result.data
-                    this.alert(this.translations.messages.subscribe.successful)
-                } else {
+                    subscription_event.id = result.data.id
+                    if(show_alerts){
+                        this.alert(this.translations.messages.subscribe.successful)
+                    }
+                }else{
+                    this.alert(result.error.message, 'danger')
+                }
+            }).catch(error => {
+                console.log(error)
+            })
+        },
+
+        patchSubscription(subscription_event, show_alerts){
+            let data = {
+                subscriber: subscription_event
+            }
+
+            this.http.patch(
+                `/${this.module_name}/${this.object_name}s/${this.cloudId}/subscribers/${subscription_event.id}`,
+                data
+            ).then(result =>{
+                if (result.successful) {
+                    if(show_alerts){
+                        this.alert(this.translations.messages.subscribe.successful)
+                    }
+                }else{
+                    this.alert(result.error.message, 'danger')
+                }
+            }).catch(error => {
+                console.log(error)
+            })
+        },
+        
+        deleteSubscription(subscription_event, show_alerts){
+            let data = {
+                subscriber: subscription_event
+            }
+
+            this.http.delete(
+                `/${this.module_name}/${this.object_name}s/${this.cloudId}/subscribers/${subscription_event.id}`
+            ).then(result =>{
+                if (result.successful) {
+                    if(show_alerts){
+                        this.alert(this.translations.messages.subscribe.successful)
+                    }
+                    delete subscription_event.id
+                }else{
                     this.alert(result.error.message, 'danger')
                 }
             }).catch(error => {
@@ -123,14 +173,22 @@ export default {
 
         'master_fields.notification_type': function(){
             this.events.forEach( event => {
-                event.notification_type = this.master_fields.notification_type
+                if(event.notification_type != this.master_fields.notification_type){
+                    event.notification_type = this.master_fields.notification_type
+                    this.submitSubscription(event, false)
+                }
             })
+            this.alert(this.translations.messages.subscribe.successful)
         },
 
         'master_fields.subscribed': function(){
             this.events.forEach( event =>{
-                event.subscribed = this.master_fields.subscribed
+                if(event.subscribed != this.master_fields.subscribed){
+                    event.subscribed = this.master_fields.subscribed
+                    this.submitSubscription(event, false)
+                }
             })
+            this.alert(this.translations.messages.subscribe.successful)
         }
     }
 }
@@ -147,57 +205,50 @@ export default {
             <div class="quickview-body">
                 <div class="quickview-block">
                     <div class="section">
-                        <form @submit="putSubscriptions" id="form-subscription">
-                            <div class="field">
-                                <div class="columns">
-                                    <div class="column is-7">
-                                        <b-checkbox v-model="master_fields.subscribed">
-                                            {{translations.titles.all_events}}
-                                        </b-checkbox>
-                                    </div>
-                                    <div class="column is-5">
-                                        <b-field>
-                                            <b-select expanded v-model="master_fields.notification_type">
-                                                <option value="email">{{translations.notification_types["email"]}}</option>
-                                                <option value="web">{{translations.notification_types["web"]}}</option>
-                                            </b-select>
-                                        </b-field>
-                                    </div>
+                        <div class="field">
+                            <div class="columns">
+                                <div class="column is-7">
+                                    <b-checkbox v-model="master_fields.subscribed">
+                                        {{translations.titles.all_events}}
+                                    </b-checkbox>
                                 </div>
-                                <hr />
-                            </div>
-                            <div v-for="event in events" :key="event.event" class="field">
-                                <div class="columns">
-                                    <div class="column is-7">
-                                        <b-checkbox v-model="event.subscribed">
-                                            {{translations.events[event.event]}}
-                                        </b-checkbox>
-                                    </div>
-                                    <div class="column is-5">
-                                        <b-field>
-                                            <b-select
-                                                :placeholder="translations.placeholders.notification_type"
-                                                expanded
-                                                v-model="event.notification_type"
-                                                :required="event.subscribed"
-                                            >
-                                                <option value="email">{{translations.notification_types["email"]}}</option>
-                                                <option value="web">{{translations.notification_types["web"]}}</option>
-                                            </b-select>
-                                        </b-field>
-                                    </div>
+                                <div class="column is-5">
+                                    <b-field>
+                                        <b-select expanded v-model="master_fields.notification_type">
+                                            <option value="email">{{translations.notification_types["email"]}}</option>
+                                            <option value="web">{{translations.notification_types["web"]}}</option>
+                                        </b-select>
+                                    </b-field>
                                 </div>
-                                <hr />
                             </div>
-                        </form>
+                            <hr />
+                        </div>
+                        <div v-for="event in events" :key="event.event" class="field">
+                            <div class="columns">
+                                <div class="column is-7">
+                                    <b-checkbox v-model="event.subscribed" @change.native="submitSubscription(event)">
+                                        {{translations.events[event.event]}}
+                                    </b-checkbox>
+                                </div>
+                                <div class="column is-5">
+                                    <b-field>
+                                        <b-select
+                                            @change.native="submitSubscription(event)"
+                                            :placeholder="translations.placeholders.notification_type"
+                                            expanded
+                                            v-model="event.notification_type"
+                                        >
+                                            <option value="email">{{translations.notification_types["email"]}}</option>
+                                            <option value="web">{{translations.notification_types["web"]}}</option>
+                                        </b-select>
+                                    </b-field>
+                                </div>
+                            </div>
+                            <hr />
+                        </div>
                     </div>
                 </div>
             </div>
-            <footer class="quickview-footer">
-                <button class="card-footer-item button is-primary" type="submit" form="form-subscription">
-                    {{translations.actions.subscribe}}
-                </button>
-            </footer>
         </div>
     </section>
 </template>
