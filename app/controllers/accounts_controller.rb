@@ -34,7 +34,6 @@ class AccountsController < ApplicationLesliController
     # @param request [Request] the request object
     # @return [String] the resulting webpage
     def index
-        
     end
 
     # GET /accounts/1

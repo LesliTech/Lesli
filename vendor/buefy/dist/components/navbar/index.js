@@ -1,4 +1,4 @@
-/*! Buefy v0.8.6 | MIT License | github.com/buefy/buefy */
+/*! Buefy v0.8.9 | MIT License | github.com/buefy/buefy */
 (function (global, factory) {
   typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports) :
   typeof define === 'function' && define.amd ? define(['exports'], factory) :
@@ -605,8 +605,8 @@
 
   /* template */
   var __vue_render__$1 = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c(_vm.tag,_vm._g(_vm._b({tag:"component",staticClass:"navbar-item",class:{
-          'is-active': _vm.active
-      }},'component',_vm.$attrs,false),_vm.$listeners),[_vm._t("default")],2)};
+              'is-active': _vm.active
+          }},'component',_vm.$attrs,false),_vm.$listeners),[_vm._t("default")],2)};
   var __vue_staticRenderFns__$1 = [];
 
     /* style */
@@ -679,14 +679,14 @@
 
   /* template */
   var __vue_render__$2 = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{directives:[{name:"click-outside",rawName:"v-click-outside",value:(_vm.closeMenu),expression:"closeMenu"}],staticClass:"navbar-item has-dropdown",class:{
-          'is-hoverable': _vm.hoverable,
-          'is-active': _vm.newActive
-      }},[_c('a',{staticClass:"navbar-link",class:{
-              'is-arrowless': _vm.arrowless
-          },on:{"click":function($event){_vm.newActive = !_vm.newActive;}}},[(_vm.label)?[_vm._v(_vm._s(_vm.label))]:_vm._t("label")],2),_vm._v(" "),_c('div',{staticClass:"navbar-dropdown",class:{
-              'is-right': _vm.right,
-              'is-boxed': _vm.boxed
-          }},[_vm._t("default")],2)])};
+              'is-hoverable': _vm.hoverable,
+              'is-active': _vm.newActive
+          }},[_c('a',{staticClass:"navbar-link",class:{
+                  'is-arrowless': _vm.arrowless
+              },on:{"click":function($event){_vm.newActive = !_vm.newActive;}}},[(_vm.label)?[_vm._v(_vm._s(_vm.label))]:_vm._t("label")],2),_vm._v(" "),_c('div',{staticClass:"navbar-dropdown",class:{
+                  'is-right': _vm.right,
+                  'is-boxed': _vm.boxed
+              }},[_vm._t("default")],2)])};
   var __vue_staticRenderFns__$2 = [];
 
     /* style */
@@ -732,6 +732,9 @@
   };
   use(Plugin);
 
+  exports.BNavbar = Navbar;
+  exports.BNavbarDropdown = NavbarDropdown;
+  exports.BNavbarItem = NavbarItem;
   exports.default = Plugin;
 
   Object.defineProperty(exports, '__esModule', { value: true });

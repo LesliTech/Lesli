@@ -1,9 +1,8 @@
-import './chunk-40949afc.js';
-import './chunk-d3a97e18.js';
-import { c as config } from './chunk-9d997597.js';
+import './chunk-b91774bc.js';
+import { merge } from './helpers.js';
+import { c as config, V as VueInstance } from './chunk-b76a6c1d.js';
 import { _ as __vue_normalize__, a as registerComponentProgrammatic, u as use } from './chunk-cca88db8.js';
-import Vue from 'vue';
-import { N as NoticeMixin } from './chunk-8d9f2e97.js';
+import { N as NoticeMixin } from './chunk-43dfefdc.js';
 
 //
 var script = {
@@ -44,7 +43,7 @@ var script = {
 const __vue_script__ = script;
 
 /* template */
-var __vue_render__ = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('transition',{attrs:{"enter-active-class":_vm.transition.enter,"leave-active-class":_vm.transition.leave}},[_c('div',{directives:[{name:"show",rawName:"v-show",value:(_vm.isActive),expression:"isActive"}],staticClass:"snackbar",class:[_vm.type,_vm.position]},[_c('div',{staticClass:"text",domProps:{"innerHTML":_vm._s(_vm.message)}}),_vm._v(" "),(_vm.actionText)?_c('div',{staticClass:"action",class:_vm.type,on:{"click":_vm.action}},[_c('button',{staticClass:"button"},[_vm._v(_vm._s(_vm.actionText))])]):_vm._e()])])};
+var __vue_render__ = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('transition',{attrs:{"enter-active-class":_vm.transition.enter,"leave-active-class":_vm.transition.leave}},[_c('div',{directives:[{name:"show",rawName:"v-show",value:(_vm.isActive),expression:"isActive"}],staticClass:"snackbar",class:[_vm.type,_vm.position],attrs:{"role":_vm.actionText ? 'alertdialog' : 'alert'}},[_c('div',{staticClass:"text",domProps:{"innerHTML":_vm._s(_vm.message)}}),_vm._v(" "),(_vm.actionText)?_c('div',{staticClass:"action",class:_vm.type,on:{"click":_vm.action}},[_c('button',{staticClass:"button"},[_vm._v(_vm._s(_vm.actionText))])]):_vm._e()])])};
 var __vue_staticRenderFns__ = [];
 
   /* style */
@@ -72,15 +71,20 @@ var __vue_staticRenderFns__ = [];
     undefined
   );
 
+var localVueInstance;
 var SnackbarProgrammatic = {
   open: function open(params) {
-    var message;
     var parent;
-    if (typeof params === 'string') message = params;
+
+    if (typeof params === 'string') {
+      params = {
+        message: params
+      };
+    }
+
     var defaultParam = {
       type: 'is-success',
-      position: config.defaultSnackbarPosition || 'is-bottom-right',
-      message: message
+      position: config.defaultSnackbarPosition || 'is-bottom-right'
     };
 
     if (params.parent) {
@@ -88,8 +92,8 @@ var SnackbarProgrammatic = {
       delete params.parent;
     }
 
-    var propsData = Object.assign(defaultParam, params);
-    var vm = typeof window !== 'undefined' && window.Vue ? window.Vue : Vue;
+    var propsData = merge(defaultParam, params);
+    var vm = typeof window !== 'undefined' && window.Vue ? window.Vue : localVueInstance || VueInstance;
     var SnackbarComponent = vm.extend(Snackbar);
     return new SnackbarComponent({
       parent: parent,
@@ -100,10 +104,11 @@ var SnackbarProgrammatic = {
 };
 var Plugin = {
   install: function install(Vue) {
+    localVueInstance = Vue;
     registerComponentProgrammatic(Vue, 'snackbar', SnackbarProgrammatic);
   }
 };
 use(Plugin);
 
 export default Plugin;
-export { SnackbarProgrammatic };
+export { Snackbar as BSnackbar, SnackbarProgrammatic };

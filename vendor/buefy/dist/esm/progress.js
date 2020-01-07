@@ -144,3 +144,4 @@ var Plugin = {
 use(Plugin);
 
 export default Plugin;
+export { Progress as BProgress };

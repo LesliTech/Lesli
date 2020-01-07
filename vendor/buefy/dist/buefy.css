@@ -1,4 +1,4 @@
-/*! Buefy v0.8.6 | MIT License | github.com/buefy/buefy */
+/*! Buefy v0.8.9 | MIT License | github.com/buefy/buefy */
 .is-noscroll {
   position: fixed;
   overflow-y: hidden;
@@ -183,7 +183,7 @@
 .delete, .modal-close, .is-unselectable, .button, .file, .breadcrumb, .pagination-previous,
 .pagination-next,
 .pagination-link,
-.pagination-ellipsis, .tabs {
+.pagination-ellipsis, .tabs, .carousel, .carousel-list, .b-checkbox.checkbox, .b-radio.radio, .switch {
   -webkit-touch-callout: none;
   -webkit-user-select: none;
   -moz-user-select: none;
@@ -10978,15 +10978,224 @@ label.panel-block:hover {
   font-size: 1.5rem;
 }
 
+.carousel {
+  min-height: 120px;
+  position: relative;
+}
+
+.carousel.is-overlay {
+  background-color: rgba(10, 10, 10, 0.86);
+  align-items: center;
+  flex-direction: column;
+  justify-content: center;
+  display: flex;
+  max-height: 100vh;
+  position: fixed;
+  z-index: 40;
+}
+
+.carousel.is-overlay .carousel-item img {
+  cursor: default;
+}
+
+.carousel.is-overlay .carousel-indicator.has-background {
+  background: transparent;
+}
+
+.carousel .progress {
+  border-radius: 2px;
+  height: 0.25rem;
+  margin-bottom: 0;
+}
+
+.carousel .carousel-items {
+  position: relative;
+  display: flex;
+  overflow: hidden;
+  width: 100%;
+}
+
+@media screen and (min-width: 769px), print {
+  .carousel .carousel-items:hover .carousel-arrow.is-hovered {
+    opacity: 1;
+  }
+}
+
+.carousel .carousel-items .carousel-item {
+  flex-shrink: 0;
+  width: 100%;
+}
+
+.carousel .carousel-pause {
+  pointer-events: none;
+  position: absolute;
+  top: 0;
+  right: 0.15rem;
+  z-index: 1;
+}
+
+.carousel .carousel-indicator {
+  width: 100%;
+  padding: 0.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.carousel .carousel-indicator.has-background {
+  background: rgba(10, 10, 10, 0.5);
+}
+
+.carousel .carousel-indicator.has-custom {
+  flex-wrap: nowrap;
+  justify-content: flex-start;
+  -webkit-overflow-scrolling: touch;
+  overflow: hidden;
+  overflow-x: auto;
+}
+
+.carousel .carousel-indicator.has-custom.is-small .indicator-item {
+  flex: 1 0 10%;
+}
+
+.carousel .carousel-indicator.has-custom.is-medium .indicator-item {
+  flex: 1 0 16.66667%;
+}
+
+.carousel .carousel-indicator.is-inside {
+  position: absolute;
+}
+
+.carousel .carousel-indicator.is-inside.is-bottom {
+  bottom: 0;
+}
+
+.carousel .carousel-indicator.is-inside.is-top {
+  top: 0;
+}
+
+.carousel .carousel-indicator .indicator-item:not(:last-child) {
+  margin-right: 0.5rem;
+}
+
+.carousel .carousel-indicator .indicator-item.is-active .indicator-style,
+.carousel .carousel-indicator .indicator-item .indicator-style:hover {
+  background: #7957d5;
+  border: 1px solid white;
+}
+
+.carousel .carousel-indicator .indicator-item .indicator-style {
+  display: block;
+  border: 1px solid #7957d5;
+  background: white;
+  outline: none;
+  transition: 0.3s ease-out;
+}
+
+.carousel .carousel-indicator .indicator-item .indicator-style.is-boxes {
+  height: 10px;
+  width: 10px;
+}
+
+.carousel .carousel-indicator .indicator-item .indicator-style.is-dots {
+  border-radius: 10px;
+  height: 10px;
+  width: 10px;
+}
+
+.carousel .carousel-indicator .indicator-item .indicator-style.is-lines {
+  height: 5px;
+  width: 25px;
+}
+
+.carousel-list {
+  position: relative;
+  overflow: hidden;
+  width: 100%;
+}
+
+.carousel-list.has-shadow {
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.25);
+}
+
+@media screen and (min-width: 769px), print {
+  .carousel-list:hover .carousel-arrow.is-hovered {
+    opacity: 1;
+  }
+}
+
+.carousel-list .carousel-slides {
+  position: relative;
+  display: flex;
+  width: 100%;
+}
+
+.carousel-list .carousel-slides:not(.is-dragging) {
+  transition: all 250ms ease-out 0s;
+}
+
+.carousel-list .carousel-slides.has-grayscale .carousel-slide img {
+  filter: grayscale(100%);
+}
+
+.carousel-list .carousel-slides.has-grayscale .carousel-slide.is-active img {
+  filter: grayscale(0%);
+}
+
+.carousel-list .carousel-slides.has-opacity .carousel-slide img {
+  opacity: 0.25;
+}
+
+.carousel-list .carousel-slides.has-opacity .carousel-slide.is-active img {
+  opacity: 1;
+}
+
+.carousel-list .carousel-slides .carousel-slide {
+  border: 2px solid transparent;
+  flex-shrink: 0;
+}
+
+.carousel-arrow {
+  transition: 0.5s ease-out;
+}
+
+.carousel-arrow.is-hovered {
+  opacity: 0;
+}
+
+.carousel-arrow .icon {
+  background: white;
+  color: #7957d5;
+  cursor: pointer;
+  border: 1px solid white;
+  border-radius: 290486px;
+  outline: 0;
+}
+
+.carousel-arrow .icon:hover {
+  border: 1px solid #7957d5;
+  opacity: 1;
+}
+
+.carousel-arrow .icon.has-icons-left, .carousel-arrow .icon.has-icons-right {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 1;
+}
+
+.carousel-arrow .icon.has-icons-left {
+  left: 1.5rem;
+}
+
+.carousel-arrow .icon.has-icons-right {
+  right: 1.5rem;
+}
+
 .b-checkbox.checkbox {
   outline: none;
   display: inline-flex;
   align-items: center;
-  -webkit-touch-callout: none;
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  user-select: none;
 }
 
 .b-checkbox.checkbox + .checkbox {
@@ -11688,6 +11897,12 @@ label.panel-block:hover {
   opacity: 1;
 }
 
+.datepicker .dropdown-content {
+  background-color: white;
+  border-radius: 4px;
+  box-shadow: 0 2px 3px rgba(10, 10, 10, 0.1), 0 0 0 1px rgba(10, 10, 10, 0.1);
+}
+
 .datepicker .dropdown-item, .datepicker .dropdown .dropdown-menu .has-link a, .dropdown .dropdown-menu .has-link .datepicker a {
   font-size: inherit;
 }
@@ -11970,6 +12185,10 @@ label.panel-block:hover {
   font-size: 1.5rem;
 }
 
+.dialog.has-custom-container {
+  position: absolute;
+}
+
 .dropdown + .dropdown {
   margin-left: 0.5em;
 }
@@ -12162,7 +12381,7 @@ label.panel-block:hover {
   left: 0;
   right: 0;
   height: 0.375em;
-  background-color: #fff;
+  background-color: white;
   z-index: -1;
 }
 
@@ -12426,7 +12645,7 @@ label.panel-block:hover {
   height: 100%;
   max-height: 100vh;
   margin: 0;
-  background-color: #ffffff;
+  background-color: whitesmoke;
 }
 
 .modal .animation-content {
@@ -12790,11 +13009,6 @@ label.panel-block:hover {
   outline: none;
   display: inline-flex;
   align-items: center;
-  -webkit-touch-callout: none;
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  user-select: none;
 }
 
 .b-radio.radio + .radio {
@@ -14010,11 +14224,6 @@ MIT (https://github.com/Wikiki/bulma-steps/blob/master/LICENSE)
   display: inline-flex;
   align-items: center;
   position: relative;
-  -webkit-touch-callout: none;
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  user-select: none;
 }
 
 .switch + .switch {
@@ -14650,47 +14859,47 @@ MIT (https://github.com/Wikiki/bulma-steps/blob/master/LICENSE)
   flex-direction: row;
 }
 
-.b-tabs.is-vertical .tabs ul {
+.b-tabs.is-vertical > .tabs ul {
   flex-direction: column;
   border-bottom-color: transparent;
 }
 
-.b-tabs.is-vertical .tabs ul li {
+.b-tabs.is-vertical > .tabs ul li {
   width: 100%;
 }
 
-.b-tabs.is-vertical .tabs ul li a {
+.b-tabs.is-vertical > .tabs ul li a {
   justify-content: left;
 }
 
-.b-tabs.is-vertical .tabs.is-boxed li a {
+.b-tabs.is-vertical > .tabs.is-boxed li a {
   border-bottom-color: transparent !important;
   border-right-color: #dbdbdb !important;
   border-radius: 4px 0 0 4px;
 }
 
-.b-tabs.is-vertical .tabs.is-boxed li.is-active a {
+.b-tabs.is-vertical > .tabs.is-boxed li.is-active a {
   border-bottom-color: #dbdbdb !important;
   border-right-color: transparent !important;
 }
 
-.b-tabs.is-vertical .tabs.is-toggle li + li {
+.b-tabs.is-vertical > .tabs.is-toggle li + li {
   margin-left: 0;
 }
 
-.b-tabs.is-vertical .tabs.is-toggle li:first-child a {
+.b-tabs.is-vertical > .tabs.is-toggle li:first-child a {
   border-radius: 4px 4px 0 0;
 }
 
-.b-tabs.is-vertical .tabs.is-toggle li:last-child a {
+.b-tabs.is-vertical > .tabs.is-toggle li:last-child a {
   border-radius: 0 0 4px 4px;
 }
 
-.b-tabs.is-vertical .tabs.is-fullwidth li a {
+.b-tabs.is-vertical > .tabs.is-fullwidth li a {
   height: 100%;
 }
 
-.b-tabs.is-vertical .tab-content {
+.b-tabs.is-vertical > .tab-content {
   flex-grow: 1;
 }
 
@@ -14698,23 +14907,23 @@ MIT (https://github.com/Wikiki/bulma-steps/blob/master/LICENSE)
   flex-direction: row-reverse;
 }
 
-.b-tabs.is-vertical.is-right .tabs ul a {
+.b-tabs.is-vertical.is-right > .tabs ul a {
   flex-direction: row-reverse;
 }
 
-.b-tabs.is-vertical.is-right .tabs ul a .icon:first-child {
+.b-tabs.is-vertical.is-right > .tabs ul a .icon:first-child {
   margin-right: 0;
   margin-left: 0.5em;
 }
 
-.b-tabs.is-vertical.is-right .tabs.is-boxed li a {
+.b-tabs.is-vertical.is-right > .tabs.is-boxed li a {
   border-bottom-color: transparent !important;
   border-right-color: transparent !important;
   border-left-color: #dbdbdb !important;
   border-radius: 0 4px 4px 0;
 }
 
-.b-tabs.is-vertical.is-right .tabs.is-boxed li.is-active a {
+.b-tabs.is-vertical.is-right > .tabs.is-boxed li.is-active a {
   border-bottom-color: #dbdbdb !important;
   border-right-color: #dbdbdb !important;
   border-left-color: transparent !important;
@@ -14741,6 +14950,7 @@ MIT (https://github.com/Wikiki/bulma-steps/blob/master/LICENSE)
 
 .taginput .taginput-container > .tag,
 .taginput .taginput-container > .tags {
+  margin-left: 0.275rem;
   margin-bottom: calc(0.275em - 1px);
   font-size: 0.9em;
   height: 1.7em;
@@ -14756,11 +14966,6 @@ MIT (https://github.com/Wikiki/bulma-steps/blob/master/LICENSE)
 .taginput .taginput-container > .tag .tag.is-delete,
 .taginput .taginput-container > .tags .tag.is-delete {
   width: 1.7em;
-}
-
-.taginput .taginput-container > .tag:not(:last-child),
-.taginput .taginput-container > .tags:not(:last-child) {
-  margin-left: 0.275rem;
 }
 
 .taginput .taginput-container .autocomplete {

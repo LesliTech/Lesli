@@ -29,7 +29,7 @@ Building a better future, one line of code at a time.
 
 // · Import modules, components and apps
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
-import VueTrix from "vue-trix"
+//import VueTrix from "vue-trix"
 
 
 
@@ -38,7 +38,7 @@ import VueTrix from "vue-trix"
 export default {
 
     components: {
-        'component-trix-editor': VueTrix
+        //'component-trix-editor': VueTrix
     },
 
     props: {
@@ -109,7 +109,7 @@ export default {
         <div class="card-content">
             <form @submit="postDiscussion">
                 <input v-if="show_simple_form" class="input" type="text" v-model="discussion.content" placeholder="Add a comment...">
-                <component-trix-editor v-if="!show_simple_form" v-model="discussion.content"></component-trix-editor>
+                <!-- <component-trix-editor v-if="!show_simple_form" v-model="discussion.content"></component-trix-editor> -->
             </form>
         </div>
     </div>

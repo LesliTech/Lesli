@@ -1,5 +1,6 @@
 import { _ as __vue_normalize__, r as registerComponent, u as use } from './chunk-cca88db8.js';
-import { T as Tag } from './chunk-3e47308f.js';
+import { T as Tag } from './chunk-c7e26370.js';
+export { T as BTag } from './chunk-c7e26370.js';
 
 //
 //
@@ -55,3 +56,4 @@ var Plugin = {
 use(Plugin);
 
 export default Plugin;
+export { Taglist as BTaglist };

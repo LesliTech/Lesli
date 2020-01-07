@@ -11,12 +11,14 @@ class User < ApplicationRecord
     belongs_to  :account , foreign_key: 'accounts_id', optional: true
     belongs_to  :role, class_name: 'CloudLock::Role', foreign_key:'cloud_lock_roles_id', optional: true
     
-    has_many    :notifications, class_name: 'CloudBell::Notification', foreign_key: 'users_id'
-    has_many    :ticket_assignments, class_name: 'CloudHelp::Ticket::Assignment', foreign_key: 'users_id'
-    has_many    :permissions
-
     has_one :detail, class_name: 'CloudLock::User::Detail', foreign_key: 'users_id', dependent: :delete, inverse_of: :user, autosave: true
     accepts_nested_attributes_for :detail
+
+    # remove this
+    has_many    :notifications, class_name: 'CloudBell::Notification', foreign_key: 'users_id'
+    has_many    :ticket_assignments, class_name: 'CloudHelp::Ticket::Assignment', foreign_key: 'users_id'
+
+    after_create :check_user
 
     def name
         if defined? CloudLock
@@ -32,6 +34,21 @@ class User < ApplicationRecord
 
     def revoke_access
         update_attributes(active: false)
+    end
+
+    private 
+
+    def check_user
+
+        if defined? CloudDriver
+            self.account.driver.calendars.create({
+                detail_attributes: {
+                    name: self.name,
+                    default: true
+                }
+            })
+        end
+
     end
 
     def ability

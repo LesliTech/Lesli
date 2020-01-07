@@ -1,11 +1,10 @@
-import './chunk-40949afc.js';
-import './chunk-d3a97e18.js';
-import { c as config } from './chunk-9d997597.js';
-import './chunk-2b1ca282.js';
+import './chunk-b91774bc.js';
+import { merge } from './helpers.js';
+import { c as config, V as VueInstance } from './chunk-b76a6c1d.js';
+import './chunk-3802ee87.js';
 import { _ as __vue_normalize__, r as registerComponent, a as registerComponentProgrammatic, u as use } from './chunk-cca88db8.js';
-import Vue from 'vue';
-import { M as MessageMixin } from './chunk-7fdceba8.js';
-import { N as NoticeMixin } from './chunk-8d9f2e97.js';
+import { M as MessageMixin } from './chunk-3342e4e3.js';
+import { N as NoticeMixin } from './chunk-43dfefdc.js';
 
 //
 var script = {
@@ -98,13 +97,18 @@ var __vue_staticRenderFns__$1 = [];
     undefined
   );
 
+var localVueInstance;
 var NotificationProgrammatic = {
   open: function open(params) {
-    var message;
     var parent;
-    if (typeof params === 'string') message = params;
+
+    if (typeof params === 'string') {
+      params = {
+        message: params
+      };
+    }
+
     var defaultParam = {
-      message: message,
       position: config.defaultNotificationPosition || 'is-top-right'
     };
 
@@ -113,8 +117,8 @@ var NotificationProgrammatic = {
       delete params.parent;
     }
 
-    var propsData = Object.assign(defaultParam, typeof params === 'string' ? {} : params);
-    var vm = typeof window !== 'undefined' && window.Vue ? window.Vue : Vue;
+    var propsData = merge(defaultParam, params);
+    var vm = typeof window !== 'undefined' && window.Vue ? window.Vue : localVueInstance || VueInstance;
     var NotificationNoticeComponent = vm.extend(NotificationNotice);
     return new NotificationNoticeComponent({
       parent: parent,
@@ -125,6 +129,7 @@ var NotificationProgrammatic = {
 };
 var Plugin = {
   install: function install(Vue) {
+    localVueInstance = Vue;
     registerComponent(Vue, Notification);
     registerComponentProgrammatic(Vue, 'notification', NotificationProgrammatic);
   }
@@ -132,4 +137,4 @@ var Plugin = {
 use(Plugin);
 
 export default Plugin;
-export { NotificationProgrammatic };
+export { Notification as BNotification, NotificationProgrammatic };

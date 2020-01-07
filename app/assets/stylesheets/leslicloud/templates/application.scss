@@ -54,6 +54,9 @@ Building a better future, one line of code at a time.
 @import "leslicloud/layouts/application_chatbox";
 @import "leslicloud/helpers/display";
 
+@import 'quill/dist/quill.core';
+@import 'quill/dist/quill.snow';
+
 
 // · 
 * {

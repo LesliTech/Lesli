@@ -1,11 +1,9 @@
-/*! Buefy v0.8.6 | MIT License | github.com/buefy/buefy */
+/*! Buefy v0.8.9 | MIT License | github.com/buefy/buefy */
 (function (global, factory) {
-    typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports, require('vue')) :
-    typeof define === 'function' && define.amd ? define(['exports', 'vue'], factory) :
-    (global = global || self, factory(global.Modal = {}, global.Vue));
-}(this, function (exports, Vue) { 'use strict';
-
-    Vue = Vue && Vue.hasOwnProperty('default') ? Vue['default'] : Vue;
+    typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports) :
+    typeof define === 'function' && define.amd ? define(['exports'], factory) :
+    (global = global || self, factory(global.Modal = {}));
+}(this, function (exports) { 'use strict';
 
     var findFocusable = function findFocusable(element) {
       if (!element) {
@@ -39,7 +37,6 @@
           };
 
           el.addEventListener('keydown', onKeyDown);
-          firstFocusable.focus();
         }
       }
     };
@@ -53,6 +50,97 @@
       unbind: unbind
     };
 
+    function _typeof(obj) {
+      if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") {
+        _typeof = function (obj) {
+          return typeof obj;
+        };
+      } else {
+        _typeof = function (obj) {
+          return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj;
+        };
+      }
+
+      return _typeof(obj);
+    }
+
+    function _defineProperty(obj, key, value) {
+      if (key in obj) {
+        Object.defineProperty(obj, key, {
+          value: value,
+          enumerable: true,
+          configurable: true,
+          writable: true
+        });
+      } else {
+        obj[key] = value;
+      }
+
+      return obj;
+    }
+
+    function ownKeys(object, enumerableOnly) {
+      var keys = Object.keys(object);
+
+      if (Object.getOwnPropertySymbols) {
+        var symbols = Object.getOwnPropertySymbols(object);
+        if (enumerableOnly) symbols = symbols.filter(function (sym) {
+          return Object.getOwnPropertyDescriptor(object, sym).enumerable;
+        });
+        keys.push.apply(keys, symbols);
+      }
+
+      return keys;
+    }
+
+    function _objectSpread2(target) {
+      for (var i = 1; i < arguments.length; i++) {
+        var source = arguments[i] != null ? arguments[i] : {};
+
+        if (i % 2) {
+          ownKeys(Object(source), true).forEach(function (key) {
+            _defineProperty(target, key, source[key]);
+          });
+        } else if (Object.getOwnPropertyDescriptors) {
+          Object.defineProperties(target, Object.getOwnPropertyDescriptors(source));
+        } else {
+          ownKeys(Object(source)).forEach(function (key) {
+            Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key));
+          });
+        }
+      }
+
+      return target;
+    }
+
+    /**
+     * Merge function to replace Object.assign with deep merging possibility
+     */
+
+    var isObject = function isObject(item) {
+      return _typeof(item) === 'object' && !Array.isArray(item);
+    };
+
+    var mergeFn = function mergeFn(target, source) {
+      var deep = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : false;
+
+      if (deep || !Object.assign) {
+        var isDeep = function isDeep(prop) {
+          return isObject(source[prop]) && target !== null && target.hasOwnProperty(prop) && isObject(target[prop]);
+        };
+
+        var replaced = Object.getOwnPropertyNames(source).map(function (prop) {
+          return _defineProperty({}, prop, isDeep(prop) ? mergeFn(target[prop], source[prop], deep) : source[prop]);
+        }).reduce(function (a, b) {
+          return _objectSpread2({}, a, {}, b);
+        }, {});
+        return _objectSpread2({}, target, {}, replaced);
+      } else {
+        return Object.assign(target, source);
+      }
+    };
+
+    var merge = mergeFn;
     function removeElement(el) {
       if (typeof el.remove !== 'undefined') {
         el.remove();
@@ -82,6 +170,7 @@
       defaultDateFormatter: null,
       defaultDateParser: null,
       defaultDateCreator: null,
+      defaultTimeCreator: null,
       defaultDayNames: null,
       defaultMonthNames: null,
       defaultFirstDayOfWeek: null,
@@ -102,12 +191,13 @@
       defaultDatepickerNearbyMonthDays: true,
       defaultDatepickerNearbySelectableMonthDays: false,
       defaultDatepickerShowWeekNumber: false,
+      defaultDatepickerMobileModal: true,
       defaultTrapFocus: false,
       defaultButtonRounded: false,
-      customIconPacks: null // TODO defaultTrapFocus to true in the next breaking change
-
-    };
-    var config$1 = config;
+      defaultCarouselInterval: 3500,
+      customIconPacks: null
+    }; // TODO defaultTrapFocus to true in the next breaking change
+    var VueInstance;
 
     //
     var script = {
@@ -134,7 +224,7 @@
         canCancel: {
           type: [Array, Boolean],
           default: function _default() {
-            return config$1.defaultModalCanCancel;
+            return config.defaultModalCanCancel;
           }
         },
         onCancel: {
@@ -144,7 +234,7 @@
         scroll: {
           type: String,
           default: function _default() {
-            return config$1.defaultModalScroll ? config$1.defaultModalScroll : 'clip';
+            return config.defaultModalScroll ? config.defaultModalScroll : 'clip';
           },
           validator: function validator(value) {
             return ['clip', 'keep'].indexOf(value) >= 0;
@@ -153,7 +243,7 @@
         fullScreen: Boolean,
         trapFocus: {
           type: Boolean,
-          default: config$1.defaultTrapFocus
+          default: config.defaultTrapFocus
         },
         customClass: String,
         ariaRole: {
@@ -174,7 +264,7 @@
       },
       computed: {
         cancelOptions: function cancelOptions() {
-          return typeof this.canCancel === 'boolean' ? this.canCancel ? config$1.defaultModalCanCancel : [] : this.canCancel;
+          return typeof this.canCancel === 'boolean' ? this.canCancel ? config.defaultModalCanCancel : [] : this.canCancel;
         },
         showX: function showX() {
           return this.cancelOptions.indexOf('x') >= 0;
@@ -193,8 +283,15 @@
         active: function active(value) {
           this.isActive = value;
         },
-        isActive: function isActive() {
+        isActive: function isActive(value) {
+          var _this = this;
+
           this.handleScroll();
+          this.$nextTick(function () {
+            if (value && _this.$el && _this.$el.focus) {
+              _this.$el.focus();
+            }
+          });
         }
       },
       methods: {
@@ -243,7 +340,7 @@
         * Emit events, and destroy modal if it's programmatic.
         */
         close: function close() {
-          var _this = this;
+          var _this2 = this;
 
           this.$emit('close');
           this.$emit('update:active', false); // Timeout for the animation complete before destroying
@@ -251,9 +348,9 @@
           if (this.programmatic) {
             this.isActive = false;
             setTimeout(function () {
-              _this.$destroy();
+              _this2.$destroy();
 
-              removeElement(_this.$el);
+              removeElement(_this2.$el);
             }, 150);
           }
         },
@@ -395,7 +492,7 @@
     const __vue_script__ = script;
 
     /* template */
-    var __vue_render__ = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('transition',{attrs:{"name":_vm.animation},on:{"after-enter":_vm.afterEnter,"before-leave":_vm.beforeLeave}},[(_vm.isActive)?_c('div',{directives:[{name:"trap-focus",rawName:"v-trap-focus",value:(_vm.trapFocus),expression:"trapFocus"}],staticClass:"modal is-active",class:[{'is-full-screen': _vm.fullScreen}, _vm.customClass],attrs:{"role":_vm.ariaRole,"aria-modal":_vm.ariaModal}},[_c('div',{staticClass:"modal-background",on:{"click":function($event){_vm.cancel('outside');}}}),_vm._v(" "),_c('div',{staticClass:"animation-content",class:{ 'modal-content': !_vm.hasModalCard },style:(_vm.customStyle)},[(_vm.component)?_c(_vm.component,_vm._g(_vm._b({tag:"component",on:{"close":_vm.close}},'component',_vm.props,false),_vm.events)):(_vm.content)?_c('div',{domProps:{"innerHTML":_vm._s(_vm.content)}}):_vm._t("default"),_vm._v(" "),(_vm.showX && !_vm.animating)?_c('button',{staticClass:"modal-close is-large",attrs:{"type":"button"},on:{"click":function($event){_vm.cancel('x');}}}):_vm._e()],2)]):_vm._e()])};
+    var __vue_render__ = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('transition',{attrs:{"name":_vm.animation},on:{"after-enter":_vm.afterEnter,"before-leave":_vm.beforeLeave}},[(_vm.isActive)?_c('div',{directives:[{name:"trap-focus",rawName:"v-trap-focus",value:(_vm.trapFocus),expression:"trapFocus"}],staticClass:"modal is-active",class:[{'is-full-screen': _vm.fullScreen}, _vm.customClass],attrs:{"tabindex":"-1","role":_vm.ariaRole,"aria-modal":_vm.ariaModal}},[_c('div',{staticClass:"modal-background",on:{"click":function($event){_vm.cancel('outside');}}}),_vm._v(" "),_c('div',{staticClass:"animation-content",class:{ 'modal-content': !_vm.hasModalCard },style:(_vm.customStyle)},[(_vm.component)?_c(_vm.component,_vm._g(_vm._b({tag:"component",on:{"close":_vm.close}},'component',_vm.props,false),_vm.events)):(_vm.content)?_c('div',{domProps:{"innerHTML":_vm._s(_vm.content)}}):_vm._t("default"),_vm._v(" "),(_vm.showX)?_c('button',{directives:[{name:"show",rawName:"v-show",value:(!_vm.animating),expression:"!animating"}],staticClass:"modal-close is-large",attrs:{"type":"button"},on:{"click":function($event){_vm.cancel('x');}}}):_vm._e()],2)]):_vm._e()])};
     var __vue_staticRenderFns__ = [];
 
       /* style */
@@ -436,14 +533,19 @@
       Vue.prototype.$buefy[property] = component;
     };
 
+    var localVueInstance;
     var ModalProgrammatic = {
       open: function open(params) {
-        var content;
         var parent;
-        if (typeof params === 'string') content = params;
+
+        if (typeof params === 'string') {
+          params = {
+            content: params
+          };
+        }
+
         var defaultParam = {
-          programmatic: true,
-          content: content
+          programmatic: true
         };
 
         if (params.parent) {
@@ -451,8 +553,8 @@
           delete params.parent;
         }
 
-        var propsData = Object.assign(defaultParam, params);
-        var vm = typeof window !== 'undefined' && window.Vue ? window.Vue : Vue;
+        var propsData = merge(defaultParam, params);
+        var vm = typeof window !== 'undefined' && window.Vue ? window.Vue : localVueInstance || VueInstance;
         var ModalComponent = vm.extend(Modal);
         return new ModalComponent({
           parent: parent,
@@ -463,12 +565,14 @@
     };
     var Plugin = {
       install: function install(Vue) {
+        localVueInstance = Vue;
         registerComponent(Vue, Modal);
         registerComponentProgrammatic(Vue, 'modal', ModalProgrammatic);
       }
     };
     use(Plugin);
 
+    exports.BModal = Modal;
     exports.ModalProgrammatic = ModalProgrammatic;
     exports.default = Plugin;
 

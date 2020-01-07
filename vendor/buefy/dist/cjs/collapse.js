@@ -2,7 +2,7 @@
 
 Object.defineProperty(exports, '__esModule', { value: true });
 
-var __chunk_6 = require('./chunk-13e039f5.js');
+var __chunk_5 = require('./chunk-13e039f5.js');
 
 var script = {
   name: 'BCollapse',
@@ -96,7 +96,7 @@ const __vue_script__ = script;
   
 
   
-  var Collapse = __chunk_6.__vue_normalize__(
+  var Collapse = __chunk_5.__vue_normalize__(
     {},
     __vue_inject_styles__,
     __vue_script__,
@@ -109,9 +109,10 @@ const __vue_script__ = script;
 
 var Plugin = {
   install: function install(Vue) {
-    __chunk_6.registerComponent(Vue, Collapse);
+    __chunk_5.registerComponent(Vue, Collapse);
   }
 };
-__chunk_6.use(Plugin);
+__chunk_5.use(Plugin);
 
+exports.BCollapse = Collapse;
 exports.default = Plugin;
