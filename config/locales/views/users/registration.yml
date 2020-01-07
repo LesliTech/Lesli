@@ -1,9 +1,0 @@
-en:
-  users:
-    registration:
-      actions:
-        sign_up: Sign up
-      fields:
-        password_length: (6 characters minimum)
-      notifications:
-        success: Your account has been successfuly registered. Please check your email for a confirmation message.

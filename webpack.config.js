@@ -141,7 +141,7 @@ function webpackConfigBuilder(env) {
     }
 
     webpackConfig.push(webpackbase)
-    /*
+
     // · get engines
     let engines = [
         'CloudTeam',
@@ -222,7 +222,7 @@ function webpackConfigBuilder(env) {
         }
 
     })
-    */
+
     return webpackConfig
 
 }
