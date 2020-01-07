@@ -33,8 +33,8 @@ import VueRouter from 'vue-router'
 
 // · Loading icon required libraries
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
-import { library } from '@fortawesome/fontawesome-svg-core'
 import { fas } from '@fortawesome/free-solid-svg-icons'
+import { library } from '@fortawesome/fontawesome-svg-core'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 
 
@@ -50,7 +50,7 @@ import pluginDate from 'LesliCloud/vue/plugins/date'
 
 // · Loading app functions
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
-import debug from 'lesli-nodejs-debug-message/browser'
+import debug from 'lesli-js-debug-message/browser'
 import document from 'LesliCloud/vue/functions/document.js'
 
 

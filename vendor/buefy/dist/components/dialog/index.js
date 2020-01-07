@@ -1,11 +1,9 @@
-/*! Buefy v0.8.6 | MIT License | github.com/buefy/buefy */
+/*! Buefy v0.8.9 | MIT License | github.com/buefy/buefy */
 (function (global, factory) {
-  typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports, require('vue')) :
-  typeof define === 'function' && define.amd ? define(['exports', 'vue'], factory) :
-  (global = global || self, factory(global.Dialog = {}, global.Vue));
-}(this, function (exports, Vue) { 'use strict';
-
-  Vue = Vue && Vue.hasOwnProperty('default') ? Vue['default'] : Vue;
+  typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports) :
+  typeof define === 'function' && define.amd ? define(['exports'], factory) :
+  (global = global || self, factory(global.Dialog = {}));
+}(this, function (exports) { 'use strict';
 
   function _typeof(obj) {
     if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") {
@@ -40,12 +38,13 @@
     var keys = Object.keys(object);
 
     if (Object.getOwnPropertySymbols) {
-      keys.push.apply(keys, Object.getOwnPropertySymbols(object));
+      var symbols = Object.getOwnPropertySymbols(object);
+      if (enumerableOnly) symbols = symbols.filter(function (sym) {
+        return Object.getOwnPropertyDescriptor(object, sym).enumerable;
+      });
+      keys.push.apply(keys, symbols);
     }
 
-    if (enumerableOnly) keys = keys.filter(function (sym) {
-      return Object.getOwnPropertyDescriptor(object, sym).enumerable;
-    });
     return keys;
   }
 
@@ -54,13 +53,13 @@
       var source = arguments[i] != null ? arguments[i] : {};
 
       if (i % 2) {
-        ownKeys(source, true).forEach(function (key) {
+        ownKeys(Object(source), true).forEach(function (key) {
           _defineProperty(target, key, source[key]);
         });
       } else if (Object.getOwnPropertyDescriptors) {
         Object.defineProperties(target, Object.getOwnPropertyDescriptors(source));
       } else {
-        ownKeys(source).forEach(function (key) {
+        ownKeys(Object(source)).forEach(function (key) {
           Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key));
         });
       }
@@ -101,7 +100,6 @@
         };
 
         el.addEventListener('keydown', onKeyDown);
-        firstFocusable.focus();
       }
     }
   };
@@ -136,6 +134,7 @@
     defaultDateFormatter: null,
     defaultDateParser: null,
     defaultDateCreator: null,
+    defaultTimeCreator: null,
     defaultDayNames: null,
     defaultMonthNames: null,
     defaultFirstDayOfWeek: null,
@@ -156,32 +155,39 @@
     defaultDatepickerNearbyMonthDays: true,
     defaultDatepickerNearbySelectableMonthDays: false,
     defaultDatepickerShowWeekNumber: false,
+    defaultDatepickerMobileModal: true,
     defaultTrapFocus: false,
     defaultButtonRounded: false,
-    customIconPacks: null // TODO defaultTrapFocus to true in the next breaking change
-
-  };
-  var config$1 = config;
+    defaultCarouselInterval: 3500,
+    customIconPacks: null
+  }; // TODO defaultTrapFocus to true in the next breaking change
+  var VueInstance;
 
   /**
-  * Merge function to replace Object.assign with deep merging possibility
-  */
+   * Merge function to replace Object.assign with deep merging possibility
+   */
 
   var isObject = function isObject(item) {
     return _typeof(item) === 'object' && !Array.isArray(item);
   };
 
   var mergeFn = function mergeFn(target, source) {
-    var isDeep = function isDeep(prop) {
-      return isObject(source[prop]) && target.hasOwnProperty(prop) && isObject(target[prop]);
-    };
+    var deep = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : false;
 
-    var replaced = Object.getOwnPropertyNames(source).map(function (prop) {
-      return _defineProperty({}, prop, isDeep(prop) ? mergeFn(target[prop], source[prop]) : source[prop]);
-    }).reduce(function (a, b) {
-      return _objectSpread2({}, a, {}, b);
-    }, {});
-    return _objectSpread2({}, target, {}, replaced);
+    if (deep || !Object.assign) {
+      var isDeep = function isDeep(prop) {
+        return isObject(source[prop]) && target !== null && target.hasOwnProperty(prop) && isObject(target[prop]);
+      };
+
+      var replaced = Object.getOwnPropertyNames(source).map(function (prop) {
+        return _defineProperty({}, prop, isDeep(prop) ? mergeFn(target[prop], source[prop], deep) : source[prop]);
+      }).reduce(function (a, b) {
+        return _objectSpread2({}, a, {}, b);
+      }, {});
+      return _objectSpread2({}, target, {}, replaced);
+    } else {
+      return Object.assign(target, source);
+    }
   };
 
   var merge = mergeFn;
@@ -204,7 +210,7 @@
   };
 
   var faIcons = function faIcons() {
-    var faIconPrefix = config$1 && config$1.defaultIconComponent ? '' : 'fa-';
+    var faIconPrefix = config && config.defaultIconComponent ? '' : 'fa-';
     return {
       sizes: {
         'default': faIconPrefix + 'lg',
@@ -238,8 +244,8 @@
       fal: faIcons()
     };
 
-    if (config$1 && config$1.customIconPacks) {
-      icons = merge(icons, config$1.customIconPacks);
+    if (config && config.customIconPacks) {
+      icons = merge(icons, config.customIconPacks, true);
     }
 
     return icons;
@@ -281,7 +287,7 @@
         return "".concat(this.iconPrefix).concat(this.getEquivalentIconOf(this.icon));
       },
       newPack: function newPack() {
-        return this.pack || config$1.defaultIconPack;
+        return this.pack || config.defaultIconPack;
       },
       newType: function newType() {
         if (!this.type) return;
@@ -316,7 +322,7 @@
         return null;
       },
       useIconComponent: function useIconComponent() {
-        return this.component || config$1.defaultIconComponent;
+        return this.component || config.defaultIconComponent;
       }
     },
     methods: {
@@ -480,7 +486,7 @@
       canCancel: {
         type: [Array, Boolean],
         default: function _default() {
-          return config$1.defaultModalCanCancel;
+          return config.defaultModalCanCancel;
         }
       },
       onCancel: {
@@ -490,7 +496,7 @@
       scroll: {
         type: String,
         default: function _default() {
-          return config$1.defaultModalScroll ? config$1.defaultModalScroll : 'clip';
+          return config.defaultModalScroll ? config.defaultModalScroll : 'clip';
         },
         validator: function validator(value) {
           return ['clip', 'keep'].indexOf(value) >= 0;
@@ -499,7 +505,7 @@
       fullScreen: Boolean,
       trapFocus: {
         type: Boolean,
-        default: config$1.defaultTrapFocus
+        default: config.defaultTrapFocus
       },
       customClass: String,
       ariaRole: {
@@ -520,7 +526,7 @@
     },
     computed: {
       cancelOptions: function cancelOptions() {
-        return typeof this.canCancel === 'boolean' ? this.canCancel ? config$1.defaultModalCanCancel : [] : this.canCancel;
+        return typeof this.canCancel === 'boolean' ? this.canCancel ? config.defaultModalCanCancel : [] : this.canCancel;
       },
       showX: function showX() {
         return this.cancelOptions.indexOf('x') >= 0;
@@ -539,8 +545,15 @@
       active: function active(value) {
         this.isActive = value;
       },
-      isActive: function isActive() {
+      isActive: function isActive(value) {
+        var _this = this;
+
         this.handleScroll();
+        this.$nextTick(function () {
+          if (value && _this.$el && _this.$el.focus) {
+            _this.$el.focus();
+          }
+        });
       }
     },
     methods: {
@@ -589,7 +602,7 @@
       * Emit events, and destroy modal if it's programmatic.
       */
       close: function close() {
-        var _this = this;
+        var _this2 = this;
 
         this.$emit('close');
         this.$emit('update:active', false); // Timeout for the animation complete before destroying
@@ -597,9 +610,9 @@
         if (this.programmatic) {
           this.isActive = false;
           setTimeout(function () {
-            _this.$destroy();
+            _this2.$destroy();
 
-            removeElement(_this.$el);
+            removeElement(_this2.$el);
           }, 150);
         }
       },
@@ -656,7 +669,7 @@
   const __vue_script__$1 = script$1;
 
   /* template */
-  var __vue_render__$1 = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('transition',{attrs:{"name":_vm.animation},on:{"after-enter":_vm.afterEnter,"before-leave":_vm.beforeLeave}},[(_vm.isActive)?_c('div',{directives:[{name:"trap-focus",rawName:"v-trap-focus",value:(_vm.trapFocus),expression:"trapFocus"}],staticClass:"modal is-active",class:[{'is-full-screen': _vm.fullScreen}, _vm.customClass],attrs:{"role":_vm.ariaRole,"aria-modal":_vm.ariaModal}},[_c('div',{staticClass:"modal-background",on:{"click":function($event){_vm.cancel('outside');}}}),_vm._v(" "),_c('div',{staticClass:"animation-content",class:{ 'modal-content': !_vm.hasModalCard },style:(_vm.customStyle)},[(_vm.component)?_c(_vm.component,_vm._g(_vm._b({tag:"component",on:{"close":_vm.close}},'component',_vm.props,false),_vm.events)):(_vm.content)?_c('div',{domProps:{"innerHTML":_vm._s(_vm.content)}}):_vm._t("default"),_vm._v(" "),(_vm.showX && !_vm.animating)?_c('button',{staticClass:"modal-close is-large",attrs:{"type":"button"},on:{"click":function($event){_vm.cancel('x');}}}):_vm._e()],2)]):_vm._e()])};
+  var __vue_render__$1 = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('transition',{attrs:{"name":_vm.animation},on:{"after-enter":_vm.afterEnter,"before-leave":_vm.beforeLeave}},[(_vm.isActive)?_c('div',{directives:[{name:"trap-focus",rawName:"v-trap-focus",value:(_vm.trapFocus),expression:"trapFocus"}],staticClass:"modal is-active",class:[{'is-full-screen': _vm.fullScreen}, _vm.customClass],attrs:{"tabindex":"-1","role":_vm.ariaRole,"aria-modal":_vm.ariaModal}},[_c('div',{staticClass:"modal-background",on:{"click":function($event){_vm.cancel('outside');}}}),_vm._v(" "),_c('div',{staticClass:"animation-content",class:{ 'modal-content': !_vm.hasModalCard },style:(_vm.customStyle)},[(_vm.component)?_c(_vm.component,_vm._g(_vm._b({tag:"component",on:{"close":_vm.close}},'component',_vm.props,false),_vm.events)):(_vm.content)?_c('div',{domProps:{"innerHTML":_vm._s(_vm.content)}}):_vm._t("default"),_vm._v(" "),(_vm.showX)?_c('button',{directives:[{name:"show",rawName:"v-show",value:(!_vm.animating),expression:"!animating"}],staticClass:"modal-close is-large",attrs:{"type":"button"},on:{"click":function($event){_vm.cancel('x');}}}):_vm._e()],2)]):_vm._e()])};
   var __vue_staticRenderFns__$1 = [];
 
     /* style */
@@ -705,13 +718,13 @@
       confirmText: {
         type: String,
         default: function _default() {
-          return config$1.defaultDialogConfirmText ? config$1.defaultDialogConfirmText : 'OK';
+          return config.defaultDialogConfirmText ? config.defaultDialogConfirmText : 'OK';
         }
       },
       cancelText: {
         type: String,
         default: function _default() {
-          return config$1.defaultDialogCancelText ? config$1.defaultDialogCancelText : 'Cancel';
+          return config.defaultDialogCancelText ? config.defaultDialogCancelText : 'Cancel';
         }
       },
       hasInput: Boolean,
@@ -726,13 +739,17 @@
         type: Function,
         default: function _default() {}
       },
+      container: {
+        type: String,
+        default: config.defaultContainerElement
+      },
       focusOn: {
         type: String,
         default: 'confirm'
       },
       trapFocus: {
         type: Boolean,
-        default: config$1.defaultTrapFocus
+        default: config.defaultTrapFocus
       },
       ariaRole: {
         type: String,
@@ -751,6 +768,12 @@
       };
     },
     computed: {
+      dialogClass: function dialogClass() {
+        return [this.size, {
+          'has-custom-container': this.container !== null
+        }];
+      },
+
       /**
       * Icon name (MDI) based on the type.
       */
@@ -816,10 +839,11 @@
     beforeMount: function beforeMount() {
       var _this3 = this;
 
-      // Insert the Dialog component in body tag
+      // Insert the Dialog component in the element container
       if (typeof window !== 'undefined') {
         this.$nextTick(function () {
-          document.body.appendChild(_this3.$el);
+          var container = document.querySelector(_this3.container) || document.body;
+          container.appendChild(_this3.$el);
         });
       }
     },
@@ -849,7 +873,7 @@
   const __vue_script__$2 = script$2;
 
   /* template */
-  var __vue_render__$2 = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('transition',{attrs:{"name":_vm.animation}},[(_vm.isActive)?_c('div',{directives:[{name:"trap-focus",rawName:"v-trap-focus",value:(_vm.trapFocus),expression:"trapFocus"}],staticClass:"dialog modal is-active",class:_vm.size,attrs:{"role":_vm.ariaRole,"aria-modal":_vm.ariaModal}},[_c('div',{staticClass:"modal-background",on:{"click":function($event){_vm.cancel('outside');}}}),_vm._v(" "),_c('div',{staticClass:"modal-card animation-content"},[(_vm.title)?_c('header',{staticClass:"modal-card-head"},[_c('p',{staticClass:"modal-card-title"},[_vm._v(_vm._s(_vm.title))])]):_vm._e(),_vm._v(" "),_c('section',{staticClass:"modal-card-body",class:{ 'is-titleless': !_vm.title, 'is-flex': _vm.hasIcon }},[_c('div',{staticClass:"media"},[(_vm.hasIcon && (_vm.icon || _vm.iconByType))?_c('div',{staticClass:"media-left"},[_c('b-icon',{attrs:{"icon":_vm.icon ? _vm.icon : _vm.iconByType,"pack":_vm.iconPack,"type":_vm.type,"both":!_vm.icon,"size":"is-large"}})],1):_vm._e(),_vm._v(" "),_c('div',{staticClass:"media-content"},[_c('p',{domProps:{"innerHTML":_vm._s(_vm.message)}}),_vm._v(" "),(_vm.hasInput)?_c('div',{staticClass:"field"},[_c('div',{staticClass:"control"},[_c('input',_vm._b({directives:[{name:"model",rawName:"v-model",value:(_vm.prompt),expression:"prompt"}],ref:"input",staticClass:"input",class:{ 'is-danger': _vm.validationMessage },domProps:{"value":(_vm.prompt)},on:{"keyup":function($event){if(!('button' in $event)&&_vm._k($event.keyCode,"enter",13,$event.key)){ return null; }_vm.confirm($event);},"input":function($event){if($event.target.composing){ return; }_vm.prompt=$event.target.value;}}},'input',_vm.inputAttrs,false))]),_vm._v(" "),_c('p',{staticClass:"help is-danger"},[_vm._v(_vm._s(_vm.validationMessage))])]):_vm._e()])])]),_vm._v(" "),_c('footer',{staticClass:"modal-card-foot"},[(_vm.showCancel)?_c('button',{ref:"cancelButton",staticClass:"button",on:{"click":function($event){_vm.cancel('button');}}},[_vm._v("\n                    "+_vm._s(_vm.cancelText)+"\n                ")]):_vm._e(),_vm._v(" "),_c('button',{ref:"confirmButton",staticClass:"button",class:_vm.type,on:{"click":_vm.confirm}},[_vm._v("\n                    "+_vm._s(_vm.confirmText)+"\n                ")])])])]):_vm._e()])};
+  var __vue_render__$2 = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('transition',{attrs:{"name":_vm.animation}},[(_vm.isActive)?_c('div',{directives:[{name:"trap-focus",rawName:"v-trap-focus",value:(_vm.trapFocus),expression:"trapFocus"}],staticClass:"dialog modal is-active",class:_vm.dialogClass,attrs:{"role":_vm.ariaRole,"aria-modal":_vm.ariaModal}},[_c('div',{staticClass:"modal-background",on:{"click":function($event){_vm.cancel('outside');}}}),_vm._v(" "),_c('div',{staticClass:"modal-card animation-content"},[(_vm.title)?_c('header',{staticClass:"modal-card-head"},[_c('p',{staticClass:"modal-card-title"},[_vm._v(_vm._s(_vm.title))])]):_vm._e(),_vm._v(" "),_c('section',{staticClass:"modal-card-body",class:{ 'is-titleless': !_vm.title, 'is-flex': _vm.hasIcon }},[_c('div',{staticClass:"media"},[(_vm.hasIcon && (_vm.icon || _vm.iconByType))?_c('div',{staticClass:"media-left"},[_c('b-icon',{attrs:{"icon":_vm.icon ? _vm.icon : _vm.iconByType,"pack":_vm.iconPack,"type":_vm.type,"both":!_vm.icon,"size":"is-large"}})],1):_vm._e(),_vm._v(" "),_c('div',{staticClass:"media-content"},[_c('p',{domProps:{"innerHTML":_vm._s(_vm.message)}}),_vm._v(" "),(_vm.hasInput)?_c('div',{staticClass:"field"},[_c('div',{staticClass:"control"},[(((_vm.inputAttrs).type)==='checkbox')?_c('input',_vm._b({directives:[{name:"model",rawName:"v-model",value:(_vm.prompt),expression:"prompt"}],ref:"input",staticClass:"input",class:{ 'is-danger': _vm.validationMessage },attrs:{"type":"checkbox"},domProps:{"checked":Array.isArray(_vm.prompt)?_vm._i(_vm.prompt,null)>-1:(_vm.prompt)},on:{"keyup":function($event){if(!('button' in $event)&&_vm._k($event.keyCode,"enter",13,$event.key,"Enter")){ return null; }return _vm.confirm($event)},"change":function($event){var $$a=_vm.prompt,$$el=$event.target,$$c=$$el.checked?(true):(false);if(Array.isArray($$a)){var $$v=null,$$i=_vm._i($$a,$$v);if($$el.checked){$$i<0&&(_vm.prompt=$$a.concat([$$v]));}else{$$i>-1&&(_vm.prompt=$$a.slice(0,$$i).concat($$a.slice($$i+1)));}}else{_vm.prompt=$$c;}}}},'input',_vm.inputAttrs,false)):(((_vm.inputAttrs).type)==='radio')?_c('input',_vm._b({directives:[{name:"model",rawName:"v-model",value:(_vm.prompt),expression:"prompt"}],ref:"input",staticClass:"input",class:{ 'is-danger': _vm.validationMessage },attrs:{"type":"radio"},domProps:{"checked":_vm._q(_vm.prompt,null)},on:{"keyup":function($event){if(!('button' in $event)&&_vm._k($event.keyCode,"enter",13,$event.key,"Enter")){ return null; }return _vm.confirm($event)},"change":function($event){_vm.prompt=null;}}},'input',_vm.inputAttrs,false)):_c('input',_vm._b({directives:[{name:"model",rawName:"v-model",value:(_vm.prompt),expression:"prompt"}],ref:"input",staticClass:"input",class:{ 'is-danger': _vm.validationMessage },attrs:{"type":(_vm.inputAttrs).type},domProps:{"value":(_vm.prompt)},on:{"keyup":function($event){if(!('button' in $event)&&_vm._k($event.keyCode,"enter",13,$event.key,"Enter")){ return null; }return _vm.confirm($event)},"input":function($event){if($event.target.composing){ return; }_vm.prompt=$event.target.value;}}},'input',_vm.inputAttrs,false))]),_vm._v(" "),_c('p',{staticClass:"help is-danger"},[_vm._v(_vm._s(_vm.validationMessage))])]):_vm._e()])])]),_vm._v(" "),_c('footer',{staticClass:"modal-card-foot"},[(_vm.showCancel)?_c('button',{ref:"cancelButton",staticClass:"button",on:{"click":function($event){_vm.cancel('button');}}},[_vm._v("\r\n                        "+_vm._s(_vm.cancelText)+"\r\n                    ")]):_vm._e(),_vm._v(" "),_c('button',{ref:"confirmButton",staticClass:"button",class:_vm.type,on:{"click":_vm.confirm}},[_vm._v("\r\n                        "+_vm._s(_vm.confirmText)+"\r\n                    ")])])])]):_vm._e()])};
   var __vue_staticRenderFns__$2 = [];
 
     /* style */
@@ -890,8 +914,10 @@
     Vue.prototype.$buefy[property] = component;
   };
 
+  var localVueInstance;
+
   function open(propsData) {
-    var vm = typeof window !== 'undefined' && window.Vue ? window.Vue : Vue;
+    var vm = typeof window !== 'undefined' && window.Vue ? window.Vue : localVueInstance || VueInstance;
     var DialogComponent = vm.extend(Dialog);
     return new DialogComponent({
       el: document.createElement('div'),
@@ -901,18 +927,21 @@
 
   var DialogProgrammatic = {
     alert: function alert(params) {
-      var message;
-      if (typeof params === 'string') message = params;
+      if (typeof params === 'string') {
+        params = {
+          message: params
+        };
+      }
+
       var defaultParam = {
-        canCancel: false,
-        message: message
+        canCancel: false
       };
-      var propsData = Object.assign(defaultParam, params);
+      var propsData = merge(defaultParam, params);
       return open(propsData);
     },
     confirm: function confirm(params) {
       var defaultParam = {};
-      var propsData = Object.assign(defaultParam, params);
+      var propsData = merge(defaultParam, params);
       return open(propsData);
     },
     prompt: function prompt(params) {
@@ -920,18 +949,20 @@
         hasInput: true,
         confirmText: 'Done'
       };
-      var propsData = Object.assign(defaultParam, params);
+      var propsData = merge(defaultParam, params);
       return open(propsData);
     }
   };
   var Plugin = {
     install: function install(Vue) {
+      localVueInstance = Vue;
       registerComponent(Vue, Dialog);
       registerComponentProgrammatic(Vue, 'dialog', DialogProgrammatic);
     }
   };
   use(Plugin);
 
+  exports.BDialog = Dialog;
   exports.DialogProgrammatic = DialogProgrammatic;
   exports.default = Plugin;
 

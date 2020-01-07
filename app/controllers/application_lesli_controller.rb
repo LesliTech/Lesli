@@ -24,6 +24,8 @@ Building a better future, one line of code at a time.
 // · 
 =end
 class ApplicationLesliController < ApplicationController
+    #load_and_authorize_resource
+    
     before_action :authenticate_user
     before_action :check_account
     before_action :set_account_global

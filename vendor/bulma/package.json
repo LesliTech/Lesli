@@ -1,27 +1,32 @@
 {
-  "_from": "bulma",
+  "_args": [
+    [
+      "bulma@0.8.0",
+      "/var/www/LesliCloud/lesli.cloud"
+    ]
+  ],
+  "_development": true,
+  "_from": "bulma@0.8.0",
   "_id": "bulma@0.8.0",
   "_inBundle": false,
   "_integrity": "sha512-nhf3rGyiZh/VM7FrSJ/5KeLlfaFkXz0nYcXriynfPH4vVpnxnqyEwaNGdNCVzHyyCA3cHgkQAMpdF/SFbFGZfA==",
   "_location": "/bulma",
   "_phantomChildren": {},
   "_requested": {
-    "type": "tag",
+    "type": "version",
     "registry": true,
-    "raw": "bulma",
+    "raw": "bulma@0.8.0",
     "name": "bulma",
     "escapedName": "bulma",
-    "rawSpec": "",
+    "rawSpec": "0.8.0",
     "saveSpec": null,
-    "fetchSpec": "latest"
+    "fetchSpec": "0.8.0"
   },
   "_requiredBy": [
-    "#USER",
-    "/"
+    "#DEV:/"
   ],
   "_resolved": "https://registry.npmjs.org/bulma/-/bulma-0.8.0.tgz",
-  "_shasum": "ac1606431703a4761b18a4a2d5cc1fa864a2aece",
-  "_spec": "bulma",
+  "_spec": "0.8.0",
   "_where": "/var/www/LesliCloud/lesli.cloud",
   "author": {
     "name": "Jeremy Thomas",
@@ -31,8 +36,6 @@
   "bugs": {
     "url": "https://github.com/jgthms/bulma/issues"
   },
-  "bundleDependencies": false,
-  "deprecated": false,
   "description": "Modern CSS framework based on Flexbox",
   "devDependencies": {
     "autoprefixer": "^9.6.1",

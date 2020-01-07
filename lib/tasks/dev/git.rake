@@ -43,6 +43,8 @@ namespace :dev do
                 system "cd ./engines/#{engine} && git push github master" if File.exists?(engine_path)
             end
             
+            system "git add --all && git commit -m \"Dev update\""
+
             system "rm -r vendor/*"
             system "cp node_modules/buefy/ vendor/ -ra"
             system "cp node_modules/bulma/ vendor/ -ra"
@@ -50,7 +52,7 @@ namespace :dev do
             system "cp node_modules/@fullcalendar/ vendor/ -ra"
             system "cp node_modules/lesli-css/ vendor/ -ra"
 
-            system "git add --all && git commit -m \"Update vendors\""
+            system "git add --all && git commit -m \"Update npm dependencies (vendors)\""
             
             system "git push github master"
 

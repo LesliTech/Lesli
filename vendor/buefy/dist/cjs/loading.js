@@ -2,12 +2,10 @@
 
 Object.defineProperty(exports, '__esModule', { value: true });
 
-function _interopDefault (ex) { return (ex && (typeof ex === 'object') && 'default' in ex) ? ex['default'] : ex; }
-
-require('./chunk-a535ca7c.js');
-var __chunk_2 = require('./chunk-f920b094.js');
-var __chunk_6 = require('./chunk-13e039f5.js');
-var Vue = _interopDefault(require('vue'));
+require('./chunk-f98e7e80.js');
+var helpers = require('./helpers.js');
+var __chunk_2 = require('./chunk-8806479f.js');
+var __chunk_5 = require('./chunk-13e039f5.js');
 var __chunk_18 = require('./chunk-f1df1c63.js');
 
 //
@@ -68,7 +66,7 @@ var script = {
         setTimeout(function () {
           _this.$destroy();
 
-          __chunk_2.removeElement(_this.$el);
+          helpers.removeElement(_this.$el);
         }, 150);
       }
     },
@@ -129,7 +127,7 @@ var __vue_staticRenderFns__ = [];
   
 
   
-  var Loading = __chunk_6.__vue_normalize__(
+  var Loading = __chunk_5.__vue_normalize__(
     { render: __vue_render__, staticRenderFns: __vue_staticRenderFns__ },
     __vue_inject_styles__,
     __vue_script__,
@@ -140,13 +138,14 @@ var __vue_staticRenderFns__ = [];
     undefined
   );
 
+var localVueInstance;
 var LoadingProgrammatic = {
   open: function open(params) {
     var defaultParam = {
       programmatic: true
     };
-    var propsData = Object.assign(defaultParam, params);
-    var vm = typeof window !== 'undefined' && window.Vue ? window.Vue : Vue;
+    var propsData = helpers.merge(defaultParam, params);
+    var vm = typeof window !== 'undefined' && window.Vue ? window.Vue : localVueInstance || __chunk_2.VueInstance;
     var LoadingComponent = vm.extend(Loading);
     return new LoadingComponent({
       el: document.createElement('div'),
@@ -156,11 +155,13 @@ var LoadingProgrammatic = {
 };
 var Plugin = {
   install: function install(Vue) {
-    __chunk_6.registerComponent(Vue, Loading);
-    __chunk_6.registerComponentProgrammatic(Vue, 'loading', LoadingProgrammatic);
+    localVueInstance = Vue;
+    __chunk_5.registerComponent(Vue, Loading);
+    __chunk_5.registerComponentProgrammatic(Vue, 'loading', LoadingProgrammatic);
   }
 };
-__chunk_6.use(Plugin);
+__chunk_5.use(Plugin);
 
+exports.BLoading = Loading;
 exports.LoadingProgrammatic = LoadingProgrammatic;
 exports.default = Plugin;

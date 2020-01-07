@@ -10,13 +10,13 @@
 !/log/.keep
 !/tmp/.keep
 
-# Ignore generated documentation
+# Ignore auto-generated documentation
 /doc
 
 # Ignore uploaded files in development
 /storage/*
 !/storage/.keep
-/public/deploy.log.txt
+/public/dev-deploy-log.txt
 /public/assets
 /node_modules
 /yarn-error.log

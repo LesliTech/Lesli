@@ -24,9 +24,8 @@ Building a better future, one line of code at a time.
 // · 
 =end
 
-p "~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~"
 p "Loading Core seeds - #{Rails.env.downcase} environment"
-p "~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~"
+p "~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~"
 
 load "#{Rails.root}/db/seed/#{Rails.env.downcase}.rb"
 

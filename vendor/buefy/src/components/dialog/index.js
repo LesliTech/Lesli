@@ -1,10 +1,13 @@
-import Vue from 'vue'
 import Dialog from './Dialog'
 
+import { VueInstance } from '../../utils/config'
+import { merge } from '../../utils/helpers'
 import { use, registerComponent, registerComponentProgrammatic } from '../../utils/plugins'
 
+let localVueInstance
+
 function open(propsData) {
-    const vm = typeof window !== 'undefined' && window.Vue ? window.Vue : Vue
+    const vm = typeof window !== 'undefined' && window.Vue ? window.Vue : localVueInstance || VueInstance
     const DialogComponent = vm.extend(Dialog)
     return new DialogComponent({
         el: document.createElement('div'),
@@ -14,18 +17,20 @@ function open(propsData) {
 
 const DialogProgrammatic = {
     alert(params) {
-        let message
-        if (typeof params === 'string') message = params
-        const defaultParam = {
-            canCancel: false,
-            message
+        if (typeof params === 'string') {
+            params = {
+                message: params
+            }
         }
-        const propsData = Object.assign(defaultParam, params)
+        const defaultParam = {
+            canCancel: false
+        }
+        const propsData = merge(defaultParam, params)
         return open(propsData)
     },
     confirm(params) {
         const defaultParam = {}
-        const propsData = Object.assign(defaultParam, params)
+        const propsData = merge(defaultParam, params)
         return open(propsData)
     },
     prompt(params) {
@@ -33,13 +38,14 @@ const DialogProgrammatic = {
             hasInput: true,
             confirmText: 'Done'
         }
-        const propsData = Object.assign(defaultParam, params)
+        const propsData = merge(defaultParam, params)
         return open(propsData)
     }
 }
 
 const Plugin = {
     install(Vue) {
+        localVueInstance = Vue
         registerComponent(Vue, Dialog)
         registerComponentProgrammatic(Vue, 'dialog', DialogProgrammatic)
     }
@@ -50,5 +56,6 @@ use(Plugin)
 export default Plugin
 
 export {
-    DialogProgrammatic
+    DialogProgrammatic,
+    Dialog as BDialog
 }

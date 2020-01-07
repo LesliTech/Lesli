@@ -31,18 +31,29 @@ class Ability
     end
 
     def initialize2(user)
-        p '~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~'
-        p '~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~'
-        p '~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~'
-        p user.permissions
+
+        can [:empty], Dashboard
+=begin
         can do |action, subject_class, subject|
-            user.permissions.each do |permission|
-                if permission.subject_id.nil?
-                    can permission.action.to_sym, permission.subject_class.constantize
-                else
-                    can permission.action.to_sym, permission.subject_class.constantize, id: permission.subject_id
-                end
+
+            user.role.role_privileges.each do |privilege|
+
+                p privilege
+                p '-     -     -     -     -     -     -     -     -     -     -     -     -     -     -     -     -'
+
+                #can privilege.privilege_get.to_sym, privilege.privilege_model.constantize
+                #can [:empty], privilege.privilege_model.constantize
+
+                #if privilege.privilege_model.nil?
+                #    can privilege.privilege_get.to_sym, privilege.privilege_model.constantize
+                #else
+                #    can permission.action.to_sym, permission.subject_class.constantize, id: permission.subject_id
+                #end
+
             end
+
         end
+=end
+
     end
 end

@@ -1,4 +1,4 @@
-/*! Buefy v0.8.6 | MIT License | github.com/buefy/buefy */
+/*! Buefy v0.8.9 | MIT License | github.com/buefy/buefy */
 (function (global, factory) {
     typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports) :
     typeof define === 'function' && define.amd ? define(['exports'], factory) :
@@ -26,6 +26,7 @@
       defaultDateFormatter: null,
       defaultDateParser: null,
       defaultDateCreator: null,
+      defaultTimeCreator: null,
       defaultDayNames: null,
       defaultMonthNames: null,
       defaultFirstDayOfWeek: null,
@@ -46,12 +47,12 @@
       defaultDatepickerNearbyMonthDays: true,
       defaultDatepickerNearbySelectableMonthDays: false,
       defaultDatepickerShowWeekNumber: false,
+      defaultDatepickerMobileModal: true,
       defaultTrapFocus: false,
       defaultButtonRounded: false,
-      customIconPacks: null // TODO defaultTrapFocus to true in the next breaking change
-
-    };
-    var config$1 = config;
+      defaultCarouselInterval: 3500,
+      customIconPacks: null
+    }; // TODO defaultTrapFocus to true in the next breaking change
 
     //
     var script = {
@@ -83,13 +84,13 @@
       },
       computed: {
         newType: function newType() {
-          return this.type || config$1.defaultTooltipType;
+          return this.type || config.defaultTooltipType;
         },
         newAnimated: function newAnimated() {
-          return this.animated || config$1.defaultTooltipAnimated;
+          return this.animated || config.defaultTooltipAnimated;
         },
         newDelay: function newDelay() {
-          return this.delay || config$1.defaultTooltipDelay;
+          return this.delay || config.defaultTooltipDelay;
         }
       }
     };
@@ -184,13 +185,13 @@
 
     /* template */
     var __vue_render__ = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('span',{class:[_vm.newType, _vm.position, _vm.size, {
-            'b-tooltip': _vm.active,
-            'is-square': _vm.square,
-            'is-animated': _vm.newAnimated,
-            'is-always': _vm.always,
-            'is-multiline': _vm.multilined,
-            'is-dashed': _vm.dashed
-        }],style:({'transition-delay': (_vm.newDelay + "ms")}),attrs:{"data-label":_vm.label}},[_vm._t("default")],2)};
+                'b-tooltip': _vm.active,
+                'is-square': _vm.square,
+                'is-animated': _vm.newAnimated,
+                'is-always': _vm.always,
+                'is-multiline': _vm.multilined,
+                'is-dashed': _vm.dashed
+            }],style:({'transition-delay': (_vm.newDelay + "ms")}),attrs:{"data-label":_vm.label}},[_vm._t("default")],2)};
     var __vue_staticRenderFns__ = [];
 
       /* style */
@@ -234,6 +235,7 @@
     };
     use(Plugin);
 
+    exports.BTooltip = Tooltip;
     exports.default = Plugin;
 
     Object.defineProperty(exports, '__esModule', { value: true });

@@ -184,6 +184,7 @@ export default {
             if (this.selectedBeginDate && this.selectedEndDate) {
                 this.selectedBeginDate = date
                 this.selectedEndDate = undefined
+                this.$emit('range-start', date)
             } else if (this.selectedBeginDate && !this.selectedEndDate) {
                 if (this.selectedBeginDate > date) {
                     this.selectedEndDate = this.selectedBeginDate
@@ -191,9 +192,11 @@ export default {
                 } else {
                     this.selectedEndDate = date
                 }
+                this.$emit('range-end', date)
                 this.$emit('input', [this.selectedBeginDate, this.selectedEndDate])
             } else {
                 this.selectedBeginDate = date
+                this.$emit('range-start', date)
             }
         },
 
@@ -202,13 +205,12 @@ export default {
         * Otherwise, add date to list of selected dates
         */
         handleSelectMultipleDates(date) {
-            if (
-                this.multipleSelectedDates.find((selectedDate) =>
-                    selectedDate.valueOf() === date.valueOf()
-                )
-            ) {
+            const multipleSelect = this.multipleSelectedDates.filter((selectedDate) =>
+                selectedDate.getTime() === date.getTime()
+            )
+            if (multipleSelect.length) {
                 this.multipleSelectedDates = this.multipleSelectedDates.filter((selectedDate) =>
-                    selectedDate.valueOf() !== date.valueOf()
+                    selectedDate.getTime() !== date.getTime()
                 )
             } else {
                 this.multipleSelectedDates.push(date)

@@ -8,6 +8,7 @@
             class="modal is-active"
             :class="[{'is-full-screen': fullScreen}, customClass]"
             v-trap-focus="trapFocus"
+            tabindex="-1"
             :role="ariaRole"
             :aria-modal="ariaModal">
             <div class="modal-background" @click="cancel('outside')"/>
@@ -27,7 +28,8 @@
                 <slot v-else/>
                 <button
                     type="button"
-                    v-if="showX && !animating"
+                    v-if="showX"
+                    v-show="!animating"
                     class="modal-close is-large"
                     @click="cancel('x')"/>
             </div>
@@ -134,8 +136,13 @@ export default {
         active(value) {
             this.isActive = value
         },
-        isActive() {
+        isActive(value) {
             this.handleScroll()
+            this.$nextTick(() => {
+                if (value && this.$el && this.$el.focus) {
+                    this.$el.focus()
+                }
+            })
         }
     },
     methods: {

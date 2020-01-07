@@ -1,7 +1,8 @@
-import './chunk-40949afc.js';
-import './chunk-d3a97e18.js';
-import './chunk-9d997597.js';
-import { I as Icon } from './chunk-2b1ca282.js';
+import './chunk-b91774bc.js';
+import './helpers.js';
+import './chunk-b76a6c1d.js';
+import { I as Icon } from './chunk-3802ee87.js';
+export { I as BIcon } from './chunk-3802ee87.js';
 import { r as registerComponent, u as use } from './chunk-cca88db8.js';
 
 var Plugin = {

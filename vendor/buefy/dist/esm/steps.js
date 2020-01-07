@@ -1,7 +1,7 @@
-import { a as _defineProperty } from './chunk-40949afc.js';
-import './chunk-d3a97e18.js';
-import { c as config } from './chunk-9d997597.js';
-import { I as Icon } from './chunk-2b1ca282.js';
+import { _ as _defineProperty } from './chunk-b91774bc.js';
+import './helpers.js';
+import { c as config } from './chunk-b76a6c1d.js';
+import { I as Icon } from './chunk-3802ee87.js';
 import { _ as __vue_normalize__, r as registerComponent, u as use } from './chunk-cca88db8.js';
 import { S as SlotComponent } from './chunk-0e3f4fb5.js';
 
@@ -40,7 +40,7 @@ var script = {
   data: function data() {
     return {
       activeStep: this.value || 0,
-      stepItems: [],
+      defaultSlots: [],
       contentHeight: 0,
       isTransitioning: false,
       _isSteps: true // Used internally by StepItem
@@ -50,6 +50,13 @@ var script = {
   computed: {
     mainClasses: function mainClasses() {
       return [this.type, this.size];
+    },
+    stepItems: function stepItems() {
+      return this.defaultSlots.filter(function (vnode) {
+        return vnode.componentInstance && vnode.componentInstance.$data && vnode.componentInstance.$data._isStepItem;
+      }).map(function (vnode) {
+        return vnode.componentInstance;
+      });
     },
     reversedStepItems: function reversedStepItems() {
       return this.stepItems.slice().reverse();
@@ -123,11 +130,16 @@ var script = {
     }
   },
   methods: {
+    refreshSlots: function refreshSlots() {
+      this.defaultSlots = this.$slots.default;
+    },
+
     /**
-    * Change the active step and emit change event.
-    */
+     * Change the active step and emit change event.
+     */
     changeStep: function changeStep(newIndex) {
       if (this.activeStep === newIndex) return;
+      if (newIndex > this.stepItems.length) throw new Error('The index you trying to set is bigger than the steps length');
 
       if (this.activeStep < this.stepItems.length) {
         this.stepItems[this.activeStep].deactivate(this.activeStep, newIndex);
@@ -139,8 +151,8 @@ var script = {
     },
 
     /**
-        * Return if the step should be clickable or not.
-        */
+     * Return if the step should be clickable or not.
+     */
     isItemClickable: function isItemClickable(stepItem, index) {
       if (stepItem.clickable === undefined) {
         return this.activeStep > index;
@@ -150,8 +162,8 @@ var script = {
     },
 
     /**
-    * Step click listener, emit input event and change active step.
-    */
+     * Step click listener, emit input event and change active step.
+     */
     stepClick: function stepClick(value) {
       this.$emit('input', value);
       this.changeStep(value);
@@ -194,6 +206,8 @@ var script = {
     if (this.activeStep < this.stepItems.length) {
       this.stepItems[this.activeStep].isActive = true;
     }
+
+    this.refreshSlots();
   }
 };
 
@@ -202,9 +216,9 @@ const __vue_script__ = script;
 
 /* template */
 var __vue_render__ = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"b-steps"},[_c('nav',{staticClass:"steps",class:_vm.mainClasses},[_c('ul',{staticClass:"step-items"},_vm._l((_vm.stepItems),function(stepItem,index){return _c('li',{directives:[{name:"show",rawName:"v-show",value:(stepItem.visible),expression:"stepItem.visible"}],key:index,staticClass:"step-item",class:[stepItem.type || _vm.type, {
-                    'is-active': _vm.activeStep === index,
-                    'is-previous': _vm.activeStep > index
-            }]},[_c('a',{staticClass:"step-link",class:{'is-clickable': _vm.isItemClickable(stepItem, index)},on:{"click":function($event){_vm.isItemClickable(stepItem, index) && _vm.stepClick(index);}}},[_c('div',{staticClass:"step-marker"},[(stepItem.icon)?_c('b-icon',{attrs:{"icon":stepItem.icon,"pack":stepItem.iconPack,"size":_vm.size}}):_vm._e()],1),_vm._v(" "),_c('div',{staticClass:"step-details"},[_c('span',{staticClass:"step-title"},[_vm._v(_vm._s(stepItem.label))])])])])}))]),_vm._v(" "),_c('section',{staticClass:"step-content",class:{'is-transitioning': _vm.isTransitioning}},[_vm._t("default")],2),_vm._v(" "),_vm._t("navigation",[(_vm.hasNavigation)?_c('nav',{staticClass:"step-navigation"},[_c('a',{staticClass:"pagination-previous",attrs:{"role":"button","disabled":_vm.navigationProps.previous.disabled,"aria-label":_vm.ariaPreviousLabel},on:{"click":function($event){$event.preventDefault();_vm.navigationProps.previous.action($event);}}},[_c('b-icon',{attrs:{"icon":_vm.iconPrev,"pack":_vm.iconPack,"both":"","aria-hidden":"true"}})],1),_vm._v(" "),_c('a',{staticClass:"pagination-next",attrs:{"role":"button","disabled":_vm.navigationProps.next.disabled,"aria-label":_vm.ariaNextLabel},on:{"click":function($event){$event.preventDefault();_vm.navigationProps.next.action($event);}}},[_c('b-icon',{attrs:{"icon":_vm.iconNext,"pack":_vm.iconPack,"both":"","aria-hidden":"true"}})],1)]):_vm._e()],{previous:_vm.navigationProps.previous,next:_vm.navigationProps.next})],2)};
+                        'is-active': _vm.activeStep === index,
+                        'is-previous': _vm.activeStep > index
+                }]},[_c('a',{staticClass:"step-link",class:{'is-clickable': _vm.isItemClickable(stepItem, index)},on:{"click":function($event){_vm.isItemClickable(stepItem, index) && _vm.stepClick(index);}}},[_c('div',{staticClass:"step-marker"},[(stepItem.icon)?_c('b-icon',{attrs:{"icon":stepItem.icon,"pack":stepItem.iconPack,"size":_vm.size}}):_vm._e()],1),_vm._v(" "),_c('div',{staticClass:"step-details"},[_c('span',{staticClass:"step-title"},[_vm._v(_vm._s(stepItem.label))])])])])}))]),_vm._v(" "),_c('section',{staticClass:"step-content",class:{'is-transitioning': _vm.isTransitioning}},[_vm._t("default")],2),_vm._v(" "),_vm._t("navigation",[(_vm.hasNavigation)?_c('nav',{staticClass:"step-navigation"},[_c('a',{staticClass:"pagination-previous",attrs:{"role":"button","disabled":_vm.navigationProps.previous.disabled,"aria-label":_vm.ariaPreviousLabel},on:{"click":function($event){$event.preventDefault();return _vm.navigationProps.previous.action($event)}}},[_c('b-icon',{attrs:{"icon":_vm.iconPrev,"pack":_vm.iconPack,"both":"","aria-hidden":"true"}})],1),_vm._v(" "),_c('a',{staticClass:"pagination-next",attrs:{"role":"button","disabled":_vm.navigationProps.next.disabled,"aria-label":_vm.ariaNextLabel},on:{"click":function($event){$event.preventDefault();return _vm.navigationProps.next.action($event)}}},[_c('b-icon',{attrs:{"icon":_vm.iconNext,"pack":_vm.iconPack,"both":"","aria-hidden":"true"}})],1)]):_vm._e()],{previous:_vm.navigationProps.previous,next:_vm.navigationProps.next})],2)};
 var __vue_staticRenderFns__ = [];
 
   /* style */
@@ -251,7 +265,9 @@ var script$1 = {
   data: function data() {
     return {
       isActive: false,
-      transitionName: null
+      transitionName: null,
+      _isStepItem: true // Used internally by Step
+
     };
   },
   methods: {
@@ -277,14 +293,10 @@ var script$1 = {
       throw new Error('You should wrap bStepItem on a bSteps');
     }
 
-    this.$parent.stepItems.push(this);
+    this.$parent.refreshSlots();
   },
   beforeDestroy: function beforeDestroy() {
-    var index = this.$parent.stepItems.indexOf(this);
-
-    if (index >= 0) {
-      this.$parent.stepItems.splice(index, 1);
-    }
+    this.$parent.refreshSlots();
   },
   render: function render(createElement) {
     var _this = this;
@@ -365,3 +377,4 @@ var Plugin = {
 use(Plugin);
 
 export default Plugin;
+export { StepItem as BStepItem, Steps as BSteps };

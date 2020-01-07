@@ -1,9 +1,8 @@
-import './chunk-40949afc.js';
-import './chunk-d3a97e18.js';
-import { c as config } from './chunk-9d997597.js';
+import './chunk-b91774bc.js';
+import { merge } from './helpers.js';
+import { c as config, V as VueInstance } from './chunk-b76a6c1d.js';
 import { _ as __vue_normalize__, a as registerComponentProgrammatic, u as use } from './chunk-cca88db8.js';
-import Vue from 'vue';
-import { N as NoticeMixin } from './chunk-8d9f2e97.js';
+import { N as NoticeMixin } from './chunk-43dfefdc.js';
 
 //
 var script = {
@@ -48,13 +47,18 @@ var __vue_staticRenderFns__ = [];
     undefined
   );
 
+var localVueInstance;
 var ToastProgrammatic = {
   open: function open(params) {
-    var message;
     var parent;
-    if (typeof params === 'string') message = params;
+
+    if (typeof params === 'string') {
+      params = {
+        message: params
+      };
+    }
+
     var defaultParam = {
-      message: message,
       position: config.defaultToastPosition || 'is-top'
     };
 
@@ -63,8 +67,8 @@ var ToastProgrammatic = {
       delete params.parent;
     }
 
-    var propsData = Object.assign(defaultParam, params);
-    var vm = typeof window !== 'undefined' && window.Vue ? window.Vue : Vue;
+    var propsData = merge(defaultParam, params);
+    var vm = typeof window !== 'undefined' && window.Vue ? window.Vue : localVueInstance || VueInstance;
     var ToastComponent = vm.extend(Toast);
     return new ToastComponent({
       parent: parent,
@@ -75,10 +79,11 @@ var ToastProgrammatic = {
 };
 var Plugin = {
   install: function install(Vue) {
+    localVueInstance = Vue;
     registerComponentProgrammatic(Vue, 'toast', ToastProgrammatic);
   }
 };
 use(Plugin);
 
 export default Plugin;
-export { ToastProgrammatic };
+export { Toast as BToast, ToastProgrammatic };

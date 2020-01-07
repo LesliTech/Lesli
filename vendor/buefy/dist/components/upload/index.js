@@ -1,4 +1,4 @@
-/*! Buefy v0.8.6 | MIT License | github.com/buefy/buefy */
+/*! Buefy v0.8.9 | MIT License | github.com/buefy/buefy */
 (function (global, factory) {
     typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports) :
     typeof define === 'function' && define.amd ? define(['exports'], factory) :
@@ -26,6 +26,7 @@
       defaultDateFormatter: null,
       defaultDateParser: null,
       defaultDateCreator: null,
+      defaultTimeCreator: null,
       defaultDayNames: null,
       defaultMonthNames: null,
       defaultFirstDayOfWeek: null,
@@ -46,12 +47,12 @@
       defaultDatepickerNearbyMonthDays: true,
       defaultDatepickerNearbySelectableMonthDays: false,
       defaultDatepickerShowWeekNumber: false,
+      defaultDatepickerMobileModal: true,
       defaultTrapFocus: false,
       defaultButtonRounded: false,
-      customIconPacks: null // TODO defaultTrapFocus to true in the next breaking change
-
-    };
-    var config$1 = config;
+      defaultCarouselInterval: 3500,
+      customIconPacks: null
+    }; // TODO defaultTrapFocus to true in the next breaking change
 
     var FormElementMixin = {
       props: {
@@ -67,7 +68,7 @@
         useHtml5Validation: {
           type: Boolean,
           default: function _default() {
-            return config$1.defaultUseHtml5Validation;
+            return config.defaultUseHtml5Validation;
           }
         },
         validationMessage: String
@@ -76,7 +77,7 @@
         return {
           isValid: true,
           isFocused: false,
-          newIconPack: this.iconPack || config$1.defaultIconPack
+          newIconPack: this.iconPack || config.defaultIconPack
         };
       },
       computed: {
@@ -459,10 +460,10 @@
 
     /* template */
     var __vue_render__ = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('label',{staticClass:"upload control"},[(!_vm.dragDrop)?[_vm._t("default")]:_c('div',{staticClass:"upload-draggable",class:[_vm.type, {
-                'is-loading': _vm.loading,
-                'is-disabled': _vm.disabled,
-                'is-hovered': _vm.dragDropFocus
-            }],on:{"dragover":function($event){$event.preventDefault();_vm.updateDragDropFocus(true);},"dragleave":function($event){$event.preventDefault();_vm.updateDragDropFocus(false);},"dragenter":function($event){$event.preventDefault();_vm.updateDragDropFocus(true);},"drop":function($event){$event.preventDefault();_vm.onFileChange($event);}}},[_vm._t("default")],2),_vm._v(" "),_c('input',_vm._b({ref:"input",attrs:{"type":"file","multiple":_vm.multiple,"accept":_vm.accept,"disabled":_vm.disabled},on:{"change":_vm.onFileChange}},'input',_vm.$attrs,false))],2)};
+                    'is-loading': _vm.loading,
+                    'is-disabled': _vm.disabled,
+                    'is-hovered': _vm.dragDropFocus
+                }],on:{"dragover":function($event){$event.preventDefault();_vm.updateDragDropFocus(true);},"dragleave":function($event){$event.preventDefault();_vm.updateDragDropFocus(false);},"dragenter":function($event){$event.preventDefault();_vm.updateDragDropFocus(true);},"drop":function($event){$event.preventDefault();return _vm.onFileChange($event)}}},[_vm._t("default")],2),_vm._v(" "),_c('input',_vm._b({ref:"input",attrs:{"type":"file","multiple":_vm.multiple,"accept":_vm.accept,"disabled":_vm.disabled},on:{"change":_vm.onFileChange}},'input',_vm.$attrs,false))],2)};
     var __vue_staticRenderFns__ = [];
 
       /* style */
@@ -506,6 +507,7 @@
     };
     use(Plugin);
 
+    exports.BUpload = Upload;
     exports.default = Plugin;
 
     Object.defineProperty(exports, '__esModule', { value: true });

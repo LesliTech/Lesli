@@ -2,16 +2,17 @@
 
 Object.defineProperty(exports, '__esModule', { value: true });
 
-require('./chunk-a535ca7c.js');
-require('./chunk-98a92ff2.js');
-var __chunk_6 = require('./chunk-13e039f5.js');
-var __chunk_13 = require('./chunk-5b69a143.js');
+require('./chunk-f98e7e80.js');
+require('./chunk-8806479f.js');
+var __chunk_5 = require('./chunk-13e039f5.js');
+var __chunk_13 = require('./chunk-0e2a0143.js');
 
 var Plugin = {
   install: function install(Vue) {
-    __chunk_6.registerComponent(Vue, __chunk_13.Field);
+    __chunk_5.registerComponent(Vue, __chunk_13.Field);
   }
 };
-__chunk_6.use(Plugin);
+__chunk_5.use(Plugin);
 
+exports.BField = __chunk_13.Field;
 exports.default = Plugin;

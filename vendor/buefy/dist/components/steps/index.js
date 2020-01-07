@@ -1,4 +1,4 @@
-/*! Buefy v0.8.6 | MIT License | github.com/buefy/buefy */
+/*! Buefy v0.8.9 | MIT License | github.com/buefy/buefy */
 (function (global, factory) {
   typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports) :
   typeof define === 'function' && define.amd ? define(['exports'], factory) :
@@ -38,12 +38,13 @@
     var keys = Object.keys(object);
 
     if (Object.getOwnPropertySymbols) {
-      keys.push.apply(keys, Object.getOwnPropertySymbols(object));
+      var symbols = Object.getOwnPropertySymbols(object);
+      if (enumerableOnly) symbols = symbols.filter(function (sym) {
+        return Object.getOwnPropertyDescriptor(object, sym).enumerable;
+      });
+      keys.push.apply(keys, symbols);
     }
 
-    if (enumerableOnly) keys = keys.filter(function (sym) {
-      return Object.getOwnPropertyDescriptor(object, sym).enumerable;
-    });
     return keys;
   }
 
@@ -52,13 +53,13 @@
       var source = arguments[i] != null ? arguments[i] : {};
 
       if (i % 2) {
-        ownKeys(source, true).forEach(function (key) {
+        ownKeys(Object(source), true).forEach(function (key) {
           _defineProperty(target, key, source[key]);
         });
       } else if (Object.getOwnPropertyDescriptors) {
         Object.defineProperties(target, Object.getOwnPropertyDescriptors(source));
       } else {
-        ownKeys(source).forEach(function (key) {
+        ownKeys(Object(source)).forEach(function (key) {
           Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key));
         });
       }
@@ -88,6 +89,7 @@
     defaultDateFormatter: null,
     defaultDateParser: null,
     defaultDateCreator: null,
+    defaultTimeCreator: null,
     defaultDayNames: null,
     defaultMonthNames: null,
     defaultFirstDayOfWeek: null,
@@ -108,32 +110,38 @@
     defaultDatepickerNearbyMonthDays: true,
     defaultDatepickerNearbySelectableMonthDays: false,
     defaultDatepickerShowWeekNumber: false,
+    defaultDatepickerMobileModal: true,
     defaultTrapFocus: false,
     defaultButtonRounded: false,
-    customIconPacks: null // TODO defaultTrapFocus to true in the next breaking change
-
-  };
-  var config$1 = config;
+    defaultCarouselInterval: 3500,
+    customIconPacks: null
+  }; // TODO defaultTrapFocus to true in the next breaking change
 
   /**
-  * Merge function to replace Object.assign with deep merging possibility
-  */
+   * Merge function to replace Object.assign with deep merging possibility
+   */
 
   var isObject = function isObject(item) {
     return _typeof(item) === 'object' && !Array.isArray(item);
   };
 
   var mergeFn = function mergeFn(target, source) {
-    var isDeep = function isDeep(prop) {
-      return isObject(source[prop]) && target.hasOwnProperty(prop) && isObject(target[prop]);
-    };
+    var deep = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : false;
 
-    var replaced = Object.getOwnPropertyNames(source).map(function (prop) {
-      return _defineProperty({}, prop, isDeep(prop) ? mergeFn(target[prop], source[prop]) : source[prop]);
-    }).reduce(function (a, b) {
-      return _objectSpread2({}, a, {}, b);
-    }, {});
-    return _objectSpread2({}, target, {}, replaced);
+    if (deep || !Object.assign) {
+      var isDeep = function isDeep(prop) {
+        return isObject(source[prop]) && target !== null && target.hasOwnProperty(prop) && isObject(target[prop]);
+      };
+
+      var replaced = Object.getOwnPropertyNames(source).map(function (prop) {
+        return _defineProperty({}, prop, isDeep(prop) ? mergeFn(target[prop], source[prop], deep) : source[prop]);
+      }).reduce(function (a, b) {
+        return _objectSpread2({}, a, {}, b);
+      }, {});
+      return _objectSpread2({}, target, {}, replaced);
+    } else {
+      return Object.assign(target, source);
+    }
   };
 
   var merge = mergeFn;
@@ -149,7 +157,7 @@
   };
 
   var faIcons = function faIcons() {
-    var faIconPrefix = config$1 && config$1.defaultIconComponent ? '' : 'fa-';
+    var faIconPrefix = config && config.defaultIconComponent ? '' : 'fa-';
     return {
       sizes: {
         'default': faIconPrefix + 'lg',
@@ -183,8 +191,8 @@
       fal: faIcons()
     };
 
-    if (config$1 && config$1.customIconPacks) {
-      icons = merge(icons, config$1.customIconPacks);
+    if (config && config.customIconPacks) {
+      icons = merge(icons, config.customIconPacks, true);
     }
 
     return icons;
@@ -226,7 +234,7 @@
         return "".concat(this.iconPrefix).concat(this.getEquivalentIconOf(this.icon));
       },
       newPack: function newPack() {
-        return this.pack || config$1.defaultIconPack;
+        return this.pack || config.defaultIconPack;
       },
       newType: function newType() {
         if (!this.type) return;
@@ -261,7 +269,7 @@
         return null;
       },
       useIconComponent: function useIconComponent() {
-        return this.component || config$1.defaultIconComponent;
+        return this.component || config.defaultIconComponent;
       }
     },
     methods: {
@@ -470,11 +478,11 @@
       iconPack: String,
       iconPrev: {
         type: String,
-        default: config$1.defaultIconPrev
+        default: config.defaultIconPrev
       },
       iconNext: {
         type: String,
-        default: config$1.defaultIconNext
+        default: config.defaultIconNext
       },
       hasNavigation: {
         type: Boolean,
@@ -486,7 +494,7 @@
     data: function data() {
       return {
         activeStep: this.value || 0,
-        stepItems: [],
+        defaultSlots: [],
         contentHeight: 0,
         isTransitioning: false,
         _isSteps: true // Used internally by StepItem
@@ -496,6 +504,13 @@
     computed: {
       mainClasses: function mainClasses() {
         return [this.type, this.size];
+      },
+      stepItems: function stepItems() {
+        return this.defaultSlots.filter(function (vnode) {
+          return vnode.componentInstance && vnode.componentInstance.$data && vnode.componentInstance.$data._isStepItem;
+        }).map(function (vnode) {
+          return vnode.componentInstance;
+        });
       },
       reversedStepItems: function reversedStepItems() {
         return this.stepItems.slice().reverse();
@@ -569,11 +584,16 @@
       }
     },
     methods: {
+      refreshSlots: function refreshSlots() {
+        this.defaultSlots = this.$slots.default;
+      },
+
       /**
-      * Change the active step and emit change event.
-      */
+       * Change the active step and emit change event.
+       */
       changeStep: function changeStep(newIndex) {
         if (this.activeStep === newIndex) return;
+        if (newIndex > this.stepItems.length) throw new Error('The index you trying to set is bigger than the steps length');
 
         if (this.activeStep < this.stepItems.length) {
           this.stepItems[this.activeStep].deactivate(this.activeStep, newIndex);
@@ -585,8 +605,8 @@
       },
 
       /**
-          * Return if the step should be clickable or not.
-          */
+       * Return if the step should be clickable or not.
+       */
       isItemClickable: function isItemClickable(stepItem, index) {
         if (stepItem.clickable === undefined) {
           return this.activeStep > index;
@@ -596,8 +616,8 @@
       },
 
       /**
-      * Step click listener, emit input event and change active step.
-      */
+       * Step click listener, emit input event and change active step.
+       */
       stepClick: function stepClick(value) {
         this.$emit('input', value);
         this.changeStep(value);
@@ -640,6 +660,8 @@
       if (this.activeStep < this.stepItems.length) {
         this.stepItems[this.activeStep].isActive = true;
       }
+
+      this.refreshSlots();
     }
   };
 
@@ -648,9 +670,9 @@
 
   /* template */
   var __vue_render__$1 = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"b-steps"},[_c('nav',{staticClass:"steps",class:_vm.mainClasses},[_c('ul',{staticClass:"step-items"},_vm._l((_vm.stepItems),function(stepItem,index){return _c('li',{directives:[{name:"show",rawName:"v-show",value:(stepItem.visible),expression:"stepItem.visible"}],key:index,staticClass:"step-item",class:[stepItem.type || _vm.type, {
-                      'is-active': _vm.activeStep === index,
-                      'is-previous': _vm.activeStep > index
-              }]},[_c('a',{staticClass:"step-link",class:{'is-clickable': _vm.isItemClickable(stepItem, index)},on:{"click":function($event){_vm.isItemClickable(stepItem, index) && _vm.stepClick(index);}}},[_c('div',{staticClass:"step-marker"},[(stepItem.icon)?_c('b-icon',{attrs:{"icon":stepItem.icon,"pack":stepItem.iconPack,"size":_vm.size}}):_vm._e()],1),_vm._v(" "),_c('div',{staticClass:"step-details"},[_c('span',{staticClass:"step-title"},[_vm._v(_vm._s(stepItem.label))])])])])}))]),_vm._v(" "),_c('section',{staticClass:"step-content",class:{'is-transitioning': _vm.isTransitioning}},[_vm._t("default")],2),_vm._v(" "),_vm._t("navigation",[(_vm.hasNavigation)?_c('nav',{staticClass:"step-navigation"},[_c('a',{staticClass:"pagination-previous",attrs:{"role":"button","disabled":_vm.navigationProps.previous.disabled,"aria-label":_vm.ariaPreviousLabel},on:{"click":function($event){$event.preventDefault();_vm.navigationProps.previous.action($event);}}},[_c('b-icon',{attrs:{"icon":_vm.iconPrev,"pack":_vm.iconPack,"both":"","aria-hidden":"true"}})],1),_vm._v(" "),_c('a',{staticClass:"pagination-next",attrs:{"role":"button","disabled":_vm.navigationProps.next.disabled,"aria-label":_vm.ariaNextLabel},on:{"click":function($event){$event.preventDefault();_vm.navigationProps.next.action($event);}}},[_c('b-icon',{attrs:{"icon":_vm.iconNext,"pack":_vm.iconPack,"both":"","aria-hidden":"true"}})],1)]):_vm._e()],{previous:_vm.navigationProps.previous,next:_vm.navigationProps.next})],2)};
+                          'is-active': _vm.activeStep === index,
+                          'is-previous': _vm.activeStep > index
+                  }]},[_c('a',{staticClass:"step-link",class:{'is-clickable': _vm.isItemClickable(stepItem, index)},on:{"click":function($event){_vm.isItemClickable(stepItem, index) && _vm.stepClick(index);}}},[_c('div',{staticClass:"step-marker"},[(stepItem.icon)?_c('b-icon',{attrs:{"icon":stepItem.icon,"pack":stepItem.iconPack,"size":_vm.size}}):_vm._e()],1),_vm._v(" "),_c('div',{staticClass:"step-details"},[_c('span',{staticClass:"step-title"},[_vm._v(_vm._s(stepItem.label))])])])])}))]),_vm._v(" "),_c('section',{staticClass:"step-content",class:{'is-transitioning': _vm.isTransitioning}},[_vm._t("default")],2),_vm._v(" "),_vm._t("navigation",[(_vm.hasNavigation)?_c('nav',{staticClass:"step-navigation"},[_c('a',{staticClass:"pagination-previous",attrs:{"role":"button","disabled":_vm.navigationProps.previous.disabled,"aria-label":_vm.ariaPreviousLabel},on:{"click":function($event){$event.preventDefault();return _vm.navigationProps.previous.action($event)}}},[_c('b-icon',{attrs:{"icon":_vm.iconPrev,"pack":_vm.iconPack,"both":"","aria-hidden":"true"}})],1),_vm._v(" "),_c('a',{staticClass:"pagination-next",attrs:{"role":"button","disabled":_vm.navigationProps.next.disabled,"aria-label":_vm.ariaNextLabel},on:{"click":function($event){$event.preventDefault();return _vm.navigationProps.next.action($event)}}},[_c('b-icon',{attrs:{"icon":_vm.iconNext,"pack":_vm.iconPack,"both":"","aria-hidden":"true"}})],1)]):_vm._e()],{previous:_vm.navigationProps.previous,next:_vm.navigationProps.next})],2)};
   var __vue_staticRenderFns__$1 = [];
 
     /* style */
@@ -697,7 +719,9 @@
     data: function data() {
       return {
         isActive: false,
-        transitionName: null
+        transitionName: null,
+        _isStepItem: true // Used internally by Step
+
       };
     },
     methods: {
@@ -723,14 +747,10 @@
         throw new Error('You should wrap bStepItem on a bSteps');
       }
 
-      this.$parent.stepItems.push(this);
+      this.$parent.refreshSlots();
     },
     beforeDestroy: function beforeDestroy() {
-      var index = this.$parent.stepItems.indexOf(this);
-
-      if (index >= 0) {
-        this.$parent.stepItems.splice(index, 1);
-      }
+      this.$parent.refreshSlots();
     },
     render: function render(createElement) {
       var _this = this;
@@ -819,6 +839,8 @@
   };
   use(Plugin);
 
+  exports.BStepItem = StepItem;
+  exports.BSteps = Steps;
   exports.default = Plugin;
 
   Object.defineProperty(exports, '__esModule', { value: true });

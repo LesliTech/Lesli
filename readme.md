@@ -20,12 +20,14 @@ LesliCloud is proprietary software
 
 * Issue tracker: [https://github.com/LesliTech/lesli.cloud/issues](https://github.com/LesliTech/lesli.cloud/issues)
 
-* Documentation: [https://cloud.lesli.tech/kb](https://cloud.lesli.tech/kb)
+* Documentation: [https://github.com/LesliTech/lesli.cloud/wiki](https://github.com/LesliTech/lesli.cloud/wiki)
+
+* Documentation (mirror): [https://cloud.lesli.tech/kb](https://cloud.lesli.tech/kb)
 
 
 #### License
 -------
-Copyright (c) 2019, Lesli Technologies, S. A.
+Copyright (c) 2020, Lesli Technologies, S. A.
 
 All the information provided by this website is protected by laws of Guatemala related 
 to industrial property, intellectual property, copyright and relative international laws. 

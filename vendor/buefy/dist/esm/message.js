@@ -1,9 +1,9 @@
-import './chunk-40949afc.js';
-import './chunk-d3a97e18.js';
-import './chunk-9d997597.js';
-import './chunk-2b1ca282.js';
+import './chunk-b91774bc.js';
+import './helpers.js';
+import './chunk-b76a6c1d.js';
+import './chunk-3802ee87.js';
 import { _ as __vue_normalize__, r as registerComponent, u as use } from './chunk-cca88db8.js';
-import { M as MessageMixin } from './chunk-7fdceba8.js';
+import { M as MessageMixin } from './chunk-3342e4e3.js';
 
 //
 var script = {
@@ -59,3 +59,4 @@ var Plugin = {
 use(Plugin);
 
 export default Plugin;
+export { Message as BMessage };
