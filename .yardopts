@@ -1,1 +1,1 @@
-yardoc app/**/*.rb engines/**/app/**/*.rb --tag license --tag description
+yardoc app/**/*.rb engines/**/app/**/*.rb --tag license --tag description --type-name-tag controller_action_param:"Controller Action Parameters"
