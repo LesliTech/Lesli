@@ -1,7 +1,0 @@
-en:
-  users:
-    confirmation:
-      actions:
-        resend_email: Resend confirmation instructions
-      notifications:
-        success: You will receive an email with instructions for how to confirm your email address in a few minutes

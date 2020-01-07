@@ -1,8 +1,0 @@
----
-:de:
-  core:
-    dashboards:
-      controllers:
-        destroy:
-          messages:
-            label_demo: Label demo
