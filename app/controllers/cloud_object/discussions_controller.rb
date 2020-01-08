@@ -66,7 +66,8 @@ module CloudObject
 
             cloud_object_dicussion = dynamic_info[:model].new(
                 cloud_object_discussion_params.merge({
-                    users_id: current_user.id
+                    users_id: current_user.id,
+                    "cloud_#{module_name}_#{object_name}s_id".to_sym => params["#{object_name}_id".to_sym]
                 })
             )
 
@@ -126,7 +127,7 @@ module CloudObject
     puts info[:module_name] # will print 'help'
     puts info[:object_name] # will print 'ticket'
     info[:model].new # will return an instance of CloudHelp::Ticket::Discussion
-    info[:subscriber_model].new # will return an instanace of CloudHelp::Ticket::Subscriber
+    info[:subscriber_model].new # will return an instance of CloudHelp::Ticket::Subscriber
 =end
         def dynamic_info
             module_info = self.class.name.split("::")
