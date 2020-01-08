@@ -24,7 +24,7 @@ export default {
    methods:{
       login(event){
          event.preventDefault();
-         let data = {sign_in: this.sign_in};
+         let data = {user: this.sign_in};
          this.progress_bar_active = true;
          this.http.post(this.url.to(null,null,'login'),data).then((response)=>{
             this.progress_bar_active = false;
