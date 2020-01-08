@@ -78,9 +78,6 @@ export default {
 
             if (e) { e.preventDefault() }
 
-            // add owner id
-            this.discussion[`cloud_${this.cloudModule.replace('/','_')}s_id`] = this.cloudId
-
             let form_data = {}
             form_data[`${this.object_name}_discussion`] = this.discussion
 

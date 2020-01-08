@@ -17,8 +17,6 @@ LesliCloud - Your Smart Business Assistant
 Powered by https://www.lesli.tech
 Building a better future, one line of code at a time.
 
-Converts the object into textual markup given a specific format.
-
 @author   Carlos Hermosilla
 @license  Propietary - all rights reserved.
 @version  0.1.0-alpha
@@ -34,7 +32,9 @@ module CloudObject
 @description Retrieves and returns all actions associated to a *cloud_object*. The id of the 
     *cloud_object* is within the *params* attribute
 @example
-    GET 127.0.0.1/help/tickets/1/actions
+    # Executing this controller's action from javascript's frontend
+    let ticket_id = 1;
+    this.http.get(`127.0.0.1/help/tickets/${ticket_id}/actions`);
 =end
         def index
             module_name = dynamic_info[:module_name]
@@ -49,17 +49,17 @@ module CloudObject
 
 =begin
 @controller_action_param :instructions [String] The instructions to add to the action
-@return [Json] Json that contains wheter the creation of an action was successful or not. 
+@return [Json] Json that contains wheter the creation of the action was successful or not. 
     If it is not successful, it returs an error message
-@description Retrieves and returns all actions associated to a *cloud_object*. The id of the 
+@description Creates a new action associated to a *cloud_object*. The id of the 
     *cloud_object* is within the *params* attribute
 @example
     # Executing this controller's action from javascript's frontend
     let ticket_id = 1;
-    data = {
+    let data = {
         instructions: "Benchmark server performance"
     };
-    axios.post(`1270.0.01/help/tickets/${ticket_id}/actions`, data);
+    this.http.post(`127.0.0.1/help/tickets/${ticket_id}/actions`, data);
 =end
         def create
             module_name = dynamic_info[:module_name]
@@ -83,9 +83,9 @@ module CloudObject
 
 =begin
 @controller_action_param :complete [Boolean] Wheter this action is complete or not
-@return [Json] Json that contains wheter the update of an action was successful or not. 
+@return [Json] Json that contains wheter the update of the action was successful or not. 
     If it is not successful, it returs an error message
-@description Updates an action based on the id of the *cloud_object* and the id of the action.
+@description Updates the action based on the id of the *cloud_object* and its own id.
 @example
     # Executing this controller's action from javascript's frontend
     let ticket_id = 1;
@@ -93,7 +93,7 @@ module CloudObject
     data = {
         complete: true
     };
-    axios.put(`1270.0.01/help/tickets/${ticket_id}/actions/${action_id}`, data);
+    this.http.put(`127.0.0.1/help/tickets/${ticket_id}/actions/${action_id}`, data);
 =end
         def update
             if @cloud_object_action.update(cloud_object_action_params)
@@ -107,8 +107,8 @@ module CloudObject
 
 =begin
 @return [void]
-@description Sets the variable @cloud_object_action the action to be updated based on the 
-    id of the *cloud_object* and the id of the *action*
+@description Sets the variable @cloud_object_action. The variable contains the action 
+    to be updated based on the id of the *cloud_object* and the id of the *action*
 @example
     #suppose params[:ticket_id] = 1
     #suppose params[:id] = 44
@@ -133,11 +133,24 @@ module CloudObject
     Allowed params are _:type_, _:instructions_, _:deadline_, _:complete_, _:tags_. 
     For now, only the _:instructions_ and _:complete_ params are taking into account
 @example
-    #suppose params[:ticket_id] = 1
-    #suppose params[:id] = 44
-    puts @cloud_object_action # will display nil
-    set_cloud_object_action
-    puts @cloud_object_action # will display an instance of CloudHelp:Ticket::Action
+    # supose params contains {
+    #    "ticket_action": {
+    #        "id": 5,
+    #        "type": "information",
+    #        "complete": true,
+    #        "tags": "Important",
+    #        "info": "Example"
+    #    }
+    #}
+    action_params = cloud_object_action_params
+    puts action_params
+    # will remove _id_ and _info_ fields and only print {
+    #    "ticket_action": {
+    #        "type": "information",
+    #        "complete": true,
+    #        "tags": "Important"
+    #    }
+    #}
 =end
         def cloud_object_action_params
             module_name = dynamic_info[:module_name]
@@ -158,10 +171,11 @@ module CloudObject
 @return [Hash] Hash that contains information about the class
 @description Returns dynamic information based on the current implementation of this abstract class
 @example
-    dynamic_info = CloudHelp::Ticket::ActionsController.new.dynamic_info
-    puts dynamic_info[:module_name] # will print 'help'
-    puts dynamic_info[:object_name] # will print 'ticket'
-    dynamic_info.model.new # will return an instance of CloudHelp::Ticket::Action
+    # Imagine the current class is an instance of CloudHelp::Ticket::ActionsController < CloudObject::ActionsController
+    info = dynamic_info
+    puts info[:module_name] # will print 'help'
+    puts info[:object_name] # will print 'ticket'
+    info[:model].new # will return an instance of CloudHelp::Ticket::Action
 =end
         def dynamic_info
             module_info = self.class.name.split("::")
