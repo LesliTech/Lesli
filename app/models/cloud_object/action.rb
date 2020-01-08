@@ -1,3 +1,4 @@
+module CloudObject
 =begin
 
 Lesli
@@ -23,8 +24,6 @@ Building a better future, one line of code at a time.
 @description Base abstract model for *action* core entity
 
 =end
-
-module CloudObject
     class Action < ApplicationRecord
         self.abstract_class = true
     end
