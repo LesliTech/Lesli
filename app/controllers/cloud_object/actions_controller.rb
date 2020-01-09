@@ -1,3 +1,4 @@
+module CloudObject
 =begin
 
 Lesli
@@ -23,7 +24,6 @@ Building a better future, one line of code at a time.
 @description Base controller for *action* core entity
 
 =end
-module CloudObject
     class ActionsController < ApplicationController
         before_action :set_cloud_object_action, only: [:update]
 
@@ -57,7 +57,9 @@ module CloudObject
     # Executing this controller's action from javascript's frontend
     let ticket_id = 1;
     let data = {
-        instructions: "Benchmark server performance"
+        ticket_action: {
+            instructions: "Benchmark server performance"
+        }
     };
     this.http.post(`127.0.0.1/help/tickets/${ticket_id}/actions`, data);
 =end
@@ -96,7 +98,9 @@ module CloudObject
     let ticket_id = 1;
     let action_id = 22;
     data = {
-        complete: true
+        ticket_action: {
+            complete: true
+        }
     };
     this.http.put(`127.0.0.1/help/tickets/${ticket_id}/actions/${action_id}`, data);
 =end

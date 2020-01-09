@@ -1,3 +1,4 @@
+module CloudObject
 =begin
 
 Lesli
@@ -23,7 +24,6 @@ Building a better future, one line of code at a time.
 @description Base controller for *subscriber* core entity
 
 =end
-module CloudObject
     class SubscribersController < ApplicationController
         before_action :set_cloud_object_subscriber, only: [:update, :destroy]
 
@@ -62,8 +62,10 @@ module CloudObject
     # Executing this controller's action from javascript's frontend
     let ticket_id = 1;
     let data = {
-        notification_type: "web",
-        event: "ticket_closed"
+        subscriber: {
+            notification_type: "web",
+            event: "ticket_closed"
+        }
     };
     this.http.post(`127.0.0.1/help/tickets/${ticket_id}/subscribers`, data);
 =end
@@ -95,7 +97,9 @@ module CloudObject
     let ticket_id = 1;
     let subscriber_id = 22;
     data = {
-        notification_type: "email"
+        subscriber: {
+            notification_type: "email"
+        }
     };
     this.http.patch(`127.0.0.1/help/tickets/${ticket_id}/subscribers/${subscriber_id}`, data);
 =end
@@ -155,7 +159,7 @@ module CloudObject
     Allowed params are _:event_, _:notification_type_.
 @example
     # supose params contains {
-    #    "ticket_subscriber": {
+    #    "subscriber": {
     #        "id": 5,
     #        "event": "ticket_created",
     #        "notification_type": "email",
@@ -165,7 +169,7 @@ module CloudObject
     subscriber_params = cloud_object_subscriber_params
     puts subscriber_params
     # will remove the _id_ and _random_param_ fields and only print {
-    #    "ticket_subscriber": {
+    #    "subscriber": {
     #        "event": "ticket_created",
     #        "notification_type": "email"
     #    }
