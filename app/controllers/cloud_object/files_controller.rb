@@ -1,3 +1,4 @@
+module CloudObject
 =begin
 
 Lesli
@@ -23,7 +24,6 @@ Building a better future, one line of code at a time.
 @description Base controller for *file* core entity
 
 =end
-module CloudObject
     class FilesController < ApplicationController
         before_action :set_cloud_object_file, only: [:show]
 
@@ -58,8 +58,10 @@ module CloudObject
     # Executing this controller's action from javascript's frontend
     let ticket_id = 1;
     let data = {
-        file: FILE_CONTENT
-        name: "contract_information"
+        ticket_file: {
+            file: FILE_CONTENT
+            name: "contract_information"
+        }
     };
     this.http.post(`127.0.0.1/help/tickets/${ticket_id}/files`, data);
 =end

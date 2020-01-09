@@ -1,3 +1,4 @@
+module CloudObject
 =begin
 
 Lesli
@@ -23,7 +24,6 @@ Building a better future, one line of code at a time.
 @description Base controller for *discussion* core entity
 
 =end
-module CloudObject
     class DiscussionsController < ApplicationController
 
 
@@ -55,7 +55,9 @@ module CloudObject
     # Executing this controller's action from javascript's frontend
     let ticket_id = 1;
     let data = {
-        content: "This is a comment on a ticket!"
+        ticket_discussion: {
+            content: "This is a comment on a ticket!"
+        }
     };
     this.http.post(`127.0.0.1/help/tickets/${ticket_id}/discussions`, data);
 =end
