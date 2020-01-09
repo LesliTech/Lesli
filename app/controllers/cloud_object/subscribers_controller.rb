@@ -68,9 +68,13 @@ module CloudObject
     this.http.post(`127.0.0.1/help/tickets/${ticket_id}/subscribers`, data);
 =end
         def create
+            module_name = dynamic_info[:module_name]
+            object_name = dynamic_info[:object_name]
+            
             cloud_object_subscriber = dynamic_info[:model].new(
                 cloud_object_subscriber_params.merge(
-                    user: current_user
+                    user: current_user,
+                    "cloud_#{module_name}_#{object_name}s_id".to_sym => params["#{object_name}_id".to_sym]
                 )
             )
             if cloud_object_subscriber.save
@@ -99,7 +103,7 @@ module CloudObject
             if @cloud_object_subscriber.update(cloud_object_subscriber_params)
                 responseWithSuccessful
             else
-                responseWithError(cloud_object_subscriber_params.errors.full_messages.to_sentence)
+                responseWithError(@cloud_object_subscriber.errors.full_messages.to_sentence)
             end
         end
 
@@ -117,7 +121,7 @@ module CloudObject
             if @cloud_object_subscriber.destroy
                 responseWithSuccessful
             else
-                responseWithError(cloud_object_subscriber_params.errors.full_messages.to_sentence)
+                responseWithError(@cloud_object_subscriber.errors.full_messages.to_sentence)
             end
         end
 
