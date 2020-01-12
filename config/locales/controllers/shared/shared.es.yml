@@ -1,0 +1,10 @@
+---
+:es:
+  core:
+    shared:
+      controllers:
+        index:
+          alerts:
+            kjkj: ''
+          messages:
+            ikik: ''
