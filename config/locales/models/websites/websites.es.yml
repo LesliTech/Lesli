@@ -1,0 +1,11 @@
+---
+:es:
+  core:
+    websites:
+      models:
+        create:
+          messages:
+            test: ldonis
+          alerts:
+            alerta: kdkdk
+            save: ''

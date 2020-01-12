@@ -1,0 +1,9 @@
+---
+:de:
+  core:
+    websites:
+      controllers:
+        index:
+          messages:
+            title: Titel
+            jdjdjdjd: München
