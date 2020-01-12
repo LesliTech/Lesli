@@ -43,11 +43,12 @@ class Users::SessionsController < Devise::SessionsController
     this.http.post('127.0.0.1/login', data);
 =end
     def create
-        params = sign_in_params
-        resource = User.find_for_database_authentication(email: params[:email])
+
+        resource = User.find_for_database_authentication(email: sign_in_params[:email])
+
         return responseWithError(t('devise.errors.custom.invalid_credentials')) unless resource
 
-        unless resource.valid_password?(params[:password])
+        unless resource.valid_password?(sign_in_params[:password])
             return responseWithError(t('devise.errors.custom.invalid_credentials'))
         end
         
