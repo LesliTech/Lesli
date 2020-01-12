@@ -1,15 +1,56 @@
 module CloudObject
+=begin
+
+Lesli
+
+Copyright (c) 2020, Lesli Technologies, S. A.
+
+All the information provided by this website is protected by laws of Guatemala related 
+to industrial property, intellectual property, copyright and relative international laws. 
+Lesli Technologies, S. A. is the exclusive owner of all intellectual or industrial property
+rights of the code, texts, trade mark, design, pictures and any other information.
+Without the written permission of Lesli Technologies, S. A., any replication, modification,
+transmission, publication is strictly forbidden.
+For more information read the license file including with this software.
+
+LesliCloud - Your Smart Business Assistant
+
+Powered by https://www.lesli.tech
+Building a better future, one line of code at a time.
+
+@author   Carlos Hermosilla
+@license  Propietary - all rights reserved.
+@version  0.1.0-alpha
+@description Base abstract model for *discussion* core entity
+
+=end
     class Discussion < ApplicationRecord
         self.abstract_class = true
 
+=begin
+@param account [Account] Account from current user
+@param cloud_id [Integer] Id of the *cloud_object* to which this discussion belongs to
+@return [Array] Array of discussions. Each discussion contains a *responses* element,
+    which is an array that has all its responses ordered by date
+@description Retrieves and returns all discussions from a *cloud_object*,
+    including information of the user that published the comment
+@example
+    account = current_user.account
+    employee_id = params[:employee_id]
+    discussions = CloudTeam::Employee::Discussion.detailed_info( account, employee_id )
+=end
         def self.detailed_info(account, cloud_id)
 
+            # Select all discussions from the table
             module_info = self.name.split("::")
             module_name = module_info[0].sub("Cloud","").downcase
             object_name = module_info[1].downcase
             
             discussions = self.joins(
-                "inner join cloud_#{module_name}_#{object_name}s CO on cloud_#{module_name}_#{object_name}_discussions.cloud_#{module_name}_#{object_name}s_id = CO.id"
+                "
+                    inner join cloud_#{module_name}_#{object_name}s CO on 
+                        cloud_#{module_name}_#{object_name}_discussions.cloud_#{module_name}_#{object_name}s_id = CO.id
+                "
             ).joins(
                 "inner join users U on cloud_#{module_name}_#{object_name}_discussions.users_id = U.id"
             ).select(
@@ -27,6 +68,7 @@ module CloudObject
             data = {}
             root_discussions = []
 
+            # Add all responses to that discussion
             discussions.each do |discussion|
                 discussion_data = {
                     data: discussion,
@@ -45,18 +87,36 @@ module CloudObject
                 end
             end
 
+            # Nest the responses to root discussions. A root discussion is any comment that is not a response to another comment
             root_discussions.each do |discussion|
                 responses = []
                 self.nest_responses(data, discussion, responses)
                 discussion[:responses] = responses
             end
 
-            # revert the discussions so the most recent comments appear in front
+            # revert the root discussions so the most recent comments appear in the top
             root_discussions.reverse
 
         end
 
-        
+        private
+
+=begin
+@param data [Hash] Hash that contains all the discussions, the key is the id of the discussion
+@param discussion [Hash] Hash that contains the information
+@param responses [Array] Array of discussions, that are the responses to the *discussion* param.
+    It should start as an empty array
+@return [void]
+@description Recursive function that checks all discussions that are actually responses of other 
+    discussions and adds them to their *responses* param. It adds direct responses, responses of responses, etc.
+    This is a void function that modifies the *discussion* param directly
+@example
+    data = {}
+    CloudHelp::Ticket::Discussion.all.each do |discussion|
+        data[discussion.id] = discussion
+    end
+    CloudHelp::Ticket::Discussion.nest_responses(data, CloudHelp::Ticket::Discussion.first, [])
+=end
         def self.nest_responses(data, discussion,  responses)
             discussion[:responses].each do |response_id|
                 response = data[response_id]
