@@ -1,9 +1,0 @@
----
-:de:
-  core:
-    websites:
-      views:
-        index:
-          messages:
-            ddd: "'''''"
-            euro: "(€)"
