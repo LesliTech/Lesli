@@ -153,4 +153,3 @@ end
     engine_installation_path = File.expand_path("../engines/#{engine}", __FILE__)
     gem engine_sym_name, path: engine_installation_path if File.exists?(engine_installation_path)
 end
-

@@ -81,7 +81,7 @@
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = "./app/vue/dashboards/empty.js");
+/******/ 	return __webpack_require__(__webpack_require__.s = "./app/vue/dashboards/app.js");
 /******/ })
 /************************************************************************/
 /******/ ({
@@ -98,15 +98,15 @@ eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var vue_
 
 /***/ }),
 
-/***/ "./app/vue/dashboards/empty.js":
-/*!*************************************!*\
-  !*** ./app/vue/dashboards/empty.js ***!
-  \*************************************/
+/***/ "./app/vue/dashboards/app.js":
+/*!***********************************!*\
+  !*** ./app/vue/dashboards/app.js ***!
+  \***********************************/
 /*! no exports provided */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var LesliCloud_vue_app__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! LesliCloud/vue/app */ \"./app/vue/app.js\");\n/*\nLesli\n\nCopyright (c) 2019, Lesli Technologies, S. A.\n\nAll the information provided by this website is protected by laws of Guatemala related \nto industrial property, intellectual property, copyright and relative international laws. \nLesli Technologies, S. A. is the exclusive owner of all intellectual or industrial property\nrights of the code, texts, trade mark, design, pictures and any other information.\nWithout the written permission of Lesli Technologies, S. A., any replication, modification,\ntransmission, publication is strictly forbidden.\nFor more information read the license file including with this software.\n\nLesliCloud - Your Smart Business Assistant\n\nPowered by https://www.lesli.tech\nBuilding a better future, one line of code at a time.\n\n@author   LesliTech <hello@lesli.tech>\n@license  Propietary - all rights reserved.\n@version  0.1.0-alpha\n\n// · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~\n// · \n*/\n // · Import apps and components\n// · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~\n// · Cloud app\n// · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~\n\nObject(LesliCloud_vue_app__WEBPACK_IMPORTED_MODULE_0__[\"default\"])(\"AdminUsers\", \"[list|new|invite|show|edit]\", \"/admin/users\", []);\n\n//# sourceURL=webpack:///./app/vue/dashboards/empty.js?");
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var LesliCloud_vue_app__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! LesliCloud/vue/app */ \"./app/vue/app.js\");\n/*\nLesli\n\nCopyright (c) 2019, Lesli Technologies, S. A.\n\nAll the information provided by this website is protected by laws of Guatemala related \nto industrial property, intellectual property, copyright and relative international laws. \nLesli Technologies, S. A. is the exclusive owner of all intellectual or industrial property\nrights of the code, texts, trade mark, design, pictures and any other information.\nWithout the written permission of Lesli Technologies, S. A., any replication, modification,\ntransmission, publication is strictly forbidden.\nFor more information read the license file including with this software.\n\nLesliCloud - Your Smart Business Assistant\n\nPowered by https://www.lesli.tech\nBuilding a better future, one line of code at a time.\n\n@author   LesliTech <hello@lesli.tech>\n@license  Propietary - all rights reserved.\n@version  0.1.0-alpha\n\n// · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~\n// · \n*/\n // · Import apps and components\n// · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~\n// · Cloud app\n// · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~\n\nObject(LesliCloud_vue_app__WEBPACK_IMPORTED_MODULE_0__[\"default\"])(\"AdminUsers\", \"[list|new|invite|show|edit]\", \"/admin/users\", []);\n\n//# sourceURL=webpack:///./app/vue/dashboards/app.js?");
 
 /***/ }),
 
