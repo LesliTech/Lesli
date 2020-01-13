@@ -31,3 +31,5 @@
 /config/credentials/development.key
 /config/credentials/test.yml.enc
 /config/credentials/test.key
+
+/config/locales/*.sql
