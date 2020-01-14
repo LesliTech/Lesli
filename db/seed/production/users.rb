@@ -28,8 +28,8 @@ Building a better future, one line of code at a time.
 =end
 
 User.find_or_create_by(email: 'admin@lesli.cloud') do |user|
-    user.password = 'lesli2019'
-    user.password_confirmation = 'lesli2019'
+    user.password = 'lesli2020'
+    user.password_confirmation = 'lesli2020'
     user.accounts_id = 1
     user.confirm
 

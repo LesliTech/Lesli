@@ -7,23 +7,24 @@ namespace :dev do
 
             datetime_start = Time.now.strftime('%Y/%m/%d %H:%M:%S')
 
+            system "sudo service nginx stop"
+
             system "gem install bundler"
             system "bundle install"
-
-            system "sudo service nginx stop"
+            
             system "git checkout ."
 
             Rake::Task["dev:git:pull"].invoke
 
-            system "rake db:drop DISABLE_DATABASE_ENVIRONMENT_CHECK=1" 
-            system "rake db:create" 
-            system "rake db:migrate" 
-            system "rake db:seed" 
+            system "rake db:drop DISABLE_DATABASE_ENVIRONMENT_CHECK=1 RAILS_ENV=production" 
+            system "rake db:create RAILS_ENV=production" 
+            system "rake db:migrate RAILS_ENV=production" 
+            system "rake db:seed RAILS_ENV=production" 
 
             system "whenever --update-crontab"
 
-            system "bundle exec rake assets:clean"
-            system "bundle exec rake assets:precompile"
+            system "bundle exec rake assets:clean RAILS_ENV=production"
+            system "bundle exec rake assets:precompile RAILS_ENV=production"
             
             system "sudo chmod 755 public/ -R"
 
