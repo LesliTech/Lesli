@@ -11,7 +11,7 @@ RSpec.describe Users::RegistrationsController, type: :controller do
         request.env["devise.mapping"] = Devise.mappings[:user]
     end
 
-    describe "post:/users/registration" do
+    describe "POST:/users/registration" do
 
         it "Register a new user" do
             post :create, params: {
