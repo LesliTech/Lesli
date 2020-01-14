@@ -9,10 +9,10 @@ namespace :dev do
 
             system "sudo service nginx stop"
 
+            system "git checkout ."
+
             system "gem install bundler"
             system "bundle install"
-            
-            system "git checkout ."
 
             Rake::Task["dev:git:pull"].invoke
 

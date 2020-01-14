@@ -61,7 +61,8 @@ namespace :dev do
 
             end
 
-            system "git pull github master"
+            # pull from master
+            system "git pull origin master"
 
         end
 
