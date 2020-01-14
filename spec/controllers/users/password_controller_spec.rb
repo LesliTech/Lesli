@@ -11,7 +11,7 @@ RSpec.describe Users::PasswordsController, type: :controller do
         request.env["devise.mapping"] = Devise.mappings[:user]
     end
 
-    describe "post:/users/password" do
+    describe "POST:/users/password" do
 
         it "Not valid email" do
             post :create, params: {

@@ -95,10 +95,6 @@ class User < ApplicationRecord
     # At this point, check_user will be invoked automatically
 =end
     def check_user
-
-        # account is nil in test env
-        return if self.account.blank?
-
         if defined? CloudDriver
             self.account.driver.calendars.create({
                 detail_attributes: {

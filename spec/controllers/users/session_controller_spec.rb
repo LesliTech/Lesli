@@ -38,7 +38,7 @@ RSpec.describe Users::SessionsController, Users::RegistrationsController, type: 
         request.env["devise.mapping"] = Devise.mappings[:user]
     end
 
-    describe "post:/users/session" do
+    describe "POST:/users/session" do
 
         it "Wrong email and passwordin the log in" do 
             post :create, params: {
