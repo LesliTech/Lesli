@@ -49,6 +49,17 @@ class ApplicationController < ActionController::Base
         }.to_json
     end
 
+    # JSON not found response
+    def responseWithNotFound
+        render status: 404, json: {
+            successful: false,
+            error: {
+                message: 'Not found',
+                details: []
+            }
+        }.to_json
+    end
+
     private
 
     def get_browser_locale
