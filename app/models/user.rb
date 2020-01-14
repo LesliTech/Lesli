@@ -40,7 +40,7 @@ class User < ApplicationRecord
     accepts_nested_attributes_for :detail
 
     # remove this
-    has_many    :notifications, class_name: 'CloudBell::Notification', foreign_key: 'users_id'
+    #has_many    :notifications, class_name: 'CloudBell::Notification', foreign_key: 'users_id'
 
     after_create :check_user
 
@@ -95,6 +95,10 @@ class User < ApplicationRecord
     # At this point, check_user will be invoked automatically
 =end
     def check_user
+
+        # account is nil in test env
+        return if self.account.blank?
+
         if defined? CloudDriver
             self.account.driver.calendars.create({
                 detail_attributes: {
@@ -103,6 +107,7 @@ class User < ApplicationRecord
                 }
             })
         end
+        
     end
 
 =begin
