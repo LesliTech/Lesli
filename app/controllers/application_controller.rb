@@ -39,7 +39,7 @@ class ApplicationController < ActionController::Base
     end
 
     # JSON failure response
-    def responseWithError(message = "", details = nil)
+    def responseWithError(message = "", details = [])
         render status: 200, json: {
             successful: false,
             error: {
