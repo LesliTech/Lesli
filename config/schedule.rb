@@ -33,5 +33,5 @@ set :output, "/log/cron.log"
 
 # Automatic self deploy
 every 1.day, at: ['8:00 am', '10:00 am', '12:00 pm', '2:00 pm', '6:00 pm', '10:00 pm'] do
-    rake "dev:app:install"
+    rake "dev:app:install RAILS_ENV=production"
 end
