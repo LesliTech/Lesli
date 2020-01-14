@@ -23,6 +23,7 @@ RSpec.describe Users::RegistrationsController, type: :controller do
             }
             expect(response).to have_http_status(:success) 
             expect(response.content_type).to eq("application/json; charset=utf-8")
+            expect(JSON.parse(response.body)["successful"]).to eql(true)
             expect(JSON.parse(response.body)).to eql({ "successful"=> true })
         end
 
@@ -36,8 +37,9 @@ RSpec.describe Users::RegistrationsController, type: :controller do
             }
             expect(response).to have_http_status(:success) 
             expect(response.content_type).to eq("application/json; charset=utf-8")
+            expect(JSON.parse(response.body)["successful"]).to eql(false)
             expect(JSON.parse(response.body)).to eql({
-                "successful"=>false,
+                "successful"=> false,
                 "error"=>{
                     "details"=> nil, 
                     "message"=> "Email has already been taken"
@@ -55,8 +57,9 @@ RSpec.describe Users::RegistrationsController, type: :controller do
             }
             expect(response).to have_http_status(:success) 
             expect(response.content_type).to eq("application/json; charset=utf-8")
+            expect(JSON.parse(response.body)["successful"]).to eql(false)
             expect(JSON.parse(response.body)).to eql({
-                "successful"=>false,
+                "successful"=> false,
                 "error"=>{
                     "details"=> nil, 
                     "message"=> "Email can't be blank, Password can't be blank, and Password confirmation doesn't match Password"
@@ -74,8 +77,9 @@ RSpec.describe Users::RegistrationsController, type: :controller do
             }
             expect(response).to have_http_status(:success) 
             expect(response.content_type).to eq("application/json; charset=utf-8")
+            expect(JSON.parse(response.body)["successful"]).to eql(false)
             expect(JSON.parse(response.body)).to eql({
-                "successful"=>false,
+                "successful"=> false,
                 "error"=> {
                     "details"=> nil, 
                     "message"=> "Password can't be blank and Password confirmation doesn't match Password"
