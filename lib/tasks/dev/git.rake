@@ -49,13 +49,16 @@ namespace :dev do
         desc "Pull everything from github master"
         task pull: :environment do
 
-            Rake::Task["dev:git:rename_origin"].invoke
-
             engines = get_engines
 
             engines.each do |engine|
-                engine_path = Rails.root.join('engines', engine)
-                system "cd ./engines/#{engine} && git pull github master" if File.exists?(engine_path)
+
+                # build engine path
+                engine_path = Rails.root.join('engines', engine[:name])
+
+                # pull from master
+                system "cd ./engines/#{engine[:name]} && git pull origin master" if File.exists?(engine_path)
+
             end
 
             system "git pull github master"
