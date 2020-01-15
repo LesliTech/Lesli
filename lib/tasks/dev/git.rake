@@ -40,9 +40,7 @@ namespace :dev do
         desc "Pull everything from github master"
         task pull: :environment do
 
-            engines = get_engines
-
-            engines.each do |engine|
+            LesliInfo::engines.each do |engine|
 
                 # build engine path
                 engine_path = Rails.root.join('engines', engine[:name])
@@ -69,9 +67,9 @@ namespace :dev do
                 next unless File.exists?(engine_path)
 
                 # check if github remote exists
-                next if system "cd ./engines/#{engine[:name]} && git remote show github" 
+                next if system "cd ./engines/#{engine[:name]} && git remote show origin" 
 
-                system "cd ./engines/#{engine[:name]} && git remote add origin github #{engine[:github_ssh]}" 
+                system "cd ./engines/#{engine[:name]} && git remote add origin #{engine[:github_ssh]}" 
 
             end
 
