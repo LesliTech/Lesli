@@ -1,4 +1,34 @@
 PATH
+  remote: engines/CloudBell
+  specs:
+    cloud_bell (0.1.0)
+      rails (~> 6.0.0)
+
+PATH
+  remote: engines/CloudDriver
+  specs:
+    cloud_driver (0.1.0)
+      rails (~> 6.0.0)
+
+PATH
+  remote: engines/CloudHelp
+  specs:
+    cloud_help (0.1.0)
+      rails (~> 6.0.0)
+
+PATH
+  remote: engines/CloudHouse
+  specs:
+    cloud_house (0.1.0)
+      rails (~> 6.0.0)
+
+PATH
+  remote: engines/CloudKb
+  specs:
+    cloud_kb (0.1.0)
+      rails (~> 6.0.0)
+
+PATH
   remote: engines/CloudBabel
   specs:
     cloud_babel (0.1.0)
@@ -291,6 +321,11 @@ DEPENDENCIES
   byebug
   cancancan
   cloud_babel!
+  cloud_bell!
+  cloud_driver!
+  cloud_help!
+  cloud_house!
+  cloud_kb!
   cloud_lesli!
   cloud_lock!
   cloud_panel!
