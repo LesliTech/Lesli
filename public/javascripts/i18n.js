@@ -897,7 +897,7 @@
   //     %d     - Day of the month (01..31)
   //     %-d    - Day of the month (1..31)
   //     %H     - Hour of the day, 24-hour clock (00..23)
-  //     %-H    - Hour of the day, 24-hour clock (0..23)
+  //     %-H/%k - Hour of the day, 24-hour clock (0..23)
   //     %I     - Hour of the day, 12-hour clock (01..12)
   //     %-I/%l - Hour of the day, 12-hour clock (1..12)
   //     %m     - Month of the year (01..12)
@@ -961,6 +961,7 @@
     format = format.replace("%-d", day);
     format = format.replace("%H", padding(hour));
     format = format.replace("%-H", hour);
+    format = format.replace("%k", hour);
     format = format.replace("%I", padding(hour12));
     format = format.replace("%-I", hour12);
     format = format.replace("%l", hour12);
@@ -1083,9 +1084,9 @@
   };
 
   // Set aliases, so we can save some typing.
-  I18n.t = I18n.translate;
-  I18n.l = I18n.localize;
-  I18n.p = I18n.pluralize;
+  I18n.t = I18n.translate.bind(I18n);
+  I18n.l = I18n.localize.bind(I18n);
+  I18n.p = I18n.pluralize.bind(I18n);
 
   return I18n;
 }));
