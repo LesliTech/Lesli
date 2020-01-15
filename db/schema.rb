@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2) do
+ActiveRecord::Schema.define(version: 10010104) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -59,6 +59,44 @@ ActiveRecord::Schema.define(version: 2) do
     t.index ["key"], name: "index_active_storage_blobs_on_key", unique: true
   end
 
+  create_table "cloud_babel_translation_modules", force: :cascade do |t|
+    t.string "name"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
+  create_table "cloud_babel_translation_objects", force: :cascade do |t|
+    t.string "name"
+    t.string "object_type"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.bigint "cloud_babel_translation_objects_id"
+    t.bigint "cloud_babel_translation_modules_id"
+    t.index ["cloud_babel_translation_modules_id"], name: "babel_translation_objects_modules"
+    t.index ["cloud_babel_translation_objects_id"], name: "cloud_babel_translation_objects_objects"
+  end
+
+  create_table "cloud_babel_translation_strings", force: :cascade do |t|
+    t.string "context"
+    t.string "label"
+    t.string "es"
+    t.string "en"
+    t.string "de"
+    t.string "fr"
+    t.integer "status"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.bigint "users_id"
+    t.bigint "cloud_babel_translation_objects_id"
+    t.index ["cloud_babel_translation_objects_id"], name: "babel_translation_strings_objects"
+    t.index ["users_id"], name: "babel_translation_strings_users"
+  end
+
+  create_table "cloud_babel_translations", force: :cascade do |t|
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
   create_table "users", force: :cascade do |t|
     t.string "email", default: "", null: false
     t.string "encrypted_password", default: "", null: false
@@ -92,5 +130,9 @@ ActiveRecord::Schema.define(version: 2) do
 
   add_foreign_key "accounts", "users", column: "users_id"
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
+  add_foreign_key "cloud_babel_translation_objects", "cloud_babel_translation_modules", column: "cloud_babel_translation_modules_id"
+  add_foreign_key "cloud_babel_translation_objects", "cloud_babel_translation_objects", column: "cloud_babel_translation_objects_id"
+  add_foreign_key "cloud_babel_translation_strings", "cloud_babel_translation_objects", column: "cloud_babel_translation_objects_id"
+  add_foreign_key "cloud_babel_translation_strings", "users", column: "users_id"
   add_foreign_key "users", "accounts", column: "accounts_id"
 end
