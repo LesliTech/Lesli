@@ -1,7 +1,7 @@
 /*
 Lesli
 
-Copyright (c) 2019, Lesli Technologies, S. A.
+Copyright (c) 2020, Lesli Technologies, S. A.
 
 All the information provided by this website is protected by laws of Guatemala related 
 to industrial property, intellectual property, copyright and relative international laws. 
@@ -30,7 +30,6 @@ Building a better future, one line of code at a time.
 var fs = require('fs')
 var path = require('path')  
 var webpack = require("webpack")
-var TerserPlugin = require('terser-webpack-plugin')
 var VueLoaderPlugin = require('vue-loader/lib/plugin')
 var webpackConfig = []
 
@@ -47,17 +46,7 @@ function webpackConfigBuilder(env) {
         watch: env.watch == 'true',
         mode: production ? "production" : "development",
         performance: { hints: false },
-        optimization: !production ? { minimize: false } :  {
-            minimizer: [
-                new TerserPlugin({
-                    terserOptions: {
-                        output: {
-                            comments: false
-                        }
-                    }
-                })
-            ]
-        },
+        optimization: { minimize: production },
         entry: {
             "accounts_new": "./app/vue/accounts/new.js",
             "websites_landing": "./app/vue/websites/landing.js",
