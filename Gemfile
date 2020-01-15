@@ -122,6 +122,11 @@ group :test do
     
 end
 
+group :production do
+    # S3 SDK for active storage support
+    gem "aws-sdk-s3"
+end
+
 # Loading installed engines
 [
     'CloudTeam',
