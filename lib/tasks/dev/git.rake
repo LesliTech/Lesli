@@ -8,9 +8,6 @@ namespace :dev do
         desc "Push everything to github master"
         task push: :environment do
 
-            # ensure all engines have github remote origin
-            Rake::Task["dev:git:add_github_origin"].invoke
-
             # push all engines
             LesliInfo::engines.each do |engine|
                 engine_path = Rails.root.join('engines', engine[:name])
