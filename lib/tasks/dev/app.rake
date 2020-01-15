@@ -10,7 +10,7 @@ namespace :dev do
             file.write("Deploy process started at: #{ datetime_start }, ")
             file.close
 
-            system "sudo service nginx stop"
+            system "service nginx stop"
 
             system "git checkout ."
 
@@ -29,9 +29,10 @@ namespace :dev do
             system "bundle exec rake assets:clean RAILS_ENV=production"
             system "bundle exec rake assets:precompile RAILS_ENV=production"
             
-            system "sudo chmod 755 public/ -R"
+            system "chmod 755 public/ -R"
+            system "chown www-data:www-data public/ -R"
 
-            system "sudo service nginx restart"
+            system "service nginx restart"
 
             datetime_end = Time.now.strftime('%Y/%m/%d %H:%M:%S')
 
