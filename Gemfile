@@ -128,6 +128,7 @@ end
     'CloudHappy',
     'CloudSeller',
     'CloudLeaf',
+    'CloudHouse',
     'CloudDrop',
     'CloudMailer',
     'CloudDriver',
