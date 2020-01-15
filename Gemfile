@@ -26,6 +26,8 @@ Building a better future, one line of code at a time.
 
 =end
 
+require "./lesli_info"
+
 source 'https://rubygems.org'
 git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
@@ -128,34 +130,7 @@ group :production do
 end
 
 # Loading installed engines
-[
-    'CloudTeam',
-    'CloudHappy',
-    'CloudSeller',
-    'CloudLeaf',
-    'CloudHouse',
-    'CloudDrop',
-    'CloudMailer',
-    'CloudDriver',
-    'CloudChaos',
-    'CloudClock',
-    'CloudPizza',
-    'CloudNotes',
-    'CloudLesli',
-    'CloudSocial',
-    'CloudBell',
-    'CloudBooks',
-    'CloudWallet',
-    'CloudThings',
-    'CloudKb',
-    'CloudHelp',
-    'CloudPortal',
-    'CloudBug',
-    'CloudPanel',
-    'CloudLock',
-    'CloudBabel'
-].each do |engine|
-    engine_sym_name = engine.downcase.sub('cloud', 'cloud_')
-    engine_installation_path = File.expand_path("../engines/#{engine}", __FILE__)
-    gem engine_sym_name, path: engine_installation_path if File.exists?(engine_installation_path)
+LesliInfo::engines.each do |engine|
+    engine_installation_path = File.expand_path("../engines/#{engine[:name]}", __FILE__)
+    gem engine[:code], path: engine_installation_path if File.exists?(engine_installation_path)
 end
