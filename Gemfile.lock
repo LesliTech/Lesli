@@ -1,13 +1,61 @@
 PATH
-  remote: engines/CloudLesli
+  remote: engines/CloudBabel
   specs:
-    cloud_lesli (0.1.0)
+    cloud_babel (0.1.0)
+      rails (~> 6.0.0)
+
+PATH
+  remote: engines/CloudBell
+  specs:
+    cloud_bell (0.1.0)
+      rails (~> 6.0.0)
+
+PATH
+  remote: engines/CloudDriver
+  specs:
+    cloud_driver (0.1.0)
+      rails (~> 6.0.0)
+
+PATH
+  remote: engines/CloudHelp
+  specs:
+    cloud_help (0.1.0)
+      rails (~> 6.0.0)
+
+PATH
+  remote: engines/CloudKb
+  specs:
+    cloud_kb (0.1.0)
+      rails (~> 6.0.0)
+
+PATH
+  remote: engines/CloudLock
+  specs:
+    cloud_lock (0.1.0)
+      rails (~> 6.0.0)
+
+PATH
+  remote: engines/CloudPanel
+  specs:
+    cloud_panel (0.1.0)
+      rails (~> 6.0.0)
+
+PATH
+  remote: engines/CloudTeam
+  specs:
+    cloud_team (0.1.0)
       rails (~> 6.0.0)
 
 PATH
   remote: engines/CloudHouse
   specs:
     cloud_house (0.1.0)
+      rails (~> 6.0.0)
+
+PATH
+  remote: engines/CloudLesli
+  specs:
+    cloud_lesli (0.1.0)
       rails (~> 6.0.0)
 
 GEM
@@ -73,6 +121,22 @@ GEM
       activesupport (>= 4.2, < 7.0)
     ancestry (3.0.7)
       activerecord (>= 3.2.0)
+    aws-eventstream (1.0.3)
+    aws-partitions (1.263.0)
+    aws-sdk-core (3.89.1)
+      aws-eventstream (~> 1.0, >= 1.0.2)
+      aws-partitions (~> 1, >= 1.239.0)
+      aws-sigv4 (~> 1.1)
+      jmespath (~> 1.0)
+    aws-sdk-kms (1.27.0)
+      aws-sdk-core (~> 3, >= 3.71.0)
+      aws-sigv4 (~> 1.1)
+    aws-sdk-s3 (1.60.1)
+      aws-sdk-core (~> 3, >= 3.83.0)
+      aws-sdk-kms (~> 1)
+      aws-sigv4 (~> 1.1)
+    aws-sigv4 (1.1.0)
+      aws-eventstream (~> 1.0, >= 1.0.2)
     bcrypt (3.1.13)
     bindex (0.8.1)
     bootsnap (1.4.5)
@@ -115,6 +179,7 @@ GEM
       concurrent-ruby (~> 1.0)
     i18n-js (3.3.0)
       i18n (>= 0.6.6)
+    jmespath (1.4.0)
     listen (3.1.5)
       rb-fsevent (~> 0.9, >= 0.9.4)
       rb-inotify (~> 0.9, >= 0.9.7)
@@ -251,11 +316,20 @@ PLATFORMS
 DEPENDENCIES
   acts_as_paranoid
   ancestry
+  aws-sdk-s3
   bootsnap (>= 1.1.0)
   byebug
   cancancan
+  cloud_babel!
+  cloud_bell!
+  cloud_driver!
+  cloud_help!
   cloud_house!
+  cloud_kb!
   cloud_lesli!
+  cloud_lock!
+  cloud_panel!
+  cloud_team!
   devise
   faker
   haml-rails
