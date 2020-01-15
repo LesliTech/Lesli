@@ -6,20 +6,26 @@ common: &common
     reconnect: false
 
 development:
-    <<: *common
-    database: <%= Rails.application.credentials.db[:database] %>
-    username: <%= Rails.application.credentials.db[:username] %>
-    password: <%= Rails.application.credentials.db[:password] %>
-
-test:
-    <<: *common
-    database: <%= Rails.application.credentials.db[:database] %>
-    username: <%= Rails.application.credentials.db[:username] %>
-    password: <%= Rails.application.credentials.db[:password] %>
-
-production:
-    <<: *common
-    database: <%= Rails.application.credentials.db[:database] %>
-    username: <%= Rails.application.credentials.db[:username] %>
-    password: <%= Rails.application.credentials.db[:password] %>
-
+    core: 
+        <<: *common
+        database: "leslicloud_core_development"
+        username: <%= Rails.application.credentials.db[:username] %>
+        password: <%= Rails.application.credentials.db[:password] %>
+        migrations_paths: "db/migrate/core"
+    core_replica: 
+        <<: *common
+        database: "leslicloud_core_development"
+        username: <%= Rails.application.credentials.db[:username] %>
+        password: <%= Rails.application.credentials.db[:password] %>
+        replica: true
+    babel: 
+        <<: *common
+        database: "leslicloud_babel_development"
+        username: <%= Rails.application.credentials.db[:username] %>
+        password: <%= Rails.application.credentials.db[:password] %>
+    babel_replica: 
+        <<: *common
+        database: "leslicloud_babel_development"
+        username: <%= Rails.application.credentials.db[:username] %>
+        password: <%= Rails.application.credentials.db[:password] %>
+        replica: true

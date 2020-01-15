@@ -5,27 +5,9 @@ PATH
       rails (~> 6.0.0)
 
 PATH
-  remote: engines/CloudBell
+  remote: engines/CloudLesli
   specs:
-    cloud_bell (0.1.0)
-      rails (~> 6.0.0)
-
-PATH
-  remote: engines/CloudDriver
-  specs:
-    cloud_driver (0.1.0)
-      rails (~> 6.0.0)
-
-PATH
-  remote: engines/CloudHelp
-  specs:
-    cloud_help (0.1.0)
-      rails (~> 6.0.0)
-
-PATH
-  remote: engines/CloudKb
-  specs:
-    cloud_kb (0.1.0)
+    cloud_lesli (0.1.0)
       rails (~> 6.0.0)
 
 PATH
@@ -44,18 +26,6 @@ PATH
   remote: engines/CloudTeam
   specs:
     cloud_team (0.1.0)
-      rails (~> 6.0.0)
-
-PATH
-  remote: engines/CloudHouse
-  specs:
-    cloud_house (0.1.0)
-      rails (~> 6.0.0)
-
-PATH
-  remote: engines/CloudLesli
-  specs:
-    cloud_lesli (0.1.0)
       rails (~> 6.0.0)
 
 GEM
@@ -321,11 +291,6 @@ DEPENDENCIES
   byebug
   cancancan
   cloud_babel!
-  cloud_bell!
-  cloud_driver!
-  cloud_help!
-  cloud_house!
-  cloud_kb!
   cloud_lesli!
   cloud_lock!
   cloud_panel!
