@@ -1,14 +1,7 @@
 
-namespace :dev do
+require "./lesli_info"
 
-    def get_engines
-        [{
-            name: 'CloudBabel',
-            code: 'cloud_babel',
-            github_ssh: 'git@github.com:LesliTech/CloudBabel.git',
-            github_url: 'https://github.com/LesliTech/CloudBabel'
-        }]
-    end
+namespace :dev do
 
     namespace :git do
 
@@ -18,10 +11,8 @@ namespace :dev do
             # ensure all engines have github remote origin
             Rake::Task["dev:git:add_github_origin"].invoke
 
-            engines = get_engines
-
             # push all engines
-            engines.each do |engine|
+            LesliInfo::engines.each do |engine|
                 engine_path = Rails.root.join('engines', engine[:name])
                 system "cd ./engines/#{engine[:name]} && git push github master" if File.exists?(engine_path)
             end
@@ -69,9 +60,7 @@ namespace :dev do
         desc "Add github origin"
         task add_github_origin: :environment do
 
-            engines = get_engines
-
-            engines.each do |engine|
+            LesliInfo::engines.each do |engine|
 
                 # build engine path
                 engine_path = Rails.root.join('engines', engine[:name])
