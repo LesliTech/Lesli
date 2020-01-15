@@ -6,16 +6,10 @@ common: &common
     reconnect: false
 
 development:
-    primary:
-        <<: *common
-        database: <%= Rails.application.credentials.db[:database] %>
-        username: <%= Rails.application.credentials.db[:username] %>
-        password: <%= Rails.application.credentials.db[:password] %>
-    primary_replica:
-        <<: *common
-        database: <%= Rails.application.credentials.db[:database] %>_replica
-        username: <%= Rails.application.credentials.db[:username] %>
-        password: <%= Rails.application.credentials.db[:password] %>
+    <<: *common
+    database: <%= Rails.application.credentials.db[:database] %>
+    username: <%= Rails.application.credentials.db[:username] %>
+    password: <%= Rails.application.credentials.db[:password] %>
 
 test:
     <<: *common
