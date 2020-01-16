@@ -1,4 +1,10 @@
 PATH
+  remote: engines/CloudHelp
+  specs:
+    cloud_help (0.1.0)
+      rails (~> 6.0.0)
+
+PATH
   remote: engines/CloudBabel
   specs:
     cloud_babel (0.1.0)
@@ -14,12 +20,6 @@ PATH
   remote: engines/CloudDriver
   specs:
     cloud_driver (0.1.0)
-      rails (~> 6.0.0)
-
-PATH
-  remote: engines/CloudHelp
-  specs:
-    cloud_help (0.1.0)
       rails (~> 6.0.0)
 
 PATH

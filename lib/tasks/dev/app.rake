@@ -1,6 +1,19 @@
+require "./lesli_info"
+
 namespace :dev do
 
     namespace :app do
+
+        desc "Clean javascript cache from rails"
+        task rmjs: :environment do
+
+            LesliInfo::engines.each do |engine|
+                engine_path = Rails.root.join('engines', engine[:name], "app", "assets", "javascripts")
+                FileUtils.rm_rf(engine_path)
+                p "delete folder: #{engine_path.to_s}"
+            end
+
+        end
 
         desc "LesliCloud fresh installation"
         task install: :environment do
