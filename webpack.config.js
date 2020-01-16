@@ -137,6 +137,7 @@ function webpackConfigBuilder(env) {
         'CloudHappy',
         'CloudSeller',
         'CloudLeaf',
+        'CloudHouse',
         'CloudDrop',
         'CloudMailer',
         'CloudDriver',
