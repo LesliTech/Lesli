@@ -56,7 +56,7 @@ gem "cancancan"
 gem 'acts_as_paranoid'
 
 # Use Puma as the app server
-gem 'puma', '~> 3.11'
+gem 'puma', '4.3.1'
 
 #gem 'devise'
 gem 'devise' #, git: 'https://github.com/plataformatec/devise.git'
@@ -102,7 +102,7 @@ group :development do
 
     gem 'web-console', '>= 3.3.0'
 
-    gem 'listen', '>= 3.0.5', '< 3.2'
+    gem 'listen', '3.2.1'
     
     gem 'spring'
 
