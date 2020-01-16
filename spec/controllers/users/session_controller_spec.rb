@@ -54,7 +54,7 @@ RSpec.describe Users::SessionsController, Users::RegistrationsController, type: 
             expect(JSON.parse(response.body)).to eql({
                 "successful"=> false,
                 "error"=> {
-                    "details"=> nil, 
+                    "details"=> [], 
                     "message"=> "Invalid email or password"
                 }
             })

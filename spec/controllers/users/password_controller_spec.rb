@@ -25,7 +25,7 @@ RSpec.describe Users::PasswordsController, type: :controller do
             expect(JSON.parse(response.body)).to eql({
                 "successful"=> false,
                 "error"=> {
-                    "details"=> nil, 
+                    "details"=> [], 
                     "message"=> "Email not found"
                 }
             })
