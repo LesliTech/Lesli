@@ -8,4 +8,8 @@ namespace :babel do
         Rake::Task["cloud_babel:build"].invoke
     end
 
+    task clean: :environment do
+        Rake::Task["cloud_babel:clean"].invoke
+    end
+
 end

@@ -81,21 +81,19 @@ class User < ApplicationRecord
 
     private 
 
-=begin
-@return [void]
-@description After creating a user, creates the necessary resources for them to access the different engines.
-    At the current time, it only creates a default calendar. This is an *after_create* method, and is not
-    designed to be invoked directly
-@example
-    new_user = User.create(
-        email: 'john.doe@mail.com',
-        password: '1234567890',
-        password_confirmation: '1234567890'
-    )
+    
+    # @return [void]
+    # @description After creating a user, creates the necessary resources for them to access the different engines.
+    #     At the current time, it only creates a default calendar. This is an *after_create* method, and is not
+    #     designed to be invoked directly
+    # @example
+    #     new_user = User.create(
+    #         email: 'john.doe@mail.com',
+    #         password: '1234567890',
+    #         password_confirmation: '1234567890'
+    #     )
     # At this point, check_user will be invoked automatically
-=end
     def check_user
-        return
         if defined? CloudDriver
             self.account.driver.calendars.create({
                 detail_attributes: {
