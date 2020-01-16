@@ -4,6 +4,10 @@ require 'rails_helper'
 RSpec.describe "CloudBabel::Translation::Modules", type: :request do
     include Devise::Test::IntegrationHelpers
 
+    before(:all) do
+        login_admin
+    end
+
     def login_admin
         @user = User.find_by(email: "admin@lesli.cloud")
         sign_in @user
@@ -24,8 +28,6 @@ RSpec.describe "CloudBabel::Translation::Modules", type: :request do
     describe "GET:/babel/translation/modules" do
 
         it "return an array of modules" do
-            login_admin
-
             get "/babel/translation/modules.json"
             expect(response).to have_http_status(:success) 
             expect(response.content_type).to eq("application/json; charset=utf-8")
