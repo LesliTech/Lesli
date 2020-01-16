@@ -110,8 +110,14 @@ export default {
                         <component-form-action class="box" :cloudModule="cloudModule" :cloudId="cloudId"/>
                         <ul class="menu-list">
                             <li class="field" v-for="action in actions" :key="action.id">
-                                <input :id="action.id" class="is-checkradio" type="checkbox" v-model="action.complete" @change="patchAction(action)">
-                                <label :for="action.id">{{ action.instructions }}</label>
+                                <input
+                                    :id="`action-${action.id}`"
+                                    class="is-checkradio"
+                                    type="checkbox"
+                                    v-model="action.complete"
+                                    @change="patchAction(action)"
+                                >
+                                <label :for="`action-${action.id}`">{{ action.instructions }}</label>
                             </li>
                         </ul>
                     </div>
