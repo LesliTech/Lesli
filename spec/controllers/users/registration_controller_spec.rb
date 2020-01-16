@@ -41,7 +41,7 @@ RSpec.describe Users::RegistrationsController, type: :controller do
             expect(JSON.parse(response.body)).to eql({
                 "successful"=> false,
                 "error"=>{
-                    "details"=> nil, 
+                    "details"=> [], 
                     "message"=> "Email has already been taken"
                 }
             })
@@ -61,7 +61,7 @@ RSpec.describe Users::RegistrationsController, type: :controller do
             expect(JSON.parse(response.body)).to eql({
                 "successful"=> false,
                 "error"=>{
-                    "details"=> nil, 
+                    "details"=> [], 
                     "message"=> "Email can't be blank, Password can't be blank, and Password confirmation doesn't match Password"
                 }
             })
@@ -81,7 +81,7 @@ RSpec.describe Users::RegistrationsController, type: :controller do
             expect(JSON.parse(response.body)).to eql({
                 "successful"=> false,
                 "error"=> {
-                    "details"=> nil, 
+                    "details"=> [], 
                     "message"=> "Password can't be blank and Password confirmation doesn't match Password"
                 }
             })

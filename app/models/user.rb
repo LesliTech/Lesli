@@ -95,6 +95,7 @@ class User < ApplicationRecord
     # At this point, check_user will be invoked automatically
 =end
     def check_user
+        return
         if defined? CloudDriver
             self.account.driver.calendars.create({
                 detail_attributes: {
