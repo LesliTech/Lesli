@@ -14,6 +14,12 @@
                         = image_tag "cloudteam/brand/team-logo.svg", alt: "CloudTeam logo"
                         team
 
+            - if defined?(CloudHouse)
+                %li
+                    = link_to "/house" do
+                        = image_tag "cloudhouse/brand/house-logo.svg", alt: "CloudHouse logo"
+                        house
+
             - if defined?(CloudDriver)
                 %li
                     = link_to "/driver" do

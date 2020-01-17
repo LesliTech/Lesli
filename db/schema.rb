@@ -853,7 +853,7 @@ ActiveRecord::Schema.define(version: 10010104) do
 
   create_table "cloud_team_employee_social_accounts", force: :cascade do |t|
     t.string "username"
-    t.integer "platform_id"
+    t.integer "platform_id", default: 0
     t.datetime "deleted_at"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
