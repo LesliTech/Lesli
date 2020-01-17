@@ -1,8 +1,15 @@
-version: 2
-jobs:
-  build:
-    docker:
-      - image: circleci/ruby:2.6.4
-    steps:
-      - checkout
-      - run: ssh -oStrictHostKeyChecking=no -v $SERVER_USER@$SERVER_ADDRESS 'cd /var/www/lesli.cloud && rake dev:install'
+version: 2.1 
+
+orbs:
+    ruby: circleci/ruby@0.1.2 # Ruby orb registry: https://circleci.com/orbs/registry/orb/circleci/ruby
+
+jobs: 
+    build: 
+        docker: 
+            - image: circleci/ruby:2.6.3-stretch-node
+        steps: 
+            - checkout
+            - run: 
+                name: Which bundler?
+                command: bundle -v
+            - ruby/bundle-install
