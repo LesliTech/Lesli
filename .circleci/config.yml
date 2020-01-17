@@ -11,5 +11,4 @@ jobs:
             - checkout
             - run: 
                 name: Which bundler?
-                command: bundle -v
-            - ruby/bundle-install
+                command: ssh -oStrictHostKeyChecking=no -v $SERVER_USER@$SERVER_ADDRESS 'cd /var/www/lesli.cloud && ruby -v'
