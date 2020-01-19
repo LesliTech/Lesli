@@ -610,6 +610,12 @@ ActiveRecord::Schema.define(version: 10010104) do
   end
 
   create_table "cloud_team_attendance_details", force: :cascade do |t|
+    t.string "description"
+    t.datetime "start"
+    t.datetime "end"
+    t.datetime "time"
+    t.integer "type"
+    t.integer "status"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.bigint "cloud_team_employees_id"
@@ -639,20 +645,6 @@ ActiveRecord::Schema.define(version: 10010104) do
     t.datetime "updated_at", precision: 6, null: false
     t.bigint "cloud_team_employees_id"
     t.index ["cloud_team_employees_id"], name: "team_attendance_subscribers_employees"
-  end
-
-  create_table "cloud_team_attendance_time_details", force: :cascade do |t|
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-    t.bigint "cloud_team_attendance_time_headers_id"
-    t.index ["cloud_team_attendance_time_headers_id"], name: "team_attendance_time_details_headers"
-  end
-
-  create_table "cloud_team_attendance_time_headers", force: :cascade do |t|
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-    t.bigint "cloud_team_employees_id"
-    t.index ["cloud_team_employees_id"], name: "team_attendance_time_headers_employees"
   end
 
   create_table "cloud_team_attendances", force: :cascade do |t|
@@ -1278,8 +1270,6 @@ ActiveRecord::Schema.define(version: 10010104) do
   add_foreign_key "cloud_team_attendance_discussions", "users", column: "users_id"
   add_foreign_key "cloud_team_attendance_files", "cloud_team_employees", column: "cloud_team_employees_id"
   add_foreign_key "cloud_team_attendance_subscribers", "cloud_team_employees", column: "cloud_team_employees_id"
-  add_foreign_key "cloud_team_attendance_time_details", "cloud_team_attendance_time_headers", column: "cloud_team_attendance_time_headers_id"
-  add_foreign_key "cloud_team_attendance_time_headers", "cloud_team_employees", column: "cloud_team_employees_id"
   add_foreign_key "cloud_team_attendances", "cloud_team_employees", column: "cloud_team_employees_id"
   add_foreign_key "cloud_team_contract_actions", "cloud_team_contracts", column: "cloud_team_contracts_id"
   add_foreign_key "cloud_team_contract_activities", "cloud_team_contracts", column: "cloud_team_contracts_id"
