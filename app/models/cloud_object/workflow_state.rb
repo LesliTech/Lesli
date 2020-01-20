@@ -24,7 +24,7 @@ Building a better future, one line of code at a time.
 @description Base abstract model for *file* core entity
 
 =end
-    class State < ApplicationRecord
+    class WorkflowState < ApplicationRecord
         self.abstract_class = true
 
         validates :name, presence: true
