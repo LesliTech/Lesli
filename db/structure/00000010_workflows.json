@@ -1,0 +1,10 @@
+[
+    {
+        "name": "name",
+        "type": "string"
+    },
+    {
+        "name": "default",
+        "type": "boolean"
+    }
+]
