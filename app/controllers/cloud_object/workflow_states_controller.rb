@@ -24,7 +24,7 @@ Building a better future, one line of code at a time.
 @description Base controller for *state* core entity. A state will be used to name transitions
     in  a *workflow*
 =end
-    class StatesController < ApplicationLesliController
+    class WorkflowStatesController < ApplicationLesliController
         before_action :set_state, only: [:update, :destroy]
 
 =begin
