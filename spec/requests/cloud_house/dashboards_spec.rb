@@ -1,6 +1,7 @@
 require 'rails_helper'
 
-RSpec.describe "CloudBabel::Translation::Modules", type: :request do
+RSpec.describe "CloudHouse::Dashboards", type: :request do
+
     include Devise::Test::IntegrationHelpers
 
     before(:all) do
@@ -23,17 +24,10 @@ RSpec.describe "CloudBabel::Translation::Modules", type: :request do
         }
     end
 
-
-    describe "GET:/babel/translation/modules" do
-
-        it "return an array of modules" do
-            get "/babel/translation/modules.json"
+    describe "GET /cloud_house/dashboards" do
+        it "works! (now write some real specs)" do
+            get "/house"
             expect(response).to have_http_status(:success) 
-            expect(response.content_type).to eq("application/json; charset=utf-8")
-            expect(JSON.parse(response.body)["successful"]).to eql(true)
-            expect(JSON.parse(response.body)).to eql({ "successful"=> true })
         end
-
     end
-
 end
