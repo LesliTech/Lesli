@@ -40,9 +40,9 @@ class Account < ApplicationRecord
     has_one :house,  class_name: "CloudHouse::Account",  foreign_key: "id"
     has_one :driver, class_name: "CloudDriver::Account", foreign_key: "id"
 
-    after_create :check_accounts
+    after_create :create_engine_accounts
 
-    def check_accounts
+    def create_engine_accounts
 
         if defined? CloudKb
             if self.kb.blank?
