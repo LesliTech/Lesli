@@ -40,10 +40,7 @@ class User < ApplicationRecord
     has_one :detail, class_name: 'CloudLock::User::Detail', foreign_key: 'users_id', dependent: :delete, inverse_of: :user, autosave: true
     accepts_nested_attributes_for :detail
 
-    # remove this
-    #has_many    :notifications, class_name: 'CloudBell::Notification', foreign_key: 'users_id'
-
-    after_create :check_user
+    after_create :create_user_defaults
 
     # @return [String] The name of this user.
     # @description Retrieves and returns the name of the user depending on the available information.
@@ -78,7 +75,6 @@ class User < ApplicationRecord
 
     private 
 
-    
     # @return [void]
     # @description After creating a user, creates the necessary resources for them to access the different engines.
     #     At the current time, it only creates a default calendar. This is an *after_create* method, and is not
@@ -90,7 +86,7 @@ class User < ApplicationRecord
     #         password_confirmation: '1234567890'
     #     )
     # At this point, check_user will be invoked automatically
-    def check_user
+    def create_user_defaults
         if defined? CloudDriver
             self.account.driver.calendars.create({
                 detail_attributes: {
