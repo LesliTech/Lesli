@@ -417,6 +417,110 @@ ActiveRecord::Schema.define(version: 10010104) do
     t.index ["users_id"], name: "index_cloud_help_tickets_on_users_id"
   end
 
+  create_table "cloud_house_accounts", force: :cascade do |t|
+  end
+
+  create_table "cloud_house_contact_actions", force: :cascade do |t|
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.bigint "cloud_house_contacts_id"
+    t.index ["cloud_house_contacts_id"], name: "index_cloud_house_contact_actions_on_cloud_house_contacts_id"
+  end
+
+  create_table "cloud_house_contact_activities", force: :cascade do |t|
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.bigint "cloud_house_contacts_id"
+    t.index ["cloud_house_contacts_id"], name: "index_cloud_house_contact_activities_on_cloud_house_contacts_id"
+  end
+
+  create_table "cloud_house_contact_custom_field_values", force: :cascade do |t|
+    t.datetime "value_datetime"
+    t.integer "value_integer"
+    t.boolean "value_boolean"
+    t.string "value_string"
+    t.json "value_json"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.bigint "cloud_house_contact_custom_fields_id"
+    t.index ["cloud_house_contact_custom_fields_id"], name: "house_contact_custom_field_values_custom_fields"
+  end
+
+  create_table "cloud_house_contact_custom_fields", force: :cascade do |t|
+    t.string "field_name"
+    t.string "field_label"
+    t.string "field_type"
+    t.string "field_instructions"
+    t.string "field_placeholder"
+    t.boolean "required"
+    t.string "value_default"
+    t.json "value_allowed"
+    t.string "value_format"
+    t.boolean "value_multiple"
+    t.integer "value_length"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.bigint "users_id"
+    t.bigint "cloud_house_contacts_id"
+    t.index ["cloud_house_contacts_id"], name: "house_contact_custom_fields_contacts"
+    t.index ["users_id"], name: "index_cloud_house_contact_custom_fields_on_users_id"
+  end
+
+  create_table "cloud_house_contact_details", force: :cascade do |t|
+    t.string "salutation"
+    t.string "title"
+    t.string "first_name"
+    t.string "last_name"
+    t.string "gender"
+    t.string "birthdate"
+    t.string "birthplace"
+    t.string "nationality"
+    t.string "email"
+    t.string "telephone"
+    t.string "mobile_number"
+    t.string "fax_number"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.bigint "cloud_house_contacts_id"
+    t.index ["cloud_house_contacts_id"], name: "index_cloud_house_contact_details_on_cloud_house_contacts_id"
+  end
+
+  create_table "cloud_house_contact_discussions", force: :cascade do |t|
+    t.text "content"
+    t.datetime "deleted_at"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.bigint "cloud_house_contact_discussions_id"
+    t.bigint "users_id"
+    t.bigint "cloud_house_contacts_id"
+    t.index ["cloud_house_contact_discussions_id"], name: "house_contact_discussions_discussions"
+    t.index ["cloud_house_contacts_id"], name: "house_contact_discussions_contacts"
+    t.index ["users_id"], name: "index_cloud_house_contact_discussions_on_users_id"
+  end
+
+  create_table "cloud_house_contact_files", force: :cascade do |t|
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.bigint "cloud_house_contacts_id"
+    t.index ["cloud_house_contacts_id"], name: "index_cloud_house_contact_files_on_cloud_house_contacts_id"
+  end
+
+  create_table "cloud_house_contact_subscribers", force: :cascade do |t|
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.bigint "cloud_house_contacts_id"
+    t.index ["cloud_house_contacts_id"], name: "house_contact_subscribers_contacts"
+  end
+
+  create_table "cloud_house_contacts", force: :cascade do |t|
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.bigint "users_id"
+    t.bigint "cloud_house_accounts_id"
+    t.index ["cloud_house_accounts_id"], name: "index_cloud_house_contacts_on_cloud_house_accounts_id"
+    t.index ["users_id"], name: "index_cloud_house_contacts_on_users_id"
+  end
+
   create_table "cloud_kb_accounts", force: :cascade do |t|
   end
 
@@ -1241,6 +1345,20 @@ ActiveRecord::Schema.define(version: 10010104) do
   add_foreign_key "cloud_help_ticket_workflows", "cloud_help_ticket_types", column: "cloud_help_ticket_types_id"
   add_foreign_key "cloud_help_tickets", "cloud_help_accounts", column: "cloud_help_accounts_id"
   add_foreign_key "cloud_help_tickets", "users", column: "users_id"
+  add_foreign_key "cloud_house_accounts", "accounts", column: "id"
+  add_foreign_key "cloud_house_contact_actions", "cloud_house_contacts", column: "cloud_house_contacts_id"
+  add_foreign_key "cloud_house_contact_activities", "cloud_house_contacts", column: "cloud_house_contacts_id"
+  add_foreign_key "cloud_house_contact_custom_field_values", "cloud_house_contact_custom_fields", column: "cloud_house_contact_custom_fields_id"
+  add_foreign_key "cloud_house_contact_custom_fields", "cloud_house_contacts", column: "cloud_house_contacts_id"
+  add_foreign_key "cloud_house_contact_custom_fields", "users", column: "users_id"
+  add_foreign_key "cloud_house_contact_details", "cloud_house_contacts", column: "cloud_house_contacts_id"
+  add_foreign_key "cloud_house_contact_discussions", "cloud_house_contact_discussions", column: "cloud_house_contact_discussions_id"
+  add_foreign_key "cloud_house_contact_discussions", "cloud_house_contacts", column: "cloud_house_contacts_id"
+  add_foreign_key "cloud_house_contact_discussions", "users", column: "users_id"
+  add_foreign_key "cloud_house_contact_files", "cloud_house_contacts", column: "cloud_house_contacts_id"
+  add_foreign_key "cloud_house_contact_subscribers", "cloud_house_contacts", column: "cloud_house_contacts_id"
+  add_foreign_key "cloud_house_contacts", "cloud_house_accounts", column: "cloud_house_accounts_id"
+  add_foreign_key "cloud_house_contacts", "users", column: "users_id"
   add_foreign_key "cloud_kb_accounts", "accounts", column: "id"
   add_foreign_key "cloud_kb_article_actions", "cloud_kb_articles", column: "cloud_kb_articles_id"
   add_foreign_key "cloud_kb_article_activities", "cloud_kb_articles", column: "cloud_kb_articles_id"

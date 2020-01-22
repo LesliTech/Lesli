@@ -34,7 +34,8 @@ class ApplicationController < ActionController::Base
     # JSON successful response
     def responseWithSuccessful(data = nil)
         response_body = { successful: true }
-        response_body[:data] = data unless data.blank?
+        #response_body[:data] = data unless data.blank?
+        response_body[:data] = data
         render status: 200, json: response_body.to_json
     end
 

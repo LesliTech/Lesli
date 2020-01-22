@@ -81,7 +81,7 @@ Building a better future, one line of code at a time.
                     "cloud_#{module_name}.controllers.#{object_name}.discussions.notifications.created",
                     "#{object_name}_id".to_sym => cloud_object.id
                 )
-                subscriber_model.notify_subscribers(cloud_object, message, :comment_created)
+                #subscriber_model.notify_subscribers(cloud_object, message, :comment_created) unless subscriber_model.blank?
             else
                 responseWithError(cloud_object_dicussion.errors.full_messages.to_sentence)
             end
