@@ -88,7 +88,7 @@ Building a better future, one line of code at a time.
         end
 
 =begin
-@return [CloudFlow::State] The initial state of this account
+@return [CloudObject::State] The initial state of this account
 @description Returns the state tagged as initial
 @example
     initial_state = CloudHelp::TicketState.initial_state
@@ -104,7 +104,7 @@ Building a better future, one line of code at a time.
         end
 
 =begin
-@return [CloudFlow::State] The final state of this account
+@return [CloudObject::State] The final state of this account
 @description Returns the state tagged as final
 @example
     final_state = CloudHelp::TicketState.final_state
