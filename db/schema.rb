@@ -119,6 +119,11 @@ ActiveRecord::Schema.define(version: 10010104) do
   end
 
   create_table "cloud_house_contact_actions", force: :cascade do |t|
+    t.integer "type"
+    t.string "instructions"
+    t.datetime "deadline"
+    t.boolean "complete"
+    t.string "tags"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.bigint "cloud_house_contacts_id"
