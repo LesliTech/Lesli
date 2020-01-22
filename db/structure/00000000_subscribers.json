@@ -4,7 +4,4 @@
 },{
     "name": "notification_type",
     "type": "integer"
-},{
-    "name": "users_id",
-    "type": "bigint"
 }]
