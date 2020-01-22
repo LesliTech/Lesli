@@ -51,9 +51,7 @@ Building a better future, one line of code at a time.
                         :initial,       :final,
                         :created_at,    :updated_at
                     ).order(
-                        initial: :desc,
-                        final: :asc,
-                        name: :asc
+                        id: :asc
                     )
                     responseWithSuccessful(states) 
                 end
@@ -234,11 +232,11 @@ Building a better future, one line of code at a time.
 =end
         def dynamic_info
             module_info = self.class.name.split("::")
-            cloud_object_name = module_info[1].sub("StatesController", "")
+            cloud_object_name = module_info[1].sub("WorkflowStatesController", "")
             {
                 module_name: module_info[0].sub("Cloud", "").downcase,
-                object_name: "#{cloud_object_name.downcase}_state",
-                model: "#{module_info[0]}::#{cloud_object_name}State".constantize
+                object_name: "#{cloud_object_name.downcase}_workflow_state",
+                model: "#{module_info[0]}::#{cloud_object_name}WorkflowState".constantize
             }
         end
     end
