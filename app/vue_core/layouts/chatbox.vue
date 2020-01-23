@@ -17,13 +17,11 @@ LesliCloud - Your Smart Business Assistant
 Powered by https://www.lesli.tech
 Building a better future, one line of code at a time.
 
-@author   LesliTech <hello@lesli.tech>
 @license  Propietary - all rights reserved.
 @version  0.1.0-alpha
 
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
 // · 
-
 */
 export default {
     data() {
@@ -97,7 +95,7 @@ export default {
             </nav>
         </div>
         <div class="chat-body" v-show="openchat">
-             <div v-for="(intent, index) in intents" :key="index" :class="intent.type">
+            <div v-for="(intent, index) in intents" :key="index" :class="intent.type">
                 <span v-if="intent.type == 'intent'">
                     <img src="/assets/brand/leslicloud-logo.png">
                 </span>

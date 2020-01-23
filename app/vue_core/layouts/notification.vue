@@ -2,7 +2,7 @@
 /*
 Lesli
 
-Copyright (c) 2019, Lesli Technologies, S. A.
+Copyright (c) 2020, Lesli Technologies, S. A.
 
 All the information provided by this website is protected by laws of Guatemala related 
 to industrial property, intellectual property, copyright and relative international laws. 
@@ -17,18 +17,16 @@ LesliCloud - Your Smart Business Assistant
 Powered by https://www.lesli.tech
 Building a better future, one line of code at a time.
 
-@dev      Luis Donis <ldonis@lesli.tech>
-@author   LesliTech <hello@lesli.tech>
 @license  Propietary - all rights reserved.
-@version  GIT: 0.1.0 alpha
+@version  0.1.0-alpha
 
-//  · 
-// ~·~        ~·~        ~·~        ~·~        ~·~        ~·~        ~·~        ~·~        ~·~
+// · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
+// · 
 */
 
 
 // · LesliCloud component
-// · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
+// · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
 export default {
 
     data() {
@@ -93,7 +91,6 @@ export default {
             this.notification.timer = setTimeout(() => this.notification.show = false, 25000)
         },
         
-
         prepareDesktopNotification() {
 
             if (!("Notification" in window)) {
@@ -121,11 +118,14 @@ export default {
         },
 
         readNotification(index) {
+
             var notification = this.notification.list[index]
+
             // In this case, there is no need to wait for a response
             this.http.put(`/bell/api/notifications/${notification.id}/read`).catch(error => {
                 console.log(error)
             })
+
             window.location.href = notification.href
 
         }
