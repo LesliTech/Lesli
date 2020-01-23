@@ -1,8 +1,8 @@
-<script>
-/*
+=begin
+
 Lesli
 
-Copyright (c) 2019, Lesli Technologies, S. A.
+Copyright (c) 2020, Lesli Technologies, S. A.
 
 All the information provided by this website is protected by laws of Guatemala related 
 to industrial property, intellectual property, copyright and relative international laws. 
@@ -17,36 +17,36 @@ LesliCloud - Your Smart Business Assistant
 Powered by https://www.lesli.tech
 Building a better future, one line of code at a time.
 
-@author   LesliTech <hello@lesli.tech>
 @license  Propietary - all rights reserved.
 @version  0.1.0-alpha
 
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
 // · 
-*/
-import componentDiscussionForm from "./forms/discussion.vue"
-import componentDiscussionList from "./lists/discussion.vue"
 
+=end
 
-export default {
-    props: {
-        cloudModule: {
-            type: String,
-            required: true
-        },
-        cloudId: {
-            required: true
-        }
-    },
-    components: {
-        'component-discussion-form': componentDiscussionForm,
-        'component-discussion-list': componentDiscussionList
-    }
-}
-</script>
-<template>
-    <section>
-        <component-discussion-form :cloud-module="cloudModule" :cloud-id="cloudId" class="box" />
-        <component-discussion-list :cloud-module="cloudModule" :cloud-id="cloudId" />
-    </section>
-</template>
+module CloudHelper
+    class Date
+
+        def self.to_string(date)
+            #DateTime.now.new_offset(0)
+
+            # format from database
+            format = "%Y.%m.%d %H:%M"
+            date.strftime(format)
+        end
+
+        def self.to_string_short(date)
+            #DateTime.now.new_offset(0)
+
+            # format from database
+            format = "%Y.%m.%d"
+            date.strftime(format)
+        end
+
+        def self.from_string(string, format="%Y.%m.%d %H:%M")
+            Date.strptime(string, format)
+        end
+
+    end
+end

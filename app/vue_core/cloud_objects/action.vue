@@ -2,7 +2,7 @@
 /*
 Lesli
 
-Copyright (c) 2019, Lesli Technologies, S. A.
+Copyright (c) 2020, Lesli Technologies, S. A.
 
 All the information provided by this website is protected by laws of Guatemala related 
 to industrial property, intellectual property, copyright and relative international laws. 
@@ -17,8 +17,6 @@ LesliCloud - Your Smart Business Assistant
 Powered by https://www.lesli.tech
 Building a better future, one line of code at a time.
 
-@dev      Luis Donis <ldonis@lesli.tech>
-@author   LesliTech <hello@lesli.tech>
 @license  Propietary - all rights reserved.
 @version  0.1.0-alpha
 
@@ -27,15 +25,12 @@ Building a better future, one line of code at a time.
 */
 
 
-
-// · 
+// · Core components
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
-import componentFormFile from '../forms/file.vue'
-
+import componentFormAction from './actions/form.vue'
 
 
 // · 
-// · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
 export default {
     props: {
         cloudModule: {
@@ -47,41 +42,58 @@ export default {
         }
     },
     components: {
-        'component-form-file': componentFormFile
+        'component-form-action': componentFormAction
     },
     data() {
         return {
             show: false,
-            files: []
+            actions: []
         }
     },
     mounted() {
-        this.getFiles()
-        this.initListeners()
-
-        
+        this.getActions()
+        this.mountListeners()
     },
     methods: {
-        initListeners(){
-            this.bus.subscribe("show:/module/app/files", () => this.show = !this.show )
-            this.bus.subscribe(`post:/${this.cloudModule}/files`, () => this.getFiles() )
+
+        mountListeners(){
+            this.bus.subscribe(`post:/${this.cloudModule}/actions`, () => {
+                this.getActions()
+            })
+            this.bus.subscribe("show:/module/app/actions", () => this.show = !this.show )
         },
 
-        getFiles() {
+        getActions() {
             if(this.cloudId){
-                this.http.get(`/${this.cloudModule}s/${this.cloudId}/files`).then(result => {
+                this.http.get(`/${this.cloudModule}s/${this.cloudId}/actions`).then(result => {
                     if (result.successful) {
-                        this.files = result.data
+                        this.actions = result.data
                     }
                 }).catch(error => {
                     console.log(error)
                 })
             }
+        },
+
+        patchAction(action) {
+            let form_data =  { ticket_action: action }
+            this.http.patch(`/${this.cloudModule}s/${this.cloudId}/actions/${ action.id }`, form_data).then(result => {
+                if (result.successful) {
+                    if (action.complete == true) {
+                        this.alert('Task marked as completed!')
+                    }else{
+                        this.alert('Task marked as not completed!')
+                    }
+                }
+            }).catch(error => {
+                console.log(error)
+            })
         }
+
     },
     watch: {
         cloudId(){
-            this.getFiles()
+            this.getActions()
         }
     }
 }
@@ -90,18 +102,23 @@ export default {
     <section>
         <div :class="[{ 'is-active': show }, 'quickview']">
             <header class="quickview-header" @click="show = false">
-                <p class="title">Files</p>
-                <i class="fas fa-chevron-right clickable"></i>
+                <p class="title">Actions</p>
+                <i class="fas fa-chevron-right"></i>
             </header>
             <div class="quickview-body">
                 <div class="quickview-block">
                     <div class="section">
-                        <component-form-file class="box" :cloudModule="cloudModule" :cloudId="cloudId"/>
+                        <component-form-action class="box" :cloudModule="cloudModule" :cloudId="cloudId"/>
                         <ul class="menu-list">
-                            <li class="field" v-for="file in files" :key="file.id">
-                                <a :href="`/${cloudModule}s/${cloudId}/files/${file.id}`">
-                                    {{ file.name }}
-                                </a>
+                            <li class="field" v-for="action in actions" :key="action.id">
+                                <input
+                                    :id="`action-${action.id}`"
+                                    class="is-checkradio"
+                                    type="checkbox"
+                                    v-model="action.complete"
+                                    @change="patchAction(action)"
+                                >
+                                <label :for="`action-${action.id}`">{{ action.instructions }}</label>
                             </li>
                         </ul>
                     </div>
@@ -112,11 +129,3 @@ export default {
         </div>
     </section>
 </template>
-<style scoped>
-    .menu-list{
-        word-wrap: break-word;
-    }
-    .clickable{
-        cursor: pointer;
-    }
-</style>
