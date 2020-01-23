@@ -1,7 +1,7 @@
 /*
 Lesli
 
-Copyright (c) 2019, Lesli Technologies, S. A.
+Copyright (c) 2020, Lesli Technologies, S. A.
 
 All the information provided by this website is protected by laws of Guatemala related 
 to industrial property, intellectual property, copyright and relative international laws. 
@@ -16,40 +16,39 @@ LesliCloud - Your Smart Business Assistant
 Powered by https://www.lesli.tech
 Building a better future, one line of code at a time.
 
-@dev      Luis Donis <ldonis@lesli.tech>
-@author   LesliTech <hello@lesli.tech>
 @license  Propietary - all rights reserved.
-@version  GIT: 0.1.0 alpha
+@version  0.1.0-alpha
 
-// ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
-//  · 
+// · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
+// · 
 */
 
 
-//  · Loading frameworks, libraries and tools
-// ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
+// · Loading frameworks, libraries and tools
+// · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
 import axios from 'axios'
 
 
-//  · Plugin initializing 
-// ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
+// · Plugin initializing 
+// · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
 export default {
 
     install (Vue, options) {
 
         // Get authentication token from rails
         let meta = document.querySelector('meta[name="csrf-token"]')
+
         let token = ''
 
         if (meta) {
             token = meta.getAttribute('content')
         }
     
-        let http = axios.create({
+        Vue.prototype.http = axios.create({
             headers: { 'X-CSRF-Token': token }
         })
 
-        http.interceptors.response.use(response => {
+        Vue.prototype.http.interceptors.response.use(response => {
 
             if (window.debug) {
                 window.debug(response.data, "api method: " + response.request.responseURL)
@@ -87,8 +86,6 @@ export default {
             }
 
         })
-
-        Vue.prototype.http = http
 
     }
     
