@@ -21,7 +21,7 @@ Building a better future, one line of code at a time.
 @author   Carlos Hermosilla
 @license  Propietary - all rights reserved.
 @version  0.1.0-alpha
-@description Base abstract model for *file* core entity
+@description Base abstract model for *Workflow* *state* core entity used for workflows
 
 =end
     class WorkflowState < ApplicationRecord
@@ -119,11 +119,13 @@ Building a better future, one line of code at a time.
             )
         end
 
+private
+
 =begin
 @return [Hash] Hash that contains information about the class
 @description Returns dynamic information based on the current implementation of this abstract class
 @example
-    dynamic_info = CloudHelp::TicketState.dynamic_info
+    dynamic_info = CloudHelp::TicketWorkflowState.dynamic_info
     puts dynamic_info[:module_name] # will print 'help'
 =end
         def self.dynamic_info
