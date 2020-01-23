@@ -61,7 +61,7 @@ export default {
             let data = {user: this.sign_in};
             this.progress_bar_active = true;
 
-            this.http.post(this.url.core("/login"), data).then(response => {
+            this.http.post(this.url.to("/login"), data).then(response => {
 
                 this.progress_bar_active = false
 
@@ -93,7 +93,7 @@ export default {
 <template>
     <section>
 
-        <a class="logo" :href="this.url.core()">
+        <a class="logo" :href="this.url.to()">
             <img src="/assets/brand/leslicloud-logo.png" alt="LesliCloud Logo">
         </a>
 
