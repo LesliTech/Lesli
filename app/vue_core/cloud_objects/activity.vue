@@ -26,7 +26,6 @@ Building a better future, one line of code at a time.
 */
 
 
-
 // · 
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
 export default {
@@ -83,9 +82,9 @@ export default {
                 <div class="quickview-block">
                     <div class="timeline section">
                         <div class="timeline-item" v-for="activity in activities" :key="activity.id">
-                            <div class="timeline-marker" v-if="!activity.type"></div>
-                            <div class="timeline-marker is-icon" v-if="activity.type">
-                                <i class="fa fa-flag"></i>
+                            <div class="timeline-marker" v-if="!activity.icon"></div>
+                            <div class="timeline-marker is-icon" v-if="activity.icon">
+                                <i :class="['fa', 'fa-' + activity.icon]"></i>
                             </div>
                             <div class="timeline-content">
                                 <p class="heading">{{ activity.created_at }}</p>

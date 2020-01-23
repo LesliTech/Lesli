@@ -79,6 +79,7 @@ ActiveRecord::Schema.define(version: 2040109) do
     t.string "field_name"
     t.string "value_from"
     t.string "value_to"
+    t.string "icon"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.bigint "cloud_house_contacts_id"

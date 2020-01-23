@@ -10,4 +10,7 @@
     }, {
     "name": "value_to",
     "type": "string"
+    }, {
+    "name": "icon",
+    "type": "string"
 }]
