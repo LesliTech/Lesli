@@ -50,6 +50,7 @@ module CloudObject
                     field_name: activity[:field_name],
                     value_from: activity[:value_from],
                     value_to: activity[:value_to],
+                    icon: activity[:icon],
                     created_at: CloudHelper::Date.to_string(activity[:created_at]),
                     updated_at: CloudHelper::Date.to_string(activity[:updated_at])
                 }

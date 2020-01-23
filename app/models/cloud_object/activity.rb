@@ -29,15 +29,9 @@ module CloudObject
     class Activity < ApplicationRecord
         self.abstract_class = true
 
-        def for(cloud_object)
-            self.cloud_object = cloud_object
-            self.save!
-        end
-
-        def testt
-            self.value_from = "ldonis"
-            self.save!
-        end
+        enum icon: {
+            flag: 'flag'
+        }
 
     end
 end
