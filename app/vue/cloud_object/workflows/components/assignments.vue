@@ -1,0 +1,158 @@
+<script>
+export default {
+    props: {
+        cloudModule: {
+            type: String,
+            required: true
+        },
+        cloudObject: {
+            type: String,
+            required: true
+        },
+        cloudWorkflowKeyName: {
+            type: String,
+            required: true
+        }
+    },
+
+    data(){
+        return {
+            show: false,
+            workflow_assignments: [],
+            workflow_associations: [],
+            workflows: []
+        }
+    },
+
+    mounted(){
+        this.mountListeners()
+        this.getWorkflowAssociations()
+        this.getWorkflowAssignments()
+        this.getWorkflows()
+
+    },
+
+    methods: {
+        mountListeners(){
+            this.bus.subscribe('show:/module/app/workflow-assignments', () => {
+                this.show = ! this.show
+            })
+        },
+
+        getWorkflows(){
+            let url = `/${this.cloudModule}/${this.cloudObject}_workflows.json`
+
+            this.http.get(url).then(result => {
+                if (result.successful) {
+                    this.workflows = result.data
+                    console.log(JSON.stringify(this.workflows))
+                }else{
+                    this.alert(result.error.message,'danger')
+                }
+            }).catch(error => {
+                console.log(error)
+            })
+        },
+
+        getWorkflowAssignments(){
+            let query = `name=${this.cloudObject}_${this.cloudWorkflowKeyName}&resource_id=${this.$route.params.id}`
+            let url = `/${this.cloudModule}/${this.cloudObject}_workflow_assignments.json?${query}`
+
+            this.http.get(url).then(result => {
+                if (result.successful) {
+                    this.workflow_assignments = result.data
+                    console.log(JSON.stringify(result.data))
+                }else{
+                    this.alert(result.error.message,'danger')
+                }
+            }).catch(error => {
+                console.log(error)
+            })
+        },
+
+        patchWorkflowAssignment(workflow_assignment){
+            let url = `/${this.cloudModule}/${this.cloudObject}_workflow_assignments/${workflow_assignment.id}`
+            let data = {}
+            data[`${this.cloudObject}_workflow_assignment`] =  workflow_assignment
+            
+            this.http.patch(url, data).then(result => {
+                if (result.successful) {
+                    this.alert('Workflow Assignment successfully updated', 'success')
+                }else{
+                    this.alert(result.error.message,'danger')
+                }
+            }).catch(error => {
+                console.log(error)
+            })
+        },
+
+        getWorkflowAssociations(){
+            let url = `/${this.cloudModule}/${this.cloudObject}_workflow_assignments/options`
+            this.http.get(url).then(result => {
+                if (result.successful) {
+                    this.workflow_associations = result.data.filter((association)=>{
+                        return association.name != `${this.cloudObject}_${this.cloudWorkflowKeyName}`
+                    })
+                }else{
+                    this.alert(result.error.message,'danger')
+                }
+            }).catch(error => {
+                console.log(error)
+            })
+        }
+    }
+}
+</script>
+<template>
+    <section>
+        <div :class="[{ 'is-active': show }, 'quickview']">
+            <header class="quickview-header" @click="show = false">
+                <p class="title">Assign a Workflow</p>
+                <i class="fas fa-chevron-right"></i>
+            </header>
+            <div class="quickview-body">
+                <div class="quickview-block">
+                    <div class="section">
+                        <b-table
+                            :data="workflow_assignments"
+                        >
+                            <template v-slot="props">
+                                <b-table-column
+                                    :field="`cloud_${cloudModule}_${cloudObject}_workflows_id`"
+                                    label="Workflow Name"
+                                >
+                                    <div class="control is-expanded">
+                                        <span class="select is-fullwidth">
+                                            <select
+                                                expanded
+                                                v-model="props.row[`cloud_${cloudModule}_${cloudObject}_workflows_id`]"
+                                                @change="patchWorkflowAssignment(props.row)"
+                                            >
+                                                <option
+                                                    v-for="workflow in workflows"
+                                                    :value="workflow.id"
+                                                    :key="workflow.id">
+                                                    {{ workflow.name }}
+                                                </option>
+                                            </select>
+                                        </span>
+                                    </div>
+                                </b-table-column>
+                                <b-table-column
+                                    v-for="association in workflow_associations"
+                                    :key="association.name"
+                                    :field="`${association.name}_${association.identifier}`"
+                                    :label="`${association.name}_${association.identifier}`"
+                                >
+                                    {{props.row[`${association.name}_${association.identifier}`]}}
+                                </b-table-column>
+                            </template>
+                        </b-table>
+                    </div>
+                </div>
+            </div>
+            <footer class="quickview-footer">
+            </footer>
+        </div>
+    </section>
+</template>
