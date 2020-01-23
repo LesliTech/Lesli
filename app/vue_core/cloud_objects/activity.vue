@@ -26,72 +26,49 @@ Building a better future, one line of code at a time.
 */
 
 
-// · LesliCloud app
+
+// · 
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
 export default {
+    props: {
+        cloudModule: {
+            type: String,
+            required: true
+        },
+        cloudId: {
+            required: true
+        }
+    },
     data() {
         return {
             show: false,
-            activities: [{
-                id: 0,
-                created_at: 'January 2019',
-                content: 'Information logged successfully',
-                type: 'goal'
-            },{
-                id: 1,
-                created_at: 'January 2018',
-                content: 'Information logged successfully',
-                type: null
-            },{
-                id: 2,
-                created_at: 'January 2017',
-                content: 'Information logged successfully',
-                type: 'goal'
-            },{
-                id: 3,
-                created_at: 'January 2016',
-                content: 'Information logged successfully',
-                type: null
-            },{
-                id: 4,
-                created_at: 'January 2015',
-                content: 'Information logged successfully',
-                type: 'goal'
-            },{
-                id: 5,
-                created_at: 'January 2014',
-                content: 'Information logged successfully',
-                type: null
-            },{
-                id: 6,
-                created_at: 'January 2013',
-                content: 'Information logged successfully',
-                type: 'goal'
-            },{
-                id: 7,
-                created_at: 'January 2012',
-                content: 'Information logged successfully',
-                type: null
-            },{
-                id: 8,
-                created_at: 'January 2011',
-                content: 'Information logged successfully',
-                type: 'goal'
-            },{
-                id: 9,
-                created_at: 'January 2010',
-                content: 'Information logged successfully',
-                type: null
-            }]
+            activities: []
         }
     },
     mounted() {
         this.mountListeners()
     },
     methods: {
+
         mountListeners(){
-            this.bus.subscribe("show:/module/app/activities", () => this.show = !this.show )
+            this.bus.subscribe("show:/module/app/activities", () => {
+                this.show = !this.show
+                this.getActivities()
+            })
+        },
+
+        getActivities() {
+            if(this.cloudId){
+                this.http.get(`/${this.cloudModule}s/${this.cloudId}/activities`).then(result => {
+                    if (result.successful) {
+                        this.activities = result.data
+                    }
+                }).catch(error => {
+                    console.log(error)
+                })
+            }
         }
+
     }
 }
 </script>
@@ -112,7 +89,7 @@ export default {
                             </div>
                             <div class="timeline-content">
                                 <p class="heading">{{ activity.created_at }}</p>
-                                <p>{{ activity.content }}</p>
+                                <p>{{ activity.description }}</p>
                             </div>
                         </div>
                     </div>
