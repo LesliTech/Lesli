@@ -16,7 +16,6 @@ LesliCloud - Your Smart Business Assistant
 Powered by https://www.lesli.tech
 Building a better future, one line of code at a time.
 
-@author   LesliTech <hello@lesli.tech>
 @license  Propietary - all rights reserved.
 @version  0.1.0-alpha
 
@@ -48,14 +47,9 @@ function webpackConfigBuilder(env) {
         performance: { hints: false },
         optimization: { minimize: production },
         entry: {
-            "accounts_new": "./app/vue/accounts/new.js",
-            "websites_landing": "./app/vue/websites/landing.js",
-            "users/sessions_new": "./app/vue/users/sessions_new.js",
-            "users/passwords_new": "./app/vue/users/passwords_new.js",
-            "users/passwords_edit": "./app/vue/users/passwords_edit.js",
-            "users/registrations_new": "./app/vue/users/registrations_new.js",
-            "users/confirmations_new": "./app/vue/users/confirmations_new.js",
-            "dashboards/app": "./app/vue/dashboards/app.js"
+            "websites/app": "./app/vue/websites/app.js",
+            "users/app": "./app/vue/users/app.js",
+            "dashboards/app": "./app/vue/dashboards/app.js",
         },
         output: {
             path: __dirname,
@@ -67,8 +61,10 @@ function webpackConfigBuilder(env) {
                 // resolve vuejs
                 vue: production ? 'vue/dist/vue.min.js' : 'vue/dist/vue.js',
 
+                LesliCloud: path.resolve(__dirname, './app'),
+
                 // Resolve alias necessary to load vue components from LesliCloud
-                LesliCloud: path.resolve(__dirname, './app')
+                LesliCoreVue: path.resolve(__dirname, './app/vue_core'),
 
             },
             extensions: [".js"]
@@ -130,6 +126,8 @@ function webpackConfigBuilder(env) {
     }
 
     webpackConfig.push(webpackbase)
+
+    return webpackConfig
 
     // · get engines
     let engines = [

@@ -1,7 +1,7 @@
 /*
 Lesli
 
-Copyright (c) 2019, Lesli Technologies, S. A.
+Copyright (c) 2020, Lesli Technologies, S. A.
 
 All the information provided by this website is protected by laws of Guatemala related 
 to industrial property, intellectual property, copyright and relative international laws. 
@@ -16,8 +16,6 @@ LesliCloud - Your Smart Business Assistant
 Powered by https://www.lesli.tech
 Building a better future, one line of code at a time.
 
-@dev      Luis Donis <ldonis@lesli.tech>
-@author   LesliTech <hello@lesli.tech>
 @license  Propietary - all rights reserved.
 @version  0.1.0-alpha
 
@@ -27,5 +25,20 @@ Building a better future, one line of code at a time.
 
 
 // · 
-@import "users/shared.scss";
+@import "users/devise.scss";
 
+
+body.users-registrations-new section {
+    background: linear-gradient(
+        rgba(lesli-color(standard, white),.75),
+        rgba(lesli-color(standard, white),.75)),
+        url("/assets/users/registrations/register-background.full.jpg");
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+ 
+    form {
+        max-width: 450px;
+    }
+    
+ }
