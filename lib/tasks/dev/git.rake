@@ -15,7 +15,7 @@ namespace :dev do
             end
             
             # commit any possible pending change
-            system "git add --all && git commit -m \"Dev update\""
+            system "git add --all && git commit -m \"dev update\""
 
             # copy vendor dependencies (only css files are required)
             system "rm -r vendor/*"
