@@ -27,7 +27,7 @@ Building a better future, one line of code at a time.
 */
 
 
-import componentFormAction from './forms/action.vue'
+import componentActionForm from './actions/form.vue'
 
 
 export default {
@@ -41,7 +41,7 @@ export default {
         }
     },
     components: {
-        'component-form-action': componentFormAction
+        'component-form-action': componentActionForm
     },
     data() {
         return {

@@ -10,10 +10,13 @@ Rails.application.config.assets.paths << Rails.root.join('vendor')
 Rails.application.config.assets.precompile += %w( websites.css )
 Rails.application.config.assets.precompile += %w( users/*.css )
 Rails.application.config.assets.precompile += %w( dashboards.css )
+Rails.application.config.assets.precompile += %w( cloud_house/*.css )
 
 Rails.application.config.assets.precompile += %w( websites/*.js )
 Rails.application.config.assets.precompile += %w( users/*.js )
 Rails.application.config.assets.precompile += %w( dashboards/app.js )
+Rails.application.config.assets.precompile += %w( cloud_house/*.js )
+
 
 Rails.application.config.assets.precompile += %w( i18n.js )
 
@@ -26,7 +29,7 @@ Rails.application.config.assets.precompile += %w( cloud_driver/*.css )
 Rails.application.config.assets.precompile += %w( cloud_babel/*.css )
 Rails.application.config.assets.precompile += %w( cloud_lesli/*.css )
 Rails.application.config.assets.precompile += %w( cloud_books/*.css )
-Rails.application.config.assets.precompile += %w( cloud_house/*.css )
+
 Rails.application.config.assets.precompile += %w( cloud_panel/*.css )
 Rails.application.config.assets.precompile += %w( cloud_team/*.css )
 Rails.application.config.assets.precompile += %w( cloud_help/*.css )
@@ -46,7 +49,7 @@ Rails.application.config.assets.precompile += %w( cloud_driver/*.js )
 Rails.application.config.assets.precompile += %w( cloud_babel/*.js )
 Rails.application.config.assets.precompile += %w( cloud_lesli/*.js )
 Rails.application.config.assets.precompile += %w( cloud_books/*.js )
-Rails.application.config.assets.precompile += %w( cloud_house/*.js )
+
 Rails.application.config.assets.precompile += %w( cloud_panel/*.js )
 Rails.application.config.assets.precompile += %w( cloud_team/*.js )
 Rails.application.config.assets.precompile += %w( cloud_bell/*.js )

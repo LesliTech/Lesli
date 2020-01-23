@@ -2,7 +2,7 @@
 /*
 Lesli
 
-Copyright (c) 2019, Lesli Technologies, S. A.
+Copyright (c) 2020, Lesli Technologies, S. A.
 
 All the information provided by this website is protected by laws of Guatemala related 
 to industrial property, intellectual property, copyright and relative international laws. 
@@ -17,8 +17,6 @@ LesliCloud - Your Smart Business Assistant
 Powered by https://www.lesli.tech
 Building a better future, one line of code at a time.
 
-@dev      Carlos Hermosilla <ldonis@lesli.tech>
-@author   LesliTech <hello@lesli.tech>
 @license  Propietary - all rights reserved.
 @version  0.1.0-alpha
 
@@ -59,8 +57,12 @@ export default {
     mounted(){
         this.parseCloudModule()
         this.setTranslations()
-        this.getEvents()
-        this.bus.subscribe("show:/module/app/subscriptions", () => this.show = !this.show )
+        
+        this.bus.subscribe("show:/module/app/subscriptions", () => {
+            this.show = !this.show
+            this.getEvents()
+        })
+        
     },
 
     methods: {
