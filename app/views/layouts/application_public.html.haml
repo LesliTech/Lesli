@@ -5,7 +5,6 @@
         = render 'layouts/partials/application-asset-css'
         = render 'layouts/partials/application-data'
         = render 'layouts/partials/application_public-asset-js'
-    %body{:class => "#{controller_path}-#{action_name}"}
-        = render 'layouts/partials/application_public-notify'
+    %body{:class => "#{controller_path.to_s.sub('/','-')}-#{action_name}"}
         %main#lesli-cloud-app
             =yield
