@@ -214,6 +214,52 @@ Building a better future, one line of code at a time.
             end
         end
 
+        
+=begin
+@return [void]
+@description Adds the "workflow_detail" attribute to an existing *cloud_object*.
+    The detail added is the one associated to the *initial* *state*, based on the
+    *cloud_object*'s attributes configured as associations in the *workflow_assignment*
+    model.
+@example
+    ticket_params = {
+        detail_attributes: {
+            cloud_help_ticket_priorities_id: 1,
+            cloud_help_ticket_categories_id: 1,
+            cloud_help_ticket_types_id: 1
+        }
+    }
+    ticket = CloudHelp::Ticket.new(ticket_params)
+    CloudHelp::TicketWorkflow.set_workflow(ticket)
+    if ticket.save
+        responseWithSuccessful
+    else
+        responseWithError(ticket.errors.full_messages.to_sentence)
+    end
+=end
+        def self.set_workflow(cloud_object)
+
+            dynamic_info_ = self.dynamic_info
+            assignment_model = dynamic_info_[:assignment_model]
+            detail_model = dynamic_info_[:detail_model]
+            state_model = dynamic_info_[:state_model]
+            account = cloud_object.account
+            associations = assignment_model.associations
+            search_params = {account: account}
+            
+            associations.each do |association|
+                search_params["#{association[:name]}".to_sym] = cloud_object.detail[association[:key]]
+            end
+
+            workflow_assignment = assignment_model.find_by(search_params)
+            workflow = workflow_assignment.workflow
+
+            cloud_object.detail.workflow_detail = detail_model.find_by(
+                workflow: workflow,
+                workflow_state: state_model.initial_state(account)
+            )
+        end
+
         private
         
 =begin
@@ -232,6 +278,7 @@ Building a better future, one line of code at a time.
                 module_name: module_info[0].sub("Cloud", "").downcase,
                 detail_model: "#{self.name}::Detail".constantize,
                 state_model: "#{module_info[0]}::#{cloud_object_name}WorkflowState".constantize,
+                assignment_model: "#{module_info[0]}::#{cloud_object_name}WorkflowAssignment".constantize,
                 object_name: "#{cloud_object_name.downcase}_workflow"
             }
         end

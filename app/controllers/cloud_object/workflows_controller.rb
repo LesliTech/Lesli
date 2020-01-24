@@ -217,6 +217,38 @@ this.http.put(`127.0.0.1/help/ticket_workflows/${ticket_workflow_id}`, data);
             end
         end
 
+=begin
+@description Retrieves a list of possible transitions the the *cloud_object*, depending on the *state* they are actually in.
+@example
+    # Executing this controller's action from javascript's frontend
+    let ticket_id = 6
+    this.http.get(`127.0.0.1/help/options/tickets/${ticket_id}/workflows`).then(response => {
+        if( response.successful ){
+            console.log(JSON.stringify(response.data))
+            # This will print something similar to
+            #[
+            #    {"id":2,"name":"closed","workflow_detail_id":8},
+            #    {"id":3,"name":"In progress","workflow_detail_id":9}
+            #]
+            # where "id" is the id of the wokflow state
+        }
+    });
+=end
+        def workflow_options
+            dynamic_info = self.class.dynamic_info
+            module_name = dynamic_info[:module_name]
+            cloud_object_model = dynamic_info[:cloud_object_model]
+
+            cloud_object = cloud_object_model.find_by(
+                id: params[:cloud_object_id],
+                "cloud_#{module_name}_accounts_id".to_sym => current_user.account.id
+            )
+
+            return responseWithNotFound unless cloud_object
+
+            responseWithSuccessful(cloud_object.detail.workflow_detail.next_workflow_states)
+        end
+
 private
 
 =begin
@@ -287,8 +319,6 @@ private
             )
         end
 
-private
-
 =begin
 @return [Hash] Hash that contains information about the class
 @description Returns dynamic information based on the current implementation of this abstract class
@@ -305,7 +335,8 @@ private
             {
                 module_name: module_info[0].sub("Cloud", "").downcase,
                 object_name: "#{cloud_object_name.downcase}_workflow",
-                model: "#{module_info[0]}::#{cloud_object_name}Workflow".constantize
+                model: "#{module_info[0]}::#{cloud_object_name}Workflow".constantize,
+                cloud_object_model: "#{module_info[0]}::#{cloud_object_name}".constantize
             }
         end
     end

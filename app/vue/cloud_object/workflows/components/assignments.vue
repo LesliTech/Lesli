@@ -87,7 +87,7 @@ export default {
         },
 
         getWorkflowAssociations(){
-            let url = `/${this.cloudModule}/${this.cloudObject}_workflow_assignments/options`
+            let url = `/${this.cloudModule}/options/${this.cloudObject}_workflow_assignments`
             this.http.get(url).then(result => {
                 if (result.successful) {
                     this.workflow_associations = result.data.filter((association)=>{
