@@ -25,35 +25,26 @@ Building a better future, one line of code at a time.
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
 // · 
 */
+
+
+// · Component list
+// · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
+import componentForm from '../components/form.vue'
+
+
 export default {
     props: {
-        name: {
+        cloudModule: {
             type: String,
-            default: ''
+            required: true
         }
     },
-
-    data() {
-        return {
-            translations: null,
-            names: {
-                initial: 'created',
-                final: 'closed'
-            }
-        }
+    
+    components: {
+        'component-form': componentForm
     }
 }
 </script>
 <template>
-    <span>
-        <span v-if="name === names.initial">
-            Created (Initial)
-        </span>
-        <span v-else-if="name === names.final">
-            Closed (Final)
-        </span>
-        <span v-else>
-            {{name}}
-        </span>
-    </span>
+    <component-form :cloud-module="cloudModule" />
 </template>

@@ -9,10 +9,6 @@ export default {
             type: String,
             required: true
         },
-        cloudObject: {
-            type: String,
-            required: true
-        },
         defaultWorkflowStates: {
             type: Object,
             required: true
@@ -48,12 +44,19 @@ export default {
     },
 
     mounted(){
+        this.setCloudParams()
         this.getWorkflowStates()
     },
 
     methods: {
+        setCloudParams(){
+            let module_data = this.cloudModule.split('/')
+            this.module_name = module_data[0]
+            this.object_name = module_data[1]
+        },
+
         getWorkflowStates(){
-            this.http.get(`/${this.cloudModule}/${this.cloudObject}_workflow_states.json`).then(result => {
+            this.http.get(`/${this.cloudModule}_workflow_states.json`).then(result => {
                 if (result.successful) {
                     this.workflow_states = result.data
 
@@ -78,9 +81,9 @@ export default {
             event.preventDefault()
 
             let data = {}
-            data[`${this.cloudObject}_workflow_state`] = {...this.new_workflow_state}
+            data[`${this.object_name}_workflow_state`] = {...this.new_workflow_state}
             this.new_workflow_state.name = ''
-            this.http.post(`/${this.cloudModule}/${this.cloudObject}_workflow_states`, data).then(result => {
+            this.http.post(`/${this.cloudModule}_workflow_states`, data).then(result => {
                 if (result.successful) {
                     this.getWorkflowStates()
                     this.alert('Workflow state created successfully', 'success')
@@ -96,8 +99,8 @@ export default {
             event.preventDefault()
             this.modal.edit.active = false
             let data = {}
-            data[`${this.cloudObject}_workflow_state`] = this.selected_workflow_state
-            let url = `/${this.cloudModule}/${this.cloudObject}_workflow_states/${this.selected_workflow_state.id}`
+            data[`${this.object_name}_workflow_state`] = this.selected_workflow_state
+            let url = `/${this.cloudModule}_workflow_states/${this.selected_workflow_state.id}`
             
             this.http.patch(url, data).then(result => {
                 if (result.successful) {
@@ -115,7 +118,7 @@ export default {
         deleteWorkflowState(){
             this.modal.delete.active = false
             if(this.selected_workflow_state){
-                let url = `/${this.cloudModule}/${this.cloudObject}_workflow_states/${this.selected_workflow_state.id}`
+                let url = `/${this.cloudModule}_workflow_states/${this.selected_workflow_state.id}`
                 this.http.delete(url).then(result => {
                     if (result.successful) {
                         this.getWorkflowStates()
@@ -220,7 +223,6 @@ export default {
                     >
                         <component-workflow-state-name
                             :name="workflow_state.name"
-                            :translations-shared-path="`cloud_${cloudModule}.${cloudObject}_workflow_states.shared`"
                         />
                         <span v-if="! workflow_state.initial && ! workflow_state.final">
                             <b-tooltip

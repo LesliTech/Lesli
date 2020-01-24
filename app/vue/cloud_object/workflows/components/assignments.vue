@@ -5,11 +5,10 @@ export default {
             type: String,
             required: true
         },
-        cloudObject: {
-            type: String,
+        cloudAssociationId: {
             required: true
         },
-        cloudWorkflowKeyName: {
+        workflowKeyName: {
             type: String,
             required: true
         }
@@ -20,11 +19,14 @@ export default {
             show: false,
             workflow_assignments: [],
             workflow_associations: [],
-            workflows: []
+            workflows: [],
+            module_name: null,
+            object_name: null
         }
     },
 
     mounted(){
+        this.setCloudParams()
         this.mountListeners()
         this.getWorkflowAssociations()
         this.getWorkflowAssignments()
@@ -33,6 +35,12 @@ export default {
     },
 
     methods: {
+        setCloudParams(){
+            let module_data = this.cloudModule.split('/')
+            this.module_name = module_data[0]
+            this.object_name = module_data[1]
+        },
+
         mountListeners(){
             this.bus.subscribe('show:/module/app/workflow-assignments', () => {
                 this.show = ! this.show
@@ -40,12 +48,11 @@ export default {
         },
 
         getWorkflows(){
-            let url = `/${this.cloudModule}/${this.cloudObject}_workflows.json`
+            let url = `/${this.module_name}/${this.object_name}_workflows.json`
 
             this.http.get(url).then(result => {
                 if (result.successful) {
                     this.workflows = result.data
-                    console.log(JSON.stringify(this.workflows))
                 }else{
                     this.alert(result.error.message,'danger')
                 }
@@ -55,13 +62,12 @@ export default {
         },
 
         getWorkflowAssignments(){
-            let query = `name=${this.cloudObject}_${this.cloudWorkflowKeyName}&resource_id=${this.$route.params.id}`
-            let url = `/${this.cloudModule}/${this.cloudObject}_workflow_assignments.json?${query}`
+            let query = `name=${this.object_name}_${this.workflowKeyName}&resource_id=${this.cloudAssociationId}`
+            let url = `/${this.module_name}/${this.object_name}_workflow_assignments.json?${query}`
 
             this.http.get(url).then(result => {
                 if (result.successful) {
                     this.workflow_assignments = result.data
-                    console.log(JSON.stringify(result.data))
                 }else{
                     this.alert(result.error.message,'danger')
                 }
@@ -71,9 +77,9 @@ export default {
         },
 
         patchWorkflowAssignment(workflow_assignment){
-            let url = `/${this.cloudModule}/${this.cloudObject}_workflow_assignments/${workflow_assignment.id}`
+            let url = `/${this.module_name}/${this.object_name}_workflow_assignments/${workflow_assignment.id}`
             let data = {}
-            data[`${this.cloudObject}_workflow_assignment`] =  workflow_assignment
+            data[`${this.object_name}_workflow_assignment`] =  workflow_assignment
             
             this.http.patch(url, data).then(result => {
                 if (result.successful) {
@@ -87,11 +93,11 @@ export default {
         },
 
         getWorkflowAssociations(){
-            let url = `/${this.cloudModule}/options/${this.cloudObject}_workflow_assignments`
+            let url = `/${this.module_name}/options/${this.object_name}_workflow_assignments`
             this.http.get(url).then(result => {
                 if (result.successful) {
                     this.workflow_associations = result.data.filter((association)=>{
-                        return association.name != `${this.cloudObject}_${this.cloudWorkflowKeyName}`
+                        return association.name != `${this.object_name}_${this.workflowKeyName}`
                     })
                 }else{
                     this.alert(result.error.message,'danger')
@@ -118,14 +124,14 @@ export default {
                         >
                             <template v-slot="props">
                                 <b-table-column
-                                    :field="`cloud_${cloudModule}_${cloudObject}_workflows_id`"
+                                    :field="`cloud_${module_name}_${object_name}_workflows_id`"
                                     label="Workflow Name"
                                 >
                                     <div class="control is-expanded">
                                         <span class="select is-fullwidth">
                                             <select
                                                 expanded
-                                                v-model="props.row[`cloud_${cloudModule}_${cloudObject}_workflows_id`]"
+                                                v-model="props.row[`cloud_${module_name}_${object_name}_workflows_id`]"
                                                 @change="patchWorkflowAssignment(props.row)"
                                             >
                                                 <option
