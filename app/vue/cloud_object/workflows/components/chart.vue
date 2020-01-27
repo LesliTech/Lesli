@@ -99,7 +99,6 @@ export default {
 
         verifyDefaultStates(){
             if(! this.default_states.initial || ! this.default_states.final){
-                console.log(`/${this.cloudModule}_workflow_states.json`)
                 this.http.get(`/${this.cloudModule}_workflow_states.json`).then(result => {
                     if (result.successful) {
 
