@@ -4,6 +4,12 @@ PATH
     cloud_house (0.1.0)
       rails (~> 6.0.0)
 
+PATH
+  remote: engines/CloudTeam
+  specs:
+    cloud_team (0.1.0)
+      rails (~> 6.0.0)
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -266,6 +272,7 @@ DEPENDENCIES
   byebug
   cancancan
   cloud_house!
+  cloud_team!
   devise
   faker
   haml-rails
