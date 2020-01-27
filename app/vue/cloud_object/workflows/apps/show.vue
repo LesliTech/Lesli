@@ -35,49 +35,53 @@ export default {
     props: {
         cloudModule: {
             type: String,
-            default: 'help'
-        },
-        cloudObject: {
-            type: String,
-            default: 'ticket'
+            required: true
         }
     },
 
     components: {
         'component-workflow-chart': componentWorkflowChart
     },
+
     data() {
         return {
-            translations: {
-                shared: I18n.t('cloud_help.ticket_workflows.shared'),
-                show: I18n.t('cloud_help.ticket_workflows.show')
-            },
+            module_name: null,
+            object_name: null,
             modal: {
                 active: false
             },
-            ticket_workflow: {},
-            ticket_workflow_id: null,
+            workflow: {},
+            workflow_id: null,
             default_workflow_states: null
         }
     },
+
     mounted() {
         // · setWorkflowId() calls getWorkflow()
         this.setWorkflowId()
+        this.setCloudParams()
         this.getWorkflowStates()
     },
+
     methods: {
+
+        setCloudParams(){
+            let module_data = this.cloudModule.split('/')
+            this.module_name = module_data[0]
+            this.object_name = module_data[1]
+        },
         
         setWorkflowId(){
             if (this.$route.params.id) {
-                this.ticket_workflow_id = this.$route.params.id
+                this.workflow_id = this.$route.params.id
                 this.getWorkflow()
             }
         },
 
         getWorkflow() {
-            this.http.get(`/help/ticket_workflows/${this.ticket_workflow_id}.json`).then(result => {
+            this.http.get(`/${this.cloudModule}_workflows/${this.workflow_id}.json`).then(result => {
                 if (result.successful) {
-                    this.ticket_workflow = result.data
+                    this.workflow = result.data
                 } else {
                     this.alert(result.error.message,'danger')
                 }
@@ -106,15 +110,13 @@ export default {
         },
 
         patchWorkflowDefault() {
-            let data = {
-                ticket_workflow: {
-                    default: true
-                }
-            }
-            this.http.patch(`/help/ticket_workflows/${this.ticket_workflow_id}`, data).then(result => {
+            let data = {}
+            data[`${this.object_name}_workflow`] = { default: true }
+
+            this.http.patch(`/${this.cloudModule}_workflows/${this.workflow_id}`, data).then(result => {
                 if(result.successful){
-                    this.ticket_workflow.default = true
-                    this.alert(this.translations.show.messages.set_as_default, 'success')
+                    this.workflow.default = true
+                    this.alert('Workflow set as default successfully', 'success')
                 } else {
                     this.alert(result.error.message,'danger')
                 }
@@ -125,9 +127,9 @@ export default {
 
         deleteWorkflow(){
             this.modal.active = false
-            this.http.delete(`/help/ticket_workflows/${this.ticket_workflow_id}`).then(result => {
+            this.http.delete(`/${this.cloudModule}_workflows/${this.workflow_id}`).then(result => {
                 if(result.successful){
-                    this.alert(this.translations.show.messages.delete,'success')
+                    this.alert('Workflow successfully deleted', 'success')
                     this.$router.push('/')
                 }else{
                     this.alert(result.error.message,'danger')
@@ -140,7 +142,7 @@ export default {
 }
 </script>
 <template>
-    <section v-if="ticket_workflow && default_workflow_states">
+    <section v-if="workflow && default_workflow_states">
         <b-modal 
             :active.sync="modal.active"
             has-modal-card
@@ -151,18 +153,18 @@ export default {
             <div class="card">
                 <div class="card-header is-danger">
                     <h2 class="card-header-title">
-                        {{ translations.show.modal.title }}
+                        Are you sure you want to delete this workflow?
                     </h2>
                 </div>
                 <div class="card-content">
-                    {{ translations.show.modal.body }}
+                    Once deleted, you will not be able to recover this workflow. Note that you can only delete a workflow if it is not associated to any resource and it is not the default workflow.
                 </div>
                 <div class="card-footer has-text-right">
                     <button class="card-footer-item button is-danger" @click="deleteWorkflow">
-                        {{ translations.show.modal.actions.delete }}
+                        Yes, delete it
                     </button>
                     <button class="card-footer-item button is-secondary" @click="modal.active=false">
-                        {{ translations.show.modal.actions.cancel }}
+                        Cancel
                     </button>
                 </div>
             </div>
@@ -170,37 +172,37 @@ export default {
         <div class="card">
             <div class="card-header">
                 <h2 class="card-header-title">
-                    {{ ticket_workflow.name }} &nbsp;
-                    <span v-if="ticket_workflow.default" class="has-text-info">
-                        ({{translations.shared.fields.default}})
+                    {{ workflow.name }} &nbsp;
+                    <span v-if="workflow.default" class="has-text-info">
+                        (Default)
                     </span>
                 </h2>
                 <div class="card-header-icon">
-                    <span v-if="ticket_workflow.default" class="has-text-gray">
+                    <span v-if="workflow.default" class="has-text-gray">
                         <i class="fas fa-check-circle"></i>
-                        {{ translations.shared.actions.set_as_default}}
+                        Set as Default
                     </span>
                     <a v-else href="javascript:void(0)" @click="patchWorkflowDefault">
                         <i class="fas fa-check-circle"></i>
-                        {{ translations.shared.actions.set_as_default}}
+                        Set as Default
                     </a>
-                    <router-link :to="`/${ticket_workflow_id}/edit`">
+                    <router-link :to="`/${workflow_id}/edit`">
                         &nbsp;&nbsp;&nbsp;
                         <i class="fas fa-edit"></i>
-                        {{ translations.shared.actions.edit }}
+                        Edit Workflow
                     </router-link>
                     <router-link :to="`/`">
                         &nbsp;&nbsp;&nbsp;
                         <i class="fas fa-undo"></i>
-                        {{ translations.shared.actions.return }}
+                        Return
                     </router-link>
                 </div>
             </div>
             <div class="card-content">
                 <component-workflow-chart
                     class="has-text-centered"
-                    cloud-module="help/ticket"
-                    :workflow="ticket_workflow.details"
+                    :cloud-module="cloudModule"
+                    :workflow="workflow.details"
                     :workflow-state-initial-id="default_workflow_states.initial"
                     :workflow-state-final-id="default_workflow_states.final"
                 >
@@ -209,21 +211,21 @@ export default {
                     <div class="column">
                         <small>
                             <span class="has-text-weight-bold">
-                                {{ `${translations.shared.fields.created_at}:` }}
+                                Created at:
                             </span>
-                            {{ date.toLocalFormat(ticket_workflow.created_at, false, true) }}
+                            {{ date.toLocalFormat(workflow.created_at, false, true) }}
                             <br>
                             <span class="has-text-weight-bold">
-                                {{ `${translations.shared.fields.updated_at}:` }}
+                                Updated at:
                             </span>
-                            {{ date.toLocalFormat(ticket_workflow.updated_at, false, true) }}
+                            {{ date.toLocalFormat(workflow.updated_at, false, true) }}
                         </small>
                     </div>
                     <div class="column">
                         <div class="field">
                             <div class="actions has-text-right">
                                 <button class="button is-danger" @click="modal.active = true">
-                                    {{ translations.shared.actions.delete }}
+                                    Delete workflow
                                 </button>
                             </div>
                         </div>
