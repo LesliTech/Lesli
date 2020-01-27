@@ -33,3 +33,5 @@
 /config/credentials/test.key
 
 /config/locales/*.sql
+
+/.yardoc
