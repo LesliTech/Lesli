@@ -1,0 +1,16 @@
+[{
+    "name": "description",
+    "type": "string"
+}, {
+    "name": "field_name",
+    "type": "string"
+    }, {
+    "name": "value_from",
+    "type": "string"
+    }, {
+    "name": "value_to",
+    "type": "string"
+    }, {
+    "name": "icon",
+    "type": "string"
+}]

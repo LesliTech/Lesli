@@ -1,12 +1,38 @@
+require 'json'
+
 module LesliInfo
 
     def LesliInfo.engines
-        [{
-            name: 'CloudTeam',
-            code: 'cloud_team',
-            github_ssh: 'git@github.com:LesliTech/CloudTeam.git',
-            github_url: 'https://github.com/LesliTech/CloudTeam'
-        }, {
+        engines = []
+        Dir.entries("./engines").each do |entry| #{|entry| !(entry =='.' || entry == '..') }
+            
+            # next if entry is not an engine
+            next if entry == "."
+            next if entry == ".."
+            next if entry == ".gitkeep"
+            
+            # build path to lesli engine info file
+            path = File.join("./engines", entry, "lesli.json")
+            
+            # next if lesli engine info file does not exist
+            next unless File.exist?(path)
+            
+            # next if lesli engine info file does not contain valid json data
+            begin
+                engine_info = JSON.parse(File.read(path))
+            rescue JSON::ParserError
+                next
+            end
+
+            # next if engine load is false
+            next if engine_info['load'] == false
+
+            engines.push(engine_info)
+
+        end
+
+=begin
+        [, {
             name: 'CloudHappy',
             code: 'cloud_happy',
             github_ssh: 'git@github.com:LesliTech/CloudHappy.git',
@@ -21,11 +47,6 @@ module LesliInfo
             code: 'cloud_leaf',
             github_ssh: 'git@github.com:LesliTech/CloudLeaf.git',
             github_url: 'https://github.com/LesliTech/CloudLeaf'
-        }, {
-            name: 'CloudHouse',
-            code: 'cloud_house',
-            github_ssh: 'git@github.com:LesliTech/CloudHouse.git',
-            github_url: 'https://github.com/LesliTech/CloudHouse'
         }, {
             name: 'CloudDrop',
             code: 'cloud_drop',
@@ -47,10 +68,7 @@ module LesliInfo
             github_ssh: 'git@github.com:LesliTech/CloudChaos.git',
             github_url: 'https://github.com/LesliTech/CloudChaos'
         }, {
-            name: 'CloudClock',
-            code: 'cloud_clock',
-            github_ssh: 'git@github.com:LesliTech/CloudClock.git',
-            github_url: 'https://github.com/LesliTech/CloudClock'
+            
         }, {
             name: 'CloudPizza',
             code: 'cloud_pizza',
@@ -127,6 +145,10 @@ module LesliInfo
             github_ssh: 'git@github.com:LesliTech/CloudBabel.git',
             github_url: 'https://github.com/LesliTech/CloudBabel'
         }]
+=end
+
+        engines
+
     end
 
 end

@@ -12,6 +12,7 @@
 
 # Ignore auto-generated documentation
 /doc
+/.yardoc
 
 # Ignore uploaded files in development
 /storage/*

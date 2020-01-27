@@ -55,13 +55,18 @@
         "@fortawesome/fontawesome-free": "5.12.0",
         "@fortawesome/free-solid-svg-icons":"5.12.0",
         "@fortawesome/fontawesome-svg-core": "1.2.26",
-        "@fortawesome/vue-fontawesome":"0.1.9"
+        "@fortawesome/vue-fontawesome":"0.1.9",
+
+        "mocha": "7.0.0",
+        "chai": "4.2.0",
+        "chai-http": "4.3.0"
 
     },
     "scripts": {
         "webpack:production": "webpack --progress --env.mode=production",
         "webpack:watch": "webpack --progress --env.watch=true",
-        "webpack": "webpack --progress --env.mode=development"
+        "webpack": "webpack --progress --env.mode=development",
+        "test": "mocha"
     }
     
 }

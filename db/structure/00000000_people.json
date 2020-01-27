@@ -1,0 +1,37 @@
+[{
+    "name": "salutation",
+    "type": "string"
+},{
+    "name": "title",
+    "type": "string"
+},{
+    "name": "first_name",
+    "type": "string"
+},{
+    "name": "last_name",
+    "type": "string"
+},{
+    "name": "gender",
+    "type": "string"
+},{
+    "name": "birthdate",
+    "type": "string"
+},{
+    "name": "birthplace",
+    "type": "string"
+},{
+    "name": "nationality",
+    "type": "string"
+},{
+    "name": "email",
+    "type": "string"
+},{
+    "name": "telephone",
+    "type": "string"
+},{
+    "name": "mobile_number",
+    "type": "string"
+},{
+    "name": "fax_number",
+    "type": "string"
+}]
