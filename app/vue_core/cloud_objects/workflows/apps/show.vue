@@ -29,7 +29,7 @@ Building a better future, one line of code at a time.
 
 // · Component list
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
-import componentWorkflowChart from "LesliCloud/vue/cloud_object/workflows/components/chart.vue"
+import componentWorkflowChart from "LesliCloud/vue_core/cloud_objects/workflows/components/chart.vue"
 
 export default {
     props: {

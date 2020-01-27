@@ -1,5 +1,5 @@
 <script>
-import componentWorkflowStateName from "../../workflow_states/components/state-name.vue"
+import componentWorkflowStateName from "../../workflow_states/components/name.vue"
 export default {
     components: {
         'component-workflow-state-name': componentWorkflowStateName

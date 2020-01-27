@@ -29,9 +29,9 @@ Building a better future, one line of code at a time.
 
 // · Component list
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
-import componentWorkflowStateCrud from "LesliCloud/vue/cloud_object/workflow_states/components/crud.vue"
-import componentWorkflowStateName from "LesliCloud/vue/cloud_object/workflow_states/components/state-name.vue"
-import componentWorkflowChart from "LesliCloud/vue/cloud_object/workflows/components/chart.vue"
+import componentWorkflowStateCrud from "LesliCloud/vue_core/cloud_objects/workflow_states/components/crud.vue"
+import componentWorkflowStateName from "LesliCloud/vue_core/cloud_objects/workflow_states/components/name.vue"
+import componentWorkflowChart from "LesliCloud/vue_core/cloud_objects/workflows/components/chart.vue"
 
 export default {
     components: {

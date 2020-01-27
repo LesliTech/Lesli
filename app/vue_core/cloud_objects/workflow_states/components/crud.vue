@@ -1,7 +1,7 @@
 <script>
 
 
-import componentWorkflowStateName from './state-name.vue'
+import componentWorkflowStateName from './name.vue'
 
 export default {
     props: {
