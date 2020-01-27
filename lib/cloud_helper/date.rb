@@ -26,22 +26,25 @@ Building a better future, one line of code at a time.
 =end
 
 module CloudHelper
+
     class Date
 
-        def self.to_string(date)
-            #DateTime.now.new_offset(0)
+        # I should get format from database
+        # I shoudl use DateTime.now.new_offset(0)
+        @format_date = "%Y.%m.%d"
+        @format_datetime = "%Y.%m.%d %H:%M"
+        @format_datetime_full = "%a, %B %d, %Y"
 
-            # format from database
-            format = "%Y.%m.%d %H:%M"
-            date.strftime(format)
+        def self.full_to_string(datetime)
+            datetime.strftime(@format_datetime_full)
         end
 
-        def self.to_string_short(date)
-            #DateTime.now.new_offset(0)
+        def self.to_string(datetime)
+            datetime.strftime(@format_full)
+        end
 
-            # format from database
-            format = "%Y.%m.%d"
-            date.strftime(format)
+        def self.date_as_string(datetime)
+            datetime.strftime(@format_date)
         end
 
         def self.from_string(string, format="%Y.%m.%d %H:%M")
