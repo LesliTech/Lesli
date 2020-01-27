@@ -17,12 +17,13 @@ LesliCloud - Your Smart Business Assistant
 Powered by https://www.lesli.tech
 Building a better future, one line of code at a time.
 
-@author   ldonis & Carlos Hermosilla
+@author   LesliTech <hello@lesli.tech>
 @license  Propietary - all rights reserved.
 @version  0.1.0-alpha
 @description User model. Establishes entities relations and enables devise modules
 
 =end
+
 class User < ApplicationRecord
     acts_as_paranoid
     devise  :database_authenticatable, 
@@ -39,23 +40,18 @@ class User < ApplicationRecord
     has_one :detail, class_name: 'CloudLock::User::Detail', foreign_key: 'users_id', dependent: :delete, inverse_of: :user, autosave: true
     accepts_nested_attributes_for :detail
 
-    # remove this
-    #has_many    :notifications, class_name: 'CloudBell::Notification', foreign_key: 'users_id'
+    after_create :create_user_defaults
 
-    after_create :check_user
-
-=begin
-@return [String] The name of this user.
-@description Retrieves and returns the name of the user depending on the available information.
-    The name can be a full name (first and last names), just the first name, or, in case the information
-    is not available, the email. This method currently is available if the the CloudLock engine exists,
-    otherwise, it returns *nil*
-@example
-    my_user = current_user
-    puts my_user.name # can print John Doe
-    other_user = User.last
-    puts other_user.name # can print jane.smith@email.com
-=end
+    # @return [String] The name of this user.
+    # @description Retrieves and returns the name of the user depending on the available information.
+    #     The name can be a full name (first and last names), just the first name, or, in case the information
+    #     is not available, the email. This method currently is available if the the CloudLock engine exists,
+    #     otherwise, it returns *nil*
+    # @example
+    #     my_user = current_user
+    #     puts my_user.name # can print John Doe
+    #     other_user = User.last
+    #     puts other_user.name # can print jane.smith@email.com
     def name
         if defined? CloudLock
             unless detail.blank?
@@ -68,20 +64,17 @@ class User < ApplicationRecord
         return email
     end
 
-=begin
-@return [void]
-@description Sets this user as inactive and removes complete access to the platform from them
-@example
-    old_user = User.last
-    old_user.revoke_access
-=end
+    # @return [void]
+    # @description Sets this user as inactive and removes complete access to the platform from them
+    # @example
+    #     old_user = User.last
+    #     old_user.revoke_access
     def revoke_access
         update_attributes(active: false)
     end
 
     private 
 
-    
     # @return [void]
     # @description After creating a user, creates the necessary resources for them to access the different engines.
     #     At the current time, it only creates a default calendar. This is an *after_create* method, and is not
@@ -93,7 +86,7 @@ class User < ApplicationRecord
     #         password_confirmation: '1234567890'
     #     )
     # At this point, check_user will be invoked automatically
-    def check_user
+    def create_user_defaults
         if defined? CloudDriver
             self.account.driver.calendars.create({
                 detail_attributes: {
@@ -105,12 +98,10 @@ class User < ApplicationRecord
         
     end
 
-=begin
-@return [Ability] All permissions this user has
-@description Returns the permissions this user has as a *CanCan:Ability*
-@example
-    my_permissions = self.ability
-=end
+    # @return [Ability] All permissions this user has
+    # @description Returns the permissions this user has as a *CanCan:Ability*
+    # @example
+    #     my_permissions = self.ability
     def ability
         @ability ||= Ability.new(self)
     end

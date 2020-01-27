@@ -1,152 +1,200 @@
 <script>
+/*
+Lesli
 
-import notification from '../../components/forms/notification.vue'
-import progressBar from '../../components/forms/progress_bar.vue'
+Copyright (c) 2020, Lesli Technologies, S. A.
 
+All the information provided by this website is protected by laws of Guatemala related 
+to industrial property, intellectual property, copyright and relative international laws. 
+Lesli Technologies, S. A. is the exclusive owner of all intellectual or industrial property
+rights of the code, texts, trade mark, design, pictures and any other information.
+Without the written permission of Lesli Technologies, S. A., any replication, modification,
+transmission, publication is strictly forbidden.
+For more information read the license file including with this software.
+
+LesliCloud - Your Smart Business Assistant
+
+Powered by https://www.lesli.tech
+Building a better future, one line of code at a time.
+
+@license  Propietary - all rights reserved.
+@version  0.1.0-alpha
+
+// · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
+// · 
+*/
+
+
+// · import core components
+// · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
+import componentNotificationMessageSimple from 'LesliCoreVue/components/notifications/message-simple.vue' 
+import componentNotificationProgressBar from 'LesliCoreVue/components/notifications/progress-bar.vue' 
+
+
+// · 
 export default {
-   data(){
-      return{
-         translations: {
-            links: I18n.t('users.links'),
-            registration: I18n.t('users.registration'),
-            sessions: I18n.t('devise.sessions'),
-            shared: I18n.t('users.shared')
-         },
-         sign_up: {
-            email: '',
-            password: '',
-            password_confirmation: ''
-         },
-         progress_bar_active: false,
-         notification: {
-            show: false,
-            message: '',
-            type: 'is-danger'
-         }
-      }
-   },
-   methods:{
-      register(event){
-         event.preventDefault();
-         let data = {user: this.sign_up};
-         this.progress_bar_active = true;
-         this.http.post(this.url.to(null,null,null),data).then((response)=>{
-            this.progress_bar_active = false;
-            if(response.successful){
-               this.showNotification(this.translations.registration.notifications.success,'is-success');
-               setTimeout(()=>{
-                  this.goTo('/login');
-               },5000);
-            }else{
-               this.showNotification(response.error.message);
+
+    components: {
+        'component-notification-message-simple': componentNotificationMessageSimple,
+        'component-notification-progress-bar': componentNotificationProgressBar
+    },
+    data(){
+        return{
+            translations: {},
+            sign_up: {
+                email: '',
+                password: '',
+                password_confirmation: ''
+            },
+            progress_bar_active: false,
+            notification: {
+                show: false,
+                message: '',
+                type: 'is-danger'
             }
-         }).catch((err)=>{
-            console.log(err);
-         });
-      },
-      showNotification(message,type='is-danger'){
-         this.notification.message = message;
-         this.notification.type = type;
-         this.notification.show = true;
-      },
-      verifyPasswords(){
-         let password = this.sign_up.password;
-         let password_confirmation = this.sign_up.password_confirmation;
-         if(password && password_confirmation){
-            if(password !== password_confirmation){
-               this.showNotification(this.translations.shared.errors.unmatched_passwords);
-               return;
+        }
+    },
+    methods: {
+
+        postRegistration(event) {
+            event.preventDefault();
+
+            let data = { user: this.sign_up }
+
+            this.progress_bar_active = true
+
+            this.http.post(this.url.core(), data).then(response => {
+
+                this.progress_bar_active = false
+
+                if (response.successful) {
+                    this.showNotification(this.translations.registration.notifications.success,'is-success')
+                    setTimeout(() => {
+                        this.$router.push('/login')
+                    }, 5000)
+                }else{
+                    this.showNotification(response.error.message);
+                }
+
+            }).catch((err)=>{
+                console.log(err)
+            })
+
+        },
+
+        showNotification(message,type='is-danger') {
+            this.notification.message = message;
+            this.notification.type = type;
+            this.notification.show = true;
+        },
+
+        verifyPasswords() {
+
+            let password = this.sign_up.password
+
+            let password_confirmation = this.sign_up.password_confirmation
+
+            if (password && password_confirmation) {
+                if (password !== password_confirmation) {
+                    this.showNotification(this.translations.shared.errors.unmatched_passwords)
+                    return
+                }
             }
-         }
-         this.notification.show = false;
-      },
-      goTo(url){
-         this.$router.push(`${url}`);
-      }
-   },
-   components:{
-      'form-notification':notification,
-      'progress-bar': progressBar
-   }
+
+            this.notification.show = false
+
+        }
+
+    }
+
 }
 </script>
 <template>
-   <section id="registrations">
-      <a class="logo" :href="url.to()">
-         <img src="/assets/brand/leslicloud-logo.png" alt="LesliCloud Logo">
-      </a>
-      <form ref="form" id="registration_user" @submit="register">
-         <progress-bar :active="progress_bar_active"/>
-         <form-notification
-            :message="notification.message"
-            :type="notification.type"
-            :show.sync="notification.show"
-         >
-         </form-notification>
-         <div class="field">
-            <p class="control has-icons-left">
-               <label class="sr-only">
-                  {{translations.shared.fields.email}}
-               </label>
-               <input 
-                  class="input" 
-                  type="email"
-                  v-model="sign_up.email"
-                  required="true"
-                  :placeholder="translations.shared.fields.email"
-               />
-               <span class="icon is-small is-left">
-                  <i class="fas fa-envelope"></i>
-               </span>
-            </p>
-         </div>
-         <div class="field">
-            <p class="control has-icons-left">
-               <label class="sr-only" for="user_password">
-                  {{translations.shared.fields.password}}
-               </label>
-               <input 
-                  type="password"
-                  class="input"
-                  required="true"
-                  minlength="6"
-                  v-model="sign_up.password"
-                  :placeholder="`${translations.shared.fields.password} ${translations.registration.fields.password_length}`"
-                  @change="verifyPasswords"
-               />
-               <span class="icon is-small is-left">
-                  <i class="fas fa-lock"></i>
-               </span>
-            </p>
-         </div>
-         <div class="field">
-            <p class="control has-icons-left">
-               <label class="sr-only" for="user_password">
-                  {{translations.shared.fields.password}}
-               </label>
-               <input 
-                  type="password"
-                  class="input"
-                  required="true"
-                  v-model="sign_up.password_confirmation"
-                  :placeholder="translations.shared.fields.password_confirmation"
-                  @change="verifyPasswords"
-               />
-               <span class="icon is-small is-left">
-                  <i class="fas fa-lock"></i>
-               </span>
-            </p>
-         </div>
-         <input class="button is-primary" type="submit" :value="translations.registration.actions.sign_up" />
-      </form>
-      <div class="links">
-         <a @click="goTo('/login')">
-            {{translations.links.login}}
-         </a>
-         <a @click="goTo('/confirmation/new')">
-            {{translations.links.resend_confirmation_email}}
-         </a>
-      </div>
-   </section>
+    <section>
+
+        <a class="logo" :href="this.url.core()">
+            <img src="/assets/brand/leslicloud-logo.png" alt="LesliCloud Logo">
+        </a>
+
+        <form ref="form" @submit="postRegistration">
+
+            <component-notification-progress-bar :active="progress_bar_active"/>
+            <component-notification-message-simple
+                :message="notification.message"
+                :show.sync="notification.show"
+                :type="notification.type"
+            />
+
+            <div class="field">
+                <p class="control has-icons-left">
+                    <label class="sr-only">
+                        email
+                    </label>
+                    <input 
+                        class="input" 
+                        type="email"
+                        v-model="sign_up.email"
+                        required="true"
+                        placeholder="email"
+                    />
+                    <span class="icon is-small is-left">
+                        <i class="fas fa-envelope"></i>
+                    </span>
+                </p>
+            </div>
+
+            <div class="field">
+                <p class="control has-icons-left">
+                    <label class="sr-only" for="user_password">
+                        password
+                    </label>
+                    <input 
+                        type="password"
+                        class="input"
+                        required="true"
+                        minlength="6"
+                        v-model="sign_up.password"
+                        placeholder="password"
+                        @change="verifyPasswords"
+                    />
+                    <span class="icon is-small is-left">
+                        <i class="fas fa-lock"></i>
+                    </span>
+                </p>
+            </div>
+
+            <div class="field">
+                <p class="control has-icons-left">
+                    <label class="sr-only" for="user_password">
+                    confirm password
+                    </label>
+                    <input 
+                        type="password"
+                        class="input"
+                        required="true"
+                        v-model="sign_up.password_confirmation"
+                        placeholder="confirm password"
+                        @change="verifyPasswords"
+                    />
+                    <span class="icon is-small is-left">
+                        <i class="fas fa-lock"></i>
+                    </span>
+                </p>
+            </div>
+
+            <input class="button is-primary" type="submit" value="register" />
+
+        </form>
+
+        <div class="links">
+            <a @click="$router.push('/login')">
+                login
+            </a>
+            <a @click="$router.push('/confirmation/new')">
+                resend confirmation email
+            </a>
+        </div>
+
+    </section>
 </template>
 

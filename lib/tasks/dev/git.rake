@@ -10,12 +10,12 @@ namespace :dev do
 
             # push all engines
             LesliInfo::engines.each do |engine|
-                engine_path = Rails.root.join('engines', engine[:name])
-                system "cd ./engines/#{engine[:name]} && git push origin master" if File.exists?(engine_path)
+                engine_path = Rails.root.join('engines', engine['name'])
+                system "cd ./engines/#{engine['name']} && git push origin master" if File.exists?(engine_path)
             end
             
             # commit any possible pending change
-            system "git add --all && git commit -m \"Dev update\""
+            system "git add --all && git commit -m \"dev update\""
 
             # copy vendor dependencies (only css files are required)
             system "rm -r vendor/*"
