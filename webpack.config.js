@@ -32,7 +32,9 @@ var webpack = require("webpack")
 var VueLoaderPlugin = require('vue-loader/lib/plugin')
 var webpackConfig = []
 
-function webpackConfigBuilder(env) {
+
+// · 
+module.exports = env => {
 
     // set mode
     env.mode = env.mode ? env.mode : 'development'
@@ -154,7 +156,15 @@ function webpackConfigBuilder(env) {
         'CloudPanel',
         'CloudLock',
         'CloudBabel'
-    ];
+    ]
+
+    //engines = []
+
+    fs.readdirSync('./engines').forEach(directory => {
+
+    })
+
+    console.log(fs.readdirSync('./engines'))
 
     engines.forEach(engine => {
 
@@ -212,6 +222,3 @@ function webpackConfigBuilder(env) {
     return webpackConfig
 
 }
-
-// · 
-module.exports = webpackConfigBuilder
