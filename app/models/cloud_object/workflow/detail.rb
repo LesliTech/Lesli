@@ -55,13 +55,18 @@ Building a better future, one line of code at a time.
             object_name = dynamic_info[:object_name]
 
             ids = next_states.split('|').map(&:to_i)
-            workflow.details.where("cloud_#{module_name}_#{object_name}_states_id".to_sym => ids).map do |workflow_detail|
+            transitions = workflow.details.where("cloud_#{module_name}_#{object_name}_states_id".to_sym => ids).map do |workflow_detail|
                 workflow_state = workflow_detail.workflow_state
                 {
                     id: workflow_state.id,
                     name: workflow_state.name,
+                    initial: workflow_state.initial,
+                    final: workflow_state.final,
                     workflow_detail_id: workflow_detail.id
                 }
+            end
+            transitions.sort_by do |transition|
+                transition[:name]
             end
         end
 
