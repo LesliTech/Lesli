@@ -30,11 +30,6 @@ export default {
         name: {
             type: String,
             default: ''
-        },
-
-        translationsSharedPath: {
-            type: String,
-            required: true
         }
     },
 
@@ -46,28 +41,16 @@ export default {
                 final: 'closed'
             }
         }
-    },
-
-    mounted(){
-        this.setTranslations()
-    },
-
-    methods: {
-        setTranslations(){
-            this.translations = I18n.t(this.translationsSharedPath)
-        }
     }
 }
 </script>
 <template>
-    <span v-if="translations">
+    <span>
         <span v-if="name === names.initial">
-            {{translations.default.names[name]}}
-            ({{translations.default.types.initial}})
+            Created (Initial)
         </span>
         <span v-else-if="name === names.final">
-            {{translations.default.names[name]}}
-            ({{translations.default.types.final}})
+            Closed (Final)
         </span>
         <span v-else>
             {{name}}

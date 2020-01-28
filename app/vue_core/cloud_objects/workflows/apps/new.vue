@@ -37,30 +37,14 @@ export default {
         cloudModule: {
             type: String,
             required: true
-        },
-        cloudObject: {
-            type: String,
-            required: true
-        },
-        translationsSharedPath: {
-            type: String,
-            required: true
-        },
-        translationsFormPath: {
-            type: String,
-            required: true
         }
     },
+    
     components: {
         'component-form': componentForm
     }
 }
 </script>
 <template>
-    <component-form
-        :cloud-module="cloudModule"
-        :cloud-object="cloudObject"
-        :translations-shared-path="translationsSharedPath"
-        :translations-form-path="translationsFormPath"
-    />
+    <component-form :cloud-module="cloudModule" />
 </template>
