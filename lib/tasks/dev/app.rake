@@ -55,6 +55,14 @@ namespace :dev do
 
         end
 
+        desc "List available engines"
+        task engines: :environment do
+            p "Available engines:"
+            LesliInfo::engines.each do |engine|
+                p engine
+            end
+        end
+
     end
 
 end
