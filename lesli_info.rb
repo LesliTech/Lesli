@@ -4,7 +4,7 @@ module LesliInfo
 
     def LesliInfo.engines
         engines = []
-        Dir.entries("./engines").each do |entry| #{|entry| !(entry =='.' || entry == '..') }
+        Dir.entries("./engines").each do |entry|
             
             # next if entry is not an engine
             next if entry == "."
@@ -26,6 +26,9 @@ module LesliInfo
 
             # next if engine load is false
             next if engine_info['load'] == false
+
+            # next if engine name does not match
+            next unless engine_info['name'] == entry
 
             engines.push(engine_info)
 
@@ -140,10 +143,7 @@ module LesliInfo
             github_ssh: 'git@github.com:LesliTech/CloudLock.git',
             github_url: 'https://github.com/LesliTech/CloudLock'
         }, {
-            name: 'CloudBabel',
-            code: 'cloud_babel',
-            github_ssh: 'git@github.com:LesliTech/CloudBabel.git',
-            github_url: 'https://github.com/LesliTech/CloudBabel'
+            
         }]
 =end
 
