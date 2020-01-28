@@ -48,7 +48,7 @@ export default {
         },
 
         getWorkflows(){
-            let url = `/${this.module_name}/${this.object_name}_workflows.json`
+            let url = `/${this.module_name}/workflows.json`
 
             this.http.get(url).then(result => {
                 if (result.successful) {
@@ -124,14 +124,14 @@ export default {
                         >
                             <template v-slot="props">
                                 <b-table-column
-                                    :field="`cloud_${module_name}_${object_name}_workflows_id`"
+                                    :field="`cloud_${module_name}_workflows_id`"
                                     label="Workflow Name"
                                 >
                                     <div class="control is-expanded">
                                         <span class="select is-fullwidth">
                                             <select
                                                 expanded
-                                                v-model="props.row[`cloud_${module_name}_${object_name}_workflows_id`]"
+                                                v-model="props.row[`cloud_${module_name}_workflows_id`]"
                                                 @change="patchWorkflowAssignment(props.row)"
                                             >
                                                 <option

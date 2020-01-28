@@ -35,7 +35,7 @@ Building a better future, one line of code at a time.
     However, if there is a *cloud_object* associated to this *workflow*, it 
     will not be deleted and an error will be added to the *errors* parameter
 @example
-    my_workflow = CloudHelp::TicketWorkflow.first
+    my_workflow = CloudHelp::Workflow.first
     if my_workflow.destroy
         puts "workflow successfully destroyed"
     else
@@ -62,14 +62,13 @@ Building a better future, one line of code at a time.
 @description Returns a hash with information about the workflow and all its *details* 
     that contain the transitions between *states*
 @example
-    workflow = CloudHelp::TicketWorkflow.first.full_workflow
+    workflow = CloudHelp::Workflow.first.full_workflow
     responseWithSuccessful(workflow)
 =end
         def full_workflow
             dynamic_info = self.class.dynamic_info
             module_name = dynamic_info[:module_name]
             detail_model = dynamic_info[:detail_model]
-            object_name = dynamic_info[:object_name]
 
             data = {}
             nodes = detail_model.joins(
@@ -77,14 +76,14 @@ Building a better future, one line of code at a time.
             ).joins(
                 :workflow_state
             ).select(
-                "cloud_#{module_name}_#{object_name}_details.id",
-                "cloud_#{module_name}_#{object_name}_states.initial",
-                "cloud_#{module_name}_#{object_name}_states.final",
-                "cloud_#{module_name}_#{object_name}_details.next_states",
-                "cloud_#{module_name}_#{object_name}_states.id as workflow_state_id",
-                "cloud_#{module_name}_#{object_name}_states.name as workflow_state_name"
+                "cloud_#{module_name}_workflow_details.id",
+                "cloud_#{module_name}_workflow_states.initial",
+                "cloud_#{module_name}_workflow_states.final",
+                "cloud_#{module_name}_workflow_details.next_states",
+                "cloud_#{module_name}_workflow_states.id as workflow_state_id",
+                "cloud_#{module_name}_workflow_states.name as workflow_state_name"
             ).where(
-                "cloud_#{module_name}_#{object_name}s.id = #{id}"
+                "cloud_#{module_name}_workflows.id = #{id}"
             )
 
             nodes.each do |node|
@@ -114,7 +113,7 @@ Building a better future, one line of code at a time.
     a message is added to the *errors* param of the workflow
 @example
     workflow_data  = {
-        ticket_workflow:{
+        workflow:{
             cloud_help_slas_id:1,
             "details_attributes:[
                 {
@@ -133,30 +132,29 @@ Building a better future, one line of code at a time.
             ]
         }
     }
-    workflow = CloudHelp::TicketWorkflow.find(4)
+    workflow = CloudHelp::Workflow.find(4)
     if workflow.replace_workflow(workflow_data)
-        puts "Ticket workflow was successfully replaced"
+        puts "Workflow was successfully replaced"
     else
-        puts "Ticket workflow was not replaced"
+        puts "Workflow was not replaced"
         puts workflow.errors.full_messages.to_sentence
     end
 =end
         def replace_workflow(account, new_workflow)
             dynamic_info = self.class.dynamic_info
             module_name = dynamic_info[:module_name]
-            object_name = dynamic_info[:object_name]
             state_model = dynamic_info[:state_model]
 
             begin
                 initial_state_id = state_model.initial_state(account).id
                 final_state_id = state_model.final_state(account).id
                 details.where(
-                    "cloud_#{module_name}_#{object_name}_states_id != #{initial_state_id}"
+                    "cloud_#{module_name}_workflow_states_id != #{initial_state_id}"
                 ).where(
-                    "cloud_#{module_name}_#{object_name}_states_id != #{final_state_id}"
+                    "cloud_#{module_name}_workflow_states_id != #{final_state_id}"
                 ).destroy_all
 
-                state_id_key = "cloud_#{module_name}_#{object_name}_states_id".to_sym
+                state_id_key = "cloud_#{module_name}_workflow_states_id".to_sym
                 new_workflow.each do |node|
                     # created or closed
                     if node[state_id_key] == initial_state_id || node[state_id_key] == final_state_id
@@ -182,7 +180,7 @@ Building a better future, one line of code at a time.
     a table
 @example
     account = current_user.account
-    workflows = CloudHelp::TicketWorkflow.detailed_info(account)
+    workflows = CloudHelp::Workflow.detailed_info(account)
 =end
         def self.detailed_info(account)
             module_name = dynamic_info[:module_name]
@@ -230,7 +228,7 @@ Building a better future, one line of code at a time.
         }
     }
     ticket = CloudHelp::Ticket.new(ticket_params)
-    CloudHelp::TicketWorkflow.set_workflow(ticket)
+    CloudHelp::Workflow.set_workflow(ticket)
     if ticket.save
         responseWithSuccessful
     else
@@ -244,6 +242,11 @@ Building a better future, one line of code at a time.
             detail_model = dynamic_info_[:detail_model]
             state_model = dynamic_info_[:state_model]
             account = cloud_object.account
+
+
+            cloud_object_name = cloud_object.class.name.split("::")
+            assignment_model = "#{cloud_object_name[0]}::#{cloud_object_name[1]}WorkflowAssignment".constantize
+
             associations = assignment_model.associations
             search_params = {account: account}
             
@@ -268,18 +271,15 @@ Building a better future, one line of code at a time.
 @example
     dynamic_info = CloudHelp::Workflow.dynamic_info
     puts dynamic_info[:module_name] # will print 'help'
-    puts dynamic_info[:detail_model].new # will print a new instance of CloudHelp::TicketWorkflow::Detail
-    puts dynamic_info[:object_name] # will print ticket_workflow
+    puts dynamic_info[:detail_model].new # will print a new instance of CloudHelp::Workflow::Detail
+    puts dynamic_info[:state_model] # will print a new instance of CloudHelp::WorkflowState
 =end
         def self.dynamic_info
             module_info = self.name.split("::")
-            cloud_object_name = module_info[1].sub("Workflow", "")
             {
                 module_name: module_info[0].sub("Cloud", "").downcase,
                 detail_model: "#{self.name}::Detail".constantize,
-                state_model: "#{module_info[0]}::#{cloud_object_name}WorkflowState".constantize,
-                assignment_model: "#{module_info[0]}::#{cloud_object_name}WorkflowAssignment".constantize,
-                object_name: "#{cloud_object_name.downcase}_workflow"
+                state_model: "#{module_info[0]}::WorkflowState".constantize
             }
         end
     end

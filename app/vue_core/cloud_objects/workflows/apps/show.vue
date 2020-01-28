@@ -50,17 +50,15 @@ export default {
             modal: {
                 active: false
             },
-            workflow: {},
-            workflow_id: null,
-            default_workflow_states: null
+            workflow: null,
+            workflow_id: null
         }
     },
 
     mounted() {
         // · setWorkflowId() calls getWorkflow()
-        this.setWorkflowId()
         this.setCloudParams()
-        this.getWorkflowStates()
+        this.setWorkflowId()
     },
 
     methods: {
@@ -79,7 +77,7 @@ export default {
         },
 
         getWorkflow() {
-            this.http.get(`/${this.cloudModule}_workflows/${this.workflow_id}.json`).then(result => {
+            this.http.get(`/${this.module_name}/workflows/${this.workflow_id}.json`).then(result => {
                 if (result.successful) {
                     this.workflow = result.data
                 } else {
@@ -90,30 +88,14 @@ export default {
             })
         },
 
-        getWorkflowStates(){
-            this.http.get(`/${this.cloudModule}_workflow_states.json`).then(result => {
-                if (result.successful) {
-
-                    let initial_state = result.data.filter( state => state.initial)[0]
-                    let final_state = result.data.filter( state => state.final)[0]
-
-                    this.default_workflow_states = {
-                        initial: initial_state.id,
-                        final: final_state.id
-                    }
-                }else{
-                    this.alert(result.error.message,'danger')
-                }
-            }).catch(error => {
-                console.log(error)
-            })
-        },
-
         patchWorkflowDefault() {
-            let data = {}
-            data[`${this.object_name}_workflow`] = { default: true }
+            let data = {
+                workflow: {
+                    default: true
+                }
+            }
 
-            this.http.patch(`/${this.cloudModule}_workflows/${this.workflow_id}`, data).then(result => {
+            this.http.patch(`/${this.module_name}/workflows/${this.workflow_id}`, data).then(result => {
                 if(result.successful){
                     this.workflow.default = true
                     this.alert('Workflow set as default successfully', 'success')
@@ -127,7 +109,7 @@ export default {
 
         deleteWorkflow(){
             this.modal.active = false
-            this.http.delete(`/${this.cloudModule}_workflows/${this.workflow_id}`).then(result => {
+            this.http.delete(`/${this.module_name}/workflows/${this.workflow_id}`).then(result => {
                 if(result.successful){
                     this.alert('Workflow successfully deleted', 'success')
                     this.$router.push('/')
@@ -142,7 +124,7 @@ export default {
 }
 </script>
 <template>
-    <section v-if="workflow && default_workflow_states">
+    <section v-if="workflow">
         <b-modal 
             :active.sync="modal.active"
             has-modal-card
@@ -202,9 +184,7 @@ export default {
                 <component-workflow-chart
                     class="has-text-centered"
                     :cloud-module="cloudModule"
-                    :workflow="workflow.details"
-                    :workflow-state-initial-id="default_workflow_states.initial"
-                    :workflow-state-final-id="default_workflow_states.final"
+                    :workflow="workflow"
                 >
                 </component-workflow-chart>
                 <div class="columns">

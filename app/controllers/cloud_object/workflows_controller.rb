@@ -36,7 +36,7 @@ Building a better future, one line of code at a time.
     wheter the HTML or the JSON text should be rendered
 @example
     # Executing this controller's action from javascript's frontend
-    this.http.get(`127.0.0.1/help/ticket_workflows`);
+    this.http.get(`127.0.0.1/help/workflows`);
 =end
         def index
             respond_to do |format|
@@ -59,8 +59,8 @@ Building a better future, one line of code at a time.
     wheter the HTML or the JSON text should be rendered
 @example
     # Executing this controller's action from javascript's frontend
-    let ticket_workflow_id = 1;
-    this.http.get(`127.0.0.1/help/ticket_workflows/${ticket_workflow_id}`);
+    let workflow_id = 1;
+    this.http.get(`127.0.0.1/help/workflows/${workflow_id}`);
 =end
         def show
             respond_to do |format|
@@ -68,13 +68,12 @@ Building a better future, one line of code at a time.
                 format.json do
                     dynamic_info = self.class.dynamic_info
                     module_name = dynamic_info[:module_name]
-                    object_name = dynamic_info[:object_name]
 
                     set_workflow
                     if @workflow
                         responseWithSuccessful(@workflow.full_workflow)
                     else
-                        responseWithError(I18n.t("cloud_#{module_name}.controllers.#{object_name}s.errors.not_found"))
+                        responseWithError('Workflow not found')
                     end
                 end
             end
@@ -85,7 +84,7 @@ Building a better future, one line of code at a time.
 @description returns an HTML view with a form so users can create a new workflow
 @example
     # Executing this controller's action from javascript's frontend
-    this.url.go('/help/ticket_workflows/new')
+    this.url.go('/help/workflows/new')
 =end
         def new
         end
@@ -94,8 +93,8 @@ Building a better future, one line of code at a time.
 @description returns an HTML view with a form so users edit an existing workflow
 @example
     # Executing this controller's action from javascript's frontend
-    let ticket_workflow_id = 3;
-    this.url.go(`/help/ticket_workflows/${ticket_workflow_id}/edit`)
+    let workflow_id = 3;
+    this.url.go(`/help/workflows/${workflow_id}/edit`)
 =end
         def edit
         end
@@ -114,21 +113,21 @@ Building a better future, one line of code at a time.
 @example
 # Executing this controller's action from javascript's frontend
     let data = {
-        ticket_workflow: {
+        workflow: {
             name: "Important",
             default: true,
             details_attributes: [
                 {
-                    cloud_help_ticket_workflow_states_id: 4,
+                    cloud_help_workflow_states_id: 4,
                     next_states: "6"
                 },{
-                    cloud_help_ticket_workflow_states_id: 6,
+                    cloud_help_workflow_states_id: 6,
                     next_states: null
                 }
             ]
         }
     };
-    this.http.post('127.0.0.1/help/ticket_workflows', data);
+    this.http.post('127.0.0.1/help/workflows', data);
 =end
         def create
             dynamic_info = self.class.dynamic_info
@@ -153,36 +152,36 @@ Building a better future, one line of code at a time.
 @controller_action_param :detail_attributes.next_states [String] A string of numbers, separated by '|'.
     Each number represents the id of a *CloudObject::WorkflowState* and creates a valid transition. 
     A valid transition is a transition from one detail that has a state in its *next_states* attribute 
-    to another detail, that has that state in its *[cloud_object_name]_workflow_state_id* attribute
-@controller_action_param :detail_attributes.[cloud_object_name]_workflow_state_id [Integer]
+    to another detail, that has that state in its *workflow_state_id* attribute
+@controller_action_param :detail_attributes._workflow_state_id [Integer]
     The id of the state associated to this workflow detail
 @return [Json] Json that contains wheter the workflow was successfully updated or not. 
     If it it not successful, it returns an error message
 @description Updates an existing workflow associated to the *current_user*'s *account*.
 @example
 # Executing this controller's action from javascript's frontend
-let ticket_workflow_id = 4;
+let workflow_id = 4;
 let data = {
-ticket_workflow: {
-    name: "Sales Workflow",
-    details_attributes: [
-        {
-            id: 1,
-            next_states: '56|57',
-            ticket_workflow_states_id: 55
-        }, {
-            id: 4,
-            next_states: null,
-            ticket_workflow_states_id: 56
-        }, {
-            id: 5,
-            next_states: null,
-            ticket_workflow_states_id: 57
-        }
-    ]
-}
+    workflow: {
+        name: "Sales Workflow",
+        details_attributes: [
+            {
+                id: 1,
+                next_states: '56|57',
+                workflow_states_id: 55
+            }, {
+                id: 4,
+                next_states: null,
+                workflow_states_id: 56
+            }, {
+                id: 5,
+                next_states: null,
+                workflow_states_id: 57
+            }
+        ]
+    }
 };
-this.http.put(`127.0.0.1/help/ticket_workflows/${ticket_workflow_id}`, data);
+this.http.put(`127.0.0.1/help/workflows/${workflow_id}`, data);
 =end
         def update
             update_params = workflow_params
@@ -204,8 +203,8 @@ this.http.put(`127.0.0.1/help/ticket_workflows/${ticket_workflow_id}`, data);
     is an existing *cloud_object* associated to the *workflow*, it cannot be deleted
 @example
     # Executing this controller's action from javascript's frontend
-    let ticket_workflow_id = 4;
-    this.http.delete(`127.0.0.1/help/ticket_types/${ticket_workflow_id}`);
+    let workflow_id = 4;
+    this.http.delete(`127.0.0.1/help/workflows/${workflow_id}`);
 =end
         def destroy
             return responseWithNotFound unless @workflow
@@ -222,7 +221,7 @@ this.http.put(`127.0.0.1/help/ticket_workflows/${ticket_workflow_id}`, data);
 @example
     # Executing this controller's action from javascript's frontend
     let ticket_id = 6
-    this.http.get(`127.0.0.1/help/options/tickets/${ticket_id}/workflows`).then(response => {
+    this.http.get(`127.0.0.1/help/options/workflows/ticket/${ticket_id}`).then(response => {
         if( response.successful ){
             console.log(JSON.stringify(response.data))
             # This will print something similar to
@@ -237,7 +236,8 @@ this.http.put(`127.0.0.1/help/ticket_workflows/${ticket_workflow_id}`, data);
         def workflow_options
             dynamic_info = self.class.dynamic_info
             module_name = dynamic_info[:module_name]
-            cloud_object_model = dynamic_info[:cloud_object_model]
+            full_module_name = dynamic_info[:full_module_name]
+            cloud_object_model = "#{full_module_name}::#{params[:cloud_object_name].capitalize}".constantize
 
             cloud_object = cloud_object_model.find_by(
                 id: params[:cloud_object_id],
@@ -276,10 +276,10 @@ private
 @return [Parameters] Allowed parameters for the workflow
 @description Sanitizes the parameters received from an HTTP call to only allow the specified ones.
     Allowed params are, :name, :default, details_attributes: 
-    [:id, :next_state, :cloud_[module_name]_[cloud_object_name]_workflow_states_id]
+    [:id, :next_state, :cloud_[module_name]_workflow_states_id]
 @example
     # supose params contains {
-    #    ticket_workflow: {
+    #    workflow: {
     #       id: 5,
     #       name: "Workflow Name"
     #       default: false,
@@ -288,7 +288,7 @@ private
     #                id: 1,
     #                next_states: "4|5|6",
     #                name: "In use",
-    #                cloud_help_ticket_states_id: 5
+    #                cloud_help_states_id: 5
     #            }
     #        ]
     #    }
@@ -302,7 +302,7 @@ private
     #            {
     #                id: 1,
     #                next_states: "4|5|6",
-    #                cloud_help_ticket_states_id: 5
+    #                cloud_help_states_id: 5
     #            }
     #        ]
     #    }
@@ -310,12 +310,11 @@ private
         def workflow_params
             dynamic_info = self.class.dynamic_info
             module_name = dynamic_info[:module_name]
-            object_name = dynamic_info[:object_name]
 
-            params.require(object_name.to_sym).permit(
+            params.require(:workflow).permit(
                 :name,
                 :default,
-                details_attributes: [:id, :next_states, "cloud_#{module_name}_#{object_name}_states_id".to_sym]
+                details_attributes: [:id, :next_states, "cloud_#{module_name}_workflow_states_id".to_sym]
             )
         end
 
@@ -323,20 +322,18 @@ private
 @return [Hash] Hash that contains information about the class
 @description Returns dynamic information based on the current implementation of this abstract class
 @example
-    # Imagine the current class is an instance of CloudHelp::TicketWorkflowsController < CloudObject::WorkflowsController
+    # Imagine the current class is an instance of CloudHelp::WorkflowsController < CloudObject::WorkflowsController
     info = dynamic_info
     puts info[:module_name] # will print 'help'
-    puts info[:object_name] # will print 'ticket_workflow'
+    puts info[:full_module_name] # will print 'CloudHelp'
     info[:model].new # will return an instance of CloudHelp::TicketWorkflow
 =end
         def self.dynamic_info
             module_info = self.name.split("::")
-            cloud_object_name = module_info[1].sub("WorkflowsController", "")
             {
                 module_name: module_info[0].sub("Cloud", "").downcase,
-                object_name: "#{cloud_object_name.downcase}_workflow",
-                model: "#{module_info[0]}::#{cloud_object_name}Workflow".constantize,
-                cloud_object_model: "#{module_info[0]}::#{cloud_object_name}".constantize
+                full_module_name: module_info[0],
+                model: "#{module_info[0]}::Workflow".constantize
             }
         end
     end

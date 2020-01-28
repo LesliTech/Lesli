@@ -44,13 +44,19 @@ export default {
     },
     
     mounted() {
+        this.setCloudParams()
         this.getTicketWorkflows()
     },
 
     methods: {
+        setCloudParams(){
+            let module_data = this.cloudModule.split('/')
+            this.module_name = module_data[0]
+            this.object_name = module_data[1]
+        },
 
         getTicketWorkflows() {
-            this.http.get(`/${this.cloudModule}_workflows.json`).then(result => {
+            this.http.get(`/${this.module_name}/workflows.json`).then(result => {
                 if (result.successful) {
                     this.workflows = result.data
                 }else{
