@@ -1,0 +1,14 @@
+[
+    {
+        "name": "name",
+        "type": "string"
+    }, 
+    {
+        "name": "initial",
+        "type": "boolean"
+    },
+    {
+        "name": "final",
+        "type": "boolean"
+    }
+]

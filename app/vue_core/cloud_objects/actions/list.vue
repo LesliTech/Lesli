@@ -27,7 +27,7 @@ Building a better future, one line of code at a time.
 */
 
 
-import componentActionForm from './actions/form.vue'
+import componentActionForm from './form.vue'
 
 
 export default {
