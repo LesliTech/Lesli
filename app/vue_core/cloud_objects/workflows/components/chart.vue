@@ -149,9 +149,15 @@ export default {
 </script>
 <template>
     <vue-mermaid
+        class="workflow-chart"
         v-if="workflow_data"
         :nodes="parsed_workflow"
         type="graph LR"
     >
     </vue-mermaid>
 </template>
+<style scoped>
+.workflow-chart{
+    overflow-x: auto;
+}
+</style>
