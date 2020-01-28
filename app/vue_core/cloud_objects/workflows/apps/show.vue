@@ -29,70 +29,58 @@ Building a better future, one line of code at a time.
 
 // · Component list
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
-import componentStateName from '../components/state-name.vue'
+import componentWorkflowChart from "LesliCloud/vue_core/cloud_objects/workflows/components/chart.vue"
 
 export default {
     props: {
         cloudModule: {
             type: String,
             required: true
-        },
-        cloudObject: {
-            type: String,
-            required: true
-        },
-        translationsSharedPath: {
-            type: String,
-            required: true
-        },
-        translationsShowPath: {
-            type: String,
-            required: true
         }
     },
 
     components: {
-        'component-state-name': componentStateName
+        'component-workflow-chart': componentWorkflowChart
     },
-    
+
     data() {
         return {
-            translations: {},
-            state: null,
-            state_id: null,
-            modal:{
+            module_name: null,
+            object_name: null,
+            modal: {
                 active: false
-            }
+            },
+            workflow: null,
+            workflow_id: null
         }
     },
 
     mounted() {
-        // · setStateId() calls getState()
-        this.setTranslations()
-        this.setStateId()
+        // · setWorkflowId() calls getWorkflow()
+        this.setCloudParams()
+        this.setWorkflowId()
     },
 
     methods: {
 
-        setTranslations(){
-            this.translations = {
-                shared: I18n.t(this.translationsSharedPath),
-                show: I18n.t(this.translationsShowPath)
-            }
+        setCloudParams(){
+            let module_data = this.cloudModule.split('/')
+            this.module_name = module_data[0]
+            this.object_name = module_data[1]
         },
         
-        setStateId(){
+        setWorkflowId(){
             if (this.$route.params.id) {
-                this.state_id = this.$route.params.id
-                this.getState()
+                this.workflow_id = this.$route.params.id
+                this.getWorkflow()
             }
         },
 
-        getState() {
-            this.http.get(`/${this.cloudModule}/${this.cloudObject}_states/${this.state_id}.json`).then(result => {
+        getWorkflow() {
+            this.http.get(`/${this.module_name}/workflows/${this.workflow_id}.json`).then(result => {
                 if (result.successful) {
-                    this.state = result.data
-                }else{
+                    this.workflow = result.data
+                } else {
                     this.alert(result.error.message,'danger')
                 }
             }).catch(error => {
@@ -100,11 +88,30 @@ export default {
             })
         },
 
-        deleteState(){
-            this.modal.active = false
-            this.http.delete(`/${this.cloudModule}/${this.cloudObject}_states/${this.state_id}`).then(result => {
+        patchWorkflowDefault() {
+            let data = {
+                workflow: {
+                    default: true
+                }
+            }
+
+            this.http.patch(`/${this.module_name}/workflows/${this.workflow_id}`, data).then(result => {
                 if(result.successful){
-                    this.alert(this.translations.show.messages.delete.successful, 'success')
+                    this.workflow.default = true
+                    this.alert('Workflow set as default successfully', 'success')
+                } else {
+                    this.alert(result.error.message,'danger')
+                }
+            }).catch(error => {
+                console.log(error)
+            })
+        },
+
+        deleteWorkflow(){
+            this.modal.active = false
+            this.http.delete(`/${this.module_name}/workflows/${this.workflow_id}`).then(result => {
+                if(result.successful){
+                    this.alert('Workflow successfully deleted', 'success')
                     this.$router.push('/')
                 }else{
                     this.alert(result.error.message,'danger')
@@ -113,17 +120,11 @@ export default {
                 console.log(error)
             })
         }
-    },
-
-    computed: {
-        defaultState(){
-            return this.state.initial || this.state.final
-        }
     }
 }
 </script>
 <template>
-    <section v-if="state">
+    <section v-if="workflow">
         <b-modal 
             :active.sync="modal.active"
             has-modal-card
@@ -134,18 +135,18 @@ export default {
             <div class="card">
                 <div class="card-header is-danger">
                     <h2 class="card-header-title">
-                        {{ translations.show.modal.title }}
+                        Are you sure you want to delete this workflow?
                     </h2>
                 </div>
                 <div class="card-content">
-                    {{ translations.show.modal.body }}
+                    Once deleted, you will not be able to recover this workflow. Note that you can only delete a workflow if it is not associated to any resource and it is not the default workflow.
                 </div>
                 <div class="card-footer has-text-right">
-                    <button class="card-footer-item button is-danger" @click="deleteState">
-                        {{ translations.show.modal.actions.delete }}
+                    <button class="card-footer-item button is-danger" @click="deleteWorkflow">
+                        Yes, delete it
                     </button>
                     <button class="card-footer-item button is-secondary" @click="modal.active=false">
-                        {{ translations.show.modal.actions.cancel }}
+                        Cancel
                     </button>
                 </div>
             </div>
@@ -153,53 +154,58 @@ export default {
         <div class="card">
             <div class="card-header">
                 <h2 class="card-header-title">
-                    {{ translations.shared.name }}
+                    {{ workflow.name }} &nbsp;
+                    <span v-if="workflow.default" class="has-text-info">
+                        (Default)
+                    </span>
                 </h2>
                 <div class="card-header-icon">
-                    <router-link v-if="!defaultState" :to="`/${state_id}/edit`">
+                    <span v-if="workflow.default" class="has-text-gray">
+                        <i class="fas fa-check-circle"></i>
+                        Set as Default
+                    </span>
+                    <a v-else href="javascript:void(0)" @click="patchWorkflowDefault">
+                        <i class="fas fa-check-circle"></i>
+                        Set as Default
+                    </a>
+                    <router-link :to="`/${workflow_id}/edit`">
+                        &nbsp;&nbsp;&nbsp;
                         <i class="fas fa-edit"></i>
-                        {{ translations.shared.actions.edit }}
+                        Edit Workflow
                     </router-link>
                     <router-link :to="`/`">
                         &nbsp;&nbsp;&nbsp;
                         <i class="fas fa-undo"></i>
-                        {{ translations.shared.actions.return }}
+                        Return
                     </router-link>
                 </div>
             </div>
             <div class="card-content">
-                <div class="columns">
-                    <div class="column">
-                        <p>
-                            <span class="has-text-weight-bold">
-                                {{ `${translations.shared.fields.name}:` }}
-                            </span>
-                            <component-state-name 
-                                :name="state.name"
-                                :translations-shared-path="translationsSharedPath"
-                            />
-                        </p>
-                    </div>
-                </div>
+                <component-workflow-chart
+                    class="has-text-centered"
+                    :cloud-module="cloudModule"
+                    :workflow="workflow"
+                >
+                </component-workflow-chart>
                 <div class="columns">
                     <div class="column">
                         <small>
                             <span class="has-text-weight-bold">
-                                {{ `${translations.shared.fields.created_at}:` }}
+                                Created at:
                             </span>
-                            {{ date.toLocalFormat(state.created_at, false, true) }}
+                            {{ date.toLocalFormat(workflow.created_at, false, true) }}
                             <br>
                             <span class="has-text-weight-bold">
-                                {{ `${translations.shared.fields.updated_at}:` }}
+                                Updated at:
                             </span>
-                            {{ date.toLocalFormat(state.updated_at, false, true) }}
+                            {{ date.toLocalFormat(workflow.updated_at, false, true) }}
                         </small>
                     </div>
                     <div class="column">
                         <div class="field">
                             <div class="actions has-text-right">
-                                <button  v-if="! defaultState" class="button is-danger" @click="modal.active = true">
-                                    {{ translations.shared.actions.delete }}
+                                <button class="button is-danger" @click="modal.active = true">
+                                    Delete workflow
                                 </button>
                             </div>
                         </div>
@@ -207,14 +213,5 @@ export default {
                 </div>
             </div>
         </div>
-    </section>
-    <section v-else class="has-text-centered">
-        <b-icon
-            type="is-primary"
-            icon="spinner"
-            size="is-large"
-            custom-class="fa-spin"
-        >
-        </b-icon>
     </section>
 </template>

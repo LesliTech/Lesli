@@ -29,50 +29,36 @@ Building a better future, one line of code at a time.
 
 // · Component list
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
-import componentStateName from '../components/state-name.vue'
-
 export default {
     props: {
         cloudModule: {
             type: String,
             required: true
-        },
-        cloudObject: {
-            type: String,
-            required: true
-        },
-        translationsSharedPath: {
-            type: String,
-            required: true
         }
     },
-
-    components: {
-        'component-state-name': componentStateName
-    },
-
+    
     data() {
         return {
-            translations: {},
-            states: null
+            workflows: []
         }
     },
+    
     mounted() {
-        this.setTranslations()
-        this.getStates()
+        this.setCloudParams()
+        this.getTicketWorkflows()
     },
-    methods: {
 
-        setTranslations(){
-            this.translations = {
-                shared: I18n.t(this.translationsSharedPath)
-            }
+    methods: {
+        setCloudParams(){
+            let module_data = this.cloudModule.split('/')
+            this.module_name = module_data[0]
+            this.object_name = module_data[1]
         },
 
-        getStates() {
-            this.http.get(`/${this.cloudModule}/${this.cloudObject}_states.json`).then(result => {
+        getTicketWorkflows() {
+            this.http.get(`/${this.module_name}/workflows.json`).then(result => {
                 if (result.successful) {
-                    this.states = result.data
+                    this.workflows = result.data
                 }else{
                     this.alert(result.error.message,'danger')
                 }
@@ -81,43 +67,34 @@ export default {
             })
         },
         
-        showState(state) {
-            this.$router.push(`/${state.id}`)
+        showWorkflow(workflow) {
+            this.$router.push(`/${workflow.id}`)
         }
 
     }
 }
 </script>
 <template>
-    <section v-if="states" class="section">
-        <b-table :data="states" @click="showState" :hoverable="true">
-            <template v-slot="props">
-                <b-table-column field="id" :label="translations.shared.fields.id" width="40" centered numeric>
-                    {{props.row.id}}
+    <section class="section">
+        <b-table :data="workflows" @click="showWorkflow" :hoverable="true">
+            <template slot-scope="props">
+                <b-table-column field="id" label="Number">
+                    {{ props.row.id }}
                 </b-table-column>
-                <b-table-column field="name" :label="translations.shared.fields.name">
-                    <component-state-name 
-                        :name="props.row.name"
-                        :translations-shared-path="translationsSharedPath"
-                    />
+                <b-table-column field="name" label="Name">
+                    {{ props.row.name}}
+                    <span v-if="props.row.default" class="has-text-weight-bold">
+                        (Default)
+                    </span>
                 </b-table-column>
-                <b-table-column field="created_at" :label="translations.shared.fields.created_at">
+                <b-table-column field="created_at" label="Created at">
                     {{ date.toLocalFormat(props.row.created_at, true) }}
                 </b-table-column>
-                <b-table-column field="updated_at" :label="translations.shared.fields.updated_at">
+                <b-table-column field="updated_at" label="Updated at">
                     {{ date.toLocalFormat(props.row.updated_at, true) }}
                 </b-table-column>
             </template>
         </b-table>
-    </section>
-    <section v-else class="has-text-centered">
-        <b-icon
-            type="is-primary"
-            icon="spinner"
-            size="is-large"
-            custom-class="fa-spin"
-        >
-        </b-icon>
     </section>
 </template>
 <style>
