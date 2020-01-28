@@ -52,10 +52,9 @@ Building a better future, one line of code at a time.
             
             dynamic_info = self.class.dynamic_info
             module_name = dynamic_info[:module_name]
-            object_name = dynamic_info[:object_name]
 
             ids = next_states.split('|').map(&:to_i)
-            transitions = workflow.details.where("cloud_#{module_name}_#{object_name}_states_id".to_sym => ids).map do |workflow_detail|
+            transitions = workflow.details.where("cloud_#{module_name}_workflow_states_id".to_sym => ids).map do |workflow_detail|
                 workflow_state = workflow_detail.workflow_state
                 {
                     id: workflow_state.id,
@@ -78,14 +77,12 @@ Building a better future, one line of code at a time.
 @example
     dynamic_info = CloudHelp::Workflow::Detail.dynamic_info
     puts dynamic_info[:module_name] # will print 'help'
-    puts dynamic_info[:object_name] # will print ticket_workflow
 =end
         def self.dynamic_info
             module_info = self.name.split("::")
             cloud_object_name = module_info[1].sub("Workflow", "")
             {
-                module_name: module_info[0].sub("Cloud", "").downcase,
-                object_name: "#{cloud_object_name.downcase}_workflow"
+                module_name: module_info[0].sub("Cloud", "").downcase
             }
         end
     end

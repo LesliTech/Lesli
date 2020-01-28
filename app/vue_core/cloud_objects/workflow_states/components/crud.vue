@@ -56,7 +56,7 @@ export default {
         },
 
         getWorkflowStates(){
-            this.http.get(`/${this.cloudModule}_workflow_states.json`).then(result => {
+            this.http.get(`/${this.module_name}/workflow_states.json`).then(result => {
                 if (result.successful) {
                     this.workflow_states = result.data
 
@@ -80,10 +80,13 @@ export default {
         postWorkflowState(event){
             event.preventDefault()
 
-            let data = {}
-            data[`${this.object_name}_workflow_state`] = {...this.new_workflow_state}
+            let data = {
+                workflow_state: {
+                    ... this.new_workflow_state
+                }
+            }
             this.new_workflow_state.name = ''
-            this.http.post(`/${this.cloudModule}_workflow_states`, data).then(result => {
+            this.http.post(`/${this.module_name}/workflow_states`, data).then(result => {
                 if (result.successful) {
                     this.getWorkflowStates()
                     this.alert('Workflow state created successfully', 'success')
@@ -98,9 +101,10 @@ export default {
         patchWorkflowState(event){
             event.preventDefault()
             this.modal.edit.active = false
-            let data = {}
-            data[`${this.object_name}_workflow_state`] = this.selected_workflow_state
-            let url = `/${this.cloudModule}_workflow_states/${this.selected_workflow_state.id}`
+            let data = {
+                workflow_state: this.selected_workflow_state
+            }
+            let url = `/${this.module_name}/workflow_states/${this.selected_workflow_state.id}`
             
             this.http.patch(url, data).then(result => {
                 if (result.successful) {
@@ -118,7 +122,7 @@ export default {
         deleteWorkflowState(){
             this.modal.delete.active = false
             if(this.selected_workflow_state){
-                let url = `/${this.cloudModule}_workflow_states/${this.selected_workflow_state.id}`
+                let url = `/${this.module_name}/workflow_states/${this.selected_workflow_state.id}`
                 this.http.delete(url).then(result => {
                     if (result.successful) {
                         this.getWorkflowStates()

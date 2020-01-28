@@ -39,21 +39,10 @@ export default {
             type: String,
             required: true
         },
-        cloudId: {
-            default: null
+        workflowId: {
+            default: null,
         },
         workflow: {
-            type: Object,
-            default: ()=>{
-                return {}
-            }
-        },
-        workflowStateInitialId: {
-            type:Number,
-            default: null
-        },
-        workflowStateFinalId: {
-            type: Number,
             default: null
         },
         selectedWorkflowState: {
@@ -68,23 +57,19 @@ export default {
     data(){
         return {
             parsed_workflow: [],
-            default_states: {
-                initial: null,
-                final: null
-            }
+            workflow_data: null
         }
     },
     mounted(){
-        this.setDefaultStatesIds()
-        this.verifyDefaultStates()
+        this.setCloudParams()
         this.verifyWorkflow()
         this.displayWorkflow()
     },
     methods: {
-
-        setDefaultStatesIds(){
-            this.default_states.initial = this.workflowStateInitialId,
-            this.default_states.final = this.workflowStateFinalId
+        setCloudParams(){
+            let module_data = this.cloudModule.split('/')
+            this.module_name = module_data[0]
+            this.object_name = module_data[1]
         },
 
         getIcon(node){
@@ -97,14 +82,13 @@ export default {
             return icon
         },
 
-        verifyDefaultStates(){
-            if(! this.default_states.initial || ! this.default_states.final){
-                this.http.get(`/${this.cloudModule}_workflow_states.json`).then(result => {
+        verifyWorkflow(){
+            if(this.workflow){
+                this.workflow_data = this.workflow.details
+            }else{
+                this.http.get(`/help/workflows/${this.workflowId}.json`).then(result => {
                     if (result.successful) {
-
-                        this.default_states.initial = result.data.filter( state => state.initial)[0].id
-                        this.default_states.final = result.data.filter( state => state.final)[0].id
-
+                        this.workflow_data = result.data.details
                         this.displayWorkflow()
                     }else{
                         this.alert(result.error.message,'danger')
@@ -114,18 +98,12 @@ export default {
                 })
             }
         },
-
-        verifyWorkflow(){
-            if(! this.workflow){
-                console.log("WE SHOULD GET THE WORKFLOW FROM THE SERVER HERE!!!!")
-            }
-        },
         
         displayWorkflow(){
-            if(this.workflow && this.default_states.initial && this.default_states.final){
+            if(this.workflow_data){
                 this.$emit('update:rerender', false)
                 let data = []
-                Object.values(this.workflow).forEach( node => {
+                Object.values(this.workflow_data).forEach( node => {
                     let parsed_node = {
                         id: node.workflow_state_id,
                         text: `${this.getIcon(node)} ${this.getNodeName(node)}`
@@ -143,10 +121,10 @@ export default {
         },
 
         getNodeName(node){
-            if(node.workflow_state_id == this.default_states.initial){
+            if(node.initial){
                 return 'Created'
             }
-            if(node.workflow_state_id == this.default_states.final){
+            if(node.final){
                 return 'Closed'
             }
             return node.workflow_state_name
@@ -171,7 +149,7 @@ export default {
 </script>
 <template>
     <vue-mermaid
-        v-if="workflow && default_states.initial && default_states.final"
+        v-if="workflow_data"
         :nodes="parsed_workflow"
         type="graph LR"
     >

@@ -204,7 +204,7 @@ Building a better future, one line of code at a time.
     Allowed params are :name
 @example
     # supose params contains {
-    #    "ticket_state": {
+    #    "workflow_state": {
     #        "id": 5,
     #        "name": "Reviewing Changes"
     #    }
@@ -216,18 +216,16 @@ Building a better future, one line of code at a time.
     #}
 =end
         def state_params
-            object_name = dynamic_info[:object_name]
-            params.fetch(object_name.to_sym, {}).permit(:name)
+            params.fetch(:workflow_state, {}).permit(:name)
         end
 
 =begin
 @return [Hash] Hash that contains information about the class
 @description Returns dynamic information based on the current implementation of this abstract class
 @example
-    # Imagine the current class is an instance of CloudHelp::TicketWorkflowStatesController < CloudObject::WorkflowStatesController
+    # Imagine the current class is an instance of CloudHelp::WorkflowStatesController < CloudObject::WorkflowStatesController
     info = dynamic_info
     puts info[:module_name] # will print 'help'
-    puts info[:object_name] # will print 'ticket_workflow_state'
     info[:model].new # will return an instance of CloudHelp::TicketWorkflowState
 =end
         def dynamic_info
@@ -235,8 +233,7 @@ Building a better future, one line of code at a time.
             cloud_object_name = module_info[1].sub("WorkflowStatesController", "")
             {
                 module_name: module_info[0].sub("Cloud", "").downcase,
-                object_name: "#{cloud_object_name.downcase}_workflow_state",
-                model: "#{module_info[0]}::#{cloud_object_name}WorkflowState".constantize
+                model: "#{module_info[0]}::WorkflowState".constantize
             }
         end
     end

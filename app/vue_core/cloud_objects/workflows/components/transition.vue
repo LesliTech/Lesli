@@ -38,7 +38,7 @@ export default {
 
         getWorkflowStateOptions(){
             if(this.cloudId){
-                let url = `/${this.module_name}/options/${this.object_name}s/${this.cloudId}/workflows`
+                let url = `/${this.module_name}/options/workflows/${this.object_name}/${this.cloudId}`
                 this.http.get(url).then(result =>{
                     if (result.successful) {
                         if(result.data && result.data.length > 0){
@@ -68,7 +68,7 @@ export default {
             data[this.object_name] = {
                 detail_attributes: {}
             }
-            let detail_key = `cloud_${this.module_name}_${this.object_name}_workflow_details_id`
+            let detail_key = `cloud_${this.module_name}_workflow_details_id`
             data[this.object_name].detail_attributes[detail_key] = this.transition_detail_id
             
             this.http.patch(url, data).then(result =>{
@@ -80,9 +80,7 @@ export default {
                         this.$router.push(`/${this.cloudId}`)
                     }else{
                         this.getWorkflowStateOptions()
-
                         this.alert('The state of this resource has been successfully updated', 'success')
-                        this.$emit('update-workflow', state)
                     }
                 } else {
                     this.alert(result.error.message, 'danger')

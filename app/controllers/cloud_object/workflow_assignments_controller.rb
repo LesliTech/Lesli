@@ -114,7 +114,7 @@ Building a better future, one line of code at a time.
             cloud_object_name = dynamic_info[:cloud_object_name]
             object_name = dynamic_info[:object_name]
 
-            params.fetch(object_name.to_sym, {}).permit("cloud_#{module_name}_#{cloud_object_name}_workflows_id".to_sym)
+            params.fetch(object_name.to_sym, {}).permit("cloud_#{module_name}_workflows_id".to_sym)
         end
 
 =begin

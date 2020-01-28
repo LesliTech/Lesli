@@ -25,7 +25,7 @@ module CloudObject
             module_info = self.name.split("::")
             {
                 module_name: module_info[0].sub("Cloud", "").downcase,
-                workflow_model: "#{module_info[0]}::#{module_info[1]}Workflow".constantize,
+                workflow_model: "#{module_info[0]}::Workflow".constantize,
             }
         end
     end

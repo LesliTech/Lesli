@@ -119,7 +119,7 @@ export default {
         },
 
         getWorkflow() {
-            let url = `/${this.module_name}/${this.object_name}_workflows/${this.workflow_id}.json`
+            let url = `/${this.module_name}/workflows/${this.workflow_id}.json`
             console.log(url)
 
             this.http.get(url).then(result => {
@@ -142,6 +142,7 @@ export default {
             }
             this.workflow.details[this.default_workflow_states.initial].next_states+=`|${workflow_state.id}`
             this.$set(this.workflow.details, workflow_state.id, new_detail)
+            this.rerender_chart = true
         },
 
         // · Checks if this is the only follow up state of the initial state
@@ -162,7 +163,6 @@ export default {
 
                 for(let workflow_detail_id in this.workflow.details){
                     let workflow_detail = this.workflow.details[workflow_detail_id]
-
                     if(workflow_detail.next_states){
                         workflow_detail.next_states = workflow_detail.next_states.replace(
                             new RegExp(`([^0-9]${id}$)|(^${id}[^0-9])|(^${id}$)`,'g'), ''
@@ -174,6 +174,7 @@ export default {
                         }
                     }
                 }
+                this.rerender_chart = true
             }else{
                 this.alert(
                     'The initial state needs a follow up at all times. Please add another follow up state before deleting this one',
@@ -229,17 +230,17 @@ export default {
 
         postWorkflow(){
             if(this.workflow.name){
-                let data = {}
-                data[`${this.object_name}_workflow`] = {
-                    name: this.workflow.name
-                }
-                data[`${this.object_name}_workflow`].details_attributes = Object.values(
-                    this.workflow.details
-                ).map((detail)=>{
-                    detail[`cloud_${this.module_name}_${this.object_name}_workflow_states_id`] = detail['workflow_state_id']
+                let details_attributes = Object.values(this.workflow.details).map((detail)=>{
+                    detail[`cloud_${this.module_name}_workflow_states_id`] = detail['workflow_state_id']
                     return detail
                 })
-                let url = `/${this.module_name}/${this.object_name}_workflows`
+                let data = {
+                    workflow: {
+                        name: this.workflow.name,
+                        details_attributes: details_attributes
+                    }
+                }
+                let url = `/${this.module_name}/workflows`
 
                 this.http.post(url, data).then(result => {
                     if (result.successful) {
@@ -258,21 +259,21 @@ export default {
         },
 
         putWorkflow(){
-            let data = {}
-            data[`${this.object_name}_workflow`] = {
-                name: this.workflow.name
-            }
-            data[`${this.object_name}_workflow`].details_attributes = Object.values(
-                this.workflow.details
-            ).map((detail)=>{
-                detail[`cloud_${this.module_name}_${this.object_name}_workflow_states_id`] = detail['workflow_state_id']
+            let details_attributes = Object.values(this.workflow.details).map((detail)=>{
+                detail[`cloud_${this.module_name}_workflow_states_id`] = detail['workflow_state_id']
                 return detail
             })
-            let url = `/${this.module_name}/${this.object_name}_workflows/${this.workflow_id}`
+            let data = {
+                workflow: {
+                    name: this.workflow.name,
+                    details_attributes: details_attributes
+                }
+            }
+            let url = `/${this.module_name}/workflows/${this.workflow_id}`
 
             this.http.put(url, data).then(result => {
                 if (result.successful) {
-                    this.alert('Workflow updated successfully')
+                    this.alert('Workflow updated successfully', 'success')
                 }else{
                     this.alert(result.error.message,'danger')
                 }
@@ -282,11 +283,14 @@ export default {
         },
 
         patchWorkflowName(){
-            if(this.workflow_id){let data = {}
-                data[`${this.object_name}_workflow`] = {
-                    name: this.workflow.name
+            if(this.workflow_id){
+                
+                let data = {
+                    workflow: {
+                        name: this.workflow.name
+                    }
                 }
-                let url = `/${this.module_name}/${this.object_name}_workflows/${this.workflow_id}`
+                let url = `/${this.module_name}/workflows/${this.workflow_id}`
 
                 this.http.patch(url, data).then(result => {
                     if (result.successful) {
@@ -304,6 +308,9 @@ export default {
         
         nextStatesOfSelectedWorkflowDetail(){
             let next_states = []
+            if(! this.workflow.details[this.selected_workflow_detail.workflow_state_id]){
+                return next_states
+            }
             if(this.selected_workflow_detail.next_states){
                 let next_states_ids = this.selected_workflow_detail.next_states.split('|')
                 next_states_ids.forEach((id)=>{
@@ -463,13 +470,10 @@ export default {
                 </form>
                 <hr>
                 <component-workflow-chart
-                    v-if="default_workflow_states.initial && default_workflow_states.final"
                     class="has-text-centered"
                     :cloud-module="cloudModule"
-                    :workflow="workflow.details"
+                    :workflow="workflow"
                     :rerender.sync="rerender_chart"
-                    :workflow-state-initial-id="default_workflow_states.initial"
-                    :workflow-state-final-id="default_workflow_states.final"
                 />
             </div>
         </div>
