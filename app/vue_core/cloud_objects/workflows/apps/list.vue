@@ -76,25 +76,30 @@ export default {
 </script>
 <template>
     <section class="section">
-        <b-table :data="workflows" @click="showWorkflow" :hoverable="true">
-            <template slot-scope="props">
-                <b-table-column field="id" label="Number">
-                    {{ props.row.id }}
-                </b-table-column>
-                <b-table-column field="name" label="Name">
-                    {{ props.row.name}}
-                    <span v-if="props.row.default" class="has-text-weight-bold">
-                        (Default)
-                    </span>
-                </b-table-column>
-                <b-table-column field="created_at" label="Created at">
-                    {{ date.toLocalFormat(props.row.created_at, true) }}
-                </b-table-column>
-                <b-table-column field="updated_at" label="Updated at">
-                    {{ date.toLocalFormat(props.row.updated_at, true) }}
-                </b-table-column>
-            </template>
-        </b-table>
+        <component-layout-empty-data v-if="workflows.length == 0" />
+        <div v-else class="card">
+            <div class="card-content">
+                <b-table :data="workflows" @click="showWorkflow" :hoverable="true">
+                    <template slot-scope="props">
+                        <b-table-column field="id" label="Number">
+                            {{ props.row.id }}
+                        </b-table-column>
+                        <b-table-column field="name" label="Name">
+                            {{ props.row.name}}
+                            <span v-if="props.row.default" class="has-text-weight-bold">
+                                (Default)
+                            </span>
+                        </b-table-column>
+                        <b-table-column field="created_at" label="Created at">
+                            {{ date.toLocalFormat(props.row.created_at, true) }}
+                        </b-table-column>
+                        <b-table-column field="updated_at" label="Updated at">
+                            {{ date.toLocalFormat(props.row.updated_at, true) }}
+                        </b-table-column>
+                    </template>
+                </b-table>
+            </div>
+        </div>
     </section>
 </template>
 <style>
