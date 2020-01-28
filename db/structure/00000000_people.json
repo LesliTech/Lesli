@@ -2,9 +2,6 @@
     "name": "salutation",
     "type": "string"
 },{
-    "name": "title",
-    "type": "string"
-},{
     "name": "first_name",
     "type": "string"
 },{

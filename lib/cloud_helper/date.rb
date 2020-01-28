@@ -40,7 +40,7 @@ module CloudHelper
         end
 
         def self.to_string(datetime)
-            datetime.strftime(@format_full)
+            datetime.strftime(@format_datetime)
         end
 
         def self.date_as_string(datetime)
