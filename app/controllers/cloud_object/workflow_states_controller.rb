@@ -21,8 +21,8 @@ Building a better future, one line of code at a time.
 @author   Carlos Hermosilla
 @license  Propietary - all rights reserved.
 @version  0.1.0-alpha
-@description Base controller for *state* core entity. A state will be used to name transitions
-    in  a *workflow*
+@description Base controller for the *workflow* *state* core entity. A state will be used to 
+    name transitions in  a *workflow*
 =end
     class WorkflowStatesController < ApplicationLesliController
         before_action :set_state, only: [:update, :destroy]
@@ -35,7 +35,7 @@ Building a better future, one line of code at a time.
     wheter the HTML or the JSON text should be rendered
 @example
     # Executing this controller's action from javascript's frontend
-    this.http.get(`127.0.0.1/help/ticket_states`);
+    this.http.get(`127.0.0.1/help/ticket_workflow_states`);
 =end
         def index
             respond_to do |format|
@@ -51,9 +51,7 @@ Building a better future, one line of code at a time.
                         :initial,       :final,
                         :created_at,    :updated_at
                     ).order(
-                        initial: :desc,
-                        final: :asc,
-                        name: :asc
+                        id: :asc
                     )
                     responseWithSuccessful(states) 
                 end
@@ -69,7 +67,7 @@ Building a better future, one line of code at a time.
 @example
     # Executing this controller's action from javascript's frontend
     let ticket_state_id = 1;
-    this.http.get(`127.0.0.1/help/ticket_states/${ticket_state_id}`);
+    this.http.get(`127.0.0.1/help/ticket_workflow_states/${ticket_state_id}`);
 =end
         def show
             respond_to do |format|
@@ -88,7 +86,7 @@ Building a better future, one line of code at a time.
 @description returns an HTML view with a form so users can create a new state
 @example
     # Executing this controller's action from javascript's frontend
-    this.url.go('/help/ticket_states/new')
+    this.url.go('/help/ticket_workflows_states/new')
 =end
         def new
         end
@@ -99,7 +97,7 @@ Building a better future, one line of code at a time.
 @example
     # Executing this controller's action from javascript's frontend
     let ticket_state_id = 3;
-    this.url.go(`/help/ticket_states/${ticket_states_id}/edit`)
+    this.url.go(`/help/ticket_workflow_states/${ticket_states_id}/edit`)
 =end
         def edit
         end
@@ -116,7 +114,7 @@ Building a better future, one line of code at a time.
             name: "In Progress"
         }
     };
-    this.http.post('127.0.0.1/help/ticket_states', data);
+    this.http.post('127.0.0.1/help/ticket_workflow_states', data);
 =end
         def create
             module_name = dynamic_info[:module_name]
@@ -146,7 +144,7 @@ Building a better future, one line of code at a time.
             name: "Verifying Quality"
         }
     };
-    this.http.put(`127.0.0.1/help/ticket_states/${ticket_state_id}`, data);
+    this.http.put(`127.0.0.1/help/ticket_workflow_states/${ticket_state_id}`, data);
 =end
         def update
             return responseWithNotFound unless @state
@@ -166,7 +164,7 @@ Building a better future, one line of code at a time.
 @example
     # Executing this controller's action from javascript's frontend
     let ticket_state_id = 4;
-    this.http.delete(`127.0.0.1/help/ticket_states/${ticket_state_id}`);
+    this.http.delete(`127.0.0.1/help/ticket_workflow_states/${ticket_state_id}`);
 =end
         def destroy
             return responseWithNotFound unless @state
@@ -206,7 +204,7 @@ Building a better future, one line of code at a time.
     Allowed params are :name
 @example
     # supose params contains {
-    #    "ticket_state": {
+    #    "workflow_state": {
     #        "id": 5,
     #        "name": "Reviewing Changes"
     #    }
@@ -218,27 +216,24 @@ Building a better future, one line of code at a time.
     #}
 =end
         def state_params
-            object_name = dynamic_info[:object_name]
-            params.fetch(object_name.to_sym, {}).permit(:name)
+            params.fetch(:workflow_state, {}).permit(:name)
         end
 
 =begin
 @return [Hash] Hash that contains information about the class
 @description Returns dynamic information based on the current implementation of this abstract class
 @example
-    # Imagine the current class is an instance of CloudHelp::TicketStatesController < CloudObject::StatesController
+    # Imagine the current class is an instance of CloudHelp::WorkflowStatesController < CloudObject::WorkflowStatesController
     info = dynamic_info
     puts info[:module_name] # will print 'help'
-    puts info[:object_name] # will print 'ticket_state'
-    info[:model].new # will return an instance of CloudHelp::TicketState
+    info[:model].new # will return an instance of CloudHelp::TicketWorkflowState
 =end
         def dynamic_info
             module_info = self.class.name.split("::")
-            cloud_object_name = module_info[1].sub("StatesController", "")
+            cloud_object_name = module_info[1].sub("WorkflowStatesController", "")
             {
                 module_name: module_info[0].sub("Cloud", "").downcase,
-                object_name: "#{cloud_object_name.downcase}_state",
-                model: "#{module_info[0]}::#{cloud_object_name}State".constantize
+                model: "#{module_info[0]}::WorkflowState".constantize
             }
         end
     end
