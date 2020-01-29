@@ -75,7 +75,10 @@ export default {
         },
 
         patchAction(action) {
-            let form_data =  { ticket_action: action }
+            let form_data =  { }
+            let object_name = this.cloudModule.split('/')[1]
+            form_data[`${object_name}_action`] = action
+
             this.http.patch(`/${this.cloudModule}s/${this.cloudId}/actions/${ action.id }`, form_data).then(result => {
                 if (result.successful) {
                     if (action.complete == true) {
