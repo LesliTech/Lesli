@@ -11,6 +11,9 @@ export default {
         workflowKeyName: {
             type: String,
             required: true
+        },
+        namespace: {
+            type: String
         }
     },
 
@@ -62,7 +65,11 @@ export default {
         },
 
         getWorkflowAssignments(){
-            let query = `name=${this.object_name}_${this.workflowKeyName}&resource_id=${this.cloudAssociationId}`
+            let resource_name = `${this.object_name}_${this.workflowKeyName}`
+            if(this.namespace){
+                resource_name = `${this.namespace}_${resource_name}`
+            }
+            let query = `name=${resource_name}&resource_id=${this.cloudAssociationId}`
             let url = `/${this.module_name}/${this.object_name}_workflows.json?${query}`
 
             this.http.get(url).then(result => {
