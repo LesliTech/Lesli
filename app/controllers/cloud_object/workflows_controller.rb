@@ -131,10 +131,11 @@ Building a better future, one line of code at a time.
 =end
         def create
             dynamic_info = self.class.dynamic_info
+            module_name = dynamic_info[:module_name]
             model = dynamic_info[:model]
 
             workflow = model.new(workflow_params)
-            workflow.cloud_help_accounts_id = current_user.account.id
+            workflow["cloud_#{module_name}_accounts_id".to_sym] = current_user.account.id
 
             if workflow.save
                 responseWithSuccessful(workflow)

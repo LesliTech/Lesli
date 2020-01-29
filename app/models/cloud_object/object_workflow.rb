@@ -130,14 +130,12 @@ Building a better future, one line of code at a time.
     # Imagine the current class is an instance of CloudHelp::TicketWorkflowController < CloudObject::WorkflowAssignmentsController
     info = dynamic_info
     puts info[:module_name] # will print 'help'
-    puts info[:object_name] # will print 'ticket_workflow'
 =end
         def self.dynamic_info
             module_info = self.name.split("::")
             cloud_object_name = module_info[1].sub("Workflow", "")
             {
-                module_name: module_info[0].sub("Cloud", "").downcase,
-                object_name: "#{cloud_object_name.downcase}_workflow"
+                module_name: module_info[0].sub("Cloud", "").downcase
             }
         end
     end
