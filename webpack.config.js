@@ -49,9 +49,10 @@ module.exports = env => {
         performance: { hints: false },
         optimization: { minimize: production },
         entry: {
-            "websites/app": "./app/vue/websites/app.js",
             "users/app": "./app/vue/users/app.js",
-            "dashboards/app": "./app/vue/dashboards/app.js",
+            "accounts/app": "./app/vue/accounts/app.js",
+            "websites/app": "./app/vue/websites/app.js",
+            "dashboards/app": "./app/vue/dashboards/app.js"
         },
         output: {
             path: __dirname,

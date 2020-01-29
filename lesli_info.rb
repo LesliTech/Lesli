@@ -61,10 +61,7 @@ module LesliInfo
             github_ssh: 'git@github.com:LesliTech/CloudMailer.git',
             github_url: 'https://github.com/LesliTech/CloudMailer'
         }, {
-            name: 'CloudDriver',
-            code: 'cloud_driver',
-            github_ssh: 'git@github.com:LesliTech/CloudDriver.git',
-            github_url: 'https://github.com/LesliTech/CloudDriver'
+
         }, {
             name: 'CloudChaos',
             code: 'cloud_chaos',

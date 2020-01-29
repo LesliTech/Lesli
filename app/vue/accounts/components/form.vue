@@ -1,12 +1,12 @@
 <script>
 
-import notification from '../../components/forms/notification.vue'
-import progressBar from '../../components/forms/progress_bar.vue'
+import notification from 'LesliCoreVue/components/notifications/message-simple.vue'
+import progressBar from 'LesliCoreVue/components/notifications/progress-bar.vue'
 
 export default {
     data(){
         return {
-            translations: I18n.t('accounts.form'),
+            translations: {},
             account: {
                 company_name: ''
             },
@@ -31,7 +31,7 @@ export default {
             event.preventDefault();
             let data = {account: this.account, user: this.user};
             this.progress_bar_active = true;
-            this.http.post(this.url.to(null,null,'/account'),data).then((response)=>{
+            this.http.post(this.url.to("/account"), data).then((response)=>{
                 this.progress_bar_active = false;
                 if(response.successful){
                     this.url.go('/');
@@ -60,19 +60,19 @@ export default {
         <div class="field">
             <p class="control has-icons-left">
                 <label class="sr-only">
-                    {{translations.fields.company_name}}
+                    Company name
                 </label>
                 <input 
                     class="input" 
                     type="text"
                     v-model="account.company_name"
                     required="true"
-                    :placeholder="translations.fields.company_name" />
+                    placeholder="translations.fields.company_name" />
                 <span class="icon is-small is-left">
                     <i class="fas fa-building"></i>
                 </span>
             </p>
         </div>
-        <input class="button is-primary" type="submit" :value="translations.actions.save" />
+        <input class="button is-primary" type="submit" value="guardar" />
     </form>
 </template>

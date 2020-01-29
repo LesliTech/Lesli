@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2040409) do
+ActiveRecord::Schema.define(version: 8020207) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -57,6 +57,114 @@ ActiveRecord::Schema.define(version: 2040409) do
     t.string "checksum", null: false
     t.datetime "created_at", null: false
     t.index ["key"], name: "index_active_storage_blobs_on_key", unique: true
+  end
+
+  create_table "cloud_driver_accounts", force: :cascade do |t|
+  end
+
+  create_table "cloud_driver_calendar_actions", force: :cascade do |t|
+    t.integer "type"
+    t.string "instructions"
+    t.datetime "deadline"
+    t.boolean "complete"
+    t.string "tags"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.bigint "cloud_driver_calendars_id"
+    t.index ["cloud_driver_calendars_id"], name: "calendar_actions_calendars"
+  end
+
+  create_table "cloud_driver_calendar_activities", force: :cascade do |t|
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.bigint "cloud_driver_calendars_id"
+    t.index ["cloud_driver_calendars_id"], name: "calendar_activities_calendars"
+  end
+
+  create_table "cloud_driver_calendar_details", force: :cascade do |t|
+    t.string "name"
+    t.string "color", default: "100,100,200"
+    t.boolean "default", default: false
+    t.boolean "active", default: true
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.bigint "cloud_driver_calendars_id"
+    t.index ["cloud_driver_calendars_id"], name: "calendar_details_calendars"
+  end
+
+  create_table "cloud_driver_calendar_discussions", force: :cascade do |t|
+    t.text "content"
+    t.datetime "deleted_at"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.bigint "users_id"
+    t.bigint "cloud_driver_calendar_discussions_id"
+    t.bigint "cloud_driver_calendars_id"
+    t.index ["cloud_driver_calendar_discussions_id"], name: "calendar_discussions"
+    t.index ["cloud_driver_calendars_id"], name: "driver_calendar_discussions"
+    t.index ["users_id"], name: "index_cloud_driver_calendar_discussions_on_users_id"
+  end
+
+  create_table "cloud_driver_calendar_files", force: :cascade do |t|
+    t.string "name"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.bigint "cloud_driver_calendars_id"
+    t.index ["cloud_driver_calendars_id"], name: "index_cloud_driver_calendar_files_on_cloud_driver_calendars_id"
+  end
+
+  create_table "cloud_driver_calendar_subscribers", force: :cascade do |t|
+    t.integer "event"
+    t.integer "notification_type"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.bigint "users_id"
+    t.bigint "cloud_driver_calendars_id"
+    t.index ["cloud_driver_calendars_id"], name: "driver_calendar_subscribers_calendars"
+    t.index ["users_id"], name: "driver_calendar_subscribers_users"
+  end
+
+  create_table "cloud_driver_calendars", force: :cascade do |t|
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.bigint "cloud_driver_accounts_id"
+    t.index ["cloud_driver_accounts_id"], name: "index_cloud_driver_calendars_on_cloud_driver_accounts_id"
+  end
+
+  create_table "cloud_driver_event_actions", force: :cascade do |t|
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.bigint "cloud_driver_events_id"
+    t.index ["cloud_driver_events_id"], name: "index_cloud_driver_event_actions_on_cloud_driver_events_id"
+  end
+
+  create_table "cloud_driver_event_activities", force: :cascade do |t|
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.bigint "cloud_driver_events_id"
+    t.index ["cloud_driver_events_id"], name: "index_cloud_driver_event_activities_on_cloud_driver_events_id"
+  end
+
+  create_table "cloud_driver_event_details", force: :cascade do |t|
+    t.string "title"
+    t.text "description"
+    t.datetime "time_start"
+    t.datetime "time_end"
+    t.string "location"
+    t.string "url"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.bigint "cloud_driver_events_id"
+    t.bigint "users_id"
+    t.index ["cloud_driver_events_id"], name: "index_cloud_driver_event_details_on_cloud_driver_events_id"
+    t.index ["users_id"], name: "index_cloud_driver_event_details_on_users_id"
+  end
+
+  create_table "cloud_driver_events", force: :cascade do |t|
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.bigint "cloud_driver_calendars_id"
+    t.index ["cloud_driver_calendars_id"], name: "index_cloud_driver_events_on_cloud_driver_calendars_id"
   end
 
   create_table "cloud_house_accounts", force: :cascade do |t|
@@ -155,6 +263,12 @@ ActiveRecord::Schema.define(version: 2040409) do
     t.string "verification_document_type"
     t.string "verification_document_number"
     t.string "verification_document_authority"
+    t.string "lead_origin"
+    t.string "lead_source"
+    t.string "questionnaire_type"
+    t.datetime "questionnaire_received_date"
+    t.boolean "testimony"
+    t.text "notes"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.bigint "cloud_house_contacts_id"
@@ -307,6 +421,74 @@ ActiveRecord::Schema.define(version: 2040409) do
     t.datetime "updated_at", precision: 6, null: false
   end
 
+  create_table "cloud_lock_accounts", force: :cascade do |t|
+  end
+
+  create_table "cloud_lock_role_privileges", force: :cascade do |t|
+    t.string "privilege_object_name"
+    t.boolean "privilege_index", default: false
+    t.boolean "privilege_create", default: false
+    t.boolean "privilege_new", default: false
+    t.boolean "privilege_edit", default: false
+    t.boolean "privilege_show", default: false
+    t.boolean "privilege_update", default: false
+    t.boolean "privilege_destroy", default: false
+    t.boolean "privilege_options", default: false
+    t.boolean "privilege_default", default: false
+    t.boolean "privilege_empty", default: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.bigint "cloud_lock_roles_id"
+    t.index ["cloud_lock_roles_id"], name: "index_cloud_lock_role_privileges_on_cloud_lock_roles_id"
+  end
+
+  create_table "cloud_lock_roles", force: :cascade do |t|
+    t.string "name"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.bigint "cloud_lock_accounts_id"
+    t.index ["cloud_lock_accounts_id"], name: "index_cloud_lock_roles_on_cloud_lock_accounts_id"
+  end
+
+  create_table "cloud_lock_user_actions", force: :cascade do |t|
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
+  create_table "cloud_lock_user_activities", force: :cascade do |t|
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
+  create_table "cloud_lock_user_details", force: :cascade do |t|
+    t.string "first_name"
+    t.string "last_name"
+    t.string "telephone"
+    t.string "address"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.bigint "users_id"
+    t.index ["users_id"], name: "index_cloud_lock_user_details_on_users_id"
+  end
+
+  create_table "cloud_lock_user_discussions", force: :cascade do |t|
+    t.text "content"
+    t.datetime "deleted_at"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["deleted_at"], name: "index_cloud_lock_user_discussions_on_deleted_at"
+  end
+
+  create_table "cloud_lock_user_files", force: :cascade do |t|
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
+  create_table "cloud_lock_user_followers", force: :cascade do |t|
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
   create_table "users", force: :cascade do |t|
     t.string "email", default: "", null: false
     t.string "encrypted_password", default: "", null: false
@@ -330,7 +512,9 @@ ActiveRecord::Schema.define(version: 2040409) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.bigint "accounts_id"
+    t.bigint "cloud_lock_roles_id"
     t.index ["accounts_id"], name: "index_users_on_accounts_id"
+    t.index ["cloud_lock_roles_id"], name: "index_users_on_cloud_lock_roles_id"
     t.index ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true
     t.index ["deleted_at"], name: "index_users_on_deleted_at"
     t.index ["email"], name: "index_users_on_email", unique: true
@@ -340,6 +524,22 @@ ActiveRecord::Schema.define(version: 2040409) do
 
   add_foreign_key "accounts", "users", column: "users_id"
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
+  add_foreign_key "cloud_driver_accounts", "accounts", column: "id"
+  add_foreign_key "cloud_driver_calendar_actions", "cloud_driver_calendars", column: "cloud_driver_calendars_id"
+  add_foreign_key "cloud_driver_calendar_activities", "cloud_driver_calendars", column: "cloud_driver_calendars_id"
+  add_foreign_key "cloud_driver_calendar_details", "cloud_driver_calendars", column: "cloud_driver_calendars_id"
+  add_foreign_key "cloud_driver_calendar_discussions", "cloud_driver_calendar_discussions", column: "cloud_driver_calendar_discussions_id"
+  add_foreign_key "cloud_driver_calendar_discussions", "cloud_driver_calendars", column: "cloud_driver_calendars_id"
+  add_foreign_key "cloud_driver_calendar_discussions", "users", column: "users_id"
+  add_foreign_key "cloud_driver_calendar_files", "cloud_driver_calendars", column: "cloud_driver_calendars_id"
+  add_foreign_key "cloud_driver_calendar_subscribers", "cloud_driver_calendars", column: "cloud_driver_calendars_id"
+  add_foreign_key "cloud_driver_calendar_subscribers", "users", column: "users_id"
+  add_foreign_key "cloud_driver_calendars", "cloud_driver_accounts", column: "cloud_driver_accounts_id"
+  add_foreign_key "cloud_driver_event_actions", "cloud_driver_events", column: "cloud_driver_events_id"
+  add_foreign_key "cloud_driver_event_activities", "cloud_driver_events", column: "cloud_driver_events_id"
+  add_foreign_key "cloud_driver_event_details", "cloud_driver_events", column: "cloud_driver_events_id"
+  add_foreign_key "cloud_driver_event_details", "users", column: "users_id"
+  add_foreign_key "cloud_driver_events", "cloud_driver_calendars", column: "cloud_driver_calendars_id"
   add_foreign_key "cloud_house_accounts", "accounts", column: "id"
   add_foreign_key "cloud_house_catalog_business_services", "cloud_house_accounts", column: "cloud_house_accounts_id"
   add_foreign_key "cloud_house_contact_actions", "cloud_house_contacts", column: "cloud_house_contacts_id"
@@ -370,5 +570,10 @@ ActiveRecord::Schema.define(version: 2040409) do
   add_foreign_key "cloud_house_property_files", "cloud_house_properties", column: "cloud_house_properties_id"
   add_foreign_key "cloud_house_property_subscribers", "cloud_house_properties", column: "cloud_house_properties_id"
   add_foreign_key "cloud_house_property_subscribers", "users", column: "users_id"
+  add_foreign_key "cloud_lock_accounts", "accounts", column: "id"
+  add_foreign_key "cloud_lock_role_privileges", "cloud_lock_roles", column: "cloud_lock_roles_id"
+  add_foreign_key "cloud_lock_roles", "cloud_lock_accounts", column: "cloud_lock_accounts_id"
+  add_foreign_key "cloud_lock_user_details", "users", column: "users_id"
   add_foreign_key "users", "accounts", column: "accounts_id"
+  add_foreign_key "users", "cloud_lock_roles", column: "cloud_lock_roles_id"
 end
