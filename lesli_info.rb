@@ -80,10 +80,7 @@ module LesliInfo
             github_ssh: 'git@github.com:LesliTech/CloudNotes.git',
             github_url: 'https://github.com/LesliTech/CloudNotes'
         }, {
-            name: 'CloudLesli',
-            code: 'cloud_lesli',
-            github_ssh: 'git@github.com:LesliTech/CloudLesli.git',
-            github_url: 'https://github.com/LesliTech/CloudLesli'
+
         }, {
             name: 'CloudSocial',
             code: 'cloud_social',
