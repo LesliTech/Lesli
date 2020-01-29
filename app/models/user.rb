@@ -40,7 +40,8 @@ class User < ApplicationRecord
     has_one :detail, class_name: 'CloudLock::User::Detail', foreign_key: 'users_id', dependent: :delete, inverse_of: :user, autosave: true
     accepts_nested_attributes_for :detail
 
-    after_create :create_user_defaults
+    after_save :create_user_defaults, if: :accounts_id?
+
 
     # @return [String] The name of this user.
     # @description Retrieves and returns the name of the user depending on the available information.
