@@ -37,12 +37,6 @@ export default {
     
     data() {
         return {
-            translations: { 
-                titles: {},
-                notification_types: {},
-                events: {},
-                placeholders: {}
-            },
             show: false,
             events: [],
             module_name: null,
@@ -57,10 +51,10 @@ export default {
     mounted(){
         this.parseCloudModule()
         this.setTranslations()
+        this.getEvents()
         
         this.bus.subscribe("show:/module/app/subscriptions", () => {
             this.show = !this.show
-            this.getEvents()
         })
         
     },
@@ -118,7 +112,7 @@ export default {
                 if (result.successful) {
                     subscription_event.id = result.data.id
                     if(show_alerts){
-                        this.alert(this.translations.messages.subscribe.successful)
+                        this.alert('Subscriptions successfully updated', 'success')
                     }
                 }else{
                     this.alert(result.error.message, 'danger')
@@ -139,7 +133,7 @@ export default {
             ).then(result =>{
                 if (result.successful) {
                     if(show_alerts){
-                        this.alert(this.translations.messages.subscribe.successful)
+                        this.alert('Subscriptions successfully updated', 'success')
                     }
                 }else{
                     this.alert(result.error.message, 'danger')
@@ -159,7 +153,7 @@ export default {
             ).then(result =>{
                 if (result.successful) {
                     if(show_alerts){
-                        this.alert(this.translations.messages.subscribe.successful)
+                        this.alert('Subscriptions successfully updated', 'success')
                     }
                     delete subscription_event.id
                 }else{
@@ -184,7 +178,7 @@ export default {
                     this.submitSubscription(event, false)
                 }
             })
-            this.alert(this.translations.messages.subscribe.successful)
+            this.alert('Subscriptions type successfully updated', 'success')
         },
 
         'master_fields.subscribed': function(){
@@ -194,17 +188,17 @@ export default {
                     this.submitSubscription(event, false)
                 }
             })
-            this.alert(this.translations.messages.subscribe.successful)
+            this.alert('Subscriptions successfully updated', 'success')
         }
     }
 }
 </script>
 <template>
-    <section v-if="translations">
+    <section>
         <div :class="[{ 'is-active': show }, 'quickview']">
             <header class="quickview-header" @click="show = false">
                 <p class="title">
-                    {{translations.title}}
+                    Manage your subscriptions
                 </p>
                 <i class="fas fa-chevron-right clickable"></i>
             </header>
@@ -215,14 +209,14 @@ export default {
                             <div class="columns">
                                 <div class="column is-7">
                                     <b-checkbox v-model="master_fields.subscribed">
-                                        {{translations.titles.all_events}}
+                                        All Events
                                     </b-checkbox>
                                 </div>
                                 <div class="column is-5">
                                     <b-field>
                                         <b-select expanded v-model="master_fields.notification_type">
-                                            <option value="email">{{translations.notification_types["email"]}}</option>
-                                            <option value="web">{{translations.notification_types["web"]}}</option>
+                                            <option value="email">Email</option>
+                                            <option value="web">Web</option>
                                         </b-select>
                                     </b-field>
                                 </div>
@@ -233,19 +227,19 @@ export default {
                             <div class="columns">
                                 <div class="column is-7">
                                     <b-checkbox v-model="event.subscribed" @change.native="submitSubscription(event)">
-                                        {{translations.events[event.event]}}
+                                        {{event.event}}
                                     </b-checkbox>
                                 </div>
                                 <div class="column is-5">
                                     <b-field>
                                         <b-select
                                             @change.native="submitSubscription(event)"
-                                            :placeholder="translations.placeholders.notification_type"
+                                            placeholder="Type"
                                             expanded
                                             v-model="event.notification_type"
                                         >
-                                            <option value="email">{{translations.notification_types["email"]}}</option>
-                                            <option value="web">{{translations.notification_types["web"]}}</option>
+                                            <option value="email">Email</option>
+                                            <option value="web">Web</option>
                                         </b-select>
                                     </b-field>
                                 </div>
