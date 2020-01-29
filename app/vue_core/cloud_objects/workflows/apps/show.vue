@@ -124,7 +124,7 @@ export default {
 }
 </script>
 <template>
-    <section v-if="workflow">
+    <section v-if="workflow" class="section">
         <b-modal 
             :active.sync="modal.active"
             has-modal-card

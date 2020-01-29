@@ -344,11 +344,11 @@ export default {
 }
 </script>
 <template>
-    <section v-if="workflow">
+    <section class="section" v-if="workflow">
         <div class="card">
             <div class="card-header">
                 <h2 class="card-header-title">
-                    Ticket Workflow
+                    Workflow
                 </h2>
                 <div class="card-header-icon">
                     <router-link :to="`/${workflow_id}`">
