@@ -255,12 +255,14 @@ Building a better future, one line of code at a time.
             end
 
             workflow_assignment = assignment_model.find_by(search_params)
-            workflow = workflow_assignment.workflow
+            if workflow_assignment 
+                workflow = workflow_assignment.workflow
 
-            cloud_object.detail.workflow_detail = detail_model.find_by(
-                workflow: workflow,
-                workflow_state: state_model.initial_state(account)
-            )
+                cloud_object.detail.workflow_detail = detail_model.find_by(
+                    workflow: workflow,
+                    workflow_state: state_model.initial_state(account)
+                )
+            end
         end
 
         private
