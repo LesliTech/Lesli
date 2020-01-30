@@ -1,13 +1,19 @@
 PATH
-  remote: engines/CloudBell
+  remote: engines/CloudKb
   specs:
-    cloud_bell (0.1.0)
+    cloud_kb (0.1.0)
       rails (~> 6.0.0)
 
 PATH
   remote: engines/CloudBabel
   specs:
     cloud_babel (0.1.0)
+      rails (~> 6.0.0)
+
+PATH
+  remote: engines/CloudBell
+  specs:
+    cloud_bell (0.1.0)
       rails (~> 6.0.0)
 
 PATH
@@ -305,6 +311,7 @@ DEPENDENCIES
   cloud_bell!
   cloud_driver!
   cloud_house!
+  cloud_kb!
   cloud_lesli!
   cloud_lock!
   cloud_team!

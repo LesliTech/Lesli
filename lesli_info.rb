@@ -103,10 +103,7 @@ module LesliInfo
             github_ssh: 'git@github.com:LesliTech/CloudThings.git',
             github_url: 'https://github.com/LesliTech/CloudThings'
         }, {
-            name: 'CloudKb',
-            code: 'cloud_kb',
-            github_ssh: 'git@github.com:LesliTech/CloudKb.git',
-            github_url: 'https://github.com/LesliTech/CloudKb'
+
         }, {
             name: 'CloudHelp',
             code: 'cloud_help',
