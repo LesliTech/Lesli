@@ -60,7 +60,7 @@ class ApplicationLesliController < ApplicationController
             },
             company: { },
             notifications: { 
-                count: Courier::Bell::Notifications.count(current_user)
+                count: Courier::Bell::Notification.count(current_user)
             }
         }
 

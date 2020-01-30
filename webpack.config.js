@@ -64,6 +64,7 @@ module.exports = env => {
                 // resolve vuejs
                 vue: production ? 'vue/dist/vue.min.js' : 'vue/dist/vue.js',
 
+                // Resolve alias for core resources
                 LesliCloud: path.resolve(__dirname, './app'),
 
                 // Resolve alias necessary to load vue components from LesliCloud

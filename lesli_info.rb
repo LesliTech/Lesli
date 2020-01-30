@@ -86,10 +86,7 @@ module LesliInfo
             github_ssh: 'git@github.com:LesliTech/CloudSocial.git',
             github_url: 'https://github.com/LesliTech/CloudSocial'
         }, {
-            name: 'CloudBell',
-            code: 'cloud_bell',
-            github_ssh: 'git@github.com:LesliTech/CloudBell.git',
-            github_url: 'https://github.com/LesliTech/CloudBell'
+
         }, {
             name: 'CloudBooks',
             code: 'cloud_books',

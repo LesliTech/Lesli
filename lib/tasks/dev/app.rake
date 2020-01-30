@@ -8,7 +8,7 @@ namespace :dev do
         task rmjs: :environment do
 
             LesliInfo::engines.each do |engine|
-                engine_path = Rails.root.join('engines', engine[:name], "app", "assets", "javascripts")
+                engine_path = Rails.root.join('engines', engine['name'], "app", "assets", "javascripts")
                 FileUtils.rm_rf(engine_path)
                 p "delete folder: #{engine_path.to_s}"
             end
