@@ -596,6 +596,126 @@ ActiveRecord::Schema.define(version: 10010104) do
     t.index ["cloud_house_accounts_id"], name: "house_workflows_accounts"
   end
 
+  create_table "cloud_kb_accounts", force: :cascade do |t|
+  end
+
+  create_table "cloud_kb_article_actions", force: :cascade do |t|
+    t.integer "type"
+    t.string "instructions"
+    t.datetime "deadline"
+    t.boolean "complete"
+    t.string "tags"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.bigint "cloud_kb_articles_id"
+    t.index ["cloud_kb_articles_id"], name: "index_cloud_kb_article_actions_on_cloud_kb_articles_id"
+  end
+
+  create_table "cloud_kb_article_activities", force: :cascade do |t|
+    t.string "description"
+    t.string "field_name"
+    t.string "value_from"
+    t.string "value_to"
+    t.string "icon"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.bigint "cloud_kb_articles_id"
+    t.index ["cloud_kb_articles_id"], name: "index_cloud_kb_article_activities_on_cloud_kb_articles_id"
+  end
+
+  create_table "cloud_kb_article_custom_fields", force: :cascade do |t|
+    t.string "field_name"
+    t.string "field_label"
+    t.string "field_type"
+    t.string "field_instructions"
+    t.string "field_placeholder"
+    t.boolean "required"
+    t.string "value_default"
+    t.json "value_allowed"
+    t.string "value_format"
+    t.boolean "value_multiple"
+    t.integer "value_length"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.bigint "cloud_kb_articles_id"
+    t.index ["cloud_kb_articles_id"], name: "index_cloud_kb_article_custom_fields_on_cloud_kb_articles_id"
+  end
+
+  create_table "cloud_kb_article_details", force: :cascade do |t|
+    t.string "title"
+    t.string "excerpt"
+    t.string "tags"
+    t.integer "status"
+    t.text "content"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.bigint "cloud_kb_catalog_categories_id"
+    t.bigint "cloud_kb_articles_id"
+    t.index ["cloud_kb_articles_id"], name: "index_cloud_kb_article_details_on_cloud_kb_articles_id"
+    t.index ["cloud_kb_catalog_categories_id"], name: "kb_article_details_catalog_categories"
+  end
+
+  create_table "cloud_kb_article_discussions", force: :cascade do |t|
+    t.text "content"
+    t.datetime "deleted_at"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.bigint "cloud_kb_article_discussions_id"
+    t.bigint "users_id"
+    t.bigint "cloud_kb_articles_id"
+    t.index ["cloud_kb_article_discussions_id"], name: "article_comments"
+    t.index ["cloud_kb_articles_id"], name: "index_cloud_kb_article_discussions_on_cloud_kb_articles_id"
+    t.index ["users_id"], name: "index_cloud_kb_article_discussions_on_users_id"
+  end
+
+  create_table "cloud_kb_article_files", force: :cascade do |t|
+    t.string "name"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.bigint "cloud_kb_articles_id"
+    t.index ["cloud_kb_articles_id"], name: "index_cloud_kb_article_files_on_cloud_kb_articles_id"
+  end
+
+  create_table "cloud_kb_article_subscribers", force: :cascade do |t|
+    t.integer "event"
+    t.integer "notification_type"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.bigint "cloud_kb_articles_id"
+    t.index ["cloud_kb_articles_id"], name: "index_cloud_kb_article_subscribers_on_cloud_kb_articles_id"
+  end
+
+  create_table "cloud_kb_article_terms", force: :cascade do |t|
+    t.string "slug"
+    t.string "path"
+    t.integer "views", default: 0
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.bigint "cloud_kb_articles_id"
+    t.index ["cloud_kb_articles_id"], name: "index_cloud_kb_article_terms_on_cloud_kb_articles_id"
+  end
+
+  create_table "cloud_kb_articles", force: :cascade do |t|
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.bigint "users_id"
+    t.bigint "cloud_kb_accounts_id"
+    t.bigint "cloud_kb_articles_id"
+    t.index ["cloud_kb_accounts_id"], name: "index_cloud_kb_articles_on_cloud_kb_accounts_id"
+    t.index ["cloud_kb_articles_id"], name: "index_cloud_kb_articles_on_cloud_kb_articles_id"
+    t.index ["users_id"], name: "index_cloud_kb_articles_on_users_id"
+  end
+
+  create_table "cloud_kb_catalog_categories", force: :cascade do |t|
+    t.string "name"
+    t.string "slug"
+    t.string "ancestry"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.bigint "cloud_kb_accounts_id"
+    t.index ["cloud_kb_accounts_id"], name: "index_cloud_kb_catalog_categories_on_cloud_kb_accounts_id"
+  end
+
   create_table "cloud_lock_accounts", force: :cascade do |t|
   end
 
@@ -1064,6 +1184,22 @@ ActiveRecord::Schema.define(version: 10010104) do
   add_foreign_key "cloud_house_workflow_details", "cloud_house_workflows", column: "cloud_house_workflows_id"
   add_foreign_key "cloud_house_workflow_states", "cloud_house_accounts", column: "cloud_house_accounts_id"
   add_foreign_key "cloud_house_workflows", "cloud_house_accounts", column: "cloud_house_accounts_id"
+  add_foreign_key "cloud_kb_accounts", "accounts", column: "id"
+  add_foreign_key "cloud_kb_article_actions", "cloud_kb_articles", column: "cloud_kb_articles_id"
+  add_foreign_key "cloud_kb_article_activities", "cloud_kb_articles", column: "cloud_kb_articles_id"
+  add_foreign_key "cloud_kb_article_custom_fields", "cloud_kb_articles", column: "cloud_kb_articles_id"
+  add_foreign_key "cloud_kb_article_details", "cloud_kb_articles", column: "cloud_kb_articles_id"
+  add_foreign_key "cloud_kb_article_details", "cloud_kb_catalog_categories", column: "cloud_kb_catalog_categories_id"
+  add_foreign_key "cloud_kb_article_discussions", "cloud_kb_article_discussions", column: "cloud_kb_article_discussions_id"
+  add_foreign_key "cloud_kb_article_discussions", "cloud_kb_articles", column: "cloud_kb_articles_id"
+  add_foreign_key "cloud_kb_article_discussions", "users", column: "users_id"
+  add_foreign_key "cloud_kb_article_files", "cloud_kb_articles", column: "cloud_kb_articles_id"
+  add_foreign_key "cloud_kb_article_subscribers", "cloud_kb_articles", column: "cloud_kb_articles_id"
+  add_foreign_key "cloud_kb_article_terms", "cloud_kb_articles", column: "cloud_kb_articles_id"
+  add_foreign_key "cloud_kb_articles", "cloud_kb_accounts", column: "cloud_kb_accounts_id"
+  add_foreign_key "cloud_kb_articles", "cloud_kb_articles", column: "cloud_kb_articles_id"
+  add_foreign_key "cloud_kb_articles", "users", column: "users_id"
+  add_foreign_key "cloud_kb_catalog_categories", "cloud_kb_accounts", column: "cloud_kb_accounts_id"
   add_foreign_key "cloud_lock_accounts", "accounts", column: "id"
   add_foreign_key "cloud_lock_role_actions", "cloud_lock_roles", column: "cloud_lock_roles_id"
   add_foreign_key "cloud_lock_role_activities", "cloud_lock_roles", column: "cloud_lock_roles_id"
