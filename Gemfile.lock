@@ -1,7 +1,13 @@
 PATH
-  remote: engines/CloudLesli
+  remote: engines/CloudBabel
   specs:
-    cloud_lesli (0.1.0)
+    cloud_babel (0.1.0)
+      rails (~> 6.0.0)
+
+PATH
+  remote: engines/CloudTeam
+  specs:
+    cloud_team (0.1.0)
       rails (~> 6.0.0)
 
 PATH
@@ -14,6 +20,12 @@ PATH
   remote: engines/CloudHouse
   specs:
     cloud_house (0.1.0)
+      rails (~> 6.0.0)
+
+PATH
+  remote: engines/CloudLesli
+  specs:
+    cloud_lesli (0.1.0)
       rails (~> 6.0.0)
 
 PATH
@@ -283,10 +295,12 @@ DEPENDENCIES
   bootsnap (>= 1.1.0)
   byebug
   cancancan
+  cloud_babel!
   cloud_driver!
   cloud_house!
   cloud_lesli!
   cloud_lock!
+  cloud_team!
   devise
   faker
   haml-rails
