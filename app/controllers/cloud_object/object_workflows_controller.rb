@@ -24,9 +24,9 @@ Building a better future, one line of code at a time.
 @description Base controller for the *workflow* *assignment* core entity. This controller
     will manage associations between a *workflow* and its *cloud_object*.
 =end
-    class WorkflowAssignmentsController < ApplicationLesliController
+    class ObjectWorkflowsController < ApplicationLesliController
 
-        before_action :set_workflow_assignment, only: :update
+        before_action :set_object_workflow, only: :update
 
 =begin
 @return [HTML|JSON] HTML view for listing all workflow assignments or a Json that contains a list 
@@ -50,7 +50,7 @@ Building a better future, one line of code at a time.
             end
         end
 
-        def workflow_assignment_options
+        def workflow_options
             dynamic_info = self.class.dynamic_info
             model = dynamic_info[:model]
             responseWithSuccessful(model.associations)
@@ -58,7 +58,7 @@ Building a better future, one line of code at a time.
 
         def update
             return responseWithNotFound unless @workflow_assignment
-            if @workflow_assignment.update(workflow_assignment_params)
+            if @workflow_assignment.update(object_workflow_params)
                 responseWithSuccessful(@workflow_assignment)
             else
                 responseWithError(@workflow_assignment.errors.full_messages.to_sentence)
@@ -72,12 +72,12 @@ Building a better future, one line of code at a time.
 @description Sets the variable @workflow_assignment. The variable contains the *workflow* *assignment* 
     to be handled by the controller action that called this method
 @example
-    #suppose params[:id] = 1 and controller is CloudHelp::TicketWorkflowAssignmentsController
+    #suppose params[:id] = 1 and controller is CloudHelp::TicketWorkflowsController
     puts @workflow_assignment # will display nil
     set_state
     puts @workflow_assignment # will display an instance of CloudHelp:TicketWorkflowAssignment
 =end
-        def set_workflow_assignment
+        def set_object_workflow
             dynamic_info = self.class.dynamic_info
 
             module_name = dynamic_info[:module_name]
@@ -101,13 +101,13 @@ Building a better future, one line of code at a time.
     #        "cloud_help_ticket_types_id": 9
     #    }
     #}
-    filtered_params = workflow_assignment_params
+    filtered_params = object_workflow_params
     puts filtered_params
     # will only print {
     #    "cloud_help_ticket_workflows_id": 5
     #}
 =end
-        def workflow_assignment_params
+        def object_workflow_params
             dynamic_info = self.class.dynamic_info
 
             module_name = dynamic_info[:module_name]
@@ -121,21 +121,21 @@ Building a better future, one line of code at a time.
 @return [Hash] Hash that contains information about the class
 @description Returns dynamic information based on the current implementation of this abstract class
 @example
-    # Imagine the current class is an instance of CloudHelp::TicketWorkflowAssignmentsController < CloudObject::WorkflowAssignmentsController
-    info = CloudHelp::TicketWorkflowAssignmentsController.dynamic_info
+    # Imagine the current class is an instance of CloudHelp::TicketWorkflowsController < CloudObject::ObjectWorkflowsController
+    info = CloudHelp::TicketWorkflowsController.dynamic_info
     puts info[:module_name] # will print 'help'
-    puts info[:object_name] # will print 'ticket_workflow_assignment'
+    puts info[:object_name] # will print 'ticket_workflow'
     info[:cloud_object_name] # will print 'ticket'
-    info[:model].new # will print an instance of CloudHelp::TicketWorkflowAssignment
+    info[:model].new # will print an instance of CloudHelp::TicketWorkflow
 =end
         def self.dynamic_info
             module_info = self.name.split("::")
-            cloud_object_name = module_info[1].sub("WorkflowAssignmentsController", "")
+            cloud_object_name = module_info[1].sub("WorkflowsController", "")
             {
                 module_name: module_info[0].sub("Cloud", "").downcase,
+                object_name: "#{cloud_object_name.downcase}_workflow",
                 cloud_object_name: cloud_object_name.downcase,
-                object_name: "#{cloud_object_name.downcase}_workflow_assignment",
-                model: "#{module_info[0]}::#{cloud_object_name}WorkflowAssignment".constantize
+                model: "#{module_info[0]}::#{cloud_object_name}Workflow".constantize
             }
         end
     end

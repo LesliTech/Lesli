@@ -86,7 +86,7 @@ export default {
             if(this.workflow){
                 this.workflow_data = this.workflow.details
             }else{
-                this.http.get(`/help/workflows/${this.workflowId}.json`).then(result => {
+                this.http.get(`/${this.module_name}/workflows/${this.workflowId}.json`).then(result => {
                     if (result.successful) {
                         this.workflow_data = result.data.details
                         this.displayWorkflow()
