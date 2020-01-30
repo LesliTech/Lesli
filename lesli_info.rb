@@ -3,7 +3,9 @@ require 'json'
 module LesliInfo
 
     def LesliInfo.engines
+
         engines = []
+        
         Dir.entries("./engines").each do |entry|
             
             # next if entry is not an engine
@@ -23,9 +25,6 @@ module LesliInfo
             rescue JSON::ParserError
                 next
             end
-
-            # next if engine load is false
-            next if engine_info['load'] == false
 
             # next if engine name does not match
             next unless engine_info['name'] == entry
