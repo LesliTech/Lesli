@@ -1,4 +1,4 @@
-module CloudObject
+    module CloudObject
 =begin
 
 Lesli
@@ -245,7 +245,7 @@ Building a better future, one line of code at a time.
 
 
             cloud_object_name = cloud_object.class.name.split("::")
-            assignment_model = "#{cloud_object_name[0]}::#{cloud_object_name[1]}WorkflowAssignment".constantize
+            assignment_model = "#{cloud_object_name[0]}::#{cloud_object_name[1]}Workflow".constantize
 
             associations = assignment_model.associations
             search_params = {account: account}
