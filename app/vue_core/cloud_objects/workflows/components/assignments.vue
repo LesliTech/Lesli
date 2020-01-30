@@ -11,6 +11,9 @@ export default {
         workflowKeyName: {
             type: String,
             required: true
+        },
+        namespace: {
+            type: String
         }
     },
 
@@ -62,8 +65,12 @@ export default {
         },
 
         getWorkflowAssignments(){
-            let query = `name=${this.object_name}_${this.workflowKeyName}&resource_id=${this.cloudAssociationId}`
-            let url = `/${this.module_name}/${this.object_name}_workflow_assignments.json?${query}`
+            let resource_name = `${this.object_name}_${this.workflowKeyName}`
+            if(this.namespace){
+                resource_name = `${this.namespace}_${resource_name}`
+            }
+            let query = `name=${resource_name}&resource_id=${this.cloudAssociationId}`
+            let url = `/${this.module_name}/${this.object_name}_workflows.json?${query}`
 
             this.http.get(url).then(result => {
                 if (result.successful) {
@@ -77,9 +84,9 @@ export default {
         },
 
         patchWorkflowAssignment(workflow_assignment){
-            let url = `/${this.module_name}/${this.object_name}_workflow_assignments/${workflow_assignment.id}`
+            let url = `/${this.module_name}/${this.object_name}_workflows/${workflow_assignment.id}`
             let data = {}
-            data[`${this.object_name}_workflow_assignment`] =  workflow_assignment
+            data[`${this.object_name}_workflow`] =  workflow_assignment
             
             this.http.patch(url, data).then(result => {
                 if (result.successful) {
@@ -93,7 +100,7 @@ export default {
         },
 
         getWorkflowAssociations(){
-            let url = `/${this.module_name}/options/${this.object_name}_workflow_assignments`
+            let url = `/${this.module_name}/options/${this.object_name}_workflows`
             this.http.get(url).then(result => {
                 if (result.successful) {
                     this.workflow_associations = result.data.filter((association)=>{

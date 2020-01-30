@@ -24,7 +24,7 @@ Building a better future, one line of code at a time.
 @description Base abstract model for *Workflow* *Assignment* core entity
 
 =end
-    class WorkflowAssignment < ApplicationRecord
+    class ObjectWorkflow < ApplicationRecord
         self.abstract_class = true
 
 =begin
@@ -36,7 +36,7 @@ Building a better future, one line of code at a time.
     to two or more tables, also retrieves important information for those association that are not the one
     provided in the *association_name* param 
 @example
-    puts CloudHelp::TicketWorkflowAssignments.detailed_info(current_user.account, 'ticket_type')
+    puts CloudHelp::TicketWorkflow.detailed_info(current_user.account, 'ticket_type')
     # Will print something similar to 
     #[
     #    {
@@ -100,7 +100,7 @@ Building a better future, one line of code at a time.
     which is a field in the associated table that identifies that record from all others (since the id is not very
     intuitive)
 @example
-    # Imagine the current class is an instance of CloudHelp::TicketWorkflowAssignment < CloudObject::WorkflowAssignment
+    # Imagine the current class is an instance of CloudHelp::TicketWorkflow < CloudObject::WorkflowAssignment
     puts self.associations.to_json
     # Will display
     #    [
@@ -127,17 +127,15 @@ Building a better future, one line of code at a time.
 @return [Hash] Hash that contains information about the class
 @description Returns dynamic information based on the current implementation of this abstract class
 @example
-    # Imagine the current class is an instance of CloudHelp::TicketWorkflowAssignmentsController < CloudObject::WorkflowAssignmentsController
+    # Imagine the current class is an instance of CloudHelp::TicketWorkflowController < CloudObject::WorkflowAssignmentsController
     info = dynamic_info
     puts info[:module_name] # will print 'help'
-    puts info[:object_name] # will print 'ticket_workflow_assignment'
 =end
         def self.dynamic_info
             module_info = self.name.split("::")
-            cloud_object_name = module_info[1].sub("WorkflowAssignment", "")
+            cloud_object_name = module_info[1].sub("Workflow", "")
             {
-                module_name: module_info[0].sub("Cloud", "").downcase,
-                object_name: "#{cloud_object_name.downcase}_workflow_assignment"
+                module_name: module_info[0].sub("Cloud", "").downcase
             }
         end
     end

@@ -1,3 +1,8 @@
 = javascript_include_tag "i18n"
 = javascript_include_tag "translations", skip_pipeline: true
-= javascript_include_tag [controller_path.split('/')[0],[controller_path.split('/')[1], 'app'].compact().join('_')].join('/')
+
+- path_segments = controller_path.split("/")
+- cloud_module = path_segments.shift
+- js_path = [cloud_module, path_segments.push("app").compact().join("_")].join("/")
+= javascript_include_tag js_path
+
