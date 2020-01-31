@@ -113,7 +113,7 @@ Building a better future, one line of code at a time.
             object_name = dynamic_info[:object_name]
 
             cloud_object.subscribers.where(event: event).each do |subscriber|
-                Courier::Bell::Notifications.send(
+                Courier::Bell::Notification.send(
                     user: subscriber.user,
                     subject: subject,
                     href: "#{module_name}/#{object_name}/#{cloud_object.id}",

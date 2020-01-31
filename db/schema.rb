@@ -241,6 +241,115 @@ ActiveRecord::Schema.define(version: 10010104) do
     t.index ["cloud_house_accounts_id"], name: "house_catalog_project_types_accounts"
   end
 
+  create_table "cloud_house_companies", force: :cascade do |t|
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.bigint "cloud_house_accounts_id"
+    t.bigint "cloud_house_companies_id"
+    t.index ["cloud_house_accounts_id"], name: "index_cloud_house_companies_on_cloud_house_accounts_id"
+    t.index ["cloud_house_companies_id"], name: "index_cloud_house_companies_on_cloud_house_companies_id"
+  end
+
+  create_table "cloud_house_company_associates", force: :cascade do |t|
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.bigint "cloud_house_company_employees_id"
+    t.index ["cloud_house_company_employees_id"], name: "house_company_associates_employee_services"
+  end
+
+  create_table "cloud_house_company_details", force: :cascade do |t|
+    t.string "name"
+    t.string "contact_information"
+    t.string "legal_form"
+    t.string "hq_email"
+    t.string "hq_phone"
+    t.string "hq_tax"
+    t.string "brokerage"
+    t.string "street_name"
+    t.string "street_number"
+    t.string "street_other"
+    t.string "postcode"
+    t.string "city_name"
+    t.string "website"
+    t.string "ivd"
+    t.string "bvfi"
+    t.string "franchise"
+    t.string "region"
+    t.date "founded_at"
+    t.text "description"
+    t.decimal "latitude"
+    t.decimal "longitude"
+    t.string "cooperation_agreement"
+    t.string "contracting_partner"
+    t.datetime "cooperation_agreement_start"
+    t.datetime "cooperation_agreement_end"
+    t.datetime "distributor_since"
+    t.datetime "cooperation_limited_to"
+    t.string "market_region_designed"
+    t.string "commission_rate"
+    t.boolean "premium_partner"
+    t.boolean "specific_agreement"
+    t.boolean "avv_shipped"
+    t.boolean "avv_completed"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.bigint "cloud_house_companies_id"
+    t.index ["cloud_house_companies_id"], name: "index_cloud_house_company_details_on_cloud_house_companies_id"
+  end
+
+  create_table "cloud_house_company_employee_services", force: :cascade do |t|
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.bigint "cloud_house_company_employees_id"
+    t.bigint "cloud_house_catalog_business_services_id"
+    t.index ["cloud_house_catalog_business_services_id"], name: "house_company_employee_services_catalog_business_services"
+    t.index ["cloud_house_company_employees_id"], name: "house_company_employee_services_company_employees"
+  end
+
+  create_table "cloud_house_company_employees", force: :cascade do |t|
+    t.string "salutation"
+    t.string "first_name"
+    t.string "last_name"
+    t.string "gender"
+    t.string "birthdate"
+    t.string "birthplace"
+    t.string "nationality"
+    t.string "email"
+    t.string "telephone"
+    t.string "mobile_number"
+    t.string "fax_number"
+    t.string "street_name"
+    t.string "street_number"
+    t.string "street_other"
+    t.string "postcode"
+    t.string "city_name"
+    t.string "website"
+    t.string "ivd"
+    t.string "bvfi"
+    t.string "franchise"
+    t.string "region"
+    t.date "founded_at"
+    t.text "description"
+    t.decimal "latitude"
+    t.decimal "longitude"
+    t.string "cooperation_agreement"
+    t.string "contracting_partner"
+    t.datetime "cooperation_agreement_start"
+    t.datetime "cooperation_agreement_end"
+    t.datetime "distributor_since"
+    t.datetime "cooperation_limited_to"
+    t.string "market_region_designed"
+    t.string "commission_rate"
+    t.boolean "premium_partner"
+    t.boolean "specific_agreement"
+    t.boolean "avv_shipped"
+    t.boolean "avv_completed"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.bigint "cloud_house_companies_id"
+    t.index ["cloud_house_companies_id"], name: "index_cloud_house_company_employees_on_cloud_house_companies_id"
+  end
+
   create_table "cloud_house_contact_actions", force: :cascade do |t|
     t.integer "type"
     t.string "instructions"
@@ -1136,6 +1245,13 @@ ActiveRecord::Schema.define(version: 10010104) do
   add_foreign_key "cloud_house_accounts", "accounts", column: "id"
   add_foreign_key "cloud_house_catalog_business_services", "cloud_house_accounts", column: "cloud_house_accounts_id"
   add_foreign_key "cloud_house_catalog_project_types", "cloud_house_accounts", column: "cloud_house_accounts_id"
+  add_foreign_key "cloud_house_companies", "cloud_house_accounts", column: "cloud_house_accounts_id"
+  add_foreign_key "cloud_house_companies", "cloud_house_companies", column: "cloud_house_companies_id"
+  add_foreign_key "cloud_house_company_associates", "cloud_house_company_employees", column: "cloud_house_company_employees_id"
+  add_foreign_key "cloud_house_company_details", "cloud_house_companies", column: "cloud_house_companies_id"
+  add_foreign_key "cloud_house_company_employee_services", "cloud_house_catalog_business_services", column: "cloud_house_catalog_business_services_id"
+  add_foreign_key "cloud_house_company_employee_services", "cloud_house_company_employees", column: "cloud_house_company_employees_id"
+  add_foreign_key "cloud_house_company_employees", "cloud_house_companies", column: "cloud_house_companies_id"
   add_foreign_key "cloud_house_contact_actions", "cloud_house_contacts", column: "cloud_house_contacts_id"
   add_foreign_key "cloud_house_contact_activities", "cloud_house_contacts", column: "cloud_house_contacts_id"
   add_foreign_key "cloud_house_contact_custom_field_values", "cloud_house_contact_custom_fields", column: "cloud_house_contact_custom_fields_id"

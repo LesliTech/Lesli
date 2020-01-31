@@ -34,11 +34,11 @@ module Courier
 
                 case type
                 when 'web'
-                    self.send_web(user, subject, body, href, format)
+                    self.register(user, subject, body, href, format)
                 when 'email'
                     self.send_email(user, subject, body, href, format, cloud_object_type)
                 else
-                    self.send_web(user, subject, body, href, format)
+                    self.register(user, subject, body, href, format)
                     
                 end
             end
