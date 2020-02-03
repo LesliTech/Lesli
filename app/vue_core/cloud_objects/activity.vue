@@ -38,27 +38,47 @@ export default {
             required: true
         }
     },
+
     data() {
         return {
             show: false,
-            activities: []
+            activities: [],
+            module_name: {
+                slash: null,
+                underscore: null
+            },
+            object_name: {
+                singular: null,
+                plural: null
+            }
         }
     },
+
     mounted() {
         this.mountListeners()
+        this.parseCloudModule()
+        this.getActivities()
     },
+
     methods: {
 
         mountListeners(){
             this.bus.subscribe("show:/module/app/activities", () => {
                 this.show = !this.show
-                this.getActivities()
             })
         },
 
+        parseCloudModule(){
+            let parsed_data = this.object_utils.parseCloudModule(this.cloudModule)
+            this.object_name = parsed_data.cloud_object_name
+            this.module_name = parsed_data.cloud_module_name
+        },
+
+
         getActivities() {
             if(this.cloudId){
-                this.http.get(`/${this.cloudModule}s/${this.cloudId}/activities`).then(result => {
+                let url = `/${this.module_name.slash}/${this.object_name.plural}/${this.cloudId}/activities`
+                this.http.get(url).then(result => {
                     if (result.successful) {
                         this.activities = result.data
                     }
@@ -67,7 +87,12 @@ export default {
                 })
             }
         }
+    },
 
+    watch: {
+        cloudId(){
+            this.getActivities()
+        }
     }
 }
 </script>

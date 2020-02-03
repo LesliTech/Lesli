@@ -39,8 +39,14 @@ export default {
         return {
             show: false,
             events: [],
-            module_name: null,
-            object_name: null,
+            module_name: {
+                slash: null,
+                underscore: null
+            },
+            object_name: {
+                singular: null,
+                plural: null
+            },
             master_fields: {
                 subscribed: false,
                 notification_type: 'web'
@@ -49,22 +55,24 @@ export default {
     },
     
     mounted(){
-        this.parseCloudModule()
         this.setTranslations()
+        this.mountListeners()
+        this.parseCloudModule()
         this.getEvents()
-        
-        this.bus.subscribe("show:/module/app/subscriptions", () => {
-            this.show = !this.show
-        })
-        
     },
 
     methods: {
 
+        mountListeners(){
+            this.bus.subscribe('show:/module/app/subscriptions', () => {
+                this.show = !this.show
+            })
+        },
+
         parseCloudModule(){
-            let module_data = this.cloudModule.split('/')
-            this.module_name = module_data[0]
-            this.object_name = module_data[1]
+            let parsed_data = this.object_utils.parseCloudModule(this.cloudModule)
+            this.object_name = parsed_data.cloud_object_name
+            this.module_name = parsed_data.cloud_module_name
         },
 
         setTranslations(){
@@ -72,8 +80,8 @@ export default {
 
         getEvents(){
             if(this.cloudId){
-                let module = this.cloudModule.split('/')
-                this.http.get(`/${this.module_name}/${this.object_name}s/${this.cloudId}/subscribers`).then(result => {
+                let url = `/${this.module_name.slash}/${this.object_name.plural}/${this.cloudId}/subscribers`
+                this.http.get(url).then(result => {
                     if (result.successful) {
                         this.events = result.data
                     } else {
@@ -100,15 +108,15 @@ export default {
         },
 
         postSubscription(subscription_event, show_alerts){
-            subscription_event[`cloud_${this.module_name}_${this.object_name}s_id`] = this.cloudId
+            let foreign_key = `cloud_${this.module_name.underscore}_${this.object_name.plural}_id`
+            subscription_event[foreign_key] = this.cloudId
+
             let data = {
                 subscriber: subscription_event
             }
+            let url = `/${this.module_name.slash}/${this.object_name.plural}/${this.cloudId}/subscribers`
 
-            this.http.post(
-                `/${this.module_name}/${this.object_name}s/${this.cloudId}/subscribers`,
-                data
-            ).then(result =>{
+            this.http.post(url, data).then(result =>{
                 if (result.successful) {
                     subscription_event.id = result.data.id
                     if(show_alerts){
@@ -126,11 +134,9 @@ export default {
             let data = {
                 subscriber: subscription_event
             }
+            let url = `/${this.module_name.slash}/${this.object_name.plural}/${this.cloudId}/subscribers/${subscription_event.id}`
 
-            this.http.patch(
-                `/${this.module_name}/${this.object_name}s/${this.cloudId}/subscribers/${subscription_event.id}`,
-                data
-            ).then(result =>{
+            this.http.patch(url, data).then(result =>{
                 if (result.successful) {
                     if(show_alerts){
                         this.alert('Subscriptions successfully updated', 'success')
@@ -147,10 +153,9 @@ export default {
             let data = {
                 subscriber: subscription_event
             }
+            let url = `/${this.module_name.slash}/${this.object_name.plural}/${this.cloudId}/subscribers/${subscription_event.id}`
 
-            this.http.delete(
-                `/${this.module_name}/${this.object_name}s/${this.cloudId}/subscribers/${subscription_event.id}`
-            ).then(result =>{
+            this.http.delete(url).then(result =>{
                 if (result.successful) {
                     if(show_alerts){
                         this.alert('Subscriptions successfully updated', 'success')

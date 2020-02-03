@@ -58,24 +58,22 @@ export default {
     methods: {
 
         parseCloudModule(){
-            let module_data = this.cloudModule.split('/')
-            this.module_name = module_data[0]
-            this.object_name = module_data[1]
+            let parsed_data = this.object_utils.parseCloudModule(this.cloudModule)
+            this.object_name = parsed_data.cloud_object_name
+            this.module_name = parsed_data.cloud_module_name
         },
         
         postAction(e) {
 
             if (e) { e.preventDefault() }
 
-            // add owner id
-            this.action[`cloud_${this.cloudModule.replace('/','_')}s_id`] = this.cloudId
-
             let request_data = {}
-            request_data[`${this.object_name}_action`] = this.action
+            request_data[`${this.object_name.singular}_action`] = this.action
+            let url = `/${this.module_name.slash}/${this.object_name.plural}/${this.cloudId}/actions`
 
-            this.http.post(`/${this.cloudModule}s/${this.cloudId}/actions`, request_data).then(result => {
+            this.http.post(url, request_data).then(result => {
                 if (result.successful) {
-                    this.action.instructions = ""
+                    this.action.instructions = ''
                 }
                 this.bus.$emit(`post:/${this.cloudModule}/actions`)
             }).catch(error => {

@@ -65,11 +65,12 @@ Building a better future, one line of code at a time.
             module_name = dynamic_info[:module_name]
             object_name = dynamic_info[:object_name]
             subscriber_model = dynamic_info[:subscriber_model]
+            plural_object_name = object_name.pluralize
 
             cloud_object_dicussion = dynamic_info[:model].new(
                 cloud_object_discussion_params.merge({
                     users_id: current_user.id,
-                    "cloud_#{module_name}_#{object_name}s_id".to_sym => params["#{object_name}_id".to_sym]
+                    "cloud_#{module_name}_#{plural_object_name}_id".to_sym => params["#{object_name}_id".to_sym]
                 })
             )
 
