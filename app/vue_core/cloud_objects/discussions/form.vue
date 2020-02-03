@@ -69,9 +69,9 @@ export default {
     methods: {
 
         parseCloudModule(){
-            let module_data = this.cloudModule.split('/')
-            this.module_name = module_data[0]
-            this.object_name = module_data[1]
+            let parsed_data = this.object_utils.parseCloudModule(this.cloudModule)
+            this.object_name = parsed_data.cloud_object_name
+            this.module_name = parsed_data.cloud_module_name
         },
         
         postDiscussion(e) {
@@ -79,13 +79,14 @@ export default {
             if (e) { e.preventDefault() }
 
             let form_data = {}
-            form_data[`${this.object_name}_discussion`] = this.discussion
+            form_data[`${this.object_name.singular}_discussion`] = this.discussion
+            let url = `/${this.module_name.slash}/${this.object_name.plural}/${this.cloudId}/discussions`
 
-            this.http.post(`/${this.cloudModule}s/${this.cloudId}/discussions`, form_data).then(result => {
+            this.http.post(url, form_data).then(result => {
                 if (result.successful) {
-                    this.discussion.content = ""
+                    this.discussion.content = ''
                 }
-                this.bus.$emit("post:components/forms/discussion")
+                this.bus.$emit('post:components/forms/discussion')
             }).catch(error => {
                 console.log(error)
             })
@@ -106,7 +107,6 @@ export default {
         <div class="card-content">
             <form @submit="postDiscussion">
                 <input v-if="show_simple_form" class="input" type="text" v-model="discussion.content" placeholder="Add a comment...">
-                <!-- <component-trix-editor v-if="!show_simple_form" v-model="discussion.content"></component-trix-editor> -->
             </form>
         </div>
     </div>

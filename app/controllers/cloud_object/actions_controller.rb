@@ -39,10 +39,11 @@ Building a better future, one line of code at a time.
         def index
             module_name = dynamic_info[:module_name]
             object_name = dynamic_info[:object_name]
+            plural_object_name = object_name.pluralize
             
             cloud_object_id = params["#{object_name}_id".to_sym]
             @cloud_object_action = dynamic_info[:model].where(
-                "cloud_#{module_name}_#{object_name}s_id".to_sym => cloud_object_id
+                "cloud_#{module_name}_#{plural_object_name}_id".to_sym => cloud_object_id
             ).order(id: :desc)
             responseWithSuccessful(@cloud_object_action)
         end
@@ -67,10 +68,11 @@ Building a better future, one line of code at a time.
             module_name = dynamic_info[:module_name]
             object_name = dynamic_info[:object_name]
             subscriber_model = dynamic_info[:subscriber_model]
+            plural_object_name = object_name.pluralize
 
             cloud_object_action = dynamic_info[:model].new(
                 cloud_object_action_params.merge({
-                    "cloud_#{module_name}_#{object_name}s_id".to_sym => params["#{object_name}_id".to_sym]
+                    "cloud_#{module_name}_#{plural_object_name}_id".to_sym => params["#{object_name}_id".to_sym]
                 })
             )
 
@@ -128,11 +130,12 @@ Building a better future, one line of code at a time.
         def set_cloud_object_action
             module_name = dynamic_info[:module_name]
             object_name = dynamic_info[:object_name]
+            plural_object_name = object_name.pluralize
 
             @cloud_object_action = dynamic_info[:model].joins(:cloud_object).where(
                 "cloud_#{module_name}_#{object_name}_actions.id = #{params[:id]}",
-                "cloud_#{module_name}_#{object_name}s.cloud_#{module_name}_#{object_name}s_id = #{params["#{object_name}_id".to_sym]}",
-                "cloud_#{module_name}_#{object_name}s.cloud_#{module_name}_accounts_id = #{current_user.account.id}"
+                "cloud_#{module_name}_#{plural_object_name}.cloud_#{module_name}_#{plural_object_name}_id = #{params["#{object_name}_id".to_sym]}",
+                "cloud_#{module_name}_#{plural_object_name}.cloud_#{module_name}_accounts_id = #{current_user.account.id}"
             ).first
         end
 

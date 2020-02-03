@@ -41,19 +41,24 @@ export default {
             required: true
         }
     },
+
     components: {
         'component-form-action': componentFormAction
     },
+
     data() {
         return {
             show: false,
             actions: []
         }
     },
+
     mounted() {
-        this.getActions()
         this.mountListeners()
+        this.parseCloudModule()
+        this.getActions()
     },
+
     methods: {
 
         mountListeners(){
@@ -63,9 +68,17 @@ export default {
             this.bus.subscribe("show:/module/app/actions", () => this.show = !this.show )
         },
 
+        parseCloudModule(){
+            let parsed_data = this.object_utils.parseCloudModule(this.cloudModule)
+            this.object_name = parsed_data.cloud_object_name
+            this.module_name = parsed_data.cloud_module_name
+        },
+
         getActions() {
             if(this.cloudId){
-                this.http.get(`/${this.cloudModule}s/${this.cloudId}/actions`).then(result => {
+                let url = `/${this.module_name.slash}/${this.object_name.plural}/${this.cloudId}/actions`
+
+                this.http.get(url).then(result => {
                     if (result.successful) {
                         this.actions = result.data
                     }
@@ -76,10 +89,9 @@ export default {
         },
 
         patchAction(action) {
-            let url = `/${this.cloudModule}s/${this.cloudId}/actions/${ action.id }`
+            let url = `/${this.module_name.slash}/${this.object_name.plural}/${this.cloudId}/actions/${action.id}`
             let form_data =  { }
-            let object_name = this.cloudModule.split('/')[1]
-            form_data[`${object_name}_action`] = action
+            form_data[`${this.object_name.singular}_action`] = action
 
             this.http.patch(url, form_data).then(result => {
                 if (result.successful) {
@@ -95,6 +107,7 @@ export default {
         }
 
     },
+
     watch: {
         cloudId(){
             this.getActions()
