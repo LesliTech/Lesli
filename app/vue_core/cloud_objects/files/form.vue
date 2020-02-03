@@ -55,23 +55,23 @@ export default {
     methods: {
 
         parseCloudModule(){
-            let module_data = this.cloudModule.split('/')
-            this.module_name = module_data[0]
-            this.object_name = module_data[1]
+            let parsed_data = this.object_utils.parseCloudModule(this.cloudModule)
+            this.object_name = parsed_data.cloud_object_name
+            this.module_name = parsed_data.cloud_module_name
         },
         
         postFile(e) {
-
             if (e) { e.preventDefault() }
-
-            let foreign_key = this.cloudModule.replace('/','_')
+            
+            let foreign_key = `cloud_${this.module_name.underscore}_${this.object_name.plural}_id`
 
             let form_data = new FormData()
-            form_data.append(`${this.object_name}_file[name]`, this.file.name)
-            form_data.append(`${this.object_name}_file[file]`, this.file.file)
-            form_data.append(`${this.object_name}_file[cloud_${foreign_key}s_id]`, this.cloudId)
+            form_data.append(`${this.object_name.singular}_file[name]`, this.file.name)
+            form_data.append(`${this.object_name.singular}_file[file]`, this.file.file)
+            form_data.append(`${this.object_name.singular}_file[${foreign_key}]`, this.cloudId)
 
-            this.http.post(`/${this.cloudModule}s/${this.cloudId}/files`, form_data, {
+            let url = `/${this.module_name.slash}/${this.object_name.plural}/${this.cloudId}/files`
+            this.http.post(url, form_data, {
                 headers: {
                     'Content-Type': 'multipart/form-data'
                 }
