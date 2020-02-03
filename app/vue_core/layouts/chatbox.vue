@@ -23,6 +23,9 @@ Building a better future, one line of code at a time.
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
 // · 
 */
+
+import axios from 'axios'
+
 export default {
     data() {
         return {
@@ -50,17 +53,43 @@ export default {
 
             this.loading = true
             this.intents.push({type:'intent', text:this.intent})
-            this.intent = ""
+            
 
-            let timeout = setTimeout(() => {
+            axios.post("http://localhost:8888/api/chatbot/intent", {
+                "session": {
+                    "id": "8de896395dd33ca30c14fb2ebcc25df3",
+                    "reference": "my-app-url.com/app/action"
+                },
+                "intent": {
+                    "query": this.intent,
+                    "language": "en"
+                }
+            }).then(result => {
+
+                result = result.data
+
+                if (!result.successful) {
+
+                }
+
                 this.intents.push({
-                    type: 'response',
-                    text: new Date()
+                    type: "response",
+                    text: result.data.fulfillment
                 })
-                this.loading = false
+
+                this.intent = ""
+                
                 let chatBody = document.getElementsByClassName("chat-body")[0]
-                chatBody.scrollTop = chatBody.scrollHeight; 
-            }, 800)
+                chatBody.scrollTop = chatBody.scrollHeight
+
+                this.loading = false
+
+
+            }).catch(error => {
+                console.log(error)
+            })
+
+            
 
         }
 
@@ -97,11 +126,11 @@ export default {
         <div class="chat-body" v-show="openchat">
             <div v-for="(intent, index) in intents" :key="index" :class="intent.type">
                 <span v-if="intent.type == 'intent'">
-                    <img src="/assets/brand/leslicloud-logo.png">
+                    <img src="/assets/brand/leslicloud-logo.png" />
                 </span>
                 <p>{{ intent.text }}</p>
                 <span v-if="intent.type == 'response'">
-                    <img src="https://cdn.lesli.tech/leslicloud/brand/leslicloud_isotipo-nomargin.png">
+                    <img src="/assets/brand/leslicloud-logo.png" />
                 </span>
             </div>
             <div class="response" v-if="loading">
