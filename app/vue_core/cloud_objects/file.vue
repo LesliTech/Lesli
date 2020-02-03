@@ -112,7 +112,7 @@ export default {
                         <component-form-file class="box" :cloudModule="cloudModule" :cloudId="cloudId"/>
                         <ul class="menu-list">
                             <li class="field" v-for="file in files" :key="file.id">
-                                <a :href="`/${module_name.slash}/${object_name.plural66}/${cloudId}/files/${file.id}`">
+                                <a :href="`/${module_name.slash}/${object_name.plural}/${cloudId}/files/${file.id}`">
                                     {{ file.name }}
                                 </a>
                             </li>
