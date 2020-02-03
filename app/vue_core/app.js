@@ -45,6 +45,7 @@ import pluginBus from 'LesliCoreVue/plugins/bus'
 import pluginUrl from 'LesliCoreVue/plugins/url'
 import pluginHttp from 'LesliCoreVue/plugins/http'
 import pluginDate from 'LesliCoreVue/plugins/date'
+import pluginPluralizer from 'LesliCoreVue/plugins/pluralizer'
 
 
 
@@ -74,6 +75,7 @@ Vue.use(pluginBus)
 Vue.use(pluginUrl)
 Vue.use(pluginHttp)
 Vue.use(pluginDate)
+Vue.use(pluginPluralizer)
 Vue.use(Buefy, { defaultIconPack: 'fas' })
 Vue.component('font-awesome-icon', FontAwesomeIcon)
 Vue.component('component-layout-empty-data', componentLayoutEmptyData)
