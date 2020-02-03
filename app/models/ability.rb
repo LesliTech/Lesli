@@ -28,28 +28,25 @@ class Ability
     include CanCan::Ability
 
     def initialize(user)
-    end
-
-    def initialize2(user)
 
         can [:empty], Dashboard
 
         can do |action, subject_class, subject|
-
             user.role.role_privileges.each do |privilege|
+                can privilege.privilege_index, privilege.privilege_object_name
+                can privilege.privilege_create, privilege.privilege_object_name
+                can privilege.privilege_new, privilege.privilege_object_name
+                can privilege.privilege_edit, privilege.privilege_object_name
+                can privilege.privilege_show, privilege.privilege_object_name
+                can privilege.privilege_update, privilege.privilege_object_name
+                can privilege.privilege_destroy, privilege.privilege_object_name
+                can privilege.privilege_options, privilege.privilege_object_name
+                can privilege.privilege_default, privilege.privilege_object_name
+                can privilege.privilege_empty, privilege.privilege_object_name
 
-                can privilege.privilege_get.to_sym, privilege.privilege_model.constantize
-                can [:empty], privilege.privilege_model.constantize
-
-                if privilege.privilege_model.nil?
-                    can privilege.privilege_get.to_sym, privilege.privilege_model.constantize
-                else
-                    can permission.action.to_sym, permission.subject_class.constantize, id: permission.subject_id
-                end
-
+                can [:empty], privilege.privilege_object_name
             end
-
         end
-
     end
+
 end
