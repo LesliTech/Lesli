@@ -55,32 +55,24 @@ export default {
     },
     
     mounted(){
-        this.parseCloudModule()
         this.setTranslations()
+        this.mountListeners()
+        this.parseCloudModule()
         this.getEvents()
-        
-        this.bus.subscribe("show:/module/app/subscriptions", () => {
-            this.show = !this.show
-        })
-        
     },
 
     methods: {
 
+        mountListeners(){
+            this.bus.subscribe('show:/module/app/subscriptions', () => {
+                this.show = !this.show
+            })
+        },
+
         parseCloudModule(){
-            let module_data = this.cloudModule.split('/')
-
-            let object_name = module_data[module_data.length -1]
-            this.object_name = {
-                singular: object_name,
-                plural: this.pluralizer.pluralize(object_name)
-            }
-
-            let module_name = module_data.slice(0,-1).join('/')
-            this.module_name = {
-                slash: module_name,
-                underscore: module_name.replace('/','_')
-            }
+            let parsed_data = this.object_utils.parseCloudModule(this.cloudModule)
+            this.object_name = parsed_data.cloud_object_name
+            this.module_name = parsed_data.cloud_module_name
         },
 
         setTranslations(){

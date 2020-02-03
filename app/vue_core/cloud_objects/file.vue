@@ -41,30 +41,48 @@ export default {
             required: true
         }
     },
+
     components: {
         'component-form-file': componentForm
     },
+
     data() {
         return {
             show: false,
-            files: []
+            files: [],
+            module_name: {
+                slash: null,
+                underscore: null
+            },
+            object_name: {
+                singular: null,
+                plural: null
+            }
         }
     },
-    mounted() {
-        this.getFiles()
-        this.initListeners()
 
-        
+    mounted() {
+        this.mountListeners()
+        this.parseCloudModule()
+        this.getFiles()        
     },
+
     methods: {
-        initListeners(){
-            this.bus.subscribe("show:/module/app/files", () => this.show = !this.show )
+        mountListeners(){
+            this.bus.subscribe('show:/module/app/files', () => this.show = !this.show )
             this.bus.subscribe(`post:/${this.cloudModule}/files`, () => this.getFiles() )
+        },
+
+        parseCloudModule(){
+            let parsed_data = this.object_utils.parseCloudModule(this.cloudModule)
+            this.object_name = parsed_data.cloud_object_name
+            this.module_name = parsed_data.cloud_module_name
         },
 
         getFiles() {
             if(this.cloudId){
-                this.http.get(`/${this.cloudModule}s/${this.cloudId}/files`).then(result => {
+                let url = `/${this.module_name.slash}/${this.object_name.plural}/${this.cloudId}/files`
+                this.http.get(url).then(result => {
                     if (result.successful) {
                         this.files = result.data
                     }
@@ -94,7 +112,7 @@ export default {
                         <component-form-file class="box" :cloudModule="cloudModule" :cloudId="cloudId"/>
                         <ul class="menu-list">
                             <li class="field" v-for="file in files" :key="file.id">
-                                <a :href="`/${cloudModule}s/${cloudId}/files/${file.id}`">
+                                <a :href="`/${module_name.slash}/${object_name.plural66}/${cloudId}/files/${file.id}`">
                                     {{ file.name }}
                                 </a>
                             </li>

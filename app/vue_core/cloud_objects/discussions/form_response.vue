@@ -21,7 +21,7 @@ export default {
             module_name: null,
             object_name: null,
             discussion: {
-                content: ""
+                content: ''
             }
         }
     },
@@ -33,32 +33,26 @@ export default {
     methods: {
 
         parseCloudModule(){
-            let module_data = this.cloudModule.split('/')
-            this.module_name = module_data[0]
-            this.object_name = module_data[1]
+            let parsed_data = this.object_utils.parseCloudModule(this.cloudModule)
+            this.object_name = parsed_data.cloud_object_name
+            this.module_name = parsed_data.cloud_module_name
         },
 
         postDiscussion(e) {
 
             if (e) { e.preventDefault() }
 
-            // converts a string like 'help/ticket' to 'help_ticket'
-            let module_prefix = this.cloudModule.replace('/','_')
-
-            // add object id, i.e. 'cloud_help_tickets_id
-            this.discussion[`cloud_${module_prefix}s_id`] = this.cloudId
-
-            // add comment id, i.e. 'cloud_help_ticket_discussions_id
-            this.discussion[`cloud_${module_prefix}_discussions_id`] = this.discussionId
+            this.discussion[`cloud_${this.module_name.underscore}_${this.object_name.singular}_discussions_id`] = this.discussionId
 
             let request_data = {}
-            request_data[`${this.object_name}_discussion`] = this.discussion
+            request_data[`${this.object_name.singular}_discussion`] = this.discussion
 
-            this.http.post(`/${this.cloudModule}s/${this.cloudId}/discussions`, request_data).then(result => {
+            let url = `/${this.module_name.slash}/${this.object_name.plural}/${this.cloudId}/discussions`
+            this.http.post(url, request_data).then(result => {
                 if (result.successful) {
-                    this.discussion.content = ""
+                    this.discussion.content = ''
                 }
-                this.bus.$emit("post:components/forms/discussion")
+                this.bus.$emit('post:components/forms/discussion')
             }).catch(error => {
                 console.log(error)
             })

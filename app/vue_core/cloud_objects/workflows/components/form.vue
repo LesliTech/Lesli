@@ -50,7 +50,6 @@ export default {
     data() {
         return {
             module_name: null,
-            object_name: null,
             rerender_chart: false,
             default_workflow_states: {
                 initial: null,
@@ -73,7 +72,6 @@ export default {
         setCloudParams(){
             let module_data = this.cloudModule.split('/')
             this.module_name = module_data[0]
-            this.object_name = module_data[1]
         },
         
         setWorkflowId(){
