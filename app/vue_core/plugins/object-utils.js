@@ -43,7 +43,7 @@ export default {
         }
 
         let pluralizeArray = function(string_array){
-            string_array.map((string)=>{
+            return string_array.map((string)=>{
                 return pluralize(string)
             })
         }
