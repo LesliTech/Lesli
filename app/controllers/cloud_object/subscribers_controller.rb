@@ -72,11 +72,12 @@ Building a better future, one line of code at a time.
         def create
             module_name = dynamic_info[:module_name]
             object_name = dynamic_info[:object_name]
+            plural_object_name = object_name.pluralize
             
             cloud_object_subscriber = dynamic_info[:model].new(
                 cloud_object_subscriber_params.merge(
                     user: current_user,
-                    "cloud_#{module_name}_#{object_name}s_id".to_sym => params["#{object_name}_id".to_sym]
+                    "cloud_#{module_name}_#{plural_object_name}_id".to_sym => params["#{object_name}_id".to_sym]
                 )
             )
             if cloud_object_subscriber.save
@@ -145,11 +146,12 @@ Building a better future, one line of code at a time.
         def set_cloud_object_subscriber
             module_name = dynamic_info[:module_name]
             object_name = dynamic_info[:object_name]
+            plural_object_name = object_name.pluralize
 
             @cloud_object_subscriber = dynamic_info[:model].joins(:cloud_object).where(
                 "cloud_#{module_name}_#{object_name}_subscribers.id = #{params[:id]}",
-                "cloud_#{module_name}_#{object_name}s.cloud_#{module_name}_#{object_name}s_id = #{params["#{object_name}_id".to_sym]}",
-                "cloud_#{module_name}_#{object_name}s.cloud_#{module_name}_accounts_id = #{current_user.account.id}"
+                "cloud_#{module_name}_#{plural_object_name}.cloud_#{module_name}_#{plural_object_name}_id = #{params["#{object_name}_id".to_sym]}",
+                "cloud_#{module_name}_#{plural_object_name}.cloud_#{module_name}_accounts_id = #{current_user.account.id}"
             ).first
         end
 

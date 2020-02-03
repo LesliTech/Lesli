@@ -52,7 +52,6 @@ export default {
         setCloudParams(){
             let module_data = this.cloudModule.split('/')
             this.module_name = module_data[0]
-            this.object_name = module_data[1]
         },
 
         getWorkflowStates(){

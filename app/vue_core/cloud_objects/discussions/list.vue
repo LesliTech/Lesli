@@ -27,7 +27,7 @@ Building a better future, one line of code at a time.
 
 // · Import core cloud object components
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
-import componentDiscussionFormResponse from "./form_response.vue"
+import componentDiscussionFormResponse from './form_response.vue'
 
 
 // · 
@@ -50,18 +50,27 @@ export default {
         }
     },
     mounted() {
+        this.mountListeners()
+        this.parseCloudModule()
         this.getDiscussions()
-        this.initListener()
     },
     methods: {
 
-        initListener(){
+        mountListeners(){
             this.bus.subscribe("post:components/forms/discussion", () =>  this.getDiscussions() )
+        },
+
+        parseCloudModule(){
+            let parsed_data = this.object_utils.parseCloudModule(this.cloudModule)
+            this.object_name = parsed_data.cloud_object_name
+            this.module_name = parsed_data.cloud_module_name
         },
 
         getDiscussions() {
             if(this.cloudId){
-                this.http.get(`/${this.cloudModule}s/${this.cloudId}/discussions.json`).then(result => {
+                let url = `/${this.module_name.slash}/${this.object_name.plural}/${this.cloudId}/discussions.json`
+
+                this.http.get(url).then(result => {
                     if (result.successful) {
                         this.discussions = result.data
                     }
@@ -72,15 +81,15 @@ export default {
         },
 
         showResponseForm(discussion){
-            this.$set(discussion, "show_response_form", true)
+            this.$set(discussion, 'show_response_form', true)
             this.$nextTick(()=>{
-                this.$set(discussion, "focus", true)
+                this.$set(discussion, 'focus', true)
             })
         },
 
         hideResponseForm(discussion){
-            this.$set(discussion, "focus", false)
-            this.$set(discussion, "show_response_form", false)
+            this.$set(discussion, 'focus', false)
+            this.$set(discussion, 'show_response_form', false)
         }
 
     },
