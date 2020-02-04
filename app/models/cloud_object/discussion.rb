@@ -48,8 +48,8 @@ Building a better future, one line of code at a time.
             
             discussions = self.joins(
                 "
-                    inner join cloud_#{module_name}_#{object_name}s CO on 
-                        cloud_#{module_name}_#{object_name}_discussions.cloud_#{module_name}_#{object_name}s_id = CO.id
+                    inner join cloud_#{module_name}_#{object_name.pluralize} CO on 
+                        cloud_#{module_name}_#{object_name}_discussions.cloud_#{module_name}_#{object_name.pluralize}_id = CO.id
                 "
             ).joins(
                 "inner join users U on cloud_#{module_name}_#{object_name}_discussions.users_id = U.id"
