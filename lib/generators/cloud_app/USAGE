@@ -1,0 +1,21 @@
+Description:
+    "Creates all necessary .js, .scss and .vue files to implement a simple CRUD using Vue-Router"
+
+Example:
+    rails generate cloud_app CloudHouse::Company::Employee
+
+    This will create:
+        /engines/CloudHouse/app/vue/company_employees/app.js
+        /engines/CloudHouse/app/vue/company_employees/apps/list.vue
+        /engines/CloudHouse/app/vue/company_employees/apps/new.vue
+        /engines/CloudHouse/app/vue/company_employees/apps/show.vue
+        /engines/CloudHouse/app/vue/company_employees/apps/edit.vue
+
+    rails generate cloud_app Core::Role
+
+    This will create:
+        /app/vue/roles/app.js
+        /app/vue/roles/apps/list.vue
+        /app/vue/roles/apps/new.vue
+        /app/vue/roles/apps/show.vue
+        /app/vue/roles/apps/edit.vue
