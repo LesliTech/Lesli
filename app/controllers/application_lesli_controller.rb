@@ -28,13 +28,17 @@ Building a better future, one line of code at a time.
 
 class ApplicationLesliController < ApplicationController
     load_and_authorize_resource
-    
+    rescue_from CanCan::AccessDenied do
+        redirect_to '/', aler: "You don't have access!"
+    end
+
     before_action :authenticate_user!
     before_action :check_account
     before_action :set_account_global
     
     layout 'layouts/application'
 
+    
     protected
 
     def authenticate_user
