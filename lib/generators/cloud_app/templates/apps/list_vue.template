@@ -1,0 +1,89 @@
+<script>
+/*
+Lesli
+
+Copyright (c) 2020, Lesli Technologies, S. A.
+
+All the information provided by this website is protected by laws of Guatemala related 
+to industrial property, intellectual property, copyright and relative international laws. 
+Lesli Technologies, S. A. is the exclusive owner of all intellectual or industrial property
+rights of the code, texts, trade mark, design, pictures and any other information.
+Without the written permission of Lesli Technologies, S. A., any replication, modification,
+transmission, publication is strictly forbidden.
+For more information read the license file including with this software.
+
+LesliCloud - Your Smart Business Assistant
+
+Powered by https://www.lesli.tech
+Building a better future, one line of code at a time.
+
+@author   [AUTHOR_NAME_GOES_HERE]
+@license  Propietary - all rights reserved.
+@version  0.1.0-alpha
+@description [DESCRIPTION_GOES_HERE]
+
+
+// · 
+// · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
+*/
+
+
+// · List of Imported Components
+// · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
+
+
+// · 
+// · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
+export default {
+    props: {
+
+    },
+
+    data(){
+        return {
+            main_route: '%app_route%',
+            %data_resources%: null
+        }
+    },
+
+    mounted() {
+       this.get%function_resources%()
+    },
+
+    methods: {
+
+        get%function_resources%() {
+            this.http.get(`${this.main_route}.json`).then(result => {
+                if (result.successful) {
+                    this.%data_resources% = result.data
+                }else{
+                    this.alert(result.error.message,'danger')
+                }
+            }).catch(error => {
+                console.log(error)
+            })
+        },
+        
+        show%function_resource%(%data_resource%) {
+            this.$router.push(`/${%data_resource%.id}`)
+        }
+
+    }
+}
+</script>
+<template>
+    <section class="section" v-if="%data_resources%">
+        <b-table :data="%data_resources%" @click="show%function_resource%" :hoverable="true">
+            <template slot-scope="props">
+                <b-table-column field="id" :label="ID" width="40" numeric centered>
+                    {{ props.row.id }}
+                </b-table-column>
+
+                <!------------ ------------------------------------------ ------------>
+                <!------------ Add other table rows here as you need them ------------>
+                <!------------ ------------------------------------------ ------------>
+
+            </template>
+        </b-table>
+    </section>
+</template>
