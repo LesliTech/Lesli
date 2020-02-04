@@ -1,7 +1,8 @@
 =begin
+
 Lesli
 
-Copyright (c) 2019, Lesli Technologies, S. A.
+Copyright (c) 2020, Lesli Technologies, S. A.
 
 All the information provided by this website is protected by laws of Guatemala related 
 to industrial property, intellectual property, copyright and relative international laws. 
@@ -16,37 +17,50 @@ LesliCloud - Your Smart Business Assistant
 Powered by https://www.lesli.tech
 Building a better future, one line of code at a time.
 
-@author   LesliTech <hello@lesli.tech>
+@author   Luis Davila
 @license  Propietary - all rights reserved.
 @version  0.1.0-alpha
+@description Model in charge of roles and privileges
 
-// · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
-// · 
 =end
 
 class Ability
     include CanCan::Ability
 
+=begin
+initialize(user)
+@description Return everything that each role can do with its privileges
+
+=end
     def initialize(user)
 
-        can [:empty], Dashboard
-
-        can do |action, subject_class, subject|
             user.role.role_privileges.each do |privilege|
-                can privilege.privilege_index, privilege.privilege_object_name
-                can privilege.privilege_create, privilege.privilege_object_name
-                can privilege.privilege_new, privilege.privilege_object_name
-                can privilege.privilege_edit, privilege.privilege_object_name
-                can privilege.privilege_show, privilege.privilege_object_name
-                can privilege.privilege_update, privilege.privilege_object_name
-                can privilege.privilege_destroy, privilege.privilege_object_name
-                can privilege.privilege_options, privilege.privilege_object_name
-                can privilege.privilege_default, privilege.privilege_object_name
-                can privilege.privilege_empty, privilege.privilege_object_name
+                module_name = privilege.privilege_object_name.gsub('/', '::',)
+                module_name = module_name.gsub(/\b('?[a-z])/) { $1.capitalize }
+                module_name = module_name.split('::').map{ |s| s.singularize }.join '::'
+                module_name = module_name.remove("Core::").camelize
 
-                can [:empty], privilege.privilege_object_name
+                begin
+                    Module.const_get(module_name) #Verify that the models exist
+                    module_name = module_name.constantize 
+                rescue NameError
+                    nil
+                end
+                # Everything that each privilege can do
+                can [:index], module_name  if privilege.privilege_index == true 
+                can [:show], module_name  if privilege.privilege_show == true 
+                can [:create], module_name  if privilege.privilege_create == true 
+                can [:new], module_name  if privilege.privilege_new == true 
+                can [:edit], module_name  if privilege.privilege_edit == true 
+                can [:update], module_name  if privilege.privilege_update == true
+                can [:destroy], module_name  if privilege.privilege_destroy == true
+                can [:default], module_name  if privilege.privilege_default == true
+                can [:empty], module_name  if privilege.privilege_empty == true
+                # All the options in each engine
+                can [:social_account_options, :details_options, :ticket_options, :workflow_options, 
+                    :workflow_options, :assignment_options], module_name  if privilege.privilege_options == true
+
             end
-        end
     end
 
 end
