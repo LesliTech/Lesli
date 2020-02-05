@@ -28,8 +28,9 @@ Building a better future, one line of code at a time.
 
 class ApplicationLesliController < ApplicationController
     load_and_authorize_resource
-    rescue_from CanCan::AccessDenied do
-        redirect_to '/', aler: "You don't have access!"
+    rescue_from CanCan::AccessDenied do |exception|  
+        flash[:alert] = exception.message  
+        redirect_to '/'
     end
 
     before_action :authenticate_user!
