@@ -1,4 +1,3 @@
-<script>
 /*
 Lesli
 
@@ -22,47 +21,8 @@ Building a better future, one line of code at a time.
 @version  0.1.0-alpha
 @description [DESCRIPTION_GOES_HERE]
 
-
-// · 
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
+// · 
 */
 
-
-// · List of Imported Components
-// · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
-import componentForm from '../components/form.vue'
-
-
-// · 
-// · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
-
-
-export default {
-    props: {
-
-    },
-
-    components: {
-        'component-form': componentForm
-    },
-
-    data(){
-        return {
-            %underscore_resource%: {}
-        }
-    },
-
-    mounted(){
-
-    },
-
-    methods: {
-        
-    }
-}
-</script>
-<template>
-    <section class="section">
-        <component-form :%snake_case_resource%="%underscore_resource%" view-type="new" />
-    </section>
-</template>
+@import 'leslicloud/templates/application';
