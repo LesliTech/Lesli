@@ -24,11 +24,31 @@ Building a better future, one line of code at a time.
 // · 
 */
 
+
+// · 
+import componentHeader from "../components/chatbox/header.vue"
+import componentLoading from "../components/chatbox/loading.vue"
+import componentRequest from "../components/chatbox/request.vue"
+import componentResponse from "../components/chatbox/response.vue"
+import componentList from "../components/chatbox/list.vue"
+
+
 import axios from 'axios'
 
+
+// · 
 export default {
+    components: {
+        'component-header': componentHeader,
+        'component-loading': componentLoading
+    },
     data() {
         return {
+            components: {
+                list: componentList,
+                request: componentRequest,
+                response: componentResponse
+            },
             intent: "",
             intents:[ ],
             loading: false,
@@ -46,14 +66,44 @@ export default {
     },
     methods: {
 
+        sendDemoResponse() {
+            this.intents.push({
+                "type": "response",
+                "text": "demo response"
+            })
+            this.intents.push({
+                "type": "list",
+                "text": "demo response",
+                "component": {
+                    "data": {
+                        "method": "GET",
+                        "url": "/lesli/data/driver/my-day"
+                    }
+                },
+                "action": {
+                    "ui": {
+                        "type": "component",
+                        "id": "my-day"
+                    }
+                }
+            })
+        },
+
+        scrollChatbox() {
+            let chatBody = document.getElementsByClassName("chat-body")[0]
+            chatBody.scrollTop = chatBody.scrollHeight
+        },
+
         postIntent() {
 
             // do not process intent if intent is empty
             if (this.intent == '') { return }
 
             this.loading = true
-            this.intents.push({type:'intent', text:this.intent})
+
+            this.intents.push({type: "request", text:this.intent})
             
+            this.scrollChatbox()
 
             axios.post("http://localhost:8888/api/chatbot/intent", {
                 "session": {
@@ -72,24 +122,23 @@ export default {
 
                 }
 
-                this.intents.push({
-                    type: "response",
-                    text: result.data.fulfillment
+                result.data.forEach(response => {
+                    this.intents.push(response)
                 })
+
+                this.scrollChatbox()
 
                 this.intent = ""
                 
-                let chatBody = document.getElementsByClassName("chat-body")[0]
-                chatBody.scrollTop = chatBody.scrollHeight
-
                 this.loading = false
 
+                //this.url.go("/lesli/assistants/"+result.data.action.ui.id)
+
+                console.log(JSON.parse(JSON.stringify(this.intents)))
 
             }).catch(error => {
                 console.log(error)
             })
-
-            
 
         }
 
@@ -97,52 +146,27 @@ export default {
 }
 </script>
 <template>
-    <div class="chatbox" v-show="showchat">
-        <div class="chat-header" @click="openchat=!openchat">
-            <nav class="navbar" role="navigation" aria-label="main navigation">
-                <div class="navbar-brand">
-                    <a class="navbar-item">
-                        Lesli
-                    </a>
-                </div>
-                <div class="navbar-menu">
-                    <div class="navbar-start">
-                    </div>
-                    <div class="navbar-end">
-                        <div class="navbar-item">
-                            <div class="buttons">
-                                <a class="button is-white" @click="openchat=!openchat">
-                                    <i class="fas fa-minus"></i>
-                                </a>
-                                <a class="button is-white" @click="showchat=!showchat">
-                                    <i class="fas fa-times"></i>
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </nav>
-        </div>
+    <div class="chatbox" v-show="showchat || true">
+        <component-header />
         <div class="chat-body" v-show="openchat">
-            <div v-for="(intent, index) in intents" :key="index" :class="intent.type">
-                <span v-if="intent.type == 'intent'">
-                    <img src="/assets/brand/leslicloud-logo.png" />
-                </span>
-                <p>{{ intent.text }}</p>
-                <span v-if="intent.type == 'response'">
-                    <img src="/assets/brand/leslicloud-logo.png" />
-                </span>
-            </div>
-            <div class="response" v-if="loading">
-                <div class="loading-animation">
-                    <hr/><hr/><hr/><hr/>
-                </div>
-            </div>
+            <template v-for ="(intent, index) in intents">
+                <component
+                    :class="'chat-'+intent.type" 
+                    :is="components[intent.type]"
+                    :data="intent"
+                    :key="index">
+                </component>
+            </template>
+            <component-loading v-if="loading" />
         </div>
         <div class="chat-footer" v-show="openchat">
-            <div>
-                <input v-model="intent" :disabled="loading" type="text" placeholder="How can I help you?" @keyup.enter="postIntent">
-            </div>
+            <input 
+                type="text"
+                v-model="intent" 
+                :disabled="loading" 
+                :placeholder="'How can I help you?'" 
+                @keyup.enter="postIntent" 
+            />
         </div>
     </div>
 </template>
