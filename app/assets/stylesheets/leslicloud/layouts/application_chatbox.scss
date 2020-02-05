@@ -67,58 +67,13 @@ Building a better future, one line of code at a time.
         padding: .8rem 0;
         max-height: 75vh;
         overflow-y: scroll;
-
-        .intent,
-        .response {
-            display: flex;
-
-            p {
-                font-weight: 600;
-                font-size: .9rem;
-                //margin-bottom: .5rem;
-                display: inline-block;
-                padding: .2rem .8rem;
-                border-radius: 1rem;
-            }
-
-            // avatar
-            span {
-                width: 29px;
-                display: inline-block;
-
-                img {
-                    width: 100%;
-                }
-
-            }
-
+        & > div {
+            margin-bottom: 6px;
         }
-
-        .intent {
-            justify-content: start;
-
-            p {
-                margin-left: 0px;
-            }
-
-        }
-
-        .response {
-            justify-content: end;
-
-            p {
-                color: lesli-color(standard, white);
-                background-color: lesli-color(lesli, primary);
-                margin-right: 8px;
-            }
-
-        }
-
     }
 
     .chat-footer {
         padding: .2rem 0 .8rem 0;
-
         input {
             border: none;
             border-radius: 0px;
@@ -133,7 +88,6 @@ Building a better future, one line of code at a time.
         position:relative;
         height:18px;
         width:18px;
-
         hr {
             border:0;
             margin:0;
@@ -142,21 +96,55 @@ Building a better future, one line of code at a time.
             position:absolute;
             border-radius:50%;
             animation:assistant-chatbox-spin 2s ease infinite;
-
             &:first-child { background:#19A68C; animation-delay: -1.5s }
             &:nth-child(2){ background:#F63D3A; animation-delay: -1.0s }
             &:nth-child(3){ background:#FDA543; animation-delay: -0.5s }
             &:last-child {  background:#193B48 }
-
         }
-
         @keyframes assistant-chatbox-spin{
             0%,100%{transform:translate(0)}
             25%{transform:translate(160%)}
             50%{transform:translate(160%, 160%)}
             75%{transform:translate(0, 160%)}
         }        
+    }
 
+    // · request & response components
+    .chat-request,
+    .chat-response {
+        display: flex;
+        align-items: center;
+        p {
+            font-size: .9rem;
+            font-weight: 600;
+            border-radius: 1rem;
+            padding: .2rem .8rem;
+            display: inline-block;
+        }
+        img {
+            width: 29px;
+        }
+    }
+    .chat-request {
+        justify-content: start;
+        p {
+            margin-left: 5px;
+            color: lesli-color(black);
+            background-color: lesli-color(silver, 300);
+        }
+    }
+    .chat-response {
+        justify-content: end;
+        p {
+            margin-right: 5px;
+            color: lesli-color(standard, white);
+            background-color: lesli-color(lesli, primary);
+        }
+    }
+
+    // · response with a list of items
+    .chat-list {
+        list-style: circle;
     }
 
 }
