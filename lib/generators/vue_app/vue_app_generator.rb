@@ -1,13 +1,10 @@
-class CloudAppGenerator < Rails::Generators::Base
+class VueAppGenerator < Rails::Generators::Base
     source_root File.expand_path('templates', __dir__)
     argument :model, type: :string
 
     def create_main_app
         engine_data = parse_engine_data
         app_data = parse_app_path
-
-        puts engine_data.to_json
-        puts app_data.to_json
 
         destination_main_app_path = "#{engine_data[:base_path]}/app/vue/#{app_data[:path]}/app.js"
 
@@ -26,6 +23,18 @@ class CloudAppGenerator < Rails::Generators::Base
             gsub_file(destination_app_path, "%data_resources%", app_data[:data_resource].pluralize)
             gsub_file(destination_app_path, "%function_resource%", app_data[:function_resource])
             gsub_file(destination_app_path, "%function_resources%", app_data[:function_resource].pluralize)
+        end
+
+        # Copying form component
+        ["form"].each do |component|
+            destination_component_path = "#{engine_data[:base_path]}/app/vue/#{app_data[:path]}/components/#{component}.vue"
+
+            copy_file("components/#{component}_vue.template", destination_component_path)
+            gsub_file(destination_component_path, "%app_route%", app_data[:route])
+            gsub_file(destination_component_path, "%data_resource%", app_data[:data_resource])
+            gsub_file(destination_component_path, "%data_resources%", app_data[:data_resource].pluralize)
+            gsub_file(destination_component_path, "%function_resource%", app_data[:function_resource])
+            gsub_file(destination_component_path, "%function_resources%", app_data[:function_resource].pluralize)
         end
     end
 

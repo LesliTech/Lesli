@@ -38,13 +38,31 @@ import componentForm from '../components/form.vue'
 
 
 export default {
+    props: {
+
+    },
+
     components: {
         'component-form': componentForm
+    },
+
+    data(){
+        return {
+            %data_resource%: {}
+        }
+    },
+
+    mounted(){
+
+    },
+
+    methods: {
+        
     }
 }
 </script>
 <template>
     <section class="section">
-        <component-form />
+        <component-form :%data_resource%="%data_resource%" view-type="show" />
     </section>
 </template>
