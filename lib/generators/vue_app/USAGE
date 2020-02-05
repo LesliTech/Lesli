@@ -10,6 +10,11 @@ Example:
         /engines/CloudHouse/app/vue/company_employees/apps/new.vue
         /engines/CloudHouse/app/vue/company_employees/apps/show.vue
         /engines/CloudHouse/app/vue/company_employees/apps/edit.vue
+        /engines/CloudHouse/app/views/cloud_house/company/employees.index.html.erb
+        /engines/CloudHouse/app/views/cloud_house/company/employees.new.html.erb
+        /engines/CloudHouse/app/views/cloud_house/company/employees.show.html.erb
+        /engines/CloudHouse/app/views/cloud_house/company/employees.edit.html.erb
+        /engines/CloudHouse/app/assets/stylesheets/cloud_house/company/employees.scss
 
     rails generate cloud_app Core::Role
 
@@ -19,3 +24,8 @@ Example:
         /app/vue/roles/apps/new.vue
         /app/vue/roles/apps/show.vue
         /app/vue/roles/apps/edit.vue
+        /app/views/roles/index.html.erb
+        /app/views/roles/index.new.erb
+        /app/views/roles/index.show.erb
+        /app/views/roles/index.edit.erb
+        /app/assets/stylesheets/roles.scss
