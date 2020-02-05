@@ -38,11 +38,11 @@ Building a better future, one line of code at a time.
 
 export default {
     props: {
-        %function_resource%: {
+        %camel_case_resource%: {
             required: true
         },
 
-        viewMode: {
+        viewType: {
             type: String,
             required: true
         }
@@ -55,45 +55,45 @@ export default {
     data() {
         return {
             main_route: '%app_route%',
-            %data_resource%: null
+            %underscore_resource%: null
         }
     },
 
     mounted() {
-        this.set%function_resource%Id()
-        this.copy%function_resource%Prop()
+        this.set%camel_case_resource%Id()
+        this.copy%camel_case_resource%Prop()
     },
 
     methods: {
 
-        set%function_resource%Id(){
-            this.%data_resource%_id = this.$route.params.id
+        set%camel_case_resource%Id(){
+            this.%underscore_resource%_id = this.$route.params.id
         },
 
         // We copy the resource into data so we can easily modify it without emiting events
-        copy%function_resource%Prop(){
-            this.%data_resource% = {... this.%function_resource%}
+        copy%camel_case_resource%Prop(){
+            this.%underscore_resource% = {... this.%camel_case_resource%}
         },
 
-        submit%function_resource%(event){
+        submit%camel_case_resource%(event){
             if (event) { event.preventDefault() }
 
-            if(this.viewMode == 'new'){
-                this.post%function_resource%()
-            }else if(this.viewMode == 'edit'){
-                this.put%function_resource%()
+            if(this.viewType == 'new'){
+                this.post%camel_case_resource%()
+            }else if(this.viewType == 'edit'){
+                this.put%camel_case_resource%()
             }
         },
 
-        post%function_resource%() {
+        post%camel_case_resource%() {
             let form_data = {
-                %data_resource%: this.%data_resource%
+                %underscore_resource%: this.%underscore_resource%
             }
             let url = `${this.main_route}.json`
 
             this.http.post(url, form_data).then(result => {
                 if (result.successful) {
-                    this.alert('%data_resource% created successfully', 'success')
+                    this.alert('%humanized_resource% created successfully', 'success')
                     this.$router.push(`/${result.data.id}`)
                 }else{
                     this.alert(result.error.message,'danger')
@@ -104,16 +104,16 @@ export default {
 
         },
 
-        put%function_resource%() {
+        put%camel_case_resource%() {
             let form_data = {
-                %data_resource%: this.%data_resource%
+                %underscore_resource%: this.%underscore_resource%
             }
-            let url = `${this.main_route}/${this.%data_resource%_id}.json`
+            let url = `${this.main_route}/${this.%underscore_resource%_id}.json`
 
             this.http.put(url, form_data).then(result => {
                 if (result.successful) {
-                    this.alert('%data_resource% updated successfully', 'success')
-                    this.$router.push(`/this.%data_resource%.id`)
+                    this.alert('%humanized_resource% updated successfully', 'success')
+                    this.$router.push(`/${this.%underscore_resource%.id}`)
                 }else{
                     this.alert(result.error.message, 'danger')
                 }
@@ -121,25 +121,40 @@ export default {
                 console.log(error)
             })
 
+        },
+
+        delete%camel_case_resource%() {
+            let url = `${this.main_route}/${this.%underscore_resource%_id}`
+
+            this.http.delete(url).then(result => {
+                if (result.successful) {
+                    this.alert('%humanized_resource% deleted successfully', 'success')
+                    this.$router.push('/')
+                }else{
+                    this.alert(result.error.message, 'danger')
+                }
+            }).catch(error => {
+                console.log(error)
+            })
         }
     }
 }
 </script>
 <template>
-    <div class="card">
+    <div class="card" v-if="%underscore_resource%">
         <!--------------------------------------- START CARD HEADER --------------------------------------->
         <div class="card-header">
             <h2 class="card-header-title">
-                %data_resource%
+                %humanized_resource%
             </h2>
             <div class="card-header-icon">
-                <router-link v-if="viewMode == 'edit'" :to="`/${%data_resource%.id}`">
+                <router-link v-if="viewType == 'edit'" :to="`/${%underscore_resource%.id}`">
                     <i class="fas fa-eye"></i>
-                    Show %data_resource%
+                    Show %humanized_resource%
                 </router-link>
-                <router-link v-if="viewMode == 'show'" :to="`/${%data_resource%.id}/edit`">
+                <router-link v-if="viewType == 'show'" :to="`/${%underscore_resource%.id}/edit`">
                     <i class="fas fa-eye"></i>
-                    Edit %data_resource%
+                    Edit %humanized_resource%
                 </router-link>
                 <router-link to="/">
                     &nbsp;&nbsp;&nbsp;
@@ -147,22 +162,38 @@ export default {
                     Return
                 </router-link>
             </div>
-        <div>
+        </div>
         <!---------------------------------------  END CARD HEADER  --------------------------------------->
 
         <!--------------------------------------- START CARD CONTENT--------------------------------------->
         <div class="card-content">
-            <form @submit="submit%function_resource%">
-                <b-field>
-                    <b-button type="primary" native-type="submit">
-                        <span v-if="viewMode == 'new'">
-                            Create %data_resource%
+            <form @submit="submit%camel_case_resource%">
+
+                <!---------------------------------- START SUBMIT BUTTON ---------------------------------->
+                <b-field v-if="viewType == 'new' || viewType == 'edit'">
+                    <b-button type="is-primary" native-type="submit">
+                        <span v-if="viewType == 'new'">
+                            Create %humanized_resource%
                         </span>
                         <span v-else>
-                            Update %data_resource%
+                            Update %humanized_resource%
                         </span>
                     </b-button>
                 </b-field>
+                <!----------------------------------  END SUBMIT BUTTON  ---------------------------------->
+                
+                <!---------------------------------- START DELETE BUTTON ---------------------------------->
+                <b-field v-if="viewType == 'show'">
+                    <b-button type="is-danger" @click="delete%camel_case_resource%">
+                        <span v-if="viewType == 'new'">
+                            Create %humanized_resource%
+                        </span>
+                        <span v-else>
+                            Delete %humanized_resource%
+                        </span>
+                    </b-button>
+                </b-field>
+                <!----------------------------------  END DELETE BUTTON  ---------------------------------->
             </form>
         </div>
         <!---------------------------------------  END CARD CONTENT --------------------------------------->

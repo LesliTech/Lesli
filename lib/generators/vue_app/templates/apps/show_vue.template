@@ -49,25 +49,26 @@ export default {
     data(){
         return {
             main_route: '%app_route%',
-            %data_resource%: null,
-            %data_resource%_id: null
+            %underscore_resource%: null,
+            %underscore_resource%_id: null
         }
     },
 
     mounted(){
-        this.set%function_resource%Id()
-        this.get%function_resource%()
+        this.set%camel_case_resource%Id()
+        this.get%camel_case_resource%()
     },
 
     methods: {
-        set%function_resource%Id(){
-            this.%data_resource%_id = this.$route.params.id
+        set%camel_case_resource%Id(){
+            this.%underscore_resource%_id = this.$route.params.id
         },
 
-        get%function_resource%(){
-            this.http.get(`${this.main_route}/${this.%data_resource%_id}.json`).then(result => {
+        get%camel_case_resource%(){
+            let url = `${this.main_route}/${this.%underscore_resource%_id}.json`
+            this.http.get(url).then(result => {
                 if (result.successful) {
-                    this.%data_resource% = result.data
+                    this.%underscore_resource% = result.data
                 }else{
                     this.alert(result.error.message, 'danger')
                 }
@@ -80,6 +81,6 @@ export default {
 </script>
 <template>
     <section class="section">
-        <component-form v-if="%data_resource%" :%data_resource%="%data_resource%" view-type="show"/>
+        <component-form v-if="%underscore_resource%" :%snake_case_resource%="%underscore_resource%" view-type="show"/>
     </section>
 </template>
