@@ -31,6 +31,7 @@ import componentLoading from "../components/chatbox/loading.vue"
 import componentRequest from "../components/chatbox/request.vue"
 import componentResponse from "../components/chatbox/response.vue"
 import componentList from "../components/chatbox/list.vue"
+import componentTeamAttendance from "../components/chatbox/team-attendance.vue"
 
 
 import axios from 'axios'
@@ -47,7 +48,8 @@ export default {
             components: {
                 list: componentList,
                 request: componentRequest,
-                response: componentResponse
+                response: componentResponse,
+                team_attendance: componentTeamAttendance
             },
             intent: "",
             intents:[ ],
