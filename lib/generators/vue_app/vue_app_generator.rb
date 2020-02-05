@@ -8,6 +8,7 @@ class VueAppGenerator < Rails::Generators::Base
     end
 
     def create_erb_files
+
         destination_path = "#{@engine_data[:base_path]}/app/views/cloud_#{@app_data[:route][1..-1]}"
         if @engine_data[:name] == "Core"
             destination_path = "#{@engine_data[:base_path]}/app/views#{@app_data[:route]}"
@@ -112,7 +113,7 @@ class VueAppGenerator < Rails::Generators::Base
         snake_case_resource = underscore_resource.gsub("_", "-")
         humanized_resource = underscore_resource.humanize
 
-        {
+        return {
             path: name_data.join("_"),
             route: route,
             underscore_resource: underscore_resource,

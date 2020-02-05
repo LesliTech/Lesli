@@ -1,7 +1,5 @@
 <script>
 /*
-Lesli
-
 Copyright (c) 2020, Lesli Technologies, S. A.
 
 All the information provided by this website is protected by laws of Guatemala related 
@@ -20,11 +18,10 @@ Building a better future, one line of code at a time.
 @author   [AUTHOR_NAME_GOES_HERE]
 @license  Propietary - all rights reserved.
 @version  0.1.0-alpha
-@description [DESCRIPTION_GOES_HERE]
+@description App that retrieves and shows a %humanized_resource% specified by the id in the route
 
-
-// · 
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
+// · 
 */
 
 
@@ -41,11 +38,18 @@ export default {
     props: {
 
     },
-
+    
     components: {
         'component-form': componentForm
     },
 
+    // @return [Object] Data used by this component's methods
+    // @description Returns the data needed for this component to work properly
+    // @data_variable main_route [String] the main route to which this component connects to the lesli API
+    // @data_variable %underscore_resource% [Object] An object representing a %humanized_resource%, with
+    //      the same params as the associated rails model
+    // @data_variable %underscore_resource%_id [String|Integer] The id of the %humanized_resource%, as
+    //      obtained from the route using the *Vue-router* *params* 
     data(){
         return {
             main_route: '%app_route%',
@@ -54,16 +58,32 @@ export default {
         }
     },
 
+    // @return [void]
+    // @description Executes the necessary methods needed to initialize this component
     mounted(){
         this.set%camel_case_resource%Id()
         this.get%camel_case_resource%()
     },
 
     methods: {
+
+        // @return [void]
+        // @description Retrieves the id of the %humanized_resource% and stores it in the data variable %underscore_resource%_id
+        // @example
+        //      console.log(this.%underscore_resource%_id) // will display null
+        //      this.set%camel_case_resource%Id()
+        //      console.log(this.%underscore_resource%_id) // will display a number, like 5
         set%camel_case_resource%Id(){
             this.%underscore_resource%_id = this.$route.params.id
         },
 
+        // @return [void]
+        // @description Connects to the backend using HTTP and retrieves the %humanized_resource% associated to
+        //      the variable *%humanized_resource%_id*. If the HTTP request fails, an error message is shown
+        // @example
+        //      console.log(this.%underscore_resource%) // will display null
+        //      this.get%camel_case_resource%()
+        //      console.log(this.%underscore_resource%) // will display an object representation of the %humanized_resource%
         get%camel_case_resource%(){
             let url = `${this.main_route}/${this.%underscore_resource%_id}.json`
             this.http.get(url).then(result => {
