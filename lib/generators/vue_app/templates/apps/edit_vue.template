@@ -1,0 +1,85 @@
+<script>
+/*
+Lesli
+
+Copyright (c) 2020, Lesli Technologies, S. A.
+
+All the information provided by this website is protected by laws of Guatemala related 
+to industrial property, intellectual property, copyright and relative international laws. 
+Lesli Technologies, S. A. is the exclusive owner of all intellectual or industrial property
+rights of the code, texts, trade mark, design, pictures and any other information.
+Without the written permission of Lesli Technologies, S. A., any replication, modification,
+transmission, publication is strictly forbidden.
+For more information read the license file including with this software.
+
+LesliCloud - Your Smart Business Assistant
+
+Powered by https://www.lesli.tech
+Building a better future, one line of code at a time.
+
+@author   [AUTHOR_NAME_GOES_HERE]
+@license  Propietary - all rights reserved.
+@version  0.1.0-alpha
+@description [DESCRIPTION_GOES_HERE]
+
+
+// · 
+// · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
+*/
+
+
+// · List of Imported Components
+// · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
+import componentForm from '../components/form.vue'
+
+
+// · 
+// · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
+
+
+export default {
+    props: {
+
+    },
+
+    components: {
+        'component-form': componentForm
+    },
+
+    data(){
+        return {
+            main_route: '%app_route%',
+            %data_resource%: null,
+            %data_resource%_id: null
+        }
+    },
+
+    mounted(){
+        this.set%function_resource%Id()
+        this.get%function_resource%()
+    },
+
+    methods: {
+        set%function_resource%Id(){
+            this.%data_resource%_id = this.$route.params.id
+        },
+
+        get%function_resource%(){
+            this.http.get(`${this.main_route}/${this.%data_resource%_id}.json`).then(result => {
+                if (result.successful) {
+                    this.%data_resource% = result.data
+                }else{
+                    this.alert(result.error.message, 'danger')
+                }
+            }).catch(error => {
+                console.log(error)
+            })
+        }
+    }
+}
+</script>
+<template>
+    <section class="section">
+        <component-form v-if="%data_resource%" :%data_resource%="%data_resource%" view-type="edit"/>
+    </section>
+</template>

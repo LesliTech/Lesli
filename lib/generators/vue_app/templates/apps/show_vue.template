@@ -38,13 +38,48 @@ import componentForm from '../components/form.vue'
 
 
 export default {
+    props: {
+
+    },
+
     components: {
         'component-form': componentForm
+    },
+
+    data(){
+        return {
+            main_route: '%app_route%',
+            %data_resource%: null,
+            %data_resource%_id: null
+        }
+    },
+
+    mounted(){
+        this.set%function_resource%Id()
+        this.get%function_resource%()
+    },
+
+    methods: {
+        set%function_resource%Id(){
+            this.%data_resource%_id = this.$route.params.id
+        },
+
+        get%function_resource%(){
+            this.http.get(`${this.main_route}/${this.%data_resource%_id}.json`).then(result => {
+                if (result.successful) {
+                    this.%data_resource% = result.data
+                }else{
+                    this.alert(result.error.message, 'danger')
+                }
+            }).catch(error => {
+                console.log(error)
+            })
+        }
     }
 }
 </script>
 <template>
     <section class="section">
-        <component-form />
+        <component-form v-if="%data_resource%" :%data_resource%="%data_resource%" view-type="show"/>
     </section>
 </template>
