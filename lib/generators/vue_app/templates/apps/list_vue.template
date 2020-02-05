@@ -1,7 +1,5 @@
 <script>
 /*
-Lesli
-
 Copyright (c) 2020, Lesli Technologies, S. A.
 
 All the information provided by this website is protected by laws of Guatemala related 
@@ -20,11 +18,11 @@ Building a better future, one line of code at a time.
 @author   [AUTHOR_NAME_GOES_HERE]
 @license  Propietary - all rights reserved.
 @version  0.1.0-alpha
-@description [DESCRIPTION_GOES_HERE]
+@description App that retrieves and shows list of all the %humanized_resource% associated to 
+    the account of the logged user
 
-
-// · 
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
+// · 
 */
 
 
@@ -43,6 +41,11 @@ export default {
 
     },
 
+    // @return [Object] Data used by this component's methods
+    // @description Returns the data needed for this component to work properly
+    // @data_variable main_route [String] the main route to which this component connects to the lesli API
+    // @data_variable %underscore_resources% [Array] An array of objects, each object represents a 
+    //      %humanized_resource%, with the same params as the associated rails model
     data(){
         return {
             main_route: '%app_route%',
@@ -50,12 +53,21 @@ export default {
         }
     },
 
+    // @return [void]
+    // @description Executes the necessary functions needed to initialize this component
     mounted() {
        this.get%camel_case_resources%()
     },
 
     methods: {
 
+        // @return [void]
+        // @description Connects to the backend using HTTP and retrieves a list of %humanized_resource% associated to
+        //      the current user's account. If the HTTP request fails, an error message is shown
+        // @example
+        //      console.log(this.%underscore_resources%) // will display null
+        //      this.get%camel_case_resources%()
+        //      console.log(this.%underscore_resources%) // will display an array of objects, each representing a %humanized_resource%.
         get%camel_case_resources%() {
             this.http.get(`${this.main_route}.json`).then(result => {
                 if (result.successful) {
@@ -68,6 +80,13 @@ export default {
             })
         },
         
+        // @return [void]
+        // @param %underscore_resource% [Object] The object representation of the selected %humanized_resource%
+        // @description Redirects the router to show the selected %humanized_resource%
+        // @example
+        //      this.show%camel_case_resource%(this.%underscore_resources%[1])
+        //      // Asume the id of the %humanized_resource% is 4
+        //      // The user will be redirected to the url %app_route%/4
         show%camel_case_resource%(%underscore_resource%) {
             this.$router.push(`/${%underscore_resource%.id}`)
         }
