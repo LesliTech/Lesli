@@ -30,16 +30,16 @@ class ApplicationLesliController < ApplicationController
 
     #load_and_authorize_resource
 
-    rescue_from CanCan::AccessDenied do |exception|  
-        flash[:alert] = exception.message  
-        redirect_to '/'
-    end
-
     before_action :authenticate_user!
     before_action :check_account
     before_action :set_account_global
     
     layout 'layouts/application'
+
+    rescue_from CanCan::AccessDenied do |exception|  
+        flash[:alert] = exception.message  
+        redirect_to '/'
+    end
 
     protected
 
@@ -58,6 +58,7 @@ class ApplicationLesliController < ApplicationController
     end
 
     def set_account_global
+        
         @account = {
             user: { 
                 id: current_user.id,
