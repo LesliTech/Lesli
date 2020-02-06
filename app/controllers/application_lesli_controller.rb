@@ -27,7 +27,9 @@ Building a better future, one line of code at a time.
 =end
 
 class ApplicationLesliController < ApplicationController
-    load_and_authorize_resource
+
+    #load_and_authorize_resource
+
     rescue_from CanCan::AccessDenied do |exception|  
         flash[:alert] = exception.message  
         redirect_to '/'
@@ -39,7 +41,6 @@ class ApplicationLesliController < ApplicationController
     
     layout 'layouts/application'
 
-    
     protected
 
     def authenticate_user

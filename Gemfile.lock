@@ -1,7 +1,19 @@
 PATH
+  remote: engines/CloudHelp
+  specs:
+    cloud_help (0.1.0)
+      rails (~> 6.0.0)
+
+PATH
   remote: engines/CloudBell
   specs:
     cloud_bell (0.1.0)
+      rails (~> 6.0.0)
+
+PATH
+  remote: engines/CloudDriver
+  specs:
+    cloud_driver (0.1.0)
       rails (~> 6.0.0)
 
 PATH
@@ -17,21 +29,15 @@ PATH
       rails (~> 6.0.0)
 
 PATH
-  remote: engines/CloudLock
-  specs:
-    cloud_lock (0.1.0)
-      rails (~> 6.0.0)
-
-PATH
-  remote: engines/CloudDriver
-  specs:
-    cloud_driver (0.1.0)
-      rails (~> 6.0.0)
-
-PATH
   remote: engines/CloudLesli
   specs:
     cloud_lesli (0.1.0)
+      rails (~> 6.0.0)
+
+PATH
+  remote: engines/CloudLock
+  specs:
+    cloud_lock (0.1.0)
       rails (~> 6.0.0)
 
 PATH
@@ -303,6 +309,7 @@ DEPENDENCIES
   cancancan
   cloud_bell!
   cloud_driver!
+  cloud_help!
   cloud_house!
   cloud_kb!
   cloud_lesli!
