@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <%= render partial: "layouts/partials/application-head" %>
+    <%= render partial: "layouts/partials/application-data" %>
+    <%= render partial: "layouts/partials/application-asset-css" %>
+    <%= render partial: "layouts/partials/application-asset-js" %>
+</head>
+<body class="<%= "#{controller_path.gsub('/','_')}-#{action_name} theme-#{@settings['theme_default']}" %>">
+    <main id="lesli-cloud-app">
+        <%= render partial: "layouts/partials/application-layout-notify" %>
+        <%= render partial: "layouts/partials/application-layout-header" %>
+        <%= render partial: "layouts/partials/application-layout-aside" %>
+        <%= render partial: "layouts/partials/application-layout-navigation" %>
+        <%= yield %>
+        <%= render partial: "layouts/partials/application-layout-chatbox" %>
+    </main>
+    <%= render partial: "layouts/partials/application-footer" %>
+</body>
+</html>
