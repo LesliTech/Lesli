@@ -131,42 +131,21 @@ module.exports = env => {
 
     webpackConfig.push(webpackbase)
 
-    // · get engines
-    let engines = [
-        'CloudTeam',
-        'CloudHappy',
-        'CloudSeller',
-        'CloudLeaf',
-        'CloudHouse',
-        'CloudDrop',
-        'CloudMailer',
-        'CloudDriver',
-        'CloudChaos',
-        'CloudClock',
-        'CloudPizza',
-        'CloudNotes',
-        'CloudLesli',
-        'CloudSocial',
-        'CloudBell',
-        'CloudBooks',
-        'CloudWallet',
-        'CloudThings',
-        'CloudKb',
-        'CloudHelp',
-        'CloudPortal',
-        'CloudBug',
-        'CloudPanel',
-        'CloudLock',
-        'CloudBabel'
-    ]
+    let engines = fs.readdirSync('./engines').filter(directory => directory != ".gitkeep").filter(engine => {
 
-    //engines = []
+        let engine_info_file_path = `./engines/${engine}/lesli.json`
 
-    fs.readdirSync('./engines').forEach(directory => {
+        if (!fs.existsSync(engine_info_file_path)) {
+            return false
+        }
+
+        let rawdata = fs.readFileSync(engine_info_file_path)
+
+        let engine_info = JSON.parse(rawdata)
+
+        return engine_info.name == engine
 
     })
-
-    console.log(fs.readdirSync('./engines'))
 
     engines.forEach(engine => {
 

@@ -1,7 +1,8 @@
 =begin
+
 Lesli
 
-Copyright (c) 2019, Lesli Technologies, S. A.
+Copyright (c) 2020, Lesli Technologies, S. A.
 
 All the information provided by this website is protected by laws of Guatemala related 
 to industrial property, intellectual property, copyright and relative international laws. 
@@ -16,40 +17,47 @@ LesliCloud - Your Smart Business Assistant
 Powered by https://www.lesli.tech
 Building a better future, one line of code at a time.
 
-@author   LesliTech <hello@lesli.tech>
 @license  Propietary - all rights reserved.
 @version  0.1.0-alpha
 
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
 // · 
+
 =end
 
 class Ability
     include CanCan::Ability
 
-    def initialize(user)
-    end
-
     def initialize2(user)
 
-        can [:empty], Dashboard
+        user.role.role_privileges.each do |privilege|
+            module_name = privilege.privilege_object_name.gsub('/', '::',)
+            module_name = module_name.gsub(/\b('?[a-z])/) { $1.capitalize }
+            module_name = module_name.split('::').map{ |s| s.singularize }.join '::'
+            module_name = module_name.remove("Core::").camelize
 
-        can do |action, subject_class, subject|
-
-            user.role.role_privileges.each do |privilege|
-
-                can privilege.privilege_get.to_sym, privilege.privilege_model.constantize
-                can [:empty], privilege.privilege_model.constantize
-
-                if privilege.privilege_model.nil?
-                    can privilege.privilege_get.to_sym, privilege.privilege_model.constantize
-                else
-                    can permission.action.to_sym, permission.subject_class.constantize, id: permission.subject_id
-                end
-
+            begin
+                Module.const_get(module_name) #Verify that the models exist
+                module_name = module_name.constantize 
+            rescue NameError
+                nil
             end
 
-        end
+            # Everything that each privilege can do
+            can [:index], module_name  if privilege.privilege_index == true 
+            can [:show], module_name  if privilege.privilege_show == true 
+            can [:create], module_name  if privilege.privilege_create == true 
+            can [:new], module_name  if privilege.privilege_new == true 
+            can [:edit], module_name  if privilege.privilege_edit == true 
+            can [:update], module_name  if privilege.privilege_update == true
+            can [:destroy], module_name  if privilege.privilege_destroy == true
+            can [:default], module_name  if privilege.privilege_default == true
+            can [:empty], module_name  if privilege.privilege_empty == true
+            # All the options in each engine
+            can [:social_account_options, :details_options, :ticket_options, :workflow_options, 
+                :workflow_options, :assignment_options], module_name  if privilege.privilege_options == true
 
+        end
     end
+
 end
