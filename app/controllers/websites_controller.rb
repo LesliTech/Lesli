@@ -1,5 +1,5 @@
 class WebsitesController < ApplicationPublicController
-    layout 'application_public'
+    layout "application-public"
 
     def landing
     end
