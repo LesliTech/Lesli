@@ -24,7 +24,7 @@ Building a better future, one line of code at a time.
 
 =end
 class Users::PasswordsController < Devise::PasswordsController
-    layout 'application_public'
+    layout "application-public"
 
 =begin
 @controller_action_param :email [String] The registered user email
