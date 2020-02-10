@@ -38,7 +38,7 @@ class User < ApplicationRecord
     accepts_nested_attributes_for :detail
 
     belongs_to  :account , foreign_key: 'accounts_id', optional: true
-    #belongs_to  :role, class_name: 'CloudLock::Role', foreign_key:'cloud_lock_roles_id', optional: true
+    belongs_to  :role, class_name: 'CloudLock::Role', foreign_key:'cloud_lock_roles_id', optional: true
 
     after_save :create_user_defaults, if: :accounts_id?
 

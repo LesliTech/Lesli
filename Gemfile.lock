@@ -1,19 +1,7 @@
 PATH
-  remote: engines/CloudTeam
+  remote: engines/CloudHouse
   specs:
-    cloud_team (0.1.0)
-      rails (~> 6.0.0)
-
-PATH
-  remote: engines/CloudDriver
-  specs:
-    cloud_driver (0.1.0)
-      rails (~> 6.0.0)
-
-PATH
-  remote: engines/CloudLesli
-  specs:
-    cloud_lesli (0.1.0)
+    cloud_house (0.1.0)
       rails (~> 6.0.0)
 
 GEM
@@ -80,7 +68,7 @@ GEM
     ancestry (3.0.7)
       activerecord (>= 3.2.0)
     aws-eventstream (1.0.3)
-    aws-partitions (1.269.0)
+    aws-partitions (1.270.0)
     aws-sdk-core (3.89.1)
       aws-eventstream (~> 1.0, >= 1.0.2)
       aws-partitions (~> 1, >= 1.239.0)
@@ -116,7 +104,7 @@ GEM
     erubis (2.7.0)
     faker (2.10.1)
       i18n (>= 1.6, < 2)
-    ffi (1.12.1)
+    ffi (1.12.2)
     globalid (0.4.2)
       activesupport (>= 4.2.0)
     haml (5.1.2)
@@ -153,7 +141,7 @@ GEM
     mini_mime (1.0.2)
     mini_portile2 (2.4.0)
     minitest (5.14.0)
-    msgpack (1.3.1)
+    msgpack (1.3.3)
     nio4r (2.5.2)
     nokogiri (1.10.7)
       mini_portile2 (~> 2.4.0)
@@ -277,9 +265,7 @@ DEPENDENCIES
   bootsnap (>= 1.1.0)
   byebug
   cancancan
-  cloud_driver!
-  cloud_lesli!
-  cloud_team!
+  cloud_house!
   devise
   faker
   haml-rails
