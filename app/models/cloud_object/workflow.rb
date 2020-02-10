@@ -251,14 +251,14 @@ Building a better future, one line of code at a time.
             search_params = {account: account}
             
             associations.each do |association|
-                search_params["#{association[:name]}".to_sym] = cloud_object.detail[association[:key]]
+                search_params["#{association[:name]}".to_sym] = cloud_object[association[:key]]
             end
 
             workflow_assignment = assignment_model.find_by(search_params)
             if workflow_assignment 
                 workflow = workflow_assignment.workflow
 
-                cloud_object.detail.workflow_detail = detail_model.find_by(
+                cloud_object.workflow_detail = detail_model.find_by(
                     workflow: workflow,
                     workflow_state: state_model.initial_state(account)
                 )
