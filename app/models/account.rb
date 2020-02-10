@@ -17,10 +17,11 @@ LesliCloud - Your Smart Business Assistant
 Powered by https://www.lesli.tech
 Building a better future, one line of code at a time.
 
-@author   LesliTech <hello@lesli.tech>
 @license  Propietary - all rights reserved.
 @version  0.1.0-alpha
-@description User model. Establishes entities relations and enables devise modules
+
+// · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
+// · 
 
 =end
 
@@ -29,6 +30,7 @@ class Account < ApplicationRecord
     belongs_to :user, foreign_key: 'users_id', optional: true
 
     has_many :users, foreign_key: 'accounts_id'
+    has_one :settigns, foreign_key: 'accounts_id'
 
     has_one :kb,     class_name: "CloudKb::Account",     foreign_key: "id"
     has_one :team,   class_name: "CloudTeam::Account",   foreign_key: "id"
@@ -43,6 +45,11 @@ class Account < ApplicationRecord
     after_create :create_engine_accounts
 
     def create_engine_accounts
+
+        # date & time formats
+        Setting.create({ name: "date_format", value: "%Y.%m.%d", account: self })
+        Setting.create({ name: "date_format_full", value: "%a, %B %d, %Y", account: self })
+        Setting.create({ name: "date_time_format", value: "%Y.%m.%d %H:%M", account: self })
 
         if defined? CloudKb
             if self.kb.blank?

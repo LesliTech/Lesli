@@ -58,6 +58,8 @@ class ApplicationLesliController < ApplicationController
     end
 
     def set_account_global
+
+        @settings = Setting.all
         
         @account = {
             user: { 

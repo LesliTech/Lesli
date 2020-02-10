@@ -1,7 +1,4 @@
-=begin
-
-Lesli
-
+/*
 Copyright (c) 2020, Lesli Technologies, S. A.
 
 All the information provided by this website is protected by laws of Guatemala related 
@@ -17,37 +14,13 @@ LesliCloud - Your Smart Business Assistant
 Powered by https://www.lesli.tech
 Building a better future, one line of code at a time.
 
+@author   [AUTHOR_NAME_GOES_HERE]
 @license  Propietary - all rights reserved.
 @version  0.1.0-alpha
+@description [DESCRIPTION_GOES_HERE]
 
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
 // · 
+*/
 
-=end
-
-module CloudHelper
-
-    class Date
-
-        def self.to_string(datetime, format="%Y/%m/%d %H:%M")
-            datetime.strftime(datetime, format)
-        end
-
-        def self.full_to_string(datetime)
-            datetime.strftime("%a, %B %d, %Y")
-        end
-
-        def self.to_string(datetime)
-            datetime.strftime("%Y.%m.%d %H:%M")
-        end
-
-        def self.date_as_string(datetime)
-            datetime.strftime("%Y.%m.%d")
-        end
-
-        def self.from_string(string, format="%Y.%m.%d %H:%M")
-            Date.strptime(string, format)
-        end
-
-    end
-end
+@import 'leslicloud/templates/application';
