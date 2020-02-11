@@ -1,0 +1,28 @@
+[{
+    "name": "street_name",
+    "type": "string"
+},{
+    "name": "street_number",
+    "type": "string"
+},{
+    "name": "street_other",
+    "type": "string"
+},{
+    "name": "postcode",
+    "type": "string"
+},{
+    "name": "state",
+    "type": "string"
+},{
+    "name": "city",
+    "type": "string"
+},{
+    "name": "country",
+    "type": "string"
+},{
+    "name": "latitude",
+    "type": "string"
+},{
+    "name": "longitude",
+    "type": "string"
+}]
