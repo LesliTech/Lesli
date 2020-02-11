@@ -247,7 +247,7 @@ this.http.put(`127.0.0.1/help/workflows/${workflow_id}`, data);
 
             return responseWithNotFound unless cloud_object
 
-            responseWithSuccessful(cloud_object.detail.workflow_detail.next_workflow_states)
+            responseWithSuccessful(cloud_object.workflow_detail.next_workflow_states)
         end
 
 private
