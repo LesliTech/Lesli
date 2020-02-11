@@ -65,11 +65,9 @@ export default {
 
             let url = `/${this.cloudModule}s/${this.cloudId}`
             let data = {}
-            data[this.object_name] = {
-                detail_attributes: {}
-            }
+            data[this.object_name] = {}
             let detail_key = `cloud_${this.module_name}_workflow_details_id`
-            data[this.object_name].detail_attributes[detail_key] = this.transition_detail_id
+            data[this.object_name][detail_key] = this.transition_detail_id
             
             this.http.patch(url, data).then(result =>{
                 if (result.successful) {
