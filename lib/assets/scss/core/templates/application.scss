@@ -67,24 +67,17 @@ Building a better future, one line of code at a time.
 @import "../helpers/display";
 
 
-// · 
-/*
-* {
-    font-family: lesli-font(family, body);
-    font-weight: lesli-font(weight, normal);
-}
-
 
 // · 
 body {
     background-color: rgb(238,238,245);
 }
-*/
+
 
 // · 
 .translation_missing {
-    color: white;
-    background-color: red;
+    color: get-lesli-css-color(standard, white);
+    background-color: get-lesli-css-color(berry, 700);
     &:before {
         content: 'Translation missing: ';
     }
