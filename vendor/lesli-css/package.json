@@ -1,20 +1,15 @@
 {
-  "_args": [
-    [
-      "git+ssh://git@github.com/LesliTech/lesli-css.git#master",
-      "/var/www/LesliCloud/lesli.cloud"
-    ]
-  ],
-  "_development": true,
   "_from": "git+ssh://git@github.com/LesliTech/lesli-css.git#master",
-  "_id": "lesli-css@git+ssh://git@github.com/LesliTech/lesli-css.git#43deddd37c5e83bb8708a1ebab67b8e42ca378ac",
+  "_id": "lesli-css@",
   "_inBundle": false,
   "_integrity": "",
   "_location": "/lesli-css",
   "_phantomChildren": {},
   "_requested": {
     "type": "git",
-    "raw": "git+ssh://git@github.com/LesliTech/lesli-css.git#master",
+    "raw": "lesli-css@git+ssh://git@github.com/LesliTech/lesli-css.git#master",
+    "name": "lesli-css",
+    "escapedName": "lesli-css",
     "rawSpec": "git+ssh://git@github.com/LesliTech/lesli-css.git#master",
     "saveSpec": "git+ssh://git@github.com/LesliTech/lesli-css.git#master",
     "fetchSpec": "ssh://git@github.com/LesliTech/lesli-css.git",
@@ -23,26 +18,23 @@
   "_requiredBy": [
     "#DEV:/"
   ],
-  "_resolved": "git+ssh://git@github.com/LesliTech/lesli-css.git#43deddd37c5e83bb8708a1ebab67b8e42ca378ac",
-  "_spec": "git+ssh://git@github.com/LesliTech/lesli-css.git#master",
+  "_resolved": "git+ssh://git@github.com/LesliTech/lesli-css.git#1216a5a8f206ad47fed23859f06f335016b7b42e",
+  "_spec": "lesli-css@git+ssh://git@github.com/LesliTech/lesli-css.git#master",
   "_where": "/var/www/LesliCloud/lesli.cloud",
   "author": {
     "name": "LesliTech",
     "email": "hello@lesli.tech"
   },
-  "bugs": {
-    "url": "https://github.com/LesliTech/LesliCSS/issues"
-  },
+  "bundleDependencies": false,
   "dependencies": {
     "normalize.css": "8.0.1"
   },
-  "description": "SCSS Utilities for websites and web applications",
-  "homepage": "https://lesli.dev/",
-  "license": "GPL-3.0",
+  "deprecated": false,
+  "description": "<p align=\"center\"> \t<a href=\"#\" target=\"_blank\"> \t\t<img alt=\"LesliCSS logo\" width=\"200px\" src=\"https://cdn.lesli.tech/leslidev/leslicss/brand/leslicss-imagotipo.svg\" /> \t</a> </p>",
+  "homepage": "https://lesli.cloud",
+  "license": "All rights reserved",
   "name": "lesli-css",
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/LesliTech/LesliCSS.git"
-  },
-  "version": "0.1.0-alpha"
+  "private": true,
+  "title": "LesliCSS",
+  "version": ""
 }
