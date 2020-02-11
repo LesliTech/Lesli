@@ -31,37 +31,44 @@ Building a better future, one line of code at a time.
 
 //  · Font families
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
-@function lesli-font($property, $selector, $default:'') {
+@function lesli-font-family($type: "", $custom: "") {
 
-    // · 
-    $lesli-font: (
-
-        weight: (
-            light: 300,
-            normal: 400,
-            bold: 600
-        )
-
-    );
-
-    $lesli-font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
-    $lesli-font-family-body: $default, $lesli-font-family;
-    $lesli-font-family-title: $default, $lesli-font-family-body;
-
-    @if $property == "family" {
-
-        @if $selector == "body" {
-            @return $lesli-font-family-body;
-        }
-
-        @if $selector == "title" {
-            @return $lesli-font-family-title;
-        }
-        
+    @if $type == "body" && $default == "" {
+        $default: ""
     }
 
-    $property: map-get($lesli-font, $property);
+    $lesli-font-family: "Helvetica Neue", "Helvetica", "Arial", "sans-serif", sans-serif;
+    $lesli-font-family-body: "Open Sans", $lesli-font-family;
+    $lesli-font-family-title: "Montserrat", $lesli-font-family-body;
 
-    @return map-get($property, $selector);
+    @if $custom != "" {
+        $lesli-font-family-body: $custom, $lesli-font-family-body;
+        $lesli-font-family-title: $custom, $lesli-font-family-title;
+    }
+
+    @if $type == "body" {
+        @return $lesli-font-family-body;
+    }
+
+    @if $type == "title" {
+        @return $lesli-font-family-title;
+    }
+
+    @return $lesli-font-family;
+
+}
+
+
+@function lesli-font-weight($type: normal) {
+
+    // · 
+    $lesli-font-weight: (
+        light: 300,
+        normal: 400,
+        bold: 600
+    );
+
+    // · 
+    @return map-get($lesli-font-weight, $type);
 
 }

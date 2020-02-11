@@ -25,4 +25,18 @@ Building a better future, one line of code at a time.
 
 
 // · 
-@import 'lesli';
+@import "../../base/colors.scss";
+
+
+// · 
+@function get-lesli-css-colors($pallete, $variant: 500) {
+
+    $deutsche-leibrenten-colors: (
+            primary: rgb(0, 83, 128),
+            secondary: rgb(32, 168, 216),
+            tertiary: rgb(0, 183, 228)
+    );
+
+    @return get-lesli-css-base-colors($deutsche-leibrenten-colors, $pallete, $variant: 500);
+
+}

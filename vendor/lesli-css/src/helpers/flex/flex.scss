@@ -31,7 +31,7 @@ Building a better future, one line of code at a time.
 
 // · Flexbox container 
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
-@mixin lesli-flex($direction:row, $align: center, $justify: space-between) {
+@mixin lesli-css-flex($direction:row, $align: center, $justify: space-between) {
 
     display: flex;
     flex-direction: $direction;
@@ -43,7 +43,7 @@ Building a better future, one line of code at a time.
 
 // · Center with flexbox 
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
-@mixin lesli-flex-center($vertical: false) {
+@mixin lesli-css-flex-center($vertical: false) {
 
     display: flex;
     align-items: center;
@@ -59,7 +59,7 @@ Building a better future, one line of code at a time.
 
 // · Fluid grid with flexbox 
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
-@mixin lesli-flex-grid($items-width: 150px, $gutter: 10px) {
+@mixin lesli-css-flex-grid($items-width: 150px, $gutter: 10px) {
     
     display: flex;
     flex-wrap: wrap;
