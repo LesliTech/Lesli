@@ -24,13 +24,18 @@ Building a better future, one line of code at a time.
 */
 
 
-// · Include Lesli Standards
+// · Include Lesli CSS
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
 @import "lesli-css/";
 
 
+// · Include Lesli Standards
+// · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
+@include lesli-css-base();
 
-//  · Include fonts
+
+
+// · Include fonts
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
 @import "../components/fonts.scss";
 
@@ -56,7 +61,6 @@ Building a better future, one line of code at a time.
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
 @import "../components/containers.scss";
 @import "../layouts/application_header";
-@import "../layouts/application_notify";
 @import "../layouts/application_aside";
 @import "../layouts/application_navigation";
 @import "../layouts/application_chatbox";
@@ -64,6 +68,7 @@ Building a better future, one line of code at a time.
 
 
 // · 
+/*
 * {
     font-family: lesli-font(family, body);
     font-weight: lesli-font(weight, normal);
@@ -74,14 +79,13 @@ Building a better future, one line of code at a time.
 body {
     background-color: rgb(238,238,245);
 }
-
+*/
 
 // · 
 .translation_missing {
-
+    color: white;
+    background-color: red;
     &:before {
         content: 'Translation missing: ';
     }
-    background-color: red;
-    color: white;
 }
