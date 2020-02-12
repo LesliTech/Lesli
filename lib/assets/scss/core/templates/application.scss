@@ -67,6 +67,11 @@ Building a better future, one line of code at a time.
 @import "../helpers/display";
 
 
+// · 
+html {
+    overflow-y: auto;
+}
+
 
 // · 
 body {
