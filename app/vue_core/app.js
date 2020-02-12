@@ -58,10 +58,10 @@ import document from 'LesliCoreVue/functions/document.js'
 
 // · Loading app layout
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
-import componentLayoutHeader from 'LesliCoreVue/layouts/header.vue'
-import componentLayoutChatbox from 'LesliCoreVue/layouts/chatbox.vue'
+import componentLayoutAppHeader from 'LesliCoreVue/layouts/app-header.vue'
+import componentLayoutAppChatbox from 'LesliCoreVue/layouts/app-chatbox.vue'
 import componentLayoutEmptyData from 'LesliCoreVue/layouts/empty-data.vue'
-import componentLayoutNavigation from 'LesliCoreVue/layouts/navigation.vue'
+import componentLayoutModuleNavigation from 'LesliCoreVue/layouts/module-navigation.vue'
 import componentLayoutNotification from 'LesliCoreVue/layouts/notification.vue'
 
 
@@ -96,9 +96,9 @@ export default (module, apps, base_path, routes=[]) => {
 
     // · Default and custom components for logged users
     cloud_builder['components'] = { 
-        'component-layout-header': componentLayoutHeader,
-        'component-layout-chatbox': componentLayoutChatbox,
-        'component-layout-navigation': componentLayoutNavigation,
+        'component-layout-app-header': componentLayoutAppHeader,
+        'component-layout-app-chatbox': componentLayoutAppChatbox,
+        'component-layout-module-navigation': componentLayoutModuleNavigation,
         'component-layout-notification': componentLayoutNotification
     }
 

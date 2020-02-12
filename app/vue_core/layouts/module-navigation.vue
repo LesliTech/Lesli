@@ -56,7 +56,7 @@ export default {
 }
 </script>
 <template>
-    <nav class="module-navigation">
+    <nav class="lesli-module-navigation">
         <div class="navbar-menu">
             <div class="navbar-start">
                 <slot name="left"></slot>
