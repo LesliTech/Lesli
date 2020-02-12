@@ -103,7 +103,7 @@ export default {
 }
 </script>
 <template>
-    <header>
+    <header class="lesli-app-header">
 
         <!-- User navigation area -->
         <nav class="navbar is-transparent">

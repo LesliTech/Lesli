@@ -148,7 +148,7 @@ export default {
 }
 </script>
 <template>
-    <div class="chatbox" v-show="showchat || true">
+    <section class="lesli-app-chatbox" v-show="showchat || true">
         <component-header />
         <div class="chat-body" v-show="openchat">
             <template v-for ="(intent, index) in intents">
@@ -170,5 +170,5 @@ export default {
                 @keyup.enter="postIntent" 
             />
         </div>
-    </div>
+    </section>
 </template>

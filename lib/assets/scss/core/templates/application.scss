@@ -57,14 +57,22 @@ Building a better future, one line of code at a time.
 
 
 
-// · Loading components
+// · Loading components and helpers
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
 @import "../components/containers.scss";
-@import "../layouts/application_header";
-@import "../layouts/application_aside";
-@import "../layouts/application_navigation";
-@import "../layouts/application_chatbox";
 @import "../helpers/display";
+
+
+
+// · Loading app layout 
+// · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
+#lesli-cloud-app {
+    @import "../layouts/application_lesli_aside";
+    @import "../layouts/application_lesli_header";
+    @import "../layouts/application_module_navigation";
+    @import "../layouts/application_module_container";
+    @import "../layouts/application_lesli_chatbox";
+}
 
 
 // · 

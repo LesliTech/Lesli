@@ -31,18 +31,17 @@ Building a better future, one line of code at a time.
 
 
 // · 
-//$primary: $info;
-//$primary-invert: $info-invert;
+$primary: $info;
+$primary-invert: $info-invert;
 
 
 // · Links
-//$link: $primary;
-//$link-invert: $primary-invert;
-//$link-focus-border: $primary;
+$link: $primary;
+$link-invert: $primary-invert;
+$link-focus-border: $primary;
 
 
 // · Override framework colors
-/*
 $colors: (
     "primary": ($primary, $primary-invert),
     "success": ($success, $success-invert), 
@@ -55,7 +54,7 @@ $colors: (
     "link": ($link, $link-invert), 
     "info": ($info, $info-invert) 
 );
-*/
+
 
 // · Border radius
 $radius: 2px;
