@@ -24,5 +24,13 @@ Building a better future, one line of code at a time.
 */
 
 .lesli-module-container {
+
+    & > section.section {
+        padding: 2rem 1.5rem;
+
+        & .card {
+            margin-bottom: 1.4rem;
+        }
+    }
     background-color: red;    
 }
