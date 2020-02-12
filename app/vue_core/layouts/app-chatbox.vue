@@ -55,7 +55,7 @@ export default {
             intents:[ ],
             loading: false,
             openchat: false,
-            showchat: false
+            showchat: true
         }
     },
     mounted() {
@@ -149,7 +149,7 @@ export default {
 }
 </script>
 <template>
-    <section class="lesli-app-chatbox" v-show="showchat || true">
+    <section class="lesli-app-chatbox" v-show="showchat">
         <component-header />
         <div class="chat-body" v-show="openchat">
             <template v-for ="(intent, index) in intents">
