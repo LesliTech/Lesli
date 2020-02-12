@@ -8,7 +8,7 @@ export default {
 }
 </script>
 <template>
-    <div class="chat-header" @click="publishManageChatbox()">
+    <div class="chat-header">
         <nav class="navbar" role="navigation" aria-label="main navigation">
             <div class="navbar-brand">
                 <a class="navbar-item">
