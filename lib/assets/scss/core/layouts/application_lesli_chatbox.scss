@@ -65,8 +65,8 @@ section.lesli-app-chatbox {
         padding: .8rem 0;
         max-height: 75vh;
         overflow-y: scroll;
-        & > div {
-            margin-bottom: 6px;
+        & > * {
+            margin-bottom: 8px;
         }
     }
 
@@ -141,8 +141,11 @@ section.lesli-app-chatbox {
     }
 
     // · response with a list of items
-    .chat-list {
-        list-style: circle;
+    .chat-list{
+        padding-left: 40px;
+        li {
+            list-style: disc !important;
+        }
     }
 
 }
