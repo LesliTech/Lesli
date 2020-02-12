@@ -107,10 +107,11 @@ export default {
             
             this.scrollChatbox()
 
-            axios.post("http://localhost:8888/api/chatbot/intent", {
+            //axios.post("http://localhost:8888/api/chatbot/intent", {
+            axios.post("https://api.lesli.chat/api/chatbot/intent", {
                 "session": {
-                    "id": "8de896395dd33ca30c14fb2ebcc25df3",
-                    "reference": "my-app-url.com/app/action"
+                    "id": "5367990660997635",
+                    "reference": window.location.pathname
                 },
                 "intent": {
                     "query": this.intent,
