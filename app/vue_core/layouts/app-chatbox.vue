@@ -65,35 +65,35 @@ export default {
             this.intent = intent
             this.postIntent()
         })
+        this.bus.subscribe('/cloud/layout/chatbox#manageChatbox', close => {
+
+            if (close) {
+                this.showchat=false
+                this.openchat=false
+                return
+            }
+
+            this.openchat=!this.openchat
+
+            if (this.openchat) {
+                this.getHistory()
+            }
+            
+        })
     },
     methods: {
-
-        sendDemoResponse() {
-            this.intents.push({
-                "type": "response",
-                "text": "demo response"
-            })
-            this.intents.push({
-                "type": "list",
-                "text": "demo response",
-                "component": {
-                    "data": {
-                        "method": "GET",
-                        "url": "/lesli/data/driver/my-day"
-                    }
-                },
-                "action": {
-                    "ui": {
-                        "type": "component",
-                        "id": "my-day"
-                    }
-                }
-            })
-        },
 
         scrollChatbox() {
             let chatBody = document.getElementsByClassName("chat-body")[0]
             chatBody.scrollTop = chatBody.scrollHeight
+        },
+
+        getHistory() {
+            axios.get("http://localhost:8888/api/chatbot/history?last=10").then(result => {
+                this.intents = result.data.data
+            }).catch(error => {
+                console.log(error)
+            })
         },
 
         postIntent() {
@@ -107,8 +107,8 @@ export default {
             
             this.scrollChatbox()
 
-            //axios.post("http://localhost:8888/api/chatbot/intent", {
-            axios.post("https://api.lesli.chat/api/chatbot/intent", {
+            axios.post("http://localhost:8888/api/chatbot/intent", {
+            //axios.post("https://api.lesli.chat/api/chatbot/intent", {
                 "session": {
                     "id": "5367990660997635",
                     "reference": window.location.pathname
