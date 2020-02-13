@@ -94,7 +94,7 @@ export default {
     <section>
 
         <a class="logo" :href="this.url.to()">
-            <img src="/assets/brand/leslicloud-logo.png" alt="LesliCloud Logo">
+            <img src="/assets/brand/lesli-logo.png" alt="LesliCloud Logo">
         </a>
 
         <form ref="form" @submit="postLogin">
