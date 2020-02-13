@@ -27,7 +27,9 @@ Building a better future, one line of code at a time.
 
 @import "core/templates/website.scss";
 
+@import "./websites/landing.scss";
+
 .websites-landing {
-    @import "./websites/landing.scss";
+    
 }
 
