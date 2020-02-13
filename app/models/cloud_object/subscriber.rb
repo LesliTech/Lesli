@@ -27,7 +27,7 @@ Building a better future, one line of code at a time.
     class Subscriber < ApplicationRecord
         self.abstract_class = true
 
-        belongs_to :user, class_name: "User", foreign_key: "users_id"
+        belongs_to :user, class_name: "::User", foreign_key: "users_id"
 
 =begin
 @attribute [Enumerable<Symbol>] event
