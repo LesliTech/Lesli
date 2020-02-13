@@ -119,6 +119,26 @@ Building a better future, one line of code at a time.
             )
         end
 
+=begin
+@return [void]
+@param account [Cloud[module_name]::Account] The account associated to this workflow
+@description Initializes the default workflow states of the account. This method should be
+    called as an after_create method from either the account model or the workflow model.
+@example
+    house_account = CloudHouse::Account.new(::Account.find(1))
+    # Rails will automatically execute an after_create method in the account model, and
+    # that method will execute this method
+=end
+        def self.initialize(account)
+            initial_state = self.create(name: "created", initial: true, account: account)
+            final_state = self.create(name: "closed", final: true, account: account)
+            
+            return {
+                initial: initial_state,
+                final: final_state
+            }
+        end
+
 private
 
 =begin
