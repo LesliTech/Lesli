@@ -24,20 +24,13 @@ Building a better future, one line of code at a time.
 */
 
 
-// · include vendors
-// · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
-@import "../vendor/normalize.scss";
-
-
 // · 
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
-@mixin lesli-css-base($vendors: true) {
+@mixin add-lesli-css-base() {
 
 
     // · Normalize
-    @if $vendors {
-        @include normalize();
-    }
+    @import "../vendor/normalize.scss";
 
 
     // · Reset
