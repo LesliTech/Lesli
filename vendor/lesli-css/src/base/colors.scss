@@ -122,6 +122,13 @@ Building a better future, one line of code at a time.
         // · Global & common colors
         standard: (
             white: rgb(255, 255, 255)
+        ),
+
+        app: (
+            500: rgb(0, 83, 128),
+            primary: rgb(0, 83, 128),
+            secondary: rgb(32, 168, 216),
+            tertiary: rgb(0, 183, 228)
         )
 
     );
@@ -134,4 +141,8 @@ Building a better future, one line of code at a time.
 
     @return $color;
 
+}
+
+@function get-lesli-css-color($pallete, $variant: 500) {
+    @return get-lesli-css-base-colors((empty: "empty"), $pallete, $variant);
 }
