@@ -27,11 +27,12 @@ Building a better future, one line of code at a time.
 
 
 // · 
-@import "leslicloud/templates/application.scss";
+@import "core/templates/application.scss";
 
 
 // · New account wizard
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
+/*
 section {
     background: linear-gradient(
         rgba(lesli-color(standard, white),.75),
@@ -111,3 +112,4 @@ section {
     }
 
 }
+*/

@@ -7,6 +7,9 @@ Rails.application.config.assets.version = '0.1.0'
 Rails.application.config.assets.paths << Rails.root.join('vendor')
 
 # Precompile additional assets.
+
+Rails.application.config.assets.precompile += %w(themes/*.css)
+
 Rails.application.config.assets.precompile += %w( websites.css )
 Rails.application.config.assets.precompile += %w( accounts.css )
 Rails.application.config.assets.precompile += %w( dashboards.css )

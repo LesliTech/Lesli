@@ -1,5 +1,5 @@
 <p align="center">
-	<a href="https://www.lesli.tech/css" target="_blank">
+	<a href="#" target="_blank">
 		<img alt="LesliCSS logo" width="200px" src="https://cdn.lesli.tech/leslidev/leslicss/brand/leslicss-imagotipo.svg" />
 	</a>
 </p>
@@ -10,40 +10,31 @@
 
 Version 0.1.0-alpha
 
+#### Website & documentation
+-------
 
-### Installation  
---------
+LesliCss is proprietary software
 
+* Website: [https://lesli.cloud](https://lesli.cloud)
 
-#### Content
---------
-```
-Lesli/  
-├── index.scss  
-├── src/  
-│   ├── modules source code  
-│   └── modules source code  
-└── test/  
-    ├── module test files  
-    └── module test files  
-```
+* Issue tracker: [https://github.com/LesliTech/lesli.cloud/issues](https://github.com/LesliTech/lesli.cloud/issues)
+
+* Documentation: [https://github.com/LesliTech/lesli.cloud/wiki](https://github.com/LesliTech/lesli.cloud/wiki)
+
+* Documentation (mirror): [https://cloud.lesli.tech/kb](https://cloud.lesli.tech/kb)
 
 
-### Website & documentation
---------
+#### License
+-------
+Copyright (c) 2020, Lesli Technologies, S. A.
 
-Lesli is completely free and open source
-
-* Website: [https://www.lesli.tech/css](https://www.lesli.tech/css)
-
-* Documentation: [https://docs.lesli.dev/css/](https://docs.lesli.dev/css/)
-
-* Issue tracker: [https://github.com/LesliTech/LesliCSS/issues](https://github.com/LesliTech/LesliCSS/issues)
-
-
-### License  
-------
-Software developed in [Guatemala](http://visitguatemala.com/) distributed under the *General Public License v 3.0* you can read the full license [here](http://www.gnu.org/licenses/gpl-3.0.html)
+All the information provided by this website is protected by laws of Guatemala related 
+to industrial property, intellectual property, copyright and relative international laws. 
+Lesli Technologies, S. A. is the exclusive owner of all intellectual or industrial property
+rights of the code, texts, trade mark, design, pictures and any other information.
+Without the written permission of Lesli Technologies, S. A., any replication, modification,
+transmission, publication is strictly forbidden.
+For more information read the license file including with this software.
 
 <p align="center">
 	<a href="https://www.lesli.tech" target="_blank">

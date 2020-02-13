@@ -27,7 +27,7 @@ Building a better future, one line of code at a time.
 =end
 
 class Users::SessionsController < Devise::SessionsController
-    layout 'application_public'
+    layout "application-devise"
 
     # @controller_action_param :email [String] The registeredemail
     # @controller_action_param :password [String] The associated password

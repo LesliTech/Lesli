@@ -1,1 +1,2 @@
 = stylesheet_link_tag controller_path, media: 'all'
+= stylesheet_link_tag "themes/#{@settings['theme']}", media: 'all' unless @settings['theme'].blank?

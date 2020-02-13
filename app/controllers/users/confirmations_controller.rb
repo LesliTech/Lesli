@@ -17,30 +17,30 @@ LesliCloud - Your Smart Business Assistant
 Powered by https://www.lesli.tech
 Building a better future, one line of code at a time.
 
-@author   Carlos Hermosilla
 @license  Propietary - all rights reserved.
 @version  0.1.0-alpha
-@description Manages account confirmations for new registered users
+
+// · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
+// · 
 
 =end
 class Users::ConfirmationsController < Devise::ConfirmationsController
-    layout 'application_public'
+    layout "application-devise"
+
     
-=begin
-@controller_action_param :email [String] The registered user email
-@return [Json] Json that contains wheter the email confirmation was sent or not. 
-    If it is not successful, it returs an error message
-@description Resends a email confirmation an already registered user
-@example
-    # Executing this controller's action from javascript's frontend
-    let email = 'john.doe@email.com';
-    let data = {
-        user: {
-            email: email
-        }
-    };
-    this.http.post('127.0.0.1/conformation', data);
-=end
+    # @controller_action_param :email [String] The registered user email
+    # @return [Json] Json that contains wheter the email confirmation was sent or not. 
+    #     If it is not successful, it returs an error message
+    # @description Resends a email confirmation an already registered user
+    # @example
+    #     # Executing this controller's action from javascript's frontend
+    #     let email = 'john.doe@email.com';
+    #     let data = {
+    #         user: {
+    #             email: email
+    #         }
+    #     };
+    #     this.http.post('127.0.0.1/conformation', data);
     def create
         super do |resource|
             if successfully_sent?(resource)

@@ -1,0 +1,96 @@
+/*
+Lesli
+
+Copyright (c) 2020, Lesli Technologies, S. A.
+
+All the information provided by this website is protected by laws of Guatemala related 
+to industrial property, intellectual property, copyright and relative international laws. 
+Lesli Technologies, S. A. is the exclusive owner of all intellectual or industrial property
+rights of the code, texts, trade mark, design, pictures and any other information.
+Without the written permission of Lesli Technologies, S. A., any replication, modification,
+transmission, publication is strictly forbidden.
+For more information read the license file including with this software.
+
+LesliCloud - Your Smart Business Assistant
+
+Powered by https://www.lesli.tech
+Building a better future, one line of code at a time.
+
+@license  Propietary - all rights reserved.
+@version  0.1.0-alpha
+
+// · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
+// · 
+*/
+
+
+// · Include Lesli CSS
+// · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
+@import "lesli-css/";
+
+
+// · Include Lesli Standards
+// · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
+@include lesli-css-base();
+
+
+
+// · Include fonts
+// · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
+@import "../components/fonts.scss";
+
+
+
+// · Include Bulma 
+// · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
+@import "../bulma/loader.scss";
+@import "../bulma/elements.scss";
+@import "../bulma/extensions.scss";
+
+
+
+// · Include vendors
+// · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
+@import "quill/dist/quill.core";
+@import "quill/dist/quill.snow";
+
+
+
+// · Loading components and helpers
+// · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
+@import "../components/containers.scss";
+@import "../helpers/display";
+
+
+
+// · Loading app layout 
+// · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
+#lesli-cloud-app {
+    @import "../layouts/application_lesli_aside";
+    @import "../layouts/application_lesli_header";
+    @import "../layouts/application_module_navigation";
+    @import "../layouts/application_module_container";
+    @import "../layouts/application_lesli_chatbox";
+}
+
+
+// · 
+html {
+    overflow-y: auto;
+}
+
+
+// · 
+body {
+    background-color: rgb(238,238,245);
+}
+
+
+// · 
+.translation_missing {
+    color: get-lesli-css-color(standard, white);
+    background-color: get-lesli-css-color(berry, 700);
+    &:before {
+        content: 'Translation missing: ';
+    }
+}

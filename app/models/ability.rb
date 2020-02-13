@@ -28,7 +28,7 @@ Building a better future, one line of code at a time.
 class Ability
     include CanCan::Ability
 
-    def initialize2(user)
+    def initialize(user)
 
         user.role.role_privileges.each do |privilege|
             module_name = privilege.privilege_object_name.gsub('/', '::',)

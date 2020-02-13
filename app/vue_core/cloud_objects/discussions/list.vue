@@ -101,8 +101,8 @@ export default {
 }
 </script>
 <template>
-    <section>
-        <div class="box" v-for="discussion in discussions" :key="discussion.data.id">
+    <section class="card">
+        <div class="card-content" v-for="discussion in discussions" :key="discussion.data.id">
             <div class="media">
                 <div class="media-left">
                     <figure class="image is-64x64">

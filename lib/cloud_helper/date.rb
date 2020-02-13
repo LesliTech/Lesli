@@ -29,22 +29,20 @@ module CloudHelper
 
     class Date
 
-        # I should get format from database
-        # I shoudl use DateTime.now.new_offset(0)
-        @format_date = "%Y.%m.%d"
-        @format_datetime = "%Y.%m.%d %H:%M"
-        @format_datetime_full = "%a, %B %d, %Y"
+        def self.to_string(datetime, format="%Y/%m/%d %H:%M")
+            datetime.strftime(datetime, format)
+        end
 
         def self.full_to_string(datetime)
-            datetime.strftime(@format_datetime_full)
+            datetime.strftime("%a, %B %d, %Y")
         end
 
         def self.to_string(datetime)
-            datetime.strftime(@format_datetime)
+            datetime.strftime("%Y.%m.%d %H:%M")
         end
 
         def self.date_as_string(datetime)
-            datetime.strftime(@format_date)
+            datetime.strftime("%Y.%m.%d")
         end
 
         def self.from_string(string, format="%Y.%m.%d %H:%M")

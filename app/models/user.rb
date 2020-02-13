@@ -17,10 +17,11 @@ LesliCloud - Your Smart Business Assistant
 Powered by https://www.lesli.tech
 Building a better future, one line of code at a time.
 
-@author   LesliTech <hello@lesli.tech>
 @license  Propietary - all rights reserved.
 @version  0.1.0-alpha
-@description User model. Establishes entities relations and enables devise modules
+
+// · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
+// · 
 
 =end
 
@@ -40,7 +41,7 @@ class User < ApplicationRecord
     belongs_to  :account , foreign_key: 'accounts_id', optional: true
     belongs_to  :role, class_name: 'CloudLock::Role', foreign_key:'cloud_lock_roles_id', optional: true
 
-    after_save :create_user_defaults, if: :accounts_id?
+    after_create :create_user_defaults#, if: :accounts_id?
 
 
     # @return [String] The name of this user.
@@ -88,6 +89,11 @@ class User < ApplicationRecord
     #     )
     # At this point, check_user will be invoked automatically
     def create_user_defaults
+        if defined? CloudLock
+            self.account.lock.user.create({
+                login: current_user
+            })
+        end
         if defined? CloudDriver
             self.account.driver.calendars.create({
                 detail_attributes: {

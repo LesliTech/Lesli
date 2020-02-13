@@ -38,5 +38,7 @@ export default {
 }
 </script>
 <template>
-    <p>{{ message }}</p>
+    <div class="chat-response">
+        <p>{{ message }}</p>
+    </div>
 </template>
