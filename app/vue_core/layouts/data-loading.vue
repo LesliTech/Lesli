@@ -47,7 +47,7 @@ export default {
 }
 </script>
 <template>
-    <div class="component-loading has-text-centered">
+    <div class="component-data-loading has-text-centered">
         <b-icon icon="spinner" :size="size" custom-class="fa-spin"/>
         <span :class="textSizeClass">Loading...</span>
     </div>
