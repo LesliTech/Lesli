@@ -117,6 +117,7 @@ export type IconName = '500px' |
   'cuttlefish' | 
   'd-and-d' | 
   'd-and-d-beyond' | 
+  'dailymotion' | 
   'dashcube' | 
   'delicious' | 
   'deploydog' | 
@@ -224,6 +225,7 @@ export type IconName = '500px' |
   'ideal' | 
   'imdb' | 
   'instagram' | 
+  'instagram-square' | 
   'intercom' | 
   'internet-explorer' | 
   'invision' | 
@@ -275,6 +277,7 @@ export type IconName = '500px' |
   'microsoft' | 
   'mix' | 
   'mixcloud' | 
+  'mixer' | 
   'mizuni' | 
   'modx' | 
   'monero' | 
@@ -350,6 +353,7 @@ export type IconName = '500px' |
   'sellsy' | 
   'servicestack' | 
   'shirtsinbulk' | 
+  'shopify' | 
   'shopware' | 
   'simplybuilt' | 
   'sistrix' | 
@@ -875,6 +879,7 @@ export type IconName = '500px' |
   'coffee-pot' | 
   'coffee-togo' | 
   'coffin' | 
+  'coffin-cross' | 
   'cog' | 
   'cogs' | 
   'coin' | 
@@ -1148,11 +1153,13 @@ export type IconName = '500px' |
   'flux-capacitor' | 
   'fog' | 
   'folder' | 
+  'folder-download' | 
   'folder-minus' | 
   'folder-open' | 
   'folder-plus' | 
   'folder-times' | 
   'folder-tree' | 
+  'folder-upload' | 
   'folders' | 
   'font' | 
   'font-awesome-logo-full' | 
@@ -2185,6 +2192,7 @@ export type IconName = '500px' |
   'user-tag' | 
   'user-tie' | 
   'user-times' | 
+  'user-unlock' | 
   'user-visor' | 
   'users' | 
   'users-class' | 
@@ -2692,6 +2700,7 @@ export type IconName = '500px' |
   'coffee-pot' | 
   'coffee-togo' | 
   'coffin' | 
+  'coffin-cross' | 
   'cog' | 
   'cogs' | 
   'coin' | 
@@ -2965,11 +2974,13 @@ export type IconName = '500px' |
   'flux-capacitor' | 
   'fog' | 
   'folder' | 
+  'folder-download' | 
   'folder-minus' | 
   'folder-open' | 
   'folder-plus' | 
   'folder-times' | 
   'folder-tree' | 
+  'folder-upload' | 
   'folders' | 
   'font' | 
   'font-awesome-logo-full' | 
@@ -4002,6 +4013,7 @@ export type IconName = '500px' |
   'user-tag' | 
   'user-tie' | 
   'user-times' | 
+  'user-unlock' | 
   'user-visor' | 
   'users' | 
   'users-class' | 
@@ -4509,6 +4521,7 @@ export type IconName = '500px' |
   'coffee-pot' | 
   'coffee-togo' | 
   'coffin' | 
+  'coffin-cross' | 
   'cog' | 
   'cogs' | 
   'coin' | 
@@ -4782,11 +4795,13 @@ export type IconName = '500px' |
   'flux-capacitor' | 
   'fog' | 
   'folder' | 
+  'folder-download' | 
   'folder-minus' | 
   'folder-open' | 
   'folder-plus' | 
   'folder-times' | 
   'folder-tree' | 
+  'folder-upload' | 
   'folders' | 
   'font' | 
   'font-awesome-logo-full' | 
@@ -5819,6 +5834,7 @@ export type IconName = '500px' |
   'user-tag' | 
   'user-tie' | 
   'user-times' | 
+  'user-unlock' | 
   'user-visor' | 
   'users' | 
   'users-class' | 
@@ -6326,6 +6342,7 @@ export type IconName = '500px' |
   'coffee-pot' | 
   'coffee-togo' | 
   'coffin' | 
+  'coffin-cross' | 
   'cog' | 
   'cogs' | 
   'coin' | 
@@ -6599,11 +6616,13 @@ export type IconName = '500px' |
   'flux-capacitor' | 
   'fog' | 
   'folder' | 
+  'folder-download' | 
   'folder-minus' | 
   'folder-open' | 
   'folder-plus' | 
   'folder-times' | 
   'folder-tree' | 
+  'folder-upload' | 
   'folders' | 
   'font' | 
   'font-awesome-logo-full' | 
@@ -7636,6 +7655,7 @@ export type IconName = '500px' |
   'user-tag' | 
   'user-tie' | 
   'user-times' | 
+  'user-unlock' | 
   'user-visor' | 
   'users' | 
   'users-class' | 
