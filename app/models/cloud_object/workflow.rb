@@ -265,6 +265,43 @@ Building a better future, one line of code at a time.
             end
         end
 
+=begin
+@return [void]
+@param account [Cloud[module_name]::Account] The account associated to this workflow
+@description Initializes the default dummy workflow of the account. This method should be
+    called as an after_create method in the account model.
+@example
+    house_account = CloudHouse::Account.new(::Account.find(1))
+    # Rails will automatically execute an after_create method in the account model, and
+    # that method will execute this method
+=end
+        def self.initialize(account)
+            dynamic_info = self.dynamic_info
+            state_model = dynamic_info[:state_model]
+            module_name = dynamic_info[:module_name]
+
+            default_states = state_model.initialize(account)
+
+
+            initial_state = default_states[:initial]
+            final_state = default_states[:final]
+
+            self.create(
+                name: "Default Workflow",
+                default: true,
+                account: account,
+                details_attributes: [
+                    {
+                        "cloud_#{module_name}_workflow_states_id".to_sym => initial_state.id,
+                        next_states: "#{final_state.id}"
+                    },
+                    {
+                        "cloud_#{module_name}_workflow_states_id".to_sym => final_state.id
+                    }
+                ]
+            )
+        end
+
         private
         
 =begin
