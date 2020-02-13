@@ -3,10 +3,10 @@
 <head>
     <%= render partial: "layouts/partials/application-head" %>
     <%= render partial: "layouts/partials/application-data" %>
-    <%= render partial: "layouts/partials/application-asset-css" %>
+    <%= render partial: "layouts/partials/application-public-asset-css" %>
 </head>
 <body class="<%= "#{controller_path.gsub('/','-')}-#{action_name}" %>">
     <%= yield %>
-    <%= render partial: "layouts/partials/application-asset-js" %>
+    <%= render partial: "layouts/partials/application-public-asset-js" %>
 </body>
 </html>
