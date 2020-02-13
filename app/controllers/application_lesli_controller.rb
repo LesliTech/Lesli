@@ -2,7 +2,7 @@
 
 Lesli
 
-Copyright (c) 2019, Lesli Technologies, S. A.
+Copyright (c) 2020, Lesli Technologies, S. A.
 
 All the information provided by this website is protected by laws of Guatemala related 
 to industrial property, intellectual property, copyright and relative international laws. 
@@ -17,7 +17,6 @@ LesliCloud - Your Smart Business Assistant
 Powered by https://www.lesli.tech
 Building a better future, one line of code at a time.
 
-@author   LesliTech <hello@lesli.tech>
 @license  Propietary - all rights reserved.
 @version  0.1.0-alpha
 
@@ -32,7 +31,7 @@ class ApplicationLesliController < ApplicationController
 
     before_action :authenticate_user!
     before_action :check_account
-    before_action :set_account_global
+    before_action :set_global_account, :set_global_settings
     
     layout 'layouts/application'
 
@@ -57,8 +56,8 @@ class ApplicationLesliController < ApplicationController
 
     end
 
-    def set_account_global
-        
+    def set_global_account 
+
         @account = {
             user: { 
                 id: current_user.id,
@@ -80,6 +79,16 @@ class ApplicationLesliController < ApplicationController
         }
 
         return @account
+
+    end
+
+    def set_global_settings
+
+        @settings = {}
+        
+        Setting.all.each do |setting|
+            @settings[setting[:name]] = setting[:value].to_s
+        end
 
     end
 

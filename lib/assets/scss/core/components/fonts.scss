@@ -1,0 +1,74 @@
+/*
+Lesli
+
+Copyright (c) 2020, Lesli Technologies, S. A.
+
+All the information provided by this website is protected by laws of Guatemala related 
+to industrial property, intellectual property, copyright and relative international laws. 
+Lesli Technologies, S. A. is the exclusive owner of all intellectual or industrial property
+rights of the code, texts, trade mark, design, pictures and any other information.
+Without the written permission of Lesli Technologies, S. A., any replication, modification,
+transmission, publication is strictly forbidden.
+For more information read the license file including with this software.
+
+LesliCloud - Your Smart Business Assistant
+
+Powered by https://www.lesli.tech
+Building a better future, one line of code at a time.
+
+@license  Propietary - all rights reserved.
+@version  0.1.0-alpha
+
+// · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
+// · 
+*/
+
+
+// · 
+// · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
+@import url('https://fonts.googleapis.com/css?family=Montserrat|Open+Sans:300,400,600&display=swap');
+
+
+// · 
+@font-face {
+    font-family: "font_awesome";
+    font-style: normal;
+    font-weight: 900;
+    font-display: auto;
+    src:url("/assets/@fortawesome/fontawesome-free/webfonts/fa-solid-900.eot");
+    src:url("/assets/@fortawesome/fontawesome-free/webfonts/fa-solid-900.eot?#iefix") format("embedded-opentype"), 
+        url("/assets/@fortawesome/fontawesome-free/webfonts/fa-solid-900.woff2") format("woff2"), 
+        url("/assets/@fortawesome/fontawesome-free/webfonts/fa-solid-900.woff") format("woff"), 
+        url("/assets/@fortawesome/fontawesome-free/webfonts/fa-solid-900.ttf") format("truetype"), 
+        url("/assets/@fortawesome/fontawesome-free/webfonts/fa-solid-900.svg#fontawesome") format("svg"); 
+}
+
+// · 
+@font-face {
+    font-family: "font_awesome";
+    font-style: normal;
+    font-weight: 400;
+    font-display: auto;
+    src:url("/assets/@fortawesome/fontawesome-free/webfonts/fa-regular-400.eot");
+    src:url("/assets/@fortawesome/fontawesome-free/webfonts/fa-regular-400.eot?#iefix") format("embedded-opentype"), 
+        url("/assets/@fortawesome/fontawesome-free/webfonts/fa-regular-400.woff2") format("woff2"), 
+        url("/assets/@fortawesome/fontawesome-free/webfonts/fa-regular-400.woff") format("woff"), 
+        url("/assets/@fortawesome/fontawesome-free/webfonts/fa-regular-400.ttf") format("truetype"), 
+        url("/assets/@fortawesome/fontawesome-free/webfonts/fa-regular-400.svg#fontawesome") format("svg"); 
+}
+
+// · 
+.fa,
+.fas {
+    font-family: "font_awesome";
+    font-weight: 900;
+}
+
+// · 
+.far {
+    font-family: "font_awesome";
+    font-weight: 400; 
+}
+
+// · 
+@import "@fortawesome/fontawesome-free/css/fontawesome";
