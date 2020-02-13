@@ -28,7 +28,7 @@ export default {
 }
 </script>
 <template>
-    <section class="component-empty">
+    <section class="component-data-empty">
         <div class="card">
             <div class="card-content">
                 <div class="image"></div>

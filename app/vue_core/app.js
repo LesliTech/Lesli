@@ -60,7 +60,8 @@ import document from 'LesliCoreVue/functions/document.js'
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
 import componentLayoutAppHeader from 'LesliCoreVue/layouts/app-header.vue'
 import componentLayoutAppChatbox from 'LesliCoreVue/layouts/app-chatbox.vue'
-import componentLayoutEmptyData from 'LesliCoreVue/layouts/empty-data.vue'
+import componentLayoutDataEmpty from 'LesliCoreVue/layouts/data-empty.vue'
+import componentLayoutDataLoading from 'LesliCoreVue/layouts/data-loading.vue'
 import componentLayoutModuleNavigation from 'LesliCoreVue/layouts/module-navigation.vue'
 import componentLayoutNotification from 'LesliCoreVue/layouts/notification.vue'
 
@@ -78,7 +79,8 @@ Vue.use(pluginDate)
 Vue.use(pluginObjectUtils)
 Vue.use(Buefy, { defaultIconPack: 'fas' })
 Vue.component('font-awesome-icon', FontAwesomeIcon)
-Vue.component('component-layout-empty-data', componentLayoutEmptyData)
+Vue.component('component-layout-data-empty', componentLayoutDataEmpty)
+Vue.component('component-layout-data-loading', componentLayoutDataLoading)
 
 
 
