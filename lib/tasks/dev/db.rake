@@ -13,8 +13,8 @@ namespace :dev do
 
         end
 
-        desc "Database hard-reset"
-        task dump_babel: :environment do
+        desc "Backup babel"
+        task babel_backup: :environment do
             config = with_config
             version = Time.now.strftime('%Y%m%d-%H%M-%S')
 
@@ -24,7 +24,7 @@ namespace :dev do
             command = command + "--table cloud_babel_translation_modules "
             command = command + "--table cloud_babel_translation_objects "
             command = command + "--table cloud_babel_translation_strings "
-            command = command + "#{config[:database]} > " + Rails.root.join("config", "locales", "babel-#{version}.sql").to_s
+            command = command + "#{config[:database]} > " + Rails.root.join("db", "backup", "babel-#{version}.sql").to_s
 
             exec command
 
