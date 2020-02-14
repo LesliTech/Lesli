@@ -31,8 +31,8 @@ export default {
     mounted(){
         this.setCloudParams()
         this.mountListeners()
-        this.getWorkflowAssociations()
-        this.getWorkflowAssignments()
+        this.getWorkflowAssignmentOptions()
+        this.getObjectWorkflows()
         this.getWorkflows()
 
     },
@@ -64,7 +64,7 @@ export default {
             })
         },
 
-        getWorkflowAssignments(){
+        getObjectWorkflows(){
             let resource_name = `${this.object_name}_${this.workflowKeyName}`
             if(this.namespace){
                 resource_name = `${this.namespace}_${resource_name}`
@@ -83,7 +83,7 @@ export default {
             })
         },
 
-        patchWorkflowAssignment(workflow_assignment){
+        patchObjectWorkflows(workflow_assignment){
             let url = `/${this.module_name}/${this.object_name}_workflows/${workflow_assignment.id}`
             let data = {}
             data[`${this.object_name}_workflow`] =  workflow_assignment
@@ -99,7 +99,7 @@ export default {
             })
         },
 
-        getWorkflowAssociations(){
+        getWorkflowAssignmentOptions(){
             let url = `/${this.module_name}/options/${this.object_name}_workflows`
             this.http.get(url).then(result => {
                 if (result.successful) {
@@ -139,7 +139,7 @@ export default {
                                             <select
                                                 expanded
                                                 v-model="props.row[`cloud_${module_name}_workflows_id`]"
-                                                @change="patchWorkflowAssignment(props.row)"
+                                                @change="patchObjectWorkflows(props.row)"
                                             >
                                                 <option
                                                     v-for="workflow in workflows"

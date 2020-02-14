@@ -63,7 +63,7 @@ export default {
                 event.preventDefault()
             }
 
-            let url = `/${this.cloudModule}s/${this.cloudId}`
+            let url = `/${this.object_utils.pluralize(this.cloudModule)}/${this.cloudId}`
             let data = {}
             data[this.object_name] = {}
             let detail_key = `cloud_${this.module_name}_workflow_details_id`
