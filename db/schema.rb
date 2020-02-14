@@ -1359,6 +1359,142 @@ ActiveRecord::Schema.define(version: 10010104) do
     t.index ["cloud_kb_accounts_id"], name: "index_cloud_kb_catalog_categories_on_cloud_kb_accounts_id"
   end
 
+  create_table "cloud_lock_accounts", force: :cascade do |t|
+  end
+
+  create_table "cloud_lock_role_actions", force: :cascade do |t|
+    t.integer "type"
+    t.string "instructions"
+    t.datetime "deadline"
+    t.boolean "complete"
+    t.string "tags"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.bigint "cloud_lock_roles_id"
+    t.index ["cloud_lock_roles_id"], name: "index_cloud_lock_role_actions_on_cloud_lock_roles_id"
+  end
+
+  create_table "cloud_lock_role_activities", force: :cascade do |t|
+    t.string "description"
+    t.string "field_name"
+    t.string "value_from"
+    t.string "value_to"
+    t.string "icon"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.bigint "cloud_lock_roles_id"
+    t.index ["cloud_lock_roles_id"], name: "index_cloud_lock_role_activities_on_cloud_lock_roles_id"
+  end
+
+  create_table "cloud_lock_role_discussions", force: :cascade do |t|
+    t.text "content"
+    t.datetime "deleted_at"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.bigint "cloud_lock_role_discussions_id"
+    t.bigint "users_id"
+    t.bigint "cloud_lock_roles_id"
+    t.index ["cloud_lock_role_discussions_id"], name: "role_discussions_discussions"
+    t.index ["cloud_lock_roles_id"], name: "role_discussions"
+    t.index ["users_id"], name: "index_cloud_lock_role_discussions_on_users_id"
+  end
+
+  create_table "cloud_lock_role_files", force: :cascade do |t|
+    t.string "name"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.bigint "cloud_lock_roles_id"
+    t.index ["cloud_lock_roles_id"], name: "index_cloud_lock_role_files_on_cloud_lock_roles_id"
+  end
+
+  create_table "cloud_lock_role_privileges", force: :cascade do |t|
+    t.string "privilege_object_name"
+    t.boolean "privilege_index", default: false
+    t.boolean "privilege_create", default: false
+    t.boolean "privilege_new", default: false
+    t.boolean "privilege_edit", default: false
+    t.boolean "privilege_show", default: false
+    t.boolean "privilege_update", default: false
+    t.boolean "privilege_destroy", default: false
+    t.boolean "privilege_options", default: false
+    t.boolean "privilege_default", default: false
+    t.boolean "privilege_empty", default: false
+    t.datetime "deleted_at"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.bigint "cloud_lock_roles_id"
+    t.index ["cloud_lock_roles_id"], name: "index_cloud_lock_role_privileges_on_cloud_lock_roles_id"
+    t.index ["deleted_at"], name: "index_cloud_lock_role_privileges_on_deleted_at"
+  end
+
+  create_table "cloud_lock_role_subscribers", force: :cascade do |t|
+    t.integer "event"
+    t.integer "notification_type"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.bigint "cloud_lock_roles_id"
+    t.bigint "users_id"
+    t.index ["cloud_lock_roles_id"], name: "role_subscribers"
+    t.index ["users_id"], name: "lock_role_subscribers_users"
+  end
+
+  create_table "cloud_lock_roles", force: :cascade do |t|
+    t.string "name"
+    t.datetime "deleted_at"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.bigint "cloud_lock_accounts_id"
+    t.bigint "users_id"
+    t.index ["cloud_lock_accounts_id"], name: "index_cloud_lock_roles_on_cloud_lock_accounts_id"
+    t.index ["deleted_at"], name: "index_cloud_lock_roles_on_deleted_at"
+    t.index ["users_id"], name: "index_cloud_lock_roles_on_users_id"
+  end
+
+  create_table "cloud_lock_user_actions", force: :cascade do |t|
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
+  create_table "cloud_lock_user_activities", force: :cascade do |t|
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
+  create_table "cloud_lock_user_details", force: :cascade do |t|
+    t.string "first_name"
+    t.string "last_name"
+    t.string "telephone"
+    t.string "address"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
+  create_table "cloud_lock_user_discussions", force: :cascade do |t|
+    t.text "content"
+    t.datetime "deleted_at"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["deleted_at"], name: "index_cloud_lock_user_discussions_on_deleted_at"
+  end
+
+  create_table "cloud_lock_user_files", force: :cascade do |t|
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
+  create_table "cloud_lock_user_followers", force: :cascade do |t|
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
+  create_table "cloud_lock_users", force: :cascade do |t|
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.bigint "login_id"
+    t.bigint "cloud_lock_roles_id"
+    t.index ["cloud_lock_roles_id"], name: "index_cloud_lock_users_on_cloud_lock_roles_id"
+  end
+
   create_table "cloud_team_accounts", force: :cascade do |t|
   end
 
@@ -1800,6 +1936,20 @@ ActiveRecord::Schema.define(version: 10010104) do
   add_foreign_key "cloud_kb_articles", "cloud_kb_articles", column: "cloud_kb_articles_id"
   add_foreign_key "cloud_kb_articles", "users", column: "users_id"
   add_foreign_key "cloud_kb_catalog_categories", "cloud_kb_accounts", column: "cloud_kb_accounts_id"
+  add_foreign_key "cloud_lock_accounts", "accounts", column: "id"
+  add_foreign_key "cloud_lock_role_actions", "cloud_lock_roles", column: "cloud_lock_roles_id"
+  add_foreign_key "cloud_lock_role_activities", "cloud_lock_roles", column: "cloud_lock_roles_id"
+  add_foreign_key "cloud_lock_role_discussions", "cloud_lock_role_discussions", column: "cloud_lock_role_discussions_id"
+  add_foreign_key "cloud_lock_role_discussions", "cloud_lock_roles", column: "cloud_lock_roles_id"
+  add_foreign_key "cloud_lock_role_discussions", "users", column: "users_id"
+  add_foreign_key "cloud_lock_role_files", "cloud_lock_roles", column: "cloud_lock_roles_id"
+  add_foreign_key "cloud_lock_role_privileges", "cloud_lock_roles", column: "cloud_lock_roles_id"
+  add_foreign_key "cloud_lock_role_subscribers", "cloud_lock_roles", column: "cloud_lock_roles_id"
+  add_foreign_key "cloud_lock_role_subscribers", "users", column: "users_id"
+  add_foreign_key "cloud_lock_roles", "cloud_lock_accounts", column: "cloud_lock_accounts_id"
+  add_foreign_key "cloud_lock_roles", "users", column: "users_id"
+  add_foreign_key "cloud_lock_users", "cloud_lock_roles", column: "cloud_lock_roles_id"
+  add_foreign_key "cloud_lock_users", "users", column: "login_id"
   add_foreign_key "cloud_team_accounts", "accounts", column: "id"
   add_foreign_key "cloud_team_attendance_actions", "cloud_team_employees", column: "cloud_team_employees_id"
   add_foreign_key "cloud_team_attendance_activities", "cloud_team_attendances", column: "cloud_team_attendances_id"
