@@ -29,18 +29,21 @@ Building a better future, one line of code at a time.
 
 // · Component list
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
-import componentWorkflowChart from "LesliCloud/vue_core/cloud_objects/workflows/components/chart.vue"
+import componentWorkflowAssignmentGobal from '../components/assignment-global.vue'
+import componentWorkflowChart from '../components/chart.vue'
 
 export default {
+
+    components: {
+        'component-workflow-chart': componentWorkflowChart,
+        'component-workflow-assignment-global': componentWorkflowAssignmentGobal
+    },
+
     props: {
         cloudModule: {
             type: String,
             required: true
         }
-    },
-
-    components: {
-        'component-workflow-chart': componentWorkflowChart
     },
 
     data() {
@@ -84,6 +87,10 @@ export default {
             }).catch(error => {
                 console.log(error)
             })
+        },
+
+        publisShowGlobalWorkflowAssignment(){
+            this.bus.publish('show:/module/workflows/assignment-global')
         },
 
         patchWorkflowDefault() {
@@ -137,7 +144,8 @@ export default {
                     </h2>
                 </div>
                 <div class="card-content">
-                    Once deleted, you will not be able to recover this workflow. Note that you can only delete a workflow if it is not associated to any resource and it is not the default workflow.
+                    Once deleted, you will not be able to recover this workflow.
+                    Note that you can only delete a workflow if it is not associated to any resource and it is not the default workflow.
                 </div>
                 <div class="card-footer has-text-right">
                     <button class="card-footer-item button is-danger" @click="deleteWorkflow">
@@ -165,6 +173,11 @@ export default {
                     <a v-else href="javascript:void(0)" @click="patchWorkflowDefault">
                         <i class="fas fa-check-circle"></i>
                         Set as Default
+                    </a>
+                    <a role="button" @click="publisShowGlobalWorkflowAssignment">
+                        &nbsp;&nbsp;&nbsp;
+                        <i class="fas fa-globe"></i>
+                        Gobal Assignment
                     </a>
                     <router-link :to="`/${workflow_id}/edit`">
                         &nbsp;&nbsp;&nbsp;
@@ -211,5 +224,6 @@ export default {
                 </div>
             </div>
         </div>
+        <component-workflow-assignment-global cloud-engine="house" :workflow-id="workflow_id" />
     </section>
 </template>

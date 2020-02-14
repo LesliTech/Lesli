@@ -26,7 +26,7 @@ Building a better future, one line of code at a time.
 =end
     class ObjectWorkflowsController < ApplicationLesliController
 
-        before_action :set_object_workflow, only: :update
+        before_action :set_object_workflow, only: [:update, :destroy]
 
 =begin
 @return [HTML|JSON] HTML view for listing all workflow assignments or a Json that contains a list 
@@ -50,19 +50,112 @@ Building a better future, one line of code at a time.
             end
         end
 
-        def workflow_options
+=begin
+@return [JSON] A response indication wheter the object workflow was successfully created or not
+@action_controller_param :cloud_(engine_name)_workflows_id [Integer] The id of the new workflow_assigned
+@description Attempts to create a new object_workflow and return it if it succeds. If not,
+    an error message is sent. Creation of object_workflows is limited to global workflows
+@example
+    # Imagine we are in CloudHouse and updating workflows for tickets
+    let ticket_workflow_id = 3;
+    let data = {
+        ticket_workflow: {
+            cloud_help_workflows_id: 4
+        }
+    }
+    this.http.patch(`/help/ticket_workflows/${ticket_workfow_id}`, data) # this update the ticket_workflow
+=end
+        def create
             dynamic_info = self.class.dynamic_info
             model = dynamic_info[:model]
-            responseWithSuccessful(model.associations)
+            module_name = dynamic_info[:module_name]
+            
+            allowed_params = object_workflow_params
+            allowed_params[:global] = true
+
+            object_workflow = model.new(allowed_params)
+            object_workflow["cloud_#{module_name}_accounts_id"] = current_user.account.id
+
+            if object_workflow.save!
+                responseWithSuccessful(object_workflow)
+            else
+                responseWithError(object_workflow.errors.full_messages.to_sentence)
+            end
         end
 
+=begin
+@return [JSON] A response indication wheter the object workflow was successfully updated or not
+@action_controller_param :cloud_(engine_name)_workflows_id [Integer] The id of the new workflow_assigned
+@description Attempts to save changes on the object workflow and returns it if it succeds. If not,
+    an error message is sent
+@example
+    # Imagine we are in CloudHouse and updating workflows for tickets
+    let ticket_workflow_id = 3;
+    let data = {
+        ticket_workflow: {
+            cloud_help_workflows_id: 4
+        }
+    }
+    this.http.patch(`/help/ticket_workflows/${ticket_workfow_id}`, data) # this update the ticket_workflow
+=end
         def update
             return responseWithNotFound unless @workflow_assignment
-            if @workflow_assignment.update(object_workflow_params)
+            
+            allowed_params = object_workflow_params
+            params.delete(:global)
+
+            if @workflow_assignment.update(allowed_params)
                 responseWithSuccessful(@workflow_assignment)
             else
                 responseWithError(@workflow_assignment.errors.full_messages.to_sentence)
             end
+        end
+
+=begin
+@return [JSON] A response indicating wheter the object workflow was successfully destroyed or not
+@description Attempts to destroy the global record that indicates which workflow is assigned to which
+    cloud object. The only record that can be destroyed is the global record
+@example
+    # Executing this controller's action from javascript's frontend
+    let workflow_id = 1;
+
+    this.http.delete(`127.0.0.1/help/ticket_workflows/${workflow_id}`);
+=end
+        def destroy
+            return responseWithNotFound unless @workflow_assignment
+
+            if @workflow_assignment.destroy
+                responseWithSuccessful
+            else
+                responseWithError(@workflow_assignment.errors.full_messages.to_sentence)
+            end
+        end
+
+=begin
+@return [JSON] A list of association objects, to associate a workflow to a cloud object based on an attribute
+@description Retrieves and returns a list of associations to the workflow. For example, if the developer
+    wants to associate one worflow to a project based on its type (like rent, sale, management, etc.),
+    this will return a list of all fields required to determine which workflow belongs to the project
+@example
+    # Imagine we are in CloudHelp, and we resquest ticket_workflows#workflow_options
+    this.http.get('/help/options/ticket_workflows') # this will return a JSON similar to [
+    #        {
+    #            "name": "ticket_category",
+    #            "class": "CloudHelp::TicketCategory",
+    #            "key": : "cloud_help_ticket_categories_id",
+    #            "identifier": "name"
+    #        },{
+    #            "name": "ticket_type",
+    #            "class": "CloudHelp::TicketType",
+    #            "key': "cloud_help_ticket_types_id",
+    #            "identifier": "name"
+    #        }
+    #    ]
+=end
+        def object_workflow_options
+            dynamic_info = self.class.dynamic_info
+            model = dynamic_info[:model]
+            responseWithSuccessful(model.associations)
         end
 
         private
@@ -114,7 +207,9 @@ Building a better future, one line of code at a time.
             cloud_object_name = dynamic_info[:cloud_object_name]
             object_name = dynamic_info[:object_name]
 
-            params.fetch(object_name.to_sym, {}).permit("cloud_#{module_name}_workflows_id".to_sym)
+            params.fetch(object_name.to_sym, {}).permit(
+                "cloud_#{module_name}_workflows_id".to_sym
+            )
         end
 
 =begin

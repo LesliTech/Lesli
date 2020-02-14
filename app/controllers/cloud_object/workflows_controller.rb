@@ -25,7 +25,7 @@ Building a better future, one line of code at a time.
     throught the *cloud_object* lifespan
 =end
     class WorkflowsController < ApplicationLesliController
-        before_action :set_workflow, only: [:update, :destroy]
+        before_action :set_workflow, only: [:update, :destroy, :workflow_assignment_options]
 
 
 =begin
@@ -248,6 +248,19 @@ this.http.put(`127.0.0.1/help/workflows/${workflow_id}`, data);
             return responseWithNotFound unless cloud_object
 
             responseWithSuccessful(cloud_object.workflow_detail.next_workflow_states)
+        end
+
+
+=begin
+@return [JSON] A list of global assignments of the workflow
+@description Obtains a list of all the global assignments of this workflow. A global assignment
+    is an entry in the cloud_[engine]_[object]_workflows that has the 'global' attribute set to true
+=end
+        def workflow_assignment_options
+            dynamic_info = self.class.dynamic_info
+            model = dynamic_info[:model]
+
+            responseWithSuccessful( @workflow.global_assignments )
         end
 
 private

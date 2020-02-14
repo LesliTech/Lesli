@@ -194,6 +194,65 @@ Building a better future, one line of code at a time.
             )
         end
 
+=begin
+@return [Array] Information about all the cloud objects that can have workflows
+@description Based on the *cloud_objects* method of the workflow class, generates information
+    about the class of the cloud_object, the endpoind, and it's name, so the user can
+    associate it properly
+@example
+    workflow = CloudHouse::Workflow.find_by(1)
+    puts workflow.global_assignments.to_json # Will print something like
+    #[
+    #    {
+    #        "name":"Properties",
+    #        "url":"/house/property_workflows",
+    #        "params_name":"property_workflow",
+    #        "id":6,
+    #        "assigned":true
+    #    }, {
+    #        "name":"Projects",
+    #        "url":"/house/project_workflows",
+    #        "params_name":"project_workflow",
+    #        "assigned":false
+    #    }
+    #]
+=end
+        def global_assignments
+            dynamic_info = self.class.dynamic_info
+            module_name = dynamic_info[:module_name]
+
+            assignments = []
+            
+            cloud_objects.each do |cloud_object_classname|
+                object_workflow_model = "#{cloud_object_classname}Workflow".constantize rescue nil
+                next unless object_workflow_model
+
+                cloud_object_name = cloud_object_classname.split("::")[-1]
+                assignment = {
+                    name: cloud_object_name.pluralize,
+                    url: "/#{module_name}/#{cloud_object_name.downcase}_workflows",
+                    params_name: "#{cloud_object_name.downcase}_workflow"
+                }
+
+                global_entry = object_workflow_model.find_by(
+                    account: account,
+                    global: true,
+                    "cloud_#{module_name}_workflows_id": id
+                )
+                
+                if global_entry
+                    assignment[:id] = global_entry.id
+                    assignment[:assigned] = true
+                else
+                    assignment[:assigned] = false
+                end
+
+                assignments.push(assignment)
+            end
+
+            assignments
+        end
+
         protected
         
 =begin
@@ -247,14 +306,23 @@ Building a better future, one line of code at a time.
             cloud_object_name = cloud_object.class.name.split("::")
             assignment_model = "#{cloud_object_name[0]}::#{cloud_object_name[1]}Workflow".constantize
 
-            associations = assignment_model.associations
-            search_params = {account: account}
-            
-            associations.each do |association|
-                search_params["#{association[:name]}".to_sym] = cloud_object[association[:key]]
-            end
+            # Global Workflow
+            workflow_assignment = assignment_model.find_by(global: true)
 
-            workflow_assignment = assignment_model.find_by(search_params)
+            # Specific Workflow
+            associations = assignment_model.associations rescue nil
+            if associations 
+                search_params = {
+                    account: account
+                }
+                
+                associations.each do |association|
+                    search_params["#{association[:name]}".to_sym] = cloud_object[association[:key]]
+                end
+
+                workflow_assignment = assignment_model.find_by(search_params)
+            end
+            
             if workflow_assignment 
                 workflow = workflow_assignment.workflow
 
