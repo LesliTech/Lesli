@@ -75,7 +75,7 @@ export default {
 </script>
 <template>
     <section class="section">
-        <component-layout-empty-data v-if="workflows.length == 0" />
+        <component-layout-data-empty v-if="workflows.length == 0" />
         <div v-else class="card">
             <div class="card-content">
                 <b-table :data="workflows" @click="showWorkflow" :hoverable="true">
