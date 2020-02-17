@@ -11,6 +11,9 @@
     "name": "value_to",
     "type": "string"
     }, {
-    "name": "icon",
+    "name": "category",
     "type": "string"
+    }, {
+    "name": "users",
+    "type": "bigint"
 }]

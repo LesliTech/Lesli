@@ -27,6 +27,7 @@ Rails.application.routes.draw do
         mount CloudPanel::Engine  => "/panel"  if defined?(CloudPanel)
         mount CloudLesli::Engine  => "/lesli"  if defined?(CloudLesli)
         mount CloudHouse::Engine  => "/house"  if defined?(CloudHouse)
+        mount CloudFocus::Engine  => "/focus"  if defined?(CloudFocus)
         mount CloudTeam::Engine   => "/team"   if defined?(CloudTeam)
         mount CloudLock::Engine   => "/lock"   if defined?(CloudLock)
         mount CloudBell::Engine   => "/bell"   if defined?(CloudBell)
