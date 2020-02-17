@@ -29,6 +29,44 @@ module Courier
     module Driver
         class Calendar
 
+            def self.events_register_for(
+                current_user, reference_name, reference_id, 
+                title:, description:nil, time_start:nil, time_end:nil, location:nil, url:nil
+            )
+                return unless defined? CloudDriver
+                current_user.account.driver.calendars.default.events.create({
+                    reference_name: reference_name, 
+                    reference_id: reference_id,
+                    detail_attributes: {
+                        title: title,
+                        description: description,
+                        time_start: time_start || Time.now,
+                        time_end: time_end || Time.now,
+                        location: location,
+                        url: url
+                    }
+                })
+            end
+
+            def self.events_update_for(
+                current_user, reference_name, reference_id, 
+                title:, description:nil, time_start:nil, time_end:nil, location:nil, url:nil
+            )
+                return unless defined? CloudDriver
+                events = current_user.account.driver.calendars.default.events.where(reference_name: reference_name, reference_id: reference_id)
+
+                events.each do |event|
+                    event.detail.title = title unless title.blank?
+                    event.detail.description = description unless description.blank?
+                    event.detail.time_start = time_start unless time_start.blank?
+                    event.detail.time_end = time_end unless time_end.blank?
+                    event.detail.location = location unless location.blank?
+                    event.detail.url = url unless url.blank?
+                    event.save!
+                end
+
+            end
+
             def self.events_new(current_user, title:, description:nil, time_start:nil, time_end:nil, location:nil, url:nil)
                 return unless defined? CloudDriver
                 current_user.account.driver.calendars.default.events.create({
