@@ -29,6 +29,10 @@ jobs: # a collection of steps
             - rails-demo-bundle-v2-
 
       - run: # Install Ruby dependencies
+          name: Upgrade bundler
+          command: gem install bundler
+
+      - run: # Install Ruby dependencies
           name: Bundle Install
           command: bundle check --path vendor/bundle || bundle install --deployment
 
