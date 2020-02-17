@@ -31,7 +31,6 @@ User.find_or_create_by(email: 'admin@lesli.cloud') do |user|
     user.password = 'lesli2020'
     user.password_confirmation = 'lesli2020'
     user.accounts_id = 1
-    user.cloud_lock_roles_id = 7
     user.confirm
 
     user.account.user = user
