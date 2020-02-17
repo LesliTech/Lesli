@@ -71,7 +71,7 @@ Building a better future, one line of code at a time.
 
                     set_workflow
                     if @workflow
-                        responseWithSuccessful(@workflow.full_workflow)
+                        responseWithSuccessful(@workflow.detailed_info)
                     else
                         responseWithError('Workflow not found')
                     end
@@ -102,10 +102,10 @@ Building a better future, one line of code at a time.
 =begin
 @controller_action_param :name [String] The name of the new workflow
 @controller_action_param :default [Boolean] A flag that marks this workflow as default or not
-@controller_action_param :details_attributes [Array] Array of hashes, containing the information of the new attributes
-@controller_action_param :details_attributes.next_states [String] Transitions to the next state. The format is 
+@controller_action_param :statuses_attributes [Array] Array of hashes, containing the information of the new attributes
+@controller_action_param :statuses_attributes.next_states [String] Transitions to the next state. The format is 
     "[workflow_state_id]|[workflow_state_id]|..."
-@controller_action_param :details_attributes.cloud_[module_name]_[cloud_object_name]_workflow_states_id [Integer]
+@controller_action_param :statuses_attributes.cloud_[module_name]_[cloud_object_name]_workflow_states_id [Integer]
     The id of the state associated to this detail
 @return [Json] Json that contains wheter the creation of the workflow was successful or not. 
     If it is not successful, it returns an error message
@@ -116,7 +116,7 @@ Building a better future, one line of code at a time.
         workflow: {
             name: "Important",
             default: true,
-            details_attributes: [
+            statuses_attributes: [
                 {
                     cloud_help_workflow_states_id: 4,
                     next_states: "6"
@@ -165,7 +165,7 @@ let workflow_id = 4;
 let data = {
     workflow: {
         name: "Sales Workflow",
-        details_attributes: [
+        statuses_attributes: [
             {
                 id: 1,
                 next_states: '56|57',
@@ -186,9 +186,9 @@ this.http.put(`127.0.0.1/help/workflows/${workflow_id}`, data);
 =end
         def update
             update_params = workflow_params
-            if update_params[:details_attributes]
-                @workflow.replace_workflow(current_user.account, update_params[:details_attributes])
-                update_params = update_params.except(:details_attributes)
+            if update_params[:statuses_attributes]
+                @workflow.replace_workflow( update_params[:statuses_attributes])
+                update_params = update_params.except(:statuses_attributes)
             end
 
             @workflow.update(update_params)
@@ -289,7 +289,7 @@ private
 =begin
 @return [Parameters] Allowed parameters for the workflow
 @description Sanitizes the parameters received from an HTTP call to only allow the specified ones.
-    Allowed params are, :name, :default, details_attributes: 
+    Allowed params are, :name, :default, statuses_attributes: 
     [:id, :next_state, :cloud_[module_name]_workflow_states_id]
 @example
     # supose params contains {
@@ -297,7 +297,7 @@ private
     #       id: 5,
     #       name: "Workflow Name"
     #       default: false,
-    #       details_attributes: [
+    #       statuses_attributes: [
     #            {
     #                id: 1,
     #                next_states: "4|5|6",
@@ -312,7 +312,7 @@ private
     # will remove the unpermitted params and only print {
     #       name: "Workflow Name"
     #       default: false,
-    #       details_attributes: [
+    #       statuses_attributes: [
     #            {
     #                id: 1,
     #                next_states: "4|5|6",
@@ -323,12 +323,18 @@ private
 =end
         def workflow_params
             dynamic_info = self.class.dynamic_info
-            module_name = dynamic_info[:module_name]
 
             params.require(:workflow).permit(
                 :name,
                 :default,
-                details_attributes: [:id, :next_states, "cloud_#{module_name}_workflow_states_id".to_sym]
+                statuses_attributes: [
+                    :id,
+                    :next_statuses,
+                    :initial,
+                    :final,
+                    :name,
+                    :number
+                ]
             )
         end
 
