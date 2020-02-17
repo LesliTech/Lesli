@@ -35,8 +35,7 @@ import componentWorkflowChart from '../components/chart.vue'
 export default {
 
     components: {
-        'component-workflow-chart': componentWorkflowChart,
-        'component-workflow-assignment-global': componentWorkflowAssignmentGobal
+        'component-workflow-chart': componentWorkflowChart
     },
 
     props: {
@@ -224,6 +223,5 @@ export default {
                 </div>
             </div>
         </div>
-        <component-workflow-assignment-global cloud-engine="house" :workflow-id="workflow_id" />
     </section>
 </template>

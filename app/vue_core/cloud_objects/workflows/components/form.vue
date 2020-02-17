@@ -29,15 +29,13 @@ Building a better future, one line of code at a time.
 
 // · Component list
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
-import componentWorkflowStateCrud from "LesliCloud/vue_core/cloud_objects/workflow_states/components/crud.vue"
-import componentWorkflowStateName from "LesliCloud/vue_core/cloud_objects/workflow_states/components/name.vue"
 import componentWorkflowChart from "LesliCloud/vue_core/cloud_objects/workflows/components/chart.vue"
+import componentWorkflowStatusName from "LesliCloud/vue_core/cloud_objects/workflows/components/status-name.vue"
 
 export default {
     components: {
         'component-workflow-chart': componentWorkflowChart,
-        'component-workflow-state-name': componentWorkflowStateName,
-        'component-workflow-state-crud': componentWorkflowStateCrud
+        'component-workflow-status-name': componentWorkflowStatusName
     },
     
     props: {
@@ -51,15 +49,12 @@ export default {
         return {
             module_name: null,
             rerender_chart: false,
-            default_workflow_states: {
-                initial: null,
-                final: null
-            },
             workflow: null,
             workflow_id: null,
-            workflow_states: null,
-            selected_workflow_detail: {},
-            selected_workflow_state_id: null
+            selected_workflow_status: {},
+            selected_workflow_status_number: null,
+            new_status_name: '',
+            statuses_count: 0
         }
     },
     mounted() {
@@ -81,48 +76,31 @@ export default {
             }else{
                 this.workflow = {
                     name: '',
-                    details: {}
+                    statuses: {
+                        '0': {
+                            name: 'created',
+                            number: 0,
+                            initial: true,
+                            next_statuses: '1'
+                        },
+                        '1': {
+                            name: 'closed',
+                            number: 1,
+                            final: true
+                        }
+                    }
                 }
-            }
-        },
-
-        setWorkflowStates(workflow_states){
-            this.workflow_states = workflow_states
-            if(! this.workflow_id){
-                let initial_state = this.workflow_states.filter(state => state.id === this.default_workflow_states.initial)[0]
-                let final_state = this.workflow_states.filter(state => state.id === this.default_workflow_states.final)[0]
-
-                this.workflow.details[initial_state.id] = {
-                    next_states: `${final_state.id}`,
-                    initial: true,
-                    workflow_state_id: initial_state.id,
-                    workflow_state_name: initial_state.name,
-                    visited: false
-                }
-                this.workflow.details[final_state.id] = {
-                    next_states: null,
-                    final: true,
-                    workflow_state_id: final_state.id,
-                    workflow_state_name: final_state.name,
-                    visited: false
-                }
-                this.rerender_chart = true
-            }
-        },
-
-        setWorkflowStateName(workflow_state){
-            if(this.workflow.details[workflow_state.id]){
-                this.workflow.details[workflow_state.id].workflow_state_name = workflow_state.name
+                this.statuses_count = 2;
             }
         },
 
         getWorkflow() {
             let url = `/${this.module_name}/workflows/${this.workflow_id}.json`
-            console.log(url)
 
             this.http.get(url).then(result => {
                 if (result.successful) {
                     this.workflow = result.data
+                    this.statuses_count = this.workflow.next_number
                 }else{
                     this.alert(result.error.message,'danger')
                 }
@@ -131,89 +109,71 @@ export default {
             })
         },
 
-        addStateToWorkflow(workflow_state){
-            let new_detail = {
-                next_states: this.default_workflow_states.final.toString(),
+        addStatusToWorkflow() {
+            let new_status = {
+                next_statuses: '1',
                 visited: false,
-                workflow_state_id: workflow_state.id,
-                workflow_state_name: workflow_state.name
+                number: this.statuses_count,
+                name: this.new_status_name
             }
-            this.workflow.details[this.default_workflow_states.initial].next_states+=`|${workflow_state.id}`
-            this.$set(this.workflow.details, workflow_state.id, new_detail)
+
+            this.statuses_count+=1
+
+            this.workflow.statuses['0'].next_statuses+=`|${new_status.number}`
+            this.$set(this.workflow.statuses, new_status.number, new_status)
+            this.new_status_name = ''
+            this.$refs['input-status-name'].focus()
             this.rerender_chart = true
         },
 
-        // · Checks if this is the only follow up state of the initial state
-        // · node = state from which a follow up will be removed. If the user wants to remove from the workflow, this will be the initial state
-        // · state_id = the id of the state the user wants to remove
-        isRemovable(workflow_detail, workflow_state_id){
-            if(workflow_detail.workflow_state_id == this.default_workflow_states.initial){
-                return workflow_detail.next_states != workflow_state_id
-            }
-            return true
-        },
+        deleteStatusFromWorkflow(deleted_status){
 
-        deleteStateFromWorkflow(workflow_state){
-            let id = workflow_state.workflow_state_id
+            let number = deleted_status.number
+            this.$delete(this.workflow.statuses, number)
 
-            if(this.isRemovable(this.workflow.details[this.default_workflow_states.initial], id)){
-                this.$delete(this.workflow.details, id)
+            for(let status_number in this.workflow.statuses){
+                let workflow_status = this.workflow.statuses[status_number]
 
-                for(let workflow_detail_id in this.workflow.details){
-                    let workflow_detail = this.workflow.details[workflow_detail_id]
-                    if(workflow_detail.next_states){
-                        workflow_detail.next_states = workflow_detail.next_states.replace(
-                            new RegExp(`([^0-9]${id}$)|(^${id}[^0-9])|(^${id}$)`,'g'), ''
-                        ).replace(
-                            new RegExp(`([^0-9]${id}[^0-9])`,'g'), '|'
-                        )
-                        if(workflow_detail.next_states.length == 0){
-                            workflow_detail.next_states = null
-                        }
+                if(workflow_status.next_statuses){
+                    workflow_status.next_statuses = workflow_status.next_statuses.replace(
+                        new RegExp(`([^0-9]${number}$)|(^${number}[^0-9])|(^${number}$)`,'g'), ''
+                    ).replace(
+                        new RegExp(`([^0-9]${number}[^0-9])`,'g'), '|'
+                    )
+                    if(workflow_status.next_statuses.length == 0){
+                        workflow_status.next_statuses = null
                     }
                 }
-                this.rerender_chart = true
-            }else{
-                this.alert(
-                    'The initial state needs a follow up at all times. Please add another follow up state before deleting this one',
-                    'danger'
-                )
             }
+            this.rerender_chart = true
         },
 
-        addFollowUpState(){
-            if(this.selected_workflow_state_id){
-                if(this.selected_workflow_detail.next_states){
-                    this.selected_workflow_detail.next_states += `|${this.selected_workflow_state_id}`
+        addFollowUpStatus(){
+            if(this.selected_workflow_status_number){
+                if(this.selected_workflow_status.next_statuses){
+                    this.selected_workflow_status.next_statuses += `|${this.selected_workflow_status_number}`
                 }else{
-                    this.selected_workflow_detail.next_states = `${this.selected_workflow_state_id}`
+                    this.selected_workflow_status.next_statuses = `${this.selected_workflow_status_number}`
                 }
-                this.selected_workflow_state_id = null
+                this.selected_workflow_status_number = null
                 this.rerender_chart = true
             }
         },
         
-        selectWorkflowDetail(workflow_detail){
-            this.selected_workflow_detail = workflow_detail
+        selectWorkflowStatus(workflow_status){
+            this.selected_workflow_status = workflow_status
         },
 
-        deleteFollowUpState(workflow_detail){
+        deleteFollowUpStatus(workflow_status){
 
-            let id = workflow_detail.workflow_state_id
+            let number = workflow_status.number
 
-            if(this.isRemovable(this.selected_workflow_detail, id)){
-                this.selected_workflow_detail.next_states = this.selected_workflow_detail.next_states.replace(
-                    new RegExp(`([^0-9]${id}$)|(^${id}[^0-9])|(^${id}$)`,'g'), ''
-                ).replace(
-                    new RegExp(`([^0-9]${id}[^0-9])`,'g'), '|'
-                )
-                this.rerender_chart = true
-            }else{
-                this.alert(
-                    'The initial state needs a follow up at all times. Please add another follow up state before deleting this one',
-                    'danger'
-                )
-            }
+            this.selected_workflow_status.next_statuses = this.selected_workflow_status.next_statuses.replace(
+                new RegExp(`([^0-9]${number}$)|(^${number}[^0-9])|(^${number}$)`,'g'), ''
+            ).replace(
+                new RegExp(`([^0-9]${number}[^0-9])`,'g'), '|'
+            )
+            this.rerender_chart = true
         },
 
         submitWorkflow(event){
@@ -228,14 +188,12 @@ export default {
 
         postWorkflow(){
             if(this.workflow.name){
-                let details_attributes = Object.values(this.workflow.details).map((detail)=>{
-                    detail[`cloud_${this.module_name}_workflow_states_id`] = detail['workflow_state_id']
-                    return detail
-                })
+                let statuses_attributes = Object.values(this.workflow.statuses)
+                
                 let data = {
                     workflow: {
                         name: this.workflow.name,
-                        details_attributes: details_attributes
+                        statuses_attributes: statuses_attributes
                     }
                 }
                 let url = `/${this.module_name}/workflows`
@@ -257,14 +215,12 @@ export default {
         },
 
         putWorkflow(){
-            let details_attributes = Object.values(this.workflow.details).map((detail)=>{
-                detail[`cloud_${this.module_name}_workflow_states_id`] = detail['workflow_state_id']
-                return detail
-            })
+            let statuses_attributes = Object.values(this.workflow.statuses)
+
             let data = {
                 workflow: {
                     name: this.workflow.name,
-                    details_attributes: details_attributes
+                    statuses_attributes: statuses_attributes
                 }
             }
             let url = `/${this.module_name}/workflows/${this.workflow_id}`
@@ -304,38 +260,33 @@ export default {
     },
     computed: {
         
-        nextStatesOfSelectedWorkflowDetail(){
-            let next_states = []
-            if(! this.workflow.details[this.selected_workflow_detail.workflow_state_id]){
-                return next_states
+        nextStatusesOfSelectedStatus(){
+            let next_statuses = []
+            if(! this.workflow.statuses[this.selected_workflow_status.number]){
+                return next_statuses
             }
-            if(this.selected_workflow_detail.next_states){
-                let next_states_ids = this.selected_workflow_detail.next_states.split('|')
-                next_states_ids.forEach((id)=>{
-                    next_states.push(this.workflow.details[id])
+            if(this.selected_workflow_status.next_statuses){
+                let next_statuses_ids = this.selected_workflow_status.next_statuses.split('|')
+                next_statuses_ids.forEach((id)=>{
+                    next_statuses.push(this.workflow.statuses[id])
                 })
             }
-            return next_states
+            return next_statuses
         },
 
-        possibleFollowUpStates(){
-            let label = [{id: null, name: 'Select a follow up state to add'}]
-            if(
-                ! this.selected_workflow_detail.workflow_state_id || 
-                this.selected_workflow_detail.workflow_state_id == this.default_workflow_states.final
-            ){
+        possibleFollowUpStatuses(){
+            let label = [{number: null, name: 'Select a follow up state to add'}]
+
+            if( ! this.selected_workflow_status.next_statuses || this.selected_workflow_status.final ){
                 return label
             }
-            let follow_up_states  = this.selected_workflow_detail.next_states.split('|').map((element)=>{
+            
+            let follow_up_statuses  = this.selected_workflow_status.next_statuses.split('|').map((element)=>{
                 return parseInt(element)
             })
-            return label.concat(this.workflow_states.filter(element => {
-                return ! (
-                    follow_up_states.includes(element.id) ||
-                    element.id == this.default_workflow_states.initial
-                ) && (
-                    this.workflow.details[element.id]
-                )
+
+            return label.concat(Object.values(this.workflow.statuses).filter(element => {
+                return ! ( follow_up_statuses.includes(element.number) || element.initial) 
             }))
         }
     }
@@ -361,26 +312,27 @@ export default {
                 </div>
             </div>
             <div class="card-content">
-                <b-field label="Name">
-                    <input
-                        class="input"
-                        @change="patchWorkflowName"
-                        v-model="workflow.name"
-                        type="text"
-                        ref="input-workflow-name"
-                        required
-                    />
-                </b-field>
+                <div class="columns">
+                    <div class="column is-8">
+                        <b-field label="Name">
+                            <input
+                                class="input"
+                                @change="patchWorkflowName"
+                                v-model="workflow.name"
+                                type="text"
+                                ref="input-workflow-name"
+                                required
+                            />
+                        </b-field>
+                    </div>
+                    <div class="column is-4">
+                        <b-field label="Add a new state to the workflow">
+                            <b-input v-model="new_status_name" @change.native="addStatusToWorkflow" ref="input-status-name">
+                            </b-input>
+                        </b-field>
+                    </div>
+                </div>
                 <hr>
-                <component-workflow-state-crud
-                    class="has-margin-bottom"
-                    :cloud-module="cloudModule"
-                    :active-workflow-states="workflow.details"
-                    :default-workflow-states.sync="default_workflow_states"
-                    @set-workflow-states="setWorkflowStates"
-                    @add-state-to-workflow="addStateToWorkflow"
-                    @set-workflow-state-name="setWorkflowStateName"
-                />
                 <form @submit="submitWorkflow">
                     <div class="columns">
                         <div class="column">
@@ -389,20 +341,20 @@ export default {
                             </span>
                             <div class="list is-hoverable">
                                 <a 
-                                    v-for="(detail, key) in workflow.details"
+                                    v-for="(status, key) in workflow.statuses"
                                     :key="key"
                                     class="list-item"
-                                    @click="selectWorkflowDetail(detail)"
-                                    :class="{'is-active':selected_workflow_detail.workflow_state_id == detail.workflow_state_id}"
+                                    @click="selectWorkflowStatus(status)"
+                                    :class="{'is-active':selected_workflow_status.number == status.number}"
                                 >
-                                    <component-workflow-state-name
-                                        :name="detail.workflow_state_name"
+                                    <component-workflow-status-name
+                                        :name="status.name"
                                     />
                                     <button 
-                                        v-if="detail.workflow_state_id != default_workflow_states.initial && detail.workflow_state_id != default_workflow_states.final"
+                                        v-if="! status.initial && ! status.final"
                                         type="button"
                                         class="delete is-pulled-right"
-                                        @click="deleteStateFromWorkflow(detail)"
+                                        @click="deleteStatusFromWorkflow(status)"
                                     ></button>
                                 </a>
                             </div>
@@ -414,20 +366,20 @@ export default {
                                     <b-field>
                                         <div class="control is-expanded">
                                             <span class="select is-fullwidth is-empty">
-                                                <select v-model="selected_workflow_state_id" @change="addFollowUpState">
+                                                <select v-model="selected_workflow_status_number" @change="addFollowUpStatus">
                                                     <option
-                                                        v-for="workflow_state in possibleFollowUpStates"
-                                                        :value="workflow_state.id"
-                                                        :key="workflow_state.id"
-                                                        :hidden="workflow_state.id == null"
-                                                        :disbled="workflow_state.id == null"  
+                                                        v-for="workflow_status in possibleFollowUpStatuses"
+                                                        :value="workflow_status.number"
+                                                        :key="workflow_status.number"
+                                                        :hidden="workflow_status.number == null"
+                                                        :disbled="workflow_status.number == null"  
                                                     >
-                                                        <component-workflow-state-name
-                                                            :name="workflow_state.name"
-                                                            :initial="workflow_state.initial"
-                                                            :final="workflow_state.final"
+                                                        <component-workflow-status-name
+                                                            :name="workflow_status.name"
+                                                            :initial="workflow_status.initial"
+                                                            :final="workflow_status.final"
                                                         >
-                                                        </component-workflow-state-name>
+                                                        </component-workflow-status-name>
                                                     </option>
                                                 </select>
                                             </span>
@@ -441,11 +393,11 @@ export default {
                                         Follow up States
                                     </span>
                                     <div class="list is-hoverable">
-                                        <a v-for="(workflow_detail, key) in nextStatesOfSelectedWorkflowDetail" :key="key" class="list-item">
-                                            <component-workflow-state-name
-                                                :name="workflow_detail.workflow_state_name"
+                                        <a v-for="(workflow_status, key) in nextStatusesOfSelectedStatus" :key="key" class="list-item">
+                                            <component-workflow-status-name
+                                                :name="workflow_status.name"
                                             />
-                                            <button type="button" class="delete is-pulled-right" @click="deleteFollowUpState(workflow_detail)">
+                                            <button type="button" class="delete is-pulled-right" @click="deleteFollowUpStatus(workflow_status)">
                                             </button>
                                         </a>
                                     </div>

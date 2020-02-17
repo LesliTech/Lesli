@@ -53,7 +53,7 @@ Building a better future, one line of code at a time.
             dynamic_info = self.class.dynamic_info
             module_name = dynamic_info[:module_name]
 
-            ids = next_states.split('|').map(&:to_i)
+            ids = next_states.split("|").map(&:to_i)
             transitions = workflow.details.where("cloud_#{module_name}_workflow_states_id".to_sym => ids).map do |workflow_detail|
                 workflow_state = workflow_detail.workflow_state
                 {
