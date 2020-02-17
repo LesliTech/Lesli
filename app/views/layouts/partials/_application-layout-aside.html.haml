@@ -25,6 +25,11 @@
                         = image_tag "clouddriver/brand/driver-logo.svg", alt: "CloudDriver logo"
                         driver
 
+            - if defined?(CloudFocus)
+                %li
+                    = link_to "/focus" do
+                        = image_tag "cloudfocus/brand/focus-logo.png", alt: "CloudFocus logo"
+                        focus
 
             - if defined?(CloudBooks)
                 %li

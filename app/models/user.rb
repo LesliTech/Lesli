@@ -29,20 +29,18 @@ class User < ApplicationRecord
     acts_as_paranoid
     devise  :database_authenticatable, 
             :registerable, 
-            :recoverable, 
             :rememberable, 
-            :trackable, 
+            :recoverable, 
             :validatable,
-            :confirmable
+            :confirmable,
+            :trackables 
     
-    has_one :detail, class_name: 'CloudLock::User::Detail', foreign_key: 'users_id', dependent: :delete, inverse_of: :user, autosave: true
-    accepts_nested_attributes_for :detail
+    belongs_to :account, foreign_key: 'accounts_id', optional: true
 
-    belongs_to  :account , foreign_key: 'accounts_id', optional: true
-    belongs_to  :role, class_name: 'CloudLock::Role', foreign_key:'cloud_lock_roles_id', optional: true
+    #has_one :lock, class_name: "CloudLock::User::Detail", foreign_key: 'users_id', dependent: :delete, inverse_of: :user, autosave: true
+    #accepts_nested_attributes_for :lock
 
-    after_create :create_user_defaults#, if: :accounts_id?
-
+    after_create :user_initialize 
 
     # @return [String] The name of this user.
     # @description Retrieves and returns the name of the user depending on the available information.
@@ -56,12 +54,12 @@ class User < ApplicationRecord
     #     puts other_user.name # can print jane.smith@email.com
     def name
         if defined? CloudLock
-            unless detail.blank?
-                unless detail.first_name.blank? && detail.last_name.blank?
-                    return [detail.first_name, detail.last_name].join(' ') 
-                end
-                return detail.first_name unless detail.first_name.blank? 
-            end
+            #unless detail.blank?
+            #    unless detail.first_name.blank? && detail.last_name.blank?
+            #        return [detail.first_name, detail.last_name].join(' ') 
+            #    end
+            #    return detail.first_name unless detail.first_name.blank? 
+            #end
         end
         return email
     end
@@ -88,11 +86,11 @@ class User < ApplicationRecord
     #         password_confirmation: '1234567890'
     #     )
     # At this point, check_user will be invoked automatically
-    def create_user_defaults
+    def user_initialize 
         if defined? CloudLock
-            self.account.lock.user.create({
-                login: current_user
-            })
+            #self.account.lock.user.create({
+            #    login: self
+            #})
         end
         if defined? CloudDriver
             self.account.driver.calendars.create({
