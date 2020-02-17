@@ -1,0 +1,10 @@
+[
+    {
+        "name": "workflow_for",
+        "type": "string"
+    },
+    {
+        "name": "global",
+        "type": "boolean"
+    }
+]

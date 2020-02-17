@@ -58,46 +58,47 @@ Building a better future, one line of code at a time.
         end
 
 =begin
-@return [Hash] Hash of containing the information of the workflow and its details. 
-@description Returns a hash with information about the workflow and all its *details* 
+@return [Hash] Hash of containing the information of the workflow and its statuses. 
+@description Returns a hash with information about the workflow and all its *statuses* 
     that contain the transitions between *states*
 @example
     workflow = CloudHelp::Workflow.first.full_workflow
     responseWithSuccessful(workflow)
 =end
-        def full_workflow
+        def detailed_info
             dynamic_info = self.class.dynamic_info
             module_name = dynamic_info[:module_name]
-            detail_model = dynamic_info[:detail_model]
+            status_model = dynamic_info[:status_model]
 
             data = {}
-            nodes = detail_model.joins(
-                :workflow
-            ).joins(
-                :workflow_state
-            ).select(
-                "cloud_#{module_name}_workflow_details.id",
-                "cloud_#{module_name}_workflow_states.initial",
-                "cloud_#{module_name}_workflow_states.final",
-                "cloud_#{module_name}_workflow_details.next_states",
-                "cloud_#{module_name}_workflow_states.id as workflow_state_id",
-                "cloud_#{module_name}_workflow_states.name as workflow_state_name"
+            nodes = status_model.select(
+                :id,
+                :name,
+                :number,
+                :initial,
+                :final,
+                :next_statuses
             ).where(
-                "cloud_#{module_name}_workflows.id = #{id}"
+                workflow: self
+            ).order(
+                number: :asc
             )
 
+            next_number = 0
             nodes.each do |node|
                 node = node.attributes
+                next_number = node["number"] + 1
                 node["visited"] = false
-                data[node["workflow_state_id"]] = node
+                data[node["number"]] = node
             end
 
             {
                 name: name,
+                next_number: next_number,
                 default: default,
                 created_at: created_at,
                 updated_at: updated_at,
-                details: data
+                statuses: data
             }
         end
 
@@ -114,20 +115,18 @@ Building a better future, one line of code at a time.
 @example
     workflow_data  = {
         workflow:{
-            cloud_help_slas_id:1,
-            "details_attributes:[
+            "statuses_attributes:[
                 {
                     id:1,
-                    next_states:"4",
-                    workflow_state_id:1
+                    intial: true,
+                    final: false,
+                    next_statuses:"4"
                 },{
                     id:2,
-                    next_states:null
-                    workflow_state_id:2
+                    next_statuses:null
                 },{
-                    id:14,
-                    next_states:"2",
-                    workflow_state_id:4
+                    id:4,
+                    next_statuses:"2"
                 }
             ]
         }
@@ -140,31 +139,40 @@ Building a better future, one line of code at a time.
         puts workflow.errors.full_messages.to_sentence
     end
 =end
-        def replace_workflow(account, new_workflow)
+        def replace_workflow(new_workflow)
             dynamic_info = self.class.dynamic_info
             module_name = dynamic_info[:module_name]
-            state_model = dynamic_info[:state_model]
+            status_model = dynamic_info[:status_model]
 
             begin
-                initial_state_id = state_model.initial_state(account).id
-                final_state_id = state_model.final_state(account).id
-                details.where(
-                    "cloud_#{module_name}_workflow_states_id != #{initial_state_id}"
+                initial_state = statuses.find_by(initial: true)
+                final_state = statuses.find_by(final: true)
+                
+                x = statuses.where(
+                    initial: nil
                 ).where(
-                    "cloud_#{module_name}_workflow_states_id != #{final_state_id}"
+                    final: nil
                 ).destroy_all
 
-                state_id_key = "cloud_#{module_name}_workflow_states_id".to_sym
                 new_workflow.each do |node|
-                    # created or closed
-                    if node[state_id_key] == initial_state_id || node[state_id_key] == final_state_id
-                        details.where(id: node[:id]).update(next_states: node[:next_states])
-                    else
-                        details.create(
-                            state_id_key => node[state_id_key],
-                            next_states: node[:next_states]
-                        )
+                    
+                    # Created
+                    if node[:id] == initial_state.id
+                        initial_state.update(next_statuses: node[:next_statuses])
+                        next
                     end
+
+                    # Closed
+                    if node[:id] == final_state.id
+                        final_state.update(next_statuses: node[:next_statuses])
+                        next
+                    end
+
+                    statuses.create(
+                        number: node[:number],
+                        next_statuses: node[:next_statuses],
+                        name: node[:name]
+                    )
                 end
             rescue ActiveRecord::InvalidForeignKey
                 errors.add(:base, :foreign_key_prevents_destruction)
@@ -217,6 +225,7 @@ Building a better future, one line of code at a time.
     #    }
     #]
 =end
+=begin
         def global_assignments
             dynamic_info = self.class.dynamic_info
             module_name = dynamic_info[:module_name]
@@ -252,6 +261,7 @@ Building a better future, one line of code at a time.
 
             assignments
         end
+=end
 
         protected
         
@@ -294,12 +304,13 @@ Building a better future, one line of code at a time.
         responseWithError(ticket.errors.full_messages.to_sentence)
     end
 =end
+=begin
         def self.set_workflow(cloud_object)
 
             dynamic_info_ = self.dynamic_info
             assignment_model = dynamic_info_[:assignment_model]
             detail_model = dynamic_info_[:detail_model]
-            state_model = dynamic_info_[:state_model]
+            status_model = dynamic_info_[:status_model]
             account = cloud_object.account
 
 
@@ -328,10 +339,11 @@ Building a better future, one line of code at a time.
 
                 cloud_object.workflow_detail = detail_model.find_by(
                     workflow: workflow,
-                    workflow_state: state_model.initial_state(account)
+                    workflow_state: status_model.initial_state(account)
                 )
             end
         end
+=end
 
 =begin
 @return [void]
@@ -345,26 +357,23 @@ Building a better future, one line of code at a time.
 =end
         def self.initialize(account)
             dynamic_info = self.dynamic_info
-            state_model = dynamic_info[:state_model]
             module_name = dynamic_info[:module_name]
 
-            default_states = state_model.initialize(account)
-
-
-            initial_state = default_states[:initial]
-            final_state = default_states[:final]
-
             self.create(
-                name: "Default Workflow",
+                name: 'Default Workflow',
                 default: true,
                 account: account,
-                details_attributes: [
+                statuses_attributes: [
                     {
-                        "cloud_#{module_name}_workflow_states_id".to_sym => initial_state.id,
-                        next_states: "#{final_state.id}"
+                        name: 'created',
+                        number: 0,
+                        initial: true,
+                        next_statuses: '1'
                     },
                     {
-                        "cloud_#{module_name}_workflow_states_id".to_sym => final_state.id
+                        name: 'closed',
+                        number: 1,
+                        final: true
                     }
                 ]
             )
@@ -378,15 +387,14 @@ Building a better future, one line of code at a time.
 @example
     dynamic_info = CloudHelp::Workflow.dynamic_info
     puts dynamic_info[:module_name] # will print 'help'
-    puts dynamic_info[:detail_model].new # will print a new instance of CloudHelp::Workflow::Detail
-    puts dynamic_info[:state_model] # will print a new instance of CloudHelp::WorkflowState
+    puts dynamic_info[:status_model].new # will print a new instance of CloudHelp::Workflow::Status
+    puts dynamic_info[:status_model] # will print a new instance of CloudHelp::WorkflowState
 =end
         def self.dynamic_info
             module_info = self.name.split("::")
             {
                 module_name: module_info[0].sub("Cloud", "").downcase,
-                detail_model: "#{self.name}::Detail".constantize,
-                state_model: "#{module_info[0]}::WorkflowState".constantize
+                status_model: "#{self.name}::Status".constantize
             }
         end
     end
