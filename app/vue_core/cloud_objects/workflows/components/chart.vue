@@ -83,11 +83,11 @@ export default {
 
         verifyWorkflow(){
             if(this.workflow){
-                this.workflow_data = this.workflow.details
+                this.workflow_data = this.workflow.statuses
             }else{
                 this.http.get(`/${this.module_name}/workflows/${this.workflowId}.json`).then(result => {
                     if (result.successful) {
-                        this.workflow_data = result.data.details
+                        this.workflow_data = result.data.statuses
                         this.displayWorkflow()
                     }else{
                         this.alert(result.error.message,'danger')
@@ -104,13 +104,13 @@ export default {
                 let data = []
                 Object.values(this.workflow_data).forEach( node => {
                     let parsed_node = {
-                        id: node.workflow_state_id,
+                        id: node.number,
                         text: `${this.getIcon(node)} ${this.getNodeName(node)}`
                     }
-                    if(node.next_states){
-                        parsed_node.next = node.next_states.split("|")
+                    if(node.next_statuses){
+                        parsed_node.next = node.next_statuses.split("|")
                     }
-                    if(this.selectedWorkflowState == node.workflow_state_id){
+                    if(this.selectedWorkflowState == node.number){
                         parsed_node.style = 'fill:#EFFD5F,stroke:#FCE205'
                     }
                     data.push(parsed_node)
@@ -126,7 +126,7 @@ export default {
             if(node.final){
                 return 'Closed'
             }
-            return node.workflow_state_name
+            return node.name
         }
     },
     watch: {

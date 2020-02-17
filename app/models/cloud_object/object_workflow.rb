@@ -28,6 +28,62 @@ Building a better future, one line of code at a time.
         self.abstract_class = true
 
 =begin
+@return [void]
+@description Attempts to destroy an object_workflow. It will only allow it if the
+    object_workflow has the 'global' field set to true
+@example
+    protected_workflow = CloudHouse::ProjectWorkflow.create(
+        account: current_user.account,
+        cloud_house_project_types_id: 1,
+        cloud_house_workflows_id: 1
+    )
+
+    unprotected_workflow = CloudHouse::ProjectWorkflow.create(
+        account: current_user.account,
+        global: true,
+        cloud_house_project_workflows_id: 1
+    )
+    
+    unprotected_workflow.destroy! # Will not throw an error
+    protected_workflow.destroy! # Will throw an error
+=end
+        def destroy
+            if global
+                super
+            else
+                errors.add(:base, :cannot_destroy_non_global_assignment)
+                false
+            end
+        end
+
+=begin
+@return [void]
+@description Attempts to create a global object_workflow. It will only allow it if there
+    is no other global object workflow
+@example
+    workflow_1 = CloudHouse::ProjectWorkflow.create(
+        account: current_user.account,
+        global: true,
+        cloud_house_workflows_id: 1
+    ) # This will work
+
+   workflow_2 = CloudHouse::ProjectWorkflow.create(
+        account: current_user.account,
+        global: true,
+        cloud_house_workflows_id: 1
+    ) # This will not work
+    
+=end
+        def create
+            if self.class.find_by(global: true, account: account)
+                errors.add(:base, :global_workflow_already_exists)
+                false
+            else
+                super
+            end
+        end
+
+=begin
 @param account [Account] Account to which the records are associated to
 @param association_name [String] The name of the association that requested the assignments
 @param association_id [Integer] The id of the associated record specified by *association_name*
