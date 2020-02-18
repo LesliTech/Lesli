@@ -185,15 +185,13 @@ let data = {
 this.http.put(`127.0.0.1/help/workflows/${workflow_id}`, data);
 =end
         def update
-            update_params = workflow_params
-            if update_params[:statuses_attributes]
-                @workflow.replace_workflow( update_params[:statuses_attributes])
-                update_params = update_params.except(:statuses_attributes)
-            end
+            return responseWithNotFound unless @workflow
 
-            @workflow.update(update_params)
-            return responseWithError(@workflow.errors.full_messages.to_sentence) if @workflow.errors.any?
-            responseWithSuccessful
+            if @workflow.update(workflow_params)
+                responseWithSuccessful(@workflow)
+            else
+                responseWithError(@workflow.errors.full_messages.to_sentence)
+            end
         end
 
 =begin
@@ -333,7 +331,8 @@ private
                     :initial,
                     :final,
                     :name,
-                    :number
+                    :number,
+                    :_destroy
                 ]
             )
         end

@@ -93,6 +93,7 @@ Building a better future, one line of code at a time.
             end
 
             {
+                id: id,
                 name: name,
                 next_number: next_number,
                 default: default,
@@ -100,84 +101,6 @@ Building a better future, one line of code at a time.
                 updated_at: updated_at,
                 statuses: data
             }
-        end
-
-=begin
-@param account [Account] Account from current user
-@param new_workflow [Hash] A hash containing all the information of the
-    changes made to the workflow in the same format as the rails standard
-@return [Boolean] Whether the workflow was successfully updated or not
-@description Updates the workflow with new states and transitions. The detail 
-    associated with the *final* *state* can never change. The detail associated
-    with the *initial* *state* can only change it's transitions, and all other
-    details are destroyed and reinserted in the database. If an error ocurrs,
-    a message is added to the *errors* param of the workflow
-@example
-    workflow_data  = {
-        workflow:{
-            "statuses_attributes:[
-                {
-                    id:1,
-                    intial: true,
-                    final: false,
-                    next_statuses:"4"
-                },{
-                    id:2,
-                    next_statuses:null
-                },{
-                    id:4,
-                    next_statuses:"2"
-                }
-            ]
-        }
-    }
-    workflow = CloudHelp::Workflow.find(4)
-    if workflow.replace_workflow(workflow_data)
-        puts "Workflow was successfully replaced"
-    else
-        puts "Workflow was not replaced"
-        puts workflow.errors.full_messages.to_sentence
-    end
-=end
-        def replace_workflow(new_workflow)
-            dynamic_info = self.class.dynamic_info
-            module_name = dynamic_info[:module_name]
-            status_model = dynamic_info[:status_model]
-
-            begin
-                initial_state = statuses.find_by(initial: true)
-                final_state = statuses.find_by(final: true)
-                
-                x = statuses.where(
-                    initial: nil
-                ).where(
-                    final: nil
-                ).destroy_all
-
-                new_workflow.each do |node|
-                    
-                    # Created
-                    if node[:id] == initial_state.id
-                        initial_state.update(next_statuses: node[:next_statuses])
-                        next
-                    end
-
-                    # Closed
-                    if node[:id] == final_state.id
-                        final_state.update(next_statuses: node[:next_statuses])
-                        next
-                    end
-
-                    statuses.create(
-                        number: node[:number],
-                        next_statuses: node[:next_statuses],
-                        name: node[:name]
-                    )
-                end
-            rescue ActiveRecord::InvalidForeignKey
-                errors.add(:base, :foreign_key_prevents_destruction)
-                false
-            end
         end
 
 =begin
@@ -277,7 +200,10 @@ Building a better future, one line of code at a time.
             
             if default_change[1]
                 # default changed from false to true
-                raise ActiveRecord::RecordInvalid, self unless self.class.where(default: true).where.not(id: id).update(default: false)
+                raise ActiveRecord::RecordInvalid, self unless self.class.where(
+                    default: true,
+                    account: account
+                ).where.not(id: id).update(default: false)
             end
         end
 

@@ -53,6 +53,7 @@ export default {
             workflow_id: null,
             selected_workflow_status: {},
             selected_workflow_status_number: null,
+            deleted_workflow_statuses: [],
             new_status_name: '',
             statuses_count: 0
         }
@@ -121,6 +122,7 @@ export default {
 
             this.workflow.statuses['0'].next_statuses+=`|${new_status.number}`
             this.$set(this.workflow.statuses, new_status.number, new_status)
+
             this.new_status_name = ''
             this.$refs['input-status-name'].focus()
             this.rerender_chart = true
@@ -130,6 +132,10 @@ export default {
 
             let number = deleted_status.number
             this.$delete(this.workflow.statuses, number)
+            if(deleted_status.id){
+                deleted_status['_destroy'] = true
+                this.deleted_workflow_statuses.push(deleted_status)
+            }
 
             for(let status_number in this.workflow.statuses){
                 let workflow_status = this.workflow.statuses[status_number]
@@ -201,6 +207,8 @@ export default {
                 this.http.post(url, data).then(result => {
                     if (result.successful) {
                         this.alert('Workflow created successfully', 'success')
+                        
+                        this.workflow = result.data
                         this.$router.push(`/${result.data.id}`)
                     }else{
                         this.alert(result.error.message,'danger')
@@ -215,7 +223,7 @@ export default {
         },
 
         putWorkflow(){
-            let statuses_attributes = Object.values(this.workflow.statuses)
+            let statuses_attributes = Object.values(this.workflow.statuses).concat(this.deleted_workflow_statuses)
 
             let data = {
                 workflow: {
@@ -228,6 +236,8 @@ export default {
             this.http.put(url, data).then(result => {
                 if (result.successful) {
                     this.alert('Workflow updated successfully', 'success')
+
+                    this.$router.push(`/${this.workflow.id}`)
                 }else{
                     this.alert(result.error.message,'danger')
                 }
@@ -258,6 +268,7 @@ export default {
             }
         }
     },
+
     computed: {
         
         nextStatusesOfSelectedStatus(){
@@ -293,144 +304,137 @@ export default {
 }
 </script>
 <template>
-    <section class="section" v-if="workflow">
-        <div class="card">
-            <div class="card-header">
-                <h2 class="card-header-title">
-                    Workflow
-                </h2>
-                <div class="card-header-icon">
-                    <router-link :to="`/${workflow_id}`">
-                        <i class="fas fa-eye"></i>
-                        Show Workflow
-                    </router-link>
-                    <router-link :to="`/`">
-                        &nbsp;&nbsp;&nbsp;
-                        <i class="fas fa-undo"></i>
-                        Return
-                    </router-link>
-                </div>
-            </div>
-            <div class="card-content">
-                <div class="columns">
-                    <div class="column is-8">
-                        <b-field label="Name">
-                            <input
-                                class="input"
-                                @change="patchWorkflowName"
-                                v-model="workflow.name"
-                                type="text"
-                                ref="input-workflow-name"
-                                required
-                            />
-                        </b-field>
-                    </div>
-                    <div class="column is-4">
-                        <b-field label="Add a new state to the workflow">
-                            <b-input v-model="new_status_name" @change.native="addStatusToWorkflow" ref="input-status-name">
-                            </b-input>
-                        </b-field>
-                    </div>
-                </div>
-                <hr>
-                <form @submit="submitWorkflow">
-                    <div class="columns">
-                        <div class="column">
-                            <span class="has-text-weight-bold">
-                                Select a state to add follow ups
-                            </span>
-                            <div class="list is-hoverable">
-                                <a 
-                                    v-for="(status, key) in workflow.statuses"
-                                    :key="key"
-                                    class="list-item"
-                                    @click="selectWorkflowStatus(status)"
-                                    :class="{'is-active':selected_workflow_status.number == status.number}"
-                                >
-                                    <component-workflow-status-name
-                                        :name="status.name"
-                                    />
-                                    <button 
-                                        v-if="! status.initial && ! status.final"
-                                        type="button"
-                                        class="delete is-pulled-right"
-                                        @click="deleteStatusFromWorkflow(status)"
-                                    ></button>
-                                </a>
-                            </div>
-                        </div>
-                        <div class="column">
-                            <label class="label">Select a follow up state to add</label>
-                            <div class="columns">
-                                <div class="column">
-                                    <b-field>
-                                        <div class="control is-expanded">
-                                            <span class="select is-fullwidth is-empty">
-                                                <select v-model="selected_workflow_status_number" @change="addFollowUpStatus">
-                                                    <option
-                                                        v-for="workflow_status in possibleFollowUpStatuses"
-                                                        :value="workflow_status.number"
-                                                        :key="workflow_status.number"
-                                                        :hidden="workflow_status.number == null"
-                                                        :disbled="workflow_status.number == null"  
-                                                    >
-                                                        <component-workflow-status-name
-                                                            :name="workflow_status.name"
-                                                            :initial="workflow_status.initial"
-                                                            :final="workflow_status.final"
-                                                        >
-                                                        </component-workflow-status-name>
-                                                    </option>
-                                                </select>
-                                            </span>
-                                        </div>
-                                    </b-field>
-                                </div>
-                            </div>
-                            <div class="columns">
-                                <div class="column">
-                                    <span class="has-text-weight-bold">
-                                        Follow up States
-                                    </span>
-                                    <div class="list is-hoverable">
-                                        <a v-for="(workflow_status, key) in nextStatusesOfSelectedStatus" :key="key" class="list-item">
-                                            <component-workflow-status-name
-                                                :name="workflow_status.name"
-                                            />
-                                            <button type="button" class="delete is-pulled-right" @click="deleteFollowUpStatus(workflow_status)">
-                                            </button>
-                                        </a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="columns">
-                        <div class="column">
-                            <div class="field">
-                                <div class="actions has-text-right">
-                                    <button class="button is-primary" type="submit">
-                                        <span v-if="workflow_id">Update Workflow</span>
-                                        <span v-else>Create Workflow</span>
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </form>
-                <hr>
-                <component-workflow-chart
-                    class="has-text-centered"
-                    :cloud-module="cloudModule"
-                    :workflow="workflow"
-                    :rerender.sync="rerender_chart"
-                />
+    <div class="card" v-if="workflow">
+        <div class="card-header">
+            <h2 class="card-header-title">
+                Workflow
+            </h2>
+            <div class="card-header-icon">
+                <router-link :to="`/${workflow_id}`">
+                    <i class="fas fa-eye"></i>
+                    Show Workflow
+                </router-link>
+                <router-link :to="`/`">
+                    &nbsp;&nbsp;&nbsp;
+                    <i class="fas fa-undo"></i>
+                    Return
+                </router-link>
             </div>
         </div>
-    </section>
+        <div class="card-content">
+            <div class="columns">
+                <div class="column is-8">
+                    <b-field label="Name">
+                        <input
+                            class="input"
+                            @change="patchWorkflowName"
+                            v-model="workflow.name"
+                            type="text"
+                            ref="input-workflow-name"
+                            required
+                        />
+                    </b-field>
+                </div>
+                <div class="column is-4">
+                    <b-field label="Add a new state to the workflow">
+                        <b-input v-model="new_status_name" @change.native="addStatusToWorkflow" ref="input-status-name">
+                        </b-input>
+                    </b-field>
+                </div>
+            </div>
+            <hr>
+            <form @submit="submitWorkflow">
+                <div class="columns">
+                    <div class="column">
+                        <span class="has-text-weight-bold">
+                            Select a state to add follow ups
+                        </span>
+                        <div class="list is-hoverable">
+                            <a 
+                                v-for="(status, key) in workflow.statuses"
+                                :key="key"
+                                class="list-item"
+                                @click="selectWorkflowStatus(status)"
+                                :class="{'is-active':selected_workflow_status.number == status.number}"
+                            >
+                                <component-workflow-status-name
+                                    :name="status.name"
+                                />
+                                <button 
+                                    v-if="! status.initial && ! status.final"
+                                    type="button"
+                                    class="delete is-pulled-right"
+                                    @click="deleteStatusFromWorkflow(status)"
+                                ></button>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="column">
+                        <label class="label">Select a follow up state to add</label>
+                        <div class="columns">
+                            <div class="column">
+                                <b-field>
+                                    <div class="control is-expanded">
+                                        <span class="select is-fullwidth is-empty">
+                                            <select v-model="selected_workflow_status_number" @change="addFollowUpStatus">
+                                                <option
+                                                    v-for="workflow_status in possibleFollowUpStatuses"
+                                                    :value="workflow_status.number"
+                                                    :key="workflow_status.number"
+                                                    :hidden="workflow_status.number == null"
+                                                    :disbled="workflow_status.number == null"  
+                                                >
+                                                    <component-workflow-status-name
+                                                        :name="workflow_status.name"
+                                                        :initial="workflow_status.initial"
+                                                        :final="workflow_status.final"
+                                                    >
+                                                    </component-workflow-status-name>
+                                                </option>
+                                            </select>
+                                        </span>
+                                    </div>
+                                </b-field>
+                            </div>
+                        </div>
+                        <div class="columns">
+                            <div class="column">
+                                <span class="has-text-weight-bold">
+                                    Follow up States
+                                </span>
+                                <div class="list is-hoverable">
+                                    <a v-for="(workflow_status, key) in nextStatusesOfSelectedStatus" :key="key" class="list-item">
+                                        <component-workflow-status-name
+                                            :name="workflow_status.name"
+                                        />
+                                        <button type="button" class="delete is-pulled-right" @click="deleteFollowUpStatus(workflow_status)">
+                                        </button>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="columns">
+                    <div class="column">
+                        <div class="field">
+                            <div class="actions has-text-right">
+                                <button class="button is-primary" type="submit">
+                                    <span v-if="workflow_id">Update Workflow</span>
+                                    <span v-else>Create Workflow</span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+            <hr>
+            <component-workflow-chart
+                class="has-text-centered"
+                :cloud-module="cloudModule"
+                :workflow="workflow"
+                :rerender.sync="rerender_chart"
+            />
+        </div>
+    </div>
 </template>
-<style scoped>
-.has-magin-bottom {
-    margin-bottom: 0.6rem;
-}
-</style>
