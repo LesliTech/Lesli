@@ -125,67 +125,6 @@ Building a better future, one line of code at a time.
             )
         end
 
-=begin
-@return [Array] Information about all the cloud objects that can have workflows
-@description Based on the *cloud_objects* method of the workflow class, generates information
-    about the class of the cloud_object, the endpoind, and it's name, so the user can
-    associate it properly
-@example
-    workflow = CloudHouse::Workflow.find_by(1)
-    puts workflow.global_assignments.to_json # Will print something like
-    #[
-    #    {
-    #        "name":"Properties",
-    #        "url":"/house/property_workflows",
-    #        "params_name":"property_workflow",
-    #        "id":6,
-    #        "assigned":true
-    #    }, {
-    #        "name":"Projects",
-    #        "url":"/house/project_workflows",
-    #        "params_name":"project_workflow",
-    #        "assigned":false
-    #    }
-    #]
-=end
-=begin
-        def global_assignments
-            dynamic_info = self.class.dynamic_info
-            module_name = dynamic_info[:module_name]
-
-            assignments = []
-            
-            cloud_objects.each do |cloud_object_classname|
-                object_workflow_model = "#{cloud_object_classname}Workflow".constantize rescue nil
-                next unless object_workflow_model
-
-                cloud_object_name = cloud_object_classname.split("::")[-1]
-                assignment = {
-                    name: cloud_object_name.pluralize,
-                    url: "/#{module_name}/#{cloud_object_name.downcase}_workflows",
-                    params_name: "#{cloud_object_name.downcase}_workflow"
-                }
-
-                global_entry = object_workflow_model.find_by(
-                    account: account,
-                    global: true,
-                    "cloud_#{module_name}_workflows_id": id
-                )
-                
-                if global_entry
-                    assignment[:id] = global_entry.id
-                    assignment[:assigned] = true
-                else
-                    assignment[:assigned] = false
-                end
-
-                assignments.push(assignment)
-            end
-
-            assignments
-        end
-=end
-
         protected
         
 =begin
@@ -210,10 +149,10 @@ Building a better future, one line of code at a time.
         
 =begin
 @return [void]
-@description Adds the "workflow_detail" attribute to an existing *cloud_object*.
-    The detail added is the one associated to the *initial* *state*, based on the
-    *cloud_object*'s attributes configured as associations in the *workflow_assignment*
-    model.
+@description Adds the *workflow_status* attribute to an existing *cloud_object*.
+    based on the *cloud_object*'s attributes. Priority is: default workflow is least
+    important, then goes global workflow of this table, then goes specific workflow of
+    this table.
 @example
     ticket_params = {
         detail_attributes: {
@@ -230,24 +169,42 @@ Building a better future, one line of code at a time.
         responseWithError(ticket.errors.full_messages.to_sentence)
     end
 =end
-=begin
         def self.set_workflow(cloud_object)
 
             dynamic_info_ = self.dynamic_info
-            assignment_model = dynamic_info_[:assignment_model]
-            detail_model = dynamic_info_[:detail_model]
             status_model = dynamic_info_[:status_model]
+            association_model = dynamic_info_[:association_model]
             account = cloud_object.account
+            workflow_for = cloud_object.class.name.split("::")[-1].underscore.downcase
 
+            puts "--------------------------------------"
+            puts workflow_for
+            puts "----------------------------------------------"
 
-            cloud_object_name = cloud_object.class.name.split("::")
-            assignment_model = "#{cloud_object_name[0]}::#{cloud_object_name[1]}Workflow".constantize
+            # The first workflow option is the default workflow
+            workflow = self.find_by(
+                default: true,
+                account: account
+            )
 
             # Global Workflow
-            workflow_assignment = assignment_model.find_by(global: true)
-
+            workflow_associations = association_model.joins(
+                :workflow
+            ).where(
+                "cloud_house_workflows.cloud_house_accounts_id = #{cloud_object.account.id}"
+            ).where(
+                "cloud_house_workflow_associations.global = true"
+            ).where(
+                "cloud_house_workflow_associations.workflow_for = '#{workflow_for}'"
+            ).select(
+                "cloud_house_workflows.id as id",
+                "cloud_house_workflows.name as name"
+            )
+            puts "_________________________________________________"
+            puts workflow_associations.to_json
+=begin
             # Specific Workflow
-            associations = assignment_model.associations rescue nil
+            associations = association_model.associations rescue nil
             if associations 
                 search_params = {
                     account: account
@@ -257,19 +214,17 @@ Building a better future, one line of code at a time.
                     search_params["#{association[:name]}".to_sym] = cloud_object[association[:key]]
                 end
 
-                workflow_assignment = assignment_model.find_by(search_params)
+                workflow_association = association_model.find_by(search_params)
             end
-            
-            if workflow_assignment 
-                workflow = workflow_assignment.workflow
+=end
+            unless workflow_associations.empty?
+                workflow = self.find(workflow_associations[0][:id])
+            end
 
-                cloud_object.workflow_detail = detail_model.find_by(
-                    workflow: workflow,
-                    workflow_state: status_model.initial_state(account)
-                )
+            if workflow
+                cloud_object.status = workflow.statuses.find_by(initial: true)
             end
         end
-=end
 
 =begin
 @return [void]
@@ -314,13 +269,14 @@ Building a better future, one line of code at a time.
     dynamic_info = CloudHelp::Workflow.dynamic_info
     puts dynamic_info[:module_name] # will print 'help'
     puts dynamic_info[:status_model].new # will print a new instance of CloudHelp::Workflow::Status
-    puts dynamic_info[:status_model] # will print a new instance of CloudHelp::WorkflowState
+    puts dynamic_info[:association_model] # will print a new instance of CloudHelp::Workflow::Association
 =end
         def self.dynamic_info
             module_info = self.name.split("::")
             {
                 module_name: module_info[0].sub("Cloud", "").downcase,
-                status_model: "#{self.name}::Status".constantize
+                status_model: "#{self.name}::Status".constantize,
+                association_model: "#{self.name}::Association".constantize
             }
         end
     end

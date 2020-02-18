@@ -30,12 +30,12 @@ Building a better future, one line of code at a time.
 // · Component list
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
 import componentWorkflowChart from "LesliCloud/vue_core/cloud_objects/workflows/components/chart.vue"
-import componentWorkflowStatusName from "LesliCloud/vue_core/cloud_objects/workflows/components/status-name.vue"
+import componentStatusName from "LesliCloud/vue_core/cloud_objects/workflows/components/status-name.vue"
 
 export default {
     components: {
         'component-workflow-chart': componentWorkflowChart,
-        'component-workflow-status-name': componentWorkflowStatusName
+        'component-status-name': componentStatusName
     },
     
     props: {
@@ -357,7 +357,7 @@ export default {
                                 @click="selectWorkflowStatus(status)"
                                 :class="{'is-active':selected_workflow_status.number == status.number}"
                             >
-                                <component-workflow-status-name
+                                <component-status-name
                                     :name="status.name"
                                 />
                                 <button 
@@ -384,12 +384,12 @@ export default {
                                                     :hidden="workflow_status.number == null"
                                                     :disbled="workflow_status.number == null"  
                                                 >
-                                                    <component-workflow-status-name
+                                                    <component-status-name
                                                         :name="workflow_status.name"
                                                         :initial="workflow_status.initial"
                                                         :final="workflow_status.final"
                                                     >
-                                                    </component-workflow-status-name>
+                                                    </component-status-name>
                                                 </option>
                                             </select>
                                         </span>
@@ -404,7 +404,7 @@ export default {
                                 </span>
                                 <div class="list is-hoverable">
                                     <a v-for="(workflow_status, key) in nextStatusesOfSelectedStatus" :key="key" class="list-item">
-                                        <component-workflow-status-name
+                                        <component-status-name
                                             :name="workflow_status.name"
                                         />
                                         <button type="button" class="delete is-pulled-right" @click="deleteFollowUpStatus(workflow_status)">
