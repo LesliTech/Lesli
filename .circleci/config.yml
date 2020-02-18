@@ -4,15 +4,7 @@ jobs:
         working_directory: ~/my-app
         docker:
             — image: circleci/ruby:2.5.0-node-browsers
-                environment:
-                    PGHOST: localhost
-                    PGUSER: my-app
-                    RAILS_ENV: test
             — image: circleci/postgres:10.3
-                environment:
-                    POSTGRES_USER: my-app
-                    POSTGRES_DB: my-app_test
-                    POSTGRES_PASSWORD: “”
             steps:
                 — checkout
                 — run:
