@@ -13,10 +13,6 @@ module LesliInfo
             next if entry == ".."
             next if entry == ".gitkeep"
 
-            p '~    ~    ~    ~    ~    ~    ~    ~    ~    ~    ~    ~    ~'
-            p entry
-            p '~    ~    ~    ~    ~    ~    ~    ~    ~    ~    ~    ~    ~'
-            
             # build path to lesli engine info file
             path = File.join("./engines", entry, "lesli.json")
             

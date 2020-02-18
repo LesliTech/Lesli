@@ -26,7 +26,6 @@ Building a better future, one line of code at a time.
 =end
 
 class User < ApplicationRecord
-    acts_as_paranoid
     devise  :database_authenticatable, 
             :registerable, 
             :rememberable, 
@@ -35,10 +34,11 @@ class User < ApplicationRecord
             :confirmable,
             :trackables 
     
+    acts_as_paranoid
+
     belongs_to :account, foreign_key: 'accounts_id', optional: true
 
-    #has_one :lock, class_name: "CloudLock::User::Detail", foreign_key: 'users_id', dependent: :delete, inverse_of: :user, autosave: true
-    #accepts_nested_attributes_for :lock
+    has_one :lock_user, class_name: "CloudLock::User", foreign_key: "users_id"
 
     after_create :user_initialize 
 
