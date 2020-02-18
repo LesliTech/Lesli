@@ -170,56 +170,71 @@ Building a better future, one line of code at a time.
     end
 =end
         def self.set_workflow(cloud_object)
-
             dynamic_info_ = self.dynamic_info
             status_model = dynamic_info_[:status_model]
             association_model = dynamic_info_[:association_model]
             account = cloud_object.account
             workflow_for = cloud_object.class.name.split("::")[-1].underscore.downcase
 
-            puts "--------------------------------------"
-            puts workflow_for
-            puts "----------------------------------------------"
+            
+            # The first workflow option is the specific workflow
+            association_details = association_model.object_association_details(workflow_for)
+
+            unless association_details.empty?
+                search_params = [
+                    "cloud_house_workflows.cloud_house_accounts_id = #{cloud_object.account.id}",
+                    "cloud_house_workflow_associations.workflow_for = '#{workflow_for}'"
+                ]
+
+                association_details.each do |detail|
+                    search_params.push(
+                        "cloud_house_workflow_associations.#{detail[:name]} = #{cloud_object[detail[:key]]}"
+                    )
+                end
+
+                workflow_associations = association_model.joins(
+                    :workflow
+                ).where(
+                    search_params.join(" and ")
+                ).select(
+                    "cloud_house_workflows.id as id",
+                    "cloud_house_workflows.name as name"
+                )
+
+                unless workflow_associations.empty?
+                    workflow = self.find(workflow_associations[0][:id])
+                    cloud_object.status = workflow.statuses.find_by(initial: true)
+                    return
+                end
+            end
+
+
+            # The second workflow option is the global workflow
+            workflow_associations = association_model.joins(
+                :workflow
+            ).where(
+                "
+                    cloud_house_workflows.cloud_house_accounts_id = #{cloud_object.account.id} and
+                    cloud_house_workflow_associations.global = true and
+                    cloud_house_workflow_associations.workflow_for = '#{workflow_for}'
+                "
+            ).select(
+                "cloud_house_workflows.id as id",
+                "cloud_house_workflows.name as name"
+            )
+
+            unless workflow_associations.empty?
+                workflow = self.find(workflow_associations[0][:id])
+                cloud_object.status = workflow.statuses.find_by(initial: true)
+                return
+            end
+        
 
             # The first workflow option is the default workflow
             workflow = self.find_by(
                 default: true,
                 account: account
             )
-
-            # Global Workflow
-            workflow_associations = association_model.joins(
-                :workflow
-            ).where(
-                "cloud_house_workflows.cloud_house_accounts_id = #{cloud_object.account.id}"
-            ).where(
-                "cloud_house_workflow_associations.global = true"
-            ).where(
-                "cloud_house_workflow_associations.workflow_for = '#{workflow_for}'"
-            ).select(
-                "cloud_house_workflows.id as id",
-                "cloud_house_workflows.name as name"
-            )
-            puts "_________________________________________________"
-            puts workflow_associations.to_json
-=begin
-            # Specific Workflow
-            associations = association_model.associations rescue nil
-            if associations 
-                search_params = {
-                    account: account
-                }
-                
-                associations.each do |association|
-                    search_params["#{association[:name]}".to_sym] = cloud_object[association[:key]]
-                end
-
-                workflow_association = association_model.find_by(search_params)
-            end
-=end
-            unless workflow_associations.empty?
-                workflow = self.find(workflow_associations[0][:id])
-            end
 
             if workflow
                 cloud_object.status = workflow.statuses.find_by(initial: true)
