@@ -1,28 +1,26 @@
 version: 2
 jobs:
- build:
-   working_directory: ~/my-app
-   docker:
-     — image: circleci/ruby:2.5.0-node-browsers
-       environment:
-         PGHOST: localhost
-         PGUSER: my-app
-         RAILS_ENV: test
-     — image: circleci/postgres:10.3
-       environment:
-         POSTGRES_USER: my-app
-         POSTGRES_DB: my-app_test
-         POSTGRES_PASSWORD: “”
-     steps:
-       — checkout
-       # Database setup
-       — run:
-         name: Create Database
-         command: bundle exec rake db:create
-       — run:
-         name: Load Database Schema
-         command: bundle exec rake db:schema:load
-       # run tests!
-       — run:
-         name: Run RSpec Tests
-         command: rspec spec
+    build:
+        working_directory: ~/my-app
+        docker:
+            — image: circleci/ruby:2.5.0-node-browsers
+                environment:
+                    PGHOST: localhost
+                    PGUSER: my-app
+                    RAILS_ENV: test
+            — image: circleci/postgres:10.3
+                environment:
+                    POSTGRES_USER: my-app
+                    POSTGRES_DB: my-app_test
+                    POSTGRES_PASSWORD: “”
+            steps:
+                — checkout
+                — run:
+                    name: Create Database
+                    command: bundle exec rake db:create
+                — run:
+                    name: Load Database Schema
+                    command: bundle exec rake db:schema:load
+                — run:
+                    name: Run RSpec Tests
+                    command: rspec spec
