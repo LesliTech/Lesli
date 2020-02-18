@@ -2,7 +2,7 @@
 
 Lesli
 
-Copyright (c) 2019, Lesli Technologies, S. A.
+Copyright (c) 2020, Lesli Technologies, S. A.
 
 All the information provided by this website is protected by laws of Guatemala related 
 to industrial property, intellectual property, copyright and relative international laws. 
@@ -17,22 +17,28 @@ LesliCloud - Your Smart Business Assistant
 Powered by https://www.lesli.tech
 Building a better future, one line of code at a time.
 
-@author   LesliTech <hello@lesli.tech>
-@author   Luis Donis <ldonis@lesli.tech>
 @license  Propietary - all rights reserved.
-@version  GIT: 1.0.0 alpha
+@version  0.1.0-alpha
 
+// · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
 // · 
-// · ~·~        ~·~        ~·~        ~·~        ~·~        ~·~        ~·~        ~·~        ~·~
 
 =end
 
-User.find_or_create_by(email: 'admin@lesli.cloud') do |user|
-    user.password = 'lesli2020'
-    user.password_confirmation = 'lesli2020'
-    user.accounts_id = 1
-    user.confirm
+module Courier
+    module Focus
+        class Task
 
-    user.account.user = user
-    user.account.save!
+            def self.for(current_user)
+            end
+
+            def self.for_with_deadline(current_user)
+                return unless defined? CloudFocus
+                current_user.account.focus.tasks.joins(:detail)
+                .select(:id, :title, :description, :deadline)
+                .where("cloud_focus_task_details.deadline is not null")
+            end
+            
+        end
+    end
 end
