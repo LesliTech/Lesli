@@ -3,6 +3,10 @@ jobs:
     build:
         working_directory: ~/my-app
         docker:
-            — image: circleci/ruby:2.5.0-node-browsers
+            - image: circleci/ruby:2.5.0-node-browsers
         steps:
-            — checkout
+            - checkout
+
+            - run:
+                name: Which bundler?
+                command: bundle -v
