@@ -4,15 +4,5 @@ jobs:
         working_directory: ~/my-app
         docker:
             — image: circleci/ruby:2.5.0-node-browsers
-            — image: circleci/postgres:10.3
-            steps:
-                — checkout
-                — run:
-                    name: Create Database
-                    command: bundle exec rake db:create
-                — run:
-                    name: Load Database Schema
-                    command: bundle exec rake db:schema:load
-                — run:
-                    name: Run RSpec Tests
-                    command: rspec spec
+        steps:
+            — checkout
