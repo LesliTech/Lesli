@@ -29,20 +29,22 @@ Building a better future, one line of code at a time.
 
 // · Component list
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
-import componentWorkflowAssignmentGobal from '../components/assignment-global.vue'
 import componentWorkflowChart from '../components/chart.vue'
 
 export default {
-
-    components: {
-        'component-workflow-chart': componentWorkflowChart
-    },
-
+    
+    // @component_prop CloudModule [String] The cloud module that imported this component.
+    //      For example, 'house/property'. It helps determine the endpoints to which this 
+    //      and child components connect to
     props: {
         cloudModule: {
             type: String,
             required: true
         }
+    },
+
+    components: {
+        'component-workflow-chart': componentWorkflowChart
     },
 
     data() {
