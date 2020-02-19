@@ -7,7 +7,7 @@ const playwright = require('playwright');
         const page = await context.newPage();
         await page.goto("http://0.0.0.0:3000/login");
         await page.click("input[type=submit]")
-        await page.screenshot({ path: `storage/example-${browserType}.png` });
+        await page.screenshot({ path: `storage/test-${browserType}.png` });
         await browser.close();
     }
 })();
