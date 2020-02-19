@@ -31,7 +31,7 @@ class ApplicationLesliController < ApplicationController
 
     before_action :authenticate_user!
     before_action :check_account
-    before_action :set_global_account, :set_global_settings
+    before_action :set_global_account
     
     layout 'layouts/application'
 
@@ -77,6 +77,12 @@ class ApplicationLesliController < ApplicationController
             id: current_user.account.id,
             name: current_user.account.company_name
         }
+
+        # add custom settings
+        @account[:settings] = { }
+        Setting.all.each do |setting|
+            @account[:settings][setting[:name]] = setting[:value].to_s
+        end
 
         return @account
 
