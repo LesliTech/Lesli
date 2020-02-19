@@ -8,7 +8,7 @@ jobs:
             - checkout
             - run:
                 name: Upgrade bundler
-                command: bundle update --bundler
+                command: gem install bundler
             - run:
                 name: Which bundler?
                 command: bundle -v
