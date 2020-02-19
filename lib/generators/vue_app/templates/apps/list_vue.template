@@ -49,7 +49,8 @@ export default {
     data(){
         return {
             main_route: '%app_route%',
-            %underscore_resources%: null
+            %underscore_resources%: null,
+            reloading: false
         }
     },
 
@@ -70,6 +71,7 @@ export default {
         //      console.log(this.%underscore_resources%) // will display an array of objects, each representing a %humanized_resource%.
         get%camel_case_resources%() {
             this.http.get(`${this.main_route}.json`).then(result => {
+                this.reloading = false
                 if (result.successful) {
                     this.%underscore_resources% = result.data
                 }else{
@@ -89,24 +91,63 @@ export default {
         //      // The user will be redirected to the url %app_route%/4
         show%camel_case_resource%(%underscore_resource%) {
             this.$router.push(`/${%underscore_resource%.id}`)
-        }
+        },
 
+        reload%camel_case_resources%(){
+            this.reloading = true
+            this.get%camel_case_resources%()
+        }
+    },
+
+    computed: {
+
+        // @return [String] The class that is used to give a spinning animation to the icon (if needed)
+        // @description When the user clicks the 'reload' button, it changes the value of the *reloading*
+        //      data variable. And that is used by this method to change the class of the icon and add it
+        //      the spinning animation
+        reloadingClass(){
+            if(this.reloading){
+                return 'fa-spin'
+            }
+
+            return ''
+        }
     }
 }
 </script>
 <template>
     <section class="section" v-if="%underscore_resources%">
-        <b-table :data="%underscore_resources%" @click="show%camel_case_resource%" :hoverable="true">
-            <template slot-scope="props">
-                <b-table-column field="id" label="ID" width="40" numeric centered>
-                    {{ props.row.id }}
-                </b-table-column>
+        <component-layout-data-empty v-if="%underscore_resources%.length == 0" />
+        <div class="card" v-if="%underscore_resources%.length > 0">
+            <div class="card-header">
+                <h4 class="card-header-title">
+                    %humanized_resources%
+                </h4>
+                <div class="buttons">
+                    <button class="button is-white" @click="reload%camel_case_resources%" :disabled="reloading">
+                        <b-icon icon="sync" size="is-small" :custom-class="reloadingClass" />
+                    </button>
+                    &nbsp;&nbsp;&nbsp;
+                </div>
+            </div>
+            <div class="card-content">
+                <b-table :data="%underscore_resources%" @click="show%camel_case_resource%" :hoverable="true">
+                    <template slot-scope="props">
+                        <b-table-column field="id" label="ID" width="40" numeric centered>
+                            {{ props.row.id }}
+                        </b-table-column>
 
-                <!------------ ------------------------------------------ ------------>
-                <!------------ Add other table rows here as you need them ------------>
-                <!------------ ------------------------------------------ ------------>
+                        <!------------ ------------------------------------------ ------------>
+                        <!------------ Add other table rows here as you need them ------------>
+                        <!------------ ------------------------------------------ ------------>
 
-            </template>
-        </b-table>
+                    </template>
+                </b-table>
+            </div>
+        </div>
+    </section>
+
+    <section class="section" v-else>
+        <component-layout-data-loading  size="is-medium" />
     </section>
 </template>
