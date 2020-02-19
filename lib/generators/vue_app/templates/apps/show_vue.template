@@ -102,5 +102,6 @@ export default {
 <template>
     <section class="section">
         <component-form v-if="%underscore_resource%" :%snake_case_resource%="%underscore_resource%" view-type="show"/>
+        <component-layout-data-loading v-else size="is-medium" />
     </section>
 </template>
