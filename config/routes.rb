@@ -34,13 +34,13 @@ Rails.application.routes.draw do
         mount CloudHelp::Engine   => "/help"   if defined?(CloudHelp)
         mount CloudKb::Engine     => "/kb"     if defined?(CloudKb)
 
-        mount CloudDispatcher::Engine => "/api" if defined?(CloudDispatcher)
-
         root to: redirect('/lesli'), as: :root_authenticated if defined?(CloudLesli)
         root to: "dashboards#empty", as: :root_authenticated if !defined?(CloudLesli)
 
     end
 
     root to: "websites#landing", as: :root_unauthenticated
+
+    mount CloudDispatcher::Engine => "/api" if defined?(CloudDispatcher)
 
 end

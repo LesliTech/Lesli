@@ -3,10 +3,12 @@ jobs:
     build:
         working_directory: ~/my-app
         docker:
-            - image: circleci/ruby:2.5.0-node-browsers
+            - image: circleci/ruby:2.6.4-stretch
         steps:
             - checkout
-
+            - run:
+                name: Upgrade bundler
+                command: gem install bundler
             - run:
                 name: Which bundler?
                 command: bundle -v
