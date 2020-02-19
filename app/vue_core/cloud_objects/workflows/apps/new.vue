@@ -1,8 +1,6 @@
 <script>
 /*
-Lesli
-
-Copyright (c) 2019, Lesli Technologies, S. A.
+Copyright (c) 2020, Lesli Technologies, S. A.
 
 All the information provided by this website is protected by laws of Guatemala related 
 to industrial property, intellectual property, copyright and relative international laws. 
@@ -17,22 +15,26 @@ LesliCloud - Your Smart Business Assistant
 Powered by https://www.lesli.tech
 Building a better future, one line of code at a time.
 
-@dev      Carlos Hermosilla
-@author   LesliTech <hello@lesli.tech>
+@author   Carlos Hermosilla
 @license  Propietary - all rights reserved.
 @version  0.1.0-alpha
+@description App that allows the user to create a new workflow
 
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
 // · 
 */
 
 
-// · Component list
+// · List of Imported Components
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
 import componentForm from '../components/form.vue'
 
 
 export default {
+
+    // @component_prop CloudModule [String] The cloud module that imported this component.
+    //      For example, 'house/property'. It helps determine the endpoints to which this 
+    //      and child components connect to
     props: {
         cloudModule: {
             type: String,
@@ -46,5 +48,7 @@ export default {
 }
 </script>
 <template>
-    <component-form :cloud-module="cloudModule" />
+    <section class="section">
+        <component-form :cloud-module="cloudModule" />
+    </section>
 </template>

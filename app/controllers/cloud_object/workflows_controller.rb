@@ -25,7 +25,7 @@ Building a better future, one line of code at a time.
     throught the *cloud_object* lifespan
 =end
     class WorkflowsController < ApplicationLesliController
-        before_action :set_workflow, only: [:update, :destroy, :workflow_assignment_options]
+        before_action :set_workflow, only: [:update, :destroy]
 
 
 =begin
@@ -185,15 +185,13 @@ let data = {
 this.http.put(`127.0.0.1/help/workflows/${workflow_id}`, data);
 =end
         def update
-            update_params = workflow_params
-            if update_params[:statuses_attributes]
-                @workflow.replace_workflow( update_params[:statuses_attributes])
-                update_params = update_params.except(:statuses_attributes)
-            end
+            return responseWithNotFound unless @workflow
 
-            @workflow.update(update_params)
-            return responseWithError(@workflow.errors.full_messages.to_sentence) if @workflow.errors.any?
-            responseWithSuccessful
+            if @workflow.update(workflow_params)
+                responseWithSuccessful(@workflow)
+            else
+                responseWithError(@workflow.errors.full_messages.to_sentence)
+            end
         end
 
 =begin
@@ -247,20 +245,7 @@ this.http.put(`127.0.0.1/help/workflows/${workflow_id}`, data);
 
             return responseWithNotFound unless cloud_object
 
-            responseWithSuccessful(cloud_object.workflow_detail.next_workflow_states)
-        end
-
-
-=begin
-@return [JSON] A list of global assignments of the workflow
-@description Obtains a list of all the global assignments of this workflow. A global assignment
-    is an entry in the cloud_[engine]_[object]_workflows that has the 'global' attribute set to true
-=end
-        def workflow_assignment_options
-            dynamic_info = self.class.dynamic_info
-            model = dynamic_info[:model]
-
-            responseWithSuccessful( @workflow.global_assignments )
+            responseWithSuccessful(cloud_object.status.next_workflow_statuses)
         end
 
 private
@@ -322,8 +307,6 @@ private
     #    }
 =end
         def workflow_params
-            dynamic_info = self.class.dynamic_info
-
             params.require(:workflow).permit(
                 :name,
                 :default,
@@ -333,7 +316,8 @@ private
                     :initial,
                     :final,
                     :name,
-                    :number
+                    :number,
+                    :_destroy
                 ]
             )
         end

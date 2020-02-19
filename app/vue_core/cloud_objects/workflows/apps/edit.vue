@@ -33,6 +33,10 @@ import componentForm from '../components/form.vue'
 
 
 export default {
+
+    // @component_prop CloudModule [String] The cloud module that imported this component.
+    //      For example, 'house/property'. It helps determine the endpoints to which this 
+    //      and child components connect to
     props: {
         cloudModule: {
             type: String,
@@ -46,5 +50,7 @@ export default {
 }
 </script>
 <template>
-    <component-form :cloud-module="cloudModule" />
+    <section class="section">
+        <component-form :cloud-module="cloudModule" />
+    </section>
 </template>

@@ -16,13 +16,13 @@ module CloudObject
             dynamic_info = self.class.dynamic_info
             module_name = dynamic_info[:module_name]
             activity_model = dynamic_info[:activity_model]
-            workflow_detail_model = dynamic_info[:workflow_detail_model]
+            workflow_status_model = dynamic_info[:workflow_status_model]
 
             workflow_change = detail.saved_changes["cloud_#{module_name}_workflow_details_id"]
            
             if workflow_change
-                old_detail = workflow_detail_model.find(workflow_change[0])
-                new_detail = workflow_detail_model.find(workflow_change[1])
+                old_detail = workflow_status_model.find(workflow_change[0])
+                new_detail = workflow_status_model.find(workflow_change[1])
                 activity_model.create!({
                     description: "Moved from state #{old_detail.workflow_state.name} to #{new_detail.workflow_state.name}",
                     field_name: "cloud_#{module_name}_workflow_details_id",
@@ -65,7 +65,7 @@ module CloudObject
     dynamic_info = CloudHelp::Ticket.dynamic_info
     puts dynamic_info[:activity_model].new # will print a new instance of CloudHelp::Ticket::Activity
     puts dynamic_info[:module_name] # will print 'help'
-    puts dynamic_info[:workflow_detail_model].new # will print a new instance of CloudHelp::Workflow::Detail
+    puts dynamic_info[:workflow_status_model].new # will print a new instance of CloudHelp::Workflow::Status
     puts dynamic_info[:workflow_model].new # will print a new instance of CloudHelp::Workflow
 =end
         def self.dynamic_info
@@ -74,7 +74,7 @@ module CloudObject
                 activity_model: "#{self.name}::Activity".constantize,
                 module_name: module_info[0].sub("Cloud", "").downcase,
                 workflow_model: "#{module_info[0]}::Workflow".constantize,
-                workflow_detail_model: "#{module_info[0]}::Workflow::Detail".constantize
+                workflow_status_model: "#{module_info[0]}::Workflow::Status".constantize
             }
         end
     end
