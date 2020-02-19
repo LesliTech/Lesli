@@ -6,7 +6,9 @@ jobs:
             - image: circleci/ruby:2.6.4-stretch
         steps:
             - checkout
-
+            - run:
+                name: Upgrade bundler
+                command: bundle update --bundler
             - run:
                 name: Which bundler?
                 command: bundle -v
