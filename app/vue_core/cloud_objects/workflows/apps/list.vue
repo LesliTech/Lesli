@@ -18,7 +18,7 @@ Building a better future, one line of code at a time.
 @author   Carlos Hermosilla
 @license  Propietary - all rights reserved.
 @version  0.1.0-alpha
-@description App that retrieves and shows list of all the Ticket type associated to 
+@description App that retrieves and shows list of all the workflows associated to 
     the account of the logged user
 
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
