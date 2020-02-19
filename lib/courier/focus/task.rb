@@ -37,6 +37,7 @@ module Courier
                 current_user.account.focus.tasks.joins(:detail)
                 .select(:id, :title, :description, :deadline)
                 .where("cloud_focus_task_details.deadline is not null")
+                .where("cloud_focus_task_details.deadline = date_trunc('month', CURRENT_DATE)")
             end
             
         end
