@@ -138,6 +138,7 @@ class VueAppGenerator < Rails::Generators::Base
             gsub_file(destination_path, "%camel_case_resources%", @app_data[:camel_case_resource].pluralize)
             gsub_file(destination_path, "%snake_case_resource%", @app_data[:snake_case_resource])
             gsub_file(destination_path, "%humanized_resource%", @app_data[:humanized_resource])
+            gsub_file(destination_path, "%humanized_resources%", @app_data[:humanized_resource].pluralize)
         end
     end
 
