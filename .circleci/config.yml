@@ -3,10 +3,13 @@ jobs:
     build:
         working_directory: ~/my-app
         docker:
-            - image: circleci/ruby:2.5.0-node-browsers
+            - image: circleci/ruby:2.6.4-stretch
+            - image: circleci/postgres:11.5
         steps:
             - checkout
-
             - run:
-                name: Which bundler?
+                name: Upgrade bundler
+                command: gem install bundler
+            - run:
+                name: Check bundler version
                 command: bundle -v

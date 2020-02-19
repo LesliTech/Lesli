@@ -1,6 +1,5 @@
 Rails.application.routes.draw do
 
-  resources :settings
     devise_for :users,
     :controllers => { 
         :registrations => "users/registrations",
@@ -20,6 +19,7 @@ Rails.application.routes.draw do
     authenticated :user do
 
         resource :account
+        resource :settings
 
         mount ActionCable.server  => "/cable"
         mount CloudDriver::Engine => "/driver" if defined?(CloudDriver)
@@ -40,5 +40,7 @@ Rails.application.routes.draw do
     end
 
     root to: "websites#landing", as: :root_unauthenticated
+
+    mount CloudDispatcher::Engine => "/api" if defined?(CloudDispatcher)
 
 end
