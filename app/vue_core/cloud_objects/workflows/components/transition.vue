@@ -1,8 +1,8 @@
 <script>
-import componentWorkflowStateName from "../../workflow_states/components/name.vue"
+import componentStatusName from "./status-name.vue"
 export default {
     components: {
-        'component-workflow-state-name': componentWorkflowStateName
+        'component-status-name': componentStatusName
     },
 
     props: {
@@ -17,8 +17,8 @@ export default {
 
     data() {
         return {
-            transition_states: null,
-            transition_detail_id: null,
+            transition_statuses: null,
+            transition_status_id: null,
             module_name: null,
             object_name: null
         }
@@ -42,10 +42,10 @@ export default {
                 this.http.get(url).then(result =>{
                     if (result.successful) {
                         if(result.data && result.data.length > 0){
-                            this.transition_states = result.data
-                            this.transition_detail_id = result.data[0].workflow_detail_id
+                            this.transition_statuses = result.data
+                            this.transition_status_id = result.data[0].workflow_detail_id
                         }else{
-                            this.transition_states = []
+                            this.transition_statuses = []
                         }
                     } else {
                         this.alert(result.error.message, 'danger')
@@ -66,19 +66,19 @@ export default {
             let url = `/${this.object_utils.pluralize(this.cloudModule)}/${this.cloudId}`
             let data = {}
             data[this.object_name] = {}
-            let detail_key = `cloud_${this.module_name}_workflow_details_id`
-            data[this.object_name][detail_key] = this.transition_detail_id
+            let detail_key = `cloud_${this.module_name}_workflow_statuses_id`
+            data[this.object_name][detail_key] = this.transition_status_id
             
             this.http.patch(url, data).then(result =>{
                 if (result.successful) {
-                    let state = this.transition_states.filter (state => state.workflow_detail_id == this.transition_detail_id)[0]
-                    this.bus.publish(`update:/${this.cloudModule}/workflow`, state)
-                    if(state.final){
+                    let status = this.transition_statuses.filter (status => status.id == this.transition_status_id)[0]
+                    this.bus.publish(`update:/${this.cloudModule}/workflow`, status)
+                    if(status.final){
                         this.alert('This resource is now closed has been successfully closed', 'success')
                         this.$router.push(`/${this.cloudId}`)
                     }else{
                         this.getWorkflowStateOptions()
-                        this.alert('The state of this resource has been successfully updated', 'success')
+                        this.alert('The status of this resource has been successfully updated', 'success')
                     }
                 } else {
                     this.alert(result.error.message, 'danger')
@@ -107,14 +107,14 @@ export default {
             <form @submit="patchWorkflow">
                 <div class="columns">
                     <div class="column is-9">
-                        <b-select expanded v-model="transition_detail_id">
+                        <b-select expanded v-model="transition_status_id" placeholder="Select a status">
                             <option
-                                v-for="state in transition_states"
-                                :key="state.workflow_detail_id"
-                                :value="state.workflow_detail_id"
+                                v-for="status in transition_statuses"
+                                :key="status.id"
+                                :value="status.id"
                             >
-                                <component-workflow-state-name
-                                    :name="state.name"
+                                <component-status-name
+                                    :name="status.name"
                                 />
                             </option>
                         </b-select>

@@ -29,20 +29,24 @@ Building a better future, one line of code at a time.
 
 // · Component list
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
-import componentWorkflowAssignmentGobal from '../components/assignment-global.vue'
-import componentWorkflowChart from '../components/chart.vue'
+import componentChart from '../components/chart.vue'
+import componentAssociation from '../components/association.vue'
 
 export default {
-
-    components: {
-        'component-workflow-chart': componentWorkflowChart
-    },
-
+    
+    // @component_prop CloudModule [String] The cloud module that imported this component.
+    //      For example, 'house/property'. It helps determine the endpoints to which this 
+    //      and child components connect to
     props: {
         cloudModule: {
             type: String,
             required: true
         }
+    },
+
+    components: {
+        'component-chart': componentChart,
+        'component-association': componentAssociation
     },
 
     data() {
@@ -88,8 +92,8 @@ export default {
             })
         },
 
-        publisShowGlobalWorkflowAssignment(){
-            this.bus.publish('show:/module/workflows/assignment-global')
+        publishShowWorkflowAssociation(){
+            this.bus.publish('show:/module/workflows/association')
         },
 
         patchWorkflowDefault() {
@@ -173,10 +177,10 @@ export default {
                         <i class="fas fa-check-circle"></i>
                         Set as Default
                     </a>
-                    <a role="button" @click="publisShowGlobalWorkflowAssignment">
+                    <a role="button" @click="publishShowWorkflowAssociation">
                         &nbsp;&nbsp;&nbsp;
                         <i class="fas fa-globe"></i>
-                        Gobal Assignment
+                        Associations
                     </a>
                     <router-link :to="`/${workflow_id}/edit`">
                         &nbsp;&nbsp;&nbsp;
@@ -191,12 +195,12 @@ export default {
                 </div>
             </div>
             <div class="card-content">
-                <component-workflow-chart
+                <component-chart
                     class="has-text-centered"
                     :cloud-module="cloudModule"
                     :workflow="workflow"
                 >
-                </component-workflow-chart>
+                </component-chart>
                 <div class="columns">
                     <div class="column">
                         <small>
@@ -223,5 +227,6 @@ export default {
                 </div>
             </div>
         </div>
+        <component-association :cloud-engine="module_name" :workflow-id="workflow_id" />
     </section>
 </template>
