@@ -45,7 +45,7 @@ export default {
     // @description Returns the data needed for this component to work properly
     // @data_variable main_route [String] the main route to which this component connects to the lesli API
     // @data_variable workflows [Array] An array of objects, each object represents a 
-    //      Ticket type, with the same params as the associated rails model
+    //      Workflow, with the same params as the associated rails model
     data(){
         return {
             main_route: '/help/workflows',
@@ -63,12 +63,12 @@ export default {
     methods: {
 
         // @return [void]
-        // @description Connects to the backend using HTTP and retrieves a list of Ticket type associated to
+        // @description Connects to the backend using HTTP and retrieves a list of Workflow associated to
         //      the current user's account. If the HTTP request fails, an error message is shown
         // @example
         //      console.log(this.workflows) // will display null
         //      this.getWorkflows()
-        //      console.log(this.workflows) // will display an array of objects, each representing a Ticket type.
+        //      console.log(this.workflows) // will display an array of objects, each representing a Workflow.
         getWorkflows() {
             this.http.get(`${this.main_route}.json`).then(result => {
                 this.reloading = false
@@ -83,11 +83,11 @@ export default {
         },
         
         // @return [void]
-        // @param workflow [Object] The object representation of the selected Ticket type
-        // @description Redirects the router to show the selected Ticket type
+        // @param workflow [Object] The object representation of the selected Workflow
+        // @description Redirects the router to show the selected Workflow
         // @example
         //      this.showWorkflow(this.workflows[1])
-        //      // Asume the id of the Ticket type is 4
+        //      // Asume the id of the Workflow is 4
         //      // The user will be redirected to the url /help/catalog/workflows/4
         showWorkflow(workflow) {
             this.$router.push(`/${workflow.id}`)
