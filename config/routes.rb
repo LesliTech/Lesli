@@ -1,6 +1,5 @@
 Rails.application.routes.draw do
 
-  resources :settings
     devise_for :users,
     :controllers => { 
         :registrations => "users/registrations",
@@ -20,6 +19,7 @@ Rails.application.routes.draw do
     authenticated :user do
 
         resource :account
+        resource :settings
 
         mount ActionCable.server  => "/cable"
         mount CloudDriver::Engine => "/driver" if defined?(CloudDriver)
@@ -33,6 +33,8 @@ Rails.application.routes.draw do
         mount CloudBell::Engine   => "/bell"   if defined?(CloudBell)
         mount CloudHelp::Engine   => "/help"   if defined?(CloudHelp)
         mount CloudKb::Engine     => "/kb"     if defined?(CloudKb)
+
+        mount CloudDispatcher::Engine => "/api" if defined?(CloudDispatcher)
 
         root to: redirect('/lesli'), as: :root_authenticated if defined?(CloudLesli)
         root to: "dashboards#empty", as: :root_authenticated if !defined?(CloudLesli)
