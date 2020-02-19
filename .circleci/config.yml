@@ -4,11 +4,11 @@ jobs:
         working_directory: ~/my-app
         docker:
             - image: circleci/ruby:2.6.4-stretch
-             environment:
-                PGHOST: localhost
-                PGUSER: my-app
-                RAILS_ENV: test
             - image: circleci/postgres:11.5
+        environment:
+            PGHOST: localhost
+            PGUSER: my-app
+            RAILS_ENV: test
         steps:
             - checkout
             - run:
