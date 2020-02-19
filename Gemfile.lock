@@ -1,4 +1,10 @@
 PATH
+  remote: engines/CloudHouse
+  specs:
+    cloud_house (0.1.0)
+      rails (~> 6.0.0)
+
+PATH
   remote: engines/CloudBabel
   specs:
     cloud_babel (0.1.0)
@@ -318,6 +324,7 @@ DEPENDENCIES
   cloud_dispatcher!
   cloud_driver!
   cloud_focus!
+  cloud_house!
   cloud_kb!
   cloud_lesli!
   cloud_lock!
