@@ -1089,7 +1089,7 @@ ActiveRecord::Schema.define(version: 2020_02_17_142005) do
   create_table "cloud_house_workflow_associations", force: :cascade do |t|
     t.string "workflow_for"
     t.boolean "global"
-    t.integer "project_type"
+    t.bigint "project_type"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.bigint "cloud_house_workflows_id"
