@@ -55,6 +55,7 @@
 
     },
     "scripts": {
+        "test:playwright": "node ./test/playwright",
         "webpack:production": "webpack --progress --env.mode=production",
         "webpack:watch": "webpack --progress --env.watch=true",
         "webpack": "webpack --progress --env.mode=development"
