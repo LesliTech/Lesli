@@ -53,7 +53,7 @@ class Account < ApplicationRecord
         Setting.create({ name: "date_time_format", value: "%Y.%m.%d %H:%M", account: self })
         Setting.create({ name: "theme", value: "lesli", account: self })
         Setting.create({ name: "theme_variation", value: "light", account: self })
-
+        
         if defined? CloudKb
             if self.kb.blank?
                 self.kb = CloudKb::Account.new
@@ -107,6 +107,14 @@ class Account < ApplicationRecord
                 self.focus = CloudFocus::Account.new
                 self.focus.account = self
                 self.focus.save!
+            end
+        end
+
+        if defined? CloudHelp
+            if self.help.blank?
+                self.help = CloudHelp::Account.new
+                self.help.account = self
+                self.help.save!
             end
         end
 
