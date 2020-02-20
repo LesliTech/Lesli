@@ -171,6 +171,7 @@ Building a better future, one line of code at a time.
 =end
         def self.set_workflow(cloud_object)
             dynamic_info_ = self.dynamic_info
+            module_name = dynamic_info_[:module_name]
             status_model = dynamic_info_[:status_model]
             association_model = dynamic_info_[:association_model]
             account = cloud_object.account
@@ -182,13 +183,13 @@ Building a better future, one line of code at a time.
 
             unless association_details.empty?
                 search_params = [
-                    "cloud_house_workflows.cloud_house_accounts_id = #{cloud_object.account.id}",
-                    "cloud_house_workflow_associations.workflow_for = '#{workflow_for}'"
+                    "cloud_#{module_name}_workflows.cloud_#{module_name}_accounts_id = #{cloud_object.account.id}",
+                    "cloud_#{module_name}_workflow_associations.workflow_for = '#{workflow_for}'"
                 ]
 
                 association_details.each do |detail|
                     search_params.push(
-                        "cloud_house_workflow_associations.#{detail[:name]} = #{cloud_object[detail[:key]]}"
+                        "cloud_#{module_name}_workflow_associations.#{detail[:name]} = #{cloud_object[detail[:key]]}"
                     )
                 end
 
@@ -197,8 +198,8 @@ Building a better future, one line of code at a time.
                 ).where(
                     search_params.join(" and ")
                 ).select(
-                    "cloud_house_workflows.id as id",
-                    "cloud_house_workflows.name as name"
+                    "cloud_#{module_name}_workflows.id as id",
+                    "cloud_#{module_name}_workflows.name as name"
                 )
 
                 unless workflow_associations.empty?
@@ -214,13 +215,13 @@ Building a better future, one line of code at a time.
                 :workflow
             ).where(
                 "
-                    cloud_house_workflows.cloud_house_accounts_id = #{cloud_object.account.id} and
-                    cloud_house_workflow_associations.global = true and
-                    cloud_house_workflow_associations.workflow_for = '#{workflow_for}'
+                    cloud_#{module_name}_workflows.cloud_#{module_name}_accounts_id = #{cloud_object.account.id} and
+                    cloud_#{module_name}_workflow_associations.global = true and
+                    cloud_#{module_name}_workflow_associations.workflow_for = '#{workflow_for}'
                 "
             ).select(
-                "cloud_house_workflows.id as id",
-                "cloud_house_workflows.name as name"
+                "cloud_#{module_name}_workflows.id as id",
+                "cloud_#{module_name}_workflows.name as name"
             )
 
             unless workflow_associations.empty?
@@ -251,7 +252,7 @@ Building a better future, one line of code at a time.
     # Rails will automatically execute an after_create method in the account model, and
     # that method will execute this method
 =end
-        def self.initialize(account)
+        def self.initialize_data(account)
             dynamic_info = self.dynamic_info
             module_name = dynamic_info[:module_name]
 
