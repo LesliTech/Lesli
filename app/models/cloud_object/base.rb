@@ -18,16 +18,16 @@ module CloudObject
             activity_model = dynamic_info[:activity_model]
             workflow_status_model = dynamic_info[:workflow_status_model]
 
-            workflow_change = detail.saved_changes["cloud_#{module_name}_workflow_details_id"]
+            workflow_change = saved_changes["cloud_#{module_name}_workflow_statuses_id"]
            
             if workflow_change
-                old_detail = workflow_status_model.find(workflow_change[0])
-                new_detail = workflow_status_model.find(workflow_change[1])
+                old_status = workflow_status_model.find(workflow_change[0])
+                new_status = workflow_status_model.find(workflow_change[1])
                 activity_model.create!({
-                    description: "Moved from state #{old_detail.workflow_state.name} to #{new_detail.workflow_state.name}",
-                    field_name: "cloud_#{module_name}_workflow_details_id",
-                    value_from: old_detail.id,
-                    value_to: new_detail.id,
+                    description: "Moved from state #{old_status.name} to #{new_status.name}",
+                    field_name: "cloud_#{module_name}_workflow_statuses_id",
+                    value_from: old_status.id,
+                    value_to: new_status.id,
                     cloud_object: self
                 })
             end
@@ -35,6 +35,7 @@ module CloudObject
         
 =begin
 @return [void]
+@param bypass_new_record [Boolean] Wheter it workflow should be set in *cloud_objects* that are not finished yet or not
 @description If the record is new, associates a new workflow with it using the workflow's method
     *set_workflow*
 @example
@@ -49,8 +50,8 @@ module CloudObject
     ticket.set_workflow
     ticket.save!
 =end        
-        def set_workflow
-            if new_record?
+        def set_workflow(bypass_new_record=false)
+            if new_record? || bypass_new_record
                 dynamic_info = self.class.dynamic_info
                 workflow_model = dynamic_info[:workflow_model]
                 
