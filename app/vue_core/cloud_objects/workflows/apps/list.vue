@@ -138,6 +138,9 @@ export default {
                         </b-table-column>
                         <b-table-column field="name" label="Name">
                             {{ props.row.name }}
+                            <span class="has-text-primary" v-if="props.row.default">
+                                (Default)
+                            </span>
                         </b-table-column>
                         <b-table-column field="created_at" label="Created at">
                             {{ date.toLocalFormat(props.row.created_at, true) }}
