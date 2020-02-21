@@ -8,7 +8,8 @@ Rails.application.config.assets.paths << Rails.root.join('vendor')
 
 # Precompile additional assets.
 
-Rails.application.config.assets.precompile += %w(themes/*.css)
+Rails.application.config.assets.precompile += %w(themes/blank.css)
+Rails.application.config.assets.precompile += %w(themes/**/standard/*.css)
 
 Rails.application.config.assets.precompile += %w( websites.css )
 Rails.application.config.assets.precompile += %w( accounts.css )

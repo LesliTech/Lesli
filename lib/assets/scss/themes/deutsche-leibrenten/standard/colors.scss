@@ -23,24 +23,16 @@ Building a better future, one line of code at a time.
 // · 
 */
 
-section.lesli-app-container {
-/*
-    display: flex;
 
-    nav.module-navigation {
-        flex: 0 0 230px;
-        display: block;
+// · 
+@function get-css-color($pallete, $variant: 500) {
 
-        .navbar-start {
-            display: block;
-        }
-        .navbar-end {
-            display: none;
-        }
-    }
+    $deutsche-leibrenten-colors: (
+            primary: rgb(0, 83, 128),
+            secondary: rgb(32, 168, 216),
+            tertiary: rgb(0, 183, 228)
+    );
 
-    section.section {
-        flex: 1;
-    }
-*/
+    @return get-lesli-css-base-color($deutsche-leibrenten-colors, $pallete, $variant);
+
 }

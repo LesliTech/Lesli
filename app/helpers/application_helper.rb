@@ -31,4 +31,22 @@ module ApplicationHelper
         controller_path.gsub('/','-')+"-"+action_name
     end
 
+    def app_theme_stylesheet_path()
+
+        theme = "themes/blank"
+
+        unless @account[:settings]['theme'].blank?
+            theme = "themes"
+            theme+= "/"
+            theme+= @account[:settings]['theme']
+            theme+= "/"
+            theme+= @account[:settings]['theme_variation'].blank? ? "standard" : @account[:settings]['theme_variation']
+            theme+= "/"
+            theme+= @account[:settings]['theme']
+        end
+
+        theme
+
+    end
+
 end
