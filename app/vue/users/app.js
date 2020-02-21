@@ -34,14 +34,9 @@ import app from 'LesliCoreVue/public'
 
 // · Import apps and components
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
-import appLogin from './apps/login.vue'
 import appRegister from './apps/register.vue'
-/*
-import appConfirmation from './apps/confirmation.vue'
-import appRegistration from './apps/register.vue'
-import appPasswordNew from './apps/password/new.vue'
-import appPasswordEdit from './apps/password/edit.vue'
-*/
+import appLogin from './apps/login.vue'
+import appLogindl from './apps/login-dl.vue'
 
 
 // · 
