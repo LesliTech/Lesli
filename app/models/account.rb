@@ -30,7 +30,7 @@ class Account < ApplicationRecord
     belongs_to :user, foreign_key: 'users_id', optional: true
 
     has_many :users, foreign_key: 'accounts_id'
-    has_one :settigns, foreign_key: 'accounts_id'
+    has_many :settings, foreign_key: 'accounts_id'
 
     has_one :kb,     class_name: "CloudKb::Account",     foreign_key: "id"
     has_one :team,   class_name: "CloudTeam::Account",   foreign_key: "id"

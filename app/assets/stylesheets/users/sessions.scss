@@ -31,8 +31,8 @@ Building a better future, one line of code at a time.
 // · session styles
 body.users-sessions-new section {
     background: linear-gradient(
-        rgba(lesli-color(standard, white),.75),
-        rgba(lesli-color(standard, white),.75)),
+        rgba(get-lesli-css-color(standard, white),.75),
+        rgba(get-lesli-css-color(standard, white),.75)),
         url(asset-path("users/sessions/login-background.full.jpg")
     );
     background-repeat: no-repeat;

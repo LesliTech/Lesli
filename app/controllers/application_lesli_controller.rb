@@ -80,7 +80,7 @@ class ApplicationLesliController < ApplicationController
 
         # add custom settings
         @account[:settings] = { }
-        Setting.all.each do |setting|
+        current_user.account.settings.each do |setting|
             @account[:settings][setting[:name]] = setting[:value].to_s
         end
 
