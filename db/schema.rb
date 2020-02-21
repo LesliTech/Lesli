@@ -391,8 +391,8 @@ ActiveRecord::Schema.define(version: 2020_02_17_142005) do
     t.string "postcode"
     t.string "city_name"
     t.string "website"
-    t.string "ivd"
-    t.string "bvfi"
+    t.string "ivd_member"
+    t.string "bvfi_member"
     t.string "franchise"
     t.string "region"
     t.date "founded_at"
@@ -447,15 +447,6 @@ ActiveRecord::Schema.define(version: 2020_02_17_142005) do
     t.bigint "cloud_house_companies_id"
     t.index ["cloud_house_companies_id"], name: "house_company_subscribers_contacts"
     t.index ["users_id"], name: "house_company_subscribers_users"
-  end
-
-  create_table "cloud_house_company_workflows", force: :cascade do |t|
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-    t.bigint "cloud_house_workflows_id"
-    t.bigint "cloud_house_accounts_id"
-    t.index ["cloud_house_accounts_id"], name: "house_company_workflows_accounts"
-    t.index ["cloud_house_workflows_id"], name: "house_company_workflows_workflows"
   end
 
   create_table "cloud_house_contact_actions", force: :cascade do |t|
@@ -673,6 +664,7 @@ ActiveRecord::Schema.define(version: 2020_02_17_142005) do
     t.string "marital_status"
     t.string "signature"
     t.string "homepage"
+    t.string "position"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.bigint "cloud_house_employees_id"
@@ -723,8 +715,10 @@ ActiveRecord::Schema.define(version: 2020_02_17_142005) do
   create_table "cloud_house_employees", force: :cascade do |t|
     t.bigint "cloud_house_accounts_id"
     t.bigint "cloud_house_companies_id"
+    t.bigint "cloud_house_workflow_statuses_id"
     t.index ["cloud_house_accounts_id"], name: "index_cloud_house_employees_on_cloud_house_accounts_id"
     t.index ["cloud_house_companies_id"], name: "house_employees_companies"
+    t.index ["cloud_house_workflow_statuses_id"], name: "house_employees_workflow_statuses"
   end
 
   create_table "cloud_house_project_actions", force: :cascade do |t|
@@ -796,7 +790,6 @@ ActiveRecord::Schema.define(version: 2020_02_17_142005) do
 
   create_table "cloud_house_project_details", force: :cascade do |t|
     t.bigint "code"
-    t.integer "project_type"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.bigint "cloud_house_projects_id"
@@ -1096,7 +1089,7 @@ ActiveRecord::Schema.define(version: 2020_02_17_142005) do
   create_table "cloud_house_workflow_associations", force: :cascade do |t|
     t.string "workflow_for"
     t.boolean "global"
-    t.integer "project_type"
+    t.bigint "project_type"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.bigint "cloud_house_workflows_id"
@@ -1701,8 +1694,6 @@ ActiveRecord::Schema.define(version: 2020_02_17_142005) do
   add_foreign_key "cloud_house_company_files", "cloud_house_companies", column: "cloud_house_companies_id"
   add_foreign_key "cloud_house_company_subscribers", "cloud_house_companies", column: "cloud_house_companies_id"
   add_foreign_key "cloud_house_company_subscribers", "users", column: "users_id"
-  add_foreign_key "cloud_house_company_workflows", "cloud_house_accounts", column: "cloud_house_accounts_id"
-  add_foreign_key "cloud_house_company_workflows", "cloud_house_workflows", column: "cloud_house_workflows_id"
   add_foreign_key "cloud_house_contact_actions", "cloud_house_contacts", column: "cloud_house_contacts_id"
   add_foreign_key "cloud_house_contact_activities", "cloud_house_contacts", column: "cloud_house_contacts_id"
   add_foreign_key "cloud_house_contact_activities", "users", column: "users"
@@ -1732,6 +1723,7 @@ ActiveRecord::Schema.define(version: 2020_02_17_142005) do
   add_foreign_key "cloud_house_employee_subscribers", "users", column: "users_id"
   add_foreign_key "cloud_house_employees", "cloud_house_accounts", column: "cloud_house_accounts_id"
   add_foreign_key "cloud_house_employees", "cloud_house_companies", column: "cloud_house_companies_id"
+  add_foreign_key "cloud_house_employees", "cloud_house_workflow_statuses", column: "cloud_house_workflow_statuses_id"
   add_foreign_key "cloud_house_project_actions", "cloud_house_projects", column: "cloud_house_projects_id"
   add_foreign_key "cloud_house_project_activities", "cloud_house_projects", column: "cloud_house_projects_id"
   add_foreign_key "cloud_house_project_custom_field_values", "cloud_house_project_custom_fields", column: "cloud_house_project_custom_fields_id"

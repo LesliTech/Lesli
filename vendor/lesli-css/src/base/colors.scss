@@ -23,9 +23,14 @@ Building a better future, one line of code at a time.
 // · 
 */
 
+@function get-lesli-css-color($pallete, $variant: 500) {
+
+    @return get-lesli-css-base-color((empty: "empty"), $pallete, $variant)
+    
+}
 
 // · 
-@function get-lesli-css-base-colors($lesli-css-app-colors, $pallete, $variant: 500) {
+@function get-lesli-css-base-color($lesli-css-app-colors, $pallete, $variant: 500) {
 
     $lesli-css-base-colors: (
 
@@ -141,8 +146,4 @@ Building a better future, one line of code at a time.
 
     @return $color;
 
-}
-
-@function get-lesli-css-color($pallete, $variant: 500) {
-    @return get-lesli-css-base-colors((empty: "empty"), $pallete, $variant);
 }

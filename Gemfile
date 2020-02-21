@@ -25,7 +25,7 @@ Building a better future, one line of code at a time.
 
 =end
 
-require "./lesli_info"
+require "./lesli"
 
 source 'https://rubygems.org'
 git_source(:github) { |repo| "https://github.com/#{repo}.git" }
@@ -132,7 +132,7 @@ group :production do
 end
 
 # Loading installed engines
-LesliInfo::engines.each do |engine|
+Lesli::engines.each do |engine|
     engine_installation_path = File.expand_path("../engines/#{engine['name']}", __FILE__)
     gem engine['code'], path: engine_installation_path if File.exists?(engine_installation_path)
 end
