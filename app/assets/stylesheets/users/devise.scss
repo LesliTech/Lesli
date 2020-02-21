@@ -27,6 +27,31 @@ Building a better future, one line of code at a time.
 // · 
 @import "core/templates/application.scss";
 
+section {
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    justify-content: center;
+
+    img {
+        width: 150px;
+    }
+
+    .notification:not(:last-child) {
+        margin-bottom: 0.6rem;
+    }
+
+    form {
+        width: 90%;
+        margin: 0 auto;
+        max-width: 450px;
+        text-align: center;
+        background-color: rgba(get-lesli-css-color(standard, white), 1);
+        padding: 2rem;
+    }
+}
+
 /*
 // · 
 section {

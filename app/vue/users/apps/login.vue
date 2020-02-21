@@ -94,12 +94,12 @@ export default {
     <section>
 
         <a class="logo" :href="this.url.to()">
-            <img src="/assets/brand/lesli-logo.png" alt="LesliCloud Logo">
+            <img src="/assets/brand/lesli-logo2.png">
         </a>
 
         <form ref="form" @submit="postLogin">
 
-            <component-notification-progress-bar :active="progress_bar_active"/>
+            <component-notification-progress-bar v-if="progress_bar_active" :active="progress_bar_active"/>
             <component-notification-message-simple
                 :message="notification.message"
                 :type="notification.type"

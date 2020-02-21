@@ -36,7 +36,7 @@ module Lesli
         }
 
         # default for Deutsche Leibrenten
-        if File.exist?("deutsche-leibrenten")
+        if File.exist?(".deutsche-leibrenten")
             defaults.instance = "DeutscheLeibrenten"
         end
 
