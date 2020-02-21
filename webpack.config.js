@@ -68,7 +68,7 @@ module.exports = env => {
                 LesliCloud: path.resolve(__dirname, './app'),
 
                 // Resolve alias necessary to load vue components from LesliCloud
-                LesliCoreVue: path.resolve(__dirname, './app/vue_core'),
+                LesliCoreVue: path.resolve(__dirname, './app/vue_core')
 
             },
             extensions: [".js"]
