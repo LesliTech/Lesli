@@ -22,3 +22,17 @@ Building a better future, one line of code at a time.
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
 // · 
 */
+
+
+// · 
+@function get-lesli-css-project-color($pallete, $variant: 500) {
+
+    $raven-colors: (
+            primary: rgb(0, 83, 128),
+            secondary: rgb(32, 168, 216),
+            tertiary: rgb(0, 183, 228)
+    );
+
+    @return get-lesli-css-base-colors($raven-colors, $pallete, $variant);
+
+}
