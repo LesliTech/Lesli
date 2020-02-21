@@ -33,8 +33,15 @@ Building a better future, one line of code at a time.
 // · 
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
 export default {
+ 
+    // @component_prop CloudModule [String] The cloud module that imported this component.
+    //      For example, 'house/property'. It helps determine the endpoints to which this 
+    //      and child components connect to
     props: {
-
+        cloudModule: {
+            type: String,
+            required: true
+        }
     },
     
     components: {
@@ -48,7 +55,7 @@ export default {
     //      Workflow, with the same params as the associated rails model
     data(){
         return {
-            main_route: '/help/workflows',
+            main_route: '',
             workflows: null,
             reloading: false
         }
@@ -57,10 +64,21 @@ export default {
     // @return [void]
     // @description Executes the necessary functions needed to initialize this component
     mounted() {
-       this.getWorkflows()
+        this.setCloudParams()
+        this.setMainRoute()
+        this.getWorkflows()
     },
 
     methods: {
+
+        setCloudParams(){
+            let module_data = this.cloudModule.split('/')
+            this.module_name = module_data[0]
+        },
+
+        setMainRoute(){
+            this.main_route = `/${this.module_name}/workflows`
+        },
 
         // @return [void]
         // @description Connects to the backend using HTTP and retrieves a list of Workflow associated to

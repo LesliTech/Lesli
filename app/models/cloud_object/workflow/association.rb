@@ -29,6 +29,26 @@ Building a better future, one line of code at a time.
 
         validates :workflow_for, presence: true
 
+        after_create    :verify_uniqueness
+
+        def verify_uniqueness
+            dynamic_info = self.class.dynamic_info
+            module_name = dynamic_info[:module_name]
+
+            unique_attributes = attributes.to_hash
+            unique_attributes.except!("id", "created_at", "updated_at", "cloud_#{module_name}_workflows_id")
+
+            dupplicated_associations = self.class.where(
+                unique_attributes
+            ).where.not(
+                id: id
+            )
+
+            unless dupplicated_associations.empty?
+                dupplicated_associations.destroy_all
+            end
+        end
+
 =begin
 @return [Array] Array of global associations
 @param account [::Account] The account of the user that made this request
