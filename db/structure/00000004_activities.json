@@ -16,4 +16,7 @@
     }, {
     "name": "users",
     "type": "bigint"
+}, {
+    "name": "icon",
+    "type": "string"
 }]
