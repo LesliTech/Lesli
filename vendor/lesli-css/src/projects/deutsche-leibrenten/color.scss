@@ -25,11 +25,7 @@ Building a better future, one line of code at a time.
 
 
 // · 
-@import "../../base/colors.scss";
-
-
-// · 
-@function get-lesli-css-colors($pallete, $variant: 500) {
+@function get-lesli-css-project-color($pallete, $variant: 500) {
 
     $deutsche-leibrenten-colors: (
             primary: rgb(0, 83, 128),
@@ -37,6 +33,6 @@ Building a better future, one line of code at a time.
             tertiary: rgb(0, 183, 228)
     );
 
-    @return get-lesli-css-base-colors($deutsche-leibrenten-colors, $pallete, $variant: 500);
+    @return get-lesli-css-base-colors($deutsche-leibrenten-colors, $pallete, $variant);
 
 }
