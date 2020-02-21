@@ -31,24 +31,6 @@ Building a better future, one line of code at a time.
 
         after_create    :verify_uniqueness
 
-        def verify_uniqueness
-            dynamic_info = self.class.dynamic_info
-            module_name = dynamic_info[:module_name]
-
-            unique_attributes = attributes.to_hash
-            unique_attributes.except!("id", "created_at", "updated_at", "cloud_#{module_name}_workflows_id")
-
-            dupplicated_associations = self.class.where(
-                unique_attributes
-            ).where.not(
-                id: id
-            )
-
-            unless dupplicated_associations.empty?
-                dupplicated_associations.destroy_all
-            end
-        end
-
 =begin
 @return [Array] Array of global associations
 @param account [::Account] The account of the user that made this request
@@ -185,6 +167,37 @@ Building a better future, one line of code at a time.
             {
                 module_name: module_info[0].sub("Cloud", "").downcase
             }
+        end
+
+        protected
+
+        
+=begin
+@return [void]
+@description Checks the workflow associations table for entries that have the exact same association
+    and deletes them. This is an *after_create* action and should not be called manually
+@example
+    workflow = CloudHouse::Workflow.find(1)
+    workflow.associations.create(workflow_for: 'project', global: true)
+    workflow.associations.create(workflow_for: 'project', global: true) # When this association is created, the old
+    # will be deleted
+=end
+        def verify_uniqueness
+            dynamic_info = self.class.dynamic_info
+            module_name = dynamic_info[:module_name]
+
+            unique_attributes = attributes.to_hash
+            unique_attributes.except!("id", "created_at", "updated_at", "cloud_#{module_name}_workflows_id")
+
+            dupplicated_associations = self.class.where(
+                unique_attributes
+            ).where.not(
+                id: id
+            )
+
+            unless dupplicated_associations.empty?
+                dupplicated_associations.destroy_all
+            end
         end
     end
 end
