@@ -63,7 +63,7 @@ export default {
             </div>
             <div class="navbar-end">
                 <slot name="right"></slot>
-                <template v-if="id">
+                <template v-if="id && ! $router.options.base.includes('workflows')">
                     <a class="navbar-item" @click="showSubscriptions">Subscriptions</a>
                     <a class="navbar-item" @click="showActions">Actions</a>
                     <a class="navbar-item" @click="showFiles">Files</a>

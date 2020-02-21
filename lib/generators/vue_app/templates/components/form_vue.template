@@ -218,7 +218,7 @@ export default {
 
                 <!---------------------------------- START SUBMIT BUTTON ---------------------------------->
                 <b-field v-if="viewType == 'new' || viewType == 'edit'">
-                    <b-button type="is-primary" native-type="submit">
+                    <b-button type="is-primary" native-type="submit" expended>
                         <span v-if="viewType == 'new'">
                             Create %humanized_resource%
                         </span>
@@ -232,12 +232,7 @@ export default {
                 <!---------------------------------- START DELETE BUTTON ---------------------------------->
                 <b-field v-if="viewType == 'show'">
                     <b-button type="is-danger" @click="delete%camel_case_resource%">
-                        <span v-if="viewType == 'new'">
-                            Create %humanized_resource%
-                        </span>
-                        <span v-else>
-                            Delete %humanized_resource%
-                        </span>
+                        Delete %humanized_resource%
                     </b-button>
                 </b-field>
                 <!----------------------------------  END DELETE BUTTON  ---------------------------------->
