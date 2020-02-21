@@ -84,7 +84,7 @@ class ApplicationLesliController < ApplicationController
             @account[:settings][setting[:name]] = setting[:value].to_s
         end
 
-        return @account
+        @account
 
     end
 
