@@ -29,6 +29,21 @@ require 'json'
 
 module Lesli
 
+    def Lesli.app
+
+        app = { 
+            instance: "LesliCloud"
+        }
+
+        # default for Deutsche Leibrenten
+        if File.exist?("deutsche-leibrenten")
+            defaults.instance = "DeutscheLeibrenten"
+        end
+
+        app
+
+    end
+
     def Lesli.engines
 
         engines = []
