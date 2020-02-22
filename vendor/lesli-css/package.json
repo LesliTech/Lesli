@@ -1,11 +1,43 @@
 {
-    "name": "lesli-css",
-    "title": "LesliCSS",
-    "homepage": "https://lesli.cloud",
-    "author": "LesliTech <hello@lesli.tech>",
-    "license": "All rights reserved",
-    "private": true,
-    "dependencies": {
-        "normalize.css": "8.0.1"
-    }
+  "_args": [
+    [
+      "git+ssh://git@github.com/LesliTech/lesli-css.git#master",
+      "/var/www/LesliCloud/lesli.cloud"
+    ]
+  ],
+  "_development": true,
+  "_from": "git+ssh://git@github.com/LesliTech/lesli-css.git#master",
+  "_id": "lesli-css@git+ssh://git@github.com/LesliTech/lesli-css.git#8b30516d508121edd3f134f64fec35dd11d2cecf",
+  "_inBundle": false,
+  "_integrity": "",
+  "_location": "/lesli-css",
+  "_phantomChildren": {},
+  "_requested": {
+    "type": "git",
+    "raw": "git+ssh://git@github.com/LesliTech/lesli-css.git#master",
+    "rawSpec": "git+ssh://git@github.com/LesliTech/lesli-css.git#master",
+    "saveSpec": "git+ssh://git@github.com/LesliTech/lesli-css.git#master",
+    "fetchSpec": "ssh://git@github.com/LesliTech/lesli-css.git",
+    "gitCommittish": "master"
+  },
+  "_requiredBy": [
+    "#DEV:/"
+  ],
+  "_resolved": "git+ssh://git@github.com/LesliTech/lesli-css.git#8b30516d508121edd3f134f64fec35dd11d2cecf",
+  "_spec": "git+ssh://git@github.com/LesliTech/lesli-css.git#master",
+  "_where": "/var/www/LesliCloud/lesli.cloud",
+  "author": {
+    "name": "LesliTech",
+    "email": "hello@lesli.tech"
+  },
+  "dependencies": {
+    "normalize.css": "8.0.1"
+  },
+  "description": "<p align=\"center\"> \t<a href=\"#\" target=\"_blank\"> \t\t<img alt=\"LesliCSS logo\" width=\"200px\" src=\"https://cdn.lesli.tech/leslidev/leslicss/brand/leslicss-imagotipo.svg\" /> \t</a> </p>",
+  "homepage": "https://lesli.cloud",
+  "license": "All rights reserved",
+  "name": "lesli-css",
+  "private": true,
+  "title": "LesliCSS",
+  "version": ""
 }
