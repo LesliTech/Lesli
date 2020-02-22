@@ -26,7 +26,7 @@ Building a better future, one line of code at a time.
 =end
 
 module ApplicationHelper
-    
+
     def app_css_class_for_body()
         controller_path.gsub('/','-')+"-"+action_name
     end

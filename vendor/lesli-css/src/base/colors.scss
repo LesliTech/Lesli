@@ -27,7 +27,13 @@ Building a better future, one line of code at a time.
 // · 
 @function get-lesli-css-color($pallete, $variant: 500) {
 
-    @return get-lesli-css-base-color((empty: "empty"), $pallete, $variant);
+    $standard-colors: (
+        standard: (
+            white: rgb(255, 255, 255)
+        )
+    );
+
+    @return get-lesli-css-base-color($standard-colors, $pallete, $variant);
     
 }
 
@@ -125,18 +131,6 @@ Building a better future, one line of code at a time.
             500: #333333,
             700: #1a1a1a,
             900: #000000 
-        ),
-
-        // · Global & common colors
-        standard: (
-            white: rgb(255, 255, 255)
-        ),
-
-        app: (
-            500: rgb(0, 83, 128),
-            primary: rgb(0, 83, 128),
-            secondary: rgb(32, 168, 216),
-            tertiary: rgb(0, 183, 228)
         )
 
     );

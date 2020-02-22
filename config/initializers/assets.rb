@@ -45,41 +45,4 @@ Rails.application.config.assets.precompile += %w( cloud_driver/*.js )
 
 Rails.application.config.assets.precompile += %w( i18n.js )
 
-=begin
-
-
-Rails.application.config.assets.precompile += %w( dashboards.css )
-Rails.application.config.assets.precompile += %w( users/*.css users/**/*.css )
-
-
-
-Rails.application.config.assets.precompile += %w( cloud_books/*.css )
-
-Rails.application.config.assets.precompile += %w( cloud_panel/*.css )
-
-Rails.application.config.assets.precompile += %w( cloud_help/*.css )
-
-
-Rails.application.config.assets.precompile += %w( cloud_dev/*.css )
-
-
-
-
-
-
-Rails.application.config.assets.precompile += %w( websites_landing.js )
-Rails.application.config.assets.precompile += %w( accounts_new.js )
-Rails.application.config.assets.precompile += %w( users/*.js )
-
-
-
-Rails.application.config.assets.precompile += %w( cloud_books/*.js )
-
-Rails.application.config.assets.precompile += %w( cloud_panel/*.js )
-
-
-Rails.application.config.assets.precompile += %w( cloud_help/*.js )
-
-Rails.application.config.assets.precompile += %w( cloud_dev/*.js )
-
-=end
+Rails.application.config.assets.precompile += %w( cloud_house/**/*.png )

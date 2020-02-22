@@ -26,4 +26,17 @@ Building a better future, one line of code at a time.
 =end
 class Setting < ApplicationRecord
     belongs_to :account, foreign_key: 'accounts_id'
+
+    def initialize
+        # date & time formats
+        self.find_or_create({ name: "date_format", value: "%Y.%m.%d", account: self })
+        self.find_or_create({ name: "date_format_full", value: "%a, %B %d, %Y", account: self })
+        self.find_or_create({ name: "date_time_format", value: "%Y.%m.%d %H:%M", account: self })
+        self.find_or_create({ name: "theme", value: "deutsche-leibrenten", account: self })
+        self.find_or_create({ name: "theme_variation", value: "standard", account: self })
+
+        #Setting.create({ name: "theme", value: "lesli", account: self })
+        #Setting.create({ name: "theme_variation", value: "light", account: self })
+    end
+
 end

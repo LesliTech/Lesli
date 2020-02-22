@@ -49,7 +49,8 @@ module.exports = env => {
         performance: { hints: false },
         optimization: { minimize: production },
         entry: {
-            "users/app": "./app/vue/users/app.js",
+            //"users/app": "./app/vue/users/app.js",
+            "users/sessions": "./app/vue/users/sessions.js",
             "accounts/app": "./app/vue/accounts/app.js",
             "websites/app": "./app/vue/websites/app.js",
             "dashboards/app": "./app/vue/dashboards/app.js"
@@ -68,7 +69,10 @@ module.exports = env => {
                 LesliCloud: path.resolve(__dirname, './app'),
 
                 // Resolve alias necessary to load vue components from LesliCloud
-                LesliCoreVue: path.resolve(__dirname, './app/vue_core')
+                LesliCoreVue: path.resolve(__dirname, './app/vue_core'),
+
+                // Resolve alias for core resources
+                LesliCloudHouse: path.resolve(__dirname, './engines/CloudHouse/app'),
 
             },
             extensions: [".js"]
