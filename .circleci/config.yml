@@ -25,6 +25,5 @@ jobs:
                 name: Bundle Install
                 command: |
                     gem update --system
-                    bundle config set deployment 'true'
                     bundle config set path 'vendor/bundle'
                     bundle check || bundle install
