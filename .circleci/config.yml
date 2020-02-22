@@ -21,3 +21,9 @@ jobs:
                 keys:
                     - rails-demo-bundle-v2-{{ checksum "Gemfile.lock" }}
                     - rails-demo-bundle-v2-
+            - run:
+                name: Bundle Install
+                command: |
+                    gem update --system
+                    bundle config set path 'vendor/bundle'
+                    bundle check || bundle install --deployment
