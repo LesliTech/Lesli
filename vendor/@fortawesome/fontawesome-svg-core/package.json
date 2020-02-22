@@ -1,4 +1,11 @@
 {
+  "_args": [
+    [
+      "@fortawesome/fontawesome-svg-core@1.2.26",
+      "/var/www/LesliCloud/lesli.cloud"
+    ]
+  ],
+  "_development": true,
   "_from": "@fortawesome/fontawesome-svg-core@1.2.26",
   "_id": "@fortawesome/fontawesome-svg-core@1.2.26",
   "_inBundle": false,
@@ -20,8 +27,7 @@
     "#DEV:/"
   ],
   "_resolved": "https://registry.npmjs.org/@fortawesome/fontawesome-svg-core/-/fontawesome-svg-core-1.2.26.tgz",
-  "_shasum": "671569271d6b532cdea5e3deb8ff16f8b7ac251d",
-  "_spec": "@fortawesome/fontawesome-svg-core@1.2.26",
+  "_spec": "1.2.26",
   "_where": "/var/www/LesliCloud/lesli.cloud",
   "author": {
     "name": "Dave Gandy",
@@ -31,7 +37,6 @@
   "bugs": {
     "url": "http://github.com/FortAwesome/Font-Awesome/issues"
   },
-  "bundleDependencies": false,
   "contributors": [
     {
       "name": "Brian Talbot",
@@ -57,7 +62,6 @@
   "dependencies": {
     "@fortawesome/fontawesome-common-types": "^0.2.26"
   },
-  "deprecated": false,
   "description": "The iconic font, CSS, and SVG framework",
   "engines": {
     "node": ">=6"

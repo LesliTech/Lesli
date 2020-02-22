@@ -1,29 +1,35 @@
 {
-  "_from": "@fortawesome/fontawesome-common-types@^0.2.26",
+  "_args": [
+    [
+      "@fortawesome/fontawesome-common-types@0.2.27",
+      "/var/www/LesliCloud/lesli.cloud"
+    ]
+  ],
+  "_development": true,
+  "_from": "@fortawesome/fontawesome-common-types@0.2.27",
   "_id": "@fortawesome/fontawesome-common-types@0.2.27",
   "_inBundle": false,
   "_integrity": "sha512-97GaByGaXDGMkzcJX7VmR/jRJd8h1mfhtA7RsxDBN61GnWE/PPCZhOdwG/8OZYktiRUF0CvFOr+VgRkJrt6TWg==",
   "_location": "/@fortawesome/fontawesome-common-types",
   "_phantomChildren": {},
   "_requested": {
-    "type": "range",
+    "type": "version",
     "registry": true,
-    "raw": "@fortawesome/fontawesome-common-types@^0.2.26",
+    "raw": "@fortawesome/fontawesome-common-types@0.2.27",
     "name": "@fortawesome/fontawesome-common-types",
     "escapedName": "@fortawesome%2ffontawesome-common-types",
     "scope": "@fortawesome",
-    "rawSpec": "^0.2.26",
+    "rawSpec": "0.2.27",
     "saveSpec": null,
-    "fetchSpec": "^0.2.26"
+    "fetchSpec": "0.2.27"
   },
   "_requiredBy": [
     "/@fortawesome/fontawesome-svg-core",
     "/@fortawesome/free-solid-svg-icons"
   ],
   "_resolved": "https://registry.npmjs.org/@fortawesome/fontawesome-common-types/-/fontawesome-common-types-0.2.27.tgz",
-  "_shasum": "19706345859fc46adf3684ed01d11b40903b87e9",
-  "_spec": "@fortawesome/fontawesome-common-types@^0.2.26",
-  "_where": "/var/www/LesliCloud/lesli.cloud/node_modules/@fortawesome/fontawesome-svg-core",
+  "_spec": "0.2.27",
+  "_where": "/var/www/LesliCloud/lesli.cloud",
   "author": {
     "name": "Dave Gandy",
     "email": "dave@fontawesome.com",
@@ -32,7 +38,6 @@
   "bugs": {
     "url": "http://github.com/FortAwesome/Font-Awesome/issues"
   },
-  "bundleDependencies": false,
   "contributors": [
     {
       "name": "Brian Talbot",
@@ -56,7 +61,6 @@
     }
   ],
   "dependencies": {},
-  "deprecated": false,
   "description": "The iconic font, CSS, and SVG framework",
   "engines": {
     "node": ">=6"
