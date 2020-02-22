@@ -35,7 +35,7 @@ namespace :dev do
         task push: :environment do
 
             # push all engines
-            LesliInfo::engines.each do |engine|
+            Lesli::engines.each do |engine|
                 engine_path = Rails.root.join('engines', engine['name'])
                 system "cd ./engines/#{engine['name']} && git add --all && git commit -m \"add production assets\""
                 system "cd ./engines/#{engine['name']} && git push origin master" if File.exists?(engine_path)
