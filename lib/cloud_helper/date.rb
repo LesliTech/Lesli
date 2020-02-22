@@ -30,22 +30,27 @@ module CloudHelper
     class Date
 
         def self.to_string(datetime, format="%Y/%m/%d %H:%M")
+            return "" unless datetime
             datetime.strftime(datetime, format)
         end
 
         def self.full_to_string(datetime)
+            return "" unless datetime
             datetime.strftime("%a, %B %d, %Y")
         end
 
         def self.to_string(datetime)
+            return "" unless datetime
             datetime.strftime("%Y.%m.%d %H:%M")
         end
 
         def self.date_as_string(datetime)
+            return "" unless datetime
             datetime.strftime("%Y.%m.%d")
         end
 
         def self.from_string(string, format="%Y.%m.%d %H:%M")
+            return "" unless datetime
             Date.strptime(string, format)
         end
 
