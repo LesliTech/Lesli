@@ -1,1 +1,51 @@
-<router-view />
+<% if Lesli.app[:instance] == "DeutscheLeibrenten" %>
+    <section class="deutsche-leibrenten-login">
+    <%= render :file => "cloud_house/core/users_sessions.html.erb" %>
+    </section>
+<% end %>
+
+<% if Lesli.app[:instance] == "LesliCloud" %>
+    <section class="leslicloud-login">
+        <a class="logo">
+            <img src="/assets/brand/lesli-logo.png">
+        </a>
+        <form ref="form" @submit="postLogin">
+            <div class="field">
+                <p class="control has-icons-left">
+                    <label class="sr-only">
+                        email
+                    </label>
+                    <input 
+                        class="input" 
+                        type="email"
+                        v-model="sign_in.email"
+                        required="true"
+                        placeholder="email"
+                    />
+                    <span class="icon is-small is-left">
+                        <i class="fas fa-envelope"></i>
+                    </span>
+                </p>
+            </div>
+            <div class="field">
+                <p class="control has-icons-left">
+                    <label class="sr-only" for="user_password">
+                        password
+                    </label>
+                    <input 
+                        type="password"
+                        class="input"
+                        required="true"
+                        v-model="sign_in.password"
+                        placeholder="password"
+                    />
+                    <span class="icon is-small is-left">
+                        <i class="fas fa-lock"></i>
+                    </span>
+                </p>
+            </div>
+            <input class="button is-primary" type="submit" value="log in" />
+        </form>
+    </section>
+<% end %>
+

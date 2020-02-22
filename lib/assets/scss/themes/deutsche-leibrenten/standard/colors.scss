@@ -30,9 +30,9 @@ Building a better future, one line of code at a time.
     $deutsche-leibrenten-colors: (
             primary: rgb(0, 83, 128),
             secondary: rgb(32, 168, 216),
-            tertiary: rgb(0, 183, 228)
+            tertiary: rgb(217, 244, 251)
     );
 
-    @return get-lesli-css-base-color($deutsche-leibrenten-colors, $pallete, $variant);
+    @return get-lesli-css-color($deutsche-leibrenten-colors, $pallete, $variant);
 
 }

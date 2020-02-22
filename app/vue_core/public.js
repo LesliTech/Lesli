@@ -49,7 +49,7 @@ import document from 'LesliCoreVue/functions/document.js'
 // · Initializing frameworks, libraries and tools
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
 Vue.use(Buefy)
-Vue.use(VueRouter)
+//Vue.use(VueRouter)
 Vue.use(pluginUrl)
 Vue.use(pluginHttp)
 
@@ -61,6 +61,26 @@ Vue.use(pluginHttp)
 // · app: List of individual apps loaded
 // · base_path: for vue router
 // · example: app("CloudHelp", "[list|new|edit|show]", "help/tickets", [])
+
+export default (app) => {
+
+    // · Building Vue cloud app
+    let cloud = new Vue(app)
+
+
+    // · Mount app once DOM is ready
+    document.ready(() => {
+
+        cloud.$mount("#lesli-cloud-app")
+
+        //if (leslicloud_app_mode_production) debug.userWarningMessage()
+        //if (leslicloud_app_mode_development) debug.info(`${base_path} ${apps}`, module)
+
+    })
+
+}
+
+/*
 export default (module, apps, base_path, routes=[]) => {
 
     // · Building Vue cloud app
@@ -85,3 +105,4 @@ export default (module, apps, base_path, routes=[]) => {
     })
 
 }
+*/

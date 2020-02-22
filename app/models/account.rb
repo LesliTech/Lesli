@@ -47,12 +47,7 @@ class Account < ApplicationRecord
 
     def create_engine_accounts
 
-        # date & time formats
-        Setting.create({ name: "date_format", value: "%Y.%m.%d", account: self })
-        Setting.create({ name: "date_format_full", value: "%a, %B %d, %Y", account: self })
-        Setting.create({ name: "date_time_format", value: "%Y.%m.%d %H:%M", account: self })
-        Setting.create({ name: "theme", value: "lesli", account: self })
-        Setting.create({ name: "theme_variation", value: "light", account: self })
+        self.settings.initialize
         
         if defined? CloudKb
             if self.kb.blank?
