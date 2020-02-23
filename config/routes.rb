@@ -37,7 +37,7 @@ Rails.application.routes.draw do
         mount CloudHelp::Engine   => "/help"   if defined?(CloudHelp)
         mount CloudKb::Engine     => "/kb"     if defined?(CloudKb)
 
-        root to: redirect('/crm'), as: :root_crm_authenticated if defined?(CloudHaus)
+        root to: redirect('/crm'),   as: :root_crm_authenticated if defined?(CloudHaus)
         root to: redirect('/lesli'), as: :root_authenticated if defined?(CloudLesli)
         root to: "dashboards#empty", as: :root_authenticated if !defined?(CloudLesli)
 
