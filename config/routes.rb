@@ -43,8 +43,7 @@ Rails.application.routes.draw do
 
     end
 
+    root to: redirect('/login'), as: :root_login_unauthenticated if defined?(CloudHaus)
     root to: "websites#landing", as: :root_unauthenticated
-
-    
 
 end
