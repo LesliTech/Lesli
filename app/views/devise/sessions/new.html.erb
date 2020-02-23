@@ -1,10 +1,10 @@
-<% if Lesli.app[:instance] == "DeutscheLeibrenten" %>
-    <section class="deutsche-leibrenten-login">
-    <%= render :file => "cloud_house/core/users_sessions.html.erb" %>
+<% if defined?(CloudHaus) %>
+    <section class="cloudhaus-login">
+    <%= render :file => "cloud_haus/core/users_sessions.html.erb" %>
     </section>
 <% end %>
 
-<% if Lesli.app[:instance] == "LesliCloud" %>
+<% if !defined?(CloudHaus) %>
     <section class="leslicloud-login">
         <a class="logo">
             <img src="/assets/brand/lesli-logo.png">

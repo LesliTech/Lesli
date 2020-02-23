@@ -28,7 +28,7 @@ Building a better future, one line of code at a time.
 @import "core/templates/application.scss";
 
 // · 
-section.deutsche-leibrenten-login {
+section.cloudhaus-login {
 
     $primary: rgb(0, 83, 128);
     $secondary: rgb(32, 168, 216);
@@ -56,6 +56,9 @@ section.deutsche-leibrenten-login {
     .login-form {
         padding: 1rem 1.5rem;
         background-color: $tertiary;
+        max-width: 700px;
+        margin: 0 auto;
+        width: 96%;
         h2,p {
             color: $primary;
         }
@@ -83,7 +86,7 @@ section.deutsche-leibrenten-login {
 
 
 // · 
-section.login-standard {
+section.leslicloud-login {
     height: 100vh;
     display: flex;
     align-items: center;
