@@ -22,6 +22,9 @@ Rails.application.routes.draw do
         resource :settings
 
         mount ActionCable.server  => "/cable"
+        mount CloudDispatcher::Engine => "/api" if defined?(CloudDispatcher)
+        mount CloudHaus::Engine  => "/crm"  if defined?(CloudHaus)
+        
         mount CloudDriver::Engine => "/driver" if defined?(CloudDriver)
         mount CloudBabel::Engine  => "/babel"  if defined?(CloudBabel)
         mount CloudPanel::Engine  => "/panel"  if defined?(CloudPanel)
@@ -34,6 +37,7 @@ Rails.application.routes.draw do
         mount CloudHelp::Engine   => "/help"   if defined?(CloudHelp)
         mount CloudKb::Engine     => "/kb"     if defined?(CloudKb)
 
+        root to: redirect('/crm'), as: :root_crm_authenticated if defined?(CloudHaus)
         root to: redirect('/lesli'), as: :root_authenticated if defined?(CloudLesli)
         root to: "dashboards#empty", as: :root_authenticated if !defined?(CloudLesli)
 
@@ -41,6 +45,6 @@ Rails.application.routes.draw do
 
     root to: "websites#landing", as: :root_unauthenticated
 
-    mount CloudDispatcher::Engine => "/api" if defined?(CloudDispatcher)
+    
 
 end
