@@ -48,10 +48,7 @@
         "@fortawesome/fontawesome-free": "5.12.0",
         "@fortawesome/free-solid-svg-icons": "5.12.0",
         "@fortawesome/fontawesome-svg-core": "1.2.26",
-        "@fortawesome/vue-fontawesome": "0.1.9",
-
-        "playwright": "0.11.1"
-
+        "@fortawesome/vue-fontawesome": "0.1.9"
     },
     "scripts": {
         "test:playwright": "node ./test/playwright",
