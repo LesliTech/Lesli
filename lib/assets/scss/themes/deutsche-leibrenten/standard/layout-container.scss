@@ -23,13 +23,43 @@ Building a better future, one line of code at a time.
 // · 
 */
 
-@import "lesli-css/";
+.lesli-module-container {
+    
+    .b-tabs {
 
-// · 
-body.CloudHaus #lesli-cloud-app {
-    @import "./colors.scss";
-    @import "./layout-aside.scss";
-    @import "./layout-header.scss";
-    @import "./layout-container.scss";
+        .tabs {
+            margin-bottom: 0;
+            .is-active {
+                background-color: get-css-color(app, primary);
+                a {
+                    color: get-css-color(standard, white);
+                }
+            }
+        }
+
+        &.is-vertical .tabs {
+            flex: 0 0 200px;
+            border-right: 2rem solid transparent;
+        }
+
+        .tab-content {
+            background-color: get-css-color(app, tertiary);
+        }
+
+        
+    }
+
+    .tab-table-information {
+        background-color: transparent;
+        td {
+            padding-bottom: 1.6rem;
+        }
+        b {
+            font-size: .9rem;
+            color: get-css-color(app, primary);
+        }
+        p {
+            color: get-css-color(black, 500);
+        }
+    }
 }
-
