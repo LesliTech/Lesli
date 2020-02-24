@@ -27,6 +27,53 @@ Building a better future, one line of code at a time.
 // · Application header
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
 /*
+Lesli
+
+Copyright (c) 2020, Lesli Technologies, S. A.
+
+All the information provided by this website is protected by laws of Guatemala related 
+to industrial property, intellectual property, copyright and relative international laws. 
+Lesli Technologies, S. A. is the exclusive owner of all intellectual or industrial property
+rights of the code, texts, trade mark, design, pictures and any other information.
+Without the written permission of Lesli Technologies, S. A., any replication, modification,
+transmission, publication is strictly forbidden.
+For more information read the license file including with this software.
+
+LesliCloud - Your Smart Business Assistant
+
+Powered by https://www.lesli.tech
+Building a better future, one line of code at a time.
+
+@license  Propietary - all rights reserved.
+@version  0.1.0-alpha
+
+// · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
+// · 
+*/
+
+header.lesli-app-header {
+    .navbar-end {
+        a.notification-indicator {
+            position: relative;
+            span {
+                top: 13px;
+                right: 10px;
+                width: 10px;
+                height: 10px;
+                position: absolute;
+                border-radius: 50%;
+                background-color: get-lesli-css-color(berry, 300);
+                color: get-lesli-css-color(silver, 100);
+            }
+        }
+        i {
+            font-size: 1.2rem;
+        }
+    }
+}
+
+
+/* old code
 header.lesli-app-header {
     background-color: lesli-color(standard, white);
     box-shadow: 
@@ -168,4 +215,4 @@ header.lesli-app-header {
     }
 
 }
-*/
+//*/

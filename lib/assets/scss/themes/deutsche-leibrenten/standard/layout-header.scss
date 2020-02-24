@@ -35,4 +35,27 @@ Building a better future, one line of code at a time.
             max-height: 50px;
         }
     }
+
+    .navbar-start {
+        flex: 1;
+        .navbar-item {
+            padding: 0;
+            display: block;
+            width: 100%;
+            input {
+                border: none;
+                &::placeholder {
+                    color: get-css-color(silver, 700);
+                    opacity: 1;
+                }
+            }
+            .icon {
+                color: get-css-color(silver, 700);
+            }
+        }
+    }
+
+    .navbar-end {
+
+    }
 }
