@@ -29,7 +29,7 @@ require 'json'
 
 module Lesli
 
-    def Lesli.app
+    def Lesli.app2
 
         app = { 
             instance: "LesliCloud"
