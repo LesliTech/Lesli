@@ -1,11 +1,4 @@
 {
-  "_args": [
-    [
-      "@fortawesome/fontawesome-free@5.12.0",
-      "/var/www/LesliCloud/lesli.cloud"
-    ]
-  ],
-  "_development": true,
   "_from": "@fortawesome/fontawesome-free@5.12.0",
   "_id": "@fortawesome/fontawesome-free@5.12.0",
   "_inBundle": false,
@@ -27,7 +20,8 @@
     "#DEV:/"
   ],
   "_resolved": "https://registry.npmjs.org/@fortawesome/fontawesome-free/-/fontawesome-free-5.12.0.tgz",
-  "_spec": "5.12.0",
+  "_shasum": "8ceb9f09edfb85ea18a6c7bf098f6f5dd5ffd62b",
+  "_spec": "@fortawesome/fontawesome-free@5.12.0",
   "_where": "/var/www/LesliCloud/lesli.cloud",
   "author": {
     "name": "Dave Gandy",
@@ -37,6 +31,7 @@
   "bugs": {
     "url": "http://github.com/FortAwesome/Font-Awesome/issues"
   },
+  "bundleDependencies": false,
   "contributors": [
     {
       "name": "Brian Talbot",
@@ -60,6 +55,7 @@
     }
   ],
   "dependencies": {},
+  "deprecated": false,
   "description": "The iconic font, CSS, and SVG framework",
   "engines": {
     "node": ">=6"
