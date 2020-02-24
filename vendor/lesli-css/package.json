@@ -18,7 +18,7 @@
   "_requiredBy": [
     "#DEV:/"
   ],
-  "_resolved": "git+ssh://git@github.com/LesliTech/lesli-css.git#629eb3192c0c43e78121475d4ab369b93ef902e2",
+  "_resolved": "git+ssh://git@github.com/LesliTech/lesli-css.git#18e1924da07f25fe98102ae175b765c796a32a2c",
   "_spec": "lesli-css@git+ssh://git@github.com/LesliTech/lesli-css.git#master",
   "_where": "/var/www/LesliCloud/lesli.cloud",
   "author": {
