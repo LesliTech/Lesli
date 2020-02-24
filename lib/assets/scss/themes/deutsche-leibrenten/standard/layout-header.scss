@@ -23,18 +23,16 @@ Building a better future, one line of code at a time.
 // · 
 */
 
-
-// · 
-@function get-css-color($pallete, $variant: 500) {
-
-    $deutsche-leibrenten-colors: (
-        app: (
-            primary: rgb(0, 83, 128),
-            secondary: rgb(32, 168, 216),
-            tertiary: rgb(217, 244, 251)
-        )
-    );
-
-    @return get-lesli-css-base-color($deutsche-leibrenten-colors, $pallete, $variant);
-
+.lesli-app-header {
+  
+    .navbar-brand {
+        flex: 0 0 250px;
+        justify-content: center;
+        a {
+            padding: 0;
+        }
+        img {
+            max-height: 50px;
+        }
+    }
 }

@@ -28,7 +28,11 @@ Building a better future, one line of code at a time.
 module ApplicationHelper
 
     def app_css_class_for_body()
-        controller_path.gsub('/','-')+"-"+action_name
+        d = defined?(CloudHaus) ? "CloudHaus" : "LesliCloud"
+        d+= " "
+        d+= controller_path.gsub('/','-')
+        d+= " "
+        d+= action_name
     end
 
     def app_theme_stylesheet_path()

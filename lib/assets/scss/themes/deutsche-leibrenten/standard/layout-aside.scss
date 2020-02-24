@@ -25,16 +25,34 @@ Building a better future, one line of code at a time.
 
 
 // · 
-@function get-css-color($pallete, $variant: 500) {
+.lesli-module-container {
+    display: flex;
+}
 
-    $deutsche-leibrenten-colors: (
-        app: (
-            primary: rgb(0, 83, 128),
-            secondary: rgb(32, 168, 216),
-            tertiary: rgb(217, 244, 251)
-        )
-    );
 
-    @return get-lesli-css-base-color($deutsche-leibrenten-colors, $pallete, $variant);
+// · Navigation sidebar
+.lesli-module-navigation {
+    flex: 0 0 250px;
+    padding: 1.8rem 1.4rem;
+    background-color: get-css-color(app, primary);
 
+    .navbar-menu {
+        display: block;
+    }
+
+    a.navbar-item {
+        width: 100%;
+        display: block;
+        color: get-css-color(standard, white);
+        border: 2px solid get-css-color(app, secondary);
+        border-left: none;
+        border-right: none;
+        padding: 1rem;
+    }
+
+}
+
+// · Section (component container)
+.lesli-module-container > section.section {
+    width: 100%;
 }
