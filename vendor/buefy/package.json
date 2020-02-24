@@ -1,11 +1,4 @@
 {
-  "_args": [
-    [
-      "buefy@0.8.9",
-      "/var/www/LesliCloud/lesli.cloud"
-    ]
-  ],
-  "_development": true,
   "_from": "buefy@0.8.9",
   "_id": "buefy@0.8.9",
   "_inBundle": false,
@@ -26,7 +19,8 @@
     "#DEV:/"
   ],
   "_resolved": "https://registry.npmjs.org/buefy/-/buefy-0.8.9.tgz",
-  "_spec": "0.8.9",
+  "_shasum": "e671f00d2b4b99fa666169514cb81d7042807c09",
+  "_spec": "buefy@0.8.9",
   "_where": "/var/www/LesliCloud/lesli.cloud",
   "author": {
     "name": "Rafael Beraldo",
@@ -40,9 +34,11 @@
   "bugs": {
     "url": "https://github.com/buefy/buefy/issues"
   },
+  "bundleDependencies": false,
   "dependencies": {
     "bulma": "0.7.5"
   },
+  "deprecated": false,
   "description": "Lightweight UI components for Vue.js based on Bulma",
   "devDependencies": {
     "@applitools/eyes-cypress": "3.7.5",
