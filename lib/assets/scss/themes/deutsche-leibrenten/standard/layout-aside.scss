@@ -40,14 +40,23 @@ Building a better future, one line of code at a time.
         display: block;
     }
 
+    .navbar-start {
+        display: block;
+    }
+
     a.navbar-item {
         width: 100%;
         display: block;
+        border: none;
+        border-top: 2px solid get-css-color(app, secondary);
         color: get-css-color(standard, white);
-        border: 2px solid get-css-color(app, secondary);
-        border-left: none;
-        border-right: none;
-        padding: 1rem;
+        padding: 1.2rem;
+        &:last-child {
+            border-bottom: 2px solid get-css-color(app, secondary);
+        }
+        &:hover {
+            background-color: get-css-color(app, secondary);
+        }
     }
 
 }
