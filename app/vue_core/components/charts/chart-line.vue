@@ -34,15 +34,13 @@ import dayjs from 'dayjs'
 
 //  · Loading apps, modules and components
 // ~·~        ~·~        ~·~        ~·~        ~·~        ~·~        ~·~        ~·~        ~·~
-import VueApexCharts from 'vue-apexcharts'
+//import VueApexCharts from 'vue-apexcharts'
 
 
 // · LesliCloud app
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
 export default {
-    components: {
-        'apexchart': VueApexCharts,
-    },
+
     mounted() {
         let data = []
         let labels = []
@@ -174,7 +172,7 @@ export default {
 }
 </script>
 <template>
-    <apexchart type="line" height=350 :options="chart.options" :series="chart.series"></apexchart>
+    
 </template>
 <style scoped>
 
