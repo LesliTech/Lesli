@@ -65,6 +65,9 @@ gem 'whenever'
 
 gem 'ancestry'
 
+# Collection of all country flags in SVG
+gem 'flag-icons-rails'
+
 # Avoiding polling in widows
 gem 'wdm', '>= 0.1.0' if Gem.win_platform?
 
