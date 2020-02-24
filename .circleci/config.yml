@@ -27,3 +27,7 @@ jobs:
                     gem update --system
                     bundle config set path 'vendor/bundle'
                     bundle check || bundle install
+            - save_cache:
+                key: rails-demo-bundle-v2-{{ checksum "Gemfile.lock" }}
+                paths:
+                    - vendor/bundle
