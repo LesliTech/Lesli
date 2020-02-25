@@ -4,11 +4,17 @@ jobs:
         working_directory: ~/my-app
         docker:
             - image: circleci/ruby:2.6.4-stretch
+              environment:
+                PGHOST: 127.0.0.1
+                PGUSER: leslicloud
+                PGPASSWORD: ""
+                RAILS_ENV: test
             - image: circleci/postgres:11.5
-        environment:
-            PGHOST: localhost
-            PGUSER: my-app
-            RAILS_ENV: test
+              environment:
+                POSTGRES_USER: leslicloud
+                POSTGRES_DB: leslicloud_test
+                POSTGRES_PASSWORD: ""
+                RAILS_ENV: test
         steps:
             - checkout
             - run:
