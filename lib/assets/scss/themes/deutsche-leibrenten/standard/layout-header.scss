@@ -42,6 +42,9 @@ Building a better future, one line of code at a time.
             padding: 0;
             display: block;
             width: 100%;
+            .control {
+                margin-top: 3px;
+            }
             input {
                 border: none;
                 &::placeholder {
@@ -51,6 +54,9 @@ Building a better future, one line of code at a time.
             }
             .icon {
                 color: get-css-color(silver, 700);
+                i {
+                    padding-bottom: 5px;
+                }
             }
         }
     }
