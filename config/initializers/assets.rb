@@ -47,4 +47,4 @@ Rails.application.config.assets.precompile += %w( cloud_driver/*.js )
 
 Rails.application.config.assets.precompile += %w( i18n.js )
 
-Rails.application.config.assets.precompile += %w( cloud_haus/**/*.png )
+Rails.application.config.assets.precompile += %w( cloud_haus/**/*.png cloud_haus/**/*.svg )
