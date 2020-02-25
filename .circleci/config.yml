@@ -6,12 +6,11 @@ jobs:
             - image: circleci/ruby:2.6.4-stretch
               environment:
                 PGHOST: 127.0.0.1
-                PGUSER: leslicloud
-                PGPASSWORD: ""
+                PGUSER: root
                 RAILS_ENV: test
             - image: circleci/postgres:11.5
               environment:
-                POSTGRES_USER: leslicloud
+                POSTGRES_USER: root
                 POSTGRES_DB: leslicloud_test
                 POSTGRES_PASSWORD: ""
                 RAILS_ENV: test
@@ -26,6 +25,7 @@ jobs:
             - restore_cache:
                 keys:
                     - rails-demo-bundle-v2-{{ checksum "Gemfile.lock" }}
+                    - rails-demo-bundle-v2-
             - run:
                 name: Bundle Install
                 command: |
