@@ -4,11 +4,16 @@ jobs:
         working_directory: ~/my-app
         docker:
             - image: circleci/ruby:2.6.4-stretch
+              environment:
+                PGHOST: 127.0.0.1
+                PGUSER: root
+                RAILS_ENV: test
             - image: circleci/postgres:11.5
-        environment:
-            PGHOST: localhost
-            PGUSER: my-app
-            RAILS_ENV: test
+              environment:
+                POSTGRES_USER: root
+                POSTGRES_DB: leslicloud_test
+                POSTGRES_PASSWORD: ""
+                RAILS_ENV: test
         steps:
             - checkout
             - run:
@@ -27,3 +32,13 @@ jobs:
                     gem update --system
                     bundle config set path 'vendor/bundle'
                     bundle check || bundle install
+            - save_cache:
+                key: rails-demo-bundle-v2-{{ checksum "Gemfile.lock" }}
+                paths:
+                    - vendor/bundle
+            - run:
+                name: Wait for DB
+                command: dockerize -wait tcp://localhost:5432 -timeout 1m
+            - run:
+                name: Database setup
+                command: bundle exec rake db:schema:load --trace
