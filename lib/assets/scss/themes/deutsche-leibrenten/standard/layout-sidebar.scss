@@ -57,6 +57,15 @@ Building a better future, one line of code at a time.
         &:hover {
             background-color: get-css-color(app, secondary);
         }
+        img {
+            vertical-align: middle;
+            padding-bottom: 2px;
+            margin-right: 5px;
+        }
+    }
+
+    .navbar-end {
+        display: none;
     }
 
 }
