@@ -134,7 +134,7 @@ namespace :data do
                 # company_detail. ? = item['person_id']
                 # company_detail. ? = item['active_cooperation']
                 puts " - added #{company_detail.name}"
-                item['person_id']
+                # item['person_id']
             end
 
             puts "- imported #{data.length} companies"
