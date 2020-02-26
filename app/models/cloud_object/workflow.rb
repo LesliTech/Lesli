@@ -187,25 +187,37 @@ Building a better future, one line of code at a time.
                     "cloud_#{module_name}_workflow_associations.workflow_for = '#{workflow_for}'"
                 ]
 
+                missing_required_field = false
+
                 association_details.each do |detail|
+                    association_value = cloud_object[detail[:key]]
+                    unless association_value
+                        # There is a required param missing for a specific association
+                        missing_required_field = true
+                        break
+                    end
+
                     search_params.push(
-                        "cloud_#{module_name}_workflow_associations.#{detail[:name]} = #{cloud_object[detail[:key]]}"
+                        "cloud_#{module_name}_workflow_associations.#{detail[:name]} = #{association_value}"
                     )
                 end
 
-                workflow_associations = association_model.joins(
-                    :workflow
-                ).where(
-                    search_params.join(" and ")
-                ).select(
-                    "cloud_#{module_name}_workflows.id as id",
-                    "cloud_#{module_name}_workflows.name as name"
-                )
+                unless missing_required_field
 
-                unless workflow_associations.empty?
-                    workflow = self.find(workflow_associations[0][:id])
-                    cloud_object.status = workflow.statuses.find_by(initial: true)
-                    return
+                    workflow_associations = association_model.joins(
+                        :workflow
+                    ).where(
+                        search_params.join(" and ")
+                    ).select(
+                        "cloud_#{module_name}_workflows.id as id",
+                        "cloud_#{module_name}_workflows.name as name"
+                    )
+
+                    unless workflow_associations.empty?
+                        workflow = self.find(workflow_associations[0][:id])
+                        cloud_object.status = workflow.statuses.find_by(initial: true)
+                        return
+                    end
                 end
             end
 
