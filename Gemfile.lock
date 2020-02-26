@@ -267,6 +267,7 @@ DEPENDENCIES
   bootsnap (>= 1.1.0)
   byebug
   cancancan
+  cloud_haus!
   cloud_house!
   devise
   faker
