@@ -24,12 +24,6 @@ Building a better future, one line of code at a time.
 */
 
 
-// · 
-.lesli-module-container {
-    display: flex;
-}
-
-
 // · Navigation sidebar
 .lesli-module-navigation {
     flex: 0 0 250px;
@@ -70,7 +64,4 @@ Building a better future, one line of code at a time.
 
 }
 
-// · Section (component container)
-.lesli-module-container > section.section {
-    width: 100%;
-}
+

@@ -1,0 +1,8 @@
+.component-header {
+    z-index: 10;
+    margin-bottom: 1rem;
+    background-color: transparent;
+    h4 {
+        color: get-css-color(black, 300);
+    }
+}

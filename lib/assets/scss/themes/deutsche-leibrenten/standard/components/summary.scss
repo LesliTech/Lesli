@@ -1,0 +1,44 @@
+.component-summary {
+    margin: 0;
+    padding: .6rem .4rem;
+    background-color: get-css-color(app, tertiary);
+
+    // image gallery
+    .component-summary-image-gallery {
+        & > div {
+            @include lesli-css-grid(3, 5px);
+            div {
+                width: calc(33% - 5px);
+                margin-left: 5px;
+            }
+        }
+        img {
+            border-radius: 3px;
+            border: 4px solid white;
+            margin-right: 5px;
+        }
+    }
+
+    // main information cards
+    .component-summary-table-information {
+        background-color: transparent;
+        td {
+            padding-bottom: 1.6rem;
+        }
+        b {
+            font-size: .9rem;
+            color: get-css-color(app, primary);
+        }
+        p {
+            color: get-css-color(black, 500);
+        }
+    }
+
+    // map container
+    .component-summary-map {
+        width: 100%;
+        height: 100%;
+        border: 3px solid white;
+    }
+    
+}
