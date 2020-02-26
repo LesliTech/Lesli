@@ -2,23 +2,43 @@ namespace :data do
     namespace :import do
 
         def read_file filename
-            path = Rails.root.join("storage", "#{filename}.json")
-            abort "Input file not found: #{filename}" unless File.exist?(path) 
-            JSON.parse(File.read(path))
+            filepath = Rails.root.join("storage", "#{filename}.json")
+            # abort "Input file not found: #{filename}" unless File.exist?(filepath)
+            unless File.exist?(filepath)
+                puts "Created file #{filename} in #{filepath}"
+                write_file(filename, [])
+            end
+            JSON.parse(File.read(filepath))
+        end
+
+        def write_file filename, data
+            filepath = File.join(Rails.root, "storage/#{filename}.json")
+            File.open(filepath, 'w') do |file|
+                file.write(JSON.pretty_generate(data))
+            end
+        end
+
+        def update_file filename, new_data
+            data = read_file(filename)
+            data.push(new_data)
+            write_file(filename, data)
         end
 
         desc "Run all import tasks"
         task :run_all => :environment do
             Rake::Task['data:import:core_employees'].execute
             Rake::Task['data:import:core_cloud_house_companies'].execute
+            Rake::Task['data:import:core_cloud_house_employees'].execute
             puts " --- all tasks done successfully"
         end
 
-        desc "Employees Json to Core_Employees"
+        desc "Employees Json to Core Users"
         task core_employees: :environment do
+            # TODO
             account = Account.find_by_id(1)
             data = read_file("employees")
             data.each_with_index do |item, index|
+                # TODO
                 if item['email'].include? "@lomax.com.gt"
                     puts "processing task #{index} of #{data.length}"
                     if User.all.exists?(:email => item['email'])
@@ -37,6 +57,7 @@ namespace :data do
                         user.last_sign_in_at = item['last_sign_in_at']
                         user.current_sign_in_ip = item['current_sign_in_ip']
                         user.last_sign_in_ip = item['last_sign_in_ip']
+                        # TODO
                         # user. ? = item['role']
                         # user. ? = item['person_id']
                         # user. ? = item['employee_id']
@@ -57,6 +78,7 @@ namespace :data do
 
         desc "Task Json to Core Cloud Focus Task"
         task tasks: :environment do
+            # TODO
             account = Account.find(1)
             tasks = read_file("crm_tasks")
             tasks.each_with_index do |task, index|
@@ -74,6 +96,7 @@ namespace :data do
 
         desc "Companies Json to Core Cloud House Companies and Company Details"
         task core_cloud_house_companies: :environment do
+            # TODO
             account = Account.find(1)
             data = read_file("crm_companies")
             data.each_with_index do |item, index|
@@ -83,6 +106,7 @@ namespace :data do
                 company.created_at = item['created_at']
                 company.updated_at = item['updated_at']
                 company.cloud_house_accounts_id = account.id
+                # TODO
                 # company.cloud_house_companies_id = ?
                 # company.cloud_house_workflow_statuses_id = ?
                 # company.cloud_house_employees_id = ?
@@ -124,6 +148,7 @@ namespace :data do
                 company_detail.avv_completed = item['avv_completed']
                 company_detail.cloud_house_companies_id = company.id
                 company_detail.save!
+                # TODO
                 # company_detail. ? = item['last_activity']
                 # company_detail. ? = item['observation']
                 # company_detail. ? = item['deleted_at']
@@ -134,10 +159,76 @@ namespace :data do
                 # company_detail. ? = item['person_id']
                 # company_detail. ? = item['active_cooperation']
                 puts " - added #{company_detail.name}"
-                # item['person_id']
+
+                new_relation_data = {company: company.id, crm_person: item['person_id']}
+                update_file("tmp_person_company_relations", new_relation_data)
             end
 
             puts "- imported #{data.length} companies"
+        end
+
+        desc "People Json to Core Cloud House Employees and Employee Details"
+        task core_cloud_house_employees: :environment do
+            # TODO
+            account = Account.find(1)
+            workflow_id = 1
+
+            data = read_file("crm_people")
+            data.each_with_index do |item, index|
+                puts "processing task #{index} of #{data.length}"
+                data_ids = read_file('tmp_person_company_relations')
+                data_ids.each do |relation|
+                    if relation['crm_person'] === item['id']
+                        employee = CloudHouse::Employee.new
+                        employee.cloud_house_accounts_id = account.id
+                        employee.cloud_house_companies_id = relation['company']
+                        employee.cloud_house_workflow_statuses_id = workflow_id
+                        employee.save!
+
+                        employee_detail = CloudHouse::Employee::Detail.new
+                        employee_detail.salutation = item['salutation']
+                        employee_detail.first_name = item['first_name']
+                        employee_detail.last_name = item['last_name']
+                        employee_detail.gender = item['gender']
+                        employee_detail.birthplace = item['birthplace']
+                        employee_detail.nationality = item['nationality']
+                        employee_detail.birthdate = item['birthdate']
+                        employee_detail.street_name = item['street_name']
+                        employee_detail.street_number = item['street_number']
+                        employee_detail.street_other = item['street_other']
+                        employee_detail.postcode = item['postcode']
+                        employee_detail.city_name = item['city_name']
+                        employee_detail.email = item['email']
+                        employee_detail.telephone = item['telephone']
+                        employee_detail.mobile_number = item['mobile']
+                        employee_detail.fax_number = item['fax']
+                        employee_detail.title = item['title']
+                        employee_detail.occupation = item['occupation']
+                        employee_detail.children = item['children']
+                        employee_detail.marital_status = item['marital_status']
+                        employee_detail.signature = item['signature']
+                        employee_detail.homepage = item['homepage']
+                        # TODO
+                        # employee_detail. = item['skype']
+                        # employee_detail. = item['city_id']
+                        # employee_detail. = item['verified_at']
+                        # employee_detail. = item['verified_by_id']
+                        # employee_detail. = item['verification_document_type']
+                        # employee_detail. = item['verification_document_number']
+                        # employee_detail. = item['verification_document_authority']
+                        # employee_detail.homepage = ?
+                        # employee_detail.position = ?
+                        employee_detail.created_at = item['created_at']
+                        employee_detail.updated_at = item['updated_at']
+                        employee_detail.cloud_house_employees_id = employee.id
+                        employee_detail.save!
+                        puts " - added"
+                        break
+                    end
+                end
+            end
+
+            puts "- imported #{data.length} data"
         end
 
     end
