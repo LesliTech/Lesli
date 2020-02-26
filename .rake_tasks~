@@ -15,7 +15,6 @@ cache_digests:dependencies
 cache_digests:nested_dependencies
 cloud_house:install:migrations
 data:import:core_cloud_house_companies
-data:import:core_cloud_house_employees
 data:import:core_employees
 data:import:run_all
 data:import:tasks
