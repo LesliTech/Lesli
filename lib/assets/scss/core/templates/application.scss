@@ -59,8 +59,9 @@ Building a better future, one line of code at a time.
 
 // · Loading components and helpers
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
-@import "../components/containers.scss";
 @import "../helpers/display";
+@import "../components/containers.scss";
+
 
 
 
@@ -71,7 +72,6 @@ Building a better future, one line of code at a time.
     @import "../layouts/application_lesli_header";
     @import "../layouts/application_module_navigation";
     @import "../layouts/application_module_container";
-    @import "../layouts/application_components.scss";
     @import "../layouts/application_lesli_chatbox";
 }
 
