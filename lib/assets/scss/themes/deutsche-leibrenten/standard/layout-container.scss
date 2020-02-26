@@ -98,4 +98,29 @@ Building a better future, one line of code at a time.
             color: get-css-color(black, 500);
         }
     }
+
+    .component-image-gallery {
+        
+        
+        & > div {
+            padding: .6rem .4rem;
+            background-color: get-css-color(app, tertiary);
+            @include lesli-css-grid(3, 5px);
+            div {
+                width: calc(33% - 5px);
+                margin-left: 5px;
+            }
+        }
+        img {
+            border-radius: 3px;
+            border: 2px solid white;
+            margin-right: 5px;
+        }
+    }
+
+    .component-summary-map {
+        width: 100%;
+        height: 100%;
+        border: 3px solid white;
+    }
 }
