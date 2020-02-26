@@ -323,6 +323,7 @@ ActiveRecord::Schema.define(version: 2040713) do
     t.datetime "questionnaire_received_date"
     t.boolean "testimony"
     t.text "notes"
+    t.date "death_date"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.bigint "cloud_house_contacts_id"
@@ -847,7 +848,8 @@ ActiveRecord::Schema.define(version: 2040713) do
     t.integer "garages_number"
     t.float "garages_rent_value"
     t.integer "parking_lots_number"
-    t.integer "parking_lots_value"
+
+    t.float "parking_lots_value"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.bigint "cloud_house_properties_id"
