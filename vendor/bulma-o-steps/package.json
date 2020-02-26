@@ -1,0 +1,62 @@
+{
+  "_from": "bulma-o-steps",
+  "_id": "bulma-o-steps@1.0.9",
+  "_inBundle": false,
+  "_integrity": "sha512-T5qywE4MPCt6t0YTaZg2LEnzw0QoeYuob+dTB5WmYY8FtSOyEbNZnQ2kkrqzRwtAocvvzUTb+erAAc47QnkWoQ==",
+  "_location": "/bulma-o-steps",
+  "_phantomChildren": {},
+  "_requested": {
+    "type": "tag",
+    "registry": true,
+    "raw": "bulma-o-steps",
+    "name": "bulma-o-steps",
+    "escapedName": "bulma-o-steps",
+    "rawSpec": "",
+    "saveSpec": null,
+    "fetchSpec": "latest"
+  },
+  "_requiredBy": [
+    "#DEV:/",
+    "#USER"
+  ],
+  "_resolved": "https://registry.npmjs.org/bulma-o-steps/-/bulma-o-steps-1.0.9.tgz",
+  "_shasum": "0a1309d58a72164f2f6eb94efd5a4722b6e4c13a",
+  "_spec": "bulma-o-steps",
+  "_where": "/var/www/LesliCloud/lesli.cloud",
+  "author": {
+    "name": "aramvisser, octoshrimpy"
+  },
+  "bugs": {
+    "url": "https://github.com/octoshrimpy/bulma-o-steps/issues"
+  },
+  "bundleDependencies": false,
+  "dependencies": {
+    "bulma": "^0.7.1"
+  },
+  "deprecated": false,
+  "description": "In-depth Steps component for Bulma.io",
+  "devDependencies": {
+    "node-sass": "^4.9.0"
+  },
+  "homepage": "https://github.com/octoshrimpy/bulma-o-steps#readme",
+  "keywords": [
+    "Bulma",
+    "bulma",
+    "bulma.io",
+    "extensions",
+    "steps",
+    "bulma-steps",
+    "bulma-step"
+  ],
+  "license": "MIT",
+  "main": "bulma-o-steps.sass",
+  "name": "bulma-o-steps",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/octoshrimpy/bulma-o-steps.git"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "version": "1.0.9"
+}
