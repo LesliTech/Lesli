@@ -26,29 +26,7 @@ Building a better future, one line of code at a time.
 // · 
 
 
-    .component-toolbar {
-        input {
-            border-top: none;
-            border-left: none;
-            border-right: none;
-            background-color: transparent;
-            &::placeholder {
-                color: #7e8087;
-                opacity: .8;
-            }
-        }
-        div.select {
-            &::after {
-                border-color: rgb(100,100,100);
-            }
-            select {
-                border-top: none;
-                border-left: none;
-                border-right: none;
-                background-color: transparent;
-            }
-        }
-    }
+
 
     .b-tabs {
 
