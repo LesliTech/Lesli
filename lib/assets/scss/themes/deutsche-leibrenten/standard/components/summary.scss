@@ -1,12 +1,14 @@
 @import "lesli-css/";
 
 .component-summary {
-    margin: 0;
+    margin: 0 auto 2rem;
     padding: .6rem .4rem;
     background-color: get-css-color(app, tertiary);
 
     // image gallery
     .component-summary-image-gallery {
+        padding-left: 0;
+        padding-right: 0;
         & > div {
             @include lesli-css-grid(3, 5px);
             div {

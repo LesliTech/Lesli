@@ -36,6 +36,7 @@ body.CloudHaus #lesli-cloud-app {
     .lesli-module-container {
         display: flex;
         @import "./components/header.scss";
+        @import "./components/status.scss";
         @import "./components/toolbar.scss";
         @import "./components/summary.scss";
         @import "./components/tabs.scss";
