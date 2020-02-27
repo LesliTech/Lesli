@@ -25,10 +25,10 @@ namespace :data do
         end
 
         desc "Run all import tasks"
-        task :run_all => :environment do
+        task :all => :environment do
             Rake::Task['data:import:core_employees'].execute
-            Rake::Task['data:import:core_cloud_house_companies'].execute
-            Rake::Task['data:import:core_cloud_house_employees'].execute
+            Rake::Task['data:import:cloud_house_companies'].execute
+            Rake::Task['data:import:cloud_house_employees'].execute
             puts " --- all tasks done successfully"
         end
 
@@ -40,7 +40,7 @@ namespace :data do
             data.each_with_index do |item, index|
                 # TODO
                 if item['email'].include? "@lomax.com.gt"
-                    puts "processing task #{index} of #{data.length}"
+                    puts "processing employee #{index} of #{data.length}"
                     if User.all.exists?(:email => item['email'])
                         user = User.find_by_email item['email']
                         puts " - already exists: #{user.email}"
@@ -69,48 +69,49 @@ namespace :data do
                             SET encrypted_password='#{item['encrypted_password']}'
                             WHERE email='#{item['email']}';
                         ")
-                        puts " - added #{item['email']}"
                     end 
                 end
             end
-            puts "- imported #{data.length} users"
+            puts "- imported #{data.length} records"
         end
 
         desc "Task Json to Core Cloud Focus Task"
-        task tasks: :environment do
+        task cloud_chaos: :environment do
             # TODO
-            account = Account.find(1)
-            tasks = read_file("crm_tasks")
-            tasks.each_with_index do |task, index|
-                p "processing task #{index} of #{tasks.length}"
+            account = Account.find_by_id(1)
+            data = read_file("employees")
+            data.each_with_index do |item, index|
+                p "processing cloud_chaos #{index} of #{data.length}"
                 CloudFocus::Task.create({
                     detail_attributes: {
-                        title: task['title'],
-                        description: task['note'],
-                        deadline: task['deadline']
+                        title: data['title'],
+                        description: data['note'],
+                        deadline: data['deadline']
                     },
                     account: account
                 })
             end
+            puts "- imported #{data.length} records"
         end
 
         desc "Companies Json to Core Cloud House Companies and Company Details"
-        task core_cloud_house_companies: :environment do
+        task cloud_house_companies: :environment do
             # TODO
             account = Account.find(1)
+            workflow = 
             data = read_file("crm_companies")
             data.each_with_index do |item, index|
-                puts "processing task #{index} of #{data.length}"
+                puts "processing cloud_house_companies #{index} of #{data.length}"
 
                 company = CloudHouse::Company.new
                 company.created_at = item['created_at']
                 company.updated_at = item['updated_at']
-                company.cloud_house_accounts_id = account.id
+                company.account = account
+                company.set_workflow
                 # TODO
                 # company.cloud_house_companies_id = ?
-                # company.cloud_house_workflow_statuses_id = ?
                 # company.cloud_house_employees_id = ?
-                company.save!
+                company.save
 
                 company_detail = CloudHouse::Company::Detail.new
                 company_detail.name = item['name']
@@ -158,17 +159,16 @@ namespace :data do
                 # company_detail. ? = item['business_turn_id']
                 # company_detail. ? = item['person_id']
                 # company_detail. ? = item['active_cooperation']
-                puts " - added #{company_detail.name}"
 
                 new_relation_data = {company: company.id, crm_person: item['person_id']}
                 update_file("tmp_person_company_relations", new_relation_data)
             end
 
-            puts "- imported #{data.length} companies"
+            puts "- imported #{data.length} records"
         end
 
         desc "People Json to Core Cloud House Employees and Employee Details"
-        task core_cloud_house_employees: :environment do
+        task cloud_house_employees: :environment do
             # TODO
             account = Account.find(1)
             workflow_id = 1
@@ -222,12 +222,11 @@ namespace :data do
                         employee_detail.updated_at = item['updated_at']
                         employee_detail.cloud_house_employees_id = employee.id
                         employee_detail.save!
-                        puts " - added"
+                        puts "- imported #{data.length} records"
                         break
                     end
                 end
             end
-
             puts "- imported #{data.length} data"
         end
 
