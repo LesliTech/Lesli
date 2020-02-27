@@ -29,9 +29,7 @@ module RoutesHaus
     def self.extended(router)
         router.instance_exec do
             mount CloudHaus::Engine  => "/crm"
-            mount CloudHouse::Engine  => "/house"
-            mount CloudFocus::Engine  => "/tasks" if defined?(CloudFocus)
-            mount CloudDriver::Engine => "/calendar" if defined?(CloudDriver)
+
             
 
             authenticated :user do
