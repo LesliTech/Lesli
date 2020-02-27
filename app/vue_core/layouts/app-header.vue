@@ -39,7 +39,6 @@ export default {
     },
 
     mounted() {
-        console.log("app-header.vue")
         this.mountListeners()
         this.checkIfMicrophoneWorks()
         this.notification.count = leslicloud_account.notifications.count
