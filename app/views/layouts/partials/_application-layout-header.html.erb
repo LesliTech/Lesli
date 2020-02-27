@@ -1,3 +1,4 @@
+<%#
 <header class="lesli-app-header">
 
     <!-- User navigation area -->
@@ -6,8 +7,8 @@
         <!-- Brand container -->
         <div class="navbar-brand">
             <a class="navbar-item" href="/">
-                <%# <%= image_tag 'brand/lesli-logo.svg', alt: 'LesliCloud logo'% > %>
-                <%= image_tag 'cloud_haus/brand/deutsche-leibrenten-logo.png', alt: 'LesliCloud logo'%>
+                <%= #image_tag 'brand/lesli-logo.svg', alt: 'LesliCloud logo'% > % >
+                <%= image_tag 'cloud_haus/brand/deutsche-leibrenten-logo.png', alt: 'LesliCloud logo'% >
             </a>
         </div>
 
@@ -30,7 +31,7 @@
             <!-- User navigation -->
             <div class="navbar-end">
 
-                <a class="navbar-item">
+                <a class="navbar-item" @click="showHelp()">
                     <span class="icon has-text-grey-dark">
                         <i class="far fa-question-circle"></i>
                     </span>
@@ -74,7 +75,7 @@
 
                 <div class="navbar-item has-dropdown is-hoverable">
                     <span class="navbar-link">
-                        <%= current_user.email %>
+                        <%= current_user.email % >
                     </span>
 
                     <div class="navbar-dropdown">
@@ -98,8 +99,13 @@
         </div>
     </nav>
 </header>
-<%# 
-%component-layout-app-header
-    %template{"v-slot:logo" => ""}
-        = image_tag 'brand/lesli-logo.svg', alt: 'LesliCloud logo'
 %>
+<component-layout-app-header>
+    <template v-slot:logo>
+        <%# <%= image_tag 'brand/lesli-logo.svg', alt: 'LesliCloud logo'% > %>
+        <%= image_tag 'cloud_haus/brand/deutsche-leibrenten-logo.png', alt: 'LesliCloud logo'%>
+    </template>
+    <template v-slot:username>
+        <%= current_user.email %>
+    </template>
+</component-layout-app-header>
