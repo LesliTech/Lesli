@@ -31,6 +31,7 @@ Building a better future, one line of code at a time.
         display: block;
         min-height: 75px;
         background: image-url("brand/lesli-logo.png");
+        background: image-url("cloud_haus/brand/deutsche-leibrenten-logo.png");
         background-repeat: no-repeat;
         background-position: center;
         background-size: contain;
@@ -42,4 +43,31 @@ Building a better future, one line of code at a time.
         color: lesli-color(silver, 700);
     }
 
+}
+
+// · Loading animation
+.component-data-loading .loading-animation {
+    display: inline-block;
+    position:relative;
+    height:18px;
+    width:18px;
+    hr {
+        border:0;
+        margin:0;
+        width:40%;
+        height:40%;
+        position:absolute;
+        border-radius:50%;
+        animation:assistant-chatbox-spin 2s ease infinite;
+        &:first-child { background:#19A68C; animation-delay: -1.5s }
+        &:nth-child(2){ background:#F63D3A; animation-delay: -1.0s }
+        &:nth-child(3){ background:#FDA543; animation-delay: -0.5s }
+        &:last-child {  background:#193B48 }
+    }
+    @keyframes assistant-chatbox-spin{
+        0%,100%{transform:translate(0)}
+        25%{transform:translate(160%)}
+        50%{transform:translate(160%, 160%)}
+        75%{transform:translate(0, 160%)}
+    }        
 }

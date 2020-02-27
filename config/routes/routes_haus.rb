@@ -1,5 +1,5 @@
-<script>
-/*
+=begin
+
 Lesli
 
 Copyright (c) 2020, Lesli Technologies, S. A.
@@ -22,23 +22,22 @@ Building a better future, one line of code at a time.
 
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
 // · 
-*/
-export default {
-    props: {
-        size: {
-            default: "4"
-        }
-    }
-}
-</script>
-<template>
-    <div class="component-data-loading has-text-centered">
-        <!-- <b-icon icon="spinner" :size="size" custom-class="fa-spin"/> -->
-        <p>
-            <span class="loading-animation">
-                <hr/><hr/><hr/><hr/>
-            </span>
-            <span :class="'is-size-'+size">Loading...</span>
-        </p>
-    </div>
-</template>
+
+=end
+
+module RoutesHaus
+    def self.extended(router)
+        router.instance_exec do
+            mount CloudHaus::Engine  => "/crm"
+            mount CloudHouse::Engine  => "/house"
+            mount CloudFocus::Engine  => "/tasks" if defined?(CloudFocus)
+            mount CloudDriver::Engine => "/calendar" if defined?(CloudDriver)
+            
+
+            authenticated :user do
+                root to: redirect('/crm'),   as: :root_cloud_haus_authenticated
+            end
+
+        end
+    end
+end

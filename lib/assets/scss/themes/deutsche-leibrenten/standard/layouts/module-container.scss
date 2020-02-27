@@ -1,4 +1,3 @@
-<script>
 /*
 Lesli
 
@@ -23,22 +22,42 @@ Building a better future, one line of code at a time.
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
 // · 
 */
-export default {
-    props: {
-        size: {
-            default: "4"
+
+// · 
+
+
+
+
+    .b-tabs {
+
+        .tabs {
+            margin-bottom: 0;
+            .is-active {
+                background-color: get-css-color(app, primary);
+                a {
+                    color: get-css-color(standard, white);
+                }
+            }
         }
+
+        &.is-vertical > .tabs {
+            flex: 0 0 200px;
+            padding: 1rem 0;
+            ul {
+                background-color: get-css-color(standard, white);
+            }
+            a {
+                padding: 2rem 1rem;
+            }
+        }
+
+        
+
+        
     }
-}
-</script>
-<template>
-    <div class="component-data-loading has-text-centered">
-        <!-- <b-icon icon="spinner" :size="size" custom-class="fa-spin"/> -->
-        <p>
-            <span class="loading-animation">
-                <hr/><hr/><hr/><hr/>
-            </span>
-            <span :class="'is-size-'+size">Loading...</span>
-        </p>
-    </div>
-</template>
+
+    
+
+    
+
+    

@@ -1,3 +1,30 @@
+=begin
+
+Lesli
+
+Copyright (c) 2020, Lesli Technologies, S. A.
+
+All the information provided by this website is protected by laws of Guatemala related 
+to industrial property, intellectual property, copyright and relative international laws. 
+Lesli Technologies, S. A. is the exclusive owner of all intellectual or industrial property
+rights of the code, texts, trade mark, design, pictures and any other information.
+Without the written permission of Lesli Technologies, S. A., any replication, modification,
+transmission, publication is strictly forbidden.
+For more information read the license file including with this software.
+
+LesliCloud - Your Smart Business Assistant
+
+Powered by https://www.lesli.tech
+Building a better future, one line of code at a time.
+
+@license  Propietary - all rights reserved.
+@version  0.1.0-alpha
+
+// · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
+// · 
+
+=end
+
 Rails.application.routes.draw do
 
     devise_for :users,
@@ -22,22 +49,15 @@ Rails.application.routes.draw do
         resource :settings
 
         mount ActionCable.server  => "/cable"
-        mount CloudDispatcher::Engine => "/api" if defined?(CloudDispatcher)
-        mount CloudHaus::Engine  => "/crm"  if defined?(CloudHaus)
-        
-        mount CloudDriver::Engine => "/driver" if defined?(CloudDriver)
-        mount CloudBabel::Engine  => "/babel"  if defined?(CloudBabel)
+        mount CloudBell::Engine   => "/bell"   if defined?(CloudBell)
+        mount CloudLock::Engine   => "/lock"   if defined?(CloudLock)
         mount CloudPanel::Engine  => "/panel"  if defined?(CloudPanel)
         mount CloudLesli::Engine  => "/lesli"  if defined?(CloudLesli)
-        mount CloudHouse::Engine  => "/house"  if defined?(CloudHouse)
-        mount CloudFocus::Engine  => "/focus"  if defined?(CloudFocus)
-        mount CloudTeam::Engine   => "/team"   if defined?(CloudTeam)
-        mount CloudLock::Engine   => "/lock"   if defined?(CloudLock)
-        mount CloudBell::Engine   => "/bell"   if defined?(CloudBell)
-        mount CloudHelp::Engine   => "/help"   if defined?(CloudHelp)
-        mount CloudKb::Engine     => "/kb"     if defined?(CloudKb)
+        mount CloudBabel::Engine  => "/babel"  if defined?(CloudBabel)
+        mount CloudDispatcher::Engine => "/api" if defined?(CloudDispatcher)
 
-        root to: redirect('/crm'),   as: :root_crm_authenticated if defined?(CloudHaus)
+        extend RoutesHaus if defined?(CloudHaus)
+
         root to: redirect('/lesli'), as: :root_authenticated if defined?(CloudLesli)
         root to: "dashboards#empty", as: :root_authenticated if !defined?(CloudLesli)
 

@@ -1,0 +1,47 @@
+
+// Main tab container
+.b-tabs {
+
+    // tabs navigation
+    .tabs {
+        margin-bottom: 0;
+
+        // selected tab
+        .is-active {
+            background-color: get-css-color(app, primary);
+            a {
+                color: get-css-color(standard, white);
+            }
+        }
+
+    }
+
+    // tab content
+    .tab-content {
+        background-color: get-css-color(standard, white);
+    }
+
+    // tabs navigation for vertical mode
+    &.is-vertical {
+
+        // vertical tab navigation
+        .tabs {
+            flex: 0 0 200px;
+            ul {
+                background-color: get-css-color(standard, white);
+            }
+            a {
+                padding: 1.6rem 0 1.6rem 1.6rem;
+            }
+        }
+
+        // vertical tab container
+        & > .tab-content {
+            padding: 0;
+            padding-left: 1rem;
+            background-color: transparent;
+        }
+
+    } 
+
+}
