@@ -646,6 +646,7 @@ ActiveRecord::Schema.define(version: 2040713) do
   end
 
   create_table "cloud_house_projects", force: :cascade do |t|
+    t.bigint "main_employee"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.bigint "cloud_house_accounts_id"
@@ -803,7 +804,7 @@ ActiveRecord::Schema.define(version: 2040713) do
   end
 
   create_table "cloud_house_property_registers", force: :cascade do |t|
-    t.string "disctrict_court"
+    t.string "district_court"
     t.string "land_register_volume"
     t.string "land_register_of"
     t.string "land_register_sheet"
@@ -848,7 +849,7 @@ ActiveRecord::Schema.define(version: 2040713) do
     t.integer "garages_number"
     t.float "garages_rent_value"
     t.integer "parking_lots_number"
-    t.float "parking_lots_value"
+    t.float "parking_lots_rent_value"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.bigint "cloud_house_properties_id"
@@ -1021,6 +1022,7 @@ ActiveRecord::Schema.define(version: 2040713) do
   add_foreign_key "cloud_house_projects", "cloud_house_catalog_project_types", column: "cloud_house_catalog_project_types_id"
   add_foreign_key "cloud_house_projects", "cloud_house_properties", column: "cloud_house_properties_id"
   add_foreign_key "cloud_house_projects", "cloud_house_workflow_statuses", column: "cloud_house_workflow_statuses_id"
+  add_foreign_key "cloud_house_projects", "users", column: "main_employee"
   add_foreign_key "cloud_house_properties", "cloud_house_accounts", column: "cloud_house_accounts_id"
   add_foreign_key "cloud_house_properties", "cloud_house_workflow_statuses", column: "cloud_house_workflow_statuses_id"
   add_foreign_key "cloud_house_property_actions", "cloud_house_properties", column: "cloud_house_properties_id"

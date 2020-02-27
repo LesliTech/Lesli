@@ -58,18 +58,12 @@ Rails.application.routes.draw do
 
         extend RoutesHaus if defined?(CloudHaus)
 
-        #mount CloudDriver::Engine => "/driver" if defined?(CloudDriver)
-        #mount CloudHouse::Engine  => "/house"  if defined?(CloudHouse)
-        #mount CloudFocus::Engine  => "/focus"  if defined?(CloudFocus)
-        #mount CloudTeam::Engine   => "/team"   if defined?(CloudTeam)
-        #mount CloudHelp::Engine   => "/help"   if defined?(CloudHelp)
-        #mount CloudKb::Engine     => "/kb"     if defined?(CloudKb)
-
         root to: redirect('/lesli'), as: :root_authenticated if defined?(CloudLesli)
         root to: "dashboards#empty", as: :root_authenticated if !defined?(CloudLesli)
 
     end
 
+    root to: redirect('/login'), as: :root_login_unauthenticated if defined?(CloudHaus)
     root to: "websites#landing", as: :root_unauthenticated
 
 end
