@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 3011104) do
+ActiveRecord::Schema.define(version: 2020_02_17_142005) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -165,6 +165,61 @@ ActiveRecord::Schema.define(version: 3011104) do
     t.datetime "updated_at", precision: 6, null: false
     t.bigint "cloud_driver_calendars_id"
     t.index ["cloud_driver_calendars_id"], name: "index_cloud_driver_events_on_cloud_driver_calendars_id"
+  end
+
+  create_table "cloud_focus_accounts", force: :cascade do |t|
+  end
+
+  create_table "cloud_focus_dashboards", force: :cascade do |t|
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
+  create_table "cloud_focus_task_actions", force: :cascade do |t|
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
+  create_table "cloud_focus_task_activities", force: :cascade do |t|
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
+  create_table "cloud_focus_task_cutom_field_values", force: :cascade do |t|
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
+  create_table "cloud_focus_task_details", force: :cascade do |t|
+    t.string "title"
+    t.text "description"
+    t.datetime "deadline"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.bigint "cloud_focus_tasks_id"
+    t.index ["cloud_focus_tasks_id"], name: "index_cloud_focus_task_details_on_cloud_focus_tasks_id"
+  end
+
+  create_table "cloud_focus_task_discussions", force: :cascade do |t|
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
+  create_table "cloud_focus_task_files", force: :cascade do |t|
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
+  create_table "cloud_focus_task_subscribers", force: :cascade do |t|
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
+  create_table "cloud_focus_tasks", force: :cascade do |t|
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.bigint "accounts_id"
+    t.index ["accounts_id"], name: "index_cloud_focus_tasks_on_accounts_id"
   end
 
   create_table "cloud_house_accounts", force: :cascade do |t|
@@ -1072,6 +1127,9 @@ ActiveRecord::Schema.define(version: 3011104) do
   add_foreign_key "cloud_driver_event_activities", "cloud_driver_events", column: "cloud_driver_events_id"
   add_foreign_key "cloud_driver_event_details", "cloud_driver_events", column: "cloud_driver_events_id"
   add_foreign_key "cloud_driver_events", "cloud_driver_calendars", column: "cloud_driver_calendars_id"
+  add_foreign_key "cloud_focus_accounts", "accounts", column: "id"
+  add_foreign_key "cloud_focus_task_details", "cloud_focus_tasks", column: "cloud_focus_tasks_id"
+  add_foreign_key "cloud_focus_tasks", "accounts", column: "accounts_id"
   add_foreign_key "cloud_house_accounts", "accounts", column: "id"
   add_foreign_key "cloud_house_catalog_business_services", "cloud_house_accounts", column: "cloud_house_accounts_id"
   add_foreign_key "cloud_house_catalog_project_types", "cloud_house_accounts", column: "cloud_house_accounts_id"
