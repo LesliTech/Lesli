@@ -24,14 +24,24 @@ Building a better future, one line of code at a time.
 */
 
 
+// · 
 @import "lesli-css/";
 
 
 // · 
 body.CloudHaus #lesli-cloud-app {
     @import "./colors.scss";
-    @import "./layout-header.scss";
-    @import "./layout-sidebar.scss";
-    @import "./layout-container.scss";
+    @import "./layouts/app-header.scss";
+    @import "./layouts/module-navigation.scss";
+    .lesli-module-container {
+        display: flex;
+        @import "./components/header.scss";
+        @import "./components/status.scss";
+        @import "./components/toolbar.scss";
+        @import "./components/summary.scss";
+        @import "./components/tabs.scss";
+        .app-component {
+            width: 100%;
+        }
+    }
 }
-
