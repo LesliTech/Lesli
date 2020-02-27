@@ -32,5 +32,3 @@
 /config/credentials/development.key
 !/config/credentials/test.yml.enc
 /config/credentials/test.key
-
-.deutsche-leibrenten
