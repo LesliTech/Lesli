@@ -38,8 +38,6 @@ module RoutesHaus
                 root to: redirect('/crm'),   as: :root_cloud_haus_authenticated
             end
 
-            root to: redirect('/login'), as: :root_login_unauthenticated
-
         end
     end
 end
