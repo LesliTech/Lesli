@@ -35,12 +35,13 @@ body.CloudHaus #lesli-cloud-app {
     @import "./layouts/module-navigation.scss";
     .lesli-module-container {
         display: flex;
+        @import "./components/tabs.scss";
         @import "./components/header.scss";
         @import "./components/status.scss";
         @import "./components/toolbar.scss";
         @import "./components/summary.scss";
-        @import "./components/tabs.scss";
         @import "./components/calendar.scss";
+        @import "./components/quickview.scss";
         .app-component {
             width: 100%;
         }
