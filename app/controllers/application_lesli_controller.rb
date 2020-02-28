@@ -48,8 +48,8 @@ class ApplicationLesliController < ApplicationController
         @query = {
             current_user: current_user,
             pagination: {
-                perPage: 15,
-                page: (params[:page] ? params[:page].to_i : 2),
+                perPage: (params[:perPage] ? params[:perPage].to_i : 15),
+                page: (params[:page] ? params[:page].to_i : 1),
                 order: "desc",
                 orderColumn: "id"
             }
