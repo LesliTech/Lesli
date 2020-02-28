@@ -1,0 +1,14 @@
+.fc-view-container {
+    background-color: get-lesli-css-color(standard, white);
+    .fc-event {
+        border: none;
+        padding: 4px 8px;
+        border-radius: 2px;
+        color: get-css-color(app, primary);
+        background-color: get-css-color(app, tertiary);
+        border-left: 3px solid get-css-color(app, secondary);
+        .fc-time {
+            //color: get-css-color(black, 300);
+        }
+    }
+}
