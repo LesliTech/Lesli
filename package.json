@@ -6,21 +6,28 @@
     "license": "All rights reserved",
     "private": true,
     "devDependencies": {
+
         "@rails/actioncable": "6.0.2-1",
+
         "lesli-js-debug-message": "ssh://git@github.com:LesliTech/lesli-js-debug-message.git#master",
         "lesli-css": "ssh://git@github.com:LesliTech/lesli-css.git#master",
+        
         "@babel/core": "7.7.7",
         "@babel/preset-env": "7.7.7",
+        
         "webpack": "4.41.5",
         "webpack-cli": "3.3.10",
+        
         "css-loader": "3.4.1",
         "sass-loader": "8.0.0",
         "style-loader": "1.1.2",
         "babel-loader": "8.0.6",
+        
         "vue": "2.6.11",
         "vue-router": "3.1.3",
         "vue-loader": "15.8.3",
         "vue-template-compiler": "2.6.11",
+        
         "buefy": "0.8.12",
         "bulma": "0.8.0",
         "axios": "0.19",
@@ -34,10 +41,12 @@
         "vue-mermaid": "0.0.12",
         "bulma-o-steps": "1.0.9",
         "bulma-extensions": "6.2.7",
+        
         "@fullcalendar/vue": "4.3.1",
         "@fullcalendar/core": "4.3.1",
         "@fullcalendar/daygrid": "4.3.0",
         "@fullcalendar/timegrid": "4.3.0",
+        
         "@fortawesome/fontawesome-free": "5.12.0",
         "@fortawesome/free-solid-svg-icons": "5.12.0",
         "@fortawesome/fontawesome-svg-core": "1.2.26",
