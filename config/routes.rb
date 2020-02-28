@@ -54,6 +54,9 @@ Rails.application.routes.draw do
         mount CloudPanel::Engine  => "/panel"  if defined?(CloudPanel)
         mount CloudLesli::Engine  => "/lesli"  if defined?(CloudLesli)
         mount CloudBabel::Engine  => "/babel"  if defined?(CloudBabel)
+        mount CloudHouse::Engine  => "/house"  if defined?(CloudHouse)
+        mount CloudFocus::Engine  => "/focus"  if defined?(CloudFocus)
+        mount CloudDriver::Engine => "/driver" if defined?(CloudDriver)
         mount CloudDispatcher::Engine => "/api" if defined?(CloudDispatcher)
 
         extend RoutesHaus if defined?(CloudHaus)

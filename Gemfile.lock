@@ -1,4 +1,16 @@
 PATH
+  remote: engines/CloudFocus
+  specs:
+    cloud_focus (0.1.0)
+      rails (~> 6.0.0)
+
+PATH
+  remote: engines/CloudDriver
+  specs:
+    cloud_driver (0.1.0)
+      rails (~> 6.0.0)
+
+PATH
   remote: engines/CloudHaus
   specs:
     cloud_haus (0.1.0)
@@ -134,6 +146,18 @@ GEM
     i18n-js (3.6.0)
       i18n (>= 0.6.6)
     jmespath (1.4.0)
+    kaminari (1.2.0)
+      activesupport (>= 4.1.0)
+      kaminari-actionview (= 1.2.0)
+      kaminari-activerecord (= 1.2.0)
+      kaminari-core (= 1.2.0)
+    kaminari-actionview (1.2.0)
+      actionview
+      kaminari-core (= 1.2.0)
+    kaminari-activerecord (1.2.0)
+      activerecord
+      kaminari-core (= 1.2.0)
+    kaminari-core (1.2.0)
     listen (3.2.1)
       rb-fsevent (~> 0.10, >= 0.10.3)
       rb-inotify (~> 0.9, >= 0.9.10)
@@ -273,6 +297,8 @@ DEPENDENCIES
   bootsnap (>= 1.1.0)
   byebug
   cancancan
+  cloud_driver!
+  cloud_focus!
   cloud_haus!
   cloud_house!
   devise
@@ -280,6 +306,7 @@ DEPENDENCIES
   flag-icons-rails
   haml-rails
   i18n-js
+  kaminari
   listen (= 3.2.1)
   pg (>= 0.18, < 2.0)
   puma (= 4.3.1)
