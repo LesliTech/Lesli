@@ -71,6 +71,7 @@ app({
             }).catch(error => {
                 console.log(error)
             })
+            
         },
 
         showNotification(message, type='is-danger'){

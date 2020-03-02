@@ -51,19 +51,21 @@ app({
     },
     methods: {
 
-        postLogin(event) {
+        postPasswordNew(event) {
 
             event.preventDefault();
 
             let data = {user: this.sign_in};
             this.progress_bar_active = true;
 
-            this.http.post(this.url.to("/login"), data).then(response => {
+            this.http.post("/password", data).then(response => {
+
+                console.log(response)
 
                 this.progress_bar_active = false
 
                 if(response.successful){
-                    this.url.go('/')
+                    //this.url.go('/')
                 }else{
                     this.showNotification(response.error.message)
                 }

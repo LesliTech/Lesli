@@ -24,24 +24,23 @@ Building a better future, one line of code at a time.
 
 =end
 class Users::PasswordsController < Devise::PasswordsController
-    layout "application-public"
+    layout "application-devise"
 
-=begin
-@controller_action_param :email [String] The registered user email
-@return [Json] Json with a status response. It contains wheter the email 
-    with information on how to reset the password was sent or not. 
-    If it is not successful, it returs an error message
-@description Sends an email with a token, so the user can reset their password
-@example
-    # Executing this controller's action from javascript's frontend
-    let email = 'john.doe@email.com';
-    let data = {
-        user: {
-            email: email
-        }
-    };
-    this.http.post('127.0.0.1/password', data);
-=end
+
+    # @controller_action_param :email [String] The registered user email
+    # @return [Json] Json with a status response. It contains wheter the email 
+    #     with information on how to reset the password was sent or not. 
+    #     If it is not successful, it returs an error message
+    # @description Sends an email with a token, so the user can reset their password
+    # @example
+    #     # Executing this controller's action from javascript's frontend
+    #     let email = 'john.doe@email.com';
+    #     let data = {
+    #         user: {
+    #             email: email
+    #         }
+    #     };
+    #     this.http.post('127.0.0.1/password', data);
     def create
         super do |resource|
             if successfully_sent?(resource)
@@ -52,25 +51,23 @@ class Users::PasswordsController < Devise::PasswordsController
         end
     end
 
-=begin
-@controller_action_param :password [String] The new password
-@controller_action_param :password_confirmation [String] The password confirmation
-@controller_action_param :reset_password_token [String] The token sent by this controller's *create* method
-@return [Json] Json with a status response. It contains wheter the password was reset or not. 
-    If it is not successful, it returs an error message
-@description When the sends their new password along with the token sent by the *create* method,
-    They can reset their password.
-@example
-    # Executing this controller's action from javascript's frontend
-    let data = {
-        user: {
-            password: "my_new_password123",
-            password_confirmation: "my_new_password123",
-            reset_password_token: "123AWDq23WWer!@$23asd234sdfEaee5447"
-        }
-    };
-    this.http.put('127.0.0.1/password', data);
-=end
+    # @controller_action_param :password [String] The new password
+    # @controller_action_param :password_confirmation [String] The password confirmation
+    # @controller_action_param :reset_password_token [String] The token sent by this controller's *create* method
+    # @return [Json] Json with a status response. It contains wheter the password was reset or not. 
+    #     If it is not successful, it returs an error message
+    # @description When the sends their new password along with the token sent by the *create* method,
+    #     They can reset their password.
+    # @example
+    #     # Executing this controller's action from javascript's frontend
+    #     let data = {
+    #         user: {
+    #             password: "my_new_password123",
+    #             password_confirmation: "my_new_password123",
+    #             reset_password_token: "123AWDq23WWer!@$23asd234sdfEaee5447"
+    #         }
+    #     };
+    #     this.http.put('127.0.0.1/password', data);
     def update
         super do |resource|
             if resource.errors.empty?
