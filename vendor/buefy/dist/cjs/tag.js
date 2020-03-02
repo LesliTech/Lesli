@@ -3,7 +3,7 @@
 Object.defineProperty(exports, '__esModule', { value: true });
 
 var __chunk_5 = require('./chunk-13e039f5.js');
-var __chunk_24 = require('./chunk-ef88e794.js');
+var __chunk_24 = require('./chunk-3e964971.js');
 
 //
 //
@@ -37,15 +37,19 @@ var __vue_staticRenderFns__ = [];
   
   /* style inject SSR */
   
+  /* style inject shadow dom */
+  
 
   
-  var Taglist = __chunk_5.__vue_normalize__(
+  const __vue_component__ = __chunk_5.__vue_normalize__(
     { render: __vue_render__, staticRenderFns: __vue_staticRenderFns__ },
     __vue_inject_styles__,
     __vue_script__,
     __vue_scope_id__,
     __vue_is_functional_template__,
     __vue_module_identifier__,
+    false,
+    undefined,
     undefined,
     undefined
   );
@@ -53,11 +57,11 @@ var __vue_staticRenderFns__ = [];
 var Plugin = {
   install: function install(Vue) {
     __chunk_5.registerComponent(Vue, __chunk_24.Tag);
-    __chunk_5.registerComponent(Vue, Taglist);
+    __chunk_5.registerComponent(Vue, __vue_component__);
   }
 };
 __chunk_5.use(Plugin);
 
 exports.BTag = __chunk_24.Tag;
-exports.BTaglist = Taglist;
+exports.BTaglist = __vue_component__;
 exports.default = Plugin;

@@ -2,9 +2,9 @@
 
 Object.defineProperty(exports, '__esModule', { value: true });
 
-require('./chunk-f98e7e80.js');
+require('./chunk-5094d8df.js');
 var helpers = require('./helpers.js');
-var __chunk_2 = require('./chunk-8806479f.js');
+var __chunk_2 = require('./chunk-805257cc.js');
 var __chunk_5 = require('./chunk-13e039f5.js');
 var __chunk_18 = require('./chunk-f1df1c63.js');
 
@@ -34,12 +34,16 @@ var script = {
   },
   data: function data() {
     return {
-      isActive: this.active || false
+      isActive: this.active || false,
+      displayInFullPage: this.isFullPage
     };
   },
   watch: {
     active: function active(value) {
       this.isActive = value;
+    },
+    isFullPage: function isFullPage(value) {
+      this.displayInFullPage = value;
     }
   },
   methods: {
@@ -91,7 +95,8 @@ var script = {
       if (!this.container) {
         document.body.appendChild(this.$el);
       } else {
-        this.isFullPage = false;
+        this.displayInFullPage = false;
+        this.$emit('update:is-full-page', false);
         this.container.appendChild(this.$el);
       }
     }
@@ -110,7 +115,7 @@ var script = {
 const __vue_script__ = script;
 
 /* template */
-var __vue_render__ = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('transition',{attrs:{"name":_vm.animation}},[(_vm.isActive)?_c('div',{staticClass:"loading-overlay is-active",class:{ 'is-full-page': _vm.isFullPage }},[_c('div',{staticClass:"loading-background",on:{"click":_vm.cancel}}),_vm._v(" "),_vm._t("default",[_c('div',{staticClass:"loading-icon"})])],2):_vm._e()])};
+var __vue_render__ = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('transition',{attrs:{"name":_vm.animation}},[(_vm.isActive)?_c('div',{staticClass:"loading-overlay is-active",class:{ 'is-full-page': _vm.displayInFullPage }},[_c('div',{staticClass:"loading-background",on:{"click":_vm.cancel}}),_vm._v(" "),_vm._t("default",[_c('div',{staticClass:"loading-icon"})])],2):_vm._e()])};
 var __vue_staticRenderFns__ = [];
 
   /* style */
@@ -125,15 +130,19 @@ var __vue_staticRenderFns__ = [];
   
   /* style inject SSR */
   
+  /* style inject shadow dom */
+  
 
   
-  var Loading = __chunk_5.__vue_normalize__(
+  const __vue_component__ = __chunk_5.__vue_normalize__(
     { render: __vue_render__, staticRenderFns: __vue_staticRenderFns__ },
     __vue_inject_styles__,
     __vue_script__,
     __vue_scope_id__,
     __vue_is_functional_template__,
     __vue_module_identifier__,
+    false,
+    undefined,
     undefined,
     undefined
   );
@@ -146,7 +155,7 @@ var LoadingProgrammatic = {
     };
     var propsData = helpers.merge(defaultParam, params);
     var vm = typeof window !== 'undefined' && window.Vue ? window.Vue : localVueInstance || __chunk_2.VueInstance;
-    var LoadingComponent = vm.extend(Loading);
+    var LoadingComponent = vm.extend(__vue_component__);
     return new LoadingComponent({
       el: document.createElement('div'),
       propsData: propsData
@@ -156,12 +165,12 @@ var LoadingProgrammatic = {
 var Plugin = {
   install: function install(Vue) {
     localVueInstance = Vue;
-    __chunk_5.registerComponent(Vue, Loading);
+    __chunk_5.registerComponent(Vue, __vue_component__);
     __chunk_5.registerComponentProgrammatic(Vue, 'loading', LoadingProgrammatic);
   }
 };
 __chunk_5.use(Plugin);
 
-exports.BLoading = Loading;
+exports.BLoading = __vue_component__;
 exports.LoadingProgrammatic = LoadingProgrammatic;
 exports.default = Plugin;

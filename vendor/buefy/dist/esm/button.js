@@ -1,7 +1,7 @@
-import { _ as _defineProperty } from './chunk-b91774bc.js';
+import { _ as _defineProperty } from './chunk-6ea13200.js';
 import './helpers.js';
-import { c as config } from './chunk-b76a6c1d.js';
-import { I as Icon } from './chunk-3802ee87.js';
+import { c as config } from './chunk-17222463.js';
+import { I as Icon } from './chunk-bed9f769.js';
 import { _ as __vue_normalize__, r as registerComponent, u as use } from './chunk-cca88db8.js';
 
 var script = {
@@ -40,11 +40,18 @@ var script = {
       type: String,
       default: 'button',
       validator: function validator(value) {
-        return ['button', 'a', 'input', 'router-link', 'nuxt-link', 'n-link', 'NuxtLink', 'NLink'].indexOf(value) >= 0;
+        return config.defaultLinkTags.indexOf(value) >= 0;
       }
     }
   },
   computed: {
+    computedTag: function computedTag() {
+      if (this.$attrs.disabled !== undefined && this.$attrs.disabled !== false) {
+        return 'button';
+      }
+
+      return this.tag;
+    },
     iconSize: function iconSize() {
       if (!this.size || this.size === 'is-medium') {
         return 'is-small';
@@ -61,7 +68,7 @@ var script = {
 const __vue_script__ = script;
 
 /* template */
-var __vue_render__ = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c(_vm.tag,_vm._g(_vm._b({tag:"component",staticClass:"button",class:[_vm.size, _vm.type, {
+var __vue_render__ = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c(_vm.computedTag,_vm._g(_vm._b({tag:"component",staticClass:"button",class:[_vm.size, _vm.type, {
             'is-rounded': _vm.rounded,
             'is-loading': _vm.loading,
             'is-outlined': _vm.outlined,
@@ -71,7 +78,7 @@ var __vue_render__ = function () {var _vm=this;var _h=_vm.$createElement;var _c=
             'is-active': _vm.active,
             'is-hovered': _vm.hovered,
             'is-selected': _vm.selected
-        }],attrs:{"type":_vm.nativeType}},'component',_vm.$attrs,false),_vm.$listeners),[(_vm.iconLeft)?_c('b-icon',{attrs:{"pack":_vm.iconPack,"icon":_vm.iconLeft,"size":_vm.iconSize}}):_vm._e(),_vm._v(" "),(_vm.label)?_c('span',[_vm._v(_vm._s(_vm.label))]):(_vm.$slots.default)?_c('span',[_vm._t("default")],2):_vm._e(),_vm._v(" "),(_vm.iconRight)?_c('b-icon',{attrs:{"pack":_vm.iconPack,"icon":_vm.iconRight,"size":_vm.iconSize}}):_vm._e()],1)};
+        }],attrs:{"type":_vm.nativeType}},'component',_vm.$attrs,false),_vm.$listeners),[(_vm.iconLeft)?_c('b-icon',{attrs:{"pack":_vm.iconPack,"icon":_vm.iconLeft,"size":_vm.iconSize}}):_vm._e(),_vm._v(" "),(_vm.label)?_c('span',[_vm._v(_vm._s(_vm.label))]):_c('span',[_vm._t("default")],2),_vm._v(" "),(_vm.iconRight)?_c('b-icon',{attrs:{"pack":_vm.iconPack,"icon":_vm.iconRight,"size":_vm.iconSize}}):_vm._e()],1)};
 var __vue_staticRenderFns__ = [];
 
   /* style */
@@ -86,25 +93,29 @@ var __vue_staticRenderFns__ = [];
   
   /* style inject SSR */
   
+  /* style inject shadow dom */
+  
 
   
-  var Button = __vue_normalize__(
+  const __vue_component__ = __vue_normalize__(
     { render: __vue_render__, staticRenderFns: __vue_staticRenderFns__ },
     __vue_inject_styles__,
     __vue_script__,
     __vue_scope_id__,
     __vue_is_functional_template__,
     __vue_module_identifier__,
+    false,
+    undefined,
     undefined,
     undefined
   );
 
 var Plugin = {
   install: function install(Vue) {
-    registerComponent(Vue, Button);
+    registerComponent(Vue, __vue_component__);
   }
 };
 use(Plugin);
 
 export default Plugin;
-export { Button as BButton };
+export { __vue_component__ as BButton };

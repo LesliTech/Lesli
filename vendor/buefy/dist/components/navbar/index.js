@@ -1,4 +1,4 @@
-/*! Buefy v0.8.9 | MIT License | github.com/buefy/buefy */
+/*! Buefy v0.8.12 | MIT License | github.com/buefy/buefy */
 (function (global, factory) {
   typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports) :
   typeof define === 'function' && define.amd ? define(['exports'], factory) :
@@ -6,6 +6,8 @@
 }(this, function (exports) { 'use strict';
 
   function _typeof(obj) {
+    "@babel/helpers - typeof";
+
     if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") {
       _typeof = function (obj) {
         return typeof obj;
@@ -163,15 +165,19 @@
     
     /* style inject SSR */
     
+    /* style inject shadow dom */
+    
 
     
-    var NavbarBurger = normalizeComponent_1(
+    const __vue_component__ = normalizeComponent_1(
       { render: __vue_render__, staticRenderFns: __vue_staticRenderFns__ },
       __vue_inject_styles__,
       __vue_script__,
       __vue_scope_id__,
       __vue_is_functional_template__,
       __vue_module_identifier__,
+      false,
+      undefined,
       undefined,
       undefined
     );
@@ -312,7 +318,7 @@
   var script$1 = {
     name: 'BNavbar',
     components: {
-      NavbarBurger: NavbarBurger
+      NavbarBurger: __vue_component__
     },
     directives: {
       clickOutside: directive
@@ -374,26 +380,32 @@
       fixedTop: {
         handler: function handler(isSet) {
           this.checkIfFixedPropertiesAreColliding();
-          var className = this.spaced ? BODY_SPACED_FIXED_TOP_CLASS : BODY_FIXED_TOP_CLASS;
 
           if (isSet) {
-            return this.setBodyClass(className);
+            // TODO Apply only one of the classes once PR is merged in Bulma:
+            // https://github.com/jgthms/bulma/pull/2737
+            this.setBodyClass(BODY_FIXED_TOP_CLASS);
+            this.spaced && this.setBodyClass(BODY_SPACED_FIXED_TOP_CLASS);
+          } else {
+            this.removeBodyClass(BODY_FIXED_TOP_CLASS);
+            this.removeBodyClass(BODY_SPACED_FIXED_TOP_CLASS);
           }
-
-          this.removeBodyClass(className);
         },
         immediate: true
       },
       fixedBottom: {
         handler: function handler(isSet) {
           this.checkIfFixedPropertiesAreColliding();
-          var className = this.spaced ? BODY_SPACED_FIXED_BOTTOM_CLASS : BODY_FIXED_BOTTOM_CLASS;
 
           if (isSet) {
-            return this.setBodyClass(className);
+            // TODO Apply only one of the classes once PR is merged in Bulma:
+            // https://github.com/jgthms/bulma/pull/2737
+            this.setBodyClass(BODY_FIXED_BOTTOM_CLASS);
+            this.spaced && this.setBodyClass(BODY_SPACED_FIXED_BOTTOM_CLASS);
+          } else {
+            this.removeBodyClass(BODY_FIXED_BOTTOM_CLASS);
+            this.removeBodyClass(BODY_SPACED_FIXED_BOTTOM_CLASS);
           }
-
-          this.removeBodyClass(className);
         },
         immediate: true
       }
@@ -493,8 +505,14 @@
       }
     },
     beforeDestroy: function beforeDestroy() {
-      this.removeBodyClass(FIXED_BOTTOM_CLASS);
-      this.removeBodyClass(FIXED_TOP_CLASS);
+      if (this.fixedTop) {
+        var className = this.spaced ? BODY_SPACED_FIXED_TOP_CLASS : BODY_FIXED_TOP_CLASS;
+        this.removeBodyClass(className);
+      } else if (this.fixedBottom) {
+        var _className = this.spaced ? BODY_SPACED_FIXED_BOTTOM_CLASS : BODY_FIXED_BOTTOM_CLASS;
+
+        this.removeBodyClass(_className);
+      }
     },
     render: function render(createElement, fn) {
       return this.genNavbar(createElement);
@@ -518,15 +536,19 @@
     
     /* style inject SSR */
     
+    /* style inject shadow dom */
+    
 
     
-    var Navbar = normalizeComponent_1(
+    const __vue_component__$1 = normalizeComponent_1(
       {},
       __vue_inject_styles__$1,
       __vue_script__$1,
       __vue_scope_id__$1,
       __vue_is_functional_template__$1,
       __vue_module_identifier__$1,
+      false,
+      undefined,
       undefined,
       undefined
     );
@@ -621,15 +643,19 @@
     
     /* style inject SSR */
     
+    /* style inject shadow dom */
+    
 
     
-    var NavbarItem = normalizeComponent_1(
+    const __vue_component__$2 = normalizeComponent_1(
       { render: __vue_render__$1, staticRenderFns: __vue_staticRenderFns__$1 },
       __vue_inject_styles__$2,
       __vue_script__$2,
       __vue_scope_id__$2,
       __vue_is_functional_template__$2,
       __vue_module_identifier__$2,
+      false,
+      undefined,
       undefined,
       undefined
     );
@@ -646,11 +672,16 @@
       active: Boolean,
       right: Boolean,
       arrowless: Boolean,
-      boxed: Boolean
+      boxed: Boolean,
+      closeOnClick: {
+        type: Boolean,
+        default: true
+      }
     },
     data: function data() {
       return {
         newActive: this.active,
+        isHoverable: this.hoverable,
         _isNavDropdown: true // Used internally by NavbarItem
 
       };
@@ -669,7 +700,16 @@
       * See naming convetion of navbaritem
       */
       closeMenu: function closeMenu() {
-        this.newActive = false;
+        this.newActive = !this.closeOnClick;
+
+        if (this.hoverable && this.closeOnClick) {
+          this.isHoverable = false;
+        }
+      },
+      checkHoverable: function checkHoverable() {
+        if (this.hoverable) {
+          this.isHoverable = true;
+        }
       }
     }
   };
@@ -679,11 +719,11 @@
 
   /* template */
   var __vue_render__$2 = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{directives:[{name:"click-outside",rawName:"v-click-outside",value:(_vm.closeMenu),expression:"closeMenu"}],staticClass:"navbar-item has-dropdown",class:{
-              'is-hoverable': _vm.hoverable,
+              'is-hoverable': _vm.isHoverable,
               'is-active': _vm.newActive
-          }},[_c('a',{staticClass:"navbar-link",class:{
+          },on:{"mouseenter":_vm.checkHoverable}},[_c('a',{staticClass:"navbar-link",class:{
                   'is-arrowless': _vm.arrowless
-              },on:{"click":function($event){_vm.newActive = !_vm.newActive;}}},[(_vm.label)?[_vm._v(_vm._s(_vm.label))]:_vm._t("label")],2),_vm._v(" "),_c('div',{staticClass:"navbar-dropdown",class:{
+              },attrs:{"role":"menuitem","aria-haspopup":"true","href":"#"},on:{"click":function($event){$event.preventDefault();_vm.newActive = !_vm.newActive;}}},[(_vm.label)?[_vm._v(_vm._s(_vm.label))]:_vm._t("label")],2),_vm._v(" "),_c('div',{staticClass:"navbar-dropdown",class:{
                   'is-right': _vm.right,
                   'is-boxed': _vm.boxed
               }},[_vm._t("default")],2)])};
@@ -701,15 +741,19 @@
     
     /* style inject SSR */
     
+    /* style inject shadow dom */
+    
 
     
-    var NavbarDropdown = normalizeComponent_1(
+    const __vue_component__$3 = normalizeComponent_1(
       { render: __vue_render__$2, staticRenderFns: __vue_staticRenderFns__$2 },
       __vue_inject_styles__$3,
       __vue_script__$3,
       __vue_scope_id__$3,
       __vue_is_functional_template__$3,
       __vue_module_identifier__$3,
+      false,
+      undefined,
       undefined,
       undefined
     );
@@ -725,16 +769,16 @@
 
   var Plugin = {
     install: function install(Vue) {
-      registerComponent(Vue, Navbar);
-      registerComponent(Vue, NavbarItem);
-      registerComponent(Vue, NavbarDropdown);
+      registerComponent(Vue, __vue_component__$1);
+      registerComponent(Vue, __vue_component__$2);
+      registerComponent(Vue, __vue_component__$3);
     }
   };
   use(Plugin);
 
-  exports.BNavbar = Navbar;
-  exports.BNavbarDropdown = NavbarDropdown;
-  exports.BNavbarItem = NavbarItem;
+  exports.BNavbar = __vue_component__$1;
+  exports.BNavbarDropdown = __vue_component__$3;
+  exports.BNavbarItem = __vue_component__$2;
   exports.default = Plugin;
 
   Object.defineProperty(exports, '__esModule', { value: true });

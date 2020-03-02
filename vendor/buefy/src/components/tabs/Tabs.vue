@@ -7,21 +7,21 @@
                     :key="index"
                     v-show="tabItem.visible"
                     :class="{ 'is-active': activeTab === index, 'is-disabled': tabItem.disabled }">
-                    <a @click="tabClick(index)">
-                        <template v-if="tabItem.$slots.header">
-                            <b-slot-component
-                                :component="tabItem"
-                                name="header"
-                                tag="span" />
-                        </template>
-                        <template v-else>
-                            <b-icon
-                                v-if="tabItem.icon"
-                                :icon="tabItem.icon"
-                                :pack="tabItem.iconPack"
-                                :size="size"/>
-                            <span>{{ tabItem.label }}</span>
-                        </template>
+
+                    <b-slot-component
+                        v-if="tabItem.$slots.header"
+                        :component="tabItem"
+                        name="header"
+                        tag="a"
+                        @click.native="tabClick(index)"
+                    />
+                    <a v-else @click="tabClick(index)">
+                        <b-icon
+                            v-if="tabItem.icon"
+                            :icon="tabItem.icon"
+                            :pack="tabItem.iconPack"
+                            :size="size"/>
+                        <span>{{ tabItem.label }}</span>
                     </a>
                 </li>
             </ul>
@@ -56,7 +56,8 @@ export default {
             type: Boolean,
             default: false
         },
-        vertical: Boolean
+        vertical: Boolean,
+        multiline: Boolean
     },
     data() {
         return {
@@ -72,6 +73,7 @@ export default {
             return {
                 'is-fullwidth': this.expanded,
                 'is-vertical': this.vertical,
+                'is-multiline': this.multiline,
                 [this.position]: this.position && this.vertical
             }
         },
@@ -114,7 +116,7 @@ export default {
     },
     methods: {
         refreshSlots() {
-            this.defaultSlots = this.$slots.default
+            this.defaultSlots = this.$slots.default || []
         },
         /**
         * Change the active tab and emit change event.

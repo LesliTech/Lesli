@@ -2,11 +2,11 @@
 
 Object.defineProperty(exports, '__esModule', { value: true });
 
-require('./chunk-f98e7e80.js');
+require('./chunk-5094d8df.js');
 var helpers = require('./helpers.js');
-var __chunk_2 = require('./chunk-8806479f.js');
+var __chunk_2 = require('./chunk-805257cc.js');
 var __chunk_5 = require('./chunk-13e039f5.js');
-var __chunk_20 = require('./chunk-c72ff630.js');
+var __chunk_20 = require('./chunk-fbdc0e2d.js');
 
 //
 var script = {
@@ -38,15 +38,19 @@ var __vue_staticRenderFns__ = [];
   
   /* style inject SSR */
   
+  /* style inject shadow dom */
+  
 
   
-  var Toast = __chunk_5.__vue_normalize__(
+  const __vue_component__ = __chunk_5.__vue_normalize__(
     { render: __vue_render__, staticRenderFns: __vue_staticRenderFns__ },
     __vue_inject_styles__,
     __vue_script__,
     __vue_scope_id__,
     __vue_is_functional_template__,
     __vue_module_identifier__,
+    false,
+    undefined,
     undefined,
     undefined
   );
@@ -73,7 +77,7 @@ var ToastProgrammatic = {
 
     var propsData = helpers.merge(defaultParam, params);
     var vm = typeof window !== 'undefined' && window.Vue ? window.Vue : localVueInstance || __chunk_2.VueInstance;
-    var ToastComponent = vm.extend(Toast);
+    var ToastComponent = vm.extend(__vue_component__);
     return new ToastComponent({
       parent: parent,
       el: document.createElement('div'),
@@ -89,6 +93,6 @@ var Plugin = {
 };
 __chunk_5.use(Plugin);
 
-exports.BToast = Toast;
+exports.BToast = __vue_component__;
 exports.ToastProgrammatic = ToastProgrammatic;
 exports.default = Plugin;

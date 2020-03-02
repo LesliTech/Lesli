@@ -2,10 +2,10 @@
 
 Object.defineProperty(exports, '__esModule', { value: true });
 
-var __chunk_1 = require('./chunk-f98e7e80.js');
-require('./chunk-8806479f.js');
+var __chunk_1 = require('./chunk-5094d8df.js');
+require('./chunk-805257cc.js');
 var __chunk_5 = require('./chunk-13e039f5.js');
-var __chunk_22 = require('./chunk-4ea9ac01.js');
+var __chunk_22 = require('./chunk-5bc47591.js');
 
 var script = {
   name: 'BSliderThumb',
@@ -190,15 +190,19 @@ var __vue_staticRenderFns__ = [];
   
   /* style inject SSR */
   
+  /* style inject shadow dom */
+  
 
   
-  var SliderThumb = __chunk_5.__vue_normalize__(
+  const __vue_component__ = __chunk_5.__vue_normalize__(
     { render: __vue_render__, staticRenderFns: __vue_staticRenderFns__ },
     __vue_inject_styles__,
     __vue_script__,
     __vue_scope_id__,
     __vue_is_functional_template__,
     __vue_module_identifier__,
+    false,
+    undefined,
     undefined,
     undefined
   );
@@ -265,15 +269,19 @@ var __vue_staticRenderFns__$1 = [];
   
   /* style inject SSR */
   
+  /* style inject shadow dom */
+  
 
   
-  var SliderTick = __chunk_5.__vue_normalize__(
+  const __vue_component__$1 = __chunk_5.__vue_normalize__(
     { render: __vue_render__$1, staticRenderFns: __vue_staticRenderFns__$1 },
     __vue_inject_styles__$1,
     __vue_script__$1,
     __vue_scope_id__$1,
     __vue_is_functional_template__$1,
     __vue_module_identifier__$1,
+    false,
+    undefined,
     undefined,
     undefined
   );
@@ -281,7 +289,7 @@ var __vue_staticRenderFns__$1 = [];
 var _components;
 var script$2 = {
   name: 'BSlider',
-  components: (_components = {}, __chunk_1._defineProperty(_components, SliderThumb.name, SliderThumb), __chunk_1._defineProperty(_components, SliderTick.name, SliderTick), _components),
+  components: (_components = {}, __chunk_1._defineProperty(_components, __vue_component__.name, __vue_component__), __chunk_1._defineProperty(_components, __vue_component__$1.name, __vue_component__$1), _components),
   props: {
     value: {
       type: [Number, Array],
@@ -512,27 +520,31 @@ var __vue_staticRenderFns__$2 = [];
   
   /* style inject SSR */
   
+  /* style inject shadow dom */
+  
 
   
-  var Slider = __chunk_5.__vue_normalize__(
+  const __vue_component__$2 = __chunk_5.__vue_normalize__(
     { render: __vue_render__$2, staticRenderFns: __vue_staticRenderFns__$2 },
     __vue_inject_styles__$2,
     __vue_script__$2,
     __vue_scope_id__$2,
     __vue_is_functional_template__$2,
     __vue_module_identifier__$2,
+    false,
+    undefined,
     undefined,
     undefined
   );
 
 var Plugin = {
   install: function install(Vue) {
-    __chunk_5.registerComponent(Vue, Slider);
-    __chunk_5.registerComponent(Vue, SliderTick);
+    __chunk_5.registerComponent(Vue, __vue_component__$2);
+    __chunk_5.registerComponent(Vue, __vue_component__$1);
   }
 };
 __chunk_5.use(Plugin);
 
-exports.BSlider = Slider;
-exports.BSliderTick = SliderTick;
+exports.BSlider = __vue_component__$2;
+exports.BSliderTick = __vue_component__$1;
 exports.default = Plugin;

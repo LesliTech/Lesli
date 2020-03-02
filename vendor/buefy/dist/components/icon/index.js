@@ -1,4 +1,4 @@
-/*! Buefy v0.8.9 | MIT License | github.com/buefy/buefy */
+/*! Buefy v0.8.12 | MIT License | github.com/buefy/buefy */
 (function (global, factory) {
     typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports) :
     typeof define === 'function' && define.amd ? define(['exports'], factory) :
@@ -51,10 +51,13 @@
       defaultTrapFocus: false,
       defaultButtonRounded: false,
       defaultCarouselInterval: 3500,
+      defaultLinkTags: ['a', 'button', 'input', 'router-link', 'nuxt-link', 'n-link', 'RouterLink', 'NuxtLink', 'NLink'],
       customIconPacks: null
     }; // TODO defaultTrapFocus to true in the next breaking change
 
     function _typeof(obj) {
+      "@babel/helpers - typeof";
+
       if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") {
         _typeof = function (obj) {
           return typeof obj;
@@ -175,7 +178,8 @@
           'chevron-down': 'angle-down',
           'eye-off': 'eye-slash',
           'menu-down': 'caret-down',
-          'menu-up': 'caret-up'
+          'menu-up': 'caret-up',
+          'close-circle': 'times-circle'
         }
       };
     };
@@ -395,15 +399,19 @@
       
       /* style inject SSR */
       
+      /* style inject shadow dom */
+      
 
       
-      var Icon = normalizeComponent_1(
+      const __vue_component__ = normalizeComponent_1(
         { render: __vue_render__, staticRenderFns: __vue_staticRenderFns__ },
         __vue_inject_styles__,
         __vue_script__,
         __vue_scope_id__,
         __vue_is_functional_template__,
         __vue_module_identifier__,
+        false,
+        undefined,
         undefined,
         undefined
       );
@@ -419,12 +427,12 @@
 
     var Plugin = {
       install: function install(Vue) {
-        registerComponent(Vue, Icon);
+        registerComponent(Vue, __vue_component__);
       }
     };
     use(Plugin);
 
-    exports.BIcon = Icon;
+    exports.BIcon = __vue_component__;
     exports.default = Plugin;
 
     Object.defineProperty(exports, '__esModule', { value: true });

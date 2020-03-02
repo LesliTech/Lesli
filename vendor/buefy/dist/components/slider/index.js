@@ -1,4 +1,4 @@
-/*! Buefy v0.8.9 | MIT License | github.com/buefy/buefy */
+/*! Buefy v0.8.12 | MIT License | github.com/buefy/buefy */
 (function (global, factory) {
   typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports) :
   typeof define === 'function' && define.amd ? define(['exports'], factory) :
@@ -86,6 +86,7 @@
     defaultTrapFocus: false,
     defaultButtonRounded: false,
     defaultCarouselInterval: 3500,
+    defaultLinkTags: ['a', 'button', 'input', 'router-link', 'nuxt-link', 'n-link', 'RouterLink', 'NuxtLink', 'NLink'],
     customIconPacks: null
   }; // TODO defaultTrapFocus to true in the next breaking change
 
@@ -241,22 +242,26 @@
     
     /* style inject SSR */
     
+    /* style inject shadow dom */
+    
 
     
-    var Tooltip = normalizeComponent_1(
+    const __vue_component__ = normalizeComponent_1(
       { render: __vue_render__, staticRenderFns: __vue_staticRenderFns__ },
       __vue_inject_styles__,
       __vue_script__,
       __vue_scope_id__,
       __vue_is_functional_template__,
       __vue_module_identifier__,
+      false,
+      undefined,
       undefined,
       undefined
     );
 
   var script$1 = {
     name: 'BSliderThumb',
-    components: _defineProperty({}, Tooltip.name, Tooltip),
+    components: _defineProperty({}, __vue_component__.name, __vue_component__),
     inheritAttrs: false,
     props: {
       value: {
@@ -437,15 +442,19 @@
     
     /* style inject SSR */
     
+    /* style inject shadow dom */
+    
 
     
-    var SliderThumb = normalizeComponent_1(
+    const __vue_component__$1 = normalizeComponent_1(
       { render: __vue_render__$1, staticRenderFns: __vue_staticRenderFns__$1 },
       __vue_inject_styles__$1,
       __vue_script__$1,
       __vue_scope_id__$1,
       __vue_is_functional_template__$1,
       __vue_module_identifier__$1,
+      false,
+      undefined,
       undefined,
       undefined
     );
@@ -512,15 +521,19 @@
     
     /* style inject SSR */
     
+    /* style inject shadow dom */
+    
 
     
-    var SliderTick = normalizeComponent_1(
+    const __vue_component__$2 = normalizeComponent_1(
       { render: __vue_render__$2, staticRenderFns: __vue_staticRenderFns__$2 },
       __vue_inject_styles__$2,
       __vue_script__$2,
       __vue_scope_id__$2,
       __vue_is_functional_template__$2,
       __vue_module_identifier__$2,
+      false,
+      undefined,
       undefined,
       undefined
     );
@@ -528,7 +541,7 @@
   var _components;
   var script$3 = {
     name: 'BSlider',
-    components: (_components = {}, _defineProperty(_components, SliderThumb.name, SliderThumb), _defineProperty(_components, SliderTick.name, SliderTick), _components),
+    components: (_components = {}, _defineProperty(_components, __vue_component__$1.name, __vue_component__$1), _defineProperty(_components, __vue_component__$2.name, __vue_component__$2), _components),
     props: {
       value: {
         type: [Number, Array],
@@ -759,15 +772,19 @@
     
     /* style inject SSR */
     
+    /* style inject shadow dom */
+    
 
     
-    var Slider = normalizeComponent_1(
+    const __vue_component__$3 = normalizeComponent_1(
       { render: __vue_render__$3, staticRenderFns: __vue_staticRenderFns__$3 },
       __vue_inject_styles__$3,
       __vue_script__$3,
       __vue_scope_id__$3,
       __vue_is_functional_template__$3,
       __vue_module_identifier__$3,
+      false,
+      undefined,
       undefined,
       undefined
     );
@@ -783,14 +800,14 @@
 
   var Plugin = {
     install: function install(Vue) {
-      registerComponent(Vue, Slider);
-      registerComponent(Vue, SliderTick);
+      registerComponent(Vue, __vue_component__$3);
+      registerComponent(Vue, __vue_component__$2);
     }
   };
   use(Plugin);
 
-  exports.BSlider = Slider;
-  exports.BSliderTick = SliderTick;
+  exports.BSlider = __vue_component__$3;
+  exports.BSliderTick = __vue_component__$2;
   exports.default = Plugin;
 
   Object.defineProperty(exports, '__esModule', { value: true });

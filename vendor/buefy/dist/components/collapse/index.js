@@ -1,4 +1,4 @@
-/*! Buefy v0.8.9 | MIT License | github.com/buefy/buefy */
+/*! Buefy v0.8.12 | MIT License | github.com/buefy/buefy */
 (function (global, factory) {
     typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports) :
     typeof define === 'function' && define.amd ? define(['exports'], factory) :
@@ -180,15 +180,19 @@
       
       /* style inject SSR */
       
+      /* style inject shadow dom */
+      
 
       
-      var Collapse = normalizeComponent_1(
+      const __vue_component__ = normalizeComponent_1(
         {},
         __vue_inject_styles__,
         __vue_script__,
         __vue_scope_id__,
         __vue_is_functional_template__,
         __vue_module_identifier__,
+        false,
+        undefined,
         undefined,
         undefined
       );
@@ -204,12 +208,12 @@
 
     var Plugin = {
       install: function install(Vue) {
-        registerComponent(Vue, Collapse);
+        registerComponent(Vue, __vue_component__);
       }
     };
     use(Plugin);
 
-    exports.BCollapse = Collapse;
+    exports.BCollapse = __vue_component__;
     exports.default = Plugin;
 
     Object.defineProperty(exports, '__esModule', { value: true });

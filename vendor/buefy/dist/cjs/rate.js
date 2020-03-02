@@ -2,10 +2,10 @@
 
 Object.defineProperty(exports, '__esModule', { value: true });
 
-var __chunk_1 = require('./chunk-f98e7e80.js');
+var __chunk_1 = require('./chunk-5094d8df.js');
 require('./helpers.js');
-require('./chunk-8806479f.js');
-var __chunk_4 = require('./chunk-45103eda.js');
+require('./chunk-805257cc.js');
+var __chunk_4 = require('./chunk-bc189645.js');
 var __chunk_5 = require('./chunk-13e039f5.js');
 
 var script = {
@@ -120,25 +120,29 @@ var __vue_staticRenderFns__ = [];
   
   /* style inject SSR */
   
+  /* style inject shadow dom */
+  
 
   
-  var Rate = __chunk_5.__vue_normalize__(
+  const __vue_component__ = __chunk_5.__vue_normalize__(
     { render: __vue_render__, staticRenderFns: __vue_staticRenderFns__ },
     __vue_inject_styles__,
     __vue_script__,
     __vue_scope_id__,
     __vue_is_functional_template__,
     __vue_module_identifier__,
+    false,
+    undefined,
     undefined,
     undefined
   );
 
 var Plugin = {
   install: function install(Vue) {
-    __chunk_5.registerComponent(Vue, Rate);
+    __chunk_5.registerComponent(Vue, __vue_component__);
   }
 };
 __chunk_5.use(Plugin);
 
-exports.BRate = Rate;
+exports.BRate = __vue_component__;
 exports.default = Plugin;

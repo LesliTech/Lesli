@@ -1,4 +1,4 @@
-/*! Buefy v0.8.9 | MIT License | github.com/buefy/buefy */
+/*! Buefy v0.8.12 | MIT License | github.com/buefy/buefy */
 (function (global, factory) {
     typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports) :
     typeof define === 'function' && define.amd ? define(['exports'], factory) :
@@ -67,7 +67,7 @@
           }
 
           if (this.format === 'percent') {
-            var _val = this.toFixed(this.value * this.max / 100);
+            var _val = this.toFixed(this.value * 100 / this.max);
 
             return "".concat(_val, "%");
           }
@@ -213,15 +213,19 @@
       
       /* style inject SSR */
       
+      /* style inject shadow dom */
+      
 
       
-      var Progress = normalizeComponent_1(
+      const __vue_component__ = normalizeComponent_1(
         { render: __vue_render__, staticRenderFns: __vue_staticRenderFns__ },
         __vue_inject_styles__,
         __vue_script__,
         __vue_scope_id__,
         __vue_is_functional_template__,
         __vue_module_identifier__,
+        false,
+        undefined,
         undefined,
         undefined
       );
@@ -237,12 +241,12 @@
 
     var Plugin = {
       install: function install(Vue) {
-        registerComponent(Vue, Progress);
+        registerComponent(Vue, __vue_component__);
       }
     };
     use(Plugin);
 
-    exports.BProgress = Progress;
+    exports.BProgress = __vue_component__;
     exports.default = Plugin;
 
     Object.defineProperty(exports, '__esModule', { value: true });
