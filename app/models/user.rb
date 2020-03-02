@@ -93,7 +93,7 @@ class User < ApplicationRecord
             #})
         end
         if defined? CloudDriver
-
+            return
             return if self.account.driver.blank?
 
             self.account.driver.calendars.create({
