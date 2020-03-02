@@ -1,11 +1,17 @@
 .quickview.is-size-large {
-    h4.title {
-        font-weight: 400;
-        font-size: 1.4rem;
-    }
     right: -600px;
     min-width: 600px;
+
     &.is-active {
         right: 0;
     }
+
+    .quickview-header {
+        background-color: get-css-color(app, tertiary);
+        h4.title {
+            font-weight: 400;
+            font-size: 1.45rem;
+        }
+    }
+    
 }

@@ -1,4 +1,3 @@
-<script>
 /*
 Lesli
 
@@ -25,37 +24,35 @@ Building a better future, one line of code at a time.
 */
 
 
-// · import core components
-// · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
+// · 
+import app from 'LesliCoreVue/public'
+
 import componentNotificationMessageSimple from 'LesliCoreVue/components/notifications/message-simple.vue' 
 import componentNotificationProgressBar from 'LesliCoreVue/components/notifications/progress-bar.vue' 
 
-
-// · 
-export default {
+app({
 
     components: {
         'component-notification-message-simple': componentNotificationMessageSimple,
         'component-notification-progress-bar': componentNotificationProgressBar
     },
-    data() {
-        return{
-            translations: { },
-            sign_in: {
-                email: 'admin@lesli.cloud',
-                password: ''
-            },
-            progress_bar_active: false,
-            notification: {
-                message: '',
-                show: false,
-                type: 'is-danger'
-            }
+    data: {
+        translations: { },
+        sign_in: {
+            email: 'admin@lesli.cloud',
+            password: ''
+        },
+        progress_bar_active: false,
+        notification: {
+            message: '',
+            show: false,
+            type: 'is-danger'
         }
     },
     methods: {
 
         postLogin(event) {
+
             event.preventDefault();
 
             let data = {user: this.sign_in};
@@ -80,19 +77,8 @@ export default {
             this.notification.message = message;
             this.notification.type = type;
             this.notification.show = true;
-        },
-
-        goTo(url){
-            this.$router.push(`${url}`);
         }
 
     }
 
-}
-</script>
-<template>
-    <section>
-        <h1>DEUTSCHE LEIBRENTEN</h1>
-    </section>
-</template>
-
+})
