@@ -1,4 +1,4 @@
-/*! Buefy v0.8.9 | MIT License | github.com/buefy/buefy */
+/*! Buefy v0.8.12 | MIT License | github.com/buefy/buefy */
 (function (global, factory) {
   typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports) :
   typeof define === 'function' && define.amd ? define(['exports'], factory) :
@@ -6,6 +6,8 @@
 }(this, function (exports) { 'use strict';
 
   function _typeof(obj) {
+    "@babel/helpers - typeof";
+
     if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") {
       _typeof = function (obj) {
         return typeof obj;
@@ -114,6 +116,7 @@
     defaultTrapFocus: false,
     defaultButtonRounded: false,
     defaultCarouselInterval: 3500,
+    defaultLinkTags: ['a', 'button', 'input', 'router-link', 'nuxt-link', 'n-link', 'RouterLink', 'NuxtLink', 'NLink'],
     customIconPacks: null
   }; // TODO defaultTrapFocus to true in the next breaking change
 
@@ -175,7 +178,8 @@
         'chevron-down': 'angle-down',
         'eye-off': 'eye-slash',
         'menu-down': 'caret-down',
-        'menu-up': 'caret-up'
+        'menu-up': 'caret-up',
+        'close-circle': 'times-circle'
       }
     };
   };
@@ -395,21 +399,25 @@
     
     /* style inject SSR */
     
+    /* style inject shadow dom */
+    
 
     
-    var Icon = normalizeComponent_1(
+    const __vue_component__ = normalizeComponent_1(
       { render: __vue_render__, staticRenderFns: __vue_staticRenderFns__ },
       __vue_inject_styles__,
       __vue_script__,
       __vue_scope_id__,
       __vue_is_functional_template__,
       __vue_module_identifier__,
+      false,
+      undefined,
       undefined,
       undefined
     );
 
   var MessageMixin = {
-    components: _defineProperty({}, Icon.name, Icon),
+    components: _defineProperty({}, __vue_component__.name, __vue_component__),
     props: {
       active: {
         type: Boolean,
@@ -424,6 +432,7 @@
       type: String,
       hasIcon: Boolean,
       size: String,
+      icon: String,
       iconPack: String,
       iconSize: String,
       autoClose: {
@@ -458,7 +467,11 @@
       /**
        * Icon name (MDI) based on type.
        */
-      icon: function icon() {
+      computedIcon: function computedIcon() {
+        if (this.icon) {
+          return this.icon;
+        }
+
         switch (this.type) {
           case 'is-info':
             return 'information';
@@ -525,7 +538,7 @@
   const __vue_script__$1 = script$1;
 
   /* template */
-  var __vue_render__$1 = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('transition',{attrs:{"name":"fade"}},[(_vm.isActive)?_c('article',{staticClass:"message",class:[_vm.type, _vm.size]},[(_vm.title)?_c('header',{staticClass:"message-header"},[_c('p',[_vm._v(_vm._s(_vm.title))]),_vm._v(" "),(_vm.closable)?_c('button',{staticClass:"delete",attrs:{"type":"button","aria-label":_vm.ariaCloseLabel},on:{"click":_vm.close}}):_vm._e()]):_vm._e(),_vm._v(" "),_c('section',{staticClass:"message-body"},[_c('div',{staticClass:"media"},[(_vm.icon && _vm.hasIcon)?_c('div',{staticClass:"media-left"},[_c('b-icon',{class:_vm.type,attrs:{"icon":_vm.icon,"pack":_vm.iconPack,"both":"","size":_vm.newIconSize}})],1):_vm._e(),_vm._v(" "),_c('div',{staticClass:"media-content"},[_vm._t("default")],2)])])]):_vm._e()])};
+  var __vue_render__$1 = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('transition',{attrs:{"name":"fade"}},[(_vm.isActive)?_c('article',{staticClass:"message",class:[_vm.type, _vm.size]},[(_vm.title)?_c('header',{staticClass:"message-header"},[_c('p',[_vm._v(_vm._s(_vm.title))]),_vm._v(" "),(_vm.closable)?_c('button',{staticClass:"delete",attrs:{"type":"button","aria-label":_vm.ariaCloseLabel},on:{"click":_vm.close}}):_vm._e()]):_vm._e(),_vm._v(" "),_c('section',{staticClass:"message-body"},[_c('div',{staticClass:"media"},[(_vm.computedIcon && _vm.hasIcon)?_c('div',{staticClass:"media-left"},[_c('b-icon',{class:_vm.type,attrs:{"icon":_vm.computedIcon,"pack":_vm.iconPack,"both":"","size":_vm.newIconSize}})],1):_vm._e(),_vm._v(" "),_c('div',{staticClass:"media-content"},[_vm._t("default")],2)])])]):_vm._e()])};
   var __vue_staticRenderFns__$1 = [];
 
     /* style */
@@ -540,15 +553,19 @@
     
     /* style inject SSR */
     
+    /* style inject shadow dom */
+    
 
     
-    var Message = normalizeComponent_1(
+    const __vue_component__$1 = normalizeComponent_1(
       { render: __vue_render__$1, staticRenderFns: __vue_staticRenderFns__$1 },
       __vue_inject_styles__$1,
       __vue_script__$1,
       __vue_scope_id__$1,
       __vue_is_functional_template__$1,
       __vue_module_identifier__$1,
+      false,
+      undefined,
       undefined,
       undefined
     );
@@ -564,12 +581,12 @@
 
   var Plugin = {
     install: function install(Vue) {
-      registerComponent(Vue, Message);
+      registerComponent(Vue, __vue_component__$1);
     }
   };
   use(Plugin);
 
-  exports.BMessage = Message;
+  exports.BMessage = __vue_component__$1;
   exports.default = Plugin;
 
   Object.defineProperty(exports, '__esModule', { value: true });

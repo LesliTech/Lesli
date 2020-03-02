@@ -1,4 +1,4 @@
-/*! Buefy v0.8.9 | MIT License | github.com/buefy/buefy */
+/*! Buefy v0.8.12 | MIT License | github.com/buefy/buefy */
 (function (global, factory) {
   typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports) :
   typeof define === 'function' && define.amd ? define(['exports'], factory) :
@@ -6,6 +6,8 @@
 }(this, function (exports) { 'use strict';
 
   function _typeof(obj) {
+    "@babel/helpers - typeof";
+
     if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") {
       _typeof = function (obj) {
         return typeof obj;
@@ -114,6 +116,7 @@
     defaultTrapFocus: false,
     defaultButtonRounded: false,
     defaultCarouselInterval: 3500,
+    defaultLinkTags: ['a', 'button', 'input', 'router-link', 'nuxt-link', 'n-link', 'RouterLink', 'NuxtLink', 'NLink'],
     customIconPacks: null
   }; // TODO defaultTrapFocus to true in the next breaking change
 
@@ -175,7 +178,8 @@
         'chevron-down': 'angle-down',
         'eye-off': 'eye-slash',
         'menu-down': 'caret-down',
-        'menu-up': 'caret-up'
+        'menu-up': 'caret-up',
+        'close-circle': 'times-circle'
       }
     };
   };
@@ -395,22 +399,26 @@
     
     /* style inject SSR */
     
+    /* style inject shadow dom */
+    
 
     
-    var Icon = normalizeComponent_1(
+    const __vue_component__ = normalizeComponent_1(
       { render: __vue_render__, staticRenderFns: __vue_staticRenderFns__ },
       __vue_inject_styles__,
       __vue_script__,
       __vue_scope_id__,
       __vue_is_functional_template__,
       __vue_module_identifier__,
+      false,
+      undefined,
       undefined,
       undefined
     );
 
   var script$1 = {
     name: 'BButton',
-    components: _defineProperty({}, Icon.name, Icon),
+    components: _defineProperty({}, __vue_component__.name, __vue_component__),
     inheritAttrs: false,
     props: {
       type: [String, Object],
@@ -444,11 +452,18 @@
         type: String,
         default: 'button',
         validator: function validator(value) {
-          return ['button', 'a', 'input', 'router-link', 'nuxt-link', 'n-link', 'NuxtLink', 'NLink'].indexOf(value) >= 0;
+          return config.defaultLinkTags.indexOf(value) >= 0;
         }
       }
     },
     computed: {
+      computedTag: function computedTag() {
+        if (this.$attrs.disabled !== undefined && this.$attrs.disabled !== false) {
+          return 'button';
+        }
+
+        return this.tag;
+      },
       iconSize: function iconSize() {
         if (!this.size || this.size === 'is-medium') {
           return 'is-small';
@@ -465,7 +480,7 @@
   const __vue_script__$1 = script$1;
 
   /* template */
-  var __vue_render__$1 = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c(_vm.tag,_vm._g(_vm._b({tag:"component",staticClass:"button",class:[_vm.size, _vm.type, {
+  var __vue_render__$1 = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c(_vm.computedTag,_vm._g(_vm._b({tag:"component",staticClass:"button",class:[_vm.size, _vm.type, {
               'is-rounded': _vm.rounded,
               'is-loading': _vm.loading,
               'is-outlined': _vm.outlined,
@@ -475,7 +490,7 @@
               'is-active': _vm.active,
               'is-hovered': _vm.hovered,
               'is-selected': _vm.selected
-          }],attrs:{"type":_vm.nativeType}},'component',_vm.$attrs,false),_vm.$listeners),[(_vm.iconLeft)?_c('b-icon',{attrs:{"pack":_vm.iconPack,"icon":_vm.iconLeft,"size":_vm.iconSize}}):_vm._e(),_vm._v(" "),(_vm.label)?_c('span',[_vm._v(_vm._s(_vm.label))]):(_vm.$slots.default)?_c('span',[_vm._t("default")],2):_vm._e(),_vm._v(" "),(_vm.iconRight)?_c('b-icon',{attrs:{"pack":_vm.iconPack,"icon":_vm.iconRight,"size":_vm.iconSize}}):_vm._e()],1)};
+          }],attrs:{"type":_vm.nativeType}},'component',_vm.$attrs,false),_vm.$listeners),[(_vm.iconLeft)?_c('b-icon',{attrs:{"pack":_vm.iconPack,"icon":_vm.iconLeft,"size":_vm.iconSize}}):_vm._e(),_vm._v(" "),(_vm.label)?_c('span',[_vm._v(_vm._s(_vm.label))]):_c('span',[_vm._t("default")],2),_vm._v(" "),(_vm.iconRight)?_c('b-icon',{attrs:{"pack":_vm.iconPack,"icon":_vm.iconRight,"size":_vm.iconSize}}):_vm._e()],1)};
   var __vue_staticRenderFns__$1 = [];
 
     /* style */
@@ -490,15 +505,19 @@
     
     /* style inject SSR */
     
+    /* style inject shadow dom */
+    
 
     
-    var Button = normalizeComponent_1(
+    const __vue_component__$1 = normalizeComponent_1(
       { render: __vue_render__$1, staticRenderFns: __vue_staticRenderFns__$1 },
       __vue_inject_styles__$1,
       __vue_script__$1,
       __vue_scope_id__$1,
       __vue_is_functional_template__$1,
       __vue_module_identifier__$1,
+      false,
+      undefined,
       undefined,
       undefined
     );
@@ -514,12 +533,12 @@
 
   var Plugin = {
     install: function install(Vue) {
-      registerComponent(Vue, Button);
+      registerComponent(Vue, __vue_component__$1);
     }
   };
   use(Plugin);
 
-  exports.BButton = Button;
+  exports.BButton = __vue_component__$1;
   exports.default = Plugin;
 
   Object.defineProperty(exports, '__esModule', { value: true });

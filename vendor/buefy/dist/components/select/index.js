@@ -1,4 +1,4 @@
-/*! Buefy v0.8.9 | MIT License | github.com/buefy/buefy */
+/*! Buefy v0.8.12 | MIT License | github.com/buefy/buefy */
 (function (global, factory) {
   typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports) :
   typeof define === 'function' && define.amd ? define(['exports'], factory) :
@@ -6,6 +6,8 @@
 }(this, function (exports) { 'use strict';
 
   function _typeof(obj) {
+    "@babel/helpers - typeof";
+
     if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") {
       _typeof = function (obj) {
         return typeof obj;
@@ -114,6 +116,7 @@
     defaultTrapFocus: false,
     defaultButtonRounded: false,
     defaultCarouselInterval: 3500,
+    defaultLinkTags: ['a', 'button', 'input', 'router-link', 'nuxt-link', 'n-link', 'RouterLink', 'NuxtLink', 'NLink'],
     customIconPacks: null
   }; // TODO defaultTrapFocus to true in the next breaking change
 
@@ -175,7 +178,8 @@
         'chevron-down': 'angle-down',
         'eye-off': 'eye-slash',
         'menu-down': 'caret-down',
-        'menu-up': 'caret-up'
+        'menu-up': 'caret-up',
+        'close-circle': 'times-circle'
       }
     };
   };
@@ -395,15 +399,19 @@
     
     /* style inject SSR */
     
+    /* style inject shadow dom */
+    
 
     
-    var Icon = normalizeComponent_1(
+    const __vue_component__ = normalizeComponent_1(
       { render: __vue_render__, staticRenderFns: __vue_staticRenderFns__ },
       __vue_inject_styles__,
       __vue_script__,
       __vue_scope_id__,
       __vue_is_functional_template__,
       __vue_module_identifier__,
+      false,
+      undefined,
       undefined,
       undefined
     );
@@ -565,7 +573,7 @@
 
   var script$1 = {
     name: 'BSelect',
-    components: _defineProperty({}, Icon.name, Icon),
+    components: _defineProperty({}, __vue_component__.name, __vue_component__),
     mixins: [FormElementMixin],
     inheritAttrs: false,
     props: {
@@ -636,15 +644,19 @@
     
     /* style inject SSR */
     
+    /* style inject shadow dom */
+    
 
     
-    var Select = normalizeComponent_1(
+    const __vue_component__$1 = normalizeComponent_1(
       { render: __vue_render__$1, staticRenderFns: __vue_staticRenderFns__$1 },
       __vue_inject_styles__$1,
       __vue_script__$1,
       __vue_scope_id__$1,
       __vue_is_functional_template__$1,
       __vue_module_identifier__$1,
+      false,
+      undefined,
       undefined,
       undefined
     );
@@ -660,12 +672,12 @@
 
   var Plugin = {
     install: function install(Vue) {
-      registerComponent(Vue, Select);
+      registerComponent(Vue, __vue_component__$1);
     }
   };
   use(Plugin);
 
-  exports.BSelect = Select;
+  exports.BSelect = __vue_component__$1;
   exports.default = Plugin;
 
   Object.defineProperty(exports, '__esModule', { value: true });

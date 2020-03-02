@@ -1,4 +1,4 @@
-/*! Buefy v0.8.9 | MIT License | github.com/buefy/buefy */
+/*! Buefy v0.8.12 | MIT License | github.com/buefy/buefy */
 (function (global, factory) {
     typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports) :
     typeof define === 'function' && define.amd ? define(['exports'], factory) :
@@ -131,15 +131,19 @@
       
       /* style inject SSR */
       
+      /* style inject shadow dom */
+      
 
       
-      var Menu = normalizeComponent_1(
+      const __vue_component__ = normalizeComponent_1(
         { render: __vue_render__, staticRenderFns: __vue_staticRenderFns__ },
         __vue_inject_styles__,
         __vue_script__,
         __vue_scope_id__,
         __vue_is_functional_template__,
         __vue_module_identifier__,
+        false,
+        undefined,
         undefined,
         undefined
       );
@@ -201,20 +205,26 @@
       
       /* style inject SSR */
       
+      /* style inject shadow dom */
+      
 
       
-      var MenuList = normalizeComponent_1(
+      const __vue_component__$1 = normalizeComponent_1(
         {},
         __vue_inject_styles__$1,
         __vue_script__$1,
         __vue_scope_id__$1,
         __vue_is_functional_template__$1,
         __vue_module_identifier__$1,
+        false,
+        undefined,
         undefined,
         undefined
       );
 
     function _typeof(obj) {
+      "@babel/helpers - typeof";
+
       if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") {
         _typeof = function (obj) {
           return typeof obj;
@@ -323,6 +333,7 @@
       defaultTrapFocus: false,
       defaultButtonRounded: false,
       defaultCarouselInterval: 3500,
+      defaultLinkTags: ['a', 'button', 'input', 'router-link', 'nuxt-link', 'n-link', 'RouterLink', 'NuxtLink', 'NLink'],
       customIconPacks: null
     }; // TODO defaultTrapFocus to true in the next breaking change
 
@@ -384,7 +395,8 @@
           'chevron-down': 'angle-down',
           'eye-off': 'eye-slash',
           'menu-down': 'caret-down',
-          'menu-up': 'caret-up'
+          'menu-up': 'caret-up',
+          'close-circle': 'times-circle'
         }
       };
     };
@@ -519,22 +531,26 @@
       
       /* style inject SSR */
       
+      /* style inject shadow dom */
+      
 
       
-      var Icon = normalizeComponent_1(
+      const __vue_component__$2 = normalizeComponent_1(
         { render: __vue_render__$1, staticRenderFns: __vue_staticRenderFns__$1 },
         __vue_inject_styles__$2,
         __vue_script__$2,
         __vue_scope_id__$2,
         __vue_is_functional_template__$2,
         __vue_module_identifier__$2,
+        false,
+        undefined,
         undefined,
         undefined
       );
 
     var script$3 = {
       name: 'BMenuItem',
-      components: _defineProperty({}, Icon.name, Icon),
+      components: _defineProperty({}, __vue_component__$2.name, __vue_component__$2),
       inheritAttrs: false,
       props: {
         label: String,
@@ -551,7 +567,7 @@
           type: String,
           default: 'a',
           validator: function validator(value) {
-            return ['a', 'router-link', 'nuxt-link', 'n-link', 'NuxtLink', 'NLink'].indexOf(value) >= 0;
+            return config.defaultLinkTags.indexOf(value) >= 0;
           }
         },
         ariaRole: {
@@ -586,7 +602,6 @@
           this.$emit('update:expanded', this.newActive);
           this.newActive = true;
           this.$emit('update:active', this.newActive);
-          this.$emit('click', event);
         },
         reset: function reset(parent) {
           var _this = this;
@@ -615,10 +630,10 @@
     const __vue_script__$3 = script$3;
 
     /* template */
-    var __vue_render__$2 = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('li',{attrs:{"role":_vm.ariaRoleMenu}},[_c(_vm.tag,_vm._b({tag:"component",class:{
+    var __vue_render__$2 = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('li',{attrs:{"role":_vm.ariaRoleMenu}},[_c(_vm.tag,_vm._g(_vm._b({tag:"component",class:{
                     'is-active': _vm.newActive,
                     'is-disabled': _vm.disabled
-                },on:{"click":function($event){_vm.onClick($event);}},nativeOn:{"click":function($event){_vm.onClick($event);}}},'component',_vm.$attrs,false),[(_vm.icon)?_c('b-icon',{attrs:{"icon":_vm.icon,"pack":_vm.iconPack,"size":"is-small"}}):_vm._e(),_vm._v(" "),(_vm.label)?_c('span',[_vm._v(_vm._s(_vm.label))]):_vm._t("label",null,{expanded:_vm.newExpanded,active:_vm.newActive})],2),_vm._v(" "),(_vm.$slots.default)?[_c('transition',{attrs:{"name":_vm.animation}},[_c('ul',{directives:[{name:"show",rawName:"v-show",value:(_vm.newExpanded),expression:"newExpanded"}]},[_vm._t("default")],2)])]:_vm._e()],2)};
+                },on:{"click":function($event){_vm.onClick($event);}}},'component',_vm.$attrs,false),_vm.$listeners),[(_vm.icon)?_c('b-icon',{attrs:{"icon":_vm.icon,"pack":_vm.iconPack,"size":"is-small"}}):_vm._e(),_vm._v(" "),(_vm.label)?_c('span',[_vm._v(_vm._s(_vm.label))]):_vm._t("label",null,{expanded:_vm.newExpanded,active:_vm.newActive})],2),_vm._v(" "),(_vm.$slots.default)?[_c('transition',{attrs:{"name":_vm.animation}},[_c('ul',{directives:[{name:"show",rawName:"v-show",value:(_vm.newExpanded),expression:"newExpanded"}]},[_vm._t("default")],2)])]:_vm._e()],2)};
     var __vue_staticRenderFns__$2 = [];
 
       /* style */
@@ -633,15 +648,19 @@
       
       /* style inject SSR */
       
+      /* style inject shadow dom */
+      
 
       
-      var MenuItem = normalizeComponent_1(
+      const __vue_component__$3 = normalizeComponent_1(
         { render: __vue_render__$2, staticRenderFns: __vue_staticRenderFns__$2 },
         __vue_inject_styles__$3,
         __vue_script__$3,
         __vue_scope_id__$3,
         __vue_is_functional_template__$3,
         __vue_module_identifier__$3,
+        false,
+        undefined,
         undefined,
         undefined
       );
@@ -657,16 +676,16 @@
 
     var Plugin = {
       install: function install(Vue) {
-        registerComponent(Vue, Menu);
-        registerComponent(Vue, MenuList);
-        registerComponent(Vue, MenuItem);
+        registerComponent(Vue, __vue_component__);
+        registerComponent(Vue, __vue_component__$1);
+        registerComponent(Vue, __vue_component__$3);
       }
     };
     use(Plugin);
 
-    exports.BMenu = Menu;
-    exports.BMenuItem = MenuItem;
-    exports.BMenuList = MenuList;
+    exports.BMenu = __vue_component__;
+    exports.BMenuItem = __vue_component__$3;
+    exports.BMenuList = __vue_component__$1;
     exports.default = Plugin;
 
     Object.defineProperty(exports, '__esModule', { value: true });

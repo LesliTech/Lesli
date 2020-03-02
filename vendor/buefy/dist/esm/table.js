@@ -1,14 +1,14 @@
-import { _ as _defineProperty, c as _toConsumableArray } from './chunk-b91774bc.js';
-import { getValueByPath, indexOf } from './helpers.js';
-import './chunk-b76a6c1d.js';
-import './chunk-0ff68bf2.js';
-import { I as Icon } from './chunk-3802ee87.js';
+import { _ as _defineProperty, c as _toConsumableArray } from './chunk-6ea13200.js';
+import { getValueByPath, indexOf, multiColumnSort } from './helpers.js';
+import './chunk-17222463.js';
+import './chunk-1f14bcfd.js';
+import { I as Icon } from './chunk-bed9f769.js';
 import { _ as __vue_normalize__, r as registerComponent, u as use } from './chunk-cca88db8.js';
-import { I as Input } from './chunk-28a3d8ce.js';
+import { I as Input } from './chunk-b58f8279.js';
 import './chunk-2793447b.js';
-import { C as Checkbox } from './chunk-7bdbd626.js';
-import { S as Select } from './chunk-0844f454.js';
-import { P as Pagination } from './chunk-22aff7fe.js';
+import { C as Checkbox } from './chunk-968fefca.js';
+import { S as Select } from './chunk-9a8fefdc.js';
+import { P as Pagination } from './chunk-2772e167.js';
 import { S as SlotComponent } from './chunk-0e3f4fb5.js';
 
 var _components;
@@ -17,6 +17,7 @@ var script = {
   components: (_components = {}, _defineProperty(_components, Select.name, Select), _defineProperty(_components, Icon.name, Icon), _components),
   props: {
     currentSortColumn: Object,
+    sortMultipleData: Array,
     isAsc: Boolean,
     columns: Array,
     placeholder: String,
@@ -28,11 +29,22 @@ var script = {
     sortIconSize: {
       type: String,
       default: 'is-small'
+    },
+    sortMultiple: {
+      type: Boolean,
+      default: false
     }
   },
   data: function data() {
     return {
-      mobileSort: this.currentSortColumn
+      sortMultipleSelect: '',
+      mobileSort: this.currentSortColumn,
+      defaultEvent: {
+        shiftKey: true,
+        altKey: true,
+        ctrlKey: true
+      },
+      ignoreSort: false
     };
   },
   computed: {
@@ -45,17 +57,65 @@ var script = {
     }
   },
   watch: {
+    sortMultipleSelect: function sortMultipleSelect(column) {
+      if (this.ignoreSort) {
+        this.ignoreSort = false;
+      } else {
+        this.$emit('sort', column, this.defaultEvent);
+      }
+    },
     mobileSort: function mobileSort(column) {
       if (this.currentSortColumn === column) return;
-      this.$emit('sort', column);
+      this.$emit('sort', column, this.defaultEvent);
     },
     currentSortColumn: function currentSortColumn(column) {
       this.mobileSort = column;
     }
   },
   methods: {
+    removePriority: function removePriority() {
+      var _this2 = this;
+
+      this.$emit('removePriority', this.sortMultipleSelect); // ignore the watcher to sort when we just change whats displayed in the select
+      // otherwise the direction will be flipped
+      // The sort event is already triggered by the emit
+
+      this.ignoreSort = true; // Select one of the other options when we reset one
+
+      var remainingFields = this.sortMultipleData.filter(function (data) {
+        return data.field !== _this2.sortMultipleSelect.field;
+      }).map(function (data) {
+        return data.field;
+      });
+      this.sortMultipleSelect = this.columns.filter(function (column) {
+        return remainingFields.includes(column.field);
+      })[0];
+    },
+    getSortingObjectOfColumn: function getSortingObjectOfColumn(column) {
+      return this.sortMultipleData.filter(function (i) {
+        return i.field === column.field;
+      })[0];
+    },
+    columnIsDesc: function columnIsDesc(column) {
+      var sortingObject = this.getSortingObjectOfColumn(column);
+
+      if (sortingObject) {
+        return !!(sortingObject.order && sortingObject.order === 'desc');
+      }
+
+      return true;
+    },
+    getLabel: function getLabel(column) {
+      var sortingObject = this.getSortingObjectOfColumn(column);
+
+      if (sortingObject) {
+        return column.label + '(' + (this.sortMultipleData.indexOf(sortingObject) + 1) + ')';
+      }
+
+      return column.label;
+    },
     sort: function sort() {
-      this.$emit('sort', this.mobileSort);
+      this.$emit('sort', this.sortMultiple ? this.sortMultipleSelect : this.mobileSort, this.defaultEvent);
     }
   }
 };
@@ -64,7 +124,7 @@ var script = {
 const __vue_script__ = script;
 
 /* template */
-var __vue_render__ = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"field table-mobile-sort"},[_c('div',{staticClass:"field has-addons"},[_c('b-select',{attrs:{"expanded":""},model:{value:(_vm.mobileSort),callback:function ($$v) {_vm.mobileSort=$$v;},expression:"mobileSort"}},[(_vm.placeholder)?[_c('option',{directives:[{name:"show",rawName:"v-show",value:(_vm.showPlaceholder),expression:"showPlaceholder"}],attrs:{"selected":"","disabled":"","hidden":""},domProps:{"value":{}}},[_vm._v("\r\n                        "+_vm._s(_vm.placeholder)+"\r\n                    ")])]:_vm._e(),_vm._v(" "),_vm._l((_vm.columns),function(column,index){return (column.sortable)?_c('option',{key:index,domProps:{"value":column}},[_vm._v("\r\n                    "+_vm._s(column.label)+"\r\n                ")]):_vm._e()})],2),_vm._v(" "),_c('div',{staticClass:"control"},[_c('button',{staticClass:"button is-primary",on:{"click":_vm.sort}},[_c('b-icon',{directives:[{name:"show",rawName:"v-show",value:(_vm.currentSortColumn === _vm.mobileSort),expression:"currentSortColumn === mobileSort"}],class:{ 'is-desc': !_vm.isAsc },attrs:{"icon":_vm.sortIcon,"pack":_vm.iconPack,"size":_vm.sortIconSize,"both":""}})],1)])],1)])};
+var __vue_render__ = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"field table-mobile-sort"},[_c('div',{staticClass:"field has-addons"},[(_vm.sortMultiple)?_c('b-select',{attrs:{"expanded":""},model:{value:(_vm.sortMultipleSelect),callback:function ($$v) {_vm.sortMultipleSelect=$$v;},expression:"sortMultipleSelect"}},_vm._l((_vm.columns),function(column,index){return (column.sortable)?_c('option',{key:index,domProps:{"value":column}},[_vm._v("\r\n                    "+_vm._s(_vm.getLabel(column))+"\r\n                    "),(_vm.getSortingObjectOfColumn(column))?[(_vm.columnIsDesc(column))?[_vm._v("\r\n                            ↓\r\n                        ")]:[_vm._v("\r\n                            ↑\r\n                        ")]]:_vm._e()],2):_vm._e()})):_c('b-select',{attrs:{"expanded":""},model:{value:(_vm.mobileSort),callback:function ($$v) {_vm.mobileSort=$$v;},expression:"mobileSort"}},[(_vm.placeholder)?[_c('option',{directives:[{name:"show",rawName:"v-show",value:(_vm.showPlaceholder),expression:"showPlaceholder"}],attrs:{"selected":"","disabled":"","hidden":""},domProps:{"value":{}}},[_vm._v("\r\n                        "+_vm._s(_vm.placeholder)+"\r\n                    ")])]:_vm._e(),_vm._v(" "),_vm._l((_vm.columns),function(column,index){return (column.sortable)?_c('option',{key:index,domProps:{"value":column}},[_vm._v("\r\n                    "+_vm._s(column.label)+"\r\n                ")]):_vm._e()})],2),_vm._v(" "),_c('div',{staticClass:"control"},[(_vm.sortMultiple && _vm.sortMultipleData.length > 0)?[_c('button',{staticClass:"button is-primary",on:{"click":_vm.sort}},[_c('b-icon',{class:{ 'is-desc': _vm.columnIsDesc(_vm.sortMultipleSelect) },attrs:{"icon":_vm.sortIcon,"pack":_vm.iconPack,"size":_vm.sortIconSize,"both":""}})],1),_vm._v(" "),_c('button',{staticClass:"button is-primary",on:{"click":_vm.removePriority}},[_c('b-icon',{attrs:{"icon":"delete","size":_vm.sortIconSize,"both":""}})],1)]:(!_vm.sortMultiple)?_c('button',{staticClass:"button is-primary",on:{"click":_vm.sort}},[_c('b-icon',{directives:[{name:"show",rawName:"v-show",value:(_vm.currentSortColumn === _vm.mobileSort),expression:"currentSortColumn === mobileSort"}],class:{ 'is-desc': !_vm.isAsc },attrs:{"icon":_vm.sortIcon,"pack":_vm.iconPack,"size":_vm.sortIconSize,"both":""}})],1):_vm._e()],2)],1)])};
 var __vue_staticRenderFns__ = [];
 
   /* style */
@@ -79,15 +139,19 @@ var __vue_staticRenderFns__ = [];
   
   /* style inject SSR */
   
+  /* style inject shadow dom */
+  
 
   
-  var TableMobileSort = __vue_normalize__(
+  const __vue_component__ = __vue_normalize__(
     { render: __vue_render__, staticRenderFns: __vue_staticRenderFns__ },
     __vue_inject_styles__,
     __vue_script__,
     __vue_scope_id__,
     __vue_is_functional_template__,
     __vue_module_identifier__,
+    false,
+    undefined,
     undefined,
     undefined
   );
@@ -188,15 +252,19 @@ var __vue_staticRenderFns__$1 = [];
   
   /* style inject SSR */
   
+  /* style inject shadow dom */
+  
 
   
-  var TableColumn = __vue_normalize__(
+  const __vue_component__$1 = __vue_normalize__(
     { render: __vue_render__$1, staticRenderFns: __vue_staticRenderFns__$1 },
     __vue_inject_styles__$1,
     __vue_script__$1,
     __vue_scope_id__$1,
     __vue_is_functional_template__$1,
     __vue_module_identifier__$1,
+    false,
+    undefined,
     undefined,
     undefined
   );
@@ -204,7 +272,7 @@ var __vue_staticRenderFns__$1 = [];
 var _components$1;
 var script$2 = {
   name: 'BTable',
-  components: (_components$1 = {}, _defineProperty(_components$1, Checkbox.name, Checkbox), _defineProperty(_components$1, Icon.name, Icon), _defineProperty(_components$1, Input.name, Input), _defineProperty(_components$1, Pagination.name, Pagination), _defineProperty(_components$1, SlotComponent.name, SlotComponent), _defineProperty(_components$1, TableMobileSort.name, TableMobileSort), _defineProperty(_components$1, TableColumn.name, TableColumn), _components$1),
+  components: (_components$1 = {}, _defineProperty(_components$1, Checkbox.name, Checkbox), _defineProperty(_components$1, Icon.name, Icon), _defineProperty(_components$1, Input.name, Input), _defineProperty(_components$1, Pagination.name, Pagination), _defineProperty(_components$1, SlotComponent.name, SlotComponent), _defineProperty(_components$1, __vue_component__.name, __vue_component__), _defineProperty(_components$1, __vue_component__$1.name, __vue_component__$1), _components$1),
   props: {
     data: {
       type: Array,
@@ -268,6 +336,20 @@ var script$2 = {
       type: String,
       default: 'is-small'
     },
+    sortMultiple: {
+      type: Boolean,
+      default: false
+    },
+    sortMultipleData: {
+      type: Array,
+      default: function _default() {
+        return [];
+      }
+    },
+    sortMultipleKey: {
+      type: String,
+      default: null
+    },
     paginated: Boolean,
     currentPage: {
       type: Number,
@@ -291,6 +373,7 @@ var script$2 = {
       }
     },
     backendSorting: Boolean,
+    backendFiltering: Boolean,
     rowClass: {
       type: Function,
       default: function _default() {
@@ -332,10 +415,12 @@ var script$2 = {
     ariaNextLabel: String,
     ariaPreviousLabel: String,
     ariaPageLabel: String,
-    ariaCurrentLabel: String
+    ariaCurrentLabel: String,
+    stickyHeader: Boolean
   },
   data: function data() {
     return {
+      sortMultipleDataLocal: [],
       getValueByPath: getValueByPath,
       newColumns: _toConsumableArray(this.columns),
       visibleDetailRows: this.openedDetailed,
@@ -354,20 +439,26 @@ var script$2 = {
     };
   },
   computed: {
-    /**
-    * return if detailed row tabled
-    * will be with chevron column & icon or not
-    */
-    showDetailRowIcon: function showDetailRowIcon() {
-      return this.detailed && this.showDetailIcon;
+    sortMultipleDataComputed: function sortMultipleDataComputed() {
+      if (this.backendSorting) {
+        return this.sortMultipleData;
+      } else {
+        return this.sortMultipleDataLocal;
+      }
     },
     tableClasses: function tableClasses() {
       return {
         'is-bordered': this.bordered,
         'is-striped': this.striped,
         'is-narrow': this.narrowed,
-        'has-mobile-cards': this.mobileCards,
         'is-hoverable': (this.hoverable || this.focusable) && this.visibleData.length
+      };
+    },
+    tableWrapperClasses: function tableWrapperClasses() {
+      return {
+        'is-loading': this.loading,
+        'has-mobile-cards': this.mobileCards,
+        'has-sticky-header': this.stickyHeader
       };
     },
 
@@ -456,30 +547,27 @@ var script$2 = {
     columnCount: function columnCount() {
       var count = this.newColumns.length;
       count += this.checkable ? 1 : 0;
-      count += this.detailed ? 1 : 0;
+      count += this.detailed && this.showDetailIcon ? 1 : 0;
       return count;
+    },
+
+    /**
+    * return if detailed row tabled
+    * will be with chevron column & icon or not
+    */
+    showDetailRowIcon: function showDetailRowIcon() {
+      return this.detailed && this.showDetailIcon;
     }
   },
   watch: {
     /**
     * When data prop change:
     *   1. Update internal value.
-    *   2. Reset newColumns (thead), in case it's on a v-for loop.
-    *   3. Sort again if it's not backend-sort.
-    *   4. Set new total if it's not backend-paginated.
+    *   2. Sort again if it's not backend-sort.
+    *   3. Set new total if it's not backend-paginated.
     */
     data: function data(value) {
-      var _this3 = this;
-
-      // Save newColumns before resetting
-      var newColumns = this.newColumns;
-      this.newColumns = [];
-      this.newData = value; // Prevent table from being headless, data could change and created hook
-      // on column might not trigger
-
-      this.$nextTick(function () {
-        if (!_this3.newColumns.length) _this3.newColumns = newColumns;
-      });
+      this.newData = value;
 
       if (!this.backendSorting) {
         this.sort(this.currentSortColumn, true);
@@ -514,14 +602,18 @@ var script$2 = {
     },
     filters: {
       handler: function handler(value) {
-        var _this4 = this;
+        var _this3 = this;
 
-        this.newData = this.data.filter(function (row) {
-          return _this4.isRowFiltered(row);
-        });
+        if (this.backendFiltering) {
+          this.$emit('filters-change', value);
+        } else {
+          this.newData = this.data.filter(function (row) {
+            return _this3.isRowFiltered(row);
+          });
 
-        if (!this.backendPagination) {
-          this.newDataTotal = this.newData.length;
+          if (!this.backendPagination) {
+            this.newDataTotal = this.newData.length;
+          }
         }
       },
       deep: true
@@ -539,6 +631,31 @@ var script$2 = {
     }
   },
   methods: {
+    findIndexOfSortData: function findIndexOfSortData(column) {
+      var sortObj = this.sortMultipleDataComputed.filter(function (i) {
+        return i.field === column.field;
+      })[0];
+      return this.sortMultipleDataComputed.indexOf(sortObj) + 1;
+    },
+    removeSortingPriority: function removeSortingPriority(column) {
+      if (this.backendSorting) {
+        this.$emit('sorting-priority-removed', column.field);
+      } else {
+        this.sortMultipleDataLocal = this.sortMultipleDataLocal.filter(function (priority) {
+          return priority.field !== column.field;
+        });
+        var formattedSortingPriority = this.sortMultipleDataLocal.map(function (i) {
+          return (i.order && i.order === 'desc' ? '-' : '') + i.field;
+        });
+        this.newData = multiColumnSort(this.newData, formattedSortingPriority);
+      }
+    },
+    resetMultiSorting: function resetMultiSorting() {
+      this.sortMultipleDataLocal = [];
+      this.currentSortColumn = {};
+      this.newData = this.data;
+    },
+
     /**
     * Sort an array by key without mutating original data.
     * Call the user sort function if it was passed.
@@ -571,6 +688,29 @@ var script$2 = {
 
       return sorted;
     },
+    sortMultiColumn: function sortMultiColumn(column) {
+      this.currentSortColumn = {};
+
+      if (!this.backendSorting) {
+        var existingPriority = this.sortMultipleDataLocal.filter(function (i) {
+          return i.field === column.field;
+        })[0];
+
+        if (existingPriority) {
+          existingPriority.order = existingPriority.order === 'desc' ? 'asc' : 'desc';
+        } else {
+          this.sortMultipleDataLocal.push({
+            field: column.field,
+            order: column.isAsc
+          });
+        }
+
+        var formattedSortingPriority = this.sortMultipleDataLocal.map(function (i) {
+          return (i.order && i.order === 'desc' ? '-' : '') + i.field;
+        });
+        this.newData = multiColumnSort(this.newData, formattedSortingPriority);
+      }
+    },
 
     /**
     * Sort the column.
@@ -579,21 +719,33 @@ var script$2 = {
     */
     sort: function sort(column) {
       var updatingData = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : false;
-      if (!column || !column.sortable) return;
+      var event = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : null;
 
-      if (!updatingData) {
-        this.isAsc = column === this.currentSortColumn ? !this.isAsc : this.defaultSortDirection.toLowerCase() !== 'desc';
+      if ( // if backend sorting is enabled, just emit the sort press like usual
+      // if the correct key combination isnt pressed, sort like usual
+      !this.backendSorting && this.sortMultiple && (this.sortMultipleKey && event[this.sortMultipleKey] || !this.sortMultipleKey)) {
+        this.sortMultiColumn(column);
+      } else {
+        if (!column || !column.sortable) return; // sort multiple is enabled but the correct key combination isnt pressed so reset
+
+        if (this.sortMultiple) {
+          this.sortMultipleDataLocal = [];
+        }
+
+        if (!updatingData) {
+          this.isAsc = column === this.currentSortColumn ? !this.isAsc : this.defaultSortDirection.toLowerCase() !== 'desc';
+        }
+
+        if (!this.firstTimeSort) {
+          this.$emit('sort', column.field, this.isAsc ? 'asc' : 'desc', event);
+        }
+
+        if (!this.backendSorting) {
+          this.newData = this.sortBy(this.newData, column.field, column.customSort, this.isAsc);
+        }
+
+        this.currentSortColumn = column;
       }
-
-      if (!this.firstTimeSort) {
-        this.$emit('sort', column.field, this.isAsc ? 'asc' : 'desc');
-      }
-
-      if (!this.backendSorting) {
-        this.newData = this.sortBy(this.newData, column.field, column.customSort, this.isAsc);
-      }
-
-      this.currentSortColumn = column;
     },
 
     /**
@@ -619,15 +771,17 @@ var script$2 = {
     * Add or remove all rows in current page.
     */
     checkAll: function checkAll() {
-      var _this5 = this;
+      var _this4 = this;
 
       var isAllChecked = this.isAllChecked;
       this.visibleData.forEach(function (currentRow) {
-        _this5.removeCheckedRow(currentRow);
+        if (_this4.isRowCheckable(currentRow)) {
+          _this4.removeCheckedRow(currentRow);
+        }
 
         if (!isAllChecked) {
-          if (_this5.isRowCheckable(currentRow)) {
-            _this5.newCheckedRows.push(currentRow);
+          if (_this4.isRowCheckable(currentRow)) {
+            _this4.newCheckedRows.push(currentRow);
           }
         }
       });
@@ -662,17 +816,17 @@ var script$2 = {
      * Check row when shift is pressed.
      */
     shiftCheckRow: function shiftCheckRow(row, index, lastCheckedRowIndex) {
-      var _this6 = this;
+      var _this5 = this;
 
       // Get the subset of the list between the two indicies
       var subset = this.visibleData.slice(Math.min(index, lastCheckedRowIndex), Math.max(index, lastCheckedRowIndex) + 1); // Determine the operation based on the state of the clicked checkbox
 
       var shouldCheck = !this.isRowChecked(row);
       subset.forEach(function (item) {
-        _this6.removeCheckedRow(item);
+        _this5.removeCheckedRow(item);
 
-        if (shouldCheck && _this6.isRowCheckable(item)) {
-          _this6.newCheckedRows.push(item);
+        if (shouldCheck && _this5.isRowCheckable(item)) {
+          _this5.newCheckedRows.push(item);
         }
       });
     },
@@ -834,7 +988,7 @@ var script$2 = {
     * Initial sorted column based on the default-sort prop.
     */
     initSort: function initSort() {
-      var _this7 = this;
+      var _this6 = this;
 
       if (!this.defaultSort) return;
       var sortField = '';
@@ -852,9 +1006,9 @@ var script$2 = {
 
       this.newColumns.forEach(function (column) {
         if (column.field === sortField) {
-          _this7.isAsc = sortDirection.toLowerCase() !== 'desc';
+          _this6.isAsc = sortDirection.toLowerCase() !== 'desc';
 
-          _this7.sort(column, true);
+          _this6.sort(column, true);
         }
       });
     },
@@ -924,16 +1078,22 @@ var script$2 = {
 const __vue_script__$2 = script$2;
 
 /* template */
-var __vue_render__$2 = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"b-table",class:{ 'is-loading': _vm.loading }},[(_vm.mobileCards && _vm.hasSortablenewColumns)?_c('b-table-mobile-sort',{attrs:{"current-sort-column":_vm.currentSortColumn,"is-asc":_vm.isAsc,"columns":_vm.newColumns,"placeholder":_vm.mobileSortPlaceholder,"icon-pack":_vm.iconPack,"sort-icon":_vm.sortIcon,"sort-icon-size":_vm.sortIconSize},on:{"sort":function (column) { return _vm.sort(column); }}}):_vm._e(),_vm._v(" "),(_vm.paginated && (_vm.paginationPosition === 'top' || _vm.paginationPosition === 'both'))?_c('div',{staticClass:"top level"},[_c('div',{staticClass:"level-left"},[_vm._t("top-left")],2),_vm._v(" "),_c('div',{staticClass:"level-right"},[(_vm.paginated)?_c('div',{staticClass:"level-item"},[_c('b-pagination',{attrs:{"icon-pack":_vm.iconPack,"total":_vm.newDataTotal,"per-page":_vm.perPage,"simple":_vm.paginationSimple,"size":_vm.paginationSize,"current":_vm.newCurrentPage,"aria-next-label":_vm.ariaNextLabel,"aria-previous-label":_vm.ariaPreviousLabel,"aria-page-label":_vm.ariaPageLabel,"aria-current-label":_vm.ariaCurrentLabel},on:{"change":_vm.pageChanged}})],1):_vm._e()])]):_vm._e(),_vm._v(" "),_c('div',{staticClass:"table-wrapper"},[_c('table',{staticClass:"table",class:_vm.tableClasses,attrs:{"tabindex":!_vm.focusable ? false : 0},on:{"keydown":[function($event){if(!('button' in $event)&&_vm._k($event.keyCode,"up",38,$event.key,["Up","ArrowUp"])){ return null; }if($event.target !== $event.currentTarget){ return null; }$event.preventDefault();_vm.pressedArrow(-1);},function($event){if(!('button' in $event)&&_vm._k($event.keyCode,"down",40,$event.key,["Down","ArrowDown"])){ return null; }if($event.target !== $event.currentTarget){ return null; }$event.preventDefault();_vm.pressedArrow(1);}]}},[(_vm.newColumns.length)?_c('thead',[_c('tr',[(_vm.showDetailRowIcon)?_c('th',{attrs:{"width":"40px"}}):_vm._e(),_vm._v(" "),(_vm.checkable && _vm.checkboxPosition === 'left')?_c('th',{staticClass:"checkbox-cell"},[(_vm.headerCheckable)?[_c('b-checkbox',{attrs:{"value":_vm.isAllChecked,"disabled":_vm.isAllUncheckable},nativeOn:{"change":function($event){return _vm.checkAll($event)}}})]:_vm._e()],2):_vm._e(),_vm._v(" "),_vm._l((_vm.visibleColumns),function(column,index){return _c('th',{key:index,class:{
+var __vue_render__$2 = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"b-table",class:_vm.tableWrapperClasses},[(_vm.mobileCards && _vm.hasSortablenewColumns)?_c('b-table-mobile-sort',{attrs:{"current-sort-column":_vm.currentSortColumn,"sort-multiple":_vm.sortMultiple,"sort-multiple-data":_vm.sortMultipleDataComputed,"is-asc":_vm.isAsc,"columns":_vm.newColumns,"placeholder":_vm.mobileSortPlaceholder,"icon-pack":_vm.iconPack,"sort-icon":_vm.sortIcon,"sort-icon-size":_vm.sortIconSize},on:{"sort":function (column, event) { return _vm.sort(column, null, event); },"removePriority":function (column) { return _vm.removeSortingPriority(column); }}}):_vm._e(),_vm._v(" "),(_vm.paginated && (_vm.paginationPosition === 'top' || _vm.paginationPosition === 'both'))?_c('div',{staticClass:"top level"},[_c('div',{staticClass:"level-left"},[_vm._t("top-left")],2),_vm._v(" "),_c('div',{staticClass:"level-right"},[(_vm.paginated)?_c('div',{staticClass:"level-item"},[_c('b-pagination',{attrs:{"icon-pack":_vm.iconPack,"total":_vm.newDataTotal,"per-page":_vm.perPage,"simple":_vm.paginationSimple,"size":_vm.paginationSize,"current":_vm.newCurrentPage,"aria-next-label":_vm.ariaNextLabel,"aria-previous-label":_vm.ariaPreviousLabel,"aria-page-label":_vm.ariaPageLabel,"aria-current-label":_vm.ariaCurrentLabel},on:{"change":_vm.pageChanged}})],1):_vm._e()])]):_vm._e(),_vm._v(" "),_c('div',{staticClass:"table-wrapper"},[_c('table',{staticClass:"table",class:_vm.tableClasses,attrs:{"tabindex":!_vm.focusable ? false : 0},on:{"keydown":[function($event){if(!('button' in $event)&&_vm._k($event.keyCode,"up",38,$event.key,["Up","ArrowUp"])){ return null; }if($event.target !== $event.currentTarget){ return null; }$event.preventDefault();_vm.pressedArrow(-1);},function($event){if(!('button' in $event)&&_vm._k($event.keyCode,"down",40,$event.key,["Down","ArrowDown"])){ return null; }if($event.target !== $event.currentTarget){ return null; }$event.preventDefault();_vm.pressedArrow(1);}]}},[(_vm.newColumns.length)?_c('thead',[_c('tr',[(_vm.showDetailRowIcon)?_c('th',{attrs:{"width":"40px"}}):_vm._e(),_vm._v(" "),(_vm.checkable && _vm.checkboxPosition === 'left')?_c('th',{staticClass:"checkbox-cell"},[(_vm.headerCheckable)?[_c('b-checkbox',{attrs:{"value":_vm.isAllChecked,"disabled":_vm.isAllUncheckable},nativeOn:{"change":function($event){return _vm.checkAll($event)}}})]:_vm._e()],2):_vm._e(),_vm._v(" "),_vm._l((_vm.visibleColumns),function(column,index){return _c('th',{key:index,class:{
                                 'is-current-sort': _vm.currentSortColumn === column,
                                 'is-sortable': column.sortable
                             },style:({
                                 width: column.width === undefined ? null :
                                 (isNaN(column.width) ? column.width : column.width + 'px')
-                            }),on:{"click":function($event){$event.stopPropagation();_vm.sort(column);}}},[_c('div',{staticClass:"th-wrap",class:{
+                            }),on:{"click":function($event){$event.stopPropagation();_vm.sort(column, null, $event);}}},[_c('div',{staticClass:"th-wrap",class:{
                                     'is-numeric': column.numeric,
                                     'is-centered': column.centered
-                            }},[(column.$scopedSlots && column.$scopedSlots.header)?[_c('b-slot-component',{attrs:{"component":column,"scoped":true,"name":"header","tag":"span","props":{ column: column, index: index }}})]:(_vm.$scopedSlots.header)?[_vm._t("header",null,{column:column,index:index})]:[_vm._v(_vm._s(column.label))],_vm._v(" "),_c('b-icon',{directives:[{name:"show",rawName:"v-show",value:(_vm.currentSortColumn === column),expression:"currentSortColumn === column"}],class:{ 'is-desc': !_vm.isAsc },attrs:{"icon":_vm.sortIcon,"pack":_vm.iconPack,"both":"","size":_vm.sortIconSize}})],2)])}),_vm._v(" "),(_vm.checkable && _vm.checkboxPosition === 'right')?_c('th',{staticClass:"checkbox-cell"},[(_vm.headerCheckable)?[_c('b-checkbox',{attrs:{"value":_vm.isAllChecked,"disabled":_vm.isAllUncheckable},nativeOn:{"change":function($event){return _vm.checkAll($event)}}})]:_vm._e()],2):_vm._e()],2),_vm._v(" "),(_vm.hasCustomSubheadings)?_c('tr',{staticClass:"is-subheading"},[(_vm.showDetailRowIcon)?_c('th',{attrs:{"width":"40px"}}):_vm._e(),_vm._v(" "),(_vm.checkable && _vm.checkboxPosition === 'left')?_c('th'):_vm._e(),_vm._v(" "),_vm._l((_vm.visibleColumns),function(column,index){return _c('th',{key:index,style:({
+                            }},[(column.$scopedSlots && column.$scopedSlots.header)?[_c('b-slot-component',{attrs:{"component":column,"scoped":true,"name":"header","tag":"span","props":{ column: column, index: index }}})]:(_vm.$scopedSlots.header)?[_vm._t("header",null,{column:column,index:index})]:[_vm._v(_vm._s(column.label))],_vm._v(" "),(_vm.sortMultiple &&
+                                        _vm.sortMultipleDataComputed &&
+                                        _vm.sortMultipleDataComputed.length > 0 &&
+                                        _vm.sortMultipleDataComputed.filter(function (i) { return i.field === column.field; }).length > 0)?[_c('b-icon',{class:{ 'is-desc': _vm.sortMultipleDataComputed.filter(function (i) { return i.field === column.field; })[0].order === 'desc'},attrs:{"icon":_vm.sortIcon,"pack":_vm.iconPack,"both":"","size":_vm.sortIconSize}}),_vm._v("\r\n                                    "+_vm._s(_vm.findIndexOfSortData(column))+"\r\n                                    "),_c('button',{staticClass:"delete is-small multi-sort-cancel-icon",attrs:{"type":"button"},on:{"click":function($event){$event.stopPropagation();_vm.removeSortingPriority(column);}}})]:_c('b-icon',{class:{
+                                        'is-desc': !_vm.isAsc,
+                                        'is-invisible': _vm.currentSortColumn !== column
+                                    },attrs:{"icon":_vm.sortIcon,"pack":_vm.iconPack,"both":"","size":_vm.sortIconSize}})],2)])}),_vm._v(" "),(_vm.checkable && _vm.checkboxPosition === 'right')?_c('th',{staticClass:"checkbox-cell"},[(_vm.headerCheckable)?[_c('b-checkbox',{attrs:{"value":_vm.isAllChecked,"disabled":_vm.isAllUncheckable},nativeOn:{"change":function($event){return _vm.checkAll($event)}}})]:_vm._e()],2):_vm._e()],2),_vm._v(" "),(_vm.hasCustomSubheadings)?_c('tr',{staticClass:"is-subheading"},[(_vm.showDetailRowIcon)?_c('th',{attrs:{"width":"40px"}}):_vm._e(),_vm._v(" "),(_vm.checkable && _vm.checkboxPosition === 'left')?_c('th'):_vm._e(),_vm._v(" "),_vm._l((_vm.visibleColumns),function(column,index){return _c('th',{key:index,style:({
                                 width: column.width === undefined ? null
                             : (isNaN(column.width) ? column.width : column.width + 'px') })},[_c('div',{staticClass:"th-wrap",class:{
                                     'is-numeric': column.numeric,
@@ -943,7 +1103,7 @@ var __vue_render__$2 = function () {var _vm=this;var _h=_vm.$createElement;var _
                             : (isNaN(column.width) ? column.width : column.width + 'px') })},[_c('div',{staticClass:"th-wrap"},[(column.searchable)?[_c('b-input',{attrs:{"type":column.numeric ? 'number' : 'text'},model:{value:(_vm.filters[column.field]),callback:function ($$v) {_vm.$set(_vm.filters, column.field, $$v);},expression:"filters[column.field]"}})]:_vm._e()],2)])}),_vm._v(" "),(_vm.checkable && _vm.checkboxPosition === 'right')?_c('th'):_vm._e()],2):_vm._e()]):_vm._e(),_vm._v(" "),(_vm.visibleData.length)?_c('tbody',[_vm._l((_vm.visibleData),function(row,index){return [_c('tr',{key:_vm.customRowKey ? row[_vm.customRowKey] : index,class:[_vm.rowClass(row, index), {
                                 'is-selected': row === _vm.selected,
                                 'is-checked': _vm.isRowChecked(row),
-                            }],attrs:{"draggable":_vm.draggable},on:{"click":function($event){_vm.selectRow(row);},"dblclick":function($event){_vm.$emit('dblclick', row);},"mouseenter":function($event){_vm.$emit('mouseenter', row);},"mouseleave":function($event){_vm.$emit('mouseleave', row);},"contextmenu":function($event){_vm.$emit('contextmenu', row, $event);},"dragstart":function($event){_vm.handleDragStart($event, row, index);},"dragend":function($event){_vm.handleDragEnd($event, row, index);},"drop":function($event){_vm.handleDrop($event, row, index);},"dragover":function($event){_vm.handleDragOver($event, row, index);},"dragleave":function($event){_vm.handleDragLeave($event, row, index);}}},[(_vm.showDetailRowIcon)?_c('td',{staticClass:"chevron-cell"},[(_vm.hasDetailedVisible(row))?_c('a',{attrs:{"role":"button"},on:{"click":function($event){$event.stopPropagation();_vm.toggleDetails(row);}}},[_c('b-icon',{class:{'is-expanded': _vm.isVisibleDetailRow(row)},attrs:{"icon":"chevron-right","pack":_vm.iconPack,"both":""}})],1):_vm._e()]):_vm._e(),_vm._v(" "),(_vm.checkable && _vm.checkboxPosition === 'left')?_c('td',{staticClass:"checkbox-cell"},[_c('b-checkbox',{attrs:{"disabled":!_vm.isRowCheckable(row),"value":_vm.isRowChecked(row)},nativeOn:{"click":function($event){$event.preventDefault();$event.stopPropagation();_vm.checkRow(row, index, $event);}}})],1):_vm._e(),_vm._v(" "),(_vm.$scopedSlots.default)?_vm._t("default",null,{row:row,index:index}):_vm._l((_vm.newColumns),function(column){return _c('BTableColumn',_vm._b({key:column.field,attrs:{"internal":""}},'BTableColumn',column,false),[(column.renderHtml)?_c('span',{domProps:{"innerHTML":_vm._s(_vm.getValueByPath(row, column.field))}}):[_vm._v("\r\n                                        "+_vm._s(_vm.getValueByPath(row, column.field))+"\r\n                                    ")]],2)}),_vm._v(" "),(_vm.checkable && _vm.checkboxPosition === 'right')?_c('td',{staticClass:"checkbox-cell"},[_c('b-checkbox',{attrs:{"disabled":!_vm.isRowCheckable(row),"value":_vm.isRowChecked(row)},nativeOn:{"click":function($event){$event.preventDefault();$event.stopPropagation();_vm.checkRow(row, index, $event);}}})],1):_vm._e()],2),_vm._v(" "),(_vm.isActiveDetailRow(row))?_c('tr',{staticClass:"detail"},[_c('td',{attrs:{"colspan":_vm.columnCount}},[_c('div',{staticClass:"detail-container"},[_vm._t("detail",null,{row:row,index:index})],2)])]):_vm._e(),_vm._v(" "),(_vm.isActiveCustomDetailRow(row))?_vm._t("detail",null,{row:row,index:index}):_vm._e()]})],2):_c('tbody',[_c('tr',{staticClass:"is-empty"},[_c('td',{attrs:{"colspan":_vm.columnCount}},[_vm._t("empty")],2)])]),_vm._v(" "),(_vm.$slots.footer !== undefined)?_c('tfoot',[_c('tr',{staticClass:"table-footer"},[(_vm.hasCustomFooterSlot())?_vm._t("footer"):_c('th',{attrs:{"colspan":_vm.columnCount}},[_vm._t("footer")],2)],2)]):_vm._e()])]),_vm._v(" "),((_vm.checkable && _vm.hasBottomLeftSlot()) ||
+                            }],attrs:{"draggable":_vm.draggable},on:{"click":function($event){_vm.selectRow(row);},"dblclick":function($event){_vm.$emit('dblclick', row);},"mouseenter":function($event){_vm.$listeners.mouseenter ? _vm.$emit('mouseenter', row) : null;},"mouseleave":function($event){_vm.$listeners.mouseleave ? _vm.$emit('mouseleave', row) : null;},"contextmenu":function($event){_vm.$emit('contextmenu', row, $event);},"dragstart":function($event){_vm.handleDragStart($event, row, index);},"dragend":function($event){_vm.handleDragEnd($event, row, index);},"drop":function($event){_vm.handleDrop($event, row, index);},"dragover":function($event){_vm.handleDragOver($event, row, index);},"dragleave":function($event){_vm.handleDragLeave($event, row, index);}}},[(_vm.showDetailRowIcon)?_c('td',{staticClass:"chevron-cell"},[(_vm.hasDetailedVisible(row))?_c('a',{attrs:{"role":"button"},on:{"click":function($event){$event.stopPropagation();_vm.toggleDetails(row);}}},[_c('b-icon',{class:{'is-expanded': _vm.isVisibleDetailRow(row)},attrs:{"icon":"chevron-right","pack":_vm.iconPack,"both":""}})],1):_vm._e()]):_vm._e(),_vm._v(" "),(_vm.checkable && _vm.checkboxPosition === 'left')?_c('td',{staticClass:"checkbox-cell"},[_c('b-checkbox',{attrs:{"disabled":!_vm.isRowCheckable(row),"value":_vm.isRowChecked(row)},nativeOn:{"click":function($event){$event.preventDefault();$event.stopPropagation();_vm.checkRow(row, index, $event);}}})],1):_vm._e(),_vm._v(" "),(_vm.$scopedSlots.default)?_vm._t("default",null,{row:row,index:index}):_vm._l((_vm.newColumns),function(column){return _c('BTableColumn',_vm._b({key:column.field,attrs:{"internal":""}},'BTableColumn',column,false),[(column.renderHtml)?_c('span',{domProps:{"innerHTML":_vm._s(_vm.getValueByPath(row, column.field))}}):[_vm._v("\r\n                                        "+_vm._s(_vm.getValueByPath(row, column.field))+"\r\n                                    ")]],2)}),_vm._v(" "),(_vm.checkable && _vm.checkboxPosition === 'right')?_c('td',{staticClass:"checkbox-cell"},[_c('b-checkbox',{attrs:{"disabled":!_vm.isRowCheckable(row),"value":_vm.isRowChecked(row)},nativeOn:{"click":function($event){$event.preventDefault();$event.stopPropagation();_vm.checkRow(row, index, $event);}}})],1):_vm._e()],2),_vm._v(" "),(_vm.isActiveDetailRow(row))?_c('tr',{staticClass:"detail"},[_c('td',{attrs:{"colspan":_vm.columnCount}},[_c('div',{staticClass:"detail-container"},[_vm._t("detail",null,{row:row,index:index})],2)])]):_vm._e(),_vm._v(" "),(_vm.isActiveCustomDetailRow(row))?_vm._t("detail",null,{row:row,index:index}):_vm._e()]})],2):_c('tbody',[_c('tr',{staticClass:"is-empty"},[_c('td',{attrs:{"colspan":_vm.columnCount}},[_vm._t("empty")],2)])]),_vm._v(" "),(_vm.$slots.footer !== undefined)?_c('tfoot',[_c('tr',{staticClass:"table-footer"},[(_vm.hasCustomFooterSlot())?_vm._t("footer"):_c('th',{attrs:{"colspan":_vm.columnCount}},[_vm._t("footer")],2)],2)]):_vm._e()])]),_vm._v(" "),((_vm.checkable && _vm.hasBottomLeftSlot()) ||
             (_vm.paginated && (_vm.paginationPosition === 'bottom' || _vm.paginationPosition === 'both')))?_c('div',{staticClass:"level"},[_c('div',{staticClass:"level-left"},[_vm._t("bottom-left")],2),_vm._v(" "),_c('div',{staticClass:"level-right"},[(_vm.paginated)?_c('div',{staticClass:"level-item"},[_c('b-pagination',{attrs:{"icon-pack":_vm.iconPack,"total":_vm.newDataTotal,"per-page":_vm.perPage,"simple":_vm.paginationSimple,"size":_vm.paginationSize,"current":_vm.newCurrentPage,"aria-next-label":_vm.ariaNextLabel,"aria-previous-label":_vm.ariaPreviousLabel,"aria-page-label":_vm.ariaPageLabel,"aria-current-label":_vm.ariaCurrentLabel},on:{"change":_vm.pageChanged}})],1):_vm._e()])]):_vm._e()],1)};
 var __vue_staticRenderFns__$2 = [];
 
@@ -959,26 +1119,30 @@ var __vue_staticRenderFns__$2 = [];
   
   /* style inject SSR */
   
+  /* style inject shadow dom */
+  
 
   
-  var Table = __vue_normalize__(
+  const __vue_component__$2 = __vue_normalize__(
     { render: __vue_render__$2, staticRenderFns: __vue_staticRenderFns__$2 },
     __vue_inject_styles__$2,
     __vue_script__$2,
     __vue_scope_id__$2,
     __vue_is_functional_template__$2,
     __vue_module_identifier__$2,
+    false,
+    undefined,
     undefined,
     undefined
   );
 
 var Plugin = {
   install: function install(Vue) {
-    registerComponent(Vue, Table);
-    registerComponent(Vue, TableColumn);
+    registerComponent(Vue, __vue_component__$2);
+    registerComponent(Vue, __vue_component__$1);
   }
 };
 use(Plugin);
 
 export default Plugin;
-export { Table as BTable, TableColumn as BTableColumn };
+export { __vue_component__$2 as BTable, __vue_component__$1 as BTableColumn };

@@ -62,7 +62,7 @@ var script = {
       }
 
       if (this.format === 'percent') {
-        var _val = this.toFixed(this.value * this.max / 100);
+        var _val = this.toFixed(this.value * 100 / this.max);
 
         return "".concat(_val, "%");
       }
@@ -123,25 +123,29 @@ var __vue_staticRenderFns__ = [];
   
   /* style inject SSR */
   
+  /* style inject shadow dom */
+  
 
   
-  var Progress = __vue_normalize__(
+  const __vue_component__ = __vue_normalize__(
     { render: __vue_render__, staticRenderFns: __vue_staticRenderFns__ },
     __vue_inject_styles__,
     __vue_script__,
     __vue_scope_id__,
     __vue_is_functional_template__,
     __vue_module_identifier__,
+    false,
+    undefined,
     undefined,
     undefined
   );
 
 var Plugin = {
   install: function install(Vue) {
-    registerComponent(Vue, Progress);
+    registerComponent(Vue, __vue_component__);
   }
 };
 use(Plugin);
 
 export default Plugin;
-export { Progress as BProgress };
+export { __vue_component__ as BProgress };

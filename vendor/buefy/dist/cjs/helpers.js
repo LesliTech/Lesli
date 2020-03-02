@@ -2,7 +2,7 @@
 
 Object.defineProperty(exports, '__esModule', { value: true });
 
-var __chunk_1 = require('./chunk-f98e7e80.js');
+var __chunk_1 = require('./chunk-5094d8df.js');
 
 /**
  * +/- function to native math sign
@@ -95,7 +95,7 @@ var isMobile = {
 function removeElement(el) {
   if (typeof el.remove !== 'undefined') {
     el.remove();
-  } else if (typeof el.parentNode !== 'undefined') {
+  } else if (typeof el.parentNode !== 'undefined' && el.parentNode !== null) {
     el.parentNode.removeChild(el);
   }
 }
@@ -109,11 +109,35 @@ function escapeRegExpChars(value) {
 
   return value.replace(/[\-\[\]\/\{\}\(\)\*\+\?\.\\\^\$\|]/g, '\\$&');
 }
+function multiColumnSort(inputArray, sortingPriority) {
+  // clone it to prevent the any watchers from triggering every sorting iteration
+  var array = JSON.parse(JSON.stringify(inputArray));
+
+  var fieldSorter = function fieldSorter(fields) {
+    return function (a, b) {
+      return fields.map(function (o) {
+        var dir = 1;
+
+        if (o[0] === '-') {
+          dir = -1;
+          o = o.substring(1);
+        }
+
+        return a[o] > b[o] ? dir : a[o] < b[o] ? -dir : 0;
+      }).reduce(function (p, n) {
+        return p || n;
+      }, 0);
+    };
+  };
+
+  return array.sort(fieldSorter(sortingPriority));
+}
 
 exports.escapeRegExpChars = escapeRegExpChars;
 exports.getValueByPath = getValueByPath;
 exports.indexOf = indexOf;
 exports.isMobile = isMobile;
 exports.merge = merge;
+exports.multiColumnSort = multiColumnSort;
 exports.removeElement = removeElement;
 exports.sign = sign;

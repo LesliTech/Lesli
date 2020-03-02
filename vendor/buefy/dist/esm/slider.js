@@ -1,7 +1,7 @@
-import { _ as _defineProperty, c as _toConsumableArray } from './chunk-b91774bc.js';
-import './chunk-b76a6c1d.js';
+import { _ as _defineProperty, c as _toConsumableArray } from './chunk-6ea13200.js';
+import './chunk-17222463.js';
 import { _ as __vue_normalize__, r as registerComponent, u as use } from './chunk-cca88db8.js';
-import { T as Tooltip } from './chunk-471df6de.js';
+import { T as Tooltip } from './chunk-16a0b379.js';
 
 var script = {
   name: 'BSliderThumb',
@@ -186,15 +186,19 @@ var __vue_staticRenderFns__ = [];
   
   /* style inject SSR */
   
+  /* style inject shadow dom */
+  
 
   
-  var SliderThumb = __vue_normalize__(
+  const __vue_component__ = __vue_normalize__(
     { render: __vue_render__, staticRenderFns: __vue_staticRenderFns__ },
     __vue_inject_styles__,
     __vue_script__,
     __vue_scope_id__,
     __vue_is_functional_template__,
     __vue_module_identifier__,
+    false,
+    undefined,
     undefined,
     undefined
   );
@@ -261,15 +265,19 @@ var __vue_staticRenderFns__$1 = [];
   
   /* style inject SSR */
   
+  /* style inject shadow dom */
+  
 
   
-  var SliderTick = __vue_normalize__(
+  const __vue_component__$1 = __vue_normalize__(
     { render: __vue_render__$1, staticRenderFns: __vue_staticRenderFns__$1 },
     __vue_inject_styles__$1,
     __vue_script__$1,
     __vue_scope_id__$1,
     __vue_is_functional_template__$1,
     __vue_module_identifier__$1,
+    false,
+    undefined,
     undefined,
     undefined
   );
@@ -277,7 +285,7 @@ var __vue_staticRenderFns__$1 = [];
 var _components;
 var script$2 = {
   name: 'BSlider',
-  components: (_components = {}, _defineProperty(_components, SliderThumb.name, SliderThumb), _defineProperty(_components, SliderTick.name, SliderTick), _components),
+  components: (_components = {}, _defineProperty(_components, __vue_component__.name, __vue_component__), _defineProperty(_components, __vue_component__$1.name, __vue_component__$1), _components),
   props: {
     value: {
       type: [Number, Array],
@@ -508,26 +516,30 @@ var __vue_staticRenderFns__$2 = [];
   
   /* style inject SSR */
   
+  /* style inject shadow dom */
+  
 
   
-  var Slider = __vue_normalize__(
+  const __vue_component__$2 = __vue_normalize__(
     { render: __vue_render__$2, staticRenderFns: __vue_staticRenderFns__$2 },
     __vue_inject_styles__$2,
     __vue_script__$2,
     __vue_scope_id__$2,
     __vue_is_functional_template__$2,
     __vue_module_identifier__$2,
+    false,
+    undefined,
     undefined,
     undefined
   );
 
 var Plugin = {
   install: function install(Vue) {
-    registerComponent(Vue, Slider);
-    registerComponent(Vue, SliderTick);
+    registerComponent(Vue, __vue_component__$2);
+    registerComponent(Vue, __vue_component__$1);
   }
 };
 use(Plugin);
 
 export default Plugin;
-export { Slider as BSlider, SliderTick as BSliderTick };
+export { __vue_component__$2 as BSlider, __vue_component__$1 as BSliderTick };

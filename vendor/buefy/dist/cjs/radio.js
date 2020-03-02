@@ -30,15 +30,19 @@ var __vue_staticRenderFns__ = [];
   
   /* style inject SSR */
   
+  /* style inject shadow dom */
+  
 
   
-  var Radio = __chunk_5.__vue_normalize__(
+  const __vue_component__ = __chunk_5.__vue_normalize__(
     { render: __vue_render__, staticRenderFns: __vue_staticRenderFns__ },
     __vue_inject_styles__,
     __vue_script__,
     __vue_scope_id__,
     __vue_is_functional_template__,
     __vue_module_identifier__,
+    false,
+    undefined,
     undefined,
     undefined
   );
@@ -83,27 +87,31 @@ var __vue_staticRenderFns__$1 = [];
   
   /* style inject SSR */
   
+  /* style inject shadow dom */
+  
 
   
-  var RadioButton = __chunk_5.__vue_normalize__(
+  const __vue_component__$1 = __chunk_5.__vue_normalize__(
     { render: __vue_render__$1, staticRenderFns: __vue_staticRenderFns__$1 },
     __vue_inject_styles__$1,
     __vue_script__$1,
     __vue_scope_id__$1,
     __vue_is_functional_template__$1,
     __vue_module_identifier__$1,
+    false,
+    undefined,
     undefined,
     undefined
   );
 
 var Plugin = {
   install: function install(Vue) {
-    __chunk_5.registerComponent(Vue, Radio);
-    __chunk_5.registerComponent(Vue, RadioButton);
+    __chunk_5.registerComponent(Vue, __vue_component__);
+    __chunk_5.registerComponent(Vue, __vue_component__$1);
   }
 };
 __chunk_5.use(Plugin);
 
-exports.BRadio = Radio;
-exports.BRadioButton = RadioButton;
+exports.BRadio = __vue_component__;
+exports.BRadioButton = __vue_component__$1;
 exports.default = Plugin;

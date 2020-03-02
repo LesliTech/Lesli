@@ -1,4 +1,4 @@
-/*! Buefy v0.8.9 | MIT License | github.com/buefy/buefy */
+/*! Buefy v0.8.12 | MIT License | github.com/buefy/buefy */
 .is-noscroll {
   position: fixed;
   overflow-y: hidden;
@@ -12358,19 +12358,52 @@ label.panel-block:hover {
   border-top-right-radius: 0;
 }
 
-.field.is-floating-label {
+.field.is-floating-label, .field.is-floating-in-label {
   position: relative;
 }
 
-.field.is-floating-label .label {
+.field.is-floating-label .label, .field.is-floating-in-label .label {
   position: absolute;
-  top: -0.775em;
   left: 1em;
   font-size: calc(1rem * 3 / 4);
   background-color: transparent;
+  z-index: 5;
+}
+
+.field.is-floating-label .label.is-small, .field.is-floating-in-label .label.is-small {
+  font-size: calc(0.75rem * 3 / 4);
+}
+
+.field.is-floating-label .label.is-medium, .field.is-floating-in-label .label.is-medium {
+  font-size: calc(1.25rem * 3 / 4);
+}
+
+.field.is-floating-label .label.is-large, .field.is-floating-in-label .label.is-large {
+  font-size: calc(1.5rem * 3 / 4);
+}
+
+.field.is-floating-label .taginput .counter, .field.is-floating-in-label .taginput .counter {
+  float: none;
+  text-align: right;
+}
+
+.field.is-floating-label.has-addons > .label + .control .button,
+.field.is-floating-label.has-addons > .label + .control .input,
+.field.is-floating-label.has-addons > .label + .control .taginput .taginput-container.is-focusable,
+.taginput .field.is-floating-label.has-addons > .label + .control .taginput-container.is-focusable,
+.field.is-floating-label.has-addons > .label + .control .select select, .field.is-floating-in-label.has-addons > .label + .control .button,
+.field.is-floating-in-label.has-addons > .label + .control .input,
+.field.is-floating-in-label.has-addons > .label + .control .taginput .taginput-container.is-focusable,
+.taginput .field.is-floating-in-label.has-addons > .label + .control .taginput-container.is-focusable,
+.field.is-floating-in-label.has-addons > .label + .control .select select {
+  border-bottom-left-radius: 4px;
+  border-top-left-radius: 4px;
+}
+
+.field.is-floating-label .label {
+  top: -0.775em;
   padding-left: 0.125em;
   padding-right: 0.125em;
-  z-index: 5;
 }
 
 .field.is-floating-label .label:before {
@@ -12383,18 +12416,6 @@ label.panel-block:hover {
   height: 0.375em;
   background-color: white;
   z-index: -1;
-}
-
-.field.is-floating-label .label.is-small {
-  font-size: calc(0.75rem * 3 / 4);
-}
-
-.field.is-floating-label .label.is-medium {
-  font-size: calc(1.25rem * 3 / 4);
-}
-
-.field.is-floating-label .label.is-large {
-  font-size: calc(1.5rem * 3 / 4);
 }
 
 .field.is-floating-label .input:focus, .field.is-floating-label .taginput .taginput-container.is-focusable:focus, .taginput .field.is-floating-label .taginput-container.is-focusable:focus,
@@ -12411,34 +12432,8 @@ label.panel-block:hover {
   box-shadow: none;
 }
 
-.field.is-floating-label .taginput .counter {
-  float: none;
-  text-align: right;
-}
-
-.field.is-floating-in-label {
-  position: relative;
-}
-
 .field.is-floating-in-label .label {
-  position: absolute;
   top: 0.25em;
-  left: 1em;
-  font-size: calc(1rem * 3 / 4);
-  background-color: transparent;
-  z-index: 5;
-}
-
-.field.is-floating-in-label .label.is-small {
-  font-size: calc(0.75rem * 3 / 4);
-}
-
-.field.is-floating-in-label .label.is-medium {
-  font-size: calc(1.25rem * 3 / 4);
-}
-
-.field.is-floating-in-label .label.is-large {
-  font-size: calc(1.5rem * 3 / 4);
 }
 
 .field.is-floating-in-label > .datepicker .input, .field.is-floating-in-label > .datepicker .taginput .taginput-container.is-focusable, .taginput .field.is-floating-in-label > .datepicker .taginput-container.is-focusable, .field.is-floating-in-label > .timepicker .input, .field.is-floating-in-label > .timepicker .taginput .taginput-container.is-focusable, .taginput .field.is-floating-in-label > .timepicker .taginput-container.is-focusable {
@@ -12482,11 +12477,6 @@ label.panel-block:hover {
 
 .field.is-floating-in-label .taginput .taginput-container {
   padding-top: calc(3.25em / 2 - (1.5rem * 3 / 4) / 2 + (0.275em - 1px));
-}
-
-.field.is-floating-in-label .taginput .counter {
-  float: none;
-  text-align: right;
 }
 
 .field.is-floating-in-label.has-numberinput .b-numberinput .control .button {
@@ -12961,6 +12951,7 @@ label.panel-block:hover {
 
 .progress-wrapper {
   position: relative;
+  overflow: hidden;
 }
 
 .progress-wrapper:not(:last-child) {
@@ -12976,6 +12967,7 @@ label.panel-block:hover {
   line-height: 1rem;
   font-weight: bold;
   color: white;
+  white-space: nowrap;
 }
 
 .progress-wrapper .progress {
@@ -14693,6 +14685,10 @@ MIT (https://github.com/Wikiki/bulma-steps/blob/master/LICENSE)
   cursor: pointer;
 }
 
+.b-table .table th .multi-sort-cancel-icon {
+  margin-left: 10px;
+}
+
 .b-table .table tr.is-selected .checkbox input:checked + .check {
   background: white url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1 1'%3E%3Cpath style='fill:%237957d5' d='M 0.04038059,0.6267767 0.14644661,0.52071068 0.42928932,0.80355339 0.3232233,0.90961941 z M 0.21715729,0.80355339 0.85355339,0.16715729 0.95961941,0.2732233 0.3232233,0.90961941 z'%3E%3C/path%3E%3C/svg%3E") no-repeat center center;
 }
@@ -14741,56 +14737,75 @@ MIT (https://github.com/Wikiki/bulma-steps/blob/master/LICENSE)
   background: whitesmoke;
 }
 
+.b-table .level:not(.top) {
+  padding-bottom: 1.5rem;
+}
+
+.b-table.has-sticky-header {
+  height: 300px;
+  overflow-y: auto;
+}
+
 @media screen and (max-width: 768px) {
-  .b-table .table.has-mobile-cards thead {
+  .b-table.has-sticky-header.has-mobile-cards {
+    height: initial !important;
+    overflow-y: initial !important;
+  }
+}
+
+.b-table.has-sticky-header tr th {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  background: white;
+}
+
+@media screen and (max-width: 768px) {
+  .b-table.has-mobile-cards thead {
     display: none;
   }
-  .b-table .table.has-mobile-cards tfoot th {
+  .b-table.has-mobile-cards tfoot th {
     border: 0;
     display: inherit;
   }
-  .b-table .table.has-mobile-cards tr {
+  .b-table.has-mobile-cards tr {
     box-shadow: 0 2px 3px rgba(10, 10, 10, 0.1), 0 0 0 1px rgba(10, 10, 10, 0.1);
     max-width: 100%;
     position: relative;
     display: block;
   }
-  .b-table .table.has-mobile-cards tr td {
+  .b-table.has-mobile-cards tr td {
     border: 0;
     display: inherit;
   }
-  .b-table .table.has-mobile-cards tr td:last-child {
+  .b-table.has-mobile-cards tr td:last-child {
     border-bottom: 0;
   }
-  .b-table .table.has-mobile-cards tr:not(:last-child) {
+  .b-table.has-mobile-cards tr:not(:last-child) {
     margin-bottom: 1rem;
   }
-  .b-table .table.has-mobile-cards tr:not([class*="is-"]) {
+  .b-table.has-mobile-cards tr:not([class*="is-"]) {
     background: inherit;
   }
-  .b-table .table.has-mobile-cards tr:not([class*="is-"]):hover {
+  .b-table.has-mobile-cards tr:not([class*="is-"]):hover {
     background-color: inherit;
   }
-  .b-table .table.has-mobile-cards tr.detail {
+  .b-table.has-mobile-cards tr.detail {
     margin-top: -1rem;
   }
-  .b-table .table.has-mobile-cards tr:not(.detail):not(.is-empty):not(.table-footer) td {
+  .b-table.has-mobile-cards tr:not(.detail):not(.is-empty):not(.table-footer) td {
     display: flex;
     width: auto;
     justify-content: space-between;
     text-align: right;
     border-bottom: 1px solid whitesmoke;
   }
-  .b-table .table.has-mobile-cards tr:not(.detail):not(.is-empty):not(.table-footer) td:before {
+  .b-table.has-mobile-cards tr:not(.detail):not(.is-empty):not(.table-footer) td:before {
     content: attr(data-label);
     font-weight: 600;
     padding-right: 0.5em;
     text-align: left;
   }
-}
-
-.b-table .level:not(.top) {
-  padding-bottom: 1.5rem;
 }
 
 .b-table.is-loading {
@@ -14929,6 +14944,11 @@ MIT (https://github.com/Wikiki/bulma-steps/blob/master/LICENSE)
   border-left-color: transparent !important;
 }
 
+.b-tabs.is-multiline > .tabs ul {
+  flex-wrap: wrap;
+  flex-shrink: 1;
+}
+
 .tag .has-ellipsis {
   max-width: 10em;
   overflow: hidden;
@@ -14936,16 +14956,39 @@ MIT (https://github.com/Wikiki/bulma-steps/blob/master/LICENSE)
   text-overflow: ellipsis;
 }
 
+.taginput .taginput-container {
+  display: flex;
+}
+
 .taginput .taginput-container.is-focusable {
   padding-bottom: 0;
   padding-top: calc(0.275em - 1px);
   padding-left: 0;
   align-items: center;
-  display: flex;
   flex-wrap: wrap;
   justify-content: flex-start;
   height: auto;
   cursor: text;
+}
+
+.taginput .taginput-container:not(.is-focusable) {
+  align-items: center;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+  height: auto;
+}
+
+.taginput .taginput-container:not(.is-focusable).is-small {
+  border-radius: 2px;
+  font-size: 0.75rem;
+}
+
+.taginput .taginput-container:not(.is-focusable).is-medium {
+  font-size: 1.25rem;
+}
+
+.taginput .taginput-container:not(.is-focusable).is-large {
+  font-size: 1.5rem;
 }
 
 .taginput .taginput-container > .tag,
@@ -15426,7 +15469,7 @@ MIT (https://github.com/Wikiki/bulma-steps/blob/master/LICENSE)
 }
 
 .b-tooltip:before {
-  z-index: 889;
+  z-index: 39;
 }
 
 .b-tooltip:after {
@@ -15437,7 +15480,7 @@ MIT (https://github.com/Wikiki/bulma-steps/blob/master/LICENSE)
   font-size: 0.85rem;
   font-weight: 400;
   box-shadow: 0px 1px 2px 1px rgba(0, 1, 0, 0.2);
-  z-index: 888;
+  z-index: 38;
   white-space: nowrap;
 }
 

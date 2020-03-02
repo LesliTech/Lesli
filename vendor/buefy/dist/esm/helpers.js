@@ -1,4 +1,4 @@
-import { _ as _defineProperty, a as _objectSpread2, b as _typeof } from './chunk-b91774bc.js';
+import { _ as _defineProperty, a as _objectSpread2, b as _typeof } from './chunk-6ea13200.js';
 
 /**
  * +/- function to native math sign
@@ -91,7 +91,7 @@ var isMobile = {
 function removeElement(el) {
   if (typeof el.remove !== 'undefined') {
     el.remove();
-  } else if (typeof el.parentNode !== 'undefined') {
+  } else if (typeof el.parentNode !== 'undefined' && el.parentNode !== null) {
     el.parentNode.removeChild(el);
   }
 }
@@ -105,5 +105,28 @@ function escapeRegExpChars(value) {
 
   return value.replace(/[\-\[\]\/\{\}\(\)\*\+\?\.\\\^\$\|]/g, '\\$&');
 }
+function multiColumnSort(inputArray, sortingPriority) {
+  // clone it to prevent the any watchers from triggering every sorting iteration
+  var array = JSON.parse(JSON.stringify(inputArray));
 
-export { escapeRegExpChars, getValueByPath, indexOf, isMobile, merge, removeElement, sign };
+  var fieldSorter = function fieldSorter(fields) {
+    return function (a, b) {
+      return fields.map(function (o) {
+        var dir = 1;
+
+        if (o[0] === '-') {
+          dir = -1;
+          o = o.substring(1);
+        }
+
+        return a[o] > b[o] ? dir : a[o] < b[o] ? -dir : 0;
+      }).reduce(function (p, n) {
+        return p || n;
+      }, 0);
+    };
+  };
+
+  return array.sort(fieldSorter(sortingPriority));
+}
+
+export { escapeRegExpChars, getValueByPath, indexOf, isMobile, merge, multiColumnSort, removeElement, sign };

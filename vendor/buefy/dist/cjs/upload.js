@@ -2,8 +2,8 @@
 
 Object.defineProperty(exports, '__esModule', { value: true });
 
-require('./chunk-8806479f.js');
-var __chunk_3 = require('./chunk-f7289f47.js');
+require('./chunk-805257cc.js');
+var __chunk_3 = require('./chunk-c0ff4e55.js');
 var __chunk_5 = require('./chunk-13e039f5.js');
 var __chunk_18 = require('./chunk-f1df1c63.js');
 
@@ -186,25 +186,29 @@ var __vue_staticRenderFns__ = [];
   
   /* style inject SSR */
   
+  /* style inject shadow dom */
+  
 
   
-  var Upload = __chunk_5.__vue_normalize__(
+  const __vue_component__ = __chunk_5.__vue_normalize__(
     { render: __vue_render__, staticRenderFns: __vue_staticRenderFns__ },
     __vue_inject_styles__,
     __vue_script__,
     __vue_scope_id__,
     __vue_is_functional_template__,
     __vue_module_identifier__,
+    false,
+    undefined,
     undefined,
     undefined
   );
 
 var Plugin = {
   install: function install(Vue) {
-    __chunk_5.registerComponent(Vue, Upload);
+    __chunk_5.registerComponent(Vue, __vue_component__);
   }
 };
 __chunk_5.use(Plugin);
 
-exports.BUpload = Upload;
+exports.BUpload = __vue_component__;
 exports.default = Plugin;

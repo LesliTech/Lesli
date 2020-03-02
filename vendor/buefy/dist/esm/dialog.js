@@ -1,10 +1,10 @@
-import { _ as _defineProperty } from './chunk-b91774bc.js';
+import { _ as _defineProperty } from './chunk-6ea13200.js';
 import { removeElement, merge } from './helpers.js';
-import { c as config, V as VueInstance } from './chunk-b76a6c1d.js';
-import { I as Icon } from './chunk-3802ee87.js';
+import { c as config, V as VueInstance } from './chunk-17222463.js';
+import { I as Icon } from './chunk-bed9f769.js';
 import { _ as __vue_normalize__, r as registerComponent, a as registerComponentProgrammatic, u as use } from './chunk-cca88db8.js';
 import { t as trapFocus } from './chunk-b3471279.js';
-import { M as Modal } from './chunk-dce8cc14.js';
+import { M as Modal } from './chunk-d8b703f1.js';
 
 var script = {
   name: 'BDialog',
@@ -197,15 +197,19 @@ var __vue_staticRenderFns__ = [];
   
   /* style inject SSR */
   
+  /* style inject shadow dom */
+  
 
   
-  var Dialog = __vue_normalize__(
+  const __vue_component__ = __vue_normalize__(
     { render: __vue_render__, staticRenderFns: __vue_staticRenderFns__ },
     __vue_inject_styles__,
     __vue_script__,
     __vue_scope_id__,
     __vue_is_functional_template__,
     __vue_module_identifier__,
+    false,
+    undefined,
     undefined,
     undefined
   );
@@ -214,7 +218,7 @@ var localVueInstance;
 
 function open(propsData) {
   var vm = typeof window !== 'undefined' && window.Vue ? window.Vue : localVueInstance || VueInstance;
-  var DialogComponent = vm.extend(Dialog);
+  var DialogComponent = vm.extend(__vue_component__);
   return new DialogComponent({
     el: document.createElement('div'),
     propsData: propsData
@@ -252,11 +256,11 @@ var DialogProgrammatic = {
 var Plugin = {
   install: function install(Vue) {
     localVueInstance = Vue;
-    registerComponent(Vue, Dialog);
+    registerComponent(Vue, __vue_component__);
     registerComponentProgrammatic(Vue, 'dialog', DialogProgrammatic);
   }
 };
 use(Plugin);
 
 export default Plugin;
-export { Dialog as BDialog, DialogProgrammatic };
+export { __vue_component__ as BDialog, DialogProgrammatic };

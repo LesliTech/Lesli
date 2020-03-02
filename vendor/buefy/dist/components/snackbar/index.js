@@ -1,4 +1,4 @@
-/*! Buefy v0.8.9 | MIT License | github.com/buefy/buefy */
+/*! Buefy v0.8.12 | MIT License | github.com/buefy/buefy */
 (function (global, factory) {
     typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports) :
     typeof define === 'function' && define.amd ? define(['exports'], factory) :
@@ -51,11 +51,14 @@
       defaultTrapFocus: false,
       defaultButtonRounded: false,
       defaultCarouselInterval: 3500,
+      defaultLinkTags: ['a', 'button', 'input', 'router-link', 'nuxt-link', 'n-link', 'RouterLink', 'NuxtLink', 'NLink'],
       customIconPacks: null
     }; // TODO defaultTrapFocus to true in the next breaking change
     var VueInstance;
 
     function _typeof(obj) {
+      "@babel/helpers - typeof";
+
       if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") {
         _typeof = function (obj) {
           return typeof obj;
@@ -149,7 +152,7 @@
     function removeElement(el) {
       if (typeof el.remove !== 'undefined') {
         el.remove();
-      } else if (typeof el.parentNode !== 'undefined') {
+      } else if (typeof el.parentNode !== 'undefined' && el.parentNode !== null) {
         el.parentNode.removeChild(el);
       }
     }
@@ -428,15 +431,19 @@
       
       /* style inject SSR */
       
+      /* style inject shadow dom */
+      
 
       
-      var Snackbar = normalizeComponent_1(
+      const __vue_component__ = normalizeComponent_1(
         { render: __vue_render__, staticRenderFns: __vue_staticRenderFns__ },
         __vue_inject_styles__,
         __vue_script__,
         __vue_scope_id__,
         __vue_is_functional_template__,
         __vue_module_identifier__,
+        false,
+        undefined,
         undefined,
         undefined
       );
@@ -474,7 +481,7 @@
 
         var propsData = merge(defaultParam, params);
         var vm = typeof window !== 'undefined' && window.Vue ? window.Vue : localVueInstance || VueInstance;
-        var SnackbarComponent = vm.extend(Snackbar);
+        var SnackbarComponent = vm.extend(__vue_component__);
         return new SnackbarComponent({
           parent: parent,
           el: document.createElement('div'),
@@ -490,7 +497,7 @@
     };
     use(Plugin);
 
-    exports.BSnackbar = Snackbar;
+    exports.BSnackbar = __vue_component__;
     exports.SnackbarProgrammatic = SnackbarProgrammatic;
     exports.default = Plugin;
 

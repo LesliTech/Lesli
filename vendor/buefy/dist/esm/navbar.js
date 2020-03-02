@@ -1,4 +1,4 @@
-import { b as _typeof, _ as _defineProperty } from './chunk-b91774bc.js';
+import { b as _typeof, _ as _defineProperty } from './chunk-6ea13200.js';
 import { _ as __vue_normalize__, r as registerComponent, u as use } from './chunk-cca88db8.js';
 
 //
@@ -45,15 +45,19 @@ var __vue_staticRenderFns__ = [];
   
   /* style inject SSR */
   
+  /* style inject shadow dom */
+  
 
   
-  var NavbarBurger = __vue_normalize__(
+  const __vue_component__ = __vue_normalize__(
     { render: __vue_render__, staticRenderFns: __vue_staticRenderFns__ },
     __vue_inject_styles__,
     __vue_script__,
     __vue_scope_id__,
     __vue_is_functional_template__,
     __vue_module_identifier__,
+    false,
+    undefined,
     undefined,
     undefined
   );
@@ -194,7 +198,7 @@ var isFilled = function isFilled(str) {
 var script$1 = {
   name: 'BNavbar',
   components: {
-    NavbarBurger: NavbarBurger
+    NavbarBurger: __vue_component__
   },
   directives: {
     clickOutside: directive
@@ -256,26 +260,32 @@ var script$1 = {
     fixedTop: {
       handler: function handler(isSet) {
         this.checkIfFixedPropertiesAreColliding();
-        var className = this.spaced ? BODY_SPACED_FIXED_TOP_CLASS : BODY_FIXED_TOP_CLASS;
 
         if (isSet) {
-          return this.setBodyClass(className);
+          // TODO Apply only one of the classes once PR is merged in Bulma:
+          // https://github.com/jgthms/bulma/pull/2737
+          this.setBodyClass(BODY_FIXED_TOP_CLASS);
+          this.spaced && this.setBodyClass(BODY_SPACED_FIXED_TOP_CLASS);
+        } else {
+          this.removeBodyClass(BODY_FIXED_TOP_CLASS);
+          this.removeBodyClass(BODY_SPACED_FIXED_TOP_CLASS);
         }
-
-        this.removeBodyClass(className);
       },
       immediate: true
     },
     fixedBottom: {
       handler: function handler(isSet) {
         this.checkIfFixedPropertiesAreColliding();
-        var className = this.spaced ? BODY_SPACED_FIXED_BOTTOM_CLASS : BODY_FIXED_BOTTOM_CLASS;
 
         if (isSet) {
-          return this.setBodyClass(className);
+          // TODO Apply only one of the classes once PR is merged in Bulma:
+          // https://github.com/jgthms/bulma/pull/2737
+          this.setBodyClass(BODY_FIXED_BOTTOM_CLASS);
+          this.spaced && this.setBodyClass(BODY_SPACED_FIXED_BOTTOM_CLASS);
+        } else {
+          this.removeBodyClass(BODY_FIXED_BOTTOM_CLASS);
+          this.removeBodyClass(BODY_SPACED_FIXED_BOTTOM_CLASS);
         }
-
-        this.removeBodyClass(className);
       },
       immediate: true
     }
@@ -375,8 +385,14 @@ var script$1 = {
     }
   },
   beforeDestroy: function beforeDestroy() {
-    this.removeBodyClass(FIXED_BOTTOM_CLASS);
-    this.removeBodyClass(FIXED_TOP_CLASS);
+    if (this.fixedTop) {
+      var className = this.spaced ? BODY_SPACED_FIXED_TOP_CLASS : BODY_FIXED_TOP_CLASS;
+      this.removeBodyClass(className);
+    } else if (this.fixedBottom) {
+      var _className = this.spaced ? BODY_SPACED_FIXED_BOTTOM_CLASS : BODY_FIXED_BOTTOM_CLASS;
+
+      this.removeBodyClass(_className);
+    }
   },
   render: function render(createElement, fn) {
     return this.genNavbar(createElement);
@@ -400,15 +416,19 @@ const __vue_script__$1 = script$1;
   
   /* style inject SSR */
   
+  /* style inject shadow dom */
+  
 
   
-  var Navbar = __vue_normalize__(
+  const __vue_component__$1 = __vue_normalize__(
     {},
     __vue_inject_styles__$1,
     __vue_script__$1,
     __vue_scope_id__$1,
     __vue_is_functional_template__$1,
     __vue_module_identifier__$1,
+    false,
+    undefined,
     undefined,
     undefined
   );
@@ -503,15 +523,19 @@ var __vue_staticRenderFns__$1 = [];
   
   /* style inject SSR */
   
+  /* style inject shadow dom */
+  
 
   
-  var NavbarItem = __vue_normalize__(
+  const __vue_component__$2 = __vue_normalize__(
     { render: __vue_render__$1, staticRenderFns: __vue_staticRenderFns__$1 },
     __vue_inject_styles__$2,
     __vue_script__$2,
     __vue_scope_id__$2,
     __vue_is_functional_template__$2,
     __vue_module_identifier__$2,
+    false,
+    undefined,
     undefined,
     undefined
   );
@@ -528,11 +552,16 @@ var script$3 = {
     active: Boolean,
     right: Boolean,
     arrowless: Boolean,
-    boxed: Boolean
+    boxed: Boolean,
+    closeOnClick: {
+      type: Boolean,
+      default: true
+    }
   },
   data: function data() {
     return {
       newActive: this.active,
+      isHoverable: this.hoverable,
       _isNavDropdown: true // Used internally by NavbarItem
 
     };
@@ -551,7 +580,16 @@ var script$3 = {
     * See naming convetion of navbaritem
     */
     closeMenu: function closeMenu() {
-      this.newActive = false;
+      this.newActive = !this.closeOnClick;
+
+      if (this.hoverable && this.closeOnClick) {
+        this.isHoverable = false;
+      }
+    },
+    checkHoverable: function checkHoverable() {
+      if (this.hoverable) {
+        this.isHoverable = true;
+      }
     }
   }
 };
@@ -561,11 +599,11 @@ const __vue_script__$3 = script$3;
 
 /* template */
 var __vue_render__$2 = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{directives:[{name:"click-outside",rawName:"v-click-outside",value:(_vm.closeMenu),expression:"closeMenu"}],staticClass:"navbar-item has-dropdown",class:{
-            'is-hoverable': _vm.hoverable,
+            'is-hoverable': _vm.isHoverable,
             'is-active': _vm.newActive
-        }},[_c('a',{staticClass:"navbar-link",class:{
+        },on:{"mouseenter":_vm.checkHoverable}},[_c('a',{staticClass:"navbar-link",class:{
                 'is-arrowless': _vm.arrowless
-            },on:{"click":function($event){_vm.newActive = !_vm.newActive;}}},[(_vm.label)?[_vm._v(_vm._s(_vm.label))]:_vm._t("label")],2),_vm._v(" "),_c('div',{staticClass:"navbar-dropdown",class:{
+            },attrs:{"role":"menuitem","aria-haspopup":"true","href":"#"},on:{"click":function($event){$event.preventDefault();_vm.newActive = !_vm.newActive;}}},[(_vm.label)?[_vm._v(_vm._s(_vm.label))]:_vm._t("label")],2),_vm._v(" "),_c('div',{staticClass:"navbar-dropdown",class:{
                 'is-right': _vm.right,
                 'is-boxed': _vm.boxed
             }},[_vm._t("default")],2)])};
@@ -583,27 +621,31 @@ var __vue_staticRenderFns__$2 = [];
   
   /* style inject SSR */
   
+  /* style inject shadow dom */
+  
 
   
-  var NavbarDropdown = __vue_normalize__(
+  const __vue_component__$3 = __vue_normalize__(
     { render: __vue_render__$2, staticRenderFns: __vue_staticRenderFns__$2 },
     __vue_inject_styles__$3,
     __vue_script__$3,
     __vue_scope_id__$3,
     __vue_is_functional_template__$3,
     __vue_module_identifier__$3,
+    false,
+    undefined,
     undefined,
     undefined
   );
 
 var Plugin = {
   install: function install(Vue) {
-    registerComponent(Vue, Navbar);
-    registerComponent(Vue, NavbarItem);
-    registerComponent(Vue, NavbarDropdown);
+    registerComponent(Vue, __vue_component__$1);
+    registerComponent(Vue, __vue_component__$2);
+    registerComponent(Vue, __vue_component__$3);
   }
 };
 use(Plugin);
 
 export default Plugin;
-export { Navbar as BNavbar, NavbarDropdown as BNavbarDropdown, NavbarItem as BNavbarItem };
+export { __vue_component__$1 as BNavbar, __vue_component__$3 as BNavbarDropdown, __vue_component__$2 as BNavbarItem };
