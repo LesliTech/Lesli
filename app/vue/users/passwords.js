@@ -60,8 +60,6 @@ app({
 
             this.http.post("/password", data).then(response => {
 
-                console.log(response)
-
                 this.progress_bar_active = false
 
                 if(response.successful){
