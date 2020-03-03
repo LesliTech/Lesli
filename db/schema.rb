@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_02_17_142005) do
+ActiveRecord::Schema.define(version: 2020_02_28_193102) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -222,6 +222,11 @@ ActiveRecord::Schema.define(version: 2020_02_17_142005) do
     t.index ["accounts_id"], name: "index_cloud_focus_tasks_on_accounts_id"
   end
 
+  create_table "cloud_haus_tasks", force: :cascade do |t|
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
   create_table "cloud_house_accounts", force: :cascade do |t|
   end
 
@@ -331,6 +336,7 @@ ActiveRecord::Schema.define(version: 2020_02_17_142005) do
     t.string "fax"
     t.string "brokerage"
     t.text "observation"
+    t.text "rating"
     t.string "street_name"
     t.string "street_number"
     t.string "street_other"
@@ -809,7 +815,7 @@ ActiveRecord::Schema.define(version: 2020_02_17_142005) do
   end
 
   create_table "cloud_house_projects", force: :cascade do |t|
-    t.bigint "main_employee"
+    t.bigint "main_employee_id"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.bigint "cloud_house_accounts_id"
@@ -936,6 +942,7 @@ ActiveRecord::Schema.define(version: 2020_02_17_142005) do
     t.string "construction_year"
     t.integer "resident_since"
     t.integer "property_valuation_form"
+    t.float "property_value"
     t.boolean "has_leases"
     t.date "leases_running_time"
     t.float "monthly_leasehold"
@@ -1203,7 +1210,7 @@ ActiveRecord::Schema.define(version: 2020_02_17_142005) do
   add_foreign_key "cloud_house_projects", "cloud_house_catalog_project_types", column: "cloud_house_catalog_project_types_id"
   add_foreign_key "cloud_house_projects", "cloud_house_properties", column: "cloud_house_properties_id"
   add_foreign_key "cloud_house_projects", "cloud_house_workflow_statuses", column: "cloud_house_workflow_statuses_id"
-  add_foreign_key "cloud_house_projects", "users", column: "main_employee"
+  add_foreign_key "cloud_house_projects", "users", column: "main_employee_id"
   add_foreign_key "cloud_house_properties", "cloud_house_accounts", column: "cloud_house_accounts_id"
   add_foreign_key "cloud_house_properties", "cloud_house_workflow_statuses", column: "cloud_house_workflow_statuses_id"
   add_foreign_key "cloud_house_property_actions", "cloud_house_properties", column: "cloud_house_properties_id"
