@@ -51,6 +51,7 @@ class Account < ApplicationRecord
         self.settings.find_or_create_by({ name: "date_format", value: "%Y.%m.%d", account: self })
         self.settings.find_or_create_by({ name: "date_format_full", value: "%a, %B %d, %Y", account: self })
         self.settings.find_or_create_by({ name: "date_time_format", value: "%Y.%m.%d %H:%M", account: self })
+        self.settings.find_or_create_by({ name: "start_week_on", value: "monday", account: self })
         self.settings.find_or_create_by({ name: "theme", value: "deutsche-leibrenten", account: self })
         self.settings.find_or_create_by({ name: "theme_variation", value: "standard", account: self })
 

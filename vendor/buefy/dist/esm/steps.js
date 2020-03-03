@@ -1,7 +1,7 @@
-import { _ as _defineProperty } from './chunk-b91774bc.js';
+import { _ as _defineProperty } from './chunk-6ea13200.js';
 import './helpers.js';
-import { c as config } from './chunk-b76a6c1d.js';
-import { I as Icon } from './chunk-3802ee87.js';
+import { c as config } from './chunk-17222463.js';
+import { I as Icon } from './chunk-bed9f769.js';
 import { _ as __vue_normalize__, r as registerComponent, u as use } from './chunk-cca88db8.js';
 import { S as SlotComponent } from './chunk-0e3f4fb5.js';
 
@@ -131,7 +131,7 @@ var script = {
   },
   methods: {
     refreshSlots: function refreshSlots() {
-      this.defaultSlots = this.$slots.default;
+      this.defaultSlots = this.$slots.default || [];
     },
 
     /**
@@ -233,15 +233,19 @@ var __vue_staticRenderFns__ = [];
   
   /* style inject SSR */
   
+  /* style inject shadow dom */
+  
 
   
-  var Steps = __vue_normalize__(
+  const __vue_component__ = __vue_normalize__(
     { render: __vue_render__, staticRenderFns: __vue_staticRenderFns__ },
     __vue_inject_styles__,
     __vue_script__,
     __vue_scope_id__,
     __vue_is_functional_template__,
     __vue_module_identifier__,
+    false,
+    undefined,
     undefined,
     undefined
   );
@@ -355,26 +359,30 @@ const __vue_script__$1 = script$1;
   
   /* style inject SSR */
   
+  /* style inject shadow dom */
+  
 
   
-  var StepItem = __vue_normalize__(
+  const __vue_component__$1 = __vue_normalize__(
     {},
     __vue_inject_styles__$1,
     __vue_script__$1,
     __vue_scope_id__$1,
     __vue_is_functional_template__$1,
     __vue_module_identifier__$1,
+    false,
+    undefined,
     undefined,
     undefined
   );
 
 var Plugin = {
   install: function install(Vue) {
-    registerComponent(Vue, Steps);
-    registerComponent(Vue, StepItem);
+    registerComponent(Vue, __vue_component__);
+    registerComponent(Vue, __vue_component__$1);
   }
 };
 use(Plugin);
 
 export default Plugin;
-export { StepItem as BStepItem, Steps as BSteps };
+export { __vue_component__$1 as BStepItem, __vue_component__ as BSteps };

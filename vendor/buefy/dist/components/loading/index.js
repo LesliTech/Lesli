@@ -1,4 +1,4 @@
-/*! Buefy v0.8.9 | MIT License | github.com/buefy/buefy */
+/*! Buefy v0.8.12 | MIT License | github.com/buefy/buefy */
 (function (global, factory) {
   typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports) :
   typeof define === 'function' && define.amd ? define(['exports'], factory) :
@@ -6,6 +6,8 @@
 }(this, function (exports) { 'use strict';
 
   function _typeof(obj) {
+    "@babel/helpers - typeof";
+
     if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") {
       _typeof = function (obj) {
         return typeof obj;
@@ -99,7 +101,7 @@
   function removeElement(el) {
     if (typeof el.remove !== 'undefined') {
       el.remove();
-    } else if (typeof el.parentNode !== 'undefined') {
+    } else if (typeof el.parentNode !== 'undefined' && el.parentNode !== null) {
       el.parentNode.removeChild(el);
     }
   }
@@ -135,12 +137,16 @@
     },
     data: function data() {
       return {
-        isActive: this.active || false
+        isActive: this.active || false,
+        displayInFullPage: this.isFullPage
       };
     },
     watch: {
       active: function active(value) {
         this.isActive = value;
+      },
+      isFullPage: function isFullPage(value) {
+        this.displayInFullPage = value;
       }
     },
     methods: {
@@ -192,7 +198,8 @@
         if (!this.container) {
           document.body.appendChild(this.$el);
         } else {
-          this.isFullPage = false;
+          this.displayInFullPage = false;
+          this.$emit('update:is-full-page', false);
           this.container.appendChild(this.$el);
         }
       }
@@ -296,7 +303,7 @@
   const __vue_script__ = script;
 
   /* template */
-  var __vue_render__ = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('transition',{attrs:{"name":_vm.animation}},[(_vm.isActive)?_c('div',{staticClass:"loading-overlay is-active",class:{ 'is-full-page': _vm.isFullPage }},[_c('div',{staticClass:"loading-background",on:{"click":_vm.cancel}}),_vm._v(" "),_vm._t("default",[_c('div',{staticClass:"loading-icon"})])],2):_vm._e()])};
+  var __vue_render__ = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('transition',{attrs:{"name":_vm.animation}},[(_vm.isActive)?_c('div',{staticClass:"loading-overlay is-active",class:{ 'is-full-page': _vm.displayInFullPage }},[_c('div',{staticClass:"loading-background",on:{"click":_vm.cancel}}),_vm._v(" "),_vm._t("default",[_c('div',{staticClass:"loading-icon"})])],2):_vm._e()])};
   var __vue_staticRenderFns__ = [];
 
     /* style */
@@ -311,15 +318,19 @@
     
     /* style inject SSR */
     
+    /* style inject shadow dom */
+    
 
     
-    var Loading = normalizeComponent_1(
+    const __vue_component__ = normalizeComponent_1(
       { render: __vue_render__, staticRenderFns: __vue_staticRenderFns__ },
       __vue_inject_styles__,
       __vue_script__,
       __vue_scope_id__,
       __vue_is_functional_template__,
       __vue_module_identifier__,
+      false,
+      undefined,
       undefined,
       undefined
     );
@@ -347,7 +358,7 @@
       };
       var propsData = merge(defaultParam, params);
       var vm = typeof window !== 'undefined' && window.Vue ? window.Vue : localVueInstance || VueInstance;
-      var LoadingComponent = vm.extend(Loading);
+      var LoadingComponent = vm.extend(__vue_component__);
       return new LoadingComponent({
         el: document.createElement('div'),
         propsData: propsData
@@ -357,13 +368,13 @@
   var Plugin = {
     install: function install(Vue) {
       localVueInstance = Vue;
-      registerComponent(Vue, Loading);
+      registerComponent(Vue, __vue_component__);
       registerComponentProgrammatic(Vue, 'loading', LoadingProgrammatic);
     }
   };
   use(Plugin);
 
-  exports.BLoading = Loading;
+  exports.BLoading = __vue_component__;
   exports.LoadingProgrammatic = LoadingProgrammatic;
   exports.default = Plugin;
 

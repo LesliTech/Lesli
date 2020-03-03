@@ -2,10 +2,10 @@
 
 Object.defineProperty(exports, '__esModule', { value: true });
 
-require('./chunk-8806479f.js');
+require('./chunk-805257cc.js');
 var __chunk_5 = require('./chunk-13e039f5.js');
 require('./chunk-c5b5b708.js');
-var __chunk_12 = require('./chunk-a60f20f8.js');
+var __chunk_12 = require('./chunk-385dea12.js');
 
 var Plugin = {
   install: function install(Vue) {

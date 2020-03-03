@@ -1,4 +1,4 @@
-/*! Buefy v0.8.9 | MIT License | github.com/buefy/buefy */
+/*! Buefy v0.8.12 | MIT License | github.com/buefy/buefy */
 (function (global, factory) {
   typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports) :
   typeof define === 'function' && define.amd ? define(['exports'], factory) :
@@ -6,6 +6,8 @@
 }(this, function (exports) { 'use strict';
 
   function _typeof(obj) {
+    "@babel/helpers - typeof";
+
     if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") {
       _typeof = function (obj) {
         return typeof obj;
@@ -159,6 +161,7 @@
     defaultTrapFocus: false,
     defaultButtonRounded: false,
     defaultCarouselInterval: 3500,
+    defaultLinkTags: ['a', 'button', 'input', 'router-link', 'nuxt-link', 'n-link', 'RouterLink', 'NuxtLink', 'NLink'],
     customIconPacks: null
   }; // TODO defaultTrapFocus to true in the next breaking change
   var VueInstance;
@@ -194,7 +197,7 @@
   function removeElement(el) {
     if (typeof el.remove !== 'undefined') {
       el.remove();
-    } else if (typeof el.parentNode !== 'undefined') {
+    } else if (typeof el.parentNode !== 'undefined' && el.parentNode !== null) {
       el.parentNode.removeChild(el);
     }
   }
@@ -228,7 +231,8 @@
         'chevron-down': 'angle-down',
         'eye-off': 'eye-slash',
         'menu-down': 'caret-down',
-        'menu-up': 'caret-up'
+        'menu-up': 'caret-up',
+        'close-circle': 'times-circle'
       }
     };
   };
@@ -448,15 +452,19 @@
     
     /* style inject SSR */
     
+    /* style inject shadow dom */
+    
 
     
-    var Icon = normalizeComponent_1(
+    const __vue_component__ = normalizeComponent_1(
       { render: __vue_render__, staticRenderFns: __vue_staticRenderFns__ },
       __vue_inject_styles__,
       __vue_script__,
       __vue_scope_id__,
       __vue_is_functional_template__,
       __vue_module_identifier__,
+      false,
+      undefined,
       undefined,
       undefined
     );
@@ -684,26 +692,30 @@
     
     /* style inject SSR */
     
+    /* style inject shadow dom */
+    
 
     
-    var Modal = normalizeComponent_1(
+    const __vue_component__$1 = normalizeComponent_1(
       { render: __vue_render__$1, staticRenderFns: __vue_staticRenderFns__$1 },
       __vue_inject_styles__$1,
       __vue_script__$1,
       __vue_scope_id__$1,
       __vue_is_functional_template__$1,
       __vue_module_identifier__$1,
+      false,
+      undefined,
       undefined,
       undefined
     );
 
   var script$2 = {
     name: 'BDialog',
-    components: _defineProperty({}, Icon.name, Icon),
+    components: _defineProperty({}, __vue_component__.name, __vue_component__),
     directives: {
       trapFocus: directive
     },
-    extends: Modal,
+    extends: __vue_component__$1,
     props: {
       title: String,
       message: String,
@@ -888,15 +900,19 @@
     
     /* style inject SSR */
     
+    /* style inject shadow dom */
+    
 
     
-    var Dialog = normalizeComponent_1(
+    const __vue_component__$2 = normalizeComponent_1(
       { render: __vue_render__$2, staticRenderFns: __vue_staticRenderFns__$2 },
       __vue_inject_styles__$2,
       __vue_script__$2,
       __vue_scope_id__$2,
       __vue_is_functional_template__$2,
       __vue_module_identifier__$2,
+      false,
+      undefined,
       undefined,
       undefined
     );
@@ -918,7 +934,7 @@
 
   function open(propsData) {
     var vm = typeof window !== 'undefined' && window.Vue ? window.Vue : localVueInstance || VueInstance;
-    var DialogComponent = vm.extend(Dialog);
+    var DialogComponent = vm.extend(__vue_component__$2);
     return new DialogComponent({
       el: document.createElement('div'),
       propsData: propsData
@@ -956,13 +972,13 @@
   var Plugin = {
     install: function install(Vue) {
       localVueInstance = Vue;
-      registerComponent(Vue, Dialog);
+      registerComponent(Vue, __vue_component__$2);
       registerComponentProgrammatic(Vue, 'dialog', DialogProgrammatic);
     }
   };
   use(Plugin);
 
-  exports.BDialog = Dialog;
+  exports.BDialog = __vue_component__$2;
   exports.DialogProgrammatic = DialogProgrammatic;
   exports.default = Plugin;
 

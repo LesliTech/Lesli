@@ -32,6 +32,7 @@ class ApplicationLesliController < ApplicationController
     before_action :authenticate_user!
     before_action :check_account
     before_action :set_global_account
+    before_action :set_request_helpers
     
     layout 'layouts/application'
 
@@ -41,6 +42,20 @@ class ApplicationLesliController < ApplicationController
     end
 
     protected
+
+    def set_request_helpers
+
+        @query = {
+            current_user: current_user,
+            pagination: {
+                perPage: (params[:perPage] ? params[:perPage].to_i : 15),
+                page: (params[:page] ? params[:page].to_i : 1),
+                order: "desc",
+                orderColumn: "id"
+            }
+        }
+        
+    end
 
     def authenticate_user
         if !user_signed_in?

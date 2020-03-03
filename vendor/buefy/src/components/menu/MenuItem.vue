@@ -8,7 +8,7 @@
                 'is-disabled': disabled
             }"
             @click="onClick($event)"
-            @click.native="onClick($event)">
+            v-on="$listeners">
             <b-icon
                 v-if="icon"
                 :icon="icon"
@@ -36,6 +36,7 @@
 
 <script>
 import Icon from '../icon/Icon'
+import config from '../../utils/config'
 
 export default {
     name: 'BMenuItem',
@@ -58,14 +59,7 @@ export default {
             type: String,
             default: 'a',
             validator: (value) => {
-                return [
-                    'a',
-                    'router-link',
-                    'nuxt-link',
-                    'n-link',
-                    'NuxtLink',
-                    'NLink'
-                ].indexOf(value) >= 0
+                return config.defaultLinkTags.indexOf(value) >= 0
             }
         },
         ariaRole: {
@@ -100,7 +94,6 @@ export default {
             this.$emit('update:expanded', this.newActive)
             this.newActive = true
             this.$emit('update:active', this.newActive)
-            this.$emit('click', event)
         },
         reset(parent) {
             const items = parent.$children.filter((c) => c.name === this.name)

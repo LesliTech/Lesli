@@ -67,6 +67,8 @@ module Courier
 
             end
 
+
+            
             def self.events_new(current_user, title:, description:nil, time_start:nil, time_end:nil, location:nil, url:nil)
                 return unless defined? CloudDriver
                 current_user.account.driver.calendars.default.events.create({

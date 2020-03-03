@@ -1,4 +1,4 @@
-/*! Buefy v0.8.9 | MIT License | github.com/buefy/buefy */
+/*! Buefy v0.8.12 | MIT License | github.com/buefy/buefy */
 (function (global, factory) {
   typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports) :
   typeof define === 'function' && define.amd ? define(['exports'], factory) :
@@ -6,6 +6,8 @@
 }(this, function (exports) { 'use strict';
 
   function _typeof(obj) {
+    "@babel/helpers - typeof";
+
     if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") {
       _typeof = function (obj) {
         return typeof obj;
@@ -68,21 +70,56 @@
     return target;
   }
 
-  //
-  //
-  //
-  //
-  //
-  //
-  //
-  //
-  //
-  //
-  //
-  //
-  //
-  //
-  //
+  var config = {
+    defaultContainerElement: null,
+    defaultIconPack: 'mdi',
+    defaultIconComponent: null,
+    defaultIconPrev: 'chevron-left',
+    defaultIconNext: 'chevron-right',
+    defaultDialogConfirmText: null,
+    defaultDialogCancelText: null,
+    defaultSnackbarDuration: 3500,
+    defaultSnackbarPosition: null,
+    defaultToastDuration: 2000,
+    defaultToastPosition: null,
+    defaultNotificationDuration: 2000,
+    defaultNotificationPosition: null,
+    defaultTooltipType: 'is-primary',
+    defaultTooltipAnimated: false,
+    defaultTooltipDelay: 0,
+    defaultInputAutocomplete: 'on',
+    defaultDateFormatter: null,
+    defaultDateParser: null,
+    defaultDateCreator: null,
+    defaultTimeCreator: null,
+    defaultDayNames: null,
+    defaultMonthNames: null,
+    defaultFirstDayOfWeek: null,
+    defaultUnselectableDaysOfWeek: null,
+    defaultTimeFormatter: null,
+    defaultTimeParser: null,
+    defaultModalCanCancel: ['escape', 'x', 'outside', 'button'],
+    defaultModalScroll: null,
+    defaultDatepickerMobileNative: true,
+    defaultTimepickerMobileNative: true,
+    defaultNoticeQueue: true,
+    defaultInputHasCounter: true,
+    defaultTaginputHasCounter: true,
+    defaultUseHtml5Validation: true,
+    defaultDropdownMobileModal: true,
+    defaultFieldLabelPosition: null,
+    defaultDatepickerYearsRange: [-100, 3],
+    defaultDatepickerNearbyMonthDays: true,
+    defaultDatepickerNearbySelectableMonthDays: false,
+    defaultDatepickerShowWeekNumber: false,
+    defaultDatepickerMobileModal: true,
+    defaultTrapFocus: false,
+    defaultButtonRounded: false,
+    defaultCarouselInterval: 3500,
+    defaultLinkTags: ['a', 'button', 'input', 'router-link', 'nuxt-link', 'n-link', 'RouterLink', 'NuxtLink', 'NLink'],
+    customIconPacks: null
+  }; // TODO defaultTrapFocus to true in the next breaking change
+
   //
   var script = {
     name: 'BPaginationButton',
@@ -95,7 +132,7 @@
         type: String,
         default: 'a',
         validator: function validator(value) {
-          return ['a', 'button', 'input', 'router-link', 'nuxt-link', 'n-link', 'NuxtLink', 'NLink'].indexOf(value) >= 0;
+          return config.defaultLinkTags.indexOf(value) >= 0;
         }
       },
       disabled: {
@@ -221,67 +258,22 @@
     
     /* style inject SSR */
     
+    /* style inject shadow dom */
+    
 
     
-    var PaginationButton = normalizeComponent_1(
+    const __vue_component__ = normalizeComponent_1(
       { render: __vue_render__, staticRenderFns: __vue_staticRenderFns__ },
       __vue_inject_styles__,
       __vue_script__,
       __vue_scope_id__,
       __vue_is_functional_template__,
       __vue_module_identifier__,
+      false,
+      undefined,
       undefined,
       undefined
     );
-
-  var config = {
-    defaultContainerElement: null,
-    defaultIconPack: 'mdi',
-    defaultIconComponent: null,
-    defaultIconPrev: 'chevron-left',
-    defaultIconNext: 'chevron-right',
-    defaultDialogConfirmText: null,
-    defaultDialogCancelText: null,
-    defaultSnackbarDuration: 3500,
-    defaultSnackbarPosition: null,
-    defaultToastDuration: 2000,
-    defaultToastPosition: null,
-    defaultNotificationDuration: 2000,
-    defaultNotificationPosition: null,
-    defaultTooltipType: 'is-primary',
-    defaultTooltipAnimated: false,
-    defaultTooltipDelay: 0,
-    defaultInputAutocomplete: 'on',
-    defaultDateFormatter: null,
-    defaultDateParser: null,
-    defaultDateCreator: null,
-    defaultTimeCreator: null,
-    defaultDayNames: null,
-    defaultMonthNames: null,
-    defaultFirstDayOfWeek: null,
-    defaultUnselectableDaysOfWeek: null,
-    defaultTimeFormatter: null,
-    defaultTimeParser: null,
-    defaultModalCanCancel: ['escape', 'x', 'outside', 'button'],
-    defaultModalScroll: null,
-    defaultDatepickerMobileNative: true,
-    defaultTimepickerMobileNative: true,
-    defaultNoticeQueue: true,
-    defaultInputHasCounter: true,
-    defaultTaginputHasCounter: true,
-    defaultUseHtml5Validation: true,
-    defaultDropdownMobileModal: true,
-    defaultFieldLabelPosition: null,
-    defaultDatepickerYearsRange: [-100, 3],
-    defaultDatepickerNearbyMonthDays: true,
-    defaultDatepickerNearbySelectableMonthDays: false,
-    defaultDatepickerShowWeekNumber: false,
-    defaultDatepickerMobileModal: true,
-    defaultTrapFocus: false,
-    defaultButtonRounded: false,
-    defaultCarouselInterval: 3500,
-    customIconPacks: null
-  }; // TODO defaultTrapFocus to true in the next breaking change
 
   /**
    * Merge function to replace Object.assign with deep merging possibility
@@ -341,7 +333,8 @@
         'chevron-down': 'angle-down',
         'eye-off': 'eye-slash',
         'menu-down': 'caret-down',
-        'menu-up': 'caret-up'
+        'menu-up': 'caret-up',
+        'close-circle': 'times-circle'
       }
     };
   };
@@ -476,15 +469,19 @@
     
     /* style inject SSR */
     
+    /* style inject shadow dom */
+    
 
     
-    var Icon = normalizeComponent_1(
+    const __vue_component__$1 = normalizeComponent_1(
       { render: __vue_render__$1, staticRenderFns: __vue_staticRenderFns__$1 },
       __vue_inject_styles__$1,
       __vue_script__$1,
       __vue_scope_id__$1,
       __vue_is_functional_template__$1,
       __vue_module_identifier__$1,
+      false,
+      undefined,
       undefined,
       undefined
     );
@@ -492,7 +489,7 @@
   var _components;
   var script$2 = {
     name: 'BPagination',
-    components: (_components = {}, _defineProperty(_components, Icon.name, Icon), _defineProperty(_components, PaginationButton.name, PaginationButton), _components),
+    components: (_components = {}, _defineProperty(_components, __vue_component__$1.name, __vue_component__$1), _defineProperty(_components, __vue_component__.name, __vue_component__), _components),
     props: {
       total: [Number, String],
       perPage: {
@@ -732,15 +729,19 @@
     
     /* style inject SSR */
     
+    /* style inject shadow dom */
+    
 
     
-    var Pagination = normalizeComponent_1(
+    const __vue_component__$2 = normalizeComponent_1(
       { render: __vue_render__$2, staticRenderFns: __vue_staticRenderFns__$2 },
       __vue_inject_styles__$2,
       __vue_script__$2,
       __vue_scope_id__$2,
       __vue_is_functional_template__$2,
       __vue_module_identifier__$2,
+      false,
+      undefined,
       undefined,
       undefined
     );
@@ -756,14 +757,14 @@
 
   var Plugin = {
     install: function install(Vue) {
-      registerComponent(Vue, Pagination);
-      registerComponent(Vue, PaginationButton);
+      registerComponent(Vue, __vue_component__$2);
+      registerComponent(Vue, __vue_component__);
     }
   };
   use(Plugin);
 
-  exports.BPagination = Pagination;
-  exports.BPaginationButton = PaginationButton;
+  exports.BPagination = __vue_component__$2;
+  exports.BPaginationButton = __vue_component__;
   exports.default = Plugin;
 
   Object.defineProperty(exports, '__esModule', { value: true });

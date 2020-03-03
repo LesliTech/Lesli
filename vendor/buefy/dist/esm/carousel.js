@@ -1,7 +1,7 @@
-import { _ as _defineProperty } from './chunk-b91774bc.js';
+import { _ as _defineProperty } from './chunk-6ea13200.js';
 import { merge, sign } from './helpers.js';
-import { c as config } from './chunk-b76a6c1d.js';
-import { I as Icon } from './chunk-3802ee87.js';
+import { c as config } from './chunk-17222463.js';
+import { I as Icon } from './chunk-bed9f769.js';
 import { _ as __vue_normalize__, r as registerComponent, u as use } from './chunk-cca88db8.js';
 
 var script = {
@@ -50,6 +50,10 @@ var script = {
       default: true
     },
     arrowHover: {
+      type: Boolean,
+      default: true
+    },
+    repeat: {
       type: Boolean,
       default: true
     },
@@ -133,7 +137,7 @@ var script = {
      */
     carouselItems: function carouselItems() {
       if (this.activeItem < this.carouselItems.length) {
-        this.carouselItems[this.activeItem].status(true, false);
+        this.carouselItems[this.activeItem].isActive = true;
       }
     },
 
@@ -151,16 +155,24 @@ var script = {
       if (!this.autoplay || this.timer) return;
       this.isPause = false;
       this.timer = setInterval(function () {
-        _this.next();
+        if (!_this.repeat && _this.activeItem === _this.carouselItems.length - 1) {
+          _this.pauseTimer();
+        } else {
+          _this.next();
+        }
       }, this.interval || config.defaultCarouselInterval);
     },
     pauseTimer: function pauseTimer() {
-      if (!this.pauseHover && this.autoplay) return;
       this.isPause = true;
 
       if (this.timer) {
         clearInterval(this.timer);
         this.timer = null;
+      }
+    },
+    checkPause: function checkPause() {
+      if (this.pauseHover && this.autoplay) {
+        return this.pauseTimer();
       }
     },
 
@@ -171,7 +183,11 @@ var script = {
     changeItem: function changeItem(newIndex) {
       var action = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : true;
       if (this.activeItem === newIndex) return;
-      this.carouselItems[this.activeItem].status(false, action);
+
+      if (this.activeItem < this.carouselItems.length) {
+        this.carouselItems[this.activeItem].status(false, action);
+      }
+
       this.carouselItems[newIndex].status(true, action);
       this.activeItem = newIndex;
       this.$emit('change', newIndex);
@@ -184,10 +200,18 @@ var script = {
       }
     },
     prev: function prev() {
-      return this.activeItem === 0 ? this.changeItem(this.carouselItems.length - 1) : this.changeItem(this.activeItem - 1);
+      if (this.activeItem === 0) {
+        if (this.repeat) this.changeItem(this.carouselItems.length - 1);
+      } else {
+        this.changeItem(this.activeItem - 1);
+      }
     },
     next: function next() {
-      return this.activeItem === this.carouselItems.length - 1 ? this.changeItem(0, false) : this.changeItem(this.activeItem + 1, false);
+      if (this.activeItem === this.carouselItems.length - 1) {
+        if (this.repeat) this.changeItem(0, false);
+      } else {
+        this.changeItem(this.activeItem + 1, false);
+      }
     },
     // checking arrow between both
     checkArrow: function checkArrow(value) {
@@ -225,7 +249,7 @@ var script = {
   },
   mounted: function mounted() {
     if (this.activeItem < this.carouselItems.length) {
-      this.carouselItems[this.activeItem].status(true, false);
+      this.carouselItems[this.activeItem].isActive = true;
     }
 
     this.startTimer();
@@ -254,15 +278,19 @@ var __vue_staticRenderFns__ = [];
   
   /* style inject SSR */
   
+  /* style inject shadow dom */
+  
 
   
-  var Carousel = __vue_normalize__(
+  const __vue_component__ = __vue_normalize__(
     { render: __vue_render__, staticRenderFns: __vue_staticRenderFns__ },
     __vue_inject_styles__,
     __vue_script__,
     __vue_scope_id__,
     __vue_is_functional_template__,
     __vue_module_identifier__,
+    false,
+    undefined,
     undefined,
     undefined
   );
@@ -337,15 +365,19 @@ var __vue_staticRenderFns__$1 = [];
   
   /* style inject SSR */
   
+  /* style inject shadow dom */
+  
 
   
-  var CarouselItem = __vue_normalize__(
+  const __vue_component__$1 = __vue_normalize__(
     { render: __vue_render__$1, staticRenderFns: __vue_staticRenderFns__$1 },
     __vue_inject_styles__$1,
     __vue_script__$1,
     __vue_scope_id__$1,
     __vue_is_functional_template__$1,
     __vue_module_identifier__$1,
+    false,
+    undefined,
     undefined,
     undefined
   );
@@ -579,27 +611,31 @@ var __vue_staticRenderFns__$2 = [];
   
   /* style inject SSR */
   
+  /* style inject shadow dom */
+  
 
   
-  var CarouselList = __vue_normalize__(
+  const __vue_component__$2 = __vue_normalize__(
     { render: __vue_render__$2, staticRenderFns: __vue_staticRenderFns__$2 },
     __vue_inject_styles__$2,
     __vue_script__$2,
     __vue_scope_id__$2,
     __vue_is_functional_template__$2,
     __vue_module_identifier__$2,
+    false,
+    undefined,
     undefined,
     undefined
   );
 
 var Plugin = {
   install: function install(Vue) {
-    registerComponent(Vue, Carousel);
-    registerComponent(Vue, CarouselItem);
-    registerComponent(Vue, CarouselList);
+    registerComponent(Vue, __vue_component__);
+    registerComponent(Vue, __vue_component__$1);
+    registerComponent(Vue, __vue_component__$2);
   }
 };
 use(Plugin);
 
 export default Plugin;
-export { Carousel as BCarousel, CarouselItem as BCarouselItem, CarouselList as BCarouselList };
+export { __vue_component__ as BCarousel, __vue_component__$1 as BCarouselItem, __vue_component__$2 as BCarouselList };

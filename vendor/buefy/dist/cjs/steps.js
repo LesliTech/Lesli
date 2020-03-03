@@ -2,10 +2,10 @@
 
 Object.defineProperty(exports, '__esModule', { value: true });
 
-var __chunk_1 = require('./chunk-f98e7e80.js');
+var __chunk_1 = require('./chunk-5094d8df.js');
 require('./helpers.js');
-var __chunk_2 = require('./chunk-8806479f.js');
-var __chunk_4 = require('./chunk-45103eda.js');
+var __chunk_2 = require('./chunk-805257cc.js');
+var __chunk_4 = require('./chunk-bc189645.js');
 var __chunk_5 = require('./chunk-13e039f5.js');
 var __chunk_23 = require('./chunk-3dffe6e7.js');
 
@@ -135,7 +135,7 @@ var script = {
   },
   methods: {
     refreshSlots: function refreshSlots() {
-      this.defaultSlots = this.$slots.default;
+      this.defaultSlots = this.$slots.default || [];
     },
 
     /**
@@ -237,15 +237,19 @@ var __vue_staticRenderFns__ = [];
   
   /* style inject SSR */
   
+  /* style inject shadow dom */
+  
 
   
-  var Steps = __chunk_5.__vue_normalize__(
+  const __vue_component__ = __chunk_5.__vue_normalize__(
     { render: __vue_render__, staticRenderFns: __vue_staticRenderFns__ },
     __vue_inject_styles__,
     __vue_script__,
     __vue_scope_id__,
     __vue_is_functional_template__,
     __vue_module_identifier__,
+    false,
+    undefined,
     undefined,
     undefined
   );
@@ -359,27 +363,31 @@ const __vue_script__$1 = script$1;
   
   /* style inject SSR */
   
+  /* style inject shadow dom */
+  
 
   
-  var StepItem = __chunk_5.__vue_normalize__(
+  const __vue_component__$1 = __chunk_5.__vue_normalize__(
     {},
     __vue_inject_styles__$1,
     __vue_script__$1,
     __vue_scope_id__$1,
     __vue_is_functional_template__$1,
     __vue_module_identifier__$1,
+    false,
+    undefined,
     undefined,
     undefined
   );
 
 var Plugin = {
   install: function install(Vue) {
-    __chunk_5.registerComponent(Vue, Steps);
-    __chunk_5.registerComponent(Vue, StepItem);
+    __chunk_5.registerComponent(Vue, __vue_component__);
+    __chunk_5.registerComponent(Vue, __vue_component__$1);
   }
 };
 __chunk_5.use(Plugin);
 
-exports.BStepItem = StepItem;
-exports.BSteps = Steps;
+exports.BStepItem = __vue_component__$1;
+exports.BSteps = __vue_component__;
 exports.default = Plugin;
