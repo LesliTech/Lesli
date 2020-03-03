@@ -1,4 +1,11 @@
 {
+  "_args": [
+    [
+      "@fortawesome/free-solid-svg-icons@5.12.0",
+      "/var/www/LesliCloud/lesli.cloud"
+    ]
+  ],
+  "_development": true,
   "_from": "@fortawesome/free-solid-svg-icons@5.12.0",
   "_id": "@fortawesome/free-solid-svg-icons@5.12.0",
   "_inBundle": false,
@@ -20,8 +27,7 @@
     "#DEV:/"
   ],
   "_resolved": "https://registry.npmjs.org/@fortawesome/free-solid-svg-icons/-/free-solid-svg-icons-5.12.0.tgz",
-  "_shasum": "8decac5844e60453cc0c7c51437d1461df053a35",
-  "_spec": "@fortawesome/free-solid-svg-icons@5.12.0",
+  "_spec": "5.12.0",
   "_where": "/var/www/LesliCloud/lesli.cloud",
   "author": {
     "name": "Dave Gandy",
@@ -31,7 +37,6 @@
   "bugs": {
     "url": "http://github.com/FortAwesome/Font-Awesome/issues"
   },
-  "bundleDependencies": false,
   "contributors": [
     {
       "name": "Brian Talbot",
@@ -57,7 +62,6 @@
   "dependencies": {
     "@fortawesome/fontawesome-common-types": "^0.2.26"
   },
-  "deprecated": false,
   "description": "The iconic font, CSS, and SVG framework",
   "engines": {
     "node": ">=6"
