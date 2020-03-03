@@ -1,5 +1,7 @@
-/*! Buefy v0.8.9 | MIT License | github.com/buefy/buefy */
+/*! Buefy v0.8.12 | MIT License | github.com/buefy/buefy */
 function _typeof(obj) {
+  "@babel/helpers - typeof";
+
   if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") {
     _typeof = function (obj) {
       return typeof obj;
@@ -173,7 +175,7 @@ var isMobile = {
 function removeElement(el) {
   if (typeof el.remove !== 'undefined') {
     el.remove();
-  } else if (typeof el.parentNode !== 'undefined') {
+  } else if (typeof el.parentNode !== 'undefined' && el.parentNode !== null) {
     el.parentNode.removeChild(el);
   }
 }
@@ -186,6 +188,29 @@ function escapeRegExpChars(value) {
   if (!value) return value; // eslint-disable-next-line
 
   return value.replace(/[\-\[\]\/\{\}\(\)\*\+\?\.\\\^\$\|]/g, '\\$&');
+}
+function multiColumnSort(inputArray, sortingPriority) {
+  // clone it to prevent the any watchers from triggering every sorting iteration
+  var array = JSON.parse(JSON.stringify(inputArray));
+
+  var fieldSorter = function fieldSorter(fields) {
+    return function (a, b) {
+      return fields.map(function (o) {
+        var dir = 1;
+
+        if (o[0] === '-') {
+          dir = -1;
+          o = o.substring(1);
+        }
+
+        return a[o] > b[o] ? dir : a[o] < b[o] ? -dir : 0;
+      }).reduce(function (p, n) {
+        return p || n;
+      }, 0);
+    };
+  };
+
+  return array.sort(fieldSorter(sortingPriority));
 }
 
 var config = {
@@ -234,6 +259,7 @@ var config = {
   defaultTrapFocus: false,
   defaultButtonRounded: false,
   defaultCarouselInterval: 3500,
+  defaultLinkTags: ['a', 'button', 'input', 'router-link', 'nuxt-link', 'n-link', 'RouterLink', 'NuxtLink', 'NLink'],
   customIconPacks: null
 }; // TODO defaultTrapFocus to true in the next breaking change
 var setOptions = function setOptions(options) {
@@ -428,7 +454,8 @@ var faIcons = function faIcons() {
       'chevron-down': 'angle-down',
       'eye-off': 'eye-slash',
       'menu-down': 'caret-down',
-      'menu-up': 'caret-up'
+      'menu-up': 'caret-up',
+      'close-circle': 'times-circle'
     }
   };
 };
@@ -648,22 +675,26 @@ var __vue_staticRenderFns__ = [];
   
   /* style inject SSR */
   
+  /* style inject shadow dom */
+  
 
   
-  var Icon = normalizeComponent_1(
+  const __vue_component__ = normalizeComponent_1(
     { render: __vue_render__, staticRenderFns: __vue_staticRenderFns__ },
     __vue_inject_styles__,
     __vue_script__,
     __vue_scope_id__,
     __vue_is_functional_template__,
     __vue_module_identifier__,
+    false,
+    undefined,
     undefined,
     undefined
   );
 
 var script$1 = {
   name: 'BInput',
-  components: _defineProperty({}, Icon.name, Icon),
+  components: _defineProperty({}, __vue_component__.name, __vue_component__),
   mixins: [FormElementMixin],
   inheritAttrs: false,
   props: {
@@ -683,7 +714,9 @@ var script$1 = {
     customClass: {
       type: String,
       default: ''
-    }
+    },
+    iconRight: String,
+    iconRightClickable: Boolean
   },
   data: function data() {
     return {
@@ -718,7 +751,25 @@ var script$1 = {
       }];
     },
     hasIconRight: function hasIconRight() {
-      return this.passwordReveal || this.loading || this.statusTypeIcon;
+      return this.passwordReveal || this.loading || this.statusTypeIcon || this.iconRight;
+    },
+    rightIcon: function rightIcon() {
+      if (this.passwordReveal) {
+        return this.passwordVisibleIcon;
+      } else if (this.statusTypeIcon) {
+        return this.statusTypeIcon;
+      }
+
+      return this.iconRight;
+    },
+    rightIconType: function rightIconType() {
+      if (this.passwordReveal) {
+        return 'is-primary';
+      } else if (this.statusTypeIcon) {
+        return this.statusType;
+      }
+
+      return null;
     },
 
     /**
@@ -817,13 +868,20 @@ var script$1 = {
         }
       });
     },
-    iconClick: function iconClick(event) {
+    iconClick: function iconClick(emit, event) {
       var _this3 = this;
 
-      this.$emit('icon-click', event);
+      this.$emit(emit, event);
       this.$nextTick(function () {
         _this3.$refs.input.focus();
       });
+    },
+    rightIconClick: function rightIconClick(event) {
+      if (this.passwordReveal) {
+        this.togglePasswordVisibility();
+      } else if (this.iconRightClickable) {
+        this.iconClick('icon-right-click', event);
+      }
     }
   }
 };
@@ -832,7 +890,7 @@ var script$1 = {
 const __vue_script__$1 = script$1;
 
 /* template */
-var __vue_render__$1 = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"control",class:_vm.rootClasses},[(_vm.type !== 'textarea')?_c('input',_vm._b({ref:"input",staticClass:"input",class:[_vm.inputClasses, _vm.customClass],attrs:{"type":_vm.newType,"autocomplete":_vm.newAutocomplete,"maxlength":_vm.maxlength},domProps:{"value":_vm.computedValue},on:{"input":_vm.onInput,"blur":_vm.onBlur,"focus":_vm.onFocus}},'input',_vm.$attrs,false)):_c('textarea',_vm._b({ref:"textarea",staticClass:"textarea",class:[_vm.inputClasses, _vm.customClass],attrs:{"maxlength":_vm.maxlength},domProps:{"value":_vm.computedValue},on:{"input":_vm.onInput,"blur":_vm.onBlur,"focus":_vm.onFocus}},'textarea',_vm.$attrs,false)),_vm._v(" "),(_vm.icon)?_c('b-icon',{staticClass:"is-left",class:{'is-clickable': _vm.iconClickable},attrs:{"icon":_vm.icon,"pack":_vm.iconPack,"size":_vm.iconSize},nativeOn:{"click":function($event){return _vm.iconClick($event)}}}):_vm._e(),_vm._v(" "),(!_vm.loading && (_vm.passwordReveal || _vm.statusTypeIcon))?_c('b-icon',{staticClass:"is-right",class:{ 'is-clickable': _vm.passwordReveal },attrs:{"icon":_vm.passwordReveal ? _vm.passwordVisibleIcon : _vm.statusTypeIcon,"pack":_vm.iconPack,"size":_vm.iconSize,"type":!_vm.passwordReveal ? _vm.statusType : 'is-primary',"both":""},nativeOn:{"click":function($event){return _vm.togglePasswordVisibility($event)}}}):_vm._e(),_vm._v(" "),(_vm.maxlength && _vm.hasCounter && _vm.type !== 'number')?_c('small',{staticClass:"help counter",class:{ 'is-invisible': !_vm.isFocused }},[_vm._v("\r\n            "+_vm._s(_vm.valueLength)+" / "+_vm._s(_vm.maxlength)+"\r\n        ")]):_vm._e()],1)};
+var __vue_render__$1 = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"control",class:_vm.rootClasses},[(_vm.type !== 'textarea')?_c('input',_vm._b({ref:"input",staticClass:"input",class:[_vm.inputClasses, _vm.customClass],attrs:{"type":_vm.newType,"autocomplete":_vm.newAutocomplete,"maxlength":_vm.maxlength},domProps:{"value":_vm.computedValue},on:{"input":_vm.onInput,"blur":_vm.onBlur,"focus":_vm.onFocus}},'input',_vm.$attrs,false)):_c('textarea',_vm._b({ref:"textarea",staticClass:"textarea",class:[_vm.inputClasses, _vm.customClass],attrs:{"maxlength":_vm.maxlength},domProps:{"value":_vm.computedValue},on:{"input":_vm.onInput,"blur":_vm.onBlur,"focus":_vm.onFocus}},'textarea',_vm.$attrs,false)),_vm._v(" "),(_vm.icon)?_c('b-icon',{staticClass:"is-left",class:{'is-clickable': _vm.iconClickable},attrs:{"icon":_vm.icon,"pack":_vm.iconPack,"size":_vm.iconSize},nativeOn:{"click":function($event){_vm.iconClick('icon-click', $event);}}}):_vm._e(),_vm._v(" "),(!_vm.loading && _vm.hasIconRight)?_c('b-icon',{staticClass:"is-right",class:{ 'is-clickable': _vm.passwordReveal || _vm.iconRightClickable },attrs:{"icon":_vm.rightIcon,"pack":_vm.iconPack,"size":_vm.iconSize,"type":_vm.rightIconType,"both":""},nativeOn:{"click":function($event){return _vm.rightIconClick($event)}}}):_vm._e(),_vm._v(" "),(_vm.maxlength && _vm.hasCounter && _vm.type !== 'number')?_c('small',{staticClass:"help counter",class:{ 'is-invisible': !_vm.isFocused }},[_vm._v("\r\n            "+_vm._s(_vm.valueLength)+" / "+_vm._s(_vm.maxlength)+"\r\n        ")]):_vm._e()],1)};
 var __vue_staticRenderFns__$1 = [];
 
   /* style */
@@ -847,22 +905,26 @@ var __vue_staticRenderFns__$1 = [];
   
   /* style inject SSR */
   
+  /* style inject shadow dom */
+  
 
   
-  var Input = normalizeComponent_1(
+  const __vue_component__$1 = normalizeComponent_1(
     { render: __vue_render__$1, staticRenderFns: __vue_staticRenderFns__$1 },
     __vue_inject_styles__$1,
     __vue_script__$1,
     __vue_scope_id__$1,
     __vue_is_functional_template__$1,
     __vue_module_identifier__$1,
+    false,
+    undefined,
     undefined,
     undefined
   );
 
 var script$2 = {
   name: 'BAutocomplete',
-  components: _defineProperty({}, Input.name, Input),
+  components: _defineProperty({}, __vue_component__$1.name, __vue_component__$1),
   mixins: [FormElementMixin],
   inheritAttrs: false,
   props: {
@@ -881,7 +943,9 @@ var script$2 = {
     clearOnSelect: Boolean,
     openOnFocus: Boolean,
     customFormatter: Function,
-    checkInfiniteScroll: Boolean
+    checkInfiniteScroll: Boolean,
+    keepOpen: Boolean,
+    clearable: Boolean
   },
   data: function data() {
     return {
@@ -992,6 +1056,13 @@ var script$2 = {
      */
     hasFooterSlot: function hasFooterSlot() {
       return !!this.$slots.footer;
+    },
+    clearButton: function clearButton() {
+      if (this.clearable && this.newValue) {
+        return 'close-circle';
+      }
+
+      return '';
     }
   },
   watch: {
@@ -1110,7 +1181,7 @@ var script$2 = {
      */
     enterPressed: function enterPressed() {
       if (this.hovered === null) return;
-      this.setSelected(this.hovered);
+      this.setSelected(this.hovered, !this.keepOpen);
     },
 
     /**
@@ -1124,7 +1195,7 @@ var script$2 = {
         return;
       }
 
-      this.setSelected(this.hovered);
+      this.setSelected(this.hovered, !this.keepOpen);
     },
 
     /**
@@ -1238,6 +1309,9 @@ var script$2 = {
       var currentValue = this.getValue(this.selected);
       if (currentValue && currentValue === this.newValue) return;
       this.$emit('typing', this.newValue);
+    },
+    clearInputText: function clearInputText() {
+      this.newValue = '';
     }
   },
   created: function created() {
@@ -1273,7 +1347,7 @@ var script$2 = {
 const __vue_script__$2 = script$2;
 
 /* template */
-var __vue_render__$2 = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"autocomplete control",class:{'is-expanded': _vm.expanded}},[_c('b-input',_vm._b({ref:"input",attrs:{"type":"text","size":_vm.size,"loading":_vm.loading,"rounded":_vm.rounded,"icon":_vm.icon,"icon-pack":_vm.iconPack,"maxlength":_vm.maxlength,"autocomplete":_vm.newAutocomplete,"use-html5-validation":_vm.useHtml5Validation},on:{"input":_vm.onInput,"focus":_vm.focused,"blur":_vm.onBlur},nativeOn:{"keyup":function($event){if(!('button' in $event)&&_vm._k($event.keyCode,"esc",27,$event.key,["Esc","Escape"])){ return null; }$event.preventDefault();_vm.isActive = false;},"keydown":[function($event){if(!('button' in $event)&&_vm._k($event.keyCode,"tab",9,$event.key,"Tab")){ return null; }return _vm.tabPressed($event)},function($event){if(!('button' in $event)&&_vm._k($event.keyCode,"enter",13,$event.key,"Enter")){ return null; }$event.preventDefault();return _vm.enterPressed($event)},function($event){if(!('button' in $event)&&_vm._k($event.keyCode,"up",38,$event.key,["Up","ArrowUp"])){ return null; }$event.preventDefault();_vm.keyArrows('up');},function($event){if(!('button' in $event)&&_vm._k($event.keyCode,"down",40,$event.key,["Down","ArrowDown"])){ return null; }$event.preventDefault();_vm.keyArrows('down');}]},model:{value:(_vm.newValue),callback:function ($$v) {_vm.newValue=$$v;},expression:"newValue"}},'b-input',_vm.$attrs,false)),_vm._v(" "),_c('transition',{attrs:{"name":"fade"}},[_c('div',{directives:[{name:"show",rawName:"v-show",value:(_vm.isActive && (_vm.data.length > 0 || _vm.hasEmptySlot || _vm.hasHeaderSlot)),expression:"isActive && (data.length > 0 || hasEmptySlot || hasHeaderSlot)"}],ref:"dropdown",staticClass:"dropdown-menu",class:{ 'is-opened-top': !_vm.isListInViewportVertically }},[_c('div',{directives:[{name:"show",rawName:"v-show",value:(_vm.isActive),expression:"isActive"}],staticClass:"dropdown-content"},[(_vm.hasHeaderSlot)?_c('div',{staticClass:"dropdown-item"},[_vm._t("header")],2):_vm._e(),_vm._v(" "),_vm._l((_vm.data),function(option,index){return _c('a',{key:index,staticClass:"dropdown-item",class:{ 'is-hovered': option === _vm.hovered },on:{"click":function($event){_vm.setSelected(option);}}},[(_vm.hasDefaultSlot)?_vm._t("default",null,{option:option,index:index}):_c('span',[_vm._v("\r\n                            "+_vm._s(_vm.getValue(option, true))+"\r\n                        ")])],2)}),_vm._v(" "),(_vm.data.length === 0 && _vm.hasEmptySlot)?_c('div',{staticClass:"dropdown-item is-disabled"},[_vm._t("empty")],2):_vm._e(),_vm._v(" "),(_vm.hasFooterSlot)?_c('div',{staticClass:"dropdown-item"},[_vm._t("footer")],2):_vm._e()],2)])])],1)};
+var __vue_render__$2 = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"autocomplete control",class:{'is-expanded': _vm.expanded}},[_c('b-input',_vm._b({ref:"input",attrs:{"type":"text","size":_vm.size,"loading":_vm.loading,"rounded":_vm.rounded,"icon":_vm.icon,"icon-right":_vm.clearButton,"icon-right-clickable":"","icon-pack":_vm.iconPack,"maxlength":_vm.maxlength,"autocomplete":_vm.newAutocomplete,"use-html5-validation":_vm.useHtml5Validation},on:{"input":_vm.onInput,"focus":_vm.focused,"blur":_vm.onBlur,"icon-right-click":_vm.clearInputText},nativeOn:{"keyup":function($event){if(!('button' in $event)&&_vm._k($event.keyCode,"esc",27,$event.key,["Esc","Escape"])){ return null; }$event.preventDefault();_vm.isActive = false;},"keydown":[function($event){if(!('button' in $event)&&_vm._k($event.keyCode,"tab",9,$event.key,"Tab")){ return null; }return _vm.tabPressed($event)},function($event){if(!('button' in $event)&&_vm._k($event.keyCode,"enter",13,$event.key,"Enter")){ return null; }$event.preventDefault();return _vm.enterPressed($event)},function($event){if(!('button' in $event)&&_vm._k($event.keyCode,"up",38,$event.key,["Up","ArrowUp"])){ return null; }$event.preventDefault();_vm.keyArrows('up');},function($event){if(!('button' in $event)&&_vm._k($event.keyCode,"down",40,$event.key,["Down","ArrowDown"])){ return null; }$event.preventDefault();_vm.keyArrows('down');}]},model:{value:(_vm.newValue),callback:function ($$v) {_vm.newValue=$$v;},expression:"newValue"}},'b-input',_vm.$attrs,false)),_vm._v(" "),_c('transition',{attrs:{"name":"fade"}},[_c('div',{directives:[{name:"show",rawName:"v-show",value:(_vm.isActive && (_vm.data.length > 0 || _vm.hasEmptySlot || _vm.hasHeaderSlot)),expression:"isActive && (data.length > 0 || hasEmptySlot || hasHeaderSlot)"}],ref:"dropdown",staticClass:"dropdown-menu",class:{ 'is-opened-top': !_vm.isListInViewportVertically }},[_c('div',{directives:[{name:"show",rawName:"v-show",value:(_vm.isActive),expression:"isActive"}],staticClass:"dropdown-content"},[(_vm.hasHeaderSlot)?_c('div',{staticClass:"dropdown-item"},[_vm._t("header")],2):_vm._e(),_vm._v(" "),_vm._l((_vm.data),function(option,index){return _c('a',{key:index,staticClass:"dropdown-item",class:{ 'is-hovered': option === _vm.hovered },on:{"click":function($event){_vm.setSelected(option);}}},[(_vm.hasDefaultSlot)?_vm._t("default",null,{option:option,index:index}):_c('span',[_vm._v("\r\n                            "+_vm._s(_vm.getValue(option, true))+"\r\n                        ")])],2)}),_vm._v(" "),(_vm.data.length === 0 && _vm.hasEmptySlot)?_c('div',{staticClass:"dropdown-item is-disabled"},[_vm._t("empty")],2):_vm._e(),_vm._v(" "),(_vm.hasFooterSlot)?_c('div',{staticClass:"dropdown-item"},[_vm._t("footer")],2):_vm._e()],2)])])],1)};
 var __vue_staticRenderFns__$2 = [];
 
   /* style */
@@ -1288,15 +1362,19 @@ var __vue_staticRenderFns__$2 = [];
   
   /* style inject SSR */
   
+  /* style inject shadow dom */
+  
 
   
-  var Autocomplete = normalizeComponent_1(
+  const __vue_component__$2 = normalizeComponent_1(
     { render: __vue_render__$2, staticRenderFns: __vue_staticRenderFns__$2 },
     __vue_inject_styles__$2,
     __vue_script__$2,
     __vue_scope_id__$2,
     __vue_is_functional_template__$2,
     __vue_module_identifier__$2,
+    false,
+    undefined,
     undefined,
     undefined
   );
@@ -1316,14 +1394,14 @@ var registerComponentProgrammatic = function registerComponentProgrammatic(Vue, 
 
 var Plugin = {
   install: function install(Vue) {
-    registerComponent(Vue, Autocomplete);
+    registerComponent(Vue, __vue_component__$2);
   }
 };
 use(Plugin);
 
 var script$3 = {
   name: 'BButton',
-  components: _defineProperty({}, Icon.name, Icon),
+  components: _defineProperty({}, __vue_component__.name, __vue_component__),
   inheritAttrs: false,
   props: {
     type: [String, Object],
@@ -1357,11 +1435,18 @@ var script$3 = {
       type: String,
       default: 'button',
       validator: function validator(value) {
-        return ['button', 'a', 'input', 'router-link', 'nuxt-link', 'n-link', 'NuxtLink', 'NLink'].indexOf(value) >= 0;
+        return config.defaultLinkTags.indexOf(value) >= 0;
       }
     }
   },
   computed: {
+    computedTag: function computedTag() {
+      if (this.$attrs.disabled !== undefined && this.$attrs.disabled !== false) {
+        return 'button';
+      }
+
+      return this.tag;
+    },
     iconSize: function iconSize() {
       if (!this.size || this.size === 'is-medium') {
         return 'is-small';
@@ -1378,7 +1463,7 @@ var script$3 = {
 const __vue_script__$3 = script$3;
 
 /* template */
-var __vue_render__$3 = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c(_vm.tag,_vm._g(_vm._b({tag:"component",staticClass:"button",class:[_vm.size, _vm.type, {
+var __vue_render__$3 = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c(_vm.computedTag,_vm._g(_vm._b({tag:"component",staticClass:"button",class:[_vm.size, _vm.type, {
             'is-rounded': _vm.rounded,
             'is-loading': _vm.loading,
             'is-outlined': _vm.outlined,
@@ -1388,7 +1473,7 @@ var __vue_render__$3 = function () {var _vm=this;var _h=_vm.$createElement;var _
             'is-active': _vm.active,
             'is-hovered': _vm.hovered,
             'is-selected': _vm.selected
-        }],attrs:{"type":_vm.nativeType}},'component',_vm.$attrs,false),_vm.$listeners),[(_vm.iconLeft)?_c('b-icon',{attrs:{"pack":_vm.iconPack,"icon":_vm.iconLeft,"size":_vm.iconSize}}):_vm._e(),_vm._v(" "),(_vm.label)?_c('span',[_vm._v(_vm._s(_vm.label))]):(_vm.$slots.default)?_c('span',[_vm._t("default")],2):_vm._e(),_vm._v(" "),(_vm.iconRight)?_c('b-icon',{attrs:{"pack":_vm.iconPack,"icon":_vm.iconRight,"size":_vm.iconSize}}):_vm._e()],1)};
+        }],attrs:{"type":_vm.nativeType}},'component',_vm.$attrs,false),_vm.$listeners),[(_vm.iconLeft)?_c('b-icon',{attrs:{"pack":_vm.iconPack,"icon":_vm.iconLeft,"size":_vm.iconSize}}):_vm._e(),_vm._v(" "),(_vm.label)?_c('span',[_vm._v(_vm._s(_vm.label))]):_c('span',[_vm._t("default")],2),_vm._v(" "),(_vm.iconRight)?_c('b-icon',{attrs:{"pack":_vm.iconPack,"icon":_vm.iconRight,"size":_vm.iconSize}}):_vm._e()],1)};
 var __vue_staticRenderFns__$3 = [];
 
   /* style */
@@ -1403,29 +1488,33 @@ var __vue_staticRenderFns__$3 = [];
   
   /* style inject SSR */
   
+  /* style inject shadow dom */
+  
 
   
-  var Button = normalizeComponent_1(
+  const __vue_component__$3 = normalizeComponent_1(
     { render: __vue_render__$3, staticRenderFns: __vue_staticRenderFns__$3 },
     __vue_inject_styles__$3,
     __vue_script__$3,
     __vue_scope_id__$3,
     __vue_is_functional_template__$3,
     __vue_module_identifier__$3,
+    false,
+    undefined,
     undefined,
     undefined
   );
 
 var Plugin$1 = {
   install: function install(Vue) {
-    registerComponent(Vue, Button);
+    registerComponent(Vue, __vue_component__$3);
   }
 };
 use(Plugin$1);
 
 var script$4 = {
   name: 'BCarousel',
-  components: _defineProperty({}, Icon.name, Icon),
+  components: _defineProperty({}, __vue_component__.name, __vue_component__),
   props: {
     value: {
       type: Number,
@@ -1469,6 +1558,10 @@ var script$4 = {
       default: true
     },
     arrowHover: {
+      type: Boolean,
+      default: true
+    },
+    repeat: {
       type: Boolean,
       default: true
     },
@@ -1552,7 +1645,7 @@ var script$4 = {
      */
     carouselItems: function carouselItems() {
       if (this.activeItem < this.carouselItems.length) {
-        this.carouselItems[this.activeItem].status(true, false);
+        this.carouselItems[this.activeItem].isActive = true;
       }
     },
 
@@ -1570,16 +1663,24 @@ var script$4 = {
       if (!this.autoplay || this.timer) return;
       this.isPause = false;
       this.timer = setInterval(function () {
-        _this.next();
+        if (!_this.repeat && _this.activeItem === _this.carouselItems.length - 1) {
+          _this.pauseTimer();
+        } else {
+          _this.next();
+        }
       }, this.interval || config.defaultCarouselInterval);
     },
     pauseTimer: function pauseTimer() {
-      if (!this.pauseHover && this.autoplay) return;
       this.isPause = true;
 
       if (this.timer) {
         clearInterval(this.timer);
         this.timer = null;
+      }
+    },
+    checkPause: function checkPause() {
+      if (this.pauseHover && this.autoplay) {
+        return this.pauseTimer();
       }
     },
 
@@ -1590,7 +1691,11 @@ var script$4 = {
     changeItem: function changeItem(newIndex) {
       var action = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : true;
       if (this.activeItem === newIndex) return;
-      this.carouselItems[this.activeItem].status(false, action);
+
+      if (this.activeItem < this.carouselItems.length) {
+        this.carouselItems[this.activeItem].status(false, action);
+      }
+
       this.carouselItems[newIndex].status(true, action);
       this.activeItem = newIndex;
       this.$emit('change', newIndex);
@@ -1603,10 +1708,18 @@ var script$4 = {
       }
     },
     prev: function prev() {
-      return this.activeItem === 0 ? this.changeItem(this.carouselItems.length - 1) : this.changeItem(this.activeItem - 1);
+      if (this.activeItem === 0) {
+        if (this.repeat) this.changeItem(this.carouselItems.length - 1);
+      } else {
+        this.changeItem(this.activeItem - 1);
+      }
     },
     next: function next() {
-      return this.activeItem === this.carouselItems.length - 1 ? this.changeItem(0, false) : this.changeItem(this.activeItem + 1, false);
+      if (this.activeItem === this.carouselItems.length - 1) {
+        if (this.repeat) this.changeItem(0, false);
+      } else {
+        this.changeItem(this.activeItem + 1, false);
+      }
     },
     // checking arrow between both
     checkArrow: function checkArrow(value) {
@@ -1644,7 +1757,7 @@ var script$4 = {
   },
   mounted: function mounted() {
     if (this.activeItem < this.carouselItems.length) {
-      this.carouselItems[this.activeItem].status(true, false);
+      this.carouselItems[this.activeItem].isActive = true;
     }
 
     this.startTimer();
@@ -1673,15 +1786,19 @@ var __vue_staticRenderFns__$4 = [];
   
   /* style inject SSR */
   
+  /* style inject shadow dom */
+  
 
   
-  var Carousel = normalizeComponent_1(
+  const __vue_component__$4 = normalizeComponent_1(
     { render: __vue_render__$4, staticRenderFns: __vue_staticRenderFns__$4 },
     __vue_inject_styles__$4,
     __vue_script__$4,
     __vue_scope_id__$4,
     __vue_is_functional_template__$4,
     __vue_module_identifier__$4,
+    false,
+    undefined,
     undefined,
     undefined
   );
@@ -1756,22 +1873,26 @@ var __vue_staticRenderFns__$5 = [];
   
   /* style inject SSR */
   
+  /* style inject shadow dom */
+  
 
   
-  var CarouselItem = normalizeComponent_1(
+  const __vue_component__$5 = normalizeComponent_1(
     { render: __vue_render__$5, staticRenderFns: __vue_staticRenderFns__$5 },
     __vue_inject_styles__$5,
     __vue_script__$5,
     __vue_scope_id__$5,
     __vue_is_functional_template__$5,
     __vue_module_identifier__$5,
+    false,
+    undefined,
     undefined,
     undefined
   );
 
 var script$6 = {
   name: 'BCarouselList',
-  components: _defineProperty({}, Icon.name, Icon),
+  components: _defineProperty({}, __vue_component__.name, __vue_component__),
   props: {
     config: {
       type: Object,
@@ -1998,24 +2119,28 @@ var __vue_staticRenderFns__$6 = [];
   
   /* style inject SSR */
   
+  /* style inject shadow dom */
+  
 
   
-  var CarouselList = normalizeComponent_1(
+  const __vue_component__$6 = normalizeComponent_1(
     { render: __vue_render__$6, staticRenderFns: __vue_staticRenderFns__$6 },
     __vue_inject_styles__$6,
     __vue_script__$6,
     __vue_scope_id__$6,
     __vue_is_functional_template__$6,
     __vue_module_identifier__$6,
+    false,
+    undefined,
     undefined,
     undefined
   );
 
 var Plugin$2 = {
   install: function install(Vue) {
-    registerComponent(Vue, Carousel);
-    registerComponent(Vue, CarouselItem);
-    registerComponent(Vue, CarouselList);
+    registerComponent(Vue, __vue_component__$4);
+    registerComponent(Vue, __vue_component__$5);
+    registerComponent(Vue, __vue_component__$6);
   }
 };
 use(Plugin$2);
@@ -2098,15 +2223,19 @@ var __vue_staticRenderFns__$7 = [];
   
   /* style inject SSR */
   
+  /* style inject shadow dom */
+  
 
   
-  var Checkbox = normalizeComponent_1(
+  const __vue_component__$7 = normalizeComponent_1(
     { render: __vue_render__$7, staticRenderFns: __vue_staticRenderFns__$7 },
     __vue_inject_styles__$7,
     __vue_script__$7,
     __vue_scope_id__$7,
     __vue_is_functional_template__$7,
     __vue_module_identifier__$7,
+    false,
+    undefined,
     undefined,
     undefined
   );
@@ -2160,23 +2289,27 @@ var __vue_staticRenderFns__$8 = [];
   
   /* style inject SSR */
   
+  /* style inject shadow dom */
+  
 
   
-  var CheckboxButton = normalizeComponent_1(
+  const __vue_component__$8 = normalizeComponent_1(
     { render: __vue_render__$8, staticRenderFns: __vue_staticRenderFns__$8 },
     __vue_inject_styles__$8,
     __vue_script__$8,
     __vue_scope_id__$8,
     __vue_is_functional_template__$8,
     __vue_module_identifier__$8,
+    false,
+    undefined,
     undefined,
     undefined
   );
 
 var Plugin$3 = {
   install: function install(Vue) {
-    registerComponent(Vue, Checkbox);
-    registerComponent(Vue, CheckboxButton);
+    registerComponent(Vue, __vue_component__$7);
+    registerComponent(Vue, __vue_component__$8);
   }
 };
 use(Plugin$3);
@@ -2271,22 +2404,26 @@ const __vue_script__$9 = script$9;
   
   /* style inject SSR */
   
+  /* style inject shadow dom */
+  
 
   
-  var Collapse = normalizeComponent_1(
+  const __vue_component__$9 = normalizeComponent_1(
     {},
     __vue_inject_styles__$9,
     __vue_script__$9,
     __vue_scope_id__$9,
     __vue_is_functional_template__$9,
     __vue_module_identifier__$9,
+    false,
+    undefined,
     undefined,
     undefined
   );
 
 var Plugin$4 = {
   install: function install(Vue) {
-    registerComponent(Vue, Collapse);
+    registerComponent(Vue, __vue_component__$9);
   }
 };
 use(Plugin$4);
@@ -2379,6 +2516,10 @@ var TimepickerMixin = {
         return value === HOUR_FORMAT_24 || value === HOUR_FORMAT_12;
       }
     },
+    incrementHours: {
+      type: Number,
+      default: 1
+    },
     incrementMinutes: {
       type: Number,
       default: 1
@@ -2432,6 +2573,10 @@ var TimepickerMixin = {
     focusable: {
       type: Boolean,
       default: true
+    },
+    tzOffset: {
+      type: Number,
+      default: 0
     }
   },
   data: function data() {
@@ -2455,14 +2600,15 @@ var TimepickerMixin = {
       },
       set: function set(value) {
         this.dateSelected = value;
-        this.$emit('input', value);
+        this.$emit('input', this.dateSelected);
       }
     },
     hours: function hours() {
+      if (!this.incrementHours || this.incrementHours < 1) throw new Error('Hour increment cannot be null or less than 1.');
       var hours = [];
       var numberOfHours = this.isHourFormat24 ? 24 : 12;
 
-      for (var i = 0; i < numberOfHours; i++) {
+      for (var i = 0; i < numberOfHours; i += this.incrementHours) {
         var value = i;
         var label = value;
 
@@ -3185,7 +3331,7 @@ var script$a = {
 const __vue_script__$a = script$a;
 
 /* template */
-var __vue_render__$9 = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"dropdown",class:_vm.rootClasses},[(!_vm.inline)?_c('div',{ref:"trigger",staticClass:"dropdown-trigger",attrs:{"role":"button","aria-haspopup":"true"},on:{"click":_vm.toggle,"mouseenter":_vm.checkHoverable}},[_vm._t("trigger")],2):_vm._e(),_vm._v(" "),_c('transition',{attrs:{"name":_vm.animation}},[(_vm.isMobileModal)?_c('div',{directives:[{name:"show",rawName:"v-show",value:(_vm.isActive),expression:"isActive"}],staticClass:"background",attrs:{"aria-hidden":!_vm.isActive}}):_vm._e()]),_vm._v(" "),_c('transition',{attrs:{"name":_vm.animation}},[_c('div',{directives:[{name:"show",rawName:"v-show",value:((!_vm.disabled && (_vm.isActive || _vm.isHoverable)) || _vm.inline),expression:"(!disabled && (isActive || isHoverable)) || inline"},{name:"trap-focus",rawName:"v-trap-focus",value:(_vm.trapFocus),expression:"trapFocus"}],ref:"dropdownMenu",staticClass:"dropdown-menu",attrs:{"aria-hidden":!_vm.isActive}},[_c('div',{staticClass:"dropdown-content",attrs:{"role":_vm.ariaRoleMenu}},[_vm._t("default")],2)])])],1)};
+var __vue_render__$9 = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"dropdown",class:_vm.rootClasses},[(!_vm.inline)?_c('div',{ref:"trigger",staticClass:"dropdown-trigger",attrs:{"role":"button","aria-haspopup":"true"},on:{"click":_vm.toggle,"mouseenter":_vm.checkHoverable}},[_vm._t("trigger",null,{active:_vm.isActive})],2):_vm._e(),_vm._v(" "),_c('transition',{attrs:{"name":_vm.animation}},[(_vm.isMobileModal)?_c('div',{directives:[{name:"show",rawName:"v-show",value:(_vm.isActive),expression:"isActive"}],staticClass:"background",attrs:{"aria-hidden":!_vm.isActive}}):_vm._e()]),_vm._v(" "),_c('transition',{attrs:{"name":_vm.animation}},[_c('div',{directives:[{name:"show",rawName:"v-show",value:((!_vm.disabled && (_vm.isActive || _vm.isHoverable)) || _vm.inline),expression:"(!disabled && (isActive || isHoverable)) || inline"},{name:"trap-focus",rawName:"v-trap-focus",value:(_vm.trapFocus),expression:"trapFocus"}],ref:"dropdownMenu",staticClass:"dropdown-menu",attrs:{"aria-hidden":!_vm.isActive}},[_c('div',{staticClass:"dropdown-content",attrs:{"role":_vm.ariaRoleMenu}},[_vm._t("default")],2)])])],1)};
 var __vue_staticRenderFns__$9 = [];
 
   /* style */
@@ -3200,15 +3346,19 @@ var __vue_staticRenderFns__$9 = [];
   
   /* style inject SSR */
   
+  /* style inject shadow dom */
+  
 
   
-  var Dropdown = normalizeComponent_1(
+  const __vue_component__$a = normalizeComponent_1(
     { render: __vue_render__$9, staticRenderFns: __vue_staticRenderFns__$9 },
     __vue_inject_styles__$a,
     __vue_script__$a,
     __vue_scope_id__$a,
     __vue_is_functional_template__$a,
     __vue_module_identifier__$a,
+    false,
+    undefined,
     undefined,
     undefined
   );
@@ -3325,15 +3475,19 @@ var __vue_staticRenderFns__$a = [];
   
   /* style inject SSR */
   
+  /* style inject shadow dom */
+  
 
   
-  var DropdownItem = normalizeComponent_1(
+  const __vue_component__$b = normalizeComponent_1(
     { render: __vue_render__$a, staticRenderFns: __vue_staticRenderFns__$a },
     __vue_inject_styles__$b,
     __vue_script__$b,
     __vue_scope_id__$b,
     __vue_is_functional_template__$b,
     __vue_module_identifier__$b,
+    false,
+    undefined,
     undefined,
     undefined
   );
@@ -3396,22 +3550,26 @@ const __vue_script__$c = script$c;
   
   /* style inject SSR */
   
+  /* style inject shadow dom */
+  
 
   
-  var FieldBody = normalizeComponent_1(
+  const __vue_component__$c = normalizeComponent_1(
     {},
     __vue_inject_styles__$c,
     __vue_script__$c,
     __vue_scope_id__$c,
     __vue_is_functional_template__$c,
     __vue_module_identifier__$c,
+    false,
+    undefined,
     undefined,
     undefined
   );
 
 var script$d = {
   name: 'BField',
-  components: _defineProperty({}, FieldBody.name, FieldBody),
+  components: _defineProperty({}, __vue_component__$c.name, __vue_component__$c),
   props: {
     type: [String, Object],
     label: String,
@@ -3601,15 +3759,19 @@ var __vue_staticRenderFns__$b = [];
   
   /* style inject SSR */
   
+  /* style inject shadow dom */
+  
 
   
-  var Field = normalizeComponent_1(
+  const __vue_component__$d = normalizeComponent_1(
     { render: __vue_render__$b, staticRenderFns: __vue_staticRenderFns__$b },
     __vue_inject_styles__$d,
     __vue_script__$d,
     __vue_scope_id__$d,
     __vue_is_functional_template__$d,
     __vue_module_identifier__$d,
+    false,
+    undefined,
     undefined,
     undefined
   );
@@ -3905,15 +4067,19 @@ var __vue_staticRenderFns__$c = [];
   
   /* style inject SSR */
   
+  /* style inject shadow dom */
+  
 
   
-  var ClockpickerFace = normalizeComponent_1(
+  const __vue_component__$e = normalizeComponent_1(
     { render: __vue_render__$c, staticRenderFns: __vue_staticRenderFns__$c },
     __vue_inject_styles__$e,
     __vue_script__$e,
     __vue_scope_id__$e,
     __vue_is_functional_template__$e,
     __vue_module_identifier__$e,
+    false,
+    undefined,
     undefined,
     undefined
   );
@@ -3922,7 +4088,7 @@ var _components;
 var outerPadding = 12;
 var script$f = {
   name: 'BClockpicker',
-  components: (_components = {}, _defineProperty(_components, ClockpickerFace.name, ClockpickerFace), _defineProperty(_components, Input.name, Input), _defineProperty(_components, Field.name, Field), _defineProperty(_components, Icon.name, Icon), _defineProperty(_components, Dropdown.name, Dropdown), _defineProperty(_components, DropdownItem.name, DropdownItem), _components),
+  components: (_components = {}, _defineProperty(_components, __vue_component__$e.name, __vue_component__$e), _defineProperty(_components, __vue_component__$1.name, __vue_component__$1), _defineProperty(_components, __vue_component__$d.name, __vue_component__$d), _defineProperty(_components, __vue_component__.name, __vue_component__), _defineProperty(_components, __vue_component__$a.name, __vue_component__$a), _defineProperty(_components, __vue_component__$b.name, __vue_component__$b), _components),
   mixins: [TimepickerMixin],
   props: {
     pickerSize: {
@@ -4036,29 +4202,33 @@ var __vue_staticRenderFns__$d = [];
   
   /* style inject SSR */
   
+  /* style inject shadow dom */
+  
 
   
-  var Clockpicker = normalizeComponent_1(
+  const __vue_component__$f = normalizeComponent_1(
     { render: __vue_render__$d, staticRenderFns: __vue_staticRenderFns__$d },
     __vue_inject_styles__$f,
     __vue_script__$f,
     __vue_scope_id__$f,
     __vue_is_functional_template__$f,
     __vue_module_identifier__$f,
+    false,
+    undefined,
     undefined,
     undefined
   );
 
 var Plugin$5 = {
   install: function install(Vue) {
-    registerComponent(Vue, Clockpicker);
+    registerComponent(Vue, __vue_component__$f);
   }
 };
 use(Plugin$5);
 
 var script$g = {
   name: 'BSelect',
-  components: _defineProperty({}, Icon.name, Icon),
+  components: _defineProperty({}, __vue_component__.name, __vue_component__),
   mixins: [FormElementMixin],
   inheritAttrs: false,
   props: {
@@ -4129,15 +4299,19 @@ var __vue_staticRenderFns__$e = [];
   
   /* style inject SSR */
   
+  /* style inject shadow dom */
+  
 
   
-  var Select = normalizeComponent_1(
+  const __vue_component__$g = normalizeComponent_1(
     { render: __vue_render__$e, staticRenderFns: __vue_staticRenderFns__$e },
     __vue_inject_styles__$g,
     __vue_script__$g,
     __vue_scope_id__$g,
     __vue_is_functional_template__$g,
     __vue_module_identifier__$g,
+    false,
+    undefined,
     undefined,
     undefined
   );
@@ -4415,15 +4589,19 @@ var __vue_staticRenderFns__$f = [];
   
   /* style inject SSR */
   
+  /* style inject shadow dom */
+  
 
   
-  var DatepickerTableRow = normalizeComponent_1(
+  const __vue_component__$h = normalizeComponent_1(
     { render: __vue_render__$f, staticRenderFns: __vue_staticRenderFns__$f },
     __vue_inject_styles__$h,
     __vue_script__$h,
     __vue_scope_id__$h,
     __vue_is_functional_template__$h,
     __vue_module_identifier__$h,
+    false,
+    undefined,
     undefined,
     undefined
   );
@@ -4434,7 +4612,7 @@ var isDefined = function isDefined(d) {
 
 var script$i = {
   name: 'BDatepickerTable',
-  components: _defineProperty({}, DatepickerTableRow.name, DatepickerTableRow),
+  components: _defineProperty({}, __vue_component__$h.name, __vue_component__$h),
   props: {
     value: {
       type: [Date, Array]
@@ -4676,15 +4854,19 @@ var __vue_staticRenderFns__$g = [];
   
   /* style inject SSR */
   
+  /* style inject shadow dom */
+  
 
   
-  var DatepickerTable = normalizeComponent_1(
+  const __vue_component__$i = normalizeComponent_1(
     { render: __vue_render__$g, staticRenderFns: __vue_staticRenderFns__$g },
     __vue_inject_styles__$i,
     __vue_script__$i,
     __vue_scope_id__$i,
     __vue_is_functional_template__$i,
     __vue_module_identifier__$i,
+    false,
+    undefined,
     undefined,
     undefined
   );
@@ -4945,15 +5127,19 @@ var __vue_staticRenderFns__$h = [];
   
   /* style inject SSR */
   
+  /* style inject shadow dom */
+  
 
   
-  var DatepickerMonth = normalizeComponent_1(
+  const __vue_component__$j = normalizeComponent_1(
     { render: __vue_render__$h, staticRenderFns: __vue_staticRenderFns__$h },
     __vue_inject_styles__$j,
     __vue_script__$j,
     __vue_scope_id__$j,
     __vue_is_functional_template__$j,
     __vue_module_identifier__$j,
+    false,
+    undefined,
     undefined,
     undefined
   );
@@ -4991,7 +5177,7 @@ var defaultDateParser = function defaultDateParser(date, vm) {
 
 var script$k = {
   name: 'BDatepicker',
-  components: (_components$1 = {}, _defineProperty(_components$1, DatepickerTable.name, DatepickerTable), _defineProperty(_components$1, DatepickerMonth.name, DatepickerMonth), _defineProperty(_components$1, Input.name, Input), _defineProperty(_components$1, Field.name, Field), _defineProperty(_components$1, Select.name, Select), _defineProperty(_components$1, Icon.name, Icon), _defineProperty(_components$1, Dropdown.name, Dropdown), _defineProperty(_components$1, DropdownItem.name, DropdownItem), _components$1),
+  components: (_components$1 = {}, _defineProperty(_components$1, __vue_component__$i.name, __vue_component__$i), _defineProperty(_components$1, __vue_component__$j.name, __vue_component__$j), _defineProperty(_components$1, __vue_component__$1.name, __vue_component__$1), _defineProperty(_components$1, __vue_component__$d.name, __vue_component__$d), _defineProperty(_components$1, __vue_component__$g.name, __vue_component__$g), _defineProperty(_components$1, __vue_component__.name, __vue_component__), _defineProperty(_components$1, __vue_component__$a.name, __vue_component__$a), _defineProperty(_components$1, __vue_component__$b.name, __vue_component__$b), _components$1),
   mixins: [FormElementMixin],
   inheritAttrs: false,
   props: {
@@ -5151,6 +5337,10 @@ var script$k = {
     focusable: {
       type: Boolean,
       default: true
+    },
+    trapFocus: {
+      type: Boolean,
+      default: config.defaultTrapFocus
     }
   },
   data: function data() {
@@ -5176,10 +5366,30 @@ var script$k = {
         this.$emit('input', value);
       }
     },
+    listOfMonths: function listOfMonths() {
+      var minMonth = 0;
+      var maxMonth = 12;
+
+      if (this.minDate && this.focusedDateData.year === this.minDate.getFullYear()) {
+        minMonth = this.minDate.getMonth();
+      }
+
+      if (this.maxDate && this.focusedDateData.year === this.maxDate.getFullYear()) {
+        maxMonth = this.maxDate.getMonth();
+      }
+
+      return this.monthNames.map(function (name, index) {
+        return {
+          name: name,
+          index: index,
+          disabled: index < minMonth || index > maxMonth
+        };
+      });
+    },
 
     /*
-    * Returns an array of years for the year dropdown. If earliest/latest
-    * dates are set by props, range of years will fall within those dates.
+     * Returns an array of years for the year dropdown. If earliest/latest
+     * dates are set by props, range of years will fall within those dates.
     */
     listOfYears: function listOfYears() {
       var latestYear = this.focusedDateData.year + this.yearsRange[1];
@@ -5459,7 +5669,7 @@ var script$k = {
 const __vue_script__$k = script$k;
 
 /* template */
-var __vue_render__$i = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"datepicker control",class:[_vm.size, {'is-expanded': _vm.expanded}]},[(!_vm.isMobile || _vm.inline)?_c('b-dropdown',{ref:"dropdown",attrs:{"position":_vm.position,"disabled":_vm.disabled,"inline":_vm.inline,"mobile-modal":_vm.mobileModal},on:{"active-change":_vm.onActiveChange}},[(!_vm.inline)?_c('b-input',_vm._b({ref:"input",attrs:{"slot":"trigger","autocomplete":"off","value":_vm.formatValue(_vm.computedValue),"placeholder":_vm.placeholder,"size":_vm.size,"icon":_vm.icon,"icon-pack":_vm.iconPack,"rounded":_vm.rounded,"loading":_vm.loading,"disabled":_vm.disabled,"readonly":!_vm.editable,"use-html5-validation":_vm.useHtml5Validation},on:{"focus":_vm.handleOnFocus,"blur":_vm.onBlur},nativeOn:{"click":function($event){return _vm.onInputClick($event)},"keyup":function($event){if(!('button' in $event)&&_vm._k($event.keyCode,"enter",13,$event.key,"Enter")){ return null; }_vm.togglePicker(true);},"change":function($event){_vm.onChange($event.target.value);}},slot:"trigger"},'b-input',_vm.$attrs,false)):_vm._e(),_vm._v(" "),_c('b-dropdown-item',{attrs:{"disabled":_vm.disabled,"focusable":_vm.focusable,"custom":""}},[_c('header',{staticClass:"datepicker-header"},[(_vm.$slots.header !== undefined && _vm.$slots.header.length)?[_vm._t("header")]:_c('div',{staticClass:"pagination field is-centered",class:_vm.size},[_c('a',{directives:[{name:"show",rawName:"v-show",value:(!_vm.showPrev && !_vm.disabled),expression:"!showPrev && !disabled"}],staticClass:"pagination-previous",attrs:{"role":"button","href":"#","disabled":_vm.disabled},on:{"click":function($event){$event.preventDefault();return _vm.prev($event)},"keydown":[function($event){if(!('button' in $event)&&_vm._k($event.keyCode,"enter",13,$event.key,"Enter")){ return null; }$event.preventDefault();return _vm.prev($event)},function($event){if(!('button' in $event)&&_vm._k($event.keyCode,"space",32,$event.key,[" ","Spacebar"])){ return null; }$event.preventDefault();return _vm.prev($event)}]}},[_c('b-icon',{attrs:{"icon":_vm.iconPrev,"pack":_vm.iconPack,"both":"","type":"is-primary is-clickable"}})],1),_vm._v(" "),_c('a',{directives:[{name:"show",rawName:"v-show",value:(!_vm.showNext && !_vm.disabled),expression:"!showNext && !disabled"}],staticClass:"pagination-next",attrs:{"role":"button","href":"#","disabled":_vm.disabled},on:{"click":function($event){$event.preventDefault();return _vm.next($event)},"keydown":[function($event){if(!('button' in $event)&&_vm._k($event.keyCode,"enter",13,$event.key,"Enter")){ return null; }$event.preventDefault();return _vm.next($event)},function($event){if(!('button' in $event)&&_vm._k($event.keyCode,"space",32,$event.key,[" ","Spacebar"])){ return null; }$event.preventDefault();return _vm.next($event)}]}},[_c('b-icon',{attrs:{"icon":_vm.iconNext,"pack":_vm.iconPack,"both":"","type":"is-primary is-clickable"}})],1),_vm._v(" "),_c('div',{staticClass:"pagination-list"},[_c('b-field',[(!_vm.isTypeMonth)?_c('b-select',{attrs:{"disabled":_vm.disabled,"size":_vm.size},model:{value:(_vm.focusedDateData.month),callback:function ($$v) {_vm.$set(_vm.focusedDateData, "month", $$v);},expression:"focusedDateData.month"}},_vm._l((_vm.monthNames),function(month,index){return _c('option',{key:month,domProps:{"value":index}},[_vm._v("\r\n                                        "+_vm._s(month)+"\r\n                                    ")])})):_vm._e(),_vm._v(" "),_c('b-select',{attrs:{"disabled":_vm.disabled,"size":_vm.size},model:{value:(_vm.focusedDateData.year),callback:function ($$v) {_vm.$set(_vm.focusedDateData, "year", $$v);},expression:"focusedDateData.year"}},_vm._l((_vm.listOfYears),function(year){return _c('option',{key:year,domProps:{"value":year}},[_vm._v("\r\n                                        "+_vm._s(year)+"\r\n                                    ")])}))],1)],1)])],2),_vm._v(" "),(!_vm.isTypeMonth)?_c('div',{staticClass:"datepicker-content"},[_c('b-datepicker-table',{attrs:{"day-names":_vm.dayNames,"month-names":_vm.monthNames,"first-day-of-week":_vm.firstDayOfWeek,"rules-for-first-week":_vm.rulesForFirstWeek,"min-date":_vm.minDate,"max-date":_vm.maxDate,"focused":_vm.focusedDateData,"disabled":_vm.disabled,"unselectable-dates":_vm.unselectableDates,"unselectable-days-of-week":_vm.unselectableDaysOfWeek,"selectable-dates":_vm.selectableDates,"events":_vm.events,"indicators":_vm.indicators,"date-creator":_vm.dateCreator,"type-month":_vm.isTypeMonth,"nearby-month-days":_vm.nearbyMonthDays,"nearby-selectable-month-days":_vm.nearbySelectableMonthDays,"show-week-number":_vm.showWeekNumber,"range":_vm.range,"multiple":_vm.multiple},on:{"range-start":function (date) { return _vm.$emit('range-start', date); },"range-end":function (date) { return _vm.$emit('range-end', date); },"close":function($event){_vm.togglePicker(false);}},model:{value:(_vm.computedValue),callback:function ($$v) {_vm.computedValue=$$v;},expression:"computedValue"}})],1):_c('div',[_c('b-datepicker-month',{attrs:{"month-names":_vm.monthNames,"min-date":_vm.minDate,"max-date":_vm.maxDate,"focused":_vm.focusedDateData,"disabled":_vm.disabled,"unselectable-dates":_vm.unselectableDates,"unselectable-days-of-week":_vm.unselectableDaysOfWeek,"selectable-dates":_vm.selectableDates,"events":_vm.events,"indicators":_vm.indicators,"date-creator":_vm.dateCreator,"multiple":_vm.multiple},on:{"close":function($event){_vm.togglePicker(false);}},model:{value:(_vm.computedValue),callback:function ($$v) {_vm.computedValue=$$v;},expression:"computedValue"}})],1),_vm._v(" "),(_vm.$slots.default !== undefined && _vm.$slots.default.length)?_c('footer',{staticClass:"datepicker-footer"},[_vm._t("default")],2):_vm._e()])],1):_c('b-input',_vm._b({ref:"input",attrs:{"type":!_vm.isTypeMonth ? 'date' : 'month',"autocomplete":"off","value":_vm.formatNative(_vm.computedValue),"placeholder":_vm.placeholder,"size":_vm.size,"icon":_vm.icon,"icon-pack":_vm.iconPack,"loading":_vm.loading,"max":_vm.formatNative(_vm.maxDate),"min":_vm.formatNative(_vm.minDate),"disabled":_vm.disabled,"readonly":false,"use-html5-validation":_vm.useHtml5Validation},on:{"focus":_vm.onFocus,"blur":_vm.onBlur},nativeOn:{"change":function($event){return _vm.onChangeNativePicker($event)}}},'b-input',_vm.$attrs,false))],1)};
+var __vue_render__$i = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"datepicker control",class:[_vm.size, {'is-expanded': _vm.expanded}]},[(!_vm.isMobile || _vm.inline)?_c('b-dropdown',{ref:"dropdown",attrs:{"position":_vm.position,"disabled":_vm.disabled,"inline":_vm.inline,"mobile-modal":_vm.mobileModal,"trap-focus":_vm.trapFocus},on:{"active-change":_vm.onActiveChange}},[(!_vm.inline)?_c('b-input',_vm._b({ref:"input",attrs:{"slot":"trigger","autocomplete":"off","value":_vm.formatValue(_vm.computedValue),"placeholder":_vm.placeholder,"size":_vm.size,"icon":_vm.icon,"icon-pack":_vm.iconPack,"rounded":_vm.rounded,"loading":_vm.loading,"disabled":_vm.disabled,"readonly":!_vm.editable,"use-html5-validation":_vm.useHtml5Validation},on:{"focus":_vm.handleOnFocus},nativeOn:{"click":function($event){return _vm.onInputClick($event)},"keyup":function($event){if(!('button' in $event)&&_vm._k($event.keyCode,"enter",13,$event.key,"Enter")){ return null; }_vm.togglePicker(true);},"change":function($event){_vm.onChange($event.target.value);}},slot:"trigger"},'b-input',_vm.$attrs,false)):_vm._e(),_vm._v(" "),_c('b-dropdown-item',{attrs:{"disabled":_vm.disabled,"focusable":_vm.focusable,"custom":""}},[_c('header',{staticClass:"datepicker-header"},[(_vm.$slots.header !== undefined && _vm.$slots.header.length)?[_vm._t("header")]:_c('div',{staticClass:"pagination field is-centered",class:_vm.size},[_c('a',{directives:[{name:"show",rawName:"v-show",value:(!_vm.showPrev && !_vm.disabled),expression:"!showPrev && !disabled"}],staticClass:"pagination-previous",attrs:{"role":"button","href":"#","disabled":_vm.disabled},on:{"click":function($event){$event.preventDefault();return _vm.prev($event)},"keydown":[function($event){if(!('button' in $event)&&_vm._k($event.keyCode,"enter",13,$event.key,"Enter")){ return null; }$event.preventDefault();return _vm.prev($event)},function($event){if(!('button' in $event)&&_vm._k($event.keyCode,"space",32,$event.key,[" ","Spacebar"])){ return null; }$event.preventDefault();return _vm.prev($event)}]}},[_c('b-icon',{attrs:{"icon":_vm.iconPrev,"pack":_vm.iconPack,"both":"","type":"is-primary is-clickable"}})],1),_vm._v(" "),_c('a',{directives:[{name:"show",rawName:"v-show",value:(!_vm.showNext && !_vm.disabled),expression:"!showNext && !disabled"}],staticClass:"pagination-next",attrs:{"role":"button","href":"#","disabled":_vm.disabled},on:{"click":function($event){$event.preventDefault();return _vm.next($event)},"keydown":[function($event){if(!('button' in $event)&&_vm._k($event.keyCode,"enter",13,$event.key,"Enter")){ return null; }$event.preventDefault();return _vm.next($event)},function($event){if(!('button' in $event)&&_vm._k($event.keyCode,"space",32,$event.key,[" ","Spacebar"])){ return null; }$event.preventDefault();return _vm.next($event)}]}},[_c('b-icon',{attrs:{"icon":_vm.iconNext,"pack":_vm.iconPack,"both":"","type":"is-primary is-clickable"}})],1),_vm._v(" "),_c('div',{staticClass:"pagination-list"},[_c('b-field',[(!_vm.isTypeMonth)?_c('b-select',{attrs:{"disabled":_vm.disabled,"size":_vm.size},model:{value:(_vm.focusedDateData.month),callback:function ($$v) {_vm.$set(_vm.focusedDateData, "month", $$v);},expression:"focusedDateData.month"}},_vm._l((_vm.listOfMonths),function(month){return _c('option',{key:month.name,attrs:{"disabled":month.disabled},domProps:{"value":month.index}},[_vm._v("\r\n                                        "+_vm._s(month.name)+"\r\n                                    ")])})):_vm._e(),_vm._v(" "),_c('b-select',{attrs:{"disabled":_vm.disabled,"size":_vm.size},model:{value:(_vm.focusedDateData.year),callback:function ($$v) {_vm.$set(_vm.focusedDateData, "year", $$v);},expression:"focusedDateData.year"}},_vm._l((_vm.listOfYears),function(year){return _c('option',{key:year,domProps:{"value":year}},[_vm._v("\r\n                                        "+_vm._s(year)+"\r\n                                    ")])}))],1)],1)])],2),_vm._v(" "),(!_vm.isTypeMonth)?_c('div',{staticClass:"datepicker-content"},[_c('b-datepicker-table',{attrs:{"day-names":_vm.dayNames,"month-names":_vm.monthNames,"first-day-of-week":_vm.firstDayOfWeek,"rules-for-first-week":_vm.rulesForFirstWeek,"min-date":_vm.minDate,"max-date":_vm.maxDate,"focused":_vm.focusedDateData,"disabled":_vm.disabled,"unselectable-dates":_vm.unselectableDates,"unselectable-days-of-week":_vm.unselectableDaysOfWeek,"selectable-dates":_vm.selectableDates,"events":_vm.events,"indicators":_vm.indicators,"date-creator":_vm.dateCreator,"type-month":_vm.isTypeMonth,"nearby-month-days":_vm.nearbyMonthDays,"nearby-selectable-month-days":_vm.nearbySelectableMonthDays,"show-week-number":_vm.showWeekNumber,"range":_vm.range,"multiple":_vm.multiple},on:{"range-start":function (date) { return _vm.$emit('range-start', date); },"range-end":function (date) { return _vm.$emit('range-end', date); },"close":function($event){_vm.togglePicker(false);}},model:{value:(_vm.computedValue),callback:function ($$v) {_vm.computedValue=$$v;},expression:"computedValue"}})],1):_c('div',[_c('b-datepicker-month',{attrs:{"month-names":_vm.monthNames,"min-date":_vm.minDate,"max-date":_vm.maxDate,"focused":_vm.focusedDateData,"disabled":_vm.disabled,"unselectable-dates":_vm.unselectableDates,"unselectable-days-of-week":_vm.unselectableDaysOfWeek,"selectable-dates":_vm.selectableDates,"events":_vm.events,"indicators":_vm.indicators,"date-creator":_vm.dateCreator,"multiple":_vm.multiple},on:{"close":function($event){_vm.togglePicker(false);}},model:{value:(_vm.computedValue),callback:function ($$v) {_vm.computedValue=$$v;},expression:"computedValue"}})],1),_vm._v(" "),(_vm.$slots.default !== undefined && _vm.$slots.default.length)?_c('footer',{staticClass:"datepicker-footer"},[_vm._t("default")],2):_vm._e()])],1):_c('b-input',_vm._b({ref:"input",attrs:{"type":!_vm.isTypeMonth ? 'date' : 'month',"autocomplete":"off","value":_vm.formatNative(_vm.computedValue),"placeholder":_vm.placeholder,"size":_vm.size,"icon":_vm.icon,"icon-pack":_vm.iconPack,"loading":_vm.loading,"max":_vm.formatNative(_vm.maxDate),"min":_vm.formatNative(_vm.minDate),"disabled":_vm.disabled,"readonly":false,"use-html5-validation":_vm.useHtml5Validation},on:{"focus":_vm.onFocus,"blur":_vm.onBlur},nativeOn:{"change":function($event){return _vm.onChangeNativePicker($event)}}},'b-input',_vm.$attrs,false))],1)};
 var __vue_staticRenderFns__$i = [];
 
   /* style */
@@ -5474,22 +5684,26 @@ var __vue_staticRenderFns__$i = [];
   
   /* style inject SSR */
   
+  /* style inject shadow dom */
+  
 
   
-  var Datepicker = normalizeComponent_1(
+  const __vue_component__$k = normalizeComponent_1(
     { render: __vue_render__$i, staticRenderFns: __vue_staticRenderFns__$i },
     __vue_inject_styles__$k,
     __vue_script__$k,
     __vue_scope_id__$k,
     __vue_is_functional_template__$k,
     __vue_module_identifier__$k,
+    false,
+    undefined,
     undefined,
     undefined
   );
 
 var Plugin$6 = {
   install: function install(Vue) {
-    registerComponent(Vue, Datepicker);
+    registerComponent(Vue, __vue_component__$k);
   }
 };
 use(Plugin$6);
@@ -5497,7 +5711,7 @@ use(Plugin$6);
 var _components$2;
 var script$l = {
   name: 'BTimepicker',
-  components: (_components$2 = {}, _defineProperty(_components$2, Input.name, Input), _defineProperty(_components$2, Field.name, Field), _defineProperty(_components$2, Select.name, Select), _defineProperty(_components$2, Icon.name, Icon), _defineProperty(_components$2, Dropdown.name, Dropdown), _defineProperty(_components$2, DropdownItem.name, DropdownItem), _components$2),
+  components: (_components$2 = {}, _defineProperty(_components$2, __vue_component__$1.name, __vue_component__$1), _defineProperty(_components$2, __vue_component__$d.name, __vue_component__$d), _defineProperty(_components$2, __vue_component__$g.name, __vue_component__$g), _defineProperty(_components$2, __vue_component__.name, __vue_component__), _defineProperty(_components$2, __vue_component__$a.name, __vue_component__$a), _defineProperty(_components$2, __vue_component__$b.name, __vue_component__$b), _components$2),
   mixins: [TimepickerMixin],
   inheritAttrs: false,
   data: function data() {
@@ -5516,7 +5730,7 @@ var script$l = {
 const __vue_script__$l = script$l;
 
 /* template */
-var __vue_render__$j = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"timepicker control",class:[_vm.size, {'is-expanded': _vm.expanded}]},[(!_vm.isMobile || _vm.inline)?_c('b-dropdown',{ref:"dropdown",attrs:{"position":_vm.position,"disabled":_vm.disabled,"inline":_vm.inline},on:{"active-change":_vm.onActiveChange}},[(!_vm.inline)?_c('b-input',_vm._b({ref:"input",attrs:{"slot":"trigger","autocomplete":"off","value":_vm.formatValue(_vm.computedValue),"placeholder":_vm.placeholder,"size":_vm.size,"icon":_vm.icon,"icon-pack":_vm.iconPack,"loading":_vm.loading,"disabled":_vm.disabled,"readonly":!_vm.editable,"rounded":_vm.rounded,"use-html5-validation":_vm.useHtml5Validation},on:{"focus":_vm.handleOnFocus,"blur":function($event){_vm.onBlur() && _vm.checkHtml5Validity();}},nativeOn:{"keyup":function($event){if(!('button' in $event)&&_vm._k($event.keyCode,"enter",13,$event.key,"Enter")){ return null; }_vm.toggle(true);},"change":function($event){_vm.onChange($event.target.value);}},slot:"trigger"},'b-input',_vm.$attrs,false)):_vm._e(),_vm._v(" "),_c('b-dropdown-item',{attrs:{"disabled":_vm.disabled,"focusable":_vm.focusable,"custom":""}},[_c('b-field',{attrs:{"grouped":"","position":"is-centered"}},[_c('b-select',{attrs:{"disabled":_vm.disabled,"placeholder":"00"},nativeOn:{"change":function($event){_vm.onHoursChange($event.target.value);}},model:{value:(_vm.hoursSelected),callback:function ($$v) {_vm.hoursSelected=$$v;},expression:"hoursSelected"}},_vm._l((_vm.hours),function(hour){return _c('option',{key:hour.value,attrs:{"disabled":_vm.isHourDisabled(hour.value)},domProps:{"value":hour.value}},[_vm._v("\r\n                            "+_vm._s(hour.label)+"\r\n                        ")])})),_vm._v(" "),_c('span',{staticClass:"control is-colon"},[_vm._v(":")]),_vm._v(" "),_c('b-select',{attrs:{"disabled":_vm.disabled,"placeholder":"00"},nativeOn:{"change":function($event){_vm.onMinutesChange($event.target.value);}},model:{value:(_vm.minutesSelected),callback:function ($$v) {_vm.minutesSelected=$$v;},expression:"minutesSelected"}},_vm._l((_vm.minutes),function(minute){return _c('option',{key:minute.value,attrs:{"disabled":_vm.isMinuteDisabled(minute.value)},domProps:{"value":minute.value}},[_vm._v("\r\n                            "+_vm._s(minute.label)+"\r\n                        ")])})),_vm._v(" "),(_vm.enableSeconds)?[_c('span',{staticClass:"control is-colon"},[_vm._v(":")]),_vm._v(" "),_c('b-select',{attrs:{"disabled":_vm.disabled,"placeholder":"00"},nativeOn:{"change":function($event){_vm.onSecondsChange($event.target.value);}},model:{value:(_vm.secondsSelected),callback:function ($$v) {_vm.secondsSelected=$$v;},expression:"secondsSelected"}},_vm._l((_vm.seconds),function(second){return _c('option',{key:second.value,attrs:{"disabled":_vm.isSecondDisabled(second.value)},domProps:{"value":second.value}},[_vm._v("\r\n                                "+_vm._s(second.label)+"\r\n                            ")])}))]:_vm._e(),_vm._v(" "),(!_vm.isHourFormat24)?_c('b-select',{attrs:{"disabled":_vm.disabled},nativeOn:{"change":function($event){_vm.onMeridienChange($event.target.value);}},model:{value:(_vm.meridienSelected),callback:function ($$v) {_vm.meridienSelected=$$v;},expression:"meridienSelected"}},_vm._l((_vm.meridiens),function(meridien){return _c('option',{key:meridien,domProps:{"value":meridien}},[_vm._v("\r\n                            "+_vm._s(meridien)+"\r\n                        ")])})):_vm._e()],2),_vm._v(" "),(_vm.$slots.default !== undefined && _vm.$slots.default.length)?_c('footer',{staticClass:"timepicker-footer"},[_vm._t("default")],2):_vm._e()],1)],1):_c('b-input',_vm._b({ref:"input",attrs:{"type":"time","step":_vm.nativeStep,"autocomplete":"off","value":_vm.formatHHMMSS(_vm.computedValue),"placeholder":_vm.placeholder,"size":_vm.size,"icon":_vm.icon,"icon-pack":_vm.iconPack,"loading":_vm.loading,"max":_vm.formatHHMMSS(_vm.maxTime),"min":_vm.formatHHMMSS(_vm.minTime),"disabled":_vm.disabled,"readonly":false,"use-html5-validation":_vm.useHtml5Validation},on:{"focus":_vm.handleOnFocus,"blur":function($event){_vm.onBlur() && _vm.checkHtml5Validity();}},nativeOn:{"change":function($event){_vm.onChange($event.target.value);}}},'b-input',_vm.$attrs,false))],1)};
+var __vue_render__$j = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"timepicker control",class:[_vm.size, {'is-expanded': _vm.expanded}]},[(!_vm.isMobile || _vm.inline)?_c('b-dropdown',{ref:"dropdown",attrs:{"position":_vm.position,"disabled":_vm.disabled,"inline":_vm.inline},on:{"active-change":_vm.onActiveChange}},[(!_vm.inline)?_c('b-input',_vm._b({ref:"input",attrs:{"slot":"trigger","autocomplete":"off","value":_vm.formatValue(_vm.computedValue),"placeholder":_vm.placeholder,"size":_vm.size,"icon":_vm.icon,"icon-pack":_vm.iconPack,"loading":_vm.loading,"disabled":_vm.disabled,"readonly":!_vm.editable,"rounded":_vm.rounded,"use-html5-validation":_vm.useHtml5Validation},on:{"focus":_vm.handleOnFocus},nativeOn:{"keyup":function($event){if(!('button' in $event)&&_vm._k($event.keyCode,"enter",13,$event.key,"Enter")){ return null; }_vm.toggle(true);},"change":function($event){_vm.onChange($event.target.value);}},slot:"trigger"},'b-input',_vm.$attrs,false)):_vm._e(),_vm._v(" "),_c('b-dropdown-item',{attrs:{"disabled":_vm.disabled,"focusable":_vm.focusable,"custom":""}},[_c('b-field',{attrs:{"grouped":"","position":"is-centered"}},[_c('b-select',{attrs:{"disabled":_vm.disabled,"placeholder":"00"},nativeOn:{"change":function($event){_vm.onHoursChange($event.target.value);}},model:{value:(_vm.hoursSelected),callback:function ($$v) {_vm.hoursSelected=$$v;},expression:"hoursSelected"}},_vm._l((_vm.hours),function(hour){return _c('option',{key:hour.value,attrs:{"disabled":_vm.isHourDisabled(hour.value)},domProps:{"value":hour.value}},[_vm._v("\r\n                            "+_vm._s(hour.label)+"\r\n                        ")])})),_vm._v(" "),_c('span',{staticClass:"control is-colon"},[_vm._v(":")]),_vm._v(" "),_c('b-select',{attrs:{"disabled":_vm.disabled,"placeholder":"00"},nativeOn:{"change":function($event){_vm.onMinutesChange($event.target.value);}},model:{value:(_vm.minutesSelected),callback:function ($$v) {_vm.minutesSelected=$$v;},expression:"minutesSelected"}},_vm._l((_vm.minutes),function(minute){return _c('option',{key:minute.value,attrs:{"disabled":_vm.isMinuteDisabled(minute.value)},domProps:{"value":minute.value}},[_vm._v("\r\n                            "+_vm._s(minute.label)+"\r\n                        ")])})),_vm._v(" "),(_vm.enableSeconds)?[_c('span',{staticClass:"control is-colon"},[_vm._v(":")]),_vm._v(" "),_c('b-select',{attrs:{"disabled":_vm.disabled,"placeholder":"00"},nativeOn:{"change":function($event){_vm.onSecondsChange($event.target.value);}},model:{value:(_vm.secondsSelected),callback:function ($$v) {_vm.secondsSelected=$$v;},expression:"secondsSelected"}},_vm._l((_vm.seconds),function(second){return _c('option',{key:second.value,attrs:{"disabled":_vm.isSecondDisabled(second.value)},domProps:{"value":second.value}},[_vm._v("\r\n                                "+_vm._s(second.label)+"\r\n                            ")])}))]:_vm._e(),_vm._v(" "),(!_vm.isHourFormat24)?_c('b-select',{attrs:{"disabled":_vm.disabled},nativeOn:{"change":function($event){_vm.onMeridienChange($event.target.value);}},model:{value:(_vm.meridienSelected),callback:function ($$v) {_vm.meridienSelected=$$v;},expression:"meridienSelected"}},_vm._l((_vm.meridiens),function(meridien){return _c('option',{key:meridien,domProps:{"value":meridien}},[_vm._v("\r\n                            "+_vm._s(meridien)+"\r\n                        ")])})):_vm._e()],2),_vm._v(" "),(_vm.$slots.default !== undefined && _vm.$slots.default.length)?_c('footer',{staticClass:"timepicker-footer"},[_vm._t("default")],2):_vm._e()],1)],1):_c('b-input',_vm._b({ref:"input",attrs:{"type":"time","step":_vm.nativeStep,"autocomplete":"off","value":_vm.formatHHMMSS(_vm.computedValue),"placeholder":_vm.placeholder,"size":_vm.size,"icon":_vm.icon,"icon-pack":_vm.iconPack,"loading":_vm.loading,"max":_vm.formatHHMMSS(_vm.maxTime),"min":_vm.formatHHMMSS(_vm.minTime),"disabled":_vm.disabled,"readonly":false,"use-html5-validation":_vm.useHtml5Validation},on:{"focus":_vm.handleOnFocus,"blur":function($event){_vm.onBlur() && _vm.checkHtml5Validity();}},nativeOn:{"change":function($event){_vm.onChange($event.target.value);}}},'b-input',_vm.$attrs,false))],1)};
 var __vue_staticRenderFns__$j = [];
 
   /* style */
@@ -5531,15 +5745,19 @@ var __vue_staticRenderFns__$j = [];
   
   /* style inject SSR */
   
+  /* style inject shadow dom */
+  
 
   
-  var Timepicker = normalizeComponent_1(
+  const __vue_component__$l = normalizeComponent_1(
     { render: __vue_render__$j, staticRenderFns: __vue_staticRenderFns__$j },
     __vue_inject_styles__$l,
     __vue_script__$l,
     __vue_scope_id__$l,
     __vue_is_functional_template__$l,
     __vue_module_identifier__$l,
+    false,
+    undefined,
     undefined,
     undefined
   );
@@ -5547,7 +5765,7 @@ var __vue_staticRenderFns__$j = [];
 var _components$3;
 var script$m = {
   name: 'BDatetimepicker',
-  components: (_components$3 = {}, _defineProperty(_components$3, Datepicker.name, Datepicker), _defineProperty(_components$3, Timepicker.name, Timepicker), _components$3),
+  components: (_components$3 = {}, _defineProperty(_components$3, __vue_component__$k.name, __vue_component__$k), _defineProperty(_components$3, __vue_component__$l.name, __vue_component__$l), _components$3),
   mixins: [FormElementMixin],
   inheritAttrs: false,
   props: {
@@ -5589,6 +5807,10 @@ var script$m = {
     },
     datepicker: Object,
     timepicker: Object,
+    tzOffset: {
+      type: Number,
+      default: 0
+    },
     focusable: {
       type: Boolean,
       default: true
@@ -5596,7 +5818,7 @@ var script$m = {
   },
   data: function data() {
     return {
-      newValue: this.value
+      newValue: this.adjustValue(this.value)
     };
   },
   computed: {
@@ -5618,47 +5840,64 @@ var script$m = {
           } // check min and max range
 
 
-          if (this.minDatetime && val < this.minDatetime) {
-            val = this.minDatetime;
-          } else if (this.maxDatetime && val > this.maxDatetime) {
-            val = this.maxDatetime;
+          if (this.minDatetime && val < this.adjustValue(this.minDatetime)) {
+            val = this.adjustValue(this.minDatetime);
+          } else if (this.maxDatetime && val > this.adjustValue(this.maxDatetime)) {
+            val = this.adjustValue(this.maxDatetime);
           }
 
           this.newValue = new Date(val.getTime());
         } else {
-          this.newValue = value;
+          this.newValue = this.adjustValue(this.value);
         }
 
-        this.$emit('input', this.newValue);
+        var adjustedValue = this.adjustValue(this.newValue, true); // reverse adjust
+
+        this.$emit('input', adjustedValue);
       }
     },
+    isMobileNative: function isMobileNative() {
+      return this.mobileNative && this.tzOffset === 0;
+    },
     isMobile: function isMobile$1() {
-      return this.mobileNative && isMobile.any();
+      return this.isMobileNative && isMobile.any();
     },
     minDate: function minDate() {
-      if (!this.minDatetime) return this.datepicker ? this.datepicker.minDate : null;
-      return new Date(this.minDatetime.getFullYear(), this.minDatetime.getMonth(), this.minDatetime.getDate(), 0, 0, 0, 0);
+      if (!this.minDatetime) {
+        return this.datepicker ? this.adjustValue(this.datepicker.minDate) : null;
+      }
+
+      var adjMinDatetime = this.adjustValue(this.minDatetime);
+      return new Date(adjMinDatetime.getFullYear(), adjMinDatetime.getMonth(), adjMinDatetime.getDate(), 0, 0, 0, 0);
     },
     maxDate: function maxDate() {
-      if (!this.maxDatetime) return this.datepicker ? this.datepicker.maxDate : null;
-      return new Date(this.maxDatetime.getFullYear(), this.maxDatetime.getMonth(), this.maxDatetime.getDate(), 0, 0, 0, 0);
+      if (!this.maxDatetime) {
+        return this.datepicker ? this.adjustValue(this.datepicker.maxDate) : null;
+      }
+
+      var adjMaxDatetime = this.adjustValue(this.maxDatetime);
+      return new Date(adjMaxDatetime.getFullYear(), adjMaxDatetime.getMonth(), adjMaxDatetime.getDate(), 0, 0, 0, 0);
     },
     minTime: function minTime() {
       if (!this.minDatetime || this.newValue === null || typeof this.newValue === 'undefined') {
-        return this.timepicker ? this.timepicker.minTime : null;
+        return this.timepicker ? this.adjustValue(this.timepicker.minTime) : null;
       }
 
-      if (this.minDatetime.getFullYear() === this.newValue.getFullYear() && this.minDatetime.getMonth() === this.newValue.getMonth() && this.minDatetime.getDate() === this.newValue.getDate()) {
-        return this.minDatetime;
+      var adjMinDatetime = this.adjustValue(this.minDatetime);
+
+      if (adjMinDatetime.getFullYear() === this.newValue.getFullYear() && adjMinDatetime.getMonth() === this.newValue.getMonth() && adjMinDatetime.getDate() === this.newValue.getDate()) {
+        return adjMinDatetime;
       }
     },
     maxTime: function maxTime() {
       if (!this.maxDatetime || this.newValue === null || typeof this.newValue === 'undefined') {
-        return this.timepicker ? this.timepicker.maxTime : null;
+        return this.timepicker ? this.adjustValue(this.timepicker.maxTime) : null;
       }
 
-      if (this.maxDatetime.getFullYear() === this.newValue.getFullYear() && this.maxDatetime.getMonth() === this.newValue.getMonth() && this.maxDatetime.getDate() === this.newValue.getDate()) {
-        return this.maxDatetime;
+      var adjMaxDatetime = this.adjustValue(this.maxDatetime);
+
+      if (adjMaxDatetime.getFullYear() === this.newValue.getFullYear() && adjMaxDatetime.getMonth() === this.newValue.getMonth() && adjMaxDatetime.getDate() === this.newValue.getDate()) {
+        return adjMaxDatetime;
       }
     },
     datepickerSize: function datepickerSize() {
@@ -5672,11 +5911,24 @@ var script$m = {
     }
   },
   watch: {
-    value: function value(_value) {
-      this.newValue = _value;
+    value: function value(val) {
+      this.newValue = this.adjustValue(this.value);
+    },
+    tzOffset: function tzOffset(val) {
+      this.newValue = this.adjustValue(this.value);
     }
   },
   methods: {
+    adjustValue: function adjustValue(value) {
+      var reverse = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : false;
+      if (!value) return value;
+
+      if (reverse) {
+        return new Date(value.getTime() - this.tzOffset * 60000);
+      } else {
+        return new Date(value.getTime() + this.tzOffset * 60000);
+      }
+    },
     defaultDatetimeParser: function defaultDatetimeParser(date) {
       if (typeof this.datetimeParser === 'function') {
         return this.datetimeParser(date);
@@ -5729,9 +5981,11 @@ var script$m = {
     }
   },
   mounted: function mounted() {
-    // $refs attached, it's time to refresh datepicker (input)
-    if (this.newValue) {
-      this.$refs.datepicker.$forceUpdate();
+    if (!this.isMobile || this.inline) {
+      // $refs attached, it's time to refresh datepicker (input)
+      if (this.newValue) {
+        this.$refs.datepicker.$forceUpdate();
+      }
     }
   }
 };
@@ -5740,7 +5994,7 @@ var script$m = {
 const __vue_script__$m = script$m;
 
 /* template */
-var __vue_render__$k = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return (!_vm.isMobile || _vm.inline)?_c('b-datepicker',_vm._b({ref:"datepicker",attrs:{"open-on-focus":_vm.openOnFocus,"position":_vm.position,"loading":_vm.loading,"inline":_vm.inline,"editable":_vm.editable,"expanded":_vm.expanded,"close-on-click":false,"date-formatter":_vm.defaultDatetimeFormatter,"date-parser":_vm.defaultDatetimeParser,"min-date":_vm.minDate,"max-date":_vm.maxDate,"icon":_vm.icon,"icon-pack":_vm.iconPack,"size":_vm.datepickerSize,"placeholder":_vm.placeholder,"range":false,"disabled":_vm.disabled,"mobile-native":_vm.mobileNative,"focusable":_vm.focusable},on:{"change-month":function($event){_vm.$emit('change-month', $event);},"change-year":function($event){_vm.$emit('change-year', $event);}},model:{value:(_vm.computedValue),callback:function ($$v) {_vm.computedValue=$$v;},expression:"computedValue"}},'b-datepicker',_vm.datepicker,false),[_c('nav',{staticClass:"level is-mobile"},[(_vm.$slots.left !== undefined)?_c('div',{staticClass:"level-item has-text-centered"},[_vm._t("left")],2):_vm._e(),_vm._v(" "),_c('div',{staticClass:"level-item has-text-centered"},[_c('b-timepicker',_vm._b({ref:"timepicker",attrs:{"inline":"","editable":_vm.editable,"min-time":_vm.minTime,"max-time":_vm.maxTime,"size":_vm.timepickerSize,"disabled":_vm.timepickerDisabled,"focusable":_vm.focusable},model:{value:(_vm.computedValue),callback:function ($$v) {_vm.computedValue=$$v;},expression:"computedValue"}},'b-timepicker',_vm.timepicker,false))],1),_vm._v(" "),(_vm.$slots.right !== undefined)?_c('div',{staticClass:"level-item has-text-centered"},[_vm._t("right")],2):_vm._e()])]):_c('b-input',_vm._b({ref:"input",attrs:{"type":"datetime-local","autocomplete":"off","value":_vm.formatNative(_vm.computedValue),"placeholder":_vm.placeholder,"size":_vm.size,"icon":_vm.icon,"icon-pack":_vm.iconPack,"loading":_vm.loading,"max":_vm.formatNative(_vm.maxDate),"min":_vm.formatNative(_vm.minDate),"disabled":_vm.disabled,"readonly":false,"use-html5-validation":_vm.useHtml5Validation},on:{"focus":_vm.onFocus,"blur":_vm.onBlur},nativeOn:{"change":function($event){return _vm.onChangeNativePicker($event)}}},'b-input',_vm.$attrs,false))};
+var __vue_render__$k = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return (!_vm.isMobile || _vm.inline)?_c('b-datepicker',_vm._b({ref:"datepicker",attrs:{"open-on-focus":_vm.openOnFocus,"position":_vm.position,"loading":_vm.loading,"inline":_vm.inline,"editable":_vm.editable,"expanded":_vm.expanded,"close-on-click":false,"date-formatter":_vm.defaultDatetimeFormatter,"date-parser":_vm.defaultDatetimeParser,"min-date":_vm.minDate,"max-date":_vm.maxDate,"icon":_vm.icon,"icon-pack":_vm.iconPack,"size":_vm.datepickerSize,"placeholder":_vm.placeholder,"range":false,"disabled":_vm.disabled,"mobile-native":_vm.isMobileNative,"focusable":_vm.focusable},on:{"focus":_vm.onFocus,"blur":_vm.onBlur,"change-month":function($event){_vm.$emit('change-month', $event);},"change-year":function($event){_vm.$emit('change-year', $event);}},model:{value:(_vm.computedValue),callback:function ($$v) {_vm.computedValue=$$v;},expression:"computedValue"}},'b-datepicker',_vm.datepicker,false),[_c('nav',{staticClass:"level is-mobile"},[(_vm.$slots.left !== undefined)?_c('div',{staticClass:"level-item has-text-centered"},[_vm._t("left")],2):_vm._e(),_vm._v(" "),_c('div',{staticClass:"level-item has-text-centered"},[_c('b-timepicker',_vm._b({ref:"timepicker",attrs:{"inline":"","editable":_vm.editable,"min-time":_vm.minTime,"max-time":_vm.maxTime,"size":_vm.timepickerSize,"disabled":_vm.timepickerDisabled,"focusable":_vm.focusable,"mobile-native":_vm.isMobileNative},model:{value:(_vm.computedValue),callback:function ($$v) {_vm.computedValue=$$v;},expression:"computedValue"}},'b-timepicker',_vm.timepicker,false))],1),_vm._v(" "),(_vm.$slots.right !== undefined)?_c('div',{staticClass:"level-item has-text-centered"},[_vm._t("right")],2):_vm._e()])]):_c('b-input',_vm._b({ref:"input",attrs:{"type":"datetime-local","autocomplete":"off","value":_vm.formatNative(_vm.computedValue),"placeholder":_vm.placeholder,"size":_vm.size,"icon":_vm.icon,"icon-pack":_vm.iconPack,"loading":_vm.loading,"max":_vm.formatNative(_vm.maxDate),"min":_vm.formatNative(_vm.minDate),"disabled":_vm.disabled,"readonly":false,"use-html5-validation":_vm.useHtml5Validation},on:{"focus":_vm.onFocus,"blur":_vm.onBlur},nativeOn:{"change":function($event){return _vm.onChangeNativePicker($event)}}},'b-input',_vm.$attrs,false))};
 var __vue_staticRenderFns__$k = [];
 
   /* style */
@@ -5755,22 +6009,26 @@ var __vue_staticRenderFns__$k = [];
   
   /* style inject SSR */
   
+  /* style inject shadow dom */
+  
 
   
-  var Datetimepicker = normalizeComponent_1(
+  const __vue_component__$m = normalizeComponent_1(
     { render: __vue_render__$k, staticRenderFns: __vue_staticRenderFns__$k },
     __vue_inject_styles__$m,
     __vue_script__$m,
     __vue_scope_id__$m,
     __vue_is_functional_template__$m,
     __vue_module_identifier__$m,
+    false,
+    undefined,
     undefined,
     undefined
   );
 
 var Plugin$7 = {
   install: function install(Vue) {
-    registerComponent(Vue, Datetimepicker);
+    registerComponent(Vue, __vue_component__$m);
   }
 };
 use(Plugin$7);
@@ -5998,26 +6256,30 @@ var __vue_staticRenderFns__$l = [];
   
   /* style inject SSR */
   
+  /* style inject shadow dom */
+  
 
   
-  var Modal = normalizeComponent_1(
+  const __vue_component__$n = normalizeComponent_1(
     { render: __vue_render__$l, staticRenderFns: __vue_staticRenderFns__$l },
     __vue_inject_styles__$n,
     __vue_script__$n,
     __vue_scope_id__$n,
     __vue_is_functional_template__$n,
     __vue_module_identifier__$n,
+    false,
+    undefined,
     undefined,
     undefined
   );
 
 var script$o = {
   name: 'BDialog',
-  components: _defineProperty({}, Icon.name, Icon),
+  components: _defineProperty({}, __vue_component__.name, __vue_component__),
   directives: {
     trapFocus: directive
   },
-  extends: Modal,
+  extends: __vue_component__$n,
   props: {
     title: String,
     message: String,
@@ -6202,15 +6464,19 @@ var __vue_staticRenderFns__$m = [];
   
   /* style inject SSR */
   
+  /* style inject shadow dom */
+  
 
   
-  var Dialog = normalizeComponent_1(
+  const __vue_component__$o = normalizeComponent_1(
     { render: __vue_render__$m, staticRenderFns: __vue_staticRenderFns__$m },
     __vue_inject_styles__$o,
     __vue_script__$o,
     __vue_scope_id__$o,
     __vue_is_functional_template__$o,
     __vue_module_identifier__$o,
+    false,
+    undefined,
     undefined,
     undefined
   );
@@ -6219,7 +6485,7 @@ var localVueInstance;
 
 function open(propsData) {
   var vm = typeof window !== 'undefined' && window.Vue ? window.Vue : localVueInstance || VueInstance;
-  var DialogComponent = vm.extend(Dialog);
+  var DialogComponent = vm.extend(__vue_component__$o);
   return new DialogComponent({
     el: document.createElement('div'),
     propsData: propsData
@@ -6257,7 +6523,7 @@ var DialogProgrammatic = {
 var Plugin$8 = {
   install: function install(Vue) {
     localVueInstance = Vue;
-    registerComponent(Vue, Dialog);
+    registerComponent(Vue, __vue_component__$o);
     registerComponentProgrammatic(Vue, 'dialog', DialogProgrammatic);
   }
 };
@@ -6265,29 +6531,29 @@ use(Plugin$8);
 
 var Plugin$9 = {
   install: function install(Vue) {
-    registerComponent(Vue, Dropdown);
-    registerComponent(Vue, DropdownItem);
+    registerComponent(Vue, __vue_component__$a);
+    registerComponent(Vue, __vue_component__$b);
   }
 };
 use(Plugin$9);
 
 var Plugin$a = {
   install: function install(Vue) {
-    registerComponent(Vue, Field);
+    registerComponent(Vue, __vue_component__$d);
   }
 };
 use(Plugin$a);
 
 var Plugin$b = {
   install: function install(Vue) {
-    registerComponent(Vue, Icon);
+    registerComponent(Vue, __vue_component__);
   }
 };
 use(Plugin$b);
 
 var Plugin$c = {
   install: function install(Vue) {
-    registerComponent(Vue, Input);
+    registerComponent(Vue, __vue_component__$1);
   }
 };
 use(Plugin$c);
@@ -6323,12 +6589,16 @@ var script$p = {
   },
   data: function data() {
     return {
-      isActive: this.active || false
+      isActive: this.active || false,
+      displayInFullPage: this.isFullPage
     };
   },
   watch: {
     active: function active(value) {
       this.isActive = value;
+    },
+    isFullPage: function isFullPage(value) {
+      this.displayInFullPage = value;
     }
   },
   methods: {
@@ -6380,7 +6650,8 @@ var script$p = {
       if (!this.container) {
         document.body.appendChild(this.$el);
       } else {
-        this.isFullPage = false;
+        this.displayInFullPage = false;
+        this.$emit('update:is-full-page', false);
         this.container.appendChild(this.$el);
       }
     }
@@ -6399,7 +6670,7 @@ var script$p = {
 const __vue_script__$p = script$p;
 
 /* template */
-var __vue_render__$n = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('transition',{attrs:{"name":_vm.animation}},[(_vm.isActive)?_c('div',{staticClass:"loading-overlay is-active",class:{ 'is-full-page': _vm.isFullPage }},[_c('div',{staticClass:"loading-background",on:{"click":_vm.cancel}}),_vm._v(" "),_vm._t("default",[_c('div',{staticClass:"loading-icon"})])],2):_vm._e()])};
+var __vue_render__$n = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('transition',{attrs:{"name":_vm.animation}},[(_vm.isActive)?_c('div',{staticClass:"loading-overlay is-active",class:{ 'is-full-page': _vm.displayInFullPage }},[_c('div',{staticClass:"loading-background",on:{"click":_vm.cancel}}),_vm._v(" "),_vm._t("default",[_c('div',{staticClass:"loading-icon"})])],2):_vm._e()])};
 var __vue_staticRenderFns__$n = [];
 
   /* style */
@@ -6414,15 +6685,19 @@ var __vue_staticRenderFns__$n = [];
   
   /* style inject SSR */
   
+  /* style inject shadow dom */
+  
 
   
-  var Loading = normalizeComponent_1(
+  const __vue_component__$p = normalizeComponent_1(
     { render: __vue_render__$n, staticRenderFns: __vue_staticRenderFns__$n },
     __vue_inject_styles__$p,
     __vue_script__$p,
     __vue_scope_id__$p,
     __vue_is_functional_template__$p,
     __vue_module_identifier__$p,
+    false,
+    undefined,
     undefined,
     undefined
   );
@@ -6435,7 +6710,7 @@ var LoadingProgrammatic = {
     };
     var propsData = merge(defaultParam, params);
     var vm = typeof window !== 'undefined' && window.Vue ? window.Vue : localVueInstance$1 || VueInstance;
-    var LoadingComponent = vm.extend(Loading);
+    var LoadingComponent = vm.extend(__vue_component__$p);
     return new LoadingComponent({
       el: document.createElement('div'),
       propsData: propsData
@@ -6445,7 +6720,7 @@ var LoadingProgrammatic = {
 var Plugin$d = {
   install: function install(Vue) {
     localVueInstance$1 = Vue;
-    registerComponent(Vue, Loading);
+    registerComponent(Vue, __vue_component__$p);
     registerComponentProgrammatic(Vue, 'loading', LoadingProgrammatic);
   }
 };
@@ -6492,15 +6767,19 @@ var __vue_staticRenderFns__$o = [];
   
   /* style inject SSR */
   
+  /* style inject shadow dom */
+  
 
   
-  var Menu = normalizeComponent_1(
+  const __vue_component__$q = normalizeComponent_1(
     { render: __vue_render__$o, staticRenderFns: __vue_staticRenderFns__$o },
     __vue_inject_styles__$q,
     __vue_script__$q,
     __vue_scope_id__$q,
     __vue_is_functional_template__$q,
     __vue_module_identifier__$q,
+    false,
+    undefined,
     undefined,
     undefined
   );
@@ -6562,22 +6841,26 @@ const __vue_script__$r = script$r;
   
   /* style inject SSR */
   
+  /* style inject shadow dom */
+  
 
   
-  var MenuList = normalizeComponent_1(
+  const __vue_component__$r = normalizeComponent_1(
     {},
     __vue_inject_styles__$r,
     __vue_script__$r,
     __vue_scope_id__$r,
     __vue_is_functional_template__$r,
     __vue_module_identifier__$r,
+    false,
+    undefined,
     undefined,
     undefined
   );
 
 var script$s = {
   name: 'BMenuItem',
-  components: _defineProperty({}, Icon.name, Icon),
+  components: _defineProperty({}, __vue_component__.name, __vue_component__),
   inheritAttrs: false,
   props: {
     label: String,
@@ -6594,7 +6877,7 @@ var script$s = {
       type: String,
       default: 'a',
       validator: function validator(value) {
-        return ['a', 'router-link', 'nuxt-link', 'n-link', 'NuxtLink', 'NLink'].indexOf(value) >= 0;
+        return config.defaultLinkTags.indexOf(value) >= 0;
       }
     },
     ariaRole: {
@@ -6629,7 +6912,6 @@ var script$s = {
       this.$emit('update:expanded', this.newActive);
       this.newActive = true;
       this.$emit('update:active', this.newActive);
-      this.$emit('click', event);
     },
     reset: function reset(parent) {
       var _this = this;
@@ -6658,10 +6940,10 @@ var script$s = {
 const __vue_script__$s = script$s;
 
 /* template */
-var __vue_render__$p = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('li',{attrs:{"role":_vm.ariaRoleMenu}},[_c(_vm.tag,_vm._b({tag:"component",class:{
+var __vue_render__$p = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('li',{attrs:{"role":_vm.ariaRoleMenu}},[_c(_vm.tag,_vm._g(_vm._b({tag:"component",class:{
                 'is-active': _vm.newActive,
                 'is-disabled': _vm.disabled
-            },on:{"click":function($event){_vm.onClick($event);}},nativeOn:{"click":function($event){_vm.onClick($event);}}},'component',_vm.$attrs,false),[(_vm.icon)?_c('b-icon',{attrs:{"icon":_vm.icon,"pack":_vm.iconPack,"size":"is-small"}}):_vm._e(),_vm._v(" "),(_vm.label)?_c('span',[_vm._v(_vm._s(_vm.label))]):_vm._t("label",null,{expanded:_vm.newExpanded,active:_vm.newActive})],2),_vm._v(" "),(_vm.$slots.default)?[_c('transition',{attrs:{"name":_vm.animation}},[_c('ul',{directives:[{name:"show",rawName:"v-show",value:(_vm.newExpanded),expression:"newExpanded"}]},[_vm._t("default")],2)])]:_vm._e()],2)};
+            },on:{"click":function($event){_vm.onClick($event);}}},'component',_vm.$attrs,false),_vm.$listeners),[(_vm.icon)?_c('b-icon',{attrs:{"icon":_vm.icon,"pack":_vm.iconPack,"size":"is-small"}}):_vm._e(),_vm._v(" "),(_vm.label)?_c('span',[_vm._v(_vm._s(_vm.label))]):_vm._t("label",null,{expanded:_vm.newExpanded,active:_vm.newActive})],2),_vm._v(" "),(_vm.$slots.default)?[_c('transition',{attrs:{"name":_vm.animation}},[_c('ul',{directives:[{name:"show",rawName:"v-show",value:(_vm.newExpanded),expression:"newExpanded"}]},[_vm._t("default")],2)])]:_vm._e()],2)};
 var __vue_staticRenderFns__$p = [];
 
   /* style */
@@ -6676,30 +6958,34 @@ var __vue_staticRenderFns__$p = [];
   
   /* style inject SSR */
   
+  /* style inject shadow dom */
+  
 
   
-  var MenuItem = normalizeComponent_1(
+  const __vue_component__$s = normalizeComponent_1(
     { render: __vue_render__$p, staticRenderFns: __vue_staticRenderFns__$p },
     __vue_inject_styles__$s,
     __vue_script__$s,
     __vue_scope_id__$s,
     __vue_is_functional_template__$s,
     __vue_module_identifier__$s,
+    false,
+    undefined,
     undefined,
     undefined
   );
 
 var Plugin$e = {
   install: function install(Vue) {
-    registerComponent(Vue, Menu);
-    registerComponent(Vue, MenuList);
-    registerComponent(Vue, MenuItem);
+    registerComponent(Vue, __vue_component__$q);
+    registerComponent(Vue, __vue_component__$r);
+    registerComponent(Vue, __vue_component__$s);
   }
 };
 use(Plugin$e);
 
 var MessageMixin = {
-  components: _defineProperty({}, Icon.name, Icon),
+  components: _defineProperty({}, __vue_component__.name, __vue_component__),
   props: {
     active: {
       type: Boolean,
@@ -6714,6 +7000,7 @@ var MessageMixin = {
     type: String,
     hasIcon: Boolean,
     size: String,
+    icon: String,
     iconPack: String,
     iconSize: String,
     autoClose: {
@@ -6748,7 +7035,11 @@ var MessageMixin = {
     /**
      * Icon name (MDI) based on type.
      */
-    icon: function icon() {
+    computedIcon: function computedIcon() {
+      if (this.icon) {
+        return this.icon;
+      }
+
       switch (this.type) {
         case 'is-info':
           return 'information';
@@ -6815,7 +7106,7 @@ var script$t = {
 const __vue_script__$t = script$t;
 
 /* template */
-var __vue_render__$q = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('transition',{attrs:{"name":"fade"}},[(_vm.isActive)?_c('article',{staticClass:"message",class:[_vm.type, _vm.size]},[(_vm.title)?_c('header',{staticClass:"message-header"},[_c('p',[_vm._v(_vm._s(_vm.title))]),_vm._v(" "),(_vm.closable)?_c('button',{staticClass:"delete",attrs:{"type":"button","aria-label":_vm.ariaCloseLabel},on:{"click":_vm.close}}):_vm._e()]):_vm._e(),_vm._v(" "),_c('section',{staticClass:"message-body"},[_c('div',{staticClass:"media"},[(_vm.icon && _vm.hasIcon)?_c('div',{staticClass:"media-left"},[_c('b-icon',{class:_vm.type,attrs:{"icon":_vm.icon,"pack":_vm.iconPack,"both":"","size":_vm.newIconSize}})],1):_vm._e(),_vm._v(" "),_c('div',{staticClass:"media-content"},[_vm._t("default")],2)])])]):_vm._e()])};
+var __vue_render__$q = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('transition',{attrs:{"name":"fade"}},[(_vm.isActive)?_c('article',{staticClass:"message",class:[_vm.type, _vm.size]},[(_vm.title)?_c('header',{staticClass:"message-header"},[_c('p',[_vm._v(_vm._s(_vm.title))]),_vm._v(" "),(_vm.closable)?_c('button',{staticClass:"delete",attrs:{"type":"button","aria-label":_vm.ariaCloseLabel},on:{"click":_vm.close}}):_vm._e()]):_vm._e(),_vm._v(" "),_c('section',{staticClass:"message-body"},[_c('div',{staticClass:"media"},[(_vm.computedIcon && _vm.hasIcon)?_c('div',{staticClass:"media-left"},[_c('b-icon',{class:_vm.type,attrs:{"icon":_vm.computedIcon,"pack":_vm.iconPack,"both":"","size":_vm.newIconSize}})],1):_vm._e(),_vm._v(" "),_c('div',{staticClass:"media-content"},[_vm._t("default")],2)])])]):_vm._e()])};
 var __vue_staticRenderFns__$q = [];
 
   /* style */
@@ -6830,22 +7121,26 @@ var __vue_staticRenderFns__$q = [];
   
   /* style inject SSR */
   
+  /* style inject shadow dom */
+  
 
   
-  var Message = normalizeComponent_1(
+  const __vue_component__$t = normalizeComponent_1(
     { render: __vue_render__$q, staticRenderFns: __vue_staticRenderFns__$q },
     __vue_inject_styles__$t,
     __vue_script__$t,
     __vue_scope_id__$t,
     __vue_is_functional_template__$t,
     __vue_module_identifier__$t,
+    false,
+    undefined,
     undefined,
     undefined
   );
 
 var Plugin$f = {
   install: function install(Vue) {
-    registerComponent(Vue, Message);
+    registerComponent(Vue, __vue_component__$t);
   }
 };
 use(Plugin$f);
@@ -6872,7 +7167,7 @@ var ModalProgrammatic = {
 
     var propsData = merge(defaultParam, params);
     var vm = typeof window !== 'undefined' && window.Vue ? window.Vue : localVueInstance$2 || VueInstance;
-    var ModalComponent = vm.extend(Modal);
+    var ModalComponent = vm.extend(__vue_component__$n);
     return new ModalComponent({
       parent: parent,
       el: document.createElement('div'),
@@ -6883,7 +7178,7 @@ var ModalProgrammatic = {
 var Plugin$g = {
   install: function install(Vue) {
     localVueInstance$2 = Vue;
-    registerComponent(Vue, Modal);
+    registerComponent(Vue, __vue_component__$n);
     registerComponentProgrammatic(Vue, 'modal', ModalProgrammatic);
   }
 };
@@ -6895,7 +7190,11 @@ var script$u = {
   mixins: [MessageMixin],
   props: {
     position: String,
-    ariaCloseLabel: String
+    ariaCloseLabel: String,
+    animation: {
+      type: String,
+      default: 'fade'
+    }
   }
 };
 
@@ -6903,7 +7202,7 @@ var script$u = {
 const __vue_script__$u = script$u;
 
 /* template */
-var __vue_render__$r = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('transition',{attrs:{"name":"fade"}},[_c('article',{directives:[{name:"show",rawName:"v-show",value:(_vm.isActive),expression:"isActive"}],staticClass:"notification",class:[_vm.type, _vm.position]},[(_vm.closable)?_c('button',{staticClass:"delete",attrs:{"type":"button","aria-label":_vm.ariaCloseLabel},on:{"click":_vm.close}}):_vm._e(),_vm._v(" "),_c('div',{staticClass:"media"},[(_vm.icon && _vm.hasIcon)?_c('div',{staticClass:"media-left"},[_c('b-icon',{attrs:{"icon":_vm.icon,"pack":_vm.iconPack,"both":"","size":"is-large","aria-hidden":""}})],1):_vm._e(),_vm._v(" "),_c('div',{staticClass:"media-content"},[(_vm.message)?_c('p',{staticClass:"text",domProps:{"innerHTML":_vm._s(_vm.message)}}):_vm._t("default")],2)])])])};
+var __vue_render__$r = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('transition',{attrs:{"name":_vm.animation}},[_c('article',{directives:[{name:"show",rawName:"v-show",value:(_vm.isActive),expression:"isActive"}],staticClass:"notification",class:[_vm.type, _vm.position]},[(_vm.closable)?_c('button',{staticClass:"delete",attrs:{"type":"button","aria-label":_vm.ariaCloseLabel},on:{"click":_vm.close}}):_vm._e(),_vm._v(" "),_c('div',{staticClass:"media"},[(_vm.computedIcon && _vm.hasIcon)?_c('div',{staticClass:"media-left"},[_c('b-icon',{attrs:{"icon":_vm.computedIcon,"pack":_vm.iconPack,"both":"","size":"is-large","aria-hidden":""}})],1):_vm._e(),_vm._v(" "),_c('div',{staticClass:"media-content"},[(_vm.message)?_c('p',{staticClass:"text",domProps:{"innerHTML":_vm._s(_vm.message)}}):_vm._t("default")],2)])])])};
 var __vue_staticRenderFns__$r = [];
 
   /* style */
@@ -6918,15 +7217,19 @@ var __vue_staticRenderFns__$r = [];
   
   /* style inject SSR */
   
+  /* style inject shadow dom */
+  
 
   
-  var Notification = normalizeComponent_1(
+  const __vue_component__$u = normalizeComponent_1(
     { render: __vue_render__$r, staticRenderFns: __vue_staticRenderFns__$r },
     __vue_inject_styles__$u,
     __vue_script__$u,
     __vue_scope_id__$u,
     __vue_is_functional_template__$u,
     __vue_module_identifier__$u,
+    false,
+    undefined,
     undefined,
     undefined
   );
@@ -7102,15 +7405,19 @@ var __vue_staticRenderFns__$s = [];
   
   /* style inject SSR */
   
+  /* style inject shadow dom */
+  
 
   
-  var NotificationNotice = normalizeComponent_1(
+  const __vue_component__$v = normalizeComponent_1(
     { render: __vue_render__$s, staticRenderFns: __vue_staticRenderFns__$s },
     __vue_inject_styles__$v,
     __vue_script__$v,
     __vue_scope_id__$v,
     __vue_is_functional_template__$v,
     __vue_module_identifier__$v,
+    false,
+    undefined,
     undefined,
     undefined
   );
@@ -7137,7 +7444,7 @@ var NotificationProgrammatic = {
 
     var propsData = merge(defaultParam, params);
     var vm = typeof window !== 'undefined' && window.Vue ? window.Vue : localVueInstance$3 || VueInstance;
-    var NotificationNoticeComponent = vm.extend(NotificationNotice);
+    var NotificationNoticeComponent = vm.extend(__vue_component__$v);
     return new NotificationNoticeComponent({
       parent: parent,
       el: document.createElement('div'),
@@ -7148,7 +7455,7 @@ var NotificationProgrammatic = {
 var Plugin$h = {
   install: function install(Vue) {
     localVueInstance$3 = Vue;
-    registerComponent(Vue, Notification);
+    registerComponent(Vue, __vue_component__$u);
     registerComponentProgrammatic(Vue, 'notification', NotificationProgrammatic);
   }
 };
@@ -7198,15 +7505,19 @@ var __vue_staticRenderFns__$t = [];
   
   /* style inject SSR */
   
+  /* style inject shadow dom */
+  
 
   
-  var NavbarBurger = normalizeComponent_1(
+  const __vue_component__$w = normalizeComponent_1(
     { render: __vue_render__$t, staticRenderFns: __vue_staticRenderFns__$t },
     __vue_inject_styles__$w,
     __vue_script__$w,
     __vue_scope_id__$w,
     __vue_is_functional_template__$w,
     __vue_module_identifier__$w,
+    false,
+    undefined,
     undefined,
     undefined
   );
@@ -7347,7 +7658,7 @@ var isFilled = function isFilled(str) {
 var script$x = {
   name: 'BNavbar',
   components: {
-    NavbarBurger: NavbarBurger
+    NavbarBurger: __vue_component__$w
   },
   directives: {
     clickOutside: directive$1
@@ -7409,26 +7720,32 @@ var script$x = {
     fixedTop: {
       handler: function handler(isSet) {
         this.checkIfFixedPropertiesAreColliding();
-        var className = this.spaced ? BODY_SPACED_FIXED_TOP_CLASS : BODY_FIXED_TOP_CLASS;
 
         if (isSet) {
-          return this.setBodyClass(className);
+          // TODO Apply only one of the classes once PR is merged in Bulma:
+          // https://github.com/jgthms/bulma/pull/2737
+          this.setBodyClass(BODY_FIXED_TOP_CLASS);
+          this.spaced && this.setBodyClass(BODY_SPACED_FIXED_TOP_CLASS);
+        } else {
+          this.removeBodyClass(BODY_FIXED_TOP_CLASS);
+          this.removeBodyClass(BODY_SPACED_FIXED_TOP_CLASS);
         }
-
-        this.removeBodyClass(className);
       },
       immediate: true
     },
     fixedBottom: {
       handler: function handler(isSet) {
         this.checkIfFixedPropertiesAreColliding();
-        var className = this.spaced ? BODY_SPACED_FIXED_BOTTOM_CLASS : BODY_FIXED_BOTTOM_CLASS;
 
         if (isSet) {
-          return this.setBodyClass(className);
+          // TODO Apply only one of the classes once PR is merged in Bulma:
+          // https://github.com/jgthms/bulma/pull/2737
+          this.setBodyClass(BODY_FIXED_BOTTOM_CLASS);
+          this.spaced && this.setBodyClass(BODY_SPACED_FIXED_BOTTOM_CLASS);
+        } else {
+          this.removeBodyClass(BODY_FIXED_BOTTOM_CLASS);
+          this.removeBodyClass(BODY_SPACED_FIXED_BOTTOM_CLASS);
         }
-
-        this.removeBodyClass(className);
       },
       immediate: true
     }
@@ -7528,8 +7845,14 @@ var script$x = {
     }
   },
   beforeDestroy: function beforeDestroy() {
-    this.removeBodyClass(FIXED_BOTTOM_CLASS);
-    this.removeBodyClass(FIXED_TOP_CLASS);
+    if (this.fixedTop) {
+      var className = this.spaced ? BODY_SPACED_FIXED_TOP_CLASS : BODY_FIXED_TOP_CLASS;
+      this.removeBodyClass(className);
+    } else if (this.fixedBottom) {
+      var _className = this.spaced ? BODY_SPACED_FIXED_BOTTOM_CLASS : BODY_FIXED_BOTTOM_CLASS;
+
+      this.removeBodyClass(_className);
+    }
   },
   render: function render(createElement, fn) {
     return this.genNavbar(createElement);
@@ -7553,15 +7876,19 @@ const __vue_script__$x = script$x;
   
   /* style inject SSR */
   
+  /* style inject shadow dom */
+  
 
   
-  var Navbar = normalizeComponent_1(
+  const __vue_component__$x = normalizeComponent_1(
     {},
     __vue_inject_styles__$x,
     __vue_script__$x,
     __vue_scope_id__$x,
     __vue_is_functional_template__$x,
     __vue_module_identifier__$x,
+    false,
+    undefined,
     undefined,
     undefined
   );
@@ -7656,15 +7983,19 @@ var __vue_staticRenderFns__$u = [];
   
   /* style inject SSR */
   
+  /* style inject shadow dom */
+  
 
   
-  var NavbarItem = normalizeComponent_1(
+  const __vue_component__$y = normalizeComponent_1(
     { render: __vue_render__$u, staticRenderFns: __vue_staticRenderFns__$u },
     __vue_inject_styles__$y,
     __vue_script__$y,
     __vue_scope_id__$y,
     __vue_is_functional_template__$y,
     __vue_module_identifier__$y,
+    false,
+    undefined,
     undefined,
     undefined
   );
@@ -7681,11 +8012,16 @@ var script$z = {
     active: Boolean,
     right: Boolean,
     arrowless: Boolean,
-    boxed: Boolean
+    boxed: Boolean,
+    closeOnClick: {
+      type: Boolean,
+      default: true
+    }
   },
   data: function data() {
     return {
       newActive: this.active,
+      isHoverable: this.hoverable,
       _isNavDropdown: true // Used internally by NavbarItem
 
     };
@@ -7704,7 +8040,16 @@ var script$z = {
     * See naming convetion of navbaritem
     */
     closeMenu: function closeMenu() {
-      this.newActive = false;
+      this.newActive = !this.closeOnClick;
+
+      if (this.hoverable && this.closeOnClick) {
+        this.isHoverable = false;
+      }
+    },
+    checkHoverable: function checkHoverable() {
+      if (this.hoverable) {
+        this.isHoverable = true;
+      }
     }
   }
 };
@@ -7714,11 +8059,11 @@ const __vue_script__$z = script$z;
 
 /* template */
 var __vue_render__$v = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{directives:[{name:"click-outside",rawName:"v-click-outside",value:(_vm.closeMenu),expression:"closeMenu"}],staticClass:"navbar-item has-dropdown",class:{
-            'is-hoverable': _vm.hoverable,
+            'is-hoverable': _vm.isHoverable,
             'is-active': _vm.newActive
-        }},[_c('a',{staticClass:"navbar-link",class:{
+        },on:{"mouseenter":_vm.checkHoverable}},[_c('a',{staticClass:"navbar-link",class:{
                 'is-arrowless': _vm.arrowless
-            },on:{"click":function($event){_vm.newActive = !_vm.newActive;}}},[(_vm.label)?[_vm._v(_vm._s(_vm.label))]:_vm._t("label")],2),_vm._v(" "),_c('div',{staticClass:"navbar-dropdown",class:{
+            },attrs:{"role":"menuitem","aria-haspopup":"true","href":"#"},on:{"click":function($event){$event.preventDefault();_vm.newActive = !_vm.newActive;}}},[(_vm.label)?[_vm._v(_vm._s(_vm.label))]:_vm._t("label")],2),_vm._v(" "),_c('div',{staticClass:"navbar-dropdown",class:{
                 'is-right': _vm.right,
                 'is-boxed': _vm.boxed
             }},[_vm._t("default")],2)])};
@@ -7736,24 +8081,28 @@ var __vue_staticRenderFns__$v = [];
   
   /* style inject SSR */
   
+  /* style inject shadow dom */
+  
 
   
-  var NavbarDropdown = normalizeComponent_1(
+  const __vue_component__$z = normalizeComponent_1(
     { render: __vue_render__$v, staticRenderFns: __vue_staticRenderFns__$v },
     __vue_inject_styles__$z,
     __vue_script__$z,
     __vue_scope_id__$z,
     __vue_is_functional_template__$z,
     __vue_module_identifier__$z,
+    false,
+    undefined,
     undefined,
     undefined
   );
 
 var Plugin$i = {
   install: function install(Vue) {
-    registerComponent(Vue, Navbar);
-    registerComponent(Vue, NavbarItem);
-    registerComponent(Vue, NavbarDropdown);
+    registerComponent(Vue, __vue_component__$x);
+    registerComponent(Vue, __vue_component__$y);
+    registerComponent(Vue, __vue_component__$z);
   }
 };
 use(Plugin$i);
@@ -7761,7 +8110,7 @@ use(Plugin$i);
 var _components$4;
 var script$A = {
   name: 'BNumberinput',
-  components: (_components$4 = {}, _defineProperty(_components$4, Icon.name, Icon), _defineProperty(_components$4, Input.name, Input), _components$4),
+  components: (_components$4 = {}, _defineProperty(_components$4, __vue_component__.name, __vue_component__), _defineProperty(_components$4, __vue_component__$1.name, __vue_component__$1), _components$4),
   mixins: [FormElementMixin],
   inheritAttrs: false,
   props: {
@@ -7922,41 +8271,30 @@ var __vue_staticRenderFns__$w = [];
   
   /* style inject SSR */
   
+  /* style inject shadow dom */
+  
 
   
-  var Numberinput = normalizeComponent_1(
+  const __vue_component__$A = normalizeComponent_1(
     { render: __vue_render__$w, staticRenderFns: __vue_staticRenderFns__$w },
     __vue_inject_styles__$A,
     __vue_script__$A,
     __vue_scope_id__$A,
     __vue_is_functional_template__$A,
     __vue_module_identifier__$A,
+    false,
+    undefined,
     undefined,
     undefined
   );
 
 var Plugin$j = {
   install: function install(Vue) {
-    registerComponent(Vue, Numberinput);
+    registerComponent(Vue, __vue_component__$A);
   }
 };
 use(Plugin$j);
 
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 //
 var script$B = {
   name: 'BPaginationButton',
@@ -7969,7 +8307,7 @@ var script$B = {
       type: String,
       default: 'a',
       validator: function validator(value) {
-        return ['a', 'button', 'input', 'router-link', 'nuxt-link', 'n-link', 'NuxtLink', 'NLink'].indexOf(value) >= 0;
+        return config.defaultLinkTags.indexOf(value) >= 0;
       }
     },
     disabled: {
@@ -8010,15 +8348,19 @@ var __vue_staticRenderFns__$x = [];
   
   /* style inject SSR */
   
+  /* style inject shadow dom */
+  
 
   
-  var PaginationButton = normalizeComponent_1(
+  const __vue_component__$B = normalizeComponent_1(
     { render: __vue_render__$x, staticRenderFns: __vue_staticRenderFns__$x },
     __vue_inject_styles__$B,
     __vue_script__$B,
     __vue_scope_id__$B,
     __vue_is_functional_template__$B,
     __vue_module_identifier__$B,
+    false,
+    undefined,
     undefined,
     undefined
   );
@@ -8026,7 +8368,7 @@ var __vue_staticRenderFns__$x = [];
 var _components$5;
 var script$C = {
   name: 'BPagination',
-  components: (_components$5 = {}, _defineProperty(_components$5, Icon.name, Icon), _defineProperty(_components$5, PaginationButton.name, PaginationButton), _components$5),
+  components: (_components$5 = {}, _defineProperty(_components$5, __vue_component__.name, __vue_component__), _defineProperty(_components$5, __vue_component__$B.name, __vue_component__$B), _components$5),
   props: {
     total: [Number, String],
     perPage: {
@@ -8266,23 +8608,27 @@ var __vue_staticRenderFns__$y = [];
   
   /* style inject SSR */
   
+  /* style inject shadow dom */
+  
 
   
-  var Pagination = normalizeComponent_1(
+  const __vue_component__$C = normalizeComponent_1(
     { render: __vue_render__$y, staticRenderFns: __vue_staticRenderFns__$y },
     __vue_inject_styles__$C,
     __vue_script__$C,
     __vue_scope_id__$C,
     __vue_is_functional_template__$C,
     __vue_module_identifier__$C,
+    false,
+    undefined,
     undefined,
     undefined
   );
 
 var Plugin$k = {
   install: function install(Vue) {
-    registerComponent(Vue, Pagination);
-    registerComponent(Vue, PaginationButton);
+    registerComponent(Vue, __vue_component__$C);
+    registerComponent(Vue, __vue_component__$B);
   }
 };
 use(Plugin$k);
@@ -8349,7 +8695,7 @@ var script$D = {
       }
 
       if (this.format === 'percent') {
-        var _val = this.toFixed(this.value * this.max / 100);
+        var _val = this.toFixed(this.value * 100 / this.max);
 
         return "".concat(_val, "%");
       }
@@ -8410,22 +8756,26 @@ var __vue_staticRenderFns__$z = [];
   
   /* style inject SSR */
   
+  /* style inject shadow dom */
+  
 
   
-  var Progress = normalizeComponent_1(
+  const __vue_component__$D = normalizeComponent_1(
     { render: __vue_render__$z, staticRenderFns: __vue_staticRenderFns__$z },
     __vue_inject_styles__$D,
     __vue_script__$D,
     __vue_scope_id__$D,
     __vue_is_functional_template__$D,
     __vue_module_identifier__$D,
+    false,
+    undefined,
     undefined,
     undefined
   );
 
 var Plugin$l = {
   install: function install(Vue) {
-    registerComponent(Vue, Progress);
+    registerComponent(Vue, __vue_component__$D);
   }
 };
 use(Plugin$l);
@@ -8455,15 +8805,19 @@ var __vue_staticRenderFns__$A = [];
   
   /* style inject SSR */
   
+  /* style inject shadow dom */
+  
 
   
-  var Radio = normalizeComponent_1(
+  const __vue_component__$E = normalizeComponent_1(
     { render: __vue_render__$A, staticRenderFns: __vue_staticRenderFns__$A },
     __vue_inject_styles__$E,
     __vue_script__$E,
     __vue_scope_id__$E,
     __vue_is_functional_template__$E,
     __vue_module_identifier__$E,
+    false,
+    undefined,
     undefined,
     undefined
   );
@@ -8508,30 +8862,34 @@ var __vue_staticRenderFns__$B = [];
   
   /* style inject SSR */
   
+  /* style inject shadow dom */
+  
 
   
-  var RadioButton = normalizeComponent_1(
+  const __vue_component__$F = normalizeComponent_1(
     { render: __vue_render__$B, staticRenderFns: __vue_staticRenderFns__$B },
     __vue_inject_styles__$F,
     __vue_script__$F,
     __vue_scope_id__$F,
     __vue_is_functional_template__$F,
     __vue_module_identifier__$F,
+    false,
+    undefined,
     undefined,
     undefined
   );
 
 var Plugin$m = {
   install: function install(Vue) {
-    registerComponent(Vue, Radio);
-    registerComponent(Vue, RadioButton);
+    registerComponent(Vue, __vue_component__$E);
+    registerComponent(Vue, __vue_component__$F);
   }
 };
 use(Plugin$m);
 
 var script$G = {
   name: 'BRate',
-  components: _defineProperty({}, Icon.name, Icon),
+  components: _defineProperty({}, __vue_component__.name, __vue_component__),
   props: {
     value: {
       type: Number,
@@ -8641,29 +8999,33 @@ var __vue_staticRenderFns__$C = [];
   
   /* style inject SSR */
   
+  /* style inject shadow dom */
+  
 
   
-  var Rate = normalizeComponent_1(
+  const __vue_component__$G = normalizeComponent_1(
     { render: __vue_render__$C, staticRenderFns: __vue_staticRenderFns__$C },
     __vue_inject_styles__$G,
     __vue_script__$G,
     __vue_scope_id__$G,
     __vue_is_functional_template__$G,
     __vue_module_identifier__$G,
+    false,
+    undefined,
     undefined,
     undefined
   );
 
 var Plugin$n = {
   install: function install(Vue) {
-    registerComponent(Vue, Rate);
+    registerComponent(Vue, __vue_component__$G);
   }
 };
 use(Plugin$n);
 
 var Plugin$o = {
   install: function install(Vue) {
-    registerComponent(Vue, Select);
+    registerComponent(Vue, __vue_component__$g);
   }
 };
 use(Plugin$o);
@@ -8735,22 +9097,26 @@ var __vue_staticRenderFns__$D = [];
   
   /* style inject SSR */
   
+  /* style inject shadow dom */
+  
 
   
-  var Tooltip = normalizeComponent_1(
+  const __vue_component__$H = normalizeComponent_1(
     { render: __vue_render__$D, staticRenderFns: __vue_staticRenderFns__$D },
     __vue_inject_styles__$H,
     __vue_script__$H,
     __vue_scope_id__$H,
     __vue_is_functional_template__$H,
     __vue_module_identifier__$H,
+    false,
+    undefined,
     undefined,
     undefined
   );
 
 var script$I = {
   name: 'BSliderThumb',
-  components: _defineProperty({}, Tooltip.name, Tooltip),
+  components: _defineProperty({}, __vue_component__$H.name, __vue_component__$H),
   inheritAttrs: false,
   props: {
     value: {
@@ -8931,15 +9297,19 @@ var __vue_staticRenderFns__$E = [];
   
   /* style inject SSR */
   
+  /* style inject shadow dom */
+  
 
   
-  var SliderThumb = normalizeComponent_1(
+  const __vue_component__$I = normalizeComponent_1(
     { render: __vue_render__$E, staticRenderFns: __vue_staticRenderFns__$E },
     __vue_inject_styles__$I,
     __vue_script__$I,
     __vue_scope_id__$I,
     __vue_is_functional_template__$I,
     __vue_module_identifier__$I,
+    false,
+    undefined,
     undefined,
     undefined
   );
@@ -9006,15 +9376,19 @@ var __vue_staticRenderFns__$F = [];
   
   /* style inject SSR */
   
+  /* style inject shadow dom */
+  
 
   
-  var SliderTick = normalizeComponent_1(
+  const __vue_component__$J = normalizeComponent_1(
     { render: __vue_render__$F, staticRenderFns: __vue_staticRenderFns__$F },
     __vue_inject_styles__$J,
     __vue_script__$J,
     __vue_scope_id__$J,
     __vue_is_functional_template__$J,
     __vue_module_identifier__$J,
+    false,
+    undefined,
     undefined,
     undefined
   );
@@ -9022,7 +9396,7 @@ var __vue_staticRenderFns__$F = [];
 var _components$6;
 var script$K = {
   name: 'BSlider',
-  components: (_components$6 = {}, _defineProperty(_components$6, SliderThumb.name, SliderThumb), _defineProperty(_components$6, SliderTick.name, SliderTick), _components$6),
+  components: (_components$6 = {}, _defineProperty(_components$6, __vue_component__$I.name, __vue_component__$I), _defineProperty(_components$6, __vue_component__$J.name, __vue_component__$J), _components$6),
   props: {
     value: {
       type: [Number, Array],
@@ -9253,23 +9627,27 @@ var __vue_staticRenderFns__$G = [];
   
   /* style inject SSR */
   
+  /* style inject shadow dom */
+  
 
   
-  var Slider = normalizeComponent_1(
+  const __vue_component__$K = normalizeComponent_1(
     { render: __vue_render__$G, staticRenderFns: __vue_staticRenderFns__$G },
     __vue_inject_styles__$K,
     __vue_script__$K,
     __vue_scope_id__$K,
     __vue_is_functional_template__$K,
     __vue_module_identifier__$K,
+    false,
+    undefined,
     undefined,
     undefined
   );
 
 var Plugin$p = {
   install: function install(Vue) {
-    registerComponent(Vue, Slider);
-    registerComponent(Vue, SliderTick);
+    registerComponent(Vue, __vue_component__$K);
+    registerComponent(Vue, __vue_component__$J);
   }
 };
 use(Plugin$p);
@@ -9328,15 +9706,19 @@ var __vue_staticRenderFns__$H = [];
   
   /* style inject SSR */
   
+  /* style inject shadow dom */
+  
 
   
-  var Snackbar = normalizeComponent_1(
+  const __vue_component__$L = normalizeComponent_1(
     { render: __vue_render__$H, staticRenderFns: __vue_staticRenderFns__$H },
     __vue_inject_styles__$L,
     __vue_script__$L,
     __vue_scope_id__$L,
     __vue_is_functional_template__$L,
     __vue_module_identifier__$L,
+    false,
+    undefined,
     undefined,
     undefined
   );
@@ -9364,7 +9746,7 @@ var SnackbarProgrammatic = {
 
     var propsData = merge(defaultParam, params);
     var vm = typeof window !== 'undefined' && window.Vue ? window.Vue : localVueInstance$4 || VueInstance;
-    var SnackbarComponent = vm.extend(Snackbar);
+    var SnackbarComponent = vm.extend(__vue_component__$L);
     return new SnackbarComponent({
       parent: parent,
       el: document.createElement('div'),
@@ -9434,7 +9816,7 @@ var SlotComponent = {
 var _components$7;
 var script$M = {
   name: 'BSteps',
-  components: (_components$7 = {}, _defineProperty(_components$7, Icon.name, Icon), _defineProperty(_components$7, SlotComponent.name, SlotComponent), _components$7),
+  components: (_components$7 = {}, _defineProperty(_components$7, __vue_component__.name, __vue_component__), _defineProperty(_components$7, SlotComponent.name, SlotComponent), _components$7),
   props: {
     value: Number,
     type: [String, Object],
@@ -9557,7 +9939,7 @@ var script$M = {
   },
   methods: {
     refreshSlots: function refreshSlots() {
-      this.defaultSlots = this.$slots.default;
+      this.defaultSlots = this.$slots.default || [];
     },
 
     /**
@@ -9659,15 +10041,19 @@ var __vue_staticRenderFns__$I = [];
   
   /* style inject SSR */
   
+  /* style inject shadow dom */
+  
 
   
-  var Steps = normalizeComponent_1(
+  const __vue_component__$M = normalizeComponent_1(
     { render: __vue_render__$I, staticRenderFns: __vue_staticRenderFns__$I },
     __vue_inject_styles__$M,
     __vue_script__$M,
     __vue_scope_id__$M,
     __vue_is_functional_template__$M,
     __vue_module_identifier__$M,
+    false,
+    undefined,
     undefined,
     undefined
   );
@@ -9781,23 +10167,27 @@ const __vue_script__$N = script$N;
   
   /* style inject SSR */
   
+  /* style inject shadow dom */
+  
 
   
-  var StepItem = normalizeComponent_1(
+  const __vue_component__$N = normalizeComponent_1(
     {},
     __vue_inject_styles__$N,
     __vue_script__$N,
     __vue_scope_id__$N,
     __vue_is_functional_template__$N,
     __vue_module_identifier__$N,
+    false,
+    undefined,
     undefined,
     undefined
   );
 
 var Plugin$r = {
   install: function install(Vue) {
-    registerComponent(Vue, Steps);
-    registerComponent(Vue, StepItem);
+    registerComponent(Vue, __vue_component__$M);
+    registerComponent(Vue, __vue_component__$N);
   }
 };
 use(Plugin$r);
@@ -9918,22 +10308,26 @@ var __vue_staticRenderFns__$J = [];
   
   /* style inject SSR */
   
+  /* style inject shadow dom */
+  
 
   
-  var Switch = normalizeComponent_1(
+  const __vue_component__$O = normalizeComponent_1(
     { render: __vue_render__$J, staticRenderFns: __vue_staticRenderFns__$J },
     __vue_inject_styles__$O,
     __vue_script__$O,
     __vue_scope_id__$O,
     __vue_is_functional_template__$O,
     __vue_module_identifier__$O,
+    false,
+    undefined,
     undefined,
     undefined
   );
 
 var Plugin$s = {
   install: function install(Vue) {
-    registerComponent(Vue, Switch);
+    registerComponent(Vue, __vue_component__$O);
   }
 };
 use(Plugin$s);
@@ -9941,9 +10335,10 @@ use(Plugin$s);
 var _components$8;
 var script$P = {
   name: 'BTableMobileSort',
-  components: (_components$8 = {}, _defineProperty(_components$8, Select.name, Select), _defineProperty(_components$8, Icon.name, Icon), _components$8),
+  components: (_components$8 = {}, _defineProperty(_components$8, __vue_component__$g.name, __vue_component__$g), _defineProperty(_components$8, __vue_component__.name, __vue_component__), _components$8),
   props: {
     currentSortColumn: Object,
+    sortMultipleData: Array,
     isAsc: Boolean,
     columns: Array,
     placeholder: String,
@@ -9955,11 +10350,22 @@ var script$P = {
     sortIconSize: {
       type: String,
       default: 'is-small'
+    },
+    sortMultiple: {
+      type: Boolean,
+      default: false
     }
   },
   data: function data() {
     return {
-      mobileSort: this.currentSortColumn
+      sortMultipleSelect: '',
+      mobileSort: this.currentSortColumn,
+      defaultEvent: {
+        shiftKey: true,
+        altKey: true,
+        ctrlKey: true
+      },
+      ignoreSort: false
     };
   },
   computed: {
@@ -9972,17 +10378,65 @@ var script$P = {
     }
   },
   watch: {
+    sortMultipleSelect: function sortMultipleSelect(column) {
+      if (this.ignoreSort) {
+        this.ignoreSort = false;
+      } else {
+        this.$emit('sort', column, this.defaultEvent);
+      }
+    },
     mobileSort: function mobileSort(column) {
       if (this.currentSortColumn === column) return;
-      this.$emit('sort', column);
+      this.$emit('sort', column, this.defaultEvent);
     },
     currentSortColumn: function currentSortColumn(column) {
       this.mobileSort = column;
     }
   },
   methods: {
+    removePriority: function removePriority() {
+      var _this2 = this;
+
+      this.$emit('removePriority', this.sortMultipleSelect); // ignore the watcher to sort when we just change whats displayed in the select
+      // otherwise the direction will be flipped
+      // The sort event is already triggered by the emit
+
+      this.ignoreSort = true; // Select one of the other options when we reset one
+
+      var remainingFields = this.sortMultipleData.filter(function (data) {
+        return data.field !== _this2.sortMultipleSelect.field;
+      }).map(function (data) {
+        return data.field;
+      });
+      this.sortMultipleSelect = this.columns.filter(function (column) {
+        return remainingFields.includes(column.field);
+      })[0];
+    },
+    getSortingObjectOfColumn: function getSortingObjectOfColumn(column) {
+      return this.sortMultipleData.filter(function (i) {
+        return i.field === column.field;
+      })[0];
+    },
+    columnIsDesc: function columnIsDesc(column) {
+      var sortingObject = this.getSortingObjectOfColumn(column);
+
+      if (sortingObject) {
+        return !!(sortingObject.order && sortingObject.order === 'desc');
+      }
+
+      return true;
+    },
+    getLabel: function getLabel(column) {
+      var sortingObject = this.getSortingObjectOfColumn(column);
+
+      if (sortingObject) {
+        return column.label + '(' + (this.sortMultipleData.indexOf(sortingObject) + 1) + ')';
+      }
+
+      return column.label;
+    },
     sort: function sort() {
-      this.$emit('sort', this.mobileSort);
+      this.$emit('sort', this.sortMultiple ? this.sortMultipleSelect : this.mobileSort, this.defaultEvent);
     }
   }
 };
@@ -9991,7 +10445,7 @@ var script$P = {
 const __vue_script__$P = script$P;
 
 /* template */
-var __vue_render__$K = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"field table-mobile-sort"},[_c('div',{staticClass:"field has-addons"},[_c('b-select',{attrs:{"expanded":""},model:{value:(_vm.mobileSort),callback:function ($$v) {_vm.mobileSort=$$v;},expression:"mobileSort"}},[(_vm.placeholder)?[_c('option',{directives:[{name:"show",rawName:"v-show",value:(_vm.showPlaceholder),expression:"showPlaceholder"}],attrs:{"selected":"","disabled":"","hidden":""},domProps:{"value":{}}},[_vm._v("\r\n                        "+_vm._s(_vm.placeholder)+"\r\n                    ")])]:_vm._e(),_vm._v(" "),_vm._l((_vm.columns),function(column,index){return (column.sortable)?_c('option',{key:index,domProps:{"value":column}},[_vm._v("\r\n                    "+_vm._s(column.label)+"\r\n                ")]):_vm._e()})],2),_vm._v(" "),_c('div',{staticClass:"control"},[_c('button',{staticClass:"button is-primary",on:{"click":_vm.sort}},[_c('b-icon',{directives:[{name:"show",rawName:"v-show",value:(_vm.currentSortColumn === _vm.mobileSort),expression:"currentSortColumn === mobileSort"}],class:{ 'is-desc': !_vm.isAsc },attrs:{"icon":_vm.sortIcon,"pack":_vm.iconPack,"size":_vm.sortIconSize,"both":""}})],1)])],1)])};
+var __vue_render__$K = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"field table-mobile-sort"},[_c('div',{staticClass:"field has-addons"},[(_vm.sortMultiple)?_c('b-select',{attrs:{"expanded":""},model:{value:(_vm.sortMultipleSelect),callback:function ($$v) {_vm.sortMultipleSelect=$$v;},expression:"sortMultipleSelect"}},_vm._l((_vm.columns),function(column,index){return (column.sortable)?_c('option',{key:index,domProps:{"value":column}},[_vm._v("\r\n                    "+_vm._s(_vm.getLabel(column))+"\r\n                    "),(_vm.getSortingObjectOfColumn(column))?[(_vm.columnIsDesc(column))?[_vm._v("\r\n                            ↓\r\n                        ")]:[_vm._v("\r\n                            ↑\r\n                        ")]]:_vm._e()],2):_vm._e()})):_c('b-select',{attrs:{"expanded":""},model:{value:(_vm.mobileSort),callback:function ($$v) {_vm.mobileSort=$$v;},expression:"mobileSort"}},[(_vm.placeholder)?[_c('option',{directives:[{name:"show",rawName:"v-show",value:(_vm.showPlaceholder),expression:"showPlaceholder"}],attrs:{"selected":"","disabled":"","hidden":""},domProps:{"value":{}}},[_vm._v("\r\n                        "+_vm._s(_vm.placeholder)+"\r\n                    ")])]:_vm._e(),_vm._v(" "),_vm._l((_vm.columns),function(column,index){return (column.sortable)?_c('option',{key:index,domProps:{"value":column}},[_vm._v("\r\n                    "+_vm._s(column.label)+"\r\n                ")]):_vm._e()})],2),_vm._v(" "),_c('div',{staticClass:"control"},[(_vm.sortMultiple && _vm.sortMultipleData.length > 0)?[_c('button',{staticClass:"button is-primary",on:{"click":_vm.sort}},[_c('b-icon',{class:{ 'is-desc': _vm.columnIsDesc(_vm.sortMultipleSelect) },attrs:{"icon":_vm.sortIcon,"pack":_vm.iconPack,"size":_vm.sortIconSize,"both":""}})],1),_vm._v(" "),_c('button',{staticClass:"button is-primary",on:{"click":_vm.removePriority}},[_c('b-icon',{attrs:{"icon":"delete","size":_vm.sortIconSize,"both":""}})],1)]:(!_vm.sortMultiple)?_c('button',{staticClass:"button is-primary",on:{"click":_vm.sort}},[_c('b-icon',{directives:[{name:"show",rawName:"v-show",value:(_vm.currentSortColumn === _vm.mobileSort),expression:"currentSortColumn === mobileSort"}],class:{ 'is-desc': !_vm.isAsc },attrs:{"icon":_vm.sortIcon,"pack":_vm.iconPack,"size":_vm.sortIconSize,"both":""}})],1):_vm._e()],2)],1)])};
 var __vue_staticRenderFns__$K = [];
 
   /* style */
@@ -10006,15 +10460,19 @@ var __vue_staticRenderFns__$K = [];
   
   /* style inject SSR */
   
+  /* style inject shadow dom */
+  
 
   
-  var TableMobileSort = normalizeComponent_1(
+  const __vue_component__$P = normalizeComponent_1(
     { render: __vue_render__$K, staticRenderFns: __vue_staticRenderFns__$K },
     __vue_inject_styles__$P,
     __vue_script__$P,
     __vue_scope_id__$P,
     __vue_is_functional_template__$P,
     __vue_module_identifier__$P,
+    false,
+    undefined,
     undefined,
     undefined
   );
@@ -10115,15 +10573,19 @@ var __vue_staticRenderFns__$L = [];
   
   /* style inject SSR */
   
+  /* style inject shadow dom */
+  
 
   
-  var TableColumn = normalizeComponent_1(
+  const __vue_component__$Q = normalizeComponent_1(
     { render: __vue_render__$L, staticRenderFns: __vue_staticRenderFns__$L },
     __vue_inject_styles__$Q,
     __vue_script__$Q,
     __vue_scope_id__$Q,
     __vue_is_functional_template__$Q,
     __vue_module_identifier__$Q,
+    false,
+    undefined,
     undefined,
     undefined
   );
@@ -10131,7 +10593,7 @@ var __vue_staticRenderFns__$L = [];
 var _components$9;
 var script$R = {
   name: 'BTable',
-  components: (_components$9 = {}, _defineProperty(_components$9, Checkbox.name, Checkbox), _defineProperty(_components$9, Icon.name, Icon), _defineProperty(_components$9, Input.name, Input), _defineProperty(_components$9, Pagination.name, Pagination), _defineProperty(_components$9, SlotComponent.name, SlotComponent), _defineProperty(_components$9, TableMobileSort.name, TableMobileSort), _defineProperty(_components$9, TableColumn.name, TableColumn), _components$9),
+  components: (_components$9 = {}, _defineProperty(_components$9, __vue_component__$7.name, __vue_component__$7), _defineProperty(_components$9, __vue_component__.name, __vue_component__), _defineProperty(_components$9, __vue_component__$1.name, __vue_component__$1), _defineProperty(_components$9, __vue_component__$C.name, __vue_component__$C), _defineProperty(_components$9, SlotComponent.name, SlotComponent), _defineProperty(_components$9, __vue_component__$P.name, __vue_component__$P), _defineProperty(_components$9, __vue_component__$Q.name, __vue_component__$Q), _components$9),
   props: {
     data: {
       type: Array,
@@ -10195,6 +10657,20 @@ var script$R = {
       type: String,
       default: 'is-small'
     },
+    sortMultiple: {
+      type: Boolean,
+      default: false
+    },
+    sortMultipleData: {
+      type: Array,
+      default: function _default() {
+        return [];
+      }
+    },
+    sortMultipleKey: {
+      type: String,
+      default: null
+    },
     paginated: Boolean,
     currentPage: {
       type: Number,
@@ -10218,6 +10694,7 @@ var script$R = {
       }
     },
     backendSorting: Boolean,
+    backendFiltering: Boolean,
     rowClass: {
       type: Function,
       default: function _default() {
@@ -10259,10 +10736,12 @@ var script$R = {
     ariaNextLabel: String,
     ariaPreviousLabel: String,
     ariaPageLabel: String,
-    ariaCurrentLabel: String
+    ariaCurrentLabel: String,
+    stickyHeader: Boolean
   },
   data: function data() {
     return {
+      sortMultipleDataLocal: [],
       getValueByPath: getValueByPath,
       newColumns: _toConsumableArray(this.columns),
       visibleDetailRows: this.openedDetailed,
@@ -10281,20 +10760,26 @@ var script$R = {
     };
   },
   computed: {
-    /**
-    * return if detailed row tabled
-    * will be with chevron column & icon or not
-    */
-    showDetailRowIcon: function showDetailRowIcon() {
-      return this.detailed && this.showDetailIcon;
+    sortMultipleDataComputed: function sortMultipleDataComputed() {
+      if (this.backendSorting) {
+        return this.sortMultipleData;
+      } else {
+        return this.sortMultipleDataLocal;
+      }
     },
     tableClasses: function tableClasses() {
       return {
         'is-bordered': this.bordered,
         'is-striped': this.striped,
         'is-narrow': this.narrowed,
-        'has-mobile-cards': this.mobileCards,
         'is-hoverable': (this.hoverable || this.focusable) && this.visibleData.length
+      };
+    },
+    tableWrapperClasses: function tableWrapperClasses() {
+      return {
+        'is-loading': this.loading,
+        'has-mobile-cards': this.mobileCards,
+        'has-sticky-header': this.stickyHeader
       };
     },
 
@@ -10383,30 +10868,27 @@ var script$R = {
     columnCount: function columnCount() {
       var count = this.newColumns.length;
       count += this.checkable ? 1 : 0;
-      count += this.detailed ? 1 : 0;
+      count += this.detailed && this.showDetailIcon ? 1 : 0;
       return count;
+    },
+
+    /**
+    * return if detailed row tabled
+    * will be with chevron column & icon or not
+    */
+    showDetailRowIcon: function showDetailRowIcon() {
+      return this.detailed && this.showDetailIcon;
     }
   },
   watch: {
     /**
     * When data prop change:
     *   1. Update internal value.
-    *   2. Reset newColumns (thead), in case it's on a v-for loop.
-    *   3. Sort again if it's not backend-sort.
-    *   4. Set new total if it's not backend-paginated.
+    *   2. Sort again if it's not backend-sort.
+    *   3. Set new total if it's not backend-paginated.
     */
     data: function data(value) {
-      var _this3 = this;
-
-      // Save newColumns before resetting
-      var newColumns = this.newColumns;
-      this.newColumns = [];
-      this.newData = value; // Prevent table from being headless, data could change and created hook
-      // on column might not trigger
-
-      this.$nextTick(function () {
-        if (!_this3.newColumns.length) _this3.newColumns = newColumns;
-      });
+      this.newData = value;
 
       if (!this.backendSorting) {
         this.sort(this.currentSortColumn, true);
@@ -10441,14 +10923,18 @@ var script$R = {
     },
     filters: {
       handler: function handler(value) {
-        var _this4 = this;
+        var _this3 = this;
 
-        this.newData = this.data.filter(function (row) {
-          return _this4.isRowFiltered(row);
-        });
+        if (this.backendFiltering) {
+          this.$emit('filters-change', value);
+        } else {
+          this.newData = this.data.filter(function (row) {
+            return _this3.isRowFiltered(row);
+          });
 
-        if (!this.backendPagination) {
-          this.newDataTotal = this.newData.length;
+          if (!this.backendPagination) {
+            this.newDataTotal = this.newData.length;
+          }
         }
       },
       deep: true
@@ -10466,6 +10952,31 @@ var script$R = {
     }
   },
   methods: {
+    findIndexOfSortData: function findIndexOfSortData(column) {
+      var sortObj = this.sortMultipleDataComputed.filter(function (i) {
+        return i.field === column.field;
+      })[0];
+      return this.sortMultipleDataComputed.indexOf(sortObj) + 1;
+    },
+    removeSortingPriority: function removeSortingPriority(column) {
+      if (this.backendSorting) {
+        this.$emit('sorting-priority-removed', column.field);
+      } else {
+        this.sortMultipleDataLocal = this.sortMultipleDataLocal.filter(function (priority) {
+          return priority.field !== column.field;
+        });
+        var formattedSortingPriority = this.sortMultipleDataLocal.map(function (i) {
+          return (i.order && i.order === 'desc' ? '-' : '') + i.field;
+        });
+        this.newData = multiColumnSort(this.newData, formattedSortingPriority);
+      }
+    },
+    resetMultiSorting: function resetMultiSorting() {
+      this.sortMultipleDataLocal = [];
+      this.currentSortColumn = {};
+      this.newData = this.data;
+    },
+
     /**
     * Sort an array by key without mutating original data.
     * Call the user sort function if it was passed.
@@ -10498,6 +11009,29 @@ var script$R = {
 
       return sorted;
     },
+    sortMultiColumn: function sortMultiColumn(column) {
+      this.currentSortColumn = {};
+
+      if (!this.backendSorting) {
+        var existingPriority = this.sortMultipleDataLocal.filter(function (i) {
+          return i.field === column.field;
+        })[0];
+
+        if (existingPriority) {
+          existingPriority.order = existingPriority.order === 'desc' ? 'asc' : 'desc';
+        } else {
+          this.sortMultipleDataLocal.push({
+            field: column.field,
+            order: column.isAsc
+          });
+        }
+
+        var formattedSortingPriority = this.sortMultipleDataLocal.map(function (i) {
+          return (i.order && i.order === 'desc' ? '-' : '') + i.field;
+        });
+        this.newData = multiColumnSort(this.newData, formattedSortingPriority);
+      }
+    },
 
     /**
     * Sort the column.
@@ -10506,21 +11040,33 @@ var script$R = {
     */
     sort: function sort(column) {
       var updatingData = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : false;
-      if (!column || !column.sortable) return;
+      var event = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : null;
 
-      if (!updatingData) {
-        this.isAsc = column === this.currentSortColumn ? !this.isAsc : this.defaultSortDirection.toLowerCase() !== 'desc';
+      if ( // if backend sorting is enabled, just emit the sort press like usual
+      // if the correct key combination isnt pressed, sort like usual
+      !this.backendSorting && this.sortMultiple && (this.sortMultipleKey && event[this.sortMultipleKey] || !this.sortMultipleKey)) {
+        this.sortMultiColumn(column);
+      } else {
+        if (!column || !column.sortable) return; // sort multiple is enabled but the correct key combination isnt pressed so reset
+
+        if (this.sortMultiple) {
+          this.sortMultipleDataLocal = [];
+        }
+
+        if (!updatingData) {
+          this.isAsc = column === this.currentSortColumn ? !this.isAsc : this.defaultSortDirection.toLowerCase() !== 'desc';
+        }
+
+        if (!this.firstTimeSort) {
+          this.$emit('sort', column.field, this.isAsc ? 'asc' : 'desc', event);
+        }
+
+        if (!this.backendSorting) {
+          this.newData = this.sortBy(this.newData, column.field, column.customSort, this.isAsc);
+        }
+
+        this.currentSortColumn = column;
       }
-
-      if (!this.firstTimeSort) {
-        this.$emit('sort', column.field, this.isAsc ? 'asc' : 'desc');
-      }
-
-      if (!this.backendSorting) {
-        this.newData = this.sortBy(this.newData, column.field, column.customSort, this.isAsc);
-      }
-
-      this.currentSortColumn = column;
     },
 
     /**
@@ -10546,15 +11092,17 @@ var script$R = {
     * Add or remove all rows in current page.
     */
     checkAll: function checkAll() {
-      var _this5 = this;
+      var _this4 = this;
 
       var isAllChecked = this.isAllChecked;
       this.visibleData.forEach(function (currentRow) {
-        _this5.removeCheckedRow(currentRow);
+        if (_this4.isRowCheckable(currentRow)) {
+          _this4.removeCheckedRow(currentRow);
+        }
 
         if (!isAllChecked) {
-          if (_this5.isRowCheckable(currentRow)) {
-            _this5.newCheckedRows.push(currentRow);
+          if (_this4.isRowCheckable(currentRow)) {
+            _this4.newCheckedRows.push(currentRow);
           }
         }
       });
@@ -10589,17 +11137,17 @@ var script$R = {
      * Check row when shift is pressed.
      */
     shiftCheckRow: function shiftCheckRow(row, index, lastCheckedRowIndex) {
-      var _this6 = this;
+      var _this5 = this;
 
       // Get the subset of the list between the two indicies
       var subset = this.visibleData.slice(Math.min(index, lastCheckedRowIndex), Math.max(index, lastCheckedRowIndex) + 1); // Determine the operation based on the state of the clicked checkbox
 
       var shouldCheck = !this.isRowChecked(row);
       subset.forEach(function (item) {
-        _this6.removeCheckedRow(item);
+        _this5.removeCheckedRow(item);
 
-        if (shouldCheck && _this6.isRowCheckable(item)) {
-          _this6.newCheckedRows.push(item);
+        if (shouldCheck && _this5.isRowCheckable(item)) {
+          _this5.newCheckedRows.push(item);
         }
       });
     },
@@ -10761,7 +11309,7 @@ var script$R = {
     * Initial sorted column based on the default-sort prop.
     */
     initSort: function initSort() {
-      var _this7 = this;
+      var _this6 = this;
 
       if (!this.defaultSort) return;
       var sortField = '';
@@ -10779,9 +11327,9 @@ var script$R = {
 
       this.newColumns.forEach(function (column) {
         if (column.field === sortField) {
-          _this7.isAsc = sortDirection.toLowerCase() !== 'desc';
+          _this6.isAsc = sortDirection.toLowerCase() !== 'desc';
 
-          _this7.sort(column, true);
+          _this6.sort(column, true);
         }
       });
     },
@@ -10851,16 +11399,22 @@ var script$R = {
 const __vue_script__$R = script$R;
 
 /* template */
-var __vue_render__$M = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"b-table",class:{ 'is-loading': _vm.loading }},[(_vm.mobileCards && _vm.hasSortablenewColumns)?_c('b-table-mobile-sort',{attrs:{"current-sort-column":_vm.currentSortColumn,"is-asc":_vm.isAsc,"columns":_vm.newColumns,"placeholder":_vm.mobileSortPlaceholder,"icon-pack":_vm.iconPack,"sort-icon":_vm.sortIcon,"sort-icon-size":_vm.sortIconSize},on:{"sort":function (column) { return _vm.sort(column); }}}):_vm._e(),_vm._v(" "),(_vm.paginated && (_vm.paginationPosition === 'top' || _vm.paginationPosition === 'both'))?_c('div',{staticClass:"top level"},[_c('div',{staticClass:"level-left"},[_vm._t("top-left")],2),_vm._v(" "),_c('div',{staticClass:"level-right"},[(_vm.paginated)?_c('div',{staticClass:"level-item"},[_c('b-pagination',{attrs:{"icon-pack":_vm.iconPack,"total":_vm.newDataTotal,"per-page":_vm.perPage,"simple":_vm.paginationSimple,"size":_vm.paginationSize,"current":_vm.newCurrentPage,"aria-next-label":_vm.ariaNextLabel,"aria-previous-label":_vm.ariaPreviousLabel,"aria-page-label":_vm.ariaPageLabel,"aria-current-label":_vm.ariaCurrentLabel},on:{"change":_vm.pageChanged}})],1):_vm._e()])]):_vm._e(),_vm._v(" "),_c('div',{staticClass:"table-wrapper"},[_c('table',{staticClass:"table",class:_vm.tableClasses,attrs:{"tabindex":!_vm.focusable ? false : 0},on:{"keydown":[function($event){if(!('button' in $event)&&_vm._k($event.keyCode,"up",38,$event.key,["Up","ArrowUp"])){ return null; }if($event.target !== $event.currentTarget){ return null; }$event.preventDefault();_vm.pressedArrow(-1);},function($event){if(!('button' in $event)&&_vm._k($event.keyCode,"down",40,$event.key,["Down","ArrowDown"])){ return null; }if($event.target !== $event.currentTarget){ return null; }$event.preventDefault();_vm.pressedArrow(1);}]}},[(_vm.newColumns.length)?_c('thead',[_c('tr',[(_vm.showDetailRowIcon)?_c('th',{attrs:{"width":"40px"}}):_vm._e(),_vm._v(" "),(_vm.checkable && _vm.checkboxPosition === 'left')?_c('th',{staticClass:"checkbox-cell"},[(_vm.headerCheckable)?[_c('b-checkbox',{attrs:{"value":_vm.isAllChecked,"disabled":_vm.isAllUncheckable},nativeOn:{"change":function($event){return _vm.checkAll($event)}}})]:_vm._e()],2):_vm._e(),_vm._v(" "),_vm._l((_vm.visibleColumns),function(column,index){return _c('th',{key:index,class:{
+var __vue_render__$M = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"b-table",class:_vm.tableWrapperClasses},[(_vm.mobileCards && _vm.hasSortablenewColumns)?_c('b-table-mobile-sort',{attrs:{"current-sort-column":_vm.currentSortColumn,"sort-multiple":_vm.sortMultiple,"sort-multiple-data":_vm.sortMultipleDataComputed,"is-asc":_vm.isAsc,"columns":_vm.newColumns,"placeholder":_vm.mobileSortPlaceholder,"icon-pack":_vm.iconPack,"sort-icon":_vm.sortIcon,"sort-icon-size":_vm.sortIconSize},on:{"sort":function (column, event) { return _vm.sort(column, null, event); },"removePriority":function (column) { return _vm.removeSortingPriority(column); }}}):_vm._e(),_vm._v(" "),(_vm.paginated && (_vm.paginationPosition === 'top' || _vm.paginationPosition === 'both'))?_c('div',{staticClass:"top level"},[_c('div',{staticClass:"level-left"},[_vm._t("top-left")],2),_vm._v(" "),_c('div',{staticClass:"level-right"},[(_vm.paginated)?_c('div',{staticClass:"level-item"},[_c('b-pagination',{attrs:{"icon-pack":_vm.iconPack,"total":_vm.newDataTotal,"per-page":_vm.perPage,"simple":_vm.paginationSimple,"size":_vm.paginationSize,"current":_vm.newCurrentPage,"aria-next-label":_vm.ariaNextLabel,"aria-previous-label":_vm.ariaPreviousLabel,"aria-page-label":_vm.ariaPageLabel,"aria-current-label":_vm.ariaCurrentLabel},on:{"change":_vm.pageChanged}})],1):_vm._e()])]):_vm._e(),_vm._v(" "),_c('div',{staticClass:"table-wrapper"},[_c('table',{staticClass:"table",class:_vm.tableClasses,attrs:{"tabindex":!_vm.focusable ? false : 0},on:{"keydown":[function($event){if(!('button' in $event)&&_vm._k($event.keyCode,"up",38,$event.key,["Up","ArrowUp"])){ return null; }if($event.target !== $event.currentTarget){ return null; }$event.preventDefault();_vm.pressedArrow(-1);},function($event){if(!('button' in $event)&&_vm._k($event.keyCode,"down",40,$event.key,["Down","ArrowDown"])){ return null; }if($event.target !== $event.currentTarget){ return null; }$event.preventDefault();_vm.pressedArrow(1);}]}},[(_vm.newColumns.length)?_c('thead',[_c('tr',[(_vm.showDetailRowIcon)?_c('th',{attrs:{"width":"40px"}}):_vm._e(),_vm._v(" "),(_vm.checkable && _vm.checkboxPosition === 'left')?_c('th',{staticClass:"checkbox-cell"},[(_vm.headerCheckable)?[_c('b-checkbox',{attrs:{"value":_vm.isAllChecked,"disabled":_vm.isAllUncheckable},nativeOn:{"change":function($event){return _vm.checkAll($event)}}})]:_vm._e()],2):_vm._e(),_vm._v(" "),_vm._l((_vm.visibleColumns),function(column,index){return _c('th',{key:index,class:{
                                 'is-current-sort': _vm.currentSortColumn === column,
                                 'is-sortable': column.sortable
                             },style:({
                                 width: column.width === undefined ? null :
                                 (isNaN(column.width) ? column.width : column.width + 'px')
-                            }),on:{"click":function($event){$event.stopPropagation();_vm.sort(column);}}},[_c('div',{staticClass:"th-wrap",class:{
+                            }),on:{"click":function($event){$event.stopPropagation();_vm.sort(column, null, $event);}}},[_c('div',{staticClass:"th-wrap",class:{
                                     'is-numeric': column.numeric,
                                     'is-centered': column.centered
-                            }},[(column.$scopedSlots && column.$scopedSlots.header)?[_c('b-slot-component',{attrs:{"component":column,"scoped":true,"name":"header","tag":"span","props":{ column: column, index: index }}})]:(_vm.$scopedSlots.header)?[_vm._t("header",null,{column:column,index:index})]:[_vm._v(_vm._s(column.label))],_vm._v(" "),_c('b-icon',{directives:[{name:"show",rawName:"v-show",value:(_vm.currentSortColumn === column),expression:"currentSortColumn === column"}],class:{ 'is-desc': !_vm.isAsc },attrs:{"icon":_vm.sortIcon,"pack":_vm.iconPack,"both":"","size":_vm.sortIconSize}})],2)])}),_vm._v(" "),(_vm.checkable && _vm.checkboxPosition === 'right')?_c('th',{staticClass:"checkbox-cell"},[(_vm.headerCheckable)?[_c('b-checkbox',{attrs:{"value":_vm.isAllChecked,"disabled":_vm.isAllUncheckable},nativeOn:{"change":function($event){return _vm.checkAll($event)}}})]:_vm._e()],2):_vm._e()],2),_vm._v(" "),(_vm.hasCustomSubheadings)?_c('tr',{staticClass:"is-subheading"},[(_vm.showDetailRowIcon)?_c('th',{attrs:{"width":"40px"}}):_vm._e(),_vm._v(" "),(_vm.checkable && _vm.checkboxPosition === 'left')?_c('th'):_vm._e(),_vm._v(" "),_vm._l((_vm.visibleColumns),function(column,index){return _c('th',{key:index,style:({
+                            }},[(column.$scopedSlots && column.$scopedSlots.header)?[_c('b-slot-component',{attrs:{"component":column,"scoped":true,"name":"header","tag":"span","props":{ column: column, index: index }}})]:(_vm.$scopedSlots.header)?[_vm._t("header",null,{column:column,index:index})]:[_vm._v(_vm._s(column.label))],_vm._v(" "),(_vm.sortMultiple &&
+                                        _vm.sortMultipleDataComputed &&
+                                        _vm.sortMultipleDataComputed.length > 0 &&
+                                        _vm.sortMultipleDataComputed.filter(function (i) { return i.field === column.field; }).length > 0)?[_c('b-icon',{class:{ 'is-desc': _vm.sortMultipleDataComputed.filter(function (i) { return i.field === column.field; })[0].order === 'desc'},attrs:{"icon":_vm.sortIcon,"pack":_vm.iconPack,"both":"","size":_vm.sortIconSize}}),_vm._v("\r\n                                    "+_vm._s(_vm.findIndexOfSortData(column))+"\r\n                                    "),_c('button',{staticClass:"delete is-small multi-sort-cancel-icon",attrs:{"type":"button"},on:{"click":function($event){$event.stopPropagation();_vm.removeSortingPriority(column);}}})]:_c('b-icon',{class:{
+                                        'is-desc': !_vm.isAsc,
+                                        'is-invisible': _vm.currentSortColumn !== column
+                                    },attrs:{"icon":_vm.sortIcon,"pack":_vm.iconPack,"both":"","size":_vm.sortIconSize}})],2)])}),_vm._v(" "),(_vm.checkable && _vm.checkboxPosition === 'right')?_c('th',{staticClass:"checkbox-cell"},[(_vm.headerCheckable)?[_c('b-checkbox',{attrs:{"value":_vm.isAllChecked,"disabled":_vm.isAllUncheckable},nativeOn:{"change":function($event){return _vm.checkAll($event)}}})]:_vm._e()],2):_vm._e()],2),_vm._v(" "),(_vm.hasCustomSubheadings)?_c('tr',{staticClass:"is-subheading"},[(_vm.showDetailRowIcon)?_c('th',{attrs:{"width":"40px"}}):_vm._e(),_vm._v(" "),(_vm.checkable && _vm.checkboxPosition === 'left')?_c('th'):_vm._e(),_vm._v(" "),_vm._l((_vm.visibleColumns),function(column,index){return _c('th',{key:index,style:({
                                 width: column.width === undefined ? null
                             : (isNaN(column.width) ? column.width : column.width + 'px') })},[_c('div',{staticClass:"th-wrap",class:{
                                     'is-numeric': column.numeric,
@@ -10870,7 +11424,7 @@ var __vue_render__$M = function () {var _vm=this;var _h=_vm.$createElement;var _
                             : (isNaN(column.width) ? column.width : column.width + 'px') })},[_c('div',{staticClass:"th-wrap"},[(column.searchable)?[_c('b-input',{attrs:{"type":column.numeric ? 'number' : 'text'},model:{value:(_vm.filters[column.field]),callback:function ($$v) {_vm.$set(_vm.filters, column.field, $$v);},expression:"filters[column.field]"}})]:_vm._e()],2)])}),_vm._v(" "),(_vm.checkable && _vm.checkboxPosition === 'right')?_c('th'):_vm._e()],2):_vm._e()]):_vm._e(),_vm._v(" "),(_vm.visibleData.length)?_c('tbody',[_vm._l((_vm.visibleData),function(row,index){return [_c('tr',{key:_vm.customRowKey ? row[_vm.customRowKey] : index,class:[_vm.rowClass(row, index), {
                                 'is-selected': row === _vm.selected,
                                 'is-checked': _vm.isRowChecked(row),
-                            }],attrs:{"draggable":_vm.draggable},on:{"click":function($event){_vm.selectRow(row);},"dblclick":function($event){_vm.$emit('dblclick', row);},"mouseenter":function($event){_vm.$emit('mouseenter', row);},"mouseleave":function($event){_vm.$emit('mouseleave', row);},"contextmenu":function($event){_vm.$emit('contextmenu', row, $event);},"dragstart":function($event){_vm.handleDragStart($event, row, index);},"dragend":function($event){_vm.handleDragEnd($event, row, index);},"drop":function($event){_vm.handleDrop($event, row, index);},"dragover":function($event){_vm.handleDragOver($event, row, index);},"dragleave":function($event){_vm.handleDragLeave($event, row, index);}}},[(_vm.showDetailRowIcon)?_c('td',{staticClass:"chevron-cell"},[(_vm.hasDetailedVisible(row))?_c('a',{attrs:{"role":"button"},on:{"click":function($event){$event.stopPropagation();_vm.toggleDetails(row);}}},[_c('b-icon',{class:{'is-expanded': _vm.isVisibleDetailRow(row)},attrs:{"icon":"chevron-right","pack":_vm.iconPack,"both":""}})],1):_vm._e()]):_vm._e(),_vm._v(" "),(_vm.checkable && _vm.checkboxPosition === 'left')?_c('td',{staticClass:"checkbox-cell"},[_c('b-checkbox',{attrs:{"disabled":!_vm.isRowCheckable(row),"value":_vm.isRowChecked(row)},nativeOn:{"click":function($event){$event.preventDefault();$event.stopPropagation();_vm.checkRow(row, index, $event);}}})],1):_vm._e(),_vm._v(" "),(_vm.$scopedSlots.default)?_vm._t("default",null,{row:row,index:index}):_vm._l((_vm.newColumns),function(column){return _c('BTableColumn',_vm._b({key:column.field,attrs:{"internal":""}},'BTableColumn',column,false),[(column.renderHtml)?_c('span',{domProps:{"innerHTML":_vm._s(_vm.getValueByPath(row, column.field))}}):[_vm._v("\r\n                                        "+_vm._s(_vm.getValueByPath(row, column.field))+"\r\n                                    ")]],2)}),_vm._v(" "),(_vm.checkable && _vm.checkboxPosition === 'right')?_c('td',{staticClass:"checkbox-cell"},[_c('b-checkbox',{attrs:{"disabled":!_vm.isRowCheckable(row),"value":_vm.isRowChecked(row)},nativeOn:{"click":function($event){$event.preventDefault();$event.stopPropagation();_vm.checkRow(row, index, $event);}}})],1):_vm._e()],2),_vm._v(" "),(_vm.isActiveDetailRow(row))?_c('tr',{staticClass:"detail"},[_c('td',{attrs:{"colspan":_vm.columnCount}},[_c('div',{staticClass:"detail-container"},[_vm._t("detail",null,{row:row,index:index})],2)])]):_vm._e(),_vm._v(" "),(_vm.isActiveCustomDetailRow(row))?_vm._t("detail",null,{row:row,index:index}):_vm._e()]})],2):_c('tbody',[_c('tr',{staticClass:"is-empty"},[_c('td',{attrs:{"colspan":_vm.columnCount}},[_vm._t("empty")],2)])]),_vm._v(" "),(_vm.$slots.footer !== undefined)?_c('tfoot',[_c('tr',{staticClass:"table-footer"},[(_vm.hasCustomFooterSlot())?_vm._t("footer"):_c('th',{attrs:{"colspan":_vm.columnCount}},[_vm._t("footer")],2)],2)]):_vm._e()])]),_vm._v(" "),((_vm.checkable && _vm.hasBottomLeftSlot()) ||
+                            }],attrs:{"draggable":_vm.draggable},on:{"click":function($event){_vm.selectRow(row);},"dblclick":function($event){_vm.$emit('dblclick', row);},"mouseenter":function($event){_vm.$listeners.mouseenter ? _vm.$emit('mouseenter', row) : null;},"mouseleave":function($event){_vm.$listeners.mouseleave ? _vm.$emit('mouseleave', row) : null;},"contextmenu":function($event){_vm.$emit('contextmenu', row, $event);},"dragstart":function($event){_vm.handleDragStart($event, row, index);},"dragend":function($event){_vm.handleDragEnd($event, row, index);},"drop":function($event){_vm.handleDrop($event, row, index);},"dragover":function($event){_vm.handleDragOver($event, row, index);},"dragleave":function($event){_vm.handleDragLeave($event, row, index);}}},[(_vm.showDetailRowIcon)?_c('td',{staticClass:"chevron-cell"},[(_vm.hasDetailedVisible(row))?_c('a',{attrs:{"role":"button"},on:{"click":function($event){$event.stopPropagation();_vm.toggleDetails(row);}}},[_c('b-icon',{class:{'is-expanded': _vm.isVisibleDetailRow(row)},attrs:{"icon":"chevron-right","pack":_vm.iconPack,"both":""}})],1):_vm._e()]):_vm._e(),_vm._v(" "),(_vm.checkable && _vm.checkboxPosition === 'left')?_c('td',{staticClass:"checkbox-cell"},[_c('b-checkbox',{attrs:{"disabled":!_vm.isRowCheckable(row),"value":_vm.isRowChecked(row)},nativeOn:{"click":function($event){$event.preventDefault();$event.stopPropagation();_vm.checkRow(row, index, $event);}}})],1):_vm._e(),_vm._v(" "),(_vm.$scopedSlots.default)?_vm._t("default",null,{row:row,index:index}):_vm._l((_vm.newColumns),function(column){return _c('BTableColumn',_vm._b({key:column.field,attrs:{"internal":""}},'BTableColumn',column,false),[(column.renderHtml)?_c('span',{domProps:{"innerHTML":_vm._s(_vm.getValueByPath(row, column.field))}}):[_vm._v("\r\n                                        "+_vm._s(_vm.getValueByPath(row, column.field))+"\r\n                                    ")]],2)}),_vm._v(" "),(_vm.checkable && _vm.checkboxPosition === 'right')?_c('td',{staticClass:"checkbox-cell"},[_c('b-checkbox',{attrs:{"disabled":!_vm.isRowCheckable(row),"value":_vm.isRowChecked(row)},nativeOn:{"click":function($event){$event.preventDefault();$event.stopPropagation();_vm.checkRow(row, index, $event);}}})],1):_vm._e()],2),_vm._v(" "),(_vm.isActiveDetailRow(row))?_c('tr',{staticClass:"detail"},[_c('td',{attrs:{"colspan":_vm.columnCount}},[_c('div',{staticClass:"detail-container"},[_vm._t("detail",null,{row:row,index:index})],2)])]):_vm._e(),_vm._v(" "),(_vm.isActiveCustomDetailRow(row))?_vm._t("detail",null,{row:row,index:index}):_vm._e()]})],2):_c('tbody',[_c('tr',{staticClass:"is-empty"},[_c('td',{attrs:{"colspan":_vm.columnCount}},[_vm._t("empty")],2)])]),_vm._v(" "),(_vm.$slots.footer !== undefined)?_c('tfoot',[_c('tr',{staticClass:"table-footer"},[(_vm.hasCustomFooterSlot())?_vm._t("footer"):_c('th',{attrs:{"colspan":_vm.columnCount}},[_vm._t("footer")],2)],2)]):_vm._e()])]),_vm._v(" "),((_vm.checkable && _vm.hasBottomLeftSlot()) ||
             (_vm.paginated && (_vm.paginationPosition === 'bottom' || _vm.paginationPosition === 'both')))?_c('div',{staticClass:"level"},[_c('div',{staticClass:"level-left"},[_vm._t("bottom-left")],2),_vm._v(" "),_c('div',{staticClass:"level-right"},[(_vm.paginated)?_c('div',{staticClass:"level-item"},[_c('b-pagination',{attrs:{"icon-pack":_vm.iconPack,"total":_vm.newDataTotal,"per-page":_vm.perPage,"simple":_vm.paginationSimple,"size":_vm.paginationSize,"current":_vm.newCurrentPage,"aria-next-label":_vm.ariaNextLabel,"aria-previous-label":_vm.ariaPreviousLabel,"aria-page-label":_vm.ariaPageLabel,"aria-current-label":_vm.ariaCurrentLabel},on:{"change":_vm.pageChanged}})],1):_vm._e()])]):_vm._e()],1)};
 var __vue_staticRenderFns__$M = [];
 
@@ -10886,23 +11440,27 @@ var __vue_staticRenderFns__$M = [];
   
   /* style inject SSR */
   
+  /* style inject shadow dom */
+  
 
   
-  var Table = normalizeComponent_1(
+  const __vue_component__$R = normalizeComponent_1(
     { render: __vue_render__$M, staticRenderFns: __vue_staticRenderFns__$M },
     __vue_inject_styles__$R,
     __vue_script__$R,
     __vue_scope_id__$R,
     __vue_is_functional_template__$R,
     __vue_module_identifier__$R,
+    false,
+    undefined,
     undefined,
     undefined
   );
 
 var Plugin$t = {
   install: function install(Vue) {
-    registerComponent(Vue, Table);
-    registerComponent(Vue, TableColumn);
+    registerComponent(Vue, __vue_component__$R);
+    registerComponent(Vue, __vue_component__$Q);
   }
 };
 use(Plugin$t);
@@ -10910,7 +11468,7 @@ use(Plugin$t);
 var _components$a;
 var script$S = {
   name: 'BTabs',
-  components: (_components$a = {}, _defineProperty(_components$a, Icon.name, Icon), _defineProperty(_components$a, SlotComponent.name, SlotComponent), _components$a),
+  components: (_components$a = {}, _defineProperty(_components$a, __vue_component__.name, __vue_component__), _defineProperty(_components$a, SlotComponent.name, SlotComponent), _components$a),
   props: {
     value: Number,
     expanded: Boolean,
@@ -10925,7 +11483,8 @@ var script$S = {
       type: Boolean,
       default: false
     },
-    vertical: Boolean
+    vertical: Boolean,
+    multiline: Boolean
   },
   data: function data() {
     return {
@@ -10941,7 +11500,8 @@ var script$S = {
     mainClasses: function mainClasses() {
       return _defineProperty({
         'is-fullwidth': this.expanded,
-        'is-vertical': this.vertical
+        'is-vertical': this.vertical,
+        'is-multiline': this.multiline
       }, this.position, this.position && this.vertical);
     },
     navClasses: function navClasses() {
@@ -10976,7 +11536,7 @@ var script$S = {
   },
   methods: {
     refreshSlots: function refreshSlots() {
-      this.defaultSlots = this.$slots.default;
+      this.defaultSlots = this.$slots.default || [];
     },
 
     /**
@@ -11016,7 +11576,7 @@ var script$S = {
 const __vue_script__$S = script$S;
 
 /* template */
-var __vue_render__$N = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"b-tabs",class:_vm.mainClasses},[_c('nav',{staticClass:"tabs",class:_vm.navClasses},[_c('ul',_vm._l((_vm.tabItems),function(tabItem,index){return _c('li',{directives:[{name:"show",rawName:"v-show",value:(tabItem.visible),expression:"tabItem.visible"}],key:index,class:{ 'is-active': _vm.activeTab === index, 'is-disabled': tabItem.disabled }},[_c('a',{on:{"click":function($event){_vm.tabClick(index);}}},[(tabItem.$slots.header)?[_c('b-slot-component',{attrs:{"component":tabItem,"name":"header","tag":"span"}})]:[(tabItem.icon)?_c('b-icon',{attrs:{"icon":tabItem.icon,"pack":tabItem.iconPack,"size":_vm.size}}):_vm._e(),_vm._v(" "),_c('span',[_vm._v(_vm._s(tabItem.label))])]],2)])}))]),_vm._v(" "),_c('section',{staticClass:"tab-content",class:{'is-transitioning': _vm.isTransitioning}},[_vm._t("default")],2)])};
+var __vue_render__$N = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"b-tabs",class:_vm.mainClasses},[_c('nav',{staticClass:"tabs",class:_vm.navClasses},[_c('ul',_vm._l((_vm.tabItems),function(tabItem,index){return _c('li',{directives:[{name:"show",rawName:"v-show",value:(tabItem.visible),expression:"tabItem.visible"}],key:index,class:{ 'is-active': _vm.activeTab === index, 'is-disabled': tabItem.disabled }},[(tabItem.$slots.header)?_c('b-slot-component',{attrs:{"component":tabItem,"name":"header","tag":"a"},nativeOn:{"click":function($event){_vm.tabClick(index);}}}):_c('a',{on:{"click":function($event){_vm.tabClick(index);}}},[(tabItem.icon)?_c('b-icon',{attrs:{"icon":tabItem.icon,"pack":tabItem.iconPack,"size":_vm.size}}):_vm._e(),_vm._v(" "),_c('span',[_vm._v(_vm._s(tabItem.label))])],1)],1)}))]),_vm._v(" "),_c('section',{staticClass:"tab-content",class:{'is-transitioning': _vm.isTransitioning}},[_vm._t("default")],2)])};
 var __vue_staticRenderFns__$N = [];
 
   /* style */
@@ -11031,15 +11591,19 @@ var __vue_staticRenderFns__$N = [];
   
   /* style inject SSR */
   
+  /* style inject shadow dom */
+  
 
   
-  var Tabs = normalizeComponent_1(
+  const __vue_component__$S = normalizeComponent_1(
     { render: __vue_render__$N, staticRenderFns: __vue_staticRenderFns__$N },
     __vue_inject_styles__$S,
     __vue_script__$S,
     __vue_scope_id__$S,
     __vue_is_functional_template__$S,
     __vue_module_identifier__$S,
+    false,
+    undefined,
     undefined,
     undefined
   );
@@ -11147,23 +11711,27 @@ const __vue_script__$T = script$T;
   
   /* style inject SSR */
   
+  /* style inject shadow dom */
+  
 
   
-  var TabItem = normalizeComponent_1(
+  const __vue_component__$T = normalizeComponent_1(
     {},
     __vue_inject_styles__$T,
     __vue_script__$T,
     __vue_scope_id__$T,
     __vue_is_functional_template__$T,
     __vue_module_identifier__$T,
+    false,
+    undefined,
     undefined,
     undefined
   );
 
 var Plugin$u = {
   install: function install(Vue) {
-    registerComponent(Vue, Tabs);
-    registerComponent(Vue, TabItem);
+    registerComponent(Vue, __vue_component__$S);
+    registerComponent(Vue, __vue_component__$T);
   }
 };
 use(Plugin$u);
@@ -11256,15 +11824,19 @@ var __vue_staticRenderFns__$O = [];
   
   /* style inject SSR */
   
+  /* style inject shadow dom */
+  
 
   
-  var Tag = normalizeComponent_1(
+  const __vue_component__$U = normalizeComponent_1(
     { render: __vue_render__$O, staticRenderFns: __vue_staticRenderFns__$O },
     __vue_inject_styles__$U,
     __vue_script__$U,
     __vue_scope_id__$U,
     __vue_is_functional_template__$U,
     __vue_module_identifier__$U,
+    false,
+    undefined,
     undefined,
     undefined
   );
@@ -11301,23 +11873,27 @@ var __vue_staticRenderFns__$P = [];
   
   /* style inject SSR */
   
+  /* style inject shadow dom */
+  
 
   
-  var Taglist = normalizeComponent_1(
+  const __vue_component__$V = normalizeComponent_1(
     { render: __vue_render__$P, staticRenderFns: __vue_staticRenderFns__$P },
     __vue_inject_styles__$V,
     __vue_script__$V,
     __vue_scope_id__$V,
     __vue_is_functional_template__$V,
     __vue_module_identifier__$V,
+    false,
+    undefined,
     undefined,
     undefined
   );
 
 var Plugin$v = {
   install: function install(Vue) {
-    registerComponent(Vue, Tag);
-    registerComponent(Vue, Taglist);
+    registerComponent(Vue, __vue_component__$U);
+    registerComponent(Vue, __vue_component__$V);
   }
 };
 use(Plugin$v);
@@ -11325,7 +11901,7 @@ use(Plugin$v);
 var _components$b;
 var script$W = {
   name: 'BTaginput',
-  components: (_components$b = {}, _defineProperty(_components$b, Autocomplete.name, Autocomplete), _defineProperty(_components$b, Tag.name, Tag), _components$b),
+  components: (_components$b = {}, _defineProperty(_components$b, __vue_component__$2.name, __vue_component__$2), _defineProperty(_components$b, __vue_component__$U.name, __vue_component__$U), _components$b),
   mixins: [FormElementMixin],
   inheritAttrs: false,
   props: {
@@ -11366,6 +11942,7 @@ var script$W = {
     },
     autocomplete: Boolean,
     nativeAutocomplete: String,
+    openOnFocus: Boolean,
     disabled: Boolean,
     ellipsis: Boolean,
     closable: {
@@ -11545,8 +12122,15 @@ var script$W = {
       return tag;
     },
     removeLastTag: function removeLastTag() {
+      var _this2 = this;
+
       if (this.tagsLength > 0) {
         this.removeTag(this.tagsLength - 1);
+        this.$nextTick(function () {
+          if (_this2.isFocused && _this2.openOnFocus) {
+            _this2.$refs.autocomplete.isActive = true;
+          }
+        });
       }
     },
     keydown: function keydown(event) {
@@ -11575,7 +12159,7 @@ var script$W = {
 const __vue_script__$W = script$W;
 
 /* template */
-var __vue_render__$Q = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"taginput control",class:_vm.rootClasses},[_c('div',{staticClass:"taginput-container",class:[_vm.statusType, _vm.size, _vm.containerClasses],attrs:{"disabled":_vm.disabled},on:{"click":function($event){_vm.hasInput && _vm.focus($event);}}},[_vm._l((_vm.tags),function(tag,index){return _c('b-tag',{key:index,attrs:{"type":_vm.type,"size":_vm.size,"rounded":_vm.rounded,"attached":_vm.attached,"tabstop":false,"disabled":_vm.disabled,"ellipsis":_vm.ellipsis,"closable":_vm.closable,"title":_vm.ellipsis && _vm.getNormalizedTagText(tag)},on:{"close":function($event){_vm.removeTag(index);}}},[_vm._v("\r\n                "+_vm._s(_vm.getNormalizedTagText(tag))+"\r\n            ")])}),_vm._v(" "),(_vm.hasInput)?_c('b-autocomplete',_vm._b({ref:"autocomplete",attrs:{"data":_vm.data,"field":_vm.field,"icon":_vm.icon,"icon-pack":_vm.iconPack,"maxlength":_vm.maxlength,"has-counter":false,"size":_vm.size,"disabled":_vm.disabled,"loading":_vm.loading,"autocomplete":_vm.nativeAutocomplete,"keep-first":!_vm.allowNew,"use-html5-validation":_vm.useHtml5Validation,"check-infinite-scroll":_vm.checkInfiniteScroll},on:{"typing":_vm.onTyping,"focus":_vm.onFocus,"blur":_vm.customOnBlur,"select":_vm.onSelect,"infinite-scroll":_vm.emitInfiniteScroll},nativeOn:{"keydown":function($event){return _vm.keydown($event)}},scopedSlots:_vm._u([{key:_vm.defaultSlotName,fn:function(props){return [_vm._t("default",null,{option:props.option,index:props.index})]}}]),model:{value:(_vm.newTag),callback:function ($$v) {_vm.newTag=$$v;},expression:"newTag"}},'b-autocomplete',_vm.$attrs,false),[_c('template',{slot:_vm.headerSlotName},[_vm._t("header")],2),_vm._v(" "),_c('template',{slot:_vm.emptySlotName},[_vm._t("empty")],2),_vm._v(" "),_c('template',{slot:_vm.footerSlotName},[_vm._t("footer")],2)],2):_vm._e()],2),_vm._v(" "),(_vm.hasCounter && (_vm.maxtags || _vm.maxlength))?_c('small',{staticClass:"help counter"},[(_vm.maxlength && _vm.valueLength > 0)?[_vm._v("\r\n                "+_vm._s(_vm.valueLength)+" / "+_vm._s(_vm.maxlength)+"\r\n            ")]:(_vm.maxtags)?[_vm._v("\r\n                "+_vm._s(_vm.tagsLength)+" / "+_vm._s(_vm.maxtags)+"\r\n            ")]:_vm._e()],2):_vm._e()])};
+var __vue_render__$Q = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"taginput control",class:_vm.rootClasses},[_c('div',{staticClass:"taginput-container",class:[_vm.statusType, _vm.size, _vm.containerClasses],attrs:{"disabled":_vm.disabled},on:{"click":function($event){_vm.hasInput && _vm.focus($event);}}},[_vm._l((_vm.tags),function(tag,index){return _c('b-tag',{key:_vm.getNormalizedTagText(tag) + index,attrs:{"type":_vm.type,"size":_vm.size,"rounded":_vm.rounded,"attached":_vm.attached,"tabstop":false,"disabled":_vm.disabled,"ellipsis":_vm.ellipsis,"closable":_vm.closable,"title":_vm.ellipsis && _vm.getNormalizedTagText(tag)},on:{"close":function($event){_vm.removeTag(index);}}},[_vm._t("tag",[_vm._v("\r\n                    "+_vm._s(_vm.getNormalizedTagText(tag))+"\r\n                ")],{tag:tag})],2)}),_vm._v(" "),(_vm.hasInput)?_c('b-autocomplete',_vm._b({ref:"autocomplete",attrs:{"data":_vm.data,"field":_vm.field,"icon":_vm.icon,"icon-pack":_vm.iconPack,"maxlength":_vm.maxlength,"has-counter":false,"size":_vm.size,"disabled":_vm.disabled,"loading":_vm.loading,"autocomplete":_vm.nativeAutocomplete,"open-on-focus":_vm.openOnFocus,"keep-open":_vm.openOnFocus,"keep-first":!_vm.allowNew,"use-html5-validation":_vm.useHtml5Validation,"check-infinite-scroll":_vm.checkInfiniteScroll},on:{"typing":_vm.onTyping,"focus":_vm.onFocus,"blur":_vm.customOnBlur,"select":_vm.onSelect,"infinite-scroll":_vm.emitInfiniteScroll},nativeOn:{"keydown":function($event){return _vm.keydown($event)}},scopedSlots:_vm._u([{key:_vm.defaultSlotName,fn:function(props){return [_vm._t("default",null,{option:props.option,index:props.index})]}}]),model:{value:(_vm.newTag),callback:function ($$v) {_vm.newTag=$$v;},expression:"newTag"}},'b-autocomplete',_vm.$attrs,false),[_c('template',{slot:_vm.headerSlotName},[_vm._t("header")],2),_vm._v(" "),_c('template',{slot:_vm.emptySlotName},[_vm._t("empty")],2),_vm._v(" "),_c('template',{slot:_vm.footerSlotName},[_vm._t("footer")],2)],2):_vm._e()],2),_vm._v(" "),(_vm.hasCounter && (_vm.maxtags || _vm.maxlength))?_c('small',{staticClass:"help counter"},[(_vm.maxlength && _vm.valueLength > 0)?[_vm._v("\r\n                "+_vm._s(_vm.valueLength)+" / "+_vm._s(_vm.maxlength)+"\r\n            ")]:(_vm.maxtags)?[_vm._v("\r\n                "+_vm._s(_vm.tagsLength)+" / "+_vm._s(_vm.maxtags)+"\r\n            ")]:_vm._e()],2):_vm._e()])};
 var __vue_staticRenderFns__$Q = [];
 
   /* style */
@@ -11590,29 +12174,33 @@ var __vue_staticRenderFns__$Q = [];
   
   /* style inject SSR */
   
+  /* style inject shadow dom */
+  
 
   
-  var Taginput = normalizeComponent_1(
+  const __vue_component__$W = normalizeComponent_1(
     { render: __vue_render__$Q, staticRenderFns: __vue_staticRenderFns__$Q },
     __vue_inject_styles__$W,
     __vue_script__$W,
     __vue_scope_id__$W,
     __vue_is_functional_template__$W,
     __vue_module_identifier__$W,
+    false,
+    undefined,
     undefined,
     undefined
   );
 
 var Plugin$w = {
   install: function install(Vue) {
-    registerComponent(Vue, Taginput);
+    registerComponent(Vue, __vue_component__$W);
   }
 };
 use(Plugin$w);
 
 var Plugin$x = {
   install: function install(Vue) {
-    registerComponent(Vue, Timepicker);
+    registerComponent(Vue, __vue_component__$l);
   }
 };
 use(Plugin$x);
@@ -11647,15 +12235,19 @@ var __vue_staticRenderFns__$R = [];
   
   /* style inject SSR */
   
+  /* style inject shadow dom */
+  
 
   
-  var Toast = normalizeComponent_1(
+  const __vue_component__$X = normalizeComponent_1(
     { render: __vue_render__$R, staticRenderFns: __vue_staticRenderFns__$R },
     __vue_inject_styles__$X,
     __vue_script__$X,
     __vue_scope_id__$X,
     __vue_is_functional_template__$X,
     __vue_module_identifier__$X,
+    false,
+    undefined,
     undefined,
     undefined
   );
@@ -11682,7 +12274,7 @@ var ToastProgrammatic = {
 
     var propsData = merge(defaultParam, params);
     var vm = typeof window !== 'undefined' && window.Vue ? window.Vue : localVueInstance$5 || VueInstance;
-    var ToastComponent = vm.extend(Toast);
+    var ToastComponent = vm.extend(__vue_component__$X);
     return new ToastComponent({
       parent: parent,
       el: document.createElement('div'),
@@ -11700,7 +12292,7 @@ use(Plugin$y);
 
 var Plugin$z = {
   install: function install(Vue) {
-    registerComponent(Vue, Tooltip);
+    registerComponent(Vue, __vue_component__$H);
   }
 };
 use(Plugin$z);
@@ -11884,22 +12476,26 @@ var __vue_staticRenderFns__$S = [];
   
   /* style inject SSR */
   
+  /* style inject shadow dom */
+  
 
   
-  var Upload = normalizeComponent_1(
+  const __vue_component__$Y = normalizeComponent_1(
     { render: __vue_render__$S, staticRenderFns: __vue_staticRenderFns__$S },
     __vue_inject_styles__$Y,
     __vue_script__$Y,
     __vue_scope_id__$Y,
     __vue_is_functional_template__$Y,
     __vue_module_identifier__$Y,
+    false,
+    undefined,
     undefined,
     undefined
   );
 
 var Plugin$A = {
   install: function install(Vue) {
-    registerComponent(Vue, Upload);
+    registerComponent(Vue, __vue_component__$Y);
   }
 };
 use(Plugin$A);
@@ -11973,4 +12569,4 @@ var Buefy = {
 use(Buefy);
 
 export default Buefy;
-export { Plugin as Autocomplete, Plugin$1 as Button, Plugin$2 as Carousel, Plugin$3 as Checkbox, Plugin$5 as Clockpicker, Plugin$4 as Collapse, Plugin$6 as Datepicker, Plugin$7 as Datetimepicker, Plugin$8 as Dialog, DialogProgrammatic, Plugin$9 as Dropdown, Plugin$a as Field, Plugin$b as Icon, Plugin$c as Input, Plugin$d as Loading, LoadingProgrammatic, Plugin$e as Menu, Plugin$f as Message, Plugin$g as Modal, ModalProgrammatic, Plugin$i as Navbar, Plugin$h as Notification, NotificationProgrammatic, Plugin$j as Numberinput, Plugin$k as Pagination, Plugin$l as Progress, Plugin$m as Radio, Plugin$n as Rate, Plugin$o as Select, Plugin$p as Slider, Plugin$q as Snackbar, SnackbarProgrammatic, Plugin$r as Steps, Plugin$s as Switch, Plugin$t as Table, Plugin$u as Tabs, Plugin$v as Tag, Plugin$w as Taginput, Plugin$x as Timepicker, Plugin$y as Toast, ToastProgrammatic, Plugin$z as Tooltip, Plugin$A as Upload, escapeRegExpChars, getValueByPath, indexOf, isMobile, merge, removeElement, sign };
+export { Plugin as Autocomplete, Plugin$1 as Button, Plugin$2 as Carousel, Plugin$3 as Checkbox, Plugin$5 as Clockpicker, Plugin$4 as Collapse, Plugin$6 as Datepicker, Plugin$7 as Datetimepicker, Plugin$8 as Dialog, DialogProgrammatic, Plugin$9 as Dropdown, Plugin$a as Field, Plugin$b as Icon, Plugin$c as Input, Plugin$d as Loading, LoadingProgrammatic, Plugin$e as Menu, Plugin$f as Message, Plugin$g as Modal, ModalProgrammatic, Plugin$i as Navbar, Plugin$h as Notification, NotificationProgrammatic, Plugin$j as Numberinput, Plugin$k as Pagination, Plugin$l as Progress, Plugin$m as Radio, Plugin$n as Rate, Plugin$o as Select, Plugin$p as Slider, Plugin$q as Snackbar, SnackbarProgrammatic, Plugin$r as Steps, Plugin$s as Switch, Plugin$t as Table, Plugin$u as Tabs, Plugin$v as Tag, Plugin$w as Taginput, Plugin$x as Timepicker, Plugin$y as Toast, ToastProgrammatic, Plugin$z as Tooltip, Plugin$A as Upload, escapeRegExpChars, getValueByPath, indexOf, isMobile, merge, multiColumnSort, removeElement, sign };

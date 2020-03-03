@@ -81,6 +81,10 @@ export default {
                 return value === HOUR_FORMAT_24 || value === HOUR_FORMAT_12
             }
         },
+        incrementHours: {
+            type: Number,
+            default: 1
+        },
         incrementMinutes: {
             type: Number,
             default: 1
@@ -134,6 +138,10 @@ export default {
         focusable: {
             type: Boolean,
             default: true
+        },
+        tzOffset: {
+            type: Number,
+            default: 0
         }
     },
     data() {
@@ -157,13 +165,14 @@ export default {
             },
             set(value) {
                 this.dateSelected = value
-                this.$emit('input', value)
+                this.$emit('input', this.dateSelected)
             }
         },
         hours() {
+            if (!this.incrementHours || this.incrementHours < 1) throw new Error('Hour increment cannot be null or less than 1.')
             const hours = []
             const numberOfHours = this.isHourFormat24 ? 24 : 12
-            for (let i = 0; i < numberOfHours; i++) {
+            for (let i = 0; i < numberOfHours; i += this.incrementHours) {
                 let value = i
                 let label = value
                 if (!this.isHourFormat24) {

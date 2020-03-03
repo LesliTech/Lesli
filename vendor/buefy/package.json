@@ -1,26 +1,26 @@
 {
-  "_from": "buefy@0.8.9",
-  "_id": "buefy@0.8.9",
+  "_from": "buefy@0.8.12",
+  "_id": "buefy@0.8.12",
   "_inBundle": false,
-  "_integrity": "sha512-lNMYuXmHFayiiU3faKyDnZO395v1RRWWSlpZx3DkF7xe2RadE/4PMggRXDy67ujVooRzABUnslaYKbstyB7t9A==",
+  "_integrity": "sha512-scKb+0piTAEYk8mopu5HzshlGsT0K9ChlfkGhQgAF7jC9lH3Ta7anYXG+l8uBoSpqgChK0H19jPP55FbeKn1nA==",
   "_location": "/buefy",
   "_phantomChildren": {},
   "_requested": {
     "type": "version",
     "registry": true,
-    "raw": "buefy@0.8.9",
+    "raw": "buefy@0.8.12",
     "name": "buefy",
     "escapedName": "buefy",
-    "rawSpec": "0.8.9",
+    "rawSpec": "0.8.12",
     "saveSpec": null,
-    "fetchSpec": "0.8.9"
+    "fetchSpec": "0.8.12"
   },
   "_requiredBy": [
     "#DEV:/"
   ],
-  "_resolved": "https://registry.npmjs.org/buefy/-/buefy-0.8.9.tgz",
-  "_shasum": "e671f00d2b4b99fa666169514cb81d7042807c09",
-  "_spec": "buefy@0.8.9",
+  "_resolved": "https://registry.npmjs.org/buefy/-/buefy-0.8.12.tgz",
+  "_shasum": "416e8d0a6af346f1b5e61ae6145a2077b27ed490",
+  "_spec": "buefy@0.8.12",
   "_where": "/var/www/LesliCloud/lesli.cloud",
   "author": {
     "name": "Rafael Beraldo",
@@ -46,8 +46,8 @@
     "@babel/plugin-syntax-dynamic-import": "7.2.0",
     "@babel/preset-env": "7.3.4",
     "@fortawesome/fontawesome-free": "5.3.1",
-    "@mdi/font": "2.7.94",
-    "@vue/test-utils": "1.0.0-beta.25",
+    "@mdi/font": "4.8.95",
+    "@vue/test-utils": "1.0.0-beta.29",
     "autoprefixer": "7.1.1",
     "axios": "0.18.1",
     "babel-core": "6.25.0",
@@ -189,5 +189,5 @@
   ],
   "typings": "types/index.d.ts",
   "unpkg": "dist/buefy.min.js",
-  "version": "0.8.9"
+  "version": "0.8.12"
 }

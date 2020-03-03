@@ -96,6 +96,10 @@ export default {
                 }
                 recognition.start();
             }
+        },
+
+        showHelp() {
+            introJs().start()
         }
 
     }
@@ -108,58 +112,95 @@ export default {
         <!-- User navigation area -->
         <nav class="navbar is-transparent">
 
+            <!-- Brand container -->
+            <div class="navbar-brand">
+                <a class="navbar-item" href="/">
+                    <slot name="logo"></slot>
+                </a>
+            </div>
+
             <div id="header-main-navbar" class="navbar-menu">
 
                 <!-- Assistant controls -->
                 <div class="navbar-start">
 
-                    <button type="button" class="button is-white" @click="openAside">
-                        <i class="fas fa-bars"></i>
-                    </button>
-
-                    <button :disabled="!microphone" type="button" class="button is-white" @click="listen">
-                        <i v-if="microphone" class="fas fa-microphone"></i>
-                        <i v-if="!microphone" class="fas fa-microphone-slash"></i>
-                    </button>
-
-                    <div>
-                        <input class="input" v-model="chatbotIntent" type="text" placeholder="Hello, how can I help you today? :)" @keyup.enter="publishChatbotIntent()">
+                    <div class="navbar-item">
+                        <div class="control is-medium has-icons-left has-text-grey">
+                            <input class="input is-medium is-shadowless" type="email" placeholder="Search...">
+                            <span class="icon is-left has-text-gray">
+                                <i class="fas fa-search"></i>
+                            </span>
+                        </div>
                     </div>
-                    
-                </div>
 
-                <!-- Brand container -->
-                <div class="navbar-brand">
-                    <a class="navbar-item" href="/">
-                        <slot name="logo"></slot>
-                    </a>
                 </div>
 
                 <!-- User navigation -->
                 <div class="navbar-end">
-                    <div class="navbar-item">
 
-                        <a class="navbar-item" @click="bus.publish('open:/cloud/layout/notify#notification')">
-                            <i v-if="notification.count > 0" class="fas fa-bell has-text-link"></i>
-                            <i v-if="notification.count == 0" class="far fa-bell"></i>
-                            <span 
-                                v-if="notification.count > 0" 
-                                id="notification_total">
-                                {{ notification.count }}
+                    <a class="navbar-item" @click="showHelp()">
+                        <span class="icon has-text-grey-dark">
+                            <i class="far fa-question-circle"></i>
+                        </span>
+                    </a>
+
+                    <div class="navbar-item has-dropdown is-hoverable" data-intro="Language selector">
+                        <a class="navbar-item">
+                            <span class="icon has-text-grey-light">
+                                <span class="flag-icon flag-icon-de"></span>
                             </span>
                         </a>
 
-                        <a class="navbar-item" href="#">
-                            <figure class="image">
-                                <img class="is-rounded" src="https://placekitten.com/g/30/30" alt="profile thumbnail">
-                            </figure>
-                        </a>
-
-                        <a class="navbar-item" :href="this.url.to('/logout')">
-                            <i class="fas fa-sign-out-alt"></i>
-                        </a>
-
+                        <div class="navbar-dropdown">
+                            <a class="navbar-item">
+                                <span class="icon has-text-grey-light">
+                                    <span class="flag-icon flag-icon-de"></span>
+                                </span>
+                                <span>Deutsche</span>
+                            </a>
+                            <a class="navbar-item">
+                                <span class="icon has-text-grey-light">
+                                    <span class="flag-icon flag-icon-gb"></span>
+                                </span>
+                                <span>English</span>
+                            </a>
+                            <a class="navbar-item">
+                                <span class="icon has-text-grey-light">
+                                    <span class="flag-icon flag-icon-es"></span>
+                                </span>
+                                <span>Español</span>
+                            </a>
+                        </div>
                     </div>
+
+                    <a class="navbar-item notification-indicator" data-intro="Notification icon" @click="bus.publish('open:/cloud/layout/notify#notification')">
+                        <i v-if="notification.count > 0" class="fas fa-bell has-text-link"></i>
+                        <i v-if="notification.count == 0" class="far fa-bell"></i>
+                        <span></span>
+                    </a>
+
+                    <div class="navbar-item has-dropdown is-hoverable" data-intro="Account options">
+                        <span class="navbar-link">
+                            <slot name="username"></slot>
+                        </span>
+
+                        <div class="navbar-dropdown">
+                            <a class="navbar-item">
+                                <span class="icon has-text-grey-light">
+                                    <i class="fas fa-user"></i>
+                                </span>
+                                <span>Profile</span>
+                            </a>
+                            <hr class="navbar-divider">
+                            <a class="navbar-item" href="/logout">
+                                <span class="icon has-text-grey-light">
+                                    <i class="fas fa-sign-out-alt"></i>
+                                </span>
+                                <span>Logout</span>
+                            </a>
+                        </div>
+                    </div>
+
                 </div>
             </div>
         </nav>

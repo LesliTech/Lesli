@@ -1,0 +1,34 @@
+.component-status {
+    margin: 4rem auto;
+    display: flex;
+    max-width: 100%;
+    border-top: 3px solid get-css-color(app, primary);
+
+    .step {
+        text-align: center;
+        margin-top: -20px;
+        float: left;
+        width: 20%;
+    }
+
+    .step-icon {
+        display: block;
+        border-radius: 50%;
+        background-color: get-css-color(app, primary);
+        line-height: 2.4;
+        margin: auto;
+        height: 35px;
+        width: 35px;
+        i {
+            color: white;
+            font-size: 18px;
+        }
+    }
+
+    .step-name {
+        text-align: center;
+        font-weight: 500;
+        font-size: .8rem;
+        text-transform: uppercase;
+    }
+}

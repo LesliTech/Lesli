@@ -1,5 +1,72 @@
 # Buefy Changelog
 
+## 0.8.12
+
+### New features
+
+* Add ``sticky-header`` prop to table 
+
+### Fixes
+
+* Fix #2254 button with icon in the default slot
+* Fix #2250 taginput option item when autocomplete without slot
+
+## 0.8.11
+
+### New features
+
+* Add multi column sorting to table (thanks @suneab)
+* Add ``clearable`` prop to autocomplete (thanks @melogustavo) 
+* Add ``icon-right`` prop to input (thanks @melogustavo) 
+* Add ``tag`` slot to taginput (thanks @jacobgoh101)
+* Add ``tz-offset`` prop to datepicker (thanks @zedrdave)
+* Add ``repeat`` prop to carousel (thanks @GerryWilko)
+* Add ``icon`` prop to nofitication and message (thanks @service-paradis)
+* Add ``multiline`` prop to tabs
+* Add aria attributes to dropdown (thanks @mariusj)
+
+### Fixes
+
+* Fix missing export taginput component
+* Fix prevent table thead jumping when sorting is changed
+* Fix #2152 tab-item rendering using header slot (thanks @service-paradis)
+* Fix #2153 text overflow to progress bar (thanks @service-paradis)
+* Fix #2157 carousel when ``autoplay`` and no pause
+* Fix #2160 remove body classes of navbar on destroy
+* Fix #2185 taginput when over maxtags
+* Fix #2187 taginput rendering when ``attached`` and over maxtags
+* Fix #2189 'undefined' on carousel (thanks @service-paradis)
+* Fix #2190 remove margin when not exists text on button
+* Fix #2191 navbar dropdown close on click when hoverable
+* Fix #2216 menu item warning
+* Fix #2217 percentage calc on progress bar (thanks @service-paradis)
+* Fix #2219 field label when position is ``inside`` and add-on
+* Fix #2227 double blur event emitted by pickers
+* Fix #2228 check if the row is checkable before unchecking it (thanks @service-paradis)
+* Fix #2240 check ref datetimepicker on mount when ``mobile``
+
+## 0.8.10
+
+### New features
+
+* Improve rendering performance on table
+* Add ``focus``and ``blur`` event on datetimepicker
+* Add ``animation`` prop to notification (thanks @service-paradis)
+* Add ``trap-focus`` prop to datepicker (thanks @service-paradis)
+* Add ``hour-increment`` prop to timepicker (thanks @LeoMouyna)
+* Add ``backend-filtering`` prop and ``filters-change`` event to table (thanks @zeljkokalezic)
+
+### Fixes
+
+* Fix #1473 tooltip z-index (lower than modal) (thanks @rolandschuetz)
+* Fix #1889 add body padding for fixed spaced navbar (thanks @a-kriya)
+* Fix #2109 disabled button (thanks @service-paradis)
+* Fix #2114 limit the select options of month in Datepicker with ``min-date`` and ``max-date`` (thanks @service-paradis)
+* Fix #2121 fix tabs warning when items aren't already visible (thanks @service-paradis)
+* Fix #2133 table colspan when ``detailed`` and hidden icon (thanks @rolandschuetz)
+* Fix #2135 keep open taginput on add/remove when ``open-on-focus``
+* Fix #2141 taginput using sortablejs
+
 ## 0.8.9
 
 ### New features

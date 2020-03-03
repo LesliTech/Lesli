@@ -1,10 +1,10 @@
-import './chunk-b91774bc.js';
+import './chunk-6ea13200.js';
 import { merge } from './helpers.js';
-import { c as config, V as VueInstance } from './chunk-b76a6c1d.js';
-import './chunk-3802ee87.js';
+import { c as config, V as VueInstance } from './chunk-17222463.js';
+import './chunk-bed9f769.js';
 import { _ as __vue_normalize__, r as registerComponent, a as registerComponentProgrammatic, u as use } from './chunk-cca88db8.js';
-import { M as MessageMixin } from './chunk-3342e4e3.js';
-import { N as NoticeMixin } from './chunk-43dfefdc.js';
+import { M as MessageMixin } from './chunk-9f44d9a6.js';
+import { N as NoticeMixin } from './chunk-cd1ad4f3.js';
 
 //
 var script = {
@@ -12,7 +12,11 @@ var script = {
   mixins: [MessageMixin],
   props: {
     position: String,
-    ariaCloseLabel: String
+    ariaCloseLabel: String,
+    animation: {
+      type: String,
+      default: 'fade'
+    }
   }
 };
 
@@ -20,7 +24,7 @@ var script = {
 const __vue_script__ = script;
 
 /* template */
-var __vue_render__ = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('transition',{attrs:{"name":"fade"}},[_c('article',{directives:[{name:"show",rawName:"v-show",value:(_vm.isActive),expression:"isActive"}],staticClass:"notification",class:[_vm.type, _vm.position]},[(_vm.closable)?_c('button',{staticClass:"delete",attrs:{"type":"button","aria-label":_vm.ariaCloseLabel},on:{"click":_vm.close}}):_vm._e(),_vm._v(" "),_c('div',{staticClass:"media"},[(_vm.icon && _vm.hasIcon)?_c('div',{staticClass:"media-left"},[_c('b-icon',{attrs:{"icon":_vm.icon,"pack":_vm.iconPack,"both":"","size":"is-large","aria-hidden":""}})],1):_vm._e(),_vm._v(" "),_c('div',{staticClass:"media-content"},[(_vm.message)?_c('p',{staticClass:"text",domProps:{"innerHTML":_vm._s(_vm.message)}}):_vm._t("default")],2)])])])};
+var __vue_render__ = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('transition',{attrs:{"name":_vm.animation}},[_c('article',{directives:[{name:"show",rawName:"v-show",value:(_vm.isActive),expression:"isActive"}],staticClass:"notification",class:[_vm.type, _vm.position]},[(_vm.closable)?_c('button',{staticClass:"delete",attrs:{"type":"button","aria-label":_vm.ariaCloseLabel},on:{"click":_vm.close}}):_vm._e(),_vm._v(" "),_c('div',{staticClass:"media"},[(_vm.computedIcon && _vm.hasIcon)?_c('div',{staticClass:"media-left"},[_c('b-icon',{attrs:{"icon":_vm.computedIcon,"pack":_vm.iconPack,"both":"","size":"is-large","aria-hidden":""}})],1):_vm._e(),_vm._v(" "),_c('div',{staticClass:"media-content"},[(_vm.message)?_c('p',{staticClass:"text",domProps:{"innerHTML":_vm._s(_vm.message)}}):_vm._t("default")],2)])])])};
 var __vue_staticRenderFns__ = [];
 
   /* style */
@@ -35,15 +39,19 @@ var __vue_staticRenderFns__ = [];
   
   /* style inject SSR */
   
+  /* style inject shadow dom */
+  
 
   
-  var Notification = __vue_normalize__(
+  const __vue_component__ = __vue_normalize__(
     { render: __vue_render__, staticRenderFns: __vue_staticRenderFns__ },
     __vue_inject_styles__,
     __vue_script__,
     __vue_scope_id__,
     __vue_is_functional_template__,
     __vue_module_identifier__,
+    false,
+    undefined,
     undefined,
     undefined
   );
@@ -84,15 +92,19 @@ var __vue_staticRenderFns__$1 = [];
   
   /* style inject SSR */
   
+  /* style inject shadow dom */
+  
 
   
-  var NotificationNotice = __vue_normalize__(
+  const __vue_component__$1 = __vue_normalize__(
     { render: __vue_render__$1, staticRenderFns: __vue_staticRenderFns__$1 },
     __vue_inject_styles__$1,
     __vue_script__$1,
     __vue_scope_id__$1,
     __vue_is_functional_template__$1,
     __vue_module_identifier__$1,
+    false,
+    undefined,
     undefined,
     undefined
   );
@@ -119,7 +131,7 @@ var NotificationProgrammatic = {
 
     var propsData = merge(defaultParam, params);
     var vm = typeof window !== 'undefined' && window.Vue ? window.Vue : localVueInstance || VueInstance;
-    var NotificationNoticeComponent = vm.extend(NotificationNotice);
+    var NotificationNoticeComponent = vm.extend(__vue_component__$1);
     return new NotificationNoticeComponent({
       parent: parent,
       el: document.createElement('div'),
@@ -130,11 +142,11 @@ var NotificationProgrammatic = {
 var Plugin = {
   install: function install(Vue) {
     localVueInstance = Vue;
-    registerComponent(Vue, Notification);
+    registerComponent(Vue, __vue_component__);
     registerComponentProgrammatic(Vue, 'notification', NotificationProgrammatic);
   }
 };
 use(Plugin);
 
 export default Plugin;
-export { Notification as BNotification, NotificationProgrammatic };
+export { __vue_component__ as BNotification, NotificationProgrammatic };

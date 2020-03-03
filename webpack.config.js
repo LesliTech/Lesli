@@ -49,7 +49,7 @@ module.exports = env => {
         performance: { hints: false },
         optimization: { minimize: production },
         entry: {
-            //"users/app": "./app/vue/users/app.js",
+            "users/passwords": "./app/vue/users/passwords.js",
             "users/sessions": "./app/vue/users/sessions.js",
             "accounts/app": "./app/vue/accounts/app.js",
             "websites/app": "./app/vue/websites/app.js",
@@ -72,7 +72,9 @@ module.exports = env => {
                 LesliCoreVue: path.resolve(__dirname, './app/vue_core'),
 
                 // Resolve alias for core resources
+                LesliCloudHaus: path.resolve(__dirname, './engines/CloudHaus/app'),
                 LesliCloudHouse: path.resolve(__dirname, './engines/CloudHouse/app'),
+                LesliCloudDriver: path.resolve(__dirname, './engines/CloudDriver/app'),
 
             },
             extensions: [".js"]

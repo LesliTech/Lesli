@@ -83,6 +83,8 @@ gem 'wdm', '>= 0.1.0' if Gem.win_platform?
 # Reduces boot times through caching; required in config/boot.rb
 gem 'bootsnap', '>= 1.1.0', require: false
 
+gem 'kaminari'
+
 group :development, :test do
 
     gem 'faker'
@@ -112,6 +114,8 @@ group :development do
     gem 'spring'
 
     gem 'spring-watcher-listen', '~> 2.0.0'
+
+    gem 'guard-livereload', '~> 2.5', require: false
 
 end
 

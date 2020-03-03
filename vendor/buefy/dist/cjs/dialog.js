@@ -2,13 +2,13 @@
 
 Object.defineProperty(exports, '__esModule', { value: true });
 
-var __chunk_1 = require('./chunk-f98e7e80.js');
+var __chunk_1 = require('./chunk-5094d8df.js');
 var helpers = require('./helpers.js');
-var __chunk_2 = require('./chunk-8806479f.js');
-var __chunk_4 = require('./chunk-45103eda.js');
+var __chunk_2 = require('./chunk-805257cc.js');
+var __chunk_4 = require('./chunk-bc189645.js');
 var __chunk_5 = require('./chunk-13e039f5.js');
 var __chunk_11 = require('./chunk-c5b5b708.js');
-var __chunk_17 = require('./chunk-ee63440d.js');
+var __chunk_17 = require('./chunk-b5101515.js');
 
 var script = {
   name: 'BDialog',
@@ -201,15 +201,19 @@ var __vue_staticRenderFns__ = [];
   
   /* style inject SSR */
   
+  /* style inject shadow dom */
+  
 
   
-  var Dialog = __chunk_5.__vue_normalize__(
+  const __vue_component__ = __chunk_5.__vue_normalize__(
     { render: __vue_render__, staticRenderFns: __vue_staticRenderFns__ },
     __vue_inject_styles__,
     __vue_script__,
     __vue_scope_id__,
     __vue_is_functional_template__,
     __vue_module_identifier__,
+    false,
+    undefined,
     undefined,
     undefined
   );
@@ -218,7 +222,7 @@ var localVueInstance;
 
 function open(propsData) {
   var vm = typeof window !== 'undefined' && window.Vue ? window.Vue : localVueInstance || __chunk_2.VueInstance;
-  var DialogComponent = vm.extend(Dialog);
+  var DialogComponent = vm.extend(__vue_component__);
   return new DialogComponent({
     el: document.createElement('div'),
     propsData: propsData
@@ -256,12 +260,12 @@ var DialogProgrammatic = {
 var Plugin = {
   install: function install(Vue) {
     localVueInstance = Vue;
-    __chunk_5.registerComponent(Vue, Dialog);
+    __chunk_5.registerComponent(Vue, __vue_component__);
     __chunk_5.registerComponentProgrammatic(Vue, 'dialog', DialogProgrammatic);
   }
 };
 __chunk_5.use(Plugin);
 
-exports.BDialog = Dialog;
+exports.BDialog = __vue_component__;
 exports.DialogProgrammatic = DialogProgrammatic;
 exports.default = Plugin;

@@ -1,5 +1,8 @@
 <template>
-    <div class="autocomplete control" :class="{'is-expanded': expanded}">
+    <div
+        class="autocomplete control"
+        :class="{'is-expanded': expanded}"
+    >
         <b-input
             v-model="newValue"
             ref="input"
@@ -8,6 +11,8 @@
             :loading="loading"
             :rounded="rounded"
             :icon="icon"
+            :icon-right="clearButton"
+            icon-right-clickable
             :icon-pack="iconPack"
             :maxlength="maxlength"
             :autocomplete="newAutocomplete"
@@ -21,6 +26,7 @@
             @keydown.native.enter.prevent="enterPressed"
             @keydown.native.up.prevent="keyArrows('up')"
             @keydown.native.down.prevent="keyArrows('down')"
+            @icon-right-click="clearInputText"
         />
 
         <transition name="fade">
@@ -93,7 +99,9 @@ export default {
         clearOnSelect: Boolean,
         openOnFocus: Boolean,
         customFormatter: Function,
-        checkInfiniteScroll: Boolean
+        checkInfiniteScroll: Boolean,
+        keepOpen: Boolean,
+        clearable: Boolean
     },
     data() {
         return {
@@ -163,6 +171,12 @@ export default {
          */
         hasFooterSlot() {
             return !!this.$slots.footer
+        },
+        clearButton() {
+            if (this.clearable && this.newValue) {
+                return 'close-circle'
+            }
+            return ''
         }
     },
     watch: {
@@ -268,7 +282,7 @@ export default {
          */
         enterPressed() {
             if (this.hovered === null) return
-            this.setSelected(this.hovered)
+            this.setSelected(this.hovered, !this.keepOpen)
         },
 
         /**
@@ -281,7 +295,7 @@ export default {
                 this.isActive = false
                 return
             }
-            this.setSelected(this.hovered)
+            this.setSelected(this.hovered, !this.keepOpen)
         },
 
         /**
@@ -403,6 +417,9 @@ export default {
             const currentValue = this.getValue(this.selected)
             if (currentValue && currentValue === this.newValue) return
             this.$emit('typing', this.newValue)
+        },
+        clearInputText() {
+            this.newValue = ''
         }
     },
     created() {
