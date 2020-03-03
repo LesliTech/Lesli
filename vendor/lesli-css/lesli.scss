@@ -29,18 +29,9 @@ Building a better future, one line of code at a time.
 
 
 // · include core 
+@import "./src/base/fonts.scss";
 @import "./src/base/colors.scss";
 @import "./src/base/structure.scss";
-
-
-// · include helpers for LesliCloud
-@import "./src/projects/leslicloud/fonts.scss";
-@import "./src/projects/leslicloud/color.scss";
-
-
-// · include helpers for Deutsche Leibrenten
-@import "./src/projects/deutsche-leibrenten/color.scss";
-@import "./src/projects/deutsche-leibrenten/fonts.scss";
 
 
 // · include helpers 
