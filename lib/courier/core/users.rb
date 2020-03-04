@@ -22,10 +22,11 @@ module Courier
             end
 
             def self.get(id)
-                users = ::User
-                    .left_joins(:detail)
-                    .select(:id, :email, :first_name, :last_name, :created_at)
-                    .find(id)
+                if defined? (CloudLock)
+                    return ::User.left_joins(:detail).select(:id, :email, :first_name, :last_name, :created_at).find(id)
+                else
+                    return ::User.select(:id, :email, :created_at).find(id)
+                end
             end
         end
     end
