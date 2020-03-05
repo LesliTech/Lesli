@@ -32,12 +32,7 @@ Building a better future, one line of code at a time.
 // · Include Lesli Standards
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
 @include lesli-css-base();
-
-
-
-// · Include fonts
-// · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
-@import "../components/fonts.scss";
+@include lesli-css-fonts();
 
 
 
@@ -45,6 +40,7 @@ Building a better future, one line of code at a time.
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
 @import "../bulma/loader.scss";
 @import "../bulma/elements.scss";
+@import "../bulma/components.scss";
 @import "../bulma/extensions.scss";
 
 
@@ -57,11 +53,12 @@ Building a better future, one line of code at a time.
 //@import "introjs.css";
 
 
-// · Loading components and helpers
+
+// · Loading components, settings and helpers
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
 @import "../helpers/display";
+@import "../settings/icons.scss";
 @import "../components/containers.scss";
-
 
 
 

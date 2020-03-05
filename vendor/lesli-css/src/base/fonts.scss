@@ -22,3 +22,24 @@ Building a better future, one line of code at a time.
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
 // · 
 */
+
+//https://fonts.google.com/specimen/Open+Sans?selection.family=Montserrat|Open+Sans:300,400
+@mixin lesli-css-fonts() {
+
+    // · google fonts as main provider
+    @import url('https://fonts.googleapis.com/css?family=Montserrat|Open+Sans:300,400&display=swap');
+
+
+    // · title font
+    h1, h2, h3, h4, h5, h6 {
+        font-family: "Montserrat";
+    }
+
+
+    // · body font
+    body,
+    html {
+        font-family: "Open Sans";
+    }
+
+}

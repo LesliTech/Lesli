@@ -22,3 +22,21 @@ Building a better future, one line of code at a time.
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
 // · 
 */
+
+
+// · 
+.panel {
+    background-color: get-lesli-css-color(standard, white);
+    .panel-heading {
+        font-size: 1.1rem;
+        padding: .8rem 1rem .4rem;
+        background-color: get-lesli-css-color(standard, white);
+    }
+    .panel-block {
+        font-size: .9rem;
+        padding: 1rem .95rem;
+        b {
+            margin-right: .3rem;
+        }
+    }
+}

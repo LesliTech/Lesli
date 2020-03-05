@@ -37,7 +37,16 @@ module Courier
                 current_user.account.focus.tasks.joins(:detail)
                 .select(:id, :title, :description, :deadline)
                 .where("cloud_focus_task_details.deadline is not null")
-                .where("cloud_focus_task_details.deadline = date_trunc('month', CURRENT_DATE)")
+                .where("date_trunc('month', cloud_focus_task_details.deadline) = date_trunc('month', CURRENT_DATE)")
+                .limit(100)
+            end
+
+            def self.with_deadline_date(current_user, date)
+                return [] unless defined? CloudFocus
+                current_user.account.focus.tasks.joins(:detail)
+                .select(:id, :title, :description, :deadline)
+                .where("cloud_focus_task_details.deadline = ?", date)
+                .limit(100)
             end
             
         end

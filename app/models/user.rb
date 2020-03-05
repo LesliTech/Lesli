@@ -93,9 +93,7 @@ class User < ApplicationRecord
             #})
         end
         if defined? CloudDriver
-            return
             return if self.account.driver.blank?
-
             self.account.driver.calendars.create({
                 detail_attributes: {
                     name: self.name,
@@ -103,7 +101,6 @@ class User < ApplicationRecord
                 }
             })
         end
-        
     end
 
     # @return [Ability] All permissions this user has
