@@ -59,6 +59,43 @@ ActiveRecord::Schema.define(version: 2020_02_17_142005) do
     t.index ["key"], name: "index_active_storage_blobs_on_key", unique: true
   end
 
+  create_table "cloud_babel_translation_buckets", force: :cascade do |t|
+    t.string "name"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.bigint "cloud_babel_translation_buckets_id"
+    t.bigint "cloud_babel_translation_modules_id"
+    t.index ["cloud_babel_translation_buckets_id"], name: "cloud_babel_translation_buckets_buckets"
+    t.index ["cloud_babel_translation_modules_id"], name: "babel_translation_objects_modules"
+  end
+
+  create_table "cloud_babel_translation_modules", force: :cascade do |t|
+    t.string "name"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
+  create_table "cloud_babel_translation_strings", force: :cascade do |t|
+    t.string "context"
+    t.string "label"
+    t.string "es"
+    t.string "en"
+    t.string "de"
+    t.string "fr"
+    t.integer "status"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.bigint "users_id"
+    t.bigint "cloud_babel_translation_buckets_id"
+    t.index ["cloud_babel_translation_buckets_id"], name: "babel_translation_strings_buckets"
+    t.index ["users_id"], name: "babel_translation_strings_users"
+  end
+
+  create_table "cloud_babel_translations", force: :cascade do |t|
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
   create_table "cloud_driver_accounts", force: :cascade do |t|
   end
 
@@ -331,6 +368,7 @@ ActiveRecord::Schema.define(version: 2020_02_17_142005) do
     t.string "fax"
     t.string "brokerage"
     t.text "observation"
+    t.text "rating"
     t.string "street_name"
     t.string "street_number"
     t.string "street_other"
@@ -486,6 +524,7 @@ ActiveRecord::Schema.define(version: 2020_02_17_142005) do
     t.datetime "questionnaire_received_date"
     t.boolean "testimony"
     t.text "notes"
+    t.boolean "deceased"
     t.date "death_date"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
@@ -696,18 +735,6 @@ ActiveRecord::Schema.define(version: 2020_02_17_142005) do
     t.index ["cloud_house_projects_id"], name: "index_cloud_house_project_activities_on_cloud_house_projects_id"
   end
 
-  create_table "cloud_house_project_custom_field_values", force: :cascade do |t|
-    t.datetime "value_datetime"
-    t.integer "value_integer"
-    t.boolean "value_boolean"
-    t.string "value_string"
-    t.json "value_json"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-    t.bigint "cloud_house_project_custom_fields_id"
-    t.index ["cloud_house_project_custom_fields_id"], name: "house_project_custom_field_values_custom_fields"
-  end
-
   create_table "cloud_house_project_custom_fields", force: :cascade do |t|
     t.string "field_name"
     t.string "field_label"
@@ -768,6 +795,19 @@ ActiveRecord::Schema.define(version: 2020_02_17_142005) do
     t.index ["cloud_house_projects_id"], name: "index_cloud_house_project_files_on_cloud_house_projects_id"
   end
 
+  create_table "cloud_house_project_marketing_informations", force: :cascade do |t|
+    t.string "origin"
+    t.string "goal"
+    t.text "acquisition_comment"
+    t.string "questionnaire_type"
+    t.date "questionnaire_receipt_date"
+    t.boolean "testimony"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.bigint "cloud_house_projects_id"
+    t.index ["cloud_house_projects_id"], name: "house_project_marketing_informations_projects"
+  end
+
   create_table "cloud_house_project_offer_reports", force: :cascade do |t|
     t.string "description"
     t.string "additional_information"
@@ -809,7 +849,7 @@ ActiveRecord::Schema.define(version: 2020_02_17_142005) do
   end
 
   create_table "cloud_house_projects", force: :cascade do |t|
-    t.bigint "main_employee"
+    t.bigint "main_employee_id"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.bigint "cloud_house_accounts_id"
@@ -936,6 +976,7 @@ ActiveRecord::Schema.define(version: 2020_02_17_142005) do
     t.string "construction_year"
     t.integer "resident_since"
     t.integer "property_valuation_form"
+    t.float "property_value"
     t.boolean "has_leases"
     t.date "leases_running_time"
     t.float "monthly_leasehold"
@@ -1112,6 +1153,10 @@ ActiveRecord::Schema.define(version: 2020_02_17_142005) do
 
   add_foreign_key "accounts", "users", column: "users_id"
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
+  add_foreign_key "cloud_babel_translation_buckets", "cloud_babel_translation_buckets", column: "cloud_babel_translation_buckets_id"
+  add_foreign_key "cloud_babel_translation_buckets", "cloud_babel_translation_modules", column: "cloud_babel_translation_modules_id"
+  add_foreign_key "cloud_babel_translation_strings", "cloud_babel_translation_buckets", column: "cloud_babel_translation_buckets_id"
+  add_foreign_key "cloud_babel_translation_strings", "users", column: "users_id"
   add_foreign_key "cloud_driver_accounts", "accounts", column: "id"
   add_foreign_key "cloud_driver_calendar_actions", "cloud_driver_calendars", column: "cloud_driver_calendars_id"
   add_foreign_key "cloud_driver_calendar_activities", "cloud_driver_calendars", column: "cloud_driver_calendars_id"
@@ -1183,7 +1228,6 @@ ActiveRecord::Schema.define(version: 2020_02_17_142005) do
   add_foreign_key "cloud_house_employees", "cloud_house_workflow_statuses", column: "cloud_house_workflow_statuses_id"
   add_foreign_key "cloud_house_project_actions", "cloud_house_projects", column: "cloud_house_projects_id"
   add_foreign_key "cloud_house_project_activities", "cloud_house_projects", column: "cloud_house_projects_id"
-  add_foreign_key "cloud_house_project_custom_field_values", "cloud_house_project_custom_fields", column: "cloud_house_project_custom_fields_id"
   add_foreign_key "cloud_house_project_custom_fields", "cloud_house_projects", column: "cloud_house_projects_id"
   add_foreign_key "cloud_house_project_custom_fields", "users", column: "users_id"
   add_foreign_key "cloud_house_project_customers", "cloud_house_contacts", column: "cloud_house_contacts_id"
@@ -1193,6 +1237,7 @@ ActiveRecord::Schema.define(version: 2020_02_17_142005) do
   add_foreign_key "cloud_house_project_discussions", "cloud_house_projects", column: "cloud_house_projects_id"
   add_foreign_key "cloud_house_project_discussions", "users", column: "users_id"
   add_foreign_key "cloud_house_project_files", "cloud_house_projects", column: "cloud_house_projects_id"
+  add_foreign_key "cloud_house_project_marketing_informations", "cloud_house_projects", column: "cloud_house_projects_id"
   add_foreign_key "cloud_house_project_offer_reports", "cloud_house_projects", column: "cloud_house_projects_id"
   add_foreign_key "cloud_house_project_offer_reports", "users", column: "users_id"
   add_foreign_key "cloud_house_project_services", "cloud_house_employee_services", column: "cloud_house_employee_services_id"
@@ -1203,7 +1248,7 @@ ActiveRecord::Schema.define(version: 2020_02_17_142005) do
   add_foreign_key "cloud_house_projects", "cloud_house_catalog_project_types", column: "cloud_house_catalog_project_types_id"
   add_foreign_key "cloud_house_projects", "cloud_house_properties", column: "cloud_house_properties_id"
   add_foreign_key "cloud_house_projects", "cloud_house_workflow_statuses", column: "cloud_house_workflow_statuses_id"
-  add_foreign_key "cloud_house_projects", "users", column: "main_employee"
+  add_foreign_key "cloud_house_projects", "users", column: "main_employee_id"
   add_foreign_key "cloud_house_properties", "cloud_house_accounts", column: "cloud_house_accounts_id"
   add_foreign_key "cloud_house_properties", "cloud_house_workflow_statuses", column: "cloud_house_workflow_statuses_id"
   add_foreign_key "cloud_house_property_actions", "cloud_house_properties", column: "cloud_house_properties_id"

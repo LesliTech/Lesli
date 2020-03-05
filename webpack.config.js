@@ -74,8 +74,9 @@ module.exports = env => {
                 // Resolve alias for core resources
                 LesliCloudHaus: path.resolve(__dirname, './engines/CloudHaus/app'),
                 LesliCloudHouse: path.resolve(__dirname, './engines/CloudHouse/app'),
-                LesliCloudDriver: path.resolve(__dirname, './engines/CloudDriver/app'),
-
+                LesliCloudFocus: path.resolve(__dirname, './engines/CloudFocus/app'),
+                LesliCloudDriver: path.resolve(__dirname, './engines/CloudDriver/app')
+                
             },
             extensions: [".js"]
         },
