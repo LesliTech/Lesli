@@ -28,6 +28,7 @@ Building a better future, one line of code at a time.
 .lesli-module-navigation {
     flex: 0 0 250px;
     padding: 1.8rem 1.4rem;
+    height: calc(100vh - 52px);
     background-color: get-css-color(app, primary);
 
     .navbar-menu {
