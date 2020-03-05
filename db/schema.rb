@@ -524,6 +524,7 @@ ActiveRecord::Schema.define(version: 2020_02_17_142005) do
     t.datetime "questionnaire_received_date"
     t.boolean "testimony"
     t.text "notes"
+    t.boolean "deceased"
     t.date "death_date"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
@@ -734,18 +735,6 @@ ActiveRecord::Schema.define(version: 2020_02_17_142005) do
     t.index ["cloud_house_projects_id"], name: "index_cloud_house_project_activities_on_cloud_house_projects_id"
   end
 
-  create_table "cloud_house_project_custom_field_values", force: :cascade do |t|
-    t.datetime "value_datetime"
-    t.integer "value_integer"
-    t.boolean "value_boolean"
-    t.string "value_string"
-    t.json "value_json"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-    t.bigint "cloud_house_project_custom_fields_id"
-    t.index ["cloud_house_project_custom_fields_id"], name: "house_project_custom_field_values_custom_fields"
-  end
-
   create_table "cloud_house_project_custom_fields", force: :cascade do |t|
     t.string "field_name"
     t.string "field_label"
@@ -804,6 +793,19 @@ ActiveRecord::Schema.define(version: 2020_02_17_142005) do
     t.datetime "updated_at", precision: 6, null: false
     t.bigint "cloud_house_projects_id"
     t.index ["cloud_house_projects_id"], name: "index_cloud_house_project_files_on_cloud_house_projects_id"
+  end
+
+  create_table "cloud_house_project_marketing_informations", force: :cascade do |t|
+    t.string "origin"
+    t.string "goal"
+    t.text "acquisition_comment"
+    t.string "questionnaire_type"
+    t.date "questionnaire_receipt_date"
+    t.boolean "testimony"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.bigint "cloud_house_projects_id"
+    t.index ["cloud_house_projects_id"], name: "house_project_marketing_informations_projects"
   end
 
   create_table "cloud_house_project_offer_reports", force: :cascade do |t|
@@ -1226,7 +1228,6 @@ ActiveRecord::Schema.define(version: 2020_02_17_142005) do
   add_foreign_key "cloud_house_employees", "cloud_house_workflow_statuses", column: "cloud_house_workflow_statuses_id"
   add_foreign_key "cloud_house_project_actions", "cloud_house_projects", column: "cloud_house_projects_id"
   add_foreign_key "cloud_house_project_activities", "cloud_house_projects", column: "cloud_house_projects_id"
-  add_foreign_key "cloud_house_project_custom_field_values", "cloud_house_project_custom_fields", column: "cloud_house_project_custom_fields_id"
   add_foreign_key "cloud_house_project_custom_fields", "cloud_house_projects", column: "cloud_house_projects_id"
   add_foreign_key "cloud_house_project_custom_fields", "users", column: "users_id"
   add_foreign_key "cloud_house_project_customers", "cloud_house_contacts", column: "cloud_house_contacts_id"
@@ -1236,6 +1237,7 @@ ActiveRecord::Schema.define(version: 2020_02_17_142005) do
   add_foreign_key "cloud_house_project_discussions", "cloud_house_projects", column: "cloud_house_projects_id"
   add_foreign_key "cloud_house_project_discussions", "users", column: "users_id"
   add_foreign_key "cloud_house_project_files", "cloud_house_projects", column: "cloud_house_projects_id"
+  add_foreign_key "cloud_house_project_marketing_informations", "cloud_house_projects", column: "cloud_house_projects_id"
   add_foreign_key "cloud_house_project_offer_reports", "cloud_house_projects", column: "cloud_house_projects_id"
   add_foreign_key "cloud_house_project_offer_reports", "users", column: "users_id"
   add_foreign_key "cloud_house_project_services", "cloud_house_employee_services", column: "cloud_house_employee_services_id"
