@@ -6,9 +6,31 @@
         border-radius: 2px;
         color: get-css-color(app, primary);
         background-color: get-css-color(app, tertiary);
-        border-left: 3px solid get-css-color(app, secondary);
-        .fc-time {
-            //color: get-css-color(black, 300);
+        border-left: 4px solid get-css-color(app, tertiary);
+    }
+    .fc-event.cloud_driver_event {
+        border-left-color: get-css-color(app, secondary);
+    }
+    .fc-event.cloud_focus_task {
+        border-left-color: get-css-color(lime, 700);
+    }
+}
+
+
+.component-driver-calendar-today {
+    .panel-block {
+        .icon span {
+            display: inline-block;
+            width: 9px;
+            height: 9px;
+            border-radius: 50%;
+            background-color: get-css-color(slate, 300);
+            &.cloud_driver_event {
+                background-color: get-css-color(app, secondary);
+            }
+            &.cloud_focus_task {
+                background-color: get-css-color(lime, 700);
+            }
         }
     }
 }
