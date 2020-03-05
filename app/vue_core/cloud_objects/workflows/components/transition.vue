@@ -74,7 +74,7 @@ export default {
                     let status = this.transition_statuses.filter (status => status.id == this.transition_status_id)[0]
                     this.bus.publish(`update:/${this.cloudModule}/workflow`, status)
                     if(status.final){
-                        this.alert('This resource is now closed has been successfully closed', 'success')
+                        this.alert('This resource has been successfully closed', 'success')
                         this.$router.push(`/${this.cloudId}`)
                     }else{
                         this.getWorkflowStateOptions()
