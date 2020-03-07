@@ -8,9 +8,9 @@
 
         // selected tab
         .is-active {
-            background-color: get-css-color(app, primary);
+            background-color: lesli-css-theme-get-color(app, primary);
             a {
-                color: get-css-color(standard, white);
+                color: lesli-css-theme-get-color(standard, white);
             }
         }
 
@@ -18,7 +18,7 @@
 
     // tab content
     .tab-content {
-        background-color: get-css-color(standard, white);
+        background-color: lesli-css-theme-get-color(standard, white);
     }
 
     // tabs navigation for vertical mode
@@ -28,7 +28,7 @@
         .tabs {
             flex: 0 0 200px;
             ul {
-                background-color: get-css-color(standard, white);
+                background-color: lesli-css-theme-get-color(standard, white);
             }
             a {
                 padding: 1.6rem 0 1.6rem 1.6rem;
