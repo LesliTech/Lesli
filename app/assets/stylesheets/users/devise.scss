@@ -34,7 +34,7 @@ section.cloudhaus-login {
     $secondary: rgb(32, 168, 216);
     $tertiary: rgb(217, 244, 251);
 
-    background-color: get-lesli-css-color(standard, white);
+    background-color: lesli-css-get-color(standard, white);
 
     .login-header {
         background-color: $primary;
@@ -106,7 +106,7 @@ section.leslicloud-login {
         margin: 0 auto;
         max-width: 450px;
         text-align: center;
-        background-color: rgba(get-lesli-css-color(standard, white), 1);
+        background-color: rgba(lesli-css-get-color(standard, white), 1);
         padding: 2rem;
     }
 }
@@ -116,8 +116,8 @@ section.leslicloud-login {
 section {
     background: 
         linear-gradient(
-            rgba(get-lesli-css-color(standard, white),.75),
-            rgba(get-lesli-css-color(standard, white),.75));
+            rgba(lesli-css-get-color(standard, white),.75),
+            rgba(lesli-css-get-color(standard, white),.75));
     background-repeat: no-repeat;
     background-position: center;
     background-size: cover;
@@ -142,7 +142,7 @@ section {
         max-width: 350px;
         text-align: center;
         border-radius: 2px;
-        background-color: rgba(get-lesli-css-color(standard, white), 1);
+        background-color: rgba(lesli-css-get-color(standard, white), 1);
 
         .progress.is-very-small{
             border-radius: 0px;
@@ -161,7 +161,7 @@ section {
                 border: none;
                 box-shadow: none;
                 border-radius: 0;
-                border-bottom: 1px solid get-lesli-css-color(silver);
+                border-bottom: 1px solid lesli-css-get-color(silver);
             }
 
         }
