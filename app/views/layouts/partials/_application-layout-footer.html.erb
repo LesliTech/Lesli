@@ -1,0 +1,28 @@
+<footer>
+    <nav class="navbar" aria-label="main navigation" role="navigation">
+        <div class="navbar-brand">
+            <a class="navbar-item" href="https://lesli.cloud">
+                <%= @account[:company][:name] %>
+            </a>
+        </div>
+        <a class="navbar-item">-</a>
+        <a class="navbar-item">
+            <small>
+                <%= @account[:user][:name] %>
+            </small>
+        </a>
+        <div class="navbar-menu">
+            <div class="navbar-start"></div>
+            <div class="navbar-end">
+                <% if defined?(CloudLesliCloud) %>
+                <a class="navbar-item" href="#">
+                    LesliCloud
+                </a>
+                <a class="navbar-item" href="#">
+                    Privacy
+                </a>
+                <% end %>
+            </div>
+        </div>
+    </nav>
+</footer>

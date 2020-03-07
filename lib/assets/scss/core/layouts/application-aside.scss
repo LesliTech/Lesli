@@ -24,45 +24,46 @@ Building a better future, one line of code at a time.
 */
 
 
-// · Navigation sidebar
-.lesli-module-navigation {
-    flex: 0 0 250px;
-    padding: 1.8rem 1.4rem;
-    height: calc(100vh - 52px);
-    background-color: get-css-color(app, primary);
+// · Application modules navigation 
+// · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
+aside.lesli-app-aside {
+    width: 300px;
+    z-index: 999;
+    padding: 1rem;
+    position: absolute;
+    margin-left: -301px;
+    background-color: get-lesli-css-color(standard, white);
+    transition: all linear .2s;
+    min-height: calc(100% - 60px);
+    height: 100%;
 
-    .navbar-menu {
-        display: block;
+    &.show,
+    &:hover {
+        margin-left: 0px;
     }
 
-    .navbar-start {
-        display: block;
-    }
-
-    a.navbar-item {
+    nav {
         width: 100%;
-        display: block;
-        border: none;
-        border-top: 2px solid get-css-color(app, secondary);
-        color: get-css-color(standard, white);
-        padding: 1.2rem;
-        &:last-child {
-            border-bottom: 2px solid get-css-color(app, secondary);
-        }
-        &:hover {
-            background-color: get-css-color(app, secondary);
-        }
-        img {
-            vertical-align: middle;
-            padding-bottom: 2px;
-            margin-right: 5px;
-        }
-    }
+        height: 100%;
 
-    .navbar-end {
-        display: none;
+        ul {
+            font-size: 0;
+        }
+
+        li {
+            display: inline-block;
+            border-radius: 2px;
+            text-align: center;
+            font-size: .9rem;
+            padding: 1.2rem;
+            width: 88px;
+        }
+
+        img {
+            width: 100%;
+            display: block;
+        }
+
     }
 
 }
-
-

@@ -23,18 +23,24 @@ Building a better future, one line of code at a time.
 // · 
 */
 
+.application-container {
 
-// · 
-@function lesli-css-theme-get-color($pallete, $variant: 500) {
+    /*
+    & > section.section {
+        padding: 2rem 1.5rem;
 
-    $deutsche-leibrenten-colors: (
-        app: (
-            primary: rgb(0, 83, 128),
-            secondary: rgb(32, 168, 216),
-            tertiary: rgb(217, 244, 251)
-        )
-    );
+        & .card {
+            margin-bottom: 1.4rem;
+        }
+    }
 
-    @return lesli-css-get-base-color($deutsche-leibrenten-colors, $pallete, $variant);
+    .card {
+        .card-header {
+            .buttons {
+                margin-right: 0.5rem;
+            }
+        }
+    }
+    */
 
 }

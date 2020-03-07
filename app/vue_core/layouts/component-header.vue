@@ -24,51 +24,44 @@ Building a better future, one line of code at a time.
 // · 
 */
 export default {
-    data() {
-        return {
-            id: null
-        }
-    },
-    mounted() {
-        if (this.$route && this.$route.params.id) {
-            this.id = this.$route.params.id
+    props: {
+        title: {
+            default: ""
+        },
+        buttons: {
+            default: true
         }
     },
     methods: {
-        showActions() {
-            this.bus.publish("show:/module/app/actions")
-        },
-        showFiles() {
-            this.bus.publish("show:/module/app/files")
-        },
-        showSubscriptions() {
-            this.bus.publish("show:/module/app/subscriptions")
-        },
-        showActivities() {
-            this.bus.publish("show:/module/app/activities")
+
+        clickCreate() {
+            this.$emit("buttonCreate");
         }
-    },
-    watch: {
-        '$route.params.id': function(id) {
-            this.id = id
-        }
+
     }
 }
 </script>
 <template>
-    <nav class="lesli-module-navigation">
+    <nav class="navbar component-header">
         <div class="navbar-menu">
             <div class="navbar-start">
-                <slot name="left"></slot>
+                <div class="navbar-item">
+                    <h4 class="is-size-3">
+                        {{ title }}
+                    </h4>
+                </div>
             </div>
             <div class="navbar-end">
-                <slot name="right"></slot>
-                <template v-if="id && ! $router.options.base.includes('workflows')">
-                    <a class="navbar-item" @click="showSubscriptions">Subscriptions</a>
-                    <a class="navbar-item" @click="showActions">Actions</a>
-                    <a class="navbar-item" @click="showFiles">Files</a>
-                    <a class="navbar-item" @click="showActivities">Activities</a>
-                </template>
+                <div class="navbar-item">
+                    <div class="buttons" v-if="buttons">
+                        <button class="button" @click="clickCreate">
+                            <span class="icon">
+                                <i class="fas fa-plus"></i>
+                            </span>
+                            <span>Create</span>
+                        </button>
+                    </div>
+                </div>
             </div>
         </div>
     </nav>

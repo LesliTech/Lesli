@@ -21,7 +21,6 @@ Building a better future, one line of code at a time.
 
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
 // · 
-
 */
 
 
@@ -30,6 +29,8 @@ Building a better future, one line of code at a time.
 import Vue from 'vue'
 import Buefy from 'buefy'
 import VueRouter from 'vue-router'
+
+
 
 // · Loading icon required libraries
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
@@ -58,12 +59,11 @@ import document from 'LesliCoreVue/functions/document.js'
 
 // · Loading app layout
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
-import componentLayoutAppHeader from 'LesliCoreVue/layouts/app-header.vue'
-import componentLayoutAppChatbox from 'LesliCoreVue/layouts/app-chatbox.vue'
-import componentLayoutDataEmpty from 'LesliCoreVue/layouts/data-empty.vue'
+import componentLayoutAppHeader from 'LesliCoreVue/layouts/application-header.vue'
+import componentLayoutAppChatbox from 'LesliCoreVue/layouts/application-chatbox.vue'
+import componentLayoutAppNotification from 'LesliCoreVue/layouts/application-notification.vue'
 import componentLayoutDataLoading from 'LesliCoreVue/layouts/data-loading.vue'
-import componentLayoutModuleNavigation from 'LesliCoreVue/layouts/module-navigation.vue'
-import componentLayoutNotification from 'LesliCoreVue/layouts/notification.vue'
+import componentLayoutDataEmpty from 'LesliCoreVue/layouts/data-empty.vue'
 
 
 
@@ -92,6 +92,7 @@ Vue.component('component-layout-data-loading', componentLayoutDataLoading)
 // · example: app("CloudHelp", "[list|new|edit|show]", "help/tickets", [])
 export default (module, apps, base_path, routes=[]) => {
 
+
     // · Vue app configuration container
     let cloud_builder = { }
 
@@ -100,8 +101,7 @@ export default (module, apps, base_path, routes=[]) => {
     cloud_builder['components'] = { 
         'component-layout-app-header': componentLayoutAppHeader,
         'component-layout-app-chatbox': componentLayoutAppChatbox,
-        'component-layout-module-navigation': componentLayoutModuleNavigation,
-        'component-layout-notification': componentLayoutNotification
+        'component-layout-app-notification': componentLayoutAppNotification
     }
 
     
