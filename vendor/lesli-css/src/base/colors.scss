@@ -25,15 +25,15 @@ Building a better future, one line of code at a time.
 
 
 // · 
-@function lesli-css-get-color($pallete, $variant: 500) {
+@function get-lesli-css-color($pallete, $variant: 500) {
 
-    @return lesli-css-get-base-color((), $pallete, $variant);
+    @return get-lesli-css-base-color((), $pallete, $variant);
     
 }
 
 
 // · 
-@function lesli-css-get-base-color($lesli-css-app-colors, $pallete, $variant: 500) {
+@function get-lesli-css-base-color($lesli-css-app-colors, $pallete, $variant: 500) {
 
     $lesli-css-base-colors: (
 
