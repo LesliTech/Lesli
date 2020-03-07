@@ -3,7 +3,7 @@
 .component-summary {
     margin: 0 auto 2rem;
     padding: .6rem .4rem;
-    background-color: get-css-color(app, tertiary);
+    background-color: lesli-css-theme-get-color(app, tertiary);
 
     // image gallery
     .component-summary-image-gallery {
@@ -31,10 +31,10 @@
         }
         b {
             font-size: .9rem;
-            color: get-css-color(app, primary);
+            color: lesli-css-theme-get-color(app, primary);
         }
         p {
-            color: get-css-color(black, 500);
+            color: lesli-css-theme-get-color(black, 500);
         }
     }
 
