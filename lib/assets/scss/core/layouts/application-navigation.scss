@@ -29,7 +29,7 @@ Building a better future, one line of code at a time.
     position: fixed;
     padding: 1.8rem 1.4rem;
     z-index: 999;
-    height: calc(100vh - $application-header-height);
+    height: calc(100vh - #{ $application-header-height });
     width: $application-navigation-width;
     top: $application-header-height;
     background-color: lesli-css-get-color(standard, white);    

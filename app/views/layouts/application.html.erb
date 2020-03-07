@@ -6,8 +6,8 @@
     <%= render partial: "layouts/partials/application-asset-css" %>
 </head>
 <body class="<%= app_css_class_for_body() %>">
+    <%= render partial: "layouts/partials/application-layout-aside" %>
     <main id="lesli-cloud-app">
-        <%= render partial: "layouts/partials/application-layout-aside" %>
         <%= render partial: "layouts/partials/application-layout-header" %>
         <%= render partial: "layouts/partials/application-layout-navigation" %>
         <%= render partial: "layouts/partials/application-layout-content" %>
