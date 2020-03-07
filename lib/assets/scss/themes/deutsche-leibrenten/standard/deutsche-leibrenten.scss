@@ -32,15 +32,11 @@ Building a better future, one line of code at a time.
 body.CloudHaus #lesli-cloud-app {
     @import "./settings/colors.scss";
     @import "./layouts/application-navigation.scss";
-    .lesli-module-container {
-        display: flex;
+    .application-component {
         @import "./components/tabs.scss";
         @import "./components/status.scss";
         @import "./components/summary.scss";
         @import "./components/calendar.scss";
         @import "./components/quickview.scss";
-        .app-component {
-            width: 100%;
-        }
     }
 }
