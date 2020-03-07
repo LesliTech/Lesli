@@ -33,9 +33,9 @@ Building a better future, one line of code at a time.
         .tabs {
             margin-bottom: 0;
             .is-active {
-                background-color: get-css-color(app, primary);
+                background-color: lesli-css-theme-get-color(app, primary);
                 a {
-                    color: get-css-color(standard, white);
+                    color: lesli-css-theme-get-color(standard, white);
                 }
             }
         }
@@ -44,7 +44,7 @@ Building a better future, one line of code at a time.
             flex: 0 0 200px;
             padding: 1rem 0;
             ul {
-                background-color: get-css-color(standard, white);
+                background-color: lesli-css-theme-get-color(standard, white);
             }
             a {
                 padding: 2rem 1rem;

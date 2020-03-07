@@ -2,7 +2,7 @@
     margin: 4rem auto;
     display: flex;
     max-width: 100%;
-    border-top: 3px solid get-css-color(app, primary);
+    border-top: 3px solid lesli-css-theme-get-color(app, primary);
 
     .step {
         text-align: center;
@@ -14,7 +14,7 @@
     .step-icon {
         display: block;
         border-radius: 50%;
-        background-color: get-css-color(app, primary);
+        background-color: lesli-css-theme-get-color(app, primary);
         line-height: 2.4;
         margin: auto;
         height: 35px;
