@@ -28,6 +28,7 @@ Building a better future, one line of code at a time.
 // · Configuration
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
 $application-header-height: 52px;
+$application-footer-height: 52px;
 $application-navigation-width: 250px;
 
 
@@ -72,14 +73,14 @@ $application-navigation-width: 250px;
 
 // · Loading app layout 
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
+@import "../layouts/application-aside";
 #lesli-cloud-app {
-    @import "../layouts/application-aside";
     @import "../layouts/application-header";
     @import "../layouts/application-navigation";
     @import "../layouts/application-component";
     @import "../layouts/application-chatbox";
 }
-
+@import "../layouts/application-footer";
 
 // · 
 html {
