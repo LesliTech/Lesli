@@ -22,47 +22,8 @@ Building a better future, one line of code at a time.
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
 // · 
 */
-
-
-// · Application modules navigation 
-// · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
-aside.lesli-app-aside {
-    width: 300px;
-    z-index: 999;
-    padding: 1rem;
-    position: absolute;
-    margin-left: -301px;
-    background-color: get-lesli-css-color(standard, white);
-    transition: all linear .2s;
-    height: calc(100% - 60px);
-
-    &.show,
-    &:hover {
-        margin-left: 0px;
-    }
-
-    nav {
-        width: 100%;
-        height: 100%;
-
-        ul {
-            font-size: 0;
-        }
-
-        li {
-            display: inline-block;
-            border-radius: 2px;
-            text-align: center;
-            font-size: .9rem;
-            padding: 1.2rem;
-            width: 88px;
-        }
-
-        img {
-            width: 100%;
-            display: block;
-        }
-
-    }
-
+section.application-component {
+    padding: 1.3rem;
+    margin-top: $application-header-height;
+    margin-left: $application-navigation-width;
 }

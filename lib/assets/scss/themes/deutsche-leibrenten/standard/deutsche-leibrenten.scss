@@ -31,8 +31,8 @@ Building a better future, one line of code at a time.
 // · 
 body.CloudHaus #lesli-cloud-app {
     @import "./settings/colors.scss";
-    @import "./layouts/app-header.scss";
-    @import "./layouts/module-navigation.scss";
+    @import "./layouts/application-header.scss";
+    @import "./layouts/application-navigation.scss";
     .lesli-module-container {
         display: flex;
         @import "./components/tabs.scss";

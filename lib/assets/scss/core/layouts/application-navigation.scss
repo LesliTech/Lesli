@@ -23,42 +23,40 @@ Building a better future, one line of code at a time.
 // · 
 */
 
-.lesli-app-header {
-  
-    .navbar-brand {
-        flex: 0 0 250px;
-        justify-content: center;
-        a {
-            padding: 0;
+
+// · Navigation sidebar
+.application-navigation {
+    position: fixed;
+    padding: 1.8rem 1.4rem;
+    z-index: 999;
+    height: calc(100vh - $application-header-height);
+    width: $application-navigation-width;
+    top: $application-header-height;
+    background-color: lesli-css-get-color(standard, white);    
+
+    a.navbar-item {
+        width: 100%;
+        display: block;
+        border: none;
+        padding: 1.2rem;
+        border-top: 2px solid lesli-css-get-color(blue);
+        color: lesli-css-get-color(standard, white);
+
+        &:hover {
+            color: lesli-css-get-color(standard, white);
+            background-color: lesli-css-get-color(blue);
         }
+
         img {
-            max-height: 46px;
+            vertical-align: middle;
+            padding-bottom: 2px;
+            margin-right: 5px;
         }
+
     }
 
-    .navbar-start {
-        flex: 1;
-        .navbar-item {
-            padding: 0;
-            display: block;
-            width: 100%;
-            .control {
-                margin-top: 3px;
-            }
-            input {
-                border: none;
-                &::placeholder {
-                    color: get-css-color(silver, 700);
-                    opacity: 1;
-                }
-            }
-            .icon {
-                color: get-css-color(silver, 700);
-                i {
-                    padding-bottom: 5px;
-                }
-            }
-        }
+    li:last-child a{
+        border-bottom: 2px solid lesli-css-get-color(blue);
     }
 
 }

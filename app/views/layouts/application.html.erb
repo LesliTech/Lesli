@@ -7,13 +7,14 @@
 </head>
 <body class="<%= app_css_class_for_body() %>">
     <main id="lesli-cloud-app">
-        <%= render partial: "layouts/partials/application-layout-notify" %>
-        <%= render partial: "layouts/partials/application-layout-header" %>
         <%= render partial: "layouts/partials/application-layout-aside" %>
+        <%= render partial: "layouts/partials/application-layout-header" %>
+        <%= render partial: "layouts/partials/application-layout-navigation" %>
         <%= render partial: "layouts/partials/application-layout-content" %>
         <%= render partial: "layouts/partials/application-layout-chatbox" %>
+        <%= render partial: "layouts/partials/application-layout-notification" %>
     </main>
-    <%= render partial: "layouts/partials/application-footer" %>
+    <%= render partial: "layouts/partials/application-layout-footer" %>
     <%= render partial: "layouts/partials/application-asset-js" %>
 </body>
 </html>

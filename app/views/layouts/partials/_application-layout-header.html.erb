@@ -1,109 +1,11 @@
-<%#
-<header class="lesli-app-header">
-
-    <!-- User navigation area -->
-    <nav class="navbar is-transparent">
-
-        <!-- Brand container -->
-        <div class="navbar-brand">
-            <a class="navbar-item" href="/">
-                <%= #image_tag 'brand/lesli-logo.svg', alt: 'LesliCloud logo'% > % >
-                <%= image_tag 'cloud_haus/brand/deutsche-leibrenten-logo.png', alt: 'LesliCloud logo'% >
-            </a>
-        </div>
-
-        <div id="header-main-navbar" class="navbar-menu">
-
-            <!-- Assistant controls -->
-            <div class="navbar-start">
-
-                <div class="navbar-item">
-                    <div class="control is-medium has-icons-left has-text-grey">
-                        <input class="input is-medium is-shadowless" type="email" placeholder="Search...">
-                        <span class="icon is-left has-text-gray">
-                            <i class="fas fa-search"></i>
-                        </span>
-                    </div>
-                </div>
-
-            </div>
-
-            <!-- User navigation -->
-            <div class="navbar-end">
-
-                <a class="navbar-item" @click="showHelp()">
-                    <span class="icon has-text-grey-dark">
-                        <i class="far fa-question-circle"></i>
-                    </span>
-                </a>
-
-                <div class="navbar-item has-dropdown is-hoverable">
-                    <a class="navbar-item">
-                        <span class="icon has-text-grey-light">
-                            <span class="flag-icon flag-icon-de"></span>
-                        </span>
-                    </a>
-
-                    <div class="navbar-dropdown">
-                        <a class="navbar-item">
-                            <span class="icon has-text-grey-light">
-                                <span class="flag-icon flag-icon-de"></span>
-                            </span>
-                            <span>Deutsche</span>
-                        </a>
-                        <a class="navbar-item">
-                            <span class="icon has-text-grey-light">
-                                <span class="flag-icon flag-icon-gb"></span>
-                            </span>
-                            <span>English</span>
-                        </a>
-                        <a class="navbar-item">
-                            <span class="icon has-text-grey-light">
-                                <span class="flag-icon flag-icon-es"></span>
-                            </span>
-                            <span>Español</span>
-                        </a>
-                    </div>
-                </div>
-
-                <a class="navbar-item notification-indicator" @click="bus.publish('open:/cloud/layout/notify#notification')">
-                    <i v-if="notification.count > 0" class="fas fa-bell has-text-link"></i>
-                    <i v-if="notification.count == 0" class="far fa-bell"></i>
-                    <i class="far fa-bell"></i>
-                    <span></span>
-                </a>
-
-                <div class="navbar-item has-dropdown is-hoverable">
-                    <span class="navbar-link">
-                        <%= current_user.email % >
-                    </span>
-
-                    <div class="navbar-dropdown">
-                        <a class="navbar-item">
-                            <span class="icon has-text-grey-light">
-                                <i class="fas fa-user"></i>
-                            </span>
-                            <span>Profile</span>
-                        </a>
-                        <hr class="navbar-divider">
-                        <a class="navbar-item" href="/logout">
-                            <span class="icon has-text-grey-light">
-                                <i class="fas fa-sign-out-alt"></i>
-                            </span>
-                            <span>Logout</span>
-                        </a>
-                    </div>
-                </div>
-
-            </div>
-        </div>
-    </nav>
-</header>
-%>
 <component-layout-app-header>
     <template v-slot:logo>
-        <%# <%= image_tag 'brand/lesli-logo.svg', alt: 'LesliCloud logo'% > %>
-        <%= image_tag 'cloud_haus/brand/deutsche-leibrenten-logo.png', alt: 'LesliCloud logo'%>
+        <% if defined?(CloudLesliCloud) %>
+            <%= image_tag "brand/lesli-logo.svg", alt: "LesliCloud logo" %>
+        <% end %>
+        <% if defined?(CloudHaus) %>
+            <%= image_tag "cloud_haus/brand/deutsche-leibrenten-logo.png", alt: "Deutsche Leibrenten logo" %>
+        <% end %>
     </template>
     <template v-slot:username>
         <%= current_user.email %>

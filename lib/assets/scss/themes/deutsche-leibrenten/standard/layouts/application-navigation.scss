@@ -23,22 +23,25 @@ Building a better future, one line of code at a time.
 // · 
 */
 
-.lesli-module-container {
 
-    & > section.section {
-        padding: 2rem 1.5rem;
+// · Navigation sidebar
+.application-navigation {
+    background-color: lesli-css-theme-get-color(app, primary);
 
-        & .card {
-            margin-bottom: 1.4rem;
+    a.navbar-item {
+        border-top-color: lesli-css-theme-get-color(app, secondary);
+        color: get-css-color(standard, white);
+
+        &:hover {
+            background-color: lesli-css-theme-get-color(app, secondary);
         }
+
     }
 
-    .card {
-        .card-header {
-            .buttons {
-                margin-right: 0.5rem;
-            }
-        }
+    li:last-child a{
+        border-bottom-color: lesli-css-theme-get-color(app, secondary);
     }
 
 }
+
+
