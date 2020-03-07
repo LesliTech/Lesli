@@ -67,7 +67,7 @@ $application-navigation-width: 250px;
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
 @import "../helpers/display";
 @import "../settings/icons.scss";
-@import "../components/containers.scss";
+
 
 
 
@@ -79,6 +79,8 @@ $application-navigation-width: 250px;
     @import "../layouts/application-navigation";
     @import "../layouts/application-component";
     @import "../layouts/application-chatbox";
+    @import "../components/component-data.scss";
+    @import "../components/component-header.scss";
 }
 @import "../layouts/application-footer";
 
