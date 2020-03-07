@@ -98,14 +98,6 @@ class Account < ApplicationRecord
             end
         end
 
-        if defined? CloudHouse
-            if self.house.blank?
-                self.house = CloudHouse::Account.new
-                self.house.account = self
-                self.house.save!
-            end
-        end
-
         if defined? CloudFocus
             if self.focus.blank?
                 self.focus = CloudFocus::Account.new
@@ -119,6 +111,18 @@ class Account < ApplicationRecord
                 self.help = CloudHelp::Account.new
                 self.help.account = self
                 self.help.save!
+            end
+        end
+
+        if defined? CloudHouse
+            if self.house.blank?
+                self.house = CloudHouse::Account.new
+                self.house.account = self
+                self.house.save!
+
+                if defined? CloudHaus
+                    CloudHaus::Account.initialize_workflows(self)
+                end
             end
         end
 
