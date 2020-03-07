@@ -18,7 +18,6 @@ export default {
     data() {
         return {
             transition_statuses: null,
-            transition_status_id: null,
             module_name: null,
             object_name: null
         }
@@ -43,7 +42,6 @@ export default {
                     if (result.successful) {
                         if(result.data && result.data.length > 0){
                             this.transition_statuses = result.data
-                            this.transition_status_id = result.data[0].workflow_detail_id
                         }else{
                             this.transition_statuses = []
                         }
@@ -58,23 +56,19 @@ export default {
 
         
 
-        patchWorkflow(event){
-            if(event){
-                event.preventDefault()
-            }
+        patchWorkflow(status){
 
             let url = `/${this.object_utils.pluralize(this.cloudModule)}/${this.cloudId}`
             let data = {}
             data[this.object_name] = {}
             let detail_key = `cloud_${this.module_name}_workflow_statuses_id`
-            data[this.object_name][detail_key] = this.transition_status_id
+            data[this.object_name][detail_key] = status.id
             
             this.http.patch(url, data).then(result =>{
                 if (result.successful) {
-                    let status = this.transition_statuses.filter (status => status.id == this.transition_status_id)[0]
                     this.bus.publish(`update:/${this.cloudModule}/workflow`, status)
                     if(status.final){
-                        this.alert('This resource is now closed has been successfully closed', 'success')
+                        this.alert('This resource has been successfully closed', 'success')
                         this.$router.push(`/${this.cloudId}`)
                     }else{
                         this.getWorkflowStateOptions()
@@ -97,35 +91,26 @@ export default {
 }
 </script>
 <template>
-    <div class="card">
-        <div class="card-header">
-            <h4 class="card-header-title">
-                Move to Another State
-            </h4>
-        </div>
-        <div class="card-content">
-            <form @submit="patchWorkflow">
-                <div class="columns">
-                    <div class="column is-9">
-                        <b-select expanded v-model="transition_status_id" placeholder="Select a status">
-                            <option
-                                v-for="status in transition_statuses"
-                                :key="status.id"
-                                :value="status.id"
-                            >
-                                <component-status-name
-                                    :name="status.name"
-                                />
-                            </option>
-                        </b-select>
-                    </div>
-                    <div class="column is-3">
-                        <b-button type="is-primary" native-type="submit">
-                            Update
-                        </b-button>
-                    </div>
-                </div>
-            </form>
-        </div>
+    <div>
+        <b-dropdown hoverable aria-role="list" position="is-bottom-left">
+            <button class="button" slot="trigger">
+                <span class="icon">
+                    <i class="fas fa-check"></i>
+                </span>
+                <span>Change status</span>
+                <b-icon icon="menu-down"></b-icon>
+            </button>
+            <b-dropdown-item
+                @click="patchWorkflow(status)"
+                v-for="status in transition_statuses"
+                :key="status.id"
+                :value="status.id"
+                aria-role="listitem"
+            >
+                <component-status-name
+                    :name="status.name"
+                />
+            </b-dropdown-item>
+        </b-dropdown>
     </div>
 </template>
