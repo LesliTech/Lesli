@@ -134,7 +134,7 @@ export default {
 }
 </script>
 <template>
-    <section>
+    <section class="application-notification">
         <div :class="[{ 'is-active': notification.show }, 'quickview']">
             <header class="quickview-header" @click="notification.show = false">
                 <p class="title">Notifications</p>

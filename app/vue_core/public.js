@@ -71,7 +71,7 @@ export default (app) => {
     // · Mount app once DOM is ready
     document.ready(() => {
 
-        cloud.$mount("#lesli-cloud-app")
+        cloud.$mount("#lesli-cloud-application")
 
         //if (leslicloud_app_mode_production) debug.userWarningMessage()
         //if (leslicloud_app_mode_development) debug.info(`${base_path} ${apps}`, module)

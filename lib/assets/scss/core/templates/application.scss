@@ -74,16 +74,25 @@ $application-navigation-width: 250px;
 // · Loading app layout 
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
 @import "../layouts/application-aside";
-#lesli-cloud-app {
-    @import "../layouts/application-header";
-    @import "../layouts/application-navigation";
-    @import "../layouts/application-component";
-    @import "../layouts/application-chatbox";
-    @import "../components/component-data.scss";
-    @import "../components/component-header.scss";
-    @import "../components/component-toolbar.scss";
-}
+@import "../layouts/application-header";
+@import "../layouts/application-navigation";
+@import "../layouts/application-component";
 @import "../layouts/application-footer";
+@import "../layouts/application-chatbox";
+@import "../components/component-data.scss";
+@import "../components/component-header.scss";
+@import "../components/component-toolbar.scss";
+
+
+// · 
+#lesli-cloud-application {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    padding-top: $application-header-height;
+    
+}
+
 
 // · 
 html {

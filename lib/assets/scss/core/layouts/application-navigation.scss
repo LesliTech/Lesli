@@ -26,12 +26,7 @@ Building a better future, one line of code at a time.
 
 // · Navigation sidebar
 .application-navigation {
-    position: fixed;
-    padding: 1.8rem 1.4rem;
-    z-index: 999;
-    height: calc(100vh - #{ $application-header-height });
-    width: $application-navigation-width;
-    top: $application-header-height;
+    flex-basis: $application-navigation-width;
     background-color: lesli-css-get-color(standard, white);    
 
     a.navbar-item {
@@ -39,12 +34,12 @@ Building a better future, one line of code at a time.
         display: block;
         border: none;
         padding: 1.2rem;
-        border-top: 2px solid lesli-css-get-color(blue);
-        color: lesli-css-get-color(standard, white);
+        border-top: 2px solid lesli-css-get-color(blue, 300);
+        color: lesli-css-get-color(black, 300);
 
         &:hover {
             color: lesli-css-get-color(standard, white);
-            background-color: lesli-css-get-color(blue);
+            background-color: lesli-css-get-color(blue, 300);
         }
 
         img {
@@ -56,7 +51,7 @@ Building a better future, one line of code at a time.
     }
 
     li:last-child a{
-        border-bottom: 2px solid lesli-css-get-color(blue);
+        border-bottom: 2px solid lesli-css-get-color(blue, 300);
     }
 
 }
