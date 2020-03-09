@@ -29,24 +29,11 @@ require 'json'
 
 module Lesli
 
-    def Lesli.app2
-
-        app = { 
-            instance: "LesliCloud"
-        }
-
-        # default for Deutsche Leibrenten
-        if File.exist?(".deutsche-leibrenten")
-            app[:instance] = "DeutscheLeibrenten"
-        end
-
-        app
-
-    end
-
     def Lesli.engines
 
         engines = []
+
+        builder_engines = []
         
         Dir.entries("./engines").each do |entry|
             
@@ -71,8 +58,22 @@ module Lesli
             # next if engine name does not match
             next unless engine_info['name'] == entry
 
+            # next if engines should not be loaded
+            next if engine_info['load'] == false
+
+            # check if engine is a builder
+            if engine_info['type'] == 'builder'
+                builder_engines.push(engine_info)
+                next
+            end
+
             engines.push(engine_info)
 
+        end
+
+        # put builders at the end of the engines list
+        builder_engines.each do |builder_engine|
+            engines.push(builder_engine)
         end
 
         engines
