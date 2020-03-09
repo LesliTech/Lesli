@@ -82,7 +82,7 @@ namespace :dev do
         end
 
         desc "Add github origin"
-        task add_github_origin: :environment do
+        task add_origin: :environment do
 
             Lesli::engines.each do |engine|
 
