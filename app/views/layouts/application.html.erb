@@ -5,7 +5,7 @@
     <%= render partial: "layouts/partials/application-data" %>
     <%= render partial: "layouts/partials/application-asset-css" %>
 </head>
-<body class="<%= app_css_class_for_body() %>">
+<body class="<%= application_body_class() %>">
     <%= render partial: "layouts/partials/application-layout-aside" %>
     <main id="lesli-cloud-application">
         <%= render partial: "layouts/partials/application-layout-header" %>

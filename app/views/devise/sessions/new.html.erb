@@ -1,51 +1,59 @@
-<% if defined?(CloudHaus) %>
+<% if company("CloudHaus") %>
     <section class="cloudhaus-login">
     <%= render :file => "cloud_haus/core/users_sessions.html.erb" %>
     </section>
 <% end %>
 
-<% if !defined?(CloudHaus) %>
-    <section class="leslicloud-login">
-        <a class="logo">
-            <img src="/assets/brand/lesli-logo.png">
-        </a>
-        <form ref="form" @submit="postLogin">
-            <div class="field">
-                <p class="control has-icons-left">
-                    <label class="sr-only">
-                        email
-                    </label>
-                    <input 
-                        class="input" 
-                        type="email"
-                        v-model="sign_in.email"
-                        required="true"
-                        placeholder="email"
-                    />
-                    <span class="icon is-small is-left">
-                        <i class="fas fa-envelope"></i>
-                    </span>
-                </p>
+<% if company("LesliTech") %>
+<section class="leslitech-login">
+    <a class="logo">
+        <img src="/assets/brand/lesli-logo-banner.svg">
+    </a>
+    <form ref="form" @submit="postLogin">
+        <div class="field">
+            <p class="control has-icons-left">
+                <label class="sr-only">
+                    email
+                </label>
+                <input 
+                    class="input" 
+                    type="email"
+                    v-model="sign_in.email"
+                    required="true"
+                    placeholder="email"
+                />
+                <span class="icon is-small is-left">
+                    <i class="fas fa-envelope"></i>
+                </span>
+            </p>
+        </div>
+        <div class="field">
+            <p class="control has-icons-left">
+                <label class="sr-only" for="user_password">
+                    password
+                </label>
+                <input 
+                    type="password"
+                    class="input"
+                    required="true"
+                    v-model="sign_in.password"
+                    placeholder="password"
+                />
+                <span class="icon is-small is-left">
+                    <i class="fas fa-lock"></i>
+                </span>
+            </p>
+        </div>
+        <div class="columns login-controls">
+            <div class="column">
+                <%= link_to "Passwort vergessen?", new_user_password_path, class: "button" %>
             </div>
-            <div class="field">
-                <p class="control has-icons-left">
-                    <label class="sr-only" for="user_password">
-                        password
-                    </label>
-                    <input 
-                        type="password"
-                        class="input"
-                        required="true"
-                        v-model="sign_in.password"
-                        placeholder="password"
-                    />
-                    <span class="icon is-small is-left">
-                        <i class="fas fa-lock"></i>
-                    </span>
-                </p>
+            <div class="column has-text-right">
+                <button class="button is-primary">
+                    Login
+                </button>
             </div>
-            <input class="button is-primary" type="submit" value="log in" />
-        </form>
-    </section>
+        </div>
+    </form>
+</section>
 <% end %>
-

@@ -52,12 +52,9 @@ class Account < ApplicationRecord
         self.settings.find_or_create_by({ name: "date_format_full", value: "%a, %B %d, %Y", account: self })
         self.settings.find_or_create_by({ name: "date_time_format", value: "%Y.%m.%d %H:%M", account: self })
         self.settings.find_or_create_by({ name: "start_week_on", value: "monday", account: self })
-        self.settings.find_or_create_by({ name: "theme", value: "deutsche-leibrenten", account: self })
+        self.settings.find_or_create_by({ name: "theme", value: "deutsche-blue", account: self })
         self.settings.find_or_create_by({ name: "theme_variation", value: "standard", account: self })
 
-        #Setting.create({ name: "theme", value: "lesli", account: self })
-        #Setting.create({ name: "theme_variation", value: "light", account: self })
-        
         if defined? CloudKb
             if self.kb.blank?
                 self.kb = CloudKb::Account.new
