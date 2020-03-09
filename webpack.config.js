@@ -99,12 +99,14 @@ module.exports = env => {
                     'css-loader',   // translates CSS into CommonJS
                     {
                         loader: 'sass-loader', // compiles Sass to CSS, using Node Sass by default
+                        /*
                         options: {
                             data: '@import "component.scss";',
                             includePaths: [
                                 path.resolve(__dirname, "LesliCloud/scss/")
                             ]
                         }
+                        */
                     }
                 ]
             }, {
