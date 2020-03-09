@@ -74,6 +74,8 @@ namespace :dev do
 
             #system "service nginx restart"
 
+            #chmod 755 public/ -R && chown www-data:www-data public/ -R && service nginx restart
+
             datetime_end = Time.now.strftime('%Y/%m/%d %H:%M:%S')
 
             file = File.open(Rails.root.join("public", "dev-deploy-log.txt"), "a")
