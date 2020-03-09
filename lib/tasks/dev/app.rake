@@ -75,6 +75,7 @@ namespace :dev do
             #system "service nginx restart"
 
             #chmod 755 public/ -R && chown www-data:www-data public/ -R && service nginx restart
+            #du -chs engines/**/app/assets/javascripts/**/*.js app/assets/javascripts/**/*.js | sort -h
 
             datetime_end = Time.now.strftime('%Y/%m/%d %H:%M:%S')
 
