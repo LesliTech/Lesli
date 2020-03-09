@@ -37,7 +37,7 @@ namespace :dev do
             # push all engines
             Lesli::engines.each do |engine|
                 engine_path = Rails.root.join('engines', engine['name'])
-                system "cd ./engines/#{engine['name']} && git add --all && git commit -m \"add production assets\""
+                system "cd ./engines/#{engine['name']} && git add --all && git commit -m \"add updates from development\""
                 system "cd ./engines/#{engine['name']} && git push origin master" if File.exists?(engine_path)
             end
             
@@ -96,8 +96,22 @@ namespace :dev do
                 next if system "cd ./engines/#{engine['name']} && git remote show origin" 
 
                 system "cd ./engines/#{engine['name']} && git remote add origin #{engine['github_ssh']}" 
+                system "cd ./engines/#{engine['name']} && git remote add github #{engine['github_ssh']}" 
+                system "cd ./engines/#{engine['name']} && git remote add lesli #{engine['github_ssh_lesli']}" 
 
             end
+
+        end
+
+        desc ""
+        task lesli: :environment do
+
+            Lesli::engines.each do |engine|
+                engine_path = Rails.root.join('engines', engine['name'])
+                system "cd ./engines/#{engine['name']} && git push lesli master" if File.exists?(engine_path)
+            end
+
+            system "git push lesli master"
 
         end
 
