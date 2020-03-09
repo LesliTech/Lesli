@@ -25,14 +25,18 @@ Building a better future, one line of code at a time.
 
 header.application-header {
     position: fixed;
-    z-index: 999;
+    z-index: 99;
     width: 100%;
     top: 0px;
     .navbar-brand {
         flex: 0 0 $application-navigation-width;
-        justify-content: center;
         a {
             padding: 0;
+            width: 100%;
+        }
+        img {
+            margin: 0 auto;
+            max-height: $application-header-height;
         }
     }
     .navbar-start {

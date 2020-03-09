@@ -6,7 +6,7 @@
     <%= render partial: "layouts/partials/application-public-asset-css" %>
 </head>
 <body class="<%= "#{controller_path.gsub('/','-')}-#{action_name}" %>">
-    <main id="lesli-cloud-app">
+    <main id="lesli-cloud-application">
         <%= yield %>
     </main>
     <%= render partial: "layouts/partials/application-public-asset-js" %>

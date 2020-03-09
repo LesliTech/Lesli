@@ -1,11 +1,6 @@
 <component-layout-app-header>
     <template v-slot:logo>
-        <% if defined?(CloudLesliCloud) %>
-            <%= image_tag "brand/lesli-logo.svg", alt: "LesliCloud logo" %>
-        <% end %>
-        <% if defined?(CloudHaus) %>
-            <%= image_tag "cloud_haus/brand/deutsche-leibrenten-logo.png", alt: "Deutsche Leibrenten logo" %>
-        <% end %>
+        <%= image_tag application_header_logo(), alt: "Company logo"   %>
     </template>
     <template v-slot:username>
         <%= current_user.email %>

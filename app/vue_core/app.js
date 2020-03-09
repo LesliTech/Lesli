@@ -121,7 +121,7 @@ export default (module, apps, base_path, routes=[]) => {
     // · Mount app once DOM is ready
     document.ready(() => {
 
-        cloud.$mount("#lesli-cloud-app")
+        cloud.$mount("#lesli-cloud-application")
 
         // · Defined in webpack.config.js
         if (leslicloud_app_mode_production) debug.userWarningMessage()

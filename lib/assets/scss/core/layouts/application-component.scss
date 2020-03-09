@@ -23,7 +23,6 @@ Building a better future, one line of code at a time.
 // · 
 */
 section.application-component {
+    flex-grow: 1;
     padding: 1.3rem;
-    margin-top: $application-header-height;
-    margin-left: $application-navigation-width;
 }
