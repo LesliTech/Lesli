@@ -29,8 +29,9 @@ Building a better future, one line of code at a time.
 
 
 // · 
-body.theme-deutsche-blue #lesli-cloud-app {
+body #lesli-cloud-application {
     @import "./settings/colors.scss";
+    @import "./layouts/application-header.scss";
     @import "./layouts/application-navigation.scss";
     .application-component {
         @import "./components/tabs.scss";
