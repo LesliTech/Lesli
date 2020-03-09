@@ -27,15 +27,16 @@ Building a better future, one line of code at a time.
 
 module ApplicationHelper
 
-    def app_css_class_for_body()
-        d = defined?(CloudHaus) ? "CloudHaus" : "LesliCloud"
-        d+= " "
-        d+= controller_path.gsub('/','-')
-        d+= " "
-        d+= action_name
+    def application_body_class()
+        application_body_class = "LesliTech"
+
+        application_body_class = "CloudHaus" if defined?(CloudHaus)
+
+        [application_body_class, controller_path.gsub('/','-'), action_name].join(' ')
+        
     end
 
-    def app_theme_stylesheet_path()
+    def application_stylesheet_path()
 
         theme = "themes/blank"
 
@@ -44,9 +45,9 @@ module ApplicationHelper
             theme+= "/"
             theme+= @account[:settings]['theme']
             theme+= "/"
-            theme+= @account[:settings]['theme_variation'].blank? ? "standard" : @account[:settings]['theme_variation']
+            theme+= @account[:settings]['theme_variation']
             theme+= "/"
-            theme+= @account[:settings]['theme']
+            theme+= "theme"
         end
 
         theme
@@ -59,6 +60,12 @@ module ApplicationHelper
         image_src_string = "cloud_haus/brand/deutsche-leibrenten-logo.png" if defined?(CloudHaus)
         image_src_string
         
+    end
+
+    def company(company_name)
+        company = "LesliTech"
+        company = "CloudHaus" if defined?(CloudHaus)
+        company == company_name
     end
 
 end

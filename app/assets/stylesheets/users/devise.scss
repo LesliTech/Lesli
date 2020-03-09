@@ -25,95 +25,43 @@ Building a better future, one line of code at a time.
 
 
 // · 
-@import "core/templates/application.scss";
+@import "core/templates/module.scss";
 
-// · 
-section.cloudhaus-login {
 
-    $primary: rgb(0, 83, 128);
-    $secondary: rgb(32, 168, 216);
-    $tertiary: rgb(217, 244, 251);
+main {
+    padding: 0 !important;
 
-    background-color: lesli-css-get-color(standard, white);
+    section {
+        height: 100vh;
+        display: flex;
+        width: 100%;
+        align-items: center;
+        flex-direction: column;
+        justify-content: center;
 
-    .login-header {
-        background-color: $primary;
-        text-align: center;
-        height: 7em;
         img {
-            height: 7em;
+            width: 200px;
+        }
+
+        .notification:not(:last-child) {
+            margin-bottom: 0.6rem;
+        }
+
+        form {
+            width: 90%;
+            margin: 0 auto;
+            max-width: 450px;
+            text-align: center;
+            background-color: lesli-css-get-color(standard, white);
+            padding: 2rem;
         }
     }
 
-    .login-information {
-        font-size: 14px;
-        margin: 1.2rem;
-        p.has-text-primary {
-            color: $primary;
-        }
-    }
-
-    .login-form {
-        padding: 1rem 1.5rem;
-        background-color: $tertiary;
-        max-width: 700px;
-        margin: 0 auto;
-        width: 96%;
-        h2,p {
-            color: $primary;
-        }
-        p {
-            font-size: 14px;
-            margin-bottom: .6rem;
-        }
-        .has-text-primary i {
-            color: $primary;
-        }
-    }
-
-    .login-controls {
-        padding: .6rem 0;
-        a {
-            background: transparent;
-            border-color: transparent;
-        }
-        button {
-            padding: 0 6rem;
-            background-color: $primary;
-        }
-    }
 }
 
 
 // · 
-section.leslicloud-login {
-    height: 100vh;
-    display: flex;
-    align-items: center;
-    flex-direction: column;
-    justify-content: center;
-
-    img {
-        width: 150px;
-    }
-
-    .notification:not(:last-child) {
-        margin-bottom: 0.6rem;
-    }
-
-    form {
-        width: 90%;
-        margin: 0 auto;
-        max-width: 450px;
-        text-align: center;
-        background-color: rgba(lesli-css-get-color(standard, white), 1);
-        padding: 2rem;
-    }
-}
-
-/*
-// · 
-section {
+section.leslitech-login2 {
     background: 
         linear-gradient(
             rgba(lesli-css-get-color(standard, white),.75),
@@ -121,33 +69,14 @@ section {
     background-repeat: no-repeat;
     background-position: center;
     background-size: cover;
-    height: 100vh;
-    display: flex;
-    align-items: center;
-    flex-direction: column;
-    justify-content: center;
+    
 
     img {
         width: 200px;
         margin-bottom: -15px;
     }
 
-    .notification:not(:last-child) {
-        margin-bottom: 0.6rem;
-    }
-
     form {
-        width: 90%;
-        margin: 0 auto;
-        max-width: 350px;
-        text-align: center;
-        border-radius: 2px;
-        background-color: rgba(lesli-css-get-color(standard, white), 1);
-
-        .progress.is-very-small{
-            border-radius: 0px;
-            height:0.2rem;
-        }
 
         .field:nth-child(2) {
             padding-top: 2rem;
@@ -178,19 +107,19 @@ section {
             }
 
         }
-
+        
     }
 
-    div.links {
-        padding: 1rem 0;
-        text-align: center;
-
+    .login-controls {
+        padding: .6rem 0;
         a {
-            display: block;
-            text-decoration: none;
+            background: transparent;
+            border-color: transparent;
         }
-
+        button {
+            padding: 0 6rem;
+            //background-color: lesli-css-get-color(blue);
+        }
     }
 
 }
-*/
