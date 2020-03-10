@@ -77,6 +77,10 @@ namespace :dev do
             #chmod 755 public/ -R && chown www-data:www-data public/ -R && service nginx restart
             #du -chs engines/**/app/assets/javascripts/**/*.js app/assets/javascripts/**/*.js | sort -h
 
+            #du -chs storage/**/**/*.* | sort -h
+
+            #find . -type f -printf "%s\t%p\n" | sort -n | tail -1
+
             datetime_end = Time.now.strftime('%Y/%m/%d %H:%M:%S')
 
             file = File.open(Rails.root.join("public", "dev-deploy-log.txt"), "a")

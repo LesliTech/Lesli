@@ -14,9 +14,6 @@ PATH
   remote: engines/CloudHaus
   specs:
     cloud_haus (0.1.0)
-      cloud_driver
-      cloud_focus
-      cloud_house
       rails (~> 6.0.0)
 
 PATH
