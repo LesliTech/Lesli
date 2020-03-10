@@ -1,5 +1,7 @@
 <script>
 /*
+Lesli
+
 Copyright (c) 2020, Lesli Technologies, S. A.
 
 All the information provided by this website is protected by laws of Guatemala related 
@@ -15,12 +17,8 @@ LesliCloud - Your Smart Business Assistant
 Powered by https://www.lesli.tech
 Building a better future, one line of code at a time.
 
-@author   [AUTHOR_NAME_GOES_HERE]
 @license  Propietary - all rights reserved.
 @version  0.1.0-alpha
-@description Allows the user to either view, or edit a %humanized_resource% and save it in the 
-    database using HTTP. This component is intended to be used in conjunction with the main apps:
-    *new*, *show* and *edit*
 
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
 // · 
