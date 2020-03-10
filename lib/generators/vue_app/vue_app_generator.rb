@@ -17,11 +17,11 @@ LesliCloud - Your Smart Business Assistant
 Powered by https://www.lesli.tech
 Building a better future, one line of code at a time.
 
-@author   Carlos Hermosilla
 @license  Propietary - all rights reserved.
 @version  0.1.0-alpha
-@description Vue app generator. Usage is
-    rails generate vue_app [Core|ENGINE_NAME](::[NAMESPACE])*::[MODEL_NAME]
+
+// · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
+// · 
 =end
 class VueAppGenerator < Rails::Generators::Base
     source_root File.expand_path('templates', __dir__)
