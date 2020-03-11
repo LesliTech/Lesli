@@ -27,27 +27,22 @@ Building a better future, one line of code at a time.
 
 =end
 
-User.find_or_create_by(email: 'admin@lesli.cloud') do |user|
-    user.password = 'lesli2020'
-    user.password_confirmation = 'lesli2020'
+email = "admin@lesli.cloud"
+password = "lesli2020"
+
+if defined?(CloudHaus)
+    email = "crm.admin@deutsche-leibrenten.de" 
+    password = "deutsche$leibrenten2020"
+end
+
+User.find_or_create_by(email: email) do |user|
+    user.password = password
+    user.password_confirmation = password
     user.accounts_id = 1
     user.confirm
 
     user.account.user = user
     user.account.save!
-end
-
-
-Account.all.each do |account|
-    2.times do
-        model = User.new
-        model.email = Faker::Internet.email
-        model.password = model.email
-        model.password_confirmation = model.email
-        model.account = account
-        model.confirm
-        model.save!
-    end
 end
 
 p "Users successfully created!"
