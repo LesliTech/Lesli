@@ -52,7 +52,7 @@ namespace :dev do
 
             #system "service nginx stop"
 
-            system "bundle install"
+            #system "bundle install"
 
             system "git checkout ."
 
@@ -66,10 +66,10 @@ namespace :dev do
             system "rake db:migrate RAILS_ENV=production" 
             system "rake db:seed RAILS_ENV=production" 
 
-            system "whenever --update-crontab"
-
             system "bundle exec rake assets:clean RAILS_ENV=production"
             system "bundle exec rake assets:precompile RAILS_ENV=production"
+
+            system "whenever --update-crontab"
             
             #system "chmod 755 public/ -R"
             #system "chown www-data:www-data public/ -R"
