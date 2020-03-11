@@ -27,7 +27,9 @@ Building a better future, one line of code at a time.
 
 =end
 
-model = Account.find_or_create_by(company_name: "Lesli Technologies, S. A.") do |account|
+company_name = "Lesli Technologies, S. A."
+company_name = "Deutsche Leibrenten Grundbesitz AG" if defined?(CloudHaus)
+model = Account.find_or_create_by(company_name: company_name) do |account|
     account.status = 1
 end
 
