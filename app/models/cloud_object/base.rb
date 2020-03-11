@@ -24,7 +24,7 @@ module CloudObject
                 old_status = workflow_status_model.find(workflow_change[0])
                 new_status = workflow_status_model.find(workflow_change[1])
                 activity_model.create!({
-                    description: "Moved from state #{old_status.name} to #{new_status.name}",
+                    description: "#{new_status.name}",
                     field_name: "cloud_#{module_name}_workflow_statuses_id",
                     value_from: old_status.id,
                     value_to: new_status.id,
