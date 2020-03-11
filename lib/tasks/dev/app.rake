@@ -45,10 +45,10 @@ namespace :dev do
         desc "LesliCloud fresh installation"
         task install: :environment do
 
-            datetime_start = Time.now.strftime('%Y/%m/%d %H:%M:%S')
-            file = File.open(Rails.root.join("public", "dev-deploy-log.txt"), "a")
-            file.write("Deploy process started at: #{ datetime_start }, ")
-            file.close
+            #datetime_start = Time.now.strftime('%Y/%m/%d %H:%M:%S')
+            #file = File.open(Rails.root.join("public", "dev-deploy-log.txt"), "a")
+            #file.write("Deploy process started at: #{ datetime_start }, ")
+            #file.close
 
             #system "service nginx stop"
 
