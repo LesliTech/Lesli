@@ -52,12 +52,14 @@ namespace :dev do
 
             #system "service nginx stop"
 
+            system "bundle install"
+
             system "git checkout ."
 
             Rake::Task["dev:git:pull"].invoke
 
-            system "gem install bundler"
-            system "bundle install"
+            #system "gem install bundler"
+            #system "bundle install"
 
             system "rake db:drop DISABLE_DATABASE_ENVIRONMENT_CHECK=1 RAILS_ENV=production" 
             system "rake db:create RAILS_ENV=production" 
