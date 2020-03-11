@@ -59,43 +59,6 @@ ActiveRecord::Schema.define(version: 2020_02_17_142005) do
     t.index ["key"], name: "index_active_storage_blobs_on_key", unique: true
   end
 
-  create_table "cloud_babel_translation_buckets", force: :cascade do |t|
-    t.string "name"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-    t.bigint "cloud_babel_translation_buckets_id"
-    t.bigint "cloud_babel_translation_modules_id"
-    t.index ["cloud_babel_translation_buckets_id"], name: "cloud_babel_translation_buckets_buckets"
-    t.index ["cloud_babel_translation_modules_id"], name: "babel_translation_objects_modules"
-  end
-
-  create_table "cloud_babel_translation_modules", force: :cascade do |t|
-    t.string "name"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-  end
-
-  create_table "cloud_babel_translation_strings", force: :cascade do |t|
-    t.string "context"
-    t.string "label"
-    t.string "es"
-    t.string "en"
-    t.string "de"
-    t.string "fr"
-    t.integer "status"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-    t.bigint "users_id"
-    t.bigint "cloud_babel_translation_buckets_id"
-    t.index ["cloud_babel_translation_buckets_id"], name: "babel_translation_strings_buckets"
-    t.index ["users_id"], name: "babel_translation_strings_users"
-  end
-
-  create_table "cloud_babel_translations", force: :cascade do |t|
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-  end
-
   create_table "cloud_driver_accounts", force: :cascade do |t|
   end
 
@@ -279,6 +242,7 @@ ActiveRecord::Schema.define(version: 2020_02_17_142005) do
   end
 
   create_table "cloud_house_companies", force: :cascade do |t|
+    t.datetime "deleted_at"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.bigint "cloud_house_accounts_id"
@@ -289,6 +253,7 @@ ActiveRecord::Schema.define(version: 2020_02_17_142005) do
     t.index ["cloud_house_companies_id"], name: "index_cloud_house_companies_on_cloud_house_companies_id"
     t.index ["cloud_house_employees_id"], name: "house_companies_employees"
     t.index ["cloud_house_workflow_statuses_id"], name: "house_companies_workflow_statuses"
+    t.index ["deleted_at"], name: "index_cloud_house_companies_on_deleted_at"
   end
 
   create_table "cloud_house_company_actions", force: :cascade do |t|
@@ -702,11 +667,13 @@ ActiveRecord::Schema.define(version: 2020_02_17_142005) do
 
   create_table "cloud_house_employees", force: :cascade do |t|
     t.bigint "cloud_house_accounts_id"
+    t.bigint "users_id"
     t.bigint "cloud_house_companies_id"
     t.bigint "cloud_house_workflow_statuses_id"
     t.index ["cloud_house_accounts_id"], name: "index_cloud_house_employees_on_cloud_house_accounts_id"
     t.index ["cloud_house_companies_id"], name: "house_employees_companies"
     t.index ["cloud_house_workflow_statuses_id"], name: "house_employees_workflow_statuses"
+    t.index ["users_id"], name: "house_employees_users"
   end
 
   create_table "cloud_house_project_actions", force: :cascade do |t|
@@ -1153,10 +1120,6 @@ ActiveRecord::Schema.define(version: 2020_02_17_142005) do
 
   add_foreign_key "accounts", "users", column: "users_id"
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
-  add_foreign_key "cloud_babel_translation_buckets", "cloud_babel_translation_buckets", column: "cloud_babel_translation_buckets_id"
-  add_foreign_key "cloud_babel_translation_buckets", "cloud_babel_translation_modules", column: "cloud_babel_translation_modules_id"
-  add_foreign_key "cloud_babel_translation_strings", "cloud_babel_translation_buckets", column: "cloud_babel_translation_buckets_id"
-  add_foreign_key "cloud_babel_translation_strings", "users", column: "users_id"
   add_foreign_key "cloud_driver_accounts", "accounts", column: "id"
   add_foreign_key "cloud_driver_calendar_actions", "cloud_driver_calendars", column: "cloud_driver_calendars_id"
   add_foreign_key "cloud_driver_calendar_activities", "cloud_driver_calendars", column: "cloud_driver_calendars_id"
@@ -1226,6 +1189,7 @@ ActiveRecord::Schema.define(version: 2020_02_17_142005) do
   add_foreign_key "cloud_house_employees", "cloud_house_accounts", column: "cloud_house_accounts_id"
   add_foreign_key "cloud_house_employees", "cloud_house_companies", column: "cloud_house_companies_id"
   add_foreign_key "cloud_house_employees", "cloud_house_workflow_statuses", column: "cloud_house_workflow_statuses_id"
+  add_foreign_key "cloud_house_employees", "users", column: "users_id"
   add_foreign_key "cloud_house_project_actions", "cloud_house_projects", column: "cloud_house_projects_id"
   add_foreign_key "cloud_house_project_activities", "cloud_house_projects", column: "cloud_house_projects_id"
   add_foreign_key "cloud_house_project_custom_fields", "cloud_house_projects", column: "cloud_house_projects_id"
