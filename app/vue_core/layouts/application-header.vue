@@ -147,7 +147,7 @@ export default {
                     <div class="navbar-item has-dropdown is-hoverable" data-intro="Language selector">
                         <a class="navbar-item">
                             <span class="icon has-text-grey-light">
-                                <span class="flag-icon flag-icon-de"></span>
+                                <span class="flag-icon flag-icon-gb"></span>
                             </span>
                         </a>
 

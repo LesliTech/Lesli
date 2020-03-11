@@ -42,7 +42,7 @@ export default {
         return{
             translations: { },
             sign_in: {
-                email: 'admin@lesli.cloud',
+                email: '',
                 password: ''
             },
             progress_bar_active: false,
