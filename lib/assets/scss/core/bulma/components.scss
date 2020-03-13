@@ -41,6 +41,9 @@ Building a better future, one line of code at a time.
     }
 }
 
-body #lesli-cloud-application .application-component .quickview.is-active {
-    top: $application-header-height;
+
+// · quick views
+body #lesli-cloud-application .application-component .quickview {
+    //top: $application-header-height;
+    z-index: 99;
 }
