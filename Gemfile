@@ -32,6 +32,10 @@ git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
 ruby '2.7.0'
 
+
+# Workaround for nokogiri when using ruby 2.7.0
+gem 'nokogiri', '~> 1.11.0.rc1' if Gem.win_platform?
+
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '~> 6.0.2.1'
 
@@ -71,8 +75,6 @@ gem 'flag-icons-rails'
 # Avoiding polling in widows
 gem 'wdm', '>= 0.1.0' if Gem.win_platform?
 
-# Workaround for nokogiri when using ruby 2.7.0
-gem 'nokogiri', '~> 1.11.0.rc1' if Gem.win_platform?
 
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
