@@ -75,6 +75,7 @@ export default {
 
         parseCloudModule(){
             let parsed_data = this.object_utils.parseCloudModule(this.cloudModule)
+            console.log(parsed_data)
             this.object_name = parsed_data.cloud_object_name
             this.module_name = parsed_data.cloud_module_name
         },

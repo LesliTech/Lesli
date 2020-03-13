@@ -33,11 +33,9 @@ export default {
         }
     },
     methods: {
-
         clickCreate() {
             this.$emit("buttonCreate");
         }
-
     }
 }
 </script>
