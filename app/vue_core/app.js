@@ -34,9 +34,12 @@ import VueRouter from 'vue-router'
 
 // · Loading icon required libraries
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
-import { fas } from '@fortawesome/free-solid-svg-icons'
-import { library } from '@fortawesome/fontawesome-svg-core'
-import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
+// Cambie los iconos de fontawesome de node, por unos construidos para ruby con sass...
+// esto debido a que sprocket no toma los iconos de node en el pipeline de compilacion para produccion
+// pueden leer aqui: https://github.com/FortAwesome/font-awesome-sass
+//import { fas } from '@fortawesome/free-solid-svg-icons'
+//import { library } from '@fortawesome/fontawesome-svg-core'
+//import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 
 
 
@@ -69,7 +72,7 @@ import componentLayoutDataEmpty from 'LesliCoreVue/layouts/data-empty.vue'
 
 // · Initializing frameworks, libraries and tools
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
-library.add(fas)
+//library.add(fas)
 
 Vue.use(VueRouter)
 Vue.use(pluginBus)
@@ -78,7 +81,7 @@ Vue.use(pluginHttp)
 Vue.use(pluginDate)
 Vue.use(pluginObjectUtils)
 Vue.use(Buefy, { defaultIconPack: 'fas' })
-Vue.component('font-awesome-icon', FontAwesomeIcon)
+//Vue.component('font-awesome-icon', FontAwesomeIcon)
 Vue.component('component-layout-data-empty', componentLayoutDataEmpty)
 Vue.component('component-layout-data-loading', componentLayoutDataLoading)
 

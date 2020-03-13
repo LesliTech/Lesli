@@ -195,6 +195,14 @@ ActiveRecord::Schema.define(version: 2020_02_17_142005) do
     t.index ["cloud_driver_events_id"], name: "index_cloud_driver_event_details_on_cloud_driver_events_id"
   end
 
+  create_table "cloud_driver_event_files", force: :cascade do |t|
+    t.string "name"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.bigint "cloud_driver_events_id"
+    t.index ["cloud_driver_events_id"], name: "index_cloud_driver_event_files_on_cloud_driver_events_id"
+  end
+
   create_table "cloud_driver_events", force: :cascade do |t|
     t.string "reference_name"
     t.integer "reference_id"
@@ -1175,6 +1183,7 @@ ActiveRecord::Schema.define(version: 2020_02_17_142005) do
   add_foreign_key "cloud_driver_event_actions", "cloud_driver_events", column: "cloud_driver_events_id"
   add_foreign_key "cloud_driver_event_activities", "cloud_driver_events", column: "cloud_driver_events_id"
   add_foreign_key "cloud_driver_event_details", "cloud_driver_events", column: "cloud_driver_events_id"
+  add_foreign_key "cloud_driver_event_files", "cloud_driver_events", column: "cloud_driver_events_id"
   add_foreign_key "cloud_driver_events", "cloud_driver_calendars", column: "cloud_driver_calendars_id"
   add_foreign_key "cloud_focus_accounts", "accounts", column: "id"
   add_foreign_key "cloud_focus_task_details", "cloud_focus_tasks", column: "cloud_focus_tasks_id"

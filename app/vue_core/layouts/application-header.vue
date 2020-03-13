@@ -137,12 +137,14 @@ export default {
 
                 <!-- User navigation -->
                 <div class="navbar-end">
-
+                    
+                    <!-- 
                     <a class="navbar-item" @click="showHelp()">
                         <span class="icon has-text-grey-dark">
                             <i class="far fa-question-circle"></i>
                         </span>
                     </a>
+                    -->
 
                     <div class="navbar-item has-dropdown is-hoverable" data-intro="Language selector">
                         <a class="navbar-item">
@@ -150,7 +152,6 @@ export default {
                                 <span class="flag-icon flag-icon-gb"></span>
                             </span>
                         </a>
-
                         <div class="navbar-dropdown">
                             <a class="navbar-item">
                                 <span class="icon has-text-grey-light">
