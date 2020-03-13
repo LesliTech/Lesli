@@ -87,7 +87,7 @@ Building a better future, one line of code at a time.
                     "cloud_#{module_name}.controllers.#{object_name}.files.notifications.created",
                     "#{object_name}_id".to_sym => cloud_object.id
                 )
-                subscriber_model.notify_subscribers(cloud_object, message, :file_created)
+                #subscriber_model.notify_subscribers(cloud_object, message, :file_created)
             else
                 responseWithError(cloud_object_file.errors.full_messages.to_sentence)
             end
@@ -191,7 +191,7 @@ Building a better future, one line of code at a time.
                 module_name: module_info[0].sub("Cloud", "").downcase,
                 object_name: module_info[1].downcase,
                 model: "#{module_info[0]}::#{module_info[1]}::File".constantize,
-                subscriber_model: "#{module_info[0]}::#{module_info[1]}::Subscriber".constantize
+                #subscriber_model: "#{module_info[0]}::#{module_info[1]}::Subscriber".constantize
             }
         end
     end
