@@ -52,7 +52,6 @@ namespace :dev do
             system "cp node_modules/bulma-extensions/ vendor/ -ra"
             system "cp node_modules/quill/ vendor/ -ra"
             system "cp node_modules/@fullcalendar/ vendor/ -ra"
-            system "cp node_modules/@fortawesome/ vendor/ -ra"
             system "cp node_modules/lesli-css/ vendor/ -ra"
 
             # commit any change in vendor
