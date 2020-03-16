@@ -38,6 +38,11 @@ if defined?(CloudFocus)
     Rails.application.config.assets.precompile += %w( cloud_focus/*.css )
 end
 
+if defined?(CloudBabel)
+    Rails.application.config.assets.precompile += %w( cloud_babel/*.js )
+    Rails.application.config.assets.precompile += %w( cloud_babel/*.css )
+end
+
 =begin
 
 Rails.application.config.assets.precompile += %w( cloud_kb/*.css )
