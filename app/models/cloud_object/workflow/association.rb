@@ -185,12 +185,17 @@ Building a better future, one line of code at a time.
         def verify_uniqueness
             dynamic_info = self.class.dynamic_info
             module_name = dynamic_info[:module_name]
+            module_name = "house" if module_name.eql? "haus"
 
             unique_attributes = attributes.to_hash
             unique_attributes.except!("id", "created_at", "updated_at", "cloud_#{module_name}_workflows_id")
 
-            dupplicated_associations = self.class.where(
+            dupplicated_associations = self.class.joins(
+                :workflow
+            ).where(
                 unique_attributes
+            ).where(
+                "cloud_#{module_name}_workflows.cloud_#{module_name}_accounts_id = #{workflow.account.id}"
             ).where.not(
                 id: id
             )
