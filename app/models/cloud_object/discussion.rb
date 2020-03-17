@@ -96,7 +96,21 @@ Building a better future, one line of code at a time.
 
             # revert the root discussions so the most recent comments appear in the top
             root_discussions.reverse
+        end
 
+=begin
+@return [Hash] Information about the discussion
+@description Retrieves and returns a specific discussion, along with information about the user
+    that created it
+@example
+    discussion = CloudHelp::Ticket::Discussion.first
+    puts discussion.show #This will display extra information about the discussion, like the user's name
+=end
+        def show
+            attributes.merge({
+                email: user.email,
+                user_name: user.name
+            })
         end
 
         private

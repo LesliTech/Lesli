@@ -25,6 +25,7 @@ Building a better future, one line of code at a time.
 
 =end
     class DiscussionsController < ApplicationController
+        before_action :set_cloud_object_discussion, only: [:update, :destroy]
 
 
 =begin
@@ -64,7 +65,7 @@ Building a better future, one line of code at a time.
         def create
             module_name = dynamic_info[:module_name]
             object_name = dynamic_info[:object_name]
-            subscriber_model = dynamic_info[:subscriber_model]
+            discussion_model = dynamic_info[:discussion_model]
             plural_object_name = object_name.pluralize
 
             cloud_object_dicussion = dynamic_info[:model].new(
@@ -75,16 +76,59 @@ Building a better future, one line of code at a time.
             )
 
             if cloud_object_dicussion.save
-                responseWithSuccessful
+                responseWithSuccessful(cloud_object_dicussion.show)
 
                 cloud_object = cloud_object_dicussion.cloud_object
                 message = I18n.t(
                     "cloud_#{module_name}.controllers.#{object_name}.discussions.notifications.created",
                     "#{object_name}_id".to_sym => cloud_object.id
                 )
-                #subscriber_model.notify_subscribers(cloud_object, message, :comment_created) unless subscriber_model.blank?
+                #discussion_model.notify_discussions(cloud_object, message, :comment_created) unless discussion_model.blank?
             else
                 responseWithError(cloud_object_dicussion.errors.full_messages.to_sentence)
+            end
+        end
+
+=begin
+@controller_action_param :content [String] The commented message
+@controller_action_param :cloud_object_discussions_id [Integer] The id of a discussions that this message responds to
+@return [Json] Json that contains wheter the update of the discussion was successful or not. 
+    If it is not successful, it returs an error message
+@description Updates the discussion based on the id of the *cloud_object* and its own id.
+@example
+    # Executing this controller's action from javascript's frontend
+    let ticket_id = 1;
+    let discussion_id = 22;
+    data = {
+        discussion: {
+            content: "This is a comment"
+        }
+    };
+    this.http.patch(`127.0.0.1/help/tickets/${ticket_id}/discussions/${discussion_id}`, data);
+=end
+        def update
+            if @cloud_object_discussion.update(cloud_object_discussion_params)
+                responseWithSuccessful
+            else
+                responseWithError(@cloud_object_discussion.errors.full_messages.to_sentence)
+            end
+        end
+
+=begin
+@return [Json] A response that contains wheter the discussion was deleted or not.
+If it is not successful, it returns an error message
+@description Deletes a discussion from the database based on the id of the *cloud_object* and its own id.
+@example
+# Executing this controller's action from javascript's frontend
+let ticket_id = 1;
+let discussion_id = 22;
+this.http.delete(`127.0.0.1/help/tickets/${ticket_id}/discussions/${discussion_id}`);
+=end
+        def destroy
+            if @cloud_object_discussion.destroy
+                responseWithSuccessful
+            else
+                responseWithError(@cloud_object_discussion.errors.full_messages.to_sentence)
             end
         end
 
@@ -122,6 +166,29 @@ Building a better future, one line of code at a time.
         end
 
 =begin
+@return [void]
+@description Sets the variable @cloud_object_discussion. The variable contains the discussion 
+    to be updated based on the id of the *cloud_object* and the id of the *discussion*
+@example
+    #suppose params[:ticket_id] = 1
+    #suppose params[:id] = 44
+    puts @cloud_object_discussion # will display nil
+    set_cloud_object_discussion
+    puts @cloud_object_discussion # will display an instance of CloudHelp:Ticket::Discussion
+=end
+        def set_cloud_object_discussion
+            module_name = dynamic_info[:module_name]
+            object_name = dynamic_info[:object_name]
+            plural_object_name = object_name.pluralize
+
+            @cloud_object_discussion = dynamic_info[:model].joins(:cloud_object).where("
+                cloud_#{module_name}_#{object_name}_discussions.id = #{params[:id]} and
+                cloud_#{module_name}_#{plural_object_name}.id = #{params["#{object_name}_id".to_sym]} and
+                cloud_#{module_name}_#{plural_object_name}.cloud_#{module_name}_accounts_id = #{current_user.account.id}
+            ").first
+        end
+
+=begin
 @return [Hash] Hash that contains information about the class
 @description Returns dynamic information based on the current implementation of this abstract class
 @example
@@ -130,7 +197,7 @@ Building a better future, one line of code at a time.
     puts info[:module_name] # will print 'help'
     puts info[:object_name] # will print 'ticket'
     info[:model].new # will return an instance of CloudHelp::Ticket::Discussion
-    info[:subscriber_model].new # will return an instance of CloudHelp::Ticket::Subscriber
+    info[:discussion_model].new # will return an instance of CloudHelp::Ticket::Subscriber
 =end
         def dynamic_info
             module_info = self.class.name.split("::")
@@ -138,7 +205,7 @@ Building a better future, one line of code at a time.
                 module_name: module_info[0].sub("Cloud", "").downcase,
                 object_name: module_info[1].downcase,
                 model: "#{module_info[0]}::#{module_info[1]}::Discussion".constantize,
-                subscriber_model: "#{module_info[0]}::#{module_info[1]}::Subscriber".constantize
+                discussion_model: "#{module_info[0]}::#{module_info[1]}::Subscriber".constantize
             }
         end
 

@@ -148,11 +148,11 @@ Building a better future, one line of code at a time.
             object_name = dynamic_info[:object_name]
             plural_object_name = object_name.pluralize
 
-            @cloud_object_subscriber = dynamic_info[:model].joins(:cloud_object).where(
-                "cloud_#{module_name}_#{object_name}_subscribers.id = #{params[:id]}",
-                "cloud_#{module_name}_#{plural_object_name}.cloud_#{module_name}_#{plural_object_name}_id = #{params["#{object_name}_id".to_sym]}",
-                "cloud_#{module_name}_#{plural_object_name}.cloud_#{module_name}_accounts_id = #{current_user.account.id}"
-            ).first
+            @cloud_object_subscriber = dynamic_info[:model].joins(:cloud_object).where("
+                cloud_#{module_name}_#{object_name}_subscribers.id = #{params[:id]} and
+                cloud_#{module_name}_#{plural_object_name}.id = #{params["#{object_name}_id".to_sym]} and
+                cloud_#{module_name}_#{plural_object_name}.cloud_#{module_name}_accounts_id = #{current_user.account.id}
+            ").first
         end
 
 =begin
