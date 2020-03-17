@@ -30,7 +30,4 @@ npm-debug.log
 /config/master.key
 /config/credentials/*
 
-# Production encrypted credentials shoul be included always
-!/config/credentials/production.yml.enc
-
 *.pem
