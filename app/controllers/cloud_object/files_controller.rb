@@ -77,6 +77,7 @@ Building a better future, one line of code at a time.
                     "cloud_#{module_name}_#{plural_object_name}_id".to_sym => params["#{object_name}_id".to_sym]
                 )
             )
+
             cloud_object_file.name = cloud_object_file.file.filename if cloud_object_file.name.blank?
 
             if cloud_object_file.save
