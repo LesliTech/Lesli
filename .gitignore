@@ -1,4 +1,7 @@
+# LesliCloud
+# For more information read the license file including with this software.
 
+*.log
 .byebug_history
 
 # Ignore bundler config.
@@ -9,7 +12,6 @@
 /tmp/*
 !/log/.keep
 !/tmp/.keep
-npm-debug.log
 
 # Ignore auto-generated documentation
 /doc
@@ -18,16 +20,16 @@ npm-debug.log
 # Ignore uploaded files in development
 /storage/*
 !/storage/.keep
-/public/dev-deploy-log.txt
+
 /public/assets
 /node_modules
-/yarn-error.log
 
 /engines/*
-!/engines/.gitkeep
+!/engines/.keep
 
 # Ignore master key for decrypting credentials and more.
 /config/master.key
-/config/credentials/*
+/config/credentials/
+!/config/credentials/.keep
 
 *.pem
