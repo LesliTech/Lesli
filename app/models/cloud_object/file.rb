@@ -26,7 +26,6 @@ Building a better future, one line of code at a time.
 =end
     class File < ApplicationRecord
         self.abstract_class = true
-
         has_one_attached :file
     end
 end

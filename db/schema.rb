@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_02_17_142005) do
+ActiveRecord::Schema.define(version: 2020_03_13_165231) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -182,6 +182,15 @@ ActiveRecord::Schema.define(version: 2020_02_17_142005) do
     t.index ["cloud_driver_events_id"], name: "index_cloud_driver_event_activities_on_cloud_driver_events_id"
   end
 
+  create_table "cloud_driver_event_attendants", force: :cascade do |t|
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.bigint "cloud_driver_events_id"
+    t.bigint "users_id"
+    t.index ["cloud_driver_events_id"], name: "index_cloud_driver_event_attendants_on_cloud_driver_events_id"
+    t.index ["users_id"], name: "index_cloud_driver_event_attendants_on_users_id"
+  end
+
   create_table "cloud_driver_event_details", force: :cascade do |t|
     t.string "title"
     t.text "description"
@@ -201,6 +210,11 @@ ActiveRecord::Schema.define(version: 2020_02_17_142005) do
     t.datetime "updated_at", precision: 6, null: false
     t.bigint "cloud_driver_events_id"
     t.index ["cloud_driver_events_id"], name: "index_cloud_driver_event_files_on_cloud_driver_events_id"
+  end
+
+  create_table "cloud_driver_event_subscriptions", force: :cascade do |t|
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
   end
 
   create_table "cloud_driver_events", force: :cascade do |t|
@@ -1182,6 +1196,8 @@ ActiveRecord::Schema.define(version: 2020_02_17_142005) do
   add_foreign_key "cloud_driver_calendars", "cloud_driver_accounts", column: "cloud_driver_accounts_id"
   add_foreign_key "cloud_driver_event_actions", "cloud_driver_events", column: "cloud_driver_events_id"
   add_foreign_key "cloud_driver_event_activities", "cloud_driver_events", column: "cloud_driver_events_id"
+  add_foreign_key "cloud_driver_event_attendants", "cloud_driver_events", column: "cloud_driver_events_id"
+  add_foreign_key "cloud_driver_event_attendants", "users", column: "users_id"
   add_foreign_key "cloud_driver_event_details", "cloud_driver_events", column: "cloud_driver_events_id"
   add_foreign_key "cloud_driver_event_files", "cloud_driver_events", column: "cloud_driver_events_id"
   add_foreign_key "cloud_driver_events", "cloud_driver_calendars", column: "cloud_driver_calendars_id"
