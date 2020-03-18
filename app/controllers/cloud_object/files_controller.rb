@@ -96,7 +96,7 @@ Building a better future, one line of code at a time.
 
 =begin
 @return [void]
-@description Preparas the files for download and redirects the explorer to a new window,
+@description Prepares the files for download and redirects the explorer to a new window,
     where they can view/download the file. The id of the 
     *cloud_object* and the id of the *file* are within the *params* attribute
 @example
@@ -111,6 +111,20 @@ Building a better future, one line of code at a time.
                 disposition: "attachment",
                 only_path: true
             )
+        end
+
+
+=begin
+@return [void]
+@description Returns a list of needed information in order to create a file.
+    For the time being, it only returns a list of all file types
+@example
+    # Executing this controller's action from javascript's frontend
+    this.http.get('127.0.0.1/house/options/project/files');
+=end
+        def file_options
+            model = dynamic_info[:model]
+            responseWithSuccessful(model.file_options)
         end
 
         private
@@ -171,7 +185,7 @@ Building a better future, one line of code at a time.
             ).permit(
                 :name,
                 :file,
-                "cloud_#{module_name}_#{plural_object_name}_id".to_sym
+                :file_type
             )
         end
 
