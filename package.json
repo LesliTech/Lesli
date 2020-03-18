@@ -39,6 +39,7 @@
         "v-calendar": "1.0.1",
         "apexcharts": "3.15.6",
         "vue-mermaid": "0.0.12",
+        "vue2-dropzone": "3.6.0",
         "bulma-o-steps": "1.0.9",
         "bulma-extensions": "6.2.7",
         
