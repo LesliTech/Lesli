@@ -1,4 +1,10 @@
 [{
     "name": "name",
     "type": "string"
+}, {
+    "name": "attachment",
+    "type": "string"
+},{
+    "name": "file_type",
+    "type": "string"
 }]

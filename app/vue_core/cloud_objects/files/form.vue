@@ -67,7 +67,7 @@ export default {
 
             let form_data = new FormData()
             form_data.append(`${this.object_name.singular}_file[name]`, this.file.name)
-            form_data.append(`${this.object_name.singular}_file[file]`, this.file.file)
+            form_data.append(`${this.object_name.singular}_file[attachment]`, this.file.file)
             form_data.append(`${this.object_name.singular}_file[${foreign_key}]`, this.cloudId)
 
             let url = `/${this.module_name.slash}/${this.object_name.plural}/${this.cloudId}/files`

@@ -60,7 +60,7 @@ export default {
         }
 
         Vue.prototype.alert = (message, type) => {
-            Vue.prototype.bus.publish('show:/cloud/layout/notify#alert', message, type)
+            Vue.prototype.bus.publish('show:/cloud/layout/notification#alert', message, type)
         }
 
         // · Global DOM event listeners

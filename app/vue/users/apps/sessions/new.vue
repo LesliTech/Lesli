@@ -24,7 +24,11 @@ Building a better future, one line of code at a time.
 // · 
 */
 
-
+import I18n from 'i18n-js';
+I18n.translations || (I18n.translations = {});
+console.log(I18n.translations)
+console.log("login")
+console.log("login2")
 // · import core components
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
 import componentNotificationMessageSimple from 'LesliCoreVue/components/notifications/message-simple.vue' 

@@ -4,8 +4,8 @@ namespace :babel do
         Rake::Task["cloud_babel:scan"].invoke
     end
 
-    task generate: :environment do
-        Rake::Task["cloud_babel:generate"].invoke
+    task build: :environment do
+        Rake::Task["cloud_babel:build"].invoke
     end
 
     task clean: :environment do
