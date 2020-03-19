@@ -218,6 +218,7 @@ this.http.delete(`127.0.0.1/help/tickets/${ticket_id}/files/${file_id}`);
             ).permit(
                 :name,
                 :attachment,
+                "cloud_#{module_name}_#{plural_object_name}_id".to_sym,
                 :file_type
             )
         end
