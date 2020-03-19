@@ -88,7 +88,7 @@ Building a better future, one line of code at a time.
                     name: cloud_object_file.attachment_identifier
                 ) if cloud_object_file.name.blank?
 
-                responseWithSuccessful
+                responseWithSuccessful(cloud_object_file)
 
                 cloud_object = cloud_object_file.cloud_object
                 message = I18n.t(
