@@ -1,3 +1,29 @@
+=begin
+
+Lesli
+
+Copyright (c) 2020, Lesli Technologies, S. A.
+
+All the information provided by this website is protected by laws of Guatemala related 
+to industrial property, intellectual property, copyright and relative international laws. 
+Lesli Technologies, S. A. is the exclusive owner of all intellectual or industrial property
+rights of the code, texts, trade mark, design, pictures and any other information.
+Without the written permission of Lesli Technologies, S. A., any replication, modification,
+transmission, publication is strictly forbidden.
+For more information read the license file including with this software.
+
+LesliCloud - Your Smart Business Assistant
+
+Powered by https://www.lesli.tech
+Building a better future, one line of code at a time.
+
+@license  Propietary - all rights reserved.
+@version  0.1.0-alpha
+
+// · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
+// · 
+
+=end
 class FileUploader < CarrierWave::Uploader::Base
     # Include RMagick or MiniMagick support:
     # include CarrierWave::RMagick
@@ -10,7 +36,13 @@ class FileUploader < CarrierWave::Uploader::Base
     # Override the directory where uploaded files will be stored.
     # This is a sensible default for uploaders that are meant to be mounted:
     def store_dir
-        "uploads/#{model.class.to_s.underscore}/#{mounted_as}/#{model.id}"
+        "storage/#{ model.class.to_s.underscore.sub("/file", "") }"
+    end
+
+    # Override the filename of the uploaded files:
+    # Avoid using model.id or version_name here, see uploader/store.rb for details.
+    def filename
+        "#{model.id}-#{original_filename}"
     end
 
     # Provide a default URL as a default if there hasn't been a file uploaded:
@@ -39,11 +71,6 @@ class FileUploader < CarrierWave::Uploader::Base
     #   %w(jpg jpeg gif png)
     # end
 
-    # Override the filename of the uploaded files:
-    # Avoid using model.id or version_name here, see uploader/store.rb for details.
-    # def filename
-    #   "something.jpg" if original_filename
-    # end
 end
 
 CarrierWave.configure do |config|
