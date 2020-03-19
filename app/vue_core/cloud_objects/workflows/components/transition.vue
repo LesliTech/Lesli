@@ -56,7 +56,7 @@ export default {
 
         
 
-        patchWorkflow(status){
+        patchStatus(status){
 
             let url = `/${this.object_utils.pluralize(this.cloudModule)}/${this.cloudId}`
             let data = {}
@@ -66,7 +66,7 @@ export default {
             
             this.http.patch(url, data).then(result =>{
                 if (result.successful) {
-                    this.bus.publish(`update:/${this.cloudModule}/workflow`, status)
+                    this.bus.publish(`patch:/${this.cloudModule}/status`, status)
                     if(status.final){
                         this.alert('This resource has been successfully closed', 'success')
                         this.$router.push(`/${this.cloudId}`)
@@ -101,7 +101,7 @@ export default {
                 <b-icon icon="menu-down"></b-icon>
             </button>
             <b-dropdown-item
-                @click="patchWorkflow(status)"
+                @click="patchStatus(status)"
                 v-for="status in transition_statuses"
                 :key="status.id"
                 :value="status.id"

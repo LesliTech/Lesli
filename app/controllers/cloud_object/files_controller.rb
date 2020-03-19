@@ -46,7 +46,7 @@ Building a better future, one line of code at a time.
                 "cloud_#{module_name}_#{plural_object_name}_id".to_sym => cloud_object_id
             ).order(id: :desc).map do |file|
                 file_attributes = file.attributes
-                file_attributes["file_type"] = file_attributes["file_type"].humanize
+                file_attributes["file_type"] = file_attributes["file_type"].humanize if file_attributes["file_type"]
                 file_attributes
             end
             responseWithSuccessful(@cloud_object_files)
@@ -88,7 +88,7 @@ Building a better future, one line of code at a time.
                     name: cloud_object_file.attachment_identifier
                 ) if cloud_object_file.name.blank?
 
-                responseWithSuccessful
+                responseWithSuccessful(cloud_object_file)
 
                 cloud_object = cloud_object_file.cloud_object
                 message = I18n.t(
