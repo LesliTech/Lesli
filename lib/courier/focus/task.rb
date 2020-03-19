@@ -121,13 +121,13 @@ module Courier
                 else
                     concerns = current_user.account.house.projects
                         .select("cloud_house_projects.id, concat(CHPRD.city, ' - ', CHCD.last_name, '', CHCD.first_name) as text")
+                        .joins("inner join cloud_house_project_customers CHPC on CHPC.cloud_house_projects_id = cloud_house_projects.id")
+                        .joins("inner join cloud_house_contacts CHC on CHC.id = CHPC.cloud_house_contacts_id")
+                        .joins("inner join cloud_house_contact_details CHCD on CHC.id = CHCD.cloud_house_contacts_id")
                         .joins("inner join cloud_house_properties CHPR on CHPR.id = cloud_house_projects.cloud_house_properties_id")
                         .joins("inner join cloud_house_property_details CHPRD on CHPR.id = CHPRD.cloud_house_properties_id")
                         .joins("inner join cloud_house_workflow_statuses CHWS on CHWS.id = cloud_house_projects.cloud_house_workflow_statuses_id")
                         .where("CHWS.name != ? AND CHWS.name != ? AND CHWS.name != ?", 'not_interested', 'customer_has_rejected', 'customer_was_rejected')
-                        .joins("inner join cloud_house_project_customers CHPC on CHPC.cloud_house_projects_id = cloud_house_projects.id")
-                        .joins("inner join cloud_house_contacts CHC on CHC.id = CHPC.cloud_house_contacts_id")
-                        .joins("inner join cloud_house_contact_details CHCD on CHC.id = CHCD.cloud_house_contacts_id")
                 end
                 concerns
             end
