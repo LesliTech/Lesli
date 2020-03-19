@@ -101,6 +101,9 @@ gem 'carrierwave', '~> 2.0'
 
 gem 'fog-aws'
 
+# Rubyzip to compress files
+gem 'rubyzip', '~> 2.3.0'
+
 group :development, :test do
 
     gem 'faker'
