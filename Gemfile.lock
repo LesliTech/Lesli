@@ -322,6 +322,7 @@ GEM
       ffi (~> 1.9)
     ruby_parser (3.14.2)
       sexp_processor (~> 4.9)
+    rubyzip (2.3.0)
     sass (3.7.4)
       sass-listen (~> 4.0.0)
     sass-listen (4.0.0)
@@ -402,6 +403,7 @@ DEPENDENCIES
   rails-controller-testing
   rails-i18n (~> 6.0.0)
   rspec-rails (~> 4.0.0.beta2)
+  rubyzip (~> 2.3.0)
   sass-rails (~> 5)
   spring
   spring-watcher-listen (~> 2.0.0)

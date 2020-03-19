@@ -39,13 +39,15 @@ export default {
         }
     },
     mounted() {
+        console.log("mounted")
         this.mountListeners()
     },
     methods: {
 
         mountListeners() {
-            
-            this.bus.subscribe('show:/cloud/layout/notify#alert', (message, type='primary') => {
+            console.log("mounted listeners")
+            this.bus.subscribe('show:/cloud/layout/notification#alert', (message, type='primary') => {
+                console.log("showing message next")
                 this.$buefy.toast.open({
                     queue: true,
                     duration: 3500,
@@ -55,7 +57,7 @@ export default {
                 })
             })
 
-            this.bus.subscribe('show:/cloud/layout/notify#notification', (message, type='success') => {
+            this.bus.subscribe('show:/cloud/layout/notification#message', (message, type='success') => {
                 this.$buefy.notification.open({
                     queue: true,
                     duration: 2000,
@@ -65,11 +67,11 @@ export default {
                 })
             })
 
-            this.bus.subscribe('get:/cloud/layout/notify#notification', () => {
+            this.bus.subscribe('get:/cloud/layout/notification#notification', () => {
                 this.getNotifications()
             })
 
-            this.bus.subscribe('open:/cloud/layout/notify#notification', () => {
+            this.bus.subscribe('open:/cloud/layout/notification#notification', () => {
                 this.openNotificationsPanel()
             })
 

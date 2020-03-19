@@ -37,7 +37,7 @@ app({
         'component-notification-progress-bar': componentNotificationProgressBar
     },
     data: {
-        translations: { },
+        translation: I18n.t("core.users/sessions"),
         sign_in: {
             email: '',
             password: ''
