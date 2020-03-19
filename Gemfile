@@ -96,6 +96,9 @@ gem 'faraday'
 # fontawesome icons
 gem 'font-awesome-sass', '~> 5.12.0'
 
+# Rubyzip to compress files
+gem 'rubyzip', '~> 2.3.0'
+
 group :development, :test do
 
     gem 'faker'
