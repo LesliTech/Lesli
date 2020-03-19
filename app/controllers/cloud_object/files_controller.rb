@@ -82,10 +82,11 @@ Building a better future, one line of code at a time.
                 )
             )
 
-            cloud_object_file.name = cloud_object_file.file.filename if cloud_object_file.name.blank?
-            #cloud_object_file.attachment = cloud_object_file[:file]
-
             if cloud_object_file.save
+
+                cloud_object_file.update(
+                    name: cloud_object_file.attachment_identifier
+                ) if cloud_object_file.name.blank?
 
                 responseWithSuccessful
 
@@ -114,11 +115,18 @@ Building a better future, one line of code at a time.
         def show
             disposition = "attachment"
             disposition = "" if params["view"]
-            redirect_to Rails.application.routes.url_helpers.rails_blob_path(
-                @cloud_object_file.file,
-                disposition: disposition,
-                only_path: true
-            )
+            
+            # Sending file using CarrierWave
+            send_file @cloud_object_file.attachment.path, disposition: disposition
+
+            # Sending file using ActiveStorage
+            #disposition = "attachment"
+            #disposition = "" if params["view"]
+            #redirect_to Rails.application.routes.url_helpers.rails_blob_path(
+            #    @cloud_object_file.file,
+            #    disposition: disposition,
+            #    only_path: true
+            #)
         end
 
 =begin
