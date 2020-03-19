@@ -1,4 +1,3 @@
-module CloudObject
 =begin
 
 Lesli
@@ -24,8 +23,10 @@ Building a better future, one line of code at a time.
 @description Base abstract model for *file* core entity
 
 =end
+module CloudObject
     class File < ApplicationRecord
         self.abstract_class = true
-        has_one_attached :file
+        #has_one_attached :file
+        mount_uploader :attachment, FileUploader
     end
 end
