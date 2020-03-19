@@ -41,7 +41,7 @@ module Courier
                 .limit(100)
             end
 
-            def self.with_deadline_date(current_user, date)
+            def self.with_deadline_date(current_user, date, query)
                 return [] unless defined? CloudFocus
                 current_user.account.focus.tasks.joins(:detail)
                 .select(:id, :title, :description, :deadline)
@@ -49,26 +49,34 @@ module Courier
                 .limit(100)
             end
             
-            def self.by_model(model_type, model_id, current_user)
+            def self.by_model(model_type, model_id, current_user, query)
                 return [] unless defined? CloudFocus
                 tasks = current_user.account.focus.tasks
-                .select(:id, :title, :description, :deadline, :importance, :task_type, :creator_id)
+                .select(:id, :title, :description, :deadline, :importance, :task_type, :creator_id, :users_id)
                 .joins(:detail, :status)
-                .where("cloud_focus_tasks.model_id = ? AND cloud_focus_tasks.model_type = ? AND cloud_focus_workflow_statuses.name = ? ", model_id, model_type, 'created')
+                .where("cloud_focus_tasks.model_id = ? AND cloud_focus_tasks.model_type = ? AND cloud_focus_workflow_statuses.name != ? ", model_id, model_type, 'createsd')
                 .order("cloud_focus_tasks.created_at")
-    
+                .page(query[:pagination][:page]).per(query[:pagination][:perPage])
+
+                tasks_count = tasks.total_count
+
                 tasks = tasks.map do |task|
                     {
                         id: task.id, 
                         title: task.title, 
                         description: task.description,
                         deadline: CloudHelper::Date.date_as_string(task.deadline),
-                        importance: CloudFocus::Task.importances.key(task.importance),
-                        creator: Courier::Core::Users.get(task.creator_id)
+                        importance: task.importance,
+                        task_type: task.task_type,
+                        creator: Courier::Core::Users.get(task.creator_id),
+                        user: Courier::Core::Users.get(task.users_id)
                     }
                 end
     
-                tasks
+                {
+                    tasks: tasks,
+                    tasks_count: tasks_count
+                }
             end
 
             def self.model_index(current_user, query)
@@ -90,7 +98,7 @@ module Courier
                         title: task.title, 
                         description: task.description,
                         deadline: CloudHelper::Date.date_as_string(task.deadline),
-                        importance: CloudFocus::Task.importances.key(task.importance),
+                        importance: task.importance,
                         creator: Courier::Core::Users.get(task.creator_id),
                         user: Courier::Core::Users.get(task.users_id),
                         model_detail: (task.model_type == "CloudHouse::Project") ? task.model.detail.code : task.model.detail.name

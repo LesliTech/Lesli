@@ -25,7 +25,7 @@ Building a better future, one line of code at a time.
 
 =end
     class FilesController < ApplicationController
-        before_action :set_cloud_object_file, only: [:show]
+        before_action :set_cloud_object_file, only: [:show, :destroy]
 
 =begin
 @return [Json] Json that contains a list of all files related to a *cloud_object*
@@ -44,7 +44,11 @@ Building a better future, one line of code at a time.
             cloud_object_id = params["#{object_name}_id".to_sym]
             @cloud_object_files = dynamic_info[:model].where(
                 "cloud_#{module_name}_#{plural_object_name}_id".to_sym => cloud_object_id
-            ).order(id: :desc)
+            ).order(id: :desc).map do |file|
+                file_attributes = file.attributes
+                file_attributes["file_type"] = file_attributes["file_type"].humanize
+                file_attributes
+            end
             responseWithSuccessful(@cloud_object_files)
         end
 
@@ -79,8 +83,20 @@ Building a better future, one line of code at a time.
             )
 
             cloud_object_file.name = cloud_object_file.file.filename if cloud_object_file.name.blank?
+            #cloud_object_file.attachment = cloud_object_file[:file]
 
             if cloud_object_file.save
+
+                p "*   *   *   *   *   *   *   *   *   *   *   *   *   *"
+                p "*   *   *   *   *   *   *   *   *   *   *   *   *   *"
+                p "*   *   *   *   *   *   *   *   *   *   *   *   *   *"
+                p cloud_object_file.attachment
+                p cloud_object_file.attachment.current_path
+                p cloud_object_file.attachment_identifier
+                p "*   *   *   *   *   *   *   *   *   *   *   *   *   *"
+                p "*   *   *   *   *   *   *   *   *   *   *   *   *   *"
+                p "*   *   *   *   *   *   *   *   *   *   *   *   *   *"
+
                 responseWithSuccessful
 
                 cloud_object = cloud_object_file.cloud_object
@@ -96,7 +112,7 @@ Building a better future, one line of code at a time.
 
 =begin
 @return [void]
-@description Preparas the files for download and redirects the explorer to a new window,
+@description Prepares the files for download and redirects the explorer to a new window,
     where they can view/download the file. The id of the 
     *cloud_object* and the id of the *file* are within the *params* attribute
 @example
@@ -106,11 +122,44 @@ Building a better future, one line of code at a time.
     this.http.get(`127.0.0.1/help/tickets/${ticket_id}/files/${file_id}`);
 =end
         def show
+            disposition = "attachment"
+            disposition = "" if params["view"]
             redirect_to Rails.application.routes.url_helpers.rails_blob_path(
                 @cloud_object_file.file,
-                disposition: "attachment",
+                disposition: disposition,
                 only_path: true
             )
+        end
+
+=begin
+@return [Json] A response that contains wheter the file was deleted or not.
+If it is not successful, it returns an error message
+@description Deletes a file from the database based on the id of the *cloud_object* and its own id.
+@example
+# Executing this controller's action from javascript's frontend
+let ticket_id = 1;
+let file_id = 22;
+this.http.delete(`127.0.0.1/help/tickets/${ticket_id}/files/${file_id}`);
+=end
+        def destroy
+            if @cloud_object_file.destroy
+                responseWithSuccessful
+            else
+                responseWithError(@cloud_object_file.errors.full_messages.to_sentence)
+            end
+        end
+
+=begin
+@return [void]
+@description Returns a list of needed information in order to create a file.
+    For the time being, it only returns a list of all file types
+@example
+    # Executing this controller's action from javascript's frontend
+    this.http.get('127.0.0.1/house/options/project/files');
+=end
+        def file_options
+            model = dynamic_info[:model]
+            responseWithSuccessful(model.file_options)
         end
 
         private
@@ -170,8 +219,9 @@ Building a better future, one line of code at a time.
                 "#{object_name}_file".to_sym
             ).permit(
                 :name,
-                :file,
+                :attachment,
                 "cloud_#{module_name}_#{plural_object_name}_id".to_sym
+                :file_type
             )
         end
 

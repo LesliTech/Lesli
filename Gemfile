@@ -62,7 +62,7 @@ gem 'acts_as_paranoid'
 gem 'puma', '4.3.1'
 
 #gem 'devise'
-gem 'devise' #, git: 'https://github.com/plataformatec/devise.git'
+gem 'devise'
 
 # cron manager
 gem 'whenever'
@@ -95,6 +95,14 @@ gem 'faraday'
 
 # fontawesome icons
 gem 'font-awesome-sass', '~> 5.12.0'
+
+# files upload management
+gem 'carrierwave', '~> 2.0'
+
+gem 'fog-aws'
+
+# Rubyzip to compress files
+gem 'rubyzip', '~> 2.3.0'
 
 group :development, :test do
 
