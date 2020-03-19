@@ -87,16 +87,6 @@ Building a better future, one line of code at a time.
 
             if cloud_object_file.save
 
-                p "*   *   *   *   *   *   *   *   *   *   *   *   *   *"
-                p "*   *   *   *   *   *   *   *   *   *   *   *   *   *"
-                p "*   *   *   *   *   *   *   *   *   *   *   *   *   *"
-                p cloud_object_file.attachment
-                p cloud_object_file.attachment.current_path
-                p cloud_object_file.attachment_identifier
-                p "*   *   *   *   *   *   *   *   *   *   *   *   *   *"
-                p "*   *   *   *   *   *   *   *   *   *   *   *   *   *"
-                p "*   *   *   *   *   *   *   *   *   *   *   *   *   *"
-
                 responseWithSuccessful
 
                 cloud_object = cloud_object_file.cloud_object
@@ -220,7 +210,7 @@ this.http.delete(`127.0.0.1/help/tickets/${ticket_id}/files/${file_id}`);
             ).permit(
                 :name,
                 :attachment,
-                "cloud_#{module_name}_#{plural_object_name}_id".to_sym
+                "cloud_#{module_name}_#{plural_object_name}_id".to_sym,
                 :file_type
             )
         end
