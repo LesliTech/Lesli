@@ -144,6 +144,7 @@ ActiveRecord::Schema.define(version: 2020_03_13_165231) do
 
   create_table "cloud_driver_calendar_files", force: :cascade do |t|
     t.string "name"
+    t.string "attachment"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.bigint "cloud_driver_calendars_id"
@@ -206,6 +207,7 @@ ActiveRecord::Schema.define(version: 2020_03_13_165231) do
 
   create_table "cloud_driver_event_files", force: :cascade do |t|
     t.string "name"
+    t.string "attachment"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.bigint "cloud_driver_events_id"
@@ -292,6 +294,16 @@ ActiveRecord::Schema.define(version: 2020_03_13_165231) do
     t.index ["cloud_house_accounts_id"], name: "house_catalog_business_services_accounts"
   end
 
+  create_table "cloud_house_catalog_company_categories", force: :cascade do |t|
+    t.string "name"
+    t.string "type"
+    t.integer "level", default: 0
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.bigint "cloud_house_accounts_id"
+    t.index ["cloud_house_accounts_id"], name: "house_catalog_company_categories_accounts"
+  end
+
   create_table "cloud_house_catalog_project_types", force: :cascade do |t|
     t.string "name"
     t.datetime "created_at", precision: 6, null: false
@@ -307,8 +319,10 @@ ActiveRecord::Schema.define(version: 2020_03_13_165231) do
     t.bigint "cloud_house_accounts_id"
     t.bigint "cloud_house_companies_id"
     t.bigint "cloud_house_workflow_statuses_id"
+    t.bigint "cloud_house_catalog_company_categories_id"
     t.bigint "cloud_house_employees_id"
     t.index ["cloud_house_accounts_id"], name: "index_cloud_house_companies_on_cloud_house_accounts_id"
+    t.index ["cloud_house_catalog_company_categories_id"], name: "house_companies_catalog_company_categories"
     t.index ["cloud_house_companies_id"], name: "index_cloud_house_companies_on_cloud_house_companies_id"
     t.index ["cloud_house_employees_id"], name: "house_companies_employees"
     t.index ["cloud_house_workflow_statuses_id"], name: "house_companies_workflow_statuses"
@@ -440,6 +454,7 @@ ActiveRecord::Schema.define(version: 2020_03_13_165231) do
 
   create_table "cloud_house_company_files", force: :cascade do |t|
     t.string "name"
+    t.string "attachment"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.bigint "cloud_house_companies_id"
@@ -571,6 +586,7 @@ ActiveRecord::Schema.define(version: 2020_03_13_165231) do
 
   create_table "cloud_house_contact_files", force: :cascade do |t|
     t.string "name"
+    t.string "attachment"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.bigint "cloud_house_contacts_id"
@@ -698,6 +714,7 @@ ActiveRecord::Schema.define(version: 2020_03_13_165231) do
 
   create_table "cloud_house_employee_files", force: :cascade do |t|
     t.string "name"
+    t.string "attachment"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.bigint "cloud_house_employees_id"
@@ -815,6 +832,7 @@ ActiveRecord::Schema.define(version: 2020_03_13_165231) do
 
   create_table "cloud_house_project_files", force: :cascade do |t|
     t.string "name"
+    t.string "attachment"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.bigint "cloud_house_projects_id"
@@ -837,21 +855,20 @@ ActiveRecord::Schema.define(version: 2020_03_13_165231) do
   create_table "cloud_house_project_offer_reports", force: :cascade do |t|
     t.string "description"
     t.string "additional_information"
-    t.integer "offer_type"
+    t.string "offer_type"
     t.date "offer_review_start"
     t.date "offer_review_end"
     t.time "offer_review_time"
     t.float "offer_value"
     t.date "offer_valuation_date"
-    t.integer "offer_status"
-    t.integer "additional_client_calculations"
+    t.string "offer_status"
+    t.string "additional_client_calculation"
     t.boolean "commission_checked"
+    t.bigint "reviewer_employee_id"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.bigint "users_id"
     t.bigint "cloud_house_projects_id"
     t.index ["cloud_house_projects_id"], name: "house_project_offer_reports_projects"
-    t.index ["users_id"], name: "house_project_offer_reports_users"
   end
 
   create_table "cloud_house_project_services", force: :cascade do |t|
@@ -1027,6 +1044,7 @@ ActiveRecord::Schema.define(version: 2020_03_13_165231) do
 
   create_table "cloud_house_property_files", force: :cascade do |t|
     t.string "name"
+    t.string "attachment"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.bigint "cloud_house_properties_id"
@@ -1206,8 +1224,10 @@ ActiveRecord::Schema.define(version: 2020_03_13_165231) do
   add_foreign_key "cloud_focus_tasks", "accounts", column: "accounts_id"
   add_foreign_key "cloud_house_accounts", "accounts", column: "id"
   add_foreign_key "cloud_house_catalog_business_services", "cloud_house_accounts", column: "cloud_house_accounts_id"
+  add_foreign_key "cloud_house_catalog_company_categories", "cloud_house_accounts", column: "cloud_house_accounts_id"
   add_foreign_key "cloud_house_catalog_project_types", "cloud_house_accounts", column: "cloud_house_accounts_id"
   add_foreign_key "cloud_house_companies", "cloud_house_accounts", column: "cloud_house_accounts_id"
+  add_foreign_key "cloud_house_companies", "cloud_house_catalog_company_categories", column: "cloud_house_catalog_company_categories_id"
   add_foreign_key "cloud_house_companies", "cloud_house_companies", column: "cloud_house_companies_id"
   add_foreign_key "cloud_house_companies", "cloud_house_employees", column: "cloud_house_employees_id"
   add_foreign_key "cloud_house_companies", "cloud_house_workflow_statuses", column: "cloud_house_workflow_statuses_id"
@@ -1269,7 +1289,7 @@ ActiveRecord::Schema.define(version: 2020_03_13_165231) do
   add_foreign_key "cloud_house_project_files", "cloud_house_projects", column: "cloud_house_projects_id"
   add_foreign_key "cloud_house_project_marketing_informations", "cloud_house_projects", column: "cloud_house_projects_id"
   add_foreign_key "cloud_house_project_offer_reports", "cloud_house_projects", column: "cloud_house_projects_id"
-  add_foreign_key "cloud_house_project_offer_reports", "users", column: "users_id"
+  add_foreign_key "cloud_house_project_offer_reports", "users", column: "reviewer_employee_id"
   add_foreign_key "cloud_house_project_services", "cloud_house_employee_services", column: "cloud_house_employee_services_id"
   add_foreign_key "cloud_house_project_services", "cloud_house_projects", column: "cloud_house_projects_id"
   add_foreign_key "cloud_house_project_subscribers", "cloud_house_projects", column: "cloud_house_projects_id"

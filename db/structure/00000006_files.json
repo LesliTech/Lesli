@@ -1,4 +1,7 @@
 [{
     "name": "name",
     "type": "string"
+}, {
+    "name": "attachment",
+    "type": "string"
 }]

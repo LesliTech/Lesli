@@ -79,8 +79,20 @@ Building a better future, one line of code at a time.
             )
 
             cloud_object_file.name = cloud_object_file.file.filename if cloud_object_file.name.blank?
+            #cloud_object_file.attachment = cloud_object_file[:file]
 
             if cloud_object_file.save
+
+                p "*   *   *   *   *   *   *   *   *   *   *   *   *   *"
+                p "*   *   *   *   *   *   *   *   *   *   *   *   *   *"
+                p "*   *   *   *   *   *   *   *   *   *   *   *   *   *"
+                p cloud_object_file.attachment
+                p cloud_object_file.attachment.current_path
+                p cloud_object_file.attachment_identifier
+                p "*   *   *   *   *   *   *   *   *   *   *   *   *   *"
+                p "*   *   *   *   *   *   *   *   *   *   *   *   *   *"
+                p "*   *   *   *   *   *   *   *   *   *   *   *   *   *"
+
                 responseWithSuccessful
 
                 cloud_object = cloud_object_file.cloud_object
@@ -170,7 +182,7 @@ Building a better future, one line of code at a time.
                 "#{object_name}_file".to_sym
             ).permit(
                 :name,
-                :file,
+                :attachment,
                 "cloud_#{module_name}_#{plural_object_name}_id".to_sym
             )
         end

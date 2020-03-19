@@ -69,7 +69,7 @@ namespace :dev do
             system "bundle exec rake assets:clean RAILS_ENV=production"
             system "bundle exec rake assets:precompile RAILS_ENV=production"
 
-            system "whenever --update-crontab"
+            #system "whenever --update-crontab"
             
             #system "chmod 755 public/ -R"
             #system "chown www-data:www-data public/ -R"
