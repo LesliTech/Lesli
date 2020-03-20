@@ -52,7 +52,7 @@ class ApplicationLesliController < ApplicationController
                 order: "desc",
                 orderColumn: "id"
             },
-            filters: params[:filters] ? params[:filters] : []
+            filters: params[:filters] ? params[:filters] : {}
         }
         
     end
