@@ -113,20 +113,12 @@ Building a better future, one line of code at a time.
     this.http.get(`127.0.0.1/help/tickets/${ticket_id}/files/${file_id}`);
 =end
         def show
-            disposition = ""
+            disposition = "inline"
             disposition = "attachment" if params["download"]
             
             # Sending file using CarrierWave
-            send_file @cloud_object_file.attachment.path, disposition: disposition
+            send_data(@cloud_object_file.attachment.read, filename: @cloud_object_file.name, disposition: disposition, stream: 'true')
 
-            # Sending file using ActiveStorage
-            #disposition = "attachment"
-            #disposition = "" if params["view"]
-            #redirect_to Rails.application.routes.url_helpers.rails_blob_path(
-            #    @cloud_object_file.file,
-            #    disposition: disposition,
-            #    only_path: true
-            #)
         end
 
 =begin
