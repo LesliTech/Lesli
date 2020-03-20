@@ -113,8 +113,8 @@ Building a better future, one line of code at a time.
     this.http.get(`127.0.0.1/help/tickets/${ticket_id}/files/${file_id}`);
 =end
         def show
-            disposition = "attachment"
-            disposition = "" if params["view"]
+            disposition = ""
+            disposition = "attachment" if params["download"]
             
             # Sending file using CarrierWave
             send_file @cloud_object_file.attachment.path, disposition: disposition
