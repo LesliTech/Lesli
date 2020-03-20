@@ -36,7 +36,7 @@ class FileUploader < CarrierWave::Uploader::Base
     # Override the directory where uploaded files will be stored.
     # This is a sensible default for uploaders that are meant to be mounted:
     def store_dir
-        "storage/#{ model.class.to_s.underscore.sub("/file", "") }"
+        ["storage", model.class.to_s.underscore.sub("/file", ""), model.cloud_object.id].join("/")
     end
 
     # Override the filename of the uploaded files:
