@@ -113,13 +113,11 @@ module Courier
 
             def self.concerns_options(current_user)
                 return [] unless defined? CloudHouse
-                concerns = []
-                if false #TODO (current_user.role == 'b2b')
-                    concerns = current_user.account.house.companies
+                    concerns_companies = current_user.account.house.companies
                                 .select("cloud_house_companies.id, cloud_house_company_details.name as text")
                                 .joins(:detail)
-                else
-                    concerns = current_user.account.house.projects
+
+                    concerns_projects = current_user.account.house.projects
                         .select("cloud_house_projects.id, concat(CHPRD.city, ' - ', CHCD.last_name, '', CHCD.first_name) as text")
                         .joins("inner join cloud_house_project_customers CHPC on CHPC.cloud_house_projects_id = cloud_house_projects.id")
                         .joins("inner join cloud_house_contacts CHC on CHC.id = CHPC.cloud_house_contacts_id")
@@ -128,8 +126,11 @@ module Courier
                         .joins("inner join cloud_house_property_details CHPRD on CHPR.id = CHPRD.cloud_house_properties_id")
                         .joins("inner join cloud_house_workflow_statuses CHWS on CHWS.id = cloud_house_projects.cloud_house_workflow_statuses_id")
                         .where("CHWS.name != ? AND CHWS.name != ? AND CHWS.name != ?", 'not_interested', 'customer_has_rejected', 'customer_was_rejected')
-                end
-                concerns
+                
+                {
+                    companies: concerns_companies,
+                    projects: concerns_projects
+                }
             end
         end
     end
