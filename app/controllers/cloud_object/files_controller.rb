@@ -46,7 +46,7 @@ Building a better future, one line of code at a time.
                 "cloud_#{module_name}_#{plural_object_name}_id".to_sym => cloud_object_id
             ).order(id: :desc).map do |file|
                 file_attributes = file.attributes
-                file_attributes["file_type"] = file_attributes["file_type"].humanize
+                file_attributes["file_type"] = file_attributes["file_type"].humanize if file_attributes["file_type"]
                 file_attributes
             end
             responseWithSuccessful(@cloud_object_files)
@@ -82,22 +82,13 @@ Building a better future, one line of code at a time.
                 )
             )
 
-            cloud_object_file.name = cloud_object_file.file.filename if cloud_object_file.name.blank?
-            #cloud_object_file.attachment = cloud_object_file[:file]
-
             if cloud_object_file.save
 
-                p "*   *   *   *   *   *   *   *   *   *   *   *   *   *"
-                p "*   *   *   *   *   *   *   *   *   *   *   *   *   *"
-                p "*   *   *   *   *   *   *   *   *   *   *   *   *   *"
-                p cloud_object_file.attachment
-                p cloud_object_file.attachment.current_path
-                p cloud_object_file.attachment_identifier
-                p "*   *   *   *   *   *   *   *   *   *   *   *   *   *"
-                p "*   *   *   *   *   *   *   *   *   *   *   *   *   *"
-                p "*   *   *   *   *   *   *   *   *   *   *   *   *   *"
+                cloud_object_file.update(
+                    name: cloud_object_file.attachment_identifier
+                ) if cloud_object_file.name.blank?
 
-                responseWithSuccessful
+                responseWithSuccessful(cloud_object_file)
 
                 cloud_object = cloud_object_file.cloud_object
                 message = I18n.t(
@@ -122,13 +113,12 @@ Building a better future, one line of code at a time.
     this.http.get(`127.0.0.1/help/tickets/${ticket_id}/files/${file_id}`);
 =end
         def show
-            disposition = "attachment"
-            disposition = "" if params["view"]
-            redirect_to Rails.application.routes.url_helpers.rails_blob_path(
-                @cloud_object_file.file,
-                disposition: disposition,
-                only_path: true
-            )
+            disposition = "inline"
+            disposition = "attachment" if params["download"]
+            
+            # Sending file using CarrierWave
+            send_data(@cloud_object_file.attachment.read, filename: @cloud_object_file.name, disposition: disposition, stream: 'true')
+
         end
 
 =begin
@@ -220,7 +210,7 @@ this.http.delete(`127.0.0.1/help/tickets/${ticket_id}/files/${file_id}`);
             ).permit(
                 :name,
                 :attachment,
-                "cloud_#{module_name}_#{plural_object_name}_id".to_sym
+                "cloud_#{module_name}_#{plural_object_name}_id".to_sym,
                 :file_type
             )
         end
