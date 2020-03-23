@@ -1,6 +1,6 @@
 {
-    "name": "leslicloud",
-    "title": "LesliCloud",
+    "name": "lesli",
+    "description": "Enterprise cloud platform",
     "homepage": "https://lesli.cloud",
     "author": "LesliTech <hello@lesli.tech>",
     "license": "All rights reserved",
