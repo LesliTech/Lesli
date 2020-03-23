@@ -1,3 +1,6 @@
+# Lesli
+# For more information read the license file including with this software.
+
 common: &common
     pool: 30
     host: 127.0.0.1
