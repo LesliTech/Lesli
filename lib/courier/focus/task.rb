@@ -54,7 +54,7 @@ module Courier
                 tasks = current_user.account.focus.tasks
                 .select(:id, :title, :description, :deadline, :importance, :task_type, :creator_id, :users_id)
                 .joins(:detail, :status)
-                .where("cloud_focus_tasks.model_id = ? AND cloud_focus_tasks.model_type = ? AND cloud_focus_workflow_statuses.name != ? ", model_id, model_type, 'createsd')
+                .where("cloud_focus_tasks.model_id = ? AND cloud_focus_tasks.model_type = ? AND cloud_focus_workflow_statuses.name != ? ", model_id, model_type, 'created')
                 .order("cloud_focus_tasks.created_at")
                 .page(query[:pagination][:page]).per(query[:pagination][:perPage])
 
