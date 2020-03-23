@@ -44,7 +44,6 @@ class ApplicationLesliController < ApplicationController
     protected
 
     def set_request_helpers
-
         @query = {
             current_user: current_user,
             pagination: {
@@ -52,7 +51,8 @@ class ApplicationLesliController < ApplicationController
                 page: (params[:page] ? params[:page].to_i : 1),
                 order: "desc",
                 orderColumn: "id"
-            }
+            },
+            filters: params[:filters] ? params[:filters] : {}
         }
         
     end

@@ -17,5 +17,9 @@
     {
         "name":"next_statuses",
         "type":"string"
+    },
+    {
+        "name":"inactive",
+        "type":"boolean"
     }
 ]
