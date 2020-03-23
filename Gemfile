@@ -27,128 +27,118 @@ Building a better future, one line of code at a time.
 
 require "./lesli"
 
-source 'https://rubygems.org'
+source "https://rubygems.org"
 git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
-ruby '2.7.0'
+ruby "2.7.0"
 
+# · Rails, gem, dependencies and tools
 
-# Workaround for nokogiri when using ruby 2.7.0
-gem 'nokogiri', '~> 1.11.0.rc1' if Gem.win_platform?
+# Rails framework
+gem "rails", "~> 6.0.2.2"
 
-# Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
-gem 'rails', '~> 6.0.2.1'
-
-gem 'rails-i18n', '~> 6.0.0'
-
-gem 'i18n-js'
+# Rails translations
+gem "rails-i18n", "~> 6.0.0"
 
 # Use SCSS for stylesheets
-gem 'sass-rails', '~> 5'
+gem "sass-rails", "~> 5"
 
 # HAML template procesor
-gem 'haml-rails'
+gem "haml-rails"
+
+gem "i18n-js"
 
 # Use postgresql as the database for Active Record
-gem 'pg', '>= 0.18', '< 2.0'
+gem "pg", ">= 0.18", "< 2.0"
+
+#gem "devise"
+gem "devise"
 
 # Add can can can gem to authorization and roles permissions
 gem "cancancan"
 
 # ActsAsParanoid
-gem 'acts_as_paranoid'
+gem "acts_as_paranoid"
 
 # Use Puma as the app server
-gem 'puma', '4.3.1'
-
-#gem 'devise'
-gem 'devise'
+gem "puma", "4.3.1"
 
 # cron manager
-gem 'whenever'
+gem "whenever"
 
-gem 'ancestry'
-
-# Collection of all country flags in SVG
-gem 'flag-icons-rails'
-
-# Avoiding polling in widows
-gem 'wdm', '>= 0.1.0' if Gem.win_platform?
-
-
-# Use ActiveModel has_secure_password
-# gem 'bcrypt', '~> 3.1.7'
-
-# Use ActiveStorage variant
-# gem 'mini_magick', '~> 4.8'
-
-# Use Capistrano for deployment
-# gem 'capistrano-rails', group: :development
-
-# Reduces boot times through caching; required in config/boot.rb
-gem 'bootsnap', '>= 1.1.0', require: false
-
-gem 'kaminari'
-
-# HTTP client
-gem 'faraday'
+gem "ancestry"
 
 # fontawesome icons
-gem 'font-awesome-sass', '~> 5.12.0'
+gem "font-awesome-sass", "~> 5.12.0"
+
+# Collection of all country flags in SVG
+gem "flag-icons-rails"
+
+# Reduces boot times through caching; required in config/boot.rb
+gem "bootsnap", ">= 1.1.0", require: false
+
+gem "kaminari"
+
+# HTTP client
+gem "faraday"
 
 # files upload management
-gem 'carrierwave', '~> 2.0'
+gem "carrierwave", "~> 2.0"
 
-gem 'fog-aws'
+# s3 client for carrierwave
+gem "fog-aws"
 
 # Rubyzip to compress files
-gem 'rubyzip', '~> 2.3.0'
+gem "rubyzip", "~> 2.3.0"
 
 group :development, :test do
 
-    gem 'faker'
+    gem "faker"
 
-    # Call 'byebug' anywhere in the code to stop execution and get a debugger console
-    gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]
+    # Call "byebug" anywhere in the code to stop execution and get a debugger console
+    gem "byebug", platforms: [:mri, :mingw, :x64_mingw]
 
     # Using beta version of rspect-rails due: https://github.com/rails/rails/issues/35417
-    gem 'rspec-rails', '~> 4.0.0.beta2'
+    gem "rspec-rails", "~> 4.0.0.beta2"
 
     # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
-    gem 'tzinfo-data' if Gem.win_platform? #platforms: [:mingw, :mswin, :x64_mingw, :jruby]
+    gem "tzinfo-data" if Gem.win_platform? #platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 
-    gem 'yard'
+    gem "yard"
 
-    # Avoiding polling for changes
-    #gem 'wdm', '>= 0.1.0' if Gem.win_platform?
+# Avoiding polling in widows
+gem "wdm", ">= 0.1.0" if Gem.win_platform?
+
+    # Workaround for nokogiri when using ruby 2.7.0
+gem "nokogiri", "~> 1.11.0.rc1" if Gem.win_platform?
 
 end
 
 group :development do
 
-    gem 'web-console', '>= 3.3.0'
+    gem "web-console", ">= 3.3.0"
 
-    gem 'listen', '3.2.1'
+    gem "listen", "3.2.1"
     
-    gem 'spring'
+    gem "spring"
 
-    gem 'spring-watcher-listen', '~> 2.0.0'
+    gem "spring-watcher-listen", "~> 2.0.0"
 
-    gem 'guard-livereload', '~> 2.5', require: false
+    gem "guard-livereload", "~> 2.5", require: false
 
 end
 
 group :test do
 
     # Adds support for Capybara system testing and selenium driver
-    #gem 'capybara', '>= 2.15'
+    #gem "capybara", ">= 2.15"
 
-    #gem 'selenium-webdriver'
+    #gem "selenium-webdriver"
     
     # Easy installation and use of chromedriver to run system tests with Chrome
-    #gem 'chromedriver-helper'
+    #gem "chromedriver-helper"
 
-    gem 'rails-controller-testing'
+    gem "rails-controller-testing"
     
 end
 
@@ -159,6 +149,6 @@ end
 
 # Loading installed engines
 Lesli::engines.each do |engine|
-    engine_installation_path = File.expand_path("../engines/#{engine['name']}", __FILE__)
-    gem engine['code'], path: engine_installation_path if File.exists?(engine_installation_path)
+    engine_installation_path = File.expand_path("../engines/#{engine["name"]}", __FILE__)
+    gem engine["code"], path: engine_installation_path if File.exists?(engine_installation_path)
 end
