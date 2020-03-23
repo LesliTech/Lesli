@@ -145,6 +145,7 @@ ActiveRecord::Schema.define(version: 2020_03_13_165231) do
   create_table "cloud_driver_calendar_files", force: :cascade do |t|
     t.string "name"
     t.string "attachment"
+    t.string "file_type"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.bigint "cloud_driver_calendars_id"
@@ -177,6 +178,13 @@ ActiveRecord::Schema.define(version: 2020_03_13_165231) do
   end
 
   create_table "cloud_driver_event_activities", force: :cascade do |t|
+    t.string "description"
+    t.string "field_name"
+    t.string "value_from"
+    t.string "value_to"
+    t.string "category"
+    t.bigint "users"
+    t.string "icon"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.bigint "cloud_driver_events_id"
@@ -208,6 +216,7 @@ ActiveRecord::Schema.define(version: 2020_03_13_165231) do
   create_table "cloud_driver_event_files", force: :cascade do |t|
     t.string "name"
     t.string "attachment"
+    t.string "file_type"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.bigint "cloud_driver_events_id"
@@ -455,6 +464,7 @@ ActiveRecord::Schema.define(version: 2020_03_13_165231) do
   create_table "cloud_house_company_files", force: :cascade do |t|
     t.string "name"
     t.string "attachment"
+    t.string "file_type"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.bigint "cloud_house_companies_id"
@@ -587,6 +597,7 @@ ActiveRecord::Schema.define(version: 2020_03_13_165231) do
   create_table "cloud_house_contact_files", force: :cascade do |t|
     t.string "name"
     t.string "attachment"
+    t.string "file_type"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.bigint "cloud_house_contacts_id"
@@ -715,6 +726,7 @@ ActiveRecord::Schema.define(version: 2020_03_13_165231) do
   create_table "cloud_house_employee_files", force: :cascade do |t|
     t.string "name"
     t.string "attachment"
+    t.string "file_type"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.bigint "cloud_house_employees_id"
@@ -833,6 +845,7 @@ ActiveRecord::Schema.define(version: 2020_03_13_165231) do
   create_table "cloud_house_project_files", force: :cascade do |t|
     t.string "name"
     t.string "attachment"
+    t.string "file_type"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.bigint "cloud_house_projects_id"
@@ -1045,6 +1058,7 @@ ActiveRecord::Schema.define(version: 2020_03_13_165231) do
   create_table "cloud_house_property_files", force: :cascade do |t|
     t.string "name"
     t.string "attachment"
+    t.string "file_type"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.bigint "cloud_house_properties_id"
@@ -1140,6 +1154,7 @@ ActiveRecord::Schema.define(version: 2020_03_13_165231) do
     t.boolean "initial"
     t.boolean "final"
     t.string "next_statuses"
+    t.boolean "inactive"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.bigint "cloud_house_workflows_id"
