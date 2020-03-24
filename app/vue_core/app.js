@@ -59,12 +59,14 @@ import document from 'LesliCoreVue/functions/document.js'
 
 // · Loading app layout
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
-import componentLayoutAppHeader from 'LesliCoreVue/layouts/application-header.vue'
-import componentLayoutAppChatbox from 'LesliCoreVue/layouts/application-chatbox.vue'
-import componentLayoutAppNotification from 'LesliCoreVue/layouts/application-notification.vue'
-import componentLayoutDataLoading from 'LesliCoreVue/layouts/data-loading.vue'
-import componentLayoutDataEmpty from 'LesliCoreVue/layouts/data-empty.vue'
+import componentApplicationHeader from 'LesliCoreVue/layouts/application-header.vue'
+import componentApplicationChatbox from 'LesliCoreVue/layouts/application-chatbox.vue'
+import componentApplicationNotification from 'LesliCoreVue/layouts/application-notification.vue'
 
+import componentDataLoading from 'LesliCoreVue/layouts/data-loading.vue'
+import componentDataEmpty from 'LesliCoreVue/layouts/data-empty.vue'
+import componentHeader from "LesliCoreVue/layouts/component-header.vue"
+import componentToolbar from "LesliCoreVue/layouts/component-toolbar.vue"
 
 
 // · Initializing frameworks, libraries and tools
@@ -76,8 +78,11 @@ Vue.use(pluginHttp)
 Vue.use(pluginDate)
 Vue.use(pluginObjectUtils)
 Vue.use(Buefy, { defaultIconPack: 'fas' })
-Vue.component('component-layout-data-empty', componentLayoutDataEmpty)
-Vue.component('component-layout-data-loading', componentLayoutDataLoading)
+
+Vue.component('component-data-empty', componentDataEmpty)
+Vue.component('component-data-loading', componentDataLoading)
+Vue.component('component-header', componentHeader)
+Vue.component('component-toolbar', componentToolbar)
 
 
 
@@ -96,9 +101,9 @@ export default (module, apps, base_path, routes=[]) => {
 
     // · Default and custom components for logged users
     cloud_builder['components'] = { 
-        'component-layout-app-header': componentLayoutAppHeader,
-        'component-layout-app-chatbox': componentLayoutAppChatbox,
-        'component-layout-app-notification': componentLayoutAppNotification
+        'application-component-header': componentApplicationHeader,
+        'application-component-chatbox': componentApplicationChatbox,
+        'application-component-notification': componentApplicationNotification
     }
 
     
