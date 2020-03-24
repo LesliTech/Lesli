@@ -103,7 +103,7 @@ ActiveRecord::Schema.define(version: 2020_03_13_165231) do
     t.string "subject"
     t.text "body"
     t.string "href"
-    t.string "format"
+    t.string "category"
     t.string "sender"
     t.boolean "read", default: false
     t.datetime "created_at", precision: 6, null: false
