@@ -40,9 +40,6 @@ export default {
             loading: false
         }
     },
-    mounted() {
-        console.log(this.$route.path=="/")
-    },
     methods: {
         clickButtonReload() {
             this.loading = true

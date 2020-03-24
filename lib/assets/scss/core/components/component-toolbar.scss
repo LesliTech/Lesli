@@ -24,6 +24,8 @@ Building a better future, one line of code at a time.
 */
 
 .component-toolbar {
+
+    // search input
     input {
         border-top: none;
         border-left: none;
@@ -34,10 +36,9 @@ Building a better future, one line of code at a time.
             opacity: .8;
         }
     }
+
+    // combo selector
     div.select {
-        &::after {
-            border-color: rgb(100,100,100);
-        }
         select {
             border-top: none;
             border-left: none;
@@ -45,4 +46,13 @@ Building a better future, one line of code at a time.
             background-color: transparent;
         }
     }
+
+    // autocomplete tag selectors
+    div.taginput-container.is-focusable {
+        border-top: none;
+        border-left: none;
+        border-right: none;
+        background-color: transparent;
+    }
+
 }

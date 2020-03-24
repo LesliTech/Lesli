@@ -47,3 +47,9 @@ body #lesli-cloud-application .application-component .quickview {
     //top: $application-header-height;
     z-index: 99;
 }
+
+div.select {
+    &::after {
+        border-color: rgb(100,100,100) !important;
+    }
+}
