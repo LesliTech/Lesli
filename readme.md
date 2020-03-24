@@ -1,10 +1,10 @@
 <p align="center">
-	<a href="https://lesli.cloud" target="_blank">
-		<img width="250" alt="LesliCloud logo" src="https://cdn.lesli.tech/leslicloud/brand/leslicloud-logo.png" />
+	<a href="https://lesli.tech" target="_blank">
+		<img width="250" alt="Lesli logo" src="https://cdn.lesli.tech/lesli/brand/lesli-logo.svg" />
 	</a>
 </p>
 
-<h3 align="center">Your smart business assistant</h3>
+<h3 align="center">Enterprise cloud platform</h3>
 
 <hr/>
 
@@ -13,16 +13,11 @@ Version 0.1.0-alpha
 #### Website & documentation
 -------
 
-LesliCloud is proprietary software
-
-* Website: [https://lesli.cloud](https://lesli.cloud)
+Lesli is proprietary software
 
 * Issue tracker: [https://github.com/LesliTech/lesli.cloud/issues](https://github.com/LesliTech/lesli.cloud/issues)
 
 * Documentation: [https://github.com/LesliTech/lesli.cloud/wiki](https://github.com/LesliTech/lesli.cloud/wiki)
-
-* Documentation (mirror): [https://cloud.lesli.tech/kb](https://cloud.lesli.tech/kb)
-
 
 #### License
 -------
