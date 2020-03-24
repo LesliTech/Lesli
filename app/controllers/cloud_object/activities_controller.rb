@@ -29,13 +29,13 @@ module CloudObject
     class ActivitiesController < ApplicationController
         before_action :set_cloud_object_activity, only: [:update]
 
-        # @return [Json] Json that contains a list of all actions related to a *cloud_object*
-        # @description Retrieves and returns all actions associated to a *cloud_object*. The id of the 
+        # @return [Json] Json that contains a list of all activities related to a *cloud_object*
+        # @description Retrieves and returns all activities associated to a *cloud_object*. The id of the 
         #     *cloud_object* is within the *params* attribute
         # @example
-        #     # Executing this controller's action from javascript's frontend
+        #     # Executing this controller's activity from javascript's frontend
         #     let ticket_id = 1;
-        #     this.http.get(`127.0.0.1/help/tickets/${ticket_id}/actions`);
+        #     this.http.get(`127.0.0.1/help/tickets/${ticket_id}/activities`);
         def index
             module_name = dynamic_info[:module_name]
             object_name = dynamic_info[:object_name]
@@ -59,20 +59,20 @@ module CloudObject
             responseWithSuccessful(cloud_object_activity)
         end
         
-        # @controller_action_param :instructions [String] The instructions to add to the action
-        # @return [Json] Json that contains wheter the creation of the action was successful or not. 
+        # @controller_action_param :instructions [String] The instructions to add to the activity
+        # @return [Json] Json that contains wheter the creation of the activity was successful or not. 
         #     If it is not successful, it returs an error message
-        # @description Creates a new action associated to a *cloud_object*. The id of the 
+        # @description Creates a new activity associated to a *cloud_object*. The id of the 
         #     *cloud_object* is within the *params* attribute
         # @example
-        #     # Executing this controller's action from javascript's frontend
+        #     # Executing this controller's activity from javascript's frontend
         #     let ticket_id = 1;
         #     let data = {
         #         ticket_action: {
         #             instructions: "Benchmark server performance"
         #         }
         #     };
-        #     this.http.post(`127.0.0.1/help/tickets/${ticket_id}/actions`, data);
+        #     this.http.post(`127.0.0.1/help/tickets/${ticket_id}/activities`, data);
         def create
             module_name = dynamic_info[:module_name]
             object_name = dynamic_info[:object_name]
@@ -90,7 +90,7 @@ module CloudObject
 
                 cloud_object = cloud_object_activity.cloud_object
                 message = I18n.t(
-                    "cloud_#{module_name}.controllers.#{object_name}.actions.notifications.created",
+                    "cloud_#{module_name}.controllers.#{object_name}.activities.notifications.created",
                     "#{object_name}_id".to_sym => cloud_object.id
                 )
                 #subscriber_model.notify_subscribers(cloud_object, message, :action_created)
@@ -99,12 +99,12 @@ module CloudObject
             end
         end
 
-        # @controller_action_param :complete [Boolean] Wheter this action is complete or not
-        # @return [Json] Json that contains wheter the update of the action was successful or not. 
+        # @controller_action_param :complete [Boolean] Wheter this activity is complete or not
+        # @return [Json] Json that contains wheter the update of the activity was successful or not. 
         #     If it is not successful, it returs an error message
-        # @description Updates the action based on the id of the *cloud_object* and its own id.
+        # @description Updates the activity based on the id of the *cloud_object* and its own id.
         # @example
-        #     # Executing this controller's action from javascript's frontend
+        #     # Executing this controller's activity from javascript's frontend
         #     let ticket_id = 1;
         #     let action_id = 22;
         #     data = {
@@ -112,7 +112,7 @@ module CloudObject
         #             complete: true
         #         }
         #     };
-        #     this.http.put(`127.0.0.1/help/tickets/${ticket_id}/actions/${action_id}`, data);
+        #     this.http.put(`127.0.0.1/help/tickets/${ticket_id}/activities/${action_id}`, data);
         def update
             if @cloud_object_activity.update(cloud_object_activity_params)
                 responseWithSuccessful()
@@ -125,8 +125,8 @@ module CloudObject
 
 
         # @return [void]
-        # @description Sets the variable @cloud_object_action. The variable contains the action 
-        #     to be updated based on the id of the *cloud_object* and the id of the *action*
+        # @description Sets the variable @cloud_object_action. The variable contains the activity 
+        #     to be updated based on the id of the *cloud_object* and the id of the *activity*
         # @example
         #     #suppose params[:ticket_id] = 1
         #     #suppose params[:id] = 44
@@ -145,7 +145,7 @@ module CloudObject
             ).first
         end
 
-        # @return [Parameters] Allowed parameters for the action
+        # @return [Parameters] Allowed parameters for the activity
         # @description Sanitizes the parameters received from an HTTP call to only allow the specified ones.
         #     Allowed params are _:type_, _:instructions_, _:deadline_, _:complete_, _:tags_. 
         #     For now, only the _:instructions_ and _:complete_ params are taking into account
@@ -173,7 +173,7 @@ module CloudObject
             object_name = dynamic_info[:object_name] 
 
             params.require(
-                "#{object_name}_action".to_sym
+                "#{object_name}_activity".to_sym
             ).permit(
                 :type,
                 :instructions,
