@@ -4,7 +4,7 @@
 	</a>
 </p>
 
-<h3 align="center">Enterprise cloud platform</h3>
+<h3 align="center">Your Smart Business Assistant</h3>
 
 <hr/>
 
