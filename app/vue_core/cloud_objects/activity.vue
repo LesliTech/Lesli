@@ -55,15 +55,16 @@ export default {
     },
 
     mounted() {
-        this.mountListeners()
+        this.moutSubscriptions()
         this.parseCloudModule()
         this.getActivities()
     },
 
     methods: {
 
-        mountListeners(){
-            this.bus.subscribe("show:/module/app/activities", () => {
+        moutSubscriptions(){
+            this.bus.subscribe('show:/module/app/activities', () => {
+                this.getActivities()
                 this.show = !this.show
             })
         },
@@ -89,10 +90,8 @@ export default {
         }
     },
 
-    watch: {
-        cloudId(){
-            this.getActivities()
-        }
+    beforeDestroy(){
+        this.bus.$off('show:/module/app/activities')
     }
 }
 </script>
@@ -100,7 +99,7 @@ export default {
     <section>
         <div :class="[{ 'is-active': show }, 'quickview']">
             <header class="quickview-header" @click="show = false">
-                <p class="title">Activity</p>
+                <p class="title">Activities Log</p>
                 <i class="fas fa-chevron-right clickable"></i>
             </header>
             <div class="quickview-body">

@@ -47,6 +47,12 @@ module Courier
                 projects
             end
 
+            def self.create_activity(activity_params)
+                return unless defined? CloudHouse
+
+                activity = CloudHouse::Project::Activity.create(activity_params)
+            end
+
         end
     end
 end
