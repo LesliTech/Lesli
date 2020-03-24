@@ -40,7 +40,7 @@ module Courier
                         subject: subject,
                         user: current_user
                     }).save!
-                    LesliChannel.broadcast_to("Lesli", channel: "/cloud/layout/header/notification#getNotificationsCounter")
+                    LesliChannel.broadcast_to("Lesli", channel: "/core/layout/header/notification#getNotificationsCounter")
                 end
 
                 # returns number of not read notifications
