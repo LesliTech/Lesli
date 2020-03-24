@@ -55,15 +55,15 @@ export default {
     },
 
     mounted() {
-        this.mountListeners()
+        this.moutSubscriptions()
         this.parseCloudModule()
         this.getActivities()
     },
 
     methods: {
 
-        mountListeners(){
-            this.bus.subscribe("show:/module/app/activities", () => {
+        moutSubscriptions(){
+            this.bus.subscribe('show:/module/app/activities', () => {
                 this.show = !this.show
             })
         },
@@ -87,6 +87,10 @@ export default {
                 })
             }
         }
+    },
+
+    beforeDestroy(){
+        this.bus.$off('show:/module/app/activities')
     },
 
     watch: {

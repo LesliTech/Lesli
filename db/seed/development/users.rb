@@ -27,12 +27,6 @@ Building a better future, one line of code at a time.
 
 =end
 
-seed_initial_users "hello@lesli.cloud", "lesli2020"
-
-if defined?(CloudHaus)
-    seed_initial_users "crm.admin@deutsche-leibrenten.de", "crm.admin@deutsche-leibrenten.de"
-end
-
 def seed_initial_users email, password
 
     User.find_or_create_by(email: email) do |user|
@@ -45,6 +39,12 @@ def seed_initial_users email, password
         user.account.save!
     end
 
+end
+
+seed_initial_users "hello@lesli.cloud", "lesli2020"
+
+if defined?(CloudHaus)
+    seed_initial_users "crm.admin@deutsche-leibrenten.de", "crm.admin@deutsche-leibrenten.de"
 end
 
 p "Users successfully created!"

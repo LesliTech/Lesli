@@ -94,11 +94,8 @@ export default {
     <div>
         <b-dropdown hoverable aria-role="list" position="is-bottom-left">
             <button class="button" slot="trigger">
-                <span class="icon">
-                    <i class="fas fa-check"></i>
-                </span>
                 <span>Change status</span>
-                <b-icon icon="menu-down"></b-icon>
+                <b-icon icon="chevron-down" size="is-small" />
             </button>
             <b-dropdown-item
                 @click="patchStatus(status)"

@@ -30,7 +30,17 @@ module CloudObject
         self.abstract_class = true
 
         enum icon: {
-            flag: 'flag'
+            flag: "flag"
+        }
+
+        # This enum can be overrided by the model that inherits from CloudObject::Activity
+        enum category: {
+            action_list:    "action_list",
+            action_create:  "action_create",
+            action_show:    "action_show",
+            action_update:  "action_update",
+            action_delete:  "action_delete",
+            action_status:  "action_status"
         }
 
     end
