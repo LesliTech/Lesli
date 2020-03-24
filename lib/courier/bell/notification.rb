@@ -30,38 +30,38 @@ module Courier
         class Notification
 
             def self.send(user:, subject:, body:nil, href:nil, format:'info', type: 'web', cloud_object_type: 'resource')
-                return unless defined? CloudBell
-
-                case type
-                when 'web'
-                    self.register(user, subject, body, href, format)
-                when 'email'
-                    self.send_email(user, subject, body, href, format, cloud_object_type)
-                else
-                    self.register(user, subject, body, href, format)
-                    
-                end
+                # use individual method instead
+                #return unless defined? CloudBell
+                #case type
+                #when 'web'
+                #    self.register(user, subject, body, href, format)
+                #when 'email'
+                #    self.send_email(user, subject, body, href, format, cloud_object_type)
+                #else
+                #    self.register(user, subject, body, href, format)
+                #end
             end
 
-            def self.register(user, subject, body, href, format)
-                CloudBell::Notification.new({
+            def self.register(current_user, subject, body, href, format)
+                current_user.account.bell.Notification.new({
                     body: body,
                     href: href,
                     format: format,
                     subject: subject,
                     users_id: user.id,
-                    cloud_bell_accounts_id: user.account.id
+                    #cloud_bell_accounts_id: user.account.id
                 }).save!
                 LesliChannel.broadcast_to("Lesli", channel: "/cloud/layout/header/notification#getNotificationsCounter")
             end
 
             private
 
-            def self.count(user)
+            def self.count(current_user)
                 unless defined? CloudBell
                     return 0
                 end
-                CloudBell::Notification.where(users_id: user.id, read: false).count
+                #CloudBell::Notification.where(users_id: user.id, read: false).count
+                current_user.account.bell.notification.where(read: false).count
             end
 
             def self.send_email(user, subject, body, href, format, cloud_object_type)

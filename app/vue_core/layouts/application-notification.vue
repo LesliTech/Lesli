@@ -12,7 +12,7 @@ Without the written permission of Lesli Technologies, S. A., any replication, mo
 transmission, publication is strictly forbidden.
 For more information read the license file including with this software.
 
-LesliCloud - Your Smart Business Assistant
+Lesli - Your Smart Business Assistant
 
 Powered by https://www.lesli.tech
 Building a better future, one line of code at a time.
@@ -25,7 +25,7 @@ Building a better future, one line of code at a time.
 */
 
 
-// · LesliCloud component
+// · 
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
 export default {
 
@@ -39,15 +39,14 @@ export default {
         }
     },
     mounted() {
-        console.log("mounted")
         this.mountListeners()
     },
     methods: {
 
         mountListeners() {
-            console.log("mounted listeners")
+
+            /*
             this.bus.subscribe('show:/cloud/layout/notification#alert', (message, type='primary') => {
-                console.log("showing message next")
                 this.$buefy.toast.open({
                     queue: true,
                     duration: 3500,
@@ -66,13 +65,16 @@ export default {
                     type: `is-${ type }`
                 })
             })
+            */
 
-            this.bus.subscribe('get:/cloud/layout/notification#notification', () => {
-                this.getNotifications()
-            })
-
-            this.bus.subscribe('open:/cloud/layout/notification#notification', () => {
-                this.openNotificationsPanel()
+            this.bus.subscribe("show:/core/layout/notification", () => {
+                
+                // toggle notification panel
+                if (this.notification.show == true) {
+                    this.notification.show = false
+                    return
+                }
+                this.showNotificationPanel()
             })
 
         },
@@ -87,7 +89,7 @@ export default {
             })
         },
 
-        openNotificationsPanel() {
+        showNotificationPanel() {
             this.getNotifications()
             this.notification.show = true
             this.notification.timer = setTimeout(() => this.notification.show = false, 25000)

@@ -103,14 +103,4 @@ class ApplicationLesliController < ApplicationController
 
     end
 
-    def set_global_settings
-
-        @settings = {}
-        
-        Setting.all.each do |setting|
-            @settings[setting[:name]] = setting[:value].to_s
-        end
-
-    end
-
 end

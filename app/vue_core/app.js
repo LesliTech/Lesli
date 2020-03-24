@@ -11,7 +11,7 @@ Without the written permission of Lesli Technologies, S. A., any replication, mo
 transmission, publication is strictly forbidden.
 For more information read the license file including with this software.
 
-LesliCloud - Your Smart Business Assistant
+Lesli - Your Smart Business Assistant
 
 Powered by https://www.lesli.tech
 Building a better future, one line of code at a time.
@@ -37,9 +37,6 @@ import VueRouter from 'vue-router'
 // Cambie los iconos de fontawesome de node, por unos construidos para ruby con sass...
 // esto debido a que sprocket no toma los iconos de node en el pipeline de compilacion para produccion
 // pueden leer aqui: https://github.com/FortAwesome/font-awesome-sass
-//import { fas } from '@fortawesome/free-solid-svg-icons'
-//import { library } from '@fortawesome/fontawesome-svg-core'
-//import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 
 
 
@@ -72,8 +69,6 @@ import componentLayoutDataEmpty from 'LesliCoreVue/layouts/data-empty.vue'
 
 // · Initializing frameworks, libraries and tools
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
-//library.add(fas)
-
 Vue.use(VueRouter)
 Vue.use(pluginBus)
 Vue.use(pluginUrl)
@@ -81,7 +76,6 @@ Vue.use(pluginHttp)
 Vue.use(pluginDate)
 Vue.use(pluginObjectUtils)
 Vue.use(Buefy, { defaultIconPack: 'fas' })
-//Vue.component('font-awesome-icon', FontAwesomeIcon)
 Vue.component('component-layout-data-empty', componentLayoutDataEmpty)
 Vue.component('component-layout-data-loading', componentLayoutDataLoading)
 
