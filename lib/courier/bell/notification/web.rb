@@ -45,8 +45,8 @@ module Courier
 
                 # returns number of not read notifications
                 def self.count(current_user)
-                    return if not defined? CloudBell
-                    
+                    return 0 if not defined? CloudBell
+
                     #CloudBell::Notification.where(users_id: user.id, read: false).count
                     current_user.account.bell.notifications.where(read: false).count
                 end
