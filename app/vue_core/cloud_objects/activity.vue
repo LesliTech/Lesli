@@ -64,6 +64,7 @@ export default {
 
         moutSubscriptions(){
             this.bus.subscribe('show:/module/app/activities', () => {
+                this.getActivities()
                 this.show = !this.show
             })
         },
@@ -91,12 +92,6 @@ export default {
 
     beforeDestroy(){
         this.bus.$off('show:/module/app/activities')
-    },
-
-    watch: {
-        cloudId(){
-            this.getActivities()
-        }
     }
 }
 </script>
@@ -104,7 +99,7 @@ export default {
     <section>
         <div :class="[{ 'is-active': show }, 'quickview']">
             <header class="quickview-header" @click="show = false">
-                <p class="title">Activity</p>
+                <p class="title">Activities Log</p>
                 <i class="fas fa-chevron-right clickable"></i>
             </header>
             <div class="quickview-body">

@@ -45,16 +45,22 @@ module CloudObject
             cloud_object_activity = dynamic_info[:model].where(
                 "cloud_#{module_name}_#{plural_object_name}_id".to_sym => cloud_object_id
             ).order(id: :desc).map do |activity|
-                {
+                activities_data = {
                     id: activity[:id],
+                    category: activity[:category],
                     description: activity[:description],
                     field_name: activity[:field_name],
                     value_from: activity[:value_from],
                     value_to: activity[:value_to],
                     icon: activity[:icon],
-                    created_at: CloudHelper::Date.to_string(activity[:created_at]),
-                    updated_at: CloudHelper::Date.to_string(activity[:updated_at])
+                    created_at: Courier::Core::Date.to_string_full(activity[:created_at]),
+                    updated_at: Courier::Core::Date.to_string_full(activity[:updated_at])
                 }
+
+                user = ::User.find_by(id: activity[:users_id])
+                activities_data[:user_name] = user.name if user
+
+                activities_data
             end
             responseWithSuccessful(cloud_object_activity)
         end
