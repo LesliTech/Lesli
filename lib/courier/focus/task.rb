@@ -54,10 +54,10 @@ module Courier
                 tasks = current_user.account.focus.tasks
                 .select(:id, :title, :description, :deadline, :importance, :task_type, :creator_id, :users_id)
                 .joins(:detail, :status)
-                .where("cloud_focus_tasks.model_id = ? AND cloud_focus_tasks.model_type = ? AND cloud_focus_workflow_statuses.name != ? ", model_id, model_type, 'created')
+                .where("cloud_focus_tasks.model_id = ? AND cloud_focus_tasks.model_type = ? AND cloud_focus_workflow_statuses.name != ? ", model_id, model_type, 'done')
                 .order("cloud_focus_tasks.created_at")
                 .page(query[:pagination][:page]).per(query[:pagination][:perPage])
-
+                
                 tasks_count = tasks.total_count
 
                 tasks = tasks.map do |task|
@@ -65,7 +65,7 @@ module Courier
                         id: task.id, 
                         title: task.title, 
                         description: task.description,
-                        deadline: CloudHelper::Date.date_as_string(task.deadline),
+                        deadline: Courier::Core::Date.to_string(task.deadline, "%d:%m:%Y"),
                         importance: task.importance,
                         task_type: task.task_type,
                         creator: Courier::Core::Users.get(task.creator_id),
@@ -97,7 +97,7 @@ module Courier
                         id: task.id, 
                         title: task.title, 
                         description: task.description,
-                        deadline: CloudHelper::Date.date_as_string(task.deadline),
+                        deadline: Courier::Core::Date.to_string(task.deadline, "%d:%m:%Y"),
                         importance: task.importance,
                         creator: Courier::Core::Users.get(task.creator_id),
                         user: Courier::Core::Users.get(task.users_id),
