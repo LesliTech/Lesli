@@ -27,22 +27,24 @@ Building a better future, one line of code at a time.
 
 =end
 
-email = "admin@lesli.cloud"
-password = "lesli2020"
+seed_initial_users "hello@lesli.cloud", "lesli2020"
 
 if defined?(CloudHaus)
-    email = "crm.admin@deutsche-leibrenten.de" 
-    password = "deutsche$leibrenten2020"
+    seed_initial_users "crm.admin@deutsche-leibrenten.de", "crm.admin@deutsche-leibrenten.de"
 end
 
-User.find_or_create_by(email: email) do |user|
-    user.password = password
-    user.password_confirmation = password
-    user.accounts_id = 1
-    user.confirm
+def seed_initial_users email, password
 
-    user.account.user = user
-    user.account.save!
+    User.find_or_create_by(email: email) do |user|
+        user.password = password
+        user.password_confirmation = password
+        user.accounts_id = 1
+        user.confirm
+
+        user.account.user = user
+        user.account.save!
+    end
+
 end
 
 p "Users successfully created!"

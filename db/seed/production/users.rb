@@ -26,7 +26,7 @@ Building a better future, one line of code at a time.
 // · ~·~        ~·~        ~·~        ~·~        ~·~        ~·~        ~·~        ~·~        ~·~
 =end
 
-email = "admin@lesli.cloud"
+email = "hello@lesli.cloud"
 password = "lesli2020"
 
 if defined?(CloudHaus)
