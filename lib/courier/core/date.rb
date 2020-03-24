@@ -30,43 +30,48 @@ module Courier
 
         class Date
 
+            def self.to_string datetime_object, format="%Y/%m/%d %H:%M"
+                datetime_object.strftime(format)
+            end
+
+            def self.to_string_full datetime_object, format="%Y/%m/%d %H:%M"
+                datetime_object.strftime(format)
+            end
+
+            def self.to_string_datetime datetime_object, format="%Y/%m/%d %H:%M"
+                datetime_object.strftime(format)
+            end
+
+=begin
+
             # datetime object
-            @datetime = nil
+            #@datetime = nil
 
-            @date_format = nil
-            @date_format_full = nil
-            @date_time_format = nil
+            #@date_format = nil
+            #@date_format_full = nil
+            #@date_time_format = nil
 
-            def initialize(datetime, format="%Y/%m/%d %H:%M")
-
+            #def initialize(datetime, format="%Y/%m/%d %H:%M")
                 # get custom datetime formats from settings in database
                 #date_formats = @account
-
-
                 # catch only string datetimes
-                if datetime.kind_of? String
-                    datetime = from_string(datetime, format)
-                end
+            #    if datetime.kind_of? String
+            #        datetime = from_string(datetime, format)
+            #    end
+            #    datetime.strftime(datetime, format)
+            #end
 
-                datetime.strftime(datetime, format)
-
-            end
-
-            def to_string
-            end
+            #def to_string
+            #end
 
             def to_string_full
-            end
-
-            def from(datetime_object)
-                @datetime = datetime_object
             end
 
             def from_string(datetime_string, format=nil)
                 Date.strptime(datetime_string, format)
             end
 
-=begin
+
 
             def self.to_string(datetime, format="%Y/%m/%d %H:%M")
                 return "" unless datetime
