@@ -71,11 +71,15 @@ namespace :dev do
                 engine_path = Rails.root.join('engines', engine['name'])
 
                 # pull from master
-                system "cd ./engines/#{engine['name']} && git pull origin master" if File.exists?(engine_path)
+                puts ""; puts ""; puts "";
+                puts "Working with: #{engine['name']}"
+                result = `cd ./engines/#{engine['name']} && git pull origin master` if File.exists?(engine_path)
 
             end
 
             # pull from master
+            puts ""; puts ""; puts "";
+            puts "Working with: Lesli"
             system "git pull origin master"
 
         end
