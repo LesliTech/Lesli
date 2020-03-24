@@ -47,7 +47,7 @@ export default {
     methods: {
 
         mountListeners() {
-            this.bus.subscribe('/cloud/layout/header/notification#getNotificationsCounter', () => {
+            this.bus.subscribe('/core/layout/header/notification#getNotificationsCounter', () => {
                 this.getNotificationsCounter()
             })
         },
@@ -100,6 +100,10 @@ export default {
 
         showHelp() {
             introJs().start()
+        },
+
+        showNotificationPanel() {
+            this.bus.publish("show:/core/layout/notification")
         }
 
     }
@@ -174,7 +178,7 @@ export default {
                         </div>
                     </div>
 
-                    <a class="navbar-item notification-indicator" data-intro="Notification icon" @click="bus.publish('open:/cloud/layout/notify#notification')">
+                    <a class="navbar-item notification-indicator" data-intro="Notification icon" @click="showNotificationPanel()">
                         <i v-if="notification.count > 0" class="fas fa-bell has-text-link"></i>
                         <i v-if="notification.count == 0" class="far fa-bell"></i>
                         <span></span>
