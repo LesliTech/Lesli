@@ -45,6 +45,10 @@ class Account < ApplicationRecord
 
     after_create :create_engine_accounts
 
+    def settings(*args)
+        self.settings
+    end
+
     def create_engine_accounts
 
         # settings initialize
