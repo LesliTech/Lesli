@@ -26,7 +26,10 @@ Building a better future, one line of code at a time.
 
 // · Navigation sidebar
 .application-navigation {
-    flex-basis: $application-navigation-width;
+    z-index: 99;
+    position: fixed;
+    width: var(--application-navigation-width);
+    height: calc(100vh - var(--application-header-height));
     background-color: lesli-css-get-color(standard, white);    
 
     a.navbar-item {
@@ -54,4 +57,29 @@ Building a better future, one line of code at a time.
         border-bottom: 2px solid lesli-css-get-color(blue, 300);
     }
 
+}
+
+
+@media only screen and (max-width: 1024px) {
+    .application-navigation {
+        a.navbar-item {
+            padding: 1.2rem .6rem;
+        }
+    }
+}
+
+@media only screen and (max-width: 768px) {
+    .application-navigation {
+        a.navbar-item {
+            font-size: .7rem;
+            text-transform: uppercase;
+            text-align: center;
+            padding: 1.2rem 0;
+
+            img {
+                display: block;
+                margin: 0 auto;
+            }
+        }
+    }
 }

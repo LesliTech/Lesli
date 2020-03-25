@@ -29,3 +29,36 @@ Building a better future, one line of code at a time.
 $application-header-height: 52px;
 $application-footer-height: 52px;
 $application-navigation-width: 250px;
+
+:root {
+    --application-header-height: 52px;
+    --application-navigation-width: 250px;
+}
+
+// Widescreen Between 1216px and 1407px
+@media only screen and (max-width: 1407px) {
+    :root {
+        --application-navigation-width: 225px;
+    }   
+}
+
+// Desktop Between 1024px and 1215px
+@media only screen and (max-width: 1216px) {
+    :root {
+        --application-navigation-width: 200px;
+    }   
+}
+
+// Tablet Between 769px and 1023px
+@media only screen and (max-width: 1024px) {
+    :root {
+        --application-navigation-width: 150px;
+    }   
+}
+
+// Mobile Up to 768px
+@media only screen and (max-width: 768px) {
+    :root {
+        --application-navigation-width: 80px;
+    }   
+}

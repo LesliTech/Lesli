@@ -114,7 +114,7 @@ export default {
     <header class="application-header">
 
         <!-- User navigation area -->
-        <nav class="navbar is-transparent">
+        <nav class="navbar is-transparent is-fixed-top">
 
             <!-- Brand container -->
             <div class="navbar-brand">
@@ -123,7 +123,7 @@ export default {
                 </a>
             </div>
 
-            <div id="header-main-navbar" class="navbar-menu">
+            <div id="header-main-navbar" class="navbar-menu is-shadowless">
 
                 <!-- Assistant controls -->
                 <div class="navbar-start">
@@ -140,7 +140,7 @@ export default {
                 </div>
 
                 <!-- User navigation -->
-                <div class="navbar-end">
+                <div class="navbar-end is-hidden-tablet">
                     
                     <!-- 
                     <a class="navbar-item" @click="showHelp()">
