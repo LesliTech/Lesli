@@ -29,7 +29,7 @@ header.application-header {
     width: 100%;
     top: 0px;
     .navbar-brand {
-        flex: 0 0 $application-navigation-width;
+        flex: 0 0 var(--application-navigation-width);
         a {
             padding: 0;
             width: 100%;
@@ -41,6 +41,8 @@ header.application-header {
     }
     .navbar-start {
         flex: 1;
+
+        // search bar
         .navbar-item {
             padding: 0;
             display: block;
@@ -84,146 +86,45 @@ header.application-header {
 }
 
 
-/* old code
-header.lesli-app-header {
-    background-color: lesli-color(standard, white);
-    box-shadow: 
-        0 8px 10px -9px rgba(0, 0, 0, .05), 
-        0 3px 14px  2px rgba(0, 0, 0, .01), 
-        0 5px 5px  -3px rgba(0, 0, 0, .05);
 
-    // top navigation bar
-    nav.navbar {
-        padding: 0 1rem;
 
-        #header-main-navbar {
-            justify-content: space-between;
+
+// Tablet and above
+@media only screen and (max-width: 1024px) {
+    header.application-header {
+        .navbar,
+        .navbar-menu,
+        .navbar-start {
+            align-items: stretch;
+            display: flex;
         }
+        .navbar-menu {
+            padding: 0;
+            flex: 1;
+        }
+        .navbar-start {
+            // search bar
+            .navbar-item {
+                padding: 0;
+                display: block;
+                width: 100%;
+                .control {
+                    margin-top: 0;
+                }
+            }
+        }
+    }
+}
 
-        // this helps to keep brand in the center of the navbar
-        .navbar-start,
-        .navbar-end,
+
+@media only screen and (max-width: 768px) {
+    header.application-header {
         .navbar-brand {
             flex: 1;
-            display: flex;
-
-
-            
         }
-
-        // Assistant controls
+        .navbar-menu,
         .navbar-start {
-            align-items: center;
-
-            button {
-                border: none;
-                font-size: 1.3rem;
-            }
-
-            input{
-                border: none;
-                box-shadow: none;
-                border-bottom: 1px solid lesli-color(silver, 100);
-            }
-
+            display: none;
         }
-
-        // Brand container  
-        .navbar-brand {
-            justify-content: center;
-
-            a {
-                padding: 0;
-
-                img {
-                    max-height: 60px;
-                }
-
-            }
-
-        }
-
-        // User navigation
-        .navbar-end {
-
-            a:first-child {
-                position: relative;
-                span {
-                    top: -5px;
-                    right: 1px;
-                    font-size: 12px;
-                    position: absolute;
-                    background-color: lesli-color(berry);
-                    display: inline-block;
-                    border-radius: 50%;
-                    height: 20px;
-                    width: 20px;
-                    text-align: center;
-                    color: lesli-color(silver, 100);
-                }
-            }
-
-            i {
-                font-size: 1.3rem;
-            }
-
-        }
-
-        .button {
-            i {
-                color: lesli-color(black, 700);
-            }
-
-            &:hover {
-                i {
-                    color: lesli-color(blue);
-                }   
-            }
-        }
-
     }
-
-    // module navigation menu
-    nav.navigation_module {
-        padding: .2rem 2rem;
-        margin-bottom: 2rem;
-        //background-color: $color-white;
-        //border-bottom: 1px solid $color-gray-100;
-        box-shadow: 0px 15px 10px -15px rgba(0, 0, 0, 0.2), 0px 15px 10px -15px rgba(0, 0, 0, 0.12);
-
-        li.nav-item {
-            a.nav-link {
-                padding: .8rem 1.4rem;
-                transition: all linear .3s;
-                border-bottom: 1px solid transparent;
-
-                &:hover {
-                    //border-bottom-color: $color-blue;
-                    span, i {
-                        color: lesli-color(blue);
-                    }
-                }
-                
-                i,
-                span {
-                    vertical-align: middle;
-                    color: lesli-color(black, 700);
-                    color: red;
-                }
-                
-                i {
-                    font-size: 1rem;
-                }
-                span{
-                    font-weight: 400;
-                    font-size: .9rem;
-                }
-
-            }
-
-        }
-
-    }
-
 }
-//*/
