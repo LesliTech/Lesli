@@ -99,25 +99,39 @@ namespace :dev do
                 # next if engine folder does not exist
                 next unless File.exists?(engine_path)
 
-                # check if github remote exists
-                next if system "cd ./engines/#{engine['name']} && git remote show origin" 
+                ["github", "origin", "lesli", "backup"].each do |origin|
 
-                system "cd ./engines/#{engine['name']} && git remote add origin #{engine['github_ssh']}" 
-                system "cd ./engines/#{engine['name']} && git remote add github #{engine['github_ssh']}" 
-                system "cd ./engines/#{engine['name']} && git remote add lesli #{engine['github_ssh_lesli']}" 
+                    remote = engine['github_ssh'] if origin == "github"
+                    remote = engine['github_ssh'] if origin == "origin"
+                    remote = engine['github_ssh_backup'] if origin == "lesli"
+                    remote = engine['github_ssh_backup'] if origin == "backup"
+
+                    # check if github remote exists
+                    next if system "cd ./engines/#{engine['name']} && git remote show #{origin}" 
+
+                    puts ""; puts ""; puts "";
+                    puts "Working with: #{engine['name']} for: #{origin}"
+                    system "cd ./engines/#{engine['name']} && git remote add #{origin} #{remote}" 
+
+                end
 
             end
 
         end
 
         desc ""
-        task lesli: :environment do
+        task backup: :environment do
 
             Lesli::engines.each do |engine|
                 engine_path = Rails.root.join('engines', engine['name'])
-                system "cd ./engines/#{engine['name']} && git push lesli master" if File.exists?(engine_path)
+
+                puts ""; puts ""; puts "";
+                puts "Working with: #{engine['name']}"
+                system "cd ./engines/#{engine['name']} && git push backup master" if File.exists?(engine_path)
             end
 
+            puts ""; puts ""; puts "";
+            puts "Working with: Lesli"
             system "git push lesli master"
 
         end
