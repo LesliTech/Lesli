@@ -63,7 +63,11 @@ Building a better future, one line of code at a time.
             .where("CO.id = #{cloud_id}")
             .where("CO.cloud_#{module_name}_accounts_id = #{account.id}")
             .order(id: :asc)
-            .map { |discussion| discussion.attributes }
+            .map { |discussion| 
+                discussion_attributes = discussion.attributes
+                discussion_attributes["created_at"] = Courier::Core::Date.to_string_full(discussion_attributes["created_at"])
+                discussion_attributes
+            }
 
             data = {}
             root_discussions = []
