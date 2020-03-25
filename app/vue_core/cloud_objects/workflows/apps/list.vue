@@ -135,7 +135,7 @@ export default {
 </script>
 <template>
     <section class="section" v-if="workflows">
-        <component-layout-data-empty v-if="workflows.length == 0" />
+        <component-data-empty v-if="workflows.length == 0" />
         <div class="card" v-if="workflows.length > 0">
             <div class="card-header">
                 <h4 class="card-header-title">
