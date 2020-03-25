@@ -85,30 +85,41 @@ module Courier
                 tasks = current_user.account.focus.tasks
                         .select(:id, :title, :description, :deadline, :importance, :task_type, :creator_id, :users_id, :model_id, :model_type)
                         .joins(:status, :detail)
-                        .includes(:model)
+                        .includes(model: [:detail])
                         .where("cloud_focus_workflow_statuses.name = ?", 'created')
-                        .page(query[:pagination][:page]).per(query[:pagination][:perPage])
-
-                tasks_count = tasks.total_count
-
+                
+                if defined? (CloudLock)
+                    tasks = tasks.select("ua.id as user_id, concat(uda.first_name,' ', uda.last_name) as user_value, 
+                                uc.id as creator_id, uc.concat(udc.first_name,' ', udc.last_name) as creator_value")
+                                .joins("inner join users ua on ua.id = cloud_focus_tasks.users_id")
+                                .joins("inner join users uc on uc.id = cloud_focus_tasks.creator_id")
+                                .joins("inner join user_details uda on ud.id = ua.id")
+                                .joins("inner join user_details udc on ud.id = uc.id")
+                else
+                    tasks = tasks.select("ua.id as user_id, ua.email as user_value, uc.id as creator_id, uc.email as creator_value")
+                                .joins("inner join users ua on ua.id = cloud_focus_tasks.users_id")
+                                .joins("inner join users uc on uc.id = cloud_focus_tasks.creator_id")
+                end
+                
                 tasks = tasks.map do |task|
 
                     {
                         id: task.id, 
                         title: task.title, 
                         description: task.description,
-                        deadline: Courier::Core::Date.to_string(task.deadline, "%d:%m:%Y"),
+                        deadline: Courier::Core::Date.to_string(task.deadline, "%d.%m.%Y"),
                         importance: task.importance,
-                        creator: Courier::Core::Users.get(task.creator_id),
-                        user: Courier::Core::Users.get(task.users_id),
-                        model_detail: (task.model_type == "CloudHouse::Project") ? task.model.detail.code : task.model.detail.name
+                        creator: {
+                            id: task.creator_id,
+                            value: task.creator_value
+                        },
+                        user: {
+                            id: task.user_id,
+                            value: task.user_value
+                        },
+                        details: task.model.detail
                     }
                 end
-                
-                {
-                    tasks: tasks,
-                    tasks_count: tasks_count
-                }
             end
         end
     end
