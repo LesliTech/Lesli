@@ -1,5 +1,5 @@
 {
-  "_from": "git+ssh://git@github.com/LesliTech/lesli-css.git#master",
+  "_from": "git+https://github.com/LesliTech/lesli-css.git#master",
   "_id": "lesli-css@0.3.0",
   "_inBundle": false,
   "_integrity": "",
@@ -7,20 +7,20 @@
   "_phantomChildren": {},
   "_requested": {
     "type": "git",
-    "raw": "lesli-css@git+ssh://git@github.com/LesliTech/lesli-css.git#master",
+    "raw": "lesli-css@git+https://github.com/LesliTech/lesli-css.git#master",
     "name": "lesli-css",
     "escapedName": "lesli-css",
-    "rawSpec": "git+ssh://git@github.com/LesliTech/lesli-css.git#master",
-    "saveSpec": "git+ssh://git@github.com/LesliTech/lesli-css.git#master",
-    "fetchSpec": "ssh://git@github.com/LesliTech/lesli-css.git",
+    "rawSpec": "git+https://github.com/LesliTech/lesli-css.git#master",
+    "saveSpec": "git+https://github.com/LesliTech/lesli-css.git#master",
+    "fetchSpec": "https://github.com/LesliTech/lesli-css.git",
     "gitCommittish": "master"
   },
   "_requiredBy": [
     "#DEV:/"
   ],
-  "_resolved": "git+ssh://git@github.com/LesliTech/lesli-css.git#2e539e81445c8e09bbd3bbdae29271da64f1934d",
-  "_spec": "lesli-css@git+ssh://git@github.com/LesliTech/lesli-css.git#master",
-  "_where": "/var/www/LesliCloud/lesli.cloud",
+  "_resolved": "git+https://github.com/LesliTech/lesli-css.git#4f96dfc3770a47294e539ab7be14e69b9f3da865",
+  "_spec": "lesli-css@git+https://github.com/LesliTech/lesli-css.git#master",
+  "_where": "/var/www/LesliCloud/Lesli",
   "author": {
     "name": "LesliTech",
     "email": "hello@lesli.tech"
