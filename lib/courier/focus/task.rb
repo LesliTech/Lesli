@@ -109,6 +109,7 @@ module Courier
                         description: task.description,
                         deadline: Courier::Core::Date.to_string(task.deadline, "%d.%m.%Y"),
                         importance: task.importance,
+                        model_type: task.model_type,
                         creator: {
                             id: task.creator_id,
                             value: task.creator_value
