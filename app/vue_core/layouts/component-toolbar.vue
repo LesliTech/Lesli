@@ -14,6 +14,7 @@ export default {
     methods: {
         search() {
             clearTimeout(this.timer)
+            if (this.text == "") return
             this.timer = setTimeout(() => this.$emit("search", this.text), 800)
         }
     }

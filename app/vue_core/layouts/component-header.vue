@@ -61,6 +61,7 @@ export default {
             </div>
             <div class="navbar-end">
                 <div class="navbar-item">
+                    <slot></slot>
                     <div class="buttons" v-if="buttons">
                         <button class="button" @click="clickButtonReload">
                             <b-icon icon="sync" size="is-small" :custom-class="loading ? 'fa-spin' : ''" />
