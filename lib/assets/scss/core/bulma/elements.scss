@@ -30,6 +30,19 @@ Building a better future, one line of code at a time.
     box-shadow: none !important;
 }
 
+.button.is-info.is-light {
+    background-color: #eef6fc;
+    color: #1d72aa;
+    
+}
+
+.button.is-info.is-light.is-hovered,
+.button.is-info.is-light:hover {
+background-color:#e3f1fa;
+border-color:transparent;
+color:#1d72aa
+}
+
 .card-header-icon .button.is-static {
     cursor: none;
 }
