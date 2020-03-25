@@ -37,6 +37,8 @@ namespace :dev do
             # push all engines
             Lesli::engines.each do |engine|
                 engine_path = Rails.root.join('engines', engine['name'])
+                puts ""; puts ""; puts "";
+                puts "Working with: #{engine['name']}"
                 system "cd ./engines/#{engine['name']} && git add --all && git commit -m \"add updates from development\""
                 system "cd ./engines/#{engine['name']} && git push origin master" if File.exists?(engine_path)
             end
@@ -58,6 +60,8 @@ namespace :dev do
             system "git add --all && git commit -m \"Update npm dependencies (vendors)\""
     
             # push core to github
+            puts ""; puts ""; puts "";
+            puts "Working with: Lesli"
             system "git push github master"
 
         end
