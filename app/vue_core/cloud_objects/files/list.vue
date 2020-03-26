@@ -149,6 +149,10 @@ export default {
                     this.$set(file, 'selected', this.all_files_selected)
                 })
             }
+        },
+        
+        cloudId(){
+            this.getBackendData()
         }
     }
 }

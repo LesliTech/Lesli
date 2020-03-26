@@ -186,6 +186,12 @@ export default {
                 return data
             }
         }
+    },
+
+    watch: {
+        cloudId(){
+            this.getDiscussions()
+        }
     }
 }
 </script>
