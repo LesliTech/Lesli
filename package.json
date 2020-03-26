@@ -9,8 +9,8 @@
 
         "@rails/actioncable": "6.0.2-1",
 
-        "lesli-js-debug-message": "https://github.com/LesliTech/lesli-js-debug-message.git#master",
-        "lesli-css": "https://github.com/LesliTech/lesli-css.git#master",
+        "lesli-css": "0.3.0",
+        "lesli-js-debug-message": "0.1.0",
         
         "@babel/core": "7.7.7",
         "@babel/preset-env": "7.7.7",
