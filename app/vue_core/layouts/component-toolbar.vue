@@ -3,7 +3,14 @@ export default {
     props: {
         searchText: {
             default: "Search..."
+        },
+
+        initialValue: {
+            default: null
         }
+    },
+    mounted(){
+        this.setInitialValue()
     },
     data() {
         return {
@@ -14,8 +21,12 @@ export default {
     methods: {
         search() {
             clearTimeout(this.timer)
-            if (this.text == "") return
             this.timer = setTimeout(() => this.$emit("search", this.text), 800)
+        },
+        setInitialValue(){
+            if(this.initialValue){
+                this.text = this.initialValue
+            }
         }
     }
 }

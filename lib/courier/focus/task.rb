@@ -82,13 +82,13 @@ module Courier
             def self.model_index(current_user, query)
                 return [] unless defined? CloudFocus && CloudHouse
 
-                tasks = CloudFocus::Task
+                tasks = current_user.account.focus.tasks
                         .select(:id, :title, :description, :deadline, :importance, :task_type, :creator_id, :users_id, :model_id, :model_type)
                         .joins(:status, :detail)
                         .includes(:model)
-                        .where("cloud_focus_tasks.accounts_id = ? AND cloud_focus_workflow_statuses.name = ?", current_user.account.id, 'created')
+                        .where("cloud_focus_workflow_statuses.name = ?", 'created')
                         .page(query[:pagination][:page]).per(query[:pagination][:perPage])
-                
+
                 tasks_count = tasks.total_count
 
                 tasks = tasks.map do |task|
