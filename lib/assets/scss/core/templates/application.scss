@@ -24,16 +24,16 @@ Building a better future, one line of code at a time.
 */
 
 
+// · Include Lesli CSS
+// · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
+@import "lesli-css/";
+
+
 
 // · Configuration
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
 @import "../settings/variables.scss";
 
-
-
-// · Include Lesli CSS
-// · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
-@import "lesli-css/";
 
 
 // · Include Lesli Standards
