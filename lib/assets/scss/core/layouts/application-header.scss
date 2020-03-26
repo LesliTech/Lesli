@@ -90,7 +90,7 @@ header.application-header {
 
 
 // Tablet and above
-@media only screen and (max-width: 1024px) {
+@include lesli-css-breakpoint("tablet") {
     header.application-header {
         .navbar,
         .navbar-menu,
@@ -117,7 +117,7 @@ header.application-header {
 }
 
 
-@media only screen and (max-width: 768px) {
+@include lesli-css-breakpoint("mobile") {
     header.application-header {
         .navbar-brand {
             flex: 1;

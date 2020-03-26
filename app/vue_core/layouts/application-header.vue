@@ -140,7 +140,7 @@ export default {
                 </div>
 
                 <!-- User navigation -->
-                <div class="navbar-end is-hidden-tablet">
+                <div class="navbar-end is-hidden-tablet-only">
                     
                     <!-- 
                     <a class="navbar-item" @click="showHelp()">

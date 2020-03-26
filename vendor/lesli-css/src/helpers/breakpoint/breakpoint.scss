@@ -1,0 +1,65 @@
+/*
+Lesli
+
+Copyright (c) 2020, Lesli Technologies, S. A.
+
+All the information provided by this website is protected by laws of Guatemala related 
+to industrial property, intellectual property, copyright and relative international laws. 
+Lesli Technologies, S. A. is the exclusive owner of all intellectual or industrial property
+rights of the code, texts, trade mark, design, pictures and any other information.
+Without the written permission of Lesli Technologies, S. A., any replication, modification,
+transmission, publication is strictly forbidden.
+For more information read the license file including with this software.
+
+Lesli - Your Smart Business Assistant
+
+Powered by https://www.lesli.tech
+Building a better future, one line of code at a time.
+
+@license  Propietary - all rights reserved.
+@version  0.1.0-alpha
+
+// · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
+// · 
+*/
+
+// Widescreen Between 1216px and 1407px
+// Desktop Between 1024px and 1215px
+// Tablet Between 769px and 1023px
+// Mobile Up to 768px
+
+
+// · Defining available breakpints sizes
+$breakpoints: (
+    "mobile":     ( min-width:  320px, max-width:  768px ),
+    "tablet":     ( min-width:  769px, max-width: 1023px ),
+    "desktop":    ( min-width: 1024px, max-width: 1215px ),
+    "widescreen": ( min-width: 1216px, max-width: 1407px ),
+    "fullhd":     ( min-width: 1408px, max-width: 9999px )
+) !default;
+
+
+
+// · Mixin to manage responsive breakpoints
+// · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
+@mixin lesli-css-breakpoint($breakpoint) {
+
+    // If the key exists in the map
+    @if map-has-key($breakpoints, $breakpoint) {
+
+        // Prints a media query based on the value
+        $min-width: map-get(map-get($breakpoints, $breakpoint),min-width);
+        $max-width: map-get(map-get($breakpoints, $breakpoint),max-width);
+
+        @media only screen and (min-width: $min-width) and (max-width: $max-width) { 
+            @content;
+        }
+
+    } @else {
+
+        // If the key doesn't exist in the map
+        @warn "Breakpoint `#{$breakpoint}` not found."
+
+    }
+
+}
