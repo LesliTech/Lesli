@@ -28,6 +28,7 @@ Building a better future, one line of code at a time.
 // · Import core components
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
 import componentForm from './files/form.vue'
+import componentList from './files/list.vue'
 
 
 // · 
@@ -39,95 +40,55 @@ export default {
         },
         cloudId: {
             required: true
+        },
+        active: {
+            type: Boolean,
+            default: true
         }
     },
 
     components: {
-        'component-form-file': componentForm
+        'component-form': componentForm,
+        'component-list': componentList
     },
 
     data() {
         return {
             show: false,
-            files: [],
-            module_name: {
-                slash: null,
-                underscore: null
-            },
-            object_name: {
-                singular: null,
-                plural: null
-            }
+            active_tab: 0
         }
     },
 
     mounted() {
-        this.mountListeners()
-        this.parseCloudModule()
-        this.getFiles()        
+        this.setSubscriptions() 
+    },
+
+    beforeDestroy(){
+        this.deleteSubscriptions()
     },
 
     methods: {
-        mountListeners(){
+        setSubscriptions(){
             this.bus.subscribe('show:/module/app/files', () => this.show = !this.show )
-            this.bus.subscribe(`post:/${this.cloudModule}/files`, () => this.getFiles() )
         },
 
-        parseCloudModule(){
-            let parsed_data = this.object_utils.parseCloudModule(this.cloudModule)
-            console.log(parsed_data)
-            this.object_name = parsed_data.cloud_object_name
-            this.module_name = parsed_data.cloud_module_name
+        deleteSubscriptions(){
+            this.bus.$off('show:/module/app/files')
         },
 
-        getFiles() {
-            if(this.cloudId){
-                let url = `/${this.module_name.slash}/${this.object_name.plural}/${this.cloudId}/files`
-                this.http.get(url).then(result => {
-                    if (result.successful) {
-                        this.files = result.data
-                    }
-                }).catch(error => {
-                    console.log(error)
-                })
-            }
-        }
-    },
-    watch: {
-        cloudId(){
-            this.getFiles()
+        switchToList(){
+            this.active_tab = 1
         }
     }
 }
 </script>
 <template>
-    <section>
-        <div :class="[{ 'is-active': show }, 'quickview']">
-            <header class="quickview-header" @click="show = false">
-                <p class="title">Files</p>
-                <i class="fas fa-chevron-right"></i>
-            </header>
-            <div class="quickview-body">
-                <div class="quickview-block">
-                    <div class="section">
-                        <component-form-file class="box" :cloudModule="cloudModule" :cloudId="cloudId"/>
-                        <ul class="menu-list">
-                            <li class="field" v-for="file in files" :key="file.id">
-                                <a :href="`/${module_name.slash}/${object_name.plural}/${cloudId}/files/${file.id}`">
-                                    {{ file.name }}
-                                </a>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-            <footer class="quickview-footer">
-            </footer>
-        </div>
-    </section>
+    <b-tabs expanded v-model="active_tab">
+        <b-tab-item label="Upload">
+            <component-form :cloud-module="cloudModule" :cloud-id="cloudId" :active="active" @upload-complete="switchToList"/>
+        </b-tab-item>
+        <b-tab-item label="All documents">
+            <component-list :cloud-module="cloudModule" :cloud-id="cloudId" :active="active" />
+        </b-tab-item>
+    </b-tabs>
 </template>
-<style scoped>
-    .menu-list{
-        word-wrap: break-word;
-    }
-</style>
