@@ -1,25 +1,27 @@
 {
-  "_from": "git+https://github.com/LesliTech/lesli-css.git#master",
+  "_from": "lesli-css",
   "_id": "lesli-css@0.3.0",
   "_inBundle": false,
-  "_integrity": "",
+  "_integrity": "sha512-kwy48XI9RoRSt9Ov0P7NLoGlmMKh3P4lsEfmnG+87dE5QIvakeR2fGHQkELQQsRx4MjFOREDWg7GgXTqfDfEDQ==",
   "_location": "/lesli-css",
   "_phantomChildren": {},
   "_requested": {
-    "type": "git",
-    "raw": "lesli-css@git+https://github.com/LesliTech/lesli-css.git#master",
+    "type": "tag",
+    "registry": true,
+    "raw": "lesli-css",
     "name": "lesli-css",
     "escapedName": "lesli-css",
-    "rawSpec": "git+https://github.com/LesliTech/lesli-css.git#master",
-    "saveSpec": "git+https://github.com/LesliTech/lesli-css.git#master",
-    "fetchSpec": "https://github.com/LesliTech/lesli-css.git",
-    "gitCommittish": "master"
+    "rawSpec": "",
+    "saveSpec": null,
+    "fetchSpec": "latest"
   },
   "_requiredBy": [
-    "#DEV:/"
+    "#USER",
+    "/"
   ],
-  "_resolved": "git+https://github.com/LesliTech/lesli-css.git#4f96dfc3770a47294e539ab7be14e69b9f3da865",
-  "_spec": "lesli-css@git+https://github.com/LesliTech/lesli-css.git#master",
+  "_resolved": "https://registry.npmjs.org/lesli-css/-/lesli-css-0.3.0.tgz",
+  "_shasum": "fca4251227528e0b9738983d8b5af8f6bf2e7e45",
+  "_spec": "lesli-css",
   "_where": "/var/www/LesliCloud/Lesli",
   "author": {
     "name": "LesliTech",
@@ -30,11 +32,9 @@
     "normalize.css": "8.0.1"
   },
   "deprecated": false,
-  "description": "<p align=\"center\"> \t<a href=\"#\" target=\"_blank\"> \t\t<img alt=\"LesliCSS logo\" width=\"200px\" src=\"https://cdn.lesli.tech/leslidev/leslicss/brand/leslicss-imagotipo.svg\" /> \t</a> </p>",
-  "homepage": "https://lesli.cloud",
-  "license": "All rights reserved",
+  "description": "SCSS Utilities for websites, apps and web applications",
+  "homepage": "https://lesli.tech",
+  "license": "GPLv3",
   "name": "lesli-css",
-  "private": true,
-  "title": "LesliCSS",
   "version": "0.3.0"
 }
