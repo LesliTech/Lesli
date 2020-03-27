@@ -42,6 +42,9 @@ export default {
         dataLabels: {
             type: Array,
             required: true
+        },
+        height: {
+            default: "auto"            
         }
     },
     data() {
@@ -61,6 +64,7 @@ export default {
                 },
                 chart: {
                     stacked: true,
+                    height: this.height,
                     toolbar: {
                         show: false,
                     }
@@ -94,7 +98,7 @@ export default {
                 },
                 yaxis: {
                     show: false,
-                    max: 800
+                    //max: 800
                 }
             }
         }
