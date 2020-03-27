@@ -25,6 +25,8 @@ Building a better future, one line of code at a time.
 
 =end
     class FilesController < ApplicationController
+        require 'zip'
+
         before_action :set_cloud_object_file, only: [:show, :destroy]
 
 =begin
@@ -151,6 +153,49 @@ this.http.delete(`127.0.0.1/help/tickets/${ticket_id}/files/${file_id}`);
         def file_options
             model = dynamic_info[:model]
             responseWithSuccessful(model.file_options)
+        end
+
+=begin
+@return [void]
+@descirption Creates a zip file with all selected documents and sends it to the user
+@example
+    # Executing this controller's action from javascript's frontend
+    this.http.get('127.0.0.1/house/options/project/1/files/zip&ids=1,2,3,4');
+=end
+        def zip_download_options
+            module_name = dynamic_info[:module_name]
+            model = dynamic_info[:model]
+            object_name = dynamic_info[:object_name]
+            plural_object_name = object_name.pluralize
+            module_name = "house" if module_name == "haus"
+
+            files = model.joins(
+                :cloud_object
+            ).where(
+                "cloud_#{module_name}_#{object_name}_files.id in (#{params[:ids]})"
+            ).where(
+                "cloud_#{module_name}_#{plural_object_name}.cloud_#{module_name}_accounts_id = #{current_user.account.id}"
+            )
+
+            zip_stream = ::Zip::OutputStream.write_buffer do |zip|
+                files.each do |object_file|
+
+                    # CarrierWave zip download
+                    object_file_filepath = object_file.attachment.current_path.gsub("haus", "house")
+                    filename = object_file.attachment_identifier
+                    next unless ::File.exist?(object_file_filepath)
+                    zip.put_next_entry filename
+                    zip.print IO.binread(object_file_filepath)
+
+                    # Active Storage zip download
+                    # next if object_file.file.blank?
+                    # file_path = ActiveStorage::Blob.service.send(:path_for, object_file.file.key)
+                    # zip.put_next_entry object_file.file.blob.filename
+                    # zip.print IO.binread(file_path)
+                end
+            end
+            zip_stream.rewind
+            send_data zip_stream.read, filename: "all_documents_#{Date.today.strftime('%d_%B_%Y')}.zip", type: 'application/zip'
         end
 
         private
