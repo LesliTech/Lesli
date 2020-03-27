@@ -1,113 +1,183 @@
 <script>
-/*
-Lesli
+import VueDropzone from 'vue2-dropzone'
+import 'vue2-dropzone/dist/vue2Dropzone.min.css'
 
-Copyright (c) 2020, Lesli Technologies, S. A.
-
-All the information provided by this website is protected by laws of Guatemala related 
-to industrial property, intellectual property, copyright and relative international laws. 
-Lesli Technologies, S. A. is the exclusive owner of all intellectual or industrial property
-rights of the code, texts, trade mark, design, pictures and any other information.
-Without the written permission of Lesli Technologies, S. A., any replication, modification,
-transmission, publication is strictly forbidden.
-For more information read the license file including with this software.
-
-LesliCloud - Your Smart Business Assistant
-
-Powered by https://www.lesli.tech
-Building a better future, one line of code at a time.
-
-@license  Propietary - all rights reserved.
-@version  0.1.0-alpha
-
-// · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
-// · 
-*/
-
-
-// · 
 export default {
     props: {
         cloudModule: {
             type: String,
             required: true
         },
+
         cloudId: {
             required: true
+        },
+
+        active: {
+            type: Boolean,
+            default: true
         }
     },
 
-    data() {
+    components: {
+        'vue-dropzone': VueDropzone
+    },
+
+    data(){
         return {
+            submitting_form: false,
             module_name: null,
             object_name: null,
-            file: {
-                name: "",
-                file: null
-            }
+            file_options: {
+                file_types: []
+            },
+            dropzone_options: {
+                url: null,
+                thumbnailWidth: 150,
+                paramName: null,
+                autoProcessQueue: false,
+                addRemoveLinks: true,
+                method: "POST",
+                headers: {
+                    "X-CSRF-Token": document
+                    .querySelector('meta[name="csrf-token"]')
+                    .getAttribute("content")
+                }
+            },
+            file_type: null
         }
     },
     
     mounted(){
         this.parseCloudModule()
+        this.setDropzoneOptions()
+        this.getBackendData()
     },
 
     methods: {
+
+        setDropzoneOptions(){
+            this.dropzone_options.url = `/${this.module_name.slash}/${this.object_name.plural}/${this.cloudId}/files`
+            this.dropzone_options.paramName = `${this.object_name.singular}_file[attachment]`
+        },
 
         parseCloudModule(){
             let parsed_data = this.object_utils.parseCloudModule(this.cloudModule)
             this.object_name = parsed_data.cloud_object_name
             this.module_name = parsed_data.cloud_module_name
         },
-        
-        postFile(e) {
-            if (e) { e.preventDefault() }
-            
-            let foreign_key = `cloud_${this.module_name.underscore}_${this.object_name.plural}_id`
 
-            let form_data = new FormData()
-            form_data.append(`${this.object_name.singular}_file[name]`, this.file.name)
-            form_data.append(`${this.object_name.singular}_file[attachment]`, this.file.file)
-            form_data.append(`${this.object_name.singular}_file[${foreign_key}]`, this.cloudId)
+        getBackendData(){
+            if(this.active){
+                this.getFileOptions()
+            }
+        },
 
-            let url = `/${this.module_name.slash}/${this.object_name.plural}/${this.cloudId}/files`
-            this.http.post(url, form_data, {
-                headers: {
-                    'Content-Type': 'multipart/form-data'
-                }
-            }).then(result => {
+        getFileOptions(){
+            let url = `/${this.module_name.slash}/options/${this.object_name.singular}/files`
+
+            this.http.get(url).then(result => {
                 if (result.successful) {
-                    this.file.name = ""
-                    this.$refs.file.value = null
-                    this.bus.publish(`post:/${this.cloudModule}/files`)
-                    this.alert("File successfully uploaded")
-                } else {
-                    this.alert(result.error.message, 'danger')
+                    this.file_options = result.data
+                }else{
+                    this.alert(result.error.message,'danger')
                 }
             }).catch(error => {
                 console.log(error)
             })
-
         },
-        handleFileUpload(test, files) {
-            this.file.file = files[0]
-            this.$refs.input.focus()
+
+        postFiles(event){
+            if(event){
+                event.preventDefault()
+            }
+
+            let dropzone = this.$refs['dropzone']
+            this.submitting_form = true
+            if(dropzone.getAcceptedFiles().length > 0){
+                dropzone.processQueue()
+            }else{
+                this.submitting_form = false
+            }
+        },
+
+        attachFileType(file, xhr, formData){
+            let data = new FormData();
+            let param_name = `${this.object_name.singular}_file`
+            formData.append(`${param_name}[file_type]`, this.file_type)
+        },
+
+        cleanDropzone(){
+            this.submitting_form = false
+            this.alert('Files uploaded successfully', 'success')
+            this.$refs['dropzone'].removeAllFiles(true);
+            this.$emit('upload-complete')
+            this.bus.publish(`post:/${this.module_name.slash}/${this.object_name.plural}/files-complete`)
+        },
+
+        filePosted(file, response){
+            this.bus.publish(`post:/crm/${this.object_name.plural}/files`, response.data)
         }
+    },
 
+    watch: {
+        active(){
+            if(this.file_options.file_types == 0){
+                this.getBackendData()
+            }
+        }
     }
-
 }
 </script>
 <template>
-    <div class="box">
-        <form @submit="postFile">
-            <input class="wrap-file" type="file" ref="file" @change="handleFileUpload($event.target.name, $event.target.files)">
-            <input v-model="file.name" class="input" type="text" ref="input" placeholder="Add a name to the file...">
-        </form>
-    </div>
+    <form @submit="postFiles">
+        <div class="columns is-marginless has-border-bottom">
+            <div class="column is-2">
+                <strong>Type</strong><sup class="has-text-danger">*</sup>
+            </div>
+            <div class="column is-10">
+                <b-field>
+                    <b-select expanded placeholder="Select a document type" v-model="file_type" required>
+                        <option v-for="file_type in file_options.file_types" :key="file_type.value" :value="file_type.value">
+                            {{file_type.text}}
+                        </option>
+                    </b-select>
+                </b-field>
+            </div>
+        </div>
+
+        <div class="columns is-marginless has-border-bottom">
+            <div class="column is-2">
+                <strong>File(s)</strong><sup class="has-text-danger">*</sup>
+            </div>
+            <div class="column is-10">
+                <b-field>
+                    <vue-dropzone
+                        ref="dropzone"
+                        v-if="dropzone_options.url"
+                        id="files-dropzone"
+                        :options="dropzone_options"
+                        v-on:vdropzone-sending="attachFileType"
+                        v-on:vdropzone-success="filePosted"
+                        v-on:vdropzone-queue-complete="cleanDropzone"
+                    ></vue-dropzone>
+                </b-field>
+            </div>
+        </div>
+
+        <br>
+
+        <div class="buttons">
+            <b-button type="is-primary" expanded native-type="submit" class="submit-button" :disabled="submitting_form">
+                <span v-if="submitting_form">
+                    <b-icon icon="circle-notch" custom-class="fa-spin" size="is-small" />
+                    &nbsp;
+                    Saving
+                </span>
+                <span v-else>
+                    Save
+                </span>
+            </b-button>
+        </div>
+    </form>
 </template>
-<style scoped>
-    .wrap-file{
-        width: 100%;
-    }
-</style>
