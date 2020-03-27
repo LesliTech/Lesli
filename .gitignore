@@ -21,6 +21,7 @@
 /storage/*
 !/storage/.keep
 
+/public/tmp
 /public/assets
 /node_modules
 

@@ -91,6 +91,13 @@ gem "fog-aws"
 # Rubyzip to compress files
 gem "rubyzip", "~> 2.3.0"
 
+#gem 'axlsx', git: 'https://github.com/randym/axlsx.git', ref: 'c8ac844'
+
+# Excel file generator gems
+gem 'axlsx'
+
+gem 'axlsx_rails'
+
 group :development, :test do
 
     gem "faker"
@@ -106,11 +113,11 @@ group :development, :test do
 
     gem "yard"
 
-# Avoiding polling in widows
-gem "wdm", ">= 0.1.0" if Gem.win_platform?
+    # Avoiding polling in widows
+    gem "wdm", ">= 0.1.0" if Gem.win_platform?
 
     # Workaround for nokogiri when using ruby 2.7.0
-gem "nokogiri", "~> 1.11.0.rc1" if Gem.win_platform?
+    gem "nokogiri", "~> 1.11.0.rc1" if Gem.win_platform?
 
 end
 

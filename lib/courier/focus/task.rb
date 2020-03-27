@@ -65,7 +65,7 @@ module Courier
                         id: task.id, 
                         title: task.title, 
                         description: task.description,
-                        deadline: Courier::Core::Date.to_string(task.deadline, "%d:%m:%Y"),
+                        deadline: Courier::Core::Date.to_string(task.deadline, "%d.%m.%Y"),
                         importance: task.importance,
                         task_type: task.task_type,
                         creator: Courier::Core::Users.get(task.creator_id),
@@ -81,12 +81,13 @@ module Courier
 
             def self.model_index(current_user, query)
                 return [] unless defined? CloudFocus && CloudHouse
-
                 tasks = current_user.account.focus.tasks
                         .select(:id, :title, :description, :deadline, :importance, :task_type, :creator_id, :users_id, :model_id, :model_type)
                         .joins(:status, :detail)
                         .includes(model: [:detail])
                         .where("cloud_focus_workflow_statuses.name = ?", 'created')
+                
+                tasks = tasks.where(creator: current_user) unless query[:filters][:all]
                 
                 if defined? (CloudLock)
                     tasks = tasks.select("ua.id as user_id, concat(uda.first_name,' ', uda.last_name) as user_value, 
