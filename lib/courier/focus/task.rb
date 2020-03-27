@@ -38,22 +38,18 @@ module Courier
                 today = Time.now
                 filter_year = query[:filters][:year] || today.strftime("%Y")
                 filter_month = query[:filters][:month] || today.strftime("%m")
-                filter_date = query[:filters][:date]
+                filter_day = query[:filters][:day]
 
 
                 tasks = current_user.account.focus.tasks.joins(:detail)
                 .select(:id, :title, :description, :deadline)
                 .where("cloud_focus_task_details.deadline is not null")
+                .where("extract('year' from cloud_focus_task_details.deadline) = ?", filter_year)
+                .where("extract('month' from cloud_focus_task_details.deadline) = ?", filter_month)
 
-                if filter_date
-                    tasks = taks.where("cloud_focus_tasks.deadline = ?", filter_date)
-                else
-                    tasks = tasks.where(
-                        "extract('year' from cloud_focus_task_details.deadline) = ?", filter_year
-                    ).where(
-                        "extract('month' from cloud_focus_task_details.deadline) = ?", filter_month
-                    )
-                end
+                tasks = tasks.where("extract('day' from cloud_focus_task_details.deadline) = ?", filter_day) if filter_day
+                
+                return tasks
             end
             
             def self.by_model(model_type, model_id, current_user, query)
