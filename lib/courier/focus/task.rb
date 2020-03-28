@@ -32,21 +32,24 @@ module Courier
             def self.for(current_user)
             end
 
-            def self.with_deadline(current_user)
+            def self.with_deadline(current_user, query)
                 return [] unless defined? CloudFocus
-                current_user.account.focus.tasks.joins(:detail)
+
+                today = Time.now
+                filter_year = query[:filters][:year] || today.strftime("%Y")
+                filter_month = query[:filters][:month] || today.strftime("%m")
+                filter_day = query[:filters][:day]
+
+
+                tasks = current_user.account.focus.tasks.joins(:detail)
                 .select(:id, :title, :description, :deadline)
                 .where("cloud_focus_task_details.deadline is not null")
-                .where("date_trunc('month', cloud_focus_task_details.deadline) = date_trunc('month', CURRENT_DATE)")
-                .limit(100)
-            end
+                .where("extract('year' from cloud_focus_task_details.deadline) = ?", filter_year)
+                .where("extract('month' from cloud_focus_task_details.deadline) = ?", filter_month)
 
-            def self.with_deadline_date(current_user, date, query)
-                return [] unless defined? CloudFocus
-                current_user.account.focus.tasks.joins(:detail)
-                .select(:id, :title, :description, :deadline)
-                .where("cloud_focus_task_details.deadline = ?", date)
-                .limit(100)
+                tasks = tasks.where("extract('day' from cloud_focus_task_details.deadline) = ?", filter_day) if filter_day
+                
+                return tasks
             end
             
             def self.by_model(model_type, model_id, current_user, query)
