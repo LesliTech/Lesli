@@ -104,6 +104,10 @@ export default {
 
         showNotificationPanel() {
             this.bus.publish("show:/core/layout/notification")
+        },
+
+        searchText(input) {
+            this.bus.publish("search:/core/layouts/component-global-search", input.srcElement.value)
         }
 
     }
@@ -130,7 +134,7 @@ export default {
 
                     <div class="navbar-item">
                         <div class="control is-medium has-icons-left has-text-grey">
-                            <input class="input is-medium is-shadowless" type="email" placeholder="Search...">
+                            <input class="input is-medium is-shadowless" type="email" @input="searchText" placeholder="Search...">
                             <span class="icon is-left has-text-gray">
                                 <i class="fas fa-search"></i>
                             </span>

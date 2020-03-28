@@ -62,6 +62,7 @@ import document from 'LesliCoreVue/functions/document.js'
 import componentApplicationHeader from 'LesliCoreVue/layouts/application-header.vue'
 import componentApplicationChatbox from 'LesliCoreVue/layouts/application-chatbox.vue'
 import componentApplicationNotification from 'LesliCoreVue/layouts/application-notification.vue'
+import componentApplicationGlobalSearch from 'LesliCoreVue/layouts/application-global-search.vue'
 
 import componentDataLoading from 'LesliCoreVue/layouts/data-loading.vue'
 import componentDataEmpty from 'LesliCoreVue/layouts/data-empty.vue'
@@ -103,7 +104,8 @@ export default (module, apps, base_path, routes=[]) => {
     cloud_builder['components'] = { 
         'application-component-header': componentApplicationHeader,
         'application-component-chatbox': componentApplicationChatbox,
-        'application-component-notification': componentApplicationNotification
+        'application-component-notification': componentApplicationNotification,
+        'application-component-global-search': componentApplicationGlobalSearch
     }
 
     
