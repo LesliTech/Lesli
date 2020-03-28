@@ -35,10 +35,10 @@
                 background-color: lesli-css-theme-get-color(app, secondary);
             }
             &.cloud_driver_event.company {
-                border-left-color: lesli-css-theme-get-color(orange, 700);
+                background-color: lesli-css-theme-get-color(orange, 700);
             }
             &.cloud_driver_event {
-                border-left-color: lesli-css-theme-get-color(cocoa, 700);
+                background-color: lesli-css-theme-get-color(cocoa, 700);
             }
             &.cloud_focus_task {
                 background-color: lesli-css-theme-get-color(lime, 700);
