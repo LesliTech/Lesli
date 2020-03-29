@@ -1,6 +1,26 @@
 <application-component-header>
     <template v-slot:logo>
-        <%= image_tag application_header_logo(), alt: "Company logo"   %>
+        <%= image_tag application_header_logo(), alt: "Company logo" %>
+    </template>
+    <template v-slot:languages>
+        <div class="navbar-item has-dropdown is-hoverable" data-intro="Language selector">
+            <a class="navbar-item">
+                <span class="icon has-text-grey-light">
+                    <%= flag_icon(language_flag(I18n.locale)) %>
+                </span>
+            </a>
+            <div class="navbar-dropdown">
+                <% I18n.available_locales.each do |locale| %>
+                    <% next if locale == I18n.locale %>
+                    <%= link_to language_path(:locale => locale), { :class => "navbar-item"} do %>
+                        <span class="icon has-text-grey-light">
+                            <%= flag_icon(language_flag(locale)) %>
+                        </span>
+                        <span><%= language_name(locale) %></span>
+                    <% end %>
+                <% end %>
+            </div>
+        </div>
     </template>
     <template v-slot:username>
         <%= current_user.email %>
