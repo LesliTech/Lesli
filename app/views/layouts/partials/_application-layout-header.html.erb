@@ -12,7 +12,8 @@
             <div class="navbar-dropdown">
                 <% I18n.available_locales.each do |locale| %>
                     <% next if locale == I18n.locale %>
-                    <%= link_to language_path(:locale => locale), { :class => "navbar-item"} do %>
+                    <%#= link_to language_path(:locale => locale), { :class => "navbar-item"} do %>
+                    <%= link_to language_url(locale), { :class => "navbar-item"} do %>
                         <span class="icon has-text-grey-light">
                             <%= flag_icon(language_flag(locale)) %>
                         </span>
