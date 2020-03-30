@@ -202,7 +202,6 @@ ActiveRecord::Schema.define(version: 2020_02_17_142005) do
     t.string "value_to"
     t.string "category"
     t.bigint "users_id"
-    t.string "icon"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.bigint "cloud_driver_events_id"
@@ -303,7 +302,6 @@ ActiveRecord::Schema.define(version: 2020_02_17_142005) do
     t.string "value_to"
     t.string "category"
     t.bigint "users_id"
-    t.string "icon"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.bigint "cloud_focus_tasks_id"
@@ -454,7 +452,6 @@ ActiveRecord::Schema.define(version: 2020_02_17_142005) do
     t.string "value_to"
     t.string "category"
     t.bigint "users_id"
-    t.string "icon"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.bigint "cloud_house_companies_id"
@@ -598,7 +595,6 @@ ActiveRecord::Schema.define(version: 2020_02_17_142005) do
     t.string "value_to"
     t.string "category"
     t.bigint "users_id"
-    t.string "icon"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.bigint "cloud_house_contacts_id"
@@ -738,7 +734,6 @@ ActiveRecord::Schema.define(version: 2020_02_17_142005) do
     t.string "value_to"
     t.string "category"
     t.bigint "users_id"
-    t.string "icon"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.bigint "cloud_house_employees_id"
@@ -880,7 +875,6 @@ ActiveRecord::Schema.define(version: 2020_02_17_142005) do
     t.string "value_to"
     t.string "category"
     t.bigint "users_id"
-    t.string "icon"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.bigint "cloud_house_projects_id"
@@ -1043,7 +1037,6 @@ ActiveRecord::Schema.define(version: 2020_02_17_142005) do
     t.string "value_to"
     t.string "category"
     t.bigint "users_id"
-    t.string "icon"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.bigint "cloud_house_properties_id"
