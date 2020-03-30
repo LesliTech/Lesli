@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_03_13_165231) do
+ActiveRecord::Schema.define(version: 2020_02_17_142005) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -233,6 +233,19 @@ ActiveRecord::Schema.define(version: 2020_03_13_165231) do
     t.index ["cloud_driver_events_id"], name: "index_cloud_driver_event_details_on_cloud_driver_events_id"
   end
 
+  create_table "cloud_driver_event_discussions", force: :cascade do |t|
+    t.text "content"
+    t.datetime "deleted_at"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.bigint "users_id"
+    t.bigint "cloud_driver_event_discussions_id"
+    t.bigint "cloud_driver_events_id"
+    t.index ["cloud_driver_event_discussions_id"], name: "event_discussions"
+    t.index ["cloud_driver_events_id"], name: "driver_event_discussions"
+    t.index ["users_id"], name: "index_cloud_driver_event_discussions_on_users_id"
+  end
+
   create_table "cloud_driver_event_files", force: :cascade do |t|
     t.string "name"
     t.string "attachment"
@@ -243,9 +256,15 @@ ActiveRecord::Schema.define(version: 2020_03_13_165231) do
     t.index ["cloud_driver_events_id"], name: "index_cloud_driver_event_files_on_cloud_driver_events_id"
   end
 
-  create_table "cloud_driver_event_subscriptions", force: :cascade do |t|
+  create_table "cloud_driver_event_subscribers", force: :cascade do |t|
+    t.integer "event"
+    t.integer "notification_type"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.bigint "users_id"
+    t.bigint "cloud_driver_events_id"
+    t.index ["cloud_driver_events_id"], name: "driver_event_subscribers_events"
+    t.index ["users_id"], name: "driver_event_subscribers_users"
   end
 
   create_table "cloud_driver_events", force: :cascade do |t|
@@ -326,13 +345,13 @@ ActiveRecord::Schema.define(version: 2020_03_13_165231) do
   create_table "cloud_focus_tasks", force: :cascade do |t|
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.bigint "accounts_id"
+    t.bigint "cloud_focus_accounts_id"
     t.bigint "cloud_focus_workflow_statuses_id"
     t.bigint "users_id"
     t.string "model_type"
     t.bigint "model_id"
     t.bigint "creator_id"
-    t.index ["accounts_id"], name: "index_cloud_focus_tasks_on_accounts_id"
+    t.index ["cloud_focus_accounts_id"], name: "index_cloud_focus_tasks_on_cloud_focus_accounts_id"
     t.index ["cloud_focus_workflow_statuses_id"], name: "focus_tasks_workflow_statuses"
     t.index ["creator_id"], name: "index_cloud_focus_tasks_on_creator_id"
     t.index ["model_type", "model_id"], name: "index_cloud_focus_tasks_on_model_type_and_model_id"
@@ -1313,14 +1332,19 @@ ActiveRecord::Schema.define(version: 2020_03_13_165231) do
   add_foreign_key "cloud_driver_event_attendants", "cloud_driver_events", column: "cloud_driver_events_id"
   add_foreign_key "cloud_driver_event_attendants", "users", column: "users_id"
   add_foreign_key "cloud_driver_event_details", "cloud_driver_events", column: "cloud_driver_events_id"
+  add_foreign_key "cloud_driver_event_discussions", "cloud_driver_event_discussions", column: "cloud_driver_event_discussions_id"
+  add_foreign_key "cloud_driver_event_discussions", "cloud_driver_events", column: "cloud_driver_events_id"
+  add_foreign_key "cloud_driver_event_discussions", "users", column: "users_id"
   add_foreign_key "cloud_driver_event_files", "cloud_driver_events", column: "cloud_driver_events_id"
+  add_foreign_key "cloud_driver_event_subscribers", "cloud_driver_events", column: "cloud_driver_events_id"
+  add_foreign_key "cloud_driver_event_subscribers", "users", column: "users_id"
   add_foreign_key "cloud_driver_events", "cloud_driver_accounts", column: "cloud_driver_accounts_id"
   add_foreign_key "cloud_driver_events", "cloud_driver_calendars", column: "cloud_driver_calendars_id"
   add_foreign_key "cloud_driver_events", "users", column: "users_id"
   add_foreign_key "cloud_focus_accounts", "accounts", column: "id"
   add_foreign_key "cloud_focus_task_activities", "cloud_focus_tasks", column: "cloud_focus_tasks_id"
   add_foreign_key "cloud_focus_task_details", "cloud_focus_tasks", column: "cloud_focus_tasks_id"
-  add_foreign_key "cloud_focus_tasks", "accounts", column: "accounts_id"
+  add_foreign_key "cloud_focus_tasks", "cloud_focus_accounts", column: "cloud_focus_accounts_id"
   add_foreign_key "cloud_focus_tasks", "cloud_focus_workflow_statuses", column: "cloud_focus_workflow_statuses_id"
   add_foreign_key "cloud_focus_tasks", "users", column: "users_id"
   add_foreign_key "cloud_focus_workflow_associations", "cloud_focus_workflows", column: "cloud_focus_workflows_id"

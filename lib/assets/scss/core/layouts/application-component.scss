@@ -23,9 +23,8 @@ Building a better future, one line of code at a time.
 // · 
 */
 section.application-component {
-    //flex: 1;
-    padding: 1.3rem;
     width: 100%;
-    max-width: calc(100% - var(--application-navigation-width));
+    padding: 1.3rem;
     margin-left: var(--application-navigation-width);
+    max-width: calc(100% - var(--application-navigation-width));
 }

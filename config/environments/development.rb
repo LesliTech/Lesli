@@ -32,9 +32,9 @@ Rails.application.configure do
 
     config.action_mailer.perform_caching = true
 
-    config.action_mailer.delivery_method = :smtp
-
     config.action_mailer.default_url_options = { host: '0.0.0.0:3000' }
+
+    config.action_mailer.delivery_method = :smtp
 
     config.action_mailer.smtp_settings = {
         port: 25,
