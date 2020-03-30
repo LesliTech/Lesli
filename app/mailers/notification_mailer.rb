@@ -9,7 +9,7 @@ class NotificationMailer < ApplicationMailer
         @cloud_object_type = params[:cloud_object_type]
         
         mail(
-            to: @user.email,
+            to: "ldonis@lomax.com.gt",#to: @user.email,
             subject: "Lesli Cloud Notification: @subject",
             template_path: 'mailers/notification_mailer'
         )

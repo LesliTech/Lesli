@@ -68,4 +68,16 @@ module ApplicationHelper
         company == company_name
     end
 
+    def language_flag(locale)
+        locale = "gb" if locale.to_s == "en"
+        locale
+    end
+
+    def language_name(locale)
+        locale = "English"  if locale.to_s == "en"
+        locale = "Deutsche" if locale.to_s == "de"
+        locale = "Español"  if locale.to_s == "es"
+        locale
+    end
+
 end

@@ -104,6 +104,10 @@ export default {
 
         showNotificationPanel() {
             this.bus.publish("show:/core/layout/notification")
+        },
+
+        searchText(input) {
+            this.bus.publish("search:/core/layouts/component-global-search", input.srcElement.value)
         }
 
     }
@@ -130,7 +134,7 @@ export default {
 
                     <div class="navbar-item">
                         <div class="control is-medium has-icons-left has-text-grey">
-                            <input class="input is-medium is-shadowless" type="email" placeholder="Search...">
+                            <input class="input is-medium is-shadowless" type="email" @input="searchText" placeholder="Search...">
                             <span class="icon is-left has-text-gray">
                                 <i class="fas fa-search"></i>
                             </span>
@@ -150,33 +154,7 @@ export default {
                     </a>
                     -->
 
-                    <div class="navbar-item has-dropdown is-hoverable" data-intro="Language selector">
-                        <a class="navbar-item">
-                            <span class="icon has-text-grey-light">
-                                <span class="flag-icon flag-icon-gb"></span>
-                            </span>
-                        </a>
-                        <div class="navbar-dropdown">
-                            <a class="navbar-item">
-                                <span class="icon has-text-grey-light">
-                                    <span class="flag-icon flag-icon-de"></span>
-                                </span>
-                                <span>Deutsche</span>
-                            </a>
-                            <a class="navbar-item">
-                                <span class="icon has-text-grey-light">
-                                    <span class="flag-icon flag-icon-gb"></span>
-                                </span>
-                                <span>English</span>
-                            </a>
-                            <a class="navbar-item">
-                                <span class="icon has-text-grey-light">
-                                    <span class="flag-icon flag-icon-es"></span>
-                                </span>
-                                <span>Español</span>
-                            </a>
-                        </div>
-                    </div>
+                    <slot name="languages"></slot>
 
                     <a class="navbar-item notification-indicator" data-intro="Notification icon" @click="showNotificationPanel()">
                         <i v-if="notification.count > 0" class="fas fa-bell has-text-link"></i>

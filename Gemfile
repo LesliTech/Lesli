@@ -96,7 +96,7 @@ gem "rubyzip", "~> 2.3.0"
 # Excel file generator gems
 gem 'axlsx'
 
-gem 'axlsx_rails'
+gem 'caxlsx_rails'
 
 group :development, :test do
 
