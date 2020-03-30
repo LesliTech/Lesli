@@ -3,7 +3,7 @@ class CreateLocations < ActiveRecord::Migration[6.0]
         create_table :locations do |t|
 
             # Imagine USA, we have country > state > city. In guatemala, we have country > departamento > municipio
-            # level for Guatemala, Alta Verapaz, Cobán will be country, state, city
+            # levels for Guatemala, Alta Verapaz, Cobán will be country, state, city
             # native_levels for Guatemala, Alta Verapaz, Cobán will be country, departamento, municipio
             # native_levels are only reference, for relating entries we will use the 'level' field
             t.string        :name
