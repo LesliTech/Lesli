@@ -39,26 +39,9 @@ namespace :dev do
                 engine_path = Rails.root.join('engines', engine['name'])
                 puts ""; puts ""; puts "";
                 puts "Working with: #{engine['name']}"
-                system "cd ./engines/#{engine['name']} && git add --all && git commit -m \"add updates from development\""
                 system "cd ./engines/#{engine['name']} && git push origin master" if File.exists?(engine_path)
             end
             
-            # commit any possible pending change
-            system "git add --all && git commit -m \"dev update\""
-
-            # copy vendor dependencies (only css files are required)
-            system "rm -r vendor/*"
-            system "cp node_modules/buefy/ vendor/ -ra"
-            system "cp node_modules/bulma/ vendor/ -ra"
-            system "cp node_modules/bulma-o-steps/ vendor/ -ra"
-            system "cp node_modules/bulma-extensions/ vendor/ -ra"
-            system "cp node_modules/quill/ vendor/ -ra"
-            system "cp node_modules/@fullcalendar/ vendor/ -ra"
-            system "cp node_modules/lesli-css/ vendor/ -ra"
-
-            # commit any change in vendor
-            system "git add --all && git commit -m \"Update npm dependencies (vendors)\""
-    
             # push core to github
             puts ""; puts ""; puts "";
             puts "Working with: Lesli"
@@ -85,6 +68,40 @@ namespace :dev do
             puts ""; puts ""; puts "";
             puts "Working with: Lesli"
             system "git pull origin master"
+
+        end
+
+        desc "Commit everything to github master"
+        task commit: :environment do
+
+            # push all engines
+            Lesli::engines.each do |engine|
+                engine_path = Rails.root.join('engines', engine['name'])
+                puts ""; puts ""; puts "";
+                puts "Working with: #{engine['name']}"
+                system "cd ./engines/#{engine['name']} && git add --all && git commit -m \"add updates from development\""
+
+            end
+            
+            # push core to github
+            puts ""; puts ""; puts "";
+            puts "Working with: Lesli"
+
+            # commit any possible pending change
+            system "git add --all && git commit -m \"dev update\""
+
+            # copy vendor dependencies (only css files are required)
+            system "rm -r vendor/*"
+            system "cp node_modules/buefy/ vendor/ -ra"
+            system "cp node_modules/bulma/ vendor/ -ra"
+            system "cp node_modules/bulma-o-steps/ vendor/ -ra"
+            system "cp node_modules/bulma-extensions/ vendor/ -ra"
+            system "cp node_modules/quill/ vendor/ -ra"
+            system "cp node_modules/@fullcalendar/ vendor/ -ra"
+            system "cp node_modules/lesli-css/ vendor/ -ra"
+
+            # commit any change in vendor
+            system "git add --all && git commit -m \"Update npm dependencies (vendors)\""
 
         end
 
