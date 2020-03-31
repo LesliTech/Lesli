@@ -42,6 +42,20 @@ class User < ApplicationRecord
 
     after_create :user_initialize 
 
+    enum roles: {
+        admin: "admin",
+        buyer: "buyer",
+        manager: "manager",
+        office_manager: "office_manager",
+        property_manager: "property_manager",
+        intern: "intern",
+        b2b: "b2b",
+        kop: "kop",
+        callcenter: "callcenter",
+        api: "api",
+        guest: "guest"
+    }
+
     # @return [String] The name of this user.
     # @description Retrieves and returns the name of the user depending on the available information.
     #     The name can be a full name (first and last names), just the first name, or, in case the information
@@ -53,9 +67,7 @@ class User < ApplicationRecord
     #     other_user = User.last
     #     puts other_user.name # can print jane.smith@email.com
     def full_name
-
         name.blank? ? email : name
-
     end
 
     # @return [void]
@@ -65,6 +77,14 @@ class User < ApplicationRecord
     #     old_user.revoke_access
     def revoke_access
         update_attributes(active: false)
+    end
+
+    # @return Array
+    # @description Return a list of users that belongs to the account of the current_user
+    def self.list(current_user, query)
+        current_user.account.users
+        .page(query[:pagination][:page])
+        .per(query[:pagination][:perPage])
     end
 
     private 

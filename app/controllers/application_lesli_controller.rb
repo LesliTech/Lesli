@@ -99,14 +99,6 @@ class ApplicationLesliController < ApplicationController
             @account[:settings][setting[:name]] = setting[:value].to_s
         end
 
-        puts "~     ~     ~     ~     ~     ~     ~     ~     ~     ~     ~"
-        puts "~     ~     ~     ~     ~     ~     ~     ~     ~     ~     ~"
-        puts "~     ~     ~     ~     ~     ~     ~     ~     ~     ~     ~"
-        puts @account
-        puts "~     ~     ~     ~     ~     ~     ~     ~     ~     ~     ~"
-        puts "~     ~     ~     ~     ~     ~     ~     ~     ~     ~     ~"
-        puts "~     ~     ~     ~     ~     ~     ~     ~     ~     ~     ~"
-
         @account
 
     end

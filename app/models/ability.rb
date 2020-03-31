@@ -30,6 +30,8 @@ class Ability
 
     def initialize(user)
 
+        can :manage, :all
+        return 
         user.role.role_privileges.each do |privilege|
             module_name = privilege.privilege_object_name.gsub('/', '::',)
             module_name = module_name.gsub(/\b('?[a-z])/) { $1.capitalize }
