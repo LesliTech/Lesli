@@ -28,6 +28,8 @@ module Courier
     module Core
         class Locations
             def self.verify_location(current_user, location_city_id, location_city_name, level)
+                return current_user.account.locations.find_by(id: location_city_id).id if location_city_id
+
                 if location_city_name && ! location_city_id
                     begin
                         parent_location = current_user.account.locations.find_by(level: "empty")
