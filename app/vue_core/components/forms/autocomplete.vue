@@ -40,6 +40,11 @@ export default {
             default: ''
         },
 
+        focus: {
+            type: Function,
+            default: ()=>{}
+        },
+
         goToUrl: {
             type: Boolean,
             default: false
@@ -85,7 +90,9 @@ export default {
 
     mounted(){
         this.disable_search = true;
-        this.search = this.startingSearch;
+        if(this.startingSearch){
+            this.search = this.startingSearch;
+        }
 
         this.$nextTick(()=>{
             this.disable_search = false;
@@ -145,7 +152,7 @@ export default {
         loadOptions() {
             let params = `filters[search]=${this.search.toLowerCase()}`
             if(this.queryParams){
-                //params+=`&${this.queryParams}`
+                params+=`&${this.queryParams}`
             }
             let url = `${this.endpoint}?${params}`
 
@@ -271,7 +278,8 @@ export default {
             icon-right="eye-slash"
             icon-right-clickable
             @icon-right-click="clearAutocompleteOptions"
-            @change="verifySelectedOption"
+            @change.native="verifySelectedOption"
+            @focus="focus"
         >
         </b-input>
         <ul 
