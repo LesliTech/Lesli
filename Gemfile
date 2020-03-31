@@ -91,7 +91,7 @@ gem "fog-aws"
 # Rubyzip to compress files
 gem "rubyzip", "~> 2.3.0"
 
-#gem 'axlsx', git: 'https://github.com/randym/axlsx.git', ref: 'c8ac844'
+gem 'jwt'
 
 # Excel file generator gems
 gem 'axlsx'

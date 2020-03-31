@@ -60,7 +60,6 @@ Rails.application.routes.draw do
         mount CloudHouse::Engine  => "/house"  if defined?(CloudHouse)
         mount CloudFocus::Engine  => "/focus"  if defined?(CloudFocus)
         mount CloudDriver::Engine => "/driver" if defined?(CloudDriver)
-        mount CloudDispatcher::Engine => "/api" if defined?(CloudDispatcher)
 
         extend RoutesHaus if defined?(CloudHaus)
 
@@ -68,6 +67,8 @@ Rails.application.routes.draw do
         root to: "dashboards#empty", as: :root_authenticated if !defined?(CloudLesli)
 
     end
+    
+    mount CloudDispatcher::Engine => "/api" if defined?(CloudDispatcher)
 
     root to: redirect('/login'), as: :root_login_unauthenticated if defined?(CloudHaus)
     root to: "websites#landing", as: :root_unauthenticated
