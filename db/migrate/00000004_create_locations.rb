@@ -16,12 +16,13 @@ class CreateLocations < ActiveRecord::Migration[6.0]
             # native_levels are only reference, for relating entries we will use the 'level' field
             t.string        :level          # For example, country, state, city, etc.
             t.string        :native_level   # The original name of the level, based on language and location
-            t.string        :parent_id
+            t.bigint        :parent_id
 
             t.timestamps
         end
 
-        add_reference :locations, :locations, foreign_key: true
+        add_foreign_key :locations, :locations, column: :parent_id
         add_reference :locations, :accounts, foreign_key: true
+        add_index :locations, [:accounts_id, :name, :level, :parent_id], unique: true, name: "location_uniqueness_index"
     end
 end
