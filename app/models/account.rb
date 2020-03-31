@@ -32,6 +32,7 @@ class Account < ApplicationRecord
     has_many :users, foreign_key: 'accounts_id'
     has_many :settings, foreign_key: 'accounts_id'
 
+    # core engines
     has_one :kb,     class_name: "CloudKb::Account",     foreign_key: "id"
     has_one :team,   class_name: "CloudTeam::Account",   foreign_key: "id"
     has_one :bell,   class_name: "CloudBell::Account",   foreign_key: "id"
@@ -42,6 +43,9 @@ class Account < ApplicationRecord
     has_one :house,  class_name: "CloudHouse::Account",  foreign_key: "id"
     has_one :focus,  class_name: "CloudFocus::Account",  foreign_key: "id"
     has_one :driver, class_name: "CloudDriver::Account", foreign_key: "id"
+
+    # dedicated custom engines
+    #has_one :haus,  class_name: "CloudHaus::Account",  foreign_key: "id"
 
     after_create :create_engine_accounts
 
@@ -116,7 +120,6 @@ class Account < ApplicationRecord
                 self.house = CloudHouse::Account.new
                 self.house.account = self
                 self.house.save!
-
                 if defined? CloudHaus
                     CloudHaus::Account.initialize_workflows(self)
                 end
