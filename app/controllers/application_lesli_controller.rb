@@ -77,7 +77,7 @@ class ApplicationLesliController < ApplicationController
             user: { 
                 id: current_user.id,
                 email: current_user.email,
-                name: current_user.name
+                full_name: current_user.full_name
             },
             company: { },
             notifications: { 
@@ -98,6 +98,14 @@ class ApplicationLesliController < ApplicationController
         current_user.account.settings.each do |setting|
             @account[:settings][setting[:name]] = setting[:value].to_s
         end
+
+        puts "~     ~     ~     ~     ~     ~     ~     ~     ~     ~     ~"
+        puts "~     ~     ~     ~     ~     ~     ~     ~     ~     ~     ~"
+        puts "~     ~     ~     ~     ~     ~     ~     ~     ~     ~     ~"
+        puts @account
+        puts "~     ~     ~     ~     ~     ~     ~     ~     ~     ~     ~"
+        puts "~     ~     ~     ~     ~     ~     ~     ~     ~     ~     ~"
+        puts "~     ~     ~     ~     ~     ~     ~     ~     ~     ~     ~"
 
         @account
 

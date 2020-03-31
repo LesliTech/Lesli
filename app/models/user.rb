@@ -52,16 +52,10 @@ class User < ApplicationRecord
     #     puts my_user.name # can print John Doe
     #     other_user = User.last
     #     puts other_user.name # can print jane.smith@email.com
-    def name
-        if defined? CloudLock
-            #unless detail.blank?
-            #    unless detail.first_name.blank? && detail.last_name.blank?
-            #        return [detail.first_name, detail.last_name].join(' ') 
-            #    end
-            #    return detail.first_name unless detail.first_name.blank? 
-            #end
-        end
-        return email
+    def full_name
+
+        name.blank? ? email : name
+
     end
 
     # @return [void]
