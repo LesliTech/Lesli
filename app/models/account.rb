@@ -31,6 +31,7 @@ class Account < ApplicationRecord
 
     has_many :users, foreign_key: 'accounts_id'
     has_many :settings, foreign_key: 'accounts_id'
+    has_many :locations, foreign_key: 'accounts_id'
 
     # core engines
     has_one :kb,     class_name: "CloudKb::Account",     foreign_key: "id"
