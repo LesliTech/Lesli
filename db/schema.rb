@@ -1285,6 +1285,24 @@ ActiveRecord::Schema.define(version: 2020_02_17_142005) do
     t.index ["cloud_house_accounts_id"], name: "house_workflows_accounts"
   end
 
+  create_table "locations", force: :cascade do |t|
+    t.string "name"
+    t.string "short_name"
+    t.string "postal_code"
+    t.string "latitude"
+    t.string "longitude"
+    t.string "code"
+    t.string "level"
+    t.string "native_level"
+    t.string "parent_id"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.bigint "locations_id"
+    t.bigint "accounts_id"
+    t.index ["accounts_id"], name: "index_locations_on_accounts_id"
+    t.index ["locations_id"], name: "index_locations_on_locations_id"
+  end
+
   create_table "settings", force: :cascade do |t|
     t.string "name"
     t.string "value"
@@ -1297,6 +1315,7 @@ ActiveRecord::Schema.define(version: 2020_02_17_142005) do
   create_table "users", force: :cascade do |t|
     t.string "email", default: "", null: false
     t.string "encrypted_password", default: "", null: false
+    t.string "name"
     t.string "reset_password_token"
     t.datetime "reset_password_sent_at"
     t.datetime "remember_created_at"
@@ -1473,6 +1492,8 @@ ActiveRecord::Schema.define(version: 2020_02_17_142005) do
   add_foreign_key "cloud_house_workflow_associations", "cloud_house_workflows", column: "cloud_house_workflows_id"
   add_foreign_key "cloud_house_workflow_statuses", "cloud_house_workflows", column: "cloud_house_workflows_id"
   add_foreign_key "cloud_house_workflows", "cloud_house_accounts", column: "cloud_house_accounts_id"
+  add_foreign_key "locations", "accounts", column: "accounts_id"
+  add_foreign_key "locations", "locations", column: "locations_id"
   add_foreign_key "settings", "accounts", column: "accounts_id"
   add_foreign_key "users", "accounts", column: "accounts_id"
 end
