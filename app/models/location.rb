@@ -5,7 +5,7 @@ class Location < ApplicationRecord
     belongs_to  :account,           class_name: "Account",  foreign_key: "accounts_id"
 
     enum level: {
-        none: "none",
+        empty: "empty",
         continent: "continent",
         country: "country",
         state: "state",
