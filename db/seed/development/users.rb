@@ -27,13 +27,8 @@ Building a better future, one line of code at a time.
 
 =end
 
-email = "hello@lesli.cloud"
+email = "dev@lesli.cloud"
 password = "lesli2020"
-
-if defined?(CloudHaus)
-    email = "crm.admin@deutsche-leibrenten.de" 
-    password = "deutsche$leibrenten2020"
-end
 
 User.find_or_create_by(email: email) do |user|
     user.password = password

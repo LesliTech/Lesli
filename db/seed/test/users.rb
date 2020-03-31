@@ -23,12 +23,17 @@ Building a better future, one line of code at a time.
 @description testing seeders
 
 =end
-User.find_or_create_by(email: 'admin@lesli.cloud') do |user|
-    user.password = 'lesli2019'
-    user.password_confirmation = 'lesli2019'
+email = "hello@lesli.cloud"
+password = "lesli2020"
+
+User.find_or_create_by(email: email) do |user|
+    user.password = password
+    user.password_confirmation = password
     user.accounts_id = 1
     user.confirm
 
     user.account.user = user
     user.account.save!
 end
+
+p "Users successfully created!"
