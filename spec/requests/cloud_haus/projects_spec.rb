@@ -4,8 +4,7 @@ RSpec.describe "CloudHaus::Projects", type: :request do
     include Devise::Test::IntegrationHelpers
 
     def login_admin
-        # @user = User.find_by(email: "admin@lesli.cloud")
-        @user = User.find_by(email: "crm.admin@deutsche-leibrenten.de")
+        @user = User.find_by(email: "admin@lesli.cloud")
         sign_in @user
     end
 
@@ -93,6 +92,10 @@ RSpec.describe "CloudHaus::Projects", type: :request do
             "Accept" => "application/json"
         }
     end
+    
+    def path
+        "/crm/projects"
+    end
 
     
     describe "INDEX integration test" do  
@@ -100,7 +103,7 @@ RSpec.describe "CloudHaus::Projects", type: :request do
         it "test http json response" do
             login_admin
 
-            get "/crm/projects.json"
+            get "#{path}.json"
             response_json = JSON.parse(response.body)
 
             expect(response.status).to be 200
@@ -111,7 +114,7 @@ RSpec.describe "CloudHaus::Projects", type: :request do
         it "test http html response" do
             login_admin
 
-            get "/crm/projects.html"
+            get "#{path}.html"
         
             expect(response.status).to be 200
             expect(response.headers["Content-Type"]).to eq "text/html; charset=utf-8"
@@ -125,10 +128,10 @@ RSpec.describe "CloudHaus::Projects", type: :request do
         it "test http html response" do
             login_admin
             create_account
-            
             project = create_project
 
-            get "/crm/projects/#{project.id}.html"
+            get "#{path}/#{project.id}.html"
+
             expect(response.status).to be 200
             expect(response.headers["Content-Type"]).to eq "text/html; charset=utf-8"
         end
@@ -136,11 +139,9 @@ RSpec.describe "CloudHaus::Projects", type: :request do
         # it "test valid request" do
         #     login_admin
         #     create_account
-
         #     project = create_project
-        #     puts project.detail
 
-        #     get "/crm/projects/#{project.id}.json"
+        #     get "#{path}/#{project.id}.json"
         #     response_json = JSON.parse(response.body)
 
         #     expect(response.status).to be 200
@@ -148,28 +149,27 @@ RSpec.describe "CloudHaus::Projects", type: :request do
         #     expect(response_json["successful"]).to be true
         # end
 
-        it "test invalid request (non-existent projects)" do
+        it "test invalid request (non-existent project)" do
             login_admin
             create_account
 
-            get "/crm/projects/#{Faker::Number.number(digits: 6)}.json"
+            get "#{path}/#{Faker::Number.number(digits: 6)}.json"
             response_json = JSON.parse(response.body)
 
             expect(response.status).to be 404
         end
 
         it "test invalid request (requesting projects from another account)" do
-          login_admin
-          create_account
+            login_admin
+            create_account
+            other_account = Account.create!(id: Account.order(id: :asc).last.id + 1)
+            project = create_project(other_account.house)
 
-          other_account = Account.create!(id: Account.order(id: :asc).last.id + 1)
-          project = create_project(other_account.house)
+            get "#{path}/#{project.id}.json"
+            response_json = JSON.parse(response.body)
 
-          get "/crm/projects/#{project.id}.json"
-          response_json = JSON.parse(response.body)
-
-          expect(response.status).to be 404
-      end
+            expect(response.status).to be 404
+        end
 
     end
 
@@ -179,7 +179,7 @@ RSpec.describe "CloudHaus::Projects", type: :request do
         it "test http html response" do
             login_admin
 
-            get "/crm/projects/new.html"
+            get "#{path}/new.html"
 
             expect(response.status).to be 200
             expect(response.headers["Content-Type"]).to eq "text/html; charset=utf-8"
@@ -193,7 +193,7 @@ RSpec.describe "CloudHaus::Projects", type: :request do
         it "test http html response" do
             login_admin
 
-            get "/crm/projects/edit.html"
+            get "#{path}/edit.html"
 
             expect(response.status).to be 200
             expect(response.headers["Content-Type"]).to eq "text/html; charset=utf-8"
@@ -211,8 +211,8 @@ RSpec.describe "CloudHaus::Projects", type: :request do
 
         #     request_json = {
         #         project: {
-        #             main_employee: @main_employee.id,
         #             cloud_house_accounts_id: @account.id,
+        #             main_employee_id: @main_employee.id,
         #             cloud_house_catalog_project_types_id: @catalog_project_type.id,
         #             cloud_house_properties_id: @property.id,
         #             cloud_house_workflow_statuses_id: @workflow_status.id
@@ -220,7 +220,7 @@ RSpec.describe "CloudHaus::Projects", type: :request do
         #     }.to_json
         #     headers = json_headers
 
-        #     post "/crm/projects", params: request_json, headers: headers
+        #     post "#{path}", params: request_json, headers: headers
         #     response_json = JSON.parse(response.body)
             
         #     expect(response.status).to be 200
@@ -234,7 +234,7 @@ RSpec.describe "CloudHaus::Projects", type: :request do
 
             request_json = {
                 project: {
-                    main_employee: nil,
+                    main_employee_id: nil,
                     cloud_house_accounts_id: @account.id,
                     cloud_house_catalog_project_types_id: nil,
                     cloud_house_properties_id: nil,
@@ -243,7 +243,7 @@ RSpec.describe "CloudHaus::Projects", type: :request do
             }.to_json
             headers = json_headers
 
-            post "/crm/projects", params: request_json, headers: headers
+            post "#{path}", params: request_json, headers: headers
             response_json = JSON.parse(response.body)
 
             expect(response.status).to be 200
@@ -269,7 +269,7 @@ RSpec.describe "CloudHaus::Projects", type: :request do
             }.to_json
             headers = json_headers
 
-            put "/crm/projects/#{project.id}", params: request_json, headers: headers
+            put "#{path}/#{project.id}", params: request_json, headers: headers
             response_json = JSON.parse(response.body)
 
             expect(response.status).to be 200
@@ -290,7 +290,7 @@ RSpec.describe "CloudHaus::Projects", type: :request do
             }.to_json
             headers = json_headers
 
-            put "/crm/projects/#{project.id}", params: request_json, headers: headers
+            put "#{path}/#{project.id}", params: request_json, headers: headers
             response_json = JSON.parse(response.body)
 
             expect(response.status).to be 200
@@ -307,7 +307,7 @@ RSpec.describe "CloudHaus::Projects", type: :request do
             }.to_json
             headers = json_headers
 
-            put "/crm/projects/#{Faker::Number.number(digits: 10)}", params: request_json, headers: headers
+            put "#{path}/#{Faker::Number.number(digits: 10)}", params: request_json, headers: headers
             response_json = JSON.parse(response.body)
 
             expect(response.status).to be 404
@@ -327,7 +327,7 @@ RSpec.describe "CloudHaus::Projects", type: :request do
             }.to_json
             headers = json_headers
 
-            put "/crm/projects/#{project.id}", params: request_json, headers: headers
+            put "#{path}/#{project.id}", params: request_json, headers: headers
 
             expect(response.status).to be 404
         end
@@ -341,7 +341,7 @@ RSpec.describe "CloudHaus::Projects", type: :request do
         #     create_account
         #     project = create_project
 
-        #     delete "/crm/projects/#{project.id}"
+        #     delete "#{path}/#{project.id}"
         #     response_json = JSON.parse(response.body)
 
         #     expect(response.status).to be 200
@@ -352,7 +352,7 @@ RSpec.describe "CloudHaus::Projects", type: :request do
             login_admin
             create_account
 
-            delete "/crm/projects/#{Faker::Number.number(digits: 10)}"
+            delete "#{path}/#{Faker::Number.number(digits: 10)}"
             response_json = JSON.parse(response.body)
 
             expect(response.status).to be 404
@@ -364,7 +364,7 @@ RSpec.describe "CloudHaus::Projects", type: :request do
             other_account = Account.create!(id: Account.order(id: :asc).last.id + 1)
             project = create_project(other_account.house)
 
-            delete "/house/projects/#{project.id}"
+            delete "#{path}/#{project.id}"
             response_json = JSON.parse(response.body)
 
             expect(response.status).to be 404

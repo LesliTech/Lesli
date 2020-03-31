@@ -4,7 +4,7 @@ RSpec.describe "CloudHaus::Companies", type: :request do
     include Devise::Test::IntegrationHelpers
 
     def login_admin
-        @user = User.find_by(email: "crm.admin@deutsche-leibrenten.de")
+        @user = User.find_by(email: "admin@lesli.cloud")
         sign_in @user
     end
 
@@ -66,6 +66,7 @@ RSpec.describe "CloudHaus::Companies", type: :request do
         "/crm/companies"
     end
     
+
     describe "INDEX integration test" do  
 
         it "test http json response" do
@@ -90,12 +91,15 @@ RSpec.describe "CloudHaus::Companies", type: :request do
 
     end
 
+
     describe "SHOW integration test" do
 
         it "test http html response" do
             login_admin
+            create_account
+            company = create_company
 
-            get "#{path}.html"
+            get "#{path}/#{company.id}.html"
             
             expect(response.status).to be 200
             expect(response.headers["Content-Type"]).to eq "text/html; charset=utf-8"
