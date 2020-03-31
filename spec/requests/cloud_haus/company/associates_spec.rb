@@ -4,7 +4,7 @@ RSpec.describe "CloudHaus::employees", type: :request do
     include Devise::Test::IntegrationHelpers
 
     def login_admin
-        @user = User.find_by(email: "crm.admin@deutsche-leibrenten.de")
+        @user = User.find_by(email: "admin@lesli.cloud")
         sign_in @user
     end
 

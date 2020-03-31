@@ -2,15 +2,17 @@ class CreateUsers < ActiveRecord::Migration[5.2]
     def change
         create_table :users do |t|
 
-            ## Database authenticatable
+            # Database authenticatable
             t.string :email,              null: false, default: ""
             t.string :encrypted_password, null: false, default: ""
 
-            ## Recoverable
+            t.string :name
+
+            # Recoverable
             t.string    :reset_password_token
             t.datetime  :reset_password_sent_at
 
-            ## Rememberable
+            # Rememberable
             t.datetime  :remember_created_at
 
             # Trackable
@@ -31,6 +33,7 @@ class CreateUsers < ActiveRecord::Migration[5.2]
             t.string    :unlock_token # Only if unlock strategy is :email or :both
             t.datetime  :locked_at
 
+            # Hard-lock strategy
             t.boolean   :active, default: true, null: false
 
             # acts_as_paranoid
