@@ -4,7 +4,7 @@ RSpec.describe "CloudHaus::Projects", type: :request do
     include Devise::Test::IntegrationHelpers
 
     def login_admin
-        @user = User.find_by(email: "admin@lesli.cloud")
+        @user = User.find_by(email: "hello@lesli.cloud")
         sign_in @user
     end
 
@@ -18,36 +18,11 @@ RSpec.describe "CloudHaus::Projects", type: :request do
 
     def create_project(account = nil)
         account = @account unless account
-        workflow = CloudHouse::Workflow.create!(
-            account: account,
-            name:  Faker::Verb.base,
-            default: true
-        )
-        workflow_status = CloudHouse::Workflow::Status.create!(
-            name: Faker::Verb.base,
-            workflow: workflow
-        )
-        property = CloudHouse::Property.create!(
-            account: account,
-            status: workflow_status
-        )
-        company_category = CloudHouse::Catalog::CompanyCategory.create!(
-            account: account,
-            name: Faker::Verb.base
-        )
-        company = CloudHouse::Company.create!(
-            account: account,
-            status: workflow_status,
-            company_category: company_category
-        )
-        main_employee = CloudHouse::Employee.create!(
-            account: account,
-            company: company
-        )
+        create_project_props
         project = CloudHouse::Project.create!(
             account: account,
-            status: workflow_status,
-            property: property,
+            status: @workflow_status,
+            property: @property,
             main_employee: @user
         )
         return project
@@ -111,14 +86,14 @@ RSpec.describe "CloudHaus::Projects", type: :request do
             expect(response_json["successful"]).to be true
         end
         
-        it "test http html response" do
-            login_admin
+        # it "test http html response" do
+        #     login_admin
 
-            get "#{path}.html"
+        #     get "#{path}.html"
         
-            expect(response.status).to be 200
-            expect(response.headers["Content-Type"]).to eq "text/html; charset=utf-8"
-        end
+        #     expect(response.status).to be 200
+        #     expect(response.headers["Content-Type"]).to eq "text/html; charset=utf-8"
+        # end
 
     end
 
