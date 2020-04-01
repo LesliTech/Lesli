@@ -26,7 +26,10 @@ Building a better future, one line of code at a time.
 export default {
     props: {
         title: {
-            default: ""
+            default: null
+        },
+        subtitle: {
+            default: null
         },
         buttons: {
             default: true
@@ -54,8 +57,11 @@ export default {
         <div class="navbar-menu">
             <div class="navbar-start">
                 <div class="navbar-item">
-                    <h4 class="is-size-3">
+                    <h3 v-if="title" class="is-size-3">
                         {{ title }}
+                    </h3>
+                    <h4 v-if="subtitle" class="is-size-4">
+                        {{ subtitle }}
                     </h4>
                 </div>
             </div>
