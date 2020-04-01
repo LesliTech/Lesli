@@ -77,7 +77,7 @@ class ApplicationLesliController < ApplicationController
             user: { 
                 id: current_user.id,
                 email: current_user.email,
-                name: current_user.name
+                full_name: current_user.full_name
             },
             company: { },
             notifications: { 
