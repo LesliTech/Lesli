@@ -39,7 +39,7 @@ module CloudObject
             action_create:  "action_create",
             action_show:    "action_show",
             action_update:  "action_update",
-            action_delete:  "action_delete",
+            action_destroy:  "action_destroy",
             action_status:  "action_status"
         }
 
