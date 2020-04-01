@@ -4,7 +4,7 @@ RSpec.describe "CloudHaus::Companies", type: :request do
     include Devise::Test::IntegrationHelpers
 
     def login_admin
-        @user = User.find_by(email: "admin@lesli.cloud")
+        @user = User.find_by(email: "hello@lesli.cloud")
         sign_in @user
     end
 
@@ -18,23 +18,11 @@ RSpec.describe "CloudHaus::Companies", type: :request do
 
     def create_company(account = nil)
         account = @account unless account
-        workflow = CloudHouse::Workflow.create!(
-            account: account,
-            name:  Faker::Verb.base,
-            default: true
-        )
-        workflow_status = CloudHouse::Workflow::Status.create!(
-            name: Faker::Verb.base,
-            workflow: workflow
-        )
-        company_category = CloudHouse::Catalog::CompanyCategory.create!(
-            account: account,
-            name: Faker::Verb.base
-        )
+        create_company_props
         company = CloudHouse::Company.create!(
             account: account,
-            status: workflow_status,
-            company_category: company_category
+            status: @workflow_status,
+            company_category: @catalog_company_category
         )
         return company
     end
