@@ -54,13 +54,20 @@ export default {
             }
         })
 
+        /*
         // · Global event helpers
         Vue.prototype.notification = (message, type) => {
             Vue.prototype.bus.publish('show:/cloud/layout/notify#notification', message, type)
         }
 
         Vue.prototype.alert = (message, type) => {
-            Vue.prototype.bus.publish('show:/cloud/layout/notification#alert', message, type)
+            Vue.prototype.bus.publish(show:/core/layout/notification#alert, message, type)
+        }
+        */
+        Vue.prototype.notification = {
+            alert: (message, type) => {
+                Vue.prototype.bus.publish("show:/core/layout/notification#alert", message, type)
+            }
         }
 
         // · Global DOM event listeners
