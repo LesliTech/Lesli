@@ -27,15 +27,15 @@ Building a better future, one line of code at a time.
 module Courier
     module Core
         class Locations
-            def self.verify_location(current_user, location_city_id, location_city_name, level)
-                return current_user.account.locations.find_by(id: location_city_id).id if location_city_id
+            def self.verify_location(current_user, location_id, location_name, level)
+                return current_user.account.locations.find_by(id: location_id).id if location_id
 
-                if location_city_name && ! location_city_id
+                if location_name && !location_name.empty? && !location_id
                     begin
                         parent_location = current_user.account.locations.find_by(level: "empty")
 
                         location = current_user.account.locations.create!(
-                            name: location_city_name,
+                            name: location_name,
                             level: level,
                             parent_location: parent_location
                         )
@@ -43,7 +43,7 @@ module Courier
                         return location.id
                     rescue ActiveRecord::RecordNotUnique
                         return current_user.account.locations.find_by(
-                            name: location_city_name,
+                            name: location_name,
                             level: level,
                             parent_location: parent_location
                         ).id

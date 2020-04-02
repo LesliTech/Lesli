@@ -24,5 +24,6 @@ class CreateLocations < ActiveRecord::Migration[6.0]
         add_foreign_key :locations, :locations, column: :parent_id
         add_reference :locations, :accounts, foreign_key: true
         add_index :locations, [:accounts_id, :name, :level, :parent_id], unique: true, name: "location_uniqueness_index"
+        add_index :locations, :name
     end
 end
