@@ -44,9 +44,7 @@ export default {
     methods: {
 
         mountListeners() {
-
-            /*
-            this.bus.subscribe('show:/cloud/layout/notification#alert', (message, type='primary') => {
+            this.bus.subscribe("show:/core/layout/notification#alert", (message, type='primary') => {
                 this.$buefy.toast.open({
                     queue: true,
                     duration: 3500,
@@ -55,6 +53,8 @@ export default {
                     type: `is-${ type }`
                 })
             })
+
+            /*
 
             this.bus.subscribe('show:/cloud/layout/notification#message', (message, type='success') => {
                 this.$buefy.notification.open({
@@ -67,7 +67,7 @@ export default {
             })
             */
 
-            this.bus.subscribe("show:/core/layout/notification", () => {
+            this.bus.subscribe("show:/core/layout/notification#panel", () => {
                 
                 // toggle notification panel
                 if (this.notification.show == true) {
