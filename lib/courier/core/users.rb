@@ -36,7 +36,7 @@ module Courier
                 if defined? (CloudLock)
                     return ::User.left_joins(:detail).select(:id, :email, :first_name, :last_name, :created_at).order(:id)
                 else
-                    return ::User.select(:id, :email, :created_at).order(:id)
+                    return ::User.select(:id, :email, :created_at, :name).order(:id)
                 end
 
 
@@ -54,7 +54,7 @@ module Courier
                 if defined? (CloudLock)
                     return ::User.left_joins(:detail).select(:id, :email, :first_name, :last_name, :created_at).find(id)
                 else
-                    return ::User.select(:id, :email, :created_at).find(id)
+                    return ::User.select(:id, :email, :name, :created_at).find(id)
                 end
             end
 
