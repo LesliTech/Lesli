@@ -67,6 +67,10 @@ Rails.application.configure do
 
     config.action_mailer.default_url_options = { host: '0.0.0.0:3000' }
 
+    config.action_mailer.default_options = {
+        from: "hello@lesli.tech"
+    }
+
     config.action_mailer.smtp_settings = {
         port: 25,
         authentication: :plain,

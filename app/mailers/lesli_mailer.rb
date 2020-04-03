@@ -1,8 +1,9 @@
 class LesliMailer < ApplicationMailer
+
     def email
 
         mail(
-            to: "ldonis@lomax.com.gt",
+            to: ["ldonis@lomax.com.gt", "ldonis.emc2@gmail.com"],
             subject: "Lesli Cloud Notification: @subject",
             template_path: 'cloud_haus/mailers'
         )
@@ -19,4 +20,5 @@ class LesliMailer < ApplicationMailer
         #)
 
     end
+
 end
