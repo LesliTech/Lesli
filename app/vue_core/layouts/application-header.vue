@@ -103,7 +103,7 @@ export default {
         },
 
         showNotificationPanel() {
-            this.bus.publish("show:/core/layout/notification")
+            this.bus.publish("show:/core/layout/notification#panel")
         },
 
         searchText(input) {
