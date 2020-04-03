@@ -12,7 +12,7 @@
     "type": "string"
 },{
     "name": "birthdate",
-    "type": "string"
+    "type": "datetime"
 },{
     "name": "birthplace",
     "type": "string"
