@@ -26,10 +26,12 @@ Building a better future, one line of code at a time.
 // · ~·~        ~·~        ~·~        ~·~        ~·~        ~·~        ~·~        ~·~        ~·~
 =end
 
-email = "hello@lesli.cloud"
+email = "dev@lesli.cloud"
 password = "lesli2020"
 
 User.find_or_create_by(email: email) do |user|
+    user.name = "Lesli Development"
+    user.role = "admin"
     user.password = password
     user.password_confirmation = password
     user.accounts_id = 1
