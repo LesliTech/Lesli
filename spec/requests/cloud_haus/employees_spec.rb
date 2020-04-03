@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe "CloudHaus::Employees", type: :request do
+RSpec.describe "CloudHouse::Employees", type: :request do
     include Devise::Test::IntegrationHelpers
 
     def login_admin
@@ -16,47 +16,36 @@ RSpec.describe "CloudHaus::Employees", type: :request do
         end
     end
 
-    def create_associate(account = nil)
+    def create_employee(account = nil)
         account = @account unless account
-        create_associate_props(account)
-        associate = CloudHouse::Company::Associate.create!(
-            service: @service, 
-            company: @company
+        create_employee_props
+        employee = CloudHouse::Employee.create!(
+            account: account,
+            user: @user,
+            company: @company,
+            status: @workflow_status
         )
-        return associate
+        return employee
     end
 
-    def create_associate_props(account = nil)
-        account = @account unless account
+    def create_employee_props
         workflow = CloudHouse::Workflow.create!(
-            account: account,
+            account: @account,
             name:  Faker::Verb.base,
             default: true
         )
-        workflow_status = CloudHouse::Workflow::Status.create!(
+        @workflow_status = CloudHouse::Workflow::Status.create!(
             name: Faker::Verb.base,
             workflow: workflow
         )
         company_category = CloudHouse::Catalog::CompanyCategory.create!(
-            account: account,
+            account: @account,
             name: Faker::Verb.base
         )
         @company = CloudHouse::Company.create!(
-            account: account,
-            status: workflow_status,
+            account: @account,
+            status: @workflow_status,
             company_category: company_category
-        )
-        business_service = CloudHouse::Catalog::BusinessService.create!(
-            account: account,
-            name: Faker::Verb.base
-        )
-        employee = CloudHouse::Employee.create!(
-            account: account,
-            company: @company
-        )
-        @service = CloudHouse::Employee::Service.create!(
-            employee: employee, 
-            business_service: business_service
         )
     end
 
@@ -68,15 +57,13 @@ RSpec.describe "CloudHaus::Employees", type: :request do
     end
     
     def path
-        return "/crm/companies/#{@company.id}/associates"
+        "/crm/employees"
     end
     
     describe "INDEX integration test" do  
 
         it "test http json response" do
             login_admin
-            create_account
-            create_associate_props
 
             get "#{path}.json"
             response_json = JSON.parse(response.body)
@@ -88,8 +75,6 @@ RSpec.describe "CloudHaus::Employees", type: :request do
         
         # it "test http html response" do
         #     login_admin
-        #     create_account
-        #     create_associate_props
             
         #     get "#{path}.html"
         
@@ -104,10 +89,10 @@ RSpec.describe "CloudHaus::Employees", type: :request do
         # it "test http html response" do
         #     login_admin
         #     create_account
-        #     create_associate_props
+        #     employee = create_employee
 
-        #     get "#{path}.html"
-
+        #     get "#{path}/#{employee.id}.html"
+            
         #     expect(response.status).to be 200
         #     expect(response.headers["Content-Type"]).to eq "text/html; charset=utf-8"
         # end
@@ -115,9 +100,9 @@ RSpec.describe "CloudHaus::Employees", type: :request do
         it "test valid request" do
             login_admin
             create_account
-            associate = create_associate
-
-            get "#{path}/#{associate.id}.json"
+            employee = create_employee
+            
+            get "#{path}/#{employee.id}.json"
             response_json = JSON.parse(response.body)
 
             expect(response.status).to be 200
@@ -125,10 +110,9 @@ RSpec.describe "CloudHaus::Employees", type: :request do
             expect(response_json["successful"]).to be true
         end
 
-        it "test invalid request (non-existent associate)" do
+        it "test invalid request (non-existent employee)" do
             login_admin
             create_account
-            create_associate_props
 
             get "#{path}/#{Faker::Number.number(digits: 6)}.json"
             response_json = JSON.parse(response.body)
@@ -136,17 +120,18 @@ RSpec.describe "CloudHaus::Employees", type: :request do
             expect(response.status).to be 404
         end
 
-        # it "test invalid request (requesting services from another account)" do
-        #     login_admin
-        #     create_account
-        #     other_account = Account.create!(id: Account.order(id: :asc).last.id + 1)
-        #     associate = create_associate(other_account.house)
-            
-        #     get "#{path}/#{associate.id}.json"
-        #     response_json = JSON.parse(response.body)
+        it "test invalid request (requesting employees from another account)" do
+            login_admin
+            create_account
 
-        #     expect(response.status).to be 404
-        # end
+            other_account = Account.create!(id: Account.order(id: :asc).last.id + 1)
+            employee = create_employee(other_account.house)
+            
+            get "#{path}/#{employee.id}.json"
+            response_json = JSON.parse(response.body)
+
+            expect(response.status).to be 404
+        end
 
     end
 
@@ -154,23 +139,19 @@ RSpec.describe "CloudHaus::Employees", type: :request do
 
         # it "test http html response" do
         #     login_admin
-        #     create_account
-        #     create_associate_props
 
         #     get "#{path}/new.html"
 
         #     expect(response.status).to be 200
         #     expect(response.headers["Content-Type"]).to eq "text/html; charset=utf-8"
         # end
-
+        
     end
 
     describe "EDIT integration test " do
 
         # it "test http html response" do
         #     login_admin
-        #     create_account
-        #     create_associate_props
 
         #     get "#{path}/edit.html"
 
@@ -185,17 +166,18 @@ RSpec.describe "CloudHaus::Employees", type: :request do
         it "test valid request" do
             login_admin
             create_account
-            create_associate_props
+            create_employee_props
 
             request_json = {
-                company_id: @company.id,
-                cloud_house_accounts_id: @account.id,
-                associate: {
-                    cloud_house_employee_services_id: @service.id,
+                employee: {
+                    cloud_house_companies_id: @company.id,
+                    detail_attributes: {
+                        first_name: Faker::Verb::base
+                    }
                 }
             }.to_json
             headers = json_headers
-            
+
             post "#{path}", params: request_json, headers: headers
             response_json = JSON.parse(response.body)
             
@@ -204,15 +186,15 @@ RSpec.describe "CloudHaus::Employees", type: :request do
             expect(response_json["successful"]).to be true
         end
 
-        it "test invalid request (no cloud_house_employee_services_id)" do
+        it "test invalid request (no company)" do
             login_admin
             create_account
-            create_associate_props
+            create_employee_props
             
             request_json = {
-                company_id: @company.id,
-                associate: {
-                    cloud_house_employee_services_id: nil,
+                employee: {
+                    cloud_house_companies_id: nil,
+                    detail_attributes: {}
                 }
             }.to_json
             headers = json_headers
@@ -229,40 +211,38 @@ RSpec.describe "CloudHaus::Employees", type: :request do
 
     describe "DESTROY integration test" do
 
-        it "test valid request" do
-            login_admin
-            create_account
-            associate = create_associate
+        # it "test valid request" do
+        #     login_admin
+        #     create_account
+        #     employee = create_employee
             
-            delete "#{path}/#{associate.id}"
-            response_json = JSON.parse(response.body)
+        #     delete "#{path}/#{employee.id}"
+        #     response_json = JSON.parse(response.body)
             
-            expect(response.status).to be 200
-            expect(response_json["successful"]).to be true
-        end
+        #     expect(response.status).to be 200
+        #     expect(response_json["successful"]).to be true
+        # end
 
-        it "test invalid request (non-existent associate)" do
+        it "test invalid request (non-existent employee)" do
             login_admin
             create_account
-            create_associate_props
-            
+
             delete "#{path}/#{Faker::Number.number(digits: 10)}"
             response_json = JSON.parse(response.body)
-
             expect(response.status).to be 404
         end
 
-        # it "test invalid request (deleting associate from another account)" do
-        #     login_admin
-        #     create_account
-        #     other_account = Account.create!(id: Account.order(id: :asc).last.id + 1)
-        #     create_associate(other_account.house)
+        it "test invalid request (deleting employee from another account)" do
+            login_admin
+            create_account
+            other_account = Account.create!(id: Account.order(id: :asc).last.id + 1)
+            employee = create_employee(other_account.house)
 
-        #     delete "#{path}/#{@associate.id}"
+            delete "#{path}/#{employee.id}"
 
-        #     expect(response.status).to be 404
-        # end
-
+            expect(response.status).to be 404
+        end
+        
     end
 
     describe "UPDATE integration test" do
@@ -270,18 +250,18 @@ RSpec.describe "CloudHaus::Employees", type: :request do
         it "test valid request" do
             login_admin
             create_account
-            associate = create_associate
-            create_associate_props
-            
+            employee = create_employee
+
             request_json = {
-                company_id: @company.id,
-                associate: {
-                    cloud_house_employee_services_id: @service.id,
+                employee: {
+                    detail_attributes: {
+                        first_name: Faker::Verb.base
+                    }
                 }
             }.to_json
             headers = json_headers
 
-            put "#{path}/#{associate.id}", params: request_json, headers: headers
+            put "#{path}/#{employee.id}", params: request_json, headers: headers
             response_json = JSON.parse(response.body)
 
             expect(response.status).to be 200
@@ -289,23 +269,24 @@ RSpec.describe "CloudHaus::Employees", type: :request do
             expect(response_json["successful"]).to be true
         end
 
-        # it "test invalid request (updating associate from another account)" do
-        #     login_admin
-        #     create_account
-        #     other_account = Account.create!(id: Account.order(id: :asc).last.id + 1)
-        #     create_associate(other_account.house)
+        it "test invalid request (updating employee from another account)" do
+            login_admin
+            create_account
+            other_account = Account.create!(id: Account.order(id: :asc).last.id + 1)
+            employee = create_employee(other_account.house)
 
-        #     request_json = {
-        #         company_id: @company.id,
-        #         associate: {
-        #             cloud_house_employee_services_id: @service.id,
-        #         }
-        #     }.to_json
-        #     headers = json_headers
+            request_json = {
+                employee: {
+                    detail_attributes: {
+                        first_name: Faker::Verb.base
+                    }
+                }
+            }.to_json
+            headers = json_headers
 
-        #     put "#{path}/#{@associate.id}", params: request_json, headers: headers
-        #     expect(response.status).to be 404
-        # end
+            put "#{path}/#{employee.id}", params: request_json, headers: headers
+            expect(response.status).to be 404
+        end
 
     end
 
