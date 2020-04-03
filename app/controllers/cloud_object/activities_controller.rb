@@ -53,8 +53,8 @@ module CloudObject
                     value_from: activity[:value_from],
                     value_to: activity[:value_to],
                     icon: activity[:icon],
-                    created_at: Courier::Core::Date.to_string_full(activity[:created_at]),
-                    updated_at: Courier::Core::Date.to_string_full(activity[:updated_at])
+                    created_at: Courier::Core::Date.to_string_datetime(activity[:created_at]),
+                    updated_at: Courier::Core::Date.to_string_datetime(activity[:updated_at])
                 }
 
                 user = ::User.find_by(id: activity[:users_id])
