@@ -1,0 +1,2 @@
+class DriverMailer < ApplicationMailer
+end

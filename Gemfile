@@ -119,6 +119,9 @@ group :development, :test do
     # Workaround for nokogiri when using ruby 2.7.0
     gem "nokogiri", "~> 1.11.0.rc1" if Gem.win_platform?
 
+    # Preview emails in browser
+    gem "letter_opener"
+
 end
 
 group :development do
