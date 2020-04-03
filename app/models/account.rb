@@ -59,6 +59,7 @@ class Account < ApplicationRecord
         self.settings.find_or_create_by({ name: "start_week_on", value: "monday", account: self })
         self.settings.find_or_create_by({ name: "theme", value: "deutsche-blue", account: self })
         self.settings.find_or_create_by({ name: "theme_variation", value: "standard", account: self })
+        self.settings.find_or_create_by({ name: "time_zone", value: "Europe/Berlin", account: self })
 
         if defined? CloudKb
             if self.kb.blank?

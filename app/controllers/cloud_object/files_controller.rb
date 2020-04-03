@@ -49,7 +49,7 @@ Building a better future, one line of code at a time.
             ).order(id: :desc).map do |file|
                 file_attributes = file.attributes
                 file_attributes["file_type"] = file_attributes["file_type"].humanize if file_attributes["file_type"]
-                file_attributes["created_at"] = Courier::Core::Date.to_string_full(file_attributes["created_at"])
+                file_attributes["created_at"] = Courier::Core::Date.to_string_datetime(file_attributes["created_at"])
                 file_attributes
             end
             responseWithSuccessful(@cloud_object_files)

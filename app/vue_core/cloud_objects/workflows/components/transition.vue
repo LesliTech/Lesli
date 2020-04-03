@@ -12,6 +12,13 @@ export default {
         },
         cloudId: {
             required: true
+        },
+        handlePatch: {
+            type: Boolean,
+            default: true
+        },
+        value: {
+            default: null
         }
     },
 
@@ -80,6 +87,14 @@ export default {
             }).catch(error => {
                 console.log(error)
             })
+        },
+
+        submitStatus(status){
+            if(this.handlePatch){
+                this.patchStatus(status)
+            }else{
+                this.$emit('input', status.id)
+            }
         }
     },
 
@@ -98,7 +113,7 @@ export default {
                 <b-icon icon="chevron-down" size="is-small" />
             </button>
             <b-dropdown-item
-                @click="patchStatus(status)"
+                @click="submitStatus(status)"
                 v-for="status in transition_statuses"
                 :key="status.id"
                 :value="status.id"
