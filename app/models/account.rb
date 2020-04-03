@@ -31,6 +31,7 @@ class Account < ApplicationRecord
 
     has_many :users, foreign_key: 'accounts_id'
     has_many :settings, foreign_key: 'accounts_id'
+    has_many :locations, foreign_key: 'accounts_id'
 
     # core engines
     has_one :kb,     class_name: "CloudKb::Account",     foreign_key: "id"
@@ -58,6 +59,7 @@ class Account < ApplicationRecord
         self.settings.find_or_create_by({ name: "start_week_on", value: "monday", account: self })
         self.settings.find_or_create_by({ name: "theme", value: "deutsche-blue", account: self })
         self.settings.find_or_create_by({ name: "theme_variation", value: "standard", account: self })
+        self.settings.find_or_create_by({ name: "time_zone", value: "Europe/Berlin", account: self })
 
         if defined? CloudKb
             if self.kb.blank?

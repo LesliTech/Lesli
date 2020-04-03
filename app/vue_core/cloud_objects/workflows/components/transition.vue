@@ -12,6 +12,13 @@ export default {
         },
         cloudId: {
             required: true
+        },
+        handlePatch: {
+            type: Boolean,
+            default: true
+        },
+        value: {
+            default: null
         }
     },
 
@@ -19,7 +26,8 @@ export default {
         return {
             transition_statuses: null,
             module_name: null,
-            object_name: null
+            object_name: null,
+            selected_status_name: null
         }
     },
 
@@ -80,6 +88,15 @@ export default {
             }).catch(error => {
                 console.log(error)
             })
+        },
+
+        submitStatus(status){
+            if(this.handlePatch){
+                this.patchStatus(status)
+            }else{
+                this.$emit('input', status.id)
+                this.selected_status_name = status.name
+            }
         }
     },
 
@@ -94,11 +111,12 @@ export default {
     <div>
         <b-dropdown hoverable aria-role="list" position="is-bottom-left">
             <button class="button" slot="trigger">
-                <span>Change status</span>
+                <span v-if="selected_status_name">New Status: {{selected_status_name}}</span>
+                <span v-else>Change status</span>
                 <b-icon icon="chevron-down" size="is-small" />
             </button>
             <b-dropdown-item
-                @click="patchStatus(status)"
+                @click="submitStatus(status)"
                 v-for="status in transition_statuses"
                 :key="status.id"
                 :value="status.id"

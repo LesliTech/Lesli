@@ -69,7 +69,7 @@ export default {
 
             this.http.post(url, form_data).then(result => {
                 if (result.successful) {
-                    this.alert('Comment added successfully', 'success')
+                    this.notification.alert('Comment added successfully', 'success')
                     this.clearContentInput()
                     this.discussions.unshift({
                         data: result.data,
