@@ -61,11 +61,10 @@ ActiveRecord::Schema.define(version: 2020_03_31_181324) do
 
   create_table "cloud_babel_translation_buckets", force: :cascade do |t|
     t.string "name"
+    t.string "reference_module"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.bigint "cloud_babel_translation_buckets_id"
     t.bigint "cloud_babel_translation_modules_id"
-    t.index ["cloud_babel_translation_buckets_id"], name: "cloud_babel_translation_buckets_buckets"
     t.index ["cloud_babel_translation_modules_id"], name: "babel_translation_objects_modules"
   end
 
@@ -83,6 +82,7 @@ ActiveRecord::Schema.define(version: 2020_03_31_181324) do
     t.string "de"
     t.string "fr"
     t.integer "status"
+    t.string "reference_bucket"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.bigint "users_id"
@@ -454,8 +454,10 @@ ActiveRecord::Schema.define(version: 2020_03_31_181324) do
     t.bigint "cloud_house_companies_id"
     t.bigint "cloud_house_workflow_statuses_id"
     t.bigint "cloud_house_catalog_company_categories_id"
+    t.bigint "cloud_house_catalog_business_services_id"
     t.bigint "cloud_house_employees_id"
     t.index ["cloud_house_accounts_id"], name: "index_cloud_house_companies_on_cloud_house_accounts_id"
+    t.index ["cloud_house_catalog_business_services_id"], name: "house_companies_catalog_business_services"
     t.index ["cloud_house_catalog_company_categories_id"], name: "house_companies_catalog_company_categories"
     t.index ["cloud_house_companies_id"], name: "index_cloud_house_companies_on_cloud_house_companies_id"
     t.index ["cloud_house_employees_id"], name: "house_companies_employees"
@@ -1352,7 +1354,6 @@ ActiveRecord::Schema.define(version: 2020_03_31_181324) do
 
   add_foreign_key "accounts", "users", column: "users_id"
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
-  add_foreign_key "cloud_babel_translation_buckets", "cloud_babel_translation_buckets", column: "cloud_babel_translation_buckets_id"
   add_foreign_key "cloud_babel_translation_buckets", "cloud_babel_translation_modules", column: "cloud_babel_translation_modules_id"
   add_foreign_key "cloud_babel_translation_strings", "cloud_babel_translation_buckets", column: "cloud_babel_translation_buckets_id"
   add_foreign_key "cloud_babel_translation_strings", "users", column: "users_id"
@@ -1401,6 +1402,7 @@ ActiveRecord::Schema.define(version: 2020_03_31_181324) do
   add_foreign_key "cloud_house_catalog_company_categories", "cloud_house_accounts", column: "cloud_house_accounts_id"
   add_foreign_key "cloud_house_catalog_project_types", "cloud_house_accounts", column: "cloud_house_accounts_id"
   add_foreign_key "cloud_house_companies", "cloud_house_accounts", column: "cloud_house_accounts_id"
+  add_foreign_key "cloud_house_companies", "cloud_house_catalog_business_services", column: "cloud_house_catalog_business_services_id"
   add_foreign_key "cloud_house_companies", "cloud_house_catalog_company_categories", column: "cloud_house_catalog_company_categories_id"
   add_foreign_key "cloud_house_companies", "cloud_house_companies", column: "cloud_house_companies_id"
   add_foreign_key "cloud_house_companies", "cloud_house_employees", column: "cloud_house_employees_id"
