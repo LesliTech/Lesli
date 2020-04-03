@@ -82,11 +82,14 @@ ActiveRecord::Schema.define(version: 10010104) do
     t.string "de"
     t.string "fr"
     t.integer "status"
-    t.datetime "es_last_update"
-    t.datetime "en_last_update"
-    t.datetime "de_last_update"
-    t.datetime "fr_last_update"
     t.string "reference_bucket"
+    t.datetime "last_update_context"
+    t.datetime "last_update_es"
+    t.datetime "last_update_en"
+    t.datetime "last_update_de"
+    t.datetime "last_update_fr"
+    t.datetime "last_update_status"
+    t.datetime "deleted_at"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.bigint "users_id"
