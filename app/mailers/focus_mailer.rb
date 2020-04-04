@@ -26,6 +26,9 @@ Building a better future, one line of code at a time.
 class FocusMailer < ApplicationMailer
 
     def task(to, subject, data, template:"")
+        data = data.merge({
+            href: "#{default_url_options[:host]}#{data[:href]}"
+        })
 
         send(to, subject, data, template:"")
         
