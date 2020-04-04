@@ -30,7 +30,7 @@ module Courier
 
         class Date
 
-            def self.to_string datetime_object, format="%Y/%m/%d", time_zone="Europe/Berlin"
+            def self.to_string datetime_object, format="%Y.%m.%d", time_zone="Europe/Berlin"
                 zone = ActiveSupport::TimeZone.new(time_zone)
                 datetime_object.in_time_zone(zone).strftime(format)
             end
@@ -71,6 +71,16 @@ module Courier
                 end
 
                 return year_difference
+            end
+
+            def self.today_at_midnight time_zone="Europe/Berlin"
+                zone = ActiveSupport::TimeZone.new(time_zone)
+                return Time.current.in_time_zone(zone).beginning_of_day
+            end
+
+            def self.tomorrow_at_midnight time_zone="Europe/Berlin"
+                zone = ActiveSupport::TimeZone.new(time_zone)
+                return Time.current.in_time_zone(zone).beginning_of_day + 1.day
             end
 
 =begin
