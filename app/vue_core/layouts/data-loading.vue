@@ -27,14 +27,19 @@ export default {
     props: {
         size: {
             default: "4"
+        },
+        iconOnly: {
+            default: false
         }
     }
 }
 </script>
 <template>
     <div class="component-data-loading has-text-centered">
-        <!-- <b-icon icon="spinner" :size="size" custom-class="fa-spin"/> -->
-        <p>
+        <span v-if="iconOnly" class="loading-animation">
+            <hr/><hr/><hr/><hr/>
+        </span>
+        <p v-if="!iconOnly">
             <span class="loading-animation">
                 <hr/><hr/><hr/><hr/>
             </span>

@@ -33,6 +33,9 @@ export default {
             aside: {
                 timer: null
             },
+            search: {
+                searching: false
+            },
             chatbotIntent: '',
             microphone: true
         }
@@ -107,7 +110,11 @@ export default {
         },
 
         searchText(input) {
+            this.search.searching = true
             this.bus.publish("search:/core/layouts/component-global-search", input.srcElement.value)
+            setTimeout(() => {
+                this.search.searching = false
+            }, 1200)
         }
 
     }
@@ -136,7 +143,8 @@ export default {
                         <div class="control is-medium has-icons-left has-text-grey">
                             <input class="input is-medium is-shadowless" type="email" @input="searchText" placeholder="Search...">
                             <span class="icon is-left has-text-gray">
-                                <i class="fas fa-search"></i>
+                                <i v-if="!search.searching" class="fas fa-search"></i>
+                                <component-data-loading v-if="search.searching" :icon-only="true"/>
                             </span>
                         </div>
                     </div>
