@@ -27,8 +27,8 @@ module CloudObject
                     category: "action_status",
                     description: "#{new_status.name}",
                     field_name: "cloud_#{module_name}_workflow_statuses_id",
-                    value_from: old_status.id,
-                    value_to: new_status.id,
+                    value_from: old_status.name,
+                    value_to: new_status.name,
                     cloud_object: self
                 })
             end
