@@ -26,4 +26,51 @@ Building a better future, one line of code at a time.
 =end
 class Setting < ApplicationRecord
     belongs_to :account, foreign_key: 'accounts_id'
+
+    def self.list(current_user, query)
+        query_filters = []
+
+        theme_settings = [
+            'theme',
+            'theme_variation'
+        ]
+
+        time_settings = [
+            'date_format',
+            'date_format_full',
+            'date_format_time',
+            'time_zone',
+            'start_week_on'
+        ]
+
+        password_settings = [
+            'password_minimum_length',
+            'password_expiration_time_months'
+        ]
+
+        # filter[:theme] will indicate if must show theme settings.
+        # filter[:time] will indicate if must show time settings.
+        # filter[:password] will indicate if must show password settings.
+        # For example, filter[:theme] = true
+
+        if query[:filters][:theme] == 'true'
+            theme_settings.map do |setting|
+                query_filters.push("name = '#{setting}'")
+            end
+        end
+
+        if query[:filters][:time] == 'true'
+            time_settings.map do |setting|
+                query_filters.push("name = '#{setting}'")
+            end
+        end
+
+        if query[:filters][:password] == 'true'
+            password_settings.map do |setting|
+                query_filters.push("name = '#{setting}'")
+            end
+        end
+
+        current_user.account.settings.where(query_filters.join(" or "))
+    end
 end
