@@ -24,12 +24,17 @@ Building a better future, one line of code at a time.
 // · 
 
 =end
-class SettingsController < ApplicationController
+class SettingsController < ApplicationLesliController
     before_action :set_setting, only: [:show, :edit, :update, :destroy]
 
     # GET /settings
     def index
-        
+        respond_to do |format|
+            format.html {}
+            format.json {
+                responseWithSuccessful(Setting.list(current_user, @query))
+            }
+        end
     end
 
     # GET /settings/1
@@ -79,7 +84,13 @@ class SettingsController < ApplicationController
 
     # PATCH/PUT /settings/1
     def update
+        return responseWithNotFound unless @setting
 
+        if @setting.update(setting_params)
+            responseWithSuccessful(@setting)
+        else
+            responseWithError(@setting.error.full_messages.to_sentence)
+        end
     end
 
     # DELETE /settings/1
@@ -119,7 +130,7 @@ class SettingsController < ApplicationController
 
     # Use callbacks to share common setup or constraints between actions.
     def set_setting
-        @setting = Setting.find_by(name: params[:id])
+        @setting = Setting.find_by(id: params[:id])
     end
 
     # Only allow a trusted parameter "white list" through.

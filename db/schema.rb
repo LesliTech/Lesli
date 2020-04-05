@@ -109,7 +109,7 @@ ActiveRecord::Schema.define(version: 2020_03_31_181324) do
   create_table "cloud_bell_notifications", force: :cascade do |t|
     t.string "subject"
     t.text "body"
-    t.string "href"
+    t.string "url"
     t.string "category"
     t.string "sender"
     t.boolean "read", default: false

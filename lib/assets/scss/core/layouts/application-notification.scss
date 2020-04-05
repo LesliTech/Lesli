@@ -23,34 +23,52 @@ Building a better future, one line of code at a time.
 // · 
 */
 
-
-// · 
-.panel {
-    background-color: get-lesli-css-color(standard, white);
-    .panel-heading {
-        font-size: 1.1rem;
-        padding: .8rem 1rem .4rem;
-        background-color: get-lesli-css-color(standard, white);
+.application-notification {
+    
+    .section {
+        padding: 0;
     }
-    .panel-block {
-        font-size: .9rem;
-        padding: 1rem .95rem;
-        b {
-            margin-right: .3rem;
+
+    .filter-option {
+        padding: 0.2rem 0.75em;
+        small {
+            &:hover {
+                cursor: pointer;
+                text-decoration: underline;
+            }
         }
     }
-}
 
+    .menu-list {
 
-// · quick views
-body #lesli-cloud-application .quickview,
-body #lesli-cloud-application .application-component .quickview {
-    //top: $application-header-height;
-    z-index: 99;
-}
+        li {
+            display: block;
+            color: #4a4a4a;
+            padding: 0.5em 0.75em 0.7em;
 
-div.select {
-    &::after {
-        border-color: rgb(100,100,100) !important;
+            border-radius: 0;
+            border-left-width: 4px;
+            border-left-style: solid;
+            border-left-color: lesli-css-get-color(blue);
+
+            &:hover {
+                color: #363636;
+                background-color: whitesmoke;
+            }
+
+            a, p {
+                padding: 0.2em 0em;
+            }
+
+            small.mark-as-read {
+                &:hover {
+                    cursor: pointer;
+                    text-decoration: underline;
+                }
+            }
+
+        }
+
     }
+
 }
