@@ -159,9 +159,12 @@ export default {
                                 <i class="fas fa-info-circle"></i>
                                 <a @click="readNotification(index)" href="#">{{ notification.subject }}</a>
                                 -->
-                                <a href="/bell/notifications">
+                                <a v-if="notification.url" :href="notification.url">
                                     {{ notification.subject }}
-                                </a>    
+                                </a> 
+                                <p v-if="!notification.url">
+                                    {{ notification.subject }}
+                                </p>
                                 <small class="has-text-grey-light">{{ notification.created_at }}</small>
                                 <small class="has-text-grey-light">-</small>
                                 <small class="mark-as-read has-text-grey-light"
@@ -173,9 +176,11 @@ export default {
                     </div>
                 </div>
             </div>
+            <!-- 
             <footer class="quickview-footer">
                 <a href="/bell/notifications">all notifications</a>
             </footer>
+            -->
         </div>
     </section>
 </template>
