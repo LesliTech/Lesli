@@ -31,11 +31,16 @@ module Courier
             class Web
 
                 # register a new web notification
-                def self.new(current_user, subject, body:nil, href:nil, category:"info")
+                def self.new(current_user, subject, body:nil, href:nil, url:nil, category:"info")
+
+                    #href: href, # deprecated, this will be deleted in future releases
+                    url=href if not href.blank?
+
                     return if not defined? CloudBell
                     current_user.account.bell.notifications.new({
                         body: body,
-                        href: href,
+                        
+                        url: url,
                         category: category,
                         subject: subject,
                         user: current_user
