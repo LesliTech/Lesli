@@ -1,0 +1,74 @@
+/*
+Lesli
+
+Copyright (c) 2020, Lesli Technologies, S. A.
+
+All the information provided by this website is protected by laws of Guatemala related 
+to industrial property, intellectual property, copyright and relative international laws. 
+Lesli Technologies, S. A. is the exclusive owner of all intellectual or industrial property
+rights of the code, texts, trade mark, design, pictures and any other information.
+Without the written permission of Lesli Technologies, S. A., any replication, modification,
+transmission, publication is strictly forbidden.
+For more information read the license file including with this software.
+
+LesliCloud - Your Smart Business Assistant
+
+Powered by https://www.lesli.tech
+Building a better future, one line of code at a time.
+
+@license  Propietary - all rights reserved.
+@version  0.1.0-alpha
+
+// · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
+// · 
+*/
+
+.application-notification {
+    
+    .section {
+        padding: 0;
+    }
+
+    .filter-option {
+        padding: 0.2rem 0.75em;
+        small {
+            &:hover {
+                cursor: pointer;
+                text-decoration: underline;
+            }
+        }
+    }
+
+    .menu-list {
+
+        li {
+            display: block;
+            color: #4a4a4a;
+            padding: 0.5em 0.75em 0.7em;
+
+            border-radius: 0;
+            border-left-width: 4px;
+            border-left-style: solid;
+            border-left-color: lesli-css-get-color(blue);
+
+            &:hover {
+                color: #363636;
+                background-color: whitesmoke;
+            }
+
+            a {
+                padding: 0.2em 0em;
+            }
+
+            small.mark-as-read {
+                &:hover {
+                    cursor: pointer;
+                    text-decoration: underline;
+                }
+            }
+
+        }
+
+    }
+
+}

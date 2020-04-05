@@ -83,63 +83,40 @@ module Courier
                 return Time.current.in_time_zone(zone).beginning_of_day + 1.day
             end
 
-=begin
+            def self.distance_to_words time_from, time_to=Time.now, time_zone="Europe/Berlin"
 
-            # datetime object
-            #@datetime = nil
+                zone = ActiveSupport::TimeZone.new(time_zone)
 
-            #@date_format = nil
-            #@date_format_full = nil
-            #@date_time_format = nil
+                time_from = time_from.in_time_zone(zone)
+                time_to = time_to.in_time_zone(zone)
 
-            #def initialize(datetime, format="%Y/%m/%d %H:%M")
-                # get custom datetime formats from settings in database
-                #date_formats = @account
-                # catch only string datetimes
-            #    if datetime.kind_of? String
-            #        datetime = from_string(datetime, format)
-            #    end
-            #    datetime.strftime(datetime, format)
-            #end
+                distance_in_seconds = (time_to - time_from).round
+                distance_in_minutes = (distance_in_seconds / 60.0).round
+                distance_in_hours= (distance_in_minutes / 60.0).round
+                distance_in_days = (distance_in_hours / 24.0).round
+                distance_in_weeks = (distance_in_days / 7.0).round
+                distance_in_months = (distance_in_days / 30).round
 
-            #def to_string
-            #end
+                # return distance in days
+                return "#{distance_in_days} day ago" if distance_in_days == 1
+                return "#{distance_in_days} days ago" if distance_in_days > 1
 
-            def to_string_full
+                # return distance in hours
+                return "#{distance_in_hours} hour ago" if distance_in_hours == 1
+                return "#{distance_in_hours} hours ago" if distance_in_hours > 1
+
+                # return distance in minutes
+                return "#{distance_in_minutes} minute ago" if distance_in_minutes == 1
+                return "#{distance_in_minutes} minutes ago" if distance_in_minutes > 1
+
+                # return distance in minutes
+                return "#{distance_in_seconds} second ago" if distance_in_seconds == 1
+                return "#{distance_in_seconds} seconds ago" if distance_in_seconds > 1
+
+                # return generic distance
+                return "some time ago"
+
             end
-
-            def from_string(datetime_string, format=nil)
-                Date.strptime(datetime_string, format)
-            end
-
-
-
-            def self.to_string(datetime, format="%Y/%m/%d %H:%M")
-                return "" unless datetime
-                datetime.strftime(datetime, format)
-            end
-    
-            def self.full_to_string(datetime)
-                return "" unless datetime
-                datetime.strftime("%a, %B %d, %Y")
-            end
-    
-            def self.to_string(datetime)
-                return "" unless datetime
-                datetime.strftime("%Y.%m.%d %H:%M")
-            end
-    
-            def self.date_as_string(datetime)
-                return "" unless datetime
-                datetime.strftime("%Y.%m.%d")
-            end
-    
-            def self.from_string(string, format="%Y.%m.%d %H:%M")
-                return "" unless datetime
-                Date.strptime(string, format)
-            end
-
-=end
 
         end
 
