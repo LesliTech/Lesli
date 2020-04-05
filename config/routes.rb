@@ -50,6 +50,7 @@ Rails.application.routes.draw do
         resource  :account
         resources :settings
         resources :locations
+        resources :users
 
         mount ActionCable.server  => "/cable"
         mount CloudBell::Engine   => "/bell"   if defined?(CloudBell)
