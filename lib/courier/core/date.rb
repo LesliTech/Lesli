@@ -83,6 +83,11 @@ module Courier
                 return Time.current.in_time_zone(zone).beginning_of_day + 1.day
             end
 
+            def self.now time_zone="Europe/Berlin"
+                zone = ActiveSupport::TimeZone.new(time_zone)
+                return Time.current.in_time_zone(zone)
+            end
+
 =begin
 
             # datetime object
