@@ -92,7 +92,7 @@ export default {
         showNotificationPanel() {
             this.getNotifications()
             this.notification.show = true
-            this.notification.timer = setTimeout(() => this.notification.show = false, 25000)
+            this.notification.timer = setTimeout(() => this.notification.show = false, 600000)
         },
         
         prepareDesktopNotification() {
@@ -121,17 +121,20 @@ export default {
             
         },
 
-        readNotification(index) {
-
-            var notification = this.notification.list[index]
+        readNotification(id) {
 
             // In this case, there is no need to wait for a response
-            this.http.put(`/bell/api/notifications/${notification.id}/read`).catch(error => {
+            // this.http.put(`/bell/api/notifications/${id}/read`).catch(error => {
+            this.http.put(`/bell/notifications/${id}/read`).catch(error => {
                 console.log(error)
             })
 
-            window.location.href = notification.href
+        },
 
+        readNotifications() {
+            this.http.put(`/bell/notifications/read_all`).catch(error => {
+                console.log(error)
+            })
         }
 
     }
@@ -141,15 +144,30 @@ export default {
     <section class="application-notification">
         <div :class="[{ 'is-active': notification.show }, 'quickview']">
             <header class="quickview-header" @click="notification.show = false">
-                <p class="title">Notifications</p>
+                <p class="title">Your notifications</p>
                 <i class="fas fa-chevron-right"></i>
             </header>
             <div class="quickview-body">
                 <div class="quickview-block">
+                    <p class="filter-option has-text-right">
+                        <small @click="readNotifications()" class="has-text-grey-light">Mark all as read</small>
+                    </p>
                     <div class="section">
                         <ul class="menu-list">
-                            <li v-for="(notification, index) in notification.list" :key="index" >
+                            <li v-for="notification in notification.list" :key="notification.id" >
+                                <!-- 
+                                <i class="fas fa-info-circle"></i>
                                 <a @click="readNotification(index)" href="#">{{ notification.subject }}</a>
+                                -->
+                                <a href="/bell/notifications">
+                                    {{ notification.subject }}
+                                </a>    
+                                <small class="has-text-grey-light">{{ notification.created_at }}</small>
+                                <small class="has-text-grey-light">-</small>
+                                <small class="mark-as-read has-text-grey-light"
+                                    @click="readNotification(notification.id)">
+                                    mark as read
+                                </small>
                             </li>
                         </ul>
                     </div>
@@ -161,5 +179,11 @@ export default {
         </div>
     </section>
 </template>
-
-
+<style>
+    .icon-dot {
+        display: block;
+        width: 5px;
+        height: 5px;
+        background-color: blue;
+    }
+</style>
