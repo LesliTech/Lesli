@@ -24,12 +24,17 @@ Building a better future, one line of code at a time.
 // · 
 
 =end
-class SettingsController < ApplicationController
+class SettingsController < ApplicationLesliController
     before_action :set_setting, only: [:show, :edit, :update, :destroy]
 
     # GET /settings
     def index
-        
+        respond_to do |format|
+            format.html {}
+            format.json {
+                responseWithSuccessful(Setting.list(current_user, @query))
+            }
+        end
     end
 
     # GET /settings/1
