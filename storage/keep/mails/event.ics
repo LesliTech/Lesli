@@ -20,7 +20,7 @@ UID:{{uid}}
 DTSTART;TZID=Europe/Berlin:{{dtstart}}
 DTEND;TZID=Europe/Berlin:{{dtend}}
 SUMMARY:{{summary}}
-URL:intern.deutsche-leibrenten.de%2Fcrm%2Fevents
+URL:{{url}}
 DESCRIPTION:{{description}}
 LOCATION:{{location}}
 END:VEVENT

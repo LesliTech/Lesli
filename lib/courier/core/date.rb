@@ -45,6 +45,11 @@ module Courier
                 datetime_object.in_time_zone(zone).strftime(format)
             end
 
+            def self.to_string_time datetime_object, format="%H:%M", time_zone="Europe/Berlin"
+                zone = ActiveSupport::TimeZone.new(time_zone)
+                datetime_object.in_time_zone(zone).strftime(format)
+            end
+
             def self.get_year_difference from_time, to_time, time_zone="Europe/Berlin"
                 # We set the same timezone for both Time variables
                 zone = ActiveSupport::TimeZone.new(time_zone)
