@@ -20,7 +20,7 @@
 # Ignore uploaded files in development
 /storage/*
 !/storage/.keep
-!/storage/keep/mails/event.ics
+!/storage/keep/
 
 /public/tmp
 /public/assets

@@ -1,0 +1,27 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:Deutsche Leibrenten CRM
+CALSCALE:GREGORIAN
+BEGIN:VTIMEZONE
+TZID:Europe/Berlin
+TZURL:http://tzurl.org/zoneinfo-outlook/Europe/Berlin
+X-LIC-LOCATION:Europe/Berlin
+BEGIN:STANDARD
+TZOFFSETFROM:-0600
+TZOFFSETTO:-0600
+TZNAME:CST
+DTSTART:19700101T000000
+END:STANDARD
+END:VTIMEZONE
+BEGIN:VEVENT
+ORGANIZER;CN={{organizer_name}}:MAILTO:{{organizer_email}}
+DTSTAMP:{{dtstamp}}
+UID:{{uid}}
+DTSTART;TZID=Europe/Berlin:{{dtstart}}
+DTEND;TZID=Europe/Berlin:{{dtend}}
+SUMMARY:{{summary}}
+URL:intern.deutsche-leibrenten.de%2Fcrm%2Fevents
+DESCRIPTION:{{description}}
+LOCATION:{{location}}
+END:VEVENT
+END:VCALENDAR
