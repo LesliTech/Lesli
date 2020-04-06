@@ -20,7 +20,7 @@
 # Ignore uploaded files in development
 /storage/*
 !/storage/.keep
-
+!/storage/keep/**
 /public/tmp
 /public/assets
 /node_modules
