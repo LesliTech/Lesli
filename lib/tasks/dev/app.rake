@@ -72,12 +72,6 @@ namespace :dev do
 
             #find . -type f -printf "%s\t%p\n" | sort -n | tail -1
 
-            datetime_end = Time.now.strftime('%Y/%m/%d %H:%M:%S')
-
-            file = File.open(Rails.root.join("public", "dev-deploy-log.txt"), "a")
-            file.write("completed at: #{ datetime_end }\r\n")
-            file.close
-
         end
 
         desc "List available engines"

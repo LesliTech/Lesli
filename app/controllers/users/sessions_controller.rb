@@ -47,10 +47,10 @@ class Users::SessionsController < Devise::SessionsController
 
         resource = User.find_for_database_authentication(email: sign_in_params[:email])
 
-        return responseWithError(t('devise.errors.custom.invalid_credentials')) unless resource
+        return responseWithError(t('core.users/sessions.invalid_credentials')) unless resource
 
         unless resource.valid_password?(sign_in_params[:password])
-            return responseWithError(t('devise.errors.custom.invalid_credentials'))
+            return responseWithError(t('core.users/sessions.invalid_credentials'))
         end
         
         unless resource.confirmed?
