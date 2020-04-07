@@ -8,6 +8,8 @@ class ApplicationMailer < ActionMailer::Base
         case self.class.name
         when "BellMailer"
             template_path = "mailers/bell"
+        when "DriverMailer"
+            template_path = "mailers/driver"
         when "FocusMailer"
             template_path = "mailers/focus"
         when "HouseMailer"
