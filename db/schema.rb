@@ -376,10 +376,10 @@ ActiveRecord::Schema.define(version: 2020_03_31_181324) do
   create_table "cloud_focus_workflow_statuses", force: :cascade do |t|
     t.integer "number"
     t.string "name"
-    t.boolean "initial"
-    t.boolean "final"
+    t.boolean "initial", default: false
+    t.boolean "final", default: false
     t.string "next_statuses"
-    t.boolean "inactive"
+    t.boolean "inactive", default: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.bigint "cloud_focus_workflows_id"
@@ -698,12 +698,6 @@ ActiveRecord::Schema.define(version: 2020_03_31_181324) do
     t.string "verification_document_type"
     t.string "verification_document_number"
     t.string "verification_document_authority"
-    t.string "lead_origin"
-    t.string "lead_source"
-    t.string "questionnaire_type"
-    t.datetime "questionnaire_received_date"
-    t.boolean "testimony"
-    t.text "notes"
     t.boolean "deceased"
     t.datetime "death_date"
     t.datetime "created_at", precision: 6, null: false
@@ -1281,10 +1275,10 @@ ActiveRecord::Schema.define(version: 2020_03_31_181324) do
   create_table "cloud_house_workflow_statuses", force: :cascade do |t|
     t.integer "number"
     t.string "name"
-    t.boolean "initial"
-    t.boolean "final"
+    t.boolean "initial", default: false
+    t.boolean "final", default: false
     t.string "next_statuses"
-    t.boolean "inactive"
+    t.boolean "inactive", default: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.bigint "cloud_house_workflows_id"
