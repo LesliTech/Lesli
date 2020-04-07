@@ -59,6 +59,7 @@ class Account < ApplicationRecord
         self.settings.find_or_create_by({ name: "date_format", value: "%Y.%m.%d", account: self })
         self.settings.find_or_create_by({ name: "date_format_full", value: "%a, %B %d, %Y", account: self })
         self.settings.find_or_create_by({ name: "date_format_time", value: "%Y.%m.%d %H:%M", account: self })
+        self.settings.find_or_create_by({ name: "time_format", value: "%H:%M", account: self })
         self.settings.find_or_create_by({ name: "time_zone", value: "Europe/Berlin", account: self })
         self.settings.find_or_create_by({ name: "start_week_on", value: "monday", account: self })
 
