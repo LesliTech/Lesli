@@ -31,7 +31,6 @@
 
 # Ignore master key for decrypting credentials and more.
 /config/master.key
-/config/defaults.yml
 /config/credentials/
 !/config/credentials/.keep
 

@@ -1,0 +1,26 @@
+# Lesli
+# For more information read the license file including with this software.
+
+development:
+    i18n_default_locale: en
+    i18n_available_locales:
+        - en
+        - de
+        - es
+    devise_mailer_sender: 'dev@lesli.cloud'
+    action_mailer:
+        default_url_options_host: 'http://0.0.0.0:3000'
+        asset_host: 'http://0.0.0.0:3000'
+        default_options_from: 'dev@lesli.tech'
+
+production:
+    i18n_default_locale: de
+    i18n_available_locales:
+        - en
+        - de
+        - es
+    devise_mailer_sender: 'crm.admin@deutsche-leibrenten.de'
+    action_mailer:
+        default_url_options_host: 'http://0.0.0.0:3000'
+        asset_host: 'http://0.0.0.0:3000'
+        default_options_from: 'crm.admin@deutsche-leibrenten.de'
