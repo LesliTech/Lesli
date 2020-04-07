@@ -65,10 +65,12 @@ Rails.application.configure do
 
     config.action_mailer.delivery_method = :smtp
 
-    config.action_mailer.default_url_options = { host: '0.0.0.0:3000' }
+    config.action_mailer.default_url_options = { host: Rails.configuration.defaults["default_url_options_host"] }
+
+    config.action_mailer.asset_host = Rails.configuration.defaults["asset_host"]
 
     config.action_mailer.default_options = {
-        from: "hello@lesli.tech"
+        from: Rails.configuration.defaults["default_options_from"]
     }
 
     config.action_mailer.smtp_settings = {
