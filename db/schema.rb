@@ -745,7 +745,9 @@ ActiveRecord::Schema.define(version: 2020_03_31_181324) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.bigint "cloud_house_accounts_id"
+    t.bigint "cloud_house_workflow_statuses_id"
     t.index ["cloud_house_accounts_id"], name: "index_cloud_house_contacts_on_cloud_house_accounts_id"
+    t.index ["cloud_house_workflow_statuses_id"], name: "house_contacts_workflow_statuses"
   end
 
   create_table "cloud_house_employee_actions", force: :cascade do |t|
@@ -1438,6 +1440,7 @@ ActiveRecord::Schema.define(version: 2020_03_31_181324) do
   add_foreign_key "cloud_house_contact_subscribers", "cloud_house_contacts", column: "cloud_house_contacts_id"
   add_foreign_key "cloud_house_contact_subscribers", "users", column: "users_id"
   add_foreign_key "cloud_house_contacts", "cloud_house_accounts", column: "cloud_house_accounts_id"
+  add_foreign_key "cloud_house_contacts", "cloud_house_workflow_statuses", column: "cloud_house_workflow_statuses_id"
   add_foreign_key "cloud_house_contacts", "locations", column: "location_city_id"
   add_foreign_key "cloud_house_employee_actions", "cloud_house_employees", column: "cloud_house_employees_id"
   add_foreign_key "cloud_house_employee_activities", "cloud_house_employees", column: "cloud_house_employees_id"

@@ -1,5 +1,0 @@
----
-:es:
-  core:
-    users/sessions:
-      invalid_credentials: Usuario o contraseña incorrectos

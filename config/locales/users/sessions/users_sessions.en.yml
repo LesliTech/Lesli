@@ -1,5 +1,0 @@
----
-:en:
-  core:
-    users/sessions:
-      invalid_credentials: Not valid username or password
