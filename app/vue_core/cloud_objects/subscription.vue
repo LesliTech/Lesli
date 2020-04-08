@@ -85,7 +85,7 @@ export default {
                     if (result.successful) {
                         this.events = result.data
                     } else {
-                        this.alert(result.error.message, 'danger')
+                        this.notification.alert(result.error.message, 'danger')
                     }
                 }).catch(error => {
                     console.log(error)
@@ -120,10 +120,10 @@ export default {
                 if (result.successful) {
                     subscription_event.id = result.data.id
                     if(show_alerts){
-                        this.alert('Subscriptions successfully updated', 'success')
+                        this.notification.alert('Subscriptions successfully updated', 'success')
                     }
                 }else{
-                    this.alert(result.error.message, 'danger')
+                    this.notification.alert(result.error.message, 'danger')
                 }
             }).catch(error => {
                 console.log(error)
@@ -139,10 +139,10 @@ export default {
             this.http.patch(url, data).then(result =>{
                 if (result.successful) {
                     if(show_alerts){
-                        this.alert('Subscriptions successfully updated', 'success')
+                        this.notification.alert('Subscriptions successfully updated', 'success')
                     }
                 }else{
-                    this.alert(result.error.message, 'danger')
+                    this.notification.alert(result.error.message, 'danger')
                 }
             }).catch(error => {
                 console.log(error)
@@ -158,11 +158,11 @@ export default {
             this.http.delete(url).then(result =>{
                 if (result.successful) {
                     if(show_alerts){
-                        this.alert('Subscriptions successfully updated', 'success')
+                        this.notification.alert('Subscriptions successfully updated', 'success')
                     }
                     delete subscription_event.id
                 }else{
-                    this.alert(result.error.message, 'danger')
+                    this.notification.alert(result.error.message, 'danger')
                 }
             }).catch(error => {
                 console.log(error)
@@ -183,7 +183,7 @@ export default {
                     this.submitSubscription(event, false)
                 }
             })
-            this.alert('Subscriptions type successfully updated', 'success')
+            this.notification.alert('Subscriptions type successfully updated', 'success')
         },
 
         'master_fields.subscribed': function(){
@@ -193,7 +193,7 @@ export default {
                     this.submitSubscription(event, false)
                 }
             })
-            this.alert('Subscriptions successfully updated', 'success')
+            this.notification.alert('Subscriptions successfully updated', 'success')
         }
     }
 }
