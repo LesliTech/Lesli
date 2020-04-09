@@ -51,7 +51,7 @@ export default {
                 if (result.successful) {
                     this.discussions = result.data
                 }else{
-                    this.alert(result.error.message,'danger')
+                    this.notification.alert(result.error.message,'danger')
                 }
             }).catch(error => {
                 console.log(error)
@@ -76,7 +76,7 @@ export default {
                         responses: []
                     })
                 }else{
-                    this.alert(result.error.message,'danger')
+                    this.notification.alert(result.error.message,'danger')
                 }
             }).catch(error => {
                 console.log(error)
@@ -123,10 +123,10 @@ export default {
                 if (result.successful) {
                     this.$set(comment.data, 'content', comment.data.new_content)
                     this.$set(comment.data, 'editable', false)
-                    this.alert('Comment updated successfully', 'success')
+                    this.notification.alert('Comment updated successfully', 'success')
                     
                 }else{
-                    this.alert(result.error.message,'danger')
+                    this.notification.alert(result.error.message,'danger')
                 }
             }).catch(error => {
                 console.log(error)
@@ -139,12 +139,12 @@ export default {
 
             this.http.delete(url).then(result => {
                 if (result.successful) {
-                    this.alert('Comment deleted successfully', 'success')
+                    this.notification.alert('Comment deleted successfully', 'success')
                     this.discussions = this.discussions.filter((discussion)=>{
                         return discussion.data.id != comment.data.id
                     })
                 }else{
-                    this.alert(result.error.message,'danger')
+                    this.notification.alert(result.error.message,'danger')
                 }
             }).catch(error => {
                 console.log(error)

@@ -80,7 +80,7 @@ export default {
                 if (result.successful) {
                     this.file_options = result.data
                 }else{
-                    this.alert(result.error.message,'danger')
+                    this.notification.alert(result.error.message,'danger')
                 }
             }).catch(error => {
                 console.log(error)
@@ -109,7 +109,7 @@ export default {
 
         cleanDropzone(){
             this.submitting_form = false
-            this.alert('Files uploaded successfully', 'success')
+            this.notification.alert('Files uploaded successfully', 'success')
             this.$refs['dropzone'].removeAllFiles(true);
             this.$emit('upload-complete')
             this.bus.publish(`post:/${this.module_name.slash}/${this.object_name.plural}/files-complete`)

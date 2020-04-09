@@ -85,8 +85,18 @@ module Courier
             def self.model_index(current_user, query)
                 return [] unless defined? CloudFocus && CloudHouse
                 tasks = current_user.account.focus.tasks
-                        .select(:id, :title, :description, :deadline, :importance, :task_type, :creator_id, :users_id, :model_id, :model_type)
-                        .joins(:status, :detail)
+                        .select(
+                            :id,
+                            :title,
+                            :description,
+                            :deadline,
+                            :importance,
+                            :task_type,
+                            :creator_id,
+                            :users_id,
+                            :model_id,
+                            :model_type
+                        ).joins(:status, :detail)
                         .includes(model: [:detail])
                         .where("cloud_focus_workflow_statuses.name = ?", 'created')
                 
@@ -100,7 +110,7 @@ module Courier
                                 .joins("inner join user_details uda on ud.id = ua.id")
                                 .joins("inner join user_details udc on ud.id = uc.id")
                 else
-                    tasks = tasks.select("ua.id as user_id, ua.email as user_value, uc.id as creator_id, uc.email as creator_value")
+                    tasks = tasks.select("ua.id as user_id, ua.name as user_value, uc.id as creator_id, uc.name as creator_value")
                                 .joins("inner join users ua on ua.id = cloud_focus_tasks.users_id")
                                 .joins("inner join users uc on uc.id = cloud_focus_tasks.creator_id")
                 end
