@@ -77,7 +77,7 @@ export default {
                     if (result.successful) {
                         this.events = result.data
                     } else {
-                        this.alert(result.error.message, 'danger')
+                        this.notification.alert(result.error.message, 'danger')
                     }
                 }).catch(error => {
                     console.log(error)
@@ -112,10 +112,10 @@ export default {
                 if (result.successful) {
                     subscription_event.id = result.data.id
                     if(show_alerts){
-                        this.alert(this.translations.messages.subscribe.successful)
+                        this.notification.alert(this.translations.messages.subscribe.successful)
                     }
                 }else{
-                    this.alert(result.error.message, 'danger')
+                    this.notification.alert(result.error.message, 'danger')
                 }
             }).catch(error => {
                 console.log(error)
@@ -133,10 +133,10 @@ export default {
             ).then(result =>{
                 if (result.successful) {
                     if(show_alerts){
-                        this.alert(this.translations.messages.subscribe.successful)
+                        this.notification.alert(this.translations.messages.subscribe.successful)
                     }
                 }else{
-                    this.alert(result.error.message, 'danger')
+                    this.notification.alert(result.error.message, 'danger')
                 }
             }).catch(error => {
                 console.log(error)
@@ -153,11 +153,11 @@ export default {
             ).then(result =>{
                 if (result.successful) {
                     if(show_alerts){
-                        this.alert(this.translations.messages.subscribe.successful)
+                        this.notification.alert(this.translations.messages.subscribe.successful)
                     }
                     delete subscription_event.id
                 }else{
-                    this.alert(result.error.message, 'danger')
+                    this.notification.alert(result.error.message, 'danger')
                 }
             }).catch(error => {
                 console.log(error)
@@ -178,7 +178,7 @@ export default {
                     this.submitSubscription(event, false)
                 }
             })
-            this.alert(this.translations.messages.subscribe.successful)
+            this.notification.alert(this.translations.messages.subscribe.successful)
         },
 
         'master_fields.subscribed': function(){
@@ -188,7 +188,7 @@ export default {
                     this.submitSubscription(event, false)
                 }
             })
-            this.alert(this.translations.messages.subscribe.successful)
+            this.notification.alert(this.translations.messages.subscribe.successful)
         }
     }
 }

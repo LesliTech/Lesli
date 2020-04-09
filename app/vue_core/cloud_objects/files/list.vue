@@ -69,7 +69,7 @@ export default {
                 if (result.successful) {
                     this.files = result.data
                 }else{
-                    this.alert(result.error.message,'danger')
+                    this.notification.alert(result.error.message,'danger')
                 }
             }).catch(error => {
                 console.log(error)
@@ -82,13 +82,13 @@ export default {
 
             this.http.delete(url).then(result => {
                 if (result.successful) {
-                    this.alert('File deleted successfully', 'success')
+                    this.notification.alert('File deleted successfully', 'success')
                     this.files = this.files.filter((file)=>{
                         return file.id != deleted_file.id
                     })
                     this.bus.publish(`delete:/${this.module_name.slash}/${this.object_name.plural}/files`, deleted_file)
                 }else{
-                    this.alert(result.error.message,'danger')
+                    this.notification.alert(result.error.message,'danger')
                 }
             }).catch(error => {
                 console.log(error)
