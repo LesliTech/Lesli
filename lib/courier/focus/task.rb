@@ -85,36 +85,15 @@ module Courier
             def self.model_index(current_user, query)
                 return [] unless defined? CloudFocus && CloudHouse
                 tasks = current_user.account.focus.tasks
-                        .select(
-                            :id,
-                            :title,
-                            :description,
-                            :deadline,
-                            :importance,
-                            :task_type,
-                            :creator_id,
-                            :users_id,
-                            :model_id,
-                            :model_type
-                        ).joins(:status, :detail)
+                        .select(:id, :title, :description, :deadline, :importance, :task_type, :creator_id, :users_id, :model_id, :model_type)
+                        .select("ua.id as user_id, ua.role as user_role, ua.name as user_value, uc.id as creator_id, uc.role as creator_role, uc.name as creator_value")
+                        .joins(:status, :detail)
                         .includes(model: [:detail])
                         .where("cloud_focus_workflow_statuses.name = ?", 'created')
-                
+                        .joins("inner join users ua on ua.id = cloud_focus_tasks.users_id")
+                        .joins("inner join users uc on uc.id = cloud_focus_tasks.creator_id")
+
                 tasks = tasks.where(creator: current_user) unless query[:filters][:all]
-                
-                if defined? (CloudLock)
-                    tasks = tasks.select("ua.id as user_id, concat(uda.first_name,' ', uda.last_name) as user_value, 
-                                uc.id as creator_id, uc.concat(udc.first_name,' ', udc.last_name) as creator_value")
-                                .joins("inner join users ua on ua.id = cloud_focus_tasks.users_id")
-                                .joins("inner join users uc on uc.id = cloud_focus_tasks.creator_id")
-                                .joins("inner join user_details uda on ud.id = ua.id")
-                                .joins("inner join user_details udc on ud.id = uc.id")
-                else
-                    tasks = tasks.select("ua.id as user_id, ua.name as user_value, uc.id as creator_id, uc.name as creator_value")
-                                .joins("inner join users ua on ua.id = cloud_focus_tasks.users_id")
-                                .joins("inner join users uc on uc.id = cloud_focus_tasks.creator_id")
-                end
-                
                 tasks = tasks.map do |task|
 
                     {
@@ -122,15 +101,17 @@ module Courier
                         title: task.title, 
                         description: task.description,
                         deadline: Courier::Core::Date.to_string(task.deadline, "%d.%m.%Y"),
-                        importance: task.importance,
+                        importance: CloudFocus::Task.importances.key(0),
                         model_type: task.model_type,
                         creator: {
                             id: task.creator_id,
-                            value: task.creator_value
+                            value: task.creator_value,
+                            role: task.creator_role
                         },
                         user: {
                             id: task.user_id,
-                            value: task.user_value
+                            value: task.user_value,
+                            role: task.user_role
                         },
                         details: task.model.detail
                     }
