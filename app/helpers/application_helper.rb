@@ -69,7 +69,7 @@ module ApplicationHelper
     end
 
     def language_url(locale)
-        "/language?local=#{locale}"
+        "/language?locale=#{locale}"
     end
 
     def language_flag(locale)
