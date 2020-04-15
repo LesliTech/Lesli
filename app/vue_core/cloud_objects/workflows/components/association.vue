@@ -51,7 +51,7 @@ export default {
                 if (result.successful) {
                     this.associations = result.data
                 }else{
-                    this.alert(result.error.message,'danger')
+                    this.notification.alert(result.error.message,'danger')
                 }
             }).catch(error => {
                 console.log(error)
@@ -63,7 +63,7 @@ export default {
                 if (result.successful) {
                     this.association_options = result.data
                 }else{
-                    this.alert(result.error.message,'danger')
+                    this.notification.alert(result.error.message,'danger')
                 }
             }).catch(error => {
                 console.log(error)
@@ -82,10 +82,10 @@ export default {
             this.http.post(this.endpoint, data).then(result => {
                 if (result.successful) {
                     this.getAssociations()
-                    this.alert('This workflow has been successfully assigned', 'success')
+                    this.notification.alert('This workflow has been successfully assigned', 'success')
                     this.clearNewAssociation()
                 }else{
-                    this.alert(result.error.message,'danger')
+                    this.notification.alert(result.error.message,'danger')
                 }
             }).catch(error => {
                 console.log(error)
@@ -116,9 +116,9 @@ export default {
             this.http.delete(url).then(result => {
                 if (result.successful) {
                     this.getAssociations()
-                    this.alert('The association has been successfully deleted', 'success')
+                    this.notification.alert('The association has been successfully deleted', 'success')
                 }else{
-                    this.alert(result.error.message,'danger')
+                    this.notification.alert(result.error.message,'danger')
                 }
             }).catch(error => {
                 console.log(error)
