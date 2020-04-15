@@ -90,7 +90,7 @@ export default {
                         this.workflow_data = result.data.statuses
                         this.displayWorkflow()
                     }else{
-                        this.alert(result.error.message,'danger')
+                        this.notification.alert(result.error.message,'danger')
                     }
                 }).catch(error => {
                     console.log(error)
