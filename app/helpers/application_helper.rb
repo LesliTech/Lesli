@@ -54,6 +54,14 @@ module ApplicationHelper
 
     end
 
+    def application_javascript_path
+
+        path_segments = controller_path.split("/")
+        cloud_module = path_segments.shift
+        [cloud_module, path_segments.push("app").compact().join("_")].join("/")
+
+    end
+
     def application_header_logo() 
         
         image_src_string = "brand/lesli-logo-banner.svg"
