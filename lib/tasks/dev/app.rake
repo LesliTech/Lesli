@@ -72,6 +72,10 @@ namespace :dev do
 
             #find . -type f -printf "%s\t%p\n" | sort -n | tail -1
 
+            # DO NOT UPDATE TO CHANGE FOLDER PERMISSION AFTER RESTART NGINX
+            # sudo chmod 755 public/ -R
+            # sudo chown www-data:www-data public/ -R
+
         end
 
         desc "List available engines"
