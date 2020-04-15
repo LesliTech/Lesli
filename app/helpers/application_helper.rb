@@ -92,4 +92,8 @@ module ApplicationHelper
         locale
     end
 
+    def javascript_googlemaps_sdk
+        '<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCN4i4BWJS-IVtniSMY1Ot2MGaKuTKLNP8"></script>'.html_safe
+    end
+
 end
