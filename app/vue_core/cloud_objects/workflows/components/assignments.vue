@@ -57,7 +57,7 @@ export default {
                 if (result.successful) {
                     this.workflows = result.data
                 }else{
-                    this.alert(result.error.message,'danger')
+                    this.notification.alert(result.error.message,'danger')
                 }
             }).catch(error => {
                 console.log(error)
@@ -76,7 +76,7 @@ export default {
                 if (result.successful) {
                     this.workflow_assignments = result.data
                 }else{
-                    this.alert(result.error.message,'danger')
+                    this.notification.alert(result.error.message,'danger')
                 }
             }).catch(error => {
                 console.log(error)
@@ -90,9 +90,9 @@ export default {
             
             this.http.patch(url, data).then(result => {
                 if (result.successful) {
-                    this.alert('Workflow Assignment successfully updated', 'success')
+                    this.notification.alert('Workflow Assignment successfully updated', 'success')
                 }else{
-                    this.alert(result.error.message,'danger')
+                    this.notification.alert(result.error.message,'danger')
                 }
             }).catch(error => {
                 console.log(error)
@@ -107,7 +107,7 @@ export default {
                         return association.name != `${this.object_name}_${this.workflowKeyName}`
                     })
                 }else{
-                    this.alert(result.error.message,'danger')
+                    this.notification.alert(result.error.message,'danger')
                 }
             }).catch(error => {
                 console.log(error)

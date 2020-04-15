@@ -93,7 +93,7 @@ export default {
                 if (result.successful) {
                     this.workflows = result.data
                 }else{
-                    this.alert(result.error.message,'danger')
+                    this.notification.alert(result.error.message,'danger')
                 }
             }).catch(error => {
                 console.log(error)
