@@ -31,20 +31,6 @@ module Lesli
         # for i18n-js
         config.middleware.use I18n::JS::Middleware
 
-=begin
-        puts "~     ~     ~     ~     ~     ~     ~     ~     ~     ~     ~"
-        puts "~     ~     ~     ~     ~     ~     ~     ~     ~     ~     ~"
-        puts "~     ~     ~     ~     ~     ~     ~     ~     ~     ~     ~"
-        puts "~     ~     ~     ~     ~     ~     ~     ~     ~     ~     ~"
-        puts "~     ~     ~     ~     ~     ~     ~     ~     ~     ~     ~"
-        p config.platform_settings
-        puts "~     ~     ~     ~     ~     ~     ~     ~     ~     ~     ~"
-        puts "~     ~     ~     ~     ~     ~     ~     ~     ~     ~     ~"
-        puts "~     ~     ~     ~     ~     ~     ~     ~     ~     ~     ~"
-        puts "~     ~     ~     ~     ~     ~     ~     ~     ~     ~     ~"
-        puts "~     ~     ~     ~     ~     ~     ~     ~     ~     ~     ~"
-=end
-
     end
 
 end
