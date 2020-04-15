@@ -1,0 +1,13 @@
+<%= javascript_include_tag "i18n" %>
+<%= javascript_include_tag "translations", skip_pipeline: true %>
+<%= javascript_include_tag application_javascript_path() %>
+
+<script>
+
+    // Set language for JavaScripts apps
+    I18n.locale = '<%= I18n.locale %>'
+
+</script>
+
+<%# <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCN4i4BWJS-IVtniSMY1Ot2MGaKuTKLNP8"></script> %>
+<%# -# %script{:src => "https://cdnjs.cloudflare.com/ajax/libs/intro.js/2.9.3/intro.js"} %>

@@ -80,4 +80,28 @@ module Lesli
 
     end
 
+    def Lesli.settings  
+
+        # Lesli core settings
+        lesli_settings = YAML.load_file(File.join("./config", "settings.yml"))[Rails.env]
+
+        instance_settings = {}
+
+        instance_engine = nil
+
+        instance_engine = "CloudHaus" if defined?(CloudHaus)
+
+        if instance_engine
+            instance_engine = File.join("./engines", instance_engine, "config", "settings.yml")
+            platform_settings = YAML.load_file(instance_engine)[Rails.env]
+            
+            # location: config/application.rb
+            lesli_settings['i18n_default_locale'] = platform_settings['i18n_default_locale'] if not platform_settings['i18n_default_locale'].blank?
+
+        end
+    
+        lesli_settings
+
+    end
+
 end
