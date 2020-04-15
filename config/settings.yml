@@ -1,4 +1,3 @@
-
 development:
     i18n_default_locale: en
     devise_mailer_sender: "dev@lesli.cloud"
@@ -7,8 +6,7 @@ development:
         default_options_from: "dev@lesli.tech"
         default_url_options_host: "http://0.0.0.0:3000"
 
-
-development:
+production:
     i18n_default_locale: en
     devise_mailer_sender: "dev@lesli.cloud"
     action_mailer:
