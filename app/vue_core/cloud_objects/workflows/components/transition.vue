@@ -54,7 +54,7 @@ export default {
                             this.transition_statuses = []
                         }
                     } else {
-                        this.alert(result.error.message, 'danger')
+                        this.notification.alert(result.error.message, 'danger')
                     }
                 }).catch(error => {
                     console.log(error)
@@ -76,14 +76,14 @@ export default {
                 if (result.successful) {
                     this.bus.publish(`patch:/${this.cloudModule}/status`, status)
                     if(status.final){
-                        this.alert('This resource has been successfully closed', 'success')
+                        this.notification.alert('This resource has been successfully closed', 'success')
                         this.$router.push(`/${this.cloudId}`)
                     }else{
                         this.getWorkflowStateOptions()
-                        this.alert('The status of this resource has been successfully updated', 'success')
+                        this.notification.alert('The status of this resource has been successfully updated', 'success')
                     }
                 } else {
-                    this.alert(result.error.message, 'danger')
+                    this.notification.alert(result.error.message, 'danger')
                 }
             }).catch(error => {
                 console.log(error)
