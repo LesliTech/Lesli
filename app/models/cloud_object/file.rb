@@ -35,7 +35,7 @@ module CloudObject
             self.file_types.each do |key, value|
                 data_file_types.push({
                     value: key,
-                    text: value.humanize
+                    text: value
                 })
             end
 

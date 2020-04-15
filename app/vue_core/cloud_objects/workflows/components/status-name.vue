@@ -30,6 +30,10 @@ export default {
         name: {
             type: String,
             default: ''
+        },
+        translationsPath: {
+            type: String,
+            default: null
         }
     },
 
@@ -41,16 +45,30 @@ export default {
                 final: 'closed'
             }
         }
+    },
+
+    mounted(){
+        if(this.translationsPath){
+            this.translations = I18n.t(this.translationsPath)
+        }
+    },
+
+    methods: {
+        translateStatus(status_name){
+            let new_status_name = this.translations[`status_${status_name}`]
+            if(new_status_name){
+                return new_status_name
+            }
+
+            return status_name
+        }
     }
 }
 </script>
 <template>
     <span>
-        <span v-if="name === names.initial">
-            Created (Initial)
-        </span>
-        <span v-else-if="name === names.final">
-            Closed (Final)
+        <span v-if="translations">
+            {{translateStatus(name)}}
         </span>
         <span v-else>
             {{name}}

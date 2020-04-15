@@ -19,11 +19,16 @@ export default {
         },
         value: {
             default: null
+        },
+        translationsPath: {
+            type: String,
+            default: null
         }
     },
 
     data() {
         return {
+            core_translations: I18n.t('core.shared'),
             transition_statuses: null,
             module_name: null,
             object_name: null,
@@ -111,8 +116,8 @@ export default {
     <div>
         <b-dropdown hoverable aria-role="list" position="is-bottom-left">
             <button class="button" slot="trigger">
-                <span v-if="selected_status_name">New Status: {{selected_status_name}}</span>
-                <span v-else>Change status</span>
+                <span v-if="selected_status_name">{{core_translations.workflows_text_new_status}}: {{selected_status_name}}</span>
+                <span v-else>{{core_translations.workflows_text_change_status}}</span>
                 <b-icon icon="chevron-down" size="is-small" />
             </button>
             <b-dropdown-item
@@ -123,6 +128,7 @@ export default {
                 aria-role="listitem"
             >
                 <component-status-name
+                    :translations-path="translationsPath"
                     :name="status.name"
                 />
             </b-dropdown-item>
