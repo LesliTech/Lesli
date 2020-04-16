@@ -27,19 +27,21 @@ Building a better future, one line of code at a time.
 
 =end
 
-email = "dev@lesli.cloud"
-password = "lesli2020"
+def create_user(email, password, name)
+    User.find_or_create_by(email: email) do |user|
+        user.name = name
+        user.role = "admin"
+        user.password = password
+        user.password_confirmation = password
+        user.accounts_id = 1
+        user.confirm
 
-User.find_or_create_by(email: email) do |user|
-    user.name = "Lesli Development"
-    user.role = "admin"
-    user.password = password
-    user.password_confirmation = password
-    user.accounts_id = 1
-    user.confirm
-
-    user.account.user = user
-    user.account.save!
+        user.account.user = user
+        user.account.save!
+    end
 end
+
+create_user("dev@lesli.cloud", "lesli2020", "Lesli Development")
+create_user("dev@deutche-leibrenten.de", "leibrenten2020", "Leibrenten Development") if defined?(CloudHaus)
 
 p "Users successfully created!"
