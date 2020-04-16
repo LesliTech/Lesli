@@ -29,6 +29,12 @@ Building a better future, one line of code at a time.
 email = "dev@lesli.cloud"
 password = "lesli2020"
 
+if defined?(CloudHaus)
+    name "Leibrenten Administrator"
+    email = "dev@deutche-leibrenten.de"
+    password = "leibrenten2020"
+end
+
 User.find_or_create_by(email: email) do |user|
     user.name = "Lesli Development"
     user.role = "admin"
