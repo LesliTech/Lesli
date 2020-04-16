@@ -32,20 +32,20 @@ Rails.application.configure do
 
     config.action_mailer.perform_caching = true
 
-    config.action_mailer.default_url_options = { 
-        host: ""
-    }
-
-    config.action_mailer.asset_host = ""
-
     #config.action_mailer.delivery_method = :smtp
 
     config.action_mailer.delivery_method = :letter_opener
-    
+
     config.action_mailer.perform_deliveries = true
 
+    config.action_mailer.default_url_options = { 
+        host: Rails.configuration.platform_settings["action_mailer"]["default_url_options_host"] 
+    }
+
+    config.action_mailer.asset_host = Rails.configuration.platform_settings["action_mailer"]["asset_host"]
+
     config.action_mailer.default_options = {
-        from: "dev@lesli.cloud"
+        from: Rails.configuration.platform_settings["action_mailer"]["default_options_from"]
     }
 
     config.action_mailer.smtp_settings = {
