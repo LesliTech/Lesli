@@ -42,6 +42,10 @@ app({
             email: '',
             password: ''
         },
+        password_edit: {
+            new_password: "",
+            new_password_confirmation: ""
+        },
         progress_bar_active: false,
         notification: {
             message: '',
@@ -64,6 +68,51 @@ app({
 
                 if(response.successful){
                     //this.url.go('/')
+                }else{
+                    this.showNotification(response.error.message)
+                }
+
+            }).catch(error => {
+                console.log(error)
+            })
+        },
+
+        putPasswordEdit(event) {
+
+            event.preventDefault();
+
+            // check if passwords match
+            if (this.password_edit.new_password != this.password_edit.new_password_confirmation) {
+                console.log("password does not match")
+                this.showNotification("New password and password confirmation does not match", "is-warning")
+                return
+            }
+
+            var token=null
+
+            try {
+                token = Object.fromEntries(new URLSearchParams(window.location.search)).reset_password_token
+            } catch (error) {
+                token=null
+            }
+
+            this.progress_bar_active = true;
+
+            this.http.put("/password", {
+                user: {
+                    reset_password_token: token,
+                    password: this.password_edit.new_password,
+                    password_confirmation: this.password_edit.new_password_confirmation
+                }
+            }).then(response => {
+
+                this.progress_bar_active = false
+
+                if(response.successful){
+                    this.showNotification("Password successfully updated", "is-success")
+                    setTimeout(() => {
+                        this.url.go("/login")
+                    }, 1500)
                 }else{
                     this.showNotification(response.error.message)
                 }
