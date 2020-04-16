@@ -56,9 +56,10 @@ class Users::SessionsController < Devise::SessionsController
         unless resource.confirmed?
             return responseWithError(t('devise.errors.custom.confirmation_required'))
         end
-
+        
         sign_in :user, resource
-        return responseWithSuccessful()
+
+        responseWithSuccessful()
 
     end
 
