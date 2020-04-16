@@ -44,6 +44,14 @@ export default {
         active: {
             type: Boolean,
             default: true
+        },
+        translationsPath: {
+            type: String,
+            default: 'core.shared'
+        },
+        translationsFileTypesPath: {
+            type: String,
+            default: null
         }
     },
 
@@ -55,12 +63,16 @@ export default {
     data() {
         return {
             show: false,
+            translations: {
+                core: I18n.t('core.shared')
+            },
             active_tab: 0
         }
     },
 
     mounted() {
-        this.setSubscriptions() 
+        this.setSubscriptions()
+        this.setTranslations()
     },
 
     beforeDestroy(){
@@ -70,6 +82,10 @@ export default {
     methods: {
         setSubscriptions(){
             this.bus.subscribe('show:/module/app/files', () => this.show = !this.show )
+        },
+
+        setTranslations(){
+            this.$set(this.translations, 'main', I18n.t(this.translationsPath)) 
         },
 
         deleteSubscriptions(){
@@ -83,12 +99,25 @@ export default {
 }
 </script>
 <template>
-    <b-tabs expanded v-model="active_tab">
-        <b-tab-item label="Upload">
-            <component-form :cloud-module="cloudModule" :cloud-id="cloudId" :active="active" @upload-complete="switchToList"/>
+    <b-tabs expanded v-model="active_tab" v-if="translations.main">
+        <b-tab-item :label="translations.main.files_title_new">
+            <component-form
+                :cloud-module="cloudModule"
+                :cloud-id="cloudId"
+                :active="active"
+                @upload-complete="switchToList"
+                :translations-path="translationsPath"
+                :translations-file-types-path="translationsFileTypesPath"
+            />
         </b-tab-item>
-        <b-tab-item label="All documents">
-            <component-list :cloud-module="cloudModule" :cloud-id="cloudId" :active="active" />
+        <b-tab-item :label="translations.main.files_title_list">
+            <component-list
+                :cloud-module="cloudModule"
+                :cloud-id="cloudId"
+                :active="active"
+                :translations-path="translationsPath"
+                :translations-file-types-path="translationsFileTypesPath"
+            />
         </b-tab-item>
     </b-tabs>
 </template>
