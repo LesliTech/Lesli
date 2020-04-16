@@ -28,6 +28,8 @@ module Lesli
         config.autoload_paths += Dir[Rails.root.join("config", "routes")]
         config.autoload_paths += Dir[Rails.root.join("lib")]
 
+        config.exceptions_app = self.routes
+
         # for i18n-js
         config.middleware.use I18n::JS::Middleware
 

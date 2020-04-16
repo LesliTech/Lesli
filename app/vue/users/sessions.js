@@ -49,7 +49,28 @@ app({
             type: 'is-danger'
         }
     },
+    mounted() {
+        this.build_redirect_url()
+    },
     methods: {
+
+        build_redirect_url() {
+
+            let redirect_url= "/" 
+
+            try {
+                redirect_url = Object.fromEntries(new URLSearchParams(window.location.search)).r
+            } catch (error) {
+                
+            }
+
+            if (!redirect_url) {
+                redirect_url= "/" 
+            }
+
+            return redirect_url
+             
+        },
 
         postLogin(event) {
 
@@ -63,7 +84,7 @@ app({
                 this.progress_bar_active = false
 
                 if(response.successful){
-                    this.url.go('/')
+                    this.url.go(this.build_redirect_url())
                 }else{
                     this.showNotification(response.error.message)
                 }
