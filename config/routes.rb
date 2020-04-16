@@ -71,6 +71,9 @@ Rails.application.routes.draw do
     
     mount CloudDispatcher::Engine => "/api" if defined?(CloudDispatcher)
 
+    match "/404", :to => "errors#not_found", :via => :all
+    match "/500", :to => "errors#internal_server_error", :via => :all
+
     root to: redirect('/login'), as: :root_login_unauthenticated if defined?(CloudHaus)
     root to: "websites#landing", as: :root_unauthenticated
 
