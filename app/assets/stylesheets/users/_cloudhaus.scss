@@ -35,6 +35,10 @@ section.cloudhaus-login {
         h2,p {
             color: $primary;
         }
+        label {
+            text-align: left;
+            font-weight: 400;
+        }
         p {
             font-size: 14px;
             margin-bottom: .6rem;
