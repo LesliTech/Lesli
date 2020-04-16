@@ -8,11 +8,19 @@ export default {
 
         cloudId: {
             required: true
+        },
+
+        translationsPath: {
+            type: String,
+            required: true
         }
     },
 
     data(){
         return {
+            translations: {
+                core: I18n.t('core.shared')
+            },
             module_name: null,
             object_name: null,
             loading: false,
@@ -32,6 +40,7 @@ export default {
 
     mounted(){
         this.parseCloudModule()
+        this.setTranslations()
         this.getDiscussions()
     },
 
@@ -40,6 +49,10 @@ export default {
             let parsed_data = this.object_utils.parseCloudModule(this.cloudModule)
             this.object_name = parsed_data.cloud_object_name
             this.module_name = parsed_data.cloud_module_name
+        },
+
+        setTranslations(){
+            this.$set(this.translations, 'main', I18n.t(this.translationsPath))
         },
 
         getDiscussions() {
@@ -69,7 +82,7 @@ export default {
 
             this.http.post(url, form_data).then(result => {
                 if (result.successful) {
-                    this.notification.alert('Comment added successfully', 'success')
+                    this.notification.alert(this.translations.main.notification_discussion_created, 'success')
                     this.clearContentInput()
                     this.discussions.unshift({
                         data: result.data,
@@ -102,9 +115,10 @@ export default {
         
         confirmCommentDeletion(comment) {
             this.$buefy.dialog.confirm({
-                title: 'Deleting comment',
-                message: 'Are you sure you want to <b>delete</b> this comment? This action cannot be undone.',
-                confirmText: 'Delete Comment',
+                title: this.translations.main.discussions_delete_confirmation_title,
+                message: this.translations.main.discussions_delete_confirmation_body,
+                confirmText: this.translations.main.discussions_delete_confirmation_accept_button,
+                cancelText: this.translations.main.discussions_delete_confirmation_cancel_button,
                 type: 'is-danger',
                 hasIcon: true,
                 onConfirm: () => this.deleteComment(comment)
@@ -123,7 +137,7 @@ export default {
                 if (result.successful) {
                     this.$set(comment.data, 'content', comment.data.new_content)
                     this.$set(comment.data, 'editable', false)
-                    this.notification.alert('Comment updated successfully', 'success')
+                    this.notification.alert(this.translations.main.notification_discussion_updated, 'success')
                     
                 }else{
                     this.notification.alert(result.error.message,'danger')
@@ -139,7 +153,7 @@ export default {
 
             this.http.delete(url).then(result => {
                 if (result.successful) {
-                    this.notification.alert('Comment deleted successfully', 'success')
+                    this.notification.alert(this.translations.main.notification_discussion_destroyed, 'success')
                     this.discussions = this.discussions.filter((discussion)=>{
                         return discussion.data.id != comment.data.id
                     })
@@ -196,13 +210,13 @@ export default {
 }
 </script>
 <template>
-    <section>
+    <section v-if="translations.main">
         <form @submit="postDiscussion">
             <b-field grouped>
-                <b-input required placeholder="Add a new comment" ref="input-comment" v-model="discussion.content" expanded>
+                <b-input required :placeholder="translations.main.discussions_input_comment_placeholder" ref="input-comment" v-model="discussion.content" expanded>
                 </b-input>
                 <p class="control">
-                    <b-button type="is-primary" native-type="submit">Save</b-button>
+                    <b-button type="is-primary" native-type="submit">{{translations.core.btn_save}}</b-button>
                 </p>
             </b-field>
         </form>
@@ -210,7 +224,8 @@ export default {
         <div class="columns">
             <div class="column is-6">
                 <b-field>
-                    <b-input placeholder="Search for a comment"
+                    <b-input
+                        :placeholder="translations.main.discussion_input_search_placehodler"
                         v-model="search"
                         type="text"
                         icon="search"
@@ -225,11 +240,11 @@ export default {
         <component-data-empty v-if="!loading && discussions.length == 0" />
         <b-table v-if="discussions.length > 0" :data="currentDiscussionPage">
             <template slot-scope="props">
-                <b-table-column field="created_at" label="Creation date" sortable>
+                <b-table-column field="created_at" :label="translations.core.text_created_at" sortable>
                     {{ props.row.data.created_at }}
                 </b-table-column>
 
-                <b-table-column field="user_name" label="Employee">
+                <b-table-column field="user_name" :label="translations.core.text_employee">
                     <span v-if="props.row.data.user_name">
                         {{props.row.data.user_name}}
                     </span>
@@ -238,7 +253,7 @@ export default {
                     </span>
                 </b-table-column>
 
-                <b-table-column field="content" label="Comment">
+                <b-table-column field="content" :label="translations.core.text_comment">
                     <span v-if="props.row.data.editable">
                         <b-field>
                             <b-input
@@ -255,7 +270,7 @@ export default {
                     </span>
                 </b-table-column>
 
-                <b-table-column field="actions" label="Actions" class="has-text-right">
+                <b-table-column field="actions" :label="translations.core.text_actions" class="has-text-right">
                     <span v-if="props.row.data.editable">
                         <b-button outlined @click="putComment(props.row)">
                             <b-icon size="is-small" icon="check" />

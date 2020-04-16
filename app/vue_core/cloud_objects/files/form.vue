@@ -16,6 +16,16 @@ export default {
         active: {
             type: Boolean,
             default: true
+        },
+
+        translationsPath: {
+            type: String,
+            default: 'core.shared'
+        },
+
+        translationsFileTypesPath: {
+            type: String,
+            default: null
         }
     },
 
@@ -25,6 +35,9 @@ export default {
 
     data(){
         return {
+            translations: {
+                core: I18n.t('core.shared')
+            },
             submitting_form: false,
             module_name: null,
             object_name: null,
@@ -50,11 +63,20 @@ export default {
     
     mounted(){
         this.parseCloudModule()
+        this.setTranslations()
         this.setDropzoneOptions()
         this.getBackendData()
     },
 
     methods: {
+
+        setTranslations(){
+            this.$set(this.translations, 'main', I18n.t(this.translationsPath))
+
+            if(this.translationsFileTypesPath){
+                this.translations.file_types = I18n.t(this.translationsFileTypesPath)
+            }
+        },
 
         setDropzoneOptions(){
             this.dropzone_options.url = `/${this.module_name.slash}/${this.object_name.plural}/${this.cloudId}/files`
@@ -109,7 +131,7 @@ export default {
 
         cleanDropzone(){
             this.submitting_form = false
-            this.notification.alert('Files uploaded successfully', 'success')
+            this.notification.alert(this.translations.main.notification_file_uploaded, 'success')
             this.$refs['dropzone'].removeAllFiles(true);
             this.$emit('upload-complete')
             this.bus.publish(`post:/${this.module_name.slash}/${this.object_name.plural}/files-complete`)
@@ -117,6 +139,17 @@ export default {
 
         filePosted(file, response){
             this.bus.publish(`post:/crm/${this.object_name.plural}/files`, response.data)
+        },
+
+        translateFileType(file_type){
+            if(this.translations.file_types){
+                let new_file_type = this.translations.file_types[`enum_file_type_${file_type}`]
+                if(new_file_type){
+                    return new_file_type
+                }
+            }
+
+            return file_type
         }
     },
 
@@ -130,16 +163,21 @@ export default {
 }
 </script>
 <template>
-    <form @submit="postFiles">
+    <form @submit="postFiles" v-if="translations.main">
         <div class="columns is-marginless has-border-bottom">
             <div class="column is-2">
-                <strong>Type</strong><sup class="has-text-danger">*</sup>
+                <strong>{{translations.main.files_input_type_title}}</strong><sup class="has-text-danger">*</sup>
             </div>
             <div class="column is-10">
                 <b-field>
-                    <b-select expanded placeholder="Select a document type" v-model="file_type" required>
+                    <b-select expanded :placeholder="translations.core.text_select_option" v-model="file_type" required>
                         <option v-for="file_type in file_options.file_types" :key="file_type.value" :value="file_type.value">
-                            {{file_type.text}}
+                            <span v-if="translations.file_types">
+                                {{translateFileType(file_type.text)}}
+                            </span>
+                            <span v-else>
+                                {{file_type.text}}
+                            </span>
                         </option>
                     </b-select>
                 </b-field>
@@ -148,7 +186,7 @@ export default {
 
         <div class="columns is-marginless has-border-bottom">
             <div class="column is-2">
-                <strong>File(s)</strong><sup class="has-text-danger">*</sup>
+                <strong>{{translations.main.files_input_file_title}}</strong><sup class="has-text-danger">*</sup>
             </div>
             <div class="column is-10">
                 <b-field>
@@ -172,10 +210,10 @@ export default {
                 <span v-if="submitting_form">
                     <b-icon icon="circle-notch" custom-class="fa-spin" size="is-small" />
                     &nbsp;
-                    Saving
+                    {{translations.core.btn_saving}}
                 </span>
                 <span v-else>
-                    Save
+                    {{translations.core.btn_save}}
                 </span>
             </b-button>
         </div>

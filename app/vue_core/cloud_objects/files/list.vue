@@ -14,11 +14,24 @@ export default {
         active: {
             type: Boolean,
             default: true
+        },
+
+        translationsPath: {
+            type: String,
+            default: 'core.shared'
+        },
+
+        translationsFileTypesPath: {
+            type: String,
+            default: null
         }
     },
 
     data(){
         return {
+            translations: {
+                core: I18n.t('core.shared')
+            },
             loading: false,
             files: null,
             module_name: null,
@@ -35,11 +48,20 @@ export default {
     
     mounted(){
         this.parseCloudModule()
+        this.setTranslations()
         this.getBackendData()
         this.setSubscriptions()
     },
 
     methods: {
+        setTranslations(){
+            this.$set(this.translations, 'main', I18n.t(this.translationsPath))
+
+            if(this.translationsFileTypesPath){
+                this.$set(this.translations, 'file_types', I18n.t(this.translationsFileTypesPath))
+            }
+        },
+
         setSubscriptions(){
             this.bus.subscribe(`post:/${this.module_name.slash}/${this.object_name.plural}/files-complete`, ()=>{
                 if(this.files){
@@ -82,7 +104,7 @@ export default {
 
             this.http.delete(url).then(result => {
                 if (result.successful) {
-                    this.notification.alert('File deleted successfully', 'success')
+                    this.notification.alert(this.translations.main.notification_file_deleted, 'success')
                     this.files = this.files.filter((file)=>{
                         return file.id != deleted_file.id
                     })
@@ -107,6 +129,17 @@ export default {
             window.open(
                 `/${this.module_name.slash}/options/${this.object_name.singular}/${this.cloudId}/files/zip?ids=${file_ids}`
             )
+        },
+
+        translateFileType(file_type){
+            if(this.translations.file_types){
+                let new_file_type = this.translations.file_types[`enum_file_type_${file_type}`]
+                if(new_file_type){
+                    return new_file_type
+                }
+            }
+
+            return file_type
         }
     },
 
@@ -158,18 +191,18 @@ export default {
 }
 </script>
 <template>
-    <section>
+    <section v-if="translations.main">
         <div class="columns">
             <div class="column is-6">
                 <b-checkbox v-model="all_files_selected">
-                    Select all documents
+                    {{translations.main.files_input_select_all_title}}
                 </b-checkbox>
             </div>
             <div class="column is-6 has-text-right">
                 <a :disabled="selectedFiles" class="button is-outlined is-primary" role="button" @click="downloadSelectedFiles">
                     <b-icon size="is-small" icon="download" />
                     &nbsp;
-                    Download selected documents
+                    {{translations.main.files_btn_download_selected}}
                 </a>
             </div>
         </div>
@@ -181,11 +214,11 @@ export default {
                     <b-checkbox size="is-small" v-model="props.row.selected" />
                 </b-table-column>
 
-                <b-table-column field="created_at" label="Created at">
+                <b-table-column field="created_at" :label="translations.core.text_created_at">
                     {{ props.row.created_at }}
                 </b-table-column>
 
-                <b-table-column field="name" label="Name">
+                <b-table-column field="name" :label="translations.core.text_name">
                     <span v-if="props.row.name && props.row.name.includes('.')">
                         {{ props.row.name.substring(0, props.row.name.lastIndexOf('.'))}}
                     </span>
@@ -194,11 +227,16 @@ export default {
                     </span>
                 </b-table-column>
 
-                <b-table-column field="file_type" label="Type">
-                    {{ props.row.file_type }}
+                <b-table-column field="file_type" :label="translations.core.text_type">
+                    <span v-if="translations.file_types">
+                        {{translateFileType(props.row.file_type)}}
+                    </span>
+                    <span v-else>
+                        {{props.row.file_type}}
+                    </span>
                 </b-table-column>
 
-                <b-table-column field="actions" label="Actions" class="has-text-right">
+                <b-table-column field="actions" :label="translations.core.text_actions" class="has-text-right">
                     <a
                         :href="`/${module_name.slash}/${object_name.plural}/${cloudId}/files/${props.row.id}`"
                         target="_blank"
