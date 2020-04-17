@@ -93,7 +93,6 @@ class User < ApplicationRecord
         data = {
             name: user[:name],
             email: user[:email],
-            href: ''
         }
         email = LesliMailer.user_new_password("New user", data, raw)
         email.deliver_now
