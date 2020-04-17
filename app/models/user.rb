@@ -87,6 +87,18 @@ class User < ApplicationRecord
         .per(query[:pagination][:perPage])
     end
 
+    def self.send_password_reset(user)
+        raw, hashed = Devise.token_generator.generate(User, :reset_password_token)
+        user.update(reset_password_token: hashed, reset_password_sent_at: Courier::Core::Date.now)
+        data = {
+            name: user[:name],
+            email: user[:email],
+            href: ''
+        }
+        email = LesliMailer.user_new_password("New user", data, raw)
+        email.deliver_now
+    end
+
     private 
 
     # @return [void]
