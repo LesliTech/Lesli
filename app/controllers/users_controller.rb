@@ -22,13 +22,13 @@ class UsersController < ApplicationLesliController
 
     def create
         user = User.new(user_params)
-        # user.password = Devise.friendly_token
-        # user.account = current_user.account
-        # user.confirm
-        if true
-            responseWithSuccessful(User.last)
-            
-            User.send_password_reset(User.last)
+        user.password = Devise.friendly_token
+        user.account = current_user.account
+        user.confirm
+
+        if user.save
+            responseWithSuccessful(user)
+            User.send_password_reset(user)
         else
             responseWithError(user.errors.full_messages.to_sentence)
         end
@@ -37,8 +37,7 @@ class UsersController < ApplicationLesliController
     def update 
         return responseWithNotFound unless @user
 
-        if true
-            send_password_reset(User.last)
+        if @user.update(user_params)
             responseWithSuccessful
         else
             responseWithError(@user.errors.full_messages.to_sentence)
