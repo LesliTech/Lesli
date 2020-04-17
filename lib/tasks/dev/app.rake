@@ -75,6 +75,7 @@ namespace :dev do
             # DO NOT UPDATE TO CHANGE FOLDER PERMISSION AFTER RESTART NGINX
             # sudo chmod 755 public/ -R
             # sudo chown www-data:www-data public/ -R
+            # and run bundle install if you are cloning the repo from scratch
 
         end
 

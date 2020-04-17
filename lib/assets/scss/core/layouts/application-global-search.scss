@@ -1,19 +1,18 @@
 
 .application-global-search {
     position: absolute;
-    z-index: 99;
+    z-index: 98;
     
     top: var(--application-header-height);
-    height: calc(100vh - var(--application-header-height) - var(--application-footer-height));
-
     width: 100%;
+    height: 100%;
     padding: 1.3rem;
     max-width: calc(100% - var(--application-navigation-width));
     margin-left: var(--application-navigation-width);
+    background-color: lesli-css-get-color(standard, white);
 
     .content {
         padding: 1.3rem;
-        background-color: lesli-css-get-color(standard, white);
     }
 
 }
