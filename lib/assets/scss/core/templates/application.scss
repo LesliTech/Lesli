@@ -101,6 +101,7 @@ html {
 
 // · 
 body {
+    position: relative;
     background-color: rgb(238,238,245);
     scrollbar-width: thin;
     scrollbar-color: get-lesli-css-color(blue) get-lesli-css-color(silver);
