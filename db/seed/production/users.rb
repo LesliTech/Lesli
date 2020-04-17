@@ -2,7 +2,7 @@
 
 Lesli
 
-Copyright (c) 2019, Lesli Technologies, S. A.
+Copyright (c) 2020, Lesli Technologies, S. A.
 
 All the information provided by this website is protected by laws of Guatemala related 
 to industrial property, intellectual property, copyright and relative international laws. 
@@ -12,39 +12,37 @@ Without the written permission of Lesli Technologies, S. A., any replication, mo
 transmission, publication is strictly forbidden.
 For more information read the license file including with this software.
 
-LesliCloud - Your Smart Business Assistant
+Lesli - Your Smart Business Assistant
 
 Powered by https://www.lesli.tech
 Building a better future, one line of code at a time.
 
-@author   LesliTech <hello@lesli.tech>
-@author   Luis Donis <ldonis@lesli.tech>
+@contact  <hello@lesli.tech>
+@website  <https://lesli.tech>
 @license  Propietary - all rights reserved.
-@version  GIT: 1.0.0 alpha
 
+// · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
 // · 
-// · ~·~        ~·~        ~·~        ~·~        ~·~        ~·~        ~·~        ~·~        ~·~
+
 =end
 
-email = "dev@lesli.cloud"
-password = "lesli2020"
+def create_user(email, password, name)
+    User.find_or_create_by(email: email) do |user|
+        user.name = name
+        user.role = "admin"
+        user.password = password
+        user.password_confirmation = password
+        user.accounts_id = 1
+        user.confirm
 
-if defined?(CloudHaus)
-    name "Leibrenten Administrator"
-    email = "dev@deutche-leibrenten.de"
-    password = "leibrenten2020"
+        user.account.user = user
+        user.account.save!
+    end
 end
 
-User.find_or_create_by(email: email) do |user|
-    user.name = "Lesli Development"
-    user.role = "admin"
-    user.password = password
-    user.password_confirmation = password
-    user.accounts_id = 1
-    user.confirm
+generated_password = Devise.friendly_token.first(32)
 
-    user.account.user = user
-    user.account.save!
-end
+create_user("dev@lesli.cloud", generated_password, "Lesli Development") if defined?(LesliTech)
+create_user("dev@deutche-leibrenten.de", generated_password, "Leibrenten Development") if defined?(CloudHaus)
 
-p "Users successfully created!"
+p "Users successfully created with password: " + generated_password
