@@ -82,6 +82,7 @@ ActiveRecord::Schema.define(version: 2020_03_31_181324) do
     t.string "de"
     t.string "fr"
     t.integer "status"
+    t.boolean "help_needed"
     t.string "reference_bucket"
     t.datetime "last_update_context"
     t.datetime "last_update_es"
@@ -171,6 +172,7 @@ ActiveRecord::Schema.define(version: 2020_03_31_181324) do
     t.string "name"
     t.string "attachment"
     t.string "file_type"
+    t.datetime "deleted_at"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.bigint "cloud_driver_calendars_id"
@@ -256,6 +258,7 @@ ActiveRecord::Schema.define(version: 2020_03_31_181324) do
     t.string "name"
     t.string "attachment"
     t.string "file_type"
+    t.datetime "deleted_at"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.bigint "cloud_driver_events_id"
@@ -598,6 +601,7 @@ ActiveRecord::Schema.define(version: 2020_03_31_181324) do
     t.string "name"
     t.string "attachment"
     t.string "file_type"
+    t.datetime "deleted_at"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.bigint "cloud_house_companies_id"
@@ -723,6 +727,7 @@ ActiveRecord::Schema.define(version: 2020_03_31_181324) do
     t.string "name"
     t.string "attachment"
     t.string "file_type"
+    t.datetime "deleted_at"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.bigint "cloud_house_contacts_id"
@@ -853,6 +858,7 @@ ActiveRecord::Schema.define(version: 2020_03_31_181324) do
     t.string "name"
     t.string "attachment"
     t.string "file_type"
+    t.datetime "deleted_at"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.bigint "cloud_house_employees_id"
@@ -974,6 +980,7 @@ ActiveRecord::Schema.define(version: 2020_03_31_181324) do
     t.string "name"
     t.string "attachment"
     t.string "file_type"
+    t.datetime "deleted_at"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.bigint "cloud_house_projects_id"
@@ -1185,6 +1192,7 @@ ActiveRecord::Schema.define(version: 2020_03_31_181324) do
     t.string "name"
     t.string "attachment"
     t.string "file_type"
+    t.datetime "deleted_at"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.bigint "cloud_house_properties_id"
