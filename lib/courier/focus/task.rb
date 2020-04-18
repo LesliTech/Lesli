@@ -117,6 +117,27 @@ module Courier
                     }
                 end
             end
+
+            # Returns next due task for a project. Used in summary
+            def self.find_next_task_due(current_user, project)
+                return nil unless defined? CloudFocus && CloudHouse
+
+                next_task = current_user.account.focus.tasks
+                .joins(:status)
+                .joins(:detail)
+                .select("cloud_focus_task_details.deadline")
+                .where("cloud_focus_tasks.model_type = ?", "CloudHouse::Project")
+                .where("cloud_focus_tasks.model_id = ?", project.id)
+                .where("cloud_focus_workflow_statuses.inactive = ?", false)
+                .order("cloud_focus_task_details.deadline asc")
+                .first
+
+                if next_task
+                    return Courier::Core::Date.to_string(next_task[:deadline])
+                end
+
+                return nil
+            end
         end
     end
 end
