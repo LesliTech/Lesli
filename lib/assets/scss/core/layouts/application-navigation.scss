@@ -30,7 +30,8 @@ Building a better future, one line of code at a time.
     position: fixed;
     width: var(--application-navigation-width);
     height: calc(100vh - var(--application-header-height));
-    background-color: lesli-css-get-color(standard, white); 
+    background-color: lesli-css-get-color(standard, white);
+    overflow-y: auto; 
 
     a.navbar-item {
         width: 100%;
