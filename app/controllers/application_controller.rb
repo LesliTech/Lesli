@@ -1,9 +1,27 @@
 class ApplicationController < ActionController::Base
 
     # create method to switch locale
-    around_action :switch_locale
+    #around_action :switch_locale_around
+    before_action :switch_locale
  
-    def switch_locale(&action)
+    #def switch_locale(&action)
+    def switch_locale
+
+        # get saved language in session or the default in config
+        # the session param is setted in settings controller through "get :language, to: 'settings#language'"
+        locale = session[:locale] || I18n.default_locale
+
+        # I should check locale in the database here
+        # the options are
+            # - I18n.available_locales
+            # - automatic according to os or browser
+
+        # set the new locale
+        I18n.locale = locale
+
+    end
+
+    def switch_locale_around(&action)
 
         # get saved language in session or the default in config
         # the session param is setted in settings controller through "get :language, to: 'settings#language'"
