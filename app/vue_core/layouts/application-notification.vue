@@ -124,10 +124,13 @@ export default {
         readNotification(id) {
 
             // In this case, there is no need to wait for a response
-            // this.http.put(`/bell/api/notifications/${id}/read`).catch(error => {
             this.http.put(`/bell/notifications/${id}/read`).catch(error => {
                 console.log(error)
             })
+
+            let position = this.notification.list.map(notification => notification.id).indexOf(id)
+
+            this.notification.list.splice(position, 1)
 
         },
 
