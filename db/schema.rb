@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_03_31_181324) do
+ActiveRecord::Schema.define(version: 2020_02_17_142005) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -398,9 +398,6 @@ ActiveRecord::Schema.define(version: 2020_03_31_181324) do
     t.index ["cloud_focus_accounts_id"], name: "focus_workflows_accounts"
   end
 
-  create_table "cloud_haus_accounts", force: :cascade do |t|
-  end
-
   create_table "cloud_haus_external_leads", force: :cascade do |t|
     t.string "first_name"
     t.string "last_name"
@@ -417,14 +414,9 @@ ActiveRecord::Schema.define(version: 2020_03_31_181324) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.bigint "users_id"
-    t.bigint "cloud_haus_accounts_id"
-    t.index ["cloud_haus_accounts_id"], name: "index_cloud_haus_external_leads_on_cloud_haus_accounts_id"
+    t.bigint "cloud_house_accounts_id"
+    t.index ["cloud_house_accounts_id"], name: "index_cloud_haus_external_leads_on_cloud_house_accounts_id"
     t.index ["users_id"], name: "index_cloud_haus_external_leads_on_users_id"
-  end
-
-  create_table "cloud_haus_users", force: :cascade do |t|
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
   end
 
   create_table "cloud_house_accounts", force: :cascade do |t|
@@ -1406,8 +1398,7 @@ ActiveRecord::Schema.define(version: 2020_03_31_181324) do
   add_foreign_key "cloud_focus_workflow_associations", "cloud_focus_workflows", column: "cloud_focus_workflows_id"
   add_foreign_key "cloud_focus_workflow_statuses", "cloud_focus_workflows", column: "cloud_focus_workflows_id"
   add_foreign_key "cloud_focus_workflows", "cloud_focus_accounts", column: "cloud_focus_accounts_id"
-  add_foreign_key "cloud_haus_accounts", "accounts", column: "id"
-  add_foreign_key "cloud_haus_external_leads", "cloud_haus_accounts", column: "cloud_haus_accounts_id"
+  add_foreign_key "cloud_haus_external_leads", "cloud_house_accounts", column: "cloud_house_accounts_id"
   add_foreign_key "cloud_haus_external_leads", "users", column: "users_id"
   add_foreign_key "cloud_house_accounts", "accounts", column: "id"
   add_foreign_key "cloud_house_catalog_business_services", "cloud_house_accounts", column: "cloud_house_accounts_id"

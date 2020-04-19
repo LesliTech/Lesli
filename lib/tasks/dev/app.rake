@@ -55,6 +55,9 @@ namespace :dev do
             system "rake db:migrate RAILS_ENV=production" 
             system "rake db:seed RAILS_ENV=production" 
 
+            # sudo chmod 755 public/ -R
+            # sudo chown ubuntu public/ -R
+
             system "bundle exec rake assets:clean RAILS_ENV=production"
             system "bundle exec rake assets:precompile RAILS_ENV=production"
 
@@ -76,6 +79,9 @@ namespace :dev do
             # sudo chmod 755 public/ -R
             # sudo chown www-data:www-data public/ -R
             # and run bundle install if you are cloning the repo from scratch
+            # nohup command &>/dev/null &
+            # touch tmp/restart.txt
+            # sudo -u username
 
         end
 
