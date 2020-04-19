@@ -30,19 +30,44 @@ Building a better future, one line of code at a time.
     box-shadow: none !important;
 }
 
-.button.is-info.is-light {
-    background-color: #eef6fc;
-    color: #1d72aa;
-    
-}
 
+// · 
+.button.is-info.is-light {
+    background-color:#eef6fc;
+    color:#1d72aa
+}
 .button.is-info.is-light.is-hovered,
 .button.is-info.is-light:hover {
-background-color:#e3f1fa;
-border-color:transparent;
-color:#1d72aa
+    background-color:#e3f1fa;
+    border-color:transparent;
+    color:#1d72aa
+}
+.button.is-info.is-light.is-active,
+.button.is-info.is-light:active {
+    background-color:#d8ebf8;
+    border-color:transparent;
+    color:#1d72aa
 }
 
+// · 
+.button.is-danger.is-light {
+    background-color:#feecf0;
+    color:#cc0f35;
+}
+.button.is-danger.is-light.is-hovered,
+.button.is-danger.is-light:hover {
+    background-color:#fde0e6;
+    border-color:transparent;
+    color:#cc0f35
+}
+.button.is-danger.is-light.is-active,
+.button.is-danger.is-light:active {
+    background-color:#fcd4dc;
+    border-color:transparent;
+    color:#cc0f35
+}
+
+// · 
 .card-header-icon .button.is-static {
     cursor: none;
 }
