@@ -12,13 +12,14 @@ Without the written permission of Lesli Technologies, S. A., any replication, mo
 transmission, publication is strictly forbidden.
 For more information read the license file including with this software.
 
-LesliCloud - Your Smart Business Assistant
+Lesli - Your Smart Business Assistant
 
 Powered by https://www.lesli.tech
 Building a better future, one line of code at a time.
 
+@contact  <hello@lesli.tech>
+@website  <https://lesli.tech>
 @license  Propietary - all rights reserved.
-@version  0.1.0-alpha
 
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
 // · 
@@ -110,11 +111,15 @@ export default {
         },
 
         searchText(input) {
-            this.search.searching = true
+
+            this.search.searching = !input.srcElement.value == ""
+
             this.bus.publish("search:/core/layouts/component-global-search", input.srcElement.value)
+
             setTimeout(() => {
                 this.search.searching = false
-            }, 1200)
+            }, 1400)
+
         }
 
     }
@@ -144,7 +149,7 @@ export default {
                             <input class="input is-medium is-shadowless" type="email" @input="searchText" placeholder="Search...">
                             <span class="icon is-left has-text-gray">
                                 <i v-if="!search.searching" class="fas fa-search"></i>
-                                <component-data-loading v-if="search.searching" :icon-only="true"/>
+                                <component-data-loading v-if="search.searching && searchText!=''" :icon-only="true"/>
                             </span>
                         </div>
                     </div>
