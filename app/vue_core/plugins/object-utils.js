@@ -76,11 +76,22 @@ export default {
                 cloud_module_name: cloud_module_name
             }
         }
+
+        let translateEnum = function(translations, enum_prefix, value){
+            let new_value = translations[`${enum_prefix}_${value}`]
+
+            if(new_value){
+                return new_value
+            }
+
+            return value
+        }
     
         Vue.prototype.object_utils = {
             pluralize,
             pluralizeArray,
-            parseCloudModule
+            parseCloudModule,
+            translateEnum
         }
 
     }
