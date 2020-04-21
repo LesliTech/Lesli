@@ -31,14 +31,19 @@ export default {
             core_translations: I18n.t('core.shared'),
             transition_statuses: null,
             module_name: null,
-            object_name: null,
-            selected_status_name: null
+            object_name: null
         }
     },
 
     mounted() {
         this.setCloudParams()
+        this.setSubscriptions()
         this.getWorkflowStateOptions()
+    },
+
+    beforeDestroy(){
+        this.bus.$off('cancel:/status-change')
+        this.bus.$off('execute:/status-change')
     },
 
     methods: {
@@ -46,6 +51,16 @@ export default {
             let module_data = this.cloudModule.split('/')
             this.module_name = module_data[0]
             this.object_name = module_data[1]
+        },
+
+        setSubscriptions(){
+            this.bus.subscribe('cancel:/status-change', ()=>{
+                this.$emit('input', null)
+            })
+
+            this.bus.subscribe('execute:/status-change', (status, callback)=>{
+                this.patchStatus(status, callback)
+            })
         },
 
         getWorkflowStateOptions(){
@@ -69,7 +84,7 @@ export default {
 
         
 
-        patchStatus(status){
+        patchStatus(status, callback){
 
             let url = `/${this.object_utils.pluralize(this.cloudModule)}/${this.cloudId}`
             let data = {}
@@ -80,12 +95,15 @@ export default {
             this.http.patch(url, data).then(result =>{
                 if (result.successful) {
                     this.bus.publish(`patch:/${this.cloudModule}/status`, status)
+                    if(callback){
+                        callback()
+                    }
                     if(status.final){
                         this.notification.alert('This resource has been successfully closed', 'success')
                         this.$router.push(`/${this.cloudId}`)
                     }else{
                         this.getWorkflowStateOptions()
-                        this.notification.alert('The status of this resource has been successfully updated', 'success')
+                        this.notification.alert(this.core_translations.status_updated, 'success')
                     }
                 } else {
                     this.notification.alert(result.error.message, 'danger')
@@ -99,8 +117,7 @@ export default {
             if(this.handlePatch){
                 this.patchStatus(status)
             }else{
-                this.$emit('input', status.id)
-                this.selected_status_name = status.name
+                this.$emit('input', status)
             }
         }
     },
@@ -116,7 +133,13 @@ export default {
     <div>
         <b-dropdown hoverable aria-role="list" position="is-bottom-left">
             <button class="button" slot="trigger">
-                <span v-if="selected_status_name">{{core_translations.workflows_text_new_status}}: {{selected_status_name}}</span>
+                <span v-if="value">
+                    {{core_translations.workflows_text_new_status}}:
+                    <component-status-name
+                        :translations-path="translationsPath"
+                        :name="value.name"
+                    />
+                </span>
                 <span v-else>{{core_translations.workflows_text_change_status}}</span>
                 <b-icon icon="chevron-down" size="is-small" />
             </button>
