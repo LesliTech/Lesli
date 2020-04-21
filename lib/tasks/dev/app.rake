@@ -60,6 +60,7 @@ namespace :dev do
 
             system "bundle exec rake assets:clean RAILS_ENV=production"
             system "bundle exec rake assets:precompile RAILS_ENV=production"
+            system "rake i18n:js:export"
 
             #system "whenever --update-crontab"
             
