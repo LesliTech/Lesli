@@ -52,16 +52,22 @@ export default {
         rerender: {
             type: Boolean,
             default: false
+        },
+        translationsPath: {
+            type: String,
+            default: null
         }
     },
     data(){
         return {
             parsed_workflow: [],
-            workflow_data: null
+            workflow_data: null,
+            translations: {}
         }
     },
     mounted(){
         this.setCloudParams()
+        this.setTranslations()
         this.verifyWorkflow()
         this.displayWorkflow()
     },
@@ -69,6 +75,12 @@ export default {
         setCloudParams(){
             let module_data = this.cloudModule.split('/')
             this.module_name = module_data[0]
+        },
+
+        setTranslations(){
+            if(this.translationsPath){
+                this.translations.main = I18n.t(this.translationsPath)
+            }
         },
 
         getIcon(node){
@@ -112,6 +124,8 @@ export default {
                     }
                     if(this.selectedWorkflowState == node.number){
                         parsed_node.style = 'fill:#EFFD5F,stroke:#FCE205'
+                    }else{
+                        parsed_node.style = 'fill:#20a8d8,stroke:#005380'
                     }
                     data.push(parsed_node)
                 })
@@ -123,8 +137,13 @@ export default {
             if(node.initial){
                 return 'Created'
             }
+            
             if(node.final){
                 return 'Closed'
+            }
+            
+            if(this.translationsPath){
+                return this.object_utils.translateEnum(this.translations.main, 'status', node.name)
             }
             return node.name
         }
