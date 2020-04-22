@@ -52,8 +52,9 @@ module.exports = env => {
             "users/passwords": "./app/vue/users/passwords.js",
             "users/sessions": "./app/vue/users/sessions.js",
             "errors/app": "./app/vue/errors/app.js",
-            "accounts/app": "./app/vue/accounts/app.js",
             "websites/app": "./app/vue/websites/app.js",
+            "accounts/app": "./app/vue/accounts/app.js",
+            "profiles/app": "./app/vue/profiles/app.js",
             "dashboards/app": "./app/vue/dashboards/app.js"
         },
         output: {
