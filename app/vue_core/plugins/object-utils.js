@@ -78,6 +78,10 @@ export default {
         }
 
         let translateEnum = function(translations, enum_prefix, value){
+            if(! translations){
+                return value
+            }
+
             let new_value = translations[`${enum_prefix}_${value}`]
 
             if(new_value){
