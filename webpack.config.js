@@ -26,10 +26,10 @@ Building a better future, one line of code at a time.
 
 // · Including plugins and dependencies
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
-var fs = require('fs')
-var path = require('path')  
+var fs = require("fs")
+var path = require("path")  
 var webpack = require("webpack")
-var VueLoaderPlugin = require('vue-loader/lib/plugin')
+var VueLoaderPlugin = require("vue-loader/lib/plugin")
 var webpackConfig = []
 
 
@@ -37,14 +37,14 @@ var webpackConfig = []
 module.exports = env => {
 
     // set mode
-    env.mode = env.mode ? env.mode : 'development'
+    env.mode = env.mode ? env.mode : "development"
     env.watch = env.watch ? env.watch : false
 
     var production = env.mode == "production" ? true : false
 
     // · 
     var webpackbase = {
-        watch: env.watch == 'true',
+        watch: env.watch == "true",
         mode: production ? "production" : "development",
         performance: { hints: false },
         optimization: { minimize: production },
@@ -65,19 +65,19 @@ module.exports = env => {
             alias: {
 
                 // resolve vuejs
-                vue: production ? 'vue/dist/vue.min.js' : 'vue/dist/vue.js',
+                vue: production ? "vue/dist/vue.min.js" : "vue/dist/vue.js",
 
                 // Resolve alias for core resources
-                LesliCloud: path.resolve(__dirname, './app'),
+                LesliCloud: path.resolve(__dirname, "./app"),
 
                 // Resolve alias necessary to load vue components from LesliCloud
-                LesliCoreVue: path.resolve(__dirname, './app/vue_core'),
+                LesliCoreVue: path.resolve(__dirname, "./app/vue_core"),
 
                 // Resolve alias for core resources
-                LesliCloudHaus: path.resolve(__dirname, './engines/CloudHaus/app'),
-                LesliCloudHouse: path.resolve(__dirname, './engines/CloudHouse/app'),
-                LesliCloudFocus: path.resolve(__dirname, './engines/CloudFocus/app'),
-                LesliCloudDriver: path.resolve(__dirname, './engines/CloudDriver/app')
+                LesliCloudHaus: path.resolve(__dirname, "./engines/CloudHaus/app"),
+                LesliCloudHouse: path.resolve(__dirname, "./engines/CloudHouse/app"),
+                LesliCloudFocus: path.resolve(__dirname, "./engines/CloudFocus/app"),
+                LesliCloudDriver: path.resolve(__dirname, "./engines/CloudDriver/app")
                 
             },
             extensions: [".js"]
@@ -87,23 +87,23 @@ module.exports = env => {
 
             rules:[{
                 test: /\.vue$/,
-                loader: 'vue-loader'
+                loader: "vue-loader"
             }, {
                 test: /\.css$/,
                 use: [
-                    'style-loader', // creates style nodes from JS strings
-                    'css-loader',   // translates CSS into CommonJS
+                    "style-loader", // creates style nodes from JS strings
+                    "css-loader",   // translates CSS into CommonJS
                 ]
             }, {
                 test: /\.scss$/,
                 use: [
-                    'style-loader', // creates style nodes from JS strings
-                    'css-loader',   // translates CSS into CommonJS
+                    "style-loader", // creates style nodes from JS strings
+                    "css-loader",   // translates CSS into CommonJS
                     {
-                        loader: 'sass-loader', // compiles Sass to CSS, using Node Sass by default
+                        loader: "sass-loader", // compiles Sass to CSS, using Node Sass by default
                         /*
                         options: {
-                            data: '@import "component.scss";',
+                            data: "@import "component.scss";",
                             includePaths: [
                                 path.resolve(__dirname, "LesliCloud/scss/")
                             ]
@@ -115,9 +115,9 @@ module.exports = env => {
                 test: /\.m?js$/,
                 exclude: /(node_modules|bower_components)/,
                 use: {
-                    loader: 'babel-loader',
+                    loader: "babel-loader",
                     options: {
-                        presets: ['@babel/preset-env']
+                        presets: ["@babel/preset-env"]
                     }
                 }
             }]
@@ -142,7 +142,7 @@ module.exports = env => {
 
     webpackConfig.push(webpackbase)
 
-    let engines = fs.readdirSync('./engines').filter(directory => directory != ".gitkeep").filter(engine => {
+    let engines = fs.readdirSync("./engines").filter(directory => directory != ".gitkeep").filter(engine => {
 
         let engine_info_file_path = `./engines/${engine}/lesli.json`
 
@@ -168,26 +168,26 @@ module.exports = env => {
         webpackEngine.entry = {}
         
         // if engine is not a dir
-        if (['.gitkeep'].includes(engine)) {
+        if ([".gitkeep"].includes(engine)) {
             return
         }
 
         // check if vue folder exists for given engine
-        if (!fs.existsSync(path.join('./engines', engine, 'app', 'vue'))) {
+        if (!fs.existsSync(path.join("./engines", engine, "app", "vue"))) {
             return
         }
 
         // get app directories
-        fs.readdirSync(path.join('./engines', engine, 'app', 'vue')).forEach(app => {
+        fs.readdirSync(path.join("./engines", engine, "app", "vue")).forEach(app => {
 
-            fs.readdirSync(path.join('./engines', engine, 'app', 'vue', app)).forEach(action => {
+            fs.readdirSync(path.join("./engines", engine, "app", "vue", app)).forEach(action => {
 
-                if (!action.endsWith('.js')) {
+                if (!action.endsWith(".js")) {
                     return
                 }
 
-                let filePath = './'+path.join('./engines', engine, 'app', 'vue', app, action)
-                let fileName = [app, action.replace('.js','')].join('_')
+                let filePath = "./"+path.join("./engines", engine, "app", "vue", app, action)
+                let fileName = [app, action.replace(".js","")].join("_")
 
                 webpackEngine.entry[fileName] = filePath
 

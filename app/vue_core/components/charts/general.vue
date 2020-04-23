@@ -83,7 +83,7 @@ export default {
                 colors: ["rgb(0, 83, 128)", "rgb(32, 168, 216)", "rgb(10,10,10)"],
                 stroke: {
                     show: true,
-                    curve: 'smooth',
+                    curve: "straight",
                     lineCap: 'round',
                     width: [0,0,4]
                 },

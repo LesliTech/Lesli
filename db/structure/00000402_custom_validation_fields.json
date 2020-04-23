@@ -1,0 +1,10 @@
+[{
+    "name": "model_to_validate",
+    "type": "string"
+}, {
+    "name": "column_to_validate",
+    "type": "string"
+}, {
+    "name": "enabled",
+    "type": "boolean"
+}]
