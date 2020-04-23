@@ -21,6 +21,7 @@
 /storage/*
 !/storage/.keep
 !/storage/keep/
+!/storage/templates/
 
 /public/tmp
 /public/assets
