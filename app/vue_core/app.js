@@ -59,15 +59,15 @@ import document from 'LesliCoreVue/functions/document.js'
 
 // · Loading app layout
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
-import componentApplicationHeader from 'LesliCoreVue/layouts/application-header.vue'
-import componentApplicationChatbox from 'LesliCoreVue/layouts/application-chatbox.vue'
-import componentApplicationNotification from 'LesliCoreVue/layouts/application-notification.vue'
-import componentApplicationGlobalSearch from 'LesliCoreVue/layouts/application-global-search.vue'
+import componentApplicationHeader from 'LesliCoreVue/layout/application-header.vue'
+import componentApplicationChatbox from 'LesliCoreVue/layout/application-chatbox.vue'
+import componentApplicationNotification from 'LesliCoreVue/layout/application-notification.vue'
+import componentApplicationGlobalSearch from 'LesliCoreVue/layout/application-global-search.vue'
 
-import componentDataLoading from 'LesliCoreVue/layouts/data-loading.vue'
-import componentDataEmpty from 'LesliCoreVue/layouts/data-empty.vue'
-import componentHeader from "LesliCoreVue/layouts/component-header.vue"
-import componentToolbar from "LesliCoreVue/layouts/component-toolbar.vue"
+import componentDataLoading from 'LesliCoreVue/layout/data-loading.vue'
+import componentDataEmpty from 'LesliCoreVue/layout/data-empty.vue'
+import componentHeader from "LesliCoreVue/layout/component-header.vue"
+import componentToolbar from "LesliCoreVue/layout/component-toolbar.vue"
 
 
 // · Initializing frameworks, libraries and tools
