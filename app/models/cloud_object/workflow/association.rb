@@ -73,7 +73,7 @@ Building a better future, one line of code at a time.
             self.object_associations.each do |key, value|
                 data = {
                     workflow_for: value,
-                    name: value.pluralize.humanize,
+                    name: value,
                     details: []
                 }
 
@@ -88,7 +88,7 @@ Building a better future, one line of code at a time.
 
                     data[:details].push({
                         field_name: detail[:name],
-                        name: detail[:name].humanize,
+                        name: detail[:name],
                         list: detail_list
                     })
                 end
@@ -143,12 +143,11 @@ Building a better future, one line of code at a time.
                             account: workflow.account
                         )
 
-                        attributes["details"] += " #{detail[:name].humanize}: #{record[detail[:identifier]]},"
+                        attributes["details"] += " #{detail[:name]}: #{record[detail[:identifier]]},"
                     end
 
                     attributes["details"].delete_suffix!(",")
                 end
-                attributes["workflow_for"] = attributes["workflow_for"].pluralize.humanize
 
                 attributes
             end
