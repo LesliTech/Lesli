@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_02_17_142005) do
+ActiveRecord::Schema.define(version: 10010104) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -102,24 +102,6 @@ ActiveRecord::Schema.define(version: 2020_02_17_142005) do
   create_table "cloud_babel_translations", force: :cascade do |t|
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-  end
-
-  create_table "cloud_bell_accounts", force: :cascade do |t|
-  end
-
-  create_table "cloud_bell_notifications", force: :cascade do |t|
-    t.string "subject"
-    t.text "body"
-    t.string "url"
-    t.string "category"
-    t.string "sender"
-    t.boolean "read", default: false
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-    t.bigint "users_id"
-    t.bigint "cloud_bell_accounts_id"
-    t.index ["cloud_bell_accounts_id"], name: "index_cloud_bell_notifications_on_cloud_bell_accounts_id"
-    t.index ["users_id"], name: "index_cloud_bell_notifications_on_users_id"
   end
 
   create_table "cloud_driver_accounts", force: :cascade do |t|
@@ -296,9 +278,25 @@ ActiveRecord::Schema.define(version: 2020_02_17_142005) do
   create_table "cloud_focus_accounts", force: :cascade do |t|
   end
 
-  create_table "cloud_focus_dashboards", force: :cascade do |t|
+  create_table "cloud_focus_custom_validation_fields", force: :cascade do |t|
+    t.string "model_to_validate"
+    t.string "column_to_validate"
+    t.boolean "enabled"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.bigint "cloud_focus_custom_validation_rules_id"
+    t.index ["cloud_focus_custom_validation_rules_id"], name: "cloud_focus_custom_validation_rules_fields"
+  end
+
+  create_table "cloud_focus_custom_validation_rules", force: :cascade do |t|
+    t.string "name"
+    t.string "description"
+    t.boolean "enabled"
+    t.boolean "rule_required"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.bigint "cloud_focus_accounts_id"
+    t.index ["cloud_focus_accounts_id"], name: "cloud_focus_accounts_custom_validation_rules"
   end
 
   create_table "cloud_focus_task_actions", force: :cascade do |t|
@@ -1361,9 +1359,6 @@ ActiveRecord::Schema.define(version: 2020_02_17_142005) do
   add_foreign_key "cloud_babel_translation_buckets", "cloud_babel_translation_modules", column: "cloud_babel_translation_modules_id"
   add_foreign_key "cloud_babel_translation_strings", "cloud_babel_translation_buckets", column: "cloud_babel_translation_buckets_id"
   add_foreign_key "cloud_babel_translation_strings", "users", column: "users_id"
-  add_foreign_key "cloud_bell_accounts", "accounts", column: "id"
-  add_foreign_key "cloud_bell_notifications", "cloud_bell_accounts", column: "cloud_bell_accounts_id"
-  add_foreign_key "cloud_bell_notifications", "users", column: "users_id"
   add_foreign_key "cloud_driver_accounts", "accounts", column: "id"
   add_foreign_key "cloud_driver_calendar_actions", "cloud_driver_calendars", column: "cloud_driver_calendars_id"
   add_foreign_key "cloud_driver_calendar_activities", "cloud_driver_calendars", column: "cloud_driver_calendars_id"
@@ -1390,6 +1385,8 @@ ActiveRecord::Schema.define(version: 2020_02_17_142005) do
   add_foreign_key "cloud_driver_events", "cloud_driver_calendars", column: "cloud_driver_calendars_id"
   add_foreign_key "cloud_driver_events", "users", column: "users_id"
   add_foreign_key "cloud_focus_accounts", "accounts", column: "id"
+  add_foreign_key "cloud_focus_custom_validation_fields", "cloud_focus_custom_validation_rules", column: "cloud_focus_custom_validation_rules_id"
+  add_foreign_key "cloud_focus_custom_validation_rules", "cloud_focus_accounts", column: "cloud_focus_accounts_id"
   add_foreign_key "cloud_focus_task_activities", "cloud_focus_tasks", column: "cloud_focus_tasks_id"
   add_foreign_key "cloud_focus_task_details", "cloud_focus_tasks", column: "cloud_focus_tasks_id"
   add_foreign_key "cloud_focus_tasks", "cloud_focus_accounts", column: "cloud_focus_accounts_id"
