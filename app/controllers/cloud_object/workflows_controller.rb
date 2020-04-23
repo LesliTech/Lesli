@@ -45,7 +45,7 @@ Building a better future, one line of code at a time.
                     dynamic_info = self.class.dynamic_info
                     model = dynamic_info[:model]
 
-                    workflows = model.detailed_info(current_user.account)
+                    workflows = model.list(current_user, @query)
                     responseWithSuccessful(workflows)
                 end
             end
@@ -334,8 +334,12 @@ private
 =end
         def self.dynamic_info
             module_info = self.name.split("::")
+
+            module_name = module_info[0].sub("Cloud", "").downcase
+            module_name = "house" if module_name == "haus"
+            
             {
-                module_name: module_info[0].sub("Cloud", "").downcase,
+                module_name: module_name,
                 full_module_name: module_info[0],
                 model: "#{module_info[0]}::Workflow".constantize
             }

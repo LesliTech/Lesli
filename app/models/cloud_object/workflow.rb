@@ -97,8 +97,8 @@ Building a better future, one line of code at a time.
                 name: name,
                 next_number: next_number,
                 default: default,
-                created_at: created_at,
-                updated_at: updated_at,
+                created_at: Courier::Core::Date.to_string_datetime(created_at),
+                updated_at: Courier::Core::Date.to_string_datetime(updated_at),
                 statuses: data
             }
         end
@@ -113,16 +113,56 @@ Building a better future, one line of code at a time.
     account = current_user.account
     workflows = CloudHelp::Workflow.detailed_info(account)
 =end
-        def self.detailed_info(account)
+        def self.list(current_user, query)
             module_name = dynamic_info[:module_name]
 
-            self.where(
-                "cloud_#{module_name}_accounts_id".to_sym => account.id
-            ).select(
-                :id,            :default,
-                :name,          :created_at,
-                :updated_at
+            # preparing filters
+            filters = query[:filters]
+            filters_query = []
+
+            # We create a filter by a text string written by the user
+            if filters["query"] && !filters["query"].empty?
+                filters_query.push(
+                    "LOWER(cloud_#{module_name}_workflows.name) LIKE '%#{filters["query"].downcase}%'"
+                )
+            end
+            
+            # We apply defaul filters
+            workflows = self.where(
+                "cloud_#{module_name}_accounts_id".to_sym => current_user.account.id
             )
+
+            # We apply the previous filters in the main query
+            unless filters_query.empty?
+                workflows = workflows.where(filters_query.join(' and '))
+            end
+
+            response = {}
+            
+            # We calculate total rows if needed
+            response[:total_count] = workflows.count if filters["get_total_count"]
+
+            # Adding pagination to workflows
+            pagination = query[:pagination]
+            workflows = workflows
+            .page(pagination[:page])
+            .per(pagination[:perPage])
+            .order(pagination[:orderColumn].to_sym => pagination[:order].to_sym)
+            
+            response[:workflows] = workflows.select(
+                :id,
+                :default,
+                :name,
+                :created_at,
+                :updated_at
+            ).map do |workflow|
+                workflow_attributes = workflow.attributes
+                workflow_attributes["created_at"] = Courier::Core::Date.to_string_datetime(workflow_attributes["created_at"])
+                workflow_attributes["updated_at"] = Courier::Core::Date.to_string_datetime(workflow_attributes["updated_at"])
+                workflow_attributes
+            end
+
+            response
         end
 
         protected
@@ -301,8 +341,12 @@ Building a better future, one line of code at a time.
 =end
         def self.dynamic_info
             module_info = self.name.split("::")
+            
+            module_name = module_info[0].sub("Cloud", "").downcase
+            module_name = "house" if module_name = "haus"
+
             {
-                module_name: module_info[0].sub("Cloud", "").downcase,
+                module_name: module_name,
                 status_model: "#{self.name}::Status".constantize,
                 association_model: "#{self.name}::Association".constantize
             }
