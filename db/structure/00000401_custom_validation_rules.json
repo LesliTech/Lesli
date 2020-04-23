@@ -1,0 +1,13 @@
+[{
+    "name": "name",
+    "type": "string"
+}, {
+    "name": "description",
+    "type": "string"
+}, {
+    "name": "enabled",
+    "type": "boolean"
+}, {
+    "name": "rule_required",
+    "type": "boolean"
+}]
