@@ -40,10 +40,6 @@ export default {
     data() {
         return {
             translations: null,
-            names: {
-                initial: 'created',
-                final: 'closed'
-            }
         }
     },
 
