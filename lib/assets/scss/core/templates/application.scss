@@ -71,14 +71,14 @@ Building a better future, one line of code at a time.
 
 // · Loading app layout 
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
-@import "../layouts/application-aside";
-@import "../layouts/application-header";
-@import "../layouts/application-notification.scss";
-@import "../layouts/application-navigation";
-@import "../layouts/application-component";
-@import "../layouts/application-footer";
-@import "../layouts/application-chatbox";
-@import "../layouts/application-global-search";
+@import "../layout/application-aside";
+@import "../layout/application-header";
+@import "../layout/application-notification.scss";
+@import "../layout/application-navigation";
+@import "../layout/application-component";
+@import "../layout/application-footer";
+@import "../layout/application-chatbox";
+@import "../layout/application-global-search";
 @import "../components/component-data.scss";
 @import "../components/component-header.scss";
 @import "../components/component-toolbar.scss";
@@ -86,9 +86,6 @@ Building a better future, one line of code at a time.
 
 // · 
 #lesli-cloud-application {
-    //display: flex;
-    //flex-direction: row;
-    //flex-wrap: wrap;
     padding-top: var(--application-header-height);
 }
 
