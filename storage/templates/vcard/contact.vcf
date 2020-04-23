@@ -1,0 +1,20 @@
+BEGIN:VCARD
+VERSION:3.0
+FN:{{contact_first_name}} {{contact_last_name}}
+N:{{contact_last_name}};{{contact_first_name}}
+EMAIL;TYPE=INTERNET:{{contact_email}}
+TEL;TYPE=CELL:{{contact_mobile}}
+TEL;TYPE=HOME:{{contact_telephone}}
+TEL;TYPE=WORK:{{contact_phone}}
+item5.TEL:{{contact_fax}}
+item5.X-ABLabel:workFax
+item1.ADR:;{{company_street_other}};{{company_street_name}} {{company_street_number}};{{company_region}};;01001;DE
+item1.X-ABLabel:
+item2.ORG:{{company_name}}
+item2.X-ABLabel:
+item3.TITLE:{{contact_title}}
+item3.X-ABLabel:
+BDAY:{{contact_birthdate}}
+item4.URL:{{company_website}}
+item4.X-ABLabel:
+END:VCARD
