@@ -76,6 +76,7 @@ Building a better future, one line of code at a time.
                 :name,
                 :number,
                 :initial,
+                :inactive,
                 :final,
                 :next_statuses
             ).where(
