@@ -57,14 +57,13 @@ Building a better future, one line of code at a time.
     }
 
     li:last-child a {
-        border-bottom: none;
+        //border-bottom: none;
     }
 
     // Sub menus
     li {
 
-        &.submenu-active,
-        &:hover {
+        &.submenu-open {
             ul {
                 height: auto;
             }
@@ -85,6 +84,14 @@ Building a better future, one line of code at a time.
 
         }
 
+    }
+
+    .navigation-change-layout {
+        color: white;
+        padding: 1.2rem;
+        &:hover {
+            cursor: pointer;
+        }
     }
 
 }
