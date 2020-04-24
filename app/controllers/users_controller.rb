@@ -4,7 +4,15 @@ class UsersController < ApplicationLesliController
     def index
         respond_to do |format|
             format.json {
-                responseWithSuccessful(current_user.account.users)
+            
+                users = nil
+
+                users = current_user.account.users.where(:role => params[:role]) if not params[:role].blank?
+
+                users = current_user.account.users if users === nil
+
+                responseWithSuccessful(users)
+
             }
         end
     end
