@@ -161,7 +161,7 @@ this.http.delete(`127.0.0.1/help/tickets/${ticket_id}/files/${file_id}`);
     # Executing this controller's action from javascript's frontend
     this.http.get('127.0.0.1/house/options/project/1/files/zip&ids=1,2,3,4');
 =end
-        def zip_download_options
+        def zip_download
             module_name = dynamic_info[:module_name]
             model = dynamic_info[:model]
             object_name = dynamic_info[:object_name]
