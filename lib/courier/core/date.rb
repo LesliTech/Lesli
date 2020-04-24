@@ -30,7 +30,7 @@ module Courier
 
         class Date
 
-            def self.to_string datetime_object, format="%Y.%m.%d", time_zone="Europe/Berlin"
+            def self.to_string datetime_object, format="%d.%m.%Y", time_zone="Europe/Berlin"
                 zone = ActiveSupport::TimeZone.new(time_zone)
                 datetime_object.in_time_zone(zone).strftime(format)
             end
@@ -40,7 +40,7 @@ module Courier
                 datetime_object.in_time_zone(zone).strftime(format)
             end
 
-            def self.to_string_datetime datetime_object, format="%Y.%m.%d %H:%M", time_zone="Europe/Berlin"
+            def self.to_string_datetime datetime_object, format="%d.%m.%Y %H:%M", time_zone="Europe/Berlin"
                 zone = ActiveSupport::TimeZone.new(time_zone)
                 datetime_object.in_time_zone(zone).strftime(format)
             end

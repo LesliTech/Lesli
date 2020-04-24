@@ -66,7 +66,7 @@ Building a better future, one line of code at a time.
             .order(id: :asc)
             .map { |discussion| 
                 discussion_attributes = discussion.attributes
-                discussion_attributes["created_at"] = Courier::Core::Date.to_string_datetime(discussion_attributes["created_at"])
+                discussion_attributes["created_at"] = LC::Date.to_string_datetime(discussion_attributes["created_at"])
                 discussion_attributes
             }
 
@@ -116,7 +116,7 @@ Building a better future, one line of code at a time.
                 email: user.email,
                 user_name: user.name
             })
-            discussion_attributes["created_at"] = Courier::Core::Date.to_string_datetime(discussion_attributes["created_at"])
+            discussion_attributes["created_at"] = LC::Date.to_string_datetime(discussion_attributes["created_at"])
 
             discussion_attributes
         end
