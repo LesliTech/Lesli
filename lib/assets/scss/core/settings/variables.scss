@@ -26,13 +26,9 @@ Building a better future, one line of code at a time.
 
 @import "lesli-css/";
 
-// · 
-$application-header-height: 52px;
-$application-footer-height: 52px;
-$application-navigation-width: 250px;
-
 :root {
     --application-header-height: 52px;
+    --application-header-width: 250px;
     --application-footer-height: 52px;
     --application-navigation-width: 250px;
 }
@@ -63,4 +59,9 @@ $application-navigation-width: 250px;
     :root {
         --application-navigation-width: 80px;
     }
+}
+
+#lesli-cloud-application.layout-full {
+    --application-navigation-width: 70px;
+    --application-header-width: 170px;
 }
