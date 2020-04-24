@@ -60,12 +60,12 @@ namespace :dev do
 
             system "bundle exec rake assets:clean RAILS_ENV=production"
             system "bundle exec rake assets:precompile RAILS_ENV=production"
-            system "rake i18n:js:export"
+            system "bundle exec rake i18n:js:export RAILS_ENV=production"
 
             #system "whenever --update-crontab"
             
             #system "chmod 755 public/ -R"
-            #system "chown www-data:www-data public/ -R"
+            #system "sudo chown www-data:www-data public/ -R"
 
             #system "service nginx restart"
 

@@ -1,13 +1,28 @@
+<application-component-navigation>
+    
+    <% engine = controller_path.split('/')[0] %>
+    <%= render partial: 'layouts/partials/clouddriver-module-navigation' if engine == "cloud_driver" %>
+    <%= render partial: 'layouts/partials/cloudhouse-module-navigation'  if engine == "cloud_house" %>
+    <%= render partial: 'layouts/partials/cloudfocus-module-navigation'  if engine == "cloud_focus" %>
+    <%= render partial: 'layouts/partials/cloudkb-module-navigation'     if engine == "cloud_kb" %>
+    <%= render partial: 'layouts/partials/cloudpanel-module-navigation'  if engine == "cloud_panel" %>
+    <%= render partial: 'layouts/partials/cloudlock-module-navigation'   if engine == "cloud_lock" %>
+    <%= render partial: 'layouts/partials/cloudbell-module-navigation'   if engine == "cloud_bell" %>
+    <%= render partial: 'layouts/partials/cloudteam-module-navigation'   if engine == "cloud_team" %>
+    <%= render partial: 'layouts/partials/cloudhelp-module-navigation'   if engine == "cloud_help" %>
 
-<% engine = controller_path.split('/')[0] %>
-<%= render partial: 'layouts/partials/clouddriver-module-navigation'  if engine == "cloud_driver" %>
-<%= render partial: 'layouts/partials/cloudhouse-module-navigation'   if engine == "cloud_house" %>
-<%= render partial: 'layouts/partials/cloudfocus-module-navigation'   if engine == "cloud_focus" %>
-<%= render partial: 'layouts/cloud_babel/partials/module-app-navigation'   if engine == "cloud_babel" %>
-<%= render partial: 'layouts/partials/cloudpanel-module-navigation'   if engine == "cloud_panel" %>
-<%= render partial: 'layouts/partials/cloudlock-module-navigation'    if engine == "cloud_lock" %>
-<%= render partial: 'layouts/partials/cloudbell-module-navigation'    if engine == "cloud_bell" %>
-<%= render partial: 'layouts/partials/cloudteam-module-navigation'    if engine == "cloud_team" %>
-<%= render partial: 'layouts/partials/cloudhelp-module-navigation'    if engine == "cloud_help" %>
-<%= render partial: 'layouts/cloud_haus/partials/module-app-navigation'   if engine == "cloud_haus" %>
-<%= render partial: 'layouts/partials/cloudkb-module-navigation'      if engine == "cloud_kb" %>
+    <%= render partial: 'layouts/cloud_haus/partials/module-app-navigation'  if engine == "cloud_haus" %>
+    <%= render partial: 'layouts/cloud_babel/partials/module-app-navigation' if engine == "cloud_babel" %>
+    
+    <template v-slot:layout>
+        <div class="navigation-change-layout" @click="change_layout">
+            <p>
+                <i class="img icon is-medium">
+                    <i class="fas fa-chevron-left"></i>
+                    <i class="fas fa-chevron-right"></i>
+                </i>
+            </p>
+        </div>
+    </template>
+
+</application-component-navigation>
