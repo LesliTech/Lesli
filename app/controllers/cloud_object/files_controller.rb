@@ -48,7 +48,7 @@ Building a better future, one line of code at a time.
                 "cloud_#{module_name}_#{plural_object_name}_id".to_sym => cloud_object_id
             ).order(id: :desc).map do |file|
                 file_attributes = file.attributes
-                file_attributes["created_at"] = Courier::Core::Date.to_string_datetime(file_attributes["created_at"])
+                file_attributes["created_at"] = LC::Date.to_string_datetime(file_attributes["created_at"])
                 file_attributes
             end
             responseWithSuccessful(@cloud_object_files)
@@ -161,7 +161,7 @@ this.http.delete(`127.0.0.1/help/tickets/${ticket_id}/files/${file_id}`);
     # Executing this controller's action from javascript's frontend
     this.http.get('127.0.0.1/house/options/project/1/files/zip&ids=1,2,3,4');
 =end
-        def zip_download_options
+        def zip_download
             module_name = dynamic_info[:module_name]
             model = dynamic_info[:model]
             object_name = dynamic_info[:object_name]

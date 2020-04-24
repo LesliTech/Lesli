@@ -126,9 +126,11 @@ export default {
             })
             file_ids = encodeURIComponent(file_ids
             )
-            window.open(
-                `/${this.module_name.slash}/options/${this.object_name.singular}/${this.cloudId}/files/zip?ids=${file_ids}`
-            )
+            if(file_ids.length > 0){
+                window.open(
+                    `/${this.module_name.slash}/${this.object_name.plural}/${this.cloudId}/files/zip?ids=${file_ids}`
+                )
+            }
         },
 
         translateFileType(file_type){

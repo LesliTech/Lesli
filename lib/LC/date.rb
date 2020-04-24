@@ -37,11 +37,11 @@ module LC
 
         # set timezone and date formats here 
         @time_zone = "Europe/Berlin"
-        @string_format = "%Y.%m.%d"
+        @string_format = "%d.%m.%Y"
 
 
         @string_time = "%H:%M"
-        @string_datetime_format = "%a, %B %d, %Y"
+        @string_datetime_format = "%d.%m.%Y %H:%M"
         @string_words_format = "%a, %B %d, %Y"
 
         def self.to_string datetime_object
@@ -50,22 +50,22 @@ module LC
         end
 
         def self.to_string_datetime datetime_object
-            zone = ActiveSupport::TimeZone.new(time_zone)
-            datetime_object.in_time_zone(zone).strftime(format)
+            zone = ActiveSupport::TimeZone.new(@time_zone)
+            datetime_object.in_time_zone(zone).strftime(@string_datetime_format)
         end
 
         def self.to_string_time datetime_object
-            zone = ActiveSupport::TimeZone.new(time_zone)
-            datetime_object.in_time_zone(zone).strftime(format)
+            zone = ActiveSupport::TimeZone.new(@time_zone)
+            datetime_object.in_time_zone(zone).strftime(@string_time)
         end
 
         def self.to_string_datetime_words datetime_object
-            zone = ActiveSupport::TimeZone.new(time_zone)
-            datetime_object.in_time_zone(zone).strftime(format)
+            zone = ActiveSupport::TimeZone.new(@time_zone)
+            datetime_object.in_time_zone(zone).strftime(@string_datetime_format)
         end
 
         def self.today_at_midnight
-            zone = ActiveSupport::TimeZone.new(time_zone)
+            zone = ActiveSupport::TimeZone.new(@time_zone)
             return Time.current.in_time_zone(zone).beginning_of_day
         end
 

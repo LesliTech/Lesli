@@ -98,8 +98,8 @@ Building a better future, one line of code at a time.
                 name: name,
                 next_number: next_number,
                 default: default,
-                created_at: Courier::Core::Date.to_string_datetime(created_at),
-                updated_at: Courier::Core::Date.to_string_datetime(updated_at),
+                created_at: LC::Date.to_string_datetime(created_at),
+                updated_at: LC::Date.to_string_datetime(updated_at),
                 statuses: data
             }
         end
@@ -158,8 +158,8 @@ Building a better future, one line of code at a time.
                 :updated_at
             ).map do |workflow|
                 workflow_attributes = workflow.attributes
-                workflow_attributes["created_at"] = Courier::Core::Date.to_string_datetime(workflow_attributes["created_at"])
-                workflow_attributes["updated_at"] = Courier::Core::Date.to_string_datetime(workflow_attributes["updated_at"])
+                workflow_attributes["created_at"] = LC::Date.to_string_datetime(workflow_attributes["created_at"])
+                workflow_attributes["updated_at"] = LC::Date.to_string_datetime(workflow_attributes["updated_at"])
                 workflow_attributes
             end
 
