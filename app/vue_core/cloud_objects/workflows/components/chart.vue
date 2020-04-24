@@ -87,7 +87,7 @@ export default {
             let icon = 'fas:fa-forward'
             if(node.initial){
                 icon = 'fas:fa-play'
-            }else if(node.final){
+            }else if(node.inactive){
                 icon = 'fas:fa-stop'
             }
             return icon
@@ -127,6 +127,13 @@ export default {
                     }else{
                         parsed_node.style = 'fill:#20a8d8,stroke:#005380'
                     }
+                    // Status type will override the selectedWorkflowStatue color
+                    if(node.initial){
+                        parsed_node.style = 'fill:#48c774,stroke:#48c774'
+                    }else if(node.inactive){
+                        parsed_node.style = 'fill:#ffdd57,stroke:#000000'
+                    }
+
                     data.push(parsed_node)
                 })
                 this.parsed_workflow = data
@@ -134,14 +141,6 @@ export default {
         },
 
         getNodeName(node){
-            if(node.initial){
-                return 'Created'
-            }
-            
-            if(node.final){
-                return 'Closed'
-            }
-            
             if(this.translationsPath){
                 return this.object_utils.translateEnum(this.translations.main, 'status', node.name)
             }

@@ -314,6 +314,7 @@ private
                     :id,
                     :next_statuses,
                     :initial,
+                    :inactive,
                     :final,
                     :name,
                     :number,
