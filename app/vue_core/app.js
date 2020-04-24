@@ -117,6 +117,17 @@ export default (module, apps, base_path, routes=[]) => {
         routes: routes
     })
 
+    cloud_builder['data'] = {
+        lesli_cloud_application_css_classes: "layout-full2"
+    }
+
+    cloud_builder['methods'] = {
+        navigation_submenu(item) {
+            item.target.parentElement.classList.toggle("submenu-active")
+            item.target.parentElement.parentElement.scrollTop = item.target.parentElement.parentElement.scrollHeight
+        }
+    }
+
 
     // · Building Vue cloud app
     let cloud = new Vue(cloud_builder)

@@ -29,14 +29,14 @@ header.application-header {
     width: 100%;
     top: 0px;
     .navbar-brand {
-        flex: 0 0 var(--application-navigation-width);
+        flex: 0 0 var(--application-header-width);
         a {
             padding: 0;
             width: 100%;
         }
         img {
             margin: 0 auto;
-            max-height: $application-header-height;
+            max-height: var(--application-header-height);
         }
     }
     .navbar-start {
