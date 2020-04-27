@@ -1,4 +1,7 @@
 [{
+    "name": "name",
+    "type": "string"
+},{
     "name": "initial_status_id",
     "type": "bigint"
 }, {
@@ -21,5 +24,8 @@
     "type": "json"
 },{
     "name": "concerning_users",
+    "type": "json"
+},{
+    "name": "configuration",
     "type": "json"
 }]
