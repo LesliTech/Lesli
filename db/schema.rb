@@ -299,6 +299,7 @@ ActiveRecord::Schema.define(version: 10010104) do
   create_table "cloud_focus_custom_validation_fields", force: :cascade do |t|
     t.string "model_to_validate"
     t.string "column_to_validate"
+    t.string "context"
     t.boolean "enabled"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
@@ -311,6 +312,7 @@ ActiveRecord::Schema.define(version: 10010104) do
     t.string "description"
     t.boolean "enabled"
     t.boolean "rule_required"
+    t.string "message_error"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.bigint "cloud_focus_accounts_id"
