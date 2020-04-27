@@ -52,8 +52,16 @@ Building a better future, one line of code at a time.
             end
         end
 
-        # @controller_action_param :workflow_for [String] The name of the *cloud_object* this workflow is assigned to
-        # @controller_action_param :global [Boolean] Wheter this action is global or not
+        # @controller_action_param :name [String] The name of the workflow action
+        # @controller_action_param :initial_status_id [Integer] The id of the initial status
+        # @controller_action_param :final_status_id [Integer] The id of the final status
+        # @controller_action_param :action_type [String] The type of action. Check the enum in the model for more information
+        # @controller_action_param :execute_immediately [Boolean] Wheter this action should be executed right away or queued in a job
+        # @controller_action_param :template_path [String] The path to a template
+        # @controller_action_param :input_data [JSON] key/value pairs that are used as data for the workflow action
+        # @controller_action_param :input_data [JSON] key/value pairs of information already stored in the system that are used as data for the workflow action
+        # @controller_action_param :concerning_users [JSON] Object of concerning users for this cloud action
+        # @controller_action_param :configuration [JSON] Final pairs key/value that indication extra configuration for the action
         # @return [Json] Json that contains wheter the creation of the workflow action was successful or not. 
         #     If it is not successful, it returns an error message
         # @description Creates a new workflow action associated to the *current_user*'s *account*
@@ -62,8 +70,8 @@ Building a better future, one line of code at a time.
         #     let workflow_id = 5;
         #     let data = {
         #         workflow_action: {
-        #             workflow_form: "projects",
-        #             global: true
+        #             name: "Test Action",
+        #             action_type: "create_focus_task"
         #         }
         #     };
         #     this.http.post('127.0.0.1/help/workflows/${workflow_id}/actions', data);
@@ -80,6 +88,37 @@ Building a better future, one line of code at a time.
                 responseWithSuccessful(action)
             else
                 responseWithError(action.errors.full_messages.to_sentence)
+            end
+        end
+
+        # @return [Json] Json that contains wheter the update of the workflow action was successful or not. 
+        #     If it is not successful, it returs an error message
+        # @controller_action_param :name [String] The name of the workflow action
+        # @controller_action_param :initial_status_id [Integer] The id of the initial status
+        # @controller_action_param :final_status_id [Integer] The id of the final status
+        # @controller_action_param :action_type [String] The type of action. Check the enum in the model for more information
+        # @controller_action_param :execute_immediately [Boolean] Wheter this action should be executed right away or queued in a job
+        # @controller_action_param :template_path [String] The path to a template
+        # @controller_action_param :input_data [JSON] key/value pairs that are used as data for the workflow action
+        # @controller_action_param :input_data [JSON] key/value pairs of information already stored in the system that are used as data for the workflow action
+        # @controller_action_param :concerning_users [JSON] Object of concerning users for this cloud action
+        # @controller_action_param :configuration [JSON] Final pairs key/value that indication extra configuration for the action
+        # @description Updates the workflow action based on the id of the *cloud_object* and its own id.
+        # @example
+        #     # Executing this controller's action from javascript's frontend
+        #     let workflow_id = 1;
+        #     let workflow action_id = 22;
+        #     data = {
+        #         workflow action: {
+        #             execute_immediately: true
+        #         }
+        #     };
+        #     this.http.patch(`127.0.0.1/house/workflows/${ticket_id}/actions/${workflow action_id}`, data);
+        def update
+            if @workflow_action.update(workflow_action_params)
+                responseWithSuccessful
+            else
+                responseWithError(@workflow_action.errors.full_messages.to_sentence)
             end
         end
 
@@ -148,6 +187,44 @@ Building a better future, one line of code at a time.
         def set_workflow_action
             set_workflow
             @workflow_action = @workflow.actions.find_by(id: params[:id])
+        end
+
+        # @return [Parameters] Allowed parameters for the workflow action
+        # @description Sanitizes the parameters received from an HTTP call to only allow the specified ones.
+        #     Allowed params are _:content_, _:cloud_object_workflow actions_id_.
+        # @example
+        #     # supose params contains {
+        #     #    "workflow_action": {
+        #     #        "id": 5,
+        #     #        "name": "This is a new action",
+        #     #        "cloud_help_workflows_id": 4,
+        #     #        "random_field": true
+        #     #    }
+        #     #}
+        #     workflow action_params = workflow_action_params
+        #     puts workflow action_params
+        #     # will remove the _id_ field and only print {
+        #     #    "workflow_action": {
+        #     #        "name": "This is a new action",
+        #     #        "cloud_help_workflows_id": 4
+        #     #    }
+        #     #}
+        def workflow_action_params
+            module_name = dynamic_info[:module_name]
+
+            params.require("workflow_action".to_sym).permit(
+                :name,
+                :initial_status_id,
+                :final_status_id,
+                :action_type,
+                :execute_immediately,
+                :template_path,
+                :input_data,
+                :system_data,
+                :concerning_users,
+                :configuration,
+                "cloud_#{module_name}_workflow_statuses_id".to_sym
+            )
         end
 
         # @return [Hash] Hash that contains information about the class
