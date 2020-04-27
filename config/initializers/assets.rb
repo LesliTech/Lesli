@@ -77,3 +77,8 @@ if defined?(CloudBabel)
     Rails.application.config.assets.precompile += %w( cloud_bell/*.js )
     Rails.application.config.assets.precompile += %w( cloud_bell/*.css )
 end
+
+if defined?(CloudLock)
+    Rails.application.config.assets.precompile += %w( cloud_lock/*.js )
+    Rails.application.config.assets.precompile += %w( cloud_lock/*.css )
+end
