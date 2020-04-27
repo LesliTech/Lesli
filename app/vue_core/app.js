@@ -11,7 +11,7 @@ Without the written permission of Lesli Technologies, S. A., any replication, mo
 transmission, publication is strictly forbidden.
 For more information read the license file including with this software.
 
-Lesli - Your Smart Business Assistant
+LesliCloud - Your Smart Business Assistant
 
 Powered by https://www.lesli.tech
 Building a better future, one line of code at a time.
@@ -61,6 +61,7 @@ import document from 'LesliCoreVue/functions/document.js'
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
 import componentApplicationHeader from 'LesliCoreVue/layout/application-header.vue'
 import componentApplicationChatbox from 'LesliCoreVue/layout/application-chatbox.vue'
+import componentApplicationNavigation from 'LesliCoreVue/layout/application-navigation.vue'
 import componentApplicationNotification from 'LesliCoreVue/layout/application-notification.vue'
 import componentApplicationGlobalSearch from 'LesliCoreVue/layout/application-global-search.vue'
 
@@ -104,6 +105,7 @@ export default (module, apps, base_path, routes=[]) => {
     cloud_builder['components'] = { 
         'application-component-header': componentApplicationHeader,
         'application-component-chatbox': componentApplicationChatbox,
+        'application-component-navigation': componentApplicationNavigation,
         'application-component-notification': componentApplicationNotification,
         'application-component-global-search': componentApplicationGlobalSearch
     }
@@ -118,13 +120,24 @@ export default (module, apps, base_path, routes=[]) => {
     })
 
     cloud_builder['data'] = {
-        lesli_cloud_application_css_classes: "layout-full2"
+        lesli_cloud_application_css_classes: "layout-standard"
     }
 
     cloud_builder['methods'] = {
-        navigation_submenu(item) {
-            item.target.parentElement.classList.toggle("submenu-active")
-            item.target.parentElement.parentElement.scrollTop = item.target.parentElement.parentElement.scrollHeight
+        change_layout() {
+
+            switch (this.lesli_cloud_application_css_classes) {
+                case "layout-standard":
+                    this.lesli_cloud_application_css_classes = "layout-full"
+                    break;
+                case "layout-full":
+                    this.lesli_cloud_application_css_classes = "layout-standard"
+                    break;
+                default:
+                    this.lesli_cloud_application_css_classes = "layout-standard"
+                    break;
+            }
+            
         }
     }
 
