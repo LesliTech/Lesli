@@ -40,7 +40,8 @@ module CloudObject
             action_show:    "action_show",
             action_update:  "action_update",
             action_destroy:  "action_destroy",
-            action_status:  "action_status"
+            action_status:  "action_status",
+            action_workflow_action_failed: "action_workflow_action_failed"
         }
 
     end

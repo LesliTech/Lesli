@@ -140,13 +140,17 @@ module Courier
             end
 
             # This courier method is used mainly by the workflow actions to create tasks from other engines
-            def self.tasks_new(current_user, task_params, execute_immediately, send_email)
+            def self.tasks_new(current_user, task_params, send_email)
                 return unless defined? CloudFocus
 
-                if execute_immediately
-                    TasksNewJob.perform_now(current_user, task_params, send_email)
-                else
-                    TasksNewJob.perform_later(current_user, task_params, send_email)
+                task = CloudFocus::Task.new(task_params)
+                task.account = current_user.account.focus
+                task.creator = current_user
+                task.set_workflow
+                if task.save! 
+                    if send_email
+                        CloudFocus::Task.send_email_new(task)
+                    end
                 end
             end
         end
