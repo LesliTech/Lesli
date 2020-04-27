@@ -36,12 +36,15 @@ module LC
     class Date
 
         # set timezone and date formats here 
-        @time_zone = "Europe/Berlin"
-        @string_format = "%d.%m.%Y"
 
+        # NOTE: Do not modify formats here,
+        # if you need a different date format you should change it in the settings
+
+        @time_zone = "Europe/Berlin"
+        @string_format = "%Y.%m.%d"
 
         @string_time = "%H:%M"
-        @string_datetime_format = "%d.%m.%Y %H:%M"
+        @string_datetime_format = "%Y.%m.%d %H:%M"
         @string_words_format = "%a, %B %d, %Y"
 
         def self.to_string datetime_object
