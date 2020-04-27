@@ -10,4 +10,7 @@
 }, {
     "name": "rule_required",
     "type": "boolean"
+}, {
+    "name": "message_error",
+    "type": "string"
 }]

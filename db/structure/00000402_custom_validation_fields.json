@@ -5,6 +5,9 @@
     "name": "column_to_validate",
     "type": "string"
 }, {
+    "name": "context",
+    "type": "string"
+}, {
     "name": "enabled",
     "type": "boolean"
 }]

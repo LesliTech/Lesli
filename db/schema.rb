@@ -299,6 +299,7 @@ ActiveRecord::Schema.define(version: 10010104) do
   create_table "cloud_focus_custom_validation_fields", force: :cascade do |t|
     t.string "model_to_validate"
     t.string "column_to_validate"
+    t.string "context"
     t.boolean "enabled"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
@@ -311,10 +312,20 @@ ActiveRecord::Schema.define(version: 10010104) do
     t.string "description"
     t.boolean "enabled"
     t.boolean "rule_required"
+    t.string "message_error"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.bigint "cloud_focus_custom_validations_id"
+    t.index ["cloud_focus_custom_validations_id"], name: "cloud_focus_custom_validations_validation_rules"
+  end
+
+  create_table "cloud_focus_custom_validations", force: :cascade do |t|
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.bigint "users_id"
     t.bigint "cloud_focus_accounts_id"
-    t.index ["cloud_focus_accounts_id"], name: "cloud_focus_accounts_custom_validation_rules"
+    t.index ["cloud_focus_accounts_id"], name: "cloud_focus_accounts_custom_validations"
+    t.index ["users_id"], name: "index_cloud_focus_custom_validations_on_users_id"
   end
 
   create_table "cloud_focus_task_actions", force: :cascade do |t|
@@ -1407,7 +1418,9 @@ ActiveRecord::Schema.define(version: 10010104) do
   add_foreign_key "cloud_driver_events", "users", column: "users_id"
   add_foreign_key "cloud_focus_accounts", "accounts", column: "id"
   add_foreign_key "cloud_focus_custom_validation_fields", "cloud_focus_custom_validation_rules", column: "cloud_focus_custom_validation_rules_id"
-  add_foreign_key "cloud_focus_custom_validation_rules", "cloud_focus_accounts", column: "cloud_focus_accounts_id"
+  add_foreign_key "cloud_focus_custom_validation_rules", "cloud_focus_custom_validations", column: "cloud_focus_custom_validations_id"
+  add_foreign_key "cloud_focus_custom_validations", "cloud_focus_accounts", column: "cloud_focus_accounts_id"
+  add_foreign_key "cloud_focus_custom_validations", "users", column: "users_id"
   add_foreign_key "cloud_focus_task_activities", "cloud_focus_tasks", column: "cloud_focus_tasks_id"
   add_foreign_key "cloud_focus_task_details", "cloud_focus_tasks", column: "cloud_focus_tasks_id"
   add_foreign_key "cloud_focus_tasks", "cloud_focus_accounts", column: "cloud_focus_accounts_id"
