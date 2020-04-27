@@ -60,46 +60,41 @@ Building a better future, one line of code at a time.
         def execute(current_user, cloud_object)
             case action_type
             when "create_focus_task"
-                return execute_create_focus_task(current_user, cloud_object)
+                if execute_immediately
+                    WorkflowActions::CreateFocusTaskJob.perform_now(current_user, cloud_object, self)
+                else
+                    WorkflowActions::CreateFocusTaskJob.perform_later(current_user, cloud_object, self)
+                end
+            end
+        end
+
+        # @return [Hash] Hash with the same information as the received hash, but with replaced data
+        # @param replacement_values [Hash] A hash where the key is the text to be replaced, and the value is the replacement
+        #   text
+        # @description Replacements fields used as placeholders in the "input_data" field with values of the cloud_object
+        # @example
+        #   action = CloudHouse::Workflow::Action.first
+        #   puts action.input_data["title"] # Let's asume this will print "A new task for project %global_identifier%"
+        #   action.input_data = parse_input_data(action, {"%global_identifier%" => "12345"})
+        #   puts action.input_data["title"] # Will print "A new task for project 12345
+        def parse_input_data(replacement_values)
+            replacement_values.each do |replacement_key, replacement_value|
+                input_data.each do |input_key, input_value|
+                    if input_value.instance_of? String
+                        input_data[input_key] = input_value.gsub(replacement_key, replacement_value)
+                    end
+                end
             end
         end
 
         protected
 
-        def execute_create_focus_task(current_user, cloud_object)
-
-            task_employee = nil
-            case concerning_users["type"]
-            when "main"
-                task_employee = cloud_object.get_main_employee
-            when "employee"
-                task_employee = ::Courier::Core::User.get(concerning_users["list"][0]) if concerning_users["list"]
-            end
-            return unless task_employee # There is no task employee, so this action cannot be fufilled @todo: Log Error Activity
-
-            task_params = {
-                user: task_employee,
-                model_type: cloud_object.class.name,
-                model_id: cloud_object.id,
-                detail_attributes: {
-                    title: input_data["title"],
-                    description: input_data["description"],
-                    deadline: LC::Date.now + (input_data["days_until_deadline"] || 0).days,
-                    importance: input_data["importance"],
-                    task_type: input_data["task_type"],
-                }
-            }
-            ::Courier::Focus::Task.tasks_new(current_user, task_params, execute_immediately, configuration["send_email"])
-        end
-
-=begin
-@return [Hash] Hash that contains information about the class
-@description Returns dynamic information based on the current implementation of this abstract class
-@example
-    # Imagine the current class is an instance of CloudHelp::Workflow::Action < CloudObject::Workflow::Action
-    info = dynamic_info
-    puts info[:module_name] # will print 'help'
-=end
+        # @return [Hash] Hash that contains information about the class
+        # @description Returns dynamic information based on the current implementation of this abstract class
+        # @example
+        #     # Imagine the current class is an instance of CloudHelp::Workflow::Action < CloudObject::Workflow::Action
+        #     info = dynamic_info
+        #     puts info[:module_name] # will print 'help'
         def self.dynamic_info
             module_info = self.name.split("::")
 
