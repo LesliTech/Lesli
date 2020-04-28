@@ -39,6 +39,23 @@ Building a better future, one line of code at a time.
             custom: "custom", # If this type is chose, the user will input the concerning users email (this type may be disabled for some cloud_actions)
         }
 
+        def self.list(workflow)
+            dynamic_info_ = self.dynamic_info
+            module_name = dynamic_info_[:module_name]
+
+            workflow.actions.joins(
+                "inner join cloud_house_workflow_statuses CHWSI on CHWSI.id = cloud_house_workflow_actions.initial_status_id"
+            ).joins(
+                "inner join cloud_house_workflow_statuses CHWSF on CHWSF.id = cloud_house_workflow_actions.final_status_id"
+            ).select(
+                "cloud_house_workflow_actions.id",
+                "cloud_house_workflow_actions.name",
+                "CHWSI.name as initial_status_name",
+                "CHWSF.name as final_status_name",
+                "cloud_house_workflow_actions.action_type"
+            )
+        end
+
         def self.execute_actions(current_user, cloud_object, old_attributes, new_attributes)
             dynamic_info_ = self.dynamic_info
             module_name = dynamic_info_[:module_name]
