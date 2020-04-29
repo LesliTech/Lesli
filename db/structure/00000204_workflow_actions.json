@@ -1,0 +1,31 @@
+[{
+    "name": "name",
+    "type": "string"
+},{
+    "name": "initial_status_id",
+    "type": "bigint"
+}, {
+    "name": "final_status_id",
+    "type": "bigint"
+},{
+    "name": "action_type",
+    "type": "string"
+},{
+    "name": "execute_immediately",
+    "type": "boolean"
+},{
+    "name": "template_path",
+    "type": "string"
+},{
+    "name": "input_data",
+    "type": "json"
+},{
+    "name": "system_data",
+    "type": "json"
+},{
+    "name": "concerning_users",
+    "type": "json"
+},{
+    "name": "configuration",
+    "type": "json"
+}]

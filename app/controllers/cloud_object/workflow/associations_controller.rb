@@ -76,7 +76,6 @@ Building a better future, one line of code at a time.
             return responseWithNotFound unless @workflow
 
             dynamic_info = self.class.dynamic_info
-            module_name = dynamic_info[:module_name]
             model = dynamic_info[:model]
 
             association = model.new(association_params)
@@ -160,10 +159,10 @@ private
     puts @workflow # will display an instance of CloudHelp::Workflow
     puts @workflow_association # will display an instance of CloudHelp::Workflow::Association
 =end
-    def set_workflow_association
-        set_workflow
-        @workflow_association = @workflow.associations.find_by(id: params[:id])
-    end
+        def set_workflow_association
+            set_workflow
+            @workflow_association = @workflow.associations.find_by(id: params[:id])
+        end
 
 =begin
 @return [Parameters] Allowed parameters for the workflow
