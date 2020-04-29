@@ -29,14 +29,14 @@ Building a better future, one line of code at a time.
 
         enum action_type: {
             send_core_email: "send_core_email",
-            generate_core_document: "generate_core_document",
+            create_bell_notification: "create_bell_notification",
             create_focus_task: "create_focus_task" # This action can always be created, but it will only be executed if CloudFocus is available
         }
 
         enum concerning_user_types: {
             main: "main", # The main user will be returned by calling the main_user() function in a cloud_object
-            employee: "employee", # If this type is chosen, the user will select the concerning user(s) from the employee list
-            custom: "custom", # If this type is chose, the user will input the concerning users email (this type may be disabled for some cloud_actions)
+            custom: "custom", # If this type is chosen, the user will input the concerning users manually
+            current_user: "current_user" # If this type is chosen the selected user will be current_user
         }
 
         def self.list(workflow)
@@ -53,7 +53,33 @@ Building a better future, one line of code at a time.
                 "CHWSI.name as initial_status_name",
                 "CHWSF.name as final_status_name",
                 "cloud_house_workflow_actions.action_type"
-            )
+            ).order(id: :desc)
+        end
+
+        def show
+            self
+        end
+
+        def self.action_options(current_user, workflow)
+            statuses = {}
+            workflow.statuses.each do |status|
+                next_statuses = status.next_statuses.split("|").map do |nex_status|
+                    nex_status.to_i
+                end
+
+                statuses[status.number] = {
+                    id: status.id,
+                    name: status.name,
+                    number: status.number,
+                    next_statuses: next_statuses
+                }
+            end
+            
+            {
+                concerning_user_types: self.concerning_user_types.map { |key,value| {value: key, text: value} },
+                action_types: self.action_types.map { |key,value| {value: key, text: value} },
+                statuses: statuses
+            }
         end
 
         def self.execute_actions(current_user, cloud_object, old_attributes, new_attributes)

@@ -6,8 +6,10 @@ class WorkflowActions::CreateFocusTaskJob < ApplicationJob
         case action.concerning_users["type"]
         when "main"
             task_employee = cloud_object.get_main_employee
-        when "employee"
-            task_employee = ::Courier::Core::User.get(action.concerning_users["list"][0]) if action.concerning_users["list"]
+        when "custom"
+            task_employee = current_user.account.users.find(action.concerning_users["list"][0]["id"]) if action.concerning_users["list"]
+        when "current_user"
+            task_employee = current_user
         end
 
         begin
@@ -22,11 +24,12 @@ class WorkflowActions::CreateFocusTaskJob < ApplicationJob
                 detail_attributes: {
                     title: input_data["title"],
                     description: input_data["description"],
-                    deadline: LC::Date.now + (input_data["days_until_deadline"] || 0).days,
+                    deadline: LC::Date.now + (input_data["days_until_deadline"] || 0).to_i.days,
                     importance: input_data["importance"],
                     task_type: input_data["task_type"],
                 }
             }
+
             ::Courier::Focus::Task.tasks_new(current_user, task_params, action.configuration["send_email"])
         rescue StandardError => e
             cloud_object.activities.create(

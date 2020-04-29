@@ -25,7 +25,7 @@ Building a better future, one line of code at a time.
     when a cloud_object changes status
 =end
     class Workflow::ActionsController < ApplicationLesliController
-        before_action :set_workflow, only: [:index, :create, :action_options]
+        before_action :set_workflow, only: [:index, :create]
         before_action :set_workflow_action, only: [:update, :destroy]
 
     
@@ -48,6 +48,28 @@ Building a better future, one line of code at a time.
                     model = dynamic_info[:model]
                     
                     responseWithSuccessful(model.list(@workflow))
+                end
+            end
+        end
+
+        # @return [HTML|JSON] HTML view for the requested workflow action or a Json that contains a the information
+        #     about the action
+        # @description Retrieves and returns a specific workflow action associated to a *CloudModule::Account*. 
+        #     The account is obtained directly from *current_user*. The HTTP request has to specify
+        #     wheter the HTML or the JSON text should be rendered
+        # @example
+        #     # Executing this controller's action from javascript's frontend
+        #     let workflow_id = 4;
+        #     let workflow_action_id = 55;
+        #     this.http.get(`127.0.0.1/help/workflows/${workflow_id}/actions/${workflow_action_id}`);
+        def show
+            respond_to do |format|
+                format.html {}
+                format.json do
+                    set_workflow_action
+                    return responseWithNotFound unless @workflow_action
+                    
+                    responseWithSuccessful(@workflow_action.show)
                 end
             end
         end
@@ -81,7 +103,7 @@ Building a better future, one line of code at a time.
             dynamic_info = self.class.dynamic_info
             model = dynamic_info[:model]
 
-            action = model.new(action_params)
+            action = model.new(workflow_action_params)
             action.workflow = @workflow
 
             if action.save
@@ -149,7 +171,12 @@ Building a better future, one line of code at a time.
             dynamic_info = self.class.dynamic_info
             model = dynamic_info[:model]
 
-            responseWithSuccessful(model.action_options(current_user))
+            params[:workflow_id] = params[:id]
+            set_workflow
+
+            return responseWithNotFound unless @workflow
+
+            responseWithSuccessful(model.action_options(current_user, @workflow))
         end
 
         private
@@ -186,6 +213,8 @@ Building a better future, one line of code at a time.
         #     puts @workflow_action # will display an instance of CloudHelp::Workflow::Action
         def set_workflow_action
             set_workflow
+            return unless @workflow
+
             @workflow_action = @workflow.actions.find_by(id: params[:id])
         end
 
@@ -210,9 +239,16 @@ Building a better future, one line of code at a time.
         #     #    }
         #     #}
         def workflow_action_params
-            module_name = dynamic_info[:module_name]
+            module_name = self.class.dynamic_info[:module_name]
 
-            params.require("workflow_action".to_sym).permit(
+            json_fields = [:system_data, :input_data, :concerning_users, :configuration]
+            if params[:workflow_action]
+                json_fields.each do |json_field|
+                    params[:workflow_action][json_field] = params[:workflow_action][json_field].to_json if params[:workflow_action][json_field]
+                end
+            end
+
+            permitted_params = params.require("workflow_action".to_sym).permit(
                 :name,
                 :initial_status_id,
                 :final_status_id,
@@ -223,8 +259,14 @@ Building a better future, one line of code at a time.
                 :system_data,
                 :concerning_users,
                 :configuration,
-                "cloud_#{module_name}_workflow_statuses_id".to_sym
+                "cloud_#{module_name}_workflows_id".to_sym
             )
+
+            json_fields.each do |json_field|
+                permitted_params[json_field] = JSON.parse(permitted_params[json_field]) if permitted_params[json_field]
+            end
+
+            permitted_params
         end
 
         # @return [Hash] Hash that contains information about the class
