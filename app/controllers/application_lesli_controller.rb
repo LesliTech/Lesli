@@ -33,7 +33,8 @@ class ApplicationLesliController < ApplicationController
     before_action :check_account
     before_action :set_global_account
     before_action :set_request_helpers
-    
+    before_action :grant_action, only: [:index, :create, :show, :update, :destroy]
+
     layout 'layouts/application'
 
     rescue_from CanCan::AccessDenied do |exception|  
@@ -100,7 +101,20 @@ class ApplicationLesliController < ApplicationController
         end
 
         @account
-
     end
 
+    def grant_action
+        controller = params[:controller]
+        grant = "grant_#{params[:action]}"
+
+        privilege = Courier::Lock::Role.privilege(current_user, controller, grant)
+        unless privilege.present?
+            respond_to do |format|
+                format.html {}
+                format.json do
+                    responseWithError("you dont have privileges to do this action")
+                end
+            end
+        end
+    end
 end
