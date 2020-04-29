@@ -43,6 +43,6 @@ end
 generated_password = Devise.friendly_token.first(32)
 
 create_user("dev@lesli.cloud", generated_password, "Lesli Development") if defined?(LesliTech)
-create_user("dev@deutche-leibrenten.de", generated_password, "Leibrenten Development") if defined?(CloudHaus)
+create_user("dev@deutsche-leibrenten.de", generated_password, "Leibrenten Development") if defined?(CloudHaus)
 
 p "Users successfully created with password: " + generated_password

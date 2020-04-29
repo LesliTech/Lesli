@@ -41,6 +41,6 @@ def create_user(email, password, name)
 end
 
 create_user("dev@lesli.cloud", "lesli2020", "Lesli Development")
-create_user("dev@deutche-leibrenten.de", "leibrenten2020", "Leibrenten Development") if defined?(CloudHaus)
+create_user("dev@deutsche-leibrenten.de", "leibrenten2020", "Leibrenten Development") if defined?(CloudHaus)
 
 p "Users successfully created!"
