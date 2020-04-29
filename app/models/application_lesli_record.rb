@@ -4,8 +4,12 @@ class ApplicationLesliRecord < ApplicationRecord
     before_validation :custom_validation_rules
 
     def custom_validation_rules
-        dynamic_validation_info = self.class.dynamic_validation_info
-        custom_validation_model = dynamic_validation_info[:custom_validation_model]
+
+        module_info = self.class.name.split("::")
+
+        return if not Object.const_defined?("#{module_info[0]}::CustomValidation")
+
+        custom_validation_model= "#{module_info[0]}::CustomValidation".constantize 
 
         validations = custom_validation_model.first
         .validation_rule
@@ -23,17 +27,5 @@ class ApplicationLesliRecord < ApplicationRecord
         end
 
     end
-
-        # @return [Hash] Hash that contains information about the class
-        # @description Returns dynamic information based on the current implementation of this abstract class
-        # @example
-        #     dynamic_validation_info = CloudHelp::Ticket::Detail.dynamic_validation_info
-        #     puts dynamic_validation_info[:custom_validation_model].new # will print a new instance of CloudHelp::CustomValidation
-        def self.dynamic_validation_info
-            module_info = self.name.split("::")
-            {
-                custom_validation_model: "#{module_info[0]}::CustomValidation".constantize
-            }
-        end
 
 end
