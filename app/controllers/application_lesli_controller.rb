@@ -54,7 +54,7 @@ class ApplicationLesliController < ApplicationController
 
         # if Lock module is not installed, validate only user session
         if not defined?(CloudLock)
-            return authenticate_user
+            #return authenticate_user
         end
         
         # get user role in Lock module
@@ -62,20 +62,17 @@ class ApplicationLesliController < ApplicationController
 
         # check if role exists
         if current_user_role.blank?
-            p "Not valid role assigned to current user"
-            p "Request authentication failed"
-            puts "~     ~     ~     ~     ~     ~     ~     ~     ~     ~     ~     ~     ~     ~     ~"
+            #return responseWithUnauthorized
         end
 
         # check if role is allowed to request the controller/action
-        current_user_role.privileges
+        granted = current_user_role.privileges
         .where(:grant_object_name => params[:controller])
-        .where(:grant_show => true)
+        .where("grant_#{params[:action]} = ?", true)
+        .first
 
-        respond_to do |format|
-            format.html { redirect_to "/401" }
-            format.json { responseWithUnauthorized }
-        end
+        #return responseWithUnauthorized if granted.blank?
+        #return responseWithUnauthorized if not granted["grant_#{params[:action]}"] === true
 
     end
     
