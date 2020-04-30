@@ -111,7 +111,7 @@ module Courier
                         id: task.id, 
                         title: task.title, 
                         description: task.description,
-                        deadline: Courier::Core::Date.to_string(task.deadline, "%d.%m.%Y"),
+                        deadline: Courier::Core::Date.to_string(task.deadline),
                         importance: CloudFocus::Task.importances.key(task.importance),
                         model_type: task.model_type,
                         creator: {
