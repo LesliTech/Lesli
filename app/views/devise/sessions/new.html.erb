@@ -1,10 +1,16 @@
-<% if company("CloudHaus") %>
+<% if lesli_instance("CloudHaus") %>
     <section class="cloudhaus-login">
     <%= render :file => "cloud_haus/core/devise/sessions/new.html.erb" %>
     </section>
 <% end %>
 
-<% if company("LesliTech") %>
+<% if lesli_instance("LesliCloud") %>
+    <section class="leslicloud-login">
+    <%= render :file => "lesli_cloud/core/devise/sessions/new.html.erb" %>
+    </section>
+<% end %>
+
+<%#
 <section class="leslitech-login">
     <a class="logo">
         <img src="/assets/brand/lesli-logo-banner.svg">
@@ -46,7 +52,7 @@
         </div>
         <div class="columns login-controls">
             <div class="column">
-                <%= link_to "Passwort vergessen?", new_user_password_path, class: "button" %>
+                < % = link_to "Passwort vergessen?", new_user_password_path, class: "button" % >
             </div>
             <div class="column has-text-right">
                 <button class="button is-primary">
@@ -56,4 +62,4 @@
         </div>
     </form>
 </section>
-<% end %>
+%>

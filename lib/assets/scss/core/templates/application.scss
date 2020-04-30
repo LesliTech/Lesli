@@ -101,15 +101,5 @@ body {
     position: relative;
     background-color: rgb(238,238,245);
     scrollbar-width: thin;
-    scrollbar-color: get-lesli-css-color(blue) get-lesli-css-color(silver);
-}
-
-
-// · 
-.translation_missing {
-    color: get-lesli-css-color(standard, white);
-    background-color: get-lesli-css-color(berry, 700);
-    &:before {
-        content: 'Translation missing: ';
-    }
+    scrollbar-color: lesli-css-get-color(blue) lesli-css-get-color(silver);
 }

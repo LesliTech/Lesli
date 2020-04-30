@@ -70,12 +70,6 @@ module ApplicationHelper
         
     end
 
-    def company(company_name)
-        company = "LesliTech"
-        company = "CloudHaus" if defined?(CloudHaus)
-        company == company_name
-    end
-
     def language_url(locale)
         "/language?locale=#{locale}"
     end
@@ -94,6 +88,12 @@ module ApplicationHelper
 
     def javascript_googlemaps_sdk
         '<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCN4i4BWJS-IVtniSMY1Ot2MGaKuTKLNP8"></script>'.html_safe
+    end
+
+    def lesli_instance(company_name)
+        company = "LesliCloud"
+        company = "CloudHaus" if defined?(CloudHaus)
+        company == company_name
     end
 
 end
