@@ -56,7 +56,10 @@ module Courier
                 return [] unless defined? CloudFocus
                 tasks = current_user.account.focus.tasks
                 .select(:id, :title, :description, :deadline, :importance, :task_type, :creator_id, :users_id)
+                .select("ua.id as user_id, ua.role as user_role, ua.name as user_value, uc.id as creator_id, uc.role as creator_role, uc.name as creator_value")
                 .joins(:detail, :status)
+                .joins("inner join users ua on ua.id = cloud_focus_tasks.users_id")
+                .joins("inner join users uc on uc.id = cloud_focus_tasks.creator_id")
                 .where("cloud_focus_tasks.model_id = ? AND cloud_focus_tasks.model_type = ? AND cloud_focus_workflow_statuses.name != ? ", model_id, model_type, 'done')
                 .order("cloud_focus_tasks.created_at")
                 .page(query[:pagination][:page]).per(query[:pagination][:perPage])
@@ -68,11 +71,19 @@ module Courier
                         id: task.id, 
                         title: task.title, 
                         description: task.description,
-                        deadline: Courier::Core::Date.to_string(task.deadline, "%d.%m.%Y"),
+                        deadline: Courier::Core::Date.to_string(task.deadline),
                         importance: CloudFocus::Task.importances.key(task.importance),
                         task_type: task.task_type,
-                        creator: Courier::Core::Users.get(task.creator_id),
-                        user: Courier::Core::Users.get(task.users_id)
+                        creator: {
+                            id: task.creator_id,
+                            value: task.creator_value,
+                            role: task.creator_role
+                        },
+                        user: {
+                            id: task.user_id,
+                            value: task.user_value,
+                            role: task.user_role
+                        },
                     }
                 end
     
