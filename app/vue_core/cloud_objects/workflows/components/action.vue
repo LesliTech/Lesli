@@ -64,8 +64,7 @@ export default {
         },
 
         setTranslations(){
-            this.translations.main = I18n.t(this.translationsPath)
-            this.translations.statuses = I18n.t(this.statusesTranslationsPath)
+            this.$set(this.translations, 'main', I18n.t(this.translationsPath))
         }
     },
 
@@ -77,14 +76,14 @@ export default {
 }
 </script>
 <template>
-    <div :class="[{ 'is-active': show }, 'quickview', 'is-size-large']">
+    <div :class="[{ 'is-active': show }, 'quickview', 'is-size-large']" v-if="translations.main">
         <header class="quickview-header">
-            <h4 class="title">Workflow Actions</h4>
+            <h4 class="title">{{translations.main.title}}</h4>
             <span class="delete" @click="show = false"></span>
         </header>
         <div class="quickview-body">
             <b-tabs expanded v-model="active_tab">
-                <b-tab-item label="Actions List">
+                <b-tab-item :label="translations.main.tab_list_title">
                     <component-list
                         :cloud-engine="cloudEngine"
                         :workflow-id="workflowId"
@@ -94,7 +93,7 @@ export default {
                     >
                     </component-list>
                 </b-tab-item>
-                <b-tab-item label="New Action">
+                <b-tab-item :label="translations.main.tab_new_title">
                     <component-new
                         :cloud-engine="cloudEngine"
                         :workflow-id="workflowId"
@@ -103,7 +102,7 @@ export default {
                     >
                     </component-new>
                 </b-tab-item>
-                <b-tab-item label="Edit Action" :disabled="! action_selected">
+                <b-tab-item :label="translations.main.tab_edit_title" :disabled="! action_selected">
                     <component-edit
                         :cloud-engine="cloudEngine"
                         :workflow-id="workflowId"

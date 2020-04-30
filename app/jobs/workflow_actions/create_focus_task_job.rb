@@ -13,7 +13,10 @@ class WorkflowActions::CreateFocusTaskJob < ApplicationJob
         end
 
         begin
-            replacement_values = {"%global_identifier%" => cloud_object.global_identifier}
+            replacement_values = {
+                "%global_identifier%" => cloud_object.global_identifier,
+                "%current_user%" => (current_user.name || "")
+            }
             action.parse_input_data(replacement_values)
             input_data = action.input_data
 
@@ -32,11 +35,13 @@ class WorkflowActions::CreateFocusTaskJob < ApplicationJob
 
             ::Courier::Focus::Task.tasks_new(current_user, task_params, action.configuration["send_email"])
         rescue StandardError => e
-            cloud_object.activities.create(
-                user: current_user,
-                category: "action_workflow_action_failed",
-                description: e.message
-            )
+            if action.configuration["log_errors"]
+                cloud_object.activities.create(
+                    user: current_user,
+                    category: "action_workflow_action_failed",
+                    description: e.message
+                )
+            end
         end
     end
 end
