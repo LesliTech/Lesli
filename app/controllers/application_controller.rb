@@ -68,13 +68,18 @@ class ApplicationController < ActionController::Base
 
     # JSON not found response
     def responseWithUnauthorized
-        render status: 401, json: {
-            successful: false,
-            error: {
-                message: "Unauthorized",
-                details: []
+        respond_to do |format|
+            format.html { redirect_to "/401" }
+            format.json { 
+                render status: 401, json: {
+                    successful: false,
+                    error: {
+                        message: "Unauthorized",
+                        details: []
+                    }
+                }.to_json
             }
-        }.to_json
+        end
     end
 
     private

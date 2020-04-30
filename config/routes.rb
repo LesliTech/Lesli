@@ -76,6 +76,7 @@ Rails.application.routes.draw do
     mount CloudDispatcher::Engine => "/api" if defined?(CloudDispatcher)
 
     match "/404", :to => "errors#not_found", :via => :all
+    match "/401", :to => "errors#unauthorized", :via => :all
     match "/500", :to => "errors#internal_server_error", :via => :all
 
     # public routes for builder modules
