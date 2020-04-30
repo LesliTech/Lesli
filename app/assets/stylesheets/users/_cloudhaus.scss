@@ -7,7 +7,7 @@ section.cloudhaus-login {
     $secondary: rgb(32, 168, 216);
     $tertiary: rgb(217, 244, 251);
     display: block;
-    background-color: get-lesli-css-color(standard, white);
+    background-color: lesli-css-get-color(standard, white);
 
     .login-header {
         background-color: $primary;
