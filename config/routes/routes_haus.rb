@@ -30,8 +30,6 @@ module RoutesHaus
         router.instance_exec do
             mount CloudHaus::Engine  => "/crm"
 
-            
-
             authenticated :user do
                 root to: redirect('/crm'),   as: :root_cloud_haus_authenticated
             end

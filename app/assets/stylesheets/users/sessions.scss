@@ -26,21 +26,3 @@ Building a better future, one line of code at a time.
 
 // · 
 @import "users/devise.scss";
-
-
-// · session styles
-section.leslitech-login {
-    background: linear-gradient(
-        rgba(lesli-css-get-color(standard, white),.75),
-        rgba(lesli-css-get-color(standard, white),.75)),
-        url(asset-path("users/sessions/login-background.full.jpg")
-    );
-    background-repeat: no-repeat;
-    background-position: center;
-    background-size: cover;
-
-    form {
-        max-width: 400px;
-    }
-   
-}

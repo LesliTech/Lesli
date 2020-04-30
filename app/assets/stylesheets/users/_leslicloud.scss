@@ -1,0 +1,68 @@
+// · 
+section.leslicloud-login {
+
+    background: linear-gradient(
+        rgba(lesli-css-get-color(standard, white),.75),
+        rgba(lesli-css-get-color(standard, white),.75)),
+        url(asset-path("users/sessions/login-background.full.jpg")
+    );
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+
+    a.logo img {
+        width: 300px;
+        margin-bottom: -50px;
+    }
+
+    form {
+        padding: 0;
+        max-width: 400px;
+
+        .field {
+            padding: 0 2.4rem 1.8rem;
+
+            &:first-child {
+                padding-top: 1.8rem;
+            }
+
+            input.input {
+                border: none;
+                box-shadow: none;
+                border-radius: 0;
+                border-bottom: 1px solid lesli-css-get-color(silver);
+
+                &::placeholder {
+                    color: lesli-css-get-color(silver, 900);
+                }
+
+            }
+
+            .icon {
+                color: lesli-css-get-color(silver, 500);
+            }
+
+        }
+    
+        .login-controls {
+            
+            button {
+                width: 100%;
+                height: auto;
+                display: block;
+                border-radius: 0;
+                padding: .8rem 0;
+                background-color: lesli-css-get-color(blue);
+            }
+        }
+
+    }
+
+    .links {
+        a {
+            background: transparent;
+            border-color: transparent;
+        }
+    }
+
+}
