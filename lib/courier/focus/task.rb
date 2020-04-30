@@ -147,11 +147,15 @@ module Courier
                 task.account = current_user.account.focus
                 task.creator = current_user
                 task.set_workflow
-                if task.save! 
+                if task.save!
                     if send_email
                         CloudFocus::Task.send_email_new(task)
                     end
+                    CloudFocus::Task.log_activity_create(current_user, task)
+                    CloudFocus::Task.send_notification_new(task)
                 end
+
+                task
             end
         end
     end

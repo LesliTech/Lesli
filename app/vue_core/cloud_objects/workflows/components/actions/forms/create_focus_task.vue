@@ -27,7 +27,8 @@ export default {
     data(){
         return {
             translations: {
-                core: I18n.t('core.shared')
+                core: I18n.t('core.shared'),
+                tasks: I18n.t('focus.tasks')
             },
             workflow_action: null,
             task_options: {
@@ -40,6 +41,7 @@ export default {
 
     mounted(){
         this.setSubscriptions()
+        this.setTranslations()
         this.cloneWorkflowAction()
         this.getFocusTaskOptions()
         this.getTaskUserOptions()
@@ -61,6 +63,10 @@ export default {
                     callback()
                 }
             })
+        },
+
+        setTranslations(){
+            this.$set(this.translations, 'main', I18n.t(this.translationsPath))
         },
 
         cloneWorkflowAction(){
@@ -88,45 +94,53 @@ export default {
                 console.log(error)
             }) 
         }
+    },
+
+    computed: {
+        filteredUsers(){
+            return this.task_options.users.filter((user) => {
+                return (user.name || "").toLowerCase().includes((this.workflow_action.concerning_users.list[0].name || "").toLowerCase())
+            })
+        }
     }
 }
 </script>
 <template>
     <section v-if="workflow_action">
         <div class="field">
-            <label class="label">Title<sup class="has-text-danger">*</sup></label>
+            <label class="label">{{translations.core.text_title}}<sup class="has-text-danger">*</sup></label>
             <div class="control">
                 <input class="input" type="text" v-model="workflow_action.input_data.title" required>
             </div>
         </div>
         <div class="field">
-            <label class="label">Description</label>
+            <label class="label">{{translations.core.text_description}}</label>
             <div class="control">
                 <b-input type="textarea" v-model="workflow_action.input_data.description"></b-input>
             </div>
         </div>
         <div class="columns">
             <div class="column is-7">
-                <label class="label">Type<sup class="has-text-danger">*</sup></label>
-                <b-select placeholder="Select an option" expanded v-model="workflow_action.input_data.task_type" required>
+                <label class="label">{{translations.core.text_type}}<sup class="has-text-danger">*</sup></label>
+                <b-select :placeholder="translations.core.text_select_option" expanded v-model="workflow_action.input_data.task_type" required>
                     <option
                         v-for="type in task_options.task_types"
                         :value="type.value"
                         :key="type.value"
                     >
-                        <small>{{ type.text }}</small>
+                        <small>{{ object_utils.translateEnum(translations.tasks, 'enum_task_type', type.text) }}</small>
                     </option>
                 </b-select>
             </div>
             <div class="column is-5">
-                <label class="label">Importance<sup class="has-text-danger">*</sup></label>
-                <b-select placeholder="Select an option" expanded v-model="workflow_action.input_data.importance" required>
+                <label class="label">{{translations.tasks.form_task_importance}}<sup class="has-text-danger">*</sup></label>
+                <b-select :placeholder="translations.core.text_select_option" expanded v-model="workflow_action.input_data.importance" required>
                     <option
                         v-for="importance in task_options.importances"
                         :value="importance.value"
                         :key="importance.value"
                     >
-                        <small>{{ importance.text }}</small>
+                        <small>{{ object_utils.translateEnum(translations.tasks, 'enum_task_importance', importance.text) }}</small>
                     </option>
                 </b-select>
             </div>
@@ -134,42 +148,44 @@ export default {
         
         <div class="columns">
             <div class="column is-6">
-                <label class="label">Days until deadline<sup class="has-text-danger">*</sup></label>
+                <label class="label">{{translations.main.field_days_until_deadline}}<sup class="has-text-danger">*</sup></label>
                 <b-input v-model="workflow_action.input_data.days_until_deadline" type="number" min="0" step="1" required></b-input>
             </div>
             <div class="column is-6">
-                <label class="label">Assign this task to<sup class="has-text-danger">*</sup></label>
-                <b-select placeholder="Select an option" expanded v-model="workflow_action.concerning_users.type" required>
+                <label class="label">{{translations.main.field_assign_task_to}}<sup class="has-text-danger">*</sup></label>
+                <b-select :placeholder="translations.core.text_select_option" expanded v-model="workflow_action.concerning_users.type" required>
                     <option
                         v-for="concerning_user_type in options.concerning_user_types"
                         :value="concerning_user_type.value"
                         :key="concerning_user_type.value"
                     >
-                        <small>{{ concerning_user_type.text }}</small>
+                        <small>
+                            {{ object_utils.translateEnum(translations.main, 'enum_concerning_user_types', concerning_user_type.text) }}
+                        </small>
                     </option>
                 </b-select>
             </div>
         </div>
+        
         <div class="field" v-if="workflow_action.concerning_users.type == 'custom'">
-            <label class="label">Employee<sup class="has-text-danger">*</sup></label>
+            <label class="label">{{translations.core.text_employee}}<sup class="has-text-danger">*</sup></label>
             <div class="control">
-                <b-select placeholder="Select an employee" expanded v-model="workflow_action.concerning_users.list[0].id" required>
-                    <option
-                        v-for="user in task_options.users"
-                        :value="user.id"
-                        :key="user.id"
-                    >
-                        <small v-if="user.name && user.name.trim().length > 0">{{ user.name }}</small>
-                        <small v-else>{{ user.email }}</small>
-                    </option>
-                </b-select>
+                <b-autocomplete
+                    :placeholder="translations.core.text_select_employee"
+                    v-model="workflow_action.concerning_users.list[0].name"
+                    required
+                    field="name"
+                    @select="user => workflow_action.concerning_users.list[0].id = user.id"
+                    :data="filteredUsers"
+                >
+                </b-autocomplete>
             </div>
         </div>
         
         <div class="columns">
             <div class="column is-4">
                 <div class="field">
-                    <label class="label">Send notification email</label>
+                    <label class="label">{{translations.main.field_send_task_notification_email}}</label>
                     <div class="control">
                         <b-checkbox v-model="workflow_action.configuration.send_email" >
                             <span v-if="workflow_action.configuration.send_email">
@@ -184,10 +200,10 @@ export default {
             </div>
             <div class="column is-4">
                 <div class="field">
-                    <label class="label">Log any error that occurs</label>
+                    <label class="label">{{translations.main.field_log_task_errors}}</label>
                     <div class="control">
-                        <b-checkbox v-model="workflow_action.configuration.log_activity" >
-                            <span v-if="workflow_action.configuration.log_activity">
+                        <b-checkbox v-model="workflow_action.configuration.log_errors" >
+                            <span v-if="workflow_action.configuration.log_errors">
                                 {{translations.core.text_yes}}
                             </span>
                             <span v-else>
