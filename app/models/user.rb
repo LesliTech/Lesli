@@ -36,9 +36,9 @@ class User < ApplicationRecord
     
     acts_as_paranoid
 
-    belongs_to :account, foreign_key: 'accounts_id', optional: true
+    belongs_to :account, foreign_key: "accounts_id", optional: true
 
-    has_one :lock_user, class_name: "CloudLock::User", foreign_key: "users_id"
+    has_one :lock, class_name: "CloudLock::User", foreign_key: "users_id"
 
     after_create :user_initialize 
 
@@ -106,9 +106,9 @@ class User < ApplicationRecord
     #     designed to be invoked directly
     # @example
     #     new_user = User.create(
-    #         email: 'john.doe@mail.com',
-    #         password: '1234567890',
-    #         password_confirmation: '1234567890'
+    #         email: "john.doe@mail.com",
+    #         password: "1234567890",
+    #         password_confirmation: "1234567890"
     #     )
     # At this point, check_user will be invoked automatically
     def user_initialize 
