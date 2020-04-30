@@ -31,17 +31,61 @@ class ApplicationLesliController < ApplicationController
 
     before_action :authenticate_user!
     before_action :check_account
+    before_action :authenticate_request
     before_action :set_global_account
     before_action :set_request_helpers
     
-    layout 'layouts/application'
+    layout "layouts/application"
 
-    rescue_from CanCan::AccessDenied do |exception|  
-        flash[:alert] = exception.message  
-        redirect_to '/'
-    end
+    #rescue_from CanCan::AccessDenied do |exception|  
+    #    flash[:alert] = exception.message  
+    #    redirect_to "/"
+    #end
 
     protected
+
+    def authenticate_user
+        if !user_signed_in?
+            redirect_to root, notice: "Please Login to view that page!"
+        end
+    end
+
+    def authenticate_request
+
+        # if Lock module is not installed, validate only user session
+        if not defined?(CloudLock)
+            return authenticate_user
+        end
+        
+        # get user role in Lock module
+        current_user_role = current_user.lock.role
+
+        # check if role exists
+        if current_user_role.blank?
+            p "Not valid role assigned to current user"
+            p "Request authentication failed"
+            puts "~     ~     ~     ~     ~     ~     ~     ~     ~     ~     ~     ~     ~     ~     ~"
+        end
+
+        # check if role is allowed to request the controller/action
+        current_user_role.privileges
+        .where(:grant_object_name => params[:controller])
+        .where(:grant_show => true)
+
+        respond_to do |format|
+            format.html { redirect_to "/401" }
+            format.json { responseWithUnauthorized }
+        end
+
+    end
+    
+    def check_account
+
+        return if current_user.blank?
+        return if controller_name == "accounts"
+        redirect_to "/account/new" if current_user.account.blank?
+
+    end
 
     def set_request_helpers
         @query = {
@@ -55,20 +99,6 @@ class ApplicationLesliController < ApplicationController
             filters: params[:filters] ? params[:filters] : {}
         }
         
-    end
-
-    def authenticate_user
-        if !user_signed_in?
-            redirect_to root, notice: "Please Login to view that page!"
-        end
-    end
-    
-    def check_account
-
-        return if current_user.blank?
-        return if controller_name == "accounts"
-        redirect_to "/account/new" if current_user.account.blank?
-
     end
 
     def set_global_account 
