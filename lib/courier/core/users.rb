@@ -33,7 +33,7 @@ module Courier
             def self.list()
 
                 employees = []
-                if false
+                if defined? (CloudLock)
                     return ::User.left_joins(:detail).select(:id, :email, :role, :first_name, :last_name, :created_at).order(:id)
                 else
                     return ::User.select(:id, :email, :role, :created_at, :name).order(:id)
@@ -51,7 +51,7 @@ module Courier
             end
 
             def self.get(id)
-                if false
+                if defined? (CloudLock)
                     return ::User.left_joins(:detail).select(:id, :email, :role, :first_name, :last_name, :created_at).find(id)
                 else
                     return ::User.select(:id, :email, :role, :name, :created_at).find(id)
