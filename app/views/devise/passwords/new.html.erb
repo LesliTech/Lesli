@@ -4,7 +4,9 @@
     </section>
 <% end %>
 
-<% if defined?(CloudLesli) %>
-
+<% if lesli_instance("LesliCloud") %>
+<section class="leslicloud-login">
+<%= render :file => "lesli_cloud/core/devise/passwords/new.html.erb" %>
+</section>
 <% end %>
 

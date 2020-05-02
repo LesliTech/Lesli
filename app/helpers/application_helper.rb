@@ -28,10 +28,13 @@ Building a better future, one line of code at a time.
 module ApplicationHelper
 
     def application_body_class()
-        application_body_class = "LesliTech"
-
+        application_body_class = "LesliCloud"
         application_body_class = "CloudHaus" if defined?(CloudHaus)
-
+        puts "~     ~     ~     ~     ~     ~     ~     ~     ~     ~     ~     ~     ~"
+        puts "~     ~     ~     ~     ~     ~     ~     ~     ~     ~     ~     ~     ~"
+        p Rails.application.config.platform_settings
+        puts "~     ~     ~     ~     ~     ~     ~     ~     ~     ~     ~     ~     ~"
+        puts "~     ~     ~     ~     ~     ~     ~     ~     ~     ~     ~     ~     ~"
         [application_body_class, controller_path.gsub('/','-'), action_name].join(' ')
         
     end
@@ -80,10 +83,10 @@ module ApplicationHelper
     end
 
     def language_name(locale)
-        locale = "English"  if locale.to_s == "en"
-        locale = "Deutsche" if locale.to_s == "de"
-        locale = "Español"  if locale.to_s == "es"
-        locale
+        return "English"  if locale.to_s == "en"
+        return "Deutsche" if locale.to_s == "de"
+        return "Español"  if locale.to_s == "es"
+        return "undefined"
     end
 
     def javascript_googlemaps_sdk
