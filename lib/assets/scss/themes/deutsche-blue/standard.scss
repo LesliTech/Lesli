@@ -1,5 +1,4 @@
-=begin
-
+/*
 Lesli
 
 Copyright (c) 2020, Lesli Technologies, S. A.
@@ -23,20 +22,22 @@ Building a better future, one line of code at a time.
 
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
 // · 
+*/
 
-=end
+// · 
+@import "lesli-css/";
 
-module RoutesHaus
-    def self.extended(router)
-        router.instance_exec do
 
-            authenticated :user do
-                mount CloudHaus::Engine  => "/crm"
-                root to: redirect("/crm"),   as: :root_cloud_haus_authenticated
-            end
-
-            root to: redirect("/login"), as: :root_login_unauthenticated if defined?(CloudHaus)
-
-        end
-    end
-end
+// · 
+body #lesli-cloud-application {
+    @import "./standard/settings/colors.scss";
+    @import "./standard/layout/application-header.scss";
+    @import "./standard/layout/application-navigation.scss";
+    .application-component {
+        @import "./standard/components/tabs.scss";
+        @import "./standard/components/status.scss";
+        @import "./standard/components/summary.scss";
+        @import "./standard/components/calendar.scss";
+        @import "./standard/components/quickview.scss";
+    }
+}

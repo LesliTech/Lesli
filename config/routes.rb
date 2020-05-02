@@ -37,14 +37,17 @@ Rails.application.routes.draw do
     },
     :path => "",
     :path_names => {
-        :sign_in  => 'login',
-        :sign_out => 'logout',
-        :sign_up  => 'register',
-        :password => 'password',
-        :confirmation => 'confirmation'
+        :sign_in  => "login",
+        :sign_out => "logout",
+        :sign_up  => "register",
+        :password => "password",
+        :confirmation => "confirmation"
     }
 
-    get :language, to: 'settings#language'
+    get :language, to: "settings#language"
+
+    extend RoutesHaus if defined?(CloudHaus)
+    extend RoutesLesliCloud if defined?(LesliCloud)
 
     authenticated :user do
 
@@ -63,25 +66,18 @@ Rails.application.routes.draw do
         mount CloudHouse::Engine  => "/house"  if defined?(CloudHouse)
         mount CloudFocus::Engine  => "/focus"  if defined?(CloudFocus)
         mount CloudDriver::Engine => "/driver" if defined?(CloudDriver)
-        mount LesliCloud::Engine  => "/tech"   if defined?(LesliCloud)
 
-        # private routes for builder modules
-        extend RoutesHaus if defined?(CloudHaus)
-
-        root to: redirect('/lesli'), as: :root_authenticated if defined?(CloudLesli)
+        root to: redirect("/lesli"), as: :root_authenticated if defined?(CloudLesli)
         root to: "dashboards#empty", as: :root_authenticated if !defined?(CloudLesli)
 
     end
-    
+
     mount CloudDispatcher::Engine => "/api" if defined?(CloudDispatcher)
 
     match "/404", :to => "errors#not_found", :via => :all
     match "/401", :to => "errors#unauthorized", :via => :all
     match "/500", :to => "errors#internal_server_error", :via => :all
 
-    # public routes for builder modules
-    root to: redirect('/login'), as: :root_login_unauthenticated if defined?(CloudHaus)
-    root to: "lesli_cloud/websites#landing", as: :root_lesli_cloud_unauthenticated
-    root to: "websites#landing", as: :root_unauthenticated
+    root to: "websites#home", as: :root_unauthenticated
 
 end
