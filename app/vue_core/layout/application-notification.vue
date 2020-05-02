@@ -135,7 +135,7 @@ export default {
         },
 
         readNotifications() {
-            this.http.put(`/bell/notifications/read_all`).catch(error => {
+            this.http.put('/bell/notifications/read').catch(error => {
                 console.log(error)
             })
         }
