@@ -11,7 +11,7 @@ section.leslicloud-login {
     background-size: cover;
 
     a.logo img {
-        width: 300px;
+        width: 340px;
         margin-bottom: -50px;
     }
 
@@ -23,7 +23,7 @@ section.leslicloud-login {
             padding: 0 2.4rem 1.8rem;
 
             &:first-child {
-                padding-top: 1.8rem;
+                padding-top: 2rem;
             }
 
             input.input {
@@ -51,7 +51,7 @@ section.leslicloud-login {
                 height: auto;
                 display: block;
                 border-radius: 0;
-                padding: .8rem 0;
+                padding: 1rem 0;
                 background-color: lesli-css-get-color(blue);
             }
         }
@@ -59,6 +59,7 @@ section.leslicloud-login {
     }
 
     .links {
+        padding: 1rem 0;
         a {
             background: transparent;
             border-color: transparent;
