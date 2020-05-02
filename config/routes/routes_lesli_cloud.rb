@@ -1,4 +1,5 @@
-/*
+=begin
+
 Lesli
 
 Copyright (c) 2020, Lesli Technologies, S. A.
@@ -11,33 +12,30 @@ Without the written permission of Lesli Technologies, S. A., any replication, mo
 transmission, publication is strictly forbidden.
 For more information read the license file including with this software.
 
-LesliCloud - Your Smart Business Assistant
+Lesli - Your Smart Business Assistant
 
 Powered by https://www.lesli.tech
 Building a better future, one line of code at a time.
 
+@contact  <hello@lesli.tech>
+@website  <https://lesli.tech>
 @license  Propietary - all rights reserved.
-@version  0.1.0-alpha
 
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
 // · 
-*/
 
+=end
 
-// · 
-@import "lesli-css/";
+module RoutesLesliCloud
+    def self.extended(router)
+        router.instance_exec do
 
+            authenticated :user do
+                mount LesliCloud::Engine  => "/tech"   if defined?(LesliCloud)
+            end
 
-// · 
-body #lesli-cloud-application {
-    @import "./settings/colors.scss";
-    @import "./layout/application-header.scss";
-    @import "./layout/application-navigation.scss";
-    .application-component {
-        @import "./components/tabs.scss";
-        @import "./components/status.scss";
-        @import "./components/summary.scss";
-        @import "./components/calendar.scss";
-        @import "./components/quickview.scss";
-    }
-}
+            root to: "lesli_cloud/websites#landing", as: :root_lesli_cloud_unauthenticated
+
+        end
+    end
+end

@@ -12,13 +12,14 @@ Without the written permission of Lesli Technologies, S. A., any replication, mo
 transmission, publication is strictly forbidden.
 For more information read the license file including with this software.
 
-LesliCloud - Your Smart Business Assistant
+Lesli - Your Smart Business Assistant
 
 Powered by https://www.lesli.tech
 Building a better future, one line of code at a time.
 
+@contact  <hello@lesli.tech>
+@website  <https://lesli.tech>
 @license  Propietary - all rights reserved.
-@version  0.1.0-alpha
 
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
 // · 
@@ -28,29 +29,20 @@ Building a better future, one line of code at a time.
 module ApplicationHelper
 
     def application_body_class()
-        application_body_class = "LesliCloud"
-        application_body_class = "CloudHaus" if defined?(CloudHaus)
-        puts "~     ~     ~     ~     ~     ~     ~     ~     ~     ~     ~     ~     ~"
-        puts "~     ~     ~     ~     ~     ~     ~     ~     ~     ~     ~     ~     ~"
-        p Rails.application.config.platform_settings
-        puts "~     ~     ~     ~     ~     ~     ~     ~     ~     ~     ~     ~     ~"
-        puts "~     ~     ~     ~     ~     ~     ~     ~     ~     ~     ~     ~     ~"
-        [application_body_class, controller_path.gsub('/','-'), action_name].join(' ')
-        
+        application_body_class = lesli_instance
+        [application_body_class, controller_path.gsub("/","-"), action_name].join(" ")
     end
 
-    def application_stylesheet_path()
+    def application_stylesheet_theme_path()
 
         theme = "themes/blank"
 
-        unless @account[:settings]['theme'].blank?
-            theme = "themes"
-            theme+= "/"
-            theme+= @account[:settings]['theme']
-            theme+= "/"
-            theme+= @account[:settings]['theme_variation']
-            theme+= "/"
-            theme+= "theme"
+        unless @account[:settings]["theme"].blank?
+            theme = [
+                "themes", 
+                @account[:settings]["theme"],
+                @account[:settings]["theme_variation"]
+            ].join("/")
         end
 
         theme
@@ -90,13 +82,12 @@ module ApplicationHelper
     end
 
     def javascript_googlemaps_sdk
-        '<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCN4i4BWJS-IVtniSMY1Ot2MGaKuTKLNP8"></script>'.html_safe
+        "<script src=\"https://maps.googleapis.com/maps/api/js?key=AIzaSyCN4i4BWJS-IVtniSMY1Ot2MGaKuTKLNP8\"></script>".html_safe
     end
 
-    def lesli_instance(company_name)
-        company = "LesliCloud"
-        company = "CloudHaus" if defined?(CloudHaus)
-        company == company_name
+    def lesli_instance(company_name=nil)
+        return Rails.application.config.platform_settings["name"] === company_name if not company_name.blank?
+        return Rails.application.config.platform_settings["name"]
     end
 
 end

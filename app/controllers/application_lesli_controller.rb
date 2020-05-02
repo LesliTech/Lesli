@@ -52,6 +52,8 @@ class ApplicationLesliController < ApplicationController
 
     def authenticate_request
 
+        return
+
         # if Lock module is not installed, validate only user session
         if not defined?(CloudLock)
             #return authenticate_user
