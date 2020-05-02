@@ -25,7 +25,7 @@ Building a better future, one line of code at a time.
 
 =end
 
-require 'json'
+require "yaml"
 
 module Lesli
 
@@ -43,26 +43,28 @@ module Lesli
             next if entry == ".gitkeep"
 
             # build path to lesli engine info file
-            path = File.join("./engines", entry, "lesli.json")
-            
+            path = File.join("./engines", entry, "lesli.yml")
+
             # next if lesli engine info file does not exist
             next unless File.exist?(path)
-            
+
             # next if lesli engine info file does not contain valid json data
             begin
-                engine_info = JSON.parse(File.read(path))
-            rescue JSON::ParserError
+                engine_info = YAML.load_file(path)
+            rescue
                 next
             end
 
+            engine_info = engine_info["common"]
+
             # next if engine name does not match
-            next unless engine_info['name'] == entry
+            next unless engine_info["name"] == entry
 
             # next if engines should not be loaded
-            next if engine_info['load'] == false
+            next if engine_info["load"] == false
 
             # check if engine is a builder
-            if engine_info['type'] == 'builder'
+            if engine_info["type"] == "builder"
                 builder_engines.push(engine_info)
                 next
             end
@@ -83,20 +85,35 @@ module Lesli
     def Lesli.settings  
 
         # Lesli core settings
-        lesli_settings = YAML.load_file(File.join("./config", "settings.yml"))[Rails.env]
+        lesli_settings = YAML.load_file("./lesli.yml")[Rails.env]
 
         instance_settings = {}
 
         instance_engine = nil
 
         instance_engine = "CloudHaus" if defined?(CloudHaus)
+        instance_engine = "LesliCloud" if defined?(LesliCloud)
 
+        # specific settings for dedicated on-premises instance
         if instance_engine
-            instance_engine = File.join("./engines", instance_engine, "config", "settings.yml")
-            platform_settings = YAML.load_file(instance_engine)[Rails.env]
             
-            # location: config/application.rb
-            lesli_settings['i18n_default_locale'] = platform_settings['i18n_default_locale'] if not platform_settings['i18n_default_locale'].blank?
+            platform_settings = YAML.load_file(File.join("./engines", instance_engine, "lesli.yml"))[Rails.env]
+
+            platform_settings.each do |key, value|
+
+                if value.class.to_s == "Hash"
+
+                    value.each do |subkey, subvalue|
+                        lesli_settings[key][subkey] = subvalue
+                    end
+
+                    next
+                    
+                end
+
+                lesli_settings[key] = value
+
+            end
 
         end
     

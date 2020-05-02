@@ -1,0 +1,30 @@
+# Lesli
+# For more information read the license file including with this software.
+
+common: &common
+    name: "Lesli"
+    code: "lesli"
+    github: 
+        url: "https://github.com/leitfaden/Lesli" 
+        ssh: "git@github.com:leitfaden/Lesli.git" 
+        ssh_backup: "git@github.com:LesliTech/Lesli.git" 
+
+development:
+    <<: *common
+    i18n_default_locale: en
+    devise_mailer_sender: "dev@lesli.tech"
+    action_mailer:
+        asset_host: "http://127.0.0.1:3000"
+        default_options_from: "dev@lesli.tech"
+        default_url_options_host: "http://127.0.0.1:3000"
+    googlemaps_sdk_token: "AIzaSyCN4i4BWJS-IVtniSMY1Ot2MGaKuTKLNP8"
+
+production:
+    <<: *common
+    i18n_default_locale: en
+    devise_mailer_sender: "hello@lesli.tech"
+    action_mailer:
+        asset_host: "https://www.lesli.tech"
+        default_options_from: "hello@lesli.tech"
+        default_url_options_host: "https://www.lesli.tech"
+    googlemaps_sdk_token: "AIzaSyCN4i4BWJS-IVtniSMY1Ot2MGaKuTKLNP8" 
