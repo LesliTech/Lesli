@@ -30,7 +30,6 @@ Building a better future, one line of code at a time.
 Rails.application.config.assets.version = '0.1.0'
 
 # Add additional assets to the asset load path.
-#Rails.application.config.assets.paths << Rails.root.join('node_modules')
 Rails.application.config.assets.paths << Rails.root.join('vendor')
 
 # Precompile additional assets.
@@ -53,11 +52,6 @@ Rails.application.config.assets.precompile += %w( profiles/app.js )
 Rails.application.config.assets.precompile += %w( dashboards/app.js )
 Rails.application.config.assets.precompile += %w( i18n.js )
 
-if defined?(CloudHaus)
-    Rails.application.config.assets.precompile += %w( cloud_haus/*.js )
-    Rails.application.config.assets.precompile += %w( cloud_haus/*.css )
-    Rails.application.config.assets.precompile += %w( cloud_haus/**/*.png cloud_haus/**/*.svg )
-end
 
 if defined?(CloudDriver)
     Rails.application.config.assets.precompile += %w( cloud_driver/*.js )
@@ -82,4 +76,15 @@ end
 if defined?(CloudLock)
     Rails.application.config.assets.precompile += %w( cloud_lock/*.js )
     Rails.application.config.assets.precompile += %w( cloud_lock/*.css )
+end
+
+if defined?(LesliCloud)
+    Rails.application.config.assets.precompile += %w( lesli_cloud/*.js )
+    Rails.application.config.assets.precompile += %w( lesli_cloud/*.css )
+end
+
+if defined?(CloudHaus)
+    Rails.application.config.assets.precompile += %w( cloud_haus/*.js )
+    Rails.application.config.assets.precompile += %w( cloud_haus/*.css )
+    Rails.application.config.assets.precompile += %w( cloud_haus/**/*.png cloud_haus/**/*.svg )
 end

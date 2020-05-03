@@ -29,12 +29,6 @@ Building a better future, one line of code at a time.
 Rails.application.routes.draw do
 
     devise_for :users,
-    :controllers => { 
-        :registrations => "users/registrations",
-        :confirmations => "users/confirmations",
-        :passwords => "users/passwords",
-        :sessions => "users/sessions"
-    },
     :path => "",
     :path_names => {
         :sign_in  => "login",
@@ -42,6 +36,12 @@ Rails.application.routes.draw do
         :sign_up  => "register",
         :password => "password",
         :confirmation => "confirmation"
+    },
+    :controllers => { 
+        :registrations => "users/registrations",
+        :confirmations => "users/confirmations",
+        :passwords => "users/passwords",
+        :sessions => "users/sessions"
     }
 
     get :language, to: "settings#language"
