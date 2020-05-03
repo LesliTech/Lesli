@@ -1,0 +1,52 @@
+/*
+Lesli
+
+Copyright (c) 2020, Lesli Technologies, S. A.
+
+All the information provided by this website is protected by laws of Guatemala related 
+to industrial property, intellectual property, copyright and relative international laws. 
+Lesli Technologies, S. A. is the exclusive owner of all intellectual or industrial property
+rights of the code, texts, trade mark, design, pictures and any other information.
+Without the written permission of Lesli Technologies, S. A., any replication, modification,
+transmission, publication is strictly forbidden.
+For more information read the license file including with this software.
+
+Lesli - Your Smart Business Assistant
+
+Powered by https://www.lesli.tech
+Building a better future, one line of code at a time.
+
+@contact  <hello@lesli.tech>
+@website  <https://lesli.tech>
+@license  Propietary - all rights reserved.
+
+// · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
+// · 
+*/
+
+
+// · 
+@function lesli-css-theme-get-color($pallete, $variant: 500) {
+
+    $lesli-cloud-colors: (
+        app: (
+            primary:  #3a6bff,
+            secondary:#162247,
+            complement_one:  #62cab6,
+            complement_two:  #55b997,
+            complement_three:#3a925b,
+            complement_gray_light: #f1f1f1
+        ),
+        lesli2: (
+            primary:  rgb(59, 99, 196),
+            secondary:rgb( 1, 13,  83),
+            complement_one:  rgb(109, 205, 184),
+            complement_two:  rgb( 85, 185, 151),
+            complement_three:rgb( 58, 146,  91),
+            complement_gray_light: rgb(229, 225, 230)
+        )
+    );
+
+    @return lesli-css-get-base-color($lesli-cloud-colors, $pallete, $variant);
+
+}

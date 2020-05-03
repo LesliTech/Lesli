@@ -28,6 +28,7 @@ Building a better future, one line of code at a time.
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
 var fs = require("fs")
 var path = require("path")  
+var yaml = require('js-yaml')
 var webpack = require("webpack")
 var VueLoaderPlugin = require("vue-loader/lib/plugin")
 var webpackConfig = []
@@ -144,7 +145,7 @@ module.exports = env => {
 
     let engines = fs.readdirSync("./engines").filter(directory => directory != ".gitkeep").filter(engine => {
 
-        let engine_info_file_path = `./engines/${engine}/lesli.json`
+        let engine_info_file_path = `./engines/${engine}/lesli.yml`
 
         if (!fs.existsSync(engine_info_file_path)) {
             return false
@@ -152,7 +153,13 @@ module.exports = env => {
 
         let rawdata = fs.readFileSync(engine_info_file_path)
 
-        let engine_info = JSON.parse(rawdata)
+        let engine_info = yaml.safeLoad(rawdata)
+
+        engine_info = engine_info.common
+
+        if (engine_info.load == false) {
+            return false
+        }
 
         return engine_info.name == engine
 
