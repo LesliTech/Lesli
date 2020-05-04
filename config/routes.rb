@@ -26,6 +26,8 @@ Building a better future, one line of code at a time.
 
 =end
 
+
+
 Rails.application.routes.draw do
 
     devise_for :users,
@@ -46,8 +48,7 @@ Rails.application.routes.draw do
 
     get :language, to: "settings#language"
 
-    extend RoutesHaus if defined?(CloudHaus)
-    extend RoutesLesliCloud if defined?(LesliCloud)
+    extend RoutesApp
 
     authenticated :user do
 

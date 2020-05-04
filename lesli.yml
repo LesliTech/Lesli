@@ -1,12 +1,13 @@
 # Lesli
 # For more information read the license file including with this software.
 
-name: "Lesli"
-code: "lesli"
-github: 
-    url: "https://github.com/leitfaden/Lesli" 
-    ssh: "git@github.com:leitfaden/Lesli.git" 
-    ssh_backup: "git@github.com:LesliTech/Lesli.git" 
+info:
+    name: "Lesli"
+    code: "lesli"
+    github: 
+        url: "https://github.com/leitfaden/Lesli" 
+        ssh: "git@github.com:leitfaden/Lesli.git" 
+        ssh_backup: "git@github.com:LesliTech/Lesli.git" 
 
 development:
     i18n_default_locale: en

@@ -26,15 +26,15 @@ Building a better future, one line of code at a time.
 
 =end
 
-module RoutesLesliCloud
+module RoutesApp
     def self.extended(router)
         router.instance_exec do
 
-            authenticated :user do
-                mount LesliCloud::Engine  => "/tech"   if defined?(LesliCloud)
-            end
+            settings = Rails.configuration.lesli_settings
 
-            root to: "lesli_cloud/websites#landing", as: :root_lesli_cloud_unauthenticated
+            require "./engines/#{settings["info"]["name"]}/config/routes_app_builder"
+
+            extend RoutesAppBuilder
 
         end
     end
