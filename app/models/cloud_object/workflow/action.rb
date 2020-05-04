@@ -63,8 +63,11 @@ Building a better future, one line of code at a time.
         def self.action_options(current_user, workflow)
             statuses = {}
             workflow.statuses.each do |status|
-                next_statuses = status.next_statuses.split("|").map do |nex_status|
-                    nex_status.to_i
+                next_statuses = []
+                if status.next_statuses
+                    next_statuses = status.next_statuses.split("|").map do |nex_status|
+                        nex_status.to_i
+                    end
                 end
 
                 statuses[status.number] = {
