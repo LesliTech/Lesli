@@ -29,15 +29,21 @@ PATH
       rails (~> 6.0.0)
 
 PATH
+  remote: engines/CloudHaus
+  specs:
+    cloud_haus (0.1.0)
+      rails (~> 6.0.0)
+
+PATH
   remote: engines/CloudHouse
   specs:
     cloud_house (0.1.0)
       rails (~> 6.0.0)
 
 PATH
-  remote: engines/CloudHaus
+  remote: engines/CloudLock
   specs:
-    cloud_haus (0.1.0)
+    cloud_lock (0.1.0)
       rails (~> 6.0.0)
 
 GEM
@@ -265,7 +271,7 @@ GEM
     mime-types (3.3.1)
       mime-types-data (~> 3.2015)
     mime-types-data (3.2020.0425)
-    mimemagic (0.3.4)
+    mimemagic (0.3.5)
     mini_magick (4.10.1)
     mini_mime (1.0.2)
     mini_portile2 (2.4.0)
@@ -397,7 +403,7 @@ GEM
     websocket-extensions (0.1.4)
     whenever (1.0.0)
       chronic (>= 0.6.3)
-    yard (0.9.24)
+    yard (0.9.25)
     zeitwerk (2.3.0)
 
 PLATFORMS
@@ -420,6 +426,7 @@ DEPENDENCIES
   cloud_focus!
   cloud_haus!
   cloud_house!
+  cloud_lock!
   devise
   faker
   faraday
