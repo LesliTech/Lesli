@@ -38,8 +38,7 @@ Rails.application.configure do
 
     config.action_mailer.perform_deliveries = true
 
-
-    config.default_url = Rails.configuration.platform_settings["default_url"]
+    config.default_url = Rails.configuration.lesli_settings["default_url"]
     
     config.action_mailer.default_url_options = { 
         host: Rails.configuration.lesli_settings["action_mailer"]["default_url_options_host"] 

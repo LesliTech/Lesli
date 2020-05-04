@@ -10,9 +10,9 @@ info:
         ssh_backup: "git@github.com:LesliTech/Lesli.git" 
 
 development:
+    default_url: "http://0.0.0.0:3000"
     i18n_default_locale: en
     devise_mailer_sender: "dev@lesli.tech"
-    default_url: "http://0.0.0.0:3000"
     action_mailer:
         asset_host: "http://127.0.0.1:3000"
         default_options_from: "dev@lesli.tech"
@@ -20,9 +20,9 @@ development:
     googlemaps_sdk_token: "AIzaSyCN4i4BWJS-IVtniSMY1Ot2MGaKuTKLNP8"
 
 production:
+    default_url: "http://0.0.0.0:3000"
     i18n_default_locale: en
     devise_mailer_sender: "hello@lesli.tech"
-    default_url: "http://beta.deutsche-leibrenten.de/"
     action_mailer:
         asset_host: "https://www.lesli.tech"
         default_options_from: "hello@lesli.tech"
