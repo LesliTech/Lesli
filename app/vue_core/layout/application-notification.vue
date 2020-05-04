@@ -54,19 +54,6 @@ export default {
                 })
             })
 
-            /*
-
-            this.bus.subscribe('show:/cloud/layout/notification#message', (message, type='success') => {
-                this.$buefy.notification.open({
-                    queue: true,
-                    duration: 2000,
-                    position: 'is-bottom-right',
-                    message: message,
-                    type: `is-${ type }`
-                })
-            })
-            */
-
             this.bus.subscribe("show:/core/layout/notification#panel", () => {
                 
                 // toggle notification panel
@@ -135,7 +122,9 @@ export default {
         },
 
         readNotifications() {
-            this.http.put('/bell/notifications/read').catch(error => {
+            this.http.put('/bell/notifications/read').then(result => {
+                this.notification.list = []
+            }).catch(error => {
                 console.log(error)
             })
         }
