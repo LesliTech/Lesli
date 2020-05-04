@@ -12,7 +12,10 @@ class ApplicationLesliRecord < ApplicationRecord
         custom_validation_model= "#{module_info[0]}::CustomValidation".constantize 
 
         validations = custom_validation_model.first
-        .validation_rule
+
+        return if validations.blank?
+
+        validations.validation_rule
         .validation_fields.where(
             :model_to_validate => self.class.name,
             :column_to_validate => self.class.column_names
