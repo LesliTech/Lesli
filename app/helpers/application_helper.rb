@@ -86,8 +86,8 @@ module ApplicationHelper
     end
 
     def lesli_instance(company_name=nil)
-        return Rails.application.config.platform_settings["name"] === company_name if not company_name.blank?
-        return Rails.application.config.platform_settings["name"]
+        return Rails.application.config.lesli_settings["info"]["name"] === company_name if not company_name.blank?
+        return Rails.application.config.lesli_settings["info"]["name"]
     end
 
 end
