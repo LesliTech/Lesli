@@ -144,7 +144,7 @@ module Courier
                 .first
 
                 if next_task
-                    return Courier::Core::Date.to_string(next_task[:deadline])
+                    return next_task[:deadline]
                 end
 
                 return nil

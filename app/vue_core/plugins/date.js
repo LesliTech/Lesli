@@ -55,6 +55,10 @@ export default {
 
         //function that turns a Date object into a string
         let toString = function(date){
+            if(! date){
+                return ''
+            }
+            
             let date_format = leslicloud_account.settings.date_format || '%Y.%m.%d'
             let year = date.getFullYear()
             let month = date.getMonth()+1
@@ -69,6 +73,10 @@ export default {
         }
 
         let toStringFull = function(date){
+            if(! date){
+                return ''
+            }
+            
             let date_format = leslicloud_account.settings.date_format_full || '%a, %B %d, %Y'
             let year = date.getFullYear()
             let month = month_names[date.getMonth()]
@@ -81,6 +89,10 @@ export default {
         }
 
         let toStringDatetime = function(date){
+            if(! date){
+                return ''
+            }
+            
             let date_format = leslicloud_account.settings.date_time_format || '%Y.%m.%d %H:%M'
             let year = date.getFullYear()
             let month = date.getMonth()+1
