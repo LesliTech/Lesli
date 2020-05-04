@@ -12,13 +12,14 @@ Without the written permission of Lesli Technologies, S. A., any replication, mo
 transmission, publication is strictly forbidden.
 For more information read the license file including with this software.
 
-LesliCloud - Your Smart Business Assistant
+Lesli - Your Smart Business Assistant
 
 Powered by https://www.lesli.tech
 Building a better future, one line of code at a time.
 
+@contact  <hello@lesli.tech>
+@website  <https://lesli.tech>
 @license  Propietary - all rights reserved.
-@version  0.1.0-alpha
 
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
 // · 
@@ -50,8 +51,9 @@ module Lesli
 
             # next if lesli engine info file does not contain valid json data
             begin
-                engine_info = YAML.load_file(path)
-            rescue
+                # get engine information from settings file
+                engine_info = YAML.load_file(path)["info"]
+            rescue  => error
                 next
             end
 
@@ -83,25 +85,33 @@ module Lesli
     def Lesli.settings  
 
         # Lesli core settings
-        lesli_settings = YAML.load_file("./lesli.yml")[Rails.env]
+        lesli_settings = YAML.load_file("./lesli.yml")
+
+        # add engine information into env section
+        lesli_settings[Rails.env]["info"] = lesli_settings["info"]
+
+        # overwrite settings with env version
+        lesli_settings = lesli_settings[Rails.env]
 
         instance_settings = {}
 
-        instance_engine = nil
-
-        instance_engine = "CloudHaus" if defined?(CloudHaus)
-        instance_engine = "LesliCloud" if defined?(LesliCloud)
+        # get Lesli instance (builder engine)
+        instance_engine = instance
 
         # specific settings for dedicated on-premises instance
-        if instance_engine
+        if instance_engine != "Lesli" # not core
             
+            # get settings from instance
             platform_settings = YAML.load_file(File.join("./engines", instance_engine, "lesli.yml"))
-            platform_settings_env = platform_settings[Rails.env]
 
-            lesli_settings["name"] = platform_settings["name"]
-            lesli_settings["code"] = platform_settings["code"]
+            # add instance information into env section
+            platform_settings[Rails.env]["info"] = platform_settings["info"]
 
-            platform_settings_env.each do |key, value|
+            # overwrite settings with env version
+            platform_settings = platform_settings[Rails.env]
+
+            # overwrite core settings
+            platform_settings.each do |key, value|
 
                 if value.class.to_s == "Hash"
 
@@ -118,9 +128,23 @@ module Lesli
             end
 
         end
-    
+
         lesli_settings
 
+    end
+
+    def Lesli.instance  
+
+        instance = "Lesli"
+
+        engines.each do |engine|
+            next if engine["type"] != "builder"
+            instance = engine["name"]
+            break
+        end
+
+        instance
+        
     end
 
 end
