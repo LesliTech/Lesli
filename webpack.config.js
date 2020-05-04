@@ -155,8 +155,6 @@ module.exports = env => {
 
         let engine_info = yaml.safeLoad(rawdata)
 
-        engine_info = engine_info.common
-
         if (engine_info.load == false) {
             return false
         }
