@@ -37,7 +37,9 @@ app({
         'component-notification-progress-bar': componentNotificationProgressBar
     },
     data: {
-        translations: { },
+        translations: {
+            main: I18n.t('core.users/passwords')
+        },
         sign_in: {
             email: '',
             password: ''
@@ -78,13 +80,11 @@ app({
         },
 
         putPasswordEdit(event) {
-
             event.preventDefault();
 
             // check if passwords match
             if (this.password_edit.new_password != this.password_edit.new_password_confirmation) {
-                console.log("password does not match")
-                this.showNotification("New password and password confirmation does not match", "is-warning")
+                this.showNotification(this.translations.main.error_passwords_do_not_match, 'is-warning')
                 return
             }
 
@@ -109,7 +109,7 @@ app({
                 this.progress_bar_active = false
 
                 if(response.successful){
-                    this.showNotification("Password successfully updated", "is-success")
+                    this.showNotification(this.translations.main.notification_password_updated, "is-success")
                     setTimeout(() => {
                         this.url.go("/login")
                     }, 1500)
