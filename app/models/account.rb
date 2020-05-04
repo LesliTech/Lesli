@@ -97,6 +97,36 @@ class Account < ApplicationRecord
                 self.lock.account = self
                 self.lock.save!
             end
+
+            roles = [
+                "admin",
+                "manager",
+                "buyer",
+                "office_manager",
+                "property_manager",
+                "intern",
+                "b2b",
+                "kop",
+                "callcenter",
+                "api",
+                "guest"
+            ]
+
+            roles.each do |role_name|
+                role = CloudLock::Role.new(
+                    created_at: Time.now,
+                    updated_at: Time.now,
+                    account: self,
+                    detail_attributes: {
+                        name: role_name,
+                        active: role_name != 'guest',
+                        created_at: Time.now,
+                        updated_at: Time.now
+                    }
+                )
+                role.save!
+            end
+
         end
 
         if defined? CloudDriver
