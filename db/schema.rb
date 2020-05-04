@@ -1290,6 +1290,23 @@ ActiveRecord::Schema.define(version: 10010104) do
     t.index ["cloud_house_properties_id"], name: "house_property_validations_properties"
   end
 
+  create_table "cloud_house_workflow_actions", force: :cascade do |t|
+    t.string "name"
+    t.bigint "initial_status_id"
+    t.bigint "final_status_id"
+    t.string "action_type"
+    t.boolean "execute_immediately"
+    t.string "template_path"
+    t.json "input_data"
+    t.json "system_data"
+    t.json "concerning_users"
+    t.json "configuration"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.bigint "cloud_house_workflows_id"
+    t.index ["cloud_house_workflows_id"], name: "house_workflow_actions_workflows"
+  end
+
   create_table "cloud_house_workflow_associations", force: :cascade do |t|
     t.string "workflow_for"
     t.boolean "global"
@@ -1321,116 +1338,6 @@ ActiveRecord::Schema.define(version: 10010104) do
     t.datetime "updated_at", precision: 6, null: false
     t.bigint "cloud_house_accounts_id"
     t.index ["cloud_house_accounts_id"], name: "house_workflows_accounts"
-  end
-
-  create_table "cloud_lock_accounts", force: :cascade do |t|
-  end
-
-  create_table "cloud_lock_role_details", force: :cascade do |t|
-    t.string "name"
-    t.boolean "active"
-    t.datetime "deleted_at"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-    t.bigint "cloud_lock_roles_id"
-    t.index ["cloud_lock_roles_id"], name: "index_cloud_lock_role_details_on_cloud_lock_roles_id"
-    t.index ["deleted_at"], name: "index_cloud_lock_role_details_on_deleted_at"
-  end
-
-  create_table "cloud_lock_role_overrides", force: :cascade do |t|
-    t.string "grant_object_name"
-    t.boolean "grant_index", default: false
-    t.boolean "grant_create", default: false
-    t.boolean "grant_new", default: false
-    t.boolean "grant_edit", default: false
-    t.boolean "grant_show", default: false
-    t.boolean "grant_update", default: false
-    t.boolean "grant_destroy", default: false
-    t.boolean "grant_options", default: false
-    t.boolean "grant_default", default: false
-    t.boolean "grant_empty", default: false
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-    t.bigint "cloud_lock_roles_id"
-    t.bigint "users_id"
-    t.index ["cloud_lock_roles_id"], name: "index_cloud_lock_role_overrides_on_cloud_lock_roles_id"
-    t.index ["users_id"], name: "index_cloud_lock_role_overrides_on_users_id"
-  end
-
-  create_table "cloud_lock_role_privileges", force: :cascade do |t|
-    t.string "grant_object_name"
-    t.boolean "grant_index", default: false
-    t.boolean "grant_create", default: false
-    t.boolean "grant_new", default: false
-    t.boolean "grant_edit", default: false
-    t.boolean "grant_show", default: false
-    t.boolean "grant_update", default: false
-    t.boolean "grant_destroy", default: false
-    t.boolean "grant_options", default: false
-    t.boolean "grant_default", default: false
-    t.boolean "grant_empty", default: false
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-    t.bigint "cloud_lock_roles_id"
-    t.index ["cloud_lock_roles_id"], name: "index_cloud_lock_role_privileges_on_cloud_lock_roles_id"
-  end
-
-  create_table "cloud_lock_roles", force: :cascade do |t|
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-    t.bigint "cloud_lock_accounts_id"
-    t.index ["cloud_lock_accounts_id"], name: "index_cloud_lock_roles_on_cloud_lock_accounts_id"
-  end
-
-  create_table "cloud_lock_user_actions", force: :cascade do |t|
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-  end
-
-  create_table "cloud_lock_user_activities", force: :cascade do |t|
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-  end
-
-  create_table "cloud_lock_user_details", force: :cascade do |t|
-    t.string "first_name"
-    t.string "last_name"
-    t.string "telephone"
-    t.string "address"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-    t.bigint "cloud_lock_users_id"
-    t.index ["cloud_lock_users_id"], name: "index_cloud_lock_user_details_on_cloud_lock_users_id"
-  end
-
-  create_table "cloud_lock_user_discussions", force: :cascade do |t|
-    t.text "content"
-    t.datetime "deleted_at"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-    t.bigint "cloud_lock_user_discussions_id"
-    t.bigint "users_id"
-    t.bigint "cloud_lock_users_id"
-    t.index ["cloud_lock_user_discussions_id"], name: "lock_user_discussions_discussions"
-    t.index ["cloud_lock_users_id"], name: "lock_user_discussions_users"
-    t.index ["deleted_at"], name: "index_cloud_lock_user_discussions_on_deleted_at"
-    t.index ["users_id"], name: "index_cloud_lock_user_discussions_on_users_id"
-  end
-
-  create_table "cloud_lock_user_files", force: :cascade do |t|
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-  end
-
-  create_table "cloud_lock_users", force: :cascade do |t|
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-    t.bigint "cloud_lock_accounts_id"
-    t.bigint "cloud_lock_roles_id"
-    t.bigint "users_id"
-    t.index ["cloud_lock_accounts_id"], name: "index_cloud_lock_users_on_cloud_lock_accounts_id"
-    t.index ["cloud_lock_roles_id"], name: "index_cloud_lock_users_on_cloud_lock_roles_id"
-    t.index ["users_id"], name: "index_cloud_lock_users_on_users_id"
   end
 
   create_table "locations", force: :cascade do |t|
@@ -1647,22 +1554,12 @@ ActiveRecord::Schema.define(version: 10010104) do
   add_foreign_key "cloud_house_property_subscribers", "users", column: "users_id"
   add_foreign_key "cloud_house_property_uses", "cloud_house_properties", column: "cloud_house_properties_id"
   add_foreign_key "cloud_house_property_validations", "cloud_house_properties", column: "cloud_house_properties_id"
+  add_foreign_key "cloud_house_workflow_actions", "cloud_house_workflow_statuses", column: "final_status_id"
+  add_foreign_key "cloud_house_workflow_actions", "cloud_house_workflow_statuses", column: "initial_status_id"
+  add_foreign_key "cloud_house_workflow_actions", "cloud_house_workflows", column: "cloud_house_workflows_id"
   add_foreign_key "cloud_house_workflow_associations", "cloud_house_workflows", column: "cloud_house_workflows_id"
   add_foreign_key "cloud_house_workflow_statuses", "cloud_house_workflows", column: "cloud_house_workflows_id"
   add_foreign_key "cloud_house_workflows", "cloud_house_accounts", column: "cloud_house_accounts_id"
-  add_foreign_key "cloud_lock_accounts", "accounts", column: "id"
-  add_foreign_key "cloud_lock_role_details", "cloud_lock_roles", column: "cloud_lock_roles_id"
-  add_foreign_key "cloud_lock_role_overrides", "cloud_lock_roles", column: "cloud_lock_roles_id"
-  add_foreign_key "cloud_lock_role_overrides", "users", column: "users_id"
-  add_foreign_key "cloud_lock_role_privileges", "cloud_lock_roles", column: "cloud_lock_roles_id"
-  add_foreign_key "cloud_lock_roles", "cloud_lock_accounts", column: "cloud_lock_accounts_id"
-  add_foreign_key "cloud_lock_user_details", "cloud_lock_users", column: "cloud_lock_users_id"
-  add_foreign_key "cloud_lock_user_discussions", "cloud_lock_user_discussions", column: "cloud_lock_user_discussions_id"
-  add_foreign_key "cloud_lock_user_discussions", "cloud_lock_users", column: "cloud_lock_users_id"
-  add_foreign_key "cloud_lock_user_discussions", "users", column: "users_id"
-  add_foreign_key "cloud_lock_users", "cloud_lock_accounts", column: "cloud_lock_accounts_id"
-  add_foreign_key "cloud_lock_users", "cloud_lock_roles", column: "cloud_lock_roles_id"
-  add_foreign_key "cloud_lock_users", "users", column: "users_id"
   add_foreign_key "locations", "accounts", column: "accounts_id"
   add_foreign_key "locations", "locations", column: "parent_id"
   add_foreign_key "settings", "accounts", column: "accounts_id"

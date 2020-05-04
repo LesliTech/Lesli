@@ -55,8 +55,6 @@ module Lesli
                 next
             end
 
-            engine_info = engine_info["common"]
-
             # next if engine name does not match
             next unless engine_info["name"] == entry
 
@@ -97,9 +95,13 @@ module Lesli
         # specific settings for dedicated on-premises instance
         if instance_engine
             
-            platform_settings = YAML.load_file(File.join("./engines", instance_engine, "lesli.yml"))[Rails.env]
+            platform_settings = YAML.load_file(File.join("./engines", instance_engine, "lesli.yml"))
+            platform_settings_env = platform_settings[Rails.env]
 
-            platform_settings.each do |key, value|
+            lesli_settings["name"] = platform_settings["name"]
+            lesli_settings["code"] = platform_settings["code"]
+
+            platform_settings_env.each do |key, value|
 
                 if value.class.to_s == "Hash"
 
