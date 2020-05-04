@@ -112,7 +112,24 @@ class User < ApplicationRecord
     #     )
     # At this point, check_user will be invoked automatically
     def user_initialize 
+
+        self.role = "guest"
+        self.role = "admin" if self.name == "Lesli Development" || self.name == "Leibrenten Development"
+        self.save!
+
         if defined? CloudLock
+            role_guest = CloudLock::Role
+              .joins(:detail)
+              .where("cloud_lock_role_details.name = ?", self.role)
+              .first
+            lock_user = CloudLock::User.new(
+                account: self.account,
+                user: self,
+                role: role_guest,
+                created_at: Time.now,
+                updated_at: Time.now    
+            )
+            lock_user.save!
             #self.account.lock.user.create({
             #    login: self
             #})
