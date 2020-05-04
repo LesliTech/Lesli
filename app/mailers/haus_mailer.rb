@@ -45,4 +45,8 @@ class HausMailer < ApplicationMailer
         send(to, subject, data, template: template, options: options)
         
     end
+
+    def leads_report(to, subject, data, tempalte: "")        
+        send(to, subject, data, template:"")
+    end
 end
