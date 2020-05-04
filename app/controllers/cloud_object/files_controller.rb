@@ -93,11 +93,19 @@ Building a better future, one line of code at a time.
                 responseWithSuccessful(cloud_object_file)
 
                 cloud_object = cloud_object_file.cloud_object
-                message = I18n.t(
-                    "cloud_#{module_name}.controllers.#{object_name}.files.notifications.created",
-                    "#{object_name}_id".to_sym => cloud_object.id
-                )
+                # Notify Subscribers
+                # message = I18n.t(
+                #    "cloud_#{module_name}.controllers.#{object_name}.files.notifications.created",
+                #    "#{object_name}_id".to_sym => cloud_object.id
+                #)
                 #subscriber_model.notify_subscribers(cloud_object, message, :file_created)
+
+                # Register Activity
+                cloud_object.activities.create(
+                    user: current_user,
+                    category: "action_create_file",
+                    description: cloud_object_file.name
+                )
             else
                 responseWithError(cloud_object_file.errors.full_messages.to_sentence)
             end
@@ -136,6 +144,13 @@ this.http.delete(`127.0.0.1/help/tickets/${ticket_id}/files/${file_id}`);
         def destroy
             if @cloud_object_file.destroy
                 responseWithSuccessful
+
+                # Register Activity
+                @cloud_object_file.cloud_object.activities.create(
+                    user: current_user,
+                    category: "action_destroy_file",
+                    description: @cloud_object_file.name
+                )
             else
                 responseWithError(@cloud_object_file.errors.full_messages.to_sentence)
             end
