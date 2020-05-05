@@ -36,7 +36,6 @@ export default {
 
         submenu_open(item) {
             this.submenu_open_class = !this.submenu_open_class
-            console.log(item)
         }
 
     }
