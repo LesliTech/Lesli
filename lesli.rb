@@ -129,6 +129,8 @@ module Lesli
 
         end
 
+        lesli_settings["engines"] = engines
+
         lesli_settings
 
     end
