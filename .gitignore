@@ -28,7 +28,7 @@
 /node_modules
 
 /engines/*
-!/engines/.keep
+!/engines/.gitkeep
 
 # Ignore master key for decrypting credentials and more.
 /config/master.key
