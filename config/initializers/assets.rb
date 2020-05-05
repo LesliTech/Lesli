@@ -37,6 +37,8 @@ Rails.application.config.assets.paths << Rails.root.join('vendor')
 Rails.application.config.assets.precompile += %w(themes/blank.css)
 Rails.application.config.assets.precompile += %w(themes/**/*.css)
 
+Rails.application.config.assets.precompile += %w( core/templates/public.css )
+
 Rails.application.config.assets.precompile += %w( errors.css )
 Rails.application.config.assets.precompile += %w( users/*.css )
 Rails.application.config.assets.precompile += %w( websites.css )
@@ -87,4 +89,14 @@ if defined?(CloudHaus)
     Rails.application.config.assets.precompile += %w( cloud_haus/*.js )
     Rails.application.config.assets.precompile += %w( cloud_haus/*.css )
     Rails.application.config.assets.precompile += %w( cloud_haus/**/*.png cloud_haus/**/*.svg )
+end
+
+instance_assets = Rails.configuration.lesli_settings["info"]
+
+if instance_assets["name"] != "Lesli"
+    Rails.application.config.assets.precompile += ["#{instance_assets["code"]}/*.js"]
+    Rails.application.config.assets.precompile += ["#{instance_assets["code"]}/*.css"]
+    Rails.application.config.assets.precompile += ["#{instance_assets["code"]}/**/*.png"]
+    Rails.application.config.assets.precompile += ["#{instance_assets["code"]}/**/*.svg"]
+    Rails.application.config.assets.precompile += ["#{instance_assets["code"]}/**/*.jpg"]
 end

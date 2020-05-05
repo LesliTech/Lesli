@@ -1,5 +1,4 @@
-=begin
-
+/*
 Lesli
 
 Copyright (c) 2020, Lesli Technologies, S. A.
@@ -23,19 +22,28 @@ Building a better future, one line of code at a time.
 
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
 // · 
+*/
 
-=end
 
-module RoutesApp
-    def self.extended(router)
-        router.instance_exec do
+// · Include Lesli CSS
+// · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
+@import "lesli-css/";
 
-            settings = Rails.configuration.lesli_settings
 
-            require "./engines/#{settings["info"]["name"]}/config/routes_builder"
 
-            extend RoutesBuilder
+// · Configuration
+// · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
+@import "../settings/variables.scss";
 
-        end
-    end
-end
+
+
+// · Include Lesli Standards
+// · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
+@include lesli-css-base();
+@include lesli-css-fonts();
+
+
+
+// · Include Bulma 
+// · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
+@import "../bulma/loader.scss";

@@ -1,50 +1,8 @@
 PATH
-  remote: engines/CloudBabel
+  remote: engines/Shutiando
   specs:
-    cloud_babel (0.1.0)
-      rails (~> 6.0.0)
-
-PATH
-  remote: engines/CloudBell
-  specs:
-    cloud_bell (0.1.0)
-      rails (~> 6.0.0)
-
-PATH
-  remote: engines/CloudDispatcher
-  specs:
-    cloud_dispatcher (0.1.0)
-      rails (~> 6.0.2)
-
-PATH
-  remote: engines/CloudDriver
-  specs:
-    cloud_driver (0.1.0)
-      rails (~> 6.0.0)
-
-PATH
-  remote: engines/CloudFocus
-  specs:
-    cloud_focus (0.1.0)
-      rails (~> 6.0.0)
-
-PATH
-  remote: engines/CloudHaus
-  specs:
-    cloud_haus (0.1.0)
-      rails (~> 6.0.0)
-
-PATH
-  remote: engines/CloudHouse
-  specs:
-    cloud_house (0.1.0)
-      rails (~> 6.0.0)
-
-PATH
-  remote: engines/CloudLock
-  specs:
-    cloud_lock (0.1.0)
-      rails (~> 6.0.0)
+    shutiando (0.1.0)
+      rails (~> 6.0.2, >= 6.0.2.2)
 
 GEM
   remote: https://rubygems.org/
@@ -419,14 +377,6 @@ DEPENDENCIES
   cancancan
   carrierwave (~> 2.0)
   caxlsx_rails
-  cloud_babel!
-  cloud_bell!
-  cloud_dispatcher!
-  cloud_driver!
-  cloud_focus!
-  cloud_haus!
-  cloud_house!
-  cloud_lock!
   devise
   faker
   faraday
@@ -448,6 +398,7 @@ DEPENDENCIES
   rspec-rails (~> 4.0.0.beta2)
   rubyzip (~> 2.3.0)
   sass-rails (~> 5)
+  shutiando!
   spring
   spring-watcher-listen (~> 2.0.0)
   web-console (>= 3.3.0)

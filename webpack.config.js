@@ -153,7 +153,7 @@ module.exports = env => {
 
         let rawdata = fs.readFileSync(engine_info_file_path)
 
-        let engine_info = yaml.safeLoad(rawdata)
+        let engine_info = yaml.safeLoad(rawdata)["info"]
 
         if (engine_info.load == false) {
             return false
