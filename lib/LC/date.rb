@@ -118,6 +118,34 @@ module LC
 
         end
 
+        def self.get_year_difference from_time, to_time, time_zone="Europe/Berlin"
+            # We set the same timezone for both Time variables
+            zone = ActiveSupport::TimeZone.new(time_zone)
+            from_time = from_time.in_time_zone(zone)
+            to_time = to_time.in_time_zone(zone)
+            
+            # We extract years, months, and days
+            from_year = from_time.year
+            to_year = to_time.year
+            from_month = from_time.month
+            to_month = to_time.month
+            from_day = from_time.day
+            to_day = to_time.day
+
+            year_difference = to_year - from_year
+            if from_month > to_month
+                return year_difference - 1
+            end
+
+            if from_month == to_month
+                if from_day > to_day
+                    return year_difference - 1
+                end
+            end
+
+            return year_difference
+        end
+
     end
 
 end
