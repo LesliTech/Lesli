@@ -76,6 +76,8 @@ app({
 
             event.preventDefault();
 
+            this.notification.show = false
+
             let data = {user: this.sign_in};
             this.progress_bar_active = true;
 

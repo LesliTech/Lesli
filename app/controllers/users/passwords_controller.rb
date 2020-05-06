@@ -46,7 +46,7 @@ class Users::PasswordsController < Devise::PasswordsController
             if successfully_sent?(resource)
                 return responseWithSuccessful
             else
-                return responseWithError(resource.errors.full_messages.to_sentence)
+                return responseWithError(I18n.t('core.users/passwords.error_invalid_email'))
             end
         end
     end

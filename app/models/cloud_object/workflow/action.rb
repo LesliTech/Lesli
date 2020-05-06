@@ -63,8 +63,11 @@ Building a better future, one line of code at a time.
         def self.action_options(current_user, workflow)
             statuses = {}
             workflow.statuses.each do |status|
-                next_statuses = status.next_statuses.split("|").map do |nex_status|
-                    nex_status.to_i
+                next_statuses = []
+                if status.next_statuses
+                    next_statuses = status.next_statuses.split("|").map do |nex_status|
+                        nex_status.to_i
+                    end
                 end
 
                 statuses[status.number] = {
@@ -107,6 +110,18 @@ Building a better future, one line of code at a time.
                     WorkflowActions::CreateFocusTaskJob.perform_now(current_user, cloud_object, self)
                 else
                     WorkflowActions::CreateFocusTaskJob.perform_later(current_user, cloud_object, self)
+                end
+            when "create_bell_notification"
+                if execute_immediately
+                    WorkflowActions::CreateBellNotificationJob.perform_now(current_user, cloud_object, self)
+                else
+                    WorkflowActions::CreateBellNotificationJob.perform_later(current_user, cloud_object, self)
+                end
+            when "send_core_email"
+                if execute_immediately
+                    WorkflowActions::SendCoreEmailJob.perform_now(current_user, cloud_object, self)
+                else
+                    WorkflowActions::SendCoreEmailJob.perform_later(current_user, cloud_object, self)
                 end
             end
         end

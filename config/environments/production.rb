@@ -65,14 +65,16 @@ Rails.application.configure do
 
     config.action_mailer.delivery_method = :smtp
 
+    config.default_url = Rails.configuration.lesli_settings["default_url"]
+    
     config.action_mailer.default_url_options = { 
-        host: Rails.configuration.platform_settings["action_mailer"]["default_url_options_host"] 
+        host: Rails.configuration.lesli_settings["action_mailer"]["default_url_options_host"] 
     }
 
-    config.action_mailer.asset_host = Rails.configuration.platform_settings["action_mailer"]["asset_host"]
+    config.action_mailer.asset_host = Rails.configuration.lesli_settings["action_mailer"]["asset_host"]
 
     config.action_mailer.default_options = {
-        from: Rails.configuration.platform_settings["action_mailer"]["default_options_from"]
+        from: Rails.configuration.lesli_settings["action_mailer"]["default_options_from"]
     }
 
     config.action_mailer.smtp_settings = {

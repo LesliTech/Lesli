@@ -1290,6 +1290,23 @@ ActiveRecord::Schema.define(version: 10010104) do
     t.index ["cloud_house_properties_id"], name: "house_property_validations_properties"
   end
 
+  create_table "cloud_house_workflow_actions", force: :cascade do |t|
+    t.string "name"
+    t.bigint "initial_status_id"
+    t.bigint "final_status_id"
+    t.string "action_type"
+    t.boolean "execute_immediately"
+    t.string "template_path"
+    t.json "input_data"
+    t.json "system_data"
+    t.json "concerning_users"
+    t.json "configuration"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.bigint "cloud_house_workflows_id"
+    t.index ["cloud_house_workflows_id"], name: "house_workflow_actions_workflows"
+  end
+
   create_table "cloud_house_workflow_associations", force: :cascade do |t|
     t.string "workflow_for"
     t.boolean "global"
@@ -1647,6 +1664,9 @@ ActiveRecord::Schema.define(version: 10010104) do
   add_foreign_key "cloud_house_property_subscribers", "users", column: "users_id"
   add_foreign_key "cloud_house_property_uses", "cloud_house_properties", column: "cloud_house_properties_id"
   add_foreign_key "cloud_house_property_validations", "cloud_house_properties", column: "cloud_house_properties_id"
+  add_foreign_key "cloud_house_workflow_actions", "cloud_house_workflow_statuses", column: "final_status_id"
+  add_foreign_key "cloud_house_workflow_actions", "cloud_house_workflow_statuses", column: "initial_status_id"
+  add_foreign_key "cloud_house_workflow_actions", "cloud_house_workflows", column: "cloud_house_workflows_id"
   add_foreign_key "cloud_house_workflow_associations", "cloud_house_workflows", column: "cloud_house_workflows_id"
   add_foreign_key "cloud_house_workflow_statuses", "cloud_house_workflows", column: "cloud_house_workflows_id"
   add_foreign_key "cloud_house_workflows", "cloud_house_accounts", column: "cloud_house_accounts_id"

@@ -1,6 +1,11 @@
 <%= javascript_include_tag "i18n" %>
 <%= javascript_include_tag "translations", skip_pipeline: true %>
 
+<script>
+    // Set language for JavaScripts apps
+    I18n.locale = '<%= I18n.locale %>'
+</script>
+
 <%# Load specific javascript files for devise actions (login,register,etc) %>
 <% if controller_path.split('/')[0] == "users" %>
 <%= javascript_include_tag controller_path %>
@@ -8,5 +13,5 @@
 
 <%# Load standard files %>
 <% if controller_path.split('/')[0] != "users" %>
-<%= javascript_include_tag [controller_path.split('/')[0], 'app'].join('/') %>
+<%= javascript_include_tag application_javascript_path() %> 
 <% end %>

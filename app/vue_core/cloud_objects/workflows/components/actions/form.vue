@@ -77,8 +77,8 @@ export default {
         },
 
         setTranslations(){
-            this.translations.main = I18n.t(this.translationsPath)
-            this.translations.statuses = I18n.t(this.statusesTranslationsPath)
+            this.$set(this.translations, 'main', I18n.t(this.translationsPath))
+            this.$set(this.translations, 'statuses', I18n.t(this.statusesTranslationsPath))
         },
 
         setSubscriptions(){
@@ -132,7 +132,6 @@ export default {
                 event.preventDefault()
             }
 
-            
             this.bus.publish(`sync:/module/workflow/action/${this.viewType}-${this.action.action_type}`, this.action, ()=>{
                 if(this.action_id){
                     this.putAction()
@@ -151,7 +150,7 @@ export default {
 
             this.http.post(url, data).then(result => {
                 if (result.successful) {
-                    this.notification.alert('Workflow action updated successfully','success')
+                    this.notification.alert(this.translations.main.notification_action_created,'success')
                     this.bus.publish('post:/module/workflow/action', result.data)
                     this.bus.publish('show:/module/workflow/action/edit', result.data)
                     this.resetAction()
@@ -172,7 +171,7 @@ export default {
 
             this.http.put(url, data).then(result => {
                 if (result.successful) {
-                    this.notification.alert('Workflow action updated successfully','success')
+                    this.notification.alert(this.translations.main.notification_action_updated,'success')
                 }else{
                     this.notification.alert(result.error.message,'danger')
                 }
@@ -186,7 +185,7 @@ export default {
 
             this.http.delete(url).then(result => {
                 if (result.successful) {
-                    this.notification.alert('Workflow action deleted successfully','success')
+                    this.notification.alert(this.translations.main.notification_action_deleted,'success')
                     this.bus.publish('destroy:/module/workflow/action', this.action)
                     this.action_id = null
                 }else{
@@ -237,11 +236,11 @@ export default {
 }
 </script>
 <template>
-    <div>
+    <div v-if="translations.main">
         <component-data-loading v-if="loading" />
         <form v-if="!loading && (viewType == 'new' || action_id)" @submit="submitAction">
             <div class="field">
-                <label class="label">Name<sup class="has-text-danger">*</sup></label>
+                <label class="label">{{translations.core.text_name}}<sup class="has-text-danger">*</sup></label>
                 <div class="control">
                     <input class="input" type="text" v-model="action.name" required>
                 </div>
@@ -249,8 +248,8 @@ export default {
             <div class="columns">
                 <div class="column is-6">
                     <div class="field">
-                        <label class="label">Initial Status<sup class="has-text-danger">*</sup></label>
-                        <b-select placeholder="Select an option" expanded v-model="action.initial_status_id" required>
+                        <label class="label">{{translations.main.field_initial_status}}<sup class="has-text-danger">*</sup></label>
+                        <b-select :placeholder="translations.core.text_select_option" expanded v-model="action.initial_status_id" required>
                             <option
                                 v-for="status in options.statuses"
                                 :value="status.id"
@@ -263,8 +262,8 @@ export default {
                 </div>
                 <div class="column is-6">
                     <div class="field">
-                        <label class="label">Final Status<sup class="has-text-danger">*</sup></label>
-                        <b-select placeholder="Select an option" expanded v-model="action.final_status_id" required>
+                        <label class="label">{{translations.main.field_final_status}}<sup class="has-text-danger">*</sup></label>
+                        <b-select :placeholder="translations.core.text_select_option" expanded v-model="action.final_status_id" required>
                             <option
                                 v-for="status in transition_statuses"
                                 :value="status.id"
@@ -279,8 +278,8 @@ export default {
             <div class="columns">
                 <div class="column is-8">
                     <div class="field">
-                        <label class="label">Action Type<sup class="has-text-danger">*</sup></label>
-                        <b-select placeholder="Select an option" expanded v-model="action.action_type" required>
+                    <label class="label">{{translations.main.field_action_type}}<sup class="has-text-danger">*</sup></label>
+                        <b-select :placeholder="translations.core.text_select_option" expanded v-model="action.action_type" required :disabled="viewType == 'edit'">
                             <option
                                 v-for="type in options.action_types"
                                 :value="type.value"
@@ -293,7 +292,7 @@ export default {
                 </div>
                 <div class="column is-4">
                     <div class="field">
-                        <label class="label">Execute Immediately</label>
+                        <label class="label">{{translations.main.field_execute_immediately}}</label>
                         <div class="control">
                             <b-checkbox v-model="action.execute_immediately" >
                                 <span v-if="action.execute_immediately">
@@ -344,7 +343,7 @@ export default {
                 <div class="buttons">
                     <b-button type="is-danger" outlined native-type="button" @click="deleteAction">
                         <i class="fas fa-trash-alt"></i>
-                        Delete action
+                        {{translations.core.text_delete}}
                     </b-button>
                 </div>
             </div>

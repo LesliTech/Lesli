@@ -11,31 +11,33 @@ Without the written permission of Lesli Technologies, S. A., any replication, mo
 transmission, publication is strictly forbidden.
 For more information read the license file including with this software.
 
-LesliCloud - Your Smart Business Assistant
+Lesli - Your Smart Business Assistant
 
 Powered by https://www.lesli.tech
 Building a better future, one line of code at a time.
 
+@contact  <hello@lesli.tech>
+@website  <https://lesli.tech>
 @license  Propietary - all rights reserved.
-@version  0.1.0-alpha
 
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
 // · 
 */
 
+// · 
+@import "lesli-css/";
 
-//  · Header
-header {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-direction: column;
-    min-height: 600px;
-    height: 100vh;
-    
-    img {
-        width: 98%;
-        max-width: 300px;
+
+// · 
+body #lesli-cloud-application {
+    @import "./standard/settings/colors.scss";
+    @import "./standard/layout/application-header.scss";
+    @import "./standard/layout/application-navigation.scss";
+    .application-component {
+        @import "./standard/components/tabs.scss";
+        @import "./standard/components/status.scss";
+        @import "./standard/components/summary.scss";
+        @import "./standard/components/calendar.scss";
+        @import "./standard/components/quickview.scss";
     }
-
 }

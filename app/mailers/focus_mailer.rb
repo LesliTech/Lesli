@@ -43,7 +43,7 @@ class FocusMailer < ApplicationMailer
         
     end
 
-    def task_list(to, subject, data, tempalte: "")
+    def task_list(to, subject, data, template: "")
         data[:tasks] = data[:tasks].map do |task|
             task[:href] = "#{default_url_options[:host]}#{task[:href]}"
             task
@@ -52,7 +52,7 @@ class FocusMailer < ApplicationMailer
         send(to, subject, data, template:"")
     end
 
-    def task_report_delayed(data, tempalte: "")
+    def task_report_delayed(data, template: "")
         to = ["m.auel@deutsche-leibrenten.de","b.norgiev@deutsche-leibrenten.de"]
         subject = "Due workflows / tasks"
 
