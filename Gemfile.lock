@@ -1,10 +1,19 @@
 PATH
+  remote: engines/CloudHouse
+  specs:
+    cloud_house (0.1.0)
+      rails (~> 6.0.0)
+
+PATH
+<<<<<<< Updated upstream
+=======
   remote: engines/CloudBabel
   specs:
     cloud_babel (0.1.0)
       rails (~> 6.0.0)
 
 PATH
+>>>>>>> Stashed changes
   remote: engines/CloudDispatcher
   specs:
     cloud_dispatcher (0.1.0)
@@ -26,12 +35,6 @@ PATH
   remote: engines/CloudHaus
   specs:
     cloud_haus (0.1.0)
-      rails (~> 6.0.0)
-
-PATH
-  remote: engines/CloudHouse
-  specs:
-    cloud_house (0.1.0)
       rails (~> 6.0.0)
 
 PATH
