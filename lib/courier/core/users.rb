@@ -51,8 +51,8 @@ module Courier
             end
 
             def self.get(id)
-                if defined? (CloudLock)
-                    return ::User.left_joins(:detail).select(:id, :email, :role, :first_name, :last_name, :created_at).find(id)
+                if false
+                    return ::User.lock.joins(:detail).select(:id, :email, :role, :first_name, :last_name, :created_at).find(id)
                 else
                     return ::User.select(:id, :email, :role, :name, :created_at).find(id)
                 end

@@ -98,6 +98,82 @@ class User < ApplicationRecord
         email.deliver_now
     end
 
+    # =begin
+    # @param accounnt [Account] The account associated to *current_user*
+    # @param role [String] The role for filter users by role
+    # @return [Hash] Detailed information about all the users of this account.
+    # @description Creates a query that select information about the users
+    # @example
+    #     users_info = User.index(current_user.account, role)
+    #     puts users_info.to_json
+    # will print something like: [
+    #    {
+    #        "id":1,                     
+    #        "created_at":"2020-01-08T16:23:10.976Z",
+    #        "name":"Diego Alay"
+    #        "role":"manager"
+    #    },{
+    #        "id":2,                     
+    #        "created_at":"2020-01-10T16:23:10.976Z",
+    #        "name":"Carlos Hermosilla"
+    #        "role":"b2b"
+    #    }
+    #]
+    # =end
+    def self.index(current_user, role)
+        users = []
+        if defined? (CloudLock)
+            users = current_user.account.users
+            .joins(:lock)
+            .joins("inner join cloud_lock_user_details as clud on clud.cloud_lock_users_id = cloud_lock_users.id")
+            .joins("inner join cloud_lock_roles as clr on clr.id = cloud_lock_users.cloud_lock_roles_id")
+            .joins("inner join cloud_lock_role_details as clrd on clrd.cloud_lock_roles_id = clr.id")
+            .select(
+                "users.id",
+                "users.email",
+                "users.created_at",
+                "clrd.name as role",
+                "concat(clud.first_name, ' ', clud.last_name) as name",
+            )
+            .order(:name)
+            users = users.where("clrd.name = ?", role) unless role.blank?
+        else
+            users = current_user.account.users.select(:id, :email, :role, :created_at, :name).order(:name)
+            users = users.where("role = ?", role) unless role.blank?
+        end
+        
+        users
+    end
+
+    # @return [Hash] Detailed information about the user.
+    # @description Creates a query that selects all user information from several tables if CloudLock is present
+    #     and returns it in a hash
+    # @example
+    #     user = User.find(43)
+    #     puts user.show
+    #     will print something like: {
+    #        "id":1,                     
+    #        "created_at":"2020-01-08T16:23:10.976Z",
+    #        "name":"Diego Alay"
+    #        "role":"manager"
+    #     }
+    def show
+        if defined? (CloudLock)
+            user = User.find(id)
+            user_details = user.lock.detail
+            role_details = user.lock.role.detail
+            return {
+                id: id,
+                email: email,
+                created_at: created_at,
+                role: role_details ? role_details.name : "",
+                name: user_details ? user_details.first_name + " " + user_details.last_name : ""
+            }
+        else
+            return User.select(:id, :email, :role, :name, :created_at).find(id)
+        end  
+    end
+
     private 
 
     # @return [void]
