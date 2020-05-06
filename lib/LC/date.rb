@@ -39,12 +39,12 @@ module LC
 
         # NOTE: Do not modify formats here,
         # if you need a different date format you should change it in the settings
-
+        # Please read the TODO fole contained in this directory to see the current limitations of this class
         @time_zone = "Europe/Berlin"
-        @string_format = "%Y.%m.%d"
+        @string_format = "%d.%m.%Y"
 
         @string_time = "%H:%M"
-        @string_datetime_format = "%Y.%m.%d %H:%M"
+        @string_datetime_format = "%d.%m.%Y %H:%M"
         @string_words_format = "%a, %B %d, %Y"
 
         def self.to_string datetime_object
@@ -116,6 +116,34 @@ module LC
             # return generic distance
             return "some time ago"
 
+        end
+
+        def self.get_year_difference from_time, to_time, time_zone="Europe/Berlin"
+            # We set the same timezone for both Time variables
+            zone = ActiveSupport::TimeZone.new(time_zone)
+            from_time = from_time.in_time_zone(zone)
+            to_time = to_time.in_time_zone(zone)
+            
+            # We extract years, months, and days
+            from_year = from_time.year
+            to_year = to_time.year
+            from_month = from_time.month
+            to_month = to_time.month
+            from_day = from_time.day
+            to_day = to_time.day
+
+            year_difference = to_year - from_year
+            if from_month > to_month
+                return year_difference - 1
+            end
+
+            if from_month == to_month
+                if from_day > to_day
+                    return year_difference - 1
+                end
+            end
+
+            return year_difference
         end
 
     end

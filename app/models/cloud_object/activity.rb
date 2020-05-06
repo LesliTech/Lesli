@@ -35,13 +35,16 @@ module CloudObject
 
         # This enum can be overrided by the model that inherits from CloudObject::Activity
         enum category: {
-            action_list:    "action_list",
-            action_create:  "action_create",
-            action_show:    "action_show",
-            action_update:  "action_update",
-            action_destroy:  "action_destroy",
-            action_status:  "action_status",
-            action_workflow_action_failed: "action_workflow_action_failed"
+            action_list:                    "action_list",
+            action_create:                  "action_create",
+            action_show:                    "action_show",
+            action_update:                  "action_update",
+            action_destroy:                 "action_destroy",
+            action_status:                  "action_status",
+            action_workflow_action_failed:  "action_workflow_action_failed",
+            action_email_sent:              "action_email_sent",
+            action_create_file:             "action_create_file",
+            action_destroy_file:            "action_destroy_file"
         }
 
     end

@@ -11,13 +11,14 @@ Without the written permission of Lesli Technologies, S. A., any replication, mo
 transmission, publication is strictly forbidden.
 For more information read the license file including with this software.
 
-LesliCloud - Your Smart Business Assistant
+Lesli - Your Smart Business Assistant
 
 Powered by https://www.lesli.tech
 Building a better future, one line of code at a time.
 
+@contact  <hello@lesli.tech>
+@website  <https://lesli.tech>
 @license  Propietary - all rights reserved.
-@version  0.1.0-alpha
 
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
 // · 
@@ -57,7 +58,6 @@ Building a better future, one line of code at a time.
 @import "quill/dist/quill.core";
 @import "quill/dist/quill.snow";
 @import "flag-icon";
-//@import "introjs.css";
 
 
 
@@ -65,7 +65,6 @@ Building a better future, one line of code at a time.
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
 @import "../helpers/display";
 @import "../settings/icons.scss";
-
 
 
 
@@ -82,6 +81,7 @@ Building a better future, one line of code at a time.
 @import "../components/component-data.scss";
 @import "../components/component-header.scss";
 @import "../components/component-toolbar.scss";
+
 
 
 // · 
@@ -101,15 +101,5 @@ body {
     position: relative;
     background-color: rgb(238,238,245);
     scrollbar-width: thin;
-    scrollbar-color: get-lesli-css-color(blue) get-lesli-css-color(silver);
-}
-
-
-// · 
-.translation_missing {
-    color: get-lesli-css-color(standard, white);
-    background-color: get-lesli-css-color(berry, 700);
-    &:before {
-        content: 'Translation missing: ';
-    }
+    scrollbar-color: lesli-css-get-color(blue) lesli-css-get-color(silver);
 }

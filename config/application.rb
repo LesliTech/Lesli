@@ -1,3 +1,30 @@
+=begin
+
+Lesli
+
+Copyright (c) 2020, Lesli Technologies, S. A.
+
+All the information provided by this website is protected by laws of Guatemala related 
+to industrial property, intellectual property, copyright and relative international laws. 
+Lesli Technologies, S. A. is the exclusive owner of all intellectual or industrial property
+rights of the code, texts, trade mark, design, pictures and any other information.
+Without the written permission of Lesli Technologies, S. A., any replication, modification,
+transmission, publication is strictly forbidden.
+For more information read the license file including with this software.
+
+Lesli - Your Smart Business Assistant
+
+Powered by https://www.lesli.tech
+Building a better future, one line of code at a time.
+
+@contact  <hello@lesli.tech>
+@website  <https://lesli.tech>
+@license  Propietary - all rights reserved.
+
+// · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
+// · 
+
+=end
 
 require_relative "boot"
 
@@ -18,10 +45,10 @@ module Lesli
 
         config.time_zone = "UTC"
 
-        config.platform_settings = Lesli::settings
+        config.lesli_settings = Lesli::settings
 
         # Settings in config/environments/* take precedence over those specified here.
-        config.i18n.default_locale = config.platform_settings['i18n_default_locale']
+        config.i18n.default_locale = config.lesli_settings['i18n_default_locale']
         config.i18n.available_locales = [:en, :de, :es]
         config.i18n.load_path += Dir[Rails.root.join("config", "locales", "**", "*.{rb,yml}")]
         config.i18n.load_path += Dir[Rails.root.join("engines", "*", "config", "locales", "**", "*.{rb,yml}")]

@@ -8,7 +8,7 @@ class ApplicationController < ActionController::Base
     def switch_locale
 
         # get saved language in session or the default in config
-        # the session param is setted in settings controller through "get :language, to: 'settings#language'"
+        # the session param is setted in settings controller through "get :language, to: "settings#language""
         locale = session[:locale] || I18n.default_locale
 
         # I should check locale in the database here
@@ -24,7 +24,7 @@ class ApplicationController < ActionController::Base
     def switch_locale_around(&action)
 
         # get saved language in session or the default in config
-        # the session param is setted in settings controller through "get :language, to: 'settings#language'"
+        # the session param is setted in settings controller through "get :language, to: "settings#language""
         locale = session[:locale] || I18n.default_locale
 
         # I should check locale in the database here
@@ -60,16 +60,32 @@ class ApplicationController < ActionController::Base
         render status: 404, json: {
             successful: false,
             error: {
-                message: 'Not found',
+                message: "Not found",
                 details: []
             }
         }.to_json
     end
 
+    # JSON not found response
+    def responseWithUnauthorized
+        respond_to do |format|
+            format.html { redirect_to "/401" }
+            format.json { 
+                render status: 401, json: {
+                    successful: false,
+                    error: {
+                        message: "Unauthorized",
+                        details: []
+                    }
+                }.to_json
+            }
+        end
+    end
+
     private
 
     def get_browser_locale
-        accept_language = request.env['HTTP_ACCEPT_LANGUAGE']
+        accept_language = request.env["HTTP_ACCEPT_LANGUAGE"]
         return unless accept_language
         accept_language.scan(/^[a-z]{2}/).first
     end

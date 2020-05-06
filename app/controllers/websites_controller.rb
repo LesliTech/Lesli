@@ -1,6 +1,6 @@
 class WebsitesController < ApplicationPublicController
 
-    def landing
+    def home
     end
     
 end

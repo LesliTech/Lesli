@@ -12,13 +12,14 @@ Without the written permission of Lesli Technologies, S. A., any replication, mo
 transmission, publication is strictly forbidden.
 For more information read the license file including with this software.
 
-LesliCloud - Your Smart Business Assistant
+Lesli - Your Smart Business Assistant
 
 Powered by https://www.lesli.tech
 Building a better future, one line of code at a time.
 
+@contact  <hello@lesli.tech>
+@website  <https://lesli.tech>
 @license  Propietary - all rights reserved.
-@version  0.1.0-alpha
 
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
 // · 
@@ -26,59 +27,29 @@ Building a better future, one line of code at a time.
 =end
 
 # Version of your assets, change this if you want to expire all your assets.
-Rails.application.config.assets.version = '0.1.0'
+Rails.application.config.assets.version = "0.1.0"
 
-# Add additional assets to the asset load path.
-#Rails.application.config.assets.paths << Rails.root.join('node_modules')
-Rails.application.config.assets.paths << Rails.root.join('vendor')
+# Add vendor libraries to assets
+Rails.application.config.assets.paths << Rails.root.join("vendor")
 
-# Precompile additional assets.
+# Themes
+Rails.application.config.assets.precompile += [ "themes/blank.css" ]
+Rails.application.config.assets.precompile += [ "themes/**/*.css" ]
 
-Rails.application.config.assets.precompile += %w(themes/blank.css)
-Rails.application.config.assets.precompile += %w(themes/**/standard/*.css)
+Rails.application.config.assets.precompile += [ "errors.css", "errors/*.js" ]
+Rails.application.config.assets.precompile += [ "users/*.css", "users/*.js" ]
+Rails.application.config.assets.precompile += [ "websites.css", "websites/*.js" ]
+Rails.application.config.assets.precompile += [ "accounts.css", "accounts/app.js" ]
+Rails.application.config.assets.precompile += [ "profiles.css", "profiles/app.js" ]
+Rails.application.config.assets.precompile += [ "dashboards.css", "dashboards/app.js" ]
 
-Rails.application.config.assets.precompile += %w( errors.css )
-Rails.application.config.assets.precompile += %w( users/*.css )
-Rails.application.config.assets.precompile += %w( websites.css )
-Rails.application.config.assets.precompile += %w( accounts.css )
-Rails.application.config.assets.precompile += %w( profiles.css )
-Rails.application.config.assets.precompile += %w( dashboards.css )
+Rails.application.config.assets.precompile += [ "i18n.js" ]
 
-Rails.application.config.assets.precompile += %w( users/*.js )
-Rails.application.config.assets.precompile += %w( errors/*.js )
-Rails.application.config.assets.precompile += %w( websites/*.js )
-Rails.application.config.assets.precompile += %w( accounts/app.js )
-Rails.application.config.assets.precompile += %w( profiles/app.js )
-Rails.application.config.assets.precompile += %w( dashboards/app.js )
-Rails.application.config.assets.precompile += %w( i18n.js )
+# dynamic include assets for engines
 
-if defined?(CloudHaus)
-    Rails.application.config.assets.precompile += %w( cloud_haus/*.js )
-    Rails.application.config.assets.precompile += %w( cloud_haus/*.css )
-    Rails.application.config.assets.precompile += %w( cloud_haus/**/*.png cloud_haus/**/*.svg )
-end
+instaled_engines = Rails.configuration.lesli_settings["engines"]
 
-if defined?(CloudDriver)
-    Rails.application.config.assets.precompile += %w( cloud_driver/*.js )
-    Rails.application.config.assets.precompile += %w( cloud_driver/*.css )
-end
-
-if defined?(CloudFocus)
-    Rails.application.config.assets.precompile += %w( cloud_focus/*.js )
-    Rails.application.config.assets.precompile += %w( cloud_focus/*.css )
-end
-
-if defined?(CloudBabel)
-    Rails.application.config.assets.precompile += %w( cloud_babel/*.js )
-    Rails.application.config.assets.precompile += %w( cloud_babel/*.css )
-end
-
-if defined?(CloudBabel)
-    Rails.application.config.assets.precompile += %w( cloud_bell/*.js )
-    Rails.application.config.assets.precompile += %w( cloud_bell/*.css )
-end
-
-if defined?(CloudLock)
-    Rails.application.config.assets.precompile += %w( cloud_lock/*.js )
-    Rails.application.config.assets.precompile += %w( cloud_lock/*.css )
+instaled_engines.each do |engine|
+    Rails.application.config.assets.precompile += ["#{engine["code"]}/*.css", "#{engine["code"]}/*.js"]
+    Rails.application.config.assets.precompile += ["#{engine["code"]}/*.jpg", "#{engine["code"]}/*.png",  "#{engine["code"]}/*.svg"]
 end

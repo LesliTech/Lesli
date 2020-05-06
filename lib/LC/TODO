@@ -1,0 +1,12 @@
+The current version of LC::Date does not support settings nor multiple accounts. It must be implemented.
+
+The things to consider are the following:
+- LC::Date must be transparent, so a call to any method should contain as little information as possible
+   (idealy, only the date to be formatted)
+- ApplcationLesliController already saves the date settins in every request, so a way to store them into a global variable and
+   use them in LC::Date would be perfect (however, we don't know yet how that would be done)
+- At the current time, the only format available is the default format (this is only for the backend, the frontend already works with the db values)
+
+Things we have already tried:
+   - Usings settings is not possible (the variable is only available in controllers and views)
+   - Sending variables throught Thread.current is not consistent and it's behavior is unpredictable, besides, we need a way to give the information from Jobs and Tasks

@@ -1,5 +1,20 @@
 class ErrorsController < ApplicationPublicController
 
+    def unauthorized
+        respond_to do |format|
+            format.html { }
+            format.json { 
+                render status: 401, json: {
+                    successful: false,
+                    error: {
+                        message: "Unauthorized",
+                        details: []
+                    }
+                }.to_json
+            }
+        end
+    end
+
     def not_found
 
         # check if requested url exists in the list of systems modules url path
