@@ -5,11 +5,7 @@ class UsersController < ApplicationLesliController
         respond_to do |format|
             format.json {
             
-                users = nil
-
-                users = current_user.account.users.where(:role => params[:role]) if not params[:role].blank?
-
-                users = current_user.account.users if users === nil
+                users = User.index(current_user, params[:role])
 
                 responseWithSuccessful(users)
 
@@ -22,8 +18,8 @@ class UsersController < ApplicationLesliController
             format.json {
                 set_user
                 return responseWithNotFound unless @user
-
-                responseWithSuccessful(@user)
+                
+                responseWithSuccessful(@user.show)
             }
         end
     end
