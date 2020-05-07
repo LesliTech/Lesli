@@ -32,6 +32,8 @@ Rails.application.config.assets.version = "0.1.0"
 # Add vendor libraries to assets
 Rails.application.config.assets.paths << Rails.root.join("vendor")
 
+Rails.application.config.assets.precompile += [ "lesli/templates/website.css" ]
+
 # Themes
 Rails.application.config.assets.precompile += [ "themes/blank.css" ]
 Rails.application.config.assets.precompile += [ "themes/**/*.css" ]

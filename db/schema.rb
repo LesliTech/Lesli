@@ -774,6 +774,38 @@ ActiveRecord::Schema.define(version: 10010104) do
     t.index ["cloud_house_workflow_statuses_id"], name: "house_contacts_workflow_statuses"
   end
 
+  create_table "cloud_house_custom_validation_fields", force: :cascade do |t|
+    t.string "model_to_validate"
+    t.string "column_to_validate"
+    t.string "context"
+    t.boolean "enabled"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.bigint "cloud_house_custom_validation_rules_id"
+    t.index ["cloud_house_custom_validation_rules_id"], name: "cloud_house_custom_validation_rules_fields"
+  end
+
+  create_table "cloud_house_custom_validation_rules", force: :cascade do |t|
+    t.string "name"
+    t.string "description"
+    t.boolean "enabled"
+    t.boolean "rule_required"
+    t.string "message_error"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.bigint "cloud_house_custom_validations_id"
+    t.index ["cloud_house_custom_validations_id"], name: "cloud_house_custom_validations_validation_rules"
+  end
+
+  create_table "cloud_house_custom_validations", force: :cascade do |t|
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.bigint "users_id"
+    t.bigint "cloud_house_accounts_id"
+    t.index ["cloud_house_accounts_id"], name: "cloud_house_accounts_custom_validations"
+    t.index ["users_id"], name: "index_cloud_house_custom_validations_on_users_id"
+  end
+
   create_table "cloud_house_employee_actions", force: :cascade do |t|
     t.integer "type"
     t.string "instructions"
@@ -1599,6 +1631,10 @@ ActiveRecord::Schema.define(version: 10010104) do
   add_foreign_key "cloud_house_contacts", "cloud_house_accounts", column: "cloud_house_accounts_id"
   add_foreign_key "cloud_house_contacts", "cloud_house_workflow_statuses", column: "cloud_house_workflow_statuses_id"
   add_foreign_key "cloud_house_contacts", "locations", column: "location_city_id"
+  add_foreign_key "cloud_house_custom_validation_fields", "cloud_house_custom_validation_rules", column: "cloud_house_custom_validation_rules_id"
+  add_foreign_key "cloud_house_custom_validation_rules", "cloud_house_custom_validations", column: "cloud_house_custom_validations_id"
+  add_foreign_key "cloud_house_custom_validations", "cloud_house_accounts", column: "cloud_house_accounts_id"
+  add_foreign_key "cloud_house_custom_validations", "users", column: "users_id"
   add_foreign_key "cloud_house_employee_actions", "cloud_house_employees", column: "cloud_house_employees_id"
   add_foreign_key "cloud_house_employee_activities", "cloud_house_employees", column: "cloud_house_employees_id"
   add_foreign_key "cloud_house_employee_activities", "users", column: "users_id"
