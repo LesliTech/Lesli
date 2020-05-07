@@ -102,9 +102,10 @@ class User < ApplicationRecord
 
     # =begin
     # @param accounnt [Account] The account associated to *current_user*
-    # @param role [String] The role for filter users by role
-    # @return [Hash] Detailed information about all the users of this account.
-    # @description Creates a query that select information about the users
+    # @param roles [String] The roles separate by comma for filter users by role
+    # @param type [String] if type=exclude will remove users with roles listed in @param roles
+    # @return [Array] Detailed information about all the users of this account.
+    # @description Return a list of users that belongs to the account of the current_user
     # @example
     #     users_info = User.index(current_user.account, role)
     #     puts users_info.to_json
@@ -122,8 +123,10 @@ class User < ApplicationRecord
     #    }
     #]
     # =end
-    def self.index(current_user, role)
+    def self.index(current_user, roles, type, query)
         users = []
+        roles = roles.blank? ? [] : roles.split(',') 
+        operator = type == "exclude" ? 'not in' : 'in'
         if defined? (CloudLock)
             users = current_user.account.users
             .joins(:lock)
@@ -138,12 +141,13 @@ class User < ApplicationRecord
                 "clrd.name as role",
                 "concat(clud.first_name, ' ', clud.last_name) as name",
             )
-            .order(:id)
-            users = users.where("clrd.name = ?", role) unless role.blank?
+            .order(:id)            
         else
             users = current_user.account.users.select(:id, :email, :role, :active, :name).order(:name)
-            users = users.where("role = ?", role) unless role.blank?
         end
+
+        users = users.where("email = like ?", query[:filters][:domain]) unless query[:filters][:domain].blank?
+        users = users.where("role #{operator} (?)", roles) unless roles.blank?
         
         users
     end
