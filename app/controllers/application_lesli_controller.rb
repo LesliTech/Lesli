@@ -31,7 +31,7 @@ class ApplicationLesliController < ApplicationController
 
     before_action :authenticate_user!
     before_action :check_account
-    before_action :authenticate_request
+    before_action :authenticate_request, only: [:index, :create, :update, :destroy, :new, :show, :options, :default]
     before_action :set_global_account
     before_action :set_request_helpers
     
@@ -52,11 +52,9 @@ class ApplicationLesliController < ApplicationController
 
     def authenticate_request
 
-        return
-
         # if Lock module is not installed, validate only user session
-        if not defined?(CloudLock)
-            #return authenticate_user
+        unless defined?(CloudLock)
+            return true
         end
         
         # get user role in Lock module
@@ -73,8 +71,8 @@ class ApplicationLesliController < ApplicationController
         .where("grant_#{params[:action]} = ?", true)
         .first
 
-        #return responseWithUnauthorized if granted.blank?
-        #return responseWithUnauthorized if not granted["grant_#{params[:action]}"] === true
+        return responseWithUnauthorized if granted.blank?
+        return responseWithUnauthorized if not granted["grant_#{params[:action]}"] === true
 
     end
     
@@ -102,11 +100,14 @@ class ApplicationLesliController < ApplicationController
 
     def set_global_account 
 
+        current_user_role = current_user.lock.role
+        
         @account = {
             user: { 
                 id: current_user.id,
                 email: current_user.email,
-                full_name: current_user.full_name
+                full_name: current_user.full_name,
+                privileges: current_user_role.blank? ? [] : current_user_role.privileges 
             },
             company: { },
             notifications: { 
@@ -129,20 +130,5 @@ class ApplicationLesliController < ApplicationController
         end
 
         @account
-    end
-
-    def grant_action
-        controller = params[:controller]
-        grant = "grant_#{params[:action]}"
-
-        privilege = Courier::Lock::Role.privilege(current_user, controller, grant)
-        unless privilege.present?
-            respond_to do |format|
-                format.html {}
-                format.json do
-                    responseWithError("you dont have privileges to do this action")
-                end
-            end
-        end
     end
 end

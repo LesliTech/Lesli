@@ -56,6 +56,7 @@ class UsersController < ApplicationLesliController
 
     def user_params
         params.require(:user).permit(
+            :name,
             :email,
             :role,
             :active
