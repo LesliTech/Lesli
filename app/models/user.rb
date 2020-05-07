@@ -42,6 +42,8 @@ class User < ApplicationRecord
 
     after_create :user_initialize 
 
+    validates :role, presence: true
+
     enum roles: {
         admin: "admin",
         buyer: "buyer",
@@ -125,20 +127,21 @@ class User < ApplicationRecord
         if defined? (CloudLock)
             users = current_user.account.users
             .joins(:lock)
-            .joins("inner join cloud_lock_user_details as clud on clud.cloud_lock_users_id = cloud_lock_users.id")
-            .joins("inner join cloud_lock_roles as clr on clr.id = cloud_lock_users.cloud_lock_roles_id")
-            .joins("inner join cloud_lock_role_details as clrd on clrd.cloud_lock_roles_id = clr.id")
+            .joins("left join cloud_lock_user_details as clud on clud.cloud_lock_users_id = cloud_lock_users.id")
+            .joins("left join cloud_lock_roles as clr on clr.id = cloud_lock_users.cloud_lock_roles_id")
+            .joins("left join cloud_lock_role_details as clrd on clrd.cloud_lock_roles_id = clr.id")
             .select(
                 "users.id",
                 "users.email",
+                "users.active",
                 "users.created_at",
                 "clrd.name as role",
                 "concat(clud.first_name, ' ', clud.last_name) as name",
             )
-            .order(:name)
+            .order(:id)
             users = users.where("clrd.name = ?", role) unless role.blank?
         else
-            users = current_user.account.users.select(:id, :email, :role, :created_at, :name).order(:name)
+            users = current_user.account.users.select(:id, :email, :role, :active, :name).order(:name)
             users = users.where("role = ?", role) unless role.blank?
         end
         
@@ -160,17 +163,19 @@ class User < ApplicationRecord
     def show
         if defined? (CloudLock)
             user = User.find(id)
-            user_details = user.lock.detail
-            role_details = user.lock.role.detail
+            user_lock = user.lock
             return {
                 id: id,
                 email: email,
-                created_at: created_at,
-                role: role_details ? role_details.name : "",
-                name: user_details ? user_details.first_name + " " + user_details.last_name : ""
+                lock: {
+                    id: user_lock.id,
+                    users_id: user_lock.users_id,
+                    detail_attributes: user_lock.detail,
+                    cloud_lock_roles_id: user_lock.cloud_lock_roles_id,
+                }
             }
         else
-            return User.select(:id, :email, :role, :name, :created_at).find(id)
+            return User.select(:id, :email, :role, :name).find(id)
         end  
     end
 
@@ -198,12 +203,14 @@ class User < ApplicationRecord
               .joins(:detail)
               .where("cloud_lock_role_details.name = ?", self.role)
               .first
+              
             lock_user = CloudLock::User.new(
                 account: self.account,
                 user: self,
                 role: role_guest,
                 created_at: Time.now,
-                updated_at: Time.now    
+                updated_at: Time.now,
+                detail_attributes: {}    
             )
             lock_user.save!
             #self.account.lock.user.create({
