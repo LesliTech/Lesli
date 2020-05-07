@@ -1,3 +1,5 @@
+
+<% if Rails.application.config.lesli_settings["env"] == "production" %>
 <!-- Analytics -->
 <script type="text/javascript">
 
@@ -26,3 +28,4 @@
     
 </script>
 <!-- End Analytics Code -->
+<% end %>
