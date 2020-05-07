@@ -92,8 +92,8 @@ class ApplicationLesliController < ApplicationController
             pagination: {
                 perPage: (params[:perPage] ? params[:perPage].to_i : 15),
                 page: (params[:page] ? params[:page].to_i : 1),
-                order: "desc",
-                orderColumn: "id"
+                order: (params[:order] ? params[:order] : "desc"),
+                orderColumn: (params[:orderColumn] ? params[:orderColumn] : "id")
             },
             filters: params[:filters] ? params[:filters] : {}
         }

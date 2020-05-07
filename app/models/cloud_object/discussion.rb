@@ -37,9 +37,9 @@ Building a better future, one line of code at a time.
 @example
     account = current_user.account
     employee_id = params[:employee_id]
-    discussions = CloudTeam::Employee::Discussion.detailed_info( account, employee_id )
+    discussions = CloudTeam::Employee::Discussion.list( account, employee_id )
 =end
-        def self.detailed_info(account, cloud_id)
+        def self.list(account, cloud_id)
 
             # Select all discussions from the table
             module_info = self.name.split("::")
@@ -66,6 +66,7 @@ Building a better future, one line of code at a time.
             .order(id: :asc)
             .map { |discussion| 
                 discussion_attributes = discussion.attributes
+                discussion_attributes["created_at_raw"] = discussion_attributes["created_at"]
                 discussion_attributes["created_at"] = LC::Date.to_string_datetime(discussion_attributes["created_at"])
                 discussion_attributes
             }
