@@ -53,6 +53,7 @@ module CloudObject
                     value_from: activity[:value_from],
                     value_to: activity[:value_to],
                     icon: activity[:icon],
+                    created_at_raw: activity[:created_at],
                     created_at: LC::Date.to_string_datetime(activity[:created_at]),
                     updated_at: LC::Date.to_string_datetime(activity[:updated_at])
                 }
