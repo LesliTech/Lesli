@@ -51,10 +51,11 @@ class ApplicationLesliController < ApplicationController
     end
 
     def authenticate_request
-
+        return 
+        #TODO validate default roles
         # if Lock module is not installed, validate only user session
         unless defined?(CloudLock)
-            return true
+            return 
         end
         
         # get user role in Lock module
