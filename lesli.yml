@@ -19,6 +19,16 @@ development:
         default_url_options_host: "http://127.0.0.1:3000"
     googlemaps_sdk_token: "AIzaSyCN4i4BWJS-IVtniSMY1Ot2MGaKuTKLNP8"
 
+test:
+    default_url: "http://0.0.0.0:3000"
+    i18n_default_locale: en
+    devise_mailer_sender: "dev@lesli.tech"
+    action_mailer:
+        asset_host: "http://127.0.0.1:3000"
+        default_options_from: "dev@lesli.tech"
+        default_url_options_host: "http://127.0.0.1:3000"
+    googlemaps_sdk_token: ""
+
 production:
     default_url: "http://0.0.0.0:3000"
     i18n_default_locale: en
