@@ -132,4 +132,8 @@ class ApplicationLesliController < ApplicationController
 
     end
 
+    def is_admin
+        return current_user.role == 'admin'
+    end
+
 end
