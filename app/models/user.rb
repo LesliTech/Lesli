@@ -141,12 +141,13 @@ class User < ApplicationRecord
                 "clrd.name as role",
                 "concat(clud.first_name, ' ', clud.last_name) as name",
             )
-            .order(:id)            
+            .distinct
+            .order(:id)         
         else
             users = current_user.account.users.select(:id, :email, :role, :active, :name).order(:name)
         end
 
-        users = users.where("email = like ?", query[:filters][:domain]) unless query[:filters][:domain].blank?
+        users = users.where("email like '%#{query[:filters][:domain]}%'")  unless query[:filters][:domain].blank?
         users = users.where("role #{operator} (?)", roles) unless roles.blank?
         
         users
