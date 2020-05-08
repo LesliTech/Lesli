@@ -141,7 +141,6 @@ class User < ApplicationRecord
                 "clrd.name as role",
                 "concat(clud.first_name, ' ', clud.last_name) as name",
             )
-            .distinct
             .order(:id)         
         else
             users = current_user.account.users.select(:id, :email, :role, :active, :name).order(:name)
