@@ -101,7 +101,7 @@ class ApplicationLesliController < ApplicationController
 
     def set_global_account 
 
-        current_user_role = current_user.lock.role
+        current_user_role = current_user.lock ? current_user.lock.role : nil
         
         @account = {
             user: { 
