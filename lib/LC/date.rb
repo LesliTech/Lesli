@@ -79,7 +79,7 @@ module LC
         end
  
         def self.verify_settings
-            return if @accounts_settings
+            return if @settings
  
             self.reset_db_settings
         end
