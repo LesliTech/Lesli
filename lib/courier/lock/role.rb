@@ -26,38 +26,18 @@ Building a better future, one line of code at a time.
 =end
 module Courier
 
-    module Core
+    module Lock
 
-        class Users
+        class Role
 
-            def self.list()
-
-                employees = []
-                if defined? (CloudLock)
-                    return ::User.left_joins(:detail).select(:id, :email, :role, :first_name, :last_name, :created_at).order(:id)
-                else
-                    return ::User.select(:id, :email, :role, :created_at, :name).order(:id)
-                end
-
-
-                if defined?(CloudTeam)
-                    employees = ::CloudTeam::Employee.all
-                end
-
-                #users | employees returns a new array with the combination of users and employess
-
-                users
-
+            def self.privilege(current_user, controller, grant)
+                privilege = current_user.account.lock.users
+                            .find_by(users_id: current_user.id)
+                            .role
+                            .privileges
+                            .where("grant_object_name = ? and #{grant} = ?", controller, true)
+                            .first
             end
-
-            def self.get(id)
-                if defined? (CloudLock)
-                    return ::User.lock.joins(:detail).select(:id, :email, :role, :first_name, :last_name, :created_at).find(id)
-                else
-                    return ::User.select(:id, :email, :role, :name, :created_at).find(id)
-                end
-            end
-
         end
 
     end
