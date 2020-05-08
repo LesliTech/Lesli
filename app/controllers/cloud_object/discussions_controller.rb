@@ -39,7 +39,7 @@ Building a better future, one line of code at a time.
 =end
         def index
             responseWithSuccessful(
-                dynamic_info[:model].detailed_info(
+                dynamic_info[:model].list(
                     current_user.account, params["#{dynamic_info[:object_name]}_id".to_sym]
                 )
             )

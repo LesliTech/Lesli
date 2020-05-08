@@ -46,8 +46,8 @@ import pluginBus from 'LesliCoreVue/plugins/bus'
 import pluginUrl from 'LesliCoreVue/plugins/url'
 import pluginHttp from 'LesliCoreVue/plugins/http'
 import pluginDate from 'LesliCoreVue/plugins/date'
+import pluginAbilities from 'LesliCoreVue/plugins/abilities'
 import pluginObjectUtils from 'LesliCoreVue/plugins/object-utils'
-
 
 
 // · Loading app functions
@@ -78,6 +78,7 @@ Vue.use(pluginBus)
 Vue.use(pluginUrl)
 Vue.use(pluginHttp)
 Vue.use(pluginDate)
+Vue.use(pluginAbilities)
 Vue.use(pluginObjectUtils)
 Vue.use(Buefy, { defaultIconPack: 'fas' })
 
@@ -95,8 +96,6 @@ Vue.component('component-toolbar', componentToolbar)
 // · base_path: for vue router
 // · example: app("CloudHelp", "[list|new|edit|show]", "help/tickets", [])
 export default (module, apps, base_path, routes=[]) => {
-
-
     // · Vue app configuration container
     let cloud_builder = { }
 
