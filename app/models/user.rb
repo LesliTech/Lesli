@@ -42,6 +42,8 @@ class User < ApplicationRecord
 
     after_create :user_initialize 
 
+    validates :role, presence: true
+
     enum roles: {
         admin: "admin",
         buyer: "buyer",
@@ -98,6 +100,89 @@ class User < ApplicationRecord
         email.deliver_now
     end
 
+    # =begin
+    # @param accounnt [Account] The account associated to *current_user*
+    # @param roles [String] The roles separate by comma for filter users by role
+    # @param type [String] if type=exclude will remove users with roles listed in @param roles
+    # @return [Array] Detailed information about all the users of this account.
+    # @description Return a list of users that belongs to the account of the current_user
+    # @example
+    #     users_info = User.index(current_user.account, role)
+    #     puts users_info.to_json
+    # will print something like: [
+    #    {
+    #        "id":1,                     
+    #        "created_at":"2020-01-08T16:23:10.976Z",
+    #        "name":"Diego Alay"
+    #        "role":"manager"
+    #    },{
+    #        "id":2,                     
+    #        "created_at":"2020-01-10T16:23:10.976Z",
+    #        "name":"Carlos Hermosilla"
+    #        "role":"b2b"
+    #    }
+    #]
+    # =end
+    def self.index(current_user, roles, type, query)
+        users = []
+        roles = roles.blank? ? [] : roles.split(',') 
+        operator = type == "exclude" ? 'not in' : 'in'
+        if defined? (CloudLock)
+            users = current_user.account.users
+            .joins(:lock)
+            .joins("left join cloud_lock_user_details as clud on clud.cloud_lock_users_id = cloud_lock_users.id")
+            .joins("left join cloud_lock_roles as clr on clr.id = cloud_lock_users.cloud_lock_roles_id")
+            .joins("left join cloud_lock_role_details as clrd on clrd.cloud_lock_roles_id = clr.id")
+            .select(
+                "users.id",
+                "users.email",
+                "users.active",
+                "users.created_at",
+                "clrd.name as role",
+                "concat(clud.first_name, ' ', clud.last_name) as name",
+            )
+            .order(:id)            
+        else
+            users = current_user.account.users.select(:id, :email, :role, :active, :name).order(:name)
+        end
+
+        users = users.where("email = like ?", query[:filters][:domain]) unless query[:filters][:domain].blank?
+        users = users.where("role #{operator} (?)", roles) unless roles.blank?
+        
+        users
+    end
+
+    # @return [Hash] Detailed information about the user.
+    # @description Creates a query that selects all user information from several tables if CloudLock is present
+    #     and returns it in a hash
+    # @example
+    #     user = User.find(43)
+    #     puts user.show
+    #     will print something like: {
+    #        "id":1,                     
+    #        "created_at":"2020-01-08T16:23:10.976Z",
+    #        "name":"Diego Alay"
+    #        "role":"manager"
+    #     }
+    def show
+        if defined? (CloudLock)
+            user = User.find(id)
+            user_lock = user.lock
+            return {
+                id: id,
+                email: email,
+                lock: {
+                    id: user_lock.id,
+                    users_id: user_lock.users_id,
+                    detail_attributes: user_lock.detail,
+                    cloud_lock_roles_id: user_lock.cloud_lock_roles_id,
+                }
+            }
+        else
+            return User.select(:id, :email, :role, :name).find(id)
+        end  
+    end
+
     private 
 
     # @return [void]
@@ -122,12 +207,14 @@ class User < ApplicationRecord
               .joins(:detail)
               .where("cloud_lock_role_details.name = ?", self.role)
               .first
+              
             lock_user = CloudLock::User.new(
                 account: self.account,
                 user: self,
                 role: role_guest,
                 created_at: Time.now,
-                updated_at: Time.now    
+                updated_at: Time.now,
+                detail_attributes: {}    
             )
             lock_user.save!
             #self.account.lock.user.create({
