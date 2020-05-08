@@ -37,7 +37,7 @@ module Courier
                         .where("cloud_driver_events.model_id = ? AND cloud_driver_events.model_type = ?", model_id, model_type)
                 
                 events = events.where("cloud_driver_event_details.event_type = ? ", query[:condition][:type]) unless query[:condition].nil?
-                events = events.order("cloud_driver_events.created_at")
+                events = events.order("#{query[:pagination][:orderColumn]} #{query[:pagination][:order]} NULLS LAST")
                 events = events.page(query[:pagination][:page]).per(query[:pagination][:perPage])
 
                 events_count = events.total_count
@@ -47,12 +47,14 @@ module Courier
                         id: event.id, 
                         title: event.title, 
                         description: event.description,
-                        time_start: Courier::Core::Date.to_string_datetime(event.time_start),
-                        time_end: Courier::Core::Date.to_string_datetime(event.time_end),
+                        time_start_raw: event.time_start,
+                        time_end_raw: event.time_end,
+                        time_start: LC::Date.to_string_datetime(event.time_start),
+                        time_end: LC::Date.to_string_datetime(event.time_end),
                         location: event.location,
                         event_type: event.event_type,
                         public: event.public,
-                        organizer: Courier::Core::Users.get(event.organizer_id)
+                        organizer: event.organizer
                     }
                 end
     

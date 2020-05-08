@@ -31,7 +31,7 @@ class ApplicationLesliController < ApplicationController
 
     before_action :authenticate_user!
     before_action :check_account
-    before_action :authenticate_request
+    before_action :authenticate_request, only: [:index, :create, :update, :destroy, :new, :show, :options, :default]
     before_action :set_global_account
     before_action :set_request_helpers
     
@@ -51,12 +51,11 @@ class ApplicationLesliController < ApplicationController
     end
 
     def authenticate_request
-
-        return
-
+        return 
+        #TODO validate default roles
         # if Lock module is not installed, validate only user session
-        if not defined?(CloudLock)
-            #return authenticate_user
+        unless defined?(CloudLock)
+            return 
         end
         
         # get user role in Lock module
@@ -73,8 +72,8 @@ class ApplicationLesliController < ApplicationController
         .where("grant_#{params[:action]} = ?", true)
         .first
 
-        #return responseWithUnauthorized if granted.blank?
-        #return responseWithUnauthorized if not granted["grant_#{params[:action]}"] === true
+        return responseWithUnauthorized if granted.blank?
+        return responseWithUnauthorized if not granted["grant_#{params[:action]}"] === true
 
     end
     
@@ -92,8 +91,8 @@ class ApplicationLesliController < ApplicationController
             pagination: {
                 perPage: (params[:perPage] ? params[:perPage].to_i : 15),
                 page: (params[:page] ? params[:page].to_i : 1),
-                order: "desc",
-                orderColumn: "id"
+                order: (params[:order] ? params[:order] : "desc"),
+                orderColumn: (params[:orderColumn] ? params[:orderColumn] : "id")
             },
             filters: params[:filters] ? params[:filters] : {}
         }
@@ -102,11 +101,14 @@ class ApplicationLesliController < ApplicationController
 
     def set_global_account 
 
+        current_user_role = current_user.lock ? current_user.lock.role : nil
+        
         @account = {
             user: { 
                 id: current_user.id,
                 email: current_user.email,
-                full_name: current_user.full_name
+                full_name: current_user.full_name,
+                privileges: current_user_role.blank? ? [] : current_user_role.privileges 
             },
             company: { },
             notifications: { 
@@ -129,9 +131,8 @@ class ApplicationLesliController < ApplicationController
         end
 
         @account
-
     end
-
+  
     def is_admin?
         if defined? CloudLock
             return current_user.lock.role.detail.name == 'admin'
