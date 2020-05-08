@@ -132,4 +132,12 @@ class ApplicationLesliController < ApplicationController
 
         @account
     end
+  
+    def is_admin?
+        if defined? CloudLock
+            return current_user.lock.role.detail.name == 'admin'
+        end
+        return current_user.admin?
+    end
+
 end
