@@ -61,7 +61,7 @@ module Courier
                 .joins("inner join users ua on ua.id = cloud_focus_tasks.users_id")
                 .joins("inner join users uc on uc.id = cloud_focus_tasks.creator_id")
                 .where("cloud_focus_tasks.model_id = ? AND cloud_focus_tasks.model_type = ? AND cloud_focus_workflow_statuses.name != ? ", model_id, model_type, 'done')
-                .order("cloud_focus_tasks.created_at")
+                .order("#{query[:pagination][:orderColumn]} #{query[:pagination][:order]} NULLS LAST")
                 .page(query[:pagination][:page]).per(query[:pagination][:perPage])
                 
                 tasks_count = tasks.total_count
@@ -112,6 +112,7 @@ module Courier
                         title: task.title, 
                         description: task.description,
                         deadline: Courier::Core::Date.to_string(task.deadline),
+                        deadline_raw: task.deadline,
                         importance: CloudFocus::Task.importances.key(task.importance),
                         model_type: task.model_type,
                         creator: {

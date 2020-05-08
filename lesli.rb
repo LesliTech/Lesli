@@ -133,14 +133,6 @@ module Lesli
 
         lesli_settings["env"] = Rails.env
 
-        puts "~     ~     ~     ~     ~     ~     ~     ~     ~     ~     ~     ~"
-        puts "~     ~     ~     ~     ~     ~     ~     ~     ~     ~     ~     ~"
-        puts "~     ~     ~     ~     ~     ~     ~     ~     ~     ~     ~     ~"
-        p lesli_settings
-        puts "~     ~     ~     ~     ~     ~     ~     ~     ~     ~     ~     ~"
-        puts "~     ~     ~     ~     ~     ~     ~     ~     ~     ~     ~     ~"
-        puts "~     ~     ~     ~     ~     ~     ~     ~     ~     ~     ~     ~"
-
         lesli_settings
 
     end
