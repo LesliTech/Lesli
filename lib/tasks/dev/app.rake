@@ -34,6 +34,8 @@ namespace :dev do
         desc "Lesli reset app installation"
         task reset: :environment do
 
+            #aws s3 sync . s3://crmleibrentenstorage/migration --profile beta
+
             #datetime_start = Time.now.strftime('%Y/%m/%d %H:%M:%S')
             #file = File.open(Rails.root.join("public", "dev-deploy-log.txt"), "a")
             #file.write("Deploy process started at: #{ datetime_start }, ")
