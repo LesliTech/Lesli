@@ -58,7 +58,7 @@ class UsersController < ApplicationLesliController
     end
 
     def check_has_authorization
-        if !is_admin()
+        if !is_admin?()
             return responseWithUnauthorized if current_user != @user
         end
     end
