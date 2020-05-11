@@ -56,7 +56,7 @@ account:
         
     security:
         login:
-            fullname: "Lesli Development"
+        -   fullname: "Lesli Development"
             username: "dev@lesli.cloud"
             password: "lesli2020"
         roles:

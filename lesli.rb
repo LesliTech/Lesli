@@ -89,6 +89,9 @@ module Lesli
         # Lesli core settings
         lesli_settings = YAML.load_file("./lesli.yml")
 
+        # Get Lesli development user
+        lesli_development_user = lesli_settings["account"]["security"]["login"]
+
         # get Lesli instance (builder engine)
         instance_engine = instance
 
@@ -98,8 +101,16 @@ module Lesli
             # get settings from instance
             instance_settings = YAML.load_file(File.join("./engines", instance_engine, "lesli.yml"))
 
+            # get Lesli instance (builder engine)
+            instance_development_user = instance_settings["account"]["security"]["login"]
+
             # overwrite core settings
             lesli_settings = instance_settings.reverse_merge!(lesli_settings)
+
+            # include default Lesli user for development environment
+            if not Rails.env == "production"
+                lesli_settings["account"]["security"]["login"].push(lesli_development_user[0])
+            end
 
         end
 
