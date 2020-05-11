@@ -27,9 +27,3 @@ production:
     database: <%= Rails.application.credentials.db[:database] %>
     username: <%= Rails.application.credentials.db[:username] %>
     password: <%= Rails.application.credentials.db[:password] %>
-
-production:
-    <<: *common
-    database: leslicloud_production
-    username: leslicloud
-    password: leslicloud
