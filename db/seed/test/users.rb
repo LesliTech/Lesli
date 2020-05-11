@@ -12,31 +12,34 @@ Without the written permission of Lesli Technologies, S. A., any replication, mo
 transmission, publication is strictly forbidden.
 For more information read the license file including with this software.
 
-LesliCloud - Your Smart Business Assistant
+Lesli - Your Smart Business Assistant
 
 Powered by https://www.lesli.tech
 Building a better future, one line of code at a time.
 
-@author   Luis Davila
+@contact  <hello@lesli.tech>
+@website  <https://lesli.tech>
 @license  Propietary - all rights reserved.
-@version  0.1.0-alpha
-@description testing seeders
+
+// · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
+// · 
 
 =end
 
-email = "dev@lesli.cloud"
-password = "lesli2020"
+# get settings
+account_login = Rails.application.config.lesli_settings["account"]["security"]["login"]
 
-User.find_or_create_by(email: email) do |user|
-    user.name = "Lesli Development"
+# create development user
+User.find_or_create_by(email: account_login["username"]) do |user|
     user.role = "admin"
-    user.password = password
-    user.password_confirmation = password
+    user.name = account_login["fullname"]
+    user.password = account_login["password"]
+    user.password_confirmation = account_login["password"]
     user.accounts_id = 1
-    user.confirm
+    user.confirm if not user.confirmed?
 
     user.account.user = user
     user.account.save!
 end
 
-p "Users successfully created!"
+puts "Users successfully created!"

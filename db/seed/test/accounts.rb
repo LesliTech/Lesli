@@ -12,17 +12,32 @@ Without the written permission of Lesli Technologies, S. A., any replication, mo
 transmission, publication is strictly forbidden.
 For more information read the license file including with this software.
 
-LesliCloud - Your Smart Business Assistant
+Lesli - Your Smart Business Assistant
 
 Powered by https://www.lesli.tech
 Building a better future, one line of code at a time.
 
-@author   Luis Davila
+@contact  <hello@lesli.tech>
+@website  <https://lesli.tech>
 @license  Propietary - all rights reserved.
-@version  0.1.0-alpha
-@description testing seeders
+
+// · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
+// · 
 
 =end
-model = Account.find_or_create_by(company_name: "Lesli Technologies, S. A.") do |account|
+
+# get settings
+company = Rails.application.config.lesli_settings["account"]["company"]
+
+# create account
+model = Account.find_or_create_by(company_name: company) do |account|
     account.status = 1
 end
+
+# create aditional development account
+model = Account.new
+model.company_name = Faker::Company.name
+model.status = 1
+model.save!
+
+puts "Accounts successfully created!"
