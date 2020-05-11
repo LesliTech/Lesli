@@ -5,7 +5,10 @@ export default {
             text: "",
             show: false,
             timer: null,
-            projects: []
+            projects: [],
+            translations: {
+                projects: I18n.t('haus.projects')
+            }
         }
     },
     mounted() {
@@ -75,7 +78,7 @@ export default {
 <template>
     <section v-if="show" class="application-global-search">
         <div class="content">
-            <h4>Projects</h4>
+            <h4>{{translations.projects.title}}</h4>
             <b-table 
                 @click="goToProject"
                 :data="projects" 
@@ -83,25 +86,25 @@ export default {
                 :striped="true">
                 <template slot-scope="props">
 
-                    <b-table-column field="code" label="Code" sortable v-html="props.row.code">
+                    <b-table-column field="code" :label="translations.projects.table_header_code" sortable v-html="props.row.code">
                     </b-table-column>
 
-                    <b-table-column field="name" label="Name" sortable v-html="props.row.name">
+                    <b-table-column field="name" :label="translations.projects.table_header_customer" sortable v-html="props.row.name">
                     </b-table-column>
 
-                    <b-table-column field="postcode" label="Postcode" sortable v-html="props.row.postcode">
+                    <b-table-column field="postcode" :label="translations.projects.form_customers_input_postcode_title" sortable v-html="props.row.postcode">
                     </b-table-column>
 
-                    <b-table-column field="street_name" label="Street" sortable v-html="props.row.street_name">
+                    <b-table-column field="street_name" :label="translations.projects.form_property_input_street_name_title" sortable v-html="props.row.street_name">
                     </b-table-column>
 
-                    <b-table-column field="city" label="City" sortable v-html="props.row.city">
+                    <b-table-column field="city" :label="translations.projects.form_property_input_city_title" sortable v-html="props.row.city">
                     </b-table-column>
 
-                    <b-table-column field="telephone" label="Telephone" sortable v-html="props.row.telephone">
+                    <b-table-column field="telephone" :label="translations.projects.form_customers_input_phone_title" sortable v-html="props.row.telephone">
                     </b-table-column>
 
-                    <b-table-column field="email" label="Email" sortable v-html="props.row.email">
+                    <b-table-column field="email" :label="translations.projects.form_customers_input_email_title" sortable v-html="props.row.email">
                     </b-table-column>
 
                 </template>
