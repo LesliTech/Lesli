@@ -89,15 +89,6 @@ module Lesli
         # Lesli core settings
         lesli_settings = YAML.load_file("./lesli.yml")
 
-        # add engine information into env section
-        lesli_settings[Rails.env]["info"] = lesli_settings["info"]
-        lesli_settings[Rails.env]["account"] = lesli_settings["account"]
-
-        # overwrite settings with env version
-        lesli_settings = lesli_settings[Rails.env]
-
-        instance_settings = {}
-
         # get Lesli instance (builder engine)
         instance_engine = instance
 
@@ -105,38 +96,26 @@ module Lesli
         if instance_engine != "Lesli" # not core
             
             # get settings from instance
-            platform_settings = YAML.load_file(File.join("./engines", instance_engine, "lesli.yml"))
-
-            # add instance information into env section
-            platform_settings[Rails.env]["info"] = platform_settings["info"]
-
-            # overwrite settings with env version
-            platform_settings = platform_settings[Rails.env]
+            instance_settings = YAML.load_file(File.join("./engines", instance_engine, "lesli.yml"))
 
             # overwrite core settings
-            platform_settings.each do |key, value|
-
-                if value.class.to_s == "Hash"
-
-                    value.each do |subkey, subvalue|
-                        lesli_settings[key][subkey] = subvalue
-                    end
-
-                    next
-                    
-                end
-
-                lesli_settings[key] = value
-
-            end
+            lesli_settings = instance_settings.reverse_merge!(lesli_settings)
 
         end
 
-        lesli_settings["engines"] = engines
+        platform_settings = {}
 
-        lesli_settings["env"] = Rails.env
+        platform_settings["engines"] = engines
 
-        lesli_settings
+        platform_settings["env"] = Rails.env
+
+        platform_settings["info"] = lesli_settings["info"]
+
+        platform_settings["env"] = lesli_settings[Rails.env]
+
+        platform_settings["account"] = lesli_settings["account"]
+
+        platform_settings
 
     end
 

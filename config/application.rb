@@ -48,7 +48,7 @@ module Lesli
         config.lesli_settings = Lesli::settings
 
         # Settings in config/environments/* take precedence over those specified here.
-        config.i18n.default_locale = config.lesli_settings['i18n_default_locale']
+        config.i18n.default_locale = config.lesli_settings["env"]["i18n_default_locale"]
         config.i18n.available_locales = [:en, :de, :es]
         config.i18n.load_path += Dir[Rails.root.join("config", "locales", "**", "*.{rb,yml}")]
         config.i18n.load_path += Dir[Rails.root.join("engines", "*", "config", "locales", "**", "*.{rb,yml}")]
