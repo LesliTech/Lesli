@@ -1,5 +1,6 @@
 class UsersController < ApplicationLesliController
     before_action :set_user, only: [:update]
+    before_action :check_has_authorization, only: [:update]
 
     def index
         respond_to do |format|
@@ -49,6 +50,12 @@ class UsersController < ApplicationLesliController
 
     def set_user
         @user = current_user.account.users.find_by(id: params[:id])
+    end
+
+    def check_has_authorization
+        if !is_admin?()
+            return responseWithUnauthorized if current_user != @user
+        end
     end
 
     private 
