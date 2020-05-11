@@ -12,13 +12,14 @@ Without the written permission of Lesli Technologies, S. A., any replication, mo
 transmission, publication is strictly forbidden.
 For more information read the license file including with this software.
 
-LesliCloud - Your Smart Business Assistant
+Lesli - Your Smart Business Assistant
 
 Powered by https://www.lesli.tech
 Building a better future, one line of code at a time.
 
+@contact  <hello@lesli.tech>
+@website  <https://lesli.tech>
 @license  Propietary - all rights reserved.
-@version  0.1.0-alpha
 
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
 // · 
@@ -27,11 +28,11 @@ Building a better future, one line of code at a time.
 
 class Account < ApplicationRecord
 
-    belongs_to :user, foreign_key: 'users_id', optional: true
+    belongs_to :user, foreign_key: "users_id", optional: true
 
-    has_many :users, foreign_key: 'accounts_id'
-    has_many :settings, foreign_key: 'accounts_id'
-    has_many :locations, foreign_key: 'accounts_id'
+    has_many :users, foreign_key: "accounts_id"
+    has_many :settings, foreign_key: "accounts_id"
+    has_many :locations, foreign_key: "accounts_id"
 
     # core engines
     has_one :kb,     class_name: "CloudKb::Account",     foreign_key: "id"
@@ -45,14 +46,16 @@ class Account < ApplicationRecord
     has_one :focus,  class_name: "CloudFocus::Account",  foreign_key: "id"
     has_one :driver, class_name: "CloudDriver::Account", foreign_key: "id"
 
-    # dedicated custom engines
-    #has_one :haus,  class_name: "CloudHaus::Account",  foreign_key: "id"
-
     after_create :create_engine_accounts
 
     def create_engine_accounts
 
         # settings initialize
+        Rails.application.config.lesli_settings["account"]["settings"].each do |setting|
+            self.settings.find_or_create_by({ name: setting[0], value: setting[1], account: self })
+        end
+
+=begin
         self.settings.find_or_create_by({ name: "theme", value: "deutsche-blue", account: self })
         self.settings.find_or_create_by({ name: "theme_variation", value: "standard", account: self })
 
@@ -65,7 +68,7 @@ class Account < ApplicationRecord
 
         self.settings.find_or_create_by({ name: "password_minimum_length", value: "6", account: self })
         self.settings.find_or_create_by({ name: "password_expiration_time_months", value: "12", account: self })
-        
+=end
 
         if defined? CloudKb
             if self.kb.blank?
@@ -92,34 +95,21 @@ class Account < ApplicationRecord
         end
 
         if defined? CloudLock
+
             if self.lock.blank?
                 self.lock = CloudLock::Account.new
                 self.lock.account = self
                 self.lock.save!
             end
 
-            roles = [
-                "admin",
-                "manager",
-                "buyer",
-                "office_manager",
-                "property_manager",
-                "intern",
-                "b2b",
-                "kop",
-                "callcenter",
-                "api",
-                "guest"
-            ]
-
-            roles.each do |role_name|
+            Rails.application.config.lesli_settings["security"]["roles"].each do |role_name|
                 role = CloudLock::Role.new(
                     created_at: Time.now,
                     updated_at: Time.now,
                     account: self,
                     detail_attributes: {
                         name: role_name,
-                        active: role_name != 'guest',
+                        active: role_name != "guest",
                         created_at: Time.now,
                         updated_at: Time.now
                     }
