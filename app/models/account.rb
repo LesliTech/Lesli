@@ -55,21 +55,6 @@ class Account < ApplicationRecord
             self.settings.find_or_create_by({ name: setting[0], value: setting[1], account: self })
         end
 
-=begin
-        self.settings.find_or_create_by({ name: "theme", value: "deutsche-blue", account: self })
-        self.settings.find_or_create_by({ name: "theme_variation", value: "standard", account: self })
-
-        self.settings.find_or_create_by({ name: "date_format", value: "%Y.%m.%d", account: self })
-        self.settings.find_or_create_by({ name: "date_format_full", value: "%a, %B %d, %Y", account: self })
-        self.settings.find_or_create_by({ name: "date_format_time", value: "%Y.%m.%d %H:%M", account: self })
-        self.settings.find_or_create_by({ name: "time_format", value: "%H:%M", account: self })
-        self.settings.find_or_create_by({ name: "time_zone", value: "Europe/Berlin", account: self })
-        self.settings.find_or_create_by({ name: "start_week_on", value: "monday", account: self })
-
-        self.settings.find_or_create_by({ name: "password_minimum_length", value: "6", account: self })
-        self.settings.find_or_create_by({ name: "password_expiration_time_months", value: "12", account: self })
-=end
-
         if defined? CloudKb
             if self.kb.blank?
                 self.kb = CloudKb::Account.new
@@ -100,21 +85,6 @@ class Account < ApplicationRecord
                 self.lock = CloudLock::Account.new
                 self.lock.account = self
                 self.lock.save!
-            end
-
-            Rails.application.config.lesli_settings["security"]["roles"].each do |role_name|
-                role = CloudLock::Role.new(
-                    created_at: Time.now,
-                    updated_at: Time.now,
-                    account: self,
-                    detail_attributes: {
-                        name: role_name,
-                        active: role_name != "guest",
-                        created_at: Time.now,
-                        updated_at: Time.now
-                    }
-                )
-                role.save!
             end
 
         end
