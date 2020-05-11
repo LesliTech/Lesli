@@ -150,6 +150,7 @@ class User < ApplicationRecord
         users = users.where("role #{operator} (?)", roles) unless roles.blank?
         
         users
+
     end
 
     # @return [Hash] Detailed information about the user.
@@ -198,15 +199,16 @@ class User < ApplicationRecord
     # At this point, check_user will be invoked automatically
     def user_initialize 
 
-        self.role = "guest"
-        self.role = "admin" if self.name == "Lesli Development" || self.name == "Leibrenten Development"
+        self.role = self.role || "guest"
+        #self.role = "admin" if self.name == "Lesli Development" || self.name == "Leibrenten Development"
         self.save!
 
         if defined? CloudLock
+
             role_guest = CloudLock::Role
-              .joins(:detail)
-              .where("cloud_lock_role_details.name = ?", self.role)
-              .first
+            .joins(:detail)
+            .where("cloud_lock_role_details.name = ?", self.role)
+            .first
               
             lock_user = CloudLock::User.new(
                 account: self.account,
@@ -216,11 +218,11 @@ class User < ApplicationRecord
                 updated_at: Time.now,
                 detail_attributes: {}    
             )
+
             lock_user.save!
-            #self.account.lock.user.create({
-            #    login: self
-            #})
+
         end
+
         if defined? CloudDriver
             return if self.account.driver.blank?
             self.account.driver.calendars.create({
@@ -230,14 +232,15 @@ class User < ApplicationRecord
                 }
             })
         end
+
     end
 
     # @return [Ability] All permissions this user has
     # @description Returns the permissions this user has as a *CanCan:Ability*
     # @example
     #     my_permissions = self.ability
-    def ability
-        @ability ||= Ability.new(self)
-    end
+    # def ability
+    #    @ability ||= Ability.new(self)
+    # end
 
 end

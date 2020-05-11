@@ -26,21 +26,22 @@ Building a better future, one line of code at a time.
 
 =end
 
-def create_user(email, password, name)
-    User.find_or_create_by(email: email) do |user|
-        user.name = name
+# get settings
+account_logins = Rails.application.config.lesli_settings["account"]["security"]["login"]
+
+# create development users
+account_logins.each do |account_login|
+    User.find_or_create_by(email: account_login["username"]) do |user|
         user.role = "admin"
-        user.password = password
-        user.password_confirmation = password
+        user.name = account_login["fullname"]
+        user.password = account_login["password"]
+        user.password_confirmation = account_login["password"]
         user.accounts_id = 1
-        user.confirm
+        user.confirm if not user.confirmed?
 
         user.account.user = user
         user.account.save!
     end
 end
 
-create_user("dev@lesli.cloud", "lesli2020", "Lesli Development")
-create_user("dev@deutsche-leibrenten.de", "leibrenten2020", "Leibrenten Development") if defined?(CloudHaus)
-
-p "Users successfully created!"
+puts "Users successfully created!"

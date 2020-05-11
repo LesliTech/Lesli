@@ -36,6 +36,8 @@ module Lesli
 
         builder_engines = []
         
+        return [] if not Dir.exist?("./engines")
+
         Dir.entries("./engines").each do |entry|
             
             # next if entry is not an engine
@@ -87,13 +89,8 @@ module Lesli
         # Lesli core settings
         lesli_settings = YAML.load_file("./lesli.yml")
 
-        # add engine information into env section
-        lesli_settings[Rails.env]["info"] = lesli_settings["info"]
-
-        # overwrite settings with env version
-        lesli_settings = lesli_settings[Rails.env]
-
-        instance_settings = {}
+        # Get Lesli development user
+        lesli_development_user = lesli_settings["account"]["security"]["login"]
 
         # get Lesli instance (builder engine)
         instance_engine = instance
@@ -102,38 +99,34 @@ module Lesli
         if instance_engine != "Lesli" # not core
             
             # get settings from instance
-            platform_settings = YAML.load_file(File.join("./engines", instance_engine, "lesli.yml"))
+            instance_settings = YAML.load_file(File.join("./engines", instance_engine, "lesli.yml"))
 
-            # add instance information into env section
-            platform_settings[Rails.env]["info"] = platform_settings["info"]
-
-            # overwrite settings with env version
-            platform_settings = platform_settings[Rails.env]
+            # get Lesli instance (builder engine)
+            instance_development_user = instance_settings["account"]["security"]["login"]
 
             # overwrite core settings
-            platform_settings.each do |key, value|
+            lesli_settings = instance_settings.reverse_merge!(lesli_settings)
 
-                if value.class.to_s == "Hash"
-
-                    value.each do |subkey, subvalue|
-                        lesli_settings[key][subkey] = subvalue
-                    end
-
-                    next
-                    
-                end
-
-                lesli_settings[key] = value
-
+            # include default Lesli user for development environment
+            if not Rails.env == "production"
+                lesli_settings["account"]["security"]["login"].push(lesli_development_user[0])
             end
 
         end
 
-        lesli_settings["engines"] = engines
+        platform_settings = {}
 
-        lesli_settings["env"] = Rails.env
+        platform_settings["engines"] = engines
 
-        lesli_settings
+        platform_settings["env"] = Rails.env
+
+        platform_settings["info"] = lesli_settings["info"]
+
+        platform_settings["env"] = lesli_settings[Rails.env]
+
+        platform_settings["account"] = lesli_settings["account"]
+
+        platform_settings
 
     end
 

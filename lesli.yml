@@ -38,3 +38,32 @@ production:
         default_options_from: "hello@lesli.tech"
         default_url_options_host: "https://www.lesli.tech"
     googlemaps_sdk_token: "AIzaSyCN4i4BWJS-IVtniSMY1Ot2MGaKuTKLNP8" 
+
+account: 
+    company: "Lesli Technologies, S. A."
+
+    settings:
+        theme: "deutsche-blue"
+        theme_variation: "standard"
+        date_format: "%d.%m.%Y"
+        date_format_full: "%a, %B %d, %Y"
+        date_format_time: "%d.%m.%Y %H:%M"
+        time_format: "%H:%M"
+        time_zone: "Europe/Berlin"
+        start_week_on: "monday"
+        password_minimum_length: "6"
+        password_expiration_time_months: "12"
+        
+    security:
+        login:
+        -   fullname: "Lesli Development"
+            username: "dev@lesli.cloud"
+            password: "lesli2020"
+        roles:
+            - "Admin platform" 
+            - "Admin collection" 
+            - "Admin modules" 
+            - "Team member collection" 
+            - "Team member module" 
+            - "Guest collection" 
+            - "Guest module" 

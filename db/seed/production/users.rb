@@ -26,23 +26,23 @@ Building a better future, one line of code at a time.
 
 =end
 
-def create_user(email, password, name)
-    User.find_or_create_by(email: email) do |user|
-        user.name = name
-        user.role = "admin"
-        user.password = password
-        user.password_confirmation = password
-        user.accounts_id = 1
-        user.confirm
+# get settings
+account_login = Rails.application.config.lesli_settings["account"]["security"]["login"]
 
-        user.account.user = user
-        user.account.save!
-    end
-end
-
+# generate a safe password for the production user
 generated_password = Devise.friendly_token.first(32)
 
-create_user("dev@lesli.cloud", generated_password, "Lesli Development") if defined?(LesliTech)
-create_user("dev@deutsche-leibrenten.de", generated_password, "Leibrenten Development") if defined?(CloudHaus)
+# create development user
+User.find_or_create_by(email: account_login["username"]) do |user|
+    user.role = "admin"
+    user.name = account_login["fullname"]
+    user.password = generated_password
+    user.password_confirmation = generated_password
+    user.accounts_id = 1
+    user.confirm if not user.confirmed?
+
+    user.account.user = user
+    user.account.save!
+end
 
 p "Users successfully created with password: " + generated_password
