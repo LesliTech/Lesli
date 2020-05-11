@@ -118,13 +118,11 @@ module Lesli
 
         platform_settings["engines"] = engines
 
-        platform_settings["env"] = Rails.env
+        platform_settings["account"] = lesli_settings["account"]
 
         platform_settings["info"] = lesli_settings["info"]
 
         platform_settings["env"] = lesli_settings[Rails.env]
-
-        platform_settings["account"] = lesli_settings["account"]
 
         platform_settings
 
