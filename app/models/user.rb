@@ -200,7 +200,6 @@ class User < ApplicationRecord
     def user_initialize 
 
         self.role = self.role || "guest"
-        #self.role = "admin" if self.name == "Lesli Development" || self.name == "Leibrenten Development"
         self.save!
 
         if defined? CloudLock
