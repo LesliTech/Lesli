@@ -26,9 +26,11 @@ Building a better future, one line of code at a time.
 
 =end
 
-company_name = "Lesli Technologies, S. A."
-company_name = "Deutsche Leibrenten Grundbesitz AG" if defined?(CloudHaus)
-model = Account.find_or_create_by(company_name: company_name) do |account|
+# get settings
+company = Rails.application.config.lesli_settings["account"]["company"]
+
+# create account
+model = Account.find_or_create_by(company_name: company) do |account|
     account.status = 1
 end
 

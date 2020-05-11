@@ -36,6 +36,8 @@ module Lesli
 
         builder_engines = []
         
+        return [] if not Dir.exist?("./engines")
+
         Dir.entries("./engines").each do |entry|
             
             # next if entry is not an engine
@@ -89,6 +91,7 @@ module Lesli
 
         # add engine information into env section
         lesli_settings[Rails.env]["info"] = lesli_settings["info"]
+        lesli_settings[Rails.env]["account"] = lesli_settings["account"]
 
         # overwrite settings with env version
         lesli_settings = lesli_settings[Rails.env]

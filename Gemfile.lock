@@ -1,51 +1,3 @@
-PATH
-  remote: engines/CloudBell
-  specs:
-    cloud_bell (0.1.0)
-      rails (~> 6.0.0)
-
-PATH
-  remote: engines/CloudBabel
-  specs:
-    cloud_babel (0.1.0)
-      rails (~> 6.0.0)
-
-PATH
-  remote: engines/CloudDispatcher
-  specs:
-    cloud_dispatcher (0.1.0)
-      rails (~> 6.0.2)
-
-PATH
-  remote: engines/CloudDriver
-  specs:
-    cloud_driver (0.1.0)
-      rails (~> 6.0.0)
-
-PATH
-  remote: engines/CloudFocus
-  specs:
-    cloud_focus (0.1.0)
-      rails (~> 6.0.0)
-
-PATH
-  remote: engines/CloudHaus
-  specs:
-    cloud_haus (0.1.0)
-      rails (~> 6.0.0)
-
-PATH
-  remote: engines/CloudHouse
-  specs:
-    cloud_house (0.1.0)
-      rails (~> 6.0.0)
-
-PATH
-  remote: engines/CloudLock
-  specs:
-    cloud_lock (0.1.0)
-      rails (~> 6.0.0)
-
 GEM
   remote: https://rubygems.org/
   specs:
@@ -419,14 +371,6 @@ DEPENDENCIES
   cancancan
   carrierwave (~> 2.0)
   caxlsx_rails
-  cloud_babel!
-  cloud_bell!
-  cloud_dispatcher!
-  cloud_driver!
-  cloud_focus!
-  cloud_haus!
-  cloud_house!
-  cloud_lock!
   devise
   faker
   faraday
