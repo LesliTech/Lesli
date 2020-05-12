@@ -27,22 +27,24 @@ Building a better future, one line of code at a time.
 =end
 
 # get settings
-account_login = Rails.application.config.lesli_settings["account"]["security"]["login"]
+account_logins = Rails.application.config.lesli_settings["account"]["security"]["login"]
 
 # generate a safe password for the production user
 generated_password = Devise.friendly_token.first(32)
 
 # create development user
-User.find_or_create_by(email: account_login["username"]) do |user|
-    user.role = "admin"
-    user.name = account_login["fullname"]
-    user.password = generated_password
-    user.password_confirmation = generated_password
-    user.accounts_id = 1
-    user.confirm if not user.confirmed?
+account_logins.each do |account_login|
+    User.find_or_create_by(email: account_login["username"]) do |user|
+        user.role = "admin"
+        user.name = account_login["fullname"]
+        user.password = generated_password
+        user.password_confirmation = generated_password
+        user.accounts_id = 1
+        user.confirm if not user.confirmed?
 
-    user.account.user = user
-    user.account.save!
+        user.account.user = user
+        user.account.save!
+    end
 end
 
 p "Users successfully created with password: " + generated_password

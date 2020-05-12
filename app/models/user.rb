@@ -209,8 +209,7 @@ class User < ApplicationRecord
     def user_initialize 
 
         # self.role = self.role || "guest"
-        # self.role = "admin" if self.name == "Lesli Development" || self.name == "Leibrenten Development"
-        # self.save!
+        # self.save
 
         if defined? CloudLock
 
@@ -228,12 +227,11 @@ class User < ApplicationRecord
                 detail_attributes: {}    
             )
 
-            lock_user.save!
+            lock_user.save
 
         end
 
         if defined? CloudDriver
-            return if self.account.driver.blank?
             self.account.driver.calendars.create({
                 detail_attributes: {
                     name: self.name,
