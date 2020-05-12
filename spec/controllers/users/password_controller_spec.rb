@@ -26,7 +26,7 @@ RSpec.describe Users::PasswordsController, type: :controller do
                 "successful"=> false,
                 "error"=> {
                     "details"=> [], 
-                    "message"=> "Email not found"
+                    "message"=> I18n.t('core.users/passwords.error_invalid_email')
                 }
             })
         end
