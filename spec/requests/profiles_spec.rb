@@ -13,6 +13,17 @@
 # sticking to rails and rspec-rails APIs to keep things simple and stable.
 
 RSpec.describe "/profiles", type: :request do
+  include Devise::Test::IntegrationHelpers
+
+  before(:all) do
+      login_admin
+  end
+
+  def login_admin
+      @user = User.find_by(email: "hello@lesli.cloud")
+      sign_in @user
+  end
+  
   # Profile. As you add validations to Profile, be sure to
   # adjust the attributes here as well.
   let(:valid_attributes) {
