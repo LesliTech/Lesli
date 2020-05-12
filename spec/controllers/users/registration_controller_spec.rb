@@ -30,7 +30,7 @@ RSpec.describe Users::RegistrationsController, type: :controller do
         it "Register an existing user" do
             post :create, params: {
                 user: {
-                    email: "admin@lesli.cloud",
+                    email: "hello@lesli.cloud",
                     password: "lesli2020",
                     password_confirmation: "lesli2020"
                 }
@@ -42,7 +42,7 @@ RSpec.describe Users::RegistrationsController, type: :controller do
                 "successful"=> false,
                 "error"=>{
                     "details"=> [], 
-                    "message"=> "Email has already been taken"
+                    "message"=> 'Email has already been taken'
                 }
             })
         end

@@ -40,6 +40,7 @@ class User < ApplicationRecord
 
     has_one :lock, class_name: "CloudLock::User", foreign_key: "users_id"
 
+    before_validation :assign_role
     after_create :user_initialize 
 
     validates :role, presence: true
@@ -187,6 +188,14 @@ class User < ApplicationRecord
     private 
 
     # @return [void]
+    # @description Before creating a user, assing the role for create it.
+    #               This is a *before_validation* method, and is not
+    #               designed to be invoked directly
+    def assign_role
+        self.role = self.role || "guest"
+    end
+
+    # @return [void]
     # @description After creating a user, creates the necessary resources for them to access the different engines.
     #     At the current time, it only creates a default calendar. This is an *after_create* method, and is not
     #     designed to be invoked directly
@@ -199,9 +208,9 @@ class User < ApplicationRecord
     # At this point, check_user will be invoked automatically
     def user_initialize 
 
-        self.role = self.role || "guest"
-        #self.role = "admin" if self.name == "Lesli Development" || self.name == "Leibrenten Development"
-        self.save!
+        # self.role = self.role || "guest"
+        # self.role = "admin" if self.name == "Lesli Development" || self.name == "Leibrenten Development"
+        # self.save!
 
         if defined? CloudLock
 
