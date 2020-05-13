@@ -107,6 +107,9 @@ module Courier
                 tasks = tasks.where(creator: current_user) unless query[:filters][:all]
                 tasks = tasks.map do |task|
 
+                    model_global_identifier = nil
+                    model_global_identifier = task.model.detail.code if task.model_type == "CloudHouse::Project"
+
                     {
                         id: task.id, 
                         title: task.title, 
@@ -115,6 +118,7 @@ module Courier
                         deadline_raw: task.deadline,
                         importance: CloudFocus::Task.importances.key(task.importance),
                         model_type: task.model_type,
+                        model_global_identifier: model_global_identifier,
                         creator: {
                             id: task.creator_id,
                             value: task.creator_value,
