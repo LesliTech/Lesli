@@ -91,12 +91,12 @@ gem "fog-aws"
 # Rubyzip to compress files
 gem "rubyzip", "~> 2.3.0"
 
-gem 'jwt'
+gem "jwt"
 
 # Excel file generator gems
-gem 'axlsx'
+gem "axlsx"
 
-gem 'caxlsx_rails'
+gem "caxlsx_rails"
 
 group :development, :test do
 
@@ -135,6 +135,12 @@ group :development do
     gem "spring-watcher-listen", "~> 2.0.0"
 
     gem "guard-livereload", "~> 2.5", require: false
+
+    gem "capistrano",         require: false
+    gem "capistrano-rvm",     require: false
+    gem "capistrano-rails",   require: false
+    gem "capistrano-bundler", require: false
+    gem "capistrano3-puma",   require: false
 
 end
 
