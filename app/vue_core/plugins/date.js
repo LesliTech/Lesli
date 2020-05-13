@@ -52,6 +52,46 @@ export default {
         let startWeekOn = function(){
             return leslicloud_account.settings.start_week_on || 'monday'
         }
+        
+        // Parses a string and returns a date
+        // Limitations of this parser: Only date format, only 1 character delimiters. Delimiters must be the same
+        let parse = function(string_date){
+            let date_format = leslicloud_account.settings.date_format || '%Y.%m.%d'
+            let delimiter = date_format.replace('%Y', '').replace('%m', '').replace('%d', '').split('')[0]
+            
+            string_date = string_date.split(delimiter)
+
+            let segments = [{
+                name: 'year',
+                index: date_format.indexOf('%Y')
+            },{
+                name: 'month',
+                index: date_format.indexOf('%m')
+            },{
+                name: 'day',
+                index: date_format.indexOf('%d')
+            }]
+
+            segments = segments.sort((a, b)=>{
+                return a.index > b.index
+            })
+
+            let date = new Date()
+            for(let i = 0; i < segments.length; i++){
+                let segment = segments[i]
+                let date_segment = parseInt(string_date[i])
+                if(segment.name == 'year'){
+                    date.setYear(date_segment)
+                }else if(segment.name == 'month'){
+                    date.setMonth(date_segment - 1)
+                }else{
+                    date.setDate(date_segment)
+                }
+            }
+
+            return date
+
+        }
 
         //function that turns a Date object into a string
         let toString = function(date){
@@ -126,7 +166,8 @@ export default {
             toStringFull,
             startWeekOn,
             toString,
-            today
+            today,
+            parse
         };
     }
 }
