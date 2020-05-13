@@ -1,40 +1,46 @@
 # LesliCloud
 # For more information read the license file including with this software.
 
-*.log
-.byebug_history
 
 # Ignore bundler config.
 /.bundle
+
 
 # Ignore all logfiles and tempfiles.
 /log/*
 /tmp/*
 !/log/.keep
 !/tmp/.keep
+.byebug_history
+
 
 # Ignore auto-generated documentation
 /doc
 /.yardoc
 
-# Ignore uploaded files in development
+
+# Ignore stored files in this folder
 /storage/*
 !/storage/.keep
 !/storage/keep/
 !/storage/templates/
 
+
 /public/tmp
 /public/assets
+/public/javascripts/translations.js
 /node_modules
+
 
 /engines/*
 !/engines/.gitkeep
 
+
 # Ignore master key for decrypting credentials and more.
+/config/locales
 /config/master.key
-/config/credentials/
+/config/credentials
 !/config/credentials/.keep
 
-*.pem
 
-/config/locales
+*.pem
