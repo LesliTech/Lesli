@@ -52,6 +52,8 @@ namespace :dev do
             #system "gem install bundler"
             #system "bundle install"
 
+            system "rake dev:git:pull RAILS_ENV=production" 
+
             system "rake db:drop DISABLE_DATABASE_ENVIRONMENT_CHECK=1 RAILS_ENV=production" 
             system "rake db:create RAILS_ENV=production" 
             system "rake db:migrate RAILS_ENV=production" 
@@ -86,7 +88,7 @@ namespace :dev do
             # touch tmp/restart.txt
             # sudo -u username
 
-            # DRF8rniUEzeRKYsRybp9
+            # UjqsNFTL_F-ykUfbaFyQ
 
         end
 

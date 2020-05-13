@@ -89,7 +89,13 @@ export default {
                     <b-table-column field="code" :label="translations.projects.table_header_code" sortable v-html="props.row.code">
                     </b-table-column>
 
-                    <b-table-column field="name" :label="translations.projects.table_header_customer" sortable v-html="props.row.name">
+                    <b-table-column field="status" :label="translations.projects.table_header_status" sortable v-html="props.row.status">
+                    </b-table-column>
+
+                    <b-table-column field="customer" :label="translations.projects.table_header_customer" sortable v-html="props.row.customer">
+                    </b-table-column>
+
+                    <b-table-column field="city" :label="translations.projects.form_property_input_city_title" sortable v-html="props.row.city">
                     </b-table-column>
 
                     <b-table-column field="postcode" :label="translations.projects.form_customers_input_postcode_title" sortable v-html="props.row.postcode">
@@ -98,13 +104,13 @@ export default {
                     <b-table-column field="street_name" :label="translations.projects.form_property_input_street_name_title" sortable v-html="props.row.street_name">
                     </b-table-column>
 
-                    <b-table-column field="city" :label="translations.projects.form_property_input_city_title" sortable v-html="props.row.city">
+                    <b-table-column field="street_number" :label="translations.projects.form_property_input_street_number" sortable v-html="props.row.street_number">
                     </b-table-column>
 
                     <b-table-column field="telephone" :label="translations.projects.form_customers_input_phone_title" sortable v-html="props.row.telephone">
                     </b-table-column>
 
-                    <b-table-column field="email" :label="translations.projects.form_customers_input_email_title" sortable v-html="props.row.email">
+                    <b-table-column field="company" label="Kop" sortable v-html="props.row.company">
                     </b-table-column>
 
                 </template>
