@@ -55,7 +55,7 @@ RSpec.describe Users::SessionsController, Users::RegistrationsController, type: 
                 "successful"=> false,
                 "error"=> {
                     "details"=> [], 
-                    "message"=> "Invalid email or password"
+                    "message"=> "Invalid Credentials"
                 }
             })
         end
