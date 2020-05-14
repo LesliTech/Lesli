@@ -32,21 +32,7 @@ module Courier
 
             def self.list()
 
-                employees = []
-                if defined? (CloudLock)
-                    return ::User.left_joins(:detail).select(:id, :email, :role, :first_name, :last_name, :created_at).order(:id)
-                else
-                    return ::User.select(:id, :email, :role, :created_at, :name).order(:id)
-                end
-
-
-                if defined?(CloudTeam)
-                    employees = ::CloudTeam::Employee.all
-                end
-
-                #users | employees returns a new array with the combination of users and employess
-
-                users
+                :User.list
 
             end
 
