@@ -1406,6 +1406,24 @@ ActiveRecord::Schema.define(version: 10010104) do
     t.index ["users_id"], name: "index_cloud_lock_role_overrides_on_users_id"
   end
 
+  create_table "cloud_lock_role_privilege_defaults", force: :cascade do |t|
+    t.string "grant_object_name"
+    t.boolean "grant_index", default: false
+    t.boolean "grant_create", default: false
+    t.boolean "grant_new", default: false
+    t.boolean "grant_edit", default: false
+    t.boolean "grant_show", default: false
+    t.boolean "grant_update", default: false
+    t.boolean "grant_destroy", default: false
+    t.boolean "grant_options", default: false
+    t.boolean "grant_default", default: false
+    t.boolean "grant_empty", default: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.bigint "cloud_lock_roles_id"
+    t.index ["cloud_lock_roles_id"], name: "index_cloud_lock_role_privilege_defaults_on_cloud_lock_roles_id"
+  end
+
   create_table "cloud_lock_role_privileges", force: :cascade do |t|
     t.string "grant_object_name"
     t.boolean "grant_index", default: false
@@ -1446,6 +1464,8 @@ ActiveRecord::Schema.define(version: 10010104) do
     t.string "last_name"
     t.string "telephone"
     t.string "address"
+    t.string "title"
+    t.string "salutation"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.bigint "cloud_lock_users_id"
@@ -1710,6 +1730,7 @@ ActiveRecord::Schema.define(version: 10010104) do
   add_foreign_key "cloud_lock_role_details", "cloud_lock_roles", column: "cloud_lock_roles_id"
   add_foreign_key "cloud_lock_role_overrides", "cloud_lock_roles", column: "cloud_lock_roles_id"
   add_foreign_key "cloud_lock_role_overrides", "users", column: "users_id"
+  add_foreign_key "cloud_lock_role_privilege_defaults", "cloud_lock_roles", column: "cloud_lock_roles_id"
   add_foreign_key "cloud_lock_role_privileges", "cloud_lock_roles", column: "cloud_lock_roles_id"
   add_foreign_key "cloud_lock_roles", "cloud_lock_accounts", column: "cloud_lock_accounts_id"
   add_foreign_key "cloud_lock_user_details", "cloud_lock_users", column: "cloud_lock_users_id"
