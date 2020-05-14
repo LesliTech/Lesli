@@ -87,20 +87,14 @@ module CloudObject
             plural_object_name = object_name.pluralize
 
             cloud_object_activity = dynamic_info[:model].new(
-                cloud_object_action_params.merge({
-                    "cloud_#{module_name}_#{plural_object_name}_id".to_sym => params["#{object_name}_id".to_sym]
+                cloud_object_activity_params.merge({
+                    "cloud_#{module_name}_#{plural_object_name}_id".to_sym => params["#{object_name}_id".to_sym],
+                    "users_id": current_user.id
                 })
             )
 
             if cloud_object_activity.save
-                responseWithSuccessful()
-
-                cloud_object = cloud_object_activity.cloud_object
-                message = I18n.t(
-                    "cloud_#{module_name}.controllers.#{object_name}.activities.notifications.created",
-                    "#{object_name}_id".to_sym => cloud_object.id
-                )
-                #subscriber_model.notify_subscribers(cloud_object, message, :action_created)
+                responseWithSuccessful
             else
                 responseWithError(cloud_object_activity.errors.full_messages)
             end
@@ -132,14 +126,14 @@ module CloudObject
 
 
         # @return [void]
-        # @description Sets the variable @cloud_object_action. The variable contains the activity 
+        # @description Sets the variable @cloud_object_activity. The variable contains the activity 
         #     to be updated based on the id of the *cloud_object* and the id of the *activity*
         # @example
         #     #suppose params[:ticket_id] = 1
         #     #suppose params[:id] = 44
-        #     puts @cloud_object_action # will display nil
-        #     set_cloud_object_action
-        #     puts @cloud_object_action # will display an instance of CloudHelp:Ticket::Action
+        #     puts @cloud_object_activity # will display nil
+        #     set_cloud_object_activity
+        #     puts @cloud_object_activity # will display an instance of CloudHelp:Ticket::Action
         def set_cloud_object_activity
             module_name = dynamic_info[:module_name]
             object_name = dynamic_info[:object_name]
@@ -166,7 +160,7 @@ module CloudObject
         #     #        "info": "Example"
         #     #    }
         #     #}
-        #     action_params = cloud_object_action_params
+        #     action_params = cloud_object_activity_params
         #     puts action_params
         #     # will remove _id_ and _info_ fields and only print {
         #     #    "ticket_action": {
@@ -182,11 +176,11 @@ module CloudObject
             params.require(
                 "#{object_name}_activity".to_sym
             ).permit(
-                :type,
-                :instructions,
-                :deadline,
-                :complete,
-                :tags
+                :description,
+                :field_name,
+                :value_from,
+                :value_to,
+                :category
             )
         end
 
