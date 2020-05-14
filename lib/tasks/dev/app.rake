@@ -71,7 +71,7 @@ namespace :dev do
             #system "chmod 755 public/ -R"
             #system "sudo chown www-data:www-data public/ -R"
 
-            #system "service nginx restart"
+            #system "sudo service nginx restart"
 
             #chmod 755 public/ -R && chown www-data:www-data public/ -R && service nginx restart
             #du -chs engines/**/app/assets/javascripts/**/*.js app/assets/javascripts/**/*.js | sort -h
@@ -88,7 +88,7 @@ namespace :dev do
             # touch tmp/restart.txt
             # sudo -u username
 
-            # V6Uoo-uGZKgf-BRkmpv9
+            # aviVxYsWSP25xWqBD-qj
 
         end
 
