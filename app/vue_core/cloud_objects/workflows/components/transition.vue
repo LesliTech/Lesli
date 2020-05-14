@@ -86,10 +86,15 @@ export default {
 
         patchStatus(status, callback){
 
+            let module_name = this.module_name
+            if(module_name == 'crm'){
+                module_name = 'house'
+            }
+
             let url = `/${this.object_utils.pluralize(this.cloudModule)}/${this.cloudId}`
             let data = {}
             data[this.object_name] = {}
-            let detail_key = `cloud_${this.module_name}_workflow_statuses_id`
+            let detail_key = `cloud_${module_name}_workflow_statuses_id`
             data[this.object_name][detail_key] = status.id
             
             this.http.patch(url, data).then(result =>{
