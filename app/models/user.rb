@@ -40,10 +40,15 @@ class User < ApplicationRecord
 
     has_one :lock, class_name: "CloudLock::User", foreign_key: "users_id"
 
-    before_validation :assign_role
+    after_initialize :assign_role
     after_create :user_initialize 
 
     validates :role, presence: true
+
+    def save(*args)
+        super
+        rescue ActiveRecord::RecordNotUnique => error
+    end
 
     enum roles: {
         admin: "admin",
@@ -124,7 +129,8 @@ class User < ApplicationRecord
     #    }
     #]
     # =end
-    def self.index(current_user, roles, type, query)
+    def self.list(current_user, roles, type, query)
+
         users = []
         roles = roles.blank? ? [] : roles.split(',') 
         operator = type == "exclude" ? 'not in' : 'in'
@@ -142,15 +148,23 @@ class User < ApplicationRecord
                 "clrd.name as role",
                 "concat(clud.first_name, ' ', clud.last_name) as name",
             )
-            .order(:id)         
+            .order(:name)         
         else
             users = current_user.account.users.select(:id, :email, :role, :active, :name).order(:name)
         end
 
         users = users.where("email like '%#{query[:filters][:domain]}%'")  unless query[:filters][:domain].blank?
         users = users.where("role #{operator} (?)", roles) unless roles.blank?
-        
-        users
+        users.map do |user|
+            {
+                id: user[:id],
+                email: user[:email],
+                name: user[:name] != " " ? user[:name] : user[:email],
+                role: user[:role],
+                active: user[:active],
+                created_at: user[:created_at]
+            }
+        end
 
     end
 
@@ -192,7 +206,7 @@ class User < ApplicationRecord
     #               This is a *before_validation* method, and is not
     #               designed to be invoked directly
     def assign_role
-        self.role = self.role || "guest"
+        self.role ||= "guest"
     end
 
     # @return [void]
@@ -208,16 +222,13 @@ class User < ApplicationRecord
     # At this point, check_user will be invoked automatically
     def user_initialize 
 
-        # self.role = self.role || "guest"
-        # self.save
-
         if defined? CloudLock
 
             role_guest = CloudLock::Role
             .joins(:detail)
             .where("cloud_lock_role_details.name = ?", self.role)
             .first
-              
+
             lock_user = CloudLock::User.new(
                 account: self.account,
                 user: self,
