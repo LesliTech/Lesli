@@ -86,6 +86,7 @@ Building a better future, one line of code at a time.
 
 // · 
 #lesli-cloud-application {
+    min-height: calc(100vh - var(--application-header-height) - var(--application-header-height));
     padding-top: var(--application-header-height);
 }
 
