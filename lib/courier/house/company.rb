@@ -37,6 +37,12 @@ module Courier
                 companies
             end
 
+            def self.create_activity(activity_params)
+                return unless defined? CloudHouse
+
+                activity = CloudHouse::Company::Activity.create(activity_params)
+            end
+
         end
     end
 end
