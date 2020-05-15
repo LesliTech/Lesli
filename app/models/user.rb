@@ -89,14 +89,6 @@ class User < ApplicationRecord
         update_attributes(active: false)
     end
 
-    # @return Array
-    # @description Return a list of users that belongs to the account of the current_user
-    def self.list(current_user, query)
-        current_user.account.users
-        .page(query[:pagination][:page])
-        .per(query[:pagination][:perPage])
-    end
-
     def self.send_password_reset(user)
         raw, hashed = Devise.token_generator.generate(User, :reset_password_token)
         user.update(reset_password_token: hashed, reset_password_sent_at: LC::Date.now)
@@ -206,6 +198,10 @@ class User < ApplicationRecord
             title: title,
             description: description
         })
+    end
+
+    def notification subject, url:nil, category:"info"
+        Courier::Bell::Notification::Web.new(self, subject, url:url, category:category)
     end
 
     private 
