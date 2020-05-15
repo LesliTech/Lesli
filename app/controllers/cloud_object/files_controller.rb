@@ -26,6 +26,7 @@ Building a better future, one line of code at a time.
 =end
     class FilesController < ApplicationController
         require 'zip'
+        require 'aws-sdk-s3'
 
         before_action :set_cloud_object_file, only: [:show, :destroy]
 
@@ -191,7 +192,37 @@ this.http.delete(`127.0.0.1/help/tickets/${ticket_id}/files/${file_id}`);
             ).where(
                 "cloud_#{module_name}_#{plural_object_name}.cloud_#{module_name}_accounts_id = #{current_user.account.id}"
             )
+            
+            puts ::FileUploader.storage.to_s
+            if ::FileUploader.storage.to_s == "CarrierWave::Storage::Fog"
+                handle_fog_zip_download(files)
+            else
+                handle_local_zip_download(files)
+            end
+        end
 
+        private
+
+        def handle_fog_zip_download(files)
+            s3 = Aws::S3::Client.new()
+
+            zip_stream = ::Zip::OutputStream.write_buffer do |zip|
+                files.each do |object_file|
+                    object_file_filepath = object_file.attachment.current_path.gsub("haus", "house")
+                    filename = object_file.attachment_identifier
+                    file_obj = s3.get_object(
+                        bucket: Rails.application.credentials.s3[:bucket], 
+                        key: object_file_filepath
+                    )
+                    zip.put_next_entry filename
+                    zip.print file_obj.body.read
+                end
+            end
+            zip_stream.rewind
+            send_data zip_stream.read, filename: "all_documents_#{Date.today.strftime('%d_%B_%Y')}.zip", type: 'application/zip'
+        end
+
+        def handle_local_zip_download(files)
             zip_stream = ::Zip::OutputStream.write_buffer do |zip|
                 files.each do |object_file|
 
@@ -212,8 +243,6 @@ this.http.delete(`127.0.0.1/help/tickets/${ticket_id}/files/${file_id}`);
             zip_stream.rewind
             send_data zip_stream.read, filename: "all_documents_#{Date.today.strftime('%d_%B_%Y')}.zip", type: 'application/zip'
         end
-
-        private
 
 =begin
 @return [void]
