@@ -1,4 +1,11 @@
 {
+  "_args": [
+    [
+      "@fullcalendar/vue@4.3.1",
+      "/var/www/LesliCloud/lesli.cloud"
+    ]
+  ],
+  "_development": true,
   "_from": "@fullcalendar/vue@4.3.1",
   "_id": "@fullcalendar/vue@4.3.1",
   "_inBundle": false,
@@ -20,18 +27,15 @@
     "#DEV:/"
   ],
   "_resolved": "https://registry.npmjs.org/@fullcalendar/vue/-/vue-4.3.1.tgz",
-  "_shasum": "7a2fab995c46aefb27394eadc24afb23d56edf42",
-  "_spec": "@fullcalendar/vue@4.3.1",
-  "_where": "/var/www/LesliCloud/Lesli",
+  "_spec": "4.3.1",
+  "_where": "/var/www/LesliCloud/lesli.cloud",
   "bugs": {
     "url": "https://github.com/fullcalendar/fullcalendar-vue/issues"
   },
-  "bundleDependencies": false,
   "dependencies": {
     "@fullcalendar/core": "~4.3.0",
     "fast-deep-equal": "^2.0.1"
   },
-  "deprecated": false,
   "description": "An official FullCalendar component for Vue",
   "docs": "https://fullcalendar.io/docs/vue",
   "homepage": "https://github.com/fullcalendar/fullcalendar-vue#readme",
