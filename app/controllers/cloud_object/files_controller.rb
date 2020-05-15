@@ -193,7 +193,6 @@ this.http.delete(`127.0.0.1/help/tickets/${ticket_id}/files/${file_id}`);
                 "cloud_#{module_name}_#{plural_object_name}.cloud_#{module_name}_accounts_id = #{current_user.account.id}"
             )
             
-            puts ::FileUploader.storage.to_s
             if ::FileUploader.storage.to_s == "CarrierWave::Storage::Fog"
                 handle_fog_zip_download(files)
             else
