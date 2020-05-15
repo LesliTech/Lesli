@@ -96,6 +96,7 @@ export default {
             this.http.get(url).then(result => {
                 if (result.successful) {
                     this.options = result.data
+                    this.transition_statuses = Object.values(result.data.statuses)
                 }else{
                     this.notification.alert(result.error.message,'danger')
                 }
@@ -223,14 +224,33 @@ export default {
     watch: {
         'action.initial_status_id'(){
             let transition_statuses = []
-
-            let initial_status = Object.values(this.options.statuses).find( status => status.id == this.action.initial_status_id)
-            if(initial_status){
-                initial_status.next_statuses.forEach((status_number) => {
-                    transition_statuses.push(this.options.statuses[status_number])
-                })
+            if(this.action.initial_status_id){
+                let initial_status = Object.values(this.options.statuses).find( status => status.id == this.action.initial_status_id)
+                if(initial_status){
+                    initial_status.next_statuses.forEach((status_number) => {
+                        transition_statuses.push(this.options.statuses[status_number])
+                    })
+                }
+            }else{
+                transition_statuses = Object.values(this.options.statuses)
             }
             this.transition_statuses = transition_statuses
+        }
+    },
+
+    computed: {
+        initialStatuses(){
+            if(this.options.statuses){
+                let initial_statuses = Object.values(this.options.statuses)
+                initial_statuses.unshift({
+                    id: null,
+                    name: this.translations.core.text_none,
+                    number: null
+                })
+                return initial_statuses
+            }else{
+                return []
+            }
         }
     }
 }
@@ -248,10 +268,10 @@ export default {
             <div class="columns">
                 <div class="column is-6">
                     <div class="field">
-                        <label class="label">{{translations.main.field_initial_status}}<sup class="has-text-danger">*</sup></label>
-                        <b-select :placeholder="translations.core.text_select_option" expanded v-model="action.initial_status_id" required>
+                        <label class="label">{{translations.main.field_initial_status}}</label>
+                        <b-select expanded v-model="action.initial_status_id">
                             <option
-                                v-for="status in options.statuses"
+                                v-for="status in initialStatuses"
                                 :value="status.id"
                                 :key="status.id"
                             >
