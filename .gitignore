@@ -44,3 +44,5 @@
 
 
 *.pem
+
+/config/credentials/development.key
