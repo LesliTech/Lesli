@@ -30,6 +30,7 @@ Building a better future, one line of code at a time.
 
 Rails.application.routes.draw do
 
+  resources :user_activities
     devise_for :users,
     :path => "",
     :path_names => {
