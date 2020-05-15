@@ -44,7 +44,7 @@ Building a better future, one line of code at a time.
             module_name = dynamic_info_[:module_name]
 
             workflow.actions.joins(
-                "inner join cloud_house_workflow_statuses CHWSI on CHWSI.id = cloud_house_workflow_actions.initial_status_id"
+                "left join cloud_house_workflow_statuses CHWSI on CHWSI.id = cloud_house_workflow_actions.initial_status_id"
             ).joins(
                 "inner join cloud_house_workflow_statuses CHWSF on CHWSF.id = cloud_house_workflow_actions.final_status_id"
             ).select(
@@ -94,8 +94,11 @@ Building a better future, one line of code at a time.
 
             if final_status_id && initial_status_id && final_status_id != initial_status_id
                 workflow = cloud_object.status.workflow
-
-                workflow_actions = workflow.actions.where(final_status_id: final_status_id, initial_status_id: initial_status_id)
+                
+                workflow_actions = workflow.actions.where("
+                    (final_status_id = #{final_status_id} and initial_status_id = #{initial_status_id}) or
+                    (final_status_id = #{final_status_id} and initial_status_id is null)
+                ")
 
                 workflow_actions.each do |action|
                     action.execute(current_user, cloud_object)

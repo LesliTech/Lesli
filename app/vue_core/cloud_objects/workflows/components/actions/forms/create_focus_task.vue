@@ -86,7 +86,7 @@ export default {
         },
 
         getTaskUserOptions(){
-            this.http.get(`/crm/options/tasks/users.json`).then(result => {
+            this.http.get(`/users.json?role=kop&type=exclude`).then(result => {
                 if (result.successful) {
                     this.$set(this.task_options, 'users', result.data)
                 }
