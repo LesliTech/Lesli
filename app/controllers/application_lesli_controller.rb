@@ -34,13 +34,10 @@ class ApplicationLesliController < ApplicationController
     before_action :authenticate_request, only: [:index, :create, :update, :destroy, :new, :show, :options, :default]
     before_action :set_global_account
     before_action :set_request_helpers
+
+    after_action :register_user_activities
     
     layout "layouts/application"
-
-    #rescue_from CanCan::AccessDenied do |exception|  
-    #    flash[:alert] = exception.message  
-    #    redirect_to "/"
-    #end
 
     protected
 
@@ -139,6 +136,11 @@ class ApplicationLesliController < ApplicationController
             return current_user.lock.role.detail.name == 'admin'
         end
         return current_user.admin?
+    end
+
+    def register_user_activities
+        return if request[:format] == "json"
+        current_user.log(params[:action], request.original_url)
     end
 
 end
