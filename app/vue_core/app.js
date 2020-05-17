@@ -46,6 +46,7 @@ import pluginBus from 'LesliCoreVue/plugins/bus'
 import pluginUrl from 'LesliCoreVue/plugins/url'
 import pluginHttp from 'LesliCoreVue/plugins/http'
 import pluginDate from 'LesliCoreVue/plugins/date'
+import pluginLesli from 'LesliCoreVue/plugins/lesli'
 import pluginAbilities from 'LesliCoreVue/plugins/abilities'
 import pluginObjectUtils from 'LesliCoreVue/plugins/object-utils'
 
@@ -78,6 +79,7 @@ Vue.use(pluginBus)
 Vue.use(pluginUrl)
 Vue.use(pluginHttp)
 Vue.use(pluginDate)
+Vue.use(pluginLesli)
 Vue.use(pluginAbilities)
 Vue.use(pluginObjectUtils)
 Vue.use(Buefy, { defaultIconPack: 'fas' })
