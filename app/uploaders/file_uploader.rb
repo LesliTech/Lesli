@@ -82,10 +82,11 @@ CarrierWave.configure do |config|
         aws_secret_access_key: Rails.application.credentials.s3[:secret_access_key],
         #use_iam_profile:       true,                         # optional, defaults to false
         region:                Rails.application.credentials.s3[:region],
+        path_style:            true
         #host:                  's3.example.com',             # optional, defaults to nil
         #endpoint:              'https://s3.example.com:8080' # optional, defaults to nil
     }
-    config.fog_directory  = 'crmleibrentenstorage'
+    config.fog_directory  = Rails.application.credentials.s3[:bucket]
     config.fog_public     = false
     config.fog_attributes = { cache_control: "public, max-age=#{365.days.to_i}" }
 end
