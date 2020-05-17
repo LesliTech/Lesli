@@ -31,21 +31,20 @@ module Courier
             class Web
 
                 # register a new web notification
-                def self.new(current_user, subject, body:nil, href:nil, url:nil, category:"info")
-
-                    #href: href, # deprecated, this will be deleted in future releases
-                    url=href if not href.blank?
+                # DEPRECATED: use url instead of href
+                def self.new(current_user, subject, href:nil, url:nil, category:"info")
 
                     return if not defined? CloudBell
-                    current_user.account.bell.notifications.new({
-                        body: body,
-                        
-                        url: url,
-                        category: category,
+
+                    d = current_user.account.bell.notifications.create({
                         subject: subject,
-                        user: current_user
-                    }).save!
+                        category: category,
+                        user: current_user,
+                        url: url
+                    })
+
                     LesliChannel.broadcast_to("Lesli", channel: "/core/layout/header/notification#getNotificationsCounter")
+
                 end
 
                 # returns number of not read notifications
