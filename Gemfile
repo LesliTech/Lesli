@@ -87,6 +87,7 @@ gem "carrierwave", "~> 2.0"
 
 # s3 client for carrierwave
 gem "fog-aws"
+gem "aws-sdk-s3"
 
 # Rubyzip to compress files
 gem "rubyzip", "~> 2.3.0"
@@ -156,11 +157,6 @@ group :test do
 
     gem "rails-controller-testing"
     
-end
-
-group :production do
-    # S3 SDK for active storage support
-    gem "aws-sdk-s3"
 end
 
 # Loading installed engines
