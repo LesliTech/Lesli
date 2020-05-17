@@ -186,7 +186,7 @@ export default {
                         </span>
 
                         <div class="navbar-dropdown">
-                            <a class="navbar-item">
+                            <a class="navbar-item" @click="url.go('/crm/users/'+lesli.current_user.id)">
                                 <span class="icon has-text-grey-light">
                                     <i class="fas fa-user"></i>
                                 </span>
