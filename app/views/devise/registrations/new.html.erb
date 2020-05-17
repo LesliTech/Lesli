@@ -29,11 +29,11 @@ Building a better future, one line of code at a time.
 
 <% if lesli_instance != "Lesli" %>
 <section class="<%= lesli_instance.underscore %>-login">
-    <%= render :file => "#{lesli_instance.underscore}/core/devise/passwords/new.html.erb" %>
+    <%= render :file => "#{lesli_instance.underscore}/core/devise/registrations/new.html.erb" %>
 </section>
 <% end %>
 
 
 <% if lesli_instance == "Lesli" %>
-<h3>There is no a view for passwords path.</h3>
+<h3>There is no a view for registration path.</h3>
 <% end %>
