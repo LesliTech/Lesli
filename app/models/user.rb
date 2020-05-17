@@ -38,6 +38,8 @@ class User < ApplicationRecord
 
     belongs_to :account, foreign_key: "accounts_id", optional: true
 
+    has_many :activities, class_name: "UserActivity", foreign_key: "users_id"
+
     has_one :lock, class_name: "CloudLock::User", foreign_key: "users_id"
 
     after_initialize :assign_role
@@ -199,6 +201,13 @@ class User < ApplicationRecord
         end  
     end
 
+    def log title, description = ""
+        self.activities.create({
+            title: title,
+            description: description
+        })
+    end
+
     private 
 
     # @return [void]
@@ -252,13 +261,5 @@ class User < ApplicationRecord
         end
 
     end
-
-    # @return [Ability] All permissions this user has
-    # @description Returns the permissions this user has as a *CanCan:Ability*
-    # @example
-    #     my_permissions = self.ability
-    # def ability
-    #    @ability ||= Ability.new(self)
-    # end
 
 end

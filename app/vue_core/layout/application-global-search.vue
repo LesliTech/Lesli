@@ -24,11 +24,13 @@ export default {
             this.http.get(`/house/projects/search/${this.text}`).then(result => {
                 this.projects = result.data
                 this.projects.forEach(project => {
-                    for(var dato in project) {
-                        if (dato == 'id') {
+                    for(var key in project) {
+                        if (key == 'id') {
                             continue
+                        } else if (key == 'code') {
+                            project['project_code'] = project[key]
                         }
-                        project[dato]=this.doHighlightText(project[dato] ? project[dato] : '', this.text)
+                        project[key]=this.doHighlightText(project[key] ? project[key] : '', this.text)
                     }
                 })
                 this.show = true
@@ -37,7 +39,7 @@ export default {
             })
         },
         goToProject(project) {
-            this.url.go("/crm/projects/"+project.id)
+            this.url.go(`/crm/projects/${project.project_code}`)
         },
         doHighlightText(text_to_highlight, text_to_search) {
 
