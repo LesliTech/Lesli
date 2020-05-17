@@ -1,7 +1,35 @@
+=begin
+
+Lesli
+
+Copyright (c) 2020, Lesli Technologies, S. A.
+
+All the information provided by this website is protected by laws of Guatemala related 
+to industrial property, intellectual property, copyright and relative international laws. 
+Lesli Technologies, S. A. is the exclusive owner of all intellectual or industrial property
+rights of the code, texts, trade mark, design, pictures and any other information.
+Without the written permission of Lesli Technologies, S. A., any replication, modification,
+transmission, publication is strictly forbidden.
+For more information read the license file including with this software.
+
+Lesli - Your Smart Business Assistant
+
+Powered by https://www.lesli.tech
+Building a better future, one line of code at a time.
+
+@contact  <hello@lesli.tech>
+@website  <https://lesli.tech>
+@license  Propietary - all rights reserved.
+
+// · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
+// · 
+
+=end
+
 class ApplicationController < ActionController::Base
 
-    # create method to switch locale
-    #around_action :switch_locale_around
+    rescue_from ActiveRecord::RecordNotFound, with: :responseWithSuccessful
+
     before_action :switch_locale
  
     #def switch_locale(&action)
@@ -11,7 +39,7 @@ class ApplicationController < ActionController::Base
         # the session param is setted in settings controller through "get :language, to: "settings#language""
         locale = session[:locale] || I18n.default_locale
 
-        # I should check locale in the database here
+        # Here I should check user preference for language settings
         # the options are
             # - I18n.available_locales
             # - automatic according to os or browser
@@ -21,21 +49,6 @@ class ApplicationController < ActionController::Base
 
     end
 
-    def switch_locale_around(&action)
-
-        # get saved language in session or the default in config
-        # the session param is setted in settings controller through "get :language, to: "settings#language""
-        locale = session[:locale] || I18n.default_locale
-
-        # I should check locale in the database here
-        # the options are
-            # - I18n.available_locales
-            # - automatic according to os or browser
-
-        # set the new locale
-        I18n.with_locale(locale, &action)
-
-    end
 
     # JSON successful response
     def responseWithSuccessful(data = nil)

@@ -55,6 +55,7 @@ module Lesli
         config.autoload_paths += Dir[Rails.root.join("config", "routes")]
         config.autoload_paths += Dir[Rails.root.join("lib")]
 
+        # Catch errors (enabled on environments/production.rb)
         config.exceptions_app = self.routes
 
         # for i18n-js
