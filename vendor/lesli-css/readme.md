@@ -7,9 +7,9 @@
 <h3 align="center">SCSS Utilities for websites and web applications</h3>
 
 <hr/>
-
-<p align="center">Version 0.4.0</p>
-
+<p align="center">
+	Version 0.3.0-beta
+</p>
 <p align="center">
 	<a href="https://www.lesli.tech" target="_blank">
 		<img alt="LesliTech logo" width="150" src="https://cdn.lesli.tech/leslitech/brand/leslitech-logo.svg" />
