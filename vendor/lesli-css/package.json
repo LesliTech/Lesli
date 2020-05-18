@@ -1,27 +1,28 @@
 {
-  "_from": "lesli-css@0.4.0",
-  "_id": "lesli-css@0.4.0",
+  "_from": "lesli-css",
+  "_id": "lesli-css@0.3.0",
   "_inBundle": false,
-  "_integrity": "sha512-AudXD/NF9Y6J1QQtrVqAa2mWhGb9DJ/Va2eEb5P796jclTtWarE6uD7QUzLspHxdbG+Dz97WaHOTBigMcm6itg==",
+  "_integrity": "sha512-kwy48XI9RoRSt9Ov0P7NLoGlmMKh3P4lsEfmnG+87dE5QIvakeR2fGHQkELQQsRx4MjFOREDWg7GgXTqfDfEDQ==",
   "_location": "/lesli-css",
   "_phantomChildren": {},
   "_requested": {
-    "type": "version",
+    "type": "tag",
     "registry": true,
-    "raw": "lesli-css@0.4.0",
+    "raw": "lesli-css",
     "name": "lesli-css",
     "escapedName": "lesli-css",
-    "rawSpec": "0.4.0",
+    "rawSpec": "",
     "saveSpec": null,
-    "fetchSpec": "0.4.0"
+    "fetchSpec": "latest"
   },
   "_requiredBy": [
-    "#DEV:/"
+    "#USER",
+    "/"
   ],
-  "_resolved": "https://registry.npmjs.org/lesli-css/-/lesli-css-0.4.0.tgz",
-  "_shasum": "76a830825b8d199848bfe2cce1197ea7f2350542",
-  "_spec": "lesli-css@0.4.0",
-  "_where": "/var/www/LesliCloud/lesli.cloud",
+  "_resolved": "https://registry.npmjs.org/lesli-css/-/lesli-css-0.3.0.tgz",
+  "_shasum": "fca4251227528e0b9738983d8b5af8f6bf2e7e45",
+  "_spec": "lesli-css",
+  "_where": "/var/www/LesliCloud/Lesli",
   "author": {
     "name": "LesliTech",
     "email": "hello@lesli.tech"
@@ -35,5 +36,5 @@
   "homepage": "https://lesli.tech",
   "license": "GPLv3",
   "name": "lesli-css",
-  "version": "0.4.0"
+  "version": "0.3.0"
 }
