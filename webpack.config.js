@@ -42,7 +42,9 @@ module.exports = env => {
     env.mode = env.mode ? env.mode : "development"
     env.watch = env.watch ? env.watch : false
 
+    // set mode boolean
     var production = env.mode == "production" ? true : false
+
 
     // · 
     var webpackbase = {
@@ -70,18 +72,26 @@ module.exports = env => {
                 // resolve vuejs
                 vue: production ? "vue/dist/vue.min.js" : "vue/dist/vue.js",
 
-                // Resolve alias for core resources
-                LesliCloud: path.resolve(__dirname, "./app"),
 
-                // Resolve alias necessary to load vue components from LesliCloud
+                // DEPRECATED
+                LesliCloud: path.resolve(__dirname, "./app"),           
                 LesliCoreVue: path.resolve(__dirname, "./app/vue_core"),
-
-                // Resolve alias for core resources
                 LesliCloudHaus: path.resolve(__dirname, "./engines/CloudHaus/app"),
                 LesliCloudHouse: path.resolve(__dirname, "./engines/CloudHouse/app"),
                 LesliCloudFocus: path.resolve(__dirname, "./engines/CloudFocus/app"),
-                LesliCloudDriver: path.resolve(__dirname, "./engines/CloudDriver/app")
+                LesliCloudDriver: path.resolve(__dirname, "./engines/CloudDriver/app"),
+
+
+                // Resolve alias for core resources
+                Lesli: path.resolve(__dirname, "./app"), 
+                LesliVue: path.resolve(__dirname, "./app/vue_core"), 
                 
+                // Resolve alias for module resources
+                CloudHaus: path.resolve(__dirname, "./engines/CloudHaus/app"),
+                CloudHouse: path.resolve(__dirname, "./engines/CloudHouse/app"),
+                CloudFocus: path.resolve(__dirname, "./engines/CloudFocus/app"),
+                CloudDriver: path.resolve(__dirname, "./engines/CloudDriver/app"),
+
             },
             extensions: [".js"]
         },

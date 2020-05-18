@@ -35,13 +35,13 @@ ruby "2.7.0"
 # · Rails, gem, dependencies and tools
 
 # Rails framework
-gem "rails", "~> 6.0.2.2"
+gem "rails", "= 6.0.3"
 
 # Rails translations
-gem "rails-i18n", "~> 6.0.0"
+gem "rails-i18n", "= 6.0.0"
 
 # Use SCSS for stylesheets
-gem "sass-rails", "~> 5"
+gem "sass-rails", "= 6"
 
 # HAML template procesor
 gem "haml-rails"
@@ -61,7 +61,7 @@ gem "cancancan"
 gem "acts_as_paranoid"
 
 # Use Puma as the app server
-gem "puma", "4.3.1"
+gem "puma", "4.3.3"
 
 # cron manager
 gem "whenever"
@@ -86,7 +86,7 @@ gem "faraday"
 gem "carrierwave", "~> 2.0"
 
 # s3 client for carrierwave
-gem "fog-aws"
+gem "fog-aws", "= 3.6.4"
 gem "aws-sdk-s3"
 
 # Rubyzip to compress files
@@ -99,6 +99,8 @@ gem "axlsx"
 
 gem "caxlsx_rails"
 
+gem "sprockets", "< 4"
+
 group :development, :test do
 
     gem "faker"
@@ -110,7 +112,7 @@ group :development, :test do
     gem "rspec-rails", "~> 4.0.0.beta2"
 
     # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
-    gem "tzinfo-data" if Gem.win_platform? #platforms: [:mingw, :mswin, :x64_mingw, :jruby]
+    gem "tzinfo-data" if Gem.win_platform?
 
     gem "yard"
 
