@@ -1,7 +1,4 @@
 [{
-    "name": "custom_field_id",
-    "type": "bigint"
-},{
     "name": "custom_field_value",
     "type": "text"
 }]
