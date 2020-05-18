@@ -26,21 +26,27 @@ Building a better future, one line of code at a time.
 
 =end
 
+
 # Version of your assets, change this if you want to expire all your assets.
 Rails.application.config.assets.version = "0.1.0"
+
 
 # Add vendor libraries to assets
 Rails.application.config.assets.paths << Rails.root.join("vendor")
 
+
 Rails.application.config.assets.precompile += [ "lesli/templates/website.css" ]
+
 
 # Themes
 Rails.application.config.assets.precompile += [ "themes/blank.css" ]
 Rails.application.config.assets.precompile += [ "themes/**/*.css" ]
 
+
+# Lesli core assets
 Rails.application.config.assets.precompile += [ "users/*.css", "users/*.js" ]
 Rails.application.config.assets.precompile += [ "errors/*.css", "errors/*.js" ]
-Rails.application.config.assets.precompile += [ "websites.css", "websites/*.js" ]
+Rails.application.config.assets.precompile += [ "websites*.css", "websites/*.js" ]
 Rails.application.config.assets.precompile += [ "accounts.css", "accounts/app.js" ]
 Rails.application.config.assets.precompile += [ "profiles.css", "profiles/app.js" ]
 Rails.application.config.assets.precompile += [ "dashboards.css", "dashboards/app.js" ]
@@ -48,11 +54,9 @@ Rails.application.config.assets.precompile += [ "settings.css", "settings/app.js
 
 Rails.application.config.assets.precompile += [ "i18n.js" ]
 
+
 # dynamic include assets for engines
-
-instaled_engines = Rails.configuration.lesli_settings["engines"]
-
-instaled_engines.each do |engine|
+Rails.configuration.lesli_settings["engines"].each do |engine|
     Rails.application.config.assets.precompile += ["#{engine["code"]}/*.css", "#{engine["code"]}/*.js"]
     Rails.application.config.assets.precompile += ["#{engine["code"]}/*.jpg", "#{engine["code"]}/*.png",  "#{engine["code"]}/*.svg"]
 end
