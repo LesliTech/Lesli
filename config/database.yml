@@ -28,7 +28,7 @@ production:
     username: <%= Rails.application.credentials.db[:username] %>
     password: <%= Rails.application.credentials.db[:password] %>
 
-production_dev:
+production:
     <<: *common
     database: <%= Rails.application.credentials.db[:database] %>
     username: <%= Rails.application.credentials.db[:username] %>
