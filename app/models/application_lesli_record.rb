@@ -31,34 +31,24 @@ class ApplicationLesliRecord < ApplicationRecord
 
     before_validation :custom_validations
 
+    # @description Run user defined validations over database columns
     def custom_validations
-
-        puts "~     ~     ~     ~     ~     ~     ~     ~     ~     ~     ~     ~     ~     ~"
-        puts "~     ~     ~     ~     ~     ~     ~     ~     ~     ~     ~     ~     ~     ~"
-        puts "~     ~     ~     ~     ~     ~     ~     ~     ~     ~     ~     ~     ~     ~"
-        puts "~     ~     ~     ~     ~     ~     ~     ~     ~     ~     ~     ~     ~     ~"
-        puts "~     ~     ~     ~     ~     ~     ~     ~     ~     ~     ~     ~     ~     ~"
 
         module_info = self.class.name.split("::")
 
-        return if not Object.const_defined?("#{module_info[0]}::CustomValidation")
+        return if not Object.const_defined?("#{module_info[0]}::CustomValidation::Field")
 
-        custom_validation_model= "#{module_info[0]}::CustomValidation".constantize 
+        custom_validation_fields_model= "#{module_info[0]}::CustomValidation::Field".constantize 
 
-        validations = custom_validation_model.first
-
-        return if validations.blank?
-
-        validations.validation_rule
-        .validation_fields.where(
+        fields_to_validate = custom_validation_fields_model.where(
             :model_to_validate => self.class.name,
             :column_to_validate => self.class.column_names
         ).to_a
 
-        validations.each do |validation|
-            if validation.rule.rule_required
-                if self[validation.column_to_validate].blank?
-                    errors.add(validation.column_to_validate, validation.rule.message_error)
+        fields_to_validate.each do |field|
+            if field.validation.rule.rule_required
+                if self[field.column_to_validate].blank?
+                    errors.add(field.column_to_validate, field.validation.rule.rule_required_error_msg)
                 end
             end
         end

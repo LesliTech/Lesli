@@ -1,3 +1,14 @@
+
+
+
+
+##############################################################
+######################### DEPRECATED #########################
+############ USE APPLICATION_LESLI_RECORD INSTEAD ############
+##############################################################
+
+
+
 module CloudObject
     class Base < ApplicationRecord
         self.abstract_class = true
@@ -102,42 +113,6 @@ module CloudObject
                 workflow_status_model: "#{module_info[0]}::Workflow::Status".constantize
             }
         end
-
-
-
-
-        before_validation :custom_validations
-
-        def custom_validations
-    
-            puts "~     ~     ~     ~     ~     ~     ~     ~     ~     ~     ~     ~     ~     ~"
-            puts "~     ~     ~     ~     ~     ~     ~     ~     ~     ~     ~     ~     ~     ~"
-            puts "~     ~     ~     ~     ~     ~     ~     ~     ~     ~     ~     ~     ~     ~"
-            puts "~     ~     ~     ~     ~     ~     ~     ~     ~     ~     ~     ~     ~     ~"
-            puts "~     ~     ~     ~     ~     ~     ~     ~     ~     ~     ~     ~     ~     ~"
-    
-            p self.class.column_names
-
-            validations = CloudHouse::CustomValidation::Field.where(
-                :model_to_validate => self.class.name,
-                :column_to_validate => self.class.column_names
-            ).to_a
-
-            p validations
-    
-            validations.each do |validation|
-                if validation.rule.rule_required
-                    if self[validation.column_to_validate].blank?
-                        errors.add(validation.column_to_validate, validation.rule.message_error)
-                    end
-                end
-            end
-
-            puts "~     ~     ~     ~     ~     ~     ~     ~     ~     ~     ~     ~     ~     ~"
-            puts "~     ~     ~     ~     ~     ~     ~     ~     ~     ~     ~     ~     ~     ~"
-    
-        end
-
 
     end
 end
