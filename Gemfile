@@ -99,6 +99,8 @@ gem "axlsx"
 
 gem "caxlsx_rails"
 
+gem "rack-cors"
+
 gem "sprockets", "< 4"
 
 group :development, :test do
