@@ -105,6 +105,23 @@ namespace :dev do
 
         end
 
+        desc ""
+        task backup: :environment do
+
+            Lesli::engines.each do |engine|
+                engine_path = Rails.root.join('engines', engine['name'])
+
+                puts ""; puts ""; puts "";
+                puts "Working with: #{engine['name']}"
+                system "cd ./engines/#{engine['name']} && git push backup master" if File.exists?(engine_path)
+            end
+
+            puts ""; puts ""; puts "";
+            puts "Working with: Lesli"
+            system "git push lesli master"
+
+        end
+
         desc "Add github origin"
         task add_origin: :environment do
 
@@ -134,22 +151,10 @@ namespace :dev do
 
             end
 
-        end
-
-        desc ""
-        task backup: :environment do
-
-            Lesli::engines.each do |engine|
-                engine_path = Rails.root.join('engines', engine['name'])
-
-                puts ""; puts ""; puts "";
-                puts "Working with: #{engine['name']}"
-                system "cd ./engines/#{engine['name']} && git push backup master" if File.exists?(engine_path)
-            end
-
-            puts ""; puts ""; puts "";
-            puts "Working with: Lesli"
-            system "git push lesli master"
+            system "git remote add github git@github.com:leitfaden/Lesli.git" 
+            system "git remote add origin git@github.com:leitfaden/Lesli.git" 
+            system "git remote add lesli git@github.com:LesliTech/Lesli.git" 
+            system "git remote add backup git@github.com:LesliTech/Lesli.git" 
 
         end
 
