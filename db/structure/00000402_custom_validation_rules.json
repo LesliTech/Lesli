@@ -3,10 +3,10 @@
     "type": "boolean"
 }, {
     "name": "rule_min_length",
-    "type": "boolean"
+    "type": "numeric"
 },{
     "name": "rule_max_length",
-    "type": "boolean"
+    "type": "numeric"
 },{
     "name": "rule_min_length_error_msg",
     "type": "string"
