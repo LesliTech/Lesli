@@ -1,0 +1,19 @@
+[{
+    "name": "rule_required",
+    "type": "boolean"
+}, {
+    "name": "rule_min_length",
+    "type": "boolean"
+},{
+    "name": "rule_max_length",
+    "type": "boolean"
+},{
+    "name": "rule_min_length_error_msg",
+    "type": "string"
+}, {
+    "name": "rule_max_length_error_msg",
+    "type": "string"
+}, {
+    "name": "rule_required_error_msg",
+    "type": "string"
+}]

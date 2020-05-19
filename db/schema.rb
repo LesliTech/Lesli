@@ -308,11 +308,10 @@ ActiveRecord::Schema.define(version: 10010104) do
   end
 
   create_table "cloud_focus_custom_validation_rules", force: :cascade do |t|
-    t.string "name"
-    t.string "description"
-    t.boolean "enabled"
     t.boolean "rule_required"
-    t.string "message_error"
+    t.boolean "rule_min_length"
+    t.string "rule_min_length_error_msg"
+    t.string "rule_required_error_msg"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.bigint "cloud_focus_custom_validations_id"
@@ -758,27 +757,31 @@ ActiveRecord::Schema.define(version: 10010104) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.bigint "cloud_house_custom_validation_rules_id"
-    t.index ["cloud_house_custom_validation_rules_id"], name: "cloud_house_custom_validation_rules_fields"
+    t.index ["cloud_house_custom_validation_rules_id"], name: "house_custom_validation_fields_rules"
   end
 
   create_table "cloud_house_custom_validation_rules", force: :cascade do |t|
-    t.string "name"
-    t.string "description"
-    t.boolean "enabled"
     t.boolean "rule_required"
-    t.string "message_error"
+    t.boolean "rule_min_length"
+    t.string "rule_min_length_error_msg"
+    t.string "rule_required_error_msg"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.bigint "users_id"
     t.bigint "cloud_house_custom_validations_id"
-    t.index ["cloud_house_custom_validations_id"], name: "cloud_house_custom_validations_validation_rules"
+    t.index ["cloud_house_custom_validations_id"], name: "house_custom_validation_rules_validations"
+    t.index ["users_id"], name: "index_cloud_house_custom_validation_rules_on_users_id"
   end
 
   create_table "cloud_house_custom_validations", force: :cascade do |t|
+    t.string "name"
+    t.string "description"
+    t.boolean "enabled"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.bigint "users_id"
     t.bigint "cloud_house_accounts_id"
-    t.index ["cloud_house_accounts_id"], name: "cloud_house_accounts_custom_validations"
+    t.index ["cloud_house_accounts_id"], name: "house_custom_validations_accounts"
     t.index ["users_id"], name: "index_cloud_house_custom_validations_on_users_id"
   end
 
@@ -1626,6 +1629,7 @@ ActiveRecord::Schema.define(version: 10010104) do
   add_foreign_key "cloud_house_custom_fields", "cloud_house_accounts", column: "cloud_house_accounts_id"
   add_foreign_key "cloud_house_custom_validation_fields", "cloud_house_custom_validation_rules", column: "cloud_house_custom_validation_rules_id"
   add_foreign_key "cloud_house_custom_validation_rules", "cloud_house_custom_validations", column: "cloud_house_custom_validations_id"
+  add_foreign_key "cloud_house_custom_validation_rules", "users", column: "users_id"
   add_foreign_key "cloud_house_custom_validations", "cloud_house_accounts", column: "cloud_house_accounts_id"
   add_foreign_key "cloud_house_custom_validations", "users", column: "users_id"
   add_foreign_key "cloud_house_employee_actions", "cloud_house_employees", column: "cloud_house_employees_id"
