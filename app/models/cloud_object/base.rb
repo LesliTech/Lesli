@@ -1,3 +1,14 @@
+
+
+
+
+##############################################################
+######################### DEPRECATED #########################
+############ USE APPLICATION_LESLI_RECORD INSTEAD ############
+##############################################################
+
+
+
 module CloudObject
     class Base < ApplicationRecord
         self.abstract_class = true
@@ -102,5 +113,6 @@ module CloudObject
                 workflow_status_model: "#{module_info[0]}::Workflow::Status".constantize
             }
         end
+
     end
 end
