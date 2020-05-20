@@ -54,7 +54,7 @@ class FocusMailer < ApplicationMailer
 
     def task_report_delayed(data, template: "")
         to = ["m.auel@deutsche-leibrenten.de","b.norgiev@deutsche-leibrenten.de"]
-        subject = "Due workflows / tasks"
+        subject = I18n.t("focus.tasks.email_subject_report_delayed_tasks")
 
         data[:users].each do |user|
             user[:tasks] = user[:tasks].map do |task|
@@ -63,7 +63,7 @@ class FocusMailer < ApplicationMailer
             end
         end
         
-        send(to, subject, data, template:"")
+        send(to, subject, data, template: "")
     end
 
 end
