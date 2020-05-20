@@ -35,6 +35,21 @@
             }
         }
 
+        .tab-content {
+            // Nested tabs inside tab inside vertical tab
+            .b-tabs {
+                .tab-content{
+                    .b-tabs{
+                        .tabs {
+                            a {
+                                padding: 0.5rem 1rem;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
         // vertical tab container
         & > .tab-content {
             padding: 0;
