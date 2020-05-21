@@ -85,6 +85,7 @@ namespace :dev do
             # sudo chown www-data:www-data public/ -R
             # and run bundle install if you are cloning the repo from scratch
             # nohup command &>/dev/null &
+            # nohup RAILS_ENV=production rake haus:import &>/dev/null &
             # touch tmp/restart.txt
             # sudo -u username
 
