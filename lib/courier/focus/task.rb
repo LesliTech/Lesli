@@ -71,7 +71,7 @@ module Courier
                         id: task.id, 
                         title: task.title, 
                         description: task.description,
-                        deadline: Courier::Core::Date.to_string(task.deadline),
+                        deadline: LC::Date.to_string(task.deadline),
                         importance: CloudFocus::Task.importances.key(task.importance),
                         task_type: task.task_type,
                         creator: {
@@ -108,13 +108,13 @@ module Courier
                 tasks = tasks.map do |task|
 
                     model_global_identifier = nil
-                    model_global_identifier = task.model.detail.code if task.model_type == "CloudHouse::Project"
+                    model_global_identifier = task.model.global_identifier if task.model
 
                     {
                         id: task.id, 
                         title: task.title, 
                         description: task.description,
-                        deadline: Courier::Core::Date.to_string(task.deadline),
+                        deadline: LC::Date.to_string(task.deadline),
                         deadline_raw: task.deadline,
                         importance: CloudFocus::Task.importances.key(task.importance),
                         model_type: task.model_type,
