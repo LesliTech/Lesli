@@ -102,15 +102,15 @@ class ApplicationLesliController < ApplicationController
         end
 
         @account = {
+            company: { },
+            notifications: { 
+                count: Courier::Bell::Notification::Web.count(current_user)
+            },
             user: { 
                 id: current_user.id,
                 email: current_user.email,
                 full_name: current_user.full_name,
                 privileges: current_user_role.blank? ? [] : current_user_role.privileges 
-            },
-            company: { },
-            notifications: { 
-                count: Courier::Bell::Notification::Web.count(current_user)
             }
         }
 
