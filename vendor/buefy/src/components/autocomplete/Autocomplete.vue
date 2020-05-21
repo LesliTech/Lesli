@@ -11,12 +11,12 @@
             :loading="loading"
             :rounded="rounded"
             :icon="icon"
-            :icon-right="clearButton"
-            icon-right-clickable
+            :icon-right="newIconRight"
+            :icon-right-clickable="newIconRightClickable"
             :icon-pack="iconPack"
             :maxlength="maxlength"
             :autocomplete="newAutocomplete"
-            :use-html5-validation="useHtml5Validation"
+            :use-html5-validation="false"
             v-bind="$attrs"
             @input="onInput"
             @focus="focused"
@@ -26,16 +26,22 @@
             @keydown.native.enter.prevent="enterPressed"
             @keydown.native.up.prevent="keyArrows('up')"
             @keydown.native.down.prevent="keyArrows('down')"
-            @icon-right-click="clearInputText"
+            @icon-right-click="rightIconClick"
+            @icon-click="(event) => $emit('icon-click', event)"
         />
 
         <transition name="fade">
             <div
                 class="dropdown-menu"
-                :class="{ 'is-opened-top': !isListInViewportVertically }"
+                :class="{ 'is-opened-top': isOpenedTop && !appendToBody }"
+                :style="style"
                 v-show="isActive && (data.length > 0 || hasEmptySlot || hasHeaderSlot)"
                 ref="dropdown">
-                <div class="dropdown-content" v-show="isActive">
+                <div
+                    class="dropdown-content"
+                    v-show="isActive"
+                    :style="contentStyle"
+                >
                     <div
                         v-if="hasHeaderSlot"
                         class="dropdown-item">
@@ -46,7 +52,7 @@
                         :key="index"
                         class="dropdown-item"
                         :class="{ 'is-hovered': option === hovered }"
-                        @click="setSelected(option)">
+                        @click="setSelected(option, undefined, $event)">
 
                         <slot
                             v-if="hasDefaultSlot"
@@ -74,7 +80,7 @@
 </template>
 
 <script>
-import { getValueByPath } from '../../utils/helpers'
+import { getValueByPath, removeElement, createAbsoluteElement } from '../../utils/helpers'
 import FormElementMixin from '../../utils/FormElementMixin'
 import Input from '../input/Input'
 
@@ -101,7 +107,15 @@ export default {
         customFormatter: Function,
         checkInfiniteScroll: Boolean,
         keepOpen: Boolean,
-        clearable: Boolean
+        clearable: Boolean,
+        maxHeight: [String, Number],
+        dropdownPosition: {
+            type: String,
+            default: 'auto'
+        },
+        iconRight: String,
+        iconRightClickable: Boolean,
+        appendToBody: Boolean
     },
     data() {
         return {
@@ -112,8 +126,10 @@ export default {
             newAutocomplete: this.autocomplete || 'off',
             isListInViewportVertically: true,
             hasFocus: false,
+            style: {},
             _isAutocomplete: true,
-            _elementRef: 'input'
+            _elementRef: 'input',
+            _bodyEl: undefined // Used to append to body
         }
     },
     computed: {
@@ -172,11 +188,33 @@ export default {
         hasFooterSlot() {
             return !!this.$slots.footer
         },
-        clearButton() {
+
+        /**
+         * Apply dropdownPosition property
+         */
+        isOpenedTop() {
+            return this.dropdownPosition === 'top' || (this.dropdownPosition === 'auto' && !this.isListInViewportVertically)
+        },
+
+        newIconRight() {
             if (this.clearable && this.newValue) {
                 return 'close-circle'
             }
-            return ''
+            return this.iconRight
+        },
+
+        newIconRightClickable() {
+            if (this.clearable) {
+                return true
+            }
+            return this.iconRightClickable
+        },
+
+        contentStyle() {
+            return {
+                maxHeight: this.maxHeight === undefined
+                    ? null : (isNaN(this.maxHeight) ? this.maxHeight : this.maxHeight + 'px')
+            }
         }
     },
     watch: {
@@ -185,15 +223,17 @@ export default {
          * to open upwards.
          */
         isActive(active) {
-            if (active) {
-                this.calcDropdownInViewportVertical()
-            } else {
-                this.$nextTick(() => this.setHovered(null))
-                // Timeout to wait for the animation to finish before recalculating
-                setTimeout(() => {
+            if (this.dropdownPosition === 'auto') {
+                if (active) {
                     this.calcDropdownInViewportVertical()
-                }, 100)
+                } else {
+                    // Timeout to wait for the animation to finish before recalculating
+                    setTimeout(() => {
+                        this.calcDropdownInViewportVertical()
+                    }, 100)
+                }
             }
+            if (active) this.$nextTick(() => this.setHovered(null))
         },
 
         /**
@@ -222,7 +262,6 @@ export default {
          */
         value(value) {
             this.newValue = value
-            !this.isValid && this.$refs.input.checkHtml5Validity()
         },
 
         /**
@@ -249,15 +288,17 @@ export default {
          * Set which option is currently selected, update v-model,
          * update input value and close dropdown.
          */
-        setSelected(option, closeDropdown = true) {
+        setSelected(option, closeDropdown = true, event = undefined) {
             if (option === undefined) return
 
             this.selected = option
-            this.$emit('select', this.selected)
+            this.$emit('select', this.selected, event)
             if (this.selected !== null) {
                 this.newValue = this.clearOnSelect ? '' : this.getValue(this.selected)
+                this.setHovered(null)
             }
             closeDropdown && this.$nextTick(() => { this.isActive = false })
+            this.checkValidity()
         },
 
         /**
@@ -280,9 +321,9 @@ export default {
          * Enter key listener.
          * Select the hovered option.
          */
-        enterPressed() {
+        enterPressed(event) {
             if (this.hovered === null) return
-            this.setSelected(this.hovered, !this.keepOpen)
+            this.setSelected(this.hovered, !this.keepOpen, event)
         },
 
         /**
@@ -290,12 +331,12 @@ export default {
          * Select hovered option if it exists, close dropdown, then allow
          * native handling to move to next tabbable element.
          */
-        tabPressed() {
+        tabPressed(event) {
             if (this.hovered === null) {
                 this.isActive = false
                 return
             }
-            this.setSelected(this.hovered, !this.keepOpen)
+            this.setSelected(this.hovered, !this.keepOpen, event)
         },
 
         /**
@@ -350,6 +391,9 @@ export default {
                     rect.bottom <= (window.innerHeight ||
                         document.documentElement.clientHeight)
                 )
+                if (this.appendToBody) {
+                    this.updateAppendToBody()
+                }
             })
         },
 
@@ -417,15 +461,57 @@ export default {
             const currentValue = this.getValue(this.selected)
             if (currentValue && currentValue === this.newValue) return
             this.$emit('typing', this.newValue)
+            this.checkValidity()
         },
-        clearInputText() {
-            this.newValue = ''
+        rightIconClick(event) {
+            if (this.clearable) {
+                this.newValue = ''
+            } else {
+                this.$emit('icon-right-click', event)
+            }
+        },
+        checkValidity() {
+            if (this.useHtml5Validation) {
+                this.$nextTick(() => {
+                    this.checkHtml5Validity()
+                })
+            }
+        },
+        updateAppendToBody() {
+            const dropdownMenu = this.$refs.dropdown
+            const trigger = this.$refs.input.$el
+            if (dropdownMenu && trigger) {
+                // update wrapper dropdown
+                const root = this.$data._bodyEl
+                root.classList.forEach((item) => root.classList.remove(item))
+                root.classList.add('autocomplete')
+                root.classList.add('control')
+                if (this.expandend) {
+                    root.classList.add('is-expandend')
+                }
+                const rect = trigger.getBoundingClientRect()
+                let top = rect.top + window.scrollY
+                let left = rect.left + window.scrollX
+                if (!this.isOpenedTop) {
+                    top += trigger.clientHeight
+                } else {
+                    top -= dropdownMenu.clientHeight
+                }
+                this.style = {
+                    position: 'absolute',
+                    top: `${top}px`,
+                    left: `${left}px`,
+                    width: `${trigger.clientWidth}px`,
+                    maxWidth: `${trigger.clientWidth}px`,
+                    zIndex: '99'
+                }
+            }
         }
     },
     created() {
         if (typeof window !== 'undefined') {
             document.addEventListener('click', this.clickedOutside)
-            window.addEventListener('resize', this.calcDropdownInViewportVertical)
+            if (this.dropdownPosition === 'auto') window.addEventListener('resize', this.calcDropdownInViewportVertical)
         }
     },
     mounted() {
@@ -433,15 +519,22 @@ export default {
             const list = this.$refs.dropdown.querySelector('.dropdown-content')
             list.addEventListener('scroll', () => this.checkIfReachedTheEndOfScroll(list))
         }
+        if (this.appendToBody) {
+            this.$data._bodyEl = createAbsoluteElement(this.$refs.dropdown)
+            this.updateAppendToBody()
+        }
     },
     beforeDestroy() {
         if (typeof window !== 'undefined') {
             document.removeEventListener('click', this.clickedOutside)
-            window.removeEventListener('resize', this.calcDropdownInViewportVertical)
+            if (this.dropdownPosition === 'auto') window.removeEventListener('resize', this.calcDropdownInViewportVertical)
         }
         if (this.checkInfiniteScroll && this.$refs.dropdown && this.$refs.dropdown.querySelector('.dropdown-content')) {
             const list = this.$refs.dropdown.querySelector('.dropdown-content')
             list.removeEventListener('scroll', this.checkIfReachedTheEndOfScroll)
+        }
+        if (this.appendToBody) {
+            removeElement(this.$data._bodyEl)
         }
     }
 }

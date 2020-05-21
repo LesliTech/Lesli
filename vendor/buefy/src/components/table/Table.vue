@@ -1,5 +1,5 @@
 <template>
-    <div class="b-table" :class="tableWrapperClasses">
+    <div class="b-table" :class="rooClasses">
         <b-table-mobile-sort
             v-if="mobileCards && hasSortablenewColumns"
             :current-sort-column="currentSortColumn"
@@ -40,7 +40,14 @@
             </div>
         </div>
 
-        <div class="table-wrapper">
+        <div
+            class="table-wrapper"
+            :class="tableWrapperClasses"
+            :style="{
+                height: height === undefined ? null :
+                (isNaN(height) ? height : height + 'px')
+            }"
+        >
             <table
                 class="table"
                 :class="tableClasses"
@@ -61,10 +68,12 @@
                         <th
                             v-for="(column, index) in visibleColumns"
                             :key="index"
-                            :class="{
-                                'is-current-sort': currentSortColumn === column,
-                                'is-sortable': column.sortable
-                            }"
+                            :class="[column.headerClass, {
+                                'is-current-sort': !sortMultiple && currentSortColumn === column,
+                                'is-sortable': column.sortable,
+                                'is-sticky': column.sticky,
+                                'is-unselectable': !column.headerSelectable
+                            }]"
                             :style="{
                                 width: column.width === undefined ? null :
                                 (isNaN(column.width) ? column.width : column.width + 'px')
@@ -105,8 +114,10 @@
                                         :pack="iconPack"
                                         both
                                         :size="sortIconSize"
-                                        :class="{ 'is-desc': sortMultipleDataComputed.filter(i =>
-                                        i.field === column.field)[0].order === 'desc'}"
+                                        :class="{
+                                            'is-desc': sortMultipleDataComputed.filter(i =>
+                                                i.field === column.field)[0].order === 'desc'
+                                        }"
                                     />
                                     {{ findIndexOfSortData(column) }}
                                     <button
@@ -116,7 +127,7 @@
                                 </template>
 
                                 <b-icon
-                                    v-else
+                                    v-else-if="column.sortable && !sortMultiple"
                                     :icon="sortIcon"
                                     :pack="iconPack"
                                     both
@@ -186,7 +197,20 @@
                             : (isNaN(column.width) ? column.width : column.width + 'px') }">
                             <div class="th-wrap">
                                 <template v-if="column.searchable">
+                                    <template
+                                        v-if="column.$scopedSlots
+                                        && column.$scopedSlots.searchable">
+                                        <b-slot-component
+                                            :component="column"
+                                            :scoped="true"
+                                            name="searchable"
+                                            tag="span"
+                                            :props="{ column, filters }"
+                                        />
+                                    </template>
                                     <b-input
+                                        v-else
+                                        @[filtersEvent].native="onFiltersEvent"
                                         v-model="filters[column.field]"
                                         :type="column.numeric ? 'number' : 'text'" />
                                 </template>
@@ -250,7 +274,7 @@
                                 <BTableColumn
                                     v-for="column in newColumns"
                                     v-bind="column"
-                                    :key="column.field"
+                                    :key="column.customKey || column.label"
                                     internal>
                                     <span
                                         v-if="column.renderHtml"
@@ -393,6 +417,10 @@ export default {
             }
         },
         selected: Object,
+        isRowSelectable: {
+            type: Function,
+            default: () => true
+        },
         focusable: Boolean,
         customIsChecked: Function,
         isRowCheckable: {
@@ -492,11 +520,18 @@ export default {
             type: Boolean,
             default: false
         },
+        scrollable: Boolean,
         ariaNextLabel: String,
         ariaPreviousLabel: String,
         ariaPageLabel: String,
         ariaCurrentLabel: String,
-        stickyHeader: Boolean
+        stickyHeader: Boolean,
+        height: [Number, String],
+        filtersEvent: {
+            type: String,
+            default: ''
+        },
+        cardLayout: Boolean
     },
     data() {
         return {
@@ -518,11 +553,7 @@ export default {
     },
     computed: {
         sortMultipleDataComputed() {
-            if (this.backendSorting) {
-                return this.sortMultipleData
-            } else {
-                return this.sortMultipleDataLocal
-            }
+            return this.backendSorting ? this.sortMultipleData : this.sortMultipleDataLocal
         },
         tableClasses() {
             return {
@@ -537,9 +568,15 @@ export default {
         },
         tableWrapperClasses() {
             return {
-                'is-loading': this.loading,
                 'has-mobile-cards': this.mobileCards,
-                'has-sticky-header': this.stickyHeader
+                'has-sticky-header': this.stickyHeader,
+                'is-card-list': this.cardLayout,
+                'table-container': this.isScrollable
+            }
+        },
+        rooClasses() {
+            return {
+                'is-loading': this.loading
             }
         },
 
@@ -635,22 +672,38 @@ export default {
         */
         showDetailRowIcon() {
             return this.detailed && this.showDetailIcon
+        },
+
+        /**
+        * return if scrollable table
+        */
+        isScrollable() {
+            if (this.scrollable) return true
+            if (!this.newColumns) return false
+            return this.newColumns.some((column) => {
+                return column.sticky
+            })
         }
     },
     watch: {
         /**
         * When data prop change:
         *   1. Update internal value.
-        *   2. Sort again if it's not backend-sort.
-        *   3. Set new total if it's not backend-paginated.
+        *   2. Filter data if it's not backend-filtered.
+        *   3. Sort again if it's not backend-sorted.
+        *   4. Set new total if it's not backend-paginated.
         */
         data(value) {
             this.newData = value
+            if (!this.backendFiltering) {
+                this.newData = value.filter(
+                    (row) => this.isRowFiltered(row))
+            }
             if (!this.backendSorting) {
                 this.sort(this.currentSortColumn, true)
             }
             if (!this.backendPagination) {
-                this.newDataTotal = value.length
+                this.newDataTotal = this.newData.length
             }
         },
 
@@ -690,6 +743,14 @@ export default {
                     if (!this.backendPagination) {
                         this.newDataTotal = this.newData.length
                     }
+                    if (!this.backendSorting) {
+                        if (this.sortMultiple &&
+                            this.sortMultipleDataLocal && this.sortMultipleDataLocal.length > 0) {
+                            this.doSortMultiColumn()
+                        } else if (Object.keys(this.currentSortColumn).length > 0) {
+                            this.doSortSingleColumn(this.currentSortColumn)
+                        }
+                    }
                 }
             },
             deep: true
@@ -708,6 +769,9 @@ export default {
         }
     },
     methods: {
+        onFiltersEvent(event) {
+            this.$emit(`filters-event-${this.filtersEvent}`, { event, filters: this.filters })
+        },
         findIndexOfSortData(column) {
             let sortObj = this.sortMultipleDataComputed.filter((i) =>
                 i.field === column.field)[0]
@@ -783,13 +847,17 @@ export default {
                         {field: column.field, order: column.isAsc}
                     )
                 }
-                let formattedSortingPriority = this.sortMultipleDataLocal.map((i) => {
-                    return (i.order && i.order === 'desc' ? '-' : '') + i.field
-                })
-
-                this.newData = multiColumnSort(this.newData, formattedSortingPriority)
+                this.doSortMultiColumn()
             }
         },
+
+        doSortMultiColumn() {
+            let formattedSortingPriority = this.sortMultipleDataLocal.map((i) => {
+                return (i.order && i.order === 'desc' ? '-' : '') + i.field
+            })
+            this.newData = multiColumnSort(this.newData, formattedSortingPriority)
+        },
+
         /**
         * Sort the column.
         * Toggle current direction on column if it's sortable
@@ -821,15 +889,19 @@ export default {
                     this.$emit('sort', column.field, this.isAsc ? 'asc' : 'desc', event)
                 }
                 if (!this.backendSorting) {
-                    this.newData = this.sortBy(
-                        this.newData,
-                        column.field,
-                        column.customSort,
-                        this.isAsc
-                    )
+                    this.doSortSingleColumn(column)
                 }
                 this.currentSortColumn = column
             }
+        },
+
+        doSortSingleColumn(column) {
+            this.newData = this.sortBy(
+                this.newData,
+                column.field,
+                column.customSort,
+                this.isAsc
+            )
         },
 
         /**
@@ -924,6 +996,7 @@ export default {
             this.$emit('click', row)
 
             if (this.selected === row) return
+            if (!this.isRowSelectable(row)) return
 
             // Emit new and old row
             this.$emit('select', row, this.selected)
@@ -1030,7 +1103,7 @@ export default {
                 this.initSort()
                 this.firstTimeSort = false
             } else if (this.newColumns.length) {
-                if (this.currentSortColumn.field) {
+                if (Object.keys(this.currentSortColumn).length > 0) {
                     for (let i = 0; i < this.newColumns.length; i++) {
                         if (this.newColumns[i].field === this.currentSortColumn.field) {
                             this.currentSortColumn = this.newColumns[i]
@@ -1075,7 +1148,25 @@ export default {
                     ? this.visibleData.length - 1
                     : index
 
-            this.selectRow(this.visibleData[index])
+            const row = this.visibleData[index]
+
+            if (!this.isRowSelectable(row)) {
+                let newIndex = null
+                if (pos > 0) {
+                    for (let i = index; i < this.visibleData.length && newIndex === null; i++) {
+                        if (this.isRowSelectable(this.visibleData[i])) newIndex = i
+                    }
+                } else {
+                    for (let i = index; i >= 0 && newIndex === null; i--) {
+                        if (this.isRowSelectable(this.visibleData[i])) newIndex = i
+                    }
+                }
+                if (newIndex >= 0) {
+                    this.selectRow(this.visibleData[newIndex])
+                }
+            } else {
+                this.selectRow(row)
+            }
         },
 
         /**
@@ -1091,26 +1182,34 @@ export default {
         * Initial sorted column based on the default-sort prop.
         */
         initSort() {
-            if (!this.defaultSort) return
+            if (!this.backendSorting) {
+                if (this.sortMultiple && this.sortMultipleData) {
+                    this.sortMultipleData.forEach((column) => {
+                        this.sortMultiColumn(column)
+                    })
+                } else {
+                    if (!this.defaultSort) return
 
-            let sortField = ''
-            let sortDirection = this.defaultSortDirection
+                    let sortField = ''
+                    let sortDirection = this.defaultSortDirection
 
-            if (Array.isArray(this.defaultSort)) {
-                sortField = this.defaultSort[0]
-                if (this.defaultSort[1]) {
-                    sortDirection = this.defaultSort[1]
+                    if (Array.isArray(this.defaultSort)) {
+                        sortField = this.defaultSort[0]
+                        if (this.defaultSort[1]) {
+                            sortDirection = this.defaultSort[1]
+                        }
+                    } else {
+                        sortField = this.defaultSort
+                    }
+
+                    const sortColumn = this.newColumns.filter(
+                        (column) => (column.field === sortField))[0]
+                    if (sortColumn) {
+                        this.isAsc = sortDirection.toLowerCase() !== 'desc'
+                        this.sort(sortColumn, true)
+                    }
                 }
-            } else {
-                sortField = this.defaultSort
             }
-
-            this.newColumns.forEach((column) => {
-                if (column.field === sortField) {
-                    this.isAsc = sortDirection.toLowerCase() !== 'desc'
-                    this.sort(column, true)
-                }
-            })
         },
         /**
         * Emits drag start event
@@ -1147,6 +1246,11 @@ export default {
     mounted() {
         this.checkPredefinedDetailedRows()
         this.checkSort()
+    },
+
+    beforeDestroy() {
+        this.newData = []
+        this.newColumns = []
     }
 }
 </script>

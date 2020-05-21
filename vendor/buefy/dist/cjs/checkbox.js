@@ -4,7 +4,7 @@ Object.defineProperty(exports, '__esModule', { value: true });
 
 var __chunk_5 = require('./chunk-13e039f5.js');
 var __chunk_8 = require('./chunk-8b8384ca.js');
-var __chunk_9 = require('./chunk-d68349e6.js');
+var __chunk_9 = require('./chunk-56e80e3b.js');
 
 //
 var script = {
@@ -55,19 +55,15 @@ var __vue_staticRenderFns__ = [];
   
   /* style inject SSR */
   
-  /* style inject shadow dom */
-  
 
   
-  const __vue_component__ = __chunk_5.__vue_normalize__(
+  var CheckboxButton = __chunk_5.__vue_normalize__(
     { render: __vue_render__, staticRenderFns: __vue_staticRenderFns__ },
     __vue_inject_styles__,
     __vue_script__,
     __vue_scope_id__,
     __vue_is_functional_template__,
     __vue_module_identifier__,
-    false,
-    undefined,
     undefined,
     undefined
   );
@@ -75,11 +71,11 @@ var __vue_staticRenderFns__ = [];
 var Plugin = {
   install: function install(Vue) {
     __chunk_5.registerComponent(Vue, __chunk_9.Checkbox);
-    __chunk_5.registerComponent(Vue, __vue_component__);
+    __chunk_5.registerComponent(Vue, CheckboxButton);
   }
 };
 __chunk_5.use(Plugin);
 
 exports.BCheckbox = __chunk_9.Checkbox;
-exports.BCheckboxButton = __vue_component__;
+exports.BCheckboxButton = CheckboxButton;
 exports.default = Plugin;

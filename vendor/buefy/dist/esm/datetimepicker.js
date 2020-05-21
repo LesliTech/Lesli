@@ -1,17 +1,17 @@
-import { _ as _defineProperty } from './chunk-6ea13200.js';
+import { _ as _defineProperty } from './chunk-1fafdf15.js';
 import { isMobile } from './helpers.js';
-import { c as config } from './chunk-17222463.js';
-import { F as FormElementMixin } from './chunk-1f14bcfd.js';
-import './chunk-bed9f769.js';
+import { c as config } from './chunk-6985c8ce.js';
+import { F as FormElementMixin } from './chunk-d0a313ea.js';
+import './chunk-cdfca85b.js';
 import { _ as __vue_normalize__, r as registerComponent, u as use } from './chunk-cca88db8.js';
-import './chunk-b58f8279.js';
-import './chunk-54d65644.js';
-import './chunk-b3471279.js';
-import './chunk-7c1d0d22.js';
-import './chunk-6262dbde.js';
-import './chunk-9a8fefdc.js';
-import { D as Datepicker } from './chunk-e1055822.js';
-import { T as Timepicker } from './chunk-7aa1a5e7.js';
+import './chunk-d1591eb8.js';
+import './chunk-1196ee55.js';
+import './chunk-42f463e6.js';
+import './chunk-4d76806f.js';
+import './chunk-eb60b35a.js';
+import './chunk-77ffdf8b.js';
+import { D as Datepicker } from './chunk-66a4ceca.js';
+import { T as Timepicker } from './chunk-a684d1f3.js';
 
 var _components;
 var script = {
@@ -28,6 +28,7 @@ var script = {
       default: false
     },
     placeholder: String,
+    horizontalTimePicker: Boolean,
     disabled: Boolean,
     icon: String,
     iconPack: String,
@@ -65,7 +66,8 @@ var script = {
     focusable: {
       type: Boolean,
       default: true
-    }
+    },
+    appendToBody: Boolean
   },
   data: function data() {
     return {
@@ -192,12 +194,11 @@ var script = {
     defaultDatetimeFormatter: function defaultDatetimeFormatter(date) {
       if (typeof this.datetimeFormatter === 'function') {
         return this.datetimeFormatter(date);
-      } else if (typeof config.defaultDatetimeParser === 'function') {
-        return config.defaultDatetimeParser(date);
+      } else if (typeof config.defaultDatetimeFormatter === 'function') {
+        return config.defaultDatetimeFormatter(date);
       } else {
         if (this.$refs.timepicker) {
-          var yyyyMMdd = date.getFullYear() + '/' + (date.getMonth() + 1) + '/' + date.getDate();
-          var d = new Date(yyyyMMdd);
+          var d = new Date(date.getFullYear(), date.getMonth(), date.getDate(), 12);
           return d.toLocaleDateString() + ' ' + this.$refs.timepicker.timeFormatter(date, this.$refs.timepicker);
         }
 
@@ -210,7 +211,20 @@ var script = {
     */
     onChangeNativePicker: function onChangeNativePicker(event) {
       var date = event.target.value;
-      this.computedValue = date ? new Date(date) : null;
+      var s = date ? date.split(/\D/) : [];
+
+      if (s.length >= 5) {
+        var year = parseInt(s[0], 10);
+        var month = parseInt(s[1], 10) - 1;
+        var day = parseInt(s[2], 10);
+        var hours = parseInt(s[3], 10);
+        var minutes = parseInt(s[4], 10); // Seconds are omitted intentionally; they are unsupported by input
+        // type=datetime-local and cause the control to fail native validation
+
+        this.computedValue = new Date(year, month, day, hours, minutes);
+      } else {
+        this.computedValue = null;
+      }
     },
     formatNative: function formatNative(value) {
       var date = new Date(value);
@@ -245,7 +259,7 @@ var script = {
 const __vue_script__ = script;
 
 /* template */
-var __vue_render__ = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return (!_vm.isMobile || _vm.inline)?_c('b-datepicker',_vm._b({ref:"datepicker",attrs:{"open-on-focus":_vm.openOnFocus,"position":_vm.position,"loading":_vm.loading,"inline":_vm.inline,"editable":_vm.editable,"expanded":_vm.expanded,"close-on-click":false,"date-formatter":_vm.defaultDatetimeFormatter,"date-parser":_vm.defaultDatetimeParser,"min-date":_vm.minDate,"max-date":_vm.maxDate,"icon":_vm.icon,"icon-pack":_vm.iconPack,"size":_vm.datepickerSize,"placeholder":_vm.placeholder,"range":false,"disabled":_vm.disabled,"mobile-native":_vm.isMobileNative,"focusable":_vm.focusable},on:{"focus":_vm.onFocus,"blur":_vm.onBlur,"change-month":function($event){_vm.$emit('change-month', $event);},"change-year":function($event){_vm.$emit('change-year', $event);}},model:{value:(_vm.computedValue),callback:function ($$v) {_vm.computedValue=$$v;},expression:"computedValue"}},'b-datepicker',_vm.datepicker,false),[_c('nav',{staticClass:"level is-mobile"},[(_vm.$slots.left !== undefined)?_c('div',{staticClass:"level-item has-text-centered"},[_vm._t("left")],2):_vm._e(),_vm._v(" "),_c('div',{staticClass:"level-item has-text-centered"},[_c('b-timepicker',_vm._b({ref:"timepicker",attrs:{"inline":"","editable":_vm.editable,"min-time":_vm.minTime,"max-time":_vm.maxTime,"size":_vm.timepickerSize,"disabled":_vm.timepickerDisabled,"focusable":_vm.focusable,"mobile-native":_vm.isMobileNative},model:{value:(_vm.computedValue),callback:function ($$v) {_vm.computedValue=$$v;},expression:"computedValue"}},'b-timepicker',_vm.timepicker,false))],1),_vm._v(" "),(_vm.$slots.right !== undefined)?_c('div',{staticClass:"level-item has-text-centered"},[_vm._t("right")],2):_vm._e()])]):_c('b-input',_vm._b({ref:"input",attrs:{"type":"datetime-local","autocomplete":"off","value":_vm.formatNative(_vm.computedValue),"placeholder":_vm.placeholder,"size":_vm.size,"icon":_vm.icon,"icon-pack":_vm.iconPack,"loading":_vm.loading,"max":_vm.formatNative(_vm.maxDate),"min":_vm.formatNative(_vm.minDate),"disabled":_vm.disabled,"readonly":false,"use-html5-validation":_vm.useHtml5Validation},on:{"focus":_vm.onFocus,"blur":_vm.onBlur},nativeOn:{"change":function($event){return _vm.onChangeNativePicker($event)}}},'b-input',_vm.$attrs,false))};
+var __vue_render__ = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return (!_vm.isMobile || _vm.inline)?_c('b-datepicker',_vm._b({ref:"datepicker",attrs:{"open-on-focus":_vm.openOnFocus,"position":_vm.position,"loading":_vm.loading,"inline":_vm.inline,"editable":_vm.editable,"expanded":_vm.expanded,"close-on-click":false,"date-formatter":_vm.defaultDatetimeFormatter,"date-parser":_vm.defaultDatetimeParser,"min-date":_vm.minDate,"max-date":_vm.maxDate,"icon":_vm.icon,"icon-pack":_vm.iconPack,"size":_vm.datepickerSize,"placeholder":_vm.placeholder,"horizontal-time-picker":_vm.horizontalTimePicker,"range":false,"disabled":_vm.disabled,"mobile-native":_vm.isMobileNative,"focusable":_vm.focusable,"append-to-body":_vm.appendToBody},on:{"focus":_vm.onFocus,"blur":_vm.onBlur,"change-month":function($event){_vm.$emit('change-month', $event);},"change-year":function($event){_vm.$emit('change-year', $event);}},model:{value:(_vm.computedValue),callback:function ($$v) {_vm.computedValue=$$v;},expression:"computedValue"}},'b-datepicker',_vm.datepicker,false),[_c('nav',{staticClass:"level is-mobile"},[(_vm.$slots.left !== undefined)?_c('div',{staticClass:"level-item has-text-centered"},[_vm._t("left")],2):_vm._e(),_vm._v(" "),_c('div',{staticClass:"level-item has-text-centered"},[_c('b-timepicker',_vm._b({ref:"timepicker",attrs:{"inline":"","editable":_vm.editable,"min-time":_vm.minTime,"max-time":_vm.maxTime,"size":_vm.timepickerSize,"disabled":_vm.timepickerDisabled,"focusable":_vm.focusable,"mobile-native":_vm.isMobileNative},model:{value:(_vm.computedValue),callback:function ($$v) {_vm.computedValue=$$v;},expression:"computedValue"}},'b-timepicker',_vm.timepicker,false))],1),_vm._v(" "),(_vm.$slots.right !== undefined)?_c('div',{staticClass:"level-item has-text-centered"},[_vm._t("right")],2):_vm._e()])]):_c('b-input',_vm._b({ref:"input",attrs:{"type":"datetime-local","autocomplete":"off","value":_vm.formatNative(_vm.computedValue),"placeholder":_vm.placeholder,"size":_vm.size,"icon":_vm.icon,"icon-pack":_vm.iconPack,"rounded":_vm.rounded,"loading":_vm.loading,"max":_vm.formatNative(_vm.maxDate),"min":_vm.formatNative(_vm.minDate),"disabled":_vm.disabled,"readonly":false,"use-html5-validation":_vm.useHtml5Validation},on:{"focus":_vm.onFocus,"blur":_vm.onBlur},nativeOn:{"change":function($event){return _vm.onChangeNativePicker($event)}}},'b-input',_vm.$attrs,false))};
 var __vue_staticRenderFns__ = [];
 
   /* style */
@@ -260,29 +274,25 @@ var __vue_staticRenderFns__ = [];
   
   /* style inject SSR */
   
-  /* style inject shadow dom */
-  
 
   
-  const __vue_component__ = __vue_normalize__(
+  var Datetimepicker = __vue_normalize__(
     { render: __vue_render__, staticRenderFns: __vue_staticRenderFns__ },
     __vue_inject_styles__,
     __vue_script__,
     __vue_scope_id__,
     __vue_is_functional_template__,
     __vue_module_identifier__,
-    false,
-    undefined,
     undefined,
     undefined
   );
 
 var Plugin = {
   install: function install(Vue) {
-    registerComponent(Vue, __vue_component__);
+    registerComponent(Vue, Datetimepicker);
   }
 };
 use(Plugin);
 
 export default Plugin;
-export { __vue_component__ as BDatetimepicker };
+export { Datetimepicker as BDatetimepicker };

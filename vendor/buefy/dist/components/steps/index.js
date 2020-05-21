@@ -1,4 +1,4 @@
-/*! Buefy v0.8.12 | MIT License | github.com/buefy/buefy */
+/*! Buefy v0.8.19 | MIT License | github.com/buefy/buefy */
 (function (global, factory) {
   typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports) :
   typeof define === 'function' && define.amd ? define(['exports'], factory) :
@@ -70,6 +70,22 @@
     return target;
   }
 
+  function _toArray(arr) {
+    return _arrayWithHoles(arr) || _iterableToArray(arr) || _nonIterableRest();
+  }
+
+  function _arrayWithHoles(arr) {
+    if (Array.isArray(arr)) return arr;
+  }
+
+  function _iterableToArray(iter) {
+    if (Symbol.iterator in Object(iter) || Object.prototype.toString.call(iter) === "[object Arguments]") return Array.from(iter);
+  }
+
+  function _nonIterableRest() {
+    throw new TypeError("Invalid attempt to destructure non-iterable instance");
+  }
+
   var config = {
     defaultContainerElement: null,
     defaultIconPack: 'mdi',
@@ -116,6 +132,7 @@
     defaultTrapFocus: false,
     defaultButtonRounded: false,
     defaultCarouselInterval: 3500,
+    defaultTabsAnimated: true,
     defaultLinkTags: ['a', 'button', 'input', 'router-link', 'nuxt-link', 'n-link', 'RouterLink', 'NuxtLink', 'NLink'],
     customIconPacks: null
   }; // TODO defaultTrapFocus to true in the next breaking change
@@ -202,7 +219,6 @@
     return icons;
   };
 
-  //
   var script = {
     name: 'BIcon',
     props: {
@@ -256,7 +272,12 @@
         }
 
         if (splitType.length <= 1) return;
-        return "has-text-".concat(splitType[1]);
+
+        var _splitType = splitType,
+            _splitType2 = _toArray(_splitType),
+            type = _splitType2.slice(1);
+
+        return "has-text-".concat(type.join('-'));
       },
       newCustomSize: function newCustomSize() {
         return this.customSize || this.customSizeByPack;
@@ -399,19 +420,15 @@
     
     /* style inject SSR */
     
-    /* style inject shadow dom */
-    
 
     
-    const __vue_component__ = normalizeComponent_1(
+    var Icon = normalizeComponent_1(
       { render: __vue_render__, staticRenderFns: __vue_staticRenderFns__ },
       __vue_inject_styles__,
       __vue_script__,
       __vue_scope_id__,
       __vue_is_functional_template__,
       __vue_module_identifier__,
-      false,
-      undefined,
       undefined,
       undefined
     );
@@ -470,9 +487,9 @@
   var _components;
   var script$1 = {
     name: 'BSteps',
-    components: (_components = {}, _defineProperty(_components, __vue_component__.name, __vue_component__), _defineProperty(_components, SlotComponent.name, SlotComponent), _components),
+    components: (_components = {}, _defineProperty(_components, Icon.name, Icon), _defineProperty(_components, SlotComponent.name, SlotComponent), _components),
     props: {
-      value: Number,
+      value: [Number, String],
       type: [String, Object],
       size: String,
       animated: {
@@ -486,22 +503,49 @@
       iconPack: String,
       iconPrev: {
         type: String,
-        default: config.defaultIconPrev
+        default: function _default() {
+          return config.defaultIconPrev;
+        }
       },
       iconNext: {
         type: String,
-        default: config.defaultIconNext
+        default: function _default() {
+          return config.defaultIconNext;
+        }
       },
       hasNavigation: {
         type: Boolean,
         default: true
+      },
+      vertical: {
+        type: Boolean,
+        default: false
+      },
+      position: String,
+      labelPosition: {
+        type: String,
+        validator: function validator(value) {
+          return ['bottom', 'right', 'left'].indexOf(value) > -1;
+        },
+        default: 'bottom'
+      },
+      rounded: {
+        type: Boolean,
+        default: true
+      },
+      mobileMode: {
+        type: String,
+        validator: function validator(value) {
+          return ['minimalist', 'compact'].indexOf(value) > -1;
+        },
+        default: 'minimalist'
       },
       ariaNextLabel: String,
       ariaPreviousLabel: String
     },
     data: function data() {
       return {
-        activeStep: this.value || 0,
+        activeStep: 0,
         defaultSlots: [],
         contentHeight: 0,
         isTransitioning: false,
@@ -510,8 +554,18 @@
       };
     },
     computed: {
+      wrapperClasses: function wrapperClasses() {
+        return [this.size, _defineProperty({
+          'is-vertical': this.vertical
+        }, this.position, this.position && this.vertical)];
+      },
       mainClasses: function mainClasses() {
-        return [this.type, this.size];
+        return [this.type, _defineProperty({
+          'has-label-right': this.labelPosition === 'right',
+          'has-label-left': this.labelPosition === 'left',
+          'is-animated': this.animated,
+          'is-rounded': this.rounded
+        }, "mobile-".concat(this.mobileMode), this.mobileMode !== null)];
       },
       stepItems: function stepItems() {
         return this.defaultSlots.filter(function (vnode) {
@@ -579,15 +633,30 @@
       * When v-model is changed set the new active step.
       */
       value: function value(_value) {
-        this.changeStep(_value);
+        var index = this.getIndexByValue(_value);
+        this.changeStep(index);
       },
 
       /**
       * When step-items are updated, set active one.
       */
       stepItems: function stepItems() {
+        var _this = this;
+
         if (this.activeStep < this.stepItems.length) {
+          var previous = this.activeStep;
+          this.stepItems.map(function (step, idx) {
+            if (step.isActive) {
+              previous = idx;
+
+              if (previous < _this.stepItems.length) {
+                _this.stepItems[previous].isActive = false;
+              }
+            }
+          });
           this.stepItems[this.activeStep].isActive = true;
+        } else if (this.activeStep > 0) {
+          this.changeStep(this.activeStep - 1);
         }
       }
     },
@@ -609,7 +678,7 @@
 
         this.stepItems[newIndex].activate(this.activeStep, newIndex);
         this.activeStep = newIndex;
-        this.$emit('change', newIndex);
+        this.$emit('change', this.getValueByIndex(newIndex));
       },
 
       /**
@@ -626,27 +695,27 @@
       /**
        * Step click listener, emit input event and change active step.
        */
-      stepClick: function stepClick(value) {
-        this.$emit('input', value);
-        this.changeStep(value);
+      stepClick: function stepClick(index) {
+        this.$emit('input', this.getValueByIndex(index));
+        this.changeStep(index);
       },
 
       /**
        * Previous button click listener.
        */
       prev: function prev() {
-        var _this = this;
+        var _this2 = this;
 
         if (!this.hasPrev) return;
         var prevItemIdx = this.reversedStepItems.map(function (step, idx) {
-          return _this.stepItems.length - 1 - idx < _this.activeStep && step.visible;
+          return _this2.stepItems.length - 1 - idx < _this2.activeStep && step.visible;
         }).indexOf(true);
 
         if (prevItemIdx >= 0) {
           prevItemIdx = this.stepItems.length - 1 - prevItemIdx;
         }
 
-        this.$emit('input', prevItemIdx);
+        this.$emit('input', this.getValueByIndex(prevItemIdx));
         this.changeStep(prevItemIdx);
       },
 
@@ -654,17 +723,29 @@
        * Previous button click listener.
        */
       next: function next() {
-        var _this2 = this;
+        var _this3 = this;
 
         if (!this.hasNext) return;
         var nextItemIdx = this.stepItems.map(function (step, idx) {
-          return idx > _this2.activeStep && step.visible;
+          return idx > _this3.activeStep && step.visible;
         }).indexOf(true);
-        this.$emit('input', nextItemIdx);
+        this.$emit('input', this.getValueByIndex(nextItemIdx));
         this.changeStep(nextItemIdx);
+      },
+      getIndexByValue: function getIndexByValue(value) {
+        var index = this.stepItems.map(function (t) {
+          return t.$options.propsData ? t.$options.propsData.value : undefined;
+        }).indexOf(value);
+        return index >= 0 ? index : value;
+      },
+      getValueByIndex: function getValueByIndex(index) {
+        var propsData = this.stepItems[index].$options.propsData;
+        return propsData && propsData.value ? propsData.value : index;
       }
     },
     mounted: function mounted() {
+      this.activeTab = this.getIndexByValue(this.value || 0);
+
       if (this.activeStep < this.stepItems.length) {
         this.stepItems[this.activeStep].isActive = true;
       }
@@ -677,10 +758,10 @@
   const __vue_script__$1 = script$1;
 
   /* template */
-  var __vue_render__$1 = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"b-steps"},[_c('nav',{staticClass:"steps",class:_vm.mainClasses},[_c('ul',{staticClass:"step-items"},_vm._l((_vm.stepItems),function(stepItem,index){return _c('li',{directives:[{name:"show",rawName:"v-show",value:(stepItem.visible),expression:"stepItem.visible"}],key:index,staticClass:"step-item",class:[stepItem.type || _vm.type, {
+  var __vue_render__$1 = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"b-steps",class:_vm.wrapperClasses},[_c('nav',{staticClass:"steps",class:_vm.mainClasses},[_c('ul',{staticClass:"step-items"},_vm._l((_vm.stepItems),function(stepItem,index){return _c('li',{directives:[{name:"show",rawName:"v-show",value:(stepItem.visible),expression:"stepItem.visible"}],key:index,staticClass:"step-item",class:[stepItem.type || _vm.type, {
                           'is-active': _vm.activeStep === index,
                           'is-previous': _vm.activeStep > index
-                  }]},[_c('a',{staticClass:"step-link",class:{'is-clickable': _vm.isItemClickable(stepItem, index)},on:{"click":function($event){_vm.isItemClickable(stepItem, index) && _vm.stepClick(index);}}},[_c('div',{staticClass:"step-marker"},[(stepItem.icon)?_c('b-icon',{attrs:{"icon":stepItem.icon,"pack":stepItem.iconPack,"size":_vm.size}}):_vm._e()],1),_vm._v(" "),_c('div',{staticClass:"step-details"},[_c('span',{staticClass:"step-title"},[_vm._v(_vm._s(stepItem.label))])])])])}))]),_vm._v(" "),_c('section',{staticClass:"step-content",class:{'is-transitioning': _vm.isTransitioning}},[_vm._t("default")],2),_vm._v(" "),_vm._t("navigation",[(_vm.hasNavigation)?_c('nav',{staticClass:"step-navigation"},[_c('a',{staticClass:"pagination-previous",attrs:{"role":"button","disabled":_vm.navigationProps.previous.disabled,"aria-label":_vm.ariaPreviousLabel},on:{"click":function($event){$event.preventDefault();return _vm.navigationProps.previous.action($event)}}},[_c('b-icon',{attrs:{"icon":_vm.iconPrev,"pack":_vm.iconPack,"both":"","aria-hidden":"true"}})],1),_vm._v(" "),_c('a',{staticClass:"pagination-next",attrs:{"role":"button","disabled":_vm.navigationProps.next.disabled,"aria-label":_vm.ariaNextLabel},on:{"click":function($event){$event.preventDefault();return _vm.navigationProps.next.action($event)}}},[_c('b-icon',{attrs:{"icon":_vm.iconNext,"pack":_vm.iconPack,"both":"","aria-hidden":"true"}})],1)]):_vm._e()],{previous:_vm.navigationProps.previous,next:_vm.navigationProps.next})],2)};
+                  }]},[_c('a',{staticClass:"step-link",class:{'is-clickable': _vm.isItemClickable(stepItem, index)},on:{"click":function($event){_vm.isItemClickable(stepItem, index) && _vm.stepClick(index);}}},[_c('div',{staticClass:"step-marker"},[(stepItem.icon)?_c('b-icon',{attrs:{"icon":stepItem.icon,"pack":stepItem.iconPack,"size":_vm.size}}):(stepItem.step)?_c('span',[_vm._v(_vm._s(stepItem.step))]):_vm._e()],1),_vm._v(" "),_c('div',{staticClass:"step-details"},[_c('span',{staticClass:"step-title"},[_vm._v(_vm._s(stepItem.label))])])])])}))]),_vm._v(" "),_c('section',{staticClass:"step-content",class:{'is-transitioning': _vm.isTransitioning}},[_vm._t("default")],2),_vm._v(" "),_vm._t("navigation",[(_vm.hasNavigation)?_c('nav',{staticClass:"step-navigation"},[_c('a',{staticClass:"pagination-previous",attrs:{"role":"button","disabled":_vm.navigationProps.previous.disabled,"aria-label":_vm.ariaPreviousLabel},on:{"click":function($event){$event.preventDefault();return _vm.navigationProps.previous.action($event)}}},[_c('b-icon',{attrs:{"icon":_vm.iconPrev,"pack":_vm.iconPack,"both":"","aria-hidden":"true"}})],1),_vm._v(" "),_c('a',{staticClass:"pagination-next",attrs:{"role":"button","disabled":_vm.navigationProps.next.disabled,"aria-label":_vm.ariaNextLabel},on:{"click":function($event){$event.preventDefault();return _vm.navigationProps.next.action($event)}}},[_c('b-icon',{attrs:{"icon":_vm.iconNext,"pack":_vm.iconPack,"both":"","aria-hidden":"true"}})],1)]):_vm._e()],{previous:_vm.navigationProps.previous,next:_vm.navigationProps.next})],2)};
   var __vue_staticRenderFns__$1 = [];
 
     /* style */
@@ -695,19 +776,15 @@
     
     /* style inject SSR */
     
-    /* style inject shadow dom */
-    
 
     
-    const __vue_component__$1 = normalizeComponent_1(
+    var Steps = normalizeComponent_1(
       { render: __vue_render__$1, staticRenderFns: __vue_staticRenderFns__$1 },
       __vue_inject_styles__$1,
       __vue_script__$1,
       __vue_scope_id__$1,
       __vue_is_functional_template__$1,
       __vue_module_identifier__$1,
-      false,
-      undefined,
       undefined,
       undefined
     );
@@ -715,8 +792,9 @@
   var script$2 = {
     name: 'BStepItem',
     props: {
+      step: [String, Number],
       label: String,
-      type: String | Object,
+      type: [String, Object],
       icon: String,
       iconPack: String,
       clickable: {
@@ -726,7 +804,8 @@
       visible: {
         type: Boolean,
         default: true
-      }
+      },
+      value: [String, Number]
     },
     data: function data() {
       return {
@@ -741,7 +820,7 @@
       * Activate step, alter animation name based on the index.
       */
       activate: function activate(oldIndex, index) {
-        this.transitionName = index < oldIndex ? 'slide-next' : 'slide-prev';
+        this.transitionName = index < oldIndex ? this.$parent.vertical ? 'slide-down' : 'slide-next' : this.$parent.vertical ? 'slide-up' : 'slide-prev';
         this.isActive = true;
       },
 
@@ -749,7 +828,7 @@
       * Deactivate step, alter animation name based on the index.
       */
       deactivate: function deactivate(oldIndex, index) {
-        this.transitionName = index < oldIndex ? 'slide-next' : 'slide-prev';
+        this.transitionName = index < oldIndex ? this.$parent.vertical ? 'slide-down' : 'slide-next' : this.$parent.vertical ? 'slide-up' : 'slide-prev';
         this.isActive = false;
       }
     },
@@ -821,19 +900,15 @@
     
     /* style inject SSR */
     
-    /* style inject shadow dom */
-    
 
     
-    const __vue_component__$2 = normalizeComponent_1(
+    var StepItem = normalizeComponent_1(
       {},
       __vue_inject_styles__$2,
       __vue_script__$2,
       __vue_scope_id__$2,
       __vue_is_functional_template__$2,
       __vue_module_identifier__$2,
-      false,
-      undefined,
       undefined,
       undefined
     );
@@ -849,14 +924,14 @@
 
   var Plugin = {
     install: function install(Vue) {
-      registerComponent(Vue, __vue_component__$1);
-      registerComponent(Vue, __vue_component__$2);
+      registerComponent(Vue, Steps);
+      registerComponent(Vue, StepItem);
     }
   };
   use(Plugin);
 
-  exports.BStepItem = __vue_component__$2;
-  exports.BSteps = __vue_component__$1;
+  exports.BStepItem = StepItem;
+  exports.BSteps = Steps;
   exports.default = Plugin;
 
   Object.defineProperty(exports, '__esModule', { value: true });

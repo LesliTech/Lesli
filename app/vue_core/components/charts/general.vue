@@ -45,6 +45,16 @@ export default {
         },
         height: {
             default: "auto"            
+        },
+        padding: {
+            default() {
+                return {
+                    top: 0,
+                    right: 0,
+                    bottom: 0,
+                    left: 0
+                }
+            }
         }
     },
     data() {
@@ -55,12 +65,7 @@ export default {
                 labels: [],
                 grid: {
                     show: false,
-                    padding: {
-                        top: 0,
-                        right: 0,
-                        bottom: 0,
-                        left: 0
-                    }
+                    padding: this.padding
                 },
                 chart: {
                     stacked: true,
@@ -94,7 +99,17 @@ export default {
                     }
                 },
                 xaxis: {
-                    tickPlacement: 'between'
+                    tickPlacement: 'between',
+                    labels: {
+                        show: true,
+                        rotate: -65,
+                        rotateAlways: false,
+                        trim: false,
+                        offsetY: 5,
+                        style: {
+                            fontSize: '15px'
+                        },
+                    }
                 },
                 yaxis: {
                     show: false,

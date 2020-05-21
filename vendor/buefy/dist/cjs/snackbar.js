@@ -2,11 +2,11 @@
 
 Object.defineProperty(exports, '__esModule', { value: true });
 
-require('./chunk-5094d8df.js');
+require('./chunk-14c82365.js');
 var helpers = require('./helpers.js');
-var __chunk_2 = require('./chunk-805257cc.js');
+var __chunk_2 = require('./chunk-cd0dcc1d.js');
 var __chunk_5 = require('./chunk-13e039f5.js');
-var __chunk_20 = require('./chunk-fbdc0e2d.js');
+var __chunk_20 = require('./chunk-dfd9e0ac.js');
 
 //
 var script = {
@@ -62,19 +62,15 @@ var __vue_staticRenderFns__ = [];
   
   /* style inject SSR */
   
-  /* style inject shadow dom */
-  
 
   
-  const __vue_component__ = __chunk_5.__vue_normalize__(
+  var Snackbar = __chunk_5.__vue_normalize__(
     { render: __vue_render__, staticRenderFns: __vue_staticRenderFns__ },
     __vue_inject_styles__,
     __vue_script__,
     __vue_scope_id__,
     __vue_is_functional_template__,
     __vue_module_identifier__,
-    false,
-    undefined,
     undefined,
     undefined
   );
@@ -102,7 +98,7 @@ var SnackbarProgrammatic = {
 
     var propsData = helpers.merge(defaultParam, params);
     var vm = typeof window !== 'undefined' && window.Vue ? window.Vue : localVueInstance || __chunk_2.VueInstance;
-    var SnackbarComponent = vm.extend(__vue_component__);
+    var SnackbarComponent = vm.extend(Snackbar);
     return new SnackbarComponent({
       parent: parent,
       el: document.createElement('div'),
@@ -118,6 +114,6 @@ var Plugin = {
 };
 __chunk_5.use(Plugin);
 
-exports.BSnackbar = __vue_component__;
+exports.BSnackbar = Snackbar;
 exports.SnackbarProgrammatic = SnackbarProgrammatic;
 exports.default = Plugin;

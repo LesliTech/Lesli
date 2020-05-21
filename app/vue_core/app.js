@@ -153,7 +153,7 @@ export default (module, apps, base_path, routes=[]) => {
         cloud.$mount("#lesli-cloud-application")
 
         // · Defined in webpack.config.js
-        if (leslicloud_app_mode_production) debug.userWarningMessage()
+        if (leslicloud_app_mode_production) debug.lesli_message_warning("DEUTSCHE LEIBRENTEN")
         if (leslicloud_app_mode_development) debug.info(`${base_path} ${apps}`, module)
 
     })

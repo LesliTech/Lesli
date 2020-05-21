@@ -1,8 +1,8 @@
-import './chunk-6ea13200.js';
+import './chunk-1fafdf15.js';
 import { merge } from './helpers.js';
-import { c as config, V as VueInstance } from './chunk-17222463.js';
+import { c as config, V as VueInstance } from './chunk-6985c8ce.js';
 import { _ as __vue_normalize__, a as registerComponentProgrammatic, u as use } from './chunk-cca88db8.js';
-import { N as NoticeMixin } from './chunk-cd1ad4f3.js';
+import { N as NoticeMixin } from './chunk-53640c15.js';
 
 //
 var script = {
@@ -34,19 +34,15 @@ var __vue_staticRenderFns__ = [];
   
   /* style inject SSR */
   
-  /* style inject shadow dom */
-  
 
   
-  const __vue_component__ = __vue_normalize__(
+  var Toast = __vue_normalize__(
     { render: __vue_render__, staticRenderFns: __vue_staticRenderFns__ },
     __vue_inject_styles__,
     __vue_script__,
     __vue_scope_id__,
     __vue_is_functional_template__,
     __vue_module_identifier__,
-    false,
-    undefined,
     undefined,
     undefined
   );
@@ -73,7 +69,7 @@ var ToastProgrammatic = {
 
     var propsData = merge(defaultParam, params);
     var vm = typeof window !== 'undefined' && window.Vue ? window.Vue : localVueInstance || VueInstance;
-    var ToastComponent = vm.extend(__vue_component__);
+    var ToastComponent = vm.extend(Toast);
     return new ToastComponent({
       parent: parent,
       el: document.createElement('div'),
@@ -90,4 +86,4 @@ var Plugin = {
 use(Plugin);
 
 export default Plugin;
-export { __vue_component__ as BToast, ToastProgrammatic };
+export { Toast as BToast, ToastProgrammatic };

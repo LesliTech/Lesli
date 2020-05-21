@@ -88,7 +88,7 @@ namespace :dev do
             # touch tmp/restart.txt
             # sudo -u username
 
-            # SgNb-a-kz8MgNWL5BJQp
+            # zTUkqhCg1X-RZMkkdTiw
 
         end
 

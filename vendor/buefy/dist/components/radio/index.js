@@ -1,4 +1,4 @@
-/*! Buefy v0.8.12 | MIT License | github.com/buefy/buefy */
+/*! Buefy v0.8.19 | MIT License | github.com/buefy/buefy */
 (function (global, factory) {
     typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports) :
     typeof define === 'function' && define.amd ? define(['exports'], factory) :
@@ -157,19 +157,15 @@
       
       /* style inject SSR */
       
-      /* style inject shadow dom */
-      
 
       
-      const __vue_component__ = normalizeComponent_1(
+      var Radio = normalizeComponent_1(
         { render: __vue_render__, staticRenderFns: __vue_staticRenderFns__ },
         __vue_inject_styles__,
         __vue_script__,
         __vue_scope_id__,
         __vue_is_functional_template__,
         __vue_module_identifier__,
-        false,
-        undefined,
         undefined,
         undefined
       );
@@ -214,19 +210,15 @@
       
       /* style inject SSR */
       
-      /* style inject shadow dom */
-      
 
       
-      const __vue_component__$1 = normalizeComponent_1(
+      var RadioButton = normalizeComponent_1(
         { render: __vue_render__$1, staticRenderFns: __vue_staticRenderFns__$1 },
         __vue_inject_styles__$1,
         __vue_script__$1,
         __vue_scope_id__$1,
         __vue_is_functional_template__$1,
         __vue_module_identifier__$1,
-        false,
-        undefined,
         undefined,
         undefined
       );
@@ -242,14 +234,14 @@
 
     var Plugin = {
       install: function install(Vue) {
-        registerComponent(Vue, __vue_component__);
-        registerComponent(Vue, __vue_component__$1);
+        registerComponent(Vue, Radio);
+        registerComponent(Vue, RadioButton);
       }
     };
     use(Plugin);
 
-    exports.BRadio = __vue_component__;
-    exports.BRadioButton = __vue_component__$1;
+    exports.BRadio = Radio;
+    exports.BRadioButton = RadioButton;
     exports.default = Plugin;
 
     Object.defineProperty(exports, '__esModule', { value: true });

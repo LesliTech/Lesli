@@ -1,4 +1,4 @@
-/*! Buefy v0.8.12 | MIT License | github.com/buefy/buefy */
+/*! Buefy v0.8.19 | MIT License | github.com/buefy/buefy */
 (function (global, factory) {
     typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports) :
     typeof define === 'function' && define.amd ? define(['exports'], factory) :
@@ -6,11 +6,17 @@
 }(this, function (exports) { 'use strict';
 
     var findFocusable = function findFocusable(element) {
+      var programmatic = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : false;
+
       if (!element) {
         return null;
       }
 
-      return element.querySelectorAll("a[href],\n                                     area[href],\n                                     input:not([disabled]),\n                                     select:not([disabled]),\n                                     textarea:not([disabled]),\n                                     button:not([disabled]),\n                                     iframe,\n                                     object,\n                                     embed,\n                                     *[tabindex],\n                                     *[contenteditable]");
+      if (programmatic) {
+        return element.querySelectorAll("*[tabindex=\"-1\"]");
+      }
+
+      return element.querySelectorAll("a[href]:not([tabindex=\"-1\"]),\n                                     area[href],\n                                     input:not([disabled]),\n                                     select:not([disabled]),\n                                     textarea:not([disabled]),\n                                     button:not([disabled]),\n                                     iframe,\n                                     object,\n                                     embed,\n                                     *[tabindex]:not([tabindex=\"-1\"]),\n                                     *[contenteditable]");
     };
 
     var onKeyDown;
@@ -21,16 +27,21 @@
 
       if (value) {
         var focusable = findFocusable(el);
+        var focusableProg = findFocusable(el, true);
 
         if (focusable && focusable.length > 0) {
-          var firstFocusable = focusable[0];
-          var lastFocusable = focusable[focusable.length - 1];
-
           onKeyDown = function onKeyDown(event) {
+            // Need to get focusable each time since it can change between key events
+            // ex. changing month in a datepicker
+            focusable = findFocusable(el);
+            focusableProg = findFocusable(el, true);
+            var firstFocusable = focusable[0];
+            var lastFocusable = focusable[focusable.length - 1];
+
             if (event.target === firstFocusable && event.shiftKey && event.key === 'Tab') {
               event.preventDefault();
               lastFocusable.focus();
-            } else if (event.target === lastFocusable && !event.shiftKey && event.key === 'Tab') {
+            } else if ((event.target === lastFocusable || Array.from(focusableProg).indexOf(event.target) >= 0) && !event.shiftKey && event.key === 'Tab') {
               event.preventDefault();
               firstFocusable.focus();
             }
@@ -197,6 +208,7 @@
       defaultTrapFocus: false,
       defaultButtonRounded: false,
       defaultCarouselInterval: 3500,
+      defaultTabsAnimated: true,
       defaultLinkTags: ['a', 'button', 'input', 'router-link', 'nuxt-link', 'n-link', 'RouterLink', 'NuxtLink', 'NLink'],
       customIconPacks: null
     }; // TODO defaultTrapFocus to true in the next breaking change
@@ -246,7 +258,9 @@
         fullScreen: Boolean,
         trapFocus: {
           type: Boolean,
-          default: config.defaultTrapFocus
+          default: function _default() {
+            return config.defaultTrapFocus;
+          }
         },
         customClass: String,
         ariaRole: {
@@ -255,14 +269,19 @@
             return ['dialog', 'alertdialog'].indexOf(value) >= 0;
           }
         },
-        ariaModal: Boolean
+        ariaModal: Boolean,
+        destroyOnHide: {
+          type: Boolean,
+          default: true
+        }
       },
       data: function data() {
         return {
           isActive: this.active || false,
           savedScrollTop: null,
           newWidth: typeof this.width === 'number' ? this.width + 'px' : this.width,
-          animating: true
+          animating: true,
+          destroyed: !this.active
         };
       },
       computed: {
@@ -289,6 +308,7 @@
         isActive: function isActive(value) {
           var _this = this;
 
+          if (value) this.destroyed = false;
           this.handleScroll();
           this.$nextTick(function () {
             if (value && _this.$el && _this.$el.focus) {
@@ -378,6 +398,15 @@
         */
         beforeLeave: function beforeLeave() {
           this.animating = true;
+        },
+
+        /**
+        * Transition after-leave hook
+        */
+        afterLeave: function afterLeave() {
+          if (this.destroyOnHide) {
+            this.destroyed = true;
+          }
         }
       },
       created: function created() {
@@ -495,7 +524,7 @@
     const __vue_script__ = script;
 
     /* template */
-    var __vue_render__ = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('transition',{attrs:{"name":_vm.animation},on:{"after-enter":_vm.afterEnter,"before-leave":_vm.beforeLeave}},[(_vm.isActive)?_c('div',{directives:[{name:"trap-focus",rawName:"v-trap-focus",value:(_vm.trapFocus),expression:"trapFocus"}],staticClass:"modal is-active",class:[{'is-full-screen': _vm.fullScreen}, _vm.customClass],attrs:{"tabindex":"-1","role":_vm.ariaRole,"aria-modal":_vm.ariaModal}},[_c('div',{staticClass:"modal-background",on:{"click":function($event){_vm.cancel('outside');}}}),_vm._v(" "),_c('div',{staticClass:"animation-content",class:{ 'modal-content': !_vm.hasModalCard },style:(_vm.customStyle)},[(_vm.component)?_c(_vm.component,_vm._g(_vm._b({tag:"component",on:{"close":_vm.close}},'component',_vm.props,false),_vm.events)):(_vm.content)?_c('div',{domProps:{"innerHTML":_vm._s(_vm.content)}}):_vm._t("default"),_vm._v(" "),(_vm.showX)?_c('button',{directives:[{name:"show",rawName:"v-show",value:(!_vm.animating),expression:"!animating"}],staticClass:"modal-close is-large",attrs:{"type":"button"},on:{"click":function($event){_vm.cancel('x');}}}):_vm._e()],2)]):_vm._e()])};
+    var __vue_render__ = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('transition',{attrs:{"name":_vm.animation},on:{"after-enter":_vm.afterEnter,"before-leave":_vm.beforeLeave,"after-leave":_vm.afterLeave}},[(!_vm.destroyed)?_c('div',{directives:[{name:"show",rawName:"v-show",value:(_vm.isActive),expression:"isActive"},{name:"trap-focus",rawName:"v-trap-focus",value:(_vm.trapFocus),expression:"trapFocus"}],staticClass:"modal is-active",class:[{'is-full-screen': _vm.fullScreen}, _vm.customClass],attrs:{"tabindex":"-1","role":_vm.ariaRole,"aria-modal":_vm.ariaModal}},[_c('div',{staticClass:"modal-background",on:{"click":function($event){_vm.cancel('outside');}}}),_vm._v(" "),_c('div',{staticClass:"animation-content",class:{ 'modal-content': !_vm.hasModalCard },style:(_vm.customStyle)},[(_vm.component)?_c(_vm.component,_vm._g(_vm._b({tag:"component",on:{"close":_vm.close}},'component',_vm.props,false),_vm.events)):(_vm.content)?_c('div',{domProps:{"innerHTML":_vm._s(_vm.content)}}):_vm._t("default"),_vm._v(" "),(_vm.showX)?_c('button',{directives:[{name:"show",rawName:"v-show",value:(!_vm.animating),expression:"!animating"}],staticClass:"modal-close is-large",attrs:{"type":"button"},on:{"click":function($event){_vm.cancel('x');}}}):_vm._e()],2)]):_vm._e()])};
     var __vue_staticRenderFns__ = [];
 
       /* style */
@@ -510,19 +539,15 @@
       
       /* style inject SSR */
       
-      /* style inject shadow dom */
-      
 
       
-      const __vue_component__ = normalizeComponent_1(
+      var Modal = normalizeComponent_1(
         { render: __vue_render__, staticRenderFns: __vue_staticRenderFns__ },
         __vue_inject_styles__,
         __vue_script__,
         __vue_scope_id__,
         __vue_is_functional_template__,
         __vue_module_identifier__,
-        false,
-        undefined,
         undefined,
         undefined
       );
@@ -562,7 +587,7 @@
 
         var propsData = merge(defaultParam, params);
         var vm = typeof window !== 'undefined' && window.Vue ? window.Vue : localVueInstance || VueInstance;
-        var ModalComponent = vm.extend(__vue_component__);
+        var ModalComponent = vm.extend(Modal);
         return new ModalComponent({
           parent: parent,
           el: document.createElement('div'),
@@ -573,13 +598,13 @@
     var Plugin = {
       install: function install(Vue) {
         localVueInstance = Vue;
-        registerComponent(Vue, __vue_component__);
+        registerComponent(Vue, Modal);
         registerComponentProgrammatic(Vue, 'modal', ModalProgrammatic);
       }
     };
     use(Plugin);
 
-    exports.BModal = __vue_component__;
+    exports.BModal = Modal;
     exports.ModalProgrammatic = ModalProgrammatic;
     exports.default = Plugin;
 

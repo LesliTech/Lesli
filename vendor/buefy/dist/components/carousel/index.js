@@ -1,4 +1,4 @@
-/*! Buefy v0.8.12 | MIT License | github.com/buefy/buefy */
+/*! Buefy v0.8.19 | MIT License | github.com/buefy/buefy */
 (function (global, factory) {
   typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports) :
   typeof define === 'function' && define.amd ? define(['exports'], factory) :
@@ -70,6 +70,22 @@
     return target;
   }
 
+  function _toArray(arr) {
+    return _arrayWithHoles(arr) || _iterableToArray(arr) || _nonIterableRest();
+  }
+
+  function _arrayWithHoles(arr) {
+    if (Array.isArray(arr)) return arr;
+  }
+
+  function _iterableToArray(iter) {
+    if (Symbol.iterator in Object(iter) || Object.prototype.toString.call(iter) === "[object Arguments]") return Array.from(iter);
+  }
+
+  function _nonIterableRest() {
+    throw new TypeError("Invalid attempt to destructure non-iterable instance");
+  }
+
   var config = {
     defaultContainerElement: null,
     defaultIconPack: 'mdi',
@@ -116,6 +132,7 @@
     defaultTrapFocus: false,
     defaultButtonRounded: false,
     defaultCarouselInterval: 3500,
+    defaultTabsAnimated: true,
     defaultLinkTags: ['a', 'button', 'input', 'router-link', 'nuxt-link', 'n-link', 'RouterLink', 'NuxtLink', 'NLink'],
     customIconPacks: null
   }; // TODO defaultTrapFocus to true in the next breaking change
@@ -211,7 +228,6 @@
     return icons;
   };
 
-  //
   var script = {
     name: 'BIcon',
     props: {
@@ -265,7 +281,12 @@
         }
 
         if (splitType.length <= 1) return;
-        return "has-text-".concat(splitType[1]);
+
+        var _splitType = splitType,
+            _splitType2 = _toArray(_splitType),
+            type = _splitType2.slice(1);
+
+        return "has-text-".concat(type.join('-'));
       },
       newCustomSize: function newCustomSize() {
         return this.customSize || this.customSizeByPack;
@@ -408,26 +429,22 @@
     
     /* style inject SSR */
     
-    /* style inject shadow dom */
-    
 
     
-    const __vue_component__ = normalizeComponent_1(
+    var Icon = normalizeComponent_1(
       { render: __vue_render__, staticRenderFns: __vue_staticRenderFns__ },
       __vue_inject_styles__,
       __vue_script__,
       __vue_scope_id__,
       __vue_is_functional_template__,
       __vue_module_identifier__,
-      false,
-      undefined,
       undefined,
       undefined
     );
 
   var script$1 = {
     name: 'BCarousel',
-    components: _defineProperty({}, __vue_component__.name, __vue_component__),
+    components: _defineProperty({}, Icon.name, Icon),
     props: {
       value: {
         type: Number,
@@ -482,11 +499,15 @@
       iconSize: String,
       iconPrev: {
         type: String,
-        default: config.defaultIconPrev
+        default: function _default() {
+          return config.defaultIconPrev;
+        }
       },
       iconNext: {
         type: String,
-        default: config.defaultIconNext
+        default: function _default() {
+          return config.defaultIconNext;
+        }
       },
       indicator: {
         type: Boolean,
@@ -699,19 +720,15 @@
     
     /* style inject SSR */
     
-    /* style inject shadow dom */
-    
 
     
-    const __vue_component__$1 = normalizeComponent_1(
+    var Carousel = normalizeComponent_1(
       { render: __vue_render__$1, staticRenderFns: __vue_staticRenderFns__$1 },
       __vue_inject_styles__$1,
       __vue_script__$1,
       __vue_scope_id__$1,
       __vue_is_functional_template__$1,
       __vue_module_identifier__$1,
-      false,
-      undefined,
       undefined,
       undefined
     );
@@ -786,26 +803,22 @@
     
     /* style inject SSR */
     
-    /* style inject shadow dom */
-    
 
     
-    const __vue_component__$2 = normalizeComponent_1(
+    var CarouselItem = normalizeComponent_1(
       { render: __vue_render__$2, staticRenderFns: __vue_staticRenderFns__$2 },
       __vue_inject_styles__$2,
       __vue_script__$2,
       __vue_scope_id__$2,
       __vue_is_functional_template__$2,
       __vue_module_identifier__$2,
-      false,
-      undefined,
       undefined,
       undefined
     );
 
   var script$3 = {
     name: 'BCarouselList',
-    components: _defineProperty({}, __vue_component__.name, __vue_component__),
+    components: _defineProperty({}, Icon.name, Icon),
     props: {
       config: {
         type: Object,
@@ -851,11 +864,15 @@
       iconSize: String,
       iconPrev: {
         type: String,
-        default: config.defaultIconPrev
+        default: function _default() {
+          return config.defaultIconPrev;
+        }
       },
       iconNext: {
         type: String,
-        default: config.defaultIconNext
+        default: function _default() {
+          return config.defaultIconNext;
+        }
       },
       refresh: Boolean
     },
@@ -867,7 +884,6 @@
         dragging: false,
         hold: 0,
         itemWidth: 0,
-        total: 0,
         settings: {}
       };
     },
@@ -886,6 +902,9 @@
         var translate = this.delta + 1 * (this.activeItem * this.itemWidth);
         var result = this.dragging ? -translate : -Math.abs(translate);
         return "transform: translateX(".concat(result, "px);");
+      },
+      total: function total() {
+        return this.data.length - 1;
       }
     },
     watch: {
@@ -904,6 +923,13 @@
         if (status && this.asIndicator) {
           this.getWidth();
         }
+      },
+      '$props': {
+        handler: function handler(value) {
+          this.initConfig();
+          this.update();
+        },
+        deep: true
       }
     },
     methods: {
@@ -1003,13 +1029,14 @@
     mounted: function mounted() {
       var _this2 = this;
 
-      this.total = this.data.length - 1;
       this.$nextTick(function () {
         _this2.update();
       });
     },
     beforeDestroy: function beforeDestroy() {
-      window.removeEventListener('resize', this.update);
+      if (typeof window !== 'undefined') {
+        window.removeEventListener('resize', this.update);
+      }
     }
   };
 
@@ -1017,7 +1044,7 @@
   const __vue_script__$3 = script$3;
 
   /* template */
-  var __vue_render__$3 = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"carousel-list",class:{'has-shadow': _vm.activeItem > 0},on:{"mousedown":function($event){$event.stopPropagation();$event.preventDefault();return _vm.dragStart($event)},"touchstart":_vm.dragStart}},[_c('div',{staticClass:"carousel-slides",class:_vm.listClass,style:(_vm.transformStyle)},_vm._l((_vm.data),function(list,index){return _c('div',{key:index,staticClass:"carousel-slide",class:{'is-active': _vm.activeItem === index},style:(_vm.itemStyle),on:{"click":function($event){$event.preventDefault();_vm.checkAsIndicator(index, $event);}}},[_vm._t("item",[_c('figure',{staticClass:"image"},[_c('img',{attrs:{"src":list.image,"title":list.title}})])],{list:list,index:index,active:_vm.activeItem})],2)})),_vm._v(" "),(_vm.arrow)?_c('div',{staticClass:"carousel-arrow",class:{'is-hovered': _vm.arrowHover}},[_c('b-icon',{directives:[{name:"show",rawName:"v-show",value:(_vm.activeItem > 0),expression:"activeItem > 0"}],staticClass:"has-icons-left",attrs:{"pack":_vm.iconPack,"icon":_vm.iconPrev,"size":_vm.iconSize,"both":""},nativeOn:{"click":function($event){$event.preventDefault();return _vm.prev($event)}}}),_vm._v(" "),_c('b-icon',{directives:[{name:"show",rawName:"v-show",value:(_vm.checkArrow(_vm.total)),expression:"checkArrow(total)"}],staticClass:"has-icons-right",attrs:{"pack":_vm.iconPack,"icon":_vm.iconNext,"size":_vm.iconSize,"both":""},nativeOn:{"click":function($event){$event.preventDefault();return _vm.next($event)}}})],1):_vm._e()])};
+  var __vue_render__$3 = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"carousel-list",class:{'has-shadow': _vm.activeItem > 0},on:{"mousedown":function($event){$event.stopPropagation();$event.preventDefault();return _vm.dragStart($event)},"touchstart":_vm.dragStart}},[_c('div',{staticClass:"carousel-slides",class:_vm.listClass,style:(_vm.transformStyle)},_vm._l((_vm.data),function(list,index){return _c('div',{key:index,staticClass:"carousel-slide",class:{'is-active': _vm.activeItem === index},style:(_vm.itemStyle),on:{"click":function($event){_vm.checkAsIndicator(index, $event);}}},[_vm._t("item",[_c('figure',{staticClass:"image"},[_c('img',{attrs:{"src":list.image,"title":list.title}})])],{list:list,index:index,active:_vm.activeItem})],2)})),_vm._v(" "),(_vm.arrow)?_c('div',{staticClass:"carousel-arrow",class:{'is-hovered': _vm.arrowHover}},[_c('b-icon',{directives:[{name:"show",rawName:"v-show",value:(_vm.activeItem > 0),expression:"activeItem > 0"}],staticClass:"has-icons-left",attrs:{"pack":_vm.iconPack,"icon":_vm.iconPrev,"size":_vm.iconSize,"both":""},nativeOn:{"click":function($event){$event.preventDefault();return _vm.prev($event)}}}),_vm._v(" "),_c('b-icon',{directives:[{name:"show",rawName:"v-show",value:(_vm.checkArrow(_vm.total)),expression:"checkArrow(total)"}],staticClass:"has-icons-right",attrs:{"pack":_vm.iconPack,"icon":_vm.iconNext,"size":_vm.iconSize,"both":""},nativeOn:{"click":function($event){$event.preventDefault();return _vm.next($event)}}})],1):_vm._e()])};
   var __vue_staticRenderFns__$3 = [];
 
     /* style */
@@ -1032,19 +1059,15 @@
     
     /* style inject SSR */
     
-    /* style inject shadow dom */
-    
 
     
-    const __vue_component__$3 = normalizeComponent_1(
+    var CarouselList = normalizeComponent_1(
       { render: __vue_render__$3, staticRenderFns: __vue_staticRenderFns__$3 },
       __vue_inject_styles__$3,
       __vue_script__$3,
       __vue_scope_id__$3,
       __vue_is_functional_template__$3,
       __vue_module_identifier__$3,
-      false,
-      undefined,
       undefined,
       undefined
     );
@@ -1060,16 +1083,16 @@
 
   var Plugin = {
     install: function install(Vue) {
-      registerComponent(Vue, __vue_component__$1);
-      registerComponent(Vue, __vue_component__$2);
-      registerComponent(Vue, __vue_component__$3);
+      registerComponent(Vue, Carousel);
+      registerComponent(Vue, CarouselItem);
+      registerComponent(Vue, CarouselList);
     }
   };
   use(Plugin);
 
-  exports.BCarousel = __vue_component__$1;
-  exports.BCarouselItem = __vue_component__$2;
-  exports.BCarouselList = __vue_component__$3;
+  exports.BCarousel = Carousel;
+  exports.BCarouselItem = CarouselItem;
+  exports.BCarouselList = CarouselList;
   exports.default = Plugin;
 
   Object.defineProperty(exports, '__esModule', { value: true });
