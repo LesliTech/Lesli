@@ -1,4 +1,4 @@
-/*! Buefy v0.8.12 | MIT License | github.com/buefy/buefy */
+/*! Buefy v0.8.19 | MIT License | github.com/buefy/buefy */
 (function (global, factory) {
   typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports) :
   typeof define === 'function' && define.amd ? define(['exports'], factory) :
@@ -70,6 +70,22 @@
     return target;
   }
 
+  function _toArray(arr) {
+    return _arrayWithHoles(arr) || _iterableToArray(arr) || _nonIterableRest();
+  }
+
+  function _arrayWithHoles(arr) {
+    if (Array.isArray(arr)) return arr;
+  }
+
+  function _iterableToArray(iter) {
+    if (Symbol.iterator in Object(iter) || Object.prototype.toString.call(iter) === "[object Arguments]") return Array.from(iter);
+  }
+
+  function _nonIterableRest() {
+    throw new TypeError("Invalid attempt to destructure non-iterable instance");
+  }
+
   var config = {
     defaultContainerElement: null,
     defaultIconPack: 'mdi',
@@ -116,6 +132,7 @@
     defaultTrapFocus: false,
     defaultButtonRounded: false,
     defaultCarouselInterval: 3500,
+    defaultTabsAnimated: true,
     defaultLinkTags: ['a', 'button', 'input', 'router-link', 'nuxt-link', 'n-link', 'RouterLink', 'NuxtLink', 'NLink'],
     customIconPacks: null
   }; // TODO defaultTrapFocus to true in the next breaking change
@@ -210,7 +227,6 @@
     return icons;
   };
 
-  //
   var script = {
     name: 'BIcon',
     props: {
@@ -264,7 +280,12 @@
         }
 
         if (splitType.length <= 1) return;
-        return "has-text-".concat(splitType[1]);
+
+        var _splitType = splitType,
+            _splitType2 = _toArray(_splitType),
+            type = _splitType2.slice(1);
+
+        return "has-text-".concat(type.join('-'));
       },
       newCustomSize: function newCustomSize() {
         return this.customSize || this.customSizeByPack;
@@ -407,25 +428,21 @@
     
     /* style inject SSR */
     
-    /* style inject shadow dom */
-    
 
     
-    const __vue_component__ = normalizeComponent_1(
+    var Icon = normalizeComponent_1(
       { render: __vue_render__, staticRenderFns: __vue_staticRenderFns__ },
       __vue_inject_styles__,
       __vue_script__,
       __vue_scope_id__,
       __vue_is_functional_template__,
       __vue_module_identifier__,
-      false,
-      undefined,
       undefined,
       undefined
     );
 
   var MessageMixin = {
-    components: _defineProperty({}, __vue_component__.name, __vue_component__),
+    components: _defineProperty({}, Icon.name, Icon),
     props: {
       active: {
         type: Boolean,
@@ -561,19 +578,15 @@
     
     /* style inject SSR */
     
-    /* style inject shadow dom */
-    
 
     
-    const __vue_component__$1 = normalizeComponent_1(
+    var Notification = normalizeComponent_1(
       { render: __vue_render__$1, staticRenderFns: __vue_staticRenderFns__$1 },
       __vue_inject_styles__$1,
       __vue_script__$1,
       __vue_scope_id__$1,
       __vue_is_functional_template__$1,
       __vue_module_identifier__$1,
-      false,
-      undefined,
       undefined,
       undefined
     );
@@ -749,19 +762,15 @@
     
     /* style inject SSR */
     
-    /* style inject shadow dom */
-    
 
     
-    const __vue_component__$2 = normalizeComponent_1(
+    var NotificationNotice = normalizeComponent_1(
       { render: __vue_render__$2, staticRenderFns: __vue_staticRenderFns__$2 },
       __vue_inject_styles__$2,
       __vue_script__$2,
       __vue_scope_id__$2,
       __vue_is_functional_template__$2,
       __vue_module_identifier__$2,
-      false,
-      undefined,
       undefined,
       undefined
     );
@@ -801,7 +810,7 @@
 
       var propsData = merge(defaultParam, params);
       var vm = typeof window !== 'undefined' && window.Vue ? window.Vue : localVueInstance || VueInstance;
-      var NotificationNoticeComponent = vm.extend(__vue_component__$2);
+      var NotificationNoticeComponent = vm.extend(NotificationNotice);
       return new NotificationNoticeComponent({
         parent: parent,
         el: document.createElement('div'),
@@ -812,13 +821,13 @@
   var Plugin = {
     install: function install(Vue) {
       localVueInstance = Vue;
-      registerComponent(Vue, __vue_component__$1);
+      registerComponent(Vue, Notification);
       registerComponentProgrammatic(Vue, 'notification', NotificationProgrammatic);
     }
   };
   use(Plugin);
 
-  exports.BNotification = __vue_component__$1;
+  exports.BNotification = Notification;
   exports.NotificationProgrammatic = NotificationProgrammatic;
   exports.default = Plugin;
 

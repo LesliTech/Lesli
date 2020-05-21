@@ -1,4 +1,4 @@
-/*! Buefy v0.8.12 | MIT License | github.com/buefy/buefy */
+/*! Buefy v0.8.19 | MIT License | github.com/buefy/buefy */
 (function (global, factory) {
   typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports) :
   typeof define === 'function' && define.amd ? define(['exports'], factory) :
@@ -86,6 +86,7 @@
     defaultTrapFocus: false,
     defaultButtonRounded: false,
     defaultCarouselInterval: 3500,
+    defaultTabsAnimated: true,
     defaultLinkTags: ['a', 'button', 'input', 'router-link', 'nuxt-link', 'n-link', 'RouterLink', 'NuxtLink', 'NLink'],
     customIconPacks: null
   }; // TODO defaultTrapFocus to true in the next breaking change
@@ -242,26 +243,22 @@
     
     /* style inject SSR */
     
-    /* style inject shadow dom */
-    
 
     
-    const __vue_component__ = normalizeComponent_1(
+    var Tooltip = normalizeComponent_1(
       { render: __vue_render__, staticRenderFns: __vue_staticRenderFns__ },
       __vue_inject_styles__,
       __vue_script__,
       __vue_scope_id__,
       __vue_is_functional_template__,
       __vue_module_identifier__,
-      false,
-      undefined,
       undefined,
       undefined
     );
 
   var script$1 = {
     name: 'BSliderThumb',
-    components: _defineProperty({}, __vue_component__.name, __vue_component__),
+    components: _defineProperty({}, Tooltip.name, Tooltip),
     inheritAttrs: false,
     props: {
       value: {
@@ -378,7 +375,7 @@
             event.clientX = event.touches[0].clientX;
           }
 
-          var diff = (event.clientX - this.startX) / this.$parent.sliderSize * 100;
+          var diff = (event.clientX - this.startX) / this.$parent.sliderSize() * 100;
           this.newPosition = this.startPosition + diff;
           this.setPosition(this.newPosition);
         }
@@ -442,19 +439,15 @@
     
     /* style inject SSR */
     
-    /* style inject shadow dom */
-    
 
     
-    const __vue_component__$1 = normalizeComponent_1(
+    var SliderThumb = normalizeComponent_1(
       { render: __vue_render__$1, staticRenderFns: __vue_staticRenderFns__$1 },
       __vue_inject_styles__$1,
       __vue_script__$1,
       __vue_scope_id__$1,
       __vue_is_functional_template__$1,
       __vue_module_identifier__$1,
-      false,
-      undefined,
       undefined,
       undefined
     );
@@ -521,19 +514,15 @@
     
     /* style inject SSR */
     
-    /* style inject shadow dom */
-    
 
     
-    const __vue_component__$2 = normalizeComponent_1(
+    var SliderTick = normalizeComponent_1(
       { render: __vue_render__$2, staticRenderFns: __vue_staticRenderFns__$2 },
       __vue_inject_styles__$2,
       __vue_script__$2,
       __vue_scope_id__$2,
       __vue_is_functional_template__$2,
       __vue_module_identifier__$2,
-      false,
-      undefined,
       undefined,
       undefined
     );
@@ -541,7 +530,7 @@
   var _components;
   var script$3 = {
     name: 'BSlider',
-    components: (_components = {}, _defineProperty(_components, __vue_component__$1.name, __vue_component__$1), _defineProperty(_components, __vue_component__$2.name, __vue_component__$2), _components),
+    components: (_components = {}, _defineProperty(_components, SliderThumb.name, SliderThumb), _defineProperty(_components, SliderTick.name, SliderTick), _components),
     props: {
       value: {
         type: [Number, Array],
@@ -586,7 +575,11 @@
         default: false
       },
       customFormatter: Function,
-      ariaLabel: [String, Array]
+      ariaLabel: [String, Array],
+      biggerSliderFocus: {
+        type: Boolean,
+        default: false
+      }
     },
     data: function data() {
       return {
@@ -637,14 +630,12 @@
           left: this.barStart
         };
       },
-      sliderSize: function sliderSize() {
-        return this.$refs.slider['clientWidth'];
-      },
       rootClasses: function rootClasses() {
         return {
           'is-rounded': this.rounded,
           'is-dragging': this.dragging,
-          'is-disabled': this.disabled
+          'is-disabled': this.disabled,
+          'slider-focus': this.biggerSliderFocus
         };
       }
     },
@@ -699,10 +690,13 @@
           this.emitValue('dragging');
         }
       },
+      sliderSize: function sliderSize() {
+        return this.$refs.slider.getBoundingClientRect().width;
+      },
       onSliderClick: function onSliderClick(event) {
         if (this.disabled || this.isTrackClickDisabled) return;
         var sliderOffsetLeft = this.$refs.slider.getBoundingClientRect().left;
-        var percent = (event.clientX - sliderOffsetLeft) / this.sliderSize * 100;
+        var percent = (event.clientX - sliderOffsetLeft) / this.sliderSize() * 100;
         var targetValue = this.min + percent * (this.max - this.min) / 100;
         var diffFirst = Math.abs(targetValue - this.value1);
 
@@ -757,7 +751,7 @@
   const __vue_script__$3 = script$3;
 
   /* template */
-  var __vue_render__$3 = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"b-slider",class:[_vm.size, _vm.type, _vm.rootClasses]},[_c('div',{ref:"slider",staticClass:"b-slider-track",on:{"click":_vm.onSliderClick}},[_c('div',{staticClass:"b-slider-fill",style:(_vm.barStyle)}),_vm._v(" "),(_vm.ticks)?_vm._l((_vm.tickValues),function(val,key){return _c('b-slider-tick',{key:key,attrs:{"value":val}})}):_vm._e(),_vm._v(" "),_vm._t("default"),_vm._v(" "),_c('b-slider-thumb',{ref:"button1",attrs:{"type":_vm.newTooltipType,"tooltip":_vm.tooltip,"custom-formatter":_vm.customFormatter,"role":"slider","aria-valuenow":_vm.value1,"aria-valuemin":_vm.min,"aria-valuemax":_vm.max,"aria-orientation":"horizontal","aria-label":Array.isArray(_vm.ariaLabel) ? _vm.ariaLabel[0] : _vm.ariaLabel,"aria-disabled":_vm.disabled},on:{"dragstart":_vm.onDragStart,"dragend":_vm.onDragEnd},model:{value:(_vm.value1),callback:function ($$v) {_vm.value1=$$v;},expression:"value1"}}),_vm._v(" "),(_vm.isRange)?_c('b-slider-thumb',{ref:"button2",attrs:{"type":_vm.newTooltipType,"tooltip":_vm.tooltip,"custom-formatter":_vm.customFormatter,"role":"slider","aria-valuenow":_vm.value2,"aria-valuemin":_vm.min,"aria-valuemax":_vm.max,"aria-orientation":"horizontal","aria-label":Array.isArray(_vm.ariaLabel) ? _vm.ariaLabel[1] : '',"aria-disabled":_vm.disabled},on:{"dragstart":_vm.onDragStart,"dragend":_vm.onDragEnd},model:{value:(_vm.value2),callback:function ($$v) {_vm.value2=$$v;},expression:"value2"}}):_vm._e()],2)])};
+  var __vue_render__$3 = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"b-slider",class:[_vm.size, _vm.type, _vm.rootClasses ],on:{"click":_vm.onSliderClick}},[_c('div',{ref:"slider",staticClass:"b-slider-track"},[_c('div',{staticClass:"b-slider-fill",style:(_vm.barStyle)}),_vm._v(" "),(_vm.ticks)?_vm._l((_vm.tickValues),function(val,key){return _c('b-slider-tick',{key:key,attrs:{"value":val}})}):_vm._e(),_vm._v(" "),_vm._t("default"),_vm._v(" "),_c('b-slider-thumb',{ref:"button1",attrs:{"type":_vm.newTooltipType,"tooltip":_vm.tooltip,"custom-formatter":_vm.customFormatter,"role":"slider","aria-valuenow":_vm.value1,"aria-valuemin":_vm.min,"aria-valuemax":_vm.max,"aria-orientation":"horizontal","aria-label":Array.isArray(_vm.ariaLabel) ? _vm.ariaLabel[0] : _vm.ariaLabel,"aria-disabled":_vm.disabled},on:{"dragstart":_vm.onDragStart,"dragend":_vm.onDragEnd},model:{value:(_vm.value1),callback:function ($$v) {_vm.value1=$$v;},expression:"value1"}}),_vm._v(" "),(_vm.isRange)?_c('b-slider-thumb',{ref:"button2",attrs:{"type":_vm.newTooltipType,"tooltip":_vm.tooltip,"custom-formatter":_vm.customFormatter,"role":"slider","aria-valuenow":_vm.value2,"aria-valuemin":_vm.min,"aria-valuemax":_vm.max,"aria-orientation":"horizontal","aria-label":Array.isArray(_vm.ariaLabel) ? _vm.ariaLabel[1] : '',"aria-disabled":_vm.disabled},on:{"dragstart":_vm.onDragStart,"dragend":_vm.onDragEnd},model:{value:(_vm.value2),callback:function ($$v) {_vm.value2=$$v;},expression:"value2"}}):_vm._e()],2)])};
   var __vue_staticRenderFns__$3 = [];
 
     /* style */
@@ -772,19 +766,15 @@
     
     /* style inject SSR */
     
-    /* style inject shadow dom */
-    
 
     
-    const __vue_component__$3 = normalizeComponent_1(
+    var Slider = normalizeComponent_1(
       { render: __vue_render__$3, staticRenderFns: __vue_staticRenderFns__$3 },
       __vue_inject_styles__$3,
       __vue_script__$3,
       __vue_scope_id__$3,
       __vue_is_functional_template__$3,
       __vue_module_identifier__$3,
-      false,
-      undefined,
       undefined,
       undefined
     );
@@ -800,14 +790,14 @@
 
   var Plugin = {
     install: function install(Vue) {
-      registerComponent(Vue, __vue_component__$3);
-      registerComponent(Vue, __vue_component__$2);
+      registerComponent(Vue, Slider);
+      registerComponent(Vue, SliderTick);
     }
   };
   use(Plugin);
 
-  exports.BSlider = __vue_component__$3;
-  exports.BSliderTick = __vue_component__$2;
+  exports.BSlider = Slider;
+  exports.BSliderTick = SliderTick;
   exports.default = Plugin;
 
   Object.defineProperty(exports, '__esModule', { value: true });

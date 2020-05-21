@@ -1,28 +1,27 @@
 {
-  "_from": "lesli-css",
-  "_id": "lesli-css@0.3.0",
+  "_from": "lesli-css@0.4.1",
+  "_id": "lesli-css@0.4.1",
   "_inBundle": false,
-  "_integrity": "sha512-kwy48XI9RoRSt9Ov0P7NLoGlmMKh3P4lsEfmnG+87dE5QIvakeR2fGHQkELQQsRx4MjFOREDWg7GgXTqfDfEDQ==",
+  "_integrity": "sha512-G607bFSkdoyG0jDCxci4046ECoz6MjnZAQg9tCUr5JV2pM9aHF2LEzi+aFohFDQulu23SPsKeFhX4hsXRf9q5g==",
   "_location": "/lesli-css",
   "_phantomChildren": {},
   "_requested": {
-    "type": "tag",
+    "type": "version",
     "registry": true,
-    "raw": "lesli-css",
+    "raw": "lesli-css@0.4.1",
     "name": "lesli-css",
     "escapedName": "lesli-css",
-    "rawSpec": "",
+    "rawSpec": "0.4.1",
     "saveSpec": null,
-    "fetchSpec": "latest"
+    "fetchSpec": "0.4.1"
   },
   "_requiredBy": [
-    "#USER",
-    "/"
+    "#DEV:/"
   ],
-  "_resolved": "https://registry.npmjs.org/lesli-css/-/lesli-css-0.3.0.tgz",
-  "_shasum": "fca4251227528e0b9738983d8b5af8f6bf2e7e45",
-  "_spec": "lesli-css",
-  "_where": "/var/www/LesliCloud/Lesli",
+  "_resolved": "https://registry.npmjs.org/lesli-css/-/lesli-css-0.4.1.tgz",
+  "_shasum": "26b0a51b627e8f1c452ea154f719576878bdea7d",
+  "_spec": "lesli-css@0.4.1",
+  "_where": "/var/www/Lesli/beta.deutsche-leibrenten.de",
   "author": {
     "name": "LesliTech",
     "email": "hello@lesli.tech"
@@ -36,5 +35,5 @@
   "homepage": "https://lesli.tech",
   "license": "GPLv3",
   "name": "lesli-css",
-  "version": "0.3.0"
+  "version": "0.4.1"
 }

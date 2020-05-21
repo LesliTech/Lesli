@@ -33,6 +33,7 @@
 </template>
 
 <script>
+import config from '../../utils/config'
 import Icon from '../icon/Icon'
 import SlotComponent from '../../utils/SlotComponent'
 
@@ -43,14 +44,16 @@ export default {
         [SlotComponent.name]: SlotComponent
     },
     props: {
-        value: Number,
+        value: [Number, String],
         expanded: Boolean,
         type: String,
         size: String,
         position: String,
         animated: {
             type: Boolean,
-            default: true
+            default: () => {
+                return config.defaultTabsAnimated
+            }
         },
         destroyOnHide: {
             type: Boolean,
@@ -61,7 +64,7 @@ export default {
     },
     data() {
         return {
-            activeTab: this.value || 0,
+            activeTab: 0,
             defaultSlots: [],
             contentHeight: 0,
             isTransitioning: false,
@@ -102,7 +105,8 @@ export default {
         * When v-model is changed set the new active tab.
         */
         value(value) {
-            this.changeTab(value)
+            const index = this.getIndexByValue(value, value)
+            this.changeTab(index)
         },
 
         /**
@@ -110,14 +114,23 @@ export default {
         */
         tabItems() {
             if (this.activeTab < this.tabItems.length) {
+                let previous = this.activeTab
+                this.tabItems.map((tab, idx) => {
+                    if (tab.isActive) {
+                        previous = idx
+                        if (previous < this.tabItems.length) {
+                            this.tabItems[previous].isActive = false
+                        }
+                    }
+                })
                 this.tabItems[this.activeTab].isActive = true
+            } else if (this.activeTab > 0) {
+                this.changeTab(this.activeTab - 1)
             }
         }
     },
     methods: {
-        refreshSlots() {
-            this.defaultSlots = this.$slots.default || []
-        },
+
         /**
         * Change the active tab and emit change event.
         */
@@ -129,19 +142,37 @@ export default {
             }
             this.tabItems[newIndex].activate(this.activeTab, newIndex)
             this.activeTab = newIndex
-            this.$emit('change', newIndex)
+            this.$emit('change', this.getValueByIndex(newIndex))
         },
 
         /**
         * Tab click listener, emit input event and change active tab.
         */
-        tabClick(value) {
-            if (this.activeTab === value) return
-            this.$emit('input', value)
-            this.changeTab(value)
+        tabClick(index) {
+            if (this.activeTab === index) return
+
+            this.$emit('input', this.getValueByIndex(index))
+            this.changeTab(index)
+        },
+
+        refreshSlots() {
+            this.defaultSlots = this.$slots.default || []
+        },
+
+        getIndexByValue(value) {
+            let index = this.tabItems.map((t) =>
+                t.$options.propsData ? t.$options.propsData.value : undefined
+            ).indexOf(value)
+            return index >= 0 ? index : value
+        },
+
+        getValueByIndex(index) {
+            const propsData = this.tabItems[index].$options.propsData
+            return propsData && propsData.value ? propsData.value : index
         }
     },
     mounted() {
+        this.activeTab = this.getIndexByValue(this.value || 0)
         if (this.activeTab < this.tabItems.length) {
             this.tabItems[this.activeTab].isActive = true
         }

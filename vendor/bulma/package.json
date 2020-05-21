@@ -1,27 +1,33 @@
 {
-  "_from": "bulma@0.8.0",
-  "_id": "bulma@0.8.0",
+  "_args": [
+    [
+      "bulma@0.8.2",
+      "/var/www/Lesli/beta.deutsche-leibrenten.de"
+    ]
+  ],
+  "_development": true,
+  "_from": "bulma@0.8.2",
+  "_id": "bulma@0.8.2",
   "_inBundle": false,
-  "_integrity": "sha512-nhf3rGyiZh/VM7FrSJ/5KeLlfaFkXz0nYcXriynfPH4vVpnxnqyEwaNGdNCVzHyyCA3cHgkQAMpdF/SFbFGZfA==",
+  "_integrity": "sha512-vMM/ijYSxX+Sm+nD7Lmc1UgWDy2JcL2nTKqwgEqXuOMU+IGALbXd5MLt/BcjBAPLIx36TtzhzBcSnOP974gcqA==",
   "_location": "/bulma",
   "_phantomChildren": {},
   "_requested": {
     "type": "version",
     "registry": true,
-    "raw": "bulma@0.8.0",
+    "raw": "bulma@0.8.2",
     "name": "bulma",
     "escapedName": "bulma",
-    "rawSpec": "0.8.0",
+    "rawSpec": "0.8.2",
     "saveSpec": null,
-    "fetchSpec": "0.8.0"
+    "fetchSpec": "0.8.2"
   },
   "_requiredBy": [
     "#DEV:/"
   ],
-  "_resolved": "https://registry.npmjs.org/bulma/-/bulma-0.8.0.tgz",
-  "_shasum": "ac1606431703a4761b18a4a2d5cc1fa864a2aece",
-  "_spec": "bulma@0.8.0",
-  "_where": "/var/www/LesliCloud/Lesli",
+  "_resolved": "https://registry.npmjs.org/bulma/-/bulma-0.8.2.tgz",
+  "_spec": "0.8.2",
+  "_where": "/var/www/Lesli/beta.deutsche-leibrenten.de",
   "author": {
     "name": "Jeremy Thomas",
     "email": "bbxdesign@gmail.com",
@@ -30,15 +36,13 @@
   "bugs": {
     "url": "https://github.com/jgthms/bulma/issues"
   },
-  "bundleDependencies": false,
-  "deprecated": false,
   "description": "Modern CSS framework based on Flexbox",
   "devDependencies": {
-    "autoprefixer": "^9.6.1",
+    "autoprefixer": "^9.7.6",
     "clean-css-cli": "^4.3.0",
-    "node-sass": "^4.12.0",
-    "postcss-cli": "^6.1.3",
-    "rimraf": "^2.7.1"
+    "node-sass": "^4.13.1",
+    "postcss-cli": "^7.1.0",
+    "rimraf": "^3.0.2"
   },
   "files": [
     "css",
@@ -73,5 +77,5 @@
   },
   "style": "bulma/css/bulma.min.css",
   "unpkg": "css/bulma.css",
-  "version": "0.8.0"
+  "version": "0.8.2"
 }

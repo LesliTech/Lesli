@@ -1,4 +1,4 @@
-/*! Buefy v0.8.12 | MIT License | github.com/buefy/buefy */
+/*! Buefy v0.8.19 | MIT License | github.com/buefy/buefy */
 (function (global, factory) {
     typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports) :
     typeof define === 'function' && define.amd ? define(['exports'], factory) :
@@ -51,6 +51,7 @@
       defaultTrapFocus: false,
       defaultButtonRounded: false,
       defaultCarouselInterval: 3500,
+      defaultTabsAnimated: true,
       defaultLinkTags: ['a', 'button', 'input', 'router-link', 'nuxt-link', 'n-link', 'RouterLink', 'NuxtLink', 'NLink'],
       customIconPacks: null
     }; // TODO defaultTrapFocus to true in the next breaking change
@@ -407,19 +408,15 @@
       
       /* style inject SSR */
       
-      /* style inject shadow dom */
-      
 
       
-      const __vue_component__ = normalizeComponent_1(
+      var Toast = normalizeComponent_1(
         { render: __vue_render__, staticRenderFns: __vue_staticRenderFns__ },
         __vue_inject_styles__,
         __vue_script__,
         __vue_scope_id__,
         __vue_is_functional_template__,
         __vue_module_identifier__,
-        false,
-        undefined,
         undefined,
         undefined
       );
@@ -456,7 +453,7 @@
 
         var propsData = merge(defaultParam, params);
         var vm = typeof window !== 'undefined' && window.Vue ? window.Vue : localVueInstance || VueInstance;
-        var ToastComponent = vm.extend(__vue_component__);
+        var ToastComponent = vm.extend(Toast);
         return new ToastComponent({
           parent: parent,
           el: document.createElement('div'),
@@ -472,7 +469,7 @@
     };
     use(Plugin);
 
-    exports.BToast = __vue_component__;
+    exports.BToast = Toast;
     exports.ToastProgrammatic = ToastProgrammatic;
     exports.default = Plugin;
 

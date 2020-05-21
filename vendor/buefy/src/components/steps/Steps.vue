@@ -1,5 +1,5 @@
 <template>
-    <div class="b-steps">
+    <div class="b-steps" :class="wrapperClasses">
         <nav class="steps" :class="mainClasses">
             <ul class="step-items">
                 <li
@@ -21,6 +21,7 @@
                                 :icon="stepItem.icon"
                                 :pack="stepItem.iconPack"
                                 :size="size"/>
+                            <span v-else-if="stepItem.step">{{ stepItem.step }}</span>
                         </div>
                         <div class="step-details">
                             <span class="step-title">{{ stepItem.label }}</span>
@@ -78,7 +79,7 @@ export default {
         [SlotComponent.name]: SlotComponent
     },
     props: {
-        value: Number,
+        value: [Number, String],
         type: [String, Object],
         size: String,
         animated: {
@@ -92,22 +93,56 @@ export default {
         iconPack: String,
         iconPrev: {
             type: String,
-            default: config.defaultIconPrev
+            default: () => {
+                return config.defaultIconPrev
+            }
         },
         iconNext: {
             type: String,
-            default: config.defaultIconNext
+            default: () => {
+                return config.defaultIconNext
+            }
         },
         hasNavigation: {
             type: Boolean,
             default: true
+        },
+        vertical: {
+            type: Boolean,
+            default: false
+        },
+        position: String,
+        labelPosition: {
+            type: String,
+            validator(value) {
+                return [
+                    'bottom',
+                    'right',
+                    'left'
+                ].indexOf(value) > -1
+            },
+            default: 'bottom'
+        },
+        rounded: {
+            type: Boolean,
+            default: true
+        },
+        mobileMode: {
+            type: String,
+            validator(value) {
+                return [
+                    'minimalist',
+                    'compact'
+                ].indexOf(value) > -1
+            },
+            default: 'minimalist'
         },
         ariaNextLabel: String,
         ariaPreviousLabel: String
     },
     data() {
         return {
-            activeStep: this.value || 0,
+            activeStep: 0,
             defaultSlots: [],
             contentHeight: 0,
             isTransitioning: false,
@@ -115,10 +150,25 @@ export default {
         }
     },
     computed: {
+        wrapperClasses() {
+            return [
+                this.size,
+                {
+                    'is-vertical': this.vertical,
+                    [this.position]: this.position && this.vertical
+                }
+            ]
+        },
         mainClasses() {
             return [
                 this.type,
-                this.size
+                {
+                    'has-label-right': this.labelPosition === 'right',
+                    'has-label-left': this.labelPosition === 'left',
+                    'is-animated': this.animated,
+                    'is-rounded': this.rounded,
+                    [`mobile-${this.mobileMode}`]: this.mobileMode !== null
+                }
             ]
         },
 
@@ -191,7 +241,8 @@ export default {
         * When v-model is changed set the new active step.
         */
         value(value) {
-            this.changeStep(value)
+            const index = this.getIndexByValue(value)
+            this.changeStep(index)
         },
 
         /**
@@ -199,7 +250,18 @@ export default {
         */
         stepItems() {
             if (this.activeStep < this.stepItems.length) {
+                let previous = this.activeStep
+                this.stepItems.map((step, idx) => {
+                    if (step.isActive) {
+                        previous = idx
+                        if (previous < this.stepItems.length) {
+                            this.stepItems[previous].isActive = false
+                        }
+                    }
+                })
                 this.stepItems[this.activeStep].isActive = true
+            } else if (this.activeStep > 0) {
+                this.changeStep(this.activeStep - 1)
             }
         }
     },
@@ -221,7 +283,7 @@ export default {
             }
             this.stepItems[newIndex].activate(this.activeStep, newIndex)
             this.activeStep = newIndex
-            this.$emit('change', newIndex)
+            this.$emit('change', this.getValueByIndex(newIndex))
         },
 
         /**
@@ -237,9 +299,9 @@ export default {
         /**
          * Step click listener, emit input event and change active step.
          */
-        stepClick(value) {
-            this.$emit('input', value)
-            this.changeStep(value)
+        stepClick(index) {
+            this.$emit('input', this.getValueByIndex(index))
+            this.changeStep(index)
         },
 
         /**
@@ -253,7 +315,7 @@ export default {
             if (prevItemIdx >= 0) {
                 prevItemIdx = this.stepItems.length - 1 - prevItemIdx
             }
-            this.$emit('input', prevItemIdx)
+            this.$emit('input', this.getValueByIndex(prevItemIdx))
             this.changeStep(prevItemIdx)
         },
 
@@ -265,11 +327,24 @@ export default {
             const nextItemIdx = this.stepItems.map(
                 (step, idx) => idx > this.activeStep && step.visible
             ).indexOf(true)
-            this.$emit('input', nextItemIdx)
+            this.$emit('input', this.getValueByIndex(nextItemIdx))
             this.changeStep(nextItemIdx)
+        },
+
+        getIndexByValue(value) {
+            let index = this.stepItems.map((t) =>
+                t.$options.propsData ? t.$options.propsData.value : undefined
+            ).indexOf(value)
+            return index >= 0 ? index : value
+        },
+
+        getValueByIndex(index) {
+            const propsData = this.stepItems[index].$options.propsData
+            return propsData && propsData.value ? propsData.value : index
         }
     },
     mounted() {
+        this.activeTab = this.getIndexByValue(this.value || 0)
         if (this.activeStep < this.stepItems.length) {
             this.stepItems[this.activeStep].isActive = true
         }

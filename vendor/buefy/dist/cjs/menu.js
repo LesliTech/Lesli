@@ -2,10 +2,10 @@
 
 Object.defineProperty(exports, '__esModule', { value: true });
 
-var __chunk_1 = require('./chunk-5094d8df.js');
+var __chunk_1 = require('./chunk-14c82365.js');
 require('./helpers.js');
-var __chunk_2 = require('./chunk-805257cc.js');
-var __chunk_4 = require('./chunk-bc189645.js');
+var __chunk_2 = require('./chunk-cd0dcc1d.js');
+var __chunk_4 = require('./chunk-d7fda995.js');
 var __chunk_5 = require('./chunk-13e039f5.js');
 
 //
@@ -18,6 +18,10 @@ var script = {
   name: 'BMenu',
   props: {
     accordion: {
+      type: Boolean,
+      default: true
+    },
+    activable: {
       type: Boolean,
       default: true
     }
@@ -49,19 +53,15 @@ var __vue_staticRenderFns__ = [];
   
   /* style inject SSR */
   
-  /* style inject shadow dom */
-  
 
   
-  const __vue_component__ = __chunk_5.__vue_normalize__(
+  var Menu = __chunk_5.__vue_normalize__(
     { render: __vue_render__, staticRenderFns: __vue_staticRenderFns__ },
     __vue_inject_styles__,
     __vue_script__,
     __vue_scope_id__,
     __vue_is_functional_template__,
     __vue_module_identifier__,
-    false,
-    undefined,
     undefined,
     undefined
   );
@@ -123,19 +123,15 @@ const __vue_script__$1 = script$1;
   
   /* style inject SSR */
   
-  /* style inject shadow dom */
-  
 
   
-  const __vue_component__$1 = __chunk_5.__vue_normalize__(
+  var MenuList = __chunk_5.__vue_normalize__(
     {},
     __vue_inject_styles__$1,
     __vue_script__$1,
     __vue_scope_id__$1,
     __vue_is_functional_template__$1,
     __vue_module_identifier__$1,
-    false,
-    undefined,
     undefined,
     undefined
   );
@@ -153,7 +149,7 @@ var script$2 = {
     icon: String,
     animation: {
       type: String,
-      default: 'fade'
+      default: 'slide'
     },
     tag: {
       type: String,
@@ -189,13 +185,17 @@ var script$2 = {
   methods: {
     onClick: function onClick(event) {
       if (this.disabled) return;
-      this.reset(this.$parent);
-      this.newExpanded = true;
+      var menu = this.getMenu();
+      this.reset(this.$parent, menu);
+      this.newExpanded = !this.newExpanded;
       this.$emit('update:expanded', this.newActive);
-      this.newActive = true;
-      this.$emit('update:active', this.newActive);
+
+      if (menu && menu.activable) {
+        this.newActive = true;
+        this.$emit('update:active', this.newActive);
+      }
     },
-    reset: function reset(parent) {
+    reset: function reset(parent, menu) {
       var _this = this;
 
       var items = parent.$children.filter(function (c) {
@@ -203,17 +203,28 @@ var script$2 = {
       });
       items.forEach(function (item) {
         if (item !== _this) {
-          _this.reset(item);
+          _this.reset(item, menu);
 
           if (!parent.$data._isMenu || parent.$data._isMenu && parent.accordion) {
             item.newExpanded = false;
             item.$emit('update:expanded', item.newActive);
           }
 
-          item.newActive = false;
-          item.$emit('update:active', item.newActive);
+          if (menu && menu.activable) {
+            item.newActive = false;
+            item.$emit('update:active', item.newActive);
+          }
         }
       });
+    },
+    getMenu: function getMenu() {
+      var parent = this.$parent;
+
+      while (parent && !parent.$data._isMenu) {
+        parent = parent.$parent;
+      }
+
+      return parent;
     }
   }
 };
@@ -240,33 +251,29 @@ var __vue_staticRenderFns__$1 = [];
   
   /* style inject SSR */
   
-  /* style inject shadow dom */
-  
 
   
-  const __vue_component__$2 = __chunk_5.__vue_normalize__(
+  var MenuItem = __chunk_5.__vue_normalize__(
     { render: __vue_render__$1, staticRenderFns: __vue_staticRenderFns__$1 },
     __vue_inject_styles__$2,
     __vue_script__$2,
     __vue_scope_id__$2,
     __vue_is_functional_template__$2,
     __vue_module_identifier__$2,
-    false,
-    undefined,
     undefined,
     undefined
   );
 
 var Plugin = {
   install: function install(Vue) {
-    __chunk_5.registerComponent(Vue, __vue_component__);
-    __chunk_5.registerComponent(Vue, __vue_component__$1);
-    __chunk_5.registerComponent(Vue, __vue_component__$2);
+    __chunk_5.registerComponent(Vue, Menu);
+    __chunk_5.registerComponent(Vue, MenuList);
+    __chunk_5.registerComponent(Vue, MenuItem);
   }
 };
 __chunk_5.use(Plugin);
 
-exports.BMenu = __vue_component__;
-exports.BMenuItem = __vue_component__$2;
-exports.BMenuList = __vue_component__$1;
+exports.BMenu = Menu;
+exports.BMenuItem = MenuItem;
+exports.BMenuList = MenuList;
 exports.default = Plugin;

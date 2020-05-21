@@ -2,10 +2,10 @@
 
 Object.defineProperty(exports, '__esModule', { value: true });
 
-var __chunk_1 = require('./chunk-5094d8df.js');
+var __chunk_1 = require('./chunk-14c82365.js');
 var helpers = require('./helpers.js');
-var __chunk_2 = require('./chunk-805257cc.js');
-var __chunk_4 = require('./chunk-bc189645.js');
+var __chunk_2 = require('./chunk-cd0dcc1d.js');
+var __chunk_4 = require('./chunk-d7fda995.js');
 var __chunk_5 = require('./chunk-13e039f5.js');
 
 var script = {
@@ -65,11 +65,15 @@ var script = {
     iconSize: String,
     iconPrev: {
       type: String,
-      default: __chunk_2.config.defaultIconPrev
+      default: function _default() {
+        return __chunk_2.config.defaultIconPrev;
+      }
     },
     iconNext: {
       type: String,
-      default: __chunk_2.config.defaultIconNext
+      default: function _default() {
+        return __chunk_2.config.defaultIconNext;
+      }
     },
     indicator: {
       type: Boolean,
@@ -282,19 +286,15 @@ var __vue_staticRenderFns__ = [];
   
   /* style inject SSR */
   
-  /* style inject shadow dom */
-  
 
   
-  const __vue_component__ = __chunk_5.__vue_normalize__(
+  var Carousel = __chunk_5.__vue_normalize__(
     { render: __vue_render__, staticRenderFns: __vue_staticRenderFns__ },
     __vue_inject_styles__,
     __vue_script__,
     __vue_scope_id__,
     __vue_is_functional_template__,
     __vue_module_identifier__,
-    false,
-    undefined,
     undefined,
     undefined
   );
@@ -369,19 +369,15 @@ var __vue_staticRenderFns__$1 = [];
   
   /* style inject SSR */
   
-  /* style inject shadow dom */
-  
 
   
-  const __vue_component__$1 = __chunk_5.__vue_normalize__(
+  var CarouselItem = __chunk_5.__vue_normalize__(
     { render: __vue_render__$1, staticRenderFns: __vue_staticRenderFns__$1 },
     __vue_inject_styles__$1,
     __vue_script__$1,
     __vue_scope_id__$1,
     __vue_is_functional_template__$1,
     __vue_module_identifier__$1,
-    false,
-    undefined,
     undefined,
     undefined
   );
@@ -434,11 +430,15 @@ var script$2 = {
     iconSize: String,
     iconPrev: {
       type: String,
-      default: __chunk_2.config.defaultIconPrev
+      default: function _default() {
+        return __chunk_2.config.defaultIconPrev;
+      }
     },
     iconNext: {
       type: String,
-      default: __chunk_2.config.defaultIconNext
+      default: function _default() {
+        return __chunk_2.config.defaultIconNext;
+      }
     },
     refresh: Boolean
   },
@@ -450,7 +450,6 @@ var script$2 = {
       dragging: false,
       hold: 0,
       itemWidth: 0,
-      total: 0,
       settings: {}
     };
   },
@@ -469,6 +468,9 @@ var script$2 = {
       var translate = this.delta + 1 * (this.activeItem * this.itemWidth);
       var result = this.dragging ? -translate : -Math.abs(translate);
       return "transform: translateX(".concat(result, "px);");
+    },
+    total: function total() {
+      return this.data.length - 1;
     }
   },
   watch: {
@@ -487,6 +489,13 @@ var script$2 = {
       if (status && this.asIndicator) {
         this.getWidth();
       }
+    },
+    '$props': {
+      handler: function handler(value) {
+        this.initConfig();
+        this.update();
+      },
+      deep: true
     }
   },
   methods: {
@@ -586,13 +595,14 @@ var script$2 = {
   mounted: function mounted() {
     var _this2 = this;
 
-    this.total = this.data.length - 1;
     this.$nextTick(function () {
       _this2.update();
     });
   },
   beforeDestroy: function beforeDestroy() {
-    window.removeEventListener('resize', this.update);
+    if (typeof window !== 'undefined') {
+      window.removeEventListener('resize', this.update);
+    }
   }
 };
 
@@ -600,7 +610,7 @@ var script$2 = {
 const __vue_script__$2 = script$2;
 
 /* template */
-var __vue_render__$2 = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"carousel-list",class:{'has-shadow': _vm.activeItem > 0},on:{"mousedown":function($event){$event.stopPropagation();$event.preventDefault();return _vm.dragStart($event)},"touchstart":_vm.dragStart}},[_c('div',{staticClass:"carousel-slides",class:_vm.listClass,style:(_vm.transformStyle)},_vm._l((_vm.data),function(list,index){return _c('div',{key:index,staticClass:"carousel-slide",class:{'is-active': _vm.activeItem === index},style:(_vm.itemStyle),on:{"click":function($event){$event.preventDefault();_vm.checkAsIndicator(index, $event);}}},[_vm._t("item",[_c('figure',{staticClass:"image"},[_c('img',{attrs:{"src":list.image,"title":list.title}})])],{list:list,index:index,active:_vm.activeItem})],2)})),_vm._v(" "),(_vm.arrow)?_c('div',{staticClass:"carousel-arrow",class:{'is-hovered': _vm.arrowHover}},[_c('b-icon',{directives:[{name:"show",rawName:"v-show",value:(_vm.activeItem > 0),expression:"activeItem > 0"}],staticClass:"has-icons-left",attrs:{"pack":_vm.iconPack,"icon":_vm.iconPrev,"size":_vm.iconSize,"both":""},nativeOn:{"click":function($event){$event.preventDefault();return _vm.prev($event)}}}),_vm._v(" "),_c('b-icon',{directives:[{name:"show",rawName:"v-show",value:(_vm.checkArrow(_vm.total)),expression:"checkArrow(total)"}],staticClass:"has-icons-right",attrs:{"pack":_vm.iconPack,"icon":_vm.iconNext,"size":_vm.iconSize,"both":""},nativeOn:{"click":function($event){$event.preventDefault();return _vm.next($event)}}})],1):_vm._e()])};
+var __vue_render__$2 = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"carousel-list",class:{'has-shadow': _vm.activeItem > 0},on:{"mousedown":function($event){$event.stopPropagation();$event.preventDefault();return _vm.dragStart($event)},"touchstart":_vm.dragStart}},[_c('div',{staticClass:"carousel-slides",class:_vm.listClass,style:(_vm.transformStyle)},_vm._l((_vm.data),function(list,index){return _c('div',{key:index,staticClass:"carousel-slide",class:{'is-active': _vm.activeItem === index},style:(_vm.itemStyle),on:{"click":function($event){_vm.checkAsIndicator(index, $event);}}},[_vm._t("item",[_c('figure',{staticClass:"image"},[_c('img',{attrs:{"src":list.image,"title":list.title}})])],{list:list,index:index,active:_vm.activeItem})],2)})),_vm._v(" "),(_vm.arrow)?_c('div',{staticClass:"carousel-arrow",class:{'is-hovered': _vm.arrowHover}},[_c('b-icon',{directives:[{name:"show",rawName:"v-show",value:(_vm.activeItem > 0),expression:"activeItem > 0"}],staticClass:"has-icons-left",attrs:{"pack":_vm.iconPack,"icon":_vm.iconPrev,"size":_vm.iconSize,"both":""},nativeOn:{"click":function($event){$event.preventDefault();return _vm.prev($event)}}}),_vm._v(" "),_c('b-icon',{directives:[{name:"show",rawName:"v-show",value:(_vm.checkArrow(_vm.total)),expression:"checkArrow(total)"}],staticClass:"has-icons-right",attrs:{"pack":_vm.iconPack,"icon":_vm.iconNext,"size":_vm.iconSize,"both":""},nativeOn:{"click":function($event){$event.preventDefault();return _vm.next($event)}}})],1):_vm._e()])};
 var __vue_staticRenderFns__$2 = [];
 
   /* style */
@@ -615,33 +625,29 @@ var __vue_staticRenderFns__$2 = [];
   
   /* style inject SSR */
   
-  /* style inject shadow dom */
-  
 
   
-  const __vue_component__$2 = __chunk_5.__vue_normalize__(
+  var CarouselList = __chunk_5.__vue_normalize__(
     { render: __vue_render__$2, staticRenderFns: __vue_staticRenderFns__$2 },
     __vue_inject_styles__$2,
     __vue_script__$2,
     __vue_scope_id__$2,
     __vue_is_functional_template__$2,
     __vue_module_identifier__$2,
-    false,
-    undefined,
     undefined,
     undefined
   );
 
 var Plugin = {
   install: function install(Vue) {
-    __chunk_5.registerComponent(Vue, __vue_component__);
-    __chunk_5.registerComponent(Vue, __vue_component__$1);
-    __chunk_5.registerComponent(Vue, __vue_component__$2);
+    __chunk_5.registerComponent(Vue, Carousel);
+    __chunk_5.registerComponent(Vue, CarouselItem);
+    __chunk_5.registerComponent(Vue, CarouselList);
   }
 };
 __chunk_5.use(Plugin);
 
-exports.BCarousel = __vue_component__;
-exports.BCarouselItem = __vue_component__$1;
-exports.BCarouselList = __vue_component__$2;
+exports.BCarousel = Carousel;
+exports.BCarouselItem = CarouselItem;
+exports.BCarouselList = CarouselList;
 exports.default = Plugin;

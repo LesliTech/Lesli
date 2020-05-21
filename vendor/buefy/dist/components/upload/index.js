@@ -1,4 +1,4 @@
-/*! Buefy v0.8.12 | MIT License | github.com/buefy/buefy */
+/*! Buefy v0.8.19 | MIT License | github.com/buefy/buefy */
 (function (global, factory) {
     typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports) :
     typeof define === 'function' && define.amd ? define(['exports'], factory) :
@@ -51,6 +51,7 @@
       defaultTrapFocus: false,
       defaultButtonRounded: false,
       defaultCarouselInterval: 3500,
+      defaultTabsAnimated: true,
       defaultLinkTags: ['a', 'button', 'input', 'router-link', 'nuxt-link', 'n-link', 'RouterLink', 'NuxtLink', 'NLink'],
       customIconPacks: null
     }; // TODO defaultTrapFocus to true in the next breaking change
@@ -120,7 +121,7 @@
          */
         statusMessage: function statusMessage() {
           if (!this.parentField) return;
-          return this.parentField.newMessage;
+          return this.parentField.newMessage || this.parentField.$slots.message;
         },
 
         /**
@@ -196,6 +197,7 @@
         checkHtml5Validity: function checkHtml5Validity() {
           if (!this.useHtml5Validation) return;
           if (this.$refs[this.$data._elementRef] === undefined) return;
+          if (this.getElement() === null) return;
 
           if (!this.getElement().checkValidity()) {
             this.setInvalid();
@@ -233,6 +235,10 @@
           default: 'is-primary'
         },
         native: {
+          type: Boolean,
+          default: false
+        },
+        expanded: {
           type: Boolean,
           default: false
         }
@@ -460,10 +466,11 @@
     const __vue_script__ = script;
 
     /* template */
-    var __vue_render__ = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('label',{staticClass:"upload control"},[(!_vm.dragDrop)?[_vm._t("default")]:_c('div',{staticClass:"upload-draggable",class:[_vm.type, {
+    var __vue_render__ = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('label',{staticClass:"upload control",class:{'is-expanded' : _vm.expanded}},[(!_vm.dragDrop)?[_vm._t("default")]:_c('div',{staticClass:"upload-draggable",class:[_vm.type, {
                     'is-loading': _vm.loading,
                     'is-disabled': _vm.disabled,
-                    'is-hovered': _vm.dragDropFocus
+                    'is-hovered': _vm.dragDropFocus,
+                    'is-expanded': _vm.expanded,
                 }],on:{"dragover":function($event){$event.preventDefault();_vm.updateDragDropFocus(true);},"dragleave":function($event){$event.preventDefault();_vm.updateDragDropFocus(false);},"dragenter":function($event){$event.preventDefault();_vm.updateDragDropFocus(true);},"drop":function($event){$event.preventDefault();return _vm.onFileChange($event)}}},[_vm._t("default")],2),_vm._v(" "),_c('input',_vm._b({ref:"input",attrs:{"type":"file","multiple":_vm.multiple,"accept":_vm.accept,"disabled":_vm.disabled},on:{"change":_vm.onFileChange}},'input',_vm.$attrs,false))],2)};
     var __vue_staticRenderFns__ = [];
 
@@ -479,19 +486,15 @@
       
       /* style inject SSR */
       
-      /* style inject shadow dom */
-      
 
       
-      const __vue_component__ = normalizeComponent_1(
+      var Upload = normalizeComponent_1(
         { render: __vue_render__, staticRenderFns: __vue_staticRenderFns__ },
         __vue_inject_styles__,
         __vue_script__,
         __vue_scope_id__,
         __vue_is_functional_template__,
         __vue_module_identifier__,
-        false,
-        undefined,
         undefined,
         undefined
       );
@@ -507,12 +510,12 @@
 
     var Plugin = {
       install: function install(Vue) {
-        registerComponent(Vue, __vue_component__);
+        registerComponent(Vue, Upload);
       }
     };
     use(Plugin);
 
-    exports.BUpload = __vue_component__;
+    exports.BUpload = Upload;
     exports.default = Plugin;
 
     Object.defineProperty(exports, '__esModule', { value: true });

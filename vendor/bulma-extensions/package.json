@@ -1,4 +1,11 @@
 {
+  "_args": [
+    [
+      "bulma-extensions@6.2.7",
+      "/var/www/Lesli/beta.deutsche-leibrenten.de"
+    ]
+  ],
+  "_development": true,
   "_from": "bulma-extensions@6.2.7",
   "_id": "bulma-extensions@6.2.7",
   "_inBundle": false,
@@ -19,9 +26,8 @@
     "#DEV:/"
   ],
   "_resolved": "https://registry.npmjs.org/bulma-extensions/-/bulma-extensions-6.2.7.tgz",
-  "_shasum": "f9f4d1478a7ac1606ae8db1e765aa45e3f12bb31",
-  "_spec": "bulma-extensions@6.2.7",
-  "_where": "/var/www/LesliCloud/Lesli",
+  "_spec": "6.2.7",
+  "_where": "/var/www/Lesli/beta.deutsche-leibrenten.de",
   "author": {
     "name": "Wikiki",
     "email": "wikiki@protonmail.com",
@@ -30,13 +36,11 @@
   "bugs": {
     "url": "https://github.com/Wikiki/bulma-extensions/issues"
   },
-  "bundleDependencies": false,
   "config": {
     "commitizen": {
       "path": "node_modules/cz-conventional-changelog"
     }
   },
-  "deprecated": false,
   "description": "Set of extensions for Bulma.io CSS Framework",
   "devDependencies": {
     "ansi-colors": "^2.0.1",
