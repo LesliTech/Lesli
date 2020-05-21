@@ -18,6 +18,9 @@ class CreateLocations < ActiveRecord::Migration[6.0]
             t.string        :native_level   # The original name of the level, based on language and location
             t.bigint        :parent_id
 
+            # acts_as_paranoid
+            t.datetime :deleted_at, index: true
+            
             t.timestamps
         end
 
