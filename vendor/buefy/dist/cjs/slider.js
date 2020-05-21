@@ -2,10 +2,10 @@
 
 Object.defineProperty(exports, '__esModule', { value: true });
 
-var __chunk_1 = require('./chunk-5094d8df.js');
-require('./chunk-805257cc.js');
+var __chunk_1 = require('./chunk-14c82365.js');
+require('./chunk-cd0dcc1d.js');
 var __chunk_5 = require('./chunk-13e039f5.js');
-var __chunk_22 = require('./chunk-5bc47591.js');
+var __chunk_22 = require('./chunk-ac697190.js');
 
 var script = {
   name: 'BSliderThumb',
@@ -126,7 +126,7 @@ var script = {
           event.clientX = event.touches[0].clientX;
         }
 
-        var diff = (event.clientX - this.startX) / this.$parent.sliderSize * 100;
+        var diff = (event.clientX - this.startX) / this.$parent.sliderSize() * 100;
         this.newPosition = this.startPosition + diff;
         this.setPosition(this.newPosition);
       }
@@ -190,19 +190,15 @@ var __vue_staticRenderFns__ = [];
   
   /* style inject SSR */
   
-  /* style inject shadow dom */
-  
 
   
-  const __vue_component__ = __chunk_5.__vue_normalize__(
+  var SliderThumb = __chunk_5.__vue_normalize__(
     { render: __vue_render__, staticRenderFns: __vue_staticRenderFns__ },
     __vue_inject_styles__,
     __vue_script__,
     __vue_scope_id__,
     __vue_is_functional_template__,
     __vue_module_identifier__,
-    false,
-    undefined,
     undefined,
     undefined
   );
@@ -269,19 +265,15 @@ var __vue_staticRenderFns__$1 = [];
   
   /* style inject SSR */
   
-  /* style inject shadow dom */
-  
 
   
-  const __vue_component__$1 = __chunk_5.__vue_normalize__(
+  var SliderTick = __chunk_5.__vue_normalize__(
     { render: __vue_render__$1, staticRenderFns: __vue_staticRenderFns__$1 },
     __vue_inject_styles__$1,
     __vue_script__$1,
     __vue_scope_id__$1,
     __vue_is_functional_template__$1,
     __vue_module_identifier__$1,
-    false,
-    undefined,
     undefined,
     undefined
   );
@@ -289,7 +281,7 @@ var __vue_staticRenderFns__$1 = [];
 var _components;
 var script$2 = {
   name: 'BSlider',
-  components: (_components = {}, __chunk_1._defineProperty(_components, __vue_component__.name, __vue_component__), __chunk_1._defineProperty(_components, __vue_component__$1.name, __vue_component__$1), _components),
+  components: (_components = {}, __chunk_1._defineProperty(_components, SliderThumb.name, SliderThumb), __chunk_1._defineProperty(_components, SliderTick.name, SliderTick), _components),
   props: {
     value: {
       type: [Number, Array],
@@ -334,7 +326,11 @@ var script$2 = {
       default: false
     },
     customFormatter: Function,
-    ariaLabel: [String, Array]
+    ariaLabel: [String, Array],
+    biggerSliderFocus: {
+      type: Boolean,
+      default: false
+    }
   },
   data: function data() {
     return {
@@ -385,14 +381,12 @@ var script$2 = {
         left: this.barStart
       };
     },
-    sliderSize: function sliderSize() {
-      return this.$refs.slider['clientWidth'];
-    },
     rootClasses: function rootClasses() {
       return {
         'is-rounded': this.rounded,
         'is-dragging': this.dragging,
-        'is-disabled': this.disabled
+        'is-disabled': this.disabled,
+        'slider-focus': this.biggerSliderFocus
       };
     }
   },
@@ -447,10 +441,13 @@ var script$2 = {
         this.emitValue('dragging');
       }
     },
+    sliderSize: function sliderSize() {
+      return this.$refs.slider.getBoundingClientRect().width;
+    },
     onSliderClick: function onSliderClick(event) {
       if (this.disabled || this.isTrackClickDisabled) return;
       var sliderOffsetLeft = this.$refs.slider.getBoundingClientRect().left;
-      var percent = (event.clientX - sliderOffsetLeft) / this.sliderSize * 100;
+      var percent = (event.clientX - sliderOffsetLeft) / this.sliderSize() * 100;
       var targetValue = this.min + percent * (this.max - this.min) / 100;
       var diffFirst = Math.abs(targetValue - this.value1);
 
@@ -505,7 +502,7 @@ var script$2 = {
 const __vue_script__$2 = script$2;
 
 /* template */
-var __vue_render__$2 = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"b-slider",class:[_vm.size, _vm.type, _vm.rootClasses]},[_c('div',{ref:"slider",staticClass:"b-slider-track",on:{"click":_vm.onSliderClick}},[_c('div',{staticClass:"b-slider-fill",style:(_vm.barStyle)}),_vm._v(" "),(_vm.ticks)?_vm._l((_vm.tickValues),function(val,key){return _c('b-slider-tick',{key:key,attrs:{"value":val}})}):_vm._e(),_vm._v(" "),_vm._t("default"),_vm._v(" "),_c('b-slider-thumb',{ref:"button1",attrs:{"type":_vm.newTooltipType,"tooltip":_vm.tooltip,"custom-formatter":_vm.customFormatter,"role":"slider","aria-valuenow":_vm.value1,"aria-valuemin":_vm.min,"aria-valuemax":_vm.max,"aria-orientation":"horizontal","aria-label":Array.isArray(_vm.ariaLabel) ? _vm.ariaLabel[0] : _vm.ariaLabel,"aria-disabled":_vm.disabled},on:{"dragstart":_vm.onDragStart,"dragend":_vm.onDragEnd},model:{value:(_vm.value1),callback:function ($$v) {_vm.value1=$$v;},expression:"value1"}}),_vm._v(" "),(_vm.isRange)?_c('b-slider-thumb',{ref:"button2",attrs:{"type":_vm.newTooltipType,"tooltip":_vm.tooltip,"custom-formatter":_vm.customFormatter,"role":"slider","aria-valuenow":_vm.value2,"aria-valuemin":_vm.min,"aria-valuemax":_vm.max,"aria-orientation":"horizontal","aria-label":Array.isArray(_vm.ariaLabel) ? _vm.ariaLabel[1] : '',"aria-disabled":_vm.disabled},on:{"dragstart":_vm.onDragStart,"dragend":_vm.onDragEnd},model:{value:(_vm.value2),callback:function ($$v) {_vm.value2=$$v;},expression:"value2"}}):_vm._e()],2)])};
+var __vue_render__$2 = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"b-slider",class:[_vm.size, _vm.type, _vm.rootClasses ],on:{"click":_vm.onSliderClick}},[_c('div',{ref:"slider",staticClass:"b-slider-track"},[_c('div',{staticClass:"b-slider-fill",style:(_vm.barStyle)}),_vm._v(" "),(_vm.ticks)?_vm._l((_vm.tickValues),function(val,key){return _c('b-slider-tick',{key:key,attrs:{"value":val}})}):_vm._e(),_vm._v(" "),_vm._t("default"),_vm._v(" "),_c('b-slider-thumb',{ref:"button1",attrs:{"type":_vm.newTooltipType,"tooltip":_vm.tooltip,"custom-formatter":_vm.customFormatter,"role":"slider","aria-valuenow":_vm.value1,"aria-valuemin":_vm.min,"aria-valuemax":_vm.max,"aria-orientation":"horizontal","aria-label":Array.isArray(_vm.ariaLabel) ? _vm.ariaLabel[0] : _vm.ariaLabel,"aria-disabled":_vm.disabled},on:{"dragstart":_vm.onDragStart,"dragend":_vm.onDragEnd},model:{value:(_vm.value1),callback:function ($$v) {_vm.value1=$$v;},expression:"value1"}}),_vm._v(" "),(_vm.isRange)?_c('b-slider-thumb',{ref:"button2",attrs:{"type":_vm.newTooltipType,"tooltip":_vm.tooltip,"custom-formatter":_vm.customFormatter,"role":"slider","aria-valuenow":_vm.value2,"aria-valuemin":_vm.min,"aria-valuemax":_vm.max,"aria-orientation":"horizontal","aria-label":Array.isArray(_vm.ariaLabel) ? _vm.ariaLabel[1] : '',"aria-disabled":_vm.disabled},on:{"dragstart":_vm.onDragStart,"dragend":_vm.onDragEnd},model:{value:(_vm.value2),callback:function ($$v) {_vm.value2=$$v;},expression:"value2"}}):_vm._e()],2)])};
 var __vue_staticRenderFns__$2 = [];
 
   /* style */
@@ -520,31 +517,27 @@ var __vue_staticRenderFns__$2 = [];
   
   /* style inject SSR */
   
-  /* style inject shadow dom */
-  
 
   
-  const __vue_component__$2 = __chunk_5.__vue_normalize__(
+  var Slider = __chunk_5.__vue_normalize__(
     { render: __vue_render__$2, staticRenderFns: __vue_staticRenderFns__$2 },
     __vue_inject_styles__$2,
     __vue_script__$2,
     __vue_scope_id__$2,
     __vue_is_functional_template__$2,
     __vue_module_identifier__$2,
-    false,
-    undefined,
     undefined,
     undefined
   );
 
 var Plugin = {
   install: function install(Vue) {
-    __chunk_5.registerComponent(Vue, __vue_component__$2);
-    __chunk_5.registerComponent(Vue, __vue_component__$1);
+    __chunk_5.registerComponent(Vue, Slider);
+    __chunk_5.registerComponent(Vue, SliderTick);
   }
 };
 __chunk_5.use(Plugin);
 
-exports.BSlider = __vue_component__$2;
-exports.BSliderTick = __vue_component__$1;
+exports.BSlider = Slider;
+exports.BSliderTick = SliderTick;
 exports.default = Plugin;

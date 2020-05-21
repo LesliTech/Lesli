@@ -9,7 +9,8 @@ export default {
         visible: {
             type: Boolean,
             default: true
-        }
+        },
+        value: [String, Number]
     },
     data() {
         return {
@@ -24,8 +25,8 @@ export default {
         */
         activate(oldIndex, index) {
             this.transitionName = index < oldIndex
-                ? 'slide-next'
-                : 'slide-prev'
+                ? this.$parent.vertical ? 'slide-down' : 'slide-next'
+                : this.$parent.vertical ? 'slide-up' : 'slide-prev'
             this.isActive = true
         },
 
@@ -34,8 +35,8 @@ export default {
         */
         deactivate(oldIndex, index) {
             this.transitionName = index < oldIndex
-                ? 'slide-next'
-                : 'slide-prev'
+                ? this.$parent.vertical ? 'slide-down' : 'slide-next'
+                : this.$parent.vertical ? 'slide-up' : 'slide-prev'
             this.isActive = false
         }
     },

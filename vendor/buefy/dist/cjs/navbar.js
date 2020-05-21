@@ -2,7 +2,7 @@
 
 Object.defineProperty(exports, '__esModule', { value: true });
 
-var __chunk_1 = require('./chunk-5094d8df.js');
+var __chunk_1 = require('./chunk-14c82365.js');
 var __chunk_5 = require('./chunk-13e039f5.js');
 
 //
@@ -49,19 +49,15 @@ var __vue_staticRenderFns__ = [];
   
   /* style inject SSR */
   
-  /* style inject shadow dom */
-  
 
   
-  const __vue_component__ = __chunk_5.__vue_normalize__(
+  var NavbarBurger = __chunk_5.__vue_normalize__(
     { render: __vue_render__, staticRenderFns: __vue_staticRenderFns__ },
     __vue_inject_styles__,
     __vue_script__,
     __vue_scope_id__,
     __vue_is_functional_template__,
     __vue_module_identifier__,
-    false,
-    undefined,
     undefined,
     undefined
   );
@@ -140,11 +136,12 @@ function update(el, _ref4) {
   var _processArgs2 = processArgs(value),
       _handler2 = _processArgs2.handler,
       middleware = _processArgs2.middleware,
-      events = _processArgs2.events;
+      events = _processArgs2.events; // `filter` instead of `find` for compat with IE
 
-  var instance = instances.find(function (instance) {
+
+  var instance = instances.filter(function (instance) {
     return instance.el === el;
-  });
+  })[0];
   instance.eventHandlers.forEach(function (_ref5) {
     var event = _ref5.event,
         handler = _ref5.handler;
@@ -171,9 +168,10 @@ function update(el, _ref4) {
 }
 
 function unbind(el) {
-  var instance = instances.find(function (instance) {
+  // `filter` instead of `find` for compat with IE
+  var instance = instances.filter(function (instance) {
     return instance.el === el;
-  });
+  })[0];
   instance.eventHandlers.forEach(function (_ref7) {
     var event = _ref7.event,
         handler = _ref7.handler;
@@ -202,7 +200,7 @@ var isFilled = function isFilled(str) {
 var script$1 = {
   name: 'BNavbar',
   components: {
-    NavbarBurger: __vue_component__
+    NavbarBurger: NavbarBurger
   },
   directives: {
     clickOutside: directive
@@ -241,7 +239,9 @@ var script$1 = {
   },
   data: function data() {
     return {
-      internalIsActive: this.isActive
+      internalIsActive: this.isActive,
+      _isNavBar: true // Used internally by NavbarItem
+
     };
   },
   computed: {
@@ -420,19 +420,15 @@ const __vue_script__$1 = script$1;
   
   /* style inject SSR */
   
-  /* style inject shadow dom */
-  
 
   
-  const __vue_component__$1 = __chunk_5.__vue_normalize__(
+  var Navbar = __chunk_5.__vue_normalize__(
     {},
     __vue_inject_styles__$1,
     __vue_script__$1,
     __vue_scope_id__$1,
     __vue_is_functional_template__$1,
     __vue_module_identifier__$1,
-    false,
-    undefined,
     undefined,
     undefined
   );
@@ -470,7 +466,7 @@ var script$2 = {
       // TODO: use code instead (because keyCode is actually deprecated)
       // https://developer.mozilla.org/en-US/docs/Web/API/KeyboardEvent/keyCode
       if (event.keyCode === 27) {
-        this.$parent.closeMenu();
+        this.closeMenuRecursive(this, ['NavBar']);
       }
     },
 
@@ -483,13 +479,25 @@ var script$2 = {
       });
 
       if (!isOnWhiteList) {
-        if (this.$parent.$data._isNavDropdown) {
-          this.$parent.closeMenu();
-          this.$parent.$parent.closeMenu();
-        } else {
-          this.$parent.closeMenu();
-        }
+        var parent = this.closeMenuRecursive(this, ['NavbarDropdown', 'NavBar']);
+        if (parent.$data._isNavbarDropdown) this.closeMenuRecursive(parent, ['NavBar']);
       }
+    },
+
+    /**
+     * Close parent recursively
+     */
+    closeMenuRecursive: function closeMenuRecursive(current, targetComponents) {
+      if (!current.$parent) return null;
+      var foundItem = targetComponents.reduce(function (acc, item) {
+        if (current.$parent.$data["_is".concat(item)]) {
+          current.$parent.closeMenu();
+          return current.$parent;
+        }
+
+        return acc;
+      }, null);
+      return foundItem || this.closeMenuRecursive(current.$parent, targetComponents);
     }
   },
   mounted: function mounted() {
@@ -527,19 +535,15 @@ var __vue_staticRenderFns__$1 = [];
   
   /* style inject SSR */
   
-  /* style inject shadow dom */
-  
 
   
-  const __vue_component__$2 = __chunk_5.__vue_normalize__(
+  var NavbarItem = __chunk_5.__vue_normalize__(
     { render: __vue_render__$1, staticRenderFns: __vue_staticRenderFns__$1 },
     __vue_inject_styles__$2,
     __vue_script__$2,
     __vue_scope_id__$2,
     __vue_is_functional_template__$2,
     __vue_module_identifier__$2,
-    false,
-    undefined,
     undefined,
     undefined
   );
@@ -560,13 +564,14 @@ var script$3 = {
     closeOnClick: {
       type: Boolean,
       default: true
-    }
+    },
+    collapsible: Boolean
   },
   data: function data() {
     return {
       newActive: this.active,
       isHoverable: this.hoverable,
-      _isNavDropdown: true // Used internally by NavbarItem
+      _isNavbarDropdown: true // Used internally by NavbarItem
 
     };
   },
@@ -606,10 +611,11 @@ var __vue_render__$2 = function () {var _vm=this;var _h=_vm.$createElement;var _
             'is-hoverable': _vm.isHoverable,
             'is-active': _vm.newActive
         },on:{"mouseenter":_vm.checkHoverable}},[_c('a',{staticClass:"navbar-link",class:{
-                'is-arrowless': _vm.arrowless
-            },attrs:{"role":"menuitem","aria-haspopup":"true","href":"#"},on:{"click":function($event){$event.preventDefault();_vm.newActive = !_vm.newActive;}}},[(_vm.label)?[_vm._v(_vm._s(_vm.label))]:_vm._t("label")],2),_vm._v(" "),_c('div',{staticClass:"navbar-dropdown",class:{
+                'is-arrowless': _vm.arrowless,
+                'is-active': _vm.newActive && _vm.collapsible
+            },attrs:{"role":"menuitem","aria-haspopup":"true","href":"#"},on:{"click":function($event){$event.preventDefault();_vm.newActive = !_vm.newActive;}}},[(_vm.label)?[_vm._v(_vm._s(_vm.label))]:_vm._t("label")],2),_vm._v(" "),_c('div',{directives:[{name:"show",rawName:"v-show",value:(!_vm.collapsible || (_vm.collapsible && _vm.newActive)),expression:"!collapsible || (collapsible && newActive)"}],staticClass:"navbar-dropdown",class:{
                 'is-right': _vm.right,
-                'is-boxed': _vm.boxed
+                'is-boxed': _vm.boxed,
             }},[_vm._t("default")],2)])};
 var __vue_staticRenderFns__$2 = [];
 
@@ -625,33 +631,29 @@ var __vue_staticRenderFns__$2 = [];
   
   /* style inject SSR */
   
-  /* style inject shadow dom */
-  
 
   
-  const __vue_component__$3 = __chunk_5.__vue_normalize__(
+  var NavbarDropdown = __chunk_5.__vue_normalize__(
     { render: __vue_render__$2, staticRenderFns: __vue_staticRenderFns__$2 },
     __vue_inject_styles__$3,
     __vue_script__$3,
     __vue_scope_id__$3,
     __vue_is_functional_template__$3,
     __vue_module_identifier__$3,
-    false,
-    undefined,
     undefined,
     undefined
   );
 
 var Plugin = {
   install: function install(Vue) {
-    __chunk_5.registerComponent(Vue, __vue_component__$1);
-    __chunk_5.registerComponent(Vue, __vue_component__$2);
-    __chunk_5.registerComponent(Vue, __vue_component__$3);
+    __chunk_5.registerComponent(Vue, Navbar);
+    __chunk_5.registerComponent(Vue, NavbarItem);
+    __chunk_5.registerComponent(Vue, NavbarDropdown);
   }
 };
 __chunk_5.use(Plugin);
 
-exports.BNavbar = __vue_component__$1;
-exports.BNavbarDropdown = __vue_component__$3;
-exports.BNavbarItem = __vue_component__$2;
+exports.BNavbar = Navbar;
+exports.BNavbarDropdown = NavbarDropdown;
+exports.BNavbarItem = NavbarItem;
 exports.default = Plugin;

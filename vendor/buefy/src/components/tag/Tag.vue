@@ -13,9 +13,9 @@
             :aria-label="ariaCloseLabel"
             :tabindex="tabstop ? 0 : false"
             :disabled="disabled"
-            :class="[size, { 'is-rounded': rounded }]"
-            @click="close()"
-            @keyup.delete.prevent="close()"
+            :class="[size, closeType, { 'is-rounded': rounded }]"
+            @click="close"
+            @keyup.delete.prevent="close"
         />
     </div>
     <span
@@ -31,10 +31,11 @@
             role="button"
             :aria-label="ariaCloseLabel"
             class="delete is-small"
+            :class="closeType"
             :disabled="disabled"
             :tabindex="tabstop ? 0 : false"
-            @click="close()"
-            @keyup.delete.prevent="close()"
+            @click="close"
+            @keyup.delete.prevent="close"
         />
     </span>
 </template>
@@ -54,17 +55,18 @@ export default {
             type: Boolean,
             default: true
         },
-        ariaCloseLabel: String
+        ariaCloseLabel: String,
+        closeType: String
     },
     methods: {
         /**
         * Emit close event when delete button is clicked
         * or delete key is pressed.
         */
-        close() {
+        close(event) {
             if (this.disabled) return
 
-            this.$emit('close')
+            this.$emit('close', event)
         }
     }
 }

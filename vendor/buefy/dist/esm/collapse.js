@@ -90,29 +90,25 @@ const __vue_script__ = script;
   
   /* style inject SSR */
   
-  /* style inject shadow dom */
-  
 
   
-  const __vue_component__ = __vue_normalize__(
+  var Collapse = __vue_normalize__(
     {},
     __vue_inject_styles__,
     __vue_script__,
     __vue_scope_id__,
     __vue_is_functional_template__,
     __vue_module_identifier__,
-    false,
-    undefined,
     undefined,
     undefined
   );
 
 var Plugin = {
   install: function install(Vue) {
-    registerComponent(Vue, __vue_component__);
+    registerComponent(Vue, Collapse);
   }
 };
 use(Plugin);
 
 export default Plugin;
-export { __vue_component__ as BCollapse };
+export { Collapse as BCollapse };

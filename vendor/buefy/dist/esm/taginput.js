@@ -1,12 +1,12 @@
-import { _ as _defineProperty, b as _typeof } from './chunk-6ea13200.js';
+import { _ as _defineProperty, b as _typeof } from './chunk-1fafdf15.js';
 import { getValueByPath } from './helpers.js';
-import { c as config } from './chunk-17222463.js';
-import { F as FormElementMixin } from './chunk-1f14bcfd.js';
-import './chunk-bed9f769.js';
+import { c as config } from './chunk-6985c8ce.js';
+import { F as FormElementMixin } from './chunk-d0a313ea.js';
+import './chunk-cdfca85b.js';
 import { _ as __vue_normalize__, r as registerComponent, u as use } from './chunk-cca88db8.js';
-import './chunk-b58f8279.js';
-import { A as Autocomplete } from './chunk-58f122e5.js';
-import { T as Tag } from './chunk-84fece8c.js';
+import './chunk-d1591eb8.js';
+import { A as Autocomplete } from './chunk-7a024780.js';
+import { T as Tag } from './chunk-7292bea2.js';
 
 var _components;
 var script = {
@@ -91,7 +91,8 @@ var script = {
     checkInfiniteScroll: {
       type: Boolean,
       default: false
-    }
+    },
+    appendToBody: Boolean
   },
   data: function data() {
     return {
@@ -167,7 +168,7 @@ var script = {
      * When v-model is changed set internal value.
      */
     value: function value(_value) {
-      this.tags = _value;
+      this.tags = Array.isArray(_value) ? _value.slice(0) : _value || [];
     },
     hasInput: function hasInput() {
       if (!this.hasInput) this.onBlur();
@@ -187,6 +188,16 @@ var script = {
             }).filter(function (t) {
               return t.length !== 0;
             }).map(this.addTag);
+            return;
+          }
+        } // Remove the tag input previously added (if not allowDuplicates).
+
+
+        if (!this.allowDuplicates) {
+          var index = this.tags.indexOf(tagToAdd);
+
+          if (index >= 0) {
+            this.tags.splice(index, 1);
             return;
           }
         } // Add the tag input if it is not blank
@@ -211,10 +222,10 @@ var script = {
 
       return tag;
     },
-    customOnBlur: function customOnBlur($event) {
+    customOnBlur: function customOnBlur(event) {
       // Add tag on-blur if not select only
       if (!this.autocomplete) this.addTag();
-      this.onBlur($event);
+      this.onBlur(event);
     },
     onSelect: function onSelect(option) {
       var _this = this;
@@ -225,22 +236,21 @@ var script = {
         _this.newTag = '';
       });
     },
-    removeTag: function removeTag(index) {
+    removeTag: function removeTag(index, event) {
       var tag = this.tags.splice(index, 1)[0];
       this.$emit('input', this.tags);
       this.$emit('remove', tag);
+      if (event) event.stopPropagation();
+
+      if (this.openOnFocus && this.$refs.autocomplete) {
+        this.$refs.autocomplete.focus();
+      }
+
       return tag;
     },
     removeLastTag: function removeLastTag() {
-      var _this2 = this;
-
       if (this.tagsLength > 0) {
         this.removeTag(this.tagsLength - 1);
-        this.$nextTick(function () {
-          if (_this2.isFocused && _this2.openOnFocus) {
-            _this2.$refs.autocomplete.isActive = true;
-          }
-        });
       }
     },
     keydown: function keydown(event) {
@@ -256,8 +266,8 @@ var script = {
         this.addTag();
       }
     },
-    onTyping: function onTyping($event) {
-      this.$emit('typing', $event.trim());
+    onTyping: function onTyping(event) {
+      this.$emit('typing', event.trim());
     },
     emitInfiniteScroll: function emitInfiniteScroll() {
       this.$emit('infinite-scroll');
@@ -269,7 +279,7 @@ var script = {
 const __vue_script__ = script;
 
 /* template */
-var __vue_render__ = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"taginput control",class:_vm.rootClasses},[_c('div',{staticClass:"taginput-container",class:[_vm.statusType, _vm.size, _vm.containerClasses],attrs:{"disabled":_vm.disabled},on:{"click":function($event){_vm.hasInput && _vm.focus($event);}}},[_vm._l((_vm.tags),function(tag,index){return _c('b-tag',{key:_vm.getNormalizedTagText(tag) + index,attrs:{"type":_vm.type,"size":_vm.size,"rounded":_vm.rounded,"attached":_vm.attached,"tabstop":false,"disabled":_vm.disabled,"ellipsis":_vm.ellipsis,"closable":_vm.closable,"title":_vm.ellipsis && _vm.getNormalizedTagText(tag)},on:{"close":function($event){_vm.removeTag(index);}}},[_vm._t("tag",[_vm._v("\r\n                    "+_vm._s(_vm.getNormalizedTagText(tag))+"\r\n                ")],{tag:tag})],2)}),_vm._v(" "),(_vm.hasInput)?_c('b-autocomplete',_vm._b({ref:"autocomplete",attrs:{"data":_vm.data,"field":_vm.field,"icon":_vm.icon,"icon-pack":_vm.iconPack,"maxlength":_vm.maxlength,"has-counter":false,"size":_vm.size,"disabled":_vm.disabled,"loading":_vm.loading,"autocomplete":_vm.nativeAutocomplete,"open-on-focus":_vm.openOnFocus,"keep-open":_vm.openOnFocus,"keep-first":!_vm.allowNew,"use-html5-validation":_vm.useHtml5Validation,"check-infinite-scroll":_vm.checkInfiniteScroll},on:{"typing":_vm.onTyping,"focus":_vm.onFocus,"blur":_vm.customOnBlur,"select":_vm.onSelect,"infinite-scroll":_vm.emitInfiniteScroll},nativeOn:{"keydown":function($event){return _vm.keydown($event)}},scopedSlots:_vm._u([{key:_vm.defaultSlotName,fn:function(props){return [_vm._t("default",null,{option:props.option,index:props.index})]}}]),model:{value:(_vm.newTag),callback:function ($$v) {_vm.newTag=$$v;},expression:"newTag"}},'b-autocomplete',_vm.$attrs,false),[_c('template',{slot:_vm.headerSlotName},[_vm._t("header")],2),_vm._v(" "),_c('template',{slot:_vm.emptySlotName},[_vm._t("empty")],2),_vm._v(" "),_c('template',{slot:_vm.footerSlotName},[_vm._t("footer")],2)],2):_vm._e()],2),_vm._v(" "),(_vm.hasCounter && (_vm.maxtags || _vm.maxlength))?_c('small',{staticClass:"help counter"},[(_vm.maxlength && _vm.valueLength > 0)?[_vm._v("\r\n                "+_vm._s(_vm.valueLength)+" / "+_vm._s(_vm.maxlength)+"\r\n            ")]:(_vm.maxtags)?[_vm._v("\r\n                "+_vm._s(_vm.tagsLength)+" / "+_vm._s(_vm.maxtags)+"\r\n            ")]:_vm._e()],2):_vm._e()])};
+var __vue_render__ = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"taginput control",class:_vm.rootClasses},[_c('div',{staticClass:"taginput-container",class:[_vm.statusType, _vm.size, _vm.containerClasses],attrs:{"disabled":_vm.disabled},on:{"click":function($event){_vm.hasInput && _vm.focus($event);}}},[_vm._t("selected",_vm._l((_vm.tags),function(tag,index){return _c('b-tag',{key:_vm.getNormalizedTagText(tag) + index,attrs:{"type":_vm.type,"size":_vm.size,"rounded":_vm.rounded,"attached":_vm.attached,"tabstop":false,"disabled":_vm.disabled,"ellipsis":_vm.ellipsis,"closable":_vm.closable,"title":_vm.ellipsis && _vm.getNormalizedTagText(tag)},on:{"close":function($event){_vm.removeTag(index, $event);}}},[_vm._t("tag",[_vm._v("\r\n                        "+_vm._s(_vm.getNormalizedTagText(tag))+"\r\n                    ")],{tag:tag})],2)}),{tags:_vm.tags}),_vm._v(" "),(_vm.hasInput)?_c('b-autocomplete',_vm._b({ref:"autocomplete",attrs:{"data":_vm.data,"field":_vm.field,"icon":_vm.icon,"icon-pack":_vm.iconPack,"maxlength":_vm.maxlength,"has-counter":false,"size":_vm.size,"disabled":_vm.disabled,"loading":_vm.loading,"autocomplete":_vm.nativeAutocomplete,"open-on-focus":_vm.openOnFocus,"keep-open":_vm.openOnFocus,"keep-first":!_vm.allowNew,"use-html5-validation":_vm.useHtml5Validation,"check-infinite-scroll":_vm.checkInfiniteScroll,"append-to-body":_vm.appendToBody},on:{"typing":_vm.onTyping,"focus":_vm.onFocus,"blur":_vm.customOnBlur,"select":_vm.onSelect,"infinite-scroll":_vm.emitInfiniteScroll},nativeOn:{"keydown":function($event){return _vm.keydown($event)}},scopedSlots:_vm._u([{key:_vm.defaultSlotName,fn:function(props){return [_vm._t("default",null,{option:props.option,index:props.index})]}}]),model:{value:(_vm.newTag),callback:function ($$v) {_vm.newTag=$$v;},expression:"newTag"}},'b-autocomplete',_vm.$attrs,false),[_c('template',{slot:_vm.headerSlotName},[_vm._t("header")],2),_vm._v(" "),_c('template',{slot:_vm.emptySlotName},[_vm._t("empty")],2),_vm._v(" "),_c('template',{slot:_vm.footerSlotName},[_vm._t("footer")],2)],2):_vm._e()],2),_vm._v(" "),(_vm.hasCounter && (_vm.maxtags || _vm.maxlength))?_c('small',{staticClass:"help counter"},[(_vm.maxlength && _vm.valueLength > 0)?[_vm._v("\r\n                "+_vm._s(_vm.valueLength)+" / "+_vm._s(_vm.maxlength)+"\r\n            ")]:(_vm.maxtags)?[_vm._v("\r\n                "+_vm._s(_vm.tagsLength)+" / "+_vm._s(_vm.maxtags)+"\r\n            ")]:_vm._e()],2):_vm._e()])};
 var __vue_staticRenderFns__ = [];
 
   /* style */
@@ -284,29 +294,25 @@ var __vue_staticRenderFns__ = [];
   
   /* style inject SSR */
   
-  /* style inject shadow dom */
-  
 
   
-  const __vue_component__ = __vue_normalize__(
+  var Taginput = __vue_normalize__(
     { render: __vue_render__, staticRenderFns: __vue_staticRenderFns__ },
     __vue_inject_styles__,
     __vue_script__,
     __vue_scope_id__,
     __vue_is_functional_template__,
     __vue_module_identifier__,
-    false,
-    undefined,
     undefined,
     undefined
   );
 
 var Plugin = {
   install: function install(Vue) {
-    registerComponent(Vue, __vue_component__);
+    registerComponent(Vue, Taginput);
   }
 };
 use(Plugin);
 
 export default Plugin;
-export { __vue_component__ as BTaginput };
+export { Taginput as BTaginput };

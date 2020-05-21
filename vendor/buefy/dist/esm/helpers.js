@@ -1,4 +1,4 @@
-import { _ as _defineProperty, a as _objectSpread2, b as _typeof } from './chunk-6ea13200.js';
+import { _ as _defineProperty, a as _objectSpread2, b as _typeof } from './chunk-1fafdf15.js';
 
 /**
  * +/- function to native math sign
@@ -95,6 +95,17 @@ function removeElement(el) {
     el.parentNode.removeChild(el);
   }
 }
+function createAbsoluteElement(el) {
+  var root = document.createElement('div');
+  root.style.position = 'absolute';
+  root.style.left = '0px';
+  root.style.top = '0px';
+  var wrapper = document.createElement('div');
+  root.appendChild(wrapper);
+  wrapper.appendChild(el);
+  document.body.appendChild(root);
+  return root;
+}
 /**
  * Escape regex characters
  * http://stackoverflow.com/a/6969486
@@ -128,5 +139,17 @@ function multiColumnSort(inputArray, sortingPriority) {
 
   return array.sort(fieldSorter(sortingPriority));
 }
+function createNewEvent(eventName) {
+  var event;
 
-export { escapeRegExpChars, getValueByPath, indexOf, isMobile, merge, multiColumnSort, removeElement, sign };
+  if (typeof Event === 'function') {
+    event = new Event(eventName);
+  } else {
+    event = document.createEvent('Event');
+    event.initEvent(eventName, true, true);
+  }
+
+  return event;
+}
+
+export { createAbsoluteElement, createNewEvent, escapeRegExpChars, getValueByPath, indexOf, isMobile, merge, multiColumnSort, removeElement, sign };

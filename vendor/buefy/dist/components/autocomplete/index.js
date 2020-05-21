@@ -1,4 +1,4 @@
-/*! Buefy v0.8.12 | MIT License | github.com/buefy/buefy */
+/*! Buefy v0.8.19 | MIT License | github.com/buefy/buefy */
 (function (global, factory) {
   typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports) :
   typeof define === 'function' && define.amd ? define(['exports'], factory) :
@@ -70,6 +70,22 @@
     return target;
   }
 
+  function _toArray(arr) {
+    return _arrayWithHoles(arr) || _iterableToArray(arr) || _nonIterableRest();
+  }
+
+  function _arrayWithHoles(arr) {
+    if (Array.isArray(arr)) return arr;
+  }
+
+  function _iterableToArray(iter) {
+    if (Symbol.iterator in Object(iter) || Object.prototype.toString.call(iter) === "[object Arguments]") return Array.from(iter);
+  }
+
+  function _nonIterableRest() {
+    throw new TypeError("Invalid attempt to destructure non-iterable instance");
+  }
+
   /**
    * Get value of an object property/path even if it's nested
    */
@@ -108,6 +124,24 @@
   };
 
   var merge = mergeFn;
+  function removeElement(el) {
+    if (typeof el.remove !== 'undefined') {
+      el.remove();
+    } else if (typeof el.parentNode !== 'undefined' && el.parentNode !== null) {
+      el.parentNode.removeChild(el);
+    }
+  }
+  function createAbsoluteElement(el) {
+    var root = document.createElement('div');
+    root.style.position = 'absolute';
+    root.style.left = '0px';
+    root.style.top = '0px';
+    var wrapper = document.createElement('div');
+    root.appendChild(wrapper);
+    wrapper.appendChild(el);
+    document.body.appendChild(root);
+    return root;
+  }
 
   var config = {
     defaultContainerElement: null,
@@ -155,6 +189,7 @@
     defaultTrapFocus: false,
     defaultButtonRounded: false,
     defaultCarouselInterval: 3500,
+    defaultTabsAnimated: true,
     defaultLinkTags: ['a', 'button', 'input', 'router-link', 'nuxt-link', 'n-link', 'RouterLink', 'NuxtLink', 'NLink'],
     customIconPacks: null
   }; // TODO defaultTrapFocus to true in the next breaking change
@@ -224,7 +259,7 @@
        */
       statusMessage: function statusMessage() {
         if (!this.parentField) return;
-        return this.parentField.newMessage;
+        return this.parentField.newMessage || this.parentField.$slots.message;
       },
 
       /**
@@ -300,6 +335,7 @@
       checkHtml5Validity: function checkHtml5Validity() {
         if (!this.useHtml5Validation) return;
         if (this.$refs[this.$data._elementRef] === undefined) return;
+        if (this.getElement() === null) return;
 
         if (!this.getElement().checkValidity()) {
           this.setInvalid();
@@ -367,7 +403,6 @@
     return icons;
   };
 
-  //
   var script = {
     name: 'BIcon',
     props: {
@@ -421,7 +456,12 @@
         }
 
         if (splitType.length <= 1) return;
-        return "has-text-".concat(splitType[1]);
+
+        var _splitType = splitType,
+            _splitType2 = _toArray(_splitType),
+            type = _splitType2.slice(1);
+
+        return "has-text-".concat(type.join('-'));
       },
       newCustomSize: function newCustomSize() {
         return this.customSize || this.customSizeByPack;
@@ -564,26 +604,22 @@
     
     /* style inject SSR */
     
-    /* style inject shadow dom */
-    
 
     
-    const __vue_component__ = normalizeComponent_1(
+    var Icon = normalizeComponent_1(
       { render: __vue_render__, staticRenderFns: __vue_staticRenderFns__ },
       __vue_inject_styles__,
       __vue_script__,
       __vue_scope_id__,
       __vue_is_functional_template__,
       __vue_module_identifier__,
-      false,
-      undefined,
       undefined,
       undefined
     );
 
   var script$1 = {
     name: 'BInput',
-    components: _defineProperty({}, __vue_component__.name, __vue_component__),
+    components: _defineProperty({}, Icon.name, Icon),
     mixins: [FormElementMixin],
     inheritAttrs: false,
     props: {
@@ -645,20 +681,20 @@
       rightIcon: function rightIcon() {
         if (this.passwordReveal) {
           return this.passwordVisibleIcon;
-        } else if (this.statusTypeIcon) {
-          return this.statusTypeIcon;
+        } else if (this.iconRight) {
+          return this.iconRight;
         }
 
-        return this.iconRight;
+        return this.statusTypeIcon;
       },
       rightIconType: function rightIconType() {
         if (this.passwordReveal) {
           return 'is-primary';
-        } else if (this.statusTypeIcon) {
-          return this.statusType;
+        } else if (this.iconRight) {
+          return null;
         }
 
-        return null;
+        return this.statusType;
       },
 
       /**
@@ -740,7 +776,7 @@
         this.isPasswordVisible = !this.isPasswordVisible;
         this.newType = this.isPasswordVisible ? 'text' : 'password';
         this.$nextTick(function () {
-          _this.$refs.input.focus();
+          _this.$refs[_this.$data._elementRef].focus();
         });
       },
 
@@ -762,7 +798,7 @@
 
         this.$emit(emit, event);
         this.$nextTick(function () {
-          _this3.$refs.input.focus();
+          _this3.$refs[_this3.$data._elementRef].focus();
         });
       },
       rightIconClick: function rightIconClick(event) {
@@ -794,26 +830,22 @@
     
     /* style inject SSR */
     
-    /* style inject shadow dom */
-    
 
     
-    const __vue_component__$1 = normalizeComponent_1(
+    var Input = normalizeComponent_1(
       { render: __vue_render__$1, staticRenderFns: __vue_staticRenderFns__$1 },
       __vue_inject_styles__$1,
       __vue_script__$1,
       __vue_scope_id__$1,
       __vue_is_functional_template__$1,
       __vue_module_identifier__$1,
-      false,
-      undefined,
       undefined,
       undefined
     );
 
   var script$2 = {
     name: 'BAutocomplete',
-    components: _defineProperty({}, __vue_component__$1.name, __vue_component__$1),
+    components: _defineProperty({}, Input.name, Input),
     mixins: [FormElementMixin],
     inheritAttrs: false,
     props: {
@@ -834,7 +866,15 @@
       customFormatter: Function,
       checkInfiniteScroll: Boolean,
       keepOpen: Boolean,
-      clearable: Boolean
+      clearable: Boolean,
+      maxHeight: [String, Number],
+      dropdownPosition: {
+        type: String,
+        default: 'auto'
+      },
+      iconRight: String,
+      iconRightClickable: Boolean,
+      appendToBody: Boolean
     },
     data: function data() {
       return {
@@ -845,8 +885,11 @@
         newAutocomplete: this.autocomplete || 'off',
         isListInViewportVertically: true,
         hasFocus: false,
+        style: {},
         _isAutocomplete: true,
-        _elementRef: 'input'
+        _elementRef: 'input',
+        _bodyEl: undefined // Used to append to body
+
       };
     },
     computed: {
@@ -946,12 +989,31 @@
       hasFooterSlot: function hasFooterSlot() {
         return !!this.$slots.footer;
       },
-      clearButton: function clearButton() {
+
+      /**
+       * Apply dropdownPosition property
+       */
+      isOpenedTop: function isOpenedTop() {
+        return this.dropdownPosition === 'top' || this.dropdownPosition === 'auto' && !this.isListInViewportVertically;
+      },
+      newIconRight: function newIconRight() {
         if (this.clearable && this.newValue) {
           return 'close-circle';
         }
 
-        return '';
+        return this.iconRight;
+      },
+      newIconRightClickable: function newIconRightClickable() {
+        if (this.clearable) {
+          return true;
+        }
+
+        return this.iconRightClickable;
+      },
+      contentStyle: function contentStyle() {
+        return {
+          maxHeight: this.maxHeight === undefined ? null : isNaN(this.maxHeight) ? this.maxHeight : this.maxHeight + 'px'
+        };
       }
     },
     watch: {
@@ -962,17 +1024,20 @@
       isActive: function isActive(active) {
         var _this = this;
 
-        if (active) {
-          this.calcDropdownInViewportVertical();
-        } else {
-          this.$nextTick(function () {
-            return _this.setHovered(null);
-          }); // Timeout to wait for the animation to finish before recalculating
-
-          setTimeout(function () {
-            _this.calcDropdownInViewportVertical();
-          }, 100);
+        if (this.dropdownPosition === 'auto') {
+          if (active) {
+            this.calcDropdownInViewportVertical();
+          } else {
+            // Timeout to wait for the animation to finish before recalculating
+            setTimeout(function () {
+              _this.calcDropdownInViewportVertical();
+            }, 100);
+          }
         }
+
+        if (active) this.$nextTick(function () {
+          return _this.setHovered(null);
+        });
       },
 
       /**
@@ -1003,7 +1068,6 @@
        */
       value: function value(_value) {
         this.newValue = _value;
-        !this.isValid && this.$refs.input.checkHtml5Validity();
       },
 
       /**
@@ -1033,17 +1097,20 @@
         var _this2 = this;
 
         var closeDropdown = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : true;
+        var event = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : undefined;
         if (option === undefined) return;
         this.selected = option;
-        this.$emit('select', this.selected);
+        this.$emit('select', this.selected, event);
 
         if (this.selected !== null) {
           this.newValue = this.clearOnSelect ? '' : this.getValue(this.selected);
+          this.setHovered(null);
         }
 
         closeDropdown && this.$nextTick(function () {
           _this2.isActive = false;
         });
+        this.checkValidity();
       },
 
       /**
@@ -1068,9 +1135,9 @@
        * Enter key listener.
        * Select the hovered option.
        */
-      enterPressed: function enterPressed() {
+      enterPressed: function enterPressed(event) {
         if (this.hovered === null) return;
-        this.setSelected(this.hovered, !this.keepOpen);
+        this.setSelected(this.hovered, !this.keepOpen, event);
       },
 
       /**
@@ -1078,13 +1145,13 @@
        * Select hovered option if it exists, close dropdown, then allow
        * native handling to move to next tabbable element.
        */
-      tabPressed: function tabPressed() {
+      tabPressed: function tabPressed(event) {
         if (this.hovered === null) {
           this.isActive = false;
           return;
         }
 
-        this.setSelected(this.hovered, !this.keepOpen);
+        this.setSelected(this.hovered, !this.keepOpen, event);
       },
 
       /**
@@ -1135,6 +1202,10 @@
           var rect = _this4.$refs.dropdown.getBoundingClientRect();
 
           _this4.isListInViewportVertically = rect.top >= 0 && rect.bottom <= (window.innerHeight || document.documentElement.clientHeight);
+
+          if (_this4.appendToBody) {
+            _this4.updateAppendToBody();
+          }
         });
       },
 
@@ -1198,36 +1269,96 @@
         var currentValue = this.getValue(this.selected);
         if (currentValue && currentValue === this.newValue) return;
         this.$emit('typing', this.newValue);
+        this.checkValidity();
       },
-      clearInputText: function clearInputText() {
-        this.newValue = '';
+      rightIconClick: function rightIconClick(event) {
+        if (this.clearable) {
+          this.newValue = '';
+        } else {
+          this.$emit('icon-right-click', event);
+        }
+      },
+      checkValidity: function checkValidity() {
+        var _this5 = this;
+
+        if (this.useHtml5Validation) {
+          this.$nextTick(function () {
+            _this5.checkHtml5Validity();
+          });
+        }
+      },
+      updateAppendToBody: function updateAppendToBody() {
+        var dropdownMenu = this.$refs.dropdown;
+        var trigger = this.$refs.input.$el;
+
+        if (dropdownMenu && trigger) {
+          // update wrapper dropdown
+          var root = this.$data._bodyEl;
+          root.classList.forEach(function (item) {
+            return root.classList.remove(item);
+          });
+          root.classList.add('autocomplete');
+          root.classList.add('control');
+
+          if (this.expandend) {
+            root.classList.add('is-expandend');
+          }
+
+          var rect = trigger.getBoundingClientRect();
+          var top = rect.top + window.scrollY;
+          var left = rect.left + window.scrollX;
+
+          if (!this.isOpenedTop) {
+            top += trigger.clientHeight;
+          } else {
+            top -= dropdownMenu.clientHeight;
+          }
+
+          this.style = {
+            position: 'absolute',
+            top: "".concat(top, "px"),
+            left: "".concat(left, "px"),
+            width: "".concat(trigger.clientWidth, "px"),
+            maxWidth: "".concat(trigger.clientWidth, "px"),
+            zIndex: '99'
+          };
+        }
       }
     },
     created: function created() {
       if (typeof window !== 'undefined') {
         document.addEventListener('click', this.clickedOutside);
-        window.addEventListener('resize', this.calcDropdownInViewportVertical);
+        if (this.dropdownPosition === 'auto') window.addEventListener('resize', this.calcDropdownInViewportVertical);
       }
     },
     mounted: function mounted() {
-      var _this5 = this;
+      var _this6 = this;
 
       if (this.checkInfiniteScroll && this.$refs.dropdown && this.$refs.dropdown.querySelector('.dropdown-content')) {
         var list = this.$refs.dropdown.querySelector('.dropdown-content');
         list.addEventListener('scroll', function () {
-          return _this5.checkIfReachedTheEndOfScroll(list);
+          return _this6.checkIfReachedTheEndOfScroll(list);
         });
+      }
+
+      if (this.appendToBody) {
+        this.$data._bodyEl = createAbsoluteElement(this.$refs.dropdown);
+        this.updateAppendToBody();
       }
     },
     beforeDestroy: function beforeDestroy() {
       if (typeof window !== 'undefined') {
         document.removeEventListener('click', this.clickedOutside);
-        window.removeEventListener('resize', this.calcDropdownInViewportVertical);
+        if (this.dropdownPosition === 'auto') window.removeEventListener('resize', this.calcDropdownInViewportVertical);
       }
 
       if (this.checkInfiniteScroll && this.$refs.dropdown && this.$refs.dropdown.querySelector('.dropdown-content')) {
         var list = this.$refs.dropdown.querySelector('.dropdown-content');
         list.removeEventListener('scroll', this.checkIfReachedTheEndOfScroll);
+      }
+
+      if (this.appendToBody) {
+        removeElement(this.$data._bodyEl);
       }
     }
   };
@@ -1236,7 +1367,7 @@
   const __vue_script__$2 = script$2;
 
   /* template */
-  var __vue_render__$2 = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"autocomplete control",class:{'is-expanded': _vm.expanded}},[_c('b-input',_vm._b({ref:"input",attrs:{"type":"text","size":_vm.size,"loading":_vm.loading,"rounded":_vm.rounded,"icon":_vm.icon,"icon-right":_vm.clearButton,"icon-right-clickable":"","icon-pack":_vm.iconPack,"maxlength":_vm.maxlength,"autocomplete":_vm.newAutocomplete,"use-html5-validation":_vm.useHtml5Validation},on:{"input":_vm.onInput,"focus":_vm.focused,"blur":_vm.onBlur,"icon-right-click":_vm.clearInputText},nativeOn:{"keyup":function($event){if(!('button' in $event)&&_vm._k($event.keyCode,"esc",27,$event.key,["Esc","Escape"])){ return null; }$event.preventDefault();_vm.isActive = false;},"keydown":[function($event){if(!('button' in $event)&&_vm._k($event.keyCode,"tab",9,$event.key,"Tab")){ return null; }return _vm.tabPressed($event)},function($event){if(!('button' in $event)&&_vm._k($event.keyCode,"enter",13,$event.key,"Enter")){ return null; }$event.preventDefault();return _vm.enterPressed($event)},function($event){if(!('button' in $event)&&_vm._k($event.keyCode,"up",38,$event.key,["Up","ArrowUp"])){ return null; }$event.preventDefault();_vm.keyArrows('up');},function($event){if(!('button' in $event)&&_vm._k($event.keyCode,"down",40,$event.key,["Down","ArrowDown"])){ return null; }$event.preventDefault();_vm.keyArrows('down');}]},model:{value:(_vm.newValue),callback:function ($$v) {_vm.newValue=$$v;},expression:"newValue"}},'b-input',_vm.$attrs,false)),_vm._v(" "),_c('transition',{attrs:{"name":"fade"}},[_c('div',{directives:[{name:"show",rawName:"v-show",value:(_vm.isActive && (_vm.data.length > 0 || _vm.hasEmptySlot || _vm.hasHeaderSlot)),expression:"isActive && (data.length > 0 || hasEmptySlot || hasHeaderSlot)"}],ref:"dropdown",staticClass:"dropdown-menu",class:{ 'is-opened-top': !_vm.isListInViewportVertically }},[_c('div',{directives:[{name:"show",rawName:"v-show",value:(_vm.isActive),expression:"isActive"}],staticClass:"dropdown-content"},[(_vm.hasHeaderSlot)?_c('div',{staticClass:"dropdown-item"},[_vm._t("header")],2):_vm._e(),_vm._v(" "),_vm._l((_vm.data),function(option,index){return _c('a',{key:index,staticClass:"dropdown-item",class:{ 'is-hovered': option === _vm.hovered },on:{"click":function($event){_vm.setSelected(option);}}},[(_vm.hasDefaultSlot)?_vm._t("default",null,{option:option,index:index}):_c('span',[_vm._v("\r\n                            "+_vm._s(_vm.getValue(option, true))+"\r\n                        ")])],2)}),_vm._v(" "),(_vm.data.length === 0 && _vm.hasEmptySlot)?_c('div',{staticClass:"dropdown-item is-disabled"},[_vm._t("empty")],2):_vm._e(),_vm._v(" "),(_vm.hasFooterSlot)?_c('div',{staticClass:"dropdown-item"},[_vm._t("footer")],2):_vm._e()],2)])])],1)};
+  var __vue_render__$2 = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"autocomplete control",class:{'is-expanded': _vm.expanded}},[_c('b-input',_vm._b({ref:"input",attrs:{"type":"text","size":_vm.size,"loading":_vm.loading,"rounded":_vm.rounded,"icon":_vm.icon,"icon-right":_vm.newIconRight,"icon-right-clickable":_vm.newIconRightClickable,"icon-pack":_vm.iconPack,"maxlength":_vm.maxlength,"autocomplete":_vm.newAutocomplete,"use-html5-validation":false},on:{"input":_vm.onInput,"focus":_vm.focused,"blur":_vm.onBlur,"icon-right-click":_vm.rightIconClick,"icon-click":function (event) { return _vm.$emit('icon-click', event); }},nativeOn:{"keyup":function($event){if(!('button' in $event)&&_vm._k($event.keyCode,"esc",27,$event.key,["Esc","Escape"])){ return null; }$event.preventDefault();_vm.isActive = false;},"keydown":[function($event){if(!('button' in $event)&&_vm._k($event.keyCode,"tab",9,$event.key,"Tab")){ return null; }return _vm.tabPressed($event)},function($event){if(!('button' in $event)&&_vm._k($event.keyCode,"enter",13,$event.key,"Enter")){ return null; }$event.preventDefault();return _vm.enterPressed($event)},function($event){if(!('button' in $event)&&_vm._k($event.keyCode,"up",38,$event.key,["Up","ArrowUp"])){ return null; }$event.preventDefault();_vm.keyArrows('up');},function($event){if(!('button' in $event)&&_vm._k($event.keyCode,"down",40,$event.key,["Down","ArrowDown"])){ return null; }$event.preventDefault();_vm.keyArrows('down');}]},model:{value:(_vm.newValue),callback:function ($$v) {_vm.newValue=$$v;},expression:"newValue"}},'b-input',_vm.$attrs,false)),_vm._v(" "),_c('transition',{attrs:{"name":"fade"}},[_c('div',{directives:[{name:"show",rawName:"v-show",value:(_vm.isActive && (_vm.data.length > 0 || _vm.hasEmptySlot || _vm.hasHeaderSlot)),expression:"isActive && (data.length > 0 || hasEmptySlot || hasHeaderSlot)"}],ref:"dropdown",staticClass:"dropdown-menu",class:{ 'is-opened-top': _vm.isOpenedTop && !_vm.appendToBody },style:(_vm.style)},[_c('div',{directives:[{name:"show",rawName:"v-show",value:(_vm.isActive),expression:"isActive"}],staticClass:"dropdown-content",style:(_vm.contentStyle)},[(_vm.hasHeaderSlot)?_c('div',{staticClass:"dropdown-item"},[_vm._t("header")],2):_vm._e(),_vm._v(" "),_vm._l((_vm.data),function(option,index){return _c('a',{key:index,staticClass:"dropdown-item",class:{ 'is-hovered': option === _vm.hovered },on:{"click":function($event){_vm.setSelected(option, undefined, $event);}}},[(_vm.hasDefaultSlot)?_vm._t("default",null,{option:option,index:index}):_c('span',[_vm._v("\r\n                            "+_vm._s(_vm.getValue(option, true))+"\r\n                        ")])],2)}),_vm._v(" "),(_vm.data.length === 0 && _vm.hasEmptySlot)?_c('div',{staticClass:"dropdown-item is-disabled"},[_vm._t("empty")],2):_vm._e(),_vm._v(" "),(_vm.hasFooterSlot)?_c('div',{staticClass:"dropdown-item"},[_vm._t("footer")],2):_vm._e()],2)])])],1)};
   var __vue_staticRenderFns__$2 = [];
 
     /* style */
@@ -1251,19 +1382,15 @@
     
     /* style inject SSR */
     
-    /* style inject shadow dom */
-    
 
     
-    const __vue_component__$2 = normalizeComponent_1(
+    var Autocomplete = normalizeComponent_1(
       { render: __vue_render__$2, staticRenderFns: __vue_staticRenderFns__$2 },
       __vue_inject_styles__$2,
       __vue_script__$2,
       __vue_scope_id__$2,
       __vue_is_functional_template__$2,
       __vue_module_identifier__$2,
-      false,
-      undefined,
       undefined,
       undefined
     );
@@ -1279,12 +1406,12 @@
 
   var Plugin = {
     install: function install(Vue) {
-      registerComponent(Vue, __vue_component__$2);
+      registerComponent(Vue, Autocomplete);
     }
   };
   use(Plugin);
 
-  exports.BAutocomplete = __vue_component__$2;
+  exports.BAutocomplete = Autocomplete;
   exports.default = Plugin;
 
   Object.defineProperty(exports, '__esModule', { value: true });

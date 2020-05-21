@@ -1,4 +1,4 @@
-/*! Buefy v0.8.12 | MIT License | github.com/buefy/buefy */
+/*! Buefy v0.8.19 | MIT License | github.com/buefy/buefy */
 (function (global, factory) {
   typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports) :
   typeof define === 'function' && define.amd ? define(['exports'], factory) :
@@ -318,19 +318,15 @@
     
     /* style inject SSR */
     
-    /* style inject shadow dom */
-    
 
     
-    const __vue_component__ = normalizeComponent_1(
+    var Loading = normalizeComponent_1(
       { render: __vue_render__, staticRenderFns: __vue_staticRenderFns__ },
       __vue_inject_styles__,
       __vue_script__,
       __vue_scope_id__,
       __vue_is_functional_template__,
       __vue_module_identifier__,
-      false,
-      undefined,
       undefined,
       undefined
     );
@@ -358,7 +354,7 @@
       };
       var propsData = merge(defaultParam, params);
       var vm = typeof window !== 'undefined' && window.Vue ? window.Vue : localVueInstance || VueInstance;
-      var LoadingComponent = vm.extend(__vue_component__);
+      var LoadingComponent = vm.extend(Loading);
       return new LoadingComponent({
         el: document.createElement('div'),
         propsData: propsData
@@ -368,13 +364,13 @@
   var Plugin = {
     install: function install(Vue) {
       localVueInstance = Vue;
-      registerComponent(Vue, __vue_component__);
+      registerComponent(Vue, Loading);
       registerComponentProgrammatic(Vue, 'loading', LoadingProgrammatic);
     }
   };
   use(Plugin);
 
-  exports.BLoading = __vue_component__;
+  exports.BLoading = Loading;
   exports.LoadingProgrammatic = LoadingProgrammatic;
   exports.default = Plugin;
 

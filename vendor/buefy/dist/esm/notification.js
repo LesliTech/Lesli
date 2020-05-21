@@ -1,10 +1,10 @@
-import './chunk-6ea13200.js';
+import './chunk-1fafdf15.js';
 import { merge } from './helpers.js';
-import { c as config, V as VueInstance } from './chunk-17222463.js';
-import './chunk-bed9f769.js';
+import { c as config, V as VueInstance } from './chunk-6985c8ce.js';
+import './chunk-cdfca85b.js';
 import { _ as __vue_normalize__, r as registerComponent, a as registerComponentProgrammatic, u as use } from './chunk-cca88db8.js';
-import { M as MessageMixin } from './chunk-9f44d9a6.js';
-import { N as NoticeMixin } from './chunk-cd1ad4f3.js';
+import { M as MessageMixin } from './chunk-0e26d208.js';
+import { N as NoticeMixin } from './chunk-53640c15.js';
 
 //
 var script = {
@@ -39,19 +39,15 @@ var __vue_staticRenderFns__ = [];
   
   /* style inject SSR */
   
-  /* style inject shadow dom */
-  
 
   
-  const __vue_component__ = __vue_normalize__(
+  var Notification = __vue_normalize__(
     { render: __vue_render__, staticRenderFns: __vue_staticRenderFns__ },
     __vue_inject_styles__,
     __vue_script__,
     __vue_scope_id__,
     __vue_is_functional_template__,
     __vue_module_identifier__,
-    false,
-    undefined,
     undefined,
     undefined
   );
@@ -92,19 +88,15 @@ var __vue_staticRenderFns__$1 = [];
   
   /* style inject SSR */
   
-  /* style inject shadow dom */
-  
 
   
-  const __vue_component__$1 = __vue_normalize__(
+  var NotificationNotice = __vue_normalize__(
     { render: __vue_render__$1, staticRenderFns: __vue_staticRenderFns__$1 },
     __vue_inject_styles__$1,
     __vue_script__$1,
     __vue_scope_id__$1,
     __vue_is_functional_template__$1,
     __vue_module_identifier__$1,
-    false,
-    undefined,
     undefined,
     undefined
   );
@@ -131,7 +123,7 @@ var NotificationProgrammatic = {
 
     var propsData = merge(defaultParam, params);
     var vm = typeof window !== 'undefined' && window.Vue ? window.Vue : localVueInstance || VueInstance;
-    var NotificationNoticeComponent = vm.extend(__vue_component__$1);
+    var NotificationNoticeComponent = vm.extend(NotificationNotice);
     return new NotificationNoticeComponent({
       parent: parent,
       el: document.createElement('div'),
@@ -142,11 +134,11 @@ var NotificationProgrammatic = {
 var Plugin = {
   install: function install(Vue) {
     localVueInstance = Vue;
-    registerComponent(Vue, __vue_component__);
+    registerComponent(Vue, Notification);
     registerComponentProgrammatic(Vue, 'notification', NotificationProgrammatic);
   }
 };
 use(Plugin);
 
 export default Plugin;
-export { __vue_component__ as BNotification, NotificationProgrammatic };
+export { Notification as BNotification, NotificationProgrammatic };

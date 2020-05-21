@@ -11,7 +11,7 @@
             <div
                 class="carousel-slide"
                 :class="{'is-active': activeItem === index}"
-                @click.prevent="checkAsIndicator(index, $event)"
+                @click="checkAsIndicator(index, $event)"
                 v-for="(list, index) in data"
                 :key="index"
                 :style="itemStyle">
@@ -104,11 +104,15 @@ export default {
         iconSize: String,
         iconPrev: {
             type: String,
-            default: config.defaultIconPrev
+            default: () => {
+                return config.defaultIconPrev
+            }
         },
         iconNext: {
             type: String,
-            default: config.defaultIconNext
+            default: () => {
+                return config.defaultIconNext
+            }
         },
         refresh: Boolean
     },
@@ -120,7 +124,6 @@ export default {
             dragging: false,
             hold: 0,
             itemWidth: 0,
-            total: 0,
             settings: {}
         }
     },
@@ -141,6 +144,9 @@ export default {
             const translate = this.delta + 1 * (this.activeItem * this.itemWidth)
             const result = this.dragging ? -translate : -Math.abs(translate)
             return `transform: translateX(${result}px);`
+        },
+        total() {
+            return this.data.length - 1
         }
     },
     watch: {
@@ -158,6 +164,13 @@ export default {
             if (status && this.asIndicator) {
                 this.getWidth()
             }
+        },
+        '$props': {
+            handler(value) {
+                this.initConfig()
+                this.update()
+            },
+            deep: true
         }
     },
     methods: {
@@ -247,13 +260,14 @@ export default {
         }
     },
     mounted() {
-        this.total = this.data.length - 1
         this.$nextTick(() => {
             this.update()
         })
     },
     beforeDestroy() {
-        window.removeEventListener('resize', this.update)
+        if (typeof window !== 'undefined') {
+            window.removeEventListener('resize', this.update)
+        }
     }
 }
 </script>

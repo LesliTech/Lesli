@@ -1,10 +1,143 @@
 # Buefy Changelog
 
+## 0.8.19
+
+### New features
+* Add ``value`` prop to tabs-item and steps-item
+* Add ``size`` prop to skeleton
+* Add ``passive-type`` prop for switch (thanks @kaangokdemir)
+* #2507 ``icon-right`` get higher priority than status icon on input
+* #2513 add cursor pointer to pickers when not editable
+
+### Fixes
+
+* Fix #2499 remove prevent click on carousel slide
+* Fix #2501 set ``type`` when ``vertical`` on steps (thanks @service-paradis)
+* Fix #2503 searchable table column slot
+* Fix #2504 display on skeletons (thanks @EmmanuelVlad)
+* Fix #2509 keep table search filtering when data are updated (thanks @VictorCazanave)
+* Fix #2514 radio-button and checkbox-button style
+
+## 0.8.18
+
+### New features
+
+* Add ``message`` slot to field
+* Add ``scrollable`` and ``max-height`` to dropdown (thanks @franciscoh017)
+* Add ``rounded`` prop to skeleton
+* Add ``mobile-mode`` prop and ``$steps-mobile-max-width`` SCSS variable to step
+* Add ``expand-on-hover-fixed`` prop to sidebar
+* Add ``expanded`` prop to upload (thanks @kaangokdemir)
+* Add ``close-type`` prop to tag (thanks @kaangokdemir)
+* Add ``defaultTabsAnimated`` constructor options
+* #2474 Add ``icon-click`` event to autcomplete
+* #2487 Add native event as second parameter of ``select`` event on autocomplete
+
+### Fixes
+
+* Fix security (XSS) on message field
+* Fix taginput shallow copy in watcher (thanks @lunfel)
+* Fix #2456 double message when field horizontal and multiple fields
+* Fix #2459 checkbox, radio, switch group on mobile
+* Fix #2469 keep sort during search
+* Fix #2485 datepicker and timepicker default shadow when not editable
+* Fix #2489 dropdown item padding on mobile when ``has-link``
+* Fix #2493 clean hovered on select option (autocomplete and taginput)
+
+## 0.8.17
+
+### New features
+
+* Add types to ConfigProgrammatic
+
+### Fixes
+
+* Fix #2438 create modal content only when is active
+
+## 0.8.16
+
+### New features
+
+* **New component: Skeleton**, [see docs](https://buefy.org/documentation/skeleton)
+* Add ``destroy-on-hide`` prop to modal
+* Add ``searchable`` slot to table (thanks @service-paradis)
+* Add ``icon-right`` prop to autocomplete
+* Add ``vertical`` and ``rounded`` props to steps (thanks @service-paradis)
+* Add ``step`` prop to step item (thanks @service-paradis)
+* Add ``card-layout`` prop to table
+* Add ``is-row-selectable`` prop to table
+
+### Fixes
+
+* Fix icon type to account for colors that are hyphenated (thanks @BrauBeast)
+* Fix width of options menu when autocomplete on taginput
+* Fix #2156 focus on tag remove
+* Fix #2211 check only one tab selected at once (thanks @service-paradis)
+* Fix #2328, #2358 slider resize (thanks @service-paradis)
+* Fix #2364 close sidebar when is not overlay
+* Fix #2371 clean hovered after select
+* Fix #2381 label-position when position is right
+* Fix #2425 reactive data on carousel list
+
+## 0.8.15
+
+### Fixes
+
+* Fix check whitelist on fixed sidebar
+* Fix static sidebar on esc key
+
+## 0.8.14
+
+### New features
+
+* **New component: Sidebar**, [see docs](https://buefy.org/documentation/sidebar)
+* Add ``append-to-body`` prop to dropdown, autocomplete, datepicker, timepicker and datetimepicker
+* Add ``dropdown-position`` prop to dropdown
+* Add ``collapsible`` prop to navbar dropdown
+
+### Fixes
+
+* Fix switch elastic animation for non-rounded (thanks @service-paradis)
+* Fix #1666 native validation on datepicker
+* Fix #2317 default icon prev and next (thanks @service-paradis)
+* Fix #2325 native validation on autocomplete
+* Fix #2336 animation on tabs when vertical (top - bottom)
+
+## 0.8.13
+
+### New features
+
+* Add ``selected`` slot to taginput
+* Add ``scrollable`` prop to table
+* Add ``sticky`` prop to table column
+* Add ``cell-class`` and ``header-class`` prop to table column
+* Add ``height`` prop to table
+* Add ``filters-event`` prop to table
+* Add slide animation to menu item and in the core code
+* Improve accessibility to datepicker (thanks @service-paradis)
+* #2269 Add ``bigger-slider-focus`` prop to slider (thanks @melogustavo)
+* #2290 Add ``activable`` prop to menu
+* #2308 Add ``max-height`` prop to autocomplete
+
+### Fixes
+
+* Fix datepicker clearing selected array in the first selection when ``multiple``
+* Fix #2195 switch transition on Safari (thanks @bender-a)
+* Fix #2205 datepicker table rendering on Safari (thanks @bender-a)
+* Fix #2236 table performance on destroy
+* Fix #2257 button with ``icon`` and without default slot
+* Fix #2262 numberinput custom icons
+* Fix #2270 taginput when remove a tag on mobile
+* Fix #2272 check input ref before to focus (thanks @bender-a)
+* Fix #2273 end animation on dropdown
+* Fix #2292 sticky header using subheading
+* Fix #2293 focus on icon click when type "textarea"
+
 ## 0.8.12
 
 ### New features
 
-* Add ``sticky-header`` prop to table 
+* Add ``sticky-header`` prop to table
 
 ### Fixes
 
@@ -16,8 +149,8 @@
 ### New features
 
 * Add multi column sorting to table (thanks @suneab)
-* Add ``clearable`` prop to autocomplete (thanks @melogustavo) 
-* Add ``icon-right`` prop to input (thanks @melogustavo) 
+* Add ``clearable`` prop to autocomplete (thanks @melogustavo)
+* Add ``icon-right`` prop to input (thanks @melogustavo)
 * Add ``tag`` slot to taginput (thanks @jacobgoh101)
 * Add ``tz-offset`` prop to datepicker (thanks @zedrdave)
 * Add ``repeat`` prop to carousel (thanks @GerryWilko)
@@ -71,7 +204,7 @@
 
 ### New features
 
-* Add ``infinite-scroll`` prop to autocomplete and taginput (thanks @mateuswetah) 
+* Add ``infinite-scroll`` prop to autocomplete and taginput (thanks @mateuswetah)
 * Add scss variables to loading and snackbar (thanks @service-paradis)
 * Add range start and end events to datepicker (thanks @lunfel)
 * Add ``close`` event to notification, snackbar and toast (thanks @service-paradis)
@@ -113,7 +246,7 @@
 * Add ``controls`` prop to number input (thanks @afwn90cj93201nixr2e1re)
 * Add ``accordion`` prop to menu
 * Add ``icon-click`` event to input (thanks @service-paradis)
-* Add multiple support to Datepicker when type is ``month`` 
+* Add multiple support to Datepicker when type is ``month``
 * Add more customization variables for dropdown and loading (thanks @HugoHeneault)
 * Add more customization variables for datepicker (thanks @service-paradis)
 * Add ``defaultDatepickerMobileModal`` constructor option (thanks @ievhen-soloviov)
@@ -157,7 +290,7 @@
 
 * Fix #1834 datepicker on ios mobile (thanks @bohdan-prylutskyi)
 * Fix #1875 datepicker disabled style
-* Fix #1883 ``date-parser`` function when range 
+* Fix #1883 ``date-parser`` function when range
 * Fix taginput style when maxtags and using ``label-position`` prop on field
 
 ## 0.8.5

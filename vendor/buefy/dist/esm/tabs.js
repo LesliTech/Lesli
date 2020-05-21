@@ -1,7 +1,7 @@
-import { _ as _defineProperty } from './chunk-6ea13200.js';
+import { _ as _defineProperty } from './chunk-1fafdf15.js';
 import './helpers.js';
-import './chunk-17222463.js';
-import { I as Icon } from './chunk-bed9f769.js';
+import { c as config } from './chunk-6985c8ce.js';
+import { I as Icon } from './chunk-cdfca85b.js';
 import { _ as __vue_normalize__, r as registerComponent, u as use } from './chunk-cca88db8.js';
 import { S as SlotComponent } from './chunk-0e3f4fb5.js';
 
@@ -10,14 +10,16 @@ var script = {
   name: 'BTabs',
   components: (_components = {}, _defineProperty(_components, Icon.name, Icon), _defineProperty(_components, SlotComponent.name, SlotComponent), _components),
   props: {
-    value: Number,
+    value: [Number, String],
     expanded: Boolean,
     type: String,
     size: String,
     position: String,
     animated: {
       type: Boolean,
-      default: true
+      default: function _default() {
+        return config.defaultTabsAnimated;
+      }
     },
     destroyOnHide: {
       type: Boolean,
@@ -28,7 +30,7 @@ var script = {
   },
   data: function data() {
     return {
-      activeTab: this.value || 0,
+      activeTab: 0,
       defaultSlots: [],
       contentHeight: 0,
       isTransitioning: false,
@@ -62,23 +64,34 @@ var script = {
     * When v-model is changed set the new active tab.
     */
     value: function value(_value) {
-      this.changeTab(_value);
+      var index = this.getIndexByValue(_value, _value);
+      this.changeTab(index);
     },
 
     /**
     * When tab-items are updated, set active one.
     */
     tabItems: function tabItems() {
+      var _this = this;
+
       if (this.activeTab < this.tabItems.length) {
+        var previous = this.activeTab;
+        this.tabItems.map(function (tab, idx) {
+          if (tab.isActive) {
+            previous = idx;
+
+            if (previous < _this.tabItems.length) {
+              _this.tabItems[previous].isActive = false;
+            }
+          }
+        });
         this.tabItems[this.activeTab].isActive = true;
+      } else if (this.activeTab > 0) {
+        this.changeTab(this.activeTab - 1);
       }
     }
   },
   methods: {
-    refreshSlots: function refreshSlots() {
-      this.defaultSlots = this.$slots.default || [];
-    },
-
     /**
     * Change the active tab and emit change event.
     */
@@ -91,19 +104,34 @@ var script = {
 
       this.tabItems[newIndex].activate(this.activeTab, newIndex);
       this.activeTab = newIndex;
-      this.$emit('change', newIndex);
+      this.$emit('change', this.getValueByIndex(newIndex));
     },
 
     /**
     * Tab click listener, emit input event and change active tab.
     */
-    tabClick: function tabClick(value) {
-      if (this.activeTab === value) return;
-      this.$emit('input', value);
-      this.changeTab(value);
+    tabClick: function tabClick(index) {
+      if (this.activeTab === index) return;
+      this.$emit('input', this.getValueByIndex(index));
+      this.changeTab(index);
+    },
+    refreshSlots: function refreshSlots() {
+      this.defaultSlots = this.$slots.default || [];
+    },
+    getIndexByValue: function getIndexByValue(value) {
+      var index = this.tabItems.map(function (t) {
+        return t.$options.propsData ? t.$options.propsData.value : undefined;
+      }).indexOf(value);
+      return index >= 0 ? index : value;
+    },
+    getValueByIndex: function getValueByIndex(index) {
+      var propsData = this.tabItems[index].$options.propsData;
+      return propsData && propsData.value ? propsData.value : index;
     }
   },
   mounted: function mounted() {
+    this.activeTab = this.getIndexByValue(this.value || 0);
+
     if (this.activeTab < this.tabItems.length) {
       this.tabItems[this.activeTab].isActive = true;
     }
@@ -131,19 +159,15 @@ var __vue_staticRenderFns__ = [];
   
   /* style inject SSR */
   
-  /* style inject shadow dom */
-  
 
   
-  const __vue_component__ = __vue_normalize__(
+  var Tabs = __vue_normalize__(
     { render: __vue_render__, staticRenderFns: __vue_staticRenderFns__ },
     __vue_inject_styles__,
     __vue_script__,
     __vue_scope_id__,
     __vue_is_functional_template__,
     __vue_module_identifier__,
-    false,
-    undefined,
     undefined,
     undefined
   );
@@ -158,7 +182,8 @@ var script$1 = {
     visible: {
       type: Boolean,
       default: true
-    }
+    },
+    value: [String, Number]
   },
   data: function data() {
     return {
@@ -173,7 +198,7 @@ var script$1 = {
     * Activate tab, alter animation name based on the index.
     */
     activate: function activate(oldIndex, index) {
-      this.transitionName = index < oldIndex ? 'slide-next' : 'slide-prev';
+      this.transitionName = index < oldIndex ? this.$parent.vertical ? 'slide-down' : 'slide-next' : this.$parent.vertical ? 'slide-up' : 'slide-prev';
       this.isActive = true;
     },
 
@@ -181,7 +206,7 @@ var script$1 = {
     * Deactivate tab, alter animation name based on the index.
     */
     deactivate: function deactivate(oldIndex, index) {
-      this.transitionName = index < oldIndex ? 'slide-next' : 'slide-prev';
+      this.transitionName = index < oldIndex ? this.$parent.vertical ? 'slide-down' : 'slide-next' : this.$parent.vertical ? 'slide-up' : 'slide-prev';
       this.isActive = false;
     }
   },
@@ -251,30 +276,26 @@ const __vue_script__$1 = script$1;
   
   /* style inject SSR */
   
-  /* style inject shadow dom */
-  
 
   
-  const __vue_component__$1 = __vue_normalize__(
+  var TabItem = __vue_normalize__(
     {},
     __vue_inject_styles__$1,
     __vue_script__$1,
     __vue_scope_id__$1,
     __vue_is_functional_template__$1,
     __vue_module_identifier__$1,
-    false,
-    undefined,
     undefined,
     undefined
   );
 
 var Plugin = {
   install: function install(Vue) {
-    registerComponent(Vue, __vue_component__);
-    registerComponent(Vue, __vue_component__$1);
+    registerComponent(Vue, Tabs);
+    registerComponent(Vue, TabItem);
   }
 };
 use(Plugin);
 
 export default Plugin;
-export { __vue_component__$1 as BTabItem, __vue_component__ as BTabs };
+export { TabItem as BTabItem, Tabs as BTabs };
