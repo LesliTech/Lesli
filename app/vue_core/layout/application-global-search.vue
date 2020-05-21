@@ -30,7 +30,9 @@ export default {
                         } else if (key == 'code') {
                             project['project_code'] = project[key]
                         }
+
                         project[key]=this.doHighlightText(project[key] ? project[key] : '', this.text)
+                        
                     }
                 })
                 this.show = true
@@ -94,7 +96,7 @@ export default {
                     <b-table-column field="status" :label="translations.projects.table_header_status" sortable v-html="props.row.status">
                     </b-table-column>
 
-                    <b-table-column field="customer" :label="translations.projects.table_header_customer" sortable v-html="props.row.customer">
+                    <b-table-column field="customer" :label="translations.projects.table_header_customer" sortable v-html="props.row.customers">
                     </b-table-column>
 
                     <b-table-column field="city" :label="translations.projects.form_property_input_city_title" sortable v-html="props.row.city">
