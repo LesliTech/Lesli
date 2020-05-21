@@ -112,6 +112,10 @@ namespace :dev do
 
         end
 
+        task test_mail: :environment do
+            LesliMailer.test().deliver_now
+        end
+
     end
 
 end

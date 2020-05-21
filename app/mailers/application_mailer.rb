@@ -26,14 +26,6 @@ class ApplicationMailer < ActionMailer::Base
 
         @data = data
 
-        puts "~     ~     ~     ~     ~     ~     ~     ~     ~"
-        puts "~     ~     ~     ~     ~     ~     ~     ~     ~"
-        puts "~     ~     ~     ~     ~     ~     ~     ~     ~"
-        p data
-        puts "~     ~     ~     ~     ~     ~     ~     ~     ~"
-        puts "~     ~     ~     ~     ~     ~     ~     ~     ~"
-        puts "~     ~     ~     ~     ~     ~     ~     ~     ~"
-
         # send email
         mail(
             to: to,
