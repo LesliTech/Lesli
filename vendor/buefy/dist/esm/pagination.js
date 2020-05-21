@@ -1,10 +1,10 @@
-import './chunk-6ea13200.js';
+import './chunk-1fafdf15.js';
 import './helpers.js';
-import './chunk-17222463.js';
-import './chunk-bed9f769.js';
+import './chunk-6985c8ce.js';
+import './chunk-cdfca85b.js';
 import { r as registerComponent, u as use } from './chunk-cca88db8.js';
-import { P as Pagination, a as PaginationButton } from './chunk-2772e167.js';
-export { P as BPagination, a as BPaginationButton } from './chunk-2772e167.js';
+import { P as Pagination, a as PaginationButton } from './chunk-bd608559.js';
+export { P as BPagination, a as BPaginationButton } from './chunk-bd608559.js';
 
 var Plugin = {
   install: function install(Vue) {

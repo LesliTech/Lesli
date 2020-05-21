@@ -1,4 +1,4 @@
-/*! Buefy v0.8.12 | MIT License | github.com/buefy/buefy */
+/*! Buefy v0.8.19 | MIT License | github.com/buefy/buefy */
 (function (global, factory) {
   typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports) :
   typeof define === 'function' && define.amd ? define(['exports'], factory) :
@@ -70,6 +70,22 @@
     return target;
   }
 
+  function _toArray(arr) {
+    return _arrayWithHoles(arr) || _iterableToArray(arr) || _nonIterableRest();
+  }
+
+  function _arrayWithHoles(arr) {
+    if (Array.isArray(arr)) return arr;
+  }
+
+  function _iterableToArray(iter) {
+    if (Symbol.iterator in Object(iter) || Object.prototype.toString.call(iter) === "[object Arguments]") return Array.from(iter);
+  }
+
+  function _nonIterableRest() {
+    throw new TypeError("Invalid attempt to destructure non-iterable instance");
+  }
+
   /**
    * Get value of an object property/path even if it's nested
    */
@@ -108,7 +124,26 @@
   };
 
   var merge = mergeFn;
+  function removeElement(el) {
+    if (typeof el.remove !== 'undefined') {
+      el.remove();
+    } else if (typeof el.parentNode !== 'undefined' && el.parentNode !== null) {
+      el.parentNode.removeChild(el);
+    }
+  }
+  function createAbsoluteElement(el) {
+    var root = document.createElement('div');
+    root.style.position = 'absolute';
+    root.style.left = '0px';
+    root.style.top = '0px';
+    var wrapper = document.createElement('div');
+    root.appendChild(wrapper);
+    wrapper.appendChild(el);
+    document.body.appendChild(root);
+    return root;
+  }
 
+  //
   //
   //
   //
@@ -164,16 +199,17 @@
         type: Boolean,
         default: true
       },
-      ariaCloseLabel: String
+      ariaCloseLabel: String,
+      closeType: String
     },
     methods: {
       /**
       * Emit close event when delete button is clicked
       * or delete key is pressed.
       */
-      close: function close() {
+      close: function close(event) {
         if (this.disabled) return;
-        this.$emit('close');
+        this.$emit('close', event);
       }
     }
   };
@@ -267,7 +303,7 @@
   const __vue_script__ = script;
 
   /* template */
-  var __vue_render__ = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return (_vm.attached && _vm.closable)?_c('div',{staticClass:"tags has-addons"},[_c('span',{staticClass:"tag",class:[_vm.type, _vm.size, { 'is-rounded': _vm.rounded }]},[_c('span',{class:{ 'has-ellipsis': _vm.ellipsis }},[_vm._t("default")],2)]),_vm._v(" "),_c('a',{staticClass:"tag is-delete",class:[_vm.size, { 'is-rounded': _vm.rounded }],attrs:{"role":"button","aria-label":_vm.ariaCloseLabel,"tabindex":_vm.tabstop ? 0 : false,"disabled":_vm.disabled},on:{"click":function($event){_vm.close();},"keyup":function($event){if(!('button' in $event)&&_vm._k($event.keyCode,"delete",[8,46],$event.key,["Backspace","Delete","Del"])){ return null; }$event.preventDefault();_vm.close();}}})]):_c('span',{staticClass:"tag",class:[_vm.type, _vm.size, { 'is-rounded': _vm.rounded }]},[_c('span',{class:{ 'has-ellipsis': _vm.ellipsis }},[_vm._t("default")],2),_vm._v(" "),(_vm.closable)?_c('a',{staticClass:"delete is-small",attrs:{"role":"button","aria-label":_vm.ariaCloseLabel,"disabled":_vm.disabled,"tabindex":_vm.tabstop ? 0 : false},on:{"click":function($event){_vm.close();},"keyup":function($event){if(!('button' in $event)&&_vm._k($event.keyCode,"delete",[8,46],$event.key,["Backspace","Delete","Del"])){ return null; }$event.preventDefault();_vm.close();}}}):_vm._e()])};
+  var __vue_render__ = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return (_vm.attached && _vm.closable)?_c('div',{staticClass:"tags has-addons"},[_c('span',{staticClass:"tag",class:[_vm.type, _vm.size, { 'is-rounded': _vm.rounded }]},[_c('span',{class:{ 'has-ellipsis': _vm.ellipsis }},[_vm._t("default")],2)]),_vm._v(" "),_c('a',{staticClass:"tag is-delete",class:[_vm.size, _vm.closeType, { 'is-rounded': _vm.rounded }],attrs:{"role":"button","aria-label":_vm.ariaCloseLabel,"tabindex":_vm.tabstop ? 0 : false,"disabled":_vm.disabled},on:{"click":_vm.close,"keyup":function($event){if(!('button' in $event)&&_vm._k($event.keyCode,"delete",[8,46],$event.key,["Backspace","Delete","Del"])){ return null; }$event.preventDefault();return _vm.close($event)}}})]):_c('span',{staticClass:"tag",class:[_vm.type, _vm.size, { 'is-rounded': _vm.rounded }]},[_c('span',{class:{ 'has-ellipsis': _vm.ellipsis }},[_vm._t("default")],2),_vm._v(" "),(_vm.closable)?_c('a',{staticClass:"delete is-small",class:_vm.closeType,attrs:{"role":"button","aria-label":_vm.ariaCloseLabel,"disabled":_vm.disabled,"tabindex":_vm.tabstop ? 0 : false},on:{"click":_vm.close,"keyup":function($event){if(!('button' in $event)&&_vm._k($event.keyCode,"delete",[8,46],$event.key,["Backspace","Delete","Del"])){ return null; }$event.preventDefault();return _vm.close($event)}}}):_vm._e()])};
   var __vue_staticRenderFns__ = [];
 
     /* style */
@@ -282,19 +318,15 @@
     
     /* style inject SSR */
     
-    /* style inject shadow dom */
-    
 
     
-    const __vue_component__ = normalizeComponent_1(
+    var Tag = normalizeComponent_1(
       { render: __vue_render__, staticRenderFns: __vue_staticRenderFns__ },
       __vue_inject_styles__,
       __vue_script__,
       __vue_scope_id__,
       __vue_is_functional_template__,
       __vue_module_identifier__,
-      false,
-      undefined,
       undefined,
       undefined
     );
@@ -345,6 +377,7 @@
     defaultTrapFocus: false,
     defaultButtonRounded: false,
     defaultCarouselInterval: 3500,
+    defaultTabsAnimated: true,
     defaultLinkTags: ['a', 'button', 'input', 'router-link', 'nuxt-link', 'n-link', 'RouterLink', 'NuxtLink', 'NLink'],
     customIconPacks: null
   }; // TODO defaultTrapFocus to true in the next breaking change
@@ -414,7 +447,7 @@
        */
       statusMessage: function statusMessage() {
         if (!this.parentField) return;
-        return this.parentField.newMessage;
+        return this.parentField.newMessage || this.parentField.$slots.message;
       },
 
       /**
@@ -490,6 +523,7 @@
       checkHtml5Validity: function checkHtml5Validity() {
         if (!this.useHtml5Validation) return;
         if (this.$refs[this.$data._elementRef] === undefined) return;
+        if (this.getElement() === null) return;
 
         if (!this.getElement().checkValidity()) {
           this.setInvalid();
@@ -557,7 +591,6 @@
     return icons;
   };
 
-  //
   var script$1 = {
     name: 'BIcon',
     props: {
@@ -611,7 +644,12 @@
         }
 
         if (splitType.length <= 1) return;
-        return "has-text-".concat(splitType[1]);
+
+        var _splitType = splitType,
+            _splitType2 = _toArray(_splitType),
+            type = _splitType2.slice(1);
+
+        return "has-text-".concat(type.join('-'));
       },
       newCustomSize: function newCustomSize() {
         return this.customSize || this.customSizeByPack;
@@ -669,26 +707,22 @@
     
     /* style inject SSR */
     
-    /* style inject shadow dom */
-    
 
     
-    const __vue_component__$1 = normalizeComponent_1(
+    var Icon = normalizeComponent_1(
       { render: __vue_render__$1, staticRenderFns: __vue_staticRenderFns__$1 },
       __vue_inject_styles__$1,
       __vue_script__$1,
       __vue_scope_id__$1,
       __vue_is_functional_template__$1,
       __vue_module_identifier__$1,
-      false,
-      undefined,
       undefined,
       undefined
     );
 
   var script$2 = {
     name: 'BInput',
-    components: _defineProperty({}, __vue_component__$1.name, __vue_component__$1),
+    components: _defineProperty({}, Icon.name, Icon),
     mixins: [FormElementMixin],
     inheritAttrs: false,
     props: {
@@ -750,20 +784,20 @@
       rightIcon: function rightIcon() {
         if (this.passwordReveal) {
           return this.passwordVisibleIcon;
-        } else if (this.statusTypeIcon) {
-          return this.statusTypeIcon;
+        } else if (this.iconRight) {
+          return this.iconRight;
         }
 
-        return this.iconRight;
+        return this.statusTypeIcon;
       },
       rightIconType: function rightIconType() {
         if (this.passwordReveal) {
           return 'is-primary';
-        } else if (this.statusTypeIcon) {
-          return this.statusType;
+        } else if (this.iconRight) {
+          return null;
         }
 
-        return null;
+        return this.statusType;
       },
 
       /**
@@ -845,7 +879,7 @@
         this.isPasswordVisible = !this.isPasswordVisible;
         this.newType = this.isPasswordVisible ? 'text' : 'password';
         this.$nextTick(function () {
-          _this.$refs.input.focus();
+          _this.$refs[_this.$data._elementRef].focus();
         });
       },
 
@@ -867,7 +901,7 @@
 
         this.$emit(emit, event);
         this.$nextTick(function () {
-          _this3.$refs.input.focus();
+          _this3.$refs[_this3.$data._elementRef].focus();
         });
       },
       rightIconClick: function rightIconClick(event) {
@@ -899,26 +933,22 @@
     
     /* style inject SSR */
     
-    /* style inject shadow dom */
-    
 
     
-    const __vue_component__$2 = normalizeComponent_1(
+    var Input = normalizeComponent_1(
       { render: __vue_render__$2, staticRenderFns: __vue_staticRenderFns__$2 },
       __vue_inject_styles__$2,
       __vue_script__$2,
       __vue_scope_id__$2,
       __vue_is_functional_template__$2,
       __vue_module_identifier__$2,
-      false,
-      undefined,
       undefined,
       undefined
     );
 
   var script$3 = {
     name: 'BAutocomplete',
-    components: _defineProperty({}, __vue_component__$2.name, __vue_component__$2),
+    components: _defineProperty({}, Input.name, Input),
     mixins: [FormElementMixin],
     inheritAttrs: false,
     props: {
@@ -939,7 +969,15 @@
       customFormatter: Function,
       checkInfiniteScroll: Boolean,
       keepOpen: Boolean,
-      clearable: Boolean
+      clearable: Boolean,
+      maxHeight: [String, Number],
+      dropdownPosition: {
+        type: String,
+        default: 'auto'
+      },
+      iconRight: String,
+      iconRightClickable: Boolean,
+      appendToBody: Boolean
     },
     data: function data() {
       return {
@@ -950,8 +988,11 @@
         newAutocomplete: this.autocomplete || 'off',
         isListInViewportVertically: true,
         hasFocus: false,
+        style: {},
         _isAutocomplete: true,
-        _elementRef: 'input'
+        _elementRef: 'input',
+        _bodyEl: undefined // Used to append to body
+
       };
     },
     computed: {
@@ -1051,12 +1092,31 @@
       hasFooterSlot: function hasFooterSlot() {
         return !!this.$slots.footer;
       },
-      clearButton: function clearButton() {
+
+      /**
+       * Apply dropdownPosition property
+       */
+      isOpenedTop: function isOpenedTop() {
+        return this.dropdownPosition === 'top' || this.dropdownPosition === 'auto' && !this.isListInViewportVertically;
+      },
+      newIconRight: function newIconRight() {
         if (this.clearable && this.newValue) {
           return 'close-circle';
         }
 
-        return '';
+        return this.iconRight;
+      },
+      newIconRightClickable: function newIconRightClickable() {
+        if (this.clearable) {
+          return true;
+        }
+
+        return this.iconRightClickable;
+      },
+      contentStyle: function contentStyle() {
+        return {
+          maxHeight: this.maxHeight === undefined ? null : isNaN(this.maxHeight) ? this.maxHeight : this.maxHeight + 'px'
+        };
       }
     },
     watch: {
@@ -1067,17 +1127,20 @@
       isActive: function isActive(active) {
         var _this = this;
 
-        if (active) {
-          this.calcDropdownInViewportVertical();
-        } else {
-          this.$nextTick(function () {
-            return _this.setHovered(null);
-          }); // Timeout to wait for the animation to finish before recalculating
-
-          setTimeout(function () {
-            _this.calcDropdownInViewportVertical();
-          }, 100);
+        if (this.dropdownPosition === 'auto') {
+          if (active) {
+            this.calcDropdownInViewportVertical();
+          } else {
+            // Timeout to wait for the animation to finish before recalculating
+            setTimeout(function () {
+              _this.calcDropdownInViewportVertical();
+            }, 100);
+          }
         }
+
+        if (active) this.$nextTick(function () {
+          return _this.setHovered(null);
+        });
       },
 
       /**
@@ -1108,7 +1171,6 @@
        */
       value: function value(_value) {
         this.newValue = _value;
-        !this.isValid && this.$refs.input.checkHtml5Validity();
       },
 
       /**
@@ -1138,17 +1200,20 @@
         var _this2 = this;
 
         var closeDropdown = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : true;
+        var event = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : undefined;
         if (option === undefined) return;
         this.selected = option;
-        this.$emit('select', this.selected);
+        this.$emit('select', this.selected, event);
 
         if (this.selected !== null) {
           this.newValue = this.clearOnSelect ? '' : this.getValue(this.selected);
+          this.setHovered(null);
         }
 
         closeDropdown && this.$nextTick(function () {
           _this2.isActive = false;
         });
+        this.checkValidity();
       },
 
       /**
@@ -1173,9 +1238,9 @@
        * Enter key listener.
        * Select the hovered option.
        */
-      enterPressed: function enterPressed() {
+      enterPressed: function enterPressed(event) {
         if (this.hovered === null) return;
-        this.setSelected(this.hovered, !this.keepOpen);
+        this.setSelected(this.hovered, !this.keepOpen, event);
       },
 
       /**
@@ -1183,13 +1248,13 @@
        * Select hovered option if it exists, close dropdown, then allow
        * native handling to move to next tabbable element.
        */
-      tabPressed: function tabPressed() {
+      tabPressed: function tabPressed(event) {
         if (this.hovered === null) {
           this.isActive = false;
           return;
         }
 
-        this.setSelected(this.hovered, !this.keepOpen);
+        this.setSelected(this.hovered, !this.keepOpen, event);
       },
 
       /**
@@ -1240,6 +1305,10 @@
           var rect = _this4.$refs.dropdown.getBoundingClientRect();
 
           _this4.isListInViewportVertically = rect.top >= 0 && rect.bottom <= (window.innerHeight || document.documentElement.clientHeight);
+
+          if (_this4.appendToBody) {
+            _this4.updateAppendToBody();
+          }
         });
       },
 
@@ -1303,36 +1372,96 @@
         var currentValue = this.getValue(this.selected);
         if (currentValue && currentValue === this.newValue) return;
         this.$emit('typing', this.newValue);
+        this.checkValidity();
       },
-      clearInputText: function clearInputText() {
-        this.newValue = '';
+      rightIconClick: function rightIconClick(event) {
+        if (this.clearable) {
+          this.newValue = '';
+        } else {
+          this.$emit('icon-right-click', event);
+        }
+      },
+      checkValidity: function checkValidity() {
+        var _this5 = this;
+
+        if (this.useHtml5Validation) {
+          this.$nextTick(function () {
+            _this5.checkHtml5Validity();
+          });
+        }
+      },
+      updateAppendToBody: function updateAppendToBody() {
+        var dropdownMenu = this.$refs.dropdown;
+        var trigger = this.$refs.input.$el;
+
+        if (dropdownMenu && trigger) {
+          // update wrapper dropdown
+          var root = this.$data._bodyEl;
+          root.classList.forEach(function (item) {
+            return root.classList.remove(item);
+          });
+          root.classList.add('autocomplete');
+          root.classList.add('control');
+
+          if (this.expandend) {
+            root.classList.add('is-expandend');
+          }
+
+          var rect = trigger.getBoundingClientRect();
+          var top = rect.top + window.scrollY;
+          var left = rect.left + window.scrollX;
+
+          if (!this.isOpenedTop) {
+            top += trigger.clientHeight;
+          } else {
+            top -= dropdownMenu.clientHeight;
+          }
+
+          this.style = {
+            position: 'absolute',
+            top: "".concat(top, "px"),
+            left: "".concat(left, "px"),
+            width: "".concat(trigger.clientWidth, "px"),
+            maxWidth: "".concat(trigger.clientWidth, "px"),
+            zIndex: '99'
+          };
+        }
       }
     },
     created: function created() {
       if (typeof window !== 'undefined') {
         document.addEventListener('click', this.clickedOutside);
-        window.addEventListener('resize', this.calcDropdownInViewportVertical);
+        if (this.dropdownPosition === 'auto') window.addEventListener('resize', this.calcDropdownInViewportVertical);
       }
     },
     mounted: function mounted() {
-      var _this5 = this;
+      var _this6 = this;
 
       if (this.checkInfiniteScroll && this.$refs.dropdown && this.$refs.dropdown.querySelector('.dropdown-content')) {
         var list = this.$refs.dropdown.querySelector('.dropdown-content');
         list.addEventListener('scroll', function () {
-          return _this5.checkIfReachedTheEndOfScroll(list);
+          return _this6.checkIfReachedTheEndOfScroll(list);
         });
+      }
+
+      if (this.appendToBody) {
+        this.$data._bodyEl = createAbsoluteElement(this.$refs.dropdown);
+        this.updateAppendToBody();
       }
     },
     beforeDestroy: function beforeDestroy() {
       if (typeof window !== 'undefined') {
         document.removeEventListener('click', this.clickedOutside);
-        window.removeEventListener('resize', this.calcDropdownInViewportVertical);
+        if (this.dropdownPosition === 'auto') window.removeEventListener('resize', this.calcDropdownInViewportVertical);
       }
 
       if (this.checkInfiniteScroll && this.$refs.dropdown && this.$refs.dropdown.querySelector('.dropdown-content')) {
         var list = this.$refs.dropdown.querySelector('.dropdown-content');
         list.removeEventListener('scroll', this.checkIfReachedTheEndOfScroll);
+      }
+
+      if (this.appendToBody) {
+        removeElement(this.$data._bodyEl);
       }
     }
   };
@@ -1341,7 +1470,7 @@
   const __vue_script__$3 = script$3;
 
   /* template */
-  var __vue_render__$3 = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"autocomplete control",class:{'is-expanded': _vm.expanded}},[_c('b-input',_vm._b({ref:"input",attrs:{"type":"text","size":_vm.size,"loading":_vm.loading,"rounded":_vm.rounded,"icon":_vm.icon,"icon-right":_vm.clearButton,"icon-right-clickable":"","icon-pack":_vm.iconPack,"maxlength":_vm.maxlength,"autocomplete":_vm.newAutocomplete,"use-html5-validation":_vm.useHtml5Validation},on:{"input":_vm.onInput,"focus":_vm.focused,"blur":_vm.onBlur,"icon-right-click":_vm.clearInputText},nativeOn:{"keyup":function($event){if(!('button' in $event)&&_vm._k($event.keyCode,"esc",27,$event.key,["Esc","Escape"])){ return null; }$event.preventDefault();_vm.isActive = false;},"keydown":[function($event){if(!('button' in $event)&&_vm._k($event.keyCode,"tab",9,$event.key,"Tab")){ return null; }return _vm.tabPressed($event)},function($event){if(!('button' in $event)&&_vm._k($event.keyCode,"enter",13,$event.key,"Enter")){ return null; }$event.preventDefault();return _vm.enterPressed($event)},function($event){if(!('button' in $event)&&_vm._k($event.keyCode,"up",38,$event.key,["Up","ArrowUp"])){ return null; }$event.preventDefault();_vm.keyArrows('up');},function($event){if(!('button' in $event)&&_vm._k($event.keyCode,"down",40,$event.key,["Down","ArrowDown"])){ return null; }$event.preventDefault();_vm.keyArrows('down');}]},model:{value:(_vm.newValue),callback:function ($$v) {_vm.newValue=$$v;},expression:"newValue"}},'b-input',_vm.$attrs,false)),_vm._v(" "),_c('transition',{attrs:{"name":"fade"}},[_c('div',{directives:[{name:"show",rawName:"v-show",value:(_vm.isActive && (_vm.data.length > 0 || _vm.hasEmptySlot || _vm.hasHeaderSlot)),expression:"isActive && (data.length > 0 || hasEmptySlot || hasHeaderSlot)"}],ref:"dropdown",staticClass:"dropdown-menu",class:{ 'is-opened-top': !_vm.isListInViewportVertically }},[_c('div',{directives:[{name:"show",rawName:"v-show",value:(_vm.isActive),expression:"isActive"}],staticClass:"dropdown-content"},[(_vm.hasHeaderSlot)?_c('div',{staticClass:"dropdown-item"},[_vm._t("header")],2):_vm._e(),_vm._v(" "),_vm._l((_vm.data),function(option,index){return _c('a',{key:index,staticClass:"dropdown-item",class:{ 'is-hovered': option === _vm.hovered },on:{"click":function($event){_vm.setSelected(option);}}},[(_vm.hasDefaultSlot)?_vm._t("default",null,{option:option,index:index}):_c('span',[_vm._v("\r\n                            "+_vm._s(_vm.getValue(option, true))+"\r\n                        ")])],2)}),_vm._v(" "),(_vm.data.length === 0 && _vm.hasEmptySlot)?_c('div',{staticClass:"dropdown-item is-disabled"},[_vm._t("empty")],2):_vm._e(),_vm._v(" "),(_vm.hasFooterSlot)?_c('div',{staticClass:"dropdown-item"},[_vm._t("footer")],2):_vm._e()],2)])])],1)};
+  var __vue_render__$3 = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"autocomplete control",class:{'is-expanded': _vm.expanded}},[_c('b-input',_vm._b({ref:"input",attrs:{"type":"text","size":_vm.size,"loading":_vm.loading,"rounded":_vm.rounded,"icon":_vm.icon,"icon-right":_vm.newIconRight,"icon-right-clickable":_vm.newIconRightClickable,"icon-pack":_vm.iconPack,"maxlength":_vm.maxlength,"autocomplete":_vm.newAutocomplete,"use-html5-validation":false},on:{"input":_vm.onInput,"focus":_vm.focused,"blur":_vm.onBlur,"icon-right-click":_vm.rightIconClick,"icon-click":function (event) { return _vm.$emit('icon-click', event); }},nativeOn:{"keyup":function($event){if(!('button' in $event)&&_vm._k($event.keyCode,"esc",27,$event.key,["Esc","Escape"])){ return null; }$event.preventDefault();_vm.isActive = false;},"keydown":[function($event){if(!('button' in $event)&&_vm._k($event.keyCode,"tab",9,$event.key,"Tab")){ return null; }return _vm.tabPressed($event)},function($event){if(!('button' in $event)&&_vm._k($event.keyCode,"enter",13,$event.key,"Enter")){ return null; }$event.preventDefault();return _vm.enterPressed($event)},function($event){if(!('button' in $event)&&_vm._k($event.keyCode,"up",38,$event.key,["Up","ArrowUp"])){ return null; }$event.preventDefault();_vm.keyArrows('up');},function($event){if(!('button' in $event)&&_vm._k($event.keyCode,"down",40,$event.key,["Down","ArrowDown"])){ return null; }$event.preventDefault();_vm.keyArrows('down');}]},model:{value:(_vm.newValue),callback:function ($$v) {_vm.newValue=$$v;},expression:"newValue"}},'b-input',_vm.$attrs,false)),_vm._v(" "),_c('transition',{attrs:{"name":"fade"}},[_c('div',{directives:[{name:"show",rawName:"v-show",value:(_vm.isActive && (_vm.data.length > 0 || _vm.hasEmptySlot || _vm.hasHeaderSlot)),expression:"isActive && (data.length > 0 || hasEmptySlot || hasHeaderSlot)"}],ref:"dropdown",staticClass:"dropdown-menu",class:{ 'is-opened-top': _vm.isOpenedTop && !_vm.appendToBody },style:(_vm.style)},[_c('div',{directives:[{name:"show",rawName:"v-show",value:(_vm.isActive),expression:"isActive"}],staticClass:"dropdown-content",style:(_vm.contentStyle)},[(_vm.hasHeaderSlot)?_c('div',{staticClass:"dropdown-item"},[_vm._t("header")],2):_vm._e(),_vm._v(" "),_vm._l((_vm.data),function(option,index){return _c('a',{key:index,staticClass:"dropdown-item",class:{ 'is-hovered': option === _vm.hovered },on:{"click":function($event){_vm.setSelected(option, undefined, $event);}}},[(_vm.hasDefaultSlot)?_vm._t("default",null,{option:option,index:index}):_c('span',[_vm._v("\r\n                            "+_vm._s(_vm.getValue(option, true))+"\r\n                        ")])],2)}),_vm._v(" "),(_vm.data.length === 0 && _vm.hasEmptySlot)?_c('div',{staticClass:"dropdown-item is-disabled"},[_vm._t("empty")],2):_vm._e(),_vm._v(" "),(_vm.hasFooterSlot)?_c('div',{staticClass:"dropdown-item"},[_vm._t("footer")],2):_vm._e()],2)])])],1)};
   var __vue_staticRenderFns__$3 = [];
 
     /* style */
@@ -1356,19 +1485,15 @@
     
     /* style inject SSR */
     
-    /* style inject shadow dom */
-    
 
     
-    const __vue_component__$3 = normalizeComponent_1(
+    var Autocomplete = normalizeComponent_1(
       { render: __vue_render__$3, staticRenderFns: __vue_staticRenderFns__$3 },
       __vue_inject_styles__$3,
       __vue_script__$3,
       __vue_scope_id__$3,
       __vue_is_functional_template__$3,
       __vue_module_identifier__$3,
-      false,
-      undefined,
       undefined,
       undefined
     );
@@ -1376,7 +1501,7 @@
   var _components;
   var script$4 = {
     name: 'BTaginput',
-    components: (_components = {}, _defineProperty(_components, __vue_component__$3.name, __vue_component__$3), _defineProperty(_components, __vue_component__.name, __vue_component__), _components),
+    components: (_components = {}, _defineProperty(_components, Autocomplete.name, Autocomplete), _defineProperty(_components, Tag.name, Tag), _components),
     mixins: [FormElementMixin],
     inheritAttrs: false,
     props: {
@@ -1456,7 +1581,8 @@
       checkInfiniteScroll: {
         type: Boolean,
         default: false
-      }
+      },
+      appendToBody: Boolean
     },
     data: function data() {
       return {
@@ -1532,7 +1658,7 @@
        * When v-model is changed set internal value.
        */
       value: function value(_value) {
-        this.tags = _value;
+        this.tags = Array.isArray(_value) ? _value.slice(0) : _value || [];
       },
       hasInput: function hasInput() {
         if (!this.hasInput) this.onBlur();
@@ -1552,6 +1678,16 @@
               }).filter(function (t) {
                 return t.length !== 0;
               }).map(this.addTag);
+              return;
+            }
+          } // Remove the tag input previously added (if not allowDuplicates).
+
+
+          if (!this.allowDuplicates) {
+            var index = this.tags.indexOf(tagToAdd);
+
+            if (index >= 0) {
+              this.tags.splice(index, 1);
               return;
             }
           } // Add the tag input if it is not blank
@@ -1576,10 +1712,10 @@
 
         return tag;
       },
-      customOnBlur: function customOnBlur($event) {
+      customOnBlur: function customOnBlur(event) {
         // Add tag on-blur if not select only
         if (!this.autocomplete) this.addTag();
-        this.onBlur($event);
+        this.onBlur(event);
       },
       onSelect: function onSelect(option) {
         var _this = this;
@@ -1590,22 +1726,21 @@
           _this.newTag = '';
         });
       },
-      removeTag: function removeTag(index) {
+      removeTag: function removeTag(index, event) {
         var tag = this.tags.splice(index, 1)[0];
         this.$emit('input', this.tags);
         this.$emit('remove', tag);
+        if (event) event.stopPropagation();
+
+        if (this.openOnFocus && this.$refs.autocomplete) {
+          this.$refs.autocomplete.focus();
+        }
+
         return tag;
       },
       removeLastTag: function removeLastTag() {
-        var _this2 = this;
-
         if (this.tagsLength > 0) {
           this.removeTag(this.tagsLength - 1);
-          this.$nextTick(function () {
-            if (_this2.isFocused && _this2.openOnFocus) {
-              _this2.$refs.autocomplete.isActive = true;
-            }
-          });
         }
       },
       keydown: function keydown(event) {
@@ -1621,8 +1756,8 @@
           this.addTag();
         }
       },
-      onTyping: function onTyping($event) {
-        this.$emit('typing', $event.trim());
+      onTyping: function onTyping(event) {
+        this.$emit('typing', event.trim());
       },
       emitInfiniteScroll: function emitInfiniteScroll() {
         this.$emit('infinite-scroll');
@@ -1634,7 +1769,7 @@
   const __vue_script__$4 = script$4;
 
   /* template */
-  var __vue_render__$4 = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"taginput control",class:_vm.rootClasses},[_c('div',{staticClass:"taginput-container",class:[_vm.statusType, _vm.size, _vm.containerClasses],attrs:{"disabled":_vm.disabled},on:{"click":function($event){_vm.hasInput && _vm.focus($event);}}},[_vm._l((_vm.tags),function(tag,index){return _c('b-tag',{key:_vm.getNormalizedTagText(tag) + index,attrs:{"type":_vm.type,"size":_vm.size,"rounded":_vm.rounded,"attached":_vm.attached,"tabstop":false,"disabled":_vm.disabled,"ellipsis":_vm.ellipsis,"closable":_vm.closable,"title":_vm.ellipsis && _vm.getNormalizedTagText(tag)},on:{"close":function($event){_vm.removeTag(index);}}},[_vm._t("tag",[_vm._v("\r\n                    "+_vm._s(_vm.getNormalizedTagText(tag))+"\r\n                ")],{tag:tag})],2)}),_vm._v(" "),(_vm.hasInput)?_c('b-autocomplete',_vm._b({ref:"autocomplete",attrs:{"data":_vm.data,"field":_vm.field,"icon":_vm.icon,"icon-pack":_vm.iconPack,"maxlength":_vm.maxlength,"has-counter":false,"size":_vm.size,"disabled":_vm.disabled,"loading":_vm.loading,"autocomplete":_vm.nativeAutocomplete,"open-on-focus":_vm.openOnFocus,"keep-open":_vm.openOnFocus,"keep-first":!_vm.allowNew,"use-html5-validation":_vm.useHtml5Validation,"check-infinite-scroll":_vm.checkInfiniteScroll},on:{"typing":_vm.onTyping,"focus":_vm.onFocus,"blur":_vm.customOnBlur,"select":_vm.onSelect,"infinite-scroll":_vm.emitInfiniteScroll},nativeOn:{"keydown":function($event){return _vm.keydown($event)}},scopedSlots:_vm._u([{key:_vm.defaultSlotName,fn:function(props){return [_vm._t("default",null,{option:props.option,index:props.index})]}}]),model:{value:(_vm.newTag),callback:function ($$v) {_vm.newTag=$$v;},expression:"newTag"}},'b-autocomplete',_vm.$attrs,false),[_c('template',{slot:_vm.headerSlotName},[_vm._t("header")],2),_vm._v(" "),_c('template',{slot:_vm.emptySlotName},[_vm._t("empty")],2),_vm._v(" "),_c('template',{slot:_vm.footerSlotName},[_vm._t("footer")],2)],2):_vm._e()],2),_vm._v(" "),(_vm.hasCounter && (_vm.maxtags || _vm.maxlength))?_c('small',{staticClass:"help counter"},[(_vm.maxlength && _vm.valueLength > 0)?[_vm._v("\r\n                "+_vm._s(_vm.valueLength)+" / "+_vm._s(_vm.maxlength)+"\r\n            ")]:(_vm.maxtags)?[_vm._v("\r\n                "+_vm._s(_vm.tagsLength)+" / "+_vm._s(_vm.maxtags)+"\r\n            ")]:_vm._e()],2):_vm._e()])};
+  var __vue_render__$4 = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"taginput control",class:_vm.rootClasses},[_c('div',{staticClass:"taginput-container",class:[_vm.statusType, _vm.size, _vm.containerClasses],attrs:{"disabled":_vm.disabled},on:{"click":function($event){_vm.hasInput && _vm.focus($event);}}},[_vm._t("selected",_vm._l((_vm.tags),function(tag,index){return _c('b-tag',{key:_vm.getNormalizedTagText(tag) + index,attrs:{"type":_vm.type,"size":_vm.size,"rounded":_vm.rounded,"attached":_vm.attached,"tabstop":false,"disabled":_vm.disabled,"ellipsis":_vm.ellipsis,"closable":_vm.closable,"title":_vm.ellipsis && _vm.getNormalizedTagText(tag)},on:{"close":function($event){_vm.removeTag(index, $event);}}},[_vm._t("tag",[_vm._v("\r\n                        "+_vm._s(_vm.getNormalizedTagText(tag))+"\r\n                    ")],{tag:tag})],2)}),{tags:_vm.tags}),_vm._v(" "),(_vm.hasInput)?_c('b-autocomplete',_vm._b({ref:"autocomplete",attrs:{"data":_vm.data,"field":_vm.field,"icon":_vm.icon,"icon-pack":_vm.iconPack,"maxlength":_vm.maxlength,"has-counter":false,"size":_vm.size,"disabled":_vm.disabled,"loading":_vm.loading,"autocomplete":_vm.nativeAutocomplete,"open-on-focus":_vm.openOnFocus,"keep-open":_vm.openOnFocus,"keep-first":!_vm.allowNew,"use-html5-validation":_vm.useHtml5Validation,"check-infinite-scroll":_vm.checkInfiniteScroll,"append-to-body":_vm.appendToBody},on:{"typing":_vm.onTyping,"focus":_vm.onFocus,"blur":_vm.customOnBlur,"select":_vm.onSelect,"infinite-scroll":_vm.emitInfiniteScroll},nativeOn:{"keydown":function($event){return _vm.keydown($event)}},scopedSlots:_vm._u([{key:_vm.defaultSlotName,fn:function(props){return [_vm._t("default",null,{option:props.option,index:props.index})]}}]),model:{value:(_vm.newTag),callback:function ($$v) {_vm.newTag=$$v;},expression:"newTag"}},'b-autocomplete',_vm.$attrs,false),[_c('template',{slot:_vm.headerSlotName},[_vm._t("header")],2),_vm._v(" "),_c('template',{slot:_vm.emptySlotName},[_vm._t("empty")],2),_vm._v(" "),_c('template',{slot:_vm.footerSlotName},[_vm._t("footer")],2)],2):_vm._e()],2),_vm._v(" "),(_vm.hasCounter && (_vm.maxtags || _vm.maxlength))?_c('small',{staticClass:"help counter"},[(_vm.maxlength && _vm.valueLength > 0)?[_vm._v("\r\n                "+_vm._s(_vm.valueLength)+" / "+_vm._s(_vm.maxlength)+"\r\n            ")]:(_vm.maxtags)?[_vm._v("\r\n                "+_vm._s(_vm.tagsLength)+" / "+_vm._s(_vm.maxtags)+"\r\n            ")]:_vm._e()],2):_vm._e()])};
   var __vue_staticRenderFns__$4 = [];
 
     /* style */
@@ -1649,19 +1784,15 @@
     
     /* style inject SSR */
     
-    /* style inject shadow dom */
-    
 
     
-    const __vue_component__$4 = normalizeComponent_1(
+    var Taginput = normalizeComponent_1(
       { render: __vue_render__$4, staticRenderFns: __vue_staticRenderFns__$4 },
       __vue_inject_styles__$4,
       __vue_script__$4,
       __vue_scope_id__$4,
       __vue_is_functional_template__$4,
       __vue_module_identifier__$4,
-      false,
-      undefined,
       undefined,
       undefined
     );
@@ -1677,12 +1808,12 @@
 
   var Plugin = {
     install: function install(Vue) {
-      registerComponent(Vue, __vue_component__$4);
+      registerComponent(Vue, Taginput);
     }
   };
   use(Plugin);
 
-  exports.BTaginput = __vue_component__$4;
+  exports.BTaginput = Taginput;
   exports.default = Plugin;
 
   Object.defineProperty(exports, '__esModule', { value: true });

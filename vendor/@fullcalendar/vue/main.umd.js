@@ -1,5 +1,5 @@
 /*
-FullCalendar Vue Component v4.3.1
+FullCalendar Vue Component v4.4.0
 Docs: https://fullcalendar.io/docs/vue
 License: MIT
 */
@@ -7,9 +7,11 @@ License: MIT
   typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports, require('@fullcalendar/core')) :
   typeof define === 'function' && define.amd ? define(['exports', '@fullcalendar/core'], factory) :
   (global = global || self, factory(global.FullCalendarVue = {}, global.FullCalendar));
-}(this, function (exports, core) { 'use strict';
+}(this, (function (exports, core) { 'use strict';
 
   function _typeof(obj) {
+    "@babel/helpers - typeof";
+
     if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") {
       _typeof = function (obj) {
         return typeof obj;
@@ -474,4 +476,4 @@ License: MIT
 
   Object.defineProperty(exports, '__esModule', { value: true });
 
-}));
+})));

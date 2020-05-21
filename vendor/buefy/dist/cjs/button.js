@@ -2,10 +2,10 @@
 
 Object.defineProperty(exports, '__esModule', { value: true });
 
-var __chunk_1 = require('./chunk-5094d8df.js');
+var __chunk_1 = require('./chunk-14c82365.js');
 require('./helpers.js');
-var __chunk_2 = require('./chunk-805257cc.js');
-var __chunk_4 = require('./chunk-bc189645.js');
+var __chunk_2 = require('./chunk-cd0dcc1d.js');
+var __chunk_4 = require('./chunk-d7fda995.js');
 var __chunk_5 = require('./chunk-13e039f5.js');
 
 var script = {
@@ -82,7 +82,7 @@ var __vue_render__ = function () {var _vm=this;var _h=_vm.$createElement;var _c=
             'is-active': _vm.active,
             'is-hovered': _vm.hovered,
             'is-selected': _vm.selected
-        }],attrs:{"type":_vm.nativeType}},'component',_vm.$attrs,false),_vm.$listeners),[(_vm.iconLeft)?_c('b-icon',{attrs:{"pack":_vm.iconPack,"icon":_vm.iconLeft,"size":_vm.iconSize}}):_vm._e(),_vm._v(" "),(_vm.label)?_c('span',[_vm._v(_vm._s(_vm.label))]):_c('span',[_vm._t("default")],2),_vm._v(" "),(_vm.iconRight)?_c('b-icon',{attrs:{"pack":_vm.iconPack,"icon":_vm.iconRight,"size":_vm.iconSize}}):_vm._e()],1)};
+        }],attrs:{"type":_vm.nativeType}},'component',_vm.$attrs,false),_vm.$listeners),[(_vm.iconLeft)?_c('b-icon',{attrs:{"pack":_vm.iconPack,"icon":_vm.iconLeft,"size":_vm.iconSize}}):_vm._e(),_vm._v(" "),(_vm.label)?_c('span',[_vm._v(_vm._s(_vm.label))]):(_vm.$slots.default)?_c('span',[_vm._t("default")],2):_vm._e(),_vm._v(" "),(_vm.iconRight)?_c('b-icon',{attrs:{"pack":_vm.iconPack,"icon":_vm.iconRight,"size":_vm.iconSize}}):_vm._e()],1)};
 var __vue_staticRenderFns__ = [];
 
   /* style */
@@ -97,29 +97,25 @@ var __vue_staticRenderFns__ = [];
   
   /* style inject SSR */
   
-  /* style inject shadow dom */
-  
 
   
-  const __vue_component__ = __chunk_5.__vue_normalize__(
+  var Button = __chunk_5.__vue_normalize__(
     { render: __vue_render__, staticRenderFns: __vue_staticRenderFns__ },
     __vue_inject_styles__,
     __vue_script__,
     __vue_scope_id__,
     __vue_is_functional_template__,
     __vue_module_identifier__,
-    false,
-    undefined,
     undefined,
     undefined
   );
 
 var Plugin = {
   install: function install(Vue) {
-    __chunk_5.registerComponent(Vue, __vue_component__);
+    __chunk_5.registerComponent(Vue, Button);
   }
 };
 __chunk_5.use(Plugin);
 
-exports.BButton = __vue_component__;
+exports.BButton = Button;
 exports.default = Plugin;

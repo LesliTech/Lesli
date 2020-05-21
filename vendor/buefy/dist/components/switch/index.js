@@ -1,10 +1,15 @@
-/*! Buefy v0.8.12 | MIT License | github.com/buefy/buefy */
+/*! Buefy v0.8.19 | MIT License | github.com/buefy/buefy */
 (function (global, factory) {
     typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports) :
     typeof define === 'function' && define.amd ? define(['exports'], factory) :
     (global = global || self, factory(global.Switch = {}));
 }(this, function (exports) { 'use strict';
 
+    //
+    //
+    //
+    //
+    //
     //
     //
     //
@@ -40,6 +45,7 @@
         nativeValue: [String, Number, Boolean, Function, Object, Array, Date],
         disabled: Boolean,
         type: String,
+        passiveType: String,
         name: String,
         required: Boolean,
         size: String,
@@ -78,10 +84,8 @@
         },
         newClass: function newClass() {
           return [this.size, {
-            'is-disabled': this.disabled
-          }, {
-            'is-rounded': this.rounded
-          }, {
+            'is-disabled': this.disabled,
+            'is-rounded': this.rounded,
             'is-outlined': this.outlined
           }];
         }
@@ -191,7 +195,10 @@
     const __vue_script__ = script;
 
     /* template */
-    var __vue_render__ = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('label',{ref:"label",staticClass:"switch",class:_vm.newClass,attrs:{"disabled":_vm.disabled},on:{"click":_vm.focus,"keydown":function($event){if(!('button' in $event)&&_vm._k($event.keyCode,"enter",13,$event.key,"Enter")){ return null; }$event.preventDefault();_vm.$refs.label.click();},"mousedown":function($event){_vm.isMouseDown = true;},"mouseup":function($event){_vm.isMouseDown = false;},"mouseout":function($event){_vm.isMouseDown = false;},"blur":function($event){_vm.isMouseDown = false;}}},[_c('input',{directives:[{name:"model",rawName:"v-model",value:(_vm.computedValue),expression:"computedValue"}],ref:"input",attrs:{"type":"checkbox","disabled":_vm.disabled,"name":_vm.name,"required":_vm.required,"true-value":_vm.trueValue,"false-value":_vm.falseValue},domProps:{"value":_vm.nativeValue,"checked":Array.isArray(_vm.computedValue)?_vm._i(_vm.computedValue,_vm.nativeValue)>-1:_vm._q(_vm.computedValue,_vm.trueValue)},on:{"click":function($event){$event.stopPropagation();},"change":function($event){var $$a=_vm.computedValue,$$el=$event.target,$$c=$$el.checked?(_vm.trueValue):(_vm.falseValue);if(Array.isArray($$a)){var $$v=_vm.nativeValue,$$i=_vm._i($$a,$$v);if($$el.checked){$$i<0&&(_vm.computedValue=$$a.concat([$$v]));}else{$$i>-1&&(_vm.computedValue=$$a.slice(0,$$i).concat($$a.slice($$i+1)));}}else{_vm.computedValue=$$c;}}}}),_vm._v(" "),_c('span',{staticClass:"check",class:[{ 'is-elastic': _vm.isMouseDown && !_vm.disabled }, _vm.type]}),_vm._v(" "),_c('span',{staticClass:"control-label"},[_vm._t("default")],2)])};
+    var __vue_render__ = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('label',{ref:"label",staticClass:"switch",class:_vm.newClass,attrs:{"disabled":_vm.disabled},on:{"click":_vm.focus,"keydown":function($event){if(!('button' in $event)&&_vm._k($event.keyCode,"enter",13,$event.key,"Enter")){ return null; }$event.preventDefault();_vm.$refs.label.click();},"mousedown":function($event){_vm.isMouseDown = true;},"mouseup":function($event){_vm.isMouseDown = false;},"mouseout":function($event){_vm.isMouseDown = false;},"blur":function($event){_vm.isMouseDown = false;}}},[_c('input',{directives:[{name:"model",rawName:"v-model",value:(_vm.computedValue),expression:"computedValue"}],ref:"input",attrs:{"type":"checkbox","disabled":_vm.disabled,"name":_vm.name,"required":_vm.required,"true-value":_vm.trueValue,"false-value":_vm.falseValue},domProps:{"value":_vm.nativeValue,"checked":Array.isArray(_vm.computedValue)?_vm._i(_vm.computedValue,_vm.nativeValue)>-1:_vm._q(_vm.computedValue,_vm.trueValue)},on:{"click":function($event){$event.stopPropagation();},"change":function($event){var $$a=_vm.computedValue,$$el=$event.target,$$c=$$el.checked?(_vm.trueValue):(_vm.falseValue);if(Array.isArray($$a)){var $$v=_vm.nativeValue,$$i=_vm._i($$a,$$v);if($$el.checked){$$i<0&&(_vm.computedValue=$$a.concat([$$v]));}else{$$i>-1&&(_vm.computedValue=$$a.slice(0,$$i).concat($$a.slice($$i+1)));}}else{_vm.computedValue=$$c;}}}}),_vm._v(" "),_c('span',{staticClass:"check",class:[
+                    { 'is-elastic': _vm.isMouseDown && !_vm.disabled },
+                    (_vm.passiveType &&(_vm.passiveType + "-passive")),
+                    _vm.type]}),_vm._v(" "),_c('span',{staticClass:"control-label"},[_vm._t("default")],2)])};
     var __vue_staticRenderFns__ = [];
 
       /* style */
@@ -206,19 +213,15 @@
       
       /* style inject SSR */
       
-      /* style inject shadow dom */
-      
 
       
-      const __vue_component__ = normalizeComponent_1(
+      var Switch = normalizeComponent_1(
         { render: __vue_render__, staticRenderFns: __vue_staticRenderFns__ },
         __vue_inject_styles__,
         __vue_script__,
         __vue_scope_id__,
         __vue_is_functional_template__,
         __vue_module_identifier__,
-        false,
-        undefined,
         undefined,
         undefined
       );
@@ -234,12 +237,12 @@
 
     var Plugin = {
       install: function install(Vue) {
-        registerComponent(Vue, __vue_component__);
+        registerComponent(Vue, Switch);
       }
     };
     use(Plugin);
 
-    exports.BSwitch = __vue_component__;
+    exports.BSwitch = Switch;
     exports.default = Plugin;
 
     Object.defineProperty(exports, '__esModule', { value: true });

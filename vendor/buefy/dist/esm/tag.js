@@ -1,6 +1,6 @@
 import { _ as __vue_normalize__, r as registerComponent, u as use } from './chunk-cca88db8.js';
-import { T as Tag } from './chunk-84fece8c.js';
-export { T as BTag } from './chunk-84fece8c.js';
+import { T as Tag } from './chunk-7292bea2.js';
+export { T as BTag } from './chunk-7292bea2.js';
 
 //
 //
@@ -34,19 +34,15 @@ var __vue_staticRenderFns__ = [];
   
   /* style inject SSR */
   
-  /* style inject shadow dom */
-  
 
   
-  const __vue_component__ = __vue_normalize__(
+  var Taglist = __vue_normalize__(
     { render: __vue_render__, staticRenderFns: __vue_staticRenderFns__ },
     __vue_inject_styles__,
     __vue_script__,
     __vue_scope_id__,
     __vue_is_functional_template__,
     __vue_module_identifier__,
-    false,
-    undefined,
     undefined,
     undefined
   );
@@ -54,10 +50,10 @@ var __vue_staticRenderFns__ = [];
 var Plugin = {
   install: function install(Vue) {
     registerComponent(Vue, Tag);
-    registerComponent(Vue, __vue_component__);
+    registerComponent(Vue, Taglist);
   }
 };
 use(Plugin);
 
 export default Plugin;
-export { __vue_component__ as BTaglist };
+export { Taglist as BTaglist };

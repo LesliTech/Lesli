@@ -2,7 +2,7 @@
 
 Object.defineProperty(exports, '__esModule', { value: true });
 
-var __chunk_1 = require('./chunk-5094d8df.js');
+var __chunk_1 = require('./chunk-14c82365.js');
 
 /**
  * +/- function to native math sign
@@ -99,6 +99,17 @@ function removeElement(el) {
     el.parentNode.removeChild(el);
   }
 }
+function createAbsoluteElement(el) {
+  var root = document.createElement('div');
+  root.style.position = 'absolute';
+  root.style.left = '0px';
+  root.style.top = '0px';
+  var wrapper = document.createElement('div');
+  root.appendChild(wrapper);
+  wrapper.appendChild(el);
+  document.body.appendChild(root);
+  return root;
+}
 /**
  * Escape regex characters
  * http://stackoverflow.com/a/6969486
@@ -132,7 +143,21 @@ function multiColumnSort(inputArray, sortingPriority) {
 
   return array.sort(fieldSorter(sortingPriority));
 }
+function createNewEvent(eventName) {
+  var event;
 
+  if (typeof Event === 'function') {
+    event = new Event(eventName);
+  } else {
+    event = document.createEvent('Event');
+    event.initEvent(eventName, true, true);
+  }
+
+  return event;
+}
+
+exports.createAbsoluteElement = createAbsoluteElement;
+exports.createNewEvent = createNewEvent;
 exports.escapeRegExpChars = escapeRegExpChars;
 exports.getValueByPath = getValueByPath;
 exports.indexOf = indexOf;

@@ -1,5 +1,5 @@
 /*
-FullCalendar Vue Component v4.3.1
+FullCalendar Vue Component v4.4.0
 Docs: https://fullcalendar.io/docs/vue
 License: MIT
 */
@@ -7,6 +7,8 @@ import deepEqual from 'fast-deep-equal';
 import { Calendar } from '@fullcalendar/core';
 
 function _typeof(obj) {
+  "@babel/helpers - typeof";
+
   if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") {
     _typeof = function (obj) {
       return typeof obj;

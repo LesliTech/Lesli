@@ -1,10 +1,11 @@
-/*! Buefy v0.8.12 | MIT License | github.com/buefy/buefy */
+/*! Buefy v0.8.19 | MIT License | github.com/buefy/buefy */
 (function (global, factory) {
     typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports) :
     typeof define === 'function' && define.amd ? define(['exports'], factory) :
     (global = global || self, factory(global.Tag = {}));
 }(this, function (exports) { 'use strict';
 
+    //
     //
     //
     //
@@ -60,16 +61,17 @@
           type: Boolean,
           default: true
         },
-        ariaCloseLabel: String
+        ariaCloseLabel: String,
+        closeType: String
       },
       methods: {
         /**
         * Emit close event when delete button is clicked
         * or delete key is pressed.
         */
-        close: function close() {
+        close: function close(event) {
           if (this.disabled) return;
-          this.$emit('close');
+          this.$emit('close', event);
         }
       }
     };
@@ -163,7 +165,7 @@
     const __vue_script__ = script;
 
     /* template */
-    var __vue_render__ = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return (_vm.attached && _vm.closable)?_c('div',{staticClass:"tags has-addons"},[_c('span',{staticClass:"tag",class:[_vm.type, _vm.size, { 'is-rounded': _vm.rounded }]},[_c('span',{class:{ 'has-ellipsis': _vm.ellipsis }},[_vm._t("default")],2)]),_vm._v(" "),_c('a',{staticClass:"tag is-delete",class:[_vm.size, { 'is-rounded': _vm.rounded }],attrs:{"role":"button","aria-label":_vm.ariaCloseLabel,"tabindex":_vm.tabstop ? 0 : false,"disabled":_vm.disabled},on:{"click":function($event){_vm.close();},"keyup":function($event){if(!('button' in $event)&&_vm._k($event.keyCode,"delete",[8,46],$event.key,["Backspace","Delete","Del"])){ return null; }$event.preventDefault();_vm.close();}}})]):_c('span',{staticClass:"tag",class:[_vm.type, _vm.size, { 'is-rounded': _vm.rounded }]},[_c('span',{class:{ 'has-ellipsis': _vm.ellipsis }},[_vm._t("default")],2),_vm._v(" "),(_vm.closable)?_c('a',{staticClass:"delete is-small",attrs:{"role":"button","aria-label":_vm.ariaCloseLabel,"disabled":_vm.disabled,"tabindex":_vm.tabstop ? 0 : false},on:{"click":function($event){_vm.close();},"keyup":function($event){if(!('button' in $event)&&_vm._k($event.keyCode,"delete",[8,46],$event.key,["Backspace","Delete","Del"])){ return null; }$event.preventDefault();_vm.close();}}}):_vm._e()])};
+    var __vue_render__ = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return (_vm.attached && _vm.closable)?_c('div',{staticClass:"tags has-addons"},[_c('span',{staticClass:"tag",class:[_vm.type, _vm.size, { 'is-rounded': _vm.rounded }]},[_c('span',{class:{ 'has-ellipsis': _vm.ellipsis }},[_vm._t("default")],2)]),_vm._v(" "),_c('a',{staticClass:"tag is-delete",class:[_vm.size, _vm.closeType, { 'is-rounded': _vm.rounded }],attrs:{"role":"button","aria-label":_vm.ariaCloseLabel,"tabindex":_vm.tabstop ? 0 : false,"disabled":_vm.disabled},on:{"click":_vm.close,"keyup":function($event){if(!('button' in $event)&&_vm._k($event.keyCode,"delete",[8,46],$event.key,["Backspace","Delete","Del"])){ return null; }$event.preventDefault();return _vm.close($event)}}})]):_c('span',{staticClass:"tag",class:[_vm.type, _vm.size, { 'is-rounded': _vm.rounded }]},[_c('span',{class:{ 'has-ellipsis': _vm.ellipsis }},[_vm._t("default")],2),_vm._v(" "),(_vm.closable)?_c('a',{staticClass:"delete is-small",class:_vm.closeType,attrs:{"role":"button","aria-label":_vm.ariaCloseLabel,"disabled":_vm.disabled,"tabindex":_vm.tabstop ? 0 : false},on:{"click":_vm.close,"keyup":function($event){if(!('button' in $event)&&_vm._k($event.keyCode,"delete",[8,46],$event.key,["Backspace","Delete","Del"])){ return null; }$event.preventDefault();return _vm.close($event)}}}):_vm._e()])};
     var __vue_staticRenderFns__ = [];
 
       /* style */
@@ -178,19 +180,15 @@
       
       /* style inject SSR */
       
-      /* style inject shadow dom */
-      
 
       
-      const __vue_component__ = normalizeComponent_1(
+      var Tag = normalizeComponent_1(
         { render: __vue_render__, staticRenderFns: __vue_staticRenderFns__ },
         __vue_inject_styles__,
         __vue_script__,
         __vue_scope_id__,
         __vue_is_functional_template__,
         __vue_module_identifier__,
-        false,
-        undefined,
         undefined,
         undefined
       );
@@ -227,19 +225,15 @@
       
       /* style inject SSR */
       
-      /* style inject shadow dom */
-      
 
       
-      const __vue_component__$1 = normalizeComponent_1(
+      var Taglist = normalizeComponent_1(
         { render: __vue_render__$1, staticRenderFns: __vue_staticRenderFns__$1 },
         __vue_inject_styles__$1,
         __vue_script__$1,
         __vue_scope_id__$1,
         __vue_is_functional_template__$1,
         __vue_module_identifier__$1,
-        false,
-        undefined,
         undefined,
         undefined
       );
@@ -255,14 +249,14 @@
 
     var Plugin = {
       install: function install(Vue) {
-        registerComponent(Vue, __vue_component__);
-        registerComponent(Vue, __vue_component__$1);
+        registerComponent(Vue, Tag);
+        registerComponent(Vue, Taglist);
       }
     };
     use(Plugin);
 
-    exports.BTag = __vue_component__;
-    exports.BTaglist = __vue_component__$1;
+    exports.BTag = Tag;
+    exports.BTaglist = Taglist;
     exports.default = Plugin;
 
     Object.defineProperty(exports, '__esModule', { value: true });

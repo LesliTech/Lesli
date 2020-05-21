@@ -135,18 +135,18 @@ export default {
         rightIcon() {
             if (this.passwordReveal) {
                 return this.passwordVisibleIcon
-            } else if (this.statusTypeIcon) {
-                return this.statusTypeIcon
+            } else if (this.iconRight) {
+                return this.iconRight
             }
-            return this.iconRight
+            return this.statusTypeIcon
         },
         rightIconType() {
             if (this.passwordReveal) {
                 return 'is-primary'
-            } else if (this.statusTypeIcon) {
-                return this.statusType
+            } else if (this.iconRight) {
+                return null
             }
-            return null
+            return this.statusType
         },
 
         /**
@@ -218,7 +218,7 @@ export default {
             this.newType = this.isPasswordVisible ? 'text' : 'password'
 
             this.$nextTick(() => {
-                this.$refs.input.focus()
+                this.$refs[this.$data._elementRef].focus()
             })
         },
 
@@ -237,7 +237,7 @@ export default {
         iconClick(emit, event) {
             this.$emit(emit, event)
             this.$nextTick(() => {
-                this.$refs.input.focus()
+                this.$refs[this.$data._elementRef].focus()
             })
         },
 

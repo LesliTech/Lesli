@@ -1,4 +1,4 @@
-/*! Buefy v0.8.12 | MIT License | github.com/buefy/buefy */
+/*! Buefy v0.8.19 | MIT License | github.com/buefy/buefy */
 (function (global, factory) {
   typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports) :
   typeof define === 'function' && define.amd ? define(['exports'], factory) :
@@ -66,6 +66,7 @@
     defaultTrapFocus: false,
     defaultButtonRounded: false,
     defaultCarouselInterval: 3500,
+    defaultTabsAnimated: true,
     defaultLinkTags: ['a', 'button', 'input', 'router-link', 'nuxt-link', 'n-link', 'RouterLink', 'NuxtLink', 'NLink'],
     customIconPacks: null
   }; // TODO defaultTrapFocus to true in the next breaking change
@@ -74,7 +75,7 @@
     name: 'BFieldBody',
     props: {
       message: {
-        type: String
+        type: [String, Array]
       },
       type: {
         type: [String, Object]
@@ -83,6 +84,7 @@
     render: function render(createElement) {
       var _this = this;
 
+      var first = true;
       return createElement('div', {
         attrs: {
           'class': 'field-body'
@@ -93,18 +95,17 @@
           return element;
         }
 
-        if (_this.message) {
-          return createElement('b-field', {
-            attrs: {
-              message: _this.message,
-              'type': _this.type
-            }
-          }, [element]);
+        var message;
+
+        if (first) {
+          message = _this.message;
+          first = false;
         }
 
         return createElement('b-field', {
           attrs: {
-            'type': _this.type
+            type: _this.type,
+            message: message
           }
         }, [element]);
       }));
@@ -213,26 +214,22 @@
     
     /* style inject SSR */
     
-    /* style inject shadow dom */
-    
 
     
-    const __vue_component__ = normalizeComponent_1(
+    var FieldBody = normalizeComponent_1(
       {},
       __vue_inject_styles__,
       __vue_script__,
       __vue_scope_id__,
       __vue_is_functional_template__,
       __vue_module_identifier__,
-      false,
-      undefined,
       undefined,
       undefined
     );
 
   var script$1 = {
     name: 'BField',
-    components: _defineProperty({}, __vue_component__.name, __vue_component__),
+    components: _defineProperty({}, FieldBody.name, FieldBody),
     props: {
       type: [String, Object],
       label: String,
@@ -296,37 +293,40 @@
       */
       formattedMessage: function formattedMessage() {
         if (typeof this.newMessage === 'string') {
-          return this.newMessage;
-        } else {
-          var messages = [];
+          return [this.newMessage];
+        }
 
-          if (Array.isArray(this.newMessage)) {
-            this.newMessage.forEach(function (message) {
-              if (typeof message === 'string') {
-                messages.push(message);
-              } else {
-                for (var key in message) {
-                  if (message[key]) {
-                    messages.push(key);
-                  }
+        var messages = [];
+
+        if (Array.isArray(this.newMessage)) {
+          this.newMessage.forEach(function (message) {
+            if (typeof message === 'string') {
+              messages.push(message);
+            } else {
+              for (var key in message) {
+                if (message[key]) {
+                  messages.push(key);
                 }
               }
-            });
-          } else {
-            for (var key in this.newMessage) {
-              if (this.newMessage[key]) {
-                messages.push(key);
-              }
+            }
+          });
+        } else {
+          for (var key in this.newMessage) {
+            if (this.newMessage[key]) {
+              messages.push(key);
             }
           }
-
-          return messages.filter(function (m) {
-            if (m) return m;
-          }).join(' <br> ');
         }
+
+        return messages.filter(function (m) {
+          if (m) return m;
+        });
       },
       hasLabel: function hasLabel() {
         return this.label || this.$slots.label;
+      },
+      hasMessage: function hasMessage() {
+        return this.newMessage || this.$slots.message;
       },
       numberInputClasses: function numberInputClasses() {
         if (this.$slots.default) {
@@ -407,7 +407,7 @@
   const __vue_script__$1 = script$1;
 
   /* template */
-  var __vue_render__ = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"field",class:[_vm.rootClasses, _vm.fieldType()]},[(_vm.horizontal)?_c('div',{staticClass:"field-label",class:[_vm.customClass, _vm.fieldLabelSize]},[(_vm.hasLabel)?_c('label',{staticClass:"label",class:_vm.customClass,attrs:{"for":_vm.labelFor}},[(_vm.$slots.label)?_vm._t("label"):[_vm._v(_vm._s(_vm.label))]],2):_vm._e()]):[(_vm.hasLabel)?_c('label',{staticClass:"label",class:_vm.customClass,attrs:{"for":_vm.labelFor}},[(_vm.$slots.label)?_vm._t("label"):[_vm._v(_vm._s(_vm.label))]],2):_vm._e()],_vm._v(" "),(_vm.horizontal)?_c('b-field-body',{attrs:{"message":_vm.newMessage ? _vm.formattedMessage : '',"type":_vm.newType}},[_vm._t("default")],2):[_vm._t("default")],_vm._v(" "),(_vm.newMessage && !_vm.horizontal)?_c('p',{staticClass:"help",class:_vm.newType,domProps:{"innerHTML":_vm._s(_vm.formattedMessage)}}):_vm._e()],2)};
+  var __vue_render__ = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"field",class:[_vm.rootClasses, _vm.fieldType()]},[(_vm.horizontal)?_c('div',{staticClass:"field-label",class:[_vm.customClass, _vm.fieldLabelSize]},[(_vm.hasLabel)?_c('label',{staticClass:"label",class:_vm.customClass,attrs:{"for":_vm.labelFor}},[(_vm.$slots.label)?_vm._t("label"):[_vm._v(_vm._s(_vm.label))]],2):_vm._e()]):[(_vm.hasLabel)?_c('label',{staticClass:"label",class:_vm.customClass,attrs:{"for":_vm.labelFor}},[(_vm.$slots.label)?_vm._t("label"):[_vm._v(_vm._s(_vm.label))]],2):_vm._e()],_vm._v(" "),(_vm.horizontal)?_c('b-field-body',{attrs:{"message":_vm.newMessage ? _vm.formattedMessage : '',"type":_vm.newType}},[_vm._t("default")],2):[_vm._t("default")],_vm._v(" "),(_vm.hasMessage && !_vm.horizontal)?_c('p',{staticClass:"help",class:_vm.newType},[(_vm.$slots.message)?_vm._t("message"):[_vm._l((_vm.formattedMessage),function(mess,i){return [_vm._v("\r\n                    "+_vm._s(mess)+"\r\n                    "),((i + 1) < _vm.formattedMessage.length)?_c('br',{key:i}):_vm._e()]})]],2):_vm._e()],2)};
   var __vue_staticRenderFns__ = [];
 
     /* style */
@@ -422,19 +422,15 @@
     
     /* style inject SSR */
     
-    /* style inject shadow dom */
-    
 
     
-    const __vue_component__$1 = normalizeComponent_1(
+    var Field = normalizeComponent_1(
       { render: __vue_render__, staticRenderFns: __vue_staticRenderFns__ },
       __vue_inject_styles__$1,
       __vue_script__$1,
       __vue_scope_id__$1,
       __vue_is_functional_template__$1,
       __vue_module_identifier__$1,
-      false,
-      undefined,
       undefined,
       undefined
     );
@@ -450,12 +446,12 @@
 
   var Plugin = {
     install: function install(Vue) {
-      registerComponent(Vue, __vue_component__$1);
+      registerComponent(Vue, Field);
     }
   };
   use(Plugin);
 
-  exports.BField = __vue_component__$1;
+  exports.BField = Field;
   exports.default = Plugin;
 
   Object.defineProperty(exports, '__esModule', { value: true });

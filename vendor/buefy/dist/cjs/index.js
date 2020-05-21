@@ -2,32 +2,32 @@
 
 Object.defineProperty(exports, '__esModule', { value: true });
 
-require('./chunk-5094d8df.js');
+require('./chunk-14c82365.js');
 var helpers = require('./helpers.js');
-var __chunk_2 = require('./chunk-805257cc.js');
-require('./chunk-c0ff4e55.js');
-require('./chunk-bc189645.js');
+var __chunk_2 = require('./chunk-cd0dcc1d.js');
+require('./chunk-cdf52db8.js');
+require('./chunk-d7fda995.js');
 var __chunk_5 = require('./chunk-13e039f5.js');
-require('./chunk-9295ec8b.js');
-require('./chunk-4c5e4d60.js');
+require('./chunk-2c156199.js');
+require('./chunk-a436801d.js');
 var autocomplete = require('./autocomplete.js');
 var button = require('./button.js');
 var carousel = require('./carousel.js');
 require('./chunk-8b8384ca.js');
-require('./chunk-d68349e6.js');
+require('./chunk-56e80e3b.js');
 var checkbox = require('./checkbox.js');
 var collapse = require('./collapse.js');
-require('./chunk-fc48ea13.js');
-require('./chunk-c5b5b708.js');
-require('./chunk-385dea12.js');
-require('./chunk-4defa6e0.js');
+require('./chunk-b3a7625f.js');
+require('./chunk-ae7e641a.js');
+require('./chunk-a8b51847.js');
+require('./chunk-e2b9e5bd.js');
 var clockpicker = require('./clockpicker.js');
-require('./chunk-77d9ea65.js');
-require('./chunk-03172381.js');
+require('./chunk-c9f4ec1d.js');
+require('./chunk-763efdc9.js');
 var datepicker = require('./datepicker.js');
-require('./chunk-4eb8554a.js');
+require('./chunk-56901b7f.js');
 var datetimepicker = require('./datetimepicker.js');
-require('./chunk-b5101515.js');
+require('./chunk-85f160c1.js');
 var dialog = require('./dialog.js');
 var dropdown = require('./dropdown.js');
 var field = require('./field.js');
@@ -36,20 +36,22 @@ var input = require('./input.js');
 require('./chunk-f1df1c63.js');
 var loading = require('./loading.js');
 var menu = require('./menu.js');
-require('./chunk-5bdaa4fe.js');
+require('./chunk-3b860353.js');
 var message = require('./message.js');
 var modal = require('./modal.js');
 var notification = require('./notification.js');
-require('./chunk-fbdc0e2d.js');
+require('./chunk-dfd9e0ac.js');
 var navbar = require('./navbar.js');
 var numberinput = require('./numberinput.js');
-require('./chunk-58812e2d.js');
+require('./chunk-47054fd3.js');
 var pagination = require('./pagination.js');
 var progress = require('./progress.js');
 var radio = require('./radio.js');
 var rate = require('./rate.js');
 var select = require('./select.js');
-require('./chunk-5bc47591.js');
+var skeleton = require('./skeleton.js');
+var sidebar = require('./sidebar.js');
+require('./chunk-ac697190.js');
 var slider = require('./slider.js');
 var snackbar = require('./snackbar.js');
 require('./chunk-3dffe6e7.js');
@@ -57,7 +59,7 @@ var steps = require('./steps.js');
 var _switch = require('./switch.js');
 var table = require('./table.js');
 var tabs = require('./tabs.js');
-require('./chunk-3e964971.js');
+require('./chunk-496e043e.js');
 var tag = require('./tag.js');
 var taginput = require('./taginput.js');
 var timepicker = require('./timepicker.js');
@@ -93,6 +95,8 @@ var components = /*#__PURE__*/Object.freeze({
     Radio: radio.default,
     Rate: rate.default,
     Select: select.default,
+    Skeleton: skeleton.default,
+    Sidebar: sidebar.default,
     Slider: slider.default,
     Snackbar: snackbar.default,
     Steps: steps.default,
@@ -107,6 +111,15 @@ var components = /*#__PURE__*/Object.freeze({
     Upload: upload.default
 });
 
+var ConfigComponent = {
+  getOptions: function getOptions() {
+    return __chunk_2.config;
+  },
+  setOptions: function setOptions(options) {
+    __chunk_2.setOptions(helpers.merge(__chunk_2.config, options, true));
+  }
+};
+
 var Buefy = {
   install: function install(Vue) {
     var options = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
@@ -114,25 +127,18 @@ var Buefy = {
 
     __chunk_2.setOptions(helpers.merge(__chunk_2.config, options, true)); // Components
 
-
     for (var componentKey in components) {
       Vue.use(components[componentKey]);
     } // Config component
 
 
-    var BuefyProgrammatic = {
-      getOptions: function getOptions() {
-        return __chunk_2.config;
-      },
-      setOptions: function setOptions(options) {
-        __chunk_2.setOptions(helpers.merge(__chunk_2.config, options, true));
-      }
-    };
-    __chunk_5.registerComponentProgrammatic(Vue, 'config', BuefyProgrammatic);
+    __chunk_5.registerComponentProgrammatic(Vue, 'config', ConfigComponent);
   }
 };
 __chunk_5.use(Buefy);
 
+exports.createAbsoluteElement = helpers.createAbsoluteElement;
+exports.createNewEvent = helpers.createNewEvent;
 exports.escapeRegExpChars = helpers.escapeRegExpChars;
 exports.getValueByPath = helpers.getValueByPath;
 exports.indexOf = helpers.indexOf;
@@ -170,6 +176,8 @@ exports.Progress = progress.default;
 exports.Radio = radio.default;
 exports.Rate = rate.default;
 exports.Select = select.default;
+exports.Skeleton = skeleton.default;
+exports.Sidebar = sidebar.default;
 exports.Slider = slider.default;
 exports.Snackbar = snackbar.default;
 exports.SnackbarProgrammatic = snackbar.SnackbarProgrammatic;
@@ -184,4 +192,5 @@ exports.Toast = toast.default;
 exports.ToastProgrammatic = toast.ToastProgrammatic;
 exports.Tooltip = tooltip.default;
 exports.Upload = upload.default;
+exports.ConfigProgrammatic = ConfigComponent;
 exports.default = Buefy;

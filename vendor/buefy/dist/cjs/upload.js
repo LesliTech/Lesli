@@ -2,8 +2,8 @@
 
 Object.defineProperty(exports, '__esModule', { value: true });
 
-require('./chunk-805257cc.js');
-var __chunk_3 = require('./chunk-c0ff4e55.js');
+require('./chunk-cd0dcc1d.js');
+var __chunk_3 = require('./chunk-cdf52db8.js');
 var __chunk_5 = require('./chunk-13e039f5.js');
 var __chunk_18 = require('./chunk-f1df1c63.js');
 
@@ -25,6 +25,10 @@ var script = {
       default: 'is-primary'
     },
     native: {
+      type: Boolean,
+      default: false
+    },
+    expanded: {
       type: Boolean,
       default: false
     }
@@ -167,10 +171,11 @@ var script = {
 const __vue_script__ = script;
 
 /* template */
-var __vue_render__ = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('label',{staticClass:"upload control"},[(!_vm.dragDrop)?[_vm._t("default")]:_c('div',{staticClass:"upload-draggable",class:[_vm.type, {
+var __vue_render__ = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('label',{staticClass:"upload control",class:{'is-expanded' : _vm.expanded}},[(!_vm.dragDrop)?[_vm._t("default")]:_c('div',{staticClass:"upload-draggable",class:[_vm.type, {
                 'is-loading': _vm.loading,
                 'is-disabled': _vm.disabled,
-                'is-hovered': _vm.dragDropFocus
+                'is-hovered': _vm.dragDropFocus,
+                'is-expanded': _vm.expanded,
             }],on:{"dragover":function($event){$event.preventDefault();_vm.updateDragDropFocus(true);},"dragleave":function($event){$event.preventDefault();_vm.updateDragDropFocus(false);},"dragenter":function($event){$event.preventDefault();_vm.updateDragDropFocus(true);},"drop":function($event){$event.preventDefault();return _vm.onFileChange($event)}}},[_vm._t("default")],2),_vm._v(" "),_c('input',_vm._b({ref:"input",attrs:{"type":"file","multiple":_vm.multiple,"accept":_vm.accept,"disabled":_vm.disabled},on:{"change":_vm.onFileChange}},'input',_vm.$attrs,false))],2)};
 var __vue_staticRenderFns__ = [];
 
@@ -186,29 +191,25 @@ var __vue_staticRenderFns__ = [];
   
   /* style inject SSR */
   
-  /* style inject shadow dom */
-  
 
   
-  const __vue_component__ = __chunk_5.__vue_normalize__(
+  var Upload = __chunk_5.__vue_normalize__(
     { render: __vue_render__, staticRenderFns: __vue_staticRenderFns__ },
     __vue_inject_styles__,
     __vue_script__,
     __vue_scope_id__,
     __vue_is_functional_template__,
     __vue_module_identifier__,
-    false,
-    undefined,
     undefined,
     undefined
   );
 
 var Plugin = {
   install: function install(Vue) {
-    __chunk_5.registerComponent(Vue, __vue_component__);
+    __chunk_5.registerComponent(Vue, Upload);
   }
 };
 __chunk_5.use(Plugin);
 
-exports.BUpload = __vue_component__;
+exports.BUpload = Upload;
 exports.default = Plugin;

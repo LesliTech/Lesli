@@ -10,8 +10,9 @@ $switch-active-background-color: $primary !default;
     display: inline-flex;
     align-items: center;
     position: relative;
-    & + .switch {
-        margin-left: 0.5em;
+    margin-right: 0.5em;
+    & + .switch:last-child {
+        margin-right: 0;
     }
     input[type=checkbox] {
         position: absolute;
@@ -28,7 +29,16 @@ $switch-active-background-color: $primary !default;
             padding: $switch-padding;
             background: $grey-light;
             border-radius: $radius;
-            transition: background $speed-slow $easing;
+            transition: background $speed-slow $easing, box-shadow $speed-slow $easing;
+            @each $name, $pair in $colors {
+                $color: nth($pair, 1);
+                &.is-#{$name}-passive, &:hover {
+                    background: $color;
+                }
+                &.input[type=checkbox] + &.check {
+                    background: 'pink';
+                }
+            }    
             &:before {
                 content: "";
                 display: block;
@@ -37,11 +47,13 @@ $switch-active-background-color: $primary !default;
                 height: #{($switch-width - $switch-padding * 2) / 2};
                 background: $background;
                 box-shadow: 0 3px 1px 0 rgba(0, 0, 0, 0.05), 0 2px 2px 0 rgba(0, 0, 0, 0.1), 0 3px 3px 0 rgba(0, 0, 0, 0.05);
-                transition: transform $speed-slow $easing, width $speed-slow $easing;
+                transition: transform $speed-slow $easing;
                 will-change: transform;
+                transform-origin: left;
             }
             &.is-elastic:before {
-                width: 1.75em;
+                transform: scaleX(1.5);
+                border-radius: $radius;
             }
         }
         &:checked + .check {
@@ -57,13 +69,19 @@ $switch-active-background-color: $primary !default;
             }
             &.is-elastic:before {
                 // Might be a little offset if base font is not 16px
-                transform: translate3d(percentage(16 / ($switch-width-number * 16)), 0, 0);
+                transform: translate3d(50%, 0, 0) scaleX(1.5);
             }
         }
-        &:focus {
+        &:focus, &:active {
             outline: none;
             + .check {
                 box-shadow: 0 0 0.5em rgba($grey, 0.6);
+                @each $name, $pair in $colors {
+                    $color: nth($pair, 1);
+                    &.is-#{$name}-passive {
+                        box-shadow: 0 0 0.5em rgba($color, 0.8);
+                    }
+                }
             }
             &:checked + .check {
                 box-shadow: 0 0 0.5em rgba($switch-active-background-color, 0.8);
@@ -82,6 +100,12 @@ $switch-active-background-color: $primary !default;
     &:hover {
         input[type=checkbox] + .check {
             background: rgba($grey-light, 0.9);
+            @each $name, $pair in $colors {
+                $color: nth($pair, 1);
+                &.is-#{$name}-passive {
+                    background: rgba($color, 0.9);
+                }
+            }
         }
         input[type=checkbox]:checked + .check {
             background: rgba($switch-active-background-color, 0.9);
@@ -101,6 +125,10 @@ $switch-active-background-color: $primary !default;
                     border-radius: $radius-rounded;
                 }
             }
+            &.is-elastic:before {
+                transform: scaleX(1.5);
+                border-radius: $radius-rounded;
+            }
         }
     }
     &.is-outlined {
@@ -108,6 +136,18 @@ $switch-active-background-color: $primary !default;
             + .check {
                 background: transparent;
                 border: .1rem solid $grey-light;
+                @each $name, $pair in $colors {
+                    $color: nth($pair, 1);
+                    &.is-#{$name}-passive {
+                        border: .1rem solid rgba($color, 0.9);
+                        &:before {
+                            background: $color
+                        }
+                        &:hover {
+                            border-color: rgba($color, 0.9);
+                        }
+                    }
+                }
                 &:before {
                     background: $grey-light;
                 }

@@ -1,7 +1,7 @@
-import { _ as _defineProperty } from './chunk-6ea13200.js';
+import { _ as _defineProperty } from './chunk-1fafdf15.js';
 import './helpers.js';
-import './chunk-17222463.js';
-import { I as Icon } from './chunk-bed9f769.js';
+import './chunk-6985c8ce.js';
+import { I as Icon } from './chunk-cdfca85b.js';
 import { _ as __vue_normalize__, r as registerComponent, u as use } from './chunk-cca88db8.js';
 
 var script = {
@@ -116,29 +116,25 @@ var __vue_staticRenderFns__ = [];
   
   /* style inject SSR */
   
-  /* style inject shadow dom */
-  
 
   
-  const __vue_component__ = __vue_normalize__(
+  var Rate = __vue_normalize__(
     { render: __vue_render__, staticRenderFns: __vue_staticRenderFns__ },
     __vue_inject_styles__,
     __vue_script__,
     __vue_scope_id__,
     __vue_is_functional_template__,
     __vue_module_identifier__,
-    false,
-    undefined,
     undefined,
     undefined
   );
 
 var Plugin = {
   install: function install(Vue) {
-    registerComponent(Vue, __vue_component__);
+    registerComponent(Vue, Rate);
   }
 };
 use(Plugin);
 
 export default Plugin;
-export { __vue_component__ as BRate };
+export { Rate as BRate };

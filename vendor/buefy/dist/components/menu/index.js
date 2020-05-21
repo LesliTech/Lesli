@@ -1,4 +1,4 @@
-/*! Buefy v0.8.12 | MIT License | github.com/buefy/buefy */
+/*! Buefy v0.8.19 | MIT License | github.com/buefy/buefy */
 (function (global, factory) {
     typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports) :
     typeof define === 'function' && define.amd ? define(['exports'], factory) :
@@ -15,6 +15,10 @@
       name: 'BMenu',
       props: {
         accordion: {
+          type: Boolean,
+          default: true
+        },
+        activable: {
           type: Boolean,
           default: true
         }
@@ -131,19 +135,15 @@
       
       /* style inject SSR */
       
-      /* style inject shadow dom */
-      
 
       
-      const __vue_component__ = normalizeComponent_1(
+      var Menu = normalizeComponent_1(
         { render: __vue_render__, staticRenderFns: __vue_staticRenderFns__ },
         __vue_inject_styles__,
         __vue_script__,
         __vue_scope_id__,
         __vue_is_functional_template__,
         __vue_module_identifier__,
-        false,
-        undefined,
         undefined,
         undefined
       );
@@ -205,19 +205,15 @@
       
       /* style inject SSR */
       
-      /* style inject shadow dom */
-      
 
       
-      const __vue_component__$1 = normalizeComponent_1(
+      var MenuList = normalizeComponent_1(
         {},
         __vue_inject_styles__$1,
         __vue_script__$1,
         __vue_scope_id__$1,
         __vue_is_functional_template__$1,
         __vue_module_identifier__$1,
-        false,
-        undefined,
         undefined,
         undefined
       );
@@ -287,6 +283,22 @@
       return target;
     }
 
+    function _toArray(arr) {
+      return _arrayWithHoles(arr) || _iterableToArray(arr) || _nonIterableRest();
+    }
+
+    function _arrayWithHoles(arr) {
+      if (Array.isArray(arr)) return arr;
+    }
+
+    function _iterableToArray(iter) {
+      if (Symbol.iterator in Object(iter) || Object.prototype.toString.call(iter) === "[object Arguments]") return Array.from(iter);
+    }
+
+    function _nonIterableRest() {
+      throw new TypeError("Invalid attempt to destructure non-iterable instance");
+    }
+
     var config = {
       defaultContainerElement: null,
       defaultIconPack: 'mdi',
@@ -333,6 +345,7 @@
       defaultTrapFocus: false,
       defaultButtonRounded: false,
       defaultCarouselInterval: 3500,
+      defaultTabsAnimated: true,
       defaultLinkTags: ['a', 'button', 'input', 'router-link', 'nuxt-link', 'n-link', 'RouterLink', 'NuxtLink', 'NLink'],
       customIconPacks: null
     }; // TODO defaultTrapFocus to true in the next breaking change
@@ -419,7 +432,6 @@
       return icons;
     };
 
-    //
     var script$2 = {
       name: 'BIcon',
       props: {
@@ -473,7 +485,12 @@
           }
 
           if (splitType.length <= 1) return;
-          return "has-text-".concat(splitType[1]);
+
+          var _splitType = splitType,
+              _splitType2 = _toArray(_splitType),
+              type = _splitType2.slice(1);
+
+          return "has-text-".concat(type.join('-'));
         },
         newCustomSize: function newCustomSize() {
           return this.customSize || this.customSizeByPack;
@@ -531,26 +548,22 @@
       
       /* style inject SSR */
       
-      /* style inject shadow dom */
-      
 
       
-      const __vue_component__$2 = normalizeComponent_1(
+      var Icon = normalizeComponent_1(
         { render: __vue_render__$1, staticRenderFns: __vue_staticRenderFns__$1 },
         __vue_inject_styles__$2,
         __vue_script__$2,
         __vue_scope_id__$2,
         __vue_is_functional_template__$2,
         __vue_module_identifier__$2,
-        false,
-        undefined,
         undefined,
         undefined
       );
 
     var script$3 = {
       name: 'BMenuItem',
-      components: _defineProperty({}, __vue_component__$2.name, __vue_component__$2),
+      components: _defineProperty({}, Icon.name, Icon),
       inheritAttrs: false,
       props: {
         label: String,
@@ -561,7 +574,7 @@
         icon: String,
         animation: {
           type: String,
-          default: 'fade'
+          default: 'slide'
         },
         tag: {
           type: String,
@@ -597,13 +610,17 @@
       methods: {
         onClick: function onClick(event) {
           if (this.disabled) return;
-          this.reset(this.$parent);
-          this.newExpanded = true;
+          var menu = this.getMenu();
+          this.reset(this.$parent, menu);
+          this.newExpanded = !this.newExpanded;
           this.$emit('update:expanded', this.newActive);
-          this.newActive = true;
-          this.$emit('update:active', this.newActive);
+
+          if (menu && menu.activable) {
+            this.newActive = true;
+            this.$emit('update:active', this.newActive);
+          }
         },
-        reset: function reset(parent) {
+        reset: function reset(parent, menu) {
           var _this = this;
 
           var items = parent.$children.filter(function (c) {
@@ -611,17 +628,28 @@
           });
           items.forEach(function (item) {
             if (item !== _this) {
-              _this.reset(item);
+              _this.reset(item, menu);
 
               if (!parent.$data._isMenu || parent.$data._isMenu && parent.accordion) {
                 item.newExpanded = false;
                 item.$emit('update:expanded', item.newActive);
               }
 
-              item.newActive = false;
-              item.$emit('update:active', item.newActive);
+              if (menu && menu.activable) {
+                item.newActive = false;
+                item.$emit('update:active', item.newActive);
+              }
             }
           });
+        },
+        getMenu: function getMenu() {
+          var parent = this.$parent;
+
+          while (parent && !parent.$data._isMenu) {
+            parent = parent.$parent;
+          }
+
+          return parent;
         }
       }
     };
@@ -648,19 +676,15 @@
       
       /* style inject SSR */
       
-      /* style inject shadow dom */
-      
 
       
-      const __vue_component__$3 = normalizeComponent_1(
+      var MenuItem = normalizeComponent_1(
         { render: __vue_render__$2, staticRenderFns: __vue_staticRenderFns__$2 },
         __vue_inject_styles__$3,
         __vue_script__$3,
         __vue_scope_id__$3,
         __vue_is_functional_template__$3,
         __vue_module_identifier__$3,
-        false,
-        undefined,
         undefined,
         undefined
       );
@@ -676,16 +700,16 @@
 
     var Plugin = {
       install: function install(Vue) {
-        registerComponent(Vue, __vue_component__);
-        registerComponent(Vue, __vue_component__$1);
-        registerComponent(Vue, __vue_component__$3);
+        registerComponent(Vue, Menu);
+        registerComponent(Vue, MenuList);
+        registerComponent(Vue, MenuItem);
       }
     };
     use(Plugin);
 
-    exports.BMenu = __vue_component__;
-    exports.BMenuItem = __vue_component__$3;
-    exports.BMenuList = __vue_component__$1;
+    exports.BMenu = Menu;
+    exports.BMenuItem = MenuItem;
+    exports.BMenuList = MenuList;
     exports.default = Plugin;
 
     Object.defineProperty(exports, '__esModule', { value: true });
