@@ -4,6 +4,20 @@
     <%= render partial: "layouts/partials/application-head" %>
     <%= render partial: "layouts/partials/application-data" %>
     <%= render partial: "layouts/partials/application-public-asset-css" %>
+
+    <%# Disable back button in browser after Logout using JavaScript %>
+    <% if flash[:logout] == true %>
+    <script>
+        /*
+        console.log(window.history)
+        window.history.forward()
+        window.onunload = function(){ null }
+        document.location.replace("/login")
+        document.location.replace("/login")
+        console.log(window.history)
+        */
+    </script>
+    <% end %>
 </head>
 <body class="<%= application_body_class() %>">
     <%= yield %>
