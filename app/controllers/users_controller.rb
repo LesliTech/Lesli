@@ -50,13 +50,17 @@ class UsersController < ApplicationLesliController
     end
 
     def check_has_authorization
-        if !is_admin?()
+        if !is_admin?()  && !only_active_param()
             return responseWithUnauthorized if current_user != @user
         end
     end
 
     private 
 
+    def only_active_param
+        return user_params.keys.size == 1 && user_params.has_key?("active")
+    end
+    
     def user_params
         params.require(:user).permit(
             :name,
