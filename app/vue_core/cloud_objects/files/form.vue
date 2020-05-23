@@ -143,7 +143,7 @@ export default {
         },
 
         filePosted(file, response){
-            this.bus.publish(`post:/crm/${this.object_name.plural}/files`, response.data)
+            this.bus.publish(`post:/${this.module_name.slash}/${this.object_name.plural}/files`, response.data)
         },
 
         translateFileType(file_type){
