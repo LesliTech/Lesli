@@ -28,6 +28,10 @@ export default {
             discussion: {
                 content: ''   
             },
+            sort: {
+                icon_size: 'is-small',
+                direction: 'desc'
+            },
             pagination: {
                 current_page: 1,
                 range_before: 3,
@@ -83,6 +87,7 @@ export default {
             this.http.post(url, form_data).then(result => {
                 if (result.successful) {
                     this.notification.alert(this.translations.main.notification_discussion_created, 'success')
+                    this.bus.publish(`post:/${this.module_name.slash}/${this.object_name.plural}/discussions`, result.data)
                     this.clearContentInput()
                     this.discussions.unshift({
                         data: result.data,
@@ -187,18 +192,6 @@ export default {
                     ) ||
                     discussion.data.content.toLowerCase().includes(search_field)
             })
-        },
-
-        currentDiscussionPage(){
-            if(this.filteredDiscussions.length <= this.pagination.per_page){
-                return this.filteredDiscussions
-            }else{
-                let data = this.filteredDiscussions.slice(
-                    (this.pagination.current_page - 1) * this.pagination.per_page,
-                    (this.pagination.current_page) * this.pagination.per_page
-                )
-                return data
-            }
         }
     },
 
@@ -222,7 +215,7 @@ export default {
         </form>
         <br>
         <div class="columns">
-            <div class="column is-6">
+            <div class="column is-7">
                 <b-field>
                     <b-input
                         :placeholder="translations.main.discussion_input_search_placehodler"
@@ -238,13 +231,23 @@ export default {
         </div>
         <component-data-loading v-if="loading" />
         <component-data-empty v-if="!loading && discussions.length == 0" />
-        <b-table v-if="discussions.length > 0" :data="currentDiscussionPage">
+        <b-table
+            v-if="discussions.length > 0"
+            :data="filteredDiscussions"
+            :sort-icon-size="sort.icon_size"
+            :default-sort-direction="sort.direction"
+            :paginated="true"
+            :per-page="pagination.per_page"
+            :current-page.sync="pagination.current_page"
+            :pagination-simple="false"
+            pagination-position="bottom"
+        >
             <template slot-scope="props">
-                <b-table-column field="created_at" :label="translations.core.text_created_at" sortable>
+                <b-table-column field="data.created_at_raw" :label="translations.core.text_created_at" sortable>
                     {{ props.row.data.created_at }}
                 </b-table-column>
 
-                <b-table-column field="user_name" :label="translations.core.text_employee">
+                <b-table-column field="data.user_name" :label="translations.core.text_employee" sortable>
                     <span v-if="props.row.data.user_name">
                         {{props.row.data.user_name}}
                     </span>
@@ -253,7 +256,7 @@ export default {
                     </span>
                 </b-table-column>
 
-                <b-table-column field="content" :label="translations.core.text_comment">
+                <b-table-column field="data.content" :label="translations.core.text_comment" sortable>
                     <span v-if="props.row.data.editable">
                         <b-field>
                             <b-input
@@ -290,22 +293,5 @@ export default {
                 </b-table-column>
             </template>
         </b-table>
-        <hr>
-        <b-pagination
-            :simple="false"
-            :total="filteredDiscussions.length"
-            :current.sync="pagination.current_page"
-            :range-before="pagination.range_before"
-            :range-after="pagination.range_after"
-            :per-page="pagination.per_page"
-            order="is-centered"
-            icon-prev="chevron-left"
-            icon-next="chevron-right"
-            aria-next-label="Next page"
-            aria-previous-label="Previous page"
-            aria-page-label="Page"
-            aria-current-label="Current page"
-        >
-        </b-pagination>
     </section>
 </template>

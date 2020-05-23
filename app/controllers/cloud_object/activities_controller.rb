@@ -195,8 +195,11 @@ module CloudObject
         #     info[:subscriber_model].new # will return an instance of CloudHelp::Ticket::Subscriber
         def dynamic_info
             module_info = self.class.name.split("::")
+            module_name = module_info[0].sub("Cloud", "").downcase
+            module_name = "house" if module_name == "haus"
+            
             {
-                module_name: module_info[0].sub("Cloud", "").downcase,
+                module_name: module_name,
                 object_name: module_info[1].downcase,
                 model: "#{module_info[0]}::#{module_info[1]}::Activity".constantize,
                 subscriber_model: "#{module_info[0]}::#{module_info[1]}::Subscriber".constantize
