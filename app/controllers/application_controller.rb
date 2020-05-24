@@ -70,7 +70,7 @@ class ApplicationController < ActionController::Base
 
         I18n.locale = locale
 
-        #return redirect_back(fallback_location: root_authenticated_path)
+        return redirect_back(fallback_location: root_authenticated_path)
 
         responseWithSuccessful({
             locale: I18n.locale,
@@ -88,13 +88,6 @@ class ApplicationController < ActionController::Base
         render status: 200, json: response_body.to_json
     end
     
-    def response_with_successful(data = nil)
-        response_body = { }
-        response_body[:successful] = true
-        response_body[:data] = data
-        render status: 200, json: response_body.to_json
-    end
-
     # JSON failure response
     def responseWithError(message = "", details = [])
         render status: 200, json: {
@@ -131,6 +124,49 @@ class ApplicationController < ActionController::Base
                 }.to_json
             }
         end
+    end
+
+    def response_with_successful(response = nil)
+
+        response_body = { }
+
+        # transaction completed successfully
+        response_body[:successful] = true 
+
+        # build pagination for array response
+        if response.is_a?(Array) 
+
+            # pagination results (most for index only)
+            response_body[:records] = {} 
+            response_body[:records][:found] = response.length
+            response_body[:records][:total] = response.length
+            response_body[:data] = response
+
+        end
+
+        # build pagination for hash results
+        if response.is_a?(Hash) 
+
+            # hash result with pagination
+            if response[:total] || response[:found]
+                response_body[:records] = {} 
+                response_body[:records][:found] = response[:found] || response[:data].length || 1
+                response_body[:records][:total] = response[:total] || response_body[:records][:found] 
+                response_body[:data] = response[:data]
+            else
+
+                # simple hash result
+                response_body[:records] = {} 
+                response_body[:records][:found] = 1
+                response_body[:records][:total] = 1
+                response_body[:data] = response
+            end 
+
+        end
+
+        # render response 
+        render status: 200, json: response_body.to_json
+
     end
 
     private
