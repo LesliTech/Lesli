@@ -98,34 +98,6 @@ class SettingsController < ApplicationLesliController
 
     end
 
-    def language
-
-        # check if param locale was sent by the user
-        if not params[:locale].blank?
-
-            locale = params[:locale].to_sym
-
-            # check if locale requested is valid
-            if I18n.available_locales.include?(locale)
-
-                # save requested locale in session
-                # this will be used in application_controller#switch_locale
-                session[:locale] = locale
-
-            end
-
-        end
-
-        return redirect_back(fallback_location: root_authenticated_path)
-
-        responseWithSuccessful({
-            locale: I18n.locale,
-            default_locale: I18n.default_locale, 
-            available_locales: I18n.available_locales
-        })
-
-    end
-
     private
 
     # Use callbacks to share common setup or constraints between actions.
