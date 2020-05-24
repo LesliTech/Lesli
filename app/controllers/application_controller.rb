@@ -30,10 +30,9 @@ class ApplicationController < ActionController::Base
 
     rescue_from ActiveRecord::RecordNotFound, with: :responseWithSuccessful
 
-    before_action :switch_locale
+    before_action :set_locale
  
-    #def switch_locale(&action)
-    def switch_locale
+    def set_locale
 
         # get saved language in session or the default in config
         # the session param is setted in settings controller through "get :language, to: "settings#language""
@@ -49,10 +48,49 @@ class ApplicationController < ActionController::Base
 
     end
 
+    def switch_locale
+
+        local = I18n.locale
+
+        # check if param locale was sent by the user
+        if not params[:locale].blank?
+
+            locale = params[:locale].to_sym
+
+            # check if locale requested is valid
+            if I18n.available_locales.include?(locale)
+
+                # save requested locale in session
+                # this will be used in application_controller#switch_locale
+                session[:locale] = locale
+
+            end
+
+        end
+
+        I18n.locale = locale
+
+        #return redirect_back(fallback_location: root_authenticated_path)
+
+        responseWithSuccessful({
+            locale: I18n.locale,
+            default_locale: I18n.default_locale, 
+            available_locales: I18n.available_locales
+        })
+
+    end
+
 
     # JSON successful response
     def responseWithSuccessful(data = nil)
         response_body = { successful: true }
+        response_body[:data] = data
+        render status: 200, json: response_body.to_json
+    end
+    
+    def response_with_successful(data = nil)
+        response_body = { }
+        response_body[:successful] = true
         response_body[:data] = data
         render status: 200, json: response_body.to_json
     end

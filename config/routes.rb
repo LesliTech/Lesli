@@ -45,7 +45,7 @@ Rails.application.routes.draw do
         :sessions => "users/sessions"
     }
 
-    get :language, to: "settings#language"
+    get :language, to: "application#switch_locale"
 
     extend RoutesApp
 
