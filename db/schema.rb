@@ -859,6 +859,7 @@ ActiveRecord::Schema.define(version: 10010104) do
     t.string "name"
     t.string "description"
     t.boolean "enabled"
+    t.json "condition"
     t.datetime "deleted_at"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
