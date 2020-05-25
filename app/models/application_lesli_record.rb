@@ -43,8 +43,7 @@ class ApplicationLesliRecord < ApplicationRecord
         custom_validation_fields_model= "#{module_info[0]}::CustomValidation::Field".constantize 
 
         fields_to_validate = custom_validation_fields_model.where(
-            :model_to_validate => self.class.name,
-            #:model_to_validate => self.table_name,
+            :model_to_validate => self.class.table_name,
             :column_to_validate => self.class.column_names
         ).to_a
 
