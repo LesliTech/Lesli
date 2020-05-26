@@ -163,8 +163,11 @@ Building a better future, one line of code at a time.
 =end
         def self.dynamic_info
             module_info = self.name.split("::")
+            module_name = module_info[0].sub("Cloud", "").downcase
+            module_name = "house" if module_name == "haus"
+
             {
-                module_name: module_info[0].sub("Cloud", "").downcase
+                module_name: module_name
             }
         end
 
@@ -209,7 +212,6 @@ Building a better future, one line of code at a time.
         def verify_uniqueness
             dynamic_info = self.class.dynamic_info
             module_name = dynamic_info[:module_name]
-            module_name = "house" if module_name.eql? "haus"
 
             unique_attributes = attributes.to_hash
             unique_attributes.except!("id", "created_at", "updated_at", "cloud_#{module_name}_workflows_id")
