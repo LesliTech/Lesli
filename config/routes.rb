@@ -26,7 +26,6 @@ Building a better future, one line of code at a time.
 
 =end
 
-
 Rails.application.routes.draw do
 
     devise_for :users,
@@ -66,6 +65,7 @@ Rails.application.routes.draw do
         mount CloudHouse::Engine  => "/house"  if defined?(CloudHouse)
         mount CloudFocus::Engine  => "/focus"  if defined?(CloudFocus)
         mount CloudDriver::Engine => "/driver" if defined?(CloudDriver)
+        mount CloudMailer::Engine => "/mailer" if defined?(CloudMailer)
 
         root to: redirect("/lesli"), as: :root_authenticated if defined?(CloudLesli)
         root to: "dashboards#empty", as: :root_authenticated if !defined?(CloudLesli)
@@ -74,8 +74,8 @@ Rails.application.routes.draw do
 
     mount CloudDispatcher::Engine => "/api" if defined?(CloudDispatcher)
 
-    match "/404", :to => "errors#not_found", :via => :all
-    match "/401", :to => "errors#unauthorized", :via => :all
+    match "/404", :to => "errors#not_found",             :via => :all
+    match "/401", :to => "errors#unauthorized",          :via => :all
     match "/500", :to => "errors#internal_server_error", :via => :all
 
     root to: "websites#home", as: :root_unauthenticated

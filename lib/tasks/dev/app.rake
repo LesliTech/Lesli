@@ -89,7 +89,7 @@ namespace :dev do
             # touch tmp/restart.txt
             # sudo -u username
 
-            # r62MUgBeQsafTWcNPBg1
+            # yFmzdMtV2Q27b3Nbs4zt
 
         end
 
