@@ -186,7 +186,8 @@ private
             module_name = dynamic_info[:module_name]
 
             params.require(:workflow_association).permit(
-                :workflow_for
+                :workflow_for,
+                :global
             )
         end
 

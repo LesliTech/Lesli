@@ -170,6 +170,31 @@ Building a better future, one line of code at a time.
 
         protected
 
+=begin
+@return [Array] Array of hashes, each hash contains information about the association detail of this workflow
+    (like class, primary key, identifier, etc.)
+@param association_name [String] The name of the association
+@description A workflow can be associated to a specific class, based on certain field. For example, one workflow can be
+    assigned to purchase projects, and another workflow can be assigned to sale projects. This method returns the details
+    to create that specific association
+@example
+    # Imagine you want to associate a workflow to a project based on it's type, then you should execute
+    association_details = Workflow::Association.object_association_details('project')
+    puts association_details.to_json # Will display something like
+    # [{
+    #     "name": "project_type",
+    #     "class": "CloudHouse::Catalog::ProjectType",
+    #     "key": :"cloud_house_catalog_project_types_id",
+    #     "identifier": :"name"
+    # }]
+    # Where "name" is the name of the association detail, class is the Rails class of the model, key is the primary key of that table,
+    # and identifier is a field, in that table, that allows the user to identify one entry from the other. In this example "name" will have
+    # values like "sale", "purchase", "repair", etc.
+=end
+        def self.object_association_details(association_name)
+            return []
+        end
+
         
 =begin
 @return [void]
