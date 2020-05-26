@@ -6,5 +6,9 @@
     {
         "name": "global",
         "type": "boolean"
+    },{
+        "name": "deleted_at",
+        "type": "datetime",
+        "index": true
     }
 ]
