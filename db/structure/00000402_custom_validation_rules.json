@@ -16,4 +16,8 @@
 }, {
     "name": "rule_required_error_msg",
     "type": "string"
+},{
+    "name": "deleted_at",
+    "type": "datetime",
+    "index": true
 }]
