@@ -65,7 +65,7 @@ Building a better future, one line of code at a time.
     workflow = CloudHelp::Workflow.first.full_workflow
     responseWithSuccessful(workflow)
 =end
-        def detailed_info
+        def show
             dynamic_info = self.class.dynamic_info
             module_name = dynamic_info[:module_name]
             status_model = dynamic_info[:status_model]
@@ -76,8 +76,9 @@ Building a better future, one line of code at a time.
                 :name,
                 :number,
                 :initial,
-                :inactive,
-                :final,
+                :completed_successfully,
+                :completed_unsuccessfully,
+                :to_be_deleted,
                 :next_statuses
             ).where(
                 workflow: self
@@ -112,7 +113,7 @@ Building a better future, one line of code at a time.
     a table
 @example
     account = current_user.account
-    workflows = CloudHelp::Workflow.detailed_info(account)
+    workflows = CloudHelp::Workflow.list(account)
 =end
         def self.list(current_user, query)
             module_name = dynamic_info[:module_name]
@@ -310,20 +311,26 @@ Building a better future, one line of code at a time.
             module_name = dynamic_info[:module_name]
 
             self.create(
-                name: 'Default Workflow',
+                name: "Default Workflow",
                 default: true,
                 account: account,
                 statuses_attributes: [
                     {
-                        name: 'created',
+                        name: "created",
                         number: 0,
                         initial: true,
-                        next_statuses: '1'
+                        completed_successfully: false,
+                        completed_unsuccessfully: false,
+                        to_be_deleted: false,
+                        next_statuses: "1"
                     },
                     {
-                        name: 'closed',
+                        name: "closed",
                         number: 1,
-                        final: true
+                        initial: false,
+                        completed_successfully: true,
+                        completed_unsuccessfully: false,
+                        to_be_deleted: false
                     }
                 ]
             )
