@@ -113,6 +113,7 @@ module Courier
                     {
                         id: task.id, 
                         title: task.title, 
+                        task_type: task.task_type,
                         description: task.description,
                         deadline: LC::Date.to_string(task.deadline),
                         deadline_raw: task.deadline,
