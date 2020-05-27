@@ -44,15 +44,15 @@ Building a better future, one line of code at a time.
             module_name = dynamic_info_[:module_name]
 
             workflow.actions.joins(
-                "left join cloud_house_workflow_statuses CHWSI on CHWSI.id = cloud_house_workflow_actions.initial_status_id"
+                "left join cloud_#{module_name}_workflow_statuses CHWSI on CHWSI.id = cloud_#{module_name}_workflow_actions.initial_status_id"
             ).joins(
-                "inner join cloud_house_workflow_statuses CHWSF on CHWSF.id = cloud_house_workflow_actions.final_status_id"
+                "inner join cloud_#{module_name}_workflow_statuses CHWSF on CHWSF.id = cloud_#{module_name}_workflow_actions.final_status_id"
             ).select(
-                "cloud_house_workflow_actions.id",
-                "cloud_house_workflow_actions.name",
+                "cloud_#{module_name}_workflow_actions.id",
+                "cloud_#{module_name}_workflow_actions.name",
                 "CHWSI.name as initial_status_name",
                 "CHWSF.name as final_status_name",
-                "cloud_house_workflow_actions.action_type"
+                "cloud_#{module_name}_workflow_actions.action_type"
             ).order(id: :desc)
         end
 
