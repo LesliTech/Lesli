@@ -4,4 +4,8 @@
 },{
     "name": "notification_type",
     "type": "integer"
+},{
+    "name": "deleted_at",
+    "type": "datetime",
+    "index": true
 }]

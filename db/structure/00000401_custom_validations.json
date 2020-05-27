@@ -8,6 +8,7 @@
     "name": "enabled",
     "type": "boolean"
 }, {
-    "name": "condition",
-    "type": "json"
+    "name": "deleted_at",
+    "type": "datetime",
+    "index": true
 }]
