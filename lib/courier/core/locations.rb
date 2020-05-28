@@ -61,14 +61,21 @@ module Courier
                         level: level
                     )
                     return location.id if location
-
-                    parent_location = current_user.account.locations.find_by(level: "empty")
-                    location = current_user.account.locations.create!(
-                        name: location_name,
-                        level: level,
-                        parent_location: parent_location
-                    )
-                    return location.id
+                    
+                    begin
+                        parent_location = current_user.account.locations.find_by(level: "empty")
+                        location = current_user.account.locations.create!(
+                            name: location_name,
+                            level: level,
+                            parent_location: parent_location
+                        )
+                        return location.id
+                    rescue ActiveRecord::RecordNotUnique
+                        return current_user.account.locations.find_by(
+                            name: location_name,
+                            level: level
+                        ).id
+                    end
                 else
                     return nil
                 end
