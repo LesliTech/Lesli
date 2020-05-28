@@ -23,6 +23,11 @@ export default {
             default: 'core.shared'
         },
 
+        acceptedFileExtensions: {
+            type: Array,
+            default: null
+        },
+
         translationsFileTypesPath: {
             type: String,
             default: null
@@ -134,16 +139,41 @@ export default {
             formData.append(`${param_name}[file_type]`, this.file_type)
         },
 
+        verifyFileAdded(file){
+            if(! this.acceptedFileExtensions){
+                return
+            }
+
+            let accepted_file_type = false
+
+            for(let i = 0; i < this.acceptedFileExtensions.length; i++){
+                let extension = this.acceptedFileExtensions[i]
+                if(file.name.toLowerCase().endsWith(extension)){
+                    accepted_file_type = true
+                    break
+                }
+            }
+
+            if(! accepted_file_type){
+                this.notification.alert(this.translations.core.notification_error_file_type_not_allowed, 'danger')
+                this.$refs['dropzone'].removeFile(file)
+            }
+        },
+
         cleanDropzone(){
             this.submitting_form = false
             this.notification.alert(this.translations.main.notification_file_uploaded, 'success')
-            this.$refs['dropzone'].removeAllFiles(true);
+            this.$refs['dropzone'].removeAllFiles(true)
             this.$emit('upload-complete')
             this.bus.publish(`post:/${this.module_name.slash}/${this.object_name.plural}/files-complete`)
         },
 
-        filePosted(file, response){
-            this.bus.publish(`post:/${this.module_name.slash}/${this.object_name.plural}/files`, response.data)
+        filePosted(file, result){
+            if(result.successful){
+                this.bus.publish(`post:/${this.module_name.slash}/${this.object_name.plural}/files`, result.data)
+            }else{
+                this.notification.alert(result.error.message,'danger')
+            }
         },
 
         translateFileType(file_type){
@@ -196,10 +226,11 @@ export default {
             <div class="column is-10">
                 <b-field>
                     <vue-dropzone
+                        :id="`vue-dropzone-${cloudModule}-${cloudId}`"
                         ref="dropzone"
                         v-if="dropzone_options.url"
-                        id="files-dropzone"
                         :options="dropzone_options"
+                        v-on:vdropzone-file-added="verifyFileAdded"
                         v-on:vdropzone-sending="attachFileType"
                         v-on:vdropzone-success="filePosted"
                         v-on:vdropzone-queue-complete="cleanDropzone"

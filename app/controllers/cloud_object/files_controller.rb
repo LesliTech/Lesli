@@ -77,14 +77,19 @@ Building a better future, one line of code at a time.
         def create
             module_name = dynamic_info[:module_name]
             object_name = dynamic_info[:object_name] 
+            model = dynamic_info[:model]
             subscriber_model = dynamic_info[:subscriber_model]
             plural_object_name = object_name.pluralize
-
-            cloud_object_file = dynamic_info[:model].new(
-                cloud_object_file_params.merge(
-                    "cloud_#{module_name}_#{plural_object_name}_id".to_sym => params["#{object_name}_id".to_sym]
-                )
+        
+            new_file_params = 
+            cloud_object_file_params.merge(
+                "cloud_#{module_name}_#{plural_object_name}_id".to_sym => params["#{object_name}_id".to_sym]
             )
+
+            extension = new_file_params[:attachment].original_filename
+            return responseWithError(I18n.t('core.shared.notification_error_file_type_not_allowed')) unless model.verify_file_extension(extension)
+
+            cloud_object_file = model.new(new_file_params)
 
             if cloud_object_file.save
 
