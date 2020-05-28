@@ -159,8 +159,39 @@ export default {
         let today = function(){
             return toString(new Date());
         }
+
+        let getMonthNames = function(){
+            return [
+                I18n.t('core.shared.text_month_january'),
+                I18n.t('core.shared.text_month_february'),
+                I18n.t('core.shared.text_month_march'),
+                I18n.t('core.shared.text_month_april'),
+                I18n.t('core.shared.text_month_may'),
+                I18n.t('core.shared.text_month_june'),
+                I18n.t('core.shared.text_month_july'),
+                I18n.t('core.shared.text_month_august'),
+                I18n.t('core.shared.text_month_september'),
+                I18n.t('core.shared.text_month_october'),
+                I18n.t('core.shared.text_month_november'),
+                I18n.t('core.shared.text_month_december')
+            ]
+        }
+
+        let getDayNames = function(){
+            return [
+                I18n.t('core.shared.text_day_simple_sunday'),
+                I18n.t('core.shared.text_day_simple_monday'),
+                I18n.t('core.shared.text_day_simple_tuesday'),
+                I18n.t('core.shared.text_day_simple_wednesday'),
+                I18n.t('core.shared.text_day_simple_thursday'),
+                I18n.t('core.shared.text_day_simple_friday'),
+                I18n.t('core.shared.text_day_simple_saturday')
+            ]
+        }
         
         Vue.prototype.date = {
+            getMonthNames,
+            getDayNames,
             firstDayOfWeek,
             toStringDatetime,
             toStringFull,
