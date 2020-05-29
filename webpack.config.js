@@ -45,7 +45,6 @@ module.exports = env => {
     // set mode boolean
     var production = env.mode == "production" ? true : false
 
-
     // · 
     var webpackbase = {
         watch: env.watch == "true",
@@ -227,6 +226,47 @@ module.exports = env => {
         }
 
     })
+
+
+    // · Update compilation version for frontend and backend
+    // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
+    function update_software_version(production) {
+
+        // do not change if development
+        if (!production) {
+
+            return 
+
+        }
+
+        var application_data_html = "./engines/CloudHaus/lib/cloud_haus/version.rb"
+
+        fs.readFile(application_data_html, "utf8", (err, data) => {
+
+            if (err) {
+                return console.log(err)
+            }
+
+            data = data.split("\n")
+
+            var date = new Date()
+
+            var build_date = (date.getMonth()+1).toString().concat(date.getUTCDate().toString())
+            var build_time = date.getHours().toString().concat(date.getMinutes().toString())
+
+            data[2] = `BUILD = \"20.${build_date}\"`
+            data[3] = `BUILD_TIME = \"${build_time}\"`
+
+
+            fs.writeFile(application_data_html, data.join("\n"), "utf8", function (err) {
+                if (err) return console.log(err)
+            })
+
+        })
+
+    }
+
+    update_software_version(env)
 
     return webpackConfig
 
