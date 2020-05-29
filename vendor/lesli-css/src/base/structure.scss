@@ -1,0 +1,103 @@
+/*
+Lesli
+
+Copyright (c) 2020, Lesli Technologies, S. A.
+
+All the information provided by this website is protected by laws of Guatemala related 
+to industrial property, intellectual property, copyright and relative international laws. 
+Lesli Technologies, S. A. is the exclusive owner of all intellectual or industrial property
+rights of the code, texts, trade mark, design, pictures and any other information.
+Without the written permission of Lesli Technologies, S. A., any replication, modification,
+transmission, publication is strictly forbidden.
+For more information read the license file including with this software.
+
+LesliCloud - Your Smart Business Assistant
+
+Powered by https://www.lesli.tech
+Building a better future, one line of code at a time.
+
+@license  Propietary - all rights reserved.
+@version  0.1.0-alpha
+
+// · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
+// · 
+*/
+
+
+// · include vendors
+// · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
+@import "../vendor/normalize.scss";
+
+
+// · 
+// · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
+@mixin lesli-css-base($vendors: true) {
+
+
+    // · Normalize
+    @if $vendors {
+        @include normalize();
+    }
+
+
+    // · Reset
+    *,
+    *:before,
+    *:after {
+        box-sizing: border-box;
+    }
+
+
+    // · 
+    body,
+    html {
+        font-size: 16px;
+        font-family: "Helvetica Neue", "Helvetica", "Arial", "sans-serif", sans-serif;
+        -webkit-text-size-adjust: 100%;
+        -ms-text-size-adjust: 100%;
+    }
+
+
+    // · Estilo estandar para titulos
+    h1, h2, h3, h4, h5, h6 {
+        font-style: inherit;
+        font-weight: inherit;
+        text-rendering: optimizelegibility;
+    }
+
+
+    // · Estilos estandar para enlaces
+    a {
+        color: inherit;
+        text-decoration: none;
+
+        &:visited {
+            color: inherit;
+        }
+
+    }
+
+
+    // · Responsive images
+    img {
+        height: auto;
+        max-width: 100%;
+    }
+
+
+    // · Paragraphs
+    p {
+        margin: 0;
+    }
+
+
+    // · Navigation and list
+    ul {
+        
+        li{
+            list-style: none;
+        }
+
+    }
+        
+}
