@@ -50,23 +50,31 @@ export default {
 
         Vue.prototype.http.interceptors.response.use(response => {
 
+            var response_object = {}
+
             if (window.debug) {
                 window.debug(response.data, "api method: " + response.request.responseURL)
             }
 
+            return response.data
+
+            response_object["successful"] = response.data.successful
+
             if(response.data.successful){
 
-                return {
-                    successful: response.data.successful,
-                    data: response.data.data
+                if (response.records) {
+                    response_object["records"] = response.data.records
                 }
 
+                response_object["data"] = response.data.data
+             
+                return response_object
+
             }
 
-            return {
-                successful: response.data.successful,
-                error: response.data.error
-            }
+            response_object["error"] = response.data.error
+
+            return response_object
 
         }, error => {
             
