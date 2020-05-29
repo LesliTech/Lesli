@@ -92,16 +92,17 @@ namespace :dev do
 
             # copy vendor dependencies (only css files are required)
             system "rm -r vendor/*"
-            system "cp node_modules/buefy/ vendor/ -ra"
-            system "cp node_modules/bulma/ vendor/ -ra"
-            system "cp node_modules/bulma-o-steps/ vendor/ -ra"
-            system "cp node_modules/bulma-extensions/ vendor/ -ra"
-            system "cp node_modules/quill/ vendor/ -ra"
-            system "cp node_modules/@fullcalendar/ vendor/ -ra"
-            system "cp node_modules/lesli-css/ vendor/ -ra"
+            FileUtils.cp_r "node_modules/buefy/", "vendor/", :verbose => true
+            #system "cp node_modules/buefy/ vendor/ -ra"
+            #system "cp node_modules/bulma/ vendor/ -ra"
+            #system "cp node_modules/bulma-o-steps/ vendor/ -ra"
+            #system "cp node_modules/bulma-extensions/ vendor/ -ra"
+            #system "cp node_modules/quill/ vendor/ -ra"
+            #system "cp node_modules/@fullcalendar/ vendor/ -ra"
+            #system "cp node_modules/lesli-css/ vendor/ -ra"
 
             # commit any change in vendor
-            system "git add --all && git commit -m \"Update npm dependencies (vendors)\""
+            #system "git add --all && git commit -m \"Update npm dependencies (vendors)\""
 
         end
 
