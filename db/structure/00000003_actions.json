@@ -13,4 +13,8 @@
 },{
     "name": "tags",
     "type": "string"
+},{
+    "name": "deleted_at",
+    "type": "datetime",
+    "index": true
 }]

@@ -186,7 +186,8 @@ private
             module_name = dynamic_info[:module_name]
 
             params.require(:workflow_association).permit(
-                :workflow_for
+                :workflow_for,
+                :global
             )
         end
 
@@ -202,8 +203,11 @@ private
 =end
         def self.dynamic_info
             module_info = self.name.split("::")
+            module_name = module_info[0].sub("Cloud", "").downcase
+            module_name = "house" if module_name == "haus"
+
             {
-                module_name: module_info[0].sub("Cloud", "").downcase,
+                module_name: module_name,
                 model: "#{module_info[0]}::Workflow::Association".constantize,
                 workflow_model: "#{module_info[0]}::Workflow".constantize
             }
