@@ -31,4 +31,8 @@
 }, {
     "name": "value_length",
     "type": "integer"
+},{
+    "name": "deleted_at",
+    "type": "datetime",
+    "index": true
 }]

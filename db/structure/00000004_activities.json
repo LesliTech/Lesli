@@ -1,7 +1,7 @@
 [{
     "name": "description",
     "type": "string"
-}, {
+    },{
     "name": "field_name",
     "type": "string"
     }, {
@@ -13,7 +13,11 @@
     }, {
     "name": "category",
     "type": "string"
-    }, {
+    },{
     "name": "users_id",
     "type": "bigint"
+    },{
+    "name": "deleted_at",
+    "type": "datetime",
+    "index": true
 }]

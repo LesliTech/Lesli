@@ -10,7 +10,11 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
+<<<<<<< HEAD
 ActiveRecord::Schema.define(version: 2020_05_26_180220) do
+=======
+ActiveRecord::Schema.define(version: 5) do
+>>>>>>> 3e78eec50e4ebd0e6bc51fdbec46a5408d4047d9
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -59,6 +63,7 @@ ActiveRecord::Schema.define(version: 2020_05_26_180220) do
     t.index ["key"], name: "index_active_storage_blobs_on_key", unique: true
   end
 
+<<<<<<< HEAD
   create_table "cloud_babel_translation_buckets", force: :cascade do |t|
     t.string "name"
     t.string "reference_module"
@@ -1735,6 +1740,8 @@ ActiveRecord::Schema.define(version: 2020_05_26_180220) do
     t.datetime "updated_at", precision: 6, null: false
   end
 
+=======
+>>>>>>> 3e78eec50e4ebd0e6bc51fdbec46a5408d4047d9
   create_table "locations", force: :cascade do |t|
     t.string "name"
     t.string "short_name"
@@ -1808,6 +1815,7 @@ ActiveRecord::Schema.define(version: 2020_05_26_180220) do
 
   add_foreign_key "accounts", "users", column: "users_id"
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
+<<<<<<< HEAD
   add_foreign_key "cloud_babel_translation_buckets", "cloud_babel_translation_modules", column: "cloud_babel_translation_modules_id"
   add_foreign_key "cloud_babel_translation_strings", "cloud_babel_translation_buckets", column: "cloud_babel_translation_buckets_id"
   add_foreign_key "cloud_babel_translation_strings", "users", column: "users_id"
@@ -2002,6 +2010,8 @@ ActiveRecord::Schema.define(version: 2020_05_26_180220) do
   add_foreign_key "cloud_mailer_campaign_email_statistics", "cloud_mailer_campaigns", column: "cloud_mailer_campaigns_id"
   add_foreign_key "cloud_mailer_campaign_emails", "cloud_mailer_campaigns", column: "cloud_mailer_campaigns_id"
   add_foreign_key "cloud_mailer_campaigns", "cloud_mailer_accounts", column: "cloud_mailer_accounts_id"
+=======
+>>>>>>> 3e78eec50e4ebd0e6bc51fdbec46a5408d4047d9
   add_foreign_key "locations", "accounts", column: "accounts_id"
   add_foreign_key "locations", "locations", column: "parent_id"
   add_foreign_key "settings", "accounts", column: "accounts_id"
