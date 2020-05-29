@@ -63,7 +63,7 @@ class ApplicationLesliRecord < ApplicationRecord
 @description Set all fields to nil excluding foreign key ids 
 @example
     company_details = CloudHouse::Company.first.detail
-    puts company_details #will display an instance of CloudHouse:Company::Detail
+    puts company_details #will display an instance of the object
     {
         "id": 1,
         "users_id": 512,
