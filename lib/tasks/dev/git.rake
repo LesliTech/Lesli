@@ -92,7 +92,9 @@ namespace :dev do
 
             # copy vendor dependencies (only css files are required)
             system "rm -r vendor/*"
-            FileUtils.cp_r "node_modules/buefy/", "vendor/", :verbose => true
+            ["buefy", "bulma", "bulma-o-steps", "bulma-extensions", "quill", "@fullcalendar", "lesli-css"].each do |package|
+                FileUtils.cp_r "node_modules/#{package}/", "vendor/", :verbose => true
+            end
             #system "cp node_modules/buefy/ vendor/ -ra"
             #system "cp node_modules/bulma/ vendor/ -ra"
             #system "cp node_modules/bulma-o-steps/ vendor/ -ra"

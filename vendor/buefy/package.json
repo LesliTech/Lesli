@@ -1,0 +1,204 @@
+{
+  "_args": [
+    [
+      "buefy@0.8.19",
+      "/Users/ldonis/code/Lesli/lesli.cloud"
+    ]
+  ],
+  "_development": true,
+  "_from": "buefy@0.8.19",
+  "_id": "buefy@0.8.19",
+  "_inBundle": false,
+  "_integrity": "sha512-c9JOYiGGHwhmFAffjUPI6wrdo5+NpGPpw1F7dc/01lY/05EPLJVHDLGnn+DC2XnEgc2VaOM31a2URdRSx3L2vA==",
+  "_location": "/buefy",
+  "_phantomChildren": {},
+  "_requested": {
+    "type": "version",
+    "registry": true,
+    "raw": "buefy@0.8.19",
+    "name": "buefy",
+    "escapedName": "buefy",
+    "rawSpec": "0.8.19",
+    "saveSpec": null,
+    "fetchSpec": "0.8.19"
+  },
+  "_requiredBy": [
+    "#DEV:/"
+  ],
+  "_resolved": "https://registry.npmjs.org/buefy/-/buefy-0.8.19.tgz",
+  "_spec": "0.8.19",
+  "_where": "/Users/ldonis/code/Lesli/lesli.cloud",
+  "author": {
+    "name": "Rafael Beraldo",
+    "email": "rafael.pimpa@gmail.com"
+  },
+  "browserslist": [
+    "> 1%",
+    "last 2 versions",
+    "not ie <= 8"
+  ],
+  "bugs": {
+    "url": "https://github.com/buefy/buefy/issues"
+  },
+  "dependencies": {
+    "bulma": "0.7.5"
+  },
+  "description": "Lightweight UI components for Vue.js based on Bulma",
+  "devDependencies": {
+    "@applitools/eyes-cypress": "3.7.5",
+    "@babel/core": "7.3.4",
+    "@babel/plugin-syntax-dynamic-import": "7.2.0",
+    "@babel/preset-env": "7.3.4",
+    "@fortawesome/fontawesome-free": "5.3.1",
+    "@mdi/font": "4.8.95",
+    "@vue/test-utils": "1.0.0-beta.29",
+    "all-contributors-cli": "6.14.0",
+    "autoprefixer": "7.1.1",
+    "axios": "0.18.1",
+    "babel-core": "6.25.0",
+    "babel-eslint": "7.1.1",
+    "babel-jest": "22.1.0",
+    "babel-loader": "7.1.2",
+    "babel-plugin-transform-runtime": "6.22.0",
+    "babel-preset-env": "1.3.2",
+    "babel-preset-stage-2": "6.22.0",
+    "babel-register": "6.22.0",
+    "chalk": "1.1.3",
+    "clean-css-cli": "4.3.0",
+    "cleave.js": "1.0.1",
+    "clipboard": "1.7.1",
+    "codecov": "3.6.5",
+    "connect-history-api-fallback": "1.3.0",
+    "copy-webpack-plugin": "4.3.1",
+    "copyfiles": "2.2.0",
+    "cross-env": "4.0.0",
+    "cross-spawn": "5.0.1",
+    "css-loader": "0.28.0",
+    "cypress": "3.4.1",
+    "eslint": "4.18.2",
+    "eslint-config-buefy": "0.0.3",
+    "eventsource-polyfill": "0.9.6",
+    "express": "4.14.1",
+    "extract-text-webpack-plugin": "3.0.2",
+    "file-loader": "0.11.1",
+    "font-awesome": "4.7.0",
+    "friendly-errors-webpack-plugin": "1.6.1",
+    "highlight.js": "9.12.0",
+    "html-webpack-plugin": "2.30.1",
+    "http-proxy-middleware": "0.17.3",
+    "jest": "23.5.0",
+    "jest-serializer-vue": "0.3.0",
+    "lint-staged": "6.1.1",
+    "node-sass": "4.11.0",
+    "opn": "4.0.2",
+    "optimize-css-assets-webpack-plugin": "3.2.0",
+    "optimize-js-plugin": "0.0.4",
+    "ora": "1.2.0",
+    "pre-commit": "1.2.2",
+    "prerender-spa-plugin": "3.4.0",
+    "raw-loader": "0.5.1",
+    "rimraf": "2.6.0",
+    "rollup": "1.17.0",
+    "rollup-copy-plugin": "0.1.0",
+    "rollup-plugin-babel": "4.3.2",
+    "rollup-plugin-commonjs": "9.2.1",
+    "rollup-plugin-node-resolve": "4.0.1",
+    "rollup-plugin-replace": "2.1.0",
+    "rollup-plugin-terser": "4.0.4",
+    "rollup-plugin-vue": "5.0.0",
+    "sass-loader": "6.0.6",
+    "scrollreveal": "3.3.6",
+    "semver": "5.3.0",
+    "shelljs": "0.8.3",
+    "sinon": "7.5.0",
+    "sortablejs": "1.7.0",
+    "uglifyjs-webpack-plugin": "1.2.5",
+    "url-loader": "0.5.8",
+    "vee-validate": "2.1.0-beta.9",
+    "vue": "2.5.18",
+    "vue-analytics": "4.1.3",
+    "vue-jest": "2.5.0",
+    "vue-loader": "12.1.0",
+    "vue-progressbar": "0.7.2",
+    "vue-router": "2.3.1",
+    "vue-style-loader": "3.0.1",
+    "vue-template-compiler": "2.5.18",
+    "webpack": "3.10.0",
+    "webpack-bundle-analyzer": "2.9.2",
+    "webpack-dev-server": "2.11.1",
+    "webpack-hot-middleware": "2.21.0",
+    "webpack-merge": "4.1.2"
+  },
+  "engines": {
+    "node": ">= 4.0.0",
+    "npm": ">= 3.0.0"
+  },
+  "files": [
+    "dist",
+    "src",
+    "types/*.d.ts"
+  ],
+  "homepage": "https://buefy.org",
+  "keywords": [
+    "bulma",
+    "vue",
+    "vuejs",
+    "vue-bulma",
+    "components"
+  ],
+  "license": "MIT",
+  "lint-staged": {
+    "*.{vue,js}": [
+      "lint --fix",
+      "git add"
+    ]
+  },
+  "main": "dist/cjs/index.js",
+  "maintainers": [
+    {
+      "name": "Walter Tommasi",
+      "email": "tommsi20@gmail.com"
+    }
+  ],
+  "module": "dist/esm/index.js",
+  "name": "buefy",
+  "peerDependencies": {
+    "vue": "^2.5.18"
+  },
+  "pre-commit": "lint:staged",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/buefy/buefy.git"
+  },
+  "scripts": {
+    "build": "npm run build:lib && npm run build:docs",
+    "build:docs": "node build/build.js && copyfiles --flat netlify.toml dist-docs",
+    "build:js": "rollup -c && rollup -c --environment MINIFY",
+    "build:js:watch": "rollup -c --watch",
+    "build:lib": "npm run build:js && npm run build:scss && npm run vetur && copyfiles --flat helper-json/*.json dist/vetur",
+    "build:lib:watch": "concurrently \"npm run build:js:watch\" \"npm run build:scss:watch \" ",
+    "build:scss": "node-sass --output-style expanded src/scss/buefy-build.scss | node ./build/banner.js > dist/buefy.css && cleancss -o dist/buefy.min.css dist/buefy.css",
+    "build:scss:watch": "node-sass src/scss/buefy-build.scss --w",
+    "cov": "./node_modules/codcov/bin/codcov",
+    "dev": "node build/dev-server.js",
+    "lint": "eslint --ext .js,.vue src docs",
+    "lint:fix": "eslint --ext .js,.vue src docs --fix",
+    "lint:staged": "lint-staged",
+    "start": "node build/dev-server.js",
+    "test": "npm run lint && npm run unit",
+    "test:watch": "npm run unit -- --watchAll",
+    "unit": "jest --runInBand",
+    "vetur": "node -r esm build/vetur.js"
+  },
+  "sideEffects": [
+    "*.css",
+    "*.scss"
+  ],
+  "typings": "types/index.d.ts",
+  "unpkg": "dist/buefy.min.js",
+  "version": "0.8.19",
+  "vetur": {
+    "tags": "dist/vetur/tags.json",
+    "attributes": "dist/vetur/attributes.json"
+  }
+}
