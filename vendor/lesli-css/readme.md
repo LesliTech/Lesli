@@ -8,7 +8,7 @@
 
 <hr/>
 
-<p align="center">Version 0.4.1</p>
+<p align="center">Version 0.5.0</p>
 
 <p align="center">
 	<a href="https://www.lesli.tech" target="_blank">
