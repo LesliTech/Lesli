@@ -29,7 +29,7 @@ Building a better future, one line of code at a time.
 class ApplicationLesliRecord < ApplicationRecord
     self.abstract_class = true
 
-    # acts_as_paranoid
+    acts_as_paranoid
 
     # before_validation :custom_validations
 
@@ -58,6 +58,27 @@ class ApplicationLesliRecord < ApplicationRecord
 
     end
 
+=begin
+@return [Boolean]
+@description Set all fields to nil excluding foreign key ids 
+@example
+    company_details = CloudHouse::Company.first.detail
+    puts company_details #will display an instance of CloudHouse:Company::Detail
+    {
+        "id": 1,
+        "users_id": 512,
+        "name": "Company 1",
+        "company_type": "Bank"    
+    }
+    company_details.clear_fields
+    puts company_details.clear_fields 
+    {
+        "id": 1,
+        "users_id": 512,
+        "name": nil,
+        "company_type": nil    
+    }
+=end
     def clear_fields
         attributes_hash = {}
         self.attributes.keys.each do |key|
