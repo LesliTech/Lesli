@@ -44,5 +44,23 @@ module CloudObject
             }
         end
 
+        def self.allowed_file_extensions
+            return nil
+        end
+
+        def self.verify_file_extension(filename)
+            allowed_file_extensions_ = self.allowed_file_extensions
+
+            return true unless allowed_file_extensions_
+            
+            allowed_file_extensions_.each do |file_extesion|
+                if filename.downcase.end_with?(file_extesion)
+                    return true
+                end
+            end
+
+            return false
+        end
+
     end
 end

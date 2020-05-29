@@ -52,6 +52,10 @@ export default {
         translationsFileTypesPath: {
             type: String,
             default: null
+        },
+        acceptedFileExtensions: {
+            type: Array,
+            default: null
         }
     },
 
@@ -108,6 +112,7 @@ export default {
                 @upload-complete="switchToList"
                 :translations-path="translationsPath"
                 :translations-file-types-path="translationsFileTypesPath"
+                :accepted-file-extensions="acceptedFileExtensions"
             />
         </b-tab-item>
         <b-tab-item :label="translations.main.files_title_list">
