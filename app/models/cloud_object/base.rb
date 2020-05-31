@@ -10,7 +10,7 @@
 
 
 module CloudObject
-    class Base < ApplicationRecord
+    class Base < ApplicationLesliRecord
         self.abstract_class = true
 
 =begin
