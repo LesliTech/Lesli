@@ -137,7 +137,7 @@ export default {
 <template>
     <div>
         <b-dropdown hoverable aria-role="list" position="is-bottom-left">
-            <button class="button" slot="trigger">
+            <button class="button" slot="trigger" type="button">
                 <span v-if="value">
                     {{core_translations.workflows_text_new_status}}:
                     <component-status-name
