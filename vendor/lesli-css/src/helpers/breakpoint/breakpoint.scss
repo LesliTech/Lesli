@@ -37,7 +37,6 @@ Building a better future, one line of code at a time.
 
 // · Defining available breakpints sizes
 $breakpoints: (
-    "small":      ( min-width:  320px, max-width:  520px ),
     "mobile":     ( min-width:  320px, max-width:  768px ),
     "tablet":     ( min-width:  769px, max-width: 1023px ),
     "desktop":    ( min-width: 1024px, max-width: 1215px ),
@@ -45,10 +44,6 @@ $breakpoints: (
     "fullhd":     ( min-width: 1408px, max-width: 9999px )
 ) !default;
 
-
-@function lesli-css-get-breakpoint($breakpoint) {
-    @return map-get($map: $breakpoints, $key: $breakpoint);
-}
 
 
 // · Mixin to manage responsive breakpoints
