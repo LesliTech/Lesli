@@ -97,6 +97,7 @@ class ApplicationLesliController < ApplicationController
     end
 
     def set_global_account 
+        
         if defined?(CloudLock)
             current_user_role = current_user.lock ? current_user.lock.role : nil
         end
