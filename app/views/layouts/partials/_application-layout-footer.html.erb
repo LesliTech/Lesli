@@ -8,11 +8,13 @@
         <div class="navbar-menu">
             <div class="navbar-start"></div>
             <div class="navbar-end">
+                <% if defined?(CloudHaus) %>
                 <span class="navbar-item has-text-grey">
                     version <%= CloudHaus::VERSION %> - 
                     build <%= CloudHaus::BUILD %>-<%= CloudHaus::BUILD_TIME %>
                 </span>
-                <% if defined?(CloudLesliCloud) %>
+                <% end %>
+                <% if defined?(LesliCloud) %>
                 <a class="navbar-item" href="#">
                     LesliCloud
                 </a>

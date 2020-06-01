@@ -12,6 +12,7 @@
 !/log/.keep
 !/tmp/.keep
 .byebug_history
+.DS_store
 
 
 # Ignore auto-generated documentation
