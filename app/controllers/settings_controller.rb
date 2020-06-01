@@ -87,6 +87,9 @@ class SettingsController < ApplicationLesliController
         return responseWithNotFound unless @setting
 
         if @setting.update(setting_params)
+            if @setting.name.include?('date_format')
+                LC::Date.reset_db_settings
+            end
             responseWithSuccessful(@setting)
         else
             responseWithError(@setting.error.full_messages.to_sentence)
