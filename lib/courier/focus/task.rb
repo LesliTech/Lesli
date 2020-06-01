@@ -72,6 +72,7 @@ module Courier
                         title: task.title, 
                         description: task.description,
                         deadline: LC::Date.to_string(task.deadline),
+                        deadline_raw: task.deadline,
                         importance: CloudFocus::Task.importances.key(task.importance),
                         task_type: task.task_type,
                         creator: {
@@ -104,7 +105,7 @@ module Courier
                         .joins("inner join users ua on ua.id = cloud_focus_tasks.users_id")
                         .joins("inner join users uc on uc.id = cloud_focus_tasks.creator_id")
 
-                tasks = tasks.where(creator: current_user) unless query[:filters][:all]
+                tasks = tasks.where("creator_id = ? or users_id = ?", current_user, current_user) unless query[:filters][:all]
                 tasks = tasks.map do |task|
 
                     model_global_identifier = nil
