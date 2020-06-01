@@ -233,7 +233,7 @@ module.exports = env => {
     function update_software_version(production) {
 
         // do not change if development
-        if (!production) {
+        if (production.mode != "production") {
 
             return 
 
