@@ -42,6 +42,9 @@ production:
 account: 
     company: "Lesli Technologies, S. A."
 
+    website:
+        title_prefix: "Lesli"
+
     settings:
         theme: "deutsche-blue"
         theme_variation: "standard"

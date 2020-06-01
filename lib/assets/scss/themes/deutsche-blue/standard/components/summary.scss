@@ -10,7 +10,7 @@
         padding-left: 0;
         padding-right: 0;
         & > div {
-            @include lesli-css-grid(3, 5px);
+            //@include lesli-css-grid(3, 5px);
             div {
                 width: calc(33% - 5px);
                 margin-left: 5px;

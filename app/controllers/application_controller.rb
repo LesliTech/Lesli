@@ -31,6 +31,17 @@ class ApplicationController < ActionController::Base
     rescue_from ActiveRecord::RecordNotFound, with: :responseWithSuccessful
 
     before_action :set_locale
+    before_action :set_global_account
+
+    protected
+
+    def set_global_account
+        @account = {
+            company: {
+                name: Lesli::settings["account"]["company"]
+            }
+        }
+    end
  
     def set_locale
 

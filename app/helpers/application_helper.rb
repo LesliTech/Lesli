@@ -28,6 +28,12 @@ Building a better future, one line of code at a time.
 
 module ApplicationHelper
 
+    def website_title
+        title = @website_title || @account[:company][:name] || "Lesli"
+        title = "Lesli · " + title if defined?(LesliCloud)
+        title
+    end
+
     def application_body_class()
         application_body_class = lesli_instance
         [application_body_class, controller_path.gsub("/","-"), action_name].join(" ")
