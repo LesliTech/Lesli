@@ -33,8 +33,6 @@ class ApplicationController < ActionController::Base
     before_action :set_locale
     before_action :set_global_account
 
-    protected
-
     def set_global_account
         @account = {
             company: {
