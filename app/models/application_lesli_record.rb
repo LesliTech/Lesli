@@ -29,9 +29,9 @@ Building a better future, one line of code at a time.
 class ApplicationLesliRecord < ApplicationRecord
     self.abstract_class = true
 
-    #acts_as_paranoid
+    acts_as_paranoid
 
-    before_validation :custom_validations
+    # before_validation :custom_validations
 
     # @description Run user defined validations over database columns
     def custom_validations
@@ -43,7 +43,8 @@ class ApplicationLesliRecord < ApplicationRecord
         custom_validation_fields_model= "#{module_info[0]}::CustomValidation::Field".constantize 
 
         fields_to_validate = custom_validation_fields_model.where(
-            :model_to_validate => self.class.table_name,
+            :model_to_validate => self.class.name,
+            #:model_to_validate => self.table_name,
             :column_to_validate => self.class.column_names
         ).to_a
 
@@ -57,4 +58,40 @@ class ApplicationLesliRecord < ApplicationRecord
 
     end
 
+=begin
+@return [Boolean]
+@description Set all fields to nil excluding foreign key ids 
+@example
+    company_details = CloudHouse::Company.first.detail
+    puts company_details #will display an instance of the object
+    {
+        "id": 1,
+        "users_id": 512,
+        "name": "Company 1",
+        "company_type": "Bank"    
+    }
+    company_details.clear_fields
+    puts company_details.clear_fields 
+    {
+        "id": 1,
+        "users_id": 512,
+        "name": nil,
+        "company_type": nil    
+    }
+=end
+    def clear_fields
+        attributes_hash = {}
+        self.attributes.keys.each do |key|
+            if key != "id" && 
+                key != "created_at" && 
+                key != "updated_at" && 
+                key != "deleted_at" && 
+                !(key.include? "_id")
+                    attributes_hash["#{key}"] = nil
+            end
+        end
+
+        self.attributes = attributes_hash
+        self.save(validate: false)
+    end
 end
