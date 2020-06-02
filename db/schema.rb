@@ -10,11 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-<<<<<<< HEAD
 ActiveRecord::Schema.define(version: 2020_05_26_180220) do
-=======
-ActiveRecord::Schema.define(version: 5) do
->>>>>>> 3e78eec50e4ebd0e6bc51fdbec46a5408d4047d9
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -63,7 +59,6 @@ ActiveRecord::Schema.define(version: 5) do
     t.index ["key"], name: "index_active_storage_blobs_on_key", unique: true
   end
 
-<<<<<<< HEAD
   create_table "cloud_babel_translation_buckets", force: :cascade do |t|
     t.string "name"
     t.string "reference_module"
@@ -144,6 +139,7 @@ ActiveRecord::Schema.define(version: 5) do
     t.datetime "deadline"
     t.boolean "complete"
     t.string "tags"
+    t.datetime "deleted_at"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.bigint "cloud_driver_calendars_id"
@@ -197,6 +193,7 @@ ActiveRecord::Schema.define(version: 5) do
   create_table "cloud_driver_calendar_subscribers", force: :cascade do |t|
     t.integer "event"
     t.integer "notification_type"
+    t.datetime "deleted_at"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.bigint "users_id"
@@ -230,6 +227,7 @@ ActiveRecord::Schema.define(version: 5) do
     t.string "value_to"
     t.string "category"
     t.bigint "users_id"
+    t.datetime "deleted_at"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.bigint "cloud_driver_events_id"
@@ -291,6 +289,7 @@ ActiveRecord::Schema.define(version: 5) do
   create_table "cloud_driver_event_subscribers", force: :cascade do |t|
     t.integer "event"
     t.integer "notification_type"
+    t.datetime "deleted_at"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.bigint "users_id"
@@ -329,6 +328,7 @@ ActiveRecord::Schema.define(version: 5) do
     t.json "system_data"
     t.json "concerning_users"
     t.json "configuration"
+    t.datetime "deleted_at"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.bigint "cloud_driver_workflows_id"
@@ -338,6 +338,7 @@ ActiveRecord::Schema.define(version: 5) do
   create_table "cloud_driver_workflow_associations", force: :cascade do |t|
     t.string "workflow_for"
     t.boolean "global"
+    t.datetime "deleted_at"
     t.bigint "project_type"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
@@ -352,6 +353,7 @@ ActiveRecord::Schema.define(version: 5) do
     t.boolean "final", default: false
     t.string "next_statuses"
     t.boolean "inactive", default: false
+    t.datetime "deleted_at"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.bigint "cloud_driver_workflows_id"
@@ -361,6 +363,7 @@ ActiveRecord::Schema.define(version: 5) do
   create_table "cloud_driver_workflows", force: :cascade do |t|
     t.string "name"
     t.boolean "default"
+    t.datetime "deleted_at"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.bigint "cloud_driver_accounts_id"
@@ -376,6 +379,7 @@ ActiveRecord::Schema.define(version: 5) do
     t.string "model_to_validate"
     t.string "column_to_validate"
     t.boolean "enabled"
+    t.datetime "deleted_at"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.bigint "cloud_focus_custom_validation_rules_id"
@@ -389,6 +393,7 @@ ActiveRecord::Schema.define(version: 5) do
     t.string "rule_min_length_error_msg"
     t.string "rule_max_length_error_msg"
     t.string "rule_required_error_msg"
+    t.datetime "deleted_at"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.bigint "cloud_focus_custom_validations_id"
@@ -418,6 +423,7 @@ ActiveRecord::Schema.define(version: 5) do
     t.string "value_to"
     t.string "category"
     t.bigint "users_id"
+    t.datetime "deleted_at"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.bigint "cloud_focus_tasks_id"
@@ -487,6 +493,7 @@ ActiveRecord::Schema.define(version: 5) do
     t.json "system_data"
     t.json "concerning_users"
     t.json "configuration"
+    t.datetime "deleted_at"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.bigint "cloud_focus_workflows_id"
@@ -496,6 +503,7 @@ ActiveRecord::Schema.define(version: 5) do
   create_table "cloud_focus_workflow_associations", force: :cascade do |t|
     t.string "workflow_for"
     t.boolean "global"
+    t.datetime "deleted_at"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.bigint "cloud_focus_workflows_id"
@@ -509,6 +517,7 @@ ActiveRecord::Schema.define(version: 5) do
     t.boolean "final", default: false
     t.string "next_statuses"
     t.boolean "inactive", default: false
+    t.datetime "deleted_at"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.bigint "cloud_focus_workflows_id"
@@ -518,6 +527,7 @@ ActiveRecord::Schema.define(version: 5) do
   create_table "cloud_focus_workflows", force: :cascade do |t|
     t.string "name"
     t.boolean "default"
+    t.datetime "deleted_at"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.bigint "cloud_focus_accounts_id"
@@ -609,6 +619,7 @@ ActiveRecord::Schema.define(version: 5) do
     t.datetime "deadline"
     t.boolean "complete"
     t.string "tags"
+    t.datetime "deleted_at"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.bigint "cloud_house_companies_id"
@@ -622,6 +633,7 @@ ActiveRecord::Schema.define(version: 5) do
     t.string "value_to"
     t.string "category"
     t.bigint "users_id"
+    t.datetime "deleted_at"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.bigint "cloud_house_companies_id"
@@ -641,6 +653,7 @@ ActiveRecord::Schema.define(version: 5) do
 
   create_table "cloud_house_company_custom_fields", force: :cascade do |t|
     t.text "custom_field_value"
+    t.datetime "deleted_at"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.bigint "users_id"
@@ -723,6 +736,7 @@ ActiveRecord::Schema.define(version: 5) do
   create_table "cloud_house_company_subscribers", force: :cascade do |t|
     t.integer "event"
     t.integer "notification_type"
+    t.datetime "deleted_at"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.bigint "users_id"
@@ -737,6 +751,7 @@ ActiveRecord::Schema.define(version: 5) do
     t.datetime "deadline"
     t.boolean "complete"
     t.string "tags"
+    t.datetime "deleted_at"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.bigint "cloud_house_contacts_id"
@@ -750,6 +765,7 @@ ActiveRecord::Schema.define(version: 5) do
     t.string "value_to"
     t.string "category"
     t.bigint "users_id"
+    t.datetime "deleted_at"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.bigint "cloud_house_contacts_id"
@@ -758,6 +774,7 @@ ActiveRecord::Schema.define(version: 5) do
 
   create_table "cloud_house_contact_custom_fields", force: :cascade do |t|
     t.text "custom_field_value"
+    t.datetime "deleted_at"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.bigint "cloud_house_contacts_id"
@@ -829,6 +846,7 @@ ActiveRecord::Schema.define(version: 5) do
   create_table "cloud_house_contact_subscribers", force: :cascade do |t|
     t.integer "event"
     t.integer "notification_type"
+    t.datetime "deleted_at"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.bigint "users_id"
@@ -861,6 +879,7 @@ ActiveRecord::Schema.define(version: 5) do
     t.string "value_format"
     t.boolean "value_multiple"
     t.integer "value_length"
+    t.datetime "deleted_at"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.bigint "cloud_house_accounts_id"
@@ -871,6 +890,7 @@ ActiveRecord::Schema.define(version: 5) do
     t.string "model_to_validate"
     t.string "column_to_validate"
     t.boolean "enabled"
+    t.datetime "deleted_at"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.bigint "users_id"
@@ -886,6 +906,7 @@ ActiveRecord::Schema.define(version: 5) do
     t.string "rule_min_length_error_msg"
     t.string "rule_max_length_error_msg"
     t.string "rule_required_error_msg"
+    t.datetime "deleted_at"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.bigint "users_id"
@@ -898,6 +919,7 @@ ActiveRecord::Schema.define(version: 5) do
     t.string "name"
     t.string "description"
     t.boolean "enabled"
+    t.datetime "deleted_at"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.bigint "users_id"
@@ -912,6 +934,7 @@ ActiveRecord::Schema.define(version: 5) do
     t.datetime "deadline"
     t.boolean "complete"
     t.string "tags"
+    t.datetime "deleted_at"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.bigint "cloud_house_employees_id"
@@ -925,6 +948,7 @@ ActiveRecord::Schema.define(version: 5) do
     t.string "value_to"
     t.string "category"
     t.bigint "users_id"
+    t.datetime "deleted_at"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.bigint "cloud_house_employees_id"
@@ -943,6 +967,7 @@ ActiveRecord::Schema.define(version: 5) do
     t.string "value_format"
     t.boolean "value_multiple"
     t.integer "value_length"
+    t.datetime "deleted_at"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.bigint "users_id"
@@ -1020,6 +1045,7 @@ ActiveRecord::Schema.define(version: 5) do
   create_table "cloud_house_employee_subscribers", force: :cascade do |t|
     t.integer "event"
     t.integer "notification_type"
+    t.datetime "deleted_at"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.bigint "cloud_house_employees_id"
@@ -1050,6 +1076,7 @@ ActiveRecord::Schema.define(version: 5) do
     t.datetime "deadline"
     t.boolean "complete"
     t.string "tags"
+    t.datetime "deleted_at"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.bigint "cloud_house_projects_id"
@@ -1063,6 +1090,7 @@ ActiveRecord::Schema.define(version: 5) do
     t.string "value_to"
     t.string "category"
     t.bigint "users_id"
+    t.datetime "deleted_at"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.bigint "cloud_house_projects_id"
@@ -1081,6 +1109,7 @@ ActiveRecord::Schema.define(version: 5) do
     t.string "value_format"
     t.boolean "value_multiple"
     t.integer "value_length"
+    t.datetime "deleted_at"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.bigint "users_id"
@@ -1186,6 +1215,7 @@ ActiveRecord::Schema.define(version: 5) do
   create_table "cloud_house_project_subscribers", force: :cascade do |t|
     t.integer "event"
     t.integer "notification_type"
+    t.datetime "deleted_at"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.bigint "cloud_house_projects_id"
@@ -1229,6 +1259,7 @@ ActiveRecord::Schema.define(version: 5) do
     t.datetime "deadline"
     t.boolean "complete"
     t.string "tags"
+    t.datetime "deleted_at"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.bigint "cloud_house_properties_id"
@@ -1242,6 +1273,7 @@ ActiveRecord::Schema.define(version: 5) do
     t.string "value_to"
     t.string "category"
     t.bigint "users_id"
+    t.datetime "deleted_at"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.bigint "cloud_house_properties_id"
@@ -1289,6 +1321,7 @@ ActiveRecord::Schema.define(version: 5) do
     t.string "value_format"
     t.boolean "value_multiple"
     t.integer "value_length"
+    t.datetime "deleted_at"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.bigint "users_id"
@@ -1392,6 +1425,7 @@ ActiveRecord::Schema.define(version: 5) do
   create_table "cloud_house_property_subscribers", force: :cascade do |t|
     t.integer "event"
     t.integer "notification_type"
+    t.datetime "deleted_at"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.bigint "users_id"
@@ -1453,6 +1487,7 @@ ActiveRecord::Schema.define(version: 5) do
     t.json "system_data"
     t.json "concerning_users"
     t.json "configuration"
+    t.datetime "deleted_at"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.bigint "cloud_house_workflows_id"
@@ -1462,6 +1497,7 @@ ActiveRecord::Schema.define(version: 5) do
   create_table "cloud_house_workflow_associations", force: :cascade do |t|
     t.string "workflow_for"
     t.boolean "global"
+    t.datetime "deleted_at"
     t.bigint "project_type"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
@@ -1477,6 +1513,7 @@ ActiveRecord::Schema.define(version: 5) do
     t.boolean "final", default: false
     t.string "next_statuses"
     t.boolean "inactive", default: false
+    t.datetime "deleted_at"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.bigint "cloud_house_workflows_id"
@@ -1486,6 +1523,7 @@ ActiveRecord::Schema.define(version: 5) do
   create_table "cloud_house_workflows", force: :cascade do |t|
     t.string "name"
     t.boolean "default"
+    t.datetime "deleted_at"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.bigint "cloud_house_accounts_id"
@@ -1740,8 +1778,6 @@ ActiveRecord::Schema.define(version: 5) do
     t.datetime "updated_at", precision: 6, null: false
   end
 
-=======
->>>>>>> 3e78eec50e4ebd0e6bc51fdbec46a5408d4047d9
   create_table "locations", force: :cascade do |t|
     t.string "name"
     t.string "short_name"
@@ -1815,7 +1851,6 @@ ActiveRecord::Schema.define(version: 5) do
 
   add_foreign_key "accounts", "users", column: "users_id"
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
-<<<<<<< HEAD
   add_foreign_key "cloud_babel_translation_buckets", "cloud_babel_translation_modules", column: "cloud_babel_translation_modules_id"
   add_foreign_key "cloud_babel_translation_strings", "cloud_babel_translation_buckets", column: "cloud_babel_translation_buckets_id"
   add_foreign_key "cloud_babel_translation_strings", "users", column: "users_id"
@@ -2010,8 +2045,6 @@ ActiveRecord::Schema.define(version: 5) do
   add_foreign_key "cloud_mailer_campaign_email_statistics", "cloud_mailer_campaigns", column: "cloud_mailer_campaigns_id"
   add_foreign_key "cloud_mailer_campaign_emails", "cloud_mailer_campaigns", column: "cloud_mailer_campaigns_id"
   add_foreign_key "cloud_mailer_campaigns", "cloud_mailer_accounts", column: "cloud_mailer_accounts_id"
-=======
->>>>>>> 3e78eec50e4ebd0e6bc51fdbec46a5408d4047d9
   add_foreign_key "locations", "accounts", column: "accounts_id"
   add_foreign_key "locations", "locations", column: "parent_id"
   add_foreign_key "settings", "accounts", column: "accounts_id"
