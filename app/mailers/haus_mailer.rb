@@ -49,4 +49,8 @@ class HausMailer < ApplicationMailer
     def leads_report(to, subject, data, tempalte: "")        
         send(to, subject, data, template:"")
     end
+
+    def kops_order(to, subject, data, tempalte: "")        
+        send(to, subject, data, template:"")
+    end
 end
