@@ -128,3 +128,14 @@ header.application-header {
         }
     }
 }
+
+
+@include lesli-css-for-layout("expanded") {
+
+    header.application-header { 
+        .navbar-brand {
+
+        }
+    }
+
+}
