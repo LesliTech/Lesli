@@ -29,8 +29,8 @@ Building a better future, one line of code at a time.
 module ApplicationHelper
 
     def website_title
-        title = @website_title || @account[:company][:name] || "Lesli"
-        title = "Lesli · " + title if defined?(LesliCloud)
+        title = @application_html_title || @account[:company][:name] || "Lesli"
+        title = title + " · LesliCloud" if defined?(LesliCloud)
         title
     end
 
