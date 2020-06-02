@@ -48,8 +48,7 @@ class ApplicationLesliController < ApplicationController
     end
 
     def authenticate_request
-        return 
-        #TODO validate default roles
+        return
         # if Lock module is not installed, validate only user session
         unless defined?(CloudLock)
             return 
@@ -100,6 +99,12 @@ class ApplicationLesliController < ApplicationController
         
         if defined?(CloudLock)
             current_user_role = current_user.lock ? current_user.lock.role : nil
+            privileges = {}
+            unless (current_user_role.blank?)
+                current_user_role.privileges.each do |privilege|
+                    privileges[privilege.grant_object_name] = privilege
+                end
+            end
         end
 
         @account = {
@@ -111,7 +116,7 @@ class ApplicationLesliController < ApplicationController
                 id: current_user.id,
                 email: current_user.email,
                 full_name: current_user.full_name,
-                privileges: current_user_role.blank? ? [] : current_user_role.privileges 
+                privileges: privileges 
             }
         }
 
@@ -143,5 +148,4 @@ class ApplicationLesliController < ApplicationController
         return if request[:format] == "json"
         current_user.log(params[:action], request.original_url)
     end
-
 end
