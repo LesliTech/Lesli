@@ -39,10 +39,3 @@ Building a better future, one line of code at a time.
 @import "./src/helpers/grid/grid.scss";
 @import "./src/helpers/columns/columns.scss";
 @import "./src/helpers/breakpoint/breakpoint.scss";
-
-
-@mixin lesli-css-for-layout($layout) {
-    body.layout-#{$layout} {
-        @content;
-    }
-}
