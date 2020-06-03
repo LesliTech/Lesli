@@ -192,7 +192,7 @@ Building a better future, one line of code at a time.
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
 // · 
 */
-a.a.use(s.a),a.a.use(o.a),a.a.use(r.a),t.a=function(e){var t=new a.a(e);l.a.ready((function(){t.$mount("#lesli-cloud-application")}))}},,function(e,t,n){"use strict";var i=function(){var e=this.$createElement,t=this._self._c||e;return t("transition",{attrs:{name:"fade"}},[this.show?t("div",{class:["notification",this.type]},[t("button",{staticClass:"delete",attrs:{type:"button"},on:{click:this.dismissNotification}}),this._v("\n      "+this._s(this.message)+"\n   ")]):this._e()])};i._withStripped=!0;
+a.a.use(s.a),a.a.use(o.a),a.a.use(r.a),t.a=function(e){var t=new a.a(e);l.a.ready((function(){t.$mount("#lesli-cloud-application")}))}},,function(e,t,n){"use strict";var i=function(){var e=this.$createElement,t=this._self._c||e;return t("span",[this.active?t("progress",{staticClass:"progress is-very-small is-primary",attrs:{max:"100"}}):this._e(),this._v(" "),this.active?this._e():t("progress",{staticClass:"progress is-very-small is-primary",attrs:{max:"100",value:"0"}})])};i._withStripped=!0;var a={props:{active:{type:Boolean,default:!1}}},s=n(0),o=Object(s.a)(a,i,[],!1,null,null,null);o.options.__file="app/vue_core/components/notifications/progress-bar.vue";t.a=o.exports},function(e,t,n){"use strict";var i=function(){var e=this.$createElement,t=this._self._c||e;return t("transition",{attrs:{name:"fade"}},[this.show?t("div",{class:["notification",this.type]},[t("button",{staticClass:"delete",attrs:{type:"button"},on:{click:this.dismissNotification}}),this._v("\n      "+this._s(this.message)+"\n   ")]):this._e()])};i._withStripped=!0;
 /*
 Lesli
 
@@ -216,7 +216,7 @@ Building a better future, one line of code at a time.
 
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
 // · 
-*/var a={props:{message:{type:String,default:""},show:{type:Boolean,default:!1},type:{type:String,default:"is-info"}},methods:{dismissNotification:function(){this.$emit("update:show",!1)}}},s=n(0),o=Object(s.a)(a,i,[],!1,null,null,null);o.options.__file="app/vue_core/components/notifications/message-simple.vue";t.a=o.exports},function(e,t,n){"use strict";var i=function(){var e=this.$createElement,t=this._self._c||e;return t("span",[this.active?t("progress",{staticClass:"progress is-very-small is-primary",attrs:{max:"100"}}):this._e(),this._v(" "),this.active?this._e():t("progress",{staticClass:"progress is-very-small is-primary",attrs:{max:"100",value:"0"}})])};i._withStripped=!0;var a={props:{active:{type:Boolean,default:!1}}},s=n(0),o=Object(s.a)(a,i,[],!1,null,null,null);o.options.__file="app/vue_core/components/notifications/progress-bar.vue";t.a=o.exports},,,,,,,,,,,,function(e,t,n){"use strict";n.r(t);var i=n(39),a=n(41),s=n(42);
+*/var a={props:{message:{type:String,default:""},show:{type:Boolean,default:!1},type:{type:String,default:"is-info"}},methods:{dismissNotification:function(){this.$emit("update:show",!1)}}},s=n(0),o=Object(s.a)(a,i,[],!1,null,null,null);o.options.__file="app/vue_core/components/notifications/message-simple.vue";t.a=o.exports},,,,,,,,,,,,function(e,t,n){"use strict";n.r(t);var i=n(39),a=n(42),s=n(41);
 /*
 Lesli
 
