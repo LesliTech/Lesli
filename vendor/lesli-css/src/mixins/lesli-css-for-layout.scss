@@ -1,0 +1,6 @@
+
+@mixin lesli-css-for-layout($layout) {
+    body.layout-#{$layout} {
+        @content;
+    }
+}

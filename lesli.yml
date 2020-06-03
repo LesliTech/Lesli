@@ -40,7 +40,9 @@ production:
     googlemaps_sdk_token: "AIzaSyCN4i4BWJS-IVtniSMY1Ot2MGaKuTKLNP8" 
 
 account: 
-    company: "Lesli Technologies, S. A."
+    company: 
+        name: "Lesli Technologies, S. A."
+        tag_line: "Building a better future, one line of code at a time."
 
     website:
         title_prefix: "Lesli"
