@@ -1,4 +1,3 @@
-/*
 Lesli
 
 Copyright (c) 2020, Lesli Technologies, S. A.
@@ -27,21 +26,3 @@ Building a better future, one line of code at a time.
 
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
 // · 
-*/
-
-
-// · include base 
-@import "./src/base/fonts";
-@import "./src/base/normalize";
-
-// · include functions 
-@import "./src/functions/colors";
-
-// · include helpers 
-@import "./src/helpers/columns";
-@import "./src/helpers/flex";
-@import "./src/helpers/grid";
-
-// · include mixins 
-@import "./src/mixins/breakpoint";
-@import "./src/mixins/scroolbar";
