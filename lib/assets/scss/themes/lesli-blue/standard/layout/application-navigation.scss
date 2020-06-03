@@ -37,6 +37,29 @@ Building a better future, one line of code at a time.
             background-color: lesli-css-get-color(blue);
         }
 
+        &.notifications {
+            small {
+                font-size: .8rem;
+                font-family: sans-serif;
+                background-color: lesli-css-get-color(berry, 300);
+                color: lesli-css-get-color(standard, white);
+                display: block;
+                position: absolute;
+                width: 18px;
+                height: 18px;
+                padding-top: 4px;
+                border-radius: 50%;
+                margin-top: -34px;
+                margin-left: 15px;
+            }
+        }
+
+        &.microphone {
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+        }
+
     }
 
 }

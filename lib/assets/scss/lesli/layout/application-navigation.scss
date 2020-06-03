@@ -67,8 +67,11 @@ Building a better future, one line of code at a time.
         }
         
         ul {
-            height: 0;
-            overflow: hidden;
+            //height: 0;
+            //overflow: hidden;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
 
             a.navbar-item {
                 padding: .4rem 3rem;
