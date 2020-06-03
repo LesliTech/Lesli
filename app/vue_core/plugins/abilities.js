@@ -35,7 +35,7 @@ export default {
 
         let granted = function(module, action, base_path = "cloud_haus"){
             let controller = `${base_path}_${module}`
-            let privilege = leslicloud_account.account.privileges.find(e => grant_object_name === controller)
+            let privilege = leslicloud_account.account.privileges[controller]
             if (privilege){
                 if (privilege[`grant_${action}`]) 
                     return true
@@ -45,7 +45,7 @@ export default {
 
         let privilege = function(module, base_path = "cloud_haus"){
             let controller = `${base_path}/${module}`
-            let privilege = leslicloud_account.user.privileges.find(e => e.grant_object_name === controller)
+            let privilege = leslicloud_account.user.privileges[controller]
             if (privilege){
                 return privilege
             }
