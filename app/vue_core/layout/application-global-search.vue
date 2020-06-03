@@ -36,6 +36,9 @@ export default {
                     }
                 })
                 this.show = true
+                this.$nextTick(()=>{
+                    window.scrollTo(0,0)
+                })
             }).catch(error => {
                 console.log(error)
             })
