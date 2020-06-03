@@ -79,7 +79,7 @@ Rails.application.configure do
     }
 
     config.action_mailer.smtp_settings = {
-        port: 25,
+        port: 587,
         authentication: :plain,
         address: "smtp.mailgun.org",
         user_name: "postmaster@lesli.cloud",
