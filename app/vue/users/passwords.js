@@ -45,8 +45,8 @@ app({
             password: ''
         },
         password_edit: {
-            new_password: "",
-            new_password_confirmation: ""
+            new_password: '',
+            new_password_confirmation: ''
         },
         progress_bar_active: false,
         notification: {
@@ -64,12 +64,12 @@ app({
             let data = {user: this.sign_in};
             this.progress_bar_active = true;
 
-            this.http.post("/password", data).then(response => {
+            this.http.post('/password', data).then(response => {
 
                 this.progress_bar_active = false
 
                 if(response.successful){
-                    //this.url.go('/')
+                    this.showNotification(this.translations.main.notification_reset_password_instructions_sent, 'is-success')
                 }else{
                     this.showNotification(response.error.message)
                 }
@@ -98,7 +98,7 @@ app({
 
             this.progress_bar_active = true;
 
-            this.http.put("/password", {
+            this.http.put('/password', {
                 user: {
                     reset_password_token: token,
                     password: this.password_edit.new_password,
@@ -109,9 +109,9 @@ app({
                 this.progress_bar_active = false
 
                 if(response.successful){
-                    this.showNotification(this.translations.main.notification_password_updated, "is-success")
+                    this.showNotification(this.translations.main.notification_password_updated, 'is-success')
                     setTimeout(() => {
-                        this.url.go("/login")
+                        this.url.go('/login')
                     }, 1500)
                 }else{
                     this.showNotification(response.error.message)
