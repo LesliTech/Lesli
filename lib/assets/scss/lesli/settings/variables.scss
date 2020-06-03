@@ -60,9 +60,9 @@ Building a better future, one line of code at a time.
         --application-navigation-width: 80px;
     }
 }
-/* 
-#lesli-cloud-application.layout-expanded {
-    --application-navigation-width: 70px;
-    --application-header-width: 170px;
+
+
+body.layout-expanded {
+    --application-navigation-width: 100px;
+    --application-header-width: var(--application-navigation-width);
 }
- */

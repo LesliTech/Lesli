@@ -30,7 +30,7 @@ Building a better future, one line of code at a time.
 
     a.navbar-item {
         border-top-color: lesli-css-theme-get-color(app, secondary);
-        color: lesli-css-theme-get-color(standard, white);
+        color: lesli-css-theme-get-color(solid, white);
 
         &:hover {
             background-color: lesli-css-theme-get-color(app, secondary);

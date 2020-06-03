@@ -33,7 +33,9 @@ Building a better future, one line of code at a time.
 // · 
 @function lesli-css-get-color($pallete, $variant: 500) {
 
-    @return lesli-css-get-base-color((), $pallete, $variant);
+    @return lesli-css-get-base-color((
+      
+    ), $pallete, $variant);
     
 }
 
@@ -133,7 +135,8 @@ Building a better future, one line of code at a time.
             900: #000000 
         ),
 
-        standard: (
+        // · Solid standard colors
+        solid: (
             white: rgb(255, 255, 255)
         )
 

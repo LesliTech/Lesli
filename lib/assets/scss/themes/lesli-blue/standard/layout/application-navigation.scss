@@ -26,35 +26,40 @@ Building a better future, one line of code at a time.
 
 // · Navigation sidebar
 .application-navigation {
-    background-color: lesli-css-get-color(standard, white);
+    background-color: lesli-css-get-color(solid, white);
 
     a.navbar-item {
-        border-top-color: lesli-css-theme-get-color(app, secondary);
         color: lesli-css-theme-get-color(app, primary);
-        text-align: center;
-
-        i {
-            font-size: 1.6rem;
-        }
-        span {
-            display: none;
-        }
-
+        color: lesli-css-theme-get-color(blue);
+        //border-left: 4px solid lesli-css-theme-get-color(blue);
         &:hover {
-            background-color: lesli-css-theme-get-color(app, secondary);
+            color: lesli-css-get-color(solid, white);
+            background-color: lesli-css-get-color(blue);
         }
 
-    }
-
-}
-
-
-.layout-expanded {
-    .application-navigation {
-        a.navbar-item {
-            span {
-                display: none;
+        &.notifications {
+            small {
+                font-size: .8rem;
+                font-family: sans-serif;
+                background-color: lesli-css-get-color(berry, 300);
+                color: lesli-css-get-color(solid, white);
+                display: block;
+                position: absolute;
+                width: 18px;
+                height: 18px;
+                padding-top: 4px;
+                border-radius: 50%;
+                margin-top: -34px;
+                margin-left: 15px;
             }
         }
+
+        &.microphone {
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+        }
+
     }
+
 }

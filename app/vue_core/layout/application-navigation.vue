@@ -46,10 +46,6 @@ export default {
     <nav class="application-navigation">
         <ul>
             <slot></slot>
-            <li @click.stop="submenu_open" :class="{'submenu-open':submenu_open_class}">
-                <slot name="submenu"></slot>
-            </li>
         </ul>
-        <slot name="layout"></slot>
     </nav>
 </template>

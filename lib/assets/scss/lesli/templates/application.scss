@@ -33,13 +33,13 @@ Building a better future, one line of code at a time.
 
 // · Configuration
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
-@import "../settings/variables.scss";
+@import "../settings/variables";
 
 
 
 // · Include Lesli Standards
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
-@include lesli-css-base();
+@include lesli-css-normalize();
 @include lesli-css-fonts-standard();
 
 
