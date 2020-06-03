@@ -75,7 +75,7 @@ Building a better future, one line of code at a time.
     
     // Variables
     $margin-type: unit($margin);
-    $margin: unit(margin, '');
+    $margin: unit(margin);
     $width-total: 100;
 
     // El total del margen en todo el grid sera igual al total de
@@ -126,10 +126,9 @@ Building a better future, one line of code at a time.
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
 @mixin lesli-css-grid($columns: 0, $margin: 0, $breakpoint: 320) {
     
-    // basic styles for grid container// · 
+    // basic styles for grid container
     width: 100%;
     font-size: 0;
-    margin: 0 auto;
 
     // Estilos a pseudo elementos
     &:before,
@@ -137,20 +136,7 @@ Building a better future, one line of code at a time.
         content: "";
         display: inline-block;
         vertical-align: middle;
-    }
-
-
-    // · Manual columns definition
-    @if $columns != 0 {
-
-        //column-width: 250px;
-        //column-count: $columns;
-
-        // The column-gap property specifies the gap between the columns.
-        column-gap: $margin;
-
-        // Specify the minimum width for each column, and the maximum number of columns:
-        columns: $columns;
+        //height 100%
     }
 
     // Filas del grid
@@ -158,30 +144,24 @@ Building a better future, one line of code at a time.
         font-size: initial;
         white-space: initial;
         display: inline-block;
-        margin-bottom: $margin;
+
+        // automatic columns 
+        @if $columns > 0 {
+            // Utilizo el mixin para crear columnas
+            // Lesli-grid-column(column: $columns, margin: $margin)
+            @include lesli-css-grid-column($columns, 12, $margin)
+        }
+
     }
 
     // inicializa breakpoints
+
     @media (max-width: (strip-unit($breakpoint) * 1px)) {
 
         // Clase css para breakpoints
         & > * {
             display: block;
             width: initial;
-        }
-
-    }
-
-    @media (min-width: (strip-unit($breakpoint) * 1px)) {
-
-        // Si el grid incluye margen
-        @if $margin != 0 {
-
-            // * Margen de cada elemento del grid,
-            & > *:not(:last-child){
-                //margin-right Lesli-grid-margin($margin)
-            }
-
         }
 
     }
