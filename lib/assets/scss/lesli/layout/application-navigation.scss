@@ -41,7 +41,7 @@ Building a better future, one line of code at a time.
         color: lesli-css-get-color(black, 300);
 
         &:hover {
-            color: lesli-css-get-color(standard, white);
+            color: lesli-css-get-color(solid, white);
             background-color: lesli-css-get-color(blue, 300);
         }
 
@@ -124,7 +124,7 @@ Building a better future, one line of code at a time.
 
 // · Minimalistic navigation menu
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
-@include lesli-css-for-layout("expanded") {
+body.layout-expanded {
     .application-navigation {
         a.navbar-item {
             transition: all linear .2s;
@@ -144,7 +144,7 @@ Building a better future, one line of code at a time.
 .application-navigation {
 
     scrollbar-width: thin;
-    scrollbar-color: lesli-css-get-color(standard, white) lesli-css-get-color(standard, white);
+    scrollbar-color: lesli-css-get-color(solid, white) lesli-css-get-color(solid, white);
 
     &::-webkit-scrollbar {
         width: 0px;

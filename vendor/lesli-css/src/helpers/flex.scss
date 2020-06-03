@@ -1,4 +1,4 @@
-/*
+/**
 Lesli
 
 Copyright (c) 2020, Lesli Technologies, S. A.
@@ -30,18 +30,40 @@ Building a better future, one line of code at a time.
 */
 
 
-// · include base 
-@import "./src/base/fonts";
-@import "./src/base/normalize";
+// · Flexbox container 
+// · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
+@mixin lesli-css-flex($direction:row, $align: center, $justify: space-between) {
+    display: flex;
+    flex-direction: $direction;
+    justify-content: $justify;
+    align-items: $align;
+}
 
-// · include functions 
-@import "./src/functions/colors";
 
-// · include helpers 
-@import "./src/helpers/columns";
-@import "./src/helpers/flex";
-@import "./src/helpers/grid";
+// · Center with flexbox 
+// · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
+@mixin lesli-css-flex-center($vertical: false) {
+    display: flex;
+    align-items: center;
+    justify-content: center;
 
-// · include mixins 
-@import "./src/mixins/breakpoint";
-@import "./src/mixins/scroolbar";
+    @if ($vertical) {
+        flex-direction: column;
+        height: 100%;
+    }
+
+}
+
+
+// · Fluid grid with flexbox 
+// · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
+@mixin lesli-css-flex-grid($items-width: 150px, $margin: 10px) {
+    display: flex;
+    flex-wrap: wrap;
+
+    & > * {
+        flex: 1 1 $items-width;
+        margin: 0 $margin;
+    }
+
+}

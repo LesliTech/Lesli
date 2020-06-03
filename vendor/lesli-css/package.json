@@ -1,39 +1,11 @@
 {
-  "_from": "lesli-css@0.5.0",
-  "_id": "lesli-css@0.5.0",
-  "_inBundle": false,
-  "_integrity": "sha512-ktyQKqg0ZInpV7vt1iXYx06zLu3b0xmuv9R3UFXNXcMN45Om4wyIDOsWGJWVNlaXn5tSbyfF9uMY/90fZcvGaQ==",
-  "_location": "/lesli-css",
-  "_phantomChildren": {},
-  "_requested": {
-    "type": "version",
-    "registry": true,
-    "raw": "lesli-css@0.5.0",
     "name": "lesli-css",
-    "escapedName": "lesli-css",
-    "rawSpec": "0.5.0",
-    "saveSpec": null,
-    "fetchSpec": "0.5.0"
-  },
-  "_requiredBy": [
-    "#DEV:/"
-  ],
-  "_resolved": "https://registry.npmjs.org/lesli-css/-/lesli-css-0.5.0.tgz",
-  "_shasum": "3140e5523b16d5423c773e7082d156d511d04258",
-  "_spec": "lesli-css@0.5.0",
-  "_where": "/Users/ldonis/code/Lesli/lesli.cloud",
-  "author": {
-    "name": "LesliTech",
-    "email": "hello@lesli.tech"
-  },
-  "bundleDependencies": false,
-  "dependencies": {
-    "normalize.css": "8.0.1"
-  },
-  "deprecated": false,
-  "description": "SCSS Utilities for websites, apps and web applications",
-  "homepage": "https://lesli.tech",
-  "license": "GPLv3",
-  "name": "lesli-css",
-  "version": "0.5.0"
+    "description": "SCSS Utilities for websites, apps and web applications",
+    "homepage": "https://lesli.tech",
+    "author": "LesliTech <hello@lesli.tech>",
+    "license": "GPLv3",
+    "version": "0.5.0",
+    "dependencies": {
+        "normalize.css": "8.0.1"
+    }
 }
