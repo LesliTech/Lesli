@@ -1,43 +1,11 @@
 {
-  "_args": [
-    [
-      "lesli-css@0.4.1",
-      "/Users/ldonis/code/Lesli/beta.deutsche-leibrenten.de"
-    ]
-  ],
-  "_development": true,
-  "_from": "lesli-css@0.4.1",
-  "_id": "lesli-css@0.4.1",
-  "_inBundle": false,
-  "_integrity": "sha512-G607bFSkdoyG0jDCxci4046ECoz6MjnZAQg9tCUr5JV2pM9aHF2LEzi+aFohFDQulu23SPsKeFhX4hsXRf9q5g==",
-  "_location": "/lesli-css",
-  "_phantomChildren": {},
-  "_requested": {
-    "type": "version",
-    "registry": true,
-    "raw": "lesli-css@0.4.1",
     "name": "lesli-css",
-    "escapedName": "lesli-css",
-    "rawSpec": "0.4.1",
-    "saveSpec": null,
-    "fetchSpec": "0.4.1"
-  },
-  "_requiredBy": [
-    "#DEV:/"
-  ],
-  "_resolved": "https://registry.npmjs.org/lesli-css/-/lesli-css-0.4.1.tgz",
-  "_spec": "0.4.1",
-  "_where": "/Users/ldonis/code/Lesli/beta.deutsche-leibrenten.de",
-  "author": {
-    "name": "LesliTech",
-    "email": "hello@lesli.tech"
-  },
-  "dependencies": {
-    "normalize.css": "8.0.1"
-  },
-  "description": "SCSS Utilities for websites, apps and web applications",
-  "homepage": "https://lesli.tech",
-  "license": "GPLv3",
-  "name": "lesli-css",
-  "version": "0.4.1"
+    "description": "SCSS Utilities for websites, apps and web applications",
+    "homepage": "https://lesli.tech",
+    "author": "LesliTech <hello@lesli.tech>",
+    "license": "GPLv3",
+    "version": "0.5.0",
+    "dependencies": {
+        "normalize.css": "8.0.1"
+    }
 }

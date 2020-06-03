@@ -120,7 +120,8 @@ class ApplicationLesliController < ApplicationController
         # add company information (account)
         @account[:company] = {
             id: current_user.account.id,
-            name: current_user.account.company_name
+            name: current_user.account.company_name,
+            tagline: ""
         }
 
         # add custom settings

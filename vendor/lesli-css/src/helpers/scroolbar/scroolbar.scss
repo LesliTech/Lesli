@@ -1,0 +1,10 @@
+
+@mixin lesli-css-scroolbar($style) {
+    scrollbar-width: thin;
+    scrollbar-color: lesli-css-get-color(standard, white) lesli-css-get-color(standard, white);
+
+    &::-webkit-scrollbar {
+        width: 0px;
+        background-color: #F5F5F5;
+    }
+}
