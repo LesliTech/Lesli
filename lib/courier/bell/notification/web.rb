@@ -43,7 +43,7 @@ module Courier
                         url: url
                     })
 
-                    LesliChannel.broadcast_to("Lesli", channel: "/core/layout/header/notification#getNotificationsCounter")
+                    #LesliChannel.broadcast_to("Lesli", channel: "/core/layout/header/notification#getNotificationsCounter")
 
                 end
 
