@@ -34,7 +34,7 @@ Building a better future, one line of code at a time.
 body {
     background-color: lesli-css-theme-get-color(app, complement_gray_light);
     #lesli-cloud-application {
-        @import "./standard/settings/colors";
+        @import "./standard/layout/application-header";
         @import "./standard/layout/application-navigation";
         .application-component {
 

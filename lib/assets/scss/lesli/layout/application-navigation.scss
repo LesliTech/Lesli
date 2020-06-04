@@ -28,7 +28,7 @@ Building a better future, one line of code at a time.
 // old - production
 
 // · Navigation sidebar
-.application-navigation {
+.application-navigation2 {
     width: var(--application-navigation-width);
     height: calc(100vh - var(--application-header-height));
     background-color: lesli-css-get-color(solid, white);
@@ -153,8 +153,8 @@ Building a better future, one line of code at a time.
 
 }
 
-/*
-// · Navigation sidebar
+
+// · Navigation sidebar - new
 .application-navigation {
     width: var(--application-navigation-width);
     height: calc(100vh - var(--application-header-height));
@@ -260,7 +260,7 @@ body.layout-expanded {
             text-align: center;
             padding: 1.5rem 0;
             i {
-                font-size: 1.8rem;
+                font-size: 1.6rem;
             }
             span {
                 display: none;
@@ -281,4 +281,3 @@ body.layout-expanded {
     }
 
 }
-*/
