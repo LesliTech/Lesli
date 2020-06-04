@@ -66,8 +66,6 @@ Rails.application.configure do
 
     config.action_mailer.delivery_method = :smtp
 
-    config.action_mailer.delivery_method = Rails.application.credentials.services[:smtp][:delivery_method].to_sym
-
     config.default_url = Rails.configuration.lesli_settings["default_url"]
     
     config.action_mailer.default_url_options = { 
