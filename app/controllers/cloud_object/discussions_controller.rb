@@ -24,8 +24,9 @@ Building a better future, one line of code at a time.
 @description Base controller for *discussion* core entity
 
 =end
-    class DiscussionsController < ApplicationController
+    class DiscussionsController < ApplicationLesliController
         before_action :set_cloud_object_discussion, only: [:update, :destroy]
+        before_action :check_has_authorization, only: [:update, :destroy]
 
 
 =begin
@@ -207,6 +208,13 @@ this.http.delete(`127.0.0.1/help/tickets/${ticket_id}/discussions/${discussion_i
                 model: "#{module_info[0]}::#{module_info[1]}::Discussion".constantize,
                 discussion_model: "#{module_info[0]}::#{module_info[1]}::Subscriber".constantize
             }
+        end
+
+
+        def check_has_authorization
+            if !is_admin?()
+                return responseWithUnauthorized if current_user != @cloud_object_discussion.user
+            end
         end
 
     end
