@@ -1,4 +1,4 @@
-class UserActivitiesController < ApplicationController
+class UserActivitiesController < ApplicationLesliController
   before_action :set_user_activity, only: [:show, :edit, :update, :destroy]
 
   # GET /user_activities
