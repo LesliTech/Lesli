@@ -26,7 +26,7 @@ Building a better future, one line of code at a time.
 
 module CloudObject
 
-    class CustomFieldsController < ApplicationController
+    class CustomFieldsController < ApplicationLesliController
         before_action :set_cloud_object_custom_field, only: [:update, :destroy]
 
         # @return [Json] Json that contains a list of all subscribers related to a *cloud_object*
