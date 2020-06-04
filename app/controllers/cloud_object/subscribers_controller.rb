@@ -24,7 +24,7 @@ Building a better future, one line of code at a time.
 @description Base controller for *subscriber* core entity
 
 =end
-    class SubscribersController < ApplicationController
+    class SubscribersController < ApplicationLesliController
         before_action :set_cloud_object_subscriber, only: [:update, :destroy]
 
 =begin
