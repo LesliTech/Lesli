@@ -87,7 +87,6 @@ Building a better future, one line of code at a time.
 @include lesli-css-breakpoint("tablet") {
     .application-navigation {
         a {
-            text-align: left;
             span {
                 display: block;
             }
@@ -101,6 +100,7 @@ Building a better future, one line of code at a time.
         a {
             display: flex;
             padding: 1.2rem;
+            text-align: left;
         }
     }
 }
