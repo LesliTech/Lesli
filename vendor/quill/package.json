@@ -2,7 +2,7 @@
   "_args": [
     [
       "quill@1.3.7",
-      "/var/www/Lesli/beta.deutsche-leibrenten.de"
+      "/Users/ldonis/code/Lesli/beta.deutsche-leibrenten.de"
     ]
   ],
   "_development": true,
@@ -27,7 +27,7 @@
   ],
   "_resolved": "https://registry.npmjs.org/quill/-/quill-1.3.7.tgz",
   "_spec": "1.3.7",
-  "_where": "/var/www/Lesli/beta.deutsche-leibrenten.de",
+  "_where": "/Users/ldonis/code/Lesli/beta.deutsche-leibrenten.de",
   "author": {
     "name": "Jason Chen",
     "email": "jhchen7@gmail.com"

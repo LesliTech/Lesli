@@ -25,11 +25,13 @@ Building a better future, one line of code at a time.
 
 
 
+// old - production
+
 // · Navigation sidebar
 .application-navigation {
     width: var(--application-navigation-width);
     height: calc(100vh - var(--application-header-height));
-    background-color: lesli-css-get-color(standard, white);
+    background-color: lesli-css-get-color(solid, white);
     overflow-y: auto; 
     position: fixed;
     z-index: 99;
@@ -43,7 +45,7 @@ Building a better future, one line of code at a time.
         color: lesli-css-get-color(black, 300);
 
         &:hover {
-            color: lesli-css-get-color(standard, white);
+            color: lesli-css-get-color(solid, white);
             background-color: lesli-css-get-color(blue, 300);
         }
 
@@ -142,7 +144,7 @@ Building a better future, one line of code at a time.
 .application-navigation {
 
     scrollbar-width: thin;
-    scrollbar-color: lesli-css-get-color(standard, white) lesli-css-get-color(standard, white);
+    scrollbar-color: lesli-css-get-color(solid, white) lesli-css-get-color(solid, white);
 
     &::-webkit-scrollbar {
         width: 0px;
@@ -150,3 +152,133 @@ Building a better future, one line of code at a time.
     }
 
 }
+
+/*
+// · Navigation sidebar
+.application-navigation {
+    width: var(--application-navigation-width);
+    height: calc(100vh - var(--application-header-height));
+    overflow-y: auto; 
+    position: fixed;
+    z-index: 99;
+
+    a.navbar-item {
+        width: 100%;
+        display: block;
+        border: none;
+        padding: 1.2rem;
+        color: lesli-css-get-color(black, 300);
+
+        &:hover {
+            color: lesli-css-get-color(solid, white);
+            background-color: lesli-css-get-color(blue, 300);
+        }
+
+        img, .img {
+            vertical-align: middle;
+            padding-bottom: 2px;
+            font-size: 16px;
+        }
+
+    }
+
+    li:last-child a {
+        //border-bottom: none;
+    }
+
+    // Sub menus
+    li {
+
+        &.submenu-open {
+            ul {
+                height: auto;
+            }
+        }
+        
+        ul {
+            //height: 0;
+            //overflow: hidden;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+
+            a.navbar-item {
+                padding: .4rem 3rem;
+                padding-right: 2px;
+            }
+
+            li a{
+                border-top: none;
+            }
+
+        }
+
+    }
+
+    .navigation-change-layout {
+        color: white;
+        padding: 1.2rem;
+        &:hover {
+            cursor: pointer;
+        }
+    }
+
+}
+
+
+@media only screen and (max-width: 1024px) {
+    .application-navigation {
+        a.navbar-item {
+            padding: 1.2rem .6rem;
+        }
+    }
+}
+
+@media only screen and (max-width: 768px) {
+    .application-navigation {
+        a.navbar-item {
+            font-size: .7rem;
+            text-transform: uppercase;
+            text-align: center;
+            padding: 1.2rem 0;
+
+            img {
+                display: block;
+                margin: 0 auto;
+            }
+        }
+    }
+}
+
+
+// · Minimalistic navigation menu
+// · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
+body.layout-expanded {
+    .application-navigation {
+        a.navbar-item {
+            transition: all linear .2s;
+            text-align: center;
+            padding: 1.5rem 0;
+            i {
+                font-size: 1.8rem;
+            }
+            span {
+                display: none;
+            }
+        }
+    }
+}
+
+
+.application-navigation {
+
+    scrollbar-width: thin;
+    scrollbar-color: lesli-css-get-color(solid, white) lesli-css-get-color(solid, white);
+
+    &::-webkit-scrollbar {
+        width: 0px;
+        background-color: #F5F5F5;
+    }
+
+}
+*/

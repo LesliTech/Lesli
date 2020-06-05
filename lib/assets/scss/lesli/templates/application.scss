@@ -33,13 +33,13 @@ Building a better future, one line of code at a time.
 
 // · Configuration
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
-@import "../settings/variables.scss";
+@import "../settings/variables";
 
 
 
 // · Include Lesli Standards
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
-@include lesli-css-base();
+@include lesli-css-normalize();
 @include lesli-css-fonts-standard();
 
 
@@ -79,7 +79,7 @@ Building a better future, one line of code at a time.
 @import "../layout/application-chatbox";
 @import "../layout/application-global-search";
 @import "../components/component-data.scss";
-@import "../components/component-header.scss";
+@import "../components/component-header";
 @import "../components/component-toolbar.scss";
 
 

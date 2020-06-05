@@ -37,7 +37,7 @@ app({
         'component-notification-progress-bar': componentNotificationProgressBar
     },
     data: {
-        translation: I18n.t("core.users/sessions"),
+        translation: I18n.t('core.users/sessions'),
         sign_in: {
             email: '',
             password: ''
@@ -56,7 +56,7 @@ app({
 
         build_redirect_url() {
 
-            let redirect_url= "/" 
+            let redirect_url= '/'
 
             try {
                 redirect_url = Object.fromEntries(new URLSearchParams(window.location.search)).r

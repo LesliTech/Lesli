@@ -24,7 +24,7 @@ Building a better future, one line of code at a time.
 @description Base controller for *action* core entity
 
 =end
-    class ActionsController < ApplicationController
+    class ActionsController < ApplicationLesliController
         before_action :set_cloud_object_action, only: [:update]
 
 =begin

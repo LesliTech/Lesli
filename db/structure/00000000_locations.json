@@ -25,4 +25,8 @@
 },{
     "name": "longitude",
     "type": "string"
+},{
+    "name": "deleted_at",
+    "type": "datetime",
+    "index": true
 }]

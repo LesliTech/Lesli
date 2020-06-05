@@ -27,14 +27,17 @@ Building a better future, one line of code at a time.
 
 // · 
 @import "lesli-css/";
-@import "./standard/settings/colors.scss";
+@import "./standard/settings/colors";
 
 
 // · 
-body #lesli-cloud-application {
-    
-    .application-component {
+body {
+    background-color: lesli-css-theme-get-color(app, complement_gray_light);
+    #lesli-cloud-application {
+        @import "./standard/settings/colors";
+        @import "./standard/layout/application-navigation";
+        .application-component {
 
+        }
     }
-    
 }
