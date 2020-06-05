@@ -51,6 +51,10 @@ Building a better future, one line of code at a time.
             font-size: 1.6rem;
         }
 
+        img {
+            width: 1.4rem;
+        }
+
         span {
             margin-left: 10px;
             display: none;
@@ -83,6 +87,7 @@ Building a better future, one line of code at a time.
 @include lesli-css-breakpoint("tablet") {
     .application-navigation {
         a {
+            text-align: left;
             span {
                 display: block;
             }
