@@ -110,7 +110,7 @@ module Courier
                             union
                         #{events_query[:sql]} 
                         order by #{query[:pagination][:orderColumn]} #{query[:pagination][:order]}
-                        nulls last limit #{query[:pagination][:perPage]} OFFSET #{offset}
+                        limit #{query[:pagination][:perPage]} OFFSET #{offset}
                     "
 
                     tasks_count = companies_query[:count].to_i + 
@@ -205,7 +205,7 @@ module Courier
                     sql_field = "(cast(md.code as varchar))"
                 else
                     sql_table_join = "cloud_driver_events"
-                    sql_field = "(cast(md.id as varchar))"
+                    sql_field = "concat('Event: ', (cast(md.id as varchar)))"
                 end
                 
                 tasks = current_user.account.focus.tasks
