@@ -24,7 +24,7 @@ Building a better future, one line of code at a time.
 @description Base controller for *file* core entity
 
 =end
-    class FilesController < ApplicationController
+    class FilesController < ApplicationLesliController
         require 'zip'
         require 'aws-sdk-s3'
 
