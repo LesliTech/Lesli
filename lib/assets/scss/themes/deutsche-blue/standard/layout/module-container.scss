@@ -35,7 +35,7 @@ Building a better future, one line of code at a time.
             .is-active {
                 background-color: lesli-css-theme-get-color(app, primary);
                 a {
-                    color: lesli-css-theme-get-color(standard, white);
+                    color: lesli-css-theme-get-color(solid, white);
                 }
             }
         }
@@ -44,7 +44,7 @@ Building a better future, one line of code at a time.
             flex: 0 0 200px;
             padding: 1rem 0;
             ul {
-                background-color: lesli-css-theme-get-color(standard, white);
+                background-color: lesli-css-theme-get-color(solid, white);
             }
             a {
                 padding: 2rem 1rem;

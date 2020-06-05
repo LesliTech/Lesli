@@ -27,7 +27,18 @@ Building a better future, one line of code at a time.
     z-index: 10;
     margin-bottom: 1rem;
     background-color: transparent;
+
+    .navbar-menu {
+        max-width: 100%;
+    }
+
+    // allows to use multiple lines for long titles
+    .navbar-start .navbar-item {
+        flex-shrink: 1;
+    }
+
     h4 {
         color: get-css-color(black, 300);
     }
+
 }

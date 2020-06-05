@@ -28,6 +28,12 @@ Building a better future, one line of code at a time.
 
 module ApplicationHelper
 
+    def website_title
+        title = @application_html_title || @account[:company][:name] || "Lesli"
+        title = title + " · LesliCloud" if defined?(LesliCloud)
+        title
+    end
+
     def application_body_class()
         application_body_class = lesli_instance
         [application_body_class, controller_path.gsub("/","-"), action_name].join(" ")
@@ -59,7 +65,7 @@ module ApplicationHelper
 
     def application_header_logo() 
         
-        image_src_string = "brand/lesli-logo-banner.svg"
+        image_src_string = "/assets/lesli_cloud/brand/lesli-icon.svg"
         image_src_string = "cloud_haus/brand/deutsche-leibrenten-logo.png" if defined?(CloudHaus)
         image_src_string
         

@@ -34,7 +34,7 @@ Rails.application.configure do
 
     #config.action_mailer.delivery_method = :smtp
 
-    config.action_mailer.delivery_method = :letter_opener
+    config.action_mailer.delivery_method = Rails.application.credentials.services[:smtp][:delivery_method].to_sym
 
     config.action_mailer.perform_deliveries = true
 
@@ -51,11 +51,11 @@ Rails.application.configure do
     }
 
     config.action_mailer.smtp_settings = {
-        port: 25,
+        port: Rails.application.credentials.services[:smtp][:port],
         authentication: :plain,
-        address: "smtp.mailgun.org",
-        user_name: "postmaster@lesli.cloud",
-        password: "e73af022265298d653e3e166202fad48-2ae2c6f3-020bea4f"
+        address: Rails.application.credentials.services[:smtp][:server],
+        user_name: Rails.application.credentials.services[:smtp][:username],
+        password: Rails.application.credentials.services[:smtp][:password]
     }
 
     # Print deprecation notices to the Rails logger.

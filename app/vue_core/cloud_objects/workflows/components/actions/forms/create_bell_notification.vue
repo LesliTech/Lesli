@@ -86,7 +86,7 @@ export default {
         },
 
         getUsers(){
-            this.http.get('/users.json?role=kop&type=exclude').then(result => {
+            this.http.get('/users.json?role=kop,callcenter&type=exclude').then(result => {
                 if (result.successful) {
                     this.$set(this.notification_options, 'users', result.data)
                 }

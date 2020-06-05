@@ -5,17 +5,10 @@
     <%= render partial: "layouts/partials/application-data" %>
     <%= render partial: "layouts/partials/application-asset-css" %>
     <%= yield :application_custom_assets %>
-    <script>
-        //function preventBack(){ window.history.forward() }
-        //setTimeout("preventBack()", 0)
-        //console.log(window.history)
-        //window.history.forward()
-        //window.onunload = function(){ null }
-    </script>
 </head>
-<body class="<%= application_body_class() %>">
+<body class="<%= application_body_class() %> layout-expanded2">
     <%= render partial: "layouts/partials/application-layout-aside" %>
-    <main id="lesli-cloud-application" :class="lesli_cloud_application_css_classes">
+    <main id="lesli-cloud-application">
         <%= render partial: "layouts/partials/application-layout-header" %>
         <%= render partial: "layouts/partials/application-layout-navigation" %>
         <%= render partial: "layouts/partials/application-layout-content" %>

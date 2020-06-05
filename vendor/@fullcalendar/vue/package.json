@@ -2,7 +2,7 @@
   "_args": [
     [
       "@fullcalendar/vue@4.4.0",
-      "/var/www/Lesli/beta.deutsche-leibrenten.de"
+      "/Users/ldonis/code/Lesli/beta.deutsche-leibrenten.de"
     ]
   ],
   "_development": true,
@@ -28,7 +28,7 @@
   ],
   "_resolved": "https://registry.npmjs.org/@fullcalendar/vue/-/vue-4.4.0.tgz",
   "_spec": "4.4.0",
-  "_where": "/var/www/Lesli/beta.deutsche-leibrenten.de",
+  "_where": "/Users/ldonis/code/Lesli/beta.deutsche-leibrenten.de",
   "bugs": {
     "url": "https://github.com/fullcalendar/fullcalendar-vue/issues"
   },

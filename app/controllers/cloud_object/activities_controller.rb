@@ -26,7 +26,7 @@ Building a better future, one line of code at a time.
 =end
 
 module CloudObject
-    class ActivitiesController < ApplicationController
+    class ActivitiesController < ApplicationLesliController
         before_action :set_cloud_object_activity, only: [:update]
 
         # @return [Json] Json that contains a list of all activities related to a *cloud_object*

@@ -34,9 +34,8 @@ export default {
     install (Vue) {
 
         let granted = function(module, action, base_path = "cloud_haus"){
-            return true //TODO validate default roles
             let controller = `${base_path}_${module}`
-            let privilege = leslicloud_account.account.privileges.find(e => grant_object_name === controller)
+            let privilege = leslicloud_account.account.privileges[controller]
             if (privilege){
                 if (privilege[`grant_${action}`]) 
                     return true
@@ -45,24 +44,12 @@ export default {
         }
 
         let privilege = function(module, base_path = "cloud_haus"){
-            return {
-                grant_index: true,
-                grant_create: true,
-                grant_new: true,
-                grant_edit: true,
-                grant_show: true,
-                grant_update: true,
-                grant_destroy: true,
-                grant_options: true,
-                grant_default: true,
-                grant_empty: true
-            } //TODO validate default roles
             let controller = `${base_path}/${module}`
-            let privilege = leslicloud_account.user.privileges.find(e => e.grant_object_name === controller)
+            let privilege = leslicloud_account.user.privileges[controller]
             if (privilege){
                 return privilege
             }
-            return false
+            return {}
         }
 
         Vue.prototype.abilities = {
