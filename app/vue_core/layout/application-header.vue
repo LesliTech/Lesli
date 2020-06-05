@@ -133,7 +133,7 @@ export default {
 </script>
 <template>
     <header class="application-header">
-        <b-navbar class=is-fixed-top>
+        <b-navbar fixed-top>
             <template slot="brand">
                 <slot name="brand"></slot>
             </template>
