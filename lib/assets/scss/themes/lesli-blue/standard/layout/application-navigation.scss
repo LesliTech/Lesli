@@ -69,7 +69,7 @@ Building a better future, one line of code at a time.
     }
 }
 
-@include lesli-css-breakpoint-after("tablet") {
+@include lesli-css-breakpoint("desktop") {
     .application-navigation {
         a.is-active {
             padding: 1.2rem .8rem;

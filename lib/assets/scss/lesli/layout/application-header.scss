@@ -83,7 +83,7 @@ header.application-header {
     
 }
 
-@include lesli-css-breakpoint-min("desktop") {
+@include lesli-css-breakpoint("desktop") {
     header.application-header {
         .navbar-brand {
             flex: 0 0 var(--application-navigation-width);
