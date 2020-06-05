@@ -24,25 +24,18 @@ Building a better future, one line of code at a time.
 */
 
 header.application-header {
-    position: fixed;
-    z-index: 99;
-    width: 100%;
-    top: 0px;
-    .navbar-brand {
-        flex: 0 0 var(--application-header-width);
-        a {
-            padding: 0;
-            width: 100%;
-        }
+
+    // Logo container
+    .navbar-brand .navbar-item {
+        min-width: var(--application-navigation-width);
         img {
             margin: 0 auto;
             max-height: var(--application-header-height);
         }
     }
-    .navbar-start {
-        flex: 1;
 
-        // search bar
+    // search bar
+    .navbar-start { 
         .navbar-item {
             padding: 0;
             display: block;
@@ -65,66 +58,43 @@ header.application-header {
             }
         }
     }
+
     .navbar-end {
         a.notification-indicator {
             position: relative;
             span {
-                top: 13px;
-                right: 10px;
-                width: 10px;
-                height: 10px;
-                position: absolute;
+                top: 10px;
+                right: 5px;
+                width: 15px;
+                height: 15px;
+                font-size: 12px;
+                text-align: center;
                 border-radius: 50%;
-                background-color: get-lesli-css-color(berry, 300);
-                color: get-lesli-css-color(silver, 100);
+                background-color: lesli-css-get-color(berry, 300);
+                color: lesli-css-get-color(silver, 100);
+                font-family: sans-serif;
+                position: absolute;
             }
         }
         i {
             font-size: 1.2rem;
         }
     }
+    
 }
 
-
-
-
-
-// Tablet and above
-@include lesli-css-breakpoint("tablet") {
-    header.application-header {
-        .navbar,
-        .navbar-menu,
-        .navbar-start {
-            align-items: stretch;
-            display: flex;
-        }
-        .navbar-menu {
-            padding: 0;
-            flex: 1;
-        }
-        .navbar-start {
-            // search bar
-            .navbar-item {
-                padding: 0;
-                display: block;
-                width: 100%;
-                .control {
-                    margin-top: 0;
-                }
-            }
-        }
-    }
-}
-
-
-@include lesli-css-breakpoint("mobile") {
+@include lesli-css-breakpoint-min("desktop") {
     header.application-header {
         .navbar-brand {
-            flex: 1;
+            flex: 0 0 var(--application-navigation-width);
+            a{
+                padding: 0;
+                width: 100%;
+            }
         }
-        .navbar-menu,
+
         .navbar-start {
-            display: none;
+            flex: 1;
         }
     }
 }

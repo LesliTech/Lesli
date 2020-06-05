@@ -74,6 +74,22 @@ $breakpoints: (
 
 // · Mixin to manage responsive breakpoints
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
+@mixin lesli-css-breakpoint-min($breakpoint) {
+
+    // Prints a media query based on the value
+    $min-width: map-get(map-get($breakpoints, $breakpoint), min-width);
+    $max-width: map-get(map-get($breakpoints, $breakpoint), max-width);
+
+    @media only screen and (min-width: $min-width) { 
+        @content;
+    }
+
+}
+
+
+
+// · Mixin to manage responsive breakpoints
+// · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
 @mixin lesli-css-breakpoint-after($breakpoint) {
 
     // If the key exists in the map

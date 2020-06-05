@@ -63,7 +63,7 @@ module ApplicationHelper
 
     end
 
-    def application_header_logo() 
+    def application_header_logo2() 
         
         image_src_string = "/assets/lesli_cloud/brand/lesli-icon.svg"
         image_src_string = "cloud_haus/brand/deutsche-leibrenten-logo.png" if defined?(CloudHaus)
