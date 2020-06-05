@@ -54,9 +54,7 @@ export default {
 */
 </script>
 <template>
-    <nav class="application-navigation">
-        <ul>
-            <slot></slot>
-        </ul>
+    <nav class="application-navigation menu">
+        <slot></slot>
     </nav>
 </template>
