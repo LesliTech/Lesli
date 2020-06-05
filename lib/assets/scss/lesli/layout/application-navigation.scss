@@ -31,25 +31,29 @@ Building a better future, one line of code at a time.
     padding-top: .4rem;
     overflow-y: auto; 
     position: fixed;
-    z-index: 99;
+    //z-index: 99;
 
     a {
-        padding: 1.2rem;
         border-radius: 0px;
         transition: all linear .2s;
         font-size: 1.1rem;
         position: relative;
-        display: flex;
         align-items: center;
         position: relative;
         margin: 0 auto;
 
+        display: block;
+        text-align: center;
+        padding: 1.4rem 0;
+
         i {
             font-size: 1.4rem;
+            font-size: 1.6rem;
         }
 
         span {
             margin-left: 10px;
+            display: none;
         }
 
         small {
@@ -75,15 +79,10 @@ Building a better future, one line of code at a time.
 
 }
 
+
 @include lesli-css-breakpoint("tablet") {
     .application-navigation {
         a {
-            display: block;
-            text-align: center;
-            padding: 1.4rem 0;
-            i {
-                font-size: 1.6rem;
-            }
             span {
                 display: block;
             }
@@ -91,18 +90,12 @@ Building a better future, one line of code at a time.
     }
 }
 
-@include lesli-css-breakpoint-max("mobile") {
+
+@include lesli-css-breakpoint("desktop") {
     .application-navigation {
         a {
-            display: block;
-            text-align: center;
-            padding: 1.4rem 0;
-            i {
-                font-size: 1.6rem;
-            }
-            span {
-                display: none;
-            }
+            display: flex;
+            padding: 1.2rem;
         }
     }
 }
