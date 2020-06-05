@@ -1,15 +1,34 @@
+<%#
+
+Lesli
+
+Copyright (c) 2020, Lesli Technologies, S. A.
+
+All the information provided by this website is protected by laws of Guatemala related 
+to industrial property, intellectual property, copyright and relative international laws. 
+Lesli Technologies, S. A. is the exclusive owner of all intellectual or industrial property
+rights of the code, texts, trade mark, design, pictures and any other information.
+Without the written permission of Lesli Technologies, S. A., any replication, modification,
+transmission, publication is strictly forbidden.
+For more information read the license file including with this software.
+
+Lesli - Your Smart Business Assistant
+
+Powered by https://www.lesli.tech
+Building a better future, one line of code at a time.
+
+@contact  <hello@lesli.tech>
+@website  <https://lesli.tech>
+@license  Propietary - all rights reserved.
+
+// · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
+// · 
+
+%>
+
 <application-component-navigation>
     
     <% engine = controller_path.split('/')[0] %>
-    <%= render partial: 'layouts/partials/clouddriver-module-navigation' if engine == "cloud_driver" %>
-    <%= render partial: 'layouts/partials/cloudhouse-module-navigation'  if engine == "cloud_house" %>
-    <%= render partial: 'layouts/partials/cloudfocus-module-navigation'  if engine == "cloud_focus" %>
-    <%= render partial: 'layouts/partials/cloudkb-module-navigation'     if engine == "cloud_kb" %>
-    <%= render partial: 'layouts/partials/cloudpanel-module-navigation'  if engine == "cloud_panel" %>
-    <%= render partial: 'layouts/partials/cloudlock-module-navigation'   if engine == "cloud_lock" %>
-    <%= render partial: 'layouts/partials/cloudbell-module-navigation'   if engine == "cloud_bell" %>
-    <%= render partial: 'layouts/partials/cloudteam-module-navigation'   if engine == "cloud_team" %>
-    <%= render partial: 'layouts/partials/cloudhelp-module-navigation'   if engine == "cloud_help" %>
     <%= render partial: 'layouts/cloud_babel/partials/module-app-navigation' if engine == "cloud_babel" %>
     <%= render partial: 'layouts/cloud_haus/partials/module-app-navigation'  if engine == "cloud_haus" %>
     <%= render partial: 'layouts/lesli_cloud/partials/module-app-navigation' if engine == "lesli_cloud" %>
