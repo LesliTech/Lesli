@@ -24,241 +24,79 @@ Building a better future, one line of code at a time.
 */
 
 
-
-// old - production
-
-// · Navigation sidebar
-.application-navigation2 {
-    width: var(--application-navigation-width);
-    height: calc(100vh - var(--application-header-height));
-    background-color: lesli-css-get-color(solid, white);
-    overflow-y: auto; 
-    position: fixed;
-    z-index: 99;
-
-    a.navbar-item {
-        width: 100%;
-        display: block;
-        border: none;
-        padding: 1.2rem;
-        border-bottom: 2px solid lesli-css-get-color(blue, 300);
-        color: lesli-css-get-color(black, 300);
-
-        &:hover {
-            color: lesli-css-get-color(solid, white);
-            background-color: lesli-css-get-color(blue, 300);
-        }
-
-        img,
-        .img {
-            vertical-align: middle;
-            padding-bottom: 2px;
-            font-size: 16px;
-        }
-
-    }
-
-    li:last-child a {
-        //border-bottom: none;
-    }
-
-    // Sub menus
-    li {
-
-        &.submenu-open {
-            ul {
-                height: auto;
-            }
-        }
-        
-        ul {
-            height: 0;
-            overflow: hidden;
-
-            a.navbar-item {
-                padding: .4rem 3rem;
-                padding-right: 2px;
-            }
-
-            li a{
-                border-top: none;
-            }
-
-        }
-
-    }
-
-    .navigation-change-layout {
-        color: white;
-        padding: 1.2rem;
-        &:hover {
-            cursor: pointer;
-        }
-    }
-
-}
-
-
-@media only screen and (max-width: 1024px) {
-    .application-navigation {
-        a.navbar-item {
-            padding: 1.2rem .6rem;
-        }
-    }
-}
-
-@media only screen and (max-width: 768px) {
-    .application-navigation {
-        a.navbar-item {
-            font-size: .7rem;
-            text-transform: uppercase;
-            text-align: center;
-            padding: 1.2rem 0;
-
-            img {
-                display: block;
-                margin: 0 auto;
-            }
-        }
-    }
-}
-
-
-// · Minimalistic navigation menu
-// · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
-#lesli-cloud-application.layout-full {
-    .application-navigation {
-        font-size: 0;
-        transition: all linear .1s;
-
-        &:hover {
-            width: 250px;
-            font-size: 16px !important;
-            overflow-y: auto; 
-        }
-
-    }
-}
-
-
-.application-navigation {
-
-    scrollbar-width: thin;
-    scrollbar-color: lesli-css-get-color(solid, white) lesli-css-get-color(solid, white);
-
-    &::-webkit-scrollbar {
-        width: 0px;
-        background-color: #F5F5F5;
-    }
-
-}
-
-
 // · Navigation sidebar - new
 .application-navigation {
     width: var(--application-navigation-width);
     height: calc(100vh - var(--application-header-height));
+    padding-top: .4rem;
     overflow-y: auto; 
     position: fixed;
     z-index: 99;
 
-    a.navbar-item {
-        width: 100%;
-        display: block;
-        border: none;
+    a {
         padding: 1.2rem;
-        color: lesli-css-get-color(black, 300);
+        border-radius: 0px;
+        transition: all linear .2s;
+        font-size: 1.1rem;
+        position: relative;
+        display: flex;
+        align-items: center;
+        position: relative;
+        margin: 0 auto;
 
-        &:hover {
-            color: lesli-css-get-color(solid, white);
-            background-color: lesli-css-get-color(blue, 300);
+        i {
+            font-size: 1.4rem;
         }
 
-        img, .img {
-            vertical-align: middle;
-            padding-bottom: 2px;
-            font-size: 16px;
+        span {
+            margin-left: 10px;
         }
 
-    }
-
-    li:last-child a {
-        //border-bottom: none;
-    }
-
-    // Sub menus
-    li {
-
-        &.submenu-open {
-            ul {
-                height: auto;
-            }
-        }
-        
-        ul {
-            //height: 0;
-            //overflow: hidden;
-            height: 100%;
-            display: flex;
-            flex-direction: column;
-
-            a.navbar-item {
-                padding: .4rem 3rem;
-                padding-right: 2px;
-            }
-
-            li a{
-                border-top: none;
-            }
-
-        }
-
-    }
-
-    .navigation-change-layout {
-        color: white;
-        padding: 1.2rem;
-        &:hover {
-            cursor: pointer;
-        }
-    }
-
-}
-
-
-@media only screen and (max-width: 1024px) {
-    .application-navigation {
-        a.navbar-item {
-            padding: 1.2rem .6rem;
-        }
-    }
-}
-
-@media only screen and (max-width: 768px) {
-    .application-navigation {
-        a.navbar-item {
-            font-size: .7rem;
-            text-transform: uppercase;
+        small {
+            font-size: .8rem;
+            font-family: sans-serif;
+            display: block;
+            position: absolute;
+            width: 18px;
+            height: 18px;
+            padding-top: 4px;
+            border-radius: 50%;
+            margin-top: -34px;
+            right: 0;
             text-align: center;
-            padding: 1.2rem 0;
+        }
 
-            img {
+    }
+
+    ul.menu-list li ul {
+        border-left: none;
+        padding-left: 0.5rem;
+    }
+
+}
+
+@include lesli-css-breakpoint("tablet") {
+    .application-navigation {
+        a {
+            display: block;
+            text-align: center;
+            padding: 1.4rem 0;
+            i {
+                font-size: 1.6rem;
+            }
+            span {
                 display: block;
-                margin: 0 auto;
             }
         }
     }
 }
 
-
-// · Minimalistic navigation menu
-// · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
-body.layout-expanded {
+@include lesli-css-breakpoint-max("mobile") {
     .application-navigation {
-        a.navbar-item {
-            transition: all linear .2s;
+        a {
+            display: block;
             text-align: center;
-            padding: 1.5rem 0;
+            padding: 1.4rem 0;
             i {
                 font-size: 1.6rem;
             }
@@ -267,17 +105,4 @@ body.layout-expanded {
             }
         }
     }
-}
-
-
-.application-navigation {
-
-    scrollbar-width: thin;
-    scrollbar-color: lesli-css-get-color(solid, white) lesli-css-get-color(solid, white);
-
-    &::-webkit-scrollbar {
-        width: 0px;
-        background-color: #F5F5F5;
-    }
-
 }

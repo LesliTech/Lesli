@@ -29,19 +29,14 @@ Building a better future, one line of code at a time.
     background-color: lesli-css-get-color(solid, white);
     border-right: 1px solid lesli-css-theme-get-color(silver, 300);
 
-    a.navbar-item {
-        color: lesli-css-theme-get-color(silver, 700);
+    a {
+        color: lesli-css-theme-get-color(silver, 900);
 
-        &.active {
+        &.is-active {
+            border-radius: 5px;
             color: lesli-css-theme-get-color(solid, white);
-            i {
-                box-shadow: 0px 0px 25px 0px rgba(lesli-css-theme-get-color(app, primary), .70);
-                background-color: lesli-css-theme-get-color(app, primary);
-                padding: 10px;
-                font-size: 1.6rem;
-                border-radius: 5px;
-                
-            }
+            background-color: lesli-css-theme-get-color(app, primary);
+            box-shadow: 0px 0px 25px 0px rgba(#3a6bff, .70);
         }
 
         &:hover {
@@ -49,29 +44,36 @@ Building a better future, one line of code at a time.
             background-color: lesli-css-theme-get-color(app, primary);
         }
 
-        &.notifications {
-            small {
-                font-size: .8rem;
-                font-family: sans-serif;
-                background-color: lesli-css-get-color(berry, 300);
-                color: lesli-css-get-color(solid, white);
-                display: block;
-                position: absolute;
-                width: 18px;
-                height: 18px;
-                padding-top: 4px;
-                border-radius: 50%;
-                margin-top: -34px;
-                margin-left: 15px;
-            }
-        }
-
-        &.microphone {
-            position: absolute;
-            bottom: 0;
-            width: 100%;
+        small {
+            background-color: lesli-css-get-color(berry, 300);
+            color: lesli-css-get-color(solid, white);
         }
 
     }
 
+}
+
+@include lesli-css-breakpoint("mobile") {
+    .application-navigation {
+        a.is-active {
+            width: 65px;
+        }
+    }
+}
+
+@include lesli-css-breakpoint("tablet") {
+    .application-navigation {
+        a.is-active {
+            width: 120px;
+        }
+    }
+}
+
+@include lesli-css-breakpoint-after("tablet") {
+    .application-navigation {
+        a.is-active {
+            padding: 1.2rem .8rem;
+            width: 90%;
+        }
+    }
 }
