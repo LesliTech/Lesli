@@ -24,6 +24,59 @@ Building a better future, one line of code at a time.
 */
 
 header.application-header {
+    height: var(--application-header-height);
+    
+    // Logo container
+    .navbar-brand {
+        .navbar-item {
+            min-width: var(--application-navigation-width);
+            img {
+                margin: 0 auto;
+                max-height: var(--application-header-height);
+            }
+        }
+    }
+    
+}
+
+@include lesli-css-breakpoint("desktop") {
+    header.application-header {
+        .navbar-brand {
+            flex: 0 0 var(--application-navigation-width);
+            a{
+                width: 100%;
+            }
+        }
+        .navbar-start {
+            flex: 1;
+        }
+        .navbar-end {
+            a.notification-indicator {
+                position: relative;
+                span {
+                    top: 15px;
+                    right: 5px;
+                    width: 15px;
+                    height: 15px;
+                    font-size: 11px;
+                    text-align: center;
+                    border-radius: 50%;
+                    background-color: lesli-css-get-color(berry, 300);
+                    color: lesli-css-get-color(silver, 100);
+                    font-family: sans-serif;
+                    position: absolute;
+                }
+            }
+            i {
+                font-size: 1.2rem;
+            }
+        }
+    }
+}
+
+
+
+header.application-header2 {
 
     // Logo container
     .navbar-brand .navbar-item {
@@ -84,7 +137,7 @@ header.application-header {
 }
 
 @include lesli-css-breakpoint("desktop") {
-    header.application-header {
+    header.application-header2 {
         .navbar-brand {
             flex: 0 0 var(--application-navigation-width);
             a{
@@ -92,7 +145,6 @@ header.application-header {
                 width: 100%;
             }
         }
-
         .navbar-start {
             flex: 1;
         }

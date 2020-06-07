@@ -24,19 +24,28 @@ Building a better future, one line of code at a time.
 */
 
 
+@import "lesli-css/";
+
 // · Navigation sidebar
 .application-navigation {
+    padding: 1rem;
+    box-shadow: 
+        0px -10px 0px 0px lesli-css-get-color(solid, white),
+        0px 0px 10px 0px lesli-css-theme-get-color(silver, 300);
     background-color: lesli-css-get-color(solid, white);
-    border-right: 1px solid lesli-css-theme-get-color(silver, 300);
+    height: calc(100vh - var(--application-header-height));
+    z-index: 99;
 
     a {
-        color: lesli-css-theme-get-color(silver, 900);
+        width: 100%;
+        padding: 1.2rem 1rem;
+        border-radius: .2rem;
+        color: lesli-css-theme-get-color(silver, 700);
 
         &.is-active {
-            border-radius: 5px;
             color: lesli-css-theme-get-color(solid, white);
             background-color: lesli-css-theme-get-color(app, primary);
-            box-shadow: 0px 0px 25px 0px rgba(#3a6bff, .70);
+            box-shadow: 0px 0px 10px 0px rgba(#3a6bff, .60);
         }
 
         &:hover {
@@ -52,7 +61,8 @@ Building a better future, one line of code at a time.
     }
 
 }
-@import "lesli-css/";
+
+/*
 @include lesli-css-breakpoint("mobile") {
     .application-navigation {
         a.is-active {
@@ -73,8 +83,7 @@ Building a better future, one line of code at a time.
     .application-navigation {
         a.is-active {
             padding: 1.2rem .8rem;
-            width: 90%;
         }
     }
 }
-
+*/

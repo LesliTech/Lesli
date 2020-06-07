@@ -47,7 +47,7 @@ module ApplicationHelper
             theme = [
                 "themes", 
                 @account[:settings]["theme"],
-                @account[:settings]["theme_variation"]
+                @account[:settings]["theme"]
             ].join("/")
         end
 
@@ -61,14 +61,6 @@ module ApplicationHelper
         cloud_module = path_segments.shift
         [cloud_module, path_segments.push("app").compact().join("_")].join("/")
 
-    end
-
-    def application_header_logo2() 
-        
-        image_src_string = "/assets/lesli_cloud/brand/lesli-icon.svg"
-        image_src_string = "cloud_haus/brand/deutsche-leibrenten-logo.png" if defined?(CloudHaus)
-        image_src_string
-        
     end
 
     def language_url(locale)

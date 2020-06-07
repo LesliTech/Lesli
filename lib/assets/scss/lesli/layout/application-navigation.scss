@@ -26,16 +26,14 @@ Building a better future, one line of code at a time.
 
 // · Navigation sidebar - new
 .application-navigation {
+    min-height: 100vh;
     width: var(--application-navigation-width);
-    height: calc(100vh - var(--application-header-height));
-    padding-top: .4rem;
     overflow-y: auto; 
     position: fixed;
-    //z-index: 99;
 
     a {
         border-radius: 0px;
-        transition: all linear .2s;
+        transition: all linear .1s;
         font-size: 1.1rem;
         position: relative;
         align-items: center;
@@ -48,7 +46,6 @@ Building a better future, one line of code at a time.
 
         i {
             font-size: 1.4rem;
-            font-size: 1.6rem;
         }
 
         img {
