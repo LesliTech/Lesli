@@ -60,7 +60,18 @@ module Courier
                 .joins(:detail, :status)
                 .joins("inner join users ua on ua.id = cloud_focus_tasks.users_id")
                 .joins("inner join users uc on uc.id = cloud_focus_tasks.creator_id")
-                .where("cloud_focus_tasks.model_id = ? AND cloud_focus_tasks.model_type = ? AND cloud_focus_workflow_statuses.name != ? ", model_id, model_type, 'done')
+                .where(
+                    "
+                        cloud_focus_tasks.model_id = ? AND
+                        cloud_focus_tasks.model_type = ? AND
+                        cloud_focus_workflow_statuses.completed_successfully != ? AND
+                        cloud_focus_workflow_statuses.completed_unsuccessfully != ?
+                    ",
+                    model_id,
+                    model_type,
+                    true,
+                    true
+                )
                 .order("#{query[:pagination][:orderColumn]} #{query[:pagination][:order]} NULLS LAST")
                 .page(query[:pagination][:page]).per(query[:pagination][:perPage])
                 
@@ -146,7 +157,8 @@ module Courier
                 .select("cloud_focus_task_details.deadline")
                 .where("cloud_focus_tasks.model_type = ?", "CloudHouse::Project")
                 .where("cloud_focus_tasks.model_id = ?", project.id)
-                .where("cloud_focus_workflow_statuses.inactive = ?", false)
+                .where("cloud_focus_workflow_statuses.completed_successfully != ?", true)
+                .where("cloud_focus_workflow_statuses.completed_unsuccessfully != ?", true)
                 .order("cloud_focus_task_details.deadline asc")
                 .first
 
