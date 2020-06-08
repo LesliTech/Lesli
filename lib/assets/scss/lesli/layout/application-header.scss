@@ -24,7 +24,17 @@ Building a better future, one line of code at a time.
 */
 
 header.application-header {
+    top: 0;
+    left: 0;
+    position: fixed;
+    right: 0;
+    z-index: 30;
     height: var(--application-header-height);
+
+    .navbar-item {
+        padding-top: 0rem;
+        padding-bottom: 0rem;
+    }
     
     // Logo container
     .navbar-brand {
@@ -34,6 +44,19 @@ header.application-header {
                 margin: 0 auto;
                 max-height: var(--application-header-height);
             }
+        }
+    }
+
+    .navbar-start {
+        .control {
+            width: 100%;
+        }
+        .navbar-item {
+            flex-grow: 1;
+        }
+        .input {
+            width: 100%;
+            border: none;
         }
     }
     
@@ -54,7 +77,7 @@ header.application-header {
             a.notification-indicator {
                 position: relative;
                 span {
-                    top: 15px;
+                    top: 8px;
                     right: 5px;
                     width: 15px;
                     height: 15px;
