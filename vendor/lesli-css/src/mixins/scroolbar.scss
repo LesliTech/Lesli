@@ -34,7 +34,7 @@ Building a better future, one line of code at a time.
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
 @mixin lesli-css-scroolbar($style) {
     scrollbar-width: thin;
-    scrollbar-color: lesli-css-get-color(standard, white) lesli-css-get-color(standard, white);
+    scrollbar-color:white white;
 
     &::-webkit-scrollbar {
         width: 0px;

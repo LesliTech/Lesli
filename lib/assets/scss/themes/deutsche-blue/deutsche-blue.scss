@@ -11,53 +11,33 @@ Without the written permission of Lesli Technologies, S. A., any replication, mo
 transmission, publication is strictly forbidden.
 For more information read the license file including with this software.
 
-LesliCloud - Your Smart Business Assistant
+Lesli - Your Smart Business Assistant
 
 Powered by https://www.lesli.tech
 Building a better future, one line of code at a time.
 
+@contact  <hello@lesli.tech>
+@website  <https://lesli.tech>
 @license  Propietary - all rights reserved.
-@version  0.1.0-alpha
 
-// · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
+// · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
 // · 
 */
 
 // · 
+@import "lesli-css/";
 
 
-
-
-    .b-tabs {
-
-        .tabs {
-            margin-bottom: 0;
-            .is-active {
-                background-color: lesli-css-theme-get-color(app, primary);
-                a {
-                    color: lesli-css-theme-get-color(solid, white);
-                }
-            }
-        }
-
-        &.is-vertical > .tabs {
-            flex: 0 0 200px;
-            padding: 1rem 0;
-            ul {
-                background-color: lesli-css-theme-get-color(solid, white);
-            }
-            a {
-                padding: 2rem 1rem;
-            }
-        }
-
-        
-
-        
+// · 
+body #lesli-cloud-application {
+    @import "./settings/colors.scss";
+    @import "./layout/application-header";
+    @import "./layout/application-navigation";
+    .application-component {
+        @import "./components/tabs.scss";
+        @import "./components/status.scss";
+        @import "./components/summary.scss";
+        @import "./components/calendar.scss";
+        @import "./components/quickview.scss";
     }
-
-    
-
-    
-
-    
+}
