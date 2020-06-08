@@ -84,11 +84,13 @@ export default {
         },
 
         getIcon(node){
-            let icon = 'fas:fa-forward'
+            let icon = ''
             if(node.initial){
-                icon = 'fas:fa-play'
-            }else if(node.inactive){
-                icon = 'fas:fa-stop'
+                icon = 'fas:fa-play-circle'
+            }else if(node.completed_successfully || node.completed_unsuccessfully){
+                icon = 'fas:fa-check-circle'
+            }else if(node.to_be_deleted){
+                icon = 'fas:fa-exclamation-circle'
             }
             return icon
         },
@@ -125,12 +127,17 @@ export default {
                     if(this.selectedWorkflowState == node.number){
                         parsed_node.style = 'fill:#EFFD5F,stroke:#FCE205'
                     }else{
-                        parsed_node.style = 'fill:#20a8d8,stroke:#005380'
+                        parsed_node.style = 'fill:#FFFFFF,stroke:#000000'
                     }
+
                     // Status type will override the selectedWorkflowStatue color
                     if(node.initial){
-                        parsed_node.style = 'fill:#48c774,stroke:#48c774'
-                    }else if(node.inactive){
+                        parsed_node.style = 'fill:#3298dc,stroke:#000000'
+                    }else if(node.completed_successfully){
+                        parsed_node.style = 'fill:#48c774,stroke:#000000'
+                    }else if(node.completed_unsuccessfully){
+                        parsed_node.style = 'fill:#f14668,stroke:#000000'
+                    }else if(node.to_be_deleted){
                         parsed_node.style = 'fill:#ffdd57,stroke:#000000'
                     }
 

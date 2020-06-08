@@ -42,7 +42,7 @@ module Courier
                 .joins("left join locations L on CHPR.location_city_id = L.id")
                 .joins("inner join cloud_house_property_details CHPRD on CHPR.id = CHPRD.cloud_house_properties_id")
                 .joins("inner join cloud_house_workflow_statuses CHWS on CHWS.id = cloud_house_projects.cloud_house_workflow_statuses_id")
-                .where("CHWS.name != ? AND CHWS.name != ? AND CHWS.name != ?", 'not_interested', 'customer_has_rejected', 'customer_was_rejected')
+                .where("CHWS.completed_unsuccessfully = ?", false)
                 .where("CHPC.role = #{main_owner_role}")
 
                 projects
