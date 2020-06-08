@@ -1,5 +1,4 @@
-<%#
-
+/*
 Lesli
 
 Copyright (c) 2020, Lesli Technologies, S. A.
@@ -23,25 +22,21 @@ Building a better future, one line of code at a time.
 
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
 // · 
+*/
 
-%>
 
-<application-component-navigation>
-    
-    <% engine = controller_path.split('/')[0] %>
-    <%= render partial: 'layouts/cloud_babel/partials/module-app-navigation' if engine == "cloud_babel" %>
-    <%= render partial: 'layouts/cloud_haus/partials/module-app-navigation'  if engine == "cloud_haus" %>
-    <%= render partial: 'layouts/lesli_cloud/partials/module-app-navigation' if engine == "lesli_cloud" %>
-    
-    <template v-slot:layout>
-        <div class="navigation-change-layout" @click="change_layout">
-            <p>
-                <i class="img icon is-medium">
-                    <i class="fas fa-chevron-left"></i>
-                    <i class="fas fa-chevron-right"></i>
-                </i>
-            </p>
-        </div>
-    </template>
+// · 
+@import "lesli-css/";
+@import "./settings/colors";
 
-</application-component-navigation>
+@mixin lesli-css-theme-boxshadow {
+    box-shadow: 0px 0px 10px 0px rgba(lesli-css-get-color(silver), .50);
+}
+
+// · 
+body {
+    #lesli-cloud-application {
+        @import "./layout/application-header";
+        @import "./layout/application-navigation";
+    }
+}

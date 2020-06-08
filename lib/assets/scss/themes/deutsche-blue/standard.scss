@@ -32,12 +32,24 @@ Building a better future, one line of code at a time.
 body #lesli-cloud-application {
     @import "./standard/settings/colors.scss";
     @import "./standard/layout/application-header.scss";
-    @import "./standard/layout/application-navigation.scss";
+    @import "./standard/layout/application-navigation";
     .application-component {
         @import "./standard/components/tabs.scss";
         @import "./standard/components/status.scss";
         @import "./standard/components/summary.scss";
         @import "./standard/components/calendar.scss";
         @import "./standard/components/quickview.scss";
+    }
+}
+
+@include lesli-css-breakpoint("tablet") {
+    footer.application-footer {
+        margin-left: 185px;
+    }
+}
+
+@include lesli-css-breakpoint("desktop") {
+    footer.application-footer {
+        margin-left: 250px;
     }
 }

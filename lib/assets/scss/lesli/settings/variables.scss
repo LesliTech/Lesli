@@ -27,32 +27,12 @@ Building a better future, one line of code at a time.
 @import "lesli-css/";
 
 :root {
-    --application-header-height: 52px;
+    --application-header-height: 66px;
     --application-header-width: 250px;
     --application-footer-height: 52px;
     --application-navigation-width: 250px;
 }
 
-// Widescreen Between 1216px and 1407px
-@include lesli-css-breakpoint("widescreen") {
-    :root {
-        --application-navigation-width: 225px;
-    }   
-}
-
-// Desktop Between 1024px and 1215px
-@include lesli-css-breakpoint("desktop") {
-    :root {
-        --application-navigation-width: 200px;
-    }   
-}
-
-// Tablet Between 769px and 1023px
-@include lesli-css-breakpoint("tablet") {
-    :root {
-        --application-navigation-width: 150px;
-    }   
-}
 
 // Mobile Up to 768px
 @include lesli-css-breakpoint("mobile") {
@@ -62,6 +42,31 @@ Building a better future, one line of code at a time.
 }
 
 
+// Tablet Between 769px and 1023px
+@include lesli-css-breakpoint("tablet") {
+    :root {
+        --application-navigation-width: 150px;
+    }   
+}
+
+
+// Desktop Between 1024px and 1215px
+@include lesli-css-breakpoint("desktop") {
+    :root {
+        --application-navigation-width: 200px;
+    }   
+}
+
+
+// Widescreen Between 1216px and 1407px
+@include lesli-css-breakpoint("widescreen") {
+    :root {
+        --application-navigation-width: 225px;
+    }   
+}
+
+
+//
 body.layout-expanded {
     --application-navigation-width: 100px;
     --application-header-width: var(--application-navigation-width);

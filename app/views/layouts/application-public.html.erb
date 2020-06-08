@@ -8,14 +8,10 @@
     <%# Disable back button in browser after Logout using JavaScript %>
     <% if flash[:logout] == true %>
     <script>
-        /*
-        console.log(window.history)
-        window.history.forward()
-        window.onunload = function(){ null }
-        document.location.replace("/login")
-        document.location.replace("/login")
-        console.log(window.history)
-        */
+    history.pushState(null, null, null);
+    window.addEventListener('popstate', function () {
+        history.pushState(null, null, null);
+    });
     </script>
     <% end %>
 </head>
