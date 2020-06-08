@@ -50,29 +50,27 @@ $breakpoints: (
 ) !default;
 
 
-// · Return breakpoint values 
+// · 
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
-@function lesli-css-get-breakpoint($breakpoint) {
-    @return map-get($map: $breakpoints, $key: $breakpoint);
-}
-
-
-// · Mixin to manage responsive breakpoints
-// · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
-@mixin lesli-css-breakpoint-after($breakpoint) {
+@mixin lesli-css-breakpoint($breakpoint: false, $width: false) {
 
     // If the key exists in the map
-    @if map-has-key($breakpoints, $breakpoint) {
+    @if $breakpoint and map-has-key($breakpoints, $breakpoint) {
 
         // Prints a media query based on the value
         $min-width: map-get(map-get($breakpoints, $breakpoint), min-width);
-        $max-width: map-get(map-get($breakpoints, $breakpoint), max-width);
 
-        @media only screen and (min-width: $max-width) { 
+        @media only screen and (min-width: $min-width) { 
             @content;
         }
 
-    } @else {
+    } @else if $width {
+
+        @media only screen and (min-width: $width) { 
+            @content;
+        }
+
+    } @else { 
 
         // If the key doesn't exist in the map
         @warn "Breakpoint `#{$breakpoint}` not found.";
@@ -82,12 +80,12 @@ $breakpoints: (
 }
 
 
-// · Mixin to manage responsive breakpoints
+// · 
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
-@mixin lesli-css-breakpoint($breakpoint:false, $min-width:0, $max-width:0) {
+@mixin lesli-css-breakpoint-only($breakpoint) {
 
     // If the key exists in the map
-    @if $breakpoint != 0 and map-has-key($breakpoints, $breakpoint) {
+    @if map-has-key($breakpoints, $breakpoint) {
 
         // Prints a media query based on the value
         $min-width: map-get(map-get($breakpoints, $breakpoint), min-width);
@@ -99,10 +97,8 @@ $breakpoints: (
 
     } @else {
 
-        // Prints a media query with custom values
-        @media only screen and (min-width: $min-width) and (max-width: $max-width) { 
-            @content;
-        }
+        // If the key doesn't exist in the map
+        @warn "Breakpoint `#{$breakpoint}` not found.";
 
     }
 

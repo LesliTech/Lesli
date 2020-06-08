@@ -86,8 +86,7 @@ Building a better future, one line of code at a time.
 
 // · 
 #lesli-cloud-application {
-    min-height: calc(100vh - var(--application-header-height) - var(--application-header-height));
-    padding-top: var(--application-header-height);
+    min-height: calc(100vh - 2px - var(--application-header-height));
 }
 
 
@@ -99,8 +98,8 @@ html {
 
 // · 
 body {
-    position: relative;
-    background-color: rgb(238,238,245);
+    min-height: 100vh;
+    background-color: darken(lesli-css-get-color(silver, 100),1);
     scrollbar-width: thin;
     scrollbar-color: lesli-css-get-color(blue) lesli-css-get-color(silver);
 }

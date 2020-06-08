@@ -24,80 +24,66 @@ Building a better future, one line of code at a time.
 */
 
 
-// · Navigation sidebar - new
+@import "lesli-css/";
+
+// · Navigation sidebar
 .application-navigation {
-    min-height: 100vh;
-    width: var(--application-navigation-width);
-    overflow-y: auto; 
-    position: fixed;
+    padding: 1rem;
+    box-shadow: 
+        0px -10px 0px 0px lesli-css-get-color(solid, white),
+        0px 0px 10px 0px lesli-css-theme-get-color(silver, 300);
+    background-color: lesli-css-get-color(solid, white);
+    height: calc(100vh - var(--application-header-height));
+    z-index: 99;
 
     a {
-        border-radius: 0px;
-        transition: all linear .1s;
-        font-size: 1.1rem;
-        position: relative;
-        align-items: center;
-        position: relative;
-        margin: 0 auto;
+        width: 100%;
+        padding: 1.2rem 1rem;
+        border-radius: .2rem;
+        color: lesli-css-theme-get-color(silver, 700);
 
-        display: block;
-        text-align: center;
-        padding: 1.4rem 0;
-
-        i {
-            font-size: 1.4rem;
+        &.is-active {
+            color: lesli-css-theme-get-color(solid, white);
+            background-color: lesli-css-theme-get-color(app, primary);
+            box-shadow: 0px 0px 10px 0px rgba(#3a6bff, .60);
         }
 
-        img {
-            width: 1.4rem;
-        }
-
-        span {
-            margin-left: 10px;
-            display: none;
+        &:hover {
+            color: lesli-css-get-color(solid, white);
+            background-color: lesli-css-theme-get-color(app, primary);
         }
 
         small {
-            font-size: .8rem;
-            font-family: sans-serif;
-            display: block;
-            position: absolute;
-            width: 18px;
-            height: 18px;
-            padding-top: 4px;
-            border-radius: 50%;
-            margin-top: -34px;
-            right: 0;
-            text-align: center;
+            background-color: lesli-css-get-color(berry, 300);
+            color: lesli-css-get-color(solid, white);
         }
 
     }
 
-    ul.menu-list li ul {
-        border-left: none;
-        padding-left: 0.5rem;
-    }
-
 }
 
+/*
+@include lesli-css-breakpoint("mobile") {
+    .application-navigation {
+        a.is-active {
+            width: 65px;
+        }
+    }
+}
 
 @include lesli-css-breakpoint("tablet") {
     .application-navigation {
-        a {
-            span {
-                display: block;
-            }
+        a.is-active {
+            width: 120px;
         }
     }
 }
-
 
 @include lesli-css-breakpoint("desktop") {
     .application-navigation {
-        a {
-            display: flex;
-            padding: 1.2rem;
-            text-align: left;
+        a.is-active {
+            padding: 1.2rem .8rem;
         }
     }
 }
+*/

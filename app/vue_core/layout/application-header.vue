@@ -133,77 +133,63 @@ export default {
 </script>
 <template>
     <header class="application-header">
+        <b-navbar transparent>
+            <template slot="brand">
+                <slot name="brand"></slot>
+            </template>
 
-        <!-- User navigation area -->
-        <nav class="navbar is-transparent is-fixed-top">
+            <template slot="start">
+                <div class="navbar-item">
+                    <div class="control is-medium has-icons-left has-text-grey">
+                        <input class="input is-medium is-shadowless" type="email" @input="searchText" :placeholder="translations.core.shared.search_placeholder">
+                        <span class="icon is-left has-text-gray">
+                            <i v-if="!search.searching" class="fas fa-search"></i>
+                            <component-data-loading v-if="search.searching && searchText!=''" :icon-only="true"/>
+                        </span>
+                    </div>
+                </div>
+            </template>
 
-            <!-- Brand container -->
-            <div class="navbar-brand">
-                <a class="navbar-item" href="/">
-                    <slot name="logo"></slot>
+            <template slot="end">
+
+                <!-- 
+                <a class="navbar-item" @click="showHelp()">
+                    <span class="icon has-text-grey-dark">
+                        <i class="far fa-question-circle"></i>
+                    </span>
                 </a>
-            </div>
+                -->
 
-            <div id="header-main-navbar" class="navbar-menu is-shadowless">
+                <slot name="languages"></slot>
 
-                <!-- Assistant controls -->
-                <div class="navbar-start">
+                <a class="navbar-item notification-indicator" data-intro="Notification icon" @click="showNotificationPanel()">
+                    <i v-if="notification.count > 0" class="fas fa-bell has-text-link"></i>
+                    <i v-if="notification.count == 0" class="far fa-bell"></i>
+                    <span>0</span>
+                </a>
 
-                    <div class="navbar-item">
-                        <div class="control is-medium has-icons-left has-text-grey">
-                            <input class="input is-medium is-shadowless" type="email" @input="searchText" :placeholder="translations.core.shared.search_placeholder">
-                            <span class="icon is-left has-text-gray">
-                                <i v-if="!search.searching" class="fas fa-search"></i>
-                                <component-data-loading v-if="search.searching && searchText!=''" :icon-only="true"/>
+                <div class="navbar-item has-dropdown is-hoverable" data-intro="Account options">
+                    <span class="navbar-link">
+                        <slot name="username"></slot>
+                    </span>
+                    <div class="navbar-dropdown">
+                        <a class="navbar-item" @click="url.go('/crm/users/'+lesli.current_user.id)">
+                            <span class="icon has-text-grey-light">
+                                <i class="fas fa-user"></i>
                             </span>
-                        </div>
+                            <span>Profile</span>
+                        </a>
+                        <hr class="navbar-divider">
+                        <a class="navbar-item" href="/logout">
+                            <span class="icon has-text-grey-light">
+                                <i class="fas fa-sign-out-alt"></i>
+                            </span>
+                            <span>Logout</span>
+                        </a>
                     </div>
-
                 </div>
 
-                <!-- User navigation -->
-                <div class="navbar-end is-hidden-tablet-only">
-                    
-                    <!-- 
-                    <a class="navbar-item" @click="showHelp()">
-                        <span class="icon has-text-grey-dark">
-                            <i class="far fa-question-circle"></i>
-                        </span>
-                    </a>
-                    -->
-
-                    <slot name="languages"></slot>
-
-                    <a class="navbar-item notification-indicator" data-intro="Notification icon" @click="showNotificationPanel()">
-                        <i v-if="notification.count > 0" class="fas fa-bell has-text-link"></i>
-                        <i v-if="notification.count == 0" class="far fa-bell"></i>
-                        <span></span>
-                    </a>
-
-                    <div class="navbar-item has-dropdown is-hoverable" data-intro="Account options">
-                        <span class="navbar-link">
-                            <slot name="username"></slot>
-                        </span>
-
-                        <div class="navbar-dropdown">
-                            <a class="navbar-item" @click="url.go('/crm/users/'+lesli.current_user.id)">
-                                <span class="icon has-text-grey-light">
-                                    <i class="fas fa-user"></i>
-                                </span>
-                                <span>Profile</span>
-                            </a>
-                            <hr class="navbar-divider">
-                            <a class="navbar-item" href="/logout">
-                                <span class="icon has-text-grey-light">
-                                    <i class="fas fa-sign-out-alt"></i>
-                                </span>
-                                <span>Logout</span>
-                            </a>
-                        </div>
-                    </div>
-
-                </div>
-            </div>
-        </nav>
+            </template>
+        </b-navbar>
     </header>
 </template>
