@@ -32,7 +32,7 @@ Building a better future, one line of code at a time.
     width: var(--application-navigation-width);
     overflow-y: auto; 
     position: fixed;
-    @include lesli-css-scroolbar("");
+    @include lesli-css-scrollbar("");
 
     a {
         border-radius: 0px;
