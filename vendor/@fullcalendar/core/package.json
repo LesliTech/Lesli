@@ -1,4 +1,11 @@
 {
+  "_args": [
+    [
+      "@fullcalendar/core@4.4.2",
+      "/Users/ldonis/code/Lesli/beta.deutsche-leibrenten.de"
+    ]
+  ],
+  "_development": true,
   "_from": "@fullcalendar/core@4.4.2",
   "_id": "@fullcalendar/core@4.4.2",
   "_inBundle": false,
@@ -21,8 +28,7 @@
     "/@fullcalendar/vue"
   ],
   "_resolved": "https://registry.npmjs.org/@fullcalendar/core/-/core-4.4.2.tgz",
-  "_shasum": "864abe98cce4497a163c01a8fc30389f15d3d4e1",
-  "_spec": "@fullcalendar/core@4.4.2",
+  "_spec": "4.4.2",
   "_where": "/Users/ldonis/code/Lesli/beta.deutsche-leibrenten.de",
   "author": {
     "name": "Adam Shaw",
@@ -32,9 +38,7 @@
   "bugs": {
     "url": "https://fullcalendar.io/reporting-bugs"
   },
-  "bundleDependencies": false,
   "copyright": "2019 Adam Shaw",
-  "deprecated": false,
   "description": "Provides core functionality, including the Calendar class",
   "docs": "https://fullcalendar.io/docs/initialize-es6",
   "homepage": "https://fullcalendar.io/",
