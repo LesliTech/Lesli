@@ -29,6 +29,7 @@ Building a better future, one line of code at a time.
         require 'aws-sdk-s3'
 
         before_action :set_cloud_object_file, only: [:show, :destroy]
+        before_action :check_has_authorization, only: [:destroy]
 
 =begin
 @return [Json] Json that contains a list of all files related to a *cloud_object*
@@ -83,6 +84,7 @@ Building a better future, one line of code at a time.
         
             new_file_params = 
             cloud_object_file_params.merge(
+                user: current_user,
                 "cloud_#{module_name}_#{plural_object_name}_id".to_sym => params["#{object_name}_id".to_sym]
             )
 
@@ -329,5 +331,12 @@ this.http.delete(`127.0.0.1/help/tickets/${ticket_id}/files/${file_id}`);
                 #subscriber_model: "#{module_info[0]}::#{module_info[1]}::Subscriber".constantize
             }
         end
+
+        def check_has_authorization
+            if !is_admin?()
+                return responseWithUnauthorized if current_user != @cloud_object_file.user
+            end
+        end
+
     end
 end
