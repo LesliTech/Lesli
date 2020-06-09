@@ -50,6 +50,7 @@ export default {
     mounted() {
         this.mountListeners()
         this.checkIfMicrophoneWorks()
+        this.getNotificationsCounter()
         this.notification.count = leslicloud_account.notifications.count
     },
 
@@ -165,7 +166,7 @@ export default {
                 <a class="navbar-item notification-indicator" data-intro="Notification icon" @click="showNotificationPanel()">
                     <i v-if="notification.count > 0" class="fas fa-bell has-text-link"></i>
                     <i v-if="notification.count == 0" class="far fa-bell"></i>
-                    <span>0</span>
+                    <span>{{ notification.count }}</span>
                 </a>
 
                 <div class="navbar-item has-dropdown is-hoverable" data-intro="Account options">
