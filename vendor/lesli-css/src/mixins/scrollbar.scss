@@ -32,7 +32,7 @@ Building a better future, one line of code at a time.
 
 // · 
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
-@mixin lesli-css-scroolbar($style:normal) {
+@mixin lesli-css-scrollbar($style:normal, $color:false, $background:false) {
     scrollbar-width: thin;
     scrollbar-color: #ffffff #ffffff;
 
@@ -42,4 +42,5 @@ Building a better future, one line of code at a time.
             background-color: #f5f5f5;
         }
     }
+
 }
