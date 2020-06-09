@@ -5,8 +5,8 @@
     <%= render partial: "layouts/partials/application-data" %>
     <%= render partial: "layouts/partials/application-public-asset-css" %>
 
-    <%# Disable back button in browser after Logout using JavaScript %>
     <% if flash[:logout] == true %>
+    <%# Disable back button in browser after Logout using JavaScript %>
     <script>
     history.pushState(null, null, null);
     window.addEventListener('popstate', function () {
