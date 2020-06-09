@@ -12,13 +12,14 @@ Without the written permission of Lesli Technologies, S. A., any replication, mo
 transmission, publication is strictly forbidden.
 For more information read the license file including with this software.
 
-LesliCloud - Your Smart Business Assistant
+Lesli - Your Smart Business Assistant
 
 Powered by https://www.lesli.tech
 Building a better future, one line of code at a time.
 
+@contact  <hello@lesli.tech>
+@website  <https://lesli.tech>
 @license  Propietary - all rights reserved.
-@version  0.1.0-alpha
 
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
 // · 
@@ -114,7 +115,7 @@ namespace :dev do
 
             puts ""; puts ""; puts "";
             puts "Working with: Lesli"
-            system "git push lesli master"
+            system "git push backup master"
 
         end
 
@@ -131,27 +132,31 @@ namespace :dev do
 
                 ["github", "origin", "lesli", "backup"].each do |origin|
 
-                    remote = engine['github_ssh'] if origin == "github"
-                    remote = engine['github_ssh'] if origin == "origin"
-                    remote = engine['github_ssh_backup'] if origin == "lesli"
-                    remote = engine['github_ssh_backup'] if origin == "backup"
-
-                    # check if github remote exists
-                    next if system "cd ./engines/#{engine['name']} && git remote show #{origin}" 
+                    remote = engine['github']['ssh'] if origin == "github"
+                    remote = engine['github']['ssh'] if origin == "origin"
+                    remote = engine['github']['ssh_backup'] if origin == "lesli"
+                    remote = engine['github']['ssh_backup'] if origin == "backup"
 
                     puts ""; puts ""; puts "";
                     puts "Working with: #{engine['name']} for: #{origin}"
-                    system "cd ./engines/#{engine['name']} && git remote add #{origin} #{remote}" 
+                    exec_command "cd ./engines/#{engine['name']} && git remote add #{origin} #{remote}" 
 
                 end
 
             end
 
-            system "git remote add github git@github.com:leitfaden/Lesli.git" 
-            system "git remote add origin git@github.com:leitfaden/Lesli.git" 
-            system "git remote add lesli git@github.com:LesliTech/Lesli.git" 
-            system "git remote add backup git@github.com:LesliTech/Lesli.git" 
+            exec_command "git remote add github git@github.com:leitfaden/Lesli.git" 
+            exec_command "git remote add origin git@github.com:leitfaden/Lesli.git" 
+            exec_command "git remote add backup git@github.com:LesliTech/Lesli.git" 
+            exec_command "git remote add lesli git@github.com:LesliTech/Lesli.git" 
 
+        end
+
+        def exec_command command
+            begin
+                system command
+            rescue
+            end
         end
 
     end
