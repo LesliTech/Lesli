@@ -8,7 +8,7 @@
 
 <hr/>
 
-Version 0.7.1  
+Version 0.7.2  
 
 
 #### Installation
@@ -34,7 +34,7 @@ LesliCSS
 │    │    └── grid.scss  
 │    └── mixins/  
 │        ├── breakpoints.scss  
-│        └── scroolbar.scss  
+│        └── scrollbar.scss  
 └── vendor  
 ```
 
