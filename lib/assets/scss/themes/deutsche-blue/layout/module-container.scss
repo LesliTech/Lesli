@@ -22,10 +22,29 @@ Building a better future, one line of code at a time.
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
 // · 
 */
-.CloudHaus header.application-header {
-    .navbar-brand {
-        img {
-            max-height: 45px;
+
+// · 
+.b-tabs {
+
+    .tabs {
+        margin-bottom: 0;
+        .is-active {
+            background-color: lesli-css-theme-get-color(app, primary);
+            a {
+                color: lesli-css-theme-get-color(solid, white);
+            }
         }
     }
+
+    &.is-vertical > .tabs {
+        flex: 0 0 200px;
+        padding: 1rem 0;
+        ul {
+            background-color: lesli-css-theme-get-color(solid, white);
+        }
+        a {
+            padding: 2rem 1rem;
+        }
+    }
+
 }

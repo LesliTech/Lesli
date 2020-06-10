@@ -11,45 +11,62 @@ Without the written permission of Lesli Technologies, S. A., any replication, mo
 transmission, publication is strictly forbidden.
 For more information read the license file including with this software.
 
-Lesli - Your Smart Business Assistant
+LesliCloud - Your Smart Business Assistant
 
 Powered by https://www.lesli.tech
 Building a better future, one line of code at a time.
 
-@contact  <hello@lesli.tech>
-@website  <https://lesli.tech>
 @license  Propietary - all rights reserved.
+@version  0.1.0-alpha
 
-// · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
+// · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
 // · 
 */
 
-// · 
+
 @import "lesli-css/";
 
 
-// · 
-body #lesli-cloud-application {
-    @import "./standard/settings/colors.scss";
-    @import "./standard/layout/application-header.scss";
-    @import "./standard/layout/application-navigation";
-    .application-component {
-        @import "./standard/components/tabs.scss";
-        @import "./standard/components/status.scss";
-        @import "./standard/components/summary.scss";
-        @import "./standard/components/calendar.scss";
-        @import "./standard/components/quickview.scss";
+// · Navigation sidebar
+.application-navigation {
+    background-color: lesli-css-theme-get-color(app, primary);
+
+    a {
+        border-bottom: 1px solid lesli-css-theme-get-color(app, secondary);
+        color: lesli-css-theme-get-color(solid, white);
+
+        i {
+            font-size: 1.2rem;
+        }
+
+        span {
+            font-size: 1rem;
+        }
+
+        &:hover {
+            background-color: lesli-css-theme-get-color(app, secondary);
+        }
+
     }
+
 }
 
+/*
 @include lesli-css-breakpoint("tablet") {
-    footer.application-footer {
+    .application-navigation {
+        width: 185px;
+    }
+    .application-component {
         margin-left: 185px;
     }
 }
 
 @include lesli-css-breakpoint("desktop") {
-    footer.application-footer {
+    .application-navigation {
+        width: 250px;
+    }
+    .application-component {
         margin-left: 250px;
     }
 }
+*/

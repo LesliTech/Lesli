@@ -109,9 +109,6 @@ class ApplicationLesliController < ApplicationController
 
         @account = {
             company: { },
-            notifications: { 
-                count: Courier::Bell::Notification::Web.count(current_user)
-            },
             user: { 
                 id: current_user.id,
                 email: current_user.email,
@@ -136,6 +133,7 @@ class ApplicationLesliController < ApplicationController
         end
 
         @account
+
     end
   
     def is_admin?
