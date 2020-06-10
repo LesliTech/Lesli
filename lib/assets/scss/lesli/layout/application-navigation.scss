@@ -34,6 +34,10 @@ Building a better future, one line of code at a time.
     position: fixed;
     @include lesli-css-scrollbar("");
 
+    li {
+        display: block;
+    }
+
     a {
         border-radius: 0px;
         transition: all linear .1s;
