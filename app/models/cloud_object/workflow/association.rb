@@ -73,24 +73,40 @@ Building a better future, one line of code at a time.
             self.object_associations.each do |key, value|
                 data = {
                     workflow_for: value,
-                    name: value,
+                    name: value, # This is the field that must be translated
                     details: []
                 }
 
                 details = self.object_association_details(value)
                 details.each do |detail|
-                    detail_list = detail[:class].constantize.where(
-                        "cloud_#{module_name}_accounts_id" => account.id
-                    ).select(
-                        :id,
-                        "#{detail[:identifier]} as name"
-                    )
+                    if detail[:type] == "foreign_key"
+                        detail_list = detail[:class].constantize.where(
+                            "cloud_#{module_name}_accounts_id" => account.id
+                        ).select(
+                            :id,
+                            "#{detail[:identifier]} as name"
+                        )
 
-                    data[:details].push({
-                        field_name: detail[:name],
-                        name: detail[:name],
-                        list: detail_list
-                    })
+                        data[:details].push({
+                            field_name: detail[:name],
+                            name: detail[:name], # This is the field that must be translated
+                            list: detail_list
+                        })
+                    elsif detail[:type] == "detail_enum"
+                        detail_list = detail[:class].constantize.send(detail[:name].pluralize).map do |key, value|
+                            {
+                                id: key,
+                                field_name: detail[:name],
+                                name: I18n.t("#{detail[:translations]}_#{value}")
+                            }
+                        end
+
+                        data[:details].push({
+                            field_name: detail[:name],
+                            name: detail[:name], # This is the field that must be translated
+                            list: detail_list
+                        })
+                    end
                 end
 
                 associations.push(data)
@@ -138,12 +154,16 @@ Building a better future, one line of code at a time.
                     details = self.object_association_details(attributes["workflow_for"])
 
                     details.each do |detail|
-                        record = detail[:class].constantize.find_by(
-                            id: attributes[detail[:name]],
-                            account: workflow.account
-                        )
-
-                        attributes["details"] += " #{detail[:name]}: #{record[detail[:identifier]]},"
+                        if detail[:type] == "foreign_key"
+                            record = detail[:class].constantize.find_by(
+                                id: attributes[detail[:name]],
+                                account: workflow.account
+                            )
+                            attributes["details"] += " #{detail[:name]}: #{record[detail[:identifier]]},"
+                        elsif detail[:type] == "detail_enum"
+                            enum_value = detail[:class].constantize.send(detail[:name].pluralize)[attributes[detail[:name]]]
+                            attributes["details"] += " #{detail[:name]}: #{enum_value},"
+                        end
                     end
 
                     attributes["details"].delete_suffix!(",")

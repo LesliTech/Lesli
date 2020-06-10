@@ -173,7 +173,7 @@ export default {
 </script>
 <template>
     <section v-if="translations.main">
-        <div :class="[{ 'is-active': show }, 'quickview']">
+        <div :class="[{ 'is-active': show }, 'quickview', 'is-size-medium']">
             <header class="quickview-header" @click="show = false">
                 <p class="title">{{translations.main.form_title}}</p>
                 <i class="fas fa-chevron-right"></i>

@@ -55,12 +55,23 @@ module Courier
             def self.by_model(model_type, model_id, current_user, query)
                 return [] unless defined? CloudFocus
                 tasks = current_user.account.focus.tasks
-                .select(:id, :title, :description, :deadline, :importance, :task_type, :creator_id, :users_id)
+                .select(:id, :title, :description, :deadline, :importance, :task_type, :creator_id, :users_id, :cloud_focus_workflow_statuses_id)
                 .select("ua.id as user_id, ua.role as user_role, ua.name as user_value, uc.id as creator_id, uc.role as creator_role, uc.name as creator_value")
                 .joins(:detail, :status)
                 .joins("inner join users ua on ua.id = cloud_focus_tasks.users_id")
                 .joins("inner join users uc on uc.id = cloud_focus_tasks.creator_id")
-                .where("cloud_focus_tasks.model_id = ? AND cloud_focus_tasks.model_type = ? AND cloud_focus_workflow_statuses.name != ? ", model_id, model_type, 'done')
+                .where(
+                    "
+                        cloud_focus_tasks.model_id = ? AND
+                        cloud_focus_tasks.model_type = ? AND
+                        cloud_focus_workflow_statuses.completed_successfully != ? AND
+                        cloud_focus_workflow_statuses.completed_unsuccessfully != ?
+                    ",
+                    model_id,
+                    model_type,
+                    true,
+                    true
+                )
                 .order("#{query[:pagination][:orderColumn]} #{query[:pagination][:order]} NULLS LAST")
                 .page(query[:pagination][:page]).per(query[:pagination][:perPage])
             
@@ -73,7 +84,7 @@ module Courier
                         description: task.description,
                         deadline: LC::Date.to_string(task.deadline),
                         deadline_raw: task.deadline,
-                        importance: CloudFocus::Task.importances.key(task.importance),
+                        importance: CloudFocus::Task::Detail.importances.key(task.importance),
                         task_type: task.task_type,
                         creator: {
                             id: task.creator_id,
@@ -85,6 +96,7 @@ module Courier
                             value: task.user_value,
                             role: task.user_role
                         },
+                        next_workflow_statuses: task.status.next_workflow_statuses
                     }
                 end
     
@@ -96,7 +108,7 @@ module Courier
 
             def self.model_index(current_user, query)
                 return [] unless defined? CloudFocus && CloudHouse
-                    importances = CloudFocus::Task.importances.keys
+                    importances = CloudFocus::Task::Detail.importances.keys
                     
                     offset = (query[:pagination][:page] - 1) * query[:pagination][:perPage]
                     companies_query = query_tasks_by_model(current_user, "CloudHouse::Company", query)
@@ -124,6 +136,8 @@ module Courier
                             title: task["title"], 
                             task_type: task["task_type"],
                             status_name: task["status_name"],
+                            status_completed_successfully: task["status_completed_successfully"],
+                            status_completed_unsuccessfully: task["status_completed_unsuccessfully"],
                             description: task["description"],
                             deadline: LC::Date.to_string(task["deadline"]),
                             deadline_raw: task["deadline"],
@@ -140,7 +154,8 @@ module Courier
                                 id: task["user_id"],
                                 value: task["user_value"],
                                 role: task["user_role"]
-                            }
+                            },
+                            next_workflow_statuses: CloudFocus::Workflow::Status.find(task["status_id"]).next_workflow_statuses # Available transitions for each task
                         }
                     end
 
@@ -160,7 +175,8 @@ module Courier
                 .select("cloud_focus_task_details.deadline")
                 .where("cloud_focus_tasks.model_type = ?", "CloudHouse::Project")
                 .where("cloud_focus_tasks.model_id = ?", project.id)
-                .where("cloud_focus_workflow_statuses.inactive = ?", false)
+                .where("cloud_focus_workflow_statuses.completed_successfully != ?", true)
+                .where("cloud_focus_workflow_statuses.completed_unsuccessfully != ?", true)
                 .order("cloud_focus_task_details.deadline asc")
                 .first
 
@@ -222,6 +238,9 @@ module Courier
                             ")
                         .select("ua.id as user_id, ua.role as user_role, ua.name as user_value, uc.id as creator_id, uc.role as creator_role, uc.name as creator_value")
                         .select("cloud_focus_workflow_statuses.name as status_name")
+                        .select("cloud_focus_workflow_statuses.id as status_id")
+                        .select("cloud_focus_workflow_statuses.completed_successfully as status_completed_successfully")
+                        .select("cloud_focus_workflow_statuses.completed_unsuccessfully as status_completed_unsuccessfully")
                         .select("#{sql_field} as model_global_identifier")
                         .joins(:status, :detail)
                         .joins("inner join #{sql_table_join} as m on m.id = cloud_focus_tasks.model_id and cloud_focus_tasks.model_type = '#{model_type}'")
