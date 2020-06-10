@@ -71,10 +71,9 @@ module.exports = env => {
                 // resolve vuejs
                 vue: production ? "vue/dist/vue.min.js" : "vue/dist/vue.js",
 
-
                 // DEPRECATED
                 LesliCloud: path.resolve(__dirname, "./app"),           
-                LesliCoreVue: path.resolve(__dirname, "./app/vue_core"),
+                LesliCoreVue: path.resolve(__dirname, "./lib/vue"),
                 LesliCloudHaus: path.resolve(__dirname, "./engines/CloudHaus/app"),
                 LesliCloudHouse: path.resolve(__dirname, "./engines/CloudHouse/app"),
                 LesliCloudFocus: path.resolve(__dirname, "./engines/CloudFocus/app"),
@@ -83,7 +82,7 @@ module.exports = env => {
 
                 // Resolve alias for core resources
                 Lesli: path.resolve(__dirname, "./app"), 
-                LesliVue: path.resolve(__dirname, "./app/vue_core"), 
+                LesliVue: path.resolve(__dirname, "./lib/vue"), 
                 
                 // Resolve alias for module resources
                 CloudHaus: path.resolve(__dirname, "./engines/CloudHaus/app"),

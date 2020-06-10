@@ -312,6 +312,7 @@ ActiveRecord::Schema.define(version: 2020_05_26_180220) do
     t.index ["cloud_driver_accounts_id"], name: "index_cloud_driver_events_on_cloud_driver_accounts_id"
     t.index ["cloud_driver_calendars_id"], name: "index_cloud_driver_events_on_cloud_driver_calendars_id"
     t.index ["cloud_driver_workflow_statuses_id"], name: "driver_events_workflow_statuses"
+    t.index ["deleted_at"], name: "index_cloud_driver_events_on_deleted_at"
     t.index ["model_type", "model_id"], name: "index_cloud_driver_events_on_model_type_and_model_id"
     t.index ["organizer_id"], name: "index_cloud_driver_events_on_organizer_id"
     t.index ["users_id"], name: "house_events_users"
@@ -556,6 +557,18 @@ ActiveRecord::Schema.define(version: 2020_05_26_180220) do
     t.index ["users_id"], name: "index_cloud_haus_external_leads_on_users_id"
   end
 
+  create_table "cloud_haus_kop_request_orders", force: :cascade do |t|
+    t.text "encoded_order"
+    t.datetime "deleted_at"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.bigint "users_id"
+    t.bigint "cloud_house_accounts_id"
+    t.index ["cloud_house_accounts_id"], name: "index_cloud_haus_kop_request_orders_on_cloud_house_accounts_id"
+    t.index ["deleted_at"], name: "index_cloud_haus_kop_request_orders_on_deleted_at"
+    t.index ["users_id"], name: "index_cloud_haus_kop_request_orders_on_users_id"
+  end
+
   create_table "cloud_house_accounts", force: :cascade do |t|
     t.datetime "deleted_at"
     t.index ["deleted_at"], name: "index_cloud_house_accounts_on_deleted_at"
@@ -701,6 +714,10 @@ ActiveRecord::Schema.define(version: 2020_05_26_180220) do
     t.boolean "specific_agreement", default: false
     t.boolean "avv_shipped", default: false
     t.boolean "avv_completed", default: false
+    t.string "advertising_cost"
+    t.string "event_contribution"
+    t.string "advertising_contribution"
+    t.string "individual_regulation_specification"
     t.datetime "deleted_at"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
@@ -1636,6 +1653,9 @@ ActiveRecord::Schema.define(version: 2020_05_26_180220) do
     t.string "address"
     t.string "title"
     t.string "salutation"
+    t.integer "work_city"
+    t.integer "work_region"
+    t.integer "work_address"
     t.datetime "deleted_at"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
@@ -1908,6 +1928,8 @@ ActiveRecord::Schema.define(version: 2020_05_26_180220) do
   add_foreign_key "cloud_focus_workflows", "cloud_focus_accounts", column: "cloud_focus_accounts_id"
   add_foreign_key "cloud_haus_external_leads", "cloud_house_accounts", column: "cloud_house_accounts_id"
   add_foreign_key "cloud_haus_external_leads", "users", column: "users_id"
+  add_foreign_key "cloud_haus_kop_request_orders", "cloud_house_accounts", column: "cloud_house_accounts_id"
+  add_foreign_key "cloud_haus_kop_request_orders", "users", column: "users_id"
   add_foreign_key "cloud_house_accounts", "accounts", column: "id"
   add_foreign_key "cloud_house_catalog_business_services", "cloud_house_accounts", column: "cloud_house_accounts_id"
   add_foreign_key "cloud_house_catalog_company_categories", "cloud_house_accounts", column: "cloud_house_accounts_id"

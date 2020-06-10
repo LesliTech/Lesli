@@ -9,7 +9,7 @@
 
         "@rails/actioncable": "6.0.3-1",
 
-        "lesli-css": "0.7.0",
+        "lesli-css": "0.7.2",
         "lesli-js-debug-message": "0.3.5",
         
         "@babel/core": "7.9.6",
@@ -44,11 +44,11 @@
         "bulma-o-steps": "1.0.9",
         "bulma-extensions": "6.2.7",
         
-        "@fullcalendar/vue": "4.4.0",
-        "@fullcalendar/core": "4.4.0",
-        "@fullcalendar/daygrid": "4.4.0",
-        "@fullcalendar/timegrid": "4.4.0",
-        "@fullcalendar/interaction": "4.4.0"
+        "@fullcalendar/vue": "4.4.2",
+        "@fullcalendar/core": "4.4.2",
+        "@fullcalendar/daygrid": "4.4.2",
+        "@fullcalendar/timegrid": "4.4.2",
+        "@fullcalendar/interaction": "4.4.2"
 
     },
     "scripts": {

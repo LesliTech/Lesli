@@ -29,8 +29,8 @@ Building a better future, one line of code at a time.
 
 // · Component list
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
-import componentWorkflowChart from "LesliCloud/vue_core/cloud_objects/workflows/components/chart.vue"
-import componentStatusName from "LesliCloud/vue_core/cloud_objects/workflows/components/status-name.vue"
+import componentWorkflowChart from "LesliVue/cloud_objects/workflows/components/chart.vue"
+import componentStatusName from "LesliVue/cloud_objects/workflows/components/status-name.vue"
 
 export default {
     components: {

@@ -102,4 +102,5 @@ body {
     background-color: darken(lesli-css-get-color(silver, 100),1);
     scrollbar-width: thin;
     scrollbar-color: lesli-css-get-color(blue) lesli-css-get-color(silver);
+    padding-top: var(--application-header-height);
 }

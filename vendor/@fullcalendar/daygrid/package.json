@@ -1,34 +1,34 @@
 {
   "_args": [
     [
-      "@fullcalendar/daygrid@4.4.0",
+      "@fullcalendar/daygrid@4.4.2",
       "/Users/ldonis/code/Lesli/beta.deutsche-leibrenten.de"
     ]
   ],
   "_development": true,
-  "_from": "@fullcalendar/daygrid@4.4.0",
-  "_id": "@fullcalendar/daygrid@4.4.0",
+  "_from": "@fullcalendar/daygrid@4.4.2",
+  "_id": "@fullcalendar/daygrid@4.4.2",
   "_inBundle": false,
-  "_integrity": "sha512-pDfvL0XZxKHTZ4VFOmwaYe3LmuABEIZsEopeqQ8y5O6BDen9KCbJqgHeCI8FpASSBd6bNlUx7il7EHdSoHhgIw==",
+  "_integrity": "sha512-axjfMhxEXHShV3r2TZjf+2niJ1C6LdAxkHKmg7mVq4jXtUQHOldU5XsjV0v2lUAt1urJBFi2zajfK8798ukL3Q==",
   "_location": "/@fullcalendar/daygrid",
   "_phantomChildren": {},
   "_requested": {
     "type": "version",
     "registry": true,
-    "raw": "@fullcalendar/daygrid@4.4.0",
+    "raw": "@fullcalendar/daygrid@4.4.2",
     "name": "@fullcalendar/daygrid",
     "escapedName": "@fullcalendar%2fdaygrid",
     "scope": "@fullcalendar",
-    "rawSpec": "4.4.0",
+    "rawSpec": "4.4.2",
     "saveSpec": null,
-    "fetchSpec": "4.4.0"
+    "fetchSpec": "4.4.2"
   },
   "_requiredBy": [
     "#DEV:/",
     "/@fullcalendar/timegrid"
   ],
-  "_resolved": "https://registry.npmjs.org/@fullcalendar/daygrid/-/daygrid-4.4.0.tgz",
-  "_spec": "4.4.0",
+  "_resolved": "https://registry.npmjs.org/@fullcalendar/daygrid/-/daygrid-4.4.2.tgz",
+  "_spec": "4.4.2",
   "_where": "/Users/ldonis/code/Lesli/beta.deutsche-leibrenten.de",
   "author": {
     "name": "Adam Shaw",
@@ -62,5 +62,5 @@
   "title": "FullCalendar Day Grid Plugin",
   "types": "main.d.ts",
   "unpkg": "main.min.js",
-  "version": "4.4.0"
+  "version": "4.4.2"
 }

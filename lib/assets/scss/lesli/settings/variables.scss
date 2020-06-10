@@ -27,7 +27,7 @@ Building a better future, one line of code at a time.
 @import "lesli-css/";
 
 :root {
-    --application-header-height: 66px;
+    --application-header-height: 50px;
     --application-header-width: 250px;
     --application-footer-height: 52px;
     --application-navigation-width: 250px;
@@ -62,6 +62,14 @@ Building a better future, one line of code at a time.
 @include lesli-css-breakpoint("widescreen") {
     :root {
         --application-navigation-width: 225px;
+    }   
+}
+
+
+// Widescreen Between 1216px and 1407px
+@include lesli-css-breakpoint("fullhd") {
+    :root {
+        --application-navigation-width: 250px;
     }   
 }
 
