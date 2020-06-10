@@ -24,7 +24,7 @@ Building a better future, one line of code at a time.
 @description Base abstract model for *Workflow* *state* core entity used for workflows
 
 =end
-    class Workflow < ApplicationRecord
+    class Workflow < ApplicationLesliRecord
         self.abstract_class = true
 
         after_update :verify_default_workflow
@@ -232,7 +232,12 @@ Building a better future, one line of code at a time.
                 missing_required_field = false
 
                 association_details.each do |detail|
-                    association_value = cloud_object[detail[:key]]
+                    if detail[:type] == "foreign_key"
+                        association_value = cloud_object[detail[:key]]
+                    elsif detail[:type] == "detail_enum"
+                        association_value = "'#{cloud_object.detail[detail[:name]]}'"
+                    end
+
                     unless association_value
                         # There is a required param missing for a specific association
                         missing_required_field = true

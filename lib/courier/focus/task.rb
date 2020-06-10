@@ -84,7 +84,7 @@ module Courier
                         description: task.description,
                         deadline: LC::Date.to_string(task.deadline),
                         deadline_raw: task.deadline,
-                        importance: CloudFocus::Task.importances.key(task.importance),
+                        importance: CloudFocus::Task::Detail.importances.key(task.importance),
                         task_type: task.task_type,
                         creator: {
                             id: task.creator_id,
@@ -107,7 +107,7 @@ module Courier
 
             def self.model_index(current_user, query)
                 return [] unless defined? CloudFocus && CloudHouse
-                    importances = CloudFocus::Task.importances.keys
+                    importances = CloudFocus::Task::Detail.importances.keys
                     
                     offset = (query[:pagination][:page] - 1) * query[:pagination][:perPage]
                     companies_query = query_tasks_by_model(current_user, "CloudHouse::Company", query)
@@ -135,6 +135,8 @@ module Courier
                             title: task["title"], 
                             task_type: task["task_type"],
                             status_name: task["status_name"],
+                            status_completed_successfully: task["status_completed_successfully"],
+                            status_completed_unsuccessfully: task["status_completed_unsuccessfully"],
                             description: task["description"],
                             deadline: LC::Date.to_string(task["deadline"]),
                             deadline_raw: task["deadline"],
@@ -234,6 +236,8 @@ module Courier
                             ")
                         .select("ua.id as user_id, ua.role as user_role, ua.name as user_value, uc.id as creator_id, uc.role as creator_role, uc.name as creator_value")
                         .select("cloud_focus_workflow_statuses.name as status_name")
+                        .select("cloud_focus_workflow_statuses.completed_successfully as status_completed_successfully")
+                        .select("cloud_focus_workflow_statuses.completed_unsuccessfully as status_completed_unsuccessfully")
                         .select("#{sql_field} as model_global_identifier")
                         .joins(:status, :detail)
                         .joins("inner join #{sql_table_join} as m on m.id = cloud_focus_tasks.model_id and cloud_focus_tasks.model_type = '#{model_type}'")
