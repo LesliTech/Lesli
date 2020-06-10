@@ -138,7 +138,6 @@ export default {
             <template slot="brand">
                 <slot name="brand"></slot>
             </template>
-
             <template slot="start">
                 <div class="navbar-item">
                     <div class="control is-medium has-icons-left has-text-grey">

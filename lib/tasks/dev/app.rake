@@ -86,10 +86,11 @@ namespace :dev do
             # and run bundle install if you are cloning the repo from scratch
             # nohup command &>/dev/null &
             # nohup RAILS_ENV=production rake haus:import &>/dev/null &
+            # nohup rake haus:import RAILS_ENV=production &
             # touch tmp/restart.txt
             # sudo -u username
 
-            # 8gCiysZA9hSZkrp81aKf
+            # CtLN6QfRRJ77N9mAkvA2
 
         end
 
