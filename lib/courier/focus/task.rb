@@ -261,9 +261,21 @@ module Courier
 
                 tasks = tasks.where("cloud_focus_tasks.creator_id = ? or cloud_focus_tasks.users_id = ?", 
                     current_user, current_user) unless query[:filters][:all]
-        
-                tasks = tasks.where("cloud_focus_workflow_statuses.id in (?)", query[:filters][:statuses]) unless query[:filters][:statuses].blank?
-
+                
+                case query[:filters][:status]
+                when "initial"
+                    tasks = tasks.where(
+                        "cloud_focus_workflow_statuses.completed_successfully = ? and cloud_focus_Workflow_statuses.completed_unsuccessfully = ?",
+                        false,
+                        false
+                    )
+                when "completed_successfully"
+                    tasks = tasks.where("cloud_focus_workflow_statuses.completed_successfully = ?", true)
+                when "completed_unsuccessfully"
+                    tasks = tasks.where("cloud_focus_workflow_statuses.completed_unsuccessfully = ?", true)
+                end
+                    
+                    
                 tasks = tasks.where("cloud_focus_task_details.importance = ?", 
                     "#{query[:filters][:importance]}") unless query[:filters][:importance].blank?
 
