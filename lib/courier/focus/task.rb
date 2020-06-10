@@ -55,7 +55,7 @@ module Courier
             def self.by_model(model_type, model_id, current_user, query)
                 return [] unless defined? CloudFocus
                 tasks = current_user.account.focus.tasks
-                .select(:id, :title, :description, :deadline, :importance, :task_type, :creator_id, :users_id)
+                .select(:id, :title, :description, :deadline, :importance, :task_type, :creator_id, :users_id, :cloud_focus_workflow_statuses_id)
                 .select("ua.id as user_id, ua.role as user_role, ua.name as user_value, uc.id as creator_id, uc.role as creator_role, uc.name as creator_value")
                 .joins(:detail, :status)
                 .joins("inner join users ua on ua.id = cloud_focus_tasks.users_id")
@@ -96,6 +96,7 @@ module Courier
                             value: task.user_value,
                             role: task.user_role
                         },
+                        next_workflow_statuses: task.status.next_workflow_statuses
                     }
                 end
     
@@ -153,7 +154,8 @@ module Courier
                                 id: task["user_id"],
                                 value: task["user_value"],
                                 role: task["user_role"]
-                            }
+                            },
+                            next_workflow_statuses: CloudFocus::Workflow::Status.find(task["status_id"]).next_workflow_statuses # Available transitions for each task
                         }
                     end
 
@@ -236,6 +238,7 @@ module Courier
                             ")
                         .select("ua.id as user_id, ua.role as user_role, ua.name as user_value, uc.id as creator_id, uc.role as creator_role, uc.name as creator_value")
                         .select("cloud_focus_workflow_statuses.name as status_name")
+                        .select("cloud_focus_workflow_statuses.id as status_id")
                         .select("cloud_focus_workflow_statuses.completed_successfully as status_completed_successfully")
                         .select("cloud_focus_workflow_statuses.completed_unsuccessfully as status_completed_unsuccessfully")
                         .select("#{sql_field} as model_global_identifier")
