@@ -147,4 +147,5 @@ class ApplicationLesliController < ApplicationController
         return if request[:format] == "json"
         current_user.log(params[:action], request.original_url)
     end
+    
 end
