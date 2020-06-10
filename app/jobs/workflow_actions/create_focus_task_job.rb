@@ -20,10 +20,20 @@ class WorkflowActions::CreateFocusTaskJob < ApplicationJob
             action.parse_input_data(replacement_values)
             input_data = action.input_data
 
+            model_id = cloud_object.id
+            model_type = cloud_object.class.name
+            
+            # If cloud_object is a task, the new task will be associated to the cloud_object of the original task, and not to the task itself
+            if cloud_object.class.name == "CloudFocus::Task"
+                task_employee = cloud_object.model.get_main_employee if action.concerning_users["type"] == "main"
+                model_id = cloud_object.model_id
+                model_type = cloud_object.model_type
+            end
+
             task_params = {
                 user: task_employee,
-                model_type: cloud_object.class.name,
-                model_id: cloud_object.id,
+                model_type: model_type,
+                model_id: model_id,
                 detail_attributes: {
                     title: input_data["title"],
                     description: input_data["description"],
