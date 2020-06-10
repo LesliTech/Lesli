@@ -45,5 +45,8 @@ export default {
 <template>
     <nav class="application-navigation menu">
         <slot></slot>
+        <li>
+            <a><i class="fas fa-chevron-left"></i></a>
+        </li>
     </nav>
 </template>
