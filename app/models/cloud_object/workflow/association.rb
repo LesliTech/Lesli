@@ -66,18 +66,17 @@ Building a better future, one line of code at a time.
     #]
 =end
         def self.association_options(account)
-            dynamic_info_ = self.dynamic_info
-            module_name = dynamic_info_[:module_name]
+            module_name = self.dynamic_info[:module_name]
             associations = []
 
-            self.object_associations.each do |key, value|
+            self.object_associations.each do |association_key, association_value|
                 data = {
-                    workflow_for: value,
-                    name: value, # This is the field that must be translated
+                    workflow_for: association_value,
+                    name: association_value, # This is the field that must be translated
                     details: []
                 }
 
-                details = self.object_association_details(value)
+                details = self.object_association_details(association_value)
                 details.each do |detail|
                     if detail[:type] == "foreign_key"
                         detail_list = detail[:class].constantize.where(
@@ -97,7 +96,7 @@ Building a better future, one line of code at a time.
                             {
                                 id: key,
                                 field_name: detail[:name],
-                                name: I18n.t("#{detail[:translations]}_#{value}")
+                                name: I18n.t("#{module_name}.#{association_value.pluralize}.enum_#{detail[:name]}_#{value}")
                             }
                         end
 
@@ -145,6 +144,8 @@ Building a better future, one line of code at a time.
     #]
 =end
         def self.list(workflow)
+            module_name = self.dynamic_info[:module_name]
+
             workflow.associations.map do |association|
                 attributes = association.attributes
 
@@ -154,15 +155,19 @@ Building a better future, one line of code at a time.
                     details = self.object_association_details(attributes["workflow_for"])
 
                     details.each do |detail|
+                        name_translation = I18n.t("#{module_name}.workflow/associations.enum_association_#{attributes["workflow_for"]}_field_#{detail[:name]}")
+                        
                         if detail[:type] == "foreign_key"
                             record = detail[:class].constantize.find_by(
                                 id: attributes[detail[:name]],
                                 account: workflow.account
                             )
-                            attributes["details"] += " #{detail[:name]}: #{record[detail[:identifier]]},"
+                            attributes["details"] += " #{name_translation}: #{record[detail[:identifier]]},"
                         elsif detail[:type] == "detail_enum"
                             enum_value = detail[:class].constantize.send(detail[:name].pluralize)[attributes[detail[:name]]]
-                            attributes["details"] += " #{detail[:name]}: #{enum_value},"
+                            value_translation = I18n.t("#{module_name}.#{attributes["workflow_for"].pluralize}.enum_#{detail[:name]}_#{enum_value}")
+                            
+                            attributes["details"] += " #{name_translation}: #{value_translation},"
                         end
                     end
 
