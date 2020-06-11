@@ -47,6 +47,13 @@ export default {
 
         setTranslations(){
             this.$set(this.translations, 'main', I18n.t(this.translationsPath))
+
+            let translations_engine_path = this.cloudEngine
+            if(this.cloudEngine == 'crm'){
+                translations_engine_path = 'house'
+            }
+
+            this.$set(this.translations, 'associations', I18n.t(`${translations_engine_path}.workflow/associations`))
         },
 
         mountSubscriptions(){
@@ -139,9 +146,9 @@ export default {
 
     computed: {
         detailedAssociationsAvailable(){
-            let selected_association = this.association_options.filter((association) =>{
+            let selected_association = this.association_options.find((association) =>{
                 return association.workflow_for == this.new_association.workflow_for
-            })[0]
+            })
 
             if(! selected_association){
                 return false
@@ -156,9 +163,9 @@ export default {
         },
 
         selectedAssociation(){
-            let selected_association = this.association_options.filter((association) =>{
+            let selected_association = this.association_options.find((association) =>{
                 return association.workflow_for == this.new_association.workflow_for
-            })[0]
+            })
 
             if(selected_association){
                 return selected_association
@@ -189,7 +196,7 @@ export default {
                                         :key="association.workflow_for"
                                         :value="association.workflow_for"
                                     >
-                                        {{object_utils.translateEnum(translations.main, 'enum_association', association.name)}}
+                                        {{object_utils.translateEnum(translations.associations, 'enum_association', association.name)}}
                                     </option>
                                 </b-select>
                             </b-field>
@@ -206,7 +213,7 @@ export default {
                                 <b-field
                                     v-for="detail in selectedAssociation.details"
                                     :key="detail.field_name"
-                                    :label="object_utils.translateEnum(translations.main, `enum_association_${selectedAssociation.name}_field`, detail.name)"
+                                    :label="object_utils.translateEnum(translations.associations, `enum_association_${selectedAssociation.name}_field`, detail.name)"
                                 >
                                     <b-select
                                         required
@@ -234,7 +241,7 @@ export default {
                         <b-table :data="associations">
                             <template slot-scope="props">
                                 <b-table-column field="workflow_for" :label="translations.main.table_header_associated_to">
-                                    {{ object_utils.translateEnum(translations.main, 'enum_association', props.row.workflow_for) }}
+                                    {{ object_utils.translateEnum(translations.associations, 'enum_association', props.row.workflow_for) }}
                                 </b-table-column>
                                 <b-table-column field="global" :label="translations.main.field_global">
                                     <span v-if="props.row.global">
