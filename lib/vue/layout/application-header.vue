@@ -51,7 +51,6 @@ export default {
         this.mountListeners()
         this.checkIfMicrophoneWorks()
         this.getNotificationsCounter()
-        this.notification.count = leslicloud_account.notifications.count
     },
 
     methods: {
@@ -126,6 +125,10 @@ export default {
                 this.search.searching = false
             }, 1400)
 
+        },
+
+        goToProfile() {
+            this.url.go("/crm/users/"+lesli.current_user.id)
         }
 
     }
@@ -173,7 +176,7 @@ export default {
                         <slot name="username"></slot>
                     </span>
                     <div class="navbar-dropdown">
-                        <a class="navbar-item" @click="url.go('/crm/users/'+lesli.current_user.id)">
+                        <a class="navbar-item" @click="goToProfile">
                             <span class="icon has-text-grey-light">
                                 <i class="fas fa-user"></i>
                             </span>
