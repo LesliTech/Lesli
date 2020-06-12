@@ -1,70 +1,49 @@
 {
-  "name": "buefy",
-  "version": "0.8.19",
-  "homepage": "https://buefy.org",
-  "description": "Lightweight UI components for Vue.js based on Bulma",
-  "author": "Rafael Beraldo <rafael.pimpa@gmail.com>",
-  "maintainers": [
-    "Walter Tommasi <tommsi20@gmail.com>"
+  "_args": [
+    [
+      "buefy@0.8.19",
+      "/Users/ldonis/code/Lesli/beta.deutsche-leibrenten.de"
+    ]
   ],
-  "license": "MIT",
-  "main": "dist/cjs/index.js",
-  "module": "dist/esm/index.js",
-  "unpkg": "dist/buefy.min.js",
-  "typings": "types/index.d.ts",
-  "sideEffects": [
-    "*.css",
-    "*.scss"
-  ],
-  "files": [
-    "dist",
-    "src",
-    "types/*.d.ts"
-  ],
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/buefy/buefy.git"
+  "_development": true,
+  "_from": "buefy@0.8.19",
+  "_id": "buefy@0.8.19",
+  "_inBundle": false,
+  "_integrity": "sha512-c9JOYiGGHwhmFAffjUPI6wrdo5+NpGPpw1F7dc/01lY/05EPLJVHDLGnn+DC2XnEgc2VaOM31a2URdRSx3L2vA==",
+  "_location": "/buefy",
+  "_phantomChildren": {},
+  "_requested": {
+    "type": "version",
+    "registry": true,
+    "raw": "buefy@0.8.19",
+    "name": "buefy",
+    "escapedName": "buefy",
+    "rawSpec": "0.8.19",
+    "saveSpec": null,
+    "fetchSpec": "0.8.19"
   },
+  "_requiredBy": [
+    "#DEV:/"
+  ],
+  "_resolved": "https://registry.npmjs.org/buefy/-/buefy-0.8.19.tgz",
+  "_spec": "0.8.19",
+  "_where": "/Users/ldonis/code/Lesli/beta.deutsche-leibrenten.de",
+  "author": {
+    "name": "Rafael Beraldo",
+    "email": "rafael.pimpa@gmail.com"
+  },
+  "browserslist": [
+    "> 1%",
+    "last 2 versions",
+    "not ie <= 8"
+  ],
   "bugs": {
     "url": "https://github.com/buefy/buefy/issues"
   },
-  "vetur": {
-    "tags": "dist/vetur/tags.json",
-    "attributes": "dist/vetur/attributes.json"
-  },
-  "scripts": {
-    "dev": "node build/dev-server.js",
-    "start": "node build/dev-server.js",
-    "lint": "eslint --ext .js,.vue src docs",
-    "lint:fix": "eslint --ext .js,.vue src docs --fix",
-    "lint:staged": "lint-staged",
-    "unit": "jest --runInBand",
-    "test": "npm run lint && npm run unit",
-    "test:watch": "npm run unit -- --watchAll",
-    "build:js": "rollup -c && rollup -c --environment MINIFY",
-    "build:js:watch": "rollup -c --watch",
-    "build:scss": "node-sass --output-style expanded src/scss/buefy-build.scss | node ./build/banner.js > dist/buefy.css && cleancss -o dist/buefy.min.css dist/buefy.css",
-    "build:scss:watch": "node-sass src/scss/buefy-build.scss --w",
-    "build:lib": "npm run build:js && npm run build:scss && npm run vetur && copyfiles --flat helper-json/*.json dist/vetur",
-    "build:lib:watch": "concurrently \"npm run build:js:watch\" \"npm run build:scss:watch \" ",
-    "build:docs": "node build/build.js && copyfiles --flat netlify.toml dist-docs",
-    "build": "npm run build:lib && npm run build:docs",
-    "cov": "./node_modules/codcov/bin/codcov",
-    "vetur": "node -r esm build/vetur.js"
-  },
-  "keywords": [
-    "bulma",
-    "vue",
-    "vuejs",
-    "vue-bulma",
-    "components"
-  ],
   "dependencies": {
     "bulma": "0.7.5"
   },
-  "peerDependencies": {
-    "vue": "^2.5.18"
-  },
+  "description": "Lightweight UI components for Vue.js based on Bulma",
   "devDependencies": {
     "@applitools/eyes-cypress": "3.7.5",
     "@babel/core": "7.3.4",
@@ -150,20 +129,76 @@
     "webpack-hot-middleware": "2.21.0",
     "webpack-merge": "4.1.2"
   },
+  "engines": {
+    "node": ">= 4.0.0",
+    "npm": ">= 3.0.0"
+  },
+  "files": [
+    "dist",
+    "src",
+    "types/*.d.ts"
+  ],
+  "homepage": "https://buefy.org",
+  "keywords": [
+    "bulma",
+    "vue",
+    "vuejs",
+    "vue-bulma",
+    "components"
+  ],
+  "license": "MIT",
   "lint-staged": {
     "*.{vue,js}": [
       "lint --fix",
       "git add"
     ]
   },
-  "pre-commit": "lint:staged",
-  "engines": {
-    "node": ">= 4.0.0",
-    "npm": ">= 3.0.0"
+  "main": "dist/cjs/index.js",
+  "maintainers": [
+    {
+      "name": "Walter Tommasi",
+      "email": "tommsi20@gmail.com"
+    }
+  ],
+  "module": "dist/esm/index.js",
+  "name": "buefy",
+  "peerDependencies": {
+    "vue": "^2.5.18"
   },
-  "browserslist": [
-    "> 1%",
-    "last 2 versions",
-    "not ie <= 8"
-  ]
+  "pre-commit": "lint:staged",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/buefy/buefy.git"
+  },
+  "scripts": {
+    "build": "npm run build:lib && npm run build:docs",
+    "build:docs": "node build/build.js && copyfiles --flat netlify.toml dist-docs",
+    "build:js": "rollup -c && rollup -c --environment MINIFY",
+    "build:js:watch": "rollup -c --watch",
+    "build:lib": "npm run build:js && npm run build:scss && npm run vetur && copyfiles --flat helper-json/*.json dist/vetur",
+    "build:lib:watch": "concurrently \"npm run build:js:watch\" \"npm run build:scss:watch \" ",
+    "build:scss": "node-sass --output-style expanded src/scss/buefy-build.scss | node ./build/banner.js > dist/buefy.css && cleancss -o dist/buefy.min.css dist/buefy.css",
+    "build:scss:watch": "node-sass src/scss/buefy-build.scss --w",
+    "cov": "./node_modules/codcov/bin/codcov",
+    "dev": "node build/dev-server.js",
+    "lint": "eslint --ext .js,.vue src docs",
+    "lint:fix": "eslint --ext .js,.vue src docs --fix",
+    "lint:staged": "lint-staged",
+    "start": "node build/dev-server.js",
+    "test": "npm run lint && npm run unit",
+    "test:watch": "npm run unit -- --watchAll",
+    "unit": "jest --runInBand",
+    "vetur": "node -r esm build/vetur.js"
+  },
+  "sideEffects": [
+    "*.css",
+    "*.scss"
+  ],
+  "typings": "types/index.d.ts",
+  "unpkg": "dist/buefy.min.js",
+  "version": "0.8.19",
+  "vetur": {
+    "tags": "dist/vetur/tags.json",
+    "attributes": "dist/vetur/attributes.json"
+  }
 }

@@ -1,15 +1,47 @@
 {
-  "name": "bulma-o-steps",
-  "version": "1.0.9",
+  "_args": [
+    [
+      "bulma-o-steps@1.0.9",
+      "/Users/ldonis/code/Lesli/beta.deutsche-leibrenten.de"
+    ]
+  ],
+  "_development": true,
+  "_from": "bulma-o-steps@1.0.9",
+  "_id": "bulma-o-steps@1.0.9",
+  "_inBundle": false,
+  "_integrity": "sha512-T5qywE4MPCt6t0YTaZg2LEnzw0QoeYuob+dTB5WmYY8FtSOyEbNZnQ2kkrqzRwtAocvvzUTb+erAAc47QnkWoQ==",
+  "_location": "/bulma-o-steps",
+  "_phantomChildren": {},
+  "_requested": {
+    "type": "version",
+    "registry": true,
+    "raw": "bulma-o-steps@1.0.9",
+    "name": "bulma-o-steps",
+    "escapedName": "bulma-o-steps",
+    "rawSpec": "1.0.9",
+    "saveSpec": null,
+    "fetchSpec": "1.0.9"
+  },
+  "_requiredBy": [
+    "#DEV:/"
+  ],
+  "_resolved": "https://registry.npmjs.org/bulma-o-steps/-/bulma-o-steps-1.0.9.tgz",
+  "_spec": "1.0.9",
+  "_where": "/Users/ldonis/code/Lesli/beta.deutsche-leibrenten.de",
+  "author": {
+    "name": "aramvisser, octoshrimpy"
+  },
+  "bugs": {
+    "url": "https://github.com/octoshrimpy/bulma-o-steps/issues"
+  },
+  "dependencies": {
+    "bulma": "^0.7.1"
+  },
   "description": "In-depth Steps component for Bulma.io",
-  "main": "bulma-o-steps.sass",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+  "devDependencies": {
+    "node-sass": "^4.9.0"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/octoshrimpy/bulma-o-steps.git"
-  },
+  "homepage": "https://github.com/octoshrimpy/bulma-o-steps#readme",
   "keywords": [
     "Bulma",
     "bulma",
@@ -19,16 +51,15 @@
     "bulma-steps",
     "bulma-step"
   ],
-  "author": "aramvisser, octoshrimpy",
   "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/octoshrimpy/bulma-o-steps/issues"
+  "main": "bulma-o-steps.sass",
+  "name": "bulma-o-steps",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/octoshrimpy/bulma-o-steps.git"
   },
-  "homepage": "https://github.com/octoshrimpy/bulma-o-steps#readme",
-  "dependencies": {
-    "bulma": "^0.7.1"
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "devDependencies": {
-    "node-sass": "^4.9.0"
-  }
+  "version": "1.0.9"
 }
