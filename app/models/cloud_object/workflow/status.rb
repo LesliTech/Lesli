@@ -46,7 +46,7 @@ Building a better future, one line of code at a time.
 =end
         def destroy
             begin
-                if initial || final
+                if initial
                     errors.add(:base, :destroy_attempt_on_default_status)
                     return false
                 end

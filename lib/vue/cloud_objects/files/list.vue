@@ -216,10 +216,6 @@ export default {
                     <b-checkbox size="is-small" v-model="props.row.selected" />
                 </b-table-column>
 
-                <b-table-column field="created_at" :label="translations.core.text_created_at">
-                    {{ props.row.created_at }}
-                </b-table-column>
-
                 <b-table-column field="name" :label="translations.core.text_name">
                     <span v-if="props.row.name && props.row.name.includes('.')">
                         {{ props.row.name.substring(0, props.row.name.lastIndexOf('.'))}}
@@ -236,6 +232,10 @@ export default {
                     <span v-else>
                         {{props.row.file_type}}
                     </span>
+                </b-table-column>
+
+                <b-table-column field="created_at" :label="translations.core.text_created_at">
+                    {{ props.row.created_at }}
                 </b-table-column>
 
                 <b-table-column field="actions" :label="translations.core.text_actions" class="has-text-right">
