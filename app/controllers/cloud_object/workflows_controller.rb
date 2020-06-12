@@ -70,11 +70,10 @@ Building a better future, one line of code at a time.
                     module_name = dynamic_info[:module_name]
 
                     set_workflow
-                    if @workflow
-                        responseWithSuccessful(@workflow.detailed_info)
-                    else
-                        responseWithError('Workflow not found')
-                    end
+
+                    return responseWithNotFound unless @workflow
+                    
+                    responseWithSuccessful(@workflow.show)
                 end
             end
         end
@@ -314,8 +313,9 @@ private
                     :id,
                     :next_statuses,
                     :initial,
-                    :inactive,
-                    :final,
+                    :completed_successfully,
+                    :completed_unsuccessfully,
+                    :to_be_deleted,
                     :name,
                     :number,
                     :_destroy

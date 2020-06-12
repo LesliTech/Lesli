@@ -1,68 +1,36 @@
 {
-  "_args": [
-    [
-      "@fullcalendar/timegrid@4.4.2",
-      "/Users/ldonis/code/Lesli/beta.deutsche-leibrenten.de"
-    ]
-  ],
-  "_development": true,
-  "_from": "@fullcalendar/timegrid@4.4.2",
-  "_id": "@fullcalendar/timegrid@4.4.2",
-  "_inBundle": false,
-  "_integrity": "sha512-M5an7qii8OUmI4ogY47k5pn2j/qUbLp6sa6Vo0gO182HR5pb9YtrEZnoQhnScok+I0BkDkLFzMQoiAMTjBm2PQ==",
-  "_location": "/@fullcalendar/timegrid",
-  "_phantomChildren": {},
-  "_requested": {
-    "type": "version",
-    "registry": true,
-    "raw": "@fullcalendar/timegrid@4.4.2",
-    "name": "@fullcalendar/timegrid",
-    "escapedName": "@fullcalendar%2ftimegrid",
-    "scope": "@fullcalendar",
-    "rawSpec": "4.4.2",
-    "saveSpec": null,
-    "fetchSpec": "4.4.2"
-  },
-  "_requiredBy": [
-    "#DEV:/"
-  ],
-  "_resolved": "https://registry.npmjs.org/@fullcalendar/timegrid/-/timegrid-4.4.2.tgz",
-  "_spec": "4.4.2",
-  "_where": "/Users/ldonis/code/Lesli/beta.deutsche-leibrenten.de",
-  "author": {
-    "name": "Adam Shaw",
-    "email": "arshaw@arshaw.com",
-    "url": "http://arshaw.com/"
-  },
-  "bugs": {
-    "url": "https://fullcalendar.io/reporting-bugs"
-  },
-  "copyright": "2019 Adam Shaw",
-  "dependencies": {
-    "@fullcalendar/daygrid": "~4.4.0"
-  },
+  "name": "@fullcalendar/timegrid",
+  "version": "4.4.2",
+  "title": "FullCalendar Time Grid Plugin",
   "description": "Display your events on a grid of time slots",
-  "docs": "https://fullcalendar.io/docs/timegrid-view",
-  "homepage": "https://fullcalendar.io/",
   "keywords": [
     "calendar",
     "event",
     "full-sized"
   ],
+  "homepage": "https://fullcalendar.io/",
+  "docs": "https://fullcalendar.io/docs/timegrid-view",
+  "bugs": "https://fullcalendar.io/reporting-bugs",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/fullcalendar/fullcalendar.git",
+    "homepage": "https://github.com/fullcalendar/fullcalendar"
+  },
   "license": "MIT",
-  "main": "main.js",
-  "module": "main.esm.js",
-  "name": "@fullcalendar/timegrid",
+  "author": {
+    "name": "Adam Shaw",
+    "email": "arshaw@arshaw.com",
+    "url": "http://arshaw.com/"
+  },
+  "copyright": "2019 Adam Shaw",
+  "dependencies": {
+    "@fullcalendar/daygrid": "~4.4.0"
+  },
   "peerDependencies": {
     "@fullcalendar/core": "~4.4.0"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/fullcalendar/fullcalendar.git",
-    "homepage": "https://github.com/fullcalendar/fullcalendar"
-  },
-  "title": "FullCalendar Time Grid Plugin",
-  "types": "main.d.ts",
+  "main": "main.js",
+  "module": "main.esm.js",
   "unpkg": "main.min.js",
-  "version": "4.4.2"
+  "types": "main.d.ts"
 }

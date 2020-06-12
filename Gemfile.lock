@@ -17,6 +17,12 @@ PATH
       rails (~> 6.0.2)
 
 PATH
+  remote: engines/CloudDriver
+  specs:
+    cloud_driver (0.1.0)
+      rails (~> 6.0.0)
+
+PATH
   remote: engines/CloudFocus
   specs:
     cloud_focus (0.1.0)
@@ -38,18 +44,6 @@ PATH
   remote: engines/CloudLock
   specs:
     cloud_lock (0.1.0)
-      rails (~> 6.0.0)
-
-PATH
-  remote: engines/CloudMailer
-  specs:
-    cloud_mailer (0.1.0)
-      rails (~> 6.0.3)
-
-PATH
-  remote: engines/CloudDriver
-  specs:
-    cloud_driver (0.1.0)
       rails (~> 6.0.0)
 
 GEM
@@ -462,7 +456,6 @@ DEPENDENCIES
   cloud_haus!
   cloud_house!
   cloud_lock!
-  cloud_mailer!
   devise
   faker
   faraday
