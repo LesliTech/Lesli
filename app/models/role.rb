@@ -62,7 +62,6 @@ class Role < ApplicationRecord
                 privilege.grant_default = default, 
                 privilege.grant_empty = default
             end
-            #CloudLock::Role::PrivilegeDefault.find_or_create_by!(attributes)
         end
     end
 

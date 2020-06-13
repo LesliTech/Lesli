@@ -57,21 +57,6 @@ class User < ApplicationRecord
         rescue ActiveRecord::RecordNotUnique => error
     end
 
-=begin
-    enum roles: {
-        admin: "admin",
-        buyer: "buyer",
-        manager: "manager",
-        office_manager: "office_manager",
-        property_manager: "property_manager",
-        intern: "intern",
-        b2b: "b2b",
-        kop: "kop",
-        callcenter: "callcenter",
-        api: "api",
-        guest: "guest"
-    }
-=end
 
     # @return [String] The name of this user.
     # @description Retrieves and returns the name of the user depending on the available information.
@@ -84,8 +69,9 @@ class User < ApplicationRecord
     #     other_user = User.last
     #     puts other_user.name # can print jane.smith@email.com
     def full_name
-        name.blank? ? email : name
+        detail.first_name.blank? ? email : detail.first_name + " " + detail.last_name.to_s
     end
+
 
     # @return [void]
     # @description Sets this user as inactive and removes complete access to the platform from them
@@ -94,6 +80,7 @@ class User < ApplicationRecord
     #     old_user.revoke_access
     def revoke_access
         update_attributes(active: false)
+        log " deactivated"
     end
 
     def self.send_password_reset(user)
@@ -235,30 +222,12 @@ class User < ApplicationRecord
     # At this point, check_user will be invoked automatically
     def initialize_user
 
-        if defined? CloudLock
-
-            role_guest = CloudLock::Role
-            .joins(:detail)
-            .where("cloud_lock_role_details.name = ?", self.role)
-            .first
-
-            lock_user = CloudLock::User.new(
-                account: self.account,
-                user: self,
-                role: role_guest,
-                created_at: Time.now,
-                updated_at: Time.now,
-                detail_attributes: {}    
-            )
-
-            lock_user.save
-
-        end
+        User::Detail.create({user: self})
 
         if defined? CloudDriver
             self.account.driver.calendars.create({
                 detail_attributes: {
-                    name: self.name,
+                    name: "default",
                     default: true
                 }
             })
