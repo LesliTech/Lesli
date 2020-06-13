@@ -29,10 +29,12 @@ Building a better future, one line of code at a time.
 // · Navigation sidebar
 .application-navigation {
     padding: 1rem;
+    /*
     box-shadow: 
         0px -10px 0px 0px lesli-css-get-color(solid, white),
         0px 0px 10px 0px lesli-css-theme-get-color(silver, 300);
     background-color: lesli-css-get-color(solid, white);
+    */
     height: calc(100vh - var(--application-header-height));
     z-index: 99;
 
