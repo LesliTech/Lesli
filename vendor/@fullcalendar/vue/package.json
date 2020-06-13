@@ -2,7 +2,7 @@
   "_args": [
     [
       "@fullcalendar/vue@4.4.2",
-      "/Users/ldonis/code/Lesli/beta.deutsche-leibrenten.de"
+      "/Users/ldonis/code/Lesli/lesli.cloud"
     ]
   ],
   "_development": true,
@@ -28,7 +28,7 @@
   ],
   "_resolved": "https://registry.npmjs.org/@fullcalendar/vue/-/vue-4.4.2.tgz",
   "_spec": "4.4.2",
-  "_where": "/Users/ldonis/code/Lesli/beta.deutsche-leibrenten.de",
+  "_where": "/Users/ldonis/code/Lesli/lesli.cloud",
   "bugs": {
     "url": "https://github.com/fullcalendar/fullcalendar-vue/issues"
   },
