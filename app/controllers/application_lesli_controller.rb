@@ -46,7 +46,9 @@ class ApplicationLesliController < ApplicationController
     end
 
     def authenticate_request
+
         return
+
         # if Lock module is not installed, validate only user session
         unless defined?(CloudLock)
             return 
@@ -80,6 +82,7 @@ class ApplicationLesliController < ApplicationController
     end
 
     def set_request_helpers
+
         @query = {
             current_user: current_user,
             pagination: {
@@ -103,14 +106,10 @@ class ApplicationLesliController < ApplicationController
 
         return @account if current_user.account.blank?
         
-        if defined?(CloudLock)
-            current_user_role = current_user.lock ? current_user.lock.role : nil
-            privileges = {}
-            unless (current_user_role.blank?)
-                current_user_role.privileges.each do |privilege|
-                    privileges[privilege.grant_object_name] = privilege
-                end
-            end
+
+        privileges = {}
+        current_user.role.privileges.each do |privilege|
+            privileges[privilege.grant_object] = privilege
         end
 
         # add company information (account)
@@ -131,7 +130,7 @@ class ApplicationLesliController < ApplicationController
             id: current_user.id,
             email: current_user.email,
             full_name: current_user.full_name,
-            role: current_user.role,
+            role: current_user.role.detail.name,
             privileges: privileges 
         }
 

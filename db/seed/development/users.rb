@@ -33,11 +33,12 @@ account_logins = Rails.application.config.lesli_settings["account"]["security"][
 account_logins.each do |account_login|
     User.find_or_create_by(email: account_login["username"]) do |user|
         user.role = Role.find(1)
-        #user.name = account_login["fullname"]
         user.password = account_login["password"]
         user.password_confirmation = account_login["password"]
         user.accounts_id = 1
         user.confirm if not user.confirmed?
+
+        user.detail.first_name = account_login["fullname"]
 
         user.account.user = user
         user.account.save!
