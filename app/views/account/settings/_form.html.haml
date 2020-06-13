@@ -1,0 +1,10 @@
+= form_for @account_setting do |f|
+  - if @account_setting.errors.any?
+    #error_explanation
+      %h2= "#{pluralize(@account_setting.errors.count, "error")} prohibited this account_setting from being saved:"
+      %ul
+        - @account_setting.errors.full_messages.each do |message|
+          %li= message
+
+  .actions
+    = f.submit 'Save'

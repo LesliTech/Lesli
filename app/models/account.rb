@@ -25,20 +25,20 @@ Building a better future, one line of code at a time.
 // · 
 
 =end
-
+  
 class Account < ApplicationRecord
 
     belongs_to :user, foreign_key: "users_id", optional: true
 
     has_many :users, foreign_key: "accounts_id"
-    has_many :settings, foreign_key: "accounts_id"
+    has_many :settings, class_name: "Account::Setting", foreign_key: "accounts_id"
     has_many :locations, foreign_key: "accounts_id"
+    has_many :roles, foreign_key: "accounts_id"
 
     # core engines
     has_one :kb,     class_name: "CloudKb::Account",     foreign_key: "id"
     has_one :team,   class_name: "CloudTeam::Account",   foreign_key: "id"
     has_one :bell,   class_name: "CloudBell::Account",   foreign_key: "id"
-    has_one :lock,   class_name: "CloudLock::Account",   foreign_key: "id"
     has_one :help,   class_name: "CloudHelp::Account",   foreign_key: "id"
     has_one :books,  class_name: "CloudBooks::Account",  foreign_key: "id"
     has_one :panel,  class_name: "CloudPanel::Account",  foreign_key: "id"
@@ -46,14 +46,29 @@ class Account < ApplicationRecord
     has_one :focus,  class_name: "CloudFocus::Account",  foreign_key: "id"
     has_one :driver, class_name: "CloudDriver::Account", foreign_key: "id"
 
+    after_create :initialize_account
     after_create :create_engine_accounts
 
-    def create_engine_accounts
+    def initialize_account
 
         # settings initialize
         Rails.application.config.lesli_settings["account"]["settings"].each do |setting|
             self.settings.find_or_create_by({ name: setting[0], value: setting[1], account: self })
         end
+
+        # create default roles
+        Rails.application.config.lesli_settings["account"]["security"]["roles"].each do |role_name|
+            @role = Role.create({
+                account: self,
+                detail_attributes: {
+                    name: role_name
+                }
+            })    
+        end
+
+    end
+
+    def create_engine_accounts
 
         if defined? CloudKb
             if self.kb.blank?
@@ -77,16 +92,6 @@ class Account < ApplicationRecord
                 self.bell.account = self
                 self.bell.save!
             end
-        end
-
-        if defined? CloudLock
-
-            if self.lock.blank?
-                self.lock = CloudLock::Account.new
-                self.lock.account = self
-                self.lock.save!
-            end
-
         end
 
         if defined? CloudDriver

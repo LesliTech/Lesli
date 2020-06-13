@@ -32,8 +32,8 @@ account_logins = Rails.application.config.lesli_settings["account"]["security"][
 # create development users
 account_logins.each do |account_login|
     User.find_or_create_by(email: account_login["username"]) do |user|
-        user.role = "admin"
-        user.name = account_login["fullname"]
+        user.role = Role.find(1)
+        #user.name = account_login["fullname"]
         user.password = account_login["password"]
         user.password_confirmation = account_login["password"]
         user.accounts_id = 1

@@ -1,0 +1,19 @@
+%h1 Listing account_locations
+
+%table
+  %thead
+    %tr
+      %th
+      %th
+      %th
+
+  %tbody
+    - @account_locations.each do |account_location|
+      %tr
+        %td= link_to 'Show', account_location
+        %td= link_to 'Edit', edit_account_location_path(account_location)
+        %td= link_to 'Destroy', account_location, method: :delete, data: { confirm: 'Are you sure?' }
+
+%br
+
+= link_to 'New Location', new_account_location_path
