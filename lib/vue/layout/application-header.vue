@@ -50,7 +50,7 @@ export default {
     mounted() {
         this.mountListeners()
         this.checkIfMicrophoneWorks()
-        this.notification.count = leslicloud_account.notifications.count
+        this.getNotificationsCounter()
     },
 
     methods: {
@@ -125,6 +125,10 @@ export default {
                 this.search.searching = false
             }, 1400)
 
+        },
+
+        goToProfile() {
+            this.url.go("/crm/users/"+lesli.current_user.id)
         }
 
     }
@@ -137,7 +141,6 @@ export default {
             <template slot="brand">
                 <slot name="brand"></slot>
             </template>
-
             <template slot="start">
                 <div class="navbar-item">
                     <div class="control is-medium has-icons-left has-text-grey">
@@ -165,7 +168,7 @@ export default {
                 <a class="navbar-item notification-indicator" data-intro="Notification icon" @click="showNotificationPanel()">
                     <i v-if="notification.count > 0" class="fas fa-bell has-text-link"></i>
                     <i v-if="notification.count == 0" class="far fa-bell"></i>
-                    <span>0</span>
+                    <span>{{ notification.count }}</span>
                 </a>
 
                 <div class="navbar-item has-dropdown is-hoverable" data-intro="Account options">
@@ -173,7 +176,7 @@ export default {
                         <slot name="username"></slot>
                     </span>
                     <div class="navbar-dropdown">
-                        <a class="navbar-item" @click="url.go('/crm/users/'+lesli.current_user.id)">
+                        <a class="navbar-item" @click="goToProfile">
                             <span class="icon has-text-grey-light">
                                 <i class="fas fa-user"></i>
                             </span>

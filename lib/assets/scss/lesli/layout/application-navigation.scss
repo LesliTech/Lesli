@@ -23,13 +23,20 @@ Building a better future, one line of code at a time.
 // · 
 */
 
+@import "lesli-css/";
+
 
 // · Navigation sidebar - new
 .application-navigation {
-    min-height: 100vh;
+    height: calc(100vh - var(--application-header-height));
     width: var(--application-navigation-width);
     overflow-y: auto; 
     position: fixed;
+    @include lesli-css-scrollbar("");
+
+    li {
+        display: block;
+    }
 
     a {
         border-radius: 0px;

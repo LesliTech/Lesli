@@ -38,8 +38,9 @@ const leslicloud_account = <%= @account.to_json.html_safe %>
 
 // · New api
 const lesli = {
-    account: <%= @account ? @account.to_json.html_safe : "{}"%>,
-    current_user: <%= @account ? @account[:user].to_json.html_safe : "{}"%>,
+    company: <%= @account ? @account[:company].to_json.html_safe : "{}"%>,
+    settings: <%= @account ? @account[:settings].to_json.html_safe : "{}"%>,
+    current_user: <%= @account ? @account[:current_user].to_json.html_safe : "{}"%>,
     url: {
         root: "<%= request.base_url.to_s %>",
     }

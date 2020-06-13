@@ -1,4 +1,3 @@
-<script>
 /*
 Lesli
 
@@ -21,29 +20,24 @@ Building a better future, one line of code at a time.
 @website  <https://lesli.tech>
 @license  Propietary - all rights reserved.
 
-// · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
+// · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
 // · 
 */
-export default {
 
-    data() {
-        return {
-            submenu_open_class: false
-        }
-    },
+// · 
+@import "lesli-css/";
 
-    methods: {
 
-        submenu_open(item) {
-            this.submenu_open_class = !this.submenu_open_class
-        }
-
+// · 
+body #lesli-cloud-application {
+    @import "./settings/colors.scss";
+    @import "./layout/application-header";
+    @import "./layout/application-navigation";
+    .application-component {
+        @import "./components/tabs.scss";
+        @import "./components/status.scss";
+        @import "./components/summary.scss";
+        @import "./components/calendar.scss";
+        @import "./components/quickview.scss";
     }
-
 }
-</script>
-<template>
-    <nav class="application-navigation menu">
-        <slot></slot>
-    </nav>
-</template>

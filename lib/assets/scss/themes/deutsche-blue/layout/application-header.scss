@@ -22,42 +22,13 @@ Building a better future, one line of code at a time.
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
 // · 
 */
-
-// · 
-
-
-
-
-    .b-tabs {
-
-        .tabs {
-            margin-bottom: 0;
-            .is-active {
-                background-color: lesli-css-theme-get-color(app, primary);
-                a {
-                    color: lesli-css-theme-get-color(solid, white);
-                }
-            }
+header.application-header {
+    .navbar-start {
+        .navbar-item {
+            flex-grow: 1;
         }
-
-        &.is-vertical > .tabs {
-            flex: 0 0 200px;
-            padding: 1rem 0;
-            ul {
-                background-color: lesli-css-theme-get-color(solid, white);
-            }
-            a {
-                padding: 2rem 1rem;
-            }
+        .input {
+            width: 100%;
         }
-
-        
-
-        
     }
-
-    
-
-    
-
-    
+}

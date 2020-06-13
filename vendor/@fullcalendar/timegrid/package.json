@@ -1,33 +1,33 @@
 {
   "_args": [
     [
-      "@fullcalendar/timegrid@4.4.0",
+      "@fullcalendar/timegrid@4.4.2",
       "/Users/ldonis/code/Lesli/beta.deutsche-leibrenten.de"
     ]
   ],
   "_development": true,
-  "_from": "@fullcalendar/timegrid@4.4.0",
-  "_id": "@fullcalendar/timegrid@4.4.0",
+  "_from": "@fullcalendar/timegrid@4.4.2",
+  "_id": "@fullcalendar/timegrid@4.4.2",
   "_inBundle": false,
-  "_integrity": "sha512-QwJ9oM87/ZTbXaE8PMIVp20GPtVCFmroaeR1GydJ6BKYtbxG/nsaSv7RhqvDa2jLjHaTWC2NjHo9hRfjQjtCZA==",
+  "_integrity": "sha512-M5an7qii8OUmI4ogY47k5pn2j/qUbLp6sa6Vo0gO182HR5pb9YtrEZnoQhnScok+I0BkDkLFzMQoiAMTjBm2PQ==",
   "_location": "/@fullcalendar/timegrid",
   "_phantomChildren": {},
   "_requested": {
     "type": "version",
     "registry": true,
-    "raw": "@fullcalendar/timegrid@4.4.0",
+    "raw": "@fullcalendar/timegrid@4.4.2",
     "name": "@fullcalendar/timegrid",
     "escapedName": "@fullcalendar%2ftimegrid",
     "scope": "@fullcalendar",
-    "rawSpec": "4.4.0",
+    "rawSpec": "4.4.2",
     "saveSpec": null,
-    "fetchSpec": "4.4.0"
+    "fetchSpec": "4.4.2"
   },
   "_requiredBy": [
     "#DEV:/"
   ],
-  "_resolved": "https://registry.npmjs.org/@fullcalendar/timegrid/-/timegrid-4.4.0.tgz",
-  "_spec": "4.4.0",
+  "_resolved": "https://registry.npmjs.org/@fullcalendar/timegrid/-/timegrid-4.4.2.tgz",
+  "_spec": "4.4.2",
   "_where": "/Users/ldonis/code/Lesli/beta.deutsche-leibrenten.de",
   "author": {
     "name": "Adam Shaw",
@@ -64,5 +64,5 @@
   "title": "FullCalendar Time Grid Plugin",
   "types": "main.d.ts",
   "unpkg": "main.min.js",
-  "version": "4.4.0"
+  "version": "4.4.2"
 }
