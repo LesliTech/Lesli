@@ -1,0 +1,19 @@
+%h1 Listing role_overrides
+
+%table
+  %thead
+    %tr
+      %th
+      %th
+      %th
+
+  %tbody
+    - @role_overrides.each do |role_override|
+      %tr
+        %td= link_to 'Show', role_override
+        %td= link_to 'Edit', edit_role_override_path(role_override)
+        %td= link_to 'Destroy', role_override, method: :delete, data: { confirm: 'Are you sure?' }
+
+%br
+
+= link_to 'New Override', new_role_override_path

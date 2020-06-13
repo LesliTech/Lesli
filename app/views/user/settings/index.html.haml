@@ -1,0 +1,19 @@
+%h1 Listing user_settings
+
+%table
+  %thead
+    %tr
+      %th
+      %th
+      %th
+
+  %tbody
+    - @user_settings.each do |user_setting|
+      %tr
+        %td= link_to 'Show', user_setting
+        %td= link_to 'Edit', edit_user_setting_path(user_setting)
+        %td= link_to 'Destroy', user_setting, method: :delete, data: { confirm: 'Are you sure?' }
+
+%br
+
+= link_to 'New Setting', new_user_setting_path

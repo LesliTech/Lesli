@@ -1,0 +1,19 @@
+%h1 Listing account_settings
+
+%table
+  %thead
+    %tr
+      %th
+      %th
+      %th
+
+  %tbody
+    - @account_settings.each do |account_setting|
+      %tr
+        %td= link_to 'Show', account_setting
+        %td= link_to 'Edit', edit_account_setting_path(account_setting)
+        %td= link_to 'Destroy', account_setting, method: :delete, data: { confirm: 'Are you sure?' }
+
+%br
+
+= link_to 'New Setting', new_account_setting_path

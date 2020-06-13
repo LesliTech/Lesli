@@ -30,7 +30,7 @@ Building a better future, one line of code at a time.
 company = Rails.application.config.lesli_settings["account"]["company"]
 
 # create account
-model = Account.find_or_create_by(company_name: company) do |account|
+model = Account.find_or_create_by(company_name: company["name"]) do |account|
     account.status = 1
 end
 

@@ -12,13 +12,14 @@ Without the written permission of Lesli Technologies, S. A., any replication, mo
 transmission, publication is strictly forbidden.
 For more information read the license file including with this software.
 
-LesliCloud - Your Smart Business Assistant
+Lesli - Your Smart Business Assistant
 
 Powered by https://www.lesli.tech
 Building a better future, one line of code at a time.
 
+@contact  <hello@lesli.tech>
+@website  <https://lesli.tech>
 @license  Propietary - all rights reserved.
-@version  0.1.0-alpha
 
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
 // · 
@@ -26,6 +27,9 @@ Building a better future, one line of code at a time.
 =end
 
 class User < ApplicationRecord
+
+    acts_as_paranoid
+
     devise  :database_authenticatable, 
             :registerable, 
             :rememberable, 
@@ -34,16 +38,17 @@ class User < ApplicationRecord
             :confirmable,
             :trackables 
     
-    acts_as_paranoid
-
     belongs_to :account, foreign_key: "accounts_id", optional: true
+    belongs_to :role, foreign_key: "roles_id"
 
-    has_many :activities, class_name: "UserActivity", foreign_key: "users_id"
+    has_many :activities, class_name: "User::Activity", foreign_key: "users_id"
+    has_many :privileges, class_name: "User::Setting", foreign_key: "users_id"
 
-    has_one :lock, class_name: "CloudLock::User", foreign_key: "users_id"
+    has_one :detail, inverse_of: :user, autosave: true, foreign_key: "users_id", dependent: :destroy 
+    accepts_nested_attributes_for :detail, update_only: true
 
-    after_initialize :assign_role
-    after_create :user_initialize 
+    after_initialize :set_role
+    after_create :initialize_user 
 
     validates :role, presence: true
 
@@ -52,6 +57,7 @@ class User < ApplicationRecord
         rescue ActiveRecord::RecordNotUnique => error
     end
 
+=begin
     enum roles: {
         admin: "admin",
         buyer: "buyer",
@@ -65,6 +71,7 @@ class User < ApplicationRecord
         api: "api",
         guest: "guest"
     }
+=end
 
     # @return [String] The name of this user.
     # @description Retrieves and returns the name of the user depending on the available information.
@@ -211,8 +218,8 @@ class User < ApplicationRecord
     # @description Before creating a user, assing the role for create it.
     #               This is a *before_validation* method, and is not
     #               designed to be invoked directly
-    def assign_role
-        self.role ||= "guest"
+    def set_role
+        #self.role ||= "guest"
     end
 
     # @return [void]
@@ -226,7 +233,7 @@ class User < ApplicationRecord
     #         password_confirmation: "1234567890"
     #     )
     # At this point, check_user will be invoked automatically
-    def user_initialize 
+    def initialize_user
 
         if defined? CloudLock
 
