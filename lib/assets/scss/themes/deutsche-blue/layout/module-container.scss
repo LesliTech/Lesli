@@ -1,6 +1,3 @@
-leslicloud_account
-
-
 /*
 Lesli
 
@@ -26,38 +23,28 @@ Building a better future, one line of code at a time.
 // · 
 */
 
+// · 
+.b-tabs {
 
-// · Plugin initializing 
-// · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
-export default {
-
-    install (Vue) {
-
-        let granted = function(module, action, base_path = "cloud_haus"){
-            let controller = `${base_path}_${module}`
-            let privilege = leslicloud_account.account.privileges[controller]
-            if (privilege){
-                if (privilege[`grant_${action}`]) 
-                    return true
+    .tabs {
+        margin-bottom: 0;
+        .is-active {
+            background-color: lesli-css-theme-get-color(app, primary);
+            a {
+                color: lesli-css-theme-get-color(solid, white);
             }
-            return false
         }
-
-        let privilege = function(module, base_path = "cloud_haus"){
-            let controller = `${base_path}/${module}`
-            let privilege = leslicloud_account.user.privileges[controller]
-            if (privilege){
-                return privilege
-            }
-            return {}
-        }
-
-        Vue.prototype.abilities = {
-            granted,
-            privilege
-        }
-
     }
-    
-}
 
+    &.is-vertical > .tabs {
+        flex: 0 0 200px;
+        padding: 1rem 0;
+        ul {
+            background-color: lesli-css-theme-get-color(solid, white);
+        }
+        a {
+            padding: 2rem 1rem;
+        }
+    }
+
+}

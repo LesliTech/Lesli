@@ -113,7 +113,7 @@ class ApplicationController < ActionController::Base
         render status: 404, json: {
             successful: false,
             error: {
-                message: "Not found",
+                message: I18n.t("core.shared.not_found_error_message"),
                 details: []
             }
         }.to_json
@@ -127,7 +127,7 @@ class ApplicationController < ActionController::Base
                 render status: 401, json: {
                     successful: false,
                     error: {
-                        message: "Unauthorized",
+                        message: I18n.t("core.shared.unauthorized_error_message"),
                         details: []
                     }
                 }.to_json

@@ -186,8 +186,10 @@ ActiveRecord::Schema.define(version: 2020_05_26_180220) do
     t.datetime "deleted_at"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.bigint "users_id"
     t.bigint "cloud_driver_calendars_id"
     t.index ["cloud_driver_calendars_id"], name: "index_cloud_driver_calendar_files_on_cloud_driver_calendars_id"
+    t.index ["users_id"], name: "index_cloud_driver_calendar_files_on_users_id"
   end
 
   create_table "cloud_driver_calendar_subscribers", force: :cascade do |t|
@@ -282,8 +284,10 @@ ActiveRecord::Schema.define(version: 2020_05_26_180220) do
     t.datetime "deleted_at"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.bigint "users_id"
     t.bigint "cloud_driver_events_id"
     t.index ["cloud_driver_events_id"], name: "index_cloud_driver_event_files_on_cloud_driver_events_id"
+    t.index ["users_id"], name: "index_cloud_driver_event_files_on_users_id"
   end
 
   create_table "cloud_driver_event_subscribers", force: :cascade do |t|
@@ -312,6 +316,7 @@ ActiveRecord::Schema.define(version: 2020_05_26_180220) do
     t.index ["cloud_driver_accounts_id"], name: "index_cloud_driver_events_on_cloud_driver_accounts_id"
     t.index ["cloud_driver_calendars_id"], name: "index_cloud_driver_events_on_cloud_driver_calendars_id"
     t.index ["cloud_driver_workflow_statuses_id"], name: "driver_events_workflow_statuses"
+    t.index ["deleted_at"], name: "index_cloud_driver_events_on_deleted_at"
     t.index ["model_type", "model_id"], name: "index_cloud_driver_events_on_model_type_and_model_id"
     t.index ["organizer_id"], name: "index_cloud_driver_events_on_organizer_id"
     t.index ["users_id"], name: "house_events_users"
@@ -457,6 +462,8 @@ ActiveRecord::Schema.define(version: 2020_05_26_180220) do
   create_table "cloud_focus_task_files", force: :cascade do |t|
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.bigint "users_id"
+    t.index ["users_id"], name: "index_cloud_focus_task_files_on_users_id"
   end
 
   create_table "cloud_focus_task_subscribers", force: :cascade do |t|
@@ -554,6 +561,18 @@ ActiveRecord::Schema.define(version: 2020_05_26_180220) do
     t.index ["cloud_house_accounts_id"], name: "index_cloud_haus_external_leads_on_cloud_house_accounts_id"
     t.index ["deleted_at"], name: "index_cloud_haus_external_leads_on_deleted_at"
     t.index ["users_id"], name: "index_cloud_haus_external_leads_on_users_id"
+  end
+
+  create_table "cloud_haus_kop_request_orders", force: :cascade do |t|
+    t.text "encoded_order"
+    t.datetime "deleted_at"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.bigint "users_id"
+    t.bigint "cloud_house_accounts_id"
+    t.index ["cloud_house_accounts_id"], name: "index_cloud_haus_kop_request_orders_on_cloud_house_accounts_id"
+    t.index ["deleted_at"], name: "index_cloud_haus_kop_request_orders_on_deleted_at"
+    t.index ["users_id"], name: "index_cloud_haus_kop_request_orders_on_users_id"
   end
 
   create_table "cloud_house_accounts", force: :cascade do |t|
@@ -701,6 +720,10 @@ ActiveRecord::Schema.define(version: 2020_05_26_180220) do
     t.boolean "specific_agreement", default: false
     t.boolean "avv_shipped", default: false
     t.boolean "avv_completed", default: false
+    t.string "advertising_cost"
+    t.string "event_contribution"
+    t.string "advertising_contribution"
+    t.string "individual_regulation_specification"
     t.datetime "deleted_at"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
@@ -729,8 +752,10 @@ ActiveRecord::Schema.define(version: 2020_05_26_180220) do
     t.datetime "deleted_at"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.bigint "users_id"
     t.bigint "cloud_house_companies_id"
     t.index ["cloud_house_companies_id"], name: "index_cloud_house_company_files_on_cloud_house_companies_id"
+    t.index ["users_id"], name: "index_cloud_house_company_files_on_users_id"
   end
 
   create_table "cloud_house_company_subscribers", force: :cascade do |t|
@@ -839,8 +864,10 @@ ActiveRecord::Schema.define(version: 2020_05_26_180220) do
     t.datetime "deleted_at"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.bigint "users_id"
     t.bigint "cloud_house_contacts_id"
     t.index ["cloud_house_contacts_id"], name: "index_cloud_house_contact_files_on_cloud_house_contacts_id"
+    t.index ["users_id"], name: "index_cloud_house_contact_files_on_users_id"
   end
 
   create_table "cloud_house_contact_subscribers", force: :cascade do |t|
@@ -1027,8 +1054,10 @@ ActiveRecord::Schema.define(version: 2020_05_26_180220) do
     t.datetime "deleted_at"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.bigint "users_id"
     t.bigint "cloud_house_employees_id"
     t.index ["cloud_house_employees_id"], name: "index_cloud_house_employee_files_on_cloud_house_employees_id"
+    t.index ["users_id"], name: "index_cloud_house_employee_files_on_users_id"
   end
 
   create_table "cloud_house_employee_services", force: :cascade do |t|
@@ -1161,8 +1190,10 @@ ActiveRecord::Schema.define(version: 2020_05_26_180220) do
     t.datetime "deleted_at"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.bigint "users_id"
     t.bigint "cloud_house_projects_id"
     t.index ["cloud_house_projects_id"], name: "index_cloud_house_project_files_on_cloud_house_projects_id"
+    t.index ["users_id"], name: "index_cloud_house_project_files_on_users_id"
   end
 
   create_table "cloud_house_project_marketing_informations", force: :cascade do |t|
@@ -1393,8 +1424,10 @@ ActiveRecord::Schema.define(version: 2020_05_26_180220) do
     t.datetime "deleted_at"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.bigint "users_id"
     t.bigint "cloud_house_properties_id"
     t.index ["cloud_house_properties_id"], name: "index_cloud_house_property_files_on_cloud_house_properties_id"
+    t.index ["users_id"], name: "index_cloud_house_property_files_on_users_id"
   end
 
   create_table "cloud_house_property_registers", force: :cascade do |t|
@@ -1636,6 +1669,9 @@ ActiveRecord::Schema.define(version: 2020_05_26_180220) do
     t.string "address"
     t.string "title"
     t.string "salutation"
+    t.integer "work_city"
+    t.integer "work_region"
+    t.integer "work_address"
     t.datetime "deleted_at"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
@@ -1662,7 +1698,9 @@ ActiveRecord::Schema.define(version: 2020_05_26_180220) do
     t.datetime "deleted_at"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.bigint "users_id"
     t.index ["deleted_at"], name: "index_cloud_lock_user_files_on_deleted_at"
+    t.index ["users_id"], name: "index_cloud_lock_user_files_on_users_id"
   end
 
   create_table "cloud_lock_users", force: :cascade do |t|
@@ -1865,6 +1903,7 @@ ActiveRecord::Schema.define(version: 2020_05_26_180220) do
   add_foreign_key "cloud_driver_calendar_discussions", "cloud_driver_calendars", column: "cloud_driver_calendars_id"
   add_foreign_key "cloud_driver_calendar_discussions", "users", column: "users_id"
   add_foreign_key "cloud_driver_calendar_files", "cloud_driver_calendars", column: "cloud_driver_calendars_id"
+  add_foreign_key "cloud_driver_calendar_files", "users", column: "users_id"
   add_foreign_key "cloud_driver_calendar_subscribers", "cloud_driver_calendars", column: "cloud_driver_calendars_id"
   add_foreign_key "cloud_driver_calendar_subscribers", "users", column: "users_id"
   add_foreign_key "cloud_driver_calendars", "cloud_driver_accounts", column: "cloud_driver_accounts_id"
@@ -1878,6 +1917,7 @@ ActiveRecord::Schema.define(version: 2020_05_26_180220) do
   add_foreign_key "cloud_driver_event_discussions", "cloud_driver_events", column: "cloud_driver_events_id"
   add_foreign_key "cloud_driver_event_discussions", "users", column: "users_id"
   add_foreign_key "cloud_driver_event_files", "cloud_driver_events", column: "cloud_driver_events_id"
+  add_foreign_key "cloud_driver_event_files", "users", column: "users_id"
   add_foreign_key "cloud_driver_event_subscribers", "cloud_driver_events", column: "cloud_driver_events_id"
   add_foreign_key "cloud_driver_event_subscribers", "users", column: "users_id"
   add_foreign_key "cloud_driver_events", "cloud_driver_accounts", column: "cloud_driver_accounts_id"
@@ -1897,6 +1937,7 @@ ActiveRecord::Schema.define(version: 2020_05_26_180220) do
   add_foreign_key "cloud_focus_custom_validations", "users", column: "users_id"
   add_foreign_key "cloud_focus_task_activities", "cloud_focus_tasks", column: "cloud_focus_tasks_id"
   add_foreign_key "cloud_focus_task_details", "cloud_focus_tasks", column: "cloud_focus_tasks_id"
+  add_foreign_key "cloud_focus_task_files", "users", column: "users_id"
   add_foreign_key "cloud_focus_tasks", "cloud_focus_accounts", column: "cloud_focus_accounts_id"
   add_foreign_key "cloud_focus_tasks", "cloud_focus_workflow_statuses", column: "cloud_focus_workflow_statuses_id"
   add_foreign_key "cloud_focus_tasks", "users", column: "users_id"
@@ -1908,6 +1949,8 @@ ActiveRecord::Schema.define(version: 2020_05_26_180220) do
   add_foreign_key "cloud_focus_workflows", "cloud_focus_accounts", column: "cloud_focus_accounts_id"
   add_foreign_key "cloud_haus_external_leads", "cloud_house_accounts", column: "cloud_house_accounts_id"
   add_foreign_key "cloud_haus_external_leads", "users", column: "users_id"
+  add_foreign_key "cloud_haus_kop_request_orders", "cloud_house_accounts", column: "cloud_house_accounts_id"
+  add_foreign_key "cloud_haus_kop_request_orders", "users", column: "users_id"
   add_foreign_key "cloud_house_accounts", "accounts", column: "id"
   add_foreign_key "cloud_house_catalog_business_services", "cloud_house_accounts", column: "cloud_house_accounts_id"
   add_foreign_key "cloud_house_catalog_company_categories", "cloud_house_accounts", column: "cloud_house_accounts_id"
@@ -1932,6 +1975,7 @@ ActiveRecord::Schema.define(version: 2020_05_26_180220) do
   add_foreign_key "cloud_house_company_discussions", "cloud_house_company_discussions", column: "cloud_house_company_discussions_id"
   add_foreign_key "cloud_house_company_discussions", "users", column: "users_id"
   add_foreign_key "cloud_house_company_files", "cloud_house_companies", column: "cloud_house_companies_id"
+  add_foreign_key "cloud_house_company_files", "users", column: "users_id"
   add_foreign_key "cloud_house_company_subscribers", "cloud_house_companies", column: "cloud_house_companies_id"
   add_foreign_key "cloud_house_company_subscribers", "users", column: "users_id"
   add_foreign_key "cloud_house_contact_actions", "cloud_house_contacts", column: "cloud_house_contacts_id"
@@ -1943,6 +1987,7 @@ ActiveRecord::Schema.define(version: 2020_05_26_180220) do
   add_foreign_key "cloud_house_contact_discussions", "cloud_house_contacts", column: "cloud_house_contacts_id"
   add_foreign_key "cloud_house_contact_discussions", "users", column: "users_id"
   add_foreign_key "cloud_house_contact_files", "cloud_house_contacts", column: "cloud_house_contacts_id"
+  add_foreign_key "cloud_house_contact_files", "users", column: "users_id"
   add_foreign_key "cloud_house_contact_subscribers", "cloud_house_contacts", column: "cloud_house_contacts_id"
   add_foreign_key "cloud_house_contact_subscribers", "users", column: "users_id"
   add_foreign_key "cloud_house_contacts", "cloud_house_accounts", column: "cloud_house_accounts_id"
@@ -1965,6 +2010,7 @@ ActiveRecord::Schema.define(version: 2020_05_26_180220) do
   add_foreign_key "cloud_house_employee_discussions", "cloud_house_employees", column: "cloud_house_employees_id"
   add_foreign_key "cloud_house_employee_discussions", "users", column: "users_id"
   add_foreign_key "cloud_house_employee_files", "cloud_house_employees", column: "cloud_house_employees_id"
+  add_foreign_key "cloud_house_employee_files", "users", column: "users_id"
   add_foreign_key "cloud_house_employee_services", "cloud_house_catalog_business_services", column: "cloud_house_catalog_business_services_id"
   add_foreign_key "cloud_house_employee_services", "cloud_house_employees", column: "cloud_house_employees_id"
   add_foreign_key "cloud_house_employee_subscribers", "cloud_house_employees", column: "cloud_house_employees_id"
@@ -1986,6 +2032,7 @@ ActiveRecord::Schema.define(version: 2020_05_26_180220) do
   add_foreign_key "cloud_house_project_discussions", "cloud_house_projects", column: "cloud_house_projects_id"
   add_foreign_key "cloud_house_project_discussions", "users", column: "users_id"
   add_foreign_key "cloud_house_project_files", "cloud_house_projects", column: "cloud_house_projects_id"
+  add_foreign_key "cloud_house_project_files", "users", column: "users_id"
   add_foreign_key "cloud_house_project_marketing_informations", "cloud_house_projects", column: "cloud_house_projects_id"
   add_foreign_key "cloud_house_project_offer_reports", "cloud_house_projects", column: "cloud_house_projects_id"
   add_foreign_key "cloud_house_project_offer_reports", "users", column: "reviewer_employee_id"
@@ -2014,6 +2061,7 @@ ActiveRecord::Schema.define(version: 2020_05_26_180220) do
   add_foreign_key "cloud_house_property_discussions", "cloud_house_property_discussions", column: "cloud_house_property_discussions_id"
   add_foreign_key "cloud_house_property_discussions", "users", column: "users_id"
   add_foreign_key "cloud_house_property_files", "cloud_house_properties", column: "cloud_house_properties_id"
+  add_foreign_key "cloud_house_property_files", "users", column: "users_id"
   add_foreign_key "cloud_house_property_registers", "cloud_house_properties", column: "cloud_house_properties_id"
   add_foreign_key "cloud_house_property_subscribers", "cloud_house_properties", column: "cloud_house_properties_id"
   add_foreign_key "cloud_house_property_subscribers", "users", column: "users_id"
@@ -2036,6 +2084,7 @@ ActiveRecord::Schema.define(version: 2020_05_26_180220) do
   add_foreign_key "cloud_lock_user_discussions", "cloud_lock_user_discussions", column: "cloud_lock_user_discussions_id"
   add_foreign_key "cloud_lock_user_discussions", "cloud_lock_users", column: "cloud_lock_users_id"
   add_foreign_key "cloud_lock_user_discussions", "users", column: "users_id"
+  add_foreign_key "cloud_lock_user_files", "users", column: "users_id"
   add_foreign_key "cloud_lock_users", "cloud_lock_accounts", column: "cloud_lock_accounts_id"
   add_foreign_key "cloud_lock_users", "cloud_lock_roles", column: "cloud_lock_roles_id"
   add_foreign_key "cloud_lock_users", "users", column: "users_id"

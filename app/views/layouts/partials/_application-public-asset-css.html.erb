@@ -28,7 +28,6 @@ Building a better future, one line of code at a time.
 
 <%= stylesheet_link_tag "lesli/templates/website", media: "all" %>
 
-
 <% if ["users/sessions", "users/passwords", "users/registrations"].include?(controller_path.to_s) %>
     <%# Include controller path only for core apps and pages %>
     <%= stylesheet_link_tag controller_path, media: "all" %>

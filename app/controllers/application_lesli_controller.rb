@@ -27,8 +27,6 @@ Building a better future, one line of code at a time.
 
 class ApplicationLesliController < ApplicationController
 
-    #load_and_authorize_resource
-
     before_action :authenticate_user!
     before_action :check_account
     before_action :authenticate_request, only: [:index, :create, :update, :destroy, :new, :show, :options, :default]
@@ -96,6 +94,14 @@ class ApplicationLesliController < ApplicationController
     end
 
     def set_global_account 
+
+        @account = {
+            company: { },
+            settings: { },
+            current_user: { }
+        }
+
+        return @account if current_user.account.blank?
         
         if defined?(CloudLock)
             current_user_role = current_user.lock ? current_user.lock.role : nil
@@ -106,21 +112,6 @@ class ApplicationLesliController < ApplicationController
                 end
             end
         end
-
-        @account = {
-            company: { },
-            notifications: { 
-                count: Courier::Bell::Notification::Web.count(current_user)
-            },
-            user: { 
-                id: current_user.id,
-                email: current_user.email,
-                full_name: current_user.full_name,
-                privileges: privileges 
-            }
-        }
-
-        return @account if current_user.account.blank?
 
         # add company information (account)
         @account[:company] = {
@@ -135,7 +126,17 @@ class ApplicationLesliController < ApplicationController
             @account[:settings][setting[:name]] = setting[:value].to_s
         end
 
+        # set user information
+        @account[:current_user] = { 
+            id: current_user.id,
+            email: current_user.email,
+            full_name: current_user.full_name,
+            role: current_user.role,
+            privileges: privileges 
+        }
+
         @account
+
     end
   
     def is_admin?
@@ -149,4 +150,5 @@ class ApplicationLesliController < ApplicationController
         return if request[:format] == "json"
         current_user.log(params[:action], request.original_url)
     end
+    
 end

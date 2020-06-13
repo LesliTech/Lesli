@@ -28,6 +28,8 @@ module CloudObject
         self.abstract_class = true
         mount_uploader :attachment, FileUploader
 
+        belongs_to :user, foreign_key: "users_id"
+
         enum file_type: {}
 
         def self.file_options

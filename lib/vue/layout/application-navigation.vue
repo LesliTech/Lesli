@@ -1,3 +1,4 @@
+<script>
 /*
 Lesli
 
@@ -11,60 +12,41 @@ Without the written permission of Lesli Technologies, S. A., any replication, mo
 transmission, publication is strictly forbidden.
 For more information read the license file including with this software.
 
-LesliCloud - Your Smart Business Assistant
+Lesli - Your Smart Business Assistant
 
 Powered by https://www.lesli.tech
 Building a better future, one line of code at a time.
 
+@contact  <hello@lesli.tech>
+@website  <https://lesli.tech>
 @license  Propietary - all rights reserved.
-@version  0.1.0-alpha
 
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
 // · 
 */
+export default {
 
-
-@import "lesli-css/";
-
-
-// · Navigation sidebar
-.application-navigation {
-    background-color: lesli-css-theme-get-color(app, primary);
-
-    a {
-        border-bottom: 1px solid lesli-css-theme-get-color(app, secondary);
-        color: lesli-css-theme-get-color(solid, white);
-
-        i {
-            font-size: 1.2rem;
+    data() {
+        return {
+            submenu_open_class: false
         }
+    },
 
-        span {
-            font-size: 1rem;
-        }
+    methods: {
 
-        &:hover {
-            background-color: lesli-css-theme-get-color(app, secondary);
+        submenu_open(item) {
+            this.submenu_open_class = !this.submenu_open_class
         }
 
     }
 
 }
-
-@include lesli-css-breakpoint("tablet") {
-    .application-navigation {
-        width: 185px;
-    }
-    .application-component {
-        margin-left: 185px;
-    }
-}
-
-@include lesli-css-breakpoint("desktop") {
-    .application-navigation {
-        width: 250px;
-    }
-    .application-component {
-        margin-left: 250px;
-    }
-}
+</script>
+<template>
+    <nav class="application-navigation menu">
+        <slot></slot>
+        <li>
+            <a><i class="fas fa-chevron-left"></i></a>
+        </li>
+    </nav>
+</template>
