@@ -26,6 +26,7 @@ Building a better future, one line of code at a time.
 
 =end
 
+puts ""; puts ""; puts "";
 puts "Loading core seeds for #{Rails.env.downcase} environment"
 puts "~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~"
 

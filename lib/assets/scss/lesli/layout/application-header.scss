@@ -28,7 +28,7 @@ header.application-header {
     left: 0;
     position: fixed;
     right: 0;
-    z-index: 30;
+    z-index: 100;
     height: var(--application-header-height);
 
     .navbar-item {

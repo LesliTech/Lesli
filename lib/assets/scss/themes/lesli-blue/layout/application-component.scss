@@ -22,3 +22,11 @@ Building a better future, one line of code at a time.
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
 // · 
 */
+
+section.application-component {
+    padding: 2rem;
+    border-radius: 1.4rem 0 0 1.4rem;
+    background-color: lesli-css-get-color(silver, 100);
+    background-color: #eeeeee;
+    box-shadow: inset 0px 0px 8px 0px lesli-css-theme-get-color(silver, 300);
+}

@@ -12,13 +12,14 @@ Without the written permission of Lesli Technologies, S. A., any replication, mo
 transmission, publication is strictly forbidden.
 For more information read the license file including with this software.
 
-LesliCloud - Your Smart Business Assistant
+Lesli - Your Smart Business Assistant
 
 Powered by https://www.lesli.tech
 Building a better future, one line of code at a time.
 
+@contact  <hello@lesli.tech>
+@website  <https://lesli.tech>
 @license  Propietary - all rights reserved.
-@version  0.1.0-alpha
 
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
 // · 
@@ -26,6 +27,9 @@ Building a better future, one line of code at a time.
 =end
 
 class User < ApplicationRecord
+
+    acts_as_paranoid
+
     devise  :database_authenticatable, 
             :registerable, 
             :rememberable, 
@@ -34,16 +38,17 @@ class User < ApplicationRecord
             :confirmable,
             :trackables 
     
-    acts_as_paranoid
-
     belongs_to :account, foreign_key: "accounts_id", optional: true
+    belongs_to :role, foreign_key: "roles_id"
 
-    has_many :activities, class_name: "UserActivity", foreign_key: "users_id"
+    has_many :activities, class_name: "User::Activity", foreign_key: "users_id"
+    has_many :privileges, class_name: "User::Setting", foreign_key: "users_id"
 
-    has_one :lock, class_name: "CloudLock::User", foreign_key: "users_id"
+    has_one :detail, inverse_of: :user, autosave: true, foreign_key: "users_id", dependent: :destroy 
+    accepts_nested_attributes_for :detail, update_only: true
 
-    after_initialize :assign_role
-    after_create :user_initialize 
+    after_initialize :set_role
+    after_create :initialize_user 
 
     validates :role, presence: true
 
@@ -52,19 +57,6 @@ class User < ApplicationRecord
         rescue ActiveRecord::RecordNotUnique => error
     end
 
-    enum roles: {
-        admin: "admin",
-        buyer: "buyer",
-        manager: "manager",
-        office_manager: "office_manager",
-        property_manager: "property_manager",
-        intern: "intern",
-        b2b: "b2b",
-        kop: "kop",
-        callcenter: "callcenter",
-        api: "api",
-        guest: "guest"
-    }
 
     # @return [String] The name of this user.
     # @description Retrieves and returns the name of the user depending on the available information.
@@ -77,8 +69,9 @@ class User < ApplicationRecord
     #     other_user = User.last
     #     puts other_user.name # can print jane.smith@email.com
     def full_name
-        name.blank? ? email : name
+        detail.first_name.blank? ? email : detail.first_name + " " + detail.last_name.to_s
     end
+
 
     # @return [void]
     # @description Sets this user as inactive and removes complete access to the platform from them
@@ -87,6 +80,7 @@ class User < ApplicationRecord
     #     old_user.revoke_access
     def revoke_access
         update_attributes(active: false)
+        log " deactivated"
     end
 
     def self.send_password_reset(user)
@@ -211,8 +205,8 @@ class User < ApplicationRecord
     # @description Before creating a user, assing the role for create it.
     #               This is a *before_validation* method, and is not
     #               designed to be invoked directly
-    def assign_role
-        self.role ||= "guest"
+    def set_role
+        #self.role ||= "guest"
     end
 
     # @return [void]
@@ -226,32 +220,14 @@ class User < ApplicationRecord
     #         password_confirmation: "1234567890"
     #     )
     # At this point, check_user will be invoked automatically
-    def user_initialize 
+    def initialize_user
 
-        if defined? CloudLock
-
-            role_guest = CloudLock::Role
-            .joins(:detail)
-            .where("cloud_lock_role_details.name = ?", self.role)
-            .first
-
-            lock_user = CloudLock::User.new(
-                account: self.account,
-                user: self,
-                role: role_guest,
-                created_at: Time.now,
-                updated_at: Time.now,
-                detail_attributes: {}    
-            )
-
-            lock_user.save
-
-        end
+        User::Detail.create({user: self})
 
         if defined? CloudDriver
             self.account.driver.calendars.create({
                 detail_attributes: {
-                    name: self.name,
+                    name: "default",
                     default: true
                 }
             })

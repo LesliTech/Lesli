@@ -1,0 +1,10 @@
+= form_for @role_override do |f|
+  - if @role_override.errors.any?
+    #error_explanation
+      %h2= "#{pluralize(@role_override.errors.count, "error")} prohibited this role_override from being saved:"
+      %ul
+        - @role_override.errors.full_messages.each do |message|
+          %li= message
+
+  .actions
+    = f.submit 'Save'

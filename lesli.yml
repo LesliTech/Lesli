@@ -65,6 +65,8 @@ account:
             password: "lesli2020"
         log_activity: false
         roles:
+            - "admin"
+        roles2:
             - "Admin platform" 
             - "Admin collection" 
             - "Admin modules" 
