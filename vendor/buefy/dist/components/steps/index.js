@@ -1,4 +1,4 @@
-/*! Buefy v0.8.19 | MIT License | github.com/buefy/buefy */
+/*! Buefy v0.8.20 | MIT License | github.com/buefy/buefy */
 (function (global, factory) {
   typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports) :
   typeof define === 'function' && define.amd ? define(['exports'], factory) :
@@ -744,7 +744,7 @@
       }
     },
     mounted: function mounted() {
-      this.activeTab = this.getIndexByValue(this.value || 0);
+      this.activeStep = this.getIndexByValue(this.value || 0);
 
       if (this.activeStep < this.stepItems.length) {
         this.stepItems[this.activeStep].isActive = true;
