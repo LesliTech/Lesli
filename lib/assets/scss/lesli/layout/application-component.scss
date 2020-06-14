@@ -27,4 +27,5 @@ section.application-component {
     padding: 1rem;
     margin-left: var(--application-navigation-width);
     max-width: calc(100% - var(--application-navigation-width));
+    min-height: calc(100vh - 18px - var(--application-header-height) - var(--application-header-height));
 }
