@@ -59,6 +59,14 @@ header.application-header {
             border: none;
         }
     }
+
+    .navbar-end {
+        .navbar-dropdown .navbar-item {
+            span.icon {
+                margin-right: 5px;
+            }
+        }
+    }
     
 }
 

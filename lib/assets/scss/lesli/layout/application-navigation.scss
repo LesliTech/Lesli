@@ -60,7 +60,7 @@ Building a better future, one line of code at a time.
         }
 
         span {
-            margin-left: 10px;
+            
             display: none;
         }
 
@@ -105,6 +105,10 @@ Building a better future, one line of code at a time.
             display: flex;
             padding: 1.2rem;
             text-align: left;
+
+            span {
+                margin-left: 10px;
+            }
         }
     }
 }

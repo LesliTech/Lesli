@@ -37,7 +37,7 @@ Building a better future, one line of code at a time.
 
     a {
         width: 100%;
-        padding: 1.2rem 1rem;
+        padding: 1.2rem 0rem;
         border-radius: .2rem;
         color: lesli-css-theme-get-color(silver, 700);
 
@@ -73,20 +73,15 @@ Building a better future, one line of code at a time.
         }
     }
 }
-
-@include lesli-css-breakpoint("tablet") {
-    .application-navigation {
-        a.is-active {
-            width: 120px;
-        }
-    }
-}
-
+*/
 @include lesli-css-breakpoint("desktop") {
     .application-navigation {
-        a.is-active {
-            padding: 1.2rem .8rem;
+        a {
+            padding: 1.2rem 1rem;
+            &.is-active {
+                padding: 1.2rem .8rem;
+                
+            }
         }
     }
 }
-*/
