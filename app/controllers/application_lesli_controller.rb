@@ -137,14 +137,9 @@ class ApplicationLesliController < ApplicationController
         @account
 
     end
-  
-    def is_admin?
-        if defined? CloudLock
-            return current_user.lock.role.detail.name == 'admin'
-        end
-        return current_user.admin?
-    end
+    
 
+    # Track all the user activity (if enabled)
     def register_user_activities
         return if request[:format] == "json"
         current_user.log(params[:action], request.original_url)

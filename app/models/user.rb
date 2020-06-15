@@ -47,54 +47,12 @@ class User < ApplicationRecord
     has_one :detail, inverse_of: :user, autosave: true, foreign_key: "users_id", dependent: :destroy 
     accepts_nested_attributes_for :detail, update_only: true
 
-    after_initialize :set_role
     after_create :initialize_user 
 
     validates :role, presence: true
 
-    def save(*args)
-        super
-        rescue ActiveRecord::RecordNotUnique => error
-    end
 
 
-    # @return [String] The name of this user.
-    # @description Retrieves and returns the name of the user depending on the available information.
-    #     The name can be a full name (first and last names), just the first name, or, in case the information
-    #     is not available, the email. This method currently is available if the the CloudLock engine exists,
-    #     otherwise, it returns *nil*
-    # @example
-    #     my_user = current_user
-    #     puts my_user.name # can print John Doe
-    #     other_user = User.last
-    #     puts other_user.name # can print jane.smith@email.com
-    def full_name
-        detail.first_name.blank? ? email : detail.first_name + " " + detail.last_name.to_s
-    end
-
-
-    # @return [void]
-    # @description Sets this user as inactive and removes complete access to the platform from them
-    # @example
-    #     old_user = User.last
-    #     old_user.revoke_access
-    def revoke_access
-        update_attributes(active: false)
-        log " deactivated"
-    end
-
-    def self.send_password_reset(user)
-        raw, hashed = Devise.token_generator.generate(User, :reset_password_token)
-        user.update(reset_password_token: hashed, reset_password_sent_at: LC::Date.now)
-        data = {
-            name: user[:name],
-            email: user[:email],
-        }
-        email = LesliMailer.user_new_password("New user", data, raw)
-        email.deliver_now
-    end
-
-    # =begin
     # @param accounnt [Account] The account associated to *current_user*
     # @param roles [String] The roles separate by comma for filter users by role
     # @param type [String] if type=exclude will remove users with roles listed in @param roles
@@ -116,7 +74,6 @@ class User < ApplicationRecord
     #        "role":"b2b"
     #    }
     #]
-    # =end
     def self.list(current_user, roles, type, query)
 
         users = []
@@ -157,6 +114,7 @@ class User < ApplicationRecord
 
     end
 
+    
     # @return [Hash] Detailed information about the user.
     # @description Creates a query that selects all user information from several tables if CloudLock is present
     #     and returns it in a hash
@@ -188,6 +146,47 @@ class User < ApplicationRecord
         end  
     end
 
+
+    # @return [String] The name of this user.
+    # @description Retrieves and returns the name of the user depending on the available information.
+    #     The name can be a full name (first and last names), just the first name, or, in case the information
+    #     is not available, the email. This method currently is available if the the CloudLock engine exists,
+    #     otherwise, it returns *nil*
+    # @example
+    #     my_user = current_user
+    #     puts my_user.name # can print John Doe
+    #     other_user = User.last
+    #     puts other_user.name # can print jane.smith@email.com
+    def full_name
+        detail.first_name.blank? ? email : detail.first_name + " " + detail.last_name.to_s
+    end
+
+
+    # @return [void]
+    # @description Sets this user as inactive and removes complete access to the platform from them
+    # @example
+    #     old_user = User.last
+    #     old_user.revoke_access
+    def revoke_access
+        update_attributes(active: false)
+        log " deactivated"
+    end
+
+
+    # Generate a new password token and sent via email
+    def self.send_password_reset(user)
+        raw, hashed = Devise.token_generator.generate(User, :reset_password_token)
+        user.update(reset_password_token: hashed, reset_password_sent_at: LC::Date.now)
+        data = {
+            name: user[:name],
+            email: user[:email],
+        }
+        email = LesliMailer.user_new_password("New user", data, raw)
+        email.deliver_now
+    end
+
+
+    # save user activity
     def log title, description = ""
         self.activities.create({
             title: title,
@@ -195,19 +194,34 @@ class User < ApplicationRecord
         })
     end
 
+
+    # register a notification for the current user
     def notification subject, url:nil, category:"info"
         Courier::Bell::Notification::Web.new(self, subject, url:url, category:category)
     end
 
-    private 
 
-    # @return [void]
-    # @description Before creating a user, assing the role for create it.
-    #               This is a *before_validation* method, and is not
-    #               designed to be invoked directly
-    def set_role
-        #self.role ||= "guest"
+    # check role of the user
+    def role_is? role=nil
+        puts "#     #     #     #     #     #     #     #     #"
+        puts "#     #     #     #     #     #     #     #     #"
+        puts "#     #     #     #     #     #     #     #     #"
+        p self.role
+        puts "#     #     #     #     #     #     #     #     #"
+        puts "#     #     #     #     #     #     #     #     #"
+        puts "#     #     #     #     #     #     #     #     #"
+        return "self.role"
     end
+
+
+    # validates unique email
+    def save(*args)
+        super
+        rescue ActiveRecord::RecordNotUnique => error
+    end
+
+    private 
+    
 
     # @return [void]
     # @description After creating a user, creates the necessary resources for them to access the different engines.
