@@ -24,7 +24,7 @@ $breadcrumb-item-separator-color: $border-hover !default
     align-items: center
     display: flex
     &:first-child a
-      +ltr-property("padding", 0, false)
+      padding-left: 0
     &.is-active
       a
         color: $breadcrumb-item-active-color
@@ -41,9 +41,9 @@ $breadcrumb-item-separator-color: $border-hover !default
     justify-content: flex-start
   .icon
     &:first-child
-      +ltr-property("margin", 0.5em)
+      margin-right: 0.5em
     &:last-child
-      +ltr-property("margin", 0.5em, false)
+      margin-left: 0.5em
   // Alignment
   &.is-centered
     ol,
