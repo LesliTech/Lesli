@@ -1,4 +1,4 @@
-/*! Buefy v0.8.20 | MIT License | github.com/buefy/buefy */
+/*! Buefy v0.8.19 | MIT License | github.com/buefy/buefy */
 (function (global, factory) {
   typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports) :
   typeof define === 'function' && define.amd ? define(['exports'], factory) :
@@ -1377,10 +1377,6 @@
       rightIconClick: function rightIconClick(event) {
         if (this.clearable) {
           this.newValue = '';
-
-          if (this.openOnFocus) {
-            this.$el.focus();
-          }
         } else {
           this.$emit('icon-right-click', event);
         }
