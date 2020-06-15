@@ -202,9 +202,10 @@ module Courier
                 if task.save!
                     if send_email
                         CloudFocus::Task.send_email_new(task)
+                    else
+                        CloudFocus::Task.send_notification_new(task)
                     end
                     CloudFocus::Task.log_activity_create(current_user, task)
-                    CloudFocus::Task.send_notification_new(task)
                 end
 
                 task
