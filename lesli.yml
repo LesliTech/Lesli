@@ -42,6 +42,7 @@ production:
 account: 
     company: 
         name: "Lesli Technologies, S. A."
+        email: "hello@lesli.tech"
         tag_line: "Building a better future, one line of code at a time."
 
     website:

@@ -1,4 +1,4 @@
-/*
+/**
 Lesli
 
 Copyright (c) 2020, Lesli Technologies, S. A.
@@ -33,7 +33,6 @@ var yaml = require('js-yaml')
 var webpack = require("webpack")
 var VueLoaderPlugin = require("vue-loader/lib/plugin")
 var webpackConfig = []
-
 
 // · 
 module.exports = env => {
@@ -145,7 +144,8 @@ module.exports = env => {
             new VueLoaderPlugin(),
             new webpack.DefinePlugin({
                 leslicloud_app_mode_production: JSON.stringify(production),
-                leslicloud_app_mode_development: JSON.stringify(!production)
+                leslicloud_app_mode_development: JSON.stringify(!production),
+                leslicloud_app_company: "false"
             })
         ]
         
@@ -153,6 +153,7 @@ module.exports = env => {
 
     webpackConfig.push(webpackbase)
 
+    // get & parse engine information files (lesli.yml)
     let engines = fs.readdirSync("./engines").filter(directory => directory != ".gitkeep").filter(engine => {
 
         let engine_info_file_path = `./engines/${engine}/lesli.yml`
@@ -161,15 +162,22 @@ module.exports = env => {
             return false
         }
 
+        // load raw file content
         let rawdata = fs.readFileSync(engine_info_file_path)
 
-        let engine_info = yaml.safeLoad(rawdata)["info"]
+        // parse file content 
+        let engine_info = yaml.safeLoad(rawdata)
 
-        if (engine_info.load == false) {
+        // update company name in global variable
+        if (engine_info.info.type && engine_info.info.type == "builder") {
+            webpackConfig[0].plugins[1].definitions.leslicloud_app_company = JSON.stringify(engine_info.account.company)
+        }
+
+        if (engine_info.info.load == false) {
             return false
         }
 
-        return engine_info.name == engine
+        return engine_info.info.name == engine
 
     })
 
@@ -238,7 +246,7 @@ module.exports = env => {
 
         }
 
-        var application_data_html = "./engines/CloudHaus/lib/cloud_haus/version.rb"
+        var application_data_html = `./engines/CloudHaus/lib/cloud_haus/version.rb`
 
         fs.readFile(application_data_html, "utf8", (err, data) => {
 
