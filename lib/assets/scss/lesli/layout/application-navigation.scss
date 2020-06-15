@@ -28,7 +28,7 @@ Building a better future, one line of code at a time.
 
 // · Navigation sidebar - new
 .application-navigation {
-    height: calc(100vh - var(--application-header-height));
+    height: calc(100vh - var(--application-header-height) - var(--application-footer-height));
     width: var(--application-navigation-width);
     overflow-y: auto; 
     position: fixed;
