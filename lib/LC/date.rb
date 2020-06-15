@@ -63,19 +63,16 @@ module LC
         @settings = nil
         
         def self.reset_db_settings
-            settings = {}
- 
-            @default_settings.each do |default_setting|
-                setting_value = default_setting[:value]
-                db_setting = Setting.where(name: default_setting[:name]).order(id: :asc).first
-                if db_setting
-                    setting_value = db_setting.value
-                end
- 
-                settings[default_setting[:name].to_sym] = setting_value
+
+            @settings = {}
+
+            Account::Setting.where(:name => [
+                "time_zone","date_format","date_format_full","date_format_time","time_format"
+            ]).each do |setting|
+                p setting[:value]
+                @settings[setting[:name].to_sym] = setting[:value]
             end
- 
-            @settings = settings
+
         end
  
         def self.verify_settings
