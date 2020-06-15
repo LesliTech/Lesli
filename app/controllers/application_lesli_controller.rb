@@ -105,7 +105,6 @@ class ApplicationLesliController < ApplicationController
         }
 
         return @account if current_user.account.blank?
-        
 
         privileges = {}
         current_user.role.privileges.each do |privilege|
@@ -121,7 +120,9 @@ class ApplicationLesliController < ApplicationController
 
         # add custom settings
         @account[:settings] = { }
-        current_user.account.settings.each do |setting|
+        current_user.account.settings.where.not(name: [
+            "password_minimum_length", "password_expiration_time_months"
+        ]).each do |setting|
             @account[:settings][setting[:name]] = setting[:value].to_s
         end
 
