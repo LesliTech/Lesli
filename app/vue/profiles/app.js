@@ -1,4 +1,4 @@
-/*
+/**
 Lesli
 
 Copyright (c) 2020, Lesli Technologies, S. A.
@@ -26,7 +26,7 @@ Building a better future, one line of code at a time.
 
 // · Import main app from core
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
-import app from 'LesliCoreVue/app'
+import app from 'LesliVue/app'
 
 
 // · Import common apps
