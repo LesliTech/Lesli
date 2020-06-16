@@ -47,8 +47,8 @@ class User < ApplicationRecord
     has_many :settings, class_name: "User::Setting", foreign_key: "users_id"
 
     # user details are saved on separate table
-    #has_one :detail, inverse_of: :user, autosave: true, foreign_key: "users_id", dependent: :destroy 
-    #accepts_nested_attributes_for :detail, update_only: true
+    has_one :detail, inverse_of: :user, autosave: true, foreign_key: "users_id", dependent: :destroy 
+    accepts_nested_attributes_for :detail, update_only: true
 
     #before_validation :set_role
     after_create :initialize_user 
@@ -236,9 +236,6 @@ class User < ApplicationRecord
         super
         rescue ActiveRecord::RecordNotUnique => error
     end
-
-    
-    private 
     
 
     # @return [void]
@@ -253,8 +250,10 @@ class User < ApplicationRecord
     #     )
     # At this point, check_user will be invoked automatically
     def initialize_user
+        
+        User::Detail.find_or_create_by({ user: self })
+
         return if self.account.blank?
-        User::Detail.create({ user: self })
 
         if defined? CloudDriver
             self.account.driver.calendars.create({

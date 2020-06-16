@@ -29,7 +29,7 @@ class ApplicationLesliController < ApplicationController
 
     before_action :authenticate_user!
     before_action :check_account
-    before_action :authenticate_request, only: [:index, :create, :update, :destroy, :new, :show, :options, :default]
+    before_action :authenticate_request #, only: [:index, :create, :update, :destroy, :new, :show, :options, :default]
     before_action :set_global_account
     before_action :set_request_helpers
 
@@ -43,6 +43,14 @@ class ApplicationLesliController < ApplicationController
         if !user_signed_in?
             redirect_to root, notice: "Please Login to view that page!"
         end
+    end
+
+    def check_account
+
+        return if current_user.blank?
+        return if controller_name == "accounts"
+        redirect_to "/account/new" if current_user.account.status == "registered"
+
     end
 
     def authenticate_request
@@ -72,29 +80,7 @@ class ApplicationLesliController < ApplicationController
         return responseWithUnauthorized if not granted["grant_#{params[:action]}"] === true
 
     end
-    
-    def check_account
 
-        return if current_user.blank?
-        return if controller_name == "accounts"
-        redirect_to "/account/new" if current_user.account.blank?
-
-    end
-
-    def set_request_helpers
-
-        @query = {
-            current_user: current_user,
-            pagination: {
-                perPage: (params[:perPage] ? params[:perPage].to_i : 15),
-                page: (params[:page] ? params[:page].to_i : 1),
-                order: (params[:order] ? params[:order] : "desc"),
-                orderColumn: (params[:orderColumn] ? params[:orderColumn] : "id")
-            },
-            filters: params[:filters] ? params[:filters] : {}
-        }
-        
-    end
 
     def set_global_account 
 
@@ -139,6 +125,22 @@ class ApplicationLesliController < ApplicationController
 
     end
     
+
+    def set_request_helpers
+
+        @query = {
+            current_user: current_user,
+            pagination: {
+                perPage: (params[:perPage] ? params[:perPage].to_i : 15),
+                page: (params[:page] ? params[:page].to_i : 1),
+                order: (params[:order] ? params[:order] : "desc"),
+                orderColumn: (params[:orderColumn] ? params[:orderColumn] : "id")
+            },
+            filters: params[:filters] ? params[:filters] : {}
+        }
+        
+    end
+
 
     # Track all the user activity (if enabled)
     def register_user_activities

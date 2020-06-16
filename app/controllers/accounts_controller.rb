@@ -41,7 +41,7 @@ class AccountsController < ApplicationLesliController
     def show
         respond_to do |format|
             format.json {
-                responseWithSuccessful(set_account_global)
+                responseWithSuccessful(set_global_account)
             }
         end
     end
@@ -49,6 +49,7 @@ class AccountsController < ApplicationLesliController
     # GET /accounts/new
     def new
         @account = Account.new
+        responseWithSuccessful()
     end
 
     # GET /accounts/1/edit

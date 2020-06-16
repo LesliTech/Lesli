@@ -47,7 +47,10 @@ class Account < ApplicationRecord
     has_one :driver, class_name: "CloudDriver::Account", foreign_key: "id"
 
     after_create :initialize_account
-    after_create :create_engine_accounts
+    after_create :initialize_account_for_engines
+
+
+    enum status: [:registered, :active, :suspended]
 
     def initialize_account
 
@@ -57,7 +60,11 @@ class Account < ApplicationRecord
         end
 
         # create default roles
-        Rails.application.config.lesli_settings["account"]["security"]["roles"].each do |role_name|
+        account_roles = Rails.application.config.lesli_settings["account"]["security"]["roles"]
+        account_roles.append "guest"   # read-only
+        account_roles.append "limited" # access only to user profile
+        account_roles.prepend "owner"  # super admin role
+        account_roles.each do |role_name|
             @role = Role.create({
                 account: self,
                 detail_attributes: {
@@ -68,7 +75,7 @@ class Account < ApplicationRecord
 
     end
 
-    def create_engine_accounts
+    def initialize_account_for_engines
 
         if defined? CloudKb
             if self.kb.blank?
