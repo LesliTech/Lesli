@@ -21,12 +21,19 @@ RSpec.describe Users::RegistrationsController, type: :controller do
                     password_confirmation: "lesli2020"
                 }
             }
+            puts "#     #     #     #     #     #     #     #     #     #     #     #     #"
+            puts "#     #     #     #     #     #     #     #     #     #     #     #     #"
+            puts "#     #     #     #     #     #     #     #     #     #     #     #     #"
+            p response.body
+            puts "#     #     #     #     #     #     #     #     #     #     #     #     #"
+            puts "#     #     #     #     #     #     #     #     #     #     #     #     #"
+            puts "#     #     #     #     #     #     #     #     #     #     #     #     #"
             expect(response).to have_http_status(:success) 
             expect(response.content_type).to eq("application/json; charset=utf-8")
             expect(JSON.parse(response.body)["successful"]).to eql(true)
             # expect(JSON.parse(response.body)).to eql({ "successful"=> true })
         end
-
+=begin
         it "Register an existing user" do
             post :create, params: {
                 user: {
@@ -86,7 +93,7 @@ RSpec.describe Users::RegistrationsController, type: :controller do
                 }
             })
         end
-
+=end
     end
 
 end
