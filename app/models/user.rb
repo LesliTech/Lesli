@@ -253,8 +253,8 @@ class User < ApplicationRecord
     #     )
     # At this point, check_user will be invoked automatically
     def initialize_user
-
-        User::Detail.create({user: self})
+        return if self.account.blank?
+        User::Detail.create({ user: self })
 
         if defined? CloudDriver
             self.account.driver.calendars.create({

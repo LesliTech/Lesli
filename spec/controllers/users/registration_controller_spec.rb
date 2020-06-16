@@ -13,34 +13,25 @@ RSpec.describe Users::RegistrationsController, type: :controller do
 
     describe "POST:/users/registration" do
 
+        user = {
+            email: DateTime.now.strftime('%s').to_s+"@lesli.cloud",
+            password: "lesli2020",
+            password_confirmation: "lesli2020"
+        }
+
         it "Register a new user" do
             post :create, params: {
-                user: {
-                    email: "new_user@lesli.cloud",
-                    password: "lesli2020",
-                    password_confirmation: "lesli2020"
-                }
+                user: user
             }
-            puts "#     #     #     #     #     #     #     #     #     #     #     #     #"
-            puts "#     #     #     #     #     #     #     #     #     #     #     #     #"
-            puts "#     #     #     #     #     #     #     #     #     #     #     #     #"
-            p response.body
-            puts "#     #     #     #     #     #     #     #     #     #     #     #     #"
-            puts "#     #     #     #     #     #     #     #     #     #     #     #     #"
-            puts "#     #     #     #     #     #     #     #     #     #     #     #     #"
+
             expect(response).to have_http_status(:success) 
             expect(response.content_type).to eq("application/json; charset=utf-8")
             expect(JSON.parse(response.body)["successful"]).to eql(true)
-            # expect(JSON.parse(response.body)).to eql({ "successful"=> true })
         end
-=begin
+
         it "Register an existing user" do
             post :create, params: {
-                user: {
-                    email: "hello@lesli.cloud",
-                    password: "lesli2020",
-                    password_confirmation: "lesli2020"
-                }
+                user: user
             }
             expect(response).to have_http_status(:success) 
             expect(response.content_type).to eq("application/json; charset=utf-8")
@@ -93,7 +84,7 @@ RSpec.describe Users::RegistrationsController, type: :controller do
                 }
             })
         end
-=end
+        
     end
 
 end
