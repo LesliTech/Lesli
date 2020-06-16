@@ -78,9 +78,34 @@ class Users::RegistrationsController < Devise::RegistrationsController
     #    this.http.post('127.0.0.1/register', data);
     def create
         
+        # build new user
         user = build_resource(sign_up_params)
+
+        # persist new user
         if user.save
+
+            # create new account for the new user
+            account = Account.create({
+                company_name: user.email,
+                status: 0,
+                user: user
+            })
+
+            # add user to his own account
+            user.account = account
+
+            # set user as owner of his just created account
+            user.role = account.roles.joins(:detail).where("role_details.name = 'owner'").first
+
+            # update user :)
+            user.save
+
+            # initialize user with necessary data to work with the platform
+            user.initialize_user
+
+            # response successfully
             responseWithSuccessful
+
         else
             responseWithError(user.errors.full_messages.to_sentence)
         end

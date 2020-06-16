@@ -28,31 +28,6 @@ Building a better future, one line of code at a time.
 
 Rails.application.routes.draw do
 
-  resources :roles
-  namespace :user do
-    resources :activities
-  end
-  namespace :user do
-    resources :settings
-  end
-  namespace :user do
-    resources :details
-  end
-  namespace :role do
-    resources :overrides
-  end
-  namespace :role do
-    resources :privileges
-  end
-  namespace :role do
-    resources :details
-  end
-  namespace :account do
-    resources :locations
-  end
-  namespace :account do
-    resources :settings
-  end
     devise_for :users,
     :path => "",
     :path_names => {
@@ -77,7 +52,7 @@ Rails.application.routes.draw do
 
         resource  :account
         resource  :profile
-                    resources :users
+        resources :users
 
         mount ActionCable.server  => "/cable"
         mount CloudBell::Engine   => "/bell"   if defined?(CloudBell)
