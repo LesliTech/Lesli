@@ -1,4 +1,4 @@
-/*! Buefy v0.8.20 | MIT License | github.com/buefy/buefy */
+/*! Buefy v0.8.19 | MIT License | github.com/buefy/buefy */
 .is-noscroll {
   position: fixed;
   overflow-y: hidden;
@@ -13657,15 +13657,15 @@ label.panel-block:hover {
   width: 80px;
 }
 
-.b-sidebar .sidebar-content.is-mini.is-mini-expand:hover {
+.b-sidebar .sidebar-content.is-mini-expand:hover {
   transition: width 150ms ease-out;
 }
 
-.b-sidebar .sidebar-content.is-mini.is-mini-expand:hover:not(.is-fullwidth) {
+.b-sidebar .sidebar-content.is-mini-expand:hover:not(.is-fullwidth) {
   width: 260px;
 }
 
-.b-sidebar .sidebar-content.is-mini.is-mini-expand:hover:not(.is-fullwidth).is-mini-expand-fixed {
+.b-sidebar .sidebar-content.is-mini-expand:hover:not(.is-fullwidth).is-mini-expand-fixed {
   position: fixed;
 }
 
@@ -13696,10 +13696,10 @@ label.panel-block:hover {
   .b-sidebar .sidebar-content.is-mini-mobile {
     width: 80px;
   }
-  .b-sidebar .sidebar-content.is-mini-mobile.is-mini-expand:hover:not(.is-fullwidth-mobile) {
+  .b-sidebar .sidebar-content.is-mini-expand:hover:not(.is-fullwidth-mobile) {
     width: 260px;
   }
-  .b-sidebar .sidebar-content.is-mini-mobile.is-mini-expand:hover:not(.is-fullwidth-mobile).is-mini-expand-fixed {
+  .b-sidebar .sidebar-content.is-mini-expand:hover:not(.is-fullwidth-mobile).is-mini-expand-fixed {
     position: fixed;
   }
   .b-sidebar .sidebar-content.is-hidden-mobile {

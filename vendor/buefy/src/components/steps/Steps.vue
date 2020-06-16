@@ -344,7 +344,7 @@ export default {
         }
     },
     mounted() {
-        this.activeStep = this.getIndexByValue(this.value || 0)
+        this.activeTab = this.getIndexByValue(this.value || 0)
         if (this.activeStep < this.stepItems.length) {
             this.stepItems[this.activeStep].isActive = true
         }

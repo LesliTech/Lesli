@@ -38,7 +38,7 @@ $help-size: $size-small !default
     justify-content: flex-start
     .control
       &:not(:last-child)
-        +ltr-property("margin", -1px)
+        margin-right: -1px
       &:not(:first-child):not(:last-child)
         .button,
         .input,
@@ -48,22 +48,14 @@ $help-size: $size-small !default
         .button,
         .input,
         .select select
-          +ltr
-            border-bottom-right-radius: 0
-            border-top-right-radius: 0
-          +rtl
-            border-bottom-left-radius: 0
-            border-top-left-radius: 0
+          border-bottom-right-radius: 0
+          border-top-right-radius: 0
       &:last-child:not(:only-child)
         .button,
         .input,
         .select select
-          +ltr
-            border-bottom-left-radius: 0
-            border-top-left-radius: 0
-          +rtl
-            border-bottom-right-radius: 0
-            border-top-right-radius: 0
+          border-bottom-left-radius: 0
+          border-top-left-radius: 0
       .button,
       .input,
       .select select
@@ -96,7 +88,7 @@ $help-size: $size-small !default
       flex-shrink: 0
       &:not(:last-child)
         margin-bottom: 0
-        +ltr-property("margin", 0.75rem)
+        margin-right: 0.75rem
       &.is-expanded
         flex-grow: 1
         flex-shrink: 1
@@ -127,7 +119,7 @@ $help-size: $size-small !default
     flex-basis: 0
     flex-grow: 1
     flex-shrink: 0
-    +ltr-property("margin", 1.5rem)
+    margin-right: 1.5rem
     text-align: right
     &.is-small
       font-size: $size-small
@@ -156,14 +148,14 @@ $help-size: $size-small !default
       &:not(.is-narrow)
         flex-grow: 1
       &:not(:last-child)
-        +ltr-property("margin", 0.75rem)
+        margin-right: 0.75rem
 
 .control
   box-sizing: border-box
   clear: both
   font-size: $size-normal
   position: relative
-  text-align: inherit
+  text-align: left
   // Modifiers
   &.has-icons-left,
   &.has-icons-right
@@ -202,7 +194,7 @@ $help-size: $size-small !default
     &::after
       @extend %loader
       position: absolute !important
-      +ltr-position(0.625em)
+      right: 0.625em
       top: 0.625em
       z-index: 4
     &.is-small:after

@@ -105,7 +105,6 @@ class ApplicationLesliController < ApplicationController
         }
 
         return @account if current_user.account.blank?
-        
 
         privileges = {}
         current_user.role.privileges.each do |privilege|
@@ -121,7 +120,9 @@ class ApplicationLesliController < ApplicationController
 
         # add custom settings
         @account[:settings] = { }
-        current_user.account.settings.each do |setting|
+        current_user.account.settings.where.not(name: [
+            "password_minimum_length", "password_expiration_time_months"
+        ]).each do |setting|
             @account[:settings][setting[:name]] = setting[:value].to_s
         end
 
@@ -137,14 +138,9 @@ class ApplicationLesliController < ApplicationController
         @account
 
     end
-  
-    def is_admin?
-        if defined? CloudLock
-            return current_user.lock.role.detail.name == 'admin'
-        end
-        return current_user.admin?
-    end
+    
 
+    # Track all the user activity (if enabled)
     def register_user_activities
         return if request[:format] == "json"
         current_user.log(params[:action], request.original_url)
