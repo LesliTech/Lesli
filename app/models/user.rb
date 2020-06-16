@@ -38,19 +38,22 @@ class User < ApplicationRecord
             :confirmable,
             :trackables 
     
+    # users belongs to an account only and must have a role
     belongs_to :account, foreign_key: "accounts_id", optional: true
-    belongs_to :role, foreign_key: "roles_id"
+    belongs_to :role, foreign_key: "roles_id", optional: true
 
+    # users has activities and personal settings
     has_many :activities, class_name: "User::Activity", foreign_key: "users_id"
-    has_many :privileges, class_name: "User::Setting", foreign_key: "users_id"
+    has_many :settings, class_name: "User::Setting", foreign_key: "users_id"
 
-    has_one :detail, inverse_of: :user, autosave: true, foreign_key: "users_id", dependent: :destroy 
-    accepts_nested_attributes_for :detail, update_only: true
+    # user details are saved on separate table
+    #has_one :detail, inverse_of: :user, autosave: true, foreign_key: "users_id", dependent: :destroy 
+    #accepts_nested_attributes_for :detail, update_only: true
 
+    #before_validation :set_role
     after_create :initialize_user 
 
-    validates :role, presence: true
-
+    #validates :role, presence: false
 
 
     # @param accounnt [Account] The account associated to *current_user*
@@ -214,12 +217,27 @@ class User < ApplicationRecord
     end
 
 
+    # set guest role if not set or not account owner and creator
+    def set_role
+        puts "#     #     #     #     #     #     #     #     #     #     #     #     #     #"
+        puts "#     #     #     #     #     #     #     #     #     #     #     #     #     #"
+        puts "#     #     #     #     #     #     #     #     #     #     #     #     #     #"
+        p self
+        puts "#     #     #     #     #     #     #     #     #     #     #     #     #     #"
+        p Role.join(:detail).all
+        puts "#     #     #     #     #     #     #     #     #     #     #     #     #     #"
+        puts "#     #     #     #     #     #     #     #     #     #     #     #     #     #"
+        puts "#     #     #     #     #     #     #     #     #     #     #     #     #     #"
+    end
+
+
     # validates unique email
     def save(*args)
         super
         rescue ActiveRecord::RecordNotUnique => error
     end
 
+    
     private 
     
 
