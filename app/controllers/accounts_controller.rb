@@ -12,21 +12,22 @@ Without the written permission of Lesli Technologies, S. A., any replication, mo
 transmission, publication is strictly forbidden.
 For more information read the license file including with this software.
 
-LesliCloud - Your Smart Business Assistant
+Lesli - Your Smart Business Assistant
 
 Powered by https://www.lesli.tech
 Building a better future, one line of code at a time.
 
-@description    Converts the object into textual markup given a specific format.
-@author         LesliTech <hello@lesli.tech>
-@license        Propietary - all rights reserved.
-@version        0.1.0-alpha
+@contact  <hello@lesli.tech>
+@website  <https://lesli.tech>
+@license  Propietary - all rights reserved.
+
+// · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
+// · 
 
 =end
 
 class AccountsController < ApplicationLesliController
     before_action :set_account, only: [:edit, :update, :destroy]
-    layout 'application_public'
 
     # GET /accounts
     # GET /accounts.json
@@ -48,8 +49,6 @@ class AccountsController < ApplicationLesliController
 
     # GET /accounts/new
     def new
-        @account = Account.new
-        responseWithSuccessful()
     end
 
     # GET /accounts/1/edit
@@ -59,35 +58,28 @@ class AccountsController < ApplicationLesliController
     # POST /accounts
     # POST /accounts.json
     def create
-        account = Account.new(account_params)
-        account.status = 1
-        account.save!
-        if account.errors.any?
-            return responseWithError(account.errors.full_messages.to_sentence)
-        end
-
-        current_user.account = account
-        current_user.save!
-        if current_user.errors.any?
+        current_user.account.company_name = account_params[:company_name]
+        current_user.account.status = "active"
+        current_user.account.save
+        if current_user.account.errors.any?
             return responseWithError(current_user.errors.full_messages.to_sentence)
         end
-
         responseWithSuccessful
     end
 
-  # PATCH/PUT /accounts/1
-  # PATCH/PUT /accounts/1.json
-  def update
-    respond_to do |format|
-      if @account.update(account_params)
-        format.html { redirect_to @account, notice: 'Account was successfully updated.' }
-        format.json { render :show, status: :ok, location: @account }
-      else
-        format.html { render :edit }
-        format.json { render json: @account.errors, status: :unprocessable_entity }
-      end
+    # PATCH/PUT /accounts/1
+    # PATCH/PUT /accounts/1.json
+    def update
+        respond_to do |format|
+            if @account.update(account_params)
+                format.html { redirect_to @account, notice: 'Account was successfully updated.' }
+                format.json { render :show, status: :ok, location: @account }
+            else
+                format.html { render :edit }
+                format.json { render json: @account.errors, status: :unprocessable_entity }
+            end
+        end
     end
-  end
 
   # DELETE /accounts/1
   # DELETE /accounts/1.json

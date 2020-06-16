@@ -1,4 +1,5 @@
-/** 
+<%#
+
 Lesli
 
 Copyright (c) 2020, Lesli Technologies, S. A.
@@ -22,23 +23,6 @@ Building a better future, one line of code at a time.
 
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
 // · 
-*/
 
-
-// · Import main app
-// · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
-import app from 'LesliCoreVue/app'
-
-
-
-// · Import apps and components
-// · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
-import appNew from './apps/new.vue'
-
-
-// · 
-// · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
-app("Lesli", "[new]", "/account/new", [{
-    path: "/",
-    component: appNew,
-}])
+%>
+<router-view></router-view>
