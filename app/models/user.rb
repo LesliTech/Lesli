@@ -41,16 +41,17 @@ class User < ApplicationRecord
     # users belongs to an account only and must have a role
     belongs_to :account, foreign_key: "accounts_id", optional: true
     belongs_to :role, foreign_key: "roles_id", optional: true
+    
 
     # users has activities and personal settings
     has_many :activities, class_name: "User::Activity", foreign_key: "users_id"
     has_many :settings, class_name: "User::Setting", foreign_key: "users_id"
+    has_one  :role_detail, through: :role, source: :detail, class_name: "Role::Detail"
 
     # user details are saved on separate table
     has_one :detail, inverse_of: :user, autosave: true, foreign_key: "users_id", dependent: :destroy 
     accepts_nested_attributes_for :detail, update_only: true
 
-    #before_validation :set_role
     after_create :initialize_user 
 
     #validates :role, presence: false
@@ -82,38 +83,28 @@ class User < ApplicationRecord
         users = []
         roles = roles.blank? ? [] : roles.split(',') 
         operator = type == "exclude" ? 'not in' : 'in'
-        if defined? (CloudLock)
-            users = current_user.account.users
-            .joins(:lock)
-            .joins("left join cloud_lock_user_details as clud on clud.cloud_lock_users_id = cloud_lock_users.id")
-            .joins("left join cloud_lock_roles as clr on clr.id = cloud_lock_users.cloud_lock_roles_id")
-            .joins("left join cloud_lock_role_details as clrd on clrd.cloud_lock_roles_id = clr.id")
-            .select(
-                "users.id",
-                "users.email",
-                "users.active",
-                "users.created_at",
-                "clrd.name as role",
-                "concat(clud.first_name, ' ', clud.last_name) as name",
-            )
-            .where(active: true)
-            .order(:name)         
-        else
-            users = current_user.account.users.select(:id, :email, :role, :active, :name).order(:name)
-        end
+        
+        users = User
+        .joins("inner join user_details UD on UD.id = users.id")
+        .joins("inner join roles R on R.id = users.roles_id")
+        .joins("inner join role_details RD on RD.roles_id = R.id")
+        .where(active: true)
+        .order("UD.first_name")
+        .select(
+            :id,
+            :active,
+            :email,
+            "UD.first_name",
+            "UD.last_name",
+            "CONCAT(UD.first_name, ' ',UD.last_name) as name",
+            "R.id as role_id",
+            "RD.name as role_name"
+        )
 
         users = users.where("email like '%#{query[:filters][:domain]}%'")  unless query[:filters][:domain].blank?
-        users = users.where("role #{operator} (?)", roles) unless roles.blank?
-        users.map do |user|
-            {
-                id: user[:id],
-                email: user[:email],
-                name: user[:name] != " " ? user[:name] : user[:email],
-                role: user[:role],
-                active: user[:active],
-                created_at: user[:created_at]
-            }
-        end
+        users = users.where("RD.name #{operator} (?)", roles) unless roles.blank?
+
+        users
 
     end
 
@@ -205,29 +196,8 @@ class User < ApplicationRecord
 
 
     # check role of the user
-    def role_is? role=nil
-        puts "#     #     #     #     #     #     #     #     #"
-        puts "#     #     #     #     #     #     #     #     #"
-        puts "#     #     #     #     #     #     #     #     #"
-        p self.role
-        puts "#     #     #     #     #     #     #     #     #"
-        puts "#     #     #     #     #     #     #     #     #"
-        puts "#     #     #     #     #     #     #     #     #"
-        return "self.role"
-    end
-
-
-    # set guest role if not set or not account owner and creator
-    def set_role
-        puts "#     #     #     #     #     #     #     #     #     #     #     #     #     #"
-        puts "#     #     #     #     #     #     #     #     #     #     #     #     #     #"
-        puts "#     #     #     #     #     #     #     #     #     #     #     #     #     #"
-        p self
-        puts "#     #     #     #     #     #     #     #     #     #     #     #     #     #"
-        p Role.join(:detail).all
-        puts "#     #     #     #     #     #     #     #     #     #     #     #     #     #"
-        puts "#     #     #     #     #     #     #     #     #     #     #     #     #     #"
-        puts "#     #     #     #     #     #     #     #     #     #     #     #     #     #"
+    def role_is? role
+        return self.role.detail.name == role
     end
 
 
