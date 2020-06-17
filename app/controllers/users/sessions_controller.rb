@@ -69,7 +69,7 @@ class Users::SessionsController < Devise::SessionsController
     end
 
     def destroy
-        current_user.log("logout")
+        current_user.activity("logout")
         sign_out current_user
         flash[:logout] = true # Flag to disable back button in browser after Logout using JavaScript
         respond_to_on_destroy

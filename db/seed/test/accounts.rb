@@ -35,10 +35,4 @@ model = Account.find_or_create_by(company_name: company["name"]) do |account|
     account.status = 1
 end
 
-# create aditional development account
-model = Account.new
-model.company_name = Faker::Company.name
-model.status = 1
-model.save!
-
-puts "Accounts successfully created!"
+p "Account successfully created!"
