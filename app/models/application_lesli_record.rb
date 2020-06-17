@@ -29,7 +29,7 @@ Building a better future, one line of code at a time.
 class ApplicationLesliRecord < ApplicationRecord
     self.abstract_class = true
 
-    acts_as_paranoid
+    #acts_as_paranoid
 
     # before_validation :custom_validations
 
