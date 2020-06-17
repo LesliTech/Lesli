@@ -48,6 +48,10 @@ var script = {
       type: Function,
       default: function _default() {}
     },
+    closeOnConfirm: {
+      type: Boolean,
+      default: true
+    },
     container: {
       type: String,
       default: function _default() {
@@ -130,8 +134,8 @@ var script = {
         }
       }
 
-      this.onConfirm(this.prompt);
-      this.close();
+      this.onConfirm(this.prompt, this);
+      if (this.closeOnConfirm) this.close();
     },
 
     /**
