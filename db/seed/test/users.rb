@@ -27,19 +27,22 @@ Building a better future, one line of code at a time.
 =end
 
 # get settings
-account_login = Rails.application.config.lesli_settings["account"]["security"]["login"]
+account_logins = Rails.application.config.lesli_settings["account"]["security"]["login"]
 
 # create development user
-User.find_or_create_by(email: account_login["username"]) do |user|
-    user.role = "admin"
-    user.name = account_login["fullname"]
-    user.password = account_login["password"]
-    user.password_confirmation = account_login["password"]
-    user.accounts_id = 1
-    user.confirm if not user.confirmed?
+account_logins.each do |account_login|
+    User.find_or_create_by(email: account_login["username"]) do |user|
+        user.role = Role.find(1)
+        user.password = "lesli2020"
+        user.password_confirmation = "lesli2020"
+        user.accounts_id = 1
+        user.confirm if not user.confirmed?
 
-    user.account.user = user
-    user.account.save!
+        user.detail.first_name = account_login["fullname"]
+
+        user.account.user = user
+        user.account.save!
+    end
 end
 
-puts "Users successfully created!"
+p "Users successfully created"
