@@ -126,7 +126,11 @@ class ApplicationController < ActionController::Base
         end
     end
 
-    def response_with_successful(response = nil)
+    def respond_with_successful(data = nil)
+        responseWithSuccessful data
+    end
+
+    def respond_with_pagination(response = nil)
 
         response_body = { }
 
@@ -168,6 +172,14 @@ class ApplicationController < ActionController::Base
         render status: 200, json: response_body.to_json
 
     end
+
+    def respond_with_error message = "", details = []
+        responseWithError(message, details)
+    end
+    
+    def respond_with_unauthorized
+        responseWithUnauthorized
+    end 
 
     private
 
