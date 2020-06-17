@@ -189,7 +189,7 @@ class User < ApplicationRecord
 
 
     # save user activity
-    def log title, description = ""
+    def activity title, description = ""
         self.activities.create({
             title: title,
             description: description

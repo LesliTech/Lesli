@@ -49,10 +49,10 @@ class Users::SessionsController < Devise::SessionsController
 
         return responseWithError(t('core.users/sessions.invalid_credentials')) unless resource
 
-        log = resource.log("login", "login_atempt")
+        activity = resource.activity("login", "login_atempt")
 
         unless resource.valid_password?(sign_in_params[:password])
-            log.update_attribute(:description, "login_atempt_invalid_credentials")
+            activity.update_attribute(:description, "login_atempt_invalid_credentials")
             return responseWithError(t('core.users/sessions.invalid_credentials'))
         end
         
@@ -62,7 +62,7 @@ class Users::SessionsController < Devise::SessionsController
         
         sign_in :user, resource
 
-        log.update_attribute(:description, "login_atempt_successful")
+        activity.update_attribute(:description, "login_atempt_successful")
 
         responseWithSuccessful()
 
