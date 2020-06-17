@@ -79,6 +79,7 @@ Building a better future, one line of code at a time.
             end
             
             {
+                has_global_association: workflow.associations.find_by(global: true) != nil,
                 concerning_user_types: self.concerning_user_types.map { |key,value| {value: key, text: value} },
                 action_types: self.action_types.map { |key,value| {value: key, text: value} },
                 statuses: statuses
@@ -93,9 +94,8 @@ Building a better future, one line of code at a time.
             final_status_id = new_attributes["cloud_#{module_name}_workflow_statuses_id"]
 
             if final_status_id && initial_status_id && final_status_id != initial_status_id
-                workflow = cloud_object.status.workflow
                 
-                workflow_actions = workflow.actions.where("
+                workflow_actions = cloud_object.status.workflow_including_deleted.actions.where("
                     (final_status_id = #{final_status_id} and initial_status_id = #{initial_status_id}) or
                     (final_status_id = #{final_status_id} and initial_status_id is null)
                 ")
