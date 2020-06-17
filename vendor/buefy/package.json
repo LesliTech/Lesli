@@ -1,32 +1,32 @@
 {
   "_args": [
     [
-      "buefy@0.8.19",
+      "buefy@0.8.20",
       "/Users/ldonis/code/Lesli/beta.deutsche-leibrenten.de"
     ]
   ],
   "_development": true,
-  "_from": "buefy@0.8.19",
-  "_id": "buefy@0.8.19",
+  "_from": "buefy@0.8.20",
+  "_id": "buefy@0.8.20",
   "_inBundle": false,
-  "_integrity": "sha512-c9JOYiGGHwhmFAffjUPI6wrdo5+NpGPpw1F7dc/01lY/05EPLJVHDLGnn+DC2XnEgc2VaOM31a2URdRSx3L2vA==",
+  "_integrity": "sha512-pg8Cn0m9cjqp2/vaKT4VIfU8KIumuX/gAT1GtearXRs56+kKqAPx3j9O8cm9W6P4jPUCHajKX6H8AqD0ram2Bg==",
   "_location": "/buefy",
   "_phantomChildren": {},
   "_requested": {
     "type": "version",
     "registry": true,
-    "raw": "buefy@0.8.19",
+    "raw": "buefy@0.8.20",
     "name": "buefy",
     "escapedName": "buefy",
-    "rawSpec": "0.8.19",
+    "rawSpec": "0.8.20",
     "saveSpec": null,
-    "fetchSpec": "0.8.19"
+    "fetchSpec": "0.8.20"
   },
   "_requiredBy": [
     "#DEV:/"
   ],
-  "_resolved": "https://registry.npmjs.org/buefy/-/buefy-0.8.19.tgz",
-  "_spec": "0.8.19",
+  "_resolved": "https://registry.npmjs.org/buefy/-/buefy-0.8.20.tgz",
+  "_spec": "0.8.20",
   "_where": "/Users/ldonis/code/Lesli/beta.deutsche-leibrenten.de",
   "author": {
     "name": "Rafael Beraldo",
@@ -63,6 +63,7 @@
     "babel-preset-env": "1.3.2",
     "babel-preset-stage-2": "6.22.0",
     "babel-register": "6.22.0",
+    "bulma-css-vars": "^0.4.3",
     "chalk": "1.1.3",
     "clean-css-cli": "4.3.0",
     "cleave.js": "1.0.1",
@@ -77,6 +78,7 @@
     "cypress": "3.4.1",
     "eslint": "4.18.2",
     "eslint-config-buefy": "0.0.3",
+    "esm": "3.2.25",
     "eventsource-polyfill": "0.9.6",
     "express": "4.14.1",
     "extract-text-webpack-plugin": "3.0.2",
@@ -196,7 +198,7 @@
   ],
   "typings": "types/index.d.ts",
   "unpkg": "dist/buefy.min.js",
-  "version": "0.8.19",
+  "version": "0.8.20",
   "vetur": {
     "tags": "dist/vetur/tags.json",
     "attributes": "dist/vetur/attributes.json"
