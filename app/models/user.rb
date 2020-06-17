@@ -46,6 +46,7 @@ class User < ApplicationRecord
     # users has activities and personal settings
     has_many :activities, class_name: "User::Activity", foreign_key: "users_id"
     has_many :settings, class_name: "User::Setting", foreign_key: "users_id"
+    has_many :privileges, through: :role
     has_one  :role_detail, through: :role, source: :detail, class_name: "Role::Detail"
 
     # user details are saved on separate table
