@@ -257,6 +257,14 @@ export default {
 </script>
 <template>
     <div v-if="translations.main">
+        <article class="message is-warning" v-if="viewType == 'new' && options.has_global_association && cloudEngine == 'focus'">
+            <div class="message-header">
+                <p>{{translations.core.warning_new_focus_global_action_title}}</p>
+            </div>
+            <div class="message-body">
+                {{translations.core.warning_new_focus_global_action_body}}
+            </div>
+        </article>
         <component-data-loading v-if="loading" />
         <form v-if="!loading && (viewType == 'new' || action_id)" @submit="submitAction">
             <div class="field">
