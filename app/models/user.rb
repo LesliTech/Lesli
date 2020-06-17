@@ -122,22 +122,30 @@ class User < ApplicationRecord
     #        "role":"manager"
     #     }
     def show
-        if defined? (CloudLock)
-            user = User.find(id)
-            user_lock = user.lock
-            return {
-                id: id,
-                email: email,
-                lock: {
-                    id: user_lock.id,
-                    users_id: user_lock.users_id,
-                    detail_attributes: user_lock.detail,
-                    cloud_lock_roles_id: user_lock.cloud_lock_roles_id,
+
+        user = self.account.users.find(id)
+
+        {
+            user: {
+                id: user[:id],
+                active: user[:active],
+                email: user[:email],
+                created_at: user[:created_at],
+                updated_at: user[:updated_at],
+                detail_attributes: {
+                    title: user.detail[:title],
+                    salutation: user.detail[:salutation],
+                    first_name: user.detail[:first_name],
+                    last_name: user.detail[:last_name],
+                    telephone: user.detail[:telephone],
+                    address: user.detail[:address],
+                    work_city: user.detail[:work_city],
+                    work_region: user.detail[:work_region],
+                    work_address: user.detail[:work_address] 
                 }
             }
-        else
-            return User.select(:id, :email, :role, :name).find(id)
-        end  
+        }
+        
     end
 
 
@@ -196,8 +204,8 @@ class User < ApplicationRecord
 
 
     # check role of the user
-    def role_is? role
-        return self.role.detail.name == role
+    def is_role? *roles
+        return roles.include? self.role.detail.name
     end
 
 

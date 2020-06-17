@@ -1,5 +1,5 @@
 class UsersController < ApplicationLesliController
-    before_action :set_user, only: [:update]
+    before_action :set_user, only: [:show, :update]
     before_action :check_has_authorization, only: [:update]
 
     def index
@@ -11,14 +11,20 @@ class UsersController < ApplicationLesliController
     end
 
     def show
+
+        # Only admins can show the user information
+        # If not admin, only the user can see his own information
+        unless current_user.is_role?("owner", "admin") or current_user.id == @user.id
+            return responseWithUnauthorized
+        end
+
         respond_to do |format|
             format.json {
-                set_user
                 return responseWithNotFound unless @user
-                
                 responseWithSuccessful(@user.show)
             }
         end
+
     end
 
     def create
