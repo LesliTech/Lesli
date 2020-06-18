@@ -135,6 +135,7 @@ Building a better future, one line of code at a time.
 
             workflow = model.new(workflow_params)
             workflow["cloud_#{module_name}_accounts_id".to_sym] = current_user.account.id
+            workflow.deletion_protection = false
 
             if workflow.save
                 responseWithSuccessful(workflow)
@@ -309,6 +310,7 @@ private
             params.require(:workflow).permit(
                 :name,
                 :default,
+                :deletion_protection,
                 statuses_attributes: [
                     :id,
                     :next_statuses,
