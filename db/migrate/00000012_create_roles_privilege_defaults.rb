@@ -26,23 +26,30 @@ Building a better future, one line of code at a time.
 
 =end
 
-# get settings
-account_logins = Rails.application.config.lesli_settings["account"]["security"]["login"]
+class CreateRolesPrivilegeDefaults < ActiveRecord::Migration[6.0]
+    def change
+        create_table :roles_privilege_defaults do |t|
+            # module/namespace/[controller/model]
+            t.string  :grant_object
 
-# create development user
-account_logins.each do |account_login|
-    User.find_or_create_by(email: account_login["username"]) do |user|
-        user.role = Role.find(1)
-        user.password = "lesli2020"
-        user.password_confirmation = "lesli2020"
-        user.accounts_id = 1
-        user.confirm if not user.confirmed?
+            t.boolean :grant_index,     default: false
 
-        user.detail.first_name = account_login["fullname"]
+            t.boolean :grant_edit,      default: false
+            t.boolean :grant_show,      default: false
+            t.boolean :grant_new,       default: false
 
-        user.account.user = user
-        user.account.save!
+            t.boolean :grant_create,    default: false
+            t.boolean :grant_update,    default: false
+            t.boolean :grant_destroy,   default: false
+
+            t.boolean :grant_options,   default: false
+            t.boolean :grant_default,   default: false
+            t.boolean :grant_search,   default: false
+            t.boolean :grant_empty,     default: false
+
+            t.datetime :deleted_at, index: true
+            t.timestamps
+        end
+        add_reference :roles_privilege_defaults, :role_privileges, foreign_key:true
     end
 end
-
-p "Users successfully created"

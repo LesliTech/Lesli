@@ -27,5 +27,5 @@ Building a better future, one line of code at a time.
 
 =end
 
-load "#{Rails.root}/db/seed/production/accounts.rb"
-load "#{Rails.root}/db/seed/production/users.rb"
+load "#{Rails.root}/db/seed/test/accounts.rb"
+load "#{Rails.root}/db/seed/test/users.rb"

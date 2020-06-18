@@ -2,7 +2,11 @@
   "_args": [
     [
       "lesli-css@0.7.2",
+<<<<<<< HEAD
       "/Users/ldonis/code/Lesli/lesli.cloud"
+=======
+      "/Users/ldonis/code/Lesli/beta.deutsche-leibrenten.de"
+>>>>>>> 55496db33cf63c8c0b36c07dc799dbcba9e9fb91
     ]
   ],
   "_development": true,
@@ -27,7 +31,11 @@
   ],
   "_resolved": "https://registry.npmjs.org/lesli-css/-/lesli-css-0.7.2.tgz",
   "_spec": "0.7.2",
+<<<<<<< HEAD
   "_where": "/Users/ldonis/code/Lesli/lesli.cloud",
+=======
+  "_where": "/Users/ldonis/code/Lesli/beta.deutsche-leibrenten.de",
+>>>>>>> 55496db33cf63c8c0b36c07dc799dbcba9e9fb91
   "author": {
     "name": "LesliTech",
     "email": "hello@lesli.tech"
