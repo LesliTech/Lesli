@@ -1,4 +1,4 @@
-/*! Buefy v0.8.19 | MIT License | github.com/buefy/buefy */
+/*! Buefy v0.8.20 | MIT License | github.com/buefy/buefy */
 function _typeof(obj) {
   "@babel/helpers - typeof";
 
@@ -1386,6 +1386,10 @@ var script$2 = {
     rightIconClick: function rightIconClick(event) {
       if (this.clearable) {
         this.newValue = '';
+
+        if (this.openOnFocus) {
+          this.$el.focus();
+        }
       } else {
         this.$emit('icon-right-click', event);
       }
@@ -6702,6 +6706,10 @@ var script$o = {
       type: Function,
       default: function _default() {}
     },
+    closeOnConfirm: {
+      type: Boolean,
+      default: true
+    },
     container: {
       type: String,
       default: function _default() {
@@ -6784,8 +6792,8 @@ var script$o = {
         }
       }
 
-      this.onConfirm(this.prompt);
-      this.close();
+      this.onConfirm(this.prompt, this);
+      if (this.closeOnConfirm) this.close();
     },
 
     /**
@@ -10746,7 +10754,7 @@ var script$O = {
     }
   },
   mounted: function mounted() {
-    this.activeTab = this.getIndexByValue(this.value || 0);
+    this.activeStep = this.getIndexByValue(this.value || 0);
 
     if (this.activeStep < this.stepItems.length) {
       this.stepItems[this.activeStep].isActive = true;
