@@ -2,8 +2,11 @@
     {
         "name": "name",
         "type": "string"
-    },
-    {
+    },{
+        "name": "deletion_protection",
+        "type": "boolean",
+        "default": false
+    },{
         "name": "default",
         "type": "boolean"
     },{

@@ -28,6 +28,7 @@ Building a better future, one line of code at a time.
         self.abstract_class = true
 
         validates :name, presence: true
+        
 
 =begin
 @return [Boolean] Wheter the status was deleted or not
@@ -85,7 +86,7 @@ Building a better future, one line of code at a time.
 
             numbers = next_statuses.split("|").map(&:to_i)
             
-            workflow.statuses.where(number: numbers).order(number: :asc)
+            workflow_including_deleted.statuses.where(number: numbers).order(number: :asc)
         end
 
 private
