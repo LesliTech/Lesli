@@ -32,7 +32,7 @@ namespace :dev do
         desc "Database hard-reset"
         task reset: :environment do
 
-            system "rails db:environment:set RAILS_ENV=development"
+            #system "rails db:environment:set RAILS_ENV=development"
             system "rake db:drop" 
             system "rake db:create" 
             system "rake db:migrate" 
