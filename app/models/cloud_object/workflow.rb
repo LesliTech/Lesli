@@ -46,14 +46,19 @@ Building a better future, one line of code at a time.
         def destroy
             if default
                 errors.add(:base, :cannot_delete_default_workflow)
+                return false
+            end
+
+            if deletion_protection
+                errors.add(:base, :cannot_delete_protected_workflow)
+                return false
+            end
+
+            begin
+                super
+            rescue ActiveRecord::InvalidForeignKey
+                errors.add(:base, :foreign_key_prevents_destruction)
                 false
-            else
-                begin
-                    super
-                rescue ActiveRecord::InvalidForeignKey
-                    errors.add(:base, :foreign_key_prevents_destruction)
-                    false
-                end
             end
         end
 
@@ -97,6 +102,7 @@ Building a better future, one line of code at a time.
             {
                 id: id,
                 name: name,
+                deletion_protection: deletion_protection,
                 next_number: next_number,
                 default: default,
                 created_at: LC::Date.to_string_datetime(created_at),
