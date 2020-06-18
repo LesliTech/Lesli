@@ -6,7 +6,7 @@ import './chunk-d0a313ea.js';
 import './chunk-cdfca85b.js';
 import { a as registerComponentProgrammatic, u as use } from './chunk-cca88db8.js';
 import './chunk-d1591eb8.js';
-import './chunk-7a024780.js';
+import './chunk-3fcea532.js';
 import Plugin from './autocomplete.js';
 export { default as Autocomplete } from './autocomplete.js';
 import Plugin$1 from './button.js';
