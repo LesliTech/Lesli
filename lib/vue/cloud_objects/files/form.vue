@@ -193,6 +193,15 @@ export default {
             if(this.file_options.file_types == 0){
                 this.getBackendData()
             }
+        },
+
+        cloudId(){
+            if(this.cloudId){
+                this.dropzone_options.url = null
+                this.$nextTick(()=>{
+                    this.setDropzoneOptions()
+                })
+            }
         }
     }
 }
@@ -200,10 +209,10 @@ export default {
 <template>
     <form @submit="postFiles" v-if="translations.main">
         <div class="columns is-marginless has-border-bottom">
-            <div class="column is-2">
+            <div class="column is-3">
                 <strong>{{translations.main.files_input_type_title}}</strong><sup class="has-text-danger">*</sup>
             </div>
-            <div class="column is-10">
+            <div class="column is-9">
                 <b-field>
                     <b-select expanded :placeholder="translations.core.text_select_option" v-model="file_type" required>
                         <option v-for="file_type in file_options.file_types" :key="file_type.value" :value="file_type.value">
@@ -220,10 +229,10 @@ export default {
         </div>
 
         <div class="columns is-marginless has-border-bottom">
-            <div class="column is-2">
+            <div class="column is-3">
                 <strong>{{translations.main.files_input_file_title}}</strong><sup class="has-text-danger">*</sup>
             </div>
-            <div class="column is-10">
+            <div class="column is-9">
                 <b-field>
                     <vue-dropzone
                         :id="`vue-dropzone-${cloudModule}-${cloudId}`"
