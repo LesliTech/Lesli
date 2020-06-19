@@ -130,7 +130,7 @@ export default {
             })
         },
 
-        putComment(comment){
+        putDiscussion(comment){
             let form_data = {}
             form_data[`${this.object_name.singular}_discussion`] = {
                 content: comment.data.new_content
@@ -142,6 +142,7 @@ export default {
                 if (result.successful) {
                     this.$set(comment.data, 'content', comment.data.new_content)
                     this.$set(comment.data, 'editable', false)
+                    this.bus.publish(`put:/${this.module_name.slash}/${this.object_name.plural}/discussions`, result.data)
                     this.notification.alert(this.translations.main.notification_discussion_updated, 'success')
                     
                 }else{
@@ -159,6 +160,7 @@ export default {
             this.http.delete(url).then(result => {
                 if (result.successful) {
                     this.notification.alert(this.translations.main.notification_discussion_destroyed, 'success')
+                    this.bus.publish(`delete:/${this.module_name.slash}/${this.object_name.plural}/discussions`, comment.data)
                     this.discussions = this.discussions.filter((discussion)=>{
                         return discussion.data.id != comment.data.id
                     })
@@ -228,11 +230,19 @@ export default {
                     </b-input>
                 </b-field>
             </div>
+            <div class="column is-5 has-text-right">
+                <b-button @click="getDiscussions">
+                    &nbsp;
+                    <b-icon size="is-small" icon="sync">
+                    </b-icon>
+                    &nbsp;
+                </b-button>
+            </div>
         </div>
         <component-data-loading v-if="loading" />
         <component-data-empty v-if="!loading && discussions.length == 0" />
         <b-table
-            v-if="discussions.length > 0"
+            v-if="!loading && discussions.length > 0"
             :data="filteredDiscussions"
             :sort-icon-size="sort.icon_size"
             :default-sort-direction="sort.direction"
@@ -275,7 +285,7 @@ export default {
 
                 <b-table-column field="actions" :label="translations.core.text_actions" class="has-text-right">
                     <span v-if="props.row.data.editable">
-                        <b-button outlined @click="putComment(props.row)">
+                        <b-button outlined @click="putDiscussion(props.row)">
                             <b-icon size="is-small" icon="check" />
                         </b-button>
                         <b-button type="is-danger" outlined @click="() => $set(props.row.data, 'editable', false)">
