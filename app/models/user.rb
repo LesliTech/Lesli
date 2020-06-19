@@ -55,8 +55,6 @@ class User < ApplicationRecord
 
     after_create :initialize_user 
 
-    #validates :role, presence: false
-
 
     # @param accounnt [Account] The account associated to *current_user*
     # @param roles [String] The roles separate by comma for filter users by role
