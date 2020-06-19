@@ -35,7 +35,12 @@ export default {
                 show: false,
                 timer: null,
                 list: []
-            }
+            },
+            translations: {
+                bell: {
+                    notifications: I18n.t('bell.notifications')
+                }
+            },
         }
     },
     mounted() {
@@ -137,13 +142,13 @@ export default {
     <section class="application-notification">
         <div :class="[{ 'is-active': notification.show }, 'quickview']">
             <header class="quickview-header" @click="notification.show = false">
-                <p class="title">Your notifications</p>
+                <p class="title">{{ translations.bell.notifications.title }}</p>
                 <i class="fas fa-chevron-right"></i>
             </header>
             <div class="quickview-body">
                 <div class="quickview-block">
                     <p class="filter-option has-text-right">
-                        <small @click="readNotifications()" class="has-text-grey-light">Mark all as read</small>
+                        <small @click="readNotifications()" class="has-text-grey-light">{{ translations.bell.notifications.text_mark_all_as_read }}</small>
                     </p>
                     <div class="section">
                         <ul class="menu-list">
@@ -162,7 +167,7 @@ export default {
                                 <small class="has-text-grey-light">-</small>
                                 <small class="mark-as-read has-text-grey-light"
                                     @click="readNotification(notification.id)">
-                                    mark as read
+                                    {{ translations.bell.notifications.text_mark_as_read }}
                                 </small>
                             </li>
                         </ul>

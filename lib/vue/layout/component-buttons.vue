@@ -1,6 +1,14 @@
 <script>
 export default {
-    
+    data() {
+        return {
+            translations: {
+                core: {
+                    shared: I18n.t('core.shared')
+                }
+            },
+        }
+    },
 }
 </script>
 <template>
@@ -9,7 +17,7 @@ export default {
 <span class="icon">
 <i class="far fa-save"></i>
 </span>
-<span>Save</span>
+<span>{{ translations.core.shared.btn_save }}</span>
 </button>
 </div>
 </template>
