@@ -53,13 +53,15 @@ Building a better future, one line of code at a time.
                 "
             ).joins(
                 "inner join users U on cloud_#{module_name}_#{object_name}_discussions.users_id = U.id"
+            ).joins(
+                "inner join user_details UD on UD.users_id = U.id"
             ).select(
                 "cloud_#{module_name}_#{object_name}_discussions.id",
                 "cloud_#{module_name}_#{object_name}_discussions.content",
                 "cloud_#{module_name}_#{object_name}_discussions.created_at",
                 "cloud_#{module_name}_#{object_name}_discussions.cloud_#{module_name}_#{object_name}_discussions_id",
                 "U.email",
-                "U.name as user_name"
+                "UD.first_name as user_name"
             )
             .where("CO.id = #{cloud_id}")
             .where("CO.cloud_#{module_name}_accounts_id = #{account.id}")

@@ -55,11 +55,22 @@ module Courier
             def self.by_model(model_type, model_id, current_user, query)
                 return [] unless defined? CloudFocus
                 tasks = current_user.account.focus.tasks
-                .select(:id, :title, :description, :deadline, :importance, :task_type, :creator_id, :users_id, :cloud_focus_workflow_statuses_id)
-                .select("ua.id as user_id, ua.role as user_role, ua.name as user_value, uc.id as creator_id, uc.role as creator_role, uc.name as creator_value")
+                .select(:id, :description, :deadline, :importance, :task_type, :creator_id, :users_id, :cloud_focus_workflow_statuses_id)
+                .select("
+                    cloud_focus_task_details.title,
+                    ua.id as user_id, 
+                    ua.roles_id as user_role, 
+                    uad.first_name as user_value, 
+                    uc.id as creator_id, 
+                    uc.roles_id as creator_role, 
+                    ucd.first_name as creator_value
+                ")
                 .joins(:detail, :status)
                 .joins("inner join users ua on ua.id = cloud_focus_tasks.users_id")
                 .joins("inner join users uc on uc.id = cloud_focus_tasks.creator_id")
+                .joins("inner join user_details uad on uad.users_id = ua.id")
+                .joins("inner join user_details ucd on ucd.users_id = uc.id")
+                .joins("inner join roles uar on uar.id = ua.roles_id")
                 .where(
                     "
                         cloud_focus_tasks.model_id = ? AND

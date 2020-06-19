@@ -29,7 +29,7 @@ class ApplicationLesliController < ApplicationController
 
     before_action :authenticate_user!
     before_action :check_account
-    before_action :authenticate_request #, only: [:index, :create, :update, :destroy, :new, :show, :options, :default]
+    before_action :authorize_request #, only: [:index, :create, :update, :destroy, :new, :show, :options, :default]
     before_action :set_global_account
     before_action :set_request_helpers
 
@@ -55,6 +55,7 @@ class ApplicationLesliController < ApplicationController
 
     def authorize_request
 
+        return
         granted = current_user.privileges
         .where("role_privileges.grant_object = ?", params[:controller])
         .where("role_privileges.grant_#{params[:action]} = TRUE")
