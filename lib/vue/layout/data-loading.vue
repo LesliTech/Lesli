@@ -24,6 +24,15 @@ Building a better future, one line of code at a time.
 // · 
 */
 export default {
+    data() {
+        return {
+            translations: {
+                core: {
+                    shared: I18n.t('core.shared')
+                }
+            },
+        }
+    },
     props: {
         size: {
             default: "4"
@@ -43,7 +52,7 @@ export default {
             <span class="loading-animation">
                 <hr/><hr/><hr/><hr/>
             </span>
-            <span :class="'is-size-'+size">Loading...</span>
+            <span :class="'is-size-'+size">{{ translations.core.shared.text_loading }}...</span>
         </p>
     </div>
 </template>

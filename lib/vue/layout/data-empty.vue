@@ -24,7 +24,15 @@ Building a better future, one line of code at a time.
 // · 
 */
 export default {
-    
+    data() {
+        return {
+            translations: {
+                core: {
+                    shared: I18n.t('core.shared')
+                }
+            },
+        }
+    },
 }
 </script>
 <template>
@@ -32,7 +40,7 @@ export default {
         <div class="card">
             <div class="card-content">
                 <div class="image"></div>
-                <p>No data available</p>
+                <p>{{ translations.core.shared.text_no_data_available }}</p>
             </div>
         </div>
     </section>
