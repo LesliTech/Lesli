@@ -68,6 +68,14 @@ export default {
                     this.getFiles()
                 }
             })
+
+            this.bus.subscribe(`delete:/${this.module_name.slash}/${this.object_name.plural}/files`, (deleted_file)=>{
+                if(this.files){
+                    this.files = this.files.filter((file)=>{
+                        return file.id != deleted_file.id
+                    })
+                }
+            })
         },
 
         parseCloudModule(){
@@ -105,9 +113,6 @@ export default {
             this.http.delete(url).then(result => {
                 if (result.successful) {
                     this.notification.alert(this.translations.main.notification_file_deleted, 'success')
-                    this.files = this.files.filter((file)=>{
-                        return file.id != deleted_file.id
-                    })
                     this.bus.publish(`delete:/${this.module_name.slash}/${this.object_name.plural}/files`, deleted_file)
                 }else{
                     this.notification.alert(result.error.message,'danger')
@@ -210,7 +215,7 @@ export default {
         </div>
         <component-data-loading v-if="loading" />
         <component-data-empty v-if="!loading && files && files.length == 0" />
-        <b-table v-if="files && files.length > 0" :data="currentFilePage">
+        <b-table v-if="!loading && files && files.length > 0" :data="currentFilePage">
             <template slot-scope="props">
                 <b-table-column field="checbox" label="">
                     <b-checkbox size="is-small" v-model="props.row.selected" />
