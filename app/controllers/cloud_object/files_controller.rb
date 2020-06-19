@@ -207,7 +207,7 @@ this.http.delete(`127.0.0.1/help/tickets/${ticket_id}/files/${file_id}`);
             end
         end
 
-        private
+        protected
 
         def handle_fog_zip_download(files)
             s3 = Aws::S3::Client.new()
