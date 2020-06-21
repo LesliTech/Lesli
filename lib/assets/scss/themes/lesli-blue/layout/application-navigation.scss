@@ -49,7 +49,9 @@ Building a better future, one line of code at a time.
 
         &:hover {
             color: lesli-css-get-color(solid, white);
-            background-color: lesli-css-theme-get-color(app, primary);
+            color: lesli-css-theme-get-color(app, primary);
+            //background-color: lesli-css-theme-get-color(app, primary);
+            background-color: lesli-css-theme-get-color(solid, white);
         }
 
         i {
