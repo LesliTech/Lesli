@@ -61,7 +61,7 @@ Building a better future, one line of code at a time.
                 "cloud_#{module_name}_#{object_name}_discussions.created_at",
                 "cloud_#{module_name}_#{object_name}_discussions.cloud_#{module_name}_#{object_name}_discussions_id",
                 "U.email",
-                "UD.first_name as user_name"
+                "CONCAT(UD.first_name, ' ', UD.last_name) as user_name"
             )
             .where("CO.id = #{cloud_id}")
             .where("CO.cloud_#{module_name}_accounts_id = #{account.id}")
@@ -117,7 +117,7 @@ Building a better future, one line of code at a time.
         def show
             discussion_attributes = attributes.merge({
                 email: user.email,
-                user_name: user.name
+                user_name: "#{user.detail.first_name} #{user.detail.last_name}"
             })
             discussion_attributes["created_at"] = LC::Date.to_string_datetime(discussion_attributes["created_at"])
 
