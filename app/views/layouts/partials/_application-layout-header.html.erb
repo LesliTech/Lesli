@@ -40,6 +40,11 @@ Building a better future, one line of code at a time.
     </template>
     <% end %>
 
+    <%# username %>
+    <template v-slot:username>
+        <%= current_user.full_name %>
+    </template>
+
     <%# show language selector for development only %>
     <% if not Rails.env.production? %>
     <template v-slot:languages>
