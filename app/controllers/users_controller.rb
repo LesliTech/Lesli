@@ -1,6 +1,6 @@
 class UsersController < ApplicationLesliController
     before_action :set_user, only: [:show, :update]
-    before_action :check_has_authorization, only: [:update]
+    before_action :check_user_can_read_update, only: [:show, :update]
 
     def index
         respond_to do |format|
@@ -11,20 +11,12 @@ class UsersController < ApplicationLesliController
     end
 
     def show
-
-        # Only admins can show the user information
-        # If not admin, only the user can see his own information
-        unless current_user.is_role?("owner", "admin") or current_user.id == @user.id
-            return responseWithUnauthorized
-        end
-
         respond_to do |format|
             format.json {
                 return responseWithNotFound unless @user
                 responseWithSuccessful(@user.show)
             }
         end
-
     end
 
     def create
@@ -42,6 +34,8 @@ class UsersController < ApplicationLesliController
     end
 
     def update 
+
+        # validate that user exists
         return responseWithNotFound unless @user
 
         if @user.update(user_params)
@@ -49,30 +43,38 @@ class UsersController < ApplicationLesliController
         else
             responseWithError(@user.errors.full_messages.to_sentence)
         end
+
     end
 
     def set_user
         @user = current_user.account.users.find_by(id: params[:id])
     end
 
-    def check_has_authorization
-        if !is_admin?()  && !only_active_param()
-            return responseWithUnauthorized if current_user != @user
-        end
-    end
-
     private 
 
-    def only_active_param
-        return user_params.keys.size == 1 && user_params.has_key?("active")
-    end
+    def check_user_can_read_update
+        # Only admins can show the user information
+        # If not admin, only the user can see his own information
+        unless current_user.is_role?("owner", "admin") or current_user.id == @user.id
+            return responseWithUnauthorized
+        end
+    end 
     
     def user_params
         params.require(:user).permit(
-            :name,
-            :email,
-            :role,
-            :active
+            :active,
+            :roles_id,
+            detail_attributes: [
+                :first_name,
+                :last_name,
+                :title, 
+                :salutation, 
+                :telephone, 
+                :address, 
+                :work_city, 
+                :work_region, 
+                :work_address
+            ]
         )
     end
 end

@@ -25,10 +25,21 @@ Building a better future, one line of code at a time.
 // · 
 */
 
+
+// · 
+import componentInformationForm from "../components/form-information.vue"
+import componentSecurityForm from "../components/form-security.vue"
+
+
+// · 
 export default {
-    
+    components: {
+        'component-information-form': componentInformationForm,
+        'component-security-form': componentSecurityForm
+    }
 }
 </script>
+
 <template>
     <section class="application-component">
         <div class="columns">
@@ -40,56 +51,15 @@ export default {
         </div>
         <b-tabs>
             <b-tab-item label="Information">
-                <form>
-                    <div class="column is-half">
-                        <div class="field">
-                            <label class="label">Anrede</label>
-                            <label class="b-radio radio">
-                                <input type="radio" value="mr">
-                                <span class="check is-info"></span>
-                                <span class="control-label">
-                                    Herrn
-                                </span>
-                            </label>
-                            <label class="b-radio radio">
-                                <input type="radio" value="mrs">
-                                <span class="check is-info"></span>
-                                <span class="control-label">
-                                    Frau
-                                </span>
-                            </label>
-                        </div>
-                        <div class="field">
-                            <label class="label">Vorname</label> 
-                            <div class="control">
-                                <input required="required" type="text" class="input">
-                            </div>
-                        </div>
-                        <div class="field">
-                            <label class="label">Name</label> 
-                            <div class="control">
-                                <input required="required" class="input">
-                            </div>
-                        </div>
-                        <div class="field">
-                            <label class="label">Titel</label> 
-                            <div class="control">
-                                <input class="input">
-                            </div>
-                        </div>
-                        <div class="field">
-                            <label class="label">Telefon</label> 
-                            <div class="control">
-                                <input class="input">
-                            </div>
-                        </div>
-                    </div>
-                </form>
+                <component-information-form></component-information-form>
             </b-tab-item>
             <b-tab-item label="Security">
+                <component-security-form></component-security-form>
             </b-tab-item>
+            <!-- 
             <b-tab-item label="Settings">
             </b-tab-item>
+            -->
         </b-tabs>
     </section>
 </template>

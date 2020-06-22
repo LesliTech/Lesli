@@ -131,10 +131,6 @@ export default {
                 this.search.searching = false
             }, 1400)
 
-        },
-
-        goToProfile() {
-            this.url.go("/crm/users/"+lesli.current_user.id)
         }
 
     }
@@ -182,7 +178,7 @@ export default {
                         <slot name="username"></slot>
                     </span>
                     <div class="navbar-dropdown">
-                        <a class="navbar-item" @click="goToProfile">
+                        <a href="/profile" class="navbar-item">
                             <span class="icon has-text-grey-light">
                                 <i class="fas fa-user"></i>
                             </span>
