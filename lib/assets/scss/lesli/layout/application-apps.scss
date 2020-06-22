@@ -1,4 +1,4 @@
-/*
+/**
 Lesli
 
 Copyright (c) 2020, Lesli Technologies, S. A.
@@ -11,61 +11,45 @@ Without the written permission of Lesli Technologies, S. A., any replication, mo
 transmission, publication is strictly forbidden.
 For more information read the license file including with this software.
 
-LesliCloud - Your Smart Business Assistant
+Lesli - Your Smart Business Assistant
 
 Powered by https://www.lesli.tech
 Building a better future, one line of code at a time.
 
+@contact  <hello@lesli.tech>
+@website  <https://lesli.tech>
 @license  Propietary - all rights reserved.
-@version  0.1.0-alpha
 
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
 // · 
 */
 
+section.application-apps {
 
-// · Application modules navigation 
-// · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
-aside.application-aside {
-    width: 300px;
-    z-index: 999;
-    padding: 1rem;
-    position: absolute;
-    margin-left: -301px;
-    background-color: get-lesli-css-color(standard, white);
-    transition: all linear .2s;
-    min-height: calc(100% - 60px);
-    height: 100%;
+    .quickview {
 
-    &.show,
-    &:hover {
-        margin-left: 0px;
-    }
-
-    nav {
-        width: 100%;
-        height: 100%;
-
-        ul {
-            font-size: 0;
+        .quickview-block {
+            padding: 2rem;
         }
 
-        li {
+        a {
+            margin-bottom: 1.8rem;
+            display: block;
+        }
+
+        img, 
+        span {
             display: inline-block;
-            border-radius: 2px;
-            text-align: center;
-            font-size: .9rem;
-            padding: 1.2rem;
-            width: 88px;
-        }
-
-        a.navbar-item {
-            border: none;
+            vertical-align: middle;
         }
 
         img {
-            width: 100%;
-            display: block;
+            height: 34px;
+        }
+
+        span {
+            font-size: 1.2rem;
+            //padding-top: 10px;
         }
 
     }

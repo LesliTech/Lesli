@@ -25,6 +25,7 @@ Building a better future, one line of code at a time.
 
 
 // · 
+// · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
 .panel {
     background-color: get-lesli-css-color(standard, white);
     .panel-heading {
@@ -42,13 +43,16 @@ Building a better future, one line of code at a time.
 }
 
 
-// · quick views
+// · quickview
+// · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
 body #lesli-cloud-application .quickview,
 body #lesli-cloud-application .application-component .quickview {
-    //top: $application-header-height;
-    z-index: 99;
+    z-index: 101;
 }
 
+
+// · 
+// · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
 div.select {
     &::after {
         border-color: rgb(100,100,100) !important;
