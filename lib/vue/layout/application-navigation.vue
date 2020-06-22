@@ -24,6 +24,7 @@ Building a better future, one line of code at a time.
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
 // · 
 */
+
 export default {
 
     data() {
@@ -33,6 +34,10 @@ export default {
     },
 
     methods: {
+
+        changeLayout() {
+
+        },
 
         submenu_open(item) {
             this.submenu_open_class = !this.submenu_open_class
@@ -46,7 +51,7 @@ export default {
     <nav class="application-navigation menu">
         <slot></slot>
         <li>
-            <a><i class="fas fa-chevron-left"></i></a>
+            <a @click="changeLayout"><i class="fas fa-chevron-left"></i></a>
         </li>
     </nav>
 </template>

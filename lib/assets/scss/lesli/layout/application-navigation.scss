@@ -28,11 +28,11 @@ Building a better future, one line of code at a time.
 
 // · Navigation sidebar - new
 .application-navigation {
-    height: calc(100vh - var(--application-header-height));
     width: var(--application-navigation-width);
+    height: calc(100vh - var(--application-header-height));    
+    @include lesli-css-scrollbar("");
     overflow-y: auto; 
     position: fixed;
-    @include lesli-css-scrollbar("");
 
     li {
         display: block;
@@ -89,7 +89,9 @@ Building a better future, one line of code at a time.
 
 
 @include lesli-css-breakpoint("tablet") {
-    .application-navigation {
+
+    // change navigation menu not fixed layout selected
+    body:not(.layout-expanded) .application-navigation {
         a {
             span {
                 display: block;
@@ -100,7 +102,9 @@ Building a better future, one line of code at a time.
 
 
 @include lesli-css-breakpoint("desktop") {
-    .application-navigation {
+
+    // change navigation menu not fixed layout selected
+    body:not(.layout-expanded) .application-navigation {
         a {
             display: flex;
             padding: 1.2rem;
