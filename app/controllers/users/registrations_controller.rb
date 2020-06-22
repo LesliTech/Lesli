@@ -26,7 +26,7 @@ Building a better future, one line of code at a time.
 class Users::RegistrationsController < Devise::RegistrationsController
     layout "application-public"
     
-    before_action :configure_sign_up_params, only: [:create]
+    before_action :configure_sign_up_params, only: [:create, :update]
 
 
     #@return [Symbol] Symbol representing the name of the resource handled by this controller.
@@ -111,6 +111,19 @@ class Users::RegistrationsController < Devise::RegistrationsController
         end
         
     end
+
+
+    def update 
+
+        if @user.update(sign_up_params)
+            # Sign in the user by passing validation in case their password changed
+            bypass_sign_in(@user)
+            responseWithSuccessful
+        else
+            responseWithError(@user.errors.full_messages)
+        end
+            
+    end 
 
 
     protected

@@ -127,8 +127,9 @@ class User < ApplicationRecord
         {
             user: {
                 id: user[:id],
-                active: user[:active],
                 email: user[:email],
+                active: user[:active],
+                roles_id: user[:roles_id],
                 created_at: user[:created_at],
                 updated_at: user[:updated_at],
                 detail_attributes: {
@@ -142,6 +143,9 @@ class User < ApplicationRecord
                     work_region: user.detail[:work_region],
                     work_address: user.detail[:work_address] 
                 }
+            },
+            options: {
+                roles: self.account.roles.joins(:detail).select(:id, :name)
             }
         }
         

@@ -29,12 +29,9 @@ Building a better future, one line of code at a time.
 <application-component-navigation>
     
     <% engine = controller_path.split('/')[0] %>
+    <%= render partial: 'layouts/cloud_haus/partials/module-app-navigation'  if engine == "cloud_haus"  %>
+    <%= render partial: 'layouts/lesli_cloud/partials/module-app-navigation' if engine == "lesli_cloud" %>
     <%= render partial: 'layouts/cloud_babel/partials/module-app-navigation' if engine == "cloud_babel" %>
-    <%= render partial: 'layouts/cloud_haus/partials/module-app-navigation'  if engine == "cloud_haus" %>
-
-    <% if ["profiles", "lesli_cloud"].include?(engine) %>
-    <%= render partial: 'layouts/lesli_cloud/partials/module-app-navigation' %>
-    <% end %>
     
     <template v-slot:layout>
         <div class="navigation-change-layout" @click="change_layout">
