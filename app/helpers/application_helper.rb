@@ -30,8 +30,9 @@ module ApplicationHelper
 
     def website_title
         title = @application_html_title || [controller_path.gsub("cloud","").gsub("_", ""), action_name].join("/")
-        title = title + " · " + Rails.application.config.lesli_settings["account"]["website"]["title_suffix"]
-        title
+        return title if Rails.application.config.lesli_settings["account"]["website"].blank?
+        return title if Rails.application.config.lesli_settings["account"]["website"]["title_suffix"].blank?
+        return title + " · " + Rails.application.config.lesli_settings["account"]["website"]["title_suffix"]
     end
 
     def application_body_class()
