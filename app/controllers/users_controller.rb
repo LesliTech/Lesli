@@ -38,7 +38,14 @@ class UsersController < ApplicationLesliController
         # validate that user exists
         return responseWithNotFound unless @user
 
-        if @user.update(user_params)
+        user = user_params
+
+        if not current_user.is_role?("owner", "admin")
+            puts "USER ADMIN OR OWNER"
+            user.delete("roles_id")
+        end
+
+        if @user.update(user)
             responseWithSuccessful
         else
             responseWithError(@user.errors.full_messages.to_sentence)

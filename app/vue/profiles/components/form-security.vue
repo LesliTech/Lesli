@@ -99,7 +99,7 @@ export default {
     <div class="columns">
         <div class="column">
             <form @submit.prevent="putUserRole()">
-                <div class="field" v-if="abilities.isRole('admin', 'owner')">
+                <div class="field" vif="abilities.isRole('admin', 'owner')">
                     <label class="label">Rolle</label>
                     <div class="control">
                         <div class="select">
