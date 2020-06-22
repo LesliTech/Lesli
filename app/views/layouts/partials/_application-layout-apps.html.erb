@@ -1,0 +1,26 @@
+<application-component-apps>
+    <template v-slot:left>
+        <%= link_to "/babel" do %>
+            <%= image_tag "/assets/lesli_cloud/modules/cloudbabel/brand/babel-logo.svg", :alt => "Lesli logo", :class => "lc-website-home-header-logo" %>
+            <span>Babel</span>
+        <% end %>
+        <%= link_to "/help" do %>
+            <%= image_tag "/assets/lesli_cloud/modules/cloudhelp/brand/help-logo.svg", :alt => "Lesli logo", :class => "lc-website-home-header-logo" %>
+            <span>Help</span>
+        <% end %>
+        <%= link_to "/focus" do %>
+            <%= image_tag "/assets/lesli_cloud/modules/cloudfocus/brand/focus-logo.svg", :alt => "Lesli logo", :class => "lc-website-home-header-logo" %>
+            <span>Focus</span>
+        <% end %>
+    </template>
+    <template v-slot:right>
+        <%= link_to "/bell" do %>
+            <%= image_tag "/assets/lesli_cloud/modules/cloudbell/brand/bell-logo.svg", :alt => "Lesli logo", :class => "lc-website-home-header-logo" %>
+            <span>Bell</span>
+        <% end %>
+        <%= link_to "/driver" do %>
+            <%= image_tag "/assets/lesli_cloud/modules/clouddriver/brand/driver-logo.svg", :alt => "Lesli logo", :class => "lc-website-home-header-logo" %>
+            <span>Driver</span>
+        <% end %>
+    </template>
+</application-component-apps>
