@@ -248,7 +248,7 @@ module Courier
                                 cloud_focus_tasks.model_id, 
                                 cloud_focus_tasks.model_type
                             ")
-                        .select("ua.id as user_id, ua.role as user_role, ua.name as user_value, uc.id as creator_id, uc.role as creator_role, uc.name as creator_value")
+                        .select("ua.id as user_id, uard.name as user_role, concat(uad.first_name, ' ', uad.last_name) as user_value, uc.id as creator_id, ucrd.name as creator_role, concat(ucd.first_name, ' ', ucd.last_name)  as creator_value")
                         .select("cloud_focus_workflow_statuses.name as status_name")
                         .select("cloud_focus_workflow_statuses.id as status_id")
                         .select("cloud_focus_workflow_statuses.completed_successfully as status_completed_successfully")
@@ -259,17 +259,25 @@ module Courier
                         .joins("inner join #{sql_table_join.singularize}_details as md on md.#{sql_table_join}_id = m.id")
                         .joins("inner join users ua on ua.id = cloud_focus_tasks.users_id")
                         .joins("inner join users uc on uc.id = cloud_focus_tasks.creator_id")
+                        .joins("left join user_details uad on uad.users_id = ua.id")
+                        .joins("left join user_details ucd on ucd.users_id = uc.id")
+                        .joins("inner join roles uar on uar.id = ua.roles_id")
+                        .joins("inner join roles ucr on ucr.id = uc.roles_id")
+                        .joins("left join role_details uard on uard.roles_id = uar.id")
+                        .joins("left join role_details ucrd on ucrd.roles_id = ucr.id")
                         
                 #TODO date format of the user
-                tasks = tasks.where("
-                    concat(
-                        lower(cloud_focus_task_details.title),
-                        lower(ua.name),
-                        lower(uc.name),
-                        lower(#{sql_field}),
-                        to_char(cloud_focus_task_details.deadline, '%dd.mm.yyyy')
-                    ) like '%#{query[:filters][:text].downcase}%'
-                ") unless query[:filters][:text].blank?
+                unless query[:filters][:text].blank?
+                    text_query = query[:filters][:text].downcase
+
+                    tasks = tasks.where("
+                        lower(cloud_focus_task_details.title) like '%#{text_query}%' or
+                        concat(lower(uad.first_name), ' ', lower(uad.last_name)) like '%#{text_query}%' or
+                        concat(lower(ucd.first_name), ' ', lower(ucd.last_name)) like '%#{text_query}%' or
+                        lower(#{sql_field}) like '%#{text_query}%' or
+                        to_char(cloud_focus_task_details.deadline, '%dd.mm.yyyy') like '%#{text_query}%'
+                    ") 
+                end
 
                 tasks = tasks.where("cloud_focus_tasks.creator_id = ? or cloud_focus_tasks.users_id = ?", 
                     current_user, current_user) unless query[:filters][:all]
@@ -291,7 +299,7 @@ module Courier
                 tasks = tasks.where("cloud_focus_task_details.importance = ?", 
                     "#{query[:filters][:importance]}") unless query[:filters][:importance].blank?
 
-                tasks = tasks.where("ua.role = ?", 
+                tasks = tasks.where("uar.id = ?", 
                     "#{query[:filters][:role]}") unless query[:filters][:role].blank?
                     
                 return {
