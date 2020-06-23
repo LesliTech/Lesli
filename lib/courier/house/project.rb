@@ -39,7 +39,7 @@ module Courier
                 .joins("inner join cloud_house_contacts CHC on CHC.id = CHPC.cloud_house_contacts_id")
                 .joins("inner join cloud_house_contact_details CHCD on CHC.id = CHCD.cloud_house_contacts_id")
                 .joins("inner join cloud_house_properties CHPR on CHPR.id = cloud_house_projects.cloud_house_properties_id")
-                .joins("left join locations L on CHPR.location_city_id = L.id")
+                .joins("left join account_locations L on CHPR.location_city_id = L.id")
                 .joins("inner join cloud_house_property_details CHPRD on CHPR.id = CHPRD.cloud_house_properties_id")
                 .joins("inner join cloud_house_workflow_statuses CHWS on CHWS.id = cloud_house_projects.cloud_house_workflow_statuses_id")
                 .where("CHWS.completed_unsuccessfully = ?", false)
