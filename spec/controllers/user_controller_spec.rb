@@ -1,4 +1,5 @@
-/*
+=begin
+
 Lesli
 
 Copyright (c) 2020, Lesli Technologies, S. A.
@@ -11,39 +12,46 @@ Without the written permission of Lesli Technologies, S. A., any replication, mo
 transmission, publication is strictly forbidden.
 For more information read the license file including with this software.
 
-LesliCloud - Your Smart Business Assistant
+Lesli - Your Smart Business Assistant
 
 Powered by https://www.lesli.tech
 Building a better future, one line of code at a time.
 
+@contact  <hello@lesli.tech>
+@website  <https://lesli.tech>
 @license  Propietary - all rights reserved.
-@version  0.1.0-alpha
 
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
 // · 
-*/
 
-header.application-header {
-    
-    .navbar {
-        background-color: transparent;
-    }
+=end
 
-    .navbar-brand {
-        background-color: white;
-        box-shadow: inset 80px 0px 0px 0px lesli-css-theme-get-color(app, primary);
+require 'rails_helper'
+require 'spec_helper'
+
+RSpec.configure do |config|
+    config.include Devise::Test::IntegrationHelpers
+end
+
+RSpec.describe "UsersController", type: :request do
+
+    before(:all) do
+        @user = User.find_by(email: "dev@lesli.cloud")
+        sign_in @user
+    end
+
+    describe "GET:/users.json" do
+
+        it "Get all the active users" do
+            get "/users.json"
+
+            expect(response).to have_http_status(:success) 
+            expect(response.content_type).to eq("application/json; charset=utf-8")
+            expect(JSON.parse(response.body)["successful"]).to eql(true)
+
+        end
         
-        svg {
-            fill: white;
-        }
-        img {
-            max-height: 45px;
-        }
-    }
+    end
 
-    .navbar-start input {
-        background-color: transparent;
-        border: none;
-    }
-    
-}
+end
+
