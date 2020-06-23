@@ -29,7 +29,7 @@ Building a better future, one line of code at a time.
 module ApplicationHelper
 
     def website_title
-        title = @application_html_title || [controller_path.gsub("cloud","").gsub("_", ""), action_name].join("/")
+        title = @application_html_title || controller_path.gsub("cloud","").gsub("_", "")
         return title if Rails.application.config.lesli_settings["account"]["website"].blank?
         return title if Rails.application.config.lesli_settings["account"]["website"]["title_suffix"].blank?
         return title + " · " + Rails.application.config.lesli_settings["account"]["website"]["title_suffix"]
