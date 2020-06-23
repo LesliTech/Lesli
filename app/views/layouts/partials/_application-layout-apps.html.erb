@@ -1,26 +1,34 @@
+<%#
+
+Lesli
+
+Copyright (c) 2020, Lesli Technologies, S. A.
+
+All the information provided by this website is protected by laws of Guatemala related 
+to industrial property, intellectual property, copyright and relative international laws. 
+Lesli Technologies, S. A. is the exclusive owner of all intellectual or industrial property
+rights of the code, texts, trade mark, design, pictures and any other information.
+Without the written permission of Lesli Technologies, S. A., any replication, modification,
+transmission, publication is strictly forbidden.
+For more information read the license file including with this software.
+
+Lesli - Your Smart Business Assistant
+
+Powered by https://www.lesli.tech
+Building a better future, one line of code at a time.
+
+@contact  <hello@lesli.tech>
+@website  <https://lesli.tech>
+@license  Propietary - all rights reserved.
+
+// · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
+// · 
+
+%>
+
 <application-component-apps>
-    <template v-slot:left>
-        <%= link_to "/babel" do %>
-            <%= image_tag "/assets/lesli_cloud/modules/cloudbabel/brand/babel-logo.svg", :alt => "Lesli logo", :class => "lc-website-home-header-logo" %>
-            <span>Babel</span>
-        <% end %>
-        <%= link_to "/help" do %>
-            <%= image_tag "/assets/lesli_cloud/modules/cloudhelp/brand/help-logo.svg", :alt => "Lesli logo", :class => "lc-website-home-header-logo" %>
-            <span>Help</span>
-        <% end %>
-        <%= link_to "/focus" do %>
-            <%= image_tag "/assets/lesli_cloud/modules/cloudfocus/brand/focus-logo.svg", :alt => "Lesli logo", :class => "lc-website-home-header-logo" %>
-            <span>Focus</span>
-        <% end %>
-    </template>
-    <template v-slot:right>
-        <%= link_to "/bell" do %>
-            <%= image_tag "/assets/lesli_cloud/modules/cloudbell/brand/bell-logo.svg", :alt => "Lesli logo", :class => "lc-website-home-header-logo" %>
-            <span>Bell</span>
-        <% end %>
-        <%= link_to "/driver" do %>
-            <%= image_tag "/assets/lesli_cloud/modules/clouddriver/brand/driver-logo.svg", :alt => "Lesli logo", :class => "lc-website-home-header-logo" %>
-            <span>Driver</span>
-        <% end %>
-    </template>
+
+    <% engine = controller_path.split('/')[0] %>
+    <%= render partial: 'layouts/lesli_cloud/partials/platform-apps' if lesli_instance("LesliCloud") %>
+
 </application-component-apps>

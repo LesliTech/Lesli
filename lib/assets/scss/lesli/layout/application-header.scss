@@ -38,13 +38,23 @@ header.application-header {
     
     // Logo container
     .navbar-brand {
+
+        span.icon {
+            height: var(--application-header-height);
+            align-items: end;
+            max-width: 75px;
+            height: 50px;
+            flex: 1;
+        }
+
         .navbar-item {
-            min-width: var(--application-navigation-width);
+            //min-width: var(--application-navigation-width);
             img {
                 margin: 0 auto;
                 max-height: var(--application-header-height);
             }
         }
+
     }
 
     .navbar-start {
@@ -75,7 +85,7 @@ header.application-header {
         .navbar-brand {
             flex: 0 0 var(--application-navigation-width);
             a{
-                width: 100%;
+                //width: 100%;
             }
         }
         .navbar-start {
