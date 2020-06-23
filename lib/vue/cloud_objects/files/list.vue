@@ -40,7 +40,7 @@ export default {
                 current_page: 1,
                 range_before: 3,
                 range_after: 3,
-                per_page: 2
+                per_page: 10
             },
             sort: {
                 icon_size: 'is-small',
