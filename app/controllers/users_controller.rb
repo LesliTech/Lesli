@@ -41,7 +41,6 @@ class UsersController < ApplicationLesliController
         user = user_params
 
         if not current_user.is_role?("owner", "admin")
-            puts "USER ADMIN OR OWNER"
             user.delete("roles_id")
         end
 
