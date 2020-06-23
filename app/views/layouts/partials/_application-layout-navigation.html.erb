@@ -33,6 +33,9 @@ Building a better future, one line of code at a time.
     <%= render partial: 'layouts/lesli_cloud/partials/module-app-navigation' if engine == "lesli_cloud" %>
     <%= render partial: 'layouts/cloud_babel/partials/module-app-navigation' if engine == "cloud_babel" %>
     
+    <%= render partial: 'layouts/cloud_haus/partials/module-app-navigation'  if lesli_instance("CloudHaus", "profiles") %>
+    <%= render partial: 'layouts/lesli_cloud/partials/module-app-navigation' if lesli_instance("LesliCloud", "profiles") %>
+
     <template v-slot:layout>
         <div class="navigation-change-layout" @click="change_layout">
             <p>
