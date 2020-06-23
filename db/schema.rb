@@ -279,6 +279,7 @@ ActiveRecord::Schema.define(version: 2020_05_26_180220) do
   create_table "cloud_driver_event_details", force: :cascade do |t|
     t.string "title"
     t.text "description"
+    t.datetime "event_date"
     t.datetime "time_start"
     t.datetime "time_end"
     t.string "location"
@@ -397,6 +398,7 @@ ActiveRecord::Schema.define(version: 2020_05_26_180220) do
 
   create_table "cloud_driver_workflows", force: :cascade do |t|
     t.string "name"
+    t.boolean "deletion_protection"
     t.boolean "default"
     t.datetime "deleted_at"
     t.datetime "created_at", precision: 6, null: false
@@ -565,6 +567,7 @@ ActiveRecord::Schema.define(version: 2020_05_26_180220) do
 
   create_table "cloud_focus_workflows", force: :cascade do |t|
     t.string "name"
+    t.boolean "deletion_protection"
     t.boolean "default"
     t.datetime "deleted_at"
     t.datetime "created_at", precision: 6, null: false
@@ -1588,6 +1591,7 @@ ActiveRecord::Schema.define(version: 2020_05_26_180220) do
 
   create_table "cloud_house_workflows", force: :cascade do |t|
     t.string "name"
+    t.boolean "deletion_protection"
     t.boolean "default"
     t.datetime "deleted_at"
     t.datetime "created_at", precision: 6, null: false
