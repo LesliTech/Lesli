@@ -30,32 +30,34 @@ Building a better future, one line of code at a time.
 
 // · Navigation sidebar
 .application-navigation {
-    padding: 1rem;
-    background-color: lesli-css-get-color(solid, white);
-    //height: calc(100vh - var(--application-header-height));
     z-index: 99;
+    padding-top: 1rem;
+    padding-right: 1rem;
+    background-color: lesli-css-get-color(solid, white);
+    box-shadow: inset 80px 0px 0px 0px lesli-css-theme-get-color(app, primary);
 
-    a {
+    li a {
         width: 100%;
-        padding: 1.2rem 0rem;
+        text-align: center;
+        padding: 1.1rem 0rem;
         border-radius: .2rem;
-        color: lesli-css-theme-get-color(silver, 700);
 
         &.is-active {
-            color: lesli-css-theme-get-color(solid, white);
-            background-color: lesli-css-theme-get-color(app, primary);
-            box-shadow: 0px 0px 10px 0px rgba(#3a6bff, .60);
+            padding: 1rem 0rem;
+            font-weight: 600;
+            background-color: transparent;
         }
 
         &:hover {
-            color: lesli-css-get-color(solid, white);
             color: lesli-css-theme-get-color(app, primary);
-            //background-color: lesli-css-theme-get-color(app, primary);
-            background-color: lesli-css-theme-get-color(solid, white);
+            background-color: transparent;
         }
 
         i {
-            font-size: 1rem;
+            width: 75px;
+            text-align: center;
+            font-size: 1.2rem;
+            color: lesli-css-get-color(silver, 100);
         }
 
         small {
@@ -68,14 +70,41 @@ Building a better future, one line of code at a time.
 }
 
 
+// · 
+@include lesli-css-breakpoint("tablet") {
+    .application-navigation {
+        background-color: lesli-css-theme-get-color(app, primary);
+        li a {
+
+            span {
+                display: block;
+                color: lesli-css-get-color(silver, 100);
+            }
+
+        }
+    }
+}
+
+
+// · 
 @include lesli-css-breakpoint("desktop") {
     .application-navigation {
-        a {
-            padding: 1.2rem 1rem;
-            &.is-active {
-                padding: 1.2rem .8rem;
-                
+        background-color: lesli-css-get-color(solid, white);
+
+        li a {
+
+            span {
+                color: lesli-css-get-color(silver, 700);
             }
+
+            &.is-active,
+            &:hover {
+                span {
+                    color: lesli-css-theme-get-color(app, primary);
+                }
+            }
+
         }
+        
     }
 }

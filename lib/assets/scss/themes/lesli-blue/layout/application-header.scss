@@ -24,18 +24,33 @@ Building a better future, one line of code at a time.
 */
 
 header.application-header {
-    background-color: lesli-css-get-color(solid, white);
-
+    
     .navbar {
         background-color: transparent;
     }
 
-    .navbar-brand img {
-        max-height: 45px;
+    .navbar-brand {
+        background-color: white;
+        box-shadow: inset 80px 0px 0px 0px lesli-css-theme-get-color(app, primary);
+        
+        svg {
+            fill: white;
+        }
+        img {
+            max-height: 45px;
+        }
     }
 
     .navbar-start input {
         background-color: transparent;
         border: none;
+    }
+}
+
+@include lesli-css-breakpoint("tablet") {
+    header.application-header {
+        .navbar-brand .navbar-item {
+
+        }
     }
 }

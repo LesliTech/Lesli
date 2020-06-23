@@ -29,7 +29,7 @@ Building a better future, one line of code at a time.
 module ApplicationHelper
 
     def website_title
-        title = @application_html_title || [controller_path.gsub("cloud","").gsub("_", ""), action_name].join("/")
+        title = @application_html_title || controller_path.gsub("cloud","").gsub("_", "")
         return title if Rails.application.config.lesli_settings["account"]["website"].blank?
         return title if Rails.application.config.lesli_settings["account"]["website"]["title_suffix"].blank?
         return title + " · " + Rails.application.config.lesli_settings["account"]["website"]["title_suffix"]
@@ -84,9 +84,26 @@ module ApplicationHelper
         "<script src=\"https://maps.googleapis.com/maps/api/js?key=AIzaSyCN4i4BWJS-IVtniSMY1Ot2MGaKuTKLNP8\"></script>".html_safe
     end
 
-    def lesli_instance(company_name=nil)
-        return Rails.application.config.lesli_settings["info"]["name"] === company_name if not company_name.blank?
-        return Rails.application.config.lesli_settings["info"]["name"]
+    def lesli_instance(instance=nil, engine=nil)
+
+        # return instance name
+        return Rails.application.config.lesli_settings["info"]["name"] if instance.blank? and engine.blank?
+
+        # current engine id
+        current_engine = controller_path.split('/')[0]
+
+        # validate instance
+        if Rails.application.config.lesli_settings["info"]["name"] == instance and engine.blank?
+            return true
+        end
+
+        # validate instance and engine
+        if Rails.application.config.lesli_settings["info"]["name"] == instance and current_engine == engine
+            return true 
+        end
+
+        return false
+
     end
 
 end

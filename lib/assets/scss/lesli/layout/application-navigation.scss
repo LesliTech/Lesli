@@ -28,6 +28,7 @@ Building a better future, one line of code at a time.
 
 // · Navigation sidebar - new
 .application-navigation {
+    
     width: var(--application-navigation-width);
     height: calc(100vh - var(--application-header-height));    
     @include lesli-css-scrollbar("");
@@ -60,7 +61,6 @@ Building a better future, one line of code at a time.
         }
 
         span {
-            
             display: none;
         }
 
