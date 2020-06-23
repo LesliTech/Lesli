@@ -333,7 +333,7 @@ this.http.delete(`127.0.0.1/help/tickets/${ticket_id}/files/${file_id}`);
         end
 
         def check_has_authorization
-            if !is_admin?()
+            unless current_user.is_role?("owner", "admin")
                 return responseWithUnauthorized if current_user != @cloud_object_file.user
             end
         end

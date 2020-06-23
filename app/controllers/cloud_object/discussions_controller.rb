@@ -212,7 +212,7 @@ this.http.delete(`127.0.0.1/help/tickets/${ticket_id}/discussions/${discussion_i
 
 
         def check_has_authorization
-            if !is_admin?()
+            unless current_user.is_role?("owner", "admin")
                 return responseWithUnauthorized if current_user != @cloud_object_discussion.user
             end
         end
