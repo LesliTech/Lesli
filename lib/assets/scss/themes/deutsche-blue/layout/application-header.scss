@@ -30,5 +30,8 @@ header.application-header {
         .input {
             width: 100%;
         }
+        .navbar-item.apps {
+            display: none !important;
+        }
     }
 }
