@@ -11,6 +11,18 @@ PATH
       rails (~> 6.0.0)
 
 PATH
+  remote: engines/CloudDispatcher
+  specs:
+    cloud_dispatcher (0.1.0)
+      rails (~> 6.0.2)
+
+PATH
+  remote: engines/CloudDriver
+  specs:
+    cloud_driver (0.1.0)
+      rails (~> 6.0.0)
+
+PATH
   remote: engines/CloudFocus
   specs:
     cloud_focus (0.1.0)
@@ -33,18 +45,6 @@ PATH
   specs:
     cloud_mailer (0.1.0)
       rails (~> 6.0.3)
-
-PATH
-  remote: engines/CloudDispatcher
-  specs:
-    cloud_dispatcher (0.1.0)
-      rails (~> 6.0.2)
-
-PATH
-  remote: engines/CloudDriver
-  specs:
-    cloud_driver (0.1.0)
-      rails (~> 6.0.0)
 
 GEM
   remote: https://rubygems.org/
@@ -242,6 +242,7 @@ GEM
       haml (>= 4.0.6, < 6.0)
       html2haml (>= 1.0.1)
       railties (>= 5.1)
+    honeybadger (4.7.0)
     html2haml (2.2.0)
       erubis (~> 2.7.0)
       haml (>= 4.0, < 6)
@@ -464,6 +465,7 @@ DEPENDENCIES
   font-awesome-sass (~> 5.12.0)
   guard-livereload (~> 2.5)
   haml-rails
+  honeybadger (~> 4.0)
   i18n-js
   jwt
   kaminari
