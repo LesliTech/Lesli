@@ -333,6 +333,7 @@ Building a better future, one line of code at a time.
                         completed_successfully: false,
                         completed_unsuccessfully: false,
                         to_be_deleted: false,
+                        deletion_protection: false,
                         next_statuses: "1"
                     },
                     {
@@ -341,6 +342,7 @@ Building a better future, one line of code at a time.
                         initial: false,
                         completed_successfully: true,
                         completed_unsuccessfully: false,
+                        deletion_protection: false,
                         to_be_deleted: false
                     }
                 ]
