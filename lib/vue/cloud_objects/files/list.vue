@@ -40,7 +40,11 @@ export default {
                 current_page: 1,
                 range_before: 3,
                 range_after: 3,
-                per_page: 15
+                per_page: 10
+            },
+            sort: {
+                icon_size: 'is-small',
+                direction: 'desc'
             },
             all_files_selected: false
         }
@@ -155,18 +159,6 @@ export default {
     },
 
     computed: {
-        currentFilePage(){
-            if(this.files.length <= this.pagination.per_page){
-                return this.files
-            }else{
-                let data = this.files.slice(
-                    (this.pagination.current_page - 1) * this.pagination.per_page,
-                    (this.pagination.current_page) * this.pagination.per_page
-                )
-                return data
-            }
-        },
-
         selectedFiles(){
             if(! this.files){
                 return true
@@ -215,22 +207,27 @@ export default {
         </div>
         <component-data-loading v-if="loading" />
         <component-data-empty v-if="!loading && files && files.length == 0" />
-        <b-table v-if="!loading && files && files.length > 0" :data="currentFilePage">
+        <b-table
+            v-if="!loading && files && files.length > 0"
+            :data="files"
+            :sort-icon-size="sort.icon_size"
+            :default-sort-direction="sort.direction"
+            :paginated="true"
+            :per-page="pagination.per_page"
+            :current-page.sync="pagination.current_page"
+            :pagination-simple="false"
+            pagination-position="bottom"
+        >
             <template slot-scope="props">
                 <b-table-column field="checbox" label="">
                     <b-checkbox size="is-small" v-model="props.row.selected" />
                 </b-table-column>
 
-                <b-table-column field="name" :label="translations.core.text_name">
-                    <span v-if="props.row.name && props.row.name.includes('.')">
-                        {{ props.row.name.substring(0, props.row.name.lastIndexOf('.'))}}
-                    </span>
-                    <span v-else>
-                        {{ props.row.name }}
-                    </span>
+                <b-table-column field="name" :label="translations.core.text_name" sortable>
+                    {{ props.row.name }}
                 </b-table-column>
 
-                <b-table-column field="file_type" :label="translations.core.text_type">
+                <b-table-column field="file_type" :label="translations.core.text_type" sortable>
                     <span v-if="translations.file_types">
                         {{translateFileType(props.row.file_type)}}
                     </span>
@@ -239,7 +236,7 @@ export default {
                     </span>
                 </b-table-column>
 
-                <b-table-column field="created_at" :label="translations.core.text_created_at">
+                <b-table-column field="created_at_raw" :label="translations.core.text_created_at" sortable>
                     {{ props.row.created_at }}
                 </b-table-column>
 
@@ -264,23 +261,5 @@ export default {
                 </b-table-column>
             </template>
         </b-table>
-        <hr>
-        <b-pagination
-            v-if="files"
-            :simple="false"
-            :total="files.length"
-            :current.sync="pagination.current_page"
-            :range-before="pagination.range_before"
-            :range-after="pagination.range_after"
-            :per-page="pagination.per_page"
-            order="is-centered"
-            icon-prev="chevron-left"
-            icon-next="chevron-right"
-            aria-next-label="Next page"
-            aria-previous-label="Previous page"
-            aria-page-label="Page"
-            aria-current-label="Current page"
-        >
-        </b-pagination>
     </section>
 </template>
