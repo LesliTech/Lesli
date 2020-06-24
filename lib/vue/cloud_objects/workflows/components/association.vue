@@ -226,7 +226,7 @@ export default {
                                             :key="row.id"
                                             :value="row.id"
                                         >
-                                            {{row.name}}
+                                            {{object_utils.translateEnum(translations.associations, `enum_association_${selectedAssociation.name}_field_${detail.name}`, row.name)}}
                                         </option>
                                     </b-select>
                                 </b-field>
