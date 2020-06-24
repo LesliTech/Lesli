@@ -82,6 +82,7 @@ module LC
         end
  
         def self.to_string(datetime_object)
+            return nil if ! datetime_object
             self.verify_settings
             
             zone = ActiveSupport::TimeZone.new(@settings[:time_zone])
@@ -89,6 +90,8 @@ module LC
         end
  
         def self.to_string_datetime(datetime_object)
+            return nil if ! datetime_object
+
             self.verify_settings
             
             zone = ActiveSupport::TimeZone.new(@settings[:time_zone])
@@ -96,6 +99,7 @@ module LC
         end
  
         def self.to_string_datetime_words(datetime_object)
+            return nil if ! datetime_object
             self.verify_settings
             
             zone = ActiveSupport::TimeZone.new(@settings[:time_zone])
@@ -103,6 +107,7 @@ module LC
         end
  
         def self.to_string_time(datetime_object)
+            return nil if ! datetime_object
             self.verify_settings
             
             zone = ActiveSupport::TimeZone.new(@settings[:time_zone])
