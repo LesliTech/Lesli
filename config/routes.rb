@@ -50,7 +50,11 @@ Rails.application.routes.draw do
 
     authenticated :user do
 
-        resource  :account
+        resource  :account do
+            scope module: :account do
+                resources :locations
+            end
+        end
         resource  :profile
         resources :users
 
