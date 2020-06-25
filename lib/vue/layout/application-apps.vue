@@ -31,7 +31,10 @@ export default {
 
     data() {
         return {
-            apps: { show: false },
+            apps: { 
+                showLeft: false,
+                showRight: false
+            },
             translations: {}
         }
     },
@@ -41,15 +44,29 @@ export default {
     methods: {
 
         mountListeners() {
-            this.bus.subscribe("show:/core/layout/apps#panel", () => {
-                
-                // toggle notification panel
-                if (this.apps.show == true) {
-                    this.apps.show = false
-                    return
+            this.bus.subscribe("show:/core/layout/apps#panel", side => {
+
+                if (side == 'right') {
+                    if (this.apps.showRight == true) {
+                        this.apps.showRight = false
+                        return
+                    }
+                    this.apps.showRight = true
+                    this.apps.showLeft = false
                 }
-                this.apps.show = true
-                this.apps.timer = setTimeout(() => this.apps.show = false, 400000)
+
+                if (side == 'left') {
+                    if (this.apps.showLeft == true) {
+                        this.apps.showLeft = false
+                        return
+                    }
+                    this.apps.showLeft = true
+                    this.apps.showRight = false
+                }
+
+                setTimeout(() => this.apps.showRight = false, 400000)
+                setTimeout(() => this.apps.showLeft = false, 400000)
+
             })
 
         }
@@ -59,8 +76,27 @@ export default {
 </script>
 <template>
     <section class="application-apps">
-        <div :class="[{ 'is-active': apps.show }, 'quickview']">
-            <header class="quickview-header" @click="apps.show = false">
+        <div :class="[{ 'is-active': apps.showRight }, 'quickview', 'right']">
+            <header class="quickview-header" @click="apps.showRight = false">
+                <b>Lesli ecosystem</b>
+                <i class="fas fa-arrow-left"></i>
+            </header>
+            <div class="quickview-body">
+                <div class="quickview-block">
+                    <div class="columns">
+                        <div class="column">
+                            <slot name="left"></slot>
+                        </div>
+                        <div class="column">
+                            <slot name="right"></slot>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div :class="[{ 'is-active': apps.showLeft }, 'quickview']">
+            <header class="quickview-header" @click="apps.showLeft = false">
                 <b>Lesli ecosystem</b>
                 <i class="fas fa-arrow-right"></i>
             </header>

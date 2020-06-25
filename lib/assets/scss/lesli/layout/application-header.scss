@@ -45,6 +45,9 @@ header.application-header {
             max-width: 75px;
             height: 50px;
             flex: 1;
+            &:hover {
+                cursor: pointer;
+            }
         }
 
         .navbar-item {
