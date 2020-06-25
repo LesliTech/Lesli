@@ -33,25 +33,18 @@ RSpec.configure do |config|
     config.include Devise::Test::IntegrationHelpers
 end
 
-RSpec.describe "UsersController", type: :request do
+RSpec.describe 'GET /users', type: :request do
 
     before(:all) do
         @user = User.find_by(email: "dev@lesli.cloud")
         sign_in @user
     end
-
-    describe "GET:/users.json" do
-
-        it "Get all the active users" do
-            get "/users.json"
-
-            expect(response).to have_http_status(:success) 
-            expect(response.content_type).to eq("application/json; charset=utf-8")
-            expect(JSON.parse(response.body)["successful"]).to eql(true)
-
-        end
         
+    it "returns all active user" do
+        get "/users.json"
+        expect(response).to have_http_status(:success) 
+        expect(response.content_type).to eq("application/json; charset=utf-8")
+        expect(JSON.parse(response.body)["successful"]).to eql(true)
     end
 
 end
-

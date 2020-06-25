@@ -103,6 +103,9 @@ gem "rack-cors"
 
 gem "sprockets", "< 4"
 
+# debugging tools
+gem 'honeybadger', '~> 4.0'
+
 group :development, :test do
 
     gem "faker"

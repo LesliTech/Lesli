@@ -32,7 +32,7 @@ require 'spec_helper'
 RSpec.configure do |config|
     config.include Devise::Test::ControllerHelpers, :type => :controller
 end
-
+=begin
 RSpec.describe Users::RegistrationsController, type: :controller do
 
     before :each do
@@ -116,4 +116,4 @@ RSpec.describe Users::RegistrationsController, type: :controller do
     end
 
 end
-
+=end
