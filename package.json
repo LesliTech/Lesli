@@ -48,11 +48,16 @@
         "@fullcalendar/core": "4.4.2",
         "@fullcalendar/daygrid": "4.4.2",
         "@fullcalendar/timegrid": "4.4.2",
-        "@fullcalendar/interaction": "4.4.2"
+        "@fullcalendar/interaction": "4.4.2",
+
+        "chai": "4.2.0",
+        "chai-http": "4.3.0",
+        "mocha": "7.1.1"
 
     },
     "scripts": {
-        "test:playwright": "node ./test/playwright",
+        "test:gui": "node ./tests/gui/playwright.js",
+        "test:http": "mocha --reporter spec 'tests/http/**/*.test.js'",
         "webpack:production": "webpack --progress --env.mode=production",
         "webpack:watch": "webpack --progress --env.watch=true",
         "webpack": "webpack --progress --env.mode=development"

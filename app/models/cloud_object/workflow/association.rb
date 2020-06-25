@@ -156,13 +156,19 @@ Building a better future, one line of code at a time.
 
                     details.each do |detail|
                         name_translation = I18n.t("#{module_name}.workflow/associations.enum_association_#{attributes["workflow_for"]}_field_#{detail[:name]}")
-                        
+
                         if detail[:type] == "foreign_key"
                             record = detail[:class].constantize.find_by(
                                 id: attributes[detail[:name]],
                                 account: workflow.account
                             )
-                            attributes["details"] += " #{name_translation}: #{record[detail[:identifier]]},"
+                            value_translation = I18n.t(
+                                "#{module_name}.workflow/associations.enum_association_#{attributes["workflow_for"]}_field_#{detail[:name]}_#{record[detail[:identifier]]}",
+                                default: record[detail[:identifier]]
+                            )
+
+
+                            attributes["details"] += " #{name_translation}: #{value_translation},"
                         elsif detail[:type] == "detail_enum"
                             enum_value = detail[:class].constantize.send(detail[:name].pluralize)[attributes[detail[:name]]]
                             value_translation = I18n.t("#{module_name}.#{attributes["workflow_for"].pluralize}.enum_#{detail[:name]}_#{enum_value}")
