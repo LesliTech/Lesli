@@ -50,6 +50,14 @@ body #lesli-cloud-application .application-component .quickview {
     z-index: 101;
 }
 
+body #lesli-cloud-application .quickview.right {
+    left: -25%;
+
+    &.is-active {
+        left: 0;
+    }
+}
+
 
 // · 
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
