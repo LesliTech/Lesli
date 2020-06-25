@@ -1,4 +1,4 @@
-class Account::SettingsController < ApplicationController
+class Account::SettingsController < ApplicationLesliController
   before_action :set_account_setting, only: [:show, :edit, :update, :destroy]
 
     # GET /settings
@@ -32,7 +32,7 @@ class Account::SettingsController < ApplicationController
     def create
 
         # check if setting exists
-        setting = Setting.find_by(name: setting_params[:name])
+        setting = Account::Setting.find_by(name: setting_params[:name])
 
         # update settings if exists
         if setting
@@ -78,8 +78,8 @@ class Account::SettingsController < ApplicationController
     private
 
     # Use callbacks to share common setup or constraints between actions.
-    def set_setting
-        @setting = Setting.find_by(id: params[:id])
+    def set_account_setting
+        @setting = Account::Setting.find_by(id: params[:id])
     end
 
     # Only allow a trusted parameter "white list" through.
