@@ -42,16 +42,16 @@ class DriverMailer < ApplicationMailer
         event_template = event_template
         .sub("{{organizer_name}}", data[:organizer_name].strip )
         .sub("{{organizer_email}}", data[:organizer_email].strip )
-        .sub("{{dtstamp}}", data[:time_start].strftime("%Y%m%dT%H%M%S").strip )
+        .sub("{{dtstamp}}", data[:event_date].strftime("%Y%m%d").strip )
         .sub("{{description}}",( data[:description] || "").strip )
         .sub("{{summary}}", ( data[:title] || "").strip )
         .sub("{{location}}", ( data[:location] || "").strip )
-        .sub("{{dtstart}}", ( data[:time_start].strftime("%Y%m%dT%H%M%S")).strip )
-        .sub("{{dtend}}", ( data[:time_end].strftime("%Y%m%dT%H%M%S")).strip )
+        .sub("{{dtstart}}", ( (data[:time_start] && data[:time_start].strftime("%Y%m%dT%H%M%S")) || data[:event_date].strftime("%Y%m%d")).strip )
+        .sub("{{dtend}}", ( (data[:time_end] && data[:time_end].strftime("%Y%m%dT%H%M%S")) || "").strip )
         .sub("{{uid}}", Time.now.getutc.to_s)
         .sub("{{url}}", URI.escape(data[:href]) )
 
-        data[:date] = Courier::Core::Date.to_string(data[:time_start])
+        data[:date] = Courier::Core::Date.to_string(data[:event_date])
         data[:time_start] = Courier::Core::Date.to_string_time(data[:time_start])
         data[:time_end] = Courier::Core::Date.to_string_time(data[:time_end])
 
