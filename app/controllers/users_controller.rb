@@ -13,6 +13,7 @@ class UsersController < ApplicationLesliController
 
     def show
         respond_to do |format|
+            format.html {}
             format.json {
                 return responseWithNotFound unless @user
                 responseWithSuccessful(@user.show)
@@ -48,7 +49,7 @@ class UsersController < ApplicationLesliController
         if @user.update(params_user)
 
             # delete user session
-            sign_out @user if @user.active == false
+            #sign_out @user if @user.active == false
 
             # return a successful response 
             responseWithSuccessful
