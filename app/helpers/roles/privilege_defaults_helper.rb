@@ -1,2 +1,0 @@
-module Roles::PrivilegeDefaultsHelper
-end
