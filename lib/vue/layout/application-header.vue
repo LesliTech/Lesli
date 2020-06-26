@@ -180,7 +180,7 @@ export default {
                     <span class="navbar-link">
                         <slot name="username"></slot>
                     </span>
-                    <div class="navbar-dropdown">
+                    <div class="navbar-dropdown is-right">
                         <a href="/profile" class="navbar-item">
                             <span class="icon has-text-grey-light">
                                 <i class="fas fa-user"></i>
