@@ -28,34 +28,11 @@ Building a better future, one line of code at a time.
 
 // · 
 export default {
-
-    data() {
-        return {
-            user_id: null,
-            options: {},
-            user: {
-                roles_id: null,
-                password: "",
-                password_confirmation: ""
-            },
-        }
+    props: {
+        user: {},
+        options: {}
     },
-
-    mounted() {
-        this.user_id = lesli.current_user.id
-        this.getUser()
-    },
-
     methods: {
-
-        getUser() {
-            this.http.get(`/users/${this.user_id}.json`).then(result => {
-                this.user.roles_id = result.data.user.roles_id
-                this.options = result.data.options
-            }).catch(error => {
-                console.log(error)
-            })
-        },
 
         putUserPassword() { 
             this.http.put('/', {
@@ -75,13 +52,29 @@ export default {
         },
 
         putUserRole() { 
-            this.http.put(`/users/${this.user_id}.json`, {
+            this.http.put(`/users/${this.user.id}.json`, {
                 user: {
                     roles_id: this.user.roles_id
                 }
             }).then(result => {
                 if (result.successful == true) {
                     this.notification.alert("Role updated successfully", "error")
+                    return 
+                }
+                this.notification.alert(result.error.message[0])
+            }).catch(error => {
+
+            })
+        },
+
+        putUserActive() {
+            this.http.put(`/users/${this.user.id}.json`, {
+                user: {
+                    active: this.user.active
+                }
+            }).then(result => {
+                if (result.successful == true) {
+                    this.notification.alert("Access status updated successfully", "error")
                     return 
                 }
                 this.notification.alert(result.error.message[0])
@@ -98,6 +91,20 @@ export default {
 <template>
     <div class="columns">
         <div class="column">
+            <form @submit.prevent="putUserActive()">
+                <div class="field">
+                    <label class="label">System access</label>
+                    <div class="select">
+                        <select v-model="user.active">
+                            <option :value="true">active</option>
+                            <option :value="false">bloqued</option>
+                        </select>
+                    </div>
+                </div>
+                <p class="control">
+                    <button class="button is-primary">Speichern</button>
+                </p>
+            </form>
             <form @submit.prevent="putUserRole()">
                 <div class="field" vif="abilities.isRole('admin', 'owner')">
                     <label class="label">Rolle</label>
