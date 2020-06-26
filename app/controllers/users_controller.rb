@@ -4,6 +4,7 @@ class UsersController < ApplicationLesliController
 
     def index
         respond_to do |format|
+            format.html { }
             format.json {
                 responseWithSuccessful(User.list(current_user, params[:role], params[:type], @query))
             }
