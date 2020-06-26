@@ -35,7 +35,7 @@ Rails.application.config.assets.version = "0.1.0"
 Rails.application.config.assets.paths << Rails.root.join("vendor")
 
 
-Rails.application.config.assets.precompile += [ "lesli/templates/website.css" ]
+#Rails.application.config.assets.precompile += [ "lesli/templates/website.css" ]
 
 
 # Themes
@@ -44,7 +44,8 @@ Rails.application.config.assets.precompile += [ "themes/**/*.css" ]
 
 
 # Lesli core assets
-Rails.application.config.assets.precompile += [ "users/*.css", "users/*.js" ]
+
+Rails.application.config.assets.precompile += [ "users.css", "users/*.js" ]
 Rails.application.config.assets.precompile += [ "errors/*.css", "errors/*.js" ]
 Rails.application.config.assets.precompile += [ "websites*.css", "websites/*.js" ]
 Rails.application.config.assets.precompile += [ "accounts.css", "accounts/app.js" ]

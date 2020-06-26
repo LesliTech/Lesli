@@ -1,0 +1,10 @@
+= form_for @role_privilege_default do |f|
+  - if @role_privilege_default.errors.any?
+    #error_explanation
+      %h2= "#{pluralize(@role_privilege_default.errors.count, "error")} prohibited this role_privilege_default from being saved:"
+      %ul
+        - @role_privilege_default.errors.full_messages.each do |message|
+          %li= message
+
+  .actions
+    = f.submit 'Save'

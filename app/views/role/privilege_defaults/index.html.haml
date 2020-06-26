@@ -1,0 +1,19 @@
+%h1 Listing role_privilege_defaults
+
+%table
+  %thead
+    %tr
+      %th
+      %th
+      %th
+
+  %tbody
+    - @role_privilege_defaults.each do |role_privilege_default|
+      %tr
+        %td= link_to 'Show', role_privilege_default
+        %td= link_to 'Edit', edit_role_privilege_default_path(role_privilege_default)
+        %td= link_to 'Destroy', role_privilege_default, method: :delete, data: { confirm: 'Are you sure?' }
+
+%br
+
+= link_to 'New Privilege default', new_role_privilege_default_path
