@@ -76,40 +76,26 @@ export default {
 </script>
 <template>
     <section class="application-apps">
-        <div :class="[{ 'is-active': apps.showRight }, 'quickview', 'right']">
+        <div :class="[{ 'is-active': apps.showRight }, 'quickview', 'is-left is-active']">
             <header class="quickview-header" @click="apps.showRight = false">
-                <b>Lesli ecosystem</b>
+                <b><slot name="title"></slot></b>
                 <i class="fas fa-arrow-left"></i>
             </header>
             <div class="quickview-body">
                 <div class="quickview-block">
-                    <div class="columns">
-                        <div class="column">
-                            <slot name="left"></slot>
-                        </div>
-                        <div class="column">
-                            <slot name="right"></slot>
-                        </div>
-                    </div>
+                    <slot></slot>
                 </div>
             </div>
         </div>
 
         <div :class="[{ 'is-active': apps.showLeft }, 'quickview']">
-            <header class="quickview-header" @click="apps.showLeft = false">
-                <b>Lesli ecosystem</b>
-                <i class="fas fa-arrow-right"></i>
+            <header class="quickview-header" @click="apps.showRight = false">
+                <b><slot name="title"></slot></b>
+                <i class="fas fa-arrow-left"></i>
             </header>
             <div class="quickview-body">
                 <div class="quickview-block">
-                    <div class="columns">
-                        <div class="column">
-                            <slot name="left"></slot>
-                        </div>
-                        <div class="column">
-                            <slot name="right"></slot>
-                        </div>
-                    </div>
+                    <slot></slot>
                 </div>
             </div>
         </div>
