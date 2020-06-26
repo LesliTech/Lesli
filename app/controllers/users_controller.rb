@@ -38,14 +38,20 @@ class UsersController < ApplicationLesliController
         # validate that user exists
         return responseWithNotFound unless @user
 
-        user = user_params
+        params_user = user_params
 
         if not current_user.is_role?("owner", "admin")
-            user.delete("roles_id")
+            params_user.delete("roles_id")
         end
 
-        if @user.update(user)
+        if @user.update(params_user)
+
+            # delete user session
+            sign_out @user if @user.active == false
+
+            # return a successful response 
             responseWithSuccessful
+            
         else
             responseWithError(@user.errors.full_messages.to_sentence)
         end

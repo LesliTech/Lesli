@@ -27,6 +27,7 @@ Building a better future, one line of code at a time.
 
 
 // · 
+import componentInformationCard from "../components/card-information.vue"
 import componentInformationForm from "../components/form-information.vue"
 import componentSecurityForm from "../components/form-security.vue"
 
@@ -34,27 +35,45 @@ import componentSecurityForm from "../components/form-security.vue"
 // · 
 export default {
     components: {
+        'component-information-card': componentInformationCard,
         'component-information-form': componentInformationForm,
         'component-security-form': componentSecurityForm
+    },
+    data() {
+        return {
+            user_id: null,
+            options: null,
+            user: null,
+        }
+    },
+    mounted() {
+        this.user_id = lesli.current_user.id
+        this.getUser()
+    },
+    methods: {
+
+        getUser() {
+            this.http.get(`/users/${this.user_id}.json`).then(result => {
+                this.options = result.data.options
+                this.user = result.data.user
+            }).catch(error => {
+                console.log(error)
+            })
+        }
+
     }
 }
 </script>
 
 <template>
     <section class="application-component">
-        <div class="columns">
-            <div class="column is-4">
-                <figure class="image is-128x128">
-                    <img class="is-rounded" src="https://ui-avatars.com/api/?name=Elon+Musk&background=0D8ABC&color=fff&size=300" alt="user avatar">
-                </figure>
-            </div>
-        </div>
+        <component-information-card :user="user"></component-information-card>
         <b-tabs>
             <b-tab-item label="Information">
-                <component-information-form></component-information-form>
+                <component-information-form v-if="user" :user="user"></component-information-form>
             </b-tab-item>
             <b-tab-item label="Security">
-                <component-security-form></component-security-form>
+                <component-security-form v-if="user" :user="user" :options="options"></component-security-form>
             </b-tab-item>
             <!-- 
             <b-tab-item label="Settings">

@@ -28,34 +28,17 @@ Building a better future, one line of code at a time.
 
 // · 
 export default {
-
+    props: {
+        user: {}
+    },
     data() {
         return {
-            user_id: null,
-            options: {},
-            user: {
-                detail_attributes: {}
-            },
+            options: {}
         }
     },
-
-    mounted() {
-        this.user_id = lesli.current_user.id
-        this.getUser()
-    },
-
     methods: {
-
-        getUser() {
-            this.http.get(`/users/${this.user_id}.json`).then(result => {
-                this.user = result.data.user
-            }).catch(error => {
-                console.log(error)
-            })
-        },
-
         putUser() {
-            this.http.put(`/users/${this.user_id}.json`, {
+            this.http.put(`/users/${this.user.id}.json`, {
                 user: this.user
             }).then(result => {
                 console.log(result)
@@ -63,7 +46,6 @@ export default {
 
             })
         }
-        
     }
 
 }
