@@ -27,29 +27,29 @@ Building a better future, one line of code at a time.
 section.application-apps {
 
     .quickview {
-
+        left: 0;
+        
         .quickview-block {
             padding: 2rem;
-        }
 
-        a {
-            margin-bottom: 1.8rem;
-            display: block;
-        }
+            label {
+                display: block;
+                margin-bottom: 1.2rem;
+            }
 
-        img, 
-        span {
-            display: inline-block;
-            vertical-align: middle;
-        }
+            a {
+                width: 110px;
+                text-align: center;
+                display: inline-block;
+                margin-bottom: 1.6rem;
+            }
 
-        img {
-            height: 34px;
-        }
-
-        span {
-            font-size: 1.2rem;
-            //padding-top: 10px;
+            img {
+                display: block;
+                margin: 0 auto .4rem;
+                width: 45px;
+            }
+            
         }
 
     }
