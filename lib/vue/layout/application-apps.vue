@@ -76,7 +76,7 @@ export default {
 </script>
 <template>
     <section class="application-apps">
-        <div :class="[{ 'is-active': apps.showRight }, 'quickview', 'is-left is-active']">
+        <div :class="[{ 'is-active': apps.showRight }, 'quickview', 'is-left']">
             <header class="quickview-header" @click="apps.showRight = false">
                 <b><slot name="title"></slot></b>
                 <i class="fas fa-arrow-left"></i>

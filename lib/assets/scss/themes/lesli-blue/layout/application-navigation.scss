@@ -31,10 +31,13 @@ Building a better future, one line of code at a time.
 // · Navigation sidebar
 .application-navigation {
     z-index: 99;
+    margin-top: 1rem;
     padding-top: 1rem;
     padding-right: 1rem;
-    background-color: lesli-css-get-color(solid, white);
-    box-shadow: inset 80px 0px 0px 0px lesli-css-theme-get-color(app, primary);
+    background: linear-gradient(0deg,#3358f4,#1d8cf8);
+    @include lesli-css-theme-border-radius;
+    @include lesli-css-theme-boxshadow;
+    
 
     li a {
         width: 100%;
@@ -55,56 +58,32 @@ Building a better future, one line of code at a time.
 
         i {
             width: 75px;
-            text-align: center;
             font-size: 1.2rem;
+            text-align: center;
+            color: lesli-css-get-color(silver, 100);
+        }
+
+        span {
             color: lesli-css-get-color(silver, 100);
         }
 
         small {
-            background-color: lesli-css-get-color(berry, 300);
             color: lesli-css-get-color(solid, white);
+            background-color: lesli-css-get-color(berry, 300);
         }
 
     }
 
-}
-
-
-// · 
-@include lesli-css-breakpoint("tablet") {
-    .application-navigation {
-        background-color: lesli-css-theme-get-color(app, primary);
-        li a {
-
-            span {
-                display: block;
-                color: lesli-css-get-color(silver, 100);
-            }
-
-        }
-    }
 }
 
 
 // · 
 @include lesli-css-breakpoint("desktop") {
-    .application-navigation {
-        background-color: lesli-css-get-color(solid, white);
+    margin: 1rem .5rem;
+}
 
-        li a {
 
-            span {
-                color: lesli-css-get-color(silver, 700);
-            }
-
-            &.is-active,
-            &:hover {
-                span {
-                    color: lesli-css-theme-get-color(app, primary);
-                }
-            }
-
-        }
-        
-    }
+// ·
+@include lesli-css-breakpoint("widescreen") {
+    margin: 1rem;
 }
