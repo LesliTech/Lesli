@@ -31,10 +31,11 @@ export default {
 
     data() {
         return {
-            apps: { 
-                showLeft: false,
-                showRight: false
-            },
+            open: false,
+            right: false,
+            overlay: false,
+            fullwidth: false,
+            fullheight: true,
             translations: {}
         }
     },
@@ -42,62 +43,46 @@ export default {
         this.mountListeners()
     },
     methods: {
-
         mountListeners() {
             this.bus.subscribe("show:/core/layout/apps#panel", side => {
-
-                if (side == 'right') {
-                    if (this.apps.showRight == true) {
-                        this.apps.showRight = false
-                        return
-                    }
-                    this.apps.showRight = true
-                    this.apps.showLeft = false
-                }
-
-                if (side == 'left') {
-                    if (this.apps.showLeft == true) {
-                        this.apps.showLeft = false
-                        return
-                    }
-                    this.apps.showLeft = true
-                    this.apps.showRight = false
-                }
-
-                setTimeout(() => this.apps.showRight = false, 400000)
-                setTimeout(() => this.apps.showLeft = false, 400000)
-
+                this.open = true
+                this.right = side == 'right'
             })
-
         }
-
     }
 }
 </script>
 <template>
-    <section class="application-apps">
-        <div :class="[{ 'is-active': apps.showRight }, 'quickview', 'is-left']">
-            <header class="quickview-header" @click="apps.showRight = false">
-                <b><slot name="title"></slot></b>
-                <i class="fas fa-arrow-left"></i>
-            </header>
-            <div class="quickview-body">
-                <div class="quickview-block">
-                    <slot></slot>
+    <section>
+        <b-sidebar
+            class="application-apps"
+            :fullheight="fullheight"
+            :fullwidth="fullwidth"
+            :overlay="overlay"
+            :right="right"
+            :open.sync="open"
+        >
+            <div class="header">
+                <slot name="header"></slot>
+            </div>
+            <div class="content">
+                <slot></slot>
+            </div>
+        </b-sidebar>
+        <!-- 
+        <section class="application-apps">
+            <div :class="[{ 'is-active': apps.showLeft }, 'quickview']">
+                <header class="quickview-header" @click="apps.showRight = false">
+                    <b><slot name="title"></slot></b>
+                    <i class="fas fa-arrow-left"></i>
+                </header>
+                <div class="quickview-body">
+                    <div class="quickview-block">
+                        <slot></slot>
+                    </div>
                 </div>
             </div>
-        </div>
-
-        <div :class="[{ 'is-active': apps.showLeft }, 'quickview']">
-            <header class="quickview-header" @click="apps.showRight = false">
-                <b><slot name="title"></slot></b>
-                <i class="fas fa-arrow-left"></i>
-            </header>
-            <div class="quickview-body">
-                <div class="quickview-block">
-                    <slot></slot>
-                </div>
-            </div>
-        </div>
+        </section>
+        -->
     </section>
 </template>

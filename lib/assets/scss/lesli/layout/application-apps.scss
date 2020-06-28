@@ -24,20 +24,20 @@ Building a better future, one line of code at a time.
 // · 
 */
 
-section.application-apps {
+.application-apps {
 
-    .quickview {
-        
-        .quickview-block {
-            padding: 2rem;
+    .sidebar-content {
+        background-color: lesli-css-get-color(solid, white);
 
-            label {
-                display: block;
-                margin-bottom: 1.2rem;
-            }
+        .header {
+            padding: 1rem;
+            margin-bottom: 1.2rem;
+        }
+
+        .content {
 
             a {
-                width: 110px;
+                width: 82px;
                 text-align: center;
                 display: inline-block;
                 margin-bottom: 1.6rem;
@@ -46,9 +46,13 @@ section.application-apps {
             img {
                 display: block;
                 margin: 0 auto .4rem;
-                width: 45px;
+                width: 30px;
             }
-            
+
+            span {
+                font-size: .95rem;
+            }
+
         }
 
     }
