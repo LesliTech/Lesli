@@ -45,7 +45,6 @@ Building a better future, one line of code at a time.
         font-size: 1.1rem;
         position: relative;
         align-items: center;
-        position: relative;
         margin: 0 auto;
 
         display: block;
@@ -54,6 +53,20 @@ Building a better future, one line of code at a time.
 
         i {
             font-size: 1.4rem;
+            position: relative;
+            small {
+                font-size: .8rem;
+                font-family: sans-serif;
+                display: block;
+                position: absolute;
+                width: 18px;
+                height: 18px;
+                padding-top: 4px;
+                border-radius: 50%;
+                margin-top: -34px;
+                right: 0;
+                text-align: center;
+            }
         }
 
         img {
@@ -63,21 +76,7 @@ Building a better future, one line of code at a time.
         span {
             display: none;
         }
-
-        small {
-            font-size: .8rem;
-            font-family: sans-serif;
-            display: block;
-            position: absolute;
-            width: 18px;
-            height: 18px;
-            padding-top: 4px;
-            border-radius: 50%;
-            margin-top: -34px;
-            right: 0;
-            text-align: center;
-        }
-
+        
     }
 
     ul.menu-list li ul {

@@ -61,15 +61,14 @@ Building a better future, one line of code at a time.
             font-size: 1.2rem;
             text-align: center;
             color: lesli-css-get-color(silver, 100);
+            small {
+                color: lesli-css-get-color(silver, 900);
+                background-color: lesli-css-get-color(banana, 300);
+            }
         }
 
         span {
             color: lesli-css-get-color(silver, 100);
-        }
-
-        small {
-            color: lesli-css-get-color(solid, white);
-            background-color: lesli-css-get-color(berry, 300);
         }
 
     }
