@@ -26,9 +26,9 @@ Building a better future, one line of code at a time.
 header.application-header {
     top: 0;
     left: 0;
-    position: fixed;
     right: 0;
-    z-index: 100;
+    z-index: 10;
+    position: fixed;
     height: var(--application-header-height);
 
     .navbar-item {

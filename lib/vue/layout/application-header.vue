@@ -50,20 +50,20 @@ export default {
     },
 
     mounted() {
-        this.mountListeners()
-        this.checkIfMicrophoneWorks()
-        this.getNotificationsCounter()
+        this.mountListeners();
+        this.getNotificationsCount();
+        this.checkIfMicrophoneWorks();
     },
 
     methods: {
 
         mountListeners() {
             this.bus.subscribe('/core/layout/header/notification#getNotificationsCounter', () => {
-                this.getNotificationsCounter()
+                this.getNotificationsCount()
             })
         },
 
-        getNotificationsCounter() {
+        getNotificationsCount() {
             this.http.get('/bell/notifications.json').then(result => {
                 if (result.successful) {
                     this.notification.count = result.data.length
@@ -71,13 +71,6 @@ export default {
             }).catch(error => {
                 console.log(error)
             })
-        },
-
-        openAside() {
-            clearTimeout(this.timer)
-            let el = document.getElementsByTagName('aside')[0]
-            el.classList.toggle('show')
-            this.aside.timer = setTimeout(() => el.classList.remove('show'), 4000)
         },
 
         checkIfMicrophoneWorks() {
@@ -113,11 +106,11 @@ export default {
             introJs().start()
         },
 
-        showAppsPanel(side) {
+        showApps(side) {
             this.bus.publish("show:/core/layout/apps#panel", side)
         },
 
-        showNotificationPanel() {
+        showNotifications() {
             this.bus.publish("show:/core/layout/notification#panel")
         },
 
@@ -141,7 +134,7 @@ export default {
     <header class="application-header">
         <b-navbar transparent>
             <template slot="brand">
-                <span class="icon apps" @click="showAppsPanel('right')">
+                <span class="icon apps" @click="showApps('left')">
                     <span class="icon">
                         <svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'><title>ionicons-v5-h</title><path d='M104,160a56,56,0,1,1,56-56A56.06,56.06,0,0,1,104,160Z'/><path d='M256,160a56,56,0,1,1,56-56A56.06,56.06,0,0,1,256,160Z'/><path d='M408,160a56,56,0,1,1,56-56A56.06,56.06,0,0,1,408,160Z'/><path d='M104,312a56,56,0,1,1,56-56A56.06,56.06,0,0,1,104,312Z'/><path d='M256,312a56,56,0,1,1,56-56A56.06,56.06,0,0,1,256,312Z'/><path d='M408,312a56,56,0,1,1,56-56A56.06,56.06,0,0,1,408,312Z'/><path d='M104,464a56,56,0,1,1,56-56A56.06,56.06,0,0,1,104,464Z'/><path d='M256,464a56,56,0,1,1,56-56A56.06,56.06,0,0,1,256,464Z'/><path d='M408,464a56,56,0,1,1,56-56A56.06,56.06,0,0,1,408,464Z'/></svg>
                     </span>
@@ -164,15 +157,15 @@ export default {
 
                 <slot name="languages"></slot>
 
-                <a class="navbar-item notification-indicator" data-intro="Notification icon" @click="showNotificationPanel()">
+                <a class="navbar-item notification-indicator" data-intro="Notification icon" @click="showNotification()">
                     <i v-if="notification.count > 0" class="fas fa-bell has-text-link"></i>
                     <i v-if="notification.count == 0" class="far fa-bell"></i>
                     <span>{{ notification.count }}</span>
                 </a>
 
-                <a class="navbar-item apps" @click="showAppsPanel('left')">
+                <a class="navbar-item apps" @click="showApps('right')">
                     <span class="icon">
-                        <svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'><title>ionicons-v5-h</title><path d='M104,160a56,56,0,1,1,56-56A56.06,56.06,0,0,1,104,160Z'/><path d='M256,160a56,56,0,1,1,56-56A56.06,56.06,0,0,1,256,160Z'/><path d='M408,160a56,56,0,1,1,56-56A56.06,56.06,0,0,1,408,160Z'/><path d='M104,312a56,56,0,1,1,56-56A56.06,56.06,0,0,1,104,312Z'/><path d='M256,312a56,56,0,1,1,56-56A56.06,56.06,0,0,1,256,312Z'/><path d='M408,312a56,56,0,1,1,56-56A56.06,56.06,0,0,1,408,312Z'/><path d='M104,464a56,56,0,1,1,56-56A56.06,56.06,0,0,1,104,464Z'/><path d='M256,464a56,56,0,1,1,56-56A56.06,56.06,0,0,1,256,464Z'/><path d='M408,464a56,56,0,1,1,56-56A56.06,56.06,0,0,1,408,464Z'/></svg>
+                        <svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'><title></title><path d='M104,160a56,56,0,1,1,56-56A56.06,56.06,0,0,1,104,160Z'/><path d='M256,160a56,56,0,1,1,56-56A56.06,56.06,0,0,1,256,160Z'/><path d='M408,160a56,56,0,1,1,56-56A56.06,56.06,0,0,1,408,160Z'/><path d='M104,312a56,56,0,1,1,56-56A56.06,56.06,0,0,1,104,312Z'/><path d='M256,312a56,56,0,1,1,56-56A56.06,56.06,0,0,1,256,312Z'/><path d='M408,312a56,56,0,1,1,56-56A56.06,56.06,0,0,1,408,312Z'/><path d='M104,464a56,56,0,1,1,56-56A56.06,56.06,0,0,1,104,464Z'/><path d='M256,464a56,56,0,1,1,56-56A56.06,56.06,0,0,1,256,464Z'/><path d='M408,464a56,56,0,1,1,56-56A56.06,56.06,0,0,1,408,464Z'/></svg>
                     </span>
                 </a>
 
