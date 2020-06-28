@@ -30,12 +30,6 @@ header.application-header {
     }
 
     .navbar-brand {
-        background-color: white;
-        box-shadow: inset 80px 0px 0px 0px lesli-css-theme-get-color(app, primary);
-        
-        svg {
-            fill: white;
-        }
         img {
             max-height: 45px;
         }
@@ -46,4 +40,24 @@ header.application-header {
         border: none;
     }
     
+}
+
+
+// · 
+@include lesli-css-breakpoint("desktop") {
+    header.application-header {
+        .navbar-brand {
+            margin-left: .5rem;
+        }
+    }
+}
+
+
+// ·
+@include lesli-css-breakpoint("widescreen") {
+    header.application-header {
+        .navbar-brand {
+            margin-left: 1rem;
+        }
+    }
 }
