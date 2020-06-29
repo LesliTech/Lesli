@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 3011108) do
+ActiveRecord::Schema.define(version: 10010104) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -86,6 +86,75 @@ ActiveRecord::Schema.define(version: 3011108) do
     t.string "checksum", null: false
     t.datetime "created_at", null: false
     t.index ["key"], name: "index_active_storage_blobs_on_key", unique: true
+  end
+
+  create_table "cloud_babel_translation_buckets", force: :cascade do |t|
+    t.string "name"
+    t.string "reference_module"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.bigint "cloud_babel_translation_modules_id"
+    t.index ["cloud_babel_translation_modules_id"], name: "babel_translation_objects_modules"
+  end
+
+  create_table "cloud_babel_translation_modules", force: :cascade do |t|
+    t.string "name"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
+  create_table "cloud_babel_translation_strings", force: :cascade do |t|
+    t.string "context"
+    t.string "label"
+    t.string "es"
+    t.string "en"
+    t.string "de"
+    t.string "fr"
+    t.integer "status"
+    t.integer "priority"
+    t.boolean "need_help"
+    t.boolean "need_translation"
+    t.string "reference_bucket"
+    t.datetime "last_update_context"
+    t.datetime "last_update_es"
+    t.datetime "last_update_en"
+    t.datetime "last_update_de"
+    t.datetime "last_update_fr"
+    t.datetime "last_update_status"
+    t.datetime "deleted_at"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.bigint "users_id"
+    t.bigint "cloud_babel_translation_buckets_id"
+    t.index ["cloud_babel_translation_buckets_id"], name: "babel_translation_strings_buckets"
+    t.index ["users_id"], name: "babel_translation_strings_users"
+  end
+
+  create_table "cloud_babel_translations", force: :cascade do |t|
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
+  create_table "cloud_bell_accounts", force: :cascade do |t|
+    t.datetime "deleted_at"
+    t.index ["deleted_at"], name: "index_cloud_bell_accounts_on_deleted_at"
+  end
+
+  create_table "cloud_bell_notifications", force: :cascade do |t|
+    t.string "subject"
+    t.text "body"
+    t.string "url"
+    t.string "category"
+    t.string "sender"
+    t.boolean "read", default: false
+    t.datetime "deleted_at"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.bigint "users_id"
+    t.bigint "cloud_bell_accounts_id"
+    t.index ["cloud_bell_accounts_id"], name: "index_cloud_bell_notifications_on_cloud_bell_accounts_id"
+    t.index ["deleted_at"], name: "index_cloud_bell_notifications_on_deleted_at"
+    t.index ["users_id"], name: "index_cloud_bell_notifications_on_users_id"
   end
 
   create_table "cloud_driver_accounts", force: :cascade do |t|
@@ -575,6 +644,12 @@ ActiveRecord::Schema.define(version: 3011108) do
   add_foreign_key "account_settings", "accounts", column: "accounts_id"
   add_foreign_key "accounts", "users", column: "users_id"
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
+  add_foreign_key "cloud_babel_translation_buckets", "cloud_babel_translation_modules", column: "cloud_babel_translation_modules_id"
+  add_foreign_key "cloud_babel_translation_strings", "cloud_babel_translation_buckets", column: "cloud_babel_translation_buckets_id"
+  add_foreign_key "cloud_babel_translation_strings", "users", column: "users_id"
+  add_foreign_key "cloud_bell_accounts", "accounts", column: "id"
+  add_foreign_key "cloud_bell_notifications", "cloud_bell_accounts", column: "cloud_bell_accounts_id"
+  add_foreign_key "cloud_bell_notifications", "users", column: "users_id"
   add_foreign_key "cloud_driver_accounts", "accounts", column: "id"
   add_foreign_key "cloud_driver_calendar_actions", "cloud_driver_calendars", column: "cloud_driver_calendars_id"
   add_foreign_key "cloud_driver_calendar_activities", "cloud_driver_calendars", column: "cloud_driver_calendars_id"
