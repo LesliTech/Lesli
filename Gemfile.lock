@@ -1,19 +1,7 @@
 PATH
-  remote: engines/CloudFocus
+  remote: engines/DeutscheLeibrenten
   specs:
-    cloud_focus (0.1.0)
-      rails (~> 6.0.0)
-
-PATH
-  remote: engines/CloudHaus
-  specs:
-    cloud_haus (0.1.0)
-      rails (~> 6.0.0)
-
-PATH
-  remote: engines/CloudHouse
-  specs:
-    cloud_house (0.1.0)
+    deutsche_leibrenten (0.1.0)
       rails (~> 6.0.0)
 
 PATH
@@ -38,6 +26,18 @@ PATH
   remote: engines/CloudDriver
   specs:
     cloud_driver (0.1.0)
+      rails (~> 6.0.0)
+
+PATH
+  remote: engines/CloudFocus
+  specs:
+    cloud_focus (0.1.0)
+      rails (~> 6.0.0)
+
+PATH
+  remote: engines/CloudHouse
+  specs:
+    cloud_house (0.1.0)
       rails (~> 6.0.0)
 
 PATH
@@ -454,9 +454,9 @@ DEPENDENCIES
   cloud_dispatcher!
   cloud_driver!
   cloud_focus!
-  cloud_haus!
   cloud_house!
   cloud_mailer!
+  deutsche_leibrenten!
   devise
   faker
   faraday
