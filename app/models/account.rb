@@ -131,8 +131,8 @@ class Account < ApplicationRecord
                 self.house = CloudHouse::Account.new
                 self.house.account = self
                 self.house.save!
-                if defined? CloudHaus
-                    CloudHaus::Account.initialize_workflows(self)
+                if defined? DeutscheLeibrenten
+                    DeutscheLeibrenten::Account.initialize_workflows(self)
                 end
             end
         end

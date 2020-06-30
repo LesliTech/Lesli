@@ -24,7 +24,7 @@ Building a better future, one line of code at a time.
 @description Base abstract model for *file* core entity
 
 =end
-    class Subscriber < ApplicationRecord
+    class Subscriber < ApplicationLesliRecord
         self.abstract_class = true
 
         belongs_to :user, class_name: "::User", foreign_key: "users_id"
@@ -169,7 +169,7 @@ Building a better future, one line of code at a time.
     dynamic_info.model.new # will return an instance of CloudHelp::Ticket::Subscriber
 =end
         def self.dynamic_info
-            module_info = self.name.split("::")
+            module_info = self.lesli_classname().split("::")
             {
                 module_name: module_info[0].sub("Cloud", "").downcase,
                 object_name: module_info[1].downcase,
