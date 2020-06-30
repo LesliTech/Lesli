@@ -194,7 +194,6 @@ this.http.delete(`127.0.0.1/help/tickets/${ticket_id}/files/${file_id}`);
             model = dynamic_info[:model]
             object_name = dynamic_info[:object_name]
             plural_object_name = object_name.pluralize
-            module_name = "house" if module_name == "haus"
 
             files = model.joins(
                 :cloud_object
@@ -218,7 +217,7 @@ this.http.delete(`127.0.0.1/help/tickets/${ticket_id}/files/${file_id}`);
 
             zip_stream = ::Zip::OutputStream.write_buffer do |zip|
                 files.each do |object_file|
-                    object_file_filepath = object_file.attachment.current_path.gsub("haus", "house")
+                    object_file_filepath = object_file.attachment.current_path
                     filename = object_file.attachment_identifier
                     file_obj = s3.get_object(
                         bucket: Rails.application.credentials.s3[:bucket], 
@@ -237,7 +236,7 @@ this.http.delete(`127.0.0.1/help/tickets/${ticket_id}/files/${file_id}`);
                 files.each do |object_file|
 
                     # CarrierWave zip download
-                    object_file_filepath = object_file.attachment.current_path.gsub("haus", "house")
+                    object_file_filepath = object_file.attachment.current_path
                     filename = object_file.attachment_identifier
                     next unless ::File.exist?(object_file_filepath)
                     zip.put_next_entry filename
