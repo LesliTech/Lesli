@@ -39,6 +39,18 @@ class ApplicationLesliController < ApplicationController
 
     protected
 
+    # @return [String] The name of this class, starting with 'Cloud'
+    # @description Returns the Lesli engine and class name associated to this model. This method must be overwritten 
+    #   if you create a new engine that inherits from another Lesli engine (like DeutscheLeibrenten previously CloudHaus)
+    # @example
+    #   # inside CloudHouse::ProjectsController, this instruction
+    #   puts lesli_classname # Will diplay 'CloudHouse::ProjectsController'
+    #   # inside DeutscheLeibrenten::ProjectsController, this instruction
+    #   puts lesli_classname # should also diplay 'CloudHouse::ProjectsController'
+    def self.lesli_classname
+        return self.name
+    end
+
     def authenticate_user
         if !user_signed_in?
             redirect_to root, notice: "Please Login to view that page!"

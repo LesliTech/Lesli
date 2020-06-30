@@ -37,6 +37,7 @@ Building a better future, one line of code at a time.
     this.http.get(`127.0.0.1/help/tickets/${ticket_id}/subscribers`);
 =end
         def index
+            dynamic_info = self.class.dynamic_info
             module_name = dynamic_info[:module_name]
             object_name = dynamic_info[:object_name]
             cloud_object_model = dynamic_info[:cloud_object_model]
@@ -70,6 +71,7 @@ Building a better future, one line of code at a time.
     this.http.post(`127.0.0.1/help/tickets/${ticket_id}/subscribers`, data);
 =end
         def create
+            dynamic_info = self.class.dynamic_info
             module_name = dynamic_info[:module_name]
             object_name = dynamic_info[:object_name]
             plural_object_name = object_name.pluralize
@@ -144,6 +146,7 @@ Building a better future, one line of code at a time.
     puts @cloud_object_subscriber # will display an instance of CloudHelp:Ticket::Subscriber
 =end
         def set_cloud_object_subscriber
+            dynamic_info = self.class.dynamic_info
             module_name = dynamic_info[:module_name]
             object_name = dynamic_info[:object_name]
             plural_object_name = object_name.pluralize
@@ -178,6 +181,7 @@ Building a better future, one line of code at a time.
     #}
 =end
         def cloud_object_subscriber_params
+            dynamic_info = self.class.dynamic_info
             module_name = dynamic_info[:module_name]
             object_name = dynamic_info[:object_name]
 
@@ -198,8 +202,9 @@ Building a better future, one line of code at a time.
     info[:model].new # will return an instance of CloudHelp::Ticket::Subscriber
     info[:cloud_object_model].new # will return an instance of CloudHelp::Ticket
 =end
-        def dynamic_info
-            module_info = self.class.name.split("::")
+        def self.dynamic_info
+            module_info = lesli_classname().split("::")
+            
             {
                 module_name: module_info[0].sub("Cloud", "").downcase,
                 object_name: module_info[1].downcase,
