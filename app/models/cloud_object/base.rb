@@ -105,7 +105,7 @@ module CloudObject
     puts dynamic_info[:workflow_model].new # will print a new instance of CloudHelp::Workflow
 =end
         def self.dynamic_info
-            module_info = self.name.split("::")
+            module_info = self.lesli_classname().split("::")
             {
                 activity_model: "#{self.name}::Activity".constantize,
                 module_name: module_info[0].sub("Cloud", "").downcase,
