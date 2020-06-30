@@ -24,7 +24,7 @@ Building a better future, one line of code at a time.
 
 =end
 module CloudObject
-    class File < ApplicationRecord
+    class File < ApplicationLesliRecord
         self.abstract_class = true
         mount_uploader :attachment, FileUploader
 

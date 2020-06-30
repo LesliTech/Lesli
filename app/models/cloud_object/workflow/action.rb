@@ -24,7 +24,7 @@ Building a better future, one line of code at a time.
 @description Base abstract model for *Workflow* *actions* core entity used for workflows
 
 =end
-    class Workflow::Action < ApplicationRecord
+    class Workflow::Action < ApplicationLesliRecord
         self.abstract_class = true
 
         enum action_type: {
@@ -157,10 +157,9 @@ Building a better future, one line of code at a time.
         #     info = dynamic_info
         #     puts info[:module_name] # will print 'help'
         def self.dynamic_info
-            module_info = self.name.split("::")
+            module_info = self.lesli_classname().split("::")
 
             module_name = module_info[0].sub("Cloud", "").downcase
-            module_name = "house" if module_name == "haus"
             {
                 module_name: module_name
             }
