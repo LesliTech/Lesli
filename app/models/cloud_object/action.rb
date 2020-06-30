@@ -24,7 +24,7 @@ Building a better future, one line of code at a time.
 @description Base abstract model for *action* core entity
 
 =end
-    class Action < ApplicationRecord
+    class Action < ApplicationLesliRecord
         self.abstract_class = true
     end
 end

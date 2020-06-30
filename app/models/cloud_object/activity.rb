@@ -26,7 +26,7 @@ Building a better future, one line of code at a time.
 =end
 
 module CloudObject
-    class Activity < ApplicationRecord
+    class Activity < ApplicationLesliRecord
         self.abstract_class = true
 
         enum icon: {
