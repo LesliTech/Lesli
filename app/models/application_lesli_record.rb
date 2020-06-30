@@ -94,4 +94,14 @@ class ApplicationLesliRecord < ApplicationRecord
         self.attributes = attributes_hash
         self.save(validate: false)
     end
+
+    # @return [String] The name of this class, starting with 'Cloud'
+    # @description Returns the Lesli engine and class name associated to this model. This method must be overwritten 
+    #   if you create a new engine that inherits from another Lesli engine (like DeutscheLeibrenten previously CloudHaus)
+    # @example
+    #   puts CloudHouse::Project.lesli_classname # Will diplay 'CloudHouse::Project'
+    #   puts DeutscheLeibrenten::Project.lesli_classname # Will also diplay 'CloudHouse::Project'
+    def self.lesli_classname
+        return self.name
+    end
 end

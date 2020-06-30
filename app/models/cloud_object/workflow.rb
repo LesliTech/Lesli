@@ -360,10 +360,9 @@ Building a better future, one line of code at a time.
     puts dynamic_info[:association_model] # will print a new instance of CloudHelp::Workflow::Association
 =end
         def self.dynamic_info
-            module_info = self.name.split("::")
+            module_info = self.lesli_classname().split("::")
             
             module_name = module_info[0].sub("Cloud", "").downcase
-            module_name = "house" if module_name == "haus"
 
             {
                 module_name: module_name,
