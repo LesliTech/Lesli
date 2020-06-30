@@ -21,7 +21,9 @@ export default {
             })
         },
         getSearch() {
-            this.http.get(`/house/projects/search/${this.text}`).then(result => {
+            let text = this.searchGermanCharacters()
+
+            this.http.get(`/house/projects/search/${text}`).then(result => {
                 this.projects = result.data
                 this.projects.forEach(project => {
                     for(var key in project) {
@@ -66,6 +68,23 @@ export default {
                 return ('<span class=\'tag is-primary\'>' + matchedText + '</span>');
             })
 
+        },
+        searchGermanCharacters(){
+            if (this.text.includes("ä")){
+                return this.text.replace("ä", "(ä|ae)") 
+            } else if (this.text.includes("ae")){
+                return this.text.replace("ae", "(ä|ae)") 
+            } else if (this.text.includes("ü")){
+                return this.text.replace("ü", "(ü|ue)")                 
+            }else if (this.text.includes("ue")){
+                return this.text.replace("ue", "(ü|ue)") 
+            }else if (this.text.includes("ö")){
+                return this.text.replace("ö", "(ö|oe)") 
+            }else if (this.text.includes("oe")){
+                return this.text.replace("oe", "(ö|oe)")                 
+            } else {
+                return this.text
+            }
         }
     },
     watch: {
