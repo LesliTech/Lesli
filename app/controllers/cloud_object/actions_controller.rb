@@ -37,6 +37,7 @@ Building a better future, one line of code at a time.
     this.http.get(`127.0.0.1/help/tickets/${ticket_id}/actions`);
 =end
         def index
+            dynamic_info = self.class.dynamic_info
             module_name = dynamic_info[:module_name]
             object_name = dynamic_info[:object_name]
             plural_object_name = object_name.pluralize
@@ -65,6 +66,7 @@ Building a better future, one line of code at a time.
     this.http.post(`127.0.0.1/help/tickets/${ticket_id}/actions`, data);
 =end
         def create
+            dynamic_info = self.class.dynamic_info
             module_name = dynamic_info[:module_name]
             object_name = dynamic_info[:object_name]
             subscriber_model = dynamic_info[:subscriber_model]
@@ -128,6 +130,7 @@ Building a better future, one line of code at a time.
     puts @cloud_object_action # will display an instance of CloudHelp:Ticket::Action
 =end
         def set_cloud_object_action
+            dynamic_info = self.class.dynamic_info
             module_name = dynamic_info[:module_name]
             object_name = dynamic_info[:object_name]
             plural_object_name = object_name.pluralize
@@ -165,6 +168,7 @@ Building a better future, one line of code at a time.
     #}
 =end
         def cloud_object_action_params
+            dynamic_info = self.class.dynamic_info
             module_name = dynamic_info[:module_name]
             object_name = dynamic_info[:object_name] 
 
@@ -190,8 +194,9 @@ Building a better future, one line of code at a time.
     info[:model].new # will return an instance of CloudHelp::Ticket::Action
     info[:subscriber_model].new # will return an instance of CloudHelp::Ticket::Subscriber
 =end
-        def dynamic_info
-            module_info = self.class.name.split("::")
+        def self.dynamic_info
+            module_info = lesli_classname().split("::")
+            
             {
                 module_name: module_info[0].sub("Cloud", "").downcase,
                 object_name: module_info[1].downcase,
