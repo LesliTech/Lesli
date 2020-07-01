@@ -12,38 +12,6 @@
 module CloudObject
     class Base < ApplicationLesliRecord
         self.abstract_class = true
-
-=begin
-@return [void]
-@description After a *cloud_object* is updated, this method can be triggered using the method
-    *after_update* *:after_update_actions*. In the base, it checks if the state of the *cloud_object*
-    changed. If it did, then a new CloudObject::Activity is created. Developers can extend this method if needed
-@example
-    ticket = CloudHelp::Ticket.first
-    ticket.update(detail_attributes: {cloud_help_workflow_details_id: 4})
-    # after the update, this method is executed automatically
-=end
-        def after_update_actions
-            dynamic_info = self.class.dynamic_info
-            module_name = dynamic_info[:module_name]
-            activity_model = dynamic_info[:activity_model]
-            workflow_status_model = dynamic_info[:workflow_status_model]
-
-            workflow_change = saved_changes["cloud_#{module_name}_workflow_statuses_id"]
-           
-            if workflow_change
-                old_status = workflow_status_model.find(workflow_change[0])
-                new_status = workflow_status_model.find(workflow_change[1])
-                activity_model.create!({
-                    category: "action_status",
-                    description: "#{new_status.name}",
-                    field_name: "cloud_#{module_name}_workflow_statuses_id",
-                    value_from: old_status.name,
-                    value_to: new_status.name,
-                    cloud_object: self
-                })
-            end
-        end
         
 =begin
 @return [void]
