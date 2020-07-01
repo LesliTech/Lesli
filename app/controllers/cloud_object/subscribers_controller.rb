@@ -44,15 +44,15 @@ Building a better future, one line of code at a time.
             dynamic_model = dynamic_info[:model]
 
             cloud_object_id = params["#{object_name}_id".to_sym]
-            events = dynamic_model.subscription_events(
+            actions = dynamic_model.subscription_actions(
                 cloud_object_model.find(cloud_object_id),
                 current_user
             )
-            responseWithSuccessful(events)
+            responseWithSuccessful(actions)
         end
 
 =begin
-@controller_action_param :event [String] A string that represent a valid event present in the *Subscriber* model
+@controller_action_param :action [String] A string that represent a valid action present in the *Subscriber* model
 @controller_action_param :notification_type [String] A string that represents a valid notification_type
     present in the *Subscriber* model
 @return [Json] Json that contains wheter the creation of the subscriber was successful or not. 
@@ -65,7 +65,7 @@ Building a better future, one line of code at a time.
     let data = {
         subscriber: {
             notification_type: "web",
-            event: "ticket_closed"
+            action: "ticket_closed"
         }
     };
     this.http.post(`127.0.0.1/help/tickets/${ticket_id}/subscribers`, data);
@@ -90,7 +90,7 @@ Building a better future, one line of code at a time.
         end
 
 =begin
-@controller_action_param :event [String] A string that represent a valid event present in the *Subscriber* model
+@controller_action_param :action [String] A string that represent a valid action present in the *Subscriber* model
 @controller_action_param :notification_type [String] A string that represents a valid notification_type
 @return [Json] Json that contains wheter the update of the subscriber was successful or not. 
     If it is not successful, it returs an error message
@@ -161,12 +161,12 @@ Building a better future, one line of code at a time.
 =begin
 @return [Parameters] Allowed parameters for the subscriber
 @description Sanitizes the parameters received from an HTTP call to only allow the specified ones.
-    Allowed params are _:event_, _:notification_type_.
+    Allowed params are _:action_, _:notification_type_.
 @example
     # supose params contains {
     #    "subscriber": {
     #        "id": 5,
-    #        "event": "ticket_created",
+    #        "action": "ticket_created",
     #        "notification_type": "email",
     #        "random_param": 5
     #    }
@@ -175,7 +175,7 @@ Building a better future, one line of code at a time.
     puts subscriber_params
     # will remove the _id_ and _random_param_ fields and only print {
     #    "subscriber": {
-    #        "event": "ticket_created",
+    #        "action": "ticket_created",
     #        "notification_type": "email"
     #    }
     #}
@@ -186,7 +186,7 @@ Building a better future, one line of code at a time.
             object_name = dynamic_info[:object_name]
 
             params.require(:subscriber).permit(
-                :event,
+                :action,
                 :notification_type
             )
         end
