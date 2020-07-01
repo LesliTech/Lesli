@@ -37,6 +37,7 @@ module CloudObject
         #     let ticket_id = 1;
         #     this.http.get(`127.0.0.1/help/tickets/${ticket_id}/subscribers`);
         def index
+            dynamic_info = self.class.dynamic_info
             module_name = dynamic_info[:module_name]
             object_name = dynamic_info[:object_name]
             dynamic_model = dynamic_info[:model]
@@ -68,6 +69,7 @@ module CloudObject
         #     };
         #     this.http.post(`127.0.0.1/help/tickets/${ticket_id}/subscribers`, data);
         def create
+            dynamic_info = self.class.dynamic_info
             module_name = dynamic_info[:module_name]
             object_name = dynamic_info[:object_name]
             
@@ -135,6 +137,7 @@ module CloudObject
         #     set_cloud_object_subscriber
         #     puts @cloud_object_subscriber # will display an instance of CloudHelp:Ticket::Subscriber
         def set_cloud_object_custom_field
+            dynamic_info = self.class.dynamic_info
             module_name = dynamic_info[:module_name]
             object_name = dynamic_info[:object_name]
 
@@ -166,6 +169,7 @@ module CloudObject
         #          }
         #      }
         def cloud_object_custom_field_params
+            dynamic_info = self.class.dynamic_info
             module_name = dynamic_info[:module_name]
             object_name = dynamic_info[:object_name]
 
@@ -183,8 +187,8 @@ module CloudObject
         #     puts info[:object_name] # will print 'ticket'
         #     info[:model].new # will return an instance of CloudHelp::Ticket::Subscriber
         #     info[:cloud_object_model].new # will return an instance of CloudHelp::Ticket
-        def dynamic_info
-            module_info = self.class.name.split("::")
+        def self.dynamic_info
+            module_info = lesli_classname().split("::")
             {
                 module_name: module_info[0].sub("Cloud", "").downcase,
                 object_name: module_info[1].downcase,

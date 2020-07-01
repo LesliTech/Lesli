@@ -278,9 +278,8 @@ Building a better future, one line of code at a time.
         #     puts info[:model].new # will return an instance of CloudHelp::Workflow::Action
         #     puts info[:workflow_model] # will return an instance of CloudHelp::Workflow
         def self.dynamic_info
-            module_info = self.name.split("::")
+            module_info = lesli_classname().split("::")
             module_name = module_info[0].sub("Cloud", "").downcase
-            module_name = "house" if module_name == "haus"
 
             {
                 module_name: module_name,
