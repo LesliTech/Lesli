@@ -29,9 +29,11 @@ Building a better future, one line of code at a time.
 class CreateRoleDetails < ActiveRecord::Migration[6.0]
     def change
         create_table :role_details do |t|
-            t.string :name
-            t.boolean :active
-            t.datetime :deleted_at, index: true
+            t.string    :name
+            t.boolean   :active
+            t.string    :default_path
+            t.integer   :object_level_permission, default: 10
+            t.datetime  :deleted_at, index: true
             t.timestamps
         end
         add_reference :role_details, :roles, foreign_key: true
