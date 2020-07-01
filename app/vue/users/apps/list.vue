@@ -131,7 +131,7 @@ export default {
         // @example
         //      this.showUsers(this.users[1])
         //      // Asume the id of the Users is 4
-        //      // The user will be redirected to the url /haus/users/4
+        //      // The user will be redirected to the url /users/4
         showUser(user) {
             this.$router.push(`${user.id}`)
         },

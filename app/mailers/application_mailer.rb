@@ -20,8 +20,8 @@ class ApplicationMailer < ActionMailer::Base
                 template_path = "mailers/focus"
             when "HouseMailer"
                 template_path = "mailers/house"
-            when "HausMailer"
-                template_path = "mailers/haus"
+            when "DeutscheLeibrentenMailer"
+                template_path = "mailers/deutsche_leibrenten"
             else
                 template_path = "mailers/lesli"
             end
