@@ -39,6 +39,8 @@ Building a better future, one line of code at a time.
     this.http.get(`127.0.0.1/help/tickets/${ticket_id}/discussions`);
 =end
         def index
+            dynamic_info = self.class.dynamic_info
+
             responseWithSuccessful(
                 dynamic_info[:model].list(
                     current_user.account, params["#{dynamic_info[:object_name]}_id".to_sym]
@@ -64,6 +66,7 @@ Building a better future, one line of code at a time.
     this.http.post(`127.0.0.1/help/tickets/${ticket_id}/discussions`, data);
 =end
         def create
+            dynamic_info = self.class.dynamic_info
             module_name = dynamic_info[:module_name]
             object_name = dynamic_info[:object_name]
             discussion_model = dynamic_info[:discussion_model]
@@ -157,6 +160,7 @@ this.http.delete(`127.0.0.1/help/tickets/${ticket_id}/discussions/${discussion_i
     #}
 =end
         def cloud_object_discussion_params
+            dynamic_info = self.class.dynamic_info
             module_name = dynamic_info[:module_name]
             object_name = dynamic_info[:object_name] 
 
@@ -178,6 +182,7 @@ this.http.delete(`127.0.0.1/help/tickets/${ticket_id}/discussions/${discussion_i
     puts @cloud_object_discussion # will display an instance of CloudHelp:Ticket::Discussion
 =end
         def set_cloud_object_discussion
+            dynamic_info = self.class.dynamic_info
             module_name = dynamic_info[:module_name]
             object_name = dynamic_info[:object_name]
             plural_object_name = object_name.pluralize
@@ -200,8 +205,9 @@ this.http.delete(`127.0.0.1/help/tickets/${ticket_id}/discussions/${discussion_i
     info[:model].new # will return an instance of CloudHelp::Ticket::Discussion
     info[:discussion_model].new # will return an instance of CloudHelp::Ticket::Subscriber
 =end
-        def dynamic_info
-            module_info = self.class.name.split("::")
+        def self.dynamic_info
+            module_info = lesli_classname().split("::")
+            
             {
                 module_name: module_info[0].sub("Cloud", "").downcase,
                 object_name: module_info[1].downcase,

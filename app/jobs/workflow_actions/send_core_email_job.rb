@@ -13,7 +13,7 @@ class WorkflowActions::SendCoreEmailJob < ApplicationJob
             class_data = cloud_object.class.name.split("::")
             
             # @todo Improve this href definition
-            if defined? CloudHaus
+            if defined? DeutscheLeibrenten
                 href = "/crm/#{class_data[1].downcase().pluralize()}/#{cloud_object.id}"
             else
                 href = "/#{class_data[0].downcase().gsub("Cloud", "")}/#{class_data[1].downcase().pluralize()}/#{cloud_object.id}"
