@@ -37,6 +37,7 @@ module CloudObject
         #     let ticket_id = 1;
         #     this.http.get(`127.0.0.1/help/tickets/${ticket_id}/activities`);
         def index
+            dynamic_info = self.class.dynamic_info
             module_name = dynamic_info[:module_name]
             object_name = dynamic_info[:object_name]
             plural_object_name = object_name.pluralize
@@ -81,6 +82,7 @@ module CloudObject
         #     };
         #     this.http.post(`127.0.0.1/help/tickets/${ticket_id}/activities`, data);
         def create
+            dynamic_info = self.class.dynamic_info
             module_name = dynamic_info[:module_name]
             object_name = dynamic_info[:object_name]
             activity_model = dynamic_info[:activity_model]
@@ -135,6 +137,7 @@ module CloudObject
         #     set_cloud_object_activity
         #     puts @cloud_object_activity # will display an instance of CloudHelp:Ticket::Action
         def set_cloud_object_activity
+            dynamic_info = self.class.dynamic_info
             module_name = dynamic_info[:module_name]
             object_name = dynamic_info[:object_name]
             plural_object_name = object_name.pluralize
@@ -170,6 +173,7 @@ module CloudObject
         #     #    }
         #     #}
         def cloud_object_activity_params
+            dynamic_info = self.class.dynamic_info
             module_name = dynamic_info[:module_name]
             object_name = dynamic_info[:object_name] 
 
@@ -193,10 +197,9 @@ module CloudObject
         #     puts info[:object_name] # will print 'ticket'
         #     info[:model].new # will return an instance of CloudHelp::Ticket::Action
         #     info[:subscriber_model].new # will return an instance of CloudHelp::Ticket::Subscriber
-        def dynamic_info
-            module_info = self.class.name.split("::")
+        def self.dynamic_info
+            module_info = lesli_classname().split("::")
             module_name = module_info[0].sub("Cloud", "").downcase
-            module_name = "house" if module_name == "haus"
             
             {
                 module_name: module_name,
