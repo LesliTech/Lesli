@@ -38,13 +38,9 @@ class Role < ApplicationRecord
     after_create :initialize_role
 
     def initialize_role
-
-        if (self.detail.name == "admin")
-            scan_routes(true)
-        else
-            scan_routes(false)
-        end
-
+        return scan_routes(true) if self.detail.name == "owner"
+        return scan_routes(true) if self.detail.name == "admin"
+        return scan_routes(false)
     end
 
     def scan_routes(default)
@@ -52,15 +48,19 @@ class Role < ApplicationRecord
         role_list.each do |t|
             self.privileges.find_or_create_by!(grant_object: t[:grant_name]) do |privilege|
                 privilege.grant_index = default, 
-                privilege.grant_create = default, 
-                privilege.grant_new = default, 
+
                 privilege.grant_edit = default, 
                 privilege.grant_show = default, 
+                privilege.grant_new = default, 
+
+                privilege.grant_create = default, 
                 privilege.grant_update = default, 
                 privilege.grant_destroy = default, 
-                privilege.grant_options = default, 
-                privilege.grant_default = default, 
-                privilege.grant_empty = default
+
+                privilege.grant_search = default,
+
+                privilege.grant_resources = default,
+                privilege.grant_options = default 
             end
         end
     end
@@ -77,9 +77,11 @@ class Role < ApplicationRecord
         role_list = get_controllers_from_routes(role_list, CloudHelp::Engine.routes.routes, CloudHelp) if defined?(CloudHelp)
         role_list = get_controllers_from_routes(role_list, CloudPanel::Engine.routes.routes, CloudPanel) if defined?(CloudPanel)
         role_list = get_controllers_from_routes(role_list, CloudBabel::Engine.routes.routes, CloudBabel) if defined?(CloudBabel)
-        role_list = get_controllers_from_routes(role_list, DeutscheLeibrenten::Engine.routes.routes, DeutscheLeibrenten) if defined?(DeutscheLeibrenten)
         role_list = get_controllers_from_routes(role_list, CloudHouse::Engine.routes.routes, CloudHouse) if defined?(CloudHouse)
         role_list = get_controllers_from_routes(role_list, CloudFocus::Engine.routes.routes, CloudFocus) if defined?(CloudFocus)
+
+        role_list = get_controllers_from_routes(role_list, DeutscheLeibrenten::Engine.routes.routes, DeutscheLeibrenten) if defined?(DeutscheLeibrenten)
+
         role_list
     end
 

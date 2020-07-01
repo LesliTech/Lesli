@@ -1705,6 +1705,8 @@ ActiveRecord::Schema.define(version: 2020_05_26_180220) do
   create_table "role_details", force: :cascade do |t|
     t.string "name"
     t.boolean "active"
+    t.string "default_path"
+    t.integer "object_level_permission", default: 10
     t.datetime "deleted_at"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
@@ -1748,10 +1750,9 @@ ActiveRecord::Schema.define(version: 2020_05_26_180220) do
     t.boolean "grant_create", default: false
     t.boolean "grant_update", default: false
     t.boolean "grant_destroy", default: false
-    t.boolean "grant_options", default: false
-    t.boolean "grant_default", default: false
     t.boolean "grant_search", default: false
-    t.boolean "grant_empty", default: false
+    t.boolean "grant_resources", default: false
+    t.boolean "grant_options", default: false
     t.datetime "deleted_at"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
