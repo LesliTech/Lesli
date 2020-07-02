@@ -39,6 +39,18 @@ class ApplicationLesliController < ApplicationController
 
     protected
 
+    # @return [String] The name of this class, starting with 'Cloud'
+    # @description Returns the Lesli engine and class name associated to this model. This method must be overwritten 
+    #   if you create a new engine that inherits from another Lesli engine (like DeutscheLeibrenten previously CloudHaus)
+    # @example
+    #   # inside CloudHouse::ProjectsController, this instruction
+    #   puts lesli_classname # Will diplay 'CloudHouse::ProjectsController'
+    #   # inside DeutscheLeibrenten::ProjectsController, this instruction
+    #   puts lesli_classname # should also diplay 'CloudHouse::ProjectsController'
+    def self.lesli_classname
+        return self.name
+    end
+
     def authenticate_user
         if !user_signed_in?
             redirect_to root, notice: "Please Login to view that page!"
@@ -61,6 +73,15 @@ class ApplicationLesliController < ApplicationController
         .where("role_privileges.grant_#{params[:action]} = TRUE")
         .first
 
+        # empty privileges if null privileges
+        granted ||= {} 
+
+        # if user do not has access to the requested route and can go to default route        
+        if !granted["grant_#{params[:action]}"] === true && can_redirect_to_default_path
+            return redirect_to current_user.role_detail[:default_path] 
+        end 
+
+        # send user to 401 page
         return respond_with_unauthorized if granted.blank?
         return respond_with_unauthorized if not granted["grant_#{params[:action]}"] === true
 
@@ -110,7 +131,7 @@ class ApplicationLesliController < ApplicationController
 
     end
     
-
+    # set query used to filter or sort data requests
     def set_request_helpers
 
         @query = {
@@ -133,4 +154,13 @@ class ApplicationLesliController < ApplicationController
         current_user.activity(params[:action], request.original_url)
     end
     
+    # Check if user can be redirected to role default path
+    def can_redirect_to_default_path
+        return false if request[:format] == "json"
+        return false if !["show", "index"].include?(params[:action])
+        return false if current_user.role_detail[:default_path].blank?
+        return false if current_user.role_detail[:default_path] == request.original_fullpath
+        return true
+    end 
+
 end

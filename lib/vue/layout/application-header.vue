@@ -157,7 +157,7 @@ export default {
 
                 <slot name="languages"></slot>
 
-                <a class="navbar-item notification-indicator" data-intro="Notification icon" @click="showNotification()">
+                <a class="navbar-item notification-indicator" data-intro="Notification icon" @click="showNotifications()">
                     <i v-if="notification.count > 0" class="fas fa-bell has-text-link"></i>
                     <i v-if="notification.count == 0" class="far fa-bell"></i>
                     <span>{{ notification.count }}</span>

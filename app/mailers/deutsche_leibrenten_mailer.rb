@@ -23,7 +23,7 @@ Building a better future, one line of code at a time.
 // · 
 =end
 
-class HausMailer < ApplicationMailer
+class DeutscheLeibrentenMailer < ApplicationMailer
 
     # @return [void]
     # @param to [String] The address to which the email will be sent

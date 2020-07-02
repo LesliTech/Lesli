@@ -167,7 +167,7 @@ Building a better future, one line of code at a time.
         # @return [JSON] A list of global actions of the workflow
         # @description Obtains a list of all the global actions of this workflow. A global action
         #     is an entry in the cloud_[engine]_[object]_workflows that has the 'global' attribute set to true
-        def action_options
+        def options
             dynamic_info = self.class.dynamic_info
             model = dynamic_info[:model]
 
@@ -176,7 +176,7 @@ Building a better future, one line of code at a time.
 
             return responseWithNotFound unless @workflow
 
-            responseWithSuccessful(model.action_options(current_user, @workflow))
+            responseWithSuccessful(model.options(current_user, @workflow))
         end
 
         private
@@ -278,9 +278,8 @@ Building a better future, one line of code at a time.
         #     puts info[:model].new # will return an instance of CloudHelp::Workflow::Action
         #     puts info[:workflow_model] # will return an instance of CloudHelp::Workflow
         def self.dynamic_info
-            module_info = self.name.split("::")
+            module_info = lesli_classname().split("::")
             module_name = module_info[0].sub("Cloud", "").downcase
-            module_name = "house" if module_name == "haus"
 
             {
                 module_name: module_name,
