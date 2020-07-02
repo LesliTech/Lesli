@@ -41,7 +41,7 @@ export default {
 
     methods: {
         setEndpoints(){
-            this.options_endpoint = `/${this.cloudEngine}/workflows/options/association`
+            this.options_endpoint = `/${this.cloudEngine}/workflows/associations/options`
             this.endpoint = `/${this.cloudEngine}/workflows/${this.workflowId}/associations`
         },
 

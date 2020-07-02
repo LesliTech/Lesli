@@ -232,7 +232,7 @@ this.http.put(`127.0.0.1/help/workflows/${workflow_id}`, data);
         }
     });
 =end
-        def workflow_options
+        def transition_options
             dynamic_info = self.class.dynamic_info
             module_name = dynamic_info[:module_name]
             full_module_name = dynamic_info[:full_module_name]

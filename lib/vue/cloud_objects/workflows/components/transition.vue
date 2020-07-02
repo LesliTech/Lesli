@@ -38,7 +38,7 @@ export default {
     mounted() {
         this.setCloudParams()
         this.setSubscriptions()
-        this.getWorkflowStateOptions()
+        this.getTransitionOptions()
     },
 
     beforeDestroy(){
@@ -63,9 +63,9 @@ export default {
             })
         },
 
-        getWorkflowStateOptions(){
+        getTransitionOptions(){
             if(this.cloudId){
-                let url = `/${this.module_name}/options/workflows/${this.object_name}/${this.cloudId}`
+                let url = `/${this.module_name}/workflows/custom/transition-options/${this.object_name}/${this.cloudId}`
                 this.http.get(url).then(result =>{
                     if (result.successful) {
                         if(result.data && result.data.length > 0){
@@ -107,7 +107,7 @@ export default {
                         this.notification.alert('This resource has been successfully closed', 'success')
                         this.$router.push(`/${this.cloudId}`)
                     }else{
-                        this.getWorkflowStateOptions()
+                        this.getTransitionOptions()
                         this.notification.alert(this.core_translations.status_updated, 'success')
                     }
                 } else {
@@ -129,7 +129,7 @@ export default {
 
     watch: {
         cloudId(){
-            this.getWorkflowStateOptions()
+            this.getTransitionOptions()
         }
     }
 }
