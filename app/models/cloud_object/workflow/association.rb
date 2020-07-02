@@ -39,8 +39,8 @@ Building a better future, one line of code at a time.
     # Imagine we are in CloudHouse, workflows are available for projects, properties, companies,
     # and employees. Imagine that the only non global association is for projects, and it's based on
     # project types, and imagine there are 2 project types.
-    association_options = CloudHouse::Workflow::Association.association_options
-    puts association_options.to_json # will display something similar to
+    options = CloudHouse::Workflow::Association.options
+    puts options.to_json # will display something similar to
     #[
     #    {"name":"Property", "workflow_for":"property", "details":[]},
     #    {"name":"Employee", "workflow_for":"employee","details":[]},
@@ -65,7 +65,7 @@ Building a better future, one line of code at a time.
     #    }
     #]
 =end
-        def self.association_options(account)
+        def self.options(account)
             module_name = self.dynamic_info[:module_name]
             associations = []
 

@@ -101,12 +101,7 @@ export default {
         },
 
         getFileOptions(){
-            let url = `/${this.module_name.slash}/options/${this.object_name.singular}/files`
-
-            // New routing for events
-            if (this.cloudModule == "driver/event") {
-                url = `/${this.object_utils.pluralize(this.cloudModule)}/options/file`
-            }
+            let url = `/${this.module_name.slash}/${this.object_name.plural}/files/options`
 
             this.http.get(url).then(result => {
                 if (result.successful) {
