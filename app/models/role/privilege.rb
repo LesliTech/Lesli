@@ -28,4 +28,23 @@ Building a better future, one line of code at a time.
 
 class Role::Privilege < ApplicationRecord
     belongs_to :role, foreign_key: "roles_id"
+
+
+    def self.index(role)
+        role.privileges.select(
+            :id,
+            :grant_object,
+            :grant_index,
+            :grant_create,
+            :grant_new,
+            :grant_edit,
+            :grant_show,
+            :grant_update,
+            :grant_destroy,
+            :grant_options,
+            :created_at,
+            :updated_at
+        )
+        .order(:grant_object, :id)
+    end
 end
