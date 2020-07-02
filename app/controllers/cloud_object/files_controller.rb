@@ -175,10 +175,10 @@ this.http.delete(`127.0.0.1/help/tickets/${ticket_id}/files/${file_id}`);
     # Executing this controller's action from javascript's frontend
     this.http.get('127.0.0.1/house/options/project/files');
 =end
-        def file_options
+        def options
             dynamic_info = self.class.dynamic_info
             model = dynamic_info[:model]
-            responseWithSuccessful(model.file_options)
+            responseWithSuccessful(model.options)
         end
 
 =begin

@@ -91,7 +91,7 @@ export default {
         },
 
         getActionOptions(){
-            let url = `/${this.cloudEngine}/workflows/${this.workflowId}/options/action`
+            let url = `/${this.cloudEngine}/workflows/${this.workflowId}/actions/options`
 
             this.http.get(url).then(result => {
                 if (result.successful) {
