@@ -19,7 +19,7 @@ class CreateRolePrivilegeDefaults < ActiveRecord::Migration[6.0]
             t.boolean :grant_options,   default: false
 
             t.datetime :deleted_at, index: true
-            t.timestamps
+
             t.timestamps
         end
         add_reference :role_privilege_defaults, :roles, foreign_key: true
