@@ -67,12 +67,21 @@ class ApplicationLesliController < ApplicationController
 
     def authorize_request
 
-        return
+        #return
         granted = current_user.privileges
         .where("role_privileges.grant_object = ?", params[:controller])
         .where("role_privileges.grant_#{params[:action]} = TRUE")
         .first
 
+        # empty privileges if null privileges
+        granted ||= {} 
+
+        # if user do not has access to the requested route and can go to default route        
+        if !granted["grant_#{params[:action]}"] === true && can_redirect_to_default_path
+            return redirect_to current_user.role_detail[:default_path] 
+        end 
+
+        # send user to 401 page
         return respond_with_unauthorized if granted.blank?
         return respond_with_unauthorized if not granted["grant_#{params[:action]}"] === true
 
@@ -122,7 +131,7 @@ class ApplicationLesliController < ApplicationController
 
     end
     
-
+    # set query used to filter or sort data requests
     def set_request_helpers
 
         @query = {
@@ -145,4 +154,13 @@ class ApplicationLesliController < ApplicationController
         current_user.activity(params[:action], request.original_url)
     end
     
+    # Check if user can be redirected to role default path
+    def can_redirect_to_default_path
+        return false if request[:format] == "json"
+        return false if !["show", "index"].include?(params[:action])
+        return false if current_user.role_detail[:default_path].blank?
+        return false if current_user.role_detail[:default_path] == request.original_fullpath
+        return true
+    end 
+
 end
