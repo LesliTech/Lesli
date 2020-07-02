@@ -58,6 +58,16 @@ Rails.application.routes.draw do
         resource  :profile
         resources :users
 
+        resources :roles do
+            scope module: :role do
+                resources :privileges
+            end
+            member do
+                post "/resources/restore_default_privileges",    to: "roles#restore_default_privileges"
+                post "/resources/update_default_privileges",     to: "roles#update_default_privileges"
+            end
+        end
+
         mount ActionCable.server  => "/cable"
         mount CloudBell::Engine   => "/bell"   if defined?(CloudBell)
         mount CloudLock::Engine   => "/lock"   if defined?(CloudLock)
