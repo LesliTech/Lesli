@@ -65,7 +65,7 @@ export default {
 
         getTransitionOptions(){
             if(this.cloudId){
-                let url = `/${this.module_name}/workflows/custom/transition-options/${this.object_name}/${this.cloudId}`
+                let url = `/${this.module_name}/workflows/resource/transition-options/${this.object_name}/${this.cloudId}`
                 this.http.get(url).then(result =>{
                     if (result.successful) {
                         if(result.data && result.data.length > 0){
