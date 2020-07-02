@@ -1,9 +1,9 @@
 [{
-    "name": "event",
-    "type": "integer"
+    "name": "action",
+    "type": "string"
 },{
     "name": "notification_type",
-    "type": "integer"
+    "type": "string"
 },{
     "name": "deleted_at",
     "type": "datetime",

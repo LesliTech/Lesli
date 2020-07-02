@@ -72,7 +72,8 @@ export default {
         },
 
         getNotifications() {
-            this.http.get('/bell/notifications.json').then(result => {
+            //this.http.get('/bell/notifications.json').then(result => {
+            this.http.get('/crm/dashboards/next-tasks.json').then(result => {
                 console.log(result)
                 if (result.successful){
                     this.notification.list = result.data
@@ -148,15 +149,20 @@ export default {
             <div class="quickview-body">
                 <div class="quickview-block">
                     <p class="filter-option has-text-right">
-                        <small @click="readNotifications()" class="has-text-grey-light">{{ translations.bell.notifications.text_mark_all_as_read }}</small>
+                        <!-- <small @click="readNotifications()" class="has-text-grey-light">{{ translations.bell.notifications.text_mark_all_as_read }}</small> -->
                     </p>
                     <div class="section">
                         <ul class="menu-list">
                             <li v-for="notification in notification.list" :key="notification.id" >
-                                <!-- 
+                                <a :href="'/crm/tasks/'+notification.id">
+                                    {{ notification.title }}
+                                </a> 
+                                <small class="has-text-grey-light">deadline: {{ notification.deadline }}</small>
+                            </li>
+                            <!-- 
+                            <li v-for="notification in notification.list" :key="notification.id" >
                                 <i class="fas fa-info-circle"></i>
                                 <a @click="readNotification(index)" href="#">{{ notification.subject }}</a>
-                                -->
                                 <a v-if="notification.url" :href="notification.url">
                                     {{ notification.subject }}
                                 </a> 
@@ -170,6 +176,7 @@ export default {
                                     {{ translations.bell.notifications.text_mark_as_read }}
                                 </small>
                             </li>
+                            -->
                         </ul>
                     </div>
                 </div>

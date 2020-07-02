@@ -24,7 +24,7 @@ Building a better future, one line of code at a time.
 
 =end
 module CloudObject
-    class File < ApplicationRecord
+    class File < ApplicationLesliRecord
         self.abstract_class = true
         mount_uploader :attachment, FileUploader
 
@@ -32,7 +32,7 @@ module CloudObject
 
         enum file_type: {}
 
-        def self.file_options
+        def self.options
             data_file_types = []
             self.file_types.each do |key, value|
                 data_file_types.push({

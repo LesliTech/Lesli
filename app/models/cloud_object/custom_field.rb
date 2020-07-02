@@ -26,7 +26,7 @@ Building a better future, one line of code at a time.
 
 module CloudObject
 
-    class CustomField < ApplicationRecord
+    class CustomField < ApplicationLesliRecord
         self.abstract_class = true
 
         belongs_to :user, class_name: "::User", foreign_key: "users_id"

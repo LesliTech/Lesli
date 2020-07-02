@@ -30,10 +30,10 @@ class Account < ApplicationRecord
 
     belongs_to :user, foreign_key: "users_id", optional: true
 
-    has_many :users, foreign_key: "accounts_id"
-    has_many :settings, class_name: "Account::Setting", foreign_key: "accounts_id"
-    has_many :locations, foreign_key: "accounts_id"
-    has_many :roles, foreign_key: "accounts_id"
+    has_many :users,        foreign_key: "accounts_id"
+    has_many :roles,        foreign_key: "accounts_id"
+    has_many :settings,     foreign_key: "accounts_id", class_name: "Account::Setting"
+    has_many :locations,    foreign_key: "accounts_id"
 
     # core engines
     has_one :kb,     class_name: "CloudKb::Account",     foreign_key: "id"
@@ -50,7 +50,9 @@ class Account < ApplicationRecord
     after_create :initialize_account_for_engines
 
 
+    # account status
     enum status: [:registered, :active, :suspended]
+
 
     def initialize_account
 
@@ -64,14 +66,22 @@ class Account < ApplicationRecord
         account_roles.append "api"     # api-access only
         account_roles.append "guest"   # read-only
         account_roles.append "limited" # access only to user profile
+        account_roles.prepend "admin"  # platform administrator role
         account_roles.prepend "owner"  # super admin role
-        account_roles.each do |role_name|
+        account_roles.uniq.each do |role_name|
+            
+            object_level_permission = 10
+            object_level_permission = 1000 if role_name == "owner"
+            object_level_permission = 1000 if role_name == "admin"
+
             @role = Role.create({
                 account: self,
                 detail_attributes: {
-                    name: role_name
+                    name: role_name,
+                    object_level_permission: object_level_permission        
                 }
-            })    
+            })
+
         end
 
     end
@@ -131,8 +141,8 @@ class Account < ApplicationRecord
                 self.house = CloudHouse::Account.new
                 self.house.account = self
                 self.house.save!
-                if defined? CloudHaus
-                    CloudHaus::Account.initialize_workflows(self)
+                if defined? DeutscheLeibrenten
+                    DeutscheLeibrenten::Account.initialize_workflows(self)
                 end
             end
         end

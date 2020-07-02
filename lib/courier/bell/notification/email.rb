@@ -1,4 +1,5 @@
-/*
+=begin
+
 Lesli
 
 Copyright (c) 2020, Lesli Technologies, S. A.
@@ -11,7 +12,7 @@ Without the written permission of Lesli Technologies, S. A., any replication, mo
 transmission, publication is strictly forbidden.
 For more information read the license file including with this software.
 
-LesliCloud - Your Smart Business Assistant
+Lesli - Your Smart Business Assistant
 
 Powered by https://www.lesli.tech
 Building a better future, one line of code at a time.
@@ -21,24 +22,19 @@ Building a better future, one line of code at a time.
 
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
 // · 
-*/
 
-.component-header {
-    z-index: 1;
-    margin-bottom: 1rem;
-    background-color: transparent;
+=end
 
-    .navbar-menu {
-        max-width: 100%;
-    }
+module Courier
+    module Bell
+        module Notification
+            class Email
+                def self.new(current_user, subject, url: nil, category: "info")
+                    return if not defined? CloudBell
 
-    // allows to use multiple lines for long titles
-    .navbar-start .navbar-item {
-        flex-shrink: 1;
-    }
-
-    h4 {
-        color: get-css-color(black, 300);
-    }
-
-}
+                    # @todo: Generate email template using LesliMail and send it here
+                end
+            end
+        end
+    end
+end

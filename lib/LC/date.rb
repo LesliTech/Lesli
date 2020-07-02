@@ -76,7 +76,7 @@ module LC
         end
  
         def self.verify_settings
-            return if @settings
+            return if @settings && (!@settings.empty?)
  
             self.reset_db_settings
         end

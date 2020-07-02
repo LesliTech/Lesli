@@ -232,7 +232,7 @@ this.http.put(`127.0.0.1/help/workflows/${workflow_id}`, data);
         }
     });
 =end
-        def workflow_options
+        def transition_options
             dynamic_info = self.class.dynamic_info
             module_name = dynamic_info[:module_name]
             full_module_name = dynamic_info[:full_module_name]
@@ -336,10 +336,9 @@ private
     info[:model].new # will return an instance of CloudHelp::TicketWorkflow
 =end
         def self.dynamic_info
-            module_info = self.name.split("::")
+            module_info = lesli_classname().split("::")
 
             module_name = module_info[0].sub("Cloud", "").downcase
-            module_name = "house" if module_name == "haus"
             
             {
                 module_name: module_name,

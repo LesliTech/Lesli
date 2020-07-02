@@ -25,7 +25,7 @@ Building a better future, one line of code at a time.
     which workflow belongs to which *cloud_object*
 =end
     class Workflow::AssociationsController < ApplicationLesliController
-        before_action :set_workflow, only: [:index, :create, :association_options]
+        before_action :set_workflow, only: [:index, :create, :options]
         before_action :set_workflow_association, only: [:destroy]
 
 
@@ -116,11 +116,11 @@ Building a better future, one line of code at a time.
 @description Obtains a list of all the global associations of this workflow. A global association
     is an entry in the cloud_[engine]_[object]_workflows that has the 'global' attribute set to true
 =end
-        def association_options
+        def options
             dynamic_info = self.class.dynamic_info
             model = dynamic_info[:model]
 
-            responseWithSuccessful(model.association_options(current_user.account))
+            responseWithSuccessful(model.options(current_user.account))
         end
 
 private
@@ -202,9 +202,8 @@ private
     puts info[:workflow_model] # will return an instance of CloudHelp::Workflow
 =end
         def self.dynamic_info
-            module_info = self.name.split("::")
+            module_info = lesli_classname().split("::")
             module_name = module_info[0].sub("Cloud", "").downcase
-            module_name = "house" if module_name == "haus"
 
             {
                 module_name: module_name,

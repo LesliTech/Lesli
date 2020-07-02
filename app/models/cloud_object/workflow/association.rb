@@ -24,7 +24,7 @@ Building a better future, one line of code at a time.
 @description Base abstract model for *Workflow* *association* core entity used for workflows
 
 =end
-    class Workflow::Association < ApplicationRecord
+    class Workflow::Association < ApplicationLesliRecord
         self.abstract_class = true
 
         validates :workflow_for, presence: true
@@ -39,8 +39,8 @@ Building a better future, one line of code at a time.
     # Imagine we are in CloudHouse, workflows are available for projects, properties, companies,
     # and employees. Imagine that the only non global association is for projects, and it's based on
     # project types, and imagine there are 2 project types.
-    association_options = CloudHouse::Workflow::Association.association_options
-    puts association_options.to_json # will display something similar to
+    options = CloudHouse::Workflow::Association.options
+    puts options.to_json # will display something similar to
     #[
     #    {"name":"Property", "workflow_for":"property", "details":[]},
     #    {"name":"Employee", "workflow_for":"employee","details":[]},
@@ -65,7 +65,7 @@ Building a better future, one line of code at a time.
     #    }
     #]
 =end
-        def self.association_options(account)
+        def self.options(account)
             module_name = self.dynamic_info[:module_name]
             associations = []
 
@@ -193,9 +193,8 @@ Building a better future, one line of code at a time.
     puts info[:module_name] # will print 'help'
 =end
         def self.dynamic_info
-            module_info = self.name.split("::")
+            module_info = self.lesli_classname().split("::")
             module_name = module_info[0].sub("Cloud", "").downcase
-            module_name = "house" if module_name == "haus"
 
             {
                 module_name: module_name

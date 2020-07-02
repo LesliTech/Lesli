@@ -41,6 +41,7 @@ Building a better future, one line of code at a time.
     this.http.get(`127.0.0.1/help/tickets/${ticket_id}/files`);
 =end
         def index
+            dynamic_info = self.class.dynamic_info
             module_name = dynamic_info[:module_name]
             object_name = dynamic_info[:object_name]
             plural_object_name = object_name.pluralize
@@ -76,6 +77,7 @@ Building a better future, one line of code at a time.
     this.http.post(`127.0.0.1/help/tickets/${ticket_id}/files`, data);
 =end
         def create
+            dynamic_info = self.class.dynamic_info
             module_name = dynamic_info[:module_name]
             object_name = dynamic_info[:object_name] 
             model = dynamic_info[:model]
@@ -173,9 +175,10 @@ this.http.delete(`127.0.0.1/help/tickets/${ticket_id}/files/${file_id}`);
     # Executing this controller's action from javascript's frontend
     this.http.get('127.0.0.1/house/options/project/files');
 =end
-        def file_options
+        def options
+            dynamic_info = self.class.dynamic_info
             model = dynamic_info[:model]
-            responseWithSuccessful(model.file_options)
+            responseWithSuccessful(model.options)
         end
 
 =begin
@@ -186,11 +189,11 @@ this.http.delete(`127.0.0.1/help/tickets/${ticket_id}/files/${file_id}`);
     this.http.get('127.0.0.1/house/options/project/1/files/zip&ids=1,2,3,4');
 =end
         def zip_download
+            dynamic_info = self.class.dynamic_info
             module_name = dynamic_info[:module_name]
             model = dynamic_info[:model]
             object_name = dynamic_info[:object_name]
             plural_object_name = object_name.pluralize
-            module_name = "house" if module_name == "haus"
 
             files = model.joins(
                 :cloud_object
@@ -214,7 +217,7 @@ this.http.delete(`127.0.0.1/help/tickets/${ticket_id}/files/${file_id}`);
 
             zip_stream = ::Zip::OutputStream.write_buffer do |zip|
                 files.each do |object_file|
-                    object_file_filepath = object_file.attachment.current_path.gsub("haus", "house")
+                    object_file_filepath = object_file.attachment.current_path
                     filename = object_file.attachment_identifier
                     file_obj = s3.get_object(
                         bucket: Rails.application.credentials.s3[:bucket], 
@@ -233,7 +236,7 @@ this.http.delete(`127.0.0.1/help/tickets/${ticket_id}/files/${file_id}`);
                 files.each do |object_file|
 
                     # CarrierWave zip download
-                    object_file_filepath = object_file.attachment.current_path.gsub("haus", "house")
+                    object_file_filepath = object_file.attachment.current_path
                     filename = object_file.attachment_identifier
                     next unless ::File.exist?(object_file_filepath)
                     zip.put_next_entry filename
@@ -262,6 +265,7 @@ this.http.delete(`127.0.0.1/help/tickets/${ticket_id}/files/${file_id}`);
     puts @cloud_object_file # will display an instance of CloudHelp:Ticket::File
 =end
         def set_cloud_object_file
+            dynamic_info = self.class.dynamic_info
             module_name = dynamic_info[:module_name]
             object_name = dynamic_info[:object_name]
             plural_object_name = object_name.pluralize
@@ -297,6 +301,7 @@ this.http.delete(`127.0.0.1/help/tickets/${ticket_id}/files/${file_id}`);
     #}
 =end
         def cloud_object_file_params
+            dynamic_info = self.class.dynamic_info
             module_name = dynamic_info[:module_name]
             object_name = dynamic_info[:object_name] 
             plural_object_name = object_name.pluralize
@@ -322,12 +327,13 @@ this.http.delete(`127.0.0.1/help/tickets/${ticket_id}/files/${file_id}`);
     info[:model].new # will return an instance of CloudHelp::Ticket::File
     info[:subscriber_model].new # will return an instance of CloudHelp::Ticket::Subscriber
 =end
-        def dynamic_info
-            module_info = self.class.name.split("::")
+        def self.dynamic_info
+            module_info = lesli_classname().split("::")
+            
             {
                 module_name: module_info[0].sub("Cloud", "").downcase,
                 object_name: module_info[1].downcase,
-                model: "#{module_info[0]}::#{module_info[1]}::File".constantize,
+                model: "#{module_info[0]}::#{module_info[1]}::File".constantize
                 #subscriber_model: "#{module_info[0]}::#{module_info[1]}::Subscriber".constantize
             }
         end

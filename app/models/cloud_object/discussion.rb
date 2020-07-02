@@ -24,7 +24,7 @@ Building a better future, one line of code at a time.
 @description Base abstract model for *discussion* core entity
 
 =end
-    class Discussion < ApplicationRecord
+    class Discussion < ApplicationLesliRecord
         self.abstract_class = true
 
 =begin
@@ -40,11 +40,9 @@ Building a better future, one line of code at a time.
     discussions = CloudTeam::Employee::Discussion.list( account, employee_id )
 =end
         def self.list(account, cloud_id)
-
-            # Select all discussions from the table
-            module_info = self.name.split("::")
-            module_name = module_info[0].sub("Cloud","").downcase
-            object_name = module_info[1].downcase
+            dynamic_info = self.dynamic_info
+            module_name = dynamic_info[:module_name]
+            object_name = dynamic_info[:object_name]
             
             discussions = self.joins(
                 "
@@ -122,6 +120,17 @@ Building a better future, one line of code at a time.
             discussion_attributes["created_at"] = LC::Date.to_string_datetime(discussion_attributes["created_at"])
 
             discussion_attributes
+        end
+
+        def self.dynamic_info
+            module_info = self.lesli_classname().split("::")
+            module_name = module_info[0].sub("Cloud","").downcase
+            object_name = module_info[1].downcase
+
+            {
+                module_name: module_name,
+                object_name: object_name
+            }
         end
 
         private

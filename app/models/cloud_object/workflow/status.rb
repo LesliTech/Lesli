@@ -24,7 +24,7 @@ Building a better future, one line of code at a time.
 @description Base abstract model for *Workflow* *status* core entity used for workflows
 
 =end
-    class Workflow::Status < ApplicationRecord
+    class Workflow::Status < ApplicationLesliRecord
         self.abstract_class = true
 
         validates :name, presence: true
@@ -99,7 +99,7 @@ private
     puts dynamic_info[:module_name] # will print 'help'
 =end
         def self.dynamic_info
-            module_info = self.name.split("::")
+            module_info = self.lesli_classname().split("::")
             {
                 module_name: module_info[0].sub("Cloud", "").downcase
             }
