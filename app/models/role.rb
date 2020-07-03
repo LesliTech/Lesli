@@ -30,7 +30,8 @@ class Role < ApplicationRecord
     
     belongs_to :account, foreign_key: "accounts_id"
     has_many :users, foreign_key: "roles_id"
-    has_many :privileges, class_name: "Role::Privilege", foreign_key: "roles_id"
+    has_many :privileges, class_name: "Role::Privilege", foreign_key: "roles_id", dependent: :delete_all
+    has_many :privilege_defaults, class_name: "Role::PrivilegeDefault", foreign_key: "roles_id", dependent: :delete_all
 
     has_one :detail, inverse_of: :role, autosave: true, foreign_key: "roles_id", dependent: :destroy 
     accepts_nested_attributes_for :detail, update_only: true
@@ -43,25 +44,55 @@ class Role < ApplicationRecord
         return scan_routes(false)
     end
 
+    def self.index(current_user, query_params)
+        roles = current_user.account.roles
+                .left_joins(:detail)
+                .select("
+                    roles.id,
+                    role_details.name,
+                    role_details.active
+                ")
+        
+        if(query_params[:include] == "count")
+            roles = roles.select("count(u.id) as users_count")
+                        .joins("left join users as u on u.roles_id = roles.id")
+                        .group("roles.id, role_details.name, role_details.active")
+        end
+
+        roles
+    end
+
+    def show()
+        data = Role
+        .left_joins(:detail)
+        .select(:name, :active)
+        .where("roles.id = ?", id)
+        .first
+
+        {
+            id: id,
+            detail_attributes: data,
+        }
+    end
+
     def scan_routes(default)
         role_list = get_routes()
         role_list.each do |t|
-            self.privileges.find_or_create_by!(grant_object: t[:grant_name]) do |privilege|
-                privilege.grant_index = default, 
+            attributes = {
+                grant_index: default, 
+                grant_edit: default, 
+                grant_show: default, 
+                grant_new: default, 
+                grant_create: default, 
+                grant_update: default, 
+                grant_destroy: default, 
+                grant_search: default,
+                grant_resources: default,
+                grant_options: default 
+            }
 
-                privilege.grant_edit = default, 
-                privilege.grant_show = default, 
-                privilege.grant_new = default, 
-
-                privilege.grant_create = default, 
-                privilege.grant_update = default, 
-                privilege.grant_destroy = default, 
-
-                privilege.grant_search = default,
-
-                privilege.grant_resources = default,
-                privilege.grant_options = default 
-            end
+            self.privilege_defaults.find_or_create_by!(grant_object: t[:grant_name]).update(attributes)
+            self.privileges.find_or_create_by!(grant_object: t[:grant_name]).update(attributes)
         end
     end
 
@@ -79,7 +110,6 @@ class Role < ApplicationRecord
         role_list = get_controllers_from_routes(role_list, CloudBabel::Engine.routes.routes, CloudBabel) if defined?(CloudBabel)
         role_list = get_controllers_from_routes(role_list, CloudHouse::Engine.routes.routes, CloudHouse) if defined?(CloudHouse)
         role_list = get_controllers_from_routes(role_list, CloudFocus::Engine.routes.routes, CloudFocus) if defined?(CloudFocus)
-
         role_list = get_controllers_from_routes(role_list, DeutscheLeibrenten::Engine.routes.routes, DeutscheLeibrenten) if defined?(DeutscheLeibrenten)
 
         role_list
