@@ -6,13 +6,13 @@ jobs:
             - image: circleci/ruby:2.7.0
               environment:
                 PGHOST: 127.0.0.1
-                PGUSER: root
+                PGUSER: leslicloud_test
                 PGDB: leslicloud_test
                 PGPASSWORD: "leslicloud_test"
                 RAILS_ENV: test
             - image: circleci/postgres:11.5
               environment:
-                POSTGRES_USER: root
+                POSTGRES_USER: leslicloud_test
                 POSTGRES_DB: leslicloud_test
                 POSTGRES_PASSWORD: "leslicloud_test"
                 RAILS_ENV: test
