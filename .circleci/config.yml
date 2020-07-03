@@ -43,7 +43,8 @@ jobs:
                 name: Database setup
                 command: |
                     bundle exec rake db:create
-                    bundle exec rake db:schema:load --trace
+                    bundle exec rake db:migrate
+                    bundle exec rake db:seed
             - run:
                 name: Run rspec tests 
                 command: rspec spec
