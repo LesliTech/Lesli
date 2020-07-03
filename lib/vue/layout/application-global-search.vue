@@ -7,7 +7,7 @@ export default {
             timer: null,
             projects: [],
             translations: {
-                projects: I18n.t('haus.projects')
+                projects: I18n.t('deutscheleibrenten.projects')
             }
         }
     },

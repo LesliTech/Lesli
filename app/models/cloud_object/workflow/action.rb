@@ -60,7 +60,7 @@ Building a better future, one line of code at a time.
             self
         end
 
-        def self.action_options(current_user, workflow)
+        def self.options(current_user, workflow)
             statuses = {}
             workflow.statuses.each do |status|
                 next_statuses = []
