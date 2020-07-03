@@ -3,7 +3,7 @@ jobs:
     build:
         working_directory: ~/my-app
         docker:
-            - image: circleci/ruby:2.7-rc-stretch
+            - image: circleci/ruby:2.7.0
               environment:
                 PGHOST: 127.0.0.1
                 PGUSER: root
