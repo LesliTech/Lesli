@@ -149,6 +149,8 @@ class ApplicationLesliRecord < ApplicationRecord
     #       - The user's object_level_permission is greater than the object_level_permission of the most relevant resource user
     #       - The user's object_level_permission is greater or equal than the object_level_permission threshold, and greater or equal than the object_level_permission of the most relevant resource user
     def is_editable_by?(current_user)
+        return false unless current_user
+
         if  relevant_users.empty?
             return false
         end
