@@ -49,6 +49,7 @@ class User < ApplicationRecord
     has_many :privileges, through: :role
     has_one  :role_detail, through: :role, source: :detail, class_name: "Role::Detail"
 
+    
     # user details are saved on separate table
     has_one :detail, inverse_of: :user, autosave: true, foreign_key: "users_id", dependent: :destroy 
     accepts_nested_attributes_for :detail, update_only: true
