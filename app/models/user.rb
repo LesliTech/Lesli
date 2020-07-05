@@ -26,7 +26,7 @@ Building a better future, one line of code at a time.
 
 =end
 
-class User < ApplicationRecord
+class User < ApplicationLesliRecord
 
     acts_as_paranoid
 
@@ -53,8 +53,21 @@ class User < ApplicationRecord
     has_one :detail, inverse_of: :user, autosave: true, foreign_key: "users_id", dependent: :destroy 
     accepts_nested_attributes_for :detail, update_only: true
 
-    after_create :initialize_user 
+    after_create :initialize_user
 
+    # @return [Array] An array of users, the relevant user for a task
+    # @description Returns the relevant users for the task. In this case, the creator and the
+    #   assigned users. This list is ordered, the first one is always the most important and will be
+    #   the only one used for object level permission verification based on the role_detail.object_level_permission field value
+    # @example
+    #   creator_user = User.find(1)
+    #   assigned_user = User.find(2)
+    #   account = Account.find(1)
+    #   task = account.focus.tasks.create!(creator: creator_user, user: assigned_user, detail_attributes(....))
+    #   task.relevant_users    # Will return an array with both users as the relevant users
+    def relevant_users
+        return [self]
+    end
 
     # @param accounnt [Account] The account associated to *current_user*
     # @param roles [String] The roles separate by comma for filter users by role
@@ -91,10 +104,12 @@ class User < ApplicationRecord
         .order("UD.first_name")
         .select(
             :id,
+            :roles_id,
             :active,
             :email,
             "UD.first_name",
             "UD.last_name",
+            "false as editable",
             "CONCAT(UD.first_name, ' ',UD.last_name) as name",
             "R.id as role_id",
             "RD.name as role_name"
@@ -103,7 +118,10 @@ class User < ApplicationRecord
         users = users.where("email like '%#{query[:filters][:domain]}%'")  unless query[:filters][:domain].blank?
         users = users.where("RD.name #{operator} (?)", roles) unless roles.blank?
 
-        users
+        users.map do |user|
+            user.editable = user.is_editable_by?(current_user)
+            user
+        end
 
     end
 
