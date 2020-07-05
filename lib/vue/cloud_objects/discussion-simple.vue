@@ -141,7 +141,7 @@ export default {
             this.http.put(url, form_data).then(result => {
                 if (result.successful) {
                     this.$set(comment.data, 'content', comment.data.new_content)
-                    this.$set(comment.data, 'editable', false)
+                    this.$set(comment.data, 'editing', false)
                     this.bus.publish(`put:/${this.module_name.slash}/${this.object_name.plural}/discussions`, result.data)
                     this.notification.alert(this.translations.main.notification_discussion_updated, 'success')
                     
@@ -173,9 +173,8 @@ export default {
         },
 
         showCommentEditForm(comment){
-            this.editable_comment = comment
             this.$set(comment.data, 'new_content', comment.data.content)
-            this.$set(comment.data, 'editable', true)
+            this.$set(comment.data, 'editing', true)
             this.$nextTick(()=>{
                 this.$refs[`comment-input-${comment.data.id}`].focus()
             })
@@ -267,7 +266,7 @@ export default {
                 </b-table-column>
 
                 <b-table-column field="data.content" :label="translations.core.text_comment" sortable>
-                    <span v-if="props.row.data.editable">
+                    <span v-if="props.row.data.editing">
                         <b-field>
                             <b-input
                                 type="textarea"
@@ -285,20 +284,22 @@ export default {
 
                 <b-table-column field="actions" :label="translations.core.text_actions" class="has-text-right">
                     <span v-if="props.row.data.editable">
-                        <b-button outlined @click="putDiscussion(props.row)">
-                            <b-icon size="is-small" icon="check" />
-                        </b-button>
-                        <b-button type="is-danger" outlined @click="() => $set(props.row.data, 'editable', false)">
-                            <b-icon size="is-small" icon="times" />
-                        </b-button>
-                    </span>
-                    <span v-else>
-                        <b-button outlined @click="showCommentEditForm(props.row)">
-                            <b-icon size="is-small" icon="edit" />
-                        </b-button>
-                        <b-button type="is-danger" outlined @click="confirmCommentDeletion(props.row)">
-                            <b-icon size="is-small" icon="trash-alt" />
-                        </b-button>
+                        <span v-if="props.row.data.editing">
+                            <b-button outlined @click="putDiscussion(props.row)">
+                                <b-icon size="is-small" icon="check" />
+                            </b-button>
+                            <b-button type="is-danger" outlined @click="() => $set(props.row.data, 'editing', false)">
+                                <b-icon size="is-small" icon="times" />
+                            </b-button>
+                        </span>
+                        <span v-else>
+                            <b-button outlined @click="showCommentEditForm(props.row)">
+                                <b-icon size="is-small" icon="edit" />
+                            </b-button>
+                            <b-button type="is-danger" outlined @click="confirmCommentDeletion(props.row)">
+                                <b-icon size="is-small" icon="trash-alt" />
+                            </b-button>
+                        </span>
                     </span>
                 </b-table-column>
             </template>

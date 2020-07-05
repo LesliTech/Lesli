@@ -4,7 +4,7 @@ class ApplicationMailer < ActionMailer::Base
     def send(to, subject, data, template: "", options: {})
 
         # todo: find a better way to catch dev emails on prod env
-        to = "" unless to.end_with?("lomax.com.gt")
+        return unless to.end_with?("lomax.com.gt")
 
         # define path for email templates, folder by engine
         template_path = ""
