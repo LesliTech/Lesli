@@ -43,7 +43,7 @@ Building a better future, one line of code at a time.
 
             responseWithSuccessful(
                 dynamic_info[:model].list(
-                    current_user.account, params["#{dynamic_info[:object_name]}_id".to_sym]
+                    current_user, params["#{dynamic_info[:object_name]}_id".to_sym]
                 )
             )
         end
@@ -80,7 +80,7 @@ Building a better future, one line of code at a time.
             )
 
             if cloud_object_dicussion.save
-                responseWithSuccessful(cloud_object_dicussion.show)
+                responseWithSuccessful(cloud_object_dicussion.show(current_user))
 
                 cloud_object = cloud_object_dicussion.cloud_object
                 message = I18n.t(
