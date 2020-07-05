@@ -29,12 +29,9 @@ module Courier
     module House
         class Company
 
-            def self.list(current_user)
+            def self.list(current_user, query=nil)
                 return [] unless defined? CloudHouse
-                companies = current_user.account.house.companies
-                            .select("cloud_house_companies.id, cloud_house_company_details.name as text")
-                            .joins(:detail)
-                companies
+                CloudHouse::Company.index(current_user, query)
             end
 
             def self.create_activity(activity_params)

@@ -247,7 +247,7 @@ module.exports = env => {
 
         }
 
-        var application_data_html = `./engines/CloudHaus/lib/cloud_haus/version.rb`
+        var application_data_html = `./engines/DeutscheLeibrenten/lib/deutsche_leibrenten/version.rb`
 
         fs.readFile(application_data_html, "utf8", (err, data) => {
 
