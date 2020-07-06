@@ -64,9 +64,9 @@ export default {
         },
 
         getNotificationsCount() {
-            this.http.get('/bell/notifications.json').then(result => {
+            this.http.get('/bell/notifications.json?view_type=count').then(result => {
                 if (result.successful) {
-                    this.notification.count = result.data.length
+                    this.notification.count = result.data
                 }
             }).catch(error => {
                 console.log(error)

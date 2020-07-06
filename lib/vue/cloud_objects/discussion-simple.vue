@@ -68,7 +68,7 @@ export default {
                 if (result.successful) {
                     this.discussions = result.data
                 }else{
-                    this.notification.alert(result.error.message,'danger')
+                    this.alert(result.error.message,'danger')
                 }
             }).catch(error => {
                 console.log(error)
@@ -86,7 +86,7 @@ export default {
 
             this.http.post(url, form_data).then(result => {
                 if (result.successful) {
-                    this.notification.alert(this.translations.main.notification_discussion_created, 'success')
+                    this.alert(this.translations.main.notification_discussion_created, 'success')
                     this.bus.publish(`post:/${this.module_name.slash}/${this.object_name.plural}/discussions`, result.data)
                     this.clearContentInput()
                     this.discussions.unshift({
@@ -94,7 +94,7 @@ export default {
                         responses: []
                     })
                 }else{
-                    this.notification.alert(result.error.message,'danger')
+                    this.alert(result.error.message,'danger')
                 }
             }).catch(error => {
                 console.log(error)
@@ -143,10 +143,10 @@ export default {
                     this.$set(comment.data, 'content', comment.data.new_content)
                     this.$set(comment.data, 'editing', false)
                     this.bus.publish(`put:/${this.module_name.slash}/${this.object_name.plural}/discussions`, result.data)
-                    this.notification.alert(this.translations.main.notification_discussion_updated, 'success')
+                    this.alert(this.translations.main.notification_discussion_updated, 'success')
                     
                 }else{
-                    this.notification.alert(result.error.message,'danger')
+                    this.alert(result.error.message,'danger')
                 }
             }).catch(error => {
                 console.log(error)
@@ -159,13 +159,13 @@ export default {
 
             this.http.delete(url).then(result => {
                 if (result.successful) {
-                    this.notification.alert(this.translations.main.notification_discussion_destroyed, 'success')
+                    this.alert(this.translations.main.notification_discussion_destroyed, 'success')
                     this.bus.publish(`delete:/${this.module_name.slash}/${this.object_name.plural}/discussions`, comment.data)
                     this.discussions = this.discussions.filter((discussion)=>{
                         return discussion.data.id != comment.data.id
                     })
                 }else{
-                    this.notification.alert(result.error.message,'danger')
+                    this.alert(result.error.message,'danger')
                 }
             }).catch(error => {
                 console.log(error)

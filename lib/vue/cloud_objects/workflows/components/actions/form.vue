@@ -98,7 +98,7 @@ export default {
                     this.options = result.data
                     this.transition_statuses = Object.values(result.data.statuses)
                 }else{
-                    this.notification.alert(result.error.message,'danger')
+                    this.alert(result.error.message,'danger')
                 }
             }).catch(error => {
                 console.log(error)
@@ -115,7 +115,7 @@ export default {
                 if (result.successful) {
                     this.action = result.data
                 }else{
-                    this.notification.alert(result.error.message,'danger')
+                    this.alert(result.error.message,'danger')
                 }
             }).catch(error => {
                 console.log(error)
@@ -151,12 +151,12 @@ export default {
 
             this.http.post(url, data).then(result => {
                 if (result.successful) {
-                    this.notification.alert(this.translations.main.notification_action_created,'success')
+                    this.alert(this.translations.main.notification_action_created,'success')
                     this.bus.publish('post:/module/workflow/action', result.data)
                     this.bus.publish('show:/module/workflow/action/edit', result.data)
                     this.resetAction()
                 }else{
-                    this.notification.alert(result.error.message,'danger')
+                    this.alert(result.error.message,'danger')
                 }
             }).catch(error => {
                 console.log(error)
@@ -172,9 +172,9 @@ export default {
 
             this.http.put(url, data).then(result => {
                 if (result.successful) {
-                    this.notification.alert(this.translations.main.notification_action_updated,'success')
+                    this.alert(this.translations.main.notification_action_updated,'success')
                 }else{
-                    this.notification.alert(result.error.message,'danger')
+                    this.alert(result.error.message,'danger')
                 }
             }).catch(error => {
                 console.log(error)
@@ -186,11 +186,11 @@ export default {
 
             this.http.delete(url).then(result => {
                 if (result.successful) {
-                    this.notification.alert(this.translations.main.notification_action_deleted,'success')
+                    this.alert(this.translations.main.notification_action_deleted,'success')
                     this.bus.publish('destroy:/module/workflow/action', this.action)
                     this.action_id = null
                 }else{
-                    this.notification.alert(result.error.message,'danger')
+                    this.alert(result.error.message,'danger')
                 }
             }).catch(error => {
                 console.log(error)
