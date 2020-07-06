@@ -42,10 +42,10 @@ export default {
                 }
             }).then(result => {
                 if (result.successful == true) {
-                    this.notification.alert("Password updated successfully", "error")
-                    return 
+                    this.notification.alert("Password updated successfully", "success")
+                    return
                 }
-                this.notification.alert(result.error.message[0])
+                this.notification.alert(result.error.message, "danger")
             }).catch(error => {
                 console.log(error)
             })
@@ -58,12 +58,12 @@ export default {
                 }
             }).then(result => {
                 if (result.successful == true) {
-                    this.notification.alert("Role updated successfully", "error")
-                    return 
+                    this.notification.alert("Role updated successfully", "success")
+                    return
                 }
-                this.notification.alert(result.error.message[0])
+                this.notification.alert(result.error.message, "danger")
             }).catch(error => {
-
+                console.log(error)
             })
         },
 
@@ -74,12 +74,12 @@ export default {
                 }
             }).then(result => {
                 if (result.successful == true) {
-                    this.notification.alert("Access status updated successfully", "error")
-                    return 
+                    this.notification.alert("Access status updated successfully", "success")
+                    return
                 }
-                this.notification.alert(result.error.message[0])
+                this.notification.alert(result.error.message, "danger")
             }).catch(error => {
-
+                console.log(error)
             })
         }
         

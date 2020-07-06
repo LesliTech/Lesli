@@ -44,6 +44,7 @@ class UsersController < ApplicationLesliController
 
         if not current_user.is_role?("owner", "admin")
             params_user.delete("roles_id")
+            return responseWithUnauthorized
         end
 
         if @user.update(params_user)
