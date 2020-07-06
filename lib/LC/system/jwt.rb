@@ -40,7 +40,7 @@ module LC
             def self.decode(token)
                 {
                     valid: true,
-                    data: JWT.decode(token, Rails.application.credentials.jwt[:secret])
+                    data: JWT.decode(token, Rails.application.credentials.services[:jwt][:secret])
                 }
             rescue JWT::ExpiredSignature
                 {
