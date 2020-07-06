@@ -2,7 +2,11 @@
   "_args": [
     [
       "bulma-extensions@6.2.7",
+<<<<<<< HEAD
       "/Users/ldonis/code/Lesli/lesli.cloud"
+=======
+      "D:\\Lomax\\lesli\\lesli.cloud"
+>>>>>>> d3b3f3d2a7ab5dfd8c02e33291fb703cff8e100f
     ]
   ],
   "_development": true,
@@ -27,7 +31,11 @@
   ],
   "_resolved": "https://registry.npmjs.org/bulma-extensions/-/bulma-extensions-6.2.7.tgz",
   "_spec": "6.2.7",
+<<<<<<< HEAD
   "_where": "/Users/ldonis/code/Lesli/lesli.cloud",
+=======
+  "_where": "D:\\Lomax\\lesli\\lesli.cloud",
+>>>>>>> d3b3f3d2a7ab5dfd8c02e33291fb703cff8e100f
   "author": {
     "name": "Wikiki",
     "email": "wikiki@protonmail.com",

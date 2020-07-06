@@ -27,6 +27,22 @@ Building a better future, one line of code at a time.
     class Discussion < ApplicationLesliRecord
         self.abstract_class = true
 
+        belongs_to :user, foreign_key: "users_id"
+
+        # @return [Array] An array of users, the relevant user for a task
+        # @description Returns the relevant users for the task. In this case, the creator and the
+        #   assigned users. This list is ordered, the first one is always the most important and will be
+        #   the only one used for object level permission verification based on the role_detail field value
+        # @example
+        #   creator_user = User.find(1)
+        #   assigned_user = User.find(2)
+        #   account = Account.find(1)
+        #   task = account.focus.tasks.create!(creator: creator_user, user: assigned_user, detail_attributes(....))
+        #   task.relevant_users    # Will return an array with both users as the relevant users
+        def relevant_users
+            return [user] 
+        end
+
 =begin
 @param account [Account] Account from current user
 @param cloud_id [Integer] Id of the *cloud_object* to which this discussion belongs to
@@ -35,11 +51,11 @@ Building a better future, one line of code at a time.
 @description Retrieves and returns all discussions from a *cloud_object*,
     including information of the user that published the comment
 @example
-    account = current_user.account
+    current_user = the user making this request
     employee_id = params[:employee_id]
     discussions = CloudTeam::Employee::Discussion.list( account, employee_id )
 =end
-        def self.list(account, cloud_id)
+        def self.list(current_user, cloud_id)
             dynamic_info = self.dynamic_info
             module_name = dynamic_info[:module_name]
             object_name = dynamic_info[:object_name]
@@ -55,6 +71,7 @@ Building a better future, one line of code at a time.
                 "inner join user_details UD on UD.users_id = U.id"
             ).select(
                 "cloud_#{module_name}_#{object_name}_discussions.id",
+                "cloud_#{module_name}_#{object_name}_discussions.users_id",
                 "cloud_#{module_name}_#{object_name}_discussions.content",
                 "cloud_#{module_name}_#{object_name}_discussions.created_at",
                 "cloud_#{module_name}_#{object_name}_discussions.cloud_#{module_name}_#{object_name}_discussions_id",
@@ -62,11 +79,12 @@ Building a better future, one line of code at a time.
                 "CONCAT(UD.first_name, ' ', UD.last_name) as user_name"
             )
             .where("CO.id = #{cloud_id}")
-            .where("CO.cloud_#{module_name}_accounts_id = #{account.id}")
+            .where("CO.cloud_#{module_name}_accounts_id = #{current_user.account.id}")
             .order(id: :asc)
             .map { |discussion| 
                 discussion_attributes = discussion.attributes
                 discussion_attributes["created_at_raw"] = discussion_attributes["created_at"]
+                discussion_attributes["editable"] = discussion.is_editable_by?(current_user)
                 discussion_attributes["created_at"] = LC::Date.to_string_datetime(discussion_attributes["created_at"])
                 discussion_attributes
             }
@@ -112,8 +130,9 @@ Building a better future, one line of code at a time.
     discussion = CloudHelp::Ticket::Discussion.first
     puts discussion.show #This will display extra information about the discussion, like the user's name
 =end
-        def show
+        def show(current_user = nil)
             discussion_attributes = attributes.merge({
+                editable: is_editable_by?(current_user),
                 email: user.email,
                 user_name: "#{user.detail.first_name} #{user.detail.last_name}"
             })
