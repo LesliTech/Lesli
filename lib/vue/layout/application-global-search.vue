@@ -55,13 +55,8 @@ export default {
                 return text_to_highlight
             }
 
-            text_to_highlight = text_to_highlight.toString()
-            text_to_highlight = text_to_highlight.toLowerCase()
+            text_to_highlight = text_to_highlight.toString().toLowerCase()
             text_to_search = text_to_search.toLowerCase()
-
-            // remove some special german characters
-            text_to_highlight = text_to_highlight.replace('ü', 'u')
-            text_to_search = text_to_search.replace('ü', 'u')
 
             let iQuery = new RegExp(text_to_search, "ig")
             return text_to_highlight.toString().replace(iQuery, function(matchedText,a,b){
