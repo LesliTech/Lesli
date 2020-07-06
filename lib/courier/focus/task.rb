@@ -90,7 +90,8 @@ module Courier
 
                 tasks = tasks.map do |task|
                     {
-                        id: task.id, 
+                        id: task.id,
+                        editable: task.is_editable_by?(current_user),
                         title: task.title, 
                         description: task.description,
                         deadline: LC::Date.to_string(task.deadline),
@@ -145,6 +146,7 @@ module Courier
                         {
                             id: task["id"], 
                             title: task["title"], 
+                            editable: CloudFocus::Task.find(task["id"]).is_editable_by?(current_user),
                             task_type: task["task_type"],
                             status_name: task["status_name"],
                             status_completed_successfully: task["status_completed_successfully"],

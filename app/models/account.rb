@@ -71,7 +71,7 @@ class Account < ApplicationRecord
         account_roles.uniq.each do |role_name|
             
             object_level_permission = 10
-            object_level_permission = 1000 if role_name == "owner"
+            object_level_permission = 2147483647 if role_name == "owner"
             object_level_permission = 1000 if role_name == "admin"
 
             @role = Role.create({
