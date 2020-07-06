@@ -65,7 +65,7 @@ export default {
                         callback()
                     }
                 }else{
-                    this.notification.alert(this.translations.main.notification_send_core_email_address_empty, 'danger')
+                    this.alert(this.translations.main.notification_send_core_email_address_empty, 'danger')
                 }
             })
         },

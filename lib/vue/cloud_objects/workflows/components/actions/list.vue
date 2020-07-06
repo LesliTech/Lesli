@@ -65,7 +65,7 @@ export default {
                 if (result.successful) {
                     this.actions = result.data
                 }else{
-                    this.notification.alert(result.error.message,'danger')
+                    this.alert(result.error.message,'danger')
                 }
             }).catch(error => {
                 console.log(error)

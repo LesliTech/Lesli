@@ -103,7 +103,7 @@ export default {
                     this.workflow = result.data
                     this.statuses_count = this.workflow.next_number
                 }else{
-                    this.notification.alert(result.error.message,'danger')
+                    this.alert(result.error.message,'danger')
                 }
             }).catch(error => {
                 console.log(error)
@@ -206,19 +206,19 @@ export default {
 
                 this.http.post(url, data).then(result => {
                     if (result.successful) {
-                        this.notification.alert('Workflow created successfully', 'success')
+                        this.alert('Workflow created successfully', 'success')
                         
                         this.workflow = result.data
                         this.$router.push(`/${result.data.id}`)
                     }else{
-                        this.notification.alert(result.error.message,'danger')
+                        this.alert(result.error.message,'danger')
                     }
                 }).catch(error => {
                     console.log(error)
                 })
             }else{
                 this.$refs['input-workflow-name'].focus()
-                this.notification.alert('Please provide a name for this workflow','danger')
+                this.alert('Please provide a name for this workflow','danger')
             }
         },
 
@@ -235,11 +235,11 @@ export default {
 
             this.http.put(url, data).then(result => {
                 if (result.successful) {
-                    this.notification.alert('Workflow updated successfully', 'success')
+                    this.alert('Workflow updated successfully', 'success')
 
                     this.$router.push(`/${this.workflow.id}`)
                 }else{
-                    this.notification.alert(result.error.message,'danger')
+                    this.alert(result.error.message,'danger')
                 }
             }).catch(error => {
                 console.log(error)
@@ -258,9 +258,9 @@ export default {
 
                 this.http.patch(url, data).then(result => {
                     if (result.successful) {
-                        this.notification.alert('Workflow name successfully updated', 'success')
+                        this.alert('Workflow name successfully updated', 'success')
                     }else{
-                        this.notification.alert(result.error.message,'danger')
+                        this.alert(result.error.message,'danger')
                     }
                 }).catch(error => {
                     console.log(error)

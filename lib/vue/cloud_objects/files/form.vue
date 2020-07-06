@@ -107,7 +107,7 @@ export default {
                 if (result.successful) {
                     this.file_options = result.data
                 }else{
-                    this.notification.alert(result.error.message,'danger')
+                    this.alert(result.error.message,'danger')
                 }
             }).catch(error => {
                 console.log(error)
@@ -150,14 +150,14 @@ export default {
             }
 
             if(! accepted_file_type){
-                this.notification.alert(this.translations.core.notification_error_file_type_not_allowed, 'danger')
+                this.alert(this.translations.core.notification_error_file_type_not_allowed, 'danger')
                 this.$refs['dropzone'].removeFile(file)
             }
         },
 
         cleanDropzone(){
             this.submitting_form = false
-            this.notification.alert(this.translations.main.notification_file_uploaded, 'success')
+            this.alert(this.translations.main.notification_file_uploaded, 'success')
             this.$refs['dropzone'].removeAllFiles(true)
             this.$emit('upload-complete')
             this.bus.publish(`post:/${this.module_name.slash}/${this.object_name.plural}/files-complete`)
@@ -167,7 +167,7 @@ export default {
             if(result.successful){
                 this.bus.publish(`post:/${this.module_name.slash}/${this.object_name.plural}/files`, result.data)
             }else{
-                this.notification.alert(result.error.message,'danger')
+                this.alert(result.error.message,'danger')
             }
         },
 
