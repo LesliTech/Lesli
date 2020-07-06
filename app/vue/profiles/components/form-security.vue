@@ -63,7 +63,7 @@ export default {
                 }
                 this.alert(result.error.message[0])
             }).catch(error => {
-
+                console.log(error)
             })
         },
 
@@ -79,7 +79,7 @@ export default {
                 }
                 this.alert(result.error.message[0])
             }).catch(error => {
-
+                console.log(error)
             })
         }
         
