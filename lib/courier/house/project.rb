@@ -34,7 +34,7 @@ module Courier
 
                 main_owner_role = CloudHouse::Project::Customer.roles["main_owner"]
                 projects = current_user.account.house.projects
-                .select("cloud_house_projects.id, CHCD.last_name, CHCD.first_name, L.name as location_city_name")
+                .select("cloud_house_projects.id, trim(CHCD.last_name) as last_name, trim(CHCD.first_name) as first_name, L.name as location_city_name")
                 .joins("inner join cloud_house_project_customers CHPC on CHPC.cloud_house_projects_id = cloud_house_projects.id")
                 .joins("inner join cloud_house_contacts CHC on CHC.id = CHPC.cloud_house_contacts_id")
                 .joins("inner join cloud_house_contact_details CHCD on CHC.id = CHCD.cloud_house_contacts_id")
