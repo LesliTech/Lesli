@@ -30,12 +30,12 @@ Building a better future, one line of code at a time.
 */
 
 
-// · https://fonts.google.com/specimen/Montserrat?selection.family=Montserrat:wght@100;400|Open+Sans:wght@300;400&sidebar.open
+// · https://fonts.google.com/specimen/Open+Sans?selection.family=Montserrat|Open+Sans:300,400
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
 @mixin lesli-css-fonts-standard() {
 
     // · google fonts as main provider
-    @import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@100;400&family=Open+Sans:wght@300;400&display=swap");
+    @import url("https://fonts.googleapis.com/css?family=Montserrat|Open+Sans:300,400&display=swap");
 
 
     // · title font
@@ -53,12 +53,12 @@ Building a better future, one line of code at a time.
 }
 
 
-// · https://fonts.google.com/specimen/Poppins?selection.family=Poppins:wght@200;400;600&sidebar.open
+// · https://fonts.google.com/specimen/Poppins?selection.family=Poppins:wght@400;600&sidebar.open
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
 @mixin lesli-css-fonts-lesli-cloud() {
 
     // · google fonts as main provider
-    @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@100;400;600&display=swap");
+    @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap");
 
 
     // · title font
