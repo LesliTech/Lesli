@@ -3,16 +3,18 @@ jobs:
     build:
         working_directory: ~/my-app
         docker:
-            - image: circleci/ruby:2.7-rc-stretch
+            - image: circleci/ruby:2.7.0
               environment:
                 PGHOST: 127.0.0.1
-                PGUSER: root
+                PGUSER: leslicloud_test
+                PGDB: leslicloud_test
+                PGPASSWORD: "leslicloud_test"
                 RAILS_ENV: test
             - image: circleci/postgres:11.5
               environment:
-                POSTGRES_USER: root
+                POSTGRES_USER: leslicloud_test
                 POSTGRES_DB: leslicloud_test
-                POSTGRES_PASSWORD: ""
+                POSTGRES_PASSWORD: "leslicloud_test"
                 RAILS_ENV: test
         steps:
             - checkout
@@ -40,8 +42,9 @@ jobs:
                 name: Wait for DB
                 command: dockerize -wait tcp://localhost:5432 -timeout 1m
             - run:
-                name: Database setup
-                command: bundle exec rake db:schema:load --trace
+                name: Database setup 
+                command: bin/rails db:create db:schema:load --trace 
+
             - run:
                 name: Run rspec tests 
                 command: rspec spec
