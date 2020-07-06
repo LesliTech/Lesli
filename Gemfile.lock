@@ -1,14 +1,20 @@
 PATH
-  remote: engines/CloudLesli
+  remote: engines/CloudFocus
   specs:
-    cloud_lesli (0.1.0)
+    cloud_focus (0.1.0)
       rails (~> 6.0.0)
 
 PATH
-  remote: engines/LesliCloud
+  remote: engines/CloudHouse
   specs:
-    lesli_cloud (0.1.0)
-      rails (~> 6.0.2, >= 6.0.2.2)
+    cloud_house (0.1.0)
+      rails (~> 6.0.0)
+
+PATH
+  remote: engines/DeutscheLeibrenten
+  specs:
+    deutsche_leibrenten (0.1.0)
+      rails (~> 6.0.0)
 
 PATH
   remote: engines/CloudBabel
@@ -447,8 +453,10 @@ DEPENDENCIES
   cloud_bell!
   cloud_dispatcher!
   cloud_driver!
-  cloud_lesli!
+  cloud_focus!
+  cloud_house!
   cloud_mailer!
+  deutsche_leibrenten!
   devise
   faker
   faraday
@@ -461,7 +469,6 @@ DEPENDENCIES
   i18n-js
   jwt
   kaminari
-  lesli_cloud!
   letter_opener
   listen (= 3.2.1)
   pg (>= 0.18, < 2.0)

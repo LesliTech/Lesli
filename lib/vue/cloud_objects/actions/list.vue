@@ -90,9 +90,9 @@ export default {
             this.http.patch(url, form_data).then(result => {
                 if (result.successful) {
                     if (action.complete == true) {
-                        this.notification.alert('Task marked as completed!')
+                        this.alert('Task marked as completed!')
                     }else{
-                        this.notification.alert('Task marked as not completed!')
+                        this.alert('Task marked as not completed!')
                     }
                 }
             }).catch(error => {

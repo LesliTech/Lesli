@@ -69,7 +69,7 @@ export default {
                 if (result.successful) {
                     this.associations = result.data
                 }else{
-                    this.notification.alert(result.error.message,'danger')
+                    this.alert(result.error.message,'danger')
                 }
             }).catch(error => {
                 console.log(error)
@@ -81,7 +81,7 @@ export default {
                 if (result.successful) {
                     this.association_options = result.data
                 }else{
-                    this.notification.alert(result.error.message,'danger')
+                    this.alert(result.error.message,'danger')
                 }
             }).catch(error => {
                 console.log(error)
@@ -100,10 +100,10 @@ export default {
             this.http.post(this.endpoint, data).then(result => {
                 if (result.successful) {
                     this.getAssociations()
-                    this.notification.alert(this.translations.main.notification_association_created, 'success')
+                    this.alert(this.translations.main.notification_association_created, 'success')
                     this.clearNewAssociation()
                 }else{
-                    this.notification.alert(result.error.message,'danger')
+                    this.alert(result.error.message,'danger')
                 }
             }).catch(error => {
                 console.log(error)
@@ -134,9 +134,9 @@ export default {
             this.http.delete(url).then(result => {
                 if (result.successful) {
                     this.getAssociations()
-                    this.notification.alert(this.translations.main.notification_association_deleted, 'success')
+                    this.alert(this.translations.main.notification_association_deleted, 'success')
                 }else{
-                    this.notification.alert(result.error.message,'danger')
+                    this.alert(result.error.message,'danger')
                 }
             }).catch(error => {
                 console.log(error)

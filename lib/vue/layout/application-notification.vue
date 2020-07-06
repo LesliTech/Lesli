@@ -31,6 +31,10 @@ export default {
 
     data() {
         return {
+            message: {
+                active: false,
+                message: ""
+            },
             notification: {
                 show: false,
                 timer: null,
@@ -49,10 +53,24 @@ export default {
     methods: {
 
         mountListeners() {
-            this.bus.subscribe("show:/core/layout/notification#alert", (message, type='primary') => {
+
+            // alerts
+            this.bus.subscribe("show:/lesli/layout/alert", (message, type="info") => {
                 this.$buefy.toast.open({
-                    queue: true,
-                    duration: 3500,
+                    queue: false,
+                    duration: 5000,
+                    position: 'is-bottom-right',
+                    message: message,
+                    type: `is-${ type }`
+                })
+            })
+
+            // Notifications
+            this.bus.subscribe("show:/lesli/layout/notification", (message, type="info") => {
+                this.$buefy.notification.open({
+                    queue: false,
+                    hasIcon: true,
+                    duration: 5000,
                     position: 'is-bottom-right',
                     message: message,
                     type: `is-${ type }`
@@ -190,6 +208,11 @@ export default {
     </section>
 </template>
 <style>
+    .notification-message {
+        position: fixed;
+        right: 10px;
+        bottom: 10px;
+    }
     .icon-dot {
         display: block;
         width: 5px;

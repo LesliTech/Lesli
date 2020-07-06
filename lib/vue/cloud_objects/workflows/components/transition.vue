@@ -74,7 +74,7 @@ export default {
                             this.transition_statuses = []
                         }
                     } else {
-                        this.notification.alert(result.error.message, 'danger')
+                        this.alert(result.error.message, 'danger')
                     }
                 }).catch(error => {
                     console.log(error)
@@ -104,14 +104,14 @@ export default {
                         callback()
                     }
                     if(status.final){
-                        this.notification.alert('This resource has been successfully closed', 'success')
+                        this.alert('This resource has been successfully closed', 'success')
                         this.$router.push(`/${this.cloudId}`)
                     }else{
                         this.getTransitionOptions()
-                        this.notification.alert(this.core_translations.status_updated, 'success')
+                        this.alert(this.core_translations.status_updated, 'success')
                     }
                 } else {
-                    this.notification.alert(result.error.message, 'danger')
+                    this.alert(result.error.message, 'danger')
                 }
             }).catch(error => {
                 console.log(error)

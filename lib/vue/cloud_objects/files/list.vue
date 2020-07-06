@@ -103,7 +103,7 @@ export default {
                 if (result.successful) {
                     this.files = result.data
                 }else{
-                    this.notification.alert(result.error.message,'danger')
+                    this.alert(result.error.message,'danger')
                 }
             }).catch(error => {
                 console.log(error)
@@ -116,10 +116,10 @@ export default {
 
             this.http.delete(url).then(result => {
                 if (result.successful) {
-                    this.notification.alert(this.translations.main.notification_file_deleted, 'success')
+                    this.alert(this.translations.main.notification_file_deleted, 'success')
                     this.bus.publish(`delete:/${this.module_name.slash}/${this.object_name.plural}/files`, deleted_file)
                 }else{
-                    this.notification.alert(result.error.message,'danger')
+                    this.alert(result.error.message,'danger')
                 }
             }).catch(error => {
                 console.log(error)

@@ -85,7 +85,7 @@ export default {
                 if (result.successful) {
                     this.workflow = result.data
                 } else {
-                    this.notification.alert(result.error.message,'danger')
+                    this.alert(result.error.message,'danger')
                 }
             }).catch(error => {
                 console.log(error)
@@ -106,9 +106,9 @@ export default {
             this.http.patch(`/${this.module_name}/workflows/${this.workflow_id}`, data).then(result => {
                 if(result.successful){
                     this.workflow.default = true
-                    this.notification.alert('Workflow set as default successfully', 'success')
+                    this.alert('Workflow set as default successfully', 'success')
                 } else {
-                    this.notification.alert(result.error.message,'danger')
+                    this.alert(result.error.message,'danger')
                 }
             }).catch(error => {
                 console.log(error)
@@ -119,10 +119,10 @@ export default {
             this.modal.active = false
             this.http.delete(`/${this.module_name}/workflows/${this.workflow_id}`).then(result => {
                 if(result.successful){
-                    this.notification.alert('Workflow successfully deleted', 'success')
+                    this.alert('Workflow successfully deleted', 'success')
                     this.$router.push('/')
                 }else{
-                    this.notification.alert(result.error.message,'danger')
+                    this.alert(result.error.message,'danger')
                 }
             }).catch(error => {
                 console.log(error)
