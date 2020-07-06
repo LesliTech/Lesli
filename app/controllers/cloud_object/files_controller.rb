@@ -53,6 +53,7 @@ Building a better future, one line of code at a time.
                 file_attributes = file.attributes
                 file_attributes["created_at_raw"] = file_attributes["created_at"]
                 file_attributes["created_at"] = LC::Date.to_string_datetime(file_attributes["created_at"])
+                file_attributes["editable"] = file.is_editable_by?(current_user)
                 file_attributes
             end
             responseWithSuccessful(@cloud_object_files)

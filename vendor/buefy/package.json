@@ -2,7 +2,11 @@
   "_args": [
     [
       "buefy@0.8.20",
+<<<<<<< HEAD
       "/Users/ldonis/code/Lesli/lesli.cloud"
+=======
+      "D:\\Lomax\\lesli\\lesli.cloud"
+>>>>>>> d3b3f3d2a7ab5dfd8c02e33291fb703cff8e100f
     ]
   ],
   "_development": true,
@@ -27,7 +31,11 @@
   ],
   "_resolved": "https://registry.npmjs.org/buefy/-/buefy-0.8.20.tgz",
   "_spec": "0.8.20",
+<<<<<<< HEAD
   "_where": "/Users/ldonis/code/Lesli/lesli.cloud",
+=======
+  "_where": "D:\\Lomax\\lesli\\lesli.cloud",
+>>>>>>> d3b3f3d2a7ab5dfd8c02e33291fb703cff8e100f
   "author": {
     "name": "Rafael Beraldo",
     "email": "rafael.pimpa@gmail.com"
