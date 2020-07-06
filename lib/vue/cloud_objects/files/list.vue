@@ -112,7 +112,7 @@ export default {
 
         deleteFile(deleted_file){
             let file_id = deleted_file.id
-            let url = `/${this.module_name.slash}/${this.object_name.plural}/${this.cloudId}/files/${file_id}`
+            let url = `/${this.module_name.slash}/${this.object_name.plural}/${this.cloudId}/files/${file_id}.json`
 
             this.http.delete(url).then(result => {
                 if (result.successful) {
@@ -255,7 +255,7 @@ export default {
                     >
                         <b-icon size="is-small" icon="download" />
                     </a>
-                    <b-button type="is-danger" outlined @click="deleteFile(props.row)">
+                    <b-button v-if="props.row.editable" type="is-danger" outlined @click="deleteFile(props.row)">
                         <b-icon size="is-small" icon="trash-alt" />
                     </b-button>
                 </b-table-column>
