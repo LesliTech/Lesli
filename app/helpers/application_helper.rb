@@ -40,6 +40,15 @@ module ApplicationHelper
         [application_body_class, controller_path.gsub("/","-"), action_name].join(" ")
     end
 
+    def nav_link(link_path)
+        class_name = current_page?(link_path) ? "is-active" : nil
+        content_tag(:li) do
+            content_tag(:a, :href => link_path, :class => class_name) do
+                yield
+            end
+        end
+    end
+
     def application_stylesheet_theme_path()
 
         theme = "themes/blank"

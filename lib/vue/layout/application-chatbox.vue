@@ -110,6 +110,7 @@ export default {
             this.scrollChatbox()
 
             //axios.post("http://localhost:8888/api/chatbot/intent", {
+            /*
             axios.post("https://api.lesli.chat/api/chatbot/intent", {
                 "session": {
                     "id": "5367990660997635",
@@ -144,6 +145,13 @@ export default {
             }).catch(error => {
                 console.log(error)
             })
+            */
+            this.intents.push({
+                type: 'response',
+                text: 'Mi respuesta'
+            })
+            this.intent = ""     
+            this.loading = false
 
         }
 
@@ -151,8 +159,8 @@ export default {
 }
 </script>
 <template>
-    <section class="lesli-app-chatbox" v-show="showchat">
-        <component-header />
+    <section class="lesli-app-chatbox" v-if="showchat">
+        <component-header></component-header>
         <div class="chat-body" v-show="openchat">
             <template v-for ="(intent, index) in intents">
                 <component

@@ -91,7 +91,7 @@ class Role < ApplicationRecord
                 grant_options: default 
             }
 
-            self.privilege_defaults.find_or_create_by!(grant_object: t[:grant_name]).update(attributes)
+            #self.privilege_defaults.find_or_create_by!(grant_object: t[:grant_name]).update(attributes)
             self.privileges.find_or_create_by!(grant_object: t[:grant_name]).update(attributes)
         end
     end
