@@ -92,7 +92,6 @@ export default {
         getNotifications() {
             //this.http.get('/bell/notifications.json').then(result => {
             this.http.get('/crm/dashboards/next-tasks.json').then(result => {
-                console.log(result)
                 if (result.successful){
                     this.notification.list = result.data
                 }
