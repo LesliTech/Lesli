@@ -50,15 +50,15 @@ export default {
     },
 
     mounted() {
-        this.mountListeners();
+        this.setSubscriptions();
         this.getNotificationsCount();
         this.checkIfMicrophoneWorks();
     },
 
     methods: {
 
-        mountListeners() {
-            this.bus.subscribe('/core/layout/header/notification#getNotificationsCounter', () => {
+        setSubscriptions() {
+            this.bus.subscribe('/lesli/layout/header/notification#getNotificationsCounter', () => {
                 this.getNotificationsCount()
             })
         },
