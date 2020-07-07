@@ -11,13 +11,14 @@ Without the written permission of Lesli Technologies, S. A., any replication, mo
 transmission, publication is strictly forbidden.
 For more information read the license file including with this software.
 
-LesliCloud - Your Smart Business Assistant
+Lesli - Your Smart Business Assistant
 
 Powered by https://www.lesli.tech
 Building a better future, one line of code at a time.
 
+@contact  <hello@lesli.tech>
+@website  <https://lesli.tech>
 @license  Propietary - all rights reserved.
-@version  0.1.0-alpha
 
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
 // · 
@@ -27,21 +28,15 @@ Building a better future, one line of code at a time.
 // · Application module navigation
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
 section.lesli-app-chatbox {
-    background-color: get-lesli-css-color(standard, white);
-    box-shadow: 
-        0 8px 10px -9px rgba(0, 0, 0, 0.05), 
-        0 3px 14px 2px rgba(0, 0, 0, 0.3), 
-        0 5px 5px -3px rgba(0, 0, 0, 0.5);
     padding: 0rem 1.2rem;
     position: fixed;
     z-index: 999;
-    width: 375px;
+    width: 480px;
     bottom: 5px;
     right: 5px;
 
     .chat-header {
         cursor: pointer;
-        border-bottom: 1px solid get-lesli-css-color(silver, 300);
 
         ul {
             align-items: baseline;
@@ -75,7 +70,6 @@ section.lesli-app-chatbox {
         input {
             border: none;
             border-radius: 0px;
-            border-bottom: 1px solid get-lesli-css-color(silver, 300);
             padding: .2rem .4rem;
             width: 100%;
         }
@@ -124,19 +118,15 @@ section.lesli-app-chatbox {
         }
     }
     .chat-request {
-        justify-content: start;
+        justify-content: end;
         p {
             margin-left: 5px;
-            color: get-lesli-css-color(black);
-            background-color: get-lesli-css-color(silver, 300);
         }
     }
     .chat-response {
-        justify-content: end;
+        justify-content: start;
         p {
             margin-right: 5px;
-            color: get-lesli-css-color(standard, white);
-            background-color: get-lesli-css-color(blue, 700);
         }
     }
 
