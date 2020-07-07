@@ -29,7 +29,6 @@ Building a better future, one line of code at a time.
         require 'aws-sdk-s3'
 
         before_action :set_cloud_object_file, only: [:show, :destroy]
-        before_action :check_has_authorization, only: [:destroy]
 
 =begin
 @return [Json] Json that contains a list of all files related to a *cloud_object*
@@ -154,6 +153,9 @@ let file_id = 22;
 this.http.delete(`127.0.0.1/help/tickets/${ticket_id}/files/${file_id}`);
 =end
         def destroy
+            return respond_with_not_found unless @cloud_object_file
+            return respond_with_unauthorized unless @cloud_object_file.is_editable_by?(current_user)
+
             if @cloud_object_file.destroy
                 responseWithSuccessful
 
@@ -337,12 +339,6 @@ this.http.delete(`127.0.0.1/help/tickets/${ticket_id}/files/${file_id}`);
                 model: "#{module_info[0]}::#{module_info[1]}::File".constantize
                 #subscriber_model: "#{module_info[0]}::#{module_info[1]}::Subscriber".constantize
             }
-        end
-
-        def check_has_authorization
-            unless current_user.is_role?("owner", "admin")
-                return responseWithUnauthorized if current_user != @cloud_object_file.user
-            end
         end
 
     end
