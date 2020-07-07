@@ -7,7 +7,7 @@ export default {
 </script>
 <template>
     <div>
-        <img src="/assets/brand/leslicloud-logo.png" />
         <p>{{ data.text }}</p>
+        <img src="/assets/brand/leslicloud-logo.png" />
     </div>
 </template>
