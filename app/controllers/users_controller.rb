@@ -1,7 +1,5 @@
 class UsersController < ApplicationLesliController
     before_action :set_user, only: [:show, :update]
-    before_action :check_user_can_read_update, only: [:show, :update]
-
     def index
         respond_to do |format|
             format.html { }
@@ -15,7 +13,9 @@ class UsersController < ApplicationLesliController
         respond_to do |format|
             format.html {}
             format.json {
-                return responseWithNotFound unless @user
+                return respond_with_not_found unless @user
+                return respond_with_unauthorized unless @user.is_editable_by?(current_user)
+
                 responseWithSuccessful(@user.show)
             }
         end
@@ -38,7 +38,8 @@ class UsersController < ApplicationLesliController
     def update 
 
         # validate that user exists
-        return responseWithNotFound unless @user
+        return respond_with_not_found unless @user
+        return respond_with_unauthorized unless @user.is_editable_by?(current_user)
 
         params_user = user_params
 
@@ -65,15 +66,7 @@ class UsersController < ApplicationLesliController
         @user = current_user.account.users.find_by(id: params[:id])
     end
 
-    private 
-
-    def check_user_can_read_update
-        # Only admins can show the user information
-        # If not admin, only the user can see his own information
-        unless current_user.is_role?("owner", "admin") or current_user.id == @user.id
-            return responseWithUnauthorized
-        end
-    end 
+    private
     
     def user_params
         params.require(:user).permit(
