@@ -43,14 +43,10 @@ class UsersController < ApplicationLesliController
 
         params_user = user_params
 
-        if [params_user["roles_id"]]
+        if params_user["roles_id"]
             role_name = Role.find(params_user["roles_id"]).detail.name
             return responseWithUnauthorized if role_name == "owner" && !current_user.is_role?("owner")
-        end
-
-        if not current_user.is_role?("owner", "admin")
-            params_user.delete("roles_id")
-            return responseWithUnauthorized
+            return responseWithUnauthorized if not current_user.is_role?("owner", "admin")
         end
 
         if @user.update(params_user)
