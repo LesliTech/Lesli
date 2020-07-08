@@ -1784,9 +1784,10 @@ ActiveRecord::Schema.define(version: 20011003) do
   end
 
   create_table "user_activities", force: :cascade do |t|
-    t.integer "type"
-    t.string "title"
+    t.string "request_method"
+    t.string "request_url"
     t.string "description"
+    t.string "log_scope"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.bigint "users_id"
