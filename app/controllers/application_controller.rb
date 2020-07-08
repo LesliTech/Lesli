@@ -181,6 +181,10 @@ class ApplicationController < ActionController::Base
         responseWithUnauthorized
     end 
 
+    def respond_with_not_found
+        responseWithNotFound
+    end
+
     private
 
     def get_browser_locale

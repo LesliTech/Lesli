@@ -1,7 +1,5 @@
 class UsersController < ApplicationLesliController
     before_action :set_user, only: [:show, :update]
-    before_action :check_user_can_read_update, only: [:show, :update]
-
     def index
         respond_to do |format|
             format.html { }
@@ -15,8 +13,10 @@ class UsersController < ApplicationLesliController
         respond_to do |format|
             format.html {}
             format.json {
-                return responseWithNotFound unless @user
-                responseWithSuccessful(@user.show)
+                return respond_with_not_found unless @user
+                return respond_with_unauthorized unless @user.is_editable_by?(current_user)
+
+                responseWithSuccessful(@user.show(current_user))
             }
         end
     end
@@ -38,14 +38,17 @@ class UsersController < ApplicationLesliController
     def update 
 
         # validate that user exists
-        return responseWithNotFound unless @user
+        return respond_with_not_found unless @user
+        return respond_with_unauthorized unless @user.is_editable_by?(current_user)
 
         params_user = user_params
 
-        if not current_user.is_role?("owner", "admin")
-            params_user.delete("roles_id")
-            return responseWithUnauthorized
+        if params_user["roles_id"]
+            role_name = Role.find(params_user["roles_id"]).detail.name
+            return responseWithUnauthorized if role_name == "owner" && !current_user.is_role?("owner")
         end
+
+        params_user.delete("roles_id") if not current_user.is_role?("owner", "admin")
 
         if @user.update(params_user)
 
@@ -65,15 +68,7 @@ class UsersController < ApplicationLesliController
         @user = current_user.account.users.find_by(id: params[:id])
     end
 
-    private 
-
-    def check_user_can_read_update
-        # Only admins can show the user information
-        # If not admin, only the user can see his own information
-        unless current_user.is_role?("owner", "admin") or current_user.id == @user.id
-            return responseWithUnauthorized
-        end
-    end 
+    private
     
     def user_params
         params.require(:user).permit(

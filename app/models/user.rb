@@ -139,7 +139,7 @@ class User < ApplicationLesliRecord
     #        "name":"Diego Alay"
     #        "role":"manager"
     #     }
-    def show
+    def show(current_user = nil)
 
         user = self.account.users.find(id)
 
@@ -151,6 +151,7 @@ class User < ApplicationLesliRecord
                 roles_id: user[:roles_id],
                 created_at: user[:created_at],
                 updated_at: user[:updated_at],
+                editable_security: current_user && current_user.is_role?("owner", "admin"),
                 detail_attributes: {
                     title: user.detail[:title],
                     salutation: user.detail[:salutation],
