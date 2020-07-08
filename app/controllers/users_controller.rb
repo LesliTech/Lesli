@@ -16,7 +16,7 @@ class UsersController < ApplicationLesliController
                 return respond_with_not_found unless @user
                 return respond_with_unauthorized unless @user.is_editable_by?(current_user)
 
-                responseWithSuccessful(@user.show)
+                responseWithSuccessful(@user.show(current_user))
             }
         end
     end
@@ -46,8 +46,9 @@ class UsersController < ApplicationLesliController
         if params_user["roles_id"]
             role_name = Role.find(params_user["roles_id"]).detail.name
             return responseWithUnauthorized if role_name == "owner" && !current_user.is_role?("owner")
-            return responseWithUnauthorized if not current_user.is_role?("owner", "admin")
         end
+
+        params_user.delete("roles_id") if not current_user.is_role?("owner", "admin")
 
         if @user.update(params_user)
 
