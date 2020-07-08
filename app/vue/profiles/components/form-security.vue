@@ -81,9 +81,15 @@ export default {
             }).catch(error => {
                 console.log(error)
             })
-        }
+        },
         
-    }
+    },
+
+    computed: {
+        securityEditable(){
+            return this.user.editable_security || false
+        },
+    },
 
 }
 </script>
@@ -110,7 +116,7 @@ export default {
                     <label class="label">Rolle</label>
                     <div class="control">
                         <div class="select">
-                            <select v-model="user.roles_id">
+                            <select v-model="user.roles_id" :disabled="!securityEditable">
                                 <option 
                                     v-for="role in options.roles" :key="role.id"
                                     :value="role.id"
@@ -122,7 +128,7 @@ export default {
                     </div>
                 </div>
                 <p class="control">
-                    <button class="button is-primary">Speichern</button>
+                    <button class="button is-primary" v-if="user.editable_security">Speichern</button>
                 </p>
             </form>
         </div>
