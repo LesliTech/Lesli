@@ -26,7 +26,6 @@ Building a better future, one line of code at a time.
 =end
     class DiscussionsController < ApplicationLesliController
         before_action :set_cloud_object_discussion, only: [:update, :destroy]
-        before_action :check_has_authorization, only: [:update, :destroy]
 
 
 =begin
@@ -111,6 +110,9 @@ Building a better future, one line of code at a time.
     this.http.patch(`127.0.0.1/help/tickets/${ticket_id}/discussions/${discussion_id}`, data);
 =end
         def update
+            return respond_with_not_found unless @cloud_object_discussion
+            return respond_with_unauthorized unless @cloud_object_discussion.is_editable_by?(current_user)
+
             if @cloud_object_discussion.update(cloud_object_discussion_params)
                 responseWithSuccessful
             else
@@ -215,13 +217,5 @@ this.http.delete(`127.0.0.1/help/tickets/${ticket_id}/discussions/${discussion_i
                 discussion_model: "#{module_info[0]}::#{module_info[1]}::Subscriber".constantize
             }
         end
-
-
-        def check_has_authorization
-            unless current_user.is_role?("owner", "admin")
-                return responseWithUnauthorized if current_user != @cloud_object_discussion.user
-            end
-        end
-
     end
 end

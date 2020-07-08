@@ -161,11 +161,13 @@ class ApplicationLesliRecord < ApplicationRecord
             .select("role_details.object_level_permission")
             .first.object_level_permission
 
-        main_relevant_user_olp = relevant_users[0].role.detail.object_level_permission
+        if relevant_users[0]
+            main_relevant_user_olp = relevant_users[0].role.detail.object_level_permission
+        end
 
         relevant_users.each do |relevant_user|
-            if relevant_user.id == current_user.id
-                return true
+            if relevant_user
+                return true if relevant_user.id == current_user.id
             end
         end
 
