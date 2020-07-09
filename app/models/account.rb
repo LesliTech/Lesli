@@ -45,6 +45,7 @@ class Account < ApplicationRecord
     has_one :house,  class_name: "CloudHouse::Account",  foreign_key: "id"
     has_one :focus,  class_name: "CloudFocus::Account",  foreign_key: "id"
     has_one :driver, class_name: "CloudDriver::Account", foreign_key: "id"
+    has_one :mailer, class_name: "CloudMailer::Account", foreign_key: "id"
 
     after_create :initialize_account
     after_create :initialize_account_for_engines
@@ -133,6 +134,14 @@ class Account < ApplicationRecord
                 self.help = CloudHelp::Account.new
                 self.help.account = self
                 self.help.save!
+            end
+        end
+
+        if defined? CloudMailer
+            if self.mailer.blank?
+                self.mailer = CloudMailer::Account.new
+                self.mailer.account = self
+                self.mailer.save!
             end
         end
 
