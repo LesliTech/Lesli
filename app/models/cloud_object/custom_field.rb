@@ -28,8 +28,13 @@ module CloudObject
 
     class CustomField < ApplicationLesliRecord
         self.abstract_class = true
+        belongs_to :user_creator, class_name: "::User", foreign_key: "users_id"
 
-        belongs_to :user, class_name: "::User", foreign_key: "users_id"
+        # @description At the current time, this is a dummy method that returns nil, so the function is_editable_by? in
+        #   ApplicationLesliRecord will work without issues
+        def user_main
+            return nil
+        end
 
 =begin
         # @param cloud_object [ApplicationRecord] Cloud object to which an user can subscribe to
