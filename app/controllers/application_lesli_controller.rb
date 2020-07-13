@@ -33,7 +33,7 @@ class ApplicationLesliController < ApplicationController
     before_action :set_global_account
     before_action :set_request_helpers
 
-    after_action :register_user_activities
+    after_action :track_user_activities
     
     layout "layouts/application"
 
@@ -147,11 +147,14 @@ class ApplicationLesliController < ApplicationController
         
     end
 
+    def log_activity description=nil, log_scope=nil
+        current_user.log_activity request.method, request.original_fullpath, description, log_scope
+    end
 
     # Track all the user activity (if enabled)
-    def register_user_activities
+    def track_user_activities
         return if request[:format] == "json"
-        current_user.activity(params[:action], request.original_url)
+        log_activity
     end
     
     # Check if user can be redirected to role default path
