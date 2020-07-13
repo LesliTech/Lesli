@@ -29,9 +29,10 @@ Building a better future, one line of code at a time.
 class CreateUserActivities < ActiveRecord::Migration[6.0]
     def change
         create_table :user_activities do |t|
-            t.integer :type
-            t.string  :title
-            t.string  :description
+            t.string :request_method   # track, get, post, put, delete, search
+            t.string :request_url      # request.url_fullpath
+            t.string :description
+            t.string :log_scope
             t.timestamps
         end
         add_reference :user_activities, :users, foreign_key: true
