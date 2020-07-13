@@ -32,7 +32,7 @@ module Courier
             def self.by_model(model_type, model_id, current_user, query)
                 return [] unless defined? CloudFocus
                 events = current_user.account.driver.events
-                        .select(:id, :title, :description, :time_start, :time_end, :location, :url, :event_type, :public, :organizer_id, :users_id, :event_date)
+                        .select(:id, :title, :description, :time_start, :time_end, :location, :url, :event_type, :public, :user_main_id, :users_id, :event_date)
                         .joins(:detail)
                         .where("cloud_driver_events.model_id = ? AND cloud_driver_events.model_type = ?", model_id, model_type)
                 
@@ -43,7 +43,7 @@ module Courier
                 events_count = events.total_count
 
                 events = events.map do |event|
-                    organizer = event.organizer
+                    organizer = event.user_main
                     {
                         id: event.id, 
                         title: event.title, 
