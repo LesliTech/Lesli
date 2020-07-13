@@ -29,7 +29,7 @@ Building a better future, one line of code at a time.
 class ApplicationLesliRecord < ApplicationRecord
     self.abstract_class = true
 
-    #acts_as_paranoid
+    acts_as_paranoid
 
     # before_validation :custom_validations
 
@@ -147,16 +147,18 @@ class ApplicationLesliRecord < ApplicationRecord
             .select("role_details.object_level_permission")
             .first.object_level_permission
 
-        creator_olp = 0
+        reference_olp = 0
         if user_creator
-            creator_olp = user_creator.role.detail.object_level_permission
+            reference_olp = user_creator.role.detail.object_level_permission
+        elsif user_main
+            reference_olp = user_main.role.detail.object_level_permission
         end
 
-        if current_user_olp > creator_olp
+        if current_user_olp > reference_olp
             return true
         end
 
-        if current_user_olp >= object_level_permission_threshold && current_user_olp >= creator_olp
+        if current_user_olp >= object_level_permission_threshold && current_user_olp >= reference_olp
             return true
         end
 
