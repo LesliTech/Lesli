@@ -207,7 +207,7 @@ module Courier
 
                 task = CloudFocus::Task.new(task_params)
                 task.account = current_user.account.focus
-                task.user = current_user
+                task.user_creator = current_user
                 task.set_workflow
                 if task.save!
                     if send_email

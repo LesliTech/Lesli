@@ -90,7 +90,7 @@ export default {
         },
 
         getUsers(){
-            this.http.get('/users.json?role=kop&type=exclude').then(result => {
+            this.http.get('/users.json?role=kop,callcenter,api&type=exclude').then(result => {
                 if (result.successful) {
                     this.$set(this.email_options, 'users', result.data)
                 }
