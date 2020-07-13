@@ -74,7 +74,8 @@ Building a better future, one line of code at a time.
 
             cloud_object_action = dynamic_info[:model].new(
                 cloud_object_action_params.merge({
-                    "cloud_#{module_name}_#{plural_object_name}_id".to_sym => params["#{object_name}_id".to_sym]
+                    user_creator: current_user,
+                    "cloud_#{module_name}_#{plural_object_name}_id".to_sym => params["#{object_name}_id".to_sym],
                 })
             )
 
