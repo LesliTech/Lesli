@@ -125,8 +125,8 @@ Building a better future, one line of code at a time.
         def show(current_user = nil)
             discussion_attributes = attributes.merge({
                 editable: is_editable_by?(current_user),
-                email: user.email,
-                user_name: "#{user.detail.first_name} #{user.detail.last_name}"
+                email: user_creator.email,
+                user_name: "#{user_creator.detail.first_name} #{user_creator.detail.last_name}"
             })
             discussion_attributes["created_at"] = LC::Date.to_string_datetime(discussion_attributes["created_at"])
 
