@@ -32,6 +32,7 @@ class CreateRoleDetails < ActiveRecord::Migration[6.0]
             t.string    :name
             t.boolean   :active
             t.string    :default_path
+            t.boolean   :only_my_data, default: false
             t.integer   :object_level_permission, default: 10
             t.datetime  :deleted_at, index: true
             t.timestamps
