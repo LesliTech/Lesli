@@ -55,19 +55,13 @@ class User < ApplicationLesliRecord
     accepts_nested_attributes_for :detail, update_only: true
 
     after_create :initialize_user
+    
+    def user_creator
+        return nil
+    end
 
-    # @return [Array] An array of users, the relevant user for a task
-    # @description Returns the relevant users for the task. In this case, the creator and the
-    #   assigned users. This list is ordered, the first one is always the most important and will be
-    #   the only one used for object level permission verification based on the role_detail.object_level_permission field value
-    # @example
-    #   creator_user = User.find(1)
-    #   assigned_user = User.find(2)
-    #   account = Account.find(1)
-    #   task = account.focus.tasks.create!(creator: creator_user, user: assigned_user, detail_attributes(....))
-    #   task.relevant_users    # Will return an array with both users as the relevant users
-    def relevant_users
-        return [self]
+    def user_main
+        return self
     end
 
     # @param accounnt [Account] The account associated to *current_user*

@@ -43,7 +43,7 @@ module CloudObject
             plural_object_name = object_name.pluralize
             
             cloud_object_id = params["#{object_name}_id".to_sym]
-            cloud_object_activity = dynamic_info[:model].where(
+            cloud_object_activities = dynamic_info[:model].where(
                 "cloud_#{module_name}_#{plural_object_name}_id".to_sym => cloud_object_id
             ).order(id: :desc).map do |activity|
                 activities_data = {
@@ -59,12 +59,12 @@ module CloudObject
                     updated_at: LC::Date.to_string_datetime(activity[:updated_at])
                 }
 
-                user = ::User.find_by(id: activity[:users_id])
-                activities_data[:user_name] = user.name if user
+                user = activity.user_creator
+                activities_data[:user_name] = user.full_name if user
 
                 activities_data
             end
-            responseWithSuccessful(cloud_object_activity)
+            responseWithSuccessful(cloud_object_activities)
         end
         
         # @controller_action_param :instructions [String] The instructions to add to the activity
@@ -90,8 +90,8 @@ module CloudObject
 
             cloud_object_activity = dynamic_info[:model].new(
                 cloud_object_activity_params.merge({
-                    "cloud_#{module_name}_#{plural_object_name}_id".to_sym => params["#{object_name}_id".to_sym],
-                    "users_id": current_user.id
+                    user_creator: current_user,
+                    "cloud_#{module_name}_#{plural_object_name}_id".to_sym => params["#{object_name}_id".to_sym]
                 })
             )
 

@@ -26,21 +26,13 @@ Building a better future, one line of code at a time.
 =end
     class Discussion < ApplicationLesliRecord
         self.abstract_class = true
+        belongs_to :user_creator, class_name: "::User", foreign_key: "users_id"
 
-        belongs_to :user, foreign_key: "users_id"
-
-        # @return [Array] An array of users, the relevant user for a task
-        # @description Returns the relevant users for the task. In this case, the creator and the
-        #   assigned users. This list is ordered, the first one is always the most important and will be
-        #   the only one used for object level permission verification based on the role_detail field value
-        # @example
-        #   creator_user = User.find(1)
-        #   assigned_user = User.find(2)
-        #   account = Account.find(1)
-        #   task = account.focus.tasks.create!(creator: creator_user, user: assigned_user, detail_attributes(....))
-        #   task.relevant_users    # Will return an array with both users as the relevant users
-        def relevant_users
-            return [user] 
+        # @return [User] This method will always return nil
+        # @description At the current time, this is a dummy method that returns nil, so the function is_editable_by? in
+        #   ApplicationLesliRecord will work without issues
+        def user_main
+            return nil
         end
 
 =begin
@@ -133,8 +125,8 @@ Building a better future, one line of code at a time.
         def show(current_user = nil)
             discussion_attributes = attributes.merge({
                 editable: is_editable_by?(current_user),
-                email: user.email,
-                user_name: "#{user.detail.first_name} #{user.detail.last_name}"
+                email: user_creator.email,
+                user_name: "#{user_creator.detail.first_name} #{user_creator.detail.last_name}"
             })
             discussion_attributes["created_at"] = LC::Date.to_string_datetime(discussion_attributes["created_at"])
 

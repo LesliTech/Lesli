@@ -29,7 +29,7 @@ Building a better future, one line of code at a time.
 class ApplicationLesliRecord < ApplicationRecord
     self.abstract_class = true
 
-    #acts_as_paranoid
+    acts_as_paranoid
 
     # before_validation :custom_validations
 
@@ -128,31 +128,17 @@ class ApplicationLesliRecord < ApplicationRecord
         return 1000
     end
 
-    # @return [Array] An array of users, the relevant user for a task
-    # @description Returns the relevant users for the task. In this case, the creator and the
-    #   assigned users. This list is ordered, the first one is always the most important and will be
-    #   the only one used for object level permission verification based on the role_detail.object_level_permission field value
-    # @example
-    #   creator_user = User.find(1)
-    #   assigned_user = User.find(2)
-    #   account = Account.find(1)
-    #   task = account.focus.tasks.create!(creator: creator_user, user: assigned_user, detail_attributes(....))
-    #   task.relevant_users    # Will return an array with both users as the relevant users
-    def relevant_users
-        return []
-    end
-
     # @return [Boolean] Whether the user sent as argument can edit this object or not
     # @param current_user [User] The user that wants to edit the resource
     # @description Returns if current_user can edit this resource. A user can edit it if one of the following conditions is met:
     #       - The user is a relevant resource user (see relevant_users method)
-    #       - The user's object_level_permission is greater than the object_level_permission of the most relevant resource user
-    #       - The user's object_level_permission is greater or equal than the object_level_permission threshold, and greater or equal than the object_level_permission of the most relevant resource user
+    #       - The user's object_level_permission is greater than the object_level_permission of the creator
+    #       - The user's object_level_permission is greater or equal than the object_level_permission threshold, and greater or equal than the object_level_permission of the creator
     def is_editable_by?(current_user)
         return false unless current_user
 
-        if  relevant_users.empty?
-            return false
+        if current_user == user_creator || current_user == user_main
+            return true
         end
 
         current_user_olp = User.joins(:role)
@@ -161,21 +147,18 @@ class ApplicationLesliRecord < ApplicationRecord
             .select("role_details.object_level_permission")
             .first.object_level_permission
 
-        if relevant_users[0]
-            main_relevant_user_olp = relevant_users[0].role.detail.object_level_permission
+        reference_olp = 0
+        if user_creator
+            reference_olp = user_creator.role.detail.object_level_permission
+        elsif user_main
+            reference_olp = user_main.role.detail.object_level_permission
         end
 
-        relevant_users.each do |relevant_user|
-            if relevant_user
-                return true if relevant_user.id == current_user.id
-            end
-        end
-
-        if current_user_olp > main_relevant_user_olp
+        if current_user_olp > reference_olp
             return true
         end
 
-        if current_user_olp >= object_level_permission_threshold && current_user_olp >= main_relevant_user_olp
+        if current_user_olp >= object_level_permission_threshold && current_user_olp >= reference_olp
             return true
         end
 
