@@ -86,7 +86,7 @@ Building a better future, one line of code at a time.
         
             new_file_params = 
             cloud_object_file_params.merge(
-                user: current_user,
+                user_creator: current_user,
                 "cloud_#{module_name}_#{plural_object_name}_id".to_sym => params["#{object_name}_id".to_sym]
             )
 
@@ -113,7 +113,7 @@ Building a better future, one line of code at a time.
 
                 # Register Activity
                 cloud_object.activities.create(
-                    user: current_user,
+                    user_creator: current_user,
                     category: "action_create_file",
                     description: cloud_object_file.name
                 )
@@ -161,7 +161,7 @@ this.http.delete(`127.0.0.1/help/tickets/${ticket_id}/files/${file_id}`);
 
                 # Register Activity
                 @cloud_object_file.cloud_object.activities.create(
-                    user: current_user,
+                    user_creator: current_user,
                     category: "action_destroy_file",
                     description: @cloud_object_file.name
                 )

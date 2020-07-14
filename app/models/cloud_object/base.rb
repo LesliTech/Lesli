@@ -51,18 +51,6 @@ module CloudObject
         end
 
 =begin
-@return [User]
-@description Returns the main employee associated with this cloud_object. The default method always return nil. This method is called 
-    get_main_employee instead of main_employee so it does not have any conflicts with the "main_employee" association
-@example
-    project = CloudHouse::Project.find(1)
-    puts projet.get_main_employee # If the CloudHouse::Project class has overrided this method, it will return a User
-=end
-        def get_main_employee
-            return nil
-        end
-
-=begin
 @return [Hash] Hash that contains information about the class
 @description Returns dynamic information based on the current implementation of this abstract class
 @example

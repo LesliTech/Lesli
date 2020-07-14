@@ -5,7 +5,7 @@ class WorkflowActions::CreateBellNotificationJob < ApplicationJob
         notification_user = nil
         case action.concerning_users["type"]
         when "main"
-            notification_user = cloud_object.get_main_employee
+            notification_user = cloud_object.user_main
         when "custom"
             notification_user = current_user.account.users.find(action.concerning_users["list"][0]["id"]) if action.concerning_users["list"]
         when "current_user"
@@ -40,7 +40,7 @@ class WorkflowActions::CreateBellNotificationJob < ApplicationJob
         rescue StandardError => e
             if action.configuration["log_errors"]
                 cloud_object.activities.create(
-                    user: current_user,
+                    user_creator: current_user,
                     category: "action_workflow_action_failed",
                     description: e.message
                 )
