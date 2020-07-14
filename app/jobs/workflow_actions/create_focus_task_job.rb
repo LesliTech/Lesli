@@ -15,7 +15,7 @@ class WorkflowActions::CreateFocusTaskJob < ApplicationJob
         begin
             replacement_values = {
                 "%global_identifier%" => cloud_object.global_identifier,
-                "%current_user%" => (current_user.name || "")
+                "%current_user%" => (current_user.full_name || "")
             }
             action.parse_input_data(replacement_values)
             input_data = action.input_data
