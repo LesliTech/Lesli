@@ -113,6 +113,13 @@ module LC
             zone = ActiveSupport::TimeZone.new(@settings[:time_zone])
             datetime_object.in_time_zone(zone).strftime(@settings[:time_format])
         end
+
+        def self.beginning_of_month
+            self.verify_settings
+            
+            zone = ActiveSupport::TimeZone.new(@settings[:time_zone])
+            return Time.current.in_time_zone(zone).beginning_of_month
+        end
  
         def self.today_at_midnight
             self.verify_settings
@@ -126,7 +133,7 @@ module LC
             
             zone = ActiveSupport::TimeZone.new(@settings[:time_zone])
             return Time.current.in_time_zone(zone).beginning_of_day + 1.day
-        end
+        end 
  
         def self.now
             self.verify_settings
