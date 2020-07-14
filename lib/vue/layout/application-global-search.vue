@@ -21,9 +21,15 @@ export default {
             })
         },
         getSearch() {
-            let text = this.searchGermanCharacters()
+            let text = this.searchGermanCharacters(this.text)
+            let words_to_highlight = this.text.toLowerCase()
+                                        .split(/(\s+)/)
+                                        .filter( e => e.trim().length > 0)
+                                        .map(e => {
+                                            return this.searchGermanCharacters(e)
+                                        })
 
-            this.http.get(`/house/projects/search/${text}`).then(result => {
+            this.http.get(`/house/projects/search/${text}?orderColumn=CHWS.completed_unsuccessfully,CHWS.name&order=asc`).then(result => {
                 this.projects = result.data
                 this.projects.forEach(project => {
                     for(var key in project) {
@@ -33,7 +39,7 @@ export default {
                             project['project_code'] = project[key]
                         }
 
-                        project[key]=this.doHighlightText(project[key] ? project[key] : '', this.text)
+                        project[key]=this.doHighlightText(project[key] ? project[key] : '', words_to_highlight)
                         
                     }
                 })
@@ -48,37 +54,37 @@ export default {
         goToProject(project) {
             this.url.go(`/crm/projects/${project.project_code}`)
         },
-        doHighlightText(text_to_highlight, text_to_search) {
-
+        doHighlightText(text_to_highlight, words_to_highlight) {
             // return same string if search tearm is not present
-            if (text_to_search === '') {
+            if (words_to_highlight.length === 0) {
                 return text_to_highlight
             }
 
-            text_to_highlight = text_to_highlight.toString().toLowerCase()
-            text_to_search = text_to_search.toLowerCase()
-
-            let iQuery = new RegExp(text_to_search, "ig")
-            return text_to_highlight.toString().replace(iQuery, function(matchedText,a,b){
-                return ('<span class=\'tag is-primary\'>' + matchedText + '</span>');
+            words_to_highlight.forEach(word_to_search => {
+                let iQuery = new RegExp(word_to_search, 'ig');
+                text_to_highlight = text_to_highlight.toString().replace(iQuery, function(matchedText,a,b){
+                    return ('<span class=\'tag is-primary\'>' + matchedText + '</span>');
+                })
             })
 
+            return text_to_highlight
+
         },
-        searchGermanCharacters(){
-            if (this.text.includes("ä")){
-                return this.text.replace("ä", "(ä|ae)") 
-            } else if (this.text.includes("ae")){
-                return this.text.replace("ae", "(ä|ae)") 
-            } else if (this.text.includes("ü")){
-                return this.text.replace("ü", "(ü|ue)")                 
-            }else if (this.text.includes("ue")){
-                return this.text.replace("ue", "(ü|ue)") 
-            }else if (this.text.includes("ö")){
-                return this.text.replace("ö", "(ö|oe)") 
-            }else if (this.text.includes("oe")){
-                return this.text.replace("oe", "(ö|oe)")                 
+        searchGermanCharacters(text){
+            if (text.includes("ä")){
+                return text.replace("ä", "(ä|ae)") 
+            } else if (text.includes("ae")){
+                return text.replace("ae", "(ä|ae)") 
+            } else if (text.includes("ü")){
+                return text.replace("ü", "(ü|ue)")                 
+            }else if (text.includes("ue")){
+                return text.replace("ue", "(ü|ue)") 
+            }else if (text.includes("ö")){
+                return text.replace("ö", "(ö|oe)") 
+            }else if (text.includes("oe")){
+                return text.replace("oe", "(ö|oe)")                 
             } else {
-                return this.text
+                return text
             }
         }
     },
