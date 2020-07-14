@@ -29,7 +29,7 @@ module Courier
     module House
         class Project
 
-            def self.list(current_user, active_projects = false)
+            def self.list(current_user, query = nil)
                 return [] unless defined? CloudHouse
 
                 main_owner_role = CloudHouse::Project::Customer.roles["main_owner"]
@@ -44,10 +44,10 @@ module Courier
                 .joins("inner join cloud_house_workflow_statuses CHWS on CHWS.id = cloud_house_projects.cloud_house_workflow_statuses_id")
                 .where("CHPC.role = #{main_owner_role}")
 
-                if (active_projects)
-                    projects = projects.where("CHWS.completed_unsuccessfully = ?", false)
+                unless query.blank?
+                    projects = projects.where("CHWS.completed_unsuccessfully = ?", query[:completed_unsuccessfully]) unless query[:completed_unsuccessfully].blank?
                 end
-
+                
                 projects
             end
 
