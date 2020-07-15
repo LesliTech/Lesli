@@ -30,24 +30,23 @@ Building a better future, one line of code at a time.
 */
 
 
-// · https://fonts.google.com/specimen/Open+Sans?selection.family=Montserrat|Open+Sans:300,400
+// · https://fonts.google.com/specimen/Montserrat?selection.family=Montserrat:wght@200;400|Open+Sans:wght@300;400&sidebar.open
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
 @mixin lesli-css-fonts-standard() {
 
     // · google fonts as main provider
-    @import url("https://fonts.googleapis.com/css?family=Montserrat|Open+Sans:300,400&display=swap");
-
+    @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@200;400&family=Open+Sans:wght@300;400&display=swap');
 
     // · title font
     h1, h2, h3, h4, h5, h6 {
-        font-family: "Montserrat";
+        font-family: "Montserrat", "Helvetica Neue", "Helvetica", "Arial", "sans-serif", sans-serif;
     }
 
 
     // · body font
     body,
     html {
-        font-family: "Open Sans";
+        font-family: "Open Sans", "Helvetica Neue", "Helvetica", "Arial", "sans-serif", sans-serif;
     }
 
 }
