@@ -27,12 +27,4 @@ Building a better future, one line of code at a time.
 =end
 class User::Activity < ApplicationRecord
     belongs_to :user, foreign_key: "users_id"
-
-    before_save :set_activity_type
-
-    enum type: [:track, :log]
-
-    def set_activity_type
-        self.type ||= 0
-    end
 end

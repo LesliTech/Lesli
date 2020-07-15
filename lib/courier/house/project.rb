@@ -29,7 +29,7 @@ module Courier
     module House
         class Project
 
-            def self.list(current_user)
+            def self.list(current_user, query = nil)
                 return [] unless defined? CloudHouse
 
                 main_owner_role = CloudHouse::Project::Customer.roles["main_owner"]
@@ -42,9 +42,12 @@ module Courier
                 .joins("left join account_locations L on CHPR.location_city_id = L.id")
                 .joins("inner join cloud_house_property_details CHPRD on CHPR.id = CHPRD.cloud_house_properties_id")
                 .joins("inner join cloud_house_workflow_statuses CHWS on CHWS.id = cloud_house_projects.cloud_house_workflow_statuses_id")
-                .where("CHWS.completed_unsuccessfully = ?", false)
                 .where("CHPC.role = #{main_owner_role}")
 
+                unless query.blank?
+                    projects = projects.where("CHWS.completed_unsuccessfully = ?", query[:completed_unsuccessfully]) unless query[:completed_unsuccessfully].blank?
+                end
+                
                 projects
             end
 

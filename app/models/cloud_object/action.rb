@@ -26,5 +26,13 @@ Building a better future, one line of code at a time.
 =end
     class Action < ApplicationLesliRecord
         self.abstract_class = true
+        belongs_to :user_creator, class_name: "::User", foreign_key: "users_id"
+        
+        # @return [User] This method will always return nil
+        # @description At the current time, this is a dummy method that returns nil, so the function is_editable_by? in
+        #   ApplicationLesliRecord will work without issues
+        def user_main
+            return nil
+        end
     end
 end

@@ -5,7 +5,7 @@ class WorkflowActions::SendCoreEmailJob < ApplicationJob
         begin
             replacement_values = {
                 "%global_identifier%" => cloud_object.global_identifier,
-                "%current_user%" => (current_user.name || "")
+                "%current_user%" => (current_user.full_name || "")
             }
             action.parse_input_data(replacement_values)
             input_data = action.input_data
@@ -22,7 +22,9 @@ class WorkflowActions::SendCoreEmailJob < ApplicationJob
             emails = []
             case action.concerning_users["type"]
             when "main"
-                user = cloud_object.get_main_employee.attributes
+                user = cloud_object.user_main.attributes
+                return unless user
+
                 emails.push(user["email"])
                 send_email(user, action, input_data, href)
             when "current_user"
@@ -37,7 +39,7 @@ class WorkflowActions::SendCoreEmailJob < ApplicationJob
             end
 
             cloud_object.activities.create!(
-                user: current_user,
+                user_creator: current_user,
                 category: "action_email_sent",
                 description: emails.join(", ")
             )
@@ -45,7 +47,7 @@ class WorkflowActions::SendCoreEmailJob < ApplicationJob
         rescue StandardError => e
             if action.configuration["log_errors"]
                 cloud_object.activities.create(
-                    user: current_user,
+                    user_creator: current_user,
                     category: "action_workflow_action_failed",
                     description: e.message
                 )

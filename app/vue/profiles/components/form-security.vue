@@ -42,10 +42,10 @@ export default {
                 }
             }).then(result => {
                 if (result.successful == true) {
-                    this.alert("Password updated successfully", "error")
+                    this.alert("Password updated successfully", "success")
                     return 
                 }
-                this.alert(result.error.message[0])
+                this.alert(result.error.message, "danger")
             }).catch(error => {
                 console.log(error)
             })
@@ -58,10 +58,10 @@ export default {
                 }
             }).then(result => {
                 if (result.successful == true) {
-                    this.alert("Role updated successfully", "error")
+                    this.alert("Role updated successfully", "success")
                     return 
                 }
-                this.alert(result.error.message[0])
+                this.alert(result.error.message, "danger")
             }).catch(error => {
                 console.log(error)
             })
@@ -74,16 +74,22 @@ export default {
                 }
             }).then(result => {
                 if (result.successful == true) {
-                    this.alert("Access status updated successfully", "error")
+                    this.alert("Access status updated successfully", "success")
                     return 
                 }
-                this.alert(result.error.message[0])
+                this.alert(result.error.message, "danger")
             }).catch(error => {
                 console.log(error)
             })
-        }
+        },
         
-    }
+    },
+
+    computed: {
+        securityEditable(){
+            return this.user.editable_security || false
+        },
+    },
 
 }
 </script>
@@ -110,7 +116,7 @@ export default {
                     <label class="label">Rolle</label>
                     <div class="control">
                         <div class="select">
-                            <select v-model="user.roles_id">
+                            <select v-model="user.roles_id" :disabled="!securityEditable">
                                 <option 
                                     v-for="role in options.roles" :key="role.id"
                                     :value="role.id"
@@ -122,7 +128,7 @@ export default {
                     </div>
                 </div>
                 <p class="control">
-                    <button class="button is-primary">Speichern</button>
+                    <button class="button is-primary" v-if="user.editable_security">Speichern</button>
                 </p>
             </form>
         </div>
