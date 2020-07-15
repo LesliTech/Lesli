@@ -49,7 +49,7 @@ class Users::SessionsController < Devise::SessionsController
 
         return responseWithError(t('core.users/sessions.invalid_credentials')) unless resource
 
-        activity = resource.activity("login", "login_atempt")
+        activity = resource.log_activity(request.method, request.original_fullpath, "login_atempt")
 
         unless resource.valid_password?(sign_in_params[:password])
             activity.update_attribute(:description, "login_atempt_invalid_credentials")
@@ -69,7 +69,7 @@ class Users::SessionsController < Devise::SessionsController
     end
 
     def destroy
-        current_user.activity("logout")
+        current_user.log_activity(request.method, request.original_fullpath, "logout")
         sign_out current_user
         flash[:logout] = true # Flag to disable back button in browser after Logout using JavaScript
         respond_to_on_destroy

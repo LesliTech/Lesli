@@ -29,9 +29,6 @@ module Courier
     module Focus
         class Task
 
-            def self.for(current_user)
-            end
-
             def self.with_deadline(current_user, query)
                 return [] unless defined? CloudFocus
 
@@ -55,19 +52,19 @@ module Courier
             def self.by_model(model_type, model_id, current_user, query)
                 return [] unless defined? CloudFocus
                 tasks = current_user.account.focus.tasks
-                .select(:id, :description, :deadline, :importance, :task_type, :creator_id, :users_id, :cloud_focus_workflow_statuses_id)
+                .select(:id, :description, :deadline, :importance, :task_type, :user_main_id, :users_id, :cloud_focus_workflow_statuses_id)
                 .select("
                     cloud_focus_task_details.title,
-                    ua.id as user_id, 
-                    ua.roles_id as user_role, 
-                    uad.first_name as user_value, 
-                    uc.id as creator_id, 
-                    uc.roles_id as creator_role, 
-                    ucd.first_name as creator_value
+                    ua.id as user_main_id, 
+                    ua.roles_id as user_main_role, 
+                    CONCAT(uad.first_name, ' ', uad.last_name) as user_main_value, 
+                    uc.id as user_creator_id, 
+                    uc.roles_id as user_creator_role, 
+                    CONCAT(ucd.first_name, ' ', ucd.last_name) user_creator_value
                 ")
                 .joins(:detail, :status)
-                .joins("inner join users ua on ua.id = cloud_focus_tasks.users_id")
-                .joins("inner join users uc on uc.id = cloud_focus_tasks.creator_id")
+                .joins("inner join users ua on ua.id = cloud_focus_tasks.user_main_id")
+                .joins("inner join users uc on uc.id = cloud_focus_tasks.users_id")
                 .joins("inner join user_details uad on uad.users_id = ua.id")
                 .joins("inner join user_details ucd on ucd.users_id = uc.id")
                 .joins("inner join roles uar on uar.id = ua.roles_id")
@@ -99,14 +96,14 @@ module Courier
                         importance: CloudFocus::Task::Detail.importances.key(task.importance),
                         task_type: task.task_type,
                         creator: {
-                            id: task.creator_id,
-                            value: task.creator_value,
-                            role: task.creator_role
+                            id: task.user_creator_id,
+                            value: task.user_creator_value,
+                            role: task.user_creator_role
                         },
                         user: {
-                            id: task.user_id,
-                            value: task.user_value,
-                            role: task.user_role
+                            id: task.user_main_id,
+                            value: task.user_main_value,
+                            role: task.user_main_role
                         },
                         next_workflow_statuses: task.status.next_workflow_statuses
                     }
@@ -159,14 +156,14 @@ module Courier
                             model_type: task["model_type"],
                             model_global_identifier: task["model_global_identifier"],
                             creator: {
-                                id: task["creator_id"],
-                                value: task["creator_value"],
-                                role: task["creator_role"]
+                                id: task["user_creator_id"],
+                                value: task["user_creator_value"],
+                                role: task["user_creator_role"]
                             },
                             user: {
-                                id: task["user_id"],
-                                value: task["user_value"],
-                                role: task["user_role"]
+                                id: task["user_main_id"],
+                                value: task["user_main_value"],
+                                role: task["user_main_role"]
                             },
                             next_workflow_statuses: CloudFocus::Workflow::Status.find(task["status_id"]).next_workflow_statuses # Available transitions for each task
                         }
@@ -210,7 +207,7 @@ module Courier
 
                 task = CloudFocus::Task.new(task_params)
                 task.account = current_user.account.focus
-                task.creator = current_user
+                task.user_creator = current_user
                 task.set_workflow
                 if task.save!
                     if send_email
@@ -245,12 +242,12 @@ module Courier
                                 cloud_focus_task_details.deadline, 
                                 cloud_focus_task_details.importance, 
                                 cloud_focus_task_details.task_type, 
-                                cloud_focus_tasks.creator_id, 
+                                cloud_focus_tasks.user_main_id, 
                                 cloud_focus_tasks.users_id, 
                                 cloud_focus_tasks.model_id, 
                                 cloud_focus_tasks.model_type
                             ")
-                        .select("ua.id as user_id, uard.name as user_role, concat(uad.first_name, ' ', uad.last_name) as user_value, uc.id as creator_id, ucrd.name as creator_role, concat(ucd.first_name, ' ', ucd.last_name)  as creator_value")
+                        .select("ua.id as user_main_id, uard.name as user_main_role, concat(uad.first_name, ' ', uad.last_name) as user_main_value, uc.id as user_creator_id, ucrd.name as user_creator_role, concat(ucd.first_name, ' ', ucd.last_name)  as user_creator_value")
                         .select("cloud_focus_workflow_statuses.name as status_name")
                         .select("cloud_focus_workflow_statuses.id as status_id")
                         .select("cloud_focus_workflow_statuses.completed_successfully as status_completed_successfully")
@@ -259,8 +256,8 @@ module Courier
                         .joins(:status, :detail)
                         .joins("inner join #{sql_table_join} as m on m.id = cloud_focus_tasks.model_id and cloud_focus_tasks.model_type = '#{model_type}'")
                         .joins("inner join #{sql_table_join.singularize}_details as md on md.#{sql_table_join}_id = m.id")
-                        .joins("inner join users ua on ua.id = cloud_focus_tasks.users_id")
-                        .joins("inner join users uc on uc.id = cloud_focus_tasks.creator_id")
+                        .joins("inner join users ua on ua.id = cloud_focus_tasks.user_main_id")
+                        .joins("inner join users uc on uc.id = cloud_focus_tasks.users_id")
                         .joins("left join user_details uad on uad.users_id = ua.id")
                         .joins("left join user_details ucd on ucd.users_id = uc.id")
                         .joins("inner join roles uar on uar.id = ua.roles_id")
@@ -281,8 +278,11 @@ module Courier
                     ") 
                 end
 
-                tasks = tasks.where("cloud_focus_tasks.creator_id = ? or cloud_focus_tasks.users_id = ?", 
-                    current_user, current_user) unless query[:filters][:all]
+                tasks = tasks.where(
+                    "cloud_focus_tasks.users_id = ? or cloud_focus_tasks.user_main_id = ?", 
+                    current_user.id,
+                    current_user.id
+                ) unless query[:filters][:all]
                 
                 case query[:filters][:status]
                 when "initial"

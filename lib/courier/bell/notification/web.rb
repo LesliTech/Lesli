@@ -33,7 +33,7 @@ module Courier
                 # register a new web notification
                 # DEPRECATED: use url instead of href
                 def self.new(current_user, subject, href:nil, url:nil, category:"info")
-
+                    return unless current_user
                     return if not defined? CloudBell
 
                     d = current_user.account.bell.notifications.create({
@@ -42,8 +42,7 @@ module Courier
                         user: current_user,
                         url: url
                     })
-
-                    #LesliChannel.broadcast_to("Lesli", channel: "/core/layout/header/notification#getNotificationsCounter")
+                    LesliChannel.broadcast_to("Lesli", channel: "/lesli/layout/header/notification#getNotificationsCounter")
 
                 end
 

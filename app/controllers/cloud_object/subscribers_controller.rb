@@ -78,7 +78,7 @@ Building a better future, one line of code at a time.
             
             cloud_object_subscriber = dynamic_info[:model].new(
                 cloud_object_subscriber_params.merge(
-                    user: current_user,
+                    user_creator: current_user,
                     "cloud_#{module_name}_#{plural_object_name}_id".to_sym => params["#{object_name}_id".to_sym]
                 )
             )

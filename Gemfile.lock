@@ -1,16 +1,4 @@
 PATH
-  remote: engines/CloudLesli
-  specs:
-    cloud_lesli (0.1.0)
-      rails (~> 6.0.0)
-
-PATH
-  remote: engines/LesliCloud
-  specs:
-    lesli_cloud (0.1.0)
-      rails (~> 6.0.2, >= 6.0.2.2)
-
-PATH
   remote: engines/CloudBabel
   specs:
     cloud_babel (0.1.0)
@@ -35,10 +23,28 @@ PATH
       rails (~> 6.0.0)
 
 PATH
+  remote: engines/CloudFocus
+  specs:
+    cloud_focus (0.1.0)
+      rails (~> 6.0.0)
+
+PATH
+  remote: engines/CloudHouse
+  specs:
+    cloud_house (0.1.0)
+      rails (~> 6.0.0)
+
+PATH
   remote: engines/CloudMailer
   specs:
     cloud_mailer (0.1.0)
       rails (~> 6.0.3)
+
+PATH
+  remote: engines/DeutscheLeibrenten
+  specs:
+    deutsche_leibrenten (0.1.0)
+      rails (~> 6.0.0)
 
 GEM
   remote: https://rubygems.org/
@@ -305,6 +311,9 @@ GEM
       shellany (~> 0.0)
     orm_adapter (0.5.0)
     pg (1.2.3)
+    pg_search (2.3.2)
+      activerecord (>= 5.2)
+      activesupport (>= 5.2)
     pry (0.13.1)
       coderay (~> 1.1)
       method_source (~> 1.0)
@@ -447,8 +456,10 @@ DEPENDENCIES
   cloud_bell!
   cloud_dispatcher!
   cloud_driver!
-  cloud_lesli!
+  cloud_focus!
+  cloud_house!
   cloud_mailer!
+  deutsche_leibrenten!
   devise
   faker
   faraday
@@ -461,10 +472,10 @@ DEPENDENCIES
   i18n-js
   jwt
   kaminari
-  lesli_cloud!
   letter_opener
   listen (= 3.2.1)
   pg (>= 0.18, < 2.0)
+  pg_search (= 2.3.2)
   puma (= 4.3.3)
   rack-cors
   rails (= 6.0.3)

@@ -41,6 +41,9 @@ export default {
                 list: []
             },
             translations: {
+                focus: {
+                    tasks: I18n.t('focus.tasks'),
+                },
                 bell: {
                     notifications: I18n.t('bell.notifications')
                 }
@@ -91,8 +94,7 @@ export default {
 
         getNotifications() {
             //this.http.get('/bell/notifications.json').then(result => {
-            this.http.get('/crm/dashboards/next-tasks.json').then(result => {
-                console.log(result)
+            this.http.get('/crm/dashboards/next-tasks.json?perPage=500').then(result => {
                 if (result.successful){
                     this.notification.list = result.data
                 }
@@ -152,6 +154,20 @@ export default {
             }).catch(error => {
                 console.log(error)
             })
+        },
+
+        classColor(notification){
+            switch (notification.importance) {
+                case 'urgent': {
+                    return 'has-text-danger'
+                }
+                case 'important': {
+                    return 'has-text-success'
+                }
+                default: {
+                    return 'has-text-info'
+                }
+            }
         }
 
     }
@@ -175,7 +191,19 @@ export default {
                                 <a :href="'/crm/tasks/'+notification.id">
                                     {{ notification.title }}
                                 </a> 
-                                <small class="has-text-grey-light">deadline: {{ notification.deadline }}</small>
+                                <p>
+                                     <small class="has-text-grey-light"> 
+                                        {{ `${translations.focus.tasks.form_task_deadline} : ${notification.deadline}` }} 
+                                    </small>
+                                </p>
+                                <p>
+                                    <small class="has-text-grey-light">
+                                        {{ `${translations.focus.tasks.form_task_importance} :` }}
+                                    </small>
+                                    <small :class="classColor(notification)">
+                                        {{ notification.importance }}
+                                    </small>
+                                </p>
                             </li>
                             <!-- 
                             <li v-for="notification in notification.list" :key="notification.id" >

@@ -259,7 +259,7 @@ module.exports = env => {
 
             var date = new Date()
 
-            var build_date = (date.getMonth()+1).toString().concat(date.getUTCDate().toString())
+            var build_date = `${date.getMonth()+1}.${date.getDate()}`
             var build_time = date.getHours().toString().concat(".").concat(date.getMinutes().toString())
 
             data[2] = `BUILD = \"20.${build_date}\"`

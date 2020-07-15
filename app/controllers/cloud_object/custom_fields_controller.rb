@@ -75,7 +75,7 @@ module CloudObject
             
             cloud_object_custom_field = dynamic_info[:model].new(
                 cloud_object_custom_field_params.merge(
-                    user: current_user,
+                    user_creator: current_user,
                     "cloud_#{module_name}_#{object_name}s_id".to_sym => params["#{object_name}_id".to_sym]
                 )
             )
