@@ -46,7 +46,7 @@ app({
         notification: {
             message: '',
             show: false,
-            type: 'is-danger'
+            type: 'default'
         }
     },
     mounted() {
@@ -97,7 +97,13 @@ app({
             
         },
 
-        showNotification(message, type='is-danger'){
+        typing() {
+            this.notification.message= ''
+            this.notification.show= false
+            this.notification.type= 'default'
+        },
+
+        showNotification(message, type='danger'){
             this.notification.message = message;
             this.notification.type = type;
             this.notification.show = true;
