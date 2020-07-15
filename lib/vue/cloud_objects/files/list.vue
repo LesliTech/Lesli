@@ -137,7 +137,7 @@ export default {
             )
             if(file_ids.length > 0){
                 window.open(
-                    `/${this.module_name.slash}/${this.object_name.plural}/${this.cloudId}/resource/files-zip-download?ids=${file_ids}`
+                    `/${this.module_name.slash}/${this.object_name.plural}/${this.cloudId}/resources/files-zip-download?ids=${file_ids}`
                 )
             }
         },

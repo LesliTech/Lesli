@@ -91,3 +91,8 @@ body {
     padding-top: var(--application-header-height);
     padding-top: 2.2rem;
 }
+
+/* Remove auto claear button for IE10+/Edge because it does not trigger watchers not changes v-model values */
+::-ms-clear {
+    display: none;
+}
