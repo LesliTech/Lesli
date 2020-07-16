@@ -36,6 +36,3 @@ For more information read the license file including with this software.
 		<img alt="LesliTech logo" width="150" src="https://cdn.lesli.tech/leslitech/brand/leslitech-logo.svg" />
 	</a>
 </p>
-
-
-
