@@ -1,7 +1,8 @@
 <%= javascript_include_tag "i18n" %>
 <%= javascript_include_tag "translations", skip_pipeline: true %>
 <%= javascript_include_tag application_javascript_path() %>
-
+<script src="//js.honeybadger.io/v2.2/honeybadger.min.js" type="text/javascript"></script>
+ 
 <script>
 
     // Set language for JavaScripts apps
@@ -9,5 +10,11 @@
 
 </script>
 
-<%# <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCN4i4BWJS-IVtniSMY1Ot2MGaKuTKLNP8"></script> %>
-<%# -# %script{:src => "https://cdnjs.cloudflare.com/ajax/libs/intro.js/2.9.3/intro.js"} %>
+<script type="text/javascript">
+Honeybadger.configure({
+    apiKey: "50af1426",
+    revision: "",
+    environment: "<%= Rails.env %>",
+    disabled: <%= !Rails.env.production? %>
+})
+</script>
