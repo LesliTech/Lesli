@@ -262,8 +262,7 @@ module.exports = env => {
             var build_date = `${date.getMonth()+1}.${date.getDate()}`
             var build_time = date.getHours().toString().concat(".").concat(date.getMinutes().toString())
 
-            data[2] = `BUILD = \"20.${build_date}\"`
-            data[3] = `BUILD_TIME = \"${build_time}\"`
+            data[2] = `BUILD = \"20.${build_date}-${build_time}\"`
 
             fs.writeFile(application_data_html, data.join("\n"), "utf8", function (err) {
                 if (err) return console.log(err)

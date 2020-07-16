@@ -93,15 +93,11 @@ class ApplicationLesliController < ApplicationController
         @account = {
             company: { },
             settings: { },
-            current_user: { }
+            current_user: { },
+            revision: get_revision
         }
 
         return @account if current_user.account.blank?
-
-        privileges = {}
-        current_user.role.privileges.each do |privilege|
-            privileges[privilege.grant_object] = privilege
-        end
 
         # add company information (account)
         @account[:company] = {
@@ -116,6 +112,12 @@ class ApplicationLesliController < ApplicationController
             "password_minimum_length", "password_expiration_time_months"
         ]).each do |setting|
             @account[:settings][setting[:name]] = setting[:value].to_s
+        end
+
+        # set user privileges
+        privileges = {}
+        current_user.role.privileges.each do |privilege|
+            privileges[privilege.grant_object] = privilege
         end
 
         # set user information
@@ -133,7 +135,6 @@ class ApplicationLesliController < ApplicationController
     
     # set query used to filter or sort data requests
     def set_request_helpers
-
         @query = {
             current_user: current_user,
             pagination: {
@@ -144,9 +145,9 @@ class ApplicationLesliController < ApplicationController
             },
             filters: params[:filters] ? params[:filters] : {}
         }
-        
     end
 
+    # Track all user activity, this is disabled by default in settings
     def log_activity description=nil, log_scope=nil
         current_user.log_activity request.method, request.original_fullpath, description, log_scope
     end
@@ -165,5 +166,23 @@ class ApplicationLesliController < ApplicationController
         return false if current_user.role_detail[:default_path] == request.original_fullpath
         return true
     end 
+
+    # Define platform version according to builder module
+    def get_revision
+
+        version = 0
+        build = 0
+
+        if defined?(DeutscheLeibrenten)
+            version = DeutscheLeibrenten::VERSION
+            build = DeutscheLeibrenten::BUILD
+        end
+
+        return {
+            version: version,
+            build: build
+        }
+
+    end
 
 end

@@ -171,8 +171,10 @@ ActiveRecord::Schema.define(version: 20011003) do
     t.datetime "deleted_at"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.bigint "users_id"
     t.bigint "cloud_driver_calendars_id"
-    t.index ["cloud_driver_calendars_id"], name: "calendar_actions_calendars"
+    t.index ["cloud_driver_calendars_id"], name: "driver_calendar_actions_calendars"
+    t.index ["users_id"], name: "index_cloud_driver_calendar_actions_on_users_id"
   end
 
   create_table "cloud_driver_calendar_activities", force: :cascade do |t|
@@ -203,8 +205,8 @@ ActiveRecord::Schema.define(version: 20011003) do
     t.bigint "users_id"
     t.bigint "cloud_driver_calendar_discussions_id"
     t.bigint "cloud_driver_calendars_id"
-    t.index ["cloud_driver_calendar_discussions_id"], name: "calendar_discussions"
-    t.index ["cloud_driver_calendars_id"], name: "driver_calendar_discussions"
+    t.index ["cloud_driver_calendar_discussions_id"], name: "driver_calendar_discussions_calendar_discussions"
+    t.index ["cloud_driver_calendars_id"], name: "driver_calendar_discussions_calendars"
     t.index ["users_id"], name: "index_cloud_driver_calendar_discussions_on_users_id"
   end
 
@@ -235,20 +237,31 @@ ActiveRecord::Schema.define(version: 20011003) do
 
   create_table "cloud_driver_calendars", force: :cascade do |t|
     t.datetime "deleted_at"
+    t.bigint "user_main_id"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.bigint "cloud_driver_accounts_id"
+    t.bigint "users_id"
     t.bigint "cloud_driver_workflow_statuses_id"
     t.index ["cloud_driver_accounts_id"], name: "index_cloud_driver_calendars_on_cloud_driver_accounts_id"
     t.index ["cloud_driver_workflow_statuses_id"], name: "driver_calendars_workflow_statuses"
     t.index ["deleted_at"], name: "index_cloud_driver_calendars_on_deleted_at"
+    t.index ["users_id"], name: "driver_calendars_users"
   end
 
   create_table "cloud_driver_event_actions", force: :cascade do |t|
+    t.integer "type"
+    t.string "instructions"
+    t.datetime "deadline"
+    t.boolean "complete"
+    t.string "tags"
+    t.datetime "deleted_at"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.bigint "users_id"
     t.bigint "cloud_driver_events_id"
-    t.index ["cloud_driver_events_id"], name: "index_cloud_driver_event_actions_on_cloud_driver_events_id"
+    t.index ["cloud_driver_events_id"], name: "driver_event_actions_events"
+    t.index ["users_id"], name: "index_cloud_driver_event_actions_on_users_id"
   end
 
   create_table "cloud_driver_event_activities", force: :cascade do |t|
@@ -302,8 +315,8 @@ ActiveRecord::Schema.define(version: 20011003) do
     t.bigint "users_id"
     t.bigint "cloud_driver_event_discussions_id"
     t.bigint "cloud_driver_events_id"
-    t.index ["cloud_driver_event_discussions_id"], name: "event_discussions"
-    t.index ["cloud_driver_events_id"], name: "driver_event_discussions"
+    t.index ["cloud_driver_event_discussions_id"], name: "driver_event_discussions_event_discussions"
+    t.index ["cloud_driver_events_id"], name: "driver_event_discussions_events"
     t.index ["users_id"], name: "index_cloud_driver_event_discussions_on_users_id"
   end
 
@@ -334,22 +347,21 @@ ActiveRecord::Schema.define(version: 20011003) do
 
   create_table "cloud_driver_events", force: :cascade do |t|
     t.datetime "deleted_at"
+    t.bigint "user_main_id"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.bigint "cloud_driver_accounts_id"
     t.bigint "users_id"
     t.bigint "cloud_driver_workflow_statuses_id"
     t.bigint "cloud_driver_calendars_id"
-    t.bigint "cloud_driver_accounts_id"
     t.string "model_type"
     t.bigint "model_id"
-    t.bigint "organizer_id"
     t.index ["cloud_driver_accounts_id"], name: "index_cloud_driver_events_on_cloud_driver_accounts_id"
     t.index ["cloud_driver_calendars_id"], name: "index_cloud_driver_events_on_cloud_driver_calendars_id"
     t.index ["cloud_driver_workflow_statuses_id"], name: "driver_events_workflow_statuses"
     t.index ["deleted_at"], name: "index_cloud_driver_events_on_deleted_at"
     t.index ["model_type", "model_id"], name: "index_cloud_driver_events_on_model_type_and_model_id"
-    t.index ["organizer_id"], name: "index_cloud_driver_events_on_organizer_id"
-    t.index ["users_id"], name: "house_events_users"
+    t.index ["users_id"], name: "driver_events_users"
   end
 
   create_table "cloud_driver_workflow_actions", force: :cascade do |t|
@@ -447,10 +459,18 @@ ActiveRecord::Schema.define(version: 20011003) do
   end
 
   create_table "cloud_focus_task_actions", force: :cascade do |t|
+    t.integer "type"
+    t.string "instructions"
+    t.datetime "deadline"
+    t.boolean "complete"
+    t.string "tags"
     t.datetime "deleted_at"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.index ["deleted_at"], name: "index_cloud_focus_task_actions_on_deleted_at"
+    t.bigint "users_id"
+    t.bigint "cloud_focus_tasks_id"
+    t.index ["cloud_focus_tasks_id"], name: "focus_task_actions_tasks"
+    t.index ["users_id"], name: "index_cloud_focus_task_actions_on_users_id"
   end
 
   create_table "cloud_focus_task_activities", force: :cascade do |t|
@@ -467,9 +487,13 @@ ActiveRecord::Schema.define(version: 20011003) do
     t.index ["cloud_focus_tasks_id"], name: "index_cloud_focus_task_activities_on_cloud_focus_tasks_id"
   end
 
-  create_table "cloud_focus_task_cutom_field_values", force: :cascade do |t|
+  create_table "cloud_focus_task_custom_fields", force: :cascade do |t|
+    t.text "custom_field_value"
+    t.datetime "deleted_at"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.bigint "cloud_focus_tasks_id"
+    t.index ["cloud_focus_tasks_id"], name: "focus_task_custom_fields_tasks"
   end
 
   create_table "cloud_focus_task_details", force: :cascade do |t|
@@ -487,38 +511,58 @@ ActiveRecord::Schema.define(version: 20011003) do
   end
 
   create_table "cloud_focus_task_discussions", force: :cascade do |t|
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-  end
-
-  create_table "cloud_focus_task_files", force: :cascade do |t|
+    t.text "content"
+    t.datetime "deleted_at"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.bigint "users_id"
+    t.bigint "cloud_focus_task_discussions_id"
+    t.bigint "cloud_focus_tasks_id"
+    t.index ["cloud_focus_task_discussions_id"], name: "focus_task_discussions_task_discussions"
+    t.index ["cloud_focus_tasks_id"], name: "focus_task_discussions_tasks"
+    t.index ["users_id"], name: "index_cloud_focus_task_discussions_on_users_id"
+  end
+
+  create_table "cloud_focus_task_files", force: :cascade do |t|
+    t.string "name"
+    t.string "attachment"
+    t.string "file_type"
+    t.datetime "deleted_at"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.bigint "users_id"
+    t.bigint "cloud_focus_tasks_id"
+    t.index ["cloud_focus_tasks_id"], name: "index_cloud_focus_task_files_on_cloud_focus_tasks_id"
     t.index ["users_id"], name: "index_cloud_focus_task_files_on_users_id"
   end
 
   create_table "cloud_focus_task_subscribers", force: :cascade do |t|
+    t.string "action"
+    t.string "notification_type"
+    t.datetime "deleted_at"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.bigint "users_id"
+    t.bigint "cloud_focus_tasks_id"
+    t.index ["cloud_focus_tasks_id"], name: "focus_task_subscribers_tasks"
+    t.index ["users_id"], name: "focus_task_subscribers_users"
   end
 
   create_table "cloud_focus_tasks", force: :cascade do |t|
     t.datetime "deleted_at"
+    t.bigint "user_main_id"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.bigint "cloud_focus_accounts_id"
-    t.bigint "cloud_focus_workflow_statuses_id"
     t.bigint "users_id"
+    t.bigint "cloud_focus_workflow_statuses_id"
     t.string "model_type"
     t.bigint "model_id"
-    t.bigint "creator_id"
     t.index ["cloud_focus_accounts_id"], name: "index_cloud_focus_tasks_on_cloud_focus_accounts_id"
     t.index ["cloud_focus_workflow_statuses_id"], name: "focus_tasks_workflow_statuses"
-    t.index ["creator_id"], name: "index_cloud_focus_tasks_on_creator_id"
     t.index ["deleted_at"], name: "index_cloud_focus_tasks_on_deleted_at"
     t.index ["model_type", "model_id"], name: "index_cloud_focus_tasks_on_model_type_and_model_id"
-    t.index ["users_id"], name: "house_tasks_users"
+    t.index ["users_id"], name: "focus_tasks_users_creator"
   end
 
   create_table "cloud_focus_workflow_actions", force: :cascade do |t|
@@ -614,13 +658,15 @@ ActiveRecord::Schema.define(version: 20011003) do
   end
 
   create_table "cloud_house_companies", force: :cascade do |t|
-    t.bigint "location_city_id"
     t.datetime "deleted_at"
+    t.bigint "user_main_id"
+    t.bigint "location_city_id"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.bigint "cloud_house_accounts_id"
-    t.bigint "cloud_house_companies_id"
+    t.bigint "users_id"
     t.bigint "cloud_house_workflow_statuses_id"
+    t.bigint "cloud_house_companies_id"
     t.bigint "cloud_house_catalog_company_categories_id"
     t.bigint "cloud_house_catalog_business_services_id"
     t.bigint "cloud_house_employees_id"
@@ -631,6 +677,7 @@ ActiveRecord::Schema.define(version: 20011003) do
     t.index ["cloud_house_employees_id"], name: "house_companies_employees"
     t.index ["cloud_house_workflow_statuses_id"], name: "house_companies_workflow_statuses"
     t.index ["deleted_at"], name: "index_cloud_house_companies_on_deleted_at"
+    t.index ["users_id"], name: "house_companies_users"
   end
 
   create_table "cloud_house_company_actions", force: :cascade do |t|
@@ -642,8 +689,10 @@ ActiveRecord::Schema.define(version: 20011003) do
     t.datetime "deleted_at"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.bigint "users_id"
     t.bigint "cloud_house_companies_id"
     t.index ["cloud_house_companies_id"], name: "house_company_actions_companies"
+    t.index ["users_id"], name: "index_cloud_house_company_actions_on_users_id"
   end
 
   create_table "cloud_house_company_activities", force: :cascade do |t|
@@ -780,8 +829,10 @@ ActiveRecord::Schema.define(version: 20011003) do
     t.datetime "deleted_at"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.bigint "users_id"
     t.bigint "cloud_house_contacts_id"
-    t.index ["cloud_house_contacts_id"], name: "index_cloud_house_contact_actions_on_cloud_house_contacts_id"
+    t.index ["cloud_house_contacts_id"], name: "house_contact_actions_contacts"
+    t.index ["users_id"], name: "index_cloud_house_contact_actions_on_users_id"
   end
 
   create_table "cloud_house_contact_activities", force: :cascade do |t|
@@ -884,15 +935,18 @@ ActiveRecord::Schema.define(version: 20011003) do
   end
 
   create_table "cloud_house_contacts", force: :cascade do |t|
-    t.bigint "location_city_id"
     t.datetime "deleted_at"
+    t.bigint "user_main_id"
+    t.bigint "location_city_id"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.bigint "cloud_house_accounts_id"
+    t.bigint "users_id"
     t.bigint "cloud_house_workflow_statuses_id"
     t.index ["cloud_house_accounts_id"], name: "index_cloud_house_contacts_on_cloud_house_accounts_id"
     t.index ["cloud_house_workflow_statuses_id"], name: "house_contacts_workflow_statuses"
     t.index ["deleted_at"], name: "index_cloud_house_contacts_on_deleted_at"
+    t.index ["users_id"], name: "house_contacts_users"
   end
 
   create_table "cloud_house_custom_fields", force: :cascade do |t|
@@ -965,8 +1019,10 @@ ActiveRecord::Schema.define(version: 20011003) do
     t.datetime "deleted_at"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.bigint "users_id"
     t.bigint "cloud_house_employees_id"
-    t.index ["cloud_house_employees_id"], name: "index_cloud_house_employee_actions_on_cloud_house_employees_id"
+    t.index ["cloud_house_employees_id"], name: "house_employee_actions_employees"
+    t.index ["users_id"], name: "index_cloud_house_employee_actions_on_users_id"
   end
 
   create_table "cloud_house_employee_activities", force: :cascade do |t|
@@ -1085,16 +1141,19 @@ ActiveRecord::Schema.define(version: 20011003) do
   end
 
   create_table "cloud_house_employees", force: :cascade do |t|
-    t.bigint "location_city_id"
     t.datetime "deleted_at"
+    t.bigint "user_main_id"
+    t.bigint "location_city_id"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.bigint "cloud_house_accounts_id"
     t.bigint "users_id"
-    t.bigint "cloud_house_companies_id"
     t.bigint "cloud_house_workflow_statuses_id"
+    t.bigint "cloud_house_companies_id"
+    t.bigint "cloud_house_employees_id"
     t.index ["cloud_house_accounts_id"], name: "index_cloud_house_employees_on_cloud_house_accounts_id"
-    t.index ["cloud_house_companies_id"], name: "house_employees_companies"
+    t.index ["cloud_house_companies_id"], name: "house_eomployees_companies"
+    t.index ["cloud_house_employees_id"], name: "house_employees_employees"
     t.index ["cloud_house_workflow_statuses_id"], name: "house_employees_workflow_statuses"
     t.index ["deleted_at"], name: "index_cloud_house_employees_on_deleted_at"
     t.index ["users_id"], name: "house_employees_users"
@@ -1109,8 +1168,10 @@ ActiveRecord::Schema.define(version: 20011003) do
     t.datetime "deleted_at"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.bigint "users_id"
     t.bigint "cloud_house_projects_id"
-    t.index ["cloud_house_projects_id"], name: "index_cloud_house_project_actions_on_cloud_house_projects_id"
+    t.index ["cloud_house_projects_id"], name: "house_project_actions_projects"
+    t.index ["users_id"], name: "index_cloud_house_project_actions_on_users_id"
   end
 
   create_table "cloud_house_project_activities", force: :cascade do |t|
@@ -1257,32 +1318,37 @@ ActiveRecord::Schema.define(version: 20011003) do
   end
 
   create_table "cloud_house_projects", force: :cascade do |t|
-    t.bigint "main_employee_id"
     t.datetime "deleted_at"
+    t.bigint "user_main_id"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.bigint "cloud_house_accounts_id"
+    t.bigint "users_id"
+    t.bigint "cloud_house_workflow_statuses_id"
     t.bigint "cloud_house_catalog_project_types_id"
     t.bigint "cloud_house_properties_id"
-    t.bigint "cloud_house_workflow_statuses_id"
     t.index ["cloud_house_accounts_id"], name: "index_cloud_house_projects_on_cloud_house_accounts_id"
     t.index ["cloud_house_catalog_project_types_id"], name: "house_projects_types"
     t.index ["cloud_house_properties_id"], name: "house_projects_properties"
     t.index ["cloud_house_workflow_statuses_id"], name: "house_projects_workflow_statuses"
     t.index ["deleted_at"], name: "index_cloud_house_projects_on_deleted_at"
+    t.index ["users_id"], name: "house_projects_users"
   end
 
   create_table "cloud_house_properties", force: :cascade do |t|
+    t.datetime "deleted_at"
+    t.bigint "user_main_id"
     t.bigint "location_state_id"
     t.bigint "location_city_id"
-    t.datetime "deleted_at"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.bigint "cloud_house_accounts_id"
+    t.bigint "users_id"
     t.bigint "cloud_house_workflow_statuses_id"
     t.index ["cloud_house_accounts_id"], name: "index_cloud_house_properties_on_cloud_house_accounts_id"
     t.index ["cloud_house_workflow_statuses_id"], name: "house_properties_workflow_statuses"
     t.index ["deleted_at"], name: "index_cloud_house_properties_on_deleted_at"
+    t.index ["users_id"], name: "house_properties_users"
   end
 
   create_table "cloud_house_property_actions", force: :cascade do |t|
@@ -1294,8 +1360,10 @@ ActiveRecord::Schema.define(version: 20011003) do
     t.datetime "deleted_at"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.bigint "users_id"
     t.bigint "cloud_house_properties_id"
-    t.index ["cloud_house_properties_id"], name: "index_cloud_house_property_actions_on_cloud_house_properties_id"
+    t.index ["cloud_house_properties_id"], name: "house_property_actions_properties"
+    t.index ["users_id"], name: "index_cloud_house_property_actions_on_users_id"
   end
 
   create_table "cloud_house_property_activities", force: :cascade do |t|
@@ -1704,6 +1772,7 @@ ActiveRecord::Schema.define(version: 20011003) do
     t.string "name"
     t.boolean "active"
     t.string "default_path"
+    t.boolean "only_my_data", default: false
     t.integer "object_level_permission", default: 10
     t.datetime "deleted_at"
     t.datetime "created_at", precision: 6, null: false
@@ -1867,6 +1936,7 @@ ActiveRecord::Schema.define(version: 20011003) do
   add_foreign_key "cloud_bell_notifications", "users", column: "users_id"
   add_foreign_key "cloud_driver_accounts", "accounts", column: "id"
   add_foreign_key "cloud_driver_calendar_actions", "cloud_driver_calendars", column: "cloud_driver_calendars_id"
+  add_foreign_key "cloud_driver_calendar_actions", "users", column: "users_id"
   add_foreign_key "cloud_driver_calendar_activities", "cloud_driver_calendars", column: "cloud_driver_calendars_id"
   add_foreign_key "cloud_driver_calendar_details", "cloud_driver_calendars", column: "cloud_driver_calendars_id"
   add_foreign_key "cloud_driver_calendar_discussions", "cloud_driver_calendar_discussions", column: "cloud_driver_calendar_discussions_id"
@@ -1878,7 +1948,10 @@ ActiveRecord::Schema.define(version: 20011003) do
   add_foreign_key "cloud_driver_calendar_subscribers", "users", column: "users_id"
   add_foreign_key "cloud_driver_calendars", "cloud_driver_accounts", column: "cloud_driver_accounts_id"
   add_foreign_key "cloud_driver_calendars", "cloud_driver_workflow_statuses", column: "cloud_driver_workflow_statuses_id"
+  add_foreign_key "cloud_driver_calendars", "users", column: "user_main_id"
+  add_foreign_key "cloud_driver_calendars", "users", column: "users_id"
   add_foreign_key "cloud_driver_event_actions", "cloud_driver_events", column: "cloud_driver_events_id"
+  add_foreign_key "cloud_driver_event_actions", "users", column: "users_id"
   add_foreign_key "cloud_driver_event_activities", "cloud_driver_events", column: "cloud_driver_events_id"
   add_foreign_key "cloud_driver_event_attendants", "cloud_driver_events", column: "cloud_driver_events_id"
   add_foreign_key "cloud_driver_event_attendants", "users", column: "users_id"
@@ -1893,6 +1966,7 @@ ActiveRecord::Schema.define(version: 20011003) do
   add_foreign_key "cloud_driver_events", "cloud_driver_accounts", column: "cloud_driver_accounts_id"
   add_foreign_key "cloud_driver_events", "cloud_driver_calendars", column: "cloud_driver_calendars_id"
   add_foreign_key "cloud_driver_events", "cloud_driver_workflow_statuses", column: "cloud_driver_workflow_statuses_id"
+  add_foreign_key "cloud_driver_events", "users", column: "user_main_id"
   add_foreign_key "cloud_driver_events", "users", column: "users_id"
   add_foreign_key "cloud_driver_workflow_actions", "cloud_driver_workflow_statuses", column: "final_status_id"
   add_foreign_key "cloud_driver_workflow_actions", "cloud_driver_workflow_statuses", column: "initial_status_id"
@@ -1905,11 +1979,21 @@ ActiveRecord::Schema.define(version: 20011003) do
   add_foreign_key "cloud_focus_custom_validation_rules", "cloud_focus_custom_validations", column: "cloud_focus_custom_validations_id"
   add_foreign_key "cloud_focus_custom_validations", "cloud_focus_accounts", column: "cloud_focus_accounts_id"
   add_foreign_key "cloud_focus_custom_validations", "users", column: "users_id"
+  add_foreign_key "cloud_focus_task_actions", "cloud_focus_tasks", column: "cloud_focus_tasks_id"
+  add_foreign_key "cloud_focus_task_actions", "users", column: "users_id"
   add_foreign_key "cloud_focus_task_activities", "cloud_focus_tasks", column: "cloud_focus_tasks_id"
+  add_foreign_key "cloud_focus_task_custom_fields", "cloud_focus_tasks", column: "cloud_focus_tasks_id"
   add_foreign_key "cloud_focus_task_details", "cloud_focus_tasks", column: "cloud_focus_tasks_id"
+  add_foreign_key "cloud_focus_task_discussions", "cloud_focus_task_discussions", column: "cloud_focus_task_discussions_id"
+  add_foreign_key "cloud_focus_task_discussions", "cloud_focus_tasks", column: "cloud_focus_tasks_id"
+  add_foreign_key "cloud_focus_task_discussions", "users", column: "users_id"
+  add_foreign_key "cloud_focus_task_files", "cloud_focus_tasks", column: "cloud_focus_tasks_id"
   add_foreign_key "cloud_focus_task_files", "users", column: "users_id"
+  add_foreign_key "cloud_focus_task_subscribers", "cloud_focus_tasks", column: "cloud_focus_tasks_id"
+  add_foreign_key "cloud_focus_task_subscribers", "users", column: "users_id"
   add_foreign_key "cloud_focus_tasks", "cloud_focus_accounts", column: "cloud_focus_accounts_id"
   add_foreign_key "cloud_focus_tasks", "cloud_focus_workflow_statuses", column: "cloud_focus_workflow_statuses_id"
+  add_foreign_key "cloud_focus_tasks", "users", column: "user_main_id"
   add_foreign_key "cloud_focus_tasks", "users", column: "users_id"
   add_foreign_key "cloud_focus_workflow_actions", "cloud_focus_workflow_statuses", column: "final_status_id"
   add_foreign_key "cloud_focus_workflow_actions", "cloud_focus_workflow_statuses", column: "initial_status_id"
@@ -1928,7 +2012,10 @@ ActiveRecord::Schema.define(version: 20011003) do
   add_foreign_key "cloud_house_companies", "cloud_house_companies", column: "cloud_house_companies_id"
   add_foreign_key "cloud_house_companies", "cloud_house_employees", column: "cloud_house_employees_id"
   add_foreign_key "cloud_house_companies", "cloud_house_workflow_statuses", column: "cloud_house_workflow_statuses_id"
+  add_foreign_key "cloud_house_companies", "users", column: "user_main_id"
+  add_foreign_key "cloud_house_companies", "users", column: "users_id"
   add_foreign_key "cloud_house_company_actions", "cloud_house_companies", column: "cloud_house_companies_id"
+  add_foreign_key "cloud_house_company_actions", "users", column: "users_id"
   add_foreign_key "cloud_house_company_activities", "cloud_house_companies", column: "cloud_house_companies_id"
   add_foreign_key "cloud_house_company_activities", "users", column: "users_id"
   add_foreign_key "cloud_house_company_associates", "cloud_house_companies", column: "cloud_house_companies_id"
@@ -1945,6 +2032,7 @@ ActiveRecord::Schema.define(version: 20011003) do
   add_foreign_key "cloud_house_company_subscribers", "cloud_house_companies", column: "cloud_house_companies_id"
   add_foreign_key "cloud_house_company_subscribers", "users", column: "users_id"
   add_foreign_key "cloud_house_contact_actions", "cloud_house_contacts", column: "cloud_house_contacts_id"
+  add_foreign_key "cloud_house_contact_actions", "users", column: "users_id"
   add_foreign_key "cloud_house_contact_activities", "cloud_house_contacts", column: "cloud_house_contacts_id"
   add_foreign_key "cloud_house_contact_activities", "users", column: "users_id"
   add_foreign_key "cloud_house_contact_custom_fields", "cloud_house_contacts", column: "cloud_house_contacts_id"
@@ -1959,6 +2047,8 @@ ActiveRecord::Schema.define(version: 20011003) do
   add_foreign_key "cloud_house_contacts", "account_locations", column: "location_city_id"
   add_foreign_key "cloud_house_contacts", "cloud_house_accounts", column: "cloud_house_accounts_id"
   add_foreign_key "cloud_house_contacts", "cloud_house_workflow_statuses", column: "cloud_house_workflow_statuses_id"
+  add_foreign_key "cloud_house_contacts", "users", column: "user_main_id"
+  add_foreign_key "cloud_house_contacts", "users", column: "users_id"
   add_foreign_key "cloud_house_custom_fields", "cloud_house_accounts", column: "cloud_house_accounts_id"
   add_foreign_key "cloud_house_custom_validation_fields", "cloud_house_custom_validations", column: "cloud_house_custom_validations_id"
   add_foreign_key "cloud_house_custom_validation_fields", "users", column: "users_id"
@@ -1967,6 +2057,7 @@ ActiveRecord::Schema.define(version: 20011003) do
   add_foreign_key "cloud_house_custom_validations", "cloud_house_accounts", column: "cloud_house_accounts_id"
   add_foreign_key "cloud_house_custom_validations", "users", column: "users_id"
   add_foreign_key "cloud_house_employee_actions", "cloud_house_employees", column: "cloud_house_employees_id"
+  add_foreign_key "cloud_house_employee_actions", "users", column: "users_id"
   add_foreign_key "cloud_house_employee_activities", "cloud_house_employees", column: "cloud_house_employees_id"
   add_foreign_key "cloud_house_employee_activities", "users", column: "users_id"
   add_foreign_key "cloud_house_employee_custom_fields", "cloud_house_employees", column: "cloud_house_employees_id"
@@ -1984,9 +2075,12 @@ ActiveRecord::Schema.define(version: 20011003) do
   add_foreign_key "cloud_house_employees", "account_locations", column: "location_city_id"
   add_foreign_key "cloud_house_employees", "cloud_house_accounts", column: "cloud_house_accounts_id"
   add_foreign_key "cloud_house_employees", "cloud_house_companies", column: "cloud_house_companies_id"
+  add_foreign_key "cloud_house_employees", "cloud_house_employees", column: "cloud_house_employees_id"
   add_foreign_key "cloud_house_employees", "cloud_house_workflow_statuses", column: "cloud_house_workflow_statuses_id"
+  add_foreign_key "cloud_house_employees", "users", column: "user_main_id"
   add_foreign_key "cloud_house_employees", "users", column: "users_id"
   add_foreign_key "cloud_house_project_actions", "cloud_house_projects", column: "cloud_house_projects_id"
+  add_foreign_key "cloud_house_project_actions", "users", column: "users_id"
   add_foreign_key "cloud_house_project_activities", "cloud_house_projects", column: "cloud_house_projects_id"
   add_foreign_key "cloud_house_project_activities", "users", column: "users_id"
   add_foreign_key "cloud_house_project_custom_fields", "cloud_house_projects", column: "cloud_house_projects_id"
@@ -2010,12 +2104,16 @@ ActiveRecord::Schema.define(version: 20011003) do
   add_foreign_key "cloud_house_projects", "cloud_house_catalog_project_types", column: "cloud_house_catalog_project_types_id"
   add_foreign_key "cloud_house_projects", "cloud_house_properties", column: "cloud_house_properties_id"
   add_foreign_key "cloud_house_projects", "cloud_house_workflow_statuses", column: "cloud_house_workflow_statuses_id"
-  add_foreign_key "cloud_house_projects", "users", column: "main_employee_id"
+  add_foreign_key "cloud_house_projects", "users", column: "user_main_id"
+  add_foreign_key "cloud_house_projects", "users", column: "users_id"
   add_foreign_key "cloud_house_properties", "account_locations", column: "location_city_id"
   add_foreign_key "cloud_house_properties", "account_locations", column: "location_state_id"
   add_foreign_key "cloud_house_properties", "cloud_house_accounts", column: "cloud_house_accounts_id"
   add_foreign_key "cloud_house_properties", "cloud_house_workflow_statuses", column: "cloud_house_workflow_statuses_id"
+  add_foreign_key "cloud_house_properties", "users", column: "user_main_id"
+  add_foreign_key "cloud_house_properties", "users", column: "users_id"
   add_foreign_key "cloud_house_property_actions", "cloud_house_properties", column: "cloud_house_properties_id"
+  add_foreign_key "cloud_house_property_actions", "users", column: "users_id"
   add_foreign_key "cloud_house_property_activities", "cloud_house_properties", column: "cloud_house_properties_id"
   add_foreign_key "cloud_house_property_activities", "users", column: "users_id"
   add_foreign_key "cloud_house_property_annuities", "cloud_house_properties", column: "cloud_house_properties_id"

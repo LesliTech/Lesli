@@ -15,7 +15,7 @@ set :ssh_options, {
 
     auth_methods: %w[publickey],
 
-    keys: %w[/var/www/LesliCloud/Lesli/beta.deutsche-leibrenten.de.pem]
+    keys: %w[/Users/ldonis/code/Lesli/beta.deutsche-leibrenten.de/beta.deutsche-leibrenten.de.pem]
 
 }
 
