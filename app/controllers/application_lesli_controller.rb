@@ -67,7 +67,6 @@ class ApplicationLesliController < ApplicationController
 
     def authorize_request
 
-        return
         granted = current_user.privileges
         .where("role_privileges.grant_object = ?", params[:controller])
         .where("role_privileges.grant_#{params[:action]} = TRUE")
