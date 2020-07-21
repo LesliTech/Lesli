@@ -1,14 +1,8 @@
 PATH
-  remote: engines/CloudLesli
+  remote: engines/CloudDriver
   specs:
-    cloud_lesli (0.1.0)
+    cloud_driver (0.1.0)
       rails (~> 6.0.0)
-
-PATH
-  remote: engines/LesliCloud
-  specs:
-    lesli_cloud (0.1.0)
-      rails (~> 6.0.2, >= 6.0.2.2)
 
 PATH
   remote: engines/CloudBabel
@@ -29,9 +23,15 @@ PATH
       rails (~> 6.0.2)
 
 PATH
-  remote: engines/CloudDriver
+  remote: engines/CloudFocus
   specs:
-    cloud_driver (0.1.0)
+    cloud_focus (0.1.0)
+      rails (~> 6.0.0)
+
+PATH
+  remote: engines/CloudHouse
+  specs:
+    cloud_house (0.1.0)
       rails (~> 6.0.0)
 
 PATH
