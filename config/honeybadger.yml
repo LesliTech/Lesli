@@ -1,2 +1,2 @@
 ---
-api_key: '50af1426'
+api_key: <%= Rails.application.credentials.services[:honey_badger][:api_key] %>
