@@ -1,4 +1,10 @@
 PATH
+  remote: engines/CloudDriver
+  specs:
+    cloud_driver (0.1.0)
+      rails (~> 6.0.0)
+
+PATH
   remote: engines/CloudBabel
   specs:
     cloud_babel (0.1.0)
@@ -15,12 +21,6 @@ PATH
   specs:
     cloud_dispatcher (0.1.0)
       rails (~> 6.0.2)
-
-PATH
-  remote: engines/CloudDriver
-  specs:
-    cloud_driver (0.1.0)
-      rails (~> 6.0.0)
 
 PATH
   remote: engines/CloudFocus
