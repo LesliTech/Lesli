@@ -2,7 +2,7 @@
   "_args": [
     [
       "@fullcalendar/interaction@4.4.2",
-      "/Users/ldonis/code/Lesli/lesli.cloud"
+      "/Users/ldonis/code/Lesli/beta.deutsche-leibrenten.de"
     ]
   ],
   "_development": true,
@@ -28,7 +28,7 @@
   ],
   "_resolved": "https://registry.npmjs.org/@fullcalendar/interaction/-/interaction-4.4.2.tgz",
   "_spec": "4.4.2",
-  "_where": "/Users/ldonis/code/Lesli/lesli.cloud",
+  "_where": "/Users/ldonis/code/Lesli/beta.deutsche-leibrenten.de",
   "author": {
     "name": "Adam Shaw",
     "email": "arshaw@arshaw.com",
