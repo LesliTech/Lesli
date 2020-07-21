@@ -67,23 +67,25 @@ class ApplicationLesliController < ApplicationController
 
     def authorize_request
 
-        return
+        action = params[:action]
+        action = 'resources' if request.path.include?'resources'
+
         granted = current_user.privileges
         .where("role_privileges.grant_object = ?", params[:controller])
-        .where("role_privileges.grant_#{params[:action]} = TRUE")
+        .where("role_privileges.grant_#{action} = TRUE")
         .first
 
         # empty privileges if null privileges
         granted ||= {} 
 
         # if user do not has access to the requested route and can go to default route        
-        if !granted["grant_#{params[:action]}"] === true && can_redirect_to_default_path
+        if !granted["grant_#{action}"] === true && can_redirect_to_default_path
             return redirect_to current_user.role_detail[:default_path] 
         end 
 
         # send user to 401 page
         return respond_with_unauthorized if granted.blank?
-        return respond_with_unauthorized if not granted["grant_#{params[:action]}"] === true
+        return respond_with_unauthorized if not granted["grant_#{action}"] === true
 
     end
 
