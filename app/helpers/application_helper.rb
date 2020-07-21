@@ -29,10 +29,16 @@ Building a better future, one line of code at a time.
 module ApplicationHelper
 
     def website_title
-        title = @application_html_title || controller_path.gsub("cloud","").gsub("_", "")
-        return title if Rails.application.config.lesli_settings["account"]["website"].blank?
-        return title if Rails.application.config.lesli_settings["account"]["website"]["title_suffix"].blank?
-        return title + " · " + Rails.application.config.lesli_settings["account"]["website"]["title_suffix"]
+
+        title_string = -> () {
+            title = @application_html_title || controller_path.gsub("cloud","").gsub("_", "")
+            return title if Rails.application.config.lesli_settings["account"]["website"].blank?
+            return title if Rails.application.config.lesli_settings["account"]["website"]["title_suffix"].blank?
+            return title + " · " + Rails.application.config.lesli_settings["account"]["website"]["title_suffix"]
+        }
+
+        ("<title>"+ title_string.call() +"</title>").html_safe
+
     end
 
     def application_body_class()
@@ -91,6 +97,15 @@ module ApplicationHelper
 
     def javascript_googlemaps_sdk
         "<script src=\"https://maps.googleapis.com/maps/api/js?key=AIzaSyCN4i4BWJS-IVtniSMY1Ot2MGaKuTKLNP8\"></script>".html_safe
+    end
+
+    def favicon
+        ("
+        <link href=\"/images/favicon/"+lesli_instance.downcase+".svg\" rel=\"alternate icon\">
+        <link href=\"/images/favicon/"+lesli_instance.downcase+".svg\" rel=\"icon\" type=\"image/svg+xml\">
+        <link href=\"/images/favicon/"+lesli_instance.downcase+".svg\" rel=\"mask-icon\" color=\"#ff8a01\">
+        ").html_safe
+        
     end
 
     def lesli_instance(instance=nil, engine=nil)
