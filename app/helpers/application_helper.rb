@@ -90,7 +90,7 @@ module ApplicationHelper
     end
 
     def javascript_googlemaps_sdk
-        "<script src=\"https://maps.googleapis.com/maps/api/js?key=AIzaSyCN4i4BWJS-IVtniSMY1Ot2MGaKuTKLNP8\"></script>".html_safe
+        "<script src=\"https://maps.googleapis.com/maps/api/js?key=#{Rails.application.credentials.services[:google][:maps_sdk_token]}\"></script>".html_safe
     end
 
     def lesli_instance(instance=nil, engine=nil)
