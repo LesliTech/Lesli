@@ -56,7 +56,12 @@ Rails.application.routes.draw do
             end
         end
         resource  :profile
-        resources :users
+        
+        resources :users do
+            collection do
+                get :options
+            end
+        end
 
         resources :roles do
             scope module: :role do
