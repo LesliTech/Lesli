@@ -28,4 +28,9 @@ Building a better future, one line of code at a time.
 
 class User::Detail < ApplicationRecord
     belongs_to :user, foreign_key: "users_id"
+
+    enum salutation: {
+        mr: 'mr',
+        mrs: 'mrs'
+    }
 end
