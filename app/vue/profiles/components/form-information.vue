@@ -33,17 +33,31 @@ export default {
     },
     data() {
         return {
-            options: {}
+            options: {},
+            translations: {
+                users: I18n.t('core.users'),
+                core: {
+                    shared: I18n.t('core.shared')
+                }
+            },
+            submitting_form: false
         }
     },
     methods: {
         putUser() {
+            this.submitting_form = true
+
             this.http.put(`/users/${this.user.id}.json`, {
                 user: this.user
             }).then(result => {
-                console.log(result)
+                this.submitting_form = false
+                if (result.successful) {
+                    this.alert(this.translations.users.notification_user_updated, 'success')
+                }else{
+                    this.alert(result.error.message,'danger')
+                }
             }).catch(error => {
-
+                console.log(error)
             })
         }
     }
@@ -53,52 +67,65 @@ export default {
 
 <template>
     <form @submit.prevent="putUser()">
-        <div class="column is-half">
-            <div class="field">
-                <label class="label">Anrede</label>
-                <label class="b-radio radio">
-                    <input v-model="user.detail_attributes.salutation" type="radio" value="mr">
-                    <span class="check is-info"></span>
-                    <span class="control-label">
-                        Herrn
-                    </span>
-                </label>
-                <label class="b-radio radio">
-                    <input v-model="user.detail_attributes.salutation" type="radio" value="mrs">
-                    <span class="check is-info"></span>
-                    <span class="control-label">
-                        Frau
-                    </span>
-                </label>
-            </div>
-            <div class="field">
-                <label class="label">Vorname</label> 
-                <div class="control">
-                    <input v-model="user.detail_attributes.first_name" required="required" type="text" class="input">
+        <fieldset :disabled="submitting_form">
+            <div class="column is-half">
+                <div class="field">
+                    <label class="label">Anrede</label>
+                    <label class="b-radio radio">
+                        <input v-model="user.detail_attributes.salutation" type="radio" value="mr">
+                        <span class="check is-info"></span>
+                        <span class="control-label">
+                            Herrn
+                        </span>
+                    </label>
+                    <label class="b-radio radio">
+                        <input v-model="user.detail_attributes.salutation" type="radio" value="mrs">
+                        <span class="check is-info"></span>
+                        <span class="control-label">
+                            Frau
+                        </span>
+                    </label>
                 </div>
-            </div>
-            <div class="field">
-                <label class="label">Name</label> 
-                <div class="control">
-                    <input v-model="user.detail_attributes.last_name" required="required" class="input">
+                <div class="field">
+                    <label class="label">Vorname</label> 
+                    <div class="control">
+                        <input v-model="user.detail_attributes.first_name" required="required" type="text" class="input">
+                    </div>
                 </div>
-            </div>
-            <div class="field">
-                <label class="label">Titel</label> 
-                <div class="control">
-                    <input v-model="user.detail_attributes.title" class="input">
+                <div class="field">
+                    <label class="label">Name</label> 
+                    <div class="control">
+                        <input v-model="user.detail_attributes.last_name" required="required" class="input">
+                    </div>
                 </div>
-            </div>
-            <div class="field">
-                <label class="label">Telefon</label> 
-                <div class="control">
-                    <input v-model="user.detail_attributes.telephone" class="input">
+                <div class="field">
+                    <label class="label">Titel</label> 
+                    <div class="control">
+                        <input v-model="user.detail_attributes.title" class="input">
+                    </div>
                 </div>
-            </div>
+                <div class="field">
+                    <label class="label">Telefon</label> 
+                    <div class="control">
+                        <input v-model="user.detail_attributes.telephone" class="input">
+                    </div>
+                </div>
 
-            <p class="control">
-                <button class="button is-primary">Speichern</button>
-            </p>
-        </div>
+                <p class="control">
+                    <button class="button is-primary" type="submit">
+                        <span v-if="submitting_form">
+                            <b-icon icon="circle-notch" custom-class="fa-spin" size="is-small" />
+                            &nbsp;
+                            {{translations.core.shared.btn_saving}}
+                        </span>
+                        <span v-else>
+                            <b-icon icon="save" size="is-small" />
+                            &nbsp;
+                            {{translations.core.shared.btn_save}}
+                        </span>
+                    </button>
+                </p>
+            </div>
+        </fieldset>
     </form>
 </template>
