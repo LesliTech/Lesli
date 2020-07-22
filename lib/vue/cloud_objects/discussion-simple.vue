@@ -25,6 +25,7 @@ export default {
             object_name: null,
             loading: false,
             search: '',
+            submitting_form: false,
             discussion: {
                 content: ''   
             },
@@ -83,8 +84,10 @@ export default {
             let form_data = {}
             form_data[`${this.object_name.singular}_discussion`] = this.discussion
             let url = `/${this.module_name.slash}/${this.object_name.plural}/${this.cloudId}/discussions`
+            this.submitting_form = true
 
             this.http.post(url, form_data).then(result => {
+                this.submitting_form = false
                 if (result.successful) {
                     this.alert(this.translations.main.notification_discussion_created, 'success')
                     this.bus.publish(`post:/${this.module_name.slash}/${this.object_name.plural}/discussions`, result.data)
@@ -206,13 +209,24 @@ export default {
 <template>
     <section v-if="translations.main">
         <form @submit="postDiscussion">
-            <b-field grouped>
-                <b-input required :placeholder="translations.main.discussions_input_comment_placeholder" ref="input-comment" v-model="discussion.content" expanded>
-                </b-input>
-                <p class="control">
-                    <b-button type="is-primary" native-type="submit">{{translations.core.btn_save}}</b-button>
-                </p>
-            </b-field>
+            <fieldset :disabled="submitting_form">
+                <b-field grouped>
+                    <b-input required :placeholder="translations.main.discussions_input_comment_placeholder" ref="input-comment" v-model="discussion.content" expanded>
+                    </b-input>
+                    <p class="control">
+                        <b-button type="is-primary" native-type="submit">
+                            <span v-if="submitting_form">
+                                <b-icon icon="circle-notch" custom-class="fa-spin" size="is-small" />
+                                &nbsp;
+                                {{translations.core.btn_saving}}
+                            </span>
+                            <span v-else>
+                                {{translations.core.btn_save}}
+                            </span>
+                        </b-button>
+                    </p>
+                </b-field>
+            </fieldset>
         </form>
         <br>
         <div class="columns">
@@ -285,18 +299,18 @@ export default {
                 <b-table-column field="actions" :label="translations.core.text_actions" class="has-text-right">
                     <span v-if="props.row.data.editable">
                         <span v-if="props.row.data.editing">
-                            <b-button outlined @click="putDiscussion(props.row)">
+                            <b-button size="is-small" outlined @click="putDiscussion(props.row)">
                                 <b-icon size="is-small" icon="check" />
                             </b-button>
-                            <b-button type="is-danger" outlined @click="() => $set(props.row.data, 'editing', false)">
+                            <b-button size="is-small" type="is-danger" outlined @click="() => $set(props.row.data, 'editing', false)">
                                 <b-icon size="is-small" icon="times" />
                             </b-button>
                         </span>
                         <span v-else>
-                            <b-button outlined @click="showCommentEditForm(props.row)">
+                            <b-button size="is-small" outlined @click="showCommentEditForm(props.row)">
                                 <b-icon size="is-small" icon="edit" />
                             </b-button>
-                            <b-button type="is-danger" outlined @click="confirmCommentDeletion(props.row)">
+                            <b-button size="is-small" type="is-danger" outlined @click="confirmCommentDeletion(props.row)">
                                 <b-icon size="is-small" icon="trash-alt" />
                             </b-button>
                         </span>
