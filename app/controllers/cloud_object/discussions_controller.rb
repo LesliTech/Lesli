@@ -40,7 +40,7 @@ Building a better future, one line of code at a time.
         def index
             dynamic_info = self.class.dynamic_info
 
-            responseWithSuccessful(
+            respond_with_successful(
                 dynamic_info[:model].list(
                     current_user, params["#{dynamic_info[:object_name]}_id".to_sym]
                 )
@@ -79,7 +79,7 @@ Building a better future, one line of code at a time.
             )
 
             if cloud_object_dicussion.save
-                responseWithSuccessful(cloud_object_dicussion.show(current_user))
+                respond_with_successful(cloud_object_dicussion.show(current_user))
 
                 cloud_object = cloud_object_dicussion.cloud_object
                 message = I18n.t(
@@ -88,7 +88,7 @@ Building a better future, one line of code at a time.
                 )
                 #discussion_model.notify_discussions(cloud_object, message, :comment_created) unless discussion_model.blank?
             else
-                responseWithError(cloud_object_dicussion.errors.full_messages.to_sentence)
+                respond_with_error(cloud_object_dicussion.errors.full_messages.to_sentence)
             end
         end
 
@@ -114,9 +114,9 @@ Building a better future, one line of code at a time.
             return respond_with_unauthorized unless @cloud_object_discussion.is_editable_by?(current_user)
 
             if @cloud_object_discussion.update(cloud_object_discussion_params)
-                responseWithSuccessful
+                respond_with_successful
             else
-                responseWithError(@cloud_object_discussion.errors.full_messages.to_sentence)
+                respond_with_error(@cloud_object_discussion.errors.full_messages.to_sentence)
             end
         end
 
@@ -131,10 +131,12 @@ let discussion_id = 22;
 this.http.delete(`127.0.0.1/help/tickets/${ticket_id}/discussions/${discussion_id}`);
 =end
         def destroy
+            return respond_with_not_found unless @cloud_object_discussion
+            
             if @cloud_object_discussion.destroy
-                responseWithSuccessful
+                respond_with_successful
             else
-                responseWithError(@cloud_object_discussion.errors.full_messages.to_sentence)
+                respond_with_error(@cloud_object_discussion.errors.full_messages.to_sentence)
             end
         end
 

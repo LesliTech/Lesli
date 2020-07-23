@@ -46,7 +46,7 @@ Building a better future, one line of code at a time.
                     model = dynamic_info[:model]
 
                     workflows = model.list(current_user, @query)
-                    responseWithSuccessful(workflows)
+                    respond_with_successful(workflows)
                 end
             end
         end
@@ -71,9 +71,9 @@ Building a better future, one line of code at a time.
 
                     set_workflow
 
-                    return responseWithNotFound unless @workflow
+                    return respond_with_not_found unless @workflow
                     
-                    responseWithSuccessful(@workflow.show)
+                    respond_with_successful(@workflow.show)
                 end
             end
         end
@@ -138,9 +138,9 @@ Building a better future, one line of code at a time.
             workflow.deletion_protection = false
 
             if workflow.save
-                responseWithSuccessful(workflow)
+                respond_with_successful(workflow)
             else
-                responseWithError(workflow.errors.full_messages.to_sentence)
+                respond_with_error(workflow.errors.full_messages.to_sentence)
             end
         end
 
@@ -185,12 +185,12 @@ let data = {
 this.http.put(`127.0.0.1/help/workflows/${workflow_id}`, data);
 =end
         def update
-            return responseWithNotFound unless @workflow
+            return respond_with_not_found unless @workflow
 
             if @workflow.update(workflow_params)
-                responseWithSuccessful(@workflow)
+                respond_with_successful(@workflow)
             else
-                responseWithError(@workflow.errors.full_messages.to_sentence)
+                respond_with_error(@workflow.errors.full_messages.to_sentence)
             end
         end
 
@@ -206,12 +206,12 @@ this.http.put(`127.0.0.1/help/workflows/${workflow_id}`, data);
     this.http.delete(`127.0.0.1/help/workflows/${workflow_id}`);
 =end
         def destroy
-            return responseWithNotFound unless @workflow
+            return respond_with_not_found unless @workflow
 
             if @workflow.destroy
-                responseWithSuccessful
+                respond_with_successful
             else
-                responseWithError(@workflow.errors.full_messages.to_sentence)
+                respond_with_error(@workflow.errors.full_messages.to_sentence)
             end
         end
 
@@ -243,9 +243,9 @@ this.http.put(`127.0.0.1/help/workflows/${workflow_id}`, data);
                 "cloud_#{module_name}_accounts_id".to_sym => current_user.account.id
             )
 
-            return responseWithNotFound unless cloud_object
+            return respond_with_not_found unless cloud_object
 
-            responseWithSuccessful(cloud_object.status.next_workflow_statuses)
+            respond_with_successful(cloud_object.status.next_workflow_statuses)
         end
 
 private
