@@ -36,7 +36,7 @@ class RolesController < ApplicationController
                 query_params = request.query_parameters
                 roles = Role.index(current_user, query_params)
 
-                responseWithSuccessful(roles) 
+                respond_with_successful(roles) 
             }
         end
     end
@@ -47,10 +47,10 @@ class RolesController < ApplicationController
             format.json { 
                 set_role
 
-                return responseWithNotFound unless @role
+                return respond_with_not_found unless @role
                 
                 @role = @role.show
-                responseWithSuccessful(@role) 
+                respond_with_successful(@role) 
             }
         end
     end
@@ -66,34 +66,35 @@ class RolesController < ApplicationController
         role.account = current_user.account
 
         if role.save
-            responseWithSuccessful(role)
+            respond_with_successful(role)
         else
-            responseWithError(role.errors.full_messages)
+            respond_with_error(role.errors.full_messages)
         end
     end
 
     def update
-        return responseWithNotFound unless @role
+        return respond_with_not_found unless @role
         
         if @role.update(role_params)
-            responseWithSuccessful(@role)
+            respond_with_successful(@role)
         else
-            responseWithError(@role.errors.full_messages.to_sentence)
+            respond_with_error(@role.errors.full_messages.to_sentence)
         end
     end
 
     def destroy
-        return responseWithNotFound unless @role
-        if @role.destroy!
-            responseWithSuccessful
+        return respond_with_not_found unless @role
+        
+        if @role.destroy
+            respond_with_successful
         else
-            responseWithError(@role.errors.full_messages.to_sentence)
+            respond_with_error(@role.errors.full_messages.to_sentence)
         end
     end
 
     def restore_default_privileges
         set_role
-        return responseWithNotFound unless @role
+        return respond_with_not_found unless @role
 
         privilege_defaults = @role.privilege_defaults
         privilege_defaults.each do |privilege_default|
@@ -114,12 +115,12 @@ class RolesController < ApplicationController
             end
         end
 
-        responseWithSuccessful
+        respond_with_successful
     end
 
     def update_default_privileges
         set_role
-        return responseWithNotFound unless @role
+        return respond_with_not_found unless @role
 
         privileges = @role.privileges
         privileges.each do |privilege|
@@ -140,7 +141,7 @@ class RolesController < ApplicationController
             end
         end
 
-        responseWithSuccessful
+        respond_with_successful
     end
 
     private

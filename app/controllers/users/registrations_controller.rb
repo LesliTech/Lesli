@@ -104,10 +104,10 @@ class Users::RegistrationsController < Devise::RegistrationsController
             user.initialize_user
 
             # response successfully
-            responseWithSuccessful
+            respond_with_successful
 
         else
-            responseWithError(user.errors.full_messages.to_sentence)
+            respond_with_error(user.errors.full_messages.to_sentence)
         end
         
     end
@@ -118,9 +118,9 @@ class Users::RegistrationsController < Devise::RegistrationsController
         if @user.update(sign_up_params)
             # Sign in the user by passing validation in case their password changed
             bypass_sign_in(@user)
-            responseWithSuccessful
+            respond_with_successful
         else
-            responseWithError(@user.errors.full_messages)
+            respond_with_error(@user.errors.full_messages)
         end
             
     end 
