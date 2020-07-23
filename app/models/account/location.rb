@@ -32,4 +32,8 @@ class Account::Location < ApplicationRecord
         current_user.account.locations.where(query_filters.join(" and ")).limit(6)
     end
 
+    def show
+        self
+    end
+
 end

@@ -64,7 +64,7 @@ module CloudObject
 
                 activities_data
             end
-            responseWithSuccessful(cloud_object_activities)
+            respond_with_successful(cloud_object_activities)
         end
         
         # @controller_action_param :instructions [String] The instructions to add to the activity
@@ -96,9 +96,9 @@ module CloudObject
             )
 
             if cloud_object_activity.save
-                responseWithSuccessful
+                respond_with_successful
             else
-                responseWithError(cloud_object_activity.errors.full_messages)
+                respond_with_error(cloud_object_activity.errors.full_messages)
             end
         end
 
@@ -117,10 +117,12 @@ module CloudObject
         #     };
         #     this.http.put(`127.0.0.1/help/tickets/${ticket_id}/activities/${action_id}`, data);
         def update
+            return respond_with_not_found unless @cloud_object_activity
+
             if @cloud_object_activity.update(cloud_object_activity_params)
-                responseWithSuccessful()
+                respond_with_successful()
             else
-                responseWithError(@cloud_object_activity.errors.full_messages)
+                respond_with_error(@cloud_object_activity.errors.full_messages)
             end
         end
 
