@@ -111,18 +111,43 @@ class ApplicationController < ActionController::Base
     end
 
     # JSON not found response
-    def responseWithUnauthorized
-        respond_to do |format|
-            format.html { redirect_to "/401" }
-            format.json { 
-                render status: 401, json: {
-                    successful: false,
-                    error: {
-                        message: I18n.t("core.shared.unauthorized_error_message"),
-                        details: []
+    def responseWithUnauthorized(detail = {})
+        if Rails.env == 'production'
+            respond_to do |format|
+                format.html { redirect_to "/401" }
+                format.json {
+                    render status: 401, json: {
+                        successful: false,
+                        error: {
+                            message: I18n.t("core.shared.unauthorized_error_message"),
+                            details: {}
+                        }
+                    }.to_json
+                }
+            end
+        else
+            respond_to do |format|
+                format.html {
+                    render status: 401, json: {
+                        successful: false,
+                        error: {
+                            message: I18n.t("core.shared.unauthorized_error_message"),
+                            role: current_user.role.detail.name,
+                            details: detail
+                        }
                     }
-                }.to_json
-            }
+                }
+                format.json {
+                    render status: 401, json: {
+                        successful: false,
+                        error: {
+                            message: I18n.t("core.shared.unauthorized_error_message"),
+                            role: current_user.role.detail.name,
+                            details: detail
+                        }
+                    }.to_json
+                }
+            end
         end
     end
 
@@ -177,8 +202,8 @@ class ApplicationController < ActionController::Base
         responseWithError(message, details)
     end
     
-    def respond_with_unauthorized
-        responseWithUnauthorized
+    def respond_with_unauthorized(detail = {})
+        responseWithUnauthorized(detail)
     end 
 
     def respond_with_not_found
