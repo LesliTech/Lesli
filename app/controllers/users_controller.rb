@@ -66,6 +66,19 @@ class UsersController < ApplicationLesliController
         @user = current_user.account.users.find_by(id: params[:id])
     end
 
+    def options
+        options = {
+            roles: current_user.account.roles.joins(:detail)
+                    .select("
+                        roles.id as value, 
+                        role_details.name as text
+                    "),
+            salutations: User::Detail.salutations.map {|k, v| {value: k, text: v}},
+        }
+
+        responseWithSuccessful(options)
+    end
+
     private
     
     def user_params

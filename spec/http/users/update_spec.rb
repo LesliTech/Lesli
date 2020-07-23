@@ -124,7 +124,6 @@ RSpec.describe "PUT /users/:id", type: :request do
 
 end
 
-
 RSpec.describe "PUT /users/:id", type: :request do
 
     before(:all) do
@@ -157,17 +156,53 @@ RSpec.describe "PUT /users/:id", type: :request do
                 roles_id: 1
             }
         }
+        
+        expect(response).to have_http_status(401) 
+        expect(response.content_type).to eq("application/json; charset=utf-8")
+        expect(JSON.parse(response.body)["successful"]).to eql(false)
+    end
+
+end
+
+RSpec.describe "PUT /users/:id", type: :request do
+
+    before(:all) do
+        @user = User.find_by(email: "dev@lesli.cloud")
+        sign_in @user
+    end
+
+    it "Change user password" do
+
+        # get lowest role
+        role = @user.account.roles.last
+
+        # create a dummy user with limited user
+        password = DateTime.now.strftime('%s')
+        user = @user.account.users.create({ 
+            email: DateTime.now.strftime('%s') + (rand(1000) + 1).to_s + "__@lesli.cloud", 
+            password: password,
+            password_confirmation: password,
+            roles_id: role.id
+        })
+
+        # confirm my new user so I'm able to login
+        user.confirm
+
+        # do login with my new brand test user
+        sign_in user
+
+        #change password
+        new_password = DateTime.now.strftime('%s') + (rand(1000) + 1).to_s
+        
+        put "/", params: {
+            user: {
+                password: new_password,
+                password_confirmation: new_password
+            }
+        }
 
         expect(response).to have_http_status(:success) 
         expect(response.content_type).to eq("application/json; charset=utf-8")
         expect(JSON.parse(response.body)["successful"]).to eql(true)
-
-        # get the just updated user
-        updated_user = User.find(user.id)
-
-        expect(updated_user.roles_id).not_to eql(1)
-        expect(updated_user.roles_id).to eql(role.id)
-
     end
-
 end
