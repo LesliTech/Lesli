@@ -3,9 +3,7 @@ class UsersController < ApplicationLesliController
     def index
         respond_to do |format|
             format.html { }
-            format.json {
-                respond_with_successful(User.list(current_user, params[:role], params[:type], @query))
-            }
+            format.json { respond_with_pagination(User.list(current_user, @query, params)) }
         end
     end
 
