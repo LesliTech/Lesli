@@ -42,6 +42,8 @@ class Role::Privilege < ApplicationRecord
             :grant_update,
             :grant_destroy,
             :grant_options,
+            :grant_resources,
+            :grant_search,
             :created_at,
             :updated_at
         )

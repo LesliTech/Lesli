@@ -91,7 +91,6 @@ class Role < ApplicationRecord
                 grant_options: default 
             }
 
-            #self.privilege_defaults.find_or_create_by!(grant_object: t[:grant_name]).update(attributes)
             self.privileges.find_or_create_by!(grant_object: t[:grant_name]).update(attributes)
         end
     end
@@ -125,6 +124,7 @@ class Role < ApplicationRecord
             next if controller.include? "action_mailbox"
             next if controller.include? "active_storage"
             next if controller.include? "errors"
+            next if controller.include? "application"
 
             controller_list.push({ grant_name: controller})
         end

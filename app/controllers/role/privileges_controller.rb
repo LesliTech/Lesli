@@ -196,7 +196,8 @@ class Role::PrivilegesController < ApplicationController
             :grant_update, 
             :grant_destroy, 
             :grant_options, 
-            :deleted_at, 
+            :grant_resources,
+            :grant_search,
             :created_at, 
             :updated_at
         )   
