@@ -111,18 +111,23 @@ class ApplicationController < ActionController::Base
     end
 
     # JSON not found response
-    def responseWithUnauthorized
-        respond_to do |format|
-            format.html { redirect_to "/401" }
-            format.json { 
-                render status: 401, json: {
-                    successful: false,
-                    error: {
-                        message: I18n.t("core.shared.unauthorized_error_message"),
-                        details: []
-                    }
-                }.to_json
+    def responseWithUnauthorized(detail = {})
+        error_object = {
+            successful: false,
+            error: {
+                message: I18n.t("core.shared.unauthorized_error_message")
             }
+        }
+
+        if Rails.env == "development"
+            error_object[:error][:role] = current_user.role.detail.name
+            error_object[:error][:detail] = detail
+        end
+
+        respond_to do |format|
+            format.json { render status: 401, json: error_object.to_json }
+            format.html { redirect_to "/401" } if Rails.env == "production"
+            format.html { render status: 401, json: error_object.to_json }
         end
     end
 
@@ -143,8 +148,8 @@ class ApplicationController < ActionController::Base
         responseWithError(message, details)
     end
     
-    def respond_with_unauthorized
-        responseWithUnauthorized
+    def respond_with_unauthorized(detail = {})
+        responseWithUnauthorized(detail)
     end 
 
     def respond_with_not_found

@@ -85,8 +85,8 @@ class ApplicationLesliController < ApplicationController
         end 
 
         # send user to 401 page
-        return respond_with_unauthorized if granted.blank?
-        return respond_with_unauthorized if not granted["grant_#{action}"] === true
+        return respond_with_unauthorized({ controller: params[:controller], privilege: "grant_#{action}" }) if granted.blank?
+        return respond_with_unauthorized({ controller: params[:controller], privilege: "grant_#{action}" }) if not granted["grant_#{action}"] === true
 
     end
 
