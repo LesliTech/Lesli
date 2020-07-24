@@ -1,8 +1,8 @@
 PATH
-  remote: engines/CloudDriver
+  remote: engines/CloudNotes
   specs:
-    cloud_driver (0.1.0)
-      rails (~> 6.0.0)
+    cloud_notes (0.1.0)
+      rails (~> 6.0.3)
 
 PATH
   remote: engines/CloudBabel
@@ -23,15 +23,15 @@ PATH
       rails (~> 6.0.2)
 
 PATH
-  remote: engines/CloudFocus
+  remote: engines/CloudDriver
   specs:
-    cloud_focus (0.1.0)
+    cloud_driver (0.1.0)
       rails (~> 6.0.0)
 
 PATH
-  remote: engines/CloudHouse
+  remote: engines/CloudLesli
   specs:
-    cloud_house (0.1.0)
+    cloud_lesli (0.1.0)
       rails (~> 6.0.0)
 
 PATH
@@ -39,6 +39,12 @@ PATH
   specs:
     cloud_mailer (0.1.0)
       rails (~> 6.0.3)
+
+PATH
+  remote: engines/LesliCloud
+  specs:
+    lesli_cloud (0.1.0)
+      rails (~> 6.0.2, >= 6.0.2.2)
 
 GEM
   remote: https://rubygems.org/
@@ -449,6 +455,7 @@ DEPENDENCIES
   cloud_driver!
   cloud_lesli!
   cloud_mailer!
+  cloud_notes!
   devise
   faker
   faraday
