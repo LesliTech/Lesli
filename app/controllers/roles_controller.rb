@@ -107,7 +107,9 @@ class RolesController < ApplicationController
                     grant_edit: privilege_default.grant_edit,
                     grant_update: privilege_default.grant_update,
                     grant_show: privilege_default.grant_show,
-                    grant_destroy: privilege_default.grant_destroy
+                    grant_destroy: privilege_default.grant_destroy,
+                    grant_resources: privilege.grant_resources,
+                    grant_search: privilege.grant_search
                 )
             end
         end
@@ -131,7 +133,9 @@ class RolesController < ApplicationController
                     grant_edit: privilege.grant_edit,
                     grant_update: privilege.grant_update,
                     grant_show: privilege.grant_show,
-                    grant_destroy: privilege.grant_destroy
+                    grant_destroy: privilege.grant_destroy,
+                    grant_resources: privilege.grant_resources,
+                    grant_search: privilege.grant_search
                 )
             end
         end

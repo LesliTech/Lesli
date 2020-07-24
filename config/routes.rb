@@ -56,15 +56,22 @@ Rails.application.routes.draw do
             end
         end
         resource  :profile
-        resources :users
+        
+        resources :users do
+            collection do
+                get :options
+            end
+        end
 
         resources :roles do
             scope module: :role do
                 resources :privileges
             end
             member do
-                post "/resources/restore_default_privileges",    to: "roles#restore_default_privileges"
-                post "/resources/update_default_privileges",     to: "roles#update_default_privileges"
+                scope :resources do
+                    post :restore_default_privileges
+                    post :update_default_privileges
+                end
             end
         end
 

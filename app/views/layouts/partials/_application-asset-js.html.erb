@@ -12,7 +12,7 @@
 
 <script type="text/javascript">
 Honeybadger.configure({
-    apiKey: "50af1426",
+    apiKey: '<%= Rails.application.credentials.services[:honey_badger][:api_key] %>',
     revision: "",
     environment: "<%= Rails.env %>",
     disabled: <%= !Rails.env.production? %>
