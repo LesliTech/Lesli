@@ -81,7 +81,7 @@ class ApplicationController < ActionController::Base
     end
 
 
-    # JSON successful response
+    # DEPRECATED
     def responseWithSuccessful(data = nil)
         response_body = { successful: true }
         response_body[:data] = data
@@ -111,74 +111,45 @@ class ApplicationController < ActionController::Base
     end
 
     # JSON not found response
-    def responseWithUnauthorized
-        respond_to do |format|
-            format.html { redirect_to "/401" }
-            format.json { 
-                render status: 401, json: {
-                    successful: false,
-                    error: {
-                        message: I18n.t("core.shared.unauthorized_error_message"),
-                        details: []
-                    }
-                }.to_json
+    def responseWithUnauthorized(detail = {})
+        error_object = {
+            successful: false,
+            error: {
+                message: I18n.t("core.shared.unauthorized_error_message")
             }
+        }
+
+        if Rails.env == "development"
+            error_object[:error][:role] = current_user.role.detail.name
+            error_object[:error][:detail] = detail
+        end
+
+        respond_to do |format|
+            format.json { render status: 401, json: error_object.to_json }
+            format.html { redirect_to "/401" } if Rails.env == "production"
+            format.html { render status: 401, json: error_object.to_json }
         end
     end
 
+
+    # JSON successful response
     def respond_with_successful(data = nil)
-        responseWithSuccessful data
+        response_body = { successful: true }
+        response_body[:data] = data
+        render status: 200, json: response_body.to_json
     end
 
-    def respond_with_pagination(response = nil)
+    def respond_with_pagination(data)
 
-        response_body = { }
-
-        # transaction completed successfully
-        response_body[:successful] = true 
-
-        # build pagination for array response
-        if response.is_a?(Array) 
-
-            # pagination results (most for index only)
-            response_body[:records] = {} 
-            response_body[:records][:found] = response.length
-            response_body[:records][:total] = response.length
-            response_body[:data] = response
-
-        end
-
-        # build pagination for hash results
-        if response.is_a?(Hash) 
-
-            # hash result with pagination
-            if response[:total] || response[:found]
-                response_body[:records] = {} 
-                response_body[:records][:found] = response[:found] || response[:data].length || 1
-                response_body[:records][:total] = response[:total] || response_body[:records][:found] 
-                response_body[:data] = response[:data]
-            else
-
-                # simple hash result
-                response_body[:records] = {} 
-                response_body[:records][:found] = 1
-                response_body[:records][:total] = 1
-                response_body[:data] = response
-            end 
-
-        end
-
-        # render response 
-        render status: 200, json: response_body.to_json
-
+        respond_with_successful data
     end
 
     def respond_with_error message = "", details = []
         responseWithError(message, details)
     end
     
-    def respond_with_unauthorized
-        responseWithUnauthorized
+    def respond_with_unauthorized(detail = {})
+        responseWithUnauthorized(detail)
     end 
 
     def respond_with_not_found

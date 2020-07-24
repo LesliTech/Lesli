@@ -707,6 +707,7 @@ ActiveRecord::Schema.define(version: 20011003) do
     t.datetime "updated_at", precision: 6, null: false
     t.bigint "cloud_house_companies_id"
     t.index ["cloud_house_companies_id"], name: "house_company_activities_companies"
+    t.index ["field_name"], name: "index_cloud_house_company_activities_on_field_name"
   end
 
   create_table "cloud_house_company_associates", force: :cascade do |t|
@@ -749,8 +750,8 @@ ActiveRecord::Schema.define(version: 20011003) do
     t.string "street_other"
     t.string "postcode"
     t.string "website"
-    t.string "ivd_member"
-    t.string "bvfi_member"
+    t.boolean "ivd_member"
+    t.boolean "bvfi_member"
     t.string "franchise"
     t.string "region"
     t.datetime "founded_at"
@@ -1186,6 +1187,7 @@ ActiveRecord::Schema.define(version: 20011003) do
     t.datetime "updated_at", precision: 6, null: false
     t.bigint "cloud_house_projects_id"
     t.index ["cloud_house_projects_id"], name: "index_cloud_house_project_activities_on_cloud_house_projects_id"
+    t.index ["field_name"], name: "index_cloud_house_project_activities_on_field_name"
   end
 
   create_table "cloud_house_project_custom_fields", force: :cascade do |t|
@@ -1641,6 +1643,62 @@ ActiveRecord::Schema.define(version: 20011003) do
     t.index ["deleted_at"], name: "index_cloud_mailer_accounts_on_deleted_at"
   end
 
+  create_table "cloud_mailer_audience_actions", force: :cascade do |t|
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
+  create_table "cloud_mailer_audience_activities", force: :cascade do |t|
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
+  create_table "cloud_mailer_audience_contacts", force: :cascade do |t|
+    t.string "name"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "deleted_at"
+    t.bigint "cloud_mailer_audiences_id"
+    t.index ["cloud_mailer_audiences_id"], name: "mailer_audience_contacts_audiences"
+    t.index ["deleted_at"], name: "index_cloud_mailer_audience_contacts_on_deleted_at"
+  end
+
+  create_table "cloud_mailer_audience_details", force: :cascade do |t|
+    t.string "name"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "deleted_at"
+    t.bigint "cloud_mailer_audiences_id"
+    t.index ["cloud_mailer_audiences_id"], name: "mailer_audience_details_audiences"
+    t.index ["deleted_at"], name: "index_cloud_mailer_audience_details_on_deleted_at"
+  end
+
+  create_table "cloud_mailer_audience_discussions", force: :cascade do |t|
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
+  create_table "cloud_mailer_audience_files", force: :cascade do |t|
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
+  create_table "cloud_mailer_audience_subscribers", force: :cascade do |t|
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
+  create_table "cloud_mailer_audiences", force: :cascade do |t|
+    t.datetime "deleted_at"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.bigint "user_id"
+    t.bigint "cloud_mailer_accounts_id"
+    t.index ["cloud_mailer_accounts_id"], name: "index_cloud_mailer_audiences_on_cloud_mailer_accounts_id"
+    t.index ["deleted_at"], name: "index_cloud_mailer_audiences_on_deleted_at"
+    t.index ["user_id"], name: "index_cloud_mailer_audiences_on_user_id"
+  end
+
   create_table "cloud_mailer_campaign_actions", force: :cascade do |t|
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
@@ -1727,9 +1785,11 @@ ActiveRecord::Schema.define(version: 20011003) do
     t.datetime "deleted_at"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.bigint "cloud_mailer_audiences_id"
     t.bigint "user_id"
     t.bigint "cloud_mailer_accounts_id"
     t.index ["cloud_mailer_accounts_id"], name: "index_cloud_mailer_campaigns_on_cloud_mailer_accounts_id"
+    t.index ["cloud_mailer_audiences_id"], name: "index_cloud_mailer_campaigns_on_cloud_mailer_audiences_id"
     t.index ["deleted_at"], name: "index_cloud_mailer_campaigns_on_deleted_at"
     t.index ["user_id"], name: "index_cloud_mailer_campaigns_on_user_id"
   end
@@ -2138,11 +2198,16 @@ ActiveRecord::Schema.define(version: 20011003) do
   add_foreign_key "cloud_house_workflow_statuses", "cloud_house_workflows", column: "cloud_house_workflows_id"
   add_foreign_key "cloud_house_workflows", "cloud_house_accounts", column: "cloud_house_accounts_id"
   add_foreign_key "cloud_mailer_accounts", "accounts", column: "id"
+  add_foreign_key "cloud_mailer_audience_contacts", "cloud_mailer_audiences", column: "cloud_mailer_audiences_id"
+  add_foreign_key "cloud_mailer_audience_details", "cloud_mailer_audiences", column: "cloud_mailer_audiences_id"
+  add_foreign_key "cloud_mailer_audiences", "cloud_mailer_accounts", column: "cloud_mailer_accounts_id"
+  add_foreign_key "cloud_mailer_audiences", "users"
   add_foreign_key "cloud_mailer_campaign_details", "cloud_mailer_campaigns", column: "cloud_mailer_campaigns_id"
   add_foreign_key "cloud_mailer_campaign_email_recipients", "cloud_mailer_campaigns", column: "cloud_mailer_campaigns_id"
   add_foreign_key "cloud_mailer_campaign_email_statistics", "cloud_mailer_campaigns", column: "cloud_mailer_campaigns_id"
   add_foreign_key "cloud_mailer_campaign_emails", "cloud_mailer_campaigns", column: "cloud_mailer_campaigns_id"
   add_foreign_key "cloud_mailer_campaigns", "cloud_mailer_accounts", column: "cloud_mailer_accounts_id"
+  add_foreign_key "cloud_mailer_campaigns", "cloud_mailer_audiences", column: "cloud_mailer_audiences_id"
   add_foreign_key "cloud_mailer_campaigns", "users"
   add_foreign_key "deutsche_leibrenten_external_leads", "cloud_house_accounts", column: "cloud_house_accounts_id"
   add_foreign_key "deutsche_leibrenten_external_leads", "users", column: "users_id"
