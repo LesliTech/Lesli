@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 10010104) do
+ActiveRecord::Schema.define(version: 2020_07_23_031948) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -517,6 +517,100 @@ ActiveRecord::Schema.define(version: 10010104) do
     t.index ["user_id"], name: "index_cloud_mailer_campaigns_on_user_id"
   end
 
+  create_table "cloud_notes_accounts", force: :cascade do |t|
+    t.datetime "deleted_at"
+    t.index ["deleted_at"], name: "index_cloud_notes_accounts_on_deleted_at"
+  end
+
+  create_table "cloud_notes_dashboards", force: :cascade do |t|
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
+  create_table "cloud_notes_note_actions", force: :cascade do |t|
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
+  create_table "cloud_notes_note_activities", force: :cascade do |t|
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
+  create_table "cloud_notes_note_details", force: :cascade do |t|
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.bigint "cloud_notes_notes_id"
+    t.index ["cloud_notes_notes_id"], name: "index_cloud_notes_note_details_on_cloud_notes_notes_id"
+  end
+
+  create_table "cloud_notes_note_discussions", force: :cascade do |t|
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
+  create_table "cloud_notes_note_files", force: :cascade do |t|
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
+  create_table "cloud_notes_note_subscribers", force: :cascade do |t|
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
+  create_table "cloud_notes_notebook_actions", force: :cascade do |t|
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
+  create_table "cloud_notes_notebook_activities", force: :cascade do |t|
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
+  create_table "cloud_notes_notebook_details", force: :cascade do |t|
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.bigint "cloud_notes_notebooks_id"
+    t.index ["cloud_notes_notebooks_id"], name: "index_cloud_notes_notebook_details_on_cloud_notes_notebooks_id"
+  end
+
+  create_table "cloud_notes_notebook_discussions", force: :cascade do |t|
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
+  create_table "cloud_notes_notebook_files", force: :cascade do |t|
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
+  create_table "cloud_notes_notebook_subscribers", force: :cascade do |t|
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
+  create_table "cloud_notes_notebooks", force: :cascade do |t|
+    t.datetime "deleted_at"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.bigint "user_id"
+    t.bigint "cloud_notes_accounts_id"
+    t.index ["cloud_notes_accounts_id"], name: "index_cloud_notes_notebooks_on_cloud_notes_accounts_id"
+    t.index ["deleted_at"], name: "index_cloud_notes_notebooks_on_deleted_at"
+    t.index ["user_id"], name: "index_cloud_notes_notebooks_on_user_id"
+  end
+
+  create_table "cloud_notes_notes", force: :cascade do |t|
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.bigint "user_id"
+    t.bigint "cloud_notes_accounts_id"
+    t.index ["cloud_notes_accounts_id"], name: "index_cloud_notes_notes_on_cloud_notes_accounts_id"
+    t.index ["user_id"], name: "index_cloud_notes_notes_on_user_id"
+  end
+
   create_table "role_details", force: :cascade do |t|
     t.string "name"
     t.boolean "active"
@@ -730,6 +824,13 @@ ActiveRecord::Schema.define(version: 10010104) do
   add_foreign_key "cloud_mailer_campaign_emails", "cloud_mailer_campaigns", column: "cloud_mailer_campaigns_id"
   add_foreign_key "cloud_mailer_campaigns", "cloud_mailer_accounts", column: "cloud_mailer_accounts_id"
   add_foreign_key "cloud_mailer_campaigns", "users"
+  add_foreign_key "cloud_notes_accounts", "accounts", column: "id"
+  add_foreign_key "cloud_notes_note_details", "cloud_notes_notes", column: "cloud_notes_notes_id"
+  add_foreign_key "cloud_notes_notebook_details", "cloud_notes_notebooks", column: "cloud_notes_notebooks_id"
+  add_foreign_key "cloud_notes_notebooks", "cloud_notes_accounts", column: "cloud_notes_accounts_id"
+  add_foreign_key "cloud_notes_notebooks", "users"
+  add_foreign_key "cloud_notes_notes", "cloud_notes_accounts", column: "cloud_notes_accounts_id"
+  add_foreign_key "cloud_notes_notes", "users"
   add_foreign_key "role_details", "roles", column: "roles_id"
   add_foreign_key "role_overrides", "users", column: "users_id"
   add_foreign_key "role_privilege_defaults", "roles", column: "roles_id"
