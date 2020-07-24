@@ -146,6 +146,13 @@ class RolesController < ApplicationController
 
     private
 
+    # @return [void]
+    # @description Sets the requested user based on the current_users's account
+    # @example
+    #     # Executing this method from a controller action:
+    #     set_role
+    #     puts @role
+    #     # This will either display nil or an instance of Role
     def set_role
         @role = current_user.account.roles.find_by(id: params[:id])
     end

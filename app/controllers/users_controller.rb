@@ -64,6 +64,13 @@ class UsersController < ApplicationLesliController
 
     end
 
+    # @return [void]
+    # @description Sets the requested user based on the current_users's account
+    # @example
+    #     # Executing this method from a controller action:
+    #     set_user
+    #     puts @user
+    #     # This will either display nil or an instance of Account::User
     def set_user
         @user = current_user.account.users.find_by(id: params[:id])
     end
