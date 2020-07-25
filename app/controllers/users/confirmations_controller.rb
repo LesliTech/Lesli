@@ -44,9 +44,9 @@ class Users::ConfirmationsController < Devise::ConfirmationsController
     def create
         super do |resource|
             if successfully_sent?(resource)
-                return responseWithSuccessful
+                return respond_with_successful
             else
-                return responseWithError(resource.errors.full_messages.to_sentence)
+                return respond_with_error(resource.errors.full_messages.to_sentence)
             end
         end
     end

@@ -47,24 +47,24 @@ class Users::SessionsController < Devise::SessionsController
 
         resource = User.find_for_database_authentication(email: sign_in_params[:email], active: true)
 
-        return responseWithError(t('core.users/sessions.invalid_credentials')) unless resource
+        return respond_with_error(t('core.users/sessions.invalid_credentials')) unless resource
 
         activity = resource.log_activity(request.method, request.original_fullpath, "login_atempt")
 
         unless resource.valid_password?(sign_in_params[:password])
             activity.update_attribute(:description, "login_atempt_invalid_credentials")
-            return responseWithError(t('core.users/sessions.invalid_credentials'))
+            return respond_with_error(t('core.users/sessions.invalid_credentials'))
         end
         
         unless resource.confirmed?
-            return responseWithError(t('devise.errors.custom.confirmation_required'))
+            return respond_with_error(t('devise.errors.custom.confirmation_required'))
         end
         
         sign_in :user, resource
 
         activity.update_attribute(:description, "login_atempt_successful")
 
-        responseWithSuccessful()
+        respond_with_successful()
 
     end
 
