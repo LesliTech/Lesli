@@ -48,7 +48,7 @@ Building a better future, one line of code at a time.
                 cloud_object_model.find(cloud_object_id),
                 current_user
             )
-            responseWithSuccessful(actions)
+            respond_with_successful(actions)
         end
 
 =begin
@@ -83,9 +83,9 @@ Building a better future, one line of code at a time.
                 )
             )
             if cloud_object_subscriber.save
-                responseWithSuccessful(cloud_object_subscriber)
+                respond_with_successful(cloud_object_subscriber)
             else
-                responseWithError(cloud_object_subscriber.errors.full_messages.to_sentence)
+                respond_with_error(cloud_object_subscriber.errors.full_messages.to_sentence)
             end
         end
 
@@ -107,10 +107,12 @@ Building a better future, one line of code at a time.
     this.http.patch(`127.0.0.1/help/tickets/${ticket_id}/subscribers/${subscriber_id}`, data);
 =end
         def update
+            return respond_with_not_found unless @cloud_object_subscriber
+
             if @cloud_object_subscriber.update(cloud_object_subscriber_params)
-                responseWithSuccessful
+                respond_with_successful
             else
-                responseWithError(@cloud_object_subscriber.errors.full_messages.to_sentence)
+                respond_with_error(@cloud_object_subscriber.errors.full_messages.to_sentence)
             end
         end
 
@@ -125,10 +127,12 @@ Building a better future, one line of code at a time.
     this.http.delete(`127.0.0.1/help/tickets/${ticket_id}/subscribers/${subscriber_id}`);
 =end
         def destroy
+            return respond_with_not_found unless @cloud_object_subscriber
+            
             if @cloud_object_subscriber.destroy
-                responseWithSuccessful
+                respond_with_successful
             else
-                responseWithError(@cloud_object_subscriber.errors.full_messages.to_sentence)
+                respond_with_error(@cloud_object_subscriber.errors.full_messages.to_sentence)
             end
         end
 
