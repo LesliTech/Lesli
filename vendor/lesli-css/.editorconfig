@@ -1,0 +1,46 @@
+#/
+# Lesli
+
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+# GNU General Public License for more details.
+
+# You should have received a copy of the GNU General Public License
+# along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+# LesliCSS - SCSS Utilities for websites and web applications  
+
+# Powered by https://www.lesli.tech
+# Building a better future, one line of code at a time.
+
+# @dev      Luis Donis <ldonis@lesli.tech>
+# @author   LesliTech <hello@lesli.tech>
+# @license  GPLv3 http://www.gnu.org/licenses/gpl-3.0.en.html
+# @version  0.2.0-alpha
+#/
+
+# EditorConfig is awesome: https://EditorConfig.org
+
+# top-most EditorConfig file
+root = true
+
+# Unix-style newlines with a newline ending every file
+[*]
+end_of_line = lf
+insert_final_newline = true
+
+# Matches multiple files with brace expansion notation
+# Set default charset
+[*.{ts,vue,js,json,scss,styl,css,html}]
+charset = utf-8
+
+# 4 space indentation
+[*.{ts,vue,js,json,scss,styl,css,html}]
+indent_style = space
+indent_size = 4
