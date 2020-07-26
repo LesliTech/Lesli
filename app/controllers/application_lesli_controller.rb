@@ -30,13 +30,31 @@ class ApplicationLesliController < ApplicationController
 
     before_action :authenticate_user!
     before_action :check_account
-    before_action :authorize_request #, only: [:index, :create, :update, :destroy, :new, :show, :options, :default]
+    before_action :validate_privileges
     before_action :set_global_account
     before_action :set_request_helpers
 
     after_action :track_user_activities
     
     layout "layouts/application"
+
+    # deprecated response methods
+
+    def responseWithSuccessful(data = nil)
+        respond_with_successful(data)
+    end
+
+    def responseWithError(message = "", details = [])
+        respond_with_error(message, details)
+    end
+
+    def responseWithNotFound
+        respond_with_not_found()
+    end
+
+    def responseWithUnauthorized(detail = {})
+        respond_with_unauthorized(detail)
+    end
 
     protected
 
@@ -59,17 +77,18 @@ class ApplicationLesliController < ApplicationController
     end
 
     def check_account
-
         return if current_user.blank?
         return if controller_name == "accounts"
         redirect_to "/account/new" if current_user.account.status == "registered"
-
     end
 
-    def authorize_request
+    # Check if current_user has privileges to complete this request
+    # allowed core methods:
+    #   [:index, :create, :update, :destroy, :new, :show, :edit, :options, :search, :resources]
+    def validate_privileges
 
         action = params[:action]
-        action = 'resources' if request.path.include?'resources'
+        action = "resources" if request.path.include?("resources")
 
         granted = current_user.privileges
         .where("role_privileges.grant_object = ?", params[:controller])
@@ -139,14 +158,13 @@ class ApplicationLesliController < ApplicationController
     # set query used to filter or sort data requests
     def set_request_helpers
         @query = {
-            current_user: current_user,
+            filters: params[:filters] ? params[:filters] : {},
             pagination: {
                 perPage: (params[:perPage] ? params[:perPage].to_i : 15),
                 page: (params[:page] ? params[:page].to_i : 1),
                 order: (params[:order] ? params[:order] : "desc"),
                 orderColumn: (params[:orderColumn] ? params[:orderColumn] : "id")
-            },
-            filters: params[:filters] ? params[:filters] : {}
+            }
         }
     end
 
@@ -169,23 +187,5 @@ class ApplicationLesliController < ApplicationController
         return false if current_user.role_detail[:default_path] == request.original_fullpath
         return true
     end 
-
-    # Define platform version according to builder module
-    def get_revision
-
-        version = 0
-        build = 0
-
-        if defined?(DeutscheLeibrenten)
-            version = DeutscheLeibrenten::VERSION
-            build = DeutscheLeibrenten::BUILD
-        end
-
-        return {
-            version: version,
-            build: build
-        }
-
-    end
 
 end
