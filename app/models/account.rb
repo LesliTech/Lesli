@@ -40,6 +40,7 @@ class Account < ApplicationRecord
     has_one :team,   class_name: "CloudTeam::Account",   foreign_key: "id"
     has_one :bell,   class_name: "CloudBell::Account",   foreign_key: "id"
     has_one :help,   class_name: "CloudHelp::Account",   foreign_key: "id"
+    has_one :notes,  class_name: "CloudNotes::Account",  foreign_key: "id"
     has_one :books,  class_name: "CloudBooks::Account",  foreign_key: "id"
     has_one :panel,  class_name: "CloudPanel::Account",  foreign_key: "id"
     has_one :house,  class_name: "CloudHouse::Account",  foreign_key: "id"
@@ -142,6 +143,14 @@ class Account < ApplicationRecord
                 self.mailer = CloudMailer::Account.new
                 self.mailer.account = self
                 self.mailer.save!
+            end
+        end
+
+        if defined? CloudNotes
+            if self.notes.blank?
+                self.notes = CloudNotes::Account.new
+                self.notes.account = self
+                self.notes.save!
             end
         end
 
