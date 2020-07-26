@@ -1,10 +1,4 @@
 PATH
-  remote: engines/DeutscheLeibrenten
-  specs:
-    deutsche_leibrenten (0.1.0)
-      rails (~> 6.0.0)
-
-PATH
   remote: engines/CloudBabel
   specs:
     cloud_babel (0.1.0)
@@ -19,7 +13,7 @@ PATH
 PATH
   remote: engines/CloudDispatcher
   specs:
-    cloud_dispatcher (0.1.0)
+    cloud_dispatcher (1.0)
       rails (~> 6.0.2)
 
 PATH
@@ -45,6 +39,12 @@ PATH
   specs:
     cloud_mailer (0.1.0)
       rails (~> 6.0.3)
+
+PATH
+  remote: engines/DeutscheLeibrenten
+  specs:
+    deutsche_leibrenten (0.1.0)
+      rails (~> 6.0.0)
 
 GEM
   remote: https://rubygems.org/
