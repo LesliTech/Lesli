@@ -55,7 +55,7 @@ Building a better future, one line of code at a time.
                 file_attributes["editable"] = file.is_editable_by?(current_user)
                 file_attributes
             end
-            responseWithSuccessful(@cloud_object_files)
+            respond_with_successful(@cloud_object_files)
         end
 
 =begin
@@ -91,7 +91,7 @@ Building a better future, one line of code at a time.
             )
 
             extension = new_file_params[:attachment].original_filename
-            return responseWithError(I18n.t('core.shared.notification_error_file_type_not_allowed')) unless model.verify_file_extension(extension)
+            return respond_with_error(I18n.t('core.shared.notification_error_file_type_not_allowed')) unless model.verify_file_extension(extension)
 
             cloud_object_file = model.new(new_file_params)
 
@@ -101,7 +101,7 @@ Building a better future, one line of code at a time.
                     name: cloud_object_file.attachment_identifier
                 ) if cloud_object_file.name.blank?
 
-                responseWithSuccessful(cloud_object_file)
+                respond_with_successful(cloud_object_file)
 
                 cloud_object = cloud_object_file.cloud_object
                 # Notify Subscribers
@@ -118,7 +118,7 @@ Building a better future, one line of code at a time.
                     description: cloud_object_file.name
                 )
             else
-                responseWithError(cloud_object_file.errors.full_messages.to_sentence)
+                respond_with_error(cloud_object_file.errors.full_messages.to_sentence)
             end
         end
 
@@ -134,6 +134,8 @@ Building a better future, one line of code at a time.
     this.http.get(`127.0.0.1/help/tickets/${ticket_id}/files/${file_id}`);
 =end
         def show
+            return respond_with_not_found unless @cloud_object_file
+            
             disposition = "inline"
             disposition = "attachment" if params["download"]
             
@@ -157,7 +159,7 @@ this.http.delete(`127.0.0.1/help/tickets/${ticket_id}/files/${file_id}`);
             return respond_with_unauthorized unless @cloud_object_file.is_editable_by?(current_user)
 
             if @cloud_object_file.destroy
-                responseWithSuccessful
+                respond_with_successful
 
                 # Register Activity
                 @cloud_object_file.cloud_object.activities.create(
@@ -166,7 +168,7 @@ this.http.delete(`127.0.0.1/help/tickets/${ticket_id}/files/${file_id}`);
                     description: @cloud_object_file.name
                 )
             else
-                responseWithError(@cloud_object_file.errors.full_messages.to_sentence)
+                respond_with_error(@cloud_object_file.errors.full_messages.to_sentence)
             end
         end
 
@@ -181,7 +183,7 @@ this.http.delete(`127.0.0.1/help/tickets/${ticket_id}/files/${file_id}`);
         def options
             dynamic_info = self.class.dynamic_info
             model = dynamic_info[:model]
-            responseWithSuccessful(model.options)
+            respond_with_successful(model.options)
         end
 
 =begin

@@ -28,7 +28,7 @@ Building a better future, one line of code at a time.
 
 class ApplicationController < ActionController::Base
 
-    rescue_from ActiveRecord::RecordNotFound, with: :responseWithSuccessful
+    #rescue_from ActiveRecord::RecordNotFound, with: :respond_with_not_found
 
     before_action :set_locale
  
@@ -72,7 +72,7 @@ class ApplicationController < ActionController::Base
 
         return redirect_back(fallback_location: root_authenticated_path)
 
-        responseWithSuccessful({
+        respond_with_successful({
             locale: I18n.locale,
             default_locale: I18n.default_locale, 
             available_locales: I18n.available_locales
@@ -80,16 +80,14 @@ class ApplicationController < ActionController::Base
 
     end
 
-
-    # DEPRECATED
-    def responseWithSuccessful(data = nil)
+    def respond_with_successful data= nil
         response_body = { successful: true }
         response_body[:data] = data
         render status: 200, json: response_body.to_json
     end
     
     # JSON failure response
-    def responseWithError(message = "", details = [])
+    def respond_with_error message = "", details = []
         render status: 200, json: {
             successful: false,
             error: {
@@ -100,7 +98,7 @@ class ApplicationController < ActionController::Base
     end
 
     # JSON not found response
-    def responseWithNotFound
+    def respond_with_not_found
         render status: 404, json: {
             successful: false,
             error: {
@@ -111,7 +109,7 @@ class ApplicationController < ActionController::Base
     end
 
     # JSON not found response
-    def responseWithUnauthorized(detail = {})
+    def respond_with_unauthorized(detail = {})
         error_object = {
             successful: false,
             error: {
@@ -131,29 +129,22 @@ class ApplicationController < ActionController::Base
         end
     end
 
+    # Define platform version according to builder module
+    def get_revision
 
-    # JSON successful response
-    def respond_with_successful(data = nil)
-        response_body = { successful: true }
-        response_body[:data] = data
-        render status: 200, json: response_body.to_json
-    end
+        version = 0
+        build = 0
 
-    def respond_with_pagination(data)
+        if defined?(DeutscheLeibrenten)
+            version = DeutscheLeibrenten::VERSION
+            build = DeutscheLeibrenten::BUILD
+        end
 
-        respond_with_successful data
-    end
+        return {
+            version: version,
+            build: build
+        }
 
-    def respond_with_error message = "", details = []
-        responseWithError(message, details)
-    end
-    
-    def respond_with_unauthorized(detail = {})
-        responseWithUnauthorized(detail)
-    end 
-
-    def respond_with_not_found
-        responseWithNotFound
     end
 
     private
