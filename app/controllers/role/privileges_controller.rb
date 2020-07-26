@@ -23,7 +23,7 @@ class Role::PrivilegesController < ApplicationController
 
     # GET role/:id/privileges
     # @return [Json] This return a Json with all the privileges
-    # @description Returns with a responseWithSuccessful all the privileges of a specific 
+    # @description Returns with a respond_with_successful all the privileges of a specific 
     #         role using the role_id
     # @example
     #     #Executing this controller's action from javascript's frontend
@@ -32,7 +32,7 @@ class Role::PrivilegesController < ApplicationController
     def index
         respond_to do |format|
             format.json {
-                responseWithSuccessful(Role::Privilege.index(@role)) 
+                respond_with_successful(Role::Privilege.index(@role)) 
             }
         end
     end
@@ -64,9 +64,9 @@ class Role::PrivilegesController < ApplicationController
         @role_privilege.user = current_user
 
         if @role_privilege.save
-            responseWithSuccessful(@role_privilege)
+            respond_with_successful(@role_privilege)
         else
-            responseWithError(@role_privilege.errors.full_messages.to_sentence)
+            respond_with_error(@role_privilege.errors.full_messages.to_sentence)
         end
     end
 
@@ -85,12 +85,12 @@ class Role::PrivilegesController < ApplicationController
     #     };
     #     this.http.put(`localhost:3000/roles/${this.role_id}/privileges/${this.role_privilege_id}`, data)
     def update
-        return responseWithNotFound unless @role_privilege
+        return respond_with_not_found unless @role_privilege
 
         if @role_privilege.update(role_privilege_params)
-            responseWithSuccessful(@role_privilege)
+            respond_with_successful(@role_privilege)
         else
-            responseWithError(@role_privilege.errors.full_messages.to_sentence)
+            respond_with_error(@role_privilege.errors.full_messages.to_sentence)
         end
     end
 
@@ -104,12 +104,12 @@ class Role::PrivilegesController < ApplicationController
     #     let role_privilege_id = 1;
     #     this.http.delete(`localhost:3000/roles/${this.role_id}/privileges/${this.role_privilege_id}`)
     def destroy
-        return responseWithNotFound unless @role_privilege
+        return respond_with_not_found unless @role_privilege
         
         if @role_privilege.destroy
-            responseWithSuccessful
+            respond_with_successful
         else
-            responseWithError(@role_privilege.errors.full_messages.to_sentence)
+            respond_with_error(@role_privilege.errors.full_messages.to_sentence)
         end
     end
 
@@ -130,14 +130,15 @@ class Role::PrivilegesController < ApplicationController
     def update_by_module
         set_role
 
-        return responseWithNotFound unless @role
+        return respond_with_not_found unless @role
         
         if @role.privileges.where(id: params[:ids]).update_all(["#{params[:column]} = ?", params[:value]])
-            responseWithSuccessful()
+            respond_with_successful()
         else
-            responseWithError(@role.errors.full_messages.to_sentence)
+            respond_with_error(@role.errors.full_messages.to_sentence)
         end
     end
+    
     private
 
     # set_role_privilege

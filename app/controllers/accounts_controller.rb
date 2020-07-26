@@ -42,7 +42,7 @@ class AccountsController < ApplicationLesliController
     def show
         respond_to do |format|
             format.json {
-                responseWithSuccessful(set_global_account)
+                respond_with_successful(set_global_account)
             }
         end
     end
@@ -62,14 +62,16 @@ class AccountsController < ApplicationLesliController
         current_user.account.status = "active"
         current_user.account.save
         if current_user.account.errors.any?
-            return responseWithError(current_user.errors.full_messages.to_sentence)
+            return respond_with_error(current_user.errors.full_messages.to_sentence)
         end
-        responseWithSuccessful
+        respond_with_successful
     end
 
     # PATCH/PUT /accounts/1
     # PATCH/PUT /accounts/1.json
     def update
+        return respond_with_not_found unless @account
+
         respond_to do |format|
             if @account.update(account_params)
                 format.html { redirect_to @account, notice: 'Account was successfully updated.' }
@@ -84,6 +86,8 @@ class AccountsController < ApplicationLesliController
   # DELETE /accounts/1
   # DELETE /accounts/1.json
   def destroy
+    return respond_with_not_found unless @account
+
     @account.destroy
     respond_to do |format|
       format.html { redirect_to accounts_url, notice: 'Account was successfully destroyed.' }
