@@ -1,12 +1,12 @@
 class Account::SettingsController < ApplicationLesliController
-  before_action :set_account_setting, only: [:show, :edit, :update, :destroy]
+  before_action :set_account_setting, only: [:update, :destroy]
 
     # GET /settings
     def index
         respond_to do |format|
             format.html {}
             format.json {
-                responseWithSuccessful(Account::Setting.list(current_user, @query))
+                respond_with_successful(Account::Setting.list(current_user, @query))
             }
         end
     end
@@ -14,8 +14,12 @@ class Account::SettingsController < ApplicationLesliController
     # GET /settings/1
     def show
         respond_to do |format|
+            format.html {}
             format.json {
-                responseWithSuccessful(@setting)
+                set_account_setting
+                return respond_with_successful unless @setting
+
+                respond_with_successful(@setting)
             }
         end
     end
@@ -37,9 +41,9 @@ class Account::SettingsController < ApplicationLesliController
         # update settings if exists
         if setting
             if setting.update(setting_params)
-                responseWithSuccessful(setting)
+                respond_with_successful(setting)
             else
-                responseWithError("Error on create settings", setting.errors)
+                respond_with_error("Error on create settings", setting.errors)
             end
         end
         
@@ -47,9 +51,9 @@ class Account::SettingsController < ApplicationLesliController
         if setting.blank?
             setting = current_user.account.settings.new(setting_params)
             if setting.save
-                responseWithSuccessful(setting)
+                respond_with_successful(setting)
             else
-                responseWithError("Error on create settings", setting.errors) 
+                respond_with_error("Error on create settings", setting.errors) 
             end
         end
 
@@ -58,28 +62,41 @@ class Account::SettingsController < ApplicationLesliController
 
     # PATCH/PUT /settings/1
     def update
-        return responseWithNotFound unless @setting
+        return respond_with_not_found unless @setting
 
         if @setting.update(setting_params)
             if @setting.name.include?('date_format')
                 LC::Date.reset_db_settings
             end
-            responseWithSuccessful(@setting)
+            respond_with_successful(@setting)
         else
-            responseWithError(@setting.error.full_messages.to_sentence)
+            respond_with_error(@setting.error.full_messages.to_sentence)
         end
     end
 
     # DELETE /settings/1
     def destroy
+        return respond_with_not_found unless @setting
+
+        if @setting.destroy
+            respond_with_successful
+        else
+            respond_with_error(@setting.error.full_messages.to_sentence)
+        end
 
     end
 
     private
 
-    # Use callbacks to share common setup or constraints between actions.
+    # @return [void]
+    # @description Sets the setting based on the current_users's account
+    # @example
+    #     # Executing this method from a controller action:
+    #     set_account_setting
+    #     puts @setting
+    #     # This will either display nil or an instance of Account::Setting
     def set_account_setting
-        @setting = Account::Setting.find_by(id: params[:id])
+        @setting = current_user.account.settings.find_by(id: params[:id])
     end
 
     # Only allow a trusted parameter "white list" through.

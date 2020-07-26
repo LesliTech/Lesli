@@ -48,7 +48,7 @@ module CloudObject
             #    cloud_object_model.find(cloud_object_id),
             #    current_user
             #)
-            responseWithSuccessful(cloud_object_id)
+            respond_with_successful(cloud_object_id)
         end
 
         # @controller_action_param :event [String] A string that represent a valid event present in the *Subscriber* model
@@ -80,9 +80,9 @@ module CloudObject
                 )
             )
             if cloud_object_custom_field.save
-                responseWithSuccessful(cloud_object_custom_field)
+                respond_with_successful(cloud_object_custom_field)
             else
-                responseWithError(cloud_object_custom_field.errors.full_messages)
+                respond_with_error(cloud_object_custom_field.errors.full_messages)
             end
         end
 
@@ -102,10 +102,12 @@ module CloudObject
         #     };
         #     this.http.patch(`127.0.0.1/help/tickets/${ticket_id}/subscribers/${subscriber_id}`, data);
         def update
+            return respond_with_not_found unless @cloud_object_custom_field
+
             if @cloud_object_custom_field.update(cloud_object_custom_field_params)
-                responseWithSuccessful
+                respond_with_successful
             else
-                responseWithError(@cloud_object_custom_field.errors.full_messages)
+                respond_with_error(@cloud_object_custom_field.errors.full_messages)
             end
         end
 
@@ -118,10 +120,12 @@ module CloudObject
         #     let subscriber_id = 22;
         #     this.http.delete(`127.0.0.1/help/tickets/${ticket_id}/subscribers/${subscriber_id}`);
         def destroy
+            return respond_with_not_found unless @cloud_object_custom_field
+
             if @cloud_object_custom_field.destroy
-                responseWithSuccessful
+                respond_with_successful
             else
-                responseWithError(@cloud_object_custom_field.errors.full_messages)
+                respond_with_error(@cloud_object_custom_field.errors.full_messages)
             end
         end
 
