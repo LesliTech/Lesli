@@ -32,52 +32,77 @@ export default {
         user: {},
         options: {}
     },
+    data() {
+        return {
+            translations: {
+                users: I18n.t('core.users'),
+                shared: I18n.t('core.shared')
+            },
+            submitting_form: {
+                password: false,
+                access: false,
+                role: false
+            }
+        }
+    },
     methods: {
 
-        putUserPassword() { 
+        putUserPassword() {
+            this.submitting_form.password = true
+
             this.http.put('/', {
                 user: {
                     password: this.user.password,
                     password_confirmation: this.user.password_confirmation
                 }
             }).then(result => {
+                this.submitting_form.password = false
+
                 if (result.successful == true) {
-                    this.alert("Password updated successfully", "success")
-                    return 
+                    this.alert(this.translations.users.notification_password_updated, "success")
+                } else {
+                    this.alert(result.error.message, "danger")
                 }
-                this.alert(result.error.message, "danger")
             }).catch(error => {
                 console.log(error)
             })
         },
 
         putUserRole() { 
+            this.submitting_form.role = true
+
             this.http.put(`/users/${this.user.id}.json`, {
                 user: {
                     roles_id: this.user.roles_id
                 }
             }).then(result => {
+                this.submitting_form.role = false
+
                 if (result.successful == true) {
-                    this.alert("Role updated successfully", "success")
-                    return 
+                    this.alert(this.translations.users.notification_role_updated, "success")
+                } else {
+                    this.alert(result.error.message, "danger")
                 }
-                this.alert(result.error.message, "danger")
             }).catch(error => {
                 console.log(error)
             })
         },
 
         putUserActive() {
+            this.submitting_form.access = true
+
             this.http.put(`/users/${this.user.id}.json`, {
                 user: {
                     active: this.user.active
                 }
             }).then(result => {
+                this.submitting_form.access = false
+
                 if (result.successful == true) {
-                    this.alert("Access status updated successfully", "success")
-                    return 
+                    this.alert(this.translations.users.notification_access_updated, "success")
+                } else {
+                    this.alert(result.error.message, "danger")
                 }
-                this.alert(result.error.message, "danger")
             }).catch(error => {
                 console.log(error)
             })
@@ -96,55 +121,20 @@ export default {
 
 <template>
     <div class="columns">
-        <div class="column">
-            <form @submit.prevent="putUserActive()">
-                <div class="field">
-                    <label class="label">System access</label>
-                    <div class="select">
-                        <select v-model="user.active">
-                            <option :value="true">active</option>
-                            <option :value="false">bloqued</option>
-                        </select>
-                    </div>
-                </div>
-                <p class="control">
-                    <button class="button is-primary">Speichern</button>
-                </p>
-            </form>
-            <form @submit.prevent="putUserRole()">
-                <div class="field" vif="abilities.isRole('admin', 'owner')">
-                    <label class="label">Rolle</label>
-                    <div class="control">
-                        <div class="select">
-                            <select v-model="user.roles_id" :disabled="!securityEditable">
-                                <option 
-                                    v-for="role in options.roles" :key="role.id"
-                                    :value="role.id"
-                                    >
-                                    {{ role.name }}
-                                </option>
-                            </select>
-                        </div>
-                    </div>
-                </div>
-                <p class="control">
-                    <button class="button is-primary" v-if="user.editable_security">Speichern</button>
-                </p>
-            </form>
-        </div>
+        <!-- password -->
         <div class="column">
             <form @submit.prevent="putUserPassword()">
                 <div class="field">
-                    <label class="label">New password</label>
+                    <label class="label"> {{ translations.users.field_name_password }} </label>
                     <div class="control has-icons-left">
-                        <input v-model="user.password" class="input" type="New password" placeholder="Password">
+                        <input v-model="user.password" class="input" type="password" placeholder="Password">
                         <span class="icon is-small is-left">
                             <i class="fas fa-lock"></i>
                         </span>
                     </div>
                 </div>
                 <div class="field">
-                    <label class="label">Confirm new password</label>
+                    <label class="label"> {{ translations.users.field_name_confirm_password }} </label>
                     <div class="control has-icons-left">
                         <input v-model="user.password_confirmation" class="input" type="password" placeholder="Confirm new password">
                         <span class="icon is-small is-left">
@@ -153,7 +143,78 @@ export default {
                     </div>
                 </div>
                 <p class="control">
-                    <button class="button is-primary">Speichern</button>
+                    <button class="button is-primary" type="submit">
+                        <span v-if="submitting_form.password">
+                            <b-icon icon="circle-notch" custom-class="fa-spin" size="is-small" />
+                            &nbsp;
+                            {{translations.shared.btn_saving}}
+                        </span>
+                        <span v-else>
+                            <b-icon icon="save" size="is-small" />
+                            &nbsp;
+                            {{translations.shared.btn_save}}
+                        </span>
+                    </button>
+                </p>
+            </form>
+        </div>
+
+         <!-- role and active -->
+        <div class="column">
+            <form @submit.prevent="putUserActive()" v-if="securityEditable">
+                <div class="field">
+                    <label class="label"> {{ translations.users.field_name_system_access }}</label>
+                    <div class="select">
+                        <select v-model="user.active">
+                            <option :value="true"> {{ translations.shared.text_active }} </option>
+                            <option :value="false"> {{ translations.shared.text_inactive }} </option>
+                        </select>
+                    </div>
+                </div>
+                <p class="control">
+                    <button class="button is-primary" type="submit">
+                        <span v-if="submitting_form.access">
+                            <b-icon icon="circle-notch" custom-class="fa-spin" size="is-small" />
+                            &nbsp;
+                            {{translations.shared.btn_saving}}
+                        </span>
+                        <span v-else>
+                            <b-icon icon="save" size="is-small" />
+                            &nbsp;
+                            {{translations.shared.btn_save}}
+                        </span>
+                    </button>
+                </p>
+            </form>
+            <form @submit.prevent="putUserRole()" v-if="securityEditable">
+                <div class="field" vif="abilities.isRole('admin', 'owner')">
+                    <label class="label"> {{ translations.shared.text_role }}</label>
+                    <div class="control">
+                        <div class="select">
+                            <select v-model="user.roles_id" :disabled="!securityEditable">
+                                <option 
+                                    v-for="role in options.roles" :key="role.id"
+                                    :value="role.id"
+                                    >
+                                    {{  object_utils.translateEnum(translations.users, 'enum_role', role.text) }}
+                                </option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <p class="control">
+                    <button class="button is-primary" type="submit">
+                        <span v-if="submitting_form.role">
+                            <b-icon icon="circle-notch" custom-class="fa-spin" size="is-small" />
+                            &nbsp;
+                            {{translations.shared.btn_saving}}
+                        </span>
+                        <span v-else>
+                            <b-icon icon="save" size="is-small" />
+                            &nbsp;
+                            {{translations.shared.btn_save}}
+                        </span>
+                    </button>
                 </p>
             </form>
         </div>
