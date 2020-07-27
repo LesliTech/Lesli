@@ -85,13 +85,13 @@ class User < ApplicationLesliRecord
     #        "role":"b2b"
     #    }
     #]
-    def self.list(current_user, roles, type, query)
+    def self.index(current_user, roles, type, query)
 
         users = []
         roles = roles.blank? ? [] : roles.split(',') 
         operator = type == "exclude" ? 'not in' : 'in'
         
-        users = User
+        users = current_user.account.users
         .joins("inner join user_details UD on UD.id = users.id")
         .joins("inner join roles R on R.id = users.roles_id")
         .joins("inner join role_details RD on RD.roles_id = R.id")
@@ -113,11 +113,7 @@ class User < ApplicationLesliRecord
         users = users.where("email like '%#{query[:filters][:domain]}%'")  unless query[:filters][:domain].blank?
         users = users.where("RD.name #{operator} (?)", roles) unless roles.blank?
 
-        users.map do |user|
-            user.editable = user.is_editable_by?(current_user)
-            user
-        end
-
+        users
     end
 
     
@@ -134,32 +130,26 @@ class User < ApplicationLesliRecord
     #        "role":"manager"
     #     }
     def show(current_user = nil)
-
         user = self.account.users.find(id)
 
-        {
-            user: {
-                id: user[:id],
-                email: user[:email],
-                active: user[:active],
-                roles_id: user[:roles_id],
-                created_at: user[:created_at],
-                updated_at: user[:updated_at],
-                editable_security: current_user && current_user.is_role?("owner", "admin"),
-                detail_attributes: {
-                    title: user.detail[:title],
-                    salutation: user.detail[:salutation],
-                    first_name: user.detail[:first_name],
-                    last_name: user.detail[:last_name],
-                    telephone: user.detail[:telephone],
-                    address: user.detail[:address],
-                    work_city: user.detail[:work_city],
-                    work_region: user.detail[:work_region],
-                    work_address: user.detail[:work_address] 
-                }
-            },
-            options: {
-                roles: self.account.roles.joins(:detail).select(:id, :name)
+        return {
+            id: user[:id],
+            email: user[:email],
+            active: user[:active],
+            roles_id: user[:roles_id],
+            created_at: user[:created_at],
+            updated_at: user[:updated_at],
+            editable_security: current_user && current_user.is_role?("owner", "admin"),
+            detail_attributes: {
+                title: user.detail[:title],
+                salutation: user.detail[:salutation],
+                first_name: user.detail[:first_name],
+                last_name: user.detail[:last_name],
+                telephone: user.detail[:telephone],
+                address: user.detail[:address],
+                work_city: user.detail[:work_city],
+                work_region: user.detail[:work_region],
+                work_address: user.detail[:work_address] 
             }
         }
         
