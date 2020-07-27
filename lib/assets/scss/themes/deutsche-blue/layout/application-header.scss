@@ -23,17 +23,14 @@ Building a better future, one line of code at a time.
 // · 
 */
 header.application-header {
-    .navbar-start {
+    .navbar-brand {
         .navbar-item {
-            flex-grow: 1;
-        }
-        .input {
             width: 100%;
         }
     }
     .navbar-brand,
     .navbar-end {
-        .apps {
+        .apps_switch {
             display: none !important;
         }
     }

@@ -42,12 +42,12 @@ Building a better future, one line of code at a time.
             respond_to do |format|
                 format.html {}
                 format.json do
-                    return responseWithNotFound unless @workflow
+                    return respond_with_not_found unless @workflow
 
                     dynamic_info = self.class.dynamic_info
                     model = dynamic_info[:model]
                     
-                    responseWithSuccessful(model.list(@workflow))
+                    respond_with_successful(model.list(@workflow))
                 end
             end
         end
@@ -67,9 +67,9 @@ Building a better future, one line of code at a time.
                 format.html {}
                 format.json do
                     set_workflow_action
-                    return responseWithNotFound unless @workflow_action
+                    return respond_with_not_found unless @workflow_action
                     
-                    responseWithSuccessful(@workflow_action.show)
+                    respond_with_successful(@workflow_action.show)
                 end
             end
         end
@@ -98,7 +98,7 @@ Building a better future, one line of code at a time.
         #     };
         #     this.http.post('127.0.0.1/help/workflows/${workflow_id}/actions', data);
         def create
-            return responseWithNotFound unless @workflow
+            return respond_with_not_found unless @workflow
 
             dynamic_info = self.class.dynamic_info
             model = dynamic_info[:model]
@@ -107,9 +107,9 @@ Building a better future, one line of code at a time.
             action.workflow = @workflow
 
             if action.save
-                responseWithSuccessful(action)
+                respond_with_successful(action)
             else
-                responseWithError(action.errors.full_messages.to_sentence)
+                respond_with_error(action.errors.full_messages.to_sentence)
             end
         end
 
@@ -137,10 +137,12 @@ Building a better future, one line of code at a time.
         #     };
         #     this.http.patch(`127.0.0.1/house/workflows/${ticket_id}/actions/${workflow action_id}`, data);
         def update
+            return respond_with_not_found unless @workflow_action
+
             if @workflow_action.update(workflow_action_params)
-                responseWithSuccessful
+                respond_with_successful
             else
-                responseWithError(@workflow_action.errors.full_messages.to_sentence)
+                respond_with_error(@workflow_action.errors.full_messages.to_sentence)
             end
         end
 
@@ -155,12 +157,12 @@ Building a better future, one line of code at a time.
         #     let action_id = 9;
         #     this.http.delete(`127.0.0.1/help/workflows/${workflow_id}/actions/${action_id}`);
         def destroy
-            return responseWithNotFound unless @workflow_action
+            return respond_with_not_found unless @workflow_action
 
             if @workflow_action.destroy
-                responseWithSuccessful
+                respond_with_successful
             else
-                responseWithError(@workflow_action.errors.full_messages.to_sentence)
+                respond_with_error(@workflow_action.errors.full_messages.to_sentence)
             end
         end
 
@@ -174,9 +176,9 @@ Building a better future, one line of code at a time.
             params[:workflow_id] = params[:id]
             set_workflow
 
-            return responseWithNotFound unless @workflow
+            return respond_with_not_found unless @workflow
 
-            responseWithSuccessful(model.options(current_user, @workflow))
+            respond_with_successful(model.options(current_user, @workflow))
         end
 
         private

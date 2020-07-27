@@ -83,6 +83,7 @@ Rails.application.routes.draw do
         mount CloudBabel::Engine  => "/babel"  if defined?(CloudBabel)
         mount CloudHouse::Engine  => "/house"  if defined?(CloudHouse)
         mount CloudFocus::Engine  => "/focus"  if defined?(CloudFocus)
+        mount CloudNotes::Engine  => "/notes"  if defined?(CloudNotes)
         mount CloudDriver::Engine => "/driver" if defined?(CloudDriver)
         mount CloudMailer::Engine => "/mailer" if defined?(CloudMailer)
 

@@ -44,13 +44,13 @@ Building a better future, one line of code at a time.
             respond_to do |format|
                 format.html {}
                 format.json do
-                    return responseWithNotFound unless @workflow
+                    return respond_with_not_found unless @workflow
 
                     dynamic_info = self.class.dynamic_info
                     model = dynamic_info[:model]
                     
                     
-                    responseWithSuccessful(model.list(@workflow))
+                    respond_with_successful(model.list(@workflow))
                 end
             end
         end
@@ -73,7 +73,7 @@ Building a better future, one line of code at a time.
     this.http.post('127.0.0.1/help/workflows/${workflow_id}/associations', data);
 =end
         def create
-            return responseWithNotFound unless @workflow
+            return respond_with_not_found unless @workflow
 
             dynamic_info = self.class.dynamic_info
             model = dynamic_info[:model]
@@ -82,9 +82,9 @@ Building a better future, one line of code at a time.
             association.workflow = @workflow
 
             if association.save
-                responseWithSuccessful(association)
+                respond_with_successful(association)
             else
-                responseWithError(association.errors.full_messages.to_sentence)
+                respond_with_error(association.errors.full_messages.to_sentence)
             end
         end
 
@@ -101,12 +101,12 @@ Building a better future, one line of code at a time.
     this.http.delete(`127.0.0.1/help/workflows/${workflow_id}/associations/${association_id}`);
 =end
         def destroy
-            return responseWithNotFound unless @workflow_association
+            return respond_with_not_found unless @workflow_association
 
             if @workflow_association.destroy
-                responseWithSuccessful
+                respond_with_successful
             else
-                responseWithError(@workflow_association.errors.full_messages.to_sentence)
+                respond_with_error(@workflow_association.errors.full_messages.to_sentence)
             end
         end
 
@@ -120,7 +120,7 @@ Building a better future, one line of code at a time.
             dynamic_info = self.class.dynamic_info
             model = dynamic_info[:model]
 
-            responseWithSuccessful(model.options(current_user.account))
+            respond_with_successful(model.options(current_user.account))
         end
 
 private

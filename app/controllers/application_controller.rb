@@ -28,7 +28,7 @@ Building a better future, one line of code at a time.
 
 class ApplicationController < ActionController::Base
 
-    rescue_from ActiveRecord::RecordNotFound, with: :responseWithSuccessful
+    #rescue_from ActiveRecord::RecordNotFound, with: :respond_with_not_found
 
     before_action :set_locale
  
@@ -72,7 +72,7 @@ class ApplicationController < ActionController::Base
 
         return redirect_back(fallback_location: root_authenticated_path)
 
-        responseWithSuccessful({
+        respond_with_successful({
             locale: I18n.locale,
             default_locale: I18n.default_locale, 
             available_locales: I18n.available_locales
@@ -80,16 +80,14 @@ class ApplicationController < ActionController::Base
 
     end
 
-
-    # JSON successful response
-    def responseWithSuccessful(data = nil)
+    def respond_with_successful data= nil
         response_body = { successful: true }
         response_body[:data] = data
         render status: 200, json: response_body.to_json
     end
     
     # JSON failure response
-    def responseWithError(message = "", details = [])
+    def respond_with_error message = "", details = []
         render status: 200, json: {
             successful: false,
             error: {
@@ -100,7 +98,7 @@ class ApplicationController < ActionController::Base
     end
 
     # JSON not found response
-    def responseWithNotFound
+    def respond_with_not_found
         render status: 404, json: {
             successful: false,
             error: {
@@ -111,78 +109,42 @@ class ApplicationController < ActionController::Base
     end
 
     # JSON not found response
-    def responseWithUnauthorized
-        respond_to do |format|
-            format.html { redirect_to "/401" }
-            format.json { 
-                render status: 401, json: {
-                    successful: false,
-                    error: {
-                        message: I18n.t("core.shared.unauthorized_error_message"),
-                        details: []
-                    }
-                }.to_json
+    def respond_with_unauthorized(detail = {})
+        error_object = {
+            successful: false,
+            error: {
+                message: I18n.t("core.shared.unauthorized_error_message")
             }
+        }
+
+        if Rails.env == "development"
+            error_object[:error][:role] = current_user.role.detail.name
+            error_object[:error][:detail] = detail
+        end
+
+        respond_to do |format|
+            format.json { render status: 401, json: error_object.to_json }
+            format.html { redirect_to "/401" } if Rails.env == "production"
+            format.html { render status: 401, json: error_object.to_json }
         end
     end
 
-    def respond_with_successful(data = nil)
-        responseWithSuccessful data
-    end
+    # Define platform version according to builder module
+    def get_revision
 
-    def respond_with_pagination(response = nil)
+        version = 0
+        build = 0
 
-        response_body = { }
-
-        # transaction completed successfully
-        response_body[:successful] = true 
-
-        # build pagination for array response
-        if response.is_a?(Array) 
-
-            # pagination results (most for index only)
-            response_body[:records] = {} 
-            response_body[:records][:found] = response.length
-            response_body[:records][:total] = response.length
-            response_body[:data] = response
-
+        if defined?(DeutscheLeibrenten)
+            version = DeutscheLeibrenten::VERSION
+            build = DeutscheLeibrenten::BUILD
         end
 
-        # build pagination for hash results
-        if response.is_a?(Hash) 
+        return {
+            version: version,
+            build: build
+        }
 
-            # hash result with pagination
-            if response[:total] || response[:found]
-                response_body[:records] = {} 
-                response_body[:records][:found] = response[:found] || response[:data].length || 1
-                response_body[:records][:total] = response[:total] || response_body[:records][:found] 
-                response_body[:data] = response[:data]
-            else
-
-                # simple hash result
-                response_body[:records] = {} 
-                response_body[:records][:found] = 1
-                response_body[:records][:total] = 1
-                response_body[:data] = response
-            end 
-
-        end
-
-        # render response 
-        render status: 200, json: response_body.to_json
-
-    end
-
-    def respond_with_error message = "", details = []
-        responseWithError(message, details)
-    end
-    
-    def respond_with_unauthorized
-        responseWithUnauthorized
-    end 
-
-    def respond_with_not_found
-        responseWithNotFound
     end
 
     private
