@@ -49,7 +49,9 @@ ActiveRecord::Schema.define(version: 2020_07_23_031948) do
     t.string "company_name"
     t.string "company_name_legal"
     t.string "company_tag_line"
+    t.integer "country"
     t.string "address"
+    t.string "region"
     t.string "website"
     t.string "phone_number_1"
     t.string "phone_number_2"
@@ -597,7 +599,9 @@ ActiveRecord::Schema.define(version: 2020_07_23_031948) do
 
   create_table "cloud_notes_note_details", force: :cascade do |t|
     t.string "name"
-    t.jsonb "delta"
+    t.string "type"
+    t.string "privacy"
+    t.jsonb "content"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.bigint "cloud_notes_notes_id"
@@ -668,7 +672,9 @@ ActiveRecord::Schema.define(version: 2020_07_23_031948) do
     t.datetime "updated_at", precision: 6, null: false
     t.bigint "user_id"
     t.bigint "cloud_notes_accounts_id"
+    t.bigint "cloud_notes_notebooks_id"
     t.index ["cloud_notes_accounts_id"], name: "index_cloud_notes_notes_on_cloud_notes_accounts_id"
+    t.index ["cloud_notes_notebooks_id"], name: "index_cloud_notes_notes_on_cloud_notes_notebooks_id"
     t.index ["user_id"], name: "index_cloud_notes_notes_on_user_id"
   end
 
@@ -896,6 +902,7 @@ ActiveRecord::Schema.define(version: 2020_07_23_031948) do
   add_foreign_key "cloud_notes_notebooks", "cloud_notes_accounts", column: "cloud_notes_accounts_id"
   add_foreign_key "cloud_notes_notebooks", "users"
   add_foreign_key "cloud_notes_notes", "cloud_notes_accounts", column: "cloud_notes_accounts_id"
+  add_foreign_key "cloud_notes_notes", "cloud_notes_notebooks", column: "cloud_notes_notebooks_id"
   add_foreign_key "cloud_notes_notes", "users"
   add_foreign_key "role_details", "roles", column: "roles_id"
   add_foreign_key "role_overrides", "users", column: "users_id"
