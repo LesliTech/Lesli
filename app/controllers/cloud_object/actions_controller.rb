@@ -46,7 +46,7 @@ Building a better future, one line of code at a time.
             @cloud_object_action = dynamic_info[:model].where(
                 "cloud_#{module_name}_#{plural_object_name}_id".to_sym => cloud_object_id
             ).order(id: :desc)
-            responseWithSuccessful(@cloud_object_action)
+            respond_with_successful(@cloud_object_action)
         end
 
 =begin
@@ -80,7 +80,7 @@ Building a better future, one line of code at a time.
             )
 
             if cloud_object_action.save
-                responseWithSuccessful
+                respond_with_successful
 
                 cloud_object = cloud_object_action.cloud_object
                 message = I18n.t(
@@ -89,7 +89,7 @@ Building a better future, one line of code at a time.
                 )
                 subscriber_model.notify_subscribers(cloud_object, message, :action_created)
             else
-                responseWithError(cloud_object_action.errors.full_messages.to_sentence)
+                respond_with_error(cloud_object_action.errors.full_messages.to_sentence)
             end
         end
 
@@ -110,10 +110,12 @@ Building a better future, one line of code at a time.
     this.http.put(`127.0.0.1/help/tickets/${ticket_id}/actions/${action_id}`, data);
 =end
         def update
+            return respond_with_not_found unless @cloud_object_action
+
             if @cloud_object_action.update(cloud_object_action_params)
-                responseWithSuccessful
+                respond_with_successful
             else
-                responseWithError(@cloud_object_action.errors.full_messages.to_sentence)
+                respond_with_error(@cloud_object_action.errors.full_messages.to_sentence)
             end
         end
 

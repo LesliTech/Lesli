@@ -33,6 +33,7 @@ Building a better future, one line of code at a time.
     <%= render partial: 'layouts/lesli_cloud/partials/module-app-navigation' if engine == "lesli_cloud" %>
     <%= render partial: 'layouts/cloud_babel/partials/module-app-navigation' if engine == "cloud_babel" %>
     <%= render partial: 'layouts/cloud_mailer/partials/module-app-navigation' if engine == "cloud_mailer" %>
+    <%= render partial: 'layouts/cloud_notes/partials/module-app-navigation' if engine == "cloud_notes" %>
     
     <%= render partial: 'layouts/deutsche_leibrenten/partials/module-app-navigation-empty'  if lesli_instance("DeutscheLeibrenten", "profiles") %>
     <%= render partial: 'layouts/lesli_cloud/partials/module-app-navigation' if lesli_instance("LesliCloud", "profiles") %>

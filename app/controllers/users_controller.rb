@@ -4,9 +4,10 @@ class UsersController < ApplicationLesliController
     def index
         respond_to do |format|
             format.html { }
-            format.json {
-                responseWithSuccessful(User.index(current_user, params[:role], params[:type], @query))
+            format.json { 
+                respond_with_pagination(User.index(current_user, @query, params)) 
             }
+
         end
     end
 
@@ -20,7 +21,7 @@ class UsersController < ApplicationLesliController
                     is_editable: @user.is_editable_by?(current_user)
                 })
 
-                responseWithSuccessful(user)
+                respond_with_successful(user)
             }
         end
     end
@@ -32,10 +33,10 @@ class UsersController < ApplicationLesliController
         user.confirm
 
         if user.save
-            responseWithSuccessful(user)
+            respond_with_successful(user)
             User.send_password_reset(user)
         else
-            responseWithError(user.errors.full_messages.to_sentence)
+            respond_with_error(user.errors.full_messages.to_sentence)
         end
     end
 
@@ -60,14 +61,21 @@ class UsersController < ApplicationLesliController
             #sign_out @user if @user.active == false
 
             # return a successful response 
-            responseWithSuccessful
+            respond_with_successful
             
         else
-            responseWithError(@user.errors.full_messages.to_sentence)
+            respond_with_error(@user.errors.full_messages.to_sentence)
         end
 
     end
 
+    # @return [void]
+    # @description Sets the requested user based on the current_users's account
+    # @example
+    #     # Executing this method from a controller action:
+    #     set_user
+    #     puts @user
+    #     # This will either display nil or an instance of Account::User
     def set_user
         @user = current_user.account.users.find_by(id: params[:id])
     end
@@ -82,7 +90,7 @@ class UsersController < ApplicationLesliController
             salutations: User::Detail.salutations.map {|k, v| {value: k, text: v}},
         }
 
-        responseWithSuccessful(options)
+        respond_with_successful(options)
     end
 
     private

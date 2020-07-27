@@ -11,13 +11,14 @@ Without the written permission of Lesli Technologies, S. A., any replication, mo
 transmission, publication is strictly forbidden.
 For more information read the license file including with this software.
 
-LesliCloud - Your Smart Business Assistant
+Lesli - Your Smart Business Assistant
 
 Powered by https://www.lesli.tech
 Building a better future, one line of code at a time.
 
+@contact  <hello@lesli.tech>
+@website  <https://lesli.tech>
 @license  Propietary - all rights reserved.
-@version  0.1.0-alpha
 
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
 // · 
@@ -30,28 +31,22 @@ header.application-header {
     z-index: 10;
     position: fixed;
     height: var(--application-header-height);
-
-    .navbar-item {
-        padding-top: 0rem;
-        padding-bottom: 0rem;
-    }
     
     // Logo container
     .navbar-brand {
+        width: var(--application-header-width);
 
+        // module panel switch
         span.icon {
+            width: 60px;
             height: var(--application-header-height);
-            align-items: end;
-            max-width: 75px;
-            height: 50px;
-            flex: 1;
             &:hover {
                 cursor: pointer;
             }
         }
 
         .navbar-item {
-            //min-width: var(--application-navigation-width);
+            width: var(--application-navigation-width);
             img {
                 margin: 0 auto;
                 max-height: var(--application-header-height);
@@ -83,12 +78,12 @@ header.application-header {
     
 }
 
+
 @include lesli-css-breakpoint("desktop") {
     header.application-header {
         .navbar-brand {
-            flex: 0 0 var(--application-navigation-width);
-            a{
-                //width: 100%;
+            .navbar-item {
+                width: auto;
             }
         }
         .navbar-start {
@@ -98,11 +93,11 @@ header.application-header {
             a.notification-indicator {
                 position: relative;
                 span {
-                    top: 8px;
-                    right: 5px;
-                    width: 15px;
-                    height: 15px;
-                    font-size: 11px;
+                    top: 16px;
+                    right: 8px;
+                    width: 12px;
+                    height: 14px;
+                    font-size: 10px;
                     text-align: center;
                     border-radius: 50%;
                     background-color: lesli-css-get-color(berry, 300);
@@ -114,83 +109,6 @@ header.application-header {
             i {
                 font-size: 1.2rem;
             }
-        }
-    }
-}
-
-
-
-header.application-header2 {
-
-    // Logo container
-    .navbar-brand .navbar-item {
-        min-width: var(--application-navigation-width);
-        img {
-            margin: 0 auto;
-            max-height: var(--application-header-height);
-        }
-    }
-
-    // search bar
-    .navbar-start { 
-        .navbar-item {
-            padding: 0;
-            display: block;
-            width: 100%;
-            .control {
-                margin-top: 3px;
-            }
-            input {
-                border: none;
-                &::placeholder {
-                    color: get-css-color(silver, 700);
-                    opacity: 1;
-                }
-            }
-            .icon {
-                color: get-css-color(silver, 700);
-                i {
-                    padding-bottom: 5px;
-                }
-            }
-        }
-    }
-
-    .navbar-end {
-        a.notification-indicator {
-            position: relative;
-            span {
-                top: 10px;
-                right: 5px;
-                width: 15px;
-                height: 15px;
-                font-size: 12px;
-                text-align: center;
-                border-radius: 50%;
-                background-color: lesli-css-get-color(berry, 300);
-                color: lesli-css-get-color(silver, 100);
-                font-family: sans-serif;
-                position: absolute;
-            }
-        }
-        i {
-            font-size: 1.2rem;
-        }
-    }
-    
-}
-
-@include lesli-css-breakpoint("desktop") {
-    header.application-header2 {
-        .navbar-brand {
-            flex: 0 0 var(--application-navigation-width);
-            a{
-                padding: 0;
-                width: 100%;
-            }
-        }
-        .navbar-start {
-            flex: 1;
         }
     }
 }

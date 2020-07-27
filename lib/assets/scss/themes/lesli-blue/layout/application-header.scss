@@ -11,13 +11,14 @@ Without the written permission of Lesli Technologies, S. A., any replication, mo
 transmission, publication is strictly forbidden.
 For more information read the license file including with this software.
 
-LesliCloud - Your Smart Business Assistant
+Lesli - Your Smart Business Assistant
 
 Powered by https://www.lesli.tech
 Building a better future, one line of code at a time.
 
+@contact  <hello@lesli.tech>
+@website  <https://lesli.tech>
 @license  Propietary - all rights reserved.
-@version  0.1.0-alpha
 
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
 // · 
@@ -37,7 +38,7 @@ header.application-header {
 
     .navbar-brand {
         img {
-            max-height: 45px;
+            max-height: 35px;
         }
     }
 
@@ -53,6 +54,7 @@ header.application-header {
 @include lesli-css-breakpoint("desktop") {
     header.application-header {
         .navbar-brand {
+            // adjust the header width to the floating navigatino menu
             margin-left: .5rem;
         }
     }
@@ -63,6 +65,7 @@ header.application-header {
 @include lesli-css-breakpoint("widescreen") {
     header.application-header {
         .navbar-brand {
+            // adjust the header width to the floating navigatino menu
             margin-left: 1rem;
         }
     }

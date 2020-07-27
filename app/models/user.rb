@@ -85,7 +85,10 @@ class User < ApplicationLesliRecord
     #        "role":"b2b"
     #    }
     #]
-    def self.index(current_user, roles, type, query)
+    def self.index(current_user, query, params)
+
+        roles = params[:role] 
+        type = params[:type]
 
         users = []
         roles = roles.blank? ? [] : roles.split(',') 
@@ -97,7 +100,16 @@ class User < ApplicationLesliRecord
         .joins("inner join role_details RD on RD.roles_id = R.id")
         .where(active: true)
         .order("UD.first_name")
-        .select(
+
+        users = users.where("email like '%#{query[:filters][:domain]}%'")  unless query[:filters][:domain].blank?
+        users = users.where("RD.name #{operator} (?)", roles) unless roles.blank?
+
+        users = users
+        .page(query[:pagination][:page])
+        .per(query[:pagination][:perPage])
+        .order("#{query[:pagination][:orderColumn]} #{query[:pagination][:order]} NULLS LAST")
+
+        users = users.select(
             :id,
             :roles_id,
             :active,
@@ -110,10 +122,16 @@ class User < ApplicationLesliRecord
             "RD.name as role_name"
         )
 
-        users = users.where("email like '%#{query[:filters][:domain]}%'")  unless query[:filters][:domain].blank?
-        users = users.where("RD.name #{operator} (?)", roles) unless roles.blank?
+        {
+            pagination: {
+                total_pages: users.total_pages,
+                current_page: users.current_page,
+                count_total: users.total_count,
+                count: users.length
+            },
+            records: users
+        }
 
-        users
     end
 
     
