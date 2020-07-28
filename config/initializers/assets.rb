@@ -36,7 +36,7 @@ Rails.application.config.assets.paths << Rails.root.join("vendor")
 
 
 # Public pages
-Rails.application.config.assets.precompile += [ "lesli/templates/website.css" ]
+Rails.application.config.assets.precompile += [ "lesli/templates/public.css" ]
 
 
 # Themes
