@@ -85,7 +85,7 @@ class User < ApplicationLesliRecord
     #        "role":"b2b"
     #    }
     #]
-    def self.list(current_user, query, params)
+    def self.index(current_user, query, params)
 
         roles = params[:role] 
         type = params[:type]
