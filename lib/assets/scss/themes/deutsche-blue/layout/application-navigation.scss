@@ -32,41 +32,10 @@ Building a better future, one line of code at a time.
     background-color: lesli-css-theme-get-color(app, primary);
 
     a {
+        padding-left: 1rem;
+        padding-right: 1rem;
         border-bottom: 1px solid lesli-css-theme-get-color(app, secondary);
         color: lesli-css-theme-get-color(solid, white);
-
-        i {
-            font-size: 1.2rem;
-        }
-
-        span {
-            font-size: 1rem;
-        }
-
-        &:hover {
-            background-color: lesli-css-theme-get-color(app, secondary);
-        }
-
     }
 
 }
-
-/*
-@include lesli-css-breakpoint("tablet") {
-    .application-navigation {
-        width: 185px;
-    }
-    .application-component {
-        margin-left: 185px;
-    }
-}
-
-@include lesli-css-breakpoint("desktop") {
-    .application-navigation {
-        width: 250px;
-    }
-    .application-component {
-        margin-left: 250px;
-    }
-}
-*/
