@@ -10,6 +10,13 @@ export default {
                 }
             }
         }
+    },
+    data(){
+        return {
+            translations: {
+                shared: I18n.t('core.shared')
+            }
+        }
     }
 }
 </script>
@@ -54,7 +61,7 @@ export default {
                 <div class="content">
                     <p>
                         <strong if="user.detail_attributes.salutation">
-                            {{ user.detail_attributes.salutation }}.
+                            {{ object_utils.translateEnum(translations.shared, 'salutation', user.detail_attributes.salutation ) }}
                         </strong>
                         <strong>{{ user.detail_attributes.first_name }}</strong>
                         <strong>{{ user.detail_attributes.last_name }}</strong>
