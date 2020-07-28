@@ -31,12 +31,15 @@ Building a better future, one line of code at a time.
 
 // · 
 header.application-header {
-    
+    background-color: #f3f7fd;
     .navbar {
         background-color: transparent;
     }
 
     .navbar-brand {
+        .apps_switch span.icon {
+            width: 60px;
+        }
         img {
             max-height: 35px;
         }
@@ -53,8 +56,8 @@ header.application-header {
 // · 
 @include lesli-css-breakpoint("desktop") {
     header.application-header {
+        // adjust the header width to the floating navigatino menu
         .navbar-brand {
-            // adjust the header width to the floating navigatino menu
             margin-left: .5rem;
         }
     }
@@ -64,8 +67,8 @@ header.application-header {
 // ·
 @include lesli-css-breakpoint("widescreen") {
     header.application-header {
+        // adjust the header width to the floating navigatino menu
         .navbar-brand {
-            // adjust the header width to the floating navigatino menu
             margin-left: 1rem;
         }
     }
