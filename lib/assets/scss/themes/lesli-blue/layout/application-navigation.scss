@@ -30,26 +30,14 @@ Building a better future, one line of code at a time.
 
 // · Navigation sidebar
 .application-navigation {
-    //z-index: 99;
-    margin-top: 1rem;
-    padding-top: 1rem;
-    padding-right: 1rem;
-    background: linear-gradient(0deg,#3358f4,#1d8cf8);
-    background: linear-gradient(0deg,#2e74dc,#4482e0);
-    background: linear-gradient(0deg,#2267cf,#4482e0);
+    margin-top: 8px;
     background: linear-gradient(0deg,#3b6cff,#4482e0);
-    //background: linear-gradient(0deg,#3b6cff,#3b6cff);
     box-shadow: 0px 0px 10px 0px rgba(lesli-css-get-color(silver), .60);
     border-radius: .2rem;
 
     li a {
-        width: 100%;
-        text-align: center;
-        padding: 1.1rem 0rem;
-        border-radius: .2rem;
 
         &.is-active {
-            padding: 1.1rem 0rem;
             font-weight: 600;
             background-color: transparent;
         }
@@ -60,9 +48,7 @@ Building a better future, one line of code at a time.
         }
 
         i {
-            width: 75px;
-            font-size: 1.2rem;
-            text-align: center;
+            width: 60px;
             color: lesli-css-get-color(silver, 100);
             small {
                 color: lesli-css-get-color(silver, 900);
@@ -76,16 +62,4 @@ Building a better future, one line of code at a time.
 
     }
 
-}
-
-
-// · 
-@include lesli-css-breakpoint("desktop") {
-    margin: 1rem .5rem;
-}
-
-
-// ·
-@include lesli-css-breakpoint("widescreen") {
-    margin: 1rem;
 }

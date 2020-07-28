@@ -49,9 +49,11 @@ export default {
 </script>
 <template>
     <nav class="application-navigation menu">
-        <slot></slot>
-        <li>
-            <a @click="changeLayout"><i class="fas fa-chevron-left"></i></a>
-        </li>
+        <ul class="menu-list">
+            <slot></slot>
+            <li>
+                <a @click="changeLayout"><i class="fas fa-chevron-left"></i></a>
+            </li>
+        </ul>
     </nav>
 </template>

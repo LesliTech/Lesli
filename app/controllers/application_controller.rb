@@ -85,6 +85,19 @@ class ApplicationController < ActionController::Base
         response_body[:data] = data
         render status: 200, json: response_body.to_json
     end
+
+    def respond_with_pagination data=nil        
+        response = {
+            pagination: {
+                total_pages: data[:pagination][:total_pages],
+                current_page: data[:pagination][:current_page],
+                count_total: data[:pagination][:total_count],
+                count: data[:pagination][:length],
+            },
+            records: data[:records]
+        }
+        respond_with_successful(response)
+    end
     
     # JSON failure response
     def respond_with_error message = "", details = []
