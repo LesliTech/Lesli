@@ -86,13 +86,16 @@ Building a better future, one line of code at a time.
 
 // · 
 body {
-    min-height: 100vh;
-    background-color: darken(lesli-css-get-color(silver, 100),1);
-    padding-top: var(--application-header-height);
-    padding-top: 2.2rem;
+    background-color: darken(lesli-css-get-color(silver, 100),4);
 }
+
 
 /* Remove auto claear button for IE10+/Edge because it does not trigger watchers not changes v-model values */
 ::-ms-clear {
     display: none;
 }
+
+
+
+// · Uncomment to load development colors
+//@import "../helpers/development.scss"

@@ -54,6 +54,11 @@ class Account < ApplicationRecord
 
     # account status
     enum status: [:registered, :active, :suspended]
+    enum region: {
+        latin_america: "latin_america",
+        united_states: "united_states",
+        european_union: "european_union"
+    } 
 
 
     def initialize_account

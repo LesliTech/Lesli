@@ -35,6 +35,7 @@ Rails.application.config.assets.version = "0.1.0"
 Rails.application.config.assets.paths << Rails.root.join("vendor")
 
 
+# Public pages
 Rails.application.config.assets.precompile += [ "lesli/templates/website.css" ]
 
 
