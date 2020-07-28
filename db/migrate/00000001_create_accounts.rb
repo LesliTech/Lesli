@@ -39,7 +39,9 @@ class CreateAccounts < ActiveRecord::Migration[5.2]
             t.string    :company_tag_line
 
             # location
+            t.integer   :country
             t.string    :address
+            t.string    :region
 
             # contact details
             t.string    :website
