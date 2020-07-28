@@ -1,9 +1,10 @@
 class UsersController < ApplicationLesliController
     before_action :set_user, only: [:show, :update]
+    
     def index
         respond_to do |format|
             format.html { }
-            format.json { respond_with_pagination(User.list(current_user, @query, params)) }
+            format.json { respond_with_pagination(User.index(current_user, @query, params)) }
         end
     end
 
@@ -12,9 +13,12 @@ class UsersController < ApplicationLesliController
             format.html {}
             format.json {
                 return respond_with_not_found unless @user
-                return respond_with_unauthorized unless @user.is_editable_by?(current_user)
 
-                respond_with_successful(@user.show(current_user))
+                user = @user.show(current_user).merge({
+                    is_editable: @user.is_editable_by?(current_user)
+                })
+
+                respond_with_successful(user)
             }
         end
     end

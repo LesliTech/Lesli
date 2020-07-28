@@ -28,60 +28,53 @@ Building a better future, one line of code at a time.
 
 // · Navigation sidebar - new
 .application-navigation {
-    
-    width: var(--application-navigation-width);
-    height: calc(100vh - var(--application-header-height));    
-    @include lesli-css-scrollbar("");
-    overflow-y: auto; 
     position: fixed;
+    overflow-y: auto; 
+    top: var(--application-header-height);
+    width: var(--application-navigation-width);
+    height: calc(100vh - var(--application-header-height));
+    @include lesli-css-scrollbar("");
 
-    li {
-        display: block;
-    }
-
+    // navigation link
     a {
         border-radius: 0px;
         transition: all linear .1s;
         font-size: 1.1rem;
-        position: relative;
         align-items: center;
-        margin: 0 auto;
-
-        display: block;
         text-align: center;
-        padding: 1.4rem 0;
-
+        padding: 1.2rem 0;
         i {
+            width: 3rem;
             font-size: 1.4rem;
+            text-align: center;
             position: relative;
             small {
-                font-size: .8rem;
-                font-family: sans-serif;
-                display: block;
-                position: absolute;
+                right: 2px;
                 width: 18px;
                 height: 18px;
-                padding-top: 4px;
+                display: block;
+                font-size: .8rem;
+                position: absolute;
+                font-family: sans-serif;
+                background-color: lesli-css-get-color(banana);
                 border-radius: 50%;
+                padding-top: 4px;
                 margin-top: -34px;
-                right: 0;
                 text-align: center;
             }
         }
-
-        img {
-            width: 1.4rem;
-        }
-
-        span {
-            display: none;
-        }
-        
+        img { width: 1.4rem; }
+        span { display: none; }
     }
 
     ul.menu-list li ul {
-        border-left: none;
-        padding-left: 0.5rem;
+        a {
+            font-size: 1.1rem;
+            padding: .8rem 0;
+            i {
+                font-size: 1rem;
+            }
+        }
     }
 
 }
@@ -106,12 +99,7 @@ Building a better future, one line of code at a time.
     body:not(.layout-expanded) .application-navigation {
         a {
             display: flex;
-            padding: 1.2rem;
             text-align: left;
-
-            span {
-                margin-left: 10px;
-            }
         }
     }
 }

@@ -30,26 +30,40 @@ header.application-header {
     right: 0;
     z-index: 10;
     position: fixed;
+    background-color: white;
     height: var(--application-header-height);
+
+    nav.navbar {
+        background-color: transparent;
+        height: var(--application-header-height);
+        min-height: var(--application-header-height);
+    }
     
     // Logo container
     .navbar-brand {
         width: var(--application-header-width);
 
         // module panel switch
-        span.icon {
-            width: 60px;
-            height: var(--application-header-height);
-            &:hover {
-                cursor: pointer;
+        .apps_switch {
+            padding: 0;
+            span.icon {
+                width: 3rem;
+                margin: 0 auto;
+                height: var(--application-header-height);
+                &:hover {
+                    cursor: pointer;
+                }
             }
         }
-
+        
+        // logo link container
         .navbar-item {
+            padding: 0;
             width: var(--application-navigation-width);
             img {
                 margin: 0 auto;
                 max-height: var(--application-header-height);
+                height: 30px;
             }
         }
 
@@ -93,11 +107,11 @@ header.application-header {
             a.notification-indicator {
                 position: relative;
                 span {
-                    top: 8px;
-                    right: 5px;
-                    width: 15px;
-                    height: 15px;
-                    font-size: 11px;
+                    top: 10px;
+                    right: 8px;
+                    width: 12px;
+                    height: 14px;
+                    font-size: 10px;
                     text-align: center;
                     border-radius: 50%;
                     background-color: lesli-css-get-color(berry, 300);

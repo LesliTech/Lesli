@@ -69,7 +69,6 @@ module LC
             Account::Setting.where(:name => [
                 "time_zone","date_format","date_format_full","date_format_time","time_format"
             ]).each do |setting|
-                p setting[:value]
                 @settings[setting[:name].to_sym] = setting[:value]
             end
 

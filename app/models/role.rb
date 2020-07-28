@@ -105,6 +105,7 @@ class Role < ApplicationRecord
         role_list = get_controllers_from_routes(role_list, CloudBell::Engine.routes.routes, CloudBell) if defined?(CloudBell)
         role_list = get_controllers_from_routes(role_list, CloudKb::Engine.routes.routes, CloudKb) if defined?(CloudKb)
         role_list = get_controllers_from_routes(role_list, CloudHelp::Engine.routes.routes, CloudHelp) if defined?(CloudHelp)
+        role_list = get_controllers_from_routes(role_list, CloudNotes::Engine.routes.routes, CloudNotes) if defined?(CloudNotes)
         role_list = get_controllers_from_routes(role_list, CloudPanel::Engine.routes.routes, CloudPanel) if defined?(CloudPanel)
         role_list = get_controllers_from_routes(role_list, CloudBabel::Engine.routes.routes, CloudBabel) if defined?(CloudBabel)
         role_list = get_controllers_from_routes(role_list, CloudHouse::Engine.routes.routes, CloudHouse) if defined?(CloudHouse)

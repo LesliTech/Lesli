@@ -22,10 +22,19 @@ Building a better future, one line of code at a time.
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
 // · 
 */
+
+
+// · 
+#lesli-cloud-application {
+    padding-top: var(--application-header-height);
+}
+
+
+// · 
 section.application-component {
     width: 100%;
-    padding: 1rem;
+    padding: 1.2rem;
     margin-left: var(--application-navigation-width);
     max-width: calc(100% - var(--application-navigation-width));
-    min-height: calc(100vh - 35px - var(--application-header-height) - var(--application-header-height));
+    min-height: calc(100vh - var(--application-header-height) - var(--application-footer-height));
 }
