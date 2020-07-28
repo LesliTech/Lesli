@@ -43,7 +43,14 @@ export default {
         return {
             user_id: null,
             options: null,
-            user: null,
+            ready: false,
+            user: {
+                detail_attributes: {}
+            },
+            translations: {
+                users: I18n.t('core.users'),
+                shared: I18n.t('core.shared')
+            },
         }
     },
     mounted() {
@@ -51,16 +58,31 @@ export default {
         this.getUser()
     },
     methods: {
-
         getUser() {
             this.http.get(`/users/${this.user_id}.json`).then(result => {
-                this.options = result.data.options
-                this.user = result.data.user
+                if (result.successful) {
+                    this.user = result.data
+                    this.getOptions()
+                }else{
+                    this.alert(result.error.message,'danger')
+                }
+            }).catch(error => {
+                console.log(error)
+            })
+        },
+
+        getOptions(){
+            let url = `/users/options.json`
+
+            this.http.get(url).then(result => {
+                if (result.successful) {
+                    this.options = result.data
+                    this.ready = true
+                }
             }).catch(error => {
                 console.log(error)
             })
         }
-
     }
 }
 </script>
@@ -69,16 +91,12 @@ export default {
     <section class="application-component">
         <component-information-card :user="user"></component-information-card>
         <b-tabs>
-            <b-tab-item label="Information">
-                <component-information-form v-if="user" :user="user"></component-information-form>
+            <b-tab-item :label="translations.users.tab_information">
+                <component-information-form v-if="user && ready" :user="user" :options="options"></component-information-form>
             </b-tab-item>
-            <b-tab-item label="Security">
-                <component-security-form v-if="user" :user="user" :options="options"></component-security-form>
+            <b-tab-item :label="translations.users.tab_security" v-if="user.is_editable">
+                <component-security-form v-if="user && ready" :user="user" :options="options"></component-security-form>
             </b-tab-item>
-            <!-- 
-            <b-tab-item label="Settings">
-            </b-tab-item>
-            -->
         </b-tabs>
     </section>
 </template>

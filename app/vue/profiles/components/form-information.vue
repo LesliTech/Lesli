@@ -29,16 +29,14 @@ Building a better future, one line of code at a time.
 // · 
 export default {
     props: {
-        user: {}
+        user: {},
+        options: {}
     },
     data() {
         return {
-            options: {},
             translations: {
                 users: I18n.t('core.users'),
-                core: {
-                    shared: I18n.t('core.shared')
-                }
+                shared: I18n.t('core.shared')
             },
             submitting_form: false
         }
@@ -70,58 +68,54 @@ export default {
         <fieldset :disabled="submitting_form">
             <div class="column is-half">
                 <div class="field">
-                    <label class="label">Anrede</label>
-                    <label class="b-radio radio">
-                        <input v-model="user.detail_attributes.salutation" type="radio" value="mr">
-                        <span class="check is-info"></span>
-                        <span class="control-label">
-                            Herrn
-                        </span>
+                    <label class="label">
+                        {{ translations.shared.text_salutation }}
                     </label>
-                    <label class="b-radio radio">
-                        <input v-model="user.detail_attributes.salutation" type="radio" value="mrs">
-                        <span class="check is-info"></span>
-                        <span class="control-label">
-                            Frau
-                        </span>
-                    </label>
+                    <b-radio
+                        v-for="option in options.salutations"
+                        :key="option.value"
+                        v-model="user.detail_attributes.salutation"
+                        type="is-info"
+                        :native-value="option.value">
+                        {{ translations.shared[`salutation_${option.text}`] }}
+                    </b-radio>
                 </div>
                 <div class="field">
-                    <label class="label">Vorname</label> 
+                    <label class="label"> {{ translations.shared.text_first_name}} </label> 
                     <div class="control">
                         <input v-model="user.detail_attributes.first_name" required="required" type="text" class="input">
                     </div>
                 </div>
                 <div class="field">
-                    <label class="label">Name</label> 
+                    <label class="label"> {{ translations.shared.text_last_name }} </label> 
                     <div class="control">
                         <input v-model="user.detail_attributes.last_name" required="required" class="input">
                     </div>
                 </div>
                 <div class="field">
-                    <label class="label">Titel</label> 
+                    <label class="label"> {{ translations.shared.text_title }} </label> 
                     <div class="control">
                         <input v-model="user.detail_attributes.title" class="input">
                     </div>
                 </div>
                 <div class="field">
-                    <label class="label">Telefon</label> 
+                    <label class="label"> {{ translations.shared.text_telephone }} </label> 
                     <div class="control">
                         <input v-model="user.detail_attributes.telephone" class="input">
                     </div>
                 </div>
 
-                <p class="control">
+                <p class="control" v-if="user.is_editable">
                     <button class="button is-primary" type="submit">
                         <span v-if="submitting_form">
                             <b-icon icon="circle-notch" custom-class="fa-spin" size="is-small" />
                             &nbsp;
-                            {{translations.core.shared.btn_saving}}
+                            {{translations.shared.btn_saving}}
                         </span>
                         <span v-else>
                             <b-icon icon="save" size="is-small" />
                             &nbsp;
-                            {{translations.core.shared.btn_save}}
+                            {{translations.shared.btn_save}}
                         </span>
                     </button>
                 </p>
