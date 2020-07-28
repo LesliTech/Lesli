@@ -30,12 +30,13 @@ Building a better future, one line of code at a time.
 // · Navigation sidebar
 .application-navigation {
     background-color: lesli-css-theme-get-color(app, primary);
-
     a {
         padding-left: 1rem;
         padding-right: 1rem;
         border-bottom: 1px solid lesli-css-theme-get-color(app, secondary);
         color: lesli-css-theme-get-color(solid, white);
+        img {
+            margin-right: 1rem;
+        }
     }
-
 }
