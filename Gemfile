@@ -40,13 +40,13 @@ gem "rails", "= 6.0.3"
 # Rails translations
 gem "rails-i18n", "= 6.0.0"
 
+gem "i18n-js"
+
 # Use SCSS for stylesheets
 gem "sass-rails", "= 6"
 
 # HAML template procesor
 gem "haml-rails"
-
-gem "i18n-js"
 
 # Use postgresql as the database for Active Record
 gem "pg", ">= 0.18", "< 2.0"

@@ -105,7 +105,6 @@ module ApplicationHelper
         <link href=\"/images/favicon/"+lesli_instance.downcase+".svg\" rel=\"icon\" type=\"image/svg+xml\">
         <link href=\"/images/favicon/"+lesli_instance.downcase+".svg\" rel=\"mask-icon\" color=\"#ff8a01\">
         ").html_safe
-        
     end
 
     def lesli_instance(instance=nil, engine=nil)
