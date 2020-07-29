@@ -13,7 +13,7 @@
 <script type="text/javascript">
 Honeybadger.configure({
     apiKey: '<%= Rails.application.credentials.services[:honey_badger][:api_key] %>',
-    revision: "",
+    revision: "<%= @account[:revision][:version] %>-<%= @account[:revision][:build] %>",
     environment: "<%= Rails.env %>",
     disabled: <%= !Rails.env.production? %>
 })
