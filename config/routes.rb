@@ -46,34 +46,10 @@ Rails.application.routes.draw do
 
     get :language, to: "application#switch_locale"
 
+    extend RoutesBuilder
     extend RoutesApp
 
     authenticated :user do
-
-        resource  :account do
-            scope module: :account do
-                resources :locations
-            end
-        end
-        resource  :profile
-        
-        resources :users do
-            collection do
-                get :options
-            end
-        end
-
-        resources :roles do
-            scope module: :role do
-                resources :privileges
-            end
-            member do
-                scope :resources do
-                    post :restore_default_privileges
-                    post :update_default_privileges
-                end
-            end
-        end
 
         mount ActionCable.server  => "/cable"
         mount CloudBell::Engine   => "/bell"   if defined?(CloudBell)

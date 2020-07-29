@@ -26,37 +26,18 @@ Building a better future, one line of code at a time.
 
 =end
 
-module RoutesApp
+module RoutesBuilder
     def self.extended(router)
         router.instance_exec do
-            authenticated :user do
 
-                resource  :account do
-                    scope module: :account do
-                        resources :locations
-                    end
-                end
-                resource  :profile
-                
-                resources :users do
-                    collection do
-                        get :options
-                    end
-                end
-        
-                resources :roles do
-                    scope module: :role do
-                        resources :privileges
-                    end
-                    member do
-                        scope :resources do
-                            post :restore_default_privileges
-                            post :update_default_privileges
-                        end
-                    end
-                end
-                        
-            end
+            settings = Rails.configuration.lesli_settings
+
+            return unless File.exists?("./engines/#{settings["info"]["name"]}/config/routes_builder.rb")
+
+            require "./engines/#{settings["info"]["name"]}/config/routes_builder"
+
+            extend RoutesBuilder
+
         end
     end
 end
