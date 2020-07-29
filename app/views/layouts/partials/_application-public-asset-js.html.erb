@@ -27,8 +27,7 @@ Building a better future, one line of code at a time.
 %>
 
 <%= javascript_include_tag "i18n" %>
-<%= javascript_include_tag "translations", skip_pipeline: true %>
-
+<%= javascript_include_tag "translations?#{Time.now.to_i}", skip_pipeline: true %>
 
 <script>
     // Set language for JavaScripts apps
