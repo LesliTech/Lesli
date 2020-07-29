@@ -35,6 +35,9 @@ Building a better future, one line of code at a time.
         padding-right: 1rem;
         border-bottom: 1px solid lesli-css-theme-get-color(app, secondary);
         color: lesli-css-theme-get-color(solid, white);
+        &:hover {
+            background-color: lesli-css-theme-get-color(app, secondary);
+        }
         img {
             margin-right: 1rem;
         }
