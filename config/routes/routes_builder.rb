@@ -1,7 +1,8 @@
-/*
+=begin
+
 Lesli
 
-Copyright (c) 2019, Lesli Technologies, S. A.
+Copyright (c) 2020, Lesli Technologies, S. A.
 
 All the information provided by this website is protected by laws of Guatemala related 
 to industrial property, intellectual property, copyright and relative international laws. 
@@ -11,36 +12,32 @@ Without the written permission of Lesli Technologies, S. A., any replication, mo
 transmission, publication is strictly forbidden.
 For more information read the license file including with this software.
 
-LesliCloud - Your Smart Business Assistant
+Lesli - Your Smart Business Assistant
 
 Powered by https://www.lesli.tech
 Building a better future, one line of code at a time.
 
-@dev      Luis Donis <ldonis@lesli.tech>
-@author   LesliTech <hello@lesli.tech>
+@contact  <hello@lesli.tech>
+@website  <https://lesli.tech>
 @license  Propietary - all rights reserved.
-@version  GIT: 0.1.0 alpha
 
-//  · 
-// ~·~        ~·~        ~·~        ~·~        ~·~        ~·~        ~·~        ~·~        ~·~
-*/
+// · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
+// · 
 
-@import "lesli/templates/public.scss";
+=end
 
+module RoutesBuilder
+    def self.extended(router)
+        router.instance_exec do
 
-// · Header
-header {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-direction: column;
-    min-height: 600px;
-    height: 100vh;
-    
-    img {
-        width: 98%;
-        max-width: 100px;
-        margin-bottom: 2rem;
-    }
+            settings = Rails.configuration.lesli_settings
 
-}
+            return unless File.exists?("./engines/#{settings["info"]["name"]}/config/routes_builder.rb")
+
+            require "./engines/#{settings["info"]["name"]}/config/routes_builder"
+
+            extend RoutesBuilder
+
+        end
+    end
+end

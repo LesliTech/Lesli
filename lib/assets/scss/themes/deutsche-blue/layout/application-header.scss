@@ -26,6 +26,9 @@ header.application-header {
     .navbar-brand {
         .navbar-item {
             width: 100%;
+            img {
+                height: var(--application-header-height);
+            }
         }
     }
     .navbar-brand,
