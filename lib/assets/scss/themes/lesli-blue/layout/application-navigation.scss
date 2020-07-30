@@ -31,15 +31,19 @@ Building a better future, one line of code at a time.
 // · Navigation sidebar
 .application-navigation {
     margin-top: 8px;
-    background: linear-gradient(0deg,#3b6cff,#4482e0);
-    box-shadow: 0px 0px 10px 0px rgba(lesli-css-get-color(silver), .60);
-    border-radius: .2rem;
+    //background: linear-gradient(0deg,#3b6cff,#4482e0);
+    //background: #3e89f6;
+    //box-shadow: 0px 0px 10px 0px rgba(lesli-css-get-color(silver), .60);
+    //border-radius: .2rem;
 
     li a {
 
         &.is-active {
             font-weight: 600;
             background-color: transparent;
+            border-radius: .2rem;
+            background-color: lesli-css-theme-get-color(app, primary);
+            box-shadow: 0px 0px 10px 0px lesli-css-theme-get-color(app, primary);
         }
 
         &:hover {
@@ -49,7 +53,7 @@ Building a better future, one line of code at a time.
 
         i {
             width: 60px;
-            color: lesli-css-get-color(silver, 100);
+            //color: lesli-css-get-color(silver, 100);
             small {
                 color: lesli-css-get-color(silver, 900);
                 background-color: lesli-css-get-color(banana, 300);
@@ -57,7 +61,7 @@ Building a better future, one line of code at a time.
         }
 
         span {
-            color: lesli-css-get-color(silver, 100);
+            //color: lesli-css-get-color(silver, 100);
         }
 
     }

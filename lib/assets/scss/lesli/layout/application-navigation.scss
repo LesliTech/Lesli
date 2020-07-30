@@ -23,6 +23,8 @@ Building a better future, one line of code at a time.
 // · 
 */
 
+
+// · 
 @import "lesli-css/";
 
 
@@ -39,29 +41,15 @@ Building a better future, one line of code at a time.
     a {
         border-radius: 0px;
         transition: all linear .1s;
-        font-size: 1.1rem;
+        font-size: 1rem;
         align-items: center;
         text-align: center;
         padding: 1.2rem 0;
         i {
-            width: 3rem;
-            font-size: 1.4rem;
+            width: 2.4rem;
+            font-size: 1.2rem;
             text-align: center;
             position: relative;
-            small {
-                right: 2px;
-                width: 18px;
-                height: 18px;
-                display: block;
-                font-size: .8rem;
-                position: absolute;
-                font-family: sans-serif;
-                background-color: lesli-css-get-color(banana);
-                border-radius: 50%;
-                padding-top: 4px;
-                margin-top: -34px;
-                text-align: center;
-            }
         }
         img { width: 1.4rem; }
         span { display: none; }

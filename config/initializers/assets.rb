@@ -39,6 +39,10 @@ Rails.application.config.assets.paths << Rails.root.join("vendor")
 Rails.application.config.assets.precompile += [ "lesli/templates/website.css" ]
 
 
+# Development
+Rails.application.config.assets.precompile += [ "lesli/templates/development.css" ]
+
+
 # Themes
 Rails.application.config.assets.precompile += [ "themes/blank.css" ]
 Rails.application.config.assets.precompile += [ "themes/**/*.css" ]
