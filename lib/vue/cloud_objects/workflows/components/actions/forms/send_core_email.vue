@@ -81,7 +81,7 @@ export default {
             }
 
             copy.configuration = {
-                mailer: "::HausMailer"
+                mailer: "::DeutscheLeibrentenMailer"
             }
 
             

@@ -24,8 +24,11 @@ Building a better future, one line of code at a time.
 */
 
 
+// · 
 @import "lesli-css/";
 
+
+// 
 :root {
     --application-header-height: 50px;
     --application-header-width: 250px;
@@ -76,6 +79,8 @@ Building a better future, one line of code at a time.
 
 //
 body.layout-expanded {
-    --application-navigation-width: 100px;
-    --application-header-width: var(--application-navigation-width);
+    :root {
+        --application-navigation-width: 100px;
+        --application-header-width: var(--application-navigation-width);
+    }
 }

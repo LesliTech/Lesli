@@ -33,7 +33,6 @@ body #lesli-cloud-application {
     @import "./settings/colors.scss";
     @import "./layout/application-header";
     @import "./layout/application-navigation";
-    @import "./layout/application-component.scss";
     .application-component {
         @import "./components/tabs.scss";
         @import "./components/status.scss";

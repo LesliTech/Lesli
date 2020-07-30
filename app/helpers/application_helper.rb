@@ -30,14 +30,10 @@ module ApplicationHelper
 
     def website_title
 
-        title_string = -> () {
-            title = @application_html_title || controller_path.gsub("cloud","").gsub("_", "")
-            return title if Rails.application.config.lesli_settings["account"]["website"].blank?
-            return title if Rails.application.config.lesli_settings["account"]["website"]["title_suffix"].blank?
-            return title + " · " + Rails.application.config.lesli_settings["account"]["website"]["title_suffix"]
-        }
+        title = @application_html_title || controller_path.gsub("cloud","").gsub("_", "")
+        title_prefix = Rails.application.config.lesli_settings["account"]["website"]["title_prefix"]
 
-        ("<title>"+ title_string.call() +"</title>").html_safe
+        ("<title>" + title_prefix + " · " + title + "</title>").html_safe
 
     end
 
@@ -105,7 +101,6 @@ module ApplicationHelper
         <link href=\"/images/favicon/"+lesli_instance.downcase+".svg\" rel=\"icon\" type=\"image/svg+xml\">
         <link href=\"/images/favicon/"+lesli_instance.downcase+".svg\" rel=\"mask-icon\" color=\"#ff8a01\">
         ").html_safe
-        
     end
 
     def lesli_instance(instance=nil, engine=nil)
