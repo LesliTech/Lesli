@@ -105,8 +105,8 @@ class User < ApplicationLesliRecord
         users = users.where("RD.name #{operator} (?)", roles) unless roles.blank?
 
         users = users
-        .page(query[:pagination][:page])
-        .per(query[:pagination][:perPage])
+        # .page(query[:pagination][:page])
+        # .per(query[:pagination][:perPage])
         .order("#{query[:pagination][:orderColumn]} #{query[:pagination][:order]} NULLS LAST")
 
         users = users.select(
@@ -122,15 +122,17 @@ class User < ApplicationLesliRecord
             "RD.name as role_name"
         )
 
-        {
-            pagination: {
-                total_pages: users.total_pages,
-                current_page: users.current_page,
-                count_total: users.total_count,
-                count: users.length
-            },
-            records: users
-        }
+        # {
+        #     pagination: {
+        #         total_pages: users.total_pages,
+        #         current_page: users.current_page,
+        #         count_total: users.total_count,
+        #         count: users.length
+        #     },
+        #     records: users
+        # }
+
+        users
 
     end
 
