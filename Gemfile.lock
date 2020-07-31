@@ -1,22 +1,4 @@
 PATH
-  remote: engines/CloudFocus
-  specs:
-    cloud_focus (0.1.0)
-      rails (~> 6.0.0)
-
-PATH
-  remote: engines/CloudHouse
-  specs:
-    cloud_house (0.1.0)
-      rails (~> 6.0.0)
-
-PATH
-  remote: engines/DeutscheLeibrenten
-  specs:
-    deutsche_leibrenten (0.1.0)
-      rails (~> 6.0.0)
-
-PATH
   remote: engines/CloudBabel
   specs:
     cloud_babel (0.1.0)
@@ -41,10 +23,22 @@ PATH
       rails (~> 6.0.0)
 
 PATH
-  remote: engines/CloudMailer
+  remote: engines/CloudFocus
   specs:
-    cloud_mailer (0.1.0)
-      rails (~> 6.0.3)
+    cloud_focus (0.1.0)
+      rails (~> 6.0.0)
+
+PATH
+  remote: engines/CloudHouse
+  specs:
+    cloud_house (0.1.0)
+      rails (~> 6.0.0)
+
+PATH
+  remote: engines/DeutscheLeibrenten
+  specs:
+    deutsche_leibrenten (0.1.0)
+      rails (~> 6.0.0)
 
 GEM
   remote: https://rubygems.org/
@@ -455,7 +449,6 @@ DEPENDENCIES
   cloud_driver!
   cloud_focus!
   cloud_house!
-  cloud_mailer!
   deutsche_leibrenten!
   devise
   faker
