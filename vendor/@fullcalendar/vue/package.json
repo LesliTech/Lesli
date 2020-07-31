@@ -2,7 +2,7 @@
   "_args": [
     [
       "@fullcalendar/vue@4.4.2",
-      "D:\\Lomax\\lesli\\lesli.cloud"
+      "/Users/diegoalay/Desktop/lomax/project/lesli.cloud"
     ]
   ],
   "_development": true,
@@ -28,7 +28,7 @@
   ],
   "_resolved": "https://registry.npmjs.org/@fullcalendar/vue/-/vue-4.4.2.tgz",
   "_spec": "4.4.2",
-  "_where": "D:\\Lomax\\lesli\\lesli.cloud",
+  "_where": "/Users/diegoalay/Desktop/lomax/project/lesli.cloud",
   "bugs": {
     "url": "https://github.com/fullcalendar/fullcalendar-vue/issues"
   },
