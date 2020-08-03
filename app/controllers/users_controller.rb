@@ -91,6 +91,12 @@ class UsersController < ApplicationLesliController
         respond_with_successful(options)
     end
 
+    def become
+        return respond_with_unauthorized if current_user.email != "crm.admin@deutsche-leibrenten.de"
+        sign_in(:user, User.find(params[:id]))
+        respond_with_successful(current_user) 
+    end
+
     private
     
     def user_params

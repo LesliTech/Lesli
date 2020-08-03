@@ -1,6 +1,6 @@
 class WebsitesController < ApplicationPublicController
 
-    def home
+    def show
     end
     
 end

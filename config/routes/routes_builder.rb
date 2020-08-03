@@ -32,9 +32,9 @@ module RoutesBuilder
 
             settings = Rails.configuration.lesli_settings
 
-            return unless File.exists?("./engines/#{settings["info"]["name"]}/config/routes_builder.rb")
+            return unless File.exists?("./engines/#{settings["info"]["name"]}/routes.rb")
 
-            require "./engines/#{settings["info"]["name"]}/config/routes_builder"
+            require "./engines/#{settings["info"]["name"]}/routes"
 
             extend RoutesBuilder
 
