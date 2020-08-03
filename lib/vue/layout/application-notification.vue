@@ -94,7 +94,7 @@ export default {
 
         getNotifications() {
             //this.http.get('/bell/notifications.json').then(result => {
-            this.http.get('/crm/dashboards/next-tasks.json?perPage=500').then(result => {
+            this.http.get('/crm/dashboards/overdue-tasks.json?perPage=500').then(result => {
                 if (result.successful){
                     this.notification.list = result.data
                 }
@@ -188,7 +188,7 @@ export default {
                     <div class="section">
                         <ul class="menu-list">
                             <li v-for="notification in notification.list" :key="notification.id" >
-                                <a :href="'/crm/tasks/'+notification.id">
+                                <a :href="`/crm/tasks/${notification.id}/edit`">
                                     {{ notification.title }}
                                 </a> 
                                 <p>
