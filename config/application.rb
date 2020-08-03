@@ -61,7 +61,7 @@ module Lesli
         # for i18n-js
         config.middleware.use I18n::JS::Middleware
 
-        config.middleware.use Rack::Cors do
+        config.middleware.insert_before 0, Rack::Cors do
             allow do
                 origins "*"
                 resource "/api/*",

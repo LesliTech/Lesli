@@ -2,7 +2,11 @@
   "_args": [
     [
       "@fullcalendar/timegrid@4.4.2",
+<<<<<<< HEAD
       "/Users/ldonis/code/Lesli/lesli.cloud"
+=======
+      "/Users/diegoalay/Desktop/lomax/project/lesli.cloud"
+>>>>>>> 436c77094166e8d23869ad3923e8a187b68f772d
     ]
   ],
   "_development": true,
@@ -28,7 +32,11 @@
   ],
   "_resolved": "https://registry.npmjs.org/@fullcalendar/timegrid/-/timegrid-4.4.2.tgz",
   "_spec": "4.4.2",
+<<<<<<< HEAD
   "_where": "/Users/ldonis/code/Lesli/lesli.cloud",
+=======
+  "_where": "/Users/diegoalay/Desktop/lomax/project/lesli.cloud",
+>>>>>>> 436c77094166e8d23869ad3923e8a187b68f772d
   "author": {
     "name": "Adam Shaw",
     "email": "arshaw@arshaw.com",

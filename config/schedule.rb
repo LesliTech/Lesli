@@ -29,42 +29,42 @@ Building a better future, one line of code at a time.
 #DeutscheLeibrenten cron jobs 
 set :output, 'log/cron.log'
 
-every :day, at: '12:10 am' do
+every :day, at: '10:10 pm' do
     rake 'deutsche_leibrenten:cron:create_reminder_task' 
 end
 
-every :day, at: '12:20 am' do
+every :day, at: '10:20 pm' do
     rake 'deutsche_leibrenten:cron:send_email_deadline_reminder_tasks_by_user' 
 end
 
-every :day, at: '12:30 am' do
+every :day, at: '10:30 pm' do
     rake 'deutsche_leibrenten:cron:send_email_users_with_delayed_tasks' 
 end
 
-every :day, at: '12:50 am' do 
+every :day, at: '10:50 pm' do 
     rake 'deutsche_leibrenten:cron:delete_projects' 
 end
 
-every :day, at: '01:00 am' do
+every :day, at: '11:00 pm' do
     rake 'deutsche_leibrenten:cron:delete_kops_deadline_reached' 
 end
 
-every :day, at: '01:10 am' do
+every :day, at: '11:10 pm' do
     rake 'deutsche_leibrenten:cron:clear_kops_information'
 end
 
-every :day, at: '07:55 pm' do
+every :day, at: '05:55 am' do
     rake 'deutsche_leibrenten:cron:send_email_tasks_reminder_by_user' 
 end
 
-every :day, at: '08:00 am' do
+every :day, at: '06:00 am' do
     rake 'deutsche_leibrenten:cron:notify_projects_created_by_callcenter'
 end
 
-every :day, at: '12:00 am' do
+every :day, at: '10:00 pm' do
     rake 'deutsche_leibrenten:cron:send_daily_email_leads_coming'
 end
 
-every 1.month, at: '12:00 am' do
+every 1.month, at: '10:00 pm' do
     rake 'deutsche_leibrenten:cron:send_monthly_email_leads_coming' 
 end
