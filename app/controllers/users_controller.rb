@@ -4,7 +4,8 @@ class UsersController < ApplicationLesliController
     def index
         respond_to do |format|
             format.html { }
-            format.json { respond_with_pagination(User.index(current_user, @query, params)) }
+            #format.json { respond_with_pagination(User.index(current_user, @query, params)) }
+            format.json { respond_with_successful(User.index(current_user, @query, params)) }
         end
     end
 

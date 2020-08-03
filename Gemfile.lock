@@ -1,4 +1,5 @@
 PATH
+<<<<<<< HEAD
   remote: engines/CloudLesli
   specs:
     cloud_lesli (0.1.0)
@@ -17,6 +18,8 @@ PATH
       rails (~> 6.0.2, >= 6.0.2.2)
 
 PATH
+=======
+>>>>>>> 436c77094166e8d23869ad3923e8a187b68f772d
   remote: engines/CloudBabel
   specs:
     cloud_babel (0.1.0)
@@ -41,10 +44,22 @@ PATH
       rails (~> 6.0.0)
 
 PATH
-  remote: engines/CloudMailer
+  remote: engines/CloudFocus
   specs:
-    cloud_mailer (0.1.0)
-      rails (~> 6.0.3)
+    cloud_focus (0.1.0)
+      rails (~> 6.0.0)
+
+PATH
+  remote: engines/CloudHouse
+  specs:
+    cloud_house (0.1.0)
+      rails (~> 6.0.0)
+
+PATH
+  remote: engines/DeutscheLeibrenten
+  specs:
+    deutsche_leibrenten (0.1.0)
+      rails (~> 6.0.0)
 
 GEM
   remote: https://rubygems.org/
@@ -453,9 +468,15 @@ DEPENDENCIES
   cloud_bell!
   cloud_dispatcher!
   cloud_driver!
+<<<<<<< HEAD
   cloud_lesli!
   cloud_mailer!
   cloud_notes!
+=======
+  cloud_focus!
+  cloud_house!
+  deutsche_leibrenten!
+>>>>>>> 436c77094166e8d23869ad3923e8a187b68f772d
   devise
   faker
   faraday
