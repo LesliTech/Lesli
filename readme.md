@@ -1,3 +1,9 @@
+
+options de tasks toooo slow
+implement devise impersonate
+disable activity record per request
+cache role validation
+
 <p align="center">
 	<a href="https://lesli.tech" target="_blank">
 		<img width="250" alt="Lesli logo" src="https://cdn.lesli.tech/lesli/brand/lesli-logo.svg" />

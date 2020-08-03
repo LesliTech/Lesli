@@ -46,11 +46,77 @@ Rails.application.routes.draw do
 
     get :language, to: "application#switch_locale"
 
-    extend RoutesBuilder
-    extend RoutesApp
+    #extend RoutesBuilder
+    #extend RoutesApp
+
+
+    # DL routes start
+    authenticated :user do
+
+        mount DeutscheLeibrenten::Engine => "/crm"
+
+        # mount kop area at the root of the app routes :)
+        scope module: "deutsche_leibrenten" do
+            resource :kop do
+                collection do
+                    get "", to: "kops#index"
+
+                    scope :resources do
+                        get "contact-person"
+                        get "advertising/marketing-material", to: "kops#marketing_material"
+                        get "advertising/order-form", to: "kops#order_form"
+                        get "advertising/downloads", to: "kops#downloads"
+                        get "guide"
+                        get "webinars"
+                        get "premium-partner"
+                        get "premium-shop"
+                        get "faqs"
+                        get "download_file", to: "kops#download" 
+                        
+                        post "advertising/order-form", to: "kops#request_order"
+                    end
+                end
+            end
+        end
+
+        root to: redirect("/crm"), as: :root_lesli_app_authenticated
+
+    end
+
+    root to: redirect("/login"), as: :root_lesli_app_unauthenticated
+
+    # DL routes end
 
     authenticated :user do
 
+        resource  :account do
+            scope module: :account do
+                resources :locations
+            end
+        end
+        resource  :profile
+        
+        resources :users do
+            collection do
+                get :options
+            end
+        end
+
+        resources :roles do
+            scope module: :role do
+                resources :privileges
+            end
+            member do
+                scope :resources do
+                    post :restore_default_privileges
+                    post :update_default_privileges
+                end
+            end
+        end
+
+        get "users/resources/become/:id",  to: "profiles#become"
+
+=begin
         mount ActionCable.server  => "/cable"
         mount CloudBell::Engine   => "/bell"   if defined?(CloudBell)
         mount CloudLock::Engine   => "/lock"   if defined?(CloudLock)
@@ -62,9 +128,9 @@ Rails.application.routes.draw do
         mount CloudNotes::Engine  => "/notes"  if defined?(CloudNotes)
         mount CloudDriver::Engine => "/driver" if defined?(CloudDriver)
         mount CloudMailer::Engine => "/mailer" if defined?(CloudMailer)
-
+=end
         root to: redirect("/lesli"), as: :root_authenticated if defined?(CloudLesli)
-        root to: "dashboards#empty", as: :root_authenticated if !defined?(CloudLesli)
+        root to: "dashboards#show", as: :root_authenticated if !defined?(CloudLesli)
 
     end
 
@@ -74,6 +140,6 @@ Rails.application.routes.draw do
     match "/401", :to => "errors#unauthorized",          :via => :all
     match "/500", :to => "errors#internal_server_error", :via => :all
 
-    root to: "websites#home", as: :root_unauthenticated
+    root to: "websites#show", as: :root_unauthenticated
 
 end
