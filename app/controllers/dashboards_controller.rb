@@ -1,6 +1,6 @@
 class DashboardsController < ApplicationLesliController
 
-    def empty
+    def show
     end
 
 end

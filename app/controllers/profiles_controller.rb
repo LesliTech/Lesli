@@ -31,14 +31,4 @@ class ProfilesController < ApplicationLesliController
     def show
     end
 
-    def become
-        #return unless current_user.email === "crm.admin@deutsche-leibrenten.de"
-        #sign_in(:user, User.find(params[:id]))
-        #bypass_sign_in(User.find(params[:id]))
-        sign_in(:user, User.find(params[:id]))
-        respond_with_successful(current_user) 
-        #respond_with_successful(bypass_sign_in(User.find(params[:id]))) 
-        #redirect_to root_url # or user_root_url
-    end
-
 end
