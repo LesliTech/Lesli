@@ -116,7 +116,7 @@ Rails.application.routes.draw do
 
         get "users/resources/become/:id",  to: "profiles#become"
 
-=begin
+
         mount ActionCable.server  => "/cable"
         mount CloudBell::Engine   => "/bell"   if defined?(CloudBell)
         mount CloudLock::Engine   => "/lock"   if defined?(CloudLock)
@@ -128,7 +128,7 @@ Rails.application.routes.draw do
         mount CloudNotes::Engine  => "/notes"  if defined?(CloudNotes)
         mount CloudDriver::Engine => "/driver" if defined?(CloudDriver)
         mount CloudMailer::Engine => "/mailer" if defined?(CloudMailer)
-=end
+
         root to: redirect("/lesli"), as: :root_authenticated if defined?(CloudLesli)
         root to: "dashboards#show", as: :root_authenticated if !defined?(CloudLesli)
 
