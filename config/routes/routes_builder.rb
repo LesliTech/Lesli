@@ -36,7 +36,7 @@ module RoutesBuilder
 
             require "./engines/#{settings["info"]["name"]}/routes"
 
-            extend RoutesBuilder
+            extend RoutesEngine
 
         end
     end
