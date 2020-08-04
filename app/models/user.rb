@@ -95,7 +95,7 @@ class User < ApplicationLesliRecord
         operator = type == "exclude" ? 'not in' : 'in'
         
         users = current_user.account.users
-        .joins("inner join user_details UD on UD.id = users.id")
+        .joins("inner join user_details UD on UD.users_id = users.id")
         .joins("inner join roles R on R.id = users.roles_id")
         .joins("inner join role_details RD on RD.roles_id = R.id")
         .where(active: true)
