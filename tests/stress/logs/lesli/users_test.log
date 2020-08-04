@@ -1,0 +1,62 @@
+2020/08/04 14:51:35 INFO  - jmeter.util.JMeterUtils: Setting Locale to en_US 
+2020/08/04 14:51:35 INFO  - jmeter.JMeter: Loading user properties from: /usr/share/jmeter/bin/user.properties 
+2020/08/04 14:51:35 INFO  - jmeter.JMeter: Loading system properties from: /usr/share/jmeter/bin/system.properties 
+2020/08/04 14:51:35 INFO  - jmeter.JMeter: Copyright (c) 1998-2015 The Apache Software Foundation 
+2020/08/04 14:51:35 INFO  - jmeter.JMeter: Version 2.13.20170723 
+2020/08/04 14:51:35 INFO  - jmeter.JMeter: java.version=11.0.7 
+2020/08/04 14:51:35 INFO  - jmeter.JMeter: java.vm.name=OpenJDK 64-Bit Server VM 
+2020/08/04 14:51:35 INFO  - jmeter.JMeter: os.name=Linux 
+2020/08/04 14:51:35 INFO  - jmeter.JMeter: os.arch=amd64 
+2020/08/04 14:51:35 INFO  - jmeter.JMeter: os.version=5.3.0-62-generic 
+2020/08/04 14:51:35 INFO  - jmeter.JMeter: file.encoding=UTF-8 
+2020/08/04 14:51:35 INFO  - jmeter.JMeter: Default Locale=English (United States) 
+2020/08/04 14:51:35 INFO  - jmeter.JMeter: JMeter  Locale=English (United States) 
+2020/08/04 14:51:35 INFO  - jmeter.JMeter: JMeterHome=/usr/share/jmeter 
+2020/08/04 14:51:35 INFO  - jmeter.JMeter: user.dir  =/home/willi/Desktop/lomax/lesli.cloud 
+2020/08/04 14:51:35 INFO  - jmeter.JMeter: PWD       =/home/willi/Desktop/lomax/lesli.cloud 
+2020/08/04 14:51:35 INFO  - jmeter.JMeter: IP: 127.0.1.1 Name: Willi-HP FullName: Willi-HP 
+2020/08/04 14:51:35 INFO  - jmeter.services.FileServer: Default base='/home/willi/Desktop/lomax/lesli.cloud' 
+2020/08/04 14:51:35 INFO  - jmeter.services.FileServer: Set new base='/home/willi/Desktop/lomax/lesli.cloud/tests/stress/test_plan/lesli' 
+2020/08/04 14:51:35 INFO  - jmeter.save.SaveService: Testplan (JMX) version: 2.2. Testlog (JTL) version: 2.2 
+2020/08/04 14:51:35 INFO  - jmeter.save.SaveService: Using SaveService properties version 2.8 
+2020/08/04 14:51:35 INFO  - jmeter.save.SaveService: Using SaveService properties file version 1656252 
+2020/08/04 14:51:35 INFO  - jmeter.save.SaveService: Using SaveService properties file encoding UTF-8 
+2020/08/04 14:51:35 INFO  - jmeter.save.SaveService: All converter versions present and correct 
+2020/08/04 14:51:35 INFO  - jmeter.save.SaveService: Loading file: tests/stress/test_plan/lesli/users_test.jmx 
+2020/08/04 14:51:35 INFO  - jmeter.protocol.http.sampler.HTTPSamplerBase: Cannot find .className property for htmlParser, using default 
+2020/08/04 14:51:35 INFO  - jmeter.protocol.http.sampler.HTTPSamplerBase: Parser for text/html is  
+2020/08/04 14:51:35 INFO  - jmeter.protocol.http.sampler.HTTPSamplerBase: Parser for application/xhtml+xml is  
+2020/08/04 14:51:35 INFO  - jmeter.protocol.http.sampler.HTTPSamplerBase: Parser for application/xml is  
+2020/08/04 14:51:35 INFO  - jmeter.protocol.http.sampler.HTTPSamplerBase: Parser for text/xml is  
+2020/08/04 14:51:35 INFO  - jmeter.protocol.http.sampler.HTTPSamplerBase: Parser for text/vnd.wap.wml is org.apache.jmeter.protocol.http.parser.RegexpHTMLParser 
+2020/08/04 14:51:35 INFO  - jmeter.JMeter: Creating summariser <summary> 
+2020/08/04 14:51:35 INFO  - jmeter.engine.StandardJMeterEngine: Listeners will be started after enabling running version 
+2020/08/04 14:51:35 INFO  - jmeter.engine.StandardJMeterEngine: To revert to the earlier behaviour, define jmeterengine.startlistenerslater=false 
+2020/08/04 14:51:35 INFO  - jmeter.engine.StandardJMeterEngine: Running the test! 
+2020/08/04 14:51:35 INFO  - jmeter.samplers.SampleEvent: List of sample_variables: [] 
+2020/08/04 14:51:35 INFO  - jmeter.samplers.SampleEvent: List of sample_variables: [] 
+2020/08/04 14:51:35 INFO  - jmeter.engine.util.CompoundVariable: Note: Function class names must contain the string: '.functions.' 
+2020/08/04 14:51:35 INFO  - jmeter.engine.util.CompoundVariable: Note: Function class names must not contain the string: '.gui.' 
+2020/08/04 14:51:35 INFO  - jmeter.JMeter: Running test (1596574295873) 
+2020/08/04 14:51:35 INFO  - jmeter.engine.StandardJMeterEngine: Starting ThreadGroup: 1 : ThreadGroup 
+2020/08/04 14:51:35 INFO  - jmeter.engine.StandardJMeterEngine: Starting 1 threads for group ThreadGroup. 
+2020/08/04 14:51:35 INFO  - jmeter.engine.StandardJMeterEngine: Thread will continue on error 
+2020/08/04 14:51:35 INFO  - jmeter.threads.ThreadGroup: Starting thread group number 1 threads 1 ramp-up 1 perThread 1000.0 delayedStart=true 
+2020/08/04 14:51:35 INFO  - jmeter.threads.ThreadGroup: Started thread group number 1 
+2020/08/04 14:51:35 INFO  - jmeter.engine.StandardJMeterEngine: All thread groups have been started 
+2020/08/04 14:51:35 INFO  - jmeter.threads.JMeterThread: jmeterthread.startearlier=true (see jmeter.properties) 
+2020/08/04 14:51:35 INFO  - jmeter.threads.JMeterThread: Running PostProcessors in forward order 
+2020/08/04 14:51:35 INFO  - jmeter.threads.JMeterThread: Thread started: ThreadGroup 1-1 
+2020/08/04 14:51:35 INFO  - jmeter.protocol.http.sampler.HTTPHCAbstractImpl: Local host = Willi-HP 
+2020/08/04 14:51:35 INFO  - jmeter.protocol.http.sampler.HTTPHC4Impl: HTTP request retry count = 0 
+2020/08/04 14:51:35 INFO  - jmeter.protocol.http.sampler.HTTPHC4Impl: Setting up HTTPS TrustAll scheme 
+2020/08/04 14:51:35 INFO  - jmeter.util.JsseSSLManager: Using default SSL protocol: TLS 
+2020/08/04 14:51:35 INFO  - jmeter.util.JsseSSLManager: SSL session context: per-thread 
+2020/08/04 14:51:36 INFO  - jmeter.samplers.SampleResult: Note: Sample TimeStamps are START times 
+2020/08/04 14:51:36 INFO  - jmeter.samplers.SampleResult: sampleresult.default.encoding is set to ISO-8859-1 
+2020/08/04 14:51:36 INFO  - jmeter.samplers.SampleResult: sampleresult.useNanoTime=true 
+2020/08/04 14:51:36 INFO  - jmeter.samplers.SampleResult: sampleresult.nanoThreadSleep=5000 
+2020/08/04 14:51:36 INFO  - jmeter.threads.JMeterThread: Thread is done: ThreadGroup 1-1 
+2020/08/04 14:51:36 INFO  - jmeter.threads.JMeterThread: Thread finished: ThreadGroup 1-1 
+2020/08/04 14:51:36 INFO  - jmeter.engine.StandardJMeterEngine: Notifying test listeners of end of test 
+2020/08/04 14:51:36 INFO  - jmeter.reporters.Summariser: summary =      3 in   1.1s =    2.8/s Avg:   197 Min:    45 Max:   348 Err:     1 (33.33%) 
