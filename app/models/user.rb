@@ -216,9 +216,10 @@ class User < ApplicationLesliRecord
 
 
     # save user activity
-    def log_activity request_method, request_url, description = nil, log_scope = nil
+    def log_activity request_method, request_action, request_url, description = nil, log_scope = nil
         self.activities.create({
             request_method: request_method,
+            request_action: request_action,
             request_url: request_url,
             description: description,
             log_scope: log_scope

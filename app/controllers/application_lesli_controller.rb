@@ -170,7 +170,7 @@ class ApplicationLesliController < ApplicationController
 
     # Track all user activity, this is disabled by default in settings
     def log_activity description=nil, log_scope=nil
-        current_user.log_activity request.method, request.original_fullpath, description, log_scope
+        current_user.log_activity request.method, action_name, request.original_fullpath, description, log_scope
     end
 
     # Track all the user activity (if enabled)

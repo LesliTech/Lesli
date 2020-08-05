@@ -86,17 +86,10 @@ class ApplicationController < ActionController::Base
         render status: 200, json: response_body.to_json
     end
 
-    def respond_with_pagination data=nil        
-        response = {
-            pagination: {
-                total_pages: data[:pagination][:total_pages],
-                current_page: data[:pagination][:current_page],
-                count_total: data[:pagination][:total_count],
-                count: data[:pagination][:length],
-            },
-            records: data[:records]
-        }
-        respond_with_successful(response)
+    # DEPRECATED
+    # use LC::Response.pagination in combination with respond_with_successful instead
+    def respond_with_pagination data
+        respond_with_successful(data)
     end
     
     # JSON failure response

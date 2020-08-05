@@ -12,33 +12,36 @@ Without the written permission of Lesli Technologies, S. A., any replication, mo
 transmission, publication is strictly forbidden.
 For more information read the license file including with this software.
 
-LesliCloud - Your Smart Business Assistant
+Lesli - Your Smart Business Assistant
 
 Powered by https://www.lesli.tech
 Building a better future, one line of code at a time.
 
+@contact  <hello@lesli.tech>
+@website  <https://lesli.tech>
 @license  Propietary - all rights reserved.
-@version  0.1.0-alpha
+@todo       Separate settings from account
 
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
 // · 
 
 =end
 
-module Courier
-    module House
-        class Project
+module LC
 
-            def self.list(current_user, query = nil)
-                return [] unless defined? CloudHouse
-                CloudHouse::Project.list(current_user, query)
-            end
-
-            def self.create_activity(activity_params)
-                return unless defined? CloudHouse
-                activity = CloudHouse::Project::Activity.create(activity_params)
-            end
-
+    class Response
+        
+        def self.pagination current_page, total_pages, total_count, length, data
+            {
+                pagination: {
+                    total_pages: total_pages,
+                    current_page: current_page,
+                    count_total: total_count,
+                    count_results: length
+                },
+                records: data
+            }
         end
+
     end
 end
