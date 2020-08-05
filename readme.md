@@ -1,8 +1,7 @@
-
-options de tasks toooo slow
-implement devise impersonate
-disable activity record per request
-cache role validation
+nginx + passenger performance review
+security - how to not use .pem key (or a better alternative)
+is docker a better option
+recomendation for ci/cd
 
 <p align="center">
 	<a href="https://lesli.tech" target="_blank">

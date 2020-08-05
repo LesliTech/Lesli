@@ -28,28 +28,25 @@ Building a better future, one line of code at a time.
 const playwright = require('playwright');
 
 (async () => {
-    [
-        {
-            email: 'dev@lesli.cloud',
-            password: 'lesli2020'
-        },
-        {
-            email: 'dev@lesli.cloud',
-            password: 'lesli2020'
-        },
-        {
-            email: 'dev@lesli.cloud',
-            password: 'lesli2020'
-        },
-        {
-            email: 'dev@lesli.cloud',
-            password: 'lesli2020'
-        },
-        {
-            email: 'dev@lesli.cloud',
-            password: 'lesli2020'
-        },
-    ].map(user => flow1('http://0.0.0.0:3000', user.email, user.password))
+
+    var credentials = {
+        url: "https://intern.deutsche-leibrenten.de",
+        email: "crm.admin@deutsche-leibrenten.de",
+        password: "dl$2019**"
+    }
+
+    credentials = {
+        url: "http://0.0.0.0:3000",
+        email: "dev@lesli.cloud",
+        password: "lesli2020",
+        email: "crm.admin@deutsche-leibrenten.de",
+        password: "dl$2019**"
+    }
+
+    for (let index = 0; index < 5; index++) {
+        flow1(credentials.url, credentials.email, credentials.password)
+    }
+    
 })();
 
 
@@ -69,7 +66,7 @@ function flow1 (base_url, email, password) {
             await page.click("a[href='/crm/projects']")
             for (let index = 0; index <= 10; index++) {
                 await page.goto(`${base_url}/crm/projects`);
-                await page.waitForTimeout(1000);
+                await page.waitForTimeout(500);
                 await page.goto(`${base_url}/crm/tasks`);
                 await page.fill('input[name=global_search]', 'Wolf')
                 await page.waitForTimeout(2000);

@@ -1,10 +1,4 @@
 PATH
-  remote: engines/CloudMailer
-  specs:
-    cloud_mailer (0.1.0)
-      rails (~> 6.0.3)
-
-PATH
   remote: engines/CloudBabel
   specs:
     cloud_babel (0.1.0)
@@ -113,6 +107,8 @@ GEM
       sshkit (>= 1.6.1, != 1.7.0)
     ancestry (3.0.7)
       activerecord (>= 3.2.0)
+    appsignal (2.10.12)
+      rack
     aws-eventstream (1.1.0)
     aws-partitions (1.334.0)
     aws-sdk-core (3.102.0)
@@ -437,6 +433,7 @@ PLATFORMS
 DEPENDENCIES
   acts_as_paranoid
   ancestry
+  appsignal
   aws-sdk-s3
   axlsx
   bootsnap (>= 1.1.0)
@@ -455,7 +452,6 @@ DEPENDENCIES
   cloud_driver!
   cloud_focus!
   cloud_house!
-  cloud_mailer!
   deutsche_leibrenten!
   devise
   faker
