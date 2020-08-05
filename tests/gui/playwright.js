@@ -28,16 +28,37 @@ Building a better future, one line of code at a time.
 const playwright = require('playwright');
 
 (async () => {
-    const browserType = "chromium"
-    const browser = await playwright[browserType].launch({ headless: false });
-    const context = await browser.newContext();
-    const page = await context.newPage();
-    await page.goto("http://0.0.0.0:3000/login");
-    await page.fill('input[name=user_email]', 'dev@lesli.cloud')
-    await page.fill('input[name=user_password]', 'lesli2020')
-    await page.click('input[type=submit]')
-    await page.waitForTimeout(3000);
-    await page.click("a[href='/crm/projects']")
-    await page.waitForTimeout(3000);
-    await browser.close();
+    flow1();
+    flow1();
+    flow1();
+    flow1();
+    flow1();
 })();
+
+
+
+function flow1 () {
+    (async () => {
+        const browserType = "chromium"
+        const browser = await playwright[browserType].launch({ headless: false });
+        const context = await browser.newContext();
+        const page = await context.newPage();
+        try {
+            await page.goto("http://0.0.0.0:3000/login");
+            await page.fill('input[name=user_email]', 'dev@lesli.cloud')
+            await page.fill('input[name=user_password]', 'lesli2020')
+            await page.click('input[type=submit]')
+            await page.waitForTimeout(3000);
+            await page.click("a[href='/crm/projects']")
+            for (let index = 0; index <= 10; index++) {
+                await page.goto("http://0.0.0.0:3000/crm/projects");
+                await page.waitForTimeout(1000);
+                await page.goto("http://0.0.0.0:3000/crm/tasks");
+            }
+            await page.waitForTimeout(5500);
+            await browser.close();
+        } catch (error) {
+            console.log(error)
+        }
+    })();
+}
