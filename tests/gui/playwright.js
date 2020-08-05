@@ -28,16 +28,54 @@ Building a better future, one line of code at a time.
 const playwright = require('playwright');
 
 (async () => {
-    const browserType = "chromium"
-    const browser = await playwright[browserType].launch({ headless: false });
-    const context = await browser.newContext();
-    const page = await context.newPage();
-    await page.goto("http://0.0.0.0:3000/login");
-    await page.fill('input[name=user_email]', 'dev@lesli.cloud')
-    await page.fill('input[name=user_password]', 'lesli2020')
-    await page.click('input[type=submit]')
-    await page.waitForTimeout(3000);
-    await page.click("a[href='/crm/projects']")
-    await page.waitForTimeout(3000);
-    await browser.close();
+    [
+        {
+            email: 'dev@lesli.cloud',
+            password: 'lesli2020'
+        },
+        {
+            email: 'dev@lesli.cloud',
+            password: 'lesli2020'
+        },
+        {
+            email: 'dev@lesli.cloud',
+            password: 'lesli2020'
+        },
+        {
+            email: 'dev@lesli.cloud',
+            password: 'lesli2020'
+        },
+        {
+            email: 'dev@lesli.cloud',
+            password: 'lesli2020'
+        },
+    ].map(user => flow1('http://0.0.0.0:3000', user.email, user.password))
 })();
+
+
+
+function flow1 (base_url, email, password) {
+    (async () => {
+        const browserType = "chromium"
+        const browser = await playwright[browserType].launch({ headless: false });
+        const context = await browser.newContext();
+        const page = await context.newPage();
+        try {
+            await page.goto(`${base_url}/login`);
+            await page.fill('input[name=user_email]', email)
+            await page.fill('input[name=user_password]', password)
+            await page.click('input[type=submit]')
+            await page.waitForTimeout(3000);
+            await page.click("a[href='/crm/projects']")
+            for (let index = 0; index <= 10; index++) {
+                await page.goto(`${base_url}/crm/projects`);
+                await page.waitForTimeout(1000);
+                await page.goto(`${base_url}/crm/tasks`);
+            }
+            await page.waitForTimeout(5500);
+            await browser.close();
+        } catch (error) {
+            console.log(error)
+        }
+    })();
+}
