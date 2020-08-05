@@ -144,7 +144,7 @@ export default {
             <template slot="start">
                 <div class="navbar-item">
                     <div class="control is-medium has-icons-left has-text-grey">
-                        <input class="input is-medium is-shadowless" type="email" @input="searchText" :placeholder="translations.core.shared.search_placeholder">
+                        <input class="input is-medium is-shadowless" name='global_search' type="email" @input="searchText" :placeholder="translations.core.shared.search_placeholder">
                         <span class="icon is-left has-text-gray">
                             <i v-if="!search.searching" class="fas fa-search"></i>
                             <component-data-loading v-if="search.searching && searchText!=''" :icon-only="true"/>
