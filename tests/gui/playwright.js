@@ -68,7 +68,8 @@ function flow1 (base_url, email, password) {
                 await page.goto(`${base_url}/crm/projects`);
                 await page.waitForTimeout(500);
                 await page.goto(`${base_url}/crm/tasks`);
-                await page.waitForTimeout(500);
+                await page.fill('input[name=global_search]', 'Wolf')
+                await page.waitForTimeout(2000);
             }
             await page.waitForTimeout(5500);
             await browser.close();
