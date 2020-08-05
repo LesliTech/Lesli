@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20011003) do
+ActiveRecord::Schema.define(version: 1100000012) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -1640,162 +1640,6 @@ ActiveRecord::Schema.define(version: 20011003) do
     t.index ["cloud_house_accounts_id"], name: "house_workflows_accounts"
   end
 
-  create_table "cloud_mailer_accounts", force: :cascade do |t|
-    t.datetime "deleted_at"
-    t.index ["deleted_at"], name: "index_cloud_mailer_accounts_on_deleted_at"
-  end
-
-  create_table "cloud_mailer_audience_actions", force: :cascade do |t|
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-  end
-
-  create_table "cloud_mailer_audience_activities", force: :cascade do |t|
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-  end
-
-  create_table "cloud_mailer_audience_contacts", force: :cascade do |t|
-    t.string "name"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-    t.datetime "deleted_at"
-    t.bigint "cloud_mailer_audiences_id"
-    t.index ["cloud_mailer_audiences_id"], name: "mailer_audience_contacts_audiences"
-    t.index ["deleted_at"], name: "index_cloud_mailer_audience_contacts_on_deleted_at"
-  end
-
-  create_table "cloud_mailer_audience_details", force: :cascade do |t|
-    t.string "name"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-    t.datetime "deleted_at"
-    t.bigint "cloud_mailer_audiences_id"
-    t.index ["cloud_mailer_audiences_id"], name: "mailer_audience_details_audiences"
-    t.index ["deleted_at"], name: "index_cloud_mailer_audience_details_on_deleted_at"
-  end
-
-  create_table "cloud_mailer_audience_discussions", force: :cascade do |t|
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-  end
-
-  create_table "cloud_mailer_audience_files", force: :cascade do |t|
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-  end
-
-  create_table "cloud_mailer_audience_subscribers", force: :cascade do |t|
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-  end
-
-  create_table "cloud_mailer_audiences", force: :cascade do |t|
-    t.datetime "deleted_at"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-    t.bigint "user_id"
-    t.bigint "cloud_mailer_accounts_id"
-    t.index ["cloud_mailer_accounts_id"], name: "index_cloud_mailer_audiences_on_cloud_mailer_accounts_id"
-    t.index ["deleted_at"], name: "index_cloud_mailer_audiences_on_deleted_at"
-    t.index ["user_id"], name: "index_cloud_mailer_audiences_on_user_id"
-  end
-
-  create_table "cloud_mailer_campaign_actions", force: :cascade do |t|
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-  end
-
-  create_table "cloud_mailer_campaign_activities", force: :cascade do |t|
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-  end
-
-  create_table "cloud_mailer_campaign_custom_fields", force: :cascade do |t|
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-  end
-
-  create_table "cloud_mailer_campaign_details", force: :cascade do |t|
-    t.string "name"
-    t.integer "type"
-    t.integer "sender"
-    t.integer "status"
-    t.integer "opens"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-    t.datetime "deleted_at"
-    t.bigint "cloud_mailer_campaigns_id"
-    t.index ["cloud_mailer_campaigns_id"], name: "mailer_campaign_details_campaigns"
-    t.index ["deleted_at"], name: "index_cloud_mailer_campaign_details_on_deleted_at"
-  end
-
-  create_table "cloud_mailer_campaign_discussions", force: :cascade do |t|
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-  end
-
-  create_table "cloud_mailer_campaign_email_recipients", force: :cascade do |t|
-    t.string "email"
-    t.string "first_name"
-    t.string "last_name"
-    t.string "data_json"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-    t.datetime "deleted_at"
-    t.bigint "cloud_mailer_campaigns_id"
-    t.index ["cloud_mailer_campaigns_id"], name: "mailer_campaign_email_recipients_campaigns"
-    t.index ["deleted_at"], name: "index_cloud_mailer_campaign_email_recipients_on_deleted_at"
-  end
-
-  create_table "cloud_mailer_campaign_email_statistics", force: :cascade do |t|
-    t.integer "opens"
-    t.integer "clicks"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-    t.bigint "cloud_mailer_campaigns_id"
-    t.index ["cloud_mailer_campaigns_id"], name: "mailer_campaign_email_statistics_campaigns"
-  end
-
-  create_table "cloud_mailer_campaign_emails", force: :cascade do |t|
-    t.string "name"
-    t.string "from_name"
-    t.string "from_email"
-    t.string "reply_email"
-    t.string "subject_line"
-    t.string "preview_text"
-    t.json "email_body"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-    t.datetime "deleted_at"
-    t.bigint "cloud_mailer_campaigns_id"
-    t.index ["cloud_mailer_campaigns_id"], name: "index_cloud_mailer_campaign_emails_on_cloud_mailer_campaigns_id"
-    t.index ["deleted_at"], name: "index_cloud_mailer_campaign_emails_on_deleted_at"
-  end
-
-  create_table "cloud_mailer_campaign_files", force: :cascade do |t|
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-  end
-
-  create_table "cloud_mailer_campaign_subscribers", force: :cascade do |t|
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-  end
-
-  create_table "cloud_mailer_campaigns", force: :cascade do |t|
-    t.datetime "deleted_at"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-    t.bigint "cloud_mailer_audiences_id"
-    t.bigint "user_id"
-    t.bigint "cloud_mailer_accounts_id"
-    t.index ["cloud_mailer_accounts_id"], name: "index_cloud_mailer_campaigns_on_cloud_mailer_accounts_id"
-    t.index ["cloud_mailer_audiences_id"], name: "index_cloud_mailer_campaigns_on_cloud_mailer_audiences_id"
-    t.index ["deleted_at"], name: "index_cloud_mailer_campaigns_on_deleted_at"
-    t.index ["user_id"], name: "index_cloud_mailer_campaigns_on_user_id"
-  end
-
   create_table "deutsche_leibrenten_external_leads", force: :cascade do |t|
     t.string "first_name"
     t.string "last_name"
@@ -1922,6 +1766,7 @@ ActiveRecord::Schema.define(version: 20011003) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.bigint "users_id"
+    t.string "request_action"
     t.index ["users_id"], name: "index_user_activities_on_users_id"
   end
 
@@ -2199,18 +2044,6 @@ ActiveRecord::Schema.define(version: 20011003) do
   add_foreign_key "cloud_house_workflow_associations", "cloud_house_workflows", column: "cloud_house_workflows_id"
   add_foreign_key "cloud_house_workflow_statuses", "cloud_house_workflows", column: "cloud_house_workflows_id"
   add_foreign_key "cloud_house_workflows", "cloud_house_accounts", column: "cloud_house_accounts_id"
-  add_foreign_key "cloud_mailer_accounts", "accounts", column: "id"
-  add_foreign_key "cloud_mailer_audience_contacts", "cloud_mailer_audiences", column: "cloud_mailer_audiences_id"
-  add_foreign_key "cloud_mailer_audience_details", "cloud_mailer_audiences", column: "cloud_mailer_audiences_id"
-  add_foreign_key "cloud_mailer_audiences", "cloud_mailer_accounts", column: "cloud_mailer_accounts_id"
-  add_foreign_key "cloud_mailer_audiences", "users"
-  add_foreign_key "cloud_mailer_campaign_details", "cloud_mailer_campaigns", column: "cloud_mailer_campaigns_id"
-  add_foreign_key "cloud_mailer_campaign_email_recipients", "cloud_mailer_campaigns", column: "cloud_mailer_campaigns_id"
-  add_foreign_key "cloud_mailer_campaign_email_statistics", "cloud_mailer_campaigns", column: "cloud_mailer_campaigns_id"
-  add_foreign_key "cloud_mailer_campaign_emails", "cloud_mailer_campaigns", column: "cloud_mailer_campaigns_id"
-  add_foreign_key "cloud_mailer_campaigns", "cloud_mailer_accounts", column: "cloud_mailer_accounts_id"
-  add_foreign_key "cloud_mailer_campaigns", "cloud_mailer_audiences", column: "cloud_mailer_audiences_id"
-  add_foreign_key "cloud_mailer_campaigns", "users"
   add_foreign_key "deutsche_leibrenten_external_leads", "cloud_house_accounts", column: "cloud_house_accounts_id"
   add_foreign_key "deutsche_leibrenten_external_leads", "users", column: "users_id"
   add_foreign_key "deutsche_leibrenten_kop_request_orders", "cloud_house_accounts", column: "cloud_house_accounts_id"
