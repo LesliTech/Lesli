@@ -65,7 +65,7 @@ class Role < ApplicationRecord
     def show()
         data = Role
         .left_joins(:detail)
-        .select(:name, :active)
+        .select(:id, :name, :active, :object_level_permission)
         .where("roles.id = ?", id)
         .first
 
