@@ -44,7 +44,7 @@ class Users::PasswordsController < Devise::PasswordsController
     def create
         super do |resource|
             if successfully_sent?(resource)
-                resource.log_activity(request.method, action_name, request.original_fullpath, "password_new", "password_new_requested")
+                resource.log_activity(request.method, controller_name, action_name, request.original_fullpath, "password_new_requested")
                 return respond_with_successful
             else
                 return respond_with_error(I18n.t('core.users/passwords.error_invalid_email'))
@@ -72,7 +72,7 @@ class Users::PasswordsController < Devise::PasswordsController
     def update
         super do |resource|
             if resource.errors.empty?
-                resource.log_activity(request.method, action_name, request.original_fullpath, "password_update", "password_update_successful")
+                resource.log_activity(request.method, controller_name, action_name, request.original_fullpath, "password_update_successful")
                 return respond_with_successful
             else
                 return respond_with_error(resource.errors.full_messages.to_sentence)

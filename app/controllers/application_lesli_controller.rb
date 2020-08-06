@@ -169,13 +169,19 @@ class ApplicationLesliController < ApplicationController
     end
 
     # Track all user activity, this is disabled by default in settings
-    def log_activity description=nil, log_scope=nil
-        current_user.log_activity request.method, action_name, request.original_fullpath, description, log_scope
+    def log_activity description=nil
+        current_user.log_activity(
+            request.method, 
+            controller_path,
+            action_name, 
+            request.original_fullpath, 
+            description
+        )
     end
 
     # Track all the user activity (if enabled)
     def track_user_activities
-        return if request[:format] == "json"
+        #return if request[:format] == "json"
         log_activity
     end
     

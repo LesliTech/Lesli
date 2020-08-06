@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 1100000012) do
+ActiveRecord::Schema.define(version: 10100000012) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -1762,11 +1762,11 @@ ActiveRecord::Schema.define(version: 1100000012) do
     t.string "request_method"
     t.string "request_url"
     t.string "description"
-    t.string "log_scope"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.bigint "users_id"
     t.string "request_action"
+    t.string "request_controller"
     t.index ["users_id"], name: "index_user_activities_on_users_id"
   end
 
