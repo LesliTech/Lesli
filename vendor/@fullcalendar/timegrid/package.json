@@ -1,11 +1,4 @@
 {
-  "_args": [
-    [
-      "@fullcalendar/timegrid@4.4.2",
-      "/Users/ldonis/code/Lesli/beta.deutsche-leibrenten.de"
-    ]
-  ],
-  "_development": true,
   "_from": "@fullcalendar/timegrid@4.4.2",
   "_id": "@fullcalendar/timegrid@4.4.2",
   "_inBundle": false,
@@ -27,7 +20,8 @@
     "#DEV:/"
   ],
   "_resolved": "https://registry.npmjs.org/@fullcalendar/timegrid/-/timegrid-4.4.2.tgz",
-  "_spec": "4.4.2",
+  "_shasum": "9d5b26204cd2b0928e7498c54f758a6d07b15191",
+  "_spec": "@fullcalendar/timegrid@4.4.2",
   "_where": "/Users/ldonis/code/Lesli/beta.deutsche-leibrenten.de",
   "author": {
     "name": "Adam Shaw",
@@ -37,10 +31,12 @@
   "bugs": {
     "url": "https://fullcalendar.io/reporting-bugs"
   },
+  "bundleDependencies": false,
   "copyright": "2019 Adam Shaw",
   "dependencies": {
     "@fullcalendar/daygrid": "~4.4.0"
   },
+  "deprecated": false,
   "description": "Display your events on a grid of time slots",
   "docs": "https://fullcalendar.io/docs/timegrid-view",
   "homepage": "https://fullcalendar.io/",
