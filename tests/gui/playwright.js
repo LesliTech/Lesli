@@ -35,6 +35,7 @@ const playwright = require('playwright');
         password: "dl$2019**"
     }
 
+    /*
     credentials = {
         url: "http://0.0.0.0:3000",
         email: "dev@lesli.cloud",
@@ -42,8 +43,8 @@ const playwright = require('playwright');
         email: "crm.admin@deutsche-leibrenten.de",
         password: "dl$2019**"
     }
-
-    for (let index = 0; index < 5; index++) {
+    */
+    for (let index = 0; index <= 10; index++) {
         flow1(credentials.url, credentials.email, credentials.password)
     }
     
@@ -64,12 +65,13 @@ function flow1 (base_url, email, password) {
             await page.click('input[type=submit]')
             await page.waitForTimeout(3000);
             await page.click("a[href='/crm/projects']")
-            for (let index = 0; index <= 10; index++) {
+            for (let index = 0; index <= 15; index++) {
                 await page.goto(`${base_url}/crm/projects`);
-                await page.waitForTimeout(500);
+                await page.waitForTimeout(4000);
                 await page.goto(`${base_url}/crm/tasks`);
-                await page.fill('input[name=global_search]', 'Wolf')
-                await page.waitForTimeout(2000);
+                await page.waitForTimeout(4000);
+                //await page.fill('input[name=global_search]', 'Wolf')
+                //await page.waitForTimeout(2000);
             }
             await page.waitForTimeout(5500);
             await browser.close();
