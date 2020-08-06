@@ -52,7 +52,7 @@ $breakpoints: (
 
 // · 
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
-@mixin lesli-css-breakpoint($breakpoint: false, $width: false) {
+@mixin lesli-css-breakpoint($breakpoint: false) {
 
     // If the key exists in the map
     @if $breakpoint and map-has-key($breakpoints, $breakpoint) {
@@ -99,6 +99,27 @@ $breakpoints: (
 
         // If the key doesn't exist in the map
         @warn "Breakpoint `#{$breakpoint}` not found.";
+
+    }
+
+}
+
+
+// · 
+// · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
+@mixin lesli-css-breakpoint-custom($min_width, $max_width:false) {
+
+    @if $max_width {
+
+        @media only screen and (min-width: $min_width) and (max-width: $max_width) { 
+            @content;
+        }
+
+    } @else { 
+
+        @media only screen and (min-width: $min_width) { 
+            @content;
+        }
 
     }
 
