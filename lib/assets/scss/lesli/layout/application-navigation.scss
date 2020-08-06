@@ -91,3 +91,23 @@ Building a better future, one line of code at a time.
         }
     }
 }
+
+/*
+@include lesli-css-breakpoint(1248px, 1248px) {
+    .application-navigation * {
+        background-color: red;
+    }
+    :root {
+        --application-navigation-width: 100px;
+        --application-header-width: var(--application-navigation-width);
+    }
+
+    // change navigation menu not fixed layout selected
+    body:not(.layout-expanded) .application-navigation {
+        a {
+            display: block;
+            text-align: center;
+        }
+    }
+}
+*/
