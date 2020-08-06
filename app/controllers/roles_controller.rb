@@ -161,7 +161,8 @@ class RolesController < ApplicationController
         params.require(:role).permit(
             detail_attributes: [
                 :name,
-                :active
+                :active,
+                :object_level_permission
             ]
         )
     end
