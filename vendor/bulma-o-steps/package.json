@@ -1,11 +1,4 @@
 {
-  "_args": [
-    [
-      "bulma-o-steps@1.0.9",
-      "/Users/ldonis/code/Lesli/beta.deutsche-leibrenten.de"
-    ]
-  ],
-  "_development": true,
   "_from": "bulma-o-steps@1.0.9",
   "_id": "bulma-o-steps@1.0.9",
   "_inBundle": false,
@@ -26,7 +19,8 @@
     "#DEV:/"
   ],
   "_resolved": "https://registry.npmjs.org/bulma-o-steps/-/bulma-o-steps-1.0.9.tgz",
-  "_spec": "1.0.9",
+  "_shasum": "0a1309d58a72164f2f6eb94efd5a4722b6e4c13a",
+  "_spec": "bulma-o-steps@1.0.9",
   "_where": "/Users/ldonis/code/Lesli/beta.deutsche-leibrenten.de",
   "author": {
     "name": "aramvisser, octoshrimpy"
@@ -34,9 +28,11 @@
   "bugs": {
     "url": "https://github.com/octoshrimpy/bulma-o-steps/issues"
   },
+  "bundleDependencies": false,
   "dependencies": {
     "bulma": "^0.7.1"
   },
+  "deprecated": false,
   "description": "In-depth Steps component for Bulma.io",
   "devDependencies": {
     "node-sass": "^4.9.0"

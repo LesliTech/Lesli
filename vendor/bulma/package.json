@@ -1,11 +1,4 @@
 {
-  "_args": [
-    [
-      "bulma@0.9.0",
-      "/Users/ldonis/code/Lesli/beta.deutsche-leibrenten.de"
-    ]
-  ],
-  "_development": true,
   "_from": "bulma@0.9.0",
   "_id": "bulma@0.9.0",
   "_inBundle": false,
@@ -26,7 +19,8 @@
     "#DEV:/"
   ],
   "_resolved": "https://registry.npmjs.org/bulma/-/bulma-0.9.0.tgz",
-  "_spec": "0.9.0",
+  "_shasum": "948c5445a49e9d7546f0826cb3820d17178a814f",
+  "_spec": "bulma@0.9.0",
   "_where": "/Users/ldonis/code/Lesli/beta.deutsche-leibrenten.de",
   "author": {
     "name": "Jeremy Thomas",
@@ -36,6 +30,8 @@
   "bugs": {
     "url": "https://github.com/jgthms/bulma/issues"
   },
+  "bundleDependencies": false,
+  "deprecated": false,
   "description": "Modern CSS framework based on Flexbox",
   "devDependencies": {
     "autoprefixer": "^9.8.0",

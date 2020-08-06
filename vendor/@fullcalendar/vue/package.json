@@ -1,11 +1,4 @@
 {
-  "_args": [
-    [
-      "@fullcalendar/vue@4.4.2",
-      "/Users/ldonis/code/Lesli/beta.deutsche-leibrenten.de"
-    ]
-  ],
-  "_development": true,
   "_from": "@fullcalendar/vue@4.4.2",
   "_id": "@fullcalendar/vue@4.4.2",
   "_inBundle": false,
@@ -27,15 +20,18 @@
     "#DEV:/"
   ],
   "_resolved": "https://registry.npmjs.org/@fullcalendar/vue/-/vue-4.4.2.tgz",
-  "_spec": "4.4.2",
+  "_shasum": "c6fdc8bd720830a22210dca8e65ce4f0725b6e63",
+  "_spec": "@fullcalendar/vue@4.4.2",
   "_where": "/Users/ldonis/code/Lesli/beta.deutsche-leibrenten.de",
   "bugs": {
     "url": "https://github.com/fullcalendar/fullcalendar-vue/issues"
   },
+  "bundleDependencies": false,
   "dependencies": {
     "@fullcalendar/core": "~4.4.0",
     "fast-deep-equal": "^2.0.1"
   },
+  "deprecated": false,
   "description": "An official FullCalendar component for Vue",
   "docs": "https://fullcalendar.io/docs/vue",
   "homepage": "https://github.com/fullcalendar/fullcalendar-vue#readme",
