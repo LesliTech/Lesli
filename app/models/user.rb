@@ -101,6 +101,8 @@ class User < ApplicationLesliRecord
         .where(active: true)
         .order("UD.first_name")
 
+        #return query
+
         users = users.where("email like '%#{query[:filters][:domain]}%'")  unless query[:filters][:domain].blank?
         users = users.where("RD.name #{operator} (?)", roles) unless roles.blank?
 
@@ -132,7 +134,7 @@ class User < ApplicationLesliRecord
         #     records: users
         # }
 
-        users
+        users #.to_sql.html_safe
 
     end
 
