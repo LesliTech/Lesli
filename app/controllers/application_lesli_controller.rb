@@ -33,7 +33,6 @@ class ApplicationLesliController < ApplicationController
     before_action :validate_privileges
     before_action :set_global_account
     before_action :set_request_helpers
-
     after_action :track_user_activities
     
     layout "layouts/application"
@@ -77,6 +76,7 @@ class ApplicationLesliController < ApplicationController
     end
 
     def check_account
+        return if !Rails.application.config.lesli_settings["account"]["security"]["register"]["allow"]
         return if current_user.blank?
         return if controller_name == "accounts"
         redirect_to "/account/new" if current_user.account.status == "registered"
@@ -114,6 +114,9 @@ class ApplicationLesliController < ApplicationController
 
 
     def set_global_account 
+
+        # @account is only for html requests
+        return true if not request.format.html?
 
         @account = {
             company: { },
