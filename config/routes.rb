@@ -66,8 +66,11 @@ Rails.application.routes.draw do
         root to: redirect("/lesli"), as: :root_authenticated if defined?(CloudLesli)
         root to: "dashboards#show", as: :root_authenticated if !defined?(CloudLesli)
         get "users/resources/become/:id",  to: "users#become"
+        get "version", to: "abouts#version"
 
     end
+
+    
 
     mount CloudDispatcher::Engine => "/api" if defined?(CloudDispatcher)
 
