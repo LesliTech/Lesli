@@ -94,10 +94,12 @@ module LC
             "
         end
 
-        def self.db_to_char column
+        def self.db_to_char column, alias_name = nil
+
+            alias_name = column unless alias_name
             # get right format for dates
             format = self.db_format
-            "TO_CHAR(#{column}, '#{format}') as #{column}"
+            "TO_CHAR(#{column}, '#{format}') as #{alias_name}"
         end
 
         def self.db_format
