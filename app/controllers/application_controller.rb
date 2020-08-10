@@ -28,8 +28,6 @@ Building a better future, one line of code at a time.
 
 class ApplicationController < ActionController::Base
 
-    #rescue_from ActiveRecord::RecordNotFound, with: :respond_with_not_found
-
     before_action :set_locale
  
     def set_locale

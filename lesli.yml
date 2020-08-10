@@ -64,6 +64,8 @@ account:
         -   fullname: "Lesli Development"
             username: "dev@lesli.cloud"
             password: "lesli2020"
+        register:
+            allow: true
         log_activity: false
         roles:
             - "team"
