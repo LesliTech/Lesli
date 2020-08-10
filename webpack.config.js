@@ -52,6 +52,7 @@ module.exports = env => {
         optimization: { minimize: production },
         entry: {
             "users/app": "./app/vue/users/app.js",
+            "abouts/app": "./app/vue/abouts/app.js",
             "users/sessions": "./app/vue/users/sessions.js",
             "users/passwords": "./app/vue/users/passwords.js",
             "users/registrations": "./app/vue/users/registrations.js",
