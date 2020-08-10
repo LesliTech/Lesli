@@ -64,6 +64,12 @@ export default {
         },
 
         getNotificationsCount() {
+
+            // due performance issues we are going to get notification count
+            // through account data partial
+            this.notification.count = lesli.notifications
+            return 
+
             this.http.get('/bell/notifications.json?view_type=count').then(result => {
                 if (result.successful) {
                     this.notification.count = result.data

@@ -116,7 +116,8 @@ class ApplicationLesliController < ApplicationController
             company: { },
             settings: { },
             current_user: { },
-            revision: get_revision
+            revision: get_revision,
+            notifications: Courier::Bell::Notification.index(current_user, {}, "count")
         }
 
         return @account if current_user.account.blank?
@@ -148,7 +149,7 @@ class ApplicationLesliController < ApplicationController
             email: current_user.email,
             full_name: current_user.full_name,
             role: current_user.role.detail.name,
-            privileges: privileges 
+            privileges: privileges
         }
 
         @account

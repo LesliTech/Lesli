@@ -1,4 +1,4 @@
-<%#
+=begin
 
 Lesli
 
@@ -12,37 +12,28 @@ Without the written permission of Lesli Technologies, S. A., any replication, mo
 transmission, publication is strictly forbidden.
 For more information read the license file including with this software.
 
-Lesli - Your Smart Business Assistant
+LesliCloud - Your Smart Business Assistant
 
 Powered by https://www.lesli.tech
 Building a better future, one line of code at a time.
 
-@contact  <hello@lesli.tech>
-@website  <https://lesli.tech>
 @license  Propietary - all rights reserved.
+@version  0.1.0-alpha
 
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
 // · 
 
-%>
+=end
 
-<script>
+module Courier
+    module Bell
+        class Notification
 
+            def self.index(current_user, query, view_type)
+                return 0 if not defined? CloudBell
+                CloudBell::Notification.index(current_user, query, view_type)
+            end
 
-// · DEPRECATED
-const leslicloud_request = {
-    root_url: "<%= request.base_url.to_s %>"
-}
-const leslicloud_account = <%= @account.to_json.html_safe %>
-
-
-// · New api
-const lesli = {
-    view_id: "<%= "#{params[:controller].gsub("/", "_")}_#{params[:action]}" %>",
-    current_user: <%= @account ? @account[:current_user].to_json.html_safe : "{}"%>,
-    company: <%= @account ? @account[:company].to_json.html_safe : "{}"%>,
-    url: { root: "<%= request.base_url.to_s %>" },
-    settings: <%= @account ? @account[:settings].to_json.html_safe : "{}"%>,
-    notifications: <%= @account ?  @account[:notifications] : "-1" %>
-}
-</script>
+        end
+    end
+end
