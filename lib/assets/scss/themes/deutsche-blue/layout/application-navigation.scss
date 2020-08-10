@@ -38,9 +38,6 @@ Building a better future, one line of code at a time.
         &:hover {
             background-color: lesli-css-theme-get-color(app, secondary);
         }
-        img {
-            //margin-right: 1rem;
-        }
     }
 }
 
@@ -69,6 +66,9 @@ Building a better future, one line of code at a time.
     body:not(.layout-expanded) .application-navigation {
         a {
             padding-left: 1rem;
+            img {
+                margin-right: .6rem;
+            }
         }
     }
 }
