@@ -27,7 +27,7 @@ Building a better future, one line of code at a time.
 
 module Courier
     module Bell
-        module Notification
+        module Notifications
             class Web
 
 
