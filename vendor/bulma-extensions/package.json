@@ -1,4 +1,5 @@
 {
+<<<<<<< HEAD
   "_args": [
     [
       "bulma-extensions@6.2.7",
@@ -10,6 +11,8 @@
     ]
   ],
   "_development": true,
+=======
+>>>>>>> 6d14001ec5fcabb3996919629b3fd5e79a729cc3
   "_from": "bulma-extensions@6.2.7",
   "_id": "bulma-extensions@6.2.7",
   "_inBundle": false,
@@ -30,12 +33,18 @@
     "#DEV:/"
   ],
   "_resolved": "https://registry.npmjs.org/bulma-extensions/-/bulma-extensions-6.2.7.tgz",
+<<<<<<< HEAD
   "_spec": "6.2.7",
 <<<<<<< HEAD
   "_where": "/Users/ldonis/code/Lesli/lesli.cloud",
 =======
   "_where": "/Users/diegoalay/Desktop/lomax/project/lesli.cloud",
 >>>>>>> 436c77094166e8d23869ad3923e8a187b68f772d
+=======
+  "_shasum": "f9f4d1478a7ac1606ae8db1e765aa45e3f12bb31",
+  "_spec": "bulma-extensions@6.2.7",
+  "_where": "/Users/ldonis/code/Lesli/beta.deutsche-leibrenten.de",
+>>>>>>> 6d14001ec5fcabb3996919629b3fd5e79a729cc3
   "author": {
     "name": "Wikiki",
     "email": "wikiki@protonmail.com",
@@ -44,11 +53,13 @@
   "bugs": {
     "url": "https://github.com/Wikiki/bulma-extensions/issues"
   },
+  "bundleDependencies": false,
   "config": {
     "commitizen": {
       "path": "node_modules/cz-conventional-changelog"
     }
   },
+  "deprecated": false,
   "description": "Set of extensions for Bulma.io CSS Framework",
   "devDependencies": {
     "ansi-colors": "^2.0.1",

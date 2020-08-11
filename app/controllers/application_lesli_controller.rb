@@ -33,7 +33,6 @@ class ApplicationLesliController < ApplicationController
     before_action :validate_privileges
     before_action :set_global_account
     before_action :set_request_helpers
-
     after_action :track_user_activities
     
     layout "layouts/application"
@@ -77,6 +76,7 @@ class ApplicationLesliController < ApplicationController
     end
 
     def check_account
+        return if !Rails.application.config.lesli_settings["account"]["security"]["register"]["allow"]
         return if current_user.blank?
         return if controller_name == "accounts"
         redirect_to "/account/new" if current_user.account.status == "registered"
@@ -86,6 +86,9 @@ class ApplicationLesliController < ApplicationController
     # allowed core methods:
     #   [:index, :create, :update, :destroy, :new, :show, :edit, :options, :search, :resources]
     def validate_privileges
+
+        # bypass html pages, important data is requested through json format
+        return true if request.format.html?
 
         action = params[:action]
         action = "resources" if request.path.include?("resources")
@@ -112,11 +115,15 @@ class ApplicationLesliController < ApplicationController
 
     def set_global_account 
 
+        # @account is only for html requests
+        return true if not request.format.html?
+
         @account = {
             company: { },
             settings: { },
             current_user: { },
-            revision: get_revision
+            revision: get_revision,
+            notifications: Courier::Bell::Notification.index(current_user, {}, "count")
         }
 
         return @account if current_user.account.blank?
@@ -148,7 +155,7 @@ class ApplicationLesliController < ApplicationController
             email: current_user.email,
             full_name: current_user.full_name,
             role: current_user.role.detail.name,
-            privileges: privileges 
+            privileges: privileges
         }
 
         @account
@@ -169,13 +176,19 @@ class ApplicationLesliController < ApplicationController
     end
 
     # Track all user activity, this is disabled by default in settings
-    def log_activity description=nil, log_scope=nil
-        current_user.log_activity request.method, request.original_fullpath, description, log_scope
+    def log_activity description=nil
+        current_user.log_activity(
+            request.method, 
+            controller_path,
+            action_name, 
+            request.original_fullpath, 
+            description
+        )
     end
 
     # Track all the user activity (if enabled)
     def track_user_activities
-        return if request[:format] == "json"
+        #return if request[:format] == "json"
         log_activity
     end
     

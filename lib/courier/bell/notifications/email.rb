@@ -27,31 +27,13 @@ Building a better future, one line of code at a time.
 
 module Courier
     module Bell
-        module Notification
-            class Web
-
-                # register a new web notification
-                # DEPRECATED: use url instead of href
-                def self.new(current_user, subject, href:nil, url:nil, category:"info")
-                    return unless current_user
+        module Notifications
+            class Email
+                def self.new(current_user, subject, url: nil, category: "info")
                     return if not defined? CloudBell
 
-                    d = current_user.account.bell.notifications.create({
-                        subject: subject,
-                        category: category,
-                        user: current_user,
-                        url: url
-                    })
-                    LesliChannel.broadcast_to("Lesli", channel: "/lesli/layout/header/notification#getNotificationsCounter")
-
+                    # @todo: Generate email template using LesliMail and send it here
                 end
-
-                # returns number of not read notifications
-                def self.count(current_user)
-                    return 0 if not defined? CloudBell
-                    current_user.account.bell.notifications.where(:user => current_user).where(read: false).count
-                end
-
             end
         end
     end

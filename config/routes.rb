@@ -51,7 +51,7 @@ Rails.application.routes.draw do
 
     authenticated :user do
 
-        mount ActionCable.server  => "/cable"
+        #mount ActionCable.server  => "/cable"
         mount CloudBell::Engine   => "/bell"   if defined?(CloudBell)
         mount CloudLock::Engine   => "/lock"   if defined?(CloudLock)
         mount CloudPanel::Engine  => "/panel"  if defined?(CloudPanel)
@@ -64,9 +64,13 @@ Rails.application.routes.draw do
         mount CloudMailer::Engine => "/mailer" if defined?(CloudMailer)
 
         root to: redirect("/lesli"), as: :root_authenticated if defined?(CloudLesli)
-        root to: "dashboards#empty", as: :root_authenticated if !defined?(CloudLesli)
+        root to: "dashboards#show", as: :root_authenticated if !defined?(CloudLesli)
+        get "users/resources/become/:id",  to: "users#become"
+        get "version", to: "abouts#version"
 
     end
+
+    
 
     mount CloudDispatcher::Engine => "/api" if defined?(CloudDispatcher)
 
@@ -74,6 +78,6 @@ Rails.application.routes.draw do
     match "/401", :to => "errors#unauthorized",          :via => :all
     match "/500", :to => "errors#internal_server_error", :via => :all
 
-    root to: "websites#home", as: :root_unauthenticated
+    root to: "websites#show", as: :root_unauthenticated
 
 end

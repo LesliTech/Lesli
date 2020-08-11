@@ -193,8 +193,8 @@ export default {
                         <div class="select">
                             <select v-model="user.roles_id" :disabled="!securityEditable">
                                 <option 
-                                    v-for="role in options.roles" :key="role.id"
-                                    :value="role.id"
+                                    v-for="role in options.roles" :key="role.value"
+                                    :value="role.value"
                                     >
                                     {{  object_utils.translateEnum(translations.users, 'enum_role', role.text) }}
                                 </option>

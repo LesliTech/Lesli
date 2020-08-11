@@ -4,7 +4,6 @@ class UsersController < ApplicationLesliController
     def index
         respond_to do |format|
             format.html { }
-            #format.json { respond_with_pagination(User.index(current_user, @query, params)) }
             format.json { respond_with_successful(User.index(current_user, @query, params)) }
         end
     end
@@ -13,6 +12,7 @@ class UsersController < ApplicationLesliController
         respond_to do |format|
             format.html {}
             format.json {
+                
                 return respond_with_not_found unless @user
 
                 user = @user.show(current_user).merge({
@@ -89,6 +89,12 @@ class UsersController < ApplicationLesliController
         }
 
         respond_with_successful(options)
+    end
+
+    def become
+        return respond_with_unauthorized if current_user.email != "crm.admin@deutsche-leibrenten.de"
+        sign_in(:user, User.find(params[:id]))
+        respond_with_successful(current_user) 
     end
 
     private

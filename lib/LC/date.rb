@@ -79,6 +79,37 @@ module LC
  
             self.reset_db_settings
         end
+
+        def self.db_timestamps table=""
+
+            # avoid ambiguous columns
+            table = table.concat(".") if table != ""
+
+            # get right format for dates
+            format = self.db_format
+            
+            "
+            TO_CHAR(#{table}created_at, '#{format}') as created_at_date, 
+            TO_CHAR(#{table}updated_at, '#{format}') as updated_at_date
+            "
+        end
+
+        def self.db_to_char column, alias_name = nil
+
+            alias_name = column unless alias_name
+            # get right format for dates
+            format = self.db_format
+            "TO_CHAR(#{column}, '#{format}') as #{alias_name}"
+        end
+
+        def self.db_format
+            self.verify_settings
+            format = @settings[:date_format]
+            format = format.gsub("%Y", "YYYY")
+            format = format.gsub("%m", "MM")
+            format = format.gsub("%d", "DD")
+            format
+        end
  
         def self.to_string(datetime_object)
             return nil if ! datetime_object
