@@ -1,4 +1,5 @@
 {
+<<<<<<< HEAD
   "_args": [
     [
       "buefy@0.8.20",
@@ -10,6 +11,8 @@
     ]
   ],
   "_development": true,
+=======
+>>>>>>> 6d14001ec5fcabb3996919629b3fd5e79a729cc3
   "_from": "buefy@0.8.20",
   "_id": "buefy@0.8.20",
   "_inBundle": false,
@@ -30,12 +33,18 @@
     "#DEV:/"
   ],
   "_resolved": "https://registry.npmjs.org/buefy/-/buefy-0.8.20.tgz",
+<<<<<<< HEAD
   "_spec": "0.8.20",
 <<<<<<< HEAD
   "_where": "/Users/ldonis/code/Lesli/lesli.cloud",
 =======
   "_where": "/Users/diegoalay/Desktop/lomax/project/lesli.cloud",
 >>>>>>> 436c77094166e8d23869ad3923e8a187b68f772d
+=======
+  "_shasum": "75708800548220654575903d031a81fc8575b7f3",
+  "_spec": "buefy@0.8.20",
+  "_where": "/Users/ldonis/code/Lesli/beta.deutsche-leibrenten.de",
+>>>>>>> 6d14001ec5fcabb3996919629b3fd5e79a729cc3
   "author": {
     "name": "Rafael Beraldo",
     "email": "rafael.pimpa@gmail.com"
@@ -48,9 +57,11 @@
   "bugs": {
     "url": "https://github.com/buefy/buefy/issues"
   },
+  "bundleDependencies": false,
   "dependencies": {
     "bulma": "0.7.5"
   },
+  "deprecated": false,
   "description": "Lightweight UI components for Vue.js based on Bulma",
   "devDependencies": {
     "@applitools/eyes-cypress": "3.7.5",

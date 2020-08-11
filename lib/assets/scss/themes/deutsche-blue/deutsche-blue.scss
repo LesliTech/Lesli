@@ -29,15 +29,11 @@ Building a better future, one line of code at a time.
 
 
 // · 
-body #lesli-cloud-application {
-    @import "./settings/colors.scss";
-    @import "./layout/application-header";
-    @import "./layout/application-navigation";
-    .application-component {
-        @import "./components/tabs.scss";
-        @import "./components/status.scss";
-        @import "./components/summary.scss";
-        @import "./components/calendar.scss";
-        @import "./components/quickview.scss";
-    }
-}
+@import "./settings/colors.scss";
+@import "./layout/application-header";
+@import "./layout/application-navigation";
+@import "./components/tabs.scss";
+@import "./components/status.scss";
+@import "./components/summary.scss";
+@import "./components/calendar.scss";
+@import "./components/quickview.scss";

@@ -30,6 +30,10 @@ module Courier
 
         class Users
 
+            def self.index current_user, query, params
+                User.index current_user, query, params
+            end
+
             def self.list()
 
                 :User.list

@@ -95,11 +95,13 @@ class User < ApplicationLesliRecord
         operator = type == "exclude" ? 'not in' : 'in'
         
         users = current_user.account.users
-        .joins("inner join user_details UD on UD.id = users.id")
+        .joins("inner join user_details UD on UD.users_id = users.id")
         .joins("inner join roles R on R.id = users.roles_id")
         .joins("inner join role_details RD on RD.roles_id = R.id")
         .where(active: true)
         .order("UD.first_name")
+
+        #return query
 
         users = users.where("email like '%#{query[:filters][:domain]}%'")  unless query[:filters][:domain].blank?
         users = users.where("RD.name #{operator} (?)", roles) unless roles.blank?
@@ -132,7 +134,7 @@ class User < ApplicationLesliRecord
         #     records: users
         # }
 
-        users
+        users #.to_sql.html_safe
 
     end
 
@@ -216,12 +218,13 @@ class User < ApplicationLesliRecord
 
 
     # save user activity
-    def log_activity request_method, request_url, description = nil, log_scope = nil
+    def log_activity request_method, request_controller, request_action, request_url, description = nil
         self.activities.create({
+            request_controller: request_controller,
             request_method: request_method,
+            request_action: request_action,
             request_url: request_url,
-            description: description,
-            log_scope: log_scope
+            description: description
         })
     end
 

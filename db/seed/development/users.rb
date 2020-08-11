@@ -38,7 +38,7 @@ account_logins.each do |account_login|
         user.accounts_id = 1
         user.confirm if not user.confirmed?
 
-        user.detail.first_name = account_login["fullname"]
+        user.detail.first_name = account_login["fullname"] if not user.detail.blank?
 
         user.account.user = user
         user.account.save!

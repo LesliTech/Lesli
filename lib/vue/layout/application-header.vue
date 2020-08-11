@@ -64,6 +64,12 @@ export default {
         },
 
         getNotificationsCount() {
+
+            // due performance issues we are going to get notification count
+            // through account data partial
+            this.notification.count = lesli.notifications
+            return 
+
             this.http.get('/bell/notifications.json?view_type=count').then(result => {
                 if (result.successful) {
                     this.notification.count = result.data
@@ -144,7 +150,7 @@ export default {
             <template slot="start">
                 <div class="navbar-item">
                     <div class="control is-medium has-icons-left has-text-grey">
-                        <input class="input is-medium is-shadowless" type="email" @input="searchText" :placeholder="translations.core.shared.search_placeholder">
+                        <input class="input is-medium is-shadowless" name='global_search' type="email" @input="searchText" :placeholder="translations.core.shared.search_placeholder">
                         <span class="icon is-left has-text-gray">
                             <i v-if="!search.searching" class="fas fa-search"></i>
                             <component-data-loading v-if="search.searching && searchText!=''" :icon-only="true"/>

@@ -31,15 +31,44 @@ Building a better future, one line of code at a time.
 .application-navigation {
     background-color: lesli-css-theme-get-color(app, primary);
     a {
-        padding-left: 1rem;
-        padding-right: 1rem;
+        padding-left: .1rem;
+        padding-right: .1rem;
         border-bottom: 1px solid lesli-css-theme-get-color(app, secondary);
         color: lesli-css-theme-get-color(solid, white);
         &:hover {
             background-color: lesli-css-theme-get-color(app, secondary);
         }
-        img {
-            margin-right: 1rem;
+    }
+}
+
+
+@include lesli-css-breakpoint-custom(320px, 1248px) {
+
+    :root {
+        --application-navigation-width: 100px !important;
+        --application-header-width: var(--application-navigation-width);
+    }
+
+    // change navigation menu not fixed layout selected
+    body:not(.layout-expanded) .application-navigation {
+        a {
+            display: block;
+            text-align: center;
+            span {
+                font-size: .9rem;
+                word-wrap: break-word;
+            }
+        }
+    }
+}
+
+@include lesli-css-breakpoint-custom(1260px) {
+    body:not(.layout-expanded) .application-navigation {
+        a {
+            padding-left: 1rem;
+            img {
+                margin-right: .6rem;
+            }
         }
     }
 }
