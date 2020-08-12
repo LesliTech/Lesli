@@ -31,19 +31,25 @@ module RoutesApp
         router.instance_exec do
             authenticated :user do
 
+                # account
                 resource  :account do
                     scope module: :account do
                         resources :locations
                     end
                 end
+
+                # user maintenance & profiles
                 resource  :profile
-                
                 resources :users do
                     collection do
                         get :options
                     end
+                    member do
+                        get "resources/become/:id",     to: "users#become"
+                    end
                 end
-        
+
+                # roles management
                 resources :roles do
                     scope module: :role do
                         resources :privileges
@@ -55,7 +61,10 @@ module RoutesApp
                         end
                     end
                 end
-                        
+
+                # Lesli version
+                get "version", to: "abouts#version"
+
             end
         end
     end
