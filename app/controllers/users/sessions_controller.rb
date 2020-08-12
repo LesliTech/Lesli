@@ -59,7 +59,9 @@ class Users::SessionsController < Devise::SessionsController
         unless resource.confirmed?
             return respond_with_error(t('devise.errors.custom.confirmation_required'))
         end
-        
+
+        return respond_with_error(t('core.users/sessions.role_access_denied')) unless resource.role.detail.active?
+
         sign_in :user, resource
 
         activity.update_attribute(:description, "login_atempt_successful")
