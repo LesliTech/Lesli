@@ -63,14 +63,9 @@ Rails.application.routes.draw do
         mount CloudDriver::Engine => "/driver" if defined?(CloudDriver)
         mount CloudMailer::Engine => "/mailer" if defined?(CloudMailer)
 
-        root to: redirect("/lesli"), as: :root_authenticated if defined?(CloudLesli)
-        root to: "dashboards#show", as: :root_authenticated if !defined?(CloudLesli)
-        get "users/resources/become/:id",  to: "users#become"
-        get "version", to: "abouts#version"
+        root to: redirect("/dashboard"), as: :root_authenticated
 
     end
-
-    
 
     mount CloudDispatcher::Engine => "/api" if defined?(CloudDispatcher)
 
