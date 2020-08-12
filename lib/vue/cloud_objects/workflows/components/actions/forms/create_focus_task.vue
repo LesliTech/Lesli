@@ -93,6 +93,13 @@ export default {
             }).catch(error => {
                 console.log(error)
             }) 
+        },
+
+        addReference(reference, field){
+            let field_value = this.workflow_action.input_data[field] || ''
+            field_value = `${field_value} %${reference}% `
+
+            this.workflow_action.input_data[field] = field_value
         }
     },
 
@@ -108,13 +115,45 @@ export default {
 <template>
     <section v-if="workflow_action">
         <div class="field">
-            <label class="label">{{translations.core.text_title}}<sup class="has-text-danger">*</sup></label>
+            <label class="label">
+                {{translations.core.text_title}}<sup class="has-text-danger">*</sup>
+                <span class="is-pulled-right">
+                    <b-tooltip :label="translations.main.tooltip_add_resource_identifier_reference" size="is-small" position="is-left" type="is-light">
+                        <b-button size="is-small" @click="addReference('global_identifier', 'title')">
+                            <b-icon size="is-small" icon="barcode">
+                            </b-icon>
+                        </b-button>
+                    </b-tooltip>
+                    <b-tooltip :label="translations.main.tooltip_add_current_user_reference" size="is-small" position="is-left" type="is-light">
+                        <b-button size="is-small" @click="addReference('current_user', 'title')">
+                            <b-icon size="is-small" icon="user-circle">
+                            </b-icon>
+                        </b-button>
+                    </b-tooltip>
+                </span>
+            </label>
             <div class="control">
                 <input class="input" type="text" v-model="workflow_action.input_data.title" required>
             </div>
         </div>
         <div class="field">
-            <label class="label">{{translations.core.text_description}}</label>
+            <label class="label">
+                {{translations.core.text_description}}
+                <span class="is-pulled-right">
+                    <b-tooltip :label="translations.main.tooltip_add_resource_identifier_reference" size="is-small" position="is-left" type="is-light">
+                        <b-button size="is-small" @click="addReference('global_identifier', 'description')">
+                            <b-icon size="is-small" icon="barcode">
+                            </b-icon>
+                        </b-button>
+                    </b-tooltip>
+                    <b-tooltip :label="translations.main.tooltip_add_current_user_reference" size="is-small" position="is-left" type="is-light">
+                        <b-button size="is-small" @click="addReference('current_user', 'description')">
+                            <b-icon size="is-small" icon="user-circle">
+                            </b-icon>
+                        </b-button>
+                    </b-tooltip>
+                </span>
+            </label>
             <div class="control">
                 <b-input type="textarea" v-model="workflow_action.input_data.description"></b-input>
             </div>
