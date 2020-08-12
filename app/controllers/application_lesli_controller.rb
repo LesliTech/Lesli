@@ -87,9 +87,6 @@ class ApplicationLesliController < ApplicationController
     #   [:index, :create, :update, :destroy, :new, :show, :edit, :options, :search, :resources]
     def validate_privileges
 
-        # bypass html pages, important data is requested through json format
-        return true if request.format.html?
-
         action = params[:action]
         action = "resources" if request.path.include?("resources")
 
