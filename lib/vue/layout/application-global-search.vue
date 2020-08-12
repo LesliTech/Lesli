@@ -7,7 +7,13 @@ export default {
             timer: null,
             projects: [],
             translations: {
-                projects: I18n.t('deutscheleibrenten.projects')
+                dl: {
+                    projects: I18n.t('deutscheleibrenten.projects'),
+                    shared: I18n.t('deutscheleibrenten.shared')
+                },
+                core: {
+                    shared: I18n.t('core.shared')
+                }
             }
         }
     },
@@ -105,7 +111,7 @@ export default {
 <template>
     <section v-if="show" class="application-global-search">
         <div class="content">
-            <h4>{{translations.projects.title}}</h4>
+            <h4>{{translations.dl.projects.title}}</h4>
             <b-table 
                 @click="goToProject"
                 :data="projects" 
@@ -113,31 +119,34 @@ export default {
                 :striped="true">
                 <template slot-scope="props">
 
-                    <b-table-column field="code" :label="translations.projects.table_header_code" sortable v-html="props.row.code">
+                    <b-table-column field="code" :label="translations.dl.projects.table_header_code" sortable v-html="props.row.code">
                     </b-table-column>
 
-                    <b-table-column field="status" :label="translations.projects.table_header_status" sortable v-html="props.row.status">
+                    <b-table-column field="status" :label="translations.dl.projects.table_header_status" sortable v-html="props.row.status">
                     </b-table-column>
 
-                    <b-table-column field="customer" :label="translations.projects.table_header_customer" sortable v-html="props.row.customers">
+                    <b-table-column field="customer" :label="translations.dl.projects.table_header_customer" sortable v-html="props.row.customers">
                     </b-table-column>
 
-                    <b-table-column field="city" :label="translations.projects.form_property_input_city_title" sortable v-html="props.row.city">
+                    <b-table-column field="city" :label="translations.dl.projects.form_property_input_city_title" sortable v-html="props.row.city">
                     </b-table-column>
 
-                    <b-table-column field="postcode" :label="translations.projects.form_customers_input_postcode_title" sortable v-html="props.row.postcode">
+                    <b-table-column field="postcode" :label="translations.dl.projects.form_customers_input_postcode_title" sortable v-html="props.row.postcode">
                     </b-table-column>
 
-                    <b-table-column field="street_name" :label="translations.projects.form_property_input_street_name_title" sortable v-html="props.row.street_name">
+                    <b-table-column field="street_name" :label="translations.dl.projects.form_property_input_street_name_title" sortable v-html="props.row.street_name">
                     </b-table-column>
 
-                    <b-table-column field="street_number" :label="translations.projects.form_property_input_street_number" sortable v-html="props.row.street_number">
+                    <b-table-column field="street_number" :label="translations.dl.projects.form_property_input_street_number" sortable v-html="props.row.street_number">
                     </b-table-column>
 
-                    <b-table-column field="telephone" :label="translations.projects.form_customers_input_phone_title" sortable v-html="props.row.telephone">
+                    <b-table-column field="telephone" :label="translations.dl.projects.form_customers_input_phone_title" sortable v-html="props.row.telephone">
                     </b-table-column>
 
-                    <b-table-column field="company" label="Kop" sortable v-html="props.row.company">
+                    <b-table-column field="company" :label="translations.dl.shared.text_kop" sortable v-html="props.row.company">
+                    </b-table-column>
+
+                    <b-table-column field="user_main" :label="translations.core.shared.text_employee" sortable v-html="props.row.user_main">
                     </b-table-column>
 
                 </template>
