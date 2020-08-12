@@ -3,7 +3,7 @@
 <head>
     <%= render partial: "layouts/partials/application-head" %>
     <%= render partial: "layouts/partials/application-data" %>
-    <%= render partial: "layouts/partials/application-public-asset-css" %>
+    <%= render partial: "layouts/partials/application-public-assets-css" %>
 
     <% if flash[:logout] == true %>
     <%# Disable back button in browser after Logout using JavaScript %>
@@ -17,7 +17,7 @@
 </head>
 <body class="<%= application_body_class() %>">
     <%= yield %>
-    <%= render partial: "layouts/partials/application-public-asset-js" %>
+    <%= render partial: "layouts/partials/application-public-assets-js" %>
     <%= render partial: "layouts/partials/application-analytics" %>
 </body>
 </html>
