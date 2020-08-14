@@ -51,7 +51,7 @@ Rails.application.routes.draw do
 
     authenticated :user do
 
-        #mount ActionCable.server  => "/cable"
+        mount ActionCable.server  => "/cable"
         mount CloudBell::Engine   => "/bell"   if defined?(CloudBell)
         mount CloudLock::Engine   => "/lock"   if defined?(CloudLock)
         mount CloudPanel::Engine  => "/panel"  if defined?(CloudPanel)

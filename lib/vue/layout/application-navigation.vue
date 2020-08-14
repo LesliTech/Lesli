@@ -27,21 +27,24 @@ Building a better future, one line of code at a time.
 
 export default {
 
-    data() {
-        return {
-            submenu_open_class: false
-        }
-    },
-
     methods: {
 
         changeLayout() {
 
-        },
+            // based on Bulma css breakpoints
+            let layouts = ["mobile", "tablet", "desktop"] 
 
-        submenu_open(item) {
-            this.submenu_open_class = !this.submenu_open_class
-        }
+            let current = this.storage.global("layout") || layouts.length
+
+            current = current - 1
+
+            if (current < 1) {
+                current = layouts.length
+            }
+
+            this.storage.global("layout", current)
+
+        },
 
     }
 
