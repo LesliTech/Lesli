@@ -54,6 +54,9 @@ class Account < ApplicationRecord
 
     # account status
     enum status: [:registered, :active, :suspended]
+
+
+    # company region (GDPR)
     enum region: {
         latin_america: "latin_america",
         united_states: "united_states",
@@ -85,6 +88,7 @@ class Account < ApplicationRecord
                 account: self,
                 detail_attributes: {
                     name: role_name,
+                    active: true,
                     object_level_permission: object_level_permission        
                 }
             })
