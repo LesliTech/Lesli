@@ -1,6 +1,6 @@
 class CreateActiveStorage < ActiveRecord::Migration[6.0]
     def change
-        create_table :active_storage_blobs do |t|
+        create_table :active_storage_blobs, if_not_exists: true do |t|
             t.string   :key,        null: false
             t.string   :filename,   null: false
             t.string   :content_type
@@ -12,7 +12,7 @@ class CreateActiveStorage < ActiveRecord::Migration[6.0]
             t.index [ :key ], unique: true
         end
 
-        create_table :active_storage_attachments do |t|
+        create_table :active_storage_attachments, if_not_exists: true do |t|
             t.string     :name,     null: false
             t.references :record,   null: false, polymorphic: true, index: false
             t.references :blob,     null: false
