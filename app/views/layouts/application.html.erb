@@ -6,7 +6,7 @@
     <%= render partial: "layouts/partials/application-assets-css" %>
     <%= yield :application_custom_assets %>
 </head>
-<body class="<%= application_body_class() %> layout_for_mobile">
+<body class="<%= application_body_class() %>">
     <%= render partial: "layouts/partials/application-layout-aside" %>
     <main id="lesli-cloud-application">
         <%= render partial: "layouts/partials/application-layout-header" %>
