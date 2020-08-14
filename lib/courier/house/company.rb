@@ -34,6 +34,11 @@ module Courier
                 CloudHouse::Company.index(current_user, query)
             end
 
+            def self.show(current_user, query=nil)
+                return [] unless defined? CloudHouse
+                CloudHouse::Company.find(query['id']).show()
+            end
+
             def self.create_activity(activity_params)
                 return unless defined? CloudHouse
 
