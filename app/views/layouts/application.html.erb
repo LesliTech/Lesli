@@ -3,7 +3,7 @@
 <head>
     <%= render partial: "layouts/partials/application-head" %>
     <%= render partial: "layouts/partials/application-data" %>
-    <%= render partial: "layouts/partials/application-asset-css" %>
+    <%= render partial: "layouts/partials/application-assets-css" %>
     <%= yield :application_custom_assets %>
 </head>
 <body class="<%= application_body_class() %>">
@@ -17,7 +17,7 @@
         <%= render partial: "layouts/partials/application-layout-apps" %>
     </main>
     <%= render partial: "layouts/partials/application-layout-footer" %>
-    <%= render partial: "layouts/partials/application-asset-js" %>
+    <%= render partial: "layouts/partials/application-assets-js" %>
     <%= render partial: "layouts/partials/application-analytics" %>
 </body>
 </html>
