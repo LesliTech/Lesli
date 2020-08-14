@@ -50,10 +50,11 @@ body {
 }
 
 
+
 // · 
 @include lesli-css-breakpoint("desktop") {
     body #lesli-cloud-application {
-        margin: .5rem;
+        //margin: .5rem;
     }
 }
 
@@ -61,6 +62,7 @@ body {
 // ·
 @include lesli-css-breakpoint("widescreen") {
     body #lesli-cloud-application {
-        margin: .5rem 1rem;
+        //margin: .5rem 1rem;
     }
 }
+

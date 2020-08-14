@@ -31,7 +31,8 @@ Building a better future, one line of code at a time.
 
 // · 
 header.application-header {
-    background-color: #f3f7fd;
+    //background-color: #f3f7fd;
+    background-color: transparent;
     .navbar {
         background-color: transparent;
     }
@@ -58,7 +59,7 @@ header.application-header {
     header.application-header {
         // adjust the header width to the floating navigatino menu
         .navbar-brand {
-            margin-left: .5rem;
+            //margin-left: .5rem;
         }
     }
 }
@@ -69,7 +70,7 @@ header.application-header {
     header.application-header {
         // adjust the header width to the floating navigatino menu
         .navbar-brand {
-            margin-left: 1rem;
+            //margin-left: 1rem;
         }
     }
 }

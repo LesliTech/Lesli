@@ -146,8 +146,7 @@ module.exports = env => {
             new VueLoaderPlugin(),
             new webpack.DefinePlugin({
                 leslicloud_app_mode_production: JSON.stringify(production),
-                leslicloud_app_mode_development: JSON.stringify(!production),
-                leslicloud_app_company: "false"
+                leslicloud_app_mode_development: JSON.stringify(!production)
             })
         ]
         
