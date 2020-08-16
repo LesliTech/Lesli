@@ -8,17 +8,13 @@ class CreateActiveStorage < ActiveRecord::Migration[6.0]
             t.bigint   :byte_size,  null: false
             t.string   :checksum,   null: false
             t.datetime :created_at, null: false
-
             t.index [ :key ], unique: true
         end
-
         create_table :active_storage_attachments, if_not_exists: true do |t|
-            t.string     :name,     null: false
-            t.references :record,   null: false, polymorphic: true, index: false
-            t.references :blob,     null: false
-
-            t.datetime :created_at, null: false
-
+            t.string        :name,     null: false
+            t.references    :record,   null: false, polymorphic: true, index: false
+            t.references    :blob,     null: false
+            t.datetime      :created_at, null: false
             t.index [ :record_type, :record_id, :name, :blob_id ], name: "index_active_storage_attachments_uniqueness", unique: true
             t.foreign_key :active_storage_blobs, column: :blob_id
         end

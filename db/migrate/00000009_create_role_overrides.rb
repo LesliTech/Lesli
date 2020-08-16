@@ -43,10 +43,10 @@ class CreateRoleOverrides < ActiveRecord::Migration[6.0]
             t.boolean :grant_update,    default: false
             t.boolean :grant_destroy,   default: false
 
+            t.boolean :grant_search,    default: false
+
+            t.boolean :grant_resources, default: false
             t.boolean :grant_options,   default: false
-            t.boolean :grant_default,   default: false
-            t.boolean :grant_search,   default: false
-            t.boolean :grant_empty,     default: false
 
             t.datetime :deleted_at, index: true
             t.timestamps
