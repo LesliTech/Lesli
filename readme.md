@@ -1,8 +1,3 @@
-nginx + passenger performance review
-security - how to not use .pem key (or a better alternative)
-is docker a better option
-recomendation for ci/cd
-
 <p align="center">
 	<a href="https://lesli.tech" target="_blank">
 		<img width="250" alt="Lesli logo" src="https://cdn.lesli.tech/lesli/brand/lesli-logo.svg" />
