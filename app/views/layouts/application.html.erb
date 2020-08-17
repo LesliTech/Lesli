@@ -7,14 +7,13 @@
     <%= yield :application_custom_assets %>
 </head>
 <body class="<%= application_body_class() %>">
-    <%= render partial: "layouts/partials/application-layout-aside" %>
     <main id="lesli-application">
+        <%= render partial: "layouts/partials/application-layout-module" %>
         <%= render partial: "layouts/partials/application-layout-header" %>
         <%= render partial: "layouts/partials/application-layout-navigation" %>
         <%= render partial: "layouts/partials/application-layout-content" %>
         <%= render partial: "layouts/partials/application-layout-chatbox" %>
         <%= render partial: "layouts/partials/application-layout-notification" %>
-        <%= render partial: "layouts/partials/application-layout-apps" %>
     </main>
     <%= render partial: "layouts/partials/application-layout-footer" %>
     <%= render partial: "layouts/partials/application-assets-js" %>

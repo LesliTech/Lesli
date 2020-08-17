@@ -1,4 +1,5 @@
-/**
+<%#
+
 Lesli
 
 Copyright (c) 2020, Lesli Technologies, S. A.
@@ -22,39 +23,9 @@ Building a better future, one line of code at a time.
 
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
 // · 
-*/
 
-.application-apps {
+%>
 
-    .sidebar-content {
-        background-color: lesli-css-get-color(solid, white);
-
-        .header {
-            padding: 1rem;
-            margin-bottom: 1.2rem;
-        }
-
-        .content {
-
-            a {
-                width: 82px;
-                text-align: center;
-                display: inline-block;
-                margin-bottom: 1.6rem;
-            }
-
-            img {
-                display: block;
-                margin: 0 auto .4rem;
-                width: 30px;
-            }
-
-            span {
-                font-size: .95rem;
-            }
-
-        }
-
-    }
-
-}
+<application-component-module>
+    <%= render partial: "layouts/#{lesli_engine}/partials/platform-module-navigation" %>
+</application-component-module>
