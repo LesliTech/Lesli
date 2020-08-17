@@ -25,16 +25,16 @@ Building a better future, one line of code at a time.
 header.application-header {
     .navbar-brand {
         .navbar-item {
-            width: 100%;
             img {
-                height: var(--application-header-height);
+                height: 44px;
             }
         }
     }
     .navbar-brand,
     .navbar-end {
         .apps_switch {
-            display: none !important;
+            padding-left: .2rem;
+            color: rgb(90,90,90);
         }
     }
 }
