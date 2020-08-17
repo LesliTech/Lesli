@@ -125,4 +125,10 @@ module ApplicationHelper
 
     end
 
+    def lesli_engine(engine=nil)
+        current_engine = controller_path.split('/')[0]
+        return current_engine == engine if not engine.blank?
+        return current_engine
+    end
+
 end
