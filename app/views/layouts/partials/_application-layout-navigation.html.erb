@@ -27,17 +27,7 @@ Building a better future, one line of code at a time.
 %>
 
 <application-component-navigation>
-    
-    <% engine = controller_path.split('/')[0] %>
-    <%= render partial: 'layouts/deutsche_leibrenten/partials/module-app-navigation'  if engine == "deutsche_leibrenten"  %>
-    <%= render partial: 'layouts/lesli_cloud/partials/module-app-navigation' if engine == "lesli_cloud" %>
-    <%= render partial: 'layouts/cloud_babel/partials/module-app-navigation' if engine == "cloud_babel" %>
-    <%= render partial: 'layouts/cloud_mailer/partials/module-app-navigation' if engine == "cloud_mailer" %>
-    <%= render partial: 'layouts/cloud_notes/partials/module-app-navigation' if engine == "cloud_notes" %>
-    
-    <%= render partial: 'layouts/deutsche_leibrenten/partials/module-app-navigation-empty'  if lesli_instance("DeutscheLeibrenten", "profiles") %>
-    <%= render partial: 'layouts/lesli_cloud/partials/module-app-navigation' if lesli_instance("LesliCloud", "profiles") %>
-
+    <%= render partial: "layouts/#{lesli_engine}/partials/module-app-navigation" %>
     <template v-slot:layout>
         <div class="navigation-change-layout" @click="change_layout">
             <p>
