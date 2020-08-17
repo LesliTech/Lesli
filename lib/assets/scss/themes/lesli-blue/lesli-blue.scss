@@ -38,17 +38,17 @@ Building a better future, one line of code at a time.
     border-radius: .25rem;
 }
 
+
 // · 
 body {
     background-color: #f3f7fd;
-    #lesli-cloud-application {
+    #lesli-application {
         @import "./layout/application-header";
         @import "./layout/application-navigation";
         @import "./layout/application-component";
         @import "./layout/application-chatbox.scss";
     }
 }
-
 
 
 // · 
