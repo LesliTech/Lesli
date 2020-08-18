@@ -82,6 +82,8 @@ gem "kaminari"
 # HTTP client
 gem "faraday"
 
+gem "useragent"
+
 # files upload management
 gem "carrierwave", "~> 2.0"
 

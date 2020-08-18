@@ -45,6 +45,7 @@ class Users::SessionsController < Devise::SessionsController
     #     this.http.post('127.0.0.1/login', data);
     def create
 
+        # search for a existing user 
         resource = User.find_for_database_authentication(email: sign_in_params[:email], active: true)
 
         return respond_with_error(t('core.users/sessions.invalid_credentials')) unless resource
@@ -52,26 +53,26 @@ class Users::SessionsController < Devise::SessionsController
         activity = resource.log_activity(request.method, controller_name, action_name, request.original_fullpath, "login_atempt")
 
         unless resource.valid_password?(sign_in_params[:password])
-            activity.update_attribute(:description, "login_atempt_invalid_credentials")
+            activity.update_attribute(:description, "login_atempt_invalid_credentials, " + get_client_info(true))
             return respond_with_error(t('core.users/sessions.invalid_credentials'))
         end
         
         unless resource.confirmed?
-            return respond_with_error(t('devise.errors.custom.confirmation_required'))
+            return respond_with_error(t("devise.errors.custom.confirmation_required, " + get_client_info(true)))
         end
 
         return respond_with_error(t('core.users/sessions.role_access_denied')) unless resource.role.detail.active?
 
         sign_in :user, resource
 
-        activity.update_attribute(:description, "login_atempt_successful")
+        activity.update_attribute(:description, "login_atempt_successful, " + get_client_info(true))
 
         respond_with_successful()
 
     end
 
     def destroy
-        current_user.log_activity(request.method, controller_name, action_name, request.original_fullpath, "logout")
+        current_user.log_activity(request.method, controller_name, action_name, request.original_fullpath, "logout, " + get_client_info(true))
         sign_out current_user
         flash[:logout] = true # Flag to disable back button in browser after Logout using JavaScript
         respond_to_on_destroy
