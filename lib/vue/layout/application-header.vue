@@ -1,4 +1,6 @@
 <script>
+const platform = require('platform');
+
 /*
 Lesli
 
@@ -45,17 +47,27 @@ export default {
                     shared: I18n.t('core.shared'),
                     users: I18n.t('core.users'),
                 }
-            }
+            },
+            browser_data: {}
         }
     },
 
     mounted() {
+        this.getBrowserData();
         this.setSubscriptions();
         this.getNotificationsCount();
         this.checkIfMicrophoneWorks();
     },
 
     methods: {
+        getBrowserData(){
+            this.browser_data = {
+                name: platform.name,
+                full_version: platform.version,
+                version: parseInt(platform.version.split('.')[0]),
+                layout: platform.layout
+            }
+        },
 
         setSubscriptions() {
             this.bus.subscribe('/lesli/layout/header/notification#getNotificationsCounter', () => {
@@ -132,6 +144,16 @@ export default {
 
         }
 
+    },
+
+    computed: {
+        supportedBrowser(){
+            if(this.browser_data.name == 'Microsoft Edge' && this.browser_data.version < 84){
+                return false
+            }
+
+            return true
+        }
     }
 
 }
@@ -195,8 +217,13 @@ export default {
                         </a>
                     </div>
                 </div>
-
             </template>
         </b-navbar>
+        <b-notification v-if="! supportedBrowser" type="is-warning">
+            You currently are using {{browser_data.name}} - {{browser_data.full_version}}, which
+            is not a supported web browser, and some of the features of the system may not work correctly when using it.
+            We recomend you to change to a supported one. For a list of supported browsers, check
+            <a target="_blank" href="/about#system_requirements">here</a>
+        </b-notification>
     </header>
 </template>

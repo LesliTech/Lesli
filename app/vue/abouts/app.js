@@ -31,9 +31,14 @@ import app from 'LesliVue/app'
 
 // · Import common apps
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
-
+import appShow  from './apps/show.vue'
 
 
 // · 
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
-app("Core", "[version]", "/about", [])
+app("Core", "[show]", "/about", [
+    {
+        path: "/",
+        component: appShow
+    }
+])
