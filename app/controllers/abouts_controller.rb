@@ -27,9 +27,12 @@ Building a better future, one line of code at a time.
 =end
 
 class AboutsController < ApplicationLesliController
-    before_action :set_about, only: [:show, :edit, :update, :destroy]
+    skip_before_action :validate_privileges, only: [:show]
 
     def version
+    end
+
+    def show
     end
 
 end
