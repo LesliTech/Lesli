@@ -22,7 +22,7 @@ class SystemActivity < ApplicationRecord
             acl: "private"
         )
 
-        Account.first.system_activities.create(
+        Account.first.activities.create(
             system_module: system_module,
             system_process: "mailer",
             description: {
