@@ -1,0 +1,19 @@
+%h1 Listing system_activities
+
+%table
+  %thead
+    %tr
+      %th
+      %th
+      %th
+
+  %tbody
+    - @system_activities.each do |system_activity|
+      %tr
+        %td= link_to 'Show', system_activity
+        %td= link_to 'Edit', edit_system_activity_path(system_activity)
+        %td= link_to 'Destroy', system_activity, method: :delete, data: { confirm: 'Are you sure?' }
+
+%br
+
+= link_to 'New System activity', new_system_activity_path

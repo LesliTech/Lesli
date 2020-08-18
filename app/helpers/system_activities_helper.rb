@@ -1,0 +1,2 @@
+module SystemActivitiesHelper
+end
