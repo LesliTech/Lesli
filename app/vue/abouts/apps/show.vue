@@ -1,8 +1,15 @@
 <script>
 export default {
-    mounted(){
-        console.log('mounted')
-    }
+
+    data() {
+        return {
+            translations: {
+                core: {
+                    shared: I18n.t('core.shared')
+                }
+            }
+        }
+    },
 }
 </script>
 <template>
@@ -21,7 +28,7 @@ export default {
         <div class="card">
             <div class="card-content">
                 <b-menu>
-                    <b-menu-list label="List of Supported Browsers">
+                    <b-menu-list :label="translations.core.shared.about_system_requirements_supported_browsers">
                         <b-menu-item icon="account" href="https://www.microsoft.com/de-DE/edge" target="_download_explorer">
                             <template slot="label">
                                 <i class="fab fa-edge"></i>
