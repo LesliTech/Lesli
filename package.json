@@ -57,7 +57,8 @@
 
     },
     "scripts": {
-        "test:gui": "node ./tests/gui/playwright.js",
+        "test:load": "node ./tests/playwright/deutsche_leibrenten/load.js",
+        "test:gui": "node ./tests/playwright/deutsche_leibrenten/gui.js",
         "test:http": "mocha --reporter spec 'tests/http/**/*.test.js'",
         "webpack:production": "webpack --progress --env.mode=production",
         "webpack:watch": "webpack --progress --env.watch=true",
