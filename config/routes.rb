@@ -46,6 +46,8 @@ Rails.application.routes.draw do
 
     get :language, to: "application#switch_locale"
 
+    resource :about
+
     extend RoutesBuilder
     extend RoutesApp
 
