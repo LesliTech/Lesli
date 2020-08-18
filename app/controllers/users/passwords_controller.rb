@@ -44,9 +44,10 @@ class Users::PasswordsController < Devise::PasswordsController
     def create
         super do |resource|
             if successfully_sent?(resource)
-                resource.log_activity(request.method, controller_name, action_name, request.original_fullpath, "password_new_requested")
+                resource.log_activity(request.method, controller_name, action_name, request.original_fullpath, "password_new_requested, " + get_client_info(true))
                 return respond_with_successful
             else
+                resource.log_activity(request.method, controller_name, action_name, request.original_fullpath, "password_new_requested_failed, " + get_client_info(true))
                 return respond_with_error(I18n.t('core.users/passwords.error_invalid_email'))
             end
         end
@@ -71,10 +72,12 @@ class Users::PasswordsController < Devise::PasswordsController
     #     this.http.put('127.0.0.1/password', data);
     def update
         super do |resource|
+            activity = resource.log_activity(request.method, controller_name, action_name, request.original_fullpath)
             if resource.errors.empty?
-                resource.log_activity(request.method, controller_name, action_name, request.original_fullpath, "password_update_successful")
+                activity.update_attribute(:description, "password_update_successful, " + get_client_info(true))
                 return respond_with_successful
             else
+                activity.update_attribute(:description, "password_update_failed with: "+resource.errors.full_messages.to_sentence + ", " + get_client_info(true))
                 return respond_with_error(resource.errors.full_messages.to_sentence)
             end
         end
