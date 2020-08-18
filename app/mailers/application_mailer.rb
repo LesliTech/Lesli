@@ -27,7 +27,7 @@ class ApplicationMailer < ActionMailer::Base
         @data = data
 
         # send email
-        mail(
+        email = mail(
             to: to,
             bcc: "ldonis@lomax.com.gt",
             from: "Deutsche Leibrenten CRM <no-reply@deutsche-leibrente.de>", 
@@ -36,18 +36,16 @@ class ApplicationMailer < ActionMailer::Base
             template_name: options[:template_name]
         )
 
-        # full configuration for email
-        # mail(
-        #    to: 'marketing@deutsche-leibrenten.de',
-        #    cc: current_kop.email,
-        #    bcc: 'ldonis@lomax.com.gt',
-        #    from: "Deutsche Leibrenten CRM <no-reply@deutsche-leibrente.de>", 
-        #    reply_to: "#{current_kop.email}",
-        #    subject: 'Bestellformular',
-        #    template_path: 'mailer/kops_mails',
-        #    template_name: 'request_order'
-        # )
+        SystemActivity.log_email(
+            template_path.gsub("mailers/", ""),
+            {
+                subject: subject,
+                to: to,
+                body: email.body.encoded
 
+            }
+        )
+
+        return email
     end
-
 end
