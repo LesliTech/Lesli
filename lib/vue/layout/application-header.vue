@@ -220,10 +220,12 @@ export default {
             </template>
         </b-navbar>
         <b-notification v-if="! supportedBrowser" type="is-warning">
-            You currently are using {{browser_data.name}} - {{browser_data.full_version}}, which
-            is not a supported web browser, and some of the features of the system may not work correctly when using it.
-            We recomend you to change to a supported one. For a list of supported browsers, check
-            <a target="_blank" href="/about#system_requirements">here</a>
+            {{translations.core.shared.notice_browser_not_supported_1}}
+            {{browser_data.name}} - {{browser_data.full_version}}
+            {{translations.core.shared.notice_browser_not_supported_2}}
+            <a target="_blank" href="/about#system_requirements">
+                {{translations.core.shared.notice_browser_not_supported_3}}
+            </a>
         </b-notification>
     </header>
 </template>
