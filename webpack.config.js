@@ -129,7 +129,7 @@ module.exports = env => {
                 use: {
                     loader: "babel-loader",
                     options: {
-                        presets: ["@babel/preset-env"]
+                        presets: [["@babel/preset-env", { "targets": "defaults" }]]
                     }
                 }
             }]
@@ -234,7 +234,6 @@ module.exports = env => {
         }
 
     })
-
 
     // · Update compilation version for frontend and backend
     // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
