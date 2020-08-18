@@ -97,13 +97,20 @@ module ApplicationHelper
 
     def favicon
         ("
-        <link href=\"/images/favicon/"+lesli_instance.downcase+".svg\" rel=\"alternate icon\">
-        <link href=\"/images/favicon/"+lesli_instance.downcase+".svg\" rel=\"icon\" type=\"image/svg+xml\">
-        <link href=\"/images/favicon/"+lesli_instance.downcase+".svg\" rel=\"mask-icon\" color=\"#ff8a01\">
+        <link href=\"/images/favicon/"+lesli_instance+".svg\" rel=\"alternate icon\">
+        <link href=\"/images/favicon/"+lesli_instance+".svg\" rel=\"icon\" type=\"image/svg+xml\">
+        <link href=\"/images/favicon/"+lesli_instance+".svg\" rel=\"mask-icon\" color=\"#ff8a01\">
         ").html_safe
     end
 
-    def lesli_instance(instance=nil, engine=nil)
+    def lesli_instance()
+
+        # return instance name
+        return Rails.application.config.lesli_settings["info"]["code"]
+
+    end
+
+    def is_lesli_instance?(instance=nil, engine=nil)
 
         # return instance name
         return Rails.application.config.lesli_settings["info"]["name"] if instance.blank? and engine.blank?
@@ -125,10 +132,20 @@ module ApplicationHelper
 
     end
 
-    def lesli_engine(engine=nil)
+    def lesli_engine()
         current_engine = controller_path.split('/')[0]
-        return current_engine == engine if not engine.blank?
         return current_engine
+    end
+
+    def is_lesli_engine?(engine=nil)
+        current_engine = lesli_engine
+        return current_engine == engine if not engine.blank?
+        return false if ["profiles"].include?(current_engine)
+    end 
+
+    def lesli_engine_or_instance
+        return lesli_instance if not is_lesli_engine?
+        return lesli_engine
     end
 
 end

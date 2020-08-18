@@ -27,7 +27,7 @@ Building a better future, one line of code at a time.
 %>
 
 <application-component-navigation>
-    <%= render partial: "layouts/#{lesli_engine}/partials/module-app-navigation" %>
+    <%= render partial: "layouts/#{lesli_engine_or_instance}/partials/module-app-navigation" %>
     <template v-slot:layout>
         <div class="navigation-change-layout" @click="change_layout">
             <p>
