@@ -3,7 +3,6 @@ class SystemActivity < ApplicationRecord
 
     require 'aws-sdk-s3'
     
-
     def self.log_email(system_module, description)
 
         s3_resource = Aws::S3::Resource.new(
