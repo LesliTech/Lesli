@@ -89,8 +89,8 @@ module LC
             format = self.db_format
             
             "
-            TO_CHAR(#{table}created_at, '#{format}') as created_at_date, 
-            TO_CHAR(#{table}updated_at, '#{format}') as updated_at_date
+            TO_CHAR(#{table}created_at at time zone 'utc' at time zone '#{@settings[:time_zone]}, '#{format}') as created_at_date, 
+            TO_CHAR(#{table}updated_at at time zone 'utc' at time zone '#{@settings[:time_zone]}, '#{format}') as updated_at_date
             "
         end
 
