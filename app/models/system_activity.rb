@@ -12,7 +12,12 @@ class SystemActivity < ApplicationRecord
             secret_access_key: Rails.application.credentials.s3[:secret_access_key], 
         )
 
-        file_name = "#{LC::Date.now.strftime("%d_%m_%y_%H:%M")}_#{description[:subject]}".gsub(/\s+/, "_") 
+        activity = Account.first.activities.create(
+            system_module: system_module,
+            system_process: "mailer",
+        )
+
+        file_name = "#{activity.id}_#{LC::Date.now.strftime("%d-%m-%y-%H:%M")}#{description[:subject].present? ? "_#{description[:subject]}" : ""}".gsub(/\s+/, "_") 
         s3_bucket = s3_resource.bucket(Rails.application.credentials.s3[:bucket])
         s3_object = s3_bucket.object("system_activities/emails/#{system_module}/#{file_name}.html")
         
@@ -21,11 +26,8 @@ class SystemActivity < ApplicationRecord
             content_type: "text/html",
             acl: "private"
         )
-
-        Account.first.activities.create(
-            system_module: system_module,
-            system_process: "mailer",
-            description: {
+        
+        activity.update(description: {
                 subject: description[:subject],
                 s3_key: s3_object.key,
                 to: description[:to]
