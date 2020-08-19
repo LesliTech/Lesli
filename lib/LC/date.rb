@@ -89,17 +89,18 @@ module LC
             format = self.db_format
             
             "
-            TO_CHAR(#{table}created_at, '#{format}') as created_at_date, 
-            TO_CHAR(#{table}updated_at, '#{format}') as updated_at_date
+            TO_CHAR(#{table}created_at at time zone 'utc' at time zone '#{@settings[:time_zone]}, '#{format}') as created_at_date, 
+            TO_CHAR(#{table}updated_at at time zone 'utc' at time zone '#{@settings[:time_zone]}, '#{format}') as updated_at_date
             "
         end
 
         def self.db_to_char column, alias_name = nil
+            self.verify_settings
 
             alias_name = column unless alias_name
             # get right format for dates
             format = self.db_format
-            "TO_CHAR(#{column}, '#{format}') as #{alias_name}"
+            "TO_CHAR(#{column} at time zone 'utc' at time zone '#{@settings[:time_zone]}', '#{format}') as #{alias_name}"
         end
 
         def self.db_format
