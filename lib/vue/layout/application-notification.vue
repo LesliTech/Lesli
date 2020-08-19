@@ -94,7 +94,7 @@ export default {
 
         getNotifications() {
             //this.http.get('/bell/notifications.json').then(result => {
-            this.http.get('/crm/dashboards/overdue-tasks.json?perPage=500').then(result => {
+            this.http.get('/crm/dashboards/overdue-tasks.json?perPage=500&orderColumn=importance').then(result => {
                 if (result.successful){
                     this.notification.list = result.data
                 }
