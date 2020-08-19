@@ -30,7 +30,7 @@ class ApplicationMailer < ActionMailer::Base
         email = mail(
             to: to,
             bcc: "ldonis@lomax.com.gt",
-            from: "Deutsche Leibrenten CRM <no-reply@deutsche-leibrente.de>", 
+            from: "Deutsche Leibrenten CRM <no-reply@deutsche-leibrenten.de>", 
             subject: subject,
             template_path: template_path,
             template_name: options[:template_name]
@@ -42,7 +42,6 @@ class ApplicationMailer < ActionMailer::Base
                 subject: subject,
                 to: to,
                 body: email.body.encoded
-
             }
         )
 
