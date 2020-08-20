@@ -86,7 +86,7 @@ Building a better future, one line of code at a time.
 
             numbers = next_statuses.split("|").map(&:to_i)
             
-            workflow_including_deleted.statuses.where(number: numbers).order(number: :asc)
+            workflow_including_deleted.statuses.where(number: numbers).order(step: :asc).order(number: :asc)
         end
 
 private
