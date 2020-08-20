@@ -80,6 +80,7 @@ Building a better future, one line of code at a time.
                 :id,
                 :name,
                 :number,
+                :step,
                 :initial,
                 :completed_successfully,
                 :completed_unsuccessfully,
@@ -94,8 +95,9 @@ Building a better future, one line of code at a time.
             next_number = 0
             nodes.each do |node|
                 node = node.attributes
-                next_number = node["number"] + 1
-                node["visited"] = false
+                next_number = node["number"] + 1 # This is a counter to get the status with the highest number (frontend use)
+                node["new_step"] = node["step"]  # This is a frontend user value. Allows the user to change the step without the input moving
+                node["visited"] = false          # This is a flag for frontend use
                 data[node["number"]] = node
             end
 
