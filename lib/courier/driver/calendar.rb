@@ -87,7 +87,12 @@ module Courier
                 return unless defined? CloudDriver
                 current_user.account.driver.calendars.default.events
                 .joins(:detail)
-                .select(:id, :title, :description, :event_date, :time_start, :time_end, :location, :url, :event_type, :public)
+                .select(:id, :title, :description, :event_date, :time_start, :time_end, :location, :url, :event_type, :public, :model_type)
+            end
+
+            def self.events_from_all_modules(current_user, query)
+                return unless defined? CloudDriver
+                current_user.account.driver.calendars.events_from_all_modules(current_user, query)
             end
 
         end
