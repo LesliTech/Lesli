@@ -2,7 +2,7 @@
   "_args": [
     [
       "lesli-css@0.7.5",
-      "/Users/ldonis/code/Lesli/beta.deutsche-leibrenten.de"
+      "/Users/diegoalay/Desktop/lomax/project/lesli.cloud"
     ]
   ],
   "_development": true,
@@ -27,7 +27,7 @@
   ],
   "_resolved": "https://registry.npmjs.org/lesli-css/-/lesli-css-0.7.5.tgz",
   "_spec": "0.7.5",
-  "_where": "/Users/ldonis/code/Lesli/beta.deutsche-leibrenten.de",
+  "_where": "/Users/diegoalay/Desktop/lomax/project/lesli.cloud",
   "author": {
     "name": "LesliTech",
     "email": "hello@lesli.tech"
