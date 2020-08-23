@@ -320,7 +320,6 @@ private
                     :to_be_deleted,
                     :name,
                     :number,
-                    :step,
                     :_destroy
                 ]
             )

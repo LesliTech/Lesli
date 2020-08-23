@@ -118,13 +118,13 @@ export default {
                 let data = []
                 Object.values(this.workflow_data).forEach( node => {
                     let parsed_node = {
-                        id: node.number,
+                        id: node.id,
                         text: `${this.getIcon(node)} ${this.getNodeName(node)}`
                     }
                     if(node.next_statuses){
                         parsed_node.next = node.next_statuses.split("|")
                     }
-                    if(this.selectedWorkflowState == node.number){
+                    if(this.selectedWorkflowState == node.id){
                         parsed_node.style = 'fill:#EFFD5F,stroke:#FCE205'
                     }else{
                         parsed_node.style = 'fill:#FFFFFF,stroke:#000000'
@@ -136,9 +136,9 @@ export default {
                     }else if(node.completed_successfully){
                         parsed_node.style = 'fill:#48c774,stroke:#000000'
                     }else if(node.completed_unsuccessfully){
-                        parsed_node.style = 'fill:#f14668,stroke:#000000'
-                    }else if(node.to_be_deleted){
                         parsed_node.style = 'fill:#ffdd57,stroke:#000000'
+                    }else if(node.to_be_deleted){
+                        parsed_node.style = 'fill:#f14668,stroke:#000000'
                     }
 
                     data.push(parsed_node)
