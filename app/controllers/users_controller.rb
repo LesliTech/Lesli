@@ -33,6 +33,10 @@ class UsersController < ApplicationLesliController
         user.account = current_user.account
         user.confirm
 
+        if user.role.blank?
+            user.role = current_user.account.roles.joins(:detail).where("role_details.name = 'limited'").first
+        end
+
         if user.save
             respond_with_successful(user)
             User.send_password_reset(user)

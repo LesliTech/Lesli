@@ -28,12 +28,10 @@ Building a better future, one line of code at a time.
 
 // · 
 export default {
-    props: {
-        user: {},
-        options: {}
-    },
     data() {
         return {
+            user: { detail_attributes:{} },
+            options: {},
             translations: {
                 users: I18n.t('core.users'),
                 shared: I18n.t('core.shared')
@@ -48,16 +46,12 @@ export default {
     methods: {
 
         putUserPassword() {
-            this.submitting_form.password = true
-
             this.http.put('/', {
                 user: {
                     password: this.user.password,
                     password_confirmation: this.user.password_confirmation
                 }
             }).then(result => {
-                this.submitting_form.password = false
-
                 if (result.successful == true) {
                     this.alert(this.translations.users.notification_password_updated, "success")
                 } else {
@@ -109,20 +103,21 @@ export default {
         },
         
     },
-
-    computed: {
-        securityEditable(){
-            return this.user.editable_security || false
+    watch: {
+        "store.data.user": function(user) {
+            this.user = user
         },
-    },
-
+        "store.data.options": function(data) {
+            this.options = data
+        }
+    }
 }
 </script>
 
 <template>
     <div class="columns">
         <!-- password -->
-        <div class="column">
+        <div class="column" v-if="lesli.current_user.id ==  user.id">
             <form @submit.prevent="putUserPassword()">
                 <div class="field">
                     <label class="label"> {{ translations.users.field_name_password }} </label>
@@ -160,8 +155,8 @@ export default {
         </div>
 
          <!-- role and active -->
-        <div class="column">
-            <form @submit.prevent="putUserActive()" v-if="securityEditable">
+        <div class="column" v-if="abilities.isRole('admin','owner')">
+            <form @submit.prevent="putUserActive()">
                 <div class="field">
                     <label class="label"> {{ translations.users.field_name_system_access }}</label>
                     <div class="select">
@@ -186,12 +181,12 @@ export default {
                     </button>
                 </p>
             </form>
-            <form @submit.prevent="putUserRole()" v-if="securityEditable">
+            <form @submit.prevent="putUserRole()">
                 <div class="field" vif="abilities.isRole('admin', 'owner')">
                     <label class="label"> {{ translations.shared.text_role }}</label>
                     <div class="control">
                         <div class="select">
-                            <select v-model="user.roles_id" :disabled="!securityEditable">
+                            <select v-model="user.roles_id">
                                 <option 
                                     v-for="role in options.roles" :key="role.value"
                                     :value="role.value"

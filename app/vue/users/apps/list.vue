@@ -67,8 +67,8 @@ export default {
                 range_before: 3,
                 range_after: 3
             },
-            abilities: {
-                users: this.abilities.privilege("users")
+            privileges: {
+                users: this.abilities.privileges()
             }
         }
     },
@@ -192,7 +192,7 @@ export default {
                     <b-icon icon="sync" size="is-small" :custom-class="loading ? 'fa-spin' : ''" />
                     <span> {{ translations.core.shared.btn_reload }}</span>
                 </button>
-                <router-link class="button" tag="button" to="/new" v-if="abilities.users.grant_create">
+                <router-link class="button" tag="button" to="/new" v-if="privileges.users.grant_create">
                     <b-icon icon="plus" size="is-small" />
                     <span>{{ translations.core.users.title_users }}</span>
                 </router-link>
@@ -208,7 +208,6 @@ export default {
 
         <div class="card">
             <div class="card-content">
-                
                 <component-data-loading v-if="loading" />
                 <component-data-empty v-if="!loading && users.length == 0" />
                 <b-table 
