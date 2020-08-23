@@ -56,8 +56,9 @@ export default {
         }
     },
     mounted() {
-        this.user_id = this.lesli.current_user.id
+        this.user_id = this.$route.params.id
         this.getUser()
+        this.getOptions()
     },
     methods: {
         getUser() {
@@ -71,6 +72,30 @@ export default {
             }).catch(error => {
                 console.log(error)
             })
+        },
+        getOptions(){
+            this.http.get('/users/options.json').then(result => {
+                if (result.successful) {
+                    /*
+                    this.options = result.data
+                    let user_role = this.options.roles.find(e => e.value === this.user.roles_id)
+                    this.options.roles = this.options.roles.filter(e => 
+                        (
+                            (e.text !== 'api' &&
+                            e.text !== 'guest' &&
+                            e.text !== 'callcenter' && 
+                            e.text !== 'kop' &&
+                            e.text !== 'owner' &&
+                            e.text !== 'limited') ||
+                            e.text == user_role.text
+                        )
+                    )
+                    */
+                    this.store.data.options = result.data
+                }
+            }).catch(error => {
+                console.log(error)
+            })
         }
     }
 }
@@ -78,7 +103,7 @@ export default {
 
 <template>
     <section class="application-component">
-        <component-information-card></component-information-card>
+        <component-information-card :user="user"></component-information-card>
         <b-tabs>
             <b-tab-item :label="translations.core.users.tab_information">
                 <component-information-form></component-information-form>

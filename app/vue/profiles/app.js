@@ -39,4 +39,6 @@ import appProfile from "./apps/profile.vue"
 app("Core", "[profile]", "/profile", [{
     path: "/",
     component: appProfile
-}])
+}], {
+    user: {}
+})

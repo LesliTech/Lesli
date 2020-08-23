@@ -28,27 +28,23 @@ Building a better future, one line of code at a time.
 
 // · 
 export default {
-    props: {
-        user: {},
-        options: {}
-    },
     data() {
         return {
             translations: {
                 users: I18n.t('core.users'),
                 shared: I18n.t('core.shared')
             },
-            submitting_form: false
+            options: {},
+            user: {
+                detail_attributes: {}
+            }
         }
     },
     methods: {
         putUser() {
-            this.submitting_form = true
-
             this.http.put(`/users/${this.user.id}.json`, {
                 user: this.user
             }).then(result => {
-                this.submitting_form = false
                 if (result.successful) {
                     this.alert(this.translations.users.notification_user_updated, 'success')
                 }else{
@@ -58,14 +54,21 @@ export default {
                 console.log(error)
             })
         }
+    },
+    watch: {
+        "store.data.user": function(user) {
+            this.user = user
+        },
+        "store.data.options": function(data) {
+            this.options = data
+        }
     }
-
 }
 </script>
 
 <template>
     <form @submit.prevent="putUser()">
-        <fieldset :disabled="submitting_form">
+        <fieldset>
             <div class="column is-half">
                 <div class="field">
                     <label class="label">
@@ -104,20 +107,8 @@ export default {
                         <input v-model="user.detail_attributes.telephone" class="input">
                     </div>
                 </div>
-
-                <p class="control" v-if="user.is_editable">
-                    <button class="button is-primary" type="submit">
-                        <span v-if="submitting_form">
-                            <b-icon icon="circle-notch" custom-class="fa-spin" size="is-small" />
-                            &nbsp;
-                            {{translations.shared.btn_saving}}
-                        </span>
-                        <span v-else>
-                            <b-icon icon="save" size="is-small" />
-                            &nbsp;
-                            {{translations.shared.btn_save}}
-                        </span>
-                    </button>
+                <p class="control">
+                    <button class="button is-primary">{{ translations.shared.btn_save }}</button>
                 </p>
             </div>
         </fieldset>
