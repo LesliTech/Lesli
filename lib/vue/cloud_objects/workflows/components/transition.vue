@@ -73,8 +73,6 @@ export default {
                         }else{
                             this.transition_statuses = []
                         }
-                    } else {
-                        this.alert(result.error.message, 'danger')
                     }
                 }).catch(error => {
                     console.log(error)
