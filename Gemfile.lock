@@ -1,3 +1,51 @@
+PATH
+  remote: engines/CloudBabel
+  specs:
+    cloud_babel (0.1.0)
+      rails (~> 6.0.0)
+
+PATH
+  remote: engines/CloudBell
+  specs:
+    cloud_bell (0.1.0)
+      rails (~> 6.0.0)
+
+PATH
+  remote: engines/CloudDispatcher
+  specs:
+    cloud_dispatcher (1.0)
+      rails (~> 6.0.2)
+
+PATH
+  remote: engines/CloudDriver
+  specs:
+    cloud_driver (0.1.0)
+      rails (~> 6.0.0)
+
+PATH
+  remote: engines/CloudLesli
+  specs:
+    cloud_lesli (0.1.0)
+      rails (~> 6.0.0)
+
+PATH
+  remote: engines/CloudMailer
+  specs:
+    cloud_mailer (0.1.0)
+      rails (~> 6.0.3)
+
+PATH
+  remote: engines/CloudNotes
+  specs:
+    cloud_notes (0.1.0)
+      rails (~> 6.0.3)
+
+PATH
+  remote: engines/LesliCloud
+  specs:
+    lesli_cloud (0.1.0)
+      rails (~> 6.0.2, >= 6.0.2.2)
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -405,6 +453,13 @@ DEPENDENCIES
   capistrano3-puma
   carrierwave (~> 2.0)
   caxlsx_rails
+  cloud_babel!
+  cloud_bell!
+  cloud_dispatcher!
+  cloud_driver!
+  cloud_lesli!
+  cloud_mailer!
+  cloud_notes!
   devise
   faker
   faraday
@@ -417,6 +472,7 @@ DEPENDENCIES
   i18n-js
   jwt
   kaminari
+  lesli_cloud!
   letter_opener
   listen (= 3.2.1)
   pg (>= 0.18, < 2.0)
