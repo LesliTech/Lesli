@@ -167,7 +167,7 @@ export default {
                         <svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'><title></title><path d='M104,160a56,56,0,1,1,56-56A56.06,56.06,0,0,1,104,160Z'/><path d='M256,160a56,56,0,1,1,56-56A56.06,56.06,0,0,1,256,160Z'/><path d='M408,160a56,56,0,1,1,56-56A56.06,56.06,0,0,1,408,160Z'/><path d='M104,312a56,56,0,1,1,56-56A56.06,56.06,0,0,1,104,312Z'/><path d='M256,312a56,56,0,1,1,56-56A56.06,56.06,0,0,1,256,312Z'/><path d='M408,312a56,56,0,1,1,56-56A56.06,56.06,0,0,1,408,312Z'/><path d='M104,464a56,56,0,1,1,56-56A56.06,56.06,0,0,1,104,464Z'/><path d='M256,464a56,56,0,1,1,56-56A56.06,56.06,0,0,1,256,464Z'/><path d='M408,464a56,56,0,1,1,56-56A56.06,56.06,0,0,1,408,464Z'/></svg>
                     </span>
                 </a>
-                <slot name="brand" class="ldonis"></slot>
+                <slot name="brand"></slot>
             </template>
             <template slot="start">
                 <div class="navbar-item">
@@ -197,7 +197,7 @@ export default {
                     </span>
                 </a>
 
-                <div class="navbar-item has-dropdown is-hoverable" data-intro="Account options">
+                <div class="navbar-item has-dropdown is-hoverable">
                     <span class="navbar-link">
                         <slot name="username"></slot>
                     </span>
@@ -223,7 +223,7 @@ export default {
             {{translations.core.shared.notice_browser_not_supported_1}}
             {{browser_data.name}} - {{browser_data.full_version}}
             {{translations.core.shared.notice_browser_not_supported_2}}
-            <a target="_blank" href="/about#system_requirements">
+            <a target="_blank" href="/system-requirements">
                 {{translations.core.shared.notice_browser_not_supported_3}}
             </a>
         </b-notification>
