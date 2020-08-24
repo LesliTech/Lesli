@@ -36,13 +36,19 @@ export default {
 }
 </script>
 <template>
-    <div class="field is-grouped component-toolbar">
-            <div class="control is-expanded has-icons-right">
-                <input type="text" :placeholder="searchText" v-model="text" @input="search()" class="input is-shadowless">
-                <span class="icon is-right">
-                    <a class="delete" @click="clearSearch"></a>
-                </span>
+    <div class="columns is-multiline">
+        <div class="column is-12">
+            <div class="field is-grouped component-toolbar">
+                <div class="control is-expanded has-icons-right">
+                    <input type="text" :placeholder="searchText" v-model="text" @input="search()" class="input is-shadowless">
+                    <span class="icon is-right">
+                        <a class="delete" @click="clearSearch"></a>
+                    </span>
+                </div>
+                <slot></slot>
             </div>
-            <slot></slot>
         </div>
+        <slot name="second-row">
+        </slot>
+    </div>
 </template>

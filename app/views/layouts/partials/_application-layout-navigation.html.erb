@@ -27,7 +27,12 @@ Building a better future, one line of code at a time.
 %>
 
 <application-component-navigation>
-    <%= render partial: "layouts/#{lesli_engine}/partials/module-app-navigation" %>
+
+    <%# Custom navigation from builder engine %>
+    <% if lesli_instance != "lesli" %>
+    <%= render partial: "layouts/#{lesli_engine_or_instance}/partials/module-app-navigation" %>
+    <% end %>
+    
     <template v-slot:layout>
         <div class="navigation-change-layout" @click="change_layout">
             <p>

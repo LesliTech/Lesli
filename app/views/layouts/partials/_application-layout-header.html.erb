@@ -28,12 +28,13 @@ Building a better future, one line of code at a time.
 
 <application-component-header>
 
-    <% if lesli_instance != "Lesli" %>
-        <%= render partial: "layouts/#{lesli_instance.underscore}/partials/module-app-header" %>
+    <%# Custom header from builder engine %>
+    <% if lesli_instance != "lesli" %>
+    <%= render partial: "layouts/#{lesli_instance.underscore}/partials/module-app-header" %>
     <% end %>
 
-    <% if lesli_instance == "Lesli" %>
-    <template v-slot:navbarbrand>
+    <% if lesli_instance == "lesli" %>
+    <template v-slot:brand>
         <a class="navbar-item is-size-3" href="/">
             Lesli
         </a>
@@ -42,7 +43,7 @@ Building a better future, one line of code at a time.
 
     <%# username %>
     <template v-slot:username>
-        <%= current_user.full_name %>
+    <%= current_user.full_name %>
     </template>
 
     <%# show language selector for development only %>

@@ -27,9 +27,9 @@ Building a better future, one line of code at a time.
 
 
 // · 
-import componentInformationCard from "../components/card-information.vue"
-import componentInformationForm from "../components/form-information.vue"
-import componentSecurityForm from "../components/form-security.vue"
+import componentInformationCard from "Lesli/vue/users/components/card-information.vue"
+import componentInformationForm from "Lesli/vue/users/components/form-information.vue"
+import componentSecurityForm from "Lesli/vue/users/components/form-security.vue"
 
 
 // · 
@@ -42,19 +42,21 @@ export default {
     data() {
         return {
             user_id: null,
-            options: null,
-            ready: false,
             user: {
                 detail_attributes: {}
             },
+            options: [],
+            ready: false,
             translations: {
-                users: I18n.t('core.users'),
-                shared: I18n.t('core.shared')
+                core: {
+                    users: I18n.t('core.users'),
+                    shared: I18n.t('core.shared')
+                }
             },
         }
     },
     mounted() {
-        this.user_id = lesli.current_user.id
+        this.user_id = this.lesli.current_user.id
         this.getUser()
     },
     methods: {
@@ -62,22 +64,9 @@ export default {
             this.http.get(`/users/${this.user_id}.json`).then(result => {
                 if (result.successful) {
                     this.user = result.data
-                    this.getOptions()
+                    this.store.data.user = result.data
                 }else{
                     this.alert(result.error.message,'danger')
-                }
-            }).catch(error => {
-                console.log(error)
-            })
-        },
-
-        getOptions(){
-            let url = `/users/options.json`
-
-            this.http.get(url).then(result => {
-                if (result.successful) {
-                    this.options = result.data
-                    this.ready = true
                 }
             }).catch(error => {
                 console.log(error)
@@ -89,13 +78,13 @@ export default {
 
 <template>
     <section class="application-component">
-        <component-information-card :user="user"></component-information-card>
+        <component-information-card></component-information-card>
         <b-tabs>
-            <b-tab-item :label="translations.users.tab_information">
-                <component-information-form v-if="user && ready" :user="user" :options="options"></component-information-form>
+            <b-tab-item :label="translations.core.users.tab_information">
+                <component-information-form></component-information-form>
             </b-tab-item>
-            <b-tab-item :label="translations.users.tab_security" v-if="user.is_editable">
-                <component-security-form v-if="user && ready" :user="user" :options="options"></component-security-form>
+            <b-tab-item :label="translations.core.users.tab_security">
+                <component-security-form></component-security-form>
             </b-tab-item>
         </b-tabs>
     </section>
