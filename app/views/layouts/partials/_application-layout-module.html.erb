@@ -26,9 +26,6 @@ Building a better future, one line of code at a time.
 
 %>
 
-<application-component-apps>
-
-    <% engine = controller_path.split('/')[0] %>
-    <%= render partial: 'layouts/lesli_cloud/partials/platform-apps' if lesli_instance("LesliCloud") %>
-
-</application-component-apps>
+<application-component-module>
+    <%#= render partial: "layouts/#{lesli_engine}/partials/platform-module-navigation" %>
+</application-component-module>

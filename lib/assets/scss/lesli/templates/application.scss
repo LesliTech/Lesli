@@ -70,16 +70,16 @@ Building a better future, one line of code at a time.
 
 // · Loading app layout 
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
-@import "../layout/application-apps.scss";
-@import "../layout/application-header";
+@import "../layout/application-module.scss";
+@import "../layout/application-header.scss";
 @import "../layout/application-notification.scss";
-@import "../layout/application-navigation";
-@import "../layout/application-component";
-@import "../layout/application-footer";
-@import "../layout/application-chatbox";
-@import "../layout/application-global-search";
+@import "../layout/application-navigation.scss";
+@import "../layout/application-component.scss";
+@import "../layout/application-footer.scss";
+@import "../layout/application-chatbox.scss";
+@import "../layout/application-search.scss";
 @import "../components/component-data.scss";
-@import "../components/component-header";
+@import "../components/component-header.scss";
 @import "../components/component-toolbar.scss";
 
 

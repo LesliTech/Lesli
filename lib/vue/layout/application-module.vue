@@ -55,7 +55,7 @@ export default {
 <template>
     <section>
         <b-sidebar
-            class="application-apps"
+            class="application-modules"
             :fullheight="fullheight"
             :fullwidth="fullwidth"
             :overlay="overlay"
@@ -69,20 +69,5 @@ export default {
                 <slot></slot>
             </div>
         </b-sidebar>
-        <!-- 
-        <section class="application-apps">
-            <div :class="[{ 'is-active': apps.showLeft }, 'quickview']">
-                <header class="quickview-header" @click="apps.showRight = false">
-                    <b><slot name="title"></slot></b>
-                    <i class="fas fa-arrow-left"></i>
-                </header>
-                <div class="quickview-body">
-                    <div class="quickview-block">
-                        <slot></slot>
-                    </div>
-                </div>
-            </div>
-        </section>
-        -->
     </section>
 </template>

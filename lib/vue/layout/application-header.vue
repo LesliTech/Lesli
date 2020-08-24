@@ -1,4 +1,6 @@
 <script>
+const platform = require('platform');
+
 /*
 Lesli
 
@@ -45,17 +47,27 @@ export default {
                     shared: I18n.t('core.shared'),
                     users: I18n.t('core.users'),
                 }
-            }
+            },
+            browser_data: {}
         }
     },
 
     mounted() {
+        this.getBrowserData();
         this.setSubscriptions();
         this.getNotificationsCount();
         this.checkIfMicrophoneWorks();
     },
 
     methods: {
+        getBrowserData(){
+            this.browser_data = {
+                name: platform.name,
+                full_version: platform.version,
+                version: parseInt(platform.version.split('.')[0]),
+                layout: platform.layout
+            }
+        },
 
         setSubscriptions() {
             this.bus.subscribe('/lesli/layout/header/notification#getNotificationsCounter', () => {
@@ -132,6 +144,16 @@ export default {
 
         }
 
+    },
+
+    computed: {
+        supportedBrowser(){
+            if(this.browser_data.name == 'Microsoft Edge' && this.browser_data.version < 84){
+                return false
+            }
+
+            return true
+        }
     }
 
 }
@@ -175,7 +197,7 @@ export default {
                     </span>
                 </a>
 
-                <div class="navbar-item has-dropdown is-hoverable" data-intro="Account options">
+                <div class="navbar-item has-dropdown is-hoverable">
                     <span class="navbar-link">
                         <slot name="username"></slot>
                     </span>
@@ -195,8 +217,15 @@ export default {
                         </a>
                     </div>
                 </div>
-
             </template>
         </b-navbar>
+        <b-notification v-if="! supportedBrowser" type="is-warning">
+            {{translations.core.shared.notice_browser_not_supported_1}}
+            {{browser_data.name}} - {{browser_data.full_version}}
+            {{translations.core.shared.notice_browser_not_supported_2}}
+            <a target="_blank" href="/system-requirements">
+                {{translations.core.shared.notice_browser_not_supported_3}}
+            </a>
+        </b-notification>
     </header>
 </template>

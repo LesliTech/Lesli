@@ -28,6 +28,7 @@ Building a better future, one line of code at a time.
 
 <script>
 const lesli = {
+    app: "<%= params[:controller] %>",
     view_id: "<%= "#{params[:controller].gsub("/", "_")}_#{params[:action]}" %>",
     current_user: <%= @account ? @account[:current_user].to_json.html_safe : "{}"%>,
     company: <%= @account ? @account[:company].to_json.html_safe : "{}"%>,

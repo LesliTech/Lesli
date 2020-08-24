@@ -1,0 +1,10 @@
+= form_for @system_activity do |f|
+  - if @system_activity.errors.any?
+    #error_explanation
+      %h2= "#{pluralize(@system_activity.errors.count, "error")} prohibited this system_activity from being saved:"
+      %ul
+        - @system_activity.errors.full_messages.each do |message|
+          %li= message
+
+  .actions
+    = f.submit 'Save'

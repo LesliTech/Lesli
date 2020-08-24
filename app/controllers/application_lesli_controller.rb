@@ -140,10 +140,10 @@ class ApplicationLesliController < ApplicationController
             @account[:settings][setting[:name]] = setting[:value].to_s
         end
 
-        # set user privileges
-        privileges = {}
+        # set user abilities
+        abilities = {}
         current_user.role.privileges.each do |privilege|
-            privileges[privilege.grant_object] = privilege
+            abilities[privilege.grant_object] = privilege
         end
 
         # set user information
@@ -152,7 +152,7 @@ class ApplicationLesliController < ApplicationController
             email: current_user.email,
             full_name: current_user.full_name,
             role: current_user.role.detail.name,
-            privileges: privileges
+            abilities: abilities
         }
 
         @account

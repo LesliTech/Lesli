@@ -27,36 +27,13 @@ Building a better future, one line of code at a time.
 
 export default {
 
-    methods: {
-
-        changeLayout() {
-
-            // based on Bulma css breakpoints
-            let layouts = ["mobile", "tablet", "desktop"] 
-
-            let current = this.storage.global("layout") || layouts.length
-
-            current = current - 1
-
-            if (current < 1) {
-                current = layouts.length
-            }
-
-            this.storage.global("layout", current)
-
-        },
-
-    }
-
 }
 </script>
 <template>
     <nav class="application-navigation menu">
         <ul class="menu-list">
             <slot></slot>
-            <li>
-                <a @click="changeLayout"><i class="fas fa-chevron-left"></i></a>
-            </li>
+            <li></li>
         </ul>
     </nav>
 </template>
