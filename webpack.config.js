@@ -154,6 +154,10 @@ module.exports = env => {
 
     webpackConfig.push(webpackbase)
 
+    if (!fs.existsSync("./engines")) {
+        return webpackConfig
+    }
+
     // get & parse engine information files (lesli.yml)
     let engines = fs.readdirSync("./engines").filter(directory => directory != ".gitkeep").filter(engine => {
 
