@@ -84,9 +84,9 @@ Building a better future, one line of code at a time.
             dynamic_info = self.class.dynamic_info
             module_name = dynamic_info[:module_name]
 
-            numbers = next_statuses.split("|").map(&:to_i)
+            ids = next_statuses.split("|").map(&:to_i)
             
-            workflow_including_deleted.statuses.where(number: numbers).order(number: :asc)
+            workflow_including_deleted.statuses.where(id: ids).order(number: :asc).order(id: :asc)
         end
 
 private
