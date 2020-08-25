@@ -25,25 +25,7 @@ Building a better future, one line of code at a time.
 */
 
 
-// · 
-body {
-    background-color: #f3f7fd;
+// · Application module navigation
+// · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
+section.lesli-app-chatbox {
 }
-
-// · 
-@import "lesli-css/";
-@import "./settings/colors";
-@import "./layout/application-header";
-@import "./layout/application-navigation";
-@import "./layout/application-component";
-@import "./layout/application-chatbox.scss";
-
-
-/*
-@mixin lesli-css-theme-boxshadow {
-    box-shadow: 0px 0px 10px 0px rgba(lesli-css-get-color(silver), .60);
-}
-@mixin lesli-css-theme-border-radius {
-    border-radius: .25rem;
-}
-*/

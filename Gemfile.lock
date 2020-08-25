@@ -1,44 +1,8 @@
 PATH
-  remote: engines/CloudBabel
+  remote: engines/Mitwerken
   specs:
-    cloud_babel (0.1.0)
-      rails (~> 6.0.0)
-
-PATH
-  remote: engines/CloudBell
-  specs:
-    cloud_bell (0.1.0)
-      rails (~> 6.0.0)
-
-PATH
-  remote: engines/CloudDispatcher
-  specs:
-    cloud_dispatcher (1.0)
-      rails (~> 6.0.2)
-
-PATH
-  remote: engines/CloudDriver
-  specs:
-    cloud_driver (0.1.0)
-      rails (~> 6.0.0)
-
-PATH
-  remote: engines/CloudFocus
-  specs:
-    cloud_focus (0.1.0)
-      rails (~> 6.0.0)
-
-PATH
-  remote: engines/CloudHouse
-  specs:
-    cloud_house (0.1.0)
-      rails (~> 6.0.0)
-
-PATH
-  remote: engines/DeutscheLeibrenten
-  specs:
-    deutsche_leibrenten (0.1.0)
-      rails (~> 6.0.0)
+    mitwerken (0.1.0)
+      rails (~> 6.0.3)
 
 GEM
   remote: https://rubygems.org/
@@ -426,13 +390,6 @@ DEPENDENCIES
   capistrano3-puma
   carrierwave (~> 2.0)
   caxlsx_rails
-  cloud_babel!
-  cloud_bell!
-  cloud_dispatcher!
-  cloud_driver!
-  cloud_focus!
-  cloud_house!
-  deutsche_leibrenten!
   devise
   faker
   faraday
@@ -446,6 +403,7 @@ DEPENDENCIES
   kaminari
   letter_opener
   listen (= 3.2.1)
+  mitwerken!
   pg (>= 0.18, < 2.0)
   puma (= 4.3.3)
   rack-cors

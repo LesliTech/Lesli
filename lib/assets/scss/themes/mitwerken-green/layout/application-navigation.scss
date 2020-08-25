@@ -1,4 +1,4 @@
-/*
+/**
 Lesli
 
 Copyright (c) 2020, Lesli Technologies, S. A.
@@ -11,14 +11,13 @@ Without the written permission of Lesli Technologies, S. A., any replication, mo
 transmission, publication is strictly forbidden.
 For more information read the license file including with this software.
 
-Lesli - Your Smart Business Assistant
+LesliCloud - Your Smart Business Assistant
 
 Powered by https://www.lesli.tech
 Building a better future, one line of code at a time.
 
-@contact  <hello@lesli.tech>
-@website  <https://lesli.tech>
 @license  Propietary - all rights reserved.
+@version  0.1.0-alpha
 
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
 // · 
@@ -26,24 +25,17 @@ Building a better future, one line of code at a time.
 
 
 // · 
-body {
-    background-color: #f3f7fd;
-}
-
-// · 
 @import "lesli-css/";
-@import "./settings/colors";
-@import "./layout/application-header";
-@import "./layout/application-navigation";
-@import "./layout/application-component";
-@import "./layout/application-chatbox.scss";
 
 
-/*
-@mixin lesli-css-theme-boxshadow {
-    box-shadow: 0px 0px 10px 0px rgba(lesli-css-get-color(silver), .60);
+// · Navigation sidebar
+.application-navigation {
+
+    li a {
+
+        &.is-active {
+            background-color: lesli-css-theme-get-color(app, primary);
+        }
+
+    }
 }
-@mixin lesli-css-theme-border-radius {
-    border-radius: .25rem;
-}
-*/
