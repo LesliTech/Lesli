@@ -76,7 +76,8 @@ class ApplicationLesliController < ApplicationController
     end
 
     def check_account
-        return if !Rails.application.config.lesli_settings["account"]["security"]["register"]["allow"]
+        # check if account is active only for html requests
+        return true if not request.format.html?
         return if current_user.blank?
         return if controller_name == "accounts"
         redirect_to "/account/new" if current_user.account.status == "registered"
