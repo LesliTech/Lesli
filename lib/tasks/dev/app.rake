@@ -98,6 +98,11 @@ namespace :dev do
         end
 
         desc "List available engines"
+        task settings: :environment do
+            p Lesli::settings
+        end
+
+        desc "List available engines"
         task engines: :environment do
             p "Available engines:"
             Lesli::engines.each do |engine|
