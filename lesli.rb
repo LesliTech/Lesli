@@ -89,6 +89,23 @@ module Lesli
         # Lesli core settings
         lesli_settings = YAML.load_file("./lesli.yml")
 
+        lesli_configuration = lesli_settings["configuration"]
+
+        platform_settings = {}
+
+        platform_settings["info"] = lesli_settings["info"]
+
+        platform_settings["account"] = lesli_settings["account"]
+
+        platform_settings["configuration"] = lesli_settings["configuration"]
+
+        platform_settings["env"] = lesli_settings["env"]["development"]
+
+        platform_settings["engines"] = engines
+
+        return platform_settings
+
+=begin
         # Get Lesli development user
         lesli_development_user = lesli_settings["account"]["security"]["login"]
 
@@ -114,17 +131,7 @@ module Lesli
 
         end
 
-        platform_settings = {}
-
-        platform_settings["engines"] = engines
-
-        platform_settings["account"] = lesli_settings["account"]
-
-        platform_settings["info"] = lesli_settings["info"]
-
-        platform_settings["env"] = lesli_settings[Rails.env]
-
-        platform_settings
+=end
 
     end
 
