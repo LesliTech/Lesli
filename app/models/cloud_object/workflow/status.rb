@@ -28,6 +28,13 @@ Building a better future, one line of code at a time.
         self.abstract_class = true
 
         validates :name, presence: true
+
+        enum status_type: {
+            initial: "initial",
+            completed_successfully: "completed_successfully",
+            completed_unsuccessfully: "completed_unsuccessfully",
+            to_be_deleted: "to_be_deleted"
+        }
         
 
 =begin
