@@ -27,7 +27,7 @@ Building a better future, one line of code at a time.
 =end
 
 # get settings
-account_logins = Rails.application.config.lesli_settings["account"]["security"]["login"]
+account_logins = Rails.application.config.lesli_settings["configuration"]["security"]["login"]
 
 # create development users
 account_logins.each do |account_login|

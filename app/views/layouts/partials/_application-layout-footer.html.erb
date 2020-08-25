@@ -2,9 +2,9 @@
     <nav class="navbar" aria-label="main navigation" role="navigation">
         <div class="navbar-brand">
             <a class="navbar-item">
-                <%= @account[:company][:name] %>
+                <%= Rails.application.config.lesli_settings["account"]["company"]["name"] %>
                 &bull;
-                <%= @account[:company][:tag_line] %>
+                <%= Rails.application.config.lesli_settings["account"]["company"]["tag_line"] %>
             </a>
         </div>
         <div class="navbar-menu">
