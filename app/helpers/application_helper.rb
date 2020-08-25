@@ -55,11 +55,11 @@ module ApplicationHelper
 
         theme = "themes/blank"
 
-        unless @account[:settings]["theme"].blank?
+        unless Rails.application.config.lesli_settings["configuration"]["theme"].blank?
             theme = [
                 "themes", 
-                @account[:settings]["theme"],
-                @account[:settings]["theme"]
+                Rails.application.config.lesli_settings["configuration"]["theme"],
+                Rails.application.config.lesli_settings["configuration"]["theme"]
             ].join("/")
         end
 
