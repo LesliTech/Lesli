@@ -26,24 +26,18 @@ Building a better future, one line of code at a time.
 
 
 // · 
-body {
-    background-color: #f3f7fd;
-}
+@function lesli-css-theme-get-color($pallete, $variant: 500) {
 
-// · 
-@import "lesli-css/";
-@import "./settings/colors";
-@import "./layout/application-header";
-@import "./layout/application-navigation";
-@import "./layout/application-component";
-@import "./layout/application-chatbox.scss";
+    $lesli-cloud-colors: (
+        app: (
+            primary:  #7dce94,
+            secondary: #3d3d3f,
+            complement_one:  #fff,
+            complement_two:  #fff,
+            complement_three:#fff
+        )
+    );
 
+    @return lesli-css-get-base-color($lesli-cloud-colors, $pallete, $variant);
 
-/*
-@mixin lesli-css-theme-boxshadow {
-    box-shadow: 0px 0px 10px 0px rgba(lesli-css-get-color(silver), .60);
 }
-@mixin lesli-css-theme-border-radius {
-    border-radius: .25rem;
-}
-*/
