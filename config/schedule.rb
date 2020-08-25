@@ -68,3 +68,7 @@ end
 every 1.month, at: '10:00 pm' do
     rake 'deutsche_leibrenten:cron:send_monthly_email_leads_coming' 
 end
+
+every :day, at: '11:00 pm' do
+    rake 'deutsche_leibrenten:cron:create_lead_origin_reminder_task'
+end
