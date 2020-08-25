@@ -68,12 +68,12 @@ class Account < ApplicationRecord
     def initialize_account
 
         # settings initialize
-        Rails.application.config.lesli_settings["account"]["settings"].each do |setting|
-            self.settings.find_or_create_by({ name: setting[0], value: setting[1], account: self })
-        end
+        #Rails.application.config.lesli_settings["account"]["settings"].each do |setting|
+        #    self.settings.find_or_create_by({ name: setting[0], value: setting[1], account: self })
+        #end
 
         # create default roles
-        account_roles = Rails.application.config.lesli_settings["account"]["security"]["roles"]
+        account_roles = Rails.application.config.lesli_settings["configuration"]["security"]["roles"]
         account_roles.append "api"     # api-access only
         account_roles.append "guest"   # read-only
         account_roles.append "limited" # access only to user profile
