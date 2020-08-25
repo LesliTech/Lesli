@@ -31,25 +31,25 @@ account:
 
 # Instance configuration
 configuration:
-    theme: "deutsche-blue"
+    theme: "lesli-blue"
     datetime: 
-        date_format: "%d.%m.%Y"
+        date_format: "%d/%m/%Y"
         date_format_full: "%a, %B %d, %Y"
-        date_format_time: "%d.%m.%Y %H:%M"
+        date_format_time: "%d/%m/%Y %H:%M"
         time_format: "%H:%M"
-        time_zone: "Europe/Berlin"
-        start_week_on: "monday"
+        time_zone: "America/Guatemala"
+        start_week_on: "sunday"
     password:
-        minimum_length: "6"
+        minimum_length: "8"
         expiration_time_days: "7"
     security:
         login:
         -   fullname: "Lesli Development"
             username: "dev@lesli.cloud"
             password: "lesli2020"
-        allow_multiaccount: false
-        allow_registration: false
-        log_activity: false
+        allow_multiaccount: true
+        allow_registration: true
+        log_activity: true
         roles:
             - "team"
 
@@ -64,21 +64,17 @@ env:
             default_url_options_host: "http://127.0.0.1:3000"
 
     test:
+        default_locale: en
         default_url: "http://0.0.0.0:3000"
-        i18n_default_locale: en
-        devise_mailer_sender: "dev@lesli.tech"
         action_mailer:
             asset_host: "http://127.0.0.1:3000"
             default_options_from: "dev@lesli.tech"
             default_url_options_host: "http://127.0.0.1:3000"
-        googlemaps_sdk_token: ""
 
     production:
+        default_locale: en
         default_url: "http://0.0.0.0:3000"
-        i18n_default_locale: en
-        devise_mailer_sender: "hello@lesli.tech"
         action_mailer:
-            asset_host: "https://www.lesli.tech"
-            default_options_from: "hello@lesli.tech"
-            default_url_options_host: "https://www.lesli.tech"
-        googlemaps_sdk_token: "AIzaSyCN4i4BWJS-IVtniSMY1Ot2MGaKuTKLNP8" 
+            asset_host: "http://127.0.0.1:3000"
+            default_options_from: "dev@lesli.tech"
+            default_url_options_host: "http://127.0.0.1:3000"
