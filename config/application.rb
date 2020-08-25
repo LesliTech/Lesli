@@ -45,7 +45,7 @@ module Lesli
 
         config.time_zone = "UTC"
 
-        config.lesli_settings = Lesli::settings
+        config.lesli_settings = Lesli::settings(Rails.env)
 
         # Settings in config/environments/* take precedence over those specified here.
         config.i18n.default_locale = config.lesli_settings["env"]["default_locale"]

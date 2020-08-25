@@ -84,54 +84,40 @@ module Lesli
 
     end
 
-    def Lesli.settings  
+    def Lesli.settings env="development"
 
         # Lesli core settings
         lesli_settings = YAML.load_file("./lesli.yml")
 
-        lesli_configuration = lesli_settings["configuration"]
-
-        platform_settings = {}
-
-        platform_settings["info"] = lesli_settings["info"]
-
-        platform_settings["account"] = lesli_settings["account"]
-
-        platform_settings["configuration"] = lesli_settings["configuration"]
-
-        platform_settings["env"] = lesli_settings["env"]["development"]
-
-        platform_settings["engines"] = engines
-
-        return platform_settings
-
-=begin
         # Get Lesli development user
-        lesli_development_user = lesli_settings["account"]["security"]["login"]
+        lesli_development_user = lesli_settings["configuration"]["security"]["login"]
 
         # get Lesli instance (builder engine)
         instance_engine = instance
 
-        # specific settings for dedicated on-premises instance
-        if instance_engine != "Lesli" # not core
-            
-            # get settings from instance
+        # specific settings for dedicated on-premises instance (not core)
+        if instance_engine != "Lesli" 
+    
+            # get the settings from instance 
+            # this file should be an exact copy of the one in the core
+            # all the settings will be overrided by the settings in the builder engine 
             instance_settings = YAML.load_file(File.join("./engines", instance_engine, "lesli.yml"))
 
-            # get Lesli instance (builder engine)
-            instance_development_user = instance_settings["account"]["security"]["login"]
-
-            # overwrite core settings
-            lesli_settings = instance_settings.reverse_merge!(lesli_settings)
+            # overwrite core settings with specific settings from instance
+            lesli_settings = lesli_settings.merge(instance_settings)
 
             # include default Lesli user for development environment
-            if not Rails.env == "production"
-                lesli_settings["account"]["security"]["login"].push(lesli_development_user[0])
+            if env != "production"
+                lesli_settings["configuration"]["security"]["login"].push(lesli_development_user[0])
             end
 
         end
 
-=end
+        lesli_settings["engines"] = engines
+
+        lesli_settings["env"] = lesli_settings["env"][env]
+
+        return lesli_settings
 
     end
 
