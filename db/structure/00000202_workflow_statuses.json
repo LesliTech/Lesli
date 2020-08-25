@@ -13,7 +13,8 @@
     },
     {
         "name": "status_type",
-        "type": "string"
+        "type": "string",
+        "default": "normal"
     },
     {
         "name": "deleted_at",
