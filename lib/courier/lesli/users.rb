@@ -48,6 +48,10 @@ module Courier
                 end
             end
 
+            def self.get_by_email(email)
+                return ::User.left_joins(:detail).find_by_email(email)
+            end
+
         end
 
     end
