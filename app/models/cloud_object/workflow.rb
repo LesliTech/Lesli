@@ -80,10 +80,7 @@ Building a better future, one line of code at a time.
                 :id,
                 :name,
                 :number,
-                :initial,
-                :completed_successfully,
-                :completed_unsuccessfully,
-                :to_be_deleted,
+                :status_type,
                 :next_statuses
             ).where(
                 workflow: self
@@ -269,7 +266,7 @@ Building a better future, one line of code at a time.
 
                     unless workflow_associations.empty?
                         workflow = self.find(workflow_associations[0][:id])
-                        cloud_object.status = workflow.statuses.find_by(initial: true)
+                        cloud_object.status = workflow.statuses.find_by(status_type: "initial")
                         return
                     end
                 end
@@ -292,7 +289,7 @@ Building a better future, one line of code at a time.
 
             unless workflow_associations.empty?
                 workflow = self.find(workflow_associations[0][:id])
-                cloud_object.status = workflow.statuses.find_by(initial: true)
+                cloud_object.status = workflow.statuses.find_by(status_type: "initial")
                 return
             end
         
@@ -304,7 +301,7 @@ Building a better future, one line of code at a time.
             )
 
             if workflow
-                cloud_object.status = workflow.statuses.find_by(initial: true)
+                cloud_object.status = workflow.statuses.find_by(status_type: "initial")
             end
         end
 
@@ -322,7 +319,7 @@ Building a better future, one line of code at a time.
             dynamic_info = self.dynamic_info
             module_name = dynamic_info[:module_name]
 
-            self.create(
+            default_workflow = self.create(
                 name: "Default Workflow",
                 default: true,
                 account: account,
@@ -330,22 +327,21 @@ Building a better future, one line of code at a time.
                 statuses_attributes: [
                     {
                         name: "created",
-                        number: 0,
-                        initial: true,
-                        completed_successfully: false,
-                        completed_unsuccessfully: false,
-                        to_be_deleted: false,
-                        next_statuses: "1"
+                        number: 1,
+                        status_type: "initial"
                     },
                     {
                         name: "closed",
-                        number: 1,
-                        initial: false,
-                        completed_successfully: true,
-                        completed_unsuccessfully: false,
-                        to_be_deleted: false
+                        number: 2,
+                        status_type: "completed_successfully"
                     }
                 ]
+            )
+
+            default_workflow.statuses.find_by(
+                status_type: "initial"
+            ).update(
+                next_statuses: "#{default_workflow.statuses.find_by(status_type: "completed_successfully").id}"
             )
         end
 

@@ -125,13 +125,9 @@ private
 
             params.require(:workflow_status).permit(
                 :next_statuses,
-                :initial,
-                :completed_successfully,
-                :completed_unsuccessfully,
-                :to_be_deleted,
+                :status_type,
                 :name,
-                :number,
-                :step
+                :number
             )
         end
 
