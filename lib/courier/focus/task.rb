@@ -72,13 +72,11 @@ module Courier
                     "
                         cloud_focus_tasks.model_id = ? AND
                         cloud_focus_tasks.model_type = ? AND
-                        cloud_focus_workflow_statuses.completed_successfully != ? AND
-                        cloud_focus_workflow_statuses.completed_unsuccessfully != ?
+                        cloud_focus_workflow_statuses.status_type not in (?)
                     ",
                     model_id,
                     model_type,
-                    true,
-                    true
+                    ["completed_successfully", "completed_unsuccessfully", "to_be_deleted"]
                 )
                 .order("#{query[:pagination][:orderColumn]} #{query[:pagination][:order]} NULLS LAST")
                 .page(query[:pagination][:page]).per(query[:pagination][:perPage])
@@ -125,8 +123,7 @@ module Courier
                 .select("cloud_focus_task_details.deadline")
                 .where("cloud_focus_tasks.model_type = ?", "CloudHouse::Project")
                 .where("cloud_focus_tasks.model_id = ?", project.id)
-                .where("cloud_focus_workflow_statuses.completed_successfully != ?", true)
-                .where("cloud_focus_workflow_statuses.completed_unsuccessfully != ?", true)
+                .where("cloud_focus_workflow_statuses.status_type not in (?)", ["completed_successfully", "completed_unsuccessfully", "to_be_deleted"])
                 .order("cloud_focus_task_details.deadline asc")
                 .first
 
