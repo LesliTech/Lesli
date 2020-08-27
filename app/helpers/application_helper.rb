@@ -140,7 +140,8 @@ module ApplicationHelper
     def is_lesli_engine?(engine=nil)
         current_engine = lesli_engine
         return current_engine == engine if not engine.blank?
-        return false if ["profiles"].include?(current_engine)
+        return false if ["profiles", "users", "abouts"].include?(current_engine)
+        return true
     end 
 
     def lesli_engine_or_instance

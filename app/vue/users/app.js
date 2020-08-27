@@ -33,8 +33,8 @@ import app from 'LesliVue/app'
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
 import appList  from './apps/list.vue'
 //import appEdit  from './apps/edit.vue'
-//import appShow  from './apps/show.vue'
-//import appNew   from './apps/new.vue'
+import appShow  from './apps/show.vue'
+import appNew   from './apps/new.vue'
 
 
 // · 
@@ -42,7 +42,7 @@ import appList  from './apps/list.vue'
 app("Core", "[list|new|edit|show]", "/users", [{
     path: "/",
     component: appList
-}/*,{
+},{
     path: "/new",
     component: appNew
 },{
@@ -50,5 +50,8 @@ app("Core", "[list|new|edit|show]", "/users", [{
     component: appShow
 },{
     path: "/:id/edit",
-    component: appEdit
-}*/])
+    component: appShow
+}], {
+    user: {},
+    options: {}
+})
