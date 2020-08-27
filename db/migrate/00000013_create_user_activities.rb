@@ -28,7 +28,6 @@ Building a better future, one line of code at a time.
 
 class CreateUserActivities < ActiveRecord::Migration[6.0]
     def change
-=begin
         create_table :user_activities do |t|
             t.string :request_controller
             t.string :request_method   # track, get, post, put, delete, search
@@ -38,6 +37,5 @@ class CreateUserActivities < ActiveRecord::Migration[6.0]
             t.timestamps
         end
         add_reference :user_activities, :users, foreign_key: true
-=end
     end
 end

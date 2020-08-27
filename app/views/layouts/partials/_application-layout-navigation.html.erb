@@ -27,16 +27,8 @@ Building a better future, one line of code at a time.
 %>
 
 <application-component-navigation>
+    <%# Custom navigation from builder engine %>
+    <% if lesli_instance != "lesli" %>
     <%= render partial: "layouts/#{lesli_engine_or_instance}/partials/module-app-navigation" %>
-    <template v-slot:layout>
-        <div class="navigation-change-layout" @click="change_layout">
-            <p>
-                <i class="img icon is-medium">
-                    <i class="fas fa-chevron-left"></i>
-                    <i class="fas fa-chevron-right"></i>
-                </i>
-            </p>
-        </div>
-    </template>
-
+    <% end %>
 </application-component-navigation>

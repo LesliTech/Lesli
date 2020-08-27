@@ -114,6 +114,12 @@ module LC
             format = format.gsub("%d", "DD")
             format
         end
+
+        # RETURN a Time object with defined timezone
+        def self.datetime
+            zone = ActiveSupport::TimeZone.new(@settings[:time_zone])
+            return Time.current.in_time_zone(zone)
+        end
  
         def self.to_string(datetime_object)
             return nil if ! datetime_object

@@ -30,6 +30,7 @@ Building a better future, one line of code at a time.
 import componentInformationCard from "Lesli/vue/users/components/card-information.vue"
 import componentInformationForm from "Lesli/vue/users/components/form-information.vue"
 import componentSecurityForm from "Lesli/vue/users/components/form-security.vue"
+import componentForm from "../components/form-new.vue"
 
 
 // · 
@@ -37,7 +38,8 @@ export default {
     components: {
         'component-information-card': componentInformationCard,
         'component-information-form': componentInformationForm,
-        'component-security-form': componentSecurityForm
+        'component-security-form': componentSecurityForm,
+        'component-form': componentForm
     },
     data() {
         return {
@@ -56,18 +58,33 @@ export default {
         }
     },
     mounted() {
-        this.user_id = this.lesli.current_user.id
-        this.getUser()
+        this.store.data.user = this.user
+        this.getOptions()
     },
     methods: {
-        getUser() {
-            this.http.get(`/users/${this.user_id}.json`).then(result => {
+
+        getOptions() {
+            this.http.get("/users/options.json").then(result => {
+                this.store.data.options = result.data
+                /*
                 if (result.successful) {
-                    this.user = result.data
-                    this.store.data.user = result.data
-                }else{
-                    this.alert(result.error.message,'danger')
+                    this.options = result.data
+                    let user_role = this.options.roles.find(e => e.value === this.user.roles_id)
+                    this.options.roles = this.options.roles.filter(e => 
+                        (
+                            (e.text !== 'api' &&
+                            e.text !== 'guest' &&
+                            e.text !== 'callcenter' && 
+                            e.text !== 'kop' &&
+                            e.text !== 'owner' &&
+                            e.text !== 'limited') ||
+                            e.text == user_role.text
+                        )
+                    )
+                    this.store.data.options = this.options
+                    this.ready = true
                 }
+                */
             }).catch(error => {
                 console.log(error)
             })
@@ -79,13 +96,6 @@ export default {
 <template>
     <section class="application-component">
         <component-information-card></component-information-card>
-        <b-tabs>
-            <b-tab-item :label="translations.core.users.tab_information">
-                <component-information-form></component-information-form>
-            </b-tab-item>
-            <b-tab-item :label="translations.core.users.tab_security">
-                <component-security-form></component-security-form>
-            </b-tab-item>
-        </b-tabs>
+        <component-form></component-form>
     </section>
 </template>

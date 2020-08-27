@@ -64,6 +64,8 @@ module RoutesApp
 
                 # Lesli version
                 get "version", to: "abouts#version"
+                get "dashboard", to: "abouts#dashboard"
+                get "system-requirements", to: "abouts#system_requirements"
 
             end
         end

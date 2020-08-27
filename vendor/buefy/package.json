@@ -2,7 +2,7 @@
   "_args": [
     [
       "buefy@0.8.20",
-      "/Users/diegoalay/Desktop/lomax/project/lesli.cloud"
+      "/Users/ldonis/code/Lesli/beta.deutsche-leibrenten.de"
     ]
   ],
   "_development": true,
@@ -27,7 +27,7 @@
   ],
   "_resolved": "https://registry.npmjs.org/buefy/-/buefy-0.8.20.tgz",
   "_spec": "0.8.20",
-  "_where": "/Users/diegoalay/Desktop/lomax/project/lesli.cloud",
+  "_where": "/Users/ldonis/code/Lesli/beta.deutsche-leibrenten.de",
   "author": {
     "name": "Rafael Beraldo",
     "email": "rafael.pimpa@gmail.com"

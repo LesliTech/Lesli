@@ -27,7 +27,13 @@ Building a better future, one line of code at a time.
 =end
 
 class AboutsController < ApplicationLesliController
-    skip_before_action :validate_privileges, only: [:show]
+    skip_before_action :validate_privileges
+
+    def system_requirements
+    end
+
+    def dashboard
+    end
 
     def version
     end
