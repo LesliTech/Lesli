@@ -91,19 +91,20 @@ Building a better future, one line of code at a time.
                 number: :asc
             )
 
-            next_number = 0
+            statuses_count = 0
             nodes.each do |node|
                 node = node.attributes
-                next_number = node["number"] + 1
-                node["visited"] = false
-                data[node["number"]] = node
+                statuses_count = statuses_count += 1    # This is a counter to get the status with the highest number (frontend use)
+                node["new_number"] = node["number"]     # This is a frontend user value. Allows the user to change the number without the input moving
+                node["visited"] = false                 # This is a flag for frontend use
+                data[node["id"]] = node
             end
 
             {
                 id: id,
                 name: name,
                 deletion_protection: deletion_protection,
-                next_number: next_number,
+                statuses_count: statuses_count,
                 default: default,
                 created_at: LC::Date.to_string_datetime(created_at),
                 updated_at: LC::Date.to_string_datetime(updated_at),

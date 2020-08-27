@@ -2,7 +2,8 @@
     {
         "name": "number",
         "type": "integer" 
-    },{
+    },
+    {
         "name": "name",
         "type": "string"
     },
@@ -29,7 +30,8 @@
         "name":"completed_unsuccessfully",
         "type":"boolean",
         "default": false
-    },{
+    },
+    {
         "name": "deleted_at",
         "type": "datetime",
         "index": true

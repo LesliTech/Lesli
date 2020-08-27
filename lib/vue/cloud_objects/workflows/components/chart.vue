@@ -45,10 +45,6 @@ export default {
         workflow: {
             default: null
         },
-        selectedWorkflowState: {
-            type: Number,
-            default: null
-        },
         rerender: {
             type: Boolean,
             default: false
@@ -62,7 +58,8 @@ export default {
         return {
             parsed_workflow: [],
             workflow_data: null,
-            translations: {}
+            translations: {},
+            selected_status_id: null
         }
     },
     mounted(){
@@ -113,38 +110,65 @@ export default {
         },
         
         displayWorkflow(){
-            if(this.workflow_data){
+            if(this.workflow_data && this.selected_status_id){
                 this.$emit('update:rerender', false)
-                let data = []
-                Object.values(this.workflow_data).forEach( node => {
-                    let parsed_node = {
-                        id: node.number,
-                        text: `${this.getIcon(node)} ${this.getNodeName(node)}`
-                    }
-                    if(node.next_statuses){
-                        parsed_node.next = node.next_statuses.split("|")
-                    }
-                    if(this.selectedWorkflowState == node.number){
-                        parsed_node.style = 'fill:#EFFD5F,stroke:#FCE205'
-                    }else{
-                        parsed_node.style = 'fill:#FFFFFF,stroke:#000000'
-                    }
 
-                    // Status type will override the selectedWorkflowStatue color
-                    if(node.initial){
-                        parsed_node.style = 'fill:#3298dc,stroke:#000000'
-                    }else if(node.completed_successfully){
-                        parsed_node.style = 'fill:#48c774,stroke:#000000'
-                    }else if(node.completed_unsuccessfully){
-                        parsed_node.style = 'fill:#f14668,stroke:#000000'
-                    }else if(node.to_be_deleted){
-                        parsed_node.style = 'fill:#ffdd57,stroke:#000000'
-                    }
+                let selected_status = this.workflow_data[this.selected_status_id]
 
-                    data.push(parsed_node)
+                let node = {
+                    id: selected_status.id,
+                    text: `${this.getIcon(selected_status)} ${this.getNodeName(selected_status)}`,
+                    next: (selected_status.next_statuses || '').split('|'),
+                    style: this.getStyle(selected_status)
+                }
+                let data = [node]
+
+                for(let i = 0; i < node.next.length; i++){
+                    let next_status_id = node.next[i]
+                    if(! next_status_id){
+                        continue
+                    }
+                    let next_status = this.workflow_data[next_status_id]
+
+                    data.push({
+                        id: next_status_id,
+                        text: `${this.getIcon(next_status)} ${this.getNodeName(next_status)}`,
+                        next: [],
+                        style: this.getStyle(next_status)
+                    })
+                }
+
+                let previous_statuses = Object.values(this.workflow_data).filter((previous_status)=> {
+                    return (`|${previous_status.next_statuses}|` || "").includes(`|${selected_status.id}|`) && previous_status.id != this.selected_status_id
                 })
+
+                previous_statuses.forEach((previous_status)=>{
+                    data.push({
+                        id: `P${previous_status.id}`,
+                        text: `${this.getIcon(previous_status)} ${this.getNodeName(previous_status)}`,
+                        next: [this.selected_status_id],
+                        style: this.getStyle(previous_status)
+                    })
+                })
+
                 this.parsed_workflow = data
             }
+        },
+
+        getStyle(node){
+            let style = 'fill:#FFFFFF,stroke:#000000'
+
+            if(node.initial){
+                style = 'fill:#3298dc,stroke:#000000'
+            }else if(node.completed_successfully){
+                style = 'fill:#48c774,stroke:#000000'
+            }else if(node.completed_unsuccessfully){
+                style = 'fill:#ffdd57,stroke:#000000'
+            }else if(node.to_be_deleted){
+                style = 'fill:#f14668,stroke:#000000'
+            }
+
+            return style
         },
 
         getNodeName(node){
@@ -155,7 +179,7 @@ export default {
         }
     },
     watch: {
-        selectedWorkflowState(){
+        selected_status_id(){
             this.displayWorkflow()
         },
 
@@ -172,13 +196,37 @@ export default {
 }
 </script>
 <template>
-    <vue-mermaid
-        class="workflow-chart"
-        v-if="workflow_data"
-        :nodes="parsed_workflow"
-        type="graph LR"
-    >
-    </vue-mermaid>
+    <div class="columns is-multiline">
+        <div class="column is-12">
+            <b-field>
+                <div class="control is-expanded">
+                    <span class="select is-fullwidth is-empty">
+                        <select v-model="selected_status_id">
+                            <option
+                                v-for="status in workflow.statuses"
+                                :value="status.id"
+                                :key="status.id"
+                                :hidden="status.id == null"
+                                :disabled="status.id == null"  
+                            >
+                                {{object_utils.translateEnum(translations.main, 'status', status.name)}}
+                            </option>
+                        </select>
+                    </span>
+                </div>
+            </b-field>
+        </div>
+        <div class="column is-12">
+            <vue-mermaid
+                class="workflow-chart"
+                v-if="workflow_data"
+                :nodes="parsed_workflow"
+                type="graph LR"
+            >
+            </vue-mermaid>
+        </div>
+    </div>
+    
 </template>
 <style scoped>
 .workflow-chart{
