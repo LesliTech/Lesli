@@ -35,6 +35,16 @@ import ApexCharts from 'apexcharts'
 // · 
 export default {
     props: {
+        enableDataLabels: {
+            type: Boolean,
+            default: false
+        },
+        strokeWidth: {
+            type: Array,
+            default: ()=>{
+                return [0,0,4]
+            }
+        },
         dataSources: {
             type: Array,
             required: true
@@ -83,14 +93,16 @@ export default {
                     horizontalAlign: 'center'
                 },
                 dataLabels: {
-                    enabled: false
+                    enabled: this.enableDataLabels,
+                    offsetY: -10,
+                    enabledOnSeries: [2]
                 },
                 colors: ["rgb(0, 83, 128)", "rgb(32, 168, 216)", "rgb(10,10,10)"],
                 stroke: {
                     show: true,
                     curve: "straight",
                     lineCap: 'round',
-                    width: [0,0,4]
+                    width: this.strokeWidth
                 },
                 plotOptions: {
                     bar: {
