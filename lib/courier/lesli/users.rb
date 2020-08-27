@@ -35,17 +35,39 @@ module Courier
             end
 
             def self.list()
-
                 :User.list
-
             end
 
             def self.get(id)
-                if defined? (CloudLock)
-                    return ::User.left_joins(:detail).select(:id, :email, :role, :first_name, :last_name, :created_at).find(id)
-                else
-                    return ::User.select(:id, :email, :role, :name, :created_at).find(id)
-                end
+                return ::User
+                .joins("inner join user_details UD on UD.users_id = users.id")
+                .joins("inner join roles R on R.id = users.roles_id")
+                .joins("inner join role_details RD on RD.roles_id = R.id")
+                .where(active: true)
+                .select(
+                    :id,
+                    :roles_id,
+                    :active,
+                    :email,
+                    "UD.first_name",
+                    "UD.last_name",
+                    "false as editable",
+                    "CONCAT(UD.first_name, ' ',UD.last_name) as name",
+                    "R.id as role_id",
+                    "RD.name as role_name",
+                    "UD.salutation",
+                    "UD.telephone",
+                    "UD.title"
+                )
+                .find(id)
+            end
+
+            def self.get_by_email(email)
+                return ::User
+                .joins("inner join user_details UD on UD.users_id = users.id")
+                .joins("inner join roles R on R.id = users.roles_id")
+                .joins("inner join role_details RD on RD.roles_id = R.id")
+                .find_by_email(email)
             end
 
         end
