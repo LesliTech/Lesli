@@ -104,9 +104,16 @@ class ApplicationLesliController < ApplicationController
             return redirect_to current_user.role_detail[:default_path] 
         end 
 
-        # send user to 401 page
-        return respond_with_unauthorized({ controller: params[:controller], privilege: "grant_#{action}" }) if granted.blank?
-        return respond_with_unauthorized({ controller: params[:controller], privilege: "grant_#{action}" }) if not granted["grant_#{action}"] === true
+        # privilege for object not found
+        if granted.blank?
+            log_activity("privilege_not_found")
+            return respond_with_unauthorized({ controller: params[:controller], privilege: "grant_#{action}" }) 
+        end
+
+        if not granted["grant_#{action}"] === true
+            log_activity("privilege_not_granted")
+            return respond_with_unauthorized({ controller: params[:controller], privilege: "grant_#{action}" }) 
+        end
 
     end
 
