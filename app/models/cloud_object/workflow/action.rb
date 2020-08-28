@@ -62,7 +62,7 @@ Building a better future, one line of code at a time.
 
         def self.options(current_user, workflow)
             statuses = {}
-            workflow.statuses.each do |status|
+            workflow.statuses.order(number: :asc).each do |status|
                 next_statuses = []
                 if status.next_statuses
                     next_statuses = status.next_statuses.split("|").map do |nex_status|
@@ -70,7 +70,7 @@ Building a better future, one line of code at a time.
                     end
                 end
 
-                statuses[status.number] = {
+                statuses[status.id] = {
                     id: status.id,
                     name: status.name,
                     number: status.number,
