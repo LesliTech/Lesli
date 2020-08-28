@@ -1,4 +1,15 @@
 # Lesli
+# 
+# Copyright (c) 2020, all rights reserved.
+# 
+# All the information provided by this platform is protected by international laws related  to 
+# industrial property, intellectual property, copyright and relative international laws. 
+# All intellectual or industrial property rights of the code, texts, trade mark, design, 
+# pictures and any other information belongs to the owner of this platform.
+# 
+# Without the written permission of the owner, any replication, modification,
+# transmission, publication is strictly forbidden.
+# 
 # For more information read the license file including with this software.
 
 info:
@@ -9,71 +20,61 @@ info:
         ssh: "git@github.com:leitfaden/Lesli.git" 
         ssh_backup: "git@github.com:LesliTech/Lesli.git" 
 
-development:
-    default_url: "http://0.0.0.0:3000"
-    i18n_default_locale: en
-    devise_mailer_sender: "dev@lesli.tech"
-    action_mailer:
-        asset_host: "http://127.0.0.1:3000"
-        default_options_from: "dev@lesli.tech"
-        default_url_options_host: "http://127.0.0.1:3000"
-    googlemaps_sdk_token: "AIzaSyCN4i4BWJS-IVtniSMY1Ot2MGaKuTKLNP8"
-
-test:
-    default_url: "http://0.0.0.0:3000"
-    i18n_default_locale: en
-    devise_mailer_sender: "dev@lesli.tech"
-    action_mailer:
-        asset_host: "http://127.0.0.1:3000"
-        default_options_from: "dev@lesli.tech"
-        default_url_options_host: "http://127.0.0.1:3000"
-    googlemaps_sdk_token: ""
-
-production:
-    default_url: "http://0.0.0.0:3000"
-    i18n_default_locale: en
-    devise_mailer_sender: "hello@lesli.tech"
-    action_mailer:
-        asset_host: "https://www.lesli.tech"
-        default_options_from: "hello@lesli.tech"
-        default_url_options_host: "https://www.lesli.tech"
-    googlemaps_sdk_token: "AIzaSyCN4i4BWJS-IVtniSMY1Ot2MGaKuTKLNP8" 
-
+# Information about the main account in the platform
 account: 
     company: 
         name: "Lesli Technologies, S. A."
         email: "hello@lesli.tech"
         tag_line: "Building a better future, one line of code at a time."
-
     website:
         title_prefix: "Lesli"
 
-    settings:
-        theme: "deutsche-blue"
-        date_format: "%d.%m.%Y"
+# Instance configuration
+configuration:
+    theme: "lesli-blue"
+    datetime: 
+        date_format: "%d/%m/%Y"
         date_format_full: "%a, %B %d, %Y"
-        date_format_time: "%d.%m.%Y %H:%M"
+        date_format_time: "%d/%m/%Y %H:%M"
         time_format: "%H:%M"
-        time_zone: "Europe/Berlin"
-        start_week_on: "monday"
-        password_minimum_length: "6"
-        password_expiration_time_months: "12"
-        
+        time_zone: "America/Guatemala"
+        start_week_on: "sunday"
+    password:
+        minimum_length: "8"
+        expiration_time_days: "7"
     security:
         login:
         -   fullname: "Lesli Development"
             username: "dev@lesli.cloud"
             password: "lesli2020"
-        register:
-            allow: true
-        log_activity: false
+        allow_multiaccount: true
+        allow_registration: true
+        log_activity: true
         roles:
             - "team"
-        roles2:
-            - "Admin platform" 
-            - "Admin collection" 
-            - "Admin modules" 
-            - "Team member collection" 
-            - "Team member module" 
-            - "Guest collection" 
-            - "Guest module" 
+
+# Configuration by environment
+env:
+    development:
+        default_locale: en
+        default_url: "http://0.0.0.0:3000"
+        action_mailer:
+            asset_host: "http://127.0.0.1:3000"
+            default_options_from: "dev@lesli.tech"
+            default_url_options_host: "http://127.0.0.1:3000"
+
+    test:
+        default_locale: en
+        default_url: "http://0.0.0.0:3000"
+        action_mailer:
+            asset_host: "http://127.0.0.1:3000"
+            default_options_from: "dev@lesli.tech"
+            default_url_options_host: "http://127.0.0.1:3000"
+
+    production:
+        default_locale: en
+        default_url: "http://0.0.0.0:3000"
+        action_mailer:
+            asset_host: "http://127.0.0.1:3000"
+            default_options_from: "dev@lesli.tech"
+            default_url_options_host: "http://127.0.0.1:3000"
