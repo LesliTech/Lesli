@@ -1,24 +1,17 @@
 /*
 Lesli
 
-Copyright (c) 2020, Lesli Technologies, S. A.
+Copyright (c) 2020, all rights reserved.
 
-All the information provided by this website is protected by laws of Guatemala related 
-to industrial property, intellectual property, copyright and relative international laws. 
-Lesli Technologies, S. A. is the exclusive owner of all intellectual or industrial property
-rights of the code, texts, trade mark, design, pictures and any other information.
-Without the written permission of Lesli Technologies, S. A., any replication, modification,
+All the information provided by this platform is protected by international laws related  to 
+industrial property, intellectual property, copyright and relative international laws. 
+All intellectual or industrial property rights of the code, texts, trade mark, design, 
+pictures and any other information belongs to the owner of this platform.
+
+Without the written permission of the owner, any replication, modification,
 transmission, publication is strictly forbidden.
+
 For more information read the license file including with this software.
-
-Lesli - Your Smart Business Assistant
-
-Powered by https://www.lesli.tech
-Building a better future, one line of code at a time.
-
-@contact  <hello@lesli.tech>
-@website  <https://lesli.tech>
-@license  Propietary - all rights reserved.
 
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
 // · 
@@ -26,85 +19,83 @@ Building a better future, one line of code at a time.
 
 header.application-header {
     top: 0;
-    left: 0;
     right: 0;
     z-index: 10;
     position: fixed;
     background-color: white;
+    width: calc(100% - var(--application-navigation-width));
     height: var(--application-header-height);
 
-    nav.navbar {
-        background-color: transparent;
+    .header-navigation {
+        display: flex;
+        align-items: center;
+        flex-direction: row;
+        justify-content: space-between;
+    }
+
+    .header-left,
+    .header-right {
+        display: flex;
+        align-items: center;
         height: var(--application-header-height);
-        min-height: var(--application-header-height);
-    }
-    
-    // Logo container
-    .navbar-brand {
-        width: var(--application-header-width);
-        min-height: var(--application-header-height);
-
-        // module panel switch
-        .apps_switch {
-            padding: 0;
-            span.icon {
-                width: 3rem;
-                margin: 0 auto;
-                height: var(--application-header-height);
-                &:hover {
-                    cursor: pointer;
-                }
-            }
-        }
-        
-        // logo link container
-        .navbar-item {
-            padding: 0;
-            width: var(--application-navigation-width);
-            img {
-                margin: 0 auto;
-                max-height: var(--application-header-height);
-                height: 30px;
-            }
-        }
-
     }
 
-    .navbar-start {
+    .header-left {
+        flex: 1;
+
+        // command input
         .control {
-            width: 100%;
-        }
-        .navbar-item {
-            flex-grow: 1;
-        }
-        .input {
-            width: 100%;
-            border: none;
-            background-color: transparent;
-        }
-    }
-
-    .navbar-end {
-        .navbar-dropdown .navbar-item {
-            span.icon {
-                margin-right: 5px;
+            flex: 1;
+            input {
+                border: none;
+                background: none;
             }
         }
     }
-    
+
+    .header-right {
+
+        // Notification icon & count
+        a.notification-indicator {
+            position: relative;
+            font-size: 1.2rem;
+            span {
+                top: 0px;
+                right: 8px;
+                width: 12px;
+                height: 14px;
+                font-size: 10px;
+                text-align: center;
+                border-radius: 50%;
+                background-color: lesli-css-get-color(berry, 300);
+                color: lesli-css-get-color(silver, 100);
+                font-family: sans-serif;
+                position: absolute;
+            }
+        }
+
+        // 
+        .dropdown { 
+
+            button {
+                border: none;
+                display: block;
+                background: none;
+            }
+
+            &.user-options {
+                display: block;
+            }
+
+        }
+
+    }
+
 }
 
 
 @include lesli-css-breakpoint("desktop") {
-    header.application-header {
-        .navbar-brand {
-            .navbar-item {
-                width: auto;
-            }
-        }
-        .navbar-start {
-            flex: 1;
-        }
+    header.application-header2 {
         .navbar-end {
             a.notification-indicator {
                 position: relative;

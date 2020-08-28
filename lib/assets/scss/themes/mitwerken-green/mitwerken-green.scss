@@ -25,10 +25,6 @@ Building a better future, one line of code at a time.
 */
 
 
-// · 
-body {
-
-}
 
 // · 
 @import "lesli-css/";
@@ -37,3 +33,8 @@ body {
 @import "./layout/application-navigation";
 @import "./layout/application-component";
 @import "./layout/application-chatbox.scss";
+
+
+body {
+    background-color: lesli-css-theme-get-color(body);
+}

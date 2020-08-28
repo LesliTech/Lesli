@@ -32,49 +32,73 @@ Building a better future, one line of code at a time.
 .application-navigation {
     position: fixed;
     overflow-y: auto; 
-    top: var(--application-header-height);
-    width: var(--application-navigation-width);
-    height: calc(100vh - var(--application-header-height));
+    top: 0;
+    left: 0;
+    z-index: 20;
+    height: 100vh;
+    transition: all linear .2s;
     @include lesli-css-scrollbar("");
+    width: var(--application-navigation-width);
 
-    // navigation link
-    a {
-        border-radius: 0px;
-        transition: all linear .1s;
-        font-size: 1rem;
+    // logo
+    .brand {
+        padding: 0;
+        min-height: var(--application-header-height);
+        display: flex;
         align-items: center;
-        text-align: center;
-        padding: 1.2rem 0;
-        i {
-            width: 2.4rem;
-            font-size: 1.2rem;
-            text-align: center;
-            position: relative;
+        justify-content: center;
+        a {
+            height: inherit;
+            padding: inherit;
         }
-        img { width: 1.4rem; }
-        span { display: none; }
+        img {
+            margin: 0 auto;
+            max-width: 100%;
+            max-height: 100%;
+        }
     }
 
-    ul.menu-list li ul {
+    // navigation link
+    li {
         a {
-            font-size: 1.1rem;
-            padding: .8rem 0;
+            border-radius: 0px;
+            transition: all linear .1s;
+            font-size: 1rem;
+            align-items: center;
+            text-align: center;
+            padding: 1.2rem 0;
             i {
-                font-size: 1rem;
+                width: 2.4rem;
+                font-size: 1.2rem;
+                text-align: center;
+                position: relative;
+            }
+            img { width: 1.4rem; }
+            span { display: none; }
+        }
+
+        ul {
+            a {
+                font-size: 1.1rem;
+                padding: .8rem 0;
+                i {
+                    font-size: 1rem;
+                }
             }
         }
     }
-
 }
 
-
 @include lesli-css-breakpoint("tablet") {
-
-    // change navigation menu not fixed layout selected
-    body:not(.layout-expanded) .application-navigation {
-        a {
-            span {
-                display: block;
+    .application-navigation {
+        li {
+            a {
+                span {
+                    display: block;
+                    font-size: .65rem;
+                    word-wrap: break-word;
+                    text-transform: uppercase;
+                }
             }
         }
     }
@@ -82,32 +106,16 @@ Building a better future, one line of code at a time.
 
 
 @include lesli-css-breakpoint("desktop") {
-
-    // change navigation menu not fixed layout selected
-    body:not(.layout-expanded) .application-navigation {
-        a {
-            display: flex;
-            text-align: left;
+    .application-navigation {
+        li {
+            a {
+                display: flex;
+                text-align: left;
+                span {
+                    font-size: 1rem;
+                    text-transform: initial;
+                }
+            }
         }
     }
 }
-
-/*
-@include lesli-css-breakpoint(1248px, 1248px) {
-    .application-navigation * {
-        background-color: red;
-    }
-    :root {
-        --application-navigation-width: 100px;
-        --application-header-width: var(--application-navigation-width);
-    }
-
-    // change navigation menu not fixed layout selected
-    body:not(.layout-expanded) .application-navigation {
-        a {
-            display: block;
-            text-align: center;
-        }
-    }
-}
-*/
