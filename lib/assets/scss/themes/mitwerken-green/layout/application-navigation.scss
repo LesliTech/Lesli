@@ -26,16 +26,32 @@ Building a better future, one line of code at a time.
 
 // · 
 @import "lesli-css/";
+@import "../settings/helpers.scss";
 
 
 // · Navigation sidebar
+
 .application-navigation {
+    @include box-shadow;
+    background-color: lesli-css-get-color(solid, white);
+
+    .brand img {
+        max-height: 120px;
+        padding: 5px;
+    }
 
     li a {
+        //padding-left: 1.2rem;
+        color: lesli-css-theme-get-color(primary);
+
+        i {
+            width: 3rem;
+        }
 
         &.is-active {
-            background-color: lesli-css-theme-get-color(app, primary);
+            background-color: lesli-css-theme-get-color(primary);
         }
 
     }
+
 }

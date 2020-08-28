@@ -31,4 +31,23 @@ Building a better future, one line of code at a time.
 
 // · 
 header.application-header {
+    background-color: #f6f7f9;
+    .navbar {
+        background-color: transparent;
+    }
+
+    .navbar-brand {
+        .navbar-item {
+            width: 100%;
+            display: block;
+            text-align: center;
+            img {
+                max-height: 70px;
+                height: 70px;
+            }
+        }
+        .apps_switch {
+            display: none;
+        }
+    }
 }
