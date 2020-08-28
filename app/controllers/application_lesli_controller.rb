@@ -87,7 +87,6 @@ class ApplicationLesliController < ApplicationController
     # allowed core methods:
     #   [:index, :create, :update, :destroy, :new, :show, :edit, :options, :search, :resources]
     def validate_privileges
-
         action = params[:action]
         action = "resources" if request.path.include?("resources")
 
