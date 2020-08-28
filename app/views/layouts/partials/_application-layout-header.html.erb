@@ -49,22 +49,26 @@ Building a better future, one line of code at a time.
     <%# show language selector for development only %>
     <% if not Rails.env.production? %>
     <template v-slot:languages>
-        <div class="navbar-item has-dropdown is-hoverable" data-intro="Language selector">
-            <a class="navbar-item">
-                <span class="icon has-text-grey-light">
-                    <%= flag_icon(language_flag(I18n.locale)) %>
-                </span>
-            </a>
-            <div class="navbar-dropdown">
-                <% I18n.available_locales.each do |locale| %>
-                    <% next if locale == I18n.locale %>
-                    <%= link_to language_url(locale), { :class => "navbar-item" } do %>
-                        <span class="icon has-text-grey-light">
-                            <%= flag_icon(language_flag(locale)) %>
-                        </span>
-                        <span><%= language_name(locale) %></span>
+        <div class="dropdown is-hoverable">
+            <div class="dropdown-trigger">
+                <button class="button" aria-haspopup="true" aria-controls="dropdown-menu">
+                    <span class="icon has-text-grey-light">
+                        <%= flag_icon(language_flag(I18n.locale)) %>
+                    </span>
+                </button>
+            </div>
+            <div class="dropdown-menu" id="dropdown-menu" role="menu">
+                <div class="dropdown-content">
+                    <% I18n.available_locales.each do |locale| %>
+                        <% next if locale == I18n.locale %>
+                        <%= link_to language_url(locale), { :class => "dropdown-item" } do %>
+                            <span class="icon has-text-grey-light">
+                                <%= flag_icon(language_flag(locale)) %>
+                            </span>
+                            <span><%= language_name(locale) %></span>
+                        <% end %>
                     <% end %>
-                <% end %>
+                </div>
             </div>
         </div>
     </template>
