@@ -55,7 +55,7 @@ gem "pg", ">= 0.18", "< 2.0"
 gem "devise"
 
 # Add can can can gem to authorization and roles permissions
-gem "cancancan"
+# gem "cancancan"
 
 # ActsAsParanoid
 gem "acts_as_paranoid"
@@ -106,9 +106,9 @@ gem "rack-cors"
 gem "sprockets", "< 4"
 
 # debugging tools
-gem 'honeybadger', '~> 4.0'
+gem "honeybadger", '~> 4.0'
 
-gem 'appsignal'
+gem "appsignal"
 
 group :development, :test do
 

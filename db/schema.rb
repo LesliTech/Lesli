@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_08_24_191422) do
+ActiveRecord::Schema.define(version: 20011003) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -399,11 +399,14 @@ ActiveRecord::Schema.define(version: 2020_08_24_191422) do
     t.integer "number"
     t.string "name"
     t.string "next_statuses"
+    t.boolean "initial"
+    t.boolean "to_be_deleted"
+    t.boolean "completed_successfully"
+    t.boolean "completed_unsuccessfully"
     t.datetime "deleted_at"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.bigint "cloud_driver_workflows_id"
-    t.string "status_type"
     t.index ["cloud_driver_workflows_id"], name: "driver_workflow_statuses_workflows"
   end
 
@@ -597,11 +600,14 @@ ActiveRecord::Schema.define(version: 2020_08_24_191422) do
     t.integer "number"
     t.string "name"
     t.string "next_statuses"
+    t.boolean "initial"
+    t.boolean "to_be_deleted"
+    t.boolean "completed_successfully"
+    t.boolean "completed_unsuccessfully"
     t.datetime "deleted_at"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.bigint "cloud_focus_workflows_id"
-    t.string "status_type"
     t.index ["cloud_focus_workflows_id"], name: "focus_workflow_statuses_workflows"
   end
 
@@ -1612,11 +1618,14 @@ ActiveRecord::Schema.define(version: 2020_08_24_191422) do
     t.integer "number"
     t.string "name"
     t.string "next_statuses"
+    t.boolean "initial"
+    t.boolean "to_be_deleted"
+    t.boolean "completed_successfully"
+    t.boolean "completed_unsuccessfully"
     t.datetime "deleted_at"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.bigint "cloud_house_workflows_id"
-    t.string "status_type"
     t.index ["cloud_house_workflows_id"], name: "house_workflow_statuses_workflows"
   end
 

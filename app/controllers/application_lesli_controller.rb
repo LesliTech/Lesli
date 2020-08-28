@@ -76,7 +76,8 @@ class ApplicationLesliController < ApplicationController
     end
 
     def check_account
-        return if !Rails.application.config.lesli_settings["account"]["security"]["register"]["allow"]
+        # check if account is active only for html requests
+        return true if not request.format.html?
         return if current_user.blank?
         return if controller_name == "accounts"
         redirect_to "/account/new" if current_user.account.status == "registered"
@@ -86,7 +87,6 @@ class ApplicationLesliController < ApplicationController
     # allowed core methods:
     #   [:index, :create, :update, :destroy, :new, :show, :edit, :options, :search, :resources]
     def validate_privileges
-
         action = params[:action]
         action = "resources" if request.path.include?("resources")
 
@@ -103,9 +103,16 @@ class ApplicationLesliController < ApplicationController
             return redirect_to current_user.role_detail[:default_path] 
         end 
 
-        # send user to 401 page
-        return respond_with_unauthorized({ controller: params[:controller], privilege: "grant_#{action}" }) if granted.blank?
-        return respond_with_unauthorized({ controller: params[:controller], privilege: "grant_#{action}" }) if not granted["grant_#{action}"] === true
+        # privilege for object not found
+        if granted.blank?
+            log_activity("privilege_not_found")
+            return respond_with_unauthorized({ controller: params[:controller], privilege: "grant_#{action}" }) 
+        end
+
+        if not granted["grant_#{action}"] === true
+            log_activity("privilege_not_granted")
+            return respond_with_unauthorized({ controller: params[:controller], privilege: "grant_#{action}" }) 
+        end
 
     end
 

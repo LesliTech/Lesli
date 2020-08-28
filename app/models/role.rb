@@ -38,10 +38,15 @@ class Role < ApplicationRecord
 
     after_create :initialize_role
 
+    def destroy(*args)
+        super
+        rescue ActiveRecord::InvalidForeignKey => error
+    end
+
     def initialize_role
         return scan_routes(true) if self.detail.name == "owner"
         return scan_routes(true) if self.detail.name == "admin"
-        return scan_routes(false)
+        return scan_routes()
     end
 
     def self.index(current_user, query_params)
@@ -75,9 +80,50 @@ class Role < ApplicationRecord
         }
     end
 
-    def scan_routes(default)
-        role_list = get_routes()
-        role_list.each do |t|
+    def self.scan_new_routes
+        account = Account.first
+
+        routes = self.get_routes()
+        account.roles.joins(:detail).each do |role|
+            routes.each do |route|
+                default_value = false
+                default_value = true if role.detail.name == "owner"
+                default_value = true if role.detail.name == "admin"
+
+                privilege = role.privileges.find_by(grant_object: route[:grant_name])
+                privilege_default = role.privilege_defaults.find_by(grant_object: route[:grant_name]) 
+
+                attributes = {
+                    grant_index: default_value, 
+                    grant_edit: default_value, 
+                    grant_show: default_value, 
+                    grant_new: default_value, 
+                    grant_create: default_value, 
+                    grant_update: default_value, 
+                    grant_destroy: default_value, 
+                    grant_search: default_value,
+                    grant_resources: default_value,
+                    grant_options: default_value 
+                }
+
+                attributes = attributes.merge({
+                    grant_object: route[:grant_name]
+                })
+
+                if privilege.blank?
+                    role.privileges.create(attributes)
+                end
+
+                if privilege_default.blank?
+                    role.privilege_defaults.create(attributes)
+                end
+            end
+        end
+    end
+
+    def scan_routes(default = false)
+        routes = Role.get_routes()
+        routes.each do |route|
             attributes = {
                 grant_index: default, 
                 grant_edit: default, 
@@ -91,32 +137,31 @@ class Role < ApplicationRecord
                 grant_options: default 
             }
 
-            self.privileges.find_or_create_by!(grant_object: t[:grant_name]).update(attributes)
+            attributes = attributes.merge({
+                grant_object: route[:grant_name]
+            })
+
+            self.privileges.find_or_create_by(attributes)
+            self.privilege_defaults.find_or_create_by(attributes)
         end
     end
 
-    def get_routes()
+    def self.get_routes()
         role_list = []
 
-        role_list = get_controllers_from_routes(role_list, Rails.application.routes.routes, "")
-        role_list = get_controllers_from_routes(role_list, CloudTeam::Engine.routes.routes, CloudTeam) if defined?(CloudTeam)
-        role_list = get_controllers_from_routes(role_list, CloudDriver::Engine.routes.routes, CloudDriver) if defined?(CloudDriver)
-        role_list = get_controllers_from_routes(role_list, CloudLesli::Engine.routes.routes, CloudLesli) if defined?(CloudLesli)
-        role_list = get_controllers_from_routes(role_list, CloudBell::Engine.routes.routes, CloudBell) if defined?(CloudBell)
-        role_list = get_controllers_from_routes(role_list, CloudKb::Engine.routes.routes, CloudKb) if defined?(CloudKb)
-        role_list = get_controllers_from_routes(role_list, CloudHelp::Engine.routes.routes, CloudHelp) if defined?(CloudHelp)
-        role_list = get_controllers_from_routes(role_list, CloudNotes::Engine.routes.routes, CloudNotes) if defined?(CloudNotes)
-        role_list = get_controllers_from_routes(role_list, CloudPanel::Engine.routes.routes, CloudPanel) if defined?(CloudPanel)
-        role_list = get_controllers_from_routes(role_list, CloudBabel::Engine.routes.routes, CloudBabel) if defined?(CloudBabel)
-        role_list = get_controllers_from_routes(role_list, CloudHouse::Engine.routes.routes, CloudHouse) if defined?(CloudHouse)
-        role_list = get_controllers_from_routes(role_list, CloudFocus::Engine.routes.routes, CloudFocus) if defined?(CloudFocus)
-        role_list = get_controllers_from_routes(role_list, CloudMailer::Engine.routes.routes, CloudMailer) if defined?(CloudMailer)
-        role_list = get_controllers_from_routes(role_list, DeutscheLeibrenten::Engine.routes.routes, DeutscheLeibrenten) if defined?(DeutscheLeibrenten)
+        self.get_controllers_from_routes(role_list, Rails.application.routes.routes)
+        
+        Rails.configuration.lesli_settings["engines"].each do |engine|
+            self.get_controllers_from_routes(
+                role_list, 
+                "#{engine["name"]}::Engine".constantize.routes.routes
+            ) if defined?(engine["name"] == "constant")
+        end
 
-        role_list
+        return role_list
     end
 
-    def get_controllers_from_routes controller_list, routes, engine
+    def self.get_controllers_from_routes controller_list, routes
         routes = routes.map{ |r| {controller: r.defaults[:controller] }}.uniq
         routes.each do |route|
             controller = route[:controller]

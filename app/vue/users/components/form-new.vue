@@ -87,7 +87,7 @@ export default {
             this.http.post(url, data).then(result => {
                 if (result.successful) {
                     this.alert(this.translations.users.notification_user_created, 'success')
-                    //this.url.go('/users')
+                    this.url.go('/users')
                 }else{
                     this.alert(result.error.message,'danger')
                 }
