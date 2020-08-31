@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 18) do
+ActiveRecord::Schema.define(version: 2020_08_28_193622) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -88,6 +88,55 @@ ActiveRecord::Schema.define(version: 18) do
     t.string "checksum", null: false
     t.datetime "created_at", null: false
     t.index ["key"], name: "index_active_storage_blobs_on_key", unique: true
+  end
+
+  create_table "cloud_babel_translation_buckets", force: :cascade do |t|
+    t.string "name"
+    t.string "reference_module"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.bigint "cloud_babel_translation_modules_id"
+    t.index ["cloud_babel_translation_modules_id"], name: "babel_translation_objects_modules"
+  end
+
+  create_table "cloud_babel_translation_modules", force: :cascade do |t|
+    t.string "name"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
+  create_table "cloud_babel_translation_strings", force: :cascade do |t|
+    t.string "context"
+    t.string "label"
+    t.string "es"
+    t.string "en"
+    t.string "de"
+    t.string "fr"
+    t.string "nl"
+    t.string "pl"
+    t.integer "status"
+    t.integer "priority"
+    t.boolean "need_help"
+    t.boolean "need_translation"
+    t.string "reference_bucket"
+    t.datetime "last_update_context"
+    t.datetime "last_update_es"
+    t.datetime "last_update_en"
+    t.datetime "last_update_de"
+    t.datetime "last_update_fr"
+    t.datetime "last_update_status"
+    t.datetime "deleted_at"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.bigint "users_id"
+    t.bigint "cloud_babel_translation_buckets_id"
+    t.index ["cloud_babel_translation_buckets_id"], name: "babel_translation_strings_buckets"
+    t.index ["users_id"], name: "babel_translation_strings_users"
+  end
+
+  create_table "cloud_babel_translations", force: :cascade do |t|
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
   end
 
   create_table "role_details", force: :cascade do |t|
@@ -260,6 +309,9 @@ ActiveRecord::Schema.define(version: 18) do
   add_foreign_key "account_settings", "accounts", column: "accounts_id"
   add_foreign_key "accounts", "users", column: "users_id"
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
+  add_foreign_key "cloud_babel_translation_buckets", "cloud_babel_translation_modules", column: "cloud_babel_translation_modules_id"
+  add_foreign_key "cloud_babel_translation_strings", "cloud_babel_translation_buckets", column: "cloud_babel_translation_buckets_id"
+  add_foreign_key "cloud_babel_translation_strings", "users", column: "users_id"
   add_foreign_key "role_details", "roles", column: "roles_id"
   add_foreign_key "role_overrides", "users", column: "users_id"
   add_foreign_key "role_privilege_defaults", "roles", column: "roles_id"

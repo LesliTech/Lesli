@@ -26,13 +26,13 @@ Building a better future, one line of code at a time.
 
 %>
 
-<% if lesli_instance != "Lesli" %>
+<% if lesli_instance != "lesli" %>
 <section class="<%= lesli_instance.underscore %>-login">
     <%= render :file => "#{lesli_instance.underscore}/lesli/devise/sessions/new.html.erb" %>
 </section>
 <% end %>
 
 
-<% if lesli_instance == "Lesli" %>
+<% if lesli_instance == "lesli" %>
 <h3>There is no a view for sessions path.</h3>
 <% end %>
