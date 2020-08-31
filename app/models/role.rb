@@ -149,25 +149,6 @@ class Role < ApplicationRecord
     def self.get_routes()
         role_list = []
 
-<<<<<<< HEAD
-        role_list = get_controllers_from_routes(role_list, Rails.application.routes.routes, "")
-        role_list = get_controllers_from_routes(role_list, CloudTeam::Engine.routes.routes, CloudTeam) if defined?(CloudTeam)
-        role_list = get_controllers_from_routes(role_list, CloudDriver::Engine.routes.routes, CloudDriver) if defined?(CloudDriver)
-        role_list = get_controllers_from_routes(role_list, CloudLesli::Engine.routes.routes, CloudLesli) if defined?(CloudLesli)
-        role_list = get_controllers_from_routes(role_list, CloudBell::Engine.routes.routes, CloudBell) if defined?(CloudBell)
-        role_list = get_controllers_from_routes(role_list, CloudKb::Engine.routes.routes, CloudKb) if defined?(CloudKb)
-        role_list = get_controllers_from_routes(role_list, CloudHelp::Engine.routes.routes, CloudHelp) if defined?(CloudHelp)
-        role_list = get_controllers_from_routes(role_list, CloudNotes::Engine.routes.routes, CloudNotes) if defined?(CloudNotes)
-        role_list = get_controllers_from_routes(role_list, CloudPanel::Engine.routes.routes, CloudPanel) if defined?(CloudPanel)
-        role_list = get_controllers_from_routes(role_list, CloudBabel::Engine.routes.routes, CloudBabel) if defined?(CloudBabel)
-        role_list = get_controllers_from_routes(role_list, CloudHouse::Engine.routes.routes, CloudHouse) if defined?(CloudHouse)
-        role_list = get_controllers_from_routes(role_list, CloudFocus::Engine.routes.routes, CloudFocus) if defined?(CloudFocus)
-        role_list = get_controllers_from_routes(role_list, CloudMailer::Engine.routes.routes, CloudMailer) if defined?(CloudMailer)
-        role_list = get_controllers_from_routes(role_list, DeutscheLeibrenten::Engine.routes.routes, DeutscheLeibrenten) if defined?(DeutscheLeibrenten)
-        role_list = get_controllers_from_routes(role_list, Mitwerken::Engine.routes.routes, Mitwerken) if defined?(Mitwerken)
-
-        role_list
-=======
         self.get_controllers_from_routes(role_list, Rails.application.routes.routes)
         
         Rails.configuration.lesli_settings["engines"].each do |engine|
@@ -178,7 +159,6 @@ class Role < ApplicationRecord
         end
 
         return role_list
->>>>>>> 1c7e67146a529d9ef7c462b85f6bad08edae60bd
     end
 
     def self.get_controllers_from_routes controller_list, routes
