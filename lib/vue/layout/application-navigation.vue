@@ -31,9 +31,14 @@ export default {
 </script>
 <template>
     <nav class="application-navigation menu">
+        <div class="brand">
+            <slot name="brand"></slot>
+        </div>
         <ul class="menu-list">
             <slot></slot>
-            <li></li>
+        </ul>
+        <ul class="menu-list">
+            <slot name="nav-end"></slot>
         </ul>
     </nav>
 </template>

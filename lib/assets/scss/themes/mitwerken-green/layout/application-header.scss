@@ -1,5 +1,4 @@
-=begin
-
+/*
 Lesli
 
 Copyright (c) 2020, Lesli Technologies, S. A.
@@ -23,26 +22,32 @@ Building a better future, one line of code at a time.
 
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
 // · 
+*/
 
-=end
 
-# get settings
-account_logins = Rails.application.config.lesli_settings["configuration"]["security"]["login"]
+// · 
+@import 'lesli-css';
 
-# create development users
-account_logins.each do |account_login|
-    User.find_or_create_by(email: account_login["username"]) do |user|
-        user.role = Role.find(1)
-        user.password = account_login["password"]
-        user.password_confirmation = account_login["password"]
-        user.accounts_id = 1
-        user.confirm if not user.confirmed?
 
-        user.detail.first_name = account_login["fullname"] if not user.detail.blank?
+// · 
+header.application-header {
+    background-color: #f6f7f9;
+    .navbar {
+        background-color: transparent;
+    }
 
-        user.account.user = user
-        user.account.save!
-    end
-end
-
-puts "Users successfully created!"
+    .navbar-brand {
+        .navbar-item {
+            width: 100%;
+            display: block;
+            text-align: center;
+            img {
+                max-height: 70px;
+                height: 70px;
+            }
+        }
+        .apps_switch {
+            display: none;
+        }
+    }
+}

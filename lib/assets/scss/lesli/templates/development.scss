@@ -1,13 +1,19 @@
 body.dev {
     header.application-header {
         background-color: teal;
-        .navbar-brand {
-            background-color: olive;
-            background-color: olivedrab;
+        .header-left {
+            background-color: red;
+        }
+        .header-right {
+            background-color: yellow;
         }
     }
     .application-navigation {
         background-color: burlywood;
+        .brand {
+            background-color: olive;
+            background-color: olivedrab;
+        }
     }
     section.application-component {
         background-color: skyblue;

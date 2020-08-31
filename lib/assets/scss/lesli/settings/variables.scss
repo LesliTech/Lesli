@@ -40,7 +40,7 @@ Building a better future, one line of code at a time.
 // Mobile Up to 768px
 @include lesli-css-breakpoint("mobile") {
     :root {
-        --application-navigation-width: 80px;
+        --application-navigation-width: 50px;
     }
 }
 
@@ -48,7 +48,7 @@ Building a better future, one line of code at a time.
 // Tablet Between 769px and 1023px
 @include lesli-css-breakpoint("tablet") {
     :root {
-        --application-navigation-width: 150px;
+        --application-navigation-width: 100px;
     }   
 }
 

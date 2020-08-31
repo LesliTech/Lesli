@@ -148,6 +148,9 @@ group :development do
 
     gem "guard-livereload", "~> 2.5", require: false
 
+    gem "rack-mini-profiler"
+    gem "memory_profiler"
+
     gem "capistrano",         require: false
     gem "capistrano-rvm",     require: false
     gem "capistrano-rails",   require: false

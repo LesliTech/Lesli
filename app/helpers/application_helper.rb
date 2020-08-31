@@ -55,11 +55,11 @@ module ApplicationHelper
 
         theme = "themes/blank"
 
-        unless @account[:settings]["theme"].blank?
+        unless Rails.application.config.lesli_settings["configuration"]["theme"].blank?
             theme = [
                 "themes", 
-                @account[:settings]["theme"],
-                @account[:settings]["theme"]
+                Rails.application.config.lesli_settings["configuration"]["theme"],
+                Rails.application.config.lesli_settings["configuration"]["theme"]
             ].join("/")
         end
 
@@ -85,9 +85,11 @@ module ApplicationHelper
     end
 
     def language_name(locale)
-        return "English"  if locale.to_s == "en"
-        return "Deutsche" if locale.to_s == "de"
-        return "Español"  if locale.to_s == "es"
+        return "Polski"     if locale.to_s == "pl"
+        return "English"    if locale.to_s == "en"
+        return "Deutsch"    if locale.to_s == "de"
+        return "Español"    if locale.to_s == "es"
+        return "Nederlands" if locale.to_s == "nl"
         return "undefined"
     end
 
