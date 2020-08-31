@@ -62,6 +62,11 @@ module RoutesApp
                     end
                 end
 
+                namespace :settings do
+                    resources :workflows
+                end
+                resources :settings
+
                 # Lesli version
                 get "version", to: "abouts#version"
                 get "dashboard", to: "abouts#dashboard"
