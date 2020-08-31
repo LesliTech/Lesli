@@ -36,7 +36,9 @@ export default {
         </div>
         <ul class="menu-list">
             <slot></slot>
-            <li></li>
+        </ul>
+        <ul class="menu-list">
+            <slot name="nav-end"></slot>
         </ul>
     </nav>
 </template>
