@@ -32,6 +32,10 @@ account:
 # Instance configuration
 configuration:
     theme: "lesli-blue"
+    locales:
+        - en
+        - de 
+        - es
     datetime: 
         date_format: "%d/%m/%Y"
         date_format_full: "%a, %B %d, %Y"

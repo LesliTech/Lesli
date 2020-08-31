@@ -1,5 +1,4 @@
-=begin
-
+/*
 Lesli
 
 Copyright (c) 2020, Lesli Technologies, S. A.
@@ -23,26 +22,23 @@ Building a better future, one line of code at a time.
 
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
 // · 
+*/
 
-=end
 
-# get settings
-account_logins = Rails.application.config.lesli_settings["configuration"]["security"]["login"]
+// · 
+@function lesli-css-theme-get-color($variant,$pallete:"app") {
 
-# create development users
-account_logins.each do |account_login|
-    User.find_or_create_by(email: account_login["username"]) do |user|
-        user.role = Role.find(1)
-        user.password = account_login["password"]
-        user.password_confirmation = account_login["password"]
-        user.accounts_id = 1
-        user.confirm if not user.confirmed?
+    $lesli-cloud-colors: (
+        app: (
+            primary:  #7dce94,
+            secondary: #3d3d3f,
+            complement_one:  #fff,
+            complement_two:  #fff,
+            complement_three:#fff,
+            body: #f6f7f9
+        )
+    );
 
-        user.detail.first_name = account_login["fullname"] if not user.detail.blank?
+    @return lesli-css-get-base-color($lesli-cloud-colors, $pallete, $variant);
 
-        user.account.user = user
-        user.account.save!
-    end
-end
-
-puts "Users successfully created!"
+}

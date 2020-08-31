@@ -31,22 +31,20 @@ export default {
 
     data() {
         return {
-            notification: {
-                count: 0
-            },
-            aside: {
-                timer: null
-            },
-            search: {
-                searching: false
-            },
-            chatbotIntent: '',
-            microphone: true,
             translations: {
                 core: {
                     shared: I18n.t('core.shared'),
                     users: I18n.t('core.users'),
                 }
+            },
+            notification: {
+                count: 0
+            },
+            search: {
+                searching: false
+            },
+            navigation: {
+                active: false
             },
             browser_data: {}
         }
@@ -56,7 +54,6 @@ export default {
         this.getBrowserData();
         this.setSubscriptions();
         this.getNotificationsCount();
-        this.checkIfMicrophoneWorks();
     },
 
     methods: {
@@ -91,39 +88,6 @@ export default {
             })
         },
 
-        checkIfMicrophoneWorks() {
-            window.SpeechRecognition = window.webkitSpeechRecognition || window.SpeechRecognition;
-            if (window.SpeechRecognition) {
-                return this.microphone = true
-            }
-            this.microphone = false
-        },
-
-        publishChatbotIntent() {
-            this.bus.publish('/cloud/layout/chatbox#postIntent', this.chatbotIntent)
-            this.chatbotIntent = ''
-        },
-
-        talk() {
-            //var msg = new SpeechSynthesisUtterance('Hello World');
-            //window.speechSynthesis.speak(msg);
-        },
-
-        listen() {
-            window.SpeechRecognition = window.webkitSpeechRecognition || window.SpeechRecognition;
-            if (window.SpeechRecognition) {
-                const recognition = new window.SpeechRecognition();
-                recognition.onresult = (event) => {
-                    const speechToText = event.results[0][0].transcript;
-                }
-                recognition.start();
-            }
-        },
-
-        showHelp() {
-            introJs().start()
-        },
-
         showApps(side) {
             this.bus.publish("show:/core/layout/apps#panel", side)
         },
@@ -151,7 +115,6 @@ export default {
             if(this.browser_data.name == 'Microsoft Edge' && this.browser_data.version < 84){
                 return false
             }
-
             return true
         }
     }
@@ -160,28 +123,17 @@ export default {
 </script>
 <template>
     <header class="application-header">
-        <b-navbar transparent>
-            <template slot="brand">
-                <a class="navbar-item is-hidden-touch apps_switch" @click="showApps('left')">
-                    <span class="icon">
-                        <svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'><title></title><path d='M104,160a56,56,0,1,1,56-56A56.06,56.06,0,0,1,104,160Z'/><path d='M256,160a56,56,0,1,1,56-56A56.06,56.06,0,0,1,256,160Z'/><path d='M408,160a56,56,0,1,1,56-56A56.06,56.06,0,0,1,408,160Z'/><path d='M104,312a56,56,0,1,1,56-56A56.06,56.06,0,0,1,104,312Z'/><path d='M256,312a56,56,0,1,1,56-56A56.06,56.06,0,0,1,256,312Z'/><path d='M408,312a56,56,0,1,1,56-56A56.06,56.06,0,0,1,408,312Z'/><path d='M104,464a56,56,0,1,1,56-56A56.06,56.06,0,0,1,104,464Z'/><path d='M256,464a56,56,0,1,1,56-56A56.06,56.06,0,0,1,256,464Z'/><path d='M408,464a56,56,0,1,1,56-56A56.06,56.06,0,0,1,408,464Z'/></svg>
+        <div class="header-navigation">
+            <div class="header-left">
+                <div class="control is-medium has-icons-left has-text-grey">
+                    <input class="input is-medium is-shadowless" name='global_search' type="email" @input="searchText" :placeholder="translations.core.shared.search_placeholder">
+                    <span class="icon is-left has-text-gray">
+                        <i v-if="!search.searching" class="fas fa-search"></i>
+                        <component-data-loading v-if="search.searching && searchText!=''" :icon-only="true"/>
                     </span>
-                </a>
-                <slot name="brand"></slot>
-            </template>
-            <template slot="start">
-                <div class="navbar-item">
-                    <div class="control is-medium has-icons-left has-text-grey">
-                        <input class="input is-medium is-shadowless" name='global_search' type="email" @input="searchText" :placeholder="translations.core.shared.search_placeholder">
-                        <span class="icon is-left has-text-gray">
-                            <i v-if="!search.searching" class="fas fa-search"></i>
-                            <component-data-loading v-if="search.searching && searchText!=''" :icon-only="true"/>
-                        </span>
-                    </div>
                 </div>
-            </template>
-
-            <template slot="end">
+            </div>
+            <div class="header-right">
 
                 <slot name="languages"></slot>
 
@@ -191,34 +143,36 @@ export default {
                     <span>{{ notification.count }}</span>
                 </a>
 
-                <a class="navbar-item apps_switch" @click="showApps('right')">
-                    <span class="icon">
-                        <svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'><title></title><path d='M104,160a56,56,0,1,1,56-56A56.06,56.06,0,0,1,104,160Z'/><path d='M256,160a56,56,0,1,1,56-56A56.06,56.06,0,0,1,256,160Z'/><path d='M408,160a56,56,0,1,1,56-56A56.06,56.06,0,0,1,408,160Z'/><path d='M104,312a56,56,0,1,1,56-56A56.06,56.06,0,0,1,104,312Z'/><path d='M256,312a56,56,0,1,1,56-56A56.06,56.06,0,0,1,256,312Z'/><path d='M408,312a56,56,0,1,1,56-56A56.06,56.06,0,0,1,408,312Z'/><path d='M104,464a56,56,0,1,1,56-56A56.06,56.06,0,0,1,104,464Z'/><path d='M256,464a56,56,0,1,1,56-56A56.06,56.06,0,0,1,256,464Z'/><path d='M408,464a56,56,0,1,1,56-56A56.06,56.06,0,0,1,408,464Z'/></svg>
-                    </span>
-                </a>
-
-                <div class="navbar-item has-dropdown is-hoverable">
-                    <span class="navbar-link">
-                        <slot name="username"></slot>
-                    </span>
-                    <div class="navbar-dropdown is-right">
-                        <a href="/profile" class="navbar-item">
-                            <span class="icon has-text-grey-light">
-                                <i class="fas fa-user"></i>
+                <div class="dropdown is-right is-hoverable user-options">
+                    <div class="dropdown-trigger">
+                        <button class="button" aria-haspopup="true" aria-controls="dropdown-menu">
+                            <span><slot name="username"></slot></span>
+                            <span class="icon is-small">
+                                <i class="fas fa-angle-down" aria-hidden="true"></i>
                             </span>
-                            <span>{{ translations.core.users.text_profile }}</span>
-                        </a>
-                        <hr class="navbar-divider">
-                        <a class="navbar-item" href="/logout">
-                            <span class="icon has-text-grey-light">
-                                <i class="fas fa-sign-out-alt"></i>
-                            </span>
-                            <span>{{ translations.core.users.text_logout }}</span>
-                        </a>
+                        </button>
+                    </div>
+                    <div class="dropdown-menu" id="dropdown-menu" role="menu">
+                        <div class="dropdown-content">
+                            <a href="/profile" class="dropdown-item">
+                                <span class="icon has-text-grey-light">
+                                    <i class="fas fa-user"></i>
+                                </span>
+                                <span>{{ translations.core.users.text_profile }}</span>
+                            </a>
+                            <hr class="dropdown-divider">
+                            <a href="/logout" class="dropdown-item">
+                                <span class="icon has-text-grey-light">
+                                    <i class="fas fa-sign-out-alt"></i>
+                                </span>
+                                <span>{{ translations.core.users.text_logout }}</span>
+                            </a>
+                        </div>
                     </div>
                 </div>
-            </template>
-        </b-navbar>
+            </div>
+        </div>
+
         <b-notification v-if="! supportedBrowser" type="is-warning">
             {{translations.core.shared.notice_browser_not_supported_1}}
             {{browser_data.name}} - {{browser_data.full_version}}
