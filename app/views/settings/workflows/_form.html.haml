@@ -1,0 +1,10 @@
+= form_for @settings_workflow do |f|
+  - if @settings_workflow.errors.any?
+    #error_explanation
+      %h2= "#{pluralize(@settings_workflow.errors.count, "error")} prohibited this settings_workflow from being saved:"
+      %ul
+        - @settings_workflow.errors.full_messages.each do |message|
+          %li= message
+
+  .actions
+    = f.submit 'Save'

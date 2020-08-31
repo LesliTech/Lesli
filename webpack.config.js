@@ -60,7 +60,8 @@ module.exports = env => {
             "websites/app": "./app/vue/websites/app.js",
             "accounts/app": "./app/vue/accounts/app.js",
             "profiles/app": "./app/vue/profiles/app.js",
-            "dashboards/app": "./app/vue/dashboards/app.js"
+            "dashboards/app": "./app/vue/dashboards/app.js",
+            "settings/workflows_app": "./app/vue/settings/workflows/app.js"
         },
         output: {
             path: __dirname,
