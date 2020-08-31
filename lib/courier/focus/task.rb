@@ -134,8 +134,9 @@ module Courier
                 return nil
             end
 
-            def self.index
-
+            def self.index(current_user, query)
+                return [] unless defined? CloudFocus
+                CloudFocus::Task.index(current_user, query)
             end
             
             # This courier method is used mainly by the workflow actions to create tasks from other engines
