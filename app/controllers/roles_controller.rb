@@ -124,7 +124,8 @@ class RolesController < ApplicationController
 
         privileges = @role.privileges
         privileges.each do |privilege|
-            privilege_default = @role.privilege_defaults.find_by(grant_object: privilege.grant_object)
+            privilege_default = @role.privilege_defaults.find_or_create_by(grant_object: privilege.grant_object)
+            
             unless privilege_default.blank?
                 privilege_default.update(
                     grant_index: privilege.grant_index,

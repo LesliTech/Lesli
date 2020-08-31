@@ -12,24 +12,9 @@
         "type":"string"
     },
     {
-        "name": "initial",
-        "type": "boolean",
-        "default": false
-    },
-    {
-        "name": "to_be_deleted",
-        "type": "boolean",
-        "default": false
-    },
-    {
-        "name": "completed_successfully",
-        "type": "boolean",
-        "default": false
-    },
-    {
-        "name":"completed_unsuccessfully",
-        "type":"boolean",
-        "default": false
+        "name": "status_type",
+        "type": "string",
+        "default": "normal"
     },
     {
         "name": "deleted_at",

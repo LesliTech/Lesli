@@ -28,6 +28,14 @@ Building a better future, one line of code at a time.
         self.abstract_class = true
 
         validates :name, presence: true
+
+        enum status_type: {
+            initial: "initial",
+            completed_successfully: "completed_successfully",
+            completed_unsuccessfully: "completed_unsuccessfully",
+            to_be_deleted: "to_be_deleted",
+            normal: "normal"
+        }
         
 
 =begin
@@ -35,7 +43,7 @@ Building a better future, one line of code at a time.
 @description Attempts to delete this status.
     However, if there is a *workflow* associated to this *status*, it 
     will not be deleted and an error will be added to the *errors* parameter.
-    States that are initial or final cannot be deleted.
+    States that are initial cannot be deleted.
 @example
     my_status = CloudHelp::Workflow::Status.first
     if my_status.destroy
@@ -47,7 +55,7 @@ Building a better future, one line of code at a time.
 =end
         def destroy
             begin
-                if initial
+                if initial?
                     errors.add(:base, :destroy_attempt_on_default_status)
                     return false
                 end
@@ -65,7 +73,7 @@ Building a better future, one line of code at a time.
     The fields of each hash are *id* of the status, *name*, and wheter it is initial or final
 @example
     workflow = CloudHelp::Workflow.find(1)
-    initial_status = workflow.statuses.where(initial: true)
+    initial_status = workflow.statuses.where(status_type: "initial")
     transitions = initial_status.next_statuses
     puts transitions.to_json # will print something like
     #[
@@ -73,7 +81,7 @@ Building a better future, one line of code at a time.
     #        "id": 2,                       # The id of the status
     #        "name": "closed",              # The name of the status
     #        "final": true,                 # If the status is final or not
-    #        "initial": null,               # If the status is initial or not
+    #        "status_type": "normal",       # Enum value. List of available status types
     #        "next_statuses": null          # List of transitions
     #    }
     #]

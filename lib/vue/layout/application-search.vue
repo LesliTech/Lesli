@@ -35,7 +35,7 @@ export default {
                                             return this.searchGermanCharacters(e)
                                         })
 
-            this.http.get(`/house/projects/search/${text}?orderColumn=CHWS.completed_unsuccessfully,CHWS.name&order=asc`).then(result => {
+            this.http.get(`/house/projects/search/${text}?orderColumn=CHWS.number&order=asc`).then(result => {
                 this.projects = result.data
                 this.projects.forEach(project => {
                     for(var key in project) {

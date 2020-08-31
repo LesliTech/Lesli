@@ -162,9 +162,10 @@ ActiveRecord::Schema.define(version: 2020_08_28_193622) do
     t.boolean "grant_create", default: false
     t.boolean "grant_update", default: false
     t.boolean "grant_destroy", default: false
-    t.boolean "grant_search", default: false
-    t.boolean "grant_resources", default: false
     t.boolean "grant_options", default: false
+    t.boolean "grant_default", default: false
+    t.boolean "grant_search", default: false
+    t.boolean "grant_empty", default: false
     t.datetime "deleted_at"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
@@ -233,14 +234,14 @@ ActiveRecord::Schema.define(version: 2020_08_28_193622) do
   end
 
   create_table "user_activities", force: :cascade do |t|
-    t.string "request_controller"
     t.string "request_method"
-    t.string "request_action"
     t.string "request_url"
     t.string "description"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.bigint "users_id"
+    t.string "request_action"
+    t.string "request_controller"
     t.index ["users_id"], name: "index_user_activities_on_users_id"
   end
 

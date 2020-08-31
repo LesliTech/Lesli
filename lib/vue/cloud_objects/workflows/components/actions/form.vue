@@ -225,10 +225,10 @@ export default {
         'action.initial_status_id'(){
             let transition_statuses = []
             if(this.action.initial_status_id){
-                let initial_status = Object.values(this.options.statuses).find( status => status.id == this.action.initial_status_id)
+                let initial_status = this.options.statuses[this.action.initial_status_id]
                 if(initial_status){
-                    initial_status.next_statuses.forEach((status_number) => {
-                        transition_statuses.push(this.options.statuses[status_number])
+                    initial_status.next_statuses.forEach((status_id) => {
+                        transition_statuses.push(this.options.statuses[status_id])
                     })
                 }
             }else{
