@@ -85,9 +85,11 @@ module ApplicationHelper
     end
 
     def language_name(locale)
-        return "English"  if locale.to_s == "en"
-        return "Deutsche" if locale.to_s == "de"
-        return "Español"  if locale.to_s == "es"
+        return "Polski"     if locale.to_s == "pl"
+        return "English"    if locale.to_s == "en"
+        return "Deutsch"    if locale.to_s == "de"
+        return "Español"    if locale.to_s == "es"
+        return "Nederlands" if locale.to_s == "nl"
         return "undefined"
     end
 
