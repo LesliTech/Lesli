@@ -2,17 +2,22 @@ body.dev {
     header.application-header {
         background-color: teal;
         .header-left {
-            background-color: red;
+            background-color: aquamarine;
         }
         .header-right {
-            background-color: yellow;
+            background-color: darkcyan;
         }
     }
-    .application-navigation {
+    .application-sidebar {
         background-color: burlywood;
         .brand {
-            background-color: olive;
             background-color: olivedrab;
+        }
+        nav {
+            background-color: olive;
+            ul:first-child {
+                background-color: forestgreen;
+            }
         }
     }
     section.application-component {

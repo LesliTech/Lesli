@@ -1,5 +1,5 @@
-<%#
-
+<script>
+/*
 Lesli
 
 Copyright (c) 2020, Lesli Technologies, S. A.
@@ -23,12 +23,22 @@ Building a better future, one line of code at a time.
 
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
 // · 
+*/
 
-%>
+export default {
 
-<application-component-navigation>
-    <%# Custom navigation from builder engine %>
-    <% if lesli_instance != "lesli" %>
-    <%= render partial: "layouts/#{lesli_engine_or_instance}/partials/module-app-navigation" %>
-    <% end %>
-</application-component-navigation>
+}
+</script>
+<template>
+    <aside class="application-sidebar">
+        <slot name="brand"></slot>
+        <nav class="application-navigation menu">
+            <ul class="menu-list">
+                <slot></slot>
+            </ul>
+            <ul class="menu-list">
+                <slot name="nav-end"></slot>
+            </ul>
+        </nav>
+    </aside>
+</template>
