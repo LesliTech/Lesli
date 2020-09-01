@@ -30,7 +30,8 @@ Building a better future, one line of code at a time.
         enum action_type: {
             send_core_email: "send_core_email",
             create_bell_notification: "create_bell_notification",
-            create_focus_task: "create_focus_task" # This action can always be created, but it will only be executed if CloudFocus is available
+            create_focus_task: "create_focus_task", # This action can always be created, but it will only be executed if CloudFocus is available
+            cloud_object_clone: "cloud_object_clone"
         }
 
         enum concerning_user_types: {
@@ -146,6 +147,27 @@ Building a better future, one line of code at a time.
                     end
                 end
             end
+        end
+
+        # @return [Hash] Hash with the information required to clone a cloud_object. If support for cloning the cloud_object
+        # is not implemented, nil will be returned
+        # @description This is a base function that must be overrided by the CloudEngine::Workflow::Action model that inherits from
+        #   this model in order to implement it. Based on the first association of the received workflow, the options returned must be different
+        # @example
+        #   # Imagine the method is called without overriding it
+        #   puts CloudHouse::Project::Workflow::Action.options_cloud_object_clone(CloudHouse::Workflow.find(1))
+        #   # will display something like
+        #   # {
+        #     # fields: [
+        #         # "cloud_house_properties_id",
+        #         # "cloud_house_catalog_project_types_id",
+        #         # "detail_attriburtes": [
+        #         #     "code"
+        #         # ]
+        #     # ]
+        #   # }
+        def self.options_cloud_object_clone(current_user, workflow)
+            return nil
         end
 
         protected
