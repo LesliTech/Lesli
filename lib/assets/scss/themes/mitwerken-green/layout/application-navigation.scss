@@ -31,27 +31,28 @@ Building a better future, one line of code at a time.
 
 // · Navigation sidebar
 
-.application-navigation {
+aside.application-sidebar {
     @include box-shadow;
     background-color: lesli-css-get-color(solid, white);
 
-    .brand img {
+    a.brand {
         max-height: 120px;
-        padding: 5px;
+        padding: 10px;
     }
 
-    li a {
-        //padding-left: 1.2rem;
-        color: lesli-css-theme-get-color(primary);
+    nav {
+        li a {
+            //padding-left: 1.2rem;
+            color: lesli-css-theme-get-color(primary);
 
-        i {
-            width: 3rem;
+            i {
+                width: 3rem;
+            }
+
+            &.is-active {
+                background-color: lesli-css-theme-get-color(primary);
+            }
+
         }
-
-        &.is-active {
-            background-color: lesli-css-theme-get-color(primary);
-        }
-
     }
-
 }
