@@ -1,14 +1,14 @@
 PATH
-  remote: engines/Mitwerken
-  specs:
-    mitwerken (0.1.0)
-      rails (~> 6.0.3)
-
-PATH
   remote: engines/CloudBabel
   specs:
     cloud_babel (0.1.0)
       rails (~> 6.0.0)
+
+PATH
+  remote: engines/Mitwerken
+  specs:
+    mitwerken (0.1.0)
+      rails (~> 6.0.3)
 
 GEM
   remote: https://rubygems.org/
