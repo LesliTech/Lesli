@@ -29,31 +29,46 @@ Building a better future, one line of code at a time.
 // · Import frameworks, libraries and tools
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
 var chai = require("chai")
+var expect = require("chai").expect
 var chaiHttp = require("chai-http")
-var settings = require("./settings")
+var settings = require("../settings")
 
 
 // · loading tools
 chai.use(chaiHttp)
-chai.should()
 
 
-// · defining some constants
-const api_url_request = settings.api.url.request()
+// · remote endpoint
+const api_url_request = "/api/authorization/authenticate"
 
 
 // · 
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
-describe(`GET:${ api_url_request }`, function() {
-
-    beforeEach(done => {
-           done()
+describe(`GET:${ settings.api.url.root }${ api_url_request }`, function() {
+    beforeEach(done => {    
+        done()
     })
 
-    it("responds successful status code", done => {
-        chai.request(settings.api.url.root).get("/").end((error, response) => {
-            response.should.have.status(200)
-            done()
+    it("responds with standard successful message", () => {
+        chai
+        .request(settings.api.url.root)
+        .post(api_url_request)
+        .send({"email":"dev@lesli.cloud","password":"lesli2020"})
+        .end((error, response) => {
+            expect(response).to.have.status(200)
+            expect(response).to.have.header("content-type", "application/json; charset=utf-8")
+            expect(response.body).to.have.property("successful");
+            expect(response.body).to.have.property("data");
+        })
+    })
+
+    it("responds with a JWT", () => {
+        chai
+        .request(settings.api.url.root)
+        .post(api_url_request)
+        .send({"email":"dev@lesli.cloud","password":"lesli2020"})
+        .end((error, response) => {
+            expect(response.body.data).to.have.property("token");
         })
     })
 

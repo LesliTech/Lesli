@@ -1,4 +1,10 @@
 PATH
+  remote: engines/CloudDispatcher
+  specs:
+    cloud_dispatcher (1.0)
+      rails (~> 6.0.2)
+
+PATH
   remote: engines/CloudBabel
   specs:
     cloud_babel (0.1.0)
@@ -419,6 +425,7 @@ DEPENDENCIES
   carrierwave (~> 2.0)
   caxlsx_rails
   cloud_babel!
+  cloud_dispatcher!
   devise
   faker
   faraday
