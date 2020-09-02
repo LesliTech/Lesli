@@ -1,0 +1,19 @@
+= form_for @template_variable do |f|
+  - if @template_variable.errors.any?
+    #error_explanation
+      %h2= "#{pluralize(@template_variable.errors.count, "error")} prohibited this template_variable from being saved:"
+      %ul
+        - @template_variable.errors.full_messages.each do |message|
+          %li= message
+
+  .field
+    = f.label :field_name
+    = f.text_field :field_name
+  .field
+    = f.label :table_name
+    = f.text_field :table_name
+  .field
+    = f.label :alias
+    = f.text_field :alias
+  .actions
+    = f.submit 'Save'
