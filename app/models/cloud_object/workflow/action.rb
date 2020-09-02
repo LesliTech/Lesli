@@ -30,7 +30,8 @@ Building a better future, one line of code at a time.
         enum action_type: {
             send_core_email: "send_core_email",
             create_bell_notification: "create_bell_notification",
-            create_focus_task: "create_focus_task" # This action can always be created, but it will only be executed if CloudFocus is available
+            create_focus_task: "create_focus_task", # This action can always be created, but it will only be executed if CloudFocus is available
+            create_cloud_object_file: "create_cloud_object_file"
         }
 
         enum concerning_user_types: {
@@ -86,6 +87,10 @@ Building a better future, one line of code at a time.
             }
         end
 
+        def self.options_create_cloud_object_file
+            
+        end
+
         def self.execute_actions(current_user, cloud_object, old_attributes, new_attributes)
             dynamic_info_ = self.dynamic_info
             module_name = dynamic_info_[:module_name]
@@ -126,6 +131,22 @@ Building a better future, one line of code at a time.
                 else
                     WorkflowActions::SendCoreEmailJob.perform_later(current_user, cloud_object, self)
                 end
+            when "create_cloud_object_file"
+                if execute_immediately
+                    WorkflowActions::CreateCloudObjectFileJob.perform_now(
+                        current_user,
+                        cloud_object,
+                        Template::Document.find(self.input_data["template_id"]),
+                        self.input_data["file_type"]
+                    )
+                else
+                    WorkflowActions::CreateCloudObjectFileJob.perform_later(
+                        current_user,
+                        cloud_object,
+                        Template::Document.find(self.input_data["template_id"]),
+                        self.input_data["file_type"]
+                    )
+                end
             end
         end
 
@@ -148,6 +169,21 @@ Building a better future, one line of code at a time.
             end
         end
 
+        def self.options_create_cloud_object_file(current_user, query, workflow)
+            dynamic_info_ = self.dynamic_info
+            engine_name = dynamic_info_[:engine_name]
+
+            main_association = workflow.associations.order(id: :asc).first
+            return nil unless main_association
+
+            cloud_object_class = "#{engine_name}::#{main_association.workflow_for.capitalize}"
+
+            {
+                file_types: "#{cloud_object_class}::File".constantize.file_types.values,
+                templates: Template::Document.where("template_type is ? or template_type = ?", nil, cloud_object_class)
+            }
+        end
+
         protected
 
         # @return [Hash] Hash that contains information about the class
@@ -161,7 +197,8 @@ Building a better future, one line of code at a time.
 
             module_name = module_info[0].sub("Cloud", "").downcase
             {
-                module_name: module_name
+                module_name: module_name,
+                engine_name: module_info[0]
             }
         end
     end

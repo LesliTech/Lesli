@@ -25,7 +25,7 @@ Building a better future, one line of code at a time.
     when a cloud_object changes status
 =end
     class Workflow::ActionsController < ApplicationLesliController
-        before_action :set_workflow, only: [:index, :create]
+        before_action :set_workflow, only: [:index, :create, :options_create_cloud_object_file]
         before_action :set_workflow_action, only: [:update, :destroy]
 
     
@@ -179,6 +179,14 @@ Building a better future, one line of code at a time.
             return respond_with_not_found unless @workflow
 
             respond_with_successful(model.options(current_user, @workflow))
+        end
+
+        def options_create_cloud_object_file
+            return respond_with_not_found unless @workflow
+            
+            dynamic_info = self.class.dynamic_info
+            model = dynamic_info[:model]
+            respond_with_successful(model.options_create_cloud_object_file(current_user, @query, @workflow))
         end
 
         private
