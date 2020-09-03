@@ -3,7 +3,7 @@ class CreateTemplateDocuments < ActiveRecord::Migration[6.0]
         create_table :template_documents do |t|
             t.string :name
             t.string :attachment
-            t.string :template_type
+            t.string :model_type
             t.datetime :deleted_at, index: true  
             
             t.timestamps

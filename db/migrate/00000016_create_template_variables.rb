@@ -5,7 +5,7 @@ class CreateTemplateVariables < ActiveRecord::Migration[6.0]
             t.string :field_name
             t.string :table_name
             t.string :table_alias
-            t.string :variable_type
+            t.string :model_type
             
             t.datetime :deleted_at, index: true  
             

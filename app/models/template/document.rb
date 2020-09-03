@@ -2,9 +2,42 @@ class Template::Document < ApplicationLesliRecord
     belongs_to :template, foreign_key: "templates_id"
     has_many :mappings, foreign_key: "template_documents_id", dependent: :destroy 
 
-    enum template_types: {
-        
-    }
+    require 'aws-sdk-s3'
+    require 'yomu'
+
+    def self.index(current_user, query)
+        filters = query[:filters]
+        template_documents = current_user.account.template.documents
+
+        unless filters.blank?
+            template_documents = template_documents
+            .where.not(attachment: nil) if filters[:attachment] == "true"
+        end
+    end
+    
+    def self.options
+
+        model_types = []
+        model_types.concat(CloudHouse::Template.options) if defined? CloudHouse
+
+        options = {
+            model_types: model_types
+        }
+    end
+
+    def self.upload_file(template_document, file_path, attachment)
+        #upload file to s3
+        s3_object = Template::Document.s3_bucket().object(file_path)
+
+        s3_object.put(
+            body: attachment.to_io, 
+            acl: "private"
+        ) 
+
+        template_document.update(
+            attachment: s3_object.key
+        ) 
+    end
 
     def self.s3_client
         return( 
@@ -26,7 +59,18 @@ class Template::Document < ApplicationLesliRecord
         )
     end
 
-    private
+    def self.extract_text(file)
+        document_text = Yomu.new(file).text
+        
+        unless document_text.valid_encoding?
+            document_text = document_text.encode("UTF-16be", :invalid=>:replace, :replace=>"?").encode('UTF-8')
+            document_variables = document_text.gsub(/\s+/, " ").scan(/\$\$\w+/)
+        else
+            document_variables = document_text.gsub(/\s+/, " ").scan(/\$\$\w+/)
+        end
+
+        return document_variables
+    end
 
     def self.scan_variables(current_user, template_document, variables)
         variables.each do |variable_name|
@@ -38,41 +82,5 @@ class Template::Document < ApplicationLesliRecord
                 end
             end
         end
-    end
-
-    def self.scan_table_fields(table_name, fields)
-        # puts table_name
-        # if fields[table_name].nil? 
-        #     fields[table_name] = []
-
-        #     columns = ActiveRecord::Base.connection.columns(table_name)
-        #     columns.map do |column|
-        #         column_name = column.name 
-
-        #         if column_name != "id" && 
-        #             column_name != "created_at" && 
-        #             column_name != "updated_at" && 
-        #             column_name != "deleted_at" && 
-        #             !(column_name.include? "accounts_id")
-
-                    
-        #             if (column_name.include? "_id")
-        #                 column_name = column_name.gsub("_id", "")
-                        
-        #                 if (column_name == "user_main" || column_name == "user_creator" ||column_name == "reviewer_employee")
-        #                     column_name = "users"
-        #                 elsif (column_name == "location_state" || column_name == "location_city")
-        #                     column_name = "account_locations"
-        #                 elsif (column_name == "parent")
-        #                     next
-        #                 end
-
-                        # Template::Document.scan_table_fields(column_name, fields)
-        #             else
-        #                 fields[table_name].push(column_name)
-        #             end
-        #         end
-        #     end
-        # end
     end
 end
