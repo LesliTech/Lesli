@@ -1,14 +1,14 @@
 PATH
-  remote: engines/CloudDispatcher
-  specs:
-    cloud_dispatcher (1.0)
-      rails (~> 6.0.2)
-
-PATH
   remote: engines/CloudBabel
   specs:
     cloud_babel (0.1.0)
       rails (~> 6.0.0)
+
+PATH
+  remote: engines/CloudDispatcher
+  specs:
+    cloud_dispatcher (1.0)
+      rails (~> 6.0.2)
 
 PATH
   remote: engines/Mitwerken
