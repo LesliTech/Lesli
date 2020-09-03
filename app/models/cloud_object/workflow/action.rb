@@ -87,10 +87,6 @@ Building a better future, one line of code at a time.
             }
         end
 
-        def self.options_create_cloud_object_file
-            
-        end
-
         def self.execute_actions(current_user, cloud_object, old_attributes, new_attributes)
             dynamic_info_ = self.dynamic_info
             module_name = dynamic_info_[:module_name]
@@ -178,8 +174,21 @@ Building a better future, one line of code at a time.
 
             cloud_object_class = "#{engine_name}::#{main_association.workflow_for.capitalize}"
 
+            
+            # Temporariy Translations calculation this must be changed once real translation standards are implemented
+            # @todo Change this once translations standars are set
+            translations_class_name = (self.name.split("::")[0]).gsub("Cloud","").downcase
+            translations_class_name = "deutscheleibrenten" if translations_class_name == "house"
+
+            file_types = "#{cloud_object_class}::File".constantize.file_types.values.map do |file_type|
+                {
+                    value: file_type,
+                    text: I18n.t("#{translations_class_name}.#{main_association.workflow_for}/files.enum_file_type_#{file_type}")
+                }
+            end
+
             {
-                file_types: "#{cloud_object_class}::File".constantize.file_types.values,
+                file_types: file_types,
                 templates: Template::Document.where("model_type = ?", cloud_object_class)
             }
         end

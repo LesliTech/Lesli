@@ -79,6 +79,7 @@ export default {
 
         setTranslations(){
             this.$set(this.translations, 'main', I18n.t(this.translationsPath))
+            
         },
 
         cloneWorkflowAction(){
@@ -127,10 +128,10 @@ export default {
                 <b-select :placeholder="translations.main.placeholder_template" expanded v-model="workflow_action.input_data.file_type" required>
                     <option
                         v-for="file_type in file_options.file_types"
-                        :value="file_type"
-                        :key="file_type"
+                        :value="file_type.value"
+                        :key="file_type.value"
                     >
-                        <small>{{file_type}}</small>
+                        <small>{{file_type.text}}</small>
                     </option>
                 </b-select>
             </div>
