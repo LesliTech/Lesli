@@ -1,0 +1,15 @@
+%p#notice= notice
+
+%p
+  %b Name:
+  = @template_document.name
+%p
+  %b Attachment:
+  = @template_document.attachment
+%p
+  %b File type:
+  = @template_document.file_type
+
+= link_to 'Edit', edit_template_document_path(@template_document)
+\|
+= link_to 'Back', template_documents_path
