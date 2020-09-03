@@ -31,6 +31,20 @@ module LC
 
     class Response
         
+        # Ussage example
+        # tasks = Task
+        # .joins(:detail)
+        # .page(query[:pagination][:page])
+        # .per(query[:pagination][:perPage])
+        # 
+        # response_message = LC::Response.pagination(
+        #     tasks.current_page,
+        #     tasks.total_pages,
+        #     tasks.total_count,
+        #     tasks.length,
+        #     tasks
+        # )
+        # respond_with_successful(response_message)
         def self.pagination current_page, total_pages, total_count, length, data
             {
                 pagination: {
