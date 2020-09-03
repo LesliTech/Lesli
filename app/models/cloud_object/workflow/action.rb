@@ -127,6 +127,12 @@ Building a better future, one line of code at a time.
                 else
                     WorkflowActions::SendCoreEmailJob.perform_later(current_user, cloud_object, self)
                 end
+            when "cloud_object_clone"
+                if execute_immediately
+                    WorkflowActions::CloudObjectCloneJob.perform_now(current_user, cloud_object, self)
+                else
+                    WorkflowActions::CloudObjectCloneJob.perform_later(current_user, cloud_object, self)
+                end
             end
         end
 
