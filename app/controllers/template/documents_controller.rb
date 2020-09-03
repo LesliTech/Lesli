@@ -1,15 +1,12 @@
-class Template::DocumentsController < ApplicationController
+class Template::DocumentsController < ApplicationLesliController
     before_action :set_template_document, only: [:show, :edit, :update, :destroy]
-
-    require 'yomu'
-    require 'aws-sdk-s3'
 
     # GET /template/documents
     def index
         respond_to do |format|
             format.html {}
             format.json do
-                template_documents = current_user.account.template.documents
+                template_documents = Template::Document.index(current_user, @query)
 
                 respond_with_successful(template_documents)
             end
@@ -19,13 +16,16 @@ class Template::DocumentsController < ApplicationController
     def show
         respond_to do |format|
             format.html do
-                file_obj = s3_client().get_object(
-                    bucket: Rails.application.credentials.s3[:bucket],
-                    key: @template_document.attachment
-                )
-        
-                send_data file_obj["body"].read(), filename: @template_document.name, type: file_obj["content_type"]
-
+                begin
+                    file_obj = Template::Document.s3_client().get_object(
+                        bucket: Rails.application.credentials.s3[:bucket],
+                        key: @template_document.attachment
+                    )
+    
+                    send_data file_obj["body"].read(), filename: @template_document.name, type: file_obj["content_type"]
+                rescue Aws::S3::Errors::NoSuchKey => ex
+                    redirect_to "/404" 
+                end
             end
 
             format.json do
@@ -45,44 +45,37 @@ class Template::DocumentsController < ApplicationController
     end
 
     def create
-        document_text = Yomu.new(params[:file][:attachment]).text
-        
-        unless document_text.valid_encoding?
-            document_text = document_text.encode("UTF-16be", :invalid=>:replace, :replace=>"?").encode('UTF-8')
-            variables = document_text.gsub(/\s+/, " ").scan(/\$\$\w+/)
-        else
-            variables = document_text.gsub(/\s+/, " ").scan(/\$\$\w+/)
-        end
-
         file_name = params[:file][:attachment].original_filename.gsub(/\s+/, " ")
-        current_user.account.template.documents.create(name: file_name)
+        file_path = "storage/core/template/documents/#{file_name}"
 
-        #upload file to s3
-        path = "storage/core/template/documents/#{file_name}"
-        s3_object = Template::Document.s3_bucket().object(path)
+        document_variables = Template::Document.extract_text(params[:file][:attachment])
 
-        s3_object.put(
-            body: params[:file][:attachment].to_io, 
-            acl: "private"
-        ) 
-
-        template_document.update(
-            attachment: s3_object.key
-        ) 
+        template_document = current_user.account.template.documents.create(
+            name: file_name,
+            model_type: params[:model_type]
+        )
         
-        unless (template_document.blank?)
-            Template::Document.scan_variables(current_user, template_document, variables)
-            
-            respond_with_successful
+        if (document_variables.any?)
+            Template::Document.scan_variables(current_user, template_document, document_variables)
         end
+
+        Template::Document.upload_file(template_document, file_path, params[:file][:attachment])
+
+        respond_with_successful()
     end
 
     def update
-        if @template_document.update(template_document_params)
-            redirect_to @template_document, notice: 'Document was successfully updated.'
-        else
-            render :edit
+        return respond_with_not_found unless @template_document
+
+        document_variables = Template::Document.extract_text(params[:file][:attachment])
+
+        if (document_variables.any?)
+            Template::Document.scan_variables(current_user, @template_document, document_variables)
         end
+
+        Template::Document.upload_file(@template_document, @template_document.attachment, params[:file][:attachment])
+
+        respond_with_successful()
     end
 
     def destroy
@@ -98,17 +91,21 @@ class Template::DocumentsController < ApplicationController
 
             respond_with_successful(@template_document)
         else
-            respond_with_error(@company.errors.full_messages.to_sentence)
+            respond_with_error(@template_document.errors.full_messages.to_sentence)
         end
     end
 
-    private
+    def options
+        respond_with_successful(Template::Document.options)
+    end
 
+    private
+    
     def set_template_document
-        @template_document = Template::Document.find(params[:id])
+        @template_document = current_user.account.template.documents.find(params[:id])
     end
 
     def template_document_params
-        params.require(:template_document).permit(:name, :attachment, :template_type)
+        params.require(:template_document).permit(:name, :attachment, :model_type)
     end
 end

@@ -133,14 +133,14 @@ Building a better future, one line of code at a time.
                 end
             when "create_cloud_object_file"
                 if execute_immediately
-                    WorkflowActions::CreateCloudObjectFileJob.perform_now(
+                    WorkflowActions::CreateCloudObjectFileWithTemplateJob.perform_now(
                         current_user,
                         cloud_object,
                         Template::Document.find(self.input_data["template_id"]),
                         self.input_data["file_type"]
                     )
                 else
-                    WorkflowActions::CreateCloudObjectFileJob.perform_later(
+                    WorkflowActions::CreateCloudObjectFileWithTemplateJob.perform_later(
                         current_user,
                         cloud_object,
                         Template::Document.find(self.input_data["template_id"]),
@@ -180,7 +180,7 @@ Building a better future, one line of code at a time.
 
             {
                 file_types: "#{cloud_object_class}::File".constantize.file_types.values,
-                templates: Template::Document.where("template_type is ? or template_type = ?", nil, cloud_object_class)
+                templates: Template::Document.where("model_type = ?", cloud_object_class)
             }
         end
 
