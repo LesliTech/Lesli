@@ -37,20 +37,24 @@ aside.application-sidebar {
 
     a.brand {
         max-height: 120px;
-        padding: 10px;
+        padding: 1rem;
     }
 
     nav {
         li a {
-            //padding-left: 1.2rem;
             color: lesli-css-theme-get-color(primary);
 
-            i {
-                width: 3rem;
+            &:not(.is-active):hover {
+                color: lesli-css-get-color(blue);
+                background-color: lesli-css-get-color(solid, white);
             }
 
             &.is-active {
                 background-color: lesli-css-theme-get-color(primary);
+            }
+
+            i {
+                width: 3rem;
             }
 
         }
