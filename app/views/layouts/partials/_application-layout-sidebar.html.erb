@@ -1,5 +1,5 @@
-"use strict"
-/*
+<%#
+
 Lesli
 
 Copyright (c) 2020, Lesli Technologies, S. A.
@@ -23,38 +23,14 @@ Building a better future, one line of code at a time.
 
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
 // · 
-*/
 
+%>
 
-// · Import frameworks, libraries and tools
-// · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
-var chai = require("chai")
-var chaiHttp = require("chai-http")
-var settings = require("./settings")
+<application-component-sidebar>
 
-
-// · loading tools
-chai.use(chaiHttp)
-chai.should()
-
-
-// · defining some constants
-const api_url_request = settings.api.url.request()
-
-
-// · 
-// · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
-describe(`GET:${ api_url_request }`, function() {
-
-    beforeEach(done => {
-           done()
-    })
-
-    it("responds successful status code", done => {
-        chai.request(settings.api.url.root).get("/").end((error, response) => {
-            response.should.have.status(200)
-            done()
-        })
-    })
-
-})
+    <%# Custom navigation from builder engine %>
+    <% if lesli_instance != "lesli" %>
+    <%= render partial: "layouts/#{lesli_instance.underscore}/partials/module-app-brand" %>
+    <%= render partial: "layouts/#{lesli_engine_or_instance}/partials/module-app-navigation" %>
+    <% end %>
+</application-component-sidebar>

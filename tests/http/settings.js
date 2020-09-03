@@ -30,11 +30,11 @@ Building a better future, one line of code at a time.
 module.exports = {
     api: {
         url: {
-            root: "http://localhost:3000",
+            root: "http://127.0.0.1:3000",
             request: (url = null) => {
 
                 if (url) {
-                    return "/".concat(url)
+                    return this.root + "/".concat(url)
                 }
 
                 return "/"

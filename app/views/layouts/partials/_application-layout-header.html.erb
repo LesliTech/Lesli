@@ -33,14 +33,6 @@ Building a better future, one line of code at a time.
     <%= render partial: "layouts/#{lesli_instance.underscore}/partials/module-app-header" %>
     <% end %>
 
-    <% if lesli_instance == "lesli" %>
-    <template v-slot:brand>
-        <a class="navbar-item is-size-3" href="/">
-            Lesli
-        </a>
-    </template>
-    <% end %>
-
     <%# username %>
     <template v-slot:username>
     <%= current_user.full_name %>

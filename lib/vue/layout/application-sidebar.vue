@@ -1,4 +1,5 @@
-/**
+<script>
+/*
 Lesli
 
 Copyright (c) 2020, Lesli Technologies, S. A.
@@ -11,47 +12,33 @@ Without the written permission of Lesli Technologies, S. A., any replication, mo
 transmission, publication is strictly forbidden.
 For more information read the license file including with this software.
 
-LesliCloud - Your Smart Business Assistant
+Lesli - Your Smart Business Assistant
 
 Powered by https://www.lesli.tech
 Building a better future, one line of code at a time.
 
+@contact  <hello@lesli.tech>
+@website  <https://lesli.tech>
 @license  Propietary - all rights reserved.
-@version  0.1.0-alpha
 
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
 // · 
 */
 
-
-// · 
-@import "lesli-css/";
-@import "../settings/helpers.scss";
-
-
-// · Navigation sidebar
-
-.application-navigation {
-    @include box-shadow;
-    background-color: lesli-css-get-color(solid, white);
-
-    .brand img {
-        max-height: 120px;
-        padding: 5px;
-    }
-
-    li a {
-        //padding-left: 1.2rem;
-        color: lesli-css-theme-get-color(primary);
-
-        i {
-            width: 3rem;
-        }
-
-        &.is-active {
-            background-color: lesli-css-theme-get-color(primary);
-        }
-
-    }
+export default {
 
 }
+</script>
+<template>
+    <aside class="application-sidebar">
+        <slot name="brand"></slot>
+        <nav class="application-navigation menu">
+            <ul class="menu-list">
+                <slot></slot>
+            </ul>
+            <ul class="menu-list">
+                <slot name="nav-end"></slot>
+            </ul>
+        </nav>
+    </aside>
+</template>

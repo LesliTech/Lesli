@@ -1,5 +1,4 @@
-<%#
-
+/**
 Lesli
 
 Copyright (c) 2020, Lesli Technologies, S. A.
@@ -12,23 +11,52 @@ Without the written permission of Lesli Technologies, S. A., any replication, mo
 transmission, publication is strictly forbidden.
 For more information read the license file including with this software.
 
-Lesli - Your Smart Business Assistant
+LesliCloud - Your Smart Business Assistant
 
 Powered by https://www.lesli.tech
 Building a better future, one line of code at a time.
 
-@contact  <hello@lesli.tech>
-@website  <https://lesli.tech>
 @license  Propietary - all rights reserved.
+@version  0.1.0-alpha
 
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
 // · 
+*/
 
-%>
 
-<application-component-navigation>
-    <%# Custom navigation from builder engine %>
-    <% if lesli_instance != "lesli" %>
-    <%= render partial: "layouts/#{lesli_engine_or_instance}/partials/module-app-navigation" %>
-    <% end %>
-</application-component-navigation>
+// · 
+@import "lesli-css/";
+@import "../settings/helpers.scss";
+
+
+// · Navigation sidebar
+
+aside.application-sidebar {
+    @include box-shadow;
+    background-color: lesli-css-get-color(solid, white);
+
+    a.brand {
+        max-height: 120px;
+        padding: 1rem;
+    }
+
+    nav {
+        li a {
+            color: lesli-css-theme-get-color(primary);
+
+            &:not(.is-active):hover {
+                color: lesli-css-get-color(blue);
+                background-color: lesli-css-get-color(solid, white);
+            }
+
+            &.is-active {
+                background-color: lesli-css-theme-get-color(primary);
+            }
+
+            i {
+                width: 3rem;
+            }
+
+        }
+    }
+}

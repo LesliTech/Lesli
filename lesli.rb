@@ -113,6 +113,10 @@ module Lesli
 
         end
 
+        # parse available locales for instance
+        lesli_settings["configuration"]["locales_available"] = lesli_settings["configuration"]["locales"]
+        lesli_settings["configuration"]["locales"] = lesli_settings["configuration"]["locales"].keys
+
         lesli_settings["engines"] = engines
 
         lesli_settings["env"] = lesli_settings["env"][env]
