@@ -36,6 +36,8 @@ class Account < ApplicationRecord
     has_many :locations,        foreign_key: "accounts_id"
     has_many :activities,       foreign_key: "accounts_id", class_name: "SystemActivity"
 
+    has_one :template, class_name: "Template", foreign_key: "accounts_id"
+
     # core engines
     has_one :kb,     class_name: "CloudKb::Account",     foreign_key: "id"
     has_one :team,   class_name: "CloudTeam::Account",   foreign_key: "id"
@@ -71,6 +73,13 @@ class Account < ApplicationRecord
         #Rails.application.config.lesli_settings["account"]["settings"].each do |setting|
         #    self.settings.find_or_create_by({ name: setting[0], value: setting[1], account: self })
         #end
+
+        #create template reference
+        if self.template.blank?
+            self.template = Template.new
+            self.template.account = self
+            self.template.save!
+        end
 
         # create default roles
         account_roles = Rails.application.config.lesli_settings["configuration"]["security"]["roles"]
