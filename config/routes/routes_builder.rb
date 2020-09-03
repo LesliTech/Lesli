@@ -32,6 +32,14 @@ module RoutesBuilder
 
             settings = Rails.configuration.lesli_settings
 
+            puts "=================================="
+            puts "Loaded Modules"
+            puts "=================================="
+            settings['engines'].each do | engine |
+                puts engine['name']
+            end
+            puts "=================================="
+
             return unless File.exists?("./engines/#{settings["info"]["name"]}/routes.rb")
 
             require "./engines/#{settings["info"]["name"]}/routes"
