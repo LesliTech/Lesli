@@ -31,13 +31,8 @@ class WorkflowActions::CreateCloudObjectFileWithTemplateJob < ApplicationJob
         #fetch data of cloud_object        
         data = cloud_object.template_data(query)
 
-        #file path to upload in s3
-        file_path = cloud_object.class.name.titleize.gsub(/\s+/, "_").downcase
-
-        file_obj = Template::Document.s3_client().get_object(
-            bucket: Rails.application.credentials.s3[:bucket],
-            key: document[:attachment]
-        )
+        #download file from s3
+        s3 = LC::Storage.get_object(document.attachment)
 
         #validate if directory exists
         directory_name = "#{Rails.root}/tmp/templates/"
@@ -47,7 +42,7 @@ class WorkflowActions::CreateCloudObjectFileWithTemplateJob < ApplicationJob
         tmp_path = "#{Rails.root}/tmp/templates/template-#{document.name}"
 
         doc_template = File.open(tmp_path, "w") do |file|
-            file.write file_obj["body"].read()
+            file.write s3["body"].read()
         end
 
         doc_template = DocxReplace::Doc.new(tmp_path, "#{Rails.root}/tmp")
@@ -98,7 +93,3 @@ class WorkflowActions::CreateCloudObjectFileWithTemplateJob < ApplicationJob
         word_xml.gsub!(regexp, tag_pattern)
     end
 end
-
-# WorkflowActions::CreateCloudObjectFileWithTemplateJob.perform_now(User.find(2), CloudHouse::Project::Detail.find_by(code: 2019073195).project, Template::Document.first, "generated_document")
-# 13863
-# 2020080427
