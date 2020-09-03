@@ -1,0 +1,19 @@
+%h1 Listing template_mappings
+
+%table
+  %thead
+    %tr
+      %th
+      %th
+      %th
+
+  %tbody
+    - @template_mappings.each do |template_mapping|
+      %tr
+        %td= link_to 'Show', template_mapping
+        %td= link_to 'Edit', edit_template_mapping_path(template_mapping)
+        %td= link_to 'Destroy', template_mapping, method: :delete, data: { confirm: 'Are you sure?' }
+
+%br
+
+= link_to 'New Mapping', new_template_mapping_path

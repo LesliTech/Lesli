@@ -62,6 +62,17 @@ module RoutesApp
                     end
                 end
 
+                #template generators
+                namespace :template do
+                    resources :documents do
+                        collection do
+                            get :options
+                        end
+                    end
+                    resources :variables
+                    resources :mappings
+                end
+                
                 namespace :settings do
                     resources :workflows
                 end

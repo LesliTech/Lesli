@@ -1,0 +1,25 @@
+%h1 Listing template_documents
+
+%table
+  %thead
+    %tr
+      %th Name
+      %th Attachment
+      %th File type
+      %th
+      %th
+      %th
+
+  %tbody
+    - @template_documents.each do |template_document|
+      %tr
+        %td= template_document.name
+        %td= template_document.attachment
+        %td= template_document.file_type
+        %td= link_to 'Show', template_document
+        %td= link_to 'Edit', edit_template_document_path(template_document)
+        %td= link_to 'Destroy', template_document, method: :delete, data: { confirm: 'Are you sure?' }
+
+%br
+
+= link_to 'New Document', new_template_document_path

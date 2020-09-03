@@ -1,0 +1,2 @@
+module Template::MappingsHelper
+end

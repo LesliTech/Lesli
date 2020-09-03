@@ -2,6 +2,7 @@
 import componentFormCreateFocusTask from './forms/create_focus_task.vue'
 import componentFormSendCoreEmail from './forms/send_core_email.vue'
 import componentFormCreateBellNotification from './forms/create_bell_notification.vue'
+import componentFormCreateCloudObjectFile from './forms/create_cloud_object_file.vue'
 
 export default {
     props: {
@@ -29,7 +30,8 @@ export default {
     components: {
         'component-form-create-focus-task': componentFormCreateFocusTask,
         'component-form-send-core-email': componentFormSendCoreEmail,
-        'component-form-create-bell-notification': componentFormCreateBellNotification
+        'component-form-create-bell-notification': componentFormCreateBellNotification,
+        'component-form-create-cloud-object-file': componentFormCreateCloudObjectFile
     },
 
     data(){
@@ -359,6 +361,15 @@ export default {
                 :workflow-action="action"
                 :view-type="viewType"
             ></component-form-send-core-email>
+            <component-form-create-cloud-object-file
+                v-if="action.action_type == 'create_cloud_object_file'"
+                :options="options"
+                :workflow-id="workflowId"
+                :translations-path="translationsPath"
+                :workflow-action="action"
+                :view-type="viewType"
+                :cloud-engine="cloudEngine"
+            ></component-form-create-cloud-object-file>
             <br>
             <div class="buttons">
                 <b-button type="is-primary" expanded native-type="submit">
