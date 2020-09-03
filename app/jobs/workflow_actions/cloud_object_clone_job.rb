@@ -23,6 +23,7 @@ class WorkflowActions::CloudObjectCloneJob < ApplicationJob
             new_cloud_object_attributes = {}
             new_cloud_object_detail_attributes = {}
             
+            # We either copy the attribute name from old resource to new resource or assign the default value
             cloud_object.class.attribute_names.each do |attribute_name|
                 case input_data[attribute_name]
                 when "copy"
@@ -32,11 +33,13 @@ class WorkflowActions::CloudObjectCloneJob < ApplicationJob
                 end
             end
 
+            # We do the same with the detail model
             detail_model = "#{cloud_object.class.name}::Detail".constantize
             detail_model.attribute_names.each do |attribute_name|
                 case input_data[attribute_name]
                 when "copy"
                     new_cloud_object_detail_attributes[attribute_name.to_sym] = cloud_object.detail[attribute_name.to_sym]
+                # In the case the user selects serial, the serial value is calculating using the foreign keys of the main table
                 when "serial"
                     serial_value = 1
 
@@ -56,6 +59,7 @@ class WorkflowActions::CloudObjectCloneJob < ApplicationJob
                 end
             end
 
+            # We create the cloud_object, add workflows and activities
             new_cloud_object = cloud_object.class.new(
                 new_cloud_object_attributes.merge({
                     user_main: user_main,
