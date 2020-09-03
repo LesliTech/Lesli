@@ -93,6 +93,13 @@ gem "aws-sdk-s3"
 
 # Rubyzip to compress files
 gem "rubyzip", "~> 2.3.0"
+gem 'zip-zip' #backward compatibility
+
+#files reader
+gem 'yomu'
+
+# Adding docx var support
+gem 'docx_replace'
 
 gem "jwt"
 
