@@ -10,14 +10,15 @@
 
 Version 0.1.0-alpha
 
-#### Website & documentation
+#### Core objects
 -------
+https://lesli.cloud/login
+https://lesli.cloud/logout
+https://lesli.cloud/register
+https://lesli.cloud/users
+https://lesli.cloud/roles
+https://lesli.cloud/workflows
 
-Lesli is proprietary software
-
-* Issue tracker: [https://github.com/LesliTech/lesli.cloud/issues](https://github.com/LesliTech/lesli.cloud/issues)
-
-* Documentation: [https://github.com/LesliTech/lesli.cloud/wiki](https://github.com/LesliTech/lesli.cloud/wiki)
 
 #### License
 -------

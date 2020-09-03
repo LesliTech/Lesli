@@ -29,9 +29,8 @@ Building a better future, one line of code at a time.
 
 
 // · Navigation sidebar - new
-.application-navigation {
+aside.application-sidebar {
     position: fixed;
-    overflow-y: auto; 
     top: 0;
     left: 0;
     z-index: 20;
@@ -44,53 +43,62 @@ Building a better future, one line of code at a time.
     flex-direction: column;
 
     // logo
-    .brand {
+    a.brand {
         padding: 0;
-        min-height: var(--application-header-height);
+        max-height: var(--application-header-height);
         display: flex;
         align-items: center;
         justify-content: center;
-        a {
-            height: inherit;
-            padding: inherit;
-        }
         img {
             margin: 0 auto;
             max-width: 100%;
             max-height: 100%;
-            height: var(--application-header-height);
+            //height: calc(var(--application-header-height) - 4px);
         }
     }
 
-    ul.menu-list:first-child {
+    nav {
         flex: 1;
-    }
+        display: flex;
+        flex-direction: column;
 
-    // navigation link
-    li {
-        a {
-            border-radius: 0px;
-            transition: all linear .1s;
-            font-size: 1rem;
-            align-items: center;
-            text-align: center;
-            padding: 1.2rem 0;
-            i {
-                width: 2.4rem;
-                font-size: 1.2rem;
-                text-align: center;
-                position: relative;
-            }
-            img { width: 1.4rem; }
-            span { display: none; }
+        ul.menu-list:first-child {
+            flex: 1;
         }
 
-        ul {
+        // navigation link
+        li {
             a {
-                font-size: 1.1rem;
-                padding: .8rem 0;
+                border-radius: 0px;
+                transition: all linear .1s;
+                font-size: 1rem;
+                align-items: center;
+                text-align: center;
+                padding: 1.2rem 0;
                 i {
-                    font-size: 1rem;
+                    width: 2.4rem;
+                    font-size: 1.2rem;
+                    text-align: center;
+                    position: relative;
+                }
+                img { width: 1.4rem; }
+                span { display: none; }
+                span.icon { 
+                    margin-left: auto; 
+                    i {
+                        width: initial;
+                    }
+                }
+            }
+
+            ul {
+                border-left: none;
+                a {
+                    font-size: 1.1rem;
+                    padding: .8rem 0;
+                    i {
+                        font-size: 1rem;
+                    }
                 }
             }
         }
@@ -98,8 +106,9 @@ Building a better future, one line of code at a time.
 }
 
 @include lesli-css-breakpoint("tablet") {
-    .application-navigation {
-        li {
+
+    aside.application-sidebar {
+        nav li {
             a {
                 span {
                     display: block;
@@ -112,10 +121,10 @@ Building a better future, one line of code at a time.
     }
 }
 
-
 @include lesli-css-breakpoint("desktop") {
-    .application-navigation {
-        li {
+
+    aside.application-sidebar {
+        nav li {
             a {
                 display: flex;
                 text-align: left;
