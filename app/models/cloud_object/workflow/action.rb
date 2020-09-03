@@ -30,7 +30,8 @@ Building a better future, one line of code at a time.
         enum action_type: {
             send_core_email: "send_core_email",
             create_bell_notification: "create_bell_notification",
-            create_focus_task: "create_focus_task" # This action can always be created, but it will only be executed if CloudFocus is available
+            create_focus_task: "create_focus_task", # This action can always be created, but it will only be executed if CloudFocus is available
+            create_cloud_object_file: "create_cloud_object_file"
         }
 
         enum concerning_user_types: {
@@ -126,6 +127,22 @@ Building a better future, one line of code at a time.
                 else
                     WorkflowActions::SendCoreEmailJob.perform_later(current_user, cloud_object, self)
                 end
+            when "create_cloud_object_file"
+                if execute_immediately
+                    WorkflowActions::CreateCloudObjectFileWithTemplateJob.perform_now(
+                        current_user,
+                        cloud_object,
+                        Template::Document.find(self.input_data["template_id"]),
+                        self.input_data["file_type"]
+                    )
+                else
+                    WorkflowActions::CreateCloudObjectFileWithTemplateJob.perform_later(
+                        current_user,
+                        cloud_object,
+                        Template::Document.find(self.input_data["template_id"]),
+                        self.input_data["file_type"]
+                    )
+                end
             end
         end
 
@@ -148,6 +165,34 @@ Building a better future, one line of code at a time.
             end
         end
 
+        def self.options_create_cloud_object_file(current_user, query, workflow)
+            dynamic_info_ = self.dynamic_info
+            engine_name = dynamic_info_[:engine_name]
+
+            main_association = workflow.associations.order(id: :asc).first
+            return nil unless main_association
+
+            cloud_object_class = "#{engine_name}::#{main_association.workflow_for.capitalize}"
+
+            
+            # Temporariy Translations calculation this must be changed once real translation standards are implemented
+            # @todo Change this once translations standars are set
+            translations_class_name = (self.name.split("::")[0]).gsub("Cloud","").downcase
+            translations_class_name = "deutscheleibrenten" if translations_class_name == "house"
+
+            file_types = "#{cloud_object_class}::File".constantize.file_types.values.map do |file_type|
+                {
+                    value: file_type,
+                    text: I18n.t("#{translations_class_name}.#{main_association.workflow_for}/files.enum_file_type_#{file_type}")
+                }
+            end
+
+            {
+                file_types: file_types,
+                templates: Template::Document.where("model_type = ?", cloud_object_class)
+            }
+        end
+
         protected
 
         # @return [Hash] Hash that contains information about the class
@@ -161,7 +206,8 @@ Building a better future, one line of code at a time.
 
             module_name = module_info[0].sub("Cloud", "").downcase
             {
-                module_name: module_name
+                module_name: module_name,
+                engine_name: module_info[0]
             }
         end
     end

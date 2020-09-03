@@ -1,0 +1,10 @@
+= form_for @template_mapping do |f|
+  - if @template_mapping.errors.any?
+    #error_explanation
+      %h2= "#{pluralize(@template_mapping.errors.count, "error")} prohibited this template_mapping from being saved:"
+      %ul
+        - @template_mapping.errors.full_messages.each do |message|
+          %li= message
+
+  .actions
+    = f.submit 'Save'

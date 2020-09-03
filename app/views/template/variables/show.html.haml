@@ -1,0 +1,15 @@
+%p#notice= notice
+
+%p
+  %b Field name:
+  = @template_variable.field_name
+%p
+  %b Table name:
+  = @template_variable.table_name
+%p
+  %b Alias:
+  = @template_variable.alias
+
+= link_to 'Edit', edit_template_variable_path(@template_variable)
+\|
+= link_to 'Back', template_variables_path
