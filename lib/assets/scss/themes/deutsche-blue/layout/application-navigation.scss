@@ -26,25 +26,29 @@ Building a better future, one line of code at a time.
 
 @import "lesli-css/";
 
-
-// · Navigation sidebar
-.application-navigation {
-    background-color: lesli-css-theme-get-color(app, primary);
-    .brand {
-        background-color: lesli-css-get-color(solid,white);
+aside.application-sidebar {
+    a.brand {
+        padding: 2px 0;
     }
-    a {
-        padding-left: .1rem;
-        padding-right: .1rem;
-        border-bottom: 1px solid lesli-css-theme-get-color(app, secondary);
-        color: lesli-css-theme-get-color(solid, white);
-        &:hover {
-            background-color: lesli-css-theme-get-color(app, secondary);
+    .application-navigation {
+        background-color: lesli-css-theme-get-color(app, primary);
+        .brand {
+            background-color: lesli-css-get-color(solid,white);
+        }
+        a {
+            padding-left: .1rem;
+            padding-right: .1rem;
+            border-bottom: 1px solid lesli-css-theme-get-color(app, secondary);
+            color: lesli-css-theme-get-color(solid, white);
+            &:hover {
+                background-color: lesli-css-theme-get-color(app, secondary);
+            }
         }
     }
 }
 
 
+// · Navigation sidebar
 @include lesli-css-breakpoint-custom(320px, 1248px) {
 
     :root {
@@ -53,7 +57,7 @@ Building a better future, one line of code at a time.
     }
 
     // change navigation menu not fixed layout selected
-    body:not(.layout-expanded) .application-navigation {
+    aside.application-sidebar .application-navigation {
         a {
             display: block;
             text-align: center;
@@ -66,7 +70,7 @@ Building a better future, one line of code at a time.
 }
 
 @include lesli-css-breakpoint-custom(1260px) {
-    body:not(.layout-expanded) .application-navigation {
+    aside.application-sidebar .application-navigation {
         a {
             padding-left: 1rem;
             img {
