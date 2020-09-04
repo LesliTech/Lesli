@@ -2,9 +2,6 @@ class Template::Document < ApplicationLesliRecord
     belongs_to :template, foreign_key: "templates_id"
     has_many :mappings, foreign_key: "template_documents_id", dependent: :destroy 
 
-    require 'aws-sdk-s3'
-    require 'yomu'
-
     def self.index(current_user, query)
         filters = query[:filters]
         template_documents = current_user.account.template.documents
@@ -25,38 +22,18 @@ class Template::Document < ApplicationLesliRecord
         }
     end
 
+    #upload file to s3
     def self.upload_file(template_document, file_path, attachment)
-        #upload file to s3
-        s3_object = Template::Document.s3_bucket().object(file_path)
+        s3 = LC::Storage.create_object(file_path)
 
-        s3_object.put(
+        s3.put(
             body: attachment.to_io, 
             acl: "private"
         ) 
 
         template_document.update(
-            attachment: s3_object.key
+            attachment: s3.key
         ) 
-    end
-
-    def self.s3_client
-        return( 
-            Aws::S3::Client.new(
-                region: Rails.application.credentials.s3[:region],
-                access_key_id: Rails.application.credentials.s3[:access_key_id], 
-                secret_access_key: Rails.application.credentials.s3[:secret_access_key], 
-            )
-        )
-    end
-
-    def self.s3_bucket
-        return ( 
-            Aws::S3::Resource.new(
-                region: Rails.application.credentials.s3[:region],
-                access_key_id: Rails.application.credentials.s3[:access_key_id], 
-                secret_access_key: Rails.application.credentials.s3[:secret_access_key], 
-            ).bucket(Rails.application.credentials.s3[:bucket])
-        )
     end
 
     def self.extract_text(file)
