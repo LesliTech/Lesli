@@ -41,42 +41,21 @@ module LC
         # NOTE: Do not modify formats here,
         # if you need a different date format you should change it in the settings
         # Please read the TODO fole contained in this directory to see the current limitations of this class
-        @default_settings = [
-            {
-                name: "time_zone",
-                value: "Europe/Berlin"
-            },{
-                name: "date_format",
-                value: "%Y.%m.%d"
-            },{
-                name: "date_format_full",
-                value: "%a, %B %d, %Y"
-            },{
-                name: "date_format_time",
-                value: "%Y.%m.%d %H:%M"
-            },{
-                name: "time_format",
-                value: "%H:%M"
-            }
-        ]
-
-        @settings = nil
+        @settings = {
+            "date_format" => "%d.%m.%Y", 
+            "date_format_full" => "%a, %B %d, %Y", 
+            "date_format_time" => "%d.%m.%Y %H:%M", 
+            "time_format" => "%H:%M", 
+            "time_zone" => "Europe/Berlin", 
+            "start_week_on" => "monday"
+        }
         
         def self.reset_db_settings
-
-            @settings = {}
-
-            Account::Setting.where(:name => [
-                "time_zone","date_format","date_format_full","date_format_time","time_format"
-            ]).each do |setting|
-                @settings[setting[:name].to_sym] = setting[:value]
-            end
-
+            @settings = Rails.application.config.lesli_settings["configuration"]["datetime"]
         end
  
         def self.verify_settings
             return if @settings && (!@settings.empty?)
- 
             self.reset_db_settings
         end
 
@@ -89,8 +68,8 @@ module LC
             format = self.db_format
             
             "
-            TO_CHAR(#{table}created_at at time zone 'utc' at time zone '#{@settings[:time_zone]}', '#{format}') as created_at_date, 
-            TO_CHAR(#{table}updated_at at time zone 'utc' at time zone '#{@settings[:time_zone]}', '#{format}') as updated_at_date
+            TO_CHAR(#{table}created_at at time zone 'utc' at time zone '#{@settings["time_zone"]}', '#{format}') as created_at_date, 
+            TO_CHAR(#{table}updated_at at time zone 'utc' at time zone '#{@settings["time_zone"]}', '#{format}') as updated_at_date
             "
         end
 
@@ -101,14 +80,14 @@ module LC
             # get right format for dates
             format = self.db_format
             
-            query_string = "TO_CHAR(#{column} at time zone 'utc' at time zone '#{@settings[:time_zone]}', '#{format}')" 
+            query_string = "TO_CHAR(#{column} at time zone 'utc' at time zone '#{@settings["time_zone"]}', '#{format}')" 
             query_string = "#{query_string} as #{alias_name}" if include_alias
             query_string
         end
 
         def self.db_format
             self.verify_settings
-            format = @settings[:date_format]
+            format = @settings["date_format"]
             format = format.gsub("%Y", "YYYY")
             format = format.gsub("%m", "MM")
             format = format.gsub("%d", "DD")
@@ -117,7 +96,7 @@ module LC
 
         # RETURN a Time object with defined timezone
         def self.datetime
-            zone = ActiveSupport::TimeZone.new(@settings[:time_zone])
+            zone = ActiveSupport::TimeZone.new(@settings["time_zone"])
             return Time.current.in_time_zone(zone)
         end
  
@@ -125,8 +104,8 @@ module LC
             return nil if ! datetime_object
             self.verify_settings
             
-            zone = ActiveSupport::TimeZone.new(@settings[:time_zone])
-            datetime_object.in_time_zone(zone).strftime(@settings[:date_format])
+            zone = ActiveSupport::TimeZone.new(@settings["time_zone"])
+            datetime_object.in_time_zone(zone).strftime(@settings["date_format"])
         end
  
         def self.to_string_datetime(datetime_object)
@@ -134,58 +113,57 @@ module LC
 
             self.verify_settings
             
-            zone = ActiveSupport::TimeZone.new(@settings[:time_zone])
-            datetime_object.in_time_zone(zone).strftime(@settings[:date_format_time])
+            zone = ActiveSupport::TimeZone.new(@settings["time_zone"])
+            datetime_object.in_time_zone(zone).strftime(@settings["date_format_time"])
         end
  
         def self.to_string_datetime_words(datetime_object)
             return nil if ! datetime_object
             self.verify_settings
             
-            zone = ActiveSupport::TimeZone.new(@settings[:time_zone])
-            datetime_object.in_time_zone(zone).strftime(@settings[:date_format_full])
+            zone = ActiveSupport::TimeZone.new(@settings["time_zone"])
+            datetime_object.in_time_zone(zone).strftime(@settings["date_format_full"])
         end
  
         def self.to_string_time(datetime_object)
             return nil if ! datetime_object
             self.verify_settings
             
-            zone = ActiveSupport::TimeZone.new(@settings[:time_zone])
-            datetime_object.in_time_zone(zone).strftime(@settings[:time_format])
+            zone = ActiveSupport::TimeZone.new(@settings["time_zone"])
+            datetime_object.in_time_zone(zone).strftime(@settings["time_format"])
         end
 
         def self.beginning_of_month
             self.verify_settings
             
-            zone = ActiveSupport::TimeZone.new(@settings[:time_zone])
+            zone = ActiveSupport::TimeZone.new(@settings["time_zone"])
             return Time.current.in_time_zone(zone).beginning_of_month
         end
  
         def self.today_at_midnight
             self.verify_settings
             
-            zone = ActiveSupport::TimeZone.new(@settings[:time_zone])
+            zone = ActiveSupport::TimeZone.new(@settings["time_zone"])
             return Time.current.in_time_zone(zone).beginning_of_day
         end
  
         def self.tomorrow_at_midnight
             self.verify_settings
             
-            zone = ActiveSupport::TimeZone.new(@settings[:time_zone])
+            zone = ActiveSupport::TimeZone.new(@settings["time_zone"])
             return Time.current.in_time_zone(zone).beginning_of_day + 1.day
         end 
  
         def self.now
             self.verify_settings
-            
-            zone = ActiveSupport::TimeZone.new(@settings[:time_zone])
+            zone = ActiveSupport::TimeZone.new(@settings["time_zone"])
             return Time.current.in_time_zone(zone)
         end
  
         def self.distance_to_words(time_from, time_to)
             self.verify_settings
             
-            zone = ActiveSupport::TimeZone.new(@settings[:time_zone])
+            zone = ActiveSupport::TimeZone.new(@settings["time_zone"])
  
             time_from = time_from.in_time_zone(zone)
             time_to = time_to.in_time_zone(zone)
@@ -222,7 +200,7 @@ module LC
             self.verify_settings
             
             # We set the same timezone for both Time variables
-            zone = ActiveSupport::TimeZone.new(@settings[:time_zone])
+            zone = ActiveSupport::TimeZone.new(@settings["time_zone"])
             time_from = time_from.in_time_zone(zone)
             time_to = time_to.in_time_zone(zone)
             
