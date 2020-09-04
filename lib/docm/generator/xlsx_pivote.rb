@@ -27,11 +27,11 @@ Building a better future, one line of code at a time.
 
 module Docm
     module Generator
-        class XlxsPivote
+        class XlsxPivote
 
             # @param index [Integer] the index of excel column
             # @example
-            # column_name = Docm::Generator::XlxsPivote.column_name(10)
+            # column_name = Docm::Generator::XlsxPivote.column_name(10)
             # puts column_name 
             # will print something like: 'J'
             def self.column_name index
@@ -74,7 +74,7 @@ module Docm
             #     pages: ["city"]
             # }
             # 
-            # Docm::Generator::XlxsPivote.generate(
+            # Docm::Generator::XlsxPivote.generate(
             #     "report", 
             #     xlsx_datasets, 
             #     pivote_table

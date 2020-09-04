@@ -27,7 +27,7 @@ Building a better future, one line of code at a time.
 
 module Docm
     module Parser
-        class Xlxs
+        class Xlsx
             def self.parse records
 
                 # IMPORTANT: Dynamic columns are not allowed
