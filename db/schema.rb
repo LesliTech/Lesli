@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_08_28_193622) do
+ActiveRecord::Schema.define(version: 10010104) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -101,12 +101,12 @@ ActiveRecord::Schema.define(version: 2020_08_28_193622) do
 
   create_table "cloud_babel_translation_modules", force: :cascade do |t|
     t.string "name"
+    t.string "module_type"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end
 
   create_table "cloud_babel_translation_strings", force: :cascade do |t|
-    t.string "context"
     t.string "label"
     t.string "es"
     t.string "en"
@@ -114,17 +114,31 @@ ActiveRecord::Schema.define(version: 2020_08_28_193622) do
     t.string "fr"
     t.string "nl"
     t.string "pl"
-    t.integer "status"
-    t.integer "priority"
-    t.boolean "need_help"
-    t.boolean "need_translation"
+    t.string "pt"
+    t.string "it"
+    t.string "tr"
+    t.string "ro"
+    t.string "bg"
+    t.string "status"
+    t.string "context"
+    t.string "priority"
+    t.boolean "help_needed"
+    t.boolean "help_translation"
     t.string "reference_bucket"
-    t.datetime "last_update_context"
     t.datetime "last_update_es"
     t.datetime "last_update_en"
     t.datetime "last_update_de"
     t.datetime "last_update_fr"
+    t.datetime "last_update_nl"
+    t.datetime "last_update_pl"
+    t.datetime "last_update_pt"
+    t.datetime "last_update_it"
+    t.datetime "last_update_tr"
+    t.datetime "last_update_ro"
+    t.datetime "last_update_bg"
     t.datetime "last_update_status"
+    t.datetime "last_update_context"
+    t.datetime "last_update_priority"
     t.datetime "deleted_at"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
@@ -162,10 +176,9 @@ ActiveRecord::Schema.define(version: 2020_08_28_193622) do
     t.boolean "grant_create", default: false
     t.boolean "grant_update", default: false
     t.boolean "grant_destroy", default: false
-    t.boolean "grant_options", default: false
-    t.boolean "grant_default", default: false
     t.boolean "grant_search", default: false
-    t.boolean "grant_empty", default: false
+    t.boolean "grant_resources", default: false
+    t.boolean "grant_options", default: false
     t.datetime "deleted_at"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
@@ -233,15 +246,65 @@ ActiveRecord::Schema.define(version: 2020_08_28_193622) do
     t.index ["accounts_id"], name: "index_system_activities_on_accounts_id"
   end
 
+  create_table "template_documents", force: :cascade do |t|
+    t.string "name"
+    t.string "attachment"
+    t.string "model_type"
+    t.datetime "deleted_at"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.bigint "users_id"
+    t.bigint "templates_id"
+    t.index ["deleted_at"], name: "index_template_documents_on_deleted_at"
+    t.index ["templates_id"], name: "index_template_documents_on_templates_id"
+    t.index ["users_id"], name: "index_template_documents_on_users_id"
+  end
+
+  create_table "template_mappings", force: :cascade do |t|
+    t.datetime "deleted_at"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.bigint "template_documents_id"
+    t.bigint "template_variables_id"
+    t.index ["deleted_at"], name: "index_template_mappings_on_deleted_at"
+    t.index ["template_documents_id"], name: "index_template_mappings_on_template_documents_id"
+    t.index ["template_variables_id"], name: "index_template_mappings_on_template_variables_id"
+  end
+
+  create_table "template_variables", force: :cascade do |t|
+    t.string "name"
+    t.string "field_name"
+    t.string "table_name"
+    t.string "table_alias"
+    t.string "model_type"
+    t.datetime "deleted_at"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.bigint "users_id"
+    t.bigint "templates_id"
+    t.index ["deleted_at"], name: "index_template_variables_on_deleted_at"
+    t.index ["templates_id"], name: "index_template_variables_on_templates_id"
+    t.index ["users_id"], name: "index_template_variables_on_users_id"
+  end
+
+  create_table "templates", force: :cascade do |t|
+    t.datetime "deleted_at"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.bigint "accounts_id"
+    t.index ["accounts_id"], name: "index_templates_on_accounts_id"
+    t.index ["deleted_at"], name: "index_templates_on_deleted_at"
+  end
+
   create_table "user_activities", force: :cascade do |t|
+    t.string "request_controller"
     t.string "request_method"
+    t.string "request_action"
     t.string "request_url"
     t.string "description"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.bigint "users_id"
-    t.string "request_action"
-    t.string "request_controller"
     t.index ["users_id"], name: "index_user_activities_on_users_id"
   end
 
@@ -319,6 +382,13 @@ ActiveRecord::Schema.define(version: 2020_08_28_193622) do
   add_foreign_key "role_privileges", "roles", column: "roles_id"
   add_foreign_key "roles", "accounts", column: "accounts_id"
   add_foreign_key "system_activities", "accounts", column: "accounts_id"
+  add_foreign_key "template_documents", "templates", column: "templates_id"
+  add_foreign_key "template_documents", "users", column: "users_id"
+  add_foreign_key "template_mappings", "template_documents", column: "template_documents_id"
+  add_foreign_key "template_mappings", "template_variables", column: "template_variables_id"
+  add_foreign_key "template_variables", "templates", column: "templates_id"
+  add_foreign_key "template_variables", "users", column: "users_id"
+  add_foreign_key "templates", "accounts", column: "accounts_id"
   add_foreign_key "user_activities", "users", column: "users_id"
   add_foreign_key "user_details", "users", column: "users_id"
   add_foreign_key "user_settings", "users", column: "users_id"
