@@ -62,7 +62,7 @@ module RoutesApp
                     end
                 end
 
-                #template generators
+                # template generators
                 namespace :template do
                     resources :documents do
                         collection do
@@ -73,10 +73,11 @@ module RoutesApp
                     resources :mappings
                 end
                 
+                # settings
+                resources :settings
                 namespace :settings do
                     resources :workflows
                 end
-                resources :settings
 
                 # Lesli version
                 get "version", to: "abouts#version"
@@ -84,6 +85,7 @@ module RoutesApp
                 get "system-requirements", to: "abouts#system_requirements"
 
             end
+
         end
     end
 end

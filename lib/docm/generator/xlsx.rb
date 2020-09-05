@@ -27,7 +27,7 @@ Building a better future, one line of code at a time.
 
 module Docm
     module Generator
-        class Xlxs
+        class Xlsx
             def self.generate filename, xlsx_datasets
 
                 axlsx = Axlsx::Package.new
