@@ -20,6 +20,7 @@ info:
         ssh: "git@github.com:leitfaden/Lesli.git" 
         ssh_backup: "git@github.com:LesliTech/Lesli.git" 
 
+
 # Information about the main account in the platform
 account: 
     company: 
@@ -29,13 +30,13 @@ account:
     website:
         title_prefix: "Lesli"
 
+
 # Instance configuration
 configuration:
     theme: "lesli-blue"
     locales:
-        - en
-        - de 
-        - es
+        en: "English"
+        es: "Español"
     datetime: 
         date_format: "%d/%m/%Y"
         date_format_full: "%a, %B %d, %Y"
@@ -44,18 +45,17 @@ configuration:
         time_zone: "America/Guatemala"
         start_week_on: "sunday"
     password:
-        minimum_length: "8"
-        expiration_time_days: "7"
+        minimum_length: 8
+        expiration_time_days: 7
     security:
         login:
-        -   fullname: "Lesli Development"
+            fullname: "Lesli Development"
             username: "dev@lesli.cloud"
             password: "lesli2020"
         allow_multiaccount: true
         allow_registration: true
         log_activity: true
-        roles:
-            - "team"
+
 
 # Configuration by environment
 env:

@@ -115,8 +115,6 @@ gem "sprockets", "< 4"
 # debugging tools
 gem "honeybadger", '~> 4.0'
 
-gem "appsignal"
-
 group :development, :test do
 
     gem "faker"
