@@ -183,7 +183,6 @@ class Account < ApplicationRecord
                 end
             end
         end
-
     end
 
 end

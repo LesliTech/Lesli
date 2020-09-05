@@ -17,12 +17,8 @@ class Template::DocumentsController < ApplicationLesliController
         respond_to do |format|
             format.html do
                 begin
-                    file_obj = Template::Document.s3_client().get_object(
-                        bucket: Rails.application.credentials.s3[:bucket],
-                        key: @template_document.attachment
-                    )
-    
-                    send_data file_obj["body"].read(), filename: @template_document.name, type: file_obj["content_type"]
+                    s3 = LC::Storage.get_object(@template_document.attachment)
+                    send_data s3["body"].read(), filename: @template_document.name, type: s3["content_type"]
                 rescue Aws::S3::Errors::NoSuchKey => ex
                     redirect_to "/404" 
                 end
@@ -84,10 +80,7 @@ class Template::DocumentsController < ApplicationLesliController
         if @template_document.destroy
 
             #delete file in s3
-            Template::Document.s3_client().delete_object(
-                bucket: Rails.application.credentials.s3[:bucket],
-                key: @template_document.attachment
-            )
+            LC::Storage.delete_object(@template_document.attachment)
 
             respond_with_successful(@template_document)
         else

@@ -2,7 +2,7 @@
   "_args": [
     [
       "bulma-o-steps@1.0.9",
-      "/Users/diegoalay/Desktop/lomax/project/lesli.cloud"
+      "/Users/ldonis/code/Lesli/beta.deutsche-leibrenten.de"
     ]
   ],
   "_development": true,
@@ -27,7 +27,7 @@
   ],
   "_resolved": "https://registry.npmjs.org/bulma-o-steps/-/bulma-o-steps-1.0.9.tgz",
   "_spec": "1.0.9",
-  "_where": "/Users/diegoalay/Desktop/lomax/project/lesli.cloud",
+  "_where": "/Users/ldonis/code/Lesli/beta.deutsche-leibrenten.de",
   "author": {
     "name": "aramvisser, octoshrimpy"
   },
