@@ -29,6 +29,8 @@ Building a better future, one line of code at a time.
 class ApplicationController < ActionController::Base
 
     before_action :set_locale
+
+    layout "layouts/application"
  
     def set_locale
 
