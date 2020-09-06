@@ -178,7 +178,6 @@ group :test do
     
 end
 
-# Loading installed engines
 Lesli::engines.each do |engine|
     engine_installation_path = File.expand_path("../engines/#{engine["name"]}", __FILE__)
     gem engine["code"], path: engine_installation_path if File.exists?(engine_installation_path)

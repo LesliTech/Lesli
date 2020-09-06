@@ -27,6 +27,7 @@ Building a better future, one line of code at a time.
 =end
 
 class ApplicationLesliController < ApplicationController
+    protect_from_forgery with: :exception
 
     before_action :authenticate_user!
     before_action :check_account
@@ -35,7 +36,7 @@ class ApplicationLesliController < ApplicationController
     before_action :set_request_helpers
     after_action :track_user_activities
     
-    layout "layouts/application"
+    layout "layouts/application-lesli"
 
     # deprecated response methods
 
