@@ -211,7 +211,9 @@ Building a better future, one line of code at a time.
             file_types = "#{cloud_object_class}::File".constantize.file_types.values.map do |file_type|
                 {
                     value: file_type,
-                    text: I18n.t("#{translations_class_name}.#{main_association.workflow_for}/files.enum_file_type_#{file_type}")
+                    text: I18n.t("deutscheleibrenten.#{main_association.workflow_for}/files.enum_file_type_#{file_type}")
+                    # text: I18n.t("#{translations_class_name}.#{main_association.workflow_for}/files.model_enum_file_type_#{file_type}")
+                    
                 }
             end
 

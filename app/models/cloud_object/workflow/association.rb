@@ -96,7 +96,8 @@ Building a better future, one line of code at a time.
                             {
                                 id: key,
                                 field_name: detail[:name],
-                                name: I18n.t("#{module_name}.#{association_value.pluralize}.enum_#{detail[:name]}_#{value}")
+                                name: I18n.t("deutscheleibrenten.#{association_value.pluralize}.enum_#{detail[:name]}_#{value}")
+                                # name: I18n.t("#{module_name}.#{association_value.pluralize}.enum_#{detail[:name]}_#{value}")
                             }
                         end
 
@@ -155,7 +156,8 @@ Building a better future, one line of code at a time.
                     details = self.object_association_details(attributes["workflow_for"])
 
                     details.each do |detail|
-                        name_translation = I18n.t("#{module_name}.workflow/associations.enum_association_#{attributes["workflow_for"]}_field_#{detail[:name]}")
+                        # name_translation = I18n.t("#{module_name}.workflow/associations.enum_association_#{attributes["workflow_for"]}_field_#{detail[:name]}")
+                        name_translation = I18n.t("deutscheleibrenten.workflow/associations.enum_association_#{attributes["workflow_for"]}_field_#{detail[:name]}")
 
                         if detail[:type] == "foreign_key"
                             record = detail[:class].constantize.find_by(
@@ -163,7 +165,8 @@ Building a better future, one line of code at a time.
                                 account: workflow.account
                             )
                             value_translation = I18n.t(
-                                "#{module_name}.workflow/associations.enum_association_#{attributes["workflow_for"]}_field_#{detail[:name]}_#{record[detail[:identifier]]}",
+                                # "#{module_name}.workflow/associations.enum_association_#{attributes["workflow_for"]}_field_#{detail[:name]}_#{record[detail[:identifier]]}",
+                                "deutscheleibrenten.workflow/associations.enum_association_#{attributes["workflow_for"]}_field_#{detail[:name]}_#{record[detail[:identifier]]}",
                                 default: record[detail[:identifier]]
                             )
 
@@ -171,7 +174,8 @@ Building a better future, one line of code at a time.
                             attributes["details"] += " #{name_translation}: #{value_translation},"
                         elsif detail[:type] == "detail_enum"
                             enum_value = detail[:class].constantize.send(detail[:name].pluralize)[attributes[detail[:name]]]
-                            value_translation = I18n.t("#{module_name}.#{attributes["workflow_for"].pluralize}.enum_#{detail[:name]}_#{enum_value}")
+                            # value_translation = I18n.t("#{module_name}.#{attributes["workflow_for"].pluralize}.enum_#{detail[:name]}_#{enum_value}")
+                            value_translation = I18n.t("deutscheleibrenten.#{attributes["workflow_for"].pluralize}.enum_#{detail[:name]}_#{enum_value}")
                             
                             attributes["details"] += " #{name_translation}: #{value_translation},"
                         end
