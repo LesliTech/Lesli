@@ -10,9 +10,6 @@ export default {
                 dl: {
                     projects: I18n.t('deutscheleibrenten.projects'),
                     shared: I18n.t('deutscheleibrenten.shared')
-                },
-                core: {
-                    shared: I18n.t('core.shared')
                 }
             }
         }
@@ -146,7 +143,7 @@ export default {
                     <b-table-column field="company" :label="translations.dl.shared.text_kop" sortable v-html="props.row.company">
                     </b-table-column>
 
-                    <b-table-column field="user_main" :label="translations.core.shared.text_employee" sortable v-html="props.row.user_main">
+                    <b-table-column field="user_main" :label="translations.dl.shared.text_employee" sortable v-html="props.row.user_main">
                     </b-table-column>
 
                 </template>
