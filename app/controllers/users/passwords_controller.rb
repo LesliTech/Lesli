@@ -47,7 +47,7 @@ class Users::PasswordsController < Devise::PasswordsController
                 resource.log_activity(request.method, controller_name, action_name, request.original_fullpath, "password_new_requested, " + get_client_info(true))
                 return respond_with_successful
             else
-                return respond_with_error(I18n.t('core.users/passwords.error_invalid_email'))
+                return respond_with_error(I18n.t('deutscheleibrenten.users/passwords.error_invalid_email'))
             end
         end
     end
