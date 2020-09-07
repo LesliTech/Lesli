@@ -42,10 +42,10 @@ export default {
             },
             translations: {
                 focus: {
-                    tasks: I18n.t('focus.tasks'),
+                    tasks: I18n.t('deutscheleibrenten.tasks'),
                 },
                 bell: {
-                    notifications: I18n.t('bell.notifications')
+                    notifications: I18n.t('deutscheleibrenten.notifications')
                 }
             },
         }

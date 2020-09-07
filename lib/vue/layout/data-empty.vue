@@ -27,9 +27,7 @@ export default {
     data() {
         return {
             translations: {
-                core: {
-                    shared: I18n.t('core.shared')
-                }
+                shared: I18n.t('deutscheleibrenten.shared')
             },
         }
     },
@@ -40,7 +38,7 @@ export default {
         <div class="card">
             <div class="card-content">
                 <div class="image"></div>
-                <p>{{ translations.core.shared.text_no_data_available }}</p>
+                <p>{{ translations.shared.text_no_data_available }}</p>
             </div>
         </div>
     </section>
