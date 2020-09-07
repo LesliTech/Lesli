@@ -68,7 +68,7 @@ export default {
         return {
             show: false,
             translations: {
-                core: I18n.t('core.shared')
+                core: I18n.t('deutscheleibrenten.shared')
             },
             active_tab: 0
         }

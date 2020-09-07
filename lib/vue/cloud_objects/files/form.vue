@@ -20,7 +20,7 @@ export default {
 
         translationsPath: {
             type: String,
-            default: 'core.shared'
+            default: 'deutscheleibrenten.shared'
         },
 
         acceptedFileExtensions: {
@@ -41,7 +41,7 @@ export default {
     data(){
         return {
             translations: {
-                core: I18n.t('core.shared')
+                core: I18n.t('deutscheleibrenten.shared')
             },
             submitting_form: false,
             module_name: null,

@@ -18,7 +18,7 @@ export default {
 
         translationsPath: {
             type: String,
-            default: 'core.shared'
+            default: 'deutscheleibrenten.shared'
         },
 
         translationsFileTypesPath: {
@@ -30,7 +30,7 @@ export default {
     data(){
         return {
             translations: {
-                core: I18n.t('core.shared')
+                core: I18n.t('deutscheleibrenten.shared')
             },
             loading: false,
             files: null,

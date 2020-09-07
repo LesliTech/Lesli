@@ -31,8 +31,8 @@ export default {
     data() {
         return {
             translations: {
-                users: I18n.t('core.users'),
-                shared: I18n.t('core.shared')
+                users: I18n.t('deutscheleibrenten.users'),
+                shared: I18n.t('deutscheleibrenten.shared')
             },
             options: {},
             user: {
