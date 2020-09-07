@@ -106,7 +106,7 @@ class ApplicationController < ActionController::Base
         render status: 404, json: {
             successful: false,
             error: {
-                message: I18n.t("core.shared.not_found_error_message"),
+                message: I18n.t("deutscheleibrenten.shared.not_found_error_message"),
                 details: []
             }
         }.to_json
@@ -117,7 +117,7 @@ class ApplicationController < ActionController::Base
         error_object = {
             successful: false,
             error: {
-                message: I18n.t("core.shared.unauthorized_error_message")
+                message: I18n.t("deutscheleibrenten.shared.unauthorized_error_message")
             }
         }
 
