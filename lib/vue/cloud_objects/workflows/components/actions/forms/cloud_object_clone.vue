@@ -32,7 +32,7 @@ export default {
     data(){
         return {
             translations: {
-                core: I18n.t('core.shared')
+                core: I18n.t('deutscheleibrenten.shared')
             },
             workflow_action: null,
             clone_options: {
