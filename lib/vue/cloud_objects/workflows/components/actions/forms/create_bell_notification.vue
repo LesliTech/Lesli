@@ -27,8 +27,8 @@ export default {
     data(){
         return {
             translations: {
-                core: I18n.t('core.shared'),
-                bell: I18n.t('bell.notifications')
+                core: I18n.t('deutscheleibrenten.shared'),
+                bell: I18n.t('deutscheleibrenten.notifications')
             },
             workflow_action: null,
             notification_options: {

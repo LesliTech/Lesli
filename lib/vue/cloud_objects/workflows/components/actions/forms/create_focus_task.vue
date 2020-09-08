@@ -27,8 +27,8 @@ export default {
     data(){
         return {
             translations: {
-                core: I18n.t('core.shared'),
-                tasks: I18n.t('focus.tasks')
+                core: I18n.t('deutscheleibrenten.shared'),
+                tasks: I18n.t('deutscheleibrenten.tasks')
             },
             workflow_action: null,
             task_options: {
