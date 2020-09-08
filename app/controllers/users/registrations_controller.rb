@@ -24,7 +24,7 @@ Building a better future, one line of code at a time.
 
 =end
 class Users::RegistrationsController < Devise::RegistrationsController
-    layout "application"
+    layout "application-public"
     
     before_action :configure_sign_up_params, only: [:create, :update]
 

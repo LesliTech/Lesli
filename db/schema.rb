@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 10010104) do
+ActiveRecord::Schema.define(version: 2020_09_06_010916) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -122,8 +122,8 @@ ActiveRecord::Schema.define(version: 10010104) do
     t.string "status"
     t.string "context"
     t.string "priority"
-    t.boolean "help_needed"
-    t.boolean "help_translation"
+    t.boolean "need_help"
+    t.boolean "need_translation"
     t.string "reference_bucket"
     t.datetime "last_update_es"
     t.datetime "last_update_en"
@@ -149,6 +149,16 @@ ActiveRecord::Schema.define(version: 10010104) do
   end
 
   create_table "cloud_babel_translations", force: :cascade do |t|
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
+  create_table "mitwerken_cloud_accounts", force: :cascade do |t|
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
+  create_table "mitwerken_cloud_users", force: :cascade do |t|
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end

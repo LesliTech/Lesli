@@ -31,52 +31,52 @@ module RoutesApp
         router.instance_exec do
             authenticated :user do
 
-                # account
-                resource  :account do
-                    scope module: :account do
-                        resources :locations
-                    end
-                end
-
-                # user maintenance & profiles
+                # profiles
                 resource  :profile
-                resources :users do
-                    collection do
-                        get :options
-                    end
-                    member do
-                        get "resources/become/:id",     to: "users#become"
-                    end
-                end
 
-                # roles management
-                resources :roles do
-                    scope module: :role do
-                        resources :privileges
-                    end
-                    member do
-                        scope :resources do
-                            post :restore_default_privileges
-                            post :update_default_privileges
+                scope :settings do
+
+                    # account management
+                    resource  :account do
+                        scope module: :account do
+                            resources :locations
                         end
                     end
-                end
 
-                # template generators
-                namespace :template do
-                    resources :documents do
+                    # user maintenance
+                    resources :users do
                         collection do
                             get :options
                         end
+                        member do
+                            get "resources/become/:id",     to: "users#become"
+                        end
                     end
-                    resources :variables
-                    resources :mappings
-                end
-                
-                # settings
-                resources :settings
-                namespace :settings do
-                    resources :workflows
+
+                    # roles management
+                    resources :roles do
+                        scope module: :role do
+                            resources :privileges
+                        end
+                        member do
+                            scope :resources do
+                                post :restore_default_privileges
+                                post :update_default_privileges
+                            end
+                        end
+                    end
+
+                    # template generators
+                    namespace :template do
+                        resources :documents do
+                            collection do
+                                get :options
+                            end
+                        end
+                        resources :variables
+                        resources :mappings
+                    end
+
                 end
 
                 # Lesli version
