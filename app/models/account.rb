@@ -51,6 +51,10 @@ class Account < ApplicationRecord
     has_one :driver, class_name: "CloudDriver::Account", foreign_key: "id"
     has_one :mailer, class_name: "CloudMailer::Account", foreign_key: "id"
 
+    # builders
+    has_one :mitwerken, class_name: "MitwerkenCloud::Account", foreign_key: "id"
+
+
     after_create :initialize_account
     after_create :initialize_account_for_engines
 
@@ -181,6 +185,14 @@ class Account < ApplicationRecord
                 if defined? DeutscheLeibrenten
                     DeutscheLeibrenten::Account.initialize_workflows(self)
                 end
+            end
+        end
+
+        if defined? MitwerkenCloud
+            if self.mitwerken.blank?
+                self.mitwerken = MitwerkenCloud::Account.new
+                self.mitwerken.account = self
+                self.mitwerken.save!
             end
         end
     end
