@@ -80,49 +80,8 @@ class Role < ApplicationRecord
         }
     end
 
-    def self.scan_new_routes
-        account = Account.first
-
-        routes = self.get_routes()
-        account.roles.joins(:detail).each do |role|
-            routes.each do |route|
-                default_value = false
-                default_value = true if role.detail.name == "owner"
-                default_value = true if role.detail.name == "admin"
-
-                privilege = role.privileges.find_by(grant_object: route[:grant_name])
-                privilege_default = role.privilege_defaults.find_by(grant_object: route[:grant_name]) 
-
-                attributes = {
-                    grant_index: default_value, 
-                    grant_edit: default_value, 
-                    grant_show: default_value, 
-                    grant_new: default_value, 
-                    grant_create: default_value, 
-                    grant_update: default_value, 
-                    grant_destroy: default_value, 
-                    grant_search: default_value,
-                    grant_resources: default_value,
-                    grant_options: default_value 
-                }
-
-                attributes = attributes.merge({
-                    grant_object: route[:grant_name]
-                })
-
-                if privilege.blank?
-                    role.privileges.create(attributes)
-                end
-
-                if privilege_default.blank?
-                    role.privilege_defaults.create(attributes)
-                end
-            end
-        end
-    end
-
     def scan_routes(default = false)
-        routes = Role.get_routes()
+        routes = LC::System::Routes.scan
         routes.each do |route|
             attributes = {
                 grant_index: default, 
@@ -138,43 +97,11 @@ class Role < ApplicationRecord
             }
 
             attributes = attributes.merge({
-                grant_object: route[:grant_name]
+                grant_object: route[:controller]
             })
 
             self.privileges.find_or_create_by(attributes)
             self.privilege_defaults.find_or_create_by(attributes)
         end
-    end
-
-    def self.get_routes()
-        role_list = []
-
-        self.get_controllers_from_routes(role_list, Rails.application.routes.routes)
-        
-        Rails.configuration.lesli_settings["engines"].each do |engine|
-            self.get_controllers_from_routes(
-                role_list, 
-                "#{engine["name"]}::Engine".constantize.routes.routes
-            ) if defined?(engine["name"] == "constant")
-        end
-
-        return role_list
-    end
-
-    def self.get_controllers_from_routes controller_list, routes
-        routes = routes.map{ |r| {controller: r.defaults[:controller] }}.uniq
-        routes.each do |route|
-            controller = route[:controller]
-            next if !(controller.present?)
-            next if controller.include? "rails"
-            next if controller.include? "action_mailbox"
-            next if controller.include? "active_storage"
-            next if controller.include? "errors"
-            next if controller.include? "application"
-
-            controller_list.push({ grant_name: controller})
-        end
-        return controller_list
     end        
-
 end
