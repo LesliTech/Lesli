@@ -54,7 +54,13 @@ class User < ApplicationLesliRecord
     has_one :detail, inverse_of: :user, autosave: true, foreign_key: "users_id", dependent: :destroy 
     accepts_nested_attributes_for :detail, update_only: true
 
+
+    # builders
+    has_one :mitwerker, class_name: "MitwerkenCloud::User", foreign_key: "id"
+
+
     after_create :initialize_user
+    after_create :initialize_user_for_engines
     
     def user_creator
         return nil
@@ -274,6 +280,17 @@ class User < ApplicationLesliRecord
             })
         end
 
+    end
+
+
+    def initialize_user_for_engines
+        if defined? MitwerkenCloud
+            if self.mitwerker.blank?
+                self.mitwerker = MitwerkenCloud::User.new
+                self.mitwerker.user = self
+                self.mitwerker.save!
+            end
+        end
     end
 
 end
