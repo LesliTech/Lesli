@@ -15,7 +15,9 @@ module LC
                     next if controller.include? "rails"
                     next if controller.include? "action_mailbox"
                     next if controller.include? "active_storage"
-                    controller_list.push({ module: "Core", bucket: controller })
+                    next if controller.include? "errors"
+                    next if controller.include? "application"
+                    controller_list.push({ module: "Core", bucket: controller, controller: controller })
                 end
 
                 Rails.configuration.lesli_settings["engines"].each do |engine|
@@ -24,8 +26,8 @@ module LC
                         route.defaults[:controller]
                     end.uniq.map do |controller|
                         next if controller.blank?
-                        controller = controller.sub(engine["code"] + '/', '')
-                        controller_list.push({ module: engine["name"], bucket: controller })
+                        bucket = controller.sub(engine["code"] + '/', '')
+                        controller_list.push({ module: engine["name"], bucket: bucket, controller: controller })
                     end
                 end
 
