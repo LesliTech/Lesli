@@ -24,35 +24,38 @@ export default {
             })
         },
         getSearch() {
-            let text = this.searchGermanCharacters(this.text)
-            let words_to_highlight = this.text.toLowerCase()
-                                        .split(/(\s+)/)
-                                        .filter( e => e.trim().length > 0)
-                                        .map(e => {
-                                            return this.searchGermanCharacters(e)
-                                        })
+            let text = (this.searchGermanCharacters(this.text) || "").replace(/[+*]/g, '')
+            
+            if (text !== "") {
+                let words_to_highlight = this.text.toLowerCase()
+                                            .split(/(\s+)/)
+                                            .filter( e => e.trim().length > 0)
+                                            .map(e => {
+                                                return this.searchGermanCharacters(e)
+                                            })
 
-            this.http.get(`/house/projects/search/${text}?orderColumn=CHWS.number&order=asc`).then(result => {
-                this.projects = result.data
-                this.projects.forEach(project => {
-                    for(var key in project) {
-                        if (key == 'id') {
-                            continue
-                        } else if (key == 'code') {
-                            project['project_code'] = project[key]
+                this.http.get(`/house/projects/search/${text}?orderColumn=CHWS.number&order=asc`).then(result => {
+                    this.projects = result.data
+                    this.projects.forEach(project => {
+                        for(var key in project) {
+                            if (key == 'id') {
+                                continue
+                            } else if (key == 'code') {
+                                project['project_code'] = project[key]
+                            }
+
+                            project[key]=this.doHighlightText(project[key] ? project[key] : '', words_to_highlight)
+                            
                         }
-
-                        project[key]=this.doHighlightText(project[key] ? project[key] : '', words_to_highlight)
-                        
-                    }
+                    })
+                    this.show = true
+                    this.$nextTick(()=>{
+                        window.scrollTo(0,0)
+                    })
+                }).catch(error => {
+                    console.log(error)
                 })
-                this.show = true
-                this.$nextTick(()=>{
-                    window.scrollTo(0,0)
-                })
-            }).catch(error => {
-                console.log(error)
-            })
+            }
         },
         goToProject(project) {
             this.url.go(`/crm/projects/${project.project_code}`)
