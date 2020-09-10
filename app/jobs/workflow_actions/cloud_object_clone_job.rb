@@ -25,6 +25,12 @@ class WorkflowActions::CloudObjectCloneJob < ApplicationJob
             
             # We either copy the attribute name from old resource to new resource or assign the default value
             cloud_object.class.attribute_names.each do |attribute_name|
+
+                # If this condition is fulfilled, the table is capable of recursive reference and the user wants to create it
+                if attribute_name == "#{cloud_object.class.name}_id" && input_data["add_reference"]
+                    new_cloud_object_attributes[attribute_name.to_sym] = cloud_object.id
+                end
+
                 case input_data[attribute_name]
                 when "copy"
                     new_cloud_object_attributes[attribute_name.to_sym] = cloud_object[attribute_name.to_sym]
@@ -73,8 +79,16 @@ class WorkflowActions::CloudObjectCloneJob < ApplicationJob
 
             new_cloud_object.save
             new_cloud_object.activities.create!(
-                category: action_create,
+                category: "action_create",
                 user_creator: current_user
+            )
+
+            new_cloud_object.activities.create!(
+                user_creator: current_user,
+                category: "action_status",
+                description: new_cloud_object.status.name,
+                field_name: "#{new_cloud_object.status.class.table_name}_id",
+                value_to: new_cloud_object.status.name
             )
         rescue StandardError => e
             if action.configuration["log_errors"]
