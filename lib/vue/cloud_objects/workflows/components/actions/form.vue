@@ -317,7 +317,7 @@ export default {
                                 :value="type.value"
                                 :key="type.value"
                             >
-                                <small>{{ object_utils.translateEnum(translations.main, 'enum_action_type', type.text) }}</small>
+                                <small>{{ object_utils.translateEnum(translations.main, 'column_enum_action_type', type.text) }}</small>
                             </option>
                         </b-select>
                     </div>
