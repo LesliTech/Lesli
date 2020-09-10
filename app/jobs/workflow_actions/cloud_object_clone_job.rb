@@ -27,7 +27,7 @@ class WorkflowActions::CloudObjectCloneJob < ApplicationJob
             cloud_object.class.attribute_names.each do |attribute_name|
 
                 # If this condition is fulfilled, the table is capable of recursive reference and the user wants to create it
-                if attribute_name == "#{cloud_object.class.name}_id" && input_data["add_reference"]
+                if attribute_name == "#{cloud_object.class.table_name}_id" && input_data["add_reference"]
                     new_cloud_object_attributes[attribute_name.to_sym] = cloud_object.id
                 end
 
