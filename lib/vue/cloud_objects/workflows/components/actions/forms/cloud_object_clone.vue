@@ -134,12 +134,12 @@ export default {
             <input type="hidden" required>
             <i class="fas fa-exclamation-triangle fa-lg"></i>
             <br>
-            <h4>This action is not available for this workflow</h4>
+            <h4>{{translations.main.messages_warning_action_unavailable}}</h4>
         </div>
         <div v-else>
             <div class="columns">
                 <div class="column is-5">
-                    <label class="label">Assign this resource to<sup class="has-text-danger">*</sup></label>
+                    <label class="label">{{translations.main.view_title_assign_resource_to}}<sup class="has-text-danger">*</sup></label>
                     <b-select :placeholder="translations.core.text_select_option" expanded v-model="workflow_action.concerning_users.type" required>
                         <option
                             v-for="concerning_user_type in options.concerning_user_types"
@@ -170,52 +170,78 @@ export default {
                 </div>
             </div>
 
-            <div class="columns" v-for="main_attribute in clone_options.main_attributes" :key="main_attribute">
+            <div class="field">
+                <label class="label">
+                    {{translations.main.view_text_add_reference_to_resource}}
+                    <sup class="has-text-danger">*</sup>
+                </label>
+                <div class="block">
+                    <b-radio
+                        size="is-small"
+                        v-model="workflow_action.input_data.add_reference"
+                        :native-value="true"
+                    >
+                        {{translations.core.text_yes}}
+                    </b-radio>
+                    <b-radio
+                        size="is-small"
+                        v-model="workflow_action.input_data.add_reference"
+                        :native-value="false"
+                    >
+                        {{translations.core.text_no}}
+                    </b-radio>
+                </div>
+            </div>
+
+            <div class="columns" v-for="main_attribute in clone_options.main_attributes" :key="main_attribute.column">
                 <div class="column is-5">
                     <div class="field">
-                        <label class="label">{{main_attribute}}<sup class="has-text-danger">*</sup></label>
-                        <b-select placeholder="Select an option" expanded v-model="workflow_action.input_data[main_attribute]" required>
+                        <label class="label">
+                            {{main_attribute.label}}
+                            <sup class="has-text-danger">*</sup>
+                        </label>
+                        <b-select :placeholder="translations.core.text_select_option" expanded v-model="workflow_action.input_data[main_attribute.column]" required>
                             <option value="copy">
-                                <small>Copy</small>
+                                <small>{{translations.core.view_text_copy}}</small>
                             </option>
-                            <option v-if="clone_options.cloud_object_options[main_attribute] != null" value="custom">
-                                <small>Custom</small>
+                            <option v-if="clone_options.cloud_object_options[main_attribute.column] != null" value="custom">
+                                <small>{{translations.core.view_text_custom}}</small>
                             </option>
                         </b-select>
                     </div>
                 </div>
-                <div class="column is-7" v-if="workflow_action.input_data[main_attribute] == 'custom'">
+                <div class="column is-7" v-if="workflow_action.input_data[main_attribute.column] == 'custom'">
                     <div class="field">
-                        <label class="label">Select custom value<sup class="has-text-danger">*</sup></label>
-                        <b-select placeholder="Select an option" expanded v-model="workflow_action.input_data[`${main_attribute}_custom_value`]" required>
-                            <option v-for="(option, index) in clone_options.cloud_object_options[main_attribute]" :key="index" :value="option.id">
+                        <label class="label">{{translations.main.view_text_select_custom_value}}<sup class="has-text-danger">*</sup></label>
+                        <b-select placeholder="Select an option" expanded v-model="workflow_action.input_data[`${main_attribute.column}_custom_value`]" required>
+                            <option v-for="(option, index) in clone_options.cloud_object_options[main_attribute.column]" :key="index" :value="option.id">
                                 <small>{{option.name}}</small>
                             </option>
                         </b-select>
                     </div>
                 </div>
             </div>
-            <div class="columns" v-for="detail_attribute in clone_options.detail_attributes" :key="detail_attribute">
+            <div class="columns" v-for="detail_attribute in clone_options.detail_attributes" :key="detail_attribute.column">
                 <div class="column is-5">
                     <div class="field">
-                        <label class="label">{{detail_attribute}}<sup class="has-text-danger">*</sup></label>
-                        <b-select placeholder="Select an option" expanded v-model="workflow_action.input_data[detail_attribute]" required>
+                        <label class="label">{{detail_attribute.label}}<sup class="has-text-danger">*</sup></label>
+                        <b-select placeholder="Select an option" expanded v-model="workflow_action.input_data[detail_attribute.column]" required>
                             <option value="copy">
-                                <small>Copy</small>
+                                <small>{{translations.core.view_text_copy}}</small>
                             </option>
                             <option value="serial">
-                                <small>Serial</small>
+                                <small>{{translations.core.view_text_serial}}</small>
                             </option>
                             <option value="custom">
-                                <small>Custom</small>
+                                <small>{{translations.core.view_text_custom}}</small>
                             </option>
                         </b-select>
                     </div>
                 </div>
-                <div class="column is-7" v-if="workflow_action.input_data[detail_attribute] == 'custom'">
+                <div class="column is-7" v-if="workflow_action.input_data[detail_attribute.column] == 'custom'">
                     <div class="field">
                         <label class="label">Enter custom value</label>
-                        <b-input type="text" v-model="workflow_action.input_data[`${detail_attribute}_custom_value`]">
+                        <b-input type="text" v-model="workflow_action.input_data[`${detail_attribute.column}_custom_value`]">
                         </b-input>
                     </div>
                 </div>
