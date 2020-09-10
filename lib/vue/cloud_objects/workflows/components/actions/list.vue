@@ -121,7 +121,7 @@ export default {
                     <small>{{ props.row.name }}</small>
                 </b-table-column>
                 <b-table-column field="action_type" :label="translations.core.text_type">
-                    <small>{{ object_utils.translateEnum(translations.main, 'enum_action_type', props.row.action_type) }}</small>
+                    <small>{{ object_utils.translateEnum(translations.main, 'column_enum_action_type', props.row.action_type) }}</small>
                 </b-table-column>
                 <b-table-column field="initial_status_name" :label="translations.main.field_initial_status">
                     <small>
