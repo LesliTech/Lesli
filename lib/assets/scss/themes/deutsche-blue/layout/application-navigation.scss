@@ -58,6 +58,8 @@ aside.application-sidebar {
 
     // change navigation menu not fixed layout selected
     aside.application-sidebar .application-navigation {
+        overflow-y: scroll; //enable scroll in DL sidebar
+
         a {
             display: block;
             text-align: center;
@@ -71,6 +73,8 @@ aside.application-sidebar {
 
 @include lesli-css-breakpoint-custom(1260px) {
     aside.application-sidebar .application-navigation {
+        overflow-y: scroll; //enable scroll in DL sidebar
+
         a {
             padding-left: 1rem;
             img {
