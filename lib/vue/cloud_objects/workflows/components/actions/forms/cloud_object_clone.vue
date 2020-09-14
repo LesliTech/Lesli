@@ -215,7 +215,7 @@ export default {
                         <label class="label">{{translations.main.view_text_select_custom_value}}<sup class="has-text-danger">*</sup></label>
                         <b-select placeholder="Select an option" expanded v-model="workflow_action.input_data[`${main_attribute.column}_custom_value`]" required>
                             <option v-for="(option, index) in clone_options.cloud_object_options[main_attribute.column]" :key="index" :value="option.id">
-                                <small>{{option.name}}</small>
+                                <small>{{option.name_translated || option.name}}</small>
                             </option>
                         </b-select>
                     </div>
