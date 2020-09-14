@@ -102,7 +102,7 @@ export default {
         //      this.getUsers()
         //      console.log(this.users) // will display an array of objects, each representing a Users.
         getUsers() {
-            let url = `/users.json?role=kop,callcenter,guest&type=exclude`
+            let url = `/users.json?role=kop,callcenter,guest&type=exclude&status=all`
             this.loading = true
             this.http.get(url).then(result => {
                 this.loading = false
@@ -237,7 +237,7 @@ export default {
                         <b-table-column :label="translations.core.users.table_header_role" sortable field="role">
                             {{ props.row.role }}
                         </b-table-column>
-                        <b-table-column :label="translations.core.users.table_header_status" field="active">
+                        <b-table-column :label="translations.core.users.table_header_status" sortable field="active">
                             <span class="tag is-success" v-if="props.row.active">
                                 {{ props.row.active_text }}
                             </span>
