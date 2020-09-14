@@ -89,7 +89,8 @@ class User < ApplicationLesliRecord
 
         roles = params[:role] 
         type = params[:type]
-
+        status = params[:status]
+        
         users = []
         roles = roles.blank? ? [] : roles.split(',') 
         operator = type == "exclude" ? 'not in' : 'in'
@@ -98,8 +99,12 @@ class User < ApplicationLesliRecord
         .joins("inner join user_details UD on UD.users_id = users.id")
         .joins("inner join roles R on R.id = users.roles_id")
         .joins("inner join role_details RD on RD.roles_id = R.id")
-        .where(active: true)
-        .order("UD.first_name")
+
+        if (status != "all")
+            users = users.where("users.active = ?", true)
+        end
+        
+        users = users.order("UD.first_name")
 
         #return query
 
