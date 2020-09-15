@@ -1,3 +1,24 @@
+=begin
+
+Lesli
+
+Copyright (c) 2020, all rights reserved.
+
+All the information provided by this platform is protected by international laws related  to 
+industrial property, intellectual property, copyright and relative international laws. 
+All intellectual or industrial property rights of the code, texts, trade mark, design, 
+pictures and any other information belongs to the owner of this platform.
+
+Without the written permission of the owner, any replication, modification,
+transmission, publication is strictly forbidden.
+
+For more information read the license file including with this software.
+
+// · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
+// · 
+
+=end
+
 module LC
 
     module System
@@ -15,7 +36,7 @@ module LC
                     next if controller.include? "rails"
                     next if controller.include? "action_mailbox"
                     next if controller.include? "active_storage"
-                    controller_list.push({ module: "Core", bucket: controller })
+                    controller_list.push({ module: "Core", module_type: "rails_core", bucket: controller })
                 end
 
                 Rails.configuration.lesli_settings["engines"].each do |engine|
@@ -25,7 +46,7 @@ module LC
                     end.uniq.map do |controller|
                         next if controller.blank?
                         controller = controller.sub(engine["code"] + '/', '')
-                        controller_list.push({ module: engine["name"], bucket: controller })
+                        controller_list.push({ module: engine["name"], module_type: "rails_engine", bucket: controller })
                     end
                 end
 
