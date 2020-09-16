@@ -31,7 +31,7 @@ Building a better future, one line of code at a time.
 
 =end
 
-class ErrorsController < ApplicationPublicController
+class ErrorsController < ApplicationController
 
     # inspired on:
     # https://medium.com/rails-ember-beyond/error-handling-in-rails-the-modular-way-9afcddd2fe1b
