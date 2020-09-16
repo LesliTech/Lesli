@@ -36,3 +36,11 @@ pidfile ENV.fetch("PIDFILE") { "tmp/pids/server.pid" }
 
 # Allow puma to be restarted by `rails restart` command.
 plugin :tmp_restart
+
+puts ""; puts ""; puts "";
+puts "Loading installed engines: "
+puts "-     -     -     -     -     -     -     -     -     -"
+Lesli::engines.each do |engine|
+    puts "- #{engine["name"]}"
+end
+puts ""; puts "";

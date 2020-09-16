@@ -2,24 +2,17 @@
 
 Lesli
 
-Copyright (c) 2020, Lesli Technologies, S. A.
+Copyright (c) 2020, all rights reserved.
 
-All the information provided by this website is protected by laws of Guatemala related 
-to industrial property, intellectual property, copyright and relative international laws. 
-Lesli Technologies, S. A. is the exclusive owner of all intellectual or industrial property
-rights of the code, texts, trade mark, design, pictures and any other information.
-Without the written permission of Lesli Technologies, S. A., any replication, modification,
+All the information provided by this platform is protected by international laws related  to 
+industrial property, intellectual property, copyright and relative international laws. 
+All intellectual or industrial property rights of the code, texts, trade mark, design, 
+pictures and any other information belongs to the owner of this platform.
+
+Without the written permission of the owner, any replication, modification,
 transmission, publication is strictly forbidden.
+
 For more information read the license file including with this software.
-
-Lesli - Your Smart Business Assistant
-
-Powered by https://www.lesli.tech
-Building a better future, one line of code at a time.
-
-@contact  <hello@lesli.tech>
-@website  <https://lesli.tech>
-@license  Propietary - all rights reserved.
 
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
 // · 
@@ -31,52 +24,53 @@ module RoutesApp
         router.instance_exec do
             authenticated :user do
 
-                # account
-                resource  :account do
-                    scope module: :account do
-                        resources :locations
-                    end
-                end
+                # profiles
+                resource :profile
 
-                # user maintenance & profiles
-                resource  :profile
-                resources :users do
-                    collection do
-                        get :options
-                    end
-                    member do
-                        get "resources/become/:id",     to: "users#become"
-                    end
-                end
+                scope :settings do
 
-                # roles management
-                resources :roles do
-                    scope module: :role do
-                        resources :privileges
-                    end
-                    member do
-                        scope :resources do
-                            post :restore_default_privileges
-                            post :update_default_privileges
+                    # account management
+                    resource  :account do
+                        scope module: :account do
+                            resources :locations
                         end
                     end
-                end
 
-                #template generators
-                namespace :template do
-                    resources :documents do
+                    # user maintenance
+                    resources :users do
                         collection do
                             get :options
                         end
+                        member do
+                            get "resources/become/:id",     to: "users#become"
+                        end
                     end
-                    resources :variables
-                    resources :mappings
+
+                    # roles management
+                    resources :roles do
+                        scope module: :role do
+                            resources :privileges
+                        end
+                        member do
+                            scope :resources do
+                                post :restore_default_privileges
+                                post :update_default_privileges
+                            end
+                        end
+                    end
+
+                    # template generators
+                    namespace :template do
+                        resources :documents do
+                            collection do
+                                get :options
+                            end
+                        end
+                        resources :variables
+                        resources :mappings
+                    end
+
                 end
-                
-                namespace :settings do
-                    resources :workflows
-                end
-                resources :settings
 
                 # Lesli version
                 get "version", to: "abouts#version"
@@ -84,6 +78,7 @@ module RoutesApp
                 get "system-requirements", to: "abouts#system_requirements"
 
             end
+
         end
     end
 end

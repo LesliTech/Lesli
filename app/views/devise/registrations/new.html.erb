@@ -2,24 +2,17 @@
 
 Lesli
 
-Copyright (c) 2020, Lesli Technologies, S. A.
+Copyright (c) 2020, all rights reserved.
 
-All the information provided by this website is protected by laws of Guatemala related 
-to industrial property, intellectual property, copyright and relative international laws. 
-Lesli Technologies, S. A. is the exclusive owner of all intellectual or industrial property
-rights of the code, texts, trade mark, design, pictures and any other information.
-Without the written permission of Lesli Technologies, S. A., any replication, modification,
+All the information provided by this platform is protected by international laws related  to 
+industrial property, intellectual property, copyright and relative international laws. 
+All intellectual or industrial property rights of the code, texts, trade mark, design, 
+pictures and any other information belongs to the owner of this platform.
+
+Without the written permission of the owner, any replication, modification,
 transmission, publication is strictly forbidden.
+
 For more information read the license file including with this software.
-
-Lesli - Your Smart Business Assistant
-
-Powered by https://www.lesli.tech
-Building a better future, one line of code at a time.
-
-@contact  <hello@lesli.tech>
-@website  <https://lesli.tech>
-@license  Propietary - all rights reserved.
 
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
 // · 
@@ -27,13 +20,13 @@ Building a better future, one line of code at a time.
 %>
 
 
-<% if lesli_instance != "Lesli" %>
-<section class="<%= lesli_instance.underscore %>-login">
+<% if lesli_instance != "lesli" %>
+<section class="<%= lesli_instance.underscore %>-register">
     <%= render :file => "#{lesli_instance.underscore}/lesli/devise/registrations/new.html.erb" %>
 </section>
 <% end %>
 
 
-<% if lesli_instance == "Lesli" %>
+<% if lesli_instance == "lesli" %>
 <h3>There is no a view for registration path.</h3>
 <% end %>

@@ -92,6 +92,9 @@ module Lesli
         # Get Lesli development user
         lesli_development_user = lesli_settings["configuration"]["security"]["login"]
 
+        # Available Lesli development users
+        lesli_settings["configuration"]["security"]["login"] = []
+
         # get Lesli instance (builder engine)
         instance_engine = instance
 
@@ -103,14 +106,19 @@ module Lesli
             # all the settings will be overrided by the settings in the builder engine 
             instance_settings = YAML.load_file(File.join("./engines", instance_engine, "lesli.yml"))
 
+            instance_development_user = instance_settings["configuration"]["security"]["login"]
+
             # overwrite core settings with specific settings from instance
-            lesli_settings = lesli_settings.merge(instance_settings)
+            lesli_settings = lesli_settings.merge(instance_settings) 
 
-            # include default Lesli user for development environment
-            if env != "production"
-                lesli_settings["configuration"]["security"]["login"].push(lesli_development_user[0])
-            end
+            # include instance development user to array of users
+            lesli_settings["configuration"]["security"]["login"] = [instance_development_user]
 
+        end
+
+        # include default Lesli user for development environment
+        if env != "production"
+            lesli_settings["configuration"]["security"]["login"].push(lesli_development_user)
         end
 
         # parse available locales for instance
