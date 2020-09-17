@@ -5,7 +5,7 @@ export default {
         return {
             translations: {
                 core: {
-                    shared: I18n.t('core.shared')
+                    shared: I18n.t('deutscheleibrenten.shared')
                 }
             }
         }

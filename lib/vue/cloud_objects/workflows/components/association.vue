@@ -19,7 +19,7 @@ export default {
             show: false,
             options_endpoint: '',
             translations: {
-                core: I18n.t('core.shared')
+                core: I18n.t('deutscheleibrenten.shared')
             },
             endpoint: '',
             associations: [],

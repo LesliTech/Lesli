@@ -40,8 +40,8 @@ export default {
             translations: {
                 users: I18n.t('deutscheleibrenten.users'),
                 core: {
-                    users: I18n.t('core.users'),
-                    shared: I18n.t('core.shared')
+                    users: I18n.t('deutscheleibrenten.users'),
+                    shared: I18n.t('deutscheleibrenten.shared')
                 }
             },
             user: {
