@@ -28,7 +28,7 @@ class ApplicationApiController < ActionController::API
 
     def respond_with_successful data=nil
         response_body = { successful: true }
-        response_body[:data] = data
+        response_body[:data] = data if data
         render status: 200, json: response_body.to_json
     end
     
@@ -54,7 +54,7 @@ class ApplicationApiController < ActionController::API
         }.to_json
     end
 
-    # JSON not found response
+    # JSON unauthorized response
     def respond_with_unauthorized(detail = {})
         error_object = {
             successful: false,
