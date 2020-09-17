@@ -101,8 +101,6 @@ Building a better future, one line of code at a time.
                     name: cloud_object_file.attachment_identifier
                 ) if cloud_object_file.name.blank?
 
-                respond_with_successful(cloud_object_file)
-
                 cloud_object = cloud_object_file.cloud_object
                 # Notify Subscribers
                 # message = I18n.t(
@@ -117,6 +115,11 @@ Building a better future, one line of code at a time.
                     category: "action_create_file",
                     description: cloud_object_file.name
                 )
+
+                # Setting up file uploader to upload in background
+                Files::S3UploaderJob.perform_later(cloud_object_file)
+
+                respond_with_successful(cloud_object_file)
             else
                 respond_with_error(cloud_object_file.errors.full_messages.to_sentence)
             end
