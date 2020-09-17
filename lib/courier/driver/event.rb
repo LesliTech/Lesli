@@ -56,6 +56,7 @@ module Courier
                         event_date: LC::Date.to_string(event.event_date),
                         location: event.location,
                         event_type: event.event_type,
+                        editable: event.is_editable_by?(current_user),
                         public: event.public,
                         organizer: {
                             id: organizer.id,
