@@ -68,19 +68,6 @@ export default {
             <div class="navbar-end">
                 <div class="navbar-item">
                     <slot></slot>
-                    <!--
-                    <div class="buttons" v-if="buttons">
-                        <button class="button" @click="clickButtonReload">
-                            <b-icon icon="sync" size="is-small" :custom-class="loading ? 'fa-spin' : ''" />
-                            <span>Reload</span>
-                        </button>
-
-                        <router-link v-if="this.$route.path=='/'" class="button" tag="button" to="/new">
-                            <b-icon icon="plus" size="is-small" />
-                            <span>{{ titleButtonCreate }}</span>
-                        </router-link>
-                    </div>
-                    -->
                 </div>
             </div>
         </div>

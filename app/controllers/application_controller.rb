@@ -2,24 +2,17 @@
 
 Lesli
 
-Copyright (c) 2020, Lesli Technologies, S. A.
+Copyright (c) 2020, all rights reserved.
 
-All the information provided by this website is protected by laws of Guatemala related 
-to industrial property, intellectual property, copyright and relative international laws. 
-Lesli Technologies, S. A. is the exclusive owner of all intellectual or industrial property
-rights of the code, texts, trade mark, design, pictures and any other information.
-Without the written permission of Lesli Technologies, S. A., any replication, modification,
+All the information provided by this platform is protected by international laws related  to 
+industrial property, intellectual property, copyright and relative international laws. 
+All intellectual or industrial property rights of the code, texts, trade mark, design, 
+pictures and any other information belongs to the owner of this platform.
+
+Without the written permission of the owner, any replication, modification,
 transmission, publication is strictly forbidden.
+
 For more information read the license file including with this software.
-
-Lesli - Your Smart Business Assistant
-
-Powered by https://www.lesli.tech
-Building a better future, one line of code at a time.
-
-@contact  <hello@lesli.tech>
-@website  <https://lesli.tech>
-@license  Propietary - all rights reserved.
 
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
 // · 
@@ -80,16 +73,16 @@ class ApplicationController < ActionController::Base
 
     end
 
-    def respond_with_successful data= nil
-        response_body = { successful: true }
-        response_body[:data] = data
-        render status: 200, json: response_body.to_json
-    end
-
     # DEPRECATED
     # use LC::Response.pagination in combination with respond_with_successful instead
     def respond_with_pagination data
         respond_with_successful(data)
+    end
+
+    def respond_with_successful data= nil
+        response_body = { successful: true }
+        response_body[:data] = data
+        render status: 200, json: response_body.to_json
     end
     
     # JSON failure response
@@ -108,7 +101,7 @@ class ApplicationController < ActionController::Base
         render status: 404, json: {
             successful: false,
             error: {
-                message: I18n.t("core.shared.not_found_error_message"),
+                message: I18n.t("deutscheleibrenten.shared.not_found_error_message"),
                 details: []
             }
         }.to_json
@@ -119,7 +112,7 @@ class ApplicationController < ActionController::Base
         error_object = {
             successful: false,
             error: {
-                message: I18n.t("core.shared.unauthorized_error_message")
+                message: I18n.t("deutscheleibrenten.shared.unauthorized_error_message")
             }
         }
 

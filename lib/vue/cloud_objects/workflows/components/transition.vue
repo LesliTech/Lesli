@@ -28,7 +28,7 @@ export default {
 
     data() {
         return {
-            core_translations: I18n.t('core.shared'),
+            core_translations: I18n.t('deutscheleibrenten.shared'),
             transition_statuses: null,
             module_name: null,
             object_name: null

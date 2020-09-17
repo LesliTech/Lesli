@@ -39,7 +39,7 @@ export default {
     data(){
         return {
             translations: {
-                core: I18n.t('core.shared')
+                core: I18n.t('deutscheleibrenten.shared')
             },
             main_route: '',
             action: {
@@ -317,7 +317,7 @@ export default {
                                 :value="type.value"
                                 :key="type.value"
                             >
-                                <small>{{ object_utils.translateEnum(translations.main, 'enum_action_type', type.text) }}</small>
+                                <small>{{ object_utils.translateEnum(translations.main, 'column_enum_action_type', type.text) }}</small>
                             </option>
                         </b-select>
                     </div>
