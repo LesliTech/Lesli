@@ -13,7 +13,7 @@ module Notifications
                 message: message
             )
 
-            user.log_activity( request_method, request_controller, nil, nil, 'Token sent successfully')
+            user.log_activity(request_method, request_controller, nil, nil, 'Token sent successfully')
 
             sms
         end
