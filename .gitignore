@@ -10,8 +10,10 @@
 *.dump 
 /log/*
 /tmp/*
+/public/tmp/*
 !/log/.keep
 !/tmp/.keep
+!/public/tmp/.gitkeep
 .byebug_history
 .DS_store
 
