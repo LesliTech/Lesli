@@ -64,7 +64,7 @@ export default {
     methods: {
 
         getOptions() {
-            this.http.get("/users/options.json").then(result => {
+            this.http.get("/settings/users/options.json").then(result => {
                 this.store.data.options = result.data
                 /*
                 if (result.successful) {

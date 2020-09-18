@@ -42,7 +42,7 @@ export default {
     //      Users, with the same params as the associated rails model
     data(){
         return {
-            main_route: '/users',
+            main_route: '/settings/users',
             show_form: false,
             user_id: null,
             users: [],
@@ -102,7 +102,7 @@ export default {
         //      this.getUsers()
         //      console.log(this.users) // will display an array of objects, each representing a Users.
         getUsers() {
-            let url = `/users.json?role=kop,callcenter,guest&type=exclude&status=all`
+            let url = `/settings/users.json?role=kop,callcenter,guest&type=exclude&status=all`
             this.loading = true
             this.http.get(url).then(result => {
                 this.loading = false
