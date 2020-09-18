@@ -1,4 +1,4 @@
-class WebsitesController < ApplicationPublicController
+class WebsitesController < ApplicationController
 
     def show
     end

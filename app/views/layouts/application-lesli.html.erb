@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <%= render partial: "layouts/partials/application-head" %>
+    <%= render partial: "layouts/partials/application-data" %>
+    <%= render partial: "layouts/partials/application-assets-css" %>
+    <%= yield :application_custom_assets %>
+</head>
+<body class="<%= application_body_class() %> devv">
+    <main id="lesli-application">
+        <%= render partial: "layouts/partials/application-layout-module" %>
+        <%= render partial: "layouts/partials/application-layout-header" %>
+        <%= render partial: "layouts/partials/application-layout-sidebar" %>
+        <%= render partial: "layouts/partials/application-layout-content" %>
+        <%= render partial: "layouts/partials/application-layout-chatbox" %>
+        <%= render partial: "layouts/partials/application-layout-notification" %>
+    </main>
+    <%= render partial: "layouts/partials/application-layout-footer" %>
+    <%= render partial: "layouts/partials/application-assets-js" %>
+    <%= render partial: "layouts/partials/application-analytics" %>
+</body>
+</html>
