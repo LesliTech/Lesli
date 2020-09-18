@@ -29,12 +29,10 @@ Building a better future, one line of code at a time.
 aside.application-sidebar {
     a.brand {
         padding: 2px 0;
+        background-color: lesli-css-get-color(solid,white);
     }
     .application-navigation {
         background-color: lesli-css-theme-get-color(app, primary);
-        .brand {
-            background-color: lesli-css-get-color(solid,white);
-        }
         a {
             padding-left: .1rem;
             padding-right: .1rem;
