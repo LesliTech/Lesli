@@ -30,6 +30,8 @@ class User < ApplicationLesliRecord
 
     acts_as_paranoid
 
+    validates :email, :presence => true
+
     devise  :database_authenticatable, 
             :registerable, 
             :rememberable, 
@@ -54,8 +56,8 @@ class User < ApplicationLesliRecord
     has_one :detail, inverse_of: :user, autosave: true, foreign_key: "users_id", dependent: :destroy 
     accepts_nested_attributes_for :detail, update_only: true
 
-    after_create :initialize_user
-    
+    after_create :initialize_user    
+
     def user_creator
         return nil
     end
@@ -87,8 +89,8 @@ class User < ApplicationLesliRecord
     #]
     def self.index(current_user, query, params)
 
-        roles = params[:role] 
         type = params[:type]
+        roles = params[:role]         
         status = params[:status]
         
         users = []
@@ -104,19 +106,17 @@ class User < ApplicationLesliRecord
             users = users.where("users.active = ?", true)
         end
         
-        users = users.order("UD.first_name")
-
-        #return query
+        # sort by name by default
+        if query[:pagination][:orderColumn] == "id"
+            query[:pagination][:orderColumn] = "first_name" 
+            query[:pagination][:order] = "asc"
+        end
 
         users = users.where("email like '%#{query[:filters][:domain]}%'")  unless query[:filters][:domain].blank?
         users = users.where("RD.name #{operator} (?)", roles) unless roles.blank?
+        users = users.order("#{query[:pagination][:orderColumn]} #{query[:pagination][:order]} NULLS LAST")
 
-        users = users
-        # .page(query[:pagination][:page])
-        # .per(query[:pagination][:perPage])
-        .order("#{query[:pagination][:orderColumn]} #{query[:pagination][:order]} NULLS LAST")
-
-        users = users.select(
+        users.select(
             :id,
             :roles_id,
             :active,
@@ -128,18 +128,6 @@ class User < ApplicationLesliRecord
             "R.id as role_id",
             "RD.name as role_name"
         )
-
-        # {
-        #     pagination: {
-        #         total_pages: users.total_pages,
-        #         current_page: users.current_page,
-        #         count_total: users.total_count,
-        #         count: users.length
-        #     },
-        #     records: users
-        # }
-
-        users #.to_sql.html_safe
 
     end
 

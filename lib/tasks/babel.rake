@@ -36,4 +36,19 @@ namespace :babel do
         Rake::Task["cloud_babel:clean"].invoke
     end
 
+    task rails: :environment do
+        return puts "Babel module not installed." if not defined?(CloudBabel)
+        Rake::Task["cloud_babel:rails"].invoke
+    end
+
+    task android: :environment do
+        return puts "Babel module not installed." if not defined?(CloudBabel)
+        Rake::Task["cloud_babel:android"].invoke
+    end
+
+    task ios: :environment do
+        return puts "Babel module not installed." if not defined?(CloudBabel)
+        Rake::Task["cloud_babel:ios"].invoke
+    end
+
 end
