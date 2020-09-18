@@ -89,8 +89,11 @@ Building a better future, one line of code at a time.
                 user_creator: current_user,
                 "cloud_#{module_name}_#{plural_object_name}_id".to_sym => params["#{object_name}_id".to_sym]
             )
+            
+            extension = ""
+            extension = new_file_params[:attachment_local].original_filename if new_file_params[:attachment_local]
+            extension = new_file_params[:attachment].original_filename if new_file_params[:attachment]
 
-            extension = new_file_params[:attachment].original_filename
             return respond_with_error(I18n.t('core.shared.notification_error_file_type_not_allowed')) unless model.verify_file_extension(extension)
 
             cloud_object_file = model.new(new_file_params)
@@ -98,7 +101,7 @@ Building a better future, one line of code at a time.
             if cloud_object_file.save
 
                 cloud_object_file.update(
-                    name: cloud_object_file.attachment_identifier
+                    name: (cloud_object_file.attachment_local_identifier || cloud_object_file.attachment_identifier)
                 ) if cloud_object_file.name.blank?
 
                 cloud_object = cloud_object_file.cloud_object
@@ -117,7 +120,7 @@ Building a better future, one line of code at a time.
                 )
 
                 # Setting up file uploader to upload in background
-                Files::S3UploaderJob.perform_later(cloud_object_file)
+                Files::AwsUploadJob.perform_later(cloud_object_file)
 
                 respond_with_successful(cloud_object_file)
             else
@@ -143,8 +146,11 @@ Building a better future, one line of code at a time.
             disposition = "attachment" if params["download"]
             
             # Sending file using CarrierWave
-            send_data(@cloud_object_file.attachment.read, filename: @cloud_object_file.name, disposition: disposition, stream: 'true')
-
+            if @cloud_object_file.attachment.file
+                send_data(@cloud_object_file.attachment.read, filename: @cloud_object_file.name, disposition: disposition, stream: 'true')
+            else
+                send_data(@cloud_object_file.attachment_local.read, filename: @cloud_object_file.name, disposition: disposition, stream: 'true')
+            end
         end
 
 =begin
@@ -160,6 +166,10 @@ this.http.delete(`127.0.0.1/help/tickets/${ticket_id}/files/${file_id}`);
         def destroy
             return respond_with_not_found unless @cloud_object_file
             return respond_with_unauthorized unless @cloud_object_file.is_editable_by?(current_user)
+
+            # We remove the attachment from local and S3 before deleting the file
+            @cloud_object_file.update!(attachment: nil)
+            @cloud_object_file.update!(attachment_local: nil)
 
             if @cloud_object_file.destroy
                 respond_with_successful
@@ -210,51 +220,32 @@ this.http.delete(`127.0.0.1/help/tickets/${ticket_id}/files/${file_id}`);
             ).where(
                 "cloud_#{module_name}_#{plural_object_name}.cloud_#{module_name}_accounts_id = #{current_user.account.id}"
             )
-            
-            if ::FileUploader.storage.to_s == "CarrierWave::Storage::Fog"
-                handle_fog_zip_download(files)
-            else
-                handle_local_zip_download(files)
-            end
+
+            handle_zip_download(files)
         end
 
         protected
 
-        def handle_fog_zip_download(files)
+        def handle_zip_download(files)
             s3 = Aws::S3::Client.new()
-
             zip_stream = ::Zip::OutputStream.write_buffer do |zip|
                 files.each do |object_file|
-                    object_file_filepath = object_file.attachment.current_path
-                    filename = object_file.attachment_identifier
-                    file_obj = s3.get_object(
-                        bucket: Rails.application.credentials.s3[:bucket], 
-                        key: object_file_filepath
-                    )
-                    zip.put_next_entry filename
-                    zip.print file_obj.body.read
-                end
-            end
-            zip_stream.rewind
-            send_data zip_stream.read, filename: "all_documents_#{Date.today.strftime('%d_%B_%Y')}.zip", type: 'application/zip'
-        end
-
-        def handle_local_zip_download(files)
-            zip_stream = ::Zip::OutputStream.write_buffer do |zip|
-                files.each do |object_file|
-
-                    # CarrierWave zip download
-                    object_file_filepath = object_file.attachment.current_path
-                    filename = object_file.attachment_identifier
-                    next unless ::File.exist?(object_file_filepath)
-                    zip.put_next_entry filename
-                    zip.print IO.binread(object_file_filepath)
-
-                    # Active Storage zip download
-                    # next if object_file.file.blank?
-                    # file_path = ActiveStorage::Blob.service.send(:path_for, object_file.file.key)
-                    # zip.put_next_entry object_file.file.blob.filename
-                    # zip.print IO.binread(file_path)
+                    if object_file.attachment.file
+                        object_file_filepath = object_file.attachment.current_path
+                        filename = object_file.attachment_identifier
+                        file_obj = s3.get_object(
+                            bucket: Rails.application.credentials.s3[:bucket], 
+                            key: object_file_filepath
+                        )
+                        zip.put_next_entry filename
+                        zip.print file_obj.body.read
+                    elsif object_file.attachment_local.file
+                        object_file_filepath = object_file.attachment_local.current_path
+                        filename = object_file.attachment_local_identifier
+                        next unless ::File.exist?(object_file_filepath)
+                        zip.put_next_entry filename
+                        zip.print IO.binread(object_file_filepath)
+                    end
                 end
             end
             zip_stream.rewind
@@ -318,6 +309,7 @@ this.http.delete(`127.0.0.1/help/tickets/${ticket_id}/files/${file_id}`);
                 "#{object_name}_file".to_sym
             ).permit(
                 :name,
+                :attachment_local,
                 :attachment,
                 "cloud_#{module_name}_#{plural_object_name}_id".to_sym,
                 :file_type
