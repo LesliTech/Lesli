@@ -69,6 +69,7 @@ Building a better future, one line of code at a time.
 =begin
 @return [Array] List of hashes. Each hash represents an transition from this status to
     another one.
+@param current_user [User] The user that is requesting the transition_statuses
 @description Returns a list of all the transitions from the current *status* to another one.
     The fields of each hash are *id* of the status, *name*, and wheter it is initial or final
 @example
@@ -86,15 +87,22 @@ Building a better future, one line of code at a time.
     #    }
     #]
 =end
-        def next_workflow_statuses
+        def next_workflow_statuses(current_user)
             return [] unless next_statuses
             
             dynamic_info = self.class.dynamic_info
             module_name = dynamic_info[:module_name]
+            module_underscore = dynamic_info[:module_underscore]
 
             ids = next_statuses.split("|").map(&:to_i)
             
-            workflow_including_deleted.statuses.where(id: ids).order(number: :asc).order(id: :asc)
+            workflow_including_deleted.statuses.where(id: ids).order(number: :asc).order(id: :asc).filter_map do |status|
+                if status.to_be_deleted? && ! current_user.role.privileges.find_by(grant_object: "#{module_underscore}/#{status.workflow.associations.order(id: :asc).first.workflow_for.pluralize}").grant_destroy
+                    nil
+                else
+                    status
+                end
+            end
         end
 
 private
@@ -109,7 +117,8 @@ private
         def self.dynamic_info
             module_info = self.lesli_classname().split("::")
             {
-                module_name: module_info[0].sub("Cloud", "").downcase
+                module_name: module_info[0].sub("Cloud", "").downcase,
+                module_underscore: module_info[0].underscore
             }
         end
     end
