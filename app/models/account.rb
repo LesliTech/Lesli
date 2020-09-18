@@ -53,7 +53,7 @@ class Account < ApplicationRecord
 
     after_create :initialize_account
     after_create :initialize_account_for_engines
-
+    after_create :initialize_account_for_instance
 
     # account status
     enum status: [:registered, :active, :suspended]
@@ -94,7 +94,7 @@ class Account < ApplicationRecord
             object_level_permission = 2147483647 if role_name == "owner"
             object_level_permission = 1000 if role_name == "admin"
 
-            @role = Role.create({
+            Role.create({
                 account: self,
                 detail_attributes: {
                     name: role_name,
@@ -183,6 +183,26 @@ class Account < ApplicationRecord
                 end
             end
         end
+
+    end
+
+    def initialize_account_for_instance
+
+        # Every instance (builder module) is loaded into the platform using the same 
+        # name of the engine
+        instance = Rails.application.config.lesli_settings["instance"].constantize
+
+        # Build an account class base on instance (engine) name
+        # Example: LesliCloud::Account - this is a standard name
+        instance_account = "#{instance}::Account".constantize
+
+        # If instance account class exists
+        if defined? instance_account
+            instance = instance_account.new
+            instance.account = self
+            instance.save!
+        end
+        
     end
 
 end
