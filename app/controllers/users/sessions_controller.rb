@@ -48,20 +48,20 @@ class Users::SessionsController < Devise::SessionsController
         # search for a existing user 
         resource = User.find_for_database_authentication(email: sign_in_params[:email], active: true)
 
-        return respond_with_error(t('core.users/sessions.invalid_credentials')) unless resource
+        return respond_with_error(I18n.t('deutscheleibrenten.users/sessions.invalid_credentials')) unless resource
 
         activity = resource.log_activity(request.method, controller_name, action_name, request.original_fullpath, "login_atempt")
 
         unless resource.valid_password?(sign_in_params[:password])
             activity.update_attribute(:description, "login_atempt_invalid_credentials, " + get_client_info(true))
-            return respond_with_error(t('core.users/sessions.invalid_credentials'))
+            return respond_with_error(I18n.t('deutscheleibrenten.users/sessions.invalid_credentials'))
         end
         
         unless resource.confirmed?
-            return respond_with_error(t("devise.errors.custom.confirmation_required, " + get_client_info(true)))
+            return respond_with_error(I18n.t("devise.errors.custom.confirmation_required, " + get_client_info(true)))
         end
 
-        return respond_with_error(t('core.users/sessions.role_access_denied')) unless resource.role.detail.active?
+        return respond_with_error(I18n.t('deutscheleibrenten.users/sessions.role_access_denied')) unless resource.role.detail.active?
 
         sign_in :user, resource
 
