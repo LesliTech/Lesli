@@ -2,24 +2,17 @@
 
 Lesli
 
-Copyright (c) 2020, Lesli Technologies, S. A.
+Copyright (c) 2020, all rights reserved.
 
-All the information provided by this website is protected by laws of Guatemala related 
-to industrial property, intellectual property, copyright and relative international laws. 
-Lesli Technologies, S. A. is the exclusive owner of all intellectual or industrial property
-rights of the code, texts, trade mark, design, pictures and any other information.
-Without the written permission of Lesli Technologies, S. A., any replication, modification,
+All the information provided by this platform is protected by international laws related  to 
+industrial property, intellectual property, copyright and relative international laws. 
+All intellectual or industrial property rights of the code, texts, trade mark, design, 
+pictures and any other information belongs to the owner of this platform.
+
+Without the written permission of the owner, any replication, modification,
 transmission, publication is strictly forbidden.
+
 For more information read the license file including with this software.
-
-Lesli - Your Smart Business Assistant
-
-Powered by https://www.lesli.tech
-Building a better future, one line of code at a time.
-
-@contact  <hello@lesli.tech>
-@website  <https://lesli.tech>
-@license  Propietary - all rights reserved.
 
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
 // · 
@@ -84,47 +77,6 @@ module Lesli
 
     end
 
-    def Lesli.settings env="development"
-
-        # Lesli core settings
-        lesli_settings = YAML.load_file("./lesli.yml")
-
-        # Get Lesli development user
-        lesli_development_user = lesli_settings["configuration"]["security"]["login"]
-
-        # get Lesli instance (builder engine)
-        instance_engine = instance
-
-        # specific settings for dedicated on-premises instance (not core)
-        if instance_engine != "Lesli" 
-    
-            # get the settings from instance 
-            # this file should be an exact copy of the one in the core
-            # all the settings will be overrided by the settings in the builder engine 
-            instance_settings = YAML.load_file(File.join("./engines", instance_engine, "lesli.yml"))
-
-            # overwrite core settings with specific settings from instance
-            lesli_settings = lesli_settings.merge(instance_settings)
-
-            # include default Lesli user for development environment
-            if env != "production"
-                lesli_settings["configuration"]["security"]["login"].push(lesli_development_user[0])
-            end
-
-        end
-
-        # parse available locales for instance
-        lesli_settings["configuration"]["locales_available"] = lesli_settings["configuration"]["locales"]
-        lesli_settings["configuration"]["locales"] = lesli_settings["configuration"]["locales"].keys
-
-        lesli_settings["engines"] = engines
-
-        lesli_settings["env"] = lesli_settings["env"][env]
-
-        return lesli_settings
-
-    end
-
     def Lesli.instance  
 
         instance = "Lesli"
@@ -137,6 +89,57 @@ module Lesli
 
         instance
         
+    end
+
+    def Lesli.settings env="development"
+
+        # Lesli core settings
+        lesli_settings = YAML.load_file("./lesli.yml")
+
+        # Get Lesli development user
+        lesli_development_user = lesli_settings["configuration"]["security"]["login"]
+
+        # Available Lesli development users
+        lesli_settings["configuration"]["security"]["login"] = []
+
+        # get Lesli instance (builder engine)
+        instance_engine = instance
+
+        # specific settings for dedicated on-premises instance (not core)
+        if instance_engine != "Lesli" 
+    
+            # get the settings from instance 
+            # this file should be an exact copy of the one in the core
+            # all the settings will be overrided by the settings in the builder engine 
+            instance_settings = YAML.load_file(File.join("./engines", instance_engine, "lesli.yml"))
+
+            instance_development_user = instance_settings["configuration"]["security"]["login"]
+
+            # overwrite core settings with specific settings from instance
+            lesli_settings = lesli_settings.merge(instance_settings) 
+
+            # include instance development user to array of users
+            lesli_settings["configuration"]["security"]["login"] = [instance_development_user]
+
+        end
+
+        # include default Lesli user for development environment
+        if env != "production"
+            lesli_settings["configuration"]["security"]["login"].push(lesli_development_user)
+        end
+
+        # parse available locales for instance
+        lesli_settings["configuration"]["locales_available"] = lesli_settings["configuration"]["locales"]
+        lesli_settings["configuration"]["locales"] = lesli_settings["configuration"]["locales"].keys
+
+        lesli_settings["engines"] = engines
+
+        lesli_settings["instance"] = instance
+
+        lesli_settings["env"] = lesli_settings["env"][env]
+
+        return lesli_settings
+
     end
 
 end

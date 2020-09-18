@@ -42,7 +42,7 @@ export default {
     },
     methods: {
         putUser() {
-            this.http.put(`/users/${this.user.id}.json`, {
+            this.http.put(`/settings/users/${this.user.id}.json`, {
                 user: this.user
             }).then(result => {
                 if (result.successful) {
