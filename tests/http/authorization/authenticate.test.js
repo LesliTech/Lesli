@@ -53,22 +53,27 @@ describe(`GET:${ settings.api.url.root }${ api_url_request }`, function() {
         chai
         .request(settings.api.url.root)
         .post(api_url_request)
-        .send({"email":"dev@lesli.cloud","password":"lesli2020"})
-        .end((error, response) => {
-            expect(response).to.have.status(200)
-            expect(response).to.have.header("content-type", "application/json; charset=utf-8")
-            expect(response.body).to.have.property("successful");
-            expect(response.body).to.have.property("data");
-        })
+        .send({"email":"dev@lesli.cloud", "password":"lesli2020"})
+        .end(settings.standardSuccessful)
     })
 
     it("responds with a JWT", () => {
         chai
         .request(settings.api.url.root)
         .post(api_url_request)
-        .send({"email":"dev@lesli.cloud","password":"lesli2020"})
+        .send({"email":"dev@lesli.cloud", "password":"lesli2020"})
         .end((error, response) => {
-            expect(response.body.data).to.have.property("token");
+            expect(response.body.data).to.have.property("token")
+        })
+    })
+
+    it("responds with error by invalid credentials", () => {
+        chai
+        .request(settings.api.url.root)
+        .post(api_url_request)
+        .send({"email":"dev@lesli.cloud", "password":"incorrect"})
+        .end((error, response) => {
+            expect(response.body).to.have.property("error")
         })
     })
 
