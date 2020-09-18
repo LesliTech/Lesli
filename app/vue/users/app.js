@@ -39,7 +39,7 @@ import appNew   from './apps/new.vue'
 
 // · 
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
-app("Core", "[list|new|edit|show]", "/users", [{
+app("Core", "[list|new|edit|show]", "/settings/users", [{
     path: "/",
     component: appList
 },{

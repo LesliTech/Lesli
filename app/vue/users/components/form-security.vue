@@ -65,7 +65,7 @@ export default {
         putUserRole() { 
             this.submitting_form.role = true
 
-            this.http.put(`/users/${this.user.id}.json`, {
+            this.http.put(`/settings/users/${this.user.id}.json`, {
                 user: {
                     roles_id: this.user.roles_id
                 }
@@ -85,7 +85,7 @@ export default {
         putUserActive() {
             this.submitting_form.access = true
 
-            this.http.put(`/users/${this.user.id}.json`, {
+            this.http.put(`/settings/users/${this.user.id}.json`, {
                 user: {
                     active: this.user.active
                 }

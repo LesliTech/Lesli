@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_09_06_010916) do
+ActiveRecord::Schema.define(version: 20031001) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -154,13 +154,64 @@ ActiveRecord::Schema.define(version: 2020_09_06_010916) do
   end
 
   create_table "mitwerken_cloud_accounts", force: :cascade do |t|
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "deleted_at"
+    t.index ["deleted_at"], name: "index_mitwerken_cloud_accounts_on_deleted_at"
   end
 
   create_table "mitwerken_cloud_users", force: :cascade do |t|
+    t.datetime "deleted_at"
+    t.index ["deleted_at"], name: "index_mitwerken_cloud_users_on_deleted_at"
+  end
+
+  create_table "mitwerken_cloud_workflow_actions", force: :cascade do |t|
+    t.string "name"
+    t.bigint "initial_status_id"
+    t.bigint "final_status_id"
+    t.string "action_type"
+    t.boolean "execute_immediately"
+    t.string "template_path"
+    t.json "input_data"
+    t.json "system_data"
+    t.json "concerning_users"
+    t.json "configuration"
+    t.datetime "deleted_at"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.bigint "mitwerken_cloud_workflows_id"
+    t.index ["mitwerken_cloud_workflows_id"], name: "mitwerken_cloud_workflow_actions_workflows"
+  end
+
+  create_table "mitwerken_cloud_workflow_associations", force: :cascade do |t|
+    t.string "workflow_for"
+    t.boolean "global"
+    t.datetime "deleted_at"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.bigint "mitwerken_cloud_workflows_id"
+    t.index ["mitwerken_cloud_workflows_id"], name: "mitwerken_cloud_workflow_associations_workflows"
+  end
+
+  create_table "mitwerken_cloud_workflow_statuses", force: :cascade do |t|
+    t.integer "number"
+    t.string "name"
+    t.string "next_statuses"
+    t.string "status_type"
+    t.datetime "deleted_at"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.bigint "mitwerken_cloud_workflows_id"
+    t.index ["mitwerken_cloud_workflows_id"], name: "mitwerken_cloud_workflow_statuses_workflows"
+  end
+
+  create_table "mitwerken_cloud_workflows", force: :cascade do |t|
+    t.string "name"
+    t.boolean "deletion_protection"
+    t.boolean "default"
+    t.datetime "deleted_at"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.bigint "mitwerken_cloud_accounts_id"
+    t.index ["mitwerken_cloud_accounts_id"], name: "mitwerken_cloud_workflows_accounts"
   end
 
   create_table "role_details", force: :cascade do |t|
@@ -386,6 +437,14 @@ ActiveRecord::Schema.define(version: 2020_09_06_010916) do
   add_foreign_key "cloud_babel_translation_buckets", "cloud_babel_translation_modules", column: "cloud_babel_translation_modules_id"
   add_foreign_key "cloud_babel_translation_strings", "cloud_babel_translation_buckets", column: "cloud_babel_translation_buckets_id"
   add_foreign_key "cloud_babel_translation_strings", "users", column: "users_id"
+  add_foreign_key "mitwerken_cloud_accounts", "accounts", column: "id"
+  add_foreign_key "mitwerken_cloud_users", "users", column: "id"
+  add_foreign_key "mitwerken_cloud_workflow_actions", "mitwerken_cloud_workflow_statuses", column: "final_status_id"
+  add_foreign_key "mitwerken_cloud_workflow_actions", "mitwerken_cloud_workflow_statuses", column: "initial_status_id"
+  add_foreign_key "mitwerken_cloud_workflow_actions", "mitwerken_cloud_workflows", column: "mitwerken_cloud_workflows_id"
+  add_foreign_key "mitwerken_cloud_workflow_associations", "mitwerken_cloud_workflows", column: "mitwerken_cloud_workflows_id"
+  add_foreign_key "mitwerken_cloud_workflow_statuses", "mitwerken_cloud_workflows", column: "mitwerken_cloud_workflows_id"
+  add_foreign_key "mitwerken_cloud_workflows", "mitwerken_cloud_accounts", column: "mitwerken_cloud_accounts_id"
   add_foreign_key "role_details", "roles", column: "roles_id"
   add_foreign_key "role_overrides", "users", column: "users_id"
   add_foreign_key "role_privilege_defaults", "roles", column: "roles_id"
