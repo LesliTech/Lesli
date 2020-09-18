@@ -84,12 +84,18 @@ class Users::RegistrationsController < Devise::RegistrationsController
         # persist new user
         if user.save
 
-            # create new account for the new user
-            account = Account.create({
-                company_name: user.email,
-                status: 0,
-                user: user
-            })
+            # check if instance is for multi-account
+            allow_multiaccount = Rails.application.config.lesli_settings["configuration"]["security"]["allow_multiaccount"]
+
+            # create new account for the new user only if multi-account is allowed
+            if allow_multiaccount == true
+                account = Account.create({ company_name: user.email, status: 0, user: user })
+            end
+
+            # if multi-account is not allowed user belongs to the first account in instance
+            if allow_multiaccount == false
+                account = Account.first
+            end
 
             # add user to his own account
             user.account = account

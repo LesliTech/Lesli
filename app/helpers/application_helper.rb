@@ -2,28 +2,21 @@
     
 Lesli
 
-Copyright (c) 2020, Lesli Technologies, S. A.
+Copyright (c) 2020, all rights reserved.
 
-All the information provided by this website is protected by laws of Guatemala related 
-to industrial property, intellectual property, copyright and relative international laws. 
-Lesli Technologies, S. A. is the exclusive owner of all intellectual or industrial property
-rights of the code, texts, trade mark, design, pictures and any other information.
-Without the written permission of Lesli Technologies, S. A., any replication, modification,
+All the information provided by this platform is protected by international laws related  to 
+industrial property, intellectual property, copyright and relative international laws. 
+All intellectual or industrial property rights of the code, texts, trade mark, design, 
+pictures and any other information belongs to the owner of this platform.
+
+Without the written permission of the owner, any replication, modification,
 transmission, publication is strictly forbidden.
+
 For more information read the license file including with this software.
-
-Lesli - Your Smart Business Assistant
-
-Powered by https://www.lesli.tech
-Building a better future, one line of code at a time.
-
-@contact  <hello@lesli.tech>
-@website  <https://lesli.tech>
-@license  Propietary - all rights reserved.
 
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
 // · 
-    
+
 =end
 
 module ApplicationHelper
@@ -51,6 +44,12 @@ module ApplicationHelper
         end
     end
 
+    def module_nav_link(module_name)
+        content_tag(:a, :href => module_name, :class => "") do
+            yield
+        end
+    end
+
     def application_stylesheet_theme_path()
 
         theme = "themes/blank"
@@ -68,11 +67,9 @@ module ApplicationHelper
     end
 
     def application_javascript_path
-
         path_segments = controller_path.split("/")
         cloud_module = path_segments.shift
         [cloud_module, path_segments.push("app").compact().join("_")].join("/")
-
     end
 
     def language_url(locale)
