@@ -51,6 +51,10 @@ class Account < ApplicationRecord
     has_one :driver, class_name: "CloudDriver::Account", foreign_key: "id"
     has_one :mailer, class_name: "CloudMailer::Account", foreign_key: "id"
 
+    # builders
+    has_one :mitwerken, class_name: "MitwerkenCloud::Account", foreign_key: "id"
+
+
     after_create :initialize_account
     after_create :initialize_account_for_engines
     after_create :initialize_account_for_instance
