@@ -41,5 +41,12 @@ module.exports = {
                 
             }
         }
-    }    
+    }
+}
+
+// · standard successful
+const standardSuccessful = (error, response) => {
+    expect(response).to.have.status(200)
+    expect(response).to.have.header("content-type", "application/json; charset=utf-8")
+    expect(response.body).to.have.property("successful").to.equal(true)
 }

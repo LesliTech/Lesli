@@ -71,6 +71,10 @@ module Lesli
             end
         end
 
+        # Haml is deprecated, but we still have it until we change all files to erb
+        config.generators do |g|
+            g.template_engine :erb
+        end
     end
 
 end

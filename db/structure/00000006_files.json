@@ -5,7 +5,7 @@
     "name": "attachment",
     "type": "string"
 },{
-    "name": "file_type",
+    "name": "attachment_local",
     "type": "string"
 },{
     "name": "deleted_at",

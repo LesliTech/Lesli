@@ -1,10 +1,13 @@
 PATH
+<<<<<<< HEAD
   remote: engines/MitwerkenCloud
   specs:
     mitwerken_cloud (0.1.0)
       rails (~> 6.0.3)
 
 PATH
+=======
+>>>>>>> daf01d928eb0446eb106326066f2e17da7160a87
   remote: engines/CloudBabel
   specs:
     cloud_babel (0.1.0)
@@ -15,6 +18,12 @@ PATH
   specs:
     cloud_dispatcher (1.0)
       rails (~> 6.0.2)
+
+PATH
+  remote: engines/MitwerkenCloud
+  specs:
+    mitwerken_cloud (0.1.0)
+      rails (~> 6.0.3)
 
 GEM
   remote: https://rubygems.org/
