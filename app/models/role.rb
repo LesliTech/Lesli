@@ -36,32 +36,25 @@ class Role < ApplicationRecord
     has_one :detail, inverse_of: :role, autosave: true, foreign_key: "roles_id", dependent: :destroy 
     accepts_nested_attributes_for :detail, update_only: true
 
-    after_create :initialize_role
-
     def destroy(*args)
         super
         rescue ActiveRecord::InvalidForeignKey => error
     end
 
-    def initialize_role
-        return scan_routes(true) if self.detail.name == "owner"
-        return scan_routes(true) if self.detail.name == "admin"
-        return scan_routes()
-    end
-
     def self.index(current_user, query_params)
         roles = current_user.account.roles
-                .left_joins(:detail)
-                .select("
-                    roles.id,
-                    role_details.name,
-                    role_details.active
-                ")
+        .left_joins(:detail)
+        .select("
+            roles.id,
+            role_details.name,
+            role_details.active
+        ")
         
         if(query_params[:include] == "count")
-            roles = roles.select("count(u.id) as users_count")
-                        .joins("left join users as u on u.roles_id = roles.id")
-                        .group("roles.id, role_details.name, role_details.active")
+            roles = roles
+            .select("count(u.id) as users_count")
+            .joins("left join users as u on u.roles_id = roles.id")
+            .group("roles.id, role_details.name, role_details.active")
         end
 
         roles
@@ -79,29 +72,5 @@ class Role < ApplicationRecord
             detail_attributes: data,
         }
     end
-
-    def scan_routes(default = false)
-        routes = LC::System::Routes.scan
-        routes.each do |route|
-            attributes = {
-                grant_index: default, 
-                grant_edit: default, 
-                grant_show: default, 
-                grant_new: default, 
-                grant_create: default, 
-                grant_update: default, 
-                grant_destroy: default, 
-                grant_search: default,
-                grant_resources: default,
-                grant_options: default 
-            }
-
-            attributes = attributes.merge({
-                grant_object: route[:controller]
-            })
-
-            self.privileges.find_or_create_by(attributes)
-            self.privilege_defaults.find_or_create_by(attributes)
-        end
-    end        
+     
 end
