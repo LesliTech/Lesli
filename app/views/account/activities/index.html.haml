@@ -1,0 +1,19 @@
+%h1 Listing account_activities
+
+%table
+  %thead
+    %tr
+      %th
+      %th
+      %th
+
+  %tbody
+    - @account_activities.each do |account_activity|
+      %tr
+        %td= link_to 'Show', account_activity
+        %td= link_to 'Edit', edit_account_activity_path(account_activity)
+        %td= link_to 'Destroy', account_activity, method: :delete, data: { confirm: 'Are you sure?' }
+
+%br
+
+= link_to 'New Activity', new_account_activity_path
