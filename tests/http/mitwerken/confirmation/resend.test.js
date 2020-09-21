@@ -31,7 +31,7 @@ Building a better future, one line of code at a time.
 var chai = require("chai")
 var expect = require("chai").expect
 var chaiHttp = require("chai-http")
-var settings = require("../settings")
+var settings = require("../../settings")
 
 
 // · loading tools
@@ -39,7 +39,7 @@ chai.use(chaiHttp)
 
 
 // · remote endpoint
-const api_url_request = "/api/authorization/authenticate"
+const api_url_request = "/ws/users/confirmation/resend"
 
 
 // · 
@@ -53,22 +53,28 @@ describe(`GET:${ settings.api.url.root }${ api_url_request }`, function() {
         chai
         .request(settings.api.url.root)
         .post(api_url_request)
-        .send({"email":"dev@lesli.cloud","password":"lesli2020"})
-        .end((error, response) => {
-            expect(response).to.have.status(200)
-            expect(response).to.have.header("content-type", "application/json; charset=utf-8")
-            expect(response.body).to.have.property("successful");
-            expect(response.body).to.have.property("data");
-        })
+        .send({"email":"dev@mitwerken.de"})
+        .end(settings.standardSuccessful)
     })
 
-    it("responds with a JWT", () => {
+    it("responds with successful", () => {
         chai
         .request(settings.api.url.root)
         .post(api_url_request)
-        .send({"email":"dev@lesli.cloud","password":"lesli2020"})
+        .send({"email":"dev@mitwerken.de"})
         .end((error, response) => {
-            expect(response.body.data).to.have.property("token");
+            expect(response.body).to.have.property("successful")
+        })
+    })
+
+    it("responds with error by invalid credentials", () => {
+        chai
+        .request(settings.api.url.root)
+        .post(api_url_request)
+        .send({"email":"NotFound@mitwerken.de"})
+        .end((error, response) => {
+            expect(response.body).to.have.property("successful").to.equal(false)
+            expect(response.body).to.have.property("error")
         })
     })
 
