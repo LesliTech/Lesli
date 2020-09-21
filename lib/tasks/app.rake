@@ -1,3 +1,6 @@
+=begin
+
+Lesli
 
 Copyright (c) 2020, all rights reserved.
 
@@ -13,3 +16,14 @@ For more information read the license file including with this software.
 
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
 // · 
+
+=end
+
+namespace :app do
+
+    task after_deploy: :environment do
+        Rake::Task["cloud_babel:scan"].invoke if defined?(CloudBabel)
+        Rake::Task["app:roles:build"].invoke 
+    end
+
+end
