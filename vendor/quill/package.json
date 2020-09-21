@@ -2,7 +2,7 @@
   "_args": [
     [
       "quill@1.3.7",
-      "/Users/diegoalay/Desktop/lomax/project/lesli.cloud"
+      "/Users/ldonis/code/Lesli/mitwerken.de"
     ]
   ],
   "_development": true,
@@ -27,7 +27,7 @@
   ],
   "_resolved": "https://registry.npmjs.org/quill/-/quill-1.3.7.tgz",
   "_spec": "1.3.7",
-  "_where": "/Users/diegoalay/Desktop/lomax/project/lesli.cloud",
+  "_where": "/Users/ldonis/code/Lesli/mitwerken.de",
   "author": {
     "name": "Jason Chen",
     "email": "jhchen7@gmail.com"
