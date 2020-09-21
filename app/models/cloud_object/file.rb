@@ -26,7 +26,9 @@ Building a better future, one line of code at a time.
 module CloudObject
     class File < ApplicationLesliRecord
         self.abstract_class = true
-        mount_uploader :attachment, FileUploader
+        mount_uploader :attachment, AwsUploader
+        mount_uploader :attachment_local, LocalUploader
+        
         belongs_to :user_creator, class_name: "::User", foreign_key: "users_id"
 
         # @return [User] This method will always return nil
