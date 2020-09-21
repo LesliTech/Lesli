@@ -160,7 +160,9 @@ ActiveRecord::Schema.define(version: 20031001) do
 
   create_table "mitwerken_cloud_users", force: :cascade do |t|
     t.datetime "deleted_at"
+    t.bigint "mitwerken_cloud_accounts_id"
     t.index ["deleted_at"], name: "index_mitwerken_cloud_users_on_deleted_at"
+    t.index ["mitwerken_cloud_accounts_id"], name: "index_mitwerken_cloud_users_on_mitwerken_cloud_accounts_id"
   end
 
   create_table "mitwerken_cloud_workflow_actions", force: :cascade do |t|
@@ -438,6 +440,7 @@ ActiveRecord::Schema.define(version: 20031001) do
   add_foreign_key "cloud_babel_translation_strings", "cloud_babel_translation_buckets", column: "cloud_babel_translation_buckets_id"
   add_foreign_key "cloud_babel_translation_strings", "users", column: "users_id"
   add_foreign_key "mitwerken_cloud_accounts", "accounts", column: "id"
+  add_foreign_key "mitwerken_cloud_users", "mitwerken_cloud_accounts", column: "mitwerken_cloud_accounts_id"
   add_foreign_key "mitwerken_cloud_users", "users", column: "id"
   add_foreign_key "mitwerken_cloud_workflow_actions", "mitwerken_cloud_workflow_statuses", column: "final_status_id"
   add_foreign_key "mitwerken_cloud_workflow_actions", "mitwerken_cloud_workflow_statuses", column: "initial_status_id"
