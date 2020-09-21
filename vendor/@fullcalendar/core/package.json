@@ -1,5 +1,4 @@
 {
-<<<<<<< HEAD
   "_args": [
     [
       "@fullcalendar/core@4.4.2",
@@ -7,8 +6,6 @@
     ]
   ],
   "_development": true,
-=======
->>>>>>> 2dcae9653314acdadac37c1bed75f251812ded0b
   "_from": "@fullcalendar/core@4.4.2",
   "_id": "@fullcalendar/core@4.4.2",
   "_inBundle": false,
@@ -31,14 +28,8 @@
     "/@fullcalendar/vue"
   ],
   "_resolved": "https://registry.npmjs.org/@fullcalendar/core/-/core-4.4.2.tgz",
-<<<<<<< HEAD
   "_spec": "4.4.2",
   "_where": "/Users/ldonis/code/Lesli/mitwerken.de",
-=======
-  "_shasum": "864abe98cce4497a163c01a8fc30389f15d3d4e1",
-  "_spec": "@fullcalendar/core@4.4.2",
-  "_where": "/Users/ldonis/code/Lesli/lesli.cloud",
->>>>>>> 2dcae9653314acdadac37c1bed75f251812ded0b
   "author": {
     "name": "Adam Shaw",
     "email": "arshaw@arshaw.com",
@@ -47,9 +38,7 @@
   "bugs": {
     "url": "https://fullcalendar.io/reporting-bugs"
   },
-  "bundleDependencies": false,
   "copyright": "2019 Adam Shaw",
-  "deprecated": false,
   "description": "Provides core functionality, including the Calendar class",
   "docs": "https://fullcalendar.io/docs/initialize-es6",
   "homepage": "https://fullcalendar.io/",
