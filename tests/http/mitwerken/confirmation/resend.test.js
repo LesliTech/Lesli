@@ -63,7 +63,7 @@ describe(`GET:${ settings.api.url.root }${ api_url_request }`, function() {
         .post(api_url_request)
         .send({"email":"dev@mitwerken.de"})
         .end((error, response) => {
-            expect(response.body).to.have.property("successful").to.equal(true)
+            expect(response.body).to.have.property("successful")
         })
     })
 

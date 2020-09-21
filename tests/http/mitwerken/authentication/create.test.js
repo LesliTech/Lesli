@@ -31,7 +31,7 @@ Building a better future, one line of code at a time.
 var chai = require("chai")
 var expect = require("chai").expect
 var chaiHttp = require("chai-http")
-var settings = require("../settings")
+var settings = require("../../settings")
 
 
 // · loading tools
@@ -39,7 +39,7 @@ chai.use(chaiHttp)
 
 
 // · remote endpoint
-const api_url_request = "/api/authorization/authenticate"
+const api_url_request = "/ws/users/authentication"
 
 
 // · 
@@ -53,7 +53,7 @@ describe(`GET:${ settings.api.url.root }${ api_url_request }`, function() {
         chai
         .request(settings.api.url.root)
         .post(api_url_request)
-        .send({"email":"dev@lesli.cloud", "password":"lesli2020"})
+        .send({"email":"dev@mitwerken.de", "password":"mitwerken2020"})
         .end(settings.standardSuccessful)
     })
 
@@ -61,8 +61,9 @@ describe(`GET:${ settings.api.url.root }${ api_url_request }`, function() {
         chai
         .request(settings.api.url.root)
         .post(api_url_request)
-        .send({"email":"dev@lesli.cloud", "password":"lesli2020"})
+        .send({"email":"dev@mitwerken.de", "password":"mitwerken2020"})
         .end((error, response) => {
+            expect(response.body).to.have.property("successful").to.equal(true)
             expect(response.body.data).to.have.property("token")
         })
     })
@@ -71,8 +72,9 @@ describe(`GET:${ settings.api.url.root }${ api_url_request }`, function() {
         chai
         .request(settings.api.url.root)
         .post(api_url_request)
-        .send({"email":"dev@lesli.cloud", "password":"incorrect"})
+        .send({"email":"dev@mitwerken.de", "password":"incorrect"})
         .end((error, response) => {
+            expect(response.body).to.have.property("successful").to.equal(false)
             expect(response.body).to.have.property("error")
         })
     })
