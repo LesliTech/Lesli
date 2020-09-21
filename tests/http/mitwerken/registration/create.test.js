@@ -49,45 +49,67 @@ describe(`GET:${ settings.api.url.root }${ api_url_request }`, function() {
         done()
     })
 
-    // it("responds with standard successful message", () => {
-    //     chai
-    //     .request(settings.api.url.root)
-    //     .post(api_url_request)
-    //     .send({
-    //         "email": "test@mitwerken.de",
-    //         "password": "mitwerken2020",
-    //         "telephone": "+502 55555555",
-    //         "fullname": "Mitwerken Test",
-    //         "country": "Guatemala"
-    //     })
-    //     .end(settings.standardSuccessful)
-    // })
+    it("responds with standard successful message", () => {
+        chai
+        .request(settings.api.url.root)
+        .post(api_url_request)
+        .send({
+            "email": "test@mitwerken.de",
+            "password": "mitwerken2020",
+            "telephone": "+502 55555555",
+            "fullname": "Mitwerken Test",
+            "country": "Guatemala"
+        })
+        .end(settings.standardSuccessful)
+    })
 
-    // it("responds with successful", () => {
-    //     chai
-    //     .request(settings.api.url.root)
-    //     .post(api_url_request)
-    //     .send({
-    //         "email": "test@mitwerken.de",
-    //         "password": "mitwerken2020",
-    //         "telephone": "+502 55555555",
-    //         "fullname": "Mitwerken Test",
-    //         "country": "Guatemala"
-    //     })
-    //     .end((error, response) => {
-    //         expect(response.body).to.have.property("successful").to.equal(true)
-    //     })
-    // })
+    it("responds with successful", () => {
+        chai
+        .request(settings.api.url.root)
+        .post(api_url_request)
+        .send({
+            "email": "test2@mitwerken.de",
+            "password": "mitwerken2020",
+            "telephone": "+502 55555555",
+            "fullname": "Mitwerken Test",
+            "country": "Guatemala"
+        })
+        .end((error, response) => {
+            expect(response.body).to.have.property("successful").to.equal(true)
+        })
+    })
 
-    // it("responds with error by invalid credentials", () => {
-    //     chai
-    //     .request(settings.api.url.root)
-    //     .post(api_url_request)
-    //     .send({"email":"dev@lesli.cloud", "password":"incorrect"})
-    //     .end((error, response) => {
-    //         expect(response.body).to.have.property("successful").to.equal(false)
-    //         expect(response.body).to.have.property("error")
-    //     })
-    // })
+    it("responds with error by already exists user", () => {
+        chai
+        .request(settings.api.url.root)
+        .post(api_url_request)
+        .send({
+            "email": "dev@mitwerken.de",
+            "password": "mitwerken2020",
+            "telephone": "+502 55555555",
+            "fullname": "Mitwerken Test",
+            "country": "Guatemala"
+        })
+        .end((error, response) => {
+            expect(response.body).to.have.property("successful").to.equal(false)
+            expect(response.body).to.have.property("error")
+        })
+    })
+
+    it("responds with error by missing telephone", () => {
+        chai
+        .request(settings.api.url.root)
+        .post(api_url_request)
+        .send({
+            "email": "test3@mitwerken.de",
+            "password": "mitwerken2020",
+            "fullname": "Mitwerken Test",
+            "country": "Guatemala"
+        })
+        .end((error, response) => {
+            expect(response.body).to.have.property("successful").to.equal(false)
+            expect(response.body).to.have.property("error")
+        })
+    })
 
 })
