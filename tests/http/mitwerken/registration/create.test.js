@@ -96,20 +96,4 @@ describe(`GET:${ settings.api.url.root }${ api_url_request }`, function() {
         })
     })
 
-    // it("responds with error by missing telephone", () => {
-    //     chai
-    //     .request(settings.api.url.root)
-    //     .post(api_url_request)
-    //     .send({
-    //         "email": "test3@mitwerken.de",
-    //         "password": "mitwerken2020",
-    //         "fullname": "Mitwerken Test",
-    //         "country": "Guatemala"
-    //     })
-    //     .end((error, response) => {
-    //         expect(response.body).to.have.property("successful").to.equal(false)
-    //         expect(response.body).to.have.property("error")
-    //     })
-    // })
-
 })
