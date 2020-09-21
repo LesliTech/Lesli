@@ -186,7 +186,6 @@ class ApplicationLesliController < ApplicationController
 
     # Track all the user activity (if enabled)
     def track_user_activities
-        #return if request[:format] == "json"
         log_activity
     end
     
