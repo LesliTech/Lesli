@@ -1,3 +1,6 @@
+=begin
+
+Lesli
 
 Copyright (c) 2020, all rights reserved.
 
@@ -13,3 +16,26 @@ For more information read the license file including with this software.
 
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
 // · 
+
+=end
+
+module LC
+
+    class Debug
+
+        # Ugly but useful debug message - for rails console or plain text files
+        def self.msg *messages
+            puts ""; puts ""; puts ""; 
+            puts "#     #     #     #     #     #     #     #     #     #     #"
+            puts "#     #     #     #     #     #     #     #     #     #     #"
+            messages.each do |message|
+                p message
+                puts "=     =     =     =     =     =     =     =     =     =     ="
+            end
+            puts "#     #     #     #     #     #     #     #     #     #     #"
+            puts ""; 
+        end
+
+    end
+
+end
