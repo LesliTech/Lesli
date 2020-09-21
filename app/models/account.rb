@@ -1,25 +1,16 @@
 =begin
 
-Lesli
+Copyright (c) 2020, all rights reserved.
 
-Copyright (c) 2020, Lesli Technologies, S. A.
+All the information provided by this platform is protected by international laws related  to 
+industrial property, intellectual property, copyright and relative international laws. 
+All intellectual or industrial property rights of the code, texts, trade mark, design, 
+pictures and any other information belongs to the owner of this platform.
 
-All the information provided by this website is protected by laws of Guatemala related 
-to industrial property, intellectual property, copyright and relative international laws. 
-Lesli Technologies, S. A. is the exclusive owner of all intellectual or industrial property
-rights of the code, texts, trade mark, design, pictures and any other information.
-Without the written permission of Lesli Technologies, S. A., any replication, modification,
+Without the written permission of the owner, any replication, modification,
 transmission, publication is strictly forbidden.
+
 For more information read the license file including with this software.
-
-Lesli - Your Smart Business Assistant
-
-Powered by https://www.lesli.tech
-Building a better future, one line of code at a time.
-
-@contact  <hello@lesli.tech>
-@website  <https://lesli.tech>
-@license  Propietary - all rights reserved.
 
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
 // · 
@@ -30,11 +21,12 @@ class Account < ApplicationRecord
 
     belongs_to :user, foreign_key: "users_id", optional: true
 
-    has_many :users,            foreign_key: "accounts_id"
-    has_many :roles,            foreign_key: "accounts_id"
-    has_many :settings,         foreign_key: "accounts_id", class_name: "Account::Setting"
-    has_many :locations,        foreign_key: "accounts_id"
-    has_many :activities,       foreign_key: "accounts_id", class_name: "SystemActivity"
+    has_many :users,        foreign_key: "accounts_id"
+    has_many :roles,        foreign_key: "accounts_id"
+    has_many :settings,     foreign_key: "accounts_id", class_name: "Account::Setting"
+    has_many :locations,    foreign_key: "accounts_id"
+    #has_many :activities,   foreign_key: "accounts_id", class_name: "SystemActivity"
+    has_many :activities,   foreign_key: "accounts_id", class_name: "Account::Activity"
 
     has_one :template, class_name: "Template", foreign_key: "accounts_id"
 
@@ -50,10 +42,6 @@ class Account < ApplicationRecord
     has_one :focus,  class_name: "CloudFocus::Account",  foreign_key: "id"
     has_one :driver, class_name: "CloudDriver::Account", foreign_key: "id"
     has_one :mailer, class_name: "CloudMailer::Account", foreign_key: "id"
-
-    # builders
-    has_one :mitwerken, class_name: "MitwerkenCloud::Account", foreign_key: "id"
-
 
     after_create :initialize_account
     after_create :initialize_account_for_engines
@@ -194,19 +182,24 @@ class Account < ApplicationRecord
 
         # Every instance (builder module) is loaded into the platform using the same 
         # name of the engine
-        instance = Rails.application.config.lesli_settings["instance"].constantize
+        instance = Rails.application.config.lesli_settings["instance"]
 
         # Build an account class base on instance (engine) name
         # Example: LesliCloud::Account - this is a standard name
-        instance_account = "#{instance}::Account".constantize
+        instance_account_klass = "#{instance}::Account".constantize
 
         # If instance account class exists
-        if defined? instance_account
-            instance = instance_account.new
+        if defined? instance_account_klass
+            instance = instance_account_klass.new
             instance.account = self
             instance.save!
         end
         
     end
+
+
+    # Especific associations for dedicated instances
+    # This modules does not belongs to Lesli core, thats why we have the association here
+    has_one :mitwerken, class_name: "MitwerkenCloud::Account", foreign_key: "id"
 
 end

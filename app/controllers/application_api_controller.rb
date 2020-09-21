@@ -64,15 +64,11 @@ class ApplicationApiController < ActionController::API
         }
 
         if Rails.env == "development"
-            error_object[:error][:role] = current_user.role.detail.name
+            error_object[:error][:role] = current_user.role.detail.name if current_user
             error_object[:error][:detail] = detail
         end
 
-        respond_to do |format|
-            format.json { render status: 401, json: error_object.to_json }
-            format.html { redirect_to "/401" } if Rails.env == "production"
-            format.html { render status: 401, json: error_object.to_json }
-        end
+        render status: 401, json: error_object.to_json
     end
 
     # Define platform version according to builder module
@@ -104,6 +100,23 @@ class ApplicationApiController < ActionController::API
                 orderColumn: (params[:orderColumn] ? params[:orderColumn] : "id")
             }
         }
+    end
+
+    # Track specific account activity
+    # this is disabled by default in the settings file
+    def log_account_activity system_module, system_process, description=nil, payload=nil
+
+        return if !Rails.application.config.lesli_settings["configuration"]["security"]["log_activity"]
+
+        account = Account.first
+
+        account.activities.create({
+            system_module: system_module,
+            system_process: system_process,
+            description: description,
+            payload: payload
+        })
+
     end
 
     private

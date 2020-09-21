@@ -24,9 +24,6 @@ class UsersController < ApplicationLesliController
         end
     end
 
-    def new
-    end
-
     def create
         user = User.new(user_params)
         user.password = Devise.friendly_token

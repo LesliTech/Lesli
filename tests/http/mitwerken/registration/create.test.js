@@ -31,7 +31,7 @@ Building a better future, one line of code at a time.
 var chai = require("chai")
 var expect = require("chai").expect
 var chaiHttp = require("chai-http")
-var settings = require("./settings")
+var settings = require("../../settings")
 
 
 // · loading tools
@@ -39,19 +39,61 @@ chai.use(chaiHttp)
 
 
 // · remote endpoint
-const api_url_request = "/api"
+const api_url_request = "/ws/users/registration"
 
 
 // · 
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
 describe(`GET:${ settings.api.url.root }${ api_url_request }`, function() {
-
     beforeEach(done => {    
         done()
     })
 
     it("responds with standard successful message", () => {
-        chai.request(settings.api.url.root).get(api_url_request).end(settings.standardSuccessful)
+        chai
+        .request(settings.api.url.root)
+        .post(api_url_request)
+        .send({
+            "email": "test@mitwerken.de",
+            "password": "mitwerken2020",
+            "telephone": "+502 55555555",
+            "fullname": "Mitwerken Test",
+            "country": "Guatemala"
+        })
+        .end(settings.standardSuccessful)
+    })
+
+    it("responds with successful", () => {
+        chai
+        .request(settings.api.url.root)
+        .post(api_url_request)
+        .send({
+            "email": "test2@mitwerken.de",
+            "password": "mitwerken2020",
+            "telephone": "+502 55555555",
+            "fullname": "Mitwerken Test",
+            "country": "Guatemala"
+        })
+        .end((error, response) => {
+            expect(response.body).to.have.property("successful").to.equal(true)
+        })
+    })
+
+    it("responds with error user already exists", () => {
+        chai
+        .request(settings.api.url.root)
+        .post(api_url_request)
+        .send({
+            "email": "dev@mitwerken.de",
+            "password": "mitwerken2020",
+            "telephone": "+502 55555555",
+            "fullname": "Mitwerken Test",
+            "country": "Guatemala"
+        })
+        .end((error, response) => {
+            expect(response.body).to.have.property("successful").to.equal(false)
+            expect(response.body).to.have.property("error")
+        })
     })
 
 })

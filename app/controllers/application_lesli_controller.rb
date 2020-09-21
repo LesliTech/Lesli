@@ -27,7 +27,7 @@ class ApplicationLesliController < ApplicationController
     before_action :validate_privileges
     before_action :set_global_account
     before_action :set_request_helpers
-    after_action :track_user_activities
+    after_action :log_user_activity
     
     layout "layouts/application-lesli"
 
@@ -173,21 +173,46 @@ class ApplicationLesliController < ApplicationController
         }
     end
 
-    # Track all user activity, this is disabled by default in settings
     def log_activity description=nil
-        current_user.log_activity(
-            request.method, 
-            controller_path,
-            action_name, 
-            request.original_fullpath, 
-            description
-        )
+        puts "";puts "";
+        puts "DEPRECATED: Use log_user_activity or current_user.activities.create instead"
+        puts "";puts "";
+        log_user_activity description
     end
 
-    # Track all the user activity (if enabled)
-    def track_user_activities
-        #return if request[:format] == "json"
-        log_activity
+    # Track all user activity
+    # this is disabled by default in the settings file
+    def log_user_activity description=nil
+
+        return if !Rails.application.config.lesli_settings["configuration"]["security"]["log_activity"]
+
+        current_user.activities.create({
+            request_controller: request.method, 
+            request_method: controller_path,
+            request_action: action_name, 
+            request_url: request.original_fullpath, 
+            description: description
+        })
+
+    end
+
+    # Track specific account activity
+    # this is disabled by default in the settings file
+    def log_account_activity system_module, system_process, description=nil, payload=nil
+
+        return if !Rails.application.config.lesli_settings["configuration"]["security"]["log_activity"]
+
+        account = Account.first
+
+        account = current_user.account if not current_user.blank?
+
+        account.activities.create({
+            system_module: system_module,
+            system_process: system_process,
+            description: description,
+            payload: payload
+        })
+
     end
     
     # Check if user can be redirected to role default path
