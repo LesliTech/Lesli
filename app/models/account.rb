@@ -21,11 +21,12 @@ class Account < ApplicationRecord
 
     belongs_to :user, foreign_key: "users_id", optional: true
 
-    has_many :users,            foreign_key: "accounts_id"
-    has_many :roles,            foreign_key: "accounts_id"
-    has_many :settings,         foreign_key: "accounts_id", class_name: "Account::Setting"
-    has_many :locations,        foreign_key: "accounts_id"
-    has_many :activities,       foreign_key: "accounts_id", class_name: "SystemActivity"
+    has_many :users,        foreign_key: "accounts_id"
+    has_many :roles,        foreign_key: "accounts_id"
+    has_many :settings,     foreign_key: "accounts_id", class_name: "Account::Setting"
+    has_many :locations,    foreign_key: "accounts_id"
+    #has_many :activities,   foreign_key: "accounts_id", class_name: "SystemActivity"
+    has_many :activities,   foreign_key: "accounts_id", class_name: "Account::Activity"
 
     has_one :template, class_name: "Template", foreign_key: "accounts_id"
 
