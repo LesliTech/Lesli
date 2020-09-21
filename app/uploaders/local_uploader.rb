@@ -24,14 +24,14 @@ Building a better future, one line of code at a time.
 // · 
 
 =end
-class FileUploader < CarrierWave::Uploader::Base
+class LocalUploader < CarrierWave::Uploader::Base
     # Include RMagick or MiniMagick support:
     # include CarrierWave::RMagick
     # include CarrierWave::MiniMagick
 
     # Choose what kind of storage to use for this uploader:
     #storage :file
-    storage :fog
+    storage :file
 
     # Override the directory where uploaded files will be stored.
     # This is a sensible default for uploaders that are meant to be mounted:
@@ -42,7 +42,7 @@ class FileUploader < CarrierWave::Uploader::Base
     # Override the filename of the uploaded files:
     # Avoid using model.id or version_name here, see uploader/store.rb for details.
     def filename
-        if model.id
+        if model.id && original_filename && ! original_filename.start_with?("#{model.id}-") 
             return "#{model.id}-#{original_filename}"
         end
         original_filename
@@ -73,20 +73,4 @@ class FileUploader < CarrierWave::Uploader::Base
     #   %w(jpg jpeg gif png)
     # end
 
-end
-
-CarrierWave.configure do |config|
-    config.fog_credentials = {
-        provider:              'AWS',                        # required
-        aws_access_key_id:     Rails.application.credentials.s3[:access_key_id],
-        aws_secret_access_key: Rails.application.credentials.s3[:secret_access_key],
-        #use_iam_profile:       true,                         # optional, defaults to false
-        region:                Rails.application.credentials.s3[:region],
-        path_style:            true
-        #host:                  's3.example.com',             # optional, defaults to nil
-        #endpoint:              'https://s3.example.com:8080' # optional, defaults to nil
-    }
-    config.fog_directory  = Rails.application.credentials.s3[:bucket]
-    config.fog_public     = false
-    config.fog_attributes = { cache_control: "public, max-age=#{365.days.to_i}" }
 end
