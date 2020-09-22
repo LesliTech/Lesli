@@ -33,14 +33,18 @@ puts "~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~�
 load "#{Rails.root}/db/seed/#{Rails.env.downcase}.rb"
 
 
-# Every instance (builder module) is loaded into the platform using the same 
-# name of the engine
-instance_klass = Rails.application.config.lesli_settings["instance"].constantize
+if Rails.application.config.lesli_settings["instance"] != "Lesli"
 
-# If instance account class exists
-if defined? instance_klass
-    puts ""; puts ""; puts "";
-    puts "Loading seeds for builder engine"
-    puts "~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~"    
-    instance_klass::Engine.load_seed
+    # Every instance (builder module) is loaded into the platform using the same 
+    # name of the engine
+    instance_klass = Rails.application.config.lesli_settings["instance"].safe_constantize
+
+    # If instance account class exists
+    if instance_klass
+        puts ""; puts ""; puts "";
+        puts "Loading seeds for builder engine"
+        puts "~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~"    
+        instance_klass::Engine.load_seed
+    end
+    
 end
