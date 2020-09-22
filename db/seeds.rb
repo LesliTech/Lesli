@@ -44,3 +44,6 @@ if defined? instance_klass
     puts "~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~"    
     instance_klass::Engine.load_seed
 end
+
+# exec rake standard deploy task
+#system "rake app:after_deploy"
