@@ -46,4 +46,4 @@ if defined? instance_klass
 end
 
 # exec rake standard deploy task
-#system "rake app:after_deploy"
+system "rake app:after_deploy"
