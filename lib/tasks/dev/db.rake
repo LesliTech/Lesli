@@ -40,28 +40,6 @@ namespace :dev do
 
         end
 
-        desc "Backup babel"
-        task babel_backup: :environment do
-            config = with_config
-            version = Time.now.strftime('%Y%m%d-%H%M-%S')
-            version = Time.now.strftime('%Y%m%d')
-
-            command = "PGPASSWORD=#{config[:password]} pg_dump --verbose --clean --no-owner --no-acl --format=p "
-            command = command + "--host #{ActiveRecord::Base.connection_config[:host]} "
-            command = command + "--username #{config[:username]} "
-            command = command + "--table cloud_babel_translation_modules "
-            command = command + "--table cloud_babel_translation_objects "
-            command = command + "--table cloud_babel_translation_strings "
-            command = command + "#{config[:database]} > " + Rails.root.join("db", "backup", "babel-#{version}.sql").to_s
-
-            system command
-
-        end
-
-        def with_config
-            Rails.application.credentials.db
-        end
-
     end
 
 end
