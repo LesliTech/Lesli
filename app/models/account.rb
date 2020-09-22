@@ -101,14 +101,6 @@ class Account < ApplicationRecord
 
     def initialize_account_for_engines
 
-        if defined? CloudBabel
-            if self.babel.blank?
-                self.babel = CloudBabel::Account.new
-                self.babel.account = self
-                self.babel.save!
-            end
-        end
-
         if defined? CloudKb
             if self.kb.blank?
                 self.kb = CloudKb::Account.new
