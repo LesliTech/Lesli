@@ -1,21 +1,3 @@
-PATH
-  remote: engines/CloudBabel
-  specs:
-    cloud_babel (0.1.0)
-      rails (~> 6.0.0)
-
-PATH
-  remote: engines/CloudDispatcher
-  specs:
-    cloud_dispatcher (1.0)
-      rails (~> 6.0.2)
-
-PATH
-  remote: engines/MitwerkenCloud
-  specs:
-    mitwerken_cloud (0.1.0)
-      rails (~> 6.0.3)
-
 GEM
   remote: https://rubygems.org/
   specs:
@@ -431,8 +413,6 @@ DEPENDENCIES
   capistrano3-puma
   carrierwave (~> 2.0)
   caxlsx_rails
-  cloud_babel!
-  cloud_dispatcher!
   devise
   docx_replace
   faker
@@ -449,7 +429,6 @@ DEPENDENCIES
   letter_opener
   listen (= 3.2.1)
   memory_profiler
-  mitwerken_cloud!
   pg (>= 0.18, < 2.0)
   puma (= 4.3.3)
   rack-cors
