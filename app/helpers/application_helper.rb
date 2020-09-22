@@ -95,11 +95,12 @@ module ApplicationHelper
     end
 
     def favicon
+        icon_path = image_path("/assets/#{lesli_instance}/brand/favicon.svg")
         ("
-        <link href=\"/images/favicon/"+lesli_instance+".svg\" rel=\"alternate icon\">
-        <link href=\"/images/favicon/"+lesli_instance+".svg\" rel=\"icon\" type=\"image/svg+xml\">
-        <link href=\"/images/favicon/"+lesli_instance+".svg\" rel=\"mask-icon\" color=\"#ff8a01\">
-        ").html_safe
+        <link href=\"#{icon_path}\" rel=\"alternate icon\">
+        <link href=\"#{icon_path}\" rel=\"icon\" type=\"image/svg+xml\">
+        <link href=\"#{icon_path}\" rel=\"mask-icon\" color=\"#ff8a01\">
+        ").html_safe        
     end
 
     def lesli_instance()

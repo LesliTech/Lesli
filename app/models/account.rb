@@ -186,10 +186,12 @@ class Account < ApplicationRecord
 
         # Build an account class base on instance (engine) name
         # Example: LesliCloud::Account - this is a standard name
-        instance_account_klass = "#{instance}::Account".constantize
+        instance_account_klass = "#{instance}::Account".safe_constantize
 
         # If instance account class exists
-        if defined? instance_account_klass
+        if instance_account_klass
+            # check if account exists
+            return if instance_account_klass.find(self.id)
             instance = instance_account_klass.new
             instance.account = self
             instance.save!
