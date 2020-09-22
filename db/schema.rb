@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20031001) do
+ActiveRecord::Schema.define(version: 20031010) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -146,6 +146,14 @@ ActiveRecord::Schema.define(version: 20031001) do
   create_table "mitwerken_cloud_accounts", force: :cascade do |t|
     t.datetime "deleted_at"
     t.index ["deleted_at"], name: "index_mitwerken_cloud_accounts_on_deleted_at"
+  end
+
+  create_table "mitwerken_cloud_user_sessions", force: :cascade do |t|
+    t.string "token"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.bigint "mitwerken_cloud_users_id"
+    t.index ["mitwerken_cloud_users_id"], name: "index_mitwerken_cloud_user_sessions_on_mitwerken_cloud_users_id"
   end
 
   create_table "mitwerken_cloud_users", force: :cascade do |t|
@@ -430,6 +438,7 @@ ActiveRecord::Schema.define(version: 20031001) do
   add_foreign_key "cloud_babel_translation_strings", "cloud_babel_translation_buckets", column: "cloud_babel_translation_buckets_id"
   add_foreign_key "cloud_babel_translation_strings", "users", column: "users_id"
   add_foreign_key "mitwerken_cloud_accounts", "accounts", column: "id"
+  add_foreign_key "mitwerken_cloud_user_sessions", "mitwerken_cloud_users", column: "mitwerken_cloud_users_id"
   add_foreign_key "mitwerken_cloud_users", "mitwerken_cloud_accounts", column: "mitwerken_cloud_accounts_id"
   add_foreign_key "mitwerken_cloud_users", "users", column: "id"
   add_foreign_key "mitwerken_cloud_workflow_actions", "mitwerken_cloud_workflow_statuses", column: "final_status_id"
