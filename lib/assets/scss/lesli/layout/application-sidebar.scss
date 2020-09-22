@@ -35,12 +35,11 @@ aside.application-sidebar {
     left: 0;
     z-index: 20;
     height: 100vh;
-    transition: all linear .2s;
-    @include lesli-css-scrollbar("");
-    width: var(--application-navigation-width);
-
     display: flex;
     flex-direction: column;
+    transition: all linear .2s;
+    
+    width: var(--application-navigation-width);
 
     // logo
     a.brand {
@@ -60,7 +59,9 @@ aside.application-sidebar {
     nav {
         flex: 1;
         display: flex;
+        overflow-y: auto;
         flex-direction: column;
+        @include lesli-css-scrollbar("");
 
         ul.menu-list:first-child {
             flex: 1;
@@ -96,7 +97,10 @@ aside.application-sidebar {
             }
 
             ul {
+                margin-left: 0;
+                margin-right: 0;
                 border-left: none;
+                padding-left: 0px;
                 a {
                     font-size: 1.1rem;
                     padding: .8rem 0;
