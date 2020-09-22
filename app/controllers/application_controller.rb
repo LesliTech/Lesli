@@ -23,7 +23,7 @@ class ApplicationController < ActionController::Base
 
     before_action :set_locale
 
-    layout "layouts/application"
+    layout "layouts/application-public"
  
     def set_locale
 
