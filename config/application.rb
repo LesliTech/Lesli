@@ -75,6 +75,50 @@ module Lesli
         config.generators do |g|
             g.template_engine :erb
         end
+
     end
+
+end
+
+Rails.application.configure do
+
+    begin
+        raise "Error with database credentials" if not Rails.application.credentials.config.has_key?(:db)
+        raise "Error with database credentials" if not Rails.application.credentials.db.has_key?(:database)
+        raise "Error with database credentials" if not Rails.application.credentials.db.has_key?(:username)
+        raise "Error with database credentials" if not Rails.application.credentials.db.has_key?(:password)
+
+        raise "Error with service credentials" if not Rails.application.credentials.config.has_key?(:services)
+
+        raise "Error with service aws credentials" if not Rails.application.credentials.services.has_key?(:aws)
+        raise "Error with service aws credentials" if not Rails.application.credentials.services[:aws].has_key?(:access_key_id)
+        raise "Error with service aws credentials" if not Rails.application.credentials.services[:aws].has_key?(:secret_access_key)
+        raise "Error with service aws credentials" if not Rails.application.credentials.services[:aws].has_key?(:region)
+        raise "Error with service aws credentials" if not Rails.application.credentials.services[:aws].has_key?(:bucket)
+
+        raise "Error with service smtp credentials" if not Rails.application.credentials.services.has_key?(:smtp)
+        raise "Error with service smtp credentials" if not Rails.application.credentials.services[:smtp].has_key?(:port)
+        raise "Error with service smtp credentials" if not Rails.application.credentials.services[:smtp].has_key?(:address)
+        raise "Error with service smtp credentials" if not Rails.application.credentials.services[:smtp].has_key?(:user_name)
+        raise "Error with service smtp credentials" if not Rails.application.credentials.services[:smtp].has_key?(:password)
+        raise "Error with service smtp credentials" if not Rails.application.credentials.services[:smtp].has_key?(:delivery_method)
+    rescue StandardError => e 
+        puts ""; puts ""; puts ""; 
+        puts "=  *   =  *   =  *   =  *   =  *   =  *   =  *   =  *   =  *   =  *   =  *   ="
+        puts "=  *   =  *   =  *   =  *   =  *   =  *   =  *   =  *   =  *   =  *   =  *   ="
+        puts "";
+        puts "Rails credentials error: " + e.message
+        puts "";
+        puts "=  *   =  *   =  *   =  *   =  *   =  *   =  *   =  *   =  *   =  *   =  *   ="
+        puts "=  *   =  *   =  *   =  *   =  *   =  *   =  *   =  *   =  *   =  *   =  *   ="
+    end
+
+    puts ""; puts ""; puts "";
+    puts "Loading installed engines: "
+    puts "=  *   =  *   =  *   =  *   =  *   =  *   =  *   =  *   =  *   =  *   =  *   ="
+    Lesli::engines.each do |engine|
+    puts "- #{engine["name"]}"
+    end
+    puts ""; puts "";
 
 end
