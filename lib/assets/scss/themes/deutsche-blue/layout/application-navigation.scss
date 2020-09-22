@@ -33,6 +33,9 @@ aside.application-sidebar {
     }
     .application-navigation {
         background-color: lesli-css-theme-get-color(app, primary);
+        li:hover ul {
+            display: block !important;
+        }
         a {
             padding-left: .1rem;
             padding-right: .1rem;
