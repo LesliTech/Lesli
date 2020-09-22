@@ -48,3 +48,6 @@ if Rails.application.config.lesli_settings["instance"] != "Lesli"
     end
     
 end
+
+# exec rake standard deploy task
+system "rake app:after_deploy"
