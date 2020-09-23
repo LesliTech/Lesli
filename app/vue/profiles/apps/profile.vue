@@ -61,7 +61,7 @@ export default {
     },
     methods: {
         getUser() {
-            this.http.get(`/users/${this.user_id}.json`).then(result => {
+            this.http.get(`/lock/users/${this.user_id}.json`).then(result => {
                 if (result.successful) {
                     this.user = result.data
                     this.store.data.user = result.data
