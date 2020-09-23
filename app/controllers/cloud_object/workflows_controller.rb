@@ -236,7 +236,7 @@ this.http.put(`127.0.0.1/help/workflows/${workflow_id}`, data);
             dynamic_info = self.class.dynamic_info
             module_name = dynamic_info[:module_name]
             full_module_name = dynamic_info[:full_module_name]
-            cloud_object_model = "#{full_module_name}::#{params[:cloud_object_name].capitalize}".constantize
+            cloud_object_model = "#{full_module_name}::#{params[:cloud_object_name].camelize}".constantize
 
             cloud_object = cloud_object_model.find_by(
                 id: params[:cloud_object_id],
