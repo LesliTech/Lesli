@@ -36,7 +36,7 @@ class ApplicationMailer < ActionMailer::Base
             template_name: options[:template_name]
         )
 
-        SystemActivity.log_email(
+        Account::Activity.log_email(
             template_path.gsub("mailers/", ""),
             {
                 subject: subject,
