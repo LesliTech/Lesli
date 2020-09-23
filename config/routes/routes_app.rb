@@ -27,7 +27,7 @@ module RoutesApp
                 # profiles
                 resource :profile
 
-                scope :settings do
+                scope :lock do
 
                     # account management
                     resource  :account do
@@ -58,6 +58,9 @@ module RoutesApp
                             end
                         end
                     end
+                end
+
+                scope :panel do
 
                     # template generators
                     namespace :template do
@@ -68,6 +71,22 @@ module RoutesApp
                         end
                         resources :variables
                         resources :mappings
+                    end
+
+                    resources :workflows do
+                        member do
+                            get "actions/options",          to: "workflow/actions#options"
+                        end
+                        collection do
+                            post "list" => :index
+                            get  "associations/options",    to: "workflow/associations#options"
+                            get "/resources/transition-options/:cloud_object_name/:cloud_object_id", to: "workflows#transition_options"
+                        end
+                        scope module: :workflow do
+                            resources :associations
+                            resources :actions
+                            resources :statuses
+                        end
                     end
 
                 end
