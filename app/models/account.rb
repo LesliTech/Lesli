@@ -190,11 +190,7 @@ class Account < ApplicationRecord
 
         # If instance account class exists
         if instance_account_klass
-            # check if account exists
-            return if instance_account_klass.find(self.id)
-            instance = instance_account_klass.new
-            instance.account = self
-            instance.save!
+            instance_account_klass.find_or_create_by(:id => self.id)
         end
         
     end

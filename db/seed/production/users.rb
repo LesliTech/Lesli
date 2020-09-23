@@ -27,7 +27,7 @@ Building a better future, one line of code at a time.
 =end
 
 # get settings
-account_logins = Rails.application.config.lesli_settings["account"]["security"]["login"]
+account_logins = Rails.application.config.lesli_settings["configuration"]["security"]["login"]
 
 # generate a safe password for the production user
 generated_password = Devise.friendly_token.first(32)
