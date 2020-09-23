@@ -17,8 +17,9 @@ class Template::DocumentsController < ApplicationLesliController
         respond_to do |format|
             format.html do
                 begin
-                    s3 = LC::Storage.get_object(@template_document.attachment)
-                    send_data s3["body"].read(), filename: @template_document.name, type: s3["content_type"]
+                    s3 = LC::Providers::Aws::S3.new()
+                    s3_file = s3.get_object(@template_document.attachment)
+                    send_data(s3_file["body"].read, filename: @template_document.name, disposition: "inline", stream: "true")
                 rescue Aws::S3::Errors::NoSuchKey => ex
                     redirect_to "/404" 
                 end
@@ -78,9 +79,8 @@ class Template::DocumentsController < ApplicationLesliController
         return respond_with_not_found unless @template_document
 
         if @template_document.destroy
-
-            #delete file in s3
-            LC::Storage.delete_object(@template_document.attachment)
+            s3 = LC::Providers::Aws::S3.new()
+            s3.delete_object(@template_document.attachment)
 
             respond_with_successful(@template_document)
         else
