@@ -75,7 +75,7 @@ export default {
         },
         
         postUser() {
-            let url = `/settings/users.json`
+            let url = `/lock/users.json`
 
             let data = {
                 user: {

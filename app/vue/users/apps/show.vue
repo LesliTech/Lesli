@@ -62,7 +62,7 @@ export default {
     },
     methods: {
         getUser() {
-            this.http.get(`/settings/users/${this.user_id}.json`).then(result => {
+            this.http.get(`/lock/users/${this.user_id}.json`).then(result => {
                 if (result.successful) {
                     this.user = result.data
                     this.store.data.user = result.data
@@ -74,7 +74,7 @@ export default {
             })
         },
         getOptions(){
-            this.http.get('/users/options.json').then(result => {
+            this.http.get('/lock/users/options.json').then(result => {
                 if (result.successful) {
                     /*
                     this.options = result.data
