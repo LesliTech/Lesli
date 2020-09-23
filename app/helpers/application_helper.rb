@@ -1,7 +1,5 @@
 =begin
     
-Lesli
-
 Copyright (c) 2020, all rights reserved.
 
 All the information provided by this platform is protected by international laws related  to 
@@ -82,12 +80,7 @@ module ApplicationHelper
     end
 
     def language_name(locale)
-        return "Polski"     if locale.to_s == "pl"
-        return "English"    if locale.to_s == "en"
-        return "Deutsch"    if locale.to_s == "de"
-        return "Español"    if locale.to_s == "es"
-        return "Nederlands" if locale.to_s == "nl"
-        return "undefined"
+        Rails.application.config.lesli_settings["configuration"]["locales_available"][locale.to_s] || "undefined"
     end
 
     def javascript_googlemaps_sdk
