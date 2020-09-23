@@ -79,7 +79,14 @@ secret_key_base: "your-secret-key-base"
 
 __Work with the database:__
 ```shell
-rake dev:db:reset #database hard reset
+Hard reset for development:
+rake dev:db:reset 
+
+Test production database:
+rake db:drop DISABLE_DATABASE_ENVIRONMENT_CHECK=1 RAILS_ENV=production
+rake db:create RAILS_ENV=production
+rake db:migrate RAILS_ENV=production
+rake db:seed RAILS_ENV=production
 ```
 
 
