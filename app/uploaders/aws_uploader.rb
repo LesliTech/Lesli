@@ -76,17 +76,28 @@ class AwsUploader < CarrierWave::Uploader::Base
 end
 
 CarrierWave.configure do |config|
-    config.fog_credentials = {
-        provider:              'AWS',                        # required
-        aws_access_key_id:     Rails.application.credentials.s3[:access_key_id],
-        aws_secret_access_key: Rails.application.credentials.s3[:secret_access_key],
-        #use_iam_profile:       true,                         # optional, defaults to false
-        region:                Rails.application.credentials.s3[:region],
-        path_style:            true
-        #host:                  's3.example.com',             # optional, defaults to nil
-        #endpoint:              'https://s3.example.com:8080' # optional, defaults to nil
+    # Global credentials are the default setting
+    aws_credetials = {
+        provider: "AWS",
+        path_style: true,
+        aws_access_key_id:     Rails.application.credentials.providers[:aws][:access_key_id],
+        aws_secret_access_key: Rails.application.credentials.providers[:aws][:secret_access_key],
+        region:                Rails.application.credentials.providers[:aws][:region]
     }
-    config.fog_directory  = Rails.application.credentials.s3[:bucket]
+    aws_bucket = Rails.application.credentials.providers[:aws][:bucket]
+
+    # However, if there are specfic credentials, those will be used
+    if Rails.application.credentials.providers[:aws][:s3]
+        aws_credetials[:aws_access_key_id] = Rails.application.credentials.providers[:aws][:s3][:access_key_id]
+        aws_credetials[:aws_secret_access_key] = Rails.application.credentials.providers[:aws][:s3][:secret_access_key]
+        aws_credetials[:region] = Rails.application.credentials.providers[:aws][:s3][:region]
+
+        
+        aws_bucket = Rails.application.credentials.providers[:aws][:s3][:bucket]
+    end
+
+    config.fog_credentials = aws_credetials
+    config.fog_directory  = aws_bucket 
     config.fog_public     = false
     config.fog_attributes = { cache_control: "public, max-age=#{365.days.to_i}" }
 end
