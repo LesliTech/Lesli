@@ -187,8 +187,8 @@ class ApplicationLesliController < ApplicationController
         return if !Rails.application.config.lesli_settings["configuration"]["security"]["log_activity"]
 
         current_user.activities.create({
-            request_controller: request.method, 
-            request_method: controller_path,
+            request_controller: controller_path,
+            request_method: request.method,
             request_action: action_name, 
             request_url: request.original_fullpath, 
             description: description
