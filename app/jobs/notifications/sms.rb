@@ -3,7 +3,8 @@ module Notifications
     class Sms < ApplicationJob
         queue_as :default
 
-        def self.send(user, message, request_method, request_controller)
+        def perform(telephone, message)
+
             sms = Aws::SNS::Client.new(
                 region: Rails.application.credentials.services[:aws][:region],
                 access_key_id: Rails.application.credentials.services[:aws][:access_key_id],
@@ -11,17 +12,12 @@ module Notifications
             )
 
             begin
-                sms.publish(
-                    phone_number: user.detail.telephone,
-                    message: message
-                )
+                sms.publish(phone_number: telephone, message: message)
+                log_account_activity("Lesli", "app/jobs/notifications/sms", "sms_send_true", { telephone: telephone })
             rescue => error
-                puts "Failed SMS send"
+                log_account_activity("Lesli", "app/jobs/notifications/sms", "sms_send_false", { telephone: telephone })
             end
 
-            user.log_activity(request_method, request_controller, nil, nil, 'Token sent successfully')
-
-            sms
         end
 
     end
