@@ -55,21 +55,33 @@ __Credentail file example:__
 RailsApp/config/credentials/development.yml  
 
 db:
-    database: lesli_development
+    database: ""
     username: ""
     password: ""
-
-services:
+providers:
     aws:
+        region: eu-central-1
+        bucket: ""
         access_key_id: ""
         secret_access_key: ""
-        region: eu-central-1
-        bucket: lesli_cloud_storage
+        s3:
+            access_key_id: ""
+            secret_access_key: "
+            region: us-east-1
+            bucket: ""
+        sns:
+            access_key_id: ""
+            secret_access_key: ""
+            region: us-east-1
+            bucket: ""
+    google:
+        maps_sdk_token: ""
+services:
     jwt:
         secret: "your-secret-json-web-token-key"
     smtp:
         port: 587
-        address: "smtp.mailgun.org"
+        address: ""
         user_name: ""
         password: ""
         delivery_method: letter_opener|smtp
@@ -86,7 +98,7 @@ Test production database:
 rake db:drop DISABLE_DATABASE_ENVIRONMENT_CHECK=1 RAILS_ENV=production
 rake db:create RAILS_ENV=production
 rake db:migrate RAILS_ENV=production
-rake db:seed RAILS_ENV=production
+rake db:seed RAILS_ENV=production" 
 ```
 
 
