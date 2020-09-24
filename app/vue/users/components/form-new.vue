@@ -87,7 +87,7 @@ export default {
             this.http.post(url, data).then(result => {
                 if (result.successful) {
                     this.alert(this.translations.users.notification_user_created, 'success')
-                    this.url.go('/settings/users')
+                    this.url.go('/lock/users')
                 }else{
                     this.alert(result.error.message,'danger')
                 }
@@ -97,7 +97,7 @@ export default {
         },
 
         putUser() {
-            let url = `/settings/users/${this.user.id}.json`
+            let url = `/lock/users/${this.user.id}.json`
             let data = {
                 user: this.user
             }
