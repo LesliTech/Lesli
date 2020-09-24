@@ -32,7 +32,8 @@ class WorkflowActions::CreateCloudObjectFileWithTemplateJob < ApplicationJob
         data = cloud_object.template_data(query)
 
         #download file from s3
-        s3 = LC::Storage.get_object(document.attachment)
+        s3 = LC::Providers::Aws::S3.new()
+        s3_file = s3.get_object(document.attachment)
 
         #validate if directory exists
         directory_name = "#{Rails.root}/tmp/templates/"
@@ -42,7 +43,7 @@ class WorkflowActions::CreateCloudObjectFileWithTemplateJob < ApplicationJob
         tmp_path = "#{Rails.root}/tmp/templates/template-#{document.name}"
 
         doc_template = File.open(tmp_path, "w") do |file|
-            file.write s3["body"].read()
+            file.write s3_file["body"].read()
         end
 
         doc_template = DocxReplace::Doc.new(tmp_path, "#{Rails.root}/tmp")
