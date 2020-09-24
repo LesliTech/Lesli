@@ -23,16 +23,17 @@ class Template::Document < ApplicationLesliRecord
     end
 
     #upload file to s3
-    def self.upload_file(template_document, file_path, attachment)
-        s3 = LC::Storage.create_object(file_path)
+    def self.upload_file(template_document, file_path, attachment)        
+        s3 = LC::Providers::Aws::S3.new()
+        s3_file = s3.create_object(file_path)
 
-        s3.put(
+        s3_file.put(
             body: attachment.to_io, 
             acl: "private"
         ) 
 
         template_document.update(
-            attachment: s3.key
+            attachment: s3_file.key
         ) 
     end
 
