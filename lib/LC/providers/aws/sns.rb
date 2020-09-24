@@ -10,7 +10,7 @@ module LC::Providers::Aws
                     secret_access_key: Rails.application.credentials.providers[:aws][:sns][:secret_access_key]
                 }
 
-                @client = Aws::S3::Client.new(sns_credentials)
+                @client = Aws::SNS::Client.new(sns_credentials)
 
                 self
             end
