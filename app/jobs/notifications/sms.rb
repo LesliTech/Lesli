@@ -6,10 +6,6 @@ module Notifications
         def perform(telephone, message)
 
             sms = LC::Providers::Aws::Sns.new()
-            sms.publish({
-                phone_number: user.detail.telephone,
-                message: message
-            })
 
             begin
                 sms.publish(phone_number: telephone, message: message)
