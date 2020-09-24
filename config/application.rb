@@ -90,11 +90,11 @@ Rails.application.configure do
 
         raise "Error with service credentials" if not Rails.application.credentials.config.has_key?(:services)
 
-        raise "Error with service aws credentials" if not Rails.application.credentials.services.has_key?(:aws)
-        raise "Error with service aws credentials" if not Rails.application.credentials.services[:aws].has_key?(:access_key_id)
-        raise "Error with service aws credentials" if not Rails.application.credentials.services[:aws].has_key?(:secret_access_key)
-        raise "Error with service aws credentials" if not Rails.application.credentials.services[:aws].has_key?(:region)
-        raise "Error with service aws credentials" if not Rails.application.credentials.services[:aws].has_key?(:bucket)
+        raise "Error with service aws credentials" if not Rails.application.credentials.providers.has_key?(:aws)
+        raise "Error with service aws credentials" if not Rails.application.credentials.providers[:aws].has_key?(:access_key_id)
+        raise "Error with service aws credentials" if not Rails.application.credentials.providers[:aws].has_key?(:secret_access_key)
+        raise "Error with service aws credentials" if not Rails.application.credentials.providers[:aws].has_key?(:region)
+        raise "Error with service aws credentials" if not Rails.application.credentials.providers[:aws].has_key?(:bucket)
 
         raise "Error with service smtp credentials" if not Rails.application.credentials.services.has_key?(:smtp)
         raise "Error with service smtp credentials" if not Rails.application.credentials.services[:smtp].has_key?(:port)
