@@ -176,6 +176,7 @@ module.exports = env => {
 
         // update company name in global variable
         if (engine_info.info.type && engine_info.info.type == "builder") {
+            webpackConfig[0].plugins[1].definitions.leslicloud_app_info = JSON.stringify(engine_info.info)
             webpackConfig[0].plugins[1].definitions.leslicloud_app_company = JSON.stringify(engine_info.account.company)
         }
 
@@ -240,20 +241,20 @@ module.exports = env => {
 
     })
 
+
     // · Update compilation version for frontend and backend
     // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
     function update_software_version(production) {
 
         // do not change if development
         if (production.mode != "production") {
-
             return 
-
         }
 
-        var application_data_html = `./engines/DeutscheLeibrenten/lib/deutsche_leibrenten/version.rb`
+        let engine_info = JSON.parse(webpackConfig[0].plugins[1].definitions.leslicloud_app_info)
+        let engine_version_file = `./engines/${engine_info.name}/lib/${engine_info.code}/version.rb`
 
-        fs.readFile(application_data_html, "utf8", (err, data) => {
+        fs.readFile(engine_version_file, "utf8", (err, data) => {
 
             if (err) {
                 return console.log(err)
@@ -268,7 +269,7 @@ module.exports = env => {
 
             data[2] = `BUILD = \"20.${build_date}-${build_time}\"`
 
-            fs.writeFile(application_data_html, data.join("\n"), "utf8", function (err) {
+            fs.writeFile(engine_version_file, data.join("\n"), "utf8", function (err) {
                 if (err) return console.log(err)
             })
 
