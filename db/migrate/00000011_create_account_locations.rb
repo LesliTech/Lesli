@@ -30,7 +30,7 @@ class CreateAccountLocations < ActiveRecord::Migration[6.0]
     def change
         create_table :account_locations do |t|
 
-            # General information acout the location
+            # General information about the location
             t.string        :name
             t.string        :short_name
             t.string        :postal_code
