@@ -58,21 +58,34 @@ db:
     database: lesli_development
     username: ""
     password: ""
-
 services:
-    aws:
-        access_key_id: ""
-        secret_access_key: ""
-        region: eu-central-1
-        bucket: lesli_cloud_storage
     jwt:
         secret: "your-secret-json-web-token-key"
-    smtp:
-        port: 587
-        address: "smtp.mailgun.org"
-        user_name: ""
-        password: ""
-        delivery_method: letter_opener|smtp
+providers:
+    aws:
+        region: eu-central-1
+        bucket: ""
+        access_key_id: ""
+        secret_access_key: ""
+        s3: (optional)
+            access_key_id: ""
+            secret_access_key: ""
+        ses: (optional sdk or stmp)
+            access_key_id: ""
+            secret_access_key: ""
+        sns: (optional)
+            access_key_id: ""
+            secret_access_key: ""
+    google:
+        maps_sdk_token: ""
+    honey_badger:
+        api_key: ""
+    mailgun:
+        smtp:
+            port: 587
+            address: "smtp.mailgun.org"
+            user_name: ""
+            password: ""
 secret_key_base: "your-secret-key-base"
 ```
 
