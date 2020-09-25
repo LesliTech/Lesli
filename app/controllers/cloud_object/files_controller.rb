@@ -227,7 +227,7 @@ this.http.delete(`127.0.0.1/help/tickets/${ticket_id}/files/${file_id}`);
         protected
 
         def handle_zip_download(files)
-            s3 = LC::Providers::Aws::S3.new()
+            s3 = LC::Config::Providers::Aws::S3.new()
 
             zip_stream = ::Zip::OutputStream.write_buffer do |zip|
                 files.each do |object_file|

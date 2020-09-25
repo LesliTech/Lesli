@@ -83,12 +83,19 @@ end
 Rails.application.configure do
 
     begin
+
+        # Database configuration
         raise "Error with database credentials" if not Rails.application.credentials.config.has_key?(:db)
         raise "Error with database credentials" if not Rails.application.credentials.db.has_key?(:database)
         raise "Error with database credentials" if not Rails.application.credentials.db.has_key?(:username)
         raise "Error with database credentials" if not Rails.application.credentials.db.has_key?(:password)
 
-        raise "Error with service credentials" if not Rails.application.credentials.config.has_key?(:services)
+        # Service configuration container
+        raise "Error with service credentials" if not Rails.application.credentials.config.has_key? :services
+        
+        # Service jwt configuration
+        raise "Error with service JWT credentials" if not Rails.application.credentials.services.has_key? :jwt
+        raise "Error with service JWT credentials" if not Rails.application.credentials.services[:jwt].has_key? :secret
 
         raise "Error with service aws credentials" if not Rails.application.credentials.providers.has_key?(:aws)
         raise "Error with service aws credentials" if not Rails.application.credentials.providers[:aws].has_key?(:access_key_id)
@@ -96,21 +103,12 @@ Rails.application.configure do
         raise "Error with service aws credentials" if not Rails.application.credentials.providers[:aws].has_key?(:region)
         raise "Error with service aws credentials" if not Rails.application.credentials.providers[:aws].has_key?(:bucket)
 
-        raise "Error with service smtp credentials" if not Rails.application.credentials.services.has_key?(:smtp)
-        raise "Error with service smtp credentials" if not Rails.application.credentials.services[:smtp].has_key?(:port)
-        raise "Error with service smtp credentials" if not Rails.application.credentials.services[:smtp].has_key?(:address)
-        raise "Error with service smtp credentials" if not Rails.application.credentials.services[:smtp].has_key?(:user_name)
-        raise "Error with service smtp credentials" if not Rails.application.credentials.services[:smtp].has_key?(:password)
-        raise "Error with service smtp credentials" if not Rails.application.credentials.services[:smtp].has_key?(:delivery_method)
     rescue StandardError => e 
         puts ""; puts ""; puts ""; 
-        puts "=  *   =  *   =  *   =  *   =  *   =  *   =  *   =  *   =  *   =  *   =  *   ="
-        puts "=  *   =  *   =  *   =  *   =  *   =  *   =  *   =  *   =  *   =  *   =  *   ="
+        puts "=     =     =     =     =     =     =     =     =     =     =     =     =     =     ="
         puts "";
         puts "Rails credentials error: " + e.message
-        puts "";
-        puts "=  *   =  *   =  *   =  *   =  *   =  *   =  *   =  *   =  *   =  *   =  *   ="
-        puts "=  *   =  *   =  *   =  *   =  *   =  *   =  *   =  *   =  *   =  *   =  *   ="
+
     end
 
     puts ""; puts ""; puts "";

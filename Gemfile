@@ -91,6 +91,8 @@ gem "carrierwave", "~> 2.0"
 gem "fog-aws", "= 3.6.4"
 gem "aws-sdk-s3"
 gem "aws-sdk-sns"
+gem "aws-sdk-rails"
+
 
 # Rubyzip to compress files
 gem "rubyzip", "~> 2.3.0"

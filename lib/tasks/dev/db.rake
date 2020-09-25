@@ -40,6 +40,13 @@ namespace :dev do
 
         end
 
+        desc ""
+        task restore: :environment do
+            #rake db:drop
+            #rake db:create
+            #psql -U lesli -d leibrenten_development < leslicloud_production.dump
+        end
+
     end
 
 end
