@@ -103,7 +103,7 @@ module Courier
                             value: task.user_main_value,
                             role: task.user_main_role
                         },
-                        next_workflow_statuses: task.status.next_workflow_statuses
+                        next_workflow_statuses: task.status.next_workflow_statuses(current_user)
                     }
                 end
     
