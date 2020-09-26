@@ -36,6 +36,8 @@ class Role < ApplicationRecord
     has_one :detail, inverse_of: :role, autosave: true, foreign_key: "roles_id", dependent: :destroy 
     accepts_nested_attributes_for :detail, update_only: true
 
+    after_create :initialize_role
+
     def destroy(*args)
         super
         rescue ActiveRecord::InvalidForeignKey => error
@@ -72,5 +74,23 @@ class Role < ApplicationRecord
             detail_attributes: data,
         }
     end
-     
+
+    private
+
+    # @return [void]
+    # @description Creates all privileges for this role in default false value. The task app:routes:build cannot be used
+    #   because it is a rake task, and because it scans routes for all roles, and it would be very inefficient
+    # @example
+    #   role = Role.new(detail_attributes: {name: "test_role", object_level_permission: 10})
+    #   # This method will be called automatically within an after_create callback
+    #   puts role.privileges.to_json # Should display all privileges that existed at the moment of the role's creation
+    def initialize_role
+        # get all routes for application controllers
+        routes = LC::System::Routes.scan
+
+        routes.each do |route|
+            self.privileges.find_or_create_by(grant_object: route[:controller_path])
+            self.privilege_defaults.find_or_create_by(grant_object: route[:controller_path])
+        end
+    end
 end

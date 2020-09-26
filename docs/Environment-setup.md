@@ -58,33 +58,34 @@ db:
     database: ""
     username: ""
     password: ""
+services:
+    jwt:
+        secret: "your-secret-json-web-token-key"
 providers:
     aws:
         region: eu-central-1
         bucket: ""
         access_key_id: ""
         secret_access_key: ""
-        s3:
-            access_key_id: ""
-            secret_access_key: "
-            region: us-east-1
-            bucket: ""
-        sns:
+        s3: (optional)
             access_key_id: ""
             secret_access_key: ""
-            region: us-east-1
-            bucket: ""
+        ses: (optional sdk or stmp)
+            access_key_id: ""
+            secret_access_key: ""
+        sns: (optional)
+            access_key_id: ""
+            secret_access_key: ""
     google:
         maps_sdk_token: ""
-services:
-    jwt:
-        secret: "your-secret-json-web-token-key"
-    smtp:
-        port: 587
-        address: ""
-        user_name: ""
-        password: ""
-        delivery_method: letter_opener|smtp
+    honey_badger:
+        api_key: ""
+    mailgun:
+        smtp:
+            port: 587
+            address: "smtp.mailgun.org"
+            user_name: ""
+            password: ""
 secret_key_base: "your-secret-key-base"
 ```
 
