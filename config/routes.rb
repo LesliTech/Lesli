@@ -28,9 +28,6 @@ Building a better future, one line of code at a time.
 
 Rails.application.routes.draw do
 
-  namespace :account do
-    resources :activities
-  end
     devise_for :users,
     :path => "",
     :path_names => {
@@ -56,8 +53,7 @@ Rails.application.routes.draw do
 
         mount ActionCable.server  => "/cable"
         mount CloudBell::Engine   => "/bell"   if defined?(CloudBell)
-        mount CloudLock::Engine   => "/lock"   if defined?(CloudLock)
-        mount CloudPanel::Engine  => "/panel"  if defined?(CloudPanel)
+        mount CloudAudit::Engine  => "/audit"  if defined?(CloudAudit)
         mount CloudLesli::Engine  => "/lesli"  if defined?(CloudLesli)
         mount CloudBabel::Engine  => "/babel"  if defined?(CloudBabel)
         mount CloudHouse::Engine  => "/house"  if defined?(CloudHouse)
