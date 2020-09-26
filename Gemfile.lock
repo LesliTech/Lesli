@@ -1,13 +1,43 @@
 PATH
-  remote: engines/CloudAudit
-  specs:
-    cloud_audit (0.1.0)
-      rails (~> 6.0.3)
-
-PATH
   remote: engines/CloudBabel
   specs:
     cloud_babel (0.1.0)
+      rails (~> 6.0.0)
+
+PATH
+  remote: engines/CloudBell
+  specs:
+    cloud_bell (0.1.0)
+      rails (~> 6.0.0)
+
+PATH
+  remote: engines/CloudDispatcher
+  specs:
+    cloud_dispatcher (1.0)
+      rails (~> 6.0.2)
+
+PATH
+  remote: engines/CloudDriver
+  specs:
+    cloud_driver (0.1.0)
+      rails (~> 6.0.0)
+
+PATH
+  remote: engines/CloudFocus
+  specs:
+    cloud_focus (0.1.0)
+      rails (~> 6.0.0)
+
+PATH
+  remote: engines/CloudHouse
+  specs:
+    cloud_house (0.1.0)
+      rails (~> 6.0.0)
+
+PATH
+  remote: engines/DeutscheLeibrenten
+  specs:
+    deutsche_leibrenten (0.1.0)
       rails (~> 6.0.0)
 
 PATH
@@ -93,9 +123,15 @@ GEM
     aws-sdk-kms (1.38.0)
       aws-sdk-core (~> 3, >= 3.99.0)
       aws-sigv4 (~> 1.1)
+    aws-sdk-rails (3.1.0)
+      aws-sdk-ses (~> 1)
+      railties (>= 5.2.0)
     aws-sdk-s3 (1.81.0)
       aws-sdk-core (~> 3, >= 3.104.3)
       aws-sdk-kms (~> 1)
+      aws-sigv4 (~> 1.1)
+    aws-sdk-ses (1.35.0)
+      aws-sdk-core (~> 3, >= 3.99.0)
       aws-sigv4 (~> 1.1)
     aws-sdk-sns (1.31.0)
       aws-sdk-core (~> 3, >= 3.99.0)
@@ -419,6 +455,7 @@ PLATFORMS
 DEPENDENCIES
   acts_as_paranoid
   ancestry
+  aws-sdk-rails
   aws-sdk-s3
   aws-sdk-sns
   axlsx
@@ -433,6 +470,12 @@ DEPENDENCIES
   caxlsx_rails
   cloud_audit!
   cloud_babel!
+  cloud_bell!
+  cloud_dispatcher!
+  cloud_driver!
+  cloud_focus!
+  cloud_house!
+  deutsche_leibrenten!
   devise
   docx_replace
   faker
@@ -449,7 +492,6 @@ DEPENDENCIES
   letter_opener
   listen (= 3.2.1)
   memory_profiler
-  mitwerken_cloud!
   pg (>= 0.18, < 2.0)
   puma (= 4.3.3)
   rack-cors

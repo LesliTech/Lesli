@@ -65,6 +65,7 @@ env:
         default_locale: en
         default_url: "http://0.0.0.0:3000"
         action_mailer:
+            delivery_method: letter_opener 
             asset_host: "http://127.0.0.1:3000"
             default_options_from: "dev@lesli.tech"
             default_url_options_host: "http://127.0.0.1:3000"
@@ -73,6 +74,7 @@ env:
         default_locale: en
         default_url: "http://0.0.0.0:3000"
         action_mailer:
+            delivery_method: letter_opener 
             asset_host: "http://127.0.0.1:3000"
             default_options_from: "dev@lesli.tech"
             default_url_options_host: "http://127.0.0.1:3000"
@@ -81,6 +83,7 @@ env:
         default_locale: en
         default_url: "http://0.0.0.0:3000"
         action_mailer:
+            delivery_method: letter_opener 
             asset_host: "http://127.0.0.1:3000"
             default_options_from: "dev@lesli.tech"
             default_url_options_host: "http://127.0.0.1:3000"
