@@ -1,7 +1,7 @@
 PATH
-  remote: engines/MitwerkenCloud
+  remote: engines/CloudAudit
   specs:
-    mitwerken_cloud (0.1.0)
+    cloud_audit (0.1.0)
       rails (~> 6.0.3)
 
 PATH
@@ -9,6 +9,12 @@ PATH
   specs:
     cloud_babel (0.1.0)
       rails (~> 6.0.0)
+
+PATH
+  remote: engines/MitwerkenCloud
+  specs:
+    mitwerken_cloud (0.1.0)
+      rails (~> 6.0.3)
 
 GEM
   remote: https://rubygems.org/
@@ -425,6 +431,7 @@ DEPENDENCIES
   capistrano3-puma
   carrierwave (~> 2.0)
   caxlsx_rails
+  cloud_audit!
   cloud_babel!
   devise
   docx_replace
