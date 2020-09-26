@@ -35,7 +35,7 @@ class ApplicationMailer < ActionMailer::Base
             template_path: template_path,
             template_name: options[:template_name]
         )
-
+=begin
         Account::Activity.log_email(
             template_path.gsub("mailers/", ""),
             {
@@ -44,7 +44,7 @@ class ApplicationMailer < ActionMailer::Base
                 body: email.body.encoded
             }
         )
-
+=end
         return email
     end
 end
