@@ -1,25 +1,16 @@
 =begin
 
-Lesli
+Copyright (c) 2020, all rights reserved.
 
-Copyright (c) 2020, Lesli Technologies, S. A.
+All the information provided by this platform is protected by international laws related  to 
+industrial property, intellectual property, copyright and relative international laws. 
+All intellectual or industrial property rights of the code, texts, trade mark, design, 
+pictures and any other information belongs to the owner of this platform.
 
-All the information provided by this website is protected by laws of Guatemala related 
-to industrial property, intellectual property, copyright and relative international laws. 
-Lesli Technologies, S. A. is the exclusive owner of all intellectual or industrial property
-rights of the code, texts, trade mark, design, pictures and any other information.
-Without the written permission of Lesli Technologies, S. A., any replication, modification,
+Without the written permission of the owner, any replication, modification,
 transmission, publication is strictly forbidden.
+
 For more information read the license file including with this software.
-
-LesliCloud - Your Smart Business Assistant
-
-Powered by https://www.lesli.tech
-Building a better future, one line of code at a time.
-
-@license  Propietary - all rights reserved.
-@version  0.1.0-alpha
-@description Manages session login for existing users
 
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
 // · 
@@ -50,35 +41,64 @@ class Users::SessionsController < Devise::SessionsController
 
         return respond_with_error(I18n.t('deutscheleibrenten.users/sessions.invalid_credentials')) unless resource
 
-        activity = resource.log_activity(request.method, controller_name, action_name, request.original_fullpath, "login_atempt")
+        activity = current_user.activities.create({
+            session_uuid: session[:session_uuid],
+            request_uuid: request.uuid,
+            description: "login_atempt"
+        })
 
         unless resource.valid_password?(sign_in_params[:password])
-            activity.update_attribute(:description, "login_atempt_invalid_credentials, " + get_client_info(true))
+            activity.update_attribute(:description, "login_atempt_invalid_credentials")
             return respond_with_error(I18n.t('deutscheleibrenten.users/sessions.invalid_credentials'))
         end
         
         unless resource.confirmed?
-            return respond_with_error(I18n.t("devise.errors.custom.confirmation_required, " + get_client_info(true)))
+            return respond_with_error(I18n.t("devise.errors.custom.confirmation_required"))
         end
 
         return respond_with_error(I18n.t('deutscheleibrenten.users/sessions.role_access_denied')) unless resource.role.detail.active?
 
         sign_in :user, resource
 
-        activity.update_attribute(:description, "login_atempt_successful, " + get_client_info(true))
+        activity.update_attribute(:description, "login_atempt_successful")
+
+        # register a new unique session
+        @current_session = resource.sessions.create({
+            :user_agent => get_user_agent,
+            :user_remote => request.remote_ip,
+            :request_uuid => request.uuid,
+            :session_token => session[:session_id],
+            :session_owner => "devise_standar_session" 
+        })
+
+        session[:session_uuid] = @current_session.session_uuid
 
         respond_with_successful()
 
     end
 
     def destroy
-        current_user.log_activity(request.method, controller_name, action_name, request.original_fullpath, "logout, " + get_client_info(true))
+        activity = current_user.activities.create({
+            session_uuid: session[:session_uuid],
+            request_uuid: request.uuid,
+            description: "logout"
+        })
         sign_out current_user
         flash[:logout] = true # Flag to disable back button in browser after Logout using JavaScript
         respond_to_on_destroy
     end
 
-    private
+    private 
+
+    def get_user_agent
+        user_agent = UserAgent.parse(request.env["HTTP_USER_AGENT"])
+        #p "Browser:" + user_agent.browser # Firefox
+        #p "Version:" + user_agent.version # 22.0
+        #p "Platform:" + user_agent.platform # Macintosh
+        #p "Mobile:" + (user_agent.mobile?).to_s # False
+        #p "OS:" + user_agent.os # OS X 10.8
+        return "#{user_agent.platform} #{user_agent.os} - #{user_agent.browser} #{user_agent.version}"
+    end
 
     # @return [Parameters] Allowed parameters for the discussion
     # @description Sanitizes the parameters received from an HTTP call to only allow the specified ones.

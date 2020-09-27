@@ -21,9 +21,9 @@ For more information read the license file including with this software.
 
 module LC
 
+    # Ugly but useful debug message - for rails console or plain text files
     class Debug
 
-        # Ugly but useful debug message - for rails console or plain text files
         def self.msg *messages
             puts ""; puts ""; puts ""; 
             puts "#     #     #     #     #     #     #     #     #     #     #"
@@ -33,6 +33,15 @@ module LC
                 puts "=     =     =     =     =     =     =     =     =     =     ="
             end
             puts "#     #     #     #     #     #     #     #     #     #     #"
+            puts ""; 
+        end
+
+        def self.simple_msg *messages
+            puts ""; puts "";
+            messages.each do |message|
+                p message
+                puts "=     =     =     =     =     =     =     =     =     =     ="
+            end
             puts ""; 
         end
 

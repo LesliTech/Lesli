@@ -17,26 +17,28 @@ For more information read the license file including with this software.
 
 =end
 
-class CreateUserDetails < ActiveRecord::Migration[6.0]
-    def change
-        create_table :user_details do |t|
+class User::Session < ApplicationRecord
+    belongs_to :user, foreign_key: "users_id"
+    
+    after_create :set_uuid
 
-            t.string :title
-            t.string :salutation
+    def set_uuid
 
-            t.string :first_name
-            t.string :last_name
-            t.string :telephone
-            t.string :address
+        rebuild_uuid = true
 
-            t.integer :work_city
-            t.integer :work_region
-            t.integer :work_address
+        while rebuild_uuid do
 
-            t.datetime :deleted_at, index: true            
-            t.timestamps
-            
+            user_uuid = SecureRandom.uuid
+            session_uuid = SecureRandom.uuid
+
+            # assign token to user if token is unique
+            if not User::Session.find_by(:user_uuid => user_uuid, :session_uuid => session_uuid)
+                self.user_uuid = user_uuid
+                self.session_uuid = session_uuid
+                self.save!
+                rebuild_uuid = false
+            end
+
         end
-        add_reference :user_details, :users, foreign_key: true
     end
 end
