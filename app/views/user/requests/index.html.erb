@@ -1,0 +1,25 @@
+<p id="notice"><%= notice %></p>
+
+<h1>User Requests</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @user_requests.each do |user_request| %>
+      <tr>
+        <td><%= link_to 'Show', user_request %></td>
+        <td><%= link_to 'Edit', edit_user_request_path(user_request) %></td>
+        <td><%= link_to 'Destroy', user_request, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New User Request', new_user_request_path %>

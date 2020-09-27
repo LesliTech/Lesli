@@ -28,6 +28,9 @@ Building a better future, one line of code at a time.
 
 Rails.application.routes.draw do
 
+  namespace :user do
+    resources :requests
+  end
     devise_for :users,
     :path => "",
     :path_names => {

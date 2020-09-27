@@ -17,26 +17,18 @@ For more information read the license file including with this software.
 
 =end
 
-class CreateUserDetails < ActiveRecord::Migration[6.0]
+class CreateUserSessions < ActiveRecord::Migration[6.0]
     def change
-        create_table :user_details do |t|
-
-            t.string :title
-            t.string :salutation
-
-            t.string :first_name
-            t.string :last_name
-            t.string :telephone
-            t.string :address
-
-            t.integer :work_city
-            t.integer :work_region
-            t.integer :work_address
-
-            t.datetime :deleted_at, index: true            
+        create_table :user_sessions do |t|
+            t.string :user_remote
+            t.string :user_agent
+            t.string :user_uuid
+            t.string :request_uuid
+            t.string :session_uuid
+            t.string :session_token
+            t.string :session_owner    
             t.timestamps
-            
         end
-        add_reference :user_details, :users, foreign_key: true
+        add_reference :user_sessions, :users, foreign_key: true
     end
 end

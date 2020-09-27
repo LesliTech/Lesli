@@ -1,4 +1,10 @@
 PATH
+  remote: engines/MitwerkenCloud
+  specs:
+    mitwerken_cloud (0.1.0)
+      rails (~> 6.0.3)
+
+PATH
   remote: engines/CloudDispatcher
   specs:
     cloud_dispatcher (1.0)
@@ -443,6 +449,7 @@ DEPENDENCIES
   letter_opener
   listen (= 3.2.1)
   memory_profiler
+  mitwerken_cloud!
   pg (>= 0.18, < 2.0)
   puma (= 4.3.3)
   rack-cors

@@ -146,7 +146,7 @@ class ApplicationController < ActionController::Base
 
     end
 
-    def get_client_info as_string=false
+    def get_client_info2 as_string=false
         user_agent = UserAgent.parse(request.env["HTTP_USER_AGENT"])
         #p "Browser:" + user_agent.browser # Firefox
         #p "Version:" + user_agent.version # 22.0

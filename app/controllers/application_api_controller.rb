@@ -1,7 +1,5 @@
 =begin
 
-Lesli
-
 Copyright (c) 2020, all rights reserved.
 
 All the information provided by this platform is protected by international laws related  to 
@@ -22,9 +20,12 @@ For more information read the license file including with this software.
 class ApplicationApiController < ActionController::API
 
     before_action :authorize_request
+    before_action :authorize_privileges
     before_action :set_request_helpers
+    after_action :log_user_requests
 
     @current_user = nil
+    @current_session = nil
 
     def respond_with_successful data=nil
         response_body = { successful: true }
@@ -86,15 +87,35 @@ class ApplicationApiController < ActionController::API
 
     # Track all user activity
     # this is disabled by default in the settings file
-    def log_user_activity current_user, description=nil
+    def log_user_requests
 
         return if !Rails.application.config.lesli_settings["configuration"]["security"]["log_activity"]
 
-        current_user.activities.create({
+        return if @current_user.blank?
+
+        @current_user.requests.create({
+            session_uuid: @current_session[:session_uuid],
+            request_uuid: request.uuid,
             request_controller: controller_path,
             request_method: request.method,
             request_action: action_name, 
             request_url: request.original_fullpath, 
+            #params: request.params
+        })
+
+    end
+
+    # Track all user activity
+    # this is disabled by default in the settings file
+    def log_user_activity description=nil
+
+        return if !Rails.application.config.lesli_settings["configuration"]["security"]["log_activity"]
+
+        return if @current_user.blank?
+
+        @current_user.activities.create({
+            session_uuid: @current_session[:session_uuid],
+            request_uuid: request.uuid,
             description: description
         })
 
@@ -123,7 +144,7 @@ class ApplicationApiController < ActionController::API
 
         # check headers for Authorization token
         if not request.headers['Authorization'].present?
-            return respond_with_unauthorized "Not valid authorization found"
+            return respond_with_unauthorized "Not valid authorization token found"
         end
 
         # get token sent to validate the request
@@ -132,7 +153,22 @@ class ApplicationApiController < ActionController::API
         token = LC::System::Jwt.decode(token)
 
         if not token.successful?
-            return respond_with_unauthorized [token, "Not valid authorization token found"]
+            return respond_with_unauthorized "Not valid authorization token found"
+        end
+
+        @current_session = User::Session.find_by(
+            :user_uuid => token.payload[0]["sub"],
+            :session_uuid => token.payload[0]["jti"]
+        )
+
+        if @current_session.blank?
+            return respond_with_unauthorized "Not valid authorization token found"
+        end
+
+        @current_user = @current_session.user
+
+        if @current_user.blank?
+            return respond_with_unauthorized "Not valid authorization token found"
         end
 
         token
@@ -142,7 +178,9 @@ class ApplicationApiController < ActionController::API
     # Check if current_user has privileges to complete this request
     # allowed core methods:
     #   [:index, :create, :update, :destroy, :new, :show, :edit, :options, :search, :resources]
-    def validate_privileges
+    def authorize_privileges
+
+        return true
 
         action = params[:action]
         action = "resources" if request.path.include?("resources")
