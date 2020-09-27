@@ -71,24 +71,6 @@ class ApplicationApiController < ActionController::API
         render status: 401, json: error_object.to_json
     end
 
-    # Define platform version according to builder module
-    def get_revision
-
-        version = 0
-        build = 0
-
-        if defined?(DeutscheLeibrenten)
-            version = DeutscheLeibrenten::VERSION
-            build = DeutscheLeibrenten::BUILD
-        end
-
-        return {
-            version: version,
-            build: build
-        }
-
-    end
-
     # set query used to filter or sort data requests
     def set_request_helpers
         @query = {
@@ -100,6 +82,22 @@ class ApplicationApiController < ActionController::API
                 orderColumn: (params[:orderColumn] ? params[:orderColumn] : "id")
             }
         }
+    end
+
+    # Track all user activity
+    # this is disabled by default in the settings file
+    def log_user_activity current_user, description=nil
+
+        return if !Rails.application.config.lesli_settings["configuration"]["security"]["log_activity"]
+
+        current_user.activities.create({
+            request_controller: controller_path,
+            request_method: request.method,
+            request_action: action_name, 
+            request_url: request.original_fullpath, 
+            description: description
+        })
+
     end
 
     # Track specific account activity
@@ -125,21 +123,19 @@ class ApplicationApiController < ActionController::API
 
         # check headers for Authorization token
         if not request.headers['Authorization'].present?
-            responseWithUnauthorized("Not valid authorization found")
-            return
+            return respond_with_unauthorized "Not valid authorization found"
         end
 
         # get token sent to validate the request
-        jwt_token = request.headers['Authorization'].split('Bearer ').last
+        token = request.headers["Authorization"].split("Bearer ").last
 
-        valid_jwt_token = LC::System::Jwt.decode(jwt_token)
+        token = LC::System::Jwt.decode(token)
 
-        if not valid_jwt_token[:valid] === true
-            responseWithUnauthorized("Not valid token found") 
-            return
+        if not token.successful?
+            return respond_with_unauthorized [token, "Not valid authorization token found"]
         end
 
-        @current_user = ::User.find(valid_jwt_token[:data][0]["id"])
+        token
 
     end
 
@@ -168,6 +164,40 @@ class ApplicationApiController < ActionController::API
         return respond_with_unauthorized({ controller: params[:controller], privilege: "grant_#{action}" }) if granted.blank?
         return respond_with_unauthorized({ controller: params[:controller], privilege: "grant_#{action}" }) if not granted["grant_#{action}"] === true
 
+    end
+
+    # Define platform version according to builder module
+    def get_revision
+
+        version = 0
+        build = 0
+
+        if defined?(DeutscheLeibrenten)
+            version = DeutscheLeibrenten::VERSION
+            build = DeutscheLeibrenten::BUILD
+        end
+
+        return {
+            version: version,
+            build: build
+        }
+
+    end
+
+    def get_user_agent as_string=false
+        user_agent = UserAgent.parse(request.env["HTTP_USER_AGENT"])
+        #p "Browser:" + user_agent.browser # Firefox
+        #p "Version:" + user_agent.version # 22.0
+        #p "Platform:" + user_agent.platform # Macintosh
+        #p "Mobile:" + (user_agent.mobile?).to_s # False
+        #p "OS:" + user_agent.os # OS X 10.8
+        return user_agent
+    end
+
+    def get_browser_locale
+        accept_language = request.env["HTTP_ACCEPT_LANGUAGE"]
+        return unless accept_language
+        accept_language.scan(/^[a-z]{2}/).first
     end
 
 end
