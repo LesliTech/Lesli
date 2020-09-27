@@ -80,6 +80,11 @@ ActiveRecord::Schema.define(version: 20031010) do
     t.index ["users_id"], name: "index_accounts_on_users_id"
   end
 
+  create_table "cloud_audit_accounts", force: :cascade do |t|
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
   create_table "cloud_babel_translation_buckets", force: :cascade do |t|
     t.string "name"
     t.string "reference_module"
@@ -149,7 +154,9 @@ ActiveRecord::Schema.define(version: 20031010) do
   end
 
   create_table "mitwerken_cloud_user_sessions", force: :cascade do |t|
-    t.string "token"
+    t.string "user_uuid"
+    t.string "session_uuid"
+    t.string "jwt"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.bigint "mitwerken_cloud_users_id"
@@ -424,6 +431,7 @@ ActiveRecord::Schema.define(version: 20031010) do
   add_foreign_key "account_locations", "accounts", column: "accounts_id"
   add_foreign_key "account_settings", "accounts", column: "accounts_id"
   add_foreign_key "accounts", "users", column: "users_id"
+  add_foreign_key "cloud_audit_accounts", "accounts", column: "id"
   add_foreign_key "cloud_babel_translation_buckets", "cloud_babel_translation_modules", column: "cloud_babel_translation_modules_id"
   add_foreign_key "cloud_babel_translation_strings", "cloud_babel_translation_buckets", column: "cloud_babel_translation_buckets_id"
   add_foreign_key "cloud_babel_translation_strings", "users", column: "users_id"
