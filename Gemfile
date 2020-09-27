@@ -54,9 +54,6 @@ gem "pg", ">= 0.18", "< 2.0"
 #gem "devise"
 gem "devise"
 
-# Add can can can gem to authorization and roles permissions
-# gem "cancancan"
-
 # ActsAsParanoid
 gem "acts_as_paranoid"
 
