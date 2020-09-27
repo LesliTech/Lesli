@@ -153,7 +153,8 @@ class ApplicationController < ActionController::Base
         #p "Platform:" + user_agent.platform # Macintosh
         #p "Mobile:" + (user_agent.mobile?).to_s # False
         #p "OS:" + user_agent.os # OS X 10.8
-        return "#{user_agent.platform} #{user_agent.os} - #{user_agent.browser} #{user_agent.version}" if as_string
+        #return "#{user_agent.platform} #{user_agent.os} - #{user_agent.browser} #{user_agent.version}" if as_string
+        return user_agent
     end
 
     private

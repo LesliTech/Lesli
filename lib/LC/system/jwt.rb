@@ -30,7 +30,7 @@ module LC
                 payload[:exp] = 24.hours.from_now if payload[:exp].blank?
                 payload[:exp] = payload[:exp].to_i
                 payload[:iat] = Time.now.to_i
-                JWT.encode(
+                token = JWT.encode(
                     payload,                # data to encode
                     @jwt_secret,            # super secret key
                     algorithm = @algorithm, # algorithm
@@ -38,30 +38,17 @@ module LC
                         typ: "JWT"
                     }
                 )
+                LC::Response.service(true, token)
             end
 
             def self.decode(token)
-                {
-                    valid: true,
-                    data: JWT.decode(
-                        token, 
-                        @jwt_secret,
-                        true, 
-                        { 
-                            algorithm: @algorithm
-                        }
-                    )
-                }
+                LC::Response.service(true, JWT.decode(token, @jwt_secret, true, { 
+                    algorithm: @algorithm
+                }))
             rescue JWT::ExpiredSignature
-                {
-                    valid: false,
-                    error: "Not valid token found or token expired"
-                }
+                LC::Response.service(false, "Not valid token found or token expired")
             rescue
-                {
-                    valid: false,
-                    error: "Not valid token found"
-                }
+                LC::Response.service(false, "Not valid token found")
             end
 
         end
