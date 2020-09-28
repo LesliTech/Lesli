@@ -54,9 +54,6 @@ gem "pg", ">= 0.18", "< 2.0"
 #gem "devise"
 gem "devise"
 
-# Add can can can gem to authorization and roles permissions
-# gem "cancancan"
-
 # ActsAsParanoid
 gem "acts_as_paranoid"
 
@@ -91,6 +88,8 @@ gem "carrierwave", "~> 2.0"
 gem "fog-aws", "= 3.6.4"
 gem "aws-sdk-s3"
 gem "aws-sdk-sns"
+gem "aws-sdk-rails"
+
 
 # Rubyzip to compress files
 gem "rubyzip", "~> 2.3.0"

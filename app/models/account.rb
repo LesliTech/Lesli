@@ -30,17 +30,18 @@ class Account < ApplicationRecord
     has_one :template, class_name: "Template", foreign_key: "accounts_id"
 
     # core engines
-    has_one :kb,     class_name: "CloudKb::Account",     foreign_key: "id"
-    has_one :team,   class_name: "CloudTeam::Account",   foreign_key: "id"
-    has_one :bell,   class_name: "CloudBell::Account",   foreign_key: "id"
-    has_one :help,   class_name: "CloudHelp::Account",   foreign_key: "id"
-    has_one :notes,  class_name: "CloudNotes::Account",  foreign_key: "id"
-    has_one :books,  class_name: "CloudBooks::Account",  foreign_key: "id"
-    has_one :panel,  class_name: "CloudPanel::Account",  foreign_key: "id"
-    has_one :house,  class_name: "CloudHouse::Account",  foreign_key: "id"
-    has_one :focus,  class_name: "CloudFocus::Account",  foreign_key: "id"
-    has_one :driver, class_name: "CloudDriver::Account", foreign_key: "id"
-    has_one :mailer, class_name: "CloudMailer::Account", foreign_key: "id"
+    has_one :kb,         class_name: "CloudKb::Account",         foreign_key: "id"
+    has_one :team,       class_name: "CloudTeam::Account",       foreign_key: "id"
+    has_one :bell,       class_name: "CloudBell::Account",       foreign_key: "id"
+    has_one :help,       class_name: "CloudHelp::Account",       foreign_key: "id"
+    has_one :notes,      class_name: "CloudNotes::Account",      foreign_key: "id"
+    has_one :books,      class_name: "CloudBooks::Account",      foreign_key: "id"
+    has_one :panel,      class_name: "CloudPanel::Account",      foreign_key: "id"
+    has_one :house,      class_name: "CloudHouse::Account",      foreign_key: "id"
+    has_one :focus,      class_name: "CloudFocus::Account",      foreign_key: "id"
+    has_one :driver,     class_name: "CloudDriver::Account",     foreign_key: "id"
+    has_one :mailer,     class_name: "CloudMailer::Account",     foreign_key: "id"
+    has_one :dispatcher, class_name: "CloudDispatcher::Account", foreign_key: "id"
 
     after_create :initialize_account
     after_create :initialize_account_for_engines
@@ -99,6 +100,14 @@ class Account < ApplicationRecord
     end
 
     def initialize_account_for_engines
+
+        if defined? CloudDispatcher
+            if self.dispatcher.blank?
+                self.dispatcher = CloudDispatcher::Account.new
+                self.dispatcher.account = self
+                self.dispatcher.save!
+            end
+        end
 
         if defined? CloudKb
             if self.kb.blank?

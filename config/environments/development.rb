@@ -29,35 +29,40 @@ Rails.application.configure do
         config.cache_store = :null_store
     end
 
-    # Don't care if the mailer can't send.
-    config.action_mailer.raise_delivery_errors = true
+    config.default_url = Rails.configuration.lesli_settings["env"]["default_url"]
 
+    # Mailer configuration
     config.action_mailer.perform_caching = true
-
-    #config.action_mailer.delivery_method = :smtp
-
-    config.action_mailer.delivery_method = Rails.application.credentials.services[:smtp][:delivery_method].to_sym
 
     config.action_mailer.perform_deliveries = true
 
-    config.default_url = Rails.configuration.lesli_settings["env"]["default_url"]
+    config.action_mailer.raise_delivery_errors = true
+
+    config.action_mailer.delivery_method = Rails.configuration.lesli_settings["env"]["action_mailer"]["delivery_method"].to_sym
+
+    # add configuration for SMTP using mailgun 
+    if config.action_mailer.delivery_method == :smtp
+        config.action_mailer.smtp_settings = {
+            authentication: :plain,
+            port: Rails.application.credentials.providers[:mailgun][:smtp][:port],
+            address: Rails.application.credentials.providers[:mailgun][:smtp][:server],
+            password: Rails.application.credentials.providers[:mailgun][:smtp][:password],
+            user_name: Rails.application.credentials.providers[:mailgun][:smtp][:username]
+        }
+    end
+
+    if config.action_mailer.delivery_method == :ses
+        # check settings on config/initializers/aws.rb
+    end
+
+    config.action_mailer.asset_host = Rails.configuration.lesli_settings["env"]["action_mailer"]["asset_host"]
     
     config.action_mailer.default_url_options = { 
         host: Rails.configuration.lesli_settings["env"]["action_mailer"]["default_url_options_host"] 
     }
 
-    config.action_mailer.asset_host = Rails.configuration.lesli_settings["env"]["action_mailer"]["asset_host"]
-
     config.action_mailer.default_options = {
         from: Rails.configuration.lesli_settings["env"]["action_mailer"]["default_options_from"]
-    }
-
-    config.action_mailer.smtp_settings = {
-        port: Rails.application.credentials.services[:smtp][:port],
-        authentication: :plain,
-        address: Rails.application.credentials.services[:smtp][:server],
-        user_name: Rails.application.credentials.services[:smtp][:username],
-        password: Rails.application.credentials.services[:smtp][:password]
     }
 
     # Print deprecation notices to the Rails logger.

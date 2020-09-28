@@ -1,25 +1,16 @@
 =begin
 
-Lesli
+Copyright (c) 2020, all rights reserved.
 
-Copyright (c) 2020, Lesli Technologies, S. A.
+All the information provided by this platform is protected by international laws related  to 
+industrial property, intellectual property, copyright and relative international laws. 
+All intellectual or industrial property rights of the code, texts, trade mark, design, 
+pictures and any other information belongs to the owner of this platform.
 
-All the information provided by this website is protected by laws of Guatemala related 
-to industrial property, intellectual property, copyright and relative international laws. 
-Lesli Technologies, S. A. is the exclusive owner of all intellectual or industrial property
-rights of the code, texts, trade mark, design, pictures and any other information.
-Without the written permission of Lesli Technologies, S. A., any replication, modification,
+Without the written permission of the owner, any replication, modification,
 transmission, publication is strictly forbidden.
+
 For more information read the license file including with this software.
-
-Lesli - Your Smart Business Assistant
-
-Powered by https://www.lesli.tech
-Building a better future, one line of code at a time.
-
-@contact  <hello@lesli.tech>
-@website  <https://lesli.tech>
-@license  Propietary - all rights reserved.
 
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
 // · 
@@ -46,9 +37,12 @@ class User < ApplicationLesliRecord
     
 
     # users has activities and personal settings
-    has_many :activities, class_name: "User::Activity", foreign_key: "users_id"
-    has_many :settings, class_name: "User::Setting", foreign_key: "users_id"
-    has_many :privileges, through: :role
+    has_many :logs,        foreign_key: "users_id"
+    has_many :settings,    foreign_key: "users_id"
+    has_many :sessions,    foreign_key: "users_id"
+    has_many :requests,    foreign_key: "users_id"
+    has_many :activities,  foreign_key: "users_id"
+    has_many :privileges,  through: :role
     has_one  :role_detail, through: :role, source: :detail, class_name: "Role::Detail"
 
     
