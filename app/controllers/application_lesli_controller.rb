@@ -22,30 +22,31 @@ For more information read the license file including with this software.
 class ApplicationLesliController < ApplicationController
     protect_from_forgery with: :exception
 
-    before_action :authenticate_user!
-    before_action :check_account
-    before_action :validate_privileges
-    before_action :set_global_account
-    before_action :set_request_helpers
-    after_action :log_user_activity
+    before_action :authorize_request
+    before_action :authorize_privileges
+    before_action :set_helpers_for_account
+    before_action :set_helpers_for_request
+    after_action  :log_user_requests
     
     layout "layouts/application-lesli"
 
-    # deprecated response methods
-
     def responseWithSuccessful(data = nil)
+        LC::Debug.simple_msg "DEPRECATED: use respond_with_successful instead"
         respond_with_successful(data)
     end
 
     def responseWithError(message = "", details = [])
+        LC::Debug.simple_msg "DEPRECATED: use respond_with_error instead"
         respond_with_error(message, details)
     end
 
     def responseWithNotFound
+        LC::Debug.simple_msg "DEPRECATED: use respond_with_not_found instead"
         respond_with_not_found()
     end
 
     def responseWithUnauthorized(detail = {})
+        LC::Debug.simple_msg "DEPRECATED: use respond_with_unauthorized instead"
         respond_with_unauthorized(detail)
     end
 
@@ -63,24 +64,28 @@ class ApplicationLesliController < ApplicationController
         return self.name
     end
 
-    def authenticate_user
-        if !user_signed_in?
+    def authorize_request
+
+        # check if user has an active session
+        if not user_signed_in?
             redirect_to root, notice: "Please Login to view that page!"
         end
-    end
 
-    def check_account
-        # check if account is active only for html requests
+        # check if account is active (only for html requests)
         return true if not request.format.html?
         return if current_user.blank?
         return if controller_name == "accounts"
+
+        # force user to complete registration before continue
         redirect_to "/account/new" if current_user.account.status == "registered"
+
     end
+
 
     # Check if current_user has privileges to complete this request
     # allowed core methods:
     #   [:index, :create, :update, :destroy, :new, :show, :edit, :options, :search, :resources]
-    def validate_privileges
+    def authorize_privileges
         action = params[:action]
         action = "resources" if request.path.include?("resources")
 
@@ -99,19 +104,19 @@ class ApplicationLesliController < ApplicationController
 
         # privilege for object not found
         if granted.blank?
-            log_activity("privilege_not_found")
+            log_user_comments("privilege_not_found")
             return respond_with_unauthorized({ controller: params[:controller], privilege: "grant_#{action}" }) 
         end
 
         if not granted["grant_#{action}"] === true
-            log_activity("privilege_not_granted")
+            log_user_comments("privilege_not_granted")
             return respond_with_unauthorized({ controller: params[:controller], privilege: "grant_#{action}" }) 
         end
 
     end
 
 
-    def set_global_account 
+    def set_helpers_for_account 
 
         # @account is only for html requests
         return true if not request.format.html?
@@ -161,7 +166,7 @@ class ApplicationLesliController < ApplicationController
     end
     
     # set query used to filter or sort data requests
-    def set_request_helpers
+    def set_helpers_for_request
         @query = {
             filters: params[:filters] ? params[:filters] : {},
             pagination: {
@@ -174,23 +179,39 @@ class ApplicationLesliController < ApplicationController
     end
 
     def log_activity description=nil
-        puts "";puts "";
-        puts "DEPRECATED: Use log_user_activity or current_user.activities.create instead"
-        puts "";puts "";
+        LC::Debug.msg "DEPRECATED: Use log_user_commens or current_user.logs.create instead"
+        LC::Debug.msg session[:session_id]
         log_user_activity description
     end
 
+
     # Track all user activity
     # this is disabled by default in the settings file
-    def log_user_activity description=nil
+    def log_user_requests description=nil
 
         return if !Rails.application.config.lesli_settings["configuration"]["security"]["log_activity"]
 
-        current_user.activities.create({
+        current_user.requests.create({
+            session_uuid: session[:session_uuid],
+            request_uuid: request.uuid,
             request_controller: controller_path,
             request_method: request.method,
             request_action: action_name, 
             request_url: request.original_fullpath, 
+            params: request.params
+        })
+
+    end
+
+    # Track all user activity
+    # this is disabled by default in the settings file
+    def log_user_comments description=nil
+
+        return if !Rails.application.config.lesli_settings["configuration"]["security"]["log_activity"]
+
+        current_user.logs.create({
+            session_uuid: session[:session_uuid],
+            request_uuid: request.uuid,
             description: description
         })
 
@@ -203,8 +224,6 @@ class ApplicationLesliController < ApplicationController
         return if !Rails.application.config.lesli_settings["configuration"]["security"]["log_activity"]
 
         account = Account.first
-
-        account = current_user.account if not current_user.blank?
 
         account.activities.create({
             system_module: system_module,

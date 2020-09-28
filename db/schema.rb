@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20031010) do
+ActiveRecord::Schema.define(version: 2020_09_27_031859) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -143,13 +143,20 @@ ActiveRecord::Schema.define(version: 20031010) do
     t.datetime "updated_at", precision: 6, null: false
   end
 
+  create_table "cloud_dispatcher_accounts", force: :cascade do |t|
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
   create_table "mitwerken_cloud_accounts", force: :cascade do |t|
     t.datetime "deleted_at"
     t.index ["deleted_at"], name: "index_mitwerken_cloud_accounts_on_deleted_at"
   end
 
   create_table "mitwerken_cloud_user_sessions", force: :cascade do |t|
-    t.string "token"
+    t.string "user_uuid"
+    t.string "session_uuid"
+    t.string "jwt"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.bigint "mitwerken_cloud_users_id"
@@ -348,15 +355,16 @@ ActiveRecord::Schema.define(version: 20031010) do
   end
 
   create_table "user_activities", force: :cascade do |t|
-    t.string "request_controller"
-    t.string "request_method"
-    t.string "request_action"
-    t.string "request_url"
     t.string "description"
+    t.string "field_name"
+    t.string "value_from"
+    t.string "value_to"
+    t.string "category"
+    t.bigint "users_id"
+    t.datetime "deleted_at"
+    t.bigint "owner_id"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.bigint "users_id"
-    t.index ["users_id"], name: "index_user_activities_on_users_id"
   end
 
   create_table "user_details", force: :cascade do |t|
@@ -375,6 +383,44 @@ ActiveRecord::Schema.define(version: 20031010) do
     t.bigint "users_id"
     t.index ["deleted_at"], name: "index_user_details_on_deleted_at"
     t.index ["users_id"], name: "index_user_details_on_users_id"
+  end
+
+  create_table "user_logs", force: :cascade do |t|
+    t.string "session_uuid"
+    t.string "request_uuid"
+    t.string "description"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.bigint "users_id"
+    t.index ["users_id"], name: "index_user_logs_on_users_id"
+  end
+
+  create_table "user_requests", force: :cascade do |t|
+    t.string "session_uuid"
+    t.string "request_uuid"
+    t.string "request_controller"
+    t.string "request_method"
+    t.string "request_action"
+    t.string "request_url"
+    t.json "params"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.bigint "users_id"
+    t.index ["users_id"], name: "index_user_requests_on_users_id"
+  end
+
+  create_table "user_sessions", force: :cascade do |t|
+    t.string "user_remote"
+    t.string "user_agent"
+    t.string "user_uuid"
+    t.string "request_uuid"
+    t.string "session_uuid"
+    t.string "session_token"
+    t.string "session_owner"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.bigint "users_id"
+    t.index ["users_id"], name: "index_user_sessions_on_users_id"
   end
 
   create_table "user_settings", force: :cascade do |t|
@@ -449,8 +495,12 @@ ActiveRecord::Schema.define(version: 20031010) do
   add_foreign_key "template_variables", "templates", column: "templates_id"
   add_foreign_key "template_variables", "users", column: "users_id"
   add_foreign_key "templates", "accounts", column: "accounts_id"
+  add_foreign_key "user_activities", "users", column: "owner_id"
   add_foreign_key "user_activities", "users", column: "users_id"
   add_foreign_key "user_details", "users", column: "users_id"
+  add_foreign_key "user_logs", "users", column: "users_id"
+  add_foreign_key "user_requests", "users", column: "users_id"
+  add_foreign_key "user_sessions", "users", column: "users_id"
   add_foreign_key "user_settings", "users", column: "users_id"
   add_foreign_key "users", "accounts", column: "accounts_id"
   add_foreign_key "users", "roles", column: "roles_id"

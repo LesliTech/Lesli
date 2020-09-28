@@ -1,14 +1,20 @@
 PATH
-  remote: engines/MitwerkenCloud
-  specs:
-    mitwerken_cloud (0.1.0)
-      rails (~> 6.0.3)
-
-PATH
   remote: engines/CloudBabel
   specs:
     cloud_babel (0.1.0)
       rails (~> 6.0.0)
+
+PATH
+  remote: engines/CloudDispatcher
+  specs:
+    cloud_dispatcher (1.0)
+      rails (~> 6.0.2)
+
+PATH
+  remote: engines/MitwerkenCloud
+  specs:
+    mitwerken_cloud (0.1.0)
+      rails (~> 6.0.3)
 
 GEM
   remote: https://rubygems.org/
@@ -87,9 +93,15 @@ GEM
     aws-sdk-kms (1.38.0)
       aws-sdk-core (~> 3, >= 3.99.0)
       aws-sigv4 (~> 1.1)
+    aws-sdk-rails (3.1.0)
+      aws-sdk-ses (~> 1)
+      railties (>= 5.2.0)
     aws-sdk-s3 (1.81.0)
       aws-sdk-core (~> 3, >= 3.104.3)
       aws-sdk-kms (~> 1)
+      aws-sigv4 (~> 1.1)
+    aws-sdk-ses (1.35.0)
+      aws-sdk-core (~> 3, >= 3.99.0)
       aws-sigv4 (~> 1.1)
     aws-sdk-sns (1.31.0)
       aws-sdk-core (~> 3, >= 3.99.0)
@@ -413,6 +425,7 @@ PLATFORMS
 DEPENDENCIES
   acts_as_paranoid
   ancestry
+  aws-sdk-rails
   aws-sdk-s3
   aws-sdk-sns
   axlsx
@@ -426,6 +439,7 @@ DEPENDENCIES
   carrierwave (~> 2.0)
   caxlsx_rails
   cloud_babel!
+  cloud_dispatcher!
   devise
   docx_replace
   faker

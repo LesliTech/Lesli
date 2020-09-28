@@ -51,9 +51,9 @@ module LC
 
 
         # Response template for service objects
-        def self.service success, payload=nil
-            return OpenStruct.new({ success?: success, payload: payload }) if success == true
-            return OpenStruct.new({ success?: success, error: payload })
+        def self.service successful, payload=nil
+            return OpenStruct.new({ successful?: successful, success?: successful, payload: payload }) if successful == true
+            return OpenStruct.new({ successful?: successful, success?: successful, error: payload })
         end
 
     end

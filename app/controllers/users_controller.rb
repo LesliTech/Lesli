@@ -96,9 +96,31 @@ class UsersController < ApplicationLesliController
     end
 
     def become
+
+        # Allow only admin to become as user
         return respond_with_unauthorized if current_user.email != "crm.admin@deutsche-leibrenten.de"
-        sign_in(:user, User.find(params[:id]))
+
+        # Search for desire user
+        become_user = User.find(params[:id])
+
+        # Return an error if user does not exist
+        return respond_with_error "Not valid user found" if become_user.blank?
+
+        # Extrictly save a log when becoming 
+        current_user.activities.create({
+            request_controller: controller_path,
+            request_method: request.method,
+            request_action: action_name, 
+            request_url: request.original_fullpath, 
+            description: "becoming from #{current_user.email} to #{become_user.email}"
+        })
+
+        # Sign in as the becoming user
+        sign_in(:user, become_user)
+
+        # Response successful
         respond_with_successful(current_user) 
+        
     end
 
     private
