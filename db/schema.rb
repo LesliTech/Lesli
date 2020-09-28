@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_09_27_031924) do
+ActiveRecord::Schema.define(version: 2020_09_27_031859) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -78,6 +78,69 @@ ActiveRecord::Schema.define(version: 2020_09_27_031924) do
     t.datetime "updated_at", null: false
     t.bigint "users_id"
     t.index ["users_id"], name: "index_accounts_on_users_id"
+  end
+
+  create_table "cloud_babel_translation_buckets", force: :cascade do |t|
+    t.string "name"
+    t.string "reference_module"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.bigint "cloud_babel_translation_modules_id"
+    t.index ["cloud_babel_translation_modules_id"], name: "babel_translation_objects_modules"
+  end
+
+  create_table "cloud_babel_translation_modules", force: :cascade do |t|
+    t.string "name"
+    t.string "module_type"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
+  create_table "cloud_babel_translation_strings", force: :cascade do |t|
+    t.string "label"
+    t.string "es"
+    t.string "en"
+    t.string "de"
+    t.string "fr"
+    t.string "nl"
+    t.string "pl"
+    t.string "pt"
+    t.string "it"
+    t.string "tr"
+    t.string "ro"
+    t.string "bg"
+    t.string "status"
+    t.string "context"
+    t.string "priority"
+    t.boolean "need_help"
+    t.boolean "need_translation"
+    t.string "reference_bucket"
+    t.datetime "last_update_es"
+    t.datetime "last_update_en"
+    t.datetime "last_update_de"
+    t.datetime "last_update_fr"
+    t.datetime "last_update_nl"
+    t.datetime "last_update_pl"
+    t.datetime "last_update_pt"
+    t.datetime "last_update_it"
+    t.datetime "last_update_tr"
+    t.datetime "last_update_ro"
+    t.datetime "last_update_bg"
+    t.datetime "last_update_status"
+    t.datetime "last_update_context"
+    t.datetime "last_update_priority"
+    t.datetime "deleted_at"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.bigint "users_id"
+    t.bigint "cloud_babel_translation_buckets_id"
+    t.index ["cloud_babel_translation_buckets_id"], name: "babel_translation_strings_buckets"
+    t.index ["users_id"], name: "babel_translation_strings_users"
+  end
+
+  create_table "cloud_babel_translations", force: :cascade do |t|
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
   end
 
   create_table "cloud_dispatcher_accounts", force: :cascade do |t|
@@ -292,13 +355,16 @@ ActiveRecord::Schema.define(version: 2020_09_27_031924) do
   end
 
   create_table "user_activities", force: :cascade do |t|
-    t.string "session_uuid"
-    t.string "request_uuid"
     t.string "description"
+    t.string "field_name"
+    t.string "value_from"
+    t.string "value_to"
+    t.string "category"
+    t.bigint "users_id"
+    t.datetime "deleted_at"
+    t.bigint "owner_id"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.bigint "users_id"
-    t.index ["users_id"], name: "index_user_activities_on_users_id"
   end
 
   create_table "user_details", force: :cascade do |t|
@@ -317,6 +383,16 @@ ActiveRecord::Schema.define(version: 2020_09_27_031924) do
     t.bigint "users_id"
     t.index ["deleted_at"], name: "index_user_details_on_deleted_at"
     t.index ["users_id"], name: "index_user_details_on_users_id"
+  end
+
+  create_table "user_logs", force: :cascade do |t|
+    t.string "session_uuid"
+    t.string "request_uuid"
+    t.string "description"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.bigint "users_id"
+    t.index ["users_id"], name: "index_user_logs_on_users_id"
   end
 
   create_table "user_requests", force: :cascade do |t|
@@ -394,6 +470,9 @@ ActiveRecord::Schema.define(version: 2020_09_27_031924) do
   add_foreign_key "account_locations", "accounts", column: "accounts_id"
   add_foreign_key "account_settings", "accounts", column: "accounts_id"
   add_foreign_key "accounts", "users", column: "users_id"
+  add_foreign_key "cloud_babel_translation_buckets", "cloud_babel_translation_modules", column: "cloud_babel_translation_modules_id"
+  add_foreign_key "cloud_babel_translation_strings", "cloud_babel_translation_buckets", column: "cloud_babel_translation_buckets_id"
+  add_foreign_key "cloud_babel_translation_strings", "users", column: "users_id"
   add_foreign_key "mitwerken_cloud_accounts", "accounts", column: "id"
   add_foreign_key "mitwerken_cloud_user_sessions", "mitwerken_cloud_users", column: "mitwerken_cloud_users_id"
   add_foreign_key "mitwerken_cloud_users", "mitwerken_cloud_accounts", column: "mitwerken_cloud_accounts_id"
@@ -416,8 +495,10 @@ ActiveRecord::Schema.define(version: 2020_09_27_031924) do
   add_foreign_key "template_variables", "templates", column: "templates_id"
   add_foreign_key "template_variables", "users", column: "users_id"
   add_foreign_key "templates", "accounts", column: "accounts_id"
+  add_foreign_key "user_activities", "users", column: "owner_id"
   add_foreign_key "user_activities", "users", column: "users_id"
   add_foreign_key "user_details", "users", column: "users_id"
+  add_foreign_key "user_logs", "users", column: "users_id"
   add_foreign_key "user_requests", "users", column: "users_id"
   add_foreign_key "user_sessions", "users", column: "users_id"
   add_foreign_key "user_settings", "users", column: "users_id"
