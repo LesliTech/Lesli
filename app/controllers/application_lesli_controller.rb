@@ -104,12 +104,12 @@ class ApplicationLesliController < ApplicationController
 
         # privilege for object not found
         if granted.blank?
-            log_activity("privilege_not_found")
+            log_user_comments("privilege_not_found")
             return respond_with_unauthorized({ controller: params[:controller], privilege: "grant_#{action}" }) 
         end
 
         if not granted["grant_#{action}"] === true
-            log_activity("privilege_not_granted")
+            log_user_comments("privilege_not_granted")
             return respond_with_unauthorized({ controller: params[:controller], privilege: "grant_#{action}" }) 
         end
 
@@ -179,7 +179,7 @@ class ApplicationLesliController < ApplicationController
     end
 
     def log_activity description=nil
-        LC::Debug.msg "DEPRECATED: Use log_user_activity or current_user.activities.create instead"
+        LC::Debug.msg "DEPRECATED: Use log_user_commens or current_user.logs.create instead"
         LC::Debug.msg session[:session_id]
         log_user_activity description
     end
@@ -205,11 +205,11 @@ class ApplicationLesliController < ApplicationController
 
     # Track all user activity
     # this is disabled by default in the settings file
-    def log_user_activity description=nil
+    def log_user_comments description=nil
 
         return if !Rails.application.config.lesli_settings["configuration"]["security"]["log_activity"]
 
-        current_user.activities.create({
+        current_user.logs.create({
             session_uuid: session[:session_uuid],
             request_uuid: request.uuid,
             description: description

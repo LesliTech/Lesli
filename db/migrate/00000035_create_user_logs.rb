@@ -17,20 +17,14 @@ For more information read the license file including with this software.
 
 =end
 
-class CreateUserActivities < ActiveRecord::Migration[6.0]
+class CreateUserLogs < ActiveRecord::Migration[6.0]
     def change
-        table_base_structure = JSON.parse(File.read(Rails.root.join('db','structure','00000004_activities.json')))
-        create_table :user_activities do |t|
-            table_base_structure.each do |column|
-                t.send(
-                    column["type"].parameterize.underscore.to_sym,
-                    column["name"].parameterize.underscore.to_sym
-                )
-            end
-            t.bigint :owner_id
+        create_table :user_logs do |t|
+            t.string :session_uuid
+            t.string :request_uuid
+            t.string :description
             t.timestamps
         end
-        add_foreign_key :user_activities, :users, column: :users_id
-        add_foreign_key :user_activities, :users, column: :owner_id
+        add_reference :user_logs, :users, foreign_key: true
     end
 end

@@ -41,14 +41,14 @@ class Users::SessionsController < Devise::SessionsController
 
         return respond_with_error(I18n.t('deutscheleibrenten.users/sessions.invalid_credentials')) unless resource
 
-        activity = current_user.activities.create({
+        log = resource.logs.create({
             session_uuid: session[:session_uuid],
             request_uuid: request.uuid,
             description: "login_atempt"
         })
 
         unless resource.valid_password?(sign_in_params[:password])
-            activity.update_attribute(:description, "login_atempt_invalid_credentials")
+            log.update_attribute(:description, "login_atempt_invalid_credentials")
             return respond_with_error(I18n.t('deutscheleibrenten.users/sessions.invalid_credentials'))
         end
         
@@ -60,7 +60,7 @@ class Users::SessionsController < Devise::SessionsController
 
         sign_in :user, resource
 
-        activity.update_attribute(:description, "login_atempt_successful")
+        log.update_attribute(:description, "login_atempt_successful")
 
         # register a new unique session
         @current_session = resource.sessions.create({
@@ -78,7 +78,7 @@ class Users::SessionsController < Devise::SessionsController
     end
 
     def destroy
-        activity = current_user.activities.create({
+        current_user.activities.create({
             session_uuid: session[:session_uuid],
             request_uuid: request.uuid,
             description: "logout"

@@ -26,6 +26,7 @@ Contents
     00.32. user/sessions    # save user login information
     00.33. user/requests    # tracks user activities on the system
     00.34. user/activities  # tracks changes over current_user
+    00.35. user/logs        # custom log for user
 
     00.40. user/templates
     00.41. user/template/documents

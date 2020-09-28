@@ -17,20 +17,34 @@ For more information read the license file including with this software.
 
 =end
 
-class CreateUserActivities < ActiveRecord::Migration[6.0]
-    def change
-        table_base_structure = JSON.parse(File.read(Rails.root.join('db','structure','00000004_activities.json')))
-        create_table :user_activities do |t|
-            table_base_structure.each do |column|
-                t.send(
-                    column["type"].parameterize.underscore.to_sym,
-                    column["name"].parameterize.underscore.to_sym
-                )
+module LC
+
+    module System
+
+        class IO
+
+            def self.zip zip_file, files
+
+                base_path = Rails.root.join("public", "tmp")
+
+                zip_file = base_path.join(zip_file)
+
+                FileUtils.rm zip_file, :force=>true
+
+                Zip::File.open(zip_file, Zip::File::CREATE) do |zip|
+
+                    files.each do |file|
+                        zip.add file.sub(base_path.to_s.concat("/"), ""), file
+                    end
+
+                end
+
+                zip_file
+                
             end
-            t.bigint :owner_id
-            t.timestamps
+
         end
-        add_foreign_key :user_activities, :users, column: :users_id
-        add_foreign_key :user_activities, :users, column: :owner_id
+
     end
+
 end
