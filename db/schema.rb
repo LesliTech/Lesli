@@ -416,7 +416,7 @@ ActiveRecord::Schema.define(version: 2020_09_27_031859) do
     t.string "request_uuid"
     t.string "session_uuid"
     t.string "session_token"
-    t.string "session_owner"
+    t.string "session_source"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.bigint "users_id"
