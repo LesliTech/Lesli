@@ -68,7 +68,7 @@ class Users::SessionsController < Devise::SessionsController
             :user_remote => request.remote_ip,
             :request_uuid => request.uuid,
             :session_token => session[:session_id],
-            :session_owner => "devise_standar_session" 
+            :session_source => "devise_standar_session" 
         })
 
         session[:session_uuid] = @current_session.session_uuid

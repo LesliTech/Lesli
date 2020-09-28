@@ -15,7 +15,8 @@ Contents
     00.10. account/settings
     00.11. account/locations
     00.12. account/activities   # tracks system tasks and processes
-    
+    00.13. account/sessions     # tracks system tasks and processes
+
     00.20. role/details
     00.21. role/privileges
     00.22. role/overrides
