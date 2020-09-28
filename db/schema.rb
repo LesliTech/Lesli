@@ -46,6 +46,19 @@ ActiveRecord::Schema.define(version: 2020_09_27_031859) do
     t.index ["name"], name: "index_account_locations_on_name"
   end
 
+  create_table "account_sessions", force: :cascade do |t|
+    t.string "name"
+    t.string "account_uuid"
+    t.string "session_uuid"
+    t.string "session_token"
+    t.datetime "expiration_at"
+    t.datetime "deleted_at"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["deleted_at"], name: "index_account_sessions_on_deleted_at"
+    t.index ["expiration_at"], name: "index_account_sessions_on_expiration_at"
+  end
+
   create_table "account_settings", force: :cascade do |t|
     t.string "name"
     t.string "value"
@@ -416,10 +429,12 @@ ActiveRecord::Schema.define(version: 2020_09_27_031859) do
     t.string "request_uuid"
     t.string "session_uuid"
     t.string "session_token"
-    t.string "session_owner"
+    t.string "session_source"
+    t.datetime "deleted_at"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.bigint "users_id"
+    t.index ["deleted_at"], name: "index_user_sessions_on_deleted_at"
     t.index ["users_id"], name: "index_user_sessions_on_users_id"
   end
 
