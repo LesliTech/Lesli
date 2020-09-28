@@ -27,6 +27,8 @@ class CreateUserSessions < ActiveRecord::Migration[6.0]
             t.string :session_uuid
             t.string :session_token
             t.string :session_source
+            t.datetime :expiration_at, index: true
+            t.datetime :deleted_at, index: true
             t.timestamps
         end
         add_reference :user_sessions, :users, foreign_key: true

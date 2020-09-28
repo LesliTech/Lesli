@@ -113,7 +113,7 @@ class ApplicationApiController < ActionController::API
 
         return if @current_user.blank?
 
-        @current_user.activities.create({
+        @current_user.logs.create({
             session_uuid: @current_session[:session_uuid],
             request_uuid: request.uuid,
             description: description
