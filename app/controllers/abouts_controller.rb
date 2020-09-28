@@ -27,7 +27,7 @@ Building a better future, one line of code at a time.
 =end
 
 class AboutsController < ApplicationLesliController
-    skip_before_action :validate_privileges
+    skip_before_action :authorize_privileges
 
     def system_requirements
     end
