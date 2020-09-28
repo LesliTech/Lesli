@@ -84,7 +84,7 @@ module ApplicationHelper
     end
 
     def javascript_googlemaps_sdk
-        "<script src=\"https://maps.googleapis.com/maps/api/js?key=#{Rails.application.credentials.services[:google][:maps_sdk_token]}\"></script>".html_safe
+        "<script src=\"https://maps.googleapis.com/maps/api/js?key=#{Rails.application.credentials.providers[:google][:maps_sdk_token]}\"></script>".html_safe
     end
 
     def favicon
