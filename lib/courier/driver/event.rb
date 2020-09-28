@@ -37,8 +37,11 @@ module Courier
                         .where("cloud_driver_events.model_id = ? AND cloud_driver_events.model_type = ?", model_id, model_type)
                 
                 events = events.where("cloud_driver_event_details.event_type = ? ", query[:condition][:type]) unless query[:condition].nil?
-                events = events.order("#{query[:pagination][:orderColumn]} #{query[:pagination][:order]} NULLS LAST")
                 events = events.page(query[:pagination][:page]).per(query[:pagination][:perPage])
+                
+                # If the order column is time_start, we order by event date first, in case the time is not set and 'time_start' is null
+                events = events.order("event_date #{query[:pagination][:order]}") if query[:pagination][:orderColumn] == "time_start"
+                events = events.order("#{query[:pagination][:orderColumn]} #{query[:pagination][:order]} NULLS LAST")
 
                 events_count = events.total_count
 
