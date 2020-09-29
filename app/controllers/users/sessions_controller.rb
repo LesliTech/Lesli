@@ -43,7 +43,6 @@ class Users::SessionsController < Devise::SessionsController
 
         log = resource.logs.create({
             session_uuid: session[:session_uuid],
-            request_uuid: request.uuid,
             description: "login_atempt"
         })
 
@@ -66,7 +65,6 @@ class Users::SessionsController < Devise::SessionsController
         @current_session = resource.sessions.create({
             :user_agent => get_user_agent,
             :user_remote => request.remote_ip,
-            :request_uuid => request.uuid,
             :session_token => session[:session_id],
             :session_source => "devise_standar_session" 
         })
@@ -78,9 +76,8 @@ class Users::SessionsController < Devise::SessionsController
     end
 
     def destroy
-        current_user.activities.create({
+        current_user.logs.create({
             session_uuid: session[:session_uuid],
-            request_uuid: request.uuid,
             description: "logout"
         })
         sign_out current_user
