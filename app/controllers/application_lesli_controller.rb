@@ -108,8 +108,8 @@ class ApplicationLesliController < ApplicationController
             request_controller: controller_path,
             request_method: request.method,
             request_action: action_name, 
-            request_url: request.original_fullpath, 
-            params: request.filtered_parameters.except(:controller, :action)
+            request_url: request.original_fullpath 
+            #params: request.filtered_parameters.except(:controller, :action)
         })
 
     end
