@@ -140,7 +140,7 @@ group :development, :test do
     gem "letter_opener"
 
 end
-
+gem "letter_opener"
 group :development do
 
     gem "web-console", ">= 3.3.0"

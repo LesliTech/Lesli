@@ -24,8 +24,8 @@ class ApplicationLesliController < ApplicationController
 
     before_action :authorize_request
     before_action :authorize_privileges
-    before_action :set_helpers_for_account
     before_action :set_helpers_for_request
+    before_action :set_helpers_for_account
     after_action  :log_user_requests
     
     layout "layouts/application-lesli"
@@ -65,58 +65,79 @@ class ApplicationLesliController < ApplicationController
     end
 
 
-    def authorize_request
+    # Check if user can be redirected to role default path
+    def can_redirect_to_default_path
+        return false if request[:format] == "json"
+        return false if !["show", "index"].include?(params[:action])
+        return false if current_user.role_detail[:default_path].blank?
+        return false if current_user.role_detail[:default_path] == request.original_fullpath
+        return true
+    end 
 
-        # check if user has an active session
-        if not user_signed_in?
-            redirect_to root, notice: "Please Login to view that page!"
-        end
 
-        # check if account is active (only for html requests)
-        return true if not request.format.html?
-        return if current_user.blank?
-        return if controller_name == "accounts"
+    # Deprecated method used to log user messages logs
+    def log_activity description=nil
+        LC::Debug.msg "DEPRECATED: Use log_user_commens or current_user.logs.create instead"
+        LC::Debug.msg session[:session_id]
+        log_user_comments(description)
+    end
 
-        # force user to complete registration before continue
-        redirect_to "/account/new" if current_user.account.status == "registered"
+
+    # Track all user activity
+    # this is disabled by default in the settings file
+    def log_user_comments description=nil
+
+        return if !Rails.application.config.lesli_settings["configuration"]["security"]["log_activity"]
+
+        current_user.logs.create({
+            session_uuid: session[:session_uuid],
+            description: description
+        })
 
     end
 
 
-    # Check if current_user has privileges to complete this request
-    # allowed core methods:
-    #   [:index, :create, :update, :destroy, :new, :show, :edit, :options, :search, :resources]
-    def authorize_privileges
-        action = params[:action]
-        action = "resources" if request.path.include?("resources")
+    # Track all user activity
+    # this is disabled by default in the settings file
+    def log_user_requests description=nil
 
-        granted = current_user.privileges
-        .where("role_privileges.grant_object = ?", params[:controller])
-        .where("role_privileges.grant_#{action} = TRUE")
-        .first
+        return if !Rails.application.config.lesli_settings["configuration"]["security"]["log_activity"]
 
-        # empty privileges if null privileges
-        granted ||= {} 
-
-        # if user do not has access to the requested route and can go to default route        
-        if !granted["grant_#{action}"] === true && can_redirect_to_default_path
-            return redirect_to current_user.role_detail[:default_path] 
-        end 
-
-        # privilege for object not found
-        if granted.blank?
-            log_user_comments("privilege_not_found")
-            return respond_with_unauthorized({ controller: params[:controller], privilege: "grant_#{action}" }) 
-        end
-
-        if not granted["grant_#{action}"] === true
-            log_user_comments("privilege_not_granted")
-            return respond_with_unauthorized({ controller: params[:controller], privilege: "grant_#{action}" }) 
-        end
+        current_user.requests.create({
+            session_uuid: session[:session_uuid],
+            request_controller: controller_path,
+            request_method: request.method,
+            request_action: action_name, 
+            request_url: request.original_fullpath 
+            #params: request.filtered_parameters.except(:controller, :action)
+        })
 
     end
 
 
+    # Track specific account activity
+    # this is disabled by default in the settings file
+    def log_account_activity system_module, system_process, description=nil, payload=nil
+
+        return if !Rails.application.config.lesli_settings["configuration"]["security"]["log_activity"]
+
+        account = Account.first
+
+        account.activities.create({
+            system_module: system_module,
+            system_process: system_process,
+            description: description,
+            payload: payload
+        })
+
+    end
+
+    
+    private
+
+
+    # Set default query params for:
+    #   pagination
     def set_helpers_for_account 
 
         # @account is only for html requests
@@ -126,7 +147,7 @@ class ApplicationLesliController < ApplicationController
             company: { },
             settings: { },
             current_user: { },
-            revision: get_revision,
+            revision: LC::System::Info.revision,
             notifications: Courier::Bell::Notification.index(current_user, {}, "count")
         }
 
@@ -165,9 +186,12 @@ class ApplicationLesliController < ApplicationController
         @account
 
     end
-    
 
-    # set query used to filter or sort data requests
+
+    # Set default query params for:
+    #   pagination
+    #   sorting
+    #   filtering
     def set_helpers_for_request
         @query = {
             filters: params[:filters] ? params[:filters] : {},
@@ -180,70 +204,58 @@ class ApplicationLesliController < ApplicationController
         }
     end
 
-    
-    def log_activity description=nil
-        LC::Debug.msg "DEPRECATED: Use log_user_commens or current_user.logs.create instead"
-        LC::Debug.msg session[:session_id]
-        log_user_comments(description)
-    end
 
+    # Check if current_user has privileges to complete this request
+    # allowed core methods:
+    #   [:index, :create, :update, :destroy, :new, :show, :edit, :options, :search, :resources]
+    def authorize_privileges
 
-    # Track all user activity
-    # this is disabled by default in the settings file
-    def log_user_requests description=nil
+        action = params[:action]
+        action = "resources" if request.path.include?("resources")
 
-        return if !Rails.application.config.lesli_settings["configuration"]["security"]["log_activity"]
+        granted = current_user.privileges
+        .where("role_privileges.grant_object = ?", params[:controller])
+        .where("role_privileges.grant_#{action} = TRUE")
+        .first
 
-        current_user.requests.create({
-            session_uuid: session[:session_uuid],
-            request_uuid: request.uuid,
-            request_controller: controller_path,
-            request_method: request.method,
-            request_action: action_name, 
-            request_url: request.original_fullpath, 
-            params: request.params
-        })
+        # empty privileges if null privileges
+        granted ||= {} 
 
-    end
+        # if user do not has access to the requested route and can go to default route        
+        if !granted["grant_#{action}"] === true && can_redirect_to_default_path
+            return redirect_to current_user.role_detail[:default_path] 
+        end 
 
-    # Track all user activity
-    # this is disabled by default in the settings file
-    def log_user_comments description=nil
+        # privilege for object not found
+        if granted.blank?
+            log_user_comments("privilege_not_found")
+            return respond_with_unauthorized({ controller: params[:controller], privilege: "grant_#{action}" }) 
+        end
 
-        return if !Rails.application.config.lesli_settings["configuration"]["security"]["log_activity"]
-
-        current_user.logs.create({
-            session_uuid: session[:session_uuid],
-            request_uuid: request.uuid,
-            description: description
-        })
+        if not granted["grant_#{action}"] === true
+            log_user_comments("privilege_not_granted")
+            return respond_with_unauthorized({ controller: params[:controller], privilege: "grant_#{action}" }) 
+        end
 
     end
 
-    # Track specific account activity
-    # this is disabled by default in the settings file
-    def log_account_activity system_module, system_process, description=nil, payload=nil
 
-        return if !Rails.application.config.lesli_settings["configuration"]["security"]["log_activity"]
+    # Validate if user authentication and session status
+    def authorize_request
 
-        account = Account.first
+        # check if user has an active session
+        if not user_signed_in?
+            redirect_to root, notice: "Please Login to view that page!"
+        end
 
-        account.activities.create({
-            system_module: system_module,
-            system_process: system_process,
-            description: description,
-            payload: payload
-        })
+        # check if account is active (only for html requests)
+        return true if not request.format.html?
+        return if current_user.blank?
+        return if controller_name == "accounts"
+
+        # force user to complete registration before continue
+        redirect_to "/account/new" if current_user.account.status == "registered"
 
     end
-    
-    # Check if user can be redirected to role default path
-    def can_redirect_to_default_path
-        return false if request[:format] == "json"
-        return false if !["show", "index"].include?(params[:action])
-        return false if current_user.role_detail[:default_path].blank?
-        return false if current_user.role_detail[:default_path] == request.original_fullpath
-        return true
-    end 
 
 end

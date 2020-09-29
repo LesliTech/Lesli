@@ -23,7 +23,6 @@ class CreateUserSessions < ActiveRecord::Migration[6.0]
             t.string :user_remote
             t.string :user_agent
             t.string :user_uuid
-            t.string :request_uuid
             t.string :session_uuid
             t.string :session_token
             t.string :session_source
