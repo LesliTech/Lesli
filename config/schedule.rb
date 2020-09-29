@@ -29,6 +29,10 @@ Building a better future, one line of code at a time.
 #DeutscheLeibrenten cron jobs 
 set :output, 'log/cron.log'
 
+every :hour do
+    rake 'deutsche_leibrenten:cron:send_alert_if_no_lead_registered'
+end
+
 every :day, at: '10:10 pm' do
     rake 'deutsche_leibrenten:cron:create_reminder_task' 
 end
