@@ -5,8 +5,8 @@ module LC
                 class S3
                     def initialize
                         
-                        @client = Aws::S3::Client.new()
-                        @resource = Aws::S3::Resource.new()
+                        @client = ::Aws::S3::Client.new()
+                        @resource = ::Aws::S3::Resource.new()
                         if Rails.application.credentials.providers[:aws][:s3]
                             s3_credentials = {
                                 region: Rails.application.credentials.providers[:aws][:s3][:region],
@@ -14,8 +14,8 @@ module LC
                                 secret_access_key: Rails.application.credentials.providers[:aws][:s3][:secret_access_key]
                             }
 
-                            @client = Aws::S3::Client.new(s3_credentials)
-                            @resource = Aws::S3::Resource.new(s3_credentials)
+                            @client = ::Aws::S3::Client.new(s3_credentials)
+                            @resource = ::Aws::S3::Resource.new(s3_credentials)
 
                             self
                         end

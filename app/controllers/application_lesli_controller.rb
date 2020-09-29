@@ -50,6 +50,9 @@ class ApplicationLesliController < ApplicationController
         respond_with_unauthorized(detail)
     end
 
+    def log_user_activity *args
+    end
+
     protected
 
     # @return [String] The name of this class, starting with 'Cloud'
