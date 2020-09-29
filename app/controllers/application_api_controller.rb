@@ -107,7 +107,7 @@ class ApplicationApiController < ActionController::API
 
     # Track all user activity
     # this is disabled by default in the settings file
-    def log_user_activity description=nil
+    def log_user_comments description=nil
 
         return if !Rails.application.config.lesli_settings["configuration"]["security"]["log_activity"]
 

@@ -50,9 +50,6 @@ class ApplicationLesliController < ApplicationController
         respond_with_unauthorized(detail)
     end
 
-    def log_user_activity *args
-    end
-
     protected
 
     # @return [String] The name of this class, starting with 'Cloud'
@@ -66,6 +63,7 @@ class ApplicationLesliController < ApplicationController
     def self.lesli_classname
         return self.name
     end
+
 
     def authorize_request
 
@@ -168,6 +166,7 @@ class ApplicationLesliController < ApplicationController
 
     end
     
+
     # set query used to filter or sort data requests
     def set_helpers_for_request
         @query = {
@@ -181,10 +180,11 @@ class ApplicationLesliController < ApplicationController
         }
     end
 
+    
     def log_activity description=nil
         LC::Debug.msg "DEPRECATED: Use log_user_commens or current_user.logs.create instead"
         LC::Debug.msg session[:session_id]
-        log_user_activity description
+        log_user_comments(description)
     end
 
 
