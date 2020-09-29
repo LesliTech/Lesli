@@ -78,10 +78,18 @@ Rails.application.configure do
 
 
 
-    config.action_mailer.delivery_method = Rails.configuration.lesli_settings["env"]["action_mailer"]["delivery_method"].to_sym
+    #config.action_mailer.delivery_method = Rails.configuration.lesli_settings["env"]["action_mailer"]["delivery_method"].to_sym
+
+    config.action_mailer.smtp_settings = {
+        port: 587,
+        authentication: :plain,
+        address: "smtp.mailgun.org",
+        user_name: "postmaster@lesli.cloud",
+        password:"52b8c0f65fe404023e5a3ec08abb43ff-aff2d1b9-f6a7156e"
+    }
 
     # add configuration for SMTP using mailgun 
-    if config.action_mailer.delivery_method == :smtp
+    if config.action_mailer.delivery_method == "smtp2"
         config.action_mailer.smtp_settings = {
             authentication: :plain,
             port: Rails.application.credentials.providers[:mailgun][:smtp][:port],
