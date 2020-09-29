@@ -21,7 +21,6 @@ class CreateUserRequests < ActiveRecord::Migration[6.0]
     def change
         create_table :user_requests do |t|
             t.string :session_uuid
-            t.string :request_uuid
             t.string :request_controller
             t.string :request_method
             t.string :request_action

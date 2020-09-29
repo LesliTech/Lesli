@@ -17,13 +17,29 @@ For more information read the license file including with this software.
 
 =end
 
-class CreateUserLogs < ActiveRecord::Migration[6.0]
-    def change
-        create_table :user_logs do |t|
-            t.string :session_uuid
-            t.string :description
-            t.timestamps
+module LC
+
+    module System
+
+        class Info
+        
+            def self.revision(as_string: false)
+
+                version = 0
+                build = 0
+        
+                if defined?(DeutscheLeibrenten)
+                    version = DeutscheLeibrenten::VERSION
+                    build = DeutscheLeibrenten::BUILD
+                end
+        
+                return { version: version, build: build } if as_string == false
+                return "version: #{version}, build: #{build}" if as_string == true
+
+            end
+
         end
-        add_reference :user_logs, :users, foreign_key: true
+
     end
+
 end
