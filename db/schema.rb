@@ -81,6 +81,27 @@ ActiveRecord::Schema.define(version: 2020_09_29_174448) do
     t.index ["users_id"], name: "index_accounts_on_users_id"
   end
 
+  create_table "active_storage_attachments", force: :cascade do |t|
+    t.string "name", null: false
+    t.string "record_type", null: false
+    t.bigint "record_id", null: false
+    t.bigint "blob_id", null: false
+    t.datetime "created_at", null: false
+    t.index ["blob_id"], name: "index_active_storage_attachments_on_blob_id"
+    t.index ["record_type", "record_id", "name", "blob_id"], name: "index_active_storage_attachments_uniqueness", unique: true
+  end
+
+  create_table "active_storage_blobs", force: :cascade do |t|
+    t.string "key", null: false
+    t.string "filename", null: false
+    t.string "content_type"
+    t.text "metadata"
+    t.bigint "byte_size", null: false
+    t.string "checksum", null: false
+    t.datetime "created_at", null: false
+    t.index ["key"], name: "index_active_storage_blobs_on_key", unique: true
+  end
+
   create_table "cloud_babel_translation_buckets", force: :cascade do |t|
     t.string "name"
     t.string "reference_module"
@@ -92,49 +113,49 @@ ActiveRecord::Schema.define(version: 2020_09_29_174448) do
 
   create_table "cloud_babel_translation_modules", force: :cascade do |t|
     t.string "name"
-    t.string "module_type"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.string "module_type"
   end
 
   create_table "cloud_babel_translation_strings", force: :cascade do |t|
+    t.string "context"
     t.string "label"
     t.string "es"
     t.string "en"
     t.string "de"
     t.string "fr"
-    t.string "nl"
-    t.string "pl"
-    t.string "pt"
-    t.string "it"
-    t.string "tr"
-    t.string "ro"
-    t.string "bg"
-    t.string "status"
-    t.string "context"
-    t.string "priority"
+    t.integer "status"
+    t.integer "priority"
     t.boolean "need_help"
     t.boolean "need_translation"
     t.string "reference_bucket"
+    t.datetime "last_update_context"
     t.datetime "last_update_es"
     t.datetime "last_update_en"
     t.datetime "last_update_de"
     t.datetime "last_update_fr"
-    t.datetime "last_update_nl"
-    t.datetime "last_update_pl"
-    t.datetime "last_update_pt"
-    t.datetime "last_update_it"
-    t.datetime "last_update_tr"
-    t.datetime "last_update_ro"
-    t.datetime "last_update_bg"
     t.datetime "last_update_status"
-    t.datetime "last_update_context"
-    t.datetime "last_update_priority"
     t.datetime "deleted_at"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.bigint "users_id"
     t.bigint "cloud_babel_translation_buckets_id"
+    t.string "nl"
+    t.datetime "last_update_nl"
+    t.string "pl"
+    t.datetime "last_update_pl"
+    t.string "pt"
+    t.datetime "last_update_pt"
+    t.string "it"
+    t.datetime "last_update_it"
+    t.string "tr"
+    t.datetime "last_update_tr"
+    t.string "ro"
+    t.datetime "last_update_ro"
+    t.string "bg"
+    t.datetime "last_update_bg"
+    t.datetime "last_update_priority"
     t.index ["cloud_babel_translation_buckets_id"], name: "babel_translation_strings_buckets"
     t.index ["users_id"], name: "babel_translation_strings_users"
   end
@@ -227,12 +248,13 @@ ActiveRecord::Schema.define(version: 2020_09_29_174448) do
   create_table "cloud_driver_calendar_files", force: :cascade do |t|
     t.string "name"
     t.string "attachment"
-    t.string "attachment_local"
+    t.string "file_type"
     t.datetime "deleted_at"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.bigint "users_id"
     t.bigint "cloud_driver_calendars_id"
+    t.string "attachment_local"
     t.index ["cloud_driver_calendars_id"], name: "index_cloud_driver_calendar_files_on_cloud_driver_calendars_id"
     t.index ["users_id"], name: "index_cloud_driver_calendar_files_on_users_id"
   end
@@ -337,12 +359,13 @@ ActiveRecord::Schema.define(version: 2020_09_29_174448) do
   create_table "cloud_driver_event_files", force: :cascade do |t|
     t.string "name"
     t.string "attachment"
-    t.string "attachment_local"
+    t.string "file_type"
     t.datetime "deleted_at"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.bigint "users_id"
     t.bigint "cloud_driver_events_id"
+    t.string "attachment_local"
     t.index ["cloud_driver_events_id"], name: "index_cloud_driver_event_files_on_cloud_driver_events_id"
     t.index ["users_id"], name: "index_cloud_driver_event_files_on_users_id"
   end
@@ -411,11 +434,15 @@ ActiveRecord::Schema.define(version: 2020_09_29_174448) do
     t.integer "number"
     t.string "name"
     t.string "next_statuses"
-    t.string "status_type"
+    t.boolean "initial"
+    t.boolean "to_be_deleted"
+    t.boolean "completed_successfully"
+    t.boolean "completed_unsuccessfully"
     t.datetime "deleted_at"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.bigint "cloud_driver_workflows_id"
+    t.string "status_type", default: "normal"
     t.index ["cloud_driver_workflows_id"], name: "driver_workflow_statuses_workflows"
   end
 
@@ -537,12 +564,13 @@ ActiveRecord::Schema.define(version: 2020_09_29_174448) do
   create_table "cloud_focus_task_files", force: :cascade do |t|
     t.string "name"
     t.string "attachment"
-    t.string "attachment_local"
+    t.string "file_type"
     t.datetime "deleted_at"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.bigint "users_id"
     t.bigint "cloud_focus_tasks_id"
+    t.string "attachment_local"
     t.index ["cloud_focus_tasks_id"], name: "index_cloud_focus_task_files_on_cloud_focus_tasks_id"
     t.index ["users_id"], name: "index_cloud_focus_task_files_on_users_id"
   end
@@ -609,11 +637,15 @@ ActiveRecord::Schema.define(version: 2020_09_29_174448) do
     t.integer "number"
     t.string "name"
     t.string "next_statuses"
-    t.string "status_type"
+    t.boolean "initial"
+    t.boolean "to_be_deleted"
+    t.boolean "completed_successfully"
+    t.boolean "completed_unsuccessfully"
     t.datetime "deleted_at"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.bigint "cloud_focus_workflows_id"
+    t.string "status_type", default: "normal"
     t.index ["cloud_focus_workflows_id"], name: "focus_workflow_statuses_workflows"
   end
 
@@ -668,6 +700,7 @@ ActiveRecord::Schema.define(version: 2020_09_29_174448) do
   create_table "cloud_house_companies", force: :cascade do |t|
     t.datetime "deleted_at"
     t.bigint "user_main_id"
+    t.bigint "location_city_id"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.bigint "cloud_house_accounts_id"
@@ -824,12 +857,13 @@ ActiveRecord::Schema.define(version: 2020_09_29_174448) do
   create_table "cloud_house_company_files", force: :cascade do |t|
     t.string "name"
     t.string "attachment"
-    t.string "attachment_local"
+    t.string "file_type"
     t.datetime "deleted_at"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.bigint "users_id"
     t.bigint "cloud_house_companies_id"
+    t.string "attachment_local"
     t.index ["cloud_house_companies_id"], name: "index_cloud_house_company_files_on_cloud_house_companies_id"
     t.index ["users_id"], name: "index_cloud_house_company_files_on_users_id"
   end
@@ -938,12 +972,13 @@ ActiveRecord::Schema.define(version: 2020_09_29_174448) do
   create_table "cloud_house_contact_files", force: :cascade do |t|
     t.string "name"
     t.string "attachment"
-    t.string "attachment_local"
+    t.string "file_type"
     t.datetime "deleted_at"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.bigint "users_id"
     t.bigint "cloud_house_contacts_id"
+    t.string "attachment_local"
     t.index ["cloud_house_contacts_id"], name: "index_cloud_house_contact_files_on_cloud_house_contacts_id"
     t.index ["users_id"], name: "index_cloud_house_contact_files_on_users_id"
   end
@@ -1133,12 +1168,13 @@ ActiveRecord::Schema.define(version: 2020_09_29_174448) do
   create_table "cloud_house_employee_files", force: :cascade do |t|
     t.string "name"
     t.string "attachment"
-    t.string "attachment_local"
+    t.string "file_type"
     t.datetime "deleted_at"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.bigint "users_id"
     t.bigint "cloud_house_employees_id"
+    t.string "attachment_local"
     t.index ["cloud_house_employees_id"], name: "index_cloud_house_employee_files_on_cloud_house_employees_id"
     t.index ["users_id"], name: "index_cloud_house_employee_files_on_users_id"
   end
@@ -1183,6 +1219,243 @@ ActiveRecord::Schema.define(version: 2020_09_29_174448) do
     t.index ["cloud_house_workflow_statuses_id"], name: "house_employees_workflow_statuses"
     t.index ["deleted_at"], name: "index_cloud_house_employees_on_deleted_at"
     t.index ["users_id"], name: "house_employees_users"
+  end
+
+  create_table "cloud_house_lead_actions", force: :cascade do |t|
+    t.integer "type"
+    t.string "instructions"
+    t.datetime "deadline"
+    t.boolean "complete"
+    t.string "tags"
+    t.datetime "deleted_at"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.bigint "users_id"
+    t.bigint "cloud_house_leads_id"
+    t.index ["cloud_house_leads_id"], name: "house_lead_actions_leads"
+    t.index ["users_id"], name: "index_cloud_house_lead_actions_on_users_id"
+  end
+
+  create_table "cloud_house_lead_activities", force: :cascade do |t|
+    t.string "description"
+    t.string "field_name"
+    t.string "value_from"
+    t.string "value_to"
+    t.string "category"
+    t.bigint "users_id"
+    t.datetime "deleted_at"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.bigint "cloud_house_leads_id"
+    t.index ["cloud_house_leads_id"], name: "index_cloud_house_lead_activities_on_cloud_house_leads_id"
+    t.index ["field_name"], name: "index_cloud_house_lead_activities_on_field_name"
+  end
+
+  create_table "cloud_house_lead_contacts", force: :cascade do |t|
+    t.string "salutation"
+    t.string "first_name"
+    t.string "last_name"
+    t.string "gender"
+    t.datetime "birthdate"
+    t.string "birthplace"
+    t.string "nationality"
+    t.string "email"
+    t.string "telephone"
+    t.string "mobile_number"
+    t.string "fax_number"
+    t.integer "role"
+    t.string "location_city_name"
+    t.string "street_name"
+    t.string "street_number"
+    t.string "street_other"
+    t.string "postcode"
+    t.string "skype"
+    t.string "title"
+    t.string "occupation"
+    t.string "children"
+    t.string "marital_status"
+    t.integer "age"
+    t.string "signature"
+    t.string "homepage"
+    t.boolean "deceased"
+    t.datetime "death_date"
+    t.datetime "deleted_at"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.bigint "cloud_house_leads_id"
+    t.index ["cloud_house_leads_id"], name: "house_lead_contacts_leads"
+    t.index ["deleted_at"], name: "index_cloud_house_lead_contacts_on_deleted_at"
+  end
+
+  create_table "cloud_house_lead_custom_fields", force: :cascade do |t|
+    t.string "field_name"
+    t.string "field_label"
+    t.string "field_type"
+    t.string "field_instructions"
+    t.string "field_placeholder"
+    t.boolean "required"
+    t.string "value_default"
+    t.json "value_allowed"
+    t.string "value_format"
+    t.boolean "value_multiple"
+    t.integer "value_length"
+    t.datetime "deleted_at"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.bigint "users_id"
+    t.bigint "cloud_house_leads_id"
+    t.index ["cloud_house_leads_id"], name: "house_custom_fields_leads_leads"
+    t.index ["users_id"], name: "index_cloud_house_lead_custom_fields_on_users_id"
+  end
+
+  create_table "cloud_house_lead_details", force: :cascade do |t|
+    t.text "concern"
+    t.string "channel"
+    t.string "status"
+    t.integer "source"
+    t.datetime "deleted_at"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.bigint "cloud_house_leads_id"
+    t.index ["cloud_house_leads_id"], name: "index_cloud_house_lead_details_on_cloud_house_leads_id"
+    t.index ["deleted_at"], name: "index_cloud_house_lead_details_on_deleted_at"
+  end
+
+  create_table "cloud_house_lead_discussions", force: :cascade do |t|
+    t.text "content"
+    t.datetime "deleted_at"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.bigint "cloud_house_lead_discussions_id"
+    t.bigint "users_id"
+    t.bigint "cloud_house_leads_id"
+    t.index ["cloud_house_lead_discussions_id"], name: "house_lead_discussions_discussions"
+    t.index ["cloud_house_leads_id"], name: "house_lead_discussions_leads"
+    t.index ["users_id"], name: "house_lead_discussions_users"
+  end
+
+  create_table "cloud_house_lead_files", force: :cascade do |t|
+    t.string "name"
+    t.string "attachment"
+    t.string "attachment_local"
+    t.datetime "deleted_at"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.bigint "users_id"
+    t.bigint "cloud_house_leads_id"
+    t.index ["cloud_house_leads_id"], name: "index_cloud_house_lead_files_on_cloud_house_leads_id"
+    t.index ["users_id"], name: "index_cloud_house_lead_files_on_users_id"
+  end
+
+  create_table "cloud_house_lead_marketing_informations", force: :cascade do |t|
+    t.string "origin"
+    t.string "goal"
+    t.text "acquisition_comment"
+    t.string "questionnaire_type"
+    t.datetime "questionnaire_receipt_date"
+    t.boolean "testimony"
+    t.datetime "deleted_at"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.bigint "cloud_house_leads_id"
+    t.index ["cloud_house_leads_id"], name: "house_eads_marketing_informations_leads"
+    t.index ["deleted_at"], name: "index_cloud_house_lead_marketing_informations_on_deleted_at"
+  end
+
+  create_table "cloud_house_lead_properties", force: :cascade do |t|
+    t.string "street_name"
+    t.string "street_number"
+    t.string "street_other"
+    t.string "postcode"
+    t.string "latitude"
+    t.string "longitude"
+    t.string "location_city_name"
+    t.string "location_state_name"
+    t.string "real_state_type"
+    t.string "residential_units"
+    t.string "basement_or_cellar"
+    t.string "general_status"
+    t.string "heater_renovation"
+    t.string "cables_renovation"
+    t.string "windows_renovation"
+    t.string "baths_renovation"
+    t.string "thermal_insulation_renovation"
+    t.string "top_roof_renovation"
+    t.string "insurance_damage_last_years"
+    t.boolean "requires_repairs"
+    t.string "repairs_description"
+    t.float "repairs_cost"
+    t.string "heating_type"
+    t.string "heating_type_construction_year"
+    t.boolean "has_photovoltaic"
+    t.string "photovoltaic_construction_year"
+    t.float "photovoltaic_value"
+    t.string "residential_location"
+    t.string "area_description"
+    t.string "construction_year"
+    t.integer "resident_since"
+    t.integer "property_valuation_form"
+    t.float "property_value"
+    t.boolean "has_leases"
+    t.datetime "leases_running_time"
+    t.float "monthly_leasehold"
+    t.string "district_court"
+    t.string "land_register_volume"
+    t.string "land_register_of"
+    t.string "land_register_sheet"
+    t.string "hall"
+    t.string "parcel"
+    t.string "owner"
+    t.float "mortages_or_land_charges"
+    t.float "plot_size"
+    t.text "observations"
+    t.boolean "has_third_party_special_rights"
+    t.string "third_party_special_rights_details"
+    t.boolean "has_security_assignment"
+    t.string "security_assignment_details"
+    t.boolean "has_monumental_protection"
+    t.string "monumental_protection_details"
+    t.float "living_own_use_area"
+    t.float "living_rental_use_area"
+    t.float "living_rental_m2_value"
+    t.float "living_rental_total_value"
+    t.float "commercial_own_use_area"
+    t.float "commercial_rental_use_area"
+    t.float "commercial_rental_m2_value"
+    t.float "commercial_rental_total_value"
+    t.integer "garages_number"
+    t.float "garages_rent_value"
+    t.integer "parking_lots_number"
+    t.float "parking_lots_rent_value"
+    t.datetime "deleted_at"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.bigint "cloud_house_leads_id"
+    t.index ["cloud_house_leads_id"], name: "house_leads_properties_leads"
+    t.index ["deleted_at"], name: "index_cloud_house_lead_properties_on_deleted_at"
+  end
+
+  create_table "cloud_house_lead_subscribers", force: :cascade do |t|
+    t.string "action"
+    t.string "notification_type"
+    t.datetime "deleted_at"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.bigint "cloud_house_leads_id"
+    t.bigint "users_id"
+    t.index ["cloud_house_leads_id"], name: "house_lead_subscribers_leads"
+    t.index ["users_id"], name: "house_lead_subscribers_users"
+  end
+
+  create_table "cloud_house_leads", force: :cascade do |t|
+    t.datetime "deleted_at"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.bigint "users_id"
+    t.bigint "cloud_house_accounts_id"
+    t.index ["cloud_house_accounts_id"], name: "cloud_house_leads_house_accounts"
+    t.index ["deleted_at"], name: "index_cloud_house_leads_on_deleted_at"
+    t.index ["users_id"], name: "index_cloud_house_leads_on_users_id"
   end
 
   create_table "cloud_house_project_actions", force: :cascade do |t|
@@ -1275,12 +1548,13 @@ ActiveRecord::Schema.define(version: 2020_09_29_174448) do
   create_table "cloud_house_project_files", force: :cascade do |t|
     t.string "name"
     t.string "attachment"
-    t.string "attachment_local"
+    t.string "file_type"
     t.datetime "deleted_at"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.bigint "users_id"
     t.bigint "cloud_house_projects_id"
+    t.string "attachment_local"
     t.index ["cloud_house_projects_id"], name: "index_cloud_house_project_files_on_cloud_house_projects_id"
     t.index ["users_id"], name: "index_cloud_house_project_files_on_users_id"
   end
@@ -1376,11 +1650,11 @@ ActiveRecord::Schema.define(version: 2020_09_29_174448) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.bigint "cloud_house_accounts_id"
-    t.bigint "cloud_house_projects_id"
     t.bigint "users_id"
     t.bigint "cloud_house_workflow_statuses_id"
     t.bigint "cloud_house_catalog_project_types_id"
     t.bigint "cloud_house_properties_id"
+    t.bigint "cloud_house_projects_id"
     t.index ["cloud_house_accounts_id"], name: "index_cloud_house_projects_on_cloud_house_accounts_id"
     t.index ["cloud_house_catalog_project_types_id"], name: "house_projects_types"
     t.index ["cloud_house_projects_id"], name: "index_cloud_house_projects_on_cloud_house_projects_id"
@@ -1544,12 +1818,13 @@ ActiveRecord::Schema.define(version: 2020_09_29_174448) do
   create_table "cloud_house_property_files", force: :cascade do |t|
     t.string "name"
     t.string "attachment"
-    t.string "attachment_local"
+    t.string "file_type"
     t.datetime "deleted_at"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.bigint "users_id"
     t.bigint "cloud_house_properties_id"
+    t.string "attachment_local"
     t.index ["cloud_house_properties_id"], name: "index_cloud_house_property_files_on_cloud_house_properties_id"
     t.index ["users_id"], name: "index_cloud_house_property_files_on_users_id"
   end
@@ -1669,11 +1944,15 @@ ActiveRecord::Schema.define(version: 2020_09_29_174448) do
     t.integer "number"
     t.string "name"
     t.string "next_statuses"
-    t.string "status_type"
+    t.boolean "initial"
+    t.boolean "to_be_deleted"
+    t.boolean "completed_successfully"
+    t.boolean "completed_unsuccessfully"
     t.datetime "deleted_at"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.bigint "cloud_house_workflows_id"
+    t.string "status_type", default: "normal"
     t.index ["cloud_house_workflows_id"], name: "house_workflow_statuses_workflows"
   end
 
@@ -1745,9 +2024,10 @@ ActiveRecord::Schema.define(version: 2020_09_29_174448) do
     t.boolean "grant_create", default: false
     t.boolean "grant_update", default: false
     t.boolean "grant_destroy", default: false
-    t.boolean "grant_search", default: false
-    t.boolean "grant_resources", default: false
     t.boolean "grant_options", default: false
+    t.boolean "grant_default", default: false
+    t.boolean "grant_search", default: false
+    t.boolean "grant_empty", default: false
     t.datetime "deleted_at"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
@@ -1803,6 +2083,16 @@ ActiveRecord::Schema.define(version: 2020_09_29_174448) do
     t.bigint "accounts_id"
     t.index ["accounts_id"], name: "index_roles_on_accounts_id"
     t.index ["deleted_at"], name: "index_roles_on_deleted_at"
+  end
+
+  create_table "system_activities", force: :cascade do |t|
+    t.string "system_module"
+    t.string "system_process"
+    t.json "description"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.bigint "accounts_id"
+    t.index ["accounts_id"], name: "index_system_activities_on_accounts_id"
   end
 
   create_table "template_documents", force: :cascade do |t|
@@ -1972,6 +2262,7 @@ ActiveRecord::Schema.define(version: 2020_09_29_174448) do
   add_foreign_key "account_locations", "accounts", column: "accounts_id"
   add_foreign_key "account_settings", "accounts", column: "accounts_id"
   add_foreign_key "accounts", "users", column: "users_id"
+  add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "cloud_babel_translation_buckets", "cloud_babel_translation_modules", column: "cloud_babel_translation_modules_id"
   add_foreign_key "cloud_babel_translation_strings", "cloud_babel_translation_buckets", column: "cloud_babel_translation_buckets_id"
   add_foreign_key "cloud_babel_translation_strings", "users", column: "users_id"
@@ -2049,6 +2340,7 @@ ActiveRecord::Schema.define(version: 2020_09_29_174448) do
   add_foreign_key "cloud_house_catalog_business_services", "cloud_house_accounts", column: "cloud_house_accounts_id"
   add_foreign_key "cloud_house_catalog_company_categories", "cloud_house_accounts", column: "cloud_house_accounts_id"
   add_foreign_key "cloud_house_catalog_project_types", "cloud_house_accounts", column: "cloud_house_accounts_id"
+  add_foreign_key "cloud_house_companies", "account_locations", column: "location_city_id"
   add_foreign_key "cloud_house_companies", "cloud_house_accounts", column: "cloud_house_accounts_id"
   add_foreign_key "cloud_house_companies", "cloud_house_catalog_business_services", column: "cloud_house_catalog_business_services_id"
   add_foreign_key "cloud_house_companies", "cloud_house_catalog_company_categories", column: "cloud_house_catalog_company_categories_id"
@@ -2124,6 +2416,25 @@ ActiveRecord::Schema.define(version: 2020_09_29_174448) do
   add_foreign_key "cloud_house_employees", "cloud_house_workflow_statuses", column: "cloud_house_workflow_statuses_id"
   add_foreign_key "cloud_house_employees", "users", column: "user_main_id"
   add_foreign_key "cloud_house_employees", "users", column: "users_id"
+  add_foreign_key "cloud_house_lead_actions", "cloud_house_leads", column: "cloud_house_leads_id"
+  add_foreign_key "cloud_house_lead_actions", "users", column: "users_id"
+  add_foreign_key "cloud_house_lead_activities", "cloud_house_leads", column: "cloud_house_leads_id"
+  add_foreign_key "cloud_house_lead_activities", "users", column: "users_id"
+  add_foreign_key "cloud_house_lead_contacts", "cloud_house_leads", column: "cloud_house_leads_id"
+  add_foreign_key "cloud_house_lead_custom_fields", "cloud_house_leads", column: "cloud_house_leads_id"
+  add_foreign_key "cloud_house_lead_custom_fields", "users", column: "users_id"
+  add_foreign_key "cloud_house_lead_details", "cloud_house_leads", column: "cloud_house_leads_id"
+  add_foreign_key "cloud_house_lead_discussions", "cloud_house_lead_discussions", column: "cloud_house_lead_discussions_id"
+  add_foreign_key "cloud_house_lead_discussions", "cloud_house_leads", column: "cloud_house_leads_id"
+  add_foreign_key "cloud_house_lead_discussions", "users", column: "users_id"
+  add_foreign_key "cloud_house_lead_files", "cloud_house_leads", column: "cloud_house_leads_id"
+  add_foreign_key "cloud_house_lead_files", "users", column: "users_id"
+  add_foreign_key "cloud_house_lead_marketing_informations", "cloud_house_leads", column: "cloud_house_leads_id"
+  add_foreign_key "cloud_house_lead_properties", "cloud_house_leads", column: "cloud_house_leads_id"
+  add_foreign_key "cloud_house_lead_subscribers", "cloud_house_leads", column: "cloud_house_leads_id"
+  add_foreign_key "cloud_house_lead_subscribers", "users", column: "users_id"
+  add_foreign_key "cloud_house_leads", "cloud_house_accounts", column: "cloud_house_accounts_id"
+  add_foreign_key "cloud_house_leads", "users", column: "users_id"
   add_foreign_key "cloud_house_project_actions", "cloud_house_projects", column: "cloud_house_projects_id"
   add_foreign_key "cloud_house_project_actions", "users", column: "users_id"
   add_foreign_key "cloud_house_project_activities", "cloud_house_projects", column: "cloud_house_projects_id"
@@ -2193,6 +2504,7 @@ ActiveRecord::Schema.define(version: 2020_09_29_174448) do
   add_foreign_key "role_privilege_defaults", "roles", column: "roles_id"
   add_foreign_key "role_privileges", "roles", column: "roles_id"
   add_foreign_key "roles", "accounts", column: "accounts_id"
+  add_foreign_key "system_activities", "accounts", column: "accounts_id"
   add_foreign_key "template_documents", "templates", column: "templates_id"
   add_foreign_key "template_documents", "users", column: "users_id"
   add_foreign_key "template_mappings", "template_documents", column: "template_documents_id"
