@@ -4,4 +4,11 @@
 },{
     "name": "default",
     "type": "boolean"
+},{
+    "name": "user_main_id",
+    "type": "bigint"
+},{
+    "name": "deleted_at",
+    "type": "datetime",
+    "index": true
 }]

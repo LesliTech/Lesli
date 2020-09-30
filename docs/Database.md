@@ -56,6 +56,9 @@ Contents
     04.02. house/custom_validation/rules  
     04.03. house/custom_validation/fields  
 
+    05.01. house/dashboards
+    05.02. house/dasboard/components
+
     10.01. house/contacts
     10.02. house/contact/details 
     10.03. house/contact/actions 
@@ -153,6 +156,9 @@ Contents
     02.03. driver/workflow/associations
     02.04. driver/workflow/actions
 
+    05.01. driver/dashboards
+    05.02. driver/dasboard/components
+
     10.01. driver/calendar
     10.02. driver/calendar/details 
     10.03. driver/calendar/actions 
@@ -186,7 +192,10 @@ Contents
 
     04.01. focus/custom_validations  
     04.02. focus/custom_validation/rules  
-    04.03. focus/custom_validation/fields  
+    04.03. focus/custom_validation/fields
+
+    05.01. focus/dashboards
+    05.02. focus/dashboard/components
 
     10.01. focus/task
     10.02. focus/task/details 
