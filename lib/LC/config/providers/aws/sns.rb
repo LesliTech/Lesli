@@ -4,7 +4,7 @@ module LC
             module Aws
                 class Sns
                     def initialize
-                        @client = Aws::SNS::Client.new()
+                        @client = ::Aws::SNS::Client.new()
 
                         if Rails.application.credentials.providers[:aws][:sns]
                             sns_credentials = {
@@ -13,7 +13,7 @@ module LC
                                 secret_access_key: Rails.application.credentials.providers[:aws][:sns][:secret_access_key]
                             }
 
-                            @client = Aws::SNS::Client.new(sns_credentials)
+                            @client = ::Aws::SNS::Client.new(sns_credentials)
 
                             self
                         end
