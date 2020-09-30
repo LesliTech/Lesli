@@ -1,0 +1,16 @@
+[{
+    "name": "name",
+    "type": "string"
+},{
+    "name": "component_id",
+    "type": "string"
+},{
+    "name": "layout",
+    "type": "integer"
+},{
+    "name": "index",
+    "type": "integer"
+},{
+    "name": "configuration",
+    "type": "json"
+}]
