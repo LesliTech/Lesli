@@ -46,10 +46,6 @@ class DeutscheLeibrentenMailer < ApplicationMailer
         
     end
 
-    def leads_report(to, subject, data, template: "")
-        send(to, subject, data, template:"")
-    end
-
     def kops_order(to, subject, data, template: "")        
         send(to, subject, data, template:"")
     end
