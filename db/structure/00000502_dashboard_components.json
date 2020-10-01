@@ -13,4 +13,8 @@
 },{
     "name": "configuration",
     "type": "json"
+},{
+    "name": "deleted_at",
+    "type": "datetime",
+    "index": true
 }]
