@@ -5,6 +5,9 @@
     "name": "default",
     "type": "boolean"
 },{
+    "name": "main",
+    "type": "boolean"
+},{
     "name": "user_main_id",
     "type": "bigint"
 },{
