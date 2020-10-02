@@ -17,25 +17,6 @@ For more information read the license file including with this software.
 
 =end
 
-class CreateUserSessions < ActiveRecord::Migration[6.0]
-    def change
-        create_table :user_sessions do |t|
-
-            t.string :user_remote
-            t.string :user_agent
-            t.string :user_uuid
-
-            t.string :session_uuid
-            t.string :session_token
-            t.string :session_source
-
-            t.integer  :usage_count
-            t.datetime :last_used_at
-            t.datetime :expiration_at, index: true
-            t.datetime :deleted_at, index: true
-
-            t.timestamps
-        end
-        add_reference :user_sessions, :users, foreign_key: true
-    end
+class Account::Integration < ApplicationRecord
+    belongs_to :account, foreign_key: "accounts_id"
 end
