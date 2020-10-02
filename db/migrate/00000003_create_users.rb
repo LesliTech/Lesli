@@ -24,6 +24,9 @@ class CreateUsers < ActiveRecord::Migration[5.2]
             # Hard-lock strategy
             t.boolean :active, default: true, null: false
 
+            # Multi-authorization strategy: user|integration
+            t.string :category
+
             # Database authenticatable
             t.string :email,              null: false, default: ""
             t.string :encrypted_password, null: false, default: ""

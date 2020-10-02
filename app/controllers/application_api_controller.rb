@@ -22,7 +22,7 @@ class ApplicationApiController < ActionController::API
     before_action :authorize_request
     before_action :authorize_privileges
     before_action :set_request_helpers
-    after_action :log_user_requests
+    after_action  :log_user_requests
 
     @current_user = nil
     @current_session = nil
@@ -103,6 +103,7 @@ class ApplicationApiController < ActionController::API
         return if !Rails.application.config.lesli_settings["configuration"]["security"]["log_activity"]
 
         return if @current_user.blank?
+        return if @current_session.blank?
 
         @current_user.requests.create({
             session_uuid: @current_session[:session_uuid],
@@ -187,24 +188,44 @@ class ApplicationApiController < ActionController::API
     # Validate if user authentication and session status
     def authorize_request
 
-        # check headers for Authorization token
-        if not request.headers['Authorization'].present?
-            return respond_with_unauthorized "Not valid authorization token found"
-        end
+        @current_session = nil
 
-        # get token sent to validate the request
-        token = request.headers["Authorization"].split("Bearer ").last
+        # Try to find a valid session using a token
+        (-> () { 
 
-        token = LC::System::Jwt.decode(token)
+            token = nil
 
-        if not token.successful?
-            return respond_with_unauthorized "Not valid authorization token found"
-        end
+            # check headers for Authorization Bearer token
+            if request.headers["Authorization"].present?
+                token = request.headers["Authorization"].split("Bearer ").last
+            end
 
-        @current_session = User::Session.find_by(
-            :user_uuid => token.payload[0]["sub"],
-            :session_uuid => token.payload[0]["jti"]
-        )
+            # Query opaque token takes precedence over the authorization header
+            if not params[:access_token].blank?
+                token = params[:access_token]
+            end            
+
+            # return without session if token was not provided
+            return if not token
+
+            # check if token is a valid JWT
+            jwt = LC::System::Jwt.decode(token)
+
+            if jwt.successful?
+                @current_session = User::Session.find_by(
+                    :user_uuid => jwt.payload[0]["sub"],
+                    :session_uuid => jwt.payload[0]["jti"]
+                )
+                return 
+            end
+
+            # check if token is a valid opaque integration token
+            @current_session = User::Session.find_by(
+                :session_token => token
+            )
+
+        }).call()
+
 
         if @current_session.blank?
             return respond_with_unauthorized "Not valid authorization token found"
@@ -215,8 +236,6 @@ class ApplicationApiController < ActionController::API
         if @current_user.blank?
             return respond_with_unauthorized "Not valid authorization token found"
         end
-
-        token
 
     end
 

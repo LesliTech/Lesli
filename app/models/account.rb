@@ -26,6 +26,7 @@ class Account < ApplicationRecord
     has_many :settings,     foreign_key: "accounts_id", class_name: "Account::Setting"
     has_many :locations,    foreign_key: "accounts_id"
     has_many :activities,   foreign_key: "accounts_id", class_name: "Account::Activity"
+    has_many :integrations, foreign_key: "accounts_id"
 
     has_one :template, class_name: "Template", foreign_key: "accounts_id"
 
@@ -36,7 +37,6 @@ class Account < ApplicationRecord
     has_one :help,       class_name: "CloudHelp::Account",       foreign_key: "id"
     has_one :notes,      class_name: "CloudNotes::Account",      foreign_key: "id"
     has_one :books,      class_name: "CloudBooks::Account",      foreign_key: "id"
-    has_one :panel,      class_name: "CloudPanel::Account",      foreign_key: "id"
     has_one :house,      class_name: "CloudHouse::Account",      foreign_key: "id"
     has_one :focus,      class_name: "CloudFocus::Account",      foreign_key: "id"
     has_one :driver,     class_name: "CloudDriver::Account",     foreign_key: "id"
@@ -60,11 +60,6 @@ class Account < ApplicationRecord
 
 
     def initialize_account
-
-        # settings initialize
-        #Rails.application.config.lesli_settings["account"]["settings"].each do |setting|
-        #    self.settings.find_or_create_by({ name: setting[0], value: setting[1], account: self })
-        #end
 
         #create template reference
         if self.template.blank?

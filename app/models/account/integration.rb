@@ -17,29 +17,48 @@ For more information read the license file including with this software.
 
 =end
 
-class User::Session < ApplicationRecord
-    belongs_to :user, foreign_key: "users_id"
-    
-    after_create :set_uuid
+class Account::Integration < ApplicationRecord
+    belongs_to :account, foreign_key: "accounts_id"
 
-    def set_uuid
+    after_create :build_access_uuid
+    after_create :build_access_token
+
+    def build_access_uuid
 
         rebuild_uuid = true
 
         while rebuild_uuid do
 
-            user_uuid = SecureRandom.uuid
-            session_uuid = SecureRandom.uuid
+            access_uuid = SecureRandom.uuid
 
             # assign token to user if token is unique
-            if not User::Session.find_by(:user_uuid => user_uuid, :session_uuid => session_uuid)
-                self.user_uuid = user_uuid
-                self.session_uuid = session_uuid
+            if not Account::Integration.find_by(:access_uuid => access_uuid)
+                self.access_uuid = access_uuid
                 self.save!
                 rebuild_uuid = false
             end
 
         end
-        
+
     end
+
+    def build_access_token
+
+        rebuild = true
+
+        while rebuild do
+
+            access_token = SecureRandom.alphanumeric(16)
+
+            # assign token to user if token is unique
+            if not Account::Integration.find_by(:access_token => access_token)
+                self.access_token = access_token
+                self.save!
+                rebuild = false
+            end
+
+        end
+
+    end
+
 end
