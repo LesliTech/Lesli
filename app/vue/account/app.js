@@ -1,5 +1,4 @@
-=begin
-
+/**
 Copyright (c) 2020, all rights reserved.
 
 All the information provided by this platform is protected by international laws related  to 
@@ -14,32 +13,27 @@ For more information read the license file including with this software.
 
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
 // · 
+*/
 
-=end
 
-class User::Session < ApplicationRecord
-    belongs_to :user, foreign_key: "users_id"
-    
-    after_create :set_uuid
+// · Import main app
+// · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
+import app from "LesliVue/app"
 
-    def set_uuid
 
-        rebuild_uuid = true
 
-        while rebuild_uuid do
+// · Import apps and components
+// · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
+import appNew from "./apps/new.vue"
+import appAccountApps from "./apps/account_apps.vue"
 
-            user_uuid = SecureRandom.uuid
-            session_uuid = SecureRandom.uuid
 
-            # assign token to user if token is unique
-            if not User::Session.find_by(:user_uuid => user_uuid, :session_uuid => session_uuid)
-                self.user_uuid = user_uuid
-                self.session_uuid = session_uuid
-                self.save!
-                rebuild_uuid = false
-            end
-
-        end
-        
-    end
-end
+// · 
+// · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
+app("Lesli", "[new]", "/panel/account", [{
+    path: "/",
+    component: appAccountApps,
+}, {
+    path: "/integrations",
+    component: appAccountApps,
+}])

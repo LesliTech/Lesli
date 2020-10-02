@@ -1,7 +1,5 @@
 =begin
 
-Lesli
-
 Copyright (c) 2020, all rights reserved.
 
 All the information provided by this platform is protected by international laws related  to 
@@ -33,6 +31,7 @@ module RoutesApp
                     resource  :account do
                         scope module: :account do
                             resources :locations
+                            resources :apps
                         end
                     end
 
@@ -60,7 +59,20 @@ module RoutesApp
                     end
                 end
 
+
+                # Administration area scope
+                #   /panel/account
+                #   /panel/account/apps
+                #   /panel/template
+                #   /panel/workflows
                 scope :panel do
+
+                    # account management
+                    resource :account do
+                        scope module: :account do
+                            resources :integrations
+                        end
+                    end
 
                     # template generators
                     namespace :template do

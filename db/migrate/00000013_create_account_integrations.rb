@@ -1,5 +1,5 @@
 =begin
-
+    
 Copyright (c) 2020, all rights reserved.
 
 All the information provided by this platform is protected by international laws related  to 
@@ -14,32 +14,22 @@ For more information read the license file including with this software.
 
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
 // · 
-
+    
 =end
 
-class User::Session < ApplicationRecord
-    belongs_to :user, foreign_key: "users_id"
-    
-    after_create :set_uuid
-
-    def set_uuid
-
-        rebuild_uuid = true
-
-        while rebuild_uuid do
-
-            user_uuid = SecureRandom.uuid
-            session_uuid = SecureRandom.uuid
-
-            # assign token to user if token is unique
-            if not User::Session.find_by(:user_uuid => user_uuid, :session_uuid => session_uuid)
-                self.user_uuid = user_uuid
-                self.session_uuid = session_uuid
-                self.save!
-                rebuild_uuid = false
-            end
-
+class CreateAccountIntegrations < ActiveRecord::Migration[6.0]
+    def change
+        create_table :account_integrations do |t|
+            t.string :name
+            t.string :status
+            #t.string :access_uuid
+            t.string :access_token
+            t.datetime :last_used_at
+            t.datetime :expires_at
+            t.timestamps
         end
-        
+        #add_reference :account_integrations, :roles, foreign_key: true
+        add_reference :account_integrations, :users, foreign_key: true
+        add_reference :account_integrations, :accounts, foreign_key: true
     end
 end

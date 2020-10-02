@@ -15,7 +15,8 @@ Contents
     00.10. account/settings
     00.11. account/locations
     00.12. account/activities   # tracks system tasks and processes
-    00.13. account/sessions     # tracks system tasks and processes
+    00.13. account/integrations # manage access to external apps
+    00.14. account/federations  # manage access to external apps
 
     00.20. role/details
     00.21. role/privileges
@@ -29,10 +30,10 @@ Contents
     00.34. user/activities  # tracks changes over current_user
     00.35. user/logs        # custom log for user
 
-    00.40. user/templates
-    00.41. user/template/documents
-    00.42. user/template/variables
-    00.43. user/template/mapping
+    00.40. templates
+    00.41. template/documents
+    00.42. template/variables
+    00.43. template/mapping
 ```
 
 

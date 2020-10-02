@@ -37,6 +37,7 @@ class CreateAccountLocations < ActiveRecord::Migration[6.0]
             t.string        :latitude
             t.string        :longitude
             t.string        :code
+            t.string        :calling_code
 
             # Imagine USA, we have country > state > city. In guatemala, we have country > departamento > municipio
             # levels for Guatemala, Alta Verapaz, Cobán will be country, state, city
