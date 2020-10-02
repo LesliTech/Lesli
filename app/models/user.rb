@@ -50,10 +50,6 @@ class User < ApplicationLesliRecord
     has_one :detail, inverse_of: :user, autosave: true, foreign_key: "users_id", dependent: :destroy 
     accepts_nested_attributes_for :detail, update_only: true
 
-  
-    # builders
-    has_one :mitwerker, class_name: "MitwerkenCloud::User", foreign_key: "id"
-
     after_create :initialize_user
 
     enum category: { user: "user", integration: "integration" }
