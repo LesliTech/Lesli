@@ -69,7 +69,7 @@ class Users::SessionsController < Devise::SessionsController
             :session_source => "devise_standar_session" 
         })
 
-        session[:session_uuid] = @current_session.session_uuid
+        session[:user_session_id] = @current_session[:id]
 
         respond_with_successful()
 
@@ -87,15 +87,7 @@ class Users::SessionsController < Devise::SessionsController
 
     private 
 
-    def get_user_agent
-        user_agent = UserAgent.parse(request.env["HTTP_USER_AGENT"])
-        #p "Browser:" + user_agent.browser # Firefox
-        #p "Version:" + user_agent.version # 22.0
-        #p "Platform:" + user_agent.platform # Macintosh
-        #p "Mobile:" + (user_agent.mobile?).to_s # False
-        #p "OS:" + user_agent.os # OS X 10.8
-        return "#{user_agent.platform} #{user_agent.os} - #{user_agent.browser} #{user_agent.version}"
-    end
+
 
     # @return [Parameters] Allowed parameters for the discussion
     # @description Sanitizes the parameters received from an HTTP call to only allow the specified ones.

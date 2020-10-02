@@ -40,6 +40,24 @@ class User::Session < ApplicationRecord
             end
 
         end
+
+
+        return if not self.session_token.blank?
+
+        rebuild_token = true
+
+        while rebuild_token do
+
+            session_token = SecureRandom.alphanumeric(16)
+
+            # assign token to user if token is unique
+            if not User::Session.find_by(:session_token => session_token)
+                self.session_token = session_token
+                self.save!
+                rebuild_token = false
+            end
+
+        end
         
     end
 end

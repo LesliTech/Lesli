@@ -104,11 +104,12 @@ class ApplicationLesliController < ApplicationController
         return if !Rails.application.config.lesli_settings["configuration"]["security"]["log_activity"]
 
         current_user.requests.create({
-            session_uuid: session[:session_uuid],
+            #request_agent: get_user_agent,
             request_controller: controller_path,
             request_method: request.method,
             request_action: action_name, 
-            request_url: request.original_fullpath 
+            request_url: request.original_fullpath,
+            user_sessions_id: session[:user_session_id]
             #params: request.filtered_parameters.except(:controller, :action)
         })
 
