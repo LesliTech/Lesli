@@ -44,7 +44,6 @@ class Account::IntegrationsController < ApplicationLesliController
     # POST /account/integrations
     def create
         account_integration = current_user.account.integrations.new(account_integration_params)
-        account_integration.status = "active"
 
         user_integration_email = account_integration_params[:name]
         .downcase                           # string to lowercase
@@ -68,7 +67,6 @@ class Account::IntegrationsController < ApplicationLesliController
             current_session = user.sessions.create({
                 :user_agent => LC::Request.user_agent(request.env["HTTP_USER_AGENT"]),
                 :user_remote => request.remote_ip,
-                :session_token => account_integration[:access_token],
                 :session_source => "dispatcher_standar_session" 
             })
 

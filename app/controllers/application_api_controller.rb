@@ -106,7 +106,8 @@ class ApplicationApiController < ActionController::API
         return if @current_session.blank?
 
         @current_user.requests.create({
-            session_uuid: @current_session[:session_uuid],
+            user_sessions_id: @current_session[:id],
+            request_agent: get_user_agent,
             request_controller: controller_path,
             request_method: request.method,
             request_action: action_name, 
@@ -132,6 +133,17 @@ class ApplicationApiController < ActionController::API
             payload: payload
         })
 
+    end
+
+
+    def get_user_agent
+        user_agent = UserAgent.parse(request.env["HTTP_USER_AGENT"])
+        #p "Browser:" + user_agent.browser # Firefox
+        #p "Version:" + user_agent.version # 22.0
+        #p "Platform:" + user_agent.platform # Macintosh
+        #p "Mobile:" + (user_agent.mobile?).to_s # False
+        #p "OS:" + user_agent.os # OS X 10.8
+        return "#{user_agent.platform} #{user_agent.os} - #{user_agent.browser} #{user_agent.version}"
     end
 
 

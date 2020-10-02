@@ -28,17 +28,13 @@ ActiveRecord::Schema.define(version: 2020_09_27_031859) do
 
   create_table "account_integrations", force: :cascade do |t|
     t.string "name"
-    t.string "status"
-    t.string "access_uuid"
-    t.string "access_token"
-    t.datetime "last_used_at"
-    t.datetime "expires_at"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.bigint "roles_id"
+    t.bigint "creator_id"
+    t.bigint "users_id"
     t.bigint "accounts_id"
     t.index ["accounts_id"], name: "index_account_integrations_on_accounts_id"
-    t.index ["roles_id"], name: "index_account_integrations_on_roles_id"
+    t.index ["users_id"], name: "index_account_integrations_on_users_id"
   end
 
   create_table "account_locations", force: :cascade do |t|
@@ -348,7 +344,7 @@ ActiveRecord::Schema.define(version: 2020_09_27_031859) do
   end
 
   create_table "user_requests", force: :cascade do |t|
-    t.string "session_uuid"
+    t.string "request_agent"
     t.string "request_controller"
     t.string "request_method"
     t.string "request_action"
@@ -357,6 +353,8 @@ ActiveRecord::Schema.define(version: 2020_09_27_031859) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.bigint "users_id"
+    t.bigint "user_sessions_id"
+    t.index ["user_sessions_id"], name: "index_user_requests_on_user_sessions_id"
     t.index ["users_id"], name: "index_user_requests_on_users_id"
   end
 
@@ -367,6 +365,8 @@ ActiveRecord::Schema.define(version: 2020_09_27_031859) do
     t.string "session_uuid"
     t.string "session_token"
     t.string "session_source"
+    t.integer "usage_count"
+    t.datetime "last_used_at"
     t.datetime "expiration_at"
     t.datetime "deleted_at"
     t.datetime "created_at", precision: 6, null: false
@@ -422,7 +422,8 @@ ActiveRecord::Schema.define(version: 2020_09_27_031859) do
 
   add_foreign_key "account_activities", "accounts", column: "accounts_id"
   add_foreign_key "account_integrations", "accounts", column: "accounts_id"
-  add_foreign_key "account_integrations", "roles", column: "roles_id"
+  add_foreign_key "account_integrations", "users", column: "creator_id"
+  add_foreign_key "account_integrations", "users", column: "users_id"
   add_foreign_key "account_locations", "account_locations", column: "parent_id"
   add_foreign_key "account_locations", "accounts", column: "accounts_id"
   add_foreign_key "account_settings", "accounts", column: "accounts_id"
@@ -453,6 +454,7 @@ ActiveRecord::Schema.define(version: 2020_09_27_031859) do
   add_foreign_key "user_activities", "users", column: "users_id"
   add_foreign_key "user_details", "users", column: "users_id"
   add_foreign_key "user_logs", "users", column: "users_id"
+  add_foreign_key "user_requests", "user_sessions", column: "user_sessions_id"
   add_foreign_key "user_requests", "users", column: "users_id"
   add_foreign_key "user_sessions", "users", column: "users_id"
   add_foreign_key "user_settings", "users", column: "users_id"

@@ -20,7 +20,7 @@ For more information read the license file including with this software.
 class CreateUserRequests < ActiveRecord::Migration[6.0]
     def change
         create_table :user_requests do |t|
-            t.string :session_uuid
+            t.string :request_agent
             t.string :request_controller
             t.string :request_method
             t.string :request_action
@@ -29,5 +29,6 @@ class CreateUserRequests < ActiveRecord::Migration[6.0]
             t.timestamps
         end
         add_reference :user_requests, :users, foreign_key: true
+        add_reference :user_requests, :user_sessions, foreign_key: true
     end
 end

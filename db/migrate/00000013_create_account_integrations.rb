@@ -21,15 +21,13 @@ class CreateAccountIntegrations < ActiveRecord::Migration[6.0]
     def change
         create_table :account_integrations do |t|
             t.string :name
-            t.string :status
-            #t.string :access_uuid
-            t.string :access_token
-            t.datetime :last_used_at
-            t.datetime :expires_at
             t.timestamps
+            t.bigint   :creator_id
         end
-        #add_reference :account_integrations, :roles, foreign_key: true
-        add_reference :account_integrations, :users, foreign_key: true
+        
+        add_reference :account_integrations, :users,    foreign_key: true
         add_reference :account_integrations, :accounts, foreign_key: true
+        add_foreign_key :account_integrations, :users,  column: :creator_id
+
     end
 end
