@@ -9,15 +9,14 @@ module CloudObject
                 format.html {}
                 format.json do
                     set_dashboard_component
+                    return respond_with_not_found unless @dashboard_component
 
-                    puts "ZAAAAAAAAAAAAAAAAAAAAAAAAA"
-                    puts "ZAAAAAAAAAAAAAAAAAAAAAAAAA"
-                    puts "ZAAAAAAAAAAAAAAAAAAAAAAAAA"
-                    puts @dashboard.to_json
-                    puts @dashboard_component.to_json
-                    puts "ZAAAAAAAAAAAAAAAAAAAAAAAAA"
-                    puts "ZAAAAAAAAAAAAAAAAAAAAAAAAA"
-                    puts "ZAAAAAAAAAAAAAAAAAAAAAAAAA"
+                    if params[:view_type] == "render"
+                        component_data = @dashboard_component.render_data(current_user, @query)
+
+                        return respond_with_successful(component_data) if component_data
+                        return respond_with_unauthorized
+                    end
 
                     respond_with_successful(@dashboard_component) 
                 end
@@ -25,7 +24,9 @@ module CloudObject
         end
 
 private
+
         def set_dashboard
+
             dynamic_info = self.class.dynamic_info
             dashboard_model = dynamic_info[:dashboard_model]
             module_name = dynamic_info[:module_name]
@@ -38,6 +39,7 @@ private
 
         def set_dashboard_component
             set_dashboard
+
             @dashboard_component = @dashboard.components.find_by(id: params[:id])
         end
 
@@ -81,13 +83,14 @@ private
     puts info[:dashboard_model] # will return an instance of CloudHelp::Dashboard
 =end
         def self.dynamic_info
-            module_info = lesli_classname().split("::")
-            module_name = module_info[0].sub("Cloud", "").downcase
+            core_module_info = lesli_classname().split("::")    # This information displays the real core engine
+            builder_module_info = self.name.split("::")         # This information displays the builder engine name (if this is an instance of a builder engine)
+            lesli_module_name = core_module_info[0].sub("Cloud", "").downcase
 
             {
-                module_name: module_name,
-                model: "#{module_info[0]}::Dashboard::Component".constantize,
-                dashboard_model: "#{module_info[0]}::Dashboard".constantize
+                module_name: lesli_module_name,
+                model: "#{builder_module_info[0]}::Dashboard::Component".constantize,
+                dashboard_model: "#{builder_module_info[0]}::Dashboard".constantize
             }
         end
     end
