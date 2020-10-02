@@ -1,5 +1,5 @@
 =begin
-
+    
 Copyright (c) 2020, all rights reserved.
 
 All the information provided by this platform is protected by international laws related  to 
@@ -14,28 +14,20 @@ For more information read the license file including with this software.
 
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
 // · 
-
+    
 =end
 
-class CreateUserSessions < ActiveRecord::Migration[6.0]
+class CreateAccountIntegrations < ActiveRecord::Migration[6.0]
     def change
-        create_table :user_sessions do |t|
-
-            t.string :user_remote
-            t.string :user_agent
-            t.string :user_uuid
-
-            t.string :session_uuid
-            t.string :session_token
-            t.string :session_source
-
-            t.integer  :usage_count
-            t.datetime :last_used_at
-            t.datetime :expiration_at, index: true
-            t.datetime :deleted_at, index: true
-
+        create_table :account_integrations do |t|
+            t.string :name
             t.timestamps
+            t.bigint   :creator_id
         end
-        add_reference :user_sessions, :users, foreign_key: true
+        
+        add_reference :account_integrations, :users,    foreign_key: true
+        add_reference :account_integrations, :accounts, foreign_key: true
+        add_foreign_key :account_integrations, :users,  column: :creator_id
+
     end
 end

@@ -22,7 +22,7 @@ class ApplicationApiController < ActionController::API
     before_action :authorize_request
     before_action :authorize_privileges
     before_action :set_request_helpers
-    after_action :log_user_requests
+    after_action  :log_user_requests
 
     @current_user = nil
     @current_session = nil
@@ -103,9 +103,11 @@ class ApplicationApiController < ActionController::API
         return if !Rails.application.config.lesli_settings["configuration"]["security"]["log_activity"]
 
         return if @current_user.blank?
+        return if @current_session.blank?
 
         @current_user.requests.create({
-            session_uuid: @current_session[:session_uuid],
+            user_sessions_id: @current_session[:id],
+            request_agent: get_user_agent,
             request_controller: controller_path,
             request_method: request.method,
             request_action: action_name, 
@@ -131,6 +133,17 @@ class ApplicationApiController < ActionController::API
             payload: payload
         })
 
+    end
+
+
+    def get_user_agent
+        user_agent = UserAgent.parse(request.env["HTTP_USER_AGENT"])
+        #p "Browser:" + user_agent.browser # Firefox
+        #p "Version:" + user_agent.version # 22.0
+        #p "Platform:" + user_agent.platform # Macintosh
+        #p "Mobile:" + (user_agent.mobile?).to_s # False
+        #p "OS:" + user_agent.os # OS X 10.8
+        return "#{user_agent.platform} #{user_agent.os} - #{user_agent.browser} #{user_agent.version}"
     end
 
 
@@ -187,24 +200,44 @@ class ApplicationApiController < ActionController::API
     # Validate if user authentication and session status
     def authorize_request
 
-        # check headers for Authorization token
-        if not request.headers['Authorization'].present?
-            return respond_with_unauthorized "Not valid authorization token found"
-        end
+        @current_session = nil
 
-        # get token sent to validate the request
-        token = request.headers["Authorization"].split("Bearer ").last
+        # Try to find a valid session using a token
+        (-> () { 
 
-        token = LC::System::Jwt.decode(token)
+            token = nil
 
-        if not token.successful?
-            return respond_with_unauthorized "Not valid authorization token found"
-        end
+            # check headers for Authorization Bearer token
+            if request.headers["Authorization"].present?
+                token = request.headers["Authorization"].split("Bearer ").last
+            end
 
-        @current_session = User::Session.find_by(
-            :user_uuid => token.payload[0]["sub"],
-            :session_uuid => token.payload[0]["jti"]
-        )
+            # Query opaque token takes precedence over the authorization header
+            if not params[:access_token].blank?
+                token = params[:access_token]
+            end            
+
+            # return without session if token was not provided
+            return if not token
+
+            # check if token is a valid JWT
+            jwt = LC::System::Jwt.decode(token)
+
+            if jwt.successful?
+                @current_session = User::Session.find_by(
+                    :user_uuid => jwt.payload[0]["sub"],
+                    :session_uuid => jwt.payload[0]["jti"]
+                )
+                return 
+            end
+
+            # check if token is a valid opaque integration token
+            @current_session = User::Session.find_by(
+                :session_token => token
+            )
+
+        }).call()
+
 
         if @current_session.blank?
             return respond_with_unauthorized "Not valid authorization token found"
@@ -215,8 +248,6 @@ class ApplicationApiController < ActionController::API
         if @current_user.blank?
             return respond_with_unauthorized "Not valid authorization token found"
         end
-
-        token
 
     end
 

@@ -52,6 +52,8 @@ class User < ApplicationLesliRecord
 
     after_create :initialize_user
 
+    enum category: { user: "user", integration: "integration" }
+
     def user_creator
         return nil
     end
@@ -187,7 +189,6 @@ class User < ApplicationLesliRecord
     #     old_user.revoke_access
     def revoke_access
         update_attributes(active: false)
-        log " deactivated"
     end
 
 
