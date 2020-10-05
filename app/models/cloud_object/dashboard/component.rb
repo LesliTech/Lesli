@@ -39,15 +39,22 @@ module CloudObject
         #   # This will display something like {date: <Date Thrustday Augusto 1, 2020>}
         def parse_configuration
             parsed_configuration = {
-                pagination: {},
-                filtering: {},
-                arrangement: {}
+                query: {
+                    pagination: {},
+                    filters: {},
+                },
+                custom: {
+                    arrangement: {}
+                }
             }
             
-            if configuration
-                parsed_configuration[:pagination] = (configuration["pagination"] || {})
-                parsed_configuration[:filtering] = (configuration["filtering"] || {})
-                parsed_configuration[:arrangement] = (configuration["arrangement"] || {})
+            if query_configuration
+                parsed_configuration[:query][:pagination] = (query_configuration["pagination"] || {})
+                parsed_configuration[:query][:filters] = (query_configuration["filters"] || {})
+            end
+
+            if custom_configuration
+                parsed_configuration[:custom][:arrangement] = (custom_configuration["arrangement"] || {})
             end
 
             parsed_configuration

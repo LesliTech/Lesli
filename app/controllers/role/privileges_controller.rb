@@ -17,7 +17,7 @@ Building a better future, one line of code at a time.
 // · 
 =end
 
-class Role::PrivilegesController < ApplicationController
+class Role::PrivilegesController < ApplicationLesliController
     before_action :set_role_privilege, only: [:show, :update, :destroy]
     before_action :set_role, only: [:index]
 
