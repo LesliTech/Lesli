@@ -19,4 +19,28 @@ For more information read the license file including with this software.
 
 class Account::Integration < ApplicationRecord
     belongs_to :account, foreign_key: "accounts_id"
+    belongs_to :creator, foreign_key: "users_id", class_name: "User"
+    belongs_to :user, foreign_key: "users_id"
+
+    def self.index current_user
+        current_user.account.integrations
+        .joins("inner join users u on u.id = account_integrations.users_id")
+        .joins("inner join (
+                    select max(id) id, users_id 
+                    from user_sessions
+                    group by users_id
+                ) as last_session
+                on last_session.users_id = account_integrations.users_id")
+        .joins("inner join user_sessions us on us.id = last_session.id")
+        .select(
+            :id,
+            :name,
+            :active,
+            :email,
+            :usage_count,
+            :last_used_at,
+            :expiration_at
+        )
+    end
+
 end
