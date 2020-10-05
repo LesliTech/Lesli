@@ -18,6 +18,9 @@ For more information read the license file including with this software.
 =end
 
 class Users::SessionsController < Devise::SessionsController
+    include Application::Responder
+    include Application::Logger
+
     layout "application-public"
 
     # @controller_action_param :email [String] The registeredemail
