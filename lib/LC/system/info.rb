@@ -28,9 +28,15 @@ module LC
                 version = 0
                 build = 0
         
-                if defined?(DeutscheLeibrenten)
-                    version = DeutscheLeibrenten::VERSION
-                    build = DeutscheLeibrenten::BUILD
+                # Every instance (builder module) is loaded into the platform using the same 
+                # name of the engine
+                instance = Rails.application.config.lesli_settings["instance"]
+
+                LC::Debug.msg instance
+
+                if defined?(instance.safe_constantize)
+                    version = instance.safe_constantize::VERSION
+                    build = instance.safe_constantize::BUILD
                 end
         
                 return { version: version, build: build } if as_string == false
