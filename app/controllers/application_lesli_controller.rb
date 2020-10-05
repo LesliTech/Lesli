@@ -120,7 +120,6 @@ class ApplicationLesliController < ApplicationController
             return true
         }
 
-
         # empty privileges if null privileges
         granted ||= {} 
 
