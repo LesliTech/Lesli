@@ -11,15 +11,31 @@ export default {
             }, {
                 field: 'name',
                 label: 'Name',
+            }, {
+                field: 'active',
+                label: 'Active',
+            }, {
+                field: 'usage_count',
+                label: 'Usage count',
+            }, {
+                field: 'last_used_at',
+                label: 'Last used at',
+            }, {
+                field: 'expiration_at',
+                label: 'Espiration date',
             }],
             integrations: []
         }
     },
 
+    mounted() {
+        this.getIntegrations()
+    },
+
     methods: {
 
         getIntegrations() {
-            this.http.get(this.endpoint).then(result => {
+            this.http.get(this.endpoint.concat(".json")).then(result => {
                 if (!result.successful) {
                     return
                 }
@@ -40,7 +56,10 @@ export default {
         </component-header>
         <div class="card">
             <div class="card-content">
-                <b-table :data="integrations" :columns="columns"></b-table>
+                <b-table 
+                    :data="integrations" 
+                    :columns="columns">
+                </b-table>
             </div>
         </div>
     </section>

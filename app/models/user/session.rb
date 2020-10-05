@@ -17,6 +17,8 @@ For more information read the license file including with this software.
 
 =end
 
+require 'bcrypt'
+
 class User::Session < ApplicationRecord
     belongs_to :user, foreign_key: "users_id"
     
@@ -49,6 +51,9 @@ class User::Session < ApplicationRecord
         while rebuild_token do
 
             session_token = SecureRandom.alphanumeric(16)
+
+            #LC::Debug.msg ::BCrypt::Engine.generate_salt
+            #LC::Debug.msg ::BCrypt::Engine.hash_secret("666", "ldonis")
 
             # assign token to user if token is unique
             if not User::Session.find_by(:session_token => session_token)
