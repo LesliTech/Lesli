@@ -44,6 +44,7 @@ class User < ApplicationLesliRecord
     has_many :activities,  foreign_key: "users_id"
     has_many :privileges,  through: :role
     has_one  :role_detail, through: :role, source: :detail, class_name: "Role::Detail"
+    has_one  :integration, foreign_key: "users_id"
 
     
     # user details are saved on separate table

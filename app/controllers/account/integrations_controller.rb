@@ -22,10 +22,9 @@ class Account::IntegrationsController < ApplicationLesliController
 
     # GET /account/integrations
     def index
-        LC::Debug.msg "hola"
         respond_to do |format|
             format.html {}
-            format.json { respond_with_successful }
+            format.json { respond_with_successful(Account::Integration.index(current_user)) }
         end
     end
 
@@ -44,6 +43,7 @@ class Account::IntegrationsController < ApplicationLesliController
     # POST /account/integrations
     def create
         account_integration = current_user.account.integrations.new(account_integration_params)
+        account_integration
 
         user_integration_email = account_integration_params[:name]
         .downcase                           # string to lowercase
@@ -61,6 +61,10 @@ class Account::IntegrationsController < ApplicationLesliController
             user.save!
         end
 
+        account_integration.account = current_user.account
+        account_integration.creator = current_user
+        account_integration.user = user 
+
         if account_integration.save
 
             # register a new unique session
@@ -73,7 +77,7 @@ class Account::IntegrationsController < ApplicationLesliController
             respond_with_successful 
 
         else
-            respond_with_error account_integration.errors
+            respond_with_error account_integration.errors.full_messages.to_sentence
         end
     end
 
