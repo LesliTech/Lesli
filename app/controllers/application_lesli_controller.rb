@@ -23,6 +23,7 @@ class ApplicationLesliController < ApplicationController
     include Application::Responder
     include Application::Requester
     include Application::Logger
+    include Application::Polyfill
 
     protect_from_forgery with: :exception
 

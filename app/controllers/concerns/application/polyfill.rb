@@ -19,7 +19,7 @@ For more information read the license file including with this software.
 
 module Application
 
-    module Logger
+    module Polyfill
         extend ActiveSupport::Concern
 
         included do
