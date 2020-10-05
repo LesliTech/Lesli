@@ -25,11 +25,6 @@ module Application
         included do
         end
 
-        def respond_with_pagination data
-            LC::Debug.simple_msg "DEPRECATED: use LC::Response.pagination in combination with respond_with_successful instead"
-            respond_with_successful(data)
-        end
-
         def respond_with_successful data= nil
             response_body = { successful: true }
             response_body[:data] = data
@@ -60,6 +55,7 @@ module Application
 
         # JSON not found response
         def respond_with_unauthorized(detail = {})
+        
             error_object = {
                 successful: false,
                 error: {
@@ -77,6 +73,7 @@ module Application
                 format.html { redirect_to "/401" } if Rails.env == "production"
                 format.html { render status: 401, json: error_object.to_json }
             end
+
         end
 
     end

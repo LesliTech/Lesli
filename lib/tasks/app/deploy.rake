@@ -1,23 +1,7 @@
-<p align="center">
-    <img width="250" alt="Lesli logo" src="https://cdn.lesli.tech/lesli/brand/lesli-logo.svg" />
-</p>
+=begin
 
-<h3 align="center">Your Smart Business Assistant</h3>
+Lesli
 
-<hr/>
-
-Version 0.1.0-alpha
-
-
-#### Documentation
-* [Database](./docs/database.md)
-* [Environment setup](./docs/entironment-setup.md)
-* [Core resources](./docs/core-resources.md)
-
-
-
-#### License
--------
 Copyright (c) 2020, all rights reserved.
 
 All the information provided by this platform is protected by international laws related  to 
@@ -30,8 +14,20 @@ transmission, publication is strictly forbidden.
 
 For more information read the license file including with this software.
 
-<br>
+// · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
+// · 
 
-<p align="center">
-    <img alt="Lesli logo" width="100" src="./app/assets/images/brand/lesli-icon.svg" />
-</p>
+=end
+
+namespace :app do
+
+    namespace :deploy do
+
+        task after: :environment do
+            Rake::Task["babel:scan"].invoke if defined?(CloudBabel)
+            Rake::Task["app:roles:build"].invoke 
+        end
+
+    end
+
+end

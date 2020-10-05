@@ -42,12 +42,6 @@ module ApplicationHelper
         end
     end
 
-    def module_nav_link(module_name)
-        content_tag(:a, :href => module_name, :class => "") do
-            yield
-        end
-    end
-
     def application_stylesheet_theme_path()
 
         theme = "themes/blank"
