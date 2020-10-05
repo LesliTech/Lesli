@@ -23,6 +23,7 @@ class ApplicationLesliController < ApplicationController
     include Application::Responder
     include Application::Requester
     include Application::Logger
+    include Application::Polyfill
 
     protect_from_forgery with: :exception
 
@@ -124,7 +125,7 @@ class ApplicationLesliController < ApplicationController
         granted ||= {} 
 
         # if user do not has access to the requested route and can go to default route        
-        if !granted["grant_#{action}"] === true && can_redirect_to_default_path
+        if granted["grant_#{action}"] == false && can_redirect_to_default_path.call()
             return redirect_to current_user.role_detail[:default_path] 
         end 
 
@@ -134,7 +135,7 @@ class ApplicationLesliController < ApplicationController
             return respond_with_unauthorized({ controller: params[:controller], privilege: "grant_#{action}" }) 
         end
 
-        if not granted["grant_#{action}"] === true
+        if granted["grant_#{action}"] == false
             log_user_comments("privilege_not_granted")
             return respond_with_unauthorized({ controller: params[:controller], privilege: "grant_#{action}" }) 
         end

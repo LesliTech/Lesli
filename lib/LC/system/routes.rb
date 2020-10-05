@@ -45,6 +45,8 @@ module LC
                 end
 
                 Rails.configuration.lesli_settings["engines"].each do |engine|
+                    module_type = "rails_engine"
+                    module_type = "rails_builder" if engine["type"] == "builder"
                     routes = "#{engine["name"]}::Engine".constantize.routes.routes
                     routes.map do |route|
                         route.defaults[:controller]
@@ -52,7 +54,7 @@ module LC
                         next if controller.blank?
                         controller_list.push({ 
                             module: engine["name"], 
-                            module_type: "rails_engine", 
+                            module_type: module_type,
                             controller: controller.sub(engine["code"] + '/', ''),
                             controller_path: controller
                         })

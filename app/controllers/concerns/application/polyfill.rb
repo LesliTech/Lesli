@@ -19,7 +19,7 @@ For more information read the license file including with this software.
 
 module Application
 
-    module Logger
+    module Polyfill
         extend ActiveSupport::Concern
 
         included do
@@ -43,6 +43,11 @@ module Application
         def responseWithUnauthorized(detail = {})
             LC::Debug.simple_msg "DEPRECATED: use respond_with_unauthorized instead"
             respond_with_unauthorized(detail)
+        end
+
+        def respond_with_pagination data
+            LC::Debug.simple_msg "DEPRECATED: use LC::Response.pagination in combination with respond_with_successful instead"
+            respond_with_successful(data)
         end
 
         # Deprecated method used to log user messages logs
