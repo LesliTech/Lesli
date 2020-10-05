@@ -38,11 +38,19 @@ module CloudObject
         #   puts CloudHouse::Dashboard::Component.first.parse_configuration
         #   # This will display something like {date: <Date Thrustday Augusto 1, 2020>}
         def parse_configuration
-            if configuration == nil
-                {}
-            else
-                configuration
+            parsed_configuration = {
+                pagination: {},
+                filtering: {},
+                arrangement: {}
+            }
+            
+            if configuration
+                parsed_configuration[:pagination] = (configuration["pagination"] || {})
+                parsed_configuration[:filtering] = (configuration["filtering"] || {})
+                parsed_configuration[:arrangement] = (configuration["arrangement"] || {})
             end
+
+            parsed_configuration
         end
 
         def has_all_privileges?(user, required_privileges)
