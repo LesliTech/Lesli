@@ -11,7 +11,10 @@
     "name": "index",
     "type": "integer"
 },{
-    "name": "configuration",
+    "name": "query_configuration",
+    "type": "json"
+},{
+    "name": "custom_configuration",
     "type": "json"
 },{
     "name": "deleted_at",
