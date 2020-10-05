@@ -21,9 +21,13 @@ For more information read the license file including with this software.
 
 namespace :app do
 
-    task after_deploy: :environment do
-        Rake::Task["cloud_babel:scan"].invoke if defined?(CloudBabel)
-        Rake::Task["app:roles:build"].invoke 
+    namespace :deploy do
+
+        task after: :environment do
+            Rake::Task["babel:scan"].invoke if defined?(CloudBabel)
+            Rake::Task["app:roles:build"].invoke 
+        end
+
     end
 
 end
