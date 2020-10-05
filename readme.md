@@ -8,21 +8,12 @@
 
 Version 0.1.0-alpha
 
-#### Core objects
--------
-```
-· Public resources
-https://lesli.cloud/login
-https://lesli.cloud/logout
-https://lesli.cloud/register
 
-· User management
-https://lesli.cloud/users
-https://lesli.cloud/roles
+#### Documentation
+* [Database](./docs/database.md)
+* [Environment setup](./docs/entironment-setup.md)
+* [Core resources](./docs/core-resources.md)
 
-· Settings
-https://lesli.cloud/workflows
-```
 
 
 #### License
