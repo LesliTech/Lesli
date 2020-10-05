@@ -10,13 +10,14 @@ Contents
 ```  
     00.01. accounts
     00.02. roles 
-    00.03. users 
+    00.03. users   # manage access fo users|integrations|federations
 
-    00.10. account/settings
-    00.11. account/locations
-    00.12. account/activities   # tracks system tasks and processes
-    00.13. account/integrations # manage access to external apps
-    00.14. account/federations  # manage access to external apps
+    00.10. account/details*
+    00.11. account/settings
+    00.12. account/locations
+    00.13. account/activities     # tracks system tasks and processes
+    00.14. account/integrations   # manage access to external apps
+    00.15. account/federations    # manage access to external servers
 
     00.20. role/details
     00.21. role/privileges
@@ -25,10 +26,10 @@ Contents
 
     00.30. user/details
     00.31. user/settings
-    00.32. user/sessions    # save user login information
-    00.33. user/requests    # tracks user activities on the system
-    00.34. user/activities  # tracks changes over current_user
-    00.35. user/logs        # custom log for user
+    00.32. user/sessions     # save user login information
+    00.33. user/requests     # tracks user activities on the system
+    00.34. user/activities   # tracks changes over current_user
+    00.35. user/logs         # custom log for user
 
     00.40. templates
     00.41. template/documents
