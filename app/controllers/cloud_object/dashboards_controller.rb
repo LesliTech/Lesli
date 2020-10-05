@@ -33,6 +33,7 @@ module CloudObject
         #     let dashboard_id = 1;
         #     this.http.get(`127.0.0.1/help/dashboards/${dashboard_id}`);
         def show
+            @base_route = request.env["PATH_INFO"]
             respond_to do |format|
                 format.html {}
                 format.json do
