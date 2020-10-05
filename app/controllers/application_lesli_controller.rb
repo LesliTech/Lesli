@@ -20,6 +20,10 @@ For more information read the license file including with this software.
 =end
 
 class ApplicationLesliController < ApplicationController
+    include Application::Responder
+    include Application::Requester
+    include Application::Logger
+
     protect_from_forgery with: :exception
 
     before_action :authorize_request
@@ -30,27 +34,9 @@ class ApplicationLesliController < ApplicationController
     
     layout "layouts/application-lesli"
 
-    def responseWithSuccessful(data = nil)
-        LC::Debug.simple_msg "DEPRECATED: use respond_with_successful instead"
-        respond_with_successful(data)
-    end
-
-    def responseWithError(message = "", details = [])
-        LC::Debug.simple_msg "DEPRECATED: use respond_with_error instead"
-        respond_with_error(message, details)
-    end
-
-    def responseWithNotFound
-        LC::Debug.simple_msg "DEPRECATED: use respond_with_not_found instead"
-        respond_with_not_found()
-    end
-
-    def responseWithUnauthorized(detail = {})
-        LC::Debug.simple_msg "DEPRECATED: use respond_with_unauthorized instead"
-        respond_with_unauthorized(detail)
-    end
 
     protected
+
 
     # @return [String] The name of this class, starting with 'Cloud'
     # @description Returns the Lesli engine and class name associated to this model. This method must be overwritten 
@@ -65,74 +51,6 @@ class ApplicationLesliController < ApplicationController
     end
 
 
-    # Check if user can be redirected to role default path
-    def can_redirect_to_default_path
-        return false if request[:format] == "json"
-        return false if !["show", "index"].include?(params[:action])
-        return false if current_user.role_detail[:default_path].blank?
-        return false if current_user.role_detail[:default_path] == request.original_fullpath
-        return true
-    end 
-
-
-    # Deprecated method used to log user messages logs
-    def log_activity description=nil
-        LC::Debug.msg "DEPRECATED: Use log_user_commens or current_user.logs.create instead"
-        LC::Debug.msg session[:session_id]
-        log_user_comments(description)
-    end
-
-
-    # Track all user activity
-    # this is disabled by default in the settings file
-    def log_user_comments description=nil
-
-        return if !Rails.application.config.lesli_settings["configuration"]["security"]["log_activity"]
-
-        current_user.logs.create({
-            session_uuid: session[:session_uuid],
-            description: description
-        })
-
-    end
-
-
-    # Track all user activity
-    # this is disabled by default in the settings file
-    def log_user_requests description=nil
-
-        return if !Rails.application.config.lesli_settings["configuration"]["security"]["log_activity"]
-
-        current_user.requests.create({
-            session_uuid: session[:session_uuid],
-            request_controller: controller_path,
-            request_method: request.method,
-            request_action: action_name, 
-            request_url: request.original_fullpath 
-            #params: request.filtered_parameters.except(:controller, :action)
-        })
-
-    end
-
-
-    # Track specific account activity
-    # this is disabled by default in the settings file
-    def log_account_activity system_module, system_process, description=nil, payload=nil
-
-        return if !Rails.application.config.lesli_settings["configuration"]["security"]["log_activity"]
-
-        account = Account.first
-
-        account.activities.create({
-            system_module: system_module,
-            system_process: system_process,
-            description: description,
-            payload: payload
-        })
-
-    end
-
-    
     private
 
 
@@ -160,14 +78,6 @@ class ApplicationLesliController < ApplicationController
             tag_line: current_user.account.company_tag_line
         }
 
-        # add custom settings
-        @account[:settings] = { }
-        current_user.account.settings.where.not(name: [
-            "password_minimum_length", "password_expiration_time_months"
-        ]).each do |setting|
-            @account[:settings][setting[:name]] = setting[:value].to_s
-        end
-
         # set user abilities
         abilities = {}
         current_user.role.privileges.each do |privilege|
@@ -188,28 +98,11 @@ class ApplicationLesliController < ApplicationController
     end
 
 
-    # Set default query params for:
-    #   pagination
-    #   sorting
-    #   filtering
-    def set_helpers_for_request
-        @query = {
-            filters: params[:filters] ? params[:filters] : {},
-            pagination: {
-                perPage: (params[:perPage] ? params[:perPage].to_i : 15),
-                page: (params[:page] ? params[:page].to_i : 1),
-                order: (params[:order] ? params[:order] : "desc"),
-                orderColumn: (params[:orderColumn] ? params[:orderColumn] : "id")
-            }
-        }
-    end
-
-
     # Check if current_user has privileges to complete this request
     # allowed core methods:
     #   [:index, :create, :update, :destroy, :new, :show, :edit, :options, :search, :resources]
     def authorize_privileges
-
+        
         action = params[:action]
         action = "resources" if request.path.include?("resources")
 
@@ -217,6 +110,15 @@ class ApplicationLesliController < ApplicationController
         .where("role_privileges.grant_object = ?", params[:controller])
         .where("role_privileges.grant_#{action} = TRUE")
         .first
+
+        # Check if user can be redirected to role default path
+        can_redirect_to_default_path = -> () { 
+            return false if request[:format] == "json"
+            return false if !["show", "index"].include?(params[:action])
+            return false if current_user.role_detail[:default_path].blank?
+            return false if current_user.role_detail[:default_path] == request.original_fullpath
+            return true
+        }
 
         # empty privileges if null privileges
         granted ||= {} 
@@ -240,7 +142,7 @@ class ApplicationLesliController < ApplicationController
     end
 
 
-    # Validate if user authentication and session status
+    # Validate user authentication and session status
     def authorize_request
 
         # check if user has an active session

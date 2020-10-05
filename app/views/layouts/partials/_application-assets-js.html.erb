@@ -1,7 +1,5 @@
 <%#
 
-Lesli
-
 Copyright (c) 2020, all rights reserved.
 
 All the information provided by this platform is protected by international laws related  to 
@@ -17,14 +15,13 @@ For more information read the license file including with this software.
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
 // · 
 
-
 %>
 
 <% translation_timestamp = File.mtime(Rails.root.join("public", "javascripts", "translations.js")).to_i %>
 <%= javascript_include_tag "i18n" %>
 <%= javascript_include_tag "translations?#{translation_timestamp}", skip_pipeline: true %>
 <%= javascript_include_tag application_javascript_path() %>
- 
+
 <script>
 
     // Set language for JavaScripts apps
