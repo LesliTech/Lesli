@@ -68,7 +68,6 @@ Building a better future, one line of code at a time.
             dynamic_info = self.class.dynamic_info
             module_name = dynamic_info[:module_name]
             object_name = dynamic_info[:object_name]
-            discussion_model = dynamic_info[:discussion_model]
             plural_object_name = object_name.pluralize
 
             cloud_object_dicussion = dynamic_info[:model].new(
@@ -86,7 +85,6 @@ Building a better future, one line of code at a time.
                     "cloud_#{module_name}.controllers.#{object_name}.discussions.notifications.created",
                     "#{object_name}_id".to_sym => cloud_object.id
                 )
-                #discussion_model.notify_discussions(cloud_object, message, :comment_created) unless discussion_model.blank?
             else
                 respond_with_error(cloud_object_dicussion.errors.full_messages.to_sentence)
             end
@@ -207,7 +205,6 @@ this.http.delete(`127.0.0.1/help/tickets/${ticket_id}/discussions/${discussion_i
     puts info[:module_name] # will print 'help'
     puts info[:object_name] # will print 'ticket'
     info[:model].new # will return an instance of CloudHelp::Ticket::Discussion
-    info[:discussion_model].new # will return an instance of CloudHelp::Ticket::Subscriber
 =end
         def self.dynamic_info
             module_info = lesli_classname().split("::")
@@ -215,8 +212,7 @@ this.http.delete(`127.0.0.1/help/tickets/${ticket_id}/discussions/${discussion_i
             {
                 module_name: module_info[0].sub("Cloud", "").downcase,
                 object_name: module_info[1].downcase,
-                model: "#{module_info[0]}::#{module_info[1]}::Discussion".constantize,
-                discussion_model: "#{module_info[0]}::#{module_info[1]}::Subscriber".constantize
+                model: "#{module_info[0]}::#{module_info[1]}::Discussion".constantize
             }
         end
     end
