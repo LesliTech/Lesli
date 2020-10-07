@@ -15,7 +15,11 @@ export default {
             this.http.post(this.endpoint,{
                 account_integration: this.integration
             }).then(result => {
-                
+                if (!result.successful) {
+                    this.alert(result.error.message, "danger")
+                    return 
+                }
+                this.alert("Integration created successfully")
             }).catch(error => {
                 console.log(error)
             })
