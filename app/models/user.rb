@@ -222,6 +222,79 @@ class User < ApplicationLesliRecord
         Courier::Bell::Notification::Web.new(self, subject, url:url, category:category)
     end
 
+=begin
+@return [Boolean]
+@description Return true/false if a user has the privileges to do an action based on a controllers list
+@examples 
+    #1 validate privileges on a controller with different actions on each one
+    controllers = { 
+            "cloud_house/projects": ["index"],
+            "users": ["index", "resources"]
+    }
+
+    current_user.has_privileges?(controllers)
+
+    #2 validate privileges on a controller with the same actions on each one
+    controllers = ["cloud_house/companies", "cloud_house/projects"]
+    actions = ["index"]
+
+    current_user.has_privileges?(controllers, actions)
+=end
+    def has_privileges?(controllers = nil, actions = nil) 
+        sql_select = ""
+        sql_condition = ""
+
+        if not actions.blank?
+            sql_select += "#{actions
+                        .map {|action| "bool_and(grant_#{action})"}
+                        .join(" and ")} as value"
+                        
+            #selecting only the necessary role privileges
+            sql_condition += controllers
+                        .map{|controller| "role_privileges.grant_object = '#{controller}'" }
+                        .join(" or ")
+
+            granted = Role::Privilege
+                    .select(sql_select)
+                    .where(sql_condition)
+                    .where("role_privileges.roles_id = ?", self.role.id)
+
+            return false if granted.blank?
+            
+            return granted.first["value"]
+        
+        end
+
+
+        #selecting only the necessary role privileges
+        sql_condition += controllers.keys #controllers name
+                    .map{|controller| "role_privileges.grant_object = '#{controller.to_s}'" }
+                    .join(" or ")  
+        
+        role_privileges = Role::Privilege
+                        .where(sql_condition)
+                        .where("role_privileges.roles_id = ?", self.role.id)
+
+        controllers.each do |controller_name,  actions|
+            controller_name = controller_name.to_s
+            granted_actions = role_privileges.find{|e| e['grant_object'] == controller_name}
+            
+            return false if granted_actions.blank?
+
+            granted_actions = granted_actions
+                            .attributes
+                            .reject { |key, value| value != true} #remove columns without true value
+                            .compact #remove nil values
+                            .map {|key ,value| key.gsub("grant_", "") }
+
+            #validate if the user has privileges over all the actions on each controller
+            if not (actions.all?{|action| granted_actions.include? action }) 
+                return false
+            end
+        end
+
+        return true            
+    end
 
     # check role of the user
     def is_role? *roles
