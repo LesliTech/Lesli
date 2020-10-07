@@ -236,6 +236,7 @@ this.http.put(`127.0.0.1/help/workflows/${workflow_id}`, data);
             dynamic_info = self.class.dynamic_info
             module_name = dynamic_info[:module_name]
             full_module_name = dynamic_info[:full_module_name]
+            status_model = dynamic_info[:status_model]
             cloud_object_model = "#{full_module_name}::#{params[:cloud_object_name].camelize}".constantize
 
             cloud_object = cloud_object_model.find_by(
@@ -245,7 +246,8 @@ this.http.put(`127.0.0.1/help/workflows/${workflow_id}`, data);
 
             return respond_with_not_found unless cloud_object
 
-            respond_with_successful(cloud_object.status.next_workflow_statuses(current_user))
+            status = status_model.with_deleted.find(cloud_object["cloud_#{module_name}_workflow_statuses_id"])
+            respond_with_successful(status.next_workflow_statuses(current_user))
         end
 
 private
@@ -340,7 +342,8 @@ private
             {
                 module_name: module_name,
                 full_module_name: module_info[0],
-                model: "#{module_info[0]}::Workflow".constantize
+                model: "#{module_info[0]}::Workflow".constantize,
+                status_model: "#{module_info[0]}::Workflow::Status".constantize
             }
         end
     end
