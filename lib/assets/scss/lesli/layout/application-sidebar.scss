@@ -75,7 +75,7 @@ aside.application-sidebar {
         li {
             a {
                 border-radius: 0px;
-                transition: all linear .1s;
+                transition: all linear .2s;
                 font-size: 1rem;
                 align-items: center;
                 text-align: center;
@@ -93,6 +93,10 @@ aside.application-sidebar {
                     i {
                         width: initial;
                     }
+                }
+
+                i, img, span.icon i {
+                    transition: all linear .2s;
                 }
             }
 
