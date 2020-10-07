@@ -22,12 +22,12 @@ class CreateAccountIntegrations < ActiveRecord::Migration[6.0]
         create_table :account_integrations do |t|
             t.string :name
             t.timestamps
-            t.bigint   :creator_id
+            t.bigint   :user_main_id
         end
         
         add_reference :account_integrations, :users,    foreign_key: true
         add_reference :account_integrations, :accounts, foreign_key: true
-        add_foreign_key :account_integrations, :users,  column: :creator_id
+        add_foreign_key :account_integrations, :users,  column: :user_main_id
 
     end
 end

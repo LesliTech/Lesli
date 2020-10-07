@@ -19,7 +19,7 @@ For more information read the license file including with this software.
 
 class Account::Integration < ApplicationRecord
     belongs_to :account, foreign_key: "accounts_id"
-    belongs_to :creator, foreign_key: "users_id", class_name: "User"
+    belongs_to :user_main, foreign_key: "user_main_id", class_name: "User"
     belongs_to :user, foreign_key: "users_id"
 
     def self.index current_user
