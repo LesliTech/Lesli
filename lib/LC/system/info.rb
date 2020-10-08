@@ -37,8 +37,8 @@ module LC
                     build = instance.safe_constantize::BUILD
                 end
         
-                return { version: version, build: build , instance: instance} if as_string == false
-                return "version: #{version}, build: #{build}, instance: #{instance}" if as_string == true
+                return { version: version, build: build } if as_string == false
+                return "version: #{version}, build: #{build}" if as_string == true
 
             end
 
