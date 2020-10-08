@@ -138,7 +138,7 @@ this.http.delete(`127.0.0.1/help/tickets/${ticket_id}/discussions/${discussion_i
             end
         end
 
-        private
+        protected
 
 =begin
 @return [Parameters] Allowed parameters for the discussion

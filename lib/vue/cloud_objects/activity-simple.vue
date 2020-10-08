@@ -78,6 +78,12 @@ export default {
                 })
             }
         }
+    },
+
+    watch: {
+        cloudId(){
+            this.getActivities()
+        }
     }
 }
 </script>
@@ -90,8 +96,11 @@ export default {
                     <i :class="['fa', 'fa-' + activity.icon]"></i>
                 </div>
                 <div class="timeline-content">
-                    <p class="heading">{{ activity.created_at }}</p>
-                    <p>{{ activity.description }}</p>
+                    <p class="heading">{{activity.user_name}} - {{ activity.created_at }}</p>
+                    <p>{{ activity.description || activity.category}}</p>
+                    <span v-if="activity.category == 'action_update'">
+                        {{activity.field_name}}: ({{activity.value_from || 'null'}}) - ({{activity.value_to}}) 
+                    </span>
                 </div>
             </div>
         </div>
