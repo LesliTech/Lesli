@@ -26,7 +26,7 @@ Building a better future, one line of code at a time.
 
 =end
 
-class RolesController < ApplicationController    
+class RolesController < ApplicationLesliController    
     before_action :set_role, only: [:update, :destroy]
 
     def index
