@@ -32,8 +32,6 @@ module LC
                 # name of the engine
                 instance = Rails.application.config.lesli_settings["instance"]
 
-                LC::Debug.msg instance
-
                 if defined?(instance.safe_constantize)
                     version = instance.safe_constantize::VERSION
                     build = instance.safe_constantize::BUILD
