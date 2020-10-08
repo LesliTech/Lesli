@@ -289,8 +289,21 @@ Contents
 
 ### 10.01. CloudBabel
 ```
-    01.01. babel/translations 
-    01.02. babel/translation/modules 
-    01.03. babel/translation/buckets
-    01.04. babel/translation/strings 
+    00.01. babel/account
+
+    10.01. babel/modules 
+    10.02. babel/module/details
+    10.03. babel/module/activities
+    10.04. babel/module/discussions
+
+    11.01. babel/buckets
+    11.02. babel/bucket/details
+    11.03. babel/bucket/activities
+    11.04. babel/bucket/discussions
+
+    12.01. babel/strings 
+    12.02. babel/string/details
+    12.03. babel/string/activities
+    12.04. babel/string/discussions
+    12.05. babel/string/translations
 ```
