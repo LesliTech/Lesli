@@ -17,30 +17,14 @@ For more information read the license file including with this software.
 
 =end
 
-module NavigationEngineHelper
+module HtmlHelper
 
-    def navigation_to(link_path)
-        class_name = current_page?(link_path) ? "is-active" : nil
+    def navigation_item(link_path)
+        class_name = request.original_fullpath.include?(link_path) ? "is-active" : nil
         content_tag(:li) do
             content_tag(:a, :href => link_path, :class => class_name) do
                 yield
             end
-        end
-    end
-
-    def engine_navigation text, icon_path, path
-        class_name = current_page?(cloud_babel.root_path) ? "is-active" : nil
-        content_tag(:li) do
-            content_tag(:a, :href => path, :class => class_name) do
-                image_tag(icon_path) +
-                content_tag(:span, text)
-            end
-        end
-    end
-
-    def engine_navigation_babel text: "Translations", icon_path: "/assets/cloud_babel/babel-logo.svg" 
-        if defined? CloudBabel
-            engine_navigation text, icon_path, cloud_babel.root_path
         end
     end
 
