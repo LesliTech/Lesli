@@ -16,6 +16,67 @@ module CloudObject
             })
         end
 
+        def self.list(current_user, query)
+            dynamic_info = self.dynamic_info
+            module_name = dynamic_info[:module_name]
+
+            dashboards = self.where(
+                "cloud_#{module_name}_accounts_id".to_sym => current_user.account.id
+            ).order(
+                query[:pagination][:orderColumn].to_sym => query[:pagination][:order].to_sym
+            )
+
+            # We filter by a text string written by the user
+            if query[:filters][:query] && !query[:filters][:query].empty?
+                query_words = query[:filters][:query].split(" ")
+                query_words.each do |query_word|
+                    query_word = query_word.strip.downcase
+                    dashboards = dashboards.where("LOWER(name) LIKE ?", "%#{query_word}%")
+                end
+            end
+            
+            dashboards = dashboards.map do |dashboard|
+                dashboard_attributes = dashboard.attributes
+
+                dashboard_attributes["created_at"] = LC::Date.to_string_datetime(dashboard.created_at)
+                dashboard_attributes
+            end
+
+            {
+                dashboards: dashboards
+            }
+        end
+
+        def self.options(current_user, query)
+            dynamic_info = self.dynamic_info
+            component_model = dynamic_info[:component_model]
+
+            roles = current_user.account.roles.joins(
+                :detail
+            ).select(
+                "roles.id", "role_details.name"
+            ).order(
+                "role_details.name asc"
+            ).map do |role|
+                {
+                    value: role.id,
+                    text: role.name
+                }
+            end
+
+            component_ids = component_model.component_ids.map do |key, value|
+                {
+                    value: key,
+                    text: value
+                }
+            end
+
+            {
+                roles: roles,
+                component_ids: component_ids
+            }
+        end
+
         private
         
 =begin
