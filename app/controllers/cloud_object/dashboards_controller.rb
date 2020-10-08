@@ -190,6 +190,13 @@ module CloudObject
             end
         end
 
+        def options
+            dynamic_info = self.class.dynamic_info
+            model = dynamic_info[:model]
+
+            respond_with_successful(model.options(current_user, @query))
+        end
+
 private
 
         # @return [void]
