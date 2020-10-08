@@ -1,5 +1,5 @@
 =begin
-
+    
 Copyright (c) 2020, all rights reserved.
 
 All the information provided by this platform is protected by international laws related  to 
@@ -17,33 +17,15 @@ For more information read the license file including with this software.
 
 =end
 
-module LC
+module HtmlHelper
 
-    module System
-
-        class Info
-        
-            def self.revision(as_string: false)
-
-                version = 0
-                build = 0
-        
-                # Every instance (builder module) is loaded into the platform using the same 
-                # name of the engine
-                instance = Rails.application.config.lesli_settings["instance"]
-
-                if defined?(instance.safe_constantize)
-                    version = instance.safe_constantize::VERSION
-                    build = instance.safe_constantize::BUILD
-                end
-        
-                return { version: version, build: build } if as_string == false
-                return "version: #{version}, build: #{build}" if as_string == true
-
+    def navigation_item(link_path)
+        class_name = request.original_fullpath.include?(link_path) ? "is-active" : nil
+        content_tag(:li) do
+            content_tag(:a, :href => link_path, :class => class_name) do
+                yield
             end
-
         end
-
     end
 
 end
