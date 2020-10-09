@@ -14,7 +14,6 @@
 
 info:
     name: "Lesli"
-    code: "lesli"
     github: 
         url: "https://github.com/leitfaden/Lesli" 
         ssh: "git@github.com:leitfaden/Lesli.git" 

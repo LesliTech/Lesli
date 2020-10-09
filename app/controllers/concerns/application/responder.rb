@@ -72,6 +72,8 @@ module Application
                 format.json { render status: 401, json: error_object.to_json }
                 format.html { redirect_to "/401" } if Rails.env == "production"
                 format.html { render status: 401, json: error_object.to_json }
+                format.xlsx { redirect_to "/401" } if Rails.env == "production"
+                format.xlsx { render status: 401, json: error_object.to_json }
             end
 
         end
