@@ -3,7 +3,10 @@
 
 
 # Ignore bundler config.
-/.bundle
+.bundle
+.byebug_history
+.DS_store
+Gemfile.lock
 
 
 # Ignore all logfiles and tempfiles.
@@ -14,13 +17,15 @@
 !/log/.keep
 !/tmp/.keep
 !/public/tmp/.gitkeep
-.byebug_history
-.DS_store
 
 
 # Ignore auto-generated documentation
 /doc
 /.yardoc
+
+
+# Ignore auto-generated DB schema
+/db/schema.rb
 
 
 # Ignore stored files in this folder
@@ -44,13 +49,10 @@
 /config/locales
 /config/master.key
 /config/credentials
+/config/credentials/development.key
+/config/credentials/production.key
+/config/credentials/test.key
 !/config/credentials/.keep
 
 
 *.pem
-
-/config/credentials/development.key
-
-/config/credentials/production.key
-
-/config/credentials/test.key

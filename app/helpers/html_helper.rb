@@ -14,20 +14,18 @@ For more information read the license file including with this software.
 
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
 // · 
-    
+
 =end
 
-class CreateAccountIntegrations < ActiveRecord::Migration[6.0]
-    def change
-        create_table :account_integrations do |t|
-            t.string :name
-            t.timestamps
-            t.bigint   :user_main_id
-        end
-        
-        add_reference :account_integrations, :users,    foreign_key: true
-        add_reference :account_integrations, :accounts, foreign_key: true
-        add_foreign_key :account_integrations, :users,  column: :user_main_id
+module HtmlHelper
 
+    def navigation_item(link_path)
+        class_name = request.original_fullpath.include?(link_path) ? "is-active" : nil
+        content_tag(:li) do
+            content_tag(:a, :href => link_path, :class => class_name) do
+                yield
+            end
+        end
     end
+
 end

@@ -85,7 +85,10 @@ module Lesli
             break
         end
 
-        instance
+        {
+            name: instance,
+            code: instance.underscore
+        }
         
     end
 
@@ -104,12 +107,12 @@ module Lesli
         instance_engine = instance
 
         # specific settings for dedicated on-premises instance (not core)
-        if instance_engine != "Lesli" 
+        if instance_engine[:name] != "Lesli" 
     
             # get the settings from instance 
             # this file should be an exact copy of the one in the core
             # all the settings will be overrided by the settings in the builder engine 
-            instance_settings = YAML.load_file(File.join("./engines", instance_engine, "lesli.yml"))
+            instance_settings = YAML.load_file(File.join("./engines", instance_engine[:name], "lesli.yml"))
 
             instance_development_user = instance_settings["configuration"]["security"]["login"]
 
