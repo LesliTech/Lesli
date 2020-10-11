@@ -30,7 +30,7 @@ ActiveRecord::Schema.define(version: 2020_09_27_031859) do
     t.string "name"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.bigint "creator_id"
+    t.bigint "user_main_id"
     t.bigint "users_id"
     t.bigint "accounts_id"
     t.index ["accounts_id"], name: "index_account_integrations_on_accounts_id"
@@ -92,23 +92,111 @@ ActiveRecord::Schema.define(version: 2020_09_27_031859) do
     t.index ["users_id"], name: "index_accounts_on_users_id"
   end
 
-  create_table "cloud_babel_translation_buckets", force: :cascade do |t|
+  create_table "cloud_babel_bucket_activities", force: :cascade do |t|
+    t.string "description"
+    t.string "field_name"
+    t.string "value_from"
+    t.string "value_to"
+    t.string "category"
+    t.bigint "users_id"
+    t.datetime "deleted_at"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.bigint "cloud_babel_buckets_id"
+    t.index ["cloud_babel_buckets_id"], name: "index_cloud_babel_bucket_activities_on_cloud_babel_buckets_id"
+  end
+
+  create_table "cloud_babel_bucket_discussions", force: :cascade do |t|
+    t.text "content"
+    t.datetime "deleted_at"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.bigint "users_id"
+    t.bigint "cloud_babel_bucket_discussions_id"
+    t.bigint "cloud_babel_buckets_id"
+    t.index ["cloud_babel_bucket_discussions_id"], name: "babel_bucket_discussions_discussions"
+    t.index ["cloud_babel_buckets_id"], name: "babel_module_discussions_buckets"
+    t.index ["users_id"], name: "index_cloud_babel_bucket_discussions_on_users_id"
+  end
+
+  create_table "cloud_babel_buckets", force: :cascade do |t|
     t.string "name"
     t.string "reference_module"
+    t.datetime "deleted_at"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.bigint "cloud_babel_translation_modules_id"
-    t.index ["cloud_babel_translation_modules_id"], name: "babel_translation_objects_modules"
+    t.bigint "cloud_babel_modules_id"
+    t.index ["cloud_babel_modules_id"], name: "index_cloud_babel_buckets_on_cloud_babel_modules_id"
   end
 
-  create_table "cloud_babel_translation_modules", force: :cascade do |t|
+  create_table "cloud_babel_module_activities", force: :cascade do |t|
+    t.string "description"
+    t.string "field_name"
+    t.string "value_from"
+    t.string "value_to"
+    t.string "category"
+    t.bigint "users_id"
+    t.datetime "deleted_at"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.bigint "cloud_babel_modules_id"
+    t.index ["cloud_babel_modules_id"], name: "index_cloud_babel_module_activities_on_cloud_babel_modules_id"
+  end
+
+  create_table "cloud_babel_module_discussions", force: :cascade do |t|
+    t.text "content"
+    t.datetime "deleted_at"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.bigint "users_id"
+    t.bigint "cloud_babel_module_discussions_id"
+    t.bigint "cloud_babel_modules_id"
+    t.index ["cloud_babel_module_discussions_id"], name: "babel_module_discussions_discussions"
+    t.index ["cloud_babel_modules_id"], name: "babel_module_discussions_modules"
+    t.index ["users_id"], name: "index_cloud_babel_module_discussions_on_users_id"
+  end
+
+  create_table "cloud_babel_modules", force: :cascade do |t|
     t.string "name"
-    t.string "module_type"
+    t.string "platform"
+    t.string "instance"
+    t.datetime "deleted_at"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end
 
-  create_table "cloud_babel_translation_strings", force: :cascade do |t|
+  create_table "cloud_babel_string_activities", force: :cascade do |t|
+    t.string "description"
+    t.string "field_name"
+    t.string "value_from"
+    t.string "value_to"
+    t.string "category"
+    t.bigint "users_id"
+    t.datetime "deleted_at"
+    t.text "reference_module_bucket_string"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.bigint "cloud_babel_strings_id"
+    t.index ["cloud_babel_strings_id"], name: "babel_string_activities_strings"
+    t.index ["reference_module_bucket_string"], name: "babel_string_activities_module_bucket_string"
+  end
+
+  create_table "cloud_babel_string_discussions", force: :cascade do |t|
+    t.text "content"
+    t.datetime "deleted_at"
+    t.text "reference_module_bucket_string"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.bigint "users_id"
+    t.bigint "cloud_babel_string_discussions_id"
+    t.bigint "cloud_babel_strings_id"
+    t.index ["cloud_babel_string_discussions_id"], name: "babel_string_discussions_discussions"
+    t.index ["cloud_babel_strings_id"], name: "babel_module_discussions_strings"
+    t.index ["reference_module_bucket_string"], name: "babel_string_discussions_module_bucket_string"
+    t.index ["users_id"], name: "index_cloud_babel_string_discussions_on_users_id"
+  end
+
+  create_table "cloud_babel_strings", force: :cascade do |t|
     t.string "label"
     t.string "es"
     t.string "en"
@@ -121,12 +209,6 @@ ActiveRecord::Schema.define(version: 2020_09_27_031859) do
     t.string "tr"
     t.string "ro"
     t.string "bg"
-    t.string "status"
-    t.string "context"
-    t.string "priority"
-    t.boolean "need_help"
-    t.boolean "need_translation"
-    t.string "reference_bucket"
     t.datetime "last_update_es"
     t.datetime "last_update_en"
     t.datetime "last_update_de"
@@ -138,21 +220,24 @@ ActiveRecord::Schema.define(version: 2020_09_27_031859) do
     t.datetime "last_update_tr"
     t.datetime "last_update_ro"
     t.datetime "last_update_bg"
+    t.string "status"
+    t.string "context"
+    t.string "priority"
+    t.boolean "need_help"
+    t.boolean "need_translation"
     t.datetime "last_update_status"
     t.datetime "last_update_context"
     t.datetime "last_update_priority"
+    t.datetime "last_update_need_help"
+    t.datetime "last_update_need_translation"
+    t.string "reference_module_bucket"
     t.datetime "deleted_at"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.bigint "users_id"
-    t.bigint "cloud_babel_translation_buckets_id"
-    t.index ["cloud_babel_translation_buckets_id"], name: "babel_translation_strings_buckets"
-    t.index ["users_id"], name: "babel_translation_strings_users"
-  end
-
-  create_table "cloud_babel_translations", force: :cascade do |t|
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.bigint "cloud_babel_buckets_id"
+    t.index ["cloud_babel_buckets_id"], name: "index_cloud_babel_strings_on_cloud_babel_buckets_id"
+    t.index ["users_id"], name: "index_cloud_babel_strings_on_users_id"
   end
 
   create_table "cloud_bell_accounts", force: :cascade do |t|
@@ -950,15 +1035,27 @@ ActiveRecord::Schema.define(version: 2020_09_27_031859) do
 
   add_foreign_key "account_activities", "accounts", column: "accounts_id"
   add_foreign_key "account_integrations", "accounts", column: "accounts_id"
-  add_foreign_key "account_integrations", "users", column: "creator_id"
+  add_foreign_key "account_integrations", "users", column: "user_main_id"
   add_foreign_key "account_integrations", "users", column: "users_id"
   add_foreign_key "account_locations", "account_locations", column: "parent_id"
   add_foreign_key "account_locations", "accounts", column: "accounts_id"
   add_foreign_key "account_settings", "accounts", column: "accounts_id"
   add_foreign_key "accounts", "users", column: "users_id"
-  add_foreign_key "cloud_babel_translation_buckets", "cloud_babel_translation_modules", column: "cloud_babel_translation_modules_id"
-  add_foreign_key "cloud_babel_translation_strings", "cloud_babel_translation_buckets", column: "cloud_babel_translation_buckets_id"
-  add_foreign_key "cloud_babel_translation_strings", "users", column: "users_id"
+  add_foreign_key "cloud_babel_bucket_activities", "cloud_babel_buckets", column: "cloud_babel_buckets_id"
+  add_foreign_key "cloud_babel_bucket_discussions", "cloud_babel_bucket_discussions", column: "cloud_babel_bucket_discussions_id"
+  add_foreign_key "cloud_babel_bucket_discussions", "cloud_babel_buckets", column: "cloud_babel_buckets_id"
+  add_foreign_key "cloud_babel_bucket_discussions", "users", column: "users_id"
+  add_foreign_key "cloud_babel_buckets", "cloud_babel_modules", column: "cloud_babel_modules_id"
+  add_foreign_key "cloud_babel_module_activities", "cloud_babel_modules", column: "cloud_babel_modules_id"
+  add_foreign_key "cloud_babel_module_discussions", "cloud_babel_module_discussions", column: "cloud_babel_module_discussions_id"
+  add_foreign_key "cloud_babel_module_discussions", "cloud_babel_modules", column: "cloud_babel_modules_id"
+  add_foreign_key "cloud_babel_module_discussions", "users", column: "users_id"
+  add_foreign_key "cloud_babel_string_activities", "cloud_babel_strings", column: "cloud_babel_strings_id"
+  add_foreign_key "cloud_babel_string_discussions", "cloud_babel_string_discussions", column: "cloud_babel_string_discussions_id"
+  add_foreign_key "cloud_babel_string_discussions", "cloud_babel_strings", column: "cloud_babel_strings_id"
+  add_foreign_key "cloud_babel_string_discussions", "users", column: "users_id"
+  add_foreign_key "cloud_babel_strings", "cloud_babel_buckets", column: "cloud_babel_buckets_id"
+  add_foreign_key "cloud_babel_strings", "users", column: "users_id"
   add_foreign_key "cloud_bell_accounts", "accounts", column: "id"
   add_foreign_key "cloud_bell_notifications", "cloud_bell_accounts", column: "cloud_bell_accounts_id"
   add_foreign_key "cloud_bell_notifications", "users", column: "users_id"
