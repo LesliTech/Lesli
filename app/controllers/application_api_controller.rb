@@ -19,8 +19,10 @@ For more information read the license file including with this software.
 
 class ApplicationApiController < ActionController::API
     include Application::Responder
+    include Application::Requester
     include Application::Logger
 
+    before_action :set_locale
     before_action :authorize_request
     before_action :authorize_privileges
     before_action :set_request_helpers
@@ -31,7 +33,7 @@ class ApplicationApiController < ActionController::API
 
 
     private
-
+ 
 
     # Check if current_user has privileges to complete this request
     # allowed core methods:
