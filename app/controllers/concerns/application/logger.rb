@@ -47,6 +47,7 @@ module Application
         def log_user_requests description=nil
 
             return if !Rails.application.config.lesli_settings["configuration"]["security"]["log_activity"]
+            return if not current_user
 
             current_user.requests.create({
                 request_agent: get_user_agent,

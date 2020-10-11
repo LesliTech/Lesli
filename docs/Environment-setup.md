@@ -68,12 +68,15 @@ providers:
         access_key_id: ""
         secret_access_key: ""
         s3: (optional)
+            region: eu-central-1
+            bucket: ""
             access_key_id: ""
             secret_access_key: ""
         ses: (optional sdk or stmp)
             access_key_id: ""
             secret_access_key: ""
         sns: (optional)
+            region: eu-central-1
             access_key_id: ""
             secret_access_key: ""
     google:
