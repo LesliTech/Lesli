@@ -29,10 +29,10 @@ For more information read the license file including with this software.
     <%= current_user.full_name %>
     </template>
 
-    <%# show language selector for development only %>
-    <% if not Rails.env.production? %>
+    <%# show language selector %>
+    <% if I18n.available_locales.length > 1 %>
     <template v-slot:languages>
-        <div class="dropdown is-hoverable">
+        <div class="dropdown is-hoverable header-language-selector">
             <div class="dropdown-trigger">
                 <button class="button" aria-haspopup="true" aria-controls="dropdown-menu">
                     <span class="icon has-text-grey-light">

@@ -2,7 +2,7 @@
   "_args": [
     [
       "@fullcalendar/core@4.4.2",
-      "/Users/diegoalay/Desktop/lomax/project/lesli.cloud"
+      "/Users/ldonis/code/Lesli/mitwerken.de"
     ]
   ],
   "_development": true,
@@ -29,7 +29,7 @@
   ],
   "_resolved": "https://registry.npmjs.org/@fullcalendar/core/-/core-4.4.2.tgz",
   "_spec": "4.4.2",
-  "_where": "/Users/diegoalay/Desktop/lomax/project/lesli.cloud",
+  "_where": "/Users/ldonis/code/Lesli/mitwerken.de",
   "author": {
     "name": "Adam Shaw",
     "email": "arshaw@arshaw.com",

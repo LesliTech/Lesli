@@ -302,8 +302,7 @@ Contents
     11.04. babel/bucket/discussions
 
     12.01. babel/strings 
-    12.02. babel/string/details
+    12.01. babel/string_overrides
     12.03. babel/string/activities
     12.04. babel/string/discussions
-    12.05. babel/string/translations
 ```

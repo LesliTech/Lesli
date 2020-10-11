@@ -27,6 +27,7 @@ class ApplicationLesliController < ApplicationController
 
     protect_from_forgery with: :exception
 
+    before_action :set_locale
     before_action :authorize_request
     before_action :authorize_privileges
     before_action :set_helpers_for_request
