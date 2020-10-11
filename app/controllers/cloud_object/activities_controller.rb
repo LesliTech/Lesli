@@ -46,9 +46,16 @@ module CloudObject
             cloud_object_activities = dynamic_info[:model].where(
                 "cloud_#{module_name}_#{plural_object_name}_id".to_sym => cloud_object_id
             ).order(id: :desc).map do |activity|
+                # We translate the category, first, we search in the core
+                category = I18n.t("core.shared.activities_enum_category_#{activity[:category]}", default: nil)
+                # Then we search in the engine
+                category = I18n.t("#{module_name}.shared.activities_enum_category_#{activity[:category]}", default: nil) unless category
+                #Then we default to the real field
+                category = activity[:category] unless category
+
                 activities_data = {
                     id: activity[:id],
-                    category: activity[:category],
+                    category: category,
                     description: activity[:description],
                     field_name: activity[:field_name],
                     value_from: activity[:value_from],
@@ -198,7 +205,6 @@ module CloudObject
         #     puts info[:module_name] # will print 'help'
         #     puts info[:object_name] # will print 'ticket'
         #     info[:model].new # will return an instance of CloudHelp::Ticket::Action
-        #     info[:subscriber_model].new # will return an instance of CloudHelp::Ticket::Subscriber
         def self.dynamic_info
             module_info = lesli_classname().split("::")
             module_name = module_info[0].sub("Cloud", "").downcase
@@ -206,8 +212,7 @@ module CloudObject
             {
                 module_name: module_name,
                 object_name: module_info[1].downcase,
-                model: "#{module_info[0]}::#{module_info[1]}::Activity".constantize,
-                subscriber_model: "#{module_info[0]}::#{module_info[1]}::Subscriber".constantize
+                model: "#{module_info[0]}::#{module_info[1]}::Activity".constantize
             }
         end
     end
