@@ -28,4 +28,17 @@ module HtmlHelper
         end
     end
 
+    def navigation_engine_item text, icon_path, path, is_active = false
+        content_tag(:a, :href => path, :class => is_active ? "is-active": nil) do
+            image_tag(icon_path) +
+            content_tag(:span, text)
+        end
+    end
+
+    def navigation_engine_babel text: "Babel", icon_path: "/assets/cloud_babel/babel-logo.svg"
+        if defined? CloudBabel
+            navigation_engine_item text, icon_path, cloud_babel.root_path, controller_path.include?("cloud_babel")
+        end
+    end
+
 end
