@@ -112,7 +112,7 @@ module CloudObject
 
             dashboard = model.new(dashboard_params)
             dashboard["cloud_#{module_name}_accounts_id".to_sym] = current_user.account.id
-            dashboard.deletion_protection = false
+            dashboard.user_creator = current_user
 
             if dashboard.save
                 respond_with_successful(dashboard)
@@ -228,7 +228,6 @@ private
                 # Main dashboard for role
                 @dashboard = model.find_by(
                     "cloud_#{module_name}_accounts_id".to_sym => current_user.account.id,
-                    main: true,
                     roles_id: current_user.role.id
                 )
                 return if @dashboard
@@ -250,12 +249,16 @@ private
             params.require(:dashboard).permit(
                 :name,
                 :default,
+                :roles_id,
                 components_attributes: [
+                    :id,
                     :name,
                     :component_id,
                     :layout,
                     :index,
-                    :configuration
+                    {query_configuration: {}},
+                    {custom_configuration: {}},
+                    :_destroy
                 ]
             )
         end
