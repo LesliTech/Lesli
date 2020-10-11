@@ -36,7 +36,7 @@ class Role < ApplicationRecord
     has_one :detail, inverse_of: :role, autosave: true, foreign_key: "roles_id", dependent: :destroy 
     accepts_nested_attributes_for :detail, update_only: true
 
-    after_create :initialize_role
+    #after_create :initialize_role
 
     def destroy(*args)
         super

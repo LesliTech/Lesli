@@ -26,29 +26,64 @@ Building a better future, one line of code at a time.
 
 // · 
 @import "lesli-css/";
+@import "../settings/helpers.scss";
 
 
 // · Navigation sidebar
-.application-navigation {
-    //margin-top: 8px;
-    //background: linear-gradient(0deg,#3b6cff,#4482e0);
-    //background: #3e89f6;
-    //box-shadow: 0px 0px 10px 0px rgba(lesli-css-get-color(silver), .60);
-    //border-radius: .2rem;
-    padding: .8rem;
+aside.application-sidebar {
+    @include box-shadow;
+    background-color: lesli-css-get-color(solid, white);
 
+    a.brand {
+        padding: .4rem;
+    }
+
+    nav {
+        margin-top: 11px;
+        
+        li a {
+            color: lesli-css-get-color(slate, 300);
+            transition: all linear .2s;
+
+            &:not(.is-active):hover {
+                color: lesli-css-get-color(blue);
+                background-color: lesli-css-get-color(solid, white);
+                i {
+                    color: lesli-css-get-color(slate, 300);
+                }
+            }
+
+            &.is-active {
+                background-color: rgba(#cbd9e6, .3);
+                border-right: 2px solid lesli-css-theme-get-color(primary);
+                color: lesli-css-get-color(slate, 900);
+                i {
+                    color: lesli-css-theme-get-color(primary);
+                }
+            }
+
+            i {
+                width: 3rem;
+                color: lesli-css-get-color(slate, 100);
+                transition: all linear .2s;
+            }
+
+        }
+    }
+
+/*
     li a {
 
         &.is-active {
             font-weight: 600;
             background-color: transparent;
             border-radius: .2rem;
-            background-color: lesli-css-theme-get-color(app, primary);
-            box-shadow: 0px 0px 10px 0px lesli-css-theme-get-color(app, primary);
+            background-color: lesli-css-theme-get-color(primary);
+            box-shadow: 0px 0px 10px 0px lesli-css-theme-get-color(primary);
         }
 
         &:hover {
-            color: lesli-css-theme-get-color(app, primary);
+            color: lesli-css-theme-get-color(primary);
             background-color: transparent;
         }
 
@@ -66,5 +101,5 @@ Building a better future, one line of code at a time.
         }
 
     }
-
+//*/
 }

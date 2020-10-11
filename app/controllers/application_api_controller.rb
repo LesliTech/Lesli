@@ -18,9 +18,13 @@ For more information read the license file including with this software.
 =end
 
 class ApplicationApiController < ActionController::API
+    include ActionController::MimeResponds
+
     include Application::Responder
+    include Application::Requester
     include Application::Logger
 
+    before_action :set_locale
     before_action :authorize_request
     before_action :authorize_privileges
     before_action :set_request_helpers
@@ -31,7 +35,7 @@ class ApplicationApiController < ActionController::API
 
 
     private
-
+ 
 
     # Check if current_user has privileges to complete this request
     # allowed core methods:
@@ -61,7 +65,7 @@ class ApplicationApiController < ActionController::API
             # Query opaque token takes precedence over the authorization header
             if not params[:access_token].blank?
                 token = params[:access_token]
-            end            
+            end
 
             # return without session if token was not provided
             return if not token
