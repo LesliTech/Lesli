@@ -41,6 +41,28 @@ module Application
             }
         end
 
+
+        def set_locale
+
+            # get saved language in session or the default in config
+            # the session param is setted in settings controller through "get :language, to: "settings#language""
+            locale = session[:locale] || I18n.default_locale
+    
+            # language defined by the request
+            if not request.headers["Accept-Language"].blank?
+                locale = request.headers["Accept-Language"]
+            end
+
+            # Here should I check?
+                # browser language?
+                # session languge?
+                # database language?
+    
+            # set the new locale
+            I18n.locale = locale
+    
+        end
+
     end
 
 end

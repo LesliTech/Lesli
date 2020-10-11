@@ -185,15 +185,19 @@ class Account < ApplicationRecord
 
         # Every instance (builder module) is loaded into the platform using the same 
         # name of the engine
-        instance = Rails.application.config.lesli_settings["instance"]
+        instance = Rails.application.config.lesli_settings["instance"][:name]
+
 
         # Build an account class base on instance (engine) name
         # Example: LesliCloud::Account - this is a standard name
         instance_account_klass = "#{instance}::Account".safe_constantize
 
+
         # If instance account class exists
         if instance_account_klass
+
             instance_account_klass.find_or_create_by(:id => self.id)
+
         end
         
     end

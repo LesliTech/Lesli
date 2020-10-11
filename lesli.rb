@@ -1,7 +1,5 @@
 =begin
 
-Lesli
-
 Copyright (c) 2020, all rights reserved.
 
 All the information provided by this platform is protected by international laws related  to 
@@ -77,19 +75,21 @@ module Lesli
 
     end
 
-    def Lesli.instance  
+    def Lesli.instance
 
-        instance = "Lesli"
+        name = "Lesli"
+        code = "lesli"
 
         engines.each do |engine|
             next if engine["type"] != "builder"
-            instance = engine["name"]
+            name = engine["name"]
+            code = engine["code"]
             break
         end
 
         {
-            name: instance,
-            code: instance.underscore
+            "name": name,
+            "code": code
         }
         
     end

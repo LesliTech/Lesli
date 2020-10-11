@@ -9,7 +9,7 @@ root = true
 end_of_line = lf
 insert_final_newline = true
 
-[*.{rake,rb,ts,vue,js,json,yml,scss,styl,css,html,haml,erb,md}]
+[*.{rake,rb,ts,vue,js,json,yml,scss,styl,css,html,haml,erb,md,thor}]
 indent_style = space
 indent_size = 4
 charset = utf-8
