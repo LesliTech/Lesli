@@ -2,6 +2,8 @@ module CloudObject
     class Dashboard < ApplicationLesliRecord
         self.abstract_class = true
 
+        belongs_to :user_creator, class_name: "User", foreign_key: "users_id"
+
 =begin
 @return [Hash] Hash of containing the information of the dashboard and its statuses. 
 @description Returns a hash with information about the dashboard and all its *statuses* 
@@ -73,7 +75,8 @@ module CloudObject
 
             {
                 roles: roles,
-                component_ids: component_ids
+                component_ids: component_ids,
+                components_configuration_options: component_model.configuration_options
             }
         end
 
