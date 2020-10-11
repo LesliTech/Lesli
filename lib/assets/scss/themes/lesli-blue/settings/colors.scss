@@ -26,7 +26,7 @@ Building a better future, one line of code at a time.
 
 
 // · 
-@function lesli-css-theme-get-color($variant,$pallete:"app") {
+@function lesli-css-theme-get-color($variant, $pallete: "app") {
 
     $lesli-cloud-colors: (
         app: (
