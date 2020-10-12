@@ -44,6 +44,7 @@ Rails.application.routes.draw do
 
         mount ActionCable.server  => "/cable"
         mount CloudBell::Engine   => "/bell"   if defined?(CloudBell)
+        mount CloudHelp::Engine   => "/help"   if defined?(CloudHelp)
         mount CloudAudit::Engine  => "/audit"  if defined?(CloudAudit)
         mount CloudLesli::Engine  => "/lesli"  if defined?(CloudLesli)
         mount CloudBabel::Engine  => "/babel"  if defined?(CloudBabel)
