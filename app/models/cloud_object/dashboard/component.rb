@@ -59,22 +59,6 @@ module CloudObject
 
             parsed_configuration
         end
-
-        def has_all_privileges?(user, required_privileges)
-            role = user.role
-
-            required_privileges.each do |grant_object, actions|
-                privilege = role.privileges.find_by(grant_object: grant_object)
-
-                actions.each do |action|
-                    unless privilege["grant_#{action}".to_sym]
-                        return false
-                    end
-                end
-            end
-
-            return true
-        end
     end
 end
         
