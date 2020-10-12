@@ -2,10 +2,17 @@ module CloudObject
     class Dashboard < ApplicationLesliRecord
         self.abstract_class = true
 
-        belongs_to :user_creator, class_name: "User", foreign_key: "users_id"
+        belongs_to :user_creator, class_name: "User", foreign_key: "users_id", optional: true
 
         after_update :verify_default_dashboard
         after_create :verify_default_dashboard
+
+        def self.initialize_data(account)
+            self.create!(
+                account: account,
+                name: "Default Dashboard"
+            )
+        end
 
 =begin
 @return [Hash] Hash of containing the information of the dashboard and its statuses. 
