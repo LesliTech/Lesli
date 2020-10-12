@@ -33,7 +33,6 @@ module CloudObject
         #     let dashboard_id = 1;
         #     this.http.get(`127.0.0.1/help/dashboards/${dashboard_id}`);
         def show
-            @base_route = request.env["PATH_INFO"]
             respond_to do |format|
                 format.html {}
                 format.json do
@@ -165,7 +164,7 @@ module CloudObject
             return respond_with_not_found unless @dashboard
 
             if @dashboard.update(dashboard_params)
-                respond_with_successful(@dashboard)
+                respond_with_successful(@dashboard.show)
             else
                 respond_with_error(@dashboard.errors.full_messages.to_sentence)
             end

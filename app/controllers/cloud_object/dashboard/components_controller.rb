@@ -39,6 +39,7 @@ private
 
         def set_dashboard_component
             set_dashboard
+            return unless @dashboard
 
             @dashboard_component = @dashboard.components.find_by(id: params[:id])
         end
