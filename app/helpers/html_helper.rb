@@ -41,4 +41,10 @@ module HtmlHelper
         end
     end
 
+    def navigation_engine_help text: "Help", icon_path: "/assets/cloud_help/help-logo.svg"
+        if defined? CloudHelp
+            navigation_engine_item text, icon_path, cloud_help.root_path, controller_path.include?("cloud_help")
+        end
+    end
+
 end
