@@ -4,6 +4,9 @@ module CloudObject
 
         belongs_to :user_creator, class_name: "User", foreign_key: "users_id"
 
+        after_update :verify_default_dashboard
+        after_create :verify_default_dashboard
+
 =begin
 @return [Hash] Hash of containing the information of the dashboard and its statuses. 
 @description Returns a hash with information about the dashboard and all its *statuses* 
@@ -80,7 +83,24 @@ module CloudObject
             }
         end
 
+        def destroy
+            if default
+                errors.add(:base, :cannot_delete_default_dashboard)
+                return false
+            end
+
+            super
+        end
+
         private
+
+        def verify_default_dashboard
+            if default
+                dashboards = self.class.where.not(id: id).where(account: account)
+                puts dashboards.to_json
+                self.class.where.not(id: id).where(account: account).update_all(default: false)
+            end
+        end
         
 =begin
 @return [Hash] Hash that contains information about the class
