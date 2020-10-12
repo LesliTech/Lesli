@@ -28,6 +28,8 @@ module LC
             def self.scan
 
                 controller_list=[]
+
+                instance = Rails.configuration.lesli_settings["instance"][:name]
                 
                 Rails.application.routes.routes.map do |route|
                     route.defaults[:controller]
@@ -36,17 +38,30 @@ module LC
                     next if controller.include? "rails"
                     next if controller.include? "action_mailbox"
                     next if controller.include? "active_storage"    
+
+                    # if controller start with the instance code, route belongs to builder engine
+                    if controller.start_with?(instance.underscore)
+                        controller_list.push({ 
+                            module: instance, 
+                            platform: "rails_builder",
+                            controller: controller.sub(instance.underscore + '/', ''),
+                            controller_path: controller
+                        })
+                        next
+                    end
+
+                    # Core routes
                     controller_list.push({ 
                         module: "Core", 
-                        module_type: "rails_core", 
+                        platform: "rails_core", 
                         controller: controller,
                         controller_path: controller
                     }) 
                 end
 
                 Rails.configuration.lesli_settings["engines"].each do |engine|
-                    module_type = "rails_engine"
-                    module_type = "rails_builder" if engine["type"] == "builder"
+                    platform = "rails_engine"
+                    platform = "rails_builder" if engine["type"] == "builder"
                     routes = "#{engine["name"]}::Engine".constantize.routes.routes
                     routes.map do |route|
                         route.defaults[:controller]
@@ -54,7 +69,7 @@ module LC
                         next if controller.blank?
                         controller_list.push({ 
                             module: engine["name"], 
-                            module_type: module_type,
+                            platform: platform,
                             controller: controller.sub(engine["code"] + '/', ''),
                             controller_path: controller
                         })
