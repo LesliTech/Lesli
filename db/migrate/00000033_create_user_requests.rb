@@ -26,6 +26,8 @@ class CreateUserRequests < ActiveRecord::Migration[6.0]
             t.string :request_action
             t.string :request_url
             t.json   :params
+
+            t.datetime :deleted_at, index: true
             t.timestamps
         end
         add_reference :user_requests, :users, foreign_key: true
