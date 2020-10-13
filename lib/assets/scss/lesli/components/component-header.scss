@@ -41,4 +41,16 @@ Building a better future, one line of code at a time.
         color: get-css-color(black, 300);
     }
 
+    .select {
+        select {
+            background-color: transparent;
+            border-top: none;
+            border-right: none;
+            border-left: none;
+            border-radius: 0;
+        }
+        &::after {
+            border-color: lesli-css-get-color(silver) !important;
+        }
+    }
 }
