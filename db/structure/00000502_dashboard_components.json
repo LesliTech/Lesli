@@ -1,0 +1,23 @@
+[{
+    "name": "name",
+    "type": "string"
+},{
+    "name": "component_id",
+    "type": "string"
+},{
+    "name": "layout",
+    "type": "integer"
+},{
+    "name": "index",
+    "type": "integer"
+},{
+    "name": "query_configuration",
+    "type": "json"
+},{
+    "name": "custom_configuration",
+    "type": "json"
+},{
+    "name": "deleted_at",
+    "type": "datetime",
+    "index": true
+}]

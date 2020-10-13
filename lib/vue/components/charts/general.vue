@@ -135,15 +135,22 @@ export default {
     },
     methods: {
         initChart() {
-            
-            //this.chart_options.labels = this.dataLabels
-            //this.chart_options.series = this.dataSources
-
             this.chart_options.labels = []
             this.chart_options.series = []
 
             this.chart = new ApexCharts(document.querySelector("#chart-"+this._uid), this.chart_options)
             this.chart.render()
+
+            // If the information is available from the start, we update the labels and sources
+            if(this.dataLabels){
+                this.chart.updateOptions({
+                    labels: this.dataLabels
+                })
+            }
+
+            if(this.dataSources){
+            this.chart.updateSeries(this.dataSources)
+            }
 
         }
     },
