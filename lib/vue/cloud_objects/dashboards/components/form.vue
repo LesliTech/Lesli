@@ -26,6 +26,7 @@ export default {
             options_route: `/${this.engineNamespace}/dashboards/options`,
             translations: {
                 main: I18n.t(`${this.cloudEngine.toLowerCase()}.dashboards`),
+                components: I18n.t(`${this.cloudEngine.toLowerCase()}.dashboard/components`),
                 shared: I18n.t(`${this.cloudEngine.toLowerCase()}.shared`),
                 roles: I18n.t(`${this.cloudEngine.toLowerCase()}.users`)
             },
@@ -359,7 +360,7 @@ export default {
                                     <div class="columns is-multiline">
                                         <div class="column is-12">
                                             <b-field
-                                                label="(T) Name"
+                                                :label="translations.components.column_name"
                                             >
                                                 <b-input
                                                     type="text"
@@ -371,8 +372,8 @@ export default {
                                         </div>
                                         <div class="column is-6">
                                             <b-field
-                                                label="(T) Number"
-                                                message="(T) Indicates in wich component will the components appear in the dashboard"
+                                                :label="translations.components.column_number"
+                                                :message="translations.components.view_text_column_number_description"
                                             >
                                                 <b-input
                                                     type="number"
@@ -386,8 +387,8 @@ export default {
                                         </div>
                                         <div class="column is-6">
                                             <b-field
-                                                label="(T) Layout"
-                                                message="(T) What percentaje of the row will this component occupy. If a component exceeds 100%, it will be placed in another row."
+                                                :label="translations.components.column_layout"
+                                                :message="translations.components.view_text_column_layout_description"
                                             >
                                                 <b-select
                                                     :placeholder="translations.shared.text_select_option"
@@ -417,7 +418,8 @@ export default {
                                         >
                                             <b-field
                                                 v-if="option.type == 'Boolean'"
-                                                :label="option.name"
+                                                :label="translations.components[`column_configuration_${option.name}`]"
+                                                :message="translations.components[`view_text_column_configuration_${option.name}_description`]"
                                             >
                                                 <div class="block">
                                                     <b-radio
@@ -440,7 +442,8 @@ export default {
                                             </b-field>
                                             <b-field
                                                 v-if="option.type == 'Integer'"
-                                                :label="option.name"
+                                                :label="translations.components[`column_configuration_${option.name}`]"
+                                                :message="translations.components[`view_text_column_configuration_${option.name}_description`]"
                                             >
                                                 <b-input
                                                     type="number"
@@ -459,7 +462,7 @@ export default {
                                     <br>
                                     <br>
                                     <h6 class="title is-6 has-text-grey-light">
-                                        (T) Please select a component from the left to edit its configuration.
+                                        {{translations.components.view_text_please_select_component_to_edit}}
                                     </h6>
                                 </div>
                             </div>
