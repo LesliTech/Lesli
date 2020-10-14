@@ -71,7 +71,8 @@ class Account::IntegrationsController < ApplicationLesliController
             current_session = user.sessions.create({
                 :user_agent => LC::Request.user_agent(request.env["HTTP_USER_AGENT"]),
                 :user_remote => request.remote_ip,
-                :session_source => "dispatcher_standar_session" 
+                :session_source => "dispatcher_standar_session",
+                :last_used_at   => LC::Date.now
             })
 
             respond_with_successful 
