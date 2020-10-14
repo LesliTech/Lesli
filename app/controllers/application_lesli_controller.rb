@@ -28,6 +28,7 @@ class ApplicationLesliController < ApplicationController
     protect_from_forgery with: :exception
 
     before_action :set_locale
+    before_action :validate_session
     before_action :authorize_request
     before_action :authorize_privileges
     before_action :set_helpers_for_request
@@ -143,10 +144,18 @@ class ApplicationLesliController < ApplicationController
 
     end
 
-
+    # validate session
+    def validate_session
+        if not request[:format] == "json"
+            if (current_user.sessions.last.last_used_at.blank?)
+                sign_out current_user
+                redirect_to "/login", notice: "Please Login to view that page!"
+            end
+        end
+    end
+    
     # Validate user authentication and session status
     def authorize_request
-
         # check if user has an active session
         if not user_signed_in?
             redirect_to root, notice: "Please Login to view that page!"

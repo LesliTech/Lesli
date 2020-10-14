@@ -48,7 +48,8 @@ module Application
 
             return if !Rails.application.config.lesli_settings["configuration"]["security"]["log_activity"]
             return if not current_user
-
+            return if not session[:user_session_id]
+            
             current_user.requests.create({
                 request_agent: get_user_agent,
                 request_controller: controller_path,

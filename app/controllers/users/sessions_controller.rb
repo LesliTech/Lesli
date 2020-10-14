@@ -69,7 +69,8 @@ class Users::SessionsController < Devise::SessionsController
             :user_agent => get_user_agent,
             :user_remote => request.remote_ip,
             :session_token => session[:session_id],
-            :session_source => "devise_standar_session" 
+            :session_source => "devise_standar_session",
+            :last_used_at   => LC::Date.now
         })
 
         session[:user_session_id] = @current_session[:id]
