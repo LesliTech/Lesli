@@ -57,6 +57,10 @@ every :day, at: '11:10 pm' do
     rake 'deutsche_leibrenten:cron:clear_kops_information'
 end
 
+every :day, at: '11:10 pm' do
+    rake 'deutsche_leibrenten:cron:upload_local_files_to_s3'
+end
+
 every :day, at: '05:55 am' do
     rake 'deutsche_leibrenten:cron:send_email_tasks_reminder_by_user' 
 end
