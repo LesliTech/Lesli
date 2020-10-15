@@ -87,7 +87,7 @@ export default {
         notifyUnsavedChanges(){
             if( (!this.unsaved_changes) && this.dashboard_id){
                 this.unsaved_changes = true
-                this.alert('(T) Remember to save your changes for them to persist and be reflected in the render view.', 'warning')
+                this.alert(this.translations.main.messages_warning_save_changes_reminder, 'warning')
             }
         },
 
@@ -163,7 +163,7 @@ export default {
             this.http.delete(url).then(result => {
                 this.deleting_dashboard = false
                 if (result.successful) {
-                    this.alert(this.translations.main.notification_dashboard_destroyed, 'success')
+                    this.alert(this.translations.main.messages_info_dashboard_deleted, 'success')
                     this.$router.push('/')
                 } else {
                     this.alert(result.error.message,'danger')
@@ -205,7 +205,7 @@ export default {
             this.http.post(this.main_route, data).then(result => {
                 this.submitting_dashboard = false
                 if (result.successful) {
-                    this.alert(this.translations.main.notification_dashboard_created, 'success')
+                    this.alert(this.translations.main.messages_info_dashboard_created, 'success')
                     this.$router.push(`/${result.data.id}`)
                 }else{
                     this.alert(result.error.message,'danger')
@@ -239,7 +239,7 @@ export default {
                 this.submitting_dashboard = false
                 this.unsaved_changes = false
                 if (result.successful) {
-                    this.alert(this.translations.main.notification_dashboard_updated, 'success')
+                    this.alert(this.translations.main.messages_info_dashboard_updated, 'success')
                     this.deleted_components = []
                     // We assign the ids of the components that were created
                     result.data.components.forEach((component)=>{
@@ -479,11 +479,9 @@ export default {
                     >
                     </component-render>
                 </b-tab-item>
-                <b-tab-item label="(T) Delete this dashboard" v-if="dashboard_id">
+                <b-tab-item :label="translations.main.view_tab_title_delete" v-if="dashboard_id">
                     <span class="has-text-danger">
-                        (T) This action is irreversible. Once this dashboard is deleted, you won't be able to restore it, and you'll have to create a 
-                        new one with the same components to use it again. Please note that the default dashboard cannot be deleted.
-                        If you are sure you want to continue, please click the 'Delete Dashboard' button.
+                        {{translations.main.messages_danger_delete_confirmation}}
                     </span>
                     <br>
                     <br>
@@ -491,11 +489,11 @@ export default {
                         <b-button expanded class="is-danger submit-button" :disabled="deleting_dashboard || dashboard.default" @click="deleteDashboard">
                                 <span v-if="deleting_dashboard">
                                     <i  class="fas fa-circle-notch fa-spin"></i>
-                                    (T) Deleting Dashboard
+                                    {{translations.main.view_btn_deleting_dashboard}}
                                 </span>
                                 <span v-else>
                                     <i  class="fas fa-trash-alt"></i>
-                                    (T) Delete Dashboard
+                                    {{translations.main.view_btn_delete_dashboard}}
                                 </span>
                         </b-button>
                     </div>
@@ -505,10 +503,10 @@ export default {
                 <b-button type="is-primary" expanded native-type="submit" form="form-dashboard" class="submit-button" :disabled="submitting_dashboard">
                     <span v-if="submitting_dashboard">
                         <i  class="fas fa-circle-notch fa-spin"></i>
-                        (T) Saving Dashboard
+                        {{translations.main.view_btn_saving_dashboard}}
                     </span>
                     <span v-else>
-                        (T) Save Dashboard
+                            {{translations.main.view_btn_save_dashboard}}
                     </span>
                     
                 </b-button>
