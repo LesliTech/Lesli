@@ -24,6 +24,8 @@ Building a better future, one line of code at a time.
 
 =end
 class Users::PasswordsController < Devise::PasswordsController
+    include Application::Responder
+    
     layout "application-public"
 
 
