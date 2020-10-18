@@ -28,7 +28,7 @@ export default {
         return {
             translations: {
                 core: {
-                    shared: I18n.t('deutscheleibrenten.shared'),
+                    shared: I18n.t("core.shared"),
                     users: I18n.t('deutscheleibrenten.users'),
                 }
             },
@@ -162,14 +162,14 @@ export default {
                                 <span class="icon has-text-grey-light">
                                     <i class="fas fa-user"></i>
                                 </span>
-                                <span>{{ translations.core.users.text_profile }}</span>
+                                <span>{{ translations.core.shared.view_text_profile }}</span>
                             </a>
                             <hr class="dropdown-divider">
                             <a href="/logout" class="dropdown-item">
                                 <span class="icon has-text-grey-light">
                                     <i class="fas fa-sign-out-alt"></i>
                                 </span>
-                                <span>{{ translations.core.users.text_logout }}</span>
+                                <span>{{ translations.core.shared.view_text_logout }}</span>
                             </a>
                         </div>
                     </div>
@@ -185,5 +185,6 @@ export default {
                 {{translations.core.shared.notice_browser_not_supported_3}}
             </a>
         </b-notification>
+
     </header>
 </template>

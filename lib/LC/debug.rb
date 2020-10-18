@@ -46,12 +46,7 @@ module LC
         end
 
         def self.simple_msg *messages
-            puts ""; puts "";
-            messages.each do |message|
-                p message
-                puts "=     =     =     =     =     =     =     =     =     =     ="
-            end
-            puts ""; 
+            self.msgc messages
         end
 
     end
