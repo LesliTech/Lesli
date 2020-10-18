@@ -36,6 +36,15 @@ module LC
             puts ""; 
         end
 
+        def self.msgc *messages
+            puts ""; puts ""; puts ""; 
+            messages.each do |message|
+                p message
+                puts "=     =     =     =     =     =     =     =     =     =     ="
+            end
+            puts ""; 
+        end
+
         def self.simple_msg *messages
             puts ""; puts "";
             messages.each do |message|
