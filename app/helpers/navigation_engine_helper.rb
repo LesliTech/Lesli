@@ -19,6 +19,15 @@ For more information read the license file including with this software.
 
 module NavigationEngineHelper
 
+    def navigation_to(link_path)
+        class_name = current_page?(link_path) ? "is-active" : nil
+        content_tag(:li) do
+            content_tag(:a, :href => link_path, :class => class_name) do
+                yield
+            end
+        end
+    end
+
     def engine_navigation text, icon_path, path
         class_name = current_page?(cloud_babel.root_path) ? "is-active" : nil
         content_tag(:li) do

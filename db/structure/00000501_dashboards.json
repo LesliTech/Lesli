@@ -1,0 +1,17 @@
+[{
+    "name": "name",
+    "type": "string"
+},{
+    "name": "default",
+    "type": "boolean"
+},{
+    "name": "main",
+    "type": "boolean"
+},{
+    "name": "user_main_id",
+    "type": "bigint"
+},{
+    "name": "deleted_at",
+    "type": "datetime",
+    "index": true
+}]

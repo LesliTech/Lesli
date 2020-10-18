@@ -37,7 +37,7 @@ if Rails.application.config.lesli_settings["instance"] != "Lesli"
 
     # Every instance (builder module) is loaded into the platform using the same 
     # name of the engine
-    instance_klass = Rails.application.config.lesli_settings["instance"].safe_constantize
+    instance_klass = Rails.application.config.lesli_settings["instance"][:name].safe_constantize
 
     # If instance account class exists
     if instance_klass
@@ -50,4 +50,4 @@ if Rails.application.config.lesli_settings["instance"] != "Lesli"
 end
 
 # exec rake standard deploy task
-system "rake app:after_deploy"
+system "rake app:deploy:after"
