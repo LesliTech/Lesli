@@ -26,12 +26,9 @@ Building a better future, one line of code at a time.
 
 =end
 
-puts ""; puts ""; puts "";
-puts "Loading core seeds for #{Rails.env.downcase} environment"
-puts "~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~"
+LC::Debug.msgc "Loading core seeds for #{Rails.env.downcase} environment"
 
 load "#{Rails.root}/db/seed/#{Rails.env.downcase}.rb"
-
 
 if Rails.application.config.lesli_settings["instance"] != "Lesli"
 
@@ -40,10 +37,8 @@ if Rails.application.config.lesli_settings["instance"] != "Lesli"
     instance_klass = Rails.application.config.lesli_settings["instance"][:name].safe_constantize
 
     # If instance account class exists
-    if instance_klass
-        puts ""; puts ""; puts "";
-        puts "Loading seeds for builder engine"
-        puts "~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~"    
+    if instance_klass && instance_klass.to_s != "Lesli"
+        LC::Debug.msgc "Loading seeds for builder engine"
         instance_klass::Engine.load_seed
     end
     
