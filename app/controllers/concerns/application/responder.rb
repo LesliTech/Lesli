@@ -63,7 +63,7 @@ module Application
                 }
             }
 
-            if Rails.env == "development"
+            if Rails.env == "development" and !current_user.blank?
                 error_object[:error][:role] = current_user.role.detail.name
                 error_object[:error][:detail] = detail
             end
@@ -72,6 +72,8 @@ module Application
                 format.json { render status: 401, json: error_object.to_json }
                 format.html { redirect_to "/401" } if Rails.env == "production"
                 format.html { render status: 401, json: error_object.to_json }
+                format.xlsx { redirect_to "/401" } if Rails.env == "production"
+                format.xlsx { render status: 401, json: error_object.to_json }
             end
 
         end

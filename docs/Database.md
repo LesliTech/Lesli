@@ -58,6 +58,9 @@ Contents
     04.02. house/custom_validation/rules  
     04.03. house/custom_validation/fields  
 
+    05.01. house/dashboards
+    05.02. house/dasboard/components
+
     10.01. house/contacts
     10.02. house/contact/details 
     10.03. house/contact/actions 
@@ -155,6 +158,9 @@ Contents
     02.03. driver/workflow/associations
     02.04. driver/workflow/actions
 
+    05.01. driver/dashboards
+    05.02. driver/dasboard/components
+
     10.01. driver/calendar
     10.02. driver/calendar/details 
     10.03. driver/calendar/actions 
@@ -188,7 +194,10 @@ Contents
 
     04.01. focus/custom_validations  
     04.02. focus/custom_validation/rules  
-    04.03. focus/custom_validation/fields  
+    04.03. focus/custom_validation/fields
+
+    05.01. focus/dashboards
+    05.02. focus/dashboard/components
 
     10.01. focus/task
     10.02. focus/task/details 
@@ -280,8 +289,20 @@ Contents
 
 ### 10.01. CloudBabel
 ```
-    01.01. babel/translations 
-    01.02. babel/translation/modules 
-    01.03. babel/translation/buckets
-    01.04. babel/translation/strings 
+    00.01. babel/account
+
+    10.01. babel/modules 
+    10.02. babel/module/details
+    10.03. babel/module/activities
+    10.04. babel/module/discussions
+
+    11.01. babel/buckets
+    11.02. babel/bucket/details
+    11.03. babel/bucket/activities
+    11.04. babel/bucket/discussions
+
+    12.01. babel/strings 
+    12.01. babel/string_overrides
+    12.03. babel/string/activities
+    12.04. babel/string/discussions
 ```

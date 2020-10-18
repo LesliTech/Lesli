@@ -21,26 +21,8 @@ For more information read the license file including with this software.
 
 class ApplicationController < ActionController::Base
 
-    before_action :set_locale
-
     layout "layouts/application-public"
  
-    def set_locale
-
-        # get saved language in session or the default in config
-        # the session param is setted in settings controller through "get :language, to: "settings#language""
-        locale = session[:locale] || I18n.default_locale
-
-        # Here I should check user preference for language settings
-        # the options are
-            # - I18n.available_locales
-            # - automatic according to os or browser
-
-        # set the new locale
-        I18n.locale = locale
-
-    end
-
     def switch_locale
 
         local = I18n.locale

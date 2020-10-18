@@ -70,12 +70,15 @@ providers:
         access_key_id: ""
         secret_access_key: ""
         s3: (optional)
+            region: eu-central-1
+            bucket: ""
             access_key_id: ""
             secret_access_key: ""
         ses: (optional sdk or stmp)
             access_key_id: ""
             secret_access_key: ""
         sns: (optional)
+            region: eu-central-1
             access_key_id: ""
             secret_access_key: ""
     google:
@@ -101,8 +104,12 @@ Test production database:
 rake db:drop DISABLE_DATABASE_ENVIRONMENT_CHECK=1 RAILS_ENV=production
 rake db:create RAILS_ENV=production
 rake db:migrate RAILS_ENV=production
+<<<<<<< HEAD
 rake db:seed RAILS_ENV=production 
 rake app:deploy:after RAILS_ENV=production
+=======
+rake db:seed RAILS_ENV=production
+>>>>>>> 885602931756a5cb4c82261f394ce16039668762
 ```
 
 

@@ -5,6 +5,9 @@ module Notifications
 
         def perform(telephone, message)
 
+            # The send of SMS service will be down for a while 
+            return
+
             sms = LC::Config::Providers::Aws::Sns.new()
 
             begin
