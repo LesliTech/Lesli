@@ -32,6 +32,7 @@ class Account::Integration < ApplicationRecord
                 ) as last_session
                 on last_session.users_id = account_integrations.users_id")
         .joins("inner join user_sessions us on us.id = last_session.id")
+        .order(:id)
         .select(
             :id,
             :name,
@@ -41,6 +42,23 @@ class Account::Integration < ApplicationRecord
             :last_used_at,
             :expiration_at
         )
+    end
+
+    def self.show current_user, params
+
+        # get integration
+        integration = current_user.account.integrations.find(params[:id])
+
+        # get last active session for integration
+        session = integration.user.sessions.last
+
+        {
+            id: integration[:id],
+            name: integration[:name],
+            user_main: integration.user_main,
+            session: (session.usage_count ? {} : session)
+        }
+        
     end
 
 end

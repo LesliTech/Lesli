@@ -22,6 +22,10 @@ module LC
     module System
 
         class Info
+
+            def self.instance
+                Rails.application.config.lesli_settings["instance"]
+            end
         
             def self.revision(as_string: false)
 

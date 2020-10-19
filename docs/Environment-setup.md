@@ -42,7 +42,7 @@ EDITOR="code --wait" rails credentials:edit --environment production
 EDITOR="code --wait" rails credentials:edit --environment test
 EDITOR="code --wait" rails credentials:edit
 
-MacOS:
+MacOS/Ubuntu server:
 EDITOR="nano" rails credentials:edit --environment development
 EDITOR="nano" rails credentials:edit --environment production
 EDITOR="nano" rails credentials:edit --environment test
@@ -58,6 +58,8 @@ db:
     database: ""
     username: ""
     password: ""
+    host: "" # optional
+    port: "" # optional
 services:
     jwt:
         secret: "your-secret-json-web-token-key"
@@ -102,7 +104,8 @@ Test production database:
 rake db:drop DISABLE_DATABASE_ENVIRONMENT_CHECK=1 RAILS_ENV=production
 rake db:create RAILS_ENV=production
 rake db:migrate RAILS_ENV=production
-rake db:seed RAILS_ENV=production
+rake db:seed RAILS_ENV=production 
+rake app:deploy:after RAILS_ENV=production
 ```
 
 
