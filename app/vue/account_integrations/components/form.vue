@@ -3,7 +3,8 @@
 export default {
     data(){
         return {
-            endpoint: "/panel/account/integrations",
+            endpoint: "/administration/account/integrations",
+            session: {},
             integration: {
                 name: "Zapier"
             }
@@ -20,6 +21,7 @@ export default {
                     return 
                 }
                 this.alert("Integration created successfully")
+                this.url.go(`${this.endpoint}/${result.data.id}`)
             }).catch(error => {
                 console.log(error)
             })
@@ -36,7 +38,6 @@ export default {
                 <input class="input" type="text" placeholder="" v-model="integration.name">
             </div>
         </div>
-
         <div class="field is-grouped">
             <div class="control">
                 <button class="button is-link">Submit</button>
