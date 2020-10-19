@@ -22,15 +22,25 @@ module RoutesApp
         router.instance_exec do
             authenticated :user do
 
-                # Lesli user profile
-                resource :profile
-
                 # Lesli core administration components
                 scope :administration do
-                    resource :profile
+
+                    # Lesli user profile
+                    resource :profile, only: [:show]
+
+                    # account management
+                    resource :account, only: [] do
+                        scope module: :account do
+                            resources :integrations, only: [:index, :show, :new, :create]
+                        end
+                    end
+
                 end
 
-                
+
+
+
+                resource :profile
 
                 scope :lock do
 
@@ -109,6 +119,8 @@ module RoutesApp
                     end
 
                 end
+
+
 
                 # Lesli version
                 get "version", to: "abouts#version"

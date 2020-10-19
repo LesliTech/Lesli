@@ -22,7 +22,7 @@ export default {
                 label: 'Last used at',
             }, {
                 field: 'expiration_at',
-                label: 'Espiration date',
+                label: 'Expiration date',
             }],
             integrations: []
         }
@@ -43,7 +43,12 @@ export default {
             }).catch(error => {
                 console.log(error)
             })
+        },
+
+        showIntegration(integration) {
+            this.$router.push(`${integration.id}`)
         }
+
     }
 }
 </script>
@@ -57,6 +62,7 @@ export default {
         <div class="card">
             <div class="card-content">
                 <b-table 
+                    @click="showIntegration"
                     :data="integrations" 
                     :columns="columns">
                 </b-table>
