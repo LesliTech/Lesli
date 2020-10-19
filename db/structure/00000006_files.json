@@ -8,6 +8,9 @@
     "name": "attachment_local",
     "type": "string"
 },{
+    "name": "file_type",
+    "type": "string"
+},{
     "name": "deleted_at",
     "type": "datetime",
     "index": true
