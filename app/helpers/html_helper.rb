@@ -47,4 +47,10 @@ module HtmlHelper
         end
     end
 
+    def navigation_engine_notes text: "Notes", icon_path: "/assets/cloud_notes/notes-logo.svg"
+        if defined? CloudNotes
+            navigation_engine_item text, icon_path, cloud_notes.root_path, controller_path.include?("cloud_notes")
+        end
+    end
+
 end
