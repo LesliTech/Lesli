@@ -66,7 +66,9 @@ class ApplicationLesliController < ApplicationController
 
         @account = {
             company: { },
-            settings: { },
+            settings: {
+                datetime: Rails.application.config.lesli_settings["configuration"]["datetime"]
+            },
             current_user: { },
             revision: LC::System::Info.revision,
             notifications: Courier::Bell::Notification.index(current_user, {}, "count")
