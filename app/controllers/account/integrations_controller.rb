@@ -30,6 +30,10 @@ class Account::IntegrationsController < ApplicationLesliController
 
     # GET /account/integrations/1
     def show
+        respond_to do |format|
+            format.html {}
+            format.json { respond_with_successful(Account::Integration.show(current_user, params)) }
+        end
     end
 
     # GET /account/integrations/new
@@ -43,7 +47,6 @@ class Account::IntegrationsController < ApplicationLesliController
     # POST /account/integrations
     def create
         account_integration = current_user.account.integrations.new(account_integration_params)
-        account_integration
 
         user_integration_email = account_integration_params[:name]
         .downcase                           # string to lowercase
@@ -61,8 +64,7 @@ class Account::IntegrationsController < ApplicationLesliController
             user.save!
         end
 
-        account_integration.account = current_user.account
-        account_integration.creator = current_user
+        account_integration.user_main = current_user
         account_integration.user = user 
 
         if account_integration.save
@@ -75,7 +77,7 @@ class Account::IntegrationsController < ApplicationLesliController
                 :last_used_at   => LC::Date.now
             })
 
-            respond_with_successful 
+            respond_with_successful account_integration
 
         else
             respond_with_error account_integration.errors.full_messages.to_sentence
@@ -101,12 +103,13 @@ class Account::IntegrationsController < ApplicationLesliController
 
     # Use callbacks to share common setup or constraints between actions.
     def set_account_integration
-        @account_integration = Account::Integration.find(params[:id])
+        #current_user.account.integrations
+        #@account_integration = Account::Integration.find(params[:id])
     end
 
     # Only allow a trusted parameter "white list" through.
     def account_integration_params
-        params.require(:account_integration).permit(:name)
+        params.require(:account_integration).permit(:id, :name)
     end
 
 end

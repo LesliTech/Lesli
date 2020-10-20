@@ -69,6 +69,7 @@ namespace :dev do
             #system "whenever --update-crontab"
             
             #system "sudo chmod 755 public/ -R"
+            #system "sudo chmod 777 public/ -R"
             #system "sudo chown www-data:www-data public/ -R"
 
             #system "sudo service nginx restart"

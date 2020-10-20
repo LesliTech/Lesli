@@ -30,6 +30,7 @@ aside.application-sidebar {
     a.brand {
         padding: 2px 0;
         background-color: lesli-css-get-color(solid,white);
+        height: 100vh;
     }
     .application-navigation {
         background-color: lesli-css-theme-get-color(app, primary);
