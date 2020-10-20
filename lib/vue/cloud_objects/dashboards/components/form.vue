@@ -26,6 +26,7 @@ export default {
             options_route: `/${this.engineNamespace}/dashboards/options`,
             translations: {
                 main: I18n.t(`${this.cloudEngine.toLowerCase()}.dashboards`),
+                components: I18n.t(`${this.cloudEngine.toLowerCase()}.dashboard/components`),
                 shared: I18n.t(`${this.cloudEngine.toLowerCase()}.shared`),
                 roles: I18n.t(`${this.cloudEngine.toLowerCase()}.users`)
             },
@@ -86,7 +87,7 @@ export default {
         notifyUnsavedChanges(){
             if( (!this.unsaved_changes) && this.dashboard_id){
                 this.unsaved_changes = true
-                this.alert('(T) Remember to save your changes for them to persist and be reflected in the render view.', 'warning')
+                this.alert(this.translations.main.messages_warning_save_changes_reminder, 'warning')
             }
         },
 
@@ -162,7 +163,7 @@ export default {
             this.http.delete(url).then(result => {
                 this.deleting_dashboard = false
                 if (result.successful) {
-                    this.alert(this.translations.main.notification_dashboard_destroyed, 'success')
+                    this.alert(this.translations.main.messages_info_dashboard_deleted, 'success')
                     this.$router.push('/')
                 } else {
                     this.alert(result.error.message,'danger')
@@ -204,7 +205,7 @@ export default {
             this.http.post(this.main_route, data).then(result => {
                 this.submitting_dashboard = false
                 if (result.successful) {
-                    this.alert(this.translations.main.notification_dashboard_created, 'success')
+                    this.alert(this.translations.main.messages_info_dashboard_created, 'success')
                     this.$router.push(`/${result.data.id}`)
                 }else{
                     this.alert(result.error.message,'danger')
@@ -238,7 +239,7 @@ export default {
                 this.submitting_dashboard = false
                 this.unsaved_changes = false
                 if (result.successful) {
-                    this.alert(this.translations.main.notification_dashboard_updated, 'success')
+                    this.alert(this.translations.main.messages_info_dashboard_updated, 'success')
                     this.deleted_components = []
                     // We assign the ids of the components that were created
                     result.data.components.forEach((component)=>{
@@ -359,7 +360,7 @@ export default {
                                     <div class="columns is-multiline">
                                         <div class="column is-12">
                                             <b-field
-                                                label="(T) Name"
+                                                :label="translations.components.column_name"
                                             >
                                                 <b-input
                                                     type="text"
@@ -371,8 +372,8 @@ export default {
                                         </div>
                                         <div class="column is-6">
                                             <b-field
-                                                label="(T) Number"
-                                                message="(T) Indicates in wich component will the components appear in the dashboard"
+                                                :label="translations.components.column_number"
+                                                :message="translations.components.view_text_column_number_description"
                                             >
                                                 <b-input
                                                     type="number"
@@ -386,8 +387,8 @@ export default {
                                         </div>
                                         <div class="column is-6">
                                             <b-field
-                                                label="(T) Layout"
-                                                message="(T) What percentaje of the row will this component occupy. If a component exceeds 100%, it will be placed in another row."
+                                                :label="translations.components.column_layout"
+                                                :message="translations.components.view_text_column_layout_description"
                                             >
                                                 <b-select
                                                     :placeholder="translations.shared.text_select_option"
@@ -417,7 +418,8 @@ export default {
                                         >
                                             <b-field
                                                 v-if="option.type == 'Boolean'"
-                                                :label="option.name"
+                                                :label="translations.components[`column_configuration_${option.name}`]"
+                                                :message="translations.components[`view_text_column_configuration_${option.name}_description`]"
                                             >
                                                 <div class="block">
                                                     <b-radio
@@ -440,7 +442,8 @@ export default {
                                             </b-field>
                                             <b-field
                                                 v-if="option.type == 'Integer'"
-                                                :label="option.name"
+                                                :label="translations.components[`column_configuration_${option.name}`]"
+                                                :message="translations.components[`view_text_column_configuration_${option.name}_description`]"
                                             >
                                                 <b-input
                                                     type="number"
@@ -459,7 +462,7 @@ export default {
                                     <br>
                                     <br>
                                     <h6 class="title is-6 has-text-grey-light">
-                                        (T) Please select a component from the left to edit its configuration.
+                                        {{translations.components.view_text_please_select_component_to_edit}}
                                     </h6>
                                 </div>
                             </div>
@@ -476,11 +479,9 @@ export default {
                     >
                     </component-render>
                 </b-tab-item>
-                <b-tab-item label="(T) Delete this dashboard" v-if="dashboard_id">
+                <b-tab-item :label="translations.main.view_tab_title_delete" v-if="dashboard_id">
                     <span class="has-text-danger">
-                        (T) This action is irreversible. Once this dashboard is deleted, you won't be able to restore it, and you'll have to create a 
-                        new one with the same components to use it again. Please note that the default dashboard cannot be deleted.
-                        If you are sure you want to continue, please click the 'Delete Dashboard' button.
+                        {{translations.main.messages_danger_delete_confirmation}}
                     </span>
                     <br>
                     <br>
@@ -488,11 +489,11 @@ export default {
                         <b-button expanded class="is-danger submit-button" :disabled="deleting_dashboard || dashboard.default" @click="deleteDashboard">
                                 <span v-if="deleting_dashboard">
                                     <i  class="fas fa-circle-notch fa-spin"></i>
-                                    (T) Deleting Dashboard
+                                    {{translations.main.view_btn_deleting_dashboard}}
                                 </span>
                                 <span v-else>
                                     <i  class="fas fa-trash-alt"></i>
-                                    (T) Delete Dashboard
+                                    {{translations.main.view_btn_delete_dashboard}}
                                 </span>
                         </b-button>
                     </div>
@@ -502,10 +503,10 @@ export default {
                 <b-button type="is-primary" expanded native-type="submit" form="form-dashboard" class="submit-button" :disabled="submitting_dashboard">
                     <span v-if="submitting_dashboard">
                         <i  class="fas fa-circle-notch fa-spin"></i>
-                        (T) Saving Dashboard
+                        {{translations.main.view_btn_saving_dashboard}}
                     </span>
                     <span v-else>
-                        (T) Save Dashboard
+                            {{translations.main.view_btn_save_dashboard}}
                     </span>
                     
                 </b-button>

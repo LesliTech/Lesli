@@ -85,6 +85,10 @@ aside.application-sidebar {
                     font-size: 1.2rem;
                     text-align: center;
                     position: relative;
+
+                    &.flag-icon {
+                        height: 16px;
+                    }
                 }
                 img { width: 1.4rem; }
                 span { display: none; }
