@@ -47,7 +47,7 @@ Building a better future, one line of code at a time.
             
             cloud_object_id = params["#{object_name}_id".to_sym]
             @cloud_object_files = dynamic_info[:model].where(
-                "cloud_#{module_name}_#{plural_object_name}_id".to_sym => cloud_object_id
+                "#{module_name}_#{plural_object_name}_id".to_sym => cloud_object_id
             ).order(id: :desc).map do |file|
                 file_attributes = file.attributes
                 file_attributes["created_at_raw"] = file_attributes["created_at"]
@@ -87,7 +87,7 @@ Building a better future, one line of code at a time.
             new_file_params = 
             cloud_object_file_params.merge(
                 user_creator: current_user,
-                "cloud_#{module_name}_#{plural_object_name}_id".to_sym => params["#{object_name}_id".to_sym]
+                "#{module_name}_#{plural_object_name}_id".to_sym => params["#{object_name}_id".to_sym]
             )
             
             extension = ""
@@ -107,7 +107,7 @@ Building a better future, one line of code at a time.
                 cloud_object = cloud_object_file.cloud_object
                 # Notify Subscribers
                 # message = I18n.t(
-                #    "cloud_#{module_name}.controllers.#{object_name}.files.notifications.created",
+                #    "#{module_name}.controllers.#{object_name}.files.notifications.created",
                 #    "#{object_name}_id".to_sym => cloud_object.id
                 #)
                 #subscriber_model.notify_subscribers(cloud_object, message, :file_created)
@@ -216,9 +216,9 @@ this.http.delete(`127.0.0.1/help/tickets/${ticket_id}/files/${file_id}`);
             files = model.joins(
                 :cloud_object
             ).where(
-                "cloud_#{module_name}_#{object_name}_files.id in (#{params[:ids]})"
+                "#{module_name}_#{object_name}_files.id in (#{params[:ids]})"
             ).where(
-                "cloud_#{module_name}_#{plural_object_name}.cloud_#{module_name}_accounts_id = #{current_user.account.id}"
+                "#{module_name}_#{plural_object_name}.#{module_name}_accounts_id = #{current_user.account.id}"
             )
 
             handle_zip_download(files)
@@ -268,9 +268,9 @@ this.http.delete(`127.0.0.1/help/tickets/${ticket_id}/files/${file_id}`);
             plural_object_name = object_name.pluralize
 
             @cloud_object_file = dynamic_info[:model].joins(:cloud_object).where(
-                "cloud_#{module_name}_#{object_name}_files.id = #{params[:id]}",
-                "cloud_#{module_name}_#{plural_object_name}.cloud_#{module_name}_#{plural_object_name}_id = #{params["#{object_name}_id".to_sym]}",
-                "cloud_#{module_name}_#{plural_object_name}.cloud_#{module_name}_accounts_id = #{current_user.account.id}"
+                "#{module_name}_#{object_name}_files.id = #{params[:id]}",
+                "#{module_name}_#{plural_object_name}.#{module_name}_#{plural_object_name}_id = #{params["#{object_name}_id".to_sym]}",
+                "#{module_name}_#{plural_object_name}.#{module_name}_accounts_id = #{current_user.account.id}"
             ).first
         end
 
@@ -309,7 +309,7 @@ this.http.delete(`127.0.0.1/help/tickets/${ticket_id}/files/${file_id}`);
                 :name,
                 :attachment_local,
                 :attachment,
-                "cloud_#{module_name}_#{plural_object_name}_id".to_sym,
+                "#{module_name}_#{plural_object_name}_id".to_sym,
                 :file_type
             )
         end
@@ -320,7 +320,7 @@ this.http.delete(`127.0.0.1/help/tickets/${ticket_id}/files/${file_id}`);
 @example
     # Imagine the current class is an instance of CloudHelp::Ticket::FilesController < CloudObject::FilesController
     info = dynamic_info
-    puts info[:module_name] # will print 'help'
+    puts info[:module_name] # will print 'cloud_help'
     puts info[:object_name] # will print 'ticket'
     info[:model].new # will return an instance of CloudHelp::Ticket::File
     info[:subscriber_model].new # will return an instance of CloudHelp::Ticket::Subscriber
@@ -329,7 +329,7 @@ this.http.delete(`127.0.0.1/help/tickets/${ticket_id}/files/${file_id}`);
             module_info = lesli_classname().split("::")
             
             {
-                module_name: module_info[0].sub("Cloud", "").downcase,
+                module_name: module_info[0].underscore,
                 object_name: module_info[1].downcase,
                 model: "#{module_info[0]}::#{module_info[1]}::File".constantize
                 #subscriber_model: "#{module_info[0]}::#{module_info[1]}::Subscriber".constantize
