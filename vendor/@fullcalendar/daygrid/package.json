@@ -2,11 +2,7 @@
   "_args": [
     [
       "@fullcalendar/daygrid@4.4.2",
-<<<<<<< HEAD
       "/Users/ldonis/code/Lesli/mitwerken.de"
-=======
-      "E:\\lomax\\lesli\\lesli.cloud"
->>>>>>> f1ac6dae9eb72f886636927c5be2659f71a0320a
     ]
   ],
   "_development": true,
@@ -33,11 +29,7 @@
   ],
   "_resolved": "https://registry.npmjs.org/@fullcalendar/daygrid/-/daygrid-4.4.2.tgz",
   "_spec": "4.4.2",
-<<<<<<< HEAD
   "_where": "/Users/ldonis/code/Lesli/mitwerken.de",
-=======
-  "_where": "E:\\lomax\\lesli\\lesli.cloud",
->>>>>>> f1ac6dae9eb72f886636927c5be2659f71a0320a
   "author": {
     "name": "Adam Shaw",
     "email": "arshaw@arshaw.com",
