@@ -2,7 +2,11 @@
   "_args": [
     [
       "bulma-o-steps@1.0.9",
+<<<<<<< HEAD
       "/Users/ldonis/code/Lesli/mitwerken.de"
+=======
+      "E:\\lomax\\lesli\\lesli.cloud"
+>>>>>>> f1ac6dae9eb72f886636927c5be2659f71a0320a
     ]
   ],
   "_development": true,
@@ -27,7 +31,11 @@
   ],
   "_resolved": "https://registry.npmjs.org/bulma-o-steps/-/bulma-o-steps-1.0.9.tgz",
   "_spec": "1.0.9",
+<<<<<<< HEAD
   "_where": "/Users/ldonis/code/Lesli/mitwerken.de",
+=======
+  "_where": "E:\\lomax\\lesli\\lesli.cloud",
+>>>>>>> f1ac6dae9eb72f886636927c5be2659f71a0320a
   "author": {
     "name": "aramvisser, octoshrimpy"
   },
