@@ -160,13 +160,13 @@ module LC
             return Time.current.in_time_zone(zone)
         end
  
-        def self.distance_to_words(time_from, time_to)
+        def self.distance_to_words(time_from, time_to, force_time_zone=false)
             self.verify_settings
             
             zone = ActiveSupport::TimeZone.new(@settings["time_zone"])
  
-            time_from = time_from.in_time_zone(zone)
-            time_to = time_to.in_time_zone(zone)
+            time_from = time_from.in_time_zone(zone) if force_time_zone
+            time_to = time_to.in_time_zone(zone) if force_time_zone
  
             distance_in_seconds = (time_to - time_from).round
             distance_in_minutes = (distance_in_seconds / 60.0).round

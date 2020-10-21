@@ -29,7 +29,7 @@ class User < ApplicationLesliRecord
             :recoverable, 
             :validatable,
             :confirmable,
-            :trackables 
+            :trackable 
     
     # users belongs to an account only and must have a role
     belongs_to :account, foreign_key: "accounts_id", optional: true

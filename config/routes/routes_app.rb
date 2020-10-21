@@ -35,6 +35,18 @@ module RoutesApp
                         end
                     end
 
+                    # user maintenance
+                    resources :users, only: [:index] do
+                        collection do
+                            get :options
+                        end
+                        member do
+                            scope :resources do
+                                get :become
+                            end
+                        end
+                    end
+
                 end
 
 
@@ -53,14 +65,16 @@ module RoutesApp
                     end
 
                     # user maintenance
-                    resources :users do
+                    resources :users, only: [:index] do
                         collection do
                             get :options
                         end
                         member do
-                            get "resources/become/:id",     to: "users#become"
+                            scope :resources do
+                                get :become
+                            end
                         end
-                    end
+                    end         
 
                     # roles management
                     resources :roles do
