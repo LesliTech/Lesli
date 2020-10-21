@@ -1,38 +1,23 @@
 <script>
 /*
-Lesli
+Copyright (c) 2020, all rights reserved.
 
-Copyright (c) 2020, Lesli Technologies, S. A.
+All the information provided by this platform is protected by international laws related  to 
+industrial property, intellectual property, copyright and relative international laws. 
+All intellectual or industrial property rights of the code, texts, trade mark, design, 
+pictures and any other information belongs to the owner of this platform.
 
-All the information provided by this website is protected by laws of Guatemala related 
-to industrial property, intellectual property, copyright and relative international laws. 
-Lesli Technologies, S. A. is the exclusive owner of all intellectual or industrial property
-rights of the code, texts, trade mark, design, pictures and any other information.
-Without the written permission of Lesli Technologies, S. A., any replication, modification,
+Without the written permission of the owner, any replication, modification,
 transmission, publication is strictly forbidden.
+
 For more information read the license file including with this software.
-
-Lesli - Your Smart Business Assistant
-
-Powered by https://www.lesli.tech
-Building a better future, one line of code at a time.
-
-@contact  <hello@lesli.tech>
-@website  <https://lesli.tech>
-@license  Propietary - all rights reserved.
 
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
 // · 
 */
 
 
-// · List of Imported Components
-// · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
-
-
-
 // · 
-// · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
 export default {
 
     // @return [Object] Data used by this component's methods
@@ -42,7 +27,7 @@ export default {
     //      Users, with the same params as the associated rails model
     data(){
         return {
-            main_route: '/lock/users',
+            main_route: '/administration/users',
             show_form: false,
             user_id: null,
             users: [],
@@ -50,8 +35,8 @@ export default {
             filters_ready: false,
             translations: {
                 core: {
-                    users: I18n.t('deutscheleibrenten.users'),
-                    shared: I18n.t('deutscheleibrenten.shared')
+                    users: I18n.t("core.users"),
+                    shared: I18n.t("core.shared")
                 }
             },
             filters:{
@@ -105,7 +90,6 @@ export default {
             let url = `/lock/users.json?role=kop,callcenter,guest&type=exclude&status=all`
             this.loading = true
             this.http.get(url).then(result => {
-                this.loading = false
                 if (result.successful) {
                     this.users = result.data.map(e => {
                         return {
@@ -122,6 +106,8 @@ export default {
                 }
             }).catch(error => {
                 console.log(error)
+            }).finally(() => {
+                this.loading = false
             })
         },
         

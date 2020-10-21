@@ -147,7 +147,7 @@ export default {
                     </span>
                 </a>
 
-                <div class="dropdown is-right is-hoverable user-options">
+                <div class="dropdown is-right is-hoverable header-user-options">
                     <div class="dropdown-trigger">
                         <button class="button" aria-haspopup="true" aria-controls="dropdown-menu">
                             <span><slot name="username"></slot></span>
@@ -158,7 +158,7 @@ export default {
                     </div>
                     <div class="dropdown-menu" id="dropdown-menu" role="menu">
                         <div class="dropdown-content">
-                            <a href="/profile" class="dropdown-item">
+                            <a href="/profile" class="dropdown-item header-user-options-profile ">
                                 <span class="icon has-text-grey-light">
                                     <i class="fas fa-user"></i>
                                 </span>
