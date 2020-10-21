@@ -106,6 +106,9 @@ rake db:create RAILS_ENV=production
 rake db:migrate RAILS_ENV=production
 rake db:seed RAILS_ENV=production 
 rake app:deploy:after RAILS_ENV=production
+
+Restore database with a dump file
+
 ```
 
 
