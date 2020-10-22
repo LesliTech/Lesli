@@ -113,18 +113,36 @@ class User < ApplicationLesliRecord
         users = users.where("RD.name #{operator} (?)", roles) unless roles.blank?
         users = users.order("#{query[:pagination][:orderColumn]} #{query[:pagination][:order]} NULLS LAST")
 
-        users.select(
+        users = users.select(
             :id,
-            :roles_id,
             :active,
             :email,
-            "UD.first_name",
-            "UD.last_name",
+            :last_sign_in_at,
             "false as editable",
             "CONCAT(UD.first_name, ' ',UD.last_name) as name",
             "R.id as role_id",
             "RD.name as role_name"
         )
+
+        users.map do |user|
+
+            # last time user use the login form to access the platform
+            last_sign_in_at = LC::Date.distance_to_words(user[:last_sign_in_at], Time.current)
+
+            # last action the user perform an action into the system
+            last_action_performed_at = User::Request.where(:user => user[:id]).last
+            last_action_performed_at = LC::Date.distance_to_words(last_action_performed_at[:created_at], Time.current) if not last_action_performed_at.blank?
+
+            {
+                id: user[:id],
+                name: user[:name],
+                email: user[:email],
+                last_sign_in_at: last_sign_in_at,
+                active: user[:active],
+                role: user[:role_name],
+                last_activity_at: last_action_performed_at 
+            }
+        end
 
     end
 
