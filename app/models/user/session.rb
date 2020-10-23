@@ -19,7 +19,7 @@ For more information read the license file including with this software.
 
 require 'bcrypt'
 
-class User::Session < ApplicationRecord
+class User::Session < ApplicationLesliRecord
     belongs_to :user, foreign_key: "users_id"
     
     after_create :set_uuid
