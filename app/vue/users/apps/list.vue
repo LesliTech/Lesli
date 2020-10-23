@@ -62,7 +62,7 @@ export default {
     // @description Executes the necessary functions needed to initialize this component
     mounted() {
         this.setSessionStorageFilters()
-        this.getUsers()
+        this.reloadUsers()
     },
 
     methods: {
@@ -88,7 +88,6 @@ export default {
         //      console.log(this.users) // will display an array of objects, each representing a Users.
         getUsers() {
             let url = `${this.main_route}.json?role=kop,callcenter,guest&type=exclude&status=all`
-            this.loading = true
             this.http.get(url).then(result => {
                 if (result.successful) {
                     this.users = result.data.map(e => {
@@ -117,7 +116,8 @@ export default {
             this.$router.push(`${user.id}`)
         },
 
-        reloadUsers(){
+        reloadUsers() {
+            this.loading = true
             this.getUsers()
         },
 
@@ -131,6 +131,7 @@ export default {
                     this.alert(result.error.message, "danger")
                     return
                 }
+                this.getUsers()
                 this.alert("Operation successful")
             }).catch(error => {
                 console.log(error)
@@ -143,6 +144,7 @@ export default {
                     this.alert(result.error.message, "danger")
                     return
                 }
+                this.getUsers()
                 this.alert("Operation successful")
             }).catch(error => {
                 console.log(error)
