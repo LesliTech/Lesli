@@ -87,7 +87,7 @@ export default {
         //      this.getUsers()
         //      console.log(this.users) // will display an array of objects, each representing a Users.
         getUsers() {
-            let url = `/lock/users.json?role=kop,callcenter,guest&type=exclude&status=all`
+            let url = `${this.main_route}.json?role=kop,callcenter,guest&type=exclude&status=all`
             this.loading = true
             this.http.get(url).then(result => {
                 if (result.successful) {
@@ -124,22 +124,34 @@ export default {
         searchUsers(text){
             this.filters.search = text
         },
+
+        doUserLogout(user) {
+            this.http.post(`${this.main_route}/${user.id}/resources/logout`).then(result => {
+                if (!result.successful) {
+                    this.alert(result.error.message, "danger")
+                    return
+                }
+                this.alert("Operation successful")
+            }).catch(error => {
+                console.log(error)
+            })
+        },
+
+        doUserLock(user) {
+            this.http.post(`${this.main_route}/${user.id}/resources/lock`).then(result => {
+                if (!result.successful) {
+                    this.alert(result.error.message, "danger")
+                    return
+                }
+                this.alert("Operation successful")
+            }).catch(error => {
+                console.log(error)
+            })
+        }
+
     },
 
     computed: {
-
-        // @return [String] The class that is used to give a spinning animation to the icon (if needed)
-        // @description When the user clicks the 'reload' button, it changes the value of the *loading*
-        //      data variable. And that is used by this method to change the class of the icon and add it
-        //      the spinning animation
-        reloadingClass(){
-            if(this.loading){
-                return 'fa-spin'
-            }
-
-            return ''
-        },
-
         filteredUsers(){
             this.storage.local("filters", this.filters)
 
@@ -224,7 +236,12 @@ export default {
                             </span>
                         </b-table-column>
                         <b-table-column :label="translations.core.users.view_table_header_last_sign_in" sortable field="last_sign_in_at">
-                            {{ props.row.last_sign_in_at }}
+                            <span class="tag is-success" v-if="props.row.session_active">
+                                {{ props.row.last_sign_in_at }}
+                            </span>
+                            <span class="tag" v-else> 
+                                {{ props.row.last_sign_in_at }}
+                            </span>
                         </b-table-column>
                         <b-table-column :label="translations.core.users.view_text_last_activity_at" sortable field="last_activity_at">
                             {{ props.row.last_activity_at }}
@@ -237,13 +254,13 @@ export default {
                                         <i v-if="active" class="far fa-circle"></i>
                                     </span>
                                 </button>
-                                <b-dropdown-item class="has-text-right pr-4">
+                                <b-dropdown-item @click="doUserLogout(props.row)" class="has-text-right pr-4">
                                     logout
                                     <span class="icon">
                                         <i class="fas fa-sign-out-alt"></i>
                                     </span>
                                 </b-dropdown-item>
-                                <b-dropdown-item class="has-text-right pr-4">
+                                <b-dropdown-item @click="doUserLock(props.row)" class="has-text-right pr-4">
                                     revoke access
                                     <span class="icon">
                                         <i class="fas fa-user-lock"></i>

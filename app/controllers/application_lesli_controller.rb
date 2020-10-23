@@ -155,10 +155,11 @@ class ApplicationLesliController < ApplicationController
         # check if account is active (only for html requests)
         return true if not request.format.html?
 
+
         # check if user has an active session
-        if (current_user.sessions.last.last_used_at.blank?)
+        if (!current_user.sessions.last)
             sign_out current_user
-            redirect_to root, notice: "Please Login to view that page!"
+            redirect_to "/logout"
         end
 
         return if current_user.blank?
