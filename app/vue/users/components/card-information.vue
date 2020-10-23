@@ -1,4 +1,21 @@
 <script>
+/*
+Copyright (c) 2020, all rights reserved.
+
+All the information provided by this platform is protected by international laws related  to 
+industrial property, intellectual property, copyright and relative international laws. 
+All intellectual or industrial property rights of the code, texts, trade mark, design, 
+pictures and any other information belongs to the owner of this platform.
+
+Without the written permission of the owner, any replication, modification,
+transmission, publication is strictly forbidden.
+
+For more information read the license file including with this software.
+
+// · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
+// · 
+*/
+
 export default {
     data(){
         return {
@@ -32,39 +49,9 @@ export default {
 </script>
 <template>
     <div class="box profile-card-information">
-        <div class="media" v-if="!user">
-            <figure class="media-left">
-                <p class="image is-128x128">
-                    <b-skeleton circle width="64px" height="64px"></b-skeleton>
-                </p>
-            </figure>
-            <div class="media-content">
-                <div class="content">
-                    <p>
-                        <b-skeleton active></b-skeleton>
-                        <b-skeleton height="80px"></b-skeleton>
-                    </p>
-                </div>
-                <nav class="level is-mobile">
-                    <div class="level-left">
-                        <a class="level-item">
-                            <span class="icon is-small">
-                                <b-skeleton></b-skeleton>
-                            </span>
-                        </a>
-                        <a class="level-item">
-                            <span class="icon is-small">
-                                <b-skeleton></b-skeleton>
-                            </span>
-                        </a>
-                    </div>
-                </nav>
-            </div>
-        </div>
         <div class="media" v-if="user">
             <div class="media-left">
                 <figure class="image is-128x128">
-                    <!-- <img class="is-rounded" src="https://bulma.io/images/placeholders/128x128.png" alt="Image"> -->
                     <span class="alternative-avatar">
                         {{ initials() }}
                     </span>
