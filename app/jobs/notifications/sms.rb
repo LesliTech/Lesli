@@ -5,8 +5,7 @@ module Notifications
 
         def perform(telephone, message)
 
-            # The send of SMS service will be down for a while 
-            return
+            return unless Rails.env == "production"
 
             sms = LC::Config::Providers::Aws::Sns.new()
 
