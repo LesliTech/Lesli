@@ -215,9 +215,11 @@ export default {
                     :pagination-simple="false"
                     pagination-position="bottom">
                     <template slot-scope="props">
+                        <!--
                         <b-table-column :label="translations.core.users.view_table_header_id" sortable field="id">
                             {{ props.row.id }}
                         </b-table-column>
+                        -->
                         <b-table-column :label="translations.core.users.view_table_header_name" sortable field="name">
                             {{ props.row.name }}
                         </b-table-column>
@@ -246,7 +248,7 @@ export default {
                         <b-table-column :label="translations.core.users.view_text_last_activity_at" sortable field="last_activity_at">
                             {{ props.row.last_activity_at }}
                         </b-table-column>
-                        <b-table-column @click.native.prevent="e=>e.stopPropagation()" :label="translations.core.shared.view_table_header_actions">
+                        <b-table-column @click.native.prevent="e=>e.stopPropagation()" :label="translations.core.shared.view_table_header_actions" centered>
                             <b-dropdown aria-role="menu" position="is-bottom-left">
                                 <button class="button is-primary" slot="trigger" slot-scope="{ active }">
                                     <span class="icon">
