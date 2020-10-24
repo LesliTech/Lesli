@@ -129,7 +129,7 @@ class ApplicationLesliController < ApplicationController
         granted ||= {} 
 
         # if user do not has access to the requested route and can go to default route        
-        if granted["grant_#{action}"] == false && can_redirect_to_default_path.call()
+        if ((granted["grant_#{action}"] == false || granted.blank?) && can_redirect_to_default_path.call())
             return redirect_to current_user.role_detail[:default_path] 
         end 
 
