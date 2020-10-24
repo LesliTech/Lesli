@@ -26,9 +26,9 @@ import componentSecurityForm from "Lesli/vue/users/components/form-security.vue"
 // · 
 export default {
     components: {
-        'component-information-card': componentInformationCard,
-        'component-information-form': componentInformationForm,
-        'component-security-form': componentSecurityForm
+        "component-information-card": componentInformationCard,
+        "component-information-form": componentInformationForm,
+        "component-security-form": componentSecurityForm
     },
     data() {
         return {
@@ -58,30 +58,15 @@ export default {
                     this.user = result.data
                     this.store.data.user = result.data
                 }else{
-                    this.alert(result.error.message,'danger')
+                    this.alert(result.error.message,"danger")
                 }
             }).catch(error => {
                 console.log(error)
             })
         },
         getOptions(){
-            this.http.get('/lock/users/options.json').then(result => {
+            this.http.get("/administration/users/options.json").then(result => {
                 if (result.successful) {
-                    /*
-                    this.options = result.data
-                    let user_role = this.options.roles.find(e => e.value === this.user.roles_id)
-                    this.options.roles = this.options.roles.filter(e => 
-                        (
-                            (e.text !== 'api' &&
-                            e.text !== 'guest' &&
-                            e.text !== 'callcenter' && 
-                            e.text !== 'kop' &&
-                            e.text !== 'owner' &&
-                            e.text !== 'limited') ||
-                            e.text == user_role.text
-                        )
-                    )
-                    */
                     this.store.data.options = result.data
                 }
             }).catch(error => {

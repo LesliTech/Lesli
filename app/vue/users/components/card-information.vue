@@ -20,8 +20,8 @@ export default {
     data(){
         return {
             translations: {
-                users: I18n.t('deutscheleibrenten.users'),
-                shared: I18n.t('deutscheleibrenten.shared')
+                users: I18n.t("core.users"),
+                shared: I18n.t("core.shared")
             },
             user: {
                 detail_attributes: {}
@@ -61,7 +61,7 @@ export default {
                 <div class="content mb-0">
                     <p>
                         <strong if="user.detail_attributes.salutation">
-                            {{ object_utils.translateEnum(translations.shared, 'salutation', user.detail_attributes.salutation ) }}
+                            {{ object_utils.translateEnum(translations.shared, 'column_enum_salutation', user.detail_attributes.salutation ) }}
                         </strong>
                         <strong>{{ user.detail_attributes.first_name }}</strong>
                         <strong>{{ user.detail_attributes.last_name }}</strong>
