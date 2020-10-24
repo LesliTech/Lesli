@@ -266,20 +266,30 @@ Contents
     02.01. help/workflow
     02.02. help/workflow/statuses
     02.03. help/workflow/associations
+    02.04. help/workflow/actions
 
-    03.01. help/ticket 
-    03.02. help/ticket/details 
-    03.03. help/ticket/actions 
-    03.04. help/ticket/activities 
-    03.05. help/ticket/discussions 
-    03.06. help/ticket/files 
-    03.07. help/ticket/subscribers
-    03.08. help/ticket/custom_fields
-    03.09. help/ticket/timelines
-    03.10. help/ticket/assignments
+    03.01. help/custom_fields
 
-    04.01. help/sla
-    04.02. help/sla/associations
+    04.01. help/custom_validations  
+    04.02. help/custom_validation/rules  
+    04.03. help/custom_validation/fields  
+
+    05.01. help/dashboards
+    05.02. help/dasboard/components
+
+    10.01. help/tickets
+    10.02. help/ticket/details 
+    10.03. help/ticket/actions 
+    10.04. help/ticket/activities 
+    10.05. help/ticket/discussions 
+    10.06. help/ticket/files 
+    10.07. help/ticket/subscribers
+    10.08. help/ticket/custom_fields
+    10.10. help/ticket/timelines
+    10.11. help/ticket/assignments
+
+    11.01. help/sla
+    11.02. help/sla/associations
 ```
 
 ### 08.03. CloudAudit
