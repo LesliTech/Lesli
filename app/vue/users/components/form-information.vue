@@ -22,8 +22,8 @@ export default {
     data() {
         return {
             translations: {
-                users: I18n.t('core.users'),
-                shared: I18n.t('core.shared')
+                users: I18n.t("core.users"),
+                shared: I18n.t("core.shared")
             },
             options: {},
             user: {
@@ -37,9 +37,9 @@ export default {
                 user: this.user
             }).then(result => {
                 if (result.successful) {
-                    this.alert(this.translations.users.notification_user_updated, 'success')
+                    this.alert(this.translations.users.notification_user_updated, "success")
                 }else{
-                    this.alert(result.error.message,'danger')
+                    this.alert(result.error.message,"danger")
                 }
             }).catch(error => {
                 console.log(error)

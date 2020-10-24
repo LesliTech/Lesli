@@ -36,7 +36,7 @@ module RoutesApp
                     end
 
                     # user maintenance
-                    resources :users, only: [:index, :show, :update] do
+                    resources :users, only: [:index, :show, :update, :create] do
                         collection do
                             get  :options
                             post :logout
