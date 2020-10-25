@@ -65,4 +65,8 @@ module HtmlHelper
         end
     end
 
+    def navigation_administration text: "Administration", icon_path: "/assets/icons/administration-logo.svg"
+        navigation_engine_item text, icon_path, main_app.account_path
+    end
+
 end

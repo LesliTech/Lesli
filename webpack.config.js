@@ -42,6 +42,7 @@ module.exports = env => {
         performance: { hints: false },
         optimization: { minimize: production },
         entry: {
+            "accounts/app": "./app/vue/accounts/app.js",
             "account/integrations_app": "./app/vue/account_integrations/app.js",
 
             "users/app": "./app/vue/users/app.js",
