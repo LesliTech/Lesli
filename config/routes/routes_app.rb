@@ -36,13 +36,16 @@ module RoutesApp
                     end
 
                     # user maintenance
-                    resources :users, only: [:index] do
+                    resources :users, only: [:index, :show, :update, :create] do
                         collection do
-                            get :options
+                            get  :options
+                            post :logout
                         end
                         member do
                             scope :resources do
-                                get :become
+                                get  :become
+                                post :logout
+                                post :lock
                             end
                         end
                     end
