@@ -1,26 +1,16 @@
 <script>
 /*
-Copyright (c) 2020, Lesli Technologies, S. A.
+Copyright (c) 2020, all rights reserved.
 
-All the information provided by this website is protected by laws of Guatemala related 
-to industrial property, intellectual property, copyright and relative international laws. 
-Lesli Technologies, S. A. is the exclusive owner of all intellectual or industrial property
-rights of the code, texts, trade mark, design, pictures and any other information.
-Without the written permission of Lesli Technologies, S. A., any replication, modification,
+All the information provided by this platform is protected by international laws related  to 
+industrial property, intellectual property, copyright and relative international laws. 
+All intellectual or industrial property rights of the code, texts, trade mark, design, 
+pictures and any other information belongs to the owner of this platform.
+
+Without the written permission of the owner, any replication, modification,
 transmission, publication is strictly forbidden.
+
 For more information read the license file including with this software.
-
-LesliCloud - Your Smart Business Assistant
-
-Powered by https://www.lesli.tech
-Building a better future, one line of code at a time.
-
-@author   diego-alay
-@license  Propietary - all rights reserved.
-@version  0.1.0-alpha
-@description Allows the user to either view, or edit a Users and save it in the 
-    database using HTTP. This component is intended to be used in conjunction with the main apps:
-    *new*, *show* and *edit*
 
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
 // · 
@@ -32,17 +22,14 @@ export default {
 
     },
     
-    // @return [Object] Data used by this component's methods
+    // @return [Object] Data used by this component"s methods
     // @description Returns the data needed for this component to work properly
     // @data_variable main_route [String] the main route to which this component connects to the lesli API
     data() {
         return {
             translations: {
-                users: I18n.t('deutscheleibrenten.users'),
-                core: {
-                    users: I18n.t('deutscheleibrenten.users'),
-                    shared: I18n.t('deutscheleibrenten.shared')
-                }
+                users: I18n.t("core.users"),
+                shared: I18n.t("core.shared")
             },
             user: {
                 roles_id: null,
@@ -75,7 +62,7 @@ export default {
         },
         
         postUser() {
-            let url = `/lock/users.json`
+            let url = `/administration/users.json`
 
             let data = {
                 user: {
@@ -86,10 +73,10 @@ export default {
 
             this.http.post(url, data).then(result => {
                 if (result.successful) {
-                    this.alert(this.translations.users.notification_user_created, 'success')
-                    this.url.go('/lock/users')
+                    this.alert(this.translations.users.notification_user_created, "success")
+                    this.url.go("/administration/users")
                 }else{
-                    this.alert(result.error.message,'danger')
+                    this.alert(result.error.message,"danger")
                 }
             }).catch(error => {
                 console.log(error)
@@ -97,15 +84,15 @@ export default {
         },
 
         putUser() {
-            let url = `/lock/users/${this.user.id}.json`
+            let url = `/administration/users/${this.user.id}.json`
             let data = {
                 user: this.user
             }
             this.http.put(url, data).then(result => {
                 if (result.successful) {
-                    this.alert(this.translations.users.notification_user_updated, 'success')
+                    this.alert(this.translations.users.notification_user_updated, "success")
                 }else{
-                    this.alert(result.error.message,'danger')
+                    this.alert(result.error.message,"danger")
                 }
             }).catch(error => {
                 console.log(error)
@@ -124,7 +111,7 @@ export default {
 
                         <!-- Email -->
                         <div class="field">
-                            <label class="label">{{ translations.core.shared.text_email }}</label>
+                            <label class="label">{{ translations.users.view_table_header_email }}</label>
                             <div class="control">
                                 <input required v-model="user.email" class="input" type="email">
                             </div>
@@ -132,16 +119,16 @@ export default {
 
                         <!-- Roles  -->
                         <div class="field">
-                            <label class="label">{{ translations.core.shared.text_role }}</label>
+                            <label class="label">{{ translations.users.view_text_role }}</label>
                             <div class="control">
                                 <b-select 
-                                    :placeholder="translations.core.shared.text_role"
+                                    :placeholder="translations.shared.text_role"
                                     v-model="user.roles_id">
                                     <option
                                         v-for="role in options.roles"
                                         :value="role.value"
                                         :key="role.value">
-                                        {{ object_utils.translateEnum(translations.core.users, 'enum_role', role.text) }}
+                                        {{ object_utils.translateEnum(translations.users, "enum_role", role.text) }}
                                     </option>
                                 </b-select>
                             </div>
@@ -152,22 +139,21 @@ export default {
 
                         <!-- Salutation  -->
                         <div class="field">
-                            <label class="label">{{ translations.core.shared.text_salutation }}</label>
+                            <label class="label">{{ translations.shared.view_text_salutation }}</label>
                             <b-radio
                                 v-for="option in options.salutations"
                                 :key="option.value"
                                 v-model="user.detail_attributes.salutation"
                                 type="is-info"
-                                :native-value="option.value"
-                            >
-                            {{ translations.core.shared[`salutation_${option.text}`] }}
+                                :native-value="option.value">
+                                {{ translations.shared[`column_enum_salutation_${option.text}`] }}
                             </b-radio>
                             
                         </div>
 
                         <!-- First name -->
                         <div class="field">
-                            <label class="label">{{ translations.core.shared.text_first_name }}</label>
+                            <label class="label">{{ translations.shared.view_text_first_name }}</label>
                             <div class="control">
                                 <input required v-model="user.detail_attributes.first_name" class="input" type="text">
                             </div>
@@ -175,7 +161,7 @@ export default {
 
                         <!-- Last name -->
                         <div class="field">
-                            <label class="label">{{ translations.core.shared.text_last_name }}</label>
+                            <label class="label">{{ translations.shared.view_text_last_name }}</label>
                             <div class="control">
                                 <input required v-model="user.detail_attributes.last_name" class="input">
                             </div>
@@ -183,7 +169,7 @@ export default {
 
                         <!-- Title -->
                         <div class="field">
-                            <label class="label">{{ translations.core.shared.text_title }}</label>
+                            <label class="label">{{ translations.users.view_text_title }}</label>
                             <div class="control">
                                 <input v-model="user.detail_attributes.title" class="input">
                             </div>
@@ -191,7 +177,7 @@ export default {
         
                         <!-- phone -->
                         <div class="field">
-                            <label class="label">{{ translations.core.shared.text_telephone }}</label>
+                            <label class="label">{{ translations.shared.view_text_telephone }}</label>
                             <div class="control">
                                 <input v-model="user.detail_attributes.telephone" class="input">
                             </div>
@@ -199,7 +185,7 @@ export default {
                     </div>
                 </div>
                 <p class="control">
-                    <button class="button is-primary">{{ translations.core.shared.btn_save }}</button>
+                    <button class="button is-primary">{{ translations.shared.view_btn_save }}</button>
                 </p>
             </form>
         </div>

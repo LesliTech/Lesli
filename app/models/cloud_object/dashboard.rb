@@ -10,7 +10,9 @@ module CloudObject
         def self.initialize_data(account)
             self.create!(
                 account: account,
-                name: "Default Dashboard"
+                name: "Default Dashboard",
+                default: true,
+                main: false
             )
         end
 
