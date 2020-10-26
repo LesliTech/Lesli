@@ -25,7 +25,7 @@ module RoutesApp
                 # Lesli core administration components
                 scope :administration do
 
-                    root :to => "accounts#show" # :as => :root_with_locale
+                    root to: "accounts#show", as: :root_administration
 
                     # Lesli user profile
                     resource :profile, only: [:show]
