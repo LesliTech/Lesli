@@ -91,7 +91,7 @@ Building a better future, one line of code at a time.
 
             if action
                 return cloud_object.subscribers.create(
-                    user: user,
+                    user_creator: user,
                     action: action,
                     notification_type: model.notification_types[notification_type]
                 )
@@ -99,7 +99,7 @@ Building a better future, one line of code at a time.
             
             model.actions.values.each do |action|
                 cloud_object.subscribers.create(
-                    user: user,
+                    user_creator: user,
                     action: action,
                     notification_type: model.notification_types[notification_type]
                 )
