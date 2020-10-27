@@ -16,11 +16,6 @@ export default {
             default: true
         },
 
-        translationsPath: {
-            type: String,
-            default: 'deutscheleibrenten.shared'
-        },
-
         translationsFileTypesPath: {
             type: String,
             default: null
@@ -30,7 +25,7 @@ export default {
     data(){
         return {
             translations: {
-                core: I18n.t('deutscheleibrenten.shared')
+                core: I18n.t('core.shared')
             },
             loading: false,
             files: null,
@@ -59,8 +54,6 @@ export default {
 
     methods: {
         setTranslations(){
-            this.$set(this.translations, 'main', I18n.t(this.translationsPath))
-
             if(this.translationsFileTypesPath){
                 this.$set(this.translations, 'file_types', I18n.t(this.translationsFileTypesPath))
             }
@@ -116,7 +109,7 @@ export default {
 
             this.http.delete(url).then(result => {
                 if (result.successful) {
-                    this.alert(this.translations.main.notification_file_deleted, 'success')
+                    this.alert(this.translations.core.messages_info_file_destroyed, 'success')
                     this.bus.publish(`delete:/${this.module_name.slash}/${this.object_name.plural}/files`, deleted_file)
                 }else{
                     this.alert(result.error.message,'danger')
@@ -190,18 +183,18 @@ export default {
 }
 </script>
 <template>
-    <section v-if="translations.main">
+    <section>
         <div class="columns">
             <div class="column is-6">
                 <b-checkbox v-model="all_files_selected">
-                    {{translations.main.files_input_select_all_title}}
+                    {{translations.core.view_text_files_select_all}}
                 </b-checkbox>
             </div>
             <div class="column is-6 has-text-right">
                 <a :disabled="selectedFiles" class="button is-outlined is-primary" role="button" @click="downloadSelectedFiles">
                     <b-icon size="is-small" icon="download" />
                     &nbsp;
-                    {{translations.main.files_btn_download_selected}}
+                    {{translations.core.view_btn_files_download_selected}}
                 </a>
             </div>
         </div>
@@ -223,11 +216,11 @@ export default {
                     <b-checkbox size="is-small" v-model="props.row.selected" />
                 </b-table-column>
 
-                <b-table-column field="name" :label="translations.core.text_name" sortable>
+                <b-table-column field="name" :label="translations.core.column_files_name" sortable>
                     {{ props.row.name }}
                 </b-table-column>
 
-                <b-table-column field="file_type" :label="translations.core.text_type" sortable>
+                <b-table-column field="file_type" :label="translations.core.column_files_file_type" sortable>
                     <span v-if="translations.file_types">
                         {{translateFileType(props.row.file_type)}}
                     </span>
@@ -236,11 +229,11 @@ export default {
                     </span>
                 </b-table-column>
 
-                <b-table-column field="created_at_raw" :label="translations.core.text_created_at" sortable>
+                <b-table-column field="created_at_raw" :label="translations.core.column_created_at" sortable>
                     {{ props.row.created_at }}
                 </b-table-column>
 
-                <b-table-column field="actions" :label="translations.core.text_actions" class="has-text-right">
+                <b-table-column field="actions" :label="translations.core.view_table_header_actions" class="has-text-right">
                     <a
                         :href="`/${module_name.slash}/${object_name.plural}/${cloudId}/files/${props.row.id}`"
                         target="_blank"
