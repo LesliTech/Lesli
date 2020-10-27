@@ -6,10 +6,17 @@ class Template::Document < ApplicationLesliRecord
         filters = query[:filters]
         template_documents = current_user.account.template.documents
 
-        unless filters.blank?
+        unless filters[:attachment].blank?
             template_documents = template_documents
             .where.not(attachment: nil) if filters[:attachment] == "true"
         end
+
+        unless filters[:model_type].blank?
+            template_documents = template_documents
+            .where(model_type: filters[:model_type])             
+        end
+
+        template_documents
     end
     
     def self.options
@@ -24,7 +31,7 @@ class Template::Document < ApplicationLesliRecord
 
     #upload file to s3
     def self.upload_file(template_document, file_path, attachment)        
-        s3 = LC::Providers::Aws::S3.new()
+        s3 = LC::Config::Providers::Aws::S3.new()
         s3_file = s3.create_object(file_path)
 
         s3_file.put(
