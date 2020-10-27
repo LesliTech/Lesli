@@ -100,7 +100,7 @@ class Template::DocumentsController < ApplicationLesliController
         file_name = params[:file][:attachment].original_filename.gsub(/\s+/, " ")
 
         document_variables = Template::Document.extract_text(params[:file][:attachment])
-        debugger
+        
         template_document = current_user.account.template.documents.create(
             name: file_name,
             model_type: params[:model_type]
