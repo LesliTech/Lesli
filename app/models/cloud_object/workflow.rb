@@ -266,7 +266,7 @@ Building a better future, one line of code at a time.
 
                     unless workflow_associations.empty?
                         workflow = self.find(workflow_associations[0][:id])
-                        cloud_object.status = workflow.statuses.find_by(status_type: "initial")
+                        self.finish_workflow_assignation(cloud_object, workflow)
                         return
                     end
                 end
@@ -289,7 +289,7 @@ Building a better future, one line of code at a time.
 
             unless workflow_associations.empty?
                 workflow = self.find(workflow_associations[0][:id])
-                cloud_object.status = workflow.statuses.find_by(status_type: "initial")
+                self.finish_workflow_assignation(cloud_object, workflow)
                 return
             end
         
@@ -301,7 +301,7 @@ Building a better future, one line of code at a time.
             )
 
             if workflow
-                cloud_object.status = workflow.statuses.find_by(status_type: "initial")
+                self.finish_workflow_assignation(cloud_object, workflow)
             end
         end
 
@@ -346,6 +346,14 @@ Building a better future, one line of code at a time.
         end
 
         private
+        
+        # If the new workflow is the old workflow, the status is not reset. This will only occur when
+        # set_workflow is called for a cloud_object that has already another workflow associated
+        def self.finish_workflow_assignation(cloud_object, workflow)
+            return if cloud_object.status && cloud_object.status.workflow == workflow
+
+            cloud_object.status = workflow.statuses.find_by(status_type: "initial")
+        end
         
 =begin
 @return [Hash] Hash that contains information about the class
