@@ -191,7 +191,7 @@ class Template::DocumentsController < ApplicationLesliController
 =end
     def generate  
         set_template_document
-        set_cloud_object_file_params
+        set_cloud_object
 
         Templates::CreateCloudObjectFileWithTemplateJob.perform_now(
             current_user,
@@ -226,7 +226,7 @@ class Template::DocumentsController < ApplicationLesliController
     puts @cloud_object
     # This will either display nil or an instance of CloudObject
 =end
-    def set_cloud_object_file_params
+    def set_cloud_object
         @cloud_object = cloud_object_file_params[:model_type].constantize.find_by(id: cloud_object_file_params[:model_id])
     end
 
