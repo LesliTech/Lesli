@@ -31,6 +31,7 @@ class User < ApplicationLesliRecord
             :confirmable,
             :trackable 
     
+
     # users belongs to an account only and must have a role
     belongs_to :account, foreign_key: "accounts_id", optional: true
     belongs_to :role, foreign_key: "roles_id", optional: true
@@ -113,18 +114,40 @@ class User < ApplicationLesliRecord
         users = users.where("RD.name #{operator} (?)", roles) unless roles.blank?
         users = users.order("#{query[:pagination][:orderColumn]} #{query[:pagination][:order]} NULLS LAST")
 
-        users.select(
+        users = users.select(
             :id,
-            :roles_id,
             :active,
             :email,
-            "UD.first_name",
-            "UD.last_name",
+            :current_sign_in_at,
             "false as editable",
             "CONCAT(UD.first_name, ' ',UD.last_name) as name",
             "R.id as role_id",
             "RD.name as role_name"
         )
+
+        users.map do |user|
+
+            # last time user use the login form to access the platform
+            last_sign_in_at = LC::Date.distance_to_words(user[:current_sign_in_at], Time.current)
+
+            # last action the user perform an action into the system
+            last_action_performed_at = user.requests.last # User::Request.where(:user => user[:id]).last
+            last_action_performed_at = LC::Date.distance_to_words(last_action_performed_at[:created_at], Time.current) if not last_action_performed_at.blank?
+
+            session = user.sessions.last ? true : false
+
+            {
+                id: user[:id],
+                name: user[:name],
+                email: user[:email],
+                last_sign_in_at: last_sign_in_at,
+                active: user[:active],
+                role: user[:role_name],
+                last_activity_at: last_action_performed_at,
+                session_active: session 
+            }
+
+        end
 
     end
 
@@ -182,6 +205,19 @@ class User < ApplicationLesliRecord
         detail.first_name.blank? ? email : detail.first_name + " " + detail.last_name.to_s
     end
 
+
+    def close_session
+
+        # get last session of the user
+        # TODO:
+        #   add support to delete sessions for specific devices
+        #   add support to delete all sesssions
+        session = self.sessions.last
+
+        # add delete date to the last active session if active session exists
+        session.destroy if not session.blank?
+
+    end
 
     # @return [void]
     # @description Sets this user as inactive and removes complete access to the platform from them

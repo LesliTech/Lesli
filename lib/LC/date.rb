@@ -161,13 +161,16 @@ module LC
         end
  
         def self.distance_to_words(time_from, time_to, force_time_zone=false)
+
+            return "never" if time_from.blank?
+
             self.verify_settings
             
             zone = ActiveSupport::TimeZone.new(@settings["time_zone"])
  
             time_from = time_from.in_time_zone(zone) if force_time_zone
             time_to = time_to.in_time_zone(zone) if force_time_zone
- 
+
             distance_in_seconds = (time_to - time_from).round
             distance_in_minutes = (distance_in_seconds / 60.0).round
             distance_in_hours= (distance_in_minutes / 60.0).round
@@ -190,6 +193,8 @@ module LC
             # return distance in minutes
             return "#{distance_in_seconds} second ago" if distance_in_seconds == 1
             return "#{distance_in_seconds} seconds ago" if distance_in_seconds > 1
+
+            return "right now" if distance_in_seconds === 0
  
             # return generic distance
             return "some time ago"
