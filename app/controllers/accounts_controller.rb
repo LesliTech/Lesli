@@ -20,6 +20,7 @@ For more information read the license file including with this software.
 class AccountsController < ApplicationLesliController
     before_action :set_account, only: [:edit, :update, :destroy]
 
+
     # GET /accounts
     # GET /accounts.json
     # Handles a request
@@ -75,17 +76,17 @@ class AccountsController < ApplicationLesliController
         end
     end
 
-  # DELETE /accounts/1
-  # DELETE /accounts/1.json
-  def destroy
+    # DELETE /accounts/1
+    # DELETE /accounts/1.json
+    def destroy
     return respond_with_not_found unless @account
 
     @account.destroy
     respond_to do |format|
-      format.html { redirect_to accounts_url, notice: 'Account was successfully destroyed.' }
-      format.json { head :no_content }
+    format.html { redirect_to accounts_url, notice: 'Account was successfully destroyed.' }
+    format.json { head :no_content }
     end
-  end
+    end
 
     private
 
