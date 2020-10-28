@@ -38,10 +38,34 @@ export default {
                 initials += this.user.detail_attributes.last_name[0]
             }
             return initials
+        },
+        doUserLogout() {
+            this.http.post(`/administration/users/${this.user.id}/resources/logout`).then(result => {
+                if (!result.successful) {
+                    this.alert(result.error.message, "danger")
+                    return
+                }
+                this.alert(this.translations.users.messages_success_user_updated)
+            }).catch(error => {
+                console.log(error)
+            })
+        },
+
+        doUserLock() {
+            this.http.post(`/administration/users/${this.user.id}/resources/lock`).then(result => {
+                if (!result.successful) {
+                    this.alert(result.error.message, "danger")
+                    return
+                }
+                this.getUsers()
+                this.alert(this.translations.users.messages_success_user_updated)
+            }).catch(error => {
+                console.log(error)
+            })
         }
     },
     watch: {
-        "store.data.user": function(user) {
+        "data.user": function(user) {
             this.user = user
         }
     }
@@ -69,8 +93,7 @@ export default {
                         {{ user.detail_attributes.title }}
                     </p>
                 </div>
-                
-                <nav class="level is-mobile">
+                <nav class="level is-mobile mb-0">
                     <div class="level-left">
                         <a  v-if="user.email"
                             :href="'mailto:'+user.email" class="level-item" aria-label="reply">
@@ -88,6 +111,35 @@ export default {
                         </a>
                     </div>
                 </nav>
+                <hr class="my-3">
+                <div class="buttons">
+                    <button class="button is-white is-small">
+                        <span class="icon">
+                            <i class="fas fa-unlock-alt"></i>
+                        </span>
+                        <span>
+                            request password reset
+                        </span>
+                    </button>
+
+                    <button class="button is-white is-small" @click="doUserLogout()">
+                        <span class="icon">
+                            <i class="fas fa-sign-out-alt"></i>
+                        </span>
+                        <span>
+                            force logout
+                        </span>
+                    </button>
+
+                    <button class="button is-white is-small">
+                        <span class="icon">
+                            <i class="fas fa-user-lock"></i>
+                        </span>
+                        <span>
+                            revoke access
+                        </span>
+                    </button>
+                </div>
             </div>
         </div>
     </div>

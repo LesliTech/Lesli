@@ -33,6 +33,7 @@ export default {
     data() {
         return {
             user_id: null,
+            active: 0,
             user: {
                 detail_attributes: {}
             },
@@ -55,8 +56,7 @@ export default {
         getUser() {
             this.http.get(`/administration/users/${this.user_id}.json`).then(result => {
                 if (result.successful) {
-                    this.user = result.data
-                    this.store.data.user = result.data
+                    this.data.user = result.data
                 }else{
                     this.alert(result.error.message,"danger")
                 }
@@ -67,7 +67,7 @@ export default {
         getOptions(){
             this.http.get("/administration/users/options.json").then(result => {
                 if (result.successful) {
-                    this.store.data.options = result.data
+                    this.data.options = result.data
                 }
             }).catch(error => {
                 console.log(error)
@@ -79,13 +79,15 @@ export default {
 
 <template>
     <section class="application-component">
-        <component-information-card :user="user"></component-information-card>
-        <b-tabs>
+        <component-information-card></component-information-card>
+        <b-tabs v-model="active">
             <b-tab-item :label="translations.core.users.view_tab_title_information">
                 <component-information-form></component-information-form>
             </b-tab-item>
             <b-tab-item :label="translations.core.users.view_tab_title_security">
                 <component-security-form></component-security-form>
+            </b-tab-item>
+            <b-tab-item :label="'Access management'" disabled>
             </b-tab-item>
         </b-tabs>
     </section>
