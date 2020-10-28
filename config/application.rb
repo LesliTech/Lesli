@@ -43,7 +43,7 @@ module Lesli
         # Initialize configuration defaults for originally generated Rails version.
         config.load_defaults 6.0
 
-        config.time_zone = "UTC"
+
 
         config.lesli_settings = Lesli::settings(Rails.env)
 
@@ -54,6 +54,12 @@ module Lesli
         config.i18n.load_path += Dir[Rails.root.join("engines", "*", "config", "locales", "**", "*.{rb,yml}")]
         config.autoload_paths += Dir[Rails.root.join("config", "routes")]
         config.autoload_paths += Dir[Rails.root.join("lib")]
+
+        # Default time zone for the app, this can change if necessary
+        config.time_zone = "UTC"
+
+        # Default time zone for database - DO NOT CHANGE -
+        config.active_record.default_timezone = :utc
 
         # Catch errors (enabled on environments/production.rb)
         config.exceptions_app = self.routes # dev

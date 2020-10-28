@@ -35,7 +35,7 @@ aside.application-sidebar {
     @include box-shadow;
     background-color: lesli-css-get-color(solid, white);
 
-    a.brand {
+    a.brand, a.brand img {
         max-height: 120px;
     }
 

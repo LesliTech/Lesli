@@ -16,32 +16,17 @@ For more information read the license file including with this software.
 */
 
 
-// · Plugin initializing 
-export default {
+// · Import main app from core
+import app from "LesliVue/app"
 
-    install (Vue, options_url) {
-    
-        Vue.prototype.url = {
 
-            // · Redirect to specific url
-            go(url=null) {
-                url = new URL(url, options_url.root)
-                window.location.href = url.href;
-            },
+// · 
+import appList from "./apps/list.vue"
 
-            // · Get well formated url
-            to(path=null) {
+// · 
+app("Administration", "[list|new|edit|show]", "/administration/roles", [{
+    path: "/",
+    component: appList
+}], { 
 
-                if (path) {
-                    return new URL(path, options_url.root) 
-                }
-
-                return new URL("/", options_url.root)
-
-            }
-
-        }
-
-    }
-    
-}
+})

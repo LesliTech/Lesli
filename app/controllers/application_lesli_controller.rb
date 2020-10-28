@@ -1,7 +1,5 @@
 =begin
 
-Lesli
-
 Copyright (c) 2020, all rights reserved.
 
 All the information provided by this platform is protected by international laws related  to 
@@ -28,7 +26,6 @@ class ApplicationLesliController < ApplicationController
     protect_from_forgery with: :exception
 
     before_action :set_locale
-    before_action :validate_session
     before_action :authorize_request
     before_action :authorize_privileges
     before_action :set_helpers_for_request
@@ -146,25 +143,25 @@ class ApplicationLesliController < ApplicationController
 
     end
 
-    # validate session
-    def validate_session
-        if not request[:format] == "json"
-            if (current_user.sessions.last.last_used_at.blank?)
-                sign_out current_user
-                redirect_to "/login", notice: "Please Login to view that page!"
-            end
-        end
-    end
     
     # Validate user authentication and session status
     def authorize_request
-        # check if user has an active session
+
+        # check if the users is logged into the system
         if not user_signed_in?
             redirect_to root, notice: "Please Login to view that page!"
         end
 
         # check if account is active (only for html requests)
         return true if not request.format.html?
+
+
+        # check if user has an active session
+        if (!current_user.sessions.last)
+            sign_out current_user
+            redirect_to "/logout"
+        end
+
         return if current_user.blank?
         return if controller_name == "accounts"
 
