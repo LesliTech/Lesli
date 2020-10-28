@@ -43,6 +43,9 @@ Rails.application.config.assets.precompile += [ "themes/**/*.css" ]
 Rails.application.config.assets.precompile += [ "accounts.css", "accounts/*.js" ]
 Rails.application.config.assets.precompile += [ "roles.css", "roles/*.js" ]
 
+Rails.application.config.assets.precompile += [ "account/*.css", "account/*.js" ]
+
+
 Rails.application.config.assets.precompile += [ "users.css", "users/*.js" ]
 Rails.application.config.assets.precompile += [ "abouts.css", "abouts/*.js" ]
 Rails.application.config.assets.precompile += [ "users/*.css", "users/*.js" ]
