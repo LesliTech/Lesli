@@ -8,18 +8,13 @@ export default {
 
         cloudId: {
             required: true
-        },
-
-        translationsPath: {
-            type: String,
-            required: true
         }
     },
 
     data(){
         return {
             translations: {
-                core: I18n.t('deutscheleibrenten.shared')
+                core: I18n.t('core.shared')
             },
             module_name: null,
             object_name: null,
@@ -45,7 +40,6 @@ export default {
 
     mounted(){
         this.parseCloudModule()
-        this.setTranslations()
         this.getDiscussions()
     },
 
@@ -54,10 +48,6 @@ export default {
             let parsed_data = this.object_utils.parseCloudModule(this.cloudModule)
             this.object_name = parsed_data.cloud_object_name
             this.module_name = parsed_data.cloud_module_name
-        },
-
-        setTranslations(){
-            this.$set(this.translations, 'main', I18n.t(this.translationsPath))
         },
 
         getDiscussions() {
@@ -89,7 +79,7 @@ export default {
             this.http.post(url, form_data).then(result => {
                 this.submitting_form = false
                 if (result.successful) {
-                    this.alert(this.translations.main.notification_discussion_created, 'success')
+                    this.alert(this.translations.core.messages_info_discussion_created, 'success')
                     this.bus.publish(`post:/${this.module_name.slash}/${this.object_name.plural}/discussions`, result.data)
                     this.clearContentInput()
                     this.discussions.unshift({
@@ -122,11 +112,12 @@ export default {
         },
         
         confirmCommentDeletion(comment) {
+            window.scrollTo(0,0)
             this.$buefy.dialog.confirm({
-                title: this.translations.main.discussions_delete_confirmation_title,
-                message: this.translations.main.discussions_delete_confirmation_body,
-                confirmText: this.translations.main.discussions_delete_confirmation_accept_button,
-                cancelText: this.translations.main.discussions_delete_confirmation_cancel_button,
+                title: this.translations.core.messages_danger_discussions_delete_confirmation_title,
+                message: this.translations.core.messages_danger_discussions_delete_confirmation_body,
+                confirmText: this.translations.core.messages_danger_discussions_delete_confirmation_accept_button,
+                cancelText: this.translations.core.messages_danger_discussions_delete_confirmation_cancel_button,
                 type: 'is-danger',
                 hasIcon: true,
                 onConfirm: () => this.deleteComment(comment)
@@ -146,7 +137,7 @@ export default {
                     this.$set(comment.data, 'content', comment.data.new_content)
                     this.$set(comment.data, 'editing', false)
                     this.bus.publish(`put:/${this.module_name.slash}/${this.object_name.plural}/discussions`, result.data)
-                    this.alert(this.translations.main.notification_discussion_updated, 'success')
+                    this.alert(this.translations.core.messages_info_discussion_updated, 'success')
                     
                 }else{
                     this.alert(result.error.message,'danger')
@@ -162,7 +153,7 @@ export default {
 
             this.http.delete(url).then(result => {
                 if (result.successful) {
-                    this.alert(this.translations.main.notification_discussion_destroyed, 'success')
+                    this.alert(this.translations.core.messages_info_discussion_destroyed, 'success')
                     this.bus.publish(`delete:/${this.module_name.slash}/${this.object_name.plural}/discussions`, comment.data)
                     this.discussions = this.discussions.filter((discussion)=>{
                         return discussion.data.id != comment.data.id
@@ -207,21 +198,21 @@ export default {
 }
 </script>
 <template>
-    <section v-if="translations.main">
+    <section>
         <form @submit="postDiscussion">
             <fieldset :disabled="submitting_form">
                 <b-field grouped>
-                    <b-input required :placeholder="translations.main.discussions_input_comment_placeholder" ref="input-comment" v-model="discussion.content" expanded>
+                    <b-input required :placeholder="translations.core.view_placeholder_discussions_add_comment" ref="input-comment" v-model="discussion.content" expanded>
                     </b-input>
                     <p class="control">
                         <b-button type="is-primary" native-type="submit">
                             <span v-if="submitting_form">
                                 <b-icon icon="circle-notch" custom-class="fa-spin" size="is-small" />
                                 &nbsp;
-                                {{translations.core.btn_saving}}
+                                {{translations.core.view_btn_saving}}
                             </span>
                             <span v-else>
-                                {{translations.core.btn_save}}
+                                {{translations.core.view_btn_save}}
                             </span>
                         </b-button>
                     </p>
@@ -233,7 +224,7 @@ export default {
             <div class="column is-7">
                 <b-field>
                     <b-input
-                        :placeholder="translations.main.discussion_input_search_placehodler"
+                        :placeholder="translations.core.view_placeholder_discussions_search_text"
                         v-model="search"
                         type="text"
                         icon="search"
@@ -266,11 +257,11 @@ export default {
             pagination-position="bottom"
         >
             <template slot-scope="props">
-                <b-table-column field="data.created_at_raw" :label="translations.core.text_created_at" sortable>
+                <b-table-column field="data.created_at_raw" :label="translations.core.column_created_at" sortable>
                     {{ props.row.data.created_at }}
                 </b-table-column>
 
-                <b-table-column field="data.user_name" :label="translations.core.text_employee" sortable>
+                <b-table-column field="data.user_name" :label="translations.core.column_discussions_users_id" sortable>
                     <span v-if="props.row.data.user_name">
                         {{props.row.data.user_name}}
                     </span>
@@ -279,7 +270,7 @@ export default {
                     </span>
                 </b-table-column>
 
-                <b-table-column field="data.content" :label="translations.core.text_comment" sortable>
+                <b-table-column field="data.content" :label="translations.core.column_discussions_content" sortable>
                     <span v-if="props.row.data.editing">
                         <b-field>
                             <b-input
@@ -296,7 +287,7 @@ export default {
                     </span>
                 </b-table-column>
 
-                <b-table-column field="actions" :label="translations.core.text_actions" class="has-text-right">
+                <b-table-column field="actions" :label="translations.core.view_table_header_actions" class="has-text-right">
                     <span v-if="props.row.data.editable">
                         <span v-if="props.row.data.editing">
                             <b-button size="is-small" outlined @click="putDiscussion(props.row)">

@@ -18,11 +18,6 @@ export default {
             default: true
         },
 
-        translationsPath: {
-            type: String,
-            default: 'deutscheleibrenten.shared'
-        },
-
         acceptedFileExtensions: {
             type: Array,
             default: null
@@ -41,7 +36,7 @@ export default {
     data(){
         return {
             translations: {
-                core: I18n.t('deutscheleibrenten.shared')
+                core: I18n.t('core.shared')
             },
             submitting_form: false,
             module_name: null,
@@ -76,10 +71,8 @@ export default {
     methods: {
 
         setTranslations(){
-            this.$set(this.translations, 'main', I18n.t(this.translationsPath))
-
             if(this.translationsFileTypesPath){
-                this.translations.file_types = I18n.t(this.translationsFileTypesPath)
+                this.$set(this.translations, 'file_types', I18n.t(this.translationsFileTypesPath))
             }
         },
 
@@ -150,14 +143,14 @@ export default {
             }
 
             if(! accepted_file_type){
-                this.alert(this.translations.core.notification_error_file_type_not_allowed, 'danger')
+                this.alert(this.translations.core.messages_warning_files_extension_not_allowed, 'danger')
                 this.$refs['dropzone'].removeFile(file)
             }
         },
 
         cleanDropzone(){
             this.submitting_form = false
-            this.alert(this.translations.main.notification_file_uploaded, 'success')
+            this.alert(this.translations.core.messages_info_file_created, 'success')
             this.$refs['dropzone'].removeAllFiles(true)
             this.$emit('upload-complete')
             this.bus.publish(`post:/${this.module_name.slash}/${this.object_name.plural}/files-complete`)
@@ -202,14 +195,14 @@ export default {
 }
 </script>
 <template>
-    <form @submit="postFiles" v-if="translations.main">
+    <form @submit="postFiles">
         <div class="columns is-marginless has-border-bottom">
             <div class="column is-3">
-                <strong>{{translations.main.files_input_type_title}}</strong><sup class="has-text-danger">*</sup>
+                <strong>{{translations.core.column_files_file_type}}</strong><sup class="has-text-danger">*</sup>
             </div>
             <div class="column is-9">
                 <b-field>
-                    <b-select expanded :placeholder="translations.core.text_select_option" v-model="file_type" required>
+                    <b-select expanded :placeholder="translations.core.view_placeholder_select_option" v-model="file_type" required>
                         <option v-for="file_type in file_options.file_types" :key="file_type.value" :value="file_type.value">
                             <span v-if="translations.file_types">
                                 {{translateFileType(file_type.text)}}
@@ -225,7 +218,7 @@ export default {
 
         <div class="columns is-marginless has-border-bottom">
             <div class="column is-3">
-                <strong>{{translations.main.files_input_file_title}}</strong><sup class="has-text-danger">*</sup>
+                <strong>{{translations.core.column_files_attachment}}</strong><sup class="has-text-danger">*</sup>
             </div>
             <div class="column is-9">
                 <b-field>
@@ -250,10 +243,10 @@ export default {
                 <span v-if="submitting_form">
                     <b-icon icon="circle-notch" custom-class="fa-spin" size="is-small" />
                     &nbsp;
-                    {{translations.core.btn_saving}}
+                    {{translations.core.view_btn_saving}}
                 </span>
                 <span v-else>
-                    {{translations.core.btn_save}}
+                    {{translations.core.view_btn_save}}
                 </span>
             </b-button>
         </div>

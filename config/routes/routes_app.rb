@@ -111,6 +111,11 @@ module RoutesApp
                             collection do
                                 get :options
                             end
+                            scope :resources do
+                                member do
+                                    post :generate
+                                end
+                            end
                         end
                         resources :variables
                         resources :mappings

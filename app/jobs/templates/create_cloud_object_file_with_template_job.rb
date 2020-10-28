@@ -1,4 +1,4 @@
-class WorkflowActions::CreateCloudObjectFileWithTemplateJob < ApplicationJob
+class Templates::CreateCloudObjectFileWithTemplateJob < ApplicationJob
     queue_as :default
 
     XML_TAG = /\<[^\>]+\>/
@@ -32,7 +32,7 @@ class WorkflowActions::CreateCloudObjectFileWithTemplateJob < ApplicationJob
         data = cloud_object.template_data(query)
 
         #download file from s3
-        s3 = LC::Providers::Aws::S3.new()
+        s3 = LC::Config::Providers::Aws::S3.new()
         s3_file = s3.get_object(document.attachment)
 
         #validate if directory exists

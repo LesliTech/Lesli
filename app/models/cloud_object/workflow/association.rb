@@ -80,7 +80,7 @@ Building a better future, one line of code at a time.
                 details.each do |detail|
                     if detail[:type] == "foreign_key"
                         detail_list = detail[:class].constantize.where(
-                            "cloud_#{module_name}_accounts_id" => account.id
+                            "#{module_name}_accounts_id" => account.id
                         ).select(
                             :id,
                             "#{detail[:identifier]} as name"
@@ -198,7 +198,7 @@ Building a better future, one line of code at a time.
 =end
         def self.dynamic_info
             module_info = self.lesli_classname().split("::")
-            module_name = module_info[0].sub("Cloud", "").downcase
+            module_name = module_info[0].underscore
 
             {
                 module_name: module_name
@@ -248,14 +248,14 @@ Building a better future, one line of code at a time.
             module_name = dynamic_info[:module_name]
 
             unique_attributes = attributes.to_hash
-            unique_attributes.except!("id", "created_at", "updated_at", "cloud_#{module_name}_workflows_id")
+            unique_attributes.except!("id", "created_at", "updated_at", "#{module_name}_workflows_id")
 
             dupplicated_associations = self.class.joins(
                 :workflow
             ).where(
                 unique_attributes
             ).where(
-                "cloud_#{module_name}_workflows.cloud_#{module_name}_accounts_id = #{workflow.account.id}"
+                "#{module_name}_workflows.#{module_name}_accounts_id = #{workflow.account.id}"
             ).where.not(
                 id: id
             )

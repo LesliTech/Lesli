@@ -45,10 +45,6 @@ export default {
             type: Boolean,
             default: true
         },
-        translationsPath: {
-            type: String,
-            default: 'core.shared'
-        },
         translationsFileTypesPath: {
             type: String,
             default: null
@@ -68,7 +64,7 @@ export default {
         return {
             show: false,
             translations: {
-                core: I18n.t('deutscheleibrenten.shared')
+                core: I18n.t('core.shared')
             },
             active_tab: 0
         }
@@ -103,24 +99,22 @@ export default {
 }
 </script>
 <template>
-    <b-tabs expanded v-model="active_tab" v-if="translations.main">
-        <b-tab-item :label="translations.main.files_title_new">
+    <b-tabs expanded v-model="active_tab">
+        <b-tab-item :label="translations.core.view_tab_title_files_new">
             <component-form
                 :cloud-module="cloudModule"
                 :cloud-id="cloudId"
                 :active="active"
                 @upload-complete="switchToList"
-                :translations-path="translationsPath"
                 :translations-file-types-path="translationsFileTypesPath"
                 :accepted-file-extensions="acceptedFileExtensions"
             />
         </b-tab-item>
-        <b-tab-item :label="translations.main.files_title_list">
+        <b-tab-item :label="translations.core.view_tab_title_files_list">
             <component-list
                 :cloud-module="cloudModule"
                 :cloud-id="cloudId"
                 :active="active"
-                :translations-path="translationsPath"
                 :translations-file-types-path="translationsFileTypesPath"
             />
         </b-tab-item>

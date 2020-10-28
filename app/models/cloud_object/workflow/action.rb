@@ -136,14 +136,14 @@ Building a better future, one line of code at a time.
                 end
             when "create_cloud_object_file"
                 if execute_immediately
-                    WorkflowActions::CreateCloudObjectFileWithTemplateJob.perform_now(
+                    Templates::CreateCloudObjectFileWithTemplateJob.perform_now(
                         current_user,
                         cloud_object,
                         Template::Document.find(self.input_data["template_id"]),
                         self.input_data["file_type"]
                     )
                 else
-                    WorkflowActions::CreateCloudObjectFileWithTemplateJob.perform_later(
+                    Templates::CreateCloudObjectFileWithTemplateJob.perform_later(
                         current_user,
                         cloud_object,
                         Template::Document.find(self.input_data["template_id"]),
