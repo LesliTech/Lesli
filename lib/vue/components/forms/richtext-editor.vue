@@ -1,11 +1,35 @@
 <script>
-import Quill from 'quill'
+/*
+Copyright (c) 2020, all rights reserved.
 
+All the information provided by this platform is protected by international laws related  to 
+industrial property, intellectual property, copyright and relative international laws. 
+All intellectual or industrial property rights of the code, texts, trade mark, design, 
+pictures and any other information belongs to the owner of this platform.
+
+Without the written permission of the owner, any replication, modification,
+transmission, publication is strictly forbidden.
+
+For more information read the license file including with this software.
+
+// · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
+// · 
+*/
+
+
+// · 
+import Quill from "quill"
+
+
+// · 
 export default {
     props: {
         value: {
-            default: '',
-            type: String
+            type: Object,
+            default: function() {
+                return {}
+            }
+
         }
     },
     data () {
@@ -14,6 +38,7 @@ export default {
             editorInstance: null,
             editorOpts: {
                 theme: 'snow',
+                placeholder: 'Compose an epic...',
                 toolbar2: [
                         [{ 'header': [1, 2, 3, 4, 5, 6, false] }],
                         [{ 'font': [] }],
@@ -29,20 +54,16 @@ export default {
                     toolbar: [
                         ['bold', 'italic', 'underline', 'strike'],        // toggled buttons
                         ['blockquote', 'code-block'],
-
                         [{ 'header': 1 }, { 'header': 2 }],               // custom button values
                         [{ 'list': 'ordered'}, { 'list': 'bullet' }],
                         [{ 'script': 'sub'}, { 'script': 'super' }],      // superscript/subscript
                         [{ 'indent': '-1'}, { 'indent': '+1' }],          // outdent/indent
                         [{ 'direction': 'rtl' }],                         // text direction
-
                         [{ 'size': ['small', false, 'large', 'huge'] }],  // custom dropdown
                         [{ 'header': [1, 2, 3, 4, 5, 6, false] }],
-
                         [{ 'color': [] }, { 'background': [] }],          // dropdown with defaults from theme
                         [{ 'font': [] }],
                         [{ 'align': [] }],
-
                         ['clean']                                         // remove formatting button
                     ]
                 },
@@ -53,13 +74,14 @@ export default {
         this.initializeEditor()
     },
     methods: {
+
         initializeEditor () {
-
-            // Set initial content that's going to be picked up by Quill
-            this.$refs.editorNode.innerHTML = this.value
-
+            
             // Create the Quill instance
             this.editorInstance = new Quill(this.$refs.editorNode, this.editorOpts)
+
+            // Set initial content that's going to be picked up by Quill
+            this.editorInstance.setContents(this.value)
 
             // Setup handler for whenever things change inside Quill
             this.editorInstance.on('text-change', this.onEditorContentChange)
@@ -81,8 +103,7 @@ export default {
 
         },
         setEditorContent () {
-            this.editorContent = this.editorInstance.getText().trim()
-            ? this.editorInstance.root.innerHTML : ''
+            this.editorContent = this.editorInstance.getContents()
         }
     },
     watch: {
@@ -90,7 +111,7 @@ export default {
             // Only update the content if it's changed from an external source
             // or else it'll act weird when you try to type anything
             if (newVal !== this.editorContent) {
-                this.editorInstance.pasteHTML(newVal)
+                this.editorInstance.setContents(newVal)
             }
         }
     },

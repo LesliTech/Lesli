@@ -21,7 +21,7 @@ class CreateUserSessions < ActiveRecord::Migration[6.0]
     def change
         create_table :user_sessions do |t|
 
-            t.string :user_remote
+            t.inet   :user_remote
             t.string :user_agent
             t.string :user_uuid
 

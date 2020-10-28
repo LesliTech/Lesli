@@ -47,4 +47,26 @@ module HtmlHelper
         end
     end
 
+    def navigation_engine_notes text: "Notes", icon_path: "/assets/cloud_notes/notes-logo.svg"
+        if defined? CloudNotes
+            navigation_engine_item text, icon_path, cloud_notes.root_path, controller_path.include?("cloud_notes")
+        end
+    end
+
+    def navigation_engine_audit text: "Audit", icon_path: "/assets/cloud_audit/audit-logo.svg"
+        if defined? CloudAudit
+            navigation_engine_item text, icon_path, cloud_audit.root_path, controller_path.include?("cloud_audit")
+        end
+    end
+
+    def navigation_engine_mailer text: "Mailer", icon_path: "/assets/cloud_mailer/mailer-logo.svg"
+        if defined? CloudMailer
+            navigation_engine_item text, icon_path, cloud_mailer.root_path, controller_path.include?("cloud_mailer")
+        end
+    end
+
+    def navigation_administration text: "Administration", icon_path: "/assets/icons/administration-logo.svg"
+        navigation_engine_item text, icon_path, main_app.account_path
+    end
+
 end

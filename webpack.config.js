@@ -42,9 +42,12 @@ module.exports = env => {
         performance: { hints: false },
         optimization: { minimize: production },
         entry: {
-            "account/integrations_app": "./app/vue/account_integrations/app.js",
-
+            "accounts/app": "./app/vue/accounts/app.js",
             "users/app": "./app/vue/users/app.js",
+            "roles/app": "./app/vue/roles/app.js",
+
+
+            "account/integrations_app": "./app/vue/account_integrations/app.js",
             "abouts/app": "./app/vue/abouts/app.js",
             "users/sessions": "./app/vue/users/sessions.js",
             "users/passwords": "./app/vue/users/passwords.js",
