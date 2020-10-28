@@ -33,10 +33,7 @@ class RolesController < ApplicationLesliController
         respond_to do |format|
             format.html { }
             format.json {
-                query_params = request.query_parameters
-                roles = Role.index(current_user, query_params)
-
-                respond_with_successful(roles) 
+                respond_with_successful(Role.index(current_user, @query)) 
             }
         end
     end

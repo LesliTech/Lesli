@@ -123,6 +123,45 @@ class UsersController < ApplicationLesliController
         
     end
 
+    def logout
+
+        # get user
+        user = User.find(params[:id])
+
+        # check if user exist
+        if user.blank?
+            return respond_with_error "No user found"
+        end
+
+        # delete user active sessions
+        user.close_session
+
+        # Response successful
+        respond_with_successful
+
+    end
+
+    def lock
+
+        # get user
+        user = User.find(params[:id])
+
+        # check if user exist
+        if user.blank?
+            return respond_with_error "No user found"
+        end
+
+        # delete user active sessions
+        user.close_session
+
+        # add delete date to the last active session
+        user.revoke_access
+
+        # Response successful
+        respond_with_successful
+
+    end
+
     private
     
     def user_params

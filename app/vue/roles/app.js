@@ -1,5 +1,4 @@
-<%#
-
+/*
 Copyright (c) 2020, all rights reserved.
 
 All the information provided by this platform is protected by international laws related  to 
@@ -14,15 +13,20 @@ For more information read the license file including with this software.
 
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
 // · 
+*/
 
-%>
 
-<application-component-sidebar>
+// · Import main app from core
+import app from "LesliVue/app"
 
-    <%# Custom navigation from builder engine %>
-    <% if lesli_instance != "lesli" %>
-    <%= render partial: "layouts/#{lesli_instance.underscore}/partials/application-brand" %>
-    <%= render partial: "layouts/#{lesli_engine_or_instance}/partials/application-navigation"%>
-    <% end %>
 
-</application-component-sidebar>
+// · 
+import appList from "./apps/list.vue"
+
+// · 
+app("Administration", "[list|new|edit|show]", "/administration/roles", [{
+    path: "/",
+    component: appList
+}], { 
+
+})

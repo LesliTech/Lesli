@@ -25,29 +25,57 @@ module RoutesApp
                 # Lesli core administration components
                 scope :administration do
 
+                    root to: "accounts#show", as: :root_administration
+
                     # Lesli user profile
                     resource :profile, only: [:show]
 
                     # account management
-                    resource :account, only: [] do
+                    resource :account, only: [:show] do
                         scope module: :account do
                             resources :integrations, only: [:index, :show, :new, :create]
                         end
                     end
 
                     # user maintenance
-                    resources :users, only: [:index] do
+                    resources :users, only: [:index, :show, :update, :create] do
                         collection do
-                            get :options
+                            get  :options
+                            post :logout
                         end
                         member do
                             scope :resources do
-                                get :become
+                                get  :become
+                                post :logout
+                                post :lock
+                            end
+                        end
+                    end
+
+                    # roles & privileges management
+                    resources :roles do
+                        scope module: :role do
+                            resources :privileges
+                        end
+                        member do
+                            scope :resources do
+                                post :restore_default_privileges
+                                post :update_default_privileges
                             end
                         end
                     end
 
                 end
+
+
+
+
+
+
+
+
+
+
 
 
 
