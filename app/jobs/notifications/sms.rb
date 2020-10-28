@@ -5,8 +5,10 @@ module Notifications
 
         def perform(telephone, message)
 
-            # The send of SMS service will be down for a while 
-            return
+            if Rails.env != "production"
+                LC::Debug.msg "Messages can only be sent in production environment."
+                return
+            end
 
             sms = LC::Config::Providers::Aws::Sns.new()
 
