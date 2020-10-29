@@ -1,33 +1,24 @@
 <script>
 /*
-Lesli
+Copyright (c) 2020, all rights reserved.
 
-Copyright (c) 2019, Lesli Technologies, S. A.
+All the information provided by this platform is protected by international laws related  to 
+industrial property, intellectual property, copyright and relative international laws. 
+All intellectual or industrial property rights of the code, texts, trade mark, design, 
+pictures and any other information belongs to the owner of this platform.
 
-All the information provided by this website is protected by laws of Guatemala related 
-to industrial property, intellectual property, copyright and relative international laws. 
-Lesli Technologies, S. A. is the exclusive owner of all intellectual or industrial property
-rights of the code, texts, trade mark, design, pictures and any other information.
-Without the written permission of Lesli Technologies, S. A., any replication, modification,
+Without the written permission of the owner, any replication, modification,
 transmission, publication is strictly forbidden.
+
 For more information read the license file including with this software.
 
-LesliCloud - Your Smart Business Assistant
-
-Powered by https://www.lesli.tech
-Building a better future, one line of code at a time.
-
-@author   LesliTech <hello@lesli.tech>
-@license  Propietary - all rights reserved.
-@version  0.1.0-alpha
-
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
-// · 
+// ·
 */
 
 
-// · 
-// · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
+// · List of Imported Components
+// · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
 export default {
     props: {
         cloudModule: {
@@ -49,12 +40,16 @@ export default {
             object_name: {
                 singular: null,
                 plural: null
+            },
+            translations: {
+                core: I18n.t('core.shared')
             }
         }
     },
 
     mounted() {
         this.parseCloudModule()
+        this.setTranslations()
         this.getActivities()
     },
 
@@ -64,6 +59,11 @@ export default {
             let parsed_data = this.object_utils.parseCloudModule(this.cloudModule)
             this.object_name = parsed_data.cloud_object_name
             this.module_name = parsed_data.cloud_module_name
+        },
+
+        setTranslations(){
+            this.$set(this.translations, 'main', `${this.module_name.slash}.${this.object_name.singular}/activities`)
+            this.$set(this.translations, 'workflow_statuses', `${this.module_name.slash}.workflow/statuses`)
         },
 
         getActivities() {
@@ -97,7 +97,18 @@ export default {
                 </div>
                 <div class="timeline-content">
                     <p class="heading">{{activity.user_name}} - {{ activity.created_at }}</p>
-                    <p>{{ activity.description || activity.category}}</p>
+                    <p>
+                        {{
+                            object_utils.translateEnum(translations.core, 'column_enum_activities', activity.category, null) ||
+                            object_utils.translateEnum(translations.main, 'column_enum', activity.category)
+                        }}
+                        <span v-if="activity.description && activity.description.length > 0">
+                            - {{
+                                object_utils.translateEnum(translations.core, 'column_enum_status', activity.description, null) ||
+                                object_utils.translateEnum(translations.workflow_statuses, 'column_enum_status', activity.description)
+                            }}
+                        </span>
+                    </p>
                     <span v-if="activity.category == 'action_update'">
                         {{activity.field_name}}: ({{activity.value_from || 'null'}}) - ({{activity.value_to}}) 
                     </span>
@@ -106,3 +117,12 @@ export default {
         </div>
     </section>
 </template>
+<style scoped>
+.timeline {
+    max-height: 30rem;
+    overflow-y: auto;
+    overflow-x: hidden;
+    scrollbar-width: thin;
+    scrollbar-color: #ffffff #ffffff;
+}
+</style>
