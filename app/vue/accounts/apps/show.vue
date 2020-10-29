@@ -1,3 +1,4 @@
+<script>
 /**
 Copyright (c) 2020, all rights reserved.
 
@@ -14,18 +15,12 @@ For more information read the license file including with this software.
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
 // · 
 */
+export default {
 
-
-// · Import main app
-import app from "LesliVue/app"
-
-
-// · Import apps and components
-import appShow from "./apps/show.vue"
-
-
-// · 
-app("Lesli", "[show]", "/administration/account", [{
-    path: "/",
-    component: appShow,
-}])
+}
+</script>
+<template>
+    <section class="application-component">
+        
+    </section>
+</template>
