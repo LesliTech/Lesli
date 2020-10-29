@@ -64,7 +64,9 @@ class ApplicationLesliController < ApplicationController
         @account = {
             company: { },
             settings: {
-                datetime: Rails.application.config.lesli_settings["configuration"]["datetime"]
+                datetime: Rails.application.config.lesli_settings["configuration"]["datetime"],
+                currency: (Rails.application.config.lesli_settings["configuration"]["currency"] || {})
+                    .merge({ locale: Rails.application.config.lesli_settings["env"]["default_locale"] })
             },
             current_user: { },
             revision: LC::System::Info.revision,

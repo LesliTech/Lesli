@@ -38,7 +38,7 @@ export default {
             editorInstance: null,
             editorOpts: {
                 theme: 'snow',
-                placeholder: 'Compose an epic...',
+                placeholder: I18n.t('core.shared.view_placeholder_text_editor'),
                 toolbar2: [
                         [{ 'header': [1, 2, 3, 4, 5, 6, false] }],
                         [{ 'font': [] }],
