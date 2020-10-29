@@ -66,11 +66,10 @@ export default {
                 return text_to_highlight
             }
 
-            words_to_highlight.forEach(word_to_search => {
-                let iQuery = new RegExp(word_to_search, 'ig');
-                text_to_highlight = text_to_highlight.toString().replace(iQuery, function(matchedText,a,b){
-                    return ('<span class=\'tag is-primary\'>' + matchedText + '</span>');
-                })
+
+            let iQuery = new RegExp(`${words_to_highlight.join('|')}`, 'ig');
+            text_to_highlight = text_to_highlight.toString().replace(iQuery, function(matchedText,a,b){
+                return `<span class="tag is-primary"> ${matchedText} </span>`
             })
 
             return text_to_highlight
