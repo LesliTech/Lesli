@@ -124,16 +124,26 @@ module ApplicationHelper
         return current_engine
     end
 
+    def is_lesli_engine_administration?
+        ["accounts", "account", "roles", "profiles", "users", "abouts", "settings"].include?(lesli_engine)
+    end 
+
     def is_lesli_engine?(engine=nil)
         current_engine = lesli_engine
         return current_engine == engine if not engine.blank?
-        return false if ["accounts", "account", "roles",     "profiles", "users", "abouts", "settings"].include?(current_engine)
+        return false if is_lesli_engine_administration?
         return true
     end 
 
     def lesli_engine_or_instance
         return lesli_instance if not is_lesli_engine?
         return lesli_engine
+    end
+
+    def get_application_navigation_path
+        navigation = "layouts/#{lesli_engine_or_instance}/partials/application-navigation"
+        navigation = "layouts/components/navigation-administration" if is_lesli_engine_administration?
+        navigation
     end
 
 end
