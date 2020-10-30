@@ -5,8 +5,8 @@ module Notifications
 
         def perform(telephone, message)
 
-            if Rails.env != "production"
-                LC::Debug.msg "Messages can only be sent in production environment."
+            if not Rails.application.config.lesli_settings["configuration"]["notifications"]["sms"]
+                LC::Debug.msg "SMS are deactivated."
                 return
             end
 

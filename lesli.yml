@@ -57,6 +57,8 @@ configuration:
         log_activity: true
         roles:
             - "employee"
+    notifications:
+        sms: false
 
 
 # Configuration by environment
