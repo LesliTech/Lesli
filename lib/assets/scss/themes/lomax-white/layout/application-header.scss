@@ -1,5 +1,4 @@
-<%#
-
+/*
 Copyright (c) 2020, all rights reserved.
 
 All the information provided by this platform is protected by international laws related  to 
@@ -14,14 +13,14 @@ For more information read the license file including with this software.
 
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
 // · 
+*/
 
-%>
 
-<application-component-sidebar>
+// · 
+@import 'lesli-css';
 
-    <% if lesli_instance != "lesli" %>
-    <%= render partial: "layouts/#{lesli_instance.underscore}/partials/application-brand" %>
-    <%= render partial: get_application_navigation_path %>
-    <% end %>
 
-</application-component-sidebar>
+// · 
+header.application-header {
+    background-color: transparent;
+}

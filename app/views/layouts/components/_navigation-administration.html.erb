@@ -1,5 +1,7 @@
 <%#
 
+Lesli
+
 Copyright (c) 2020, all rights reserved.
 
 All the information provided by this platform is protected by international laws related  to 
@@ -17,11 +19,26 @@ For more information read the license file including with this software.
 
 %>
 
-<application-component-sidebar>
+<template>
 
-    <% if lesli_instance != "lesli" %>
-    <%= render partial: "layouts/#{lesli_instance.underscore}/partials/application-brand" %>
-    <%= render partial: get_application_navigation_path %>
+    <%= navigation_to(main_app.account_path) do %>
+        <i class="fas fa-building"></i>
+        <span>Account</span>
     <% end %>
 
-</application-component-sidebar>
+    <%= navigation_to(main_app.users_path) do %>
+        <i class="fas fa-users"></i>
+        <span>Users</span>
+    <% end %>
+
+    <%= navigation_to(main_app.roles_path) do %>
+        <i class="fas fa-key"></i>
+        <span>Roles & privileges</span>
+    <% end %>
+
+    <%= navigation_to(main_app.account_integrations_path) do %>
+        <i class="fas fa-network-wired"></i>
+        <span>Integrations</span>
+    <% end %>
+
+</template>
