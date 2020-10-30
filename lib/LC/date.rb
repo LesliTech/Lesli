@@ -85,6 +85,17 @@ module LC
             query_string
         end
 
+        # works similar to db_to_char, but also can receive the format
+        def self.db_to_char_custom(column, alias_name: column, include_alias: false, db_format: nil)
+            self.verify_settings
+
+            alias_name = column unless alias_name
+            db_format = self.db_format unless db_format
+            query_string = "TO_CHAR(#{column} at time zone 'utc' at time zone '#{@settings["time_zone"]}', '#{db_format}')" 
+            query_string = "#{query_string} as #{alias_name}" if include_alias
+            query_string
+        end
+
         def self.db_format
             self.verify_settings
             format = @settings["date_format"]
