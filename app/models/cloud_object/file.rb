@@ -72,5 +72,32 @@ module CloudObject
             return false
         end
 
+        # @return [Boolean] Whether the user sent as argument can edit this object or not
+        # @param current_user [User] The user that wants to edit the resource
+        # @description Returns if current_user can edit this resource. A user can edit it if one of the following conditions is met:
+        #       - The user's object_level_permission is greater or equal than the object_level_permission threshold, and greater or equal than the object_level_permission of the creator
+        def is_editable_by?(current_user)
+            return false unless current_user
+
+            current_user_olp = User.joins(:role)
+                .joins(:role_detail)
+                .where("users.id = ?", current_user.id)
+                .select("role_details.object_level_permission")
+                .first.object_level_permission
+
+            reference_olp = 0
+            if user_creator
+                reference_olp = user_creator.role.detail.object_level_permission
+            elsif user_main
+                reference_olp = user_main.role.detail.object_level_permission
+            end
+
+            if current_user_olp >= object_level_permission_threshold && current_user_olp >= reference_olp
+                return true
+            end
+
+            return false
+        end
+
     end
 end
