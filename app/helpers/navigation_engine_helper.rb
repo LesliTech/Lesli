@@ -19,6 +19,8 @@ For more information read the license file including with this software.
 
 module NavigationEngineHelper
 
+    # DEPRECATED: Use html helper instead
+
     def navigation_to(link_path)
         class_name = current_page?(link_path) ? "is-active" : nil
         content_tag(:li) do

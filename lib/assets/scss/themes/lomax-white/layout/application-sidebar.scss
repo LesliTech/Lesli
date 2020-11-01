@@ -1,4 +1,4 @@
-/*
+/**
 Lesli
 
 Copyright (c) 2020, Lesli Technologies, S. A.
@@ -22,20 +22,44 @@ Building a better future, one line of code at a time.
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
 // · 
 */
-header.application-header {
 
-    .header-right {
 
-        .header-language-selector {
-            display: none;
-        }
+// · 
+@import "lesli-css/";
+@import "../settings/helpers.scss";
 
-        .header-navigation-engine {
-            display: none;
-            padding-left: .2rem;
-            color: rgb(90,90,90);
-        }
 
+// · Navigation sidebar
+
+aside.application-sidebar {
+    @include box-shadow;
+    background-color: lesli-css-get-color(solid, white);
+
+    a.brand { 
+        padding: 20px;
     }
 
+    a.brand, a.brand img {
+        max-height: 90px;
+    }
+
+    nav {
+        li a {
+            color: lesli-css-theme-get-color(primary);
+
+            &:not(.is-active):hover {
+                color: lesli-css-get-color(blue);
+                background-color: lesli-css-get-color(solid, white);
+            }
+
+            &.is-active {
+                background-color: lesli-css-theme-get-color(primary);
+            }
+
+            i {
+                width: 3rem;
+            }
+
+        }
+    }
 }

@@ -1,5 +1,4 @@
-<%#
-
+/*
 Copyright (c) 2020, all rights reserved.
 
 All the information provided by this platform is protected by international laws related  to 
@@ -14,14 +13,19 @@ For more information read the license file including with this software.
 
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
 // · 
+*/
 
-%>
 
-<application-component-sidebar>
+// · 
+@function lesli-css-theme-get-color($variant,$pallete:"app") {
 
-    <% if lesli_instance != "lesli" %>
-    <%= render partial: "layouts/#{lesli_instance.underscore}/partials/application-brand" %>
-    <%= render partial: get_application_navigation_path %>
-    <% end %>
+    $lesli-cloud-colors: (
+        app: (
+            primary:  #015097,
+            body: #fcfcfc
+        )
+    );
 
-</application-component-sidebar>
+    @return lesli-css-get-base-color($lesli-cloud-colors, $pallete, $variant);
+
+}
