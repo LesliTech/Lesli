@@ -30,6 +30,7 @@ class ApplicationMailer < ActionMailer::Base
         email = mail(
             to: to,
             bcc: "ldonis@lomax.com.gt",
+            cc: options[:cc],
             from: "Deutsche Leibrenten CRM <no-reply@deutsche-leibrenten.de>", 
             subject: subject,
             template_path: template_path,
