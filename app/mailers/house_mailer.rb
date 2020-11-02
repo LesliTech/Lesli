@@ -42,7 +42,7 @@ class HouseMailer < ApplicationMailer
         send(to, subject, data, template:"")
     end
 
-    def project_list(to, subject, data, tempalte: "")
+    def project_list(to, subject, data, template: "")
         data[:projects] = data[:projects].map do |project|
             project[:href] = "#{default_url_options[:host]}#{project[:href]}"
             project
@@ -51,7 +51,10 @@ class HouseMailer < ApplicationMailer
         send(to, subject, data, template:"")
     end
 
-    def leads_report(to, subject, data, template: "")
-        send(to, subject, data, template:"")
+    def leads_report(to, subject, data, template: "", cc: nil)
+        options = {
+            cc: cc
+        }
+        send(to, subject, data, template: template, options: options)
     end
 end
