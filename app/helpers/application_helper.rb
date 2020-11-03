@@ -148,4 +148,7 @@ module ApplicationHelper
         navigation
     end
 
+    def integration_access_token(integration_name)
+        return Rails.application.credentials.integrations[integration_name][:access_token]
+    end
 end
