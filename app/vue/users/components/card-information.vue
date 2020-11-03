@@ -51,7 +51,31 @@ export default {
             })
         },
 
-        doUserLock() {
+        doRequestPasswordReset() {
+            this.http.post(`/administration/users/${this.user.id}/resources/password`).then(result => {
+                if (!result.successful) {
+                    this.alert(result.error.message, "danger")
+                    return
+                }
+                this.alert(this.translations.users.messages_success_user_updated)
+            }).catch(error => {
+                console.log(error)
+            })
+        },
+
+        doUserLogout(user) {
+            this.http.post(`${this.main_route}/${user.id}/resources/logout`).then(result => {
+                if (!result.successful) {
+                    this.alert(result.error.message, "danger")
+                    return
+                }
+                this.alert("Operation successful")
+            }).catch(error => {
+                console.log(error)
+            })
+        },
+
+        doRevokeAccess() {
             this.http.post(`/administration/users/${this.user.id}/resources/lock`).then(result => {
                 if (!result.successful) {
                     this.alert(result.error.message, "danger")
@@ -63,6 +87,7 @@ export default {
                 console.log(error)
             })
         }
+
     },
     watch: {
         "data.user": function(user) {
@@ -113,31 +138,19 @@ export default {
                 </nav>
                 <hr class="my-3">
                 <div class="buttons">
-                    <button class="button is-white is-small">
-                        <span class="icon">
-                            <i class="fas fa-unlock-alt"></i>
-                        </span>
-                        <span>
-                            request password reset
-                        </span>
+                    <button class="button is-white is-small" @click="doRequestPasswordReset()">
+                        <span class="icon"><i class="fas fa-unlock-alt"></i></span>
+                        <span>request password reset</span>
                     </button>
 
                     <button class="button is-white is-small" @click="doUserLogout()">
-                        <span class="icon">
-                            <i class="fas fa-sign-out-alt"></i>
-                        </span>
-                        <span>
-                            force logout
-                        </span>
+                        <span class="icon"><i class="fas fa-sign-out-alt"></i></span>
+                        <span>force logout</span>
                     </button>
 
-                    <button class="button is-white is-small">
-                        <span class="icon">
-                            <i class="fas fa-user-lock"></i>
-                        </span>
-                        <span>
-                            revoke access
-                        </span>
+                    <button class="button is-white is-small" @click="doRevokeAccess()">
+                        <span class="icon"><i class="fas fa-user-lock"></i></span>
+                        <span>revoke access</span>
                     </button>
                 </div>
             </div>

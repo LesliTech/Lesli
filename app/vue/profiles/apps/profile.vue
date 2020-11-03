@@ -49,20 +49,30 @@ export default {
     mounted() {
         this.user_id = this.lesli.current_user.id
         this.getUser()
+        this.getOptions()
     },
     methods: {
+
         getUser() {
-            this.http.get(`/lock/users/${this.user_id}.json`).then(result => {
-                if (result.successful) {
-                    this.user = result.data
-                    this.store.data.user = result.data
-                }else{
+            this.http.get("/administration/profile.json").then(result => {
+                if (!result.successful) {
                     this.alert(result.error.message,'danger')
+                    return
+                }
+                this.store.data.user = result.data
+            })
+        },
+
+        getOptions(){
+            this.http.get("/administration/users/options.json").then(result => {
+                if (result.successful) {
+                    this.data.options = result.data
                 }
             }).catch(error => {
                 console.log(error)
             })
         }
+
     }
 }
 </script>
@@ -71,10 +81,10 @@ export default {
     <section class="application-component">
         <component-information-card></component-information-card>
         <b-tabs>
-            <b-tab-item :label="translations.core.users.tab_information">
+            <b-tab-item :label="translations.core.users.view_tab_title_information">
                 <component-information-form></component-information-form>
             </b-tab-item>
-            <b-tab-item :label="translations.core.users.tab_security">
+            <b-tab-item :label="translations.core.users.view_tab_title_security">
                 <component-security-form></component-security-form>
             </b-tab-item>
         </b-tabs>

@@ -228,6 +228,13 @@ class User < ApplicationLesliRecord
         update_attributes(active: false)
     end
 
+    # @return [void]
+    # @description Change user password forcing user to reset the password
+    # @TODO: add a password status so we can deprecate user password
+    def force_password_reset
+        
+    end
+
 
     # Generate a new password token and sent via email
     def self.send_password_reset(user)

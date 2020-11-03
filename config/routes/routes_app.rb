@@ -41,11 +41,11 @@ module RoutesApp
                     resources :users, only: [:index, :show, :update, :create] do
                         collection do
                             get  :options
-                            post :logout
                         end
                         member do
                             scope :resources do
                                 get  :become
+                                post :password
                                 post :logout
                                 post :lock
                             end
@@ -71,16 +71,6 @@ module RoutesApp
 
 
 
-
-
-
-
-
-
-
-
-
-                resource :profile
 
                 scope :lock do
 
