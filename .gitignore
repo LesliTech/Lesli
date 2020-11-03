@@ -38,6 +38,7 @@ Gemfile.lock
 /public/tmp
 /public/assets
 /public/javascripts/translations.js
+/public/uploads/
 /node_modules
 
 
