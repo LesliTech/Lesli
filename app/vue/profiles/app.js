@@ -36,9 +36,10 @@ import appProfile from "./apps/profile.vue"
 
 // · 
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
-app("Core", "[profile]", "/profile", [{
+app("Core", "[profile]", "/administration/profile", [{
     path: "/",
     component: appProfile
 }], {
-    user: {}
+    user: {},
+    options: {}
 })

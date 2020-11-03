@@ -162,6 +162,22 @@ class UsersController < ApplicationLesliController
 
     end
 
+    def password
+
+        # get user
+        user = User.find(params[:id])
+
+        # check if user exist
+        if user.blank?
+            return respond_with_error "No user found"
+        end
+
+
+        # Response successful
+        respond_with_successful
+
+    end
+
     private
     
     def user_params

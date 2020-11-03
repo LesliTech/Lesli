@@ -50,6 +50,17 @@ EDITOR="nano" rails credentials:edit
 ````
 
 
+__Note:___
+
+It seems that the latest version of XCode tools (12 Beta 3) installs a version of Clang (the C compiler used by default on MacOS) that throws an error on implicit functions used on the native extension code of Puma.  
+  
+Try running:  
+```shell
+bundle config build.puma --with-cflags="-Wno-error=implicit-function-declaration"
+bundle install
+````
+
+
 __Credentail file example:__
 ```
 RailsApp/config/credentials/development.yml  
