@@ -77,7 +77,6 @@ namespace :dev do
 
             # push all engines
             Lesli::engines.each do |engine|
-                next
                 engine_path = Rails.root.join('engines', engine['name'])
                 puts ""; puts ""; puts "";
                 puts "Working with: #{engine['name']}"
