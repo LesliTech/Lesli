@@ -75,7 +75,7 @@ export default {
 <template>
     <div class="card">
         <div class="card-content">
-            <form>
+            <form v-if="lesli.current_user.id !=  data.user.id">
                 <div class="field is-horizontal">
                     <div class="field-label is-normal">
                         <label class="label">{{ translations.users.view_table_header_status }}</label>
@@ -97,9 +97,7 @@ export default {
                 </div>
             </form>
 
-            <hr>
-
-            <form v-if="lesli.current_user.id ==  data.user.id" @submit.prevent="putUserPassword()">
+            <form v-if="lesli.current_user.id == data.user.id" @submit.prevent="putUserPassword()">
                 <div class="field is-horizontal">
                     <div class="field-label is-normal">
                         <label class="label">{{ translations.passwords.email_change_password_button }}</label>

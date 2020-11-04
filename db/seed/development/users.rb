@@ -22,7 +22,6 @@ account_logins = Rails.application.config.lesli_settings["configuration"]["secur
 
 # create development users
 account_logins.each do |account_login|
-    LC::Debug.msg account_login, account_login["password"]
     User.find_or_create_by(email: account_login["username"]) do |user|
         user.role = Role.first
         user.password = account_login["password"] + Time.now.year.to_s
