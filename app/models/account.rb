@@ -35,6 +35,7 @@ class Account < ApplicationRecord
     has_one :team,       class_name: "CloudTeam::Account",       foreign_key: "id"
     has_one :bell,       class_name: "CloudBell::Account",       foreign_key: "id"
     has_one :help,       class_name: "CloudHelp::Account",       foreign_key: "id"
+    has_one :lesli,      class_name: "CloudLesli::Account",      foreign_key: "id"
     has_one :notes,      class_name: "CloudNotes::Account",      foreign_key: "id"
     has_one :books,      class_name: "CloudBooks::Account",      foreign_key: "id"
     has_one :house,      class_name: "CloudHouse::Account",      foreign_key: "id"
@@ -176,6 +177,14 @@ class Account < ApplicationRecord
                 if defined? DeutscheLeibrenten
                     DeutscheLeibrenten::Account.initialize_workflows(self)
                 end
+            end
+        end
+
+        if defined? CloudLesli
+            if self.lesli.blank?
+                self.lesli = CloudLesli::Account.new
+                self.lesli.account = self
+                self.lesli.save!
             end
         end
 
