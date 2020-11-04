@@ -138,7 +138,7 @@ export default {
             })
         },
 
-        doUserLock(user) {
+        doRevokeAccess(user) {
             this.http.post(`${this.main_route}/${user.id}/resources/lock`).then(result => {
                 if (!result.successful) {
                     this.alert(result.error.message, "danger")
@@ -264,7 +264,7 @@ export default {
                                         <i class="fas fa-sign-out-alt"></i>
                                     </span>
                                 </b-dropdown-item>
-                                <b-dropdown-item @click="doUserLock(props.row)" class="has-text-right pr-4">
+                                <b-dropdown-item @click="doRevokeAccess(props.row)" class="has-text-right pr-4">
                                     revoke access
                                     <span class="icon">
                                         <i class="fas fa-user-lock"></i>

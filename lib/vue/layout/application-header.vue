@@ -158,7 +158,7 @@ export default {
                     </div>
                     <div class="dropdown-menu" id="dropdown-menu" role="menu">
                         <div class="dropdown-content">
-                            <a href="/profile" class="dropdown-item header-user-options-profile ">
+                            <a href="/administration/profile" class="dropdown-item header-user-options-profile ">
                                 <span class="icon has-text-grey-light">
                                     <i class="fas fa-user"></i>
                                 </span>

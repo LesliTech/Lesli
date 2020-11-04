@@ -71,7 +71,7 @@ export default {
                                 v-model="user.detail_attributes.salutation"
                                 type="is-info"
                                 :native-value="option.value">
-                                {{ translations.shared[`salutation_${option.text}`] }}
+                                {{ translations.shared[`column_enum_salutation_${option.text}`] }}
                             </b-radio>
                         </div>
                         <div class="field">

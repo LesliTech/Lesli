@@ -24,11 +24,6 @@ For more information read the license file including with this software.
     <%= render partial: "layouts/#{lesli_instance.underscore}/partials/application-header" %>
     <% end %>
 
-    <%# username %>
-    <template v-slot:username>
-    <%= current_user.full_name %>
-    </template>
-
     <%# show language selector %>
     <% if I18n.available_locales.length > 1 %>
     <template v-slot:languages>
@@ -57,4 +52,9 @@ For more information read the license file including with this software.
     </template>
     <% end %>
 
+    <%# username %>
+    <template v-slot:username>
+    <%= current_user.full_name %>
+    </template>
+    
 </application-component-header>
