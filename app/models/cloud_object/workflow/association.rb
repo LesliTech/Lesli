@@ -145,7 +145,7 @@ Building a better future, one line of code at a time.
     #]
 =end
         def self.list(workflow)
-            module_name = self.dynamic_info[:module_name]
+            module_name = self.dynamic_info[:module_name].gsub("cloud_", "").gsub("_cloud","").gsub("_","")
 
             workflow.associations.map do |association|
                 attributes = association.attributes
@@ -156,8 +156,7 @@ Building a better future, one line of code at a time.
                     details = self.object_association_details(attributes["workflow_for"])
 
                     details.each do |detail|
-                        # name_translation = I18n.t("#{module_name}.workflow/associations.enum_association_#{attributes["workflow_for"]}_field_#{detail[:name]}")
-                        name_translation = I18n.t("deutscheleibrenten.workflow/associations.enum_association_#{attributes["workflow_for"]}_field_#{detail[:name]}")
+                        name_translation = I18n.t("#{module_name}.workflow/associations.column_enum_association_#{attributes["workflow_for"]}_field_#{detail[:name]}")
 
                         if detail[:type] == "foreign_key"
                             record = detail[:class].constantize.find_by(
@@ -165,8 +164,7 @@ Building a better future, one line of code at a time.
                                 account: workflow.account
                             )
                             value_translation = I18n.t(
-                                # "#{module_name}.workflow/associations.enum_association_#{attributes["workflow_for"]}_field_#{detail[:name]}_#{record[detail[:identifier]]}",
-                                "deutscheleibrenten.workflow/associations.enum_association_#{attributes["workflow_for"]}_field_#{detail[:name]}_#{record[detail[:identifier]]}",
+                                "#{module_name}.workflow/associations.column_enum_association_#{attributes["workflow_for"]}_field_#{detail[:name]}_#{record[detail[:identifier]]}",
                                 default: record[detail[:identifier]]
                             )
 

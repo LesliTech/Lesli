@@ -1,7 +1,7 @@
 <script>
 export default {
     props: {
-        cloudEngine: {
+        engineNamespace: {
             type: String,
             required: true
         },
@@ -19,7 +19,8 @@ export default {
             show: false,
             options_endpoint: '',
             translations: {
-                core: I18n.t('deutscheleibrenten.shared')
+                core: I18n.t('core.shared'),
+                associations: I18n.t('core.workflow/associations')
             },
             endpoint: '',
             associations: [],
@@ -41,19 +42,12 @@ export default {
 
     methods: {
         setEndpoints(){
-            this.options_endpoint = `/${this.cloudEngine}/workflows/associations/options`
-            this.endpoint = `/${this.cloudEngine}/workflows/${this.workflowId}/associations`
+            this.options_endpoint = `/${this.engineNamespace}/workflows/associations/options`
+            this.endpoint = `/${this.engineNamespace}/workflows/${this.workflowId}/associations`
         },
 
         setTranslations(){
             this.$set(this.translations, 'main', I18n.t(this.translationsPath))
-
-            let translations_engine_path = this.cloudEngine
-            if(this.cloudEngine == 'crm'){
-                translations_engine_path = 'house'
-            }
-
-            this.$set(this.translations, 'associations', I18n.t(`${translations_engine_path}.workflow/associations`))
         },
 
         mountSubscriptions(){
@@ -100,7 +94,7 @@ export default {
             this.http.post(this.endpoint, data).then(result => {
                 if (result.successful) {
                     this.getAssociations()
-                    this.alert(this.translations.main.notification_association_created, 'success')
+                    this.alert(this.translations.associations.messages_success_association_created, 'success')
                     this.clearNewAssociation()
                 }else{
                     this.alert(result.error.message,'danger')
@@ -134,7 +128,7 @@ export default {
             this.http.delete(url).then(result => {
                 if (result.successful) {
                     this.getAssociations()
-                    this.alert(this.translations.main.notification_association_deleted, 'success')
+                    this.alert(this.translations.associations.messages_info_association_deleted, 'success')
                 }else{
                     this.alert(result.error.message,'danger')
                 }
@@ -182,21 +176,21 @@ export default {
     <section v-if="translations.main">
         <div :class="[{ 'is-active': show }, 'quickview', 'is-size-medium']">
             <header class="quickview-header" @click="show = false">
-                <p class="title">{{translations.main.form_title}}</p>
+                <p class="title">{{translations.associations.view_title_main}}</p>
                 <i class="fas fa-chevron-right"></i>
             </header>
             <div class="quickview-body">
                 <div class="quickview-block">
                     <div class="section">
                         <form @submit="postAssociation">
-                            <b-field :label="translations.main.form_input_assign_to_title">
-                                <b-select expanded :placeholder="translations.main.form_input_assign_to_placeholder" v-model="new_association.workflow_for" required>
+                            <b-field :label="translations.associations.view_title_assign_to">
+                                <b-select expanded :placeholder="translations.associations.view_placeholder_select_resource" v-model="new_association.workflow_for" required>
                                     <option
                                         v-for="association in association_options"
                                         :key="association.workflow_for"
                                         :value="association.workflow_for"
                                     >
-                                        {{object_utils.translateEnum(translations.associations, 'enum_association', association.name)}}
+                                        {{object_utils.translateEnum(translations.main, 'column_enum_association', association.name)}}
                                     </option>
                                 </b-select>
                             </b-field>
@@ -206,19 +200,19 @@ export default {
                                     :disabled="! detailedAssociationsAvailable"
                                     @change.native="deleteExtraAssociationFields"
                                 >
-                                    {{translations.main.form_btn_global_assignment}}
+                                    {{translations.associations.column_global}}
                                 </b-checkbox>
                             </div>
                             <div v-if="! new_association.global">
                                 <b-field
                                     v-for="detail in selectedAssociation.details"
                                     :key="detail.field_name"
-                                    :label="object_utils.translateEnum(translations.associations, `enum_association_${selectedAssociation.name}_field`, detail.name)"
+                                    :label="object_utils.translateEnum(translations.main, `column_enum_association_${selectedAssociation.name}_field`, detail.name)"
                                 >
                                     <b-select
                                         required
                                         expanded
-                                        :placeholder="translations.core.text_select_option"
+                                        :placeholder="translations.core.view_placeholder_select_option"
                                         v-model="new_association[detail.field_name]"
                                     >
                                         <option
@@ -226,7 +220,7 @@ export default {
                                             :key="row.id"
                                             :value="row.id"
                                         >
-                                            {{object_utils.translateEnum(translations.associations, `enum_association_${selectedAssociation.name}_field_${detail.name}`, row.name)}}
+                                            {{object_utils.translateEnum(translations.main, `column_enum_association_${selectedAssociation.name}_field_${detail.name}`, row.name)}}
                                         </option>
                                     </b-select>
                                 </b-field>
@@ -234,24 +228,24 @@ export default {
                             <hr>
                             <b-field>
                                 <b-button expanded type="is-primary" native-type="submit">
-                                    {{translations.core.btn_save}}
+                                    {{translations.core.view_btn_save}}
                                 </b-button>
                             </b-field>
                         </form>
                         <b-table :data="associations">
                             <template slot-scope="props">
-                                <b-table-column field="workflow_for" :label="translations.main.table_header_associated_to">
-                                    {{ object_utils.translateEnum(translations.associations, 'enum_association', props.row.workflow_for) }}
+                                <b-table-column field="workflow_for" :label="translations.associations.column_workflow_for">
+                                    {{ object_utils.translateEnum(translations.main, 'column_enum_association', props.row.workflow_for) }}
                                 </b-table-column>
-                                <b-table-column field="global" :label="translations.main.field_global">
+                                <b-table-column field="global" :label="translations.associations.column_global">
                                     <span v-if="props.row.global">
-                                        {{translations.core.text_yes}}
+                                        {{translations.core.view_text_yes}}
                                     </span>
                                     <span v-else>
-                                        {{translations.core.text_no}}
+                                        {{translations.core.view_text_no}}
                                     </span>
                                 </b-table-column>
-                                <b-table-column field="details" :label="translations.main.table_header_details">
+                                <b-table-column field="details" :label="translations.associations.view_table_header_details">
                                     {{props.row.details}}
                                 </b-table-column>
                                 <b-table-column field="close" label="">
