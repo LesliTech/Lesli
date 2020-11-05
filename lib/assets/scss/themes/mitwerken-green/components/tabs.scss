@@ -1,0 +1,74 @@
+/*
+Copyright (c) 2020, all rights reserved.
+
+All the information provided by this platform is protected by international laws related  to 
+industrial property, intellectual property, copyright and relative international laws. 
+All intellectual or industrial property rights of the code, texts, trade mark, design, 
+pictures and any other information belongs to the owner of this platform.
+
+Without the written permission of the owner, any replication, modification,
+transmission, publication is strictly forbidden.
+
+For more information read the license file including with this software.
+
+// · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
+// · 
+*/
+
+section.application-component {
+
+    // Tabs inside cards
+    div.card .b-tabs {
+
+        // tabs navigation
+        .tabs {
+            margin-bottom: 0;
+
+            // selected tab
+            li.is-active {
+                background-color: lesli-css-theme-get-color(primary);
+                a {
+                    color: lesli-css-get-color(solid, white);
+                    border-bottom-color: #dbdbdb;
+                }
+            }
+
+        }
+
+    }
+    // tabs navigation for vertical mode
+    .b-tabs.is-vertical {
+
+        // vertical tab navigation
+        .tabs.tabs.is-boxed {
+            background-color: lesli-css-get-color(solid, white);
+            a {
+                padding: 1.6rem 0 1.6rem 1.6rem;
+            }
+            li.is-active {
+                a {
+                    background-color: lesli-css-theme-get-color(primary);
+                    color: lesli-css-get-color(solid, white);
+                }
+            }
+        }
+        
+        .tab-content {
+            // Nested tabs inside tab inside vertical tab
+            .b-tabs {
+                .tab-content{
+                    .b-tabs{
+                        .tabs {
+                            a {
+                                //padding: 0.5rem 1rem;
+                                color: lesli-css-get-color(solid, white);
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+    } 
+
+}
