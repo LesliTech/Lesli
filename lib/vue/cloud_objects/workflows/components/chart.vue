@@ -58,7 +58,10 @@ export default {
         return {
             parsed_workflow: [],
             workflow_data: null,
-            translations: {},
+            translations: {
+                workflows: I18n.t('core.workflows'),
+                core: I18n.t('core.shared')
+            },
             selected_status_id: null
         }
     },
@@ -82,11 +85,11 @@ export default {
 
         getIcon(node){
             let icon = ''
-            if(node.initial){
+            if(node.status_type == 'initial'){
                 icon = 'fas:fa-play-circle'
-            }else if(node.completed_successfully || node.completed_unsuccessfully){
+            }else if(node.status_type == 'completed_successfully' || node.status_type == 'completed_unsuccessfully'){
                 icon = 'fas:fa-check-circle'
-            }else if(node.to_be_deleted){
+            }else if(node.status_type == 'to_be_deleted'){
                 icon = 'fas:fa-exclamation-circle'
             }
             return icon
@@ -156,26 +159,31 @@ export default {
         },
 
         getStyle(node){
-            let style = 'fill:#FFFFFF,stroke:#000000'
+            let style = 'fill:#FFFFFF'
 
-            if(node.initial){
-                style = 'fill:#3298dc,stroke:#000000'
-            }else if(node.completed_successfully){
-                style = 'fill:#48c774,stroke:#000000'
-            }else if(node.completed_unsuccessfully){
-                style = 'fill:#ffdd57,stroke:#000000'
-            }else if(node.to_be_deleted){
-                style = 'fill:#f14668,stroke:#000000'
+            if(node.status_type == 'initial'){
+                style = 'fill:#3298dc'
+            }else if(node.status_type == 'completed_successfully'){
+                style = 'fill:#48c774'
+            }else if(node.status_type == 'completed_unsuccessfully'){
+                style = 'fill:#ffdd57'
+            }else if(node.status_type == 'to_be_deleted'){
+                style = 'fill:#f14668'
             }
+
+            if(node.id == this.selected_status_id){
+                style += ', stroke:#16decd, stroke-width:3px'
+            }else{
+                style += ', stroke:#000000'
+            }
+
+            console.log(style)
 
             return style
         },
 
         getNodeName(node){
-            if(this.translationsPath){
-                return this.object_utils.translateEnum(this.translations.main, 'status', node.name)
-            }
-            return node.name
+            return this.object_utils.translateEnum(this.translations.core, 'column_enum_status', node.name)
         }
     },
     watch: {
@@ -203,13 +211,18 @@ export default {
                     <span class="select is-fullwidth is-empty">
                         <select v-model="selected_status_id">
                             <option
+                                :value="null"
+                                hidden
+                                disabled
+                            >
+                                {{translations.workflows.view_placeholder_select_status_to_view_chart}}
+                            </option>
+                            <option
                                 v-for="status in workflow.statuses"
                                 :value="status.id"
-                                :key="status.id"
-                                :hidden="status.id == null"
-                                :disabled="status.id == null"  
+                                :key="status.id" 
                             >
-                                {{object_utils.translateEnum(translations.main, 'status', status.name)}}
+                                {{object_utils.translateEnum(translations.core, 'column_enum_status', status.name)}}
                             </option>
                         </select>
                     </span>
