@@ -32,7 +32,9 @@ export default {
     data(){
         return {
             translations: {
-                core: I18n.t('deutscheleibrenten.shared')
+                core: I18n.t('core.shared'),
+                actions: I18n.t('core.workflow/actions'),
+                bell: I18n.t('bell.notifications')
             },
             workflow_action: null,
             file_options: {
@@ -90,7 +92,7 @@ export default {
             let url = `/${this.cloud_engine}/workflows/${this.workflowId}/actions/resources/options_create_cloud_object_file.json`
              this.http.get(url).then(result => {
                 if (result.successful) {
-                    if(result.data.templates.length > 0){
+                    if(result.data && result.data.templates.length > 0){
                         this.file_options = result.data
                     }else{
                         this.action_unavailable = true
@@ -108,12 +110,12 @@ export default {
         <div class="has-text-centered" v-if="action_unavailable">
             <i class="fas fa-exclamation-triangle fa-lg"></i>
             <br>
-            {{translations.main.text_no_templates_available}}
+            {{translations.actions.view_text_no_templates_available}}
         </div>
         <div v-else>
             <div class="field">
-                <label class="label">{{translations.main.field_template}}<sup class="has-text-danger">*</sup></label>
-                <b-select :placeholder="translations.main.placeholder_template" expanded v-model="workflow_action.input_data.template_id" required>
+                <label class="label">{{translations.actions.column_template}}<sup class="has-text-danger">*</sup></label>
+                <b-select :placeholder="translations.actions.view_placeholder_template" expanded v-model="workflow_action.input_data.template_id" required>
                     <option
                         v-for="template in file_options.templates"
                         :value="template.id"
@@ -124,8 +126,8 @@ export default {
                 </b-select>
             </div>
             <div class="field">
-                <label class="label">{{translations.main.field_file_type}}<sup class="has-text-danger">*</sup></label>
-                <b-select :placeholder="translations.main.placeholder_template" expanded v-model="workflow_action.input_data.file_type" required>
+                <label class="label">{{translations.actions.column_file_type}}<sup class="has-text-danger">*</sup></label>
+                <b-select :placeholder="translations.core.view_placeholder_select_option" expanded v-model="workflow_action.input_data.file_type" required>
                     <option
                         v-for="file_type in file_options.file_types"
                         :value="file_type.value"

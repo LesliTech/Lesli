@@ -25,7 +25,8 @@ export default {
     data(){
         return {
             translations: {
-                core: I18n.t('deutscheleibrenten.shared')
+                core: I18n.t('core.shared'),
+                actions: I18n.t('core.workflow/actions')
             },
             main_route: '',
             actions: [],
@@ -117,21 +118,28 @@ export default {
         </component-data-empty>
         <b-table :data="actionsPage" @click="showAction" hoverable v-if="!loading && actions.length > 0">
             <template slot-scope="props">
-                <b-table-column field="name" :label="translations.core.text_name">
+                <b-table-column field="name" :label="translations.actions.column_name">
                     <small>{{ props.row.name }}</small>
                 </b-table-column>
-                <b-table-column field="action_type" :label="translations.core.text_type">
-                    <small>{{ object_utils.translateEnum(translations.main, 'column_enum_action_type', props.row.action_type) }}</small>
+                <b-table-column field="action_type" :label="translations.actions.column_action_type">
+                    <small>{{
+                        object_utils.translateEnum(translations.actions, 'column_enum_action_type', props.row.action_type, null) ||
+                        object_utils.translateEnum(translations.main, 'column_enum_action_type', props.row.action_type)
+                    }}</small>
                 </b-table-column>
-                <b-table-column field="initial_status_name" :label="translations.main.field_initial_status">
-                    <small>
-                        {{ object_utils.translateEnum(translations.statuses, 'status', props.row.initial_status_name) }}
-                    </small>
+                <b-table-column field="initial_status_name" :label="translations.actions.column_initial_status_id">
+                    <small>{{
+                        object_utils.translateEnum(translations.core, 'column_enum_status', props.row.initial_status_name, null) ||
+                        object_utils.translateEnum(translations.statuses, 'column_enum_status', props.row.initial_status_name, null) ||
+                        object_utils.translateEnum(translations.statuses, 'status', props.row.initial_status_name)
+                    }}</small>
                 </b-table-column>
-                <b-table-column field="final_status_name" :label="translations.main.field_final_status">
-                    <small>
-                        {{ object_utils.translateEnum(translations.statuses, 'status', props.row.final_status_name) }}
-                    </small>
+                <b-table-column field="final_status_name" :label="translations.actions.column_final_status_id">
+                    <small>{{
+                        object_utils.translateEnum(translations.core, 'column_enum_status', props.row.final_status_name, null) ||
+                        object_utils.translateEnum(translations.statuses, 'column_enum_status', props.row.final_status_name, null) ||
+                        object_utils.translateEnum(translations.statuses, 'status', props.row.final_status_name)
+                    }}</small>
                 </b-table-column>
             </template>
         </b-table>

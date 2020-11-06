@@ -39,7 +39,8 @@ export default {
     data(){
         return {
             translations: {
-                core: I18n.t('deutscheleibrenten.shared')
+                core: I18n.t('core.shared'),
+                actions: I18n.t('core.workflow/actions')
             },
             main_route: '',
             action: {
@@ -155,7 +156,7 @@ export default {
 
             this.http.post(url, data).then(result => {
                 if (result.successful) {
-                    this.alert(this.translations.main.notification_action_created,'success')
+                    this.alert(this.translations.actions.messages_success_action_created,'success')
                     this.bus.publish('post:/module/workflow/action', result.data)
                     this.bus.publish('show:/module/workflow/action/edit', result.data)
                     this.resetAction()
@@ -176,7 +177,7 @@ export default {
 
             this.http.put(url, data).then(result => {
                 if (result.successful) {
-                    this.alert(this.translations.main.notification_action_updated,'success')
+                    this.alert(this.translations.actions.messages_success_action_updated,'success')
                 }else{
                     this.alert(result.error.message,'danger')
                 }
@@ -190,7 +191,7 @@ export default {
 
             this.http.delete(url).then(result => {
                 if (result.successful) {
-                    this.alert(this.translations.main.notification_action_deleted,'success')
+                    this.alert(this.translations.actions.messages_info_action_destroyed,'success')
                     this.bus.publish('destroy:/module/workflow/action', this.action)
                     this.action_id = null
                 }else{
@@ -248,7 +249,7 @@ export default {
                 let initial_statuses = Object.values(this.options.statuses)
                 initial_statuses.unshift({
                     id: null,
-                    name: this.translations.core.text_none,
+                    name: this.translations.core.view_text_none,
                     number: null
                 })
                 return initial_statuses
@@ -263,16 +264,16 @@ export default {
     <div v-if="translations.main">
         <article class="message is-warning" v-if="viewType == 'new' && options.has_global_association && cloudEngine == 'focus'">
             <div class="message-header">
-                <p>{{translations.core.warning_new_focus_global_action_title}}</p>
+                <p>{{translations.actions.messages_warning_new_focus_global_action_title}}</p>
             </div>
             <div class="message-body">
-                {{translations.core.warning_new_focus_global_action_body}}
+                {{translations.actions.messages_warning_new_focus_global_action_body}}
             </div>
         </article>
         <component-data-loading v-if="loading" />
         <form v-if="!loading && (viewType == 'new' || action_id)" @submit="submitAction">
             <div class="field">
-                <label class="label">{{translations.core.text_name}}<sup class="has-text-danger">*</sup></label>
+                <label class="label">{{translations.actions.column_name}}<sup class="has-text-danger">*</sup></label>
                 <div class="control">
                     <input class="input" type="text" v-model="action.name" required>
                 </div>
@@ -280,28 +281,36 @@ export default {
             <div class="columns">
                 <div class="column is-6">
                     <div class="field">
-                        <label class="label">{{translations.main.field_initial_status}}</label>
+                        <label class="label">{{translations.actions.column_initial_status_id}}</label>
                         <b-select expanded v-model="action.initial_status_id">
                             <option
                                 v-for="status in initialStatuses"
                                 :value="status.id"
                                 :key="status.id"
                             >
-                                <small>{{ object_utils.translateEnum(translations.statuses, 'status', status.name) }}</small>
+                                <small>{{
+                                    object_utils.translateEnum(translations.core, 'column_enum_status', status.name, null) ||
+                                    object_utils.translateEnum(translations.statuses, 'column_enum_status', status.name, null) ||
+                                    object_utils.translateEnum(translations.statuses, 'status', status.name)
+                                }}</small>
                             </option>
                         </b-select>
                     </div>
                 </div>
                 <div class="column is-6">
                     <div class="field">
-                        <label class="label">{{translations.main.field_final_status}}<sup class="has-text-danger">*</sup></label>
-                        <b-select :placeholder="translations.core.text_select_option" expanded v-model="action.final_status_id" required>
+                        <label class="label">{{translations.actions.column_final_status_id}}<sup class="has-text-danger">*</sup></label>
+                        <b-select :placeholder="translations.core.view_placeholder_select_option" expanded v-model="action.final_status_id" required>
                             <option
                                 v-for="status in transition_statuses"
                                 :value="status.id"
                                 :key="status.id"
                             >
-                                <small>{{ object_utils.translateEnum(translations.statuses, 'status', status.name) }}</small>
+                                <small>{{
+                                    object_utils.translateEnum(translations.core, 'column_enum_status', status.name, null) ||
+                                    object_utils.translateEnum(translations.statuses, 'column_enum_status', status.name, null) ||
+                                    object_utils.translateEnum(translations.statuses, 'status', status.name)
+                                }}</small>
                             </option>
                         </b-select>
                     </div>
@@ -310,28 +319,31 @@ export default {
             <div class="columns">
                 <div class="column is-8">
                     <div class="field">
-                    <label class="label">{{translations.main.field_action_type}}<sup class="has-text-danger">*</sup></label>
-                        <b-select :placeholder="translations.core.text_select_option" expanded v-model="action.action_type" required :disabled="viewType == 'edit'">
+                    <label class="label">{{translations.actions.column_action_type}}<sup class="has-text-danger">*</sup></label>
+                        <b-select :placeholder="translations.core.view_placeholder_select_option" expanded v-model="action.action_type" required :disabled="viewType == 'edit'">
                             <option
                                 v-for="type in options.action_types"
                                 :value="type.value"
                                 :key="type.value"
-                            >
-                                <small>{{ object_utils.translateEnum(translations.main, 'column_enum_action_type', type.text) }}</small>
+                            >   
+                                <small>{{
+                                    object_utils.translateEnum(translations.actions, 'column_enum_action_type', type.text, null) ||
+                                    object_utils.translateEnum(translations.main, 'column_enum_action_type', type.text)
+                                }}</small>
                             </option>
                         </b-select>
                     </div>
                 </div>
                 <div class="column is-4">
                     <div class="field">
-                        <label class="label">{{translations.main.field_execute_immediately}}</label>
+                        <label class="label">{{translations.actions.column_execute_immediately}}</label>
                         <div class="control">
                             <b-checkbox v-model="action.execute_immediately" >
                                 <span v-if="action.execute_immediately">
-                                    {{translations.core.text_yes}}
+                                    {{translations.core.view_text_yes}}
                                 </span>
                                 <span v-else>
-                                    {{translations.core.text_no}}
+                                    {{translations.core.view_text_no}}
                                 </span>
                             </b-checkbox>
                         </div>
@@ -385,7 +397,7 @@ export default {
             <div class="buttons">
                 <b-button type="is-primary" expanded native-type="submit">
                     <i class="fas fa-save"></i>
-                    {{translations.core.btn_save}}
+                    {{translations.core.view_btn_save}}
                 </b-button>
             </div>
             <div v-if="viewType == 'edit'">
@@ -393,7 +405,7 @@ export default {
                 <div class="buttons">
                     <b-button type="is-danger" outlined native-type="button" @click="deleteAction">
                         <i class="fas fa-trash-alt"></i>
-                        {{translations.core.text_delete}}
+                        {{translations.core.view_btn_delete}}
                     </b-button>
                 </div>
             </div>
