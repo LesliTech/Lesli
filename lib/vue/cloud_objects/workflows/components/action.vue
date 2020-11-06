@@ -9,7 +9,7 @@ export default {
             required: true
         },
 
-        cloudEngine: {
+        engineNamespace: {
             required: true
         },
         translationsPath: {
@@ -32,7 +32,8 @@ export default {
         return {
             show: false,
             translations: {
-                core: I18n.t('deutscheleibrenten.shared')
+                core: I18n.t('core.shared'),
+                actions: I18n.t('core.workflow/actions')
             },
             active_tab: 0,
             action_selected: false
@@ -45,10 +46,6 @@ export default {
     },
 
     methods: {
-        setMainRoute(){
-            this.main_route = `/${this.cloudEngine}/workflows/${this.workflowId}/actions`
-        },
-
         setSubscriptions(){
             this.bus.subscribe('show:/module/workflows/action', () => {
                 this.show = ! this.show
@@ -64,6 +61,7 @@ export default {
         },
 
         setTranslations(){
+            console.log(this.translationsPath)
             this.$set(this.translations, 'main', I18n.t(this.translationsPath))
         }
     },
@@ -76,16 +74,16 @@ export default {
 }
 </script>
 <template>
-    <div :class="[{ 'is-active': show }, 'quickview', 'is-size-large']" v-if="translations.main">
+    <div :class="[{ 'is-active': show }, 'quickview', 'is-size-large']" v-if="translations.actions">
         <header class="quickview-header">
-            <h4 class="title">{{translations.main.title}}</h4>
+            <h4 class="title">{{translations.actions.view_title_main}}</h4>
             <span class="delete" @click="show = false"></span>
         </header>
         <div class="quickview-body">
             <b-tabs expanded v-model="active_tab">
-                <b-tab-item :label="translations.main.tab_list_title">
+                <b-tab-item :label="translations.actions.view_tab_title_list">
                     <component-list
-                        :cloud-engine="cloudEngine"
+                        :cloud-engine="engineNamespace"
                         :workflow-id="workflowId"
                         :translations-path="translationsPath"
                         :statuses-translations-path="statusesTranslationsPath"
@@ -93,18 +91,18 @@ export default {
                     >
                     </component-list>
                 </b-tab-item>
-                <b-tab-item :label="translations.main.tab_new_title">
+                <b-tab-item :label="translations.actions.view_tab_title_new">
                     <component-new
-                        :cloud-engine="cloudEngine"
+                        :cloud-engine="engineNamespace"
                         :workflow-id="workflowId"
                         :translations-path="translationsPath"
                         :statuses-translations-path="statusesTranslationsPath"
                     >
                     </component-new>
                 </b-tab-item>
-                <b-tab-item :label="translations.main.tab_edit_title" :disabled="! action_selected">
+                <b-tab-item :label="translations.actions.view_tab_title_edit" :disabled="! action_selected">
                     <component-edit
-                        :cloud-engine="cloudEngine"
+                        :cloud-engine="engineNamespace"
                         :workflow-id="workflowId"
                         :translations-path="translationsPath"
                         :statuses-translations-path="statusesTranslationsPath"

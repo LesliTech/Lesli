@@ -1,54 +1,69 @@
 <script>
 /*
-Copyright (c) 2020, Lesli Technologies, S. A.
+Copyright (c) 2020, all rights reserved.
 
-All the information provided by this website is protected by laws of Guatemala related 
-to industrial property, intellectual property, copyright and relative international laws. 
-Lesli Technologies, S. A. is the exclusive owner of all intellectual or industrial property
-rights of the code, texts, trade mark, design, pictures and any other information.
-Without the written permission of Lesli Technologies, S. A., any replication, modification,
+All the information provided by this platform is protected by international laws related  to 
+industrial property, intellectual property, copyright and relative international laws. 
+All intellectual or industrial property rights of the code, texts, trade mark, design, 
+pictures and any other information belongs to the owner of this platform.
+
+Without the written permission of the owner, any replication, modification,
 transmission, publication is strictly forbidden.
+
 For more information read the license file including with this software.
 
-LesliCloud - Your Smart Business Assistant
-
-Powered by https://www.lesli.tech
-Building a better future, one line of code at a time.
-
-@author   Carlos Hermosilla
-@license  Propietary - all rights reserved.
-@version  0.1.0-alpha
-@description App that allows the user to create a new workflow
-
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
-// · 
+// ·
 */
 
 
 // · List of Imported Components
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
+
+// · 
+// · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
 import componentForm from '../components/form.vue'
 
 
 export default {
-
-    // @component_prop CloudModule [String] The cloud module that imported this component.
-    //      For example, 'house/property'. It helps determine the endpoints to which this 
-    //      and child components connect to
     props: {
-        cloudModule: {
+        cloudEngine: {
+            type: String,
+            required: true
+        },
+
+        engineNamespace: {
             type: String,
             required: true
         }
     },
-    
+
     components: {
         'component-form': componentForm
+    },
+
+    data(){
+        return {
+            translations: {
+                workflows: I18n.t('core.workflows')
+            }
+        }
     }
 }
 </script>
 <template>
-    <section class="section">
-        <component-form :cloud-module="cloudModule" />
+    <section class="application-component">
+        <nav class="navbar component-header">
+            <div class="navbar-menu">
+                <div class="navbar-start">
+                    <div class="navbar-item">
+                        <h4 class="is-size-3">
+                            {{translations.workflows.view_title_main}}
+                        </h4>
+                    </div>
+                </div>
+            </div>
+        </nav>
+        <component-form :cloud-engine="cloudEngine" :engine-namespace="engineNamespace"></component-form>
     </section>
 </template>

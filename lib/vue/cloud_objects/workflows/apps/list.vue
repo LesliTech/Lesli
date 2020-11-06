@@ -1,85 +1,80 @@
 <script>
 /*
-Copyright (c) 2020, Lesli Technologies, S. A.
+Copyright (c) 2020, all rights reserved.
 
-All the information provided by this website is protected by laws of Guatemala related 
-to industrial property, intellectual property, copyright and relative international laws. 
-Lesli Technologies, S. A. is the exclusive owner of all intellectual or industrial property
-rights of the code, texts, trade mark, design, pictures and any other information.
-Without the written permission of Lesli Technologies, S. A., any replication, modification,
+All the information provided by this platform is protected by international laws related  to 
+industrial property, intellectual property, copyright and relative international laws. 
+All intellectual or industrial property rights of the code, texts, trade mark, design, 
+pictures and any other information belongs to the owner of this platform.
+
+Without the written permission of the owner, any replication, modification,
 transmission, publication is strictly forbidden.
+
 For more information read the license file including with this software.
 
-LesliCloud - Your Smart Business Assistant
-
-Powered by https://www.lesli.tech
-Building a better future, one line of code at a time.
-
-@author   Carlos Hermosilla
-@license  Propietary - all rights reserved.
-@version  0.1.0-alpha
-@description App that retrieves and shows list of all the workflows associated to 
-    the account of the logged user
-
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
-// · 
+// ·
 */
 
 
 // · List of Imported Components
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
 
-
 // · 
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
 export default {
- 
-    // @component_prop CloudModule [String] The cloud module that imported this component.
-    //      For example, 'house/property'. It helps determine the endpoints to which this 
-    //      and child components connect to
     props: {
-        cloudModule: {
+        cloudEngine: {
+            type: String,
+            required: true
+        },
+
+        engineNamespace: {
             type: String,
             required: true
         }
     },
-    
-    components: {
-
-    },
 
     // @return [Object] Data used by this component's methods
     // @description Returns the data needed for this component to work properly
-    // @data_variable main_route [String] the main route to which this component connects to the lesli API
     // @data_variable workflows [Array] An array of objects, each object represents a 
     //      Workflow, with the same params as the associated rails model
     data(){
         return {
-            main_route: '',
-            workflows: null,
-            reloading: false
+            main_route: `/${this.engineNamespace}/workflows`,
+            translations: {
+                main: I18n.t(`${this.engineNamespace}.workflows`),
+                shared: I18n.t(`${this.engineNamespace}.shared`),
+                core: I18n.t('core.shared'),
+                workflows: I18n.t('core.workflows')
+            },
+            pagination: {
+                workflows_count: 0,
+                current_page: 1,
+                per_page: 15,
+                range_before: 3,
+                range_after: 3
+            },
+            filters: {
+                query: ''
+            },
+            sorting: {
+                field: 'name',
+                order: 'desc'
+            },
+            workflows: [],
+            loading: false,
+            workflows_abilities: this.abilities.privilege('workflows', this.object_utils.toSnakeCase(this.cloudEngine))
         }
     },
 
     // @return [void]
     // @description Executes the necessary functions needed to initialize this component
-    mounted() {
-        this.setCloudParams()
-        this.setMainRoute()
-        this.getWorkflows()
+    mounted(){
+       this.getWorkflows()
     },
 
     methods: {
-
-        setCloudParams(){
-            let module_data = this.cloudModule.split('/')
-            this.module_name = module_data[0]
-        },
-
-        setMainRoute(){
-            this.main_route = `/${this.module_name}/workflows`
-        },
-
         // @return [void]
         // @description Connects to the backend using HTTP and retrieves a list of Workflow associated to
         //      the current user's account. If the HTTP request fails, an error message is shown
@@ -87,11 +82,38 @@ export default {
         //      console.log(this.workflows) // will display null
         //      this.getWorkflows()
         //      console.log(this.workflows) // will display an array of objects, each representing a Workflow.
-        getWorkflows() {
-            this.http.get(`${this.main_route}.json`).then(result => {
-                this.reloading = false
+        getWorkflows(reset_current_page = true) {
+            this.loading = true
+
+            let url = `${this.main_route}/list.json`
+
+            let data = {
+                filters: this.filters,
+                perPage: this.pagination.per_page,
+                order: this.sorting.order,
+                orderColumn: this.sorting.field
+            }
+            if(reset_current_page){
+                this.pagination.current_page = 1
+                data.filters.get_total_count = true
+            }else{
+                data.filters.get_total_count = false
+            }
+            data.page = this.pagination.current_page
+
+            this.http.post(url, data).then(result => {
+                this.loading = false
+                this.$emit('loading-done')
+                
                 if (result.successful) {
-                    this.workflows = result.data
+                    this.workflows = result.data.workflows
+                    if(result.data.total_count){
+                        this.pagination.workflows_count = result.data.total_count
+                    }
+
+                    if(result.data.total_count != null){
+                        this.pagination.workflows_count = result.data.total_count
+                    }
                 }else{
                     this.alert(result.error.message,'danger')
                 }
@@ -99,80 +121,157 @@ export default {
                 console.log(error)
             })
         },
-        
+
         // @return [void]
         // @param workflow [Object] The object representation of the selected Workflow
         // @description Redirects the router to show the selected Workflow
         // @example
         //      this.showWorkflow(this.workflows[1])
         //      // Asume the id of the Workflow is 4
-        //      // The user will be redirected to the url /help/catalog/workflows/4
+        //      // The user will be redirected to the url /crm/workflows/4
         showWorkflow(workflow) {
             this.$router.push(`/${workflow.id}`)
         },
 
+        sortWorkflows(field, order){
+            if(this.sorting.field == field){
+                if(this.sorting.order == 'asc'){
+                    this.sorting.order = 'desc'
+                }else{
+                    this.sorting.order = 'asc'
+                }
+            }else{
+                this.sorting.field = field
+                this.sorting.order = 'desc'
+            }
+            this.getWorkflows()
+        },
+
         reloadWorkflows(){
-            this.reloading = true
+            this.getWorkflows()
+        },
+
+        searchWorkflows(text){
+            this.filters.query = text
             this.getWorkflows()
         }
     },
 
-    computed: {
-
-        // @return [String] The class that is used to give a spinning animation to the icon (if needed)
-        // @description When the user clicks the 'reload' button, it changes the value of the *reloading*
-        //      data variable. And that is used by this method to change the class of the icon and add it
-        //      the spinning animation
-        reloadingClass(){
-            if(this.reloading){
-                return 'fa-spin'
+    watch: {
+        'pagination.current_page': function(){
+            if(! this.loading){
+                this.getWorkflows(false)
             }
-
-            return ''
+        },
+        
+        'filters.per_page'(){
+            if(this.filters_ready){
+                this.getWorkflows(true)
+            }
         }
     }
 }
 </script>
 <template>
-    <section class="section" v-if="workflows">
-        <component-data-empty v-if="workflows.length == 0" />
-        <div class="card" v-if="workflows.length > 0">
-            <div class="card-header">
-                <h4 class="card-header-title">
-                    Workflows
-                </h4>
-                <div class="buttons">
-                    <button class="button is-white" @click="reloadWorkflows" :disabled="reloading">
-                        <b-icon icon="sync" size="is-small" :custom-class="reloadingClass" />
-                    </button>
-                    &nbsp;&nbsp;&nbsp;
-                </div>
+    <section class="application-component">
+        <component-header 
+            :title="translations.workflows.view_title_main">
+            <div class="buttons">
+                <button class="button" @click="reloadWorkflows()" :disabled="loading.global">
+                    <b-icon icon="sync" size="is-small" :custom-class="loading.global ? 'fa-spin' : ''" />
+                    <span>{{translations.core.view_text_btn_reload}}</span>
+                </button>
+                <router-link class="button" tag="button" to="/new" v-if="workflows_abilities.grant_create">
+                    <b-icon icon="plus" size="is-small" />
+                    <span>{{ translations.workflows.view_btn_new_workflow }}</span>
+                </router-link>
             </div>
+        </component-header>
+
+        <component-toolbar
+            :search-text="translations.workflows.view_placeholder_search_text"
+            @search="searchWorkflows"
+            :initial-value="filters.query"
+        >
+        </component-toolbar>
+
+        <div class="card">
             <div class="card-content">
-                <b-table :data="workflows" @click="showWorkflow" :hoverable="true">
+                <component-data-loading v-if="loading" />
+                <component-data-empty v-if="!loading && workflows.length == 0" />
+                
+                <b-table
+                    v-if="!loading && workflows.length > 0"
+                    :data="workflows"
+                    :hoverable="true"
+                    backend-sorting
+                    @sort="sortWorkflows"
+                    @click="showWorkflow"
+                >
                     <template slot-scope="props">
-                        <b-table-column field="id" label="Number" width="40" numeric centered>
-                            {{ props.row.id }}
-                        </b-table-column>
-                        <b-table-column field="name" label="Name">
+                        <b-table-column field="name" :label="translations.workflows.column_name" sortable>
+                            <template slot="header" slot-scope="{ column }">
+                                <span>
+                                    {{ column.label }}
+                                    <span v-if="sorting.field == 'name'">
+                                        <b-icon v-if="sorting.order == 'asc'" size="is-small" icon="arrow-up" ></b-icon>
+                                        <b-icon v-else size="is-small" icon="arrow-down"></b-icon>
+                                    </span>
+                                </span>
+                            </template>
                             {{ props.row.name }}
-                            <span class="has-text-primary" v-if="props.row.default">
-                                (Default)
+                        </b-table-column>
+
+                        <b-table-column field="default" :label="translations.workflows.column_default" sortable>
+                            <template slot="header" slot-scope="{ column }">
+                                <span>
+                                    {{ column.label }}
+                                    <span v-if="sorting.field == 'default'">
+                                        <b-icon v-if="sorting.order == 'asc'" size="is-small" icon="arrow-up" ></b-icon>
+                                        <b-icon v-else size="is-small" icon="arrow-down"></b-icon>
+                                    </span>
+                                </span>
+                            </template>
+                            <span v-if="props.row.default">
+                                <b>{{translations.core.view_text_yes}}</b>
+                            </span>
+                            <span v-else>
+                                {{translations.core.view_text_no}}
                             </span>
                         </b-table-column>
-                        <b-table-column field="created_at" label="Created at">
-                            {{ date.toLocalFormat(props.row.created_at, true) }}
-                        </b-table-column>
-                        <b-table-column field="updated_at" label="Updated at">
-                            {{ date.toLocalFormat(props.row.updated_at, true) }}
+
+                        <b-table-column field="id" :label="translations.core.column_created_at" sortable>
+                            <template slot="header" slot-scope="{ column }">
+                                <span>
+                                    {{ column.label }}
+                                    <span v-if="sorting.field == 'id'">
+                                        <b-icon v-if="sorting.order == 'asc'" size="is-small" icon="arrow-up" ></b-icon>
+                                        <b-icon v-else size="is-small" icon="arrow-down"></b-icon>
+                                    </span>
+                                </span>
+                            </template>
+                            {{ props.row.created_at }}
                         </b-table-column>
                     </template>
                 </b-table>
+                <hr>
+                <b-pagination
+                    :simple="false"
+                    :total="pagination.workflows_count"
+                    :current.sync="pagination.current_page"
+                    :range-before="pagination.range_before"
+                    :range-after="pagination.range_after"
+                    :per-page="pagination.per_page"
+                    order="is-centered"
+                    icon-prev="chevron-left"
+                    icon-next="chevron-right"
+                    aria-next-label="Next page"
+                    aria-previous-label="Previous page"
+                    aria-page-label="Page"
+                    aria-current-label="Current page"
+                >
+                </b-pagination>
             </div>
         </div>
-    </section>
-
-    <section class="section" v-else>
-        <component-layout-data-loading  size="is-medium" />
     </section>
 </template>

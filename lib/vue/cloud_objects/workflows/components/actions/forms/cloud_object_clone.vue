@@ -32,7 +32,8 @@ export default {
     data(){
         return {
             translations: {
-                core: I18n.t('deutscheleibrenten.shared')
+                core: I18n.t('core.shared'),
+                actions: I18n.t('core.workflow/actions')
             },
             workflow_action: null,
             clone_options: {
@@ -134,30 +135,30 @@ export default {
             <input type="hidden" required>
             <i class="fas fa-exclamation-triangle fa-lg"></i>
             <br>
-            <h4>{{translations.main.messages_warning_action_unavailable}}</h4>
+            <h4>{{translations.actions.messages_warning_action_unavailable}}</h4>
         </div>
         <div v-else>
             <div class="columns">
                 <div class="column is-5">
-                    <label class="label">{{translations.main.view_title_assign_resource_to}}<sup class="has-text-danger">*</sup></label>
-                    <b-select :placeholder="translations.core.text_select_option" expanded v-model="workflow_action.concerning_users.type" required>
+                    <label class="label">{{translations.actions.view_title_assign_resource_to}}<sup class="has-text-danger">*</sup></label>
+                    <b-select :placeholder="translations.core.view_placeholder_select_option" expanded v-model="workflow_action.concerning_users.type" required>
                         <option
                             v-for="concerning_user_type in options.concerning_user_types"
                             :value="concerning_user_type.value"
                             :key="concerning_user_type.value"
                         >
                             <small>
-                                {{ object_utils.translateEnum(translations.main, 'enum_concerning_user_types', concerning_user_type.text) }}
+                                {{ object_utils.translateEnum(translations.actions, 'column_enum_concerning_user_types', concerning_user_type.text) }}
                             </small>
                         </option>
                     </b-select>
                 </div>
                 <div class="column is-7">
                     <div class="field" v-if="workflow_action.concerning_users.type == 'custom'">
-                        <label class="label">{{translations.core.text_employee}}<sup class="has-text-danger">*</sup></label>
+                        <label class="label">{{translations.actions.view_title_employee}}<sup class="has-text-danger">*</sup></label>
                         <div class="control">
                             <b-autocomplete
-                                :placeholder="translations.core.text_select_employee"
+                                :placeholder="translations.actions.view_placeholder_select_employee"
                                 v-model="workflow_action.concerning_users.list[0].name"
                                 required
                                 field="name"
@@ -172,7 +173,7 @@ export default {
 
             <div class="field">
                 <label class="label">
-                    {{translations.main.view_text_add_reference_to_resource}}
+                    {{translations.actions.view_text_add_reference_to_resource}}
                     <sup class="has-text-danger">*</sup>
                 </label>
                 <div class="block">
@@ -181,14 +182,14 @@ export default {
                         v-model="workflow_action.input_data.add_reference"
                         :native-value="true"
                     >
-                        {{translations.core.text_yes}}
+                        {{translations.core.view_text_yes}}
                     </b-radio>
                     <b-radio
                         size="is-small"
                         v-model="workflow_action.input_data.add_reference"
                         :native-value="false"
                     >
-                        {{translations.core.text_no}}
+                        {{translations.core.view_text_no}}
                     </b-radio>
                 </div>
             </div>
@@ -200,7 +201,7 @@ export default {
                             {{main_attribute.label}}
                             <sup class="has-text-danger">*</sup>
                         </label>
-                        <b-select :placeholder="translations.core.text_select_option" expanded v-model="workflow_action.input_data[main_attribute.column]" required>
+                        <b-select :placeholder="translations.core.view_placeholder_select_option" expanded v-model="workflow_action.input_data[main_attribute.column]" required>
                             <option value="copy">
                                 <small>{{translations.core.view_text_copy}}</small>
                             </option>
@@ -212,7 +213,7 @@ export default {
                 </div>
                 <div class="column is-7" v-if="workflow_action.input_data[main_attribute.column] == 'custom'">
                     <div class="field">
-                        <label class="label">{{translations.main.view_text_select_custom_value}}<sup class="has-text-danger">*</sup></label>
+                        <label class="label">{{translations.actions.view_text_select_custom_value}}<sup class="has-text-danger">*</sup></label>
                         <b-select placeholder="Select an option" expanded v-model="workflow_action.input_data[`${main_attribute.column}_custom_value`]" required>
                             <option v-for="(option, index) in clone_options.cloud_object_options[main_attribute.column]" :key="index" :value="option.id">
                                 <small>{{option.name_translated || option.name}}</small>
@@ -240,7 +241,7 @@ export default {
                 </div>
                 <div class="column is-7" v-if="workflow_action.input_data[detail_attribute.column] == 'custom'">
                     <div class="field">
-                        <label class="label">Enter custom value</label>
+                        <label class="label">{{translations.actions.view_title_enter_custom_value}}</label>
                         <b-input type="text" v-model="workflow_action.input_data[`${detail_attribute.column}_custom_value`]">
                         </b-input>
                     </div>
