@@ -27,7 +27,8 @@ export default {
     data(){
         return {
             translations: {
-                core: I18n.t('deutscheleibrenten.shared')
+                core: I18n.t('core.shared'),
+                actions: I18n.t('core.workflow/actions'),
             },
             pagination: {
                 current_page: 1,
@@ -65,7 +66,7 @@ export default {
                         callback()
                     }
                 }else{
-                    this.alert(this.translations.main.notification_send_core_email_address_empty, 'danger')
+                    this.alert(this.translations.actions.notification_send_core_email_address_empty, 'danger')
                 }
             })
         },
@@ -155,18 +156,18 @@ export default {
 <template>
     <section v-if="workflow_action">
         <div class="field">
-            <label class="label">{{translations.main.field_subject}}<sup class="has-text-danger">*</sup></label>
+            <label class="label">{{translations.actions.column_subject}}<sup class="has-text-danger">*</sup></label>
             <div class="control">
                 <input class="input" type="text" v-model="workflow_action.input_data.subject" required>
             </div>
         </div>
         <div class="field">
-            <label class="label">{{translations.main.field_body}}<sup class="has-text-danger">*</sup></label>
+            <label class="label">{{translations.actions.column_body}}<sup class="has-text-danger">*</sup></label>
             <b-input expanded type="textarea" v-model="workflow_action.input_data.body" required>
             </b-input>
         </div>
         <div class="field">
-            <label class="label">{{translations.main.field_send_email_to}}<sup class="has-text-danger">*</sup></label>
+            <label class="label">{{translations.actions.column_send_email_to}}<sup class="has-text-danger">*</sup></label>
             <b-select :placeholder="translations.core.text_select_option" expanded v-model="workflow_action.concerning_users.type" required>
                 <option
                     v-for="concerning_user_type in options.concerning_user_types"
@@ -174,18 +175,18 @@ export default {
                     :key="concerning_user_type.value"
                 >
                     <small>
-                        {{ object_utils.translateEnum(translations.main, 'enum_concerning_user_types', concerning_user_type.text) }}
+                        {{ object_utils.translateEnum(translations.actions, 'column_enum_concerning_user_types', concerning_user_type.text) }}
                     </small>
                 </option>
             </b-select>
         </div>
         <div v-if="workflow_action.concerning_users.type == 'custom'">
-            <label class="label">{{translations.main.field_select_employee_or_email_address}}</label>
+            <label class="label">{{translations.actions.column_select_employee_or_email_address}}</label>
             <b-field grouped >
                 <b-autocomplete
                     expanded
                     ref="autocomplete"
-                    :placeholder="translations.core.text_select_employee"
+                    :placeholder="translations.actions.view_placeholder_select_employee"
                     v-model="selected_user"
                     field="name"
                     @select="addUserToList"
@@ -197,7 +198,7 @@ export default {
                         <b-icon size="is-small" icon="plus">
                         </b-icon>
                         &nbsp;
-                        {{translations.main.btn_add_email_address}}
+                        {{translations.actions.view_btn_add_email_address}}
                     </b-button>
                 </p>
             </b-field>
@@ -214,18 +215,18 @@ export default {
                 aria-current-label="Current page"
             >
                 <template slot-scope="props">
-                    <b-table-column field="name" :label="translations.core.text_name" sortable>
+                    <b-table-column field="name" :label="translations.core.view_text_name" sortable>
                         <span v-if="props.row.name">
                             {{ props.row.name }}
                         </span>
                         <span v-else>
-                            {{translations.core.text_not_applicable}}
+                            {{translations.core.view_text_not_applicable}}
                         </span>
                     </b-table-column>
-                    <b-table-column field="email" :label="translations.core.text_email" sortable>
+                    <b-table-column field="email" :label="translations.core.view_text_email" sortable>
                         {{ props.row.email }}
                     </b-table-column>
-                    <b-table-column field="actions" :label="translations.core.text_delete" sortable numeric>
+                    <b-table-column field="actions" :label="translations.core.view_btn_delete" sortable numeric>
                         <a class="delete" role="button" @click="removeUserFromList(props.row)"></a>
                     </b-table-column>
                 </template>

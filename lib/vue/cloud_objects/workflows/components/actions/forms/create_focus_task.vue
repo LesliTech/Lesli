@@ -27,8 +27,9 @@ export default {
     data(){
         return {
             translations: {
-                core: I18n.t('deutscheleibrenten.shared'),
-                tasks: I18n.t('deutscheleibrenten.tasks')
+                core: I18n.t('core.shared'),
+                actions: I18n.t('core.workflow/actions'),
+                tasks: I18n.t('focus.tasks')
             },
             workflow_action: null,
             task_options: {
@@ -116,15 +117,15 @@ export default {
     <section v-if="workflow_action">
         <div class="field">
             <label class="label">
-                {{translations.core.text_title}}<sup class="has-text-danger">*</sup>
+                {{translations.actions.column_title}}<sup class="has-text-danger">*</sup>
                 <span class="is-pulled-right">
-                    <b-tooltip :label="translations.main.tooltip_add_resource_identifier_reference" size="is-small" position="is-left" type="is-light">
+                    <b-tooltip :label="translations.actions.messages_info_tooltip_add_resource_identifier_reference" size="is-small" position="is-left" type="is-light">
                         <b-button size="is-small" @click="addReference('global_identifier', 'title')">
                             <b-icon size="is-small" icon="barcode">
                             </b-icon>
                         </b-button>
                     </b-tooltip>
-                    <b-tooltip :label="translations.main.tooltip_add_current_user_reference" size="is-small" position="is-left" type="is-light">
+                    <b-tooltip :label="translations.actions.messages_info_tooltip_add_current_user_reference" size="is-small" position="is-left" type="is-light">
                         <b-button size="is-small" @click="addReference('current_user', 'title')">
                             <b-icon size="is-small" icon="user-circle">
                             </b-icon>
@@ -138,15 +139,15 @@ export default {
         </div>
         <div class="field">
             <label class="label">
-                {{translations.core.text_description}}
+                {{translations.actions.column_description}}
                 <span class="is-pulled-right">
-                    <b-tooltip :label="translations.main.tooltip_add_resource_identifier_reference" size="is-small" position="is-left" type="is-light">
+                    <b-tooltip :label="translations.actions.messages_info_tooltip_add_resource_identifier_reference" size="is-small" position="is-left" type="is-light">
                         <b-button size="is-small" @click="addReference('global_identifier', 'description')">
                             <b-icon size="is-small" icon="barcode">
                             </b-icon>
                         </b-button>
                     </b-tooltip>
-                    <b-tooltip :label="translations.main.tooltip_add_current_user_reference" size="is-small" position="is-left" type="is-light">
+                    <b-tooltip :label="translations.actions.messages_info_tooltip_add_current_user_reference" size="is-small" position="is-left" type="is-light">
                         <b-button size="is-small" @click="addReference('current_user', 'description')">
                             <b-icon size="is-small" icon="user-circle">
                             </b-icon>
@@ -160,26 +161,32 @@ export default {
         </div>
         <div class="columns">
             <div class="column is-7">
-                <label class="label">{{translations.core.text_type}}<sup class="has-text-danger">*</sup></label>
-                <b-select :placeholder="translations.core.text_select_option" expanded v-model="workflow_action.input_data.task_type" required>
+                <label class="label">{{translations.actions.column_task_type}}<sup class="has-text-danger">*</sup></label>
+                <b-select :placeholder="translations.core.view_placeholder_select_option" expanded v-model="workflow_action.input_data.task_type" required>
                     <option
                         v-for="type in task_options.task_types"
                         :value="type.value"
                         :key="type.value"
                     >
-                        <small>{{ object_utils.translateEnum(translations.tasks, 'enum_task_type', type.text) }}</small>
+                        <small>{{
+                            object_utils.translateEnum(translations.tasks, 'column_enum_task_type', type.text, null) ||
+                            object_utils.translateEnum(translations.tasks, 'enum_task_type', type.text)
+                        }}</small>
                     </option>
                 </b-select>
             </div>
             <div class="column is-5">
-                <label class="label">{{translations.tasks.form_task_importance}}<sup class="has-text-danger">*</sup></label>
-                <b-select :placeholder="translations.core.text_select_option" expanded v-model="workflow_action.input_data.importance" required>
+                <label class="label">{{translations.tasks.column_importance}}<sup class="has-text-danger">*</sup></label>
+                <b-select :placeholder="translations.core.view_placeholder_select_option" expanded v-model="workflow_action.input_data.importance" required>
                     <option
                         v-for="importance in task_options.importances"
                         :value="importance.value"
                         :key="importance.value"
                     >
-                        <small>{{ object_utils.translateEnum(translations.tasks, 'enum_task_importance', importance.text) }}</small>
+                        <small>{{
+                            object_utils.translateEnum(translations.tasks, 'column_enum_task_importance', importance.text, null) ||
+                            object_utils.translateEnum(translations.tasks, 'enum_task_importance', importance.text) 
+                        }}</small>
                     </option>
                 </b-select>
             </div>
@@ -187,19 +194,19 @@ export default {
         
         <div class="columns">
             <div class="column is-6">
-                <label class="label">{{translations.main.field_days_until_deadline}}<sup class="has-text-danger">*</sup></label>
+                <label class="label">{{translations.actions.column_days_until_deadline}}<sup class="has-text-danger">*</sup></label>
                 <b-input v-model="workflow_action.input_data.days_until_deadline" type="number" min="0" step="1" required></b-input>
             </div>
             <div class="column is-6">
-                <label class="label">{{translations.main.field_assign_task_to}}<sup class="has-text-danger">*</sup></label>
-                <b-select :placeholder="translations.core.text_select_option" expanded v-model="workflow_action.concerning_users.type" required>
+                <label class="label">{{translations.actions.column_assign_task_to}}<sup class="has-text-danger">*</sup></label>
+                <b-select :placeholder="translations.core.view_placeholder_select_option" expanded v-model="workflow_action.concerning_users.type" required>
                     <option
                         v-for="concerning_user_type in options.concerning_user_types"
                         :value="concerning_user_type.value"
                         :key="concerning_user_type.value"
                     >
                         <small>
-                            {{ object_utils.translateEnum(translations.main, 'enum_concerning_user_types', concerning_user_type.text) }}
+                            {{ object_utils.translateEnum(translations.actions, 'column_enum_concerning_user_types', concerning_user_type.text) }}
                         </small>
                     </option>
                 </b-select>
@@ -207,10 +214,10 @@ export default {
         </div>
         
         <div class="field" v-if="workflow_action.concerning_users.type == 'custom'">
-            <label class="label">{{translations.core.text_employee}}<sup class="has-text-danger">*</sup></label>
+            <label class="label">{{translations.actions.view_title_employee}}<sup class="has-text-danger">*</sup></label>
             <div class="control">
                 <b-autocomplete
-                    :placeholder="translations.core.text_select_employee"
+                    :placeholder="translations.actions.view_placeholder_select_employee"
                     v-model="workflow_action.concerning_users.list[0].name"
                     required
                     field="name"
@@ -224,14 +231,14 @@ export default {
         <div class="columns">
             <div class="column is-4">
                 <div class="field">
-                    <label class="label">{{translations.main.field_send_task_notification_email}}</label>
+                    <label class="label">{{translations.actions.view_title_send_task_notification_email}}</label>
                     <div class="control">
                         <b-checkbox v-model="workflow_action.configuration.send_email" >
                             <span v-if="workflow_action.configuration.send_email">
-                                {{translations.core.text_yes}}
+                                {{translations.core.view_text_yes}}
                             </span>
                             <span v-else>
-                                {{translations.core.text_no}}
+                                {{translations.core.view_text_no}}
                             </span>
                         </b-checkbox>
                     </div>
@@ -239,14 +246,14 @@ export default {
             </div>
             <div class="column is-4">
                 <div class="field">
-                    <label class="label">{{translations.main.field_log_task_errors}}</label>
+                    <label class="label">{{translations.actions.view_title_log_task_errors}}</label>
                     <div class="control">
                         <b-checkbox v-model="workflow_action.configuration.log_errors" >
                             <span v-if="workflow_action.configuration.log_errors">
-                                {{translations.core.text_yes}}
+                                {{translations.core.view_text_yes}}
                             </span>
                             <span v-else>
-                                {{translations.core.text_no}}
+                                {{translations.core.view_text_no}}
                             </span>
                         </b-checkbox>
                     </div>
