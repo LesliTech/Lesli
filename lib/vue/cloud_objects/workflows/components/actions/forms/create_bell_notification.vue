@@ -5,11 +5,6 @@ export default {
             required: true
         },
 
-        translationsPath: {
-            required: true,
-            type: String
-        },
-
         workflowAction: {
             required: true
         },
@@ -27,8 +22,9 @@ export default {
     data(){
         return {
             translations: {
-                core: I18n.t('deutscheleibrenten.shared'),
-                bell: I18n.t('deutscheleibrenten.notifications')
+                core: I18n.t('core.shared'),
+                actions: I18n.t('core.workflow/actions'),
+                bell: I18n.t('bell.notifications')
             },
             workflow_action: null,
             notification_options: {
@@ -41,7 +37,6 @@ export default {
 
     mounted(){
         this.setSubscriptions()
-        this.setTranslations()
         this.cloneWorkflowAction()
         this.getBellNotificationOptions()
         this.getUsers()
@@ -63,10 +58,6 @@ export default {
                     callback()
                 }
             })
-        },
-
-        setTranslations(){
-            this.$set(this.translations, 'main', I18n.t(this.translationsPath))
         },
 
         cloneWorkflowAction(){
@@ -108,7 +99,7 @@ export default {
 <template>
     <section v-if="workflow_action">
         <div class="field">
-            <label class="label">{{translations.main.field_subject}}<sup class="has-text-danger">*</sup></label>
+            <label class="label">{{translations.bell.column_subject}}<sup class="has-text-danger">*</sup></label>
             <div class="control">
                 <input class="input" type="text" v-model="workflow_action.input_data.subject" required>
             </div>
@@ -116,38 +107,38 @@ export default {
         <div class="columns">
             <div class="column is-5">
                 <div class="field">
-                    <label class="label">{{translations.core.text_category}}<sup class="has-text-danger">*</sup></label>
-                    <b-select :placeholder="translations.core.text_select_option" expanded v-model="workflow_action.input_data.category" required>
+                    <label class="label">{{translations.bell.column_category}}<sup class="has-text-danger">*</sup></label>
+                    <b-select :placeholder="translations.core.view_placeholder_select_option" expanded v-model="workflow_action.input_data.category" required>
                         <option
                             v-for="category in notification_options.categories"
                             :value="category.value"
                             :key="category.value"
                         >
-                            <small>{{object_utils.translateEnum(translations.bell, 'enum_category', category.text)}}</small>
+                            <small>{{object_utils.translateEnum(translations.bell, 'column_enum_category', category.text)}}</small>
                         </option>
                     </b-select>
                 </div> 
             </div>
             <div class="column is-7">
-                <label class="label">{{translations.main.field_send_notification_to}}<sup class="has-text-danger">*</sup></label>
-                <b-select :placeholder="translations.core.text_select_option" expanded v-model="workflow_action.concerning_users.type" required>
+                <label class="label">{{translations.actions.column_send_notification_to}}<sup class="has-text-danger">*</sup></label>
+                <b-select :placeholder="translations.core.view_placeholder_select_option" expanded v-model="workflow_action.concerning_users.type" required>
                     <option
                         v-for="concerning_user_type in options.concerning_user_types"
                         :value="concerning_user_type.value"
                         :key="concerning_user_type.value"
                     >
                         <small>
-                            {{ object_utils.translateEnum(translations.main, 'enum_concerning_user_types', concerning_user_type.text) }}
+                            {{ object_utils.translateEnum(translations.actions, 'column_enum_concerning_user_types', concerning_user_type.text) }}
                         </small>
                     </option>
                 </b-select>
             </div>
         </div>
         <div class="field" v-if="workflow_action.concerning_users.type == 'custom'">
-            <label class="label">{{translations.core.text_employee}}<sup class="has-text-danger">*</sup></label>
+            <label class="label">{{translations.actions.view_title_employee}}<sup class="has-text-danger">*</sup></label>
             <div class="control">
                 <b-autocomplete
-                    :placeholder="translations.core.text_select_employee"
+                    :placeholder="translations.actions.view_placeholder_select_employee"
                     v-model="workflow_action.concerning_users.list[0].name"
                     required
                     field="name"
@@ -158,7 +149,7 @@ export default {
             </div>
         </div>
         <div class="field">
-            <label class="label">{{translations.main.field_body}}</label>
+            <label class="label">{{translations.bell.column_body}}</label>
             <div class="control">
                 <b-input type="textarea" v-model="workflow_action.input_data.body">
                 </b-input>
