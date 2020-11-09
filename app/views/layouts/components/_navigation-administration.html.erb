@@ -21,22 +21,22 @@ For more information read the license file including with this software.
 
 <template>
 
-    <%= navigation_to(main_app.account_path) do %>
+    <%= navigation_item(main_app.account_path) do %>
         <i class="fas fa-building"></i>
         <span>Account</span>
     <% end %>
 
-    <%= navigation_to(main_app.users_path) do %>
+    <%= navigation_item(main_app.users_path) do %>
         <i class="fas fa-users"></i>
         <span>Users</span>
     <% end %>
 
-    <%= navigation_to(main_app.roles_path) do %>
+    <%= navigation_item(main_app.roles_path) do %>
         <i class="fas fa-key"></i>
         <span>Roles & privileges</span>
     <% end %>
 
-    <%= navigation_to(main_app.account_integrations_path) do %>
+    <%= navigation_item(main_app.account_integrations_path) do %>
         <i class="fas fa-network-wired"></i>
         <span>Integrations</span>
     <% end %>

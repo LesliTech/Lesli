@@ -35,8 +35,8 @@ class Account < ApplicationRecord
     has_one :team,       class_name: "CloudTeam::Account",       foreign_key: "id"
     has_one :bell,       class_name: "CloudBell::Account",       foreign_key: "id"
     has_one :help,       class_name: "CloudHelp::Account",       foreign_key: "id"
+    has_one :text,       class_name: "CloudText::Account",      foreign_key: "id"
     has_one :lesli,      class_name: "CloudLesli::Account",      foreign_key: "id"
-    has_one :notes,      class_name: "CloudNotes::Account",      foreign_key: "id"
     has_one :books,      class_name: "CloudBooks::Account",      foreign_key: "id"
     has_one :house,      class_name: "CloudHouse::Account",      foreign_key: "id"
     has_one :focus,      class_name: "CloudFocus::Account",      foreign_key: "id"
@@ -161,11 +161,11 @@ class Account < ApplicationRecord
             end
         end
 
-        if defined? CloudNotes
-            if self.notes.blank?
-                self.notes = CloudNotes::Account.new
-                self.notes.account = self
-                self.notes.save!
+        if defined? CloudText
+            if self.text.blank?
+                self.text = CloudText::Account.new
+                self.text.account = self
+                self.text.save!
             end
         end
 
