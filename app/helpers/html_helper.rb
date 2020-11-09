@@ -35,6 +35,10 @@ module HtmlHelper
         end
     end
 
+    def navigation_administration text: "Administration", icon_path: "/assets/icons/administration-logo.svg"
+        navigation_engine_item text, icon_path, main_app.account_path
+    end
+
     def navigation_engine_babel text: "Babel", icon_path: "/assets/cloud_babel/babel-logo.svg"
         if defined? CloudBabel
             navigation_engine_item text, icon_path, cloud_babel.root_path, controller_path.include?("cloud_babel")
@@ -47,9 +51,9 @@ module HtmlHelper
         end
     end
 
-    def navigation_engine_notes text: "Notes", icon_path: "/assets/cloud_notes/notes-logo.svg"
-        if defined? CloudNotes
-            navigation_engine_item text, icon_path, cloud_notes.root_path, controller_path.include?("cloud_notes")
+    def navigation_engine_text text: "Text", icon_path: "/assets/cloud_text/text-logo.svg"
+        if defined? CloudText
+            navigation_engine_item text, icon_path, cloud_text.root_path, controller_path.include?("cloud_text")
         end
     end
 
@@ -63,10 +67,6 @@ module HtmlHelper
         if defined? CloudMailer
             navigation_engine_item text, icon_path, cloud_mailer.root_path, controller_path.include?("cloud_mailer")
         end
-    end
-
-    def navigation_administration text: "Administration", icon_path: "/assets/icons/administration-logo.svg"
-        navigation_engine_item text, icon_path, main_app.account_path
     end
 
 end
