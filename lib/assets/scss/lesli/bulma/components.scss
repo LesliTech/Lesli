@@ -62,4 +62,24 @@ section.application-component {
         }
 
     }    
+
+    // tabs navigation for vertical mode
+    & > div.b-tabs.is-vertical {
+
+        // vertical tab navigation
+        .tabs.is-boxed {
+            flex: 0 0 200px;
+            a {
+                padding: 1rem 0 1rem 1rem;
+            }
+
+        }
+
+        // vertical tab container
+        & > .tab-content {
+            padding-top: 0;
+        }
+
+    } 
+
 }
