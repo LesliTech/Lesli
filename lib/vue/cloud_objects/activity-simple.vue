@@ -62,8 +62,8 @@ export default {
         },
 
         setTranslations(){
-            this.$set(this.translations, 'main', `${this.module_name.slash}.${this.object_name.singular}/activities`)
-            this.$set(this.translations, 'workflow_statuses', `${this.module_name.slash}.workflow/statuses`)
+            this.$set(this.translations, 'main', I18n.t(`${this.module_name.slash}.${this.object_name.singular}/activities`))
+            this.$set(this.translations, 'workflow_statuses', I18n.t(`${this.module_name.slash}.workflow/statuses`))
         },
 
         getActivities() {
