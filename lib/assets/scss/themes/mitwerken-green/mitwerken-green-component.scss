@@ -16,18 +16,7 @@ For more information read the license file including with this software.
 */
 
 
-
 // · 
 @import "lesli-css/";
 @import "./settings/colors";
-@import "./layout/application-header";
-@import "./layout/application-module";
-@import "./layout/application-sidebar";
-@import "./layout/application-component";
-@import "./layout/application-chatbox.scss";
-@import "./components/tabs.scss";
-
-
-body {
-    background-color: lesli-css-theme-get-color(body);
-}
+@import "./settings/helpers";
