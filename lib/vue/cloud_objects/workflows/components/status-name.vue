@@ -39,35 +39,35 @@ export default {
 
     data() {
         return {
-            translations: null,
+            translations: {
+                core: I18n.t('core.shared')
+            },
         }
     },
 
     mounted(){
         if(this.translationsPath){
-            this.translations = I18n.t(this.translationsPath)
+            this.$set(this.translations, 'main', I18n.t(this.translationsPath))
         }
     },
 
     methods: {
         translateStatus(status_name){
-            let new_status_name = this.translations[`status_${status_name}`]
-            if(new_status_name){
-                return new_status_name
+            let translated_status = this.object_utils.translateEnum(this.translations.main, 'status', status_name, null)
+            if(! translated_status){
+                translated_status = this.object_utils.translateEnum(this.translations.main, 'column_enum_status', status_name, null)
+            }
+            if(! translated_status){
+                translated_status = this.object_utils.translateEnum(this.translations.core, 'column_enum_status', status_name)
             }
 
-            return status_name
+            return translated_status
         }
     }
 }
 </script>
 <template>
     <span>
-        <span v-if="translations">
-            {{translateStatus(name)}}
-        </span>
-        <span v-else>
-            {{name}}
-        </span>
+        {{translateStatus(name)}}
     </span>
 </template>

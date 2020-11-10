@@ -83,6 +83,13 @@ export default {
     watch: {
         cloudId(){
             this.getActivities()
+        },
+
+        'data.reload.activities'(){
+            if(this.data.reload.activities){
+                this.data.reload.activities = false
+                this.getActivities()
+            }
         }
     }
 }
