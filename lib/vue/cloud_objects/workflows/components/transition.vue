@@ -28,7 +28,10 @@ export default {
 
     data() {
         return {
-            core_translations: I18n.t('deutscheleibrenten.shared'),
+            translations: {
+                core: I18n.t('core.shared'),
+                workflow_statuses: I18n.t('core.workflow/statuses')
+            },
             transition_statuses: null,
             module_name: null,
             object_name: null
@@ -101,13 +104,8 @@ export default {
                     if(callback){
                         callback()
                     }
-                    if(status.final){
-                        this.alert('This resource has been successfully closed', 'success')
-                        this.$router.push(`/${this.cloudId}`)
-                    }else{
-                        this.getTransitionOptions()
-                        this.alert(this.core_translations.status_updated, 'success')
-                    }
+                    this.getTransitionOptions()
+                    this.alert(this.translations.workflow_statuses.messages_success_status_updated, 'success')
                 } else {
                     this.alert(result.error.message, 'danger')
                 }
@@ -137,13 +135,10 @@ export default {
         <b-dropdown hoverable aria-role="list" position="is-bottom-left">
             <button class="button" slot="trigger" type="button">
                 <span v-if="value">
-                    {{core_translations.workflows_text_new_status}}:
-                    <component-status-name
-                        :translations-path="translationsPath"
-                        :name="value.name"
-                    />
+                    {{translations.workflow_statuses.view_title_new_status}}:
+                    <component-status-name :translations-path="translationsPath" :name="value.name"></component-status-name>
                 </span>
-                <span v-else>{{core_translations.workflows_text_change_status}}</span>
+                <span v-else>{{translations.workflow_statuses.view_title_change_status}}</span>
                 <b-icon icon="chevron-down" size="is-small" />
             </button>
             <b-dropdown-item
