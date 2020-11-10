@@ -162,17 +162,6 @@ export default {
             }else{
                 this.alert(result.error.message,'danger')
             }
-        },
-
-        translateFileType(file_type){
-            if(this.translations.file_types){
-                let new_file_type = this.translations.file_types[`enum_file_type_${file_type}`]
-                if(new_file_type){
-                    return new_file_type
-                }
-            }
-
-            return file_type
         }
     },
 
@@ -204,12 +193,10 @@ export default {
                 <b-field>
                     <b-select expanded :placeholder="translations.core.view_placeholder_select_option" v-model="file_type" required>
                         <option v-for="file_type in file_options.file_types" :key="file_type.value" :value="file_type.value">
-                            <span v-if="translations.file_types">
-                                {{translateFileType(file_type.text)}}
-                            </span>
-                            <span v-else>
-                                {{file_type.text}}
-                            </span>
+                            {{
+                                object_utils.translateEnum(translations.file_types, 'enum_file_type', file_type.text, null) ||
+                                object_utils.translateEnum(translations.file_types, 'column_enum_file_type', file_type.text)
+                            }}
                         </option>
                     </b-select>
                 </b-field>
