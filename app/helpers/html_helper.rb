@@ -39,6 +39,13 @@ module HtmlHelper
         navigation_engine_item text, icon_path, main_app.account_path
     end
 
+    def navigation_engine_mailer text: "Mailer", icon_path: "/assets/cloud_mailer/mailer-logo.svg"
+        if defined? CloudMailer
+            navigation_engine_item text, icon_path, cloud_mailer.root_path, controller_path.include?("cloud_mailer")
+        end
+    end
+
+
     def navigation_engine_babel text: "Babel", icon_path: "/assets/cloud_babel/babel-logo.svg"
         if defined? CloudBabel
             navigation_engine_item text, icon_path, cloud_babel.root_path, controller_path.include?("cloud_babel")
