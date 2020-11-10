@@ -8,6 +8,11 @@ export default {
 
         cloudId: {
             required: true
+        },
+
+        active: {
+            type: Boolean,
+            default: true
         }
     },
 
@@ -34,13 +39,13 @@ export default {
                 range_after: 3,
                 per_page: 6
             },
-            discussions: []
+            discussions: null
         }
     },
 
     mounted(){
         this.parseCloudModule()
-        this.getDiscussions()
+        this.getBackendData()
     },
 
     methods: {
@@ -48,6 +53,12 @@ export default {
             let parsed_data = this.object_utils.parseCloudModule(this.cloudModule)
             this.object_name = parsed_data.cloud_object_name
             this.module_name = parsed_data.cloud_module_name
+        },
+
+        getBackendData(){
+            if(this.active){
+                this.getDiscussions()
+            }
         },
 
         getDiscussions() {
@@ -193,6 +204,12 @@ export default {
     watch: {
         cloudId(){
             this.getDiscussions()
+        },
+        
+        active(){
+            if(! this.discussions){
+                this.getBackendData()
+            }
         }
     }
 }
@@ -244,9 +261,9 @@ export default {
             </div>
         </div>
         <component-data-loading v-if="loading" />
-        <component-data-empty v-if="!loading && discussions.length == 0" />
+        <component-data-empty v-if="!loading && discussions && discussions.length == 0" />
         <b-table
-            v-if="!loading && discussions.length > 0"
+            v-if="!loading && discussions && discussions.length > 0"
             :data="filteredDiscussions"
             :sort-icon-size="sort.icon_size"
             :default-sort-direction="sort.direction"
