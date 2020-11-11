@@ -133,17 +133,6 @@ export default {
                     `/${this.module_name.slash}/${this.object_name.plural}/${this.cloudId}/resources/files-zip-download?ids=${file_ids}`
                 )
             }
-        },
-
-        translateFileType(file_type){
-            if(this.translations.file_types){
-                let new_file_type = this.translations.file_types[`enum_file_type_${file_type}`]
-                if(new_file_type){
-                    return new_file_type
-                }
-            }
-
-            return file_type
         }
     },
 
@@ -221,12 +210,10 @@ export default {
                 </b-table-column>
 
                 <b-table-column field="file_type" :label="translations.core.column_files_file_type" sortable>
-                    <span v-if="translations.file_types">
-                        {{translateFileType(props.row.file_type)}}
-                    </span>
-                    <span v-else>
-                        {{props.row.file_type}}
-                    </span>
+                    {{
+                        object_utils.translateEnum(translations.file_types, 'enum_file_type', props.row.file_type, null) ||
+                        object_utils.translateEnum(translations.file_types, 'column_enum_file_type', props.row.file_type)
+                    }}
                 </b-table-column>
 
                 <b-table-column field="created_at_raw" :label="translations.core.column_created_at" sortable>
