@@ -25,14 +25,20 @@ export default {
             type: String,
             required: true
         },
+
         cloudId: {
             required: true
+        },
+
+        active: {
+            type: Boolean,
+            default: true
         }
     },
 
     data() {
         return {
-            activities: [],
+            activities: null,
             module_name: {
                 slash: null,
                 underscore: null
@@ -50,10 +56,16 @@ export default {
     mounted() {
         this.parseCloudModule()
         this.setTranslations()
-        this.getActivities()
+        this.getBackendData()
     },
 
     methods: {
+
+        getBackendData(){
+            if(this.active){
+                this.getActivities()
+            }
+        },
 
         parseCloudModule(){
             let parsed_data = this.object_utils.parseCloudModule(this.cloudModule)
@@ -83,6 +95,21 @@ export default {
     watch: {
         cloudId(){
             this.getActivities()
+        },
+
+        'data.reload.activities'(){
+            if(this.data.reload.activities){
+                this.data.reload.activities = false
+                if(this.activities){
+                    this.getActivities()
+                }
+            }
+        },
+
+        active(){
+            if(! this.activities){
+                this.getBackendData()
+            }
         }
     }
 }
