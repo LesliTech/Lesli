@@ -113,7 +113,7 @@ export default {
                         <div class="field">
                             <label class="label">{{ translations.users.view_table_header_email }}</label>
                             <div class="control">
-                                <input required v-model="user.email" class="input" type="email">
+                                <input required v-model="user.email" name="user_email" class="input" type="email">
                             </div>
                         </div>
 
@@ -122,6 +122,7 @@ export default {
                             <label class="label">{{ translations.users.view_text_role }}</label>
                             <div class="control">
                                 <b-select 
+                                    name="user_role"
                                     :placeholder="translations.shared.text_role"
                                     v-model="user.roles_id">
                                     <option
@@ -155,7 +156,7 @@ export default {
                         <div class="field">
                             <label class="label">{{ translations.shared.view_text_first_name }}</label>
                             <div class="control">
-                                <input required v-model="user.detail_attributes.first_name" class="input" type="text">
+                                <input required v-model="user.detail_attributes.first_name" name="user_first_name" class="input" type="text">
                             </div>
                         </div>
 
@@ -163,7 +164,7 @@ export default {
                         <div class="field">
                             <label class="label">{{ translations.shared.view_text_last_name }}</label>
                             <div class="control">
-                                <input required v-model="user.detail_attributes.last_name" class="input">
+                                <input required v-model="user.detail_attributes.last_name" name="user_last_name" class="input">
                             </div>
                         </div>
 
