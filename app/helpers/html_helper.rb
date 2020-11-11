@@ -39,11 +39,27 @@ module HtmlHelper
         navigation_engine_item text, icon_path, main_app.account_path
     end
 
+    # 02.05 Mailer engine
     def navigation_engine_mailer text: "Mailer", icon_path: "/assets/cloud_mailer/mailer-logo.svg"
         if defined? CloudMailer
             navigation_engine_item text, icon_path, cloud_mailer.root_path, controller_path.include?("cloud_mailer")
         end
     end
+
+    # 02.04 Driver engine
+    def navigation_engine_driver text: "Calendar", icon_path: "/assets/cloud_driver/driver-logo.svg"
+        if defined? CloudDriver
+            navigation_engine_item text, icon_path, cloud_driver.root_path, controller_path.include?("cloud_driver")
+        end
+    end
+
+    # 08.03 Audit engine
+    def navigation_engine_audit text: "Audit", icon_path: "/assets/cloud_audit/audit-logo.svg"
+        if defined? CloudAudit
+            navigation_engine_item text, icon_path, cloud_audit.root_path, controller_path.include?("cloud_audit")
+        end
+    end
+
 
 
     def navigation_engine_babel text: "Babel", icon_path: "/assets/cloud_babel/babel-logo.svg"
@@ -61,18 +77,6 @@ module HtmlHelper
     def navigation_engine_text text: "Text", icon_path: "/assets/cloud_text/text-logo.svg"
         if defined? CloudText
             navigation_engine_item text, icon_path, cloud_text.root_path, controller_path.include?("cloud_text")
-        end
-    end
-
-    def navigation_engine_audit text: "Audit", icon_path: "/assets/cloud_audit/audit-logo.svg"
-        if defined? CloudAudit
-            navigation_engine_item text, icon_path, cloud_audit.root_path, controller_path.include?("cloud_audit")
-        end
-    end
-
-    def navigation_engine_mailer text: "Mailer", icon_path: "/assets/cloud_mailer/mailer-logo.svg"
-        if defined? CloudMailer
-            navigation_engine_item text, icon_path, cloud_mailer.root_path, controller_path.include?("cloud_mailer")
         end
     end
 
