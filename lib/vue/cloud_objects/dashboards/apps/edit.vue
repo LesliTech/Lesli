@@ -26,7 +26,9 @@ export default {
     data(){
         return {
             translations: {
-                main: I18n.t(`${this.cloudEngine.toLowerCase()}.dashboards`)
+                main: I18n.t(`${this.cloudEngine.toLowerCase()}.dashboards`),
+                dashboards: I18n.t('core.dashboards'),
+                core: I18n.t('core.shared')
             }
         }
     }
@@ -39,7 +41,7 @@ export default {
                 <div class="navbar-start">
                     <div class="navbar-item">
                         <h4 class="is-size-3">
-                            {{translations.main.view_title_main}}
+                            {{translations.dashboards.view_title_main}}
                         </h4>
                     </div>
                 </div>

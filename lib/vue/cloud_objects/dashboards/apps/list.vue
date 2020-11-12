@@ -21,10 +21,9 @@ export default {
         return {
             main_route: `/${this.engineNamespace}/dashboards`,
             translations: {
-                dashboards: I18n.t(`${this.cloudEngine.toLowerCase()}.dashboards`),
-                core: {
-                    shared: I18n.t(`${this.cloudEngine.toLowerCase()}.shared`)
-                }
+                main: I18n.t(`${this.cloudEngine.toLowerCase()}.dashboards`),
+                dashboards: I18n.t('core.dashboards'),
+                core: I18n.t('core.shared')
             },
             dashboards: [],
             loading: false,
@@ -181,7 +180,7 @@ export default {
             <div class="buttons">
                 <button class="button" @click="reloadDashboards()">
                     <b-icon icon="sync" size="is-small" :custom-class="loading ? 'fa-spin' : ''" />
-                    <span> {{ translations.core.shared.btn_reload }}</span>
+                    <span> {{ translations.core.view_text_btn_reload }}</span>
                 </button>
                 <router-link class="button" tag="button" to="/new" v-if="index_abilities.grant_create">
                     <b-icon icon="plus" size="is-small" />
@@ -235,10 +234,10 @@ export default {
                                 </span>
                             </template>
                             <span v-if="props.row.default">
-                                <b>{{translations.core.shared.text_yes}}</b>
+                                <b>{{translations.core.view_text_yes}}</b>
                             </span>
                             <span v-else>
-                                {{translations.core.shared.text_no}}
+                                {{translations.core.view_text_no}}
                             </span>
                         </b-table-column>
 
