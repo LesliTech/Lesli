@@ -120,28 +120,9 @@ Contents
     00.00. house/[deals|contracts]
 ```
 
-### 02.05. CloudMailer 
-```
-    00.01. mailer/account
 
-    10.00. mailer/audience
-    10.01. mailer/audience/details 
-    10.02. mailer/audience/actions 
-    10.03. mailer/audience/activities 
-    10.04. mailer/audience/discussions 
-    10.05. mailer/audience/subscribers 
-    10.06. mailer/audience/files 
-    10.10. mailer/audience/contacts
-    
-    11.00. mailer/campaigns
-    11.01. mailer/campaign/details 
-    11.02. mailer/campaign/actions 
-    11.03. mailer/campaign/activities 
-    11.04. mailer/campaign/discussions 
-    11.06. mailer/campaign/subscribers  
-    11.05. mailer/campaign/files 
-    11.10. mailer/campaign/statistics
-```
+
+
 
 # To review
 
