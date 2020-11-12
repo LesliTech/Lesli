@@ -196,6 +196,20 @@ module CloudObject
             respond_with_successful(model.options(current_user, @query))
         end
 
+        def resource_component
+            dynamic_info = self.class.dynamic_info
+            component_model = dynamic_info[:component_model]
+
+            component_id = params[:component_id].to_sym
+
+            # We verify if the method exists, and if it is in the available component list
+            if component_model.respond_to?(component_id) && component_model.component_ids[component_id]
+                respond_with_successful(component_model.public_send(component_id, current_user, @query))
+            else
+                respond_with_not_found()
+            end
+        end
+
 private
 
         # @return [void]
@@ -279,7 +293,8 @@ private
             {
                 module_name: module_name,
                 full_module_name: module_info[0],
-                model: "#{self.name.split("::")[0]}::Dashboard".constantize
+                model: "#{self.name.split("::")[0]}::Dashboard".constantize,
+                component_model: "#{self.name.split("::")[0]}::Dashboard::Component".constantize
             }
         end    
     end
