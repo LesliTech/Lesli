@@ -84,7 +84,8 @@ export default {
             disable_search: false,
             options: [],
             matching_options: [],
-            index: -1
+            index: -1,
+            timer: null
         }
     },
 
@@ -247,7 +248,11 @@ export default {
         search(value) {
             if (! this.disable_search) {
                 if (value !== '') {
-                    this.loadOptions();
+                    clearTimeout(this.timer)
+
+                    this.timer = setTimeout(() => {
+                        this.loadOptions();
+                    }, 1000)
                 } else {
                     this.options = [];
                     this.index = -1;
