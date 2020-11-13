@@ -55,42 +55,41 @@ export default {
         const SimpleStorage = {};
 
         editor.StorageManager.add('simple-storage', {
-        /**
-         * Load the data
-         * @param  {Array} keys Array containing values to load, eg, ['gjs-components', 'gjs-style', ...]
-         * @param  {Function} clb Callback function to call when the load is ended
-         * @param  {Function} clbErr Callback function to call in case of errors
-         */
-        load(keys, clb, clbErr) {
-            const result = {};
+            /**
+             * Load the data
+             * @param  {Array} keys Array containing values to load, eg, ['gjs-components', 'gjs-style', ...]
+             * @param  {Function} clb Callback function to call when the load is ended
+             * @param  {Function} clbErr Callback function to call in case of errors
+             */
+            load(keys, clb, clbErr) {
+                const result = {};
 
-            keys.forEach(key => {
-            const value = SimpleStorage[key];
-            if (value) {
-                result[key] = value;
+                keys.forEach(key => {
+                const value = SimpleStorage[key];
+                if (value) {
+                    result[key] = value;
+                }
+                });
+
+                // Might be called inside some async method
+                clb(result);
+            },
+
+            /**
+             * Store the data
+             * @param  {Object} data Data object to store
+             * @param  {Function} clb Callback function to call when the load is ended
+             * @param  {Function} clbErr Callback function to call in case of errors
+             */
+            store(data, clb, clbErr) {
+
+                for (let key in data) {
+                    SimpleStorage[key] = data[key];
+                }
+                // Might be called inside some async method
+                clb();
             }
-            });
-
-            // Might be called inside some async method
-            clb(result);
-        },
-
-        /**
-         * Store the data
-         * @param  {Object} data Data object to store
-         * @param  {Function} clb Callback function to call when the load is ended
-         * @param  {Function} clbErr Callback function to call in case of errors
-         */
-        store(data, clb, clbErr) {
-
-            console.log(data)
-
-            for (let key in data) {
-                SimpleStorage[key] = data[key];
-            }
-            // Might be called inside some async method
-            clb();
-        }
+            
         });
 
         //editor.trigger("storage:start")
