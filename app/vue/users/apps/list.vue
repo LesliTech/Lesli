@@ -79,13 +79,6 @@ export default {
             this.filters_ready = true
         },
 
-        // @return [void]
-        // @description Connects to the backend using HTTP and retrieves a list of Users associated to
-        //      the current user's account. If the HTTP request fails, an error message is shown
-        // @example
-        //      console.log(this.users) // will display null
-        //      this.getUsers()
-        //      console.log(this.users) // will display an array of objects, each representing a Users.
         getUsers() {
             let url = `${this.main_route}.json?role=kop,callcenter,guest&type=exclude&status=all`
             this.http.get(url).then(result => {
@@ -105,13 +98,6 @@ export default {
             })
         },
         
-        // @return [void]
-        // @param users [Object] The object representation of the selected Users
-        // @description Redirects the router to show the selected Users
-        // @example
-        //      this.showUsers(this.users[1])
-        //      // Asume the id of the Users is 4
-        //      // The user will be redirected to the url /users/4
         showUser(user) {
             this.$router.push(`${user.id}`)
         },
@@ -122,6 +108,7 @@ export default {
         },
 
         searchUsers(text){
+
             this.filters.search = text
         },
 
@@ -155,6 +142,7 @@ export default {
 
     computed: {
         filteredUsers(){
+
             this.storage.local("filters", this.filters)
 
             let search_field = this.filters.search.toLowerCase().trim()
@@ -165,13 +153,13 @@ export default {
                         user.role.toLowerCase().includes(search_field) ||  
                         user.name.toLowerCase().includes(search_field) || 
                         user.email.toLowerCase().includes(search_field) || 
-                        user.id.toString().toLowerCase().includes(search_field) ||
-                        user.active_text.toString().toLowerCase().includes(search_field)
+                        user.id.toString().toLowerCase().includes(search_field)
                     )  
                 })
             } else {
                 return this.users
             }
+
         }
     },
 

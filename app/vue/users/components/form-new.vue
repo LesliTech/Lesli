@@ -40,10 +40,10 @@ export default {
     },
 
     watch: {
-        "store.data.user": function(user) {
+        "data.user": function(user) {
             this.user = user
         },
-        "store.data.options": function(data) {
+        "data.options": function(data) {
             this.options = data
         }
     },
@@ -51,9 +51,6 @@ export default {
     methods: {
         submitUser(event){
             if (event) { event.preventDefault() }
-
-            console.log(JSON.parse(JSON.stringify(this.user)))
-
             if (this.user.id) {
                 this.putUser()
             } else {
