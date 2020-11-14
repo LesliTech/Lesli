@@ -1,37 +1,22 @@
+
 =begin
+Copyright (c) 2020, all rights reserved.
 
-Lesli
+All the information provided by this platform is protected by international laws related  to 
+industrial property, intellectual property, copyright and relative international laws. 
+All intellectual or industrial property rights of the code, texts, trade mark, design, 
+pictures and any other information belongs to the owner of this platform.
 
-Copyright (c) 2020, Lesli Technologies, S. A.
-
-All the information provided by this website is protected by laws of Guatemala related 
-to industrial property, intellectual property, copyright and relative international laws. 
-Lesli Technologies, S. A. is the exclusive owner of all intellectual or industrial property
-rights of the code, texts, trade mark, design, pictures and any other information.
-Without the written permission of Lesli Technologies, S. A., any replication, modification,
+Without the written permission of the owner, any replication, modification,
 transmission, publication is strictly forbidden.
+
 For more information read the license file including with this software.
-
-Lesli - Your Smart Business Assistant
-
-Powered by https://www.lesli.tech
-Building a better future, one line of code at a time.
-
-@contact  <hello@lesli.tech>
-@website  <https://lesli.tech>
-@license  Propietary - all rights reserved.
-@todo       Separate settings from account
 
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
 // · 
 
 =end
 
-# · Lesli Core
-# · LC::Date.to_string()
-# · LC::Date.to_string()
-# · Lesli::Date.to_string()
-# · Lesli::Date.to_string()
 module LC
 
     class Date
@@ -40,7 +25,7 @@ module LC
  
         # NOTE: Do not modify formats here,
         # if you need a different date format you should change it in the settings
-        # Please read the TODO fole contained in this directory to see the current limitations of this class
+        # Please read the documentation stored in core/docs/leslicommand-date.md for more information
         @settings = {
             "date_format" => "%d.%m.%Y", 
             "date_format_full" => "%a, %B %d, %Y", 
@@ -49,15 +34,6 @@ module LC
             "time_zone" => "Europe/Berlin", 
             "start_week_on" => "monday"
         }
-        
-        def self.reset_db_settings
-            @settings = Rails.application.config.lesli_settings["configuration"]["datetime"]
-        end
- 
-        def self.verify_settings
-            return if @settings && (!@settings.empty?)
-            self.reset_db_settings
-        end
 
         def self.db_timestamps table=""
 
@@ -94,15 +70,6 @@ module LC
             query_string = "TO_CHAR(#{column} at time zone 'utc' at time zone '#{@settings["time_zone"]}', '#{db_format}')" 
             query_string = "#{query_string} as #{alias_name}" if include_alias
             query_string
-        end
-
-        def self.db_format
-            self.verify_settings
-            format = @settings["date_format"]
-            format = format.gsub("%Y", "YYYY")
-            format = format.gsub("%m", "MM")
-            format = format.gsub("%d", "DD")
-            format
         end
 
         # RETURN a Time object with defined timezone
@@ -171,6 +138,8 @@ module LC
             return Time.current.in_time_zone(zone)
         end
  
+
+
         def self.distance_to_words(time_from, time_to, force_time_zone=false)
 
             return "never" if time_from.blank?
@@ -240,6 +209,27 @@ module LC
             end
  
             return year_difference
+        end
+
+
+        protected
+        
+        def self.reset_settings
+            @settings = Rails.application.config.lesli_settings["configuration"]["datetime"]
+        end
+ 
+        def self.verify_settings
+            return if @settings && (!@settings.empty?)
+            self.reset_settings
+        end
+
+        def self.db_format
+            self.verify_settings
+            format = @settings["date_format"]
+            format = format.gsub("%Y", "YYYY")
+            format = format.gsub("%m", "MM")
+            format = format.gsub("%d", "DD")
+            format
         end
  
     end
