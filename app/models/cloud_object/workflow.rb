@@ -233,24 +233,32 @@ Building a better future, one line of code at a time.
                     "cloud_#{module_name}_workflow_associations.workflow_for = '#{workflow_for}'"
                 ]
 
+                order_params = []
+
                 missing_required_field = false
 
                 association_details.each do |detail|
-                    if detail[:type] == "foreign_key"
+                    case detail[:type]
+                    when "foreign_key"
                         association_value = cloud_object[detail[:key]]
-                    elsif detail[:type] == "detail_enum"
+                    when "detail_enum"
                         association_value = "'#{cloud_object.detail[detail[:name]]}'"
+                    when "polymorphic_key"
+                        association_value = "'#{cloud_object[detail[:name]]}'"
                     end
 
+                    # There is a required param missing for a specific association in the cloud_object model
                     unless association_value
-                        # There is a required param missing for a specific association
-                        missing_required_field = true
+                        missing_required_field = true 
                         break
                     end
 
-                    search_params.push(
-                        "cloud_#{module_name}_workflow_associations.#{detail[:name]} = #{association_value}"
-                    )
+                    search_params.push("
+                        (cloud_#{module_name}_workflow_associations.#{detail[:name]} = #{association_value} OR 
+                        cloud_#{module_name}_workflow_associations.#{detail[:name]} IS NULL)
+                    ")
+
+                    order_params.push("cloud_#{module_name}_workflow_associations.#{detail[:name]} NULLS LAST")
                 end
 
                 unless missing_required_field
@@ -258,11 +266,17 @@ Building a better future, one line of code at a time.
                     workflow_associations = association_model.joins(
                         :workflow
                     ).where(
-                        search_params.join(" and ")
+                        "cloud_#{module_name}_workflow_associations.global = FALSE OR cloud_#{module_name}_workflow_associations.global IS NULL"
+                    ).where(
+                        search_params.join(" AND ")
                     ).select(
                         "cloud_#{module_name}_workflows.id as id",
                         "cloud_#{module_name}_workflows.name as name"
                     )
+
+                    order_params.each do |order_param|
+                        workflow_associations = workflow_associations.order(order_param)
+                    end
 
                     unless workflow_associations.empty?
                         workflow = self.find(workflow_associations[0][:id])
