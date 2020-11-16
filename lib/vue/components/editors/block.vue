@@ -51,10 +51,13 @@ export default {
         }
     },
     mounted() {
+        setTimeout(() => {
+
         this.editor = new EditorJS({
             holder: "editor-html",
             autofocus: true,
             placeholder: "Let`s write an awesome story!",
+            data: this.value,
             onChange: async () => {
                 const response = await this.editor.save()
                 this.$emit("change", response)
@@ -117,17 +120,29 @@ export default {
                 }
             },
         });
+
+        console.log(this.editor.configuration)
+
+        }, 1000);
+
     },
     beforeDestroy() {
         if (this.editor) {
             this.editor.destroy();
         }
     },
+    watch: {
+        value: function(value) {
+
+        }
+    }
 
 }
 </script>
 <template>
-    <div id="editor-html"></div>
+    <div>
+        <div id="editor-html"></div>
+    </div>
 </template>
 <style lang="css">
 .ce-block__content,

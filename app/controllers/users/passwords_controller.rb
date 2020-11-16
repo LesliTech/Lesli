@@ -73,12 +73,14 @@ class Users::PasswordsController < Devise::PasswordsController
     #     this.http.put('127.0.0.1/password', data);
     def update
         super do |resource|
-            #activity = resource.log_activity(request.method, controller_name, action_name, request.original_fullpath)
+
+            log = resource.logs.create({ session_uuid: nil, description: "password_update_atempt" })
+
             if resource.errors.empty?
-                #activity.update_attribute(:description, "password_update_successful, " + get_client_info(true))
+                log.update_attribute(:description, "password_update_successful")
                 return respond_with_successful
             else
-                #activity.update_attribute(:description, "password_update_failed with: "+resource.errors.full_messages.to_sentence + ", " + get_client_info(true))
+                log.update_attribute(:description, "password_update_error")
                 return respond_with_error(resource.errors.full_messages.to_sentence)
             end
         end
