@@ -165,10 +165,104 @@ Building a better future, one line of code at a time.
                 workflow_attributes = workflow.attributes
                 workflow_attributes["created_at"] = LC::Date.to_string_datetime(workflow_attributes["created_at"])
                 workflow_attributes["updated_at"] = LC::Date.to_string_datetime(workflow_attributes["updated_at"])
+                workflow_attributes["checks"] = workflow.monitoring_checks
                 workflow_attributes
             end
 
             response
+        end
+
+        def monitoring_checks
+            {
+                initial_status: monitoring_check_initial_status(),
+                floating_statuses: monitoring_check_floating_statuses(),
+                missing_transitione: monitoring_check_missing_transitions(),
+                associated: monitoring_check_associated()
+            }
+        end
+
+        def monitoring_check_initial_status()
+            if statuses.find_by(status_type: "initial")
+                return {
+                    passed: true
+                }
+            end
+
+            return {
+                passed: false,
+                error_icon: "play",
+                message: I18n.t("core.workflows.messages_warning_check_initial_status")
+            }
+        end
+
+        def monitoring_check_floating_statuses()
+            statuses_data = statuses.select(:id, :next_statuses, :status_type, :name)
+
+            statuses_data.each do |active_status|
+                status_type = active_status.status_type
+                next if status_type == "completed_successfully" || status_type == "completed_unsuccessfully" || status_type == "to_be_deleted" || status_type == "initial"
+
+                available_transitions = statuses_data.find do |status|
+                    transitions = status.next_statuses
+                    next unless transitions
+
+                    (
+                        transitions == "#{active_status.id}" || 
+                        transitions.include?("|#{active_status.id}|") || 
+                        transitions.start_with?("#{active_status.id}|") ||
+                        transitions.end_with?("|#{active_status.id}")
+                    )
+                end
+                
+                next if available_transitions
+
+                return {
+                    passed: false,
+                    error_icon: "unlink",
+                    message: I18n.t("core.workflows.messages_warning_check_floating_statuses")
+                }
+            end
+
+            return {
+                passed: true
+            }
+        end
+
+        def monitoring_check_missing_transitions()
+            statuses_with_no_transitions = statuses.where(
+                "next_statuses IS ? OR next_statuses = ?",
+                nil,
+                ""
+            ).where(
+                "status_type NOT IN (?)",
+                ["completed_successfully", "completed_unsuccessfully", "to_be_deleted"]
+            )
+
+            if statuses_with_no_transitions.empty?
+                return {
+                    passed: true
+                }
+            end
+
+            return {
+                passed: false,
+                error_icon: "project-diagram",
+                message: I18n.t("core.workflows.messages_warning_check_missing_transitions")
+            }
+        end
+
+        def monitoring_check_associated()
+            if default || ! associations.empty? 
+                return {
+                    passed: true
+                }
+            end
+
+            return {
+                passed: false,
+                error_icon: "clipboard-check",
+                message: I18n.t("core.workflows.messages_warning_check_associated")
+            }
         end
 
         protected
