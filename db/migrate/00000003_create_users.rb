@@ -25,7 +25,7 @@ class CreateUsers < ActiveRecord::Migration[5.2]
             t.boolean :active, default: true, null: false
 
             # Multi-authorization strategy: user|integration
-            t.string :category
+            t.string :category, default: "user", null: false
 
             # Database authenticatable
             t.string :email,              null: false, default: ""
@@ -56,8 +56,11 @@ class CreateUsers < ActiveRecord::Migration[5.2]
             t.string    :unlock_token # Only if unlock strategy is :email or :both
             t.datetime  :locked_at
 
-            # acts_as_paranoid
+            # Acts as paranoid
             t.datetime :deleted_at, index: true
+
+            # Password management
+            t.datetime :password_expiration_at
 
             t.timestamps null: false
 
