@@ -200,7 +200,7 @@ Building a better future, one line of code at a time.
 
             statuses_data.each do |active_status|
                 status_type = active_status.status_type
-                next if status_type == "completed_successfully" || status_type == "completed_unsuccessfully" || status_type == "to_be_deleted" || status_type == "initial"
+                next if status_type == "initial"
 
                 available_transitions = statuses_data.find do |status|
                     transitions = status.next_statuses
