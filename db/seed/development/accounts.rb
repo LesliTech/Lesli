@@ -30,17 +30,9 @@ Building a better future, one line of code at a time.
 company = Rails.application.config.lesli_settings["account"]["company"]
 
 # create account
-model = Account.find_or_create_by(company_name: company["name"]) do |account|
+Account.find_or_create_by(company_name: company["name"]) do |account|
     account.company_tag_line = company["tag_line"]
     account.status = 1
 end
-
-# create aditional development account
-=begin 
-model = Account.new
-model.company_name = Faker::Company.name
-model.status = 1
-model.save! 
-=end
 
 puts "Accounts successfully created!"
