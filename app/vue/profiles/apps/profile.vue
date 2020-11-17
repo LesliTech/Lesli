@@ -59,7 +59,7 @@ export default {
                     this.alert(result.error.message,'danger')
                     return
                 }
-                this.store.data.user = result.data
+                this.data.user = result.data
             })
         },
 
