@@ -67,6 +67,7 @@ Building a better future, one line of code at a time.
 =end
         def self.options(account)
             module_name = self.dynamic_info[:module_name]
+            translations_module = module_name.gsub("cloud_","").gsub("_cloud","").gsub("_","")
             associations = []
 
             self.object_associations.each do |association_key, association_value|
@@ -78,7 +79,8 @@ Building a better future, one line of code at a time.
 
                 details = self.object_association_details(association_value)
                 details.each do |detail|
-                    if detail[:type] == "foreign_key"
+                    case detail[:type]
+                    when "foreign_key"
                         detail_list = detail[:class].constantize.where(
                             "#{module_name}_accounts_id" => account.id
                         ).select(
@@ -88,22 +90,38 @@ Building a better future, one line of code at a time.
 
                         data[:details].push({
                             field_name: detail[:name],
-                            name: detail[:name], # This is the field that must be translated
+                            name: detail[:name],
                             list: detail_list
                         })
-                    elsif detail[:type] == "detail_enum"
+                    when "detail_enum"
                         detail_list = detail[:class].constantize.send(detail[:name].pluralize).map do |key, value|
                             {
                                 id: key,
                                 field_name: detail[:name],
-                                name: I18n.t("deutscheleibrenten.#{association_value.pluralize}.enum_#{detail[:name]}_#{value}")
-                                # name: I18n.t("#{module_name}.#{association_value.pluralize}.enum_#{detail[:name]}_#{value}")
+                                name: I18n.t("#{translations_module}.#{association_value.pluralize}.column_enum_#{detail[:name]}_#{value}")
                             }
                         end
 
                         data[:details].push({
                             field_name: detail[:name],
-                            name: detail[:name], # This is the field that must be translated
+                            name: detail[:name],
+                            list: detail_list
+                        })
+                    when "polymorphic_key"
+                        detail_list = detail[:class].constantize.where(
+                            "#{module_name}_accounts_id" => account.id
+                        ).select(detail[:name]).distinct.map do |polymorphic_key|
+                            value = polymorphic_key[detail[:name]]
+
+                            {
+                                id: value,
+                                name: I18n.t("#{translations_module}.#{association_value.pluralize}.column_enum_#{detail[:name]}_#{value.gsub("::","").underscore}") 
+                            }
+                        end
+
+                        data[:details].push({
+                            field_name: detail[:name],
+                            name: detail[:name],
                             list: detail_list
                         })
                     end
@@ -146,6 +164,7 @@ Building a better future, one line of code at a time.
 =end
         def self.list(workflow)
             module_name = self.dynamic_info[:module_name].gsub("cloud_", "").gsub("_cloud","").gsub("_","")
+            translations_module = module_name.gsub("cloud_","").gsub("_cloud","").gsub("_","")
 
             workflow.associations.map do |association|
                 attributes = association.attributes
@@ -156,9 +175,12 @@ Building a better future, one line of code at a time.
                     details = self.object_association_details(attributes["workflow_for"])
 
                     details.each do |detail|
-                        name_translation = I18n.t("#{module_name}.workflow/associations.column_enum_association_#{attributes["workflow_for"]}_field_#{detail[:name]}")
+                        next unless attributes[detail[:name]]
 
-                        if detail[:type] == "foreign_key"
+                        name_translation = I18n.t("#{module_name}.workflow/associations.column_enum_association_#{attributes["workflow_for"]}_field_#{detail[:name]}")
+                        
+                        case detail[:type]
+                        when "foreign_key"
                             record = detail[:class].constantize.find_by(
                                 id: attributes[detail[:name]],
                                 account: workflow.account
@@ -168,14 +190,18 @@ Building a better future, one line of code at a time.
                                 default: record[detail[:identifier]]
                             )
 
-
                             attributes["details"] += " #{name_translation}: #{value_translation},"
-                        elsif detail[:type] == "detail_enum"
+                        when "detail_enum"
                             enum_value = detail[:class].constantize.send(detail[:name].pluralize)[attributes[detail[:name]]]
-                            # value_translation = I18n.t("#{module_name}.#{attributes["workflow_for"].pluralize}.enum_#{detail[:name]}_#{enum_value}")
-                            value_translation = I18n.t("deutscheleibrenten.#{attributes["workflow_for"].pluralize}.enum_#{detail[:name]}_#{enum_value}")
+                            value_translation = I18n.t("#{translations_module}.#{attributes["workflow_for"].pluralize}.column_enum_#{detail[:name]}_#{enum_value}") 
                             
                             attributes["details"] += " #{name_translation}: #{value_translation},"
+                        when "polymorphic_key"
+                            label_sufix = attributes[detail[:name]].gsub("::","").underscore
+                            value_translation = I18n.t("#{translations_module}.#{attributes["workflow_for"].pluralize}.column_enum_#{detail[:name]}_#{label_sufix}") 
+                            
+                            attributes["details"] += " #{name_translation}: #{value_translation},"
+
                         end
                     end
 

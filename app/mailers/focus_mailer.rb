@@ -34,25 +34,25 @@ class FocusMailer < ApplicationMailer
     # CloudFocus::Task. Important: If the role of the creator is "student", the email must be sent to
     # werksstudenten@deutsche-leibrenten.de. Please check CloudFocus::TasksControler#send_email_notification_new
     # to see that verification
-    def task_new(to, subject, data, template:"")
+    def task_new(to, subject, data, template:"", options:{})
         data = data.merge({
             href: "#{default_url_options[:host]}#{data[:href]}"
         })
 
-        send(to, subject, data, template:"")
+        send(to, subject, data, template: template, options: options)
         
     end
 
-    def task_list(to, subject, data, template: "")
+    def task_list(to, subject, data, template:"", options:{})
         data[:tasks] = data[:tasks].map do |task|
             task[:href] = "#{default_url_options[:host]}#{task[:href]}"
             task
         end
 
-        send(to, subject, data, template:"")
+        send(to, subject, data, template: template, options: options)
     end
 
-    def task_report_delayed(data, template: "")
+    def task_report_delayed(data, template:"", options:{})
         to = ["m.auel@deutsche-leibrenten.de","b.norgiev@deutsche-leibrenten.de"]
         subject = I18n.t("deutscheleibrenten.tasks.email_subject_report_delayed_tasks")
 
@@ -63,7 +63,7 @@ class FocusMailer < ApplicationMailer
             end
         end
         
-        send(to, subject, data, template: "")
+        send(to, subject, data, template: template, options: options)
     end
 
 end

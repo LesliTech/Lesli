@@ -24,8 +24,8 @@ account_logins = Rails.application.config.lesli_settings["configuration"]["secur
 account_logins.each do |account_login|
     User.find_or_create_by(email: account_login["username"]) do |user|
         user.role = Role.first
-        user.password = account_login["password"] + "$" + Time.now.year.to_s
-        user.password_confirmation = account_login["password"] + "$" + Time.now.year.to_s
+        user.password = account_login["password"] + Time.now.year.to_s + "$"
+        user.password_confirmation = account_login["password"] + Time.now.year.to_s + "$"
         user.account = Account.first
         user.confirm if not user.confirmed?
         user.save!
