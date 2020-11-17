@@ -34,7 +34,7 @@ class DriverMailer < ApplicationMailer
     # CloudHouse::Project. Important: If the role of the creator is "student", the email must be sent to
     # werksstudenten@deutsche-leibrenten.de. Please check CloudHouse::ProjectsControler#send_email_notification_new
     # to see that verification
-    def event_attendant_new(to, subject, data, template:"")
+    def event_attendant_new(to, subject, data, template: "", options: {})
         data[:href] = "#{default_url_options[:host]}#{data[:href]}"
         
         event_template = IO.binread("#{Rails.root}/storage/keep/mails/event.ics")
@@ -57,6 +57,6 @@ class DriverMailer < ApplicationMailer
 
         attachments["crm_event.ics"] = event_template
         
-        send(to, subject, data, template:"")
+        send(to, subject, data, template: template, options: options)
     end
 end
