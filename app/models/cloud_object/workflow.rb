@@ -165,10 +165,104 @@ Building a better future, one line of code at a time.
                 workflow_attributes = workflow.attributes
                 workflow_attributes["created_at"] = LC::Date.to_string_datetime(workflow_attributes["created_at"])
                 workflow_attributes["updated_at"] = LC::Date.to_string_datetime(workflow_attributes["updated_at"])
+                workflow_attributes["checks"] = workflow.monitoring_checks
                 workflow_attributes
             end
 
             response
+        end
+
+        def monitoring_checks
+            {
+                initial_status: monitoring_check_initial_status(),
+                floating_statuses: monitoring_check_floating_statuses(),
+                missing_transitione: monitoring_check_missing_transitions(),
+                associated: monitoring_check_associated()
+            }
+        end
+
+        def monitoring_check_initial_status()
+            if statuses.find_by(status_type: "initial")
+                return {
+                    passed: true
+                }
+            end
+
+            return {
+                passed: false,
+                error_icon: "play",
+                message: I18n.t("core.workflows.messages_warning_check_initial_status")
+            }
+        end
+
+        def monitoring_check_floating_statuses()
+            statuses_data = statuses.select(:id, :next_statuses, :status_type, :name)
+
+            statuses_data.each do |active_status|
+                status_type = active_status.status_type
+                next if status_type == "initial"
+
+                available_transitions = statuses_data.find do |status|
+                    transitions = status.next_statuses
+                    next unless transitions
+
+                    (
+                        transitions == "#{active_status.id}" || 
+                        transitions.include?("|#{active_status.id}|") || 
+                        transitions.start_with?("#{active_status.id}|") ||
+                        transitions.end_with?("|#{active_status.id}")
+                    )
+                end
+                
+                next if available_transitions
+
+                return {
+                    passed: false,
+                    error_icon: "unlink",
+                    message: I18n.t("core.workflows.messages_warning_check_floating_statuses")
+                }
+            end
+
+            return {
+                passed: true
+            }
+        end
+
+        def monitoring_check_missing_transitions()
+            statuses_with_no_transitions = statuses.where(
+                "next_statuses IS ? OR next_statuses = ?",
+                nil,
+                ""
+            ).where(
+                "status_type NOT IN (?)",
+                ["completed_successfully", "completed_unsuccessfully", "to_be_deleted"]
+            )
+
+            if statuses_with_no_transitions.empty?
+                return {
+                    passed: true
+                }
+            end
+
+            return {
+                passed: false,
+                error_icon: "project-diagram",
+                message: I18n.t("core.workflows.messages_warning_check_missing_transitions")
+            }
+        end
+
+        def monitoring_check_associated()
+            if default || ! associations.empty? 
+                return {
+                    passed: true
+                }
+            end
+
+            return {
+                passed: false,
+                error_icon: "clipboard-check",
+                message: I18n.t("core.workflows.messages_warning_check_associated")
+            }
         end
 
         protected
@@ -233,24 +327,32 @@ Building a better future, one line of code at a time.
                     "cloud_#{module_name}_workflow_associations.workflow_for = '#{workflow_for}'"
                 ]
 
+                order_params = []
+
                 missing_required_field = false
 
                 association_details.each do |detail|
-                    if detail[:type] == "foreign_key"
+                    case detail[:type]
+                    when "foreign_key"
                         association_value = cloud_object[detail[:key]]
-                    elsif detail[:type] == "detail_enum"
+                    when "detail_enum"
                         association_value = "'#{cloud_object.detail[detail[:name]]}'"
+                    when "polymorphic_key"
+                        association_value = "'#{cloud_object[detail[:name]]}'"
                     end
 
+                    # There is a required param missing for a specific association in the cloud_object model
                     unless association_value
-                        # There is a required param missing for a specific association
-                        missing_required_field = true
+                        missing_required_field = true 
                         break
                     end
 
-                    search_params.push(
-                        "cloud_#{module_name}_workflow_associations.#{detail[:name]} = #{association_value}"
-                    )
+                    search_params.push("
+                        (cloud_#{module_name}_workflow_associations.#{detail[:name]} = #{association_value} OR 
+                        cloud_#{module_name}_workflow_associations.#{detail[:name]} IS NULL)
+                    ")
+
+                    order_params.push("cloud_#{module_name}_workflow_associations.#{detail[:name]} NULLS LAST")
                 end
 
                 unless missing_required_field
@@ -258,11 +360,17 @@ Building a better future, one line of code at a time.
                     workflow_associations = association_model.joins(
                         :workflow
                     ).where(
-                        search_params.join(" and ")
+                        "cloud_#{module_name}_workflow_associations.global = FALSE OR cloud_#{module_name}_workflow_associations.global IS NULL"
+                    ).where(
+                        search_params.join(" AND ")
                     ).select(
                         "cloud_#{module_name}_workflows.id as id",
                         "cloud_#{module_name}_workflows.name as name"
                     )
+
+                    order_params.each do |order_param|
+                        workflow_associations = workflow_associations.order(order_param)
+                    end
 
                     unless workflow_associations.empty?
                         workflow = self.find(workflow_associations[0][:id])

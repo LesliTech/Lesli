@@ -27,7 +27,7 @@ export default {
             association_options: [],
             new_association: {
                 workflow_for: null,
-                global: true
+                global: false
             }
         }
     },
@@ -208,9 +208,9 @@ export default {
                                     v-for="detail in selectedAssociation.details"
                                     :key="detail.field_name"
                                     :label="object_utils.translateEnum(translations.main, `column_enum_association_${selectedAssociation.name}_field`, detail.name)"
+                                    :message="translations.main[`view_text_association_${selectedAssociation.name}_field_${detail.name}`]"
                                 >
                                     <b-select
-                                        required
                                         expanded
                                         :placeholder="translations.core.view_placeholder_select_option"
                                         v-model="new_association[detail.field_name]"
