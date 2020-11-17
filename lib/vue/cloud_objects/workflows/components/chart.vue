@@ -183,7 +183,10 @@ export default {
         },
 
         getNodeName(node){
-            return this.object_utils.translateEnum(this.translations.core, 'column_enum_status', node.name)
+            return (
+                this.object_utils.translateEnum(this.translations.core, 'column_enum_status', node.name, null) ||
+                this.object_utils.translateEnum(this.translations.main, 'status', node.name)
+            )
         }
     },
     watch: {
@@ -222,7 +225,10 @@ export default {
                                 :value="status.id"
                                 :key="status.id" 
                             >
-                                {{object_utils.translateEnum(translations.core, 'column_enum_status', status.name)}}
+                                {{
+                                    object_utils.translateEnum(translations.core, 'column_enum_status', status.name, null) ||
+                                    object_utils.translateEnum(translations.main, 'status', status.name)
+                                }}
                             </option>
                         </select>
                     </span>
