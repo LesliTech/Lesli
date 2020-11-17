@@ -1,31 +1,18 @@
-
-
-
-  
-  
-
-<p  align="center">
-
-<img  width="200"  alt="LesliCloud logo"  src="https://cdn.lesli.tech//lesli/brand/lesli-logo.svg"  />
-
+<p align="center">
+    <img width="200" alt="LesliCloud logo" src="https://cdn.lesli.tech//lesli/brand/lesli-logo.svg" />
 </p>
 
-  
-
-<h3  align="center">Vue plugin date</h3>
-
-  
+<h3 align="center">Rails LesliCommand date</h3>
 
 <hr/>
 
-  
-  
 
 #### Description
 
 LC::Date   is a class with helpful functions to allow the user to manipulate dates formats and date timezones with ease. Note that this class has some limitations: in its current version, LC::Date does not support settings nor multiple accounts, so all accounts under the same lesli instance will have either the default date settings or the ones stated in the **builder engine**
 
 <hr/>
+
 
 #### Initialize
 This class is loaded automatically and is available any class inside the rails app. The settings are obtained from the file */core/engines/builder_engine/lesli.yml*. There you can override the default values in datetime.configuration, for example: 
@@ -45,8 +32,6 @@ configuration:
   
 
 #### List of available functions
-
-  
 
 **static String db_timestamps(String table = "")**
 
