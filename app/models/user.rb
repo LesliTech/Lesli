@@ -79,7 +79,6 @@ class User < ApplicationLesliRecord
 
 
 
-<<<<<<< HEAD
     # @return [void]
     # @description After creating a user, creates the necessary resources for them to access the different engines.
     def save(*args)
@@ -91,49 +90,34 @@ class User < ApplicationLesliRecord
 
     # @return [void]
     # @description After creating a user, creates the necessary resources for them to access the different engines.
-=======
->>>>>>> f15d4b23ebe8ac9623f0e40a65b2d1476b4317fc
     def user_creator
         return nil
     end
 
 
 
-<<<<<<< HEAD
     # @return [void]
     # @description After creating a user, creates the necessary resources for them to access the different engines.
-=======
->>>>>>> f15d4b23ebe8ac9623f0e40a65b2d1476b4317fc
     def user_main
         return self
     end
 
 
 
-<<<<<<< HEAD
     # @return [void]
     # @description After creating a user, creates the necessary resources for them to access the different engines.
-=======
     # check role of the user
->>>>>>> f15d4b23ebe8ac9623f0e40a65b2d1476b4317fc
     def is_role? *roles
         return roles.include? self.role.detail.name
     end
 
 
 
-<<<<<<< HEAD
     # @return [void]
     # @description After creating a user, creates the necessary resources for them to access the different engines.
     def is_password_expired?
         return false if self.password_expiration_at.blank?
         return Time.current > self.password_expiration_at
-=======
-    # validates unique email
-    def save(*args)
-        super
-        rescue ActiveRecord::RecordNotUnique => error
->>>>>>> f15d4b23ebe8ac9623f0e40a65b2d1476b4317fc
     end
 
 
@@ -243,7 +227,6 @@ class User < ApplicationLesliRecord
 
 
 
-
     # @return [void]
     # @description Sets this user as inactive and removes complete access to the platform from them
     # @example
@@ -257,11 +240,7 @@ class User < ApplicationLesliRecord
 
     # @return [void]
     # @description Change user password forcing user to reset the password
-<<<<<<< HEAD
-    def request_password_change 
-=======
     def force_password_reset 
->>>>>>> f15d4b23ebe8ac9623f0e40a65b2d1476b4317fc
         self.update_attributes(password_expiration_at: Time.current)
     end
 
