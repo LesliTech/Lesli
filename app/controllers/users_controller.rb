@@ -1,3 +1,20 @@
+=begin
+Copyright (c) 2020, all rights reserved.
+
+All the information provided by this platform is protected by international laws related  to 
+industrial property, intellectual property, copyright and relative international laws. 
+All intellectual or industrial property rights of the code, texts, trade mark, design, 
+pictures and any other information belongs to the owner of this platform.
+
+Without the written permission of the owner, any replication, modification,
+transmission, publication is strictly forbidden.
+
+For more information read the license file including with this software.
+
+// · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
+// · 
+=end
+
 class UsersController < ApplicationLesliController
     before_action :set_user, only: [:show, :update]
     
@@ -130,7 +147,7 @@ class UsersController < ApplicationLesliController
 
         # check if user exist
         if user.blank?
-            return respond_with_error "No user found"
+            return respond_with_error "User not found"
         end
 
         # delete user active sessions
@@ -148,7 +165,7 @@ class UsersController < ApplicationLesliController
 
         # check if user exist
         if user.blank?
-            return respond_with_error "No user found"
+            return respond_with_error "User not found"
         end
 
         # delete user active sessions
@@ -169,9 +186,11 @@ class UsersController < ApplicationLesliController
 
         # check if user exist
         if user.blank?
-            return respond_with_error "No user found"
+            return respond_with_error "User not found"
         end
 
+        # expire password
+        user.request_password_change
 
         # Response successful
         respond_with_successful
