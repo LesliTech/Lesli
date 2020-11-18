@@ -34,27 +34,24 @@ class HouseMailer < ApplicationMailer
     # CloudHouse::Project. Important: If the role of the creator is "student", the email must be sent to
     # werksstudenten@deutsche-leibrenten.de. Please check CloudHouse::ProjectsControler#send_email_notification_new
     # to see that verification
-    def project_new(to, subject, data, template:"")
+    def project_new(to, subject, data, template:"", options:{})
         data = data.merge({
             href: "#{default_url_options[:host]}#{data[:href]}"
         })
 
-        send(to, subject, data, template:"")
+        send(to, subject, data, template: template, options: options)
     end
 
-    def project_list(to, subject, data, template: "")
+    def project_list(to, subject, data, template:"", options:{})
         data[:projects] = data[:projects].map do |project|
             project[:href] = "#{default_url_options[:host]}#{project[:href]}"
             project
         end
 
-        send(to, subject, data, template:"")
+        send(to, subject, data, template: template, options: options)
     end
 
-    def leads_report(to, subject, data, template: "", cc: nil)
-        options = {
-            cc: cc
-        }
+    def leads_report(to, subject, data, template: "", options: {})
         send(to, subject, data, template: template, options: options)
     end
 end

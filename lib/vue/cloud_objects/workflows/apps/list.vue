@@ -154,6 +154,20 @@ export default {
         searchWorkflows(text){
             this.filters.query = text
             this.getWorkflows()
+        },
+
+        checksPassed(checks){
+            let checks_count = 0;
+            let checks_passed = 0;
+            for(let check_name in checks){
+                let check = checks[check_name]
+                checks_count++
+                if(check.passed){
+                    checks_passed++
+                }
+            }
+
+            return `${checks_passed}/${checks_count}`
         }
     },
 
@@ -238,6 +252,15 @@ export default {
                             <span v-else>
                                 {{translations.core.view_text_no}}
                             </span>
+                        </b-table-column>
+
+                        <b-table-column field="checks" :label="translations.workflows.view_table_header_monitor_checks">
+                            <span v-for="(check, key) in props.row.checks" :key="key">
+                                <b-tooltip v-if="! check.passed" :active="check.message && check.message.length > 0" :label="check.message" type="is-warning">
+                                    <i  :class="['fas', 'has-text-warning', `fa-${check.error_icon}`]"></i>&nbsp;
+                                </b-tooltip>
+                            </span>
+                            <span>({{checksPassed(props.row.checks)}} {{translations.workflows.view_text_checks_passes}})</span>
                         </b-table-column>
 
                         <b-table-column field="id" :label="translations.core.column_created_at" sortable>

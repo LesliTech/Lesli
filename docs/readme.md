@@ -4,10 +4,15 @@
 
 <h2 align="center">Lesli standards, processes, best practices, setup guides, and more.</h2>
 
-### Ruby on rails
+
+### Development
 
 * [Environment setup](development-environment-setup.md)  
 
+
+### Ruby on Rails
+
+* [Lesli command date](rails-lesli-command-date.md)  
 
 ### VueJS
 
