@@ -240,7 +240,7 @@ class User < ApplicationLesliRecord
 
     # @return [void]
     # @description Change user password forcing user to reset the password
-    def force_password_reset 
+    def request_password_change 
         self.update_attributes(password_expiration_at: Time.current)
     end
 
