@@ -80,14 +80,12 @@ class Users::SessionsController < Devise::SessionsController
 
 
         # check password expiration date
-        if not resource.password_expiration_at.blank?
-            if resource.password_expiration_at < Time.current
-                log.update_attribute(:description, "login_atempt_expired_password")
-                token = resource.generate_password_token
-                return respond_with_error(I18n.t("core.users/sessions.messages_danger_password_expired"), {
-                    reset_password_token: token
-                })
-            end
+        if resource.is_password_expired?
+            log.update_attribute(:description, "login_atempt_expired_password")
+            token = resource.generate_password_token
+            return respond_with_error(I18n.t("core.users/sessions.messages_danger_password_expired"), {
+                reset_password_token: token
+            })
         end
 
 

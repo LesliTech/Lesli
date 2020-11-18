@@ -79,29 +79,44 @@ class User < ApplicationLesliRecord
 
 
 
+    # @return [void]
+    # @description After creating a user, creates the necessary resources for them to access the different engines.
+    def save(*args)
+        super
+        rescue ActiveRecord::RecordNotUnique => error
+    end
+
+
+
+    # @return [void]
+    # @description After creating a user, creates the necessary resources for them to access the different engines.
     def user_creator
         return nil
     end
 
 
 
+    # @return [void]
+    # @description After creating a user, creates the necessary resources for them to access the different engines.
     def user_main
         return self
     end
 
 
 
-    # check role of the user
+    # @return [void]
+    # @description After creating a user, creates the necessary resources for them to access the different engines.
     def is_role? *roles
         return roles.include? self.role.detail.name
     end
 
 
 
-    # validates unique email
-    def save(*args)
-        super
-        rescue ActiveRecord::RecordNotUnique => error
+    # @return [void]
+    # @description After creating a user, creates the necessary resources for them to access the different engines.
+    def is_password_expired?
+        return false if self.password_expiration_at.blank?
+        return Time.current > self.password_expiration_at
     end
 
 
@@ -225,7 +240,7 @@ class User < ApplicationLesliRecord
 
     # @return [void]
     # @description Change user password forcing user to reset the password
-    def force_password_reset 
+    def request_password_change 
         self.update_attributes(password_expiration_at: Time.current)
     end
 
