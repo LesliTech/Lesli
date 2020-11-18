@@ -96,6 +96,7 @@ providers:
         maps_sdk_token: ""
     honey_badger:
         api_key: ""
+        personal_token: ""
     mailgun:
         smtp:
             port: 587
