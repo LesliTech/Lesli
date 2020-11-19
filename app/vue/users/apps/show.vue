@@ -84,7 +84,7 @@ export default {
             <b-tab-item :label="translations.core.users.view_tab_title_information">
                 <component-information-form></component-information-form>
             </b-tab-item>
-            <b-tab-item :label="translations.core.users.view_tab_title_security">
+            <b-tab-item :label="translations.core.users.view_tab_title_security" :disabled="user.editable_security">
                 <component-security-form></component-security-form>
             </b-tab-item>
             <b-tab-item :label="'Access management'" disabled>

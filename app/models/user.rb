@@ -276,13 +276,7 @@ class User < ApplicationLesliRecord
 
     # save user activity
     def log_activity request_method, request_controller, request_action, request_url, description = nil
-        self.activities.create({
-            request_controller: request_controller,
-            request_method: request_method,
-            request_action: request_action,
-            request_url: request_url,
-            description: description
-        })
+        LC::Debug.msg "DEPRECATED: Use user.activities or log_user_comments instead"
     end
 
 
@@ -420,6 +414,5 @@ class User < ApplicationLesliRecord
         }
         
     end
-
 
 end
