@@ -32,23 +32,29 @@ export default {
                 access: false,
                 role: false
             },
-            user: {}
+            user: {},
+            roles: []
         }
+    },
+    mounted() {
+        this.getRoles()
     },
     methods: {
 
         putUserActive() {
-            this.http.put(`/administration/users/${this.data.user.id}.json`, {
-                user: {
-                    active: this.data.user.active
-                }
-            }).then(result => {
-                if (!result.successful) {
-                    this.alert(result.error.message, "danger")
-                    return 
-                }
-                this.alert(this.translations.users.messages_success_user_updated, "success")
-            })
+            setTimeout(() => {
+                this.http.put(`/administration/users/${this.data.user.id}.json`, {
+                    user: {
+                        active: this.data.user.active
+                    }
+                }).then(result => {
+                    if (!result.successful) {
+                        this.alert(result.error.message, "danger")
+                        return 
+                    }
+                    this.alert(this.translations.users.messages_success_user_updated, "success")
+                })
+            }, 500)
         },
 
         putUserPassword() {
@@ -66,6 +72,28 @@ export default {
             }).catch(error => {
                 console.log(error)
             })
+        },
+
+        getRoles() {
+            this.http.get("/administration/roles.json").then(result => {
+                this.roles = result.data
+            })
+        },
+
+        putUserRole() {
+            setTimeout(() => {
+                this.http.put(`/administration/users/${this.data.user.id}.json`, {
+                    user: {
+                        roles_id: this.data.user.roles_id
+                    }
+                }).then(result => {
+                    if (!result.successful) {
+                        this.alert(result.error.message, "danger")
+                        return 
+                    }
+                    this.alert(this.translations.users.messages_success_user_updated, "success")
+                })
+            }, 500)
         }
         
     }
@@ -75,6 +103,7 @@ export default {
 <template>
     <div class="card">
         <div class="card-content">
+
             <form v-if="lesli.current_user.id !=  data.user.id">
                 <div class="field is-horizontal">
                     <div class="field-label is-normal">
@@ -89,6 +118,32 @@ export default {
                                         v-model="data.user.active">
                                         <option :value="true">{{ translations.shared.view_text_active }}</option>
                                         <option :value="false">{{ translations.shared.view_text_inactive }}</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+            
+            <form v-if="lesli.current_user.id !=  data.user.id">
+                <div class="field is-horizontal">
+                    <div class="field-label is-normal">
+                        <label class="label">{{ translations.users.view_text_role }}</label>
+                    </div>
+                    <div class="field-body">
+                        <div class="field is-narrow">
+                            <div class="control">
+                                <div class="select is-fullwidth">
+                                    <select 
+                                        @input="putUserRole()"
+                                        v-model="data.user.roles_id">
+                                        <option
+                                            v-for="option in roles"
+                                            :value="option.id"
+                                            :key="option.id">
+                                            {{ option.name }}
+                                        </option>
                                     </select>
                                 </div>
                             </div>
@@ -148,6 +203,7 @@ export default {
                     </div>
                 </div>
             </form>
+
         </div>
     </div>
 </template>

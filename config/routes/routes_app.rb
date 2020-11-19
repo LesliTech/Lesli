@@ -53,7 +53,7 @@ module RoutesApp
                     end
 
                     # roles & privileges management
-                    resources :roles do
+                    resources :roles, only: [:index] do
                         scope module: :role do
                             resources :privileges
                         end

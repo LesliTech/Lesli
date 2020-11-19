@@ -65,20 +65,21 @@ class UsersController < ApplicationLesliController
         return respond_with_not_found unless @user
         return respond_with_unauthorized unless @user.is_editable_by?(current_user)
 
-        params_user = user_params
-
-        if params_user["roles_id"]
-            role_name = Role.find(params_user["roles_id"]).detail.name
+        # only owner can assign owner role
+        if user_params["roles_id"]
+            role_name = Role.find(user_params["roles_id"]).detail.name
             return responseWithUnauthorized if role_name == "owner" && !current_user.is_role?("owner")
         end
 
-        params_user.delete("roles_id") if not current_user.is_role?("owner", "admin")
+        # only owners and admins can assign high level roles
+        user_params.delete("roles_id") if not current_user.is_role?("owner", "admin")
 
-        if @user.update(params_user)
+        if (@user.active != user_params[:active])
+            @user.activities.create({ description: "update_user", field_name: "active", value_from: @user.active.to_s, value_to: user_params[:active].to_s, owner_id: current_user.id })
+        end 
 
-            # delete user session
-            #sign_out @user if @user.active == false
-
+        if @user.update(user_params)
+            
             # return a successful response 
             respond_with_successful
             
@@ -153,6 +154,8 @@ class UsersController < ApplicationLesliController
         # delete user active sessions
         user.close_session
 
+        user.logs.create({ session_uuid: nil, description: "close_session by_user_id: " + current_user.id.to_s })
+
         # Response successful
         respond_with_successful
 
@@ -174,6 +177,8 @@ class UsersController < ApplicationLesliController
         # add delete date to the last active session
         user.revoke_access
 
+        user.logs.create({ session_uuid: nil, description: "revoke_access by_user_id: " + current_user.id.to_s })
+
         # Response successful
         respond_with_successful
 
@@ -191,6 +196,8 @@ class UsersController < ApplicationLesliController
 
         # expire password
         user.request_password_change
+
+        user.logs.create({ session_uuid: nil, description: "request_password_change by_user_id: " + current_user.id.to_s })
 
         # Response successful
         respond_with_successful
