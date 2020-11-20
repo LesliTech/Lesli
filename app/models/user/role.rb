@@ -17,18 +17,7 @@ For more information read the license file including with this software.
 
 =end
 
-class CreateRoles < ActiveRecord::Migration[6.0]
-    def change
-        create_table :roles do |t|
-            t.string    :name
-            t.boolean   :active
-            t.string    :default_path
-            t.boolean   :only_my_data, default: false
-            t.integer   :object_level_permission, default: 10
-
-            t.datetime :deleted_at, index: true
-            t.timestamps
-        end
-        add_reference :roles, :accounts, foreign_key:true
-    end
+class User::Role < ApplicationRecord
+    belongs_to :users, foreign_key: "users_id"
+    belongs_to :roles, foreign_key: "roles_id", class_name: "::Role"
 end

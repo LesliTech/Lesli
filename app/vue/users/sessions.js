@@ -95,7 +95,7 @@ app({
                 this.showNotification(response.error.message)
 
             }).catch(error => {
-                console.log(error)
+                this.showNotification("Error")
             })
             
         },

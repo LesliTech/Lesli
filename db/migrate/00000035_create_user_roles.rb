@@ -17,24 +17,14 @@ For more information read the license file including with this software.
 
 =end
 
-# get settings
-account_logins = Rails.application.config.lesli_settings["configuration"]["security"]["login"]
-
-
-# create development users
-account_logins.each do |account_login|
-    User.find_or_create_by(email: account_login["username"]) do |user|
-        #user.role = Role.first
-        user.password = account_login["password"] + Time.now.year.to_s + "$"
-        user.password_confirmation = account_login["password"] + Time.now.year.to_s + "$"
-        user.account = Account.first
-        user.confirm if not user.confirmed?
-        user.save!
-        user.detail.first_name = account_login["fullname"] if not user.detail.blank?
-
-        user.account.user = user
-        user.account.save!
+class CreateUserRoles < ActiveRecord::Migration[6.0]
+    def change
+        create_table :user_roles do |t|
+            t.datetime :deleted_at, index: true
+            t.timestamps
+        end
+        add_reference :users, :user_roles, foreign_key: true
+        add_reference :user_roles, :users, foreign_key: true
+        add_reference :user_roles, :roles, foreign_key: true
     end
 end
-
-puts "Users successfully created!"
