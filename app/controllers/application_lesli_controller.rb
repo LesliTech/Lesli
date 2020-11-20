@@ -84,10 +84,9 @@ class ApplicationLesliController < ApplicationController
 
         # set user abilities
         abilities = {}
-        granted = current_user.roles.joins(:roles)
-        .joins("inner join role_privileges on role_privileges.roles_id = roles.id ")
-        .select("role_privileges.id", :grant_object)
-        .each do |privilege|
+        
+
+        granted = current_user.privileges.each do |privilege|
             abilities[privilege.grant_object] = privilege
         end
 
@@ -96,7 +95,7 @@ class ApplicationLesliController < ApplicationController
             id: current_user.id,
             email: current_user.email,
             full_name: current_user.full_name,
-            roles: current_user.roles.joins(:roles).select(:name).map { |role| role[:name] },
+            roles: current_user.roles.select(:name).map { |role| role[:name] },
             abilities: abilities
         }
 
@@ -115,9 +114,7 @@ class ApplicationLesliController < ApplicationController
 
         # check if user has access to the requested controller
         # this search is over all the privileges for all the roles of the user
-        granted = current_user.roles
-        .joins(:roles)
-        .joins("inner join role_privileges on role_privileges.roles_id = roles.id ")
+        granted = current_user.privileges
         .where("role_privileges.grant_object = ?", params[:controller])
         .where("role_privileges.grant_#{action} = TRUE")
         .first
