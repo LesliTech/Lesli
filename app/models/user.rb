@@ -45,7 +45,6 @@ class User < ApplicationLesliRecord
     has_many :requests,    foreign_key: "users_id"
     has_many :activities,  foreign_key: "users_id"
     has_many :privileges,  through: :role
-    has_one  :role_detail, through: :role, source: :detail, class_name: "Role::Detail"
     has_one  :integration, foreign_key: "users_id"
 
     
@@ -155,15 +154,14 @@ class User < ApplicationLesliRecord
                         .map {|action| "bool_and(grant_#{action})"}
                         .join(" and ")} as value"
                         
-            #selecting only the necessary role privileges
             sql_condition += controllers
                         .map{|controller| "role_privileges.grant_object = '#{controller}'" }
                         .join(" or ")
 
-            granted = Role::Privilege
+            granted = ::Role::Privilege
                     .select(sql_select)
                     .where(sql_condition)
-                    .where("role_privileges.roles_id = ?", self.role.id)
+                    .where("role_privileges.roles_id in (?)", self.roles.map { |r| r[:id] })
 
             return false if granted.blank?
             
@@ -179,7 +177,7 @@ class User < ApplicationLesliRecord
         
         role_privileges = Role::Privilege
                         .where(sql_condition)
-                        .where("role_privileges.roles_id = ?", self.role.id)
+                        .where("role_privileges.roles_id in (?)", self.roles.map { |r| r[:id] })
 
         controllers.each do |controller_name,  actions|
             controller_name = controller_name.to_s
@@ -199,7 +197,10 @@ class User < ApplicationLesliRecord
             end
         end
 
-        return true            
+        return true
+
+    rescue
+        return false
     end
 
 
