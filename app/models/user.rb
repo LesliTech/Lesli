@@ -331,10 +331,15 @@ class User < ApplicationLesliRecord
         operator = type == "exclude" ? 'not in' : 'in'
         
         users = current_user.account.users
-        .joins(:roles)
         .joins("inner join user_details UD on UD.users_id = users.id")
-
-        return users
+        .joins("
+            left join (
+                select ur.users_id, string_agg(r.\"name\", ', ') role_names
+                from user_roles ur 
+                join roles r on r.id = ur.roles_id 
+                group by ur.users_id
+            ) roles on roles.users_id = users.id
+        ") 
 
         if (status != "all")
             users = users.where("users.active = ?", true)
@@ -347,7 +352,7 @@ class User < ApplicationLesliRecord
         end
 
         users = users.where("email like '%#{query[:filters][:domain]}%'")  unless query[:filters][:domain].blank?
-        users = users.where("RD.name #{operator} (?)", roles) unless roles.blank?
+        users = users.where("role_names #{operator} (?)", roles) unless roles.blank?
         users = users.order("#{query[:pagination][:orderColumn]} #{query[:pagination][:order]} NULLS LAST")
 
         users = users.select(
@@ -357,8 +362,7 @@ class User < ApplicationLesliRecord
             :current_sign_in_at,
             "false as editable",
             "CONCAT(UD.first_name, ' ',UD.last_name) as name",
-            "R.id as role_id",
-            "RD.name as role_name"
+            "role_names"
         )
 
         users.map do |user|
@@ -367,9 +371,10 @@ class User < ApplicationLesliRecord
             last_sign_in_at = LC::Date.distance_to_words(user[:current_sign_in_at], Time.current)
 
             # last action the user perform an action into the system
-            last_action_performed_at = user.requests.last # User::Request.where(:user => user[:id]).last
+            last_action_performed_at = user.requests.last 
             last_action_performed_at = LC::Date.distance_to_words(last_action_performed_at[:created_at], Time.current) if not last_action_performed_at.blank?
 
+            # check if user has an active session
             session = user.sessions.last ? true : false
 
             {
@@ -378,7 +383,7 @@ class User < ApplicationLesliRecord
                 email: user[:email],
                 last_sign_in_at: last_sign_in_at,
                 active: user[:active],
-                role: user[:role_name],
+                roles: user[:role_names],
                 last_activity_at: last_action_performed_at,
                 session_active: session 
             }
