@@ -87,8 +87,12 @@ gem "aws-sdk-rails"
 gem "rubyzip", "~> 2.3.0"
 gem 'zip-zip' #backward compatibility
 
-#files reader
+# files reader
 gem 'yomu'
+
+# Generate pdf
+gem "prawn"
+gem 'prawn-table'
 
 # Adding docx var support
 gem 'docx_replace'
