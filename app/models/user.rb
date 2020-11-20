@@ -39,13 +39,15 @@ class User < ApplicationLesliRecord
 
     # users has activities and personal settings
     has_many :logs,        foreign_key: "users_id"
-    has_many :roles,       foreign_key: "users_id" 
     has_many :settings,    foreign_key: "users_id"
     has_many :sessions,    foreign_key: "users_id"
     has_many :requests,    foreign_key: "users_id"
     has_many :activities,  foreign_key: "users_id"
-    has_many :privileges,  through: :role
     has_one  :integration, foreign_key: "users_id"
+
+    has_many :user_roles,  foreign_key: "users_id", class_name: "User::Role"
+    has_many :roles, through: :user_roles, :source => "roles"
+    has_many :privileges, through: :roles
 
     
     # user details are saved on separate table
@@ -329,9 +331,10 @@ class User < ApplicationLesliRecord
         operator = type == "exclude" ? 'not in' : 'in'
         
         users = current_user.account.users
+        .joins(:roles)
         .joins("inner join user_details UD on UD.users_id = users.id")
-        .joins("inner join roles R on R.id = users.roles_id")
-        .joins("inner join role_details RD on RD.roles_id = R.id")
+
+        return users
 
         if (status != "all")
             users = users.where("users.active = ?", true)
