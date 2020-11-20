@@ -66,7 +66,7 @@ class CreateUsers < ActiveRecord::Migration[5.2]
 
         end
 
-        add_reference :users, :roles, foreign_key: true
+        #add_reference :users, :roles, foreign_key: true
         add_reference :users, :accounts, foreign_key: true
 
         add_index :users, :email,                unique: true

@@ -49,10 +49,7 @@ class Users::SessionsController < Devise::SessionsController
 
 
         # save a login atempt log for the requested user
-        log = resource.logs.create({
-            session_uuid: nil,
-            description: "login_atempt"
-        })
+        log = resource.logs.create({ session_uuid: nil, description: "login_atempt" })
 
 
         # check password validation
@@ -73,8 +70,15 @@ class Users::SessionsController < Devise::SessionsController
         end
 
 
-        # check if the role that the user belongs to, is able to access the system
-        if not resource.role.detail.active?
+        # check if user has roles assigned
+        if resource.roles.empty?
+            return respond_with_error(I18n.t("core.users/sessions.the_user_has_no_assigned_role"))
+        end 
+
+
+        # check user has at least one active role before authorize the sign-in request
+        resource.roles.joins(:roles).select(:active).each do |role| 
+            break if role[:active]
             return respond_with_error(I18n.t("deutscheleibrenten.users/sessions.role_access_denied")) 
         end
 
@@ -103,7 +107,7 @@ class Users::SessionsController < Devise::SessionsController
             :user_remote => request.remote_ip,
             :session_token => session[:session_id],
             :session_source => "devise_standar_session",
-            :last_used_at   => LC::Date.now
+            :last_used_at => LC::Date.now
         })
 
 

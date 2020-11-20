@@ -18,17 +18,22 @@ For more information read the license file including with this software.
 
 
 // · 
+import componentSecurityForm from "Lesli/vue/users/components/form-security.vue"
 import componentInformationCard from "Lesli/vue/users/components/card-information.vue"
 import componentInformationForm from "Lesli/vue/users/components/form-information.vue"
-import componentSecurityForm from "Lesli/vue/users/components/form-security.vue"
+import componentRolesPrivilegesForm from "Lesli/vue/users/components/form-roles-privileges.vue"
+import componentAccessManagementForm from "Lesli/vue/users/components/form-access-management.vue"
+
 
 
 // · 
 export default {
     components: {
+        "component-security-form": componentSecurityForm,
         "component-information-card": componentInformationCard,
         "component-information-form": componentInformationForm,
-        "component-security-form": componentSecurityForm
+        "component-roles-privileges-form": componentRolesPrivilegesForm,
+        "component-access-management-form": componentAccessManagementForm,
     },
     data() {
         return {
@@ -87,7 +92,11 @@ export default {
             <b-tab-item :label="translations.core.users.view_tab_title_security" :disabled="user.editable_security">
                 <component-security-form></component-security-form>
             </b-tab-item>
-            <b-tab-item :label="'Access management'" disabled>
+            <b-tab-item :label="translations.core.users.view_tab_title_access_management">
+                <component-access-management-form></component-access-management-form>
+            </b-tab-item>
+            <b-tab-item :label="translations.core.users.view_tab_title_roles_and_privileges">
+                <component-roles-privileges-form></component-roles-privileges-form>
             </b-tab-item>
         </b-tabs>
     </section>

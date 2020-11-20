@@ -39,6 +39,7 @@ class User < ApplicationLesliRecord
 
     # users has activities and personal settings
     has_many :logs,        foreign_key: "users_id"
+    has_many :roles,       foreign_key: "users_id" 
     has_many :settings,    foreign_key: "users_id"
     has_many :sessions,    foreign_key: "users_id"
     has_many :requests,    foreign_key: "users_id"
@@ -52,9 +53,16 @@ class User < ApplicationLesliRecord
     has_one :detail, inverse_of: :user, autosave: true, foreign_key: "users_id", dependent: :destroy 
     accepts_nested_attributes_for :detail, update_only: true
 
+
     after_create :initialize_user
 
+
+    # type of user
+    #   system user
+    #   integration apps
     enum category: { user: "user", integration: "integration" }
+
+
 
     # @return [void]
     # @description After creating a user, creates the necessary resources for them to access the different engines.

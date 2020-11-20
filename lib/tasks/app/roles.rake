@@ -9,7 +9,7 @@ namespace :app do
 
             # get all routes for application controllers
             routes = LC::System::Routes.scan
-
+=begin
             account.roles.joins(:detail).each do |role|
                 routes.each do |route|
                     default_value = false
@@ -34,7 +34,8 @@ namespace :app do
 
                     puts "role privilege created for controller: #{route[:controller_path]}"
                 end
-            end 
+            end
+=end
 
         end
     end
