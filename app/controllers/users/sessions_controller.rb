@@ -77,7 +77,7 @@ class Users::SessionsController < Devise::SessionsController
 
 
         # check user has at least one active role before authorize the sign-in request
-        resource.roles.joins(:roles).select(:active).each do |role| 
+        resource.roles.select(:active).each do |role| 
             break if role[:active]
             return respond_with_error(I18n.t("deutscheleibrenten.users/sessions.role_access_denied")) 
         end
