@@ -12,29 +12,28 @@ Contents
     00.02. roles 
     00.03. users   # manage access fo users|integrations|federations
 
-    00.10. account/details*
     00.11. account/settings
     00.12. account/locations
     00.13. account/activities     # tracks system tasks and processes
     00.14. account/integrations   # manage access to external apps
     00.15. account/federations    # manage access to external servers
 
-    00.20. role/details
     00.21. role/privileges
     00.22. role/overrides
     00.23. role/privilege_defaults
 
-    00.30. user/details
-    00.31. user/settings
-    00.32. user/sessions     # save user login information
-    00.33. user/requests     # tracks user activities on the system
-    00.34. user/activities   # tracks changes over current_user
-    00.35. user/logs         # custom log for user
+    00.31. user/details
+    00.32. user/settings
+    00.33. user/sessions     # save user login information
+    00.34. user/requests     # tracks user activities on the system
+    00.35. user/activities   # tracks changes over current_user
+    00.36. user/roles        # roles assigned to the user
+    00.37. user/logs         # custom log for user
 
-    00.40. templates
-    00.41. template/documents
-    00.42. template/variables
-    00.43. template/mapping
+    00.41. templates
+    00.42. template/documents
+    00.43. template/variables
+    00.44. template/mapping
 ```
 
 

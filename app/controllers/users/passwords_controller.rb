@@ -1,26 +1,19 @@
 =begin
 
-Lesli
+Copyright (c) 2020, all rights reserved.
 
-Copyright (c) 2020, Lesli Technologies, S. A.
+All the information provided by this platform is protected by international laws related  to 
+industrial property, intellectual property, copyright and relative international laws. 
+All intellectual or industrial property rights of the code, texts, trade mark, design, 
+pictures and any other information belongs to the owner of this platform.
 
-All the information provided by this website is protected by laws of Guatemala related 
-to industrial property, intellectual property, copyright and relative international laws. 
-Lesli Technologies, S. A. is the exclusive owner of all intellectual or industrial property
-rights of the code, texts, trade mark, design, pictures and any other information.
-Without the written permission of Lesli Technologies, S. A., any replication, modification,
+Without the written permission of the owner, any replication, modification,
 transmission, publication is strictly forbidden.
+
 For more information read the license file including with this software.
 
-LesliCloud - Your Smart Business Assistant
-
-Powered by https://www.lesli.tech
-Building a better future, one line of code at a time.
-
-@author   Carlos Hermosilla
-@license  Propietary - all rights reserved.
-@version  0.1.0-alpha
-@description Manages password reset options for existing users
+// · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
+// · 
 
 =end
 class Users::PasswordsController < Devise::PasswordsController
@@ -35,7 +28,7 @@ class Users::PasswordsController < Devise::PasswordsController
     #     If it is not successful, it returs an error message
     # @description Sends an email with a token, so the user can reset their password
     # @example
-    #     # Executing this controller's action from javascript's frontend
+    #     Executing this controller's action from javascript's frontend
     #     let email = 'john.doe@email.com';
     #     let data = {
     #         user: {
@@ -54,6 +47,7 @@ class Users::PasswordsController < Devise::PasswordsController
         end
     end
 
+
     # @controller_action_param :password [String] The new password
     # @controller_action_param :password_confirmation [String] The password confirmation
     # @controller_action_param :reset_password_token [String] The token sent by this controller's *create* method
@@ -62,7 +56,7 @@ class Users::PasswordsController < Devise::PasswordsController
     # @description When the sends their new password along with the token sent by the *create* method,
     #     They can reset their password.
     # @example
-    #     # Executing this controller's action from javascript's frontend
+    #     Executing this controller's action from javascript's frontend
     #     let data = {
     #         user: {
     #             password: "my_new_password123",
@@ -73,14 +67,28 @@ class Users::PasswordsController < Devise::PasswordsController
     #     this.http.put('127.0.0.1/password', data);
     def update
         super do |resource|
-            #activity = resource.log_activity(request.method, controller_name, action_name, request.original_fullpath)
+
+            log = resource.logs.create({ session_uuid: nil, description: "password_update_atempt" })
+
             if resource.errors.empty?
-                #activity.update_attribute(:description, "password_update_successful, " + get_client_info(true))
+
+                # reset password expiration due the user just updated his password
+                if resource.is_password_expired?
+                    resource.update_attributes(password_expiration_at: nil)
+                end 
+
+                log.update_attribute(:description, "password_update_successful")
+                
                 return respond_with_successful
+
             else
-                #activity.update_attribute(:description, "password_update_failed with: "+resource.errors.full_messages.to_sentence + ", " + get_client_info(true))
+
+                log.update_attribute(:description, "password_update_error")
+
                 return respond_with_error(resource.errors.full_messages.to_sentence)
+
             end
+
         end
     end
 end

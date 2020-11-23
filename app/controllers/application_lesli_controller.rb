@@ -84,7 +84,9 @@ class ApplicationLesliController < ApplicationController
 
         # set user abilities
         abilities = {}
-        current_user.role.privileges.each do |privilege|
+        
+
+        granted = current_user.privileges.each do |privilege|
             abilities[privilege.grant_object] = privilege
         end
 
@@ -93,7 +95,7 @@ class ApplicationLesliController < ApplicationController
             id: current_user.id,
             email: current_user.email,
             full_name: current_user.full_name,
-            role: current_user.role.detail.name,
+            roles: current_user.roles.select(:name).map { |role| role[:name] },
             abilities: abilities
         }
 
@@ -110,6 +112,8 @@ class ApplicationLesliController < ApplicationController
         action = params[:action]
         action = "resources" if request.path.include?("resources")
 
+        # check if user has access to the requested controller
+        # this search is over all the privileges for all the roles of the user
         granted = current_user.privileges
         .where("role_privileges.grant_object = ?", params[:controller])
         .where("role_privileges.grant_#{action} = TRUE")

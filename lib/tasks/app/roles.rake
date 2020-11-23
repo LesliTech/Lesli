@@ -9,12 +9,11 @@ namespace :app do
 
             # get all routes for application controllers
             routes = LC::System::Routes.scan
-
-            account.roles.joins(:detail).each do |role|
+            account.roles.each do |role|
                 routes.each do |route|
                     default_value = false
-                    default_value = true if role.detail.name == "owner"
-                    default_value = true if role.detail.name == "admin"
+                    default_value = true if role.name == "owner"
+                    default_value = true if role.name == "admin"
 
                     attributes = {
                         grant_index: default_value, 
@@ -34,7 +33,7 @@ namespace :app do
 
                     puts "role privilege created for controller: #{route[:controller_path]}"
                 end
-            end 
+            end
 
         end
     end

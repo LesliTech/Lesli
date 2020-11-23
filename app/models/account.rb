@@ -35,7 +35,7 @@ class Account < ApplicationRecord
     has_one :team,       class_name: "CloudTeam::Account",       foreign_key: "id"
     has_one :bell,       class_name: "CloudBell::Account",       foreign_key: "id"
     has_one :help,       class_name: "CloudHelp::Account",       foreign_key: "id"
-    has_one :text,       class_name: "CloudText::Account",      foreign_key: "id"
+    has_one :text,       class_name: "CloudText::Account",       foreign_key: "id"
     has_one :lesli,      class_name: "CloudLesli::Account",      foreign_key: "id"
     has_one :books,      class_name: "CloudBooks::Account",      foreign_key: "id"
     has_one :house,      class_name: "CloudHouse::Account",      foreign_key: "id"
@@ -84,11 +84,9 @@ class Account < ApplicationRecord
 
             Role.create({
                 account: self,
-                detail_attributes: {
-                    name: role_name,
-                    active: true,
-                    object_level_permission: object_level_permission        
-                }
+                name: role_name,
+                active: true,
+                object_level_permission: object_level_permission
             })
 
         end

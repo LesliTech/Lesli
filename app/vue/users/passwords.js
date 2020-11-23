@@ -1,23 +1,15 @@
 /*
-Lesli
+Copyright (c) 2020, all rights reserved.
 
-Copyright (c) 2020, Lesli Technologies, S. A.
+All the information provided by this platform is protected by international laws related  to 
+industrial property, intellectual property, copyright and relative international laws. 
+All intellectual or industrial property rights of the code, texts, trade mark, design, 
+pictures and any other information belongs to the owner of this platform.
 
-All the information provided by this website is protected by laws of Guatemala related 
-to industrial property, intellectual property, copyright and relative international laws. 
-Lesli Technologies, S. A. is the exclusive owner of all intellectual or industrial property
-rights of the code, texts, trade mark, design, pictures and any other information.
-Without the written permission of Lesli Technologies, S. A., any replication, modification,
+Without the written permission of the owner, any replication, modification,
 transmission, publication is strictly forbidden.
+
 For more information read the license file including with this software.
-
-LesliCloud - Your Smart Business Assistant
-
-Powered by https://www.lesli.tech
-Building a better future, one line of code at a time.
-
-@license  Propietary - all rights reserved.
-@version  0.1.0-alpha
 
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
 // · 
@@ -25,34 +17,39 @@ Building a better future, one line of code at a time.
 
 
 // · 
-import app from 'LesliCoreVue/public'
+import app from "LesliVue/public"
 
-import componentNotificationMessageSimple from 'LesliCoreVue/components/notifications/message-simple.vue' 
-import componentNotificationProgressBar from 'LesliCoreVue/components/notifications/progress-bar.vue' 
 
+
+// · 
+import componentNotificationMessageSimple from "LesliCoreVue/components/notifications/message-simple.vue" 
+import componentNotificationProgressBar from "LesliCoreVue/components/notifications/progress-bar.vue" 
+
+
+// · 
 app({
 
     components: {
-        'component-notification-message-simple': componentNotificationMessageSimple,
-        'component-notification-progress-bar': componentNotificationProgressBar
+        "component-notification-message-simple": componentNotificationMessageSimple,
+        "component-notification-progress-bar": componentNotificationProgressBar
     },
     data: {
         translations: {
-            main: I18n.t('core.users/passwords')
+            main: I18n.t("core.users/passwords")
         },
         sign_in: {
-            email: '',
-            password: ''
+            email: "",
+            password: ""
         },
         password_edit: {
-            new_password: '',
-            new_password_confirmation: ''
+            new_password: "",
+            new_password_confirmation: ""
         },
         progress_bar_active: false,
         notification: {
-            message: '',
+            message: "",
             show: false,
-            type: 'is-danger'
+            type: "is-danger"
         }
     },
     methods: {
@@ -64,12 +61,12 @@ app({
             let data = {user: this.sign_in};
             this.progress_bar_active = true;
 
-            this.http.post('/password', data).then(response => {
+            this.http.post("/password", data).then(response => {
 
                 this.progress_bar_active = false
 
                 if(response.successful){
-                    this.showNotification(this.translations.main.notification_reset_password_instructions_sent, 'is-success')
+                    this.showNotification(this.translations.main.notification_reset_password_instructions_sent, "is-success")
                 }else{
                     this.showNotification(response.error.message)
                 }
@@ -84,7 +81,7 @@ app({
 
             // check if passwords match
             if (this.password_edit.new_password != this.password_edit.new_password_confirmation) {
-                this.showNotification(this.translations.main.error_passwords_do_not_match, 'is-warning')
+                this.showNotification(this.translations.main.error_passwords_do_not_match, "is-warning")
                 return
             }
 
@@ -98,20 +95,20 @@ app({
 
             this.progress_bar_active = true;
 
-            this.http.put('/password', {
+            this.http.put("/password", {
                 user: {
-                    reset_password_token: token,
                     password: this.password_edit.new_password,
-                    password_confirmation: this.password_edit.new_password_confirmation
+                    password_confirmation: this.password_edit.new_password_confirmation,
+                    reset_password_token: token
                 }
             }).then(response => {
 
                 this.progress_bar_active = false
 
                 if(response.successful){
-                    this.showNotification(this.translations.main.notification_password_updated, 'is-success')
+                    this.showNotification(this.translations.main.notification_password_updated, "is-success")
                     setTimeout(() => {
-                        this.url.go('/login')
+                        this.url.go("/login")
                     }, 1500)
                 }else{
                     this.showNotification(response.error.message)
@@ -122,7 +119,7 @@ app({
             })
         },
 
-        showNotification(message, type='is-danger'){
+        showNotification(message, type="is-danger"){
             this.notification.message = message;
             this.notification.type = type;
             this.notification.show = true;

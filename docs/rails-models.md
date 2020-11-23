@@ -77,4 +77,3 @@ end
     - **[Array]** actions: Optional param to specify the controller actions.
 - returns: [**Boolean**] 
 - description:  Return true or false if a user has the privileges to do sepecific actions on a controller. 
-

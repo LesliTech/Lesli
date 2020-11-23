@@ -1,3 +1,20 @@
+=begin
+Copyright (c) 2020, all rights reserved.
+
+All the information provided by this platform is protected by international laws related  to 
+industrial property, intellectual property, copyright and relative international laws. 
+All intellectual or industrial property rights of the code, texts, trade mark, design, 
+pictures and any other information belongs to the owner of this platform.
+
+Without the written permission of the owner, any replication, modification,
+transmission, publication is strictly forbidden.
+
+For more information read the license file including with this software.
+
+// · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
+// · 
+=end
+
 class UsersController < ApplicationLesliController
     before_action :set_user, only: [:show, :update]
     
@@ -16,7 +33,7 @@ class UsersController < ApplicationLesliController
                 return respond_with_not_found unless @user
 
                 user = @user.show(current_user).merge({
-                    is_editable: @user.is_editable_by?(current_user)
+                    #is_editable: @user.is_editable_by?(current_user)
                 })
 
                 respond_with_successful(user)
@@ -46,22 +63,23 @@ class UsersController < ApplicationLesliController
 
         # validate that user exists
         return respond_with_not_found unless @user
-        return respond_with_unauthorized unless @user.is_editable_by?(current_user)
+        #return respond_with_unauthorized unless @user.is_editable_by?(current_user)
 
-        params_user = user_params
-
-        if params_user["roles_id"]
-            role_name = Role.find(params_user["roles_id"]).detail.name
+        # only owner can assign owner role
+        if user_params["roles_id"]
+            role_name = Role.find(user_params["roles_id"]).detail.name
             return responseWithUnauthorized if role_name == "owner" && !current_user.is_role?("owner")
         end
 
-        params_user.delete("roles_id") if not current_user.is_role?("owner", "admin")
+        # only owners and admins can assign high level roles
+        user_params.delete("roles_id") if not current_user.is_role?("owner", "admin")
 
-        if @user.update(params_user)
+        if (@user.active != user_params[:active])
+            @user.activities.create({ description: "update_user", field_name: "active", value_from: @user.active.to_s, value_to: user_params[:active].to_s, owner_id: current_user.id })
+        end 
 
-            # delete user session
-            #sign_out @user if @user.active == false
-
+        if @user.update(user_params)
+            
             # return a successful response 
             respond_with_successful
             
@@ -83,16 +101,10 @@ class UsersController < ApplicationLesliController
     end
 
     def options
-        options = {
-            roles: current_user.account.roles.joins(:detail)
-                    .select("
-                        roles.id as value, 
-                        role_details.name as text
-                    "),
+        respond_with_successful({
+            roles: current_user.account.roles.select(:id, :name),
             salutations: User::Detail.salutations.map {|k, v| {value: k, text: v}},
-        }
-
-        respond_with_successful(options)
+        })
     end
 
     def become
@@ -130,11 +142,13 @@ class UsersController < ApplicationLesliController
 
         # check if user exist
         if user.blank?
-            return respond_with_error "No user found"
+            return respond_with_error "User not found"
         end
 
         # delete user active sessions
         user.close_session
+
+        user.logs.create({ session_uuid: nil, description: "close_session by_user_id: " + current_user.id.to_s })
 
         # Response successful
         respond_with_successful
@@ -148,7 +162,7 @@ class UsersController < ApplicationLesliController
 
         # check if user exist
         if user.blank?
-            return respond_with_error "No user found"
+            return respond_with_error "User not found"
         end
 
         # delete user active sessions
@@ -156,6 +170,8 @@ class UsersController < ApplicationLesliController
 
         # add delete date to the last active session
         user.revoke_access
+
+        user.logs.create({ session_uuid: nil, description: "revoke_access by_user_id: " + current_user.id.to_s })
 
         # Response successful
         respond_with_successful
@@ -169,9 +185,13 @@ class UsersController < ApplicationLesliController
 
         # check if user exist
         if user.blank?
-            return respond_with_error "No user found"
+            return respond_with_error "User not found"
         end
 
+        # expire password
+        user.request_password_change
+
+        user.logs.create({ session_uuid: nil, description: "request_password_change by_user_id: " + current_user.id.to_s })
 
         # Response successful
         respond_with_successful
@@ -182,9 +202,9 @@ class UsersController < ApplicationLesliController
     
     def user_params
         params.require(:user).permit(
-            :email,
             :active,
-            :roles_id,
+            :email,
+            :roles,
             detail_attributes: [
                 :first_name,
                 :last_name,

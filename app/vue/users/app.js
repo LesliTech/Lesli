@@ -42,5 +42,5 @@ app("Core", "[list|new|edit|show]", "/administration/users", [{
     component: appShow
 }], {
     user: {},
-    options: {}
+    options: { roles: [] }
 })
