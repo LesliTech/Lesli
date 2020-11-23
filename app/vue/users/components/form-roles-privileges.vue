@@ -26,73 +26,93 @@ export default {
                 roles: I18n.t("core.roles"),
                 shared: I18n.t("core.shared")
             },
-            user: {},
-            roles: [],
-            filteredRoles: []
+            role_selected: {},
+            user: {}
         }
     },
-    mounted() {
-        this.getRoles()
-    },
+
     methods: {
-
-        doFilterRoles(text) {
-            this.filteredRoles = this.roles.filter((option) => {
-                return option.name
-                    .toString()
-                    .toLowerCase()
-                    .indexOf(text.toLowerCase()) >= 0
-            })
-        },
-
-        getRoles() {
-            this.http.get("/administration/roles.json").then(result => {
-                this.roles = result.data
-            })
-        },
 
         putUserRole() {
             setTimeout(() => {
-                this.http.put(`/administration/users/${this.data.user.id}.json`, {
-                    user: {
-                        roles_id: this.data.user.roles_id
+                this.http.post(`/administration/users/${this.data.user.id}/roles.json`, {
+                    user_role: {
+                        id: this.role_selected.id
                     }
                 }).then(result => {
                     if (!result.successful) {
                         this.alert(result.error.message, "danger")
                         return 
                     }
+                    this.data.user.roles.push(this.role_selected)
+                    this.role_selected = {}
                     this.alert(this.translations.users.messages_success_user_updated, "success")
                 })
             }, 500)
+        },
+
+        deleteUserRole(id) {
+            this.http.delete(`/administration/users/${this.data.user.id}/roles/${id}.json`).then(result => {
+                console.log(result)
+            })
         }
-        
+
     }
+
 }
 </script>
 
 <template>
     <div class="card">
         <div class="card-content" style="min-height: 400px;">
+            <div class="columns">
+                <div class="column is-4">
 
-            <b-field label="User roles">
-                <b-taginput
-                    attached
-                    autocomplete
-                    field="name"
-                    type="is-info"
-                    size="is-medium"
-                    icon="fas fa-key"
-                    v-model="user.roles"
-                    :placeholder="'Assign a new role to user'"
-                    :data="filteredRoles"
-                    :allow-new="false"
-                    :open-on-focus="true"
-                    @add="doFilterRoles('')"
-                    @typing="doFilterRoles">
-                </b-taginput>
-            </b-field>
+                    <form v-on:submit.prevent="putUserRole">
+                        <div class="field">
+                            <label class="label">Assign role to user</label>
+                            <div class="control has-icons-left">
+                                <div class="select">
+                                    <select v-model="role_selected">
+                                        <option v-for="role in data.options.roles" :key="role.id" :value="role">
+                                            {{ role.name }}
+                                        </option>
+                                    </select>
+                                </div>
+                                <div class="icon is-small is-left">
+                                    <i class="fas fa-key"></i>
+                                </div>
+                            </div>
+                        </div>
 
+                        <div class="field">
+                            <div class="control">
+                                <button class="button is-info">Save</button>
+                            </div>
+                        </div>
+                    </form>
+
+                </div>
+                <div class="column">
+
+                    <div class="field">
+                        <label class="label">Roles assigned to user</label>
+                        <div class="control mb-4" v-for="role in data.user.roles" :key="role.id">
+                            <b-tag
+                                attached
+                                closable
+                                type="is-info"
+                                size="is-medium"
+                                close-type="is-info"
+                                aria-close-label="Close tag"
+                                @close="deleteUserRole(role.id)">
+                                {{ role.name }}
+                            </b-tag>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
         </div>
     </div>
 </template>

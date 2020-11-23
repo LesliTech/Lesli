@@ -33,7 +33,7 @@ class UsersController < ApplicationLesliController
                 return respond_with_not_found unless @user
 
                 user = @user.show(current_user).merge({
-                    is_editable: @user.is_editable_by?(current_user)
+                    #is_editable: @user.is_editable_by?(current_user)
                 })
 
                 respond_with_successful(user)
@@ -63,7 +63,7 @@ class UsersController < ApplicationLesliController
 
         # validate that user exists
         return respond_with_not_found unless @user
-        return respond_with_unauthorized unless @user.is_editable_by?(current_user)
+        #return respond_with_unauthorized unless @user.is_editable_by?(current_user)
 
         # only owner can assign owner role
         if user_params["roles_id"]
@@ -101,16 +101,10 @@ class UsersController < ApplicationLesliController
     end
 
     def options
-        options = {
-            roles: current_user.account.roles.joins(:detail)
-                    .select("
-                        roles.id as value, 
-                        role_details.name as text
-                    "),
+        respond_with_successful({
+            roles: current_user.account.roles.select(:id, :name),
             salutations: User::Detail.salutations.map {|k, v| {value: k, text: v}},
-        }
-
-        respond_with_successful(options)
+        })
     end
 
     def become
@@ -208,9 +202,9 @@ class UsersController < ApplicationLesliController
     
     def user_params
         params.require(:user).permit(
-            :email,
             :active,
-            :roles_id,
+            :email,
+            :roles,
             detail_attributes: [
                 :first_name,
                 :last_name,

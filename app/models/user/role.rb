@@ -18,7 +18,8 @@ For more information read the license file including with this software.
 =end
 
 class User::Role < ApplicationRecord
-    belongs_to :users, foreign_key: "users_id"
+    belongs_to :user, foreign_key: "users_id"
     belongs_to :roles, foreign_key: "roles_id", class_name: "::Role"
+    belongs_to :role, foreign_key: "roles_id", class_name: "::Role"
     has_many :privileges,  through: :roles
 end

@@ -39,9 +39,13 @@ module RoutesApp
 
                     # user maintenance
                     resources :users, only: [:index, :show, :update, :create] do
-                        collection do
-                            get  :options
+
+                        scope module: :user do
+
+                            # user role assignment
+                            resources :roles, only: [:create, :destroy]
                         end
+
                         member do
                             scope :resources do
                                 get  :become
@@ -50,6 +54,11 @@ module RoutesApp
                                 post :lock
                             end
                         end
+
+                        collection do
+                            get  :options
+                        end
+
                     end
 
                     # roles & privileges management

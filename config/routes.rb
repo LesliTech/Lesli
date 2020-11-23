@@ -19,9 +19,6 @@ For more information read the license file including with this software.
 
 Rails.application.routes.draw do
 
-  namespace :user do
-    resources :roles
-  end
     devise_for :users,
     :path => "",
     :path_names => {
