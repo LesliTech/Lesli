@@ -1,23 +1,15 @@
-/**
-Lesli
+/*
+Copyright (c) 2020, all rights reserved.
 
-Copyright (c) 2020, Lesli Technologies, S. A.
+All the information provided by this platform is protected by international laws related  to 
+industrial property, intellectual property, copyright and relative international laws. 
+All intellectual or industrial property rights of the code, texts, trade mark, design, 
+pictures and any other information belongs to the owner of this platform.
 
-All the information provided by this website is protected by laws of Guatemala related 
-to industrial property, intellectual property, copyright and relative international laws. 
-Lesli Technologies, S. A. is the exclusive owner of all intellectual or industrial property
-rights of the code, texts, trade mark, design, pictures and any other information.
-Without the written permission of Lesli Technologies, S. A., any replication, modification,
+Without the written permission of the owner, any replication, modification,
 transmission, publication is strictly forbidden.
+
 For more information read the license file including with this software.
-
-LesliCloud - Your Smart Business Assistant
-
-Powered by https://www.lesli.tech
-Building a better future, one line of code at a time.
-
-@license  Propietary - all rights reserved.
-@version  0.1.0-alpha
 
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
 // · 
@@ -25,28 +17,32 @@ Building a better future, one line of code at a time.
 
 
 // · 
-import app from 'LesliCoreVue/public'
+import app from "LesliVue/public"
 
-import componentNotificationMessageSimple from 'LesliCoreVue/components/notifications/message-simple.vue' 
-import componentNotificationProgressBar from 'LesliCoreVue/components/notifications/progress-bar.vue' 
 
+// · 
+import componentNotificationMessageSimple from "LesliVue/components/notifications/message-simple.vue" 
+import componentNotificationProgressBar from "LesliVue/components/notifications/progress-bar.vue" 
+
+
+// · 
 app({
 
     components: {
-        'component-notification-message-simple': componentNotificationMessageSimple,
-        'component-notification-progress-bar': componentNotificationProgressBar
+        "component-notification-message-simple": componentNotificationMessageSimple,
+        "component-notification-progress-bar": componentNotificationProgressBar
     },
     data: {
-        translation: I18n.t('core.users/sessions'),
+        translation: I18n.t("core.users/sessions"),
         sign_in: {
-            email: '',
-            password: ''
+            email: "",
+            password: ""
         },
         progress_bar_active: false,
         notification: {
-            message: '',
+            message: "",
             show: false,
-            type: 'default'
+            type: "default"
         }
     },
     mounted() {
@@ -56,7 +52,7 @@ app({
 
         build_redirect_url() {
 
-            let redirect_url= '/'
+            let redirect_url= "/"
 
             try {
                 redirect_url = Object.fromEntries(new URLSearchParams(window.location.search)).r
@@ -85,25 +81,32 @@ app({
 
                 this.progress_bar_active = false
 
-                if(response.successful){
+                // If login went successful, redirect to root
+                if (response.successful){
                     this.url.go(this.build_redirect_url())
-                }else{
-                    this.showNotification(response.error.message)
+                    return
                 }
 
+                // If login fail due password expired, redirect to public password update
+                if (!response.successful && response.error.details.reset_password_token) {
+                    this.url.go(`/password/edit?reset_password_token=${response.error.details.reset_password_token}`)
+                }
+
+                this.showNotification(response.error.message)
+
             }).catch(error => {
-                console.log(error)
+                this.showNotification("Error")
             })
             
         },
 
         typing() {
-            this.notification.message= ''
+            this.notification.message= ""
             this.notification.show= false
-            this.notification.type= 'default'
+            this.notification.type= "default"
         },
 
-        showNotification(message, type='danger'){
+        showNotification(message, type="danger"){
             this.notification.message = message;
             this.notification.type = type;
             this.notification.show = true;

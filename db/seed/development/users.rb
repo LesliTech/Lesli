@@ -20,16 +20,18 @@ For more information read the license file including with this software.
 # get settings
 account_logins = Rails.application.config.lesli_settings["configuration"]["security"]["login"]
 
+
 # create development users
 account_logins.each do |account_login|
     User.find_or_create_by(email: account_login["username"]) do |user|
-        user.role = Role.first
         user.password = account_login["password"] + Time.now.year.to_s + "$"
         user.password_confirmation = account_login["password"] + Time.now.year.to_s + "$"
         user.account = Account.first
         user.confirm if not user.confirmed?
         user.save!
         user.detail.first_name = account_login["fullname"] if not user.detail.blank?
+
+        user.user_roles.create({ role: Role.first })
 
         user.account.user = user
         user.account.save!

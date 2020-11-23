@@ -51,7 +51,7 @@ export default {
             })
         },
 
-        doRequestPasswordReset() {
+        doRequestPasswordChange() {
             this.http.post(`/administration/users/${this.user.id}/resources/password`).then(result => {
                 if (!result.successful) {
                     this.alert(result.error.message, "danger")
@@ -138,9 +138,9 @@ export default {
                 </nav>
                 <hr class="my-3">
                 <div class="buttons">
-                    <button class="button is-white is-small" @click="doRequestPasswordReset()">
+                    <button class="button is-white is-small" @click="doRequestPasswordChange()">
                         <span class="icon"><i class="fas fa-unlock-alt"></i></span>
-                        <span>request password reset</span>
+                        <span>request password change</span>
                     </button>
 
                     <button class="button is-white is-small" @click="doUserLogout()">

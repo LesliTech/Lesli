@@ -23,8 +23,7 @@ class ProfilesController < ApplicationLesliController
     def show
         respond_to do |format|
             format.html {}
-            #format.json { respond_with_successful(current_user.account.users.show(current_user)) }
-            format.json { respond_with_successful(current_user.show) }
+            format.json { respond_with_successful(current_user.show(current_user)) }
         end
     end
 

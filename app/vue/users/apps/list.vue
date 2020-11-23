@@ -217,7 +217,7 @@ export default {
                             <a :href="`mailto: ${props.row.email}`"> {{ props.row.email }} </a>
                         </b-table-column>
                         <b-table-column :label="translations.core.users.view_table_header_role" sortable field="role">
-                            {{ props.row.role }}
+                            {{ props.row.roles }}
                         </b-table-column>
                         <b-table-column :label="translations.core.users.view_table_header_status" sortable field="active">
                             <span class="tag is-success" v-if="props.row.active">
