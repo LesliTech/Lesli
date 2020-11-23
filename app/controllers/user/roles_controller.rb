@@ -5,13 +5,30 @@ class User::RolesController < ApplicationLesliController
     # POST /user/roles
     def create
 
+        can_assign_role = false
+
+        # get the role to assign to the user
         role = current_user.account.roles.find(user_role_params[:id])
 
-        result = @user.user_roles.create({
-            role: role
-        })
+        # check if the current_user can assign this role, current user cannot assign role if
+        #   role to assign has greater object level permission than the greater role assigned to the current user
+        #   role to assign is the same of the greater role assigned to the current user
+        #   current user is not admin or owner
+        current_user.roles.each do |current_role|
+            can_assign_role = true if current_role.object_level_permission > role.object_level_permission 
+            can_assign_role = true if current_role.name == "owner"
+            break if can_assign_role == true
+        end
 
-        respond_with_successful([result])
+
+        if not can_assign_role
+            return respond_with_error("You cannot assign this level of role")
+        end
+
+        # create new role for user if it does not exist
+        @user.user_roles.find_or_create_by({ role: role })
+
+        respond_with_successful(@user.roles)
 
     end
 
