@@ -1,58 +1,39 @@
-class User::RolesController < ApplicationController
-  before_action :set_user_role, only: [:show, :edit, :update, :destroy]
+class User::RolesController < ApplicationLesliController
+    before_action :set_user, only: [:create, :destroy]
+    before_action :set_user_role, only: [:create, :destroy]
 
-  # GET /user/roles
-  def index
-    @user_roles = User::Role.all
-  end
+    # POST /user/roles
+    def create
 
-  # GET /user/roles/1
-  def show
-  end
+        role = current_user.account.roles.find(user_role_params[:id])
 
-  # GET /user/roles/new
-  def new
-    @user_role = User::Role.new
-  end
+        result = @user.user_roles.create({
+            role: role
+        })
 
-  # GET /user/roles/1/edit
-  def edit
-  end
+        respond_with_successful([result])
 
-  # POST /user/roles
-  def create
-    @user_role = User::Role.new(user_role_params)
-
-    if @user_role.save
-      redirect_to @user_role, notice: 'Role was successfully created.'
-    else
-      render :new
     end
-  end
 
-  # PATCH/PUT /user/roles/1
-  def update
-    if @user_role.update(user_role_params)
-      redirect_to @user_role, notice: 'Role was successfully updated.'
-    else
-      render :edit
+    # DELETE /user/roles/1
+    def destroy
+        respond_with_successful(@user_role.destroy)
     end
-  end
 
-  # DELETE /user/roles/1
-  def destroy
-    @user_role.destroy
-    redirect_to user_roles_url, notice: 'Role was successfully destroyed.'
-  end
+    private
 
-  private
     # Use callbacks to share common setup or constraints between actions.
+    def set_user
+        @user = current_user.account.users.find(params[:user_id])
+    end
+
     def set_user_role
-      @user_role = User::Role.find(params[:id])
+        @user_role = @user.user_roles.find_by(:roles_id => params[:id])
     end
 
     # Only allow a trusted parameter "white list" through.
     def user_role_params
-      params.fetch(:user_role, {})
+        params.require(:user_role).permit(:id)
     end
+
 end

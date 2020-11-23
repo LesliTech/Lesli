@@ -117,7 +117,7 @@ class User < ApplicationLesliRecord
     # @description After creating a user, creates the necessary resources for them to access the different engines.
     # check role of the user
     def is_role? *roles
-        return roles.include? self.role.detail.name
+        return roles.include? self.roles.map{ |r| r[:name] }
     end
 
 
@@ -413,10 +413,10 @@ class User < ApplicationLesliRecord
             id: user[:id],
             email: user[:email],
             active: user[:active],
-            roles_id: user[:roles_id],
             created_at: user[:created_at],
             updated_at: user[:updated_at],
             editable_security: current_user && current_user.is_role?("owner", "admin"),
+            roles: user.roles.map { |r| { id: r[:id], name: r[:name] } },
             detail_attributes: {
                 title: user.detail[:title],
                 salutation: user.detail[:salutation],
