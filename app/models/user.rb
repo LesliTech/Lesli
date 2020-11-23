@@ -117,7 +117,17 @@ class User < ApplicationLesliRecord
     # @description After creating a user, creates the necessary resources for them to access the different engines.
     # check role of the user
     def is_role? *roles
-        return roles.include? self.roles.map{ |r| r[:name] }
+        LC::Debug.msg "DEPRECATED: Use has_roles?(role1, role2 ... rolen) instead"
+        return has_roles?(roles)
+    end
+
+
+
+    # @return [void]
+    # @description After creating a user, creates the necessary resources for them to access the different engines.
+    # check role of the user
+    def has_roles? *roles
+        !roles.intersection(self.roles.map{ |r| r[:name] }).empty?
     end
 
 
