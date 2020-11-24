@@ -156,6 +156,7 @@ class ApplicationLesliController < ApplicationController
         # check if the users is logged into the system
         if not user_signed_in?
             redirect_to root, notice: "Please Login to view that page!"
+            return 
         end
 
         # check if account is active (only for html requests)
@@ -166,6 +167,7 @@ class ApplicationLesliController < ApplicationController
         if (!current_user.sessions.last)
             sign_out current_user
             redirect_to "/logout"
+            return 
         end
 
 
@@ -174,6 +176,7 @@ class ApplicationLesliController < ApplicationController
             unless controller_name == "profiles"
                 current_user.logs.create({ session_uuid: nil, description: "redirect_due_to_expired_password" })
                 redirect_to "/administration/profile#security", notice: I18n.t("core.users/sessions.messages_danger_password_expired")
+                return 
             end
         end
 
