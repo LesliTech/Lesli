@@ -53,7 +53,7 @@ export default {
 
         deleteUserRole(id) {
             this.http.delete(`/administration/users/${this.data.user.id}/roles/${id}.json`).then(result => {
-                console.log(result)
+                this.data.user.roles = result.data
             })
         }
 
