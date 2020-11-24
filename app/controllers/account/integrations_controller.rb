@@ -59,7 +59,9 @@ class Account::IntegrationsController < ApplicationLesliController
             user.category = "integration"
             user.active = true
             user.confirm
-            user.role = ::Role.find(1)
+
+            user.user_roles.create({ role: ::Role.find_by(:name => "api") })
+
             user.detail.first_name = account_integration_params[:name]
             user.save!
         end
