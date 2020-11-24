@@ -16,15 +16,17 @@ Version 0.1.0-alpha
 https://lesli.cloud/login
 https://lesli.cloud/logout
 https://lesli.cloud/register
+https://lesli.cloud/password
+```
+
+### Security
+```
+https://lesli.cloud/security/password
 ```
 
 ### User management
 ```
-https://lesli.cloud/users
-https://lesli.cloud/roles
-```
-
-### Settings
-```
-https://lesli.cloud/workflows
+https://lesli.cloud/administration/profile
+https://lesli.cloud/administration/users
+https://lesli.cloud/administration/roles
 ```
