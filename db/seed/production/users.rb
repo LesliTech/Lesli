@@ -35,12 +35,13 @@ generated_password = Devise.friendly_token.first(32)
 # create development user
 account_logins.each do |account_login|
     User.find_or_create_by(email: account_login["username"]) do |user|
-        user.role = Role.first
         user.password = generated_password
         user.password_confirmation = generated_password
         user.account = Account.first
         user.confirm if not user.confirmed?
         user.save!
+
+        user.user_roles.create({ role: Role.first })
         user.detail.first_name = account_login["fullname"] if not user.detail.blank?
 
         user.account.user = user
