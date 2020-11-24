@@ -101,8 +101,16 @@ class UsersController < ApplicationLesliController
     end
 
     def options
+        
+        roles = current_user.account.roles.select(:id, :name)
+
+        # only owner can assign any role
+        unless current_user.has_roles?("owner")
+            roles = roles.where("object_level_permission < ?", (current_user.roles.map{ |r| r[:object_level_permission] }).max)
+        end
+
         respond_with_successful({
-            roles: current_user.account.roles.select(:id, :name),
+            roles: roles,
             salutations: User::Detail.salutations.map {|k, v| {value: k, text: v}},
         })
     end

@@ -44,7 +44,7 @@ export default {
                         this.alert(result.error.message, "danger")
                         return 
                     }
-                    this.data.user.roles.push(this.role_selected)
+                    this.data.user.roles = result.data
                     this.role_selected = {}
                     this.alert(this.translations.users.messages_success_user_updated, "success")
                 })
@@ -53,7 +53,7 @@ export default {
 
         deleteUserRole(id) {
             this.http.delete(`/administration/users/${this.data.user.id}/roles/${id}.json`).then(result => {
-                console.log(result)
+                this.data.user.roles = result.data
             })
         }
 
