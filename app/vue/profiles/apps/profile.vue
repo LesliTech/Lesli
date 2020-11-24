@@ -38,6 +38,7 @@ export default {
             },
             options: [],
             ready: false,
+            active_tab: 0,
             translations: {
                 core: {
                     users: I18n.t('core.users'),
@@ -50,6 +51,9 @@ export default {
         this.user_id = this.lesli.current_user.id
         this.getUser()
         this.getOptions()
+        if (this.$route.hash == "#security") {
+            this.active_tab = 1
+        }
     },
     methods: {
 
@@ -79,8 +83,8 @@ export default {
 
 <template>
     <section class="application-component">
-        <component-information-card></component-information-card>
-        <b-tabs>
+        <component-information-card :actions="false"></component-information-card>
+        <b-tabs v-model="active_tab">
             <b-tab-item :label="translations.core.users.view_tab_title_information">
                 <component-information-form></component-information-form>
             </b-tab-item>
