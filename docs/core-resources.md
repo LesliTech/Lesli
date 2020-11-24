@@ -19,11 +19,6 @@ https://lesli.cloud/register
 https://lesli.cloud/password
 ```
 
-### Security
-```
-https://lesli.cloud/security/password
-```
-
 ### User management
 ```
 https://lesli.cloud/administration/profile

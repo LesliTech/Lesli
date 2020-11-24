@@ -83,16 +83,6 @@ class Users::SessionsController < Devise::SessionsController
         end
 
 
-        # check password expiration date
-        if resource.is_password_expired?
-            log.update_attribute(:description, "login_atempt_expired_password")
-            token = resource.generate_password_token
-            return respond_with_error(I18n.t("core.users/sessions.messages_danger_password_expired"), {
-                reset_password_token: token
-            })
-        end
-
-
         # do a user login
         sign_in :user, resource
 
