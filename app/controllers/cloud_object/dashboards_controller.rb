@@ -241,7 +241,7 @@ private
                 # Main dashboard for role
                 @dashboard = model.find_by(
                     "cloud_#{module_name}_accounts_id".to_sym => current_user.account.id,
-                    roles_id: current_user.role.id
+                    roles_id: current_user.roles.first.id
                 )
                 return if @dashboard
 
