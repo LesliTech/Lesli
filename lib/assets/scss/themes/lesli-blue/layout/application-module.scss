@@ -3,21 +3,33 @@
 @import "lesli-css/";
 
 .application-modules {
-    .sidebar-content {
-        width: 100px;
-        .content a {
-            width: 100%;
 
-            &.is-active {
-                padding: .8rem 0;
-                background-color: rgba(#cbd9e6, .5);
-                border-right: 2px solid lesli-css-theme-get-color(primary);
-                color: lesli-css-get-color(slate, 900);
-                i {
-                    color: lesli-css-theme-get-color(primary);
+    .sidebar-content {
+        width: 210px;
+
+        .content {
+            display: flex;
+            flex-wrap: wrap;
+
+            a {
+                width: 50%;
+    
+                &.is-active {
+                    padding: .8rem 0;
+                    background-color: rgba(#cbd9e6, .5);
+                    border-right: 2px solid lesli-css-theme-get-color(primary);
+                    color: lesli-css-get-color(slate, 900);
+
+                    i {
+                        color: lesli-css-theme-get-color(primary);
+                    }
+
                 }
+    
             }
 
         }
+
     }
+
 }

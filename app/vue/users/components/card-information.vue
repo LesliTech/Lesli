@@ -17,7 +17,12 @@ For more information read the license file including with this software.
 */
 
 export default {
-    data(){
+    props: {
+        actions: {
+            default: true
+        }
+    },
+    data() {
         return {
             translations: {
                 users: I18n.t("core.users"),
@@ -136,23 +141,25 @@ export default {
                         </a>
                     </div>
                 </nav>
-                <hr class="my-3">
-                <div class="buttons">
-                    <button class="button is-white is-small" @click="doRequestPasswordChange()">
-                        <span class="icon"><i class="fas fa-unlock-alt"></i></span>
-                        <span>request password change</span>
-                    </button>
+                <template v-if="actions">
+                    <hr class="my-3">
+                    <div class="buttons">
+                        <button class="button is-white is-small" @click="doRequestPasswordChange()">
+                            <span class="icon"><i class="fas fa-unlock-alt"></i></span>
+                            <span>request password change</span>
+                        </button>
 
-                    <button class="button is-white is-small" @click="doUserLogout()">
-                        <span class="icon"><i class="fas fa-sign-out-alt"></i></span>
-                        <span>force logout</span>
-                    </button>
+                        <button class="button is-white is-small" @click="doUserLogout()">
+                            <span class="icon"><i class="fas fa-sign-out-alt"></i></span>
+                            <span>force logout</span>
+                        </button>
 
-                    <button class="button is-white is-small" @click="doRevokeAccess()">
-                        <span class="icon"><i class="fas fa-user-lock"></i></span>
-                        <span>revoke access</span>
-                    </button>
-                </div>
+                        <button class="button is-white is-small" @click="doRevokeAccess()">
+                            <span class="icon"><i class="fas fa-user-lock"></i></span>
+                            <span>revoke access</span>
+                        </button>
+                    </div>
+                </template>
             </div>
         </div>
     </div>

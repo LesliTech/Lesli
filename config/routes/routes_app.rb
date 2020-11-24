@@ -42,10 +42,11 @@ module RoutesApp
 
                         scope module: :user do
 
-                            # user role assignment
+                            # user role assignments
                             resources :roles, only: [:create, :destroy]
                         end
 
+                        # user helper resources
                         member do
                             scope :resources do
                                 get  :become
