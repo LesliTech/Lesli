@@ -1,0 +1,8 @@
+database:
+    host: lesli-development.cxunpgd3rltm.eu-central-1.rds.amazonaws.com
+    port: 5432
+    username: leslidev_admin
+    password: U[KceQvnqC!tp]4R=[hz
+web:
+    ip: 3.124.106.84
+    user: ubuntu
