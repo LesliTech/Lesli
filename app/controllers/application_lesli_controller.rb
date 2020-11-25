@@ -161,13 +161,11 @@ class ApplicationLesliController < ApplicationController
         # check if account is active (only for html requests)
         return true if not request.format.html?
 
-
         # check if user has an active session
         if (!current_user.sessions.last)
             sign_out current_user
             redirect_to "/logout"
         end
-
 
         # check password expiration date
         if current_user.is_password_expired?

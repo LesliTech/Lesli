@@ -110,17 +110,23 @@ class Users::SessionsController < Devise::SessionsController
     end
 
     def destroy
-        current_user.logs.create({
-            session_uuid: session[:session_uuid],
-            description: "logout"
-        })
+
+        # register a successful logout log for the current user
+        current_user.logs.create({ session_uuid: session[:session_uuid], description: "logout" })
+
+        # do a user logout
         sign_out current_user
-        flash[:logout] = true # Flag to disable back button in browser after Logout using JavaScript
+
+        # Flag to disable back button in browser after Logout using JavaScript
+        flash[:logout] = true
+
+        # execute logout callback defined on devise config files
         respond_to_on_destroy
+
     end
 
-    private 
 
+    private 
 
 
     # @return [Parameters] Allowed parameters for the discussion
