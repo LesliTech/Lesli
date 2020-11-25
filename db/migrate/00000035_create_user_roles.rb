@@ -23,7 +23,6 @@ class CreateUserRoles < ActiveRecord::Migration[6.0]
             t.datetime :deleted_at, index: true
             t.timestamps
         end
-        add_reference :users, :user_roles, foreign_key: true
         add_reference :user_roles, :users, foreign_key: true
         add_reference :user_roles, :roles, foreign_key: true
     end
