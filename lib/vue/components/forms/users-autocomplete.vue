@@ -137,7 +137,9 @@ export default {
             this.$emit("select", user)
             this.$nextTick(()=>{
                 if(! this.disabled){
-                    this.$refs.autocomplete.checkHtml5Validity()
+                    try{
+                        this.$refs.autocomplete.checkHtml5Validity()
+                    }catch(error){ }
                 }
             })
         },
