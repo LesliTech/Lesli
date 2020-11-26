@@ -12,6 +12,10 @@ module CloudObject
             end
         end
 
+        def self.configuration_options
+            return {}
+        end
+
         protected
 
         # @return [Hash] Hash that contains information about the class
