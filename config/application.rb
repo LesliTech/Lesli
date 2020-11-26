@@ -43,8 +43,6 @@ module Lesli
         # Initialize configuration defaults for originally generated Rails version.
         config.load_defaults 6.0
 
-
-
         config.lesli_settings = Lesli::settings(Rails.env)
 
         # Settings in config/environments/* take precedence over those specified here.
