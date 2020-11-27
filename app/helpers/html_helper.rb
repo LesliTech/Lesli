@@ -35,26 +35,26 @@ module HtmlHelper
         end
     end
 
-    def navigation_administration text: "Administration", icon_path: "/assets/icons/administration-logo.svg"
+    def navigation_administration text: "Administration", icon_path: "icons/administration-logo.svg"
         navigation_engine_item text, icon_path, main_app.account_path
     end
 
     # 02.05 Mailer engine
-    def navigation_engine_mailer text: "Mailer", icon_path: "/assets/cloud_mailer/mailer-logo.svg"
+    def navigation_engine_mailer text: "Mailer", icon_path: "cloud_mailer/mailer-logo.svg"
         if defined? CloudMailer
             navigation_engine_item text, icon_path, cloud_mailer.root_path, controller_path.include?("cloud_mailer")
         end
     end
 
     # 02.04 Driver engine
-    def navigation_engine_driver text: "Calendar", icon_path: "/assets/cloud_driver/driver-logo.svg"
+    def navigation_engine_driver text: "Calendar", icon_path: "cloud_driver/driver-logo.svg"
         if defined? CloudDriver
             navigation_engine_item text, icon_path, cloud_driver.root_path, controller_path.include?("cloud_driver")
         end
     end
 
     # 08.03 Audit engine
-    def navigation_engine_audit text: "Audit", icon_path: "/assets/cloud_audit/audit-logo.svg"
+    def navigation_engine_audit text: "Audit", icon_path: "cloud_audit/audit-logo.svg"
         if defined? CloudAudit
             navigation_engine_item text, icon_path, cloud_audit.root_path, controller_path.include?("cloud_audit")
         end
@@ -62,19 +62,19 @@ module HtmlHelper
 
 
 
-    def navigation_engine_babel text: "Babel", icon_path: "/assets/cloud_babel/babel-logo.svg"
+    def navigation_engine_babel text: "Babel", icon_path: "cloud_babel/babel-logo.svg"
         if defined? CloudBabel
             navigation_engine_item text, icon_path, cloud_babel.root_path, controller_path.include?("cloud_babel")
         end
     end
 
-    def navigation_engine_help text: "Help", icon_path: "/assets/cloud_help/help-logo.svg"
+    def navigation_engine_help text: "Help", icon_path: "cloud_help/help-logo.svg"
         if defined? CloudHelp
             navigation_engine_item text, icon_path, cloud_help.root_path, controller_path.include?("cloud_help")
         end
     end
 
-    def navigation_engine_text text: "Text", icon_path: "/assets/cloud_text/text-logo.svg"
+    def navigation_engine_text text: "Text", icon_path: "cloud_text/text-logo.svg"
         if defined? CloudText
             navigation_engine_item text, icon_path, cloud_text.root_path, controller_path.include?("cloud_text")
         end
