@@ -65,12 +65,11 @@ module CloudObject
             dynamic_info = self.dynamic_info
             component_model = dynamic_info[:component_model]
 
-            roles = current_user.account.roles.joins(
-                :detail
-            ).select(
-                "roles.id", "role_details.name"
+            roles = current_user.account.roles.select(
+                :id,
+                :name
             ).order(
-                "role_details.name asc"
+                name: :asc
             ).map do |role|
                 {
                     value: role.id,
