@@ -28,7 +28,7 @@ class Role < ApplicationRecord
     has_one :detail, inverse_of: :role, autosave: true, foreign_key: "roles_id", dependent: :destroy 
     accepts_nested_attributes_for :detail, update_only: true
 
-    #after_create :initialize_role
+    after_create :initialize_role
 
     def destroy(*args)
         super
@@ -37,8 +37,16 @@ class Role < ApplicationRecord
 
     def self.index(current_user, query_params)
         current_user.account.roles
-        .joins(:detail)
-        .joins("left join (select count(1) user_count, roles_id from users group by roles_id) users on users.roles_id = roles.id")
+        .joins("
+            left join (
+                select 
+                    count(1) user_count, 
+                    roles_id 
+                from user_roles 
+                group by (roles_id)
+            ) 
+            users on users.roles_id = roles.id
+        ")
         .order(object_level_permission: :desc, name: :asc)
         .select(:id, :name, :active, :only_my_data, :default_path, :object_level_permission, "users.user_count")
         
@@ -46,15 +54,9 @@ class Role < ApplicationRecord
 
     def show()
         data = Role
-        .left_joins(:detail)
         .select(:id, :name, :active, :object_level_permission)
         .where("roles.id = ?", id)
         .first
-
-        {
-            id: id,
-            detail_attributes: data,
-        }
     end
 
     private

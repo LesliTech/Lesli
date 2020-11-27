@@ -95,9 +95,22 @@ Building a better future, one line of code at a time.
             module_underscore = dynamic_info[:module_underscore]
 
             ids = next_statuses.split("|").map(&:to_i)
+
+            grant_destroy = false
+            current_user.user_roles
+            .joins(:role)
+            .joins("inner join role_privileges RP on RP.roles_id = roles.id")
+            .where("RP.grant_object = ?", "#{module_underscore}/#{workflow_including_deleted.associations.order(id: :asc).first.workflow_for.pluralize}")
+            .select("RP.grant_destroy")
+            .each do |privilege|
+                if privilege.grant_destroy
+                    grant_destroy = true
+                    break
+                end
+            end
             
             workflow_including_deleted.statuses.where(id: ids).order(number: :asc).order(id: :asc).filter_map do |status|
-                if status.to_be_deleted? && ! current_user.role.privileges.find_by(grant_object: "#{module_underscore}/#{status.workflow.associations.order(id: :asc).first.workflow_for.pluralize}").grant_destroy
+                if status.to_be_deleted? && ! grant_destroy
                     nil
                 else
                     status
