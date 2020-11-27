@@ -28,7 +28,7 @@ class Role < ApplicationRecord
     has_one :detail, inverse_of: :role, autosave: true, foreign_key: "roles_id", dependent: :destroy 
     accepts_nested_attributes_for :detail, update_only: true
 
-    #after_create :initialize_role
+    after_create :initialize_role
 
     def destroy(*args)
         super
@@ -54,15 +54,9 @@ class Role < ApplicationRecord
 
     def show()
         data = Role
-        .left_joins(:detail)
         .select(:id, :name, :active, :object_level_permission)
         .where("roles.id = ?", id)
         .first
-
-        {
-            id: id,
-            detail_attributes: data,
-        }
     end
 
     private
