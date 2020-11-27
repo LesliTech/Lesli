@@ -37,8 +37,16 @@ class Role < ApplicationRecord
 
     def self.index(current_user, query_params)
         current_user.account.roles
-        .joins(:detail)
-        .joins("left join (select count(1) user_count, roles_id from users group by roles_id) users on users.roles_id = roles.id")
+        .joins("
+            left join (
+                select 
+                    count(1) user_count, 
+                    roles_id 
+                from user_roles 
+                group by (roles_id)
+            ) 
+            users on users.roles_id = roles.id
+        ")
         .order(object_level_permission: :desc, name: :asc)
         .select(:id, :name, :active, :only_my_data, :default_path, :object_level_permission, "users.user_count")
         
