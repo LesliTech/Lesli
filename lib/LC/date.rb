@@ -73,8 +73,11 @@ module LC
         end
 
         # RETURN a Time object with defined timezone
-        def self.datetime
+        def self.datetime datetime_object = nil
             zone = ActiveSupport::TimeZone.new(@settings["time_zone"])
+
+            return datetime_object.in_time_zone(zone) if datetime_object
+
             return Time.current.in_time_zone(zone)
         end
  
