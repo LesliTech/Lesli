@@ -3,6 +3,7 @@ class CreateRolePrivilegeDefaults < ActiveRecord::Migration[6.0]
         create_table :role_privilege_defaults do |t|
             t.string  :grant_object
 
+            t.boolean :grant_list,      default: false
             t.boolean :grant_index,     default: false
 
             t.boolean :grant_edit,      default: false
