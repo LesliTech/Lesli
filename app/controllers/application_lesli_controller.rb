@@ -123,8 +123,9 @@ class ApplicationLesliController < ApplicationController
         can_redirect_to_default_path = -> () { 
             return false if request[:format] == "json"
             return false if !["show", "index"].include?(params[:action])
-            return false if current_user.role_detail[:default_path].blank?
-            return false if current_user.role_detail[:default_path] == request.original_fullpath
+            # TODO: add support for multiple roles
+            return false if current_user.roles.first[:default_path].blank?
+            return false if current_user.roles.first[:default_path] == request.original_fullpath
             return true
         }
 
@@ -133,7 +134,8 @@ class ApplicationLesliController < ApplicationController
 
         # if user do not has access to the requested route and can go to default route        
         if ((granted["grant_#{action}"] == false || granted.blank?) && can_redirect_to_default_path.call())
-            return redirect_to current_user.role_detail[:default_path] 
+            # TODO: add support for multiple roles
+            return redirect_to current_user.roles.first[:default_path] 
         end 
 
         # privilege for object not found
