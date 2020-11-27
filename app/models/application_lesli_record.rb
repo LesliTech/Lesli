@@ -131,17 +131,17 @@ class ApplicationLesliRecord < ApplicationRecord
             return true
         end
 
-        current_user_olp = User.joins(:role)
-            .joins(:role_detail)
+        current_user_olp = User
+            .joins(:roles)
             .where("users.id = ?", current_user.id)
-            .select("role_details.object_level_permission")
+            .select("roles.object_level_permission")
             .first.object_level_permission
 
         reference_olp = 0
         if user_creator
-            reference_olp = user_creator.role.detail.object_level_permission
+            reference_olp = user_creator.roles.first.object_level_permission
         elsif user_main
-            reference_olp = user_main.role.detail.object_level_permission
+            reference_olp = user_main.roles.first.object_level_permission
         end
 
         if current_user_olp >= object_level_permission_threshold && current_user_olp >= reference_olp

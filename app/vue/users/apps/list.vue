@@ -150,7 +150,7 @@ export default {
             if (search_field.length > 0) {
                 return this.users.filter((user)=>{
                     return ( 
-                        user.role.toLowerCase().includes(search_field) ||  
+                        //user.role.toLowerCase().includes(search_field) ||  
                         user.name.toLowerCase().includes(search_field) || 
                         user.email.toLowerCase().includes(search_field) || 
                         user.id.toString().toLowerCase().includes(search_field)
