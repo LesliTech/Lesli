@@ -131,28 +131,26 @@ export default {
 }
 </script>
 <template>
-    <div>
-        <b-dropdown hoverable aria-role="list" position="is-bottom-left">
-            <button class="button" slot="trigger" type="button">
-                <span v-if="value">
-                    {{translations.workflow_statuses.view_title_new_status}}:
-                    <component-status-name :translations-path="translationsPath" :name="value.name"></component-status-name>
-                </span>
-                <span v-else>{{translations.workflow_statuses.view_title_change_status}}</span>
-                <b-icon icon="chevron-down" size="is-small" />
-            </button>
-            <b-dropdown-item
-                @click="submitStatus(status)"
-                v-for="status in transition_statuses"
-                :key="status.id"
-                :value="status.id"
-                aria-role="listitem"
-            >
-                <component-status-name
-                    :translations-path="translationsPath"
-                    :name="status.name"
-                />
-            </b-dropdown-item>
-        </b-dropdown>
-    </div>
+    <b-dropdown hoverable aria-role="list" position="is-bottom-left" expanded>
+        <button class="button" slot="trigger" type="button" >
+            <span v-if="value">
+                {{translations.workflow_statuses.view_title_new_status}}:
+                <component-status-name :translations-path="translationsPath" :name="value.name"></component-status-name>
+            </span>
+            <span v-else>{{translations.workflow_statuses.view_title_change_status}}</span>
+            <b-icon icon="chevron-down" size="is-small" />
+        </button>
+        <b-dropdown-item
+            @click="submitStatus(status)"
+            v-for="status in transition_statuses"
+            :key="status.id"
+            :value="status.id"
+            aria-role="listitem"
+        >
+            <component-status-name
+                :translations-path="translationsPath"
+                :name="status.name"
+            />
+        </b-dropdown-item>
+    </b-dropdown>
 </template>
