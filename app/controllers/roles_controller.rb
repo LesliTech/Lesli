@@ -157,11 +157,9 @@ class RolesController < ApplicationLesliController
 
     def role_params
         params.require(:role).permit(
-            detail_attributes: [
-                :name,
-                :active,
-                :object_level_permission
-            ]
+            :name,
+            :active,
+            :object_level_permission
         )
     end
 end
