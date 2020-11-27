@@ -23,6 +23,9 @@ info:
 
 # Information about the main account in the platform
 account: 
+    user:
+        name: "Lesli Development"
+        email: "dev@lesli.cloud"
     company: 
         name: "Lesli Technologies, S. A."
         email: "hello@lesli.tech"
@@ -48,19 +51,16 @@ configuration:
         password:
             minimum_length: 8
             expiration_time_days: 7
-        login:
-            fullname: "Lesli Development"
-            username: "dev@lesli.cloud"
-            password: "lesli"
-        allow_multiaccount: false
+            development: "lesli"
+        allow_multiaccount: true
         allow_registration: true
-        allow_invitation: false
+        allow_invitation: true
         log_activity: true
         roles:
-            - "employee"
+            - "Administration"
+            - "Sales & Marketing"
     notifications:
         sms: false
-
 
 # Configuration by environment
 env:

@@ -17,25 +17,26 @@ For more information read the license file including with this software.
 
 =end
 
-# get settings
-account_logins = Rails.application.config.lesli_settings["configuration"]["security"]["login"]
 
+# development user
+user = Rails.application.config.lesli_settings["account"]["user"]
 
-# create development users
-account_logins.each do |account_login|
-    User.find_or_create_by(email: account_login["username"]) do |user|
-        user.password = account_login["password"] + Time.now.year.to_s + "$"
-        user.password_confirmation = account_login["password"] + Time.now.year.to_s + "$"
-        user.account = Account.first
-        user.confirm if not user.confirmed?
-        user.save!
-        user.detail.first_name = account_login["fullname"] if not user.detail.blank?
+create_development_user(["owner", "mr", user["name"], "", user["email"]])
 
-        user.user_roles.create({ role: Role.first })
+# core development users
+[
+    ["owner",   "mr", "Lesli",  "Development", "dev@lesli.cloud"],
+    ["owner",   "mr", "Owner",  "user", "owner@lesli.cloud"],
+    ["admin",   "mr", "Admin",  "user", "admin@lesli.cloud"],
+    ["limited", "mr", "Limited","user", "limited@lesli.cloud"],
+    ["guest",   "mr", "Guest",  "user", "guest@lesli.cloud"],
+    ["api",     "mr", "API",    "user", "api@lesli.cloud"],
+].each do |user|
 
-        user.account.user = user
-        user.account.save!
-    end
+    create_development_user(user)
+
 end
 
+
+# notify
 puts "Users successfully created!"
