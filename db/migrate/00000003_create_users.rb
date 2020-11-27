@@ -59,8 +59,9 @@ class CreateUsers < ActiveRecord::Migration[5.2]
             # Acts as paranoid
             t.datetime :deleted_at, index: true
 
-            # Password management
+            # Password and access management
             t.datetime :password_expiration_at
+            t.datetime :locked_until
 
             t.timestamps null: false
 
