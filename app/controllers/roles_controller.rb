@@ -64,6 +64,8 @@ class RolesController < ApplicationLesliController
 
         if role.save
             respond_with_successful(role)
+
+            role.initialize_role_privileges
         else
             respond_with_error(role.errors.full_messages)
         end
