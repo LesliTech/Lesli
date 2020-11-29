@@ -20,7 +20,7 @@ class UsersController < ApplicationLesliController
 
     def list
         respond_to do |format|
-            format.json { respond_with_successful([{ user: {} }]) }
+            format.json { respond_with_successful(User.list(current_user, @query, params)) }
         end
     end
     
