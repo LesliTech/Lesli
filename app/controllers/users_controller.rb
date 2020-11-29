@@ -17,6 +17,12 @@ For more information read the license file including with this software.
 
 class UsersController < ApplicationLesliController
     before_action :set_user, only: [:show, :update]
+
+    def list
+        respond_to do |format|
+            format.json { respond_with_successful(User.list(current_user, @query, params)) }
+        end
+    end
     
     def index
         respond_to do |format|

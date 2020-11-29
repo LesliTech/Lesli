@@ -308,6 +308,62 @@ class User < ApplicationLesliRecord
     end
 
 
+    # @param accounnt [Account] The account associated to *current_user*
+    # @param roles [String] The roles separate by comma for filter users by role
+    # @param type [String] if type=exclude will remove users with roles listed in @param roles
+    # @return [Array] Detailed information about all the users of this account.
+    # @description Return a list of users that belongs to the account of the current_user
+    # @example
+    #     users_info = User.index(current_user.account, role)
+    #     puts users_info.to_json
+    # will print something like: [
+    #    {
+    #        "id":1,                     
+    #        "created_at":"2020-01-08T16:23:10.976Z",
+    #        "name":"Diego Alay"
+    #        "role":"manager"
+    #    },{
+    #        "id":2,                     
+    #        "created_at":"2020-01-10T16:23:10.976Z",
+    #        "name":"Carlos Hermosilla"
+    #        "role":"b2b"
+    #    }
+    #]
+    def self.list(current_user, query, params)
+
+        type = params[:type]
+        roles = params[:role]         
+        status = params[:status]
+        
+        users = []
+        roles = roles.blank? ? [] : roles.split(',') 
+        operator = type == "exclude" ? 'not in' : 'in'
+        
+        users = current_user.account.users
+        .joins("inner join user_details UD on UD.users_id = users.id")
+
+        if (status != "all")
+            users = users.where("users.active = ?", true)
+        end
+        
+        # sort by name by default
+        if query[:pagination][:orderColumn] == "id"
+            query[:pagination][:orderColumn] = "first_name" 
+            query[:pagination][:order] = "asc"
+        end
+
+        users = users.where("email like '%#{query[:filters][:domain]}%'")  unless query[:filters][:domain].blank?
+        users = users.order("#{query[:pagination][:orderColumn]} #{query[:pagination][:order]} NULLS LAST")
+
+        users = users.select(
+            :id,
+            :email,
+            "CONCAT(UD.first_name, ' ',UD.last_name) as name",
+        )
+
+    end
+
+
     
     # @param accounnt [Account] The account associated to *current_user*
     # @param roles [String] The roles separate by comma for filter users by role
