@@ -80,4 +80,10 @@ module HtmlHelper
         end
     end
 
+    def navigation_engine_development text: "Dev", icon_path: "cloud_development/development-logo.svg"
+        if defined? CloudText
+            navigation_engine_item text, icon_path, cloud_development.root_path, controller_path.include?("cloud_development")
+        end
+    end
+
 end
