@@ -110,13 +110,18 @@ Building a better future, one line of code at a time.
                     when "polymorphic_key"
                         detail_list = detail[:class].constantize.where(
                             "#{module_name}_accounts_id" => account.id
-                        ).select(detail[:name]).distinct.map do |polymorphic_key|
+                        ).select(detail[:name]).distinct.filter_map  do |polymorphic_key|
                             value = polymorphic_key[detail[:name]]
 
-                            {
-                                id: value,
-                                name: I18n.t("#{translations_module}.#{association_value.pluralize}.column_enum_#{detail[:name]}_#{value.gsub("::","").underscore}") 
-                            }
+                            # We skip null values
+                            if value
+                                {
+                                    id: value,
+                                    name: I18n.t("#{translations_module}.#{association_value.pluralize}.column_enum_#{detail[:name]}_#{value.gsub("::","").underscore}") 
+                                }
+                            else
+                                nil
+                            end
                         end
 
                         data[:details].push({
