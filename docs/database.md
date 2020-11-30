@@ -164,6 +164,10 @@ Contents
 ### 03.03. CloudFocus - Task Management
 ```
     00.01. focus/account
+
+    01.01. focus/catalogs
+    01.02. focus/catalog/labels
+    01.03. focus/catalog/task_types
     
     02.01. focus/workflows
     02.02. focus/workflow/statuses
