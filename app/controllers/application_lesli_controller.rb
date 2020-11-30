@@ -84,10 +84,24 @@ class ApplicationLesliController < ApplicationController
 
         # set user abilities
         abilities = {}
-        
 
-        granted = current_user.privileges.each do |privilege|
-            abilities[privilege.grant_object] = privilege
+        current_user.privileges
+        .select(
+            "grant_object",
+            "bool_or(grant_index) as grant_index",
+            "bool_or(grant_edit) as grant_edit",
+            "bool_or(grant_show) as grant_show",
+            "bool_or(grant_new) as grant_new",
+            "bool_or(grant_create) as grant_create",
+            "bool_or(grant_update) as grant_update",
+            "bool_or(grant_destroy) as grant_destroy",
+            "bool_or(grant_search) as grant_search",
+            "bool_or(grant_resources) as grant_resources",
+            "bool_or(grant_options) as grant_options"
+        )
+        .group("grant_object")
+        .each do |privilege| 
+            abilities[privilege["grant_object"]] = privilege
         end
 
         # set user information
@@ -95,7 +109,7 @@ class ApplicationLesliController < ApplicationController
             id: current_user.id,
             email: current_user.email,
             full_name: current_user.full_name,
-            roles: current_user.roles.select(:name).map { |role| role[:name] },
+            roles: current_user.roles.map(&:name),
             abilities: abilities
         }
 
