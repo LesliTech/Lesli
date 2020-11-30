@@ -43,6 +43,7 @@ Rails.application.routes.draw do
     authenticated :user do
 
         mount ActionCable.server  => "/cable"
+        mount CloudTeam::Engine   => "/team"   if defined?(CloudTeam)
         mount CloudBell::Engine   => "/bell"   if defined?(CloudBell)
         mount CloudHelp::Engine   => "/help"   if defined?(CloudHelp)
         mount CloudText::Engine   => "/text"   if defined?(CloudText)
