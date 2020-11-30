@@ -53,6 +53,7 @@ Rails.application.routes.draw do
         mount CloudFocus::Engine  => "/focus"  if defined?(CloudFocus)
         mount CloudDriver::Engine => "/driver" if defined?(CloudDriver)
         mount CloudMailer::Engine => "/mailer" if defined?(CloudMailer)
+        mount CloudDevelopment::Engine => "/development" if defined?(CloudDevelopment)
 
         root to: redirect("/dashboard"), as: :root_authenticated
 
