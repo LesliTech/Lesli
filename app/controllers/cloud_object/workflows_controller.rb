@@ -247,7 +247,7 @@ this.http.put(`127.0.0.1/help/workflows/${workflow_id}`, data);
             return respond_with_not_found unless cloud_object
 
             status = status_model.with_deleted.find(cloud_object["cloud_#{module_name}_workflow_statuses_id"])
-            respond_with_successful(status.next_workflow_statuses(current_user))
+            respond_with_successful(status.next_workflow_statuses(current_user, cloud_object))
         end
 
 private
