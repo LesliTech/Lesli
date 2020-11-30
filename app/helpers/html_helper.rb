@@ -39,6 +39,13 @@ module HtmlHelper
         navigation_engine_item text, icon_path, main_app.account_path
     end
 
+    # 01.01 Team engine
+    def navigation_engine_team text: "Team", icon_path: "cloud_team/team-logo.svg"
+        if defined? CloudTeam
+            navigation_engine_item text, icon_path, cloud_team.root_path, controller_path.include?("cloud_team")
+        end
+    end
+
     # 02.05 Mailer engine
     def navigation_engine_mailer text: "Mailer", icon_path: "cloud_mailer/mailer-logo.svg"
         if defined? CloudMailer
@@ -77,6 +84,12 @@ module HtmlHelper
     def navigation_engine_text text: "Text", icon_path: "cloud_text/text-logo.svg"
         if defined? CloudText
             navigation_engine_item text, icon_path, cloud_text.root_path, controller_path.include?("cloud_text")
+        end
+    end
+
+    def navigation_engine_development text: "Dev", icon_path: "cloud_development/development-logo.svg"
+        if defined? CloudText
+            navigation_engine_item text, icon_path, cloud_development.root_path, controller_path.include?("cloud_development")
         end
     end
 
