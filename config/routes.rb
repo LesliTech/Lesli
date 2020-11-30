@@ -43,6 +43,7 @@ Rails.application.routes.draw do
     authenticated :user do
 
         mount ActionCable.server  => "/cable"
+        mount CloudTeam::Engine   => "/team"   if defined?(CloudTeam)
         mount CloudBell::Engine   => "/bell"   if defined?(CloudBell)
         mount CloudHelp::Engine   => "/help"   if defined?(CloudHelp)
         mount CloudText::Engine   => "/text"   if defined?(CloudText)
@@ -53,6 +54,7 @@ Rails.application.routes.draw do
         mount CloudFocus::Engine  => "/focus"  if defined?(CloudFocus)
         mount CloudDriver::Engine => "/driver" if defined?(CloudDriver)
         mount CloudMailer::Engine => "/mailer" if defined?(CloudMailer)
+        mount CloudDevelopment::Engine => "/development" if defined?(CloudDevelopment)
 
         root to: redirect("/dashboard"), as: :root_authenticated
 
