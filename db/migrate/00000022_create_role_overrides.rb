@@ -33,6 +33,7 @@ class CreateRoleOverrides < ActiveRecord::Migration[6.0]
             # module/namespace/[controller/model]
             t.string  :grant_object
 
+            t.boolean :grant_list,      default: false
             t.boolean :grant_index,     default: false
 
             t.boolean :grant_edit,      default: false

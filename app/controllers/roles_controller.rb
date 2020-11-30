@@ -64,6 +64,8 @@ class RolesController < ApplicationLesliController
 
         if role.save
             respond_with_successful(role)
+
+            role.initialize_role_privileges
         else
             respond_with_error(role.errors.full_messages)
         end
@@ -157,11 +159,9 @@ class RolesController < ApplicationLesliController
 
     def role_params
         params.require(:role).permit(
-            detail_attributes: [
-                :name,
-                :active,
-                :object_level_permission
-            ]
+            :name,
+            :active,
+            :object_level_permission
         )
     end
 end
