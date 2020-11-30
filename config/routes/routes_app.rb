@@ -57,7 +57,8 @@ module RoutesApp
                         end
 
                         collection do
-                            get  :options
+                            get :options
+                            get :list
                         end
 
                     end

@@ -16,6 +16,7 @@ namespace :app do
                     default_value = true if role.name == "admin"
 
                     attributes = {
+                        grant_list: default_value,
                         grant_index: default_value, 
                         grant_edit: default_value, 
                         grant_show: default_value, 
