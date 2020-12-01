@@ -24,8 +24,8 @@ info:
 # Information about the main account in the platform
 account: 
     user: 
-        name: Lesli Development
-        email: dev@lesli.cloud
+        name: "Lesli Development"
+        email: "dev@lesli.cloud"
     company: 
         name: "Lesli Technologies, S. A."
         email: "hello@lesli.tech"
