@@ -58,11 +58,31 @@ export default {
             <form @submit.prevent="putUserPassword()">
                 <fieldset :disabled="lesli.current_user.id !== data.user.id">
 
-                    <h4 class="is-size-4 mb-6">Password update</h4>
+                    <h4 class="is-size-4 mb-6"> {{ translations.passwords.view_title_security }}</h4>
 
                     <div class="field is-horizontal">
                         <div class="field-label is-normal">
-                            <label class="label">Current password</label>
+                            <label class="label">{{ translations.passwords.view_text_current_password }}</label>
+                        </div>
+                        <div class="field-body">
+                            <div class="field">
+                                <div class="control has-icons-left">
+                                    <input 
+                                        class="input" 
+                                        type="password" 
+                                        v-model="user.password" 
+                                        :placeholder="translations.passwords.view_placeholder_current_password">
+                                    <span class="icon is-small is-left">
+                                        <i class="fas fa-lock"></i>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="field is-horizontal">
+                        <div class="field-label is-normal">
+                            <label class="label">{{ translations.passwords.view_text_new_password }}</label>
                         </div>
                         <div class="field-body">
                             <div class="field">
@@ -82,27 +102,7 @@ export default {
 
                     <div class="field is-horizontal">
                         <div class="field-label is-normal">
-                            <label class="label">New password</label>
-                        </div>
-                        <div class="field-body">
-                            <div class="field">
-                                <div class="control has-icons-left">
-                                    <input 
-                                        class="input" 
-                                        type="password" 
-                                        v-model="user.password" 
-                                        :placeholder="translations.passwords.view_placeholder_new_password">
-                                    <span class="icon is-small is-left">
-                                        <i class="fas fa-lock"></i>
-                                    </span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="field is-horizontal">
-                        <div class="field-label is-normal">
-                            <label class="label">Confirm password</label>
+                            <label class="label"> {{ translations.passwords.view_text_confirm_password }} </label>
                         </div>
                         <div class="field-body">
                             <div class="field">
