@@ -70,7 +70,7 @@ export default {
 
                     <form v-on:submit.prevent="putUserRole">
                         <div class="field">
-                            <label class="label">Assign role to user</label>
+                            <label class="label"> {{ translations.users.view_text_assing_role }} </label>
                             <div class="control has-icons-left">
                                 <div class="select">
                                     <select v-model="role_selected">
@@ -87,7 +87,7 @@ export default {
 
                         <div class="field">
                             <div class="control">
-                                <button class="button is-info">Save</button>
+                                <button class="button is-info"> {{ translations.shared.view_btn_save }}</button>
                             </div>
                         </div>
                     </form>
@@ -96,7 +96,7 @@ export default {
                 <div class="column">
 
                     <div class="field">
-                        <label class="label">Roles assigned to user</label>
+                        <label class="label"> {{ translations.users.view_text_roles_assigned }}</label>
                         <div class="control mb-4" v-for="role in data.user.roles" :key="role.id">
                             <b-tag
                                 attached
