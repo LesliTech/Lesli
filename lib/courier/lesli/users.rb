@@ -39,28 +39,11 @@ module Courier
             end
 
             def self.get(id)
-                return ::User
-                .joins("inner join user_details UD on UD.users_id = users.id")
-                .where(active: true)
-                .select(
-                    :id,
-                    :active,
-                    :email,
-                    "UD.first_name",
-                    "UD.last_name",
-                    "false as editable",
-                    "CONCAT(UD.first_name, ' ',UD.last_name) as name",
-                    "UD.salutation",
-                    "UD.telephone",
-                    "UD.title"
-                )
-                .find(id)
+                return ::User.find(id).show
             end
 
             def self.get_by_email(email)
-                return ::User
-                .joins("inner join user_details UD on UD.users_id = users.id")
-                .find_by_email(email)
+                return ::User.find_by_email(email).show
             end
 
         end
