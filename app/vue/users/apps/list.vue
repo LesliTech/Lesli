@@ -34,6 +34,9 @@ export default {
             loading: false,
             filters_ready: false,
             translations: {
+                dl: {
+                    users: I18n.t("deutscheleibrenten.users")
+                },
                 core: {
                     users: I18n.t("core.users"),
                     shared: I18n.t("core.shared")
@@ -80,12 +83,17 @@ export default {
         },
 
         getUsers() {
-            let url = `${this.main_route}.json?role=kop,callcenter,guest&type=exclude&status=all`
+            let url = `${this.main_route}.json?role=kop,callcenter,guest,limited&type=exclude&filters[status]=all&filters[view_type]=index`
             this.http.get(url).then(result => {
                 if (result.successful) {
                     this.users = result.data.map(e => {
-                        e.role = this.object_utils.translateEnum(this.translations.core.users, 'enum_role', e.role)
+                        e.roles = e.roles.split(",").map(e => {
+                            return this.object_utils.translateEnum(this.translations.dl.users, 'enum_role', e)
+                            
+                        })
+
                         e.active_text = e.active ? this.translations.core.shared.text_active : this.translations.core.shared.text_disabled
+
                         return e
                     })
                 }else{
@@ -150,7 +158,7 @@ export default {
             if (search_field.length > 0) {
                 return this.users.filter((user)=>{
                     return ( 
-                        //user.role.toLowerCase().includes(search_field) ||  
+                        user.roles.map(e => e.toLowerCase()).includes(search_field) ||  
                         user.name.toLowerCase().includes(search_field) || 
                         user.email.toLowerCase().includes(search_field) || 
                         user.id.toString().toLowerCase().includes(search_field)
@@ -217,7 +225,14 @@ export default {
                             <a :href="`mailto: ${props.row.email}`"> {{ props.row.email }} </a>
                         </b-table-column>
                         <b-table-column :label="translations.core.users.view_table_header_role" sortable field="role">
-                            {{ props.row.roles }}
+                            <span>
+                                <span v-for="(role, index) in props.row.roles" :key="`role-${props.row.id}-${index}`">
+                                    <b-tooltip type="is-white" :label="role">
+                                        <b-tag type="is-info">{{ object_utils.extractInitials(role)}}</b-tag>
+                                        &nbsp;
+                                    </b-tooltip>
+                                </span>
+                            </span>
                         </b-table-column>
                         <b-table-column :label="translations.core.users.view_table_header_status" sortable field="active">
                             <span class="tag is-success" v-if="props.row.active">
@@ -247,13 +262,13 @@ export default {
                                     </span>
                                 </button>
                                 <b-dropdown-item @click="doUserLogout(props.row)" class="has-text-right pr-4">
-                                    logout
+                                    {{ translations.core.users.view_btn_logout }}
                                     <span class="icon">
                                         <i class="fas fa-sign-out-alt"></i>
                                     </span>
                                 </b-dropdown-item>
                                 <b-dropdown-item @click="doRevokeAccess(props.row)" class="has-text-right pr-4">
-                                    revoke access
+                                    {{ translations.core.users.view_btn_revoke_access }}
                                     <span class="icon">
                                         <i class="fas fa-user-lock"></i>
                                     </span>
