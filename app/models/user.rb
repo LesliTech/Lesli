@@ -144,75 +144,23 @@ class User < ApplicationLesliRecord
     # @return [Boolean]
     # @description Return true/false if a user has the privileges to do an action based on a controllers list
     # @examples 
-    #     #1 validate privileges on a controller with different actions on each one
-    #     controllers = { 
-    #             "cloud_house/projects": ["index"],
-    #             "users": ["index", "resources"]
-    #     }
-    # 
-    #     current_user.has_privileges?(controllers)
-    # 
-    #     #2 validate privileges on a controller with the same actions on each one
+    #     validate privileges on a controller with the same actions on each one
     #     controllers = ["cloud_house/companies", "cloud_house/projects"]
     #     actions = ["index"]
     # 
     #     current_user.has_privileges?(controllers, actions)
-    def has_privileges?(controllers = nil, actions = nil) 
-        sql_select = ""
-        sql_condition = ""
+    def has_privileges?(controllers, actions) 
+        actions = actions.map { |action| "bool_or(grant_#{action})" }.join(" and ")
 
-        if not actions.blank?
-            sql_select += "#{actions
-                        .map {|action| "bool_and(grant_#{action})"}
-                        .join(" and ")} as value"
-                        
-            sql_condition += controllers
-                        .map{|controller| "role_privileges.grant_object = '#{controller}'" }
-                        .join(" or ")
+        granted = self.privileges
+        .where(grant_object: controllers)
+        .select(actions + " as value ")
+        .map(&:value)
 
-            granted = ::Role::Privilege
-                    .select(sql_select)
-                    .where(sql_condition)
-                    .where("role_privileges.roles_id in (?)", self.roles.map { |r| r[:id] })
-
-            return false if granted.blank?
-            
-            return granted.first["value"]
-        
-        end
-
-
-        #selecting only the necessary role privileges
-        sql_condition += controllers.keys #controllers name
-                    .map{|controller| "role_privileges.grant_object = '#{controller.to_s}'" }
-                    .join(" or ")  
-        
-        role_privileges = Role::Privilege
-                        .where(sql_condition)
-                        .where("role_privileges.roles_id in (?)", self.roles.map { |r| r[:id] })
-
-        controllers.each do |controller_name,  actions|
-            controller_name = controller_name.to_s
-            granted_actions = role_privileges.find{|e| e['grant_object'] == controller_name}
-            
-            return false if granted_actions.blank?
-
-            granted_actions = granted_actions
-                            .attributes
-                            .reject { |key, value| value != true} #remove columns without true value
-                            .compact #remove nil values
-                            .map {|key ,value| key.gsub("grant_", "") }
-
-            #validate if the user has privileges over all the actions on each controller
-            if not (actions.all?{|action| granted_actions.include? action }) 
-                return false
-            end
-        end
-
-        return true
-
-    rescue
-        return false
+        return granted[0]
+    rescue => exception
+        Honeybadger.notify(exception)
+        return false    
     end
 
 
@@ -330,19 +278,25 @@ class User < ApplicationLesliRecord
     #    }
     #]
     def self.list(current_user, query, params)
-
         type = params[:type]
-        roles = params[:role]         
-        status = params[:status]
-        
-        users = []
-        roles = roles.blank? ? [] : roles.split(',') 
+        roles = params[:role].split(",").map { |role| "'#{role}'" }.join(", ") if not params[:role].blank?
+
         operator = type == "exclude" ? 'not in' : 'in'
-        
+
         users = current_user.account.users
         .joins("inner join user_details UD on UD.users_id = users.id")
+        .joins("
+            inner join (
+                select
+                    ur.users_id, string_agg(r.\"name\", ', ') role_names
+                from user_roles ur 
+                join roles r 
+                    on r.id = ur.roles_id  #{roles.blank? ? "" : "and r.name #{operator} (#{roles})"}
+                group by ur.users_id
+            ) roles on roles.users_id = users.id
+        ") 
 
-        if (status != "all")
+        if (query[:filters][:status] != "all")
             users = users.where("users.active = ?", true)
         end
         
@@ -357,10 +311,13 @@ class User < ApplicationLesliRecord
 
         users = users.select(
             :id,
+            :active,
             :email,
+            :current_sign_in_at,
+            "false as editable",
             "CONCAT(UD.first_name, ' ',UD.last_name) as name",
+            "role_names as roles"
         )
-
     end
 
 
@@ -387,38 +344,55 @@ class User < ApplicationLesliRecord
     #    }
     #]
     def self.index(current_user, query, params)
-
         type = params[:type]
-        roles = params[:role]         
-        status = params[:status]
-        
-        users = []
-        roles = roles.blank? ? [] : roles.split(',') 
+        roles = params[:role].split(",").map { |role| "'#{role}'" }.join(", ") if not params[:role].blank?
+
         operator = type == "exclude" ? 'not in' : 'in'
-        
+
+        return self.list(current_user, query, params) if query[:filters][:view_type] != "index"
+
         users = current_user.account.users
-        .joins("inner join user_details UD on UD.users_id = users.id")
+        .joins(:detail)
         .joins("
-            left join (
-                select ur.users_id, string_agg(r.\"name\", ', ') role_names
+            inner join (
+                select
+                    ur.users_id, string_agg(r.\"name\", ', ') role_names
                 from user_roles ur 
-                join roles r on r.id = ur.roles_id 
+                join roles r 
+                    on r.id = ur.roles_id  #{roles.blank? ? "" : "and r.name #{operator} (#{roles})"}
                 group by ur.users_id
             ) roles on roles.users_id = users.id
         ") 
+        .joins("
+            left join (
+                select 
+                    max(created_at) as last_action_performed_at,
+                    users_id
+                from user_requests ureq
+                group by(ureq.users_id)
+            ) requests on requests.users_id = users.id
+        ")
+        .joins("
+            left join (
+                select 
+                    max(created_at) as last_login_at,
+                    users_id
+                from user_sessions us
+                group by(us.users_id)
+            ) sessions on sessions.users_id = users.id
+        ")
 
-        if (status != "all")
+        if (query[:filters][:status] != "all")
             users = users.where("users.active = ?", true)
         end
         
         # sort by name by default
         if query[:pagination][:orderColumn] == "id"
-            query[:pagination][:orderColumn] = "first_name" 
+            query[:pagination][:orderColumn] = "id" 
             query[:pagination][:order] = "asc"
         end
 
         users = users.where("email like '%#{query[:filters][:domain]}%'")  unless query[:filters][:domain].blank?
-        users = users.where("role_names #{operator} (?)", roles) unless roles.blank?
         users = users.order("#{query[:pagination][:orderColumn]} #{query[:pagination][:order]} NULLS LAST")
 
         users = users.select(
@@ -427,8 +401,10 @@ class User < ApplicationLesliRecord
             :email,
             :current_sign_in_at,
             "false as editable",
-            "CONCAT(UD.first_name, ' ',UD.last_name) as name",
-            "role_names"
+            "CONCAT(user_details.first_name, ' ',user_details.last_name) as name",
+            "role_names as roles",
+            "requests.last_action_performed_at",
+            "sessions.last_login_at"
         )
 
         users.map do |user|
@@ -437,11 +413,10 @@ class User < ApplicationLesliRecord
             last_sign_in_at = LC::Date.distance_to_words(user[:current_sign_in_at], Time.current)
 
             # last action the user perform an action into the system
-            last_action_performed_at = user.requests.last 
-            last_action_performed_at = LC::Date.distance_to_words(last_action_performed_at[:created_at], Time.current) if not last_action_performed_at.blank?
+            last_action_performed_at = LC::Date.distance_to_words(user["last_action_performed_at"], Time.current) if not user["last_action_performed_at"].blank?
 
             # check if user has an active session
-            session = user.sessions.last ? true : false
+            session = user["last_login_at"].blank? ? false : true
 
             {
                 id: user[:id],
@@ -449,7 +424,7 @@ class User < ApplicationLesliRecord
                 email: user[:email],
                 last_sign_in_at: last_sign_in_at,
                 active: user[:active],
-                roles: user[:role_names],
+                roles: user[:roles],
                 last_activity_at: last_action_performed_at,
                 session_active: session 
             }
@@ -483,6 +458,7 @@ class User < ApplicationLesliRecord
             updated_at: user[:updated_at],
             editable_security: current_user && current_user.is_role?("owner", "admin"),
             roles: user.roles.map { |r| { id: r[:id], name: r[:name] } },
+            full_name: user.full_name,
             detail_attributes: {
                 title: user.detail[:title],
                 salutation: user.detail[:salutation],
