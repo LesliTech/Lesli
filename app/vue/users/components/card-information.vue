@@ -146,17 +146,17 @@ export default {
                     <div class="buttons">
                         <button class="button is-white is-small" @click="doRequestPasswordChange()">
                             <span class="icon"><i class="fas fa-unlock-alt"></i></span>
-                            <span>request password change</span>
+                            <span> {{ translations.users.view_btn_request_password_change }}</span>
                         </button>
 
                         <button class="button is-white is-small" @click="doUserLogout()">
                             <span class="icon"><i class="fas fa-sign-out-alt"></i></span>
-                            <span>force logout</span>
+                            <span>  {{ translations.users.view_btn_force_logout }}</span>
                         </button>
 
                         <button class="button is-white is-small" @click="doRevokeAccess()">
                             <span class="icon"><i class="fas fa-user-lock"></i></span>
-                            <span>revoke access</span>
+                            <span> {{ translations.users.view_btn_revoke_access }} </span>
                         </button>
                     </div>
                 </template>

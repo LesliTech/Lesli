@@ -41,26 +41,6 @@ module DeutscheLeibrenten
             send_file Docm::Generator::Xlsx.generate("Users", [["List", users]]) 
         end
 
-        def report_users
-            # if a user wants to create a report of a specific company and their employees
-
-            return respond_with_unauthorized unless current_user
-                .has_privileges?(
-                    {
-                        "cloud_house/companies": ["show"],
-                        "cloud_house/employees": ["index"]
-                    }
-                )
-
-            companies = Company.all
-                .joins(:employee)
-                .where("cloud_house_companies_id = ?", params[:company_id])
-        
-            companies = Docm::Parser::Xlsx.parse(companies)
-
-            send_file Docm::Generator::Xlsx.generate("Companies", [["List", companies]]) 
-        end
-
         def set_report
             @report = params[:id]
         end
@@ -73,7 +53,7 @@ end
 
 **has_privilege?()**
 - params:
-    - **[Array|Object]** controllers: The controllers wich we want to validate.
-    - **[Array]** actions: Optional param to specify the controller actions.
+    - **[Array]** controllers: The controllers wich we want to validate.
+    - **[Array]** actions:  The actions of the controllers.
 - returns: [**Boolean**] 
-- description:  Return true or false if a user has the privileges to do sepecific actions on a controller. 
+- description:  Return true or false if a user is allowed to do specific actions on controllers. 
