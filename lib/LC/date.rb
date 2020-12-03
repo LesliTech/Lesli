@@ -98,11 +98,14 @@ module LC
             datetime_object.in_time_zone(zone).strftime(@settings["date_format_time"])
         end
  
-        def self.to_string_datetime_words(datetime_object)
+        def self.to_string_datetime_words(datetime_object, date_format_full = nil)
             return nil if ! datetime_object
             self.verify_settings
             
             zone = ActiveSupport::TimeZone.new(@settings["time_zone"])
+
+            return datetime_object.in_time_zone(zone).strftime(date_format_full) if date_format_full
+
             datetime_object.in_time_zone(zone).strftime(@settings["date_format_full"])
         end
  
@@ -140,7 +143,6 @@ module LC
             zone = ActiveSupport::TimeZone.new(@settings["time_zone"])
             return Time.current.in_time_zone(zone)
         end
- 
 
 
         def self.distance_to_words(time_from, time_to, force_time_zone=false)
