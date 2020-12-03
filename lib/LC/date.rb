@@ -104,9 +104,9 @@ module LC
             
             zone = ActiveSupport::TimeZone.new(@settings["time_zone"])
 
-            return datetime_object.in_time_zone(zone).strftime(date_format_full) if date_format_full
+            return I18n.l(datetime_object.in_time_zone(zone), format: date_format_full) if date_format_full
 
-            datetime_object.in_time_zone(zone).strftime(@settings["date_format_full"])
+            I18n.l(datetime_object.in_time_zone(zone), format: @settings["date_format_full"])
         end
  
         def self.to_string_time(datetime_object)
