@@ -7,10 +7,6 @@
 <hr/>
 
 
-#### Development
--------
-
-
 __Run server__
 ```shell
 rails s --environment=test
@@ -114,6 +110,28 @@ providers:
 secret_key_base: "your-secret-key-base"
 ```
 
+__NGINX Virtual Host:__
+```
+server {
+
+    root /var/www/lesli/public;
+
+    client_max_body_size 120M;
+
+    index index.html index.htm index.nginx-debian.html;
+
+    server_name dev.lesli.cloud;
+
+    passenger_enabled on;
+    passenger_ruby /home/ubuntu/.rvm/gems/ruby-2.7.0/wrappers/ruby;
+
+}
+````
+
+Enable website:  
+`ln -s /etc/nginx/sites-available/leibrenten.leit.me.conf /etc/nginx/sites-enabled/leibrenten.leit.me.conf`
+
+(Don't forget to install passenger ;))[https://www.phusionpassenger.com/docs/tutorials/deploy_to_production/installations/oss/aws/ruby/nginx/]
 
 __Work with the database:__
 ```shell
