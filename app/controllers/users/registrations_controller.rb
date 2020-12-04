@@ -123,12 +123,28 @@ class Users::RegistrationsController < Devise::RegistrationsController
 
     def update 
 
+        log = @user.logs.create({ session_uuid: nil, description: "password_update_atempt" })
+
         if @user.update(sign_up_params)
+
+            # reset password expiration due the user just updated his password
+            if @user.is_password_expired?
+                @user.update_attributes(password_expiration_at: nil)
+            end 
+
+            log.update_attribute(:description, "password_update_successful")
+
             # Sign in the user by passing validation in case their password changed
             bypass_sign_in(@user)
+
             respond_with_successful
+
         else
+
+            log.update_attribute(:description, "password_update_error")
+
             respond_with_error(@user.errors.full_messages)
+
         end
             
     end 

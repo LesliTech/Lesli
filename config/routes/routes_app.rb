@@ -50,9 +50,9 @@ module RoutesApp
                         member do
                             scope :resources do
                                 get  :become
-                                post :password
                                 post :logout
                                 post :lock
+                                post :password
                             end
                         end
 
