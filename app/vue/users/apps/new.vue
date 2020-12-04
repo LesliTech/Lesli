@@ -49,14 +49,14 @@ export default {
         }
     },
     mounted() {
-        this.store.data.user = this.user
+        this.data.user = this.user
         this.getOptions()
     },
     methods: {
 
         getOptions() {
             this.http.get("/administration/users/options.json").then(result => {
-                this.store.data.options = result.data
+                this.data.options = result.data
                 /*
                 if (result.successful) {
                     this.options = result.data
