@@ -52,12 +52,11 @@ class UsersController < ApplicationLesliController
         user.password = Devise.friendly_token
         user.account = current_user.account
         user.confirm
-
-        if user.role.blank?
-            user.role = current_user.account.roles.joins(:detail).where("role_details.name = 'limited'").first
-        end
-
+        
         if user.save
+
+            user.user_roles.create({ role: Role.find_by("name" => "limited") })
+
             respond_with_successful(user)
             User.send_password_reset(user)
         else
