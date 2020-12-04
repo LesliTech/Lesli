@@ -31,6 +31,7 @@ export default {
     methods: {
 
         putUserPassword() {
+
             this.http.put("/", {
                 user: {
                     password: this.user.password,
@@ -38,13 +39,14 @@ export default {
                 }
             }).then(result => {
                 if (result.successful == true) {
-                    this.alert(this.translations.users.notification_password_updated, "success")
+                    this.alert(this.translations.passwords.notification_password_updated, "success")
                 } else {
                     this.alert(result.error.message, "danger")
                 }
             }).catch(error => {
                 console.log(error)
             })
+
         }
 
     }
@@ -59,7 +61,7 @@ export default {
                 <fieldset :disabled="lesli.current_user.id !== data.user.id">
 
                     <h4 class="is-size-4 mb-6"> {{ translations.passwords.view_title_security }}</h4>
-
+                    <!--
                     <div class="field is-horizontal">
                         <div class="field-label is-normal">
                             <label class="label">{{ translations.passwords.view_text_current_password }}</label>
@@ -70,7 +72,7 @@ export default {
                                     <input 
                                         class="input" 
                                         type="password" 
-                                        v-model="user.password" 
+                                        v-model="user.password_old" 
                                         :placeholder="translations.passwords.view_placeholder_current_password">
                                     <span class="icon is-small is-left">
                                         <i class="fas fa-lock"></i>
@@ -79,7 +81,7 @@ export default {
                             </div>
                         </div>
                     </div>
-
+                    -->
                     <div class="field is-horizontal">
                         <div class="field-label is-normal">
                             <label class="label">{{ translations.passwords.view_text_new_password }}</label>

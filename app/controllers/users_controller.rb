@@ -191,6 +191,7 @@ class UsersController < ApplicationLesliController
 
     end
 
+    # Force the user to update his password
     def password
 
         # get user
