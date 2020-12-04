@@ -18,11 +18,13 @@ For more information read the license file including with this software.
 =end
 
 
-def create_development_user dev_user
+def create_development_user dev_user, password=nil
 
     # get password
-    password = Rails.application.config.lesli_settings["configuration"]["security"]["password"]["development"]
-    password = password + Time.now.year.to_s + "$"
+    if not password
+        password = Rails.application.config.lesli_settings["configuration"]["security"]["password"]["development"]
+        password = password + Time.now.year.to_s + "$"
+    end
 
     # user information
     email = dev_user[4]
