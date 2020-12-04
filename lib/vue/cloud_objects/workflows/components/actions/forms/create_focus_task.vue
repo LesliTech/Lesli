@@ -87,7 +87,7 @@ export default {
         },
 
         getTaskUserOptions(){
-            this.http.get(`/lock/users.json?role=kop,callcenter,api&type=exclude`).then(result => {
+            this.http.get(`/lock/users/list.json?role=kop,callcenter,api&type=exclude`).then(result => {
                 if (result.successful) {
                     this.$set(this.task_options, 'users', result.data)
                 }
