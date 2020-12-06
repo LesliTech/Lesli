@@ -17,10 +17,12 @@ For more information read the license file including with this software.
 
 =end
 
+include ActionView::Helpers::DateHelper
+
 module LC
 
     class Date
- 
+
         # set timezone and date formats here 
  
         # NOTE: Do not modify formats here,
@@ -145,7 +147,7 @@ module LC
         end
 
 
-        def self.distance_to_words(time_from, time_to, force_time_zone=false)
+        def self.distance_to_words(time_from, time_to, force_time_zone=false, include_seconds=true)
 
             return "never" if time_from.blank?
 
@@ -156,34 +158,8 @@ module LC
             time_from = time_from.in_time_zone(zone) if force_time_zone
             time_to = time_to.in_time_zone(zone) if force_time_zone
 
-            distance_in_seconds = (time_to - time_from).round
-            distance_in_minutes = (distance_in_seconds / 60.0).round
-            distance_in_hours= (distance_in_minutes / 60.0).round
-            distance_in_days = (distance_in_hours / 24.0).round
-            distance_in_weeks = (distance_in_days / 7.0).round
-            distance_in_months = (distance_in_days / 30).round
- 
-            # return distance in days
-            return "#{distance_in_days} day ago" if distance_in_days == 1
-            return "#{distance_in_days} days ago" if distance_in_days > 1
- 
-            # return distance in hours
-            return "#{distance_in_hours} hour ago" if distance_in_hours == 1
-            return "#{distance_in_hours} hours ago" if distance_in_hours > 1
- 
-            # return distance in minutes
-            return "#{distance_in_minutes} minute ago" if distance_in_minutes == 1
-            return "#{distance_in_minutes} minutes ago" if distance_in_minutes > 1
- 
-            # return distance in minutes
-            return "#{distance_in_seconds} second ago" if distance_in_seconds == 1
-            return "#{distance_in_seconds} seconds ago" if distance_in_seconds > 1
 
-            return "right now" if distance_in_seconds === 0
- 
-            # return generic distance
-            return "some time ago"
- 
+            distance_of_time_in_words(time_from, time_to, include_seconds: include_seconds)  
         end
  
         def self.get_year_difference(time_from, time_to)
