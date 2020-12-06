@@ -244,13 +244,8 @@ export default {
                     this.alert(this.translations.dashboards.messages_info_dashboard_updated, 'success')
                     this.deleted_components = []
                     // We assign the ids of the components that were created
-                    result.data.components.forEach((component)=>{
-                        let local_component = this.dashboard.components.find((local_component)=>{
-                            return local_component.name == component.name
-                        })
-                        this.$set(local_component, 'id', component.id)
-                        this.reload_dashboard_render = true
-                    })
+                    this.$set(this.dashboard, 'components', result.data.components)
+                    this.reload_dashboard_render = true
                 }else{
                     this.alert(result.error.message,'danger')
                 }
