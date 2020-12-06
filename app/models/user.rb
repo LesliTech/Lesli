@@ -307,6 +307,7 @@ class User < ApplicationLesliRecord
         end
 
         users = users.where("email like '%#{query[:filters][:domain]}%'")  unless query[:filters][:domain].blank?
+        users = users.where("role_names #{operator} (?)", roles) unless roles.blank?
         users = users.order("#{query[:pagination][:orderColumn]} #{query[:pagination][:order]} NULLS LAST")
 
         users = users.select(
@@ -344,55 +345,38 @@ class User < ApplicationLesliRecord
     #    }
     #]
     def self.index(current_user, query, params)
+
         type = params[:type]
-        roles = params[:role].split(",").map { |role| "'#{role}'" }.join(", ") if not params[:role].blank?
-
+        roles = params[:role]         
+        status = params[:status]
+        
+        users = []
+        roles = roles.blank? ? [] : roles.split(',') 
         operator = type == "exclude" ? 'not in' : 'in'
-
-        return self.list(current_user, query, params) if query[:filters][:view_type] != "index"
-
+        
         users = current_user.account.users
-        .joins(:detail)
+        .joins("inner join user_details UD on UD.users_id = users.id")
         .joins("
-            inner join (
-                select
-                    ur.users_id, string_agg(r.\"name\", ', ') role_names
+            left join (
+                select ur.users_id, string_agg(r.\"name\", ', ') role_names
                 from user_roles ur 
-                join roles r 
-                    on r.id = ur.roles_id  #{roles.blank? ? "" : "and r.name #{operator} (#{roles})"}
+                join roles r on r.id = ur.roles_id 
                 group by ur.users_id
             ) roles on roles.users_id = users.id
         ") 
-        .joins("
-            left join (
-                select 
-                    max(created_at) as last_action_performed_at,
-                    users_id
-                from user_requests ureq
-                group by(ureq.users_id)
-            ) requests on requests.users_id = users.id
-        ")
-        .joins("
-            left join (
-                select 
-                    max(created_at) as last_login_at,
-                    users_id
-                from user_sessions us
-                group by(us.users_id)
-            ) sessions on sessions.users_id = users.id
-        ")
 
-        if (query[:filters][:status] != "all")
+        if (status != "all")
             users = users.where("users.active = ?", true)
         end
         
         # sort by name by default
         if query[:pagination][:orderColumn] == "id"
-            query[:pagination][:orderColumn] = "id" 
+            query[:pagination][:orderColumn] = "first_name" 
             query[:pagination][:order] = "asc"
         end
 
         users = users.where("email like '%#{query[:filters][:domain]}%'")  unless query[:filters][:domain].blank?
+        users = users.where("role_names #{operator} (?)", roles) unless roles.blank?
         users = users.order("#{query[:pagination][:orderColumn]} #{query[:pagination][:order]} NULLS LAST")
 
         users = users.select(
@@ -401,10 +385,8 @@ class User < ApplicationLesliRecord
             :email,
             :current_sign_in_at,
             "false as editable",
-            "CONCAT(user_details.first_name, ' ',user_details.last_name) as name",
-            "role_names as roles",
-            "requests.last_action_performed_at",
-            "sessions.last_login_at"
+            "CONCAT(UD.first_name, ' ',UD.last_name) as name",
+            "role_names"
         )
 
         users.map do |user|
@@ -413,10 +395,11 @@ class User < ApplicationLesliRecord
             last_sign_in_at = LC::Date.distance_to_words(user[:current_sign_in_at], Time.current)
 
             # last action the user perform an action into the system
-            last_action_performed_at = LC::Date.distance_to_words(user["last_action_performed_at"], Time.current) if not user["last_action_performed_at"].blank?
+            last_action_performed_at = user.requests.last 
+            last_action_performed_at = LC::Date.distance_to_words(last_action_performed_at[:created_at], Time.current) if not last_action_performed_at.blank?
 
             # check if user has an active session
-            session = user["last_login_at"].blank? ? false : true
+            session = user.sessions.last ? true : false
 
             {
                 id: user[:id],
@@ -424,7 +407,7 @@ class User < ApplicationLesliRecord
                 email: user[:email],
                 last_sign_in_at: last_sign_in_at,
                 active: user[:active],
-                roles: user[:roles],
+                roles: user[:role_names],
                 last_activity_at: last_action_performed_at,
                 session_active: session 
             }
