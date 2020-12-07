@@ -243,6 +243,30 @@ class User < ApplicationLesliRecord
 
 
 
+    # Assign user role
+    def can_work_with_role?(role_id)
+
+        return false if role_id.blank?
+
+        role = self.account.roles.find(role_id)
+
+        return false if role.blank?
+
+        # check if the current_user can assign this role, current user cannot assign role if
+        #   role to assign has greater object level permission than the greater role assigned to the current user
+        #   role to assign is the same of the greater role assigned to the current user
+        #   current user is not admin or owner
+        self.roles.each do |current_role|
+            return true if current_role.object_level_permission > role.object_level_permission 
+            return true if current_role.name == "owner"
+        end
+
+        return false
+
+    end
+
+
+
     # save user activity
     def log_activity request_method, request_controller, request_action, request_url, description = nil
         LC::Debug.msg "DEPRECATED: Use user.activities or log_user_comments instead"
