@@ -48,20 +48,56 @@ class UsersController < ApplicationLesliController
     end
 
     def create
-        user = User.new(user_params)
+
+        # register the new user
+        user = User.new({
+            :active => true, 
+            :email => user_params[:email], 
+            :detail_attributes => user_params[:detail_attributes]
+        })
+
+        # assign a random password
         user.password = Devise.friendly_token
+
+        # enrol user to my own account
         user.account = current_user.account
+
+        # enable user to login into the platform
         user.confirm
         
         if user.save
 
-            user.user_roles.create({ role: Role.find_by("name" => "limited") })
+            # if a role is provided to assign to the new user
+            if not user_params[:roles_id].blank? 
+
+                # check if current user can work with the sent role
+                if current_user.can_work_with_role?(user_params[:roles_id])
+
+                    # get the requested role to assign to the new user
+                    role = current_user.account.roles.find(user_params[:roles_id])
+
+                    # assign role to the new user
+                    user.user_roles.create({ role: role })
+
+                end
+            end
+
+            # role validation - if new user does not have any role assigned
+            if user.roles.blank?
+
+                # assign limited role
+                user.user_roles.create({ role: current_user.account.roles.find_by(:name => "limited") })
+            end 
 
             respond_with_successful(user)
+
+            # TODO: Send welcome email with password reset link instead of reset password
             User.send_password_reset(user)
+
         else
             respond_with_error(user.errors.full_messages.to_sentence)
         end
+
     end
 
     def update 
@@ -69,15 +105,6 @@ class UsersController < ApplicationLesliController
         # validate that user exists
         return respond_with_not_found unless @user
         #return respond_with_unauthorized unless @user.is_editable_by?(current_user)
-
-        # only owner can assign owner role
-        if user_params["roles_id"]
-            role_name = Role.find(user_params["roles_id"]).detail.name
-            return responseWithUnauthorized if role_name == "owner" && !current_user.is_role?("owner")
-        end
-
-        # only owners and admins can assign high level roles
-        user_params.delete("roles_id") if not current_user.is_role?("owner", "admin")
 
         if (@user.active != user_params[:active])
             @user.activities.create({ description: "update_user", field_name: "active", value_from: @user.active.to_s, value_to: user_params[:active].to_s, owner_id: current_user.id })
@@ -218,7 +245,7 @@ class UsersController < ApplicationLesliController
         params.require(:user).permit(
             :active,
             :email,
-            :roles,
+            :roles_id,
             detail_attributes: [
                 :first_name,
                 :last_name,

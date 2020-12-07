@@ -71,7 +71,8 @@ export default {
             this.http.post(url, data).then(result => {
                 if (result.successful) {
                     this.alert(this.translations.users.notification_user_created, "success")
-                    this.url.go("/administration/users")
+                    this.msg.info("User created.")
+                    //this.url.go("/administration/users")
                 }else{
                     this.alert(result.error.message,"danger")
                 }
@@ -124,9 +125,9 @@ export default {
                                     v-model="user.roles_id">
                                     <option
                                         v-for="role in options.roles"
-                                        :value="role.value"
-                                        :key="role.value">
-                                        {{ object_utils.translateEnum(translations.users, "enum_role", role.text) }}
+                                        :value="role.id"
+                                        :key="role.id">
+                                        {{ object_utils.translateEnum(translations.users, "enum_role", role.name) }}
                                     </option>
                                 </b-select>
                             </div>
