@@ -97,6 +97,7 @@ module RoutesApp
                     resources :users, only: [:index] do
                         collection do
                             get :options
+                            get :list
                         end
                         member do
                             scope :resources do
