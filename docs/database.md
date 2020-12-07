@@ -183,14 +183,24 @@ Contents
     05.01. focus/dashboards
     05.02. focus/dashboard/components
 
-    10.01. focus/task
+    10.01. focus/tasks
     10.02. focus/task/details 
     10.03. focus/task/actions 
     10.04. focus/task/activities 
     10.05. focus/task/discussions 
     10.06. focus/task/files 
     10.07. focus/task/subscribers 
-    10.08. focus/task/custom_field_values  
+    10.08. focus/task/custom_field_values
+    10.10. focus/task/labels
+
+    11.00. focus/checklists
+    11.01. focus/checklist/actions 
+    11.02. focus/checklist/activities 
+    11.03. focus/checklist/discussions 
+    11.04. focus/checklist/subscribers
+    11.05. focus/checklist/files 
+    11.06. focus/checklist/custom_field_values
+    11.10. focus/checklist/items
 ```
 
 ### 03.05. CloudNotes - Notes & Notebooks
@@ -261,14 +271,13 @@ Contents
     05.01. help/dashboards
     05.02. help/dasboard/components
 
-    10.01. help/tickets
-    10.02. help/ticket/details 
-    10.03. help/ticket/actions 
-    10.04. help/ticket/activities 
-    10.05. help/ticket/discussions 
-    10.06. help/ticket/files 
-    10.07. help/ticket/subscribers
-    10.08. help/ticket/custom_fields
+    10.00. help/tickets
+    10.01. help/ticket/actions 
+    10.02. help/ticket/activities 
+    10.03. help/ticket/discussions 
+    10.04. help/ticket/subscribers
+    10.05. help/ticket/files 
+    10.06. help/ticket/custom_field_values
     10.10. help/ticket/timelines
     10.11. help/ticket/assignments
 
