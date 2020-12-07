@@ -35,6 +35,7 @@ class Role::Privilege < ApplicationRecord
             :id,
             :grant_object,
             :grant_index,
+            :grant_list,
             :grant_create,
             :grant_new,
             :grant_edit,
