@@ -36,6 +36,7 @@ module Application
                     perPage: (params[:perPage] ? params[:perPage].to_i : 15),
                     page: (params[:page] ? params[:page].to_i : 1),
                     order: (params[:order] ? params[:order] : "desc"),
+                    orderBy: (params[:orderBy] ? params[:orderBy] : "id"),
                     orderColumn: (params[:orderColumn] ? params[:orderColumn] : "id")
                 }
             }
