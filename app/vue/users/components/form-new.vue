@@ -72,7 +72,7 @@ export default {
                 if (result.successful) {
                     this.alert(this.translations.users.notification_user_created, "success")
                     this.msg.info("User created.")
-                    //this.url.go("/administration/users")
+                    this.url.go("/administration/users")
                 }else{
                     this.alert(result.error.message,"danger")
                 }
