@@ -68,7 +68,7 @@ class Users::PasswordsController < Devise::PasswordsController
     def update
         super do |resource|
 
-            log = resource.logs.create({ session_uuid: nil, description: "password_reset_atempt" })
+            #log = resource.logs.create({ session_uuid: nil, description: "password_reset_atempt" })
 
             if resource.errors.empty?
 
@@ -77,13 +77,13 @@ class Users::PasswordsController < Devise::PasswordsController
                     resource.update_attributes(password_expiration_at: nil)
                 end 
 
-                log.update_attribute(:description, "password_reset_successful")
+                #log.update_attribute(:description, "password_reset_successful")
                 
                 return respond_with_successful
 
             else
 
-                log.update_attribute(:description, "password_reset_error")
+                #log.update_attribute(:description, "password_reset_error")
 
                 return respond_with_error(resource.errors.full_messages.to_sentence)
 
