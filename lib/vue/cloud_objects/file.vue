@@ -99,24 +99,35 @@ export default {
 }
 </script>
 <template>
-    <b-tabs expanded v-model="active_tab">
-        <b-tab-item :label="translations.core.view_tab_title_files_new">
-            <component-form
-                :cloud-module="cloudModule"
-                :cloud-id="cloudId"
-                :active="active"
-                @upload-complete="switchToList"
-                :translations-file-types-path="translationsFileTypesPath"
-                :accepted-file-extensions="acceptedFileExtensions"
-            />
-        </b-tab-item>
-        <b-tab-item :label="translations.core.view_tab_title_files_list">
-            <component-list
-                :cloud-module="cloudModule"
-                :cloud-id="cloudId"
-                :active="active"
-                :translations-file-types-path="translationsFileTypesPath"
-            />
-        </b-tab-item>
-    </b-tabs>
+    <div class="card">
+        <div class="card-header">
+            <div class="card-header-title is-shadowless">
+                <h4 class=" title is-4">
+                    {{translations.core.view_text_files}}
+                </h4>
+            </div>
+        </div>
+        <div class="card-content">
+            <b-tabs expanded v-model="active_tab">
+                <b-tab-item :label="translations.core.view_tab_title_files_new">
+                    <component-form
+                        :cloud-module="cloudModule"
+                        :cloud-id="cloudId"
+                        :active="active"
+                        @upload-complete="switchToList"
+                        :translations-file-types-path="translationsFileTypesPath"
+                        :accepted-file-extensions="acceptedFileExtensions"
+                    />
+                </b-tab-item>
+                <b-tab-item :label="translations.core.view_tab_title_files_list">
+                    <component-list
+                        :cloud-module="cloudModule"
+                        :cloud-id="cloudId"
+                        :active="active"
+                        :translations-file-types-path="translationsFileTypesPath"
+                    />
+                </b-tab-item>
+            </b-tabs>
+        </div>
+    </div>
 </template>
