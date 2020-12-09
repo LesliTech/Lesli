@@ -103,6 +103,19 @@ export default {
             })
         },
 
+        confirmFileDeletion(comment) {
+            window.scrollTo(0,0)
+            this.$buefy.dialog.confirm({
+                title: this.translations.core.messages_danger_files_delete_confirmation_title,
+                message: this.translations.core.messages_danger_files_delete_confirmation_body,
+                confirmText: this.translations.core.messages_danger_files_delete_confirmation_accept_button,
+                cancelText: this.translations.core.messages_danger_files_delete_confirmation_cancel_button,
+                type: 'is-danger',
+                hasIcon: true,
+                onConfirm: () => this.deleteFile(comment)
+            })
+        },
+
         deleteFile(deleted_file){
             let file_id = deleted_file.id
             let url = `/${this.module_name.slash}/${this.object_name.plural}/${this.cloudId}/files/${file_id}.json`
@@ -235,7 +248,7 @@ export default {
                     >
                         <b-icon size="is-small" icon="download" />
                     </a>
-                    <b-button v-if="props.row.editable" type="is-danger" outlined @click="deleteFile(props.row)">
+                    <b-button v-if="props.row.editable" type="is-danger" outlined @click="confirmFileDeletion(props.row)">
                         <b-icon size="is-small" icon="trash-alt" />
                     </b-button>
                 </b-table-column>
