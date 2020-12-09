@@ -1,25 +1,16 @@
 <%#
 
-Lesli
+Copyright (c) 2020, all rights reserved.
 
-Copyright (c) 2020, Lesli Technologies, S. A.
+All the information provided by this platform is protected by international laws related  to 
+industrial property, intellectual property, copyright and relative international laws. 
+All intellectual or industrial property rights of the code, texts, trade mark, design, 
+pictures and any other information belongs to the owner of this platform.
 
-All the information provided by this website is protected by laws of Guatemala related 
-to industrial property, intellectual property, copyright and relative international laws. 
-Lesli Technologies, S. A. is the exclusive owner of all intellectual or industrial property
-rights of the code, texts, trade mark, design, pictures and any other information.
-Without the written permission of Lesli Technologies, S. A., any replication, modification,
+Without the written permission of the owner, any replication, modification,
 transmission, publication is strictly forbidden.
+
 For more information read the license file including with this software.
-
-Lesli - Your Smart Business Assistant
-
-Powered by https://www.lesli.tech
-Building a better future, one line of code at a time.
-
-@contact  <hello@lesli.tech>
-@website  <https://lesli.tech>
-@license  Propietary - all rights reserved.
 
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
 // · 
@@ -29,11 +20,13 @@ Building a better future, one line of code at a time.
 <script>
 const lesli = {
     app: "<%= params[:controller] %>",
-    view_id: "<%= "#{params[:controller].gsub("/", "_")}_#{params[:action]}" %>",
-    current_user: <%= @account ? @account[:current_user].to_json.html_safe : "{}"%>,
-    company: <%= @account ? @account[:company].to_json.html_safe : "{}"%>,
     url: { root: "<%= request.base_url.to_s %>" },
+    view_id: "<%= "#{params[:controller].gsub("/", "_")}_#{params[:action]}" %>",
+    company: <%= @account ? @account[:company].to_json.html_safe : "{}"%>,
     settings: <%= @account ? @account[:settings].to_json.html_safe : "{}"%>,
-    notifications: <%= @account ?  @account[:notifications] : "-1" %>
+    current_user: <%= @account ? @account[:current_user].to_json.html_safe : "{}"%>,
+    notifications: <%= @account ?  @account[:notifications] : "-1" %>,
+    tasks: <%= @account ?  @account[:tasks] : "-1" %>
+    
 }
 </script>
