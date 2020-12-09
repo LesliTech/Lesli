@@ -1,0 +1,43 @@
+/*
+Copyright (c) 2020, all rights reserved.
+
+All the information provided by this platform is protected by international laws related  to 
+industrial property, intellectual property, copyright and relative international laws. 
+All intellectual or industrial property rights of the code, texts, trade mark, design, 
+pictures and any other information belongs to the owner of this platform.
+
+Without the written permission of the owner, any replication, modification,
+transmission, publication is strictly forbidden.
+
+For more information read the license file including with this software.
+
+// · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
+// · 
+*/
+
+.application-panel-notification .sidebar-content {
+    background-color: transparent;
+    background: linear-gradient(to right, transparent 0%,  white 100%);
+    padding-left: 15px;
+    padding-top: 20px;
+    box-shadow: none;
+    width: 400px;
+    .notification {
+        &.is-info {
+            border: 1px solid darken(#eef6fc, 4);
+            box-shadow: 0px 0px 10px 0px darken(#eef6fc, 10);
+        }
+        &.is-success {
+            border: 1px solid darken(#effaf3, 4);
+            box-shadow: 0px 0px 10px 0px darken(#effaf3, 10);
+        }
+        &.is-warning {
+            border: 1px solid darken(#fffbeb, 6);
+            box-shadow: 0px 0px 10px 0px darken(#fffbeb, 10);
+        }
+        &.is-danger {
+            border: 1px solid darken(#feecf0, 4);
+            box-shadow: 0px 0px 10px 0px darken(#feecf0, 10);
+        }
+    }
+}

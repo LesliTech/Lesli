@@ -29,6 +29,11 @@ module Courier
     module Focus
         class Task
 
+            def self.count(current_user)
+                return 0 if not defined? CloudFocus
+                CloudFocus::Task.count(current_user)
+            end
+
             def self.with_deadline(current_user, query)
                 return [] unless defined? CloudFocus
 

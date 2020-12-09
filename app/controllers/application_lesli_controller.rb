@@ -59,18 +59,15 @@ class ApplicationLesliController < ApplicationController
     def set_helpers_for_account 
 
         # @account is only for html requests
-        return true if not request.format.html?
+        return if !request.format.html?
 
         @account = {
             company: { },
-            settings: {
-                datetime: Rails.application.config.lesli_settings["configuration"]["datetime"],
-                currency: (Rails.application.config.lesli_settings["configuration"]["currency"] || {})
-                    .merge({ locale: Rails.application.config.lesli_settings["env"]["default_locale"] })
-            },
+            settings: { },
             current_user: { },
             revision: LC::System::Info.revision,
-            notifications: Courier::Bell::Notification.index(current_user, {}, "count")
+            notifications: Courier::Bell::Notification.index(current_user, {}, "count"),
+            tasks: Courier::Focus::Task.count(current_user)
         }
 
         return @account if current_user.account.blank?
@@ -80,6 +77,12 @@ class ApplicationLesliController < ApplicationController
             id: current_user.account.id,
             name: current_user.account.company_name,
             tag_line: current_user.account.company_tag_line
+        }
+
+        @account[:settings] = { 
+            datetime: Rails.application.config.lesli_settings["configuration"]["datetime"],
+            currency: (Rails.application.config.lesli_settings["configuration"]["currency"] || {})
+                .merge({ locale: Rails.application.config.lesli_settings["env"]["default_locale"] })
         }
 
         # set user abilities
@@ -112,8 +115,6 @@ class ApplicationLesliController < ApplicationController
             roles: current_user.roles.map(&:name),
             abilities: abilities
         }
-
-        @account
 
     end
 

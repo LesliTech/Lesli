@@ -32,23 +32,27 @@ export default {
                     users: I18n.t('deutscheleibrenten.users'),
                 }
             },
-            notification: {
-                count: 0
-            },
             search: {
                 searching: false
             },
             navigation: {
                 active: false
             },
-            browser_data: {}
+            browser_data: {
+            },
+            notifications: 0,
+            tasks: 0,
         }
     },
 
     mounted() {
+
         this.getBrowserData();
-        this.setSubscriptions();
-        this.getNotificationsCount();
+
+        // due performance issues we are going to get notification count
+        // through account data partial
+        this.notification.count = lesli.notifications
+
     },
 
     methods: {
@@ -61,30 +65,12 @@ export default {
             }
         },
 
-        setSubscriptions() {
-            this.bus.subscribe('/lesli/layout/header/notification#getNotificationsCounter', () => {
-                this.getNotificationsCount()
-            })
-        },
-
-        getNotificationsCount() {
-
-            // due performance issues we are going to get notification count
-            // through account data partial
-            this.notification.count = lesli.notifications
-            return 
-
-            this.http.get('/bell/notifications.json?view_type=count').then(result => {
-                if (result.successful) {
-                    this.notification.count = result.data
-                }
-            }).catch(error => {
-                console.log(error)
-            })
-        },
-
         showApps(side) {
             this.bus.publish("show:/core/layout/apps#panel", side)
+        },
+
+        showTasks() {
+            this.bus.publish("show:/core/layout/tasks#panel")
         },
 
         showNotifications() {
@@ -132,10 +118,18 @@ export default {
 
                 <slot name="languages"></slot>
 
+                <slot></slot>
+
+                <a class="navbar-item header-notification-indicator" @click="showTasks()">
+                    <i v-if="tasks > 0" class="fas fa-tasks has-text-link"></i>
+                    <i v-if="tasks == 0" class="fas fa-tasks"></i>
+                    <span>{{ tasks }}</span>
+                </a>
+
                 <a class="navbar-item header-notification-indicator" @click="showNotifications()">
-                    <i v-if="notification.count > 0" class="fas fa-bell has-text-link"></i>
-                    <i v-if="notification.count == 0" class="far fa-bell"></i>
-                    <span>{{ notification.count }}</span>
+                    <i v-if="lesli.notifications > 0" class="fas fa-bell has-text-link"></i>
+                    <i v-if="lesli.notifications == 0" class="far fa-bell"></i>
+                    <span>{{ lesli.notifications }}</span>
                 </a>
 
                 <a class="navbar-item header-navigation-engine" @click="showApps('right')">

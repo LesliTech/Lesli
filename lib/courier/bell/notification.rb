@@ -34,6 +34,16 @@ module Courier
                 CloudBell::Notification.index(current_user, query, view_type)
             end
 
+            def self.new(user, subject, url:nil, kind:"info")
+                return if not defined? CloudBell
+                user.account.bell.notifications.create({
+                    subject: subject,
+                    kind: kind,
+                    user: user,
+                    url: url
+                })
+            end
+
         end
     end
 end
