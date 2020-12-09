@@ -1,23 +1,10 @@
 =begin
-Copyright (c) 2020, all rights reserved.
-
-All the information provided by this platform is protected by international laws related  to 
-industrial property, intellectual property, copyright and relative international laws. 
-All intellectual or industrial property rights of the code, texts, trade mark, design, 
-pictures and any other information belongs to the owner of this platform.
-
-Without the written permission of the owner, any replication, modification,
-transmission, publication is strictly forbidden.
-
-For more information read the license file including with this software.
-
-// · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
-// · 
-
+<% license = File::expand_path('../../../../../license', __FILE__) %>
+<%= File.read(license).to_s.force_encoding("ASCII-8BIT") %>
 =end
 <% module_namespacing do -%>
 class <%= class_name %> < ApplicationLesliRecord
-    def index(current_user, query: {})
+    def self.index(current_user, query: {})
     end
 
     def show(current_user, query: {})
