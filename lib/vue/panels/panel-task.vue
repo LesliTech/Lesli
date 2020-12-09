@@ -80,7 +80,7 @@ export default {
                 })
             })
 
-            this.bus.subscribe("show:/core/layout/notification#panel", () => {
+            this.bus.subscribe("show:/core/layout/tasks#panel", () => {
                 
                 // toggle notification panel
                 if (this.notification.show == true) {
