@@ -91,7 +91,7 @@ export default {
         },
 
         readNotifications() {
-            this.http.put('/bell/notifications/read').then(result => {
+            this.http.put(this.url.bell("/notifications/read").s).then(result => {
                 this.notification.list = []
             }).catch(error => {
                 console.log(error)
