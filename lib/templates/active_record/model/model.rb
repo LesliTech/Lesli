@@ -1,5 +1,5 @@
 =begin
-<%= File.read(Rails.root.join("license")).to_s.force_encoding("ASCII-8BIT") %>
+<%= File.read(Pathname.new(LESLI_CORE_PATH).join("license")).to_s.force_encoding("ASCII-8BIT") %>
 =end
 <% module_namespacing do -%>
 class <%= class_name %> < ApplicationLesliRecord
