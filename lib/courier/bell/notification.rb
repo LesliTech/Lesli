@@ -29,6 +29,11 @@ module Courier
     module Bell
         class Notification
 
+            def self.count(current_user)
+                return 0 if not defined? CloudBell
+                CloudBell::Notification.count(current_user)
+            end
+
             def self.index(current_user, query, view_type)
                 return 0 if not defined? CloudBell
                 CloudBell::Notification.index(current_user, query, view_type)
