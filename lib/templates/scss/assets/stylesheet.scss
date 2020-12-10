@@ -1,4 +1,4 @@
 /*
-<%= File.read(Pathname.new(LESLI_CORE_PATH).join("license")).to_s.force_encoding("ASCII-8BIT") %>
+<%= File.read(Pathname.new(LESLI_ROOT).join("license")).to_s.force_encoding("ASCII-8BIT") %>
 */
 @import "lesli/templates/component";

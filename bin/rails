@@ -1,4 +1,6 @@
 #!/usr/bin/env ruby
+
+LESLI_ROOT = File.expand_path('../', __dir__)
 APP_PATH = File.expand_path('../config/application', __dir__)
 require_relative '../config/boot'
 require 'rails/commands'
