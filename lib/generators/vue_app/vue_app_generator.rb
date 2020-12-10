@@ -38,6 +38,7 @@ class VueAppGenerator < Rails::Generators::Base
     def parse_app_name
         @engine_data = parse_engine_data
         @app_data = parse_app_data
+        @license = File.read(Rails.root.join("license")).to_s.force_encoding("ASCII-8BIT")
     end
 
 =begin
@@ -52,8 +53,7 @@ class VueAppGenerator < Rails::Generators::Base
     # engines/CloudHouse/app/vue/catalog_project_types/app.js
 =end
     def create_main_app
-        destination_path = "#{@engine_data[:base_path]}/app/vue/#{@app_data[:path]}/app.js"
-
+        destination_path = Rails.root.join(@engine_data[:base_path], "app", "vue", @app_data[:path], "app.js")
         copy_file("app_js.template", destination_path)
         gsub_file(destination_path, "%license%", @license)
         gsub_file(destination_path, "%engine%", @engine_data[:name])
@@ -76,9 +76,10 @@ class VueAppGenerator < Rails::Generators::Base
 =end
     def create_apps
         ["list", "new", "edit", "show"].each do |app|
-            destination_path = "#{@engine_data[:base_path]}/app/vue/#{@app_data[:path]}/apps/#{app}.vue"
+            destination_path = Rails.root.join(@engine_data[:base_path], "app", "vue", @app_data[:path], "apps", "#{app}.vue")
 
             copy_file("apps/#{app}_vue.template", destination_path)
+            gsub_file(destination_path, "%license%", @license)
             gsub_file(destination_path, "%app_route%", @app_data[:route])
             gsub_file(destination_path, "%underscore_resource%", @app_data[:underscore_resource])
             gsub_file(destination_path, "%underscore_resources%", @app_data[:underscore_resource].pluralize)
@@ -103,9 +104,10 @@ class VueAppGenerator < Rails::Generators::Base
 =end
     def create_components
         ["form"].each do |component|
-            destination_path = "#{@engine_data[:base_path]}/app/vue/#{@app_data[:path]}/components/#{component}.vue"
+            destination_path = Rails.root.join(@engine_data[:base_path], "app", "vue", @app_data[:path], "components", "#{component}.vue")
 
             copy_file("components/#{component}_vue.template", destination_path)
+            gsub_file(destination_path, "%license%", @license)
             gsub_file(destination_path, "%app_route%", @app_data[:route])
             gsub_file(destination_path, "%underscore_resource%", @app_data[:underscore_resource])
             gsub_file(destination_path, "%underscore_resources%", @app_data[:underscore_resource].pluralize)
@@ -129,7 +131,7 @@ class VueAppGenerator < Rails::Generators::Base
     puts engine_data[:base_path]    # will display './'
 =end
     def parse_engine_data
-        base_path = "./"
+        base_path = ""
         name_data = model.split("::")
         if name_data[0] != "Core"
             base_path+= "engines/#{name_data[0]}/"
@@ -182,6 +184,8 @@ class VueAppGenerator < Rails::Generators::Base
         if engine != "Core"
             route = "/#{engine.gsub("Cloud","").downcase}#{route}" 
         end
+
+        route[0] = "" if route[0] == "/"
         
         camel_case_resource = camel_case_resource.join("")
         underscore_resource = underscore_resource.join("_")
