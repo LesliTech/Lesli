@@ -331,7 +331,8 @@ class User < ApplicationLesliRecord
         end
 
         users = users.where("email like '%#{query[:filters][:domain]}%'")  unless query[:filters][:domain].blank?
-        users = users.where("role_names #{operator} (?)", roles) unless roles.blank?
+
+        users = users.where("role_names #{operator} (#{roles})") unless roles.blank?
         users = users.order("#{query[:pagination][:orderColumn]} #{query[:pagination][:order]} NULLS LAST")
 
         users = users.select(
