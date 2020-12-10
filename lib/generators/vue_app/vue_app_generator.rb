@@ -51,50 +51,6 @@ class VueAppGenerator < Rails::Generators::Base
 
 =begin
 @return [void]
-@description Creates the erb view new, show, edit and index using the template found
-    in ./templates/views/view_html_erb.template
-@example
-    # imagine the command is rails generate vue_app CloudHouse::Catalog::ProjectType
-    create_erb_files
-    # will generate the files
-    # engines/CloudHouse/app/views/cloud_house/catalog/project_types/index.html.erb
-    # engines/CloudHouse/app/views/cloud_house/catalog/project_types/new.html.erb
-    # engines/CloudHouse/app/views/cloud_house/catalog/project_types/show.html.erb
-    # engines/CloudHouse/app/views/cloud_house/catalog/project_types/edit.html.erb
-=end
-    def create_erb_files
-
-        destination_path = "#{@engine_data[:base_path]}/app/views/cloud_#{@app_data[:route][1..-1]}"
-        if @engine_data[:name] == "Core"
-            destination_path = "#{@engine_data[:base_path]}/app/views#{@app_data[:route]}"
-        end
-
-        ["index", "new", "edit", "show"].each do |view|
-            copy_file("views/view_html_erb.template", "#{destination_path}/#{view}.html.erb")
-        end
-    end
-
-=begin
-@return [void]
-@description Creates the scss file imported by the views and copies the content of
-    the template found in ./templates/assets/stylesheet_css.template
-@example
-    # imagine the command is rails generate vue_app CloudHouse::Catalog::ProjectType
-    create_scss_files
-    # will generate the file
-    # engines/CloudHouse/app/assets/stylesheets/cloud_house/catalog/project_types.scss
-=end
-    def create_scss_files
-        destination_path = "#{@engine_data[:base_path]}/app/assets/stylesheets/cloud_#{@app_data[:route][1..-1]}.scss"
-        if @engine_data[:name] == "Core"
-            destination_path = "#{@engine_data[:base_path]}/app/assets/stylesheets#{@app_data[:route]}.scss"
-        end
-
-        copy_file("assets/stylesheet_css.template", destination_path)
-    end
-
-=begin
-@return [void]
 @description Creates the js file of the main app that imports all other apps and works with the Vue-router.
     Copies the content of the template found in ./templates/app_js.template and modifies some placeholders
     to match the engine, namespace, and name of the model
@@ -108,6 +64,7 @@ class VueAppGenerator < Rails::Generators::Base
         destination_path = "#{@engine_data[:base_path]}/app/vue/#{@app_data[:path]}/app.js"
 
         copy_file("app_js.template", destination_path)
+        gsub_file(destination_path, "%license%", @license)
         gsub_file(destination_path, "%engine%", @engine_data[:name])
         gsub_file(destination_path, "%app_route%", @app_data[:route])
     end
