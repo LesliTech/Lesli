@@ -1,24 +1,15 @@
 =begin
+Copyright (c) 2020, all rights reserved.
 
-Lesli
+All the information provided by this platform is protected by international laws related  to 
+industrial property, intellectual property, copyright and relative international laws. 
+All intellectual or industrial property rights of the code, texts, trade mark, design, 
+pictures and any other information belongs to the owner of this platform.
 
-Copyright (c) 2020, Lesli Technologies, S. A.
-
-All the information provided by this website is protected by laws of Guatemala related 
-to industrial property, intellectual property, copyright and relative international laws. 
-Lesli Technologies, S. A. is the exclusive owner of all intellectual or industrial property
-rights of the code, texts, trade mark, design, pictures and any other information.
-Without the written permission of Lesli Technologies, S. A., any replication, modification,
+Without the written permission of the owner, any replication, modification,
 transmission, publication is strictly forbidden.
+
 For more information read the license file including with this software.
-
-LesliCloud - Your Smart Business Assistant
-
-Powered by https://www.lesli.tech
-Building a better future, one line of code at a time.
-
-@license  Propietary - all rights reserved.
-@version  0.1.0-alpha
 
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
 // · 
@@ -47,50 +38,7 @@ class VueAppGenerator < Rails::Generators::Base
     def parse_app_name
         @engine_data = parse_engine_data
         @app_data = parse_app_data
-    end
-
-=begin
-@return [void]
-@description Creates the erb view new, show, edit and index using the template found
-    in ./templates/views/view_html_erb.template
-@example
-    # imagine the command is rails generate vue_app CloudHouse::Catalog::ProjectType
-    create_erb_files
-    # will generate the files
-    # engines/CloudHouse/app/views/cloud_house/catalog/project_types/index.html.erb
-    # engines/CloudHouse/app/views/cloud_house/catalog/project_types/new.html.erb
-    # engines/CloudHouse/app/views/cloud_house/catalog/project_types/show.html.erb
-    # engines/CloudHouse/app/views/cloud_house/catalog/project_types/edit.html.erb
-=end
-    def create_erb_files
-
-        destination_path = "#{@engine_data[:base_path]}/app/views/cloud_#{@app_data[:route][1..-1]}"
-        if @engine_data[:name] == "Core"
-            destination_path = "#{@engine_data[:base_path]}/app/views#{@app_data[:route]}"
-        end
-
-        ["index", "new", "edit", "show"].each do |view|
-            copy_file("views/view_html_erb.template", "#{destination_path}/#{view}.html.erb")
-        end
-    end
-
-=begin
-@return [void]
-@description Creates the scss file imported by the views and copies the content of
-    the template found in ./templates/assets/stylesheet_css.template
-@example
-    # imagine the command is rails generate vue_app CloudHouse::Catalog::ProjectType
-    create_scss_files
-    # will generate the file
-    # engines/CloudHouse/app/assets/stylesheets/cloud_house/catalog/project_types.scss
-=end
-    def create_scss_files
-        destination_path = "#{@engine_data[:base_path]}/app/assets/stylesheets/cloud_#{@app_data[:route][1..-1]}.scss"
-        if @engine_data[:name] == "Core"
-            destination_path = "#{@engine_data[:base_path]}/app/assets/stylesheets#{@app_data[:route]}.scss"
-        end
-
-        copy_file("assets/stylesheet_css.template", destination_path)
+        @license = File.read(Rails.root.join("license")).to_s.force_encoding("ASCII-8BIT")
     end
 
 =begin
@@ -105,9 +53,9 @@ class VueAppGenerator < Rails::Generators::Base
     # engines/CloudHouse/app/vue/catalog_project_types/app.js
 =end
     def create_main_app
-        destination_path = "#{@engine_data[:base_path]}/app/vue/#{@app_data[:path]}/app.js"
-
+        destination_path = Rails.root.join(@engine_data[:base_path], "app", "vue", @app_data[:path], "app.js")
         copy_file("app_js.template", destination_path)
+        gsub_file(destination_path, "%license%", @license)
         gsub_file(destination_path, "%engine%", @engine_data[:name])
         gsub_file(destination_path, "%app_route%", @app_data[:route])
     end
@@ -128,9 +76,10 @@ class VueAppGenerator < Rails::Generators::Base
 =end
     def create_apps
         ["list", "new", "edit", "show"].each do |app|
-            destination_path = "#{@engine_data[:base_path]}/app/vue/#{@app_data[:path]}/apps/#{app}.vue"
+            destination_path = Rails.root.join(@engine_data[:base_path], "app", "vue", @app_data[:path], "apps", "#{app}.vue")
 
             copy_file("apps/#{app}_vue.template", destination_path)
+            gsub_file(destination_path, "%license%", @license)
             gsub_file(destination_path, "%app_route%", @app_data[:route])
             gsub_file(destination_path, "%underscore_resource%", @app_data[:underscore_resource])
             gsub_file(destination_path, "%underscore_resources%", @app_data[:underscore_resource].pluralize)
@@ -155,9 +104,10 @@ class VueAppGenerator < Rails::Generators::Base
 =end
     def create_components
         ["form"].each do |component|
-            destination_path = "#{@engine_data[:base_path]}/app/vue/#{@app_data[:path]}/components/#{component}.vue"
+            destination_path = Rails.root.join(@engine_data[:base_path], "app", "vue", @app_data[:path], "components", "#{component}.vue")
 
             copy_file("components/#{component}_vue.template", destination_path)
+            gsub_file(destination_path, "%license%", @license)
             gsub_file(destination_path, "%app_route%", @app_data[:route])
             gsub_file(destination_path, "%underscore_resource%", @app_data[:underscore_resource])
             gsub_file(destination_path, "%underscore_resources%", @app_data[:underscore_resource].pluralize)
@@ -181,7 +131,7 @@ class VueAppGenerator < Rails::Generators::Base
     puts engine_data[:base_path]    # will display './'
 =end
     def parse_engine_data
-        base_path = "./"
+        base_path = ""
         name_data = model.split("::")
         if name_data[0] != "Core"
             base_path+= "engines/#{name_data[0]}/"
@@ -234,6 +184,8 @@ class VueAppGenerator < Rails::Generators::Base
         if engine != "Core"
             route = "/#{engine.gsub("Cloud","").downcase}#{route}" 
         end
+
+        route[0] = "" if route[0] == "/"
         
         camel_case_resource = camel_case_resource.join("")
         underscore_resource = underscore_resource.join("_")
