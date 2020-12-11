@@ -91,8 +91,7 @@ namespace :dev do
             # commit any possible pending change
             system "git add --all && git commit -m \"dev update\""
 
-            # commit any change in vendor
-            system "git add --all && git commit -m \"Update npm dependencies (vendors)\""
+            Rake::Task["dev:git:vendors"].invoke
 
         end
 
@@ -182,6 +181,9 @@ namespace :dev do
                 FileUtils.rm(file) if file.index("package.json")
                 FileUtils.rm(file) if file.index("package-lock.json")
             end
+
+            # commit any change in vendor
+            system "git add --all && git commit -m \"Update npm dependencies (vendors)\""
 
         end
 
