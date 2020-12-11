@@ -261,19 +261,12 @@ export default {
                                         <i v-if="active" class="far fa-circle"></i>
                                     </span>
                                 </button>
-                                    <b-dropdown-item @click="doUserLogout(props.row)" class="has-text-right pr-4" :disabled="props.row.category == 'integration'">
-                                        <b-tooltip
-                                            :label="translations.core.users.view_text_tooltip_integration_logout_disabled"
-                                            type="is-white"
-                                            :active="props.row.category == 'integration'"
-                                            position="is-left"
-                                        >
-                                            {{ translations.core.users.view_btn_logout }}
-                                            <span class="icon">
-                                                <i class="fas fa-sign-out-alt"></i>
-                                            </span>
-                                        </b-tooltip>
-                                    </b-dropdown-item>
+                                <b-dropdown-item @click="doUserLogout(props.row)" class="has-text-right pr-4">
+                                    {{ translations.core.users.view_btn_logout }}
+                                    <span class="icon">
+                                        <i class="fas fa-sign-out-alt"></i>
+                                    </span>
+                                </b-dropdown-item>
                                 <b-dropdown-item @click="doRevokeAccess(props.row)" class="has-text-right pr-4">
                                     {{ translations.core.users.view_btn_revoke_access }}
                                     <span class="icon">
