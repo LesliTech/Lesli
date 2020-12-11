@@ -26,14 +26,8 @@
     "#DEV:/"
   ],
   "_resolved": "https://registry.npmjs.org/lesli-css/-/lesli-css-0.7.5.tgz",
-<<<<<<< HEAD
-  "_shasum": "c3cbc0a7e0bf334744b3de2b1dafd59c820dc5a7",
-  "_spec": "lesli-css@0.7.5",
-  "_where": "/Users/willi/Desktop/lomax/lesli.cloud",
-=======
   "_spec": "0.7.5",
   "_where": "/Users/ldonis/code/Lesli/lesli.cloud",
->>>>>>> ldonis
   "author": {
     "name": "LesliTech",
     "email": "hello@lesli.tech"

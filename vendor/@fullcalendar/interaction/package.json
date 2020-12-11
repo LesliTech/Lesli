@@ -27,14 +27,8 @@
     "#DEV:/"
   ],
   "_resolved": "https://registry.npmjs.org/@fullcalendar/interaction/-/interaction-4.4.2.tgz",
-<<<<<<< HEAD
-  "_shasum": "0a6be06538f843b6f0f4e9b4de87a5e3ec3629fb",
-  "_spec": "@fullcalendar/interaction@4.4.2",
-  "_where": "/Users/willi/Desktop/lomax/lesli.cloud",
-=======
   "_spec": "4.4.2",
   "_where": "/Users/ldonis/code/Lesli/lesli.cloud",
->>>>>>> ldonis
   "author": {
     "name": "Adam Shaw",
     "email": "arshaw@arshaw.com",

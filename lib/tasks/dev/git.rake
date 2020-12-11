@@ -91,12 +91,6 @@ namespace :dev do
             # commit any possible pending change
             system "git add --all && git commit -m \"dev update\""
 
-            # copy vendor dependencies (only css files are required)
-            system "rm -r vendor/*"
-            ["buefy", "bulma", "bulma-o-steps", "bulma-extensions", "quill", "@fullcalendar", "lesli-css"].each do |package|
-                FileUtils.cp_r "node_modules/#{package}/", "vendor/", :verbose => true
-            end
-
             # commit any change in vendor
             system "git add --all && git commit -m \"Update npm dependencies (vendors)\""
 
@@ -171,6 +165,23 @@ namespace :dev do
             puts ""; puts ""; puts "";
             puts "Working with: Lesli"
             system "git pull origin master"
+
+        end
+
+        desc ""
+        task vendors: :environment do 
+
+            # copy vendor dependencies (only css files are required)
+            system "rm -r vendor/*"
+
+            ["buefy", "bulma", "bulma-o-steps", "bulma-extensions", "quill", "@fullcalendar", "lesli-css"].each do |package|
+                FileUtils.cp_r "node_modules/#{package}/", "vendor/", :verbose => true
+            end
+
+            Dir.glob("vendor/**/*").each do |file|
+                #FileUtils.rm(file) if file.index("package.json")
+                #FileUtils.rm(file) if file.index("package-lock.json")
+            end
 
         end
 
