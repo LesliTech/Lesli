@@ -39,20 +39,12 @@ export default {
                 active: false
             },
             browser_data: {
-            },
-            notifications: 0,
-            tasks: 0,
+            }
         }
     },
 
     mounted() {
-
         this.getBrowserData();
-
-        // due performance issues we are going to get notification count
-        // through account data partial
-        this.notification.count = lesli.notifications
-
     },
 
     methods: {
@@ -120,19 +112,19 @@ export default {
 
                 <slot></slot>
 
-                <a class="navbar-item header-notification-indicator" @click="showTasks()">
-                    <i v-if="tasks > 0" class="fas fa-tasks has-text-link"></i>
-                    <i v-if="tasks == 0" class="fas fa-tasks"></i>
-                    <span>{{ tasks }}</span>
+                <a class="navbar-item header-notification-indicator core" @click="showTasks()">
+                    <i v-if="lesli.tasks > 0" class="fas fa-tasks has-text-link"></i>
+                    <i v-if="lesli.tasks == 0" class="fas fa-tasks"></i>
+                    <span>{{ lesli.tasks }}</span>
                 </a>
 
-                <a class="navbar-item header-notification-indicator" @click="showNotifications()">
+                <a class="navbar-item header-notification-indicator core" @click="showNotifications()">
                     <i v-if="lesli.notifications > 0" class="fas fa-bell has-text-link"></i>
                     <i v-if="lesli.notifications == 0" class="far fa-bell"></i>
                     <span>{{ lesli.notifications }}</span>
                 </a>
 
-                <a class="navbar-item header-navigation-engine" @click="showApps('right')">
+                <a class="navbar-item header-navigation-engine core" @click="showApps('right')">
                     <span class="icon">
                         <svg viewBox="0 0 24 24">
                             <path d="M6,8c1.1,0 2,-0.9 2,-2s-0.9,-2 -2,-2 -2,0.9 -2,2 0.9,2 2,2zM12,20c1.1,0 2,-0.9 2,-2s-0.9,-2 -2,-2 -2,0.9 -2,2 0.9,2 2,2zM6,20c1.1,0 2,-0.9 2,-2s-0.9,-2 -2,-2 -2,0.9 -2,2 0.9,2 2,2zM6,14c1.1,0 2,-0.9 2,-2s-0.9,-2 -2,-2 -2,0.9 -2,2 0.9,2 2,2zM12,14c1.1,0 2,-0.9 2,-2s-0.9,-2 -2,-2 -2,0.9 -2,2 0.9,2 2,2zM16,6c0,1.1 0.9,2 2,2s2,-0.9 2,-2 -0.9,-2 -2,-2 -2,0.9 -2,2zM12,8c1.1,0 2,-0.9 2,-2s-0.9,-2 -2,-2 -2,0.9 -2,2 0.9,2 2,2zM18,14c1.1,0 2,-0.9 2,-2s-0.9,-2 -2,-2 -2,0.9 -2,2 0.9,2 2,2zM18,20c1.1,0 2,-0.9 2,-2s-0.9,-2 -2,-2 -2,0.9 -2,2 0.9,2 2,2z">
