@@ -26,14 +26,8 @@
     "#DEV:/"
   ],
   "_resolved": "https://registry.npmjs.org/bulma-extensions/-/bulma-extensions-6.2.7.tgz",
-<<<<<<< HEAD
-  "_shasum": "f9f4d1478a7ac1606ae8db1e765aa45e3f12bb31",
-  "_spec": "bulma-extensions@6.2.7",
-  "_where": "/Users/willi/Desktop/lomax/lesli.cloud",
-=======
   "_spec": "6.2.7",
   "_where": "/Users/ldonis/code/Lesli/lesli.cloud",
->>>>>>> ldonis
   "author": {
     "name": "Wikiki",
     "email": "wikiki@protonmail.com",
