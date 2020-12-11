@@ -185,6 +185,9 @@ class UsersController < ApplicationLesliController
             return respond_with_error "User not found"
         end
 
+        # Integrations cannot be logged out. Since this is equivalent to revoking their access
+        return respond_with_error I18n.t("core.users.messages_warning_cannot_log_out_integration") if user.integration?
+
         # delete user active sessions
         user.close_session
 
