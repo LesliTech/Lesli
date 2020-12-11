@@ -400,6 +400,7 @@ class User < ApplicationLesliRecord
             query[:pagination][:order] = "asc"
         end
 
+        users = users.where("category = ?", query[:filters][:category]) if query[:filters][:category]
         users = users.where("email like '%#{query[:filters][:domain]}%'")  unless query[:filters][:domain].blank?
         users = users.where("role_names #{operator} (?)", roles) unless roles.blank?
         users = users.order("#{query[:pagination][:orderColumn]} #{query[:pagination][:order]} NULLS LAST")
