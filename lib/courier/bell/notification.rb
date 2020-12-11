@@ -29,9 +29,24 @@ module Courier
     module Bell
         class Notification
 
+            def self.count(current_user)
+                return 0 if not defined? CloudBell
+                CloudBell::Notification.count(current_user)
+            end
+
             def self.index(current_user, query, view_type)
                 return 0 if not defined? CloudBell
                 CloudBell::Notification.index(current_user, query, view_type)
+            end
+
+            def self.new(user, subject, url:nil, kind:"info")
+                return if not defined? CloudBell
+                user.account.bell.notifications.create({
+                    subject: subject,
+                    kind: kind,
+                    user: user,
+                    url: url
+                })
             end
 
         end

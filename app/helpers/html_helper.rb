@@ -60,6 +60,13 @@ module HtmlHelper
         end
     end
 
+    # 03.08 Bell engine
+    def navigation_engine_bell text: "Bell", icon_path: "cloud_bell/bell-logo.svg"
+        if defined? CloudBell
+            navigation_engine_item text, icon_path, cloud_bell.root_path, controller_path.include?("cloud_bell")
+        end
+    end
+
     # 08.03 Audit engine
     def navigation_engine_audit text: "Audit", icon_path: "cloud_audit/audit-logo.svg"
         if defined? CloudAudit
