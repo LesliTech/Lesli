@@ -179,8 +179,8 @@ namespace :dev do
             end
 
             Dir.glob("vendor/**/*").each do |file|
-                #FileUtils.rm(file) if file.index("package.json")
-                #FileUtils.rm(file) if file.index("package-lock.json")
+                FileUtils.rm(file) if file.index("package.json")
+                FileUtils.rm(file) if file.index("package-lock.json")
             end
 
         end
