@@ -147,9 +147,11 @@ module LC
         end
 
 
-        def self.distance_to_words(time_from, time_to, force_time_zone=false, include_seconds=true)
+        def self.distance_to_words(time_from, time_to=nil, force_time_zone=false, include_seconds=true)
 
             return "never" if time_from.blank?
+
+            time_to = self.now if time_to.blank?
 
             self.verify_settings
             

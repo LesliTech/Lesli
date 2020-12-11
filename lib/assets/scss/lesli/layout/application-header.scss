@@ -61,8 +61,8 @@ header.application-header {
             font-size: 1.2rem;
             span {
                 top: 0px;
-                right: 8px;
-                width: 12px;
+                right: 6px;
+                width: 14px;
                 height: 14px;
                 font-size: 10px;
                 text-align: center;
@@ -71,6 +71,7 @@ header.application-header {
                 color: lesli-css-get-color(silver, 100);
                 font-family: sans-serif;
                 position: absolute;
+                padding-top: 1px;
             }
         }
 

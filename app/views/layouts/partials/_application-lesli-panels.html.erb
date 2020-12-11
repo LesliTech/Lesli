@@ -16,10 +16,12 @@ For more information read the license file including with this software.
 // · 
 
 %>
-
-<application-component-engine>
+<application-component-panel-engine>
     <%# Custom module navigation from builder engine %>
     <% if lesli_instance != "lesli" %>
     <%= render partial: "layouts/#{lesli_instance}/partials/engine-navigation" %>
     <% end %>
-</application-component-engine>
+</application-component-panel-engine>
+
+<application-component-panel-task></application-component-panel-task>
+<application-component-panel-notification></application-component-panel-notification>
