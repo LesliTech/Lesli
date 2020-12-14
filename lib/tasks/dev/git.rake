@@ -50,8 +50,10 @@ namespace :dev do
 
         end
 
-        desc "Pull everything from github master"
-        task pull: :environment do
+        desc "Pull everything from github master. If you add the 'force' argument, it will force a reset and a checkout to master"
+        task :pull, [:force] => :environment do |task, args|
+            force_command = ""
+            force_command = " git reset -- hard && git checkout master && " if args[:force]
 
             Lesli::engines.each do |engine|
 
@@ -61,14 +63,14 @@ namespace :dev do
                 # pull from master
                 puts ""; puts ""; puts "";
                 puts "Working with: #{engine['name']}"
-                result = `cd ./engines/#{engine['name']} && git pull origin master` if File.exists?(engine_path)
+                result = `cd ./engines/#{engine['name']} && #{force_command} git pull origin master` if File.exists?(engine_path)
 
             end
 
             # pull from master
             puts ""; puts ""; puts "";
             puts "Working with: Lesli"
-            system "git pull origin master"
+            system "#{force_command} git pull origin master"
 
         end
 
