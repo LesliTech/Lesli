@@ -35,7 +35,7 @@ class AccountsController < ApplicationLesliController
         respond_to do |format| 
             format.html {}
             format.json {
-                respond_with_successful(set_global_account)
+                respond_with_successful()
             }
         end
     end

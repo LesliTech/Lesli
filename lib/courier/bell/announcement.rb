@@ -1,4 +1,4 @@
-<%#
+=begin
 
 Copyright (c) 2020, all rights reserved.
 
@@ -15,11 +15,17 @@ For more information read the license file including with this software.
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
 // · 
 
-%>
+=end
 
-<application-component-engine>
-    <%# Custom module navigation from builder engine %>
-    <% if lesli_instance != "lesli" %>
-    <%= render partial: "layouts/#{lesli_instance}/partials/engine-navigation" %>
-    <% end %>
-</application-component-engine>
+module Courier
+    module Bell
+        class Announcement
+
+            def self.count(current_user)
+                return 0 if not defined? CloudBell
+                CloudBell::Announcement.count(current_user)
+            end
+
+        end
+    end
+end

@@ -40,7 +40,7 @@ module Courier
 
                     d = current_user.account.bell.notifications.create({
                         subject: subject,
-                        category: category,
+                        kind: category,
                         user: current_user,
                         url: url
                     })
