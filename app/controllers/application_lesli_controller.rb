@@ -67,6 +67,7 @@ class ApplicationLesliController < ApplicationController
             current_user: { },
             revision: LC::System::Info.revision,
             notifications: Courier::Bell::Notification.count(current_user),
+            announcements: Courier::Bell::Announcement.count(current_user),
             tasks: Courier::Focus::Task.count(current_user)
         }
 
