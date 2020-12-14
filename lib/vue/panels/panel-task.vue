@@ -80,7 +80,7 @@ export default {
                 })
             })
 
-            this.bus.subscribe("show:/core/layout/notification#panel", () => {
+            this.bus.subscribe("show:/core/layout/tasks#panel", () => {
                 
                 // toggle notification panel
                 if (this.notification.show == true) {
@@ -93,7 +93,6 @@ export default {
         },
 
         getNotifications() {
-            //this.http.get('/bell/notifications.json').then(result => {
             this.http.get('/crm/dashboards/resources/overdue-tasks.json?perPage=500&orderColumn=importance').then(result => {
                 if (result.successful){
                     this.notification.list = result.data

@@ -6,7 +6,7 @@ module Notifications
         def perform(telephone, message)
 
             if not Rails.application.config.lesli_settings["configuration"]["notifications"]["sms"]
-                LC::Debug.msg "SMS are deactivated."
+                LC::Debug.msg "SMS are deactivated.", telephone, message
                 return
             end
 
