@@ -1,4 +1,4 @@
-<%#
+=begin
 
 Copyright (c) 2020, all rights reserved.
 
@@ -15,18 +15,17 @@ For more information read the license file including with this software.
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
 // · 
 
-%>
+=end
 
-<script>
-const lesli = {
-    app: "<%= params[:controller] %>",
-    url: { root: "<%= request.base_url.to_s %>" },
-    view_id: "<%= "#{params[:controller].gsub("/", "_")}_#{params[:action]}" %>",
-    company: <%= @account ? @account[:company].to_json.html_safe : "{}"%>,
-    settings: <%= @account ? @account[:settings].to_json.html_safe : "{}"%>,
-    current_user: <%= @account ? @account[:current_user].to_json.html_safe : "{}"%>,
-    notifications: <%= @account ?  @account[:notifications] : "-1" %>,
-    announcements: <%= @account ?  @account[:announcements] : "-1" %>,
-    tasks: <%= @account ?  @account[:tasks] : "-1" %>
-}
-</script>
+module Courier
+    module Bell
+        class Announcement
+
+            def self.count(current_user)
+                return 0 if not defined? CloudBell
+                CloudBell::Announcement.count(current_user)
+            end
+
+        end
+    end
+end
