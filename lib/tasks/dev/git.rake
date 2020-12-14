@@ -53,7 +53,7 @@ namespace :dev do
         desc "Pull everything from github master. If you add the 'force' argument, it will force a reset and a checkout to master"
         task :pull, [:force] => :environment do |task, args|
             force_command = ""
-            force_command = " git reset -- hard && git checkout master && " if args[:force]
+            force_command = " git reset --hard && git checkout master && " if args[:force]
 
             Lesli::engines.each do |engine|
 
