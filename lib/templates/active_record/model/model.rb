@@ -3,11 +3,11 @@
 =end
 <% module_namespacing do -%>
 class <%= class_name %> < ApplicationLesliRecord
-    def self.index(current_user, {})
+    def self.index(current_user, query)
         []
     end
 
-    def show(current_user, {})
+    def show(current_user, query)
         self
     end
 end
