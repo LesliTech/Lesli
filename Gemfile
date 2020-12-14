@@ -93,9 +93,13 @@ gem 'yomu'
 # Generate pdf
 gem "prawn"
 gem 'prawn-table'
+gem "combine_pdf"
 
 # Adding docx var support
 gem 'docx_replace'
+
+# Convert files to pdf
+gem "libreconv"
 
 gem "jwt"
 
