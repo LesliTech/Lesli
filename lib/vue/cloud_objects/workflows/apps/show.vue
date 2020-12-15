@@ -34,6 +34,11 @@ export default {
         engineNamespace: {
             type: String,
             required: true
+        },
+
+        translationsPath: {
+            type: String,
+            default: null
         }
     },
 
@@ -45,10 +50,7 @@ export default {
 
     data() {
         return {
-            main_route: `/${this.engineNamespace}/workflows`,
             translations: {
-                main: I18n.t(`${this.engineNamespace}.workflows`),
-                shared: I18n.t(`${this.engineNamespace}.shared`),
                 core: I18n.t('core.shared'),
                 workflows: I18n.t('core.workflows')
             },
@@ -56,12 +58,32 @@ export default {
             workflow_id: null,
             active_tab: 0,
             selected_workflow_status: {},
+            translations_path: null
         }
     },
     mounted() {
+        this.setTranslations()
+        this.setMainRoute()
         this.setWorkflowId()
     },
     methods: {
+        setTranslations(){
+            this.translations_path = this.translationsPath
+            if(! this.translations_path){
+                this.translations_path = this.engineNamespace
+            }
+
+            this.$set(this.translations, 'shared', I18n.t(`${this.translations_path}.shared`))
+        },
+
+        setMainRoute(){
+            // Engines like mitwerken use root as namespace
+            if(this.engineNamespace == '/'){
+                this.main_route = '/workflows'
+            }else{
+                this.main_route = `/${this.engineNamespace}/workflows`
+            }
+        },
         
         setWorkflowId(){
             if (this.$route.params.id) {
@@ -125,6 +147,7 @@ export default {
         },
 
         confirmDeletion() {
+            window.scrollTo(0,0)
             this.$buefy.dialog.confirm({
                 title: this.translations.workflows.messages_danger_delete_workflow_title,
                 message: this.translations.workflows.messages_danger_delete_workflow_description,
@@ -357,7 +380,7 @@ export default {
                             v-if="active_tab == 1"
                             class="has-text-centered"
                             translations-path="core.workflows" 
-                            :cloud-module="`${engineNamespace}/workflow`"
+                            :engine-namespace="engineNamespace"
                             :workflow="workflow"
                         >
                         </component-chart>
@@ -397,13 +420,13 @@ export default {
         <component-association
             :engine-namespace="engineNamespace"
             :workflow-id="workflow_id"
-            :translations-path="`${cloudEngine.replace('Cloud', '').toLowerCase()}.workflow/associations`"
+            :translations-path="`${translations_path}.workflow/associations`"
         >
         </component-association>
         <component-action
             :engine-namespace="engineNamespace"
             :workflow-id="workflow_id"
-            :translations-path="`${cloudEngine.replace('Cloud', '').toLowerCase()}.workflow/actions`"
+            :translations-path="`${translations_path}.workflow/actions`"
             statuses-translations-path="core.shared"
         >
         </component-action>

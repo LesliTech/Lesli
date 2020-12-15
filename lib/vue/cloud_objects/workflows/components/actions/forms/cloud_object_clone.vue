@@ -23,7 +23,7 @@ export default {
             default: 'new'
         },
         
-        cloudEngine: {
+        engineNamespace: {
             type: String,
             required: true
         }
@@ -31,6 +31,7 @@ export default {
 
     data(){
         return {
+            main_route: null,
             translations: {
                 core: I18n.t('core.shared'),
                 actions: I18n.t('core.workflow/actions')
@@ -41,13 +42,12 @@ export default {
                 detail_attributes: {},
                 cloud_object_options: {}
             },
-            cloud_engine: '',
             action_unavailable: false
         }
     },
 
     mounted(){
-        this.setCloudEngine()
+        this.setMainRoute()
         this.setSubscriptions()
         this.setTranslations()
         this.cloneWorkflowAction()
@@ -60,11 +60,13 @@ export default {
     },
 
     methods: {
-        setCloudEngine(){
-            if(this.cloudEngine == 'crm'){
-                this.cloud_engine = 'house'
+        setMainRoute(){
+            if(this.engineNamespace == 'crm'){
+                this.main_route = '/house/workflows'
+            }else if(this.engineNamespace == '/'){
+                this.main_route = '/workflows'
             }else{
-                this.cloud_engine = this.cloudEngine
+                this.main_route = `/${this.engineNamespace}/workflows`
             }
         },
 
@@ -90,7 +92,8 @@ export default {
         },
 
         getCloneOptions(){
-            this.http.get(`/${this.cloud_engine}/workflows/${this.workflowId}/actions/resources/options_cloud_object_clone`).then(result => {
+            let url = `${this.main_route}/${this.workflowId}/actions/resources/options_cloud_object_clone.json`
+            this.http.get(url).then(result => {
                 if (result.successful) {
                     if(result.data){
                         for(let key in result.data){
