@@ -35,7 +35,7 @@ Vue.use(VueMermaid)
 
 export default {
     props: {
-        cloudModule: {
+        engineNamespace: {
             type: String,
             required: true
         },
@@ -56,6 +56,7 @@ export default {
     },
     data(){
         return {
+            main_route: null,
             parsed_workflow: [],
             workflow_data: null,
             translations: {
@@ -73,7 +74,12 @@ export default {
     },
     methods: {
         setCloudParams(){
-            let module_data = this.cloudModule.split('/')
+            if(this.engineNamespace == '/'){
+                this.main_route = '/workflows'
+            }else{
+                this.main_route = `/${this.engineNamespace}/workflows`
+            }
+            let module_data = this.engineNamespace.split('/')
             this.module_name = module_data[0]
         },
 
@@ -99,7 +105,9 @@ export default {
             if(this.workflow){
                 this.workflow_data = this.workflow.statuses
             }else{
-                this.http.get(`/${this.module_name}/workflows/${this.workflowId}.json`).then(result => {
+                let url = `${this.main_route}/${this.workflowId}.json`
+
+                this.http.get(url).then(result => {
                     if (result.successful) {
                         this.workflow_data = result.data.statuses
                         this.displayWorkflow()

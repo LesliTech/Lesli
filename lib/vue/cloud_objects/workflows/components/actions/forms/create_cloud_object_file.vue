@@ -23,7 +23,7 @@ export default {
             default: 'new'
         },
 
-        cloudEngine: {
+        engineNamespace: {
             type: String,
             required: true
         }
@@ -41,14 +41,13 @@ export default {
                 templates: {},
                 file_types: []
             },
-            cloud_engine: null,
             action_unavailable: false
         }
     },
 
     mounted(){
+        this.setMainRoute()
         this.setSubscriptions()
-        this.setCloudEngine()
         this.setTranslations()
         this.cloneWorkflowAction()
         this.getCloudObjectFileOptions()
@@ -71,11 +70,13 @@ export default {
             })
         },
 
-        setCloudEngine(){
-            if(this.cloudEngine == 'crm'){
-                this.cloud_engine = 'house'
+        setMainRoute(){
+            if(this.engineNamespace == 'crm'){
+                this.main_route = '/house/workflows'
+            }else if(this.engineNamespace == '/'){
+                this.main_route = '/workflows'
             }else{
-                this.cloud_engine = this.cloudEngine
+                this.main_route = `/${this.engineNamespace}/workflows`
             }
         },
 
@@ -89,8 +90,9 @@ export default {
         },
 
         getCloudObjectFileOptions(){
-            let url = `/${this.cloud_engine}/workflows/${this.workflowId}/actions/resources/options_create_cloud_object_file.json`
-             this.http.get(url).then(result => {
+            let url = `${this.main_route}/${this.workflowId}/actions/resources/options_create_cloud_object_file.json`
+
+            this.http.get(url).then(result => {
                 if (result.successful) {
                     if(result.data && result.data.templates.length > 0){
                         this.file_options = result.data

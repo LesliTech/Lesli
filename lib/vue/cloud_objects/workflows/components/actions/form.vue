@@ -11,7 +11,7 @@ export default {
             required: true
         },
 
-        cloudEngine: {
+        engineNamespace: {
             required: true
         },
         translationsPath: {
@@ -78,7 +78,7 @@ export default {
 
     methods: {
         setMainRoute(){
-            this.main_route = `/${this.cloudEngine}/workflows/${this.workflowId}/actions`
+            this.main_route = `/${this.engineNamespace}/workflows/${this.workflowId}/actions`
         },
 
         setTranslations(){
@@ -96,7 +96,7 @@ export default {
         },
 
         getActionOptions(){
-            let url = `/${this.cloudEngine}/workflows/${this.workflowId}/actions/options`
+            let url = `${this.main_route}/options`
 
             this.http.get(url).then(result => {
                 if (result.successful) {
@@ -148,13 +148,11 @@ export default {
         },
 
         postAction(){
-            let url = `${this.main_route}`
-
             let data = {
                 workflow_action: this.action
             }
 
-            this.http.post(url, data).then(result => {
+            this.http.post(this.main_route, data).then(result => {
                 if (result.successful) {
                     this.alert(this.translations.actions.messages_success_action_created,'success')
                     this.bus.publish('post:/module/workflow/action', result.data)
@@ -262,7 +260,7 @@ export default {
 </script>
 <template>
     <div v-if="translations.main">
-        <article class="message is-warning" v-if="viewType == 'new' && options.has_global_association && cloudEngine == 'focus'">
+        <article class="message is-warning" v-if="viewType == 'new' && options.has_global_association && engineNamespace == 'focus'">
             <div class="message-header">
                 <p>{{translations.actions.messages_warning_new_focus_global_action_title}}</p>
             </div>
@@ -382,7 +380,7 @@ export default {
                 :translations-path="translationsPath"
                 :workflow-action="action"
                 :view-type="viewType"
-                :cloud-engine="cloudEngine"
+                :engine-namespace="engineNamespace"
             ></component-form-create-cloud-object-file>
             <component-form-cloud-object-clone
                 v-if="action.action_type == 'cloud_object_clone'"
@@ -391,7 +389,7 @@ export default {
                 :translations-path="translationsPath"
                 :workflow-action="action"
                 :view-type="viewType"
-                :cloud-engine="cloudEngine"
+                :engine-namespace="engineNamespace"
             ></component-form-cloud-object-clone>
             <br>
             <div class="buttons">

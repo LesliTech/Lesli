@@ -34,14 +34,14 @@ import componentStatusName from "LesliVue/cloud_objects/workflows/components/sta
 
 export default {
     props: {
-        cloudEngine: {
+        engineNamespace: {
             type: String,
             required: true
         },
 
-        engineNamespace: {
+        translationsPath: {
             type: String,
-            required: true
+            default: null
         }
     },
 
@@ -53,8 +53,6 @@ export default {
     data() {
         return {
             translations: {
-                main: I18n.t(`${this.engineNamespace}.workflows`),
-                shared: I18n.t(`${this.engineNamespace}.shared`),
                 core: I18n.t('core.shared'),
                 workflows: I18n.t('core.workflows')
             },
@@ -68,13 +66,35 @@ export default {
             statuses_count: 0,
             active_tab: 0,
             cloud_engine: 'crm',
-            to_be_deleted_statuses: {}
+            to_be_deleted_statuses: {},
+            main_route: null
         }
     },
     mounted() {
+        this.setTranslations()
+        this.setMainRoute()
         this.setWorkflowId()
     },
     methods: {
+        setTranslations(){
+            let translations_path = this.translationsPath
+            if(! translations_path){
+                translations_path = this.engineNamespace
+            }
+
+            this.$set(this.translations, 'main', I18n.t(`${translations_path}.workflows`))
+            this.$set(this.translations, 'shared', I18n.t(`${translations_path}.shared`))
+        },
+
+        setMainRoute(){
+            // Engines like mitwerken use root as namespace
+            if(this.engineNamespace == '/'){
+                this.main_route = '/workflows'
+            }else{
+                this.main_route = `/${this.engineNamespace}/workflows`
+            }
+        },
+
         setWorkflowId(){
             if (this.$route.params.id) {
                 this.workflow_id = this.$route.params.id
@@ -89,7 +109,7 @@ export default {
         },
 
         getWorkflow() {
-            let url = `/${this.engineNamespace}/workflows/${this.workflow_id}.json`
+            let url = `${this.main_route}/${this.workflow_id}.json`
 
             this.http.get(url).then(result => {
                 if (result.successful) {
@@ -125,7 +145,7 @@ export default {
                 workflow_status: new_status
             }
 
-            let url = `/${this.engineNamespace}/workflows/${this.workflow_id}/statuses`
+            let url = `${this.main_route}/${this.workflow_id}/statuses`
             this.http.post(url, data).then(result => {
                 if (result.successful) {
                     new_status.id = result.data.id
@@ -260,7 +280,7 @@ export default {
                     }
                 }
 
-                this.http.post(`/${this.engineNamespace}/workflows`, data).then(result => {
+                this.http.post(`${this.main_route}`, data).then(result => {
                     if (result.successful) {
                         this.alert(this.translations.workflows.messages_success_workflow_created, 'success')
                         
@@ -287,7 +307,7 @@ export default {
                     statuses_attributes: statuses_attributes
                 }
             }
-            let url = `/${this.engineNamespace}/workflows/${this.workflow_id}`
+            let url = `${this.main_route}/${this.workflow_id}`
 
             this.http.put(url, data).then(result => {
                 if (result.successful) {
@@ -308,7 +328,7 @@ export default {
             }
 
             if(this.workflow_id){
-                let url = `/${this.engineNamespace}/workflows/${this.workflow_id}`
+                let url = `${this.main_route}/${this.workflow_id}`
                 this.http.patch(url, data).then(result => {
                     if (result.successful) {
                         this.alert(this.translations.workflows.messages_success_workflow_name_updated, 'success')
@@ -319,7 +339,7 @@ export default {
                     console.log(error)
                 })
             }else{
-                let url = `/${this.engineNamespace}/workflows`
+                let url = `${this.main_route}`
                 this.http.post(url, data).then(result => {
                     if (result.successful) {
                         this.workflow_id = result.data.id
@@ -629,7 +649,7 @@ export default {
                         v-if="active_tab == 1"
                         class="has-text-centered"
                         translations-path="core.workflows" 
-                        :cloud-module="`${engineNamespace}/workflow`"
+                        :engine-namespace="engineNamespace"
                         :workflow="workflow"
                         :rerender.sync="rerender_chart"
                     />
