@@ -29,6 +29,7 @@ export default {
             },
             loading: false,
             files: null,
+            main_route: null,
             module_name: null,
             object_name: null,
             pagination: {
@@ -60,13 +61,13 @@ export default {
         },
 
         setSubscriptions(){
-            this.bus.subscribe(`post:/${this.module_name.slash}/${this.object_name.plural}/files-complete`, ()=>{
+            this.bus.subscribe(`post:${this.main_route}/files-complete`, ()=>{
                 if(this.files){
                     this.getFiles()
                 }
             })
 
-            this.bus.subscribe(`delete:/${this.module_name.slash}/${this.object_name.plural}/files`, (deleted_file)=>{
+            this.bus.subscribe(`delete:${this.main_route}/files`, (deleted_file)=>{
                 if(this.files){
                     this.files = this.files.filter((file)=>{
                         return file.id != deleted_file.id
@@ -79,6 +80,12 @@ export default {
             let parsed_data = this.object_utils.parseCloudModule(this.cloudModule)
             this.object_name = parsed_data.cloud_object_name
             this.module_name = parsed_data.cloud_module_name
+
+            if(this.module_name.slash == '/'){
+                this.main_route = `/${this.object_name.plural}`
+            }else{
+                this.main_route = `/${this.module_name.slash}/${this.object_name.plural}`
+            }
         },
 
         getBackendData(){
@@ -88,7 +95,7 @@ export default {
         },
 
         getFiles() {
-            let url = `/${this.module_name.slash}/${this.object_name.plural}/${this.cloudId}/files.json`
+            let url = `${this.main_route}/${this.cloudId}/files.json`
             this.loading = true
 
             this.http.get(url).then(result => {
@@ -118,12 +125,12 @@ export default {
 
         deleteFile(deleted_file){
             let file_id = deleted_file.id
-            let url = `/${this.module_name.slash}/${this.object_name.plural}/${this.cloudId}/files/${file_id}.json`
+            let url = `${this.main_route}/${this.cloudId}/files/${file_id}.json`
 
             this.http.delete(url).then(result => {
                 if (result.successful) {
                     this.alert(this.translations.core.messages_info_file_destroyed, 'success')
-                    this.bus.publish(`delete:/${this.module_name.slash}/${this.object_name.plural}/files`, deleted_file)
+                    this.bus.publish(`delete:${this.main_route}/files`, deleted_file)
                 }else{
                     this.alert(result.error.message,'danger')
                 }
@@ -143,14 +150,14 @@ export default {
             )
             if(file_ids.length > 0){
                 window.open(
-                    `/${this.module_name.slash}/${this.object_name.plural}/${this.cloudId}/resources/files-zip-download?ids=${file_ids}`
+                    `${this.main_route}/${this.cloudId}/resources/files-zip-download?ids=${file_ids}`
                 )
             }
         }
     },
 
     beforeDestroy(){
-        this.bus.$off(`post:/${this.module_name.slash}/${this.object_name.plural}/files-complete`)
+        this.bus.$off(`post:${this.main_route}/files-complete`)
     },
 
     computed: {

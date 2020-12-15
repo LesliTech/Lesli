@@ -35,6 +35,7 @@ export default {
 
     data(){
         return {
+            main_route: null,
             translations: {
                 core: I18n.t('core.shared')
             },
@@ -77,7 +78,7 @@ export default {
         },
 
         setDropzoneOptions(){
-            this.dropzone_options.url = `/${this.module_name.slash}/${this.object_name.plural}/${this.cloudId}/files`
+            this.dropzone_options.url = `${this.main_route}/${this.cloudId}/files`
             this.dropzone_options.paramName = `${this.object_name.singular}_file[attachment_local]`
         },
 
@@ -85,6 +86,12 @@ export default {
             let parsed_data = this.object_utils.parseCloudModule(this.cloudModule)
             this.object_name = parsed_data.cloud_object_name
             this.module_name = parsed_data.cloud_module_name
+
+            if(this.module_name.slash == '/'){
+                this.main_route = `/${this.object_name.plural}`
+            }else{
+                this.main_route = `/${this.module_name.slash}/${this.object_name.plural}`
+            }
         },
 
         getBackendData(){
@@ -94,7 +101,7 @@ export default {
         },
 
         getFileOptions(){
-            let url = `/${this.module_name.slash}/${this.object_name.plural}/files/options`
+            let url = `${this.main_route}/files/options`
 
             this.http.get(url).then(result => {
                 if (result.successful) {
@@ -153,12 +160,12 @@ export default {
             this.alert(this.translations.core.messages_info_file_created, 'success')
             this.$refs['dropzone'].removeAllFiles(true)
             this.$emit('upload-complete')
-            this.bus.publish(`post:/${this.module_name.slash}/${this.object_name.plural}/files-complete`)
+            this.bus.publish(`post:${this.main_route}/files-complete`)
         },
 
         filePosted(file, result){
             if(result.successful){
-                this.bus.publish(`post:/${this.module_name.slash}/${this.object_name.plural}/files`, result.data)
+                this.bus.publish(`post:${this.main_route}/files`, result.data)
             }else{
                 this.alert(result.error.message,'danger')
             }
