@@ -402,7 +402,7 @@
 
     while (locales.length) {
       locale = locales.shift();
-      scopes = fullScope.split(options.separator || this.defaultSeparator);
+      scopes = fullScope.split(this.defaultSeparator);
       translations = this.translations[locale];
 
       if (!translations) {
@@ -459,7 +459,7 @@
 
     while (locales.length) {
       locale = locales.shift();
-      scopes = scope.split(options.separator || this.defaultSeparator);
+      scopes = scope.split(this.defaultSeparator);
       translations = this.translations[locale];
 
       if (!translations) {
@@ -685,7 +685,7 @@
 
     var localeForTranslation = (options != null && options.locale != null) ? options.locale : this.currentLocale();
     var fullScope           = this.getFullScope(scope, options);
-    var fullScopeWithLocale = [localeForTranslation, fullScope].join(options.separator || this.defaultSeparator);
+    var fullScopeWithLocale = [localeForTranslation, fullScope].join(this.defaultSeparator);
 
     return '[missing "' + fullScopeWithLocale + '" translation]';
   };
@@ -1025,7 +1025,6 @@
       , iterations = 0
       , unit
       , precision
-      , fullScope
     ;
 
     while (size >= kb && iterations < 4) {
@@ -1034,12 +1033,10 @@
     }
 
     if (iterations === 0) {
-      fullScope = this.getFullScope("number.human.storage_units.units.byte", options);
-      unit = this.t(fullScope, {count: size});
+      unit = this.t("number.human.storage_units.units.byte", {count: size});
       precision = 0;
     } else {
-      fullScope = this.getFullScope("number.human.storage_units.units." + SIZE_UNITS[iterations], options);
-      unit = this.t(fullScope);
+      unit = this.t("number.human.storage_units.units." + SIZE_UNITS[iterations]);
       precision = (size - Math.floor(size) === 0) ? 0 : 1;
     }
 
@@ -1056,7 +1053,7 @@
 
     // Deal with the scope as an array.
     if (isArray(scope)) {
-      scope = scope.join(options.separator || this.defaultSeparator);
+      scope = scope.join(this.defaultSeparator);
     }
 
     // Deal with the scope option provided through the second argument.
@@ -1064,7 +1061,7 @@
     //    I18n.t('hello', {scope: 'greetings'});
     //
     if (options.scope) {
-      scope = [options.scope, scope].join(options.separator || this.defaultSeparator);
+      scope = [options.scope, scope].join(this.defaultSeparator);
     }
 
     return scope;
