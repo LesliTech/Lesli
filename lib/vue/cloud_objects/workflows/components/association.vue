@@ -42,8 +42,13 @@ export default {
 
     methods: {
         setEndpoints(){
-            this.options_endpoint = `/${this.engineNamespace}/workflows/associations/options`
-            this.endpoint = `/${this.engineNamespace}/workflows/${this.workflowId}/associations`
+            if(this.engineNamespace == '/'){
+                this.options_endpoint = `/workflows/associations/options`
+                this.endpoint = `/workflows/${this.workflowId}/associations`
+            }else{
+                this.options_endpoint = `/${this.engineNamespace}/workflows/associations/options`
+                this.endpoint = `/${this.engineNamespace}/workflows/${this.workflowId}/associations`
+            }
         },
 
         setTranslations(){

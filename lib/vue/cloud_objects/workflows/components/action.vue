@@ -61,7 +61,6 @@ export default {
         },
 
         setTranslations(){
-            console.log(this.translationsPath)
             this.$set(this.translations, 'main', I18n.t(this.translationsPath))
         }
     },
@@ -83,7 +82,7 @@ export default {
             <b-tabs expanded v-model="active_tab">
                 <b-tab-item :label="translations.actions.view_tab_title_list">
                     <component-list
-                        :cloud-engine="engineNamespace"
+                        :engine-namespace="engineNamespace"
                         :workflow-id="workflowId"
                         :translations-path="translationsPath"
                         :statuses-translations-path="statusesTranslationsPath"
@@ -93,7 +92,7 @@ export default {
                 </b-tab-item>
                 <b-tab-item :label="translations.actions.view_tab_title_new">
                     <component-new
-                        :cloud-engine="engineNamespace"
+                        :engine-namespace="engineNamespace"
                         :workflow-id="workflowId"
                         :translations-path="translationsPath"
                         :statuses-translations-path="statusesTranslationsPath"
@@ -102,7 +101,7 @@ export default {
                 </b-tab-item>
                 <b-tab-item :label="translations.actions.view_tab_title_edit" :disabled="! action_selected">
                     <component-edit
-                        :cloud-engine="engineNamespace"
+                        :engine-namespace="engineNamespace"
                         :workflow-id="workflowId"
                         :translations-path="translationsPath"
                         :statuses-translations-path="statusesTranslationsPath"

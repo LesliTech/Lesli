@@ -94,7 +94,6 @@ export default {
 
         getWorkflow() {
             let url = `${this.main_route}/${this.workflow_id}.json`
-            console.log(url)
             this.http.get(url).then(result => {
                 if (result.successful) {
                     this.workflow = result.data
@@ -148,6 +147,7 @@ export default {
         },
 
         confirmDeletion() {
+            window.scrollTo(0,0)
             this.$buefy.dialog.confirm({
                 title: this.translations.workflows.messages_danger_delete_workflow_title,
                 message: this.translations.workflows.messages_danger_delete_workflow_description,

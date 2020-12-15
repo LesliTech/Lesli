@@ -66,7 +66,7 @@ export default {
                         callback()
                     }
                 }else{
-                    this.alert(this.translations.actions.notification_send_core_email_address_empty, 'danger')
+                    this.alert(this.translations.actions.messages_warning_send_core_email_address_empty, 'danger')
                 }
             })
         },
@@ -77,16 +77,14 @@ export default {
 
         cloneWorkflowAction(){
             let copy = JSON.parse(JSON.stringify(this.workflowAction))
-            if(Object.keys(copy.concerning_users.list[0]).length == 0){
+
+            if(! copy.concerning_users.list){
                 copy.concerning_users.list = []
             }
 
             copy.configuration = {
                 mailer: "::DeutscheLeibrentenMailer"
             }
-
-            
-
             this.workflow_action = copy
         },
 

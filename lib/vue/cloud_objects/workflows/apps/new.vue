@@ -27,11 +27,6 @@ import componentForm from '../components/form.vue'
 
 export default {
     props: {
-        cloudEngine: {
-            type: String,
-            required: true
-        },
-
         engineNamespace: {
             type: String,
             required: true
@@ -69,7 +64,7 @@ export default {
                 </div>
             </div>
         </nav>
-        <component-form :cloud-engine="cloudEngine" :engine-namespace="engineNamespace" :translations-path="translationsPath">
+        <component-form :engine-namespace="engineNamespace" :translations-path="translationsPath">
         </component-form>
     </section>
 </template>
