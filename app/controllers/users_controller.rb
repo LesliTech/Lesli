@@ -92,7 +92,8 @@ class UsersController < ApplicationLesliController
             respond_with_successful(user)
 
             # TODO: Send welcome email with password reset link instead of reset password
-            User.send_password_reset(user)
+            #User.send_password_reset(user)
+            
 
         else
             respond_with_error(user.errors.full_messages.to_sentence)

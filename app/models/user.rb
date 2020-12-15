@@ -243,6 +243,19 @@ class User < ApplicationLesliRecord
 
 
 
+    # Generate a new password token and sent via email
+    def send_welcome_email
+        raw, hashed = Devise.token_generator.generate(User, :reset_password_token)
+        self.update(reset_password_token: hashed, reset_password_sent_at: LC::Date.now)
+        data = {
+            name: self.full_name,
+            email: self.email,
+        }
+        UserMailer.with(data).welcome.deliver_now
+    end
+
+
+
     # Assign user role
     def can_work_with_role?(role_id)
 
