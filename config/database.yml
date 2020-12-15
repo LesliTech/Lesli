@@ -16,9 +16,9 @@ development:
 
 test:
     <<: *common
-    database: <%= Rails.application.credentials.db[:database] %>
-    username: <%= Rails.application.credentials.db[:username] %>
-    password: <%= Rails.application.credentials.db[:password] %>
+    database: <%= ENV['POSTGRES_DB'] %>
+    username: <%= ENV['POSTGRES_USER'] %>
+    password: <%= ENV['POSTGRES_PASSWORD'] %>
 
 production:
     <<: *common
