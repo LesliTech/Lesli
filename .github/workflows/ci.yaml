@@ -45,8 +45,8 @@ jobs:
         bundle install --jobs 4 --retry 3
     - name: Setup Database
       run: |
-        sudo ./bin/rails db:create
-        sudo ./bin/rails db:schema:load --trace
+        bin/rails db:create
+        bin/rails db:schema:load --trace
       env:
         RAILS_ENV: test
         POSTGRES_USER: leslicloud_test
