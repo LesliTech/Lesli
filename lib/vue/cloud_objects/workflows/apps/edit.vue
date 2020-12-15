@@ -69,7 +69,7 @@ export default {
                 </div>
             </div>
         </nav>
-        <component-form :cloud-engine="cloudEngine" :engine-namespace="engineNamespace" :translations-path="translationsPath">
+        <component-form :engine-namespace="engineNamespace" :translations-path="translationsPath">
         </component-form>
     </section>
 </template>

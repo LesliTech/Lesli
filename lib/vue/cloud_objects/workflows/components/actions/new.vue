@@ -7,7 +7,7 @@ export default {
             required: true
         },
 
-        cloudEngine: {
+        engineNamespace: {
             required: true
         },
         translationsPath: {
@@ -29,7 +29,7 @@ export default {
     <div class="tab-content">
         <component-form
             :workflow-id="workflowId"
-            :cloud-engine="cloudEngine"
+            :engine-namespace="engineNamespace"
             :translations-path="translationsPath"
             :statuses-translations-path="statusesTranslationsPath"
             view-type="new"

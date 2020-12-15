@@ -5,7 +5,7 @@ export default {
             required: true
         },
 
-        cloudEngine: {
+        engineNamespace: {
             required: true
         },
         translationsPath: {
@@ -49,7 +49,11 @@ export default {
 
     methods: {
         setMainRoute(){
-            this.main_route = `/${this.cloudEngine}/workflows/${this.workflowId}/actions`
+            if(this.engineNamespace == '/'){
+                this.main_route = `/workflows/${this.workflowId}/actions`
+            }else{
+                this.main_route = `/${this.engineNamespace}/workflows/${this.workflowId}/actions`
+            }
         },
 
         setTranslations(){
