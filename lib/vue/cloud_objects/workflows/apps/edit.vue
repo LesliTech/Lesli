@@ -35,6 +35,11 @@ export default {
         engineNamespace: {
             type: String,
             required: true
+        },
+
+        translationsPath: {
+            type: String,
+            default: null
         }
     },
 
@@ -64,6 +69,7 @@ export default {
                 </div>
             </div>
         </nav>
-        <component-form :cloud-engine="cloudEngine" :engine-namespace="engineNamespace"></component-form>
+        <component-form :cloud-engine="cloudEngine" :engine-namespace="engineNamespace" :translations-path="translationsPath">
+        </component-form>
     </section>
 </template>

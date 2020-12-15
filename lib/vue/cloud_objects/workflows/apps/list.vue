@@ -32,6 +32,11 @@ export default {
         engineNamespace: {
             type: String,
             required: true
+        },
+
+        translationsPath: {
+            type: String,
+            default: null
         }
     },
 
@@ -41,10 +46,8 @@ export default {
     //      Workflow, with the same params as the associated rails model
     data(){
         return {
-            main_route: `/${this.engineNamespace}/workflows`,
+            main_route: null,
             translations: {
-                main: I18n.t(`${this.engineNamespace}.workflows`),
-                shared: I18n.t(`${this.engineNamespace}.shared`),
                 core: I18n.t('core.shared'),
                 workflows: I18n.t('core.workflows')
             },
@@ -71,10 +74,31 @@ export default {
     // @return [void]
     // @description Executes the necessary functions needed to initialize this component
     mounted(){
+        this.setTranslations()
+        this.setMainRoute()
        this.getWorkflows()
     },
 
     methods: {
+        setTranslations(){
+            let translations_path = this.translationsPath
+            if(! translations_path){
+                translations_path = this.engineNamespace
+            }
+
+            this.$set(this.translations, 'main', I18n.t(`${translations_path}.workflows`))
+            this.$set(this.translations, 'shared', I18n.t(`${translations_path}.shared`))
+        },
+
+        setMainRoute(){
+            // Engines like mitwerken use root as namespace
+            if(this.engineNamespace == '/'){
+                this.main_route = '/workflows'
+            }else{
+                this.main_route = `/${this.engineNamespace}/workflows`
+            }
+        },
+
         // @return [void]
         // @description Connects to the backend using HTTP and retrieves a list of Workflow associated to
         //      the current user's account. If the HTTP request fails, an error message is shown
