@@ -15,7 +15,7 @@ class LesliMailer < ApplicationMailer
     end
 
     def test(to: "ldonis@lomax.com.gt")
-        send(to, "Email test from Lesli - "+Time.now.to_s, {}, template: template, options: options)
+        send(to, "Email test from Lesli - "+Time.now.to_s, {}, template: "", options: { template_name: "welcome" })
     end
 
 end
