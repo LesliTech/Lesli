@@ -73,17 +73,6 @@ class User < ApplicationLesliRecord
         
         User::Detail.find_or_create_by({ user: self })
 
-        return if self.account.blank?
-
-        if defined? CloudDriver
-            self.account.driver.calendars.create({
-                detail_attributes: {
-                    name: "default",
-                    default: true
-                }
-            })
-        end
-
     end
 
 
@@ -134,6 +123,7 @@ class User < ApplicationLesliRecord
 
     # @return [void]
     # @description After creating a user, creates the necessary resources for them to access the different engines.
+    # TODO: Change to has_password_expired?
     def is_password_expired?
         return false if self.password_expiration_at.blank?
         return Time.current > self.password_expiration_at
@@ -282,7 +272,7 @@ class User < ApplicationLesliRecord
 
     # save user activity
     def log_activity request_method, request_controller, request_action, request_url, description = nil
-        LC::Debug.msg "DEPRECATED: Use user.activities or log_user_comments instead"
+        LC::Debug.msg "DEPRECATED: Use user.activities, user.logs or log_user_comments instead"
     end
 
 

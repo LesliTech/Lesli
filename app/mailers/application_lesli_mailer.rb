@@ -37,7 +37,18 @@ class ApplicationLesliMailer < ActionMailer::Base
 
     }
 
+    
     after_action :log_mail_requests
+
+    def initialize
+        
+        super
+
+        # defined on: LesliMails/src/partials/data.html
+        @email = { }
+
+    end 
+
 
     def log_mail_requests
         # TODO: Save template path and view used within the email
