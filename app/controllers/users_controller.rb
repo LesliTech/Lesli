@@ -89,10 +89,20 @@ class UsersController < ApplicationLesliController
                 user.user_roles.create({ role: current_user.account.roles.find_by(:name => "limited") })
             end 
 
+            # saving logs with information about the creation of the user
+            user.logs.create({description: "user_created_at " + LC::Date.to_string_datetime(LC::Date.datetime) })
+            user.logs.create({description: "user_created_by " + current_user.id.to_s })
+            user.logs.create({description: "user_created_with_role " + user.roles[0].id.to_s })
+
             respond_with_successful(user)
 
-            # TODO: Send welcome email with password reset link instead of reset password
-            #User.send_password_reset(user)
+            begin
+                # Send welcome email with password reset link instead of reset password
+                UserMailer.welcome(user, "Welcome to The Lesli Platform").deliver_now
+            rescue => exception
+                Honeybadger.notify(exception)
+                user.logs.create({description: "user_creation_email_failed " + exception.message })
+            end
             
 
         else
