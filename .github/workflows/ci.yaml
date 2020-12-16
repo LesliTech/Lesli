@@ -44,18 +44,12 @@ jobs:
         bundle config path vendor/bundle
         bundle install --jobs 4 --retry 3
     - name: Setup Database
-      run: |
-        bin/rails db:create
-        bin/rails db:schema:load --trace
+      run: bundle exec rake db:schema:load --trace
       env:
         RAILS_ENV: test
-        POSTGRES_USER: leslicloud_test
-        POSTGRES_DB: leslicloud_test
-        POSTGRES_PASSWORD: "leslicloud_test"
+        RAILS_MASTER_KEY: ${{ secrets.RAILS_MASTER_KEY_TEST }}
     - name: Run tests
       run: COVERAGE=true bundle exec rspec spec
       env:
         RAILS_ENV: test
-        POSTGRES_USER: leslicloud_test
-        POSTGRES_DB: leslicloud_test
-        POSTGRES_PASSWORD: "leslicloud_test"
+        RAILS_MASTER_KEY: ${{ secrets.RAILS_MASTER_KEY_TEST }}
