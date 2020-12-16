@@ -451,17 +451,6 @@ export default {
                     {{translations.workflows.view_title_main}}
                 </span>
             </h2>
-            <div class="card-header-icon">
-                <router-link :to="`/${workflow_id}`" v-if="workflow_id">
-                    <i class="fas fa-eye"></i>
-                    {{translations.core.view_btn_show}}
-                </router-link>
-                <router-link to="/">
-                    &nbsp;&nbsp;&nbsp;
-                    <i class="fas fa-undo"></i>
-                    {{translations.core.view_btn_return}}
-                </router-link>
-            </div>
         </div>
         <div class="card-content">
             <b-tabs v-model="active_tab">

@@ -231,6 +231,20 @@ export default {
                         </h4>
                     </div>
                 </div>
+                <div class="navbar-end">
+                    <div class="navbar-item">
+                        <div class="buttons">
+                            <router-link to="/" class="button">
+                                <b-icon icon="list" size="is-small"></b-icon>
+                                <span>{{translations.core.view_btn_list}}</span>
+                            </router-link>
+                            <router-link :to="`/${workflow_id}/edit`" class="button">
+                                <b-icon icon="edit" size="is-small"></b-icon>
+                                <span>{{translations.core.view_btn_edit}}</span>
+                            </router-link>
+                        </div>
+                    </div>
+                </div>
             </div>
         </nav>
         <div class="card">
@@ -260,16 +274,6 @@ export default {
                         <i class="fas fa-globe"></i>
                         {{translations.workflows.view_btn_workflow_associations}}
                     </a>
-                    <router-link :to="`/${workflow_id}/edit`">
-                        &nbsp;&nbsp;&nbsp;
-                        <i class="fas fa-edit"></i>
-                        {{translations.core.view_btn_edit}}
-                    </router-link>
-                    <router-link to="/">
-                        &nbsp;&nbsp;&nbsp;
-                        <i class="fas fa-undo"></i>
-                        {{translations.core.view_btn_return}}
-                    </router-link>
                 </div>
             </div>
             <div class="card-content">
