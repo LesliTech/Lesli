@@ -115,6 +115,7 @@ gem "sprockets", "< 4"
 # debugging tools
 gem "honeybadger", '~> 4.0'
 
+gem "ruby_cowsay"
 
 group :development, :test do
 
