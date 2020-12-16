@@ -4,9 +4,13 @@ name: CI
 
 on:
   push:
-    branches: [ develop ]
+    branches:
+      - master
+      - develop
   pull_request:
-    branches: [ develop ]
+    branches:
+      - master
+      - develop
 
 jobs:
   test:
@@ -26,9 +30,9 @@ jobs:
         ports:
           - 5432:5432
     steps:
-    - name: Check out repository
+    - name: Checkout repository
       uses: actions/checkout@v2
-    - name: Cache dependencies
+    - name: Cache gems
       uses: actions/cache@v2
       with:
         path: vendor/bundle
