@@ -59,7 +59,7 @@ export default {
                 <div class="navbar-start">
                     <div class="navbar-item">
                         <h4 class="is-size-3">
-                            {{translations.workflows.view_title_new}}
+                            {{translations.workflows.view_title_main}}
                         </h4>
                     </div>
                 </div>
