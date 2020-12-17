@@ -81,7 +81,7 @@ class Users::PasswordsController < Devise::PasswordsController
 
             else
 
-                resource.logs.create(session_uuid: nil, description: "password_reset_error")
+                resource.logs.create(session_uuid: nil, description: "password_reset_error") if resource.id
 
                 return respond_with_error(resource.errors.full_messages.to_sentence)
 
