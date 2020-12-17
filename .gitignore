@@ -48,15 +48,10 @@ package-lock.json
 
 
 # Ignore master key for decrypting credentials and more.
-/config/*/*.key
-/config/*/master.*.enc
-/config/*/development.*.enc
-/config/*/test.*.enc
-/config/locales
+/config/locales/*
 /config/master.key
-/config/credentials/development.key
-/config/credentials/production.key
-/config/credentials/test.key
-!/config/credentials/.keep
+/config/credentials/*
+!/config/credentials/.gitkeep
+!/config/credentials/test_ci.enc
 
 *.pem
