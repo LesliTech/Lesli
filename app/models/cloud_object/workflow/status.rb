@@ -100,7 +100,7 @@ Building a better future, one line of code at a time.
             current_user.user_roles
             .joins(:role)
             .joins("inner join role_privileges RP on RP.roles_id = roles.id")
-            .where("RP.grant_object = ?", "#{module_underscore}/#{cloud_object.class.name.split("::").last.downcase.pluralize}")
+            .where("RP.grant_object = ?", "#{module_underscore}/#{cloud_object.class.name.split("::").last.underscore.pluralize}")
             .select("RP.grant_destroy")
             .each do |privilege|
                 if privilege.grant_destroy
