@@ -45,7 +45,8 @@ export default {
     data(){
         return {
             translations: {
-                workflows: I18n.t('core.workflows')
+                workflows: I18n.t('core.workflows'),
+                core: I18n.t('core.shared')
             }
         }
     }
@@ -60,6 +61,16 @@ export default {
                         <h4 class="is-size-3">
                             {{translations.workflows.view_title_main}}
                         </h4>
+                    </div>
+                </div>
+                <div class="navbar-end">
+                    <div class="navbar-item">
+                        <div class="buttons">
+                            <router-link to="/" class="button">
+                                <b-icon icon="list" size="is-small"></b-icon>
+                                <span>{{translations.core.view_btn_list}}</span>
+                            </router-link>
+                        </div>
                     </div>
                 </div>
             </div>
