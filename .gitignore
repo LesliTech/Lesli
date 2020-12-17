@@ -51,6 +51,7 @@ package-lock.json
 /config/*/*.key
 /config/*/master.*.enc
 /config/*/development.*.enc
+/config/*/test.*.enc
 /config/locales
 /config/master.key
 /config/credentials/development.key
