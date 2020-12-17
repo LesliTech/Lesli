@@ -242,14 +242,14 @@ export default {
 
                 <b-table-column field="actions" :label="translations.core.view_table_header_actions" class="has-text-right">
                     <a
-                        :href="`/${module_name.slash}/${object_name.plural}/${cloudId}/files/${props.row.id}`"
+                        :href="`${main_route}/${cloudId}/files/${props.row.id}`"
                         target="_blank"
                         class="button is-outlined"
                     >
                         <b-icon size="is-small" icon="eye" />
                     </a>
                     <a
-                        :href="`/${module_name.slash}/${object_name.plural}/${cloudId}/files/${props.row.id}?download=true`"
+                        :href="`${main_route}/${cloudId}/files/${props.row.id}?download=true`"
                         download
                         class="button is-outlined"
                     >
