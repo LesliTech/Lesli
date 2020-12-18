@@ -20,6 +20,7 @@ For more information read the license file including with this software.
 require "./lesli"
 
 source "https://rubygems.org"
+source "https://rubygems.pkg.github.com/leitfaden"
 git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
 ruby "2.7.0"
@@ -183,4 +184,8 @@ end
 Lesli::engines.each do |engine|
     engine_installation_path = File.expand_path("../engines/#{engine["name"]}", __FILE__)
     gem engine["code"], path: engine_installation_path if File.exists?(engine_installation_path)
+end
+
+Lesli::gems.each do |info_gem|
+    gem info_gem["gem_name"], info_gem["version"]
 end
