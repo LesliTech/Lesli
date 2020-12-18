@@ -23,6 +23,7 @@ require "ruby_cowsay"
 require "./lesli"
 
 
+# 
 class LesliTasks
     include Rake::DSL
 
@@ -36,8 +37,14 @@ class LesliTasks
     # print a message with a cow character
     def message_cow message = "Process completed successfully"
 
+        # ids of the prettiest cows in the library
+        pretty_cows = [49,46,42,40,33,32,31,29,27,24,21,19,17,14,10,9,7,5]
+
+        # get a random cow id
+        random_cows = rand(0..(pretty_cows.size))
+
         # show simple text message
-        message((Cow.new({ :cow => Cow.cows[(rand(1..49) - 1)] })).say(message))
+        message((Cow.new({ :cow => Cow.cows[pretty_cows[random_cows]] })).say(message))
         
     end
 
@@ -49,17 +56,17 @@ class LesliTasks
 
 
     # print blank spaces to add space between messages
-    def message_separator
+    def message_separator include_line=true
         puts "";
-        message "---   ---   ---   ---   ---   ---   ---   ---   ---   ---"
+        message "---   ---   ---   ---   ---   ---   ---   ---   ---   ---" if include_line
         puts ""; puts "";
     end
 
 
     # execute shell commands
     def command command
-        message command
-        #system command
+        #message command
+        system command
     end
 
 end
