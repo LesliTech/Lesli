@@ -129,4 +129,16 @@ module Lesli
 
     end
 
+    def Lesli.gems
+        path = "./config/instances/"
+        instance = "lesli"
+
+        if !ENV['LESLI_INSTANCE'].nil?
+            instance = ENV['LESLI_INSTANCE']
+        end
+
+        yaml_loaded = YAML.load_file(path+instance+".yml")
+        return yaml_loaded['engines']
+    end
+
 end
