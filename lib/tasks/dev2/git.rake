@@ -19,12 +19,25 @@ For more information read the license file including with this software.
 
 require "./lib/tasks/lesli_tasks"
 
-class BicycleTasks < LesliTasks
+class DevGit < LesliTasks
     
 
     def initialize
         namespace :dev2 do        
             namespace :git do
+
+
+
+                desc "Push code to remote branch/origin for all engines"
+                task :push => :environment do |task, args|
+                    ARGV.each { |a| task a.to_sym do ; end }
+        
+                    # execute command
+                    push 
+        
+                end
+
+
 
                 desc "Pull code from origin master from all engines"
                 task :pull => :environment do |task, args|
@@ -34,6 +47,8 @@ class BicycleTasks < LesliTasks
                     pull
                     
                 end
+
+
 
                 desc "Commit pending changes from all engines"
                 task commit: :environment do
@@ -49,6 +64,8 @@ class BicycleTasks < LesliTasks
                     commit git_message
         
                 end
+
+
 
                 desc "Checkout all engines to a different branch"
                 task :checkout => :environment do |task, args|
@@ -67,14 +84,45 @@ class BicycleTasks < LesliTasks
 
                 end
 
-
-
             end
         end
     end
 
     private
 
+
+
+    # Push code to remote branch/origin for all engines
+    def push 
+
+        # for every installed engine
+        Lesli::engines.each do |engine|
+
+            #build engine path
+            engine_path = Rails.root.join("engines", engine["name"])
+
+            next unless File.exists?(engine_path)
+            
+            message_separator
+            message("Working with: #{engine['name']}")
+
+            command("cd ./engines/#{engine['name']} && git push origin master")
+
+        end
+
+        message("Working with: Lesli")
+
+        # commit any possible pending change
+        command("git push origin master")
+
+        message_separator
+        message_cow
+
+    end
+
+
+
+    # Pull code from origin master from all engines
     def pull
 
         # for every installed engine
@@ -102,6 +150,9 @@ class BicycleTasks < LesliTasks
 
     end
 
+
+
+    # Commit pending changes from all engines
     def commit git_message
 
         # for every installed engine
@@ -159,4 +210,4 @@ class BicycleTasks < LesliTasks
 end
 
 # Instantiate the class to define the tasks:
-BicycleTasks.new
+DevGit.new
