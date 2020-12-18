@@ -26,6 +26,15 @@ class BicycleTasks < LesliTasks
         namespace :dev2 do        
             namespace :git do
 
+                desc "Pull code from origin master from all engines"
+                task :pull => :environment do |task, args|
+                    ARGV.each { |a| task a.to_sym do ; end }
+
+                    # execute command
+                    pull
+                    
+                end
+
                 desc "Commit pending changes from all engines"
                 task commit: :environment do
                     ARGV.each { |a| task a.to_sym do ; end }
@@ -58,11 +67,40 @@ class BicycleTasks < LesliTasks
 
                 end
 
+
+
             end
         end
     end
 
     private
+
+    def pull
+
+        # for every installed engine
+        Lesli::engines.each do |engine|
+
+            #build engine path
+            engine_path = Rails.root.join("engines", engine["name"])
+
+            next unless File.exists?(engine_path)
+            
+            message_separator
+            message("Working with: #{engine['name']}")
+
+            command("cd ./engines/#{engine['name']} && git pull origin master")
+
+        end
+
+        message("Working with: Lesli")
+
+        # commit any possible pending change
+        command("git pull origin master")
+
+        message_separator
+        message_cow
+
+    end
 
     def commit git_message
 
@@ -75,18 +113,19 @@ class BicycleTasks < LesliTasks
             next unless File.exists?(engine_path)
             
             message_separator
-            message "Working with: #{engine['name']}"
-
-            command("cd ./engines/#{engine['name']} && git add --all && git commit -m #{ git_message }")
+            message("Working with: #{engine['name']}")
+            command("cd ./engines/#{engine['name']} && git add --all && git commit -m \"#{ git_message }\"")
 
         end
 
-        # push core to github
-        puts ""; puts ""; puts "";
-        puts "Working with: Lesli"
+        message_separator
+        message("Working with: Lesli")
 
         # commit any possible pending change
-        system "git add --all && git commit -m #{ git_message }"
+        command("git add --all && git commit -m \"#{ git_message }\"")
+
+        message_separator
+        message_cow
 
     end
 
@@ -108,8 +147,7 @@ class BicycleTasks < LesliTasks
 
         end
 
-        # pull from master
-        message "Working with: Lesli"
+        message("Working with: Lesli")
 
         command("git pull origin master")
 
