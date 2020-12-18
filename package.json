@@ -1,8 +1,6 @@
 {
     "name": "lesli",
     "description": "Enterprise cloud platform",
-    "homepage": "https://lesli.cloud",
-    "author": "LesliTech <hello@lesli.tech>",
     "license": "All rights reserved",
     "private": true,
     "devDependencies": {
@@ -45,6 +43,11 @@
         "apexcharts": "3.19.2",
         "frappe-gantt": "0.5.0",
 
+        "buefy": "0.8.20",
+        "bulma": "0.9.1",
+        "bulma-o-steps": "1.0.9",
+        "bulma-extensions": "6.2.7",
+
         "quill": "1.3.7",
         "@editorjs/link": "2.3.1",
         "@editorjs/list": "1.6.1",
@@ -56,11 +59,6 @@
         "@editorjs/editorjs": "2.19.0",
         "@editorjs/checklist": "1.3.0",
         "@editorjs/underline": "1.0.0",
-
-        "buefy": "0.8.20",
-        "bulma": "0.9.1",
-        "bulma-o-steps": "1.0.9",
-        "bulma-extensions": "6.2.7",
         
         "@fullcalendar/vue": "4.4.2",
         "@fullcalendar/core": "4.4.2",
