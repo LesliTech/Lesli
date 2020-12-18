@@ -19,7 +19,7 @@ For more information read the license file including with this software.
 
 require "./lib/tasks/lesli_tasks"
 
-class Dev2 < LesliTasks
+class Dev < LesliTasks
     
     def initialize
         namespace :dev2 do
@@ -42,4 +42,4 @@ class Dev2 < LesliTasks
 end
 
 # Instantiate the class to define the tasks:
-Dev2.new
+Dev.new
