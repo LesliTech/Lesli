@@ -1,4 +1,4 @@
-/*
+=begin
 
 Copyright (c) 2020, all rights reserved.
 
@@ -15,10 +15,31 @@ For more information read the license file including with this software.
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
 // · 
 
-*/
+=end
 
+require "./lib/tasks/lesli_tasks"
 
-// · Application module navigation
-// · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
-section.lesli-app-chatbox {
-}
+class Dev < LesliTasks
+    
+    def initialize
+        namespace :dev2 do
+
+            desc "List the available tasks"
+            task help: :environment do
+                ARGV.each { |a| task a.to_sym do ; end }
+
+            end
+
+        end
+    end
+
+    private
+
+    def help
+
+    end
+
+end
+
+# Instantiate the class to define the tasks:
+Dev.new
