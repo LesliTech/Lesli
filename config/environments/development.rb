@@ -32,6 +32,8 @@ Rails.application.configure do
     config.default_url = Rails.configuration.lesli_settings["env"]["default_url"]
 
     # Mailer configuration
+    config.action_mailer.preview_path = "#{Rails.root}/lib/mailer_previews"
+
     config.action_mailer.perform_caching = true
 
     config.action_mailer.perform_deliveries = true
