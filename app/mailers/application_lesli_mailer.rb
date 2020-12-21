@@ -46,6 +46,7 @@ class ApplicationLesliMailer < ActionMailer::Base
 
         # defined on: LesliMails/src/partials/data.html
         @email = { }
+        @data = { }
 
     end 
 
