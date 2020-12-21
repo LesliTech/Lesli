@@ -57,3 +57,4 @@ jobs:
       env:
         RAILS_ENV: test
         RAILS_MASTER_KEY: ${{ secrets.RAILS_MASTER_KEY_TEST }}
+        LESLI_INSTANCE: ${{ matrix.instance }}
