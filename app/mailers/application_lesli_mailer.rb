@@ -32,7 +32,7 @@ class ApplicationLesliMailer < ActionMailer::Base
         # mailers from engines
         return "#{(module_info[0].underscore)}/emails" if module_info.length > 1
 
-        # mailers in core
+        # mailers from core
         return "emails"
 
     }
@@ -46,6 +46,7 @@ class ApplicationLesliMailer < ActionMailer::Base
 
         # defined on: LesliMails/src/partials/data.html
         @email = { }
+        @data = { }
 
     end 
 
