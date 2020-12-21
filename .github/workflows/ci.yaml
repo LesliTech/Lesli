@@ -9,10 +9,19 @@ on:
       - develop
 
 jobs:
+  get_instances:
+    runs-on: ubuntu-latest
+    outputs:
+      matrix: ${{ steps.set-matrix.outputs.matrix }}
+    steps:
+    - id: set-matrix
+      run: echo "::set-output name=matrix::${INSTANCES}"
+      env:
+        INSTANCES: ${{ secrets.INSTANCES }}
   test:
+    needs: get_instances
     strategy:
-      matrix:
-        instance: [lesli, leibrenten]
+      matrix: ${{fromJson(needs.get_instances.outputs.matrix)}}
     runs-on: ubuntu-20.04
     services:
       postgres:
