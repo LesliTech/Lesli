@@ -17,7 +17,7 @@ jobs:
     - id: set-matrix
       run: echo "::set-output name=matrix::${INSTANCES}"
       env:
-        INSTANCES: ${{ secrets.INSTANCES }}
+        INSTANCES: "{\"instances\": [\"lesli\", \"leibrenten\"]}"
   test:
     needs: get_instances
     strategy:
