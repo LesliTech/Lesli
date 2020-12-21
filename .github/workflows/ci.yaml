@@ -10,6 +10,9 @@ on:
 
 jobs:
   test:
+    strategy:
+      matrix:
+        instance: [lesli, leibrenten]
     runs-on: ubuntu-20.04
     services:
       postgres:
@@ -46,6 +49,7 @@ jobs:
         bundle install --jobs 4 --retry 3
       env:
         GEM_HOST_API_KEY: "sagastume:${{secrets.PAT_FOR_BUILD}}"
+        LESLI_INSTANCE: ${{ matrix.instance }}
     - name: Run tests
       run: |
         cp ./config/credentials/testci.yml.enc ./config/credentials/test.yml.enc
