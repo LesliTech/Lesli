@@ -37,9 +37,6 @@ gem "i18n-js"
 # Use SCSS for stylesheets
 gem "sass-rails", "= 6"
 
-# HAML template procesor
-gem "haml-rails"
-
 # Use postgresql as the database for Active Record
 gem "pg", ">= 0.18", "< 2.0"
 
