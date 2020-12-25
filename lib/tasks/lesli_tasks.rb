@@ -41,7 +41,7 @@ class LesliTasks
         pretty_cows = [49,46,42,40,33,32,31,29,27,24,21,19,17,14,10,9,7,5]
 
         # get a random cow id
-        random_cows = rand(0..(pretty_cows.size))
+        random_cows = rand(0..(pretty_cows.size-1))
 
         # show simple text message
         message((Cow.new({ :cow => Cow.cows[pretty_cows[random_cows]] })).say(message))

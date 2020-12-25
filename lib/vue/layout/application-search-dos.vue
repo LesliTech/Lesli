@@ -1,4 +1,5 @@
-<%#
+<script>
+/*
 
 Copyright (c) 2020, all rights reserved.
 
@@ -15,8 +16,42 @@ For more information read the license file including with this software.
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
 // · 
 
-%>
+*/
+export default {
+    data() {
+        return {
+            text: "",
+            show: false,
+            timer: null,
+            results: [],
+            translations: {
+            }
+        }
+    },
+    mounted() {
+        setTimeout(() => {
+            this.getSearch()
+        }, 3000)
+    },
+    methods: {
 
-<application-component-search></application-component-search>
-<application-component-search-dos></application-component-search-dos>
-<%= yield %>
+        getSearch() {
+
+            this.http.get("/search").then(result => {
+
+            })
+
+        }
+
+    }
+
+}
+</script>
+<template>
+    <section v-if="show" class="application-global-search">
+        <div class="content">
+            <h4>Global search</h4>
+            {{ results }}
+        </div>
+    </section>
+</template>
