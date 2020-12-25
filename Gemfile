@@ -38,9 +38,6 @@ gem "i18n-js"
 # SASS compiler for RoR
 gem "sass-rails", "= 6"
 
-# HAML template procesor (DEPRECATED: Do not user haml views)
-gem "haml-rails"
-
 # Use postgresql as the database for Active Record
 gem "pg", ">= 0.18", "< 2.0"
 
