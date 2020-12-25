@@ -84,6 +84,17 @@ class DevGit < LesliTasks
 
                 end
 
+
+
+                desc "Push code to backup repositories for all engines"
+                task :backup => :environment do |task, args|
+                    ARGV.each { |a| task a.to_sym do ; end }
+        
+                    # execute command
+                    push "backup"
+        
+                end
+
             end
         end
     end
@@ -93,7 +104,7 @@ class DevGit < LesliTasks
 
 
     # Push code to remote branch/origin for all engines
-    def push 
+    def push origin="origin"
 
         # for every installed engine
         Lesli::engines.each do |engine|
@@ -106,14 +117,14 @@ class DevGit < LesliTasks
             message_separator
             message("Working with: #{engine['name']}")
 
-            command("cd ./engines/#{engine['name']} && git push origin master")
+            command("cd ./engines/#{engine['name']} && git push #{ origin } master")
 
         end
 
         message("Working with: Lesli")
 
         # commit any possible pending change
-        command("git push origin master")
+        command("git push #{ origin } master")
 
         message_separator
         message_cow
