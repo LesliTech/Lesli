@@ -29,6 +29,7 @@ export default {
         }
     },
     mounted() {
+        console.log()
         setTimeout(() => {
             this.getSearch()
         }, 3000)
@@ -37,7 +38,7 @@ export default {
 
         getSearch() {
 
-            this.http.get("/search").then(result => {
+            this.http.get(this.url.lesli("search")).then(result => {
 
             })
 
