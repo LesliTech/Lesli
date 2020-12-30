@@ -2,6 +2,7 @@
     "name": "lesli",
     "description": "Enterprise cloud platform",
     "license": "All rights reserved",
+    "version": "0.1.0",
     "private": true,
     "devDependencies": {
 
@@ -64,12 +65,19 @@
         "@fullcalendar/core": "4.4.2",
         "@fullcalendar/daygrid": "4.4.2",
         "@fullcalendar/timegrid": "4.4.2",
-        "@fullcalendar/interaction": "4.4.2"
+        "@fullcalendar/interaction": "4.4.2",
+
+        "standard-version": "9.1.0"
 
     },
     "scripts": {
         "webpack:production": "webpack --progress --env.mode=production",
         "webpack:watch": "webpack --progress --env.watch=true",
-        "webpack": "webpack --progress --env.mode=development"
+        "webpack": "webpack --progress --env.mode=development",
+
+        "release": "standard-version",
+        "release:minor": "standard-version --release-as minor",
+        "release:patch": "standard-version --release-as patch",
+        "release:major": "standard-version --release-as major"
     }
 }
