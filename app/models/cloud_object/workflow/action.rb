@@ -37,17 +37,18 @@ For more information read the license file including with this software.
         def self.list(workflow)
             dynamic_info_ = self.dynamic_info
             module_name = dynamic_info_[:module_name]
+            full_module_name = dynamic_info_[:full_module_name].underscore
 
             workflow.actions.joins(
-                "left join cloud_#{module_name}_workflow_statuses CHWSI on CHWSI.id = cloud_#{module_name}_workflow_actions.initial_status_id"
+                "left join #{full_module_name}_workflow_statuses CHWSI on CHWSI.id = #{full_module_name}_workflow_actions.initial_status_id"
             ).joins(
-                "inner join cloud_#{module_name}_workflow_statuses CHWSF on CHWSF.id = cloud_#{module_name}_workflow_actions.final_status_id"
+                "inner join #{full_module_name}_workflow_statuses CHWSF on CHWSF.id = #{full_module_name}_workflow_actions.final_status_id"
             ).select(
-                "cloud_#{module_name}_workflow_actions.id",
-                "cloud_#{module_name}_workflow_actions.name",
+                "#{full_module_name}_workflow_actions.id",
+                "#{full_module_name}_workflow_actions.name",
                 "CHWSI.name as initial_status_name",
                 "CHWSF.name as final_status_name",
-                "cloud_#{module_name}_workflow_actions.action_type"
+                "#{full_module_name}_workflow_actions.action_type"
             ).order(id: :desc)
         end
 
@@ -84,9 +85,10 @@ For more information read the license file including with this software.
         def self.execute_actions(current_user, cloud_object, old_attributes, new_attributes)
             dynamic_info_ = self.dynamic_info
             module_name = dynamic_info_[:module_name]
+            full_module_name = dynamic_info_[:full_module_name].underscore
             
-            initial_status_id = old_attributes["cloud_#{module_name}_workflow_statuses_id"]
-            final_status_id = new_attributes["cloud_#{module_name}_workflow_statuses_id"]
+            initial_status_id = old_attributes["#{full_module_name}_workflow_statuses_id"]
+            final_status_id = new_attributes["#{full_module_name}_workflow_statuses_id"]
 
             if final_status_id && initial_status_id && final_status_id != initial_status_id
                 
@@ -230,7 +232,8 @@ For more information read the license file including with this software.
             module_name = module_info[0].sub("Cloud", "").downcase
             {
                 module_name: module_name,
-                engine_name: module_info[0]
+                full_module_name: module_info[0],
+                engine_name: module_info[0],
             }
         end
     end
