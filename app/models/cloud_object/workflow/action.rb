@@ -233,7 +233,7 @@ For more information read the license file including with this software.
             {
                 module_name: module_name,
                 full_module_name: module_info[0],
-                engine_name: module_info[0],
+                engine_name: module_info[0]
             }
         end
     end
