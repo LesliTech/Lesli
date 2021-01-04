@@ -7,6 +7,8 @@ namespace :app do
 
             account = Account.first
 
+            system_user = account.users.find_by(email: "crm.admin@deutsche-leibrenten.de")
+
             # get all routes for application controllers
             routes = LC::System::Routes.scan
             account.roles.each do |role|
@@ -29,13 +31,19 @@ namespace :app do
                         grant_options: default_value 
                     }
 
-                    role.privileges.create_with(attributes).find_or_create_by(grant_object: route[:controller_path])
-                    role.privilege_defaults.create_with(attributes).find_or_create_by(grant_object: route[:controller_path])
+                    privilege = role.privileges.find_or_initialize_by(grant_object: route[:controller_path])
 
-                    puts "role privilege created for controller: #{route[:controller_path]}"
+                    if privilege.new_record?
+                        privilege.attributes = attributes
+
+                        if (privilege.save!)
+                            Role.log_activity_create_role_privilege(system_user, role, privilege)
+                        end
+                        
+                        puts "role privilege created for controller: #{route[:controller_path]}"
+                    end
                 end
             end
-
         end
     end
 end
