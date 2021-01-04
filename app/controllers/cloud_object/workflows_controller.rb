@@ -123,11 +123,12 @@ For more information read the license file including with this software.
 =end
         def create
             dynamic_info = self.class.dynamic_info
+            full_module_name = dynamic_info[:full_module_name]
             module_name = dynamic_info[:module_name]
             model = dynamic_info[:model]
 
             workflow = model.new(workflow_params)
-            workflow["cloud_#{module_name}_accounts_id".to_sym] = current_user.account.id
+            workflow["#{full_module_name.underscore}_accounts_id".to_sym] = current_user.account.id
             workflow.deletion_protection = false
 
             if workflow.save
@@ -234,7 +235,7 @@ this.http.put(`127.0.0.1/help/workflows/${workflow_id}`, data);
 
             cloud_object = cloud_object_model.find_by(
                 id: params[:cloud_object_id],
-                "cloud_#{module_name}_accounts_id".to_sym => current_user.account.id
+                "#{full_module_name.underscore}_accounts_id".to_sym => current_user.account.id
             )
 
             return respond_with_not_found unless cloud_object
