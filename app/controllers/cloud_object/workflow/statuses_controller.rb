@@ -70,10 +70,11 @@ private
             dynamic_info = self.class.dynamic_info
             workflow_model = dynamic_info[:workflow_model]
             module_name = dynamic_info[:module_name]
+            full_module_name = dynamic_info[:full_module_name].underscore
 
             @workflow = workflow_model.find_by(
                 id: params[:workflow_id],
-                "cloud_#{module_name}_accounts_id".to_sym => current_user.account.id
+                "#{full_module_name}_accounts_id".to_sym => current_user.account.id
             )
         end
 
@@ -140,6 +141,7 @@ private
 
             {
                 module_name: module_name,
+                full_module_name: module_info[0],
                 model: "#{module_info[0]}::Workflow::Status".constantize,
                 workflow_model: "#{module_info[0]}::Workflow".constantize
             }
