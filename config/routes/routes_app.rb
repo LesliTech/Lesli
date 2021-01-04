@@ -68,12 +68,6 @@ module RoutesApp
                         scope module: :role do
                             resources :privileges
                         end
-                        member do
-                            scope :resources do
-                                post :restore_default_privileges
-                                post :update_default_privileges
-                            end
-                        end
                     end
 
                 end
@@ -110,12 +104,6 @@ module RoutesApp
                     resources :roles do
                         scope module: :role do
                             resources :privileges
-                        end
-                        member do
-                            scope :resources do
-                                post :restore_default_privileges
-                                post :update_default_privileges
-                            end
                         end
                     end
                 end
