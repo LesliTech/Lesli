@@ -205,12 +205,13 @@ For more information read the license file including with this software.
         #     puts @workflow # will display an instance of CloudModule::Workflow
         def set_workflow
             dynamic_info = self.class.dynamic_info
-            workflow_model = dynamic_info[:workflow_model]
             module_name = dynamic_info[:module_name]
+            workflow_model = dynamic_info[:workflow_model]
+            full_module_name = dynamic_info[:full_module_name]
 
             @workflow = workflow_model.find_by(
                 id: params[:workflow_id],
-                "cloud_#{module_name}_accounts_id".to_sym => current_user.account.id
+                "#{full_module_name.underscore}_accounts_id".to_sym => current_user.account.id
             )
         end
 
@@ -253,7 +254,10 @@ For more information read the license file including with this software.
         #     #    }
         #     #}
         def workflow_action_params
-            module_name = self.class.dynamic_info[:module_name]
+            dynamic_info = self.class.dynamic_info
+
+            full_module_name = dynamic_info[:full_module_name]
+            module_name = dynamic_info[:module_name]
 
             json_fields = [:system_data, :input_data, :concerning_users, :configuration]
             if params[:workflow_action]
@@ -273,7 +277,7 @@ For more information read the license file including with this software.
                 :system_data,
                 :concerning_users,
                 :configuration,
-                "cloud_#{module_name}_workflows_id".to_sym
+                "#{full_module_name.underscore}_workflows_id".to_sym
             )
 
             json_fields.each do |json_field|
@@ -297,6 +301,7 @@ For more information read the license file including with this software.
 
             {
                 module_name: module_name,
+                full_module_name: module_info[0],
                 model: "#{module_info[0]}::Workflow::Action".constantize,
                 workflow_model: "#{module_info[0]}::Workflow".constantize
             }
