@@ -114,6 +114,7 @@ For more information read the license file including with this software.
 =end
         def self.list(current_user, query)
             module_name = dynamic_info[:module_name]
+            full_module_name = dynamic_info[:full_module_name].underscore
 
             # preparing filters
             filters = query[:filters]
@@ -122,13 +123,13 @@ For more information read the license file including with this software.
             # We create a filter by a text string written by the user
             if filters["query"] && !filters["query"].empty?
                 filters_query.push(
-                    "LOWER(cloud_#{module_name}_workflows.name) LIKE '%#{filters["query"].downcase}%'"
+                    "LOWER(#{full_module_name}_workflows.name) LIKE '%#{filters["query"].downcase}%'"
                 )
             end
             
             # We apply defaul filters
             workflows = self.where(
-                "cloud_#{module_name}_accounts_id".to_sym => current_user.account.id
+                "#{full_module_name}_accounts_id".to_sym => current_user.account.id
             )
 
             # We apply the previous filters in the main query
@@ -307,6 +308,8 @@ For more information read the license file including with this software.
             module_name = dynamic_info_[:module_name]
             status_model = dynamic_info_[:status_model]
             association_model = dynamic_info_[:association_model]
+            full_module_name = dynamic_info[:full_module_name].underscore
+
             account = cloud_object.account
             workflow_for = cloud_object.class.name.split("::")[-1].underscore.downcase
 
@@ -316,8 +319,8 @@ For more information read the license file including with this software.
 
             unless association_details.empty?
                 search_params = [
-                    "cloud_#{module_name}_workflows.cloud_#{module_name}_accounts_id = #{cloud_object.account.id}",
-                    "cloud_#{module_name}_workflow_associations.workflow_for = '#{workflow_for}'"
+                    "#{full_module_name}_workflows.#{full_module_name}_accounts_id = #{cloud_object.account.id}",
+                    "#{full_module_name}_workflow_associations.workflow_for = '#{workflow_for}'"
                 ]
 
                 order_params = []
@@ -341,11 +344,11 @@ For more information read the license file including with this software.
                     end
 
                     search_params.push("
-                        (cloud_#{module_name}_workflow_associations.#{detail[:name]} = #{association_value} OR 
-                        cloud_#{module_name}_workflow_associations.#{detail[:name]} IS NULL)
+                        (#{full_module_name}_workflow_associations.#{detail[:name]} = #{association_value} OR 
+                        #{full_module_name}_workflow_associations.#{detail[:name]} IS NULL)
                     ")
 
-                    order_params.push("cloud_#{module_name}_workflow_associations.#{detail[:name]} NULLS LAST")
+                    order_params.push("#{full_module_name}_workflow_associations.#{detail[:name]} NULLS LAST")
                 end
 
                 unless missing_required_field
@@ -353,12 +356,12 @@ For more information read the license file including with this software.
                     workflow_associations = association_model.joins(
                         :workflow
                     ).where(
-                        "cloud_#{module_name}_workflow_associations.global = FALSE OR cloud_#{module_name}_workflow_associations.global IS NULL"
+                        "#{full_module_name}_workflow_associations.global = FALSE OR #{full_module_name}_workflow_associations.global IS NULL"
                     ).where(
                         search_params.join(" AND ")
                     ).select(
-                        "cloud_#{module_name}_workflows.id as id",
-                        "cloud_#{module_name}_workflows.name as name"
+                        "#{full_module_name}_workflows.id as id",
+                        "#{full_module_name}_workflows.name as name"
                     )
 
                     order_params.each do |order_param|
@@ -379,13 +382,13 @@ For more information read the license file including with this software.
                 :workflow
             ).where(
                 "
-                    cloud_#{module_name}_workflows.cloud_#{module_name}_accounts_id = #{cloud_object.account.id} and
-                    cloud_#{module_name}_workflow_associations.global = true and
-                    cloud_#{module_name}_workflow_associations.workflow_for = '#{workflow_for}'
+                    #{full_module_name}_workflows.#{full_module_name}_accounts_id = #{cloud_object.account.id} and
+                    #{full_module_name}_workflow_associations.global = true and
+                    #{full_module_name}_workflow_associations.workflow_for = '#{workflow_for}'
                 "
             ).select(
-                "cloud_#{module_name}_workflows.id as id",
-                "cloud_#{module_name}_workflows.name as name"
+                "#{full_module_name}_workflows.id as id",
+                "#{full_module_name}_workflows.name as name"
             )
 
             unless workflow_associations.empty?
@@ -472,6 +475,7 @@ For more information read the license file including with this software.
 
             {
                 module_name: module_name,
+                full_module_name: module_info[0],
                 status_model: "#{self.name}::Status".constantize,
                 association_model: "#{self.name}::Association".constantize
             }
