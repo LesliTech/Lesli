@@ -1,5 +1,5 @@
 =begin
-
+    
 Copyright (c) 2020, all rights reserved.
 
 All the information provided by this platform is protected by international laws related  to 
@@ -14,28 +14,15 @@ For more information read the license file including with this software.
 
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
 // · 
-
+    
 =end
 
-# development user
-user = Rails.application.config.lesli_settings["account"]["user"]
+RSpec.shared_context 'user signin' do 
 
-create_development_user(["owner", "mr", user["name"], "", user["email"]])
-
-# core development users
-[
-    ["owner",   "mr", "Owner",  "user", "owner@lesli.cloud"],
-    ["admin",   "mr", "Admin",  "user", "admin@lesli.cloud"],
-    ["limited", "mr", "Limited","user", "limited@lesli.cloud"],
-    ["guest",   "mr", "Guest",  "user", "guest@lesli.cloud"],
-    ["admin",   "mr", "Admin",  "user", "test@lesli.cloud"],
-    ["api",     "mr", "API",    "user", "api@lesli.cloud"],
-].each do |user|
-
-    create_development_user(user)
+    # Creates a new valid user session
+    before(:all) do
+        @user = User.find_by(email: "test@lesli.cloud")
+        sign_in @user
+    end
 
 end
-
-
-# notify
-puts "Users successfully created!"
