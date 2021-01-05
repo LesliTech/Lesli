@@ -161,6 +161,11 @@ export default {
             this.$refs['dropzone'].removeAllFiles(true)
             this.$emit('upload-complete')
             this.bus.publish(`post:${this.main_route}/files-complete`)
+
+            // We trigger a reload in the activities when a file is uploaded
+            if(this.data.reload){
+                this.data.reload.activities = true
+            }
         },
 
         filePosted(file, result){
