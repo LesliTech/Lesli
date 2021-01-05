@@ -1,6 +1,5 @@
-<script>
-/*
-
+=begin
+    
 Copyright (c) 2020, all rights reserved.
 
 All the information provided by this platform is protected by international laws related  to 
@@ -15,41 +14,15 @@ For more information read the license file including with this software.
 
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
 // · 
+    
+=end
 
-*/
-export default {
-    data() {
-        return {
-            text: "",
-            show: false,
-            timer: null,
-            results: [],
-            translations: {
-            }
-        }
-    },
-    mounted() {
+RSpec.shared_context 'user signin' do 
 
-    },
-    methods: {
+    # Creates a new valid user session
+    before(:all) do
+        @user = User.find_by(email: "test@lesli.cloud")
+        sign_in @user
+    end
 
-        getSearch() {
-
-            this.http.get(this.url.lesli("search")).then(result => {
-
-            })
-
-        }
-
-    }
-
-}
-</script>
-<template>
-    <section v-if="show" class="application-global-search">
-        <div class="content">
-            <h4>Global search</h4>
-            {{ results }}
-        </div>
-    </section>
-</template>
+end

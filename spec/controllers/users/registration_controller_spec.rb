@@ -34,8 +34,8 @@ RSpec.describe Users::RegistrationsController, type: :controller do
 
         user = {
             email: DateTime.now.strftime('%s').to_s+"@lesli.cloud",
-            password: "lesli2020",
-            password_confirmation: "lesli2020"
+            password: "tardis2021$",
+            password_confirmation: "tardis2021$"
         }
 
 =begin

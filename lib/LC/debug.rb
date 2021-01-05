@@ -25,7 +25,7 @@ module LC
     class Debug
 
         def self.msg *messages
-            puts ""; puts ""; puts ""; 
+            puts ""; puts ""; puts ""; puts ""; 
             puts "#     #     #     #     #     #     #     #     #     #     #"
             puts "#     #     #     #     #     #     #     #     #     #     #"
             messages.each do |message|
@@ -33,16 +33,17 @@ module LC
                 puts "=     =     =     =     =     =     =     =     =     =     ="
             end
             puts "#     #     #     #     #     #     #     #     #     #     #"
-            puts ""; 
+            puts "#     #     #     #     #     #     #     #     #     #     #"
+            puts ""; puts ""; 
         end
 
         def self.msgc *messages
-            puts ""; puts ""; puts ""; 
+            puts ""; puts ""; puts ""; puts ""; 
             messages.each do |message|
-                p message
-                puts "=     =     =     =     =     =     =     =     =     =     ="
+                puts message
             end
-            puts ""; 
+            puts "~      ~      ~      ~      ~      ~      ~      ~      ~      ~"
+            puts ""; puts ""; 
         end
 
         def self.simple_msg *messages

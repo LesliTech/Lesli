@@ -16,7 +16,7 @@ For more information read the license file including with this software.
 // · 
 
 =end
-
+=begin
 require 'rails_helper'
 require 'spec_helper'
 
@@ -55,3 +55,4 @@ RSpec.describe 'GET /users/:id', type: :request do
     end
 
 end
+=end
