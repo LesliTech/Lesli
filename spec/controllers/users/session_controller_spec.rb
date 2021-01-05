@@ -47,7 +47,7 @@ RSpec.describe Users::SessionsController, type: :controller do
                 "data" => nil
             })
         end
-=end
+
         it "Sign in with wrong username" do 
             post :create, params: {
                 user: {
@@ -66,7 +66,7 @@ RSpec.describe Users::SessionsController, type: :controller do
                 }
             })
         end
-
+=end
     end
 
 end
