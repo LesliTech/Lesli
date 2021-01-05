@@ -28,13 +28,14 @@ create_development_user(["owner", "mr", user["name"], "", user["email"]])
     ["admin",   "mr", "Admin",  "user", "admin@lesli.cloud"],
     ["limited", "mr", "Limited","user", "limited@lesli.cloud"],
     ["guest",   "mr", "Guest",  "user", "guest@lesli.cloud"],
+    ["admin",   "mr", "Admin",  "user", "test@lesli.cloud"],
     ["api",     "mr", "API",    "user", "api@lesli.cloud"],
 ].each do |user|
 
-    create_development_user(user)
+    p create_development_user(user)
 
 end
 
 
 # notify
-puts "Users successfully created!"
+LC::Debug.msgc "Users successfully created!"

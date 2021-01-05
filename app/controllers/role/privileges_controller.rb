@@ -65,6 +65,8 @@ class Role::PrivilegesController < ApplicationLesliController
 
         if @role_privilege.save
             respond_with_successful(@role_privilege)
+
+            Role.log_activity_create_role_privilege(system_user, @role, @role_privilege)
         else
             respond_with_error(@role_privilege.errors.full_messages.to_sentence)
         end
@@ -87,8 +89,15 @@ class Role::PrivilegesController < ApplicationLesliController
     def update
         return respond_with_not_found unless @role_privilege
 
+        old_attributes = @role_privilege.attributes 
+
         if @role_privilege.update(role_privilege_params)
+
+            new_attributes = @role_privilege.attributes
+
             respond_with_successful(@role_privilege)
+
+            Role.log_activity_update_role_privilege(current_user, @role, old_attributes, new_attributes)
         else
             respond_with_error(@role_privilege.errors.full_messages.to_sentence)
         end
@@ -132,11 +141,19 @@ class Role::PrivilegesController < ApplicationLesliController
 
         return respond_with_not_found unless @role
         
-        if @role.privileges.where(id: params[:ids]).update_all(["#{params[:column]} = ?", params[:value]])
-            respond_with_successful()
-        else
-            respond_with_error(@role.errors.full_messages.to_sentence)
+        role_privileges = @role.privileges.where(id: params[:ids])
+
+        role_privileges.each do |role_privilege|
+            old_attributes = role_privilege.attributes 
+
+            role_privilege.update(["#{params[:column]} = ?", params[:value]])
+
+            new_attributes = role_privilege.attributes
+
+            Role.log_activity_update_role_privilege(current_user, @role, old_attributes, new_attributes)
         end
+
+        respond_with_successful()
     end
     
     private
@@ -199,8 +216,7 @@ class Role::PrivilegesController < ApplicationLesliController
             :grant_options, 
             :grant_resources,
             :grant_search,
-            :created_at, 
-            :updated_at
+            :grant_list
         )   
     end
 end
