@@ -23,7 +23,7 @@ module LC
 
     # IMPORTANT: This library must implement the same methods as the vue time plugin
     # Check the docs for more information: /development/docs/rails-lib-time
-    class Time
+    class Time2
  
         # NOTE: Do not modify settings here,
         # if you need a different date format you should change it in the config file
