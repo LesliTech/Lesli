@@ -36,7 +36,7 @@ module LC
                 # name of the engine
                 instance = Rails.application.config.lesli_settings["instance"][:name]
 
-                if defined?(instance.safe_constantize)
+                if (instance != 'Lesli' and defined?(instance.safe_constantize))
                     version = instance.safe_constantize::VERSION
                     build = instance.safe_constantize::BUILD
                 end
