@@ -26,14 +26,18 @@ class ApplicationLesliMailer < ActionMailer::Base
     # this is equivalent to: default template_path: -> { "engine_name/emails" }
     default template_path: -> { 
 
+        instance = Rails.application.config.lesli_settings["instance"]
+
         # get class that is executing the mailer
         module_info = self.class.name.split("::")
 
         # mailers from engines
-        return "#{(module_info[0].underscore)}/emails" if module_info.length > 1
+        if module_info.length > 1
+            return "#{ instance[:code] }/#{(module_info[0].underscore)}/emails/#{ module_info[1].underscore }" 
+        end
 
         # mailers from core
-        return "emails"
+        return "#{ instance[:code] }/emails/#{ module_info[0].underscore }"
 
     }
 

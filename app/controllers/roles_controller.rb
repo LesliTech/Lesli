@@ -37,7 +37,10 @@ class RolesController < ApplicationLesliController
 
                 return respond_with_not_found unless @role
                 
+                Role.log_activity_show(current_user, @role)
+
                 @role = @role.show
+
                 respond_with_successful(@role) 
             }
         end
@@ -56,6 +59,8 @@ class RolesController < ApplicationLesliController
         if role.save
             respond_with_successful(role)
 
+            Role.log_activity_create(current_user, role)
+
             role.initialize_role_privileges
         else
             respond_with_error(role.errors.full_messages)
@@ -65,8 +70,14 @@ class RolesController < ApplicationLesliController
     def update
         return respond_with_not_found unless @role
         
+        old_attributes = @role.attributes
+
         if @role.update(role_params)
+            new_attributes = @role.attributes
+
             respond_with_successful(@role)
+
+            Role.log_activity_update(current_user, @role, old_attributes, new_attributes)
         else
             respond_with_error(@role.errors.full_messages.to_sentence)
         end
@@ -77,62 +88,11 @@ class RolesController < ApplicationLesliController
         
         if @role.destroy
             respond_with_successful
+
+            Role.log_activity_destroy(current_user, @role)
         else
             respond_with_error(@role.errors.full_messages.to_sentence)
         end
-    end
-
-    def restore_default_privileges
-        set_role
-        return respond_with_not_found unless @role
-
-        privilege_defaults = @role.privilege_defaults
-        privilege_defaults.each do |privilege_default|
-            privilege = @role.privileges.find_by(grant_object: privilege_default.grant_object)
-            unless privilege.blank?
-                privilege.update(
-                    grant_index: privilege_default.grant_index,
-                    grant_create: privilege_default.grant_create,
-                    grant_new: privilege_default.grant_new,
-                    grant_options: privilege_default.grant_options,
-                    grant_edit: privilege_default.grant_edit,
-                    grant_update: privilege_default.grant_update,
-                    grant_show: privilege_default.grant_show,
-                    grant_destroy: privilege_default.grant_destroy,
-                    grant_resources: privilege.grant_resources,
-                    grant_search: privilege.grant_search
-                )
-            end
-        end
-
-        respond_with_successful
-    end
-
-    def update_default_privileges
-        set_role
-        return respond_with_not_found unless @role
-
-        privileges = @role.privileges
-        privileges.each do |privilege|
-            privilege_default = @role.privilege_defaults.find_or_create_by(grant_object: privilege.grant_object)
-            
-            unless privilege_default.blank?
-                privilege_default.update(
-                    grant_index: privilege.grant_index,
-                    grant_create: privilege.grant_create,
-                    grant_new: privilege.grant_new,
-                    grant_options: privilege.grant_options,
-                    grant_edit: privilege.grant_edit,
-                    grant_update: privilege.grant_update,
-                    grant_show: privilege.grant_show,
-                    grant_destroy: privilege.grant_destroy,
-                    grant_resources: privilege.grant_resources,
-                    grant_search: privilege.grant_search
-                )
-            end
-        end
-
-        respond_with_successful
     end
 
     private
