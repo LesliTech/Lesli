@@ -29,10 +29,7 @@ export default {
         }
     },
     mounted() {
-        console.log()
-        setTimeout(() => {
-            this.getSearch()
-        }, 3000)
+
     },
     methods: {
 
