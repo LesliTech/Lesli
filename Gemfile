@@ -32,24 +32,22 @@ gem "rails", "= 6.0.3"
 # Rails translations
 gem "rails-i18n", "= 6.0.0"
 
+# Rails translations for JavaScript frontend
 gem "i18n-js"
 
-# Use SCSS for stylesheets
+# SASS compiler for RoR
 gem "sass-rails", "= 6"
-
-# HAML template procesor
-gem "haml-rails"
 
 # Use postgresql as the database for Active Record
 gem "pg", ">= 0.18", "< 2.0"
 
-#gem "devise"
+# Authentication management for RoR
 gem "devise"
 
-# ActsAsParanoid
+# Soft-delete database records
 gem "acts_as_paranoid"
 
-# Use Puma as the app server
+# Development web server
 gem "puma", "4.3.3"
 
 # cron manager

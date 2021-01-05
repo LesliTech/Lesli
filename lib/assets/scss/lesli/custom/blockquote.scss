@@ -1,0 +1,40 @@
+/*
+
+Copyright (c) 2020, all rights reserved.
+
+All the information provided by this platform is protected by international laws related  to 
+industrial property, intellectual property, copyright and relative international laws. 
+All intellectual or industrial property rights of the code, texts, trade mark, design, 
+pictures and any other information belongs to the owner of this platform.
+
+Without the written permission of the owner, any replication, modification,
+transmission, publication is strictly forbidden.
+
+For more information read the license file including with this software.
+
+// · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
+// · 
+
+*/
+
+blockquote.blockquote {
+    margin: 1.5em 10px;
+    padding: 0.5em 10px;
+    background-color: lesli-css-get-color(silver, 100);
+    border-left: 10px solid lesli-css-get-color(silver, 300);
+    quotes: "\201C""\201D""\2018""\2019";
+
+    &:before {
+        color: lesli-css-get-color(silver);
+        vertical-align: -0.4em;
+        margin-right: 0.25em;
+        line-height: 0.1em;
+        font-size: 4em;
+        content: open-quote;
+    }
+
+    p {
+        display: inline;
+    }
+    
+}

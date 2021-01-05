@@ -131,6 +131,11 @@ export default {
                 if (result.successful) {
                     this.alert(this.translations.core.messages_info_file_destroyed, 'success')
                     this.bus.publish(`delete:${this.main_route}/files`, deleted_file)
+
+                    // We trigger a reload in the activities when a file is uploaded
+                    if(this.data.reload){
+                        this.data.reload.activities = true
+                    }
                 }else{
                     this.alert(result.error.message,'danger')
                 }

@@ -19,13 +19,12 @@ For more information read the license file including with this software.
 
 class Role < ApplicationRecord
     
-    belongs_to :account, foreign_key: "accounts_id"
-    #has_many :users, foreign_key: "roles_id"
-    #has_many :user_roles, foreign_key: "roles_id"
-    has_many :privileges, class_name: "Role::Privilege", foreign_key: "roles_id", dependent: :delete_all
-    has_many :privilege_defaults, class_name: "Role::PrivilegeDefault", foreign_key: "roles_id", dependent: :delete_all
+    belongs_to :account,            foreign_key: "accounts_id"
 
-    has_one :detail, inverse_of: :role, autosave: true, foreign_key: "roles_id", dependent: :destroy 
+    has_many :privileges,           foreign_key: "roles_id",    class_name: "Role::Privilege",          dependent: :delete_all
+    has_many :activities,           foreign_key: "roles_id"
+
+    has_one :detail,                foreign_key: "roles_id",    inverse_of: :role, autosave: true, dependent: :destroy 
     accepts_nested_attributes_for :detail, update_only: true
 
     def destroy(*args)
@@ -70,7 +69,147 @@ class Role < ApplicationRecord
 
         routes.each do |route|
             self.privileges.find_or_create_by(grant_object: route[:controller_path])
-            self.privilege_defaults.find_or_create_by(grant_object: route[:controller_path])
+        end
+    end
+
+    #######################################################################################
+    ##############################  Activities Log Methods   ##############################
+    #######################################################################################
+
+    # @return [void]
+    # @param current_user [::User] The user that created the role
+    # @param [Role] The role that was created
+    # @description Creates an activity for this role indicating who created it. And 
+    #   also creates an activity with the initial status of the role
+    # Example
+    #   params = {...}
+    #   role = Role.create(params)
+    #   Role.log_activity_create(User.find(1), role)
+    def self.log_activity_create(current_user, role)
+        role.activities.create(
+            user_creator: current_user,
+            category: "action_create"
+        )
+    end
+
+    # @return [void]
+    # @param current_user [::User] The user that created the role
+    # @param [Role] The role that was created
+    # @description Creates an activity for this role indicating that someone viewed it
+    # Example
+    #   role = Role.find(1)
+    #   Role.log_activity_show(User.find(1), role)
+    def self.log_activity_show(current_user, role)
+        role.activities.create(
+            user_creator: current_user,
+            category: "action_show"
+        )
+    end
+
+    # @return [void]
+    # @param current_user [::User] The user that created the role
+    # @param role [Role] The role that was created
+    # @param old_attributes[Hash] The data of the record before update
+    # @param new_attributes[Hash] The data of the record after update
+    # @description Creates an activity for this role if someone changed any of this values
+    # Example
+    #   role = Role.find(1)
+    #   old_attributes  = role.attributes.merge({detail_attributes: role.detail.attributes})
+    #   role.update(main_employee: User.find(33))
+    #   new_attributes = role.attributes.merge({detail_attributes: role.detail.attributes})
+    #   Role.log_activity_update(User.find(1), role, old_attributes, new_attributes)
+    def self.log_activity_update(current_user, role, old_attributes, new_attributes)
+        old_attributes.except!("id", "accounts_id", "created_at", "updated_at", "deleted_at")
+        old_attributes.each do |key, value|
+            if value != new_attributes[key]
+                value_from = value
+                value_to = new_attributes[key]
+                value_from = Courier::Core::Date.to_string_datetime(value_from) if value_from.is_a?(Time) || value_from.is_a?(Date)
+                value_to = Courier::Core::Date.to_string_datetime(value_to) if value_to.is_a?(Time) || value_to.is_a?(Date)
+
+                role.activities.create(
+                    user_creator: current_user,
+                    category: "action_update",
+                    field_name: key,
+                    value_from: value_from,
+                    value_to: value_to
+                )
+            end
+        end
+    end
+
+    # @return [void]
+    # @param current_user [::User] The user that created the role
+    # @param [Role] The role that was created
+    # @description Creates an activity for this role indicating that someone deleted it
+    # Example
+    #   role = Role.find(1)
+    #   Role.log_activity_show(User.find(1), role)
+    def self.log_activity_destroy(current_user, role)
+        role.activities.create(
+            user_creator: current_user,
+            category: "action_destroy"
+        )
+    end
+
+    # @return [void]
+    # @param current_user [::User] The user that created the role
+    # @param role [Role] The role 
+    # @param privilege [Role::Service] The privilege created
+    # @description Adds an activity if a new privilege is added to the role
+    # Example
+    #   params = {...}
+    #   role = Role.find(1)
+    #   privilege = role.privileges.create(params)
+    #   Role.log_activity_create_privilege(
+    #        User.find(1),
+    #        role,
+    #        privilege
+    #    )
+    def self.log_activity_create_role_privilege(current_user, role, privilege)
+        controller_name = privilege.grant_object if privilege
+
+        role.activities.create(
+            user_creator: current_user,
+            category: "action_create_role_privilege",
+            description: controller_name
+        )
+    end
+
+    # @return [void]
+    # @param current_user [::User] The user that created the role
+    # @param role [Role] The role
+    # @param privilege [Role::Service] The privilege updated
+    # @description Adds an activity if a privilege is updated
+    # Example
+    #   params = {...}
+    #   role = Role.find(1)
+    #   privilege = role.privileges.create(params)
+    #   Role.log_activity_update_privilege(
+    #        User.find(1),
+    #        role,
+    #        privilege
+    #    )
+    def self.log_activity_update_role_privilege(current_user, role, old_attributes, new_attributes)
+        controller_name = old_attributes["grant_object"]
+
+        old_attributes.except!("id", "roles_id", "created_at", "updated_at", "deleted_at")
+        old_attributes.each do |key, value|
+            if value != new_attributes[key]
+                value_from = value
+                value_to = new_attributes[key]
+                value_from = Courier::Core::Date.to_string_datetime(value_from) if value_from.is_a?(Time) || value_from.is_a?(Date)
+                value_to = Courier::Core::Date.to_string_datetime(value_to) if value_to.is_a?(Time) || value_to.is_a?(Date)
+
+                role.activities.create(
+                    user_creator: current_user,
+                    category: "action_update_role_privilege",
+                    field_name: key,
+                    value_from: value_from,
+                    value_to: value_to,
+                    description: controller_name
+                )
+            end
         end
     end
 end

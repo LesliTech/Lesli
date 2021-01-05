@@ -1,26 +1,16 @@
-<p align="center">
-	<img width="200" alt="LesliCloud logo" src="https://cdn.lesli.tech//lesli/brand/lesli-logo.svg" />
-</p>
 
-<h3 align="center">Vue plugin data</h3>
-
-<hr/>
-
-
-#### Description
-Vue global simple state management
+# Vue plugin data  
+Vue global state management built on top of observables
 
 
 
-<hr>
-
-
-
-#### Initialize
+## Initialize
 First register your reactive objects into app.js through app builder function
 
 example:
-```js
+
+```javascript
+
 // core/app/vue/users/app.js
 
 app("Core", "[list|new|edit|show]", "/administration/users", [{
@@ -46,14 +36,12 @@ Now we have a global reactive object for our users, this object is available in 
 
 
 
-<hr>
-
-
-
-#### Add data to our plugin
+## Add data to our plugin
 
 example:
-```js
+
+```javascript
+
 // core/app/vue/users/apps/show.vue
 
 export default {
@@ -89,16 +77,14 @@ export default {
 
 
 
-<hr>
-
-
-
-#### Working with data from external components
+## Working with data from external components
 
 There are two ways to work with data, through plugin instance and watchers
 
 example:
+
 ```javascript
+
 // core/app/vue/users/components/card-information.vue
 export default {
     data(){
@@ -112,9 +98,10 @@ export default {
         }
     }
 }
-</script>
+
 ```
 ```html
+
 <template>
     <div>
         <!-- working with data through plugin instance -->

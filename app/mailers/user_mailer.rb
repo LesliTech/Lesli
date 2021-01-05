@@ -23,15 +23,10 @@ class UserMailer < ApplicationLesliMailer
     # @data = {
     #     full_name: "Luis Donis"
     # }
-    #def welcome_email(user, subject="Welcome to My Awesome Site")
-    def welcome_email
-        
-        @user = params[:user]
-        @subject = params[:subject]
-        @data = {}
+    def welcome_email(user, subject="Welcome")
         # rails 6.1
         # mail(to: email_address_with_name(user.email, user.full_name), subject: subject)
-        mail(to: @user.email, subject: @subject)
+        mail(to: user.email, subject: subject)
     end
 
 end

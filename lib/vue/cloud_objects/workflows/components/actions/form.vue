@@ -78,7 +78,12 @@ export default {
 
     methods: {
         setMainRoute(){
-            this.main_route = `/${this.engineNamespace}/workflows/${this.workflowId}/actions`
+            if(this.engineNamespace == '/'){
+                this.main_route = `/workflows/${this.workflowId}/actions`
+            }else{
+                this.main_route = `/${this.engineNamespace}/workflows/${this.workflowId}/actions`
+            }
+            
         },
 
         setTranslations(){

@@ -35,8 +35,8 @@ RSpec.describe Users::SessionsController, type: :controller do
         it "Sign in with valid credentials" do 
             post :create, params: {
                 "user": {
-                    "email": "dev@lesli.cloud",
-                    "password": "lesli2020"
+                    "email": "test@lesli.cloud",
+                    "password": "tardis2021$"
                 }
             }
             expect(response).to have_http_status(:success) 
@@ -67,7 +67,6 @@ RSpec.describe Users::SessionsController, type: :controller do
             })
         end
 =end
-
     end
 
 end
