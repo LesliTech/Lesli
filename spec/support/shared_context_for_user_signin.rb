@@ -1,5 +1,5 @@
-<%#
-
+=begin
+    
 Copyright (c) 2020, all rights reserved.
 
 All the information provided by this platform is protected by international laws related  to 
@@ -14,6 +14,15 @@ For more information read the license file including with this software.
 
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
 // · 
+    
+=end
 
-%>
-<router-view></router-view>
+RSpec.shared_context 'user signin' do 
+
+    # Creates a new valid user session
+    before(:all) do
+        @user = User.find_by(email: "test@lesli.cloud")
+        sign_in @user
+    end
+
+end

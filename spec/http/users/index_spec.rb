@@ -25,48 +25,45 @@ RSpec.configure do |config|
     config.include Devise::Test::IntegrationHelpers
 end
 
-RSpec.describe 'GET /users', type: :request do
+RSpec.describe 'GET:/administration/users.json', type: :request do
+    include_context 'user signin'
 
     before(:all) do
-        @user = User.find_by(email: "dev@lesli.cloud")
-        sign_in @user
+        get '/administration/users.json' 
     end
-        
-    it "returns all active user" do
-        get "/users.json"
-        expect(response).to have_http_status(:success) 
-        expect(response.content_type).to eq("application/json; charset=utf-8")
+
+    include_examples 'standard json response'
+
+    it 'is expected to respond with successful' do
         expect(JSON.parse(response.body)["successful"]).to eql(true)
     end
 
 end
 
-RSpec.describe 'GET /users?role=owner', type: :request do
+=begin
+RSpec.describe 'GET:/administration/users?role=owner', type: :request do
+    include_context 'user signin'
 
     before(:all) do
-        @user = User.find_by(email: "dev@lesli.cloud")
-        sign_in @user
-    end
-        
-    it "returns only active users with owner role" do
         role = "owner"
+        get "/administration/users.json?role=#{role}"
+    end
+    
+    include_examples 'standard json response'
 
-        get "/users.json?role=#{role}"
-        expect(response).to have_http_status(:success) 
-        expect(response.content_type).to eq("application/json; charset=utf-8")
+    it "returns only active users with owner role" do
 
         #body response
         body_response = JSON.parse(response.body)
 
-        #successful request
-        expect(body_response["successful"]).to eql(true)
-
         #validate that only users with owner role be returned
-        expect(body_response["data"].map{ |e| e["role_name"] }.uniq.join(",")).to eql(role)
+        expect(body_response["data"].map{ |e| e["roles"] }.uniq.join(",")).to eql(role)
     end
-end
 
-RSpec.describe 'GET /users?role={role}&type=exclude', type: :request do
+end
+=end
+=begin
+RSpec.describe 'GET:/administration/users?role={role}&type=exclude', type: :request do
 
     before(:all) do
         @user = User.find_by(email: "dev@lesli.cloud")
@@ -77,7 +74,7 @@ RSpec.describe 'GET /users?role={role}&type=exclude', type: :request do
         exclude_role = @user.account.roles.first.detail.name
 
         #request
-        get "/users.json?role=#{exclude_role}&type=exclude"
+        get "/administration/users.json?role=#{exclude_role}&type=exclude"
 
         #response status
         expect(response).to have_http_status(:success) 
@@ -90,11 +87,11 @@ RSpec.describe 'GET /users?role={role}&type=exclude', type: :request do
         expect(body_response["successful"]).to eql(true)
 
         #validate that only users with especific roles be returned
-        expect(body_response["data"].map{ |e| e["role_name"] }.compact.uniq).not_to match_array([exclude_role])        
+        expect(body_response["data"].map{ |e| e["roles"] }.compact.uniq).not_to match_array([exclude_role])        
     end
 end
 
-RSpec.describe 'GET /users?role={account.roles}&type=exclude', type: :request do
+RSpec.describe 'GET:/administration/users.json?role={account.roles}&type=exclude', type: :request do
 
     before(:all) do
         @user = User.find_by(email: "dev@lesli.cloud")
@@ -121,3 +118,4 @@ RSpec.describe 'GET /users?role={account.roles}&type=exclude', type: :request do
         expect(body_response["data"]).to match_array([])        
     end
 end
+=end
