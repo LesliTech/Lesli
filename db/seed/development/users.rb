@@ -32,10 +32,10 @@ create_development_user(["owner", "mr", user["name"], "", user["email"]])
     ["api",     "mr", "API",    "user", "api@lesli.cloud"],
 ].each do |user|
 
-    create_development_user(user)
+    p create_development_user(user)
 
 end
 
 
 # notify
-puts "Users successfully created!"
+LC::Debug.msgc "Users successfully created!"
