@@ -115,6 +115,9 @@ gem "honeybadger", '~> 4.0'
 
 gem "ruby_cowsay"
 
+# faster json parser library
+gem 'fast_jsonparser'
+
 group :development, :test do
 
     gem "faker"
