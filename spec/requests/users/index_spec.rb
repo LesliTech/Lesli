@@ -23,7 +23,7 @@ require 'byebug'
 
 
 RSpec.describe 'GET:/administration/users.json', type: :request do
-    include_context 'user signin'
+    include_context 'user authentication'
 
     before(:all) do
         get '/administration/users.json' 
