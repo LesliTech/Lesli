@@ -24,6 +24,8 @@ module CloudObject
         
         belongs_to :user_creator, class_name: "::User", foreign_key: "users_id"
 
+        enum file_type: {}
+
         # @return [User] This method will always return nil
         # @description At the current time, this is a dummy method that returns nil, so the function is_editable_by? in
         #   ApplicationLesliRecord will work without issues
@@ -31,7 +33,6 @@ module CloudObject
             return nil
         end
 
-        enum file_type: {}
 
         def self.options
             data_file_types = []
@@ -63,6 +64,10 @@ module CloudObject
             end
 
             return false
+        end
+
+        def self.cloud_object_model
+            self.reflect_on_association(:cloud_object).klass
         end
 
     end
