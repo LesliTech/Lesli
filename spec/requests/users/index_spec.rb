@@ -21,9 +21,6 @@ require 'rails_helper'
 require 'spec_helper'
 require 'byebug'
 
-RSpec.configure do |config|
-    config.include Devise::Test::IntegrationHelpers
-end
 
 RSpec.describe 'GET:/administration/users.json', type: :request do
     include_context 'user signin'
@@ -32,7 +29,7 @@ RSpec.describe 'GET:/administration/users.json', type: :request do
         get '/administration/users.json' 
     end
 
-    include_examples 'standard json response'
+    include_examples 'successful standard json response'
 
     it 'is expected to respond with successful' do
         expect(JSON.parse(response.body)["successful"]).to eql(true)

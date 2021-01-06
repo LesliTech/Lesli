@@ -17,7 +17,7 @@ For more information read the license file including with this software.
     
 =end
 
-RSpec.shared_examples "standard json response" do   
+RSpec.shared_examples "successful standard json response" do   
 
     it "is expected to respond with a success status code (2xx)" do 
         expect(response).to have_http_status(:success) 

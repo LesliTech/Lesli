@@ -17,7 +17,7 @@ For more information read the license file including with this software.
     
 =end
 
-RSpec.shared_context 'user signin' do 
+RSpec.shared_context 'user authentication' do 
 
     # Creates a new valid user session
     before(:all) do
