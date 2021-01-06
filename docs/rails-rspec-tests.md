@@ -4,7 +4,7 @@ Integration tests for Rails applications
 
 ## Folder structure
 
-```
+```plaintext
 Rails app/
 └── spec
     ├── controllers/
@@ -20,7 +20,7 @@ Rails app/
 
 **Folder structure**
 
-```
+```plaintext
 Rails app/
 └── spec
     ├── controllers/
