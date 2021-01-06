@@ -33,7 +33,17 @@ module CloudObject
             return nil
         end
 
-
+        # @return [Hash] A list of options needed to create a File. 
+        # @description Returns lists of all fields needed to create a file. For the time being, it only returns a list of
+        #     all available file types
+        # @example
+        #     options = CloudHelp::File.options
+        #     puts options.to_json
+        #     # This will display something like 
+        #     # {
+        #     #     value: "draft", text: "draft",
+        #     #     value: "images", text: "images"
+        #     # }
         def self.options
             data_file_types = []
             self.file_types.each do |key, value|
@@ -48,10 +58,28 @@ module CloudObject
             }
         end
 
+        # @return [Array] An array of strings that contains all available file extensions to be uploaded
+        # @description Returns an array that contains all file extensions that are supported on this model
+        # @example
+        #     puts CloudHelp::Sla::File.allowed_file_extensions
+        #     # This will display something like 
+        #     # [
+        #     #     "jpeg",
+        #     #     "gif",
+        #     #     "pdf",
+        #     #     "docx"
+        #     # ]
         def self.allowed_file_extensions
             return nil
         end
 
+        # @return [Boolean] If the extension of the required file is allowed or not
+        # @param filename [String] the name of the file that will be uploaded
+        # @description Check if the extension of 'filename' is contained in the *allowed_file_extensions* method.
+        #     If it is, returns true, otherwise, returns false.
+        # @example
+        #     puts CloudHelp::Sla::File.verify_file_extension("test.docx") # This will return true
+        #     puts CloudHelp::Sla::File.verify_file_extension("test.pptx") # This will return false
         def self.verify_file_extension(filename)
             allowed_file_extensions_ = self.allowed_file_extensions
 
@@ -66,6 +94,11 @@ module CloudObject
             return false
         end
 
+        # @return [Class] The class of the association 'belongs_to'
+        # @description All files belong to a *cloud_object*. This method returns the specific class of
+        #     that cloud_object.
+        # @example
+        #     puts DeutscheLeibrenten::Project::File.cloud_object_model.new # This will display an instance of DeutscheLeibrenten::Project
         def self.cloud_object_model
             self.reflect_on_association(:cloud_object).klass
         end
