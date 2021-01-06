@@ -5,7 +5,6 @@
             v-bind="$attrs"
             :class="{
                 'is-active': newActive,
-                'is-expanded': newExpanded,
                 'is-disabled': disabled
             }"
             @click="onClick($event)"
@@ -14,9 +13,9 @@
                 v-if="icon"
                 :icon="icon"
                 :pack="iconPack"
-                :size="size"
+                size="is-small"
             />
-            <span v-if="label"> {{ label }} </span>
+            <span v-if="label">{{ label }}</span>
             <slot
                 v-else
                 name="label"
@@ -45,11 +44,6 @@ export default {
         [Icon.name]: Icon
     },
     inheritAttrs: false,
-    // deprecated, to replace with default 'value' in the next breaking change
-    model: {
-        prop: 'active',
-        event: 'update:active'
-    },
     props: {
         label: String,
         active: Boolean,
@@ -71,10 +65,6 @@ export default {
         ariaRole: {
             type: String,
             default: ''
-        },
-        size: {
-            type: String,
-            default: 'is-small'
         }
     },
     data() {
@@ -102,7 +92,7 @@ export default {
             const menu = this.getMenu()
             this.reset(this.$parent, menu)
             this.newExpanded = !this.newExpanded
-            this.$emit('update:expanded', this.newExpanded)
+            this.$emit('update:expanded', this.newActive)
             if (menu && menu.activable) {
                 this.newActive = true
                 this.$emit('update:active', this.newActive)

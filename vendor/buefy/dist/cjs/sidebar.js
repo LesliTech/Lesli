@@ -4,17 +4,11 @@ Object.defineProperty(exports, '__esModule', { value: true });
 
 require('./chunk-14c82365.js');
 var helpers = require('./helpers.js');
-var __chunk_2 = require('./chunk-0e70abe7.js');
 var __chunk_5 = require('./chunk-13e039f5.js');
 
 //
 var script = {
   name: 'BSidebar',
-  // deprecated, to replace with default 'value' in the next breaking change
-  model: {
-    prop: 'open',
-    event: 'update:open'
-  },
   props: {
     open: Boolean,
     type: [String, Object],
@@ -44,23 +38,13 @@ var script = {
     onCancel: {
       type: Function,
       default: function _default() {}
-    },
-    scroll: {
-      type: String,
-      default: function _default() {
-        return __chunk_2.config.defaultModalScroll ? __chunk_2.config.defaultModalScroll : 'clip';
-      },
-      validator: function validator(value) {
-        return ['clip', 'keep'].indexOf(value) >= 0;
-      }
     }
   },
   data: function data() {
     return {
       isOpen: this.open,
       transitionName: null,
-      animating: true,
-      savedScrollTop: null
+      animating: true
     };
   },
   computed: {
@@ -91,29 +75,13 @@ var script = {
     },
     isAbsolute: function isAbsolute() {
       return this.position === 'absolute';
-    }
-  },
-  watch: {
-    open: {
-      handler: function handler(value) {
-        this.isOpen = value;
+    },
 
-        if (this.overlay) {
-          this.handleScroll();
-        }
-
-        var open = this.right ? !value : value;
-        this.transitionName = !open ? 'slide-prev' : 'slide-next';
-      },
-      immediate: true
-    }
-  },
-  methods: {
     /**
-    * White-listed items to not close when clicked.
-    * Add sidebar content and all children.
-    */
-    getWhiteList: function getWhiteList() {
+     * White-listed items to not close when clicked.
+     * Add sidebar content and all children.
+     */
+    whiteList: function whiteList() {
       var whiteList = [];
       whiteList.push(this.$refs.sidebarContent); // Add all chidren from dropdown
 
@@ -145,16 +113,26 @@ var script = {
       }
 
       return whiteList;
-    },
-
+    }
+  },
+  watch: {
+    open: {
+      handler: function handler(value) {
+        this.isOpen = value;
+        var open = this.right ? !value : value;
+        this.transitionName = !open ? 'slide-prev' : 'slide-next';
+      },
+      immediate: true
+    }
+  },
+  methods: {
     /**
     * Keypress event that is bound to the document.
     */
-    keyPress: function keyPress(_ref) {
-      var key = _ref.key;
-
+    keyPress: function keyPress(event) {
+      // Esc key
       if (this.isFixed) {
-        if (this.isOpen && (key === 'Escape' || key === 'Esc')) this.cancel('escape');
+        if (this.isOpen && event.keyCode === 27) this.cancel('escape');
       }
     },
 
@@ -183,9 +161,7 @@ var script = {
     clickedOutside: function clickedOutside(event) {
       if (this.isFixed) {
         if (this.isOpen && !this.animating) {
-          var target = helpers.isCustomElement(this) ? event.composedPath()[0] : event.target;
-
-          if (this.getWhiteList().indexOf(target) < 0) {
+          if (this.whiteList.indexOf(event.target) < 0) {
             this.cancel('outside');
           }
         }
@@ -204,36 +180,6 @@ var script = {
     */
     afterEnter: function afterEnter() {
       this.animating = false;
-    },
-    handleScroll: function handleScroll() {
-      if (typeof window === 'undefined') return;
-
-      if (this.scroll === 'clip') {
-        if (this.open) {
-          document.documentElement.classList.add('is-clipped');
-        } else {
-          document.documentElement.classList.remove('is-clipped');
-        }
-
-        return;
-      }
-
-      this.savedScrollTop = !this.savedScrollTop ? document.documentElement.scrollTop : this.savedScrollTop;
-
-      if (this.open) {
-        document.body.classList.add('is-noscroll');
-      } else {
-        document.body.classList.remove('is-noscroll');
-      }
-
-      if (this.open) {
-        document.body.style.top = "-".concat(this.savedScrollTop, "px");
-        return;
-      }
-
-      document.documentElement.scrollTop = this.savedScrollTop;
-      document.body.style.top = null;
-      this.savedScrollTop = null;
     }
   },
   created: function created() {
@@ -248,24 +194,11 @@ var script = {
         document.body.appendChild(this.$el);
       }
     }
-
-    if (this.overlay && this.open) {
-      this.handleScroll();
-    }
   },
   beforeDestroy: function beforeDestroy() {
     if (typeof window !== 'undefined') {
       document.removeEventListener('keyup', this.keyPress);
       document.removeEventListener('click', this.clickedOutside);
-
-      if (this.overlay) {
-        // reset scroll
-        document.documentElement.classList.remove('is-clipped');
-        var savedScrollTop = !this.savedScrollTop ? document.documentElement.scrollTop : this.savedScrollTop;
-        document.body.classList.remove('is-noscroll');
-        document.documentElement.scrollTop = savedScrollTop;
-        document.body.style.top = null;
-      }
     }
 
     if (this.isFixed) {
@@ -278,7 +211,7 @@ var script = {
 const __vue_script__ = script;
 
 /* template */
-var __vue_render__ = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"b-sidebar"},[(_vm.overlay && _vm.isOpen)?_c('div',{staticClass:"sidebar-background"}):_vm._e(),_c('transition',{attrs:{"name":_vm.transitionName},on:{"before-enter":_vm.beforeEnter,"after-enter":_vm.afterEnter}},[_c('div',{directives:[{name:"show",rawName:"v-show",value:(_vm.isOpen),expression:"isOpen"}],ref:"sidebarContent",staticClass:"sidebar-content",class:_vm.rootClasses},[_vm._t("default")],2)])],1)};
+var __vue_render__ = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"b-sidebar"},[(_vm.overlay && _vm.isOpen)?_c('div',{staticClass:"sidebar-background"}):_vm._e(),_vm._v(" "),_c('transition',{attrs:{"name":_vm.transitionName},on:{"before-enter":_vm.beforeEnter,"after-enter":_vm.afterEnter}},[_c('div',{directives:[{name:"show",rawName:"v-show",value:(_vm.isOpen),expression:"isOpen"}],ref:"sidebarContent",staticClass:"sidebar-content",class:_vm.rootClasses},[_vm._t("default")],2)])],1)};
 var __vue_staticRenderFns__ = [];
 
   /* style */

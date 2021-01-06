@@ -1,24 +1,25 @@
-import {mount} from '@vue/test-utils'
-import BSteps from '@components/steps/Steps'
+import { shallowMount } from '@vue/test-utils'
 import BStepItem from '@components/steps/StepItem'
 
 let wrapper
-
-const WrapperComp = {
-    template: `
-        <BSteps>
-            <BStepItem/>
-            <BStepItem ref="testItem"/>
-            <BStepItem :visible="false"/>
-        </BSteps>`,
-    components: {
-        BSteps, BStepItem
+const BSteps = {
+    template: '<b-step-stub></b-step-stub>',
+    data() {
+        return {
+            stepItems: [],
+            _isSteps: true
+        }
+    },
+    methods: {
+        refreshSlots: jest.fn()
     }
 }
 
-describe('BStepItem', () => {
+describe('BSteps', () => {
     beforeEach(() => {
-        wrapper = mount(WrapperComp, { sync: false }).find({ ref: 'testItem' })
+        wrapper = shallowMount(BStepItem, {
+            parentComponent: BSteps
+        })
     })
 
     it('is called', () => {
@@ -30,43 +31,23 @@ describe('BStepItem', () => {
         expect(wrapper.html()).toMatchSnapshot()
     })
 
-    it('computes its position correctly', () => {
-        expect(wrapper.vm.index).toBe(1)
-    })
-
-    it('transition correctly when activate is called', () => {
-        wrapper.vm.activate(0)
+    it('set isActive when activate is called', () => {
+        wrapper.vm.activate(0, 1)
         expect(wrapper.vm.transitionName).toBe('slide-prev')
+        expect(wrapper.vm.isActive).toBeTruthy()
 
-        wrapper.vm.activate(2)
+        wrapper.vm.activate(1, 0)
         expect(wrapper.vm.transitionName).toBe('slide-next')
+        expect(wrapper.vm.isActive).toBeTruthy()
     })
 
-    it('transition correctly when deactivate is called', () => {
-        wrapper.vm.deactivate(2)
+    it('reset isActive when deactivate is called', () => {
+        wrapper.vm.deactivate(0, 1)
         expect(wrapper.vm.transitionName).toBe('slide-prev')
+        expect(wrapper.vm.isActive).toBeFalsy()
 
-        wrapper.vm.deactivate(0)
+        wrapper.vm.deactivate(1, 0)
         expect(wrapper.vm.transitionName).toBe('slide-next')
-    })
-
-    it('doesn\'t mount when it has no parent', () => {
-        const spy = jest.spyOn(global.console, 'error').mockImplementation(() => {})
-
-        try {
-            wrapper = mount({
-                template: `<BStepItem/>`,
-                components: {
-                    BStepItem
-                },
-                destroyed() {
-                    spy()
-                }
-            })
-        } catch (error) {
-            expect(error.message).stringMatching(/You should wrap/)
-        } finally {
-            spy.mockRestore()
-        }
+        expect(wrapper.vm.isActive).toBeFalsy()
     })
 })

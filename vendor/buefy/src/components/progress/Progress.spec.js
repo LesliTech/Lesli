@@ -14,24 +14,21 @@ describe('BProgress', () => {
         expect(wrapper.html()).toMatchSnapshot()
     })
 
-    it('add value attribute when a value is passed', async () => {
+    it('add value attribute when a value is passed', () => {
         const value = 50
         const wrapper = shallowMount(BProgress)
         wrapper.setProps({ value })
 
-        await wrapper.vm.$nextTick()
         expect(wrapper.find('.progress').attributes().value).toEqual(`${value}`)
     })
 
     describe('Passing a value prop', () => {
-        it('remove value attribute to the <progress> element', async () => {
-            const value = null
+        it('add value attribute to the <progress> element', () => {
+            const value = 50
             const wrapper = shallowMount(BProgress, {
                 propsData: {value}
             })
-
-            await wrapper.vm.$nextTick()
-            expect(wrapper.find('.progress').attributes().value).toEqual(undefined)
+            expect(wrapper.find('.progress').attributes().value).toEqual(`${value}`)
         })
 
         describe('Passing true to show-value prop', () => {
@@ -46,7 +43,7 @@ describe('BProgress', () => {
                 expect(wrapper.find('.progress-wrapper').find('p.progress-value').text()).toEqual(`${value}`)
             })
 
-            it('display the value as percent when passing "percent" for the format prop', async () => {
+            it('display the value as percent when passing "percent" for the format prop', () => {
                 const value = 50
                 const max = 100
                 const format = 'percent'
@@ -55,12 +52,10 @@ describe('BProgress', () => {
                         value,
                         max,
                         format,
-                        showValue: true,
-                        locale: 'en-US'
+                        showValue: true
                     }
                 })
 
-                await wrapper.vm.$nextTick()
                 expect(wrapper.find('.progress').text()).toEqual(`${value * max / 100}%`)
             })
 

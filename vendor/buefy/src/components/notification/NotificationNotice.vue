@@ -1,9 +1,7 @@
 <template>
     <b-notification
         v-bind="$options.propsData"
-        @close="close">
-        <slot />
-    </b-notification>
+        @close="close" />
 </template>
 
 <script>

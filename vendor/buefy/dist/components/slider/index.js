@@ -1,25 +1,9 @@
-/*! Buefy v0.9.4 | MIT License | github.com/buefy/buefy */
+/*! Buefy v0.8.20 | MIT License | github.com/buefy/buefy */
 (function (global, factory) {
   typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports) :
   typeof define === 'function' && define.amd ? define(['exports'], factory) :
   (global = global || self, factory(global.Slider = {}));
 }(this, function (exports) { 'use strict';
-
-  function _typeof(obj) {
-    "@babel/helpers - typeof";
-
-    if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") {
-      _typeof = function (obj) {
-        return typeof obj;
-      };
-    } else {
-      _typeof = function (obj) {
-        return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj;
-      };
-    }
-
-    return _typeof(obj);
-  }
 
   function _defineProperty(obj, key, value) {
     if (key in obj) {
@@ -62,7 +46,6 @@
     defaultIconComponent: null,
     defaultIconPrev: 'chevron-left',
     defaultIconNext: 'chevron-right',
-    defaultLocale: undefined,
     defaultDialogConfirmText: null,
     defaultDialogCancelText: null,
     defaultSnackbarDuration: 3500,
@@ -72,7 +55,8 @@
     defaultNotificationDuration: 2000,
     defaultNotificationPosition: null,
     defaultTooltipType: 'is-primary',
-    defaultTooltipDelay: null,
+    defaultTooltipAnimated: false,
+    defaultTooltipDelay: 0,
     defaultInputAutocomplete: 'on',
     defaultDateFormatter: null,
     defaultDateParser: null,
@@ -94,62 +78,20 @@
     defaultUseHtml5Validation: true,
     defaultDropdownMobileModal: true,
     defaultFieldLabelPosition: null,
-    defaultDatepickerYearsRange: [-100, 10],
+    defaultDatepickerYearsRange: [-100, 3],
     defaultDatepickerNearbyMonthDays: true,
     defaultDatepickerNearbySelectableMonthDays: false,
     defaultDatepickerShowWeekNumber: false,
-    defaultDatepickerWeekNumberClickable: false,
     defaultDatepickerMobileModal: true,
-    defaultTrapFocus: true,
-    defaultAutoFocus: true,
+    defaultTrapFocus: false,
     defaultButtonRounded: false,
     defaultCarouselInterval: 3500,
-    defaultTabsExpanded: false,
     defaultTabsAnimated: true,
-    defaultTabsType: null,
-    defaultStatusIcon: true,
-    defaultProgrammaticPromise: false,
     defaultLinkTags: ['a', 'button', 'input', 'router-link', 'nuxt-link', 'n-link', 'RouterLink', 'NuxtLink', 'NLink'],
-    defaultImageWebpFallback: null,
-    defaultImageLazy: true,
-    defaultImageResponsive: true,
-    defaultImageRatio: null,
-    defaultImageSrcsetFormatter: null,
     customIconPacks: null
-  };
+  }; // TODO defaultTrapFocus to true in the next breaking change
 
-  /**
-   * Asserts a value is beetween min and max
-   * @param val
-   * @param min
-   * @param max
-   * @returns {number}
-   */
-
-
-  function bound(val, min, max) {
-    return Math.max(min, Math.min(max, val));
-  }
-  function removeElement(el) {
-    if (typeof el.remove !== 'undefined') {
-      el.remove();
-    } else if (typeof el.parentNode !== 'undefined' && el.parentNode !== null) {
-      el.parentNode.removeChild(el);
-    }
-  }
-  function createAbsoluteElement(el) {
-    var root = document.createElement('div');
-    root.style.position = 'absolute';
-    root.style.left = '0px';
-    root.style.top = '0px';
-    root.style.width = '100%';
-    var wrapper = document.createElement('div');
-    root.appendChild(wrapper);
-    wrapper.appendChild(el);
-    document.body.appendChild(root);
-    return root;
-  }
-
+  //
   var script = {
     name: 'BTooltip',
     props: {
@@ -157,19 +99,8 @@
         type: Boolean,
         default: true
       },
-      type: {
-        type: String,
-        default: function _default() {
-          return config.defaultTooltipType;
-        }
-      },
+      type: String,
       label: String,
-      delay: {
-        type: Number,
-        default: function _default() {
-          return config.defaultTooltipDelay;
-        }
-      },
       position: {
         type: String,
         default: 'is-top',
@@ -177,13 +108,8 @@
           return ['is-top', 'is-bottom', 'is-left', 'is-right'].indexOf(value) > -1;
         }
       },
-      triggers: {
-        type: Array,
-        default: function _default() {
-          return ['hover'];
-        }
-      },
       always: Boolean,
+      animated: Boolean,
       square: Boolean,
       dashed: Boolean,
       multilined: Boolean,
@@ -191,223 +117,17 @@
         type: String,
         default: 'is-medium'
       },
-      appendToBody: Boolean,
-      animated: {
-        type: Boolean,
-        default: true
-      },
-      animation: {
-        type: String,
-        default: 'fade'
-      },
-      contentClass: String,
-      autoClose: {
-        type: [Array, Boolean],
-        default: true
-      }
-    },
-    data: function data() {
-      return {
-        isActive: false,
-        triggerStyle: {},
-        timer: null,
-        _bodyEl: undefined // Used to append to body
-
-      };
+      delay: Number
     },
     computed: {
-      rootClasses: function rootClasses() {
-        return ['b-tooltip', this.type, this.position, this.size, {
-          'is-square': this.square,
-          'is-always': this.always,
-          'is-multiline': this.multilined,
-          'is-dashed': this.dashed
-        }];
+      newType: function newType() {
+        return this.type || config.defaultTooltipType;
       },
-      newAnimation: function newAnimation() {
-        return this.animated ? this.animation : undefined;
-      }
-    },
-    watch: {
-      isActive: function isActive(value) {
-        if (this.appendToBody) {
-          this.updateAppendToBody();
-        }
-      }
-    },
-    methods: {
-      updateAppendToBody: function updateAppendToBody() {
-        var tooltip = this.$refs.tooltip;
-        var trigger = this.$refs.trigger;
-
-        if (tooltip && trigger) {
-          // update wrapper tooltip
-          var tooltipEl = this.$data._bodyEl.children[0];
-          tooltipEl.classList.forEach(function (item) {
-            return tooltipEl.classList.remove(item);
-          });
-
-          if (this.$vnode && this.$vnode.data && this.$vnode.data.staticClass) {
-            tooltipEl.classList.add(this.$vnode.data.staticClass);
-          }
-
-          this.rootClasses.forEach(function (item) {
-            if (_typeof(item) === 'object') {
-              for (var key in item) {
-                if (item[key]) {
-                  tooltipEl.classList.add(key);
-                }
-              }
-            } else {
-              tooltipEl.classList.add(item);
-            }
-          });
-          tooltipEl.style.width = "".concat(trigger.clientWidth, "px");
-          tooltipEl.style.height = "".concat(trigger.clientHeight, "px");
-          var rect = trigger.getBoundingClientRect();
-          var top = rect.top + window.scrollY;
-          var left = rect.left + window.scrollX;
-          var wrapper = this.$data._bodyEl;
-          wrapper.style.position = 'absolute';
-          wrapper.style.top = "".concat(top, "px");
-          wrapper.style.left = "".concat(left, "px");
-          wrapper.style.zIndex = this.isActive || this.always ? '99' : '-1';
-          this.triggerStyle = {
-            zIndex: this.isActive || this.always ? '100' : undefined
-          };
-        }
+      newAnimated: function newAnimated() {
+        return this.animated || config.defaultTooltipAnimated;
       },
-      onClick: function onClick() {
-        var _this = this;
-
-        if (this.triggers.indexOf('click') < 0) return; // if not active, toggle after clickOutside event
-        // this fixes toggling programmatic
-
-        this.$nextTick(function () {
-          setTimeout(function () {
-            return _this.open();
-          });
-        });
-      },
-      onHover: function onHover() {
-        if (this.triggers.indexOf('hover') < 0) return;
-        this.open();
-      },
-      onContextMenu: function onContextMenu(e) {
-        if (this.triggers.indexOf('contextmenu') < 0) return;
-        e.preventDefault();
-        this.open();
-      },
-      onFocus: function onFocus() {
-        if (this.triggers.indexOf('focus') < 0) return;
-        this.open();
-      },
-      open: function open() {
-        var _this2 = this;
-
-        if (this.delay) {
-          this.timer = setTimeout(function () {
-            _this2.isActive = true;
-            _this2.timer = null;
-          }, this.delay);
-        } else {
-          this.isActive = true;
-        }
-      },
-      close: function close() {
-        if (typeof this.autoClose === 'boolean') {
-          this.isActive = !this.autoClose;
-          if (this.autoClose && this.timer) clearTimeout(this.timer);
-        }
-      },
-
-      /**
-      * Close tooltip if clicked outside.
-      */
-      clickedOutside: function clickedOutside(event) {
-        if (this.isActive) {
-          if (Array.isArray(this.autoClose)) {
-            if (this.autoClose.indexOf('outside') >= 0) {
-              if (!this.isInWhiteList(event.target)) this.isActive = false;
-            } else if (this.autoClose.indexOf('inside') >= 0) {
-              if (this.isInWhiteList(event.target)) this.isActive = false;
-            }
-          }
-        }
-      },
-
-      /**
-       * Keypress event that is bound to the document
-       */
-      keyPress: function keyPress(_ref) {
-        var key = _ref.key;
-
-        if (this.isActive && (key === 'Escape' || key === 'Esc')) {
-          if (Array.isArray(this.autoClose)) {
-            if (this.autoClose.indexOf('escape') >= 0) this.isActive = false;
-          }
-        }
-      },
-
-      /**
-      * White-listed items to not close when clicked.
-      */
-      isInWhiteList: function isInWhiteList(el) {
-        if (el === this.$refs.content) return true; // All chidren from content
-
-        if (this.$refs.content !== undefined) {
-          var children = this.$refs.content.querySelectorAll('*');
-          var _iteratorNormalCompletion = true;
-          var _didIteratorError = false;
-          var _iteratorError = undefined;
-
-          try {
-            for (var _iterator = children[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
-              var child = _step.value;
-
-              if (el === child) {
-                return true;
-              }
-            }
-          } catch (err) {
-            _didIteratorError = true;
-            _iteratorError = err;
-          } finally {
-            try {
-              if (!_iteratorNormalCompletion && _iterator.return != null) {
-                _iterator.return();
-              }
-            } finally {
-              if (_didIteratorError) {
-                throw _iteratorError;
-              }
-            }
-          }
-        }
-
-        return false;
-      }
-    },
-    mounted: function mounted() {
-      if (this.appendToBody && typeof window !== 'undefined') {
-        this.$data._bodyEl = createAbsoluteElement(this.$refs.content);
-        this.updateAppendToBody();
-      }
-    },
-    created: function created() {
-      if (typeof window !== 'undefined') {
-        document.addEventListener('click', this.clickedOutside);
-        document.addEventListener('keyup', this.keyPress);
-      }
-    },
-    beforeDestroy: function beforeDestroy() {
-      if (typeof window !== 'undefined') {
-        document.removeEventListener('click', this.clickedOutside);
-        document.removeEventListener('keyup', this.keyPress);
-      }
-
-      if (this.appendToBody) {
-        removeElement(this.$data._bodyEl);
+      newDelay: function newDelay() {
+        return this.delay || config.defaultTooltipDelay;
       }
     }
   };
@@ -501,7 +221,14 @@
   const __vue_script__ = script;
 
   /* template */
-  var __vue_render__ = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('span',{ref:"tooltip",class:_vm.rootClasses},[_c('transition',{attrs:{"name":_vm.newAnimation}},[_c('div',{directives:[{name:"show",rawName:"v-show",value:(_vm.active && (_vm.isActive || _vm.always)),expression:"active && (isActive || always)"}],ref:"content",class:['tooltip-content', _vm.contentClass]},[(_vm.label)?[_vm._v(_vm._s(_vm.label))]:(_vm.$slots.content)?[_vm._t("content")]:_vm._e()],2)]),_c('div',{ref:"trigger",staticClass:"tooltip-trigger",style:(_vm.triggerStyle),on:{"click":_vm.onClick,"contextmenu":_vm.onContextMenu,"mouseenter":_vm.onHover,"!focus":function($event){return _vm.onFocus($event)},"!blur":function($event){return _vm.close($event)},"mouseleave":_vm.close}},[_vm._t("default")],2)],1)};
+  var __vue_render__ = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('span',{class:[_vm.newType, _vm.position, _vm.size, {
+              'b-tooltip': _vm.active,
+              'is-square': _vm.square,
+              'is-animated': _vm.newAnimated,
+              'is-always': _vm.always,
+              'is-multiline': _vm.multilined,
+              'is-dashed': _vm.dashed
+          }],style:({'transition-delay': (_vm.newDelay + "ms")}),attrs:{"data-label":_vm.label}},[_vm._t("default")],2)};
   var __vue_staticRenderFns__ = [];
 
     /* style */
@@ -546,28 +273,7 @@
         type: Boolean,
         default: true
       },
-      indicator: {
-        type: Boolean,
-        default: false
-      },
-      customFormatter: Function,
-      format: {
-        type: String,
-        default: 'raw',
-        validator: function validator(value) {
-          return ['raw', 'percent'].indexOf(value) >= 0;
-        }
-      },
-      locale: {
-        type: [String, Array],
-        default: function _default() {
-          return config.defaultLocale;
-        }
-      },
-      tooltipAlways: {
-        type: Boolean,
-        default: false
-      }
+      customFormatter: Function
     },
     data: function data() {
       return {
@@ -603,18 +309,8 @@
           left: this.currentPosition
         };
       },
-      formattedValue: function formattedValue() {
-        if (typeof this.customFormatter !== 'undefined') {
-          return this.customFormatter(this.value);
-        }
-
-        if (this.format === 'percent') {
-          return new Intl.NumberFormat(this.locale, {
-            style: 'percent'
-          }).format((this.value - this.min) / (this.max - this.min));
-        }
-
-        return new Intl.NumberFormat(this.locale).format(this.value);
+      tooltipLabel: function tooltipLabel() {
+        return typeof this.customFormatter !== 'undefined' ? this.customFormatter(this.value) : this.value.toString();
       }
     },
     methods: {
@@ -728,7 +424,7 @@
   const __vue_script__$1 = script$1;
 
   /* template */
-  var __vue_render__$1 = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"b-slider-thumb-wrapper",class:{ 'is-dragging': _vm.dragging, 'has-indicator': _vm.indicator},style:(_vm.wrapperStyle)},[_c('b-tooltip',{attrs:{"label":_vm.formattedValue,"type":_vm.type,"always":_vm.dragging || _vm.isFocused || _vm.tooltipAlways,"active":!_vm.disabled && _vm.tooltip}},[_c('div',_vm._b({staticClass:"b-slider-thumb",attrs:{"tabindex":_vm.disabled ? false : 0},on:{"mousedown":_vm.onButtonDown,"touchstart":_vm.onButtonDown,"focus":_vm.onFocus,"blur":_vm.onBlur,"keydown":[function($event){if(!$event.type.indexOf('key')&&_vm._k($event.keyCode,"left",37,$event.key,["Left","ArrowLeft"])){ return null; }if('button' in $event && $event.button !== 0){ return null; }$event.preventDefault();return _vm.onLeftKeyDown($event)},function($event){if(!$event.type.indexOf('key')&&_vm._k($event.keyCode,"right",39,$event.key,["Right","ArrowRight"])){ return null; }if('button' in $event && $event.button !== 2){ return null; }$event.preventDefault();return _vm.onRightKeyDown($event)},function($event){if(!$event.type.indexOf('key')&&_vm._k($event.keyCode,"down",40,$event.key,["Down","ArrowDown"])){ return null; }$event.preventDefault();return _vm.onLeftKeyDown($event)},function($event){if(!$event.type.indexOf('key')&&_vm._k($event.keyCode,"up",38,$event.key,["Up","ArrowUp"])){ return null; }$event.preventDefault();return _vm.onRightKeyDown($event)},function($event){if(!$event.type.indexOf('key')&&_vm._k($event.keyCode,"home",undefined,$event.key,undefined)){ return null; }$event.preventDefault();return _vm.onHomeKeyDown($event)},function($event){if(!$event.type.indexOf('key')&&_vm._k($event.keyCode,"end",undefined,$event.key,undefined)){ return null; }$event.preventDefault();return _vm.onEndKeyDown($event)}]}},'div',_vm.$attrs,false),[(_vm.indicator)?_c('span',[_vm._v(_vm._s(_vm.formattedValue))]):_vm._e()])])],1)};
+  var __vue_render__$1 = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"b-slider-thumb-wrapper",class:{ 'is-dragging': _vm.dragging },style:(_vm.wrapperStyle)},[_c('b-tooltip',{attrs:{"label":_vm.tooltipLabel,"type":_vm.type,"always":_vm.dragging || _vm.isFocused,"active":!_vm.disabled && _vm.tooltip}},[_c('div',_vm._b({staticClass:"b-slider-thumb",attrs:{"tabindex":_vm.disabled ? false : 0},on:{"mousedown":_vm.onButtonDown,"touchstart":_vm.onButtonDown,"focus":_vm.onFocus,"blur":_vm.onBlur,"keydown":[function($event){if(!('button' in $event)&&_vm._k($event.keyCode,"left",37,$event.key,["Left","ArrowLeft"])){ return null; }if('button' in $event && $event.button !== 0){ return null; }$event.preventDefault();return _vm.onLeftKeyDown($event)},function($event){if(!('button' in $event)&&_vm._k($event.keyCode,"right",39,$event.key,["Right","ArrowRight"])){ return null; }if('button' in $event && $event.button !== 2){ return null; }$event.preventDefault();return _vm.onRightKeyDown($event)},function($event){if(!('button' in $event)&&_vm._k($event.keyCode,"down",40,$event.key,["Down","ArrowDown"])){ return null; }$event.preventDefault();return _vm.onLeftKeyDown($event)},function($event){if(!('button' in $event)&&_vm._k($event.keyCode,"up",38,$event.key,["Up","ArrowUp"])){ return null; }$event.preventDefault();return _vm.onRightKeyDown($event)},function($event){if(!('button' in $event)&&_vm._k($event.keyCode,"home",undefined,$event.key,undefined)){ return null; }$event.preventDefault();return _vm.onHomeKeyDown($event)},function($event){if(!('button' in $event)&&_vm._k($event.keyCode,"end",undefined,$event.key,undefined)){ return null; }$event.preventDefault();return _vm.onEndKeyDown($event)}]}},'div',_vm.$attrs,false))])],1)};
   var __vue_staticRenderFns__$1 = [];
 
     /* style */
@@ -883,27 +579,6 @@
       biggerSliderFocus: {
         type: Boolean,
         default: false
-      },
-      indicator: {
-        type: Boolean,
-        default: false
-      },
-      format: {
-        type: String,
-        default: 'raw',
-        validator: function validator(value) {
-          return ['raw', 'percent'].indexOf(value) >= 0;
-        }
-      },
-      locale: {
-        type: [String, Array],
-        default: function _default() {
-          return config.defaultLocale;
-        }
-      },
-      tooltipAlways: {
-        type: Boolean,
-        default: false
       }
     },
     data: function data() {
@@ -992,13 +667,13 @@
 
         if (Array.isArray(newValue)) {
           this.isRange = true;
-          var smallValue = typeof newValue[0] !== 'number' || isNaN(newValue[0]) ? this.min : bound(newValue[0], this.min, this.max);
-          var largeValue = typeof newValue[1] !== 'number' || isNaN(newValue[1]) ? this.max : bound(newValue[1], this.min, this.max);
+          var smallValue = typeof newValue[0] !== 'number' || isNaN(newValue[0]) ? this.min : Math.min(Math.max(this.min, newValue[0]), this.max);
+          var largeValue = typeof newValue[1] !== 'number' || isNaN(newValue[1]) ? this.max : Math.max(Math.min(this.max, newValue[1]), this.min);
           this.value1 = this.isThumbReversed ? largeValue : smallValue;
           this.value2 = this.isThumbReversed ? smallValue : largeValue;
         } else {
           this.isRange = false;
-          this.value1 = isNaN(newValue) ? this.min : bound(newValue, this.min, this.max);
+          this.value1 = isNaN(newValue) ? this.min : Math.min(this.max, Math.max(this.min, newValue));
           this.value2 = null;
         }
       },
@@ -1076,7 +751,7 @@
   const __vue_script__$3 = script$3;
 
   /* template */
-  var __vue_render__$3 = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"b-slider",class:[_vm.size, _vm.type, _vm.rootClasses ],on:{"click":_vm.onSliderClick}},[_c('div',{ref:"slider",staticClass:"b-slider-track"},[_c('div',{staticClass:"b-slider-fill",style:(_vm.barStyle)}),(_vm.ticks)?_vm._l((_vm.tickValues),function(val,key){return _c('b-slider-tick',{key:key,attrs:{"value":val}})}):_vm._e(),_vm._t("default"),_c('b-slider-thumb',{ref:"button1",attrs:{"tooltip-always":_vm.tooltipAlways,"type":_vm.newTooltipType,"tooltip":_vm.tooltip,"custom-formatter":_vm.customFormatter,"indicator":_vm.indicator,"format":_vm.format,"locale":_vm.locale,"role":"slider","aria-valuenow":_vm.value1,"aria-valuemin":_vm.min,"aria-valuemax":_vm.max,"aria-orientation":"horizontal","aria-label":Array.isArray(_vm.ariaLabel) ? _vm.ariaLabel[0] : _vm.ariaLabel,"aria-disabled":_vm.disabled},on:{"dragstart":_vm.onDragStart,"dragend":_vm.onDragEnd},model:{value:(_vm.value1),callback:function ($$v) {_vm.value1=$$v;},expression:"value1"}}),(_vm.isRange)?_c('b-slider-thumb',{ref:"button2",attrs:{"tooltip-always":_vm.tooltipAlways,"type":_vm.newTooltipType,"tooltip":_vm.tooltip,"custom-formatter":_vm.customFormatter,"indicator":_vm.indicator,"format":_vm.format,"locale":_vm.locale,"role":"slider","aria-valuenow":_vm.value2,"aria-valuemin":_vm.min,"aria-valuemax":_vm.max,"aria-orientation":"horizontal","aria-label":Array.isArray(_vm.ariaLabel) ? _vm.ariaLabel[1] : '',"aria-disabled":_vm.disabled},on:{"dragstart":_vm.onDragStart,"dragend":_vm.onDragEnd},model:{value:(_vm.value2),callback:function ($$v) {_vm.value2=$$v;},expression:"value2"}}):_vm._e()],2)])};
+  var __vue_render__$3 = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"b-slider",class:[_vm.size, _vm.type, _vm.rootClasses ],on:{"click":_vm.onSliderClick}},[_c('div',{ref:"slider",staticClass:"b-slider-track"},[_c('div',{staticClass:"b-slider-fill",style:(_vm.barStyle)}),_vm._v(" "),(_vm.ticks)?_vm._l((_vm.tickValues),function(val,key){return _c('b-slider-tick',{key:key,attrs:{"value":val}})}):_vm._e(),_vm._v(" "),_vm._t("default"),_vm._v(" "),_c('b-slider-thumb',{ref:"button1",attrs:{"type":_vm.newTooltipType,"tooltip":_vm.tooltip,"custom-formatter":_vm.customFormatter,"role":"slider","aria-valuenow":_vm.value1,"aria-valuemin":_vm.min,"aria-valuemax":_vm.max,"aria-orientation":"horizontal","aria-label":Array.isArray(_vm.ariaLabel) ? _vm.ariaLabel[0] : _vm.ariaLabel,"aria-disabled":_vm.disabled},on:{"dragstart":_vm.onDragStart,"dragend":_vm.onDragEnd},model:{value:(_vm.value1),callback:function ($$v) {_vm.value1=$$v;},expression:"value1"}}),_vm._v(" "),(_vm.isRange)?_c('b-slider-thumb',{ref:"button2",attrs:{"type":_vm.newTooltipType,"tooltip":_vm.tooltip,"custom-formatter":_vm.customFormatter,"role":"slider","aria-valuenow":_vm.value2,"aria-valuemin":_vm.min,"aria-valuemax":_vm.max,"aria-orientation":"horizontal","aria-label":Array.isArray(_vm.ariaLabel) ? _vm.ariaLabel[1] : '',"aria-disabled":_vm.disabled},on:{"dragstart":_vm.onDragStart,"dragend":_vm.onDragEnd},model:{value:(_vm.value2),callback:function ($$v) {_vm.value2=$$v;},expression:"value2"}}):_vm._e()],2)])};
   var __vue_staticRenderFns__$3 = [];
 
     /* style */

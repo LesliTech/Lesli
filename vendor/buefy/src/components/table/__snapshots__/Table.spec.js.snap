@@ -14,7 +14,6 @@ exports[`BTable render correctly 1`] = `
             </tbody>
             <!---->
         </table>
-        <!---->
     </div>
     <!---->
 </div>

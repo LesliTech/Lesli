@@ -1,12 +1,12 @@
 <template>
     <div
         class="b-slider-thumb-wrapper"
-        :class="{ 'is-dragging': dragging, 'has-indicator': indicator}"
+        :class="{ 'is-dragging': dragging }"
         :style="wrapperStyle">
         <b-tooltip
-            :label="formattedValue"
+            :label="tooltipLabel"
             :type="type"
-            :always="dragging || isFocused || tooltipAlways"
+            :always="dragging || isFocused"
             :active="!disabled && tooltip">
             <div
                 class="b-slider-thumb"
@@ -21,17 +21,13 @@
                 @keydown.down.prevent="onLeftKeyDown"
                 @keydown.up.prevent="onRightKeyDown"
                 @keydown.home.prevent="onHomeKeyDown"
-                @keydown.end.prevent="onEndKeyDown">
-                <span v-if="indicator">{{ formattedValue }}</span>
-            </div>
+                @keydown.end.prevent="onEndKeyDown"/>
         </b-tooltip>
     </div>
 </template>
 
 <script>
 import Tooltip from '../tooltip/Tooltip'
-import config from '../../utils/config'
-
 export default {
     name: 'BSliderThumb',
     components: {
@@ -51,31 +47,7 @@ export default {
             type: Boolean,
             default: true
         },
-        indicator: {
-            type: Boolean,
-            default: false
-        },
-        customFormatter: Function,
-        format: {
-            type: String,
-            default: 'raw',
-            validator: (value) => {
-                return [
-                    'raw',
-                    'percent'
-                ].indexOf(value) >= 0
-            }
-        },
-        locale: {
-            type: [String, Array],
-            default: () => {
-                return config.defaultLocale
-            }
-        },
-        tooltipAlways: {
-            type: Boolean,
-            default: false
-        }
+        customFormatter: Function
     },
     data() {
         return {
@@ -109,21 +81,10 @@ export default {
         wrapperStyle() {
             return { left: this.currentPosition }
         },
-        formattedValue() {
-            if (typeof this.customFormatter !== 'undefined') {
-                return this.customFormatter(this.value)
-            }
-
-            if (this.format === 'percent') {
-                return new Intl.NumberFormat(
-                    this.locale,
-                    {
-                        style: 'percent'
-                    }
-                ).format(((this.value - this.min)) / (this.max - this.min))
-            }
-
-            return new Intl.NumberFormat(this.locale).format(this.value)
+        tooltipLabel() {
+            return typeof this.customFormatter !== 'undefined'
+                ? this.customFormatter(this.value)
+                : this.value.toString()
         }
     },
     methods: {

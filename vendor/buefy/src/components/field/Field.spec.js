@@ -45,6 +45,11 @@ describe('BField', () => {
             const wrapper = shallowMount(BField, { propsData: { expanded: true } })
             expect(wrapper.find('.field').classes()).toContain('is-expanded')
         })
+
+        it('contains "is-grouped-multiline" when prop "groupMultiline" is set', () => {
+            const wrapper = shallowMount(BField, { propsData: { groupMultiline: true } })
+            expect(wrapper.find('.field').classes()).toContain('is-grouped-multiline')
+        })
     })
 
     describe('Passing a message prop', () => {
@@ -116,7 +121,7 @@ describe('BField', () => {
         })
     })
 
-    describe('managing groups', () => {
+    describe('Passing true for grouped prop', () => {
         const mountOptions = {
             propsData: {
                 grouped: true
@@ -127,37 +132,22 @@ describe('BField', () => {
             }
         }
 
-        it('groups the children together in an inner field', () => {
-            const wrapper = mount(BField, mountOptions)
-            const innerField = wrapper.find('.field-body').find('.field')
-            expect(innerField.classes()).toContain('is-grouped')
+        it('groups the children together', () => {
+            const wrapper = shallowMount(BField, mountOptions)
+            expect(wrapper.find('.field').classes()).toContain('is-grouped')
         })
 
         it('appends the classname with value of position when "position" prop is passed', () => {
             const {propsData} = mountOptions
-            const wrapper = mount(BField, {
+            const wrapper = shallowMount(BField, {
                 ...mountOptions,
                 propsData: {
                     ...propsData,
                     position: 'is-centered'
                 }
             })
-            const innerField = wrapper.find('.field-body').find('.field')
-            expect(innerField.classes()).toContain('is-grouped')
-            expect(innerField.classes()).toContain('is-grouped-centered')
-        })
-
-        it('contains "is-grouped-multiline" when prop "groupMultiline" is set', () => {
-            const {propsData} = mountOptions
-            const wrapper = mount(BField, {
-                ...mountOptions,
-                propsData: {
-                    ...propsData,
-                    groupMultiline: true
-                }
-            })
-            const innerField = wrapper.find('.field-body').find('.field')
-            expect(innerField.classes()).toContain('is-grouped-multiline')
+            expect(wrapper.find('.field').classes()).toContain('is-grouped')
+            expect(wrapper.find('.field').classes()).toContain('is-grouped-centered')
         })
 
         it('adds a label element under the root div.field when "label" prop is passed', () => {

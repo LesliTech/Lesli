@@ -2,12 +2,12 @@
     <a href="https://buefy.org">
         <img src="https://raw.githubusercontent.com/buefy/buefy/master/static/img/buefy-banner.png" />
     </a>
-    <a href="https://github.com/buefy/buefy/releases"><img src="https://img.shields.io/github/v/release/buefy/buefy?logo=buefy&color=7957d5&labelColor=lightgrey" /></a>
-    <a href="https://www.npmjs.com/package/buefy"><img src="https://img.shields.io/npm/v/buefy.svg?logo=npm" /></a>
+    <a href="https://www.npmjs.com/package/buefy"><img src="https://img.shields.io/npm/v/buefy.svg" /></a>
     <a href="https://www.npmjs.com/package/buefy"><img src="https://img.shields.io/npm/dt/buefy.svg" /></a>
     <a href="https://circleci.com/gh/buefy/buefy"><img src="https://img.shields.io/circleci/project/github/buefy/buefy.svg?style=flat-square" /></a>
     <a href="https://codecov.io/gh/buefy/buefy"><img src="https://img.shields.io/codecov/c/github/buefy/buefy.svg?style=flat-square" /></a>
-    <a href="https://discordapp.com/invite/ZkdFJMr"><img src="https://img.shields.io/badge/chat-on%20discord-7289DA.svg?logo=discord" /></a>
+    <a href="https://github.com/buefy/buefy/blob/master/LICENSE"><img src="https://img.shields.io/npm/l/buefy.svg" /></a>
+    <a href="https://discordapp.com/invite/ZkdFJMr"><img src="https://img.shields.io/badge/chat-on%20discord-7289DA.svg" /></a>
     <a href="https://buefy.org"><img src="https://img.shields.io/badge/code_style-buefy-7957d5.svg?style=flat-square" /></a>
 </p>
 
@@ -31,7 +31,7 @@ Browse [online documentation here](https://buefy.org/).
 
 ## Quick start
 
-You need [Vue.js](https://vuejs.org/) **version 2.6+**.
+You need [Vue.js](https://vuejs.org/) **version 2.5+**.
 
 ### 1 Install via npm
 
@@ -90,7 +90,7 @@ Please see the [contributing guidelines](./.github/CONTRIBUTING.md)
 
 ## Versioning
 
-Version will follow **v0.Y.Z**, where:
+While it's still in beta, version will follow **v0.Y.Z**, where:
 
 * **Y**: Major (breaking changes)
 * **Z**: Minor or patch
@@ -104,6 +104,15 @@ Version will follow **v0.Y.Z**, where:
 </table>
 
 Special thanks to <a href="http://twitter.com/rafaelpimpa">Rafael Beraldo</a>, the original author.
+
+## Supporting through Patreon
+
+Buefy is an open source MIT project if you are interested in supporting this project, please consider becoming a patron.
+<p align="center">
+  <a href="https://www.patreon.com/jtommy">
+    <img src="https://c5.patreon.com/external/logo/become_a_patron_button.png" alt="Become a Patron" />
+  </a>
+</p>
 
 ## Contributors ✨
 
@@ -134,6 +143,6 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
 
 This project follows the [all-contributors](https://github.com/all-contributors/all-contributors) specification. Contributions of any kind welcome!
 
-## License <a href="https://github.com/buefy/buefy/blob/master/LICENSE"><img src="https://img.shields.io/npm/l/buefy.svg?logo=github" /></a>
+## License
 
 Code released under [MIT](https://github.com/buefy/buefy/blob/master/LICENSE) license.

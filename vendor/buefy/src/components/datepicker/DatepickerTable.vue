@@ -28,7 +28,6 @@
                 :nearby-month-days="nearbyMonthDays"
                 :nearby-selectable-month-days="nearbySelectableMonthDays"
                 :show-week-number="showWeekNumber"
-                :week-number-clickable="weekNumberClickable"
                 :first-day-of-week="firstDayOfWeek"
                 :rules-for-first-week="rulesForFirstWeek"
                 :range="range"
@@ -43,7 +42,8 @@
 
 <script>
 import DatepickerTableRow from './DatepickerTableRow'
-import { isDefined } from '../../utils/helpers'
+
+const isDefined = (d) => d !== undefined
 
 export default {
     name: 'BDatepickerTable',
@@ -69,9 +69,14 @@ export default {
         selectableDates: Array,
         nearbyMonthDays: Boolean,
         nearbySelectableMonthDays: Boolean,
-        showWeekNumber: Boolean,
-        weekNumberClickable: Boolean,
-        rulesForFirstWeek: Number,
+        showWeekNumber: {
+            type: Boolean,
+            default: () => false
+        },
+        rulesForFirstWeek: {
+            type: Number,
+            default: () => 4
+        },
         range: Boolean,
         multiple: Boolean
     },

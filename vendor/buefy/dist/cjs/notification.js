@@ -4,16 +4,16 @@ Object.defineProperty(exports, '__esModule', { value: true });
 
 require('./chunk-14c82365.js');
 var helpers = require('./helpers.js');
-var __chunk_2 = require('./chunk-0e70abe7.js');
-require('./chunk-dbd288d9.js');
+var __chunk_2 = require('./chunk-cd0dcc1d.js');
+require('./chunk-d7fda995.js');
 var __chunk_5 = require('./chunk-13e039f5.js');
-var __chunk_21 = require('./chunk-5f506a18.js');
-var __chunk_22 = require('./chunk-02d55a73.js');
+var __chunk_19 = require('./chunk-3b860353.js');
+var __chunk_20 = require('./chunk-dfd9e0ac.js');
 
 //
 var script = {
   name: 'BNotification',
-  mixins: [__chunk_21.MessageMixin],
+  mixins: [__chunk_19.MessageMixin],
   props: {
     position: String,
     ariaCloseLabel: String,
@@ -28,7 +28,7 @@ var script = {
 const __vue_script__ = script;
 
 /* template */
-var __vue_render__ = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('transition',{attrs:{"name":_vm.animation}},[_c('article',{directives:[{name:"show",rawName:"v-show",value:(_vm.isActive),expression:"isActive"}],staticClass:"notification",class:[_vm.type, _vm.position]},[(_vm.closable)?_c('button',{staticClass:"delete",attrs:{"type":"button","aria-label":_vm.ariaCloseLabel},on:{"click":_vm.close}}):_vm._e(),(_vm.$slots.default || _vm.message)?_c('div',{staticClass:"media"},[(_vm.computedIcon && _vm.hasIcon)?_c('div',{staticClass:"media-left"},[_c('b-icon',{attrs:{"icon":_vm.computedIcon,"pack":_vm.iconPack,"both":"","size":"is-large","aria-hidden":""}})],1):_vm._e(),_c('div',{staticClass:"media-content"},[(_vm.$slots.default)?[_vm._t("default")]:[_c('p',{staticClass:"text",domProps:{"innerHTML":_vm._s(_vm.message)}})]],2)]):_vm._e()])])};
+var __vue_render__ = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('transition',{attrs:{"name":_vm.animation}},[_c('article',{directives:[{name:"show",rawName:"v-show",value:(_vm.isActive),expression:"isActive"}],staticClass:"notification",class:[_vm.type, _vm.position]},[(_vm.closable)?_c('button',{staticClass:"delete",attrs:{"type":"button","aria-label":_vm.ariaCloseLabel},on:{"click":_vm.close}}):_vm._e(),_vm._v(" "),_c('div',{staticClass:"media"},[(_vm.computedIcon && _vm.hasIcon)?_c('div',{staticClass:"media-left"},[_c('b-icon',{attrs:{"icon":_vm.computedIcon,"pack":_vm.iconPack,"both":"","size":"is-large","aria-hidden":""}})],1):_vm._e(),_vm._v(" "),_c('div',{staticClass:"media-content"},[(_vm.message)?_c('p',{staticClass:"text",domProps:{"innerHTML":_vm._s(_vm.message)}}):_vm._t("default")],2)])])])};
 var __vue_staticRenderFns__ = [];
 
   /* style */
@@ -59,7 +59,7 @@ var __vue_staticRenderFns__ = [];
 //
 var script$1 = {
   name: 'BNotificationNotice',
-  mixins: [__chunk_22.NoticeMixin],
+  mixins: [__chunk_20.NoticeMixin],
   props: {
     indefinite: {
       type: Boolean,
@@ -77,7 +77,7 @@ var script$1 = {
 const __vue_script__$1 = script$1;
 
 /* template */
-var __vue_render__$1 = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('b-notification',_vm._b({on:{"close":_vm.close}},'b-notification',_vm.$options.propsData,false),[_vm._t("default")],2)};
+var __vue_render__$1 = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('b-notification',_vm._b({on:{"close":_vm.close}},'b-notification',_vm.$options.propsData,false))};
 var __vue_staticRenderFns__$1 = [];
 
   /* style */
@@ -125,32 +125,14 @@ var NotificationProgrammatic = {
       delete params.parent;
     }
 
-    var slot;
-
-    if (Array.isArray(params.message)) {
-      slot = params.message;
-      delete params.message;
-    } // fix animation
-
-
-    params.active = false;
     var propsData = helpers.merge(defaultParam, params);
     var vm = typeof window !== 'undefined' && window.Vue ? window.Vue : localVueInstance || __chunk_2.VueInstance;
     var NotificationNoticeComponent = vm.extend(NotificationNotice);
-    var component = new NotificationNoticeComponent({
+    return new NotificationNoticeComponent({
       parent: parent,
       el: document.createElement('div'),
       propsData: propsData
     });
-
-    if (slot) {
-      component.$slots.default = slot;
-      component.$forceUpdate();
-    } // fix animation
-
-
-    component.$children[0].isActive = true;
-    return component;
   }
 };
 var Plugin = {

@@ -12,7 +12,7 @@
 </template>
 
 <script>
-const clickableWhiteList = ['div', 'span', 'input']
+const clickableWhiteList = ['div', 'span']
 
 export default {
     name: 'BNavbarItem',
@@ -28,8 +28,11 @@ export default {
         /**
          * Keypress event that is bound to the document
          */
-        keyPress({ key }) {
-            if (key === 'Escape' || key === 'Esc') {
+        keyPress(event) {
+            // Esc key
+            // TODO: use code instead (because keyCode is actually deprecated)
+            // https://developer.mozilla.org/en-US/docs/Web/API/KeyboardEvent/keyCode
+            if (event.keyCode === 27) {
                 this.closeMenuRecursive(this, ['NavBar'])
             }
         },
@@ -40,7 +43,7 @@ export default {
             const isOnWhiteList = clickableWhiteList.some((item) => item === event.target.localName)
             if (!isOnWhiteList) {
                 const parent = this.closeMenuRecursive(this, ['NavbarDropdown', 'NavBar'])
-                if (parent && parent.$data._isNavbarDropdown) this.closeMenuRecursive(parent, ['NavBar'])
+                if (parent.$data._isNavbarDropdown) this.closeMenuRecursive(parent, ['NavBar'])
             }
         },
         /**

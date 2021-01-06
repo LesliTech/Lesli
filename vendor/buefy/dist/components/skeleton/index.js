@@ -1,4 +1,4 @@
-/*! Buefy v0.9.4 | MIT License | github.com/buefy/buefy */
+/*! Buefy v0.8.20 | MIT License | github.com/buefy/buefy */
 (function (global, factory) {
     typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports) :
     typeof define === 'function' && define.amd ? define(['exports'], factory) :
@@ -28,13 +28,6 @@
           type: Number,
           default: 1
         },
-        position: {
-          type: String,
-          default: '',
-          validator: function validator(value) {
-            return ['', 'is-centered', 'is-right'].indexOf(value) > -1;
-          }
-        },
         size: String
       },
       render: function render(createElement, context) {
@@ -60,7 +53,7 @@
 
         return createElement('div', {
           staticClass: 'b-skeleton',
-          class: [context.props.size, context.props.position, {
+          class: [context.props.size, {
             'is-animated': context.props.animated
           }]
         }, items);

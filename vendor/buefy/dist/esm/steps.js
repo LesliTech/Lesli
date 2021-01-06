@@ -1,18 +1,26 @@
 import { _ as _defineProperty } from './chunk-1fafdf15.js';
 import './helpers.js';
-import { c as config } from './chunk-ce068f0a.js';
-import { I as Icon } from './chunk-4139443a.js';
+import { c as config } from './chunk-6985c8ce.js';
+import { I as Icon } from './chunk-cdfca85b.js';
 import { _ as __vue_normalize__, r as registerComponent, u as use } from './chunk-cca88db8.js';
-import './chunk-9249d6e5.js';
-import './chunk-b452654d.js';
-import { T as TabbedMixin, a as TabbedChildMixin } from './chunk-4a39aba9.js';
+import { S as SlotComponent } from './chunk-0e3f4fb5.js';
 
+var _components;
 var script = {
   name: 'BSteps',
-  components: _defineProperty({}, Icon.name, Icon),
-  mixins: [TabbedMixin('step')],
+  components: (_components = {}, _defineProperty(_components, Icon.name, Icon), _defineProperty(_components, SlotComponent.name, SlotComponent), _components),
   props: {
+    value: [Number, String],
     type: [String, Object],
+    size: String,
+    animated: {
+      type: Boolean,
+      default: true
+    },
+    destroyOnHide: {
+      type: Boolean,
+      default: false
+    },
     iconPack: String,
     iconPrev: {
       type: String,
@@ -30,6 +38,11 @@ var script = {
       type: Boolean,
       default: true
     },
+    vertical: {
+      type: Boolean,
+      default: false
+    },
+    position: String,
     labelPosition: {
       type: String,
       validator: function validator(value) {
@@ -51,15 +64,17 @@ var script = {
     ariaNextLabel: String,
     ariaPreviousLabel: String
   },
-  computed: {
-    // Override mixin implementation to always have a value
-    activeItem: function activeItem() {
-      var _this = this;
+  data: function data() {
+    return {
+      activeStep: 0,
+      defaultSlots: [],
+      contentHeight: 0,
+      isTransitioning: false,
+      _isSteps: true // Used internally by StepItem
 
-      return this.childItems.filter(function (i) {
-        return i.value === _this.activeId;
-      })[0] || this.items[0];
-    },
+    };
+  },
+  computed: {
     wrapperClasses: function wrapperClasses() {
       return [this.size, _defineProperty({
         'is-vertical': this.vertical
@@ -73,56 +88,53 @@ var script = {
         'is-rounded': this.rounded
       }, "mobile-".concat(this.mobileMode), this.mobileMode !== null)];
     },
+    stepItems: function stepItems() {
+      return this.defaultSlots.filter(function (vnode) {
+        return vnode.componentInstance && vnode.componentInstance.$data && vnode.componentInstance.$data._isStepItem;
+      }).map(function (vnode) {
+        return vnode.componentInstance;
+      });
+    },
+    reversedStepItems: function reversedStepItems() {
+      return this.stepItems.slice().reverse();
+    },
+
+    /**
+     * Check the first visible step index.
+     */
+    firstVisibleStepIndex: function firstVisibleStepIndex() {
+      return this.stepItems.map(function (step, idx) {
+        return step.visible;
+      }).indexOf(true);
+    },
 
     /**
      * Check if previous button is available.
      */
     hasPrev: function hasPrev() {
-      return !!this.prevItem;
+      return this.firstVisibleStepIndex >= 0 && this.activeStep > this.firstVisibleStepIndex;
     },
 
     /**
-     * Retrieves the next visible item
+     * Check the last visible step index.
      */
-    nextItem: function nextItem() {
-      var nextItem = null;
-      var idx = this.activeItem ? this.items.indexOf(this.activeItem) + 1 : 0;
+    lastVisibleStepIndex: function lastVisibleStepIndex() {
+      var idx = this.reversedStepItems.map(function (step, idx) {
+        return step.visible;
+      }).indexOf(true);
 
-      for (; idx < this.items.length; idx++) {
-        if (this.items[idx].visible) {
-          nextItem = this.items[idx];
-          break;
-        }
+      if (idx >= 0) {
+        return this.stepItems.length - 1 - idx;
       }
 
-      return nextItem;
-    },
-
-    /**
-     * Retrieves the previous visible item
-     */
-    prevItem: function prevItem() {
-      if (!this.activeItem) {
-        return null;
-      }
-
-      var prevItem = null;
-
-      for (var idx = this.items.indexOf(this.activeItem) - 1; idx >= 0; idx--) {
-        if (this.items[idx].visible) {
-          prevItem = this.items[idx];
-          break;
-        }
-      }
-
-      return prevItem;
+      return idx;
     },
 
     /**
      * Check if next button is available.
      */
     hasNext: function hasNext() {
-      return !!this.nextItem;
+      return this.lastVisibleStepIndex >= 0 && this.activeStep < this.lastVisibleStepIndex;
     },
     navigationProps: function navigationProps() {
       return {
@@ -137,35 +149,129 @@ var script = {
       };
     }
   },
+  watch: {
+    /**
+    * When v-model is changed set the new active step.
+    */
+    value: function value(_value) {
+      var index = this.getIndexByValue(_value);
+      this.changeStep(index);
+    },
+
+    /**
+    * When step-items are updated, set active one.
+    */
+    stepItems: function stepItems() {
+      var _this = this;
+
+      if (this.activeStep < this.stepItems.length) {
+        var previous = this.activeStep;
+        this.stepItems.map(function (step, idx) {
+          if (step.isActive) {
+            previous = idx;
+
+            if (previous < _this.stepItems.length) {
+              _this.stepItems[previous].isActive = false;
+            }
+          }
+        });
+        this.stepItems[this.activeStep].isActive = true;
+      } else if (this.activeStep > 0) {
+        this.changeStep(this.activeStep - 1);
+      }
+    }
+  },
   methods: {
+    refreshSlots: function refreshSlots() {
+      this.defaultSlots = this.$slots.default || [];
+    },
+
+    /**
+     * Change the active step and emit change event.
+     */
+    changeStep: function changeStep(newIndex) {
+      if (this.activeStep === newIndex) return;
+      if (newIndex > this.stepItems.length) throw new Error('The index you trying to set is bigger than the steps length');
+
+      if (this.activeStep < this.stepItems.length) {
+        this.stepItems[this.activeStep].deactivate(this.activeStep, newIndex);
+      }
+
+      this.stepItems[newIndex].activate(this.activeStep, newIndex);
+      this.activeStep = newIndex;
+      this.$emit('change', this.getValueByIndex(newIndex));
+    },
+
     /**
      * Return if the step should be clickable or not.
      */
-    isItemClickable: function isItemClickable(stepItem) {
+    isItemClickable: function isItemClickable(stepItem, index) {
       if (stepItem.clickable === undefined) {
-        return stepItem.index < this.activeItem.index;
+        return this.activeStep > index;
       }
 
       return stepItem.clickable;
     },
 
     /**
+     * Step click listener, emit input event and change active step.
+     */
+    stepClick: function stepClick(index) {
+      this.$emit('input', this.getValueByIndex(index));
+      this.changeStep(index);
+    },
+
+    /**
      * Previous button click listener.
      */
     prev: function prev() {
-      if (this.hasPrev) {
-        this.activeId = this.prevItem.value;
+      var _this2 = this;
+
+      if (!this.hasPrev) return;
+      var prevItemIdx = this.reversedStepItems.map(function (step, idx) {
+        return _this2.stepItems.length - 1 - idx < _this2.activeStep && step.visible;
+      }).indexOf(true);
+
+      if (prevItemIdx >= 0) {
+        prevItemIdx = this.stepItems.length - 1 - prevItemIdx;
       }
+
+      this.$emit('input', this.getValueByIndex(prevItemIdx));
+      this.changeStep(prevItemIdx);
     },
 
     /**
      * Previous button click listener.
      */
     next: function next() {
-      if (this.hasNext) {
-        this.activeId = this.nextItem.value;
-      }
+      var _this3 = this;
+
+      if (!this.hasNext) return;
+      var nextItemIdx = this.stepItems.map(function (step, idx) {
+        return idx > _this3.activeStep && step.visible;
+      }).indexOf(true);
+      this.$emit('input', this.getValueByIndex(nextItemIdx));
+      this.changeStep(nextItemIdx);
+    },
+    getIndexByValue: function getIndexByValue(value) {
+      var index = this.stepItems.map(function (t) {
+        return t.$options.propsData ? t.$options.propsData.value : undefined;
+      }).indexOf(value);
+      return index >= 0 ? index : value;
+    },
+    getValueByIndex: function getValueByIndex(index) {
+      var propsData = this.stepItems[index].$options.propsData;
+      return propsData && propsData.value ? propsData.value : index;
     }
+  },
+  mounted: function mounted() {
+    this.activeStep = this.getIndexByValue(this.value || 0);
+
+    if (this.activeStep < this.stepItems.length) {
+      this.stepItems[this.activeStep].isActive = true;
+    }
+
+    this.refreshSlots();
   }
 };
 
@@ -173,10 +279,10 @@ var script = {
 const __vue_script__ = script;
 
 /* template */
-var __vue_render__ = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"b-steps",class:_vm.wrapperClasses},[_c('nav',{staticClass:"steps",class:_vm.mainClasses},[_c('ul',{staticClass:"step-items"},_vm._l((_vm.items),function(childItem){return _c('li',{directives:[{name:"show",rawName:"v-show",value:(childItem.visible),expression:"childItem.visible"}],key:childItem.value,staticClass:"step-item",class:[childItem.type || _vm.type, childItem.headerClass, {
-                    'is-active': childItem.isActive,
-                    'is-previous': _vm.activeItem.index > childItem.index
-            }]},[_c('a',{staticClass:"step-link",class:{'is-clickable': _vm.isItemClickable(childItem)},on:{"click":function($event){_vm.isItemClickable(childItem) && _vm.childClick(childItem);}}},[_c('div',{staticClass:"step-marker"},[(childItem.icon)?_c('b-icon',{attrs:{"icon":childItem.icon,"pack":childItem.iconPack,"size":_vm.size}}):(childItem.step)?_c('span',[_vm._v(_vm._s(childItem.step))]):_vm._e()],1),_c('div',{staticClass:"step-details"},[_c('span',{staticClass:"step-title"},[_vm._v(_vm._s(childItem.label))])])])])}),0)]),_c('section',{staticClass:"step-content",class:{'is-transitioning': _vm.isTransitioning}},[_vm._t("default")],2),_vm._t("navigation",[(_vm.hasNavigation)?_c('nav',{staticClass:"step-navigation"},[_c('a',{staticClass:"pagination-previous",attrs:{"role":"button","disabled":_vm.navigationProps.previous.disabled,"aria-label":_vm.ariaPreviousLabel},on:{"click":function($event){$event.preventDefault();return _vm.navigationProps.previous.action($event)}}},[_c('b-icon',{attrs:{"icon":_vm.iconPrev,"pack":_vm.iconPack,"both":"","aria-hidden":"true"}})],1),_c('a',{staticClass:"pagination-next",attrs:{"role":"button","disabled":_vm.navigationProps.next.disabled,"aria-label":_vm.ariaNextLabel},on:{"click":function($event){$event.preventDefault();return _vm.navigationProps.next.action($event)}}},[_c('b-icon',{attrs:{"icon":_vm.iconNext,"pack":_vm.iconPack,"both":"","aria-hidden":"true"}})],1)]):_vm._e()],{"previous":_vm.navigationProps.previous,"next":_vm.navigationProps.next})],2)};
+var __vue_render__ = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"b-steps",class:_vm.wrapperClasses},[_c('nav',{staticClass:"steps",class:_vm.mainClasses},[_c('ul',{staticClass:"step-items"},_vm._l((_vm.stepItems),function(stepItem,index){return _c('li',{directives:[{name:"show",rawName:"v-show",value:(stepItem.visible),expression:"stepItem.visible"}],key:index,staticClass:"step-item",class:[stepItem.type || _vm.type, {
+                        'is-active': _vm.activeStep === index,
+                        'is-previous': _vm.activeStep > index
+                }]},[_c('a',{staticClass:"step-link",class:{'is-clickable': _vm.isItemClickable(stepItem, index)},on:{"click":function($event){_vm.isItemClickable(stepItem, index) && _vm.stepClick(index);}}},[_c('div',{staticClass:"step-marker"},[(stepItem.icon)?_c('b-icon',{attrs:{"icon":stepItem.icon,"pack":stepItem.iconPack,"size":_vm.size}}):(stepItem.step)?_c('span',[_vm._v(_vm._s(stepItem.step))]):_vm._e()],1),_vm._v(" "),_c('div',{staticClass:"step-details"},[_c('span',{staticClass:"step-title"},[_vm._v(_vm._s(stepItem.label))])])])])}))]),_vm._v(" "),_c('section',{staticClass:"step-content",class:{'is-transitioning': _vm.isTransitioning}},[_vm._t("default")],2),_vm._v(" "),_vm._t("navigation",[(_vm.hasNavigation)?_c('nav',{staticClass:"step-navigation"},[_c('a',{staticClass:"pagination-previous",attrs:{"role":"button","disabled":_vm.navigationProps.previous.disabled,"aria-label":_vm.ariaPreviousLabel},on:{"click":function($event){$event.preventDefault();return _vm.navigationProps.previous.action($event)}}},[_c('b-icon',{attrs:{"icon":_vm.iconPrev,"pack":_vm.iconPack,"both":"","aria-hidden":"true"}})],1),_vm._v(" "),_c('a',{staticClass:"pagination-next",attrs:{"role":"button","disabled":_vm.navigationProps.next.disabled,"aria-label":_vm.ariaNextLabel},on:{"click":function($event){$event.preventDefault();return _vm.navigationProps.next.action($event)}}},[_c('b-icon',{attrs:{"icon":_vm.iconNext,"pack":_vm.iconPack,"both":"","aria-hidden":"true"}})],1)]):_vm._e()],{previous:_vm.navigationProps.previous,next:_vm.navigationProps.next})],2)};
 var __vue_staticRenderFns__ = [];
 
   /* style */
@@ -206,19 +312,95 @@ var __vue_staticRenderFns__ = [];
 
 var script$1 = {
   name: 'BStepItem',
-  mixins: [TabbedChildMixin('step')],
   props: {
     step: [String, Number],
+    label: String,
     type: [String, Object],
+    icon: String,
+    iconPack: String,
     clickable: {
       type: Boolean,
       default: undefined
-    }
+    },
+    visible: {
+      type: Boolean,
+      default: true
+    },
+    value: [String, Number]
   },
   data: function data() {
     return {
-      elementClass: 'step-item'
+      isActive: false,
+      transitionName: null,
+      _isStepItem: true // Used internally by Step
+
     };
+  },
+  methods: {
+    /**
+    * Activate step, alter animation name based on the index.
+    */
+    activate: function activate(oldIndex, index) {
+      this.transitionName = index < oldIndex ? this.$parent.vertical ? 'slide-down' : 'slide-next' : this.$parent.vertical ? 'slide-up' : 'slide-prev';
+      this.isActive = true;
+    },
+
+    /**
+    * Deactivate step, alter animation name based on the index.
+    */
+    deactivate: function deactivate(oldIndex, index) {
+      this.transitionName = index < oldIndex ? this.$parent.vertical ? 'slide-down' : 'slide-next' : this.$parent.vertical ? 'slide-up' : 'slide-prev';
+      this.isActive = false;
+    }
+  },
+  created: function created() {
+    if (!this.$parent.$data._isSteps) {
+      this.$destroy();
+      throw new Error('You should wrap bStepItem on a bSteps');
+    }
+
+    this.$parent.refreshSlots();
+  },
+  beforeDestroy: function beforeDestroy() {
+    this.$parent.refreshSlots();
+  },
+  render: function render(createElement) {
+    var _this = this;
+
+    // if destroy apply v-if
+    if (this.$parent.destroyOnHide) {
+      if (!this.isActive || !this.visible) {
+        return;
+      }
+    }
+
+    var vnode = createElement('div', {
+      directives: [{
+        name: 'show',
+        value: this.isActive && this.visible
+      }],
+      attrs: {
+        'class': 'step-item'
+      }
+    }, this.$slots.default); // check animated prop
+
+    if (this.$parent.animated) {
+      return createElement('transition', {
+        props: {
+          'name': this.transitionName
+        },
+        on: {
+          'before-enter': function beforeEnter() {
+            _this.$parent.isTransitioning = true;
+          },
+          'after-enter': function afterEnter() {
+            _this.$parent.isTransitioning = false;
+          }
+        }
+      }, [vnode]);
+    }
+
+    return vnode;
   }
 };
 

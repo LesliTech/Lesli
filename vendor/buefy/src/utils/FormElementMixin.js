@@ -1,5 +1,4 @@
 import config from '../utils/config'
-import { isVueComponent } from './helpers'
 
 export default {
     props: {
@@ -16,19 +15,7 @@ export default {
             type: Boolean,
             default: () => config.defaultUseHtml5Validation
         },
-        validationMessage: String,
-        locale: {
-            type: [String, Array],
-            default: () => {
-                return config.defaultLocale
-            }
-        },
-        statusIcon: {
-            type: Boolean,
-            default: () => {
-                return config.defaultStatusIcon
-            }
-        }
+        validationMessage: String
     },
     data() {
         return {
@@ -55,15 +42,13 @@ export default {
          * Get the type prop from parent if it's a Field.
          */
         statusType() {
-            const { newType } = this.parentField || {}
-
-            if (!newType) return
-
-            if (typeof newType === 'string') {
-                return newType
+            if (!this.parentField) return
+            if (!this.parentField.newType) return
+            if (typeof this.parentField.newType === 'string') {
+                return this.parentField.newType
             } else {
-                for (const key in newType) {
-                    if (newType[key]) {
+                for (let key in this.parentField.newType) {
+                    if (this.parentField.newType[key]) {
                         return key
                     }
                 }
@@ -97,10 +82,10 @@ export default {
          * Focus method that work dynamically depending on the component.
          */
         focus() {
-            const el = this.getElement()
-            if (el === undefined) return
+            if (this.$data._elementRef === undefined) return
 
             this.$nextTick(() => {
+                const el = this.$el.querySelector(this.$data._elementRef)
                 if (el) el.focus()
             })
         },
@@ -117,11 +102,7 @@ export default {
         },
 
         getElement() {
-            let el = this.$refs[this.$data._elementRef]
-            while (isVueComponent(el)) {
-                el = el.$refs[el.$data._elementRef]
-            }
-            return el
+            return this.$el.querySelector(this.$data._elementRef)
         },
 
         setInvalid() {
@@ -153,10 +134,10 @@ export default {
         checkHtml5Validity() {
             if (!this.useHtml5Validation) return
 
-            const el = this.getElement()
-            if (el === undefined) return
+            if (this.$refs[this.$data._elementRef] === undefined) return
+            if (this.getElement() === null) return
 
-            if (!el.checkValidity()) {
+            if (!this.getElement().checkValidity()) {
                 this.setInvalid()
                 this.isValid = false
             } else {

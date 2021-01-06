@@ -9,10 +9,8 @@
             role="button"
             ref="trigger"
             class="dropdown-trigger"
-            @click="onClick"
-            @contextmenu.prevent="onContextMenu"
-            @mouseenter="onHover"
-            @focus.capture="onFocus"
+            @click="toggle"
+            @mouseenter="checkHoverable"
             aria-haspopup="true">
             <slot name="trigger" :active="isActive"/>
         </div>
@@ -47,8 +45,7 @@
 <script>
 import trapFocus from '../../directives/trapFocus'
 import config from '../../utils/config'
-import { removeElement, createAbsoluteElement, isCustomElement, toCssWidth } from '../../utils/helpers'
-import ProviderParentMixin from '../../utils/ProviderParentMixin'
+import { removeElement, createAbsoluteElement } from '../../utils/helpers'
 
 const DEFAULT_CLOSE_OPTIONS = ['escape', 'outside']
 
@@ -57,13 +54,13 @@ export default {
     directives: {
         trapFocus
     },
-    mixins: [ProviderParentMixin('dropdown')],
     props: {
         value: {
             type: [String, Number, Boolean, Object, Array, Function],
             default: null
         },
         disabled: Boolean,
+        hoverable: Boolean,
         inline: Boolean,
         scrollable: Boolean,
         maxHeight: {
@@ -80,10 +77,6 @@ export default {
                     'is-bottom-right'
                 ].indexOf(value) > -1
             }
-        },
-        triggers: {
-            type: Array,
-            default: () => ['click']
         },
         mobileModal: {
             type: Boolean,
@@ -130,7 +123,8 @@ export default {
             selected: this.value,
             style: {},
             isActive: false,
-            isHoverable: false,
+            isHoverable: this.hoverable,
+            _isDropdown: true, // Used internally by DropdownItem
             _bodyEl: undefined // Used to append to body
         }
     },
@@ -146,7 +140,7 @@ export default {
             }]
         },
         isMobileModal() {
-            return this.mobileModal && !this.inline
+            return this.mobileModal && !this.inline && !this.hoverable
         },
         cancelOptions() {
             return typeof this.canClose === 'boolean'
@@ -157,12 +151,11 @@ export default {
         },
         contentStyle() {
             return {
-                maxHeight: this.scrollable ? toCssWidth(this.maxHeight) : null,
+                maxHeight: this.scrollable
+                    ? this.maxHeight === undefined
+                        ? null : (isNaN(this.maxHeight) ? this.maxHeight : this.maxHeight + 'px') : null,
                 overflow: this.scrollable ? 'auto' : null
             }
-        },
-        hoverable() {
-            return this.triggers.indexOf('hover') >= 0
         }
     },
     watch: {
@@ -244,6 +237,7 @@ export default {
                     }
                 }
             }
+
             return false
         },
 
@@ -254,35 +248,18 @@ export default {
             if (this.cancelOptions.indexOf('outside') < 0) return
             if (this.inline) return
 
-            const target = isCustomElement(this) ? event.composedPath()[0] : event.target
-            if (!this.isInWhiteList(target)) this.isActive = false
+            if (!this.isInWhiteList(event.target)) this.isActive = false
         },
 
         /**
          * Keypress event that is bound to the document
          */
-        keyPress({ key }) {
-            if (this.isActive && (key === 'Escape' || key === 'Esc')) {
+        keyPress(event) {
+            // Esc key
+            if (this.isActive && event.keyCode === 27) {
                 if (this.cancelOptions.indexOf('escape') < 0) return
                 this.isActive = false
             }
-        },
-
-        onClick() {
-            if (this.triggers.indexOf('click') < 0) return
-            this.toggle()
-        },
-        onContextMenu() {
-            if (this.triggers.indexOf('contextmenu') < 0) return
-            this.toggle()
-        },
-        onHover() {
-            if (this.triggers.indexOf('hover') < 0) return
-            this.isHoverable = true
-        },
-        onFocus() {
-            if (this.triggers.indexOf('focus') < 0) return
-            this.toggle()
         },
 
         /**
@@ -305,25 +282,30 @@ export default {
             }
         },
 
+        checkHoverable() {
+            if (this.hoverable) {
+                this.isHoverable = true
+            }
+        },
+
         updateAppendToBody() {
-            const dropdown = this.$refs.dropdown
             const dropdownMenu = this.$refs.dropdownMenu
             const trigger = this.$refs.trigger
             if (dropdownMenu && trigger) {
                 // update wrapper dropdown
-                const dropdownWrapper = this.$data._bodyEl.children[0]
-                dropdownWrapper.classList.forEach((item) => dropdownWrapper.classList.remove(item))
-                dropdownWrapper.classList.add('dropdown')
-                dropdownWrapper.classList.add('dropdown-menu-animation')
+                const dropdown = this.$data._bodyEl.children[0]
+                dropdown.classList.forEach((item) => dropdown.classList.remove(item))
+                dropdown.classList.add('dropdown')
+                dropdown.classList.add('dropdown-menu-animation')
                 if (this.$vnode && this.$vnode.data && this.$vnode.data.staticClass) {
-                    dropdownWrapper.classList.add(this.$vnode.data.staticClass)
+                    dropdown.classList.add(this.$vnode.data.staticClass)
                 }
                 this.rootClasses.forEach((item) => {
                     // skip position prop
                     if (item && typeof item === 'object') {
                         for (let key in item) {
                             if (item[key]) {
-                                dropdownWrapper.classList.add(key)
+                                dropdown.classList.add(key)
                             }
                         }
                     }
@@ -351,8 +333,7 @@ export default {
                     position: 'absolute',
                     top: `${top}px`,
                     left: `${left}px`,
-                    zIndex: '99',
-                    width: this.expanded ? `${dropdown.offsetWidth}px` : undefined
+                    zIndex: '99'
                 }
             }
         }

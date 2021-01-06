@@ -23,7 +23,10 @@
             :false-value="falseValue">
         <span
             class="check"
-            :class="checkClasses"/>
+            :class="[
+                { 'is-elastic': isMouseDown && !disabled },
+                (passiveType &&`${passiveType}-passive`),
+                type]"/>
         <span class="control-label"><slot/></span>
     </label>
 </template>
@@ -55,10 +58,6 @@ export default {
         outlined: {
             type: Boolean,
             default: false
-        },
-        leftLabel: {
-            type: Boolean,
-            default: false
         }
     },
     data() {
@@ -83,16 +82,8 @@ export default {
                 {
                     'is-disabled': this.disabled,
                     'is-rounded': this.rounded,
-                    'is-outlined': this.outlined,
-                    'has-left-label': this.leftLabel
+                    'is-outlined': this.outlined
                 }
-            ]
-        },
-        checkClasses() {
-            return [
-                { 'is-elastic': this.isMouseDown && !this.disabled },
-                (this.passiveType && `${this.passiveType}-passive`),
-                this.type
             ]
         }
     },

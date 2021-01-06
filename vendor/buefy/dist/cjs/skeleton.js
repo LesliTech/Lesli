@@ -27,13 +27,6 @@ var script = {
       type: Number,
       default: 1
     },
-    position: {
-      type: String,
-      default: '',
-      validator: function validator(value) {
-        return ['', 'is-centered', 'is-right'].indexOf(value) > -1;
-      }
-    },
     size: String
   },
   render: function render(createElement, context) {
@@ -59,7 +52,7 @@ var script = {
 
     return createElement('div', {
       staticClass: 'b-skeleton',
-      class: [context.props.size, context.props.position, {
+      class: [context.props.size, {
         'is-animated': context.props.animated
       }]
     }, items);

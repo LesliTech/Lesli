@@ -1,24 +1,8 @@
 $table-sticky-header-height: 300px !default;
 
 @mixin table-cards {
-    .table {
-        background-color: transparent;
-    }
     thead {
-        tr {
-            box-shadow: none;
-            border-width: 0;
-            th {
-                display: none;
-            }
-            .checkbox-cell {
-                display: block;
-                width: 100%;
-                text-align: right;
-                margin-bottom: 1rem;
-                border: 0;
-            }
-        }
+        display: none;
     }
     tfoot {
          th {
@@ -44,9 +28,9 @@ $table-sticky-header-height: 300px !default;
         }
         // Disables is-*
         &:not([class*="is-"]) {
-            background: $table-background-color;
+            background: inherit;
             &:hover {
-                background-color: $table-background-color;
+                background-color: inherit;
             }
         }
         &.detail {
@@ -101,10 +85,6 @@ $table-sticky-header-height: 300px !default;
         }
     }
 
-    .sort-icon.icon.is-desc {
-        transform: rotate(180deg) translateY(-50%) !important;
-    }
-
     .table {
         width: 100%;
         border: 1px solid transparent;
@@ -143,16 +123,6 @@ $table-sticky-header-height: 300px !default;
             &.is-sortable,
             &.is-sortable .th-wrap {
                 cursor: pointer;
-
-                .is-relative {
-                    position: absolute;
-                }
-            }
-            .sort-icon, .multi-sort-cancel-icon {
-                position: absolute;
-                bottom: 50%;
-                left: 100%;
-                transform: translateY(50%);
             }
             .multi-sort-cancel-icon {
                 margin-left: 10px;
@@ -162,7 +132,7 @@ $table-sticky-header-height: 300px !default;
                 position: sticky;
                 left: 0;
                 z-index: 3 !important;
-                background: $table-head-background-color;
+                background: $table-background-color;
             }
         }
         tr {
@@ -181,10 +151,7 @@ $table-sticky-header-height: 300px !default;
             }
         }
         .chevron-cell {
-            vertical-align: middle;
-            > a {
-                color: $input-arrow !important;
-            }
+          vertical-align:middle
         }
         .checkbox-cell {
             width: 40px;
@@ -197,7 +164,7 @@ $table-sticky-header-height: 300px !default;
         }
         tr.detail {
             box-shadow: inset 0 1px 3px $grey-lighter;
-            background: $scheme-main-bis;
+            background: $white-bis;
             .detail-container {
                 padding: 1rem;
             }
@@ -232,7 +199,6 @@ $table-sticky-header-height: 300px !default;
     }
 
     .table-wrapper {
-        position: relative;
         &.has-sticky-header {
             height: $table-sticky-header-height;
             overflow-y: auto;
@@ -259,6 +225,21 @@ $table-sticky-header-height: 300px !default;
         }
         &.is-card-list {
             @include table-cards
+        }
+    }
+    
+    &.is-loading {
+        position: relative;
+        pointer-events: none;
+        opacity: 0.5;
+        &:after {
+            @include loader;
+            position: absolute;
+            top: 4em;
+            left: calc(50% - 2.5em);
+            width: 5em;
+            height: 5em;
+            border-width: 0.25em;
         }
     }
 }

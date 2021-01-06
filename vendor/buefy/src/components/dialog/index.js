@@ -1,35 +1,18 @@
 import Dialog from './Dialog'
 
-import config, { VueInstance } from '../../utils/config'
+import { VueInstance } from '../../utils/config'
 import { merge } from '../../utils/helpers'
 import { use, registerComponent, registerComponentProgrammatic } from '../../utils/plugins'
 
 let localVueInstance
 
 function open(propsData) {
-    let slot
-    if (Array.isArray(propsData.message)) {
-        slot = propsData.message
-        delete propsData.message
-    }
     const vm = typeof window !== 'undefined' && window.Vue ? window.Vue : localVueInstance || VueInstance
     const DialogComponent = vm.extend(Dialog)
-    const component = new DialogComponent({
+    return new DialogComponent({
         el: document.createElement('div'),
         propsData
     })
-    if (slot) {
-        component.$slots.default = slot
-        component.$forceUpdate()
-    }
-    if (!config.defaultProgrammaticPromise) {
-        return component
-    } else {
-        return new Promise((resolve) => {
-            component.$on('confirm', (event) => resolve({ result: event || true, dialog: component }))
-            component.$on('cancel', () => resolve({ result: false, dialog: component }))
-        })
-    }
 }
 
 const DialogProgrammatic = {

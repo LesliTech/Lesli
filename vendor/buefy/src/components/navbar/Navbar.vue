@@ -8,7 +8,6 @@ const BODY_SPACED_FIXED_TOP_CLASS = 'has-spaced-navbar-fixed-top'
 const FIXED_BOTTOM_CLASS = 'is-fixed-bottom'
 const BODY_FIXED_BOTTOM_CLASS = 'has-navbar-fixed-bottom'
 const BODY_SPACED_FIXED_BOTTOM_CLASS = 'has-spaced-navbar-fixed-bottom'
-const BODY_CENTERED_CLASS = 'has-navbar-centered'
 
 const isFilled = (str) => !!str
 
@@ -19,11 +18,6 @@ export default {
     },
     directives: {
         clickOutside
-    },
-    // deprecated, to replace with default 'value' in the next breaking change
-    model: {
-        prop: 'active',
-        event: 'update:active'
     },
     props: {
         type: [String, Object],
@@ -39,11 +33,7 @@ export default {
             type: Boolean,
             default: false
         },
-        active: {
-            type: Boolean,
-            default: false
-        },
-        centered: {
+        isActive: {
             type: Boolean,
             default: false
         },
@@ -63,7 +53,7 @@ export default {
     },
     data() {
         return {
-            internalIsActive: this.active,
+            internalIsActive: this.isActive,
             _isNavBar: true // Used internally by NavbarItem
         }
     },
@@ -77,7 +67,6 @@ export default {
                 {
                     [FIXED_TOP_CLASS]: this.fixedTop,
                     [FIXED_BOTTOM_CLASS]: this.fixedBottom,
-                    [BODY_CENTERED_CLASS]: this.centered,
                     'is-spaced': this.spaced,
                     'has-shadow': this.shadow,
                     'is-transparent': this.transparent
@@ -86,9 +75,9 @@ export default {
         }
     },
     watch: {
-        active: {
-            handler(active) {
-                this.internalIsActive = active
+        isActive: {
+            handler(isActive) {
+                this.internalIsActive = isActive
             },
             immediate: true
         },
@@ -129,13 +118,13 @@ export default {
             this.emitUpdateParentEvent()
         },
         closeMenu() {
-            if (this.closeOnClick && this.internalIsActive) {
+            if (this.closeOnClick) {
                 this.internalIsActive = false
                 this.emitUpdateParentEvent()
             }
         },
         emitUpdateParentEvent() {
-            this.$emit('update:active', this.internalIsActive)
+            this.$emit('update:isActive', this.internalIsActive)
         },
         setBodyClass(className) {
             if (typeof window !== 'undefined') {
