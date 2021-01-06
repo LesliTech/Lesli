@@ -51,73 +51,62 @@ For more information read the license file including with this software.
             respond_with_successful(@cloud_object_files)
         end
 
-=begin
-@controller_action_param :file [File] The uploaded file
-@controller_action_param :name [String] The name to be displayed
-@return [Json] Json that contains wheter the creation of the file was successful or not. 
-    If it is not successful, it returs an error message
-@description Creates a new file associated to a *cloud_object*. The id of the 
-    *cloud_object* is within the *params* attribute
-@example
-    # Executing this controller's action from javascript's frontend
-    let ticket_id = 1;
-    let data = {
-        ticket_file: {
-            file: FILE_CONTENT
-            name: "contract_information"
-        }
-    };
-    this.http.post(`127.0.0.1/help/tickets/${ticket_id}/files`, data);
-=end
+
+        # @controller_action_param :attachment_local [File] The uploaded attachment
+        # @controller_action_param :name [String] The name to be displayed
+        # @controller_action_param :file_type [String] The file type of 
+        # @return [Json] Json that contains wheter the creation of the file was successful or not. 
+        #     If it is not successful, it returs an error message
+        # @description Creates a new file associated to a *cloud_object*. The id of the 
+        #     *cloud_object* is within the *params* attribute
+        # @example
+        #     # Executing this controller's action from javascript's frontend
+        #     let ticket_id = 1;
+        #     let data = {
+        #         ticket_file: {
+        #             file: FILE_CONTENT
+        #             name: "contract_information"
+        #         }
+        #     };
+        #     this.http.post(`127.0.0.1/help/tickets/${ticket_id}/files`, data);
         def create
-            dynamic_info = self.class.dynamic_info
-            module_name = dynamic_info[:module_name]
-            object_name = dynamic_info[:object_name] 
-            model = dynamic_info[:model]
-            subscriber_model = dynamic_info[:subscriber_model]
-            plural_object_name = object_name.pluralize
-        
-            new_file_params = 
-            cloud_object_file_params.merge(
+            file_model = self.class.name.gsub("Controller","").singularize.constantize
+            cloud_object_model = file_model.cloud_object_model
+
+            new_file_params = file_params.merge(
                 user_creator: current_user,
-                "#{module_name}_#{plural_object_name}_id".to_sym => params["#{object_name}_id".to_sym]
+                "#{cloud_object_model.table_name}_id".to_sym => params["#{cloud_object_model.name.demodulize.underscore}_id".to_sym]
             )
-            
+
+            # Verifying the extension of the file
             extension = ""
             extension = new_file_params[:attachment_local].original_filename if new_file_params[:attachment_local]
             extension = new_file_params[:attachment].original_filename if new_file_params[:attachment]
+            return respond_with_error(I18n.t('core.shared.notification_error_file_type_not_allowed')) unless file_model.verify_file_extension(extension)
 
-            return respond_with_error(I18n.t('core.shared.notification_error_file_type_not_allowed')) unless model.verify_file_extension(extension)
+            file = file_model.new(new_file_params)
+            if file.save
+                # Setting the file name in case it's blank
+                file.update(
+                    name: (file.attachment_local_identifier || file.attachment_identifier)
+                ) if file.name.blank?
 
-            cloud_object_file = model.new(new_file_params)
+                cloud_object = file.cloud_object
 
-            if cloud_object_file.save
-
-                cloud_object_file.update(
-                    name: (cloud_object_file.attachment_local_identifier || cloud_object_file.attachment_identifier)
-                ) if cloud_object_file.name.blank?
-
-                cloud_object = cloud_object_file.cloud_object
-                # Notify Subscribers
-                # message = I18n.t(
-                #    "#{module_name}.controllers.#{object_name}.files.notifications.created",
-                #    "#{object_name}_id".to_sym => cloud_object.id
-                #)
-                #subscriber_model.notify_subscribers(cloud_object, message, :file_created)
-
-                # Register Activity
+                # Registering an activity in the cloud_object
                 cloud_object.activities.create(
                     user_creator: current_user,
                     category: "action_create_file",
-                    description: cloud_object_file.name
+                    description: file.name
                 )
 
                 # Setting up file uploader to upload in background
-                Files::AwsUploadJob.perform_later(cloud_object_file)
+                Files::AwsUploadJob.perform_later(file)
 
-                respond_with_successful(cloud_object_file)
+                # Returning the 200 HTTP response
+                respond_with_successful(file)
             else
-                respond_with_error(cloud_object_file.errors.full_messages.to_sentence)
+                respond_with_error(file.errors.full_messages.to_sentence)
             end
         end
 
@@ -281,7 +270,7 @@ this.http.delete(`127.0.0.1/help/tickets/${ticket_id}/files/${file_id}`);
     #        "word": false
     #    }
     #}
-    file_params = cloud_object_file_params
+    file_params = file_params
     puts file_params
     # will remove _id_ and _word_ fields and only print {
     #    "ticket_file": {
@@ -290,19 +279,19 @@ this.http.delete(`127.0.0.1/help/tickets/${ticket_id}/files/${file_id}`);
     #    }
     #}
 =end
-        def cloud_object_file_params
+        def file_params
             dynamic_info = self.class.dynamic_info
             module_name = dynamic_info[:module_name]
             object_name = dynamic_info[:object_name] 
             plural_object_name = object_name.pluralize
 
+            self.class.name # CloudHelp::Ticket::FilesController
+
             params.require(
-                "#{object_name}_file".to_sym
+                "#{object_name}_file".to_sym #Ticket
             ).permit(
                 :name,
                 :attachment_local,
-                :attachment,
-                "#{module_name}_#{plural_object_name}_id".to_sym,
                 :file_type
             )
         end
