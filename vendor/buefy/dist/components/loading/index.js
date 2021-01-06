@@ -1,4 +1,4 @@
-/*! Buefy v0.8.20 | MIT License | github.com/buefy/buefy */
+/*! Buefy v0.9.4 | MIT License | github.com/buefy/buefy */
 (function (global, factory) {
   typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports) :
   typeof define === 'function' && define.amd ? define(['exports'], factory) :
@@ -114,6 +114,11 @@
   //
   var script = {
     name: 'BLoading',
+    // deprecated, to replace with default 'value' in the next breaking change
+    model: {
+      prop: 'active',
+      event: 'update:active'
+    },
     props: {
       active: Boolean,
       programmatic: Boolean,
@@ -181,9 +186,9 @@
       /**
       * Keypress event that is bound to the document.
       */
-      keyPress: function keyPress(event) {
-        // Esc key
-        if (event.keyCode === 27) this.cancel();
+      keyPress: function keyPress(_ref) {
+        var key = _ref.key;
+        if (key === 'Escape' || key === 'Esc') this.cancel();
       }
     },
     created: function created() {
@@ -303,7 +308,7 @@
   const __vue_script__ = script;
 
   /* template */
-  var __vue_render__ = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('transition',{attrs:{"name":_vm.animation}},[(_vm.isActive)?_c('div',{staticClass:"loading-overlay is-active",class:{ 'is-full-page': _vm.displayInFullPage }},[_c('div',{staticClass:"loading-background",on:{"click":_vm.cancel}}),_vm._v(" "),_vm._t("default",[_c('div',{staticClass:"loading-icon"})])],2):_vm._e()])};
+  var __vue_render__ = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('transition',{attrs:{"name":_vm.animation}},[(_vm.isActive)?_c('div',{staticClass:"loading-overlay is-active",class:{ 'is-full-page': _vm.displayInFullPage }},[_c('div',{staticClass:"loading-background",on:{"click":_vm.cancel}}),_vm._t("default",[_c('div',{staticClass:"loading-icon"})])],2):_vm._e()])};
   var __vue_staticRenderFns__ = [];
 
     /* style */

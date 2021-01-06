@@ -17,10 +17,14 @@
             </template>
             <slot/>
             <b-slider-thumb
+                :tooltip-always="tooltipAlways"
                 v-model="value1"
                 :type="newTooltipType"
                 :tooltip="tooltip"
                 :custom-formatter="customFormatter"
+                :indicator="indicator"
+                :format="format"
+                :locale="locale"
                 ref="button1"
                 role="slider"
                 :aria-valuenow="value1"
@@ -32,10 +36,14 @@
                 @dragstart="onDragStart"
                 @dragend="onDragEnd" />
             <b-slider-thumb
+                :tooltip-always="tooltipAlways"
                 v-model="value2"
                 :type="newTooltipType"
                 :tooltip="tooltip"
                 :custom-formatter="customFormatter"
+                :indicator="indicator"
+                :format="format"
+                :locale="locale"
                 ref="button2"
                 v-if="isRange"
                 role="slider"
@@ -54,6 +62,8 @@
 <script>
 import SliderThumb from './SliderThumb'
 import SliderTick from './SliderTick'
+import config from '../../utils/config'
+import {bound} from '../../utils/helpers'
 
 export default {
     name: 'BSlider',
@@ -107,6 +117,30 @@ export default {
         customFormatter: Function,
         ariaLabel: [String, Array],
         biggerSliderFocus: {
+            type: Boolean,
+            default: false
+        },
+        indicator: {
+            type: Boolean,
+            default: false
+        },
+        format: {
+            type: String,
+            default: 'raw',
+            validator: (value) => {
+                return [
+                    'raw',
+                    'percent'
+                ].indexOf(value) >= 0
+            }
+        },
+        locale: {
+            type: [String, Array],
+            default: () => {
+                return config.defaultLocale
+            }
+        },
+        tooltipAlways: {
             type: Boolean,
             default: false
         }
@@ -199,17 +233,17 @@ export default {
                 this.isRange = true
                 const smallValue = typeof newValue[0] !== 'number' || isNaN(newValue[0])
                     ? this.min
-                    : Math.min(Math.max(this.min, newValue[0]), this.max)
+                    : bound(newValue[0], this.min, this.max)
                 const largeValue = typeof newValue[1] !== 'number' || isNaN(newValue[1])
                     ? this.max
-                    : Math.max(Math.min(this.max, newValue[1]), this.min)
+                    : bound(newValue[1], this.min, this.max)
                 this.value1 = this.isThumbReversed ? largeValue : smallValue
                 this.value2 = this.isThumbReversed ? smallValue : largeValue
             } else {
                 this.isRange = false
                 this.value1 = isNaN(newValue)
                     ? this.min
-                    : Math.min(this.max, Math.max(this.min, newValue))
+                    : bound(newValue, this.min, this.max)
                 this.value2 = null
             }
         },

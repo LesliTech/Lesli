@@ -38,8 +38,8 @@ describe('BDatepicker', () => {
 
         it('should have valid default values', () => {
             expect(wrapper.vm.firstDayOfWeek).toBe(0)
-            expect(wrapper.vm.monthNames).toEqual(defaultMonthNames)
-            expect(wrapper.vm.dayNames).toEqual(defaultDayNames)
+            expect(wrapper.vm.newMonthNames.length).toBe(defaultMonthNames.length)
+            expect(wrapper.vm.newDayNames.length).toBe(defaultDayNames.length)
         })
 
         it('manage props validator', () => {
@@ -234,7 +234,9 @@ describe('BDatepicker', () => {
             minDate: newDate(2017, 1, 1),
             maxDate: null
         })
-        expect(wrapper.vm.listOfYears).toEqual([2021, 2020, 2019, 2018, 2017])
+        const y = [2017]
+        for (let i = 1; i <= 11; i++) y.push(y[i - 1] + 1)
+        expect(wrapper.vm.listOfYears).toEqual(y.reverse())
 
         wrapper.setProps({
             maxDate: newDate(2020, 1, 1)

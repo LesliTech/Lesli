@@ -1,8 +1,13 @@
+import Vue from 'vue'
 import { shallowMount } from '@vue/test-utils'
+import { useFakeTimers } from 'sinon'
 import BInput from '@components/input/Input'
 import BTable from '@components/table/Table'
+import { setVueInstance } from '../../utils/config'
 
 describe('BTable', () => {
+    setVueInstance(Vue)
+
     let wrapper
     beforeEach(() => {
         wrapper = shallowMount(BTable)
@@ -77,6 +82,69 @@ describe('BTable', () => {
         expect(cols.at(3).attributes('style')).toBe('width: 100px;')
     })
 
+    describe('Selectable', () => {
+        const data = [
+            { id: 1, name: 'Jesse' },
+            { id: 2, name: 'John' },
+            { id: 3, name: 'Tina' },
+            { id: 4, name: 'Anne' },
+            { id: 5, name: 'Clarence' }
+        ]
+        beforeEach(() => {
+            wrapper = shallowMount(BTable, {
+                propsData: {
+                    columns: [
+                        { label: 'ID', field: 'id' },
+                        { label: 'Name', field: 'name' }
+                    ],
+                    data
+                }
+            })
+        })
+
+        it('unselected( no column-row-key )', () => {
+            expect(wrapper.findAll('tbody tr.is-selected')).toHaveLength(0)
+        })
+
+        it('unselected( column-row-key )', () => {
+            wrapper.setProps({
+                customRowKey: 'id'
+            })
+            expect(wrapper.findAll('tbody tr.is-selected')).toHaveLength(0)
+        })
+
+        it('compare by instance itself', () => {
+            wrapper.setProps({
+                selected: data[0]
+            })
+            const rows = wrapper.findAll('tbody tr')
+            expect(rows.at(0).classes()).toContain('is-selected')
+        })
+
+        it('target data and key match', () => {
+            wrapper.setProps({
+                selected: data[1],
+                customRowKey: 'id'
+            })
+            const rows = wrapper.findAll('tbody tr')
+            expect(rows.at(1).classes()).toContain('is-selected')
+        })
+
+        it('clear data', () => {
+            wrapper.setProps({
+                selected: data[0],
+                customRowKey: 'id'
+            })
+            const rows = wrapper.findAll('tbody tr')
+            expect(rows.at(0).classes()).toContain('is-selected')
+
+            wrapper.setProps({
+                selected: undefined
+            })
+            expect(wrapper.findAll('tbody tr.is-selected')).toHaveLength(0)
+        })
+    })
+
     describe('Searchable', () => {
         const data = [
             { id: 1, name: 'Jesse' },
@@ -137,6 +205,22 @@ describe('BTable', () => {
             bodyRows = wrapper.findAll('tbody tr')
 
             expect(bodyRows).toHaveLength(3) // Jesse, John and Justin
+        })
+
+        it('debounce search filtering when debounce-search is defined', () => {
+            let clock = useFakeTimers()
+            wrapper.setProps({
+                debounceSearch: 1000
+            })
+            for (let i = 0; i < 10; i++) {
+                searchInput.vm.$emit('input', 'J'.repeat(10 - i))
+                clock.tick(500)
+                bodyRows = wrapper.findAll('tbody tr')
+                expect(bodyRows).toHaveLength(5) // No filtering yet
+            }
+            clock.tick(1000)
+            bodyRows = wrapper.findAll('tbody tr')
+            expect(bodyRows).toHaveLength(2) // Filtering after debounce
         })
     })
 })

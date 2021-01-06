@@ -34,7 +34,7 @@ var script = {
 const __vue_script__ = script;
 
 /* template */
-var __vue_render__ = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('a',_vm._g({staticClass:"navbar-burger burger",class:{ 'is-active': _vm.isOpened },attrs:{"role":"button","aria-label":"menu","aria-expanded":_vm.isOpened}},_vm.$listeners),[_c('span',{attrs:{"aria-hidden":"true"}}),_vm._v(" "),_c('span',{attrs:{"aria-hidden":"true"}}),_vm._v(" "),_c('span',{attrs:{"aria-hidden":"true"}})])};
+var __vue_render__ = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('a',_vm._g({staticClass:"navbar-burger burger",class:{ 'is-active': _vm.isOpened },attrs:{"role":"button","aria-label":"menu","aria-expanded":_vm.isOpened}},_vm.$listeners),[_c('span',{attrs:{"aria-hidden":"true"}}),_c('span',{attrs:{"aria-hidden":"true"}}),_c('span',{attrs:{"aria-hidden":"true"}})])};
 var __vue_staticRenderFns__ = [];
 
   /* style */
@@ -192,6 +192,7 @@ var BODY_SPACED_FIXED_TOP_CLASS = 'has-spaced-navbar-fixed-top';
 var FIXED_BOTTOM_CLASS = 'is-fixed-bottom';
 var BODY_FIXED_BOTTOM_CLASS = 'has-navbar-fixed-bottom';
 var BODY_SPACED_FIXED_BOTTOM_CLASS = 'has-spaced-navbar-fixed-bottom';
+var BODY_CENTERED_CLASS = 'has-navbar-centered';
 
 var isFilled = function isFilled(str) {
   return !!str;
@@ -204,6 +205,11 @@ var script$1 = {
   },
   directives: {
     clickOutside: directive
+  },
+  // deprecated, to replace with default 'value' in the next breaking change
+  model: {
+    prop: 'active',
+    event: 'update:active'
   },
   props: {
     type: [String, Object],
@@ -219,7 +225,11 @@ var script$1 = {
       type: Boolean,
       default: false
     },
-    isActive: {
+    active: {
+      type: Boolean,
+      default: false
+    },
+    centered: {
       type: Boolean,
       default: false
     },
@@ -239,7 +249,7 @@ var script$1 = {
   },
   data: function data() {
     return {
-      internalIsActive: this.isActive,
+      internalIsActive: this.active,
       _isNavBar: true // Used internally by NavbarItem
 
     };
@@ -251,13 +261,13 @@ var script$1 = {
     computedClasses: function computedClasses() {
       var _ref;
 
-      return [this.type, (_ref = {}, __chunk_1._defineProperty(_ref, FIXED_TOP_CLASS, this.fixedTop), __chunk_1._defineProperty(_ref, FIXED_BOTTOM_CLASS, this.fixedBottom), __chunk_1._defineProperty(_ref, 'is-spaced', this.spaced), __chunk_1._defineProperty(_ref, 'has-shadow', this.shadow), __chunk_1._defineProperty(_ref, 'is-transparent', this.transparent), _ref)];
+      return [this.type, (_ref = {}, __chunk_1._defineProperty(_ref, FIXED_TOP_CLASS, this.fixedTop), __chunk_1._defineProperty(_ref, FIXED_BOTTOM_CLASS, this.fixedBottom), __chunk_1._defineProperty(_ref, BODY_CENTERED_CLASS, this.centered), __chunk_1._defineProperty(_ref, 'is-spaced', this.spaced), __chunk_1._defineProperty(_ref, 'has-shadow', this.shadow), __chunk_1._defineProperty(_ref, 'is-transparent', this.transparent), _ref)];
     }
   },
   watch: {
-    isActive: {
-      handler: function handler(isActive) {
-        this.internalIsActive = isActive;
+    active: {
+      handler: function handler(active) {
+        this.internalIsActive = active;
       },
       immediate: true
     },
@@ -300,13 +310,13 @@ var script$1 = {
       this.emitUpdateParentEvent();
     },
     closeMenu: function closeMenu() {
-      if (this.closeOnClick) {
+      if (this.closeOnClick && this.internalIsActive) {
         this.internalIsActive = false;
         this.emitUpdateParentEvent();
       }
     },
     emitUpdateParentEvent: function emitUpdateParentEvent() {
-      this.$emit('update:isActive', this.internalIsActive);
+      this.$emit('update:active', this.internalIsActive);
     },
     setBodyClass: function setBodyClass(className) {
       if (typeof window !== 'undefined') {
@@ -446,7 +456,7 @@ const __vue_script__$1 = script$1;
 //
 //
 //
-var clickableWhiteList = ['div', 'span'];
+var clickableWhiteList = ['div', 'span', 'input'];
 var script$2 = {
   name: 'BNavbarItem',
   inheritAttrs: false,
@@ -461,11 +471,10 @@ var script$2 = {
     /**
      * Keypress event that is bound to the document
      */
-    keyPress: function keyPress(event) {
-      // Esc key
-      // TODO: use code instead (because keyCode is actually deprecated)
-      // https://developer.mozilla.org/en-US/docs/Web/API/KeyboardEvent/keyCode
-      if (event.keyCode === 27) {
+    keyPress: function keyPress(_ref) {
+      var key = _ref.key;
+
+      if (key === 'Escape' || key === 'Esc') {
         this.closeMenuRecursive(this, ['NavBar']);
       }
     },
@@ -480,7 +489,7 @@ var script$2 = {
 
       if (!isOnWhiteList) {
         var parent = this.closeMenuRecursive(this, ['NavbarDropdown', 'NavBar']);
-        if (parent.$data._isNavbarDropdown) this.closeMenuRecursive(parent, ['NavBar']);
+        if (parent && parent.$data._isNavbarDropdown) this.closeMenuRecursive(parent, ['NavBar']);
       }
     },
 
@@ -519,8 +528,8 @@ const __vue_script__$2 = script$2;
 
 /* template */
 var __vue_render__$1 = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c(_vm.tag,_vm._g(_vm._b({tag:"component",staticClass:"navbar-item",class:{
-            'is-active': _vm.active
-        }},'component',_vm.$attrs,false),_vm.$listeners),[_vm._t("default")],2)};
+        'is-active': _vm.active
+    }},'component',_vm.$attrs,false),_vm.$listeners),[_vm._t("default")],2)};
 var __vue_staticRenderFns__$1 = [];
 
   /* style */
@@ -608,15 +617,15 @@ const __vue_script__$3 = script$3;
 
 /* template */
 var __vue_render__$2 = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{directives:[{name:"click-outside",rawName:"v-click-outside",value:(_vm.closeMenu),expression:"closeMenu"}],staticClass:"navbar-item has-dropdown",class:{
-            'is-hoverable': _vm.isHoverable,
-            'is-active': _vm.newActive
-        },on:{"mouseenter":_vm.checkHoverable}},[_c('a',{staticClass:"navbar-link",class:{
-                'is-arrowless': _vm.arrowless,
-                'is-active': _vm.newActive && _vm.collapsible
-            },attrs:{"role":"menuitem","aria-haspopup":"true","href":"#"},on:{"click":function($event){$event.preventDefault();_vm.newActive = !_vm.newActive;}}},[(_vm.label)?[_vm._v(_vm._s(_vm.label))]:_vm._t("label")],2),_vm._v(" "),_c('div',{directives:[{name:"show",rawName:"v-show",value:(!_vm.collapsible || (_vm.collapsible && _vm.newActive)),expression:"!collapsible || (collapsible && newActive)"}],staticClass:"navbar-dropdown",class:{
-                'is-right': _vm.right,
-                'is-boxed': _vm.boxed,
-            }},[_vm._t("default")],2)])};
+        'is-hoverable': _vm.isHoverable,
+        'is-active': _vm.newActive
+    },on:{"mouseenter":_vm.checkHoverable}},[_c('a',{staticClass:"navbar-link",class:{
+            'is-arrowless': _vm.arrowless,
+            'is-active': _vm.newActive && _vm.collapsible
+        },attrs:{"role":"menuitem","aria-haspopup":"true","href":"#"},on:{"click":function($event){$event.preventDefault();_vm.newActive = !_vm.newActive;}}},[(_vm.label)?[_vm._v(_vm._s(_vm.label))]:_vm._t("label")],2),_c('div',{directives:[{name:"show",rawName:"v-show",value:(!_vm.collapsible || (_vm.collapsible && _vm.newActive)),expression:"!collapsible || (collapsible && newActive)"}],staticClass:"navbar-dropdown",class:{
+            'is-right': _vm.right,
+            'is-boxed': _vm.boxed,
+        }},[_vm._t("default")],2)])};
 var __vue_staticRenderFns__$2 = [];
 
   /* style */

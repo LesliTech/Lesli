@@ -1,10 +1,10 @@
 import './chunk-1fafdf15.js';
 import { merge } from './helpers.js';
-import { c as config, V as VueInstance } from './chunk-6985c8ce.js';
-import './chunk-cdfca85b.js';
+import { c as config, V as VueInstance } from './chunk-ce068f0a.js';
+import './chunk-4139443a.js';
 import { _ as __vue_normalize__, r as registerComponent, a as registerComponentProgrammatic, u as use } from './chunk-cca88db8.js';
-import { M as MessageMixin } from './chunk-0e26d208.js';
-import { N as NoticeMixin } from './chunk-53640c15.js';
+import { M as MessageMixin } from './chunk-922c3a95.js';
+import { N as NoticeMixin } from './chunk-6cc85357.js';
 
 //
 var script = {
@@ -24,7 +24,7 @@ var script = {
 const __vue_script__ = script;
 
 /* template */
-var __vue_render__ = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('transition',{attrs:{"name":_vm.animation}},[_c('article',{directives:[{name:"show",rawName:"v-show",value:(_vm.isActive),expression:"isActive"}],staticClass:"notification",class:[_vm.type, _vm.position]},[(_vm.closable)?_c('button',{staticClass:"delete",attrs:{"type":"button","aria-label":_vm.ariaCloseLabel},on:{"click":_vm.close}}):_vm._e(),_vm._v(" "),_c('div',{staticClass:"media"},[(_vm.computedIcon && _vm.hasIcon)?_c('div',{staticClass:"media-left"},[_c('b-icon',{attrs:{"icon":_vm.computedIcon,"pack":_vm.iconPack,"both":"","size":"is-large","aria-hidden":""}})],1):_vm._e(),_vm._v(" "),_c('div',{staticClass:"media-content"},[(_vm.message)?_c('p',{staticClass:"text",domProps:{"innerHTML":_vm._s(_vm.message)}}):_vm._t("default")],2)])])])};
+var __vue_render__ = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('transition',{attrs:{"name":_vm.animation}},[_c('article',{directives:[{name:"show",rawName:"v-show",value:(_vm.isActive),expression:"isActive"}],staticClass:"notification",class:[_vm.type, _vm.position]},[(_vm.closable)?_c('button',{staticClass:"delete",attrs:{"type":"button","aria-label":_vm.ariaCloseLabel},on:{"click":_vm.close}}):_vm._e(),(_vm.$slots.default || _vm.message)?_c('div',{staticClass:"media"},[(_vm.computedIcon && _vm.hasIcon)?_c('div',{staticClass:"media-left"},[_c('b-icon',{attrs:{"icon":_vm.computedIcon,"pack":_vm.iconPack,"both":"","size":"is-large","aria-hidden":""}})],1):_vm._e(),_c('div',{staticClass:"media-content"},[(_vm.$slots.default)?[_vm._t("default")]:[_c('p',{staticClass:"text",domProps:{"innerHTML":_vm._s(_vm.message)}})]],2)]):_vm._e()])])};
 var __vue_staticRenderFns__ = [];
 
   /* style */
@@ -73,7 +73,7 @@ var script$1 = {
 const __vue_script__$1 = script$1;
 
 /* template */
-var __vue_render__$1 = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('b-notification',_vm._b({on:{"close":_vm.close}},'b-notification',_vm.$options.propsData,false))};
+var __vue_render__$1 = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('b-notification',_vm._b({on:{"close":_vm.close}},'b-notification',_vm.$options.propsData,false),[_vm._t("default")],2)};
 var __vue_staticRenderFns__$1 = [];
 
   /* style */
@@ -121,14 +121,32 @@ var NotificationProgrammatic = {
       delete params.parent;
     }
 
+    var slot;
+
+    if (Array.isArray(params.message)) {
+      slot = params.message;
+      delete params.message;
+    } // fix animation
+
+
+    params.active = false;
     var propsData = merge(defaultParam, params);
     var vm = typeof window !== 'undefined' && window.Vue ? window.Vue : localVueInstance || VueInstance;
     var NotificationNoticeComponent = vm.extend(NotificationNotice);
-    return new NotificationNoticeComponent({
+    var component = new NotificationNoticeComponent({
       parent: parent,
       el: document.createElement('div'),
       propsData: propsData
     });
+
+    if (slot) {
+      component.$slots.default = slot;
+      component.$forceUpdate();
+    } // fix animation
+
+
+    component.$children[0].isActive = true;
+    return component;
   }
 };
 var Plugin = {

@@ -4,24 +4,25 @@ Object.defineProperty(exports, '__esModule', { value: true });
 
 require('./chunk-14c82365.js');
 require('./helpers.js');
-require('./chunk-cd0dcc1d.js');
-require('./chunk-cdf52db8.js');
-require('./chunk-d7fda995.js');
+require('./chunk-0e70abe7.js');
+require('./chunk-089eb4d1.js');
+require('./chunk-dbd288d9.js');
 var __chunk_5 = require('./chunk-13e039f5.js');
-require('./chunk-2c156199.js');
-require('./chunk-b3a7625f.js');
+require('./chunk-687ab17c.js');
+require('./chunk-b7119999.js');
+require('./chunk-7d662734.js');
 require('./chunk-ae7e641a.js');
-require('./chunk-a8b51847.js');
-require('./chunk-e2b9e5bd.js');
-require('./chunk-c9f4ec1d.js');
-var __chunk_16 = require('./chunk-56901b7f.js');
+require('./chunk-bfaeef3e.js');
+require('./chunk-6c6b37c4.js');
+require('./chunk-6457f7be.js');
+var __chunk_17 = require('./chunk-5a28c54f.js');
 
 var Plugin = {
   install: function install(Vue) {
-    __chunk_5.registerComponent(Vue, __chunk_16.Timepicker);
+    __chunk_5.registerComponent(Vue, __chunk_17.Timepicker);
   }
 };
 __chunk_5.use(Plugin);
 
-exports.BTimepicker = __chunk_16.Timepicker;
+exports.BTimepicker = __chunk_17.Timepicker;
 exports.default = Plugin;

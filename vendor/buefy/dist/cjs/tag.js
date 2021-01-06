@@ -3,7 +3,7 @@
 Object.defineProperty(exports, '__esModule', { value: true });
 
 var __chunk_5 = require('./chunk-13e039f5.js');
-var __chunk_24 = require('./chunk-496e043e.js');
+var __chunk_27 = require('./chunk-e51fde12.js');
 
 //
 //
@@ -52,12 +52,12 @@ var __vue_staticRenderFns__ = [];
 
 var Plugin = {
   install: function install(Vue) {
-    __chunk_5.registerComponent(Vue, __chunk_24.Tag);
+    __chunk_5.registerComponent(Vue, __chunk_27.Tag);
     __chunk_5.registerComponent(Vue, Taglist);
   }
 };
 __chunk_5.use(Plugin);
 
-exports.BTag = __chunk_24.Tag;
+exports.BTag = __chunk_27.Tag;
 exports.BTaglist = Taglist;
 exports.default = Plugin;

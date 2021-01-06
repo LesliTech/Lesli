@@ -1,10 +1,10 @@
 import './chunk-1fafdf15.js';
 import { merge } from './helpers.js';
-import { V as VueInstance } from './chunk-6985c8ce.js';
+import { V as VueInstance } from './chunk-ce068f0a.js';
 import { r as registerComponent, a as registerComponentProgrammatic, u as use } from './chunk-cca88db8.js';
 import './chunk-42f463e6.js';
-import { M as Modal } from './chunk-0cb0546b.js';
-export { M as BModal } from './chunk-0cb0546b.js';
+import { M as Modal } from './chunk-312ee12b.js';
+export { M as BModal } from './chunk-312ee12b.js';
 
 var localVueInstance;
 var ModalProgrammatic = {
@@ -26,14 +26,28 @@ var ModalProgrammatic = {
       delete params.parent;
     }
 
+    var slot;
+
+    if (Array.isArray(params.content)) {
+      slot = params.content;
+      delete params.content;
+    }
+
     var propsData = merge(defaultParam, params);
     var vm = typeof window !== 'undefined' && window.Vue ? window.Vue : localVueInstance || VueInstance;
     var ModalComponent = vm.extend(Modal);
-    return new ModalComponent({
+    var component = new ModalComponent({
       parent: parent,
       el: document.createElement('div'),
       propsData: propsData
     });
+
+    if (slot) {
+      component.$slots.default = slot;
+      component.$forceUpdate();
+    }
+
+    return component;
   }
 };
 var Plugin = {

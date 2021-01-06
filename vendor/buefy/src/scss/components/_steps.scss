@@ -14,6 +14,7 @@ $steps-active-color: $primary !default;
 $steps-divider-height: .2em !default;
 $steps-vertical-padding: 1em 0 !default;
 $steps-mobile-max-width: $tablet !default;
+$steps-colors: $colors !default;
 
 @mixin steps-size($size) {
     .steps {
@@ -150,14 +151,14 @@ $steps-mobile-max-width: $tablet !default;
                     font-weight: $weight-bold;
                     justify-content: center;
                     background: $steps-maker-default-color;
-                    color: $white;
+                    color: $scheme-main;
                     border: $steps-marker-default-border;
                     z-index: 1;
                     overflow: hidden;
                 }
 
                 // Override marker color per step
-                @each $name, $pair in $colors {
+                @each $name, $pair in $steps-colors {
                     $color: nth($pair, 1);
                     $color-invert: nth($pair, 2);
 
@@ -169,7 +170,7 @@ $steps-mobile-max-width: $tablet !default;
                         }
                         &.is-active {
                             .step-marker {
-                                background-color: $white;
+                                background-color: $scheme-main;
                                 border-color: $color;
                                 color: $color;
                             }
@@ -192,7 +193,7 @@ $steps-mobile-max-width: $tablet !default;
                 }
 
                 .step-marker{
-                    color: $white;
+                    color: $scheme-main;
                 }
 
                 .step-details {
@@ -244,7 +245,7 @@ $steps-mobile-max-width: $tablet !default;
                     }
 
                     .step-marker {
-                        background-color: $white;
+                        background-color: $scheme-main;
                         border-color: $steps-active-color;
                         color: $steps-active-color;
                     }
@@ -255,7 +256,7 @@ $steps-mobile-max-width: $tablet !default;
                 }
                 &.is-previous {
                     .step-marker {
-                        color: $white;
+                        color: $scheme-main;
                         background-color: $steps-previous-color;
                     }
 
@@ -360,7 +361,7 @@ $steps-mobile-max-width: $tablet !default;
                     }
 
                     // Override marker connector color per step
-                    @each $name, $pair in $colors {
+                    @each $name, $pair in $steps-colors {
                         $color: nth($pair, 1);
 
                         &.is-#{$name} {

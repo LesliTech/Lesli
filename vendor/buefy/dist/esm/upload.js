@@ -1,5 +1,7 @@
-import './chunk-6985c8ce.js';
-import { F as FormElementMixin } from './chunk-d0a313ea.js';
+import './chunk-1fafdf15.js';
+import './helpers.js';
+import './chunk-ce068f0a.js';
+import { F as FormElementMixin } from './chunk-1f2cfc27.js';
 import { _ as __vue_normalize__, r as registerComponent, u as use } from './chunk-cca88db8.js';
 import { F as File } from './chunk-b9bdb0e4.js';
 
@@ -39,18 +41,14 @@ var script = {
   watch: {
     /**
      *   When v-model is changed:
-     *   1. Get value from input file
-     *   2. Set internal value.
-     *   3. Reset input value if array is empty or when input file is not found in newValue
-     *   4. If it's invalid, validate again.
+     *   1. Set internal value.
+     *   2. Reset interna input file value
+     *   3. If it's invalid, validate again.
      */
     value: function value(_value) {
-      var inputFiles = this.$refs.input.files;
       this.newValue = _value;
 
-      if (!this.newValue || Array.isArray(this.newValue) && this.newValue.length === 0 || !inputFiles[0] || Array.isArray(this.newValue) && !this.newValue.some(function (a) {
-        return a.name === inputFiles[0].name;
-      })) {
+      if (!_value || Array.isArray(_value) && _value.length === 0) {
         this.$refs.input.value = null;
       }
 
@@ -64,33 +62,17 @@ var script = {
     */
     onFileChange: function onFileChange(event) {
       if (this.disabled || this.loading) return;
-
-      if (this.dragDrop) {
-        this.updateDragDropFocus(false);
-      }
-
+      if (this.dragDrop) this.updateDragDropFocus(false);
       var value = event.target.files || event.dataTransfer.files;
 
       if (value.length === 0) {
-        if (!this.newValue) {
-          return;
-        }
-
-        if (this.native) {
-          this.newValue = null;
-        }
+        if (!this.newValue) return;
+        if (this.native) this.newValue = null;
       } else if (!this.multiple) {
         // only one element in case drag drop mode and isn't multiple
         if (this.dragDrop && value.length !== 1) return;else {
           var file = value[0];
-
-          if (this.checkType(file)) {
-            this.newValue = file;
-          } else if (this.newValue) {
-            this.newValue = null;
-          } else {
-            return;
-          }
+          if (this.checkType(file)) this.newValue = file;else if (this.newValue) this.newValue = null;else return;
         }
       } else {
         // always new values if native or undefined local
@@ -110,9 +92,7 @@ var script = {
           }
         }
 
-        if (!newValues) {
-          return;
-        }
+        if (!newValues) return;
       }
 
       this.$emit('input', this.newValue);
@@ -158,6 +138,7 @@ var script = {
         }
       }
 
+      if (!valid) this.$emit('invalid');
       return valid;
     }
   }
@@ -168,11 +149,11 @@ const __vue_script__ = script;
 
 /* template */
 var __vue_render__ = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('label',{staticClass:"upload control",class:{'is-expanded' : _vm.expanded}},[(!_vm.dragDrop)?[_vm._t("default")]:_c('div',{staticClass:"upload-draggable",class:[_vm.type, {
-                'is-loading': _vm.loading,
-                'is-disabled': _vm.disabled,
-                'is-hovered': _vm.dragDropFocus,
-                'is-expanded': _vm.expanded,
-            }],on:{"dragover":function($event){$event.preventDefault();_vm.updateDragDropFocus(true);},"dragleave":function($event){$event.preventDefault();_vm.updateDragDropFocus(false);},"dragenter":function($event){$event.preventDefault();_vm.updateDragDropFocus(true);},"drop":function($event){$event.preventDefault();return _vm.onFileChange($event)}}},[_vm._t("default")],2),_vm._v(" "),_c('input',_vm._b({ref:"input",attrs:{"type":"file","multiple":_vm.multiple,"accept":_vm.accept,"disabled":_vm.disabled},on:{"change":_vm.onFileChange}},'input',_vm.$attrs,false))],2)};
+            'is-loading': _vm.loading,
+            'is-disabled': _vm.disabled,
+            'is-hovered': _vm.dragDropFocus,
+            'is-expanded': _vm.expanded,
+        }],on:{"dragover":function($event){$event.preventDefault();return _vm.updateDragDropFocus(true)},"dragleave":function($event){$event.preventDefault();return _vm.updateDragDropFocus(false)},"dragenter":function($event){$event.preventDefault();return _vm.updateDragDropFocus(true)},"drop":function($event){$event.preventDefault();return _vm.onFileChange($event)}}},[_vm._t("default")],2),_c('input',_vm._b({ref:"input",attrs:{"type":"file","multiple":_vm.multiple,"accept":_vm.accept,"disabled":_vm.disabled},on:{"change":_vm.onFileChange}},'input',_vm.$attrs,false))],2)};
 var __vue_staticRenderFns__ = [];
 
   /* style */

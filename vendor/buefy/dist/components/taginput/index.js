@@ -1,4 +1,4 @@
-/*! Buefy v0.8.20 | MIT License | github.com/buefy/buefy */
+/*! Buefy v0.9.4 | MIT License | github.com/buefy/buefy */
 (function (global, factory) {
   typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports) :
   typeof define === 'function' && define.amd ? define(['exports'], factory) :
@@ -74,12 +74,28 @@
     return _arrayWithHoles(arr) || _iterableToArray(arr) || _nonIterableRest();
   }
 
+  function _toConsumableArray(arr) {
+    return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _nonIterableSpread();
+  }
+
+  function _arrayWithoutHoles(arr) {
+    if (Array.isArray(arr)) {
+      for (var i = 0, arr2 = new Array(arr.length); i < arr.length; i++) arr2[i] = arr[i];
+
+      return arr2;
+    }
+  }
+
   function _arrayWithHoles(arr) {
     if (Array.isArray(arr)) return arr;
   }
 
   function _iterableToArray(iter) {
     if (Symbol.iterator in Object(iter) || Object.prototype.toString.call(iter) === "[object Arguments]") return Array.from(iter);
+  }
+
+  function _nonIterableSpread() {
+    throw new TypeError("Invalid attempt to spread non-iterable instance");
   }
 
   function _nonIterableRest() {
@@ -91,10 +107,9 @@
    */
 
   function getValueByPath(obj, path) {
-    var value = path.split('.').reduce(function (o, i) {
+    return path.split('.').reduce(function (o, i) {
       return o ? o[i] : null;
     }, obj);
-    return value;
   }
   /**
    * Merge function to replace Object.assign with deep merging possibility
@@ -136,13 +151,34 @@
     root.style.position = 'absolute';
     root.style.left = '0px';
     root.style.top = '0px';
+    root.style.width = '100%';
     var wrapper = document.createElement('div');
     root.appendChild(wrapper);
     wrapper.appendChild(el);
     document.body.appendChild(root);
     return root;
   }
+  function isVueComponent(c) {
+    return c && c._isVue;
+  }
+  function toCssWidth(width) {
+    return width === undefined ? null : isNaN(width) ? width : width + 'px';
+  }
+  function isCustomElement(vm) {
+    return 'shadowRoot' in vm.$root.$options;
+  }
 
+  //
+  //
+  //
+  //
+  //
+  //
+  //
+  //
+  //
+  //
+  //
   //
   //
   //
@@ -200,7 +236,10 @@
         default: true
       },
       ariaCloseLabel: String,
-      closeType: String
+      closeType: String,
+      closeIcon: String,
+      closeIconPack: String,
+      closeIconType: String
     },
     methods: {
       /**
@@ -303,7 +342,10 @@
   const __vue_script__ = script;
 
   /* template */
-  var __vue_render__ = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return (_vm.attached && _vm.closable)?_c('div',{staticClass:"tags has-addons"},[_c('span',{staticClass:"tag",class:[_vm.type, _vm.size, { 'is-rounded': _vm.rounded }]},[_c('span',{class:{ 'has-ellipsis': _vm.ellipsis }},[_vm._t("default")],2)]),_vm._v(" "),_c('a',{staticClass:"tag is-delete",class:[_vm.size, _vm.closeType, { 'is-rounded': _vm.rounded }],attrs:{"role":"button","aria-label":_vm.ariaCloseLabel,"tabindex":_vm.tabstop ? 0 : false,"disabled":_vm.disabled},on:{"click":_vm.close,"keyup":function($event){if(!('button' in $event)&&_vm._k($event.keyCode,"delete",[8,46],$event.key,["Backspace","Delete","Del"])){ return null; }$event.preventDefault();return _vm.close($event)}}})]):_c('span',{staticClass:"tag",class:[_vm.type, _vm.size, { 'is-rounded': _vm.rounded }]},[_c('span',{class:{ 'has-ellipsis': _vm.ellipsis }},[_vm._t("default")],2),_vm._v(" "),(_vm.closable)?_c('a',{staticClass:"delete is-small",class:_vm.closeType,attrs:{"role":"button","aria-label":_vm.ariaCloseLabel,"disabled":_vm.disabled,"tabindex":_vm.tabstop ? 0 : false},on:{"click":_vm.close,"keyup":function($event){if(!('button' in $event)&&_vm._k($event.keyCode,"delete",[8,46],$event.key,["Backspace","Delete","Del"])){ return null; }$event.preventDefault();return _vm.close($event)}}}):_vm._e()])};
+  var __vue_render__ = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return (_vm.attached && _vm.closable)?_c('div',{staticClass:"tags has-addons"},[_c('span',{staticClass:"tag",class:[_vm.type, _vm.size, { 'is-rounded': _vm.rounded }]},[_c('span',{class:{ 'has-ellipsis': _vm.ellipsis }},[_vm._t("default")],2)]),_c('a',{staticClass:"tag",class:[_vm.size,
+                   _vm.closeType,
+                   {'is-rounded': _vm.rounded},
+                   _vm.closeIcon ? 'has-delete-icon' : 'is-delete'],attrs:{"role":"button","aria-label":_vm.ariaCloseLabel,"tabindex":_vm.tabstop ? 0 : false,"disabled":_vm.disabled},on:{"click":_vm.close,"keyup":function($event){if(!$event.type.indexOf('key')&&_vm._k($event.keyCode,"delete",[8,46],$event.key,["Backspace","Delete","Del"])){ return null; }$event.preventDefault();return _vm.close($event)}}},[(_vm.closeIcon)?_c('b-icon',{attrs:{"custom-class":"","icon":_vm.closeIcon,"size":_vm.size,"type":_vm.closeIconType,"pack":_vm.closeIconPack}}):_vm._e(),_c('a')],1)]):_c('span',{staticClass:"tag",class:[_vm.type, _vm.size, { 'is-rounded': _vm.rounded }]},[_c('span',{class:{ 'has-ellipsis': _vm.ellipsis }},[_vm._t("default")],2),(_vm.closable)?_c('a',{staticClass:"delete is-small",class:_vm.closeType,attrs:{"role":"button","aria-label":_vm.ariaCloseLabel,"disabled":_vm.disabled,"tabindex":_vm.tabstop ? 0 : false},on:{"click":_vm.close,"keyup":function($event){if(!$event.type.indexOf('key')&&_vm._k($event.keyCode,"delete",[8,46],$event.key,["Backspace","Delete","Del"])){ return null; }$event.preventDefault();return _vm.close($event)}}}):_vm._e()])};
   var __vue_staticRenderFns__ = [];
 
     /* style */
@@ -337,6 +379,7 @@
     defaultIconComponent: null,
     defaultIconPrev: 'chevron-left',
     defaultIconNext: 'chevron-right',
+    defaultLocale: undefined,
     defaultDialogConfirmText: null,
     defaultDialogCancelText: null,
     defaultSnackbarDuration: 3500,
@@ -346,8 +389,7 @@
     defaultNotificationDuration: 2000,
     defaultNotificationPosition: null,
     defaultTooltipType: 'is-primary',
-    defaultTooltipAnimated: false,
-    defaultTooltipDelay: 0,
+    defaultTooltipDelay: null,
     defaultInputAutocomplete: 'on',
     defaultDateFormatter: null,
     defaultDateParser: null,
@@ -369,18 +411,29 @@
     defaultUseHtml5Validation: true,
     defaultDropdownMobileModal: true,
     defaultFieldLabelPosition: null,
-    defaultDatepickerYearsRange: [-100, 3],
+    defaultDatepickerYearsRange: [-100, 10],
     defaultDatepickerNearbyMonthDays: true,
     defaultDatepickerNearbySelectableMonthDays: false,
     defaultDatepickerShowWeekNumber: false,
+    defaultDatepickerWeekNumberClickable: false,
     defaultDatepickerMobileModal: true,
-    defaultTrapFocus: false,
+    defaultTrapFocus: true,
+    defaultAutoFocus: true,
     defaultButtonRounded: false,
     defaultCarouselInterval: 3500,
+    defaultTabsExpanded: false,
     defaultTabsAnimated: true,
+    defaultTabsType: null,
+    defaultStatusIcon: true,
+    defaultProgrammaticPromise: false,
     defaultLinkTags: ['a', 'button', 'input', 'router-link', 'nuxt-link', 'n-link', 'RouterLink', 'NuxtLink', 'NLink'],
+    defaultImageWebpFallback: null,
+    defaultImageLazy: true,
+    defaultImageResponsive: true,
+    defaultImageRatio: null,
+    defaultImageSrcsetFormatter: null,
     customIconPacks: null
-  }; // TODO defaultTrapFocus to true in the next breaking change
+  };
 
   var FormElementMixin = {
     props: {
@@ -399,7 +452,19 @@
           return config.defaultUseHtml5Validation;
         }
       },
-      validationMessage: String
+      validationMessage: String,
+      locale: {
+        type: [String, Array],
+        default: function _default() {
+          return config.defaultLocale;
+        }
+      },
+      statusIcon: {
+        type: Boolean,
+        default: function _default() {
+          return config.defaultStatusIcon;
+        }
+      }
     },
     data: function data() {
       return {
@@ -428,14 +493,16 @@
        * Get the type prop from parent if it's a Field.
        */
       statusType: function statusType() {
-        if (!this.parentField) return;
-        if (!this.parentField.newType) return;
+        var _ref = this.parentField || {},
+            newType = _ref.newType;
 
-        if (typeof this.parentField.newType === 'string') {
-          return this.parentField.newType;
+        if (!newType) return;
+
+        if (typeof newType === 'string') {
+          return newType;
         } else {
-          for (var key in this.parentField.newType) {
-            if (this.parentField.newType[key]) {
+          for (var key in newType) {
+            if (newType[key]) {
               return key;
             }
           }
@@ -471,12 +538,9 @@
        * Focus method that work dynamically depending on the component.
        */
       focus: function focus() {
-        var _this = this;
-
-        if (this.$data._elementRef === undefined) return;
+        var el = this.getElement();
+        if (el === undefined) return;
         this.$nextTick(function () {
-          var el = _this.$el.querySelector(_this.$data._elementRef);
-
           if (el) el.focus();
         });
       },
@@ -490,7 +554,13 @@
         this.$emit('focus', $event);
       },
       getElement: function getElement() {
-        return this.$el.querySelector(this.$data._elementRef);
+        var el = this.$refs[this.$data._elementRef];
+
+        while (isVueComponent(el)) {
+          el = el.$refs[el.$data._elementRef];
+        }
+
+        return el;
       },
       setInvalid: function setInvalid() {
         var type = 'is-danger';
@@ -498,18 +568,18 @@
         this.setValidity(type, message);
       },
       setValidity: function setValidity(type, message) {
-        var _this2 = this;
+        var _this = this;
 
         this.$nextTick(function () {
-          if (_this2.parentField) {
+          if (_this.parentField) {
             // Set type only if not defined
-            if (!_this2.parentField.type) {
-              _this2.parentField.newType = type;
+            if (!_this.parentField.type) {
+              _this.parentField.newType = type;
             } // Set message only if not defined
 
 
-            if (!_this2.parentField.message) {
-              _this2.parentField.newMessage = message;
+            if (!_this.parentField.message) {
+              _this.parentField.newMessage = message;
             }
           }
         });
@@ -522,10 +592,10 @@
        */
       checkHtml5Validity: function checkHtml5Validity() {
         if (!this.useHtml5Validation) return;
-        if (this.$refs[this.$data._elementRef] === undefined) return;
-        if (this.getElement() === null) return;
+        var el = this.getElement();
+        if (el === undefined) return;
 
-        if (!this.getElement().checkValidity()) {
+        if (!el.checkValidity()) {
           this.setInvalid();
           this.isValid = false;
         } else {
@@ -552,10 +622,10 @@
     var faIconPrefix = config && config.defaultIconComponent ? '' : 'fa-';
     return {
       sizes: {
-        'default': faIconPrefix + 'lg',
+        'default': null,
         'is-small': null,
-        'is-medium': faIconPrefix + '2x',
-        'is-large': faIconPrefix + '3x'
+        'is-medium': faIconPrefix + 'lg',
+        'is-large': faIconPrefix + '2x'
       },
       iconPrefix: faIconPrefix,
       internalIcons: {
@@ -731,6 +801,10 @@
         type: String,
         default: 'text'
       },
+      lazy: {
+        type: Boolean,
+        default: false
+      },
       passwordReveal: Boolean,
       iconClickable: Boolean,
       hasCounter: {
@@ -763,7 +837,6 @@
         set: function set(value) {
           this.newValue = value;
           this.$emit('input', value);
-          !this.isValid && this.checkHtml5Validity();
         }
       },
       rootClasses: function rootClasses() {
@@ -779,7 +852,7 @@
         }];
       },
       hasIconRight: function hasIconRight() {
-        return this.passwordReveal || this.loading || this.statusTypeIcon || this.iconRight;
+        return this.passwordReveal || this.loading || this.statusIcon && this.statusTypeIcon || this.iconRight;
       },
       rightIcon: function rightIcon() {
         if (this.passwordReveal) {
@@ -804,13 +877,17 @@
       * Position of the icon or if it's both sides.
       */
       iconPosition: function iconPosition() {
-        if (this.icon && this.hasIconRight) {
-          return 'has-icons-left has-icons-right';
-        } else if (!this.icon && this.hasIconRight) {
-          return 'has-icons-right';
-        } else if (this.icon) {
-          return 'has-icons-left';
+        var iconClasses = '';
+
+        if (this.icon) {
+          iconClasses += 'has-icons-left ';
         }
+
+        if (this.hasIconRight) {
+          iconClasses += 'has-icons-right';
+        }
+
+        return iconClasses;
       },
 
       /**
@@ -879,29 +956,15 @@
         this.isPasswordVisible = !this.isPasswordVisible;
         this.newType = this.isPasswordVisible ? 'text' : 'password';
         this.$nextTick(function () {
-          _this.$refs[_this.$data._elementRef].focus();
-        });
-      },
-
-      /**
-      * Input's 'input' event listener, 'nextTick' is used to prevent event firing
-      * before ui update, helps when using masks (Cleavejs and potentially others).
-      */
-      onInput: function onInput(event) {
-        var _this2 = this;
-
-        this.$nextTick(function () {
-          if (event.target) {
-            _this2.computedValue = event.target.value;
-          }
+          _this.focus();
         });
       },
       iconClick: function iconClick(emit, event) {
-        var _this3 = this;
+        var _this2 = this;
 
         this.$emit(emit, event);
         this.$nextTick(function () {
-          _this3.$refs[_this3.$data._elementRef].focus();
+          _this2.focus();
         });
       },
       rightIconClick: function rightIconClick(event) {
@@ -910,6 +973,22 @@
         } else if (this.iconRightClickable) {
           this.iconClick('icon-right-click', event);
         }
+      },
+      onInput: function onInput(event) {
+        if (!this.lazy) {
+          var value = event.target.value;
+          this.updateValue(value);
+        }
+      },
+      onChange: function onChange(event) {
+        if (this.lazy) {
+          var value = event.target.value;
+          this.updateValue(value);
+        }
+      },
+      updateValue: function updateValue(value) {
+        this.computedValue = value;
+        !this.isValid && this.checkHtml5Validity();
       }
     }
   };
@@ -918,7 +997,7 @@
   const __vue_script__$2 = script$2;
 
   /* template */
-  var __vue_render__$2 = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"control",class:_vm.rootClasses},[(_vm.type !== 'textarea')?_c('input',_vm._b({ref:"input",staticClass:"input",class:[_vm.inputClasses, _vm.customClass],attrs:{"type":_vm.newType,"autocomplete":_vm.newAutocomplete,"maxlength":_vm.maxlength},domProps:{"value":_vm.computedValue},on:{"input":_vm.onInput,"blur":_vm.onBlur,"focus":_vm.onFocus}},'input',_vm.$attrs,false)):_c('textarea',_vm._b({ref:"textarea",staticClass:"textarea",class:[_vm.inputClasses, _vm.customClass],attrs:{"maxlength":_vm.maxlength},domProps:{"value":_vm.computedValue},on:{"input":_vm.onInput,"blur":_vm.onBlur,"focus":_vm.onFocus}},'textarea',_vm.$attrs,false)),_vm._v(" "),(_vm.icon)?_c('b-icon',{staticClass:"is-left",class:{'is-clickable': _vm.iconClickable},attrs:{"icon":_vm.icon,"pack":_vm.iconPack,"size":_vm.iconSize},nativeOn:{"click":function($event){_vm.iconClick('icon-click', $event);}}}):_vm._e(),_vm._v(" "),(!_vm.loading && _vm.hasIconRight)?_c('b-icon',{staticClass:"is-right",class:{ 'is-clickable': _vm.passwordReveal || _vm.iconRightClickable },attrs:{"icon":_vm.rightIcon,"pack":_vm.iconPack,"size":_vm.iconSize,"type":_vm.rightIconType,"both":""},nativeOn:{"click":function($event){return _vm.rightIconClick($event)}}}):_vm._e(),_vm._v(" "),(_vm.maxlength && _vm.hasCounter && _vm.type !== 'number')?_c('small',{staticClass:"help counter",class:{ 'is-invisible': !_vm.isFocused }},[_vm._v("\r\n            "+_vm._s(_vm.valueLength)+" / "+_vm._s(_vm.maxlength)+"\r\n        ")]):_vm._e()],1)};
+  var __vue_render__$2 = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"control",class:_vm.rootClasses},[(_vm.type !== 'textarea')?_c('input',_vm._b({ref:"input",staticClass:"input",class:[_vm.inputClasses, _vm.customClass],attrs:{"type":_vm.newType,"autocomplete":_vm.newAutocomplete,"maxlength":_vm.maxlength},domProps:{"value":_vm.computedValue},on:{"input":_vm.onInput,"change":_vm.onChange,"blur":_vm.onBlur,"focus":_vm.onFocus}},'input',_vm.$attrs,false)):_c('textarea',_vm._b({ref:"textarea",staticClass:"textarea",class:[_vm.inputClasses, _vm.customClass],attrs:{"maxlength":_vm.maxlength},domProps:{"value":_vm.computedValue},on:{"input":_vm.onInput,"change":_vm.onChange,"blur":_vm.onBlur,"focus":_vm.onFocus}},'textarea',_vm.$attrs,false)),(_vm.icon)?_c('b-icon',{staticClass:"is-left",class:{'is-clickable': _vm.iconClickable},attrs:{"icon":_vm.icon,"pack":_vm.iconPack,"size":_vm.iconSize},nativeOn:{"click":function($event){return _vm.iconClick('icon-click', $event)}}}):_vm._e(),(!_vm.loading && _vm.hasIconRight)?_c('b-icon',{staticClass:"is-right",class:{ 'is-clickable': _vm.passwordReveal || _vm.iconRightClickable },attrs:{"icon":_vm.rightIcon,"pack":_vm.iconPack,"size":_vm.iconSize,"type":_vm.rightIconType,"both":""},nativeOn:{"click":function($event){return _vm.rightIconClick($event)}}}):_vm._e(),(_vm.maxlength && _vm.hasCounter && _vm.type !== 'number')?_c('small',{staticClass:"help counter",class:{ 'is-invisible': !_vm.isFocused }},[_vm._v(" "+_vm._s(_vm.valueLength)+" / "+_vm._s(_vm.maxlength)+" ")]):_vm._e()],1)};
   var __vue_staticRenderFns__$2 = [];
 
     /* style */
@@ -975,9 +1054,17 @@
         type: String,
         default: 'auto'
       },
+      groupField: String,
+      groupOptions: String,
       iconRight: String,
       iconRightClickable: Boolean,
-      appendToBody: Boolean
+      appendToBody: Boolean,
+      confirmKeys: {
+        type: Array,
+        default: function _default() {
+          return ['Tab', 'Enter'];
+        }
+      }
     },
     data: function data() {
       return {
@@ -996,6 +1083,50 @@
       };
     },
     computed: {
+      computedData: function computedData() {
+        var _this = this;
+
+        if (this.groupField) {
+          if (this.groupOptions) {
+            var newData = [];
+            this.data.forEach(function (option) {
+              var group = getValueByPath(option, _this.groupField);
+              var items = getValueByPath(option, _this.groupOptions);
+              newData.push({
+                group: group,
+                items: items
+              });
+            });
+            return newData;
+          } else {
+            var tmp = {};
+            this.data.forEach(function (option) {
+              var group = getValueByPath(option, _this.groupField);
+              if (!tmp[group]) tmp[group] = [];
+              tmp[group].push(option);
+            });
+            var _newData = [];
+            Object.keys(tmp).forEach(function (group) {
+              _newData.push({
+                group: group,
+                items: tmp[group]
+              });
+            });
+            return _newData;
+          }
+        }
+
+        return [{
+          items: this.data
+        }];
+      },
+      isEmpty: function isEmpty() {
+        if (!this.computedData) return true;
+        return !this.computedData.some(function (element) {
+          return element.items && element.items.length;
+        });
+      },
+
       /**
        * White-listed items to not close when clicked.
        * Add input, dropdown and all children.
@@ -1003,7 +1134,7 @@
       whiteList: function whiteList() {
         var whiteList = [];
         whiteList.push(this.$refs.input.$el.querySelector('input'));
-        whiteList.push(this.$refs.dropdown); // Add all chidren from dropdown
+        whiteList.push(this.$refs.dropdown); // Add all children from dropdown
 
         if (this.$refs.dropdown !== undefined) {
           var children = this.$refs.dropdown.querySelectorAll('*');
@@ -1073,6 +1204,13 @@
       },
 
       /**
+       * Check if exists group slot
+       */
+      hasGroupSlot: function hasGroupSlot() {
+        return !!this.$scopedSlots.group;
+      },
+
+      /**
        * Check if exists "empty" slot
        */
       hasEmptySlot: function hasEmptySlot() {
@@ -1115,7 +1253,7 @@
       },
       contentStyle: function contentStyle() {
         return {
-          maxHeight: this.maxHeight === undefined ? null : isNaN(this.maxHeight) ? this.maxHeight : this.maxHeight + 'px'
+          maxHeight: toCssWidth(this.maxHeight)
         };
       }
     },
@@ -1125,7 +1263,7 @@
        * to open upwards.
        */
       isActive: function isActive(active) {
-        var _this = this;
+        var _this2 = this;
 
         if (this.dropdownPosition === 'auto') {
           if (active) {
@@ -1133,14 +1271,10 @@
           } else {
             // Timeout to wait for the animation to finish before recalculating
             setTimeout(function () {
-              _this.calcDropdownInViewportVertical();
+              _this2.calcDropdownInViewportVertical();
             }, 100);
           }
         }
-
-        if (active) this.$nextTick(function () {
-          return _this.setHovered(null);
-        });
       },
 
       /**
@@ -1179,7 +1313,7 @@
       data: function data(value) {
         // Keep first option always pre-selected
         if (this.keepFirst) {
-          this.selectFirstOption(value);
+          this.selectFirstOption(this.computedData);
         }
       }
     },
@@ -1197,7 +1331,7 @@
        * update input value and close dropdown.
        */
       setSelected: function setSelected(option) {
-        var _this2 = this;
+        var _this3 = this;
 
         var closeDropdown = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : true;
         var event = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : undefined;
@@ -1211,7 +1345,7 @@
         }
 
         closeDropdown && this.$nextTick(function () {
-          _this2.isActive = false;
+          _this3.isActive = false;
         });
         this.checkValidity();
       },
@@ -1219,49 +1353,44 @@
       /**
        * Select first option
        */
-      selectFirstOption: function selectFirstOption(options) {
-        var _this3 = this;
+      selectFirstOption: function selectFirstOption(element) {
+        var _this4 = this;
 
         this.$nextTick(function () {
-          if (options.length) {
+          if (element.length) {
             // If has visible data or open on focus, keep updating the hovered
-            if (_this3.openOnFocus || _this3.newValue !== '' && _this3.hovered !== options[0]) {
-              _this3.setHovered(options[0]);
+            var option = element[0].items[0];
+
+            if (_this4.openOnFocus || _this4.newValue !== '' && _this4.hovered !== option) {
+              _this4.setHovered(option);
             }
           } else {
-            _this3.setHovered(null);
+            _this4.setHovered(null);
           }
         });
       },
+      keydown: function keydown(event) {
+        var key = event.key; // cannot destructure preventDefault (https://stackoverflow.com/a/49616808/2774496)
+        // Close dropdown on Tab & no hovered
 
-      /**
-       * Enter key listener.
-       * Select the hovered option.
-       */
-      enterPressed: function enterPressed(event) {
+        this.isActive = key !== 'Tab';
         if (this.hovered === null) return;
-        this.setSelected(this.hovered, !this.keepOpen, event);
-      },
 
-      /**
-       * Tab key listener.
-       * Select hovered option if it exists, close dropdown, then allow
-       * native handling to move to next tabbable element.
-       */
-      tabPressed: function tabPressed(event) {
-        if (this.hovered === null) {
-          this.isActive = false;
-          return;
+        if (this.confirmKeys.indexOf(key) >= 0) {
+          // If adding by comma, don't add the comma to the input
+          if (key === ',') event.preventDefault(); // Close dropdown on select by Tab
+
+          var closeDropdown = !this.keepOpen || key === 'Tab';
+          this.setSelected(this.hovered, closeDropdown, event);
         }
-
-        this.setSelected(this.hovered, !this.keepOpen, event);
       },
 
       /**
        * Close dropdown if clicked outside.
        */
       clickedOutside: function clickedOutside(event) {
-        if (this.whiteList.indexOf(event.target) < 0) this.isActive = false;
+        var target = isCustomElement(this) ? event.composedPath()[0] : event.target;
+        if (!this.hasFocus && this.whiteList.indexOf(target) < 0) this.isActive = false;
       },
 
       /**
@@ -1293,21 +1422,21 @@
        * otherwise it is openened upwards.
        */
       calcDropdownInViewportVertical: function calcDropdownInViewportVertical() {
-        var _this4 = this;
+        var _this5 = this;
 
         this.$nextTick(function () {
           /**
-          * this.$refs.dropdown may be undefined
-          * when Autocomplete is conditional rendered
-          */
-          if (_this4.$refs.dropdown === undefined) return;
+           * this.$refs.dropdown may be undefined
+           * when Autocomplete is conditional rendered
+           */
+          if (_this5.$refs.dropdown === undefined) return;
 
-          var rect = _this4.$refs.dropdown.getBoundingClientRect();
+          var rect = _this5.$refs.dropdown.getBoundingClientRect();
 
-          _this4.isListInViewportVertically = rect.top >= 0 && rect.bottom <= (window.innerHeight || document.documentElement.clientHeight);
+          _this5.isListInViewportVertically = rect.top >= 0 && rect.bottom <= (window.innerHeight || document.documentElement.clientHeight);
 
-          if (_this4.appendToBody) {
-            _this4.updateAppendToBody();
+          if (_this5.appendToBody) {
+            _this5.updateAppendToBody();
           }
         });
       },
@@ -1320,10 +1449,15 @@
         var sum = direction === 'down' ? 1 : -1;
 
         if (this.isActive) {
-          var index = this.data.indexOf(this.hovered) + sum;
-          index = index > this.data.length - 1 ? this.data.length : index;
+          var data = this.computedData.map(function (d) {
+            return d.items;
+          }).reduce(function (a, b) {
+            return [].concat(_toConsumableArray(a), _toConsumableArray(b));
+          }, []);
+          var index = data.indexOf(this.hovered) + sum;
+          index = index > data.length - 1 ? data.length - 1 : index;
           index = index < 0 ? 0 : index;
-          this.setHovered(this.data[index]);
+          this.setHovered(data[index]);
           var list = this.$refs.dropdown.querySelector('.dropdown-content');
           var element = list.querySelectorAll('a.dropdown-item:not(.is-disabled)')[index];
           if (!element) return;
@@ -1353,7 +1487,7 @@
           this.isActive = true;
 
           if (this.keepFirst) {
-            this.selectFirstOption(this.data);
+            this.selectFirstOption(this.computedData);
           }
         }
 
@@ -1362,8 +1496,8 @@
       },
 
       /**
-      * Blur listener.
-      */
+       * Blur listener.
+       */
       onBlur: function onBlur(event) {
         this.hasFocus = false;
         this.$emit('blur', event);
@@ -1377,20 +1511,21 @@
       rightIconClick: function rightIconClick(event) {
         if (this.clearable) {
           this.newValue = '';
+          this.setSelected(null, false);
 
           if (this.openOnFocus) {
-            this.$el.focus();
+            this.$refs.input.$el.focus();
           }
         } else {
           this.$emit('icon-right-click', event);
         }
       },
       checkValidity: function checkValidity() {
-        var _this5 = this;
+        var _this6 = this;
 
         if (this.useHtml5Validation) {
           this.$nextTick(function () {
-            _this5.checkHtml5Validity();
+            _this6.checkHtml5Validity();
           });
         }
       },
@@ -1435,16 +1570,19 @@
     created: function created() {
       if (typeof window !== 'undefined') {
         document.addEventListener('click', this.clickedOutside);
-        if (this.dropdownPosition === 'auto') window.addEventListener('resize', this.calcDropdownInViewportVertical);
+
+        if (this.dropdownPosition === 'auto') {
+          window.addEventListener('resize', this.calcDropdownInViewportVertical);
+        }
       }
     },
     mounted: function mounted() {
-      var _this6 = this;
+      var _this7 = this;
 
       if (this.checkInfiniteScroll && this.$refs.dropdown && this.$refs.dropdown.querySelector('.dropdown-content')) {
         var list = this.$refs.dropdown.querySelector('.dropdown-content');
         list.addEventListener('scroll', function () {
-          return _this6.checkIfReachedTheEndOfScroll(list);
+          return _this7.checkIfReachedTheEndOfScroll(list);
         });
       }
 
@@ -1456,7 +1594,10 @@
     beforeDestroy: function beforeDestroy() {
       if (typeof window !== 'undefined') {
         document.removeEventListener('click', this.clickedOutside);
-        if (this.dropdownPosition === 'auto') window.removeEventListener('resize', this.calcDropdownInViewportVertical);
+
+        if (this.dropdownPosition === 'auto') {
+          window.removeEventListener('resize', this.calcDropdownInViewportVertical);
+        }
       }
 
       if (this.checkInfiniteScroll && this.$refs.dropdown && this.$refs.dropdown.querySelector('.dropdown-content')) {
@@ -1474,7 +1615,7 @@
   const __vue_script__$3 = script$3;
 
   /* template */
-  var __vue_render__$3 = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"autocomplete control",class:{'is-expanded': _vm.expanded}},[_c('b-input',_vm._b({ref:"input",attrs:{"type":"text","size":_vm.size,"loading":_vm.loading,"rounded":_vm.rounded,"icon":_vm.icon,"icon-right":_vm.newIconRight,"icon-right-clickable":_vm.newIconRightClickable,"icon-pack":_vm.iconPack,"maxlength":_vm.maxlength,"autocomplete":_vm.newAutocomplete,"use-html5-validation":false},on:{"input":_vm.onInput,"focus":_vm.focused,"blur":_vm.onBlur,"icon-right-click":_vm.rightIconClick,"icon-click":function (event) { return _vm.$emit('icon-click', event); }},nativeOn:{"keyup":function($event){if(!('button' in $event)&&_vm._k($event.keyCode,"esc",27,$event.key,["Esc","Escape"])){ return null; }$event.preventDefault();_vm.isActive = false;},"keydown":[function($event){if(!('button' in $event)&&_vm._k($event.keyCode,"tab",9,$event.key,"Tab")){ return null; }return _vm.tabPressed($event)},function($event){if(!('button' in $event)&&_vm._k($event.keyCode,"enter",13,$event.key,"Enter")){ return null; }$event.preventDefault();return _vm.enterPressed($event)},function($event){if(!('button' in $event)&&_vm._k($event.keyCode,"up",38,$event.key,["Up","ArrowUp"])){ return null; }$event.preventDefault();_vm.keyArrows('up');},function($event){if(!('button' in $event)&&_vm._k($event.keyCode,"down",40,$event.key,["Down","ArrowDown"])){ return null; }$event.preventDefault();_vm.keyArrows('down');}]},model:{value:(_vm.newValue),callback:function ($$v) {_vm.newValue=$$v;},expression:"newValue"}},'b-input',_vm.$attrs,false)),_vm._v(" "),_c('transition',{attrs:{"name":"fade"}},[_c('div',{directives:[{name:"show",rawName:"v-show",value:(_vm.isActive && (_vm.data.length > 0 || _vm.hasEmptySlot || _vm.hasHeaderSlot)),expression:"isActive && (data.length > 0 || hasEmptySlot || hasHeaderSlot)"}],ref:"dropdown",staticClass:"dropdown-menu",class:{ 'is-opened-top': _vm.isOpenedTop && !_vm.appendToBody },style:(_vm.style)},[_c('div',{directives:[{name:"show",rawName:"v-show",value:(_vm.isActive),expression:"isActive"}],staticClass:"dropdown-content",style:(_vm.contentStyle)},[(_vm.hasHeaderSlot)?_c('div',{staticClass:"dropdown-item"},[_vm._t("header")],2):_vm._e(),_vm._v(" "),_vm._l((_vm.data),function(option,index){return _c('a',{key:index,staticClass:"dropdown-item",class:{ 'is-hovered': option === _vm.hovered },on:{"click":function($event){_vm.setSelected(option, undefined, $event);}}},[(_vm.hasDefaultSlot)?_vm._t("default",null,{option:option,index:index}):_c('span',[_vm._v("\r\n                            "+_vm._s(_vm.getValue(option, true))+"\r\n                        ")])],2)}),_vm._v(" "),(_vm.data.length === 0 && _vm.hasEmptySlot)?_c('div',{staticClass:"dropdown-item is-disabled"},[_vm._t("empty")],2):_vm._e(),_vm._v(" "),(_vm.hasFooterSlot)?_c('div',{staticClass:"dropdown-item"},[_vm._t("footer")],2):_vm._e()],2)])])],1)};
+  var __vue_render__$3 = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"autocomplete control",class:{ 'is-expanded': _vm.expanded }},[_c('b-input',_vm._b({ref:"input",attrs:{"type":"text","size":_vm.size,"loading":_vm.loading,"rounded":_vm.rounded,"icon":_vm.icon,"icon-right":_vm.newIconRight,"icon-right-clickable":_vm.newIconRightClickable,"icon-pack":_vm.iconPack,"maxlength":_vm.maxlength,"autocomplete":_vm.newAutocomplete,"use-html5-validation":false},on:{"input":_vm.onInput,"focus":_vm.focused,"blur":_vm.onBlur,"icon-right-click":_vm.rightIconClick,"icon-click":function (event) { return _vm.$emit('icon-click', event); }},nativeOn:{"keyup":function($event){if(!$event.type.indexOf('key')&&_vm._k($event.keyCode,"esc",27,$event.key,["Esc","Escape"])){ return null; }$event.preventDefault();_vm.isActive = false;},"keydown":[function($event){return _vm.keydown($event)},function($event){if(!$event.type.indexOf('key')&&_vm._k($event.keyCode,"up",38,$event.key,["Up","ArrowUp"])){ return null; }$event.preventDefault();return _vm.keyArrows('up')},function($event){if(!$event.type.indexOf('key')&&_vm._k($event.keyCode,"down",40,$event.key,["Down","ArrowDown"])){ return null; }$event.preventDefault();return _vm.keyArrows('down')}]},model:{value:(_vm.newValue),callback:function ($$v) {_vm.newValue=$$v;},expression:"newValue"}},'b-input',_vm.$attrs,false)),_c('transition',{attrs:{"name":"fade"}},[_c('div',{directives:[{name:"show",rawName:"v-show",value:(_vm.isActive && (!_vm.isEmpty || _vm.hasEmptySlot || _vm.hasHeaderSlot)),expression:"isActive && (!isEmpty || hasEmptySlot || hasHeaderSlot)"}],ref:"dropdown",staticClass:"dropdown-menu",class:{ 'is-opened-top': _vm.isOpenedTop && !_vm.appendToBody },style:(_vm.style)},[_c('div',{directives:[{name:"show",rawName:"v-show",value:(_vm.isActive),expression:"isActive"}],staticClass:"dropdown-content",style:(_vm.contentStyle)},[(_vm.hasHeaderSlot)?_c('div',{staticClass:"dropdown-item"},[_vm._t("header")],2):_vm._e(),_vm._l((_vm.computedData),function(element,groupindex){return [(element.group)?_c('div',{key:groupindex + 'group',staticClass:"dropdown-item"},[(_vm.hasGroupSlot)?_vm._t("group",null,{"group":element.group,"index":groupindex}):_c('span',{staticClass:"has-text-weight-bold"},[_vm._v(" "+_vm._s(element.group)+" ")])],2):_vm._e(),_vm._l((element.items),function(option,index){return _c('a',{key:groupindex + ':' + index,staticClass:"dropdown-item",class:{ 'is-hovered': option === _vm.hovered },on:{"click":function($event){return _vm.setSelected(option, undefined, $event)}}},[(_vm.hasDefaultSlot)?_vm._t("default",null,{"option":option,"index":index}):_c('span',[_vm._v(" "+_vm._s(_vm.getValue(option, true))+" ")])],2)})]}),(_vm.isEmpty && _vm.hasEmptySlot)?_c('div',{staticClass:"dropdown-item is-disabled"},[_vm._t("empty")],2):_vm._e(),(_vm.hasFooterSlot)?_c('div',{staticClass:"dropdown-item"},[_vm._t("footer")],2):_vm._e()],2)])])],1)};
   var __vue_staticRenderFns__$3 = [];
 
     /* style */
@@ -1522,6 +1663,7 @@
         }
       },
       type: String,
+      closeType: String,
       rounded: {
         type: Boolean,
         default: false
@@ -1545,6 +1687,8 @@
         default: 'value'
       },
       autocomplete: Boolean,
+      groupField: String,
+      groupOptions: String,
       nativeAutocomplete: String,
       openOnFocus: Boolean,
       disabled: Boolean,
@@ -1553,16 +1697,17 @@
         type: Boolean,
         default: true
       },
-      confirmKeyCodes: {
+      ariaCloseLabel: String,
+      confirmKeys: {
         type: Array,
         default: function _default() {
-          return [13, 188];
+          return [',', 'Tab', 'Enter'];
         }
       },
       removeOnKeys: {
         type: Array,
         default: function _default() {
-          return [8];
+          return ['Backspace'];
         }
       },
       allowNew: Boolean,
@@ -1586,13 +1731,19 @@
         type: Boolean,
         default: false
       },
+      createTag: {
+        type: Function,
+        default: function _default(tag) {
+          return tag;
+        }
+      },
       appendToBody: Boolean
     },
     data: function data() {
       return {
         tags: Array.isArray(this.value) ? this.value.slice(0) : this.value || [],
         newTag: '',
-        _elementRef: 'input',
+        _elementRef: 'autocomplete',
         _isTaginput: true
       };
     },
@@ -1610,18 +1761,6 @@
       },
       valueLength: function valueLength() {
         return this.newTag.trim().length;
-      },
-      defaultSlotName: function defaultSlotName() {
-        return this.hasDefaultSlot ? 'default' : 'dontrender';
-      },
-      emptySlotName: function emptySlotName() {
-        return this.hasEmptySlot ? 'empty' : 'dontrender';
-      },
-      headerSlotName: function headerSlotName() {
-        return this.hasHeaderSlot ? 'header' : 'dontrender';
-      },
-      footerSlotName: function footerSlotName() {
-        return this.hasFooterSlot ? 'footer' : 'dontrender';
       },
       hasDefaultSlot: function hasDefaultSlot() {
         return !!this.$scopedSlots.default;
@@ -1684,16 +1823,6 @@
               }).map(this.addTag);
               return;
             }
-          } // Remove the tag input previously added (if not allowDuplicates).
-
-
-          if (!this.allowDuplicates) {
-            var index = this.tags.indexOf(tagToAdd);
-
-            if (index >= 0) {
-              this.tags.splice(index, 1);
-              return;
-            }
           } // Add the tag input if it is not blank
           // or previously added (if not allowDuplicates).
 
@@ -1701,7 +1830,7 @@
           var add = !this.allowDuplicates ? this.tags.indexOf(tagToAdd) === -1 : true;
 
           if (add && this.beforeAdding(tagToAdd)) {
-            this.tags.push(tagToAdd);
+            this.tags.push(this.createTag(tagToAdd));
             this.$emit('input', this.tags);
             this.$emit('add', tagToAdd);
           }
@@ -1711,10 +1840,10 @@
       },
       getNormalizedTagText: function getNormalizedTagText(tag) {
         if (_typeof(tag) === 'object') {
-          return getValueByPath(tag, this.field);
+          tag = getValueByPath(tag, this.field);
         }
 
-        return tag;
+        return "".concat(tag);
       },
       customOnBlur: function customOnBlur(event) {
         // Add tag on-blur if not select only
@@ -1748,15 +1877,18 @@
         }
       },
       keydown: function keydown(event) {
-        if (this.removeOnKeys.indexOf(event.keyCode) !== -1 && !this.newTag.length) {
+        var key = event.key; // cannot destructure preventDefault (https://stackoverflow.com/a/49616808/2774496)
+
+        if (this.removeOnKeys.indexOf(key) !== -1 && !this.newTag.length) {
           this.removeLastTag();
         } // Stop if is to accept select only
 
 
         if (this.autocomplete && !this.allowNew) return;
 
-        if (this.confirmKeyCodes.indexOf(event.keyCode) >= 0) {
-          event.preventDefault();
+        if (this.confirmKeys.indexOf(key) >= 0) {
+          // Allow Tab to advance to next field regardless
+          if (key !== 'Tab') event.preventDefault();
           this.addTag();
         }
       },
@@ -1773,7 +1905,7 @@
   const __vue_script__$4 = script$4;
 
   /* template */
-  var __vue_render__$4 = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"taginput control",class:_vm.rootClasses},[_c('div',{staticClass:"taginput-container",class:[_vm.statusType, _vm.size, _vm.containerClasses],attrs:{"disabled":_vm.disabled},on:{"click":function($event){_vm.hasInput && _vm.focus($event);}}},[_vm._t("selected",_vm._l((_vm.tags),function(tag,index){return _c('b-tag',{key:_vm.getNormalizedTagText(tag) + index,attrs:{"type":_vm.type,"size":_vm.size,"rounded":_vm.rounded,"attached":_vm.attached,"tabstop":false,"disabled":_vm.disabled,"ellipsis":_vm.ellipsis,"closable":_vm.closable,"title":_vm.ellipsis && _vm.getNormalizedTagText(tag)},on:{"close":function($event){_vm.removeTag(index, $event);}}},[_vm._t("tag",[_vm._v("\r\n                        "+_vm._s(_vm.getNormalizedTagText(tag))+"\r\n                    ")],{tag:tag})],2)}),{tags:_vm.tags}),_vm._v(" "),(_vm.hasInput)?_c('b-autocomplete',_vm._b({ref:"autocomplete",attrs:{"data":_vm.data,"field":_vm.field,"icon":_vm.icon,"icon-pack":_vm.iconPack,"maxlength":_vm.maxlength,"has-counter":false,"size":_vm.size,"disabled":_vm.disabled,"loading":_vm.loading,"autocomplete":_vm.nativeAutocomplete,"open-on-focus":_vm.openOnFocus,"keep-open":_vm.openOnFocus,"keep-first":!_vm.allowNew,"use-html5-validation":_vm.useHtml5Validation,"check-infinite-scroll":_vm.checkInfiniteScroll,"append-to-body":_vm.appendToBody},on:{"typing":_vm.onTyping,"focus":_vm.onFocus,"blur":_vm.customOnBlur,"select":_vm.onSelect,"infinite-scroll":_vm.emitInfiniteScroll},nativeOn:{"keydown":function($event){return _vm.keydown($event)}},scopedSlots:_vm._u([{key:_vm.defaultSlotName,fn:function(props){return [_vm._t("default",null,{option:props.option,index:props.index})]}}]),model:{value:(_vm.newTag),callback:function ($$v) {_vm.newTag=$$v;},expression:"newTag"}},'b-autocomplete',_vm.$attrs,false),[_c('template',{slot:_vm.headerSlotName},[_vm._t("header")],2),_vm._v(" "),_c('template',{slot:_vm.emptySlotName},[_vm._t("empty")],2),_vm._v(" "),_c('template',{slot:_vm.footerSlotName},[_vm._t("footer")],2)],2):_vm._e()],2),_vm._v(" "),(_vm.hasCounter && (_vm.maxtags || _vm.maxlength))?_c('small',{staticClass:"help counter"},[(_vm.maxlength && _vm.valueLength > 0)?[_vm._v("\r\n                "+_vm._s(_vm.valueLength)+" / "+_vm._s(_vm.maxlength)+"\r\n            ")]:(_vm.maxtags)?[_vm._v("\r\n                "+_vm._s(_vm.tagsLength)+" / "+_vm._s(_vm.maxtags)+"\r\n            ")]:_vm._e()],2):_vm._e()])};
+  var __vue_render__$4 = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"taginput control",class:_vm.rootClasses},[_c('div',{staticClass:"taginput-container",class:[_vm.statusType, _vm.size, _vm.containerClasses],attrs:{"disabled":_vm.disabled},on:{"click":function($event){_vm.hasInput && _vm.focus($event);}}},[_vm._t("selected",_vm._l((_vm.tags),function(tag,index){return _c('b-tag',{key:_vm.getNormalizedTagText(tag) + index,attrs:{"type":_vm.type,"close-type":_vm.closeType,"size":_vm.size,"rounded":_vm.rounded,"attached":_vm.attached,"tabstop":false,"disabled":_vm.disabled,"ellipsis":_vm.ellipsis,"closable":_vm.closable,"aria-close-label":_vm.ariaCloseLabel,"title":_vm.ellipsis && _vm.getNormalizedTagText(tag)},on:{"close":function($event){return _vm.removeTag(index, $event)}}},[_vm._t("tag",[_vm._v(" "+_vm._s(_vm.getNormalizedTagText(tag))+" ")],{"tag":tag})],2)}),{"tags":_vm.tags}),(_vm.hasInput)?_c('b-autocomplete',_vm._b({ref:"autocomplete",attrs:{"data":_vm.data,"field":_vm.field,"icon":_vm.icon,"icon-pack":_vm.iconPack,"maxlength":_vm.maxlength,"has-counter":false,"size":_vm.size,"disabled":_vm.disabled,"loading":_vm.loading,"autocomplete":_vm.nativeAutocomplete,"open-on-focus":_vm.openOnFocus,"keep-open":_vm.openOnFocus,"keep-first":!_vm.allowNew,"group-field":_vm.groupField,"group-options":_vm.groupOptions,"use-html5-validation":_vm.useHtml5Validation,"check-infinite-scroll":_vm.checkInfiniteScroll,"append-to-body":_vm.appendToBody,"confirm-keys":_vm.confirmKeys},on:{"typing":_vm.onTyping,"focus":_vm.onFocus,"blur":_vm.customOnBlur,"select":_vm.onSelect,"infinite-scroll":_vm.emitInfiniteScroll},nativeOn:{"keydown":function($event){return _vm.keydown($event)}},scopedSlots:_vm._u([(_vm.hasHeaderSlot)?{key:"header",fn:function(){return [_vm._t("header")]},proxy:true}:null,(_vm.hasDefaultSlot)?{key:"default",fn:function(props){return [_vm._t("default",null,{"option":props.option,"index":props.index})]}}:null,(_vm.hasEmptySlot)?{key:"empty",fn:function(){return [_vm._t("empty")]},proxy:true}:null,(_vm.hasFooterSlot)?{key:"footer",fn:function(){return [_vm._t("footer")]},proxy:true}:null],null,true),model:{value:(_vm.newTag),callback:function ($$v) {_vm.newTag=$$v;},expression:"newTag"}},'b-autocomplete',_vm.$attrs,false)):_vm._e()],2),(_vm.hasCounter && (_vm.maxtags || _vm.maxlength))?_c('small',{staticClass:"help counter"},[(_vm.maxlength && _vm.valueLength > 0)?[_vm._v(" "+_vm._s(_vm.valueLength)+" / "+_vm._s(_vm.maxlength)+" ")]:(_vm.maxtags)?[_vm._v(" "+_vm._s(_vm.tagsLength)+" / "+_vm._s(_vm.maxtags)+" ")]:_vm._e()],2):_vm._e()])};
   var __vue_staticRenderFns__$4 = [];
 
     /* style */
