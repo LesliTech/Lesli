@@ -117,5 +117,5 @@ end
 
 
 # Load helper context and examples
-require './spec/support/shared_context_for_user_signin'
-require './spec/support/shared_examples_for_standard_json_response'
+require './spec/support/shared_context_for_user_authentication'
+require './spec/support/shared_examples_for_successful_standard_json_response'
