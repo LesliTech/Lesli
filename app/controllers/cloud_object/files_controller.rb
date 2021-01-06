@@ -23,7 +23,7 @@ For more information read the license file including with this software.
         before_action :show_deprecated_message
 
         def show_deprecated_message
-            LC::Debug.msg "DEPRECATED: Your controller must inherit from ApplicationLesliController and include Interfaces::Controllers::Files instead"
+            LC::Debug.msg "DEPRECATED: Your FilesController must inherit from ApplicationLesliController and include Interfaces::Controllers::Files instead"
         end
     end
 end
