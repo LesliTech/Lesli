@@ -1,8 +1,8 @@
 import './chunk-1fafdf15.js';
 import { merge } from './helpers.js';
-import { c as config, V as VueInstance } from './chunk-6985c8ce.js';
+import { c as config, V as VueInstance } from './chunk-ce068f0a.js';
 import { _ as __vue_normalize__, a as registerComponentProgrammatic, u as use } from './chunk-cca88db8.js';
-import { N as NoticeMixin } from './chunk-53640c15.js';
+import { N as NoticeMixin } from './chunk-6cc85357.js';
 
 //
 var script = {
@@ -43,7 +43,7 @@ var script = {
 const __vue_script__ = script;
 
 /* template */
-var __vue_render__ = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('transition',{attrs:{"enter-active-class":_vm.transition.enter,"leave-active-class":_vm.transition.leave}},[_c('div',{directives:[{name:"show",rawName:"v-show",value:(_vm.isActive),expression:"isActive"}],staticClass:"snackbar",class:[_vm.type,_vm.position],attrs:{"role":_vm.actionText ? 'alertdialog' : 'alert'}},[_c('div',{staticClass:"text",domProps:{"innerHTML":_vm._s(_vm.message)}}),_vm._v(" "),(_vm.actionText)?_c('div',{staticClass:"action",class:_vm.type,on:{"click":_vm.action}},[_c('button',{staticClass:"button"},[_vm._v(_vm._s(_vm.actionText))])]):_vm._e()])])};
+var __vue_render__ = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('transition',{attrs:{"enter-active-class":_vm.transition.enter,"leave-active-class":_vm.transition.leave}},[_c('div',{directives:[{name:"show",rawName:"v-show",value:(_vm.isActive),expression:"isActive"}],staticClass:"snackbar",class:[_vm.type,_vm.position],attrs:{"role":_vm.actionText ? 'alertdialog' : 'alert'}},[(_vm.$slots.default)?[_vm._t("default")]:[_c('div',{staticClass:"text",domProps:{"innerHTML":_vm._s(_vm.message)}})],(_vm.actionText)?_c('div',{staticClass:"action",class:_vm.type,on:{"click":_vm.action}},[_c('button',{staticClass:"button"},[_vm._v(_vm._s(_vm.actionText))])]):_vm._e()],2)])};
 var __vue_staticRenderFns__ = [];
 
   /* style */
@@ -92,14 +92,28 @@ var SnackbarProgrammatic = {
       delete params.parent;
     }
 
+    var slot;
+
+    if (Array.isArray(params.message)) {
+      slot = params.message;
+      delete params.message;
+    }
+
     var propsData = merge(defaultParam, params);
     var vm = typeof window !== 'undefined' && window.Vue ? window.Vue : localVueInstance || VueInstance;
     var SnackbarComponent = vm.extend(Snackbar);
-    return new SnackbarComponent({
+    var component = new SnackbarComponent({
       parent: parent,
       el: document.createElement('div'),
       propsData: propsData
     });
+
+    if (slot) {
+      component.$slots.default = slot;
+      component.$forceUpdate();
+    }
+
+    return component;
   }
 };
 var Plugin = {

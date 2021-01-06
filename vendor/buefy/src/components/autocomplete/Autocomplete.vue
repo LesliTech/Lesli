@@ -1,8 +1,5 @@
 <template>
-    <div
-        class="autocomplete control"
-        :class="{'is-expanded': expanded}"
-    >
+    <div class="autocomplete control" :class="{ 'is-expanded': expanded }">
         <b-input
             v-model="newValue"
             ref="input"
@@ -22,8 +19,7 @@
             @focus="focused"
             @blur="onBlur"
             @keyup.native.esc.prevent="isActive = false"
-            @keydown.native.tab="tabPressed"
-            @keydown.native.enter.prevent="enterPressed"
+            @keydown.native="keydown"
             @keydown.native.up.prevent="keyArrows('up')"
             @keydown.native.down.prevent="keyArrows('down')"
             @icon-right-click="rightIconClick"
@@ -35,43 +31,53 @@
                 class="dropdown-menu"
                 :class="{ 'is-opened-top': isOpenedTop && !appendToBody }"
                 :style="style"
-                v-show="isActive && (data.length > 0 || hasEmptySlot || hasHeaderSlot)"
-                ref="dropdown">
+                v-show="isActive && (!isEmpty || hasEmptySlot || hasHeaderSlot)"
+                ref="dropdown"
+            >
                 <div
                     class="dropdown-content"
                     v-show="isActive"
-                    :style="contentStyle"
-                >
-                    <div
-                        v-if="hasHeaderSlot"
-                        class="dropdown-item">
-                        <slot name="header"/>
+                    :style="contentStyle">
+                    <div v-if="hasHeaderSlot" class="dropdown-item">
+                        <slot name="header" />
                     </div>
-                    <a
-                        v-for="(option, index) in data"
-                        :key="index"
-                        class="dropdown-item"
-                        :class="{ 'is-hovered': option === hovered }"
-                        @click="setSelected(option, undefined, $event)">
-
-                        <slot
-                            v-if="hasDefaultSlot"
-                            :option="option"
-                            :index="index"
-                        />
-                        <span v-else>
-                            {{ getValue(option, true) }}
-                        </span>
-                    </a>
+                    <template v-for="(element, groupindex) in computedData">
+                        <div
+                            v-if="element.group"
+                            :key="groupindex + 'group'"
+                            class="dropdown-item">
+                            <slot
+                                v-if="hasGroupSlot"
+                                name="group"
+                                :group="element.group"
+                                :index="groupindex" />
+                            <span class="has-text-weight-bold" v-else>
+                                {{ element.group }}
+                            </span>
+                        </div>
+                        <a
+                            v-for="(option, index) in element.items"
+                            :key="groupindex + ':' + index"
+                            class="dropdown-item"
+                            :class="{ 'is-hovered': option === hovered }"
+                            @click="setSelected(option, undefined, $event)"
+                        >
+                            <slot
+                                v-if="hasDefaultSlot"
+                                :option="option"
+                                :index="index" />
+                            <span v-else>
+                                {{ getValue(option, true) }}
+                            </span>
+                        </a>
+                    </template>
                     <div
-                        v-if="data.length === 0 && hasEmptySlot"
+                        v-if="isEmpty && hasEmptySlot"
                         class="dropdown-item is-disabled">
-                        <slot name="empty"/>
+                        <slot name="empty" />
                     </div>
-                    <div
-                        v-if="hasFooterSlot"
-                        class="dropdown-item">
-                        <slot name="footer"/>
+                    <div v-if="hasFooterSlot" class="dropdown-item">
+                        <slot name="footer" />
                     </div>
                 </div>
             </div>
@@ -80,7 +86,13 @@
 </template>
 
 <script>
-import { getValueByPath, removeElement, createAbsoluteElement } from '../../utils/helpers'
+import {
+    getValueByPath,
+    removeElement,
+    createAbsoluteElement,
+    isCustomElement,
+    toCssWidth
+} from '../../utils/helpers'
 import FormElementMixin from '../../utils/FormElementMixin'
 import Input from '../input/Input'
 
@@ -113,9 +125,15 @@ export default {
             type: String,
             default: 'auto'
         },
+        groupField: String,
+        groupOptions: String,
         iconRight: String,
         iconRightClickable: Boolean,
-        appendToBody: Boolean
+        appendToBody: Boolean,
+        confirmKeys: {
+            type: Array,
+            default: () => ['Tab', 'Enter']
+        }
     },
     data() {
         return {
@@ -133,6 +151,36 @@ export default {
         }
     },
     computed: {
+        computedData() {
+            if (this.groupField) {
+                if (this.groupOptions) {
+                    const newData = []
+                    this.data.forEach((option) => {
+                        const group = getValueByPath(option, this.groupField)
+                        const items = getValueByPath(option, this.groupOptions)
+                        newData.push({ group, items })
+                    })
+                    return newData
+                } else {
+                    const tmp = {}
+                    this.data.forEach((option) => {
+                        const group = getValueByPath(option, this.groupField)
+                        if (!tmp[group]) tmp[group] = []
+                        tmp[group].push(option)
+                    })
+                    const newData = []
+                    Object.keys(tmp).forEach((group) => {
+                        newData.push({ group, items: tmp[group] })
+                    })
+                    return newData
+                }
+            }
+            return [{ items: this.data }]
+        },
+        isEmpty() {
+            if (!this.computedData) return true
+            return !this.computedData.some((element) => element.items && element.items.length)
+        },
         /**
          * White-listed items to not close when clicked.
          * Add input, dropdown and all children.
@@ -141,7 +189,7 @@ export default {
             const whiteList = []
             whiteList.push(this.$refs.input.$el.querySelector('input'))
             whiteList.push(this.$refs.dropdown)
-            // Add all chidren from dropdown
+            // Add all children from dropdown
             if (this.$refs.dropdown !== undefined) {
                 const children = this.$refs.dropdown.querySelectorAll('*')
                 for (const child of children) {
@@ -169,6 +217,13 @@ export default {
         },
 
         /**
+         * Check if exists group slot
+         */
+        hasGroupSlot() {
+            return !!this.$scopedSlots.group
+        },
+
+        /**
          * Check if exists "empty" slot
          */
         hasEmptySlot() {
@@ -193,7 +248,10 @@ export default {
          * Apply dropdownPosition property
          */
         isOpenedTop() {
-            return this.dropdownPosition === 'top' || (this.dropdownPosition === 'auto' && !this.isListInViewportVertically)
+            return (
+                this.dropdownPosition === 'top' ||
+                    (this.dropdownPosition === 'auto' && !this.isListInViewportVertically)
+            )
         },
 
         newIconRight() {
@@ -212,8 +270,7 @@ export default {
 
         contentStyle() {
             return {
-                maxHeight: this.maxHeight === undefined
-                    ? null : (isNaN(this.maxHeight) ? this.maxHeight : this.maxHeight + 'px')
+                maxHeight: toCssWidth(this.maxHeight)
             }
         }
     },
@@ -233,7 +290,6 @@ export default {
                     }, 100)
                 }
             }
-            if (active) this.$nextTick(() => this.setHovered(null))
         },
 
         /**
@@ -270,7 +326,7 @@ export default {
         data(value) {
             // Keep first option always pre-selected
             if (this.keepFirst) {
-                this.selectFirstOption(value)
+                this.selectFirstOption(this.computedData)
             }
         }
     },
@@ -297,19 +353,22 @@ export default {
                 this.newValue = this.clearOnSelect ? '' : this.getValue(this.selected)
                 this.setHovered(null)
             }
-            closeDropdown && this.$nextTick(() => { this.isActive = false })
+            closeDropdown && this.$nextTick(() => {
+                this.isActive = false
+            })
             this.checkValidity()
         },
 
         /**
          * Select first option
          */
-        selectFirstOption(options) {
+        selectFirstOption(element) {
             this.$nextTick(() => {
-                if (options.length) {
+                if (element.length) {
                     // If has visible data or open on focus, keep updating the hovered
-                    if (this.openOnFocus || (this.newValue !== '' && this.hovered !== options[0])) {
-                        this.setHovered(options[0])
+                    const option = element[0].items[0]
+                    if (this.openOnFocus || (this.newValue !== '' && this.hovered !== option)) {
+                        this.setHovered(option)
                     }
                 } else {
                     this.setHovered(null)
@@ -317,33 +376,27 @@ export default {
             })
         },
 
-        /**
-         * Enter key listener.
-         * Select the hovered option.
-         */
-        enterPressed(event) {
+        keydown(event) {
+            const { key } = event // cannot destructure preventDefault (https://stackoverflow.com/a/49616808/2774496)
+            // Close dropdown on Tab & no hovered
+            this.isActive = key !== 'Tab'
             if (this.hovered === null) return
-            this.setSelected(this.hovered, !this.keepOpen, event)
-        },
+            if (this.confirmKeys.indexOf(key) >= 0) {
+                // If adding by comma, don't add the comma to the input
+                if (key === ',') event.preventDefault()
 
-        /**
-         * Tab key listener.
-         * Select hovered option if it exists, close dropdown, then allow
-         * native handling to move to next tabbable element.
-         */
-        tabPressed(event) {
-            if (this.hovered === null) {
-                this.isActive = false
-                return
+                // Close dropdown on select by Tab
+                const closeDropdown = !this.keepOpen || key === 'Tab'
+                this.setSelected(this.hovered, closeDropdown, event)
             }
-            this.setSelected(this.hovered, !this.keepOpen, event)
         },
 
         /**
          * Close dropdown if clicked outside.
          */
         clickedOutside(event) {
-            if (this.whiteList.indexOf(event.target) < 0) this.isActive = false
+            const target = isCustomElement(this) ? event.composedPath()[0] : event.target
+            if (!this.hasFocus && this.whiteList.indexOf(target) < 0) this.isActive = false
         },
 
         /**
@@ -356,9 +409,7 @@ export default {
             if (typeof this.customFormatter !== 'undefined') {
                 return this.customFormatter(option)
             }
-            return typeof option === 'object'
-                ? getValueByPath(option, this.field)
-                : option
+            return typeof option === 'object' ? getValueByPath(option, this.field) : option
         },
 
         /**
@@ -367,7 +418,8 @@ export default {
          */
         checkIfReachedTheEndOfScroll(list) {
             if (list.clientHeight !== list.scrollHeight &&
-                list.scrollTop + list.clientHeight >= list.scrollHeight) {
+                list.scrollTop + list.clientHeight >= list.scrollHeight
+            ) {
                 this.$emit('infinite-scroll')
             }
         },
@@ -379,18 +431,15 @@ export default {
         calcDropdownInViewportVertical() {
             this.$nextTick(() => {
                 /**
-                * this.$refs.dropdown may be undefined
-                * when Autocomplete is conditional rendered
-                */
+                 * this.$refs.dropdown may be undefined
+                 * when Autocomplete is conditional rendered
+                 */
                 if (this.$refs.dropdown === undefined) return
 
                 const rect = this.$refs.dropdown.getBoundingClientRect()
 
-                this.isListInViewportVertically = (
-                    rect.top >= 0 &&
-                    rect.bottom <= (window.innerHeight ||
-                        document.documentElement.clientHeight)
-                )
+                this.isListInViewportVertically = rect.top >= 0 &&
+                    rect.bottom <= (window.innerHeight || document.documentElement.clientHeight)
                 if (this.appendToBody) {
                     this.updateAppendToBody()
                 }
@@ -404,11 +453,13 @@ export default {
         keyArrows(direction) {
             const sum = direction === 'down' ? 1 : -1
             if (this.isActive) {
-                let index = this.data.indexOf(this.hovered) + sum
-                index = index > this.data.length - 1 ? this.data.length : index
+                const data = this.computedData.map(
+                    (d) => d.items).reduce((a, b) => ([...a, ...b]), [])
+                let index = data.indexOf(this.hovered) + sum
+                index = index > data.length - 1 ? data.length - 1 : index
                 index = index < 0 ? 0 : index
 
-                this.setHovered(this.data[index])
+                this.setHovered(data[index])
 
                 const list = this.$refs.dropdown.querySelector('.dropdown-content')
                 const element = list.querySelectorAll('a.dropdown-item:not(.is-disabled)')[index]
@@ -421,11 +472,7 @@ export default {
                 if (element.offsetTop < visMin) {
                     list.scrollTop = element.offsetTop
                 } else if (element.offsetTop >= visMax) {
-                    list.scrollTop = (
-                        element.offsetTop -
-                        list.clientHeight +
-                        element.clientHeight
-                    )
+                    list.scrollTop = element.offsetTop - list.clientHeight + element.clientHeight
                 }
             } else {
                 this.isActive = true
@@ -443,7 +490,7 @@ export default {
             if (this.openOnFocus) {
                 this.isActive = true
                 if (this.keepFirst) {
-                    this.selectFirstOption(this.data)
+                    this.selectFirstOption(this.computedData)
                 }
             }
             this.hasFocus = true
@@ -451,8 +498,8 @@ export default {
         },
 
         /**
-        * Blur listener.
-        */
+         * Blur listener.
+         */
         onBlur(event) {
             this.hasFocus = false
             this.$emit('blur', event)
@@ -466,8 +513,9 @@ export default {
         rightIconClick(event) {
             if (this.clearable) {
                 this.newValue = ''
+                this.setSelected(null, false)
                 if (this.openOnFocus) {
-                    this.$el.focus()
+                    this.$refs.input.$el.focus()
                 }
             } else {
                 this.$emit('icon-right-click', event)
@@ -514,11 +562,13 @@ export default {
     created() {
         if (typeof window !== 'undefined') {
             document.addEventListener('click', this.clickedOutside)
-            if (this.dropdownPosition === 'auto') window.addEventListener('resize', this.calcDropdownInViewportVertical)
+            if (this.dropdownPosition === 'auto') { window.addEventListener('resize', this.calcDropdownInViewportVertical) }
         }
     },
     mounted() {
-        if (this.checkInfiniteScroll && this.$refs.dropdown && this.$refs.dropdown.querySelector('.dropdown-content')) {
+        if (this.checkInfiniteScroll &&
+            this.$refs.dropdown && this.$refs.dropdown.querySelector('.dropdown-content')
+        ) {
             const list = this.$refs.dropdown.querySelector('.dropdown-content')
             list.addEventListener('scroll', () => this.checkIfReachedTheEndOfScroll(list))
         }
@@ -530,9 +580,11 @@ export default {
     beforeDestroy() {
         if (typeof window !== 'undefined') {
             document.removeEventListener('click', this.clickedOutside)
-            if (this.dropdownPosition === 'auto') window.removeEventListener('resize', this.calcDropdownInViewportVertical)
+            if (this.dropdownPosition === 'auto') { window.removeEventListener('resize', this.calcDropdownInViewportVertical) }
         }
-        if (this.checkInfiniteScroll && this.$refs.dropdown && this.$refs.dropdown.querySelector('.dropdown-content')) {
+        if (this.checkInfiniteScroll &&
+            this.$refs.dropdown && this.$refs.dropdown.querySelector('.dropdown-content')
+        ) {
             const list = this.$refs.dropdown.querySelector('.dropdown-content')
             list.removeEventListener('scroll', this.checkIfReachedTheEndOfScroll)
         }

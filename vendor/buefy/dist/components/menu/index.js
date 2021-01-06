@@ -1,4 +1,4 @@
-/*! Buefy v0.8.20 | MIT License | github.com/buefy/buefy */
+/*! Buefy v0.9.4 | MIT License | github.com/buefy/buefy */
 (function (global, factory) {
     typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports) :
     typeof define === 'function' && define.amd ? define(['exports'], factory) :
@@ -158,6 +158,10 @@
         ariaRole: {
           type: String,
           default: ''
+        },
+        size: {
+          type: String,
+          default: 'is-small'
         }
       },
       render: function render(createElement, context) {
@@ -173,7 +177,7 @@
             props: {
               'icon': context.props.icon,
               'pack': context.props.iconPack,
-              'size': 'is-small'
+              'size': context.props.size
             }
           }), createElement('span', {}, context.props.label)] : context.props.label : slots.label);
         }
@@ -305,6 +309,7 @@
       defaultIconComponent: null,
       defaultIconPrev: 'chevron-left',
       defaultIconNext: 'chevron-right',
+      defaultLocale: undefined,
       defaultDialogConfirmText: null,
       defaultDialogCancelText: null,
       defaultSnackbarDuration: 3500,
@@ -314,8 +319,7 @@
       defaultNotificationDuration: 2000,
       defaultNotificationPosition: null,
       defaultTooltipType: 'is-primary',
-      defaultTooltipAnimated: false,
-      defaultTooltipDelay: 0,
+      defaultTooltipDelay: null,
       defaultInputAutocomplete: 'on',
       defaultDateFormatter: null,
       defaultDateParser: null,
@@ -337,18 +341,29 @@
       defaultUseHtml5Validation: true,
       defaultDropdownMobileModal: true,
       defaultFieldLabelPosition: null,
-      defaultDatepickerYearsRange: [-100, 3],
+      defaultDatepickerYearsRange: [-100, 10],
       defaultDatepickerNearbyMonthDays: true,
       defaultDatepickerNearbySelectableMonthDays: false,
       defaultDatepickerShowWeekNumber: false,
+      defaultDatepickerWeekNumberClickable: false,
       defaultDatepickerMobileModal: true,
-      defaultTrapFocus: false,
+      defaultTrapFocus: true,
+      defaultAutoFocus: true,
       defaultButtonRounded: false,
       defaultCarouselInterval: 3500,
+      defaultTabsExpanded: false,
       defaultTabsAnimated: true,
+      defaultTabsType: null,
+      defaultStatusIcon: true,
+      defaultProgrammaticPromise: false,
       defaultLinkTags: ['a', 'button', 'input', 'router-link', 'nuxt-link', 'n-link', 'RouterLink', 'NuxtLink', 'NLink'],
+      defaultImageWebpFallback: null,
+      defaultImageLazy: true,
+      defaultImageResponsive: true,
+      defaultImageRatio: null,
+      defaultImageSrcsetFormatter: null,
       customIconPacks: null
-    }; // TODO defaultTrapFocus to true in the next breaking change
+    };
 
     /**
      * Merge function to replace Object.assign with deep merging possibility
@@ -393,10 +408,10 @@
       var faIconPrefix = config && config.defaultIconComponent ? '' : 'fa-';
       return {
         sizes: {
-          'default': faIconPrefix + 'lg',
+          'default': null,
           'is-small': null,
-          'is-medium': faIconPrefix + '2x',
-          'is-large': faIconPrefix + '3x'
+          'is-medium': faIconPrefix + 'lg',
+          'is-large': faIconPrefix + '2x'
         },
         iconPrefix: faIconPrefix,
         internalIcons: {
@@ -565,6 +580,11 @@
       name: 'BMenuItem',
       components: _defineProperty({}, Icon.name, Icon),
       inheritAttrs: false,
+      // deprecated, to replace with default 'value' in the next breaking change
+      model: {
+        prop: 'active',
+        event: 'update:active'
+      },
       props: {
         label: String,
         active: Boolean,
@@ -586,6 +606,10 @@
         ariaRole: {
           type: String,
           default: ''
+        },
+        size: {
+          type: String,
+          default: 'is-small'
         }
       },
       data: function data() {
@@ -613,7 +637,7 @@
           var menu = this.getMenu();
           this.reset(this.$parent, menu);
           this.newExpanded = !this.newExpanded;
-          this.$emit('update:expanded', this.newActive);
+          this.$emit('update:expanded', this.newExpanded);
 
           if (menu && menu.activable) {
             this.newActive = true;
@@ -659,9 +683,10 @@
 
     /* template */
     var __vue_render__$2 = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('li',{attrs:{"role":_vm.ariaRoleMenu}},[_c(_vm.tag,_vm._g(_vm._b({tag:"component",class:{
-                    'is-active': _vm.newActive,
-                    'is-disabled': _vm.disabled
-                },on:{"click":function($event){_vm.onClick($event);}}},'component',_vm.$attrs,false),_vm.$listeners),[(_vm.icon)?_c('b-icon',{attrs:{"icon":_vm.icon,"pack":_vm.iconPack,"size":"is-small"}}):_vm._e(),_vm._v(" "),(_vm.label)?_c('span',[_vm._v(_vm._s(_vm.label))]):_vm._t("label",null,{expanded:_vm.newExpanded,active:_vm.newActive})],2),_vm._v(" "),(_vm.$slots.default)?[_c('transition',{attrs:{"name":_vm.animation}},[_c('ul',{directives:[{name:"show",rawName:"v-show",value:(_vm.newExpanded),expression:"newExpanded"}]},[_vm._t("default")],2)])]:_vm._e()],2)};
+                'is-active': _vm.newActive,
+                'is-expanded': _vm.newExpanded,
+                'is-disabled': _vm.disabled
+            },on:{"click":function($event){return _vm.onClick($event)}}},'component',_vm.$attrs,false),_vm.$listeners),[(_vm.icon)?_c('b-icon',{attrs:{"icon":_vm.icon,"pack":_vm.iconPack,"size":_vm.size}}):_vm._e(),(_vm.label)?_c('span',[_vm._v(" "+_vm._s(_vm.label)+" ")]):_vm._t("label",null,{"expanded":_vm.newExpanded,"active":_vm.newActive})],2),(_vm.$slots.default)?[_c('transition',{attrs:{"name":_vm.animation}},[_c('ul',{directives:[{name:"show",rawName:"v-show",value:(_vm.newExpanded),expression:"newExpanded"}]},[_vm._t("default")],2)])]:_vm._e()],2)};
     var __vue_staticRenderFns__$2 = [];
 
       /* style */

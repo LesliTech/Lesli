@@ -1,5 +1,5 @@
 import _Vue from "vue";
-import { ColorModifiers, GlobalPositions } from "./helpers";
+import {ColorModifiers, GlobalPositions, SizesModifiers} from "./helpers";
 
 // Component base definition
 export class BComponent extends _Vue {
@@ -13,6 +13,7 @@ export declare type BuefyConfig = {
     defaultIconComponent?: string;
     defaultIconPrev?: string;
     defaultIconNext?: string;
+    defaultLocale?: undefined | string | string[],
     defaultDialogConfirmText?: string;
     defaultDialogCancelText?: string;
     defaultSnackbarDuration?: number;
@@ -53,8 +54,15 @@ export declare type BuefyConfig = {
     defaultTrapFocus?: boolean;
     defaultButtonRounded?: boolean;
     defaultCarouselInterval?: number;
+    defaultTabsExpanded?: boolean;
     defaultTabsAnimated?: boolean;
-    defaultLinkTags: string[];
+    defaultTabsType?: string;
+    defaultLinkTags?: string[];
+    defaultImageWebpFallback?: string,
+    defaultImageLazy?: boolean,
+    defaultImageResponsive?: boolean,
+    defaultImageRatio?: string,
+    defaultImageSrcsetFormatter?: Function,
     customIconPacks?: any;
 };
 
@@ -67,7 +75,7 @@ export declare type BDialogConfig = {
     /**
      * Message text
      */
-    message: string;
+    message: string | any[];
 
     /**
      * Adds an icon on the left side depending on the <code>type</code> or <code>icon</code>
@@ -87,7 +95,7 @@ export declare type BDialogConfig = {
     /**
      * Dialog\'s size, optional
      */
-    size?: 'is-small' | 'is-medium' | 'is-large';
+    size?: SizesModifiers;
 
     /**
      * Custom animation (transition name)
@@ -107,12 +115,24 @@ export declare type BDialogConfig = {
     /**
      * Can close dialog by clicking cancel button, pressing escape or clicking outside
      */
-    canCancel?: boolean | Array<any>;
+    canCancel?: boolean | Array<'escape' | 'button' | 'outside'>;
+
+    /**
+     * Turning this prop into false allows to make async requests in onConfirm callback
+     */
+    closeOnConfirm?: boolean;
+
+    /**
+    * DOM element the dialog will be created on.
+    * Note that this also changes the position of the dialog from fixed
+    * to absolute. Meaning that the container should be fixed.
+    */
+    container?: string;
 
     /**
      * Callback function when the confirm button is clicked
      */
-    onConfirm?: (value: string) => any;
+    onConfirm?: (value: string, dialog: BComponent) => any;
 
     /**
      * Callback function when the dialog is canceled (cancel button is clicked / pressed escape / clicked outside)
@@ -299,7 +319,7 @@ export declare type BNoticeConfig = {
     /**
     * Message text
     */
-    message: string;
+    message: string | any[];
 
     /**
     * Type (color) of the toast
@@ -374,5 +394,3 @@ export declare const ConfigProgrammatic: {
     getOptions: () => BuefyConfig
     setOptions: (params: BuefyConfig) => any
 }
-
-

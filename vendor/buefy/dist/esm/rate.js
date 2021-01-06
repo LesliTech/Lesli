@@ -1,7 +1,7 @@
 import { _ as _defineProperty } from './chunk-1fafdf15.js';
 import './helpers.js';
-import './chunk-6985c8ce.js';
-import { I as Icon } from './chunk-cdfca85b.js';
+import { c as config } from './chunk-ce068f0a.js';
+import { I as Icon } from './chunk-4139443a.js';
 import { _ as __vue_normalize__, r as registerComponent, u as use } from './chunk-cca88db8.js';
 
 var script = {
@@ -28,7 +28,13 @@ var script = {
     showScore: Boolean,
     showText: Boolean,
     customText: String,
-    texts: Array
+    texts: Array,
+    locale: {
+      type: [String, Array],
+      default: function _default() {
+        return config.defaultLocale;
+      }
+    }
   },
   data: function data() {
     return {
@@ -45,7 +51,12 @@ var script = {
 
       if (this.showScore) {
         result = this.disabled ? this.value : this.newValue;
-        if (result === 0) result = '';
+
+        if (result === 0) {
+          result = '';
+        } else {
+          result = new Intl.NumberFormat(this.locale).format(this.value);
+        }
       } else if (this.showText) {
         result = this.texts[Math.ceil(this.newValue) - 1];
       }
@@ -101,7 +112,7 @@ var script = {
 const __vue_script__ = script;
 
 /* template */
-var __vue_render__ = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"rate",class:{ 'is-disabled': _vm.disabled, 'is-spaced': _vm.spaced, 'is-rtl': _vm.rtl }},[_vm._l((_vm.max),function(item,index){return _c('div',{key:index,staticClass:"rate-item",class:_vm.rateClass(item),on:{"mousemove":function($event){_vm.previewRate(item, $event);},"mouseleave":_vm.resetNewValue,"click":function($event){$event.preventDefault();_vm.confirmValue(item);}}},[_c('b-icon',{attrs:{"pack":_vm.iconPack,"icon":_vm.icon,"size":_vm.size}}),_vm._v(" "),(_vm.checkHalf(item))?_c('b-icon',{staticClass:"is-half",style:(_vm.halfStyle),attrs:{"pack":_vm.iconPack,"icon":_vm.icon,"size":_vm.size}}):_vm._e()],1)}),_vm._v(" "),(_vm.showText || _vm.showScore || _vm.customText)?_c('div',{staticClass:"rate-text",class:_vm.size},[_c('span',[_vm._v(_vm._s(_vm.showMe))]),_vm._v(" "),(_vm.customText && !_vm.showText)?_c('span',[_vm._v(_vm._s(_vm.customText))]):_vm._e()]):_vm._e()],2)};
+var __vue_render__ = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"rate",class:{ 'is-disabled': _vm.disabled, 'is-spaced': _vm.spaced, 'is-rtl': _vm.rtl }},[_vm._l((_vm.max),function(item,index){return _c('div',{key:index,staticClass:"rate-item",class:_vm.rateClass(item),on:{"mousemove":function($event){return _vm.previewRate(item, $event)},"mouseleave":_vm.resetNewValue,"click":function($event){$event.preventDefault();return _vm.confirmValue(item)}}},[_c('b-icon',{attrs:{"pack":_vm.iconPack,"icon":_vm.icon,"size":_vm.size}}),(_vm.checkHalf(item))?_c('b-icon',{staticClass:"is-half",style:(_vm.halfStyle),attrs:{"pack":_vm.iconPack,"icon":_vm.icon,"size":_vm.size}}):_vm._e()],1)}),(_vm.showText || _vm.showScore || _vm.customText)?_c('div',{staticClass:"rate-text",class:_vm.size},[_c('span',[_vm._v(_vm._s(_vm.showMe))]),(_vm.customText && !_vm.showText)?_c('span',[_vm._v(_vm._s(_vm.customText))]):_vm._e()]):_vm._e()],2)};
 var __vue_staticRenderFns__ = [];
 
   /* style */

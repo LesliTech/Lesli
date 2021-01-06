@@ -1,4 +1,4 @@
-/*! Buefy v0.8.20 | MIT License | github.com/buefy/buefy */
+/*! Buefy v0.9.4 | MIT License | github.com/buefy/buefy */
 (function (global, factory) {
   typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports) :
   typeof define === 'function' && define.amd ? define(['exports'], factory) :
@@ -92,6 +92,7 @@
     defaultIconComponent: null,
     defaultIconPrev: 'chevron-left',
     defaultIconNext: 'chevron-right',
+    defaultLocale: undefined,
     defaultDialogConfirmText: null,
     defaultDialogCancelText: null,
     defaultSnackbarDuration: 3500,
@@ -101,8 +102,7 @@
     defaultNotificationDuration: 2000,
     defaultNotificationPosition: null,
     defaultTooltipType: 'is-primary',
-    defaultTooltipAnimated: false,
-    defaultTooltipDelay: 0,
+    defaultTooltipDelay: null,
     defaultInputAutocomplete: 'on',
     defaultDateFormatter: null,
     defaultDateParser: null,
@@ -124,18 +124,29 @@
     defaultUseHtml5Validation: true,
     defaultDropdownMobileModal: true,
     defaultFieldLabelPosition: null,
-    defaultDatepickerYearsRange: [-100, 3],
+    defaultDatepickerYearsRange: [-100, 10],
     defaultDatepickerNearbyMonthDays: true,
     defaultDatepickerNearbySelectableMonthDays: false,
     defaultDatepickerShowWeekNumber: false,
+    defaultDatepickerWeekNumberClickable: false,
     defaultDatepickerMobileModal: true,
-    defaultTrapFocus: false,
+    defaultTrapFocus: true,
+    defaultAutoFocus: true,
     defaultButtonRounded: false,
     defaultCarouselInterval: 3500,
+    defaultTabsExpanded: false,
     defaultTabsAnimated: true,
+    defaultTabsType: null,
+    defaultStatusIcon: true,
+    defaultProgrammaticPromise: false,
     defaultLinkTags: ['a', 'button', 'input', 'router-link', 'nuxt-link', 'n-link', 'RouterLink', 'NuxtLink', 'NLink'],
+    defaultImageWebpFallback: null,
+    defaultImageLazy: true,
+    defaultImageResponsive: true,
+    defaultImageRatio: null,
+    defaultImageSrcsetFormatter: null,
     customIconPacks: null
-  }; // TODO defaultTrapFocus to true in the next breaking change
+  };
 
   /**
    * Merge function to replace Object.assign with deep merging possibility
@@ -165,6 +176,9 @@
   };
 
   var merge = mergeFn;
+  function isVueComponent(c) {
+    return c && c._isVue;
+  }
 
   var mdiIcons = {
     sizes: {
@@ -180,10 +194,10 @@
     var faIconPrefix = config && config.defaultIconComponent ? '' : 'fa-';
     return {
       sizes: {
-        'default': faIconPrefix + 'lg',
+        'default': null,
         'is-small': null,
-        'is-medium': faIconPrefix + '2x',
-        'is-large': faIconPrefix + '3x'
+        'is-medium': faIconPrefix + 'lg',
+        'is-large': faIconPrefix + '2x'
       },
       iconPrefix: faIconPrefix,
       internalIcons: {
@@ -450,7 +464,19 @@
           return config.defaultUseHtml5Validation;
         }
       },
-      validationMessage: String
+      validationMessage: String,
+      locale: {
+        type: [String, Array],
+        default: function _default() {
+          return config.defaultLocale;
+        }
+      },
+      statusIcon: {
+        type: Boolean,
+        default: function _default() {
+          return config.defaultStatusIcon;
+        }
+      }
     },
     data: function data() {
       return {
@@ -479,14 +505,16 @@
        * Get the type prop from parent if it's a Field.
        */
       statusType: function statusType() {
-        if (!this.parentField) return;
-        if (!this.parentField.newType) return;
+        var _ref = this.parentField || {},
+            newType = _ref.newType;
 
-        if (typeof this.parentField.newType === 'string') {
-          return this.parentField.newType;
+        if (!newType) return;
+
+        if (typeof newType === 'string') {
+          return newType;
         } else {
-          for (var key in this.parentField.newType) {
-            if (this.parentField.newType[key]) {
+          for (var key in newType) {
+            if (newType[key]) {
               return key;
             }
           }
@@ -522,12 +550,9 @@
        * Focus method that work dynamically depending on the component.
        */
       focus: function focus() {
-        var _this = this;
-
-        if (this.$data._elementRef === undefined) return;
+        var el = this.getElement();
+        if (el === undefined) return;
         this.$nextTick(function () {
-          var el = _this.$el.querySelector(_this.$data._elementRef);
-
           if (el) el.focus();
         });
       },
@@ -541,7 +566,13 @@
         this.$emit('focus', $event);
       },
       getElement: function getElement() {
-        return this.$el.querySelector(this.$data._elementRef);
+        var el = this.$refs[this.$data._elementRef];
+
+        while (isVueComponent(el)) {
+          el = el.$refs[el.$data._elementRef];
+        }
+
+        return el;
       },
       setInvalid: function setInvalid() {
         var type = 'is-danger';
@@ -549,18 +580,18 @@
         this.setValidity(type, message);
       },
       setValidity: function setValidity(type, message) {
-        var _this2 = this;
+        var _this = this;
 
         this.$nextTick(function () {
-          if (_this2.parentField) {
+          if (_this.parentField) {
             // Set type only if not defined
-            if (!_this2.parentField.type) {
-              _this2.parentField.newType = type;
+            if (!_this.parentField.type) {
+              _this.parentField.newType = type;
             } // Set message only if not defined
 
 
-            if (!_this2.parentField.message) {
-              _this2.parentField.newMessage = message;
+            if (!_this.parentField.message) {
+              _this.parentField.newMessage = message;
             }
           }
         });
@@ -573,10 +604,10 @@
        */
       checkHtml5Validity: function checkHtml5Validity() {
         if (!this.useHtml5Validation) return;
-        if (this.$refs[this.$data._elementRef] === undefined) return;
-        if (this.getElement() === null) return;
+        var el = this.getElement();
+        if (el === undefined) return;
 
-        if (!this.getElement().checkValidity()) {
+        if (!el.checkValidity()) {
           this.setInvalid();
           this.isValid = false;
         } else {
@@ -647,7 +678,7 @@
   const __vue_script__$1 = script$1;
 
   /* template */
-  var __vue_render__$1 = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"control",class:{ 'is-expanded': _vm.expanded, 'has-icons-left': _vm.icon }},[_c('span',{staticClass:"select",class:_vm.spanClasses},[_c('select',_vm._b({directives:[{name:"model",rawName:"v-model",value:(_vm.computedValue),expression:"computedValue"}],ref:"select",attrs:{"multiple":_vm.multiple,"size":_vm.nativeSize},on:{"blur":function($event){_vm.$emit('blur', $event) && _vm.checkHtml5Validity();},"focus":function($event){_vm.$emit('focus', $event);},"change":function($event){var $$selectedVal = Array.prototype.filter.call($event.target.options,function(o){return o.selected}).map(function(o){var val = "_value" in o ? o._value : o.value;return val}); _vm.computedValue=$event.target.multiple ? $$selectedVal : $$selectedVal[0];}}},'select',_vm.$attrs,false),[(_vm.placeholder)?[(_vm.computedValue == null)?_c('option',{attrs:{"disabled":"","hidden":""},domProps:{"value":null}},[_vm._v("\r\n                        "+_vm._s(_vm.placeholder)+"\r\n                    ")]):_vm._e()]:_vm._e(),_vm._v(" "),_vm._t("default")],2)]),_vm._v(" "),(_vm.icon)?_c('b-icon',{staticClass:"is-left",attrs:{"icon":_vm.icon,"pack":_vm.iconPack,"size":_vm.iconSize}}):_vm._e()],1)};
+  var __vue_render__$1 = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"control",class:{ 'is-expanded': _vm.expanded, 'has-icons-left': _vm.icon }},[_c('span',{staticClass:"select",class:_vm.spanClasses},[_c('select',_vm._b({directives:[{name:"model",rawName:"v-model",value:(_vm.computedValue),expression:"computedValue"}],ref:"select",attrs:{"multiple":_vm.multiple,"size":_vm.nativeSize},on:{"blur":function($event){_vm.$emit('blur', $event) && _vm.checkHtml5Validity();},"focus":function($event){return _vm.$emit('focus', $event)},"change":function($event){var $$selectedVal = Array.prototype.filter.call($event.target.options,function(o){return o.selected}).map(function(o){var val = "_value" in o ? o._value : o.value;return val}); _vm.computedValue=$event.target.multiple ? $$selectedVal : $$selectedVal[0];}}},'select',_vm.$attrs,false),[(_vm.placeholder)?[(_vm.computedValue == null)?_c('option',{attrs:{"disabled":"","hidden":""},domProps:{"value":null}},[_vm._v(" "+_vm._s(_vm.placeholder)+" ")]):_vm._e()]:_vm._e(),_vm._t("default")],2)]),(_vm.icon)?_c('b-icon',{staticClass:"is-left",attrs:{"icon":_vm.icon,"pack":_vm.iconPack,"size":_vm.iconSize}}):_vm._e()],1)};
   var __vue_staticRenderFns__$1 = [];
 
     /* style */

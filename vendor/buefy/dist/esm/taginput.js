@@ -1,12 +1,12 @@
 import { _ as _defineProperty, b as _typeof } from './chunk-1fafdf15.js';
 import { getValueByPath } from './helpers.js';
-import { c as config } from './chunk-6985c8ce.js';
-import { F as FormElementMixin } from './chunk-d0a313ea.js';
-import './chunk-cdfca85b.js';
+import { c as config } from './chunk-ce068f0a.js';
+import { F as FormElementMixin } from './chunk-1f2cfc27.js';
+import './chunk-4139443a.js';
 import { _ as __vue_normalize__, r as registerComponent, u as use } from './chunk-cca88db8.js';
-import './chunk-d1591eb8.js';
-import { A as Autocomplete } from './chunk-3fcea532.js';
-import { T as Tag } from './chunk-7292bea2.js';
+import './chunk-f28f2092.js';
+import { A as Autocomplete } from './chunk-43a9d081.js';
+import { T as Tag } from './chunk-fb315748.js';
 
 var _components;
 var script = {
@@ -28,6 +28,7 @@ var script = {
       }
     },
     type: String,
+    closeType: String,
     rounded: {
       type: Boolean,
       default: false
@@ -51,6 +52,8 @@ var script = {
       default: 'value'
     },
     autocomplete: Boolean,
+    groupField: String,
+    groupOptions: String,
     nativeAutocomplete: String,
     openOnFocus: Boolean,
     disabled: Boolean,
@@ -59,16 +62,17 @@ var script = {
       type: Boolean,
       default: true
     },
-    confirmKeyCodes: {
+    ariaCloseLabel: String,
+    confirmKeys: {
       type: Array,
       default: function _default() {
-        return [13, 188];
+        return [',', 'Tab', 'Enter'];
       }
     },
     removeOnKeys: {
       type: Array,
       default: function _default() {
-        return [8];
+        return ['Backspace'];
       }
     },
     allowNew: Boolean,
@@ -92,13 +96,19 @@ var script = {
       type: Boolean,
       default: false
     },
+    createTag: {
+      type: Function,
+      default: function _default(tag) {
+        return tag;
+      }
+    },
     appendToBody: Boolean
   },
   data: function data() {
     return {
       tags: Array.isArray(this.value) ? this.value.slice(0) : this.value || [],
       newTag: '',
-      _elementRef: 'input',
+      _elementRef: 'autocomplete',
       _isTaginput: true
     };
   },
@@ -116,18 +126,6 @@ var script = {
     },
     valueLength: function valueLength() {
       return this.newTag.trim().length;
-    },
-    defaultSlotName: function defaultSlotName() {
-      return this.hasDefaultSlot ? 'default' : 'dontrender';
-    },
-    emptySlotName: function emptySlotName() {
-      return this.hasEmptySlot ? 'empty' : 'dontrender';
-    },
-    headerSlotName: function headerSlotName() {
-      return this.hasHeaderSlot ? 'header' : 'dontrender';
-    },
-    footerSlotName: function footerSlotName() {
-      return this.hasFooterSlot ? 'footer' : 'dontrender';
     },
     hasDefaultSlot: function hasDefaultSlot() {
       return !!this.$scopedSlots.default;
@@ -190,16 +188,6 @@ var script = {
             }).map(this.addTag);
             return;
           }
-        } // Remove the tag input previously added (if not allowDuplicates).
-
-
-        if (!this.allowDuplicates) {
-          var index = this.tags.indexOf(tagToAdd);
-
-          if (index >= 0) {
-            this.tags.splice(index, 1);
-            return;
-          }
         } // Add the tag input if it is not blank
         // or previously added (if not allowDuplicates).
 
@@ -207,7 +195,7 @@ var script = {
         var add = !this.allowDuplicates ? this.tags.indexOf(tagToAdd) === -1 : true;
 
         if (add && this.beforeAdding(tagToAdd)) {
-          this.tags.push(tagToAdd);
+          this.tags.push(this.createTag(tagToAdd));
           this.$emit('input', this.tags);
           this.$emit('add', tagToAdd);
         }
@@ -217,10 +205,10 @@ var script = {
     },
     getNormalizedTagText: function getNormalizedTagText(tag) {
       if (_typeof(tag) === 'object') {
-        return getValueByPath(tag, this.field);
+        tag = getValueByPath(tag, this.field);
       }
 
-      return tag;
+      return "".concat(tag);
     },
     customOnBlur: function customOnBlur(event) {
       // Add tag on-blur if not select only
@@ -254,15 +242,18 @@ var script = {
       }
     },
     keydown: function keydown(event) {
-      if (this.removeOnKeys.indexOf(event.keyCode) !== -1 && !this.newTag.length) {
+      var key = event.key; // cannot destructure preventDefault (https://stackoverflow.com/a/49616808/2774496)
+
+      if (this.removeOnKeys.indexOf(key) !== -1 && !this.newTag.length) {
         this.removeLastTag();
       } // Stop if is to accept select only
 
 
       if (this.autocomplete && !this.allowNew) return;
 
-      if (this.confirmKeyCodes.indexOf(event.keyCode) >= 0) {
-        event.preventDefault();
+      if (this.confirmKeys.indexOf(key) >= 0) {
+        // Allow Tab to advance to next field regardless
+        if (key !== 'Tab') event.preventDefault();
         this.addTag();
       }
     },
@@ -279,7 +270,7 @@ var script = {
 const __vue_script__ = script;
 
 /* template */
-var __vue_render__ = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"taginput control",class:_vm.rootClasses},[_c('div',{staticClass:"taginput-container",class:[_vm.statusType, _vm.size, _vm.containerClasses],attrs:{"disabled":_vm.disabled},on:{"click":function($event){_vm.hasInput && _vm.focus($event);}}},[_vm._t("selected",_vm._l((_vm.tags),function(tag,index){return _c('b-tag',{key:_vm.getNormalizedTagText(tag) + index,attrs:{"type":_vm.type,"size":_vm.size,"rounded":_vm.rounded,"attached":_vm.attached,"tabstop":false,"disabled":_vm.disabled,"ellipsis":_vm.ellipsis,"closable":_vm.closable,"title":_vm.ellipsis && _vm.getNormalizedTagText(tag)},on:{"close":function($event){_vm.removeTag(index, $event);}}},[_vm._t("tag",[_vm._v("\r\n                        "+_vm._s(_vm.getNormalizedTagText(tag))+"\r\n                    ")],{tag:tag})],2)}),{tags:_vm.tags}),_vm._v(" "),(_vm.hasInput)?_c('b-autocomplete',_vm._b({ref:"autocomplete",attrs:{"data":_vm.data,"field":_vm.field,"icon":_vm.icon,"icon-pack":_vm.iconPack,"maxlength":_vm.maxlength,"has-counter":false,"size":_vm.size,"disabled":_vm.disabled,"loading":_vm.loading,"autocomplete":_vm.nativeAutocomplete,"open-on-focus":_vm.openOnFocus,"keep-open":_vm.openOnFocus,"keep-first":!_vm.allowNew,"use-html5-validation":_vm.useHtml5Validation,"check-infinite-scroll":_vm.checkInfiniteScroll,"append-to-body":_vm.appendToBody},on:{"typing":_vm.onTyping,"focus":_vm.onFocus,"blur":_vm.customOnBlur,"select":_vm.onSelect,"infinite-scroll":_vm.emitInfiniteScroll},nativeOn:{"keydown":function($event){return _vm.keydown($event)}},scopedSlots:_vm._u([{key:_vm.defaultSlotName,fn:function(props){return [_vm._t("default",null,{option:props.option,index:props.index})]}}]),model:{value:(_vm.newTag),callback:function ($$v) {_vm.newTag=$$v;},expression:"newTag"}},'b-autocomplete',_vm.$attrs,false),[_c('template',{slot:_vm.headerSlotName},[_vm._t("header")],2),_vm._v(" "),_c('template',{slot:_vm.emptySlotName},[_vm._t("empty")],2),_vm._v(" "),_c('template',{slot:_vm.footerSlotName},[_vm._t("footer")],2)],2):_vm._e()],2),_vm._v(" "),(_vm.hasCounter && (_vm.maxtags || _vm.maxlength))?_c('small',{staticClass:"help counter"},[(_vm.maxlength && _vm.valueLength > 0)?[_vm._v("\r\n                "+_vm._s(_vm.valueLength)+" / "+_vm._s(_vm.maxlength)+"\r\n            ")]:(_vm.maxtags)?[_vm._v("\r\n                "+_vm._s(_vm.tagsLength)+" / "+_vm._s(_vm.maxtags)+"\r\n            ")]:_vm._e()],2):_vm._e()])};
+var __vue_render__ = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"taginput control",class:_vm.rootClasses},[_c('div',{staticClass:"taginput-container",class:[_vm.statusType, _vm.size, _vm.containerClasses],attrs:{"disabled":_vm.disabled},on:{"click":function($event){_vm.hasInput && _vm.focus($event);}}},[_vm._t("selected",_vm._l((_vm.tags),function(tag,index){return _c('b-tag',{key:_vm.getNormalizedTagText(tag) + index,attrs:{"type":_vm.type,"close-type":_vm.closeType,"size":_vm.size,"rounded":_vm.rounded,"attached":_vm.attached,"tabstop":false,"disabled":_vm.disabled,"ellipsis":_vm.ellipsis,"closable":_vm.closable,"aria-close-label":_vm.ariaCloseLabel,"title":_vm.ellipsis && _vm.getNormalizedTagText(tag)},on:{"close":function($event){return _vm.removeTag(index, $event)}}},[_vm._t("tag",[_vm._v(" "+_vm._s(_vm.getNormalizedTagText(tag))+" ")],{"tag":tag})],2)}),{"tags":_vm.tags}),(_vm.hasInput)?_c('b-autocomplete',_vm._b({ref:"autocomplete",attrs:{"data":_vm.data,"field":_vm.field,"icon":_vm.icon,"icon-pack":_vm.iconPack,"maxlength":_vm.maxlength,"has-counter":false,"size":_vm.size,"disabled":_vm.disabled,"loading":_vm.loading,"autocomplete":_vm.nativeAutocomplete,"open-on-focus":_vm.openOnFocus,"keep-open":_vm.openOnFocus,"keep-first":!_vm.allowNew,"group-field":_vm.groupField,"group-options":_vm.groupOptions,"use-html5-validation":_vm.useHtml5Validation,"check-infinite-scroll":_vm.checkInfiniteScroll,"append-to-body":_vm.appendToBody,"confirm-keys":_vm.confirmKeys},on:{"typing":_vm.onTyping,"focus":_vm.onFocus,"blur":_vm.customOnBlur,"select":_vm.onSelect,"infinite-scroll":_vm.emitInfiniteScroll},nativeOn:{"keydown":function($event){return _vm.keydown($event)}},scopedSlots:_vm._u([(_vm.hasHeaderSlot)?{key:"header",fn:function(){return [_vm._t("header")]},proxy:true}:null,(_vm.hasDefaultSlot)?{key:"default",fn:function(props){return [_vm._t("default",null,{"option":props.option,"index":props.index})]}}:null,(_vm.hasEmptySlot)?{key:"empty",fn:function(){return [_vm._t("empty")]},proxy:true}:null,(_vm.hasFooterSlot)?{key:"footer",fn:function(){return [_vm._t("footer")]},proxy:true}:null],null,true),model:{value:(_vm.newTag),callback:function ($$v) {_vm.newTag=$$v;},expression:"newTag"}},'b-autocomplete',_vm.$attrs,false)):_vm._e()],2),(_vm.hasCounter && (_vm.maxtags || _vm.maxlength))?_c('small',{staticClass:"help counter"},[(_vm.maxlength && _vm.valueLength > 0)?[_vm._v(" "+_vm._s(_vm.valueLength)+" / "+_vm._s(_vm.maxlength)+" ")]:(_vm.maxtags)?[_vm._v(" "+_vm._s(_vm.tagsLength)+" / "+_vm._s(_vm.maxtags)+" ")]:_vm._e()],2):_vm._e()])};
 var __vue_staticRenderFns__ = [];
 
   /* style */

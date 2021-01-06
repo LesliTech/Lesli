@@ -1,4 +1,4 @@
-/*! Buefy v0.8.20 | MIT License | github.com/buefy/buefy */
+/*! Buefy v0.9.4 | MIT License | github.com/buefy/buefy */
 (function (global, factory) {
   typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports) :
   typeof define === 'function' && define.amd ? define(['exports'], factory) :
@@ -92,6 +92,7 @@
     defaultIconComponent: null,
     defaultIconPrev: 'chevron-left',
     defaultIconNext: 'chevron-right',
+    defaultLocale: undefined,
     defaultDialogConfirmText: null,
     defaultDialogCancelText: null,
     defaultSnackbarDuration: 3500,
@@ -101,8 +102,7 @@
     defaultNotificationDuration: 2000,
     defaultNotificationPosition: null,
     defaultTooltipType: 'is-primary',
-    defaultTooltipAnimated: false,
-    defaultTooltipDelay: 0,
+    defaultTooltipDelay: null,
     defaultInputAutocomplete: 'on',
     defaultDateFormatter: null,
     defaultDateParser: null,
@@ -124,19 +124,52 @@
     defaultUseHtml5Validation: true,
     defaultDropdownMobileModal: true,
     defaultFieldLabelPosition: null,
-    defaultDatepickerYearsRange: [-100, 3],
+    defaultDatepickerYearsRange: [-100, 10],
     defaultDatepickerNearbyMonthDays: true,
     defaultDatepickerNearbySelectableMonthDays: false,
     defaultDatepickerShowWeekNumber: false,
+    defaultDatepickerWeekNumberClickable: false,
     defaultDatepickerMobileModal: true,
-    defaultTrapFocus: false,
+    defaultTrapFocus: true,
+    defaultAutoFocus: true,
     defaultButtonRounded: false,
     defaultCarouselInterval: 3500,
+    defaultTabsExpanded: false,
     defaultTabsAnimated: true,
+    defaultTabsType: null,
+    defaultStatusIcon: true,
+    defaultProgrammaticPromise: false,
     defaultLinkTags: ['a', 'button', 'input', 'router-link', 'nuxt-link', 'n-link', 'RouterLink', 'NuxtLink', 'NLink'],
+    defaultImageWebpFallback: null,
+    defaultImageLazy: true,
+    defaultImageResponsive: true,
+    defaultImageRatio: null,
+    defaultImageSrcsetFormatter: null,
     customIconPacks: null
-  }; // TODO defaultTrapFocus to true in the next breaking change
+  };
 
+  /**
+   * Checks if the flag is set
+   * @param val
+   * @param flag
+   * @returns {boolean}
+   */
+
+  function hasFlag(val, flag) {
+    return (val & flag) === flag;
+  }
+  /**
+   * Asserts a value is beetween min and max
+   * @param val
+   * @param min
+   * @param max
+   * @returns {number}
+   */
+
+
+  function bound(val, min, max) {
+    return Math.max(min, Math.min(max, val));
+  }
   /**
    * Merge function to replace Object.assign with deep merging possibility
    */
@@ -165,6 +198,9 @@
   };
 
   var merge = mergeFn;
+  function isVueComponent(c) {
+    return c && c._isVue;
+  }
 
   var mdiIcons = {
     sizes: {
@@ -180,10 +216,10 @@
     var faIconPrefix = config && config.defaultIconComponent ? '' : 'fa-';
     return {
       sizes: {
-        'default': faIconPrefix + 'lg',
+        'default': null,
         'is-small': null,
-        'is-medium': faIconPrefix + '2x',
-        'is-large': faIconPrefix + '3x'
+        'is-medium': faIconPrefix + 'lg',
+        'is-large': faIconPrefix + '2x'
       },
       iconPrefix: faIconPrefix,
       internalIcons: {
@@ -462,44 +498,243 @@
     methods: {
       refresh: function refresh() {
         this.$forceUpdate();
-      },
-      isVueComponent: function isVueComponent() {
-        return this.component && this.component._isVue;
       }
     },
     created: function created() {
-      if (this.isVueComponent()) {
+      if (isVueComponent(this.component)) {
         this.component.$on(this.event, this.refresh);
       }
     },
     beforeDestroy: function beforeDestroy() {
-      if (this.isVueComponent()) {
+      if (isVueComponent(this.component)) {
         this.component.$off(this.event, this.refresh);
       }
     },
     render: function render(createElement) {
-      if (this.isVueComponent()) {
+      if (isVueComponent(this.component)) {
         return createElement(this.tag, {}, this.scoped ? this.component.$scopedSlots[this.name](this.props) : this.component.$slots[this.name]);
       }
     }
   };
 
-  var _components;
+  var items = 1;
+  var sorted = 3;
+  var Sorted = sorted;
+  var ProviderParentMixin = (function (itemName) {
+    var flags = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 0;
+    var mixin = {
+      provide: function provide() {
+        return _defineProperty({}, 'b' + itemName, this);
+      }
+    };
+
+    if (hasFlag(flags, items)) {
+      mixin.data = function () {
+        return {
+          childItems: []
+        };
+      };
+
+      mixin.methods = {
+        _registerItem: function _registerItem(item) {
+          this.childItems.push(item);
+        },
+        _unregisterItem: function _unregisterItem(item) {
+          this.childItems = this.childItems.filter(function (i) {
+            return i !== item;
+          });
+        }
+      };
+
+      if (hasFlag(flags, sorted)) {
+        mixin.watch = {
+          /**
+           * When items are added/removed deep search in the elements default's slot
+           * And mark the items with their index
+           */
+          childItems: function childItems(items) {
+            if (items.length > 0 && this.$scopedSlots.default) {
+              var tag = items[0].$vnode.tag;
+              var index = 0;
+
+              var deepSearch = function deepSearch(children) {
+                var _iteratorNormalCompletion = true;
+                var _didIteratorError = false;
+                var _iteratorError = undefined;
+
+                try {
+                  var _loop = function _loop() {
+                    var child = _step.value;
+
+                    if (child.tag === tag) {
+                      // An item with the same tag will for sure be found
+                      var it = items.find(function (i) {
+                        return i.$vnode === child;
+                      });
+
+                      if (it) {
+                        it.index = index++;
+                      }
+                    } else if (child.tag) {
+                      var sub = child.componentInstance ? child.componentInstance.$scopedSlots.default ? child.componentInstance.$scopedSlots.default() : child.componentInstance.$children : child.children;
+
+                      if (Array.isArray(sub) && sub.length > 0) {
+                        deepSearch(sub.map(function (e) {
+                          return e.$vnode;
+                        }));
+                      }
+                    }
+                  };
+
+                  for (var _iterator = children[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+                    _loop();
+                  }
+                } catch (err) {
+                  _didIteratorError = true;
+                  _iteratorError = err;
+                } finally {
+                  try {
+                    if (!_iteratorNormalCompletion && _iterator.return != null) {
+                      _iterator.return();
+                    }
+                  } finally {
+                    if (_didIteratorError) {
+                      throw _iteratorError;
+                    }
+                  }
+                }
+
+                return false;
+              };
+
+              deepSearch(this.$scopedSlots.default());
+            }
+          }
+        };
+        mixin.computed = {
+          /**
+           * When items are added/removed sort them according to their position
+           */
+          sortedItems: function sortedItems() {
+            return this.childItems.slice().sort(function (i1, i2) {
+              return i1.index - i2.index;
+            });
+          }
+        };
+      }
+    }
+
+    return mixin;
+  });
+
+  var TabbedMixin = (function (cmp) {
+    var _components;
+
+    return {
+      mixins: [ProviderParentMixin(cmp, Sorted)],
+      components: (_components = {}, _defineProperty(_components, Icon.name, Icon), _defineProperty(_components, SlotComponent.name, SlotComponent), _components),
+      props: {
+        value: {
+          type: [String, Number],
+          default: undefined
+        },
+        size: String,
+        animated: {
+          type: Boolean,
+          default: true
+        },
+        animation: String,
+        vertical: {
+          type: Boolean,
+          default: false
+        },
+        position: String,
+        destroyOnHide: {
+          type: Boolean,
+          default: false
+        }
+      },
+      data: function data() {
+        return {
+          activeId: this.value,
+          // Internal state
+          defaultSlots: [],
+          contentHeight: 0,
+          isTransitioning: false
+        };
+      },
+      mounted: function mounted() {
+        if (typeof this.value === 'number') {
+          // Backward compatibility: converts the index value to an id
+          var value = bound(this.value, 0, this.items.length - 1);
+          this.activeId = this.items[value].value;
+        } else {
+          this.activeId = this.value;
+        }
+      },
+      computed: {
+        activeItem: function activeItem() {
+          var _this = this;
+
+          return this.activeId === undefined ? this.items[0] : this.activeId === null ? null : this.childItems.find(function (i) {
+            return i.value === _this.activeId;
+          });
+        },
+        items: function items() {
+          return this.sortedItems;
+        }
+      },
+      watch: {
+        /**
+         * When v-model is changed set the new active tab.
+         */
+        value: function value(_value) {
+          if (typeof _value === 'number') {
+            // Backward compatibility: converts the index value to an id
+            _value = bound(_value, 0, this.items.length - 1);
+            this.activeId = this.items[_value].value;
+          } else {
+            this.activeId = _value;
+          }
+        },
+
+        /**
+         * Sync internal state with external state
+         */
+        activeId: function activeId(val, oldValue) {
+          var oldTab = oldValue !== undefined && oldValue !== null ? this.childItems.find(function (i) {
+            return i.value === oldValue;
+          }) : null;
+
+          if (oldTab && this.activeItem) {
+            oldTab.deactivate(this.activeItem.index);
+            this.activeItem.activate(oldTab.index);
+          }
+
+          val = this.activeItem ? typeof this.value === 'number' ? this.items.indexOf(this.activeItem) : this.activeItem.value : undefined;
+
+          if (val !== this.value) {
+            this.$emit('input', val);
+          }
+        }
+      },
+      methods: {
+        /**
+        * Child click listener, emit input event and change active child.
+        */
+        childClick: function childClick(child) {
+          this.activeId = child.value;
+        }
+      }
+    };
+  });
+
   var script$1 = {
     name: 'BSteps',
-    components: (_components = {}, _defineProperty(_components, Icon.name, Icon), _defineProperty(_components, SlotComponent.name, SlotComponent), _components),
+    components: _defineProperty({}, Icon.name, Icon),
+    mixins: [TabbedMixin('step')],
     props: {
-      value: [Number, String],
       type: [String, Object],
-      size: String,
-      animated: {
-        type: Boolean,
-        default: true
-      },
-      destroyOnHide: {
-        type: Boolean,
-        default: false
-      },
       iconPack: String,
       iconPrev: {
         type: String,
@@ -517,11 +752,6 @@
         type: Boolean,
         default: true
       },
-      vertical: {
-        type: Boolean,
-        default: false
-      },
-      position: String,
       labelPosition: {
         type: String,
         validator: function validator(value) {
@@ -543,17 +773,15 @@
       ariaNextLabel: String,
       ariaPreviousLabel: String
     },
-    data: function data() {
-      return {
-        activeStep: 0,
-        defaultSlots: [],
-        contentHeight: 0,
-        isTransitioning: false,
-        _isSteps: true // Used internally by StepItem
-
-      };
-    },
     computed: {
+      // Override mixin implementation to always have a value
+      activeItem: function activeItem() {
+        var _this = this;
+
+        return this.childItems.filter(function (i) {
+          return i.value === _this.activeId;
+        })[0] || this.items[0];
+      },
       wrapperClasses: function wrapperClasses() {
         return [this.size, _defineProperty({
           'is-vertical': this.vertical
@@ -567,53 +795,56 @@
           'is-rounded': this.rounded
         }, "mobile-".concat(this.mobileMode), this.mobileMode !== null)];
       },
-      stepItems: function stepItems() {
-        return this.defaultSlots.filter(function (vnode) {
-          return vnode.componentInstance && vnode.componentInstance.$data && vnode.componentInstance.$data._isStepItem;
-        }).map(function (vnode) {
-          return vnode.componentInstance;
-        });
-      },
-      reversedStepItems: function reversedStepItems() {
-        return this.stepItems.slice().reverse();
-      },
-
-      /**
-       * Check the first visible step index.
-       */
-      firstVisibleStepIndex: function firstVisibleStepIndex() {
-        return this.stepItems.map(function (step, idx) {
-          return step.visible;
-        }).indexOf(true);
-      },
 
       /**
        * Check if previous button is available.
        */
       hasPrev: function hasPrev() {
-        return this.firstVisibleStepIndex >= 0 && this.activeStep > this.firstVisibleStepIndex;
+        return !!this.prevItem;
       },
 
       /**
-       * Check the last visible step index.
+       * Retrieves the next visible item
        */
-      lastVisibleStepIndex: function lastVisibleStepIndex() {
-        var idx = this.reversedStepItems.map(function (step, idx) {
-          return step.visible;
-        }).indexOf(true);
+      nextItem: function nextItem() {
+        var nextItem = null;
+        var idx = this.activeItem ? this.items.indexOf(this.activeItem) + 1 : 0;
 
-        if (idx >= 0) {
-          return this.stepItems.length - 1 - idx;
+        for (; idx < this.items.length; idx++) {
+          if (this.items[idx].visible) {
+            nextItem = this.items[idx];
+            break;
+          }
         }
 
-        return idx;
+        return nextItem;
+      },
+
+      /**
+       * Retrieves the previous visible item
+       */
+      prevItem: function prevItem() {
+        if (!this.activeItem) {
+          return null;
+        }
+
+        var prevItem = null;
+
+        for (var idx = this.items.indexOf(this.activeItem) - 1; idx >= 0; idx--) {
+          if (this.items[idx].visible) {
+            prevItem = this.items[idx];
+            break;
+          }
+        }
+
+        return prevItem;
       },
 
       /**
        * Check if next button is available.
        */
       hasNext: function hasNext() {
-        return this.lastVisibleStepIndex >= 0 && this.activeStep < this.lastVisibleStepIndex;
+        return !!this.nextItem;
       },
       navigationProps: function navigationProps() {
         return {
@@ -628,129 +859,35 @@
         };
       }
     },
-    watch: {
-      /**
-      * When v-model is changed set the new active step.
-      */
-      value: function value(_value) {
-        var index = this.getIndexByValue(_value);
-        this.changeStep(index);
-      },
-
-      /**
-      * When step-items are updated, set active one.
-      */
-      stepItems: function stepItems() {
-        var _this = this;
-
-        if (this.activeStep < this.stepItems.length) {
-          var previous = this.activeStep;
-          this.stepItems.map(function (step, idx) {
-            if (step.isActive) {
-              previous = idx;
-
-              if (previous < _this.stepItems.length) {
-                _this.stepItems[previous].isActive = false;
-              }
-            }
-          });
-          this.stepItems[this.activeStep].isActive = true;
-        } else if (this.activeStep > 0) {
-          this.changeStep(this.activeStep - 1);
-        }
-      }
-    },
     methods: {
-      refreshSlots: function refreshSlots() {
-        this.defaultSlots = this.$slots.default || [];
-      },
-
-      /**
-       * Change the active step and emit change event.
-       */
-      changeStep: function changeStep(newIndex) {
-        if (this.activeStep === newIndex) return;
-        if (newIndex > this.stepItems.length) throw new Error('The index you trying to set is bigger than the steps length');
-
-        if (this.activeStep < this.stepItems.length) {
-          this.stepItems[this.activeStep].deactivate(this.activeStep, newIndex);
-        }
-
-        this.stepItems[newIndex].activate(this.activeStep, newIndex);
-        this.activeStep = newIndex;
-        this.$emit('change', this.getValueByIndex(newIndex));
-      },
-
       /**
        * Return if the step should be clickable or not.
        */
-      isItemClickable: function isItemClickable(stepItem, index) {
+      isItemClickable: function isItemClickable(stepItem) {
         if (stepItem.clickable === undefined) {
-          return this.activeStep > index;
+          return stepItem.index < this.activeItem.index;
         }
 
         return stepItem.clickable;
       },
 
       /**
-       * Step click listener, emit input event and change active step.
-       */
-      stepClick: function stepClick(index) {
-        this.$emit('input', this.getValueByIndex(index));
-        this.changeStep(index);
-      },
-
-      /**
        * Previous button click listener.
        */
       prev: function prev() {
-        var _this2 = this;
-
-        if (!this.hasPrev) return;
-        var prevItemIdx = this.reversedStepItems.map(function (step, idx) {
-          return _this2.stepItems.length - 1 - idx < _this2.activeStep && step.visible;
-        }).indexOf(true);
-
-        if (prevItemIdx >= 0) {
-          prevItemIdx = this.stepItems.length - 1 - prevItemIdx;
+        if (this.hasPrev) {
+          this.activeId = this.prevItem.value;
         }
-
-        this.$emit('input', this.getValueByIndex(prevItemIdx));
-        this.changeStep(prevItemIdx);
       },
 
       /**
        * Previous button click listener.
        */
       next: function next() {
-        var _this3 = this;
-
-        if (!this.hasNext) return;
-        var nextItemIdx = this.stepItems.map(function (step, idx) {
-          return idx > _this3.activeStep && step.visible;
-        }).indexOf(true);
-        this.$emit('input', this.getValueByIndex(nextItemIdx));
-        this.changeStep(nextItemIdx);
-      },
-      getIndexByValue: function getIndexByValue(value) {
-        var index = this.stepItems.map(function (t) {
-          return t.$options.propsData ? t.$options.propsData.value : undefined;
-        }).indexOf(value);
-        return index >= 0 ? index : value;
-      },
-      getValueByIndex: function getValueByIndex(index) {
-        var propsData = this.stepItems[index].$options.propsData;
-        return propsData && propsData.value ? propsData.value : index;
+        if (this.hasNext) {
+          this.activeId = this.nextItem.value;
+        }
       }
-    },
-    mounted: function mounted() {
-      this.activeStep = this.getIndexByValue(this.value || 0);
-
-      if (this.activeStep < this.stepItems.length) {
-        this.stepItems[this.activeStep].isActive = true;
-      }
-
-      this.refreshSlots();
     }
   };
 
@@ -758,10 +895,10 @@
   const __vue_script__$1 = script$1;
 
   /* template */
-  var __vue_render__$1 = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"b-steps",class:_vm.wrapperClasses},[_c('nav',{staticClass:"steps",class:_vm.mainClasses},[_c('ul',{staticClass:"step-items"},_vm._l((_vm.stepItems),function(stepItem,index){return _c('li',{directives:[{name:"show",rawName:"v-show",value:(stepItem.visible),expression:"stepItem.visible"}],key:index,staticClass:"step-item",class:[stepItem.type || _vm.type, {
-                          'is-active': _vm.activeStep === index,
-                          'is-previous': _vm.activeStep > index
-                  }]},[_c('a',{staticClass:"step-link",class:{'is-clickable': _vm.isItemClickable(stepItem, index)},on:{"click":function($event){_vm.isItemClickable(stepItem, index) && _vm.stepClick(index);}}},[_c('div',{staticClass:"step-marker"},[(stepItem.icon)?_c('b-icon',{attrs:{"icon":stepItem.icon,"pack":stepItem.iconPack,"size":_vm.size}}):(stepItem.step)?_c('span',[_vm._v(_vm._s(stepItem.step))]):_vm._e()],1),_vm._v(" "),_c('div',{staticClass:"step-details"},[_c('span',{staticClass:"step-title"},[_vm._v(_vm._s(stepItem.label))])])])])}))]),_vm._v(" "),_c('section',{staticClass:"step-content",class:{'is-transitioning': _vm.isTransitioning}},[_vm._t("default")],2),_vm._v(" "),_vm._t("navigation",[(_vm.hasNavigation)?_c('nav',{staticClass:"step-navigation"},[_c('a',{staticClass:"pagination-previous",attrs:{"role":"button","disabled":_vm.navigationProps.previous.disabled,"aria-label":_vm.ariaPreviousLabel},on:{"click":function($event){$event.preventDefault();return _vm.navigationProps.previous.action($event)}}},[_c('b-icon',{attrs:{"icon":_vm.iconPrev,"pack":_vm.iconPack,"both":"","aria-hidden":"true"}})],1),_vm._v(" "),_c('a',{staticClass:"pagination-next",attrs:{"role":"button","disabled":_vm.navigationProps.next.disabled,"aria-label":_vm.ariaNextLabel},on:{"click":function($event){$event.preventDefault();return _vm.navigationProps.next.action($event)}}},[_c('b-icon',{attrs:{"icon":_vm.iconNext,"pack":_vm.iconPack,"both":"","aria-hidden":"true"}})],1)]):_vm._e()],{previous:_vm.navigationProps.previous,next:_vm.navigationProps.next})],2)};
+  var __vue_render__$1 = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"b-steps",class:_vm.wrapperClasses},[_c('nav',{staticClass:"steps",class:_vm.mainClasses},[_c('ul',{staticClass:"step-items"},_vm._l((_vm.items),function(childItem){return _c('li',{directives:[{name:"show",rawName:"v-show",value:(childItem.visible),expression:"childItem.visible"}],key:childItem.value,staticClass:"step-item",class:[childItem.type || _vm.type, childItem.headerClass, {
+                      'is-active': childItem.isActive,
+                      'is-previous': _vm.activeItem.index > childItem.index
+              }]},[_c('a',{staticClass:"step-link",class:{'is-clickable': _vm.isItemClickable(childItem)},on:{"click":function($event){_vm.isItemClickable(childItem) && _vm.childClick(childItem);}}},[_c('div',{staticClass:"step-marker"},[(childItem.icon)?_c('b-icon',{attrs:{"icon":childItem.icon,"pack":childItem.iconPack,"size":_vm.size}}):(childItem.step)?_c('span',[_vm._v(_vm._s(childItem.step))]):_vm._e()],1),_c('div',{staticClass:"step-details"},[_c('span',{staticClass:"step-title"},[_vm._v(_vm._s(childItem.label))])])])])}),0)]),_c('section',{staticClass:"step-content",class:{'is-transitioning': _vm.isTransitioning}},[_vm._t("default")],2),_vm._t("navigation",[(_vm.hasNavigation)?_c('nav',{staticClass:"step-navigation"},[_c('a',{staticClass:"pagination-previous",attrs:{"role":"button","disabled":_vm.navigationProps.previous.disabled,"aria-label":_vm.ariaPreviousLabel},on:{"click":function($event){$event.preventDefault();return _vm.navigationProps.previous.action($event)}}},[_c('b-icon',{attrs:{"icon":_vm.iconPrev,"pack":_vm.iconPack,"both":"","aria-hidden":"true"}})],1),_c('a',{staticClass:"pagination-next",attrs:{"role":"button","disabled":_vm.navigationProps.next.disabled,"aria-label":_vm.ariaNextLabel},on:{"click":function($event){$event.preventDefault();return _vm.navigationProps.next.action($event)}}},[_c('b-icon',{attrs:{"icon":_vm.iconNext,"pack":_vm.iconPack,"both":"","aria-hidden":"true"}})],1)]):_vm._e()],{"previous":_vm.navigationProps.previous,"next":_vm.navigationProps.next})],2)};
   var __vue_staticRenderFns__$1 = [];
 
     /* style */
@@ -789,97 +926,150 @@
       undefined
     );
 
+  var sorted$1 = 1;
+  var optional = 2;
+  var Sorted$1 = sorted$1;
+  var InjectedChildMixin = (function (parentItemName) {
+    var flags = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 0;
+    var mixin = {
+      inject: {
+        parent: {
+          from: 'b' + parentItemName,
+          default: false
+        }
+      },
+      created: function created() {
+        if (!this.parent) {
+          if (!hasFlag(flags, optional)) {
+            this.$destroy();
+            throw new Error('You should wrap ' + this.$options.name + ' in a ' + parentItemName);
+          }
+        } else if (this.parent._registerItem) {
+          this.parent._registerItem(this);
+        }
+      },
+      beforeDestroy: function beforeDestroy() {
+        if (this.parent && this.parent._unregisterItem) {
+          this.parent._unregisterItem(this);
+        }
+      }
+    };
+
+    if (hasFlag(flags, sorted$1)) {
+      mixin.data = function () {
+        return {
+          index: null
+        };
+      };
+    }
+
+    return mixin;
+  });
+
+  var TabbedChildMixin = (function (parentCmp) {
+    return {
+      mixins: [InjectedChildMixin(parentCmp, Sorted$1)],
+      props: {
+        label: String,
+        icon: String,
+        iconPack: String,
+        visible: {
+          type: Boolean,
+          default: true
+        },
+        value: {
+          type: String,
+          default: function _default() {
+            return this._uid.toString();
+          }
+        },
+        headerClass: {
+          type: [String, Array, Object],
+          default: null
+        }
+      },
+      data: function data() {
+        return {
+          transitionName: null,
+          elementClass: 'item'
+        };
+      },
+      computed: {
+        isActive: function isActive() {
+          return this.parent.activeItem === this;
+        }
+      },
+      methods: {
+        /**
+         * Activate element, alter animation name based on the index.
+         */
+        activate: function activate(oldIndex) {
+          this.transitionName = this.index < oldIndex ? this.parent.vertical ? 'slide-down' : 'slide-next' : this.parent.vertical ? 'slide-up' : 'slide-prev';
+        },
+
+        /**
+         * Deactivate element, alter animation name based on the index.
+         */
+        deactivate: function deactivate(newIndex) {
+          this.transitionName = newIndex < this.index ? this.parent.vertical ? 'slide-down' : 'slide-next' : this.parent.vertical ? 'slide-up' : 'slide-prev';
+        }
+      },
+      render: function render(createElement) {
+        var _this = this;
+
+        // if destroy apply v-if
+        if (this.parent.destroyOnHide) {
+          if (!this.isActive || !this.visible) {
+            return;
+          }
+        }
+
+        var vnode = createElement('div', {
+          directives: [{
+            name: 'show',
+            value: this.isActive && this.visible
+          }],
+          attrs: {
+            'class': this.elementClass
+          }
+        }, this.$slots.default); // check animated prop
+
+        if (this.parent.animated) {
+          return createElement('transition', {
+            props: {
+              'name': this.parent.animation || this.transitionName
+            },
+            on: {
+              'before-enter': function beforeEnter() {
+                _this.parent.isTransitioning = true;
+              },
+              'after-enter': function afterEnter() {
+                _this.parent.isTransitioning = false;
+              }
+            }
+          }, [vnode]);
+        }
+
+        return vnode;
+      }
+    };
+  });
+
   var script$2 = {
     name: 'BStepItem',
+    mixins: [TabbedChildMixin('step')],
     props: {
       step: [String, Number],
-      label: String,
       type: [String, Object],
-      icon: String,
-      iconPack: String,
       clickable: {
         type: Boolean,
         default: undefined
-      },
-      visible: {
-        type: Boolean,
-        default: true
-      },
-      value: [String, Number]
+      }
     },
     data: function data() {
       return {
-        isActive: false,
-        transitionName: null,
-        _isStepItem: true // Used internally by Step
-
+        elementClass: 'step-item'
       };
-    },
-    methods: {
-      /**
-      * Activate step, alter animation name based on the index.
-      */
-      activate: function activate(oldIndex, index) {
-        this.transitionName = index < oldIndex ? this.$parent.vertical ? 'slide-down' : 'slide-next' : this.$parent.vertical ? 'slide-up' : 'slide-prev';
-        this.isActive = true;
-      },
-
-      /**
-      * Deactivate step, alter animation name based on the index.
-      */
-      deactivate: function deactivate(oldIndex, index) {
-        this.transitionName = index < oldIndex ? this.$parent.vertical ? 'slide-down' : 'slide-next' : this.$parent.vertical ? 'slide-up' : 'slide-prev';
-        this.isActive = false;
-      }
-    },
-    created: function created() {
-      if (!this.$parent.$data._isSteps) {
-        this.$destroy();
-        throw new Error('You should wrap bStepItem on a bSteps');
-      }
-
-      this.$parent.refreshSlots();
-    },
-    beforeDestroy: function beforeDestroy() {
-      this.$parent.refreshSlots();
-    },
-    render: function render(createElement) {
-      var _this = this;
-
-      // if destroy apply v-if
-      if (this.$parent.destroyOnHide) {
-        if (!this.isActive || !this.visible) {
-          return;
-        }
-      }
-
-      var vnode = createElement('div', {
-        directives: [{
-          name: 'show',
-          value: this.isActive && this.visible
-        }],
-        attrs: {
-          'class': 'step-item'
-        }
-      }, this.$slots.default); // check animated prop
-
-      if (this.$parent.animated) {
-        return createElement('transition', {
-          props: {
-            'name': this.transitionName
-          },
-          on: {
-            'before-enter': function beforeEnter() {
-              _this.$parent.isTransitioning = true;
-            },
-            'after-enter': function afterEnter() {
-              _this.$parent.isTransitioning = false;
-            }
-          }
-        }, [vnode]);
-      }
-
-      return vnode;
     }
   };
 

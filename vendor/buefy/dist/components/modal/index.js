@@ -1,4 +1,4 @@
-/*! Buefy v0.8.20 | MIT License | github.com/buefy/buefy */
+/*! Buefy v0.9.4 | MIT License | github.com/buefy/buefy */
 (function (global, factory) {
     typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports) :
     typeof define === 'function' && define.amd ? define(['exports'], factory) :
@@ -168,6 +168,7 @@
       defaultIconComponent: null,
       defaultIconPrev: 'chevron-left',
       defaultIconNext: 'chevron-right',
+      defaultLocale: undefined,
       defaultDialogConfirmText: null,
       defaultDialogCancelText: null,
       defaultSnackbarDuration: 3500,
@@ -177,8 +178,7 @@
       defaultNotificationDuration: 2000,
       defaultNotificationPosition: null,
       defaultTooltipType: 'is-primary',
-      defaultTooltipAnimated: false,
-      defaultTooltipDelay: 0,
+      defaultTooltipDelay: null,
       defaultInputAutocomplete: 'on',
       defaultDateFormatter: null,
       defaultDateParser: null,
@@ -200,18 +200,29 @@
       defaultUseHtml5Validation: true,
       defaultDropdownMobileModal: true,
       defaultFieldLabelPosition: null,
-      defaultDatepickerYearsRange: [-100, 3],
+      defaultDatepickerYearsRange: [-100, 10],
       defaultDatepickerNearbyMonthDays: true,
       defaultDatepickerNearbySelectableMonthDays: false,
       defaultDatepickerShowWeekNumber: false,
+      defaultDatepickerWeekNumberClickable: false,
       defaultDatepickerMobileModal: true,
-      defaultTrapFocus: false,
+      defaultTrapFocus: true,
+      defaultAutoFocus: true,
       defaultButtonRounded: false,
       defaultCarouselInterval: 3500,
+      defaultTabsExpanded: false,
       defaultTabsAnimated: true,
+      defaultTabsType: null,
+      defaultStatusIcon: true,
+      defaultProgrammaticPromise: false,
       defaultLinkTags: ['a', 'button', 'input', 'router-link', 'nuxt-link', 'n-link', 'RouterLink', 'NuxtLink', 'NLink'],
+      defaultImageWebpFallback: null,
+      defaultImageLazy: true,
+      defaultImageResponsive: true,
+      defaultImageRatio: null,
+      defaultImageSrcsetFormatter: null,
       customIconPacks: null
-    }; // TODO defaultTrapFocus to true in the next breaking change
+    };
     var VueInstance;
 
     //
@@ -220,10 +231,15 @@
       directives: {
         trapFocus: directive
       },
+      // deprecated, to replace with default 'value' in the next breaking change
+      model: {
+        prop: 'active',
+        event: 'update:active'
+      },
       props: {
         active: Boolean,
-        component: [Object, Function],
-        content: String,
+        component: [Object, Function, String],
+        content: [String, Array],
         programmatic: Boolean,
         props: Object,
         events: Object,
@@ -262,6 +278,12 @@
             return config.defaultTrapFocus;
           }
         },
+        autoFocus: {
+          type: Boolean,
+          default: function _default() {
+            return config.defaultAutoFocus;
+          }
+        },
         customClass: String,
         ariaRole: {
           type: String,
@@ -289,7 +311,7 @@
           return typeof this.canCancel === 'boolean' ? this.canCancel ? config.defaultModalCanCancel : [] : this.canCancel;
         },
         showX: function showX() {
-          return this.cancelOptions.indexOf('x') >= 0;
+          return this.cancelOptions.indexOf('x') >= 0 && !this.hasModalCard;
         },
         customStyle: function customStyle() {
           if (!this.fullScreen) {
@@ -311,7 +333,7 @@
           if (value) this.destroyed = false;
           this.handleScroll();
           this.$nextTick(function () {
-            if (value && _this.$el && _this.$el.focus) {
+            if (value && _this.$el && _this.$el.focus && _this.autoFocus) {
               _this.$el.focus();
             }
           });
@@ -354,6 +376,7 @@
         */
         cancel: function cancel(method) {
           if (this.cancelOptions.indexOf(method) < 0) return;
+          this.$emit('cancel', arguments);
           this.onCancel.apply(null, arguments);
           this.close();
         },
@@ -381,9 +404,9 @@
         /**
         * Keypress event that is bound to the document.
         */
-        keyPress: function keyPress(event) {
-          // Esc key
-          if (this.isActive && event.keyCode === 27) this.cancel('escape');
+        keyPress: function keyPress(_ref) {
+          var key = _ref.key;
+          if (this.isActive && (key === 'Escape' || key === 'Esc')) this.cancel('escape');
         },
 
         /**
@@ -391,6 +414,7 @@
         */
         afterEnter: function afterEnter() {
           this.animating = false;
+          this.$emit('after-enter');
         },
 
         /**
@@ -407,6 +431,8 @@
           if (this.destroyOnHide) {
             this.destroyed = true;
           }
+
+          this.$emit('after-leave');
         }
       },
       created: function created() {
@@ -524,7 +550,7 @@
     const __vue_script__ = script;
 
     /* template */
-    var __vue_render__ = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('transition',{attrs:{"name":_vm.animation},on:{"after-enter":_vm.afterEnter,"before-leave":_vm.beforeLeave,"after-leave":_vm.afterLeave}},[(!_vm.destroyed)?_c('div',{directives:[{name:"show",rawName:"v-show",value:(_vm.isActive),expression:"isActive"},{name:"trap-focus",rawName:"v-trap-focus",value:(_vm.trapFocus),expression:"trapFocus"}],staticClass:"modal is-active",class:[{'is-full-screen': _vm.fullScreen}, _vm.customClass],attrs:{"tabindex":"-1","role":_vm.ariaRole,"aria-modal":_vm.ariaModal}},[_c('div',{staticClass:"modal-background",on:{"click":function($event){_vm.cancel('outside');}}}),_vm._v(" "),_c('div',{staticClass:"animation-content",class:{ 'modal-content': !_vm.hasModalCard },style:(_vm.customStyle)},[(_vm.component)?_c(_vm.component,_vm._g(_vm._b({tag:"component",on:{"close":_vm.close}},'component',_vm.props,false),_vm.events)):(_vm.content)?_c('div',{domProps:{"innerHTML":_vm._s(_vm.content)}}):_vm._t("default"),_vm._v(" "),(_vm.showX)?_c('button',{directives:[{name:"show",rawName:"v-show",value:(!_vm.animating),expression:"!animating"}],staticClass:"modal-close is-large",attrs:{"type":"button"},on:{"click":function($event){_vm.cancel('x');}}}):_vm._e()],2)]):_vm._e()])};
+    var __vue_render__ = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('transition',{attrs:{"name":_vm.animation},on:{"after-enter":_vm.afterEnter,"before-leave":_vm.beforeLeave,"after-leave":_vm.afterLeave}},[(!_vm.destroyed)?_c('div',{directives:[{name:"show",rawName:"v-show",value:(_vm.isActive),expression:"isActive"},{name:"trap-focus",rawName:"v-trap-focus",value:(_vm.trapFocus),expression:"trapFocus"}],staticClass:"modal is-active",class:[{'is-full-screen': _vm.fullScreen}, _vm.customClass],attrs:{"tabindex":"-1","role":_vm.ariaRole,"aria-modal":_vm.ariaModal}},[_c('div',{staticClass:"modal-background",on:{"click":function($event){return _vm.cancel('outside')}}}),_c('div',{staticClass:"animation-content",class:{ 'modal-content': !_vm.hasModalCard },style:(_vm.customStyle)},[(_vm.component)?_c(_vm.component,_vm._g(_vm._b({tag:"component",attrs:{"can-cancel":_vm.canCancel},on:{"close":_vm.close}},'component',_vm.props,false),_vm.events)):(_vm.content)?[_c('div',{domProps:{"innerHTML":_vm._s(_vm.content)}})]:_vm._t("default",null,{"canCancel":_vm.canCancel,"close":_vm.close}),(_vm.showX)?_c('button',{directives:[{name:"show",rawName:"v-show",value:(!_vm.animating),expression:"!animating"}],staticClass:"modal-close is-large",attrs:{"type":"button"},on:{"click":function($event){return _vm.cancel('x')}}}):_vm._e()],2)]):_vm._e()])};
     var __vue_staticRenderFns__ = [];
 
       /* style */
@@ -585,14 +611,28 @@
           delete params.parent;
         }
 
+        var slot;
+
+        if (Array.isArray(params.content)) {
+          slot = params.content;
+          delete params.content;
+        }
+
         var propsData = merge(defaultParam, params);
         var vm = typeof window !== 'undefined' && window.Vue ? window.Vue : localVueInstance || VueInstance;
         var ModalComponent = vm.extend(Modal);
-        return new ModalComponent({
+        var component = new ModalComponent({
           parent: parent,
           el: document.createElement('div'),
           propsData: propsData
         });
+
+        if (slot) {
+          component.$slots.default = slot;
+          component.$forceUpdate();
+        }
+
+        return component;
       }
     };
     var Plugin = {

@@ -4,19 +4,20 @@ Object.defineProperty(exports, '__esModule', { value: true });
 
 require('./chunk-14c82365.js');
 require('./helpers.js');
-require('./chunk-cd0dcc1d.js');
+require('./chunk-0e70abe7.js');
 var __chunk_5 = require('./chunk-13e039f5.js');
+require('./chunk-b7119999.js');
 require('./chunk-ae7e641a.js');
-var __chunk_12 = require('./chunk-a8b51847.js');
+var __chunk_13 = require('./chunk-bfaeef3e.js');
 
 var Plugin = {
   install: function install(Vue) {
-    __chunk_5.registerComponent(Vue, __chunk_12.Dropdown);
-    __chunk_5.registerComponent(Vue, __chunk_12.DropdownItem);
+    __chunk_5.registerComponent(Vue, __chunk_13.Dropdown);
+    __chunk_5.registerComponent(Vue, __chunk_13.DropdownItem);
   }
 };
 __chunk_5.use(Plugin);
 
-exports.BDropdown = __chunk_12.Dropdown;
-exports.BDropdownItem = __chunk_12.DropdownItem;
+exports.BDropdown = __chunk_13.Dropdown;
+exports.BDropdownItem = __chunk_13.DropdownItem;
 exports.default = Plugin;

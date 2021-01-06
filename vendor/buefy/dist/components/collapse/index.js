@@ -1,4 +1,4 @@
-/*! Buefy v0.8.20 | MIT License | github.com/buefy/buefy */
+/*! Buefy v0.9.4 | MIT License | github.com/buefy/buefy */
 (function (global, factory) {
     typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports) :
     typeof define === 'function' && define.amd ? define(['exports'], factory) :
@@ -7,6 +7,11 @@
 
     var script = {
       name: 'BCollapse',
+      // deprecated, to replace with default 'value' in the next breaking change
+      model: {
+        prop: 'open',
+        event: 'update:open'
+      },
       props: {
         open: {
           type: Boolean,

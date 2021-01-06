@@ -10,6 +10,7 @@
                     v-for="(tag, index) in tags"
                     :key="getNormalizedTagText(tag) + index"
                     :type="type"
+                    :close-type="closeType"
                     :size="size"
                     :rounded="rounded"
                     :attached="attached"
@@ -17,6 +18,7 @@
                     :disabled="disabled"
                     :ellipsis="ellipsis"
                     :closable="closable"
+                    :aria-close-label="ariaCloseLabel"
                     :title="ellipsis && getNormalizedTagText(tag)"
                     @close="removeTag(index, $event)">
                     <slot name="tag" :tag="tag">
@@ -43,29 +45,38 @@
                 :open-on-focus="openOnFocus"
                 :keep-open="openOnFocus"
                 :keep-first="!allowNew"
+                :group-field="groupField"
+                :group-options="groupOptions"
                 :use-html5-validation="useHtml5Validation"
                 :check-infinite-scroll="checkInfiniteScroll"
                 :append-to-body="appendToBody"
+                :confirm-keys="confirmKeys"
                 @typing="onTyping"
                 @focus="onFocus"
                 @blur="customOnBlur"
                 @keydown.native="keydown"
                 @select="onSelect"
                 @infinite-scroll="emitInfiniteScroll">
-                <template :slot="headerSlotName">
+                <template
+                    v-if="hasHeaderSlot"
+                    #header>
                     <slot name="header" />
                 </template>
                 <template
-                    :slot="defaultSlotName"
-                    slot-scope="props">
+                    v-if="hasDefaultSlot"
+                    #default="props">
                     <slot
                         :option="props.option"
                         :index="props.index" />
                 </template>
-                <template :slot="emptySlotName">
+                <template
+                    v-if="hasEmptySlot"
+                    #empty>
                     <slot name="empty" />
                 </template>
-                <template :slot="footerSlotName">
+                <template
+                    v-if="hasFooterSlot"
+                    #footer>
                     <slot name="footer" />
                 </template>
             </b-autocomplete>
@@ -107,6 +118,7 @@ export default {
             default: () => []
         },
         type: String,
+        closeType: String,
         rounded: {
             type: Boolean,
             default: false
@@ -128,6 +140,8 @@ export default {
             default: 'value'
         },
         autocomplete: Boolean,
+        groupField: String,
+        groupOptions: String,
         nativeAutocomplete: String,
         openOnFocus: Boolean,
         disabled: Boolean,
@@ -136,13 +150,14 @@ export default {
             type: Boolean,
             default: true
         },
-        confirmKeyCodes: {
+        ariaCloseLabel: String,
+        confirmKeys: {
             type: Array,
-            default: () => [13, 188]
+            default: () => [',', 'Tab', 'Enter']
         },
         removeOnKeys: {
             type: Array,
-            default: () => [8]
+            default: () => ['Backspace']
         },
         allowNew: Boolean,
         onPasteSeparators: {
@@ -161,13 +176,17 @@ export default {
             type: Boolean,
             default: false
         },
+        createTag: {
+            type: Function,
+            default: (tag) => tag
+        },
         appendToBody: Boolean
     },
     data() {
         return {
             tags: Array.isArray(this.value) ? this.value.slice(0) : (this.value || []),
             newTag: '',
-            _elementRef: 'input',
+            _elementRef: 'autocomplete',
             _isTaginput: true
         }
     },
@@ -187,22 +206,6 @@ export default {
 
         valueLength() {
             return this.newTag.trim().length
-        },
-
-        defaultSlotName() {
-            return this.hasDefaultSlot ? 'default' : 'dontrender'
-        },
-
-        emptySlotName() {
-            return this.hasEmptySlot ? 'empty' : 'dontrender'
-        },
-
-        headerSlotName() {
-            return this.hasHeaderSlot ? 'header' : 'dontrender'
-        },
-
-        footerSlotName() {
-            return this.hasFooterSlot ? 'footer' : 'dontrender'
         },
 
         hasDefaultSlot() {
@@ -271,19 +274,11 @@ export default {
                         return
                     }
                 }
-                // Remove the tag input previously added (if not allowDuplicates).
-                if (!this.allowDuplicates) {
-                    const index = this.tags.indexOf(tagToAdd)
-                    if (index >= 0) {
-                        this.tags.splice(index, 1)
-                        return
-                    }
-                }
                 // Add the tag input if it is not blank
                 // or previously added (if not allowDuplicates).
                 const add = !this.allowDuplicates ? this.tags.indexOf(tagToAdd) === -1 : true
                 if (add && this.beforeAdding(tagToAdd)) {
-                    this.tags.push(tagToAdd)
+                    this.tags.push(this.createTag(tagToAdd))
                     this.$emit('input', this.tags)
                     this.$emit('add', tagToAdd)
                 }
@@ -294,10 +289,10 @@ export default {
 
         getNormalizedTagText(tag) {
             if (typeof tag === 'object') {
-                return getValueByPath(tag, this.field)
+                tag = getValueByPath(tag, this.field)
             }
 
-            return tag
+            return `${tag}`
         },
 
         customOnBlur(event) {
@@ -334,14 +329,16 @@ export default {
         },
 
         keydown(event) {
-            if (this.removeOnKeys.indexOf(event.keyCode) !== -1 && !this.newTag.length) {
+            const { key } = event // cannot destructure preventDefault (https://stackoverflow.com/a/49616808/2774496)
+            if (this.removeOnKeys.indexOf(key) !== -1 && !this.newTag.length) {
                 this.removeLastTag()
             }
             // Stop if is to accept select only
             if (this.autocomplete && !this.allowNew) return
 
-            if (this.confirmKeyCodes.indexOf(event.keyCode) >= 0) {
-                event.preventDefault()
+            if (this.confirmKeys.indexOf(key) >= 0) {
+                // Allow Tab to advance to next field regardless
+                if (key !== 'Tab') event.preventDefault()
                 this.addTag()
             }
         },

@@ -1,11 +1,15 @@
 <template>
     <div class="datepicker-row">
-        <a class="datepicker-cell is-week-number" v-if="showWeekNumber">
+        <a
+            class="datepicker-cell is-week-number"
+            :class="{'is-clickable': weekNumberClickable }"
+            v-if="showWeekNumber"
+            @click.prevent="clickWeekNumber(getWeekNumber(week[6]))">
             <span>{{ getWeekNumber(week[6]) }}</span>
         </a>
         <template v-for="(weekDay, index) in week">
             <a
-                :ref="`day-${weekDay.getDate()}`"
+                :ref="`day-${weekDay.getMonth()}-${weekDay.getDate()}`"
                 v-if="selectableDate(weekDay) && !disabled"
                 :key="index"
                 :class="[classObject(weekDay), {'has-event': eventsDateMatch(weekDay)}, indicators]"
@@ -14,13 +18,8 @@
                 href="#"
                 :disabled="disabled"
                 @click.prevent="emitChosenDate(weekDay)"
-                @keydown.enter.prevent="emitChosenDate(weekDay)"
-                @keydown.space.prevent="emitChosenDate(weekDay)"
                 @mouseenter="setRangeHoverEndDate(weekDay)"
-                @keydown.arrow-left.prevent="changeFocus(weekDay, -1)"
-                @keydown.arrow-right.prevent="changeFocus(weekDay, 1)"
-                @keydown.arrow-up.prevent="changeFocus(weekDay, -7)"
-                @keydown.arrow-down.prevent="changeFocus(weekDay, 7)"
+                @keydown.prevent="manageKeydown($event, weekDay)"
                 :tabindex="day === weekDay.getDate() ? null : -1">
                 <span>{{ weekDay.getDate() }}</span>
                 <div class="events" v-if="eventsDateMatch(weekDay)">
@@ -45,6 +44,9 @@
 <script>
 export default {
     name: 'BDatepickerTableRow',
+    inject: {
+        $datepicker: { name: '$datepicker', default: false }
+    },
     props: {
         selectedDate: {
             type: [Date, Array]
@@ -72,31 +74,23 @@ export default {
         dateCreator: Function,
         nearbyMonthDays: Boolean,
         nearbySelectableMonthDays: Boolean,
-        showWeekNumber: {
-            type: Boolean,
-            default: () => false
-        },
+        showWeekNumber: Boolean,
+        weekNumberClickable: Boolean,
         range: Boolean,
         multiple: Boolean,
-        rulesForFirstWeek: {
-            type: Number,
-            default: () => 4
-        },
+        rulesForFirstWeek: Number,
         firstDayOfWeek: Number
     },
     watch: {
-        day: {
-            handler(day) {
-                const refName = `day-${day}`
+        day(day) {
+            const refName = `day-${this.month}-${day}`
+            this.$nextTick(() => {
                 if (this.$refs[refName] && this.$refs[refName].length > 0) {
-                    this.$nextTick(() => {
-                        if (this.$refs[refName][0]) {
-                            this.$refs[refName][0].focus()
-                        }
-                    }) // $nextTick needed when month is changed
+                    if (this.$refs[refName][0]) {
+                        this.$refs[refName][0].focus()
+                    }
                 }
-            },
-            immediate: true
+            }) // $nextTick needed when month is changed
         }
     },
     methods: {
@@ -142,6 +136,11 @@ export default {
             }
 
             return resWeek
+        },
+        clickWeekNumber(week) {
+            if (this.weekNumberClickable) {
+                this.$datepicker.$emit('week-number-click', week)
+            }
         },
         /*
          * Check that selected day is within earliest/latest params and
@@ -297,9 +296,50 @@ export default {
             }
         },
 
+        manageKeydown({ key }, weekDay) {
+            // https://developer.mozilla.org/fr/docs/Web/API/KeyboardEvent/key/Key_Values#Navigation_keys
+            switch (key) {
+                case ' ':
+                case 'Space':
+                case 'Spacebar':
+                case 'Enter': {
+                    this.emitChosenDate(weekDay)
+                    break
+                }
+
+                case 'ArrowLeft':
+                case 'Left': {
+                    this.changeFocus(weekDay, -1)
+                    break
+                }
+                case 'ArrowRight':
+                case 'Right': {
+                    this.changeFocus(weekDay, 1)
+                    break
+                }
+                case 'ArrowUp':
+                case 'Up': {
+                    this.changeFocus(weekDay, -7)
+                    break
+                }
+                case 'ArrowDown':
+                case 'Down': {
+                    this.changeFocus(weekDay, 7)
+                    break
+                }
+            }
+        },
+
         changeFocus(day, inc) {
             const nextDay = day
             nextDay.setDate(day.getDate() + inc)
+            while (
+                (!this.minDate || nextDay > this.minDate) &&
+                (!this.maxDate || nextDay < this.maxDate) &&
+                !this.selectableDate(nextDay)
+            ) {
+                nextDay.setDate(day.getDate() + Math.sign(inc))
+            }
             this.$emit('change-focus', nextDay)
         }
     }

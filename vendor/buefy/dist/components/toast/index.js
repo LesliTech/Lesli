@@ -1,4 +1,4 @@
-/*! Buefy v0.8.20 | MIT License | github.com/buefy/buefy */
+/*! Buefy v0.9.4 | MIT License | github.com/buefy/buefy */
 (function (global, factory) {
     typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports) :
     typeof define === 'function' && define.amd ? define(['exports'], factory) :
@@ -11,6 +11,7 @@
       defaultIconComponent: null,
       defaultIconPrev: 'chevron-left',
       defaultIconNext: 'chevron-right',
+      defaultLocale: undefined,
       defaultDialogConfirmText: null,
       defaultDialogCancelText: null,
       defaultSnackbarDuration: 3500,
@@ -20,8 +21,7 @@
       defaultNotificationDuration: 2000,
       defaultNotificationPosition: null,
       defaultTooltipType: 'is-primary',
-      defaultTooltipAnimated: false,
-      defaultTooltipDelay: 0,
+      defaultTooltipDelay: null,
       defaultInputAutocomplete: 'on',
       defaultDateFormatter: null,
       defaultDateParser: null,
@@ -43,18 +43,29 @@
       defaultUseHtml5Validation: true,
       defaultDropdownMobileModal: true,
       defaultFieldLabelPosition: null,
-      defaultDatepickerYearsRange: [-100, 3],
+      defaultDatepickerYearsRange: [-100, 10],
       defaultDatepickerNearbyMonthDays: true,
       defaultDatepickerNearbySelectableMonthDays: false,
       defaultDatepickerShowWeekNumber: false,
+      defaultDatepickerWeekNumberClickable: false,
       defaultDatepickerMobileModal: true,
-      defaultTrapFocus: false,
+      defaultTrapFocus: true,
+      defaultAutoFocus: true,
       defaultButtonRounded: false,
       defaultCarouselInterval: 3500,
+      defaultTabsExpanded: false,
       defaultTabsAnimated: true,
+      defaultTabsType: null,
+      defaultStatusIcon: true,
+      defaultProgrammaticPromise: false,
       defaultLinkTags: ['a', 'button', 'input', 'router-link', 'nuxt-link', 'n-link', 'RouterLink', 'NuxtLink', 'NLink'],
+      defaultImageWebpFallback: null,
+      defaultImageLazy: true,
+      defaultImageResponsive: true,
+      defaultImageRatio: null,
+      defaultImageSrcsetFormatter: null,
       customIconPacks: null
-    }; // TODO defaultTrapFocus to true in the next breaking change
+    };
     var VueInstance;
 
     function _typeof(obj) {
@@ -164,7 +175,7 @@
           type: String,
           default: 'is-dark'
         },
-        message: String,
+        message: [String, Array],
         duration: Number,
         queue: {
           type: Boolean,
@@ -393,7 +404,7 @@
     const __vue_script__ = script;
 
     /* template */
-    var __vue_render__ = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('transition',{attrs:{"enter-active-class":_vm.transition.enter,"leave-active-class":_vm.transition.leave}},[_c('div',{directives:[{name:"show",rawName:"v-show",value:(_vm.isActive),expression:"isActive"}],staticClass:"toast",class:[_vm.type, _vm.position],attrs:{"aria-hidden":!_vm.isActive,"role":"alert"}},[_c('div',{domProps:{"innerHTML":_vm._s(_vm.message)}})])])};
+    var __vue_render__ = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('transition',{attrs:{"enter-active-class":_vm.transition.enter,"leave-active-class":_vm.transition.leave}},[_c('div',{directives:[{name:"show",rawName:"v-show",value:(_vm.isActive),expression:"isActive"}],staticClass:"toast",class:[_vm.type, _vm.position],attrs:{"aria-hidden":!_vm.isActive,"role":"alert"}},[(_vm.$slots.default)?[_vm._t("default")]:[_c('div',{domProps:{"innerHTML":_vm._s(_vm.message)}})]],2)])};
     var __vue_staticRenderFns__ = [];
 
       /* style */
@@ -451,14 +462,28 @@
           delete params.parent;
         }
 
+        var slot;
+
+        if (Array.isArray(params.message)) {
+          slot = params.message;
+          delete params.message;
+        }
+
         var propsData = merge(defaultParam, params);
         var vm = typeof window !== 'undefined' && window.Vue ? window.Vue : localVueInstance || VueInstance;
         var ToastComponent = vm.extend(Toast);
-        return new ToastComponent({
+        var component = new ToastComponent({
           parent: parent,
           el: document.createElement('div'),
           propsData: propsData
         });
+
+        if (slot) {
+          component.$slots.default = slot;
+          component.$forceUpdate();
+        }
+
+        return component;
       }
     };
     var Plugin = {

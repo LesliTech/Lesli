@@ -4,21 +4,41 @@ Object.defineProperty(exports, '__esModule', { value: true });
 
 var __chunk_1 = require('./chunk-14c82365.js');
 var helpers = require('./helpers.js');
-require('./chunk-cd0dcc1d.js');
-require('./chunk-cdf52db8.js');
-var __chunk_4 = require('./chunk-d7fda995.js');
+var __chunk_2 = require('./chunk-0e70abe7.js');
+require('./chunk-089eb4d1.js');
+var __chunk_4 = require('./chunk-dbd288d9.js');
 var __chunk_5 = require('./chunk-13e039f5.js');
-var __chunk_6 = require('./chunk-2c156199.js');
+var __chunk_6 = require('./chunk-687ab17c.js');
 require('./chunk-8b8384ca.js');
-var __chunk_9 = require('./chunk-56e80e3b.js');
-var __chunk_14 = require('./chunk-c9f4ec1d.js');
-var __chunk_21 = require('./chunk-47054fd3.js');
-var __chunk_23 = require('./chunk-3dffe6e7.js');
+var __chunk_10 = require('./chunk-f7e094de.js');
+var __chunk_15 = require('./chunk-6457f7be.js');
+require('./chunk-f1df1c63.js');
+var __chunk_20 = require('./chunk-0530414d.js');
+var __chunk_23 = require('./chunk-0468e389.js');
+var __chunk_25 = require('./chunk-c029a04e.js');
+
+function debounce (func, wait, immediate) {
+  var timeout;
+  return function () {
+    var context = this;
+    var args = arguments;
+
+    var later = function later() {
+      timeout = null;
+      if (!immediate) func.apply(context, args);
+    };
+
+    var callNow = immediate && !timeout;
+    clearTimeout(timeout);
+    timeout = setTimeout(later, wait);
+    if (callNow) func.apply(context, args);
+  };
+}
 
 var _components;
 var script = {
   name: 'BTableMobileSort',
-  components: (_components = {}, __chunk_1._defineProperty(_components, __chunk_14.Select.name, __chunk_14.Select), __chunk_1._defineProperty(_components, __chunk_4.Icon.name, __chunk_4.Icon), _components),
+  components: (_components = {}, __chunk_1._defineProperty(_components, __chunk_15.Select.name, __chunk_15.Select), __chunk_1._defineProperty(_components, __chunk_4.Icon.name, __chunk_4.Icon), _components),
   props: {
     currentSortColumn: Object,
     sortMultipleData: Array,
@@ -128,7 +148,7 @@ var script = {
 const __vue_script__ = script;
 
 /* template */
-var __vue_render__ = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"field table-mobile-sort"},[_c('div',{staticClass:"field has-addons"},[(_vm.sortMultiple)?_c('b-select',{attrs:{"expanded":""},model:{value:(_vm.sortMultipleSelect),callback:function ($$v) {_vm.sortMultipleSelect=$$v;},expression:"sortMultipleSelect"}},_vm._l((_vm.columns),function(column,index){return (column.sortable)?_c('option',{key:index,domProps:{"value":column}},[_vm._v("\r\n                    "+_vm._s(_vm.getLabel(column))+"\r\n                    "),(_vm.getSortingObjectOfColumn(column))?[(_vm.columnIsDesc(column))?[_vm._v("\r\n                            ↓\r\n                        ")]:[_vm._v("\r\n                            ↑\r\n                        ")]]:_vm._e()],2):_vm._e()})):_c('b-select',{attrs:{"expanded":""},model:{value:(_vm.mobileSort),callback:function ($$v) {_vm.mobileSort=$$v;},expression:"mobileSort"}},[(_vm.placeholder)?[_c('option',{directives:[{name:"show",rawName:"v-show",value:(_vm.showPlaceholder),expression:"showPlaceholder"}],attrs:{"selected":"","disabled":"","hidden":""},domProps:{"value":{}}},[_vm._v("\r\n                        "+_vm._s(_vm.placeholder)+"\r\n                    ")])]:_vm._e(),_vm._v(" "),_vm._l((_vm.columns),function(column,index){return (column.sortable)?_c('option',{key:index,domProps:{"value":column}},[_vm._v("\r\n                    "+_vm._s(column.label)+"\r\n                ")]):_vm._e()})],2),_vm._v(" "),_c('div',{staticClass:"control"},[(_vm.sortMultiple && _vm.sortMultipleData.length > 0)?[_c('button',{staticClass:"button is-primary",on:{"click":_vm.sort}},[_c('b-icon',{class:{ 'is-desc': _vm.columnIsDesc(_vm.sortMultipleSelect) },attrs:{"icon":_vm.sortIcon,"pack":_vm.iconPack,"size":_vm.sortIconSize,"both":""}})],1),_vm._v(" "),_c('button',{staticClass:"button is-primary",on:{"click":_vm.removePriority}},[_c('b-icon',{attrs:{"icon":"delete","size":_vm.sortIconSize,"both":""}})],1)]:(!_vm.sortMultiple)?_c('button',{staticClass:"button is-primary",on:{"click":_vm.sort}},[_c('b-icon',{directives:[{name:"show",rawName:"v-show",value:(_vm.currentSortColumn === _vm.mobileSort),expression:"currentSortColumn === mobileSort"}],class:{ 'is-desc': !_vm.isAsc },attrs:{"icon":_vm.sortIcon,"pack":_vm.iconPack,"size":_vm.sortIconSize,"both":""}})],1):_vm._e()],2)],1)])};
+var __vue_render__ = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"field table-mobile-sort"},[_c('div',{staticClass:"field has-addons"},[(_vm.sortMultiple)?_c('b-select',{attrs:{"expanded":""},model:{value:(_vm.sortMultipleSelect),callback:function ($$v) {_vm.sortMultipleSelect=$$v;},expression:"sortMultipleSelect"}},_vm._l((_vm.columns),function(column,index){return (column.sortable)?_c('option',{key:index,domProps:{"value":column}},[_vm._v(" "+_vm._s(_vm.getLabel(column))+" "),(_vm.getSortingObjectOfColumn(column))?[(_vm.columnIsDesc(column))?[_vm._v(" ↓ ")]:[_vm._v(" ↑ ")]]:_vm._e()],2):_vm._e()}),0):_c('b-select',{attrs:{"expanded":""},model:{value:(_vm.mobileSort),callback:function ($$v) {_vm.mobileSort=$$v;},expression:"mobileSort"}},[(_vm.placeholder)?[_c('option',{directives:[{name:"show",rawName:"v-show",value:(_vm.showPlaceholder),expression:"showPlaceholder"}],attrs:{"selected":"","disabled":"","hidden":""},domProps:{"value":{}}},[_vm._v(" "+_vm._s(_vm.placeholder)+" ")])]:_vm._e(),_vm._l((_vm.columns),function(column,index){return (column.sortable)?_c('option',{key:index,domProps:{"value":column}},[_vm._v(" "+_vm._s(column.label)+" ")]):_vm._e()})],2),_c('div',{staticClass:"control"},[(_vm.sortMultiple && _vm.sortMultipleData.length > 0)?[_c('button',{staticClass:"button is-primary",on:{"click":_vm.sort}},[_c('b-icon',{class:{ 'is-desc': _vm.columnIsDesc(_vm.sortMultipleSelect) },attrs:{"icon":_vm.sortIcon,"pack":_vm.iconPack,"size":_vm.sortIconSize,"both":""}})],1),_c('button',{staticClass:"button is-primary",on:{"click":_vm.removePriority}},[_c('b-icon',{attrs:{"icon":"delete","size":_vm.sortIconSize,"both":""}})],1)]:(!_vm.sortMultiple)?_c('button',{staticClass:"button is-primary",on:{"click":_vm.sort}},[_c('b-icon',{directives:[{name:"show",rawName:"v-show",value:(_vm.currentSortColumn === _vm.mobileSort),expression:"currentSortColumn === mobileSort"}],class:{ 'is-desc': !_vm.isAsc },attrs:{"icon":_vm.sortIcon,"pack":_vm.iconPack,"size":_vm.sortIconSize,"both":""}})],1):_vm._e()],2)],1)])};
 var __vue_staticRenderFns__ = [];
 
   /* style */
@@ -156,17 +176,14 @@ var __vue_staticRenderFns__ = [];
     undefined
   );
 
-//
-//
-//
-//
-//
-//
-//
-//
-//
 var script$1 = {
   name: 'BTableColumn',
+  inject: {
+    $table: {
+      name: '$table',
+      default: false
+    }
+  },
   props: {
     label: String,
     customKey: [String, Number],
@@ -183,15 +200,11 @@ var script$1 = {
     },
     subheading: [String, Number],
     customSort: Function,
+    customSearch: Function,
     sticky: Boolean,
-    headerSelectable: {
-      type: Boolean,
-      default: true
-    },
+    headerSelectable: Boolean,
     headerClass: String,
-    cellClass: String,
-    internal: Boolean // Used internally by Table
-
+    cellClass: String
   },
   data: function data() {
     return {
@@ -206,37 +219,34 @@ var script$1 = {
         'has-text-centered': this.centered,
         'is-sticky': this.sticky
       }];
+    },
+    style: function style() {
+      return {
+        width: helpers.toCssWidth(this.width)
+      };
+    },
+    hasDefaultSlot: function hasDefaultSlot() {
+      return !!this.$scopedSlots.default;
+    },
+
+    /**
+     * Return if column header is un-selectable
+     */
+    isHeaderUnSelectable: function isHeaderUnSelectable() {
+      return !this.headerSelectable && this.sortable;
     }
   },
-  beforeMount: function beforeMount() {
-    var _this = this;
-
-    if (!this.$parent.$data._isTable) {
+  created: function created() {
+    if (!this.$table) {
       this.$destroy();
       throw new Error('You should wrap bTableColumn on a bTable');
     }
 
-    if (this.internal) return; // Since we're using scoped prop the columns gonna be multiplied,
-    // this finds when to stop based on the newKey property.
-
-    var repeated = this.$parent.newColumns.some(function (column) {
-      return column.newKey === _this.newKey;
-    });
-    !repeated && this.$parent.newColumns.push(this);
+    this.$table.refreshSlots();
   },
-  beforeDestroy: function beforeDestroy() {
-    if (!this.$parent.visibleData.length) return;
-    if (this.$parent.newColumns.length !== 1) return;
-
-    if (this.$parent.newColumns.length) {
-      var index = this.$parent.newColumns.map(function (column) {
-        return column.newKey;
-      }).indexOf(this.newKey);
-
-      if (index >= 0) {
-        this.$parent.newColumns.splice(index, 1);
-      }
-    }
+  render: function render(createElement) {
+    // renderless
+    return null;
   }
 };
 
@@ -244,8 +254,6 @@ var script$1 = {
 const __vue_script__$1 = script$1;
 
 /* template */
-var __vue_render__$1 = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return (_vm.visible)?_c('td',{class:_vm.rootClasses,attrs:{"data-label":_vm.label}},[_vm._t("default")],2):_vm._e()};
-var __vue_staticRenderFns__$1 = [];
 
   /* style */
   const __vue_inject_styles__$1 = undefined;
@@ -254,7 +262,7 @@ var __vue_staticRenderFns__$1 = [];
   /* module identifier */
   const __vue_module_identifier__$1 = undefined;
   /* functional template */
-  const __vue_is_functional_template__$1 = false;
+  const __vue_is_functional_template__$1 = undefined;
   /* style inject */
   
   /* style inject SSR */
@@ -262,7 +270,7 @@ var __vue_staticRenderFns__$1 = [];
 
   
   var TableColumn = __chunk_5.__vue_normalize__(
-    { render: __vue_render__$1, staticRenderFns: __vue_staticRenderFns__$1 },
+    {},
     __vue_inject_styles__$1,
     __vue_script__$1,
     __vue_scope_id__$1,
@@ -272,10 +280,87 @@ var __vue_staticRenderFns__$1 = [];
     undefined
   );
 
-var _components$1;
 var script$2 = {
+  name: 'BTablePagination',
+  components: __chunk_1._defineProperty({}, __chunk_23.Pagination.name, __chunk_23.Pagination),
+  props: {
+    paginated: Boolean,
+    total: [Number, String],
+    perPage: [Number, String],
+    currentPage: [Number, String],
+    paginationSimple: Boolean,
+    paginationSize: String,
+    rounded: Boolean,
+    iconPack: String,
+    ariaNextLabel: String,
+    ariaPreviousLabel: String,
+    ariaPageLabel: String,
+    ariaCurrentLabel: String
+  },
+  data: function data() {
+    return {
+      newCurrentPage: this.currentPage
+    };
+  },
+  watch: {
+    currentPage: function currentPage(newVal) {
+      this.newCurrentPage = newVal;
+    }
+  },
+  methods: {
+    /**
+    * Paginator change listener.
+    */
+    pageChanged: function pageChanged(page) {
+      this.newCurrentPage = page > 0 ? page : 1;
+      this.$emit('update:currentPage', this.newCurrentPage);
+      this.$emit('page-change', this.newCurrentPage);
+    }
+  }
+};
+
+/* script */
+const __vue_script__$2 = script$2;
+
+/* template */
+var __vue_render__$1 = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"top level"},[_c('div',{staticClass:"level-left"},[_vm._t("default")],2),_c('div',{staticClass:"level-right"},[(_vm.paginated)?_c('div',{staticClass:"level-item"},[_c('b-pagination',{attrs:{"icon-pack":_vm.iconPack,"total":_vm.total,"per-page":_vm.perPage,"simple":_vm.paginationSimple,"size":_vm.paginationSize,"current":_vm.newCurrentPage,"rounded":_vm.rounded,"aria-next-label":_vm.ariaNextLabel,"aria-previous-label":_vm.ariaPreviousLabel,"aria-page-label":_vm.ariaPageLabel,"aria-current-label":_vm.ariaCurrentLabel},on:{"change":_vm.pageChanged}})],1):_vm._e()])])};
+var __vue_staticRenderFns__$1 = [];
+
+  /* style */
+  const __vue_inject_styles__$2 = undefined;
+  /* scoped */
+  const __vue_scope_id__$2 = undefined;
+  /* module identifier */
+  const __vue_module_identifier__$2 = undefined;
+  /* functional template */
+  const __vue_is_functional_template__$2 = false;
+  /* style inject */
+  
+  /* style inject SSR */
+  
+
+  
+  var TablePagination = __chunk_5.__vue_normalize__(
+    { render: __vue_render__$1, staticRenderFns: __vue_staticRenderFns__$1 },
+    __vue_inject_styles__$2,
+    __vue_script__$2,
+    __vue_scope_id__$2,
+    __vue_is_functional_template__$2,
+    __vue_module_identifier__$2,
+    undefined,
+    undefined
+  );
+
+var _components$1;
+var script$3 = {
   name: 'BTable',
-  components: (_components$1 = {}, __chunk_1._defineProperty(_components$1, __chunk_9.Checkbox.name, __chunk_9.Checkbox), __chunk_1._defineProperty(_components$1, __chunk_4.Icon.name, __chunk_4.Icon), __chunk_1._defineProperty(_components$1, __chunk_6.Input.name, __chunk_6.Input), __chunk_1._defineProperty(_components$1, __chunk_21.Pagination.name, __chunk_21.Pagination), __chunk_1._defineProperty(_components$1, __chunk_23.SlotComponent.name, __chunk_23.SlotComponent), __chunk_1._defineProperty(_components$1, TableMobileSort.name, TableMobileSort), __chunk_1._defineProperty(_components$1, TableColumn.name, TableColumn), _components$1),
+  components: (_components$1 = {}, __chunk_1._defineProperty(_components$1, __chunk_10.Checkbox.name, __chunk_10.Checkbox), __chunk_1._defineProperty(_components$1, __chunk_4.Icon.name, __chunk_4.Icon), __chunk_1._defineProperty(_components$1, __chunk_6.Input.name, __chunk_6.Input), __chunk_1._defineProperty(_components$1, __chunk_20.Loading.name, __chunk_20.Loading), __chunk_1._defineProperty(_components$1, __chunk_25.SlotComponent.name, __chunk_25.SlotComponent), __chunk_1._defineProperty(_components$1, TableMobileSort.name, TableMobileSort), __chunk_1._defineProperty(_components$1, TableColumn.name, TableColumn), __chunk_1._defineProperty(_components$1, TablePagination.name, TablePagination), _components$1),
+  inheritAttrs: false,
+  provide: function provide() {
+    return {
+      $table: this
+    };
+  },
   props: {
     data: {
       type: Array,
@@ -306,6 +391,10 @@ var script$2 = {
       validator: function validator(value) {
         return ['left', 'right'].indexOf(value) >= 0;
       }
+    },
+    stickyCheckbox: {
+      type: Boolean,
+      default: false
     },
     selected: Object,
     isRowSelectable: {
@@ -372,8 +461,6 @@ var script$2 = {
       type: Boolean,
       default: true
     },
-    paginationSimple: Boolean,
-    paginationSize: String,
     paginationPosition: {
       type: String,
       default: 'bottom',
@@ -381,6 +468,7 @@ var script$2 = {
         return ['bottom', 'top', 'both'].indexOf(value) >= 0;
       }
     },
+    paginationRounded: Boolean,
     backendSorting: Boolean,
     backendFiltering: Boolean,
     rowClass: {
@@ -432,13 +520,17 @@ var script$2 = {
       type: String,
       default: ''
     },
-    cardLayout: Boolean
+    cardLayout: Boolean,
+    showHeader: {
+      type: Boolean,
+      default: true
+    },
+    debounceSearch: Number
   },
   data: function data() {
     return {
       sortMultipleDataLocal: [],
       getValueByPath: helpers.getValueByPath,
-      newColumns: __chunk_1._toConsumableArray(this.columns),
       visibleDetailRows: this.openedDetailed,
       newData: this.data,
       newDataTotal: this.backendPagination ? this.total : this.data.length,
@@ -448,6 +540,7 @@ var script$2 = {
       currentSortColumn: {},
       isAsc: true,
       filters: {},
+      defaultSlots: [],
       firstTimeSort: true,
       // Used by first time initSort
       _isTable: true // Used by TableColumn
@@ -474,9 +567,9 @@ var script$2 = {
         'table-container': this.isScrollable
       };
     },
-    rooClasses: function rooClasses() {
+    tableStyle: function tableStyle() {
       return {
-        'is-loading': this.loading
+        height: helpers.toCssWidth(this.height)
       };
     },
 
@@ -563,7 +656,7 @@ var script$2 = {
     * Return total column count based if it's checkable or expanded
     */
     columnCount: function columnCount() {
-      var count = this.newColumns.length;
+      var count = this.visibleColumns.length;
       count += this.checkable ? 1 : 0;
       count += this.detailed && this.showDetailIcon ? 1 : 0;
       return count;
@@ -586,6 +679,36 @@ var script$2 = {
       return this.newColumns.some(function (column) {
         return column.sticky;
       });
+    },
+    newColumns: function newColumns() {
+      var _this3 = this;
+
+      if (this.columns && this.columns.length) {
+        return this.columns.map(function (column) {
+          var TableColumnComponent = __chunk_2.VueInstance.extend(TableColumn);
+          var component = new TableColumnComponent({
+            parent: _this3,
+            propsData: column
+          });
+          component.$scopedSlots = {
+            default: function _default(props) {
+              var vnode = component.$createElement('span', {
+                domProps: {
+                  innerHTML: helpers.getValueByPath(props.row, column.field)
+                }
+              });
+              return [vnode];
+            }
+          };
+          return component;
+        });
+      }
+
+      return this.defaultSlots.filter(function (vnode) {
+        return vnode.componentInstance && vnode.componentInstance.$data && vnode.componentInstance.$data._isTableColumn;
+      }).map(function (vnode) {
+        return vnode.componentInstance;
+      });
     }
   },
   watch: {
@@ -597,13 +720,13 @@ var script$2 = {
     *   4. Set new total if it's not backend-paginated.
     */
     data: function data(value) {
-      var _this3 = this;
+      var _this4 = this;
 
       this.newData = value;
 
       if (!this.backendFiltering) {
         this.newData = value.filter(function (row) {
-          return _this3.isRowFiltered(row);
+          return _this4.isRowFiltered(row);
         });
       }
 
@@ -624,6 +747,12 @@ var script$2 = {
       if (!this.backendPagination) return;
       this.newDataTotal = newTotal;
     },
+    currentPage: function currentPage(newVal) {
+      this.newCurrentPage = newVal;
+    },
+    newCurrentPage: function newCurrentPage(newVal) {
+      this.$emit('update:currentPage', newVal);
+    },
 
     /**
     * When checkedRows prop change, update internal value without
@@ -632,34 +761,24 @@ var script$2 = {
     checkedRows: function checkedRows(rows) {
       this.newCheckedRows = __chunk_1._toConsumableArray(rows);
     },
-    columns: function columns(value) {
-      this.newColumns = __chunk_1._toConsumableArray(value);
+
+    /*
+    newColumns(value) {
+        this.checkSort()
     },
-    newColumns: function newColumns(value) {
-      this.checkSort();
+    */
+    debounceSearch: {
+      handler: function handler(value) {
+        this.debouncedHandleFiltersChange = debounce(this.handleFiltersChange, value);
+      },
+      immediate: true
     },
     filters: {
       handler: function handler(value) {
-        var _this4 = this;
-
-        if (this.backendFiltering) {
-          this.$emit('filters-change', value);
+        if (this.debounceSearch) {
+          this.debouncedHandleFiltersChange(value);
         } else {
-          this.newData = this.data.filter(function (row) {
-            return _this4.isRowFiltered(row);
-          });
-
-          if (!this.backendPagination) {
-            this.newDataTotal = this.newData.length;
-          }
-
-          if (!this.backendSorting) {
-            if (this.sortMultiple && this.sortMultipleDataLocal && this.sortMultipleDataLocal.length > 0) {
-              this.doSortMultiColumn();
-            } else if (Object.keys(this.currentSortColumn).length > 0) {
-              this.doSortSingleColumn(this.currentSortColumn);
-            }
-          }
+          this.handleFiltersChange(value);
         }
       },
       deep: true
@@ -671,9 +790,6 @@ var script$2 = {
     */
     openedDetailed: function openedDetailed(expandedRows) {
       this.visibleDetailRows = expandedRows;
-    },
-    currentPage: function currentPage(newVal) {
-      this.newCurrentPage = newVal;
     }
   },
   methods: {
@@ -682,6 +798,29 @@ var script$2 = {
         event: event,
         filters: this.filters
       });
+    },
+    handleFiltersChange: function handleFiltersChange(value) {
+      var _this5 = this;
+
+      if (this.backendFiltering) {
+        this.$emit('filters-change', value);
+      } else {
+        this.newData = this.data.filter(function (row) {
+          return _this5.isRowFiltered(row);
+        });
+
+        if (!this.backendPagination) {
+          this.newDataTotal = this.newData.length;
+        }
+
+        if (!this.backendSorting) {
+          if (this.sortMultiple && this.sortMultipleDataLocal && this.sortMultipleDataLocal.length > 0) {
+            this.doSortMultiColumn();
+          } else if (Object.keys(this.currentSortColumn).length > 0) {
+            this.doSortSingleColumn(this.currentSortColumn);
+          }
+        }
+      }
     },
     findIndexOfSortData: function findIndexOfSortData(column) {
       var sortObj = this.sortMultipleDataComputed.filter(function (i) {
@@ -779,7 +918,11 @@ var script$2 = {
       if ( // if backend sorting is enabled, just emit the sort press like usual
       // if the correct key combination isnt pressed, sort like usual
       !this.backendSorting && this.sortMultiple && (this.sortMultipleKey && event[this.sortMultipleKey] || !this.sortMultipleKey)) {
-        this.sortMultiColumn(column);
+        if (updatingData) {
+          this.doSortMultiColumn();
+        } else {
+          this.sortMultiColumn(column);
+        }
       } else {
         if (!column || !column.sortable) return; // sort multiple is enabled but the correct key combination isnt pressed so reset
 
@@ -805,6 +948,17 @@ var script$2 = {
     doSortSingleColumn: function doSortSingleColumn(column) {
       this.newData = this.sortBy(this.newData, column.field, column.customSort, this.isAsc);
     },
+    isRowSelected: function isRowSelected(row, selected) {
+      if (!selected) {
+        return false;
+      }
+
+      if (this.customRowKey) {
+        return row[this.customRowKey] === selected[this.customRowKey];
+      }
+
+      return row === selected;
+    },
 
     /**
     * Check if the row is checked (is added to the array).
@@ -829,17 +983,17 @@ var script$2 = {
     * Add or remove all rows in current page.
     */
     checkAll: function checkAll() {
-      var _this5 = this;
+      var _this6 = this;
 
       var isAllChecked = this.isAllChecked;
       this.visibleData.forEach(function (currentRow) {
-        if (_this5.isRowCheckable(currentRow)) {
-          _this5.removeCheckedRow(currentRow);
+        if (_this6.isRowCheckable(currentRow)) {
+          _this6.removeCheckedRow(currentRow);
         }
 
         if (!isAllChecked) {
-          if (_this5.isRowCheckable(currentRow)) {
-            _this5.newCheckedRows.push(currentRow);
+          if (_this6.isRowCheckable(currentRow)) {
+            _this6.newCheckedRows.push(currentRow);
           }
         }
       });
@@ -874,17 +1028,17 @@ var script$2 = {
      * Check row when shift is pressed.
      */
     shiftCheckRow: function shiftCheckRow(row, index, lastCheckedRowIndex) {
-      var _this6 = this;
+      var _this7 = this;
 
       // Get the subset of the list between the two indicies
       var subset = this.visibleData.slice(Math.min(index, lastCheckedRowIndex), Math.max(index, lastCheckedRowIndex) + 1); // Determine the operation based on the state of the clicked checkbox
 
       var shouldCheck = !this.isRowChecked(row);
       subset.forEach(function (item) {
-        _this6.removeCheckedRow(item);
+        _this7.removeCheckedRow(item);
 
-        if (shouldCheck && _this6.isRowCheckable(item)) {
-          _this6.newCheckedRows.push(item);
+        if (shouldCheck && _this7.isRowCheckable(item)) {
+          _this7.newCheckedRows.push(item);
         }
       });
     },
@@ -901,15 +1055,6 @@ var script$2 = {
       this.$emit('select', row, this.selected); // Emit new row to update user variable
 
       this.$emit('update:selected', row);
-    },
-
-    /**
-    * Paginator change listener.
-    */
-    pageChanged: function pageChanged(page) {
-      this.newCurrentPage = page > 0 ? page : 1;
-      this.$emit('page-change', this.newCurrentPage);
-      this.$emit('update:currentPage', this.newCurrentPage);
     },
 
     /**
@@ -950,32 +1095,60 @@ var script$2 = {
       return this.detailed && this.customDetailRow && this.isVisibleDetailRow(row);
     },
     isRowFiltered: function isRowFiltered(row) {
-      for (var key in this.filters) {
+      var _this8 = this;
+
+      var _loop = function _loop(key) {
         // remove key if empty
-        if (!this.filters[key]) {
-          delete this.filters[key];
-          return true;
+        if (!_this8.filters[key]) {
+          delete _this8.filters[key];
+          return {
+            v: true
+          };
         }
 
-        var value = this.getValueByPath(row, key);
-        if (value == null) return false;
+        var input = _this8.filters[key];
 
-        if (Number.isInteger(value)) {
-          if (value !== Number(this.filters[key])) return false;
+        var column = _this8.newColumns.filter(function (c) {
+          return c.field === key;
+        })[0];
+
+        if (column && column.customSearch && typeof column.customSearch === 'function') {
+          return {
+            v: column.customSearch(row, input)
+          };
         } else {
-          var re = new RegExp(this.filters[key], 'i');
-          if (typeof value === 'boolean') value = "".concat(value);
-          if (!value.match(re)) return false;
+          var value = _this8.getValueByPath(row, key);
+
+          if (value == null) return {
+            v: false
+          };
+
+          if (Number.isInteger(value)) {
+            if (value !== Number(input)) return {
+              v: false
+            };
+          } else {
+            var re = new RegExp(helpers.escapeRegExpChars(input), 'i');
+            if (!re.test(value)) return {
+              v: false
+            };
+          }
         }
+      };
+
+      for (var key in this.filters) {
+        var _ret = _loop(key);
+
+        if (__chunk_1._typeof(_ret) === "object") return _ret.v;
       }
 
       return true;
     },
 
     /**
-        * When the detailKey is defined we use the object[detailKey] as index.
-        * If not, use the object reference by default.
-        */
+    * When the detailKey is defined we use the object[detailKey] as index.
+    * If not, use the object reference by default.
+    */
     handleDetailKey: function handleDetailKey(index) {
       var key = this.detailKey;
       return !key.length || !index ? index : index[key];
@@ -1067,36 +1240,34 @@ var script$2 = {
     * Initial sorted column based on the default-sort prop.
     */
     initSort: function initSort() {
-      var _this7 = this;
+      var _this9 = this;
 
-      if (!this.backendSorting) {
-        if (this.sortMultiple && this.sortMultipleData) {
-          this.sortMultipleData.forEach(function (column) {
-            _this7.sortMultiColumn(column);
-          });
+      if (this.sortMultiple && this.sortMultipleData) {
+        this.sortMultipleData.forEach(function (column) {
+          _this9.sortMultiColumn(column);
+        });
+      } else {
+        if (!this.defaultSort) return;
+        var sortField = '';
+        var sortDirection = this.defaultSortDirection;
+
+        if (Array.isArray(this.defaultSort)) {
+          sortField = this.defaultSort[0];
+
+          if (this.defaultSort[1]) {
+            sortDirection = this.defaultSort[1];
+          }
         } else {
-          if (!this.defaultSort) return;
-          var sortField = '';
-          var sortDirection = this.defaultSortDirection;
+          sortField = this.defaultSort;
+        }
 
-          if (Array.isArray(this.defaultSort)) {
-            sortField = this.defaultSort[0];
+        var sortColumn = this.newColumns.filter(function (column) {
+          return column.field === sortField;
+        })[0];
 
-            if (this.defaultSort[1]) {
-              sortDirection = this.defaultSort[1];
-            }
-          } else {
-            sortField = this.defaultSort;
-          }
-
-          var sortColumn = this.newColumns.filter(function (column) {
-            return column.field === sortField;
-          })[0];
-
-          if (sortColumn) {
-            this.isAsc = sortDirection.toLowerCase() !== 'desc';
-            this.sort(sortColumn, true);
-          }
+        if (sortColumn) {
+          this.isAsc = sortDirection.toLowerCase() !== 'desc';
+          this.sort(sortColumn, true);
         }
       }
     },
@@ -1105,6 +1276,7 @@ var script$2 = {
     * Emits drag start event
     */
     handleDragStart: function handleDragStart(event, row, index) {
+      if (!this.draggable) return;
       this.$emit('dragstart', {
         event: event,
         row: row,
@@ -1116,6 +1288,7 @@ var script$2 = {
     * Emits drag leave event
     */
     handleDragEnd: function handleDragEnd(event, row, index) {
+      if (!this.draggable) return;
       this.$emit('dragend', {
         event: event,
         row: row,
@@ -1127,6 +1300,7 @@ var script$2 = {
     * Emits drop event
     */
     handleDrop: function handleDrop(event, row, index) {
+      if (!this.draggable) return;
       this.$emit('drop', {
         event: event,
         row: row,
@@ -1138,6 +1312,7 @@ var script$2 = {
     * Emits drag over event
     */
     handleDragOver: function handleDragOver(event, row, index) {
+      if (!this.draggable) return;
       this.$emit('dragover', {
         event: event,
         row: row,
@@ -1149,72 +1324,62 @@ var script$2 = {
     * Emits drag leave event
     */
     handleDragLeave: function handleDragLeave(event, row, index) {
+      if (!this.draggable) return;
       this.$emit('dragleave', {
         event: event,
         row: row,
         index: index
       });
+    },
+    refreshSlots: function refreshSlots() {
+      this.defaultSlots = this.$slots.default || [];
     }
   },
   mounted: function mounted() {
+    this.refreshSlots();
     this.checkPredefinedDetailedRows();
     this.checkSort();
-  },
-  beforeDestroy: function beforeDestroy() {
-    this.newData = [];
-    this.newColumns = [];
   }
 };
 
 /* script */
-const __vue_script__$2 = script$2;
+const __vue_script__$3 = script$3;
 
 /* template */
-var __vue_render__$2 = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"b-table",class:_vm.rooClasses},[(_vm.mobileCards && _vm.hasSortablenewColumns)?_c('b-table-mobile-sort',{attrs:{"current-sort-column":_vm.currentSortColumn,"sort-multiple":_vm.sortMultiple,"sort-multiple-data":_vm.sortMultipleDataComputed,"is-asc":_vm.isAsc,"columns":_vm.newColumns,"placeholder":_vm.mobileSortPlaceholder,"icon-pack":_vm.iconPack,"sort-icon":_vm.sortIcon,"sort-icon-size":_vm.sortIconSize},on:{"sort":function (column, event) { return _vm.sort(column, null, event); },"removePriority":function (column) { return _vm.removeSortingPriority(column); }}}):_vm._e(),_vm._v(" "),(_vm.paginated && (_vm.paginationPosition === 'top' || _vm.paginationPosition === 'both'))?_c('div',{staticClass:"top level"},[_c('div',{staticClass:"level-left"},[_vm._t("top-left")],2),_vm._v(" "),_c('div',{staticClass:"level-right"},[(_vm.paginated)?_c('div',{staticClass:"level-item"},[_c('b-pagination',{attrs:{"icon-pack":_vm.iconPack,"total":_vm.newDataTotal,"per-page":_vm.perPage,"simple":_vm.paginationSimple,"size":_vm.paginationSize,"current":_vm.newCurrentPage,"aria-next-label":_vm.ariaNextLabel,"aria-previous-label":_vm.ariaPreviousLabel,"aria-page-label":_vm.ariaPageLabel,"aria-current-label":_vm.ariaCurrentLabel},on:{"change":_vm.pageChanged}})],1):_vm._e()])]):_vm._e(),_vm._v(" "),_c('div',{staticClass:"table-wrapper",class:_vm.tableWrapperClasses,style:({
-                height: _vm.height === undefined ? null :
-                (isNaN(_vm.height) ? _vm.height : _vm.height + 'px')
-            })},[_c('table',{staticClass:"table",class:_vm.tableClasses,attrs:{"tabindex":!_vm.focusable ? false : 0},on:{"keydown":[function($event){if(!('button' in $event)&&_vm._k($event.keyCode,"up",38,$event.key,["Up","ArrowUp"])){ return null; }if($event.target !== $event.currentTarget){ return null; }$event.preventDefault();_vm.pressedArrow(-1);},function($event){if(!('button' in $event)&&_vm._k($event.keyCode,"down",40,$event.key,["Down","ArrowDown"])){ return null; }if($event.target !== $event.currentTarget){ return null; }$event.preventDefault();_vm.pressedArrow(1);}]}},[(_vm.newColumns.length)?_c('thead',[_c('tr',[(_vm.showDetailRowIcon)?_c('th',{attrs:{"width":"40px"}}):_vm._e(),_vm._v(" "),(_vm.checkable && _vm.checkboxPosition === 'left')?_c('th',{staticClass:"checkbox-cell"},[(_vm.headerCheckable)?[_c('b-checkbox',{attrs:{"value":_vm.isAllChecked,"disabled":_vm.isAllUncheckable},nativeOn:{"change":function($event){return _vm.checkAll($event)}}})]:_vm._e()],2):_vm._e(),_vm._v(" "),_vm._l((_vm.visibleColumns),function(column,index){return _c('th',{key:index,class:[column.headerClass, {
-                                'is-current-sort': !_vm.sortMultiple && _vm.currentSortColumn === column,
-                                'is-sortable': column.sortable,
-                                'is-sticky': column.sticky,
-                                'is-unselectable': !column.headerSelectable
-                            }],style:({
-                                width: column.width === undefined ? null :
-                                (isNaN(column.width) ? column.width : column.width + 'px')
-                            }),on:{"click":function($event){$event.stopPropagation();_vm.sort(column, null, $event);}}},[_c('div',{staticClass:"th-wrap",class:{
-                                    'is-numeric': column.numeric,
-                                    'is-centered': column.centered
-                            }},[(column.$scopedSlots && column.$scopedSlots.header)?[_c('b-slot-component',{attrs:{"component":column,"scoped":true,"name":"header","tag":"span","props":{ column: column, index: index }}})]:(_vm.$scopedSlots.header)?[_vm._t("header",null,{column:column,index:index})]:[_vm._v(_vm._s(column.label))],_vm._v(" "),(_vm.sortMultiple &&
-                                        _vm.sortMultipleDataComputed &&
-                                        _vm.sortMultipleDataComputed.length > 0 &&
-                                        _vm.sortMultipleDataComputed.filter(function (i) { return i.field === column.field; }).length > 0)?[_c('b-icon',{class:{
-                                            'is-desc': _vm.sortMultipleDataComputed.filter(function (i) { return i.field === column.field; })[0].order === 'desc'
-                                        },attrs:{"icon":_vm.sortIcon,"pack":_vm.iconPack,"both":"","size":_vm.sortIconSize}}),_vm._v("\r\n                                    "+_vm._s(_vm.findIndexOfSortData(column))+"\r\n                                    "),_c('button',{staticClass:"delete is-small multi-sort-cancel-icon",attrs:{"type":"button"},on:{"click":function($event){$event.stopPropagation();_vm.removeSortingPriority(column);}}})]:(column.sortable && !_vm.sortMultiple)?_c('b-icon',{class:{
-                                        'is-desc': !_vm.isAsc,
-                                        'is-invisible': _vm.currentSortColumn !== column
-                                    },attrs:{"icon":_vm.sortIcon,"pack":_vm.iconPack,"both":"","size":_vm.sortIconSize}}):_vm._e()],2)])}),_vm._v(" "),(_vm.checkable && _vm.checkboxPosition === 'right')?_c('th',{staticClass:"checkbox-cell"},[(_vm.headerCheckable)?[_c('b-checkbox',{attrs:{"value":_vm.isAllChecked,"disabled":_vm.isAllUncheckable},nativeOn:{"change":function($event){return _vm.checkAll($event)}}})]:_vm._e()],2):_vm._e()],2),_vm._v(" "),(_vm.hasCustomSubheadings)?_c('tr',{staticClass:"is-subheading"},[(_vm.showDetailRowIcon)?_c('th',{attrs:{"width":"40px"}}):_vm._e(),_vm._v(" "),(_vm.checkable && _vm.checkboxPosition === 'left')?_c('th'):_vm._e(),_vm._v(" "),_vm._l((_vm.visibleColumns),function(column,index){return _c('th',{key:index,style:({
-                                width: column.width === undefined ? null
-                            : (isNaN(column.width) ? column.width : column.width + 'px') })},[_c('div',{staticClass:"th-wrap",class:{
-                                    'is-numeric': column.numeric,
-                                    'is-centered': column.centered
-                            }},[(column.$scopedSlots && column.$scopedSlots.subheading)?[_c('b-slot-component',{attrs:{"component":column,"scoped":true,"name":"subheading","tag":"span","props":{ column: column, index: index }}})]:(_vm.$scopedSlots.subheading)?[_vm._t("subheading",null,{column:column,index:index})]:[_vm._v(_vm._s(column.subheading))]],2)])}),_vm._v(" "),(_vm.checkable && _vm.checkboxPosition === 'right')?_c('th'):_vm._e()],2):_vm._e(),_vm._v(" "),(_vm.hasSearchablenewColumns)?_c('tr',[(_vm.showDetailRowIcon)?_c('th',{attrs:{"width":"40px"}}):_vm._e(),_vm._v(" "),(_vm.checkable && _vm.checkboxPosition === 'left')?_c('th'):_vm._e(),_vm._v(" "),_vm._l((_vm.visibleColumns),function(column,index){return _c('th',{key:index,style:({
-                                width: column.width === undefined ? null
-                            : (isNaN(column.width) ? column.width : column.width + 'px') })},[_c('div',{staticClass:"th-wrap"},[(column.searchable)?[(column.$scopedSlots
-                                        && column.$scopedSlots.searchable)?[_c('b-slot-component',{attrs:{"component":column,"scoped":true,"name":"searchable","tag":"span","props":{ column: column, filters: _vm.filters }}})]:_c('b-input',{attrs:{"type":column.numeric ? 'number' : 'text'},nativeOn:{"[filtersEvent]":function($event){return _vm.onFiltersEvent($event)}},model:{value:(_vm.filters[column.field]),callback:function ($$v) {_vm.$set(_vm.filters, column.field, $$v);},expression:"filters[column.field]"}})]:_vm._e()],2)])}),_vm._v(" "),(_vm.checkable && _vm.checkboxPosition === 'right')?_c('th'):_vm._e()],2):_vm._e()]):_vm._e(),_vm._v(" "),(_vm.visibleData.length)?_c('tbody',[_vm._l((_vm.visibleData),function(row,index){return [_c('tr',{key:_vm.customRowKey ? row[_vm.customRowKey] : index,class:[_vm.rowClass(row, index), {
-                                'is-selected': row === _vm.selected,
-                                'is-checked': _vm.isRowChecked(row),
-                            }],attrs:{"draggable":_vm.draggable},on:{"click":function($event){_vm.selectRow(row);},"dblclick":function($event){_vm.$emit('dblclick', row);},"mouseenter":function($event){_vm.$listeners.mouseenter ? _vm.$emit('mouseenter', row) : null;},"mouseleave":function($event){_vm.$listeners.mouseleave ? _vm.$emit('mouseleave', row) : null;},"contextmenu":function($event){_vm.$emit('contextmenu', row, $event);},"dragstart":function($event){_vm.handleDragStart($event, row, index);},"dragend":function($event){_vm.handleDragEnd($event, row, index);},"drop":function($event){_vm.handleDrop($event, row, index);},"dragover":function($event){_vm.handleDragOver($event, row, index);},"dragleave":function($event){_vm.handleDragLeave($event, row, index);}}},[(_vm.showDetailRowIcon)?_c('td',{staticClass:"chevron-cell"},[(_vm.hasDetailedVisible(row))?_c('a',{attrs:{"role":"button"},on:{"click":function($event){$event.stopPropagation();_vm.toggleDetails(row);}}},[_c('b-icon',{class:{'is-expanded': _vm.isVisibleDetailRow(row)},attrs:{"icon":"chevron-right","pack":_vm.iconPack,"both":""}})],1):_vm._e()]):_vm._e(),_vm._v(" "),(_vm.checkable && _vm.checkboxPosition === 'left')?_c('td',{staticClass:"checkbox-cell"},[_c('b-checkbox',{attrs:{"disabled":!_vm.isRowCheckable(row),"value":_vm.isRowChecked(row)},nativeOn:{"click":function($event){$event.preventDefault();$event.stopPropagation();_vm.checkRow(row, index, $event);}}})],1):_vm._e(),_vm._v(" "),(_vm.$scopedSlots.default)?_vm._t("default",null,{row:row,index:index}):_vm._l((_vm.newColumns),function(column){return _c('BTableColumn',_vm._b({key:column.customKey || column.label,attrs:{"internal":""}},'BTableColumn',column,false),[(column.renderHtml)?_c('span',{domProps:{"innerHTML":_vm._s(_vm.getValueByPath(row, column.field))}}):[_vm._v("\r\n                                        "+_vm._s(_vm.getValueByPath(row, column.field))+"\r\n                                    ")]],2)}),_vm._v(" "),(_vm.checkable && _vm.checkboxPosition === 'right')?_c('td',{staticClass:"checkbox-cell"},[_c('b-checkbox',{attrs:{"disabled":!_vm.isRowCheckable(row),"value":_vm.isRowChecked(row)},nativeOn:{"click":function($event){$event.preventDefault();$event.stopPropagation();_vm.checkRow(row, index, $event);}}})],1):_vm._e()],2),_vm._v(" "),(_vm.isActiveDetailRow(row))?_c('tr',{staticClass:"detail"},[_c('td',{attrs:{"colspan":_vm.columnCount}},[_c('div',{staticClass:"detail-container"},[_vm._t("detail",null,{row:row,index:index})],2)])]):_vm._e(),_vm._v(" "),(_vm.isActiveCustomDetailRow(row))?_vm._t("detail",null,{row:row,index:index}):_vm._e()]})],2):_c('tbody',[_c('tr',{staticClass:"is-empty"},[_c('td',{attrs:{"colspan":_vm.columnCount}},[_vm._t("empty")],2)])]),_vm._v(" "),(_vm.$slots.footer !== undefined)?_c('tfoot',[_c('tr',{staticClass:"table-footer"},[(_vm.hasCustomFooterSlot())?_vm._t("footer"):_c('th',{attrs:{"colspan":_vm.columnCount}},[_vm._t("footer")],2)],2)]):_vm._e()])]),_vm._v(" "),((_vm.checkable && _vm.hasBottomLeftSlot()) ||
-            (_vm.paginated && (_vm.paginationPosition === 'bottom' || _vm.paginationPosition === 'both')))?_c('div',{staticClass:"level"},[_c('div',{staticClass:"level-left"},[_vm._t("bottom-left")],2),_vm._v(" "),_c('div',{staticClass:"level-right"},[(_vm.paginated)?_c('div',{staticClass:"level-item"},[_c('b-pagination',{attrs:{"icon-pack":_vm.iconPack,"total":_vm.newDataTotal,"per-page":_vm.perPage,"simple":_vm.paginationSimple,"size":_vm.paginationSize,"current":_vm.newCurrentPage,"aria-next-label":_vm.ariaNextLabel,"aria-previous-label":_vm.ariaPreviousLabel,"aria-page-label":_vm.ariaPageLabel,"aria-current-label":_vm.ariaCurrentLabel},on:{"change":_vm.pageChanged}})],1):_vm._e()])]):_vm._e()],1)};
+var __vue_render__$2 = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"b-table"},[_vm._t("default"),(_vm.mobileCards && _vm.hasSortablenewColumns)?_c('b-table-mobile-sort',{attrs:{"current-sort-column":_vm.currentSortColumn,"sort-multiple":_vm.sortMultiple,"sort-multiple-data":_vm.sortMultipleDataComputed,"is-asc":_vm.isAsc,"columns":_vm.newColumns,"placeholder":_vm.mobileSortPlaceholder,"icon-pack":_vm.iconPack,"sort-icon":_vm.sortIcon,"sort-icon-size":_vm.sortIconSize},on:{"sort":function (column, event) { return _vm.sort(column, null, event); },"removePriority":function (column) { return _vm.removeSortingPriority(column); }}}):_vm._e(),(_vm.paginated && (_vm.paginationPosition === 'top' || _vm.paginationPosition === 'both'))?[_vm._t("pagination",[_c('b-table-pagination',_vm._b({attrs:{"per-page":_vm.perPage,"paginated":_vm.paginated,"rounded":_vm.paginationRounded,"icon-pack":_vm.iconPack,"total":_vm.newDataTotal,"current-page":_vm.newCurrentPage},on:{"update:currentPage":function($event){_vm.newCurrentPage=$event;},"update:current-page":function($event){_vm.newCurrentPage=$event;},"page-change":function (event) { return _vm.$emit('page-change', event); }}},'b-table-pagination',_vm.$attrs,false),[_vm._t("top-left")],2)])]:_vm._e(),_c('div',{staticClass:"table-wrapper",class:_vm.tableWrapperClasses,style:(_vm.tableStyle)},[_c('table',{staticClass:"table",class:_vm.tableClasses,attrs:{"tabindex":!_vm.focusable ? false : 0},on:{"keydown":[function($event){if(!$event.type.indexOf('key')&&_vm._k($event.keyCode,"up",38,$event.key,["Up","ArrowUp"])){ return null; }if($event.target !== $event.currentTarget){ return null; }$event.preventDefault();return _vm.pressedArrow(-1)},function($event){if(!$event.type.indexOf('key')&&_vm._k($event.keyCode,"down",40,$event.key,["Down","ArrowDown"])){ return null; }if($event.target !== $event.currentTarget){ return null; }$event.preventDefault();return _vm.pressedArrow(1)}]}},[(_vm.newColumns.length && _vm.showHeader)?_c('thead',[_c('tr',[(_vm.showDetailRowIcon)?_c('th',{attrs:{"width":"40px"}}):_vm._e(),(_vm.checkable && _vm.checkboxPosition === 'left')?_c('th',{class:['checkbox-cell', { 'is-sticky': _vm.stickyCheckbox } ]},[(_vm.headerCheckable)?[_c('b-checkbox',{attrs:{"value":_vm.isAllChecked,"disabled":_vm.isAllUncheckable},nativeOn:{"change":function($event){return _vm.checkAll($event)}}})]:_vm._e()],2):_vm._e(),_vm._l((_vm.visibleColumns),function(column,index){return _c('th',{key:column.newKey + ':' + index + 'header',class:[column.headerClass, {
+                            'is-current-sort': !_vm.sortMultiple && _vm.currentSortColumn === column,
+                            'is-sortable': column.sortable,
+                            'is-sticky': column.sticky,
+                            'is-unselectable': column.isHeaderUnSelectable
+                        }],style:(column.style),on:{"click":function($event){$event.stopPropagation();return _vm.sort(column, null, $event)}}},[_c('div',{staticClass:"th-wrap",class:{
+                                'is-numeric': column.numeric,
+                                'is-centered': column.centered
+                        }},[(column.$scopedSlots && column.$scopedSlots.header)?[_c('b-slot-component',{attrs:{"component":column,"scoped":"","name":"header","tag":"span","props":{ column: column, index: index }}})]:[_c('span',{staticClass:"is-relative"},[_vm._v(" "+_vm._s(column.label)+" "),(_vm.sortMultiple &&
+                                            _vm.sortMultipleDataComputed &&
+                                            _vm.sortMultipleDataComputed.length > 0 &&
+                                            _vm.sortMultipleDataComputed.filter(function (i) { return i.field === column.field; }).length > 0)?[_c('b-icon',{class:{
+                                                'is-desc': _vm.sortMultipleDataComputed.filter(function (i) { return i.field === column.field; })[0].order === 'desc'},attrs:{"icon":_vm.sortIcon,"pack":_vm.iconPack,"both":"","size":_vm.sortIconSize}}),_vm._v(" "+_vm._s(_vm.findIndexOfSortData(column))+" "),_c('button',{staticClass:"delete is-small multi-sort-cancel-icon",attrs:{"type":"button"},on:{"click":function($event){$event.stopPropagation();return _vm.removeSortingPriority(column)}}})]:_c('b-icon',{staticClass:"sort-icon",class:{
+                                            'is-desc': !_vm.isAsc,
+                                            'is-invisible': _vm.currentSortColumn !== column
+                                        },attrs:{"icon":_vm.sortIcon,"pack":_vm.iconPack,"both":"","size":_vm.sortIconSize}})],2)]],2)])}),(_vm.checkable && _vm.checkboxPosition === 'right')?_c('th',{class:['checkbox-cell', { 'is-sticky': _vm.stickyCheckbox } ]},[(_vm.headerCheckable)?[_c('b-checkbox',{attrs:{"value":_vm.isAllChecked,"disabled":_vm.isAllUncheckable},nativeOn:{"change":function($event){return _vm.checkAll($event)}}})]:_vm._e()],2):_vm._e()],2),(_vm.hasCustomSubheadings)?_c('tr',{staticClass:"is-subheading"},[(_vm.showDetailRowIcon)?_c('th',{attrs:{"width":"40px"}}):_vm._e(),(_vm.checkable && _vm.checkboxPosition === 'left')?_c('th'):_vm._e(),_vm._l((_vm.visibleColumns),function(column,index){return _c('th',{key:column.newKey + ':' + index + 'subheading',style:(column.style)},[_c('div',{staticClass:"th-wrap",class:{
+                                'is-numeric': column.numeric,
+                                'is-centered': column.centered
+                        }},[(column.$scopedSlots && column.$scopedSlots.subheading)?[_c('b-slot-component',{attrs:{"component":column,"scoped":"","name":"subheading","tag":"span","props":{ column: column, index: index }}})]:[_vm._v(_vm._s(column.subheading))]],2)])}),(_vm.checkable && _vm.checkboxPosition === 'right')?_c('th'):_vm._e()],2):_vm._e(),(_vm.hasSearchablenewColumns)?_c('tr',[(_vm.showDetailRowIcon)?_c('th',{attrs:{"width":"40px"}}):_vm._e(),(_vm.checkable && _vm.checkboxPosition === 'left')?_c('th'):_vm._e(),_vm._l((_vm.visibleColumns),function(column,index){return _c('th',{key:column.newKey + ':' + index + 'searchable',class:{'is-sticky': column.sticky},style:(column.style)},[_c('div',{staticClass:"th-wrap"},[(column.searchable)?[(column.$scopedSlots
+                                    && column.$scopedSlots.searchable)?[_c('b-slot-component',{attrs:{"component":column,"scoped":true,"name":"searchable","tag":"span","props":{ column: column, filters: _vm.filters }}})]:_c('b-input',{attrs:{"type":column.numeric ? 'number' : 'text'},nativeOn:_vm._d({},[_vm.filtersEvent,function($event){return _vm.onFiltersEvent($event)}]),model:{value:(_vm.filters[column.field]),callback:function ($$v) {_vm.$set(_vm.filters, column.field, $$v);},expression:"filters[column.field]"}})]:_vm._e()],2)])}),(_vm.checkable && _vm.checkboxPosition === 'right')?_c('th'):_vm._e()],2):_vm._e()]):_vm._e(),_c('tbody',[_vm._l((_vm.visibleData),function(row,index){return [_c('tr',{key:_vm.customRowKey ? row[_vm.customRowKey] : index,class:[_vm.rowClass(row, index), {
+                            'is-selected': _vm.isRowSelected(row, _vm.selected),
+                            'is-checked': _vm.isRowChecked(row),
+                        }],attrs:{"draggable":_vm.draggable},on:{"click":function($event){return _vm.selectRow(row)},"dblclick":function($event){return _vm.$emit('dblclick', row)},"mouseenter":function($event){_vm.$listeners.mouseenter ? _vm.$emit('mouseenter', row) : null;},"mouseleave":function($event){_vm.$listeners.mouseleave ? _vm.$emit('mouseleave', row) : null;},"contextmenu":function($event){return _vm.$emit('contextmenu', row, $event)},"dragstart":function($event){return _vm.handleDragStart($event, row, index)},"dragend":function($event){return _vm.handleDragEnd($event, row, index)},"drop":function($event){return _vm.handleDrop($event, row, index)},"dragover":function($event){return _vm.handleDragOver($event, row, index)},"dragleave":function($event){return _vm.handleDragLeave($event, row, index)}}},[(_vm.showDetailRowIcon)?_c('td',{staticClass:"chevron-cell"},[(_vm.hasDetailedVisible(row))?_c('a',{attrs:{"role":"button"},on:{"click":function($event){$event.stopPropagation();return _vm.toggleDetails(row)}}},[_c('b-icon',{class:{'is-expanded': _vm.isVisibleDetailRow(row)},attrs:{"icon":"chevron-right","pack":_vm.iconPack,"both":""}})],1):_vm._e()]):_vm._e(),(_vm.checkable && _vm.checkboxPosition === 'left')?_c('td',{class:['checkbox-cell', { 'is-sticky': _vm.stickyCheckbox } ]},[_c('b-checkbox',{attrs:{"disabled":!_vm.isRowCheckable(row),"value":_vm.isRowChecked(row)},nativeOn:{"click":function($event){$event.preventDefault();$event.stopPropagation();return _vm.checkRow(row, index, $event)}}})],1):_vm._e(),_vm._l((_vm.visibleColumns),function(column,colindex){return [(column.$scopedSlots && column.$scopedSlots.default)?[_c('b-slot-component',{key:column.newKey + ':' + index + ':' + colindex,class:column.rootClasses,attrs:{"component":column,"scoped":"","name":"default","tag":"td","data-label":column.label,"props":{ row: row, column: column, index: index, colindex: colindex, toggleDetails: _vm.toggleDetails }},nativeOn:{"click":function($event){return _vm.$emit('cellclick',row,column,index,colindex)}}})]:_vm._e()]}),(_vm.checkable && _vm.checkboxPosition === 'right')?_c('td',{class:['checkbox-cell', { 'is-sticky': _vm.stickyCheckbox } ]},[_c('b-checkbox',{attrs:{"disabled":!_vm.isRowCheckable(row),"value":_vm.isRowChecked(row)},nativeOn:{"click":function($event){$event.preventDefault();$event.stopPropagation();return _vm.checkRow(row, index, $event)}}})],1):_vm._e()],2),(_vm.isActiveDetailRow(row))?_c('tr',{key:(_vm.customRowKey ? row[_vm.customRowKey] : index) + 'detail',staticClass:"detail"},[_c('td',{attrs:{"colspan":_vm.columnCount}},[_c('div',{staticClass:"detail-container"},[_vm._t("detail",null,{"row":row,"index":index})],2)])]):_vm._e(),(_vm.isActiveCustomDetailRow(row))?_vm._t("detail",null,{"row":row,"index":index}):_vm._e()]}),(!_vm.visibleData.length)?_c('tr',{staticClass:"is-empty"},[_c('td',{attrs:{"colspan":_vm.columnCount}},[_vm._t("empty")],2)]):_vm._e()],2),(_vm.$slots.footer !== undefined)?_c('tfoot',[_c('tr',{staticClass:"table-footer"},[(_vm.hasCustomFooterSlot())?_vm._t("footer"):_c('th',{attrs:{"colspan":_vm.columnCount}},[_vm._t("footer")],2)],2)]):_vm._e()]),(_vm.loading)?[_vm._t("loading",[_c('b-loading',{attrs:{"is-full-page":false,"active":_vm.loading},on:{"update:active":function($event){_vm.loading=$event;}}})])]:_vm._e()],2),((_vm.checkable && _vm.hasBottomLeftSlot()) ||
+        (_vm.paginated && (_vm.paginationPosition === 'bottom' || _vm.paginationPosition === 'both')))?[_vm._t("pagination",[_c('b-table-pagination',_vm._b({attrs:{"per-page":_vm.perPage,"paginated":_vm.paginated,"rounded":_vm.paginationRounded,"icon-pack":_vm.iconPack,"total":_vm.newDataTotal,"current-page":_vm.newCurrentPage},on:{"update:currentPage":function($event){_vm.newCurrentPage=$event;},"update:current-page":function($event){_vm.newCurrentPage=$event;},"page-change":function (event) { return _vm.$emit('page-change', event); }}},'b-table-pagination',_vm.$attrs,false),[_vm._t("bottom-left")],2)])]:_vm._e()],2)};
 var __vue_staticRenderFns__$2 = [];
 
   /* style */
-  const __vue_inject_styles__$2 = undefined;
+  const __vue_inject_styles__$3 = undefined;
   /* scoped */
-  const __vue_scope_id__$2 = undefined;
+  const __vue_scope_id__$3 = undefined;
   /* module identifier */
-  const __vue_module_identifier__$2 = undefined;
+  const __vue_module_identifier__$3 = undefined;
   /* functional template */
-  const __vue_is_functional_template__$2 = false;
+  const __vue_is_functional_template__$3 = false;
   /* style inject */
   
   /* style inject SSR */
@@ -1223,17 +1388,22 @@ var __vue_staticRenderFns__$2 = [];
   
   var Table = __chunk_5.__vue_normalize__(
     { render: __vue_render__$2, staticRenderFns: __vue_staticRenderFns__$2 },
-    __vue_inject_styles__$2,
-    __vue_script__$2,
-    __vue_scope_id__$2,
-    __vue_is_functional_template__$2,
-    __vue_module_identifier__$2,
+    __vue_inject_styles__$3,
+    __vue_script__$3,
+    __vue_scope_id__$3,
+    __vue_is_functional_template__$3,
+    __vue_module_identifier__$3,
     undefined,
     undefined
   );
 
 var Plugin = {
   install: function install(Vue) {
+    // individual import + extend method into Table.vue
+    if (typeof __chunk_2.VueInstance === 'undefined') {
+      __chunk_2.setVueInstance(Vue);
+    }
+
     __chunk_5.registerComponent(Vue, Table);
     __chunk_5.registerComponent(Vue, TableColumn);
   }
