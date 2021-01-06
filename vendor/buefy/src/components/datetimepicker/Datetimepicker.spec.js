@@ -5,11 +5,7 @@ let wrapper
 
 describe('Datetimepicker', () => {
     beforeEach(() => {
-        wrapper = shallowMount(Datetimepicker, {
-            propsData: {
-                locale: 'en-US'
-            }
-        })
+        wrapper = shallowMount(Datetimepicker)
     })
 
     it('is called', () => {
@@ -17,15 +13,7 @@ describe('Datetimepicker', () => {
         expect(wrapper.isVueInstance()).toBeTruthy()
     })
 
-    it('react accordingly when setting a new value', async () => {
-        const date = new Date()
-        wrapper.setProps({ value: date })
-        await wrapper.vm.$nextTick()
-
-        expect(wrapper.vm.newValue).toEqual(date)
-    })
-
-    it('react accordingly when setting computedValue', async () => {
+    it('react accordingly when setting computedValue', () => {
         const date = new Date()
         wrapper.vm.computedValue = date
         const valueEmitted = wrapper.emitted()['input'][0]
@@ -66,23 +54,14 @@ describe('Datetimepicker', () => {
     })
 
     it('should format date time', () => {
-        const datetimeToFormat = new Date(2019, 9, 1, 8, 30, 0, 0)
         wrapper = mount(Datetimepicker, {
-            propsData: {
-                value: datetimeToFormat
-            },
             stubs: {
                 transition: false
             }
         })
-        const datepicker = wrapper.find({ ref: 'datepicker' })
-
-        expect(datepicker.vm.formattedValue).toEqual('2019-10-1 08:30')
-
-        wrapper.setProps({
-            datetimeFormatter: (date) => `${date.getFullYear()}`
-        })
-        expect(datepicker.vm.formattedValue).toEqual('2019')
+        const datetimeToFormat = new Date(2019, 9, 1, 8, 30, 0, 0)
+        const formattedDatetime = wrapper.vm.defaultDatetimeFormatter(datetimeToFormat)
+        expect(formattedDatetime).toEqual('2019-10-1 08:30')
     })
 
     it('should format date time with seconds', () => {
@@ -105,7 +84,10 @@ describe('Datetimepicker', () => {
         const date = new Date(2019, 9, 1, 8, 30, 0, 0)
         wrapper = mount(Datetimepicker, {
             propsData: {
-                value: date
+                value: date,
+                timepicker: {
+                    enableSeconds: true
+                }
             },
             stubs: {
                 transition: false
@@ -113,26 +95,6 @@ describe('Datetimepicker', () => {
             sync: false
         })
         await wrapper.vm.$nextTick()
-        expect(wrapper.find('input').element.value).toEqual('2019-10-1 08:30')
-    })
-
-    it('should parse date time', async () => {
-        wrapper = mount(Datetimepicker, {
-            stubs: {
-                transition: false
-            }
-        })
-        const datepicker = wrapper.find({ ref: 'datepicker' })
-
-        let expectedDatetime = new Date(2019, 9, 1, 9, 30, 0, 0)
-        datepicker.vm.onChange('2019-10-1 09:30')
-        expect(wrapper.vm.computedValue).toEqual(expectedDatetime)
-
-        expectedDatetime = new Date(2019, 9, 1, 9, 30, 0, 0)
-        wrapper.setProps({
-            datetimeParser: () => expectedDatetime
-        })
-        datepicker.vm.onChange('Whatever!')
-        expect(datepicker.vm.computedValue).toEqual(expectedDatetime)
+        expect(wrapper.find('input').element.value).toEqual('2019-10-1 08:30:00')
     })
 })

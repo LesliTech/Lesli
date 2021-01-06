@@ -109,11 +109,6 @@ export default {
         [Icon.name]: Icon,
         [PaginationButton.name]: PaginationButton
     },
-    // deprecated, to replace with default 'value' in the next breaking change
-    model: {
-        prop: 'current',
-        event: 'update:current'
-    },
     props: {
         total: [Number, String],
         perPage: {
@@ -290,8 +285,8 @@ export default {
 
         changePage(num, event) {
             if (this.current === num || num < 1 || num > this.pageCount) return
-            this.$emit('update:current', num)
             this.$emit('change', num)
+            this.$emit('update:current', num)
 
             // Set focus on element to keep tab order
             if (event && event.target) {

@@ -1,4 +1,4 @@
-/*! Buefy v0.9.4 | MIT License | github.com/buefy/buefy */
+/*! Buefy v0.8.20 | MIT License | github.com/buefy/buefy */
 (function (global, factory) {
     typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports) :
     typeof define === 'function' && define.amd ? define(['exports'], factory) :
@@ -11,7 +11,6 @@
       defaultIconComponent: null,
       defaultIconPrev: 'chevron-left',
       defaultIconNext: 'chevron-right',
-      defaultLocale: undefined,
       defaultDialogConfirmText: null,
       defaultDialogCancelText: null,
       defaultSnackbarDuration: 3500,
@@ -21,7 +20,8 @@
       defaultNotificationDuration: 2000,
       defaultNotificationPosition: null,
       defaultTooltipType: 'is-primary',
-      defaultTooltipDelay: null,
+      defaultTooltipAnimated: false,
+      defaultTooltipDelay: 0,
       defaultInputAutocomplete: 'on',
       defaultDateFormatter: null,
       defaultDateParser: null,
@@ -43,33 +43,18 @@
       defaultUseHtml5Validation: true,
       defaultDropdownMobileModal: true,
       defaultFieldLabelPosition: null,
-      defaultDatepickerYearsRange: [-100, 10],
+      defaultDatepickerYearsRange: [-100, 3],
       defaultDatepickerNearbyMonthDays: true,
       defaultDatepickerNearbySelectableMonthDays: false,
       defaultDatepickerShowWeekNumber: false,
-      defaultDatepickerWeekNumberClickable: false,
       defaultDatepickerMobileModal: true,
-      defaultTrapFocus: true,
-      defaultAutoFocus: true,
+      defaultTrapFocus: false,
       defaultButtonRounded: false,
       defaultCarouselInterval: 3500,
-      defaultTabsExpanded: false,
       defaultTabsAnimated: true,
-      defaultTabsType: null,
-      defaultStatusIcon: true,
-      defaultProgrammaticPromise: false,
       defaultLinkTags: ['a', 'button', 'input', 'router-link', 'nuxt-link', 'n-link', 'RouterLink', 'NuxtLink', 'NLink'],
-      defaultImageWebpFallback: null,
-      defaultImageLazy: true,
-      defaultImageResponsive: true,
-      defaultImageRatio: null,
-      defaultImageSrcsetFormatter: null,
       customIconPacks: null
-    };
-
-    function isVueComponent(c) {
-      return c && c._isVue;
-    }
+    }; // TODO defaultTrapFocus to true in the next breaking change
 
     var FormElementMixin = {
       props: {
@@ -88,19 +73,7 @@
             return config.defaultUseHtml5Validation;
           }
         },
-        validationMessage: String,
-        locale: {
-          type: [String, Array],
-          default: function _default() {
-            return config.defaultLocale;
-          }
-        },
-        statusIcon: {
-          type: Boolean,
-          default: function _default() {
-            return config.defaultStatusIcon;
-          }
-        }
+        validationMessage: String
       },
       data: function data() {
         return {
@@ -129,16 +102,14 @@
          * Get the type prop from parent if it's a Field.
          */
         statusType: function statusType() {
-          var _ref = this.parentField || {},
-              newType = _ref.newType;
+          if (!this.parentField) return;
+          if (!this.parentField.newType) return;
 
-          if (!newType) return;
-
-          if (typeof newType === 'string') {
-            return newType;
+          if (typeof this.parentField.newType === 'string') {
+            return this.parentField.newType;
           } else {
-            for (var key in newType) {
-              if (newType[key]) {
+            for (var key in this.parentField.newType) {
+              if (this.parentField.newType[key]) {
                 return key;
               }
             }
@@ -174,9 +145,12 @@
          * Focus method that work dynamically depending on the component.
          */
         focus: function focus() {
-          var el = this.getElement();
-          if (el === undefined) return;
+          var _this = this;
+
+          if (this.$data._elementRef === undefined) return;
           this.$nextTick(function () {
+            var el = _this.$el.querySelector(_this.$data._elementRef);
+
             if (el) el.focus();
           });
         },
@@ -190,13 +164,7 @@
           this.$emit('focus', $event);
         },
         getElement: function getElement() {
-          var el = this.$refs[this.$data._elementRef];
-
-          while (isVueComponent(el)) {
-            el = el.$refs[el.$data._elementRef];
-          }
-
-          return el;
+          return this.$el.querySelector(this.$data._elementRef);
         },
         setInvalid: function setInvalid() {
           var type = 'is-danger';
@@ -204,18 +172,18 @@
           this.setValidity(type, message);
         },
         setValidity: function setValidity(type, message) {
-          var _this = this;
+          var _this2 = this;
 
           this.$nextTick(function () {
-            if (_this.parentField) {
+            if (_this2.parentField) {
               // Set type only if not defined
-              if (!_this.parentField.type) {
-                _this.parentField.newType = type;
+              if (!_this2.parentField.type) {
+                _this2.parentField.newType = type;
               } // Set message only if not defined
 
 
-              if (!_this.parentField.message) {
-                _this.parentField.newMessage = message;
+              if (!_this2.parentField.message) {
+                _this2.parentField.newMessage = message;
               }
             }
           });
@@ -228,10 +196,10 @@
          */
         checkHtml5Validity: function checkHtml5Validity() {
           if (!this.useHtml5Validation) return;
-          var el = this.getElement();
-          if (el === undefined) return;
+          if (this.$refs[this.$data._elementRef] === undefined) return;
+          if (this.getElement() === null) return;
 
-          if (!el.checkValidity()) {
+          if (!this.getElement().checkValidity()) {
             this.setInvalid();
             this.isValid = false;
           } else {
@@ -285,14 +253,18 @@
       watch: {
         /**
          *   When v-model is changed:
-         *   1. Set internal value.
-         *   2. Reset interna input file value
-         *   3. If it's invalid, validate again.
+         *   1. Get value from input file
+         *   2. Set internal value.
+         *   3. Reset input value if array is empty or when input file is not found in newValue
+         *   4. If it's invalid, validate again.
          */
         value: function value(_value) {
+          var inputFiles = this.$refs.input.files;
           this.newValue = _value;
 
-          if (!_value || Array.isArray(_value) && _value.length === 0) {
+          if (!this.newValue || Array.isArray(this.newValue) && this.newValue.length === 0 || !inputFiles[0] || Array.isArray(this.newValue) && !this.newValue.some(function (a) {
+            return a.name === inputFiles[0].name;
+          })) {
             this.$refs.input.value = null;
           }
 
@@ -306,17 +278,33 @@
         */
         onFileChange: function onFileChange(event) {
           if (this.disabled || this.loading) return;
-          if (this.dragDrop) this.updateDragDropFocus(false);
+
+          if (this.dragDrop) {
+            this.updateDragDropFocus(false);
+          }
+
           var value = event.target.files || event.dataTransfer.files;
 
           if (value.length === 0) {
-            if (!this.newValue) return;
-            if (this.native) this.newValue = null;
+            if (!this.newValue) {
+              return;
+            }
+
+            if (this.native) {
+              this.newValue = null;
+            }
           } else if (!this.multiple) {
             // only one element in case drag drop mode and isn't multiple
             if (this.dragDrop && value.length !== 1) return;else {
               var file = value[0];
-              if (this.checkType(file)) this.newValue = file;else if (this.newValue) this.newValue = null;else return;
+
+              if (this.checkType(file)) {
+                this.newValue = file;
+              } else if (this.newValue) {
+                this.newValue = null;
+              } else {
+                return;
+              }
             }
           } else {
             // always new values if native or undefined local
@@ -336,7 +324,9 @@
               }
             }
 
-            if (!newValues) return;
+            if (!newValues) {
+              return;
+            }
           }
 
           this.$emit('input', this.newValue);
@@ -382,7 +372,6 @@
             }
           }
 
-          if (!valid) this.$emit('invalid');
           return valid;
         }
       }
@@ -478,11 +467,11 @@
 
     /* template */
     var __vue_render__ = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('label',{staticClass:"upload control",class:{'is-expanded' : _vm.expanded}},[(!_vm.dragDrop)?[_vm._t("default")]:_c('div',{staticClass:"upload-draggable",class:[_vm.type, {
-                'is-loading': _vm.loading,
-                'is-disabled': _vm.disabled,
-                'is-hovered': _vm.dragDropFocus,
-                'is-expanded': _vm.expanded,
-            }],on:{"dragover":function($event){$event.preventDefault();return _vm.updateDragDropFocus(true)},"dragleave":function($event){$event.preventDefault();return _vm.updateDragDropFocus(false)},"dragenter":function($event){$event.preventDefault();return _vm.updateDragDropFocus(true)},"drop":function($event){$event.preventDefault();return _vm.onFileChange($event)}}},[_vm._t("default")],2),_c('input',_vm._b({ref:"input",attrs:{"type":"file","multiple":_vm.multiple,"accept":_vm.accept,"disabled":_vm.disabled},on:{"change":_vm.onFileChange}},'input',_vm.$attrs,false))],2)};
+                    'is-loading': _vm.loading,
+                    'is-disabled': _vm.disabled,
+                    'is-hovered': _vm.dragDropFocus,
+                    'is-expanded': _vm.expanded,
+                }],on:{"dragover":function($event){$event.preventDefault();_vm.updateDragDropFocus(true);},"dragleave":function($event){$event.preventDefault();_vm.updateDragDropFocus(false);},"dragenter":function($event){$event.preventDefault();_vm.updateDragDropFocus(true);},"drop":function($event){$event.preventDefault();return _vm.onFileChange($event)}}},[_vm._t("default")],2),_vm._v(" "),_c('input',_vm._b({ref:"input",attrs:{"type":"file","multiple":_vm.multiple,"accept":_vm.accept,"disabled":_vm.disabled},on:{"change":_vm.onFileChange}},'input',_vm.$attrs,false))],2)};
     var __vue_staticRenderFns__ = [];
 
       /* style */

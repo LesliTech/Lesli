@@ -4,14 +4,14 @@ Object.defineProperty(exports, '__esModule', { value: true });
 
 require('./chunk-14c82365.js');
 var helpers = require('./helpers.js');
-var __chunk_2 = require('./chunk-0e70abe7.js');
+var __chunk_2 = require('./chunk-cd0dcc1d.js');
 var __chunk_5 = require('./chunk-13e039f5.js');
-var __chunk_22 = require('./chunk-02d55a73.js');
+var __chunk_20 = require('./chunk-dfd9e0ac.js');
 
 //
 var script = {
   name: 'BToast',
-  mixins: [__chunk_22.NoticeMixin],
+  mixins: [__chunk_20.NoticeMixin],
   data: function data() {
     return {
       newDuration: this.duration || __chunk_2.config.defaultToastDuration
@@ -23,7 +23,7 @@ var script = {
 const __vue_script__ = script;
 
 /* template */
-var __vue_render__ = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('transition',{attrs:{"enter-active-class":_vm.transition.enter,"leave-active-class":_vm.transition.leave}},[_c('div',{directives:[{name:"show",rawName:"v-show",value:(_vm.isActive),expression:"isActive"}],staticClass:"toast",class:[_vm.type, _vm.position],attrs:{"aria-hidden":!_vm.isActive,"role":"alert"}},[(_vm.$slots.default)?[_vm._t("default")]:[_c('div',{domProps:{"innerHTML":_vm._s(_vm.message)}})]],2)])};
+var __vue_render__ = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('transition',{attrs:{"enter-active-class":_vm.transition.enter,"leave-active-class":_vm.transition.leave}},[_c('div',{directives:[{name:"show",rawName:"v-show",value:(_vm.isActive),expression:"isActive"}],staticClass:"toast",class:[_vm.type, _vm.position],attrs:{"aria-hidden":!_vm.isActive,"role":"alert"}},[_c('div',{domProps:{"innerHTML":_vm._s(_vm.message)}})])])};
 var __vue_staticRenderFns__ = [];
 
   /* style */
@@ -71,28 +71,14 @@ var ToastProgrammatic = {
       delete params.parent;
     }
 
-    var slot;
-
-    if (Array.isArray(params.message)) {
-      slot = params.message;
-      delete params.message;
-    }
-
     var propsData = helpers.merge(defaultParam, params);
     var vm = typeof window !== 'undefined' && window.Vue ? window.Vue : localVueInstance || __chunk_2.VueInstance;
     var ToastComponent = vm.extend(Toast);
-    var component = new ToastComponent({
+    return new ToastComponent({
       parent: parent,
       el: document.createElement('div'),
       propsData: propsData
     });
-
-    if (slot) {
-      component.$slots.default = slot;
-      component.$forceUpdate();
-    }
-
-    return component;
   }
 };
 var Plugin = {

@@ -4,8 +4,8 @@ Object.defineProperty(exports, '__esModule', { value: true });
 
 var __chunk_1 = require('./chunk-14c82365.js');
 require('./helpers.js');
-var __chunk_2 = require('./chunk-0e70abe7.js');
-var __chunk_4 = require('./chunk-dbd288d9.js');
+var __chunk_2 = require('./chunk-cd0dcc1d.js');
+var __chunk_4 = require('./chunk-d7fda995.js');
 var __chunk_5 = require('./chunk-13e039f5.js');
 
 var script = {
@@ -73,16 +73,16 @@ const __vue_script__ = script;
 
 /* template */
 var __vue_render__ = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c(_vm.computedTag,_vm._g(_vm._b({tag:"component",staticClass:"button",class:[_vm.size, _vm.type, {
-        'is-rounded': _vm.rounded,
-        'is-loading': _vm.loading,
-        'is-outlined': _vm.outlined,
-        'is-fullwidth': _vm.expanded,
-        'is-inverted': _vm.inverted,
-        'is-focused': _vm.focused,
-        'is-active': _vm.active,
-        'is-hovered': _vm.hovered,
-        'is-selected': _vm.selected
-    }],attrs:{"type":_vm.nativeType}},'component',_vm.$attrs,false),_vm.$listeners),[(_vm.iconLeft)?_c('b-icon',{attrs:{"pack":_vm.iconPack,"icon":_vm.iconLeft,"size":_vm.iconSize}}):_vm._e(),(_vm.label)?_c('span',[_vm._v(_vm._s(_vm.label))]):(_vm.$slots.default)?_c('span',[_vm._t("default")],2):_vm._e(),(_vm.iconRight)?_c('b-icon',{attrs:{"pack":_vm.iconPack,"icon":_vm.iconRight,"size":_vm.iconSize}}):_vm._e()],1)};
+            'is-rounded': _vm.rounded,
+            'is-loading': _vm.loading,
+            'is-outlined': _vm.outlined,
+            'is-fullwidth': _vm.expanded,
+            'is-inverted': _vm.inverted,
+            'is-focused': _vm.focused,
+            'is-active': _vm.active,
+            'is-hovered': _vm.hovered,
+            'is-selected': _vm.selected
+        }],attrs:{"type":_vm.nativeType}},'component',_vm.$attrs,false),_vm.$listeners),[(_vm.iconLeft)?_c('b-icon',{attrs:{"pack":_vm.iconPack,"icon":_vm.iconLeft,"size":_vm.iconSize}}):_vm._e(),_vm._v(" "),(_vm.label)?_c('span',[_vm._v(_vm._s(_vm.label))]):(_vm.$slots.default)?_c('span',[_vm._t("default")],2):_vm._e(),_vm._v(" "),(_vm.iconRight)?_c('b-icon',{attrs:{"pack":_vm.iconPack,"icon":_vm.iconRight,"size":_vm.iconSize}}):_vm._e()],1)};
 var __vue_staticRenderFns__ = [];
 
   /* style */

@@ -1,4 +1,4 @@
-/*! Buefy v0.9.4 | MIT License | github.com/buefy/buefy */
+/*! Buefy v0.8.20 | MIT License | github.com/buefy/buefy */
 (function (global, factory) {
   typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports) :
   typeof define === 'function' && define.amd ? define(['exports'], factory) :
@@ -26,7 +26,6 @@
     defaultIconComponent: null,
     defaultIconPrev: 'chevron-left',
     defaultIconNext: 'chevron-right',
-    defaultLocale: undefined,
     defaultDialogConfirmText: null,
     defaultDialogCancelText: null,
     defaultSnackbarDuration: 3500,
@@ -36,7 +35,8 @@
     defaultNotificationDuration: 2000,
     defaultNotificationPosition: null,
     defaultTooltipType: 'is-primary',
-    defaultTooltipDelay: null,
+    defaultTooltipAnimated: false,
+    defaultTooltipDelay: 0,
     defaultInputAutocomplete: 'on',
     defaultDateFormatter: null,
     defaultDateParser: null,
@@ -58,29 +58,18 @@
     defaultUseHtml5Validation: true,
     defaultDropdownMobileModal: true,
     defaultFieldLabelPosition: null,
-    defaultDatepickerYearsRange: [-100, 10],
+    defaultDatepickerYearsRange: [-100, 3],
     defaultDatepickerNearbyMonthDays: true,
     defaultDatepickerNearbySelectableMonthDays: false,
     defaultDatepickerShowWeekNumber: false,
-    defaultDatepickerWeekNumberClickable: false,
     defaultDatepickerMobileModal: true,
-    defaultTrapFocus: true,
-    defaultAutoFocus: true,
+    defaultTrapFocus: false,
     defaultButtonRounded: false,
     defaultCarouselInterval: 3500,
-    defaultTabsExpanded: false,
     defaultTabsAnimated: true,
-    defaultTabsType: null,
-    defaultStatusIcon: true,
-    defaultProgrammaticPromise: false,
     defaultLinkTags: ['a', 'button', 'input', 'router-link', 'nuxt-link', 'n-link', 'RouterLink', 'NuxtLink', 'NLink'],
-    defaultImageWebpFallback: null,
-    defaultImageLazy: true,
-    defaultImageResponsive: true,
-    defaultImageRatio: null,
-    defaultImageSrcsetFormatter: null,
     customIconPacks: null
-  };
+  }; // TODO defaultTrapFocus to true in the next breaking change
 
   var script = {
     name: 'BFieldBody',
@@ -241,18 +230,6 @@
   var script$1 = {
     name: 'BField',
     components: _defineProperty({}, FieldBody.name, FieldBody),
-    provide: function provide() {
-      return {
-        'BField': this
-      };
-    },
-    inject: {
-      parent: {
-        from: 'BField',
-        default: false
-      }
-    },
-    // Used internally only when using Field in Field
     props: {
       type: [String, Object],
       label: String,
@@ -286,20 +263,13 @@
     },
     computed: {
       rootClasses: function rootClasses() {
-        return [{
+        return [this.newPosition, {
           'is-expanded': this.expanded,
+          'is-grouped-multiline': this.groupMultiline,
           'is-horizontal': this.horizontal,
           'is-floating-in-label': this.hasLabel && !this.horizontal && this.labelPosition === 'inside',
           'is-floating-label': this.hasLabel && !this.horizontal && this.labelPosition === 'on-border'
         }, this.numberInputClasses];
-      },
-      innerFieldClasses: function innerFieldClasses() {
-        return [this.fieldType(), this.newPosition, {
-          'is-grouped-multiline': this.groupMultiline
-        }];
-      },
-      hasInnerField: function hasInnerField() {
-        return this.grouped || this.groupMultiline || this.hasAddons();
       },
 
       /**
@@ -322,10 +292,6 @@
       * (each element is separated by <br> tag)
       */
       formattedMessage: function formattedMessage() {
-        if (this.parent && this.parent.hasInnerField) {
-          return ''; // Message will be displayed in parent field
-        }
-
         if (typeof this.newMessage === 'string') {
           return [this.newMessage];
         }
@@ -360,7 +326,7 @@
         return this.label || this.$slots.label;
       },
       hasMessage: function hasMessage() {
-        return (!this.parent || !this.parent.hasInnerField) && this.newMessage || this.$slots.message;
+        return this.newMessage || this.$slots.message;
       },
       numberInputClasses: function numberInputClasses() {
         if (this.$slots.default) {
@@ -401,19 +367,6 @@
       */
       message: function message(value) {
         this.newMessage = value;
-      },
-
-      /**
-      * Set parent message if we use Field in Field.
-      */
-      newMessage: function newMessage(value) {
-        if (this.parent && this.parent.hasInnerField) {
-          if (!this.parent.type) {
-            this.parent.newType = this.newType;
-          }
-
-          this.parent.newMessage = value;
-        }
       }
     },
     methods: {
@@ -425,9 +378,6 @@
       */
       fieldType: function fieldType() {
         if (this.grouped) return 'is-grouped';
-        if (this.hasAddons()) return 'has-addons';
-      },
-      hasAddons: function hasAddons() {
         var renderedNode = 0;
 
         if (this.$slots.default) {
@@ -436,7 +386,9 @@
           }, 0);
         }
 
-        return renderedNode > 1 && this.addons && !this.horizontal;
+        if (renderedNode > 1 && this.addons && !this.horizontal) {
+          return 'has-addons';
+        }
       }
     },
     mounted: function mounted() {
@@ -455,7 +407,7 @@
   const __vue_script__$1 = script$1;
 
   /* template */
-  var __vue_render__ = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"field",class:_vm.rootClasses},[(_vm.horizontal)?_c('div',{staticClass:"field-label",class:[_vm.customClass, _vm.fieldLabelSize]},[(_vm.hasLabel)?_c('label',{staticClass:"label",class:_vm.customClass,attrs:{"for":_vm.labelFor}},[(_vm.$slots.label)?_vm._t("label"):[_vm._v(_vm._s(_vm.label))]],2):_vm._e()]):[(_vm.hasLabel)?_c('label',{staticClass:"label",class:_vm.customClass,attrs:{"for":_vm.labelFor}},[(_vm.$slots.label)?_vm._t("label"):[_vm._v(_vm._s(_vm.label))]],2):_vm._e()],(_vm.horizontal)?_c('b-field-body',{attrs:{"message":_vm.newMessage ? _vm.formattedMessage : '',"type":_vm.newType}},[_vm._t("default")],2):(_vm.hasInnerField)?_c('div',{staticClass:"field-body"},[_c('b-field',{class:_vm.innerFieldClasses,attrs:{"addons":false,"type":_vm.newType}},[_vm._t("default")],2)],1):[_vm._t("default")],(_vm.hasMessage && !_vm.horizontal)?_c('p',{staticClass:"help",class:_vm.newType},[(_vm.$slots.message)?_vm._t("message"):[_vm._l((_vm.formattedMessage),function(mess,i){return [_vm._v(" "+_vm._s(mess)+" "),((i + 1) < _vm.formattedMessage.length)?_c('br',{key:i}):_vm._e()]})]],2):_vm._e()],2)};
+  var __vue_render__ = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"field",class:[_vm.rootClasses, _vm.fieldType()]},[(_vm.horizontal)?_c('div',{staticClass:"field-label",class:[_vm.customClass, _vm.fieldLabelSize]},[(_vm.hasLabel)?_c('label',{staticClass:"label",class:_vm.customClass,attrs:{"for":_vm.labelFor}},[(_vm.$slots.label)?_vm._t("label"):[_vm._v(_vm._s(_vm.label))]],2):_vm._e()]):[(_vm.hasLabel)?_c('label',{staticClass:"label",class:_vm.customClass,attrs:{"for":_vm.labelFor}},[(_vm.$slots.label)?_vm._t("label"):[_vm._v(_vm._s(_vm.label))]],2):_vm._e()],_vm._v(" "),(_vm.horizontal)?_c('b-field-body',{attrs:{"message":_vm.newMessage ? _vm.formattedMessage : '',"type":_vm.newType}},[_vm._t("default")],2):[_vm._t("default")],_vm._v(" "),(_vm.hasMessage && !_vm.horizontal)?_c('p',{staticClass:"help",class:_vm.newType},[(_vm.$slots.message)?_vm._t("message"):[_vm._l((_vm.formattedMessage),function(mess,i){return [_vm._v("\r\n                    "+_vm._s(mess)+"\r\n                    "),((i + 1) < _vm.formattedMessage.length)?_c('br',{key:i}):_vm._e()]})]],2):_vm._e()],2)};
   var __vue_staticRenderFns__ = [];
 
     /* style */

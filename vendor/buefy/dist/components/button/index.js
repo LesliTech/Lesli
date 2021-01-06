@@ -1,4 +1,4 @@
-/*! Buefy v0.9.4 | MIT License | github.com/buefy/buefy */
+/*! Buefy v0.8.20 | MIT License | github.com/buefy/buefy */
 (function (global, factory) {
   typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports) :
   typeof define === 'function' && define.amd ? define(['exports'], factory) :
@@ -92,7 +92,6 @@
     defaultIconComponent: null,
     defaultIconPrev: 'chevron-left',
     defaultIconNext: 'chevron-right',
-    defaultLocale: undefined,
     defaultDialogConfirmText: null,
     defaultDialogCancelText: null,
     defaultSnackbarDuration: 3500,
@@ -102,7 +101,8 @@
     defaultNotificationDuration: 2000,
     defaultNotificationPosition: null,
     defaultTooltipType: 'is-primary',
-    defaultTooltipDelay: null,
+    defaultTooltipAnimated: false,
+    defaultTooltipDelay: 0,
     defaultInputAutocomplete: 'on',
     defaultDateFormatter: null,
     defaultDateParser: null,
@@ -124,29 +124,18 @@
     defaultUseHtml5Validation: true,
     defaultDropdownMobileModal: true,
     defaultFieldLabelPosition: null,
-    defaultDatepickerYearsRange: [-100, 10],
+    defaultDatepickerYearsRange: [-100, 3],
     defaultDatepickerNearbyMonthDays: true,
     defaultDatepickerNearbySelectableMonthDays: false,
     defaultDatepickerShowWeekNumber: false,
-    defaultDatepickerWeekNumberClickable: false,
     defaultDatepickerMobileModal: true,
-    defaultTrapFocus: true,
-    defaultAutoFocus: true,
+    defaultTrapFocus: false,
     defaultButtonRounded: false,
     defaultCarouselInterval: 3500,
-    defaultTabsExpanded: false,
     defaultTabsAnimated: true,
-    defaultTabsType: null,
-    defaultStatusIcon: true,
-    defaultProgrammaticPromise: false,
     defaultLinkTags: ['a', 'button', 'input', 'router-link', 'nuxt-link', 'n-link', 'RouterLink', 'NuxtLink', 'NLink'],
-    defaultImageWebpFallback: null,
-    defaultImageLazy: true,
-    defaultImageResponsive: true,
-    defaultImageRatio: null,
-    defaultImageSrcsetFormatter: null,
     customIconPacks: null
-  };
+  }; // TODO defaultTrapFocus to true in the next breaking change
 
   /**
    * Merge function to replace Object.assign with deep merging possibility
@@ -191,10 +180,10 @@
     var faIconPrefix = config && config.defaultIconComponent ? '' : 'fa-';
     return {
       sizes: {
-        'default': null,
+        'default': faIconPrefix + 'lg',
         'is-small': null,
-        'is-medium': faIconPrefix + 'lg',
-        'is-large': faIconPrefix + '2x'
+        'is-medium': faIconPrefix + '2x',
+        'is-large': faIconPrefix + '3x'
       },
       iconPrefix: faIconPrefix,
       internalIcons: {
@@ -509,16 +498,16 @@
 
   /* template */
   var __vue_render__$1 = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c(_vm.computedTag,_vm._g(_vm._b({tag:"component",staticClass:"button",class:[_vm.size, _vm.type, {
-          'is-rounded': _vm.rounded,
-          'is-loading': _vm.loading,
-          'is-outlined': _vm.outlined,
-          'is-fullwidth': _vm.expanded,
-          'is-inverted': _vm.inverted,
-          'is-focused': _vm.focused,
-          'is-active': _vm.active,
-          'is-hovered': _vm.hovered,
-          'is-selected': _vm.selected
-      }],attrs:{"type":_vm.nativeType}},'component',_vm.$attrs,false),_vm.$listeners),[(_vm.iconLeft)?_c('b-icon',{attrs:{"pack":_vm.iconPack,"icon":_vm.iconLeft,"size":_vm.iconSize}}):_vm._e(),(_vm.label)?_c('span',[_vm._v(_vm._s(_vm.label))]):(_vm.$slots.default)?_c('span',[_vm._t("default")],2):_vm._e(),(_vm.iconRight)?_c('b-icon',{attrs:{"pack":_vm.iconPack,"icon":_vm.iconRight,"size":_vm.iconSize}}):_vm._e()],1)};
+              'is-rounded': _vm.rounded,
+              'is-loading': _vm.loading,
+              'is-outlined': _vm.outlined,
+              'is-fullwidth': _vm.expanded,
+              'is-inverted': _vm.inverted,
+              'is-focused': _vm.focused,
+              'is-active': _vm.active,
+              'is-hovered': _vm.hovered,
+              'is-selected': _vm.selected
+          }],attrs:{"type":_vm.nativeType}},'component',_vm.$attrs,false),_vm.$listeners),[(_vm.iconLeft)?_c('b-icon',{attrs:{"pack":_vm.iconPack,"icon":_vm.iconLeft,"size":_vm.iconSize}}):_vm._e(),_vm._v(" "),(_vm.label)?_c('span',[_vm._v(_vm._s(_vm.label))]):(_vm.$slots.default)?_c('span',[_vm._t("default")],2):_vm._e(),_vm._v(" "),(_vm.iconRight)?_c('b-icon',{attrs:{"pack":_vm.iconPack,"icon":_vm.iconRight,"size":_vm.iconSize}}):_vm._e()],1)};
   var __vue_staticRenderFns__$1 = [];
 
     /* style */

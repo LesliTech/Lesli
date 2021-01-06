@@ -2,15 +2,15 @@
     <div
         class="carousel"
         :class="{'is-overlay': overlay}"
-        @mouseenter="checkPause"
+        @mouseenter="pauseTimer"
         @mouseleave="startTimer">
         <progress
             v-if="progress"
             class="progress"
             :class="progressType"
-            :value="activeChild"
-            :max="childItems.length - 1">
-            {{ childItems.length - 1 }}
+            :value="activeItem"
+            :max="carouselItems.length - 1">
+            {{ carouselItems.length - 1 }}
         </progress>
         <div
             class="carousel-items"
@@ -18,23 +18,23 @@
             @mouseup="dragEnd"
             @touchstart.stop="dragStart"
             @touchend.stop="dragEnd">
-            <slot/>
+            <slot />
             <div
                 v-if="arrow"
                 class="carousel-arrow"
                 :class="{'is-hovered': arrowHover}">
                 <b-icon
-                    v-show="hasPrev"
+                    v-if="checkArrow(0)"
                     class="has-icons-left"
-                    @click.native="prev"
+                    @click.native.prevent="prev"
                     :pack="iconPack"
                     :icon="iconPrev"
                     :size="iconSize"
                     both />
                 <b-icon
-                    v-show="hasNext"
+                    v-if="checkArrow(carouselItems.length - 1)"
                     class="has-icons-right"
-                    @click.native="next"
+                    @click.native.prevent="next"
                     :pack="iconPack"
                     :icon="iconNext"
                     :size="iconSize"
@@ -52,8 +52,8 @@
         </div>
         <template v-if="withCarouselList && !indicator">
             <slot
-                :active="activeChild"
-                :switch="changeActive"
+                :active="activeItem"
+                :switch="changeItem"
                 name="list"/>
         </template>
         <div
@@ -61,12 +61,12 @@
             class="carousel-indicator"
             :class="indicatorClasses">
             <a
-                v-for="(item, index) in sortedItems"
+                v-for="(item, index) in carouselItems"
                 class="indicator-item"
-                :class="{'is-active': item.isActive}"
+                :class="{'is-active': index === activeItem}"
                 @mouseover="modeChange('hover', index)"
                 @click="modeChange('click', index)"
-                :key="item._uid">
+                :key="index">
                 <slot
                     :i="index"
                     name="indicators">
@@ -84,15 +84,12 @@
 import config from '../../utils/config'
 
 import Icon from '../icon/Icon'
-import {default as ProviderParentMixin, Sorted} from '../../utils/ProviderParentMixin'
-import {mod, bound} from '../../utils/helpers'
 
 export default {
     name: 'BCarousel',
     components: {
         [Icon.name]: Icon
     },
-    mixins: [ProviderParentMixin('carousel', Sorted)],
     props: {
         value: {
             type: Number,
@@ -128,6 +125,10 @@ export default {
             default: 'Pause'
         },
         arrow: {
+            type: Boolean,
+            default: true
+        },
+        arrowBoth: {
             type: Boolean,
             default: true
         },
@@ -189,10 +190,11 @@ export default {
     },
     data() {
         return {
-            transition: 'next',
-            activeChild: this.value || 0,
+            _isCarousel: true,
+            activeItem: this.value,
+            carouselItems: [],
             isPause: false,
-            dragX: false,
+            dragX: 0,
             timer: null
         }
     },
@@ -207,14 +209,6 @@ export default {
                 this.indicatorCustom && this.indicatorCustomSize,
                 this.indicatorInside && this.indicatorPosition
             ]
-        },
-
-        // checking arrows
-        hasPrev() {
-            return this.repeat || this.activeChild !== 0
-        },
-        hasNext() {
-            return this.repeat || this.activeChild < this.childItems.length - 1
         }
     },
     watch: {
@@ -222,36 +216,33 @@ export default {
          * When v-model is changed set the new active item.
          */
         value(value) {
-            this.changeActive(value)
+            if (value < this.activeItem) {
+                this.changeItem(value)
+            } else {
+                this.changeItem(value, false)
+            }
         },
         /**
          * When carousel-items are updated, set active one.
          */
-        sortedItems(items) {
-            if (this.activeChild >= items.length && this.activeChild > 0) {
-                this.changeActive(this.activeChild - 1)
+        carouselItems() {
+            if (this.activeItem < this.carouselItems.length) {
+                this.carouselItems[this.activeItem].isActive = true
             }
         },
         /**
-         *  When autoplay is changed, start or pause timer accordingly
+         *  When autoplay is change, set by status
          */
         autoplay(status) {
             status ? this.startTimer() : this.pauseTimer()
-        },
-        /**
-         *  Since the timer can get paused at the end, if repeat is changed we need to restart it
-         */
-        repeat(status) {
-            if (status) { this.startTimer() }
         }
     },
-
     methods: {
         startTimer() {
             if (!this.autoplay || this.timer) return
             this.isPause = false
             this.timer = setInterval(() => {
-                if (!this.repeat && this.activeChild >= this.childItems.length - 1) {
+                if (!this.repeat && this.activeItem === this.carouselItems.length - 1) {
                     this.pauseTimer()
                 } else {
                     this.next()
@@ -267,47 +258,55 @@ export default {
         },
         checkPause() {
             if (this.pauseHover && this.autoplay) {
-                this.pauseTimer()
+                return this.pauseTimer()
             }
         },
         /**
          * Change the active item and emit change event.
          * action only for animated slide, there true = next, false = prev
          */
-        changeActive(newIndex, direction = 0) {
-            if (this.activeChild === newIndex || isNaN(newIndex)) return
+        changeItem(newIndex, action = true) {
+            if (this.activeItem === newIndex) return
 
-            direction = direction || (newIndex - this.activeChild)
-
-            newIndex = this.repeat ? mod(newIndex, this.childItems.length)
-                : bound(newIndex, 0, this.childItems.length - 1)
-
-            this.transition = direction > 0 ? 'prev' : 'next'
-            // Transition names are reversed from the actual direction for correct effect
-
-            this.activeChild = newIndex
-            if (newIndex !== this.value) {
-                this.$emit('input', newIndex)
+            if (this.activeItem < this.carouselItems.length) {
+                this.carouselItems[this.activeItem].status(false, action)
             }
-            this.$emit('change', newIndex) // BC
+            this.carouselItems[newIndex].status(true, action)
+            this.activeItem = newIndex
+            this.$emit('change', newIndex)
         },
         // Indicator trigger when change active item.
         modeChange(trigger, value) {
             if (this.indicatorMode === trigger) {
-                return this.changeActive(value)
+                this.$emit('input', value)
+                return value < this.activeItem
+                    ? this.changeItem(value)
+                    : this.changeItem(value, false)
             }
         },
         prev() {
-            this.changeActive(this.activeChild - 1, -1)
+            if (this.activeItem === 0) {
+                if (this.repeat) this.changeItem(this.carouselItems.length - 1)
+            } else {
+                this.changeItem(this.activeItem - 1)
+            }
         },
         next() {
-            this.changeActive(this.activeChild + 1, 1)
+            if (this.activeItem === this.carouselItems.length - 1) {
+                if (this.repeat) this.changeItem(0, false)
+            } else {
+                this.changeItem(this.activeItem + 1, false)
+            }
+        },
+        // checking arrow between both
+        checkArrow(value) {
+            if (this.arrowBoth) return true
+            if (this.activeItem !== value) return true
         },
         // handle drag event
         dragStart(event) {
-            if (!this.hasDrag ||
-                !event.target.draggable) return
-            this.dragX = event.touches ? event.changedTouches[0].pageX : event.pageX
+            if (!this.hasDrag) return
+            this.dragx = event.touches ? event.changedTouches[0].pageX : event.pageX
             if (event.touches) {
                 this.pauseTimer()
             } else {
@@ -315,27 +314,25 @@ export default {
             }
         },
         dragEnd(event) {
-            if (this.dragX === false) return
+            if (!this.hasDrag) return
             const detected = event.touches ? event.changedTouches[0].pageX : event.pageX
-            const diffX = detected - this.dragX
-            if (Math.abs(diffX) > 30) {
+            const diffX = detected - this.dragx
+            if (Math.abs(diffX) > 50) {
                 if (diffX < 0) {
                     this.next()
                 } else {
                     this.prev()
                 }
-            } else {
-                event.target.click()
-                this.sortedItems[this.activeChild].$emit('click')
-                this.$emit('click')
             }
             if (event.touches) {
                 this.startTimer()
             }
-            this.dragX = false
         }
     },
     mounted() {
+        if (this.activeItem < this.carouselItems.length) {
+            this.carouselItems[this.activeItem].isActive = true
+        }
         this.startTimer()
     },
     beforeDestroy() {

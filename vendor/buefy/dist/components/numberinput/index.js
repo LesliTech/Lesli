@@ -1,4 +1,4 @@
-/*! Buefy v0.9.4 | MIT License | github.com/buefy/buefy */
+/*! Buefy v0.8.20 | MIT License | github.com/buefy/buefy */
 (function (global, factory) {
   typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports) :
   typeof define === 'function' && define.amd ? define(['exports'], factory) :
@@ -92,7 +92,6 @@
     defaultIconComponent: null,
     defaultIconPrev: 'chevron-left',
     defaultIconNext: 'chevron-right',
-    defaultLocale: undefined,
     defaultDialogConfirmText: null,
     defaultDialogCancelText: null,
     defaultSnackbarDuration: 3500,
@@ -102,7 +101,8 @@
     defaultNotificationDuration: 2000,
     defaultNotificationPosition: null,
     defaultTooltipType: 'is-primary',
-    defaultTooltipDelay: null,
+    defaultTooltipAnimated: false,
+    defaultTooltipDelay: 0,
     defaultInputAutocomplete: 'on',
     defaultDateFormatter: null,
     defaultDateParser: null,
@@ -124,29 +124,18 @@
     defaultUseHtml5Validation: true,
     defaultDropdownMobileModal: true,
     defaultFieldLabelPosition: null,
-    defaultDatepickerYearsRange: [-100, 10],
+    defaultDatepickerYearsRange: [-100, 3],
     defaultDatepickerNearbyMonthDays: true,
     defaultDatepickerNearbySelectableMonthDays: false,
     defaultDatepickerShowWeekNumber: false,
-    defaultDatepickerWeekNumberClickable: false,
     defaultDatepickerMobileModal: true,
-    defaultTrapFocus: true,
-    defaultAutoFocus: true,
+    defaultTrapFocus: false,
     defaultButtonRounded: false,
     defaultCarouselInterval: 3500,
-    defaultTabsExpanded: false,
     defaultTabsAnimated: true,
-    defaultTabsType: null,
-    defaultStatusIcon: true,
-    defaultProgrammaticPromise: false,
     defaultLinkTags: ['a', 'button', 'input', 'router-link', 'nuxt-link', 'n-link', 'RouterLink', 'NuxtLink', 'NLink'],
-    defaultImageWebpFallback: null,
-    defaultImageLazy: true,
-    defaultImageResponsive: true,
-    defaultImageRatio: null,
-    defaultImageSrcsetFormatter: null,
     customIconPacks: null
-  };
+  }; // TODO defaultTrapFocus to true in the next breaking change
 
   /**
    * Merge function to replace Object.assign with deep merging possibility
@@ -176,9 +165,6 @@
   };
 
   var merge = mergeFn;
-  function isVueComponent(c) {
-    return c && c._isVue;
-  }
 
   var mdiIcons = {
     sizes: {
@@ -194,10 +180,10 @@
     var faIconPrefix = config && config.defaultIconComponent ? '' : 'fa-';
     return {
       sizes: {
-        'default': null,
+        'default': faIconPrefix + 'lg',
         'is-small': null,
-        'is-medium': faIconPrefix + 'lg',
-        'is-large': faIconPrefix + '2x'
+        'is-medium': faIconPrefix + '2x',
+        'is-large': faIconPrefix + '3x'
       },
       iconPrefix: faIconPrefix,
       internalIcons: {
@@ -464,19 +450,7 @@
           return config.defaultUseHtml5Validation;
         }
       },
-      validationMessage: String,
-      locale: {
-        type: [String, Array],
-        default: function _default() {
-          return config.defaultLocale;
-        }
-      },
-      statusIcon: {
-        type: Boolean,
-        default: function _default() {
-          return config.defaultStatusIcon;
-        }
-      }
+      validationMessage: String
     },
     data: function data() {
       return {
@@ -505,16 +479,14 @@
        * Get the type prop from parent if it's a Field.
        */
       statusType: function statusType() {
-        var _ref = this.parentField || {},
-            newType = _ref.newType;
+        if (!this.parentField) return;
+        if (!this.parentField.newType) return;
 
-        if (!newType) return;
-
-        if (typeof newType === 'string') {
-          return newType;
+        if (typeof this.parentField.newType === 'string') {
+          return this.parentField.newType;
         } else {
-          for (var key in newType) {
-            if (newType[key]) {
+          for (var key in this.parentField.newType) {
+            if (this.parentField.newType[key]) {
               return key;
             }
           }
@@ -550,9 +522,12 @@
        * Focus method that work dynamically depending on the component.
        */
       focus: function focus() {
-        var el = this.getElement();
-        if (el === undefined) return;
+        var _this = this;
+
+        if (this.$data._elementRef === undefined) return;
         this.$nextTick(function () {
+          var el = _this.$el.querySelector(_this.$data._elementRef);
+
           if (el) el.focus();
         });
       },
@@ -566,13 +541,7 @@
         this.$emit('focus', $event);
       },
       getElement: function getElement() {
-        var el = this.$refs[this.$data._elementRef];
-
-        while (isVueComponent(el)) {
-          el = el.$refs[el.$data._elementRef];
-        }
-
-        return el;
+        return this.$el.querySelector(this.$data._elementRef);
       },
       setInvalid: function setInvalid() {
         var type = 'is-danger';
@@ -580,18 +549,18 @@
         this.setValidity(type, message);
       },
       setValidity: function setValidity(type, message) {
-        var _this = this;
+        var _this2 = this;
 
         this.$nextTick(function () {
-          if (_this.parentField) {
+          if (_this2.parentField) {
             // Set type only if not defined
-            if (!_this.parentField.type) {
-              _this.parentField.newType = type;
+            if (!_this2.parentField.type) {
+              _this2.parentField.newType = type;
             } // Set message only if not defined
 
 
-            if (!_this.parentField.message) {
-              _this.parentField.newMessage = message;
+            if (!_this2.parentField.message) {
+              _this2.parentField.newMessage = message;
             }
           }
         });
@@ -604,10 +573,10 @@
        */
       checkHtml5Validity: function checkHtml5Validity() {
         if (!this.useHtml5Validation) return;
-        var el = this.getElement();
-        if (el === undefined) return;
+        if (this.$refs[this.$data._elementRef] === undefined) return;
+        if (this.getElement() === null) return;
 
-        if (!el.checkValidity()) {
+        if (!this.getElement().checkValidity()) {
           this.setInvalid();
           this.isValid = false;
         } else {
@@ -630,10 +599,6 @@
       type: {
         type: String,
         default: 'text'
-      },
-      lazy: {
-        type: Boolean,
-        default: false
       },
       passwordReveal: Boolean,
       iconClickable: Boolean,
@@ -667,6 +632,7 @@
         set: function set(value) {
           this.newValue = value;
           this.$emit('input', value);
+          !this.isValid && this.checkHtml5Validity();
         }
       },
       rootClasses: function rootClasses() {
@@ -682,7 +648,7 @@
         }];
       },
       hasIconRight: function hasIconRight() {
-        return this.passwordReveal || this.loading || this.statusIcon && this.statusTypeIcon || this.iconRight;
+        return this.passwordReveal || this.loading || this.statusTypeIcon || this.iconRight;
       },
       rightIcon: function rightIcon() {
         if (this.passwordReveal) {
@@ -707,17 +673,13 @@
       * Position of the icon or if it's both sides.
       */
       iconPosition: function iconPosition() {
-        var iconClasses = '';
-
-        if (this.icon) {
-          iconClasses += 'has-icons-left ';
+        if (this.icon && this.hasIconRight) {
+          return 'has-icons-left has-icons-right';
+        } else if (!this.icon && this.hasIconRight) {
+          return 'has-icons-right';
+        } else if (this.icon) {
+          return 'has-icons-left';
         }
-
-        if (this.hasIconRight) {
-          iconClasses += 'has-icons-right';
-        }
-
-        return iconClasses;
       },
 
       /**
@@ -786,15 +748,29 @@
         this.isPasswordVisible = !this.isPasswordVisible;
         this.newType = this.isPasswordVisible ? 'text' : 'password';
         this.$nextTick(function () {
-          _this.focus();
+          _this.$refs[_this.$data._elementRef].focus();
+        });
+      },
+
+      /**
+      * Input's 'input' event listener, 'nextTick' is used to prevent event firing
+      * before ui update, helps when using masks (Cleavejs and potentially others).
+      */
+      onInput: function onInput(event) {
+        var _this2 = this;
+
+        this.$nextTick(function () {
+          if (event.target) {
+            _this2.computedValue = event.target.value;
+          }
         });
       },
       iconClick: function iconClick(emit, event) {
-        var _this2 = this;
+        var _this3 = this;
 
         this.$emit(emit, event);
         this.$nextTick(function () {
-          _this2.focus();
+          _this3.$refs[_this3.$data._elementRef].focus();
         });
       },
       rightIconClick: function rightIconClick(event) {
@@ -803,22 +779,6 @@
         } else if (this.iconRightClickable) {
           this.iconClick('icon-right-click', event);
         }
-      },
-      onInput: function onInput(event) {
-        if (!this.lazy) {
-          var value = event.target.value;
-          this.updateValue(value);
-        }
-      },
-      onChange: function onChange(event) {
-        if (this.lazy) {
-          var value = event.target.value;
-          this.updateValue(value);
-        }
-      },
-      updateValue: function updateValue(value) {
-        this.computedValue = value;
-        !this.isValid && this.checkHtml5Validity();
       }
     }
   };
@@ -827,7 +787,7 @@
   const __vue_script__$1 = script$1;
 
   /* template */
-  var __vue_render__$1 = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"control",class:_vm.rootClasses},[(_vm.type !== 'textarea')?_c('input',_vm._b({ref:"input",staticClass:"input",class:[_vm.inputClasses, _vm.customClass],attrs:{"type":_vm.newType,"autocomplete":_vm.newAutocomplete,"maxlength":_vm.maxlength},domProps:{"value":_vm.computedValue},on:{"input":_vm.onInput,"change":_vm.onChange,"blur":_vm.onBlur,"focus":_vm.onFocus}},'input',_vm.$attrs,false)):_c('textarea',_vm._b({ref:"textarea",staticClass:"textarea",class:[_vm.inputClasses, _vm.customClass],attrs:{"maxlength":_vm.maxlength},domProps:{"value":_vm.computedValue},on:{"input":_vm.onInput,"change":_vm.onChange,"blur":_vm.onBlur,"focus":_vm.onFocus}},'textarea',_vm.$attrs,false)),(_vm.icon)?_c('b-icon',{staticClass:"is-left",class:{'is-clickable': _vm.iconClickable},attrs:{"icon":_vm.icon,"pack":_vm.iconPack,"size":_vm.iconSize},nativeOn:{"click":function($event){return _vm.iconClick('icon-click', $event)}}}):_vm._e(),(!_vm.loading && _vm.hasIconRight)?_c('b-icon',{staticClass:"is-right",class:{ 'is-clickable': _vm.passwordReveal || _vm.iconRightClickable },attrs:{"icon":_vm.rightIcon,"pack":_vm.iconPack,"size":_vm.iconSize,"type":_vm.rightIconType,"both":""},nativeOn:{"click":function($event){return _vm.rightIconClick($event)}}}):_vm._e(),(_vm.maxlength && _vm.hasCounter && _vm.type !== 'number')?_c('small',{staticClass:"help counter",class:{ 'is-invisible': !_vm.isFocused }},[_vm._v(" "+_vm._s(_vm.valueLength)+" / "+_vm._s(_vm.maxlength)+" ")]):_vm._e()],1)};
+  var __vue_render__$1 = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"control",class:_vm.rootClasses},[(_vm.type !== 'textarea')?_c('input',_vm._b({ref:"input",staticClass:"input",class:[_vm.inputClasses, _vm.customClass],attrs:{"type":_vm.newType,"autocomplete":_vm.newAutocomplete,"maxlength":_vm.maxlength},domProps:{"value":_vm.computedValue},on:{"input":_vm.onInput,"blur":_vm.onBlur,"focus":_vm.onFocus}},'input',_vm.$attrs,false)):_c('textarea',_vm._b({ref:"textarea",staticClass:"textarea",class:[_vm.inputClasses, _vm.customClass],attrs:{"maxlength":_vm.maxlength},domProps:{"value":_vm.computedValue},on:{"input":_vm.onInput,"blur":_vm.onBlur,"focus":_vm.onFocus}},'textarea',_vm.$attrs,false)),_vm._v(" "),(_vm.icon)?_c('b-icon',{staticClass:"is-left",class:{'is-clickable': _vm.iconClickable},attrs:{"icon":_vm.icon,"pack":_vm.iconPack,"size":_vm.iconSize},nativeOn:{"click":function($event){_vm.iconClick('icon-click', $event);}}}):_vm._e(),_vm._v(" "),(!_vm.loading && _vm.hasIconRight)?_c('b-icon',{staticClass:"is-right",class:{ 'is-clickable': _vm.passwordReveal || _vm.iconRightClickable },attrs:{"icon":_vm.rightIcon,"pack":_vm.iconPack,"size":_vm.iconSize,"type":_vm.rightIconType,"both":""},nativeOn:{"click":function($event){return _vm.rightIconClick($event)}}}):_vm._e(),_vm._v(" "),(_vm.maxlength && _vm.hasCounter && _vm.type !== 'number')?_c('small',{staticClass:"help counter",class:{ 'is-invisible': !_vm.isFocused }},[_vm._v("\r\n            "+_vm._s(_vm.valueLength)+" / "+_vm._s(_vm.maxlength)+"\r\n        ")]):_vm._e()],1)};
   var __vue_staticRenderFns__$1 = [];
 
     /* style */
@@ -863,13 +823,9 @@
     inheritAttrs: false,
     props: {
       value: Number,
-      min: {
-        type: [Number, String]
-      },
+      min: [Number, String],
       max: [Number, String],
       step: [Number, String],
-      minStep: [Number, String],
-      exponential: [Boolean, Number],
       disabled: Boolean,
       type: {
         type: String,
@@ -883,26 +839,16 @@
         type: Boolean,
         default: true
       },
-      controlsAlignment: {
-        type: String,
-        default: 'center',
-        validator: function validator(value) {
-          return ['left', 'right', 'center'].indexOf(value) >= 0;
-        }
-      },
       controlsRounded: {
         type: Boolean,
         default: false
       },
-      controlsPosition: String,
-      placeholder: [Number, String]
+      controlsPosition: String
     },
     data: function data() {
       return {
-        newValue: this.value,
+        newValue: !isNaN(this.value) ? this.value : parseFloat(this.min) || 0,
         newStep: this.step || 1,
-        newMinStep: this.minStep,
-        timesPressed: 1,
         _elementRef: 'input'
       };
     },
@@ -914,32 +860,14 @@
         set: function set(value) {
           var newValue = value;
 
-          if (value === '' || value === undefined || value === null) {
-            if (this.minNumber !== undefined) {
-              newValue = this.minNumber;
-            } else {
-              newValue = null;
-            }
+          if (value === '') {
+            newValue = parseFloat(this.min) || null;
           }
 
           this.newValue = newValue;
           this.$emit('input', newValue);
           !this.isValid && this.$refs.input.checkHtml5Validity();
         }
-      },
-      controlsLeft: function controlsLeft() {
-        if (this.controls && this.controlsAlignment !== 'right') {
-          return this.controlsAlignment === 'left' ? ['minus', 'plus'] : ['minus'];
-        }
-
-        return [];
-      },
-      controlsRight: function controlsRight() {
-        if (this.controls && this.controlsAlignment !== 'left') {
-          return this.controlsAlignment === 'right' ? ['minus', 'plus'] : ['plus'];
-        }
-
-        return [];
       },
       fieldClasses: function fieldClasses() {
         return [{
@@ -964,10 +892,6 @@
       stepNumber: function stepNumber() {
         return typeof this.newStep === 'string' ? parseFloat(this.newStep) : this.newStep;
       },
-      minStepNumber: function minStepNumber() {
-        var step = typeof this.newMinStep !== 'undefined' ? this.newMinStep : this.newStep;
-        return typeof step === 'string' ? parseFloat(step) : step;
-      },
       disabledMin: function disabledMin() {
         return this.computedValue - this.stepNumber < this.minNumber;
       },
@@ -975,7 +899,7 @@
         return this.computedValue + this.stepNumber > this.maxNumber;
       },
       stepDecimals: function stepDecimals() {
-        var step = this.minStepNumber.toString();
+        var step = this.stepNumber.toString();
         var index = step.indexOf('.');
 
         if (index >= 0) {
@@ -987,75 +911,50 @@
     },
     watch: {
       /**
-       * When v-model is changed:
-       *   1. Set internal value.
-       */
-      value: {
-        immediate: true,
-        handler: function handler(value) {
-          this.newValue = value;
-        }
-      },
-      step: function step(value) {
-        this.newStep = value;
-      },
-      minStep: function minStep(value) {
-        this.newMinStep = value;
+      * When v-model is changed:
+      *   1. Set internal value.
+      */
+      value: function value(_value) {
+        this.newValue = _value;
       }
     },
     methods: {
       decrement: function decrement() {
         if (typeof this.minNumber === 'undefined' || this.computedValue - this.stepNumber >= this.minNumber) {
-          if (this.computedValue === null || typeof this.computedValue === 'undefined') {
-            if (this.maxNumber) {
-              this.computedValue = this.maxNumber;
-              return;
-            }
-
-            this.computedValue = 0;
-          }
-
           var value = this.computedValue - this.stepNumber;
           this.computedValue = parseFloat(value.toFixed(this.stepDecimals));
         }
       },
       increment: function increment() {
         if (typeof this.maxNumber === 'undefined' || this.computedValue + this.stepNumber <= this.maxNumber) {
-          if (this.computedValue === null || typeof this.computedValue === 'undefined') {
-            if (this.minNumber) {
-              this.computedValue = this.minNumber;
-              return;
-            }
-
-            this.computedValue = 0;
-          }
-
           var value = this.computedValue + this.stepNumber;
           this.computedValue = parseFloat(value.toFixed(this.stepDecimals));
         }
       },
       onControlClick: function onControlClick(event, inc) {
         // IE 11 -> filter click event
-        if (event.detail !== 0 || event.type !== 'click') return;
+        if (event.detail !== 0 || event.type === 'click') return;
         if (inc) this.increment();else this.decrement();
-      },
-      longPressTick: function longPressTick(inc) {
-        var _this = this;
-
-        if (inc) this.increment();else this.decrement();
-        this._$intervalRef = setTimeout(function () {
-          _this.longPressTick(inc);
-        }, this.exponential ? 250 / (this.exponential * this.timesPressed++) : 250);
       },
       onStartLongPress: function onStartLongPress(event, inc) {
+        var _this = this;
+
         if (event.button !== 0 && event.type !== 'touchstart') return;
-        clearTimeout(this._$intervalRef);
-        this.longPressTick(inc);
+        this._$intervalTime = new Date();
+        clearInterval(this._$intervalRef);
+        this._$intervalRef = setInterval(function () {
+          if (inc) _this.increment();else _this.decrement();
+        }, 250);
       },
-      onStopLongPress: function onStopLongPress() {
+      onStopLongPress: function onStopLongPress(inc) {
         if (!this._$intervalRef) return;
-        this.timesPressed = 1;
-        clearTimeout(this._$intervalRef);
+        var d = new Date();
+
+        if (d - this._$intervalTime < 250) {
+          if (inc) this.increment();else this.decrement();
+        }
+
+        clearInterval(this._$intervalRef);
         this._$intervalRef = null;
       }
     }
@@ -1065,7 +964,7 @@
   const __vue_script__$2 = script$2;
 
   /* template */
-  var __vue_render__$2 = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"b-numberinput field",class:_vm.fieldClasses},[_vm._l((_vm.controlsLeft),function(control){return _c('p',{key:control,class:['control', control],on:{"mouseup":_vm.onStopLongPress,"mouseleave":_vm.onStopLongPress,"touchend":_vm.onStopLongPress,"touchcancel":_vm.onStopLongPress}},[_c('button',{staticClass:"button",class:_vm.buttonClasses,attrs:{"type":"button","disabled":_vm.disabled || control === 'plus' ? _vm.disabledMax : _vm.disabledMin},on:{"mousedown":function($event){return _vm.onStartLongPress($event, control === 'plus')},"touchstart":function($event){$event.preventDefault();return _vm.onStartLongPress($event, control === 'plus')},"click":function($event){return _vm.onControlClick($event, control === 'plus')}}},[_c('b-icon',{attrs:{"both":"","icon":control,"pack":_vm.iconPack,"size":_vm.iconSize}})],1)])}),_c('b-input',_vm._b({ref:"input",attrs:{"type":"number","step":_vm.minStepNumber,"max":_vm.max,"min":_vm.min,"size":_vm.size,"disabled":_vm.disabled,"readonly":!_vm.editable,"loading":_vm.loading,"rounded":_vm.rounded,"icon":_vm.icon,"icon-pack":_vm.iconPack,"autocomplete":_vm.autocomplete,"expanded":_vm.expanded,"placeholder":_vm.placeholder,"use-html5-validation":_vm.useHtml5Validation},on:{"focus":function($event){return _vm.$emit('focus', $event)},"blur":function($event){return _vm.$emit('blur', $event)}},model:{value:(_vm.computedValue),callback:function ($$v) {_vm.computedValue=_vm._n($$v);},expression:"computedValue"}},'b-input',_vm.$attrs,false)),_vm._l((_vm.controlsRight),function(control){return _c('p',{key:control,class:['control', control],on:{"mouseup":_vm.onStopLongPress,"mouseleave":_vm.onStopLongPress,"touchend":_vm.onStopLongPress,"touchcancel":_vm.onStopLongPress}},[_c('button',{staticClass:"button",class:_vm.buttonClasses,attrs:{"type":"button","disabled":_vm.disabled || control === 'plus' ? _vm.disabledMax : _vm.disabledMin},on:{"mousedown":function($event){return _vm.onStartLongPress($event, control === 'plus')},"touchstart":function($event){$event.preventDefault();return _vm.onStartLongPress($event, control === 'plus')},"click":function($event){return _vm.onControlClick($event, control === 'plus')}}},[_c('b-icon',{attrs:{"both":"","icon":control,"pack":_vm.iconPack,"size":_vm.iconSize}})],1)])})],2)};
+  var __vue_render__$2 = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"b-numberinput field",class:_vm.fieldClasses},[(_vm.controls)?_c('p',{staticClass:"control",on:{"mouseup":function($event){_vm.onStopLongPress(false);},"mouseleave":function($event){_vm.onStopLongPress(false);},"touchend":function($event){_vm.onStopLongPress(false);},"touchcancel":function($event){_vm.onStopLongPress(false);}}},[_c('button',{staticClass:"button",class:_vm.buttonClasses,attrs:{"type":"button","disabled":_vm.disabled || _vm.disabledMin},on:{"mousedown":function($event){_vm.onStartLongPress($event, false);},"touchstart":function($event){$event.preventDefault();_vm.onStartLongPress($event, false);},"click":function($event){_vm.onControlClick($event, false);}}},[_c('b-icon',{attrs:{"icon":"minus","both":"","pack":_vm.iconPack,"size":_vm.iconSize}})],1)]):_vm._e(),_vm._v(" "),_c('b-input',_vm._b({ref:"input",attrs:{"type":"number","step":_vm.newStep,"max":_vm.max,"min":_vm.min,"size":_vm.size,"disabled":_vm.disabled,"readonly":!_vm.editable,"loading":_vm.loading,"rounded":_vm.rounded,"icon":_vm.icon,"icon-pack":_vm.iconPack,"autocomplete":_vm.autocomplete,"expanded":_vm.expanded,"use-html5-validation":_vm.useHtml5Validation},on:{"focus":function($event){_vm.$emit('focus', $event);},"blur":function($event){_vm.$emit('blur', $event);}},model:{value:(_vm.computedValue),callback:function ($$v) {_vm.computedValue=_vm._n($$v);},expression:"computedValue"}},'b-input',_vm.$attrs,false)),_vm._v(" "),(_vm.controls)?_c('p',{staticClass:"control",on:{"mouseup":function($event){_vm.onStopLongPress(true);},"mouseleave":function($event){_vm.onStopLongPress(true);},"touchend":function($event){_vm.onStopLongPress(true);},"touchcancel":function($event){_vm.onStopLongPress(true);}}},[_c('button',{staticClass:"button",class:_vm.buttonClasses,attrs:{"type":"button","disabled":_vm.disabled || _vm.disabledMax},on:{"mousedown":function($event){_vm.onStartLongPress($event, true);},"touchstart":function($event){$event.preventDefault();_vm.onStartLongPress($event, true);},"click":function($event){_vm.onControlClick($event, true);}}},[_c('b-icon',{attrs:{"icon":"plus","both":"","pack":_vm.iconPack,"size":_vm.iconSize}})],1)]):_vm._e()],1)};
   var __vue_staticRenderFns__$2 = [];
 
     /* style */

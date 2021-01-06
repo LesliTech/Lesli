@@ -1,4 +1,4 @@
-/*! Buefy v0.9.4 | MIT License | github.com/buefy/buefy */
+/*! Buefy v0.8.20 | MIT License | github.com/buefy/buefy */
 (function (global, factory) {
   typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports) :
   typeof define === 'function' && define.amd ? define(['exports'], factory) :
@@ -74,28 +74,12 @@
     return _arrayWithHoles(arr) || _iterableToArray(arr) || _nonIterableRest();
   }
 
-  function _toConsumableArray(arr) {
-    return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _nonIterableSpread();
-  }
-
-  function _arrayWithoutHoles(arr) {
-    if (Array.isArray(arr)) {
-      for (var i = 0, arr2 = new Array(arr.length); i < arr.length; i++) arr2[i] = arr[i];
-
-      return arr2;
-    }
-  }
-
   function _arrayWithHoles(arr) {
     if (Array.isArray(arr)) return arr;
   }
 
   function _iterableToArray(iter) {
     if (Symbol.iterator in Object(iter) || Object.prototype.toString.call(iter) === "[object Arguments]") return Array.from(iter);
-  }
-
-  function _nonIterableSpread() {
-    throw new TypeError("Invalid attempt to spread non-iterable instance");
   }
 
   function _nonIterableRest() {
@@ -108,7 +92,6 @@
     defaultIconComponent: null,
     defaultIconPrev: 'chevron-left',
     defaultIconNext: 'chevron-right',
-    defaultLocale: undefined,
     defaultDialogConfirmText: null,
     defaultDialogCancelText: null,
     defaultSnackbarDuration: 3500,
@@ -118,7 +101,8 @@
     defaultNotificationDuration: 2000,
     defaultNotificationPosition: null,
     defaultTooltipType: 'is-primary',
-    defaultTooltipDelay: null,
+    defaultTooltipAnimated: false,
+    defaultTooltipDelay: 0,
     defaultInputAutocomplete: 'on',
     defaultDateFormatter: null,
     defaultDateParser: null,
@@ -140,40 +124,175 @@
     defaultUseHtml5Validation: true,
     defaultDropdownMobileModal: true,
     defaultFieldLabelPosition: null,
-    defaultDatepickerYearsRange: [-100, 10],
+    defaultDatepickerYearsRange: [-100, 3],
     defaultDatepickerNearbyMonthDays: true,
     defaultDatepickerNearbySelectableMonthDays: false,
     defaultDatepickerShowWeekNumber: false,
-    defaultDatepickerWeekNumberClickable: false,
     defaultDatepickerMobileModal: true,
-    defaultTrapFocus: true,
-    defaultAutoFocus: true,
+    defaultTrapFocus: false,
     defaultButtonRounded: false,
     defaultCarouselInterval: 3500,
-    defaultTabsExpanded: false,
     defaultTabsAnimated: true,
-    defaultTabsType: null,
-    defaultStatusIcon: true,
-    defaultProgrammaticPromise: false,
     defaultLinkTags: ['a', 'button', 'input', 'router-link', 'nuxt-link', 'n-link', 'RouterLink', 'NuxtLink', 'NLink'],
-    defaultImageWebpFallback: null,
-    defaultImageLazy: true,
-    defaultImageResponsive: true,
-    defaultImageRatio: null,
-    defaultImageSrcsetFormatter: null,
     customIconPacks: null
+  }; // TODO defaultTrapFocus to true in the next breaking change
+
+  var FormElementMixin = {
+    props: {
+      size: String,
+      expanded: Boolean,
+      loading: Boolean,
+      rounded: Boolean,
+      icon: String,
+      iconPack: String,
+      // Native options to use in HTML5 validation
+      autocomplete: String,
+      maxlength: [Number, String],
+      useHtml5Validation: {
+        type: Boolean,
+        default: function _default() {
+          return config.defaultUseHtml5Validation;
+        }
+      },
+      validationMessage: String
+    },
+    data: function data() {
+      return {
+        isValid: true,
+        isFocused: false,
+        newIconPack: this.iconPack || config.defaultIconPack
+      };
+    },
+    computed: {
+      /**
+       * Find parent Field, max 3 levels deep.
+       */
+      parentField: function parentField() {
+        var parent = this.$parent;
+
+        for (var i = 0; i < 3; i++) {
+          if (parent && !parent.$data._isField) {
+            parent = parent.$parent;
+          }
+        }
+
+        return parent;
+      },
+
+      /**
+       * Get the type prop from parent if it's a Field.
+       */
+      statusType: function statusType() {
+        if (!this.parentField) return;
+        if (!this.parentField.newType) return;
+
+        if (typeof this.parentField.newType === 'string') {
+          return this.parentField.newType;
+        } else {
+          for (var key in this.parentField.newType) {
+            if (this.parentField.newType[key]) {
+              return key;
+            }
+          }
+        }
+      },
+
+      /**
+       * Get the message prop from parent if it's a Field.
+       */
+      statusMessage: function statusMessage() {
+        if (!this.parentField) return;
+        return this.parentField.newMessage || this.parentField.$slots.message;
+      },
+
+      /**
+       * Fix icon size for inputs, large was too big
+       */
+      iconSize: function iconSize() {
+        switch (this.size) {
+          case 'is-small':
+            return this.size;
+
+          case 'is-medium':
+            return;
+
+          case 'is-large':
+            return this.newIconPack === 'mdi' ? 'is-medium' : '';
+        }
+      }
+    },
+    methods: {
+      /**
+       * Focus method that work dynamically depending on the component.
+       */
+      focus: function focus() {
+        var _this = this;
+
+        if (this.$data._elementRef === undefined) return;
+        this.$nextTick(function () {
+          var el = _this.$el.querySelector(_this.$data._elementRef);
+
+          if (el) el.focus();
+        });
+      },
+      onBlur: function onBlur($event) {
+        this.isFocused = false;
+        this.$emit('blur', $event);
+        this.checkHtml5Validity();
+      },
+      onFocus: function onFocus($event) {
+        this.isFocused = true;
+        this.$emit('focus', $event);
+      },
+      getElement: function getElement() {
+        return this.$el.querySelector(this.$data._elementRef);
+      },
+      setInvalid: function setInvalid() {
+        var type = 'is-danger';
+        var message = this.validationMessage || this.getElement().validationMessage;
+        this.setValidity(type, message);
+      },
+      setValidity: function setValidity(type, message) {
+        var _this2 = this;
+
+        this.$nextTick(function () {
+          if (_this2.parentField) {
+            // Set type only if not defined
+            if (!_this2.parentField.type) {
+              _this2.parentField.newType = type;
+            } // Set message only if not defined
+
+
+            if (!_this2.parentField.message) {
+              _this2.parentField.newMessage = message;
+            }
+          }
+        });
+      },
+
+      /**
+       * Check HTML5 validation, set isValid property.
+       * If validation fail, send 'is-danger' type,
+       * and error message to parent if it's a Field.
+       */
+      checkHtml5Validity: function checkHtml5Validity() {
+        if (!this.useHtml5Validation) return;
+        if (this.$refs[this.$data._elementRef] === undefined) return;
+        if (this.getElement() === null) return;
+
+        if (!this.getElement().checkValidity()) {
+          this.setInvalid();
+          this.isValid = false;
+        } else {
+          this.setValidity(null, null);
+          this.isValid = true;
+        }
+
+        return this.isValid;
+      }
+    }
   };
 
-  /**
-   * Checks if the flag is set
-   * @param val
-   * @param flag
-   * @returns {boolean}
-   */
-
-  function hasFlag(val, flag) {
-    return (val & flag) === flag;
-  }
   /**
    * Merge function to replace Object.assign with deep merging possibility
    */
@@ -239,283 +358,12 @@
     root.style.position = 'absolute';
     root.style.left = '0px';
     root.style.top = '0px';
-    root.style.width = '100%';
     var wrapper = document.createElement('div');
     root.appendChild(wrapper);
     wrapper.appendChild(el);
     document.body.appendChild(root);
     return root;
   }
-  function isVueComponent(c) {
-    return c && c._isVue;
-  }
-  function toCssWidth(width) {
-    return width === undefined ? null : isNaN(width) ? width : width + 'px';
-  }
-  /**
-   * Return month names according to a specified locale
-   * @param  {String} locale A bcp47 localerouter. undefined will use the user browser locale
-   * @param  {String} format long (ex. March), short (ex. Mar) or narrow (M)
-   * @return {Array<String>} An array of month names
-   */
-
-  function getMonthNames() {
-    var locale = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : undefined;
-    var format = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 'long';
-    var dates = [];
-
-    for (var i = 0; i < 12; i++) {
-      dates.push(new Date(2000, i, 15));
-    }
-
-    var dtf = new Intl.DateTimeFormat(locale, {
-      month: format,
-      timezome: 'UTC'
-    });
-    return dates.map(function (d) {
-      return dtf.format(d);
-    });
-  }
-  /**
-   * Return weekday names according to a specified locale
-   * @param  {String} locale A bcp47 localerouter. undefined will use the user browser locale
-   * @param  {Number} first day of week index
-   * @param  {String} format long (ex. Thursday), short (ex. Thu) or narrow (T)
-   * @return {Array<String>} An array of weekday names
-   */
-
-  function getWeekdayNames() {
-    var locale = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : undefined;
-    var format = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 'narrow';
-    var dates = [];
-    var dt = new Date(2000, 0, 1);
-    var dayOfWeek = dt.getDay();
-    dt.setDate(dt.getDate() - dayOfWeek);
-
-    for (var i = 0; i < 7; i++) {
-      dates.push(new Date(dt.getFullYear(), dt.getMonth(), dt.getDate() + i));
-    }
-
-    var dtf = new Intl.DateTimeFormat(locale, {
-      weekday: format,
-      timezome: 'UTC'
-    });
-    return dates.map(function (d) {
-      return dtf.format(d);
-    });
-  }
-  /**
-   * Accept a regex with group names and return an object
-   * ex. matchWithGroups(/((?!=<year>)\d+)\/((?!=<month>)\d+)\/((?!=<day>)\d+)/, '2000/12/25')
-   * will return { year: 2000, month: 12, day: 25 }
-   * @param  {String} includes injections of (?!={groupname}) for each group
-   * @param  {String} the string to run regex
-   * @return {Object} an object with a property for each group having the group's match as the value
-   */
-
-  function matchWithGroups(pattern, str) {
-    var matches = str.match(pattern);
-    return pattern // get the pattern as a string
-    .toString() // suss out the groups
-    .match(/<(.+?)>/g) // remove the braces
-    .map(function (group) {
-      var groupMatches = group.match(/<(.+)>/);
-
-      if (!groupMatches || groupMatches.length <= 0) {
-        return null;
-      }
-
-      return group.match(/<(.+)>/)[1];
-    }) // create an object with a property for each group having the group's match as the value
-    .reduce(function (acc, curr, index, arr) {
-      if (matches && matches.length > index) {
-        acc[curr] = matches[index + 1];
-      } else {
-        acc[curr] = null;
-      }
-
-      return acc;
-    }, {});
-  }
-  function isCustomElement(vm) {
-    return 'shadowRoot' in vm.$root.$options;
-  }
-  var isDefined = function isDefined(d) {
-    return d !== undefined;
-  };
-
-  var FormElementMixin = {
-    props: {
-      size: String,
-      expanded: Boolean,
-      loading: Boolean,
-      rounded: Boolean,
-      icon: String,
-      iconPack: String,
-      // Native options to use in HTML5 validation
-      autocomplete: String,
-      maxlength: [Number, String],
-      useHtml5Validation: {
-        type: Boolean,
-        default: function _default() {
-          return config.defaultUseHtml5Validation;
-        }
-      },
-      validationMessage: String,
-      locale: {
-        type: [String, Array],
-        default: function _default() {
-          return config.defaultLocale;
-        }
-      },
-      statusIcon: {
-        type: Boolean,
-        default: function _default() {
-          return config.defaultStatusIcon;
-        }
-      }
-    },
-    data: function data() {
-      return {
-        isValid: true,
-        isFocused: false,
-        newIconPack: this.iconPack || config.defaultIconPack
-      };
-    },
-    computed: {
-      /**
-       * Find parent Field, max 3 levels deep.
-       */
-      parentField: function parentField() {
-        var parent = this.$parent;
-
-        for (var i = 0; i < 3; i++) {
-          if (parent && !parent.$data._isField) {
-            parent = parent.$parent;
-          }
-        }
-
-        return parent;
-      },
-
-      /**
-       * Get the type prop from parent if it's a Field.
-       */
-      statusType: function statusType() {
-        var _ref = this.parentField || {},
-            newType = _ref.newType;
-
-        if (!newType) return;
-
-        if (typeof newType === 'string') {
-          return newType;
-        } else {
-          for (var key in newType) {
-            if (newType[key]) {
-              return key;
-            }
-          }
-        }
-      },
-
-      /**
-       * Get the message prop from parent if it's a Field.
-       */
-      statusMessage: function statusMessage() {
-        if (!this.parentField) return;
-        return this.parentField.newMessage || this.parentField.$slots.message;
-      },
-
-      /**
-       * Fix icon size for inputs, large was too big
-       */
-      iconSize: function iconSize() {
-        switch (this.size) {
-          case 'is-small':
-            return this.size;
-
-          case 'is-medium':
-            return;
-
-          case 'is-large':
-            return this.newIconPack === 'mdi' ? 'is-medium' : '';
-        }
-      }
-    },
-    methods: {
-      /**
-       * Focus method that work dynamically depending on the component.
-       */
-      focus: function focus() {
-        var el = this.getElement();
-        if (el === undefined) return;
-        this.$nextTick(function () {
-          if (el) el.focus();
-        });
-      },
-      onBlur: function onBlur($event) {
-        this.isFocused = false;
-        this.$emit('blur', $event);
-        this.checkHtml5Validity();
-      },
-      onFocus: function onFocus($event) {
-        this.isFocused = true;
-        this.$emit('focus', $event);
-      },
-      getElement: function getElement() {
-        var el = this.$refs[this.$data._elementRef];
-
-        while (isVueComponent(el)) {
-          el = el.$refs[el.$data._elementRef];
-        }
-
-        return el;
-      },
-      setInvalid: function setInvalid() {
-        var type = 'is-danger';
-        var message = this.validationMessage || this.getElement().validationMessage;
-        this.setValidity(type, message);
-      },
-      setValidity: function setValidity(type, message) {
-        var _this = this;
-
-        this.$nextTick(function () {
-          if (_this.parentField) {
-            // Set type only if not defined
-            if (!_this.parentField.type) {
-              _this.parentField.newType = type;
-            } // Set message only if not defined
-
-
-            if (!_this.parentField.message) {
-              _this.parentField.newMessage = message;
-            }
-          }
-        });
-      },
-
-      /**
-       * Check HTML5 validation, set isValid property.
-       * If validation fail, send 'is-danger' type,
-       * and error message to parent if it's a Field.
-       */
-      checkHtml5Validity: function checkHtml5Validity() {
-        if (!this.useHtml5Validation) return;
-        var el = this.getElement();
-        if (el === undefined) return;
-
-        if (!el.checkValidity()) {
-          this.setInvalid();
-          this.isValid = false;
-        } else {
-          this.setValidity(null, null);
-          this.isValid = true;
-        }
-
-        return this.isValid;
-      }
-    }
-  };
 
   var findFocusable = function findFocusable(element) {
     var programmatic = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : false;
@@ -573,128 +421,19 @@
     unbind: unbind
   };
 
-  var items = 1;
-  var sorted = 3;
-  var ProviderParentMixin = (function (itemName) {
-    var flags = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 0;
-    var mixin = {
-      provide: function provide() {
-        return _defineProperty({}, 'b' + itemName, this);
-      }
-    };
-
-    if (hasFlag(flags, items)) {
-      mixin.data = function () {
-        return {
-          childItems: []
-        };
-      };
-
-      mixin.methods = {
-        _registerItem: function _registerItem(item) {
-          this.childItems.push(item);
-        },
-        _unregisterItem: function _unregisterItem(item) {
-          this.childItems = this.childItems.filter(function (i) {
-            return i !== item;
-          });
-        }
-      };
-
-      if (hasFlag(flags, sorted)) {
-        mixin.watch = {
-          /**
-           * When items are added/removed deep search in the elements default's slot
-           * And mark the items with their index
-           */
-          childItems: function childItems(items) {
-            if (items.length > 0 && this.$scopedSlots.default) {
-              var tag = items[0].$vnode.tag;
-              var index = 0;
-
-              var deepSearch = function deepSearch(children) {
-                var _iteratorNormalCompletion = true;
-                var _didIteratorError = false;
-                var _iteratorError = undefined;
-
-                try {
-                  var _loop = function _loop() {
-                    var child = _step.value;
-
-                    if (child.tag === tag) {
-                      // An item with the same tag will for sure be found
-                      var it = items.find(function (i) {
-                        return i.$vnode === child;
-                      });
-
-                      if (it) {
-                        it.index = index++;
-                      }
-                    } else if (child.tag) {
-                      var sub = child.componentInstance ? child.componentInstance.$scopedSlots.default ? child.componentInstance.$scopedSlots.default() : child.componentInstance.$children : child.children;
-
-                      if (Array.isArray(sub) && sub.length > 0) {
-                        deepSearch(sub.map(function (e) {
-                          return e.$vnode;
-                        }));
-                      }
-                    }
-                  };
-
-                  for (var _iterator = children[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
-                    _loop();
-                  }
-                } catch (err) {
-                  _didIteratorError = true;
-                  _iteratorError = err;
-                } finally {
-                  try {
-                    if (!_iteratorNormalCompletion && _iterator.return != null) {
-                      _iterator.return();
-                    }
-                  } finally {
-                    if (_didIteratorError) {
-                      throw _iteratorError;
-                    }
-                  }
-                }
-
-                return false;
-              };
-
-              deepSearch(this.$scopedSlots.default());
-            }
-          }
-        };
-        mixin.computed = {
-          /**
-           * When items are added/removed sort them according to their position
-           */
-          sortedItems: function sortedItems() {
-            return this.childItems.slice().sort(function (i1, i2) {
-              return i1.index - i2.index;
-            });
-          }
-        };
-      }
-    }
-
-    return mixin;
-  });
-
   var DEFAULT_CLOSE_OPTIONS = ['escape', 'outside'];
   var script = {
     name: 'BDropdown',
     directives: {
       trapFocus: directive
     },
-    mixins: [ProviderParentMixin('dropdown')],
     props: {
       value: {
         type: [String, Number, Boolean, Object, Array, Function],
         default: null
       },
       disabled: Boolean,
+      hoverable: Boolean,
       inline: Boolean,
       scrollable: Boolean,
       maxHeight: {
@@ -705,12 +444,6 @@
         type: String,
         validator: function validator(value) {
           return ['is-top-right', 'is-top-left', 'is-bottom-left', 'is-bottom-right'].indexOf(value) > -1;
-        }
-      },
-      triggers: {
-        type: Array,
-        default: function _default() {
-          return ['click'];
         }
       },
       mobileModal: {
@@ -754,7 +487,9 @@
         selected: this.value,
         style: {},
         isActive: false,
-        isHoverable: false,
+        isHoverable: this.hoverable,
+        _isDropdown: true,
+        // Used internally by DropdownItem
         _bodyEl: undefined // Used to append to body
 
       };
@@ -771,19 +506,16 @@
         }];
       },
       isMobileModal: function isMobileModal() {
-        return this.mobileModal && !this.inline;
+        return this.mobileModal && !this.inline && !this.hoverable;
       },
       cancelOptions: function cancelOptions() {
         return typeof this.canClose === 'boolean' ? this.canClose ? DEFAULT_CLOSE_OPTIONS : [] : this.canClose;
       },
       contentStyle: function contentStyle() {
         return {
-          maxHeight: this.scrollable ? toCssWidth(this.maxHeight) : null,
+          maxHeight: this.scrollable ? this.maxHeight === undefined ? null : isNaN(this.maxHeight) ? this.maxHeight : this.maxHeight + 'px' : null,
           overflow: this.scrollable ? 'auto' : null
         };
-      },
-      hoverable: function hoverable() {
-        return this.triggers.indexOf('hover') >= 0;
       }
     },
     watch: {
@@ -927,36 +659,18 @@
       clickedOutside: function clickedOutside(event) {
         if (this.cancelOptions.indexOf('outside') < 0) return;
         if (this.inline) return;
-        var target = isCustomElement(this) ? event.composedPath()[0] : event.target;
-        if (!this.isInWhiteList(target)) this.isActive = false;
+        if (!this.isInWhiteList(event.target)) this.isActive = false;
       },
 
       /**
        * Keypress event that is bound to the document
        */
-      keyPress: function keyPress(_ref) {
-        var key = _ref.key;
-
-        if (this.isActive && (key === 'Escape' || key === 'Esc')) {
+      keyPress: function keyPress(event) {
+        // Esc key
+        if (this.isActive && event.keyCode === 27) {
           if (this.cancelOptions.indexOf('escape') < 0) return;
           this.isActive = false;
         }
-      },
-      onClick: function onClick() {
-        if (this.triggers.indexOf('click') < 0) return;
-        this.toggle();
-      },
-      onContextMenu: function onContextMenu() {
-        if (this.triggers.indexOf('contextmenu') < 0) return;
-        this.toggle();
-      },
-      onHover: function onHover() {
-        if (this.triggers.indexOf('hover') < 0) return;
-        this.isHoverable = true;
-      },
-      onFocus: function onFocus() {
-        if (this.triggers.indexOf('focus') < 0) return;
-        this.toggle();
       },
 
       /**
@@ -982,22 +696,26 @@
           this.isActive = !this.isActive;
         }
       },
+      checkHoverable: function checkHoverable() {
+        if (this.hoverable) {
+          this.isHoverable = true;
+        }
+      },
       updateAppendToBody: function updateAppendToBody() {
-        var dropdown = this.$refs.dropdown;
         var dropdownMenu = this.$refs.dropdownMenu;
         var trigger = this.$refs.trigger;
 
         if (dropdownMenu && trigger) {
           // update wrapper dropdown
-          var dropdownWrapper = this.$data._bodyEl.children[0];
-          dropdownWrapper.classList.forEach(function (item) {
-            return dropdownWrapper.classList.remove(item);
+          var dropdown = this.$data._bodyEl.children[0];
+          dropdown.classList.forEach(function (item) {
+            return dropdown.classList.remove(item);
           });
-          dropdownWrapper.classList.add('dropdown');
-          dropdownWrapper.classList.add('dropdown-menu-animation');
+          dropdown.classList.add('dropdown');
+          dropdown.classList.add('dropdown-menu-animation');
 
           if (this.$vnode && this.$vnode.data && this.$vnode.data.staticClass) {
-            dropdownWrapper.classList.add(this.$vnode.data.staticClass);
+            dropdown.classList.add(this.$vnode.data.staticClass);
           }
 
           this.rootClasses.forEach(function (item) {
@@ -1005,7 +723,7 @@
             if (item && _typeof(item) === 'object') {
               for (var key in item) {
                 if (item[key]) {
-                  dropdownWrapper.classList.add(key);
+                  dropdown.classList.add(key);
                 }
               }
             }
@@ -1040,8 +758,7 @@
             position: 'absolute',
             top: "".concat(top, "px"),
             left: "".concat(left, "px"),
-            zIndex: '99',
-            width: this.expanded ? "".concat(dropdown.offsetWidth, "px") : undefined
+            zIndex: '99'
           };
         }
       }
@@ -1159,7 +876,7 @@
   const __vue_script__ = script;
 
   /* template */
-  var __vue_render__ = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{ref:"dropdown",staticClass:"dropdown dropdown-menu-animation",class:_vm.rootClasses},[(!_vm.inline)?_c('div',{ref:"trigger",staticClass:"dropdown-trigger",attrs:{"role":"button","aria-haspopup":"true"},on:{"click":_vm.onClick,"contextmenu":function($event){$event.preventDefault();return _vm.onContextMenu($event)},"mouseenter":_vm.onHover,"!focus":function($event){return _vm.onFocus($event)}}},[_vm._t("trigger",null,{"active":_vm.isActive})],2):_vm._e(),_c('transition',{attrs:{"name":_vm.animation}},[(_vm.isMobileModal)?_c('div',{directives:[{name:"show",rawName:"v-show",value:(_vm.isActive),expression:"isActive"}],staticClass:"background",attrs:{"aria-hidden":!_vm.isActive}}):_vm._e()]),_c('transition',{attrs:{"name":_vm.animation}},[_c('div',{directives:[{name:"show",rawName:"v-show",value:((!_vm.disabled && (_vm.isActive || _vm.isHoverable)) || _vm.inline),expression:"(!disabled && (isActive || isHoverable)) || inline"},{name:"trap-focus",rawName:"v-trap-focus",value:(_vm.trapFocus),expression:"trapFocus"}],ref:"dropdownMenu",staticClass:"dropdown-menu",style:(_vm.style),attrs:{"aria-hidden":!_vm.isActive}},[_c('div',{staticClass:"dropdown-content",style:(_vm.contentStyle),attrs:{"role":_vm.ariaRole}},[_vm._t("default")],2)])])],1)};
+  var __vue_render__ = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{ref:"dropdown",staticClass:"dropdown dropdown-menu-animation",class:_vm.rootClasses},[(!_vm.inline)?_c('div',{ref:"trigger",staticClass:"dropdown-trigger",attrs:{"role":"button","aria-haspopup":"true"},on:{"click":_vm.toggle,"mouseenter":_vm.checkHoverable}},[_vm._t("trigger",null,{active:_vm.isActive})],2):_vm._e(),_vm._v(" "),_c('transition',{attrs:{"name":_vm.animation}},[(_vm.isMobileModal)?_c('div',{directives:[{name:"show",rawName:"v-show",value:(_vm.isActive),expression:"isActive"}],staticClass:"background",attrs:{"aria-hidden":!_vm.isActive}}):_vm._e()]),_vm._v(" "),_c('transition',{attrs:{"name":_vm.animation}},[_c('div',{directives:[{name:"show",rawName:"v-show",value:((!_vm.disabled && (_vm.isActive || _vm.isHoverable)) || _vm.inline),expression:"(!disabled && (isActive || isHoverable)) || inline"},{name:"trap-focus",rawName:"v-trap-focus",value:(_vm.trapFocus),expression:"trapFocus"}],ref:"dropdownMenu",staticClass:"dropdown-menu",style:(_vm.style),attrs:{"aria-hidden":!_vm.isActive}},[_c('div',{staticClass:"dropdown-content",style:(_vm.contentStyle),attrs:{"role":_vm.ariaRole}},[_vm._t("default")],2)])])],1)};
   var __vue_staticRenderFns__ = [];
 
     /* style */
@@ -1187,49 +904,29 @@
       undefined
     );
 
-  var sorted$1 = 1;
-  var optional = 2;
-  var InjectedChildMixin = (function (parentItemName) {
-    var flags = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 0;
-    var mixin = {
-      inject: {
-        parent: {
-          from: 'b' + parentItemName,
-          default: false
-        }
-      },
-      created: function created() {
-        if (!this.parent) {
-          if (!hasFlag(flags, optional)) {
-            this.$destroy();
-            throw new Error('You should wrap ' + this.$options.name + ' in a ' + parentItemName);
-          }
-        } else if (this.parent._registerItem) {
-          this.parent._registerItem(this);
-        }
-      },
-      beforeDestroy: function beforeDestroy() {
-        if (this.parent && this.parent._unregisterItem) {
-          this.parent._unregisterItem(this);
-        }
-      }
-    };
-
-    if (hasFlag(flags, sorted$1)) {
-      mixin.data = function () {
-        return {
-          index: null
-        };
-      };
-    }
-
-    return mixin;
-  });
-
+  //
+  //
+  //
+  //
+  //
+  //
+  //
+  //
+  //
+  //
+  //
+  //
+  //
+  //
+  //
+  //
+  //
+  //
+  //
+  //
   //
   var script$1 = {
     name: 'BDropdownItem',
-    mixins: [InjectedChildMixin('dropdown')],
     props: {
       value: {
         type: [String, Number, Boolean, Object, Array, Function],
@@ -1252,7 +949,7 @@
     computed: {
       anchorClasses: function anchorClasses() {
         return {
-          'is-disabled': this.parent.disabled || this.disabled,
+          'is-disabled': this.$parent.disabled || this.disabled,
           'is-paddingless': this.paddingless,
           'is-active': this.isActive
         };
@@ -1270,12 +967,12 @@
         return this.ariaRole === 'menuitem' || this.ariaRole === 'listitem' ? this.ariaRole : null;
       },
       isClickable: function isClickable() {
-        return !this.parent.disabled && !this.separator && !this.disabled && !this.custom;
+        return !this.$parent.disabled && !this.separator && !this.disabled && !this.custom;
       },
       isActive: function isActive() {
-        if (this.parent.selected === null) return false;
-        if (this.parent.multiple) return this.parent.selected.indexOf(this.value) >= 0;
-        return this.value === this.parent.selected;
+        if (this.$parent.selected === null) return false;
+        if (this.$parent.multiple) return this.$parent.selected.indexOf(this.value) >= 0;
+        return this.value === this.$parent.selected;
       },
       isFocusable: function isFocusable() {
         return this.hasLink ? false : this.focusable;
@@ -1287,8 +984,14 @@
       */
       selectItem: function selectItem() {
         if (!this.isClickable) return;
-        this.parent.selectItem(this.value);
+        this.$parent.selectItem(this.value);
         this.$emit('click');
+      }
+    },
+    created: function created() {
+      if (!this.$parent.$data._isDropdown) {
+        this.$destroy();
+        throw new Error('You should wrap bDropdownItem on a bDropdown');
       }
     }
   };
@@ -1339,10 +1042,10 @@
     var faIconPrefix = config && config.defaultIconComponent ? '' : 'fa-';
     return {
       sizes: {
-        'default': null,
+        'default': faIconPrefix + 'lg',
         'is-small': null,
-        'is-medium': faIconPrefix + 'lg',
-        'is-large': faIconPrefix + '2x'
+        'is-medium': faIconPrefix + '2x',
+        'is-large': faIconPrefix + '3x'
       },
       iconPrefix: faIconPrefix,
       internalIcons: {
@@ -1518,10 +1221,6 @@
         type: String,
         default: 'text'
       },
-      lazy: {
-        type: Boolean,
-        default: false
-      },
       passwordReveal: Boolean,
       iconClickable: Boolean,
       hasCounter: {
@@ -1554,6 +1253,7 @@
         set: function set(value) {
           this.newValue = value;
           this.$emit('input', value);
+          !this.isValid && this.checkHtml5Validity();
         }
       },
       rootClasses: function rootClasses() {
@@ -1569,7 +1269,7 @@
         }];
       },
       hasIconRight: function hasIconRight() {
-        return this.passwordReveal || this.loading || this.statusIcon && this.statusTypeIcon || this.iconRight;
+        return this.passwordReveal || this.loading || this.statusTypeIcon || this.iconRight;
       },
       rightIcon: function rightIcon() {
         if (this.passwordReveal) {
@@ -1594,17 +1294,13 @@
       * Position of the icon or if it's both sides.
       */
       iconPosition: function iconPosition() {
-        var iconClasses = '';
-
-        if (this.icon) {
-          iconClasses += 'has-icons-left ';
+        if (this.icon && this.hasIconRight) {
+          return 'has-icons-left has-icons-right';
+        } else if (!this.icon && this.hasIconRight) {
+          return 'has-icons-right';
+        } else if (this.icon) {
+          return 'has-icons-left';
         }
-
-        if (this.hasIconRight) {
-          iconClasses += 'has-icons-right';
-        }
-
-        return iconClasses;
       },
 
       /**
@@ -1673,15 +1369,29 @@
         this.isPasswordVisible = !this.isPasswordVisible;
         this.newType = this.isPasswordVisible ? 'text' : 'password';
         this.$nextTick(function () {
-          _this.focus();
+          _this.$refs[_this.$data._elementRef].focus();
+        });
+      },
+
+      /**
+      * Input's 'input' event listener, 'nextTick' is used to prevent event firing
+      * before ui update, helps when using masks (Cleavejs and potentially others).
+      */
+      onInput: function onInput(event) {
+        var _this2 = this;
+
+        this.$nextTick(function () {
+          if (event.target) {
+            _this2.computedValue = event.target.value;
+          }
         });
       },
       iconClick: function iconClick(emit, event) {
-        var _this2 = this;
+        var _this3 = this;
 
         this.$emit(emit, event);
         this.$nextTick(function () {
-          _this2.focus();
+          _this3.$refs[_this3.$data._elementRef].focus();
         });
       },
       rightIconClick: function rightIconClick(event) {
@@ -1690,22 +1400,6 @@
         } else if (this.iconRightClickable) {
           this.iconClick('icon-right-click', event);
         }
-      },
-      onInput: function onInput(event) {
-        if (!this.lazy) {
-          var value = event.target.value;
-          this.updateValue(value);
-        }
-      },
-      onChange: function onChange(event) {
-        if (this.lazy) {
-          var value = event.target.value;
-          this.updateValue(value);
-        }
-      },
-      updateValue: function updateValue(value) {
-        this.computedValue = value;
-        !this.isValid && this.checkHtml5Validity();
       }
     }
   };
@@ -1714,7 +1408,7 @@
   const __vue_script__$3 = script$3;
 
   /* template */
-  var __vue_render__$3 = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"control",class:_vm.rootClasses},[(_vm.type !== 'textarea')?_c('input',_vm._b({ref:"input",staticClass:"input",class:[_vm.inputClasses, _vm.customClass],attrs:{"type":_vm.newType,"autocomplete":_vm.newAutocomplete,"maxlength":_vm.maxlength},domProps:{"value":_vm.computedValue},on:{"input":_vm.onInput,"change":_vm.onChange,"blur":_vm.onBlur,"focus":_vm.onFocus}},'input',_vm.$attrs,false)):_c('textarea',_vm._b({ref:"textarea",staticClass:"textarea",class:[_vm.inputClasses, _vm.customClass],attrs:{"maxlength":_vm.maxlength},domProps:{"value":_vm.computedValue},on:{"input":_vm.onInput,"change":_vm.onChange,"blur":_vm.onBlur,"focus":_vm.onFocus}},'textarea',_vm.$attrs,false)),(_vm.icon)?_c('b-icon',{staticClass:"is-left",class:{'is-clickable': _vm.iconClickable},attrs:{"icon":_vm.icon,"pack":_vm.iconPack,"size":_vm.iconSize},nativeOn:{"click":function($event){return _vm.iconClick('icon-click', $event)}}}):_vm._e(),(!_vm.loading && _vm.hasIconRight)?_c('b-icon',{staticClass:"is-right",class:{ 'is-clickable': _vm.passwordReveal || _vm.iconRightClickable },attrs:{"icon":_vm.rightIcon,"pack":_vm.iconPack,"size":_vm.iconSize,"type":_vm.rightIconType,"both":""},nativeOn:{"click":function($event){return _vm.rightIconClick($event)}}}):_vm._e(),(_vm.maxlength && _vm.hasCounter && _vm.type !== 'number')?_c('small',{staticClass:"help counter",class:{ 'is-invisible': !_vm.isFocused }},[_vm._v(" "+_vm._s(_vm.valueLength)+" / "+_vm._s(_vm.maxlength)+" ")]):_vm._e()],1)};
+  var __vue_render__$3 = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"control",class:_vm.rootClasses},[(_vm.type !== 'textarea')?_c('input',_vm._b({ref:"input",staticClass:"input",class:[_vm.inputClasses, _vm.customClass],attrs:{"type":_vm.newType,"autocomplete":_vm.newAutocomplete,"maxlength":_vm.maxlength},domProps:{"value":_vm.computedValue},on:{"input":_vm.onInput,"blur":_vm.onBlur,"focus":_vm.onFocus}},'input',_vm.$attrs,false)):_c('textarea',_vm._b({ref:"textarea",staticClass:"textarea",class:[_vm.inputClasses, _vm.customClass],attrs:{"maxlength":_vm.maxlength},domProps:{"value":_vm.computedValue},on:{"input":_vm.onInput,"blur":_vm.onBlur,"focus":_vm.onFocus}},'textarea',_vm.$attrs,false)),_vm._v(" "),(_vm.icon)?_c('b-icon',{staticClass:"is-left",class:{'is-clickable': _vm.iconClickable},attrs:{"icon":_vm.icon,"pack":_vm.iconPack,"size":_vm.iconSize},nativeOn:{"click":function($event){_vm.iconClick('icon-click', $event);}}}):_vm._e(),_vm._v(" "),(!_vm.loading && _vm.hasIconRight)?_c('b-icon',{staticClass:"is-right",class:{ 'is-clickable': _vm.passwordReveal || _vm.iconRightClickable },attrs:{"icon":_vm.rightIcon,"pack":_vm.iconPack,"size":_vm.iconSize,"type":_vm.rightIconType,"both":""},nativeOn:{"click":function($event){return _vm.rightIconClick($event)}}}):_vm._e(),_vm._v(" "),(_vm.maxlength && _vm.hasCounter && _vm.type !== 'number')?_c('small',{staticClass:"help counter",class:{ 'is-invisible': !_vm.isFocused }},[_vm._v("\r\n            "+_vm._s(_vm.valueLength)+" / "+_vm._s(_vm.maxlength)+"\r\n        ")]):_vm._e()],1)};
   var __vue_staticRenderFns__$3 = [];
 
     /* style */
@@ -1816,18 +1510,6 @@
   var script$5 = {
     name: 'BField',
     components: _defineProperty({}, FieldBody.name, FieldBody),
-    provide: function provide() {
-      return {
-        'BField': this
-      };
-    },
-    inject: {
-      parent: {
-        from: 'BField',
-        default: false
-      }
-    },
-    // Used internally only when using Field in Field
     props: {
       type: [String, Object],
       label: String,
@@ -1861,20 +1543,13 @@
     },
     computed: {
       rootClasses: function rootClasses() {
-        return [{
+        return [this.newPosition, {
           'is-expanded': this.expanded,
+          'is-grouped-multiline': this.groupMultiline,
           'is-horizontal': this.horizontal,
           'is-floating-in-label': this.hasLabel && !this.horizontal && this.labelPosition === 'inside',
           'is-floating-label': this.hasLabel && !this.horizontal && this.labelPosition === 'on-border'
         }, this.numberInputClasses];
-      },
-      innerFieldClasses: function innerFieldClasses() {
-        return [this.fieldType(), this.newPosition, {
-          'is-grouped-multiline': this.groupMultiline
-        }];
-      },
-      hasInnerField: function hasInnerField() {
-        return this.grouped || this.groupMultiline || this.hasAddons();
       },
 
       /**
@@ -1897,10 +1572,6 @@
       * (each element is separated by <br> tag)
       */
       formattedMessage: function formattedMessage() {
-        if (this.parent && this.parent.hasInnerField) {
-          return ''; // Message will be displayed in parent field
-        }
-
         if (typeof this.newMessage === 'string') {
           return [this.newMessage];
         }
@@ -1935,7 +1606,7 @@
         return this.label || this.$slots.label;
       },
       hasMessage: function hasMessage() {
-        return (!this.parent || !this.parent.hasInnerField) && this.newMessage || this.$slots.message;
+        return this.newMessage || this.$slots.message;
       },
       numberInputClasses: function numberInputClasses() {
         if (this.$slots.default) {
@@ -1976,19 +1647,6 @@
       */
       message: function message(value) {
         this.newMessage = value;
-      },
-
-      /**
-      * Set parent message if we use Field in Field.
-      */
-      newMessage: function newMessage(value) {
-        if (this.parent && this.parent.hasInnerField) {
-          if (!this.parent.type) {
-            this.parent.newType = this.newType;
-          }
-
-          this.parent.newMessage = value;
-        }
       }
     },
     methods: {
@@ -2000,9 +1658,6 @@
       */
       fieldType: function fieldType() {
         if (this.grouped) return 'is-grouped';
-        if (this.hasAddons()) return 'has-addons';
-      },
-      hasAddons: function hasAddons() {
         var renderedNode = 0;
 
         if (this.$slots.default) {
@@ -2011,7 +1666,9 @@
           }, 0);
         }
 
-        return renderedNode > 1 && this.addons && !this.horizontal;
+        if (renderedNode > 1 && this.addons && !this.horizontal) {
+          return 'has-addons';
+        }
       }
     },
     mounted: function mounted() {
@@ -2030,7 +1687,7 @@
   const __vue_script__$5 = script$5;
 
   /* template */
-  var __vue_render__$4 = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"field",class:_vm.rootClasses},[(_vm.horizontal)?_c('div',{staticClass:"field-label",class:[_vm.customClass, _vm.fieldLabelSize]},[(_vm.hasLabel)?_c('label',{staticClass:"label",class:_vm.customClass,attrs:{"for":_vm.labelFor}},[(_vm.$slots.label)?_vm._t("label"):[_vm._v(_vm._s(_vm.label))]],2):_vm._e()]):[(_vm.hasLabel)?_c('label',{staticClass:"label",class:_vm.customClass,attrs:{"for":_vm.labelFor}},[(_vm.$slots.label)?_vm._t("label"):[_vm._v(_vm._s(_vm.label))]],2):_vm._e()],(_vm.horizontal)?_c('b-field-body',{attrs:{"message":_vm.newMessage ? _vm.formattedMessage : '',"type":_vm.newType}},[_vm._t("default")],2):(_vm.hasInnerField)?_c('div',{staticClass:"field-body"},[_c('b-field',{class:_vm.innerFieldClasses,attrs:{"addons":false,"type":_vm.newType}},[_vm._t("default")],2)],1):[_vm._t("default")],(_vm.hasMessage && !_vm.horizontal)?_c('p',{staticClass:"help",class:_vm.newType},[(_vm.$slots.message)?_vm._t("message"):[_vm._l((_vm.formattedMessage),function(mess,i){return [_vm._v(" "+_vm._s(mess)+" "),((i + 1) < _vm.formattedMessage.length)?_c('br',{key:i}):_vm._e()]})]],2):_vm._e()],2)};
+  var __vue_render__$4 = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"field",class:[_vm.rootClasses, _vm.fieldType()]},[(_vm.horizontal)?_c('div',{staticClass:"field-label",class:[_vm.customClass, _vm.fieldLabelSize]},[(_vm.hasLabel)?_c('label',{staticClass:"label",class:_vm.customClass,attrs:{"for":_vm.labelFor}},[(_vm.$slots.label)?_vm._t("label"):[_vm._v(_vm._s(_vm.label))]],2):_vm._e()]):[(_vm.hasLabel)?_c('label',{staticClass:"label",class:_vm.customClass,attrs:{"for":_vm.labelFor}},[(_vm.$slots.label)?_vm._t("label"):[_vm._v(_vm._s(_vm.label))]],2):_vm._e()],_vm._v(" "),(_vm.horizontal)?_c('b-field-body',{attrs:{"message":_vm.newMessage ? _vm.formattedMessage : '',"type":_vm.newType}},[_vm._t("default")],2):[_vm._t("default")],_vm._v(" "),(_vm.hasMessage && !_vm.horizontal)?_c('p',{staticClass:"help",class:_vm.newType},[(_vm.$slots.message)?_vm._t("message"):[_vm._l((_vm.formattedMessage),function(mess,i){return [_vm._v("\r\n                    "+_vm._s(mess)+"\r\n                    "),((i + 1) < _vm.formattedMessage.length)?_c('br',{key:i}):_vm._e()]})]],2):_vm._e()],2)};
   var __vue_staticRenderFns__$4 = [];
 
     /* style */
@@ -2116,7 +1773,7 @@
   const __vue_script__$6 = script$6;
 
   /* template */
-  var __vue_render__$5 = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"control",class:{ 'is-expanded': _vm.expanded, 'has-icons-left': _vm.icon }},[_c('span',{staticClass:"select",class:_vm.spanClasses},[_c('select',_vm._b({directives:[{name:"model",rawName:"v-model",value:(_vm.computedValue),expression:"computedValue"}],ref:"select",attrs:{"multiple":_vm.multiple,"size":_vm.nativeSize},on:{"blur":function($event){_vm.$emit('blur', $event) && _vm.checkHtml5Validity();},"focus":function($event){return _vm.$emit('focus', $event)},"change":function($event){var $$selectedVal = Array.prototype.filter.call($event.target.options,function(o){return o.selected}).map(function(o){var val = "_value" in o ? o._value : o.value;return val}); _vm.computedValue=$event.target.multiple ? $$selectedVal : $$selectedVal[0];}}},'select',_vm.$attrs,false),[(_vm.placeholder)?[(_vm.computedValue == null)?_c('option',{attrs:{"disabled":"","hidden":""},domProps:{"value":null}},[_vm._v(" "+_vm._s(_vm.placeholder)+" ")]):_vm._e()]:_vm._e(),_vm._t("default")],2)]),(_vm.icon)?_c('b-icon',{staticClass:"is-left",attrs:{"icon":_vm.icon,"pack":_vm.iconPack,"size":_vm.iconSize}}):_vm._e()],1)};
+  var __vue_render__$5 = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"control",class:{ 'is-expanded': _vm.expanded, 'has-icons-left': _vm.icon }},[_c('span',{staticClass:"select",class:_vm.spanClasses},[_c('select',_vm._b({directives:[{name:"model",rawName:"v-model",value:(_vm.computedValue),expression:"computedValue"}],ref:"select",attrs:{"multiple":_vm.multiple,"size":_vm.nativeSize},on:{"blur":function($event){_vm.$emit('blur', $event) && _vm.checkHtml5Validity();},"focus":function($event){_vm.$emit('focus', $event);},"change":function($event){var $$selectedVal = Array.prototype.filter.call($event.target.options,function(o){return o.selected}).map(function(o){var val = "_value" in o ? o._value : o.value;return val}); _vm.computedValue=$event.target.multiple ? $$selectedVal : $$selectedVal[0];}}},'select',_vm.$attrs,false),[(_vm.placeholder)?[(_vm.computedValue == null)?_c('option',{attrs:{"disabled":"","hidden":""},domProps:{"value":null}},[_vm._v("\r\n                        "+_vm._s(_vm.placeholder)+"\r\n                    ")]):_vm._e()]:_vm._e(),_vm._v(" "),_vm._t("default")],2)]),_vm._v(" "),(_vm.icon)?_c('b-icon',{staticClass:"is-left",attrs:{"icon":_vm.icon,"pack":_vm.iconPack,"size":_vm.iconSize}}):_vm._e()],1)};
   var __vue_staticRenderFns__$5 = [];
 
     /* style */
@@ -2187,14 +1844,9 @@
   //
   //
   //
+  //
   var script$7 = {
     name: 'BDatepickerTableRow',
-    inject: {
-      $datepicker: {
-        name: '$datepicker',
-        default: false
-      }
-    },
     props: {
       selectedDate: {
         type: [Date, Array]
@@ -2222,25 +1874,38 @@
       dateCreator: Function,
       nearbyMonthDays: Boolean,
       nearbySelectableMonthDays: Boolean,
-      showWeekNumber: Boolean,
-      weekNumberClickable: Boolean,
+      showWeekNumber: {
+        type: Boolean,
+        default: function _default() {
+          return false;
+        }
+      },
       range: Boolean,
       multiple: Boolean,
-      rulesForFirstWeek: Number,
+      rulesForFirstWeek: {
+        type: Number,
+        default: function _default() {
+          return 4;
+        }
+      },
       firstDayOfWeek: Number
     },
     watch: {
-      day: function day(_day) {
-        var _this = this;
+      day: {
+        handler: function handler(day) {
+          var _this = this;
 
-        var refName = "day-".concat(this.month, "-").concat(_day);
-        this.$nextTick(function () {
-          if (_this.$refs[refName] && _this.$refs[refName].length > 0) {
-            if (_this.$refs[refName][0]) {
-              _this.$refs[refName][0].focus();
-            }
+          var refName = "day-".concat(day);
+
+          if (this.$refs[refName] && this.$refs[refName].length > 0) {
+            this.$nextTick(function () {
+              if (_this.$refs[refName][0]) {
+                _this.$refs[refName][0].focus();
+              }
+            }); // $nextTick needed when month is changed
           }
-        }); // $nextTick needed when month is changed
+        },
+        immediate: true
       }
     },
     methods: {
@@ -2288,11 +1953,6 @@
         }
 
         return resWeek;
-      },
-      clickWeekNumber: function clickWeekNumber(week) {
-        if (this.weekNumberClickable) {
-          this.$datepicker.$emit('week-number-click', week);
-        }
       },
 
       /*
@@ -2419,57 +2079,9 @@
           this.$emit('rangeHoverEndDate', day);
         }
       },
-      manageKeydown: function manageKeydown(_ref, weekDay) {
-        var key = _ref.key;
-
-        // https://developer.mozilla.org/fr/docs/Web/API/KeyboardEvent/key/Key_Values#Navigation_keys
-        switch (key) {
-          case ' ':
-          case 'Space':
-          case 'Spacebar':
-          case 'Enter':
-            {
-              this.emitChosenDate(weekDay);
-              break;
-            }
-
-          case 'ArrowLeft':
-          case 'Left':
-            {
-              this.changeFocus(weekDay, -1);
-              break;
-            }
-
-          case 'ArrowRight':
-          case 'Right':
-            {
-              this.changeFocus(weekDay, 1);
-              break;
-            }
-
-          case 'ArrowUp':
-          case 'Up':
-            {
-              this.changeFocus(weekDay, -7);
-              break;
-            }
-
-          case 'ArrowDown':
-          case 'Down':
-            {
-              this.changeFocus(weekDay, 7);
-              break;
-            }
-        }
-      },
       changeFocus: function changeFocus(day, inc) {
         var nextDay = day;
         nextDay.setDate(day.getDate() + inc);
-
-        while ((!this.minDate || nextDay > this.minDate) && (!this.maxDate || nextDay < this.maxDate) && !this.selectableDate(nextDay)) {
-          nextDay.setDate(day.getDate() + Math.sign(inc));
-        }
-
         this.$emit('change-focus', nextDay);
       }
     }
@@ -2479,7 +2091,7 @@
   const __vue_script__$7 = script$7;
 
   /* template */
-  var __vue_render__$6 = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"datepicker-row"},[(_vm.showWeekNumber)?_c('a',{staticClass:"datepicker-cell is-week-number",class:{'is-clickable': _vm.weekNumberClickable },on:{"click":function($event){$event.preventDefault();_vm.clickWeekNumber(_vm.getWeekNumber(_vm.week[6]));}}},[_c('span',[_vm._v(_vm._s(_vm.getWeekNumber(_vm.week[6])))])]):_vm._e(),_vm._l((_vm.week),function(weekDay,index){return [(_vm.selectableDate(weekDay) && !_vm.disabled)?_c('a',{key:index,ref:("day-" + (weekDay.getMonth()) + "-" + (weekDay.getDate())),refInFor:true,staticClass:"datepicker-cell",class:[_vm.classObject(weekDay), {'has-event': _vm.eventsDateMatch(weekDay)}, _vm.indicators],attrs:{"role":"button","href":"#","disabled":_vm.disabled,"tabindex":_vm.day === weekDay.getDate() ? null : -1},on:{"click":function($event){$event.preventDefault();return _vm.emitChosenDate(weekDay)},"mouseenter":function($event){return _vm.setRangeHoverEndDate(weekDay)},"keydown":function($event){$event.preventDefault();return _vm.manageKeydown($event, weekDay)}}},[_c('span',[_vm._v(_vm._s(weekDay.getDate()))]),(_vm.eventsDateMatch(weekDay))?_c('div',{staticClass:"events"},_vm._l((_vm.eventsDateMatch(weekDay)),function(event,index){return _c('div',{key:index,staticClass:"event",class:event.type})}),0):_vm._e()]):_c('div',{key:index,staticClass:"datepicker-cell",class:_vm.classObject(weekDay)},[_c('span',[_vm._v(_vm._s(weekDay.getDate()))])])]})],2)};
+  var __vue_render__$6 = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"datepicker-row"},[(_vm.showWeekNumber)?_c('a',{staticClass:"datepicker-cell is-week-number"},[_c('span',[_vm._v(_vm._s(_vm.getWeekNumber(_vm.week[6])))])]):_vm._e(),_vm._v(" "),_vm._l((_vm.week),function(weekDay,index){return [(_vm.selectableDate(weekDay) && !_vm.disabled)?_c('a',{key:index,ref:("day-" + (weekDay.getDate())),refInFor:true,staticClass:"datepicker-cell",class:[_vm.classObject(weekDay), {'has-event': _vm.eventsDateMatch(weekDay)}, _vm.indicators],attrs:{"role":"button","href":"#","disabled":_vm.disabled,"tabindex":_vm.day === weekDay.getDate() ? null : -1},on:{"click":function($event){$event.preventDefault();_vm.emitChosenDate(weekDay);},"keydown":[function($event){if(!('button' in $event)&&_vm._k($event.keyCode,"enter",13,$event.key,"Enter")){ return null; }$event.preventDefault();_vm.emitChosenDate(weekDay);},function($event){if(!('button' in $event)&&_vm._k($event.keyCode,"space",32,$event.key,[" ","Spacebar"])){ return null; }$event.preventDefault();_vm.emitChosenDate(weekDay);},function($event){if(!('button' in $event)&&_vm._k($event.keyCode,"arrow-left",undefined,$event.key,undefined)){ return null; }$event.preventDefault();_vm.changeFocus(weekDay, -1);},function($event){if(!('button' in $event)&&_vm._k($event.keyCode,"arrow-right",undefined,$event.key,undefined)){ return null; }$event.preventDefault();_vm.changeFocus(weekDay, 1);},function($event){if(!('button' in $event)&&_vm._k($event.keyCode,"arrow-up",undefined,$event.key,undefined)){ return null; }$event.preventDefault();_vm.changeFocus(weekDay, -7);},function($event){if(!('button' in $event)&&_vm._k($event.keyCode,"arrow-down",undefined,$event.key,undefined)){ return null; }$event.preventDefault();_vm.changeFocus(weekDay, 7);}],"mouseenter":function($event){_vm.setRangeHoverEndDate(weekDay);}}},[_c('span',[_vm._v(_vm._s(weekDay.getDate()))]),_vm._v(" "),(_vm.eventsDateMatch(weekDay))?_c('div',{staticClass:"events"},_vm._l((_vm.eventsDateMatch(weekDay)),function(event,index){return _c('div',{key:index,staticClass:"event",class:event.type})})):_vm._e()]):_c('div',{key:index,staticClass:"datepicker-cell",class:_vm.classObject(weekDay)},[_c('span',[_vm._v(_vm._s(weekDay.getDate()))])])]})],2)};
   var __vue_staticRenderFns__$6 = [];
 
     /* style */
@@ -2507,6 +2119,10 @@
       undefined
     );
 
+  var isDefined = function isDefined(d) {
+    return d !== undefined;
+  };
+
   var script$8 = {
     name: 'BDatepickerTable',
     components: _defineProperty({}, DatepickerTableRow.name, DatepickerTableRow),
@@ -2529,9 +2145,18 @@
       selectableDates: Array,
       nearbyMonthDays: Boolean,
       nearbySelectableMonthDays: Boolean,
-      showWeekNumber: Boolean,
-      weekNumberClickable: Boolean,
-      rulesForFirstWeek: Number,
+      showWeekNumber: {
+        type: Boolean,
+        default: function _default() {
+          return false;
+        }
+      },
+      rulesForFirstWeek: {
+        type: Number,
+        default: function _default() {
+          return 4;
+        }
+      },
       range: Boolean,
       multiple: Boolean
     },
@@ -2806,7 +2431,7 @@
   const __vue_script__$8 = script$8;
 
   /* template */
-  var __vue_render__$7 = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('section',{staticClass:"datepicker-table"},[_c('header',{staticClass:"datepicker-header"},_vm._l((_vm.visibleDayNames),function(day,index){return _c('div',{key:index,staticClass:"datepicker-cell"},[_c('span',[_vm._v(_vm._s(day))])])}),0),_c('div',{staticClass:"datepicker-body",class:{'has-events':_vm.hasEvents}},_vm._l((_vm.weeksInThisMonth),function(week,index){return _c('b-datepicker-table-row',{key:index,attrs:{"selected-date":_vm.value,"day":_vm.focused.day,"week":week,"month":_vm.focused.month,"min-date":_vm.minDate,"max-date":_vm.maxDate,"disabled":_vm.disabled,"unselectable-dates":_vm.unselectableDates,"unselectable-days-of-week":_vm.unselectableDaysOfWeek,"selectable-dates":_vm.selectableDates,"events":_vm.eventsInThisWeek(week),"indicators":_vm.indicators,"date-creator":_vm.dateCreator,"nearby-month-days":_vm.nearbyMonthDays,"nearby-selectable-month-days":_vm.nearbySelectableMonthDays,"show-week-number":_vm.showWeekNumber,"week-number-clickable":_vm.weekNumberClickable,"first-day-of-week":_vm.firstDayOfWeek,"rules-for-first-week":_vm.rulesForFirstWeek,"range":_vm.range,"hovered-date-range":_vm.hoveredDateRange,"multiple":_vm.multiple},on:{"select":_vm.updateSelectedDate,"rangeHoverEndDate":_vm.setRangeHoverEndDate,"change-focus":_vm.changeFocus}})}),1)])};
+  var __vue_render__$7 = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('section',{staticClass:"datepicker-table"},[_c('header',{staticClass:"datepicker-header"},_vm._l((_vm.visibleDayNames),function(day,index){return _c('div',{key:index,staticClass:"datepicker-cell"},[_c('span',[_vm._v(_vm._s(day))])])})),_vm._v(" "),_c('div',{staticClass:"datepicker-body",class:{'has-events':_vm.hasEvents}},_vm._l((_vm.weeksInThisMonth),function(week,index){return _c('b-datepicker-table-row',{key:index,attrs:{"selected-date":_vm.value,"day":_vm.focused.day,"week":week,"month":_vm.focused.month,"min-date":_vm.minDate,"max-date":_vm.maxDate,"disabled":_vm.disabled,"unselectable-dates":_vm.unselectableDates,"unselectable-days-of-week":_vm.unselectableDaysOfWeek,"selectable-dates":_vm.selectableDates,"events":_vm.eventsInThisWeek(week),"indicators":_vm.indicators,"date-creator":_vm.dateCreator,"nearby-month-days":_vm.nearbyMonthDays,"nearby-selectable-month-days":_vm.nearbySelectableMonthDays,"show-week-number":_vm.showWeekNumber,"first-day-of-week":_vm.firstDayOfWeek,"rules-for-first-week":_vm.rulesForFirstWeek,"range":_vm.range,"hovered-date-range":_vm.hoveredDateRange,"multiple":_vm.multiple},on:{"select":_vm.updateSelectedDate,"rangeHoverEndDate":_vm.setRangeHoverEndDate,"change-focus":_vm.changeFocus}})}),1)])};
   var __vue_staticRenderFns__$7 = [];
 
     /* style */
@@ -2835,6 +2460,53 @@
     );
 
   //
+  //
+  //
+  //
+  //
+  //
+  //
+  //
+  //
+  //
+  //
+  //
+  //
+  //
+  //
+  //
+  //
+  //
+  //
+  //
+  //
+  //
+  //
+  //
+  //
+  //
+  //
+  //
+  //
+  //
+  //
+  //
+  //
+  //
+  //
+  //
+  //
+  //
+  //
+  //
+  //
+  //
+  //
+  //
+  //
+  //
+  //
+  //
   var script$9 = {
     name: 'BDatepickerMonth',
     props: {
@@ -2852,14 +2524,10 @@
       unselectableDates: Array,
       unselectableDaysOfWeek: Array,
       selectableDates: Array,
-      range: Boolean,
       multiple: Boolean
     },
     data: function data() {
       return {
-        selectedBeginDate: undefined,
-        selectedEndDate: undefined,
-        hoveredEndDate: undefined,
         multipleSelectedDates: this.multiple && this.value ? this.value : []
       };
     },
@@ -2909,36 +2577,25 @@
       },
       focusedMonth: function focusedMonth() {
         return this.focused.month;
-      },
-      hoveredDateRange: function hoveredDateRange() {
-        if (!this.range) {
-          return [];
-        }
-
-        if (!isNaN(this.selectedEndDate)) {
-          return [];
-        }
-
-        if (this.hoveredEndDate < this.selectedBeginDate) {
-          return [this.hoveredEndDate, this.selectedBeginDate].filter(isDefined);
-        }
-
-        return [this.selectedBeginDate, this.hoveredEndDate].filter(isDefined);
       }
     },
     watch: {
-      focusedMonth: function focusedMonth(month) {
-        var _this = this;
+      focusedMonth: {
+        handler: function handler(month) {
+          var _this = this;
 
-        var refName = "month-".concat(month);
+          var refName = "month-".concat(month);
 
-        if (this.$refs[refName] && this.$refs[refName].length > 0) {
-          this.$nextTick(function () {
-            if (_this.$refs[refName][0]) {
-              _this.$refs[refName][0].focus();
-            }
-          }); // $nextTick needed when year is changed
-        }
+          if (this.$refs[refName] && this.$refs[refName].length > 0) {
+            this.$nextTick(function () {
+              if (_this.$refs[refName][0]) {
+                _this.$refs[refName][0].focus();
+              }
+            }); // $nextTick needed when year is changed
+          }
+        },
+        deep: true,
+        immediate: true
       }
     },
     methods: {
@@ -3025,21 +2682,7 @@
             return false;
           }
 
-          if (Array.isArray(dateTwo)) {
-            return dateTwo.some(function (date) {
-              return dateOne.getFullYear() === date.getFullYear() && dateOne.getMonth() === date.getMonth();
-            });
-          }
-
           return dateOne.getFullYear() === dateTwo.getFullYear() && dateOne.getMonth() === dateTwo.getMonth();
-        }
-
-        function dateWithin(dateOne, dates, multiple) {
-          if (!Array.isArray(dates) || multiple) {
-            return false;
-          }
-
-          return dateOne > dates[0] && dateOne < dates[1];
         }
 
         function dateMultipleSelected(dateOne, dates, multiple) {
@@ -3053,74 +2696,11 @@
         }
 
         return {
-          'is-selected': dateMatch(day, this.value, this.multiple) || dateWithin(day, this.value, this.multiple) || dateMultipleSelected(day, this.multipleSelectedDates, this.multiple),
-          'is-first-selected': dateMatch(day, Array.isArray(this.value) && this.value[0], this.multiple),
-          'is-within-selected': dateWithin(day, this.value, this.multiple),
-          'is-last-selected': dateMatch(day, Array.isArray(this.value) && this.value[1], this.multiple),
-          'is-within-hovered-range': this.hoveredDateRange && this.hoveredDateRange.length === 2 && (dateMatch(day, this.hoveredDateRange) || dateWithin(day, this.hoveredDateRange)),
-          'is-first-hovered': dateMatch(day, Array.isArray(this.hoveredDateRange) && this.hoveredDateRange[0]),
-          'is-within-hovered': dateWithin(day, this.hoveredDateRange),
-          'is-last-hovered': dateMatch(day, Array.isArray(this.hoveredDateRange) && this.hoveredDateRange[1]),
+          'is-selected': dateMatch(day, this.value, this.multiple) || dateMultipleSelected(day, this.multipleSelectedDates, this.multiple),
           'is-today': dateMatch(day, this.dateCreator()),
           'is-selectable': this.selectableDate(day) && !this.disabled,
           'is-unselectable': !this.selectableDate(day) || this.disabled
         };
-      },
-      manageKeydown: function manageKeydown(_ref, date) {
-        var key = _ref.key;
-
-        // https://developer.mozilla.org/fr/docs/Web/API/KeyboardEvent/key/Key_Values#Navigation_keys
-        switch (key) {
-          case ' ':
-          case 'Space':
-          case 'Spacebar':
-          case 'Enter':
-            {
-              this.updateSelectedDate(date);
-              break;
-            }
-
-          case 'ArrowLeft':
-          case 'Left':
-            {
-              this.changeFocus(date, -1);
-              break;
-            }
-
-          case 'ArrowRight':
-          case 'Right':
-            {
-              this.changeFocus(date, 1);
-              break;
-            }
-
-          case 'ArrowUp':
-          case 'Up':
-            {
-              this.changeFocus(date, -3);
-              break;
-            }
-
-          case 'ArrowDown':
-          case 'Down':
-            {
-              this.changeFocus(date, 3);
-              break;
-            }
-        }
-      },
-
-      /*
-      * Emit input event with selected date as payload for v-model in parent
-      */
-      updateSelectedDate: function updateSelectedDate(date) {
-        if (!this.range && !this.multiple) {
-          this.emitChosenDate(date);
-        } else if (this.range) {
-          this.handleSelectRangeDate(date);
-        } else if (this.multiple) {
-          this.selectMultipleDates(date);
-        }
       },
 
       /*
@@ -3137,39 +2717,6 @@
           this.selectMultipleDates(day);
         }
       },
-
-      /*
-      * If both begin and end dates are set, reset the end date and set the begin date.
-      * If only begin date is selected, emit an array of the begin date and the new date.
-      * If not set, only set the begin date.
-      */
-      handleSelectRangeDate: function handleSelectRangeDate(date) {
-        if (this.disabled) return;
-
-        if (this.selectedBeginDate && this.selectedEndDate) {
-          this.selectedBeginDate = date;
-          this.selectedEndDate = undefined;
-          this.$emit('range-start', date);
-        } else if (this.selectedBeginDate && !this.selectedEndDate) {
-          if (this.selectedBeginDate > date) {
-            this.selectedEndDate = this.selectedBeginDate;
-            this.selectedBeginDate = date;
-          } else {
-            this.selectedEndDate = date;
-          }
-
-          this.$emit('range-end', date);
-          this.$emit('input', [this.selectedBeginDate, this.selectedEndDate]);
-        } else {
-          this.selectedBeginDate = date;
-          this.$emit('range-start', date);
-        }
-      },
-      setRangeHoverEndDate: function setRangeHoverEndDate(day) {
-        if (this.range) {
-          this.hoveredEndDate = day;
-        }
-      },
       changeFocus: function changeFocus(month, inc) {
         var nextMonth = month;
         nextMonth.setMonth(month.getMonth() + inc);
@@ -3183,10 +2730,10 @@
 
   /* template */
   var __vue_render__$8 = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('section',{staticClass:"datepicker-table"},[_c('div',{staticClass:"datepicker-body",class:{'has-events':_vm.hasEvents}},[_c('div',{staticClass:"datepicker-months"},[_vm._l((_vm.monthDates),function(date,index){return [(_vm.selectableDate(date) && !_vm.disabled)?_c('a',{key:index,ref:("month-" + (date.getMonth())),refInFor:true,staticClass:"datepicker-cell",class:[
-                          _vm.classObject(date),
-                          {'has-event': _vm.eventsDateMatch(date)},
-                          _vm.indicators
-                      ],attrs:{"role":"button","href":"#","disabled":_vm.disabled,"tabindex":_vm.focused.month === date.getMonth() ? null : -1},on:{"click":function($event){$event.preventDefault();return _vm.updateSelectedDate(date)},"mouseenter":function($event){return _vm.setRangeHoverEndDate(date)},"keydown":function($event){$event.preventDefault();return _vm.manageKeydown($event, date)}}},[_vm._v(" "+_vm._s(_vm.monthNames[date.getMonth()])+" "),(_vm.eventsDateMatch(date))?_c('div',{staticClass:"events"},_vm._l((_vm.eventsDateMatch(date)),function(event,index){return _c('div',{key:index,staticClass:"event",class:event.type})}),0):_vm._e()]):_c('div',{key:index,staticClass:"datepicker-cell",class:_vm.classObject(date)},[_vm._v(" "+_vm._s(_vm.monthNames[date.getMonth()])+" ")])]})],2)])])};
+                              _vm.classObject(date),
+                              {'has-event': _vm.eventsDateMatch(date)},
+                              _vm.indicators
+                          ],attrs:{"role":"button","href":"#","disabled":_vm.disabled,"tabindex":_vm.focused.month === date.getMonth() ? null : -1},on:{"click":function($event){$event.preventDefault();_vm.emitChosenDate(date);},"keydown":[function($event){if(!('button' in $event)&&_vm._k($event.keyCode,"enter",13,$event.key,"Enter")){ return null; }$event.preventDefault();_vm.emitChosenDate(date);},function($event){if(!('button' in $event)&&_vm._k($event.keyCode,"space",32,$event.key,[" ","Spacebar"])){ return null; }$event.preventDefault();_vm.emitChosenDate(date);},function($event){if(!('button' in $event)&&_vm._k($event.keyCode,"arrow-left",undefined,$event.key,undefined)){ return null; }$event.preventDefault();_vm.changeFocus(date, -1);},function($event){if(!('button' in $event)&&_vm._k($event.keyCode,"arrow-right",undefined,$event.key,undefined)){ return null; }$event.preventDefault();_vm.changeFocus(date, 1);},function($event){if(!('button' in $event)&&_vm._k($event.keyCode,"arrow-up",undefined,$event.key,undefined)){ return null; }$event.preventDefault();_vm.changeFocus(date, -3);},function($event){if(!('button' in $event)&&_vm._k($event.keyCode,"arrow-down",undefined,$event.key,undefined)){ return null; }$event.preventDefault();_vm.changeFocus(date, 3);}]}},[_vm._v("\r\n                        "+_vm._s(_vm.monthNames[date.getMonth()])+"\r\n                        "),(_vm.eventsDateMatch(date))?_c('div',{staticClass:"events"},_vm._l((_vm.eventsDateMatch(date)),function(event,index){return _c('div',{key:index,staticClass:"event",class:event.type})})):_vm._e()]):_c('div',{key:index,staticClass:"datepicker-cell",class:_vm.classObject(date)},[_vm._v("\r\n                        "+_vm._s(_vm.monthNames[date.getMonth()])+"\r\n                    ")])]})],2)])])};
   var __vue_staticRenderFns__$8 = [];
 
     /* style */
@@ -3220,31 +2767,15 @@
     var targetDates = Array.isArray(date) ? date : [date];
     var dates = targetDates.map(function (date) {
       var d = new Date(date.getFullYear(), date.getMonth(), date.getDate(), 12);
-      return !vm.isTypeMonth ? vm.dtf.format(d) : vm.dtfMonth.format(d);
+      return !vm.isTypeMonth ? d.toLocaleDateString() : d.toLocaleDateString(undefined, {
+        year: 'numeric',
+        month: '2-digit'
+      });
     });
     return !vm.multiple ? dates.join(' - ') : dates.join(', ');
   };
 
   var defaultDateParser = function defaultDateParser(date, vm) {
-    if (vm.dtf.formatToParts && typeof vm.dtf.formatToParts === 'function') {
-      var formatRegex = (vm.isTypeMonth ? vm.dtfMonth : vm.dtf).formatToParts(new Date(2000, 11, 25)).map(function (part) {
-        if (part.type === 'literal') {
-          return part.value;
-        }
-
-        return "((?!=<".concat(part.type, ">)\\d+)");
-      }).join('');
-      var dateGroups = matchWithGroups(formatRegex, date); // We do a simple validation for the group.
-      // If it is not valid, it will fallback to Date.parse below
-
-      if (dateGroups.year && dateGroups.year.length === 4 && dateGroups.month && dateGroups.month <= 12) {
-        if (vm.isTypeMonth) return new Date(dateGroups.year, dateGroups.month - 1);else if (dateGroups.day && dateGroups.day <= 31) {
-          return new Date(dateGroups.year, dateGroups.month - 1, dateGroups.day, 12);
-        }
-      }
-    } // Fallback if formatToParts is not supported or if we were not able to parse a valid date
-
-
     if (!vm.isTypeMonth) return new Date(Date.parse(date));
 
     if (date) {
@@ -3265,11 +2796,6 @@
     components: (_components = {}, _defineProperty(_components, DatepickerTable.name, DatepickerTable), _defineProperty(_components, DatepickerMonth.name, DatepickerMonth), _defineProperty(_components, Input.name, Input), _defineProperty(_components, Field.name, Field), _defineProperty(_components, Select.name, Select), _defineProperty(_components, Icon.name, Icon), _defineProperty(_components, Dropdown.name, Dropdown), _defineProperty(_components, DropdownItem.name, DropdownItem), _components),
     mixins: [FormElementMixin],
     inheritAttrs: false,
-    provide: function provide() {
-      return {
-        $datepicker: this
-      };
-    },
     props: {
       value: {
         type: [Date, Array]
@@ -3277,21 +2803,21 @@
       dayNames: {
         type: Array,
         default: function _default() {
-          if (!Array.isArray(config.defaultDayNames)) {
-            return undefined;
+          if (Array.isArray(config.defaultDayNames)) {
+            return config.defaultDayNames;
+          } else {
+            return ['Su', 'M', 'Tu', 'W', 'Th', 'F', 'S'];
           }
-
-          return config.defaultDayNames;
         }
       },
       monthNames: {
         type: Array,
         default: function _default() {
-          if (!Array.isArray(config.defaultMonthNames)) {
-            return undefined;
+          if (Array.isArray(config.defaultMonthNames)) {
+            return config.defaultMonthNames;
+          } else {
+            return ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
           }
-
-          return config.defaultMonthNames;
         }
       },
       firstDayOfWeek: {
@@ -3405,12 +2931,6 @@
           return config.defaultDatepickerShowWeekNumber;
         }
       },
-      weekNumberClickable: {
-        type: Boolean,
-        default: function _default() {
-          return config.defaultDatepickerWeekNumberClickable;
-        }
-      },
       rulesForFirstWeek: {
         type: Number,
         default: function _default() {
@@ -3451,11 +2971,6 @@
     },
     data: function data() {
       var focusedDate = (Array.isArray(this.value) ? this.value[0] : this.value) || this.focusedDate || this.dateCreator();
-
-      if (!this.value && this.maxDate && this.maxDate.getFullYear() < new Date().getFullYear()) {
-        focusedDate.setFullYear(this.maxDate.getFullYear());
-      }
-
       return {
         dateSelected: this.value,
         focusedDateData: {
@@ -3486,41 +3001,6 @@
           }
         }
       },
-      formattedValue: function formattedValue() {
-        return this.formatValue(this.computedValue);
-      },
-      localeOptions: function localeOptions() {
-        return new Intl.DateTimeFormat(this.locale, {
-          year: 'numeric',
-          month: 'numeric'
-        }).resolvedOptions();
-      },
-      dtf: function dtf() {
-        return new Intl.DateTimeFormat(this.locale, {
-          timezome: 'UTC'
-        });
-      },
-      dtfMonth: function dtfMonth() {
-        return new Intl.DateTimeFormat(this.locale, {
-          year: this.localeOptions.year || 'numeric',
-          month: this.localeOptions.month || '2-digit',
-          timezome: 'UTC'
-        });
-      },
-      newMonthNames: function newMonthNames() {
-        if (Array.isArray(this.monthNames)) {
-          return this.monthNames;
-        }
-
-        return getMonthNames(this.locale);
-      },
-      newDayNames: function newDayNames() {
-        if (Array.isArray(this.dayNames)) {
-          return this.dayNames;
-        }
-
-        return getWeekdayNames(this.locale);
-      },
       listOfMonths: function listOfMonths() {
         var minMonth = 0;
         var maxMonth = 12;
@@ -3533,7 +3013,7 @@
           maxMonth = this.maxDate.getMonth();
         }
 
-        return this.newMonthNames.map(function (name, index) {
+        return this.monthNames.map(function (name, index) {
           return {
             name: name,
             index: index,
@@ -3545,7 +3025,7 @@
       /*
        * Returns an array of years for the year dropdown. If earliest/latest
        * dates are set by props, range of years will fall within those dates.
-       */
+      */
       listOfYears: function listOfYears() {
         var latestYear = this.focusedDateData.year + this.yearsRange[1];
 
@@ -3603,10 +3083,10 @@
     },
     watch: {
       /**
-       * When v-model is changed:
-       *   1. Update internal value.
-       *   2. If it's invalid, validate again.
-       */
+      * When v-model is changed:
+      *   1. Update internal value.
+      *   2. If it's invalid, validate again.
+      */
       value: function value(_value) {
         this.updateInternalState(_value);
         if (!this.multiple) this.togglePicker(false);
@@ -3622,8 +3102,8 @@
       },
 
       /*
-       * Emit input event on month and/or year change
-       */
+      * Emit input event on month and/or year change
+      */
       'focusedDateData.month': function focusedDateDataMonth(value) {
         this.$emit('change-month', value);
       },
@@ -3633,8 +3113,8 @@
     },
     methods: {
       /*
-       * Parse string into date
-       */
+      * Parse string into date
+      */
       onChange: function onChange(value) {
         var date = this.dateParser(value, this);
 
@@ -3643,31 +3123,28 @@
         } else {
           // Force refresh input value when not valid date
           this.computedValue = null;
-
-          if (this.$refs.input) {
-            this.$refs.input.newValue = this.computedValue;
-          }
+          this.$refs.input.newValue = this.computedValue;
         }
       },
 
       /*
-       * Format date into string
-       */
+      * Format date into string
+      */
       formatValue: function formatValue(value) {
         if (Array.isArray(value)) {
           var isArrayWithValidDates = Array.isArray(value) && value.every(function (v) {
             return !isNaN(v);
           });
-          return isArrayWithValidDates ? this.dateFormatter(_toConsumableArray(value), this) : null;
+          return isArrayWithValidDates ? this.dateFormatter(value, this) : null;
         }
 
         return value && !isNaN(value) ? this.dateFormatter(value, this) : null;
       },
 
       /*
-       * Either decrement month by 1 if not January or decrement year by 1
-       * and set month to 11 (December) or decrement year when 'month'
-       */
+      * Either decrement month by 1 if not January or decrement year by 1
+      * and set month to 11 (December) or decrement year when 'month'
+      */
       prev: function prev() {
         if (this.disabled) return;
 
@@ -3684,9 +3161,9 @@
       },
 
       /*
-       * Either increment month by 1 if not December or increment year by 1
-       * and set month to 0 (January) or increment year when 'month'
-       */
+      * Either increment month by 1 if not December or increment year by 1
+      * and set month to 0 (January) or increment year when 'month'
+      */
       next: function next() {
         if (this.disabled) return;
 
@@ -3706,8 +3183,8 @@
       },
 
       /*
-       * Format date into string 'YYYY-MM-DD'
-       */
+      * Format date into string 'YYYY-MM-DD'
+      */
       formatYYYYMMDD: function formatYYYYMMDD(value) {
         var date = new Date(value);
 
@@ -3722,8 +3199,8 @@
       },
 
       /*
-       * Format date into string 'YYYY-MM'
-       */
+      * Format date into string 'YYYY-MM'
+      */
       formatYYYYMM: function formatYYYYMM(value) {
         var date = new Date(value);
 
@@ -3737,8 +3214,8 @@
       },
 
       /*
-       * Parse date from string
-       */
+      * Parse date from string
+      */
       onChangeNativePicker: function onChangeNativePicker(event) {
         var date = event.target.value;
         var s = date ? date.split('-') : [];
@@ -3763,8 +3240,8 @@
       },
 
       /*
-       * Toggle datepicker
-       */
+      * Toggle datepicker
+      */
       togglePicker: function togglePicker(active) {
         if (this.$refs.dropdown) {
           if (this.closeOnClick) {
@@ -3774,8 +3251,8 @@
       },
 
       /*
-       * Call default onFocus method and show datepicker
-       */
+      * Call default onFocus method and show datepicker
+      */
       handleOnFocus: function handleOnFocus(event) {
         this.onFocus(event);
 
@@ -3785,8 +3262,8 @@
       },
 
       /*
-       * Toggle dropdown
-       */
+      * Toggle dropdown
+      */
       toggle: function toggle() {
         if (this.mobileNative && this.isMobile) {
           var input = this.$refs.input.$refs.input;
@@ -3799,8 +3276,8 @@
       },
 
       /*
-       * Avoid dropdown toggle when is already visible
-       */
+      * Avoid dropdown toggle when is already visible
+      */
       onInputClick: function onInputClick(event) {
         if (this.$refs.dropdown.isActive) {
           event.stopPropagation();
@@ -3810,10 +3287,9 @@
       /**
        * Keypress event that is bound to the document.
        */
-      keyPress: function keyPress(_ref) {
-        var key = _ref.key;
-
-        if (this.$refs.dropdown && this.$refs.dropdown.isActive && (key === 'Escape' || key === 'Esc')) {
+      keyPress: function keyPress(event) {
+        // Esc key
+        if (this.$refs.dropdown && this.$refs.dropdown.isActive && event.keyCode === 27) {
           this.togglePicker(false);
         }
       },
@@ -3850,7 +3326,7 @@
   const __vue_script__$a = script$a;
 
   /* template */
-  var __vue_render__$9 = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"datepicker control",class:[_vm.size, {'is-expanded': _vm.expanded}]},[(!_vm.isMobile || _vm.inline)?_c('b-dropdown',{ref:"dropdown",attrs:{"position":_vm.position,"disabled":_vm.disabled,"inline":_vm.inline,"mobile-modal":_vm.mobileModal,"trap-focus":_vm.trapFocus,"aria-role":_vm.ariaRole,"aria-modal":!_vm.inline,"append-to-body":_vm.appendToBody,"append-to-body-copy-parent":""},on:{"active-change":_vm.onActiveChange},scopedSlots:_vm._u([(!_vm.inline)?{key:"trigger",fn:function(){return [_vm._t("trigger",[_c('b-input',_vm._b({ref:"input",attrs:{"autocomplete":"off","value":_vm.formattedValue,"placeholder":_vm.placeholder,"size":_vm.size,"icon":_vm.icon,"icon-pack":_vm.iconPack,"rounded":_vm.rounded,"loading":_vm.loading,"disabled":_vm.disabled,"readonly":!_vm.editable,"use-html5-validation":false},on:{"focus":_vm.handleOnFocus},nativeOn:{"click":function($event){return _vm.onInputClick($event)},"keyup":function($event){if(!$event.type.indexOf('key')&&_vm._k($event.keyCode,"enter",13,$event.key,"Enter")){ return null; }return _vm.togglePicker(true)},"change":function($event){return _vm.onChange($event.target.value)}}},'b-input',_vm.$attrs,false))])]},proxy:true}:null],null,true)},[_c('b-dropdown-item',{class:{'dropdown-horizonal-timepicker': _vm.horizontalTimePicker},attrs:{"disabled":_vm.disabled,"focusable":_vm.focusable,"custom":""}},[_c('div',[_c('header',{staticClass:"datepicker-header"},[(_vm.$slots.header !== undefined && _vm.$slots.header.length)?[_vm._t("header")]:_c('div',{staticClass:"pagination field is-centered",class:_vm.size},[_c('a',{directives:[{name:"show",rawName:"v-show",value:(!_vm.showPrev && !_vm.disabled),expression:"!showPrev && !disabled"}],staticClass:"pagination-previous",attrs:{"role":"button","href":"#","disabled":_vm.disabled,"aria-label":_vm.ariaPreviousLabel},on:{"click":function($event){$event.preventDefault();return _vm.prev($event)},"keydown":[function($event){if(!$event.type.indexOf('key')&&_vm._k($event.keyCode,"enter",13,$event.key,"Enter")){ return null; }$event.preventDefault();return _vm.prev($event)},function($event){if(!$event.type.indexOf('key')&&_vm._k($event.keyCode,"space",32,$event.key,[" ","Spacebar"])){ return null; }$event.preventDefault();return _vm.prev($event)}]}},[_c('b-icon',{attrs:{"icon":_vm.iconPrev,"pack":_vm.iconPack,"both":"","type":"is-primary is-clickable"}})],1),_c('a',{directives:[{name:"show",rawName:"v-show",value:(!_vm.showNext && !_vm.disabled),expression:"!showNext && !disabled"}],staticClass:"pagination-next",attrs:{"role":"button","href":"#","disabled":_vm.disabled,"aria-label":_vm.ariaNextLabel},on:{"click":function($event){$event.preventDefault();return _vm.next($event)},"keydown":[function($event){if(!$event.type.indexOf('key')&&_vm._k($event.keyCode,"enter",13,$event.key,"Enter")){ return null; }$event.preventDefault();return _vm.next($event)},function($event){if(!$event.type.indexOf('key')&&_vm._k($event.keyCode,"space",32,$event.key,[" ","Spacebar"])){ return null; }$event.preventDefault();return _vm.next($event)}]}},[_c('b-icon',{attrs:{"icon":_vm.iconNext,"pack":_vm.iconPack,"both":"","type":"is-primary is-clickable"}})],1),_c('div',{staticClass:"pagination-list"},[_c('b-field',[(!_vm.isTypeMonth)?_c('b-select',{attrs:{"disabled":_vm.disabled,"size":_vm.size},model:{value:(_vm.focusedDateData.month),callback:function ($$v) {_vm.$set(_vm.focusedDateData, "month", $$v);},expression:"focusedDateData.month"}},_vm._l((_vm.listOfMonths),function(month){return _c('option',{key:month.name,attrs:{"disabled":month.disabled},domProps:{"value":month.index}},[_vm._v(" "+_vm._s(month.name)+" ")])}),0):_vm._e(),_c('b-select',{attrs:{"disabled":_vm.disabled,"size":_vm.size},model:{value:(_vm.focusedDateData.year),callback:function ($$v) {_vm.$set(_vm.focusedDateData, "year", $$v);},expression:"focusedDateData.year"}},_vm._l((_vm.listOfYears),function(year){return _c('option',{key:year,domProps:{"value":year}},[_vm._v(" "+_vm._s(year)+" ")])}),0)],1)],1)])],2),(!_vm.isTypeMonth)?_c('div',{staticClass:"datepicker-content",class:{'content-horizonal-timepicker': _vm.horizontalTimePicker}},[_c('b-datepicker-table',{attrs:{"day-names":_vm.newDayNames,"month-names":_vm.newMonthNames,"first-day-of-week":_vm.firstDayOfWeek,"rules-for-first-week":_vm.rulesForFirstWeek,"min-date":_vm.minDate,"max-date":_vm.maxDate,"focused":_vm.focusedDateData,"disabled":_vm.disabled,"unselectable-dates":_vm.unselectableDates,"unselectable-days-of-week":_vm.unselectableDaysOfWeek,"selectable-dates":_vm.selectableDates,"events":_vm.events,"indicators":_vm.indicators,"date-creator":_vm.dateCreator,"type-month":_vm.isTypeMonth,"nearby-month-days":_vm.nearbyMonthDays,"nearby-selectable-month-days":_vm.nearbySelectableMonthDays,"show-week-number":_vm.showWeekNumber,"week-number-clickable":_vm.weekNumberClickable,"range":_vm.range,"multiple":_vm.multiple},on:{"range-start":function (date) { return _vm.$emit('range-start', date); },"range-end":function (date) { return _vm.$emit('range-end', date); },"close":function($event){return _vm.togglePicker(false)},"update:focused":function($event){_vm.focusedDateData = $event;}},model:{value:(_vm.computedValue),callback:function ($$v) {_vm.computedValue=$$v;},expression:"computedValue"}})],1):_c('div',[_c('b-datepicker-month',{attrs:{"month-names":_vm.newMonthNames,"min-date":_vm.minDate,"max-date":_vm.maxDate,"focused":_vm.focusedDateData,"disabled":_vm.disabled,"unselectable-dates":_vm.unselectableDates,"unselectable-days-of-week":_vm.unselectableDaysOfWeek,"selectable-dates":_vm.selectableDates,"events":_vm.events,"indicators":_vm.indicators,"date-creator":_vm.dateCreator,"range":_vm.range,"multiple":_vm.multiple},on:{"range-start":function (date) { return _vm.$emit('range-start', date); },"range-end":function (date) { return _vm.$emit('range-end', date); },"close":function($event){return _vm.togglePicker(false)},"change-focus":_vm.changeFocus,"update:focused":function($event){_vm.focusedDateData = $event;}},model:{value:(_vm.computedValue),callback:function ($$v) {_vm.computedValue=$$v;},expression:"computedValue"}})],1)]),(_vm.$slots.default !== undefined && _vm.$slots.default.length)?_c('footer',{staticClass:"datepicker-footer",class:{'footer-horizontal-timepicker': _vm.horizontalTimePicker}},[_vm._t("default")],2):_vm._e()])],1):_c('b-input',_vm._b({ref:"input",attrs:{"type":!_vm.isTypeMonth ? 'date' : 'month',"autocomplete":"off","value":_vm.formatNative(_vm.computedValue),"placeholder":_vm.placeholder,"size":_vm.size,"icon":_vm.icon,"icon-pack":_vm.iconPack,"rounded":_vm.rounded,"loading":_vm.loading,"max":_vm.formatNative(_vm.maxDate),"min":_vm.formatNative(_vm.minDate),"disabled":_vm.disabled,"readonly":false,"use-html5-validation":false},on:{"focus":_vm.onFocus,"blur":_vm.onBlur},nativeOn:{"change":function($event){return _vm.onChangeNativePicker($event)}}},'b-input',_vm.$attrs,false))],1)};
+  var __vue_render__$9 = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"datepicker control",class:[_vm.size, {'is-expanded': _vm.expanded}]},[(!_vm.isMobile || _vm.inline)?_c('b-dropdown',{ref:"dropdown",attrs:{"position":_vm.position,"disabled":_vm.disabled,"inline":_vm.inline,"mobile-modal":_vm.mobileModal,"trap-focus":_vm.trapFocus,"aria-role":_vm.ariaRole,"aria-modal":!_vm.inline,"append-to-body":_vm.appendToBody,"append-to-body-copy-parent":""},on:{"active-change":_vm.onActiveChange}},[(!_vm.inline)?_c('b-input',_vm._b({ref:"input",attrs:{"slot":"trigger","autocomplete":"off","value":_vm.formatValue(_vm.computedValue),"placeholder":_vm.placeholder,"size":_vm.size,"icon":_vm.icon,"icon-pack":_vm.iconPack,"rounded":_vm.rounded,"loading":_vm.loading,"disabled":_vm.disabled,"readonly":!_vm.editable,"use-html5-validation":false},on:{"focus":_vm.handleOnFocus},nativeOn:{"click":function($event){return _vm.onInputClick($event)},"keyup":function($event){if(!('button' in $event)&&_vm._k($event.keyCode,"enter",13,$event.key,"Enter")){ return null; }_vm.togglePicker(true);},"change":function($event){_vm.onChange($event.target.value);}},slot:"trigger"},'b-input',_vm.$attrs,false)):_vm._e(),_vm._v(" "),_c('b-dropdown-item',{class:{'dropdown-horizonal-timepicker': _vm.horizontalTimePicker},attrs:{"disabled":_vm.disabled,"focusable":_vm.focusable,"custom":""}},[_c('div',[_c('header',{staticClass:"datepicker-header"},[(_vm.$slots.header !== undefined && _vm.$slots.header.length)?[_vm._t("header")]:_c('div',{staticClass:"pagination field is-centered",class:_vm.size},[_c('a',{directives:[{name:"show",rawName:"v-show",value:(!_vm.showPrev && !_vm.disabled),expression:"!showPrev && !disabled"}],staticClass:"pagination-previous",attrs:{"role":"button","href":"#","disabled":_vm.disabled,"aria-label":_vm.ariaPreviousLabel},on:{"click":function($event){$event.preventDefault();return _vm.prev($event)},"keydown":[function($event){if(!('button' in $event)&&_vm._k($event.keyCode,"enter",13,$event.key,"Enter")){ return null; }$event.preventDefault();return _vm.prev($event)},function($event){if(!('button' in $event)&&_vm._k($event.keyCode,"space",32,$event.key,[" ","Spacebar"])){ return null; }$event.preventDefault();return _vm.prev($event)}]}},[_c('b-icon',{attrs:{"icon":_vm.iconPrev,"pack":_vm.iconPack,"both":"","type":"is-primary is-clickable"}})],1),_vm._v(" "),_c('a',{directives:[{name:"show",rawName:"v-show",value:(!_vm.showNext && !_vm.disabled),expression:"!showNext && !disabled"}],staticClass:"pagination-next",attrs:{"role":"button","href":"#","disabled":_vm.disabled,"aria-label":_vm.ariaNextLabel},on:{"click":function($event){$event.preventDefault();return _vm.next($event)},"keydown":[function($event){if(!('button' in $event)&&_vm._k($event.keyCode,"enter",13,$event.key,"Enter")){ return null; }$event.preventDefault();return _vm.next($event)},function($event){if(!('button' in $event)&&_vm._k($event.keyCode,"space",32,$event.key,[" ","Spacebar"])){ return null; }$event.preventDefault();return _vm.next($event)}]}},[_c('b-icon',{attrs:{"icon":_vm.iconNext,"pack":_vm.iconPack,"both":"","type":"is-primary is-clickable"}})],1),_vm._v(" "),_c('div',{staticClass:"pagination-list"},[_c('b-field',[(!_vm.isTypeMonth)?_c('b-select',{attrs:{"disabled":_vm.disabled,"size":_vm.size},model:{value:(_vm.focusedDateData.month),callback:function ($$v) {_vm.$set(_vm.focusedDateData, "month", $$v);},expression:"focusedDateData.month"}},_vm._l((_vm.listOfMonths),function(month){return _c('option',{key:month.name,attrs:{"disabled":month.disabled},domProps:{"value":month.index}},[_vm._v("\r\n                                            "+_vm._s(month.name)+"\r\n                                        ")])})):_vm._e(),_vm._v(" "),_c('b-select',{attrs:{"disabled":_vm.disabled,"size":_vm.size},model:{value:(_vm.focusedDateData.year),callback:function ($$v) {_vm.$set(_vm.focusedDateData, "year", $$v);},expression:"focusedDateData.year"}},_vm._l((_vm.listOfYears),function(year){return _c('option',{key:year,domProps:{"value":year}},[_vm._v("\r\n                                            "+_vm._s(year)+"\r\n                                        ")])}))],1)],1)])],2),_vm._v(" "),(!_vm.isTypeMonth)?_c('div',{staticClass:"datepicker-content",class:{'content-horizonal-timepicker': _vm.horizontalTimePicker}},[_c('b-datepicker-table',{attrs:{"day-names":_vm.dayNames,"month-names":_vm.monthNames,"first-day-of-week":_vm.firstDayOfWeek,"rules-for-first-week":_vm.rulesForFirstWeek,"min-date":_vm.minDate,"max-date":_vm.maxDate,"focused":_vm.focusedDateData,"disabled":_vm.disabled,"unselectable-dates":_vm.unselectableDates,"unselectable-days-of-week":_vm.unselectableDaysOfWeek,"selectable-dates":_vm.selectableDates,"events":_vm.events,"indicators":_vm.indicators,"date-creator":_vm.dateCreator,"type-month":_vm.isTypeMonth,"nearby-month-days":_vm.nearbyMonthDays,"nearby-selectable-month-days":_vm.nearbySelectableMonthDays,"show-week-number":_vm.showWeekNumber,"range":_vm.range,"multiple":_vm.multiple},on:{"update:focused":function($event){_vm.focusedDateData=$event;},"range-start":function (date) { return _vm.$emit('range-start', date); },"range-end":function (date) { return _vm.$emit('range-end', date); },"close":function($event){_vm.togglePicker(false);}},model:{value:(_vm.computedValue),callback:function ($$v) {_vm.computedValue=$$v;},expression:"computedValue"}})],1):_c('div',[_c('b-datepicker-month',{attrs:{"month-names":_vm.monthNames,"min-date":_vm.minDate,"max-date":_vm.maxDate,"focused":_vm.focusedDateData,"disabled":_vm.disabled,"unselectable-dates":_vm.unselectableDates,"unselectable-days-of-week":_vm.unselectableDaysOfWeek,"selectable-dates":_vm.selectableDates,"events":_vm.events,"indicators":_vm.indicators,"date-creator":_vm.dateCreator,"multiple":_vm.multiple},on:{"update:focused":function($event){_vm.focusedDateData=$event;},"close":function($event){_vm.togglePicker(false);},"change-focus":_vm.changeFocus},model:{value:(_vm.computedValue),callback:function ($$v) {_vm.computedValue=$$v;},expression:"computedValue"}})],1)]),_vm._v(" "),(_vm.$slots.default !== undefined && _vm.$slots.default.length)?_c('footer',{staticClass:"datepicker-footer",class:{'footer-horizontal-timepicker': _vm.horizontalTimePicker}},[_vm._t("default")],2):_vm._e()])],1):_c('b-input',_vm._b({ref:"input",attrs:{"type":!_vm.isTypeMonth ? 'date' : 'month',"autocomplete":"off","value":_vm.formatNative(_vm.computedValue),"placeholder":_vm.placeholder,"size":_vm.size,"icon":_vm.icon,"icon-pack":_vm.iconPack,"rounded":_vm.rounded,"loading":_vm.loading,"max":_vm.formatNative(_vm.maxDate),"min":_vm.formatNative(_vm.minDate),"disabled":_vm.disabled,"readonly":false,"use-html5-validation":false},on:{"focus":_vm.onFocus,"blur":_vm.onBlur},nativeOn:{"change":function($event){return _vm.onChangeNativePicker($event)}}},'b-input',_vm.$attrs,false))],1)};
   var __vue_staticRenderFns__$9 = [];
 
     /* style */

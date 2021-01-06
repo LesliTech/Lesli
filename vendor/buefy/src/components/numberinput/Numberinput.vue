@@ -1,28 +1,25 @@
 <template>
     <div class="b-numberinput field" :class="fieldClasses">
         <p
-            v-for="control in controlsLeft"
-            :key="control"
-            :class="['control', control]"
-            @mouseup="onStopLongPress"
-            @mouseleave="onStopLongPress"
-            @touchend="onStopLongPress"
-            @touchcancel="onStopLongPress"
-        >
+            v-if="controls"
+            class="control"
+            @mouseup="onStopLongPress(false)"
+            @mouseleave="onStopLongPress(false)"
+            @touchend="onStopLongPress(false)"
+            @touchcancel="onStopLongPress(false)">
             <button
                 type="button"
                 class="button"
                 :class="buttonClasses"
-                :disabled="disabled || control === 'plus' ? disabledMax : disabledMin"
-                @mousedown="onStartLongPress($event, control === 'plus')"
-                @touchstart.prevent="onStartLongPress($event, control === 'plus')"
-                @click="onControlClick($event, control === 'plus')"
-            >
+                :disabled="disabled || disabledMin"
+                @mousedown="onStartLongPress($event, false)"
+                @touchstart.prevent="onStartLongPress($event, false)"
+                @click="onControlClick($event, false)">
                 <b-icon
+                    icon="minus"
                     both
-                    :icon="control"
                     :pack="iconPack"
-                    :size="iconSize" />
+                    :size="iconSize"/>
             </button>
         </p>
         <b-input
@@ -30,7 +27,7 @@
             ref="input"
             v-model.number="computedValue"
             v-bind="$attrs"
-            :step="minStepNumber"
+            :step="newStep"
             :max="max"
             :min="min"
             :size="size"
@@ -42,35 +39,29 @@
             :icon-pack="iconPack"
             :autocomplete="autocomplete"
             :expanded="expanded"
-            :placeholder="placeholder"
             :use-html5-validation="useHtml5Validation"
             @focus="$emit('focus', $event)"
-            @blur="$emit('blur', $event)"
-        />
-
+            @blur="$emit('blur', $event)" />
         <p
-            v-for="control in controlsRight"
-            :key="control"
-            :class="['control', control]"
-            @mouseup="onStopLongPress"
-            @mouseleave="onStopLongPress"
-            @touchend="onStopLongPress"
-            @touchcancel="onStopLongPress"
-        >
+            v-if="controls"
+            class="control"
+            @mouseup="onStopLongPress(true)"
+            @mouseleave="onStopLongPress(true)"
+            @touchend="onStopLongPress(true)"
+            @touchcancel="onStopLongPress(true)">
             <button
                 type="button"
                 class="button"
                 :class="buttonClasses"
-                :disabled="disabled || control === 'plus' ? disabledMax : disabledMin"
-                @mousedown="onStartLongPress($event, control === 'plus')"
-                @touchstart.prevent="onStartLongPress($event, control === 'plus')"
-                @click="onControlClick($event, control === 'plus')"
-            >
+                :disabled="disabled || disabledMax"
+                @mousedown="onStartLongPress($event, true)"
+                @touchstart.prevent="onStartLongPress($event, true)"
+                @click="onControlClick($event, true)">
                 <b-icon
+                    icon="plus"
                     both
-                    :icon="control"
                     :pack="iconPack"
-                    :size="iconSize" />
+                    :size="iconSize"/>
             </button>
         </p>
     </div>
@@ -91,13 +82,9 @@ export default {
     inheritAttrs: false,
     props: {
         value: Number,
-        min: {
-            type: [Number, String]
-        },
+        min: [Number, String],
         max: [Number, String],
         step: [Number, String],
-        minStep: [Number, String],
-        exponential: [Boolean, Number],
         disabled: Boolean,
         type: {
             type: String,
@@ -111,30 +98,16 @@ export default {
             type: Boolean,
             default: true
         },
-        controlsAlignment: {
-            type: String,
-            default: 'center',
-            validator: (value) => {
-                return [
-                    'left',
-                    'right',
-                    'center'
-                ].indexOf(value) >= 0
-            }
-        },
         controlsRounded: {
             type: Boolean,
             default: false
         },
-        controlsPosition: String,
-        placeholder: [Number, String]
+        controlsPosition: String
     },
     data() {
         return {
-            newValue: this.value,
+            newValue: !isNaN(this.value) ? this.value : parseFloat(this.min) || 0,
             newStep: this.step || 1,
-            newMinStep: this.minStep,
-            timesPressed: 1,
             _elementRef: 'input'
         }
     },
@@ -145,29 +118,13 @@ export default {
             },
             set(value) {
                 let newValue = value
-                if (value === '' || value === undefined || value === null) {
-                    if (this.minNumber !== undefined) {
-                        newValue = this.minNumber
-                    } else {
-                        newValue = null
-                    }
+                if (value === '') {
+                    newValue = parseFloat(this.min) || null
                 }
                 this.newValue = newValue
                 this.$emit('input', newValue)
                 !this.isValid && this.$refs.input.checkHtml5Validity()
             }
-        },
-        controlsLeft() {
-            if (this.controls && this.controlsAlignment !== 'right') {
-                return this.controlsAlignment === 'left' ? ['minus', 'plus'] : ['minus']
-            }
-            return []
-        },
-        controlsRight() {
-            if (this.controls && this.controlsAlignment !== 'left') {
-                return this.controlsAlignment === 'right' ? ['minus', 'plus'] : ['plus']
-            }
-            return []
         },
         fieldClasses() {
             return [
@@ -177,29 +134,32 @@ export default {
             ]
         },
         buttonClasses() {
-            return [this.type, this.size, { 'is-rounded': this.controlsRounded }]
+            return [
+                this.type,
+                this.size,
+                { 'is-rounded': this.controlsRounded }
+            ]
         },
         minNumber() {
-            return typeof this.min === 'string' ? parseFloat(this.min) : this.min
+            return typeof this.min === 'string'
+                ? parseFloat(this.min) : this.min
         },
         maxNumber() {
-            return typeof this.max === 'string' ? parseFloat(this.max) : this.max
+            return typeof this.max === 'string'
+                ? parseFloat(this.max) : this.max
         },
         stepNumber() {
-            return typeof this.newStep === 'string' ? parseFloat(this.newStep) : this.newStep
-        },
-        minStepNumber() {
-            const step = typeof this.newMinStep !== 'undefined' ? this.newMinStep : this.newStep
-            return typeof step === 'string' ? parseFloat(step) : step
+            return typeof this.newStep === 'string'
+                ? parseFloat(this.newStep) : this.newStep
         },
         disabledMin() {
-            return this.computedValue - this.stepNumber < this.minNumber
+            return (this.computedValue - this.stepNumber) < this.minNumber
         },
         disabledMax() {
-            return this.computedValue + this.stepNumber > this.maxNumber
+            return (this.computedValue + this.stepNumber) > this.maxNumber
         },
         stepDecimals() {
-            const step = this.minStepNumber.toString()
+            const step = this.stepNumber.toString()
             const index = step.indexOf('.')
             if (index >= 0) {
                 return step.substring(index + 1).length
@@ -208,73 +168,52 @@ export default {
         }
     },
     watch: {
-    /**
-     * When v-model is changed:
-     *   1. Set internal value.
-     */
-        value: {
-            immediate: true,
-            handler(value) {
-                this.newValue = value
-            }
-        },
-        step(value) {
-            this.newStep = value
-        },
-        minStep(value) {
-            this.newMinStep = value
+        /**
+        * When v-model is changed:
+        *   1. Set internal value.
+        */
+        value(value) {
+            this.newValue = value
         }
     },
     methods: {
         decrement() {
-            if (typeof this.minNumber === 'undefined' || this.computedValue - this.stepNumber >= this.minNumber) {
-                if (this.computedValue === null || typeof this.computedValue === 'undefined') {
-                    if (this.maxNumber) {
-                        this.computedValue = this.maxNumber
-                        return
-                    }
-                    this.computedValue = 0
-                }
+            if (typeof this.minNumber === 'undefined' ||
+            (this.computedValue - this.stepNumber) >= this.minNumber) {
                 const value = this.computedValue - this.stepNumber
                 this.computedValue = parseFloat(value.toFixed(this.stepDecimals))
             }
         },
         increment() {
-            if (typeof this.maxNumber === 'undefined' || this.computedValue + this.stepNumber <= this.maxNumber) {
-                if (this.computedValue === null || typeof this.computedValue === 'undefined') {
-                    if (this.minNumber) {
-                        this.computedValue = this.minNumber
-                        return
-                    }
-                    this.computedValue = 0
-                }
+            if (typeof this.maxNumber === 'undefined' ||
+            (this.computedValue + this.stepNumber) <= this.maxNumber) {
                 const value = this.computedValue + this.stepNumber
                 this.computedValue = parseFloat(value.toFixed(this.stepDecimals))
             }
         },
         onControlClick(event, inc) {
             // IE 11 -> filter click event
-            if (event.detail !== 0 || event.type !== 'click') return
+            if (event.detail !== 0 || event.type === 'click') return
             if (inc) this.increment()
             else this.decrement()
-        },
-        longPressTick(inc) {
-            if (inc) this.increment()
-            else this.decrement()
-
-            this._$intervalRef = setTimeout(() => {
-                this.longPressTick(inc)
-            }, this.exponential ? (250 / (this.exponential * this.timesPressed++)) : 250)
         },
         onStartLongPress(event, inc) {
             if (event.button !== 0 && event.type !== 'touchstart') return
-            clearTimeout(this._$intervalRef)
-            this.longPressTick(inc)
+            this._$intervalTime = new Date()
+            clearInterval(this._$intervalRef)
+            this._$intervalRef = setInterval(() => {
+                if (inc) this.increment()
+                else this.decrement()
+            }, 250)
         },
-        onStopLongPress() {
+        onStopLongPress(inc) {
             if (!this._$intervalRef) return
-            this.timesPressed = 1
-            clearTimeout(this._$intervalRef)
+            const d = new Date()
+            if (d - this._$intervalTime < 250) {
+                if (inc) this.increment()
+                else this.decrement()
+            }
+            clearInterval(this._$intervalRef)
             this._$intervalRef = null
         }
     }

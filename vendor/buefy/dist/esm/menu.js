@@ -1,7 +1,7 @@
 import { _ as _defineProperty } from './chunk-1fafdf15.js';
 import './helpers.js';
-import { c as config } from './chunk-ce068f0a.js';
-import { I as Icon } from './chunk-4139443a.js';
+import { c as config } from './chunk-6985c8ce.js';
+import { I as Icon } from './chunk-cdfca85b.js';
 import { _ as __vue_normalize__, r as registerComponent, u as use } from './chunk-cca88db8.js';
 
 //
@@ -72,10 +72,6 @@ var script$1 = {
     ariaRole: {
       type: String,
       default: ''
-    },
-    size: {
-      type: String,
-      default: 'is-small'
     }
   },
   render: function render(createElement, context) {
@@ -91,7 +87,7 @@ var script$1 = {
         props: {
           'icon': context.props.icon,
           'pack': context.props.iconPack,
-          'size': context.props.size
+          'size': 'is-small'
         }
       }), createElement('span', {}, context.props.label)] : context.props.label : slots.label);
     }
@@ -140,11 +136,6 @@ var script$2 = {
   name: 'BMenuItem',
   components: _defineProperty({}, Icon.name, Icon),
   inheritAttrs: false,
-  // deprecated, to replace with default 'value' in the next breaking change
-  model: {
-    prop: 'active',
-    event: 'update:active'
-  },
   props: {
     label: String,
     active: Boolean,
@@ -166,10 +157,6 @@ var script$2 = {
     ariaRole: {
       type: String,
       default: ''
-    },
-    size: {
-      type: String,
-      default: 'is-small'
     }
   },
   data: function data() {
@@ -197,7 +184,7 @@ var script$2 = {
       var menu = this.getMenu();
       this.reset(this.$parent, menu);
       this.newExpanded = !this.newExpanded;
-      this.$emit('update:expanded', this.newExpanded);
+      this.$emit('update:expanded', this.newActive);
 
       if (menu && menu.activable) {
         this.newActive = true;
@@ -243,10 +230,9 @@ const __vue_script__$2 = script$2;
 
 /* template */
 var __vue_render__$1 = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('li',{attrs:{"role":_vm.ariaRoleMenu}},[_c(_vm.tag,_vm._g(_vm._b({tag:"component",class:{
-            'is-active': _vm.newActive,
-            'is-expanded': _vm.newExpanded,
-            'is-disabled': _vm.disabled
-        },on:{"click":function($event){return _vm.onClick($event)}}},'component',_vm.$attrs,false),_vm.$listeners),[(_vm.icon)?_c('b-icon',{attrs:{"icon":_vm.icon,"pack":_vm.iconPack,"size":_vm.size}}):_vm._e(),(_vm.label)?_c('span',[_vm._v(" "+_vm._s(_vm.label)+" ")]):_vm._t("label",null,{"expanded":_vm.newExpanded,"active":_vm.newActive})],2),(_vm.$slots.default)?[_c('transition',{attrs:{"name":_vm.animation}},[_c('ul',{directives:[{name:"show",rawName:"v-show",value:(_vm.newExpanded),expression:"newExpanded"}]},[_vm._t("default")],2)])]:_vm._e()],2)};
+                'is-active': _vm.newActive,
+                'is-disabled': _vm.disabled
+            },on:{"click":function($event){_vm.onClick($event);}}},'component',_vm.$attrs,false),_vm.$listeners),[(_vm.icon)?_c('b-icon',{attrs:{"icon":_vm.icon,"pack":_vm.iconPack,"size":"is-small"}}):_vm._e(),_vm._v(" "),(_vm.label)?_c('span',[_vm._v(_vm._s(_vm.label))]):_vm._t("label",null,{expanded:_vm.newExpanded,active:_vm.newActive})],2),_vm._v(" "),(_vm.$slots.default)?[_c('transition',{attrs:{"name":_vm.animation}},[_c('ul',{directives:[{name:"show",rawName:"v-show",value:(_vm.newExpanded),expression:"newExpanded"}]},[_vm._t("default")],2)])]:_vm._e()],2)};
 var __vue_staticRenderFns__$1 = [];
 
   /* style */

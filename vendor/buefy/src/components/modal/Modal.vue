@@ -24,16 +24,11 @@
                     v-bind="props"
                     v-on="events"
                     :is="component"
-                    :can-cancel="canCancel"
-                    @close="close"
-                />
-                <template v-else-if="content">
-                    <div v-html="content" />
-                </template>
-                <slot
-                    v-else
-                    :can-cancel="canCancel"
-                    :close="close"/>
+                    @close="close"/>
+                <div
+                    v-else-if="content"
+                    v-html="content"/>
+                <slot v-else/>
                 <button
                     type="button"
                     v-if="showX"
@@ -55,15 +50,10 @@ export default {
     directives: {
         trapFocus
     },
-    // deprecated, to replace with default 'value' in the next breaking change
-    model: {
-        prop: 'active',
-        event: 'update:active'
-    },
     props: {
         active: Boolean,
-        component: [Object, Function, String],
-        content: [String, Array],
+        component: [Object, Function],
+        content: String,
         programmatic: Boolean,
         props: Object,
         events: Object,
@@ -107,12 +97,6 @@ export default {
                 return config.defaultTrapFocus
             }
         },
-        autoFocus: {
-            type: Boolean,
-            default: () => {
-                return config.defaultAutoFocus
-            }
-        },
         customClass: String,
         ariaRole: {
             type: String,
@@ -149,7 +133,7 @@ export default {
                 : this.canCancel
         },
         showX() {
-            return this.cancelOptions.indexOf('x') >= 0 && !this.hasModalCard
+            return this.cancelOptions.indexOf('x') >= 0
         },
         customStyle() {
             if (!this.fullScreen) {
@@ -166,7 +150,7 @@ export default {
             if (value) this.destroyed = false
             this.handleScroll()
             this.$nextTick(() => {
-                if (value && this.$el && this.$el.focus && this.autoFocus) {
+                if (value && this.$el && this.$el.focus) {
                     this.$el.focus()
                 }
             })
@@ -210,7 +194,7 @@ export default {
         */
         cancel(method) {
             if (this.cancelOptions.indexOf(method) < 0) return
-            this.$emit('cancel', arguments)
+
             this.onCancel.apply(null, arguments)
             this.close()
         },
@@ -236,8 +220,9 @@ export default {
         /**
         * Keypress event that is bound to the document.
         */
-        keyPress({ key }) {
-            if (this.isActive && (key === 'Escape' || key === 'Esc')) this.cancel('escape')
+        keyPress(event) {
+            // Esc key
+            if (this.isActive && event.keyCode === 27) this.cancel('escape')
         },
 
         /**
@@ -245,7 +230,6 @@ export default {
         */
         afterEnter() {
             this.animating = false
-            this.$emit('after-enter')
         },
 
         /**
@@ -262,7 +246,6 @@ export default {
             if (this.destroyOnHide) {
                 this.destroyed = true
             }
-            this.$emit('after-leave')
         }
     },
     created() {
