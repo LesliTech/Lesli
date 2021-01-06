@@ -1,4 +1,5 @@
 =begin
+
 Copyright (c) 2020, all rights reserved.
 
 All the information provided by this platform is protected by international laws related  to 
@@ -13,8 +14,11 @@ For more information read the license file including with this software.
 
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
 // · 
+
 =end
 
+
+# @description User management
 class UsersController < ApplicationLesliController
     before_action :set_user, only: [:show, :update]
 
@@ -24,6 +28,13 @@ class UsersController < ApplicationLesliController
         end
     end
     
+    # @return [Json] Json that contains a list of all files related to a *cloud_object*
+    # @description Retrieves and returns all files associated to a *cloud_object*. The id of the 
+    #     *cloud_object* is within the *params* attribute
+    # @example
+    #     # Executing this controller's action from javascript's frontend
+    #     let ticket_id = 1;
+    #     this.http.get(`127.0.0.1/help/tickets/${ticket_id}/files`);
     def index
         respond_to do |format|
             format.html { }

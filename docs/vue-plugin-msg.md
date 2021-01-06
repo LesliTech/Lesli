@@ -11,7 +11,6 @@ It can be accessed from js like **this.msg** and from html like **msg**.
 Example:
 
 ```html
-
 <script>
 export default {
     methods: {
