@@ -70,59 +70,6 @@ module RoutesApp
                         end
                     end
 
-                end
-
-
-
-
-
-
-                scope :lock do
-
-                    # account management
-                    resource  :account do
-                        scope module: :account do
-                            resources :locations
-                            resources :apps
-                        end
-                    end
-
-                    # user maintenance
-                    resources :users, only: [:index] do
-                        collection do
-                            get :options
-                            get :list
-                        end
-                        member do
-                            scope :resources do
-                                get :become
-                            end
-                        end
-                    end         
-
-                    # roles management
-                    resources :roles do
-                        scope module: :role do
-                            resources :privileges
-                        end
-                    end
-                end
-
-
-                # Administration area scope
-                #   /panel/account
-                #   /panel/account/apps
-                #   /panel/template
-                #   /panel/workflows
-                scope :panel do
-
-                    # account management
-                    resource :account do
-                        scope module: :account do
-                            resources :integrations
-                        end
-                    end
-
                     # template generators
                     namespace :template do
                         resources :documents do
@@ -139,6 +86,7 @@ module RoutesApp
                         resources :mappings
                     end
 
+                    #
                     resources :workflows do
                         member do
                             get "actions/options",          to: "workflow/actions#options"
@@ -156,8 +104,6 @@ module RoutesApp
                     end
 
                 end
-
-
 
                 # Lesli version
                 get "version", to: "abouts#version"
