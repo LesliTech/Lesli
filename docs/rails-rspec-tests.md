@@ -47,8 +47,8 @@ require 'byebug'
 # Describe the test with the full api url for the controller
 RSpec.describe 'GET:/administration/users.json', type: :request do
 
-    # include user signin context from: spec/support/shared contexts
-    include_context 'user signin'
+    # include user authentication context from: spec/support/shared contexts
+    include_context 'user authentication'
 
     # execute requests to the api
     before(:all) do
