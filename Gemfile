@@ -181,10 +181,8 @@ Lesli::engines.each do |engine|
     gem engine["code"], path: engine_installation_path if File.exists?(engine_installation_path)
 end
 
-if !Lesli::gems.nil?
+if Lesli::instance[:name] != "Lesli"
     source "https://rubygems.pkg.github.com/leitfaden" do
-        Lesli::gems.each do |info_gem|
-            gem info_gem["gem"], info_gem["version"]
-        end
+        gem Lesli::instance[:code], Lesli::instance[:version]
     end
 end

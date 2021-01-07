@@ -79,17 +79,16 @@ module Lesli
 
         name = "Lesli"
         code = "lesli"
+        version = "~> 0.0.2"
 
-        engines.each do |engine|
-            next if engine["type"] != "builder"
-            name = engine["name"]
-            code = engine["code"]
-            break
-        end
+        name = ENV['LESLI_INSTANCE_NAME'] unless ENV['LESLI_INSTANCE_NAME'].nil?
+        code = ENV['LESLI_INSTANCE_CODE'] unless ENV['LESLI_INSTANCE_CODE'].nil?
+        version = ENV['LESLI_INSTANCE_VERSION'] unless ENV['LESLI_INSTANCE_VERSION'].nil?
 
         {
             "name": name,
-            "code": code
+            "code": code,
+            "version": version,
         }
         
     end
@@ -99,16 +98,17 @@ module Lesli
         # Lesli core settings
         lesli_settings = YAML.load_file("./lesli.yml")
 
-        # get Lesli instance (builder engine)
-        instance_engine = instance
-
         # specific settings for dedicated on-premises instance (not core)
-        if instance_engine[:name] != "Lesli" 
+        if instance[:name] != "Lesli"
     
             # get the settings from instance 
             # this file should be an exact copy of the one in the core
-            # all the settings will be overrided by the settings in the builder engine 
-            instance_settings = YAML.load_file(File.join("./engines", instance_engine[:name], "lesli.yml"))
+            # all the settings will be overrided by the settings in the builder engine
+            instance_klass = instance[:name].safe_constantize
+            unless instance_klass
+                raise Exception.new "The gem of the lesli instance is not installed, instance: #{instance[:name]}"
+            end
+            instance_settings = YAML.load_file("#{instance_klass::Engine.root}/lesli.yml")
 
             # overwrite core settings with specific settings from instance
             lesli_settings = lesli_settings.merge(instance_settings) 
@@ -128,17 +128,4 @@ module Lesli
         return lesli_settings
 
     end
-
-    def Lesli.gems
-        path = "./config/instances/"
-        instance = "lesli"
-
-        if !ENV['LESLI_INSTANCE'].nil?
-            instance = ENV['LESLI_INSTANCE']
-        end
-
-        yaml_loaded = YAML.load_file(path+instance+".yml")
-        return yaml_loaded['engines']
-    end
-
 end
