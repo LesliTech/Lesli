@@ -67,6 +67,8 @@ jobs:
     - name: Setup test database
       run: |
         cp ./config/credentials/testci.yml.enc ./config/credentials/test.yml.enc
+        bundle exec rails db:drop
+        bundle exec rails db:create
         bundle exec rails db:migrate
         bundle exec rake db:setup
       env:
