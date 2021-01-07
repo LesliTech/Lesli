@@ -1,6 +1,7 @@
 module Interfaces::Controllers::Files
     require 'zip'
     require 'aws-sdk-s3'
+    require "base64"
 
     # @return [Json] Json that contains a list of all files related to a *cloud_object*
     # @description Retrieves and returns all files associated to a *cloud_object*. The id of the 
@@ -63,11 +64,45 @@ module Interfaces::Controllers::Files
 
         # Verifying the extension of the file
         extension = ""
-        extension = new_file_params[:attachment_local].original_filename if new_file_params[:attachment_local]
-        extension = new_file_params[:attachment].original_filename if new_file_params[:attachment]
-        return respond_with_error(I18n.t("core.shared.notification_error_file_type_not_allowed")) unless file_model.verify_file_extension(extension)
 
-        file = file_model.new(new_file_params)
+        if new_file_params[:attachment_local].is_a? String
+            # Base64 images
+            file_name = new_file_params[:name]
+            file_name = file_name.downcase.gsub(" ","_")
+
+            img_from_base64 = Base64.decode64(new_file_params[:attachment_local])
+
+            begin
+                extension = /(png|jpg|jpeg|jfif)/.match(img_from_base64[0,16].downcase)[0]
+            rescue
+                return respond_with_error(I18n.t('core.shared.notification_error_file_type_not_allowed'))
+            end
+
+            # Due a encode issue, jpeg images are sent as jfif
+            extension = "jpeg" if extension == "jfif"
+
+            return respond_with_error(I18n.t("core.shared.notification_error_file_type_not_allowed")) unless file_model.verify_file_extension(extension)
+
+            file_path = Rails.root.join("public", "uploads", "tmp", file_name << '.' << extension)
+            File.open(file_path, 'wb') do|f|
+                f.write(img_from_base64)
+            end
+
+            new_file_params[:attachment_local] = File.open(Rails.root.join(file_path), "rb")
+
+            file = file_model.new(new_file_params)
+
+            FileUtils.rm_rf(Rails.root.join(file_path))
+        else
+            extension = new_file_params[:attachment_local].original_filename if new_file_params[:attachment_local]
+            extension = new_file_params[:attachment].original_filename if new_file_params[:attachment]
+
+            return respond_with_error(I18n.t("core.shared.notification_error_file_type_not_allowed")) unless file_model.verify_file_extension(extension)
+
+            file = file_model.new(new_file_params)
+        end
+
+
         if file.save
             # Setting the file name in case it's blank
             file.update(
