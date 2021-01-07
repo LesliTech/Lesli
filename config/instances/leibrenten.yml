@@ -1,4 +1,0 @@
-name: 'Leibrenten'
-engines:
-    - gem: 'demo_engine_devops'
-      version: '0.1.2'
