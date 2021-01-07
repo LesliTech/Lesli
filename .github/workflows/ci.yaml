@@ -72,6 +72,16 @@ jobs:
       env:
         RAILS_ENV: test
         RAILS_MASTER_KEY: ${{ secrets.RAILS_MASTER_KEY_TEST }}
+    - name: Setup Babel
+      run: |
+        cp ./config/credentials/testci.yml.enc ./config/credentials/test.yml.enc
+        bundle exec rake cloud_babel:sync
+        bundle exec rake cloud_babel:rails
+      env:
+        RAILS_ENV: test
+        LESLI_INSTANCE_NAME: ${{ matrix.name }}
+        LESLI_INSTANCE_CODE: ${{ matrix.code }}
+        LESLI_INSTANCE_VERSION: ${{ matrix.version }}
     - name: Run tests
       run: |
         cp ./config/credentials/testci.yml.enc ./config/credentials/test.yml.enc
