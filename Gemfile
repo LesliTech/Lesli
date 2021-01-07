@@ -183,6 +183,6 @@ end
 
 if Lesli::instance[:name] != "Lesli"
     source "https://rubygems.pkg.github.com/leitfaden" do
-        gem Lesli::instance[:code], Lesli::instance[:version]
+        gem Lesli::instance[:code], "=0.0.11"
     end
 end
