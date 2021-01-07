@@ -93,7 +93,7 @@ module Interfaces::Controllers::Files
             begin
                 extension = /(png|jpg|jpeg|jfif)/.match(img_from_base64[0,16].downcase)[0]
             rescue
-                return respond_with_error(I18n.t('core.shared.notification_error_file_type_not_allowed'))
+                return respond_with_error(I18n.t("core.shared.notification_error_file_type_not_allowed"))
             end
 
             # Due a encode issue, jpeg images are sent as jfif
