@@ -1,24 +1,20 @@
-(function (global, factory) {
-    typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory() :
-    typeof define === 'function' && define.amd ? define(factory) :
-    (global = global || self, (global.FullCalendarLocales = global.FullCalendarLocales || {}, global.FullCalendarLocales.uz = factory()));
-}(this, function () { 'use strict';
+'use strict';
 
-    var uz = {
-        code: "uz",
-        buttonText: {
-            month: "Oy",
-            week: "Xafta",
-            day: "Kun",
-            list: "Kun tartibi"
-        },
-        allDayText: "Kun bo'yi",
-        eventLimitText: function (n) {
-            return "+ yana " + n;
-        },
-        noEventsMessage: "Ko'rsatish uchun voqealar yo'q"
-    };
+Object.defineProperty(exports, '__esModule', { value: true });
 
-    return uz;
+var uz = {
+  code: 'uz',
+  buttonText: {
+    month: 'Oy',
+    week: 'Xafta',
+    day: 'Kun',
+    list: 'Kun tartibi',
+  },
+  allDayText: "Kun bo'yi",
+  moreLinkText: function(n) {
+    return '+ yana ' + n
+  },
+  noEventsText: "Ko'rsatish uchun voqealar yo'q",
+};
 
-}));
+exports.default = uz;

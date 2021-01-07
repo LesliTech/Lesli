@@ -168,7 +168,7 @@ module.exports = env => {
         let rawdata = fs.readFileSync(engine_info_file_path)
 
         // parse file content 
-        let engine_info = yaml.safeLoad(rawdata)
+        let engine_info = yaml.load(rawdata)
 
         // update company name in global variable
         if (engine_info.info.type && engine_info.info.type == "builder") {
