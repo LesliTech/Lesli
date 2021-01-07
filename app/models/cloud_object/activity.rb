@@ -29,10 +29,6 @@ module CloudObject
             return nil
         end
 
-        enum icon: {
-            flag: "flag"
-        }
-
         # This enum can be overrided by the model that inherits from CloudObject::Activity
         enum category: {
             action_list:                    "action_list",
