@@ -11,7 +11,8 @@ module Interfaces::Controllers::Files
     #     let ticket_id = 1;
     #     this.http.get(`127.0.0.1/help/tickets/${ticket_id}/files`);
     def index
-        file_model = self.class.name.gsub("Controller","").singularize.constantize
+        file_model = file_model() # If there is a custom file model, it must be returned in this method
+        file_model = self.class.name.gsub("Controller","").singularize.constantize unless file_model
         cloud_object_model = file_model.cloud_object_model
         
         @files = file_model.where(
@@ -52,7 +53,8 @@ module Interfaces::Controllers::Files
     #     };
     #     this.http.post(`127.0.0.1/help/tickets/${ticket_id}/files`, data);
     def create
-        file_model = self.class.name.gsub("Controller","").singularize.constantize
+        file_model = file_model() # If there is a custom file model, it must be returned in this method
+        file_model = self.class.name.gsub("Controller","").singularize.constantize unless file_model
         cloud_object_model = file_model.cloud_object_model
 
         new_file_params = file_params.merge(
@@ -163,7 +165,8 @@ module Interfaces::Controllers::Files
     #     # Executing this controller's action from javascript's frontend
     #     this.http.get('127.0.0.1/house/options/project/files')
     def options
-        file_model = self.class.name.gsub("Controller","").singularize.constantize
+        file_model = file_model() # If there is a custom file model, it must be returned in this method
+        file_model = self.class.name.gsub("Controller","").singularize.constantize unless file_model
         respond_with_successful(file_model.options)
     end
 
@@ -174,7 +177,8 @@ module Interfaces::Controllers::Files
     #     # Executing this controller's action from javascript's frontend
     #     this.http.get('127.0.0.1/house/options/project/1/files/zip&ids=1,2,3,4');
     def zip_download
-        file_model = self.class.name.gsub("Controller","").singularize.constantize
+        file_model = file_model() # If there is a custom file model, it must be returned in this method
+        file_model = self.class.name.gsub("Controller","").singularize.constantize unless file_model
         cloud_object_model = file_model.cloud_object_model
         account_model = cloud_object_model.reflect_on_association(:account).klass
 
@@ -235,7 +239,8 @@ module Interfaces::Controllers::Files
     #     set_file
     #     puts @file # will display an instance of CloudHelp:Ticket::File
     def set_file
-        file_model = self.class.name.gsub("Controller","").singularize.constantize
+        file_model = file_model() # If there is a custom file model, it must be returned in this method
+        file_model = self.class.name.gsub("Controller","").singularize.constantize unless file_model
         cloud_object_model = file_model.cloud_object_model
         account_model = cloud_object_model.reflect_on_association(:account).klass
 
@@ -269,7 +274,8 @@ module Interfaces::Controllers::Files
     #     #    }
     #     #}
     def file_params
-        file_model = self.class.name.gsub("Controller","").singularize.constantize
+        file_model = file_model() # If there is a custom file model, it must be returned in this method
+        file_model = self.class.name.gsub("Controller","").singularize.constantize unless file_model
         cloud_object_model = file_model.cloud_object_model
 
         params.require(
