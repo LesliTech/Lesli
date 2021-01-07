@@ -1,3 +1,21 @@
+=begin
+
+Copyright (c) 2020, all rights reserved.
+
+All the information provided by this platform is protected by international laws related  to 
+industrial property, intellectual property, copyright and relative international laws. 
+All intellectual or industrial property rights of the code, texts, trade mark, design, 
+pictures and any other information belongs to the owner of this platform.
+
+Without the written permission of the owner, any replication, modification,
+transmission, publication is strictly forbidden.
+
+For more information read the license file including with this software.
+
+// · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
+// · 
+
+=end
 module Interfaces::Controllers::Files
     require 'zip'
     require 'aws-sdk-s3'
@@ -225,6 +243,14 @@ module Interfaces::Controllers::Files
         send_data zip_stream.read, filename: "all_documents_#{Date.today.strftime('%d_%B_%Y')}.zip", type: 'application/zip'
     end
 
+    # @return [void]
+    # @descriptions Sets the variable @cloud_object based on the paremeters send in the URL. If no,
+    #     cloud_object is found or it is not within the current_user's account, nil is used instead
+    # @example
+    #     # Imagine you are inside CloudFocus::Task::FilesController
+    #     puts @cloud_object # will display nil
+    #     set_cloud_object
+    #     puts @cloud_object # Will display an instance of CloudFocus::Task
     def set_cloud_object
         file_model = file_model() # If there is a custom file model, it must be returned in this method
         cloud_object_model = file_model.cloud_object_model
@@ -293,6 +319,13 @@ module Interfaces::Controllers::Files
         )
     end
     
+    # @return [CloudObject::File] The file model that the controller will handle
+    # @descriptions Constantizes and returns the file model associated to this controller. This method
+    #      can be overrided by the implementation in the child controller
+    # @example
+    #     # Suppose you are inside CloudHelp::Ticket::FilesController
+    #     puts file_model().new
+    #     # This will display a new instance of CloudHelp::Ticket::File
     def file_model
         self.class.name.gsub("Controller","").singularize.constantize
     end

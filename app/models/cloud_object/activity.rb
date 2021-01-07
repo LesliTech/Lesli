@@ -22,13 +22,6 @@ module CloudObject
         self.abstract_class = true
         belongs_to :user_creator, class_name: "::User", foreign_key: "users_id", optional: true
 
-        # @return [User] This method will always return nil
-        # @description At the current time, this is a dummy method that returns nil, so the function is_editable_by? in
-        #   ApplicationLesliRecord will work without issues
-        def user_main
-            return nil
-        end
-
         # This enum can be overrided by the model that inherits from CloudObject::Activity
         enum category: {
             action_list:                    "action_list",
@@ -42,6 +35,22 @@ module CloudObject
             action_create_file:             "action_create_file",
             action_destroy_file:            "action_destroy_file"
         }
+
+        # @return [User] This method will always return nil
+        # @description At the current time, this is a dummy method that returns nil, so the function is_editable_by? in
+        #   ApplicationLesliRecord will work without issues
+        def user_main
+            return nil
+        end
+
+        # @return [Class] The class of the association 'belongs_to'
+        # @description All activities belong to a *cloud_object*. This method returns the specific class of
+        #     that cloud_object.
+        # @example
+        #     puts DeutscheLeibrenten::Project::Activity.cloud_object_model.new # This will display an instance of DeutscheLeibrenten::Project
+        def self.cloud_object_model
+            self.reflect_on_association(:cloud_object).klass
+        end
 
     end
 end
