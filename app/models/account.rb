@@ -43,6 +43,7 @@ class Account < ApplicationRecord
     has_one :focus,      class_name: "CloudFocus::Account",      foreign_key: "id"
     has_one :driver,     class_name: "CloudDriver::Account",     foreign_key: "id"
     has_one :mailer,     class_name: "CloudMailer::Account",     foreign_key: "id"
+    has_one :things,     class_name: "CloudThings::Account",     foreign_key: "id"
     has_one :dispatcher, class_name: "CloudDispatcher::Account", foreign_key: "id"
 
     after_create :initialize_account
@@ -179,6 +180,22 @@ class Account < ApplicationRecord
             end
         end
 
+        if defined? CloudAudit
+            if self.audit.blank?
+                self.audit = CloudAudit::Account.new
+                self.audit.account = self
+                self.audit.save!
+            end
+        end
+
+        if defined? CloudThings
+            if self.things.blank?
+                self.things = CloudThings::Account.new
+                self.things.account = self
+                self.things.save!
+            end
+        end
+        
         if defined? CloudLesli
             if self.lesli.blank?
                 self.lesli = CloudLesli::Account.new
