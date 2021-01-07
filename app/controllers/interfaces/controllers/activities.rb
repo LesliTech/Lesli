@@ -150,7 +150,7 @@ module Interfaces::Controllers::Activities
     #     #suppose params[:id] = 44
     #     puts @activity # will display nil
     #     set_activity
-    #     puts @activity # will display an instance of CloudHelp:Ticket::Action
+    #     puts @activity # will display an instance of CloudHelp:Ticket::Activity
     def set_activity
         activity_model = activity_model() # If there is a custom activity model, it must be returned in this method
         cloud_object_model = activity_model.cloud_object_model
@@ -184,18 +184,17 @@ module Interfaces::Controllers::Activities
     #     #    }
     #     #}
     def activity_params
-        dynamic_info = self.class.dynamic_info
-        module_name = dynamic_info[:module_name]
-        object_name = dynamic_info[:object_name] 
+        activity_model = activity_model() # If there is a custom activity model, it must be returned in this method
+        cloud_object_model = activity_model.cloud_object_model
 
         params.require(
-            "#{object_name}_activity".to_sym
+            "#{cloud_object_model.name.demodulize.underscore}_activity".to_sym
         ).permit(
             :description,
             :field_name,
             :value_from,
             :value_to,
-            :category,
+            :category
         )
     end
 

@@ -37,8 +37,8 @@ For more information read the license file including with this software.
         # @example
         #     current_user = the user making this request
         #     employee_id = params[:employee_id]
-        #     discussions = CloudTeam::Employee::Discussion.list( account, employee_id )
-        def self.list(current_user, cloud_id)
+        #     discussions = CloudTeam::Employee::Discussion.index( account, employee_id )
+        def self.index(current_user, cloud_id)
             cloud_object_model = self.cloud_object_model
             account_model = cloud_object_model.reflect_on_association(:account).klass
             
