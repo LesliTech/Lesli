@@ -12,7 +12,6 @@ module Interfaces::Controllers::Files
     #     this.http.get(`127.0.0.1/help/tickets/${ticket_id}/files`);
     def index
         file_model = file_model() # If there is a custom file model, it must be returned in this method
-        file_model = self.class.name.gsub("Controller","").singularize.constantize unless file_model
         cloud_object_model = file_model.cloud_object_model
         
         @files = file_model.where(
@@ -54,12 +53,12 @@ module Interfaces::Controllers::Files
     #     this.http.post(`127.0.0.1/help/tickets/${ticket_id}/files`, data);
     def create
         file_model = file_model() # If there is a custom file model, it must be returned in this method
-        file_model = self.class.name.gsub("Controller","").singularize.constantize unless file_model
         cloud_object_model = file_model.cloud_object_model
 
+        set_cloud_object
         new_file_params = file_params.merge(
             user_creator: current_user,
-            "#{cloud_object_model.table_name}_id".to_sym => params["#{cloud_object_model.name.demodulize.underscore}_id".to_sym]
+            cloud_object: @cloud_object
         )
 
         # Verifying the extension of the file
@@ -166,7 +165,6 @@ module Interfaces::Controllers::Files
     #     this.http.get('127.0.0.1/house/options/project/files')
     def options
         file_model = file_model() # If there is a custom file model, it must be returned in this method
-        file_model = self.class.name.gsub("Controller","").singularize.constantize unless file_model
         respond_with_successful(file_model.options)
     end
 
@@ -178,7 +176,6 @@ module Interfaces::Controllers::Files
     #     this.http.get('127.0.0.1/house/options/project/1/files/zip&ids=1,2,3,4');
     def zip_download
         file_model = file_model() # If there is a custom file model, it must be returned in this method
-        file_model = self.class.name.gsub("Controller","").singularize.constantize unless file_model
         cloud_object_model = file_model.cloud_object_model
         account_model = cloud_object_model.reflect_on_association(:account).klass
 
@@ -228,6 +225,17 @@ module Interfaces::Controllers::Files
         send_data zip_stream.read, filename: "all_documents_#{Date.today.strftime('%d_%B_%Y')}.zip", type: 'application/zip'
     end
 
+    def set_cloud_object
+        file_model = file_model() # If there is a custom file model, it must be returned in this method
+        cloud_object_model = file_model.cloud_object_model
+        account_model = cloud_object_model.reflect_on_association(:account).klass
+
+        @cloud_object = cloud_object_model.find_by(
+            id: params["#{cloud_object_model.name.demodulize.underscore}_id".to_sym],
+            "#{account_model.table_name}_id".to_sym => current_user.account.id
+        )
+    end
+
     # @return [void]
     # @description Sets the variable @file. The variable contains the file 
     #     to be updated based on the id of the *cloud_object* and the id of the *file*. The variable
@@ -240,7 +248,6 @@ module Interfaces::Controllers::Files
     #     puts @file # will display an instance of CloudHelp:Ticket::File
     def set_file
         file_model = file_model() # If there is a custom file model, it must be returned in this method
-        file_model = self.class.name.gsub("Controller","").singularize.constantize unless file_model
         cloud_object_model = file_model.cloud_object_model
         account_model = cloud_object_model.reflect_on_association(:account).klass
 
@@ -275,7 +282,6 @@ module Interfaces::Controllers::Files
     #     #}
     def file_params
         file_model = file_model() # If there is a custom file model, it must be returned in this method
-        file_model = self.class.name.gsub("Controller","").singularize.constantize unless file_model
         cloud_object_model = file_model.cloud_object_model
 
         params.require(
@@ -285,6 +291,10 @@ module Interfaces::Controllers::Files
             :attachment_local,
             :file_type
         )
+    end
+    
+    def file_model
+        self.class.name.gsub("Controller","").singularize.constantize
     end
 end
     
