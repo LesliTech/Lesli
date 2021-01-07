@@ -56,7 +56,6 @@ jobs:
     - name: Install dependencies
       run: |
         bundle config https://rubygems.pkg.github.com/leitfaden ${GEM_HOST_API_KEY}
-        bundle config path vendor/bundle
         bundle install --jobs 4 --retry 3
       env:
         RAILS_ENV: test
