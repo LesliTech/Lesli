@@ -1,4 +1,3 @@
-module CloudObject
 =begin
 
 Copyright (c) 2020, all rights reserved.
@@ -17,6 +16,7 @@ For more information read the license file including with this software.
 // · 
 
 =end
+module CloudObject
     class FilesController < ApplicationLesliController
         include Interfaces::Controllers::Files
         
