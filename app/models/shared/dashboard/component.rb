@@ -1,4 +1,22 @@
-module CloudObject
+=begin
+
+Copyright (c) 2020, all rights reserved.
+
+All the information provided by this platform is protected by international laws related  to 
+industrial property, intellectual property, copyright and relative international laws. 
+All intellectual or industrial property rights of the code, texts, trade mark, design, 
+pictures and any other information belongs to the owner of this platform.
+
+Without the written permission of the owner, any replication, modification,
+transmission, publication is strictly forbidden.
+
+For more information read the license file including with this software.
+
+// · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
+// · 
+
+=end
+module Shared
     class Dashboard::Component < ApplicationLesliRecord
         self.abstract_class = true
 
@@ -21,7 +39,7 @@ module CloudObject
         # @return [Hash] Hash that contains information about the class
         # @description Returns dynamic information based on the current implementation of this abstract class
         # @example
-        #     # Imagine the current class is an instance of CloudHelp::Workflow::Action < CloudObject::Workflow::Action
+        #     # Imagine the current class is an instance of CloudHelp::Workflow::Action < Shared::Workflow::Action
         #     info = dynamic_info
         #     puts info[:module_name] # will print 'help'
         def self.dynamic_info
