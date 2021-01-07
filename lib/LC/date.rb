@@ -17,6 +17,9 @@ For more information read the license file including with this software.
 
 =end
 
+# DEPRECATED: DO NOT implement new methods in this library.
+# Please check the docs for reference.
+
 include ActionView::Helpers::DateHelper
 
 module LC
