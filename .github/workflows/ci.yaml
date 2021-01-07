@@ -79,6 +79,7 @@ jobs:
         bundle exec rake cloud_babel:rails
       env:
         RAILS_ENV: test
+        RAILS_MASTER_KEY: ${{ secrets.RAILS_MASTER_KEY_TEST }}
         LESLI_INSTANCE_NAME: ${{ matrix.name }}
         LESLI_INSTANCE_CODE: ${{ matrix.code }}
         LESLI_INSTANCE_VERSION: ${{ matrix.version }}
