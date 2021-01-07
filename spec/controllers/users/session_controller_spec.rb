@@ -31,7 +31,6 @@ RSpec.describe Users::SessionsController, type: :controller do
     end
 
     describe "POST:/users/session" do
-=begin
         it "Sign in with valid credentials" do 
             post :create, params: {
                 "user": {
@@ -66,7 +65,5 @@ RSpec.describe Users::SessionsController, type: :controller do
                 }
             })
         end
-=end
     end
-
 end
