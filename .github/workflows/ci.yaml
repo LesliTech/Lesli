@@ -65,17 +65,6 @@ jobs:
         LESLI_INSTANCE_NAME: "LesliCloud"
         LESLI_INSTANCE_CODE: "lesli_cloud"
         LESLI_INSTANCE_VERSION: "~> 0.0.2"
-    - name: Setup Babel
-      run: |
-        cp ./config/credentials/testci.yml.enc ./config/credentials/test.yml.enc
-        bundle exec rake cloud_babel:sync
-        bundle exec rake cloud_babel:rails
-      env:
-        RAILS_ENV: test
-        RAILS_MASTER_KEY: ${{ secrets.RAILS_MASTER_KEY_TEST }}
-        LESLI_INSTANCE_NAME: "LesliCloud"
-        LESLI_INSTANCE_CODE: "lesli_cloud"
-        LESLI_INSTANCE_VERSION: "~> 0.0.2"
     - name: Run tests
       run: |
         cp ./config/credentials/testci.yml.enc ./config/credentials/test.yml.enc
