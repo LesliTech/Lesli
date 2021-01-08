@@ -1,4 +1,4 @@
-module CloudObject
+module Shared
 =begin
 
 Copyright (c) 2020, all rights reserved.
@@ -92,9 +92,9 @@ For more information read the license file including with this software.
             grant_destroy = false
             current_user.user_roles
             .joins(:role)
-            .joins("inner join role_privileges RP on RP.roles_id = roles.id")
-            .where("RP.grant_object = ?", "#{module_underscore}/#{cloud_object.class.name.split("::").last.underscore.pluralize}")
-            .select("RP.grant_destroy")
+            .joins("inner join role_privileges as rp on rp.roles_id = roles.id")
+            .where("rp.grant_object = ?", "#{module_underscore}/#{cloud_object.class.name.split("::").last.underscore.pluralize}")
+            .select("rp.grant_destroy")
             .each do |privilege|
                 if privilege.grant_destroy
                     grant_destroy = true
