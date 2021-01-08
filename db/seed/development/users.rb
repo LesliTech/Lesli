@@ -32,7 +32,7 @@ create_development_user(["owner", "mr", user["name"], "", user["email"]])
     ["api",     "mr", "API",    "user", "api@lesli.cloud"],
 ].each do |user|
 
-    p create_development_user(user)
+    create_development_user(user)
 
 end
 

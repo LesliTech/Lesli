@@ -87,6 +87,11 @@ RSpec.configure do |config|
     
 end
 
+# Include devise helpers to be able to login on test runtime
+RSpec.configure do |config|
+    config.include Devise::Test::IntegrationHelpers
+end
+
 LC::Debug.msgc(
     "Running RSpec test...", 
     "For a better result run test over a clean database", 

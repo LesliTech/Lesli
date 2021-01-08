@@ -74,7 +74,12 @@ module HtmlHelper
         end
     end
 
-
+    # 09.06 Development engine
+    def navigation_engine_development text: "Dev", icon_path: "cloud_development/development-logo.svg"
+        if defined? CloudDevelopment
+            navigation_engine_item text, icon_path, cloud_development.root_path, controller_path.include?("cloud_development")
+        end
+    end
 
     def navigation_engine_babel text: "Babel", icon_path: "cloud_babel/babel-logo.svg"
         if defined? CloudBabel
@@ -91,12 +96,6 @@ module HtmlHelper
     def navigation_engine_text text: "Text", icon_path: "cloud_text/text-logo.svg"
         if defined? CloudText
             navigation_engine_item text, icon_path, cloud_text.root_path, controller_path.include?("cloud_text")
-        end
-    end
-
-    def navigation_engine_development text: "Dev", icon_path: "cloud_development/development-logo.svg"
-        if defined? CloudText
-            navigation_engine_item text, icon_path, cloud_development.root_path, controller_path.include?("cloud_development")
         end
     end
 
