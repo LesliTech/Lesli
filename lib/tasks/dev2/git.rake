@@ -99,12 +99,14 @@ class DevGit < LesliTasks
         end
     end
 
+
+    
     private
 
 
 
     # Push code to remote branch/origin for all engines
-    def push origin="origin"
+    def push origin="origin", branch="ldonis"
 
         # for every installed engine
         Lesli::engines.each do |engine|
@@ -117,14 +119,14 @@ class DevGit < LesliTasks
             message_separator
             message("Working with: #{engine['name']}")
 
-            command("cd ./engines/#{engine['name']} && git push #{ origin } master")
+            command("cd ./engines/#{engine['name']} && git push #{ origin } #{ branch }")
 
         end
 
         message("Working with: Lesli")
 
         # commit any possible pending change
-        command("git push #{ origin } master")
+        command("git push #{ origin } #{ branch }")
 
         message_separator
         message_cow
@@ -205,13 +207,13 @@ class DevGit < LesliTasks
             message "Working with: #{engine['name']}"
             
             command("cd ./engines/#{engine['name']} && git reset --hard") if force
-            command("cd ./engines/#{engine['name']} && git checkout master")
+            command("cd ./engines/#{engine['name']} && git checkout #{ branch }")
 
         end
 
         message("Working with: Lesli")
 
-        command("git pull origin master")
+        command("git checkout #{ branch }")
 
         message_separator
         message_cow

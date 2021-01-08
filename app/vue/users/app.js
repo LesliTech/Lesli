@@ -21,25 +21,25 @@ import app from 'LesliVue/app'
 
 
 // · Import common apps
-import appList  from './apps/list.vue'
-//import appEdit  from './apps/edit.vue'
-import appShow  from './apps/show.vue'
-import appNew   from './apps/new.vue'
+import pageList  from './pages/list.vue'
+import pageEdit  from './pages/show.vue'
+import pageShow  from './pages/show.vue'
+import pageNew   from './pages/new.vue'
 
 
 // · 
 app("Core", "[list|new|edit|show]", "/administration/users", [{
     path: "/",
-    component: appList
+    component: pageList
 },{
     path: "/new",
-    component: appNew
+    component: pageNew
 },{
     path: "/:id",
-    component: appShow
+    component: pageShow
 },{
     path: "/:id/edit",
-    component: appShow
+    component: pageEdit
 }], {
     user: {},
     options: { roles: [] }

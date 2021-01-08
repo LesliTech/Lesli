@@ -52,7 +52,7 @@ jobs:
     - name: Set up Ruby
       uses: ruby/setup-ruby@v1
       with:
-        ruby-version: 2.7.0
+        ruby-version: 2.7.2
     - name: Install dependencies
       run: |
         bundle config https://rubygems.pkg.github.com/leitfaden ${GEM_HOST_API_KEY}

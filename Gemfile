@@ -22,12 +22,12 @@ require "./lesli"
 source "https://rubygems.org"
 git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
-ruby "2.7.0"
+ruby "2.7.2"
 
 # · Rails, gem, dependencies and tools
 
 # Rails framework
-gem "rails", "= 6.0.3"
+gem "rails", "= 6.1.0"
 
 # Rails translations
 gem "rails-i18n", "= 6.0.0"
@@ -114,6 +114,9 @@ gem "sprockets", "< 4"
 gem "honeybadger", '~> 4.0'
 
 gem "ruby_cowsay"
+
+# faster json parser library
+gem 'fast_jsonparser'
 
 group :development, :test do
 
