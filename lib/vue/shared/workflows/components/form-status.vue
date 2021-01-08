@@ -1,5 +1,27 @@
 <script>
-import componentStatusName from 'LesliCoreVue/cloud_objects/workflows/components/status-name.vue'
+/*
+
+Copyright (c) 2020, all rights reserved.
+
+All the information provided by this platform is protected by international laws related  to 
+industrial property, intellectual property, copyright and relative international laws. 
+All intellectual or industrial property rights of the code, texts, trade mark, design, 
+pictures and any other information belongs to the owner of this platform.
+
+Without the written permission of the owner, any replication, modification,
+transmission, publication is strictly forbidden.
+
+For more information read the license file including with this software.
+
+// · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
+// · 
+
+*/
+
+
+// · Component list
+// · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
+import componentStatusName from 'LesliVue/shared/workflows/components/status-name.vue'
 
 export default {
     components: {
@@ -14,6 +36,11 @@ export default {
         translationsPath: {
             default: null,
             type: String
+        },
+
+        cloudObjectVariable: {
+            type: String,
+            required: true
         }
     },
 
@@ -34,7 +61,7 @@ export default {
             this.bus.publish('cancel:/status-change')
         },
 
-        patchProjectstatus(event){
+        patchCloudObjectStatus(event){
             if(event){
                 event.preventDefault()
             }
@@ -45,10 +72,10 @@ export default {
                 this.data.reload.timelines = true
                 this.data.reload.activities = true
 
-                // Setting the new status in the ticket variable
-                this.data.ticket.status = this.selectedStatus.name
-                this.data.ticket.status_number = this.selectedStatus.number
-                this.data.ticket.status_type = this.selectedStatus.status_type
+                // Setting the new status in the cloud_object_variable variable
+                this.data[this.cloudObjectVariable].status = this.selectedStatus.name
+                this.data[this.cloudObjectVariable].status_number = this.selectedStatus.number
+                this.data[this.cloudObjectVariable].status_type = this.selectedStatus.status_type
             })
         },
     }
@@ -56,7 +83,7 @@ export default {
 </script>
 <template>
     <div class="card box" v-if="selectedStatus">
-        <form @submit="patchProjectstatus">
+        <form @submit="patchCloudObjectStatus">
             <h4 class="title is-5">
                 {{translations.core.view_title_change_status}}:
                 <component-status-name :translations-path="translationsPath" :name="selectedStatus.name">
