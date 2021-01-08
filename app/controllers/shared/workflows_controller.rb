@@ -1,4 +1,3 @@
-module CloudObject
 =begin
 
 Copyright (c) 2020, all rights reserved.
@@ -17,6 +16,7 @@ For more information read the license file including with this software.
 // · 
 
 =end
+module Shared
     class WorkflowsController < ApplicationLesliController
         before_action :set_workflow, only: [:update, :destroy]
 
@@ -145,7 +145,7 @@ For more information read the license file including with this software.
     of the workflow details
 @controller_action_param :detail_attributes.id [Integer] The id of the detail
 @controller_action_param :detail_attributes.next_states [String] A string of numbers, separated by '|'.
-    Each number represents the id of a *CloudObject::WorkflowState* and creates a valid transition. 
+    Each number represents the id of a *Shared::WorkflowState* and creates a valid transition. 
     A valid transition is a transition from one detail that has a state in its *next_states* attribute 
     to another detail, that has that state in its *workflow_state_id* attribute
 @controller_action_param :detail_attributes._workflow_state_id [Integer]
@@ -323,7 +323,7 @@ private
 @return [Hash] Hash that contains information about the class
 @description Returns dynamic information based on the current implementation of this abstract class
 @example
-    # Imagine the current class is an instance of CloudHelp::WorkflowsController < CloudObject::WorkflowsController
+    # Imagine the current class is an instance of CloudHelp::WorkflowsController < Shared::WorkflowsController
     info = dynamic_info
     puts info[:module_name] # will print 'help'
     puts info[:full_module_name] # will print 'CloudHelp'
