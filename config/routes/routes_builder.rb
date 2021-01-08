@@ -21,11 +21,12 @@ module RoutesBuilder
     def self.extended(router)
         router.instance_exec do
 
-            settings = Rails.configuration.lesli_settings
+            #settings = Rails.configuration.lesli_settings
+            #return unless File.exists?("./engines/#{settings["info"]["name"]}/routes.rb")
+            #require "./engines/#{settings["info"]["name"]}/routes"
 
-            return unless File.exists?("./engines/#{settings["info"]["name"]}/routes.rb")
-
-            require "./engines/#{settings["info"]["name"]}/routes"
+            instance_klass = Rails.application.config.lesli_settings["instance"][:name].safe_constantize
+            require "#{instance_klass::Engine.root}/routes"
 
             extend RoutesEngine
 
