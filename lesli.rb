@@ -98,15 +98,18 @@ module Lesli
         # Lesli core settings
         lesli_settings = YAML.load_file("./lesli.yml")
 
+         # get Lesli instance (builder engine)
+         instance_engine = instance()
+
         # specific settings for dedicated on-premises instance (not core)
-        if instance[:name] != "Lesli"
+        if instance_engine[:name] != "Lesli"
     
             # get the settings from instance 
             # this file should be an exact copy of the one in the core
             # all the settings will be overrided by the settings in the builder engine
-            instance_klass = instance[:name].safe_constantize
+            instance_klass = instance_engine[:name].safe_constantize
             unless instance_klass
-                raise Exception.new "The gem of the lesli instance is not installed, instance: #{instance[:name]}"
+                raise Exception.new "The gem of the lesli instance is not installed, instance: #{instance_engine[:name]}"
             end
             instance_settings = YAML.load_file("#{instance_klass::Engine.root}/lesli.yml")
 
