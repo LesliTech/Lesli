@@ -21,8 +21,8 @@ For more information read the license file including with this software.
 
 // · Component list
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
-import componentWorkflowChart from "LesliVue/cloud_objects/workflows/components/chart.vue"
-import componentStatusName from "LesliVue/cloud_objects/workflows/components/status-name.vue"
+import componentWorkflowChart from "LesliVue/shared/workflows/components/chart.vue"
+import componentStatusName from "LesliVue/shared/workflows/components/status-name.vue"
 
 export default {
     props: {
