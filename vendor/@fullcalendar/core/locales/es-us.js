@@ -1,30 +1,26 @@
-(function (global, factory) {
-    typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory() :
-    typeof define === 'function' && define.amd ? define(factory) :
-    (global = global || self, (global.FullCalendarLocales = global.FullCalendarLocales || {}, global.FullCalendarLocales['es-us'] = factory()));
-}(this, function () { 'use strict';
+'use strict';
 
-    var esUs = {
-        code: "es",
-        week: {
-            dow: 0,
-            doy: 6 // The week that contains Jan 1st is the first week of the year.
-        },
-        buttonText: {
-            prev: "Ant",
-            next: "Sig",
-            today: "Hoy",
-            month: "Mes",
-            week: "Semana",
-            day: "Día",
-            list: "Agenda"
-        },
-        weekLabel: "Sm",
-        allDayHtml: "Todo<br/>el día",
-        eventLimitText: "más",
-        noEventsMessage: "No hay eventos para mostrar"
-    };
+Object.defineProperty(exports, '__esModule', { value: true });
 
-    return esUs;
+var esUs = {
+  code: 'es',
+  week: {
+    dow: 0, // Sunday is the first day of the week.
+    doy: 6, // The week that contains Jan 1st is the first week of the year.
+  },
+  buttonText: {
+    prev: 'Ant',
+    next: 'Sig',
+    today: 'Hoy',
+    month: 'Mes',
+    week: 'Semana',
+    day: 'Día',
+    list: 'Agenda',
+  },
+  weekText: 'Sm',
+  allDayText: 'Todo el día',
+  moreLinkText: 'más',
+  noEventsText: 'No hay eventos para mostrar',
+};
 
-}));
+exports.default = esUs;

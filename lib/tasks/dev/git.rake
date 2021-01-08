@@ -176,7 +176,7 @@ namespace :dev do
             end
 
             # commit any change in vendor
-            system "git add --all && git commit -m \"Update npm dependencies (vendors)\""
+            #system "git add --all && git commit -m \"Update npm dependencies (vendors)\""
 
         end
 
