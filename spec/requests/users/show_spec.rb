@@ -16,43 +16,25 @@ For more information read the license file including with this software.
 // · 
 
 =end
-=begin
+
 require 'rails_helper'
 require 'spec_helper'
+require 'byebug'
 
-RSpec.configure do |config|
-    config.include Devise::Test::IntegrationHelpers
-end
 
-RSpec.describe 'GET /users/:id', type: :request do
-
-    before(:all) do
-        @user = User.find_by(email: "dev@lesli.cloud")
-        sign_in @user
-    end
-        
-    it "returns a user object" do
-        get "/users/#{@user.id}.json"
-        expect(response).to have_http_status(:success) 
-        expect(response.content_type).to eq("application/json; charset=utf-8")
-        expect(JSON.parse(response.body)["successful"]).to eql(true)
-    end
-
-end
-
-RSpec.describe 'GET /users/:id', type: :request do
+RSpec.describe 'GET:/administration/users/:id', type: :request do
+    include_context 'user authentication'
 
     before(:all) do
-        @user = User.find_by(email: "dev@lesli.cloud")
-        sign_in @user
+        get "/administration/users/#{ @user.id }.json"
     end
-        
-    it "returns 404 standard response when user not found" do
-        get "/users/0.json"
-        expect(response).to have_http_status(:not_found) 
-        expect(response.content_type).to eq("application/json; charset=utf-8")
-        expect(JSON.parse(response.body)["successful"]).to eql(false)
+
+    include_examples 'successful standard json response'
+
+
+    
+    it 'is expected to respond with the requested user' do
+        expect(@response_body["data"]["id"]).to eql(@user.id)
     end
 
 end
-=end
