@@ -1,14 +1,3 @@
-
-
-
-
-##############################################################
-######################### DEPRECATED #########################
-############ USE APPLICATION_LESLI_RECORD INSTEAD ############
-##############################################################
-
-
-
 module CloudObject
     class Base < ApplicationLesliRecord
         self.abstract_class = true
@@ -68,6 +57,54 @@ module CloudObject
                 workflow_model: "#{module_info[0]}::Workflow".constantize,
                 workflow_status_model: "#{module_info[0]}::Workflow::Status".constantize
             }
+        end
+
+        #######################################################################################
+        ##############################  Activities Log Methods   ##############################
+        #######################################################################################
+
+        # @return [void]
+        # @param current_user [::User] The user that created the cloud_object
+        # @param cloud_object [CloudModule::Model] The cloud_object that was created
+        # @description Creates an activity for this cloud_object indicating who created it.
+        # Example
+        #   params = {...}
+        #   ticket = CloudHelp::Ticket.create(params)
+        #   CloudHelp::Ticket.log_activity_create(User.first, ticket)
+        def self.log_activity_create(current_user, cloud_object)
+            cloud_object.activities.create(
+                user_creator: current_user,
+                category: "action_create"
+            )
+        end
+
+        # @return [void]
+        # @param current_user [::User] The user that showed the cloud_object
+        # @param cloud_object [CloudModule::Model] The cloud_object that was showed
+        # @description Creates an activity for this cloud_object indicating that someone viewed it.
+        # Example
+        #   ticket = CloudHelp::Ticket.find(1)
+        #   CloudHelp::Ticket.log_activity_show(User.first, ticket)
+        def self.log_activity_show(current_user, cloud_object)
+            cloud_object.activities.create(
+                user_creator: current_user,
+                category: "action_show"
+            )
+        end
+
+        # @return [void]
+        # @param current_user [::User] The user that deleted the cloud_object
+        # @param cloud_object [CloudModule::Model] The cloud_object that was destroyed
+        # @description Creates an activity for this cloud_object indicating that someone deleted it
+        # Example
+        #   ticket = CloudHelp::Ticket.find(1)
+        #   CloudHelp::Ticket.log_activity_destroy(User.first, ticket)
+        #   ticket.destroy
+        def self.log_activity_destroy(current_user, cloud_object)
+            cloud_object.activities.create(
+                user_creator: current_user,
+                category: "action_destroy"
+            )
         end
 
     end
