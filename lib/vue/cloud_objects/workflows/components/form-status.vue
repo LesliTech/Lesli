@@ -14,6 +14,11 @@ export default {
         translationsPath: {
             default: null,
             type: String
+        },
+
+        cloudObjectVariable: {
+            type: String,
+            required: true
         }
     },
 
@@ -34,7 +39,7 @@ export default {
             this.bus.publish('cancel:/status-change')
         },
 
-        patchProjectstatus(event){
+        patchCloudObjectStatus(event){
             if(event){
                 event.preventDefault()
             }
@@ -45,10 +50,10 @@ export default {
                 this.data.reload.timelines = true
                 this.data.reload.activities = true
 
-                // Setting the new status in the ticket variable
-                this.data.ticket.status = this.selectedStatus.name
-                this.data.ticket.status_number = this.selectedStatus.number
-                this.data.ticket.status_type = this.selectedStatus.status_type
+                // Setting the new status in the cloud_object_variable variable
+                this.data[this.cloudObjectVariable].status = this.selectedStatus.name
+                this.data[this.cloudObjectVariable].status_number = this.selectedStatus.number
+                this.data[this.cloudObjectVariable].status_type = this.selectedStatus.status_type
             })
         },
     }
@@ -56,7 +61,7 @@ export default {
 </script>
 <template>
     <div class="card box" v-if="selectedStatus">
-        <form @submit="patchProjectstatus">
+        <form @submit="patchCloudObjectStatus">
             <h4 class="title is-5">
                 {{translations.core.view_title_change_status}}:
                 <component-status-name :translations-path="translationsPath" :name="selectedStatus.name">
