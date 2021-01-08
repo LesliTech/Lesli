@@ -51,7 +51,7 @@ module Lesli
             end
 
             # next if engine name does not match
-            next unless engine_info["name"] == entry
+            next unless engine_info["code"] == entry
 
             # next if engines should not be loaded
             next if engine_info["load"] == false
@@ -80,17 +80,27 @@ module Lesli
         name = "Lesli"
         code = "lesli"
         version = "~> 0.0.2"
+        local_engines = false
 
         name = ENV['LESLI_INSTANCE_NAME'] unless ENV['LESLI_INSTANCE_NAME'].nil?
         code = ENV['LESLI_INSTANCE_CODE'] unless ENV['LESLI_INSTANCE_CODE'].nil?
         version = ENV['LESLI_INSTANCE_VERSION'] unless ENV['LESLI_INSTANCE_VERSION'].nil?
 
+        engines.each do |engine|
+            next if engine["type"] != "builder"
+            name = engine["name"]
+            code = engine["code"]
+            local_engines = true
+            break
+        end
+
         {
             "name": name,
             "code": code,
             "version": version,
+            "local_engines": local_engines
         }
-        
+
     end
 
     def Lesli.settings env="development"
