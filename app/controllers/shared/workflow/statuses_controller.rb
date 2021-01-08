@@ -1,4 +1,3 @@
-module CloudObject
 =begin
 
 Copyright (c) 2020, all rights reserved.
@@ -17,6 +16,7 @@ For more information read the license file including with this software.
 // · 
 
 =end
+module Shared
     class Workflow::StatusesController < ApplicationLesliController
         before_action :set_workflow, only: [:index, :create]
         before_action :set_workflow_status, only: [:destroy]
@@ -129,7 +129,7 @@ private
 @return [Hash] Hash that contains information about the class
 @description Returns dynamic information based on the current implementation of this abstract class
 @example
-    # Imagine the current class is an instance of CloudHelp::Workflow::StatusesController < CloudObject::Workflow::StatusesController
+    # Imagine the current class is an instance of CloudHelp::Workflow::StatusesController < Shared::Workflow::StatusesController
     info = dynamic_info
     puts info[:module_name] # will print 'help'
     puts info[:model].new # will return an instance of CloudHelp::Workflow::Status
