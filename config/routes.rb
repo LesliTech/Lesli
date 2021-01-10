@@ -61,7 +61,7 @@ Rails.application.routes.draw do
         root to: redirect("/dashboard"), as: :root_authenticated
 
     end
-
+=begin
     mount CloudDispatcher::Engine => "/api" if defined?(CloudDispatcher)
 
     match "/404", :to => "errors#not_found",             :via => :all
@@ -69,5 +69,5 @@ Rails.application.routes.draw do
     match "/500", :to => "errors#internal_server_error", :via => :all
 
     root to: "websites#show", as: :root_unauthenticated
-
+=end
 end
