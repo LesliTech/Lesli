@@ -20,8 +20,9 @@ For more information read the license file including with this software.
 <application-component-header>
 
     <%# Custom header from builder engine %>
-    <% if lesli_instance != "lesli" %>
-    <%= render partial: "layouts/#{lesli_instance.underscore}/partials/application-header" %>
+    <% if lesli_instance_code != "lesli" %>
+    <%#= render partial: "layouts/#{lesli_instance.underscore}/partials/application-header" %>
+    <%= render partial: "layouts/#{lesli_instance_code}/partials/application-header" %>
     <% end %>
 
     <%# show language selector %>

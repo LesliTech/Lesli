@@ -20,6 +20,7 @@ For more information read the license file including with this software.
 module RoutesApp
     def self.extended(router)
         router.instance_exec do
+
             authenticated :user do
 
                 # Lesli core administration components
