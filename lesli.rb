@@ -51,7 +51,7 @@ module Lesli
             end
 
             # next if engine name does not match
-            next unless engine_info["name"] == entry
+            next unless engine_info["code"] == entry
 
             # next if engines should not be loaded
             next if engine_info["load"] == false
@@ -79,19 +79,28 @@ module Lesli
 
         name = "Lesli"
         code = "lesli"
+        version = "~> 0.0.2"
+        local_engines = false
+
+        name = ENV['LESLI_INSTANCE_NAME'] unless ENV['LESLI_INSTANCE_NAME'].nil?
+        code = ENV['LESLI_INSTANCE_CODE'] unless ENV['LESLI_INSTANCE_CODE'].nil?
+        version = ENV['LESLI_INSTANCE_VERSION'] unless ENV['LESLI_INSTANCE_VERSION'].nil?
 
         engines.each do |engine|
             next if engine["type"] != "builder"
             name = engine["name"]
             code = engine["code"]
+            local_engines = true
             break
         end
 
         {
             "name": name,
-            "code": code
+            "code": code,
+            "version": version,
+            "local_engines": local_engines
         }
-        
+
     end
 
     def Lesli.settings env="development"
@@ -99,16 +108,20 @@ module Lesli
         # Lesli core settings
         lesli_settings = YAML.load_file("./lesli.yml")
 
-        # get Lesli instance (builder engine)
-        instance_engine = instance
+         # get Lesli instance (builder engine)
+         instance_engine = instance()
 
         # specific settings for dedicated on-premises instance (not core)
-        if instance_engine[:name] != "Lesli" 
+        if instance_engine[:name] != "Lesli"
     
             # get the settings from instance 
             # this file should be an exact copy of the one in the core
-            # all the settings will be overrided by the settings in the builder engine 
-            instance_settings = YAML.load_file(File.join("./engines", instance_engine[:name], "lesli.yml"))
+            # all the settings will be overrided by the settings in the builder engine
+            instance_klass = instance_engine[:name].safe_constantize
+            unless instance_klass
+                raise Exception.new "The gem of the lesli instance is not installed, instance: #{instance_engine[:name]}"
+            end
+            instance_settings = YAML.load_file("#{instance_klass::Engine.root}/lesli.yml")
 
             # overwrite core settings with specific settings from instance
             lesli_settings = lesli_settings.merge(instance_settings) 
@@ -128,5 +141,4 @@ module Lesli
         return lesli_settings
 
     end
-
 end
