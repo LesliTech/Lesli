@@ -20,6 +20,8 @@ info:
         ssh: "git@github.com:leitfaden/Lesli.git" 
         ssh_backup: "git@github.com:LesliTech/Lesli.git" 
 
+modules:
+    cloud_babel: "~> 0.1.0"
 
 # Information about the main account in the platform
 account: 

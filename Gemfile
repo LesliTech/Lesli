@@ -142,10 +142,6 @@ group :development, :test do
     # Preview emails in browser
     gem "letter_opener"
 
-    Lesli::engines.each do |engine|
-        engine_installation_path = File.expand_path("../engines/#{engine["code"]}", __FILE__)
-        gem engine["code"], path: engine_installation_path if File.exists?(engine_installation_path)
-    end
 end
 
 group :development do
@@ -184,8 +180,12 @@ group :test do
 end
 
 
-if !Lesli::instance[:local_engines] && Lesli::instance[:name] != "Lesli"
-    source "https://rubygems.pkg.github.com/leitfaden" do
-        gem Lesli::instance[:code], Lesli::instance[:version]
+# TODO: change this to use Lesli::Instance directly
+Lesli::engines.each do |engine|
+    next if engine[:name] == "Lesli"
+    if engine[:type] == "builder"
+        engine_installation_path = File.expand_path("../engines/#{ engine[:code] }", __FILE__)
+        gem engine[:code], path: engine_installation_path if File.exists?(engine_installation_path)
+        break
     end
 end
