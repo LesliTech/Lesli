@@ -29,15 +29,15 @@ module Lesli
         
         return [] if not Dir.exist?("./engines")
 
-        Dir.entries("./engines").each do |entry|
+        Dir.entries("./engines").each do |engine|
             
-            # next if entry is not an engine
-            next if entry == "."
-            next if entry == ".."
-            next if entry == ".gitkeep"
+            # next if engine is not an engine
+            next if engine == "."
+            next if engine == ".."
+            next if engine == ".gitkeep"
 
             # build path to lesli engine info file
-            path = File.join("./engines", entry, "lesli.yml")
+            path = File.join("./engines", engine, "lesli.yml")
 
             # next if lesli engine info file does not exist
             next unless File.exist?(path)
@@ -51,7 +51,7 @@ module Lesli
             end
 
             # next if engine name does not match
-            next unless engine_info["code"] == entry
+            next unless engine_info["code"] == engine
 
             # next if engines should not be loaded
             next if engine_info["load"] == false
