@@ -51,18 +51,6 @@ module CloudObject
             return "#{self.class.name} - #{id}"
         end
 
-        # @return [Hash] Hash that contains information about the class
-        # @description Returns dynamic information based on the current implementation of this abstract class
-        # @example
-        #     dynamic_info = CloudHelp::Ticket.dynamic_info
-        #     puts dynamic_info[:workflow_model].new # will print a new instance of CloudHelp::Workflow
-        def self.dynamic_info
-            module_info = self.lesli_classname().split("::")
-            {
-                workflow_model: "#{module_info[0]}::Workflow".constantize
-            }
-        end
-
         #######################################################################################
         ##############################  Activities Log Methods   ##############################
         #######################################################################################
