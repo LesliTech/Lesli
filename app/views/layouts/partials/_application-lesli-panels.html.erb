@@ -18,8 +18,8 @@ For more information read the license file including with this software.
 %>
 <application-component-panel-engine>
     <%# Custom module navigation from builder engine %>
-    <% if lesli_instance != "lesli" %>
-    <%= render partial: "layouts/#{lesli_instance}/partials/engine-navigation" %>
+    <% if lesli_instance_code != "lesli" %>
+    <%= render partial: "layouts/#{ lesli_instance_code }/partials/engine-navigation" %>
     <% end %>
 </application-component-panel-engine>
 

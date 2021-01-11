@@ -19,8 +19,8 @@ For more information read the license file including with this software.
 
 <application-component-sidebar>
 
-    <% if lesli_instance != "lesli" %>
-    <%= render partial: "layouts/#{lesli_instance.underscore}/partials/application-brand" %>
+    <% if lesli_instance_code != "lesli" %>
+    <%= render partial: "layouts/#{lesli_instance_code}/partials/application-brand" %>
     <%= render partial: get_application_navigation_path %>
     <% end %>
 
