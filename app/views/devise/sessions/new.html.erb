@@ -17,9 +17,9 @@ For more information read the license file including with this software.
 
 %>
 
-<% if lesli_instance != "lesli" %>
-<section class="<%= lesli_instance.underscore %>-login">
-    <%= render :template => "#{lesli_instance}/lesli/devise/sessions/new.html.erb" %>
+<% if lesli_instance_code != "lesli" %>
+<section class="<%= lesli_instance_code %>-login">
+    <%= render :template => "#{lesli_instance_code}/lesli/devise/sessions/new.html.erb" %>
 </section>
 <% end %>
 
