@@ -57,7 +57,7 @@ module ApplicationHelper
     end 
 
     def lesli_engine_or_instance
-        return lesli_instance if not is_lesli_engine?
+        return lesli_instance_code if not is_lesli_engine?
         return lesli_engine
     end
 
