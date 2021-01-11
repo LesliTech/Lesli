@@ -24,11 +24,10 @@ module Lesli
     def Lesli.engines
 
         engines = []
-
-        builder_engines = []
         
         return [] if not Dir.exist?("./engines")
 
+        # search for the builder engine (main module)
         Dir.entries("./engines").each do |engine|
             
             # next if engine is not an engine
@@ -45,10 +44,12 @@ module Lesli
             # next if lesli engine info file does not contain valid json data
             begin
                 # get engine information from settings file
-                engine_info = YAML.load_file(path)["info"]
+                engine_lesli_file = YAML.load_file(path)
             rescue  => error
                 next
             end
+
+            engine_info = engine_lesli_file["info"]
 
             # next if engine name does not match
             next unless engine_info["code"] == engine
@@ -57,18 +58,29 @@ module Lesli
             next if engine_info["load"] == false
 
             # check if engine is a builder
-            if engine_info["type"] == "builder"
-                builder_engines.push(engine_info)
-                next
-            end
+            next if engine_info["type"] != "builder"
+                        
+            engine_lesli_file["modules"].each do |engine|
 
-            engines.push(engine_info)
+                is_engine = File.exist?(File.join("./engines", engine[0], "lesli.yml"))
 
-        end
+                engines.push({
+                    type: is_engine ? "engine" : "gem",
+                    code: engine[0],
+                    name: engine[0], # TODO: find a way to camelize this string
+                    version: engine[1]
+                })
+            end 
 
-        # put builders at the end of the engines list
-        builder_engines.each do |builder_engine|
-            engines.push(builder_engine)
+            engines.push({
+                type: "builder",
+                code: engine_info["code"],
+                name: engine_info["name"],
+                version: "latest"
+            })
+
+            break
+
         end
 
         engines
@@ -79,26 +91,19 @@ module Lesli
 
         name = "Lesli"
         code = "lesli"
-        version = "~> 0.0.2"
-        local_engines = false
 
-        name = ENV['LESLI_INSTANCE_NAME'] unless ENV['LESLI_INSTANCE_NAME'].nil?
-        code = ENV['LESLI_INSTANCE_CODE'] unless ENV['LESLI_INSTANCE_CODE'].nil?
-        version = ENV['LESLI_INSTANCE_VERSION'] unless ENV['LESLI_INSTANCE_VERSION'].nil?
+        engines = engines()
 
         engines.each do |engine|
-            next if engine["type"] != "builder"
-            name = engine["name"]
-            code = engine["code"]
-            local_engines = true
+            next if engine[:type] != "builder"
+            name = engine[:name]
+            code = engine[:code]
             break
         end
 
         {
             "name": name,
-            "code": code,
-            "version": version,
-            "local_engines": local_engines
+            "code": code
         }
 
     end
@@ -108,20 +113,13 @@ module Lesli
         # Lesli core settings
         lesli_settings = YAML.load_file("./lesli.yml")
 
-         # get Lesli instance (builder engine)
-         instance_engine = instance()
+        # get Lesli instance (builder engine)
+        instance_engine = instance()
 
         # specific settings for dedicated on-premises instance (not core)
         if instance_engine[:name] != "Lesli"
-    
-            # get the settings from instance 
-            # this file should be an exact copy of the one in the core
-            # all the settings will be overrided by the settings in the builder engine
-            instance_klass = instance_engine[:name].safe_constantize
-            unless instance_klass
-                raise Exception.new "The gem of the lesli instance is not installed, instance: #{instance_engine[:name]}"
-            end
-            instance_settings = YAML.load_file("#{instance_klass::Engine.root}/lesli.yml")
+
+            instance_settings = YAML.load_file(File.join("./engines", instance_engine[:code], "lesli.yml"))
 
             # overwrite core settings with specific settings from instance
             lesli_settings = lesli_settings.merge(instance_settings) 
@@ -132,13 +130,13 @@ module Lesli
         lesli_settings["configuration"]["locales_available"] = lesli_settings["configuration"]["locales"]
         lesli_settings["configuration"]["locales"] = lesli_settings["configuration"]["locales"].keys
 
-        lesli_settings["engines"] = engines
+        lesli_settings["engines"] = engines()
 
-        lesli_settings["instance"] = instance
+        lesli_settings["instance"] = instance()
 
         lesli_settings["env"] = lesli_settings["env"][env]
 
-        return lesli_settings
+        lesli_settings
 
     end
 end
