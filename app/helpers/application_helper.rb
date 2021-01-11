@@ -19,6 +19,18 @@ For more information read the license file including with this software.
 
 module ApplicationHelper
 
+
+
+    def lesli_instance()
+        return Rails.application.config.lesli_settings["info"]["code"]
+    end
+
+
+
+    # The code below need to be reviewed and refactored to work with gems instead of engines
+
+
+
     def website_title
 
         title = @application_html_title || controller_path.gsub("cloud","").gsub("_", "")
@@ -90,13 +102,6 @@ module ApplicationHelper
         <link href=\"#{icon_path}\" rel=\"icon\" type=\"image/svg+xml\">
         <link href=\"#{icon_path}\" rel=\"mask-icon\" color=\"#ff8a01\">
         ").html_safe        
-    end
-
-    def lesli_instance()
-
-        # return instance name
-        return Rails.application.config.lesli_settings["info"]["code"]
-
     end
 
     def is_lesli_instance?(instance=nil, engine=nil)

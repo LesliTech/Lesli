@@ -25,7 +25,7 @@ class Db < LesliTasks
         namespace :dev2 do
             namespace :db do
 
-                desc "Run tests on a clean database"
+                desc ""
                 task :reset => :environment do |task, args|
                     ARGV.each { |a| task a.to_sym do ; end }
         
@@ -51,9 +51,6 @@ class Db < LesliTasks
 
     # Push code to remote branch/origin for all engines
     def reset environment
-
-        LC::Debug.msg environment, "rake db:seed RAILS_ENV=#{environment}"
-        exit
 
         LC::Debug.msgc("Reset database for #{environment}")
 

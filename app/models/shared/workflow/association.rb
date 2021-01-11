@@ -1,4 +1,4 @@
-module CloudObject
+module Shared
 =begin
 
 Copyright (c) 2020, all rights reserved.
@@ -133,7 +133,7 @@ For more information read the license file including with this software.
 
 =begin
 @return [Hash] list of associations of this related to the *workflow*
-@param workflow [CloudObject::Workflow] The workflow to which the associations are to be shown
+@param workflow [Shared::Workflow] The workflow to which the associations are to be shown
 @description Selects all the associations and formats them so the user can understand them. If the
     association is not global, goes to the respective table of the detail (specified by the subclass's method
     *object_association_details*) and selects the identifier, to display it to the user if an understandable format.
@@ -214,7 +214,7 @@ For more information read the license file including with this software.
 @return [Hash] Hash that contains information about the class
 @description Returns dynamic information based on the current implementation of this abstract class
 @example
-    # Imagine the current class is an instance of CloudHelp::Workflow::Association < CloudObject::Workflow::Association
+    # Imagine the current class is an instance of CloudHelp::Workflow::Association < Shared::Workflow::Association
     info = dynamic_info
     puts info[:module_name] # will print 'help'
 =end
