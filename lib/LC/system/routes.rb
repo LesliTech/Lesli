@@ -27,18 +27,32 @@ module LC
 
             def self.scan
 
+                #p CloudBabel::Engine.routes.routes
+                routes_app = Rails.application.routes.routes.map { |route| route.defaults[:controller] }.uniq
+                routes_babel = CloudBabel::Engine.routes.routes.map { |route| route.defaults[:controller] }.uniq
+
+                p routes_app + routes_babel
+
+                return []
+
                 controller_list=[]
 
                 instance = Rails.configuration.lesli_settings["instance"][:name]
                 
-                Rails.application.routes.routes.map do |route|
+                #Rails.application.routes.routes.map do |route|
+                #CloudBabel::Engine.routes.routes.map do |route|
+                Rails.application.routes.routes.detect.map do |route|
                     route.defaults[:controller]
                 end.uniq.each do |controller|
                     next if controller.blank?
                     next if controller.include? "rails"
                     next if controller.include? "action_mailbox"
-                    next if controller.include? "active_storage"    
+                    next if controller.include? "active_storage"
 
+                    p controller
+
+                    next 
+                    
                     # if controller start with the instance code, route belongs to builder engine
                     if controller.start_with?(instance.underscore)
                         controller_list.push({ 
