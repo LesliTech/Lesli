@@ -19,16 +19,21 @@ For more information read the license file including with this software.
 
 module RoutesBuilder
     def self.extended(router)
-        router.instance_exec do
+        if Lesli::instance[:name] != "Lesli"
+            router.instance_exec do
 
-            settings = Rails.configuration.lesli_settings
+                #settings = Rails.configuration.lesli_settings
+                #return unless File.exists?("./engines/#{settings["info"]["name"]}/routes.rb")
+                #require "./engines/#{settings["info"]["name"]}/routes"
 
-            return unless File.exists?("./engines/#{settings["info"]["name"]}/routes.rb")
+                instance_klass = Rails.application.config.lesli_settings["instance"][:name].safe_constantize
+                return unless instance_klass
+                return unless File.exists?("#{instance_klass::Engine.root}/routes.rb")
 
-            require "./engines/#{settings["info"]["name"]}/routes"
+                require "#{instance_klass::Engine.root}/routes"
 
-            extend RoutesEngine
-
+                extend RoutesEngine
+            end
         end
     end
 end
