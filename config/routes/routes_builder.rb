@@ -19,13 +19,14 @@ For more information read the license file including with this software.
 
 module RoutesBuilder
     def self.extended(router)
-        router.instance_exec do
+        if Lesli::instance[:name] != "Lesli"
+            router.instance_exec do
 
-            # get routes builder from builder engine, through gem installation path
-            require LC::System::Info.path.join("routes")
-
-            extend RoutesEngine
-
+                # get routes builder from builder engine, through gem installation path
+                require LC::System::Info.path.join("routes")
+                extend RoutesEngine
+                
+            end
         end
     end
 end
