@@ -16,7 +16,7 @@ For more information read the license file including with this software.
 // · 
 
 =end
-module CloudObject
+module Shared
     class DashboardsController < ApplicationLesliController
         before_action :set_dashboard, only: [:update, :destroy]
 
@@ -297,7 +297,7 @@ private
         # @return [Hash] Hash that contains information about the class
         # @description Returns dynamic information based on the current implementation of this abstract class
         # @example
-        #     # Imagine the current class is an instance of CloudHelp::DashboardsController < CloudObject::DashboardsController
+        #     # Imagine the current class is an instance of CloudHelp::DashboardsController < Shared::DashboardsController
         #     info = dynamic_info
         #     puts info[:module_name] # will print 'help'
         #     puts info[:full_module_name] # will print 'CloudHelp'

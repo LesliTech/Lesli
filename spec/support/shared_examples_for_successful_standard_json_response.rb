@@ -19,6 +19,10 @@ For more information read the license file including with this software.
 
 RSpec.shared_examples "successful standard json response" do   
 
+    before(:all) do
+        @response_body = JSON.parse(response.body)
+    end
+
     it "is expected to respond with a success status code (2xx)" do 
         expect(response).to have_http_status(:success) 
     end
@@ -29,6 +33,10 @@ RSpec.shared_examples "successful standard json response" do
 
     it "is expected to respond with a successful property" do
         expect(JSON.parse(response.body)).to have_key('successful') 
+    end
+
+    it "is expected to respond with successful" do
+        expect(JSON.parse(response.body)["successful"]).to eql(true)
     end
 
 end
