@@ -3,7 +3,6 @@
 name: CI
 
 on:
-  push:
   pull_request:
     branches:
       - master
@@ -42,16 +41,30 @@ jobs:
         ruby-version: 2.7.2
     - name: Install dependencies
       run: |
+        bundle config https://rubygems.pkg.github.com/leitfaden ${GEM_HOST_API_KEY}
         bundle config path vendor/bundle
         bundle install --jobs 4 --retry 3
+        bundle list
+      env:
+        RAILS_ENV: test
+        GEM_HOST_API_KEY: "sagastume:${{secrets.PAT_FOR_BUILD}}"
+        LESLI_INSTANCE_NAME: "LesliCloud"
+        LESLI_INSTANCE_CODE: "lesli_cloud"
+        LESLI_INSTANCE_VERSION: "~> 0.0.2"
     - name: Setup test database
       run: |
         cp ./config/credentials/testci.yml.enc ./config/credentials/test.yml.enc
-        bundle exec rails db:migrate
+        bundle list
+        bundle exec rake db:drop
+        bundle exec rake db:create
+        bundle exec rake db:migrate
         bundle exec rake db:setup
       env:
         RAILS_ENV: test
         RAILS_MASTER_KEY: ${{ secrets.RAILS_MASTER_KEY_TEST }}
+        LESLI_INSTANCE_NAME: "LesliCloud"
+        LESLI_INSTANCE_CODE: "lesli_cloud"
+        LESLI_INSTANCE_VERSION: "~> 0.0.2"
     - name: Run tests
       run: |
         cp ./config/credentials/testci.yml.enc ./config/credentials/test.yml.enc
@@ -59,3 +72,6 @@ jobs:
       env:
         RAILS_ENV: test
         RAILS_MASTER_KEY: ${{ secrets.RAILS_MASTER_KEY_TEST }}
+        LESLI_INSTANCE_NAME: "LesliCloud"
+        LESLI_INSTANCE_CODE: "lesli_cloud"
+        LESLI_INSTANCE_VERSION: "~> 0.0.2"

@@ -20,9 +20,9 @@ For more information read the license file including with this software.
 
 // · Component list
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
-import componentChart from 'LesliCoreVue/cloud_objects/workflows/components/chart.vue'
-import componentAssociation from 'LesliCoreVue/cloud_objects/workflows/components/association.vue'
-import componentAction from 'LesliCoreVue/cloud_objects/workflows/components/action.vue'
+import componentChart from 'LesliVue/shared/workflows/components/chart.vue'
+import componentAssociation from 'LesliVue/shared/workflows/components/association.vue'
+import componentAction from 'LesliVue/shared/workflows/components/action.vue'
 export default {
     props: {
         cloudEngine: {

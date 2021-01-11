@@ -1,4 +1,4 @@
-module CloudObject
+module Shared
 =begin
 
 Copyright (c) 2020, all rights reserved.
