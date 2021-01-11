@@ -24,31 +24,48 @@ module LC
     # Ugly but useful debug message - for rails console or plain text files
     class Debug
 
+        def self.test
+        end
+
         def self.msg *messages
-            puts ""; puts ""; puts ""; puts ""; 
-            puts "#     #     #     #     #     #     #     #     #     #     #"
-            puts "#     #     #     #     #     #     #     #     #     #     #"
+            separator_blank
+            separator_blank
             messages.each do |message|
                 p message
-                puts "=     =     =     =     =     =     =     =     =     =     ="
+                puts separator_lines
             end
-            puts "#     #     #     #     #     #     #     #     #     #     #"
-            puts "#     #     #     #     #     #     #     #     #     #     #"
-            puts ""; puts ""; 
+            separator_blank
+        end
+
+        def self.deprecation message
+            separator_blank
+            puts bg_red("\n\nDEPRECATED METHOD: #{ caller[0] }, #{ message }\n")
+            separator_blank
         end
 
         def self.msgc *messages
-            puts ""; puts ""; puts ""; puts ""; 
-            messages.each do |message|
-                puts message
-            end
-            puts "~      ~      ~      ~      ~      ~      ~      ~      ~      ~"
-            puts ""; puts ""; 
+            msg(*messages)
         end
 
         def self.simple_msg *messages
-            self.msgc messages
+            msgc(*messages)
         end
+
+        private
+
+        def self.separator_blank
+            puts ""; puts ""; 
+        end
+
+        def self.separator_lines characters = 80
+            return '---     ---     ---     ---     ---'
+        end
+
+        def self.red(text) return "\e[31m#{ text }\e[0m" end
+        def self.bold(text) return "\e[1m#{ text }\e[22m" end
+        def self.blink(text) return "\e[5m#{ text }\e[25m" end
+        def self.bg_red(text) return "\e[41m#{ text }\e[0m" end
+        def self.bg_brown(text) return "\e[43m#{ text }\e[0m" end
 
     end
 
