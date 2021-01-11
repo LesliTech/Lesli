@@ -37,7 +37,7 @@ module CloudObject
         #     ticket.save!
         def set_workflow(bypass_new_record=false)
             if new_record? || bypass_new_record
-                workflow_model = self.class.reflect_on_association(:status).klass.reflect_on_association(:workflow).class                
+                workflow_model = self.class.reflect_on_association(:status).klass.reflect_on_association(:workflow).klass                
                 workflow_model.set_workflow(self)
             end
         end
