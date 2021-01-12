@@ -43,17 +43,17 @@ For more information read the license file including with this software.
             account_model = cloud_object_model.reflect_on_association(:account).klass
             
             discussions = self.joins(:cloud_object).joins(
-                "inner join users U on #{self.table_name}.users_id = U.id"
+                "inner join users u on #{self.table_name}.users_id = u.id"
             ).joins(
-                "inner join user_details UD on UD.users_id = U.id"
+                "inner join user_details ud on ud.users_id = u.id"
             ).select(
                 "#{self.table_name}.id",
                 "#{self.table_name}.users_id",
                 "#{self.table_name}.content",
                 "#{self.table_name}.created_at",
                 "#{self.table_name}.#{self.table_name}_id",
-                "U.email",
-                "CONCAT(UD.first_name, ' ', UD.last_name) as user_name"
+                "u.email",
+                "CONCAT(ud.first_name, ' ', ud.last_name) as user_name"
             )
             .where("#{cloud_object_model.table_name}.id = #{cloud_id}")
             .where("#{cloud_object_model.table_name}.#{account_model.table_name}_id = #{current_user.account.id}")
