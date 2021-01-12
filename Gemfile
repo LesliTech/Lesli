@@ -179,13 +179,17 @@ group :test do
     
 end
 
-
-# TODO: change this to use Lesli::Instance directly
 Lesli::engines.each do |engine|
     next if engine[:name] == "Lesli"
     if engine[:type] == "builder"
         engine_installation_path = File.expand_path("../engines/#{ engine[:code] }", __FILE__)
         gem engine[:code], path: engine_installation_path if File.exists?(engine_installation_path)
         break
+    end
+
+    if engine[:type] == "gem"
+        source "https://rubygems.pkg.github.com/leitfaden" do
+            gem engine[:code], engine[:version]
+        end
     end
 end
