@@ -11,6 +11,7 @@ namespace :app do
 
             # get all routes for application controllers
             routes = LC::System::Routes.scan
+
             account.roles.each do |role|
                 routes.each do |route|
                     default_value = false
@@ -44,6 +45,7 @@ namespace :app do
                     end
                 end
             end
+            
         end
     end
 end

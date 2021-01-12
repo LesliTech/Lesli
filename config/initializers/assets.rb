@@ -66,4 +66,5 @@ Rails.configuration.lesli_settings["engines"].each do |engine|
     Rails.application.config.assets.precompile += ["#{engine["code"]}/*.jpg", "#{engine["code"]}/*.png",  "#{engine["code"]}/*.svg"]
 end
 
-Rails.application.config.assets.precompile += ["lesli_cloud/*.css"]
+Rails.application.config.assets.precompile += ["cloud_babel/*.css", "cloud_babel/*.js", "cloud_babel/*.svg"]
+Rails.application.config.assets.precompile += ["lesli_cloud/*.css", "lesli_cloud/*.js", "lesli_cloud/*.svg"]

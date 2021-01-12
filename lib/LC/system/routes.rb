@@ -27,18 +27,20 @@ module LC
 
             def self.scan
 
+                #CloudBabel::Engine.routes.routes.map { |route| route.defaults[:controller] }.uniq
+
                 controller_list=[]
 
                 instance = Rails.configuration.lesli_settings["instance"][:name]
                 
-                Rails.application.routes.routes.map do |route|
-                    route.defaults[:controller]
+                Rails.application.routes.routes.map do |route| 
+                    route.defaults[:controller] 
                 end.uniq.each do |controller|
                     next if controller.blank?
                     next if controller.include? "rails"
                     next if controller.include? "action_mailbox"
-                    next if controller.include? "active_storage"    
-
+                    next if controller.include? "active_storage"
+                    
                     # if controller start with the instance code, route belongs to builder engine
                     if controller.start_with?(instance.underscore)
                         controller_list.push({ 
@@ -61,16 +63,16 @@ module LC
 
                 Rails.configuration.lesli_settings["engines"].each do |engine|
                     platform = "rails_engine"
-                    platform = "rails_builder" if engine["type"] == "builder"
-                    routes = "#{engine["name"]}::Engine".constantize.routes.routes
+                    platform = "rails_builder" if engine[:type] == "builder"
+                    routes = "#{engine[:name]}::Engine".constantize.routes.routes
                     routes.map do |route|
                         route.defaults[:controller]
                     end.uniq.map do |controller|
                         next if controller.blank?
                         controller_list.push({ 
-                            module: engine["name"], 
+                            module: engine[:name], 
                             platform: platform,
-                            controller: controller.sub(engine["code"] + '/', ''),
+                            controller: controller.sub(engine[:code] + '/', ''),
                             controller_path: controller
                         })
                     end

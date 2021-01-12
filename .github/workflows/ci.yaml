@@ -28,6 +28,13 @@ jobs:
     steps:
     - name: Checkout repository
       uses: actions/checkout@v2
+    - name: Checkout Build Engine
+      uses: actions/checkout@v2
+      with:
+        repository: leitfaden/lesli_cloud
+        ref: master
+        token: ${{ secrets.PUBLISH_GEM_BY_ACTIONS }}
+        path: engines/
     - name: Cache gems
       uses: actions/cache@v2
       with:
@@ -47,7 +54,7 @@ jobs:
         bundle list
       env:
         RAILS_ENV: test
-        GEM_HOST_API_KEY: "sagastume:${{secrets.PAT_FOR_BUILD}}"
+        GEM_HOST_API_KEY: "sagastume:${{secrets.READ_GEM_BY_ACTIONS}}"
         LESLI_INSTANCE_NAME: "LesliCloud"
         LESLI_INSTANCE_CODE: "lesli_cloud"
         LESLI_INSTANCE_VERSION: "~> 0.0.2"

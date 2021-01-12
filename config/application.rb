@@ -110,7 +110,7 @@ Rails.application.configure do
     puts "Loading installed engines: "
     puts "=     =     =     =     =     =     =     =     =     =     =     =     =     =     ="
     Lesli::engines.each do |engine|
-    puts "- #{engine["name"]}"
+    puts "- #{engine[:code]} #{engine[:version]} (#{engine[:type]})"
     end
     puts ""; puts "";
 
