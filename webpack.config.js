@@ -45,10 +45,7 @@ module.exports = env => {
             "accounts/app": "./app/vue/accounts/app.js",
             "account/integrations_app": "./app/vue/account_integrations/app.js",
             "users/app": "./app/vue/users/app.js",
-            "roles/app": "./app/vue/roles/app.js",
-
-
-            
+            "roles/app": "./app/vue/roles/app.js",            
             "abouts/app": "./app/vue/abouts/app.js",
             "users/sessions": "./app/vue/users/sessions.js",
             "users/passwords": "./app/vue/users/passwords.js",
@@ -180,7 +177,7 @@ module.exports = env => {
             return false
         }
 
-        return engine_info.info.name == engine
+        return engine_info.info.code == engine
 
     })
 
@@ -235,20 +232,22 @@ module.exports = env => {
 
         }
 
+        update_software_version(engine, env)
+
     })
 
 
     // · Update compilation version for frontend and backend
     // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
-    function update_software_version(production) {
+    function update_software_version(engine, env) {
 
         // do not change if development
-        if (production.mode != "production") {
+        if (env.mode != "production") {
             return 
         }
 
-        let engine_info = JSON.parse(webpackConfig[0].plugins[1].definitions.leslicloud_app_info)
-        let engine_version_file = `./engines/${engine_info.name}/lib/${engine_info.code}/version.rb`
+        //let engine_info = JSON.parse(webpackConfig[0].plugins[1].definitions.leslicloud_app_info)
+        let engine_version_file = `./engines/${engine}/lib/${engine}/version.rb`
 
         fs.readFile(engine_version_file, "utf8", (err, data) => {
 
@@ -260,10 +259,10 @@ module.exports = env => {
 
             var date = new Date()
 
-            var build_date = `${date.getMonth()+1}.${date.getDate()}`
+            var build_date = `${date.getFullYear().toString().substr(2, 2)}.${date.getMonth()+1}.${date.getDate()}`
             var build_time = date.getHours().toString().concat(".").concat(date.getMinutes().toString())
 
-            data[2] = `BUILD = \"20.${build_date}-${build_time}\"`
+            data[2] = `BUILD = \"${build_date}-${build_time}\"`
 
             fs.writeFile(engine_version_file, data.join("\n"), "utf8", function (err) {
                 if (err) return console.log(err)
@@ -272,8 +271,6 @@ module.exports = env => {
         })
 
     }
-
-    update_software_version(env)
 
     return webpackConfig
 
