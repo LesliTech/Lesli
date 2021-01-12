@@ -54,7 +54,7 @@ jobs:
         bundle list
       env:
         RAILS_ENV: test
-        GEM_HOST_API_KEY: "sagastume:${{secrets.PAT_FOR_BUILD}}"
+        GEM_HOST_API_KEY: "sagastume:${{secrets.READ_GEM_BY_ACTIONS}}"
         LESLI_INSTANCE_NAME: "LesliCloud"
         LESLI_INSTANCE_CODE: "lesli_cloud"
         LESLI_INSTANCE_VERSION: "~> 0.0.2"
