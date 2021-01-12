@@ -155,7 +155,7 @@ class Role < ApplicationRecord
     # @return [void]
     # @param current_user [::User] The user that created the role
     # @param role [Role] The role 
-    # @param privilege [Role::Service] The privilege created
+    # @param attributes [Role::Privilege.attributes] The attributes of the role privilege created
     # @description Adds an activity if a new privilege is added to the role
     # Example
     #   params = {...}
@@ -166,20 +166,29 @@ class Role < ApplicationRecord
     #        role,
     #        privilege
     #    )
-    def self.log_activity_create_role_privilege(current_user, role, privilege)
-        controller_name = privilege.grant_object if privilege
+    def self.log_activity_create_role_privilege(current_user, role, attributes)
+        controller_name = attributes["grant_object"]
 
-        role.activities.create(
-            user_creator: current_user,
-            category: "action_create_role_privilege",
-            description: controller_name
-        )
+        attributes.except!("id", "roles_id", "grant_object", "created_at", "updated_at", "deleted_at")
+        attributes.each do |key, value|
+            value_to = attributes[key]
+            value_to = Courier::Core::Date.to_string_datetime(value_to) if value_to.is_a?(Time) || value_to.is_a?(Date)
+
+            role.activities.create(
+                user_creator: current_user,
+                category: "action_create_role_privilege",
+                field_name: key,
+                value_to: value_to,
+                description: controller_name
+            )
+        end
     end
 
     # @return [void]
     # @param current_user [::User] The user that created the role
     # @param role [Role] The role
-    # @param privilege [Role::Service] The privilege updated
+    # @param old_attributes [Role::Privilege.attributes] The old attributes of the role privilege updated
+    # @param new_attributes [Role::Privilege.attributes] The new attributes of the role privilege updated
     # @description Adds an activity if a privilege is updated
     # Example
     #   params = {...}
@@ -193,7 +202,7 @@ class Role < ApplicationRecord
     def self.log_activity_update_role_privilege(current_user, role, old_attributes, new_attributes)
         controller_name = old_attributes["grant_object"]
 
-        old_attributes.except!("id", "roles_id", "created_at", "updated_at", "deleted_at")
+        old_attributes.except!("id", "roles_id", "grant_object", "created_at", "updated_at", "deleted_at")
         old_attributes.each do |key, value|
             if value != new_attributes[key]
                 value_from = value
