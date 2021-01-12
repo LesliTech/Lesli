@@ -45,7 +45,6 @@ Rails.application.config.assets.precompile += [ "roles.css", "roles/*.js" ]
 
 Rails.application.config.assets.precompile += [ "account/*.css", "account/*.js" ]
 
-
 Rails.application.config.assets.precompile += [ "users.css", "users/*.js" ]
 Rails.application.config.assets.precompile += [ "abouts.css", "abouts/*.js" ]
 Rails.application.config.assets.precompile += [ "users/*.css", "users/*.js" ]
@@ -62,9 +61,6 @@ Rails.application.config.assets.precompile += [ "i18n.js" ]
 
 # dynamic include assets for engines
 Rails.configuration.lesli_settings["engines"].each do |engine|
-    Rails.application.config.assets.precompile += ["#{engine["code"]}/*.css", "#{engine["code"]}/*.js"]
-    Rails.application.config.assets.precompile += ["#{engine["code"]}/*.jpg", "#{engine["code"]}/*.png",  "#{engine["code"]}/*.svg"]
+    Rails.application.config.assets.precompile += ["#{engine[:code]}/*.css", "#{engine[:code]}/*.js"]
+    Rails.application.config.assets.precompile += ["#{engine[:code]}/*.jpg", "#{engine[:code]}/*.png",  "#{engine[:code]}/*.svg"]
 end
-
-Rails.application.config.assets.precompile += ["cloud_babel/*.css", "cloud_babel/*.js", "cloud_babel/*.svg"]
-Rails.application.config.assets.precompile += ["lesli_cloud/*.css", "lesli_cloud/*.js", "lesli_cloud/*.svg"]
