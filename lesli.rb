@@ -88,7 +88,7 @@ module Lesli
             engines.push({
                 type: "gem",
                 code: gem[0],
-                name: gem[0], # TODO: find a way to camelize this string
+                name: gem[0].split('_').collect(&:capitalize).join, # Convert to CamelCase
                 version: gem[1]
             })
             
