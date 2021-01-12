@@ -38,7 +38,9 @@ namespace :app do
                         privilege.attributes = attributes
 
                         if (privilege.save!)
-                            Role.log_activity_create_role_privilege(system_user, role, privilege)
+                            new_attributes = privilege.attributes
+
+                            Role.log_activity_create_role_privilege(system_user, role, new_attributes)
                         end
                         
                         puts "role privilege created for controller: #{route[:controller_path]}"
