@@ -180,7 +180,7 @@ module.exports = env => {
             return false
         }
 
-        return engine_info.info.name == engine
+        return engine_info.info.code == engine
 
     })
 
