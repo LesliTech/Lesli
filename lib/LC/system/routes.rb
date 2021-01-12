@@ -27,16 +27,15 @@ module LC
 
             def self.scan
 
-                routes_app = Rails.application.routes.routes.map { |route| route.defaults[:controller] }.uniq
-                routes_babel = CloudBabel::Engine.routes.routes.map { |route| route.defaults[:controller] }.uniq
-
-                routes_app = routes_app + routes_babel
+                #CloudBabel::Engine.routes.routes.map { |route| route.defaults[:controller] }.uniq
 
                 controller_list=[]
 
                 instance = Rails.configuration.lesli_settings["instance"][:name]
                 
-                routes_app.each do |controller|
+                Rails.application.routes.routes.map do |route| 
+                    route.defaults[:controller] 
+                end.uniq.each do |controller|
                     next if controller.blank?
                     next if controller.include? "rails"
                     next if controller.include? "action_mailbox"
@@ -64,16 +63,16 @@ module LC
 
                 Rails.configuration.lesli_settings["engines"].each do |engine|
                     platform = "rails_engine"
-                    platform = "rails_builder" if engine["type"] == "builder"
-                    routes = "#{engine["name"]}::Engine".constantize.routes.routes
+                    platform = "rails_builder" if engine[:type] == "builder"
+                    routes = "#{engine[:name]}::Engine".constantize.routes.routes
                     routes.map do |route|
                         route.defaults[:controller]
                     end.uniq.map do |controller|
                         next if controller.blank?
                         controller_list.push({ 
-                            module: engine["name"], 
+                            module: engine[:name], 
                             platform: platform,
-                            controller: controller.sub(engine["code"] + '/', ''),
+                            controller: controller.sub(engine[:code] + '/', ''),
                             controller_path: controller
                         })
                     end
