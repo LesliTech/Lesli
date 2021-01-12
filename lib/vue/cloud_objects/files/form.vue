@@ -79,7 +79,7 @@ export default {
 
         setDropzoneOptions(){
             this.dropzone_options.url = `${this.main_route}/${this.cloudId}/files`
-            this.dropzone_options.paramName = `${this.object_name.singular}_file[attachment_local]`
+            this.dropzone_options.paramName = `${this.object_name.singular}_file[attachment]`
         },
 
         parseCloudModule(){

@@ -19,8 +19,8 @@ For more information read the license file including with this software.
 module CloudObject
     class File < ApplicationLesliRecord
         self.abstract_class = true
-        mount_uploader :attachment, AwsUploader
-        mount_uploader :attachment_local, LocalUploader
+        mount_uploader :attachment_s3,  AwsUploader
+        mount_uploader :attachment,     LocalUploader
         
         belongs_to :user_creator, class_name: "::User", foreign_key: "users_id"
 

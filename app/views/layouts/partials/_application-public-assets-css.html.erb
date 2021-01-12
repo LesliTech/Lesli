@@ -22,7 +22,7 @@ For more information read the license file including with this software.
 <% if ["users/sessions", "users/passwords", "users/registrations"].include?(controller_path.to_s) %>
     <%# Include controller path only for core apps and pages %>
     <%= stylesheet_link_tag controller_path, media: "all" %>
-    <%= stylesheet_link_tag [lesli_instance.underscore, "lesli", controller_path].join("/"), media: "all" %>
+    <%= stylesheet_link_tag "lesli_cloud/lesli/users/sessions", media: "all" %>
 <% else %>
     <%# Include full path for non-core apps and pages %>
     <%= stylesheet_link_tag [controller_path, action_name].join("/"), media: "all" %>
