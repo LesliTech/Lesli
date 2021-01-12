@@ -23,8 +23,13 @@ module Lesli
 
     def Lesli.engines
 
+        # list of installed builders, engines and gems
         engines = []
+
+        # builder lesli.yml file configuration
+        builder_lesli_file = {}
         
+        # return empty if engine folder does not exists
         return [] if not Dir.exist?("./engines")
 
         # search for the builder engine (main module)
@@ -49,38 +54,42 @@ module Lesli
                 next
             end
 
+            # current engine information lesli.yml file
             engine_info = engine_lesli_file["info"]
+
+            # save copy of lesli.yml of the builder engine
+            builder_lesli_file = engine_lesli_file if engine_info["type"] == "builder"
 
             # next if engine name does not match
             next unless engine_info["code"] == engine
 
             # next if engines should not be loaded
-            next if engine_info["load"] == false
+            next unless engine_info["load"] == true
 
-            # check if engine is a builder
-            next if engine_info["type"] != "builder"
-                        
-            engine_lesli_file["modules"].each do |engine|
-
-                is_engine = File.exist?(File.join("./engines", engine[0], "lesli.yml"))
-
-                engines.push({
-                    type: is_engine ? "engine" : "gem",
-                    code: engine[0],
-                    name: engine[0], # TODO: find a way to camelize this string
-                    version: engine[1]
-                })
-            end 
-
+            # add engine to the installed engines collection
             engines.push({
-                type: "builder",
+                type: engine_info["type"] || "engine",
                 code: engine_info["code"],
                 name: engine_info["name"],
                 version: "latest"
             })
 
-            break
+        end
 
+        # add required engine-gem like to the engines collection
+        builder_lesli_file["modules"].each do |gem|
+
+            # if required gem is already in the engines collection
+            next if engines.find { |engine| engine[:code] == gem[0]}
+
+            # add gem to the installed engines collection
+            engines.push({
+                type: "gem",
+                code: gem[0],
+                name: gem[0], # TODO: find a way to camelize this string
+                version: gem[1]
+            })
+            
         end
 
         engines

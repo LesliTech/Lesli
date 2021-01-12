@@ -180,11 +180,13 @@ group :test do
 end
 
 Lesli::engines.each do |engine|
+
     next if engine[:name] == "Lesli"
-    if engine[:type] == "builder"
+
+    if engine[:type] == "builder" || engine[:type] == "engine"
         engine_installation_path = File.expand_path("../engines/#{ engine[:code] }", __FILE__)
         gem engine[:code], path: engine_installation_path if File.exists?(engine_installation_path)
-        break
+        next
     end
 
     if engine[:type] == "gem"
