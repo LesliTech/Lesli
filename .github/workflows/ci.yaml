@@ -33,7 +33,7 @@ jobs:
       with:
         repository: leitfaden/lesli_cloud
         ref: master
-        token: ${{ secrets.READ_GEM_BY_ACTIONS }}
+        token: ${{ secrets.PUBLISH_GEM_BY_ACTIONS }}
         path: engines/
     - name: Cache gems
       uses: actions/cache@v2
