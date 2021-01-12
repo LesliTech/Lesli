@@ -16,78 +16,44 @@ For more information read the license file including with this software.
 
 =end
 class Role::ActivitiesController < ApplicationLesliController
-    before_action :set_role_activity, only: [:show, :update, :destroy]
+    before_action :set_role, only: [:index]
 
-    # GET /role/activities
+    # @return [HTML|JSON] HTML view for listing all activities associated to a *role*
+    # @description Retrieves and returns all the activities associated to a *Role*.
+    # The HTTP request has to specify wheter the HTML or the JSON text should be rendered
+    # @example
+    #     # Executing this controller's action from javascript's frontend
+    #     this.http.get(`127.0.0.1/administration/roles/1/activities.json`);
     def index
         respond_to do |format|
             format.html {}
             format.json do
-                respond_with_successful(Role::Activity.index(current_user, @query))
+                return respond_with_not_found unless @role
+
+                respond_with_successful(Role::Activity.index(@role, @query))
             end
         end
     end
 
-    # GET /role/activities/1
-    def show
-        respond_to do |format|
-            format.html {}
-            format.json do
-                return respond_with_not_found unless @role_activity
-                return respond_with_successful(@role_activity.show(current_user, @query))
-            end
-        end
+    # @return [Json] Json that contains all the information needed to create a new role_activity
+    # @description Retrieves and retuns all the information needed to create a new role_activity,
+    #     including the list of companies and contacts.
+    # @example
+    #     # Executing this controller's action from javascript's frontend
+    #     this.http.get('127.0.0.1/house/options/projects')
+    def options
+        respond_with_successful(Role::Activity.options(current_user, @query))
     end
-
-    # GET /role/activities/new
-    def new
-    end
-
-    # GET /role/activities/1/edit
-    def edit
-    end
-
-    # POST /role/activities
-    def create
-        role_activity = Role::Activity.new(role_activity_params)
-        if role_activity.save
-            respond_with_successful(role_activity)
-        else
-            respond_with_error(role_activity.errors.full_messages.to_sentence)
-        end
-    end
-
-    # PATCH/PUT /role/activities/1
-    def update
-        return respond_with_not_found unless @role_activity
-
-        if @role_activity.update(role_activity_params)
-            respond_with_successful(@role_activity.show(current_user, query))
-        else
-            respond_with_error(@role_activity.errors.full_messages.to_sentence)
-        end
-    end
-
-    # DELETE /role/activities/1
-    def destroy
-        return respond_with_not_found unless @role_activity
-
-        if @role_activity.destroy
-            respond_with_successful
-        else
-            respond_with_error(@role_activity.errors.full_messages.to_sentence)
-        end
-    end
-
+    
     private
-
-    # Use callbacks to share common setup or constraints between actions.
-    def set_role_activity
-    @role_activity = Role::Activity.find(params[:id])
-    end
-
-    # Only allow a list of trusted parameters through.
-    def role_activity_params
-        params.require(:role_activity).permit(:id, :name)
+    # @return [void]
+    # @description Sets the requested user based on the current_users's account
+    # @example
+    #     # Executing this method from a controller action:
+    #     set_role
+    #     puts @role
+    #     # This will either display nil or an instance of Role
+    def set_role
+        @role = current_user.account.roles.find_by(id: params[:role_id])
     end
 end
