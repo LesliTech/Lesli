@@ -7,7 +7,7 @@ namespace :app do
 
             account = Account.first
 
-            system_user = account.users.find_by(email: "crm.admin@deutsche-leibrenten.de")
+            system_user = account.users.first
 
             # get all routes for application controllers
             routes = LC::System::Routes.scan

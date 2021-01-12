@@ -5,7 +5,7 @@
     "name": "attachment",
     "type": "string"
 },{
-    "name": "attachment_local",
+    "name": "attachment_s3",
     "type": "string"
 },{
     "name": "file_type",
