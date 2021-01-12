@@ -28,6 +28,13 @@ jobs:
     steps:
     - name: Checkout repository
       uses: actions/checkout@v2
+    - name: Checkout Build Engine
+      uses: actions/checkout@v2
+      with:
+        repository: leitfaden/lesli_cloud
+        ref: master
+        token: ${{ secrets.READ_GEM_BY_ACTIONS }}
+        path: engines/
     - name: Cache gems
       uses: actions/cache@v2
       with:
