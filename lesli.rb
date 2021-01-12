@@ -76,6 +76,8 @@ module Lesli
 
         end
 
+        return engines unless builder_lesli_file.has_key?("modules")
+
         # add required engine-gem like to the engines collection
         builder_lesli_file["modules"].each do |gem|
 
