@@ -26,6 +26,11 @@ module LC
             def self.instance
                 Rails.application.config.lesli_settings["instance"]
             end
+
+            def self.path
+                instance_klass = instance()[:name].safe_constantize
+                instance_klass::Engine.root
+            end 
         
             def self.revision(as_string: false)
 
@@ -34,12 +39,12 @@ module LC
         
                 # Every instance (builder module) is loaded into the platform using the same 
                 # name of the engine
-                instance = Rails.application.config.lesli_settings["instance"][:name]
+                instance = instance()[:name]
 
-                if (instance != 'Lesli' and defined?(instance.safe_constantize))
-                    version = instance.safe_constantize::VERSION
-                    build = instance.safe_constantize::BUILD
-                end
+                #if (instance != 'Lesli' and defined?(instance.safe_constantize))
+                #    version = instance.safe_constantize::VERSION
+                #    build = instance.safe_constantize::BUILD
+                #end
         
                 return { version: version, build: build } if as_string == false
                 return "version: #{version}, build: #{build}" if as_string == true

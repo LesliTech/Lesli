@@ -20,11 +20,46 @@ For more information read the license file including with this software.
 module ApplicationHelper
 
 
-
-    def lesli_instance()
-        return Rails.application.config.lesli_settings["info"]["code"]
+    def lesli_instance_code()
+        LC::System::Info.instance[:code]
     end
 
+    def application_body_class()
+        application_body_class = lesli_instance_code
+        [application_body_class, controller_path.gsub("/","-"), action_name].join(" ")
+    end
+
+    def application_javascript_path
+        path_segments = controller_path.split("/")
+        cloud_module = path_segments.shift
+        [cloud_module, path_segments.push("app").compact().join("_")].join("/")
+    end
+
+    def get_application_navigation_path
+        navigation = "layouts/#{lesli_engine_or_instance}/partials/application-navigation"
+        navigation = "layouts/components/navigation-administration" if is_lesli_engine_administration?
+        navigation
+    end
+
+    def lesli_engine()
+        controller_path.split('/')[0]
+    end
+
+    def is_lesli_engine_administration?
+        ["accounts", "account", "roles", "profiles", "users", "abouts", "settings"].include?(lesli_engine)
+    end 
+
+    def is_lesli_engine?(engine=nil)
+        current_engine = lesli_engine
+        return current_engine == engine if not engine.blank?
+        return false if is_lesli_engine_administration?
+        return true
+    end 
+
+    def lesli_engine_or_instance
+        return lesli_instance_code if not is_lesli_engine?
+        return lesli_engine
+    end
 
 
     # The code below need to be reviewed and refactored to work with gems instead of engines
@@ -40,10 +75,7 @@ module ApplicationHelper
 
     end
 
-    def application_body_class()
-        application_body_class = lesli_instance
-        [application_body_class, controller_path.gsub("/","-"), action_name].join(" ")
-    end
+    
 
     def nav_link(link_path)
         class_name = current_page?(link_path) ? "is-active" : nil
@@ -70,11 +102,7 @@ module ApplicationHelper
 
     end
 
-    def application_javascript_path
-        path_segments = controller_path.split("/")
-        cloud_module = path_segments.shift
-        [cloud_module, path_segments.push("app").compact().join("_")].join("/")
-    end
+    
 
     def language_url(locale)
         "/language?locale=#{locale}"
@@ -126,32 +154,9 @@ module ApplicationHelper
 
     end
 
-    def lesli_engine()
-        current_engine = controller_path.split('/')[0]
-        return current_engine
-    end
 
-    def is_lesli_engine_administration?
-        ["accounts", "account", "roles", "profiles", "users", "abouts", "settings"].include?(lesli_engine)
-    end 
 
-    def is_lesli_engine?(engine=nil)
-        current_engine = lesli_engine
-        return current_engine == engine if not engine.blank?
-        return false if is_lesli_engine_administration?
-        return true
-    end 
 
-    def lesli_engine_or_instance
-        return lesli_instance if not is_lesli_engine?
-        return lesli_engine
-    end
-
-    def get_application_navigation_path
-        navigation = "layouts/#{lesli_engine_or_instance}/partials/application-navigation"
-        navigation = "layouts/components/navigation-administration" if is_lesli_engine_administration?
-        navigation
-    end
 
     def integration_access_token(integration_name)
         return Rails.application.credentials.integrations[integration_name][:access_token]
