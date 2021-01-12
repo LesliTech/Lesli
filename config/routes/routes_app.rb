@@ -64,9 +64,13 @@ module RoutesApp
                     end
 
                     # roles & privileges management
-                    resources :roles, only: [:index] do
+                    resources :roles do
                         scope module: :role do
                             resources :privileges
+                            resources :activities
+                            collection do
+                                get "/activities/options",                   to: "/role/activities#options"
+                            end
                         end
                     end
 
