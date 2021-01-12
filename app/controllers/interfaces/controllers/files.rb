@@ -51,7 +51,7 @@ module Interfaces::Controllers::Files
     end
 
 
-    # @controller_action_param :attachment_local [File] The uploaded attachment
+    # @controller_action_param :attachment [File] The uploaded attachment
     # @controller_action_param :name [String] The name to be displayed
     # @controller_action_param :file_type [String] The file type of 
     # @return [Json] Json that contains wheter the creation of the file was successful or not. 
@@ -83,12 +83,12 @@ module Interfaces::Controllers::Files
         # Verifying the extension of the file
         extension = ""
 
-        if new_file_params[:attachment_local].is_a? String
+        if new_file_params[:attachment].is_a? String
             # Base64 images
             file_name = new_file_params[:name]
             file_name = file_name.downcase.gsub(" ","_")
 
-            img_from_base64 = Base64.decode64(new_file_params[:attachment_local])
+            img_from_base64 = Base64.decode64(new_file_params[:attachment])
 
             begin
                 extension = /(png|jpg|jpeg|jfif)/.match(img_from_base64[0,16].downcase)[0]
@@ -106,13 +106,12 @@ module Interfaces::Controllers::Files
                 f.write(img_from_base64)
             end
 
-            new_file_params[:attachment_local] = File.open(Rails.root.join(file_path), "rb")
+            new_file_params[:attachment] = File.open(Rails.root.join(file_path), "rb")
 
             file = file_model.new(new_file_params)
 
             FileUtils.rm_rf(Rails.root.join(file_path))
         else
-            extension = new_file_params[:attachment_local].original_filename if new_file_params[:attachment_local]
             extension = new_file_params[:attachment].original_filename if new_file_params[:attachment]
 
             return respond_with_error(I18n.t("core.shared.notification_error_file_type_not_allowed")) unless file_model.verify_file_extension(extension)
@@ -124,7 +123,7 @@ module Interfaces::Controllers::Files
         if file.save
             # Setting the file name in case it's blank
             file.update(
-                name: (file.attachment_local_identifier || file.attachment_identifier)
+                name: (file.attachment_identifier || file.attachment_s3_identifier)
             ) if file.name.blank?
 
             cloud_object = file.cloud_object
@@ -167,10 +166,10 @@ module Interfaces::Controllers::Files
         disposition = "attachment" if params["download"]
         
         # Sending file using CarrierWave
-        if @file.attachment.file
-            send_data(@file.attachment.read, filename: @file.name, disposition: disposition, stream: "true")
+        if @file.attachment_s3.file
+            send_data(@file.attachment_s3.read, filename: @file.name, disposition: disposition, stream: "true")
         else
-            send_data(@file.attachment_local.read, filename: @file.name, disposition: disposition, stream: "true")
+            send_data(@file.attachment.read, filename: @file.name, disposition: disposition, stream: "true")
         end
     end
 
@@ -190,7 +189,7 @@ module Interfaces::Controllers::Files
 
         # We remove the attachment from local and S3 before deleting the file
         @file.update!(attachment: nil)
-        @file.update!(attachment_local: nil)
+        @file.update!(attachment_s3: nil)
 
         if @file.destroy
             # Registering an activity in the cloud_object
@@ -258,16 +257,16 @@ module Interfaces::Controllers::Files
         zip_stream = ::Zip::OutputStream.write_buffer do |zip|
             files.each do |file|
                 # Handling an AWS S3 file
-                if file.attachment.file
-                    file_filepath = file.attachment.current_path
-                    filename = file.attachment_identifier
+                if file.attachment_s3.file
+                    file_filepath = file.attachment_s3.current_path
+                    filename = file.attachment_s3_identifier
                     file_obj = s3.get_object(file_filepath)
                     zip.put_next_entry filename
                     zip.print file_obj.body.read
                 # Haindling a local storage file
-                elsif file.attachment_local.file
-                    file_filepath = file.attachment_local.current_path
-                    filename = file.attachment_local_identifier
+                elsif file.attachment.file
+                    file_filepath = file.attachment.current_path
+                    filename = file.attachment_identifier
                     next unless ::File.exist?(file_filepath)
                     zip.put_next_entry filename
                     zip.print IO.binread(file_filepath)
@@ -322,7 +321,7 @@ module Interfaces::Controllers::Files
 
     # @return [Parameters] Allowed parameters for the file
     # @description Sanitizes the parameters received from an HTTP call to only allow the specified ones.
-    #     Allowed params are _:name_, _:file_type_, _:attachment_local_
+    #     Allowed params are _:name_, _:file_type_, _:attachment_
     # @example
     #     # supose params contains {
     #     #    "ticket_file": {
@@ -338,7 +337,7 @@ module Interfaces::Controllers::Files
     #     # will remove _id_ and _word_ fields and only print {
     #     #    "ticket_file": {
     #     #        "name": "User Contract",
-    #     #        "attachment_local": FILE_CONTENT
+    #     #        "attachment": FILE_CONTENT
     #     #    }
     #     #}
     def file_params
@@ -349,7 +348,7 @@ module Interfaces::Controllers::Files
             "#{cloud_object_model.name.demodulize.underscore}_file".to_sym
         ).permit(
             :name,
-            :attachment_local,
+            :attachment,
             :file_type
         )
     end
