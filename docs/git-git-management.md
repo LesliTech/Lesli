@@ -10,6 +10,13 @@ To avoid conflicts between requirements developers must create a git branch to c
 In this case a Trello card is equal to a requirement, developers can push all the needed commits to complete the feature describe in Trello tasks to their current working branch.
 
 
+## Maintenance branches
+As a good practice we keep a branch with the source code for every major and minor version for all our gem-like engines, including builder engines and the core itself.
+
+Every repository should contain dedicated branches for every released version, for example: cloud_babel v1.0.0 belongs to the branch version-1.0.0; The goal of this approach is to continue supporting older versions of our software. providing an easy way to access to the source code of the different implementations of The Lesli Platform core, engines and builders.
+
+This branch is created automatically via Github actions right before a Git tag is created.
+
 
 ## Commits
 The commit is used to confirm a set of changes and make them permanent in the repository, before committing the following points must be fulfilled: 
@@ -55,14 +62,16 @@ and therefore we could not show the error message to the user
 
 The commit type <type> can take one of these value:
 
-- **fix:** a commit of the type fix patches a bug in your codebase (this correlates with PATCH in semantic versioning).  
-- **feat:** a commit of the type feat introduces a new feature to the codebase (this correlates with MINOR in semantic versioning).
-- **BREAKING CHANGE:** a commit that has a footer BREAKING CHANGE:, or appends a ! after the type/scope, introduces a breaking API change (correlating with MAJOR in semantic versioning). A BREAKING CHANGE can be part of commits of any type.
-- _types_ other than `fix:` and `feat:` are allowed, for example [@commitlint/config-conventional](https://github.com/conventional-changelog/commitlint/tree/master/%40commitlint/config-conventional) (based on the [the Angular convention](https://github.com/angular/angular/blob/22b96b9/CONTRIBUTING.md#-commit-message-guidelines)) recommends `build:`, `chore:`,
-  `ci:`, `docs:`, `style:`, `refactor:`, `perf:`, `test:`, and others.
-
-
-
+- **fix**: A bug fix
+- **feat**: A new feature
+- **docs**: Documentation only changes
+- **perf**: A code change that improves performance
+- **test**: Adding missing tests or correcting existing tests
+- **build**: Changes that affect the build system or external dependencies (example scopes: gulp, broccoli, npm)
+- **style**: Changes that do not affect the meaning of the code (white-space, formatting, missing semi-colons, etc)
+- **ci**: Changes to our CI configuration files and scripts (example scopes: Travis, Circle, BrowserStack, SauceLabs)
+- **refactor**: A code change that neither fixes a bug nor adds a feature
+- **BREAKING CHANGE:** a breaking API change
 
 ## Merge process 
 Once the requirement is completed developers must check a few steps before send a pull request:
