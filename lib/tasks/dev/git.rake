@@ -28,10 +28,10 @@ namespace :dev do
 
             # push all engines
             Lesli::engines.each do |engine|
-                engine_path = Rails.root.join('engines', engine[:name])
+                engine_path = Rails.root.join('engines', engine[:code])
                 puts ""; puts ""; puts "";
                 puts "Working with: #{engine[:name]}"
-                system "cd ./engines/#{engine[:name]} && git push origin master" if File.exists?(engine_path)
+                system "cd ./engines/#{engine[:code]} && git push origin master" if File.exists?(engine_path)
             end
             
             # push core to github
