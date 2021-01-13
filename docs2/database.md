@@ -118,7 +118,33 @@ Contents
 
     00.00. house/[deals|contracts]
 ```
+### 02.08. CloudProposal
+```
+    00.01. proposal/account 
 
+    02.01. proposal/workflows
+    02.02. proposal/workflow/statuses
+    02.03. proposal/workflow/associations
+    02.04. proposal/workflow/actions
+
+    05.01. proposal/dashboards
+    05.02. proposal/dasboard/components
+
+    10.00. proposal/clients
+    10.01. proposal/client/actions 
+    10.02. proposal/client/activities 
+    10.03. proposal/client/discussions 
+    10.04. proposal/client/subscribers
+    10.05. proposal/client/files
+
+    11.00. proposal/quotations
+    11.01. proposal/quotation/actions 
+    11.02. proposal/quotation/activities 
+    11.03. proposal/quotation/discussions 
+    11.04. proposal/quotation/subscribers
+    11.05. proposal/quotation/files
+    11.10. proposal/quotation/entries
+```
 
 # To review
 
@@ -128,10 +154,10 @@ Contents
     00.01. driver/account
     00.02. driver/custom_fields
     
-    01.01. driver/catalog
+    01.01. driver/catalogs
     01.02. driver/catalog/business_services
 
-    02.01. driver/workflow
+    02.01. driver/workflows
     02.02. driver/workflow/statuses
     02.03. driver/workflow/associations
     02.04. driver/workflow/actions
@@ -227,10 +253,10 @@ Contents
 ```
     00.01. kb/account 
 
-    01.01. kb/catalog
+    01.01. kb/catalogs
     01.02. kb/catalog/categories
 
-    02.01. kb/workflow
+    02.01. kb/workflows
     02.02. kb/workflow/states
     02.03. kb/workflow/details
 
@@ -249,13 +275,13 @@ Contents
 ```
     00.01. help/account 
 
-    01.01. help/catalog
+    01.01. help/catalogs
     01.02. help/catalog/ticket_categories 
     01.03. help/catalog/ticket_priorities
     01.04. help/catalog/ticket_types
     01.05. help/catalog/ticket_sources
 
-    02.01. help/workflow
+    02.01. help/workflows
     02.02. help/workflow/statuses
     02.03. help/workflow/associations
     02.04. help/workflow/actions
