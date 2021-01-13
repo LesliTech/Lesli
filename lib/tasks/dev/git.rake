@@ -28,10 +28,10 @@ namespace :dev do
 
             # push all engines
             Lesli::engines.each do |engine|
-                engine_path = Rails.root.join('engines', engine['name'])
+                engine_path = Rails.root.join('engines', engine[:name])
                 puts ""; puts ""; puts "";
-                puts "Working with: #{engine['name']}"
-                system "cd ./engines/#{engine['name']} && git push origin master" if File.exists?(engine_path)
+                puts "Working with: #{engine[:name]}"
+                system "cd ./engines/#{engine[:name]} && git push origin master" if File.exists?(engine_path)
             end
             
             # push core to github
@@ -49,12 +49,12 @@ namespace :dev do
             Lesli::engines.each do |engine|
 
                 # build engine path
-                engine_path = Rails.root.join('engines', engine['name'])
+                engine_path = Rails.root.join('engines', engine[:name])
 
                 # pull from master
                 puts ""; puts ""; puts "";
-                puts "Working with: #{engine['name']}"
-                result = `cd ./engines/#{engine['name']} && #{force_command} git pull origin master` if File.exists?(engine_path)
+                puts "Working with: #{engine[:name]}"
+                result = `cd ./engines/#{engine[:name]} && #{force_command} git pull origin master` if File.exists?(engine_path)
 
             end
 
@@ -70,10 +70,10 @@ namespace :dev do
 
             # push all engines
             Lesli::engines.each do |engine|
-                engine_path = Rails.root.join('engines', engine['name'])
+                engine_path = Rails.root.join('engines', engine[:name])
                 puts ""; puts ""; puts "";
-                puts "Working with: #{engine['name']}"
-                system "cd ./engines/#{engine['name']} && git add --all && git commit -m \"add updates from development\""
+                puts "Working with: #{engine[:name]}"
+                system "cd ./engines/#{engine[:name]} && git add --all && git commit -m \"add updates from development\""
 
             end
             
@@ -92,11 +92,11 @@ namespace :dev do
         task backup: :environment do
 
             Lesli::engines.each do |engine|
-                engine_path = Rails.root.join('engines', engine['name'])
+                engine_path = Rails.root.join('engines', engine[:name])
 
                 puts ""; puts ""; puts "";
-                puts "Working with: #{engine['name']}"
-                system "cd ./engines/#{engine['name']} && git push backup master" if File.exists?(engine_path)
+                puts "Working with: #{engine[:name]}"
+                system "cd ./engines/#{engine[:name]} && git push backup master" if File.exists?(engine_path)
             end
 
             puts ""; puts ""; puts "";
@@ -111,7 +111,7 @@ namespace :dev do
             Lesli::engines.each do |engine|
 
                 # build engine path
-                engine_path = Rails.root.join('engines', engine['name'])
+                engine_path = Rails.root.join('engines', engine[:name])
 
                 # next if engine folder does not exist
                 next unless File.exists?(engine_path)
@@ -124,8 +124,8 @@ namespace :dev do
                     remote = engine['github']['ssh_backup'] if origin == "backup"
 
                     puts ""; puts ""; puts "";
-                    puts "Working with: #{engine['name']} for: #{origin}"
-                    exec_command "cd ./engines/#{engine['name']} && git remote add #{origin} #{remote}" 
+                    puts "Working with: #{engine[:name]} for: #{origin}"
+                    exec_command "cd ./engines/#{engine[:name]} && git remote add #{origin} #{remote}" 
 
                 end
 
@@ -144,12 +144,12 @@ namespace :dev do
             Lesli::engines.each do |engine|
 
                 # build engine path
-                engine_path = Rails.root.join('engines', engine['name'])
+                engine_path = Rails.root.join('engines', engine[:name])
 
                 # pull from master
                 puts ""; puts ""; puts "";
-                puts "Working with: #{engine['name']}"
-                result = `cd ./engines/#{engine['name']} && git checkout master` if File.exists?(engine_path)
+                puts "Working with: #{engine[:name]}"
+                result = `cd ./engines/#{engine[:name]} && git checkout master` if File.exists?(engine_path)
 
             end
 
