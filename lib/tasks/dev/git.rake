@@ -49,12 +49,12 @@ namespace :dev do
             Lesli::engines.each do |engine|
 
                 # build engine path
-                engine_path = Rails.root.join('engines', engine[:name])
+                engine_path = Rails.root.join('engines', engine[:code])
 
                 # pull from master
                 puts ""; puts ""; puts "";
                 puts "Working with: #{engine[:name]}"
-                result = `cd ./engines/#{engine[:name]} && #{force_command} git pull origin master` if File.exists?(engine_path)
+                result = `cd ./engines/#{engine[:code]} && #{force_command} git pull origin master` if File.exists?(engine_path)
 
             end
 
