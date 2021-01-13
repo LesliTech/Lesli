@@ -33,11 +33,13 @@ def create_development_user dev_user, password=nil
     salutation = dev_user[1]
     first_name = dev_user[2]
 
+    account = Account.find_by(company_name: Rails.application.config.lesli_settings["account"]["company"]["name"])
+
     # create development users if email is not registered yet
     ::User.find_or_create_by(email: email) do |user|
         user.password = password
         user.password_confirmation = password
-        user.account = Account.first
+        user.account = account
         user.confirm if not user.confirmed?
         
         user.detail.salutation = salutation
