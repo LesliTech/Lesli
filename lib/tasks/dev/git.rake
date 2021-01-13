@@ -111,21 +111,20 @@ namespace :dev do
             Lesli::engines.each do |engine|
 
                 # build engine path
-                engine_path = Rails.root.join('engines', engine['name'])
+                engine_path = Rails.root.join('engines', engine[:code])
 
                 # next if engine folder does not exist
                 next unless File.exists?(engine_path)
 
                 ["github", "origin", "lesli", "backup"].each do |origin|
 
-                    remote = engine['github']['ssh'] if origin == "github"
-                    remote = engine['github']['ssh'] if origin == "origin"
-                    remote = engine['github']['ssh_backup'] if origin == "lesli"
-                    remote = engine['github']['ssh_backup'] if origin == "backup"
+                    remote = engine[:github]['ssh'] if origin == "github"
+                    remote = engine[:github]['ssh'] if origin == "origin"
+                    remote = engine[:github]['ssh_backup'] if origin == "lesli"
+                    remote = engine[:github]['ssh_backup'] if origin == "backup"
 
                     puts ""; puts ""; puts "";
-                    puts "Working with: #{engine['name']} for: #{origin}"
-                    exec_command "cd ./engines/#{engine['name']} && git remote add #{origin} #{remote}" 
+                    exec_command "cd ./engines/#{engine[:code]} && git remote add #{origin} #{remote}" 
 
                 end
 
