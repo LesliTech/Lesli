@@ -70,10 +70,10 @@ namespace :dev do
 
             # push all engines
             Lesli::engines.each do |engine|
-                engine_path = Rails.root.join('engines', engine[:name])
+                engine_path = Rails.root.join('engines', engine[:code])
                 puts ""; puts ""; puts "";
                 puts "Working with: #{engine[:name]}"
-                system "cd ./engines/#{engine[:name]} && git add --all && git commit -m \"add updates from development\""
+                system "cd ./engines/#{engine[:code]} && git add --all && git commit -m \"add updates from development\""
 
             end
             
