@@ -97,6 +97,7 @@ module.exports = env => {
                 CloudHouse: path.resolve(__dirname, "./engines/cloud_house/app"),
                 CloudFocus: path.resolve(__dirname, "./engines/cloud_focus/app"),
                 CloudDriver: path.resolve(__dirname, "./engines/cloud_driver/app"),
+                CloudHelp: path.resolve(__dirname, "./engines/cloud_help/app"),
                 DeutscheLeibrenten: path.resolve(__dirname, "./engines/deutsche_leibrenten/app")
 
             },
