@@ -13,6 +13,9 @@ export default {
         engineNamespace: {
             type: String,
             required: true
+        },
+        setDashboardName: {
+            default: null
         }
     },
 
@@ -253,28 +256,19 @@ export default {
                 console.log(error)
             })
         }
+    },
+
+    watch: {
+        'dashboard.name'(){
+            if(this.setDashboardName){
+                this.setDashboardName(this.dashboard.name)
+            }
+        }
     }
 }
 </script>
 <template>
     <div class="card" v-if="dashboard">
-        <div class="card-header">
-            <h2 class="card-header-title">
-                <span v-if="dashboard.name">
-                    {{dashboard.name}}
-                </span>
-                <span v-else>
-                    {{translations.dashboards.view_title_new}}
-                </span>
-            </h2>
-            <div class="card-header-icon">
-                <router-link to="/">
-                    &nbsp;&nbsp;&nbsp;
-                    <i class="fas fa-undo"></i>
-                    {{translations.core.view_btn_return}}
-                </router-link>
-            </div>
-        </div>
         <div class="card-content">
             <b-tabs v-model="active_tab">
                 <b-tab-item :label="translations.dashboards.view_tab_title_edition_mode">
