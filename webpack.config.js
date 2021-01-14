@@ -20,8 +20,9 @@ For more information read the license file including with this software.
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
 var fs = require("fs")
 var path = require("path")  
-var yaml = require('js-yaml')
+var yaml = require("js-yaml")
 var webpack = require("webpack")
+var TerserPlugin = require("terser-webpack-plugin")
 var VueLoaderPlugin = require("vue-loader/lib/plugin")
 var webpackConfig = []
 
@@ -40,7 +41,20 @@ module.exports = env => {
         watch: env.watch == "true",
         mode: production ? "production" : "development",
         performance: { hints: false },
-        optimization: { minimize: production },
+        optimization: { 
+            minimize: production,
+            minimizer: [
+                new TerserPlugin({
+                    terserOptions: {
+                        format: {
+                            comments: false,
+                        },
+                    },
+                    extractComments: false,
+                    parallel: true
+                })
+            ]
+        },
         entry: {
             "accounts/app": "./app/vue/accounts/app.js",
             "account/integrations_app": "./app/vue/account_integrations/app.js",
