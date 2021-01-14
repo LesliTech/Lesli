@@ -29,25 +29,34 @@ export default {
                 main: I18n.t(`${this.cloudEngine.toLowerCase()}.dashboards`),
                 dashboards: I18n.t('core.dashboards'),
                 core: I18n.t('core.shared')
-            }
+            },
+            dashboard_name: ''
+        }
+    },
+
+    methods: {
+        setDashboardName(dashboard_name){
+            this.dashboard_name = dashboard_name
         }
     }
 }
 </script>
 <template>
     <section class="application-component">
-        <nav class="navbar component-header">
-            <div class="navbar-menu">
-                <div class="navbar-start">
-                    <div class="navbar-item">
-                        <h4 class="is-size-3">
-                            {{translations.dashboards.view_title_main}}
-                        </h4>
-                    </div>
+        <component-header 
+            :title="dashboard_name"
+        >
+            <div class="navbar-item">
+                <div class="buttons">
+                    <router-link class="button" to="/">
+                        <b-icon icon="list" size="is-small" />
+                        <span>{{ translations.core.view_btn_list }}</span>
+                    </router-link>
                 </div>
             </div>
-        </nav>
+        </component-header>
         <component-form
+            :set-dashboard-name="setDashboardName"
             :render-components="renderComponents"
             :cloud-engine="cloudEngine"
             :engineNamespace="engineNamespace"
