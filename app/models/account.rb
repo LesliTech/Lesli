@@ -44,6 +44,7 @@ class Account < ApplicationRecord
     has_one :driver,     class_name: "CloudDriver::Account",     foreign_key: "id"
     has_one :mailer,     class_name: "CloudMailer::Account",     foreign_key: "id"
     has_one :things,     class_name: "CloudThings::Account",     foreign_key: "id"
+    has_one :proposal,   class_name: "CloudProposal::Account",   foreign_key: "id"
     has_one :dispatcher, class_name: "CloudDispatcher::Account", foreign_key: "id"
 
     after_create :initialize_account
@@ -193,6 +194,14 @@ class Account < ApplicationRecord
                 self.things = CloudThings::Account.new
                 self.things.account = self
                 self.things.save!
+            end
+        end
+
+        if defined? CloudProposal
+            if self.proposal.blank?
+                self.proposal = CloudProposal::Account.new
+                self.proposal.account = self
+                self.proposal.save!
             end
         end
         
