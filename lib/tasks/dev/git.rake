@@ -28,10 +28,10 @@ namespace :dev do
 
             # push all engines
             Lesli::engines.each do |engine|
-                engine_path = Rails.root.join('engines', engine['name'])
+                engine_path = Rails.root.join('engines', engine[:name])
                 puts ""; puts ""; puts "";
-                puts "Working with: #{engine['name']}"
-                system "cd ./engines/#{engine['name']} && git push origin master" if File.exists?(engine_path)
+                puts "Working with: #{engine[:name]}"
+                system "cd ./engines/#{engine[:name]} && git push origin master" if File.exists?(engine_path)
             end
             
             # push core to github
@@ -49,12 +49,12 @@ namespace :dev do
             Lesli::engines.each do |engine|
 
                 # build engine path
-                engine_path = Rails.root.join('engines', engine['name'])
+                engine_path = Rails.root.join('engines', engine[:code])
 
                 # pull from master
                 puts ""; puts ""; puts "";
-                puts "Working with: #{engine['name']}"
-                result = `cd ./engines/#{engine['name']} && #{force_command} git pull origin master` if File.exists?(engine_path)
+                puts "Working with: #{engine[:name]}"
+                result = `cd ./engines/#{engine[:code]} && #{force_command} git pull origin master` if File.exists?(engine_path)
 
             end
 
@@ -70,10 +70,10 @@ namespace :dev do
 
             # push all engines
             Lesli::engines.each do |engine|
-                engine_path = Rails.root.join('engines', engine['name'])
+                engine_path = Rails.root.join('engines', engine[:code])
                 puts ""; puts ""; puts "";
-                puts "Working with: #{engine['name']}"
-                system "cd ./engines/#{engine['name']} && git add --all && git commit -m \"add updates from development\""
+                puts "Working with: #{engine[:name]}"
+                system "cd ./engines/#{engine[:code]} && git add --all && git commit -m \"add updates from development\""
 
             end
             
@@ -92,11 +92,11 @@ namespace :dev do
         task backup: :environment do
 
             Lesli::engines.each do |engine|
-                engine_path = Rails.root.join('engines', engine['name'])
+                engine_path = Rails.root.join('engines', engine[:name])
 
                 puts ""; puts ""; puts "";
-                puts "Working with: #{engine['name']}"
-                system "cd ./engines/#{engine['name']} && git push backup master" if File.exists?(engine_path)
+                puts "Working with: #{engine[:name]}"
+                system "cd ./engines/#{engine[:name]} && git push backup master" if File.exists?(engine_path)
             end
 
             puts ""; puts ""; puts "";
@@ -143,12 +143,12 @@ namespace :dev do
             Lesli::engines.each do |engine|
 
                 # build engine path
-                engine_path = Rails.root.join('engines', engine['name'])
+                engine_path = Rails.root.join('engines', engine[:name])
 
                 # pull from master
                 puts ""; puts ""; puts "";
-                puts "Working with: #{engine['name']}"
-                result = `cd ./engines/#{engine['name']} && git checkout master` if File.exists?(engine_path)
+                puts "Working with: #{engine[:name]}"
+                result = `cd ./engines/#{engine[:name]} && git checkout master` if File.exists?(engine_path)
 
             end
 
