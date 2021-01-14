@@ -83,10 +83,10 @@ module.exports = env => {
                 // DEPRECATED
                 LesliCloud: path.resolve(__dirname, "./app"),           
                 LesliCoreVue: path.resolve(__dirname, "./lib/vue"),
-                LesliCloudHaus: path.resolve(__dirname, "./engines/CloudHaus/app"),
-                LesliCloudHouse: path.resolve(__dirname, "./engines/CloudHouse/app"),
-                LesliCloudFocus: path.resolve(__dirname, "./engines/CloudFocus/app"),
-                LesliCloudDriver: path.resolve(__dirname, "./engines/CloudDriver/app"),
+                LesliCloudHouse: path.resolve(__dirname, "./engines/cloud_house/app"),
+                LesliCloudFocus: path.resolve(__dirname, "./engines/cloud_focus/app"),
+                LesliCloudDriver: path.resolve(__dirname, "./engines/cloud_driver/app"),
+                LesliDeutscheLeibrenten: path.resolve(__dirname, "./engines/deutsche_leibrenten/app"),
 
 
                 // Resolve alias for core resources
@@ -94,10 +94,10 @@ module.exports = env => {
                 LesliVue: path.resolve(__dirname, "./lib/vue"), 
                 
                 // Resolve alias for module resources
-                CloudHaus: path.resolve(__dirname, "./engines/CloudHaus/app"),
-                CloudHouse: path.resolve(__dirname, "./engines/CloudHouse/app"),
-                CloudFocus: path.resolve(__dirname, "./engines/CloudFocus/app"),
-                CloudDriver: path.resolve(__dirname, "./engines/CloudDriver/app"),
+                CloudHouse: path.resolve(__dirname, "./engines/cloud_house/app"),
+                CloudFocus: path.resolve(__dirname, "./engines/cloud_focus/app"),
+                CloudDriver: path.resolve(__dirname, "./engines/cloud_driver/app"),
+                DeutscheLeibrenten: path.resolve(__dirname, "./engines/deutsche_leibrenten/app")
 
             },
             extensions: [".js"]
