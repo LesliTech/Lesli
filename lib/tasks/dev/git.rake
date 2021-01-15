@@ -92,11 +92,11 @@ namespace :dev do
         task backup: :environment do
 
             Lesli::engines.each do |engine|
-                engine_path = Rails.root.join('engines', engine[:name])
+                engine_path = Rails.root.join('engines', engine[:code])
 
                 puts ""; puts ""; puts "";
                 puts "Working with: #{engine[:name]}"
-                system "cd ./engines/#{engine[:name]} && git push backup master" if File.exists?(engine_path)
+                system "cd ./engines/#{engine[:code]} && git push backup master" if File.exists?(engine_path)
             end
 
             puts ""; puts ""; puts "";
@@ -143,12 +143,12 @@ namespace :dev do
             Lesli::engines.each do |engine|
 
                 # build engine path
-                engine_path = Rails.root.join('engines', engine[:name])
+                engine_path = Rails.root.join('engines', engine[:code])
 
                 # pull from master
                 puts ""; puts ""; puts "";
                 puts "Working with: #{engine[:name]}"
-                result = `cd ./engines/#{engine[:name]} && git checkout master` if File.exists?(engine_path)
+                exec_command `cd ./engines/#{engine[:code]} && git checkout master` if File.exists?(engine_path)
 
             end
 
