@@ -20,8 +20,9 @@ For more information read the license file including with this software.
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
 var fs = require("fs")
 var path = require("path")  
-var yaml = require('js-yaml')
+var yaml = require("js-yaml")
 var webpack = require("webpack")
+var TerserPlugin = require("terser-webpack-plugin")
 var VueLoaderPlugin = require("vue-loader/lib/plugin")
 var webpackConfig = []
 
@@ -40,7 +41,20 @@ module.exports = env => {
         watch: env.watch == "true",
         mode: production ? "production" : "development",
         performance: { hints: false },
-        optimization: { minimize: production },
+        optimization: { 
+            minimize: production,
+            minimizer: [
+                new TerserPlugin({
+                    terserOptions: {
+                        format: {
+                            comments: false,
+                        },
+                    },
+                    extractComments: false,
+                    parallel: true
+                })
+            ]
+        },
         entry: {
             "accounts/app": "./app/vue/accounts/app.js",
             "account/integrations_app": "./app/vue/account_integrations/app.js",
@@ -69,10 +83,10 @@ module.exports = env => {
                 // DEPRECATED
                 LesliCloud: path.resolve(__dirname, "./app"),           
                 LesliCoreVue: path.resolve(__dirname, "./lib/vue"),
-                LesliCloudHaus: path.resolve(__dirname, "./engines/CloudHaus/app"),
-                LesliCloudHouse: path.resolve(__dirname, "./engines/CloudHouse/app"),
-                LesliCloudFocus: path.resolve(__dirname, "./engines/CloudFocus/app"),
-                LesliCloudDriver: path.resolve(__dirname, "./engines/CloudDriver/app"),
+                LesliCloudHouse: path.resolve(__dirname, "./engines/cloud_house/app"),
+                LesliCloudFocus: path.resolve(__dirname, "./engines/cloud_focus/app"),
+                LesliCloudDriver: path.resolve(__dirname, "./engines/cloud_driver/app"),
+                LesliDeutscheLeibrenten: path.resolve(__dirname, "./engines/deutsche_leibrenten/app"),
 
 
                 // Resolve alias for core resources
@@ -80,10 +94,11 @@ module.exports = env => {
                 LesliVue: path.resolve(__dirname, "./lib/vue"), 
                 
                 // Resolve alias for module resources
-                CloudHaus: path.resolve(__dirname, "./engines/CloudHaus/app"),
-                CloudHouse: path.resolve(__dirname, "./engines/CloudHouse/app"),
-                CloudFocus: path.resolve(__dirname, "./engines/CloudFocus/app"),
-                CloudDriver: path.resolve(__dirname, "./engines/CloudDriver/app"),
+                CloudHouse: path.resolve(__dirname, "./engines/cloud_house/app"),
+                CloudFocus: path.resolve(__dirname, "./engines/cloud_focus/app"),
+                CloudDriver: path.resolve(__dirname, "./engines/cloud_driver/app"),
+                CloudHelp: path.resolve(__dirname, "./engines/cloud_help/app"),
+                DeutscheLeibrenten: path.resolve(__dirname, "./engines/deutsche_leibrenten/app")
 
             },
             extensions: [".js"]

@@ -18,13 +18,13 @@ For more information read the license file including with this software.
 %>
 
 
-<% if lesli_instance != "Lesli" %>
-<section id="lesli-cloud-application" class="<%= lesli_instance.underscore %>-password-new">
-    <%= render :file => "#{lesli_instance.underscore}/lesli/devise/passwords/new" %>
+<% if lesli_instance_code != "lesli" %>
+<section id="lesli-cloud-application" class="<%= lesli_instance_code %>-password">
+    <%= render :template => "#{lesli_instance_code}/lesli/devise/passwords/new" %>
 </section>
 <% end %>
 
 
-<% if lesli_instance == "Lesli" %>
-<h3>There is no a view for passwords path.</h3>
+<% if lesli_instance_code == "lesli" %>
+<h3>There is no a view for sessions path.</h3>
 <% end %>

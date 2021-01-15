@@ -18,6 +18,9 @@ Every repository should contain dedicated branches for every released version, f
 This branch is created automatically via Github actions right before a Git tag is created.
 
 
+## Development branches
+
+
 ## Commits
 The commit is used to confirm a set of changes and make them permanent in the repository, before committing the following points must be fulfilled: 
 
@@ -45,7 +48,7 @@ The commit message should be structured as follows:
 
 [optional footer(s)]
 
-git commit -m "[add|remove|fix|improve] trello/000 Brief description of changes included in this commits"
+git commit -m "type: trello/000 Brief description of changes included in this commits"
 
 ```
 
@@ -72,6 +75,7 @@ The commit type <type> can take one of these value:
 - **ci**: Changes to our CI configuration files and scripts (example scopes: Travis, Circle, BrowserStack, SauceLabs)
 - **refactor**: A code change that neither fixes a bug nor adds a feature
 - **BREAKING CHANGE:** a breaking API change
+
 
 ## Merge process 
 Once the requirement is completed developers must check a few steps before send a pull request:
