@@ -75,6 +75,7 @@ The commit type <type> can take one of these value:
 - **ci**: Changes to our CI configuration files and scripts (example scopes: Travis, Circle, BrowserStack, SauceLabs)
 - **refactor**: A code change that neither fixes a bug nor adds a feature
 - **upgrade**: Changes a dependency version number (npm, gem, modules, etc)
+- **assets**: Changes due a asset compilation process
 - **BREAKING CHANGE:** a breaking API change
 
 
