@@ -67,6 +67,13 @@ module HtmlHelper
         end
     end
 
+    # 03.03 Focus engine
+    def navigation_engine_focus text: "Tasks", icon_path: "cloud_focus/focus-logo.svg"
+        if defined? CloudFocus
+            navigation_engine_item text, icon_path, cloud_focus.root_path, controller_path.include?("cloud_focus")
+        end
+    end
+
     # 03.08 Bell engine
     def navigation_engine_bell text: "Bell", icon_path: "cloud_bell/bell-logo.svg"
         if defined? CloudBell
