@@ -1,127 +1,109 @@
 <script>
+/*
+Copyright (c) 2020, all rights reserved.
 
-import grapesjs from 'grapesjs';
-import grapesJSMJML from 'grapesjs-mjml'
+All the information provided by this platform is protected by international laws related  to 
+industrial property, intellectual property, copyright and relative international laws. 
+All intellectual or industrial property rights of the code, texts, trade mark, design, 
+pictures and any other information belongs to the owner of this platform.
 
+Without the written permission of the owner, any replication, modification,
+transmission, publication is strictly forbidden.
+
+For more information read the license file including with this software.
+
+// · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
+// · 
+*/
+
+
+// · 
+import EditorJS from "@editorjs/editorjs";
+
+
+// · import foundation email blocks
+import foundationGrid from "./email/foundation-grid";
+
+
+// · 
 export default {
-    mounted() {
-
-        var editor = grapesjs.init({
-            fromElement: 1,
-            container: '#gjs',
-            height: '300px',
-            width: 'auto',
-            storageManager: false,
-            panels: { defaults: [] },
-            avoidInlineStyle : false,
-            plugins: [grapesJSMJML],
-            pluginsOpts: {
-            [grapesJSMJML]: {/* ...options */}
-            },
-            storageManager: { type: 'simple-storage' },
-            blockManager: {
-                appendTo: '#blocks',
-                blocks: [{
-                    id: "body2",
-                    lagel: "<b>body</b>",
-                    attributes: { class:'gjs-block-section' },
-                    content: `
-                        <mjml>
-                            <mj-body>
-                                <mj-section>
-
-                                </mj-section>
-                            </mj-body>
-                        </mjml>
-                    `
-                }, {
-                    id: 'grid', // id is mandatory
-                    label: '<b>grid</b>', // You can use HTML/SVG inside labels
-                    attributes: { class:'gjs-block-section' },
-                    content: `
-                        <mj-section>
-                            <mj-column>
-                            <mj-image width="100px" src="https://mjml.io/assets/img/logo-small.png"></mj-image>
-                            <mj-divider border-color="#F45E43"></mj-divider>
-                            <mj-text font-size="20px" color="#F45E43" font-family="helvetica">Hello World</mj-text>
-                            </mj-column>
-                        </mj-section>
-                    `
-                }]
-            },
-        });
-
-        // Here our `simple-storage` implementation
-        const SimpleStorage = {};
-
-        editor.StorageManager.add('simple-storage', {
-            /**
-             * Load the data
-             * @param  {Array} keys Array containing values to load, eg, ['gjs-components', 'gjs-style', ...]
-             * @param  {Function} clb Callback function to call when the load is ended
-             * @param  {Function} clbErr Callback function to call in case of errors
-             */
-            load(keys, clb, clbErr) {
-                const result = {};
-
-                keys.forEach(key => {
-                const value = SimpleStorage[key];
-                if (value) {
-                    result[key] = value;
-                }
-                });
-
-                // Might be called inside some async method
-                clb(result);
-            },
-
-            /**
-             * Store the data
-             * @param  {Object} data Data object to store
-             * @param  {Function} clb Callback function to call when the load is ended
-             * @param  {Function} clbErr Callback function to call in case of errors
-             */
-            store(data, clb, clbErr) {
-
-                for (let key in data) {
-                    SimpleStorage[key] = data[key];
-                }
-                // Might be called inside some async method
-                clb();
+    props: {
+        value: {
+            type: Object,
+            default: function() {
+                return {}
             }
-            
-        });
+        }
+    },
+    data() {
+        return {
+            editor: null,
+            emailBlocks: {
+                grid: foundationGrid
+            }
+        }
+    },
+    mounted() {
+        setTimeout(() => {
 
-        //editor.trigger("storage:start")
+        this.editor = new EditorJS({
+            holder: "lesli-editor-email",
+            autofocus: true,
+            placeholder: "Let`s build an awesome email!",
+            data: this.value,
+            onChange: async () => {
+                const response = await this.editor.save()
+                this.$emit("change", response)
+                this.$emit("input", response)
+            },
+            tools: this.emailBlocks,
+        })
 
-        var blockManager = editor.BlockManager;
+        }, 800);
 
-        // 'my-first-block' is the ID of the block
-        blockManager.add('my-first-block', {
-            label: 'body',
-            content: '<mjml><mj-body><mj-section></mj-section></mj-body></mjml>',
-        });
+    },
+    beforeDestroy() {
+        if (this.editor) {
+            this.editor.destroy();
+        }
+    },
+    watch: {
+        value: function(value) {
 
+        }
     }
+
 }
 </script>
 <template>
-    <div class="columns is-variable is-0">
-        <div class="column is-8">
-            <div id="gjs">
-                <mjml>
-                    <mj-body>
-                        <mj-section>
-                            <mj-column>
-                                <mj-text>My Company</mj-text>
-                            </mj-column>
-                        </mj-section>
-                    </mj-body>
-                </mjml>
-            </div>
-        </div>
-        <div class="column is-4">
-            <div id="blocks"></div>
-        </div>
+    <div class="mailer-email-template">
+        <div id="lesli-editor-email"></div>
     </div>
 </template>
+<style lang="css">
+.ce-block__content,
+.ce-toolbar__content {
+    max-width: unset;
+    padding-left: 50px;
+}
+
+.codex-editor--narrow .ce-toolbar__actions {
+    left: 0;
+    top: 9px;
+}
+
+.codex-editor--narrow .ce-toolbar__actions .icon.icon--dots {
+    height: 15px;
+    width: 15px;
+}
+
+.codex-editor--narrow .ce-toolbar__plus {
+    left: 17px;
+    top: -1px !important;
+}   
+
+.codex-editor--narrow .ce-toolbar__plus .icon.icon--plus {
+    height: 15px;
+    width: 15px;
+}
+</style>
