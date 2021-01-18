@@ -83,7 +83,7 @@ export default {
         },
 
         getUsers() {
-            let url = `${this.main_route}.json?role=kop,callcenter,guest&type=exclude&filters[status]=all&filters[view_type]=index&filters[category]=user`
+            let url = `${this.main_route}.json?role=kop,callcenter,guest,support&type=exclude&filters[status]=all&filters[view_type]=index&filters[category]=user`
             this.http.get(url).then(result => {
                 if (result.successful) {
                     this.users = result.data.map(e => {
