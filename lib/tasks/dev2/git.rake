@@ -26,8 +26,6 @@ class DevGit < LesliTasks
         namespace :dev2 do        
             namespace :git do
 
-
-
                 desc "Push code to remote branch/origin for all engines"
                 task :push => :environment do |task, args|
                     ARGV.each { |a| task a.to_sym do ; end }
@@ -37,8 +35,6 @@ class DevGit < LesliTasks
         
                 end
 
-
-
                 desc "Pull code from origin master from all engines"
                 task :pull => :environment do |task, args|
                     ARGV.each { |a| task a.to_sym do ; end }
@@ -47,8 +43,6 @@ class DevGit < LesliTasks
                     pull
                     
                 end
-
-
 
                 desc "Commit pending changes from all engines"
                 task commit: :environment do
@@ -64,8 +58,6 @@ class DevGit < LesliTasks
                     commit git_message
         
                 end
-
-
 
                 desc "Checkout all engines to a different branch"
                 task :checkout => :environment do |task, args|
@@ -84,14 +76,21 @@ class DevGit < LesliTasks
 
                 end
 
-
-
                 desc "Push code to backup repositories for all engines"
                 task :backup => :environment do |task, args|
                     ARGV.each { |a| task a.to_sym do ; end }
         
                     # execute command
                     push "backup"
+        
+                end
+
+                desc "Update vendor from node_modules"
+                task :vendor => :environment do |task, args|
+                    ARGV.each { |a| task a.to_sym do ; end }
+        
+                    # execute command
+                    vendor
         
                 end
 
@@ -217,6 +216,34 @@ class DevGit < LesliTasks
 
         message_separator
         message_cow
+
+    end
+
+    def vendor
+
+        # copy vendor dependencies (only css files are required)
+        command("rm -r vendor/*")
+
+        [
+            "buefy", 
+            "bulma", 
+            "quill", 
+            "lesli-css",
+            "@fullcalendar", 
+            "bulma-o-steps", 
+            "bulma-extensions", 
+            "foundation-emails"
+        ].each do |package|
+            FileUtils.cp_r "node_modules/#{package}/", "vendor/", :verbose => true
+        end
+
+        Dir.glob("vendor/**/*").each do |file|
+            FileUtils.rm(file, :verbose => true) if file.index("package.json")
+            FileUtils.rm(file, :verbose => true) if file.index("package-lock.json")
+        end
+
+        # commit any change in vendor
+        command("git add vendor && git commit -m \"vendor:Update npm dependencies (vendors)\" vendor")
 
     end
 
