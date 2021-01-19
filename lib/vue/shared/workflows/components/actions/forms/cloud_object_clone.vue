@@ -109,7 +109,7 @@ export default {
         },
 
         getUsers(){
-            this.http.get('/lock/users/list.json?role=kop,callcenter,api&type=exclude').then(result => {
+            this.http.get('/administration/users/list.json?role=kop,callcenter,api,support&type=exclude').then(result => {
                 if (result.successful) {
                     this.$set(this.options, 'users', result.data)
                 }
