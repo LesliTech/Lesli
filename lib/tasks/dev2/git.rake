@@ -232,18 +232,23 @@ class DevGit < LesliTasks
             "@fullcalendar", 
             "bulma-o-steps", 
             "bulma-extensions", 
-            "foundation-emails"
+            "foundation-emails",
+            "grapesjs"
         ].each do |package|
             FileUtils.cp_r "node_modules/#{package}/", "vendor/", :verbose => true
         end
 
         Dir.glob("vendor/**/*").each do |file|
+            FileUtils.rm(file, :verbose => true) if file.index("README.md")
+            FileUtils.rm(file, :verbose => true) if file.index("LICENSE")
+            FileUtils.rm(file, :verbose => true) if file.index("CHANGELOG.md")
+            FileUtils.rm(file, :verbose => true) if file.index("CONTRIBUTING.md")
             FileUtils.rm(file, :verbose => true) if file.index("package.json")
             FileUtils.rm(file, :verbose => true) if file.index("package-lock.json")
         end
 
         # commit any change in vendor
-        command("git add vendor && git commit -m \"vendor:Update npm dependencies (vendors)\" vendor")
+        #command("git add vendor && git commit -m \"vendor:Update npm dependencies (vendors)\" vendor")
 
     end
 
