@@ -35,7 +35,7 @@ class Templates::CreateCloudObjectFileWithTemplateJob < ApplicationJob
         data = cloud_object.template_data(query)
 
         return if data.blank?
-        
+
         #download file from s3
         s3 = LC::Config::Providers::Aws::S3.new()
         s3_file = s3.get_object(document.attachment)
@@ -92,8 +92,12 @@ class Templates::CreateCloudObjectFileWithTemplateJob < ApplicationJob
             rc = Regexp.quote(char)
             rc = rc.force_encoding('ASCII-8BIT')
             regexp = /#{regexp}(?<tag#{i}>(#{XML_TAG})*)#{rc}/
-            tag_pattern << '\k<tag' + i.to_s + '>'
-            tag_pattern << replacement if i.zero?
+            if not replacement.blank?
+                tag_pattern << '\k<tag' + i.to_s + '>'
+                tag_pattern << replacement if i.zero?
+            else
+                tag_pattern = ""
+            end
         end
         tag_pattern.force_encoding('ASCII-8BIT')
         word_xml.gsub!(regexp, tag_pattern)
