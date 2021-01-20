@@ -17,19 +17,24 @@ class Templates::CreateCloudObjectFileWithTemplateJob < ApplicationJob
             unless document_map["table_alias"].blank?
                 table_alias = document_map["table_alias"]
             else
-                table_alias = document_map["table_name"].split("_").map { |e| e.chars.first}.join("")
+                table_alias = (document_map["table_name"]||"").split("_").map { |e| e.chars.first}.join("")
             end 
             
             variables.push(document_map["name"])
 
             query[:mapping][document_map["name"]] = { field_name: document_map["field_name"], alias: document_map["table_alias"]}
-            query[:fields].push("#{table_alias}.#{document_map["field_name"]} as #{document_map["name"]}")
+
+            if not (document_map["table_name"].blank?)
+                query[:fields].push("#{table_alias}.#{document_map["field_name"]} as #{document_map["name"]}")
+            end
         end
 
         query[:fields] = query[:fields].join(",")
-
+        
         #fetch data of cloud_object        
         data = cloud_object.template_data(query)
+
+        return if data.blank?
 
         #download file from s3
         s3 = LC::Config::Providers::Aws::S3.new()
@@ -87,8 +92,12 @@ class Templates::CreateCloudObjectFileWithTemplateJob < ApplicationJob
             rc = Regexp.quote(char)
             rc = rc.force_encoding('ASCII-8BIT')
             regexp = /#{regexp}(?<tag#{i}>(#{XML_TAG})*)#{rc}/
-            tag_pattern << '\k<tag' + i.to_s + '>'
-            tag_pattern << replacement if i.zero?
+            if not replacement.blank?
+                tag_pattern << '\k<tag' + i.to_s + '>'
+                tag_pattern << replacement if i.zero?
+            else
+                tag_pattern = ""
+            end
         end
         tag_pattern.force_encoding('ASCII-8BIT')
         word_xml.gsub!(regexp, tag_pattern)
