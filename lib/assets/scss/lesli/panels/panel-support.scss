@@ -1,6 +1,5 @@
-<%#
-
-Copyright (c) 2020, all rights reserved.
+/*
+Copyright (c) 2021, all rights reserved.
 
 All the information provided by this platform is protected by international laws related  to 
 industrial property, intellectual property, copyright and relative international laws. 
@@ -14,15 +13,24 @@ For more information read the license file including with this software.
 
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
 // · 
+*/
 
-%>
-<application-component-panel-engine>
-    <%# Custom module navigation from builder engine %>
-    <% if lesli_instance_code != "lesli" %>
-    <%= render partial: "layouts/#{ lesli_instance_code }/partials/engine-navigation" %>
-    <% end %>
-</application-component-panel-engine>
+.application-panel-support .sidebar-content {
+    padding-left: 10px;
+    padding-right: 25px;
+    padding-top: 15px;
+    box-shadow: none;
+    width: 500px;
 
-<application-component-panel-task></application-component-panel-task>
-<application-component-panel-notification></application-component-panel-notification>
-<application-component-panel-support></application-component-panel-support>
+    .buttons {
+        position: absolute;
+        bottom: 0;
+        margin-bottom: 25px;
+        width: 92%;
+        margin-right: 4%;
+    }
+}
+
+.submit-button {
+    justify-content: center;
+}
