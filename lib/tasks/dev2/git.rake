@@ -81,7 +81,7 @@ class DevGit < LesliTasks
                     ARGV.each { |a| task a.to_sym do ; end }
         
                     # execute command
-                    push "backup"
+                    push "backup", "master"
         
                 end
 
@@ -111,14 +111,14 @@ class DevGit < LesliTasks
         Lesli::engines.each do |engine|
 
             #build engine path
-            engine_path = Rails.root.join("engines", engine["name"])
+            engine_path = Rails.root.join("engines", engine[:code])
 
             next unless File.exists?(engine_path)
             
             message_separator
-            message("Working with: #{engine['name']}")
+            message("Working with: #{engine[:code]}")
 
-            command("cd ./engines/#{engine['name']} && git push #{ origin } #{ branch }")
+            command("cd ./engines/#{engine[:code]} && git push #{ origin } #{ branch }")
 
         end
 
@@ -232,18 +232,23 @@ class DevGit < LesliTasks
             "@fullcalendar", 
             "bulma-o-steps", 
             "bulma-extensions", 
-            "foundation-emails"
+            "foundation-emails",
+            "grapesjs"
         ].each do |package|
             FileUtils.cp_r "node_modules/#{package}/", "vendor/", :verbose => true
         end
 
         Dir.glob("vendor/**/*").each do |file|
+            FileUtils.rm(file, :verbose => true) if file.index("README.md")
+            FileUtils.rm(file, :verbose => true) if file.index("LICENSE")
+            FileUtils.rm(file, :verbose => true) if file.index("CHANGELOG.md")
+            FileUtils.rm(file, :verbose => true) if file.index("CONTRIBUTING.md")
             FileUtils.rm(file, :verbose => true) if file.index("package.json")
             FileUtils.rm(file, :verbose => true) if file.index("package-lock.json")
         end
 
         # commit any change in vendor
-        command("git add vendor && git commit -m \"vendor:Update npm dependencies (vendors)\" vendor")
+        command("git add vendor && git commit -m \"vendor: update npm dependencies (vendors)\" vendor")
 
     end
 
