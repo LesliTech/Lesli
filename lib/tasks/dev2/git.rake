@@ -248,7 +248,7 @@ class DevGit < LesliTasks
         end
 
         # commit any change in vendor
-        #command("git add vendor && git commit -m \"vendor:Update npm dependencies (vendors)\" vendor")
+        command("git add vendor && git commit -m \"vendor: update npm dependencies (vendors)\" vendor")
 
     end
 
