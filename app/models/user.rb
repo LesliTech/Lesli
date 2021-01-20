@@ -311,7 +311,7 @@ class User < ApplicationLesliRecord
         operator = type == "exclude" ? 'not in' : 'in'
 
         users = current_user.account.users
-        .joins("inner join user_details UD on UD.users_id = users.id")
+        .joins("inner join user_details ud on ud.users_id = users.id")
         .joins("
             inner join (
                 select
@@ -344,7 +344,7 @@ class User < ApplicationLesliRecord
             :email,
             :current_sign_in_at,
             "false as editable",
-            "CONCAT(UD.first_name, ' ',UD.last_name) as name",
+            "CONCAT(ud.first_name, ' ',ud.last_name) as name",
             "role_names as roles"
         )
     end
@@ -383,7 +383,7 @@ class User < ApplicationLesliRecord
         operator = type == "exclude" ? 'not in' : 'in'
         
         users = current_user.account.users
-        .joins("inner join user_details UD on UD.users_id = users.id")
+        .joins("inner join user_details ud on ud.users_id = users.id")
         .joins("
             left join (
                 select ur.users_id, string_agg(r.\"name\", ', ') role_names
@@ -393,20 +393,24 @@ class User < ApplicationLesliRecord
             ) roles on roles.users_id = users.id
         ") 
 
-        if (status != "all")
-            users = users.where("users.active = ?", true)
-        end
+        debugger
         
-        # sort by name by default
-        if query[:pagination][:orderColumn] == "id"
-            query[:pagination][:orderColumn] = "first_name" 
-            query[:pagination][:order] = "asc"
+        if (status == 'active')
+            users = users.where("users.active = ?", true)
+        elsif (status == 'inactive')
+            users = users.where("users.active = ?", false)
         end
-
+    
         users = users.where("category = ?", query[:filters][:category]) if query[:filters][:category]
         users = users.where("email like '%#{query[:filters][:domain]}%'")  unless query[:filters][:domain].blank?
         users = users.where("role_names #{operator} (?)", roles) unless roles.blank?
-        users = users.order("#{query[:pagination][:orderColumn]} #{query[:pagination][:order]} NULLS LAST")
+       
+        users = users
+            .page(query[:pagination][:page])
+            .per(query[:pagination][:perPage])
+            .order("#{query[:pagination][:orderColumn]} #{query[:pagination][:order]} NULLS LAST")
+
+        users_count = users.total_count
 
         users = users.select(
             :id,
@@ -415,11 +419,11 @@ class User < ApplicationLesliRecord
             :current_sign_in_at,
             :category,
             "false as editable",
-            "CONCAT(UD.first_name, ' ',UD.last_name) as name",
+            "CONCAT(ud.first_name, ' ',ud.last_name) as name",
             "role_names"
         )
 
-        users.map do |user|
+        users = users.map do |user|
 
             # last time user use the login form to access the platform
             last_sign_in_at = LC::Date.distance_to_words(user[:current_sign_in_at], Time.current)
@@ -443,7 +447,12 @@ class User < ApplicationLesliRecord
                 session_active: session 
             }
 
-        end
+        end        
+
+        return {
+            users_count: users_count,
+            users: users
+        }
 
     end
 
