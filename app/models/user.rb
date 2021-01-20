@@ -376,7 +376,6 @@ class User < ApplicationLesliRecord
 
         type = params[:type]
         roles = params[:role]         
-        status = params[:status]
         
         users = []
         roles = roles.blank? ? [] : roles.split(',') 
@@ -393,18 +392,20 @@ class User < ApplicationLesliRecord
             ) roles on roles.users_id = users.id
         ") 
 
-        debugger
-        
-        if (status == 'active')
+        if (query[:filters][:status] == 'active')
             users = users.where("users.active = ?", true)
-        elsif (status == 'inactive')
+        elsif (query[:filters][:status] == 'inactive')
             users = users.where("users.active = ?", false)
         end
     
         users = users.where("category = ?", query[:filters][:category]) if query[:filters][:category]
-        users = users.where("email like '%#{query[:filters][:domain]}%'")  unless query[:filters][:domain].blank?
         users = users.where("role_names #{operator} (?)", roles) unless roles.blank?
-       
+        
+        users = users.where("
+            email like '%#{query[:filters][:search]}% or'
+            name like '%#{query[:filters][:search]}% or'
+        ")  if not query[:filters][:search].blank?
+
         users = users
             .page(query[:pagination][:page])
             .per(query[:pagination][:perPage])
