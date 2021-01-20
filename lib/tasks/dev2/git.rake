@@ -81,7 +81,7 @@ class DevGit < LesliTasks
                     ARGV.each { |a| task a.to_sym do ; end }
         
                     # execute command
-                    push "backup"
+                    push "backup", "master"
         
                 end
 
@@ -111,14 +111,14 @@ class DevGit < LesliTasks
         Lesli::engines.each do |engine|
 
             #build engine path
-            engine_path = Rails.root.join("engines", engine["name"])
+            engine_path = Rails.root.join("engines", engine[:code])
 
             next unless File.exists?(engine_path)
             
             message_separator
-            message("Working with: #{engine['name']}")
+            message("Working with: #{engine[:code]}")
 
-            command("cd ./engines/#{engine['name']} && git push #{ origin } #{ branch }")
+            command("cd ./engines/#{engine[:code]} && git push #{ origin } #{ branch }")
 
         end
 
