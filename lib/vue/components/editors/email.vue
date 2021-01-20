@@ -9,6 +9,7 @@ import blockFoundationMenu from './email/blocks/foundation-menu'
 import blockFoundationSpacer from './email/blocks/foundation-spacer'
 import blockFoundationWrapper from './email/blocks/foundation-wrapper'
 
+
 export default {
     mounted() {
         var editor = grapesjs.init({
