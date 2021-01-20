@@ -48,6 +48,16 @@ class DevGithub < LesliTasks
     # Distribute github workflows and actions to all the installed engines
     def actions
 
+
+        # check if github actions repository exist
+        if not File.exists?(Rails.root.join("engines", "github_actions"))
+            message("Actions folder not found! - please clone the repo into the engines folder.")
+            return
+        end
+
+        # get all the available workflows
+        workflows = Dir.glob(Rails.root.join("engines", "github_actions", "workflows", "module", "*"))
+
         # for every installed engine
         Lesli::engines.each do |engine|
 
@@ -59,7 +69,29 @@ class DevGithub < LesliTasks
 
             message("Working with: #{engine[:code]}")
 
-            command("cd ./engines/#{engine[:code]} && git add --all && git commit -m \"ci: update github workflows and actions\"")
+            # create github workflows folder is it does not exist
+            FileUtils.mkdir_p engine_path.join(".github", "workflows")
+
+
+            # work with every workflow file found on github actions repository
+            workflows.each do |file_path| 
+
+                # get the name of the workflow file
+                filename = File.basename(file_path)
+
+                # get the content of the workflow file
+                workflow = File.read(file_path)
+
+                # search and replace variables with value of the engine
+                workflow = workflow.gsub("[[MODULE_CODE]]", engine[:code])
+
+                # write workflow file into engine
+                File.write(engine_path.join(".github", "workflows", filename), workflow)
+
+            end
+
+            message("cd ./engines/#{engine[:code]} && git add --all && git commit -m \"ci: update github workflows and actions\"")
+            #command("cd ./engines/#{engine[:code]} && git add --all && git commit -m \"ci: update github workflows and actions\"")
 
         end
 
