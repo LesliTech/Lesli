@@ -1,109 +1,57 @@
 <script>
-/*
-Copyright (c) 2020, all rights reserved.
 
-All the information provided by this platform is protected by international laws related  to 
-industrial property, intellectual property, copyright and relative international laws. 
-All intellectual or industrial property rights of the code, texts, trade mark, design, 
-pictures and any other information belongs to the owner of this platform.
+import grapesjs from 'grapesjs';
 
-Without the written permission of the owner, any replication, modification,
-transmission, publication is strictly forbidden.
+import blockFoundationGrid from './email/blocks/foundation-grid'
+import blockFoundationButton from './email/blocks/foundation-button'
+import blockFoundationCallout from './email/blocks/foundation-callout'
+import blockFoundationMenu from './email/blocks/foundation-menu'
+import blockFoundationSpacer from './email/blocks/foundation-spacer'
+import blockFoundationWrapper from './email/blocks/foundation-wrapper'
 
-For more information read the license file including with this software.
-
-// · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
-// · 
-*/
-
-
-// · 
-import EditorJS from "@editorjs/editorjs";
-
-
-// · import foundation email blocks
-import foundationGrid from "./email/foundation-grid";
-
-
-// · 
 export default {
-    props: {
-        value: {
-            type: Object,
-            default: function() {
-                return {}
-            }
-        }
-    },
-    data() {
-        return {
-            editor: null,
-            emailBlocks: {
-                grid: foundationGrid
-            }
-        }
-    },
     mounted() {
-        setTimeout(() => {
-
-        this.editor = new EditorJS({
-            holder: "lesli-editor-email",
-            autofocus: true,
-            placeholder: "Let`s build an awesome email!",
-            data: this.value,
-            onChange: async () => {
-                const response = await this.editor.save()
-                this.$emit("change", response)
-                this.$emit("input", response)
+        var editor = grapesjs.init({
+            container: '#gjs',
+            fromElement: true,
+            height: '600px',
+            width: 'auto',
+            storageManager: false,
+            panels: {  },
+            canvas: {
+                styles: [stylesheet_path]
             },
-            tools: this.emailBlocks,
+            plugins: ["gjs-blocks-basic"],
+            pluginsOpts: {
+                "gjs-blocks-basic": {
+                }
+            }
         })
 
-        }, 800);
+        blockFoundationButton(editor)
+        blockFoundationGrid(editor)
+        blockFoundationCallout(editor)
+        blockFoundationMenu(editor)
+        blockFoundationSpacer(editor)
+        blockFoundationWrapper(editor)
 
-    },
-    beforeDestroy() {
-        if (this.editor) {
-            this.editor.destroy();
-        }
-    },
-    watch: {
-        value: function(value) {
+        editor.getConfig().showDevices = 0;
+        editor.Panels.addPanel({ id: "devices-c" }).get("buttons").add([
+            { id: "set-device-desktop",command: function(e) { return e.setDevice("Desktop") }, className: "fa fa-desktop", active: 1},
+            { id: "set-device-tablet", command: function(e) { return e.setDevice("Tablet") }, className: "fa fa-tablet" },
+            { id: "set-device-mobile", command: function(e) { return e.setDevice("Mobile portrait") }, className: "fa fa-mobile" },
+        ]);
 
-        }
+        editor.Panels.render();
+
     }
-
 }
 </script>
 <template>
     <div class="mailer-email-template">
-        <div id="lesli-editor-email"></div>
+        <div id="gjs">
+            <h1>list of activities to keep the platform running</h1>
+            <div id="blocks"></div>
+        </div>
     </div>
 </template>
-<style lang="css">
-.ce-block__content,
-.ce-toolbar__content {
-    max-width: unset;
-    padding-left: 50px;
-}
-
-.codex-editor--narrow .ce-toolbar__actions {
-    left: 0;
-    top: 9px;
-}
-
-.codex-editor--narrow .ce-toolbar__actions .icon.icon--dots {
-    height: 15px;
-    width: 15px;
-}
-
-.codex-editor--narrow .ce-toolbar__plus {
-    left: 17px;
-    top: -1px !important;
-}   
-
-.codex-editor--narrow .ce-toolbar__plus .icon.icon--plus {
-    height: 15px;
-    width: 15px;
-}
-</style>
