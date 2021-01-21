@@ -36,7 +36,7 @@ class DeutscheLeibrentenMailer < ApplicationMailer
 
         data[:href] = "#{default_url_options[:host]}#{data[:href]}" if data[:href]
 
-        send(to, subject, data, template: template, options: options)
+        send2(to, subject, data, template: template, options: options)
         
     end
 
