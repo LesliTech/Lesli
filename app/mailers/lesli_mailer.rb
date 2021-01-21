@@ -2,7 +2,7 @@ class LesliMailer < ApplicationMailer
 
     def welcome(to, variation:"standard")
 
-        send()
+        send2()
         
     end
 
@@ -11,11 +11,11 @@ class LesliMailer < ApplicationMailer
         data = data.merge({
             href: "#{default_url_options[:host]}/password/edit?reset_password_token=#{token}"
         })
-        send(to, subject, data, template: template, options: options)
+        send2(to, subject, data, template: template, options: options)
     end
 
     def test(to: "ldonis@lomax.com.gt")
-        send(to, "Email test from Lesli - "+Time.now.to_s, {}, template: "", options: { template_name: "welcome" })
+        send2(to, "Email test from Lesli - "+Time.now.to_s, {}, template: "", options: { template_name: "welcome" })
     end
 
 end
