@@ -42,18 +42,21 @@ export default {
                     shared: I18n.t("core.shared")
                 }
             },
-            filters:{
-                search: ''
+            sorting: {
+                order: "asc",
+                field: "ud.first_name,ud.last_name",
+                icon_size: "is-small",
             },
-            sort: {
-                icon_size: 'is-small',
-                direction: 'desc'
+            filters:{
+                search: "",
+                status: "active"
             },
             pagination: {
                 current_page: 1,
                 per_page: 10,
                 range_before: 3,
-                range_after: 3
+                range_after: 3,
+                users_count: 0
             },
             privileges: {
                 users: this.abilities.privileges()
@@ -65,7 +68,7 @@ export default {
     // @description Executes the necessary functions needed to initialize this component
     mounted() {
         this.setSessionStorageFilters()
-        this.reloadUsers()
+        this.getUsers()
     },
 
     methods: {
@@ -83,11 +86,16 @@ export default {
         },
 
         getUsers() {
-            let url = `${this.main_route}.json?role=kop,callcenter,guest,support&type=exclude&filters[status]=all&filters[view_type]=index&filters[category]=user`
+            this.loading = true
+
+            let url = `${this.main_route}.json?role=kop,callcenter,guest&type=exclude`
+            url += `&filters[status]=${this.filters.status}&filters[view_type]=index&filters[search]=${this.filters.search}&filters[category]=user` //filters
+            url +=`&page=${this.pagination.current_page}&perPage=${this.pagination.per_page}&order=${this.sorting.order}&orderColumn=${this.sorting.field}` //pagination
+
             this.http.get(url).then(result => {
                 if (result.successful) {
-                    this.users = result.data.map(e => {
-                        e.roles = e.roles.split(",").map(e => {
+                    this.users = result.data.users.map(e => {
+                        e.roles = (e.roles||'').split(",").map(e => {
                             return this.object_utils.translateEnum(this.translations.dl.users, 'enum_role', e)
                             
                         })
@@ -96,9 +104,13 @@ export default {
 
                         return e
                     })
+
+                    this.pagination.users_count = result.data.users_count
                 }else{
                     this.alert(result.error.message,'danger')
                 }
+
+                this.loading = false
             }).catch(error => {
                 console.log(error)
             }).finally(() => {
@@ -110,14 +122,10 @@ export default {
             this.$router.push(`${user.id}`)
         },
 
-        reloadUsers() {
-            this.loading = true
-            this.getUsers()
-        },
-
         searchUsers(text){
+            this.filters.search = text.trim()
 
-            this.filters.search = text
+            this.getUsers()
         },
 
         doUserLogout(user) {
@@ -144,33 +152,39 @@ export default {
             }).catch(error => {
                 console.log(error)
             })
-        }
+        },
 
-    },
-
-    computed: {
-        filteredUsers(){
-
-            this.storage.local("filters", this.filters)
-
-            let search_field = this.filters.search.toLowerCase().trim()
-            this.pagination.current_page = 1
-            if (search_field.length > 0) {
-                return this.users.filter((user)=>{
-                    return ( 
-                        user.roles.map(e => e.toLowerCase()).includes(search_field) ||  
-                        user.name.toLowerCase().includes(search_field) || 
-                        user.email.toLowerCase().includes(search_field) || 
-                        user.id.toString().toLowerCase().includes(search_field)
-                    )  
-                })
-            } else {
-                return this.users
+        sortUsers(field, order){
+            if(this.sorting.field == field){
+                if(this.sorting.order == 'asc'){
+                    this.sorting.order = 'desc'
+                }else{
+                    this.sorting.order = 'asc'
+                }
+            }else{
+                this.sorting.field = field
+                this.sorting.order = 'desc'
             }
+            this.getUsers()
+        },
 
+        mailTo(user){
+            this.url.go(`mailto: ${user}`)
         }
+
     },
 
+    watch: {
+        'pagination.current_page'(){
+            this.getUsers()
+        },
+
+        'filters.per_page'(){
+            if(this.filters_ready){
+                this.getUsers()
+            }
+        }
+    }
     
 }
 </script>
@@ -178,7 +192,7 @@ export default {
     <section class="application-component">
         <component-header :title="translations.core.users.view_text_title_users">
             <div class="buttons">
-                <button class="button" @click="reloadUsers()">
+                <button class="button" @click="getUsers()">
                     <b-icon icon="sync" size="is-small" :custom-class="loading ? 'fa-spin' : ''" />
                     <span> {{ translations.core.shared.view_text_btn_reload }}</span>
                 </button>
@@ -191,9 +205,37 @@ export default {
 
         <component-toolbar
             v-if="filters_ready"
-            :search-text="translations.core.shared.view_placeholder_search"
+            :search-text="translations.core.users.view_toolbar_filter_placeholder_search"
             @search="searchUsers"
             :initial-value="filters.search">
+
+            <div class="control">
+                <div class="select">
+                    <select
+                        name="filter-statuses"
+                        v-model="filters.status"
+                        @change="getUsers"
+                    >
+                        <option value="active"> {{ translations.core.users.view_toolbar_filter_placeholder_active_users }} </option>
+                        <option value="inactive"> {{ translations.core.users.view_toolbar_filter_placeholder_inactive_users }} </option>
+                        <option value=""> {{ translations.core.users.view_toolbar_filter_placeholder_all_users }} </option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="control">
+                <div class="select">
+                    <select
+                        name="filter-per-page" 
+                        v-model="pagination.per_page"
+                    >
+                        <option :value="10">10</option>
+                        <option :value="15">15</option>
+                        <option :value="30">30</option>
+                        <option :value="50">50</option>
+                    </select>
+                </div>
+            </div>
         </component-toolbar>
 
         <div class="card">
@@ -203,29 +245,42 @@ export default {
 
                 <b-table 
                     v-if="!loading && users.length > 0"
-                    :data="filteredUsers" 
-                    @click="showUser"
-                    :sort-icon-size="sort.icon_size"
-                    :default-sort-direction="sort.direction"
+                    :data="users" 
+                    :sort-icon-size="sorting.icon_size"
+                    :default-sort-direction="sorting.order"
                     :hoverable="true"
-                    :paginated="true"
-                    :per-page="pagination.per_page"
-                    :current-page.sync="pagination.current_page"
-                    :pagination-simple="false"
-                    pagination-position="bottom">
+                    backend-sorting
+                    @click="showUser"
+                    @sort="sortUsers"
+                >
                     <template slot-scope="props">
-                        <!--
-                        <b-table-column :label="translations.core.users.view_table_header_id" sortable field="id">
-                            {{ props.row.id }}
+                        <b-table-column :label="translations.core.users.view_table_header_name" field="name" sortable>
+                            <template slot="header" slot-scope="{ column }">
+                                {{ column.label }}
+                                <span v-if="sorting.field == 'first_name'">
+                                    <b-icon v-if="sorting.order == 'asc'" size="is-small" icon="arrow-up" ></b-icon>
+                                    <b-icon v-else size="is-small" icon="arrow-down"></b-icon>
+                                </span>
+                            </template>
+                            <small> {{ props.row.name }} </small>
                         </b-table-column>
-                        -->
-                        <b-table-column :label="translations.core.users.view_table_header_name" sortable field="name">
-                            {{ props.row.name }}
+                        
+                        <b-table-column :label="translations.core.users.view_table_header_email" field="lower(email)" sortable>
+                            <template slot="header" slot-scope="{ column }">
+                                {{ column.label }}
+                                <span v-if="sorting.field == 'lower(email)'">
+                                    <b-icon v-if="sorting.order == 'asc'" size="is-small" icon="arrow-up" ></b-icon>
+                                    <b-icon v-else size="is-small" icon="arrow-down"></b-icon>
+                                </span>
+                            </template>
+                            <a v-on:click.stop="mailTo(props.row.email)">  
+                                <i class="fas fa-envelope"> </i>
+                            </a>
+                            &nbsp;
+                            {{ props.row.email }}
                         </b-table-column>
-                        <b-table-column :label="translations.core.users.view_table_header_email" sortable field="email">
-                            <a :href="`mailto: ${props.row.email}`"> {{ props.row.email }} </a>
-                        </b-table-column>
-                        <b-table-column :label="translations.core.users.view_table_header_role" sortable field="role">
+
+                        <b-table-column :label="translations.core.users.view_table_header_role">
                             <span>
                                 <span v-for="(role, index) in props.row.roles" :key="`role-${props.row.id}-${index}`">
                                     <b-tooltip type="is-white" :label="role">
@@ -235,15 +290,26 @@ export default {
                                 </span>
                             </span>
                         </b-table-column>
-                        <b-table-column :label="translations.core.users.view_table_header_status" sortable field="active">
-                            <span class="tag is-success" v-if="props.row.active">
-                                {{ translations.core.shared.view_text_active }}
-                            </span>
-                            <span class="tag is-warning" v-else> 
-                                {{ translations.core.shared.view_text_inactive }}
-                            </span>
+
+                        <b-table-column :label="translations.core.users.view_table_header_status" field="active" sortable>
+                            <template slot="header" slot-scope="{ column }">
+                                {{ column.label }}
+                                <span v-if="sorting.field == 'active'">
+                                    <b-icon v-if="sorting.order == 'asc'" size="is-small" icon="arrow-up" ></b-icon>
+                                    <b-icon v-else size="is-small" icon="arrow-down"></b-icon>
+                                </span>
+                            </template>
+                            <small>  
+                                <span class="tag is-success" v-if="props.row.active">
+                                    {{ translations.core.shared.view_text_active }}
+                                </span>
+                                <span class="tag is-warning" v-else> 
+                                    {{ translations.core.shared.view_text_inactive }}
+                                </span>
+                            </small>
                         </b-table-column>
-                        <b-table-column :label="translations.core.users.view_table_header_last_sign_in" sortable field="last_sign_in_at">
+
+                        <b-table-column :label="translations.core.users.view_table_header_last_sign_in">
                             <span class="tag is-success" v-if="props.row.session_active">
                                 {{ props.row.last_sign_in_at }}
                             </span>
@@ -251,9 +317,11 @@ export default {
                                 {{ props.row.last_sign_in_at }}
                             </span>
                         </b-table-column>
-                        <b-table-column :label="translations.core.users.view_text_last_activity_at" sortable field="last_activity_at">
+
+                        <b-table-column :label="translations.core.users.view_text_last_activity_at">
                             {{ props.row.last_activity_at }}
                         </b-table-column>
+
                         <b-table-column @click.native.prevent="e=>e.stopPropagation()" :label="translations.core.shared.view_table_header_actions" centered>
                             <b-dropdown aria-role="menu" position="is-bottom-left">
                                 <button class="button is-primary" slot="trigger" slot-scope="{ active }">
@@ -278,7 +346,22 @@ export default {
                         </b-table-column>
                     </template>
                 </b-table>
-                <hr>
+                <b-pagination
+                    :simple="false"
+                    :total="pagination.users_count"
+                    :current.sync="pagination.current_page"
+                    :range-before="pagination.range_before"
+                    :range-after="pagination.range_after"
+                    :per-page="pagination.per_page"
+                    order="is-centered"
+                    icon-prev="chevron-left"
+                    icon-next="chevron-right"
+                    aria-next-label="Next page"
+                    aria-previous-label="Previous page"
+                    aria-page-label="Page"
+                    aria-current-label="Current page"
+                >
+                </b-pagination>
             </div>
         </div>
     </section>
