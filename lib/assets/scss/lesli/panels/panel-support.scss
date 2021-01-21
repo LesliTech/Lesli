@@ -1,0 +1,36 @@
+/*
+Copyright (c) 2021, all rights reserved.
+
+All the information provided by this platform is protected by international laws related  to 
+industrial property, intellectual property, copyright and relative international laws. 
+All intellectual or industrial property rights of the code, texts, trade mark, design, 
+pictures and any other information belongs to the owner of this platform.
+
+Without the written permission of the owner, any replication, modification,
+transmission, publication is strictly forbidden.
+
+For more information read the license file including with this software.
+
+// · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
+// · 
+*/
+
+.application-panel-support .sidebar-content {
+    padding-left: 10px;
+    padding-right: 25px;
+    padding-top: 15px;
+    box-shadow: none;
+    width: 500px;
+
+    .buttons {
+        position: absolute;
+        bottom: 0;
+        margin-bottom: 25px;
+        width: 92%;
+        margin-right: 4%;
+    }
+}
+
+.submit-button {
+    justify-content: center;
+}
