@@ -41,10 +41,10 @@ module LC
                 # name of the engine
                 instance = instance()[:name]
 
-                #if (instance != 'Lesli' and defined?(instance.safe_constantize))
-                #    version = instance.safe_constantize::VERSION
-                #    build = instance.safe_constantize::BUILD
-                #end
+                if (instance != 'Lesli' and defined?(instance.safe_constantize))
+                    version = instance.safe_constantize::VERSION
+                    build = instance.safe_constantize::BUILD
+                end
         
                 return { version: version, build: build } if as_string == false
                 return "version: #{version}, build: #{build}" if as_string == true
