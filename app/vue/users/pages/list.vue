@@ -91,7 +91,7 @@ export default {
             let url = `${this.main_route}.json?role=kop,callcenter,guest&type=exclude`
             url += `&filters[status]=${this.filters.status}&filters[view_type]=index&filters[search]=${this.filters.search}&filters[category]=user` //filters
             url +=`&page=${this.pagination.current_page}&perPage=${this.pagination.per_page}&order=${this.sorting.order}&orderColumn=${this.sorting.field}` //pagination
-            
+
             this.http.get(url).then(result => {
                 if (result.successful) {
                     this.users = result.data.users.map(e => {
