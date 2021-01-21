@@ -1,7 +1,7 @@
 class ApplicationMailer < ActionMailer::Base
     layout 'mailer'
 
-    def send(to, subject, data, template: "", options: {})
+    def send2(to, subject, data, template: "", options: {})
 
         # define path for email templates, folder by engine
         template_path = ""
