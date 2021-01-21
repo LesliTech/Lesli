@@ -41,6 +41,6 @@ class DeutscheLeibrentenMailer < ApplicationMailer
     end
 
     def kops_order(to, subject, data, template: "", options: {})        
-        send(to, subject, data, template: template, options: options)
+        send2(to, subject, data, template: template, options: options)
     end
 end
