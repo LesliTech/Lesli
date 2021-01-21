@@ -16,7 +16,7 @@ For more information read the license file including with this software.
 // · 
 
 =end
-=begin
+
 require 'rails_helper'
 require 'spec_helper'
 
@@ -197,4 +197,4 @@ RSpec.describe "PUT /users/:id", type: :request do
         expect(JSON.parse(response.body)["successful"]).to eql(true)
     end
 end
-=end
+
