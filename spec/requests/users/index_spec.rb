@@ -24,17 +24,17 @@ require 'byebug'
 
 RSpec.describe 'GET:/administration/users.json', type: :request do
     include_context 'user authentication'
-
+    
     before(:all) do
         get '/administration/users.json' 
     end
 
     include_examples 'successful standard json response'
 
-    it 'is expected to respond with all the users' do
-        expect(@response_body["data"].count).to eql(User.count)
-    end
 
+    it 'is expected to respond with all the users' do
+        expect(@response_body["data"]["users_count"]).to eql(User.count)
+    end
 end
 
 RSpec.describe 'GET:/administration/users?role=owner', type: :request do
@@ -50,11 +50,11 @@ RSpec.describe 'GET:/administration/users?role=owner', type: :request do
 
 
     it 'is expected to respond with total of user with a specific role' do
-        expect(@response_body["data"].count).to eql(User.joins(:roles).where("roles.name = ?", @role).count)
+        expect(@response_body["data"]["users_count"]).to eql(User.joins(:roles).where("roles.name = ?", @role).count)
     end
 
     it 'is expected to respond with users with a specific role' do
-        expect((@response_body["data"].map{ |e| e["roles"] }).uniq.join(",")).to eql(@role)
+        expect((@response_body["data"]["users"].map{ |e| e["roles"] }).uniq.join(",")).to eql(@role)
     end
 
 end
