@@ -50,7 +50,7 @@ RSpec.describe 'GET:/administration/users?role=owner', type: :request do
 
 
     it 'is expected to respond with total of user with a specific role' do
-        expect(@response_body["data"]["users_count"]).to eql(User.joins(:roles).where("roles.name = ?", @role).count)
+        expect(@response_body["data"]["users_count"]).to eql(@user.account.users.joins(:roles).where("roles.name = ?", @role).count)
     end
 
     it 'is expected to respond with users with a specific role' do
