@@ -33,16 +33,16 @@ RSpec.describe 'GET:/administration/users.json', type: :request do
 
 
     it 'is expected to respond with all the users' do
-        expect(@response_body["data"]["users_count"]).to eql(User.count)
+        expect(@response_body["data"]["users_count"]).to eql(@user.account.users.count)
     end
 end
 
-RSpec.describe 'GET:/administration/users?role=owner', type: :request do
+RSpec.describe 'GET:/administration/users/list?role=owner', type: :request do
     include_context 'user authentication'
 
     before(:all) do
         @role = "owner"
-        get "/administration/users.json?role=#{ @role }"
+        get "/administration/users/list.json?role=#{ @role }"
     end
     
     include_examples 'successful standard json response'
@@ -50,11 +50,19 @@ RSpec.describe 'GET:/administration/users?role=owner', type: :request do
 
 
     it 'is expected to respond with total of user with a specific role' do
-        expect(@response_body["data"]["users_count"]).to eql(User.joins(:roles).where("roles.name = ?", @role).count)
+        expect(@response_body["data"].length).to eql(@user.account.users.joins(:roles).where("roles.name = ?", @role).count)
     end
 
     it 'is expected to respond with users with a specific role' do
-        expect((@response_body["data"]["users"].map{ |e| e["roles"] }).uniq.join(",")).to eql(@role)
+        roles_count = 0
+        @response_body["data"].each do |user|
+            role_existance = user["roles"].select do |role|
+                role["name"] == @role
+            end
+
+            roles_count += 1 if role_existance.length > 0
+        end
+        expect(roles_count).to eql(@response_body["data"].length)
     end
 
 end

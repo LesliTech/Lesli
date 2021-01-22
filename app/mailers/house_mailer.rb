@@ -33,7 +33,7 @@ class HouseMailer < ApplicationMailer
             href: "#{default_url_options[:host]}#{data[:href]}"
         })
 
-        send(to, subject, data, template: template, options: options)
+        send2(to, subject, data, template: template, options: options)
     end
 
     def project_list(to, subject, data, template:"", options:{})
@@ -42,10 +42,10 @@ class HouseMailer < ApplicationMailer
             project
         end
 
-        send(to, subject, data, template: template, options: options)
+        send2(to, subject, data, template: template, options: options)
     end
 
     def leads_report(to, subject, data, template: "", options: {})
-        send(to, subject, data, template: template, options: options)
+        send2(to, subject, data, template: template, options: options)
     end
 end
