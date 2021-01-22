@@ -32,21 +32,10 @@ export default {
             notifications: []
         }
     },
-    mounted() {
-        this.mountListeners()
-    },
     methods: {
 
-        mountListeners() {
-            this.bus.subscribe("show:/core/layout/notification#panel", () => {
-                this.getNotifications()
-                this.open = true
-            })
-
-        },
-
         getNotifications() {
-            this.http.get(this.url.bell("notifications").s).then(result => {
+            this.http.get(this.url.bell("notifications")).then(result => {
                 if (result.successful) {
                     this.notifications = result.data
                 }
@@ -100,14 +89,22 @@ export default {
             })
         }
 
+    },
+    watch: {
+        'data.global.show_panel_notifications': function(open) {
+            if (open) {
+                this.getNotifications()
+            }
+        }
     }
 }
 </script>
 <template>
     <b-sidebar
         class="application-panel-notification"
-        :open.sync="open"
+        :open.sync="data.global.show_panel_notifications"
         :right="true"
+        :overlay="false"
         :fullheight="true"> 
         <div 
             :class="['notification', 'is-'+notification.kind, 'is-light']"
