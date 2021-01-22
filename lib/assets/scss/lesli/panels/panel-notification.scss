@@ -16,8 +16,7 @@ For more information read the license file including with this software.
 */
 
 .application-panel-notification .sidebar-content {
-    background-color: transparent;
-    background: linear-gradient(to right, transparent 0%,  white 100%);
+    background-color: lesli-css-get-color(solid, white);
     padding-left: 15px;
     padding-top: 20px;
     box-shadow: none;

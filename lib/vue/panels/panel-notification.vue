@@ -104,23 +104,21 @@ export default {
 }
 </script>
 <template>
-    <section>
-        <b-sidebar
-            class="application-panel-notification"
-            :open.sync="open"
-            :right="true"
-            :fullheight="true"> 
-            <div 
-                :class="['notification', 'is-'+notification.kind, 'is-light']"
-                v-for="notification in notifications" :key="notification.id">
-                {{ notification.subject }}
-                <p class="has-text-grey-light is-size-7">
-                    {{ notification.created_at }} - 
-                    <a @click="putNotification(notification.id)">
-                        {{ translations.notifications.view_text_mark_as_read }}
-                    </a>
-                </p>
-            </div>
-        </b-sidebar>
-    </section>
+    <b-sidebar
+        class="application-panel-notification"
+        :open.sync="open"
+        :right="true"
+        :fullheight="true"> 
+        <div 
+            :class="['notification', 'is-'+notification.kind, 'is-light']"
+            v-for="notification in notifications" :key="notification.id">
+            {{ notification.subject }}
+            <p class="has-text-grey-light is-size-7">
+                {{ notification.created_at }} - 
+                <a @click="putNotification(notification.id)">
+                    {{ translations.notifications.view_text_mark_as_read }}
+                </a>
+            </p>
+        </div>
+    </b-sidebar>
 </template>
