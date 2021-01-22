@@ -2,7 +2,7 @@
     "name": "lesli",
     "description": "Enterprise cloud platform",
     "license": "All rights reserved",
-    "version": "0.1.1",
+    "version": "0.1.0",
     "private": true,
     "devDependencies": {
 
@@ -83,5 +83,12 @@
         "release:minor": "standard-version --release-as minor",
         "release:patch": "standard-version --release-as patch",
         "release:major": "standard-version --release-as major"
+    },
+    "standard-version": {
+        "skip": {
+            "tag": true,
+            "bump": true,
+            "commit": true
+        }
     }
 }
