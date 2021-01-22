@@ -141,14 +141,14 @@ class DevGit < LesliTasks
         Lesli::engines.each do |engine|
 
             #build engine path
-            engine_path = Rails.root.join("engines", engine["name"])
+            engine_path = Rails.root.join("engines", engine[:code])
 
             next unless File.exists?(engine_path)
             
             message_separator
-            message("Working with: #{engine['name']}")
+            message("Working with: #{engine[:code]}")
 
-            command("cd ./engines/#{engine['name']} && git pull origin master")
+            command("cd ./engines/#{engine[:code]} && git pull origin master")
 
         end
 
