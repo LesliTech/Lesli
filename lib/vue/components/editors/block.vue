@@ -53,6 +53,35 @@ export default {
     mounted() {
         setTimeout(() => {
 
+            class foundationGrid {
+                static get toolbox() {
+                    return {
+                        title: 'grid',
+                        icon: '<i class="fas fa-border-all"></i>'
+                    };
+                }
+
+                render(){
+                    let el = document.createElement('div');
+                    el.innerHTML = '<button class="button is-primary">Primary</button>'
+                    el.innerHTML = `
+                        <div class="notification is-warning">
+                            <button class="delete"></button>
+                            Primar lorem ipsum dolor sit amet, consectetur
+                            adipiscing elit lorem ipsum dolor. <strong>Pellentesque risus mi</strong>, tempus quis placerat ut, porta nec nulla. Vestibulum rhoncus ac ex sit amet fringilla. Nullam gravida purus diam, et dictum <a>felis venenatis</a> efficitur. Sit amet,
+                            consectetur adipiscing elit
+                        </div>
+                    `
+                    return el
+                }
+
+                save(blockContent){
+                    return {
+                        url: blockContent.value
+                    }
+                }
+            }
+
         this.editor = new EditorJS({
             holder: "editor-html",
             autofocus: true,
@@ -64,6 +93,7 @@ export default {
                 this.$emit("input", response)
             },
             tools: {
+                grid: foundationGrid,
                 header: {
                     class: pluginHeader,
                     config: {
@@ -120,8 +150,6 @@ export default {
                 }
             },
         });
-
-        console.log(this.editor.configuration)
 
         }, 1000);
 

@@ -60,10 +60,31 @@ module HtmlHelper
         end
     end
 
+    # 02.08 Proposal engine
+    def navigation_engine_proposal text: "Proposal", icon_path: "cloud_proposal/proposal-logo.svg"
+        if defined? CloudProposal
+            navigation_engine_item text, icon_path, cloud_proposal.root_path, controller_path.include?("cloud_proposal")
+        end
+    end
+
+    # 03.03 Focus engine
+    def navigation_engine_focus text: "Tasks", icon_path: "cloud_focus/focus-logo.svg"
+        if defined? CloudFocus
+            navigation_engine_item text, icon_path, cloud_focus.root_path, controller_path.include?("cloud_focus")
+        end
+    end
+
     # 03.08 Bell engine
     def navigation_engine_bell text: "Bell", icon_path: "cloud_bell/bell-logo.svg"
         if defined? CloudBell
             navigation_engine_item text, icon_path, cloud_bell.root_path, controller_path.include?("cloud_bell")
+        end
+    end
+
+    # 04.02 Things engine
+    def navigation_engine_things text: "Things", icon_path: "cloud_things/things-logo.svg"
+        if defined? CloudThings
+            navigation_engine_item text, icon_path, cloud_things.root_path, controller_path.include?("cloud_things")
         end
     end
 

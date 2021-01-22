@@ -33,7 +33,7 @@ class FocusMailer < ApplicationMailer
             href: "#{default_url_options[:host]}#{data[:href]}"
         })
 
-        send(to, subject, data, template: template, options: options)
+        send2(to, subject, data, template: template, options: options)
         
     end
 
@@ -43,7 +43,7 @@ class FocusMailer < ApplicationMailer
             task
         end
 
-        send(to, subject, data, template: template, options: options)
+        send2(to, subject, data, template: template, options: options)
     end
 
     def task_report_delayed(data, template:"", options:{})
@@ -57,7 +57,7 @@ class FocusMailer < ApplicationMailer
             end
         end
         
-        send(to, subject, data, template: template, options: options)
+        send2(to, subject, data, template: template, options: options)
     end
 
 end
