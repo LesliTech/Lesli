@@ -62,7 +62,7 @@ RSpec.describe Users::SessionsController, type: :controller do
                 "successful"=> false,
                 "error"=> {
                     "details"=> [], 
-                    "message"=> "Invalid Credentials"
+                    "message"=> I18n.t("core.users/sessions.invalid_credentials")
                 }
             })
         end
