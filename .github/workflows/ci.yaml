@@ -6,7 +6,7 @@ on:
   pull_request:
     branches:
       - master
-      - develop
+      - production
 
 jobs:
   test:
@@ -39,9 +39,9 @@ jobs:
       uses: actions/cache@v2
       with:
         path: vendor/bundle
-        key: ${{ runner.os }}-gems-${{ hashFiles('**/Gemfile.lock') }}
+        key: ${{ runner.os }}-lesli-gems-${{ hashFiles('**/Gemfile') }}
         restore-keys: |
-          ${{ runner.os }}-gems-
+          ${{ runner.os }}-lesli-gems-
     - name: Set up Ruby
       uses: ruby/setup-ruby@v1
       with:
@@ -75,7 +75,7 @@ jobs:
     - name: Run tests
       run: |
         cp ./config/credentials/testci.yml.enc ./config/credentials/test.yml.enc
-        bundle exec rspec ./spec/controllers
+        bundle exec rspec
       env:
         RAILS_ENV: test
         RAILS_MASTER_KEY: ${{ secrets.RAILS_MASTER_KEY_TEST }}

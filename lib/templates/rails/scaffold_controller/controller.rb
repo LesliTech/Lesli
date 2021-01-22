@@ -53,7 +53,7 @@ class <%= controller_class_name %>Controller < ApplicationLesliController
         return respond_with_not_found unless @<%= singular_table_name %>
 
         if @<%= singular_table_name %>.update(<%= singular_table_name %>_params)
-            respond_with_successful(@<%= singular_table_name %>.show(current_user, query))
+            respond_with_successful(@<%= singular_table_name %>.show(current_user, @query))
         else
             respond_with_error(@<%= singular_table_name %>.errors.full_messages.to_sentence)
         end

@@ -1,0 +1,73 @@
+/*
+
+Copyright (c) 2020, all rights reserved.
+
+All the information provided by this platform is protected by international laws related  to 
+industrial property, intellectual property, copyright and relative international laws. 
+All intellectual or industrial property rights of the code, texts, trade mark, design, 
+pictures and any other information belongs to the owner of this platform.
+
+Without the written permission of the owner, any replication, modification,
+transmission, publication is strictly forbidden.
+
+For more information read the license file including with this software.
+
+// · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
+// · 
+
+*/
+
+
+// · 
+@import "lesli/templates/component";
+
+
+.mailer-email-template #gjs {
+
+    @import "grapesjs/dist/css/grapes.min";
+
+
+    // reset grapesjs theme
+    #gjs {
+        //border: none;
+    }
+
+    // Primary color for the background
+    .gjs-one-bg {
+        background-color: lesli-css-get-color(solid, white);
+    }
+
+    // secondary color for the text color
+    .gjs-two-color {
+        color: lesli-css-get-color(black, 300);
+    }
+
+    // tertiary color for the background
+    .gjs-three-bg {
+        //background-color: #ec5896;
+        //color: white;
+    }
+
+    // quaternary color for the text color
+    .gjs-four-color,
+    .gjs-four-color-h:hover {
+        //color: #ec5896;
+    }
+  
+
+    // override grapesjs defaults
+    .gjs-pn-panels {
+
+        .gjs-pn-views-container,
+        .gjs-pn-commands {
+            box-shadow: none;
+        }
+
+    }
+
+}
+
+body > #wrapper {
+    @import "grapesjs/dist/css/grapes.min";
+    @import "foundation-emails/scss/foundation-emails";
+}
