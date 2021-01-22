@@ -1,0 +1,25 @@
+name: Cleanup
+on:
+  schedule:
+    - cron:  '*/15 * * * *'
+
+jobs:
+    cleanup:
+        name: Cleanup
+        runs-on: ubuntu-latest
+        steps:
+        - name: Checkout repository
+          uses: actions/checkout@v2
+        - name: Checkout GitHub Actions Repo
+          uses: actions/checkout@v2
+          with:
+            repository: leitfaden/github_actions
+            ref: production
+            token: ${{ secrets.PUBLISH_GEM_BY_ACTIONS }}
+            path: ./.github/
+        - name: Delete Old Branches
+          uses: ./.github/actions/git_branch_delete_old
+          with:
+            token: ${{ secrets.GITHUB_TOKEN }}
+            date: '1 months ago'
+            dry_run: true
