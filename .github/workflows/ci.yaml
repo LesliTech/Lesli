@@ -32,9 +32,9 @@ jobs:
       uses: actions/cache@v2
       with:
         path: vendor/bundle
-        key: ${{ runner.os }}-lesli-core-gems-${{ hashFiles('./Gemfile') }}
+        key: ${{ runner.os }}-core-gems-${{ hashFiles('./Gemfile') }}
         restore-keys: |
-          ${{ runner.os }}-lesli-core-gems-
+          ${{ runner.os }}-core-gems-
     - name: Set up Ruby
       uses: ruby/setup-ruby@v1
       with:
