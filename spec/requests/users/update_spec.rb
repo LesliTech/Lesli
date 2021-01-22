@@ -24,17 +24,17 @@ RSpec.configure do |config|
     config.include Devise::Test::IntegrationHelpers
 end
 
-RSpec.describe "PUT /users/:id", type: :request do
+RSpec.describe "POST /administration/users/:id/roles", type: :request do
 
     before(:all) do
         @user = User.find_by(email: "dev@lesli.cloud")
         sign_in @user
     end
         
-    it "Change role to admin user" do
-        put "/users/#{@user.id}.json", params: {
-            user: {
-                roles_id: 1
+    it "Add admin role to user" do
+        post "/administration/users/#{@user.id}/roles.json", params: {
+            user_role: {
+                id: @user.account.roles.find_by(name: "admin").id
             }
         }
         expect(response).to have_http_status(:success) 
