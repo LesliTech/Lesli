@@ -19,6 +19,7 @@ For more information read the license file including with this software.
 
 require 'rails_helper'
 require 'spec_helper'
+require 'faker'
 
 RSpec.configure do |config|
     config.include Devise::Test::ControllerHelpers, :type => :controller
@@ -35,7 +36,7 @@ RSpec.describe Users::SessionsController, type: :controller do
         it "Sign in with valid credentials" do 
             # Creating a dummy user
             user = Account.first.users.create!({
-                email: DateTime.now.strftime('%s').to_s+"@lesli.cloud",
+                email: Faker::Internet.email,
                 password: "tardis2021$",
                 password_confirmation: "tardis2021$"
             })
