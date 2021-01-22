@@ -51,6 +51,6 @@ class DriverMailer < ApplicationMailer
 
         attachments["crm_event.ics"] = event_template
         
-        send(to, subject, data, template: template, options: options)
+        send2(to, subject, data, template: template, options: options)
     end
 end
