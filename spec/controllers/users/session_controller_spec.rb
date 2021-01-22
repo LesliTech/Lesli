@@ -19,6 +19,7 @@ For more information read the license file including with this software.
 
 require 'rails_helper'
 require 'spec_helper'
+require 'faker'
 
 RSpec.configure do |config|
     config.include Devise::Test::ControllerHelpers, :type => :controller
@@ -31,14 +32,26 @@ RSpec.describe Users::SessionsController, type: :controller do
     end
 
     describe "POST:/users/session" do
-=begin
+
         it "Sign in with valid credentials" do 
+            # Creating a dummy user
+            user = Account.first.users.create!({
+                email: Faker::Internet.email,
+                password: "tardis2021$",
+                password_confirmation: "tardis2021$"
+            })
+            user.user_roles.create({ role: Account.first.roles.find_by(name: "limited") })
+
+            # confirm my new user so I'm able to login
+            user.confirm
+
             post :create, params: {
                 "user": {
-                    "email": "test@lesli.cloud",
+                    "email": user.email,
                     "password": "tardis2021$"
                 }
             }
+
             expect(response).to have_http_status(:success) 
             expect(response.content_type).to eq("application/json; charset=utf-8")
             expect(JSON.parse(response.body)["successful"]).to eql(true)
@@ -62,11 +75,11 @@ RSpec.describe Users::SessionsController, type: :controller do
                 "successful"=> false,
                 "error"=> {
                     "details"=> [], 
-                    "message"=> "Invalid Credentials"
+                    "message"=> I18n.t("core.users/sessions.invalid_credentials")
                 }
             })
         end
-=end
+
     end
 
 end
