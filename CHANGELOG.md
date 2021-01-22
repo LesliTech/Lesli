@@ -2,6 +2,59 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.1.2](https://github.com/mokkapps/changelog-generator-demo/compare/v0.1.1...v0.1.2) (2021-01-22)
+
+
+### Features
+
+* add base task for actions replication over all engines ([5422189](https://github.com/mokkapps/changelog-generator-demo/commits/5422189ff1f990dd08daea76d2d446f450681152))
+* add base to build block email editors ([3a0dd7c](https://github.com/mokkapps/changelog-generator-demo/commits/3a0dd7cc36a0aceec3090fa8af74baef1a7f3079))
+* add demo email template for leibrenten ([654eece](https://github.com/mokkapps/changelog-generator-demo/commits/654eece2c4de5afdb1647b3fba1c78a2788139a4))
+* add drag & drop email builder base on grapesjs and inky ([54a41d5](https://github.com/mokkapps/changelog-generator-demo/commits/54a41d563b2badefcbba559c16fd7d920c04d015))
+* add drag & drop email builder base on grapesjs and inky ([28d79e7](https://github.com/mokkapps/changelog-generator-demo/commits/28d79e7f3b74bb4c28429aa6811f02189c6f87da))
+* add drag & drop email builder base on grapesjs and inky ([6278fef](https://github.com/mokkapps/changelog-generator-demo/commits/6278fef3e231c97350b45f717e5adabe2dd4b8ae))
+* add navigation entry for focus engine ([c617388](https://github.com/mokkapps/changelog-generator-demo/commits/c617388fb76a9679e7ec3b0d89fbd06d28549af9))
+* add support for mailer module ([2a3c009](https://github.com/mokkapps/changelog-generator-demo/commits/2a3c009a5489b4bf65086debe862c15f338e0a51))
+* add support for standard url and api url ([36aedc4](https://github.com/mokkapps/changelog-generator-demo/commits/36aedc4b35a128910fc6a9611d2fe7ef67788d51))
+* add support for vendor copy ([9eddd20](https://github.com/mokkapps/changelog-generator-demo/commits/9eddd206efc6a5e89aec00a44488db7023973cee))
+* add task to distribute github actions and workflows ([cf70d30](https://github.com/mokkapps/changelog-generator-demo/commits/cf70d3049a2d6dbb518296f2e0e1968099cc557e))
+* change method to send emails ([1158125](https://github.com/mokkapps/changelog-generator-demo/commits/115812559e279bdd2234f785b0473c76b91cf208))
+* enable version builder ([9f7f5cd](https://github.com/mokkapps/changelog-generator-demo/commits/9f7f5cd0b7a5c588bc4cd9e4953d2cdd1ea09fb7))
+* load tests from all the installed engines ([f3366fa](https://github.com/mokkapps/changelog-generator-demo/commits/f3366fa8d25e26d02d93fe823ebfff58ce37448c))
+* trello/2116 Added CloudProposal db documentation ([a68c657](https://github.com/mokkapps/changelog-generator-demo/commits/a68c65793d79b0e83ae35729bb824ed18db3dc87))
+* trello/2116 added proposal engine to routes ([3a5042c](https://github.com/mokkapps/changelog-generator-demo/commits/3a5042ca49aca36dec7c1fa62810d0cf2cdc05be))
+* trello/2122 added CloudHelp to webpack aliases ([1fc57dc](https://github.com/mokkapps/changelog-generator-demo/commits/1fc57dccbe7a9b9eea33bc7c27b7ea99c4342eb9))
+* trello/2128 improve replacement when the data is empty ([3d90713](https://github.com/mokkapps/changelog-generator-demo/commits/3d907137cec8bdfe2511f2977601b7a70a04e4f4))
+* trello/2128 remove unusable code ([04a8f7f](https://github.com/mokkapps/changelog-generator-demo/commits/04a8f7f0fb756c50865cc42d4b0ffb09244a5308))
+* trello/2128 templates now supports custom variables ([7946959](https://github.com/mokkapps/changelog-generator-demo/commits/794695924722dad7fbba4041a0b26d47fb5481da))
+* trello/2132 query object now supports deep object parsing ([38fe6df](https://github.com/mokkapps/changelog-generator-demo/commits/38fe6df25178a073b3d08a9b3e40310621127069))
+* trello/2137 add support to filtering, sorting, pagination from backend-side in the UI ([94c51f8](https://github.com/mokkapps/changelog-generator-demo/commits/94c51f8f6194edcd664354af9a514dc2cc456db2))
+* trello/2137 filter users byactive field, enable pagination and sorting from backend ([7751a9a](https://github.com/mokkapps/changelog-generator-demo/commits/7751a9a6d094c876c9ae31c08ca57552e581f4dd))
+* trello/2139 added global components to create tickets ([341ba3a](https://github.com/mokkapps/changelog-generator-demo/commits/341ba3a2a2c8480baf572925a5c4ab5465cf62a8))
+* trello/2142 added standard failed response for json requests ([c887202](https://github.com/mokkapps/changelog-generator-demo/commits/c8872021f3df8397c2e64073f4ba820ce36945a1))
+
+
+### Bug Fixes
+
+* BUG updated webpack config use new engine routes ([ac0dd1c](https://github.com/mokkapps/changelog-generator-demo/commits/ac0dd1c85099f57a6ebafe02436a5d8c1422d3ee))
+* code backup process ([3d283b3](https://github.com/mokkapps/changelog-generator-demo/commits/3d283b374183ac50f2ab32c032d524975ce5d135))
+* do not include or generate license/comments file when compiling javascripts ([765d3b6](https://github.com/mokkapps/changelog-generator-demo/commits/765d3b67b161651f7842cae345b6c196e57f1a1f))
+* issue with mailer send method override, send method overrides extra parameters ([c57082b](https://github.com/mokkapps/changelog-generator-demo/commits/c57082b5049987399aaf44f1b7a4ead3727b652e))
+* MINOR_BUG added proposal and things entries to html_helper ([43fbb6e](https://github.com/mokkapps/changelog-generator-demo/commits/43fbb6ec645f2ea8dde558c57e4e4831521c9c19))
+* MINOR_BUG removed deprected extension html.erb in rendered partial ([2ff35de](https://github.com/mokkapps/changelog-generator-demo/commits/2ff35de8b0d6d98a7929ee0f9dcb1546ad49d965))
+* rake task to add origin to engines ([3b50286](https://github.com/mokkapps/changelog-generator-demo/commits/3b50286e87650ed0a6cef522676322fff251ebfd))
+* trello/2114 account for users creation ([bc2257d](https://github.com/mokkapps/changelog-generator-demo/commits/bc2257dfdb11966c6b64a975a3bac5bb06896e2b))
+* trello/2114 deprecated variable for engine code ([e695eb8](https://github.com/mokkapps/changelog-generator-demo/commits/e695eb876682da7b9724be5eced77031f08b3cce))
+* trello/2114 name of variable for engine code ([85c70c7](https://github.com/mokkapps/changelog-generator-demo/commits/85c70c72c074654864bad0a955958684d407dbe1))
+* trello/2122 CloudProposal now initializes on account creation ([848e9b7](https://github.com/mokkapps/changelog-generator-demo/commits/848e9b7bf634e5c986824b9bd1d9694f79948e83))
+* trello/2122 dashboards new and edit views not meet the standard ([cceaf33](https://github.com/mokkapps/changelog-generator-demo/commits/cceaf336eed1fc49378738b0eff3ca9a66bc1de2))
+* trello/2123 Fixed users list endpoint ([10722b3](https://github.com/mokkapps/changelog-generator-demo/commits/10722b3b2e5b9d899badea6f81425e945b428321))
+* trello/2130 updated engine directory in git tasks ([b867dcf](https://github.com/mokkapps/changelog-generator-demo/commits/b867dcfe3a78fee748828029e186ae62d069e8d2))
+* trello/2132 params symbol is only added if there are actual params ([6395783](https://github.com/mokkapps/changelog-generator-demo/commits/639578385ac2e277b4251312dceb6111eefddfb1))
+* trello/2132 scaffold controller template fixed ([8eaded4](https://github.com/mokkapps/changelog-generator-demo/commits/8eaded4d6f3eed7db6db31293a3ab1f0b7d5d438))
+* trello/2137 update users index test ([1873db3](https://github.com/mokkapps/changelog-generator-demo/commits/1873db3f17f1813f0721110652aa2f1c589c3d1c))
+* use code instead of name for engines ([96a6b9e](https://github.com/mokkapps/changelog-generator-demo/commits/96a6b9e37f540957c7b0721d4365d42fe1649e69))
+
 ### [0.1.1](https://github.com/mokkapps/changelog-generator-demo/compare/v0.1.0...v0.1.1) (2021-01-12)
 
 
