@@ -33,7 +33,7 @@ RSpec.describe 'GET:/administration/users.json', type: :request do
 
 
     it 'is expected to respond with all the users' do
-        expect(@response_body["data"]["users_count"]).to eql(User.count)
+        expect(@response_body["data"]["users_count"]).to eql(@user.account.users.count)
     end
 end
 
