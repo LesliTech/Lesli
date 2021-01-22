@@ -25,11 +25,7 @@ RSpec.configure do |config|
 end
 
 RSpec.describe "POST /administration/users/:id/roles", type: :request do
-
-    before(:all) do
-        @user = User.find_by(email: "dev@lesli.cloud")
-        sign_in @user
-    end
+    include_context 'user authentication'
         
     it "Add admin role to user" do
         post "/administration/users/#{@user.id}/roles.json", params: {
@@ -46,11 +42,7 @@ end
 
 
 RSpec.describe "POST /administration/users/:id/roles", type: :request do
-
-    before(:all) do
-        @user = User.find_by(email: "dev@lesli.cloud")
-        sign_in @user
-    end
+    include_context 'user authentication'
 
     it "Add a lower role to a user that is admin" do
 
@@ -82,11 +74,7 @@ end
 
 
 RSpec.describe "POST /administration/users/:id/roles", type: :request do
-
-    before(:all) do
-        @user = User.find_by(email: "dev@lesli.cloud")
-        sign_in @user
-    end
+    include_context 'user authentication'
 
     it "Add admin role to a user with limited role" do
 
@@ -116,11 +104,7 @@ RSpec.describe "POST /administration/users/:id/roles", type: :request do
 end
 
 RSpec.describe "POST /administration/users/:id/roles", type: :request do
-
-    before(:all) do
-        @user = User.find_by(email: "dev@lesli.cloud")
-        sign_in @user
-    end
+    include_context 'user authentication'
 
     it "Add admin role to a user with limited role when you don't have the proper privileges" do
 
@@ -156,11 +140,7 @@ RSpec.describe "POST /administration/users/:id/roles", type: :request do
 end
 
 RSpec.describe "PUT /administration/users/:id", type: :request do
-
-    before(:all) do
-        @user = User.find_by(email: "dev@lesli.cloud")
-        sign_in @user
-    end
+    include_context 'user authentication'
 
     it "Change user password" do
 
