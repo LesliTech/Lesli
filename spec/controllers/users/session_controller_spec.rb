@@ -33,12 +33,24 @@ RSpec.describe Users::SessionsController, type: :controller do
     describe "POST:/users/session" do
 
         it "Sign in with valid credentials" do 
+            # Creating a dummy user
+            user = Account.first.users.create!({
+                email: DateTime.now.strftime('%s').to_s+"@lesli.cloud",
+                password: "tardis2021$",
+                password_confirmation: "tardis2021$"
+            })
+            user.user_roles.create({ role: Account.first.roles.find_by(name: "limited") })
+
+            # confirm my new user so I'm able to login
+            user.confirm
+
             post :create, params: {
                 "user": {
-                    "email": "test@lesli.cloud",
+                    "email": user.email,
                     "password": "tardis2021$"
                 }
             }
+
             expect(response).to have_http_status(:success) 
             expect(response.content_type).to eq("application/json; charset=utf-8")
             expect(JSON.parse(response.body)["successful"]).to eql(true)
