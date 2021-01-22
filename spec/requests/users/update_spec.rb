@@ -45,30 +45,30 @@ RSpec.describe "POST /administration/users/:id/roles", type: :request do
 end
 
 
-RSpec.describe "PUT /users/:id", type: :request do
+RSpec.describe "POST /administration/users/:id/roles", type: :request do
 
     before(:all) do
         @user = User.find_by(email: "dev@lesli.cloud")
         sign_in @user
     end
 
-    it "Change role to admin user to lower role" do
+    it "Add a lower role to a user that is admin" do
 
         # create a dummy user
-        user = Account.find(1).users.create({ 
+        user = @user.account.users.create({ 
             email: DateTime.now.strftime('%s')+"@lesli.cloud", 
             password: DateTime.now.strftime('%s'),
-            password_confirmation: DateTime.now.strftime('%s'),
-            roles_id: 1 
+            password_confirmation: DateTime.now.strftime('%s')
         })
+        user.user_roles.create({ role: @user.account.roles.find_by(name: "admin") })
 
-        # get the lowest role
-        role = Account.find(1).roles.last 
+        # get the guest role
+        role = @user.account.roles.find_by(name: "guest") 
 
-        # update user
-        put "/users/#{user.id}.json", params: {
-            user: {
-                roles_id: role.id
+        # Add the role to the user
+        post "/administration/users/#{@user.id}/roles.json", params: {
+            user_role: {
+                id: role.id
             }
         }
 
