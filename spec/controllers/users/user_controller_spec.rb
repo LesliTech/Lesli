@@ -11,7 +11,7 @@ RSpec.describe "Users" do
     describe "test user in database" do
 
         it "should return user for testing" do
-            user = User.find_by(:email => "test@lesli.cloud2")
+            user = User.find_by(:email => "test@lesli.cloud")
             expect(user[:email]).to eql("test@lesli.cloud")
         end
 
