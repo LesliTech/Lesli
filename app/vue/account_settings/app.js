@@ -23,9 +23,7 @@ import app from "LesliVue/app"
 
 
 // · Import apps and components
-import pageNew from "./pages/new.vue"
 import pageList from "./pages/list.vue"
-import pageShow from "./pages/show.vue"
 
 
 
@@ -33,10 +31,4 @@ import pageShow from "./pages/show.vue"
 app("Lesli", "[new|list|show]", "/administration/account/settings", [{
     path: "/",
     component: pageList,
-}, {
-    path: "/new",
-    component: pageNew,
-}, {
-    path: "/:id",
-    component: pageShow,
 }])

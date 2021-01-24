@@ -19,17 +19,12 @@ For more information read the license file including with this software.
 
 
 // · 
-import componentSettingsGeneral from "../components/settings-general.vue"
-
-
-
-// · 
 export default {
-    components: {
-        "component-settings-general": componentSettingsGeneral
-    },
     data() {
         return {
+            translations: {
+
+            },
         }
     },
     methods: {
@@ -38,18 +33,9 @@ export default {
 }
 </script>
 <template>
-    <section class="application-component">
-        <component-header title="Account settings"></component-header>
-        <b-tabs>
-            <b-tab-item icon-pack="fas" icon="cog" label="General">
-                <component-settings-general></component-settings-general>
-            </b-tab-item>
-            <b-tab-item icon-pack="fas" icon="clock" label="Date & time">
-            </b-tab-item>
-            <b-tab-item icon-pack="fas" icon="palette" label="Branding">
-            </b-tab-item>
-            <b-tab-item icon-pack="fas" icon="paint-brush" label="Theme">
-            </b-tab-item>
-        </b-tabs>
-    </section>
+    <div class="card">
+        <div class="card-content">
+
+        </div>
+    </div>
 </template>
