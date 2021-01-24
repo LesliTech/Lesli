@@ -23,10 +23,19 @@ import componentFormBranding from "../components/form-branding.vue"
 
 
 // · 
+import componentSettingsGeneral from "../components/settings-general.vue"
+
+
+
+// · 
 export default {
     components: {
+<<<<<<< HEAD
         "component-form-general": componentFormGeneral,
         "component-form-branding": componentFormBranding
+=======
+        "component-settings-general": componentSettingsGeneral
+>>>>>>> feat: remove not used components from settings
     },
     data() {
         return {
@@ -43,7 +52,13 @@ export default {
         <component-header title="Account settings"></component-header>
         <b-tabs v-model="tab">
             <b-tab-item icon-pack="fas" icon="cog" label="General">
+<<<<<<< HEAD
                 <component-form-general></component-form-general>
+=======
+                <component-settings-general></component-settings-general>
+            </b-tab-item>
+            <b-tab-item icon-pack="fas" icon="clock" label="Date & time">
+>>>>>>> feat: remove not used components from settings
             </b-tab-item>
             <b-tab-item icon-pack="fas" icon="palette" label="Branding">
                 <component-form-branding></component-form-branding>

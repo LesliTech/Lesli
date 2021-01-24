@@ -312,7 +312,7 @@ eval("\n\nvar bind = __webpack_require__(/*! ./helpers/bind */ \"./node_modules/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
-eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var LesliVue_app__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! LesliVue/app */ \"./lib/vue/app.js\");\n/* harmony import */ var _pages_new_vue__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./pages/new.vue */ \"./app/vue/account_settings/pages/new.vue\");\n/* harmony import */ var _pages_list_vue__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./pages/list.vue */ \"./app/vue/account_settings/pages/list.vue\");\n/* harmony import */ var _pages_show_vue__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./pages/show.vue */ \"./app/vue/account_settings/pages/show.vue\");\n/*\nCopyright (c) 2020, all rights reserved.\n\nAll the information provided by this platform is protected by international laws related  to \nindustrial property, intellectual property, copyright and relative international laws. \nAll intellectual or industrial property rights of the code, texts, trade mark, design, \npictures and any other information belongs to the owner of this platform.\n\nWithout the written permission of the owner, any replication, modification,\ntransmission, publication is strictly forbidden.\n\nFor more information read the license file including with this software.\n\n// · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~\n// · \n*/\n// · Import main app\n // · Import apps and components\n\n\n\n // · \n\n(0,LesliVue_app__WEBPACK_IMPORTED_MODULE_0__.default)(\"Lesli\", \"[new|list|show]\", \"/administration/account/settings\", [{\n  path: \"/\",\n  component: _pages_list_vue__WEBPACK_IMPORTED_MODULE_2__.default\n}, {\n  path: \"/new\",\n  component: _pages_new_vue__WEBPACK_IMPORTED_MODULE_1__.default\n}, {\n  path: \"/:id\",\n  component: _pages_show_vue__WEBPACK_IMPORTED_MODULE_3__.default\n}]);\n\n//# sourceURL=webpack://lesli/./app/vue/account_settings/app.js?");
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var LesliVue_app__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! LesliVue/app */ \"./lib/vue/app.js\");\n/* harmony import */ var _pages_list_vue__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./pages/list.vue */ \"./app/vue/account_settings/pages/list.vue\");\n/*\nCopyright (c) 2020, all rights reserved.\n\nAll the information provided by this platform is protected by international laws related  to \nindustrial property, intellectual property, copyright and relative international laws. \nAll intellectual or industrial property rights of the code, texts, trade mark, design, \npictures and any other information belongs to the owner of this platform.\n\nWithout the written permission of the owner, any replication, modification,\ntransmission, publication is strictly forbidden.\n\nFor more information read the license file including with this software.\n\n// · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~\n// · \n*/\n// · Import main app\n // · Import apps and components\n\n // · \n\n(0,LesliVue_app__WEBPACK_IMPORTED_MODULE_0__.default)(\"Lesli\", \"[new|list|show]\", \"/administration/account/settings\", [{\n  path: \"/\",\n  component: _pages_list_vue__WEBPACK_IMPORTED_MODULE_1__.default\n}]);\n\n//# sourceURL=webpack://lesli/./app/vue/account_settings/app.js?");
 
 /***/ }),
 
@@ -459,6 +459,7 @@ eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpac
 
 /***/ }),
 
+<<<<<<< HEAD
 /***/ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-3[0].rules[0].use!./node_modules/vue-loader/lib/index.js??vue-loader-options!./app/vue/account_settings/components/form-branding.vue?vue&type=script&lang=js&":
 /*!*****************************************************************************************************************************************************************************************************************************!*\
   !*** ./node_modules/babel-loader/lib/index.js??clonedRuleSet-3[0].rules[0].use!./node_modules/vue-loader/lib/index.js??vue-loader-options!./app/vue/account_settings/components/form-branding.vue?vue&type=script&lang=js& ***!
@@ -478,6 +479,16 @@ eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpac
 
 "use strict";
 eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"default\": () => __WEBPACK_DEFAULT_EXPORT__\n/* harmony export */ });\n/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({\n  data: function data() {\n    return {};\n  },\n  methods: {}\n});\n\n//# sourceURL=webpack://lesli/./app/vue/account_settings/components/form-general.vue?./node_modules/babel-loader/lib/index.js??clonedRuleSet-3%5B0%5D.rules%5B0%5D.use!./node_modules/vue-loader/lib/index.js??vue-loader-options");
+=======
+/***/ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-3[0].rules[0].use!./node_modules/vue-loader/lib/index.js??vue-loader-options!./app/vue/account_settings/components/settings-general.vue?vue&type=script&lang=js&":
+/*!********************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib/index.js??clonedRuleSet-3[0].rules[0].use!./node_modules/vue-loader/lib/index.js??vue-loader-options!./app/vue/account_settings/components/settings-general.vue?vue&type=script&lang=js& ***!
+  \********************************************************************************************************************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"default\": () => __WEBPACK_DEFAULT_EXPORT__\n/* harmony export */ });\n/*\nCopyright (c) 2020, all rights reserved.\n\nAll the information provided by this platform is protected by international laws related  to \nindustrial property, intellectual property, copyright and relative international laws. \nAll intellectual or industrial property rights of the code, texts, trade mark, design, \npictures and any other information belongs to the owner of this platform.\n\nWithout the written permission of the owner, any replication, modification,\ntransmission, publication is strictly forbidden.\n\nFor more information read the license file including with this software.\n\n// · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~\n// · \n*/\n// · \n/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({\n  data: function data() {\n    return {\n      translations: {}\n    };\n  },\n  methods: {}\n});\n\n//# sourceURL=webpack://lesli/./app/vue/account_settings/components/settings-general.vue?./node_modules/babel-loader/lib/index.js??clonedRuleSet-3%5B0%5D.rules%5B0%5D.use!./node_modules/vue-loader/lib/index.js??vue-loader-options");
+>>>>>>> feat: remove not used components from settings
 
 /***/ }),
 
@@ -488,6 +499,7 @@ eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpac
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
+<<<<<<< HEAD
 eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"default\": () => __WEBPACK_DEFAULT_EXPORT__\n/* harmony export */ });\n/* harmony import */ var _components_form_general_vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../components/form-general.vue */ \"./app/vue/account_settings/components/form-general.vue\");\n/* harmony import */ var _components_form_branding_vue__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../components/form-branding.vue */ \"./app/vue/account_settings/components/form-branding.vue\");\n/*\nCopyright (c) 2020, all rights reserved.\n\nAll the information provided by this platform is protected by international laws related  to \nindustrial property, intellectual property, copyright and relative international laws. \nAll intellectual or industrial property rights of the code, texts, trade mark, design, \npictures and any other information belongs to the owner of this platform.\n\nWithout the written permission of the owner, any replication, modification,\ntransmission, publication is strictly forbidden.\n\nFor more information read the license file including with this software.\n\n// · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~\n// · \n*/\n// · \n\n // · \n\n/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({\n  components: {\n    \"component-form-general\": _components_form_general_vue__WEBPACK_IMPORTED_MODULE_0__.default,\n    \"component-form-branding\": _components_form_branding_vue__WEBPACK_IMPORTED_MODULE_1__.default\n  },\n  data: function data() {\n    return {\n      tab: 1\n    };\n  },\n  methods: {}\n});\n\n//# sourceURL=webpack://lesli/./app/vue/account_settings/pages/list.vue?./node_modules/babel-loader/lib/index.js??clonedRuleSet-3%5B0%5D.rules%5B0%5D.use!./node_modules/vue-loader/lib/index.js??vue-loader-options");
 
 /***/ }),
@@ -511,6 +523,9 @@ eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpac
 
 "use strict";
 eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"default\": () => __WEBPACK_DEFAULT_EXPORT__\n/* harmony export */ });\n/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({});\n\n//# sourceURL=webpack://lesli/./app/vue/account_settings/pages/show.vue?./node_modules/babel-loader/lib/index.js??clonedRuleSet-3%5B0%5D.rules%5B0%5D.use!./node_modules/vue-loader/lib/index.js??vue-loader-options");
+=======
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"default\": () => __WEBPACK_DEFAULT_EXPORT__\n/* harmony export */ });\n/* harmony import */ var _components_settings_general_vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../components/settings-general.vue */ \"./app/vue/account_settings/components/settings-general.vue\");\n/*\nCopyright (c) 2020, all rights reserved.\n\nAll the information provided by this platform is protected by international laws related  to \nindustrial property, intellectual property, copyright and relative international laws. \nAll intellectual or industrial property rights of the code, texts, trade mark, design, \npictures and any other information belongs to the owner of this platform.\n\nWithout the written permission of the owner, any replication, modification,\ntransmission, publication is strictly forbidden.\n\nFor more information read the license file including with this software.\n\n// · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~\n// · \n*/\n// · \n // · \n\n/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({\n  components: {\n    \"component-settings-general\": _components_settings_general_vue__WEBPACK_IMPORTED_MODULE_0__.default\n  },\n  data: function data() {\n    return {};\n  },\n  methods: {}\n});\n\n//# sourceURL=webpack://lesli/./app/vue/account_settings/pages/list.vue?./node_modules/babel-loader/lib/index.js??clonedRuleSet-3%5B0%5D.rules%5B0%5D.use!./node_modules/vue-loader/lib/index.js??vue-loader-options");
+>>>>>>> feat: remove not used components from settings
 
 /***/ }),
 
@@ -1619,6 +1634,7 @@ eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpac
 
 /***/ }),
 
+<<<<<<< HEAD
 /***/ "./app/vue/account_settings/components/form-branding.vue":
 /*!***************************************************************!*\
   !*** ./app/vue/account_settings/components/form-branding.vue ***!
@@ -1638,6 +1654,16 @@ eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpac
 
 "use strict";
 eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"default\": () => __WEBPACK_DEFAULT_EXPORT__\n/* harmony export */ });\n/* harmony import */ var _form_general_vue_vue_type_template_id_fec8047a___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./form-general.vue?vue&type=template&id=fec8047a& */ \"./app/vue/account_settings/components/form-general.vue?vue&type=template&id=fec8047a&\");\n/* harmony import */ var _form_general_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./form-general.vue?vue&type=script&lang=js& */ \"./app/vue/account_settings/components/form-general.vue?vue&type=script&lang=js&\");\n/* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! !../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ \"./node_modules/vue-loader/lib/runtime/componentNormalizer.js\");\n\n\n\n\n\n/* normalize component */\n;\nvar component = (0,_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__.default)(\n  _form_general_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__.default,\n  _form_general_vue_vue_type_template_id_fec8047a___WEBPACK_IMPORTED_MODULE_0__.render,\n  _form_general_vue_vue_type_template_id_fec8047a___WEBPACK_IMPORTED_MODULE_0__.staticRenderFns,\n  false,\n  null,\n  null,\n  null\n  \n)\n\n/* hot reload */\nif (false) { var api; }\ncomponent.options.__file = \"app/vue/account_settings/components/form-general.vue\"\n/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (component.exports);\n\n//# sourceURL=webpack://lesli/./app/vue/account_settings/components/form-general.vue?");
+=======
+/***/ "./app/vue/account_settings/components/settings-general.vue":
+/*!******************************************************************!*\
+  !*** ./app/vue/account_settings/components/settings-general.vue ***!
+  \******************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"default\": () => __WEBPACK_DEFAULT_EXPORT__\n/* harmony export */ });\n/* harmony import */ var _settings_general_vue_vue_type_template_id_2c03d0a2___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./settings-general.vue?vue&type=template&id=2c03d0a2& */ \"./app/vue/account_settings/components/settings-general.vue?vue&type=template&id=2c03d0a2&\");\n/* harmony import */ var _settings_general_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./settings-general.vue?vue&type=script&lang=js& */ \"./app/vue/account_settings/components/settings-general.vue?vue&type=script&lang=js&\");\n/* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! !../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ \"./node_modules/vue-loader/lib/runtime/componentNormalizer.js\");\n\n\n\n\n\n/* normalize component */\n;\nvar component = (0,_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__.default)(\n  _settings_general_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__.default,\n  _settings_general_vue_vue_type_template_id_2c03d0a2___WEBPACK_IMPORTED_MODULE_0__.render,\n  _settings_general_vue_vue_type_template_id_2c03d0a2___WEBPACK_IMPORTED_MODULE_0__.staticRenderFns,\n  false,\n  null,\n  null,\n  null\n  \n)\n\n/* hot reload */\nif (false) { var api; }\ncomponent.options.__file = \"app/vue/account_settings/components/settings-general.vue\"\n/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (component.exports);\n\n//# sourceURL=webpack://lesli/./app/vue/account_settings/components/settings-general.vue?");
+>>>>>>> feat: remove not used components from settings
 
 /***/ }),
 
@@ -1649,28 +1675,6 @@ eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpac
 
 "use strict";
 eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"default\": () => __WEBPACK_DEFAULT_EXPORT__\n/* harmony export */ });\n/* harmony import */ var _list_vue_vue_type_template_id_2efb134e___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./list.vue?vue&type=template&id=2efb134e& */ \"./app/vue/account_settings/pages/list.vue?vue&type=template&id=2efb134e&\");\n/* harmony import */ var _list_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./list.vue?vue&type=script&lang=js& */ \"./app/vue/account_settings/pages/list.vue?vue&type=script&lang=js&\");\n/* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! !../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ \"./node_modules/vue-loader/lib/runtime/componentNormalizer.js\");\n\n\n\n\n\n/* normalize component */\n;\nvar component = (0,_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__.default)(\n  _list_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__.default,\n  _list_vue_vue_type_template_id_2efb134e___WEBPACK_IMPORTED_MODULE_0__.render,\n  _list_vue_vue_type_template_id_2efb134e___WEBPACK_IMPORTED_MODULE_0__.staticRenderFns,\n  false,\n  null,\n  null,\n  null\n  \n)\n\n/* hot reload */\nif (false) { var api; }\ncomponent.options.__file = \"app/vue/account_settings/pages/list.vue\"\n/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (component.exports);\n\n//# sourceURL=webpack://lesli/./app/vue/account_settings/pages/list.vue?");
-
-/***/ }),
-
-/***/ "./app/vue/account_settings/pages/new.vue":
-/*!************************************************!*\
-  !*** ./app/vue/account_settings/pages/new.vue ***!
-  \************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"default\": () => __WEBPACK_DEFAULT_EXPORT__\n/* harmony export */ });\n/* harmony import */ var _new_vue_vue_type_template_id_c335cbc0___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./new.vue?vue&type=template&id=c335cbc0& */ \"./app/vue/account_settings/pages/new.vue?vue&type=template&id=c335cbc0&\");\n/* harmony import */ var _new_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./new.vue?vue&type=script&lang=js& */ \"./app/vue/account_settings/pages/new.vue?vue&type=script&lang=js&\");\n/* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! !../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ \"./node_modules/vue-loader/lib/runtime/componentNormalizer.js\");\n\n\n\n\n\n/* normalize component */\n;\nvar component = (0,_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__.default)(\n  _new_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__.default,\n  _new_vue_vue_type_template_id_c335cbc0___WEBPACK_IMPORTED_MODULE_0__.render,\n  _new_vue_vue_type_template_id_c335cbc0___WEBPACK_IMPORTED_MODULE_0__.staticRenderFns,\n  false,\n  null,\n  null,\n  null\n  \n)\n\n/* hot reload */\nif (false) { var api; }\ncomponent.options.__file = \"app/vue/account_settings/pages/new.vue\"\n/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (component.exports);\n\n//# sourceURL=webpack://lesli/./app/vue/account_settings/pages/new.vue?");
-
-/***/ }),
-
-/***/ "./app/vue/account_settings/pages/show.vue":
-/*!*************************************************!*\
-  !*** ./app/vue/account_settings/pages/show.vue ***!
-  \*************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"default\": () => __WEBPACK_DEFAULT_EXPORT__\n/* harmony export */ });\n/* harmony import */ var _show_vue_vue_type_template_id_6ad813a6___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./show.vue?vue&type=template&id=6ad813a6& */ \"./app/vue/account_settings/pages/show.vue?vue&type=template&id=6ad813a6&\");\n/* harmony import */ var _show_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./show.vue?vue&type=script&lang=js& */ \"./app/vue/account_settings/pages/show.vue?vue&type=script&lang=js&\");\n/* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! !../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ \"./node_modules/vue-loader/lib/runtime/componentNormalizer.js\");\n\n\n\n\n\n/* normalize component */\n;\nvar component = (0,_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__.default)(\n  _show_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__.default,\n  _show_vue_vue_type_template_id_6ad813a6___WEBPACK_IMPORTED_MODULE_0__.render,\n  _show_vue_vue_type_template_id_6ad813a6___WEBPACK_IMPORTED_MODULE_0__.staticRenderFns,\n  false,\n  null,\n  null,\n  null\n  \n)\n\n/* hot reload */\nif (false) { var api; }\ncomponent.options.__file = \"app/vue/account_settings/pages/show.vue\"\n/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (component.exports);\n\n//# sourceURL=webpack://lesli/./app/vue/account_settings/pages/show.vue?");
 
 /***/ }),
 
@@ -1905,6 +1909,7 @@ eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpac
 
 /***/ }),
 
+<<<<<<< HEAD
 /***/ "./app/vue/account_settings/components/form-branding.vue?vue&type=script&lang=js&":
 /*!****************************************************************************************!*\
   !*** ./app/vue/account_settings/components/form-branding.vue?vue&type=script&lang=js& ***!
@@ -1924,6 +1929,16 @@ eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpac
 
 "use strict";
 eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"default\": () => __WEBPACK_DEFAULT_EXPORT__\n/* harmony export */ });\n/* harmony import */ var _node_modules_babel_loader_lib_index_js_clonedRuleSet_3_0_rules_0_use_node_modules_vue_loader_lib_index_js_vue_loader_options_form_general_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/babel-loader/lib/index.js??clonedRuleSet-3[0].rules[0].use!../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./form-general.vue?vue&type=script&lang=js& */ \"./node_modules/babel-loader/lib/index.js??clonedRuleSet-3[0].rules[0].use!./node_modules/vue-loader/lib/index.js??vue-loader-options!./app/vue/account_settings/components/form-general.vue?vue&type=script&lang=js&\");\n /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_node_modules_babel_loader_lib_index_js_clonedRuleSet_3_0_rules_0_use_node_modules_vue_loader_lib_index_js_vue_loader_options_form_general_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__.default); \n\n//# sourceURL=webpack://lesli/./app/vue/account_settings/components/form-general.vue?");
+=======
+/***/ "./app/vue/account_settings/components/settings-general.vue?vue&type=script&lang=js&":
+/*!*******************************************************************************************!*\
+  !*** ./app/vue/account_settings/components/settings-general.vue?vue&type=script&lang=js& ***!
+  \*******************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"default\": () => __WEBPACK_DEFAULT_EXPORT__\n/* harmony export */ });\n/* harmony import */ var _node_modules_babel_loader_lib_index_js_clonedRuleSet_3_0_rules_0_use_node_modules_vue_loader_lib_index_js_vue_loader_options_settings_general_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/babel-loader/lib/index.js??clonedRuleSet-3[0].rules[0].use!../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./settings-general.vue?vue&type=script&lang=js& */ \"./node_modules/babel-loader/lib/index.js??clonedRuleSet-3[0].rules[0].use!./node_modules/vue-loader/lib/index.js??vue-loader-options!./app/vue/account_settings/components/settings-general.vue?vue&type=script&lang=js&\");\n /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_node_modules_babel_loader_lib_index_js_clonedRuleSet_3_0_rules_0_use_node_modules_vue_loader_lib_index_js_vue_loader_options_settings_general_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__.default); \n\n//# sourceURL=webpack://lesli/./app/vue/account_settings/components/settings-general.vue?");
+>>>>>>> feat: remove not used components from settings
 
 /***/ }),
 
@@ -1935,28 +1950,6 @@ eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpac
 
 "use strict";
 eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"default\": () => __WEBPACK_DEFAULT_EXPORT__\n/* harmony export */ });\n/* harmony import */ var _node_modules_babel_loader_lib_index_js_clonedRuleSet_3_0_rules_0_use_node_modules_vue_loader_lib_index_js_vue_loader_options_list_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/babel-loader/lib/index.js??clonedRuleSet-3[0].rules[0].use!../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./list.vue?vue&type=script&lang=js& */ \"./node_modules/babel-loader/lib/index.js??clonedRuleSet-3[0].rules[0].use!./node_modules/vue-loader/lib/index.js??vue-loader-options!./app/vue/account_settings/pages/list.vue?vue&type=script&lang=js&\");\n /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_node_modules_babel_loader_lib_index_js_clonedRuleSet_3_0_rules_0_use_node_modules_vue_loader_lib_index_js_vue_loader_options_list_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__.default); \n\n//# sourceURL=webpack://lesli/./app/vue/account_settings/pages/list.vue?");
-
-/***/ }),
-
-/***/ "./app/vue/account_settings/pages/new.vue?vue&type=script&lang=js&":
-/*!*************************************************************************!*\
-  !*** ./app/vue/account_settings/pages/new.vue?vue&type=script&lang=js& ***!
-  \*************************************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"default\": () => __WEBPACK_DEFAULT_EXPORT__\n/* harmony export */ });\n/* harmony import */ var _node_modules_babel_loader_lib_index_js_clonedRuleSet_3_0_rules_0_use_node_modules_vue_loader_lib_index_js_vue_loader_options_new_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/babel-loader/lib/index.js??clonedRuleSet-3[0].rules[0].use!../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./new.vue?vue&type=script&lang=js& */ \"./node_modules/babel-loader/lib/index.js??clonedRuleSet-3[0].rules[0].use!./node_modules/vue-loader/lib/index.js??vue-loader-options!./app/vue/account_settings/pages/new.vue?vue&type=script&lang=js&\");\n /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_node_modules_babel_loader_lib_index_js_clonedRuleSet_3_0_rules_0_use_node_modules_vue_loader_lib_index_js_vue_loader_options_new_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__.default); \n\n//# sourceURL=webpack://lesli/./app/vue/account_settings/pages/new.vue?");
-
-/***/ }),
-
-/***/ "./app/vue/account_settings/pages/show.vue?vue&type=script&lang=js&":
-/*!**************************************************************************!*\
-  !*** ./app/vue/account_settings/pages/show.vue?vue&type=script&lang=js& ***!
-  \**************************************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"default\": () => __WEBPACK_DEFAULT_EXPORT__\n/* harmony export */ });\n/* harmony import */ var _node_modules_babel_loader_lib_index_js_clonedRuleSet_3_0_rules_0_use_node_modules_vue_loader_lib_index_js_vue_loader_options_show_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/babel-loader/lib/index.js??clonedRuleSet-3[0].rules[0].use!../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./show.vue?vue&type=script&lang=js& */ \"./node_modules/babel-loader/lib/index.js??clonedRuleSet-3[0].rules[0].use!./node_modules/vue-loader/lib/index.js??vue-loader-options!./app/vue/account_settings/pages/show.vue?vue&type=script&lang=js&\");\n /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_node_modules_babel_loader_lib_index_js_clonedRuleSet_3_0_rules_0_use_node_modules_vue_loader_lib_index_js_vue_loader_options_show_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__.default); \n\n//# sourceURL=webpack://lesli/./app/vue/account_settings/pages/show.vue?");
 
 /***/ }),
 
@@ -2224,6 +2217,7 @@ eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _nod
 
 /***/ }),
 
+<<<<<<< HEAD
 /***/ "./app/vue/account_settings/components/form-branding.vue?vue&type=template&id=6bf94ba0&scoped=true&":
 /*!**********************************************************************************************************!*\
   !*** ./app/vue/account_settings/components/form-branding.vue?vue&type=template&id=6bf94ba0&scoped=true& ***!
@@ -2243,6 +2237,16 @@ eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpac
 
 "use strict";
 eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"render\": () => /* reexport safe */ _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_form_general_vue_vue_type_template_id_fec8047a___WEBPACK_IMPORTED_MODULE_0__.render,\n/* harmony export */   \"staticRenderFns\": () => /* reexport safe */ _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_form_general_vue_vue_type_template_id_fec8047a___WEBPACK_IMPORTED_MODULE_0__.staticRenderFns\n/* harmony export */ });\n/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_form_general_vue_vue_type_template_id_fec8047a___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./form-general.vue?vue&type=template&id=fec8047a& */ \"./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./app/vue/account_settings/components/form-general.vue?vue&type=template&id=fec8047a&\");\n\n\n//# sourceURL=webpack://lesli/./app/vue/account_settings/components/form-general.vue?");
+=======
+/***/ "./app/vue/account_settings/components/settings-general.vue?vue&type=template&id=2c03d0a2&":
+/*!*************************************************************************************************!*\
+  !*** ./app/vue/account_settings/components/settings-general.vue?vue&type=template&id=2c03d0a2& ***!
+  \*************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"render\": () => /* reexport safe */ _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_settings_general_vue_vue_type_template_id_2c03d0a2___WEBPACK_IMPORTED_MODULE_0__.render,\n/* harmony export */   \"staticRenderFns\": () => /* reexport safe */ _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_settings_general_vue_vue_type_template_id_2c03d0a2___WEBPACK_IMPORTED_MODULE_0__.staticRenderFns\n/* harmony export */ });\n/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_settings_general_vue_vue_type_template_id_2c03d0a2___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./settings-general.vue?vue&type=template&id=2c03d0a2& */ \"./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./app/vue/account_settings/components/settings-general.vue?vue&type=template&id=2c03d0a2&\");\n\n\n//# sourceURL=webpack://lesli/./app/vue/account_settings/components/settings-general.vue?");
+>>>>>>> feat: remove not used components from settings
 
 /***/ }),
 
@@ -2254,28 +2258,6 @@ eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpac
 
 "use strict";
 eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"render\": () => /* reexport safe */ _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_list_vue_vue_type_template_id_2efb134e___WEBPACK_IMPORTED_MODULE_0__.render,\n/* harmony export */   \"staticRenderFns\": () => /* reexport safe */ _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_list_vue_vue_type_template_id_2efb134e___WEBPACK_IMPORTED_MODULE_0__.staticRenderFns\n/* harmony export */ });\n/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_list_vue_vue_type_template_id_2efb134e___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./list.vue?vue&type=template&id=2efb134e& */ \"./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./app/vue/account_settings/pages/list.vue?vue&type=template&id=2efb134e&\");\n\n\n//# sourceURL=webpack://lesli/./app/vue/account_settings/pages/list.vue?");
-
-/***/ }),
-
-/***/ "./app/vue/account_settings/pages/new.vue?vue&type=template&id=c335cbc0&":
-/*!*******************************************************************************!*\
-  !*** ./app/vue/account_settings/pages/new.vue?vue&type=template&id=c335cbc0& ***!
-  \*******************************************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"render\": () => /* reexport safe */ _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_new_vue_vue_type_template_id_c335cbc0___WEBPACK_IMPORTED_MODULE_0__.render,\n/* harmony export */   \"staticRenderFns\": () => /* reexport safe */ _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_new_vue_vue_type_template_id_c335cbc0___WEBPACK_IMPORTED_MODULE_0__.staticRenderFns\n/* harmony export */ });\n/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_new_vue_vue_type_template_id_c335cbc0___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./new.vue?vue&type=template&id=c335cbc0& */ \"./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./app/vue/account_settings/pages/new.vue?vue&type=template&id=c335cbc0&\");\n\n\n//# sourceURL=webpack://lesli/./app/vue/account_settings/pages/new.vue?");
-
-/***/ }),
-
-/***/ "./app/vue/account_settings/pages/show.vue?vue&type=template&id=6ad813a6&":
-/*!********************************************************************************!*\
-  !*** ./app/vue/account_settings/pages/show.vue?vue&type=template&id=6ad813a6& ***!
-  \********************************************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"render\": () => /* reexport safe */ _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_show_vue_vue_type_template_id_6ad813a6___WEBPACK_IMPORTED_MODULE_0__.render,\n/* harmony export */   \"staticRenderFns\": () => /* reexport safe */ _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_show_vue_vue_type_template_id_6ad813a6___WEBPACK_IMPORTED_MODULE_0__.staticRenderFns\n/* harmony export */ });\n/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_show_vue_vue_type_template_id_6ad813a6___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./show.vue?vue&type=template&id=6ad813a6& */ \"./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./app/vue/account_settings/pages/show.vue?vue&type=template&id=6ad813a6&\");\n\n\n//# sourceURL=webpack://lesli/./app/vue/account_settings/pages/show.vue?");
 
 /***/ }),
 
@@ -2510,6 +2492,7 @@ eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpac
 
 /***/ }),
 
+<<<<<<< HEAD
 /***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./app/vue/account_settings/components/form-branding.vue?vue&type=template&id=6bf94ba0&scoped=true&":
 /*!*************************************************************************************************************************************************************************************************************************************************!*\
   !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./app/vue/account_settings/components/form-branding.vue?vue&type=template&id=6bf94ba0&scoped=true& ***!
@@ -2529,6 +2512,16 @@ eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpac
 
 "use strict";
 eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"render\": () => /* binding */ render,\n/* harmony export */   \"staticRenderFns\": () => /* binding */ staticRenderFns\n/* harmony export */ });\nvar render = function() {\n  var _vm = this\n  var _h = _vm.$createElement\n  var _c = _vm._self._c || _h\n  return _c(\"div\")\n}\nvar staticRenderFns = []\nrender._withStripped = true\n\n\n\n//# sourceURL=webpack://lesli/./app/vue/account_settings/components/form-general.vue?./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options");
+=======
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./app/vue/account_settings/components/settings-general.vue?vue&type=template&id=2c03d0a2&":
+/*!****************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./app/vue/account_settings/components/settings-general.vue?vue&type=template&id=2c03d0a2& ***!
+  \****************************************************************************************************************************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"render\": () => /* binding */ render,\n/* harmony export */   \"staticRenderFns\": () => /* binding */ staticRenderFns\n/* harmony export */ });\nvar render = function() {\n  var _vm = this\n  var _h = _vm.$createElement\n  var _c = _vm._self._c || _h\n  return _vm._m(0)\n}\nvar staticRenderFns = [\n  function() {\n    var _vm = this\n    var _h = _vm.$createElement\n    var _c = _vm._self._c || _h\n    return _c(\"div\", { staticClass: \"card\" }, [\n      _c(\"div\", { staticClass: \"card-content\" })\n    ])\n  }\n]\nrender._withStripped = true\n\n\n\n//# sourceURL=webpack://lesli/./app/vue/account_settings/components/settings-general.vue?./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options");
+>>>>>>> feat: remove not used components from settings
 
 /***/ }),
 
@@ -2539,6 +2532,7 @@ eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpac
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
+<<<<<<< HEAD
 eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"render\": () => /* binding */ render,\n/* harmony export */   \"staticRenderFns\": () => /* binding */ staticRenderFns\n/* harmony export */ });\nvar render = function() {\n  var _vm = this\n  var _h = _vm.$createElement\n  var _c = _vm._self._c || _h\n  return _c(\n    \"section\",\n    { staticClass: \"application-component\" },\n    [\n      _c(\"component-header\", { attrs: { title: \"Account settings\" } }),\n      _vm._v(\" \"),\n      _c(\n        \"b-tabs\",\n        {\n          model: {\n            value: _vm.tab,\n            callback: function($$v) {\n              _vm.tab = $$v\n            },\n            expression: \"tab\"\n          }\n        },\n        [\n          _c(\n            \"b-tab-item\",\n            { attrs: { \"icon-pack\": \"fas\", icon: \"cog\", label: \"General\" } },\n            [_c(\"component-form-general\")],\n            1\n          ),\n          _vm._v(\" \"),\n          _c(\n            \"b-tab-item\",\n            {\n              attrs: { \"icon-pack\": \"fas\", icon: \"palette\", label: \"Branding\" }\n            },\n            [_c(\"component-form-branding\")],\n            1\n          ),\n          _vm._v(\" \"),\n          _c(\"b-tab-item\", {\n            attrs: { \"icon-pack\": \"fas\", icon: \"paint-brush\", label: \"Theme\" }\n          })\n        ],\n        1\n      )\n    ],\n    1\n  )\n}\nvar staticRenderFns = []\nrender._withStripped = true\n\n\n\n//# sourceURL=webpack://lesli/./app/vue/account_settings/pages/list.vue?./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options");
 
 /***/ }),
@@ -2562,6 +2556,9 @@ eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpac
 
 "use strict";
 eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"render\": () => /* binding */ render,\n/* harmony export */   \"staticRenderFns\": () => /* binding */ staticRenderFns\n/* harmony export */ });\nvar render = function() {\n  var _vm = this\n  var _h = _vm.$createElement\n  var _c = _vm._self._c || _h\n  return _c(\"div\")\n}\nvar staticRenderFns = []\nrender._withStripped = true\n\n\n\n//# sourceURL=webpack://lesli/./app/vue/account_settings/pages/show.vue?./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options");
+=======
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"render\": () => /* binding */ render,\n/* harmony export */   \"staticRenderFns\": () => /* binding */ staticRenderFns\n/* harmony export */ });\nvar render = function() {\n  var _vm = this\n  var _h = _vm.$createElement\n  var _c = _vm._self._c || _h\n  return _c(\n    \"section\",\n    { staticClass: \"application-component\" },\n    [\n      _c(\"component-header\", { attrs: { title: \"Account settings\" } }),\n      _vm._v(\" \"),\n      _c(\n        \"b-tabs\",\n        [\n          _c(\n            \"b-tab-item\",\n            { attrs: { \"icon-pack\": \"fas\", icon: \"cog\", label: \"General\" } },\n            [_c(\"component-settings-general\")],\n            1\n          ),\n          _vm._v(\" \"),\n          _c(\"b-tab-item\", {\n            attrs: { \"icon-pack\": \"fas\", icon: \"clock\", label: \"Date & time\" }\n          }),\n          _vm._v(\" \"),\n          _c(\"b-tab-item\", {\n            attrs: { \"icon-pack\": \"fas\", icon: \"palette\", label: \"Branding\" }\n          }),\n          _vm._v(\" \"),\n          _c(\"b-tab-item\", {\n            attrs: { \"icon-pack\": \"fas\", icon: \"paint-brush\", label: \"Theme\" }\n          })\n        ],\n        1\n      )\n    ],\n    1\n  )\n}\nvar staticRenderFns = []\nrender._withStripped = true\n\n\n\n//# sourceURL=webpack://lesli/./app/vue/account_settings/pages/list.vue?./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options");
+>>>>>>> feat: remove not used components from settings
 
 /***/ }),
 
