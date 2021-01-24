@@ -17,14 +17,22 @@ For more information read the license file including with this software.
 */
 
 
+// · 
+import componentFormGeneral from "../components/form-general.vue"
+import componentFormBranding from "../components/form-branding.vue"
+
 
 // · 
 export default {
+    components: {
+        "component-form-general": componentFormGeneral,
+        "component-form-branding": componentFormBranding
+    },
     data() {
         return {
+            tab: 1
         }
     },
-
     methods: {
 
     }
@@ -33,12 +41,12 @@ export default {
 <template>
     <section class="application-component">
         <component-header title="Account settings"></component-header>
-        <b-tabs>
+        <b-tabs v-model="tab">
             <b-tab-item icon-pack="fas" icon="cog" label="General">
-            </b-tab-item>
-            <b-tab-item icon-pack="fas" icon="clock" label="Date & time">
+                <component-form-general></component-form-general>
             </b-tab-item>
             <b-tab-item icon-pack="fas" icon="palette" label="Branding">
+                <component-form-branding></component-form-branding>
             </b-tab-item>
             <b-tab-item icon-pack="fas" icon="paint-brush" label="Theme">
             </b-tab-item>
