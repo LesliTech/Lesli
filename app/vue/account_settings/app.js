@@ -1,5 +1,4 @@
-<%#
-
+/*
 Copyright (c) 2020, all rights reserved.
 
 All the information provided by this platform is protected by international laws related  to 
@@ -14,7 +13,30 @@ For more information read the license file including with this software.
 
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
 // · 
+*/
 
-%>
 
-<router-view></router-view>
+
+// · Import main app
+import app from "LesliVue/app"
+
+
+
+// · Import apps and components
+import pageNew from "./pages/new.vue"
+import pageList from "./pages/list.vue"
+import pageShow from "./pages/show.vue"
+
+
+
+// · 
+app("Lesli", "[new|list|show]", "/administration/account/settings", [{
+    path: "/",
+    component: pageList,
+}, {
+    path: "/new",
+    component: pageNew,
+}, {
+    path: "/:id",
+    component: pageShow,
+}])
