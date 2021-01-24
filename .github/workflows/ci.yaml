@@ -28,18 +28,11 @@ jobs:
     steps:
     - name: Checkout repository
       uses: actions/checkout@v2
-    - name: Checkout Build Engine
-      uses: actions/checkout@v2
-      with:
-        repository: leitfaden/lesli_cloud
-        ref: master
-        token: ${{ secrets.PUBLISH_GEM_BY_ACTIONS }}
-        path: engines/
     - name: Cache gems
       uses: actions/cache@v2
       with:
         path: vendor/bundle
-        key: ${{ runner.os }}-lesli-gems-${{ hashFiles('**/Gemfile') }}
+        key: ${{ runner.os }}-lesli-gems-${{ hashFiles('./Gemfile') }}
         restore-keys: |
           ${{ runner.os }}-lesli-gems-
     - name: Set up Ruby
@@ -55,9 +48,6 @@ jobs:
       env:
         RAILS_ENV: test
         GEM_HOST_API_KEY: "sagastume:${{secrets.READ_GEM_BY_ACTIONS}}"
-        LESLI_INSTANCE_NAME: "LesliCloud"
-        LESLI_INSTANCE_CODE: "lesli_cloud"
-        LESLI_INSTANCE_VERSION: "~> 0.0.2"
     - name: Setup test database
       run: |
         cp ./config/credentials/testci.yml.enc ./config/credentials/test.yml.enc
@@ -69,9 +59,6 @@ jobs:
       env:
         RAILS_ENV: test
         RAILS_MASTER_KEY: ${{ secrets.RAILS_MASTER_KEY_TEST }}
-        LESLI_INSTANCE_NAME: "LesliCloud"
-        LESLI_INSTANCE_CODE: "lesli_cloud"
-        LESLI_INSTANCE_VERSION: "~> 0.0.2"
     - name: Run tests
       run: |
         cp ./config/credentials/testci.yml.enc ./config/credentials/test.yml.enc
@@ -79,6 +66,3 @@ jobs:
       env:
         RAILS_ENV: test
         RAILS_MASTER_KEY: ${{ secrets.RAILS_MASTER_KEY_TEST }}
-        LESLI_INSTANCE_NAME: "LesliCloud"
-        LESLI_INSTANCE_CODE: "lesli_cloud"
-        LESLI_INSTANCE_VERSION: "~> 0.0.2"
