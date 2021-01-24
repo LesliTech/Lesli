@@ -1,3 +1,4 @@
+<script>
 /*
 Copyright (c) 2020, all rights reserved.
 
@@ -17,18 +18,24 @@ For more information read the license file including with this software.
 
 
 
-// · Import main app
-import app from "LesliVue/app"
-
-
-
-// · Import apps and components
-import pageList from "./pages/list.vue"
-
-
-
 // · 
-app("Lesli", "[new|list|show]", "/administration/account/settings", [{
-    path: "/",
-    component: pageList,
-}])
+export default {
+    data() {
+        return {
+            translations: {
+
+            },
+        }
+    },
+    methods: {
+
+    }
+}
+</script>
+<template>
+    <div class="card">
+        <div class="card-content">
+
+        </div>
+    </div>
+</template>
