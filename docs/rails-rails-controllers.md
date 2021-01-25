@@ -1,18 +1,41 @@
-<p align="center">
-	<img width="200" alt="LesliCloud logo" src="https://cdn.lesli.tech//lesli/brand/lesli-logo.svg" />
-</p>
-
-<h3 align="center">LesliController @query</h3>
-
-<hr/>
 
 
-#### Description
+# Rails standard controllers
+
+## LesliApplicationController
+Every controller must inherit from LesliApplicationController, this core controller includes helpers, validation and all the necessary code to integreate the app controller with the platform.
+
+```ruby
+module CloudAudit
+    class UsersController < ApplicationLesliController
+
+    end
+end
+```
+
+
+## @query
 @query is a global variable that provide a standard way to access request parameters in every controller, to have access to @query you must inherit from ApplicationLesliController.  
 
 __Note:__ @query is available only at controller level, if you need to use @query into a model you have to pass as second parameter to your model method.  
 
-Example:  
+You can override query default values through URL query params, check vue url plugin for examples:
+
+Example of query hash
+
+```ruby
+@query = {
+    filters: {},
+    pagination: {
+        perPage: 15,
+        page: 1,
+        order: "desc",
+        orderColumn: "id"
+    }
+}
+```
+
+Example controller: 
 
 ```ruby
 module CloudAudit
@@ -30,7 +53,11 @@ module CloudAudit
         end
     end
 end
+```
 
+Example model with pagination:
+
+```ruby
 module CloudAudit
     class User < ApplicationRecord
 
@@ -72,15 +99,4 @@ end
 ```
 
 
-#### Structure
-```ruby
-@query = {
-    filters: {},
-    pagination: {
-        perPage: 15,
-        page: 1,
-        order: "desc",
-        orderColumn: "id"
-    }
-}
-```
+
