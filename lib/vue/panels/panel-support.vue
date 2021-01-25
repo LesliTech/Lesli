@@ -100,7 +100,8 @@ export default {
 
     watch: {
         'data.global.show_support_sidebar'(){
-            if(! this.loaded){
+            // If the component is shown, and hasn't loaded
+            if(this.data.global.show_support_sidebar && !this.loaded){
                 this.getTicketOptions()
             }
         }
