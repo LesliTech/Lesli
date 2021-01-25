@@ -4,9 +4,6 @@ class User::RolesController < ApplicationLesliController
 
     # POST /user/roles
     def create
-
-        can_assign_role = false
-
         # get the role to assign to the user
         role = current_user.account.roles.find(user_role_params[:id])
 

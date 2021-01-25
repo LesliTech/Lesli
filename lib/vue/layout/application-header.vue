@@ -118,7 +118,7 @@ export default {
                     <span>{{ lesli.tasks }}</span>
                 </a>
 
-                <a class="navbar-item header-notification-indicator core" @click="showNotifications()">
+                <a class="navbar-item header-notification-indicator core" @click="data.global.show_panel_notifications = true">
                     <i v-if="lesli.notifications > 0" class="fas fa-bell has-text-link"></i>
                     <i v-if="lesli.notifications == 0" class="far fa-bell"></i>
                     <span>{{ lesli.notifications }}</span>
