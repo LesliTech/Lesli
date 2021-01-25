@@ -30,6 +30,7 @@ export default {
         return {
             main_route: '/help/tickets',
             submitting: false,
+            loaded: false,
             translations: {
                 main: I18n.t('help.tickets'),
                 core: I18n.t('core.shared')
@@ -45,10 +46,6 @@ export default {
                 description: null
             }
         }
-    },
-
-    mounted() {
-        this.getTicketOptions()
     },
 
     methods: {
@@ -84,6 +81,7 @@ export default {
         },
 
         getTicketOptions() {
+            this.loaded = true
             let url = `${this.main_route}/options.json`
 
             this.http.get(url).then(result => {
@@ -97,6 +95,14 @@ export default {
             }).catch(error => {
                 console.log(error)
             })
+        }
+    },
+
+    watch: {
+        'data.global.show_support_sidebar'(){
+            if(! this.loaded){
+                this.getTicketOptions()
+            }
         }
     }
 
