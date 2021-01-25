@@ -38,7 +38,7 @@ RSpec.describe Users::RegistrationsController, type: :controller do
             password_confirmation: "tardis2021$"
         }
 
-=begin
+
         it "Register a new user" do
             post :create, params: {
                 user: user
@@ -48,9 +48,9 @@ RSpec.describe Users::RegistrationsController, type: :controller do
             expect(response.content_type).to eq("application/json; charset=utf-8")
             expect(JSON.parse(response.body)["successful"]).to eql(true)
         end
-=end
 
-=begin
+
+
         it "Register an existing user" do
             post :create, params: {
                 user: user
@@ -66,7 +66,7 @@ RSpec.describe Users::RegistrationsController, type: :controller do
                 }
             })
         end
-=end
+
         it "Register with user and password in blank" do
             post :create, params: {
                 user: {

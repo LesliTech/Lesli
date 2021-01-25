@@ -1,0 +1,27 @@
+=begin
+
+[[license]]
+=end
+
+
+require 'rails_helper'
+require 'spec_helper'
+require 'byebug'
+
+
+RSpec.describe 'lib/[[engine]]/version.rb', type: :request do
+
+    it 'is expected to have valid VERSION information' do
+        version = [[engine_name]]::VERSION
+        expect(version.class.to_s).to eql('String')
+        expect(version.length).to be >= 5
+    end
+
+    it 'is expected to have valid BUILD information' do 
+        build = [[engine_name]]::BUILD
+        date = Date.parse(build)
+        expect(build.class.to_s).to eql('String')
+        expect(date.class.to_s).to eql('Date')
+    end 
+
+end

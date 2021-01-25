@@ -15,29 +15,42 @@ For more information read the license file including with this software.
 // · 
 */
 
-.application-panel-notification .sidebar-content {
-    background-color: transparent;
-    background: linear-gradient(to right, transparent 0%,  white 100%);
-    padding-left: 15px;
-    padding-top: 20px;
-    box-shadow: none;
-    width: 400px;
-    .notification {
-        &.is-info {
-            border: 1px solid darken(#eef6fc, 4);
-            box-shadow: 0px 0px 10px 0px darken(#eef6fc, 10);
-        }
-        &.is-success {
-            border: 1px solid darken(#effaf3, 4);
-            box-shadow: 0px 0px 10px 0px darken(#effaf3, 10);
-        }
-        &.is-warning {
-            border: 1px solid darken(#fffbeb, 6);
-            box-shadow: 0px 0px 10px 0px darken(#fffbeb, 10);
-        }
-        &.is-danger {
-            border: 1px solid darken(#feecf0, 4);
-            box-shadow: 0px 0px 10px 0px darken(#feecf0, 10);
-        }
+.application-panel-notification {
+
+    .sidebar-background {
+        background: rgba(lesli-css-get-color(slate, 300), 0.86);
     }
+
+    .sidebar-content {
+        background-color: lesli-css-get-color(solid, white);
+        box-shadow: none;
+        width: 500px;
+
+        .notification {
+            margin: 0;
+
+            &.is-info {
+                border: 1px solid darken(#eef6fc, 4);
+                box-shadow: 0px 0px 2px 0px darken(#eef6fc, 10);
+            }
+
+            &.is-success {
+                border: 1px solid darken(#effaf3, 4);
+                box-shadow: 0px 0px 2px 0px darken(#effaf3, 10);
+            }
+
+            &.is-warning {
+                border: 1px solid darken(#fffbeb, 6);
+                box-shadow: 0px 0px 2px 0px darken(#fffbeb, 10);
+            }
+
+            &.is-danger {
+                border: 1px solid darken(#feecf0, 4);
+                box-shadow: 0px 0px 2px 0px darken(#feecf0, 10);
+            }
+
+        }
+
+    }
+
 }
