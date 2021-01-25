@@ -2,7 +2,7 @@
 export default {
     data() {
         return {
-            endpoint: "/panel/account/integrations",
+            endpoint: "/administration/account/integrations",
             integration: {},
             id: null,
         }
