@@ -392,27 +392,6 @@ class User < ApplicationLesliRecord
             ) roles on roles.users_id = users.id
         ") 
 
-        if (query[:filters][:status] == 'active')
-            users = users.where("users.active = ?", true)
-        elsif (query[:filters][:status] == 'inactive')
-            users = users.where("users.active = ?", false)
-        end
-    
-        users = users.where("category = ?", query[:filters][:category]) if query[:filters][:category]
-        users = users.where("role_names #{operator} (?)", roles) unless roles.blank?
-        
-        users = users.where("
-            email like '%#{query[:filters][:search]}% or'
-            name like '%#{query[:filters][:search]}% or'
-        ")  if not query[:filters][:search].blank?
-
-        users = users
-            .page(query[:pagination][:page])
-            .per(query[:pagination][:perPage])
-            .order("#{query[:pagination][:orderColumn]} #{query[:pagination][:order]} NULLS LAST")
-
-        users_count = users.total_count
-
         users = users.select(
             :id,
             :active,
@@ -423,6 +402,28 @@ class User < ApplicationLesliRecord
             "CONCAT(ud.first_name, ' ',ud.last_name) as name",
             "role_names"
         )
+
+        if (query[:filters][:status] == 'active')
+            users = users.where("users.active = ?", true)
+        elsif (query[:filters][:status] == 'inactive')
+            users = users.where("users.active = ?", false)
+        end
+    
+        users = users.where("category = ?", query[:filters][:category]) if query[:filters][:category]
+        users = users.where("role_names #{operator} (?)", roles) unless roles.blank?
+        
+
+        users = users.where("
+            email like '%#{query[:filters][:search]}%' or
+            concat(ud.first_name, ' ', ud.last_name) like '%#{query[:filters][:search]}%'
+        ")  if not query[:filters][:search].blank?
+
+        users = users
+            .page(query[:pagination][:page])
+            .per(query[:pagination][:perPage])
+            .order("#{query[:pagination][:orderColumn]} #{query[:pagination][:order]} NULLS LAST")
+
+        users_count = users.total_count
 
         users = users.map do |user|
 
