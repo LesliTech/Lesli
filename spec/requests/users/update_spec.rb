@@ -16,7 +16,7 @@ For more information read the license file including with this software.
 // · 
 
 =end
-=begin
+
 require 'rails_helper'
 require 'spec_helper'
 
@@ -24,17 +24,13 @@ RSpec.configure do |config|
     config.include Devise::Test::IntegrationHelpers
 end
 
-RSpec.describe "PUT /users/:id", type: :request do
-
-    before(:all) do
-        @user = User.find_by(email: "dev@lesli.cloud")
-        sign_in @user
-    end
+RSpec.describe "POST /administration/users/:id/roles", type: :request do
+    include_context 'user authentication'
         
-    it "Change role to admin user" do
-        put "/users/#{@user.id}.json", params: {
-            user: {
-                roles_id: 1
+    it "Add admin role to user" do
+        post "/administration/users/#{@user.id}/roles.json", params: {
+            user_role: {
+                id: @user.account.roles.find_by(name: "admin").id
             }
         }
         expect(response).to have_http_status(:success) 
@@ -45,30 +41,26 @@ RSpec.describe "PUT /users/:id", type: :request do
 end
 
 
-RSpec.describe "PUT /users/:id", type: :request do
+RSpec.describe "POST /administration/users/:id/roles", type: :request do
+    include_context 'user authentication'
 
-    before(:all) do
-        @user = User.find_by(email: "dev@lesli.cloud")
-        sign_in @user
-    end
-
-    it "Change role to admin user to lower role" do
+    it "Add a lower role to a user that is admin" do
 
         # create a dummy user
-        user = Account.find(1).users.create({ 
+        user = @user.account.users.create({ 
             email: DateTime.now.strftime('%s')+"@lesli.cloud", 
             password: DateTime.now.strftime('%s'),
-            password_confirmation: DateTime.now.strftime('%s'),
-            roles_id: 1 
+            password_confirmation: DateTime.now.strftime('%s')
         })
+        user.user_roles.create({ role: @user.account.roles.find_by(name: "admin") })
 
-        # get the lowest role
-        role = Account.find(1).roles.last 
+        # get the guest role
+        role = @user.account.roles.find_by(name: "guest") 
 
-        # update user
-        put "/users/#{user.id}.json", params: {
-            user: {
-                roles_id: role.id
+        # Add the role to the user
+        post "/administration/users/#{@user.id}/roles.json", params: {
+            user_role: {
+                id: role.id
             }
         }
 
@@ -81,30 +73,26 @@ RSpec.describe "PUT /users/:id", type: :request do
 end
 
 
-RSpec.describe "PUT /users/:id", type: :request do
+RSpec.describe "POST /administration/users/:id/roles", type: :request do
+    include_context 'user authentication'
 
-    before(:all) do
-        @user = User.find_by(email: "dev@lesli.cloud")
-        sign_in @user
-    end
-
-    it "Change role to user from limited role to admin role" do
-
-        # get lowest role
-        role = Account.find(1).roles.last
+    it "Add admin role to a user with limited role" do
 
         # create a dummy user with limited user
         user = Account.find(1).users.create({ 
             email: DateTime.now.strftime('%s')+"_@lesli.cloud", 
             password: DateTime.now.strftime('%s'),
-            password_confirmation: DateTime.now.strftime('%s'),
-            roles_id: role.id
+            password_confirmation: DateTime.now.strftime('%s')
         })
+        user.user_roles.create({ role: @user.account.roles.find_by(name: "limited") })
 
-        # update role of the user to admin
-        put "/users/#{user.id}.json", params: {
-            user: {
-                roles_id: 1
+        # get the admin role
+        admin_role = @user.account.roles.find_by(name: "admin") 
+
+        # Add the role to the user
+        post "/administration/users/#{@user.id}/roles.json", params: {
+            user_role: {
+                id: admin_role.id
             }
         }
 
@@ -115,25 +103,18 @@ RSpec.describe "PUT /users/:id", type: :request do
 
 end
 
-RSpec.describe "PUT /users/:id", type: :request do
+RSpec.describe "POST /administration/users/:id/roles", type: :request do
+    include_context 'user authentication'
 
-    before(:all) do
-        @user = User.find_by(email: "dev@lesli.cloud")
-        sign_in @user
-    end
-
-    it "Change role to user from limited role to admin role" do
-
-        # get lowest role
-        role = Account.find(1).roles.last
+    it "Add admin role to a user with limited role when you don't have the proper privileges" do
 
         # create a dummy user with limited user
         user = Account.find(1).users.create({ 
             email: DateTime.now.strftime('%s')+"__@lesli.cloud", 
             password: DateTime.now.strftime('%s'),
-            password_confirmation: DateTime.now.strftime('%s'),
-            roles_id: role.id
+            password_confirmation: DateTime.now.strftime('%s')
         })
+        user.user_roles.create({ role: @user.account.roles.find_by(name: "limited") })
 
         # confirm my new user so I'm able to login
         user.confirm
@@ -141,10 +122,13 @@ RSpec.describe "PUT /users/:id", type: :request do
         # do login with my new brand test user
         sign_in user
 
-        # update role of the user to admin
-        put "/users/#{user.id}.json", params: {
-            user: {
-                roles_id: 1
+        # get the admin role
+        admin_role = @user.account.roles.find_by(name: "admin") 
+
+        # Add the role to the user
+        post "/administration/users/#{user.id}/roles.json", params: {
+            user_role: {
+                id: admin_role.id
             }
         }
         
@@ -155,26 +139,19 @@ RSpec.describe "PUT /users/:id", type: :request do
 
 end
 
-RSpec.describe "PUT /users/:id", type: :request do
-
-    before(:all) do
-        @user = User.find_by(email: "dev@lesli.cloud")
-        sign_in @user
-    end
+RSpec.describe "PUT /administration/users/:id", type: :request do
+    include_context 'user authentication'
 
     it "Change user password" do
-
-        # get lowest role
-        role = @user.account.roles.last
 
         # create a dummy user with limited user
         password = DateTime.now.strftime('%s')
         user = @user.account.users.create({ 
             email: DateTime.now.strftime('%s') + (rand(1000) + 1).to_s + "__@lesli.cloud", 
             password: password,
-            password_confirmation: password,
-            roles_id: role.id
+            password_confirmation: password
         })
+        user.user_roles.create({ role: @user.account.roles.find_by(name: "limited") })
 
         # confirm my new user so I'm able to login
         user.confirm
@@ -197,4 +174,4 @@ RSpec.describe "PUT /users/:id", type: :request do
         expect(JSON.parse(response.body)["successful"]).to eql(true)
     end
 end
-=end
+

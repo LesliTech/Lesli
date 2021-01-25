@@ -1,0 +1,24 @@
+=begin
+
+[[license]]
+=end
+
+require 'rails_helper'
+require 'spec_helper'
+require 'byebug'
+
+
+RSpec.describe 'GET:[[url]].json', type: :request do
+    include_context 'user authentication'
+    
+    before(:all) do
+        get '[[url]].json' 
+    end
+
+    include_examples 'successful standard json response'
+
+    it 'is expected to respond with all the users' do
+        expect(@response_body["data"]["[[controller]]_count"]).to eql([[controller]].count)
+    end
+    
+end
