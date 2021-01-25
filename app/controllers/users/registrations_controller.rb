@@ -96,7 +96,7 @@ class Users::RegistrationsController < Devise::RegistrationsController
             user.account = account
 
             # set user as owner of his just created account
-            user.role = account.roles.joins(:detail).where("role_details.name = 'owner'").first
+            user.user_roles.create({ role: account.roles.find_by(name: "owner")})
 
             # update user :)
             user.save

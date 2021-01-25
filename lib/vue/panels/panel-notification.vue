@@ -32,21 +32,10 @@ export default {
             notifications: []
         }
     },
-    mounted() {
-        this.mountListeners()
-    },
     methods: {
 
-        mountListeners() {
-            this.bus.subscribe("show:/core/layout/notification#panel", () => {
-                this.getNotifications()
-                this.open = true
-            })
-
-        },
-
         getNotifications() {
-            this.http.get(this.url.bell("notifications").s).then(result => {
+            this.http.get(this.url.bell("notifications")).then(result => {
                 if (result.successful) {
                     this.notifications = result.data
                 }
@@ -100,27 +89,33 @@ export default {
             })
         }
 
+    },
+    watch: {
+        'data.global.show_panel_notifications': function(open) {
+            if (open) {
+                this.getNotifications()
+            }
+        }
     }
 }
 </script>
 <template>
-    <section>
-        <b-sidebar
-            class="application-panel-notification"
-            :open.sync="open"
-            :right="true"
-            :fullheight="true"> 
-            <div 
-                :class="['notification', 'is-'+notification.kind, 'is-light']"
-                v-for="notification in notifications" :key="notification.id">
-                {{ notification.subject }}
-                <p class="has-text-grey-light is-size-7">
-                    {{ notification.created_at }} - 
-                    <a @click="putNotification(notification.id)">
-                        {{ translations.notifications.view_text_mark_as_read }}
-                    </a>
-                </p>
-            </div>
-        </b-sidebar>
-    </section>
+    <b-sidebar
+        class="application-panel-notification"
+        :open.sync="data.global.show_panel_notifications"
+        :right="true"
+        :overlay="false"
+        :fullheight="true"> 
+        <div 
+            :class="['notification', 'is-'+notification.kind, 'is-light']"
+            v-for="notification in notifications" :key="notification.id">
+            {{ notification.subject }}
+            <p class="has-text-grey-light is-size-7">
+                {{ notification.created_at }} - 
+                <a @click="putNotification(notification.id)">
+                    {{ translations.notifications.view_text_mark_as_read }}
+                </a>
+            </p>
+        </div>
+    </b-sidebar>
 </template>
