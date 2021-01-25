@@ -34,6 +34,7 @@ module RoutesApp
                     # account management
                     resource :account, only: [:show] do
                         scope module: :account do
+                            resources :settings, only: [:index, :show, :new, :create]
                             resources :integrations, only: [:index, :show, :new, :create]
                         end
                     end
@@ -110,7 +111,6 @@ module RoutesApp
 
                 end
 
-                # Lesli version
                 get "version", to: "abouts#version"
                 get "dashboard", to: "abouts#dashboard"
                 get "system-requirements", to: "abouts#system_requirements"

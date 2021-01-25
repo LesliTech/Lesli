@@ -1,5 +1,5 @@
-<%#
-
+<script>
+/*
 Copyright (c) 2020, all rights reserved.
 
 All the information provided by this platform is protected by international laws related  to 
@@ -14,7 +14,34 @@ For more information read the license file including with this software.
 
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
 // · 
+*/
 
-%>
 
-<router-view></router-view>
+
+// · 
+export default {
+    data() {
+        return {
+        }
+    },
+
+    methods: {
+
+    }
+}
+</script>
+<template>
+    <section class="application-component">
+        <component-header title="Account settings"></component-header>
+        <b-tabs>
+            <b-tab-item icon-pack="fas" icon="cog" label="General">
+            </b-tab-item>
+            <b-tab-item icon-pack="fas" icon="clock" label="Date & time">
+            </b-tab-item>
+            <b-tab-item icon-pack="fas" icon="palette" label="Branding">
+            </b-tab-item>
+            <b-tab-item icon-pack="fas" icon="paint-brush" label="Theme">
+            </b-tab-item>
+        </b-tabs>
+    </section>
+</template>
