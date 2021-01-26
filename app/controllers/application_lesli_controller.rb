@@ -73,23 +73,12 @@ class ApplicationLesliController < ApplicationController
 
         return @account if current_user.account.blank?
 
-        # add company information (account)
-
-        # http://0.0.0.0:3000/storage/account/1/ldonis.png
-        # http://0.0.0.0:3000/storage/account/1/37-ldonis.png
-
-        logo = "/images/brand/lesli-name.svg"
-
-        #custom_logo = current_user.account.files.where(:name => "company_logo").last#.attachment.url
         custom_logo = current_user.account.files.last
         logo = "/images/brand/lesli-name.svg"
         logo = custom_logo.attachment.url if custom_logo
 
-        LC::Debug.msg(
-            #current_user.account.files.where(:name => "company_logo").last.attachment,
-            #current_user.account.files.where(:name => "company_logo").last.attachment_identifier
-        )
 
+        # add company information (account)
         @account[:company] = {
             id: current_user.account.id,
             name: current_user.account.company_name,
