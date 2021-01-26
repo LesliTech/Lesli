@@ -34,6 +34,7 @@ module RoutesApp
                     # account management
                     resource :account, only: [:show] do
                         scope module: :account do
+                            resources :files, only: [:index, :show, :new, :create]
                             resources :settings, only: [:index, :show, :new, :create]
                             resources :integrations, only: [:index, :show, :new, :create]
                         end

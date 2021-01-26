@@ -74,11 +74,13 @@ class ApplicationLesliController < ApplicationController
         return @account if current_user.account.blank?
 
         # add company information (account)
-        @account[:company] = {
-            id: current_user.account.id,
-            name: current_user.account.company_name,
-            tag_line: current_user.account.company_tag_line
-        }
+        @account[:company] = Rails.cache.fetch("competing_price", expires_in: 12.hours) do
+            {
+                id: current_user.account.id,
+                name: current_user.account.company_name,
+                tag_line: current_user.account.company_tag_line
+            }
+        end
 
         @account[:settings] = { 
             datetime: Rails.application.config.lesli_settings["configuration"]["datetime"],

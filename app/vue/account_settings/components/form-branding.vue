@@ -20,50 +20,54 @@ For more information read the license file including with this software.
 export default {
     data() {
         return {
-            file: {},
-            files: []
+            url: null,
+            file: {}
         }
     },
     methods: {
-        deleteDropFile(index) {
-            this.files.splice(index, 1);
+
+        processFile(event) {
+            this.file = event.target.files[0]
+            this.url = URL.createObjectURL(this.file)
+
+            this.postFile()
+        },
+        postFile() {
+
+            const formData = new FormData();
+            formData.append("account_file[name]", "company_logo")
+            formData.append("account_file[file_type]", "png")
+            formData.append("account_file[attachment]", this.file)
+
+            this.http.post("/administration/account/files", formData).then(result => {
+                console.log(result)
+                this.msg.info("Image uploaded successfully")
+            })
+
         }
+
     }
+
 }
 </script>
 <template>
     <div class="card">
         <div class="card-content">
-            <div class="field">
-                <label class="label">Company logo</label>
-                <div class="control">
-                    <b-field class="file">
-                        <b-upload v-model="file" expanded>
-                            <a class="button is-primary is-fullwidth is-justify-content-center">
-                                <b-icon icon="upload"></b-icon>
-                                <span>{{ file.name || "Click to upload"}}</span>
-                            </a>
-                        </b-upload>
-                    </b-field>
-                    <b-field>
-                        <b-upload v-model="files" multiple drag-drop expanded>
-                            <div class="section">
-                                <div class="content has-text-centered">
-                                    <p>
-                                        <b-icon icon="upload" size="is-large"></b-icon>
-                                    </p>
-                                    <p>Drop your files here or click to upload</p>
-                                </div>
-                            </div>
-                        </b-upload>
-                    </b-field>
-                    <div class="tags">
-                        <span v-for="(file, index) in files" :key="index" class="tag is-primary">
-                            {{file.name}}
-                            <button class="delete is-small" type="button" @click="deleteDropFile(index)"></button>
+            <div id="preview">
+                <img v-if="url" :src="url" />
+            </div>
+            <div class="file">
+                <label class="file-label">
+                    <input class="file-input" type="file" @change="processFile">
+                    <span class="file-cta">
+                        <span class="file-icon">
+                            <i class="fas fa-upload"></i>
                         </span>
-                    </div>
-                </div>
+                        <span class="file-label">
+                            Choose a file…
+                        </span>
+                    </span>
+                </label>
             </div>
         </div>
     </div>
