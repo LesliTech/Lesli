@@ -39,7 +39,7 @@ export default {
             formData.append("account_file[file_type]", "png")
             formData.append("account_file[attachment]", this.file)
 
-            this.http.post("/administration/account/files", formData).then(result => {
+            this.http.post("/administration/account/files.json", formData).then(result => {
                 console.log(result)
                 this.msg.info("Image uploaded successfully")
             })
