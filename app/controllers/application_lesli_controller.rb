@@ -74,13 +74,30 @@ class ApplicationLesliController < ApplicationController
         return @account if current_user.account.blank?
 
         # add company information (account)
-        @account[:company] = Rails.cache.fetch("competing_price", expires_in: 12.hours) do
-            {
-                id: current_user.account.id,
-                name: current_user.account.company_name,
-                tag_line: current_user.account.company_tag_line
-            }
-        end
+
+        # http://0.0.0.0:3000/storage/account/1/ldonis.png
+        # http://0.0.0.0:3000/storage/account/1/37-ldonis.png
+
+        logo = "/images/brand/lesli-name.svg"
+
+        #custom_logo = current_user.account.files.where(:name => "company_logo").last#.attachment.url
+        custom_logo = current_user.account.files.last
+        logo = "/images/brand/lesli-name.svg"
+        logo = custom_logo.attachment.url if custom_logo
+
+        LC::Debug.msg(
+            #current_user.account.files.where(:name => "company_logo").last.attachment,
+            #current_user.account.files.where(:name => "company_logo").last.attachment_identifier
+        )
+
+        @account[:company] = {
+            id: current_user.account.id,
+            name: current_user.account.company_name,
+            tag_line: current_user.account.company_tag_line,
+            logo: logo
+        }
+
+
 
         @account[:settings] = { 
             datetime: Rails.application.config.lesli_settings["configuration"]["datetime"],

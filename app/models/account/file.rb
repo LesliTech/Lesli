@@ -20,6 +20,7 @@ For more information read the license file including with this software.
 class Account::File < ApplicationLesliRecord
     mount_uploader :attachment_s3,  AwsUploader
     mount_uploader :attachment,     LocalUploader
+    
 
     belongs_to :account, foreign_key: "account_id"
     belongs_to :cloud_object, class_name: "::Account", foreign_key: "account_id"

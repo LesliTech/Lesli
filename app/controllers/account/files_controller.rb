@@ -15,6 +15,7 @@ For more information read the license file including with this software.
 // · 
 
 =end
+
 class Account::FilesController < ApplicationLesliController
     before_action :set_account_file, only: [:show, :update, :destroy]
 
@@ -49,10 +50,12 @@ class Account::FilesController < ApplicationLesliController
 
     # POST /account/files
     def create
-        account_file = Account::File.new(account_file_params)
-        account_file.account = current_user.account
+
+        account_file = current_user.account.files.new(account_file_params)
 
         if account_file.save
+            account_file.update(name: account_file.attachment_identifier)
+
             respond_with_successful(account_file)
         else
             respond_with_error(account_file.errors.full_messages.to_sentence)

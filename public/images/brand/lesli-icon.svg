@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   inkscape:version="1.0 (4035a4f, 2020-05-01)"
+   height="792.88586"
+   width="913.88531"
+   sodipodi:docname="lesli-icon.svg"
+   version="1.1"
+   viewBox="0 0 913.88531 792.88586"
+   data-name="Layer 1"
+   id="Layer_1">
+  <metadata
+     id="metadata21">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <sodipodi:namedview
+     inkscape:current-layer="Layer_1"
+     inkscape:window-maximized="1"
+     inkscape:window-y="23"
+     inkscape:window-x="0"
+     inkscape:cy="396.44301"
+     inkscape:cx="456.948"
+     inkscape:zoom="0.85703125"
+     showgrid="false"
+     id="namedview19"
+     inkscape:window-height="940"
+     inkscape:window-width="1680"
+     inkscape:pageshadow="2"
+     inkscape:pageopacity="0"
+     guidetolerance="10"
+     gridtolerance="10"
+     objecttolerance="10"
+     borderopacity="1"
+     bordercolor="#666666"
+     pagecolor="#ffffff" />
+  <defs
+     id="defs12">
+    <style
+       id="style10">.cls-1{fill:#3b6cff;}</style>
+  </defs>
+  <title
+     id="title14">LESLI_LOGO_EDITABLE</title>
+  <path
+     style="stroke-width:1.6285"
+     id="path16"
+     d="M 913.8853,396.44306 A 179.92038,169.79974 0 0 0 765.26202,229.31696 179.85333,169.73645 0 0 0 456.44871,63.772899 179.80304,169.68899 0 0 0 147.68569,229.44353 a 179.85333,169.73645 0 0 0 0,333.99906 179.85333,169.73645 0 0 0 308.76302,165.67063 179.80304,169.68899 0 0 0 308.81331,-165.54406 179.92038,169.79974 0 0 0 148.62328,-167.1261 z m -446.00404,135.169 v 29.47331 H 412.56241 V 448.15975 A 32.654887,30.818028 0 0 0 379.84048,417.34173 H 260.18412 V 365.1346 h 119.65636 a 32.67165,30.833847 0 0 0 32.65488,-30.83385 V 221.32768 h 55.31885 v 112.9098 a 32.688413,30.849668 0 0 0 32.72194,30.83384 h 119.6396 v 52.20713 h -119.6396 a 32.67165,30.833847 0 0 0 -32.67165,30.81803 v 83.4523 z"
+     class="cls-1" />
+</svg>
