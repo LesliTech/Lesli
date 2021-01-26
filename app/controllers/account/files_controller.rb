@@ -50,6 +50,8 @@ class Account::FilesController < ApplicationLesliController
     # POST /account/files
     def create
         account_file = Account::File.new(account_file_params)
+        account_file.account = current_user.account
+
         if account_file.save
             respond_with_successful(account_file)
         else
@@ -83,11 +85,11 @@ class Account::FilesController < ApplicationLesliController
 
     # Use callbacks to share common setup or constraints between actions.
     def set_account_file
-    @account_file = Account::File.find(params[:id])
+        @account_file = Account::File.find(params[:id])
     end
 
     # Only allow a list of trusted parameters through.
     def account_file_params
-        params.require(:account_file).permit(:id, :name)
+        params.require(:account_file).permit(:id, :name, :attachment, :file_type)
     end
 end

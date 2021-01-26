@@ -1,4 +1,5 @@
 =begin
+
 Copyright (c) 2021, all rights reserved.
 
 All the information provided by this platform is protected by international laws related  to 
@@ -15,12 +16,11 @@ For more information read the license file including with this software.
 // · 
 
 =end
-class Account::File < ApplicationLesliRecord
-    def self.index(current_user, query)
-        []
-    end
 
-    def show(current_user, query)
-        self
-    end
+class Account::File < ApplicationLesliRecord
+    mount_uploader :attachment_s3,  AwsUploader
+    mount_uploader :attachment,     LocalUploader
+
+    belongs_to :account, foreign_key: "account_id"
+    belongs_to :cloud_object, class_name: "::Account", foreign_key: "account_id"
 end
