@@ -35,8 +35,6 @@ class LocalUploader < CarrierWave::Uploader::Base
     # Avoid using model.id or version_name here, see uploader/store.rb for details.
     def filename
 
-        LC::Debug.msg("uploader", model)
-
         if model.id && original_filename && ! original_filename.start_with?("#{model.id}-") 
             return "#{model.id}-#{original_filename}"
         end
