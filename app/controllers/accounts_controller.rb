@@ -88,6 +88,10 @@ class AccountsController < ApplicationLesliController
     end
     end
 
+    def company_logo
+        respond_with_successful(current_user.account.files.where(name: "company_logo").delete_all)
+    end
+
     private
 
     # Use callbacks to share common setup or constraints between actions.

@@ -1,4 +1,4 @@
-<%#
+=begin
 
 Copyright (c) 2020, all rights reserved.
 
@@ -15,6 +15,20 @@ For more information read the license file including with this software.
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
 // · 
 
-%>
+=end
 
-<router-view></router-view>
+class CreateAccountFiles < ActiveRecord::Migration[6.1]
+    def change
+        table_base_structure = JSON.parse(File.read(Rails.root.join("db","structure","00000006_files.json")))
+        create_table :account_files do |t|
+            table_base_structure.each do |column|
+                t.send(
+                    column["type"].parameterize.underscore.to_sym,
+                    column["name"].parameterize.underscore.to_sym
+                )
+            end
+            t.timestamps
+        end
+        add_reference :account_files, :account, foreign_key: true
+    end
+end
