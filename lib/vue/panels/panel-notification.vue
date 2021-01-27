@@ -37,7 +37,7 @@ export default {
         getNotifications() {
             this.http.get(this.url.bell("notifications")).then(result => {
                 if (result.successful) {
-                    this.notifications = result.data
+                    this.notifications = result.data.records
                 }
             })
         },
@@ -109,11 +109,14 @@ export default {
         <div 
             :class="['notification', 'is-'+notification.kind, 'is-light']"
             v-for="notification in notifications" :key="notification.id">
-            {{ notification.subject }}
+            <p :class="{'has-text-weight-bold': Boolean(notification.body)}">
+                {{ notification.subject }}
+            </p>
+            <p>{{ notification.body }}</p>
             <p class="has-text-grey-light is-size-7">
                 {{ notification.created_at }} - 
                 <a @click="putNotification(notification.id)">
-                    {{ translations.notifications.view_text_mark_as_read }}
+                    {{ translations.notifications.view_text_mark_as_read || 'mark as read' }}
                 </a>
             </p>
         </div>
