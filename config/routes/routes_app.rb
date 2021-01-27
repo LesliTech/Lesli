@@ -38,6 +38,11 @@ module RoutesApp
                             resources :settings, only: [:index, :show, :new, :create]
                             resources :integrations, only: [:index, :show, :new, :create]
                         end
+                        member do
+                            scope :resources do
+                                delete :company_logo
+                            end
+                        end
                     end
 
                     # user maintenance
