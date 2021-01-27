@@ -103,7 +103,7 @@ class UsersController < ApplicationLesliController
             # saving logs with information about the creation of the user
             user.logs.create({description: "user_created_at " + LC::Date.to_string_datetime(LC::Date.datetime) })
             user.logs.create({description: "user_created_by " + current_user.id.to_s })
-            user.logs.create({description: "user_created_with_role " + user.roles[0].id.to_s })
+            user.logs.create({description: "user_created_with_role " + user.user_roles.first.roles_id.to_s })
 
             respond_with_successful(user)
 
