@@ -192,7 +192,7 @@ export default {
     <section class="application-component">
         <component-header :title="translations.core.users.view_text_title_users">
             <div class="buttons">
-                <button class="button" @click="getUsers()">
+                <button class="button" name="btn-reload" @click="getUsers()">
                     <b-icon icon="sync" size="is-small" :custom-class="loading ? 'fa-spin' : ''" />
                     <span> {{ translations.core.shared.view_text_btn_reload }}</span>
                 </button>
