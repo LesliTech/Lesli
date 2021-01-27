@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   inkscape:version="1.0 (4035a4f, 2020-05-01)"
+   height="292.44"
+   width="716.56"
+   sodipodi:docname="lesli-logo.svg"
+   version="1.1"
+   viewBox="0 0 716.56 292.44"
+   data-name="Layer 1"
+   id="Layer_1">
+  <metadata
+     id="metadata874">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <sodipodi:namedview
+     inkscape:current-layer="Layer_1"
+     inkscape:window-maximized="0"
+     inkscape:window-y="23"
+     inkscape:window-x="0"
+     inkscape:cy="32.939995"
+     inkscape:cx="472.62"
+     inkscape:zoom="0.55625"
+     showgrid="false"
+     id="namedview872"
+     inkscape:window-height="948"
+     inkscape:window-width="1680"
+     inkscape:pageshadow="2"
+     inkscape:pageopacity="0"
+     guidetolerance="10"
+     gridtolerance="10"
+     objecttolerance="10"
+     borderopacity="1"
+     bordercolor="#666666"
+     pagecolor="#ffffff" />
+  <defs
+     id="defs835">
+    <style
+       id="style833">.cls-1{fill:#3b6cff;}.cls-2{fill:none;}.cls-3{fill:#fff;}</style>
+  </defs>
+  <title
+     id="title837">LESLI_LOGO_EDITABLE</title>
+  <path
+     id="path839"
+     d="m 156,228.52 v 58.59 H 0 V 20.759997 H 60.88 V 228.52 Z"
+     class="cls-1" />
+  <path
+     id="path841"
+     d="m 271.62,241.45 c 15.6,0 28.92,-6.08 36.53,-14.46 l 45.66,26.26 c -18.65,25.87 -46.8,39.19 -83,39.19 -65.07,0 -105.4,-43.76 -105.4,-100.45 0,-56.69 41.21,-100.460003 101.3,-100.460003 55.55,0 96.65,43.000003 96.65,100.460003 a 110.75,110.75 0 0 1 -2.28,22.83 H 226 c 7.23,19.78 24.73,26.63 45.62,26.63 z m 35,-69.25 c -6.08,-22.07 -23.21,-30.06 -40.33,-30.06 -21.69,0 -36.15,10.66 -41.47,30.06 z"
+     class="cls-1" />
+  <path
+     id="path843"
+     d="m 531.9,230.04 c 0,43.75 -38,62.4 -79.14,62.4 -38,0 -67,-14.46 -81.81,-45.28 L 420.42,219 c 4.94,14.46 15.6,22.45 32.34,22.45 13.7,0 20.54,-4.18 20.54,-11.79 0,-20.93 -93.6,-9.9 -93.6,-75.72 0,-41.48 35,-62.410003 74.58,-62.410003 30.82,0 58.22,13.700003 74.2,40.720003 l -48.71,26.25 c -5.33,-9.89 -12.93,-16.74 -25.49,-16.74 -9.89,0 -16,3.81 -16,10.65 0.02,21.69 93.62,7.23 93.62,77.63 z"
+     class="cls-1" />
+  <path
+     id="path845"
+     d="m 556.62,9.3499953 h 57.07 V 287.11 h -57.07 z"
+     class="cls-1" />
+  <path
+     id="path847"
+     d="m 651.73,96.859997 h 57.08 V 287.11 h -57.08 z"
+     class="cls-1" />
+  <circle
+     id="circle849"
+     r="36.290001"
+     cy="36.290001"
+     cx="680.27002"
+     class="cls-1" />
+</svg>
