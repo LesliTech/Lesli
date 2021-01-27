@@ -76,38 +76,3 @@ jobs:
       env:
         RAILS_ENV: test
         RAILS_MASTER_KEY: ${{ secrets.RAILS_MASTER_KEY_TEST }}
-    - name: Checkout LesliShield
-      uses: actions/checkout@v2
-      with:
-        repository: leitfaden/LesliShield
-        ref: master
-        token: ${{ secrets.PUBLISH_GEM_BY_ACTIONS }}
-        path: ./LesliShield/
-    - name: Setup test database
-      run: |
-        cp ./config/credentials/testci.yml.enc ./config/credentials/test.yml.enc
-        bundle list
-        bundle exec rake db:drop
-        bundle exec rake db:create
-        bundle exec rake db:migrate
-        bundle exec rake db:setup
-      env:
-        RAILS_ENV: test
-        RAILS_MASTER_KEY: ${{ secrets.RAILS_MASTER_KEY_TEST }}
-    - name: Run Rails
-      run: |
-        cp ./config/credentials/testci.yml.enc ./config/credentials/test.yml.enc
-        bundle exec rails s -d
-      env:
-        RAILS_ENV: test
-        RAILS_MASTER_KEY: ${{ secrets.CORE_RAILS_MASTER_KEY_TEST }}
-    - name: LesliShield NPM install
-      run: |
-        cd ./LesliShield/
-        npm install
-        cd ..
-    - name: Run tests PlayWright
-      run: |
-        cd ./LesliShield/
-        npm run test:gui:lesli
-        cd ..
