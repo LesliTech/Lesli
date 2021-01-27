@@ -20,17 +20,30 @@ For more information read the license file including with this software.
 export default {
     data() {
         return {
-            url: null,
+            image: {
+                url: null,
+                alt: null,
+            },
             file: {}
+        }
+    },
+    mounted() {
+        if (this.lesli.company.logo) {
+            this.image.url = this.lesli.company.logo
+            this.image.alt = this.lesli.company.name
         }
     },
     methods: {
 
         processFile(event) {
             this.file = event.target.files[0]
-            this.url = URL.createObjectURL(this.file)
+            this.image.url = URL.createObjectURL(this.file)
 
             this.postFile()
+        },
+        setAltImg(event) { 
+            event.target.classList.add("error")
+            event.target.src = "/images/icons/image.svg" 
         },
         postFile() {
 
@@ -39,11 +52,15 @@ export default {
             formData.append("account_file[file_type]", "png")
             formData.append("account_file[attachment]", this.file)
 
-            this.http.post("/administration/account/files.json", formData).then(result => {
-                console.log(result)
-                this.msg.info("Image uploaded successfully")
+            this.http.post(this.url.admin("account/files"), formData).then(result => {
+                this.msg.success("Image uploaded successfully")
             })
 
+        },
+        deleteFiles() {
+            this.http.delete(this.url.admin("account/resources/company_logo")).then(result => {
+                this.msg.info("Image removed successfully")
+            })
         }
 
     }
@@ -51,23 +68,29 @@ export default {
 }
 </script>
 <template>
-    <div class="card">
+    <div class="card settings-branding">
         <div class="card-content">
-            <div id="preview">
-                <img v-if="url" :src="url" />
+            <div id="preview" class="has-text-centered">
+                <img class="company-logo-uploaded" v-if="image.url" :alt="image.alt" :src="image.url" @error="setAltImg"/>
             </div>
-            <div class="file">
-                <label class="file-label">
-                    <input class="file-input" type="file" @change="processFile">
-                    <span class="file-cta">
+            <div class="field file">
+                <label class="upload control is-expanded">
+                    <a class="button is-primary is-fullwidth is-justify-content-center">
                         <span class="file-icon">
                             <i class="fas fa-upload"></i>
                         </span>
-                        <span class="file-label">
-                            Choose a file…
-                        </span>
-                    </span>
+                        <span>Click to upload</span>
+                    </a>
+                    <input class="file-input" type="file" @change="processFile">
                 </label>
+            </div>
+            <div class="field">
+                <button @click="deleteFiles()" class="button is-danger is-outlined is-fullwidth is-justify-content-center">
+                    <span>Remove</span>
+                    <span class="icon is-small">
+                        <i class="fas fa-times"></i>
+                    </span>
+                </button>
             </div>
         </div>
     </div>
