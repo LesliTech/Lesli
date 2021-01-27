@@ -74,7 +74,6 @@ class ApplicationLesliController < ApplicationController
         return @account if current_user.account.blank?
 
         custom_logo = current_user.account.files.where(name: "company_logo").last
-        LC::Debug.msg custom_logo
         logo = "/images/brand/lesli-name.svg"
         logo = custom_logo.attachment.url if custom_logo
 
