@@ -1,3 +1,20 @@
-// Place all the styles related to the account/settings controller here.
-// They will automatically be included in application.css.
-// You can use Sass (SCSS) here: https://sass-lang.com/
+
+
+.account-settings {
+
+    .settings-branding {
+
+        img.company-logo-uploaded {
+            width: 100%;
+
+            &.error {
+                margin: 0 auto;
+                max-width: 150px;
+            }
+
+        }
+        
+    }
+
+}
+

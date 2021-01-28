@@ -49,7 +49,8 @@ export default {
             },
             translations: {
                 core: I18n.t('core.shared')
-            }
+            },
+            loading: false
         }
     },
 
@@ -79,11 +80,13 @@ export default {
         },
 
         getActivities() {
+            this.loading = true
             if(this.cloudId){
                 let url = `/${this.module_name.slash}/${this.object_name.plural}/${this.cloudId}/activities.json`
                 this.http.get(url).then(result => {
                     if (result.successful) {
                         this.activities = result.data
+                        this.loading = false
                     }
                 }).catch(error => {
                     console.log(error)
@@ -116,7 +119,11 @@ export default {
 </script>
 <template>
     <section>
-        <div class="timeline section">
+        <div class="timeline section" v-if="loading">
+            <component-data-loading>
+            </component-data-loading>
+        </div>
+        <div class="timeline section" v-else>
             <div class="timeline-item" v-for="activity in activities" :key="activity.id">
                 <div class="timeline-marker" v-if="!activity.icon"></div>
                 <div class="timeline-marker is-icon" v-if="activity.icon">

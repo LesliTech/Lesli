@@ -1,4 +1,5 @@
-/**
+/*
+
 Copyright (c) 2020, all rights reserved.
 
 All the information provided by this platform is protected by international laws related  to 
@@ -13,7 +14,9 @@ For more information read the license file including with this software.
 
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
 // · 
+
 */
+
 
 
 // · Including plugins and dependencies
@@ -25,6 +28,8 @@ var webpack = require("webpack")
 var TerserPlugin = require("terser-webpack-plugin")
 var VueLoaderPlugin = require("vue-loader/lib/plugin")
 var webpackConfig = []
+
+
 
 // · 
 module.exports = env => {
@@ -57,6 +62,7 @@ module.exports = env => {
         },
         entry: {
             "accounts/app": "./app/vue/accounts/app.js",
+            "account/settings_app": "./app/vue/account_settings/app.js",
             "account/integrations_app": "./app/vue/account_integrations/app.js",
             "users/app": "./app/vue/users/app.js",
             "roles/app": "./app/vue/roles/app.js",            
