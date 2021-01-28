@@ -62,7 +62,7 @@ export default {
                     this.alert(result.error.message, "danger")
                     return
                 }
-                this.alert(this.translations.users.messages_success_user_updated)
+                this.alert(this.translations.users.messages_success_user_updated, "success")
             }).catch(error => {
                 console.log(error)
             })
@@ -86,8 +86,7 @@ export default {
                     this.alert(result.error.message, "danger")
                     return
                 }
-                this.getUsers()
-                this.alert(this.translations.users.messages_success_user_updated)
+                this.alert(this.translations.users.messages_success_user_updated, "success")
             }).catch(error => {
                 console.log(error)
             })
