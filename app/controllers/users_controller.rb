@@ -109,7 +109,8 @@ class UsersController < ApplicationLesliController
 
             begin
                 # Send welcome email with password reset link instead of reset password
-                UserMailer.welcome_email(user, "Welcome to The Lesli Platform").deliver_now
+                # UserMailer.welcome_email(user, "Welcome to The Lesli Platform").deliver_now
+                User.send_password_reset(user)
             rescue => exception
                 Honeybadger.notify(exception)
                 user.logs.create({description: "user_creation_email_failed " + exception.message })
