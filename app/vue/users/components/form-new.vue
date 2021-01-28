@@ -70,8 +70,7 @@ export default {
 
             this.http.post(url, data).then(result => {
                 if (result.successful) {
-                    this.alert(this.translations.users.notification_user_created, "success")
-                    this.msg.info("User created.")
+                    this.alert(this.translations.users.messages_success_created_successfully, "success")
                     this.url.go("/administration/users")
                 }else{
                     this.alert(result.error.message,"danger")
