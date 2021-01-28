@@ -39,7 +39,7 @@ export default {
             })
         },
         showRole(role) {
-            this.$router.push(`${role.id}/edit`)
+            this.$router.push(`${role.id}`)
         }
     }
 }
