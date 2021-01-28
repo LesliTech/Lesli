@@ -18,10 +18,12 @@ For more information read the license file including with this software.
 // · IMPORTANT: 
 // · You have to compile rails assets to be able to test errors in development
 // · You have to run rails for production with RAILS_SERVE_STATIC_FILES=true
+// · Example: RAILS_SERVE_STATIC_FILES=true rails s --environment=production
 
 =end
 
 class ErrorsController < ApplicationController
+    include Application::Responder
 
     # inspired on:
     # https://medium.com/rails-ember-beyond/error-handling-in-rails-the-modular-way-9afcddd2fe1b
@@ -30,13 +32,7 @@ class ErrorsController < ApplicationController
         respond_to do |format|
             format.html { }
             format.json { 
-                render status: 401, json: {
-                    successful: false,
-                    error: {
-                        message: "Unauthorized",
-                        details: []
-                    }
-                }.to_json
+                respond_with_unauthorized
             }
         end
     end
@@ -54,7 +50,7 @@ class ErrorsController < ApplicationController
         # render 404 response if requested url does not exist
         respond_to do |format|
             format.html { }
-            format.json { responseWithNotFound }
+            format.json { respond_with_not_found }
         end
 
     end

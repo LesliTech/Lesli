@@ -1,6 +1,6 @@
-<%#
+=begin
 
-Copyright (c) 2020, all rights reserved.
+Copyright (c) 2021, all rights reserved.
 
 All the information provided by this platform is protected by international laws related  to 
 industrial property, intellectual property, copyright and relative international laws. 
@@ -15,6 +15,13 @@ For more information read the license file including with this software.
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
 // · 
 
-%>
+=end
 
-<router-view></router-view>
+class Account::File < ApplicationLesliRecord
+    mount_uploader :attachment_s3,  AwsUploader
+    mount_uploader :attachment,     LocalUploader
+    
+
+    belongs_to :account, foreign_key: "account_id"
+    belongs_to :cloud_object, class_name: "::Account", foreign_key: "account_id"
+end

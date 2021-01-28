@@ -73,12 +73,20 @@ class ApplicationLesliController < ApplicationController
 
         return @account if current_user.account.blank?
 
+        custom_logo = current_user.account.files.where(name: "company_logo").last
+        logo = "/images/brand/lesli-name.svg"
+        logo = custom_logo.attachment.url if custom_logo
+
+
         # add company information (account)
         @account[:company] = {
             id: current_user.account.id,
             name: current_user.account.company_name,
-            tag_line: current_user.account.company_tag_line
+            tag_line: current_user.account.company_tag_line,
+            logo: logo
         }
+
+
 
         @account[:settings] = { 
             datetime: Rails.application.config.lesli_settings["configuration"]["datetime"],
