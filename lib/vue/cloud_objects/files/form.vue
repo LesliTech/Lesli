@@ -45,6 +45,7 @@ export default {
             file_options: {
                 file_types: []
             },
+            upload_successful: true,
             dropzone_options: {
                 url: null,
                 thumbnailWidth: 150,
@@ -118,6 +119,7 @@ export default {
             if(event){
                 event.preventDefault()
             }
+            this.upload_successful = true
 
             let dropzone = this.$refs['dropzone']
             this.submitting_form = true
@@ -157,10 +159,13 @@ export default {
 
         cleanDropzone(){
             this.submitting_form = false
-            this.alert(this.translations.core.messages_info_file_created, 'success')
-            this.$refs['dropzone'].removeAllFiles(true)
+            if(this.upload_successful){
+                this.alert(this.translations.core.messages_info_file_created, 'success')
+            }
+
             this.$emit('upload-complete')
             this.bus.publish(`post:${this.main_route}/files-complete`)
+            this.$refs['dropzone'].removeAllFiles(true)
 
             // We trigger a reload in the activities when a file is uploaded
             if(this.data.reload){
@@ -168,13 +173,10 @@ export default {
             }
         },
 
-        filePosted(file, result){
-            if(result.successful){
-                this.bus.publish(`post:${this.main_route}/files`, result.data)
-            }else{
-                this.alert(result.error.message,'danger')
-            }
-        }
+        displayUploadError(_file, message){
+            this.upload_successful = false
+            this.alert(message,'danger')
+        },
     },
 
     watch: {
@@ -228,7 +230,7 @@ export default {
                         :options="dropzone_options"
                         v-on:vdropzone-file-added="verifyFileAdded"
                         v-on:vdropzone-sending="attachFileType"
-                        v-on:vdropzone-success="filePosted"
+                        v-on:vdropzone-error="displayUploadError"
                         v-on:vdropzone-queue-complete="cleanDropzone"
                     ></vue-dropzone>
                 </b-field>
