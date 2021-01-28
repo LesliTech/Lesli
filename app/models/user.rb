@@ -192,7 +192,7 @@ class User < ApplicationLesliRecord
     #     old_user = User.last
     #     old_user.revoke_access
     def revoke_access
-        self.update_attributes(active: false)
+        self.update(active: false)
     end
 
 
@@ -200,7 +200,7 @@ class User < ApplicationLesliRecord
     # @return [void]
     # @description Change user password forcing user to reset the password
     def request_password_change 
-        self.update_attributes(password_expiration_at: Time.current)
+        self.update(password_expiration_at: Time.current)
     end
 
 
