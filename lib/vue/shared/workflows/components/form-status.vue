@@ -33,6 +33,11 @@ export default {
             required: true
         },
 
+        statusForeignKey: {
+            type: String,
+            default: null
+        },
+
         translationsPath: {
             default: null,
             type: String
@@ -76,6 +81,11 @@ export default {
                 this.data[this.cloudObjectVariable].status = this.selectedStatus.name
                 this.data[this.cloudObjectVariable].status_number = this.selectedStatus.number
                 this.data[this.cloudObjectVariable].status_type = this.selectedStatus.status_type
+
+                // This is for flexibility. This way the foreign key for the status can have any name
+                if(this.statusForeignKey){
+                    this.data[this.cloudObjectVariable][this.statusForeignKey] = this.selectedStatus.id
+                }
             })
         },
     }
