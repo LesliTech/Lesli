@@ -86,6 +86,8 @@ export default {
         },
 
         getUsers() {
+            this.storage.local("filters", this.filters)
+            
             this.loading = true
 
             let url = `${this.main_route}.json?role=kop,callcenter,guest&type=exclude`
