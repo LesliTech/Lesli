@@ -103,26 +103,18 @@ iterations.times do |iteration|
             expect(distance_to_words).to eq(distance_of_time_in_words(date_from, date_to, include_seconds: true))
         end
 
+        it "LC::Date.distance_to_words #{iteration + 1}/#{iterations}" do
+            date_from = LC::Date.datetime("17/12/1998")
+            date_to = LC::Date.datetime("17/12/2021")
+            distance_to_words = LC::Date.distance_to_words(date_from, date_to)
+            expect(distance_to_words).to eq("about 23 years")
+        end
+
         it "LC::Date.get_year_difference #{iteration + 1}/#{iterations}" do
-            date_from = LC::Date.datetime("17/01/1998")
-            date_to = LC::Date.tomorrow_at_midnight
+            date_from = LC::Date.datetime("17/12/1998")
+            date_to = LC::Date.datetime("17/12/2021")
             year_difference = LC::Date.get_year_difference(date_from, date_to)
-
-            time_from = date_from.in_time_zone(@zone)
-            time_to = date_to.in_time_zone(@zone)
-
-            from_year = time_from.year
-            to_year = time_to.year
-            from_month = time_from.month
-            to_month = time_to.month
-            from_day = time_from.day
-            to_day = time_to.day
-
-            year_difference2 = to_year - from_year
-            year_difference2 - 1 if from_month > to_month
-            year_difference2 - 1 if (from_day > to_day) && (from_month == to_month)
-
-            expect(year_difference).to eq(year_difference2)
+            expect(year_difference).to eq(23)
         end
     end
 end
