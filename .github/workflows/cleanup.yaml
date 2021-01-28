@@ -1,7 +1,7 @@
 name: Cleanup
 on:
   schedule:
-    - cron:  '*/15 * * * *'
+    - cron:  '0 6 * * *'
 
 jobs:
     cleanup:
@@ -22,4 +22,4 @@ jobs:
           with:
             token: ${{ secrets.GITHUB_TOKEN }}
             date: '1 months ago'
-            dry_run: true
+            dry_run: false

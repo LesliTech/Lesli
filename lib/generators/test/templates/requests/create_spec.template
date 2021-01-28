@@ -1,0 +1,30 @@
+=begin
+
+[[license]]
+=end
+
+
+require 'rails_helper'
+require 'spec_helper'
+require 'byebug'
+
+
+
+RSpec.describe 'POST:[[url]]', type: :request do
+    include_context 'user authentication'
+
+    before(:all) do
+        post("[[url]].json", params: {
+            [[controller]]: {
+
+            }
+        })
+    end
+
+    include_examples 'successful standard json response'
+
+    it 'is expected to test users in a loop' do
+        expect(@response_body["data"]["id"]).to be > 0
+    end
+
+end
