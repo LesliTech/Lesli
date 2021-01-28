@@ -28,25 +28,42 @@ module Interfaces::Controllers::Files
     # @example
     #     # Executing this controller's action from javascript's frontend
     #     let ticket_id = 1;
-    #     this.http.get(`127.0.0.1/help/tickets/${ticket_id}/files`);
+    #     this.http.get(`127.0.0.1/help/tickets/${ticket_id}/files.json`);
     def index
         file_model = file_model() # If there is a custom file model, it must be returned in this method
         cloud_object_model = file_model.cloud_object_model
-        
-        @files = file_model.where(
-            "#{cloud_object_model.table_name}_id".to_sym => params["#{cloud_object_model.name.demodulize.underscore}_id".to_sym]
-        ).order(id: :desc).map do |file|
-            file_attributes = file.attributes
-            file_attributes["created_at_raw"] = file_attributes["created_at"]
-            file_attributes["created_at"] = LC::Date.to_string_datetime(file_attributes["created_at"])
-            file_attributes["editable"] = file.is_editable_by?(current_user)
-            file_attributes
-        end
-        
-        if block_given?
-            yield(@files)
-        else
-            respond_with_successful(@files)
+        account_model = cloud_object_model.reflect_on_association(:account).klass
+
+        respond_to do |format|
+            format.json do
+                @files = file_model.where(
+                    "#{cloud_object_model.table_name}_id".to_sym => params["#{cloud_object_model.name.demodulize.underscore}_id".to_sym]
+                ).order(id: :desc).map do |file|
+                    file_attributes = file.attributes
+                    file_attributes["created_at_raw"] = file_attributes["created_at"]
+                    file_attributes["created_at"] = LC::Date.to_string_datetime(file_attributes["created_at"])
+                    file_attributes["editable"] = file.is_editable_by?(current_user)
+                    file_attributes
+                end
+                
+                if block_given?
+                    yield(@files)
+                else
+                    respond_with_successful(@files)
+                end
+            end
+
+            format.zip do
+                @files = file_model.joins(
+                    :cloud_object
+                ).where(
+                    "#{file_model.table_name}.id in (#{params[:ids]})"
+                ).where(
+                    "#{cloud_object_model.table_name}.#{account_model.table_name}_id = #{current_user.account.id}"
+                )
+
+                handle_zip_download(@files)
+            end
         end
     end
 
@@ -222,11 +239,16 @@ module Interfaces::Controllers::Files
 
     # @return [void]
     # @description Creates a zip file with all selected documents and sends it to the user. Note that files
-    #      that don't belong to the current_user's account will be ignored
+    #      that don't belong to the current_user's account will be ignored. This method is deprecated, use
+    #      the index method instead.
     # @example
     #     # Executing this controller's action from javascript's frontend
-    #     this.http.get('127.0.0.1/house/options/project/1/files/zip&ids=1,2,3,4');
+    #     this.http.get('127.0.0.1/house/projects/1/resources/files-zip-download&ids=1,2,3,4');
     def zip_download
+        def show_deprecated_message
+            LC::Debug.msg "DEPRECATED: Use the index method with application/zip instead"
+        end
+
         file_model = file_model() # If there is a custom file model, it must be returned in this method
         cloud_object_model = file_model.cloud_object_model
         account_model = cloud_object_model.reflect_on_association(:account).klass
