@@ -19,8 +19,21 @@ For more information read the license file including with this software.
 
 module HtmlHelper
 
+    def navigation_container(label, args, &block)
+        # does not work
+        content_tag("b-menu-item") do 
+            content_tag("template", :slot => "label", "slot-scope" => "props") do 
+                content_tag(:i, "", :class => args) +
+                content_tag(:span, label) +
+                %(<b-icon class="is-pulled-right" :icon="props.expanded ? 'caret-down' : 'caret-right'"></b-icon>).html_safe
+            end
+            (block_given? ? capture(&block) : content) + content_tag(:span, "this is the end")
+        end
+    end
+
     def navigation_item(link_path)
         class_name = request.original_fullpath.include?(link_path) ? "is-active" : nil
+        class_name = current_page?(link_path) ? "is-active" : nil
         content_tag(:li) do
             content_tag(:a, :href => link_path, :class => class_name) do
                 yield
