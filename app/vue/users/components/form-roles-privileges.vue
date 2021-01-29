@@ -75,7 +75,7 @@ export default {
                                 <div class="select">
                                     <select v-model="role_selected">
                                         <option v-for="role in data.options.roles" :key="role.id" :value="role">
-                                            {{ role.name }}
+                                            {{object_utils.translateEnum(translations.roles, 'column_enum_role', role.name)}} 
                                         </option>
                                     </select>
                                 </div>
@@ -106,7 +106,8 @@ export default {
                                 close-type="is-info"
                                 aria-close-label="Close tag"
                                 @close="deleteUserRole(role.id)">
-                                {{ role.name }}
+                                
+                                {{object_utils.translateEnum(translations.roles, 'column_enum_role', role.name)}} 
                             </b-tag>
                         </div>
                     </div>
