@@ -207,8 +207,7 @@ class User < ApplicationLesliRecord
 
     # @return [void]
     # @description Change user password forcing user to reset the password
-    # @TODO: add a password status so we can deprecate user password
-    def generate_password_token
+    def generate_reset_password_token
         raw, enc = Devise.token_generator.generate(self.class, :reset_password_token)
 
         self.reset_password_token   = enc
@@ -216,11 +215,16 @@ class User < ApplicationLesliRecord
         save(validate: false)
         raw
     end
+    def generate_password_token
+        LC::Debug.deprecation("use generate_reset_password_token instead and build the email manually")
+        generate_reset_password_token
+    end
 
 
 
     # Generate a new password token and sent via email
     def self.send_password_reset(user)
+        LC::Debug.deprecation("use generate_reset_password_token instead and build the email manually")
         raw, hashed = Devise.token_generator.generate(User, :reset_password_token)
         user.update(reset_password_token: hashed, reset_password_sent_at: LC::Date.now)
         data = {
@@ -235,6 +239,7 @@ class User < ApplicationLesliRecord
 
     # Generate a new password token and sent via email
     def send_welcome_email
+        LC::Debug.deprecation("use generate_reset_password_token instead and build the email manually")
         raw, hashed = Devise.token_generator.generate(User, :reset_password_token)
         self.update(reset_password_token: hashed, reset_password_sent_at: LC::Date.now)
         data = {
