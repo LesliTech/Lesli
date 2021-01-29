@@ -20,9 +20,6 @@ For more information read the license file including with this software.
 require 'rails_helper'
 require 'spec_helper'
 
-RSpec.configure do |config|
-    config.include Devise::Test::IntegrationHelpers
-end
 
 RSpec.describe "POST /administration/users/:id/roles", type: :request do
     include_context 'user authentication'
