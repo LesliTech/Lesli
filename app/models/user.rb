@@ -251,7 +251,7 @@ class User < ApplicationLesliRecord
 
         return false if role_id.blank?
 
-        role = self.account.roles.find(role_id)
+        role = self.account.roles.find(role_id) rescue nil
 
         return false if role.blank?
 
