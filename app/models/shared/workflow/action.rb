@@ -29,6 +29,7 @@ module Shared
         }
 
         enum concerning_user_types: {
+            creator: "creator", # The creator of the cloud_object
             main: "main", # The main user will be returned by calling the main_user() function in a cloud_object
             custom: "custom", # If this type is chosen, the user will input the concerning users manually
             current_user: "current_user" # If this type is chosen the selected user will be current_user
@@ -90,12 +91,12 @@ module Shared
             initial_status_id = old_attributes["#{full_module_name}_workflow_statuses_id"]
             final_status_id = new_attributes["#{full_module_name}_workflow_statuses_id"]
 
-            if final_status_id && initial_status_id && final_status_id != initial_status_id
+            if final_status_id && final_status_id != initial_status_id
                 
                 workflow_actions = cloud_object.status.workflow_including_deleted.actions.where("
-                    (final_status_id = #{final_status_id} and initial_status_id = #{initial_status_id}) or
-                    (final_status_id = #{final_status_id} and initial_status_id is null)
-                ")
+                    (final_status_id = ? and initial_status_id = ?) or
+                    (final_status_id = ? and initial_status_id is ?)
+                ", final_status_id, initial_status_id, final_status_id, nil)
 
                 workflow_actions.each do |action|
                     action.execute(current_user, cloud_object)
