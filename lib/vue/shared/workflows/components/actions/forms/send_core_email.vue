@@ -134,6 +134,13 @@ export default {
                     return user.email != concerning_user.email
                 })
             }
+        },
+
+        addReference(reference, field){
+            let field_value = this.workflow_action.input_data[field] || ''
+            field_value = `${field_value} %${reference}% `
+
+            this.workflow_action.input_data[field] = field_value
         }
     },
 
@@ -160,7 +167,30 @@ export default {
             </div>
         </div>
         <div class="field">
-            <label class="label">{{translations.actions.column_body}}<sup class="has-text-danger">*</sup></label>
+            
+            <label class="label">
+                {{translations.actions.column_body}}<sup class="has-text-danger">*</sup>
+                <span class="is-pulled-right">
+                    <b-tooltip :label="translations.actions.messages_info_tooltip_add_resource_identifier_reference" size="is-small" position="is-left" type="is-light">
+                        <b-button size="is-small" @click="addReference('global_identifier', 'body')">
+                            <b-icon size="is-small" icon="barcode">
+                            </b-icon>
+                        </b-button>
+                    </b-tooltip>
+                    <b-tooltip :label="translations.actions.messages_info_tooltip_add_current_user_reference" size="is-small" position="is-left" type="is-light">
+                        <b-button size="is-small" @click="addReference('current_user', 'body')">
+                            <b-icon size="is-small" icon="user-circle">
+                            </b-icon>
+                        </b-button>
+                    </b-tooltip>
+                    <b-tooltip :label="translations.actions.messages_info_tooltip_add_status_reference" size="is-small" position="is-left" type="is-light">
+                        <b-button size="is-small" @click="addReference('status', 'body')">
+                            <b-icon size="is-small" icon="project-diagram">
+                            </b-icon>
+                        </b-button>
+                    </b-tooltip>
+                </span>
+            </label>
             <b-input expanded type="textarea" v-model="workflow_action.input_data.body" required>
             </b-input>
         </div>
