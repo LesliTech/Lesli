@@ -4,6 +4,8 @@ class WorkflowActions::CreateFocusTaskJob < ApplicationJob
     def perform(current_user, cloud_object, action)
         task_employee = nil
         case action.concerning_users["type"]
+        when "creator"
+            task_employee = cloud_object.user_creator
         when "main"
             task_employee = cloud_object.user_main
         when "custom"
