@@ -4,6 +4,8 @@ class WorkflowActions::CreateBellNotificationJob < ApplicationJob
     def perform(current_user, cloud_object, action)
         notification_user = nil
         case action.concerning_users["type"]
+        when "creator"
+            notification_user = cloud_object.user_creator
         when "main"
             notification_user = cloud_object.user_main
         when "custom"

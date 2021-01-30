@@ -5,7 +5,8 @@ class WorkflowActions::SendCoreEmailJob < ApplicationJob
         begin
             replacement_values = {
                 "%global_identifier%" => cloud_object.global_identifier,
-                "%current_user%" => (current_user.full_name || "")
+                "%current_user%" => (current_user.full_name || ""),
+                "%status%" => cloud_object.status.name
             }
             action.parse_input_data(replacement_values)
             input_data = action.input_data
@@ -21,6 +22,10 @@ class WorkflowActions::SendCoreEmailJob < ApplicationJob
 
             emails = []
             case action.concerning_users["type"]
+            when "creator"
+                user = cloud_object.user_creator
+                emails.push(user["email"])
+                send_email(user, action, input_data, href)
             when "main"
                 user = cloud_object.user_main.attributes
                 return unless user
