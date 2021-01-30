@@ -37,6 +37,7 @@ module RoutesApp
                             resources :files, only: [:index, :show, :new, :create]
                             resources :settings, only: [:index, :show, :new, :create]
                             resources :integrations, only: [:index, :show, :new, :create]
+                            resources :locations, only: [:index, :show, :create]
                         end
                         member do
                             scope :resources do
