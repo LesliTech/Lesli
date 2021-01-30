@@ -264,7 +264,7 @@ class UsersController < ApplicationLesliController
         end
 
         # expire password
-        user.request_password_change
+        user.set_password_as_expired
 
         user.logs.create({ session_uuid: nil, description: "request_password_change by_user_id: " + current_user.id.to_s })
 

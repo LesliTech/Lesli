@@ -1,6 +1,14 @@
 class Account::Activity < ApplicationRecord
     belongs_to :account, foreign_key: "accounts_id"
 
+    def self.log(system_module, system_process, description=nil)
+        self.activities.create({
+            system_module: system_module,
+            system_process: system_process,
+            description: description
+        })
+    end
+
     def log_activity(system_module, system_process, description=nil)
         self.activities.create({
             system_module: system_module,
