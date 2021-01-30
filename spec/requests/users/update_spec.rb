@@ -144,7 +144,7 @@ RSpec.describe "PUT /administration/users/:id", type: :request do
         # create a dummy user with limited user
         password = DateTime.now.strftime('%s')
         user = @user.account.users.create({ 
-            email: DateTime.now.strftime('%s') + (rand(1000) + 1).to_s + "__@lesli.cloud", 
+            email: Faker::Internet.email, 
             password: password,
             password_confirmation: password
         })
