@@ -20,16 +20,15 @@ For more information read the license file including with this software.
 class UserMailer < ApplicationLesliMailer
     include Devise::Controllers::UrlHelpers
 
-    # Sends an welcome email when new user is created
-    # @data = {
-    #     full_name: "Luis Donis"
-    # }
-    def welcome_email(user, subject="Welcome")
-        mail(to: email_address_with_name(user.email, user.full_name), subject: subject)
-    end
-
-    # fix this
-    def confirmation_instructions(pa1,pa2,pa3)
+    def welcome
+        user = params[:user]
+        @data = @data.merge({
+            url: "/password/edit?reset_password_token",
+            user: {
+                full_name: user.full_name
+            }
+        })
+        mail(to: email_address_with_name(user.email, user.full_name), subject: "welcome email")
     end
 
     def reset_password_instructions
@@ -42,6 +41,16 @@ class UserMailer < ApplicationLesliMailer
             }
         })
         mail(to: email_address_with_name(user.email, user.full_name), subject: "password reset instructions")
+    end
+
+    # DEPRECATED
+
+    def welcome_email(user, subject="Welcome")
+        mail(to: email_address_with_name(user.email, user.full_name), subject: subject)
+    end
+
+    # fix this
+    def confirmation_instructions(pa1,pa2,pa3)
     end
 
 end
