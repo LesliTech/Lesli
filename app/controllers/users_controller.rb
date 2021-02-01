@@ -79,9 +79,6 @@ class UsersController < ApplicationLesliController
         # enrol user to my own account
         user.account = current_user.account
 
-        # enable user to login into the platform
-        user.confirm
-        
         if user.save
 
             # if a role is provided to assign to the new user
@@ -116,10 +113,7 @@ class UsersController < ApplicationLesliController
             respond_with_successful(user)
 
             begin
-                # Send welcome email with password reset link instead of reset password
-                # UserMailer.welcome_email(user, "Welcome to The Lesli Platform").deliver_now
-                UserMailer.with(user: user).welcome.deliver_now
-                User.send_password_reset(user)
+                UserMailer.with(user: user).confirmation_instructions.deliver_now
             rescue => exception
                 Honeybadger.notify(exception)
                 user.logs.create({description: "user_creation_email_failed " + exception.message })

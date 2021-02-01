@@ -1,5 +1,4 @@
 /*
-
 Copyright (c) 2020, all rights reserved.
 
 All the information provided by this platform is protected by international laws related  to 
@@ -14,5 +13,29 @@ For more information read the license file including with this software.
 
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
 // · 
-
 */
+
+
+// · 
+import app from "LesliVue/public"
+
+
+// · 
+
+
+// · 
+app({
+    data: {
+        seconds_left_to_redirect: 10
+    },
+    mounted() {
+        return 
+        setInterval(() => {
+            this.seconds_left_to_redirect -= 1
+            if (this.seconds_left_to_redirect <= 0) {
+                this.url.go("/")
+            }
+        }, 1000);
+    }
+
+ })
