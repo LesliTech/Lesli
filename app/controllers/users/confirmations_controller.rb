@@ -16,8 +16,39 @@ For more information read the license file including with this software.
 // · 
 
 =end
+
 class Users::ConfirmationsController < Devise::ConfirmationsController
+    include Application::Responder
+    include Application::Logger
+
     layout "application-public"
+
+    def show
+
+        # get the confirmation token sent through get params
+        token = params[:k]
+
+        # validate that token were sent
+        if token.blank?
+            return flash[:error] = "not a valid token found"
+        end
+
+        # check if token belongs to a uncofirmed user
+        user = User.where(:confirmation_token => token).where(:confirmed_at => nil).first
+
+        # validate that user were found
+        if user.blank?
+            return flash[:error] = "not a valid user found"
+        end
+
+        # register a log with a validation atempt for the user
+        log = user.logs.create({ session_uuid: nil, description: "login_atempt" })
+
+        if user.confirm
+            user.update(:confirmation_token => nil)
+        end
+
+    end
 
     
     # @controller_action_param :email [String] The registered user email
@@ -42,4 +73,5 @@ class Users::ConfirmationsController < Devise::ConfirmationsController
             end
         end
     end
+
 end

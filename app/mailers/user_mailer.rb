@@ -20,6 +20,26 @@ For more information read the license file including with this software.
 class UserMailer < ApplicationLesliMailer
     include Devise::Controllers::UrlHelpers
 
+
+    # Send confirmation instruction email with the link and token to validate the account
+    def confirmation_instructions
+        user = params[:user]
+        token = user.confirmation_token
+        @data = @data.merge({
+            url: "/confirmation?k="+token,
+            user: {
+                full_name: user.full_name
+            }
+        })
+
+        mail(
+            to: email_address_with_name(user.email, user.full_name), 
+            subject: "Welcome to Lesli! please confirm your account"
+        )
+    end
+
+
+
     def welcome
         user = params[:user]
         @data = @data.merge({
@@ -41,16 +61,6 @@ class UserMailer < ApplicationLesliMailer
             }
         })
         mail(to: email_address_with_name(user.email, user.full_name), subject: "password reset instructions")
-    end
-
-    # DEPRECATED
-
-    def welcome_email(user, subject="Welcome")
-        mail(to: email_address_with_name(user.email, user.full_name), subject: subject)
-    end
-
-    # fix this
-    def confirmation_instructions(pa1,pa2,pa3)
     end
 
 end
