@@ -22,6 +22,25 @@ class UserMailer < ApplicationLesliMailer
 
 
     # Send confirmation instruction email with the link and token to validate the account
+    def invitation_instructions
+        user = params[:user]
+        token = user.generate_password_reset_token
+
+        @data = @data.merge({
+            url: "/password/edit?reset_password_token="+token,
+            user: {
+                full_name: user.full_name
+            }
+        })
+
+        mail(
+            to: email_address_with_name(user.email, user.full_name), 
+            subject: "You have been invited"
+        )
+    end
+
+
+    # Send confirmation instruction email with the link and token to validate the account
     def confirmation_instructions
         user = params[:user]
         token = user.confirmation_token

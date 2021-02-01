@@ -34,19 +34,22 @@ class Users::ConfirmationsController < Devise::ConfirmationsController
         end
 
         # check if token belongs to a uncofirmed user
-        user = User.where(:confirmation_token => token).where(:confirmed_at => nil).first
+        #user = User.where(:confirmation_token => token).where(:confirmed_at => nil).first
+        user = User.find_by(:confirmation_token => token)
 
         # validate that user were found
         if user.blank?
             return flash[:error] = "not a valid user found"
         end
 
-        # register a log with a validation atempt for the user
-        log = user.logs.create({ session_uuid: nil, description: "login_atempt" })
+        # delete all error messages
+        flash.discard
 
-        if user.confirm
-            user.update(:confirmation_token => nil)
-        end
+        # register a log with a validation atempt for the user
+        log = user.logs.create({ session_uuid: nil, description: "confirmation_atempt_successful" })
+
+        # confirm the user
+        user.confirm
 
     end
 

@@ -45,6 +45,8 @@ Rails.application.config.assets.precompile += [ "profiles.css", "profiles/app.js
 # include users administration area and public assets for registration, password reset, etc.
 Rails.application.config.assets.precompile += [ "users.css", "users/*.css", "users/*.js" ]
 
+# 
+Rails.application.config.assets.precompile += [ "onboardings.css", "onboardings/*.css", "onboardings/*.js" ]
 
 
 =begin
