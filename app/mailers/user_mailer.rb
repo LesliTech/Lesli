@@ -21,6 +21,18 @@ class UserMailer < ApplicationLesliMailer
     include Devise::Controllers::UrlHelpers
 
 
+    def welcome
+        user = params[:user]
+        @data = @data.merge({
+            url: "/",
+            user: {
+                full_name: user.full_name
+            }
+        })
+        mail(to: email_address_with_name(user.email, user.full_name), subject: "welcome email")
+    end
+
+
     # Send confirmation instruction email with the link and token to validate the account
     def invitation_instructions
         user = params[:user]
@@ -58,18 +70,7 @@ class UserMailer < ApplicationLesliMailer
     end
 
 
-
-    def welcome
-        user = params[:user]
-        @data = @data.merge({
-            url: "/password/edit?reset_password_token",
-            user: {
-                full_name: user.full_name
-            }
-        })
-        mail(to: email_address_with_name(user.email, user.full_name), subject: "welcome email")
-    end
-
+    # Send a link with a reset password token
     def reset_password_instructions
         user = params[:user]
         token = params[:token]
