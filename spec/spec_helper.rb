@@ -120,5 +120,6 @@ end
 require './spec/support/shared_context_for_user_authentication'
 require './spec/support/shared_context_for_date_settings'
 require './spec/support/shared_examples_for_successful_standard_json_response'
+require './spec/support/shared_examples_for_not_found_standard_json_response'
 require './spec/support/shared_examples_for_failed_standard_json_response'
 require './spec/support/shared_examples_for_unauthorized_standard_json_response'

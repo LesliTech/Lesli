@@ -70,9 +70,7 @@ class User < ApplicationLesliRecord
     #     At the current time, it only creates a default calendar. This is an *after_create* method, and is not
     #     designed to be invoked directly
     def initialize_user
-        
         User::Detail.find_or_create_by({ user: self })
-
     end
 
 
@@ -105,28 +103,8 @@ class User < ApplicationLesliRecord
     # @return [void]
     # @description After creating a user, creates the necessary resources for them to access the different engines.
     # check role of the user
-    def is_role? *roles
-        LC::Debug.msg "DEPRECATED: Use has_roles?(role1, role2 ... rolen) instead"
-        return has_roles?(roles)
-    end
-
-
-
-    # @return [void]
-    # @description After creating a user, creates the necessary resources for them to access the different engines.
-    # check role of the user
     def has_roles? *roles
         !roles.intersection(self.roles.map{ |r| r[:name] }).empty?
-    end
-
-
-
-    # @return [void]
-    # @description After creating a user, creates the necessary resources for them to access the different engines.
-    # TODO: Change to has_password_expired?
-    def is_password_expired?
-        return false if self.password_expiration_at.blank?
-        return Time.current > self.password_expiration_at
     end
 
 
@@ -155,28 +133,14 @@ class User < ApplicationLesliRecord
 
 
 
-    # @return [String] The name of this user.
-    # @description Retrieves and returns the name of the user depending on the available information.
-    #     The name can be a full name (first and last names), just the first name, or, in case the information
-    #     is not available, the email. This method currently is available if the the CloudLock engine exists,
-    #     otherwise, it returns *nil*
-    # @example
-    #     my_user = current_user
-    #     puts my_user.name # can print John Doe
-    #     other_user = User.last
-    #     puts other_user.name # can print jane.smith@email.com
-    def full_name
-        detail.first_name.blank? ? email : detail.first_name + " " + detail.last_name.to_s
-    end
-
-
-
+    # @return [void]
+    # @description Delete all the active sessions for a given user
+    # TODO:
+    #   add support to delete sessions for specific devices
+    #   add support to delete all sesssions
     def close_session
 
         # get last session of the user
-        # TODO:
-        #   add support to delete sessions for specific devices
-        #   add support to delete all sesssions
         session = self.sessions.last
 
         # add delete date to the last active session if active session exists
@@ -199,16 +163,24 @@ class User < ApplicationLesliRecord
 
     # @return [void]
     # @description Change user password forcing user to reset the password
-    def request_password_change 
+    def set_password_as_expired 
         self.update(password_expiration_at: Time.current)
     end
 
 
 
     # @return [void]
+    # @description After creating a user, creates the necessary resources for them to access the different engines.
+    def has_expired_password?
+        return false if self.password_expiration_at.blank?
+        return Time.current > self.password_expiration_at
+    end
+
+
+
+    # @return String
     # @description Change user password forcing user to reset the password
-    # @TODO: add a password status so we can deprecate user password
-    def generate_password_token
+    def generate_password_reset_token
         raw, enc = Devise.token_generator.generate(self.class, :reset_password_token)
 
         self.reset_password_token   = enc
@@ -219,39 +191,13 @@ class User < ApplicationLesliRecord
 
 
 
-    # Generate a new password token and sent via email
-    def self.send_password_reset(user)
-        raw, hashed = Devise.token_generator.generate(User, :reset_password_token)
-        user.update(reset_password_token: hashed, reset_password_sent_at: LC::Date.now)
-        data = {
-            name: user[:name],
-            email: user[:email],
-        }
-        email = LesliMailer.user_new_password("New user", data, raw)
-        email.deliver_now
-    end
-
-
-
-    # Generate a new password token and sent via email
-    def send_welcome_email
-        raw, hashed = Devise.token_generator.generate(User, :reset_password_token)
-        self.update(reset_password_token: hashed, reset_password_sent_at: LC::Date.now)
-        data = {
-            name: self.full_name,
-            email: self.email,
-        }
-        UserMailer.with(data).welcome.deliver_now
-    end
-
-
-
-    # Assign user role
+    # @return Boolean
+    # @description Check if user has enough privilege to work with the given role
     def can_work_with_role?(role_id)
 
         return false if role_id.blank?
 
-        role = self.account.roles.find(role_id)
+        role = self.account.roles.find(role_id) rescue nil
 
         return false if role.blank?
 
@@ -270,17 +216,42 @@ class User < ApplicationLesliRecord
 
 
 
-    # save user activity
-    def log_activity request_method, request_controller, request_action, request_url, description = nil
-        LC::Debug.msg "DEPRECATED: Use user.activities, user.logs or log_user_comments instead"
+    # @return [void]
+    # @description Register a new notification for the current user
+    # @param subject String Short notification description
+    # @param body String Long notification description
+    # @param url String Link to notified object
+    # @param category String Kind of notification: info, warning, danger, success.
+    def notification subject, body:nil, url:nil, category:"info"
+        Courier::Bell::Notification.new(self, subject, body:nil, url:nil, category:nil)
     end
 
 
 
-    # register a notification for the current user
-    def notification subject, url:nil, category:"info"
-        Courier::Bell::Notification::Web.new(self, subject, url:url, category:category)
+    # @return [void]
+    # @description Register a new log for the current user
+    # @param description String Details about the process
+    # @param session String Current or active session id
+    def log description, session=nil
+        self.logs.create(session, description)
     end
+
+
+
+    # @return [String] The name of this user.
+    # @description Retrieves and returns the name of the user depending on the available information.
+    #     The name can be a full name (first and last names), just the first name, or, in case the information
+    #     is not available, the email. This method currently is available if the the CloudLock engine exists,
+    #     otherwise, it returns *nil*
+    # @example
+    #     my_user = current_user
+    #     puts my_user.name # can print John Doe
+    #     other_user = User.last
+    #     puts other_user.name # can print jane.smith@email.com
+    def full_name
+        detail.first_name.blank? ? email : detail.first_name + " " + detail.last_name.to_s
+    end
+
 
 
     # @param accounnt [Account] The account associated to *current_user*
@@ -497,6 +468,32 @@ class User < ApplicationLesliRecord
             }
         }
         
+    end
+
+    # DEPRECATED 
+
+    # @return [void]
+    # @description After creating a user, creates the necessary resources for them to access the different engines.
+    # check role of the user
+    def is_role? *roles
+        LC::Debug.deprecation("Use has_roles?(role1, role2 ... rolen) instead")
+        return has_roles?(roles)
+    end
+
+    def log_activity request_method, request_controller, request_action, request_url, description = nil
+        LC::Debug.msg "DEPRECATED: Use user.activities, user.logs or log_user_comments instead"
+    end
+
+    def generate_password_token
+        LC::Debug.deprecation("use generate_reset_password_token instead and build the email manually")
+    end
+
+    def self.send_password_reset(user)
+        LC::Debug.deprecation("use generate_reset_password_token instead and build the email manually")
+    end
+
+    def send_welcome_email
+        LC::Debug.deprecation("use generate_reset_password_token instead and build the email manually")
     end
 
 end
