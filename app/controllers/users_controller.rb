@@ -79,6 +79,11 @@ class UsersController < ApplicationLesliController
         # enrol user to my own account
         user.account = current_user.account
 
+
+        # users created through the administration area does not need to confirm their accounts
+        # instead we send a password reset link, so they can have access to the platform
+        user.confirm
+
         if user.save
 
             # if a role is provided to assign to the new user
@@ -106,17 +111,19 @@ class UsersController < ApplicationLesliController
             end 
 
             # saving logs with information about the creation of the user
-            user.logs.create({description: "user_created_at " + LC::Date.to_string_datetime(LC::Date.datetime) })
-            user.logs.create({description: "user_created_by " + current_user.id.to_s })
-            user.logs.create({description: "user_created_with_role " + user.user_roles.first.roles_id.to_s })
+            user.logs.create({ description: "user_created_at " + LC::Date.to_string_datetime(LC::Date.datetime) })
+            user.logs.create({ description: "user_created_by " + current_user.id.to_s })
+            user.logs.create({ description: "user_created_with_role " + user.user_roles.first.roles_id.to_s })
 
             respond_with_successful(user)
 
             begin
-                UserMailer.with(user: user).confirmation_instructions.deliver_now
+                # users created through the administration area does not need to confirm their accounts
+                # instead we send a password reset link, so they can have access to the platform
+                UserMailer.with(user: user).invitation_instructions.deliver_now
             rescue => exception
                 Honeybadger.notify(exception)
-                user.logs.create({description: "user_creation_email_failed " + exception.message })
+                user.logs.create({ description: "user_creation_email_failed " + exception.message })
             end
 
         else
