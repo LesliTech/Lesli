@@ -19,6 +19,12 @@ module CloudFocus
     end
 end
 ```
+The location where the methods of an engine for Courrier are declared is: 
+/lib/[Engine Name]
+
+Example:
+
+>  /lib/focus/task.rb
 
 If we want to access these methods from another engine like CloudDriver, there must be on Courier the following:
 
