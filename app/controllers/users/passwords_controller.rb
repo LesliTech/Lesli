@@ -37,14 +37,40 @@ class Users::PasswordsController < Devise::PasswordsController
     #     };
     #     this.http.post('127.0.0.1/password', data);
     def create
-        super do |resource|
-            if successfully_sent?(resource)
-                #resource.log_activity(request.method, controller_name, action_name, request.original_fullpath, "password_new_requested, " + get_client_info(true))
-                return respond_with_successful
-            else
-                return respond_with_error(I18n.t('deutscheleibrenten.users/passwords.error_invalid_email'))
-            end
+
+        if params[:user].blank?
+            Account::Activity.log("core", "/password/create", "password_creation_attempt_with_no_email") 
+            return respond_with_error("valid_user_not_found")
         end
+
+        if params[:user][:email].blank?
+            Account::Activity.log("core", "/password/create", "password_creation_attempt_with_no_email") 
+            return respond_with_error("valid_user_not_found")
+        end
+
+        user = User.find_by(:email => params[:user][:email])
+
+        if user.blank?
+            Account::Activity.log("core", "/password/create", "password_creation_attempt_with_no_valid_email") 
+            return respond_with_error("valid_user_not_found")
+        end
+
+        if not user.active
+            Account::Activity.log("core", "/password/create", "password_creation_attempt_failed_for: " + user.email) 
+            user.logs.create(null, "password_creation_attempt_failed")
+            return respond_with_error("user is not active, please contact the administrator")
+        end
+
+        token = user.generate_password_reset_token
+
+        begin
+            UserMailer.with(user: user, token: token).reset_password_instructions.deliver_now
+            respond_with_successful
+        rescue => exception
+            Honeybadger.notify(exception)
+            respond_with_error(exception.message)
+        end
+
     end
 
 
@@ -89,4 +115,5 @@ class Users::PasswordsController < Devise::PasswordsController
 
         end
     end
+
 end

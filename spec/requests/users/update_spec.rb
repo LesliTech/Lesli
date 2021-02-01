@@ -20,9 +20,6 @@ For more information read the license file including with this software.
 require 'rails_helper'
 require 'spec_helper'
 
-RSpec.configure do |config|
-    config.include Devise::Test::IntegrationHelpers
-end
 
 RSpec.describe "POST /administration/users/:id/roles", type: :request do
     include_context 'user authentication'
@@ -147,7 +144,7 @@ RSpec.describe "PUT /administration/users/:id", type: :request do
         # create a dummy user with limited user
         password = DateTime.now.strftime('%s')
         user = @user.account.users.create({ 
-            email: DateTime.now.strftime('%s') + (rand(1000) + 1).to_s + "__@lesli.cloud", 
+            email: Faker::Internet.email, 
             password: password,
             password_confirmation: password
         })

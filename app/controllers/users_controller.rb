@@ -60,6 +60,12 @@ class UsersController < ApplicationLesliController
 
     def create
 
+        # check if request has an email to create the user
+        if user_params[:email].blank?
+            respond_with_error("not valid email found")
+            return 
+        end
+
         # register the new user
         user = User.new({
             :active => true, 
@@ -91,6 +97,7 @@ class UsersController < ApplicationLesliController
                     user.user_roles.create({ role: role })
 
                 end
+
             end
 
             # role validation - if new user does not have any role assigned
@@ -98,6 +105,7 @@ class UsersController < ApplicationLesliController
 
                 # assign limited role
                 user.user_roles.create({ role: current_user.account.roles.find_by(:name => "limited") })
+                
             end 
 
             # saving logs with information about the creation of the user
@@ -110,12 +118,12 @@ class UsersController < ApplicationLesliController
             begin
                 # Send welcome email with password reset link instead of reset password
                 # UserMailer.welcome_email(user, "Welcome to The Lesli Platform").deliver_now
+                UserMailer.with(user: user).welcome.deliver_now
                 User.send_password_reset(user)
             rescue => exception
                 Honeybadger.notify(exception)
                 user.logs.create({description: "user_creation_email_failed " + exception.message })
             end
-            
 
         else
             respond_with_error(user.errors.full_messages.to_sentence)
@@ -256,7 +264,7 @@ class UsersController < ApplicationLesliController
         end
 
         # expire password
-        user.request_password_change
+        user.set_password_as_expired
 
         user.logs.create({ session_uuid: nil, description: "request_password_change by_user_id: " + current_user.id.to_s })
 
