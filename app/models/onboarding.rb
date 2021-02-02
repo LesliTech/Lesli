@@ -1,6 +1,5 @@
-/*
-
-Copyright (c) 2020, all rights reserved.
+=begin
+Copyright (c) 2021, all rights reserved.
 
 All the information provided by this platform is protected by international laws related  to 
 industrial property, intellectual property, copyright and relative international laws. 
@@ -15,4 +14,13 @@ For more information read the license file including with this software.
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
 // · 
 
-*/
+=end
+class Onboarding < ApplicationLesliRecord
+    def self.index(current_user, query)
+        []
+    end
+
+    def show(current_user, query)
+        self
+    end
+end

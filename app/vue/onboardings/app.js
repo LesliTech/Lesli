@@ -16,3 +16,13 @@ For more information read the license file including with this software.
 // · 
 
 */
+
+// · Import main app from core
+// · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
+import app from 'LesliVue/app'
+
+
+
+// · 
+// · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
+app("Core", "[show]", "/onboarding", [])

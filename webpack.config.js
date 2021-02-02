@@ -61,20 +61,27 @@ module.exports = env => {
             ]
         },
         entry: {
+
             "accounts/app": "./app/vue/accounts/app.js",
             "account/settings_app": "./app/vue/account_settings/app.js",
             "account/integrations_app": "./app/vue/account_integrations/app.js",
+            
+            "dashboards/app": "./app/vue/dashboards/app.js",
+            "profiles/app": "./app/vue/profiles/app.js",
+            "websites/app": "./app/vue/websites/app.js",
+            "abouts/app": "./app/vue/abouts/app.js",
             "users/app": "./app/vue/users/app.js",
             "roles/app": "./app/vue/roles/app.js",            
-            "abouts/app": "./app/vue/abouts/app.js",
+
             "users/sessions": "./app/vue/users/sessions.js",
             "users/passwords": "./app/vue/users/passwords.js",
             "users/registrations": "./app/vue/users/registrations.js",
+            "users/confirmations": "./app/vue/users/confirmations.js",
+            "onboardings/app": "./app/vue/onboardings/app.js",
+
             "errors/app": "./app/vue/errors/app.js",
-            "websites/app": "./app/vue/websites/app.js",
-            "profiles/app": "./app/vue/profiles/app.js",
-            "dashboards/app": "./app/vue/dashboards/app.js",
-            "settings/workflows_app": "./app/vue/settings/workflows/app.js"
+            
+            "settings/workflows_app": "./app/vue/settings/workflows/app.js",
         },
         output: {
             path: __dirname,

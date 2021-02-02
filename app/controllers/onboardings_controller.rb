@@ -1,5 +1,4 @@
 =begin
-    
 Copyright (c) 2021, all rights reserved.
 
 All the information provided by this platform is protected by international laws related  to 
@@ -14,19 +13,33 @@ For more information read the license file including with this software.
 
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
 // · 
-    
-=end
-class UserMailerPreview < ActionMailer::Preview
 
-    def welcome
-        UserMailer.with(user: User.first).welcome
+=end
+
+class OnboardingsController < ApplicationController
+
+    layout "application-public"
+
+    # GET /onboardings/1
+    def show
+        respond_to do |format|
+            format.html {}
+            format.json do
+                return respond_with_not_found unless @onboarding
+                return respond_with_successful(@onboarding.show(current_user, @query))
+            end
+        end
     end
 
-    def reset_password_instructions
-        UserMailer.with(
-            user: User.first, 
-            token: "my_reset_password_token"
-        ).reset_password_instructions
+    # PATCH/PUT /onboardings/1
+    def update
+        return respond_with_not_found unless @onboarding
+
+        if @onboarding.update(onboarding_params)
+            respond_with_successful(@onboarding.show(current_user, @query))
+        else
+            respond_with_error(@onboarding.errors.full_messages.to_sentence)
+        end
     end
 
 end
