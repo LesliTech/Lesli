@@ -21,6 +21,8 @@ module RoutesApp
     def self.extended(router)
         router.instance_exec do
 
+            #resource :onboarding
+
             authenticated :user do
 
                 # Lesli core administration components
