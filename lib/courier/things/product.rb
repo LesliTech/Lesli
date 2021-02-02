@@ -31,6 +31,11 @@ module Courier
                 CloudThings::Product.index(current_user, query)
             end
 
+            def self.search(current_user, query)
+                return [] unless defined? CloudThings
+                CloudThings::Product.search(current_user, query)
+            end
+
             def self.show(current_user, query, id)
                 return {} unless defined? CloudThings
                 current_user.account.things.products.find(id).show(current_user, query)
