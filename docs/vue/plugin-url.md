@@ -118,7 +118,79 @@ this.http.get(this.url.babel('translations/:id', { id: 4 })).then(result => {
 ```
 
 
-## TODOs
+**toString**
 
-- Add search params as query string
-- Add method to return the url without the ".json" 
+- params:
+    - String api: Defaults to false. If this param is set to true, the returned url will have a **.json** extension.
+- returns: String representing the URL object
+- description: Returns a string representation of the url object. If the optional param **api** is set to true, it adds a 
+    **.json** extension. Note that  you don't have to call this method when using this plugin along with the **http** plugin.
+
+Example:
+
+```javascript
+console.log(this.url.babel('/translations').toString())
+// The output will be: '/babel/translations'
+console.log(this.url.babel('/translations').toString(true))
+// The output will be '/babel/translations.json'
+```
+
+**search**
+- params:
+    - String text: The text to be searched
+- returns: A URL object that has a **search** param set to the value of **text**
+- description: Adds a query param to the URL object. The key is always **search** and the value is the **text** received by the function.
+
+Example:
+
+```javascript
+    this.http.get(this.url.babel('/translations').search('hello'))
+    // This will perform a GET request to /babel/translations.json?search=hello
+```
+
+**paginate**
+- params:
+    - Integer page: The page number you want to retrieve
+    - Integer perPage: Defaults to 0. The amount of records you want to retrieve
+- returns: A URL object that has the **page** and **perPage** param set to the respective values.
+- description: Adds two query param to the URL object. The first one is the page number and the second one the total
+    number of records to be received. This is a standard format already implemented in the backend.
+
+Example:
+
+```javascript
+    let request_url = this.url.babel('/translations').search('hello').paginage(1, 15)
+    this.http.get(request_url)
+    // This will perform a GET request to /babel/translations.json?search=hello&page=1&perPage=15
+```
+
+**order**
+- params:
+    - String column: The column by which you want to order the results
+    - String direction: Defaults to null. Either 'asc' or 'desc'. This indicates the sorting order.
+- returns: A URL object that has the **orderBy** and **order** param set to the respective values.
+- description: Adds two query param to the URL object. The first one is the order column and the second one the order itself.
+    This is a standard format already implemented in the backend.
+
+Example:
+
+```javascript
+    let request_url = this.url.babel('/translations').search('hello').order('name', 'desc')
+    this.http.get(request_url)
+    // This will perform a GET request to /babel/translations.json?search=hello&orderBy=name&order=desc
+```
+
+**filters**
+- params:
+    - Object filters: An object containing complex filters
+- returns: A URL object that has the **filters** params parsed and added to the query params of the url.
+- description: Deeply parses the **filters** param and adds it to the query params of the url.
+
+Example:
+
+```javascript
+    let request_url = this.url.babel('/translations').filter({a: {b: 1, c: 2}, d: 3})
+    this.http.get(request_url)
+    // This will perform a GET request to 
+    // /babel/translations.json?filters[a][b]=1&filters[a][c]=2&filters[d]=3
+```
