@@ -114,6 +114,8 @@ class UsersController < ApplicationLesliController
             user.logs.create({ description: "user_created_at " + LC::Date.to_string_datetime(LC::Date.datetime) })
             user.logs.create({ description: "user_created_by " + current_user.id.to_s })
             user.logs.create({ description: "user_created_with_role " + user.user_roles.first.roles_id.to_s })
+            
+            User.log_activity_create(current_user, user)
 
             respond_with_successful(user)
 
@@ -138,15 +140,19 @@ class UsersController < ApplicationLesliController
         return respond_with_not_found unless @user
         #return respond_with_unauthorized unless @user.is_editable_by?(current_user)
 
-        if (@user.active != user_params[:active])
-            @user.activities.create({ description: "update_user", field_name: "active", value_from: @user.active.to_s, value_to: user_params[:active].to_s, owner_id: current_user.id })
-        end 
+        old_attributes = @user.detail.attributes.merge({
+            active: @user.active
+        })
 
         if @user.update(user_params)
-            
+            new_attributes = @user.detail.attributes.merge({
+                active: @user.active
+            })
+
             # return a successful response 
             respond_with_successful
             
+            User.log_activity_update(current_user, @user, old_attributes, new_attributes)
         else
             respond_with_error(@user.errors.full_messages.to_sentence)
         end
