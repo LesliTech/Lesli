@@ -97,7 +97,7 @@ class Users::PasswordsController < Devise::PasswordsController
             if resource.errors.empty?
 
                 # reset password expiration due the user just updated his password
-                if resource.is_password_expired?
+                if resource.has_expired_password?
                     resource.update_attributes(password_expiration_at: nil)
                 end 
 
