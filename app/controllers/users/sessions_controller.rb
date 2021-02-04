@@ -43,9 +43,13 @@ class Users::SessionsController < Devise::SessionsController
         # search for a existing user 
         resource = User.find_for_database_authentication(email: sign_in_params[:email], active: true)
 
-
         # respond with a no valid credentials generic error if not valid user found
-        return respond_with_error(I18n.t("core.users/sessions.invalid_credentials")) unless resource
+        unless resource
+            Account::Activity.log("core", "/session/create", "session_creation_attempt_with_no_valid_email", {
+                email: (sign_in_params[:email] || "")
+            }) 
+            return respond_with_error(I18n.t("core.users/sessions.invalid_credentials"))
+        end
 
 
         # save a login atempt log for the requested user
@@ -78,6 +82,7 @@ class Users::SessionsController < Devise::SessionsController
 
         # check if user has roles assigned
         if resource.roles.empty?
+            log.update_attribute(:description, "login_atempt_invalid_no_roles")
             return respond_with_error(I18n.t("core.users/sessions.the_user_has_no_assigned_role"))
         end 
 
@@ -85,6 +90,7 @@ class Users::SessionsController < Devise::SessionsController
         # check user has at least one active role before authorize the sign-in request
         resource.roles.select(:active).each do |role| 
             break if role[:active]
+            log.update_attribute(:description, "login_atempt_invalid_no_active_role")
             return respond_with_error(I18n.t("deutscheleibrenten.users/sessions.role_access_denied")) 
         end
 

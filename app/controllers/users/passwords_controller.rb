@@ -51,17 +51,21 @@ class Users::PasswordsController < Devise::PasswordsController
         user = User.find_by(:email => params[:user][:email])
 
         if user.blank?
-            Account::Activity.log("core", "/password/create", "password_creation_attempt_with_no_valid_email") 
+            Account::Activity.log("core", "/password/create", "password_creation_attempt_with_no_valid_email", {
+                email: (params[:user][:email] || "")
+            }) 
             return respond_with_error("valid_user_not_found")
         end
 
         if not user.active
-            Account::Activity.log("core", "/password/create", "password_creation_attempt_failed_for: " + user.email) 
-            user.logs.create(null, "password_creation_attempt_failed")
+            user.logs.create({description: "password_creation_attempt_failed user_not_active"})
+            Account::Activity.log("core", "/password/create", "password_creation_attempt_failed user_not_active") 
             return respond_with_error("user is not active, please contact the administrator")
         end
 
         token = user.generate_password_reset_token
+
+        user.logs.create({description: "password_creation_attempt_successful"})
 
         begin
             UserMailer.with(user: user, token: token).reset_password_instructions.deliver_now

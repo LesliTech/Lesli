@@ -2,6 +2,45 @@
 Vue global url constructor
 
 
+# Quick reference
+```javascript
+    this.url.to("/administration/users")
+    //-> http://0.0.0.0:3000/administration/users
+
+    this.url.admin("users")
+    //-> /administration/users
+
+    this.url.admin("users/list")
+    //-> /administration/users/list
+
+    this.url.admin("users/options")
+    //-> /administration/users/options
+
+    this.url.admin("users/:id", { id: 777 })
+    //-> /administration/users/777
+
+    this.url.admin("users").search("ldonis")
+    //-> /administration/users?search=ldonis
+
+    this.url.admin("users").search("ldonis").paginate(2)
+    //-> /administration/users?search=ldonis&page=2
+
+    this.url.admin("users").search("ldonis").paginate(2, 15)
+    //-> /administration/users?search=ldonis&page=2&perPage=15
+
+    this.url.admin("users").order("name", "desc")
+    //-> /administration/users?orderBy=name&order=desc
+
+    this.url.admin("users").order("name", "desc").toString(true)
+    //-> /administration/users.json?orderBy=name&order=desc
+
+    this.url.bell("notifications")
+    //-> /bell/notifications
+
+    // TODO
+    this.url.admin("users").exclude()
+    this.url.admin("users").only()
+```
 
 ## Initialize
 This plugin initializes automatically when the app is loaded and is included in every standard vue app.
