@@ -37,7 +37,7 @@ export default {
         getNotifications() {
             this.http.get(this.url.bell("notifications")).then(result => {
                 if (result.successful) {
-                    this.notifications = result.data.records
+                    this.notifications = result.data
                 }
             })
         },
@@ -106,15 +106,22 @@ export default {
         :right="true"
         :overlay="false"
         :fullheight="true"> 
+        <p class="panel-title is-size-5">
+            Notifications
+            ({{ notifications.pagination ? notifications.pagination.count_total : 0 }})
+            <small class="is-pulled-right is-size-6">
+                mark all as read
+            </small>
+        </p>
         <div 
             :class="['notification', 'is-'+notification.kind, 'is-light']"
-            v-for="notification in notifications" :key="notification.id">
+            v-for="notification in notifications.records" :key="notification.id">
             <p :class="{'has-text-weight-bold': Boolean(notification.body)}">
                 {{ notification.subject }}
             </p>
             <p>{{ notification.body }}</p>
             <p class="has-text-grey-light is-size-7">
-                {{ notification.created_at }} - 
+                {{ notification.created_at }} ago - 
                 <a @click="putNotification(notification.id)">
                     {{ translations.notifications.view_text_mark_as_read || 'mark as read' }}
                 </a>

@@ -51,6 +51,7 @@ class ApplicationLesliMailer < ActionMailer::Base
         # defined on: LesliMails/src/partials/data.html
         @email = { }
         @data = { }
+        @app = { host: default_url_options[:host] }
 
     end 
 

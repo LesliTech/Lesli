@@ -27,7 +27,7 @@ module Courier
             end
 
             def self.index(current_user, query, view_type)
-                return 0 if not defined? CloudBell
+                return [] if not defined? CloudBell
                 CloudBell::Notification.index(current_user, query, view_type)
             end
 
@@ -40,6 +40,7 @@ module Courier
                     user: user,
                     url: url
                 })
+                #LesliChannel.broadcast_to("Lesli", channel: "/lesli/layout/header/notification#getNotificationsCounter")
             end
 
         end

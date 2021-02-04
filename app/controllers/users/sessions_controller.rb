@@ -52,6 +52,18 @@ class Users::SessionsController < Devise::SessionsController
         log = resource.logs.create({ session_uuid: nil, description: "login_atempt" })
 
 
+        # check if user is already confirmed
+        unless resource.confirmed?
+
+            # save a invalid credentials log for the requested user
+            log.update_attribute(:description, "login_atempt_unconfirmed")
+
+            # respond with a confirmation required message
+            return respond_with_error(I18n.t("devise.errors.custom.confirmation_required"))
+
+        end
+
+
         # check password validation
         unless resource.valid_password?(sign_in_params[:password])
 
@@ -63,12 +75,6 @@ class Users::SessionsController < Devise::SessionsController
 
         end
         
-
-        # check if user is already confirmed
-        unless resource.confirmed?
-            return respond_with_error(I18n.t("devise.errors.custom.confirmation_required"))
-        end
-
 
         # check if user has roles assigned
         if resource.roles.empty?

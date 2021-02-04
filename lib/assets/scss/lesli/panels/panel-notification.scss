@@ -23,8 +23,13 @@ For more information read the license file including with this software.
 
     .sidebar-content {
         background-color: lesli-css-get-color(solid, white);
-        box-shadow: none;
         width: 500px;
+
+        .panel-title {
+            padding: 1rem 1.4rem 0;
+            color: 1px solid lesli-css-get-color(slate, 300);
+            border-bottom: 1px solid lesli-css-get-color(slate, 100);
+        }
 
         .notification {
             margin: 0;

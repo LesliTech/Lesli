@@ -121,7 +121,7 @@ class Users::RegistrationsController < Devise::RegistrationsController
         if @user.update(sign_up_params)
 
             # reset password expiration due the user just updated his password
-            if @user.is_password_expired?
+            if @user.has_expired_password?
                 @user.update_attributes(password_expiration_at: nil)
             end 
 
