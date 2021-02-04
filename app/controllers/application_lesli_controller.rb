@@ -196,7 +196,7 @@ class ApplicationLesliController < ApplicationController
         end
 
         # check password expiration date
-        if current_user.is_password_expired?
+        if current_user.has_expired_password?
             unless controller_name == "profiles"
                 current_user.logs.create({ session_uuid: nil, description: "redirect_due_to_expired_password" })
                 redirect_to "/administration/profile#security", notice: I18n.t("core.users/sessions.messages_danger_password_expired")

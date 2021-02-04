@@ -60,6 +60,12 @@ class UsersController < ApplicationLesliController
 
     def create
 
+        # check if request has an email to create the user
+        if user_params[:email].blank?
+            respond_with_error("not valid email found")
+            return 
+        end
+
         # register the new user
         user = User.new({
             :active => true, 
@@ -73,9 +79,11 @@ class UsersController < ApplicationLesliController
         # enrol user to my own account
         user.account = current_user.account
 
-        # enable user to login into the platform
+
+        # users created through the administration area does not need to confirm their accounts
+        # instead we send a password reset link, so they can have access to the platform
         user.confirm
-        
+
         if user.save
 
             # if a role is provided to assign to the new user
@@ -91,6 +99,7 @@ class UsersController < ApplicationLesliController
                     user.user_roles.create({ role: role })
 
                 end
+
             end
 
             # role validation - if new user does not have any role assigned
@@ -98,23 +107,24 @@ class UsersController < ApplicationLesliController
 
                 # assign limited role
                 user.user_roles.create({ role: current_user.account.roles.find_by(:name => "limited") })
+                
             end 
 
             # saving logs with information about the creation of the user
-            user.logs.create({description: "user_created_at " + LC::Date.to_string_datetime(LC::Date.datetime) })
-            user.logs.create({description: "user_created_by " + current_user.id.to_s })
-            user.logs.create({description: "user_created_with_role " + user.user_roles.first.roles_id.to_s })
+            user.logs.create({ description: "user_created_at " + LC::Date.to_string_datetime(LC::Date.datetime) })
+            user.logs.create({ description: "user_created_by " + current_user.id.to_s })
+            user.logs.create({ description: "user_created_with_role " + user.user_roles.first.roles_id.to_s })
 
             respond_with_successful(user)
 
             begin
-                # Send welcome email with password reset link instead of reset password
-                UserMailer.welcome_email(user, "Welcome to The Lesli Platform").deliver_now
+                # users created through the administration area does not need to confirm their accounts
+                # instead we send a password reset link, so they can have access to the platform
+                UserMailer.with(user: user).invitation_instructions.deliver_now
             rescue => exception
                 Honeybadger.notify(exception)
-                user.logs.create({description: "user_creation_email_failed " + exception.message })
+                user.logs.create({ description: "user_creation_email_failed " + exception.message })
             end
-            
 
         else
             respond_with_error(user.errors.full_messages.to_sentence)
@@ -255,7 +265,7 @@ class UsersController < ApplicationLesliController
         end
 
         # expire password
-        user.request_password_change
+        user.set_password_as_expired
 
         user.logs.create({ session_uuid: nil, description: "request_password_change by_user_id: " + current_user.id.to_s })
 

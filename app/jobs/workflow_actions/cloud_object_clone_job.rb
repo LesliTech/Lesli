@@ -4,6 +4,8 @@ class WorkflowActions::CloudObjectCloneJob < ApplicationJob
     def perform(current_user, cloud_object, action)
         user_main = nil
         case action.concerning_users["type"]
+        when "creator"
+            user_main = cloud_object.user_creator
         when "main"
             user_main = cloud_object.user_main
         when "custom"

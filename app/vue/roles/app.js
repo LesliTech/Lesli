@@ -1,4 +1,5 @@
 /*
+
 Copyright (c) 2020, all rights reserved.
 
 All the information provided by this platform is protected by international laws related  to 
@@ -13,20 +14,34 @@ For more information read the license file including with this software.
 
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
 // · 
+
 */
 
 
-// · Import main app from core
-import app from "LesliVue/app"
+// · 
+import app from 'LesliVue/app'
+
 
 
 // · 
-import appList from "./apps/list.vue"
+import pageList from './pages/list.vue'
+import pageShow from './pages/show.vue'
+import pageEdit from './pages/edit.vue'
+import pageNew from './pages/new.vue'
+
+
 
 // · 
 app("Administration", "[list|new|edit|show]", "/administration/roles", [{
-    path: "/",
-    component: appList
-}], { 
-
-})
+    path: '/',
+    component: pageList
+}, {
+    path: '/new',
+    component: pageNew
+}, {
+    path: '/:id',
+    component: pageShow
+}, {
+    path: '/:id/edit',
+    component: pageEdit
+}])

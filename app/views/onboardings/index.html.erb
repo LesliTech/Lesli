@@ -1,6 +1,6 @@
+<%
 =begin
-
-Copyright (c) 2020, all rights reserved.
+Copyright (c) 2021, all rights reserved.
 
 All the information provided by this platform is protected by international laws related  to 
 industrial property, intellectual property, copyright and relative international laws. 
@@ -16,17 +16,5 @@ For more information read the license file including with this software.
 // · 
 
 =end
-
-module Courier
-    module Bell
-        module Notification
-            class Email
-                def self.new(current_user, subject, url: nil, category: "info")
-                    return if not defined? CloudBell
-
-                    # @todo: Generate email template using LesliMail and send it here
-                end
-            end
-        end
-    end
-end
+%>
+<router-view></router-view>

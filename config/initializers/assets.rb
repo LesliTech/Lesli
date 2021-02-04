@@ -21,40 +21,51 @@ For more information read the license file including with this software.
 # Version of your assets, change this if you want to expire all your assets.
 Rails.application.config.assets.version = "0.1.0"
 
-
 # Add vendor libraries to assets
 Rails.application.config.assets.paths << Rails.root.join("vendor")
-
 
 # Public pages
 Rails.application.config.assets.precompile += [ "lesli/templates/public.css" ]
 
-
 # Development
 Rails.application.config.assets.precompile += [ "lesli/templates/development.css" ]
 
-
 # Themes
-Rails.application.config.assets.precompile += [ "themes/blank.css" ]
-Rails.application.config.assets.precompile += [ "themes/**/*.css" ]
+Rails.application.config.assets.precompile += [ "themes/blank.css", "themes/**/*.css" ]
 
+# Account management & settings
+Rails.application.config.assets.precompile += [ "accounts.css", "account/*.css", "accounts/*.js" ]
 
-# Lesli core assets
-Rails.application.config.assets.precompile += [ "accounts.css", "accounts/*.js" ]
+# Roles and privileges configuration
 Rails.application.config.assets.precompile += [ "roles.css", "roles/*.js" ]
 
-Rails.application.config.assets.precompile += [ "account/*.css", "account/*.js" ]
+# User profile management
+Rails.application.config.assets.precompile += [ "profiles.css", "profiles/app.js" ]
 
-Rails.application.config.assets.precompile += [ "users.css", "users/*.js" ]
+# include users administration area and public assets for registration, password reset, etc.
+Rails.application.config.assets.precompile += [ "users.css", "users/*.css", "users/*.js" ]
+
+# 
+Rails.application.config.assets.precompile += [ "onboardings.css", "onboardings/*.css", "onboardings/*.js" ]
+
+
+=begin
+
+# Lesli core assets
+
+
+#Rails.application.config.assets.precompile += [ "users.css", "users/*.js" ]
 Rails.application.config.assets.precompile += [ "abouts.css", "abouts/*.js" ]
-Rails.application.config.assets.precompile += [ "users/*.css", "users/*.js" ]
+
 Rails.application.config.assets.precompile += [ "errors/*.css", "errors/*.js" ]
 Rails.application.config.assets.precompile += [ "websites*.css", "websites/*.js" ]
 
-Rails.application.config.assets.precompile += [ "profiles.css", "profiles/app.js" ]
+
 Rails.application.config.assets.precompile += [ "dashboards.css", "dashboards/app.js" ]
 Rails.application.config.assets.precompile += [ "settings.css", "settings/app.js" ]
 Rails.application.config.assets.precompile += [ "settings/*.css", "settings/*.js" ]
+=end
+
 
 Rails.application.config.assets.precompile += [ "i18n.js" ]
 

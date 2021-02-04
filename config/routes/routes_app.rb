@@ -21,6 +21,8 @@ module RoutesApp
     def self.extended(router)
         router.instance_exec do
 
+            #resource :onboarding
+
             authenticated :user do
 
                 # Lesli core administration components
@@ -37,6 +39,7 @@ module RoutesApp
                             resources :files, only: [:index, :show, :new, :create]
                             resources :settings, only: [:index, :show, :new, :create]
                             resources :integrations, only: [:index, :show, :new, :create]
+                            resources :locations, only: [:index, :show, :create]
                         end
                         member do
                             scope :resources do
