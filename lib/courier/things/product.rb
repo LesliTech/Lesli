@@ -36,21 +36,14 @@ module Courier
                 CloudThings::Product.search(current_user, query)
             end
 
+            def self.list(current_user, query)
+                return [] unless defined? CloudThings
+                CloudThings::Product.list(current_user, query)
+            end
+
             def self.show(current_user, query, id)
                 return {} unless defined? CloudThings
                 current_user.account.things.products.find(id).show(current_user, query)
-            end
-
-            def self.create(current_user, params)
-                return unless defined? CloudThings
-
-                product = CloudThings::Product.new(params)
-                product.account = current_user.account.things
-                if product.save!
-                    CloudThings::Product.log_activity_create(current_user, product)
-                end
-
-                return product
             end
         end
     end
