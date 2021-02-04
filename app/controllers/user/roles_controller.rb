@@ -16,6 +16,7 @@ class User::RolesController < ApplicationLesliController
 
         respond_with_successful(@user.roles)
 
+        User.log_activity_create_user_role(current_user, @user, role)
     end
 
     # DELETE /user/roles/1
@@ -32,6 +33,7 @@ class User::RolesController < ApplicationLesliController
 
         respond_with_successful(@user.roles)
 
+        User.log_activity_destroy_user_role(current_user, @user, role)
     end
 
     private
