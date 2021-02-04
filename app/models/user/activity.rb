@@ -17,5 +17,16 @@ For more information read the license file including with this software.
   
 =end
 class User::Activity < ApplicationRecord
-    belongs_to :user, foreign_key: "users_id"
+    belongs_to :user,   foreign_key: "users_id",    class_name: "::User"
+    belongs_to :owner,  foreign_key: "owner_id",    class_name: "::User" 
+    
+
+    enum category: {
+        action_create:                          "action_create",
+        action_show:                            "action_show",
+        action_update:                          "action_update",
+        action_destroy:                         "action_destroy",
+        action_create_user_role:                "action_create_user_role",
+        action_destroy_user_role:               "action_destroy_user_role"
+    }
 end
