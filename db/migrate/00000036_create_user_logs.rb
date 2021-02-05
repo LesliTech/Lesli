@@ -22,6 +22,7 @@ class CreateUserLogs < ActiveRecord::Migration[6.0]
         create_table :user_logs do |t|
             t.string :session_uuid
             t.string :description
+            t.string :title
 
             t.datetime :deleted_at, index: true
             t.timestamps
