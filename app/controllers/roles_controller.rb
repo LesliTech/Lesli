@@ -54,8 +54,6 @@ class RolesController < ApplicationLesliController
                 set_role
 
                 return respond_with_not_found unless @role
-                
-                Role.log_activity_show(current_user, @role)
 
                 @role = @role.show
 
