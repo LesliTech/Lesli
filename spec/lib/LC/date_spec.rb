@@ -34,7 +34,7 @@ RSpec.describe LC::Date, type: :model do
     end
 
     it "is expect to render db_timestamps columns with format date_time" do
-        expect(LC::Date2.new.format("date_time").db_timestamps).to eql("TO_CHAR(created_at at time zone 'utc' at time zone 'America/Guatemala', 'DD.MM.YYYY %H:%M') as created_at_date, TO_CHAR(updated_at at time zone 'utc' at time zone 'America/Guatemala', 'DD.MM.YYYY %H:%M') as updated_at_date")
+        expect(LC::Date2.new.format("date_time").db_timestamps).to eql("TO_CHAR(created_at at time zone 'utc' at time zone 'America/Guatemala', 'DD.MM.YYYY HH24:MI') as created_at_date, TO_CHAR(updated_at at time zone 'utc' at time zone 'America/Guatemala', 'DD.MM.YYYY HH24:MI') as updated_at_date")
     end
 
 end
