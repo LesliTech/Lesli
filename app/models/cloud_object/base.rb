@@ -83,20 +83,6 @@ module CloudObject
         end
 
         # @return [void]
-        # @param current_user [::User] The user that showed the cloud_object
-        # @param cloud_object [CloudModule::Model] The cloud_object that was showed
-        # @description Creates an activity for this cloud_object indicating that someone viewed it.
-        # Example
-        #   ticket = CloudHelp::Ticket.find(1)
-        #   CloudHelp::Ticket.log_activity_show(User.first, ticket)
-        def self.log_activity_show(current_user, cloud_object)
-            cloud_object.activities.create(
-                user_creator: current_user,
-                category: "action_show"
-            )
-        end
-
-        # @return [void]
         # @param current_user [::User] The user that edited the cloud_object
         # @param cloud_object [CloudModule::Model] The cloud_object that was edited
         # @param old_attributes[Hash] The data of the record before update
