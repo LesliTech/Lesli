@@ -83,10 +83,10 @@ module LC
             format = format.gsub("%d", "DD")
 
             # Convert Ruby to postgresql time format
-            format = format.gsub("%H", "HH12")
+            format = format.gsub("%H", "HH24")
             format = format.gsub("%M", "MI")
 
-            format.concat("AM")
+            #format.concat("AM")
 
             format
         end
