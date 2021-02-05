@@ -45,16 +45,6 @@ export default {
             default: ()=>{}
         },
 
-        goToUrl: {
-            type: Boolean,
-            default: false
-        },
-
-        url: {
-            type: String,
-            default: ''
-        },
-
         required: {
             type: Boolean,
             default: false
@@ -164,7 +154,7 @@ export default {
                         this.setListeners();
                     })
                 }else{
-                    this.notify(response.error.message, 'danger');
+                    this.alert(response.error.message, 'danger');
                 }
             }).catch((err)=>{
                 console.log(err);
@@ -173,14 +163,6 @@ export default {
 
         select(e, option) {
             e.preventDefault();
-            if(this.goToUrl){
-                if(window.location.pathname.includes('/patients')){
-                    this.$router.push(`/${option[this.keyField]}/edit`);
-                }else{
-                    let url = this.url.replace('%keyField%', option[this.keyField]);
-                    window.location.href = url;
-                }
-            }
 
             this.disable_search = true;
             this.options = [];
@@ -189,6 +171,7 @@ export default {
             this.index = -1;
             this.$refs.input.focus(); 
             this.$emit('input', option[this.keyField]);
+            this.$emit('select', option)
 
             this.$nextTick(()=>{
                 this.disable_search = false;
@@ -199,6 +182,7 @@ export default {
             if(! this.search){
                 this.selected_option = null;
                 this.$emit('input', null);
+                this.$emit('clear')
                 return
             }
 
@@ -210,6 +194,7 @@ export default {
                 this.selected_option = selected_option;
                 this.search = this.selected_option[this.textField];
                 this.$emit('input', this.selected_option[this.keyField]);
+                this.$emit('select', option)
                 if(this.options.length == 1){
                     this.disable_search = true;
                     this.options = [];
@@ -221,6 +206,7 @@ export default {
             }else{
                 this.selected_option = null;
                 this.$emit('input', null);
+                this.$emit('clear')
             }
         },
 
