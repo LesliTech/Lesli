@@ -94,20 +94,6 @@ class Role < ApplicationRecord
 
     # @return [void]
     # @param current_user [::User] The user that created the role
-    # @param [Role] The role that was created
-    # @description Creates an activity for this role indicating that someone viewed it
-    # Example
-    #   role = Role.find(1)
-    #   Role.log_activity_show(User.find(1), role)
-    def self.log_activity_show(current_user, role)
-        role.activities.create(
-            user_creator: current_user,
-            category: "action_show"
-        )
-    end
-
-    # @return [void]
-    # @param current_user [::User] The user that created the role
     # @param role [Role] The role that was created
     # @param old_attributes[Hash] The data of the record before update
     # @param new_attributes[Hash] The data of the record after update
@@ -139,12 +125,12 @@ class Role < ApplicationRecord
     end
 
     # @return [void]
-    # @param current_user [::User] The user that created the role
-    # @param [Role] The role that was created
+    # @param current_user [::User] The user that deleted the role
+    # @param [Role] The role that was deleted
     # @description Creates an activity for this role indicating that someone deleted it
     # Example
     #   role = Role.find(1)
-    #   Role.log_activity_show(User.find(1), role)
+    #   Role.log_activity_destroy(User.find(1), role)
     def self.log_activity_destroy(current_user, role)
         role.activities.create(
             user_creator: current_user,
