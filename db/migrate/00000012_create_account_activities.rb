@@ -23,6 +23,7 @@ class CreateAccountActivities < ActiveRecord::Migration[6.0]
             t.string :system_module
             t.string :system_process
             t.string :description
+            t.string :title
             t.json   :payload
             t.timestamps
         end
