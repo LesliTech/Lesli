@@ -51,11 +51,13 @@ module LC
 
         end
 
-        
-
         def format format
             @format = format
             self
+        end
+
+        def datetime 
+            format "date_time"
         end
 
         def db_timestamps table=""
