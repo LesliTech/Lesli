@@ -71,7 +71,7 @@ export default {
     <div class="card settings-branding">
         <div class="card-content">
             <div id="preview" class="has-text-centered">
-                <img class="company-logo-uploaded" v-if="image.url" :alt="image.alt" :src="image.url" @error="setAltImg"/>
+                <!-- <img class="company-logo-uploaded" v-if="image.url" :alt="image.alt" :src="image.url" @error="setAltImg"/> -->
             </div>
             <div class="field file">
                 <label class="upload control is-expanded">
