@@ -21,5 +21,5 @@ jobs:
           uses: ./.github/actions/git_branch_delete_old
           with:
             token: ${{ secrets.GITHUB_TOKEN }}
-            date: '1 months ago'
+            date: '20 days ago'
             dry_run: false
