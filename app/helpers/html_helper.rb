@@ -133,4 +133,10 @@ module HtmlHelper
         end
     end
 
+    def navigation_engine_one text: "One", icon_path: "cloud_one/one-logo.svg"
+        if defined? CloudOne
+            navigation_engine_item text, icon_path, cloud_one.root_path, controller_path.include?("cloud_one")
+        end
+    end
+
 end
