@@ -26,8 +26,8 @@ module Courier
                 User.index current_user, query, params
             end
 
-            def self.list()
-                :User.list
+            def self.list(current_user, query, params)
+                User.list(current_user, query, params)
             end
 
             def self.get(id)
