@@ -93,8 +93,8 @@ module ApplicationHelper
         unless Rails.application.config.lesli_settings["configuration"]["theme"].blank?
             theme = [
                 "themes", 
-                "deutsche-blue",
-                "deutsche-blue"
+                Rails.application.config.lesli_settings["configuration"]["theme"],
+                Rails.application.config.lesli_settings["configuration"]["theme"]
             ].join("/")
         end
 
