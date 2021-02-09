@@ -72,6 +72,7 @@ namespace :dev do
             server_username = "ubuntu" 
             key_path = "#{ENV["HOME"]}/Desktop/#{server_host}.pem"
             filename="leslicloud_production.dump"
+            directory="#{ENV["HOME"]}/Desktop/backups"
 
             server_username args[:server_username] unless args[:server_username].blank? 
             key_path = args[:key_path] unless args[:key_path].blank?
@@ -97,8 +98,9 @@ namespace :dev do
             system "ssh #{server_username}@#{server_host} -i #{key_path} 'cd #{app_path}; echo RAILS_ENV=production /home/ubuntu/.rvm/gems/#{RUBY_VERSION}/wrappers/rake RAILS_ENV=production rake dev:db:backup[#{filename}]'"
 
             puts "downloading backup ... \n"
-            system "wait && scp -i #{key_path} #{server_username}@#{server_host}:#{app_path}/#{filename} #{ENV["HOME"]}/Desktop/backups/#{filename}"
-            system "ls -l #{ENV["HOME"]}/Desktop/backups/"
+            Dir.mkdir(directory) unless File.exists?(directory)
+            
+            system "wait && scp -i #{key_path} #{server_username}@#{server_host}:#{app_path}/#{filename} #{directory}/#{filename}"
 
             puts "restoring database ... \n"
             system "ps -ef | grep postgres |pgrep #{database} | xargs -I {} sh -c 'sudo kill -9 {}'"
@@ -109,9 +111,8 @@ namespace :dev do
             puts "create database ... \n"
             system "rake db:create" 
 
-            system "psql -U #{username} -d #{database} < #{ENV["HOME"]}/Desktop/backups/#{filename}"
+            system "psql -U #{username} -d #{database} < #{directory}/#{filename}"
             puts "database restored successfully"
         end
-
     end
 end
