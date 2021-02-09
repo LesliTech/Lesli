@@ -27,6 +27,11 @@ module Courier
                     CloudOne::Firebase::User.registration(current_user, registration_params)
                 end
 
+                def self.update_photo(current_user, photo_url)
+                    return unless defined? CloudOne
+                    CloudOne::Firebase::User.update_photo(current_user, photo_url)
+                end
+
             end
         end
     end
