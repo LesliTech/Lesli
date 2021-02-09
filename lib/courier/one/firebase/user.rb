@@ -19,13 +19,15 @@ For more information read the license file including with this software.
 
 module Courier
     module One
-        class Firebase
+        module Firebase
+            class User
 
-            def self.registration(registration_params)
-                return unless defined? CloudOne
-                CloudOne::Firebase.registration(registration_params)
+                def self.registration(current_user, registration_params)
+                    return unless defined? CloudOne
+                    CloudOne::Firebase::User.registration(current_user, registration_params)
+                end
+
             end
-
         end
     end
 end
