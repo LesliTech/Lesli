@@ -30,3 +30,10 @@ For more information read the license file including with this software.
 @import "./components/summary.scss";
 @import "./components/calendar.scss";
 @import "./components/quickview.scss";
+
+
+
+body.deutsche_leibrenten.profiles.show main aside.application-sidebar nav ul {
+    display: none;
+    font-size: 0;
+}
