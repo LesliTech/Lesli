@@ -108,6 +108,13 @@ module HtmlHelper
         end
     end
 
+    # 09.04 Federation engine
+    def navigation_engine_federation text: "Federation", icon_path: "cloud_federation/federation-logo.svg"
+        if defined? CloudFederation
+            navigation_engine_item text, icon_path, cloud_federation.root_path, controller_path.include?("cloud_federation")
+        end
+    end
+
     # 09.06 Development engine
     def navigation_engine_development text: "Dev", icon_path: "cloud_development/development-logo.svg"
         if defined? CloudDevelopment
