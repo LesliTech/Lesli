@@ -34,7 +34,7 @@ Rails.application.config.assets.precompile += [ "lesli/templates/development.css
 Rails.application.config.assets.precompile += [ "themes/blank.css", "themes/**/*.css" ]
 
 # Account management & settings
-Rails.application.config.assets.precompile += [ "accounts.css", "account/*.css", "account/*.js" ]
+Rails.application.config.assets.precompile += [ "accounts.css", "account/*.css", "accounts/app.js", "account/*.js" ]
 
 # Roles and privileges configuration
 Rails.application.config.assets.precompile += [ "roles.css", "roles/*.js" ]
