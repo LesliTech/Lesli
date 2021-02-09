@@ -56,7 +56,7 @@ Rails.application.routes.draw do
         mount CloudMailer::Engine => "/mailer" if defined?(CloudMailer)
         mount CloudThings::Engine => "/inventory" if defined?(CloudThings)
         mount CloudProposal::Engine => "/proposal" if defined?(CloudProposal)
-        mount CloudFederation::Engine => "/federation" if defined?(CloudFederation)
+        mount CloudFederation::Engine => "/cloud" if defined?(CloudFederation)
         mount CloudDevelopment::Engine => "/development" if defined?(CloudDevelopment)
 
         root to: redirect("/dashboard"), as: :root_authenticated
