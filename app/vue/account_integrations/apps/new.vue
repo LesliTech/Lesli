@@ -2,6 +2,18 @@
 import integrationForm from '../components/form.vue'
 
 export default {
+    props: {},
+    
+    data(){
+        return {
+            endpoint: "/administration/account/integrations",
+            translations: {
+                core: {
+                    integrations: I18n.t("core.account/integrations")
+                }
+            },
+        }
+    },
     mounted() {
 
     },
@@ -12,7 +24,7 @@ export default {
 </script>
 <template>
     <section class="application-component">
-        <component-header title="New integration"></component-header>
+        <component-header :title="translations.core.integrations.view_title_new"></component-header>
         <div class="card">
             <div class="card-content">
                 <account-form></account-form>
