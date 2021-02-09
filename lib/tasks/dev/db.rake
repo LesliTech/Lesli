@@ -97,8 +97,8 @@ namespace :dev do
             system "ssh #{server_username}@#{server_host} -i #{key_path} 'cd #{app_path}; echo RAILS_ENV=production /home/ubuntu/.rvm/gems/#{RUBY_VERSION}/wrappers/rake RAILS_ENV=production rake dev:db:backup[#{filename}]'"
 
             puts "downloading backup ... \n"
-            system "wait && scp -i #{key_path} #{server_username}@#{server_host}:#{app_path}/#{filename} $HOME/Desktop/dl-backups/#{filename}"
-            system "ls -l #{ENV["HOME"]}/Desktop/dl-backups/"
+            system "wait && scp -i #{key_path} #{server_username}@#{server_host}:#{app_path}/#{filename} #{ENV["HOME"]}/Desktop/backups/#{filename}"
+            system "ls -l #{ENV["HOME"]}/Desktop/backups/"
 
             puts "restoring database ... \n"
             system "ps -ef | grep postgres |pgrep #{database} | xargs -I {} sh -c 'sudo kill -9 {}'"
@@ -109,7 +109,7 @@ namespace :dev do
             puts "create database ... \n"
             system "rake db:create" 
 
-            system "psql -U #{username} -d #{database} < #{ENV["HOME"]}/Desktop/dl-backups/#{filename}"
+            system "psql -U #{username} -d #{database} < #{ENV["HOME"]}/Desktop/backups/#{filename}"
             puts "database restored successfully"
         end
 
