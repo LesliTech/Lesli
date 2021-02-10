@@ -27,7 +27,7 @@ ruby "2.7.2"
 # · Rails, gem, dependencies and tools
 
 # Rails framework
-gem "rails", "= 6.1.0"
+gem "rails", "= 6.1.1"
 
 # Rails translations
 gem "rails-i18n", "= 6.0.0"

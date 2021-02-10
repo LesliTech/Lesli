@@ -54,13 +54,6 @@ class Users::SessionsController < Devise::SessionsController
 
         # check if user is already confirmed
         unless resource.confirmed?
-
-            # save a invalid credentials log for the requested user
-            resource.logs.create({
-                title: "session_creation_failed", 
-                description: "email_not_confirmed"
-            })
-
             # respond with a confirmation required message
             return respond_with_error(I18n.t("devise.errors.custom.confirmation_required"))
 
@@ -70,11 +63,6 @@ class Users::SessionsController < Devise::SessionsController
         # check password validation
         unless resource.valid_password?(sign_in_params[:password])
 
-            # save a invalid credentials log for the requested user
-            resource.logs.create({
-                title: "session_creation_failed",
-                description: "invalid_credentials"
-            })
 
             # respond with a no valid credentials generic error if not valid user found
             return respond_with_error(I18n.t("core.users/sessions.invalid_credentials"))
@@ -84,10 +72,6 @@ class Users::SessionsController < Devise::SessionsController
 
         # check if user has roles assigned
         if resource.roles.empty?
-            resource.logs.create({
-                title: "session_creation_failed",
-                description: "user_has_no_assigned_role"
-            })
             return respond_with_error(I18n.t("core.users/sessions.the_user_has_no_assigned_role"))
         end 
 
@@ -95,10 +79,6 @@ class Users::SessionsController < Devise::SessionsController
         # check user has at least one active role before authorize the sign-in request
         resource.roles.select(:active).each do |role| 
             break if role[:active]
-            resource.logs.create({
-                title: "session_creation_failed",
-                description: "user_has_no_active_role"
-            })
             return respond_with_error(I18n.t("deutscheleibrenten.users/sessions.role_access_denied")) 
         end
 
@@ -107,8 +87,6 @@ class Users::SessionsController < Devise::SessionsController
         sign_in :user, resource
 
 
-        # register a successful sign-in log for the current user
-        resource.logs.create({ title: "session_creation_successful" })
 
 
         # register a new unique session
