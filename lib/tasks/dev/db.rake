@@ -64,6 +64,8 @@ namespace :dev do
         desc "Restore database from backup"
         task :restore_backup, [:server_host, :server_username, :key_path, :ruby_version] => [:environment] do |task, args|
 
+            return if Rails.env == "production" 
+
             server_host = args[:server_host]
             return if server_host.blank?
             
