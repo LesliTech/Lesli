@@ -17,16 +17,17 @@ For more information read the license file including with this software.
 
 =end
 
-class CreateUserLogs < ActiveRecord::Migration[6.0]
-    def change
-        create_table :user_logs do |t|
-            t.string :session_uuid
-            t.string :description
-            t.string :title
+module Courier
+    module One
+        module Firebase
+            class Chatroom
 
-            t.datetime :deleted_at, index: true
-            t.timestamps
+                def self.create(current_user, members, chat_name="")
+                    return unless defined? CloudOne
+                    CloudOne::Firebase::Chatroom.create(current_user, members, chat_name)
+                end
+
+            end
         end
-        add_reference :user_logs, :users, foreign_key: true
     end
 end

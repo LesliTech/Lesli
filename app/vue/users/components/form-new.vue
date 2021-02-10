@@ -17,10 +17,13 @@ For more information read the license file including with this software.
 */
 
 export default {
-
-    components: {
-
+    props: {
+        mainPath: { 
+            required: true
+        }
     },
+
+    components: {},
     
     // @return [Object] Data used by this component"s methods
     // @description Returns the data needed for this component to work properly
@@ -71,7 +74,7 @@ export default {
             this.http.post(url, data).then(result => {
                 if (result.successful) {
                     this.alert(this.translations.users.messages_success_created_successfully, "success")
-                    this.url.go("/administration/users")
+                    this.url.go(this.mainPath)
                 }else{
                     this.alert(result.error.message,"danger")
                 }

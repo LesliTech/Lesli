@@ -36,7 +36,7 @@ export default {
 }
 </script>
 <template>
-    <div class="columns is-multiline">
+    <div class="component-toolbar columns is-multiline">
         <div class="column is-12">
             <div class="field is-grouped component-toolbar">
                 <div class="control is-expanded has-icons-right">
@@ -48,7 +48,8 @@ export default {
                 <slot></slot>
             </div>
         </div>
-        <slot name="second-row">
-        </slot>
+        <div class="second-row">
+            <slot name="second-row"></slot>
+        </div>
     </div>
 </template>

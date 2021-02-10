@@ -386,7 +386,7 @@ class User < ApplicationLesliRecord
 
         users = users.where("
             email like '%#{query[:filters][:search]}%' or
-            concat(ud.first_name, ' ', ud.last_name) like '%#{query[:filters][:search]}%'
+            LOWER(concat(ud.first_name, ' ', ud.last_name)) like '%#{query[:filters][:search].downcase}%'
         ")  if not query[:filters][:search].blank?
 
         users = users

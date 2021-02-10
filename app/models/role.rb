@@ -32,8 +32,8 @@ class Role < ApplicationRecord
         rescue ActiveRecord::InvalidForeignKey => error
     end
 
-    def self.index(current_user, query_params)
-        current_user.account.roles
+    def self.index(current_user, query)
+        roles = current_user.account.roles
         .joins("
             left join (
                 select 
@@ -46,7 +46,10 @@ class Role < ApplicationRecord
         ")
         .order(object_level_permission: :desc, name: :asc)
         .select(:id, :name, :active, :only_my_data, :default_path, :object_level_permission, "users.user_count")
-        
+
+        roles = roles.where("roles.object_level_permission < ?", query[:filters][:object_level_permission]) unless query[:filters][:object_level_permission].blank?
+       
+        return roles
     end
 
     def show()
@@ -94,20 +97,6 @@ class Role < ApplicationRecord
 
     # @return [void]
     # @param current_user [::User] The user that created the role
-    # @param [Role] The role that was created
-    # @description Creates an activity for this role indicating that someone viewed it
-    # Example
-    #   role = Role.find(1)
-    #   Role.log_activity_show(User.find(1), role)
-    def self.log_activity_show(current_user, role)
-        role.activities.create(
-            user_creator: current_user,
-            category: "action_show"
-        )
-    end
-
-    # @return [void]
-    # @param current_user [::User] The user that created the role
     # @param role [Role] The role that was created
     # @param old_attributes[Hash] The data of the record before update
     # @param new_attributes[Hash] The data of the record after update
@@ -139,12 +128,12 @@ class Role < ApplicationRecord
     end
 
     # @return [void]
-    # @param current_user [::User] The user that created the role
-    # @param [Role] The role that was created
+    # @param current_user [::User] The user that deleted the role
+    # @param [Role] The role that was deleted
     # @description Creates an activity for this role indicating that someone deleted it
     # Example
     #   role = Role.find(1)
-    #   Role.log_activity_show(User.find(1), role)
+    #   Role.log_activity_destroy(User.find(1), role)
     def self.log_activity_destroy(current_user, role)
         role.activities.create(
             user_creator: current_user,
