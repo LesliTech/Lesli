@@ -38,6 +38,7 @@ export default {
                     users: I18n.t("deutscheleibrenten.users")
                 },
                 core: {
+                    roles: I18n.t("core.roles"),
                     users: I18n.t("core.users"),
                     shared: I18n.t("core.shared")
                 }
@@ -98,7 +99,7 @@ export default {
                 if (result.successful) {
                     this.users = result.data.users.map(e => {
                         e.roles = (e.roles||'').split(",").map(e => {
-                            return this.object_utils.translateEnum(this.translations.dl.users, 'enum_role', e)
+                            return this.object_utils.translateEnum(this.translations.core.roles, 'column_enum_role', e)
                             
                         })
 
