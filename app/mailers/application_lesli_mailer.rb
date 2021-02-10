@@ -58,7 +58,7 @@ class ApplicationLesliMailer < ActionMailer::Base
 
     def log_mail_requests
         # TODO: Save template path and view used within the email
-        Account::Activity.log_email("#{self.class.to_s}/#{self.action_name}", "email_sent", {
+        Account::Activity.log_email("#{self.class.to_s}/#{self.action_name}", self.action_name, {
             subject: self.message.subject,
             from: self.message.from,
             to: self.message.to

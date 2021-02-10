@@ -16,30 +16,30 @@ For more information read the license file including with this software.
 // · 
 
 =end
+
 module Courier
+    module Things
+        class Brand
 
-    module Lesli
-
-        class Users
-
-            def self.index current_user, query, params
-                User.index current_user, query, params
+            def self.index(current_user, query)
+                return [] unless defined? CloudThings
+                CloudThings::Brand.index(current_user, query)
             end
 
-            def self.list(current_user, query, params)
-                User.list(current_user, query, params)
+            def self.search(current_user, query)
+                return [] unless defined? CloudThings
+                CloudThings::Brand.search(current_user, query)
             end
 
-            def self.get(id)
-                return ::User.find(id).show
+            def self.list(current_user, query)
+                return [] unless defined? CloudThings
+                CloudThings::Brand.list(current_user, query)
             end
 
-            def self.get_by_email(email)
-                return ::User.find_by_email(email).show
+            def self.show(current_user, query, id)
+                return {} unless defined? CloudThings
+                current_user.account.things.brands.find(id).show(current_user, query)
             end
-
         end
-
     end
-    
 end

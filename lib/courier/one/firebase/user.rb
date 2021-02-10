@@ -17,16 +17,22 @@ For more information read the license file including with this software.
 
 =end
 
-class CreateUserLogs < ActiveRecord::Migration[6.0]
-    def change
-        create_table :user_logs do |t|
-            t.string :session_uuid
-            t.string :description
-            t.string :title
+module Courier
+    module One
+        module Firebase
+            class User
 
-            t.datetime :deleted_at, index: true
-            t.timestamps
+                def self.registration(current_user, registration_params)
+                    return unless defined? CloudOne
+                    CloudOne::Firebase::User.registration(current_user, registration_params)
+                end
+
+                def self.update_photo(current_user, photo_url)
+                    return unless defined? CloudOne
+                    CloudOne::Firebase::User.update_photo(current_user, photo_url)
+                end
+
+            end
         end
-        add_reference :user_logs, :users, foreign_key: true
     end
 end

@@ -137,7 +137,7 @@ export default {
                     return
                 }
                 this.getUsers()
-                this.alert("Operation successful")
+                this.alert(translations.core.users.messages_success_operation)
             }).catch(error => {
                 console.log(error)
             })
@@ -150,7 +150,7 @@ export default {
                     return
                 }
                 this.getUsers()
-                this.alert("Operation successful")
+                this.alert(translations.core.users.messages_success_operation)
             }).catch(error => {
                 console.log(error)
             })
