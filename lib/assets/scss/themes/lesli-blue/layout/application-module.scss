@@ -19,34 +19,7 @@ For more information read the license file including with this software.
 
 @import "lesli-css/";
 
-.application-modules {
 
-    .sidebar-content {
-        width: 315px;
-
-        .content {
-            display: flex;
-            flex-wrap: wrap;
-
-            a {
-                width: 33%;
-    
-                &.is-active {
-                    padding: .8rem 0;
-                    background-color: rgba(#cbd9e6, .5);
-                    border-right: 2px solid lesli-css-theme-get-color(primary);
-                    color: lesli-css-get-color(slate, 900);
-
-                    i {
-                        color: lesli-css-theme-get-color(primary);
-                    }
-
-                }
-    
-            }
-
-        }
-
-    }
-
+.application-modules .sidebar-content {
+    background-color: lesli-css-get-color(solid, white);
 }
