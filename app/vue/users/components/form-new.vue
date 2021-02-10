@@ -32,6 +32,7 @@ export default {
         return {
             translations: {
                 users: I18n.t("core.users"),
+                roles: I18n.t("core.roles"),
                 shared: I18n.t("core.shared")
             },
             user: {
@@ -129,7 +130,7 @@ export default {
                                         v-for="role in options.roles"
                                         :value="role.id"
                                         :key="role.id">
-                                        {{ object_utils.translateEnum(translations.users, "enum_role", role.name) }}
+                                        {{object_utils.translateEnum(translations.roles, 'column_enum_role', role.name)}} 
                                     </option>
                                 </b-select>
                             </div>
