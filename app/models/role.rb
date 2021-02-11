@@ -32,8 +32,8 @@ class Role < ApplicationRecord
         rescue ActiveRecord::InvalidForeignKey => error
     end
 
-    def self.index(current_user, query_params)
-        current_user.account.roles
+    def self.index(current_user, query)
+        roles = current_user.account.roles
         .joins("
             left join (
                 select 
@@ -46,7 +46,10 @@ class Role < ApplicationRecord
         ")
         .order(object_level_permission: :desc, name: :asc)
         .select(:id, :name, :active, :only_my_data, :default_path, :object_level_permission, "users.user_count")
-        
+
+        roles = roles.where("roles.object_level_permission < ?", query[:filters][:object_level_permission]) unless query[:filters][:object_level_permission].blank?
+       
+        return roles
     end
 
     def show()
