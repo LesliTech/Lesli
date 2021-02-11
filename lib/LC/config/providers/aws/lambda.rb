@@ -21,12 +21,14 @@ module LC
                         self
                     end
 
-                    def invoke(function_name, params)
+                    def invoke(function_name, async, params)
                         params = JSON.generate(params)
+                        invocation_type = "RequestResponse"
+                        invocation_type = "Event" if async
 
                         @client.invoke({
                             function_name: function_name,
-                            invocation_type: "Event",
+                            invocation_type: invocation_type,
                             log_type: "None",
                             payload: params
                         })
