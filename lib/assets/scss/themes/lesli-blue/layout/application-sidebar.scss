@@ -25,8 +25,7 @@ For more information read the license file including with this software.
 
 // · Navigation sidebar
 aside.application-sidebar {
-    @include box-shadow;
-    background-color: lesli-css-get-color(solid, white);
+    border-right: 1px solid rgba(lesli-css-get-color(slate, 100), .4);
 
     a.brand {
         padding: .4rem;
@@ -38,26 +37,29 @@ aside.application-sidebar {
         li {
             a {
                 padding-left: .6rem;
-                color: lesli-css-get-color(slate, 300);
+                color: lesli-css-get-color(slate, 500);
+                color: lesli-css-get-color(slate, 900);
                 transition: all linear .2s;
 
-                &:not(.is-active):hover {
-                    color: lesli-css-get-color(blue);
-                    background-color: lesli-css-get-color(solid, white);
-                    i {
-                        color: lesli-css-get-color(slate, 300);
-                    }
-                }
-
+                // active sidebar navigation items
                 &.is-active {
-                    background-color: rgba(#cbd9e6, .3);
-                    border-right: 2px solid lesli-css-theme-get-color(primary);
+                    background-color: darken(#f3f7fd, 4);
                     color: lesli-css-get-color(slate, 900);
                     i {
                         color: lesli-css-theme-get-color(primary);
                     }
                 }
 
+                // highlight sidebar navigation item on hover
+                &:not(.is-active):hover {
+                    background-color: transparent;
+                    color: lesli-css-get-color(slate, 900);
+                    i {
+                        color: lesli-css-theme-get-color(primary);
+                    }
+                }
+
+                //
                 i {
                     width: 3rem;
                     color: lesli-css-get-color(slate, 100);
@@ -71,6 +73,7 @@ aside.application-sidebar {
             }
             
         }
+
     }
 
 }
