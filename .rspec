@@ -1,2 +1,4 @@
 --require spec_helper 
 --format documentation 
+--pattern engines/**/spec/**/**/*_spec.rb 
+--pattern spec/**/**/*_spec.rb 
