@@ -57,7 +57,19 @@ class Role < ApplicationRecord
 
         roles = roles.where("roles.object_level_permission < ?", query[:filters][:object_level_permission]) unless query[:filters][:object_level_permission].blank?
        
-        return roles
+        roles = roles
+            .page(query[:pagination][:page])
+            .per(query[:pagination][:perPage])
+            .order(object_level_permission: :desc, name: :asc)
+
+        LC::Response.pagination(
+            roles.current_page,
+            roles.total_pages,
+            roles.total_count,
+            roles.length,
+            roles
+        )
+
     end
 
     def show()
