@@ -18,7 +18,21 @@ For more information read the license file including with this software.
 =end
 
 class RolesController < ApplicationLesliController    
-    before_action :set_role, only: [:update, :destroy]
+    before_action :set_role, only: [:show, :update, :destroy]
+
+    #@return [HTML|JSON] HTML view for listing all roles or a Json that contains a list of all roles 
+    #    associated to this *account*
+    #@description Retrieves and returns all roles associated to a *CloudHouse::Account*. The account
+    #    is obtained directly from *current_user*. The HTTP request has to specify
+    #    wheter the HTML or the JSON text should be rendered
+    #@example
+    #    # Executing this controller's action from javascript's frontend
+    #    this.http.get(`127.0.0.1/house/roles`);
+    def list
+        respond_to do |format|
+            format.json { respond_with_successful(Role.list(current_user, @query)) }
+        end
+    end
 
     #@return [HTML|JSON] HTML view for listing all roles or a Json that contains a list of all roles 
     #    associated to this *account*
@@ -51,13 +65,8 @@ class RolesController < ApplicationLesliController
         respond_to do |format|
             format.html {  }
             format.json { 
-                set_role
-
                 return respond_with_not_found unless @role
-
-                @role = @role.show
-
-                respond_with_successful(@role) 
+                respond_with_successful(@role.show) 
             }
         end
     end
@@ -91,8 +100,14 @@ class RolesController < ApplicationLesliController
     #     };
     #     this.http.post('127.0.0.1/house/roles', data);
     def create
-        role = Role.new(role_params)
-        role.account = current_user.account
+
+        role = current_user.account.roles.new(role_params)
+
+        # check if user can work with that object level permission
+        if role.object_level_permission >= current_user.roles.map(&:object_level_permission).max() 
+            respond_with_error("object_level_permission_too_high")
+            return
+        end
 
         if role.save
             respond_with_successful(role)
@@ -120,6 +135,12 @@ class RolesController < ApplicationLesliController
     #     this.http.patch(`127.0.0.1/roles/${role_id}`, data);
     def update
         return respond_with_not_found unless @role
+
+        # check if user can work with that object level permission
+        if role_params[:object_level_permission] >= current_user.roles.map(&:object_level_permission).max() 
+            respond_with_error("object_level_permission_too_high")
+            return
+        end
         
         old_attributes = @role.attributes
 
@@ -151,6 +172,11 @@ class RolesController < ApplicationLesliController
         else
             respond_with_error(@role.errors.full_messages.to_sentence)
         end
+    end
+
+
+    def options
+        respond_with_successful()
     end
 
     private
@@ -185,6 +211,8 @@ class RolesController < ApplicationLesliController
         params.require(:role).permit(
             :name,
             :active,
+            :only_my_data, 
+            :default_path,
             :object_level_permission
         )
     end
