@@ -18,10 +18,12 @@ For more information read the license file including with this software.
 
 */
 
-// · List of Imported Components
-// · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
-import componentForm from '../components/forms/form.vue'
 
+// · List of Imported Components
+import componentForm from '../components/form.vue'
+
+
+// · 
 export default {
   
     props: {
@@ -48,10 +50,19 @@ export default {
 
 <template>
     <section class="application-component">
+        <component-header title="Create new role">
+            <div class="buttons">
+                <router-link class="button" tag="button" to="/">
+                    <span class="icon">
+                        <i class="fas fa-list"></i>
+                    </span>
+                    <span>List</span>
+                </router-link>
+            </div>
+        </component-header>
         <component-form 
             :role="role"
-            :view_type="view_type"
-        >
+            :view_type="view_type">
         </component-form>
     </section>
 </template>
