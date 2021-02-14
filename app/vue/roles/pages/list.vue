@@ -21,7 +21,7 @@ For more information read the license file including with this software.
 export default {
     data() {
         return {
-            roles: []
+            roles: {}
         }
     },
     mounted() {
@@ -77,7 +77,7 @@ export default {
         <div class="box">
             <b-table 
                 hoverable
-                :data="roles">
+                :data="roles.records">
                 <template slot-scope="props">
                     <b-table-column label="ID" width="50" :numeric="true" sortable centered>
                         <router-link :to="'/'+props.row.id">
