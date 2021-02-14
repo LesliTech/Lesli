@@ -41,7 +41,8 @@ module Lesli
         config.i18n.available_locales = config.lesli_settings["configuration"]["locales"]
         config.i18n.load_path += Dir[Rails.root.join("config", "locales", "**", "*.{rb,yml}")]
         config.i18n.load_path += Dir[Rails.root.join("engines", "*", "config", "locales", "**", "*.{rb,yml}")]
-        config.autoload_paths += Dir[Rails.root.join("config", "routes", "lib")]
+        config.autoload_paths += Dir[Rails.root.join("config", "routes")]
+        config.autoload_paths += Dir[Rails.root.join("lib")]
 
         # Default time zone for the app, this can change if necessary
         config.time_zone = "UTC"
