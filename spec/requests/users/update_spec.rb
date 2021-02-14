@@ -23,16 +23,19 @@ require 'spec_helper'
 
 RSpec.describe "POST /administration/users/:id/roles", type: :request do
     include_context 'user authentication'
-        
-    it "Add admin role to user" do
-        post "/administration/users/#{@user.id}/roles.json", params: {
+
+    before(:all) do
+        post("/administration/users/#{@user.id}/roles.json", params: {
             user_role: {
                 id: @user.account.roles.find_by(name: "admin").id
             }
-        }
-        expect(response).to have_http_status(:success) 
-        expect(response.content_type).to eq("application/json; charset=utf-8")
-        expect(JSON.parse(response.body)["successful"]).to eql(true)
+        })
+    end
+
+    include_examples 'successful standard json response'
+        
+    it "Add admin role to user" do
+        expect(@response_body["successful"]).to eql(true)
     end
 
 end
@@ -41,7 +44,7 @@ end
 RSpec.describe "POST /administration/users/:id/roles", type: :request do
     include_context 'user authentication'
 
-    it "Add a lower role to a user that is admin" do
+    before(:all) do 
 
         # create a dummy user
         user = @user.account.users.create({ 
@@ -49,22 +52,25 @@ RSpec.describe "POST /administration/users/:id/roles", type: :request do
             password: DateTime.now.strftime('%s'),
             password_confirmation: DateTime.now.strftime('%s')
         })
+
         user.user_roles.create({ role: @user.account.roles.find_by(name: "admin") })
 
         # get the guest role
         role = @user.account.roles.find_by(name: "guest") 
 
         # Add the role to the user
-        post "/administration/users/#{@user.id}/roles.json", params: {
+        post("/administration/users/#{@user.id}/roles.json", params: {
             user_role: {
                 id: role.id
             }
-        }
+        })
 
-        expect(response).to have_http_status(:success) 
-        expect(response.content_type).to eq("application/json; charset=utf-8")
-        expect(JSON.parse(response.body)["successful"]).to eql(true)
+    end
 
+    include_examples 'successful standard json response'
+
+    it "Add a lower role to a user that is admin" do
+        expect(@response_body["successful"]).to eql(true)
     end
 
 end
@@ -73,7 +79,7 @@ end
 RSpec.describe "POST /administration/users/:id/roles", type: :request do
     include_context 'user authentication'
 
-    it "Add admin role to a user with limited role" do
+    before(:all) do 
 
         # create a dummy user with limited user
         user = Account.find(1).users.create({ 
@@ -87,23 +93,28 @@ RSpec.describe "POST /administration/users/:id/roles", type: :request do
         admin_role = @user.account.roles.find_by(name: "admin") 
 
         # Add the role to the user
-        post "/administration/users/#{@user.id}/roles.json", params: {
+        post("/administration/users/#{@user.id}/roles.json", params: {
             user_role: {
                 id: admin_role.id
             }
-        }
+        })
 
-        expect(response).to have_http_status(:success) 
-        expect(response.content_type).to eq("application/json; charset=utf-8")
-        expect(JSON.parse(response.body)["successful"]).to eql(true)
+    end
+
+    include_examples 'successful standard json response'
+
+    it "Add admin role to a user with limited role" do
+        expect(@response_body["successful"]).to eql(true)
     end
 
 end
 
+
 RSpec.describe "POST /administration/users/:id/roles", type: :request do
+
     include_context 'user authentication'
 
-    it "Add admin role to a user with limited role when you don't have the proper privileges" do
+    before(:all) do
 
         # create a dummy user with limited user
         user = Account.find(1).users.create({ 
@@ -123,23 +134,27 @@ RSpec.describe "POST /administration/users/:id/roles", type: :request do
         admin_role = @user.account.roles.find_by(name: "admin") 
 
         # Add the role to the user
-        post "/administration/users/#{user.id}/roles.json", params: {
+        post("/administration/users/#{user.id}/roles.json", params: {
             user_role: {
                 id: admin_role.id
             }
-        }
-        
-        expect(response).to have_http_status(401) 
-        expect(response.content_type).to eq("application/json; charset=utf-8")
-        expect(JSON.parse(response.body)["successful"]).to eql(false)
+        })
+
+    end
+
+    include_examples 'unauthorized standard json response'
+
+    it "Add admin role to a user with limited role when you don't have the proper privileges" do
+        expect(@response_body["successful"]).to eql(false)
     end
 
 end
 
+
 RSpec.describe "PUT /administration/users/:id", type: :request do
     include_context 'user authentication'
 
-    it "Change user password" do
+    before(:all) do 
 
         # create a dummy user with limited user
         password = DateTime.now.strftime('%s')
@@ -159,16 +174,18 @@ RSpec.describe "PUT /administration/users/:id", type: :request do
         #change password
         new_password = DateTime.now.strftime('%s') + (rand(1000) + 1).to_s
         
-        put "/", params: {
+        put("/", params: {
             user: {
                 password: new_password,
                 password_confirmation: new_password
             }
-        }
+        })
 
-        expect(response).to have_http_status(:success) 
-        expect(response.content_type).to eq("application/json; charset=utf-8")
-        expect(JSON.parse(response.body)["successful"]).to eql(true)
+    end
+
+    include_examples 'successful standard json response'
+
+    it "Change user password" do
+        expect(@response_body["successful"]).to eql(true)
     end
 end
-
