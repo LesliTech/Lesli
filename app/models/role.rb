@@ -92,6 +92,10 @@ class Role < ApplicationRecord
         routes.each do |route|
             self.privileges.find_or_create_by(grant_object: route[:controller_path])
         end
+
+        # enable profile privileges 
+        self.privileges.find_by(grant_object: "profiles").update(grant_show: true)
+        self.privileges.find_by(grant_object: "users").update(grant_options: true, grant_update: true)
     end
 
     #######################################################################################
