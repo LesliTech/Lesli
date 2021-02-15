@@ -1,5 +1,5 @@
 =begin
-    
+
 Copyright (c) 2020, all rights reserved.
 
 All the information provided by this platform is protected by international laws related  to 
@@ -14,20 +14,30 @@ For more information read the license file including with this software.
 
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
 // · 
-  
-=end
-class User::Activity < ApplicationRecord
-    belongs_to :user,   foreign_key: "users_id",    class_name: "::User"
-    belongs_to :owner,  foreign_key: "owner_id",    class_name: "::User" 
-    
 
-    enum category: {
-        action_create:                          "action_create",
-        action_show:                            "action_show",
-        action_update:                          "action_update",
-        action_destroy:                         "action_destroy",
-        action_create_user_role:                "action_create_user_role",
-        action_destroy_user_role:               "action_destroy_user_role",
-        action_become:                          "action_become"
-    }
+=end
+
+require 'rails_helper'
+require 'spec_helper'
+require 'byebug'
+
+
+RSpec.describe 'GET:/administration/roles/list.json', type: :request do
+    include_context 'user authentication'
+    
+    before(:all) do
+        get '/administration/roles/list.json' 
+    end
+
+    include_examples 'successful standard json response'
+
+    it 'is expected to respond with the roles the user has level to work with' do
+
+        # get the roles user has level to work with
+        roles_count = @user.account.roles
+        .where("object_level_permission <= ?", @user.roles.map(&:object_level_permission).max())
+        .count
+
+        expect(@response_body["data"].count).to eql(roles_count)
+    end
 end

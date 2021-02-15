@@ -34,10 +34,8 @@ export default {
             loading: false,
             filters_ready: false,
             translations: {
-                dl: {
-                    users: I18n.t("deutscheleibrenten.users")
-                },
                 core: {
+                    roles: I18n.t("core.roles"),
                     users: I18n.t("core.users"),
                     shared: I18n.t("core.shared")
                 }
@@ -58,8 +56,8 @@ export default {
                 range_after: 3,
                 users_count: 0
             },
-            privileges: {
-                users: this.abilities.privileges()
+            index_privileges: {
+                users: this.abilities.privilege("", "users")
             }
         }
     },
@@ -98,7 +96,7 @@ export default {
                 if (result.successful) {
                     this.users = result.data.users.map(e => {
                         e.roles = (e.roles||'').split(",").map(e => {
-                            return this.object_utils.translateEnum(this.translations.dl.users, 'enum_role', e)
+                            return this.object_utils.translateEnum(this.translations.core.roles, 'column_enum_role', e)
                             
                         })
 
@@ -198,7 +196,7 @@ export default {
                     <b-icon icon="sync" size="is-small" :custom-class="loading ? 'fa-spin' : ''" />
                     <span> {{ translations.core.shared.view_text_btn_reload }}</span>
                 </button>
-                <router-link class="button" tag="button" to="/new" v-if="privileges.users.grant_create">
+                <router-link class="button" tag="button" to="/new" v-if="index_privileges.users.grant_create">
                     <b-icon icon="plus" size="is-small" />
                     <span>{{ translations.core.users.view_text_add_user }}</span>
                 </router-link>
