@@ -17,7 +17,7 @@ For more information read the license file including with this software.
     
 =end
 
-RSpec.shared_examples 'failed standard json response' do   
+RSpec.shared_examples 'error standard json response' do   
 
     before(:all) do
         @response_body = JSON.parse(response.body)
@@ -48,6 +48,3 @@ RSpec.shared_examples 'failed standard json response' do
     end
 
 end
-
-
-p "DEPRECATED: Use error standard json response instead, due that the name of the responder controller method for errors"

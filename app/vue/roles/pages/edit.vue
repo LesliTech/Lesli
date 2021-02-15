@@ -20,16 +20,9 @@ For more information read the license file including with this software.
 
 // · List of Imported Components
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
-import componentForm from '../components/forms/form.vue'
+import componentForm from '../components/form.vue'
 
 export default {
-  
-    props: {
-        view_type: {
-            type: String,
-            default: 'edit'
-        }
-    },
 
     components: {
         'component-form': componentForm
@@ -43,8 +36,7 @@ export default {
             role_id: null,
             translations: {
                 shared: I18n.t('deutscheleibrenten.shared')
-            },
-            main_route: '/administration/roles',
+            }
         }
     },
 
@@ -72,8 +64,7 @@ export default {
         //      this.getRole()
         //      console.log(this.role) // will display an object representation of the ExernalLeadss
         getRole(){
-            let url = `${this.main_route}/${this.role_id}.json`
-            this.http.get(url).then(result => {
+            this.http.get(this.url.admin("roles/:id", { id: this.role_id })).then(result => {
                 if (result.successful) {
                     this.role = result.data
                 }else{
@@ -89,11 +80,17 @@ export default {
 
 <template>
     <section class="application-component">
-        <component-form 
-            v-if="role.id"
-            :role="role"
-            :view_type="view_type"
-        >
+        <component-header :title="'Edit role: ' + role.name">
+            <div class="buttons">
+                <router-link class="button" tag="button" to="/">
+                    <span class="icon">
+                        <i class="fas fa-list"></i>
+                    </span>
+                    <span>List</span>
+                </router-link>
+            </div>
+        </component-header>
+        <component-form :role="role" :edit="true">
         </component-form>
     </section>
 </template>
