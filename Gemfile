@@ -77,9 +77,8 @@ gem "carrierwave", "~> 2.0"
 # s3 client for carrierwave
 gem "fog-aws", "= 3.6.4"
 gem "aws-sdk-s3"
-gem "aws-sdk-lambda"
 gem "aws-sdk-sns"
-gem "aws-sdk-rails"
+gem "aws-sdk-rails" # TODO: remove this and install only ses
 
 
 # Rubyzip to compress files
