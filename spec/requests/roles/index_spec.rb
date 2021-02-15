@@ -1,5 +1,5 @@
 =begin
-    
+
 Copyright (c) 2020, all rights reserved.
 
 All the information provided by this platform is protected by international laws related  to 
@@ -14,14 +14,24 @@ For more information read the license file including with this software.
 
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
 // · 
-    
+
 =end
 
-RSpec.shared_context 'date settings' do 
+require 'rails_helper'
+require 'spec_helper'
+require 'byebug'
 
+
+RSpec.describe 'GET:/administration/roles.json', type: :request do
+    include_context 'user authentication'
+    
     before(:all) do
-        @settings = LC::Date.reset_settings
-        @zone = ActiveSupport::TimeZone.new(@settings["time_zone"])
+        get '/administration/roles.json' 
     end
 
+    include_examples 'successful standard json response'
+
+    it 'is expected to respond with an index of roles' do
+        expect(@response_body["data"]["pagination"]["count_total"]).to eql(@user.account.roles.count)
+    end
 end

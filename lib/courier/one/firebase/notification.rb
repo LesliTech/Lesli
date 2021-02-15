@@ -20,21 +20,11 @@ For more information read the license file including with this software.
 module Courier
     module One
         module Firebase
-            class User
+            class Notification
 
-                def self.registration(current_user, registration_params)
+                def self.create(current_user, params)
                     return unless defined? CloudOne
-                    CloudOne::Firebase::User.registration(current_user, registration_params)
-                end
-
-                def self.update_photo(current_user, photo_url)
-                    return unless defined? CloudOne
-                    CloudOne::Firebase::User.update_photo(current_user, photo_url)
-                end
-
-                def self.generated_password(current_user)
-                    return unless defined? CloudOne
-                    CloudOne::Firebase::User.generated_password(current_user)
+                    CloudOne::Firebase::Notification.create(current_user, params)
                 end
 
             end
