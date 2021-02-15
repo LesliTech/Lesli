@@ -21,11 +21,23 @@ module Courier
     module Help
         class Ticket
 
-            def self.with_deadline(current_user)
+            def self.with_deadline(current_user, query)
                 return [] unless defined? CloudHelp
-                current_user.account.help.tickets.joins(:detail)
-                .select(:id, :subject, :deadline)
-                .where("cloud_help_ticket_details.deadline is not null")
+                
+                today = Time.now
+                filter_year = query[:filters][:year] || today.strftime("%Y")
+                filter_month = query[:filters][:month] || today.strftime("%m")
+                filter_day = query[:filters][:day]
+
+                tickets = current_user.account.help.tickets
+                .select(:id, :subject, :description, :deadline)
+                .where("cloud_help_tickets.deadline is not null")
+                .where("extract('year' from cloud_help_tickets.deadline) = ?", filter_year)
+                .where("extract('month' from cloud_help_tickets.deadline) = ?", filter_month)
+
+                tickets = tickets.where("extract('day' from cloud_help_tickets.deadline) = ?", filter_day) if filter_day
+
+                return tickets
             end
 
         end
