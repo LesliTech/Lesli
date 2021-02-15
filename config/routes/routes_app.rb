@@ -83,6 +83,11 @@ module RoutesApp
                                 get "/activities/options",                   to: "/role/activities#options"
                             end
                         end
+
+                        collection do
+                            get :list
+                            get :options
+                        end
                     end
 
                     # template generators

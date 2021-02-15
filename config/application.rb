@@ -42,7 +42,7 @@ module Lesli
         config.i18n.load_path += Dir[Rails.root.join("config", "locales", "**", "*.{rb,yml}")]
         config.i18n.load_path += Dir[Rails.root.join("engines", "*", "config", "locales", "**", "*.{rb,yml}")]
         config.autoload_paths += Dir[Rails.root.join("config", "routes")]
-        config.autoload_paths += Dir[Rails.root.join("lib"), Rails.root.join("engines","*","lib")]
+        config.autoload_paths += Dir[Rails.root.join("lib")]
 
         # Default time zone for the app, this can change if necessary
         config.time_zone = "UTC"
