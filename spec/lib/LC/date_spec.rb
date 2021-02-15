@@ -22,26 +22,33 @@ require "spec_helper"
 require "byebug"
 
 
-RSpec.describe LC::Date, type: :model do
-    include_context 'date settings'
+RSpec.describe LC::Date2, type: :model do
+
+    before(:all) do
+        @settings = LC::Date2.new.instance_variable_get(:@settings)
+    end
 
     it "is expect to render db_timestamps columns" do
-        expect(LC::Date2.new.db_timestamps).to eql("TO_CHAR(created_at at time zone 'utc' at time zone 'America/Guatemala', 'DD.MM.YYYY') as created_at_date, TO_CHAR(updated_at at time zone 'utc' at time zone 'America/Guatemala', 'DD.MM.YYYY') as updated_at_date")
+        expect(LC::Date2.new.db_timestamps).to eql("TO_CHAR(created_at at time zone 'utc' at time zone '#{@settings["time_zone"]}', 'DD.MM.YYYY') as created_at_date, TO_CHAR(updated_at at time zone 'utc' at time zone 'America/Guatemala', 'DD.MM.YYYY') as updated_at_date")
     end
 
     it "is expect to render db_timestamps columns with format date" do
-        expect(LC::Date2.new.format("date").db_timestamps).to eql("TO_CHAR(created_at at time zone 'utc' at time zone 'America/Guatemala', 'DD.MM.YYYY') as created_at_date, TO_CHAR(updated_at at time zone 'utc' at time zone 'America/Guatemala', 'DD.MM.YYYY') as updated_at_date")
+        expect(LC::Date2.new.date.db_timestamps).to eql("TO_CHAR(created_at at time zone 'utc' at time zone '#{@settings["time_zone"]}', 'DD.MM.YYYY') as created_at_date, TO_CHAR(updated_at at time zone 'utc' at time zone 'America/Guatemala', 'DD.MM.YYYY') as updated_at_date")
     end
 
     it "is expect to render db_timestamps columns with format date_time" do
-        expect(LC::Date2.new.format("date_time").db_timestamps).to eql("TO_CHAR(created_at at time zone 'utc' at time zone 'America/Guatemala', 'DD.MM.YYYY HH24:MI') as created_at_date, TO_CHAR(updated_at at time zone 'utc' at time zone 'America/Guatemala', 'DD.MM.YYYY HH24:MI') as updated_at_date")
+        expect(LC::Date2.new.date_time.db_timestamps).to eql("TO_CHAR(created_at at time zone 'utc' at time zone '#{@settings["time_zone"]}', 'DD.MM.YYYY HH24:MI') as created_at_date, TO_CHAR(updated_at at time zone 'utc' at time zone 'America/Guatemala', 'DD.MM.YYYY HH24:MI') as updated_at_date")
     end
 
 end
 
 
 RSpec.describe LC::Date, type: :model do
-    include_context 'date settings'
+
+    before(:all) do
+        @settings = LC::Date.reset_settings
+        @zone = ActiveSupport::TimeZone.new(@settings["time_zone"])
+    end
 
     it "LC::Date.now" do
         date = LC::Date.now
@@ -56,17 +63,17 @@ RSpec.describe LC::Date, type: :model do
 
     it "LC::Date.db_to_timezone" do
         query_string = LC::Date.db_to_timezone(User.first.deleted_at, "deleted_at")
-        expect(query_string).to eq("( at time zone 'utc' at time zone 'America/Guatemala') as deleted_at")
+        expect(query_string).to eq("( at time zone 'utc' at time zone '#{@settings["time_zone"]}') as deleted_at")
     end
 
     it "LC::Date.db_to_char" do
         query_string = LC::Date.db_to_char(User.first.deleted_at, "deleted_at")
-        expect(query_string).to eq("TO_CHAR( at time zone 'utc' at time zone 'America/Guatemala', 'DD/MM/YYYY') as deleted_at")
+        expect(query_string).to eq("TO_CHAR( at time zone 'utc' at time zone '#{@settings["time_zone"]}', 'DD/MM/YYYY') as deleted_at")
     end
 
     it "LC::Date.db_to_char_custom" do
         query_string = LC::Date.db_to_char_custom(User.first.deleted_at)
-        expect(query_string).to eq("TO_CHAR( at time zone 'utc' at time zone 'America/Guatemala', 'DD/MM/YYYY')")
+        expect(query_string).to eq("TO_CHAR( at time zone 'utc' at time zone '#{@settings["time_zone"]}', 'DD/MM/YYYY')")
     end
 
     it "LC::Date.datetime" do

@@ -51,12 +51,11 @@ module LC
 
         end
 
-        def format format
-            @format = format
-            self
-        end
+        def date
+            format "date"
+        end 
 
-        def datetime 
+        def date_time 
             format "date_time"
         end
 
@@ -74,7 +73,11 @@ module LC
 
 
         private 
-        
+
+        def format format
+            @format = format
+            self
+        end
 
         def db_format
             format = @settings[:format][@format || "date"]
