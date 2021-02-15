@@ -1,11 +1,11 @@
 <section class="hero is-fullheight">
     <div class="hero-body">
         <div class="container">
-            <h1 class="title">Not found</h1>
+            <h1 class="title"><%= I18n.t("core.shared.view_text_not_found") %></h1>
             <p>
-                <%= link_to "home", "/"%>
+                <%= link_to I18n.t("core.shared.view_text_homepage"), "/"%>
                 &bull;
-                <%= link_to "profile", "/profile"%>
+                <%= link_to I18n.t("core.shared.view_text_profile"), "/administration/profile"%>
             </p>
         </div>
     </div>
