@@ -50,7 +50,8 @@ class Role::Activity < ApplicationRecord
                         "role_activities.created_at as created_at"
                     )
                     .where("role_activities.category not in (?)", [
-                            "action_show"
+                            "action_show",
+                            "action_create_role_privilege"
                         ]
                     )
                     .joins(user_creator: [:detail])

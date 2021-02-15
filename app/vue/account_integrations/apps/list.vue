@@ -1,30 +1,18 @@
 <script>
 export default {
+    props: {},
+
     data() {
         return {
             endpoint: "/administration/account/integrations",
-            columns:[{
-                field: 'id',
-                label: 'ID',
-                width: '40',
-                numeric: true
-            }, {
-                field: 'name',
-                label: 'Name',
-            }, {
-                field: 'active',
-                label: 'Active',
-            }, {
-                field: 'usage_count',
-                label: 'Usage count',
-            }, {
-                field: 'last_used_at',
-                label: 'Last used at',
-            }, {
-                field: 'expiration_at',
-                label: 'Expiration date',
-            }],
-            integrations: []
+            integrations: [],
+            translations: {
+                core: {
+                    integrations: I18n.t("core.account/integrations"),
+                    shared: I18n.t('core.shared'),
+                    users: I18n.t('core.users'),
+                }
+            },
         }
     },
 
@@ -33,7 +21,6 @@ export default {
     },
 
     methods: {
-
         getIntegrations() {
             this.http.get(this.endpoint.concat(".json")).then(result => {
                 if (!result.successful) {
@@ -56,7 +43,7 @@ export default {
     <section class="application-component">
         <component-header title="Integrations">
             <router-link to="/new" class="button is-primary">
-                Add integration
+                {{ translations.core.integrations.view_btn_new }}
             </router-link>
         </component-header>
         <div class="card">
@@ -64,7 +51,34 @@ export default {
                 <b-table 
                     @click="showIntegration"
                     :data="integrations" 
-                    :columns="columns">
+                >
+        
+                    <template v-slot="props">
+
+                        <b-table-column :label="translations.core.integrations.column_id" field="id">
+                            {{ props.row.id }} 
+                        </b-table-column>  
+
+                        <b-table-column :label="translations.core.integrations.column_name" field="name">
+                            {{ props.row.name }} 
+                        </b-table-column>  
+
+                        <b-table-column :label="translations.core.users.column_active" field="active">
+                            {{ props.row.active ? translations.core.shared.view_text_yes : translations.core.shared.view_text_no }} 
+                        </b-table-column> 
+
+                        <b-table-column :label="translations.core.integrations.view_text_usage_count" field="usage_count">
+                            {{ props.row.usage_count }} 
+                        </b-table-column>  
+
+                        <b-table-column :label="translations.core.integrations.view_text_last_used_at" field="last_used_at">
+                            {{ props.row.last_used_at }} 
+                        </b-table-column>  
+
+                        <b-table-column :label="translations.core.integrations.view_text_expiration_at" field="expiration_at">
+                            {{ props.row.expiration_at }} 
+                        </b-table-column>  
+                    </template>
                 </b-table>
             </div>
         </div>

@@ -33,6 +33,7 @@ class Account < ApplicationRecord
 
     # core engines
     has_one :kb,         class_name: "CloudKb::Account",         foreign_key: "id"
+    has_one :one,        class_name: "CloudOne::Account",        foreign_key: "id"
     has_one :team,       class_name: "CloudTeam::Account",       foreign_key: "id"
     has_one :bell,       class_name: "CloudBell::Account",       foreign_key: "id"
     has_one :help,       class_name: "CloudHelp::Account",       foreign_key: "id"
@@ -112,6 +113,14 @@ class Account < ApplicationRecord
                 self.kb = CloudKb::Account.new
                 self.kb.account = self
                 self.kb.save!
+            end
+        end
+
+        if defined? CloudOne
+            if self.one.blank?
+                self.one = CloudOne::Account.new
+                self.one.account = self
+                self.one.save!
             end
         end
 

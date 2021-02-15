@@ -7,21 +7,32 @@ export default {
             session: {},
             integration: {
                 name: "Zapier"
-            }
+            },
+            translations: {
+                core: {
+                    integrations: I18n.t("core.account/integrations"),
+                    shared: I18n.t('core.shared')   
+                }
+            },
+            submitting_form: false
         }
     },
     methods: {
 
         postIntegration() {
-            this.http.post(this.endpoint,{
-                account_integration: this.integration
-            }).then(result => {
-                if (!result.successful) {
+            this.submitting_form = true 
+
+            this.http.post(this.endpoint,{ account_integration: this.integration}).then(result => {
+                this.submitting_form = false 
+
+                if (result.successful) {
+                    this.alert(this.translations.core.integrations.messages_success_created_successfully, 'success')
+
+                    this.url.go(`${this.endpoint}/${result.data.id}`)
+                } else {
                     this.alert(result.error.message, "danger")
                     return 
                 }
-                this.alert("Integration created successfully")
-                this.url.go(`${this.endpoint}/${result.data.id}`)
             }).catch(error => {
                 console.log(error)
             })
@@ -33,15 +44,24 @@ export default {
 <template>
     <form @submit.prevent="postIntegration">
         <div class="field">
-            <label class="label">Name</label>
+            <label class="label"> {{ translations.core.integrations.column_name }} </label>
                 <div class="control">
                 <input class="input" type="text" placeholder="" v-model="integration.name">
             </div>
         </div>
-        <div class="field is-grouped">
-            <div class="control">
-                <button class="button is-link">Submit</button>
-            </div>
-        </div>
+        <p class="control">
+            <button class="button is-primary">
+                <span v-if="submitting_form">
+                    <b-icon icon="circle-notch" custom-class="fa-spin" size="is-small" />
+                    &nbsp;
+                    {{translations.core.shared.btn_saving}}
+                </span>
+                <span v-else>
+                    <b-icon icon="save" size="is-small" />
+                    &nbsp;
+                    {{translations.core.shared.btn_save}}
+                </span>
+            </button>
+        </p>
     </form>
 </template>
