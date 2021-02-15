@@ -1,4 +1,4 @@
-/*
+=begin
 
 Copyright (c) 2020, all rights reserved.
 
@@ -15,25 +15,19 @@ For more information read the license file including with this software.
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
 // · 
 
-*/
+=end
 
-// · 
-@import "lesli-css/";
+module Courier
+    module One
+        module Firebase
+            class Chatroom
 
+                def self.create(current_user, members, chat_name="")
+                    return unless defined? CloudOne
+                    CloudOne::Firebase::Chatroom.create(current_user, members, chat_name)
+                end
 
-// · 
-@import "./settings/colors.scss";
-@import "./layout/application-header";
-@import "./layout/application-navigation";
-@import "./components/tabs.scss";
-@import "./components/status.scss";
-@import "./components/summary.scss";
-@import "./components/calendar.scss";
-@import "./components/quickview.scss";
-
-
-
-body.deutsche_leibrenten.profiles.show main aside.application-sidebar nav ul {
-    display: none;
-    font-size: 0;
-}
+            end
+        end
+    end
+end

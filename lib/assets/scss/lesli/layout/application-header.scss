@@ -20,7 +20,7 @@ For more information read the license file including with this software.
 header.application-header {
     top: 0;
     right: 0;
-    z-index: 10;
+    z-index: 40;
     position: fixed;
     background-color: white;
     width: calc(100% - var(--application-navigation-width));
