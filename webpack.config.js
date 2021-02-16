@@ -24,6 +24,7 @@ For more information read the license file including with this software.
 var fs = require("fs")
 var path = require("path")  
 var yaml = require("js-yaml")
+var dayjs = require("dayjs")
 var webpack = require("webpack")
 var TerserPlugin = require("terser-webpack-plugin")
 var VueLoaderPlugin = require("vue-loader/lib/plugin")
@@ -169,6 +170,7 @@ module.exports = env => {
             new webpack.DefinePlugin({
                 lesli_app_mode_production: JSON.stringify(production),
                 lesli_app_mode_development: JSON.stringify(!production),
+                lesli_app_compilation: JSON.stringify(get_compilation_time()),
                 lesli_app_company: {},
             })
         ]
@@ -264,6 +266,11 @@ module.exports = env => {
 
     })
 
+    function get_compilation_time() {
+
+        return dayjs().format("YYYYMMDD.HHmm")
+
+    }
 
     // · Update compilation version for frontend and backend
     // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
