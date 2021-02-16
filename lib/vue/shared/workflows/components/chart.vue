@@ -203,6 +203,18 @@ export default {
                 this.displayWorkflow()
             }
         }
+    },
+
+    computed: {
+        orderedWorkflowStatuses(){
+            if(! this.workflow.statuses){
+                return []
+            }
+            
+            return Object.values(this.workflow.statuses).sort(function(status_1, status_2){
+                return (status_1.number || 0) - (status_2.number || 0)
+            })
+        }
     }
 }
 </script>
@@ -221,7 +233,7 @@ export default {
                                 {{translations.workflows.view_placeholder_select_status_to_view_chart}}
                             </option>
                             <option
-                                v-for="status in workflow.statuses"
+                                v-for="status in orderedWorkflowStatuses"
                                 :value="status.id"
                                 :key="status.id" 
                             >
