@@ -1,6 +1,6 @@
-/*
-
-Copyright (c) 2020, all rights reserved.
+=begin
+    
+Copyright (c) 2021, all rights reserved.
 
 All the information provided by this platform is protected by international laws related  to 
 industrial property, intellectual property, copyright and relative international laws. 
@@ -14,21 +14,22 @@ For more information read the license file including with this software.
 
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
 // · 
+    
+=end
 
-*/
+class LesliMailerPreview < ActionMailer::Preview
 
+    def simple
+        LesliMailer.with(user: User.first).simple
+    end
 
-// · 
-body {
-    color: #1c2540;
-    background-color: #f3f7fd;
-}
+    def multiple
+        LesliMailer.with(
+            user: User.first,
+            to: [User.find(1), User.find(2)],
+            cc: [User.find(3), User.find(4)],
+            bcc: [User.find(5), User.find(5)]
+        )
+    end
 
-// · 
-@import "lesli-css/";
-@import "./settings/colors";
-@import "./layout/application-header";
-@import "./layout/application-module";
-@import "./layout/application-sidebar";
-@import "./layout/application-component";
-@import "./layout/application-chatbox.scss";
+end

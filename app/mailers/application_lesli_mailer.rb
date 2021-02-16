@@ -48,21 +48,95 @@ class ApplicationLesliMailer < ActionMailer::Base
         
         super
 
-        # defined on: LesliMails/src/partials/data.html
+        # some @email data is defined on: LesliMails/src/partials/data.html
         @email = { }
         @data = { }
-        @app = { host: default_url_options[:host] }
+        @app = { 
+            host: default_url_options[:host],
+            instance: Rails.application.config.lesli_settings["instance"]
+        }
 
     end 
 
 
-    def log_mail_requests
+    protected
+
+
+    def build_data_from_params(params)
+        return {} if params[:user].blank?
+        
+
+        custom_logo = params[:user].account.files.where(name: "company_logo").last
+        logo = "/images/brand/lesli-name.svg"
+        logo = custom_logo.attachment.url if custom_logo
+
+        @app["company"] = {
+            id: params[:user].account.id,
+            name: params[:user].account.company_name,
+            tag_line: params[:user].account.company_tag_line,
+            logo: logo
+        }
+    end
+
+
+    def build_recipients_from_params(params)
+
+        # Single recipient email
+        if params[:to].is_a?(User)
+            user = params[:to]
+            params[:to] = email_address_with_name(user.email, user.full_name)
+        end
+
+        if params[:cc].is_a?(User)
+            user = params[:cc]
+            params[:cc] = email_address_with_name(user.email, user.full_name)
+        end
+
+        if params[:bcc].is_a?(User)
+            user = params[:bcc]
+            params[:bcc] = email_address_with_name(user.email, user.full_name)
+        end
+
+
+        # Multi recipient email
+        if params[:to].is_a?(Array)
+            params[:to] = params[:to].map{ |user| email_address_with_name(user.email, user.full_name) } 
+        end
+
+        if params[:cc].is_a?(Array)
+            params[:cc] = params[:cc].map{ |user| email_address_with_name(user.email, user.full_name) } 
+        end
+
+        if params[:bcc].is_a?(Array)
+            params[:bcc] = params[:bcc].map{ |user| email_address_with_name(user.email, user.full_name) } 
+        end
+
+
+        # TODO: to add support to recipients as string emails, use params[:emails] instead of the :to key
+        if params[:to].blank?
+            log_mail_requests("email_not_sent", { error: "email_recipient_not_found" })
+        end
+
+        params
+
+    end
+
+    
+    private
+
+
+    def log_mail_requests title="email_sent", payload=nil
+
+        if payload.blank?
+            payload = {
+                subject: self.message.subject,
+                to: self.message.to
+            }
+        end
+
         # TODO: Save template path and view used within the email
-        Account::Activity.log_email("#{self.class.to_s}/#{self.action_name}", self.action_name, {
-            subject: self.message.subject,
-            from: self.message.from,
-            to: self.message.to
-        }) 
+        Account::Activity.log_email("#{self.class.to_s}/#{self.action_name}", self.action_name, title, payload) 
+
     end
 
 end

@@ -94,6 +94,23 @@ class DevGit < LesliTasks
         
                 end
 
+                desc "Add origins"
+                task :origin => :environment do |task, args|
+                    ARGV.each { |a| task a.to_sym do ; end }
+        
+                    # default params
+                    force = false
+                    engine = "all"
+
+                    # get params sent by user
+                    engine = ARGV[1] if not ARGV[1].blank?
+                    force = ARGV[2] == "all"
+
+                    # execute command
+                    origin(engine, force)
+        
+                end
+
             end
         end
     end
@@ -249,6 +266,47 @@ class DevGit < LesliTasks
 
         # commit any change in vendor
         command("git add vendor && git commit -m \"vendor: update npm dependencies (vendors)\" vendor")
+
+    end
+
+    def origin engine_name, force
+
+        # for every installed engine
+        Lesli::engines.each do |engine|
+
+            break if engine_name == "core"
+
+            # build engine path
+            engine_path = Rails.root.join("engines", engine[:code])
+
+            next unless File.exists?(engine_path)
+
+            next if (engine_name != "all" && engine_name != engine[:code])
+
+            ["github", "origin", "lesli", "backup"].each do |origin|
+
+                remote = engine[:github]['ssh'] if origin == "github"
+                remote = engine[:github]['ssh'] if origin == "origin"
+                remote = engine[:github]['ssh_backup'] if origin == "lesli"
+                remote = engine[:github]['ssh_backup'] if origin == "backup"
+
+                message("working with: #{engine[:code]} -> #{remote}")
+                command("cd ./engines/#{engine[:code]} && git remote add #{origin} #{remote}") 
+
+            end
+
+        end
+
+        if engine_name == "core" || engine_name == "all"
+            message("working with core")
+            command("git remote add github git@github.com:leitfaden/Lesli.git") 
+            command("git remote add origin git@github.com:leitfaden/Lesli.git") 
+            command("git remote add backup git@github.com:LesliTech/Lesli.git") 
+            command("git remote add lesli git@github.com:LesliTech/Lesli.git") 
+        end
+
+        message_separator
+        message_cow
 
     end
 
