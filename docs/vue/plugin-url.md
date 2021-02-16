@@ -2,7 +2,7 @@
 Vue global url constructor
 
 
-# Quick reference
+## Quick reference
 ```javascript
     this.url.to("/administration/users")
     //-> http://0.0.0.0:3000/administration/users

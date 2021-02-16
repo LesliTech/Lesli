@@ -1,21 +1,40 @@
-class LesliMailer < ApplicationMailer
+=begin
 
-    def welcome(to, variation:"standard")
+Copyright (c) 2020, all rights reserved.
 
-        send2()
+All the information provided by this platform is protected by international laws related  to 
+industrial property, intellectual property, copyright and relative international laws. 
+All intellectual or industrial property rights of the code, texts, trade mark, design, 
+pictures and any other information belongs to the owner of this platform.
+
+Without the written permission of the owner, any replication, modification,
+transmission, publication is strictly forbidden.
+
+For more information read the license file including with this software.
+
+// · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
+// · 
+
+=end
+
+class LesliMailer < ApplicationLesliMailer
+
+    def simple
+        user = params[:user]
+        build_data_from_params(params)
+        mail(to: email_address_with_name(user.email, user.full_name), subject: "TEST: simple email")
+    end
+
+    def multiple
+        user = params[:user]
         
-    end
-
-    def user_new_password(subject, data, token, template: "", options: {})
-        to = data[:email]
-        data = data.merge({
-            href: "#{default_url_options[:host]}/password/edit?reset_password_token=#{token}"
-        })
-        send2(to, subject, data, template: template, options: options)
-    end
-
-    def test(to: "ldonis@lomax.com.gt")
-        send2(to, "Email test from Lesli - "+Time.now.to_s, {}, template: "", options: { template_name: "welcome" })
+        recipients = build_recipients_from_params(params)
+        mail(
+            subject: "welcome email",
+            bcc: recipients[:bcc], 
+            cc: recipients[:cc], 
+            to: recipients[:to]
+        )
     end
 
 end

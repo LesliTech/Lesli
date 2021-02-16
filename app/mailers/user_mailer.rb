@@ -20,9 +20,9 @@ For more information read the license file including with this software.
 class UserMailer < ApplicationLesliMailer
     include Devise::Controllers::UrlHelpers
 
-
     def welcome
         user = params[:user]
+        build_data_from_params(params)
         @data = @data.merge({
             url: "/",
             user: {
