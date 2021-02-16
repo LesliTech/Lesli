@@ -27,6 +27,7 @@ class Account < ApplicationRecord
     has_many :settings,     foreign_key: "accounts_id", class_name: "Account::Setting"
     has_many :locations,    foreign_key: "accounts_id"
     has_many :activities,   foreign_key: "accounts_id", class_name: "Account::Activity"
+    has_many :currencies,   foreign_key: "accounts_id", class_name: "Account::Currency"
     has_many :integrations, foreign_key: "accounts_id"
 
     has_one :template, class_name: "Template", foreign_key: "accounts_id"
