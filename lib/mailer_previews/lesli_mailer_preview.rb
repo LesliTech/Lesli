@@ -17,17 +17,19 @@ For more information read the license file including with this software.
     
 =end
 
-class UserMailerPreview < ActionMailer::Preview
+class LesliMailerPreview < ActionMailer::Preview
 
-    def welcome
-        UserMailer.with(user: User.first).welcome
+    def simple
+        LesliMailer.with(user: User.first).simple
     end
 
-    def reset_password_instructions
-        UserMailer.with(
-            user: User.first, 
-            token: "my_reset_password_token"
-        ).reset_password_instructions
+    def multiple
+        LesliMailer.with(
+            user: User.first,
+            to: [User.find(1), User.find(2)],
+            cc: [User.find(3), User.find(4)],
+            bcc: [User.find(5), User.find(5)]
+        )
     end
 
 end
