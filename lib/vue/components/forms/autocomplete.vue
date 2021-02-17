@@ -4,6 +4,11 @@ export default {
         value: {
         },
 
+        timeout: {
+            type: Number,
+            default: 300
+        },
+
         endpoint: {
             type: String,
             required: true
@@ -249,7 +254,7 @@ export default {
 
                     this.timer = setTimeout(() => {
                         this.loadOptions();
-                    }, 1000)
+                    }, this.timeout)
                 } else {
                     this.options = [];
                     this.index = -1;
