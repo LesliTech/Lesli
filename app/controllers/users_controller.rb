@@ -197,11 +197,12 @@ class UsersController < ApplicationLesliController
         return respond_with_error "Not valid user found" if become_user.blank?
 
         # Extrictly save a log when becoming 
-        current_user.activities.create!({
-            users_id: become_user.id,
-            owner_id: current_user.id,
-            description: "#{current_user.full_name} -> #{become_user.full_name}",
-            category: "action_become"
+        current_user.activities.create({
+            request_controller: controller_path,
+            request_method: request.method,
+            request_action: action_name, 
+            request_url: request.original_fullpath, 
+            description: "becoming from #{current_user.email} to #{become_user.email}"
         })
 
         # Sign in as the becoming user

@@ -40,9 +40,6 @@ module RoutesApp
                             resources :settings, only: [:index, :show, :new, :create]
                             resources :integrations, only: [:index, :show, :new, :create]
                             resources :locations, only: [:index, :show, :create]
-                            resources :currencies do 
-                                resources :exchange_rates
-                            end
                         end
                         member do
                             scope :resources do
