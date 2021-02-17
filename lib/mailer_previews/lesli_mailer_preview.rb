@@ -1,6 +1,6 @@
 =begin
-
-Copyright (c) 2020, all rights reserved.
+    
+Copyright (c) 2021, all rights reserved.
 
 All the information provided by this platform is protected by international laws related  to 
 industrial property, intellectual property, copyright and relative international laws. 
@@ -14,20 +14,22 @@ For more information read the license file including with this software.
 
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
 // · 
-
+    
 =end
 
-module Courier
-    module One
-        module Firebase
-            class Notification
+class LesliMailerPreview < ActionMailer::Preview
 
-                def self.create(current_user, params)
-                    return unless defined? CloudOne
-                    CloudOne::Firebase::Notification.create(current_user, params)
-                end
-
-            end
-        end
+    def simple
+        LesliMailer.with(user: User.first).simple
     end
+
+    def multiple
+        LesliMailer.with(
+            user: User.first,
+            to: [User.find(1), User.find(2)],
+            cc: [User.find(3), User.find(4)],
+            bcc: [User.find(5), User.find(5)]
+        )
+    end
+
 end
