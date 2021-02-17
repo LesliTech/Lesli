@@ -76,7 +76,7 @@ The commit type <type> can take one of these value:
 - **refactor**: A code change that neither fixes a bug nor adds a feature
 - **upgrade**: Changes a dependency version number (npm, gem, modules, etc)
 - **assets**: Changes due a asset compilation process
-- **release**: Release process
+- **release**: New version release process
 - **BREAKING CHANGE:** a breaking API change
 
 
