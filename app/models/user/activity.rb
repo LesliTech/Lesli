@@ -27,7 +27,6 @@ class User::Activity < ApplicationRecord
         action_update:                          "action_update",
         action_destroy:                         "action_destroy",
         action_create_user_role:                "action_create_user_role",
-        action_destroy_user_role:               "action_destroy_user_role",
-        action_become:                          "action_become"
+        action_destroy_user_role:               "action_destroy_user_role"
     }
 end

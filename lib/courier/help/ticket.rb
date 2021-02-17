@@ -21,9 +21,11 @@ module Courier
     module Help
         class Ticket
 
-            def self.with_deadline(current_user, query)
+            def self.with_deadline(current_user)
                 return [] unless defined? CloudHelp
-                CloudHelp::Ticket.tickets_with_deadline(current_user, query)
+                current_user.account.help.tickets.joins(:detail)
+                .select(:id, :subject, :deadline)
+                .where("cloud_help_ticket_details.deadline is not null")
             end
 
         end

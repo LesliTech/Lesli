@@ -28,7 +28,22 @@ module Courier
 
             def self.with_deadline(current_user, query)
                 return [] unless defined? CloudFocus
-                CloudFocus::Task.tasks_with_deadline(current_user, query)
+
+                today = Time.now
+                filter_year = query[:filters][:year] || today.strftime("%Y")
+                filter_month = query[:filters][:month] || today.strftime("%m")
+                filter_day = query[:filters][:day]
+
+
+                tasks = current_user.account.focus.tasks.joins(:detail)
+                .select(:id, :title, :description, :deadline)
+                .where("cloud_focus_task_details.deadline is not null")
+                .where("extract('year' from cloud_focus_task_details.deadline) = ?", filter_year)
+                .where("extract('month' from cloud_focus_task_details.deadline) = ?", filter_month)
+
+                tasks = tasks.where("extract('day' from cloud_focus_task_details.deadline) = ?", filter_day) if filter_day
+                
+                return tasks
             end
 
             # Returns next due task for a project. Used in summary
