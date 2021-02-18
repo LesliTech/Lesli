@@ -126,7 +126,28 @@ export default {
 <template>
     <section class="lesli-editor-email">
         <div class="columns">
-            <div class="column is-3 email-component-list">
+            <div class="column is-10">
+                <section class="email-preview">
+                    <draggable
+                        :list="components_email"
+                        class="list-group"
+                        ghost-class="ghost"
+                        @start="dragging = true"
+                        @end="dragging = false">
+                        <div
+                            class="list-group-item"
+                            v-for="(element, i) in components_email"
+                            :key="element.code+'-'+i" >
+                            <component 
+                                v-model="element.content"
+                                :content="element.content"
+                                v-bind:is="components[element.code]">
+                            </component>
+                        </div>
+                    </draggable>
+                </section>
+            </div>
+            <div class="column is-2 email-component-list">
                 <div class="control has-icons-left">
                     <div class="select is-fullwidth email-component-selector">
                         <select v-model="selected" v-on:change="addEmailComponent">
@@ -141,56 +162,6 @@ export default {
                     </span>
                 </div>
                 <button class="button" @click="emitValue">test</button>
-       <!--          <draggable
-                    :list="components_email"
-                    class="list-group"
-                    ghost-class="ghost"
-                    @start="dragging = true"
-                    @end="dragging = false"
-                    >
-                    <div
-                        class="list-group-item"
-                        v-for="element in components_email"
-                        :key="element.name">
-                        <span class="icon">
-                            <i class="fas fa-arrows-alt"></i>
-                        </span>
-                        <span>{{ element.title }}</span>
-                        <component 
-                            v-bind:is="components[element.code]">
-                        </component>
-                    </div>
-                </draggable> -->
-            </div>
-            <div class="column is-9">
-                <section class="email-preview">
-                <draggable
-                    :list="components_email"
-                    class="list-group"
-                    ghost-class="ghost"
-                    @start="dragging = true"
-                    @end="dragging = false"
-                    >
-                    <div
-                        class="list-group-item"
-                        v-for="(element, i) in components_email"
-                        :key="element.code+'-'+i" >
-                        <component 
-                            v-model="element.content"
-                            :content="element.content"
-                            v-bind:is="components[element.code]">
-                        </component>
-                        {{ element }}
-                    </div>
-                </draggable>
-                   <!--  <component 
-                        v-for="(comp, i) in components_email" 
-                        :key="comp.code+'-'+i" 
-                        :ref="comp.code+'-'+i" 
-                        :content="comp.content"
-                        v-bind:is="components[comp.code]">
-                    </component> -->
-                </section>
             </div>
         </div>
     </section>
