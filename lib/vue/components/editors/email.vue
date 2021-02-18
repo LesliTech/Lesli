@@ -19,17 +19,27 @@ For more information read the license file including with this software.
 */
 
 
+
+/*
+[{
+    code: "foundation-grid",
+    title: "Grid",
+    content: "<h1><b>Mi titulo</b></h1>"
+}]
+*/
+
+
 // · 
 import draggable from "vuedraggable";
 
 
 // · 
-import blockFoundationGrid from "./email/blocks/foundation-grid.vue"
-import blockFoundationMenu from "./email/blocks/foundation-menu.vue"
+//import blockFoundationGrid from "./email/blocks/foundation-grid.vue"
+//import blockFoundationMenu from "./email/blocks/foundation-menu.vue"
 import blockFoundationButton from "./email/blocks/foundation-button.vue"
-import blockFoundationSpacer from "./email/blocks/foundation-spacer.vue"
+//import blockFoundationSpacer from "./email/blocks/foundation-spacer.vue"
 import blockFoundationCallout from "./email/blocks/foundation-callout.vue"
-import blockFoundationWrapper from "./email/blocks/foundation-wrapper.vue"
+//import blockFoundationWrapper from "./email/blocks/foundation-wrapper.vue"
 
 
 // · 
@@ -48,14 +58,10 @@ export default {
     },
     data() {
         return {
-            components: [
-                blockFoundationGrid,
-                blockFoundationMenu,
-                blockFoundationButton,
-                blockFoundationSpacer,
-                blockFoundationCallout,
-                blockFoundationWrapper
-            ],
+            components: {
+                "foundation-button": blockFoundationButton,
+                "foundation-callout": blockFoundationCallout,
+            },
             components_email: [],
             dragging: false,
             selected: 1
@@ -63,15 +69,56 @@ export default {
     },
     methods: {
         addEmailComponent(i) {
-            this.components_email.push(this.components[parseInt(i.target.value)])
+
+            let componentCode = null
+
+            if (typeof i == 'string') {
+                componentCode = i
+            }
+
+            if (typeof i == 'object') {
+                componentCode = i.target.value
+            }
+
+            if (componentCode === null) {
+                return
+            }
+
+            this.components_email.push({
+                code: componentCode,
+                title: "title"
+            })
+
+        },
+        emitValue() {
+
+            let result = this.components_email.map((comp, i) => {
+                return {
+                    code: comp.code,
+                    content: this.$refs[comp.code+'-'+i][0].$el.innerHTML
+                }
+            })
+
+            // rails only accept hash parameters, it is not possible to send arrays
+            this.$emit('input', { content: result })
+
         }
     },
     watch: {
-        value(val) {
+        value(comps) {
 
-        },
-        components_email(val) {
-            this.$emit('input', { components:val.map(c => c.name) })
+            if (!comps) {
+                return 
+            }
+
+            comps.content.forEach(comp => {
+                this.components_email.push({
+                    code: comp.code,
+                    title: "hola",
+                    content: "666999"
+                })
+            })
+            
         }
     }
 };
@@ -84,8 +131,8 @@ export default {
                     <div class="select is-fullwidth email-component-selector">
                         <select v-model="selected" v-on:change="addEmailComponent">
                             <option value="1">Add email component</option>
-                            <option :value="i" v-for="(comp, i) in components" :key="i">
-                                {{ comp.name }}
+                            <option :value="comp.code" v-for="(comp, i) in components" :key="i">
+                                {{ comp.title }}
                             </option>
                         </select>
                     </div>
@@ -93,7 +140,8 @@ export default {
                         <i class="fas fa-cube"></i>
                     </span>
                 </div>
-                <draggable
+                <button class="button" @click="emitValue">test</button>
+       <!--          <draggable
                     :list="components_email"
                     class="list-group"
                     ghost-class="ghost"
@@ -107,13 +155,41 @@ export default {
                         <span class="icon">
                             <i class="fas fa-arrows-alt"></i>
                         </span>
-                        <span>{{ element.name }}</span>
+                        <span>{{ element.title }}</span>
+                        <component 
+                            v-bind:is="components[element.code]">
+                        </component>
                     </div>
-                </draggable>
+                </draggable> -->
             </div>
             <div class="column is-9">
                 <section class="email-preview">
-                    <component v-for="(comp, i) in components_email" :key="i" v-bind:is="comp"></component>
+                <draggable
+                    :list="components_email"
+                    class="list-group"
+                    ghost-class="ghost"
+                    @start="dragging = true"
+                    @end="dragging = false"
+                    >
+                    <div
+                        class="list-group-item"
+                        v-for="(element, i) in components_email"
+                        :key="element.code+'-'+i" >
+                        <component 
+                            v-model="element.content"
+                            :content="element.content"
+                            v-bind:is="components[element.code]">
+                        </component>
+                        {{ element }}
+                    </div>
+                </draggable>
+                   <!--  <component 
+                        v-for="(comp, i) in components_email" 
+                        :key="comp.code+'-'+i" 
+                        :ref="comp.code+'-'+i" 
+                        :content="comp.content"
+                        v-bind:is="components[comp.code]">
+                    </component> -->
                 </section>
             </div>
         </div>
