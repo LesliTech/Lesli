@@ -1,6 +1,18 @@
 <script>
 export default {
-    name: "Button"
+    title: "Button",
+    code: "foundation-button",
+    props: {
+        value: {
+            type: String,
+            default: "Button"
+        }
+    },
+    methods:{
+        emitValue(e) {
+            this.$emit('input', e.target.innerText)
+        }
+    }
 }
 </script>
 <template>
@@ -11,7 +23,15 @@ export default {
                     <table>
                         <tbody>
                             <tr>
-                                <td><a href="#" contenteditable="true">Button exportable</a></td>
+                                <td>
+                                    <a 
+                                        href="#" 
+                                        @blur="emitValue" 
+                                        @input="emitValue"
+                                        contenteditable="true">
+                                        {{ value }}
+                                    </a>
+                                </td>
                             </tr>
                         </tbody>
                     </table>
