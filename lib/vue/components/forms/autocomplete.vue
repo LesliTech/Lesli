@@ -4,6 +4,11 @@ export default {
         value: {
         },
 
+        timeout: {
+            type: Number,
+            default: 300
+        },
+
         endpoint: {
             type: String,
             required: true
@@ -23,13 +28,6 @@ export default {
             required: true,
             type: Boolean,
             default: false
-        },
-
-        // Allows us to customize from where will we get the records
-        // Default is result.data
-        // If this variable is set, then we will get them from result.data[recordsKey]
-        recordsKey: {
-            default: null
         },
 
         keyField: {
@@ -156,11 +154,7 @@ export default {
 
             this.http.get(url).then((response)=>{
                 if(response.successful){
-                    if(this.recordsKey){
-                        this.options = response.data[this.recordsKey]
-                    }else{
-                        this.options = response.data
-                    }
+                    this.options = response.data;
                     this.$nextTick(()=>{
                         this.setListeners();
                     })
@@ -249,7 +243,7 @@ export default {
 
                     this.timer = setTimeout(() => {
                         this.loadOptions();
-                    }, 1000)
+                    }, this.timeout)
                 } else {
                     this.options = [];
                     this.index = -1;
