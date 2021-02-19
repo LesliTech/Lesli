@@ -33,7 +33,7 @@ class ApplicationLesliMailer < ActionMailer::Base
 
         # mailers from engines
         if module_info.length > 1
-            return "#{ instance[:code] }/#{(module_info[0].underscore)}/emails/#{ module_info[1].underscore }" 
+            return "#{ instance[:code] }/emails/#{(module_info[0].underscore)}/#{ module_info[1].underscore }" 
         end
 
         # mailers from core
