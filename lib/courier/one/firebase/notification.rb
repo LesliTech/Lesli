@@ -27,6 +27,11 @@ module Courier
                     CloudOne::Firebase::Notification.create(current_user, params)
                 end
 
+                def self.unseen(current_user)
+                    return unless defined? CloudOne
+                    CloudOne::Firebase::Notification.unseen(current_user)
+                end
+
             end
         end
     end
