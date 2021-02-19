@@ -22,52 +22,56 @@ For more information read the license file including with this software.
 @import "lesli/templates/component";
 
 
-.mailer-email-template #gjs {
+.lesli-editor-email {
 
-    @import "grapesjs/dist/css/grapes.min";
+    .email-component-list {
 
+        .email-component-selector {
+            margin-bottom: .4rem;
+        }
 
-    // reset grapesjs theme
-    #gjs {
-        //border: none;
-    }
+        .list-group .list-group-item {
+            padding: .6rem;
+            margin-bottom: .6rem;
+            box-shadow: 0 0 3px rgba(0, 0, 0, 0.1); 
+            border: 1px solid darken(lesli-css-get-color(silver, 100), 4);
+            background-color: lesli-css-get-color(solid, white);
 
-    // Primary color for the background
-    .gjs-one-bg {
-        background-color: lesli-css-get-color(solid, white);
-    }
+            &:hover {
+                cursor: grab;
+            }
 
-    // secondary color for the text color
-    .gjs-two-color {
-        color: lesli-css-get-color(black, 300);
-    }
-
-    // tertiary color for the background
-    .gjs-three-bg {
-        //background-color: #ec5896;
-        //color: white;
-    }
-
-    // quaternary color for the text color
-    .gjs-four-color,
-    .gjs-four-color-h:hover {
-        //color: #ec5896;
-    }
-  
-
-    // override grapesjs defaults
-    .gjs-pn-panels {
-
-        .gjs-pn-views-container,
-        .gjs-pn-commands {
-            box-shadow: none;
         }
 
     }
 
-}
+    .email-preview {
 
-body > #wrapper {
-    @import "grapesjs/dist/css/grapes.min";
-    @import "foundation-emails/scss/foundation-emails";
+        &,
+        &::before,
+        &::after {
+            all: revert;
+        }
+
+        *,
+        *::before,
+        *::after {
+            all: revert;
+        }
+
+        .button,
+        .columns {
+            all: revert;
+        }
+
+        @import "foundation-emails/scss/foundation-emails";
+
+    }
+
+    section.email-preview {
+        padding: 1rem;
+        box-shadow: 0 0 4px rgba(0, 0, 0, 0.2); 
+        background-color: lesli-css-get-color(solid, white);
+    }
+
 }
