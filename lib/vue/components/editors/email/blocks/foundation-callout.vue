@@ -3,9 +3,14 @@ export default {
     title: "Callout",
     code: "foundation-callout",
     props: {
-        content: {
+        value: {
             type: String,
-            default: "message"
+            default: "I'm in a callout!"
+        }
+    },
+    methods:{
+        emitValue(e) {
+            this.$emit('input', e.target.innerText)
         }
     }
 }
@@ -15,7 +20,12 @@ export default {
         <tbody>
             <tr>
                 <th class="callout-inner success">
-                    <p>{{ content }}</p>
+                    <p
+                        @blur="emitValue" 
+                        @input="emitValue"
+                        contenteditable="true">
+                        {{ value }}
+                    </p>
                 </th>
                 <th class="expander"></th>
             </tr>

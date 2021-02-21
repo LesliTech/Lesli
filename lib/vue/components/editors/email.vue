@@ -48,7 +48,9 @@ export default {
         value: {
             type: Object,
             default: function() {
-                return {}
+                return {
+                    blocks: []
+                }
             }
 
         }
@@ -67,6 +69,9 @@ export default {
             selected: 1
         };
     },
+    mounted() {
+        console.log(this.value)
+    },
     methods: {
         addEmailComponent(i) {
 
@@ -84,7 +89,7 @@ export default {
                 return
             }
 
-            this.components_email.push({
+            this.components_email.blocks.push({
                 code: componentCode,
                 title: "title"
             })
@@ -92,33 +97,14 @@ export default {
         },
         emitValue() {
 
-            let result = this.components_email.map((comp, i) => {
-                return {
-                    code: comp.code,
-                    content: this.$refs[comp.code+'-'+i][0].$el.innerHTML
-                }
-            })
-
             // rails only accept hash parameters, it is not possible to send arrays
-            this.$emit('input', { content: result })
+            this.$emit('input', this.components_email )
 
         }
     },
     watch: {
-        value(comps) {
-
-            if (!comps) {
-                return 
-            }
-
-            comps.content.forEach(comp => {
-                this.components_email.push({
-                    code: comp.code,
-                    title: "hola",
-                    content: "666999"
-                })
-            })
-            
+        value(value) {
+            this.components_email = value
         }
     }
 };
@@ -129,14 +115,14 @@ export default {
             <div class="column is-10">
                 <section class="email-preview">
                     <draggable
-                        :list="components_email"
+                        :list="components_email.blocks"
                         class="list-group"
                         ghost-class="ghost"
                         @start="dragging = true"
                         @end="dragging = false">
                         <div
                             class="list-group-item"
-                            v-for="(element, i) in components_email"
+                            v-for="(element, i) in components_email.blocks"
                             :key="element.code+'-'+i" >
                             <component 
                                 v-model="element.content"
@@ -161,7 +147,6 @@ export default {
                         <i class="fas fa-cube"></i>
                     </span>
                 </div>
-                <button class="button" @click="emitValue">test</button>
             </div>
         </div>
     </section>
