@@ -344,34 +344,41 @@ class User < ApplicationLesliRecord
     #    }
     #]
     def self.index(current_user, query, params)
-
         type = params[:type]
-        roles = params[:role]         
-        
-        users = []
-        roles = roles.blank? ? [] : roles.split(',') 
+        roles = params[:role].split(",").map { |role| "'#{role}'" }.join(", ") if not params[:role].blank?
+
         operator = type == "exclude" ? 'not in' : 'in'
-        
+
         users = current_user.account.users
         .joins("inner join user_details ud on ud.users_id = users.id")
         .joins("
-            left join (
-                select ur.users_id, string_agg(r.\"name\", ', ') role_names
+            inner join (
+                select
+                    ur.users_id, string_agg(r.\"name\", ', ') role_names
                 from user_roles ur 
-                join roles r on r.id = ur.roles_id 
+                join roles r 
+                    on r.id = ur.roles_id  #{roles.blank? ? "" : "and r.name #{operator} (#{roles})"}
                 group by ur.users_id
             ) roles on roles.users_id = users.id
-        ") 
+        ")
+
+        users = users.where("email like '%#{query[:filters][:domain]}%'")  unless query[:filters][:domain].blank?
+        users = users.where("role_names #{operator} (#{roles})") unless roles.blank?
+        users = users.where("category = ?", query[:filters][:category]) if query[:filters][:category]
+        users = users.where("
+            email like '%#{query[:filters][:search]}%' or
+            LOWER(concat(ud.first_name, ' ', ud.last_name)) like '%#{query[:filters][:search].downcase}%'
+        ")  if not query[:filters][:search].blank?
 
         users = users.select(
             :id,
             :active,
             :email,
-            :current_sign_in_at,
             :category,
+            :current_sign_in_at,
             "false as editable",
             "CONCAT(ud.first_name, ' ',ud.last_name) as name",
-            "role_names"
+            "role_names as roles"
         )
 
         if (query[:filters][:status] == 'active')
@@ -379,21 +386,12 @@ class User < ApplicationLesliRecord
         elsif (query[:filters][:status] == 'inactive')
             users = users.where("users.active = ?", false)
         end
-    
-        users = users.where("category = ?", query[:filters][:category]) if query[:filters][:category]
-        users = users.where("role_names #{operator} (?)", roles) unless roles.blank?
-        
-
-        users = users.where("
-            email like '%#{query[:filters][:search]}%' or
-            LOWER(concat(ud.first_name, ' ', ud.last_name)) like '%#{query[:filters][:search].downcase}%'
-        ")  if not query[:filters][:search].blank?
 
         users = users
-            .page(query[:pagination][:page])
-            .per(query[:pagination][:perPage])
-            .order("#{query[:pagination][:orderColumn]} #{query[:pagination][:order]} NULLS LAST")
-
+        .page(query[:pagination][:page])
+        .per(query[:pagination][:perPage])
+        .order("#{query[:pagination][:orderBy]} #{query[:pagination][:order]} NULLS LAST")
+        
         users_count = users.total_count
 
         users = users.map do |user|
@@ -415,11 +413,10 @@ class User < ApplicationLesliRecord
                 category: user[:category],
                 last_sign_in_at: last_sign_in_at,
                 active: user[:active],
-                roles: user[:role_names],
+                roles: user.roles,
                 last_activity_at: last_action_performed_at,
                 session_active: session 
             }
-
         end        
 
         return {
