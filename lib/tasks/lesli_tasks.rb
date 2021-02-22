@@ -38,7 +38,7 @@ class LesliTasks
     def message_cow message = "Process completed successfully"
 
         # ids of the prettiest cows in the library
-        pretty_cows = [49,46,42,40,33,32,31,29,27,24,21,19,17,14,10,9,7,5]
+        pretty_cows = [46,33,32,31,29,27,21,10,5]
 
         # get a random cow id
         random_cows = rand(0..(pretty_cows.size-1))

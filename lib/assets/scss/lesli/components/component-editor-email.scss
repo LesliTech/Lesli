@@ -56,7 +56,7 @@ For more information read the license file including with this software.
         *,
         *::before,
         *::after {
-            all: revert;
+            //all: revert;
         }
 
         .button,
@@ -72,6 +72,11 @@ For more information read the license file including with this software.
         padding: 1rem;
         box-shadow: 0 0 4px rgba(0, 0, 0, 0.2); 
         background-color: lesli-css-get-color(solid, white);
+
+        span.icon {
+            width: 25px;
+        }
+
     }
 
 }
