@@ -14,20 +14,27 @@ For more information read the license file including with this software.
 
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
 // · 
-  
-=end
-class User::Activity < ApplicationRecord
-    belongs_to :user,   foreign_key: "users_id",    class_name: "::User"
-    belongs_to :owner,  foreign_key: "owner_id",    class_name: "::User" 
     
+=end
+class CreateAccountCurrencies < ActiveRecord::Migration[6.1]
+    def change
+        create_table :account_currencies do |t|
+            t.string        :name
+            t.string        :symbol
+            t.string        :country_alpha_3
 
-    enum category: {
-        action_create:                          "action_create",
-        action_show:                            "action_show",
-        action_update:                          "action_update",
-        action_destroy:                         "action_destroy",
-        action_create_user_role:                "action_create_user_role",
-        action_destroy_user_role:               "action_destroy_user_role",
-        action_become:                          "action_become"
-    }
+            # Main user
+            t.bigint        :user_main_id      
+            
+            # Acts as paranoid
+            t.datetime :deleted_at, index: true
+            
+            t.timestamps
+        end
+        
+        add_reference   :account_currencies, :users,    foreign_key: true
+        add_reference   :account_currencies, :accounts, foreign_key: true
+        add_foreign_key :account_currencies, :users,    column: :user_main_id
+
+    end
 end
