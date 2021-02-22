@@ -79,13 +79,13 @@ class AccountsController < ApplicationLesliController
     # DELETE /accounts/1
     # DELETE /accounts/1.json
     def destroy
-    return respond_with_not_found unless @account
+        return respond_with_not_found unless @account
 
-    @account.destroy
-    respond_to do |format|
-    format.html { redirect_to accounts_url, notice: 'Account was successfully destroyed.' }
-    format.json { head :no_content }
-    end
+        @account.destroy
+        respond_to do |format|
+            format.html { redirect_to accounts_url, notice: 'Account was successfully destroyed.' }
+            format.json { head :no_content }
+        end
     end
 
     def company_logo

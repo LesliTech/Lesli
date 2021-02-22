@@ -75,7 +75,10 @@ class ApplicationLesliController < ApplicationController
 
         custom_logo = current_user.account.files.where(name: "company_logo").last
         logo = "/images/brand/lesli-name.svg"
+        logo_id = nil
+
         logo = custom_logo.attachment.url if custom_logo
+        logo_id = custom_logo.id if custom_logo
 
 
         # add company information (account)
@@ -83,7 +86,8 @@ class ApplicationLesliController < ApplicationController
             id: current_user.account.id,
             name: current_user.account.company_name,
             tag_line: current_user.account.company_tag_line,
-            logo: logo
+            logo_id: logo_id,
+            logo: logo,
         }
 
 
