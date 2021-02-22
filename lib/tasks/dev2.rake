@@ -27,7 +27,12 @@ class Dev < LesliTasks
             desc "List the available tasks"
             task help: :environment do
                 ARGV.each { |a| task a.to_sym do ; end }
+            end
 
+            desc "Test debug messages"
+            task debug: :environment do
+                ARGV.each { |a| task a.to_sym do ; end }
+                debug
             end
 
         end
@@ -37,6 +42,17 @@ class Dev < LesliTasks
 
     def help
 
+    end
+
+    def debug
+        LC::Debug.msg("LC::Debug.msg simple")
+        LC::Debug.info("LC::Debug.info simple")
+        LC::Debug.warn("LC::Debug.warn simple")
+        LC::Debug.warn("LC::Debug.warn", "with", "multiple", "messages")
+        LC::Debug.error("LC::Debug.error simple")
+        LC::Debug.success("LC::Debug.success simple")
+        LC::Debug.fatal("LC::Debug.fatal simple")
+        LC::Debug.deprecation("LC::Debug.deprecation simple")
     end
 
 end
