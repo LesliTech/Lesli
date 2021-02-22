@@ -18,6 +18,13 @@ For more information read the license file including with this software.
 
 */
 export default {
+    props: {
+        text: {
+            required: false,
+            type: String,
+            default: null
+        },
+    },
     data() {
         return {
             translations: {
@@ -46,7 +53,8 @@ export default {
                     </g>
                 </g>
             </svg>
-            <p>{{ this.translations.shared.view_text_no_data_found }}</p>
+            <p v-if="text">{{ text }}</p>
+            <p v-else>{{ translations.shared.view_text_no_data_found }}</p>
         </div>
     </section>
 </template>
