@@ -53,8 +53,8 @@ export default {
                     </g>
                 </g>
             </svg>
-            <p v-if="this.text">{{ this.text }}</p>
-            <p v-else>{{ this.translations.shared.view_text_no_data_found }}</p>
+            <p v-if="text">{{ text }}</p>
+            <p v-else>{{ translations.shared.view_text_no_data_found }}</p>
         </div>
     </section>
 </template>
