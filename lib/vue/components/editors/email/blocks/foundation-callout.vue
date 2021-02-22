@@ -1,6 +1,18 @@
 <script>
 export default {
-    name: "Callout"
+    title: "Callout",
+    code: "foundation-callout",
+    props: {
+        value: {
+            type: String,
+            default: "I'm in a callout!"
+        }
+    },
+    methods:{
+        emitValue(e) {
+            this.$emit('input', e.target.innerText)
+        }
+    }
 }
 </script>
 <template>
@@ -8,7 +20,12 @@ export default {
         <tbody>
             <tr>
                 <th class="callout-inner success">
-                    <p>Created a new folder. Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+                    <p
+                        @blur="emitValue" 
+                        @input="emitValue"
+                        contenteditable="true">
+                        {{ value }}
+                    </p>
                 </th>
                 <th class="expander"></th>
             </tr>

@@ -1,6 +1,18 @@
 <script>
 export default {
-    name: "Grid"
+    name: "Grid",
+    code: "foundation-grid",
+    props: {
+        value: {
+            type: String,
+            default: ""
+        }
+    },
+    methods:{
+        emitValue(e) {
+            this.$emit('input', e.target.innerText)
+        }
+    }
 }
 </script>
 <template>
