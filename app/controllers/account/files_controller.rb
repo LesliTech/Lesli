@@ -31,13 +31,21 @@ class Account::FilesController < ApplicationLesliController
 
     # GET /account/files/1
     def show
-        respond_to do |format|
-            format.html {}
-            format.json do
-                return respond_with_not_found unless @account_file
-                return respond_with_successful(@account_file.show(current_user, @query))
-            end
+        return respond_with_not_found unless @account_file
+        
+        disposition = "inline"
+        disposition = "attachment" if params["download"]
+        
+        # Sending file using CarrierWave
+        if @account_file.attachment_s3.file
+            file_name = @account_file.attachment_s3.file.filename
+            file_data = @account_file.attachment_s3.read
+        else
+            file_name = @account_file.attachment.file.filename
+            file_data = @account_file.attachment.read
         end
+
+        send_data(file_data, filename: file_name, disposition: disposition, stream: "true")
     end
 
     # GET /account/files/new
