@@ -408,16 +408,20 @@ export default {
             }
 
             if(! this.selected_workflow_status.next_statuses){
-                return label.concat(Object.values(this.workflow.statuses))
+                label = label.concat(Object.values(this.workflow.statuses))
+                label.sort((a,b) => a.number - b.number)
+                return label
             }
             
             let follow_up_statuses  = this.selected_workflow_status.next_statuses.split('|').map((element)=>{
                 return parseInt(element)
             })
 
-            return label.concat(Object.values(this.workflow.statuses).filter(element => {
+            label =  label.concat(Object.values(this.workflow.statuses).filter(element => {
                 return ! follow_up_statuses.includes(element.id)
             }))
+
+            return label.sort((a,b) => a.number - b.number)
         },
 
         orderedWorkflowStatuses(){
