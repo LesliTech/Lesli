@@ -71,6 +71,10 @@ module LC
             separator_blank
         end
 
+        def self.msgc *messages
+            msg(messages)
+        end
+
         def self.list *messages
             #messages.each do |message|
             #    puts message
