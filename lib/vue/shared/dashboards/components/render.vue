@@ -102,7 +102,7 @@ export default {
 <template>
     <div class="columns is-multiline" v-if="dashboard">
         <div v-for="component in dashboard.components" :key="component.id" :class="['column', `is-${component.layout}`]">
-            <component :is="`component-${component.component_id.replace(/\_/g,'-')}`" :dashboard-id="dashboard.id" :component-id="component.id">
+            <component :is="`component-${component.component_id.replace(/\_/g,'-')}`" :dashboard-id="dashboard.id" :component-id="component.id" :name="component.name">
             </component>
         </div>
     </div>

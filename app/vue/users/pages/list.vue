@@ -19,6 +19,14 @@ For more information read the license file including with this software.
 
 // · 
 export default {
+    props: {
+        roleFilters: {
+            type: Object,
+            default: ()=>{
+                return {}
+            }
+        }
+    },
 
     // @return [Object] Data used by this component's methods
     // @description Returns the data needed for this component to work properly
@@ -31,6 +39,7 @@ export default {
             show_form: false,
             user_id: null,
             users: [],
+            roles: null,
             loading: false,
             filters_ready: false,
             translations: {
@@ -47,7 +56,8 @@ export default {
             },
             filters:{
                 search: "",
-                status: "active"
+                status: "active",
+                role: null
             },
             pagination: {
                 current_page: 1,
@@ -67,6 +77,7 @@ export default {
     mounted() {
         this.setSessionStorageFilters()
         this.getUsers()
+        this.getRoles()
     },
 
     methods: {
@@ -88,21 +99,35 @@ export default {
             
             this.loading = true
 
-            let url = `${this.main_route}.json?role=kop,callcenter,guest&type=exclude`
-            url += `&filters[status]=${this.filters.status}&filters[view_type]=index&filters[search]=${this.filters.search}&filters[category]=user` //filters
-            url +=`&page=${this.pagination.current_page}&perPage=${this.pagination.per_page}&order=${this.sorting.order}&orderColumn=${this.sorting.field}` //pagination
+            let url = this.url.lesli('administration/users')
+            if(! this.filters.role){
+                url.query = this.roleFilters
+            }else{
+                url.query = {role: this.filters.role}
+            }
+            url = url.filters({
+                status: this.filters.status,
+                view_type: 'index', 
+                search: this.filters.search, 
+                category: 'user'
+            }).paginate(
+                this.pagination.current_page, this.pagination.per_page
+            ).order(
+                this.sorting.field,
+                this.sorting.order
+            )
 
             this.http.get(url).then(result => {
                 if (result.successful) {
-                    this.users = result.data.users.map(e => {
-                        e.roles = (e.roles||'').split(",").map(e => {
-                            return this.object_utils.translateEnum(this.translations.core.roles, 'column_enum_role', e)
+                    this.users = result.data.users.map(user => {
+                        user.roles = (user.roles||[]).map(role => {
+                            return this.object_utils.translateEnum(this.translations.core.roles, 'column_enum_role', role.name)
                             
                         })
 
-                        e.active_text = e.active ? this.translations.core.shared.text_active : this.translations.core.shared.text_disabled
+                        user.active_text = user.active ? this.translations.core.shared.text_active : this.translations.core.shared.text_disabled
 
-                        return e
+                        return user
                     })
 
                     this.pagination.users_count = result.data.users_count
@@ -115,6 +140,26 @@ export default {
                 console.log(error)
             }).finally(() => {
                 this.loading = false
+            })
+        },
+
+        getRoles(){
+            let url = this.url.lesli('administration/roles/list')
+
+            this.http.get(url).then(result => {
+                if (result.successful) {
+                    if(this.roleFilters && this.roleFilters.type == 'exclude' && this.roleFilters.role){
+                        let excluded_roles = this.roleFilters.role.split(',')
+
+                        this.roles = result.data.filter((role)=>{
+                            return ! excluded_roles.includes(role.name)
+                        })
+                    }else{
+                        this.roles = result.data
+                    }
+                }
+            }).catch(error => {
+                console.log(error)
             })
         },
         
@@ -179,7 +224,7 @@ export default {
             this.getUsers()
         },
 
-        'filters.per_page'(){
+        'pagination.per_page'(){
             if(this.filters_ready){
                 this.getUsers()
             }
@@ -208,6 +253,20 @@ export default {
             :search-text="translations.core.users.view_toolbar_filter_placeholder_search"
             @search="searchUsers"
             :initial-value="filters.search">
+
+            <div class="control" v-if="roles">
+                <div class="select">
+                    <select
+                        v-model="filters.role"
+                        @change="getUsers"
+                    >
+                        <option :value="null"> {{ translations.core.users.view_toolbar_filter_all_roles }} </option>
+                        <option v-for="role in roles" :key="role.id" :value="role.name">
+                            {{object_utils.translateEnum(translations.core.roles, 'column_enum_role', role.name)}}
+                        </option>
+                    </select>
+                </div>
+            </div>
 
             <div class="control">
                 <div class="select">
@@ -242,7 +301,6 @@ export default {
             <div class="card-content">
                 <component-data-loading v-if="loading" />
                 <component-data-empty v-if="!loading && users.length == 0" />
-
                 <b-table 
                     v-if="!loading && users.length > 0"
                     :data="users" 
@@ -257,7 +315,7 @@ export default {
                         <b-table-column :label="translations.core.users.view_table_header_name" field="name" sortable>
                             <template slot="header" slot-scope="{ column }">
                                 {{ column.label }}
-                                <span v-if="sorting.field == 'first_name'">
+                                <span v-if="sorting.field == 'name'">
                                     <b-icon v-if="sorting.order == 'asc'" size="is-small" icon="arrow-up" ></b-icon>
                                     <b-icon v-else size="is-small" icon="arrow-down"></b-icon>
                                 </span>
@@ -347,6 +405,7 @@ export default {
                     </template>
                 </b-table>
                 <b-pagination
+                    v-if="!loading && users.length > 0"
                     :simple="false"
                     :total="pagination.users_count"
                     :current.sync="pagination.current_page"
