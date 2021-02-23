@@ -4,7 +4,7 @@ class Templates::CreateCloudObjectFileWithTemplateJob < ApplicationJob
     XML_TAG = /\<[^\>]+\>/
 
     def perform(current_user, cloud_object, document, file_type)
-        document_mappings = document.mappings.joins(:variable).select("name, table_alias, table_name, field_name")
+        document_mappings = document.mappings.joins(:variable).select("name, table_alias, table_name, field_name, template_variables.variable_type")
         query = {
             fields: [],
             mapping: {}
@@ -12,7 +12,7 @@ class Templates::CreateCloudObjectFileWithTemplateJob < ApplicationJob
 
         variables = []
 
-        document_mappings.each do |document_map|
+        document_mappings.find_all {|mapping| mapping.variable_type == Template::Variable.variable_types[:table]}.each do |document_map|
 
             unless document_map["table_alias"].blank?
                 table_alias = document_map["table_alias"]
@@ -29,10 +29,25 @@ class Templates::CreateCloudObjectFileWithTemplateJob < ApplicationJob
             end
         end
 
+        # fetch data of cloud_object query
         query[:fields] = query[:fields].join(",")
-        
-        #fetch data of cloud_object        
         data = cloud_object.template_data(query)
+        
+        #looking for method calls
+        document_mappings.find_all {|mapping| mapping.variable_type == Template::Variable.variable_types[:method]}.each do |document_map|
+            if ((defined? ("#{document_map["table_name"]}.#{document_map["table_alias"]}"||"").constantize) == "method" ) # validate if method is defined
+
+                if (document_map["field_name"] == "today")
+                    value = document_map["table_name"].constantize.send(document_map["table_alias"], Time.now)
+
+                    unless value.blank?
+                        data = data.merge(document_map["name"].downcase => value)
+
+                        variables.push(document_map["name"])
+                    end
+                end
+            end
+        end    
 
         return if data.blank?
 
@@ -53,7 +68,7 @@ class Templates::CreateCloudObjectFileWithTemplateJob < ApplicationJob
 
         doc_template = DocxReplace::Doc.new(tmp_path, "#{Rails.root}/tmp")
 
-        variables.each do |variable|
+        variables.each do |variable| #replace data
             xml_replace!(doc_template.instance_variable_get(:@document_content), "$$#{variable}", data[variable.downcase].nil? ? "" : data[variable.downcase])
         end
         
