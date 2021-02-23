@@ -27,6 +27,7 @@ class Account < ApplicationRecord
     has_many :settings,     foreign_key: "accounts_id", class_name: "Account::Setting"
     has_many :locations,    foreign_key: "accounts_id"
     has_many :activities,   foreign_key: "accounts_id", class_name: "Account::Activity"
+    has_many :currencies,   foreign_key: "accounts_id", class_name: "Account::Currency"
     has_many :integrations, foreign_key: "accounts_id"
 
     has_one :template, class_name: "Template", foreign_key: "accounts_id"
@@ -38,6 +39,7 @@ class Account < ApplicationRecord
     has_one :bell,       class_name: "CloudBell::Account",       foreign_key: "id"
     has_one :help,       class_name: "CloudHelp::Account",       foreign_key: "id"
     has_one :text,       class_name: "CloudText::Account",       foreign_key: "id"
+    has_one :talk,       class_name: "CloudTalk::Account",       foreign_key: "id"
     has_one :audit,      class_name: "CloudAudit::Account",      foreign_key: "id"
     has_one :lesli,      class_name: "CloudLesli::Account",      foreign_key: "id"
     has_one :books,      class_name: "CloudBooks::Account",      foreign_key: "id"
@@ -177,6 +179,14 @@ class Account < ApplicationRecord
                 self.text = CloudText::Account.new
                 self.text.account = self
                 self.text.save!
+            end
+        end
+
+        if defined? CloudTalk
+            if self.talk.blank?
+                self.talk = CloudTalk::Account.new
+                self.talk.account = self
+                self.talk.save!
             end
         end
 
