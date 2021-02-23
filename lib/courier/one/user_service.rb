@@ -19,15 +19,13 @@ For more information read the license file including with this software.
 
 module Courier
     module One
-        module Firebase
-            class Chatroom
+        class UserService
 
-                def self.create(current_user, members, chat_name="", type="normal")
-                    return unless defined? CloudOne
-                    CloudOne::Firebase::Chatroom.create(current_user, members, chat_name, type)
-                end
-
+            def self.current_user_external_uid(current_user, service_name)
+                return unless defined? CloudOne
+                CloudOne::UserService.current_user_external_uid(current_user, service_name)
             end
+
         end
     end
 end
