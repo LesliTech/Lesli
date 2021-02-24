@@ -23,7 +23,8 @@ module LC
 
     class Date2
 
-        def initialize
+        def initialize(date = Time.current, format = nil)
+            
             config = Rails.application.config.lesli_settings["configuration"]["datetime"]
 
             # support the old date & time format definition
@@ -49,6 +50,10 @@ module LC
             # default date format
             @format = "date"
 
+            @zone = ActiveSupport::TimeZone.new(@settings["time_zone"])
+
+            @date = date
+
         end
 
         def date
@@ -69,6 +74,11 @@ module LC
             
             "TO_CHAR(#{table}created_at at time zone 'utc' at time zone '#{@settings["time_zone"]}', '#{format}') as created_at_date, TO_CHAR(#{table}updated_at at time zone 'utc' at time zone '#{@settings["time_zone"]}', '#{format}') as updated_at_date"
 
+        end
+
+        def to_s
+            LC::Debug.msg @date, @date.strftime(@format)
+            "date"
         end
 
 
