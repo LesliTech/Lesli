@@ -21,11 +21,7 @@ For more information read the license file including with this software.
 
 
 /*
-[{
-    code: "foundation-grid",
-    title: "Grid",
-    content: "<h1><b>Mi titulo</b></h1>"
-}]
+IMPORTANT: The use of @input on block components make text writing going backwards
 */
 
 
@@ -34,10 +30,10 @@ import draggable from "vuedraggable";
 
 
 // · 
-//import blockFoundationGrid from "./email/blocks/foundation-grid.vue"
-//import blockFoundationMenu from "./email/blocks/foundation-menu.vue"
+import blockFoundationGrid from "./email/blocks/foundation-grid.vue"
+import blockFoundationMenu from "./email/blocks/foundation-menu.vue"
 import blockFoundationButton from "./email/blocks/foundation-button.vue"
-//import blockFoundationSpacer from "./email/blocks/foundation-spacer.vue"
+import blockFoundationSpacer from "./email/blocks/foundation-spacer.vue"
 import blockFoundationCallout from "./email/blocks/foundation-callout.vue"
 //import blockFoundationWrapper from "./email/blocks/foundation-wrapper.vue"
 
@@ -61,16 +57,16 @@ export default {
     data() {
         return {
             components: {
+                "foundation-grid": blockFoundationGrid,
+                "foundation-menu": blockFoundationMenu,
                 "foundation-button": blockFoundationButton,
+                "foundation-spacer": blockFoundationSpacer,
                 "foundation-callout": blockFoundationCallout,
             },
-            components_email: [],
+            components_email: { blocks:[] },
             dragging: false,
             selected: 1
         };
-    },
-    mounted() {
-        console.log(this.value)
     },
     methods: {
         addEmailComponent(i) {
@@ -98,13 +94,13 @@ export default {
         emitValue() {
 
             // rails only accept hash parameters, it is not possible to send arrays
-            this.$emit('input', this.components_email )
+            this.$emit('input', this.components_email)
 
         }
     },
     watch: {
         value(value) {
-            this.components_email = value
+            this.components_email = (value  || { blocks:[] })
         }
     }
 };
@@ -118,6 +114,7 @@ export default {
                         :list="components_email.blocks"
                         class="list-group"
                         ghost-class="ghost"
+                        @onUpdate="emitValue"
                         @start="dragging = true"
                         @end="dragging = false">
                         <div
@@ -126,7 +123,7 @@ export default {
                             :key="element.code+'-'+i" >
                             <component 
                                 v-model="element.content"
-                                :content="element.content"
+                                @input="emitValue"
                                 v-bind:is="components[element.code]">
                             </component>
                         </div>

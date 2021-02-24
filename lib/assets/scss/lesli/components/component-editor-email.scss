@@ -53,12 +53,6 @@ For more information read the license file including with this software.
             all: revert;
         }
 
-        *,
-        *::before,
-        *::after {
-            //all: revert;
-        }
-
         .button,
         .columns {
             all: revert;
@@ -70,8 +64,11 @@ For more information read the license file including with this software.
 
     section.email-preview {
         padding: 1rem;
-        box-shadow: 0 0 4px rgba(0, 0, 0, 0.2); 
-        background-color: lesli-css-get-color(solid, white);
+        border: 3px dotted silver;
+
+        .block-component {
+            border: 1px dotted silver;
+        }
 
         span.icon {
             width: 25px;
