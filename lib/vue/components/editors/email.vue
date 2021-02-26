@@ -35,6 +35,7 @@ import blockFoundationMenu from "./email/blocks/foundation-menu.vue"
 import blockFoundationButton from "./email/blocks/foundation-button.vue"
 import blockFoundationSpacer from "./email/blocks/foundation-spacer.vue"
 import blockFoundationCallout from "./email/blocks/foundation-callout.vue"
+import blockQuillText from "./email/blocks/quill-text.vue"
 //import blockFoundationWrapper from "./email/blocks/foundation-wrapper.vue"
 
 
@@ -62,6 +63,7 @@ export default {
                 "foundation-button": blockFoundationButton,
                 "foundation-spacer": blockFoundationSpacer,
                 "foundation-callout": blockFoundationCallout,
+                "quill-text": blockQuillText
             },
             components_email: { blocks:[] },
             dragging: false,
@@ -69,27 +71,11 @@ export default {
         };
     },
     methods: {
-        addEmailComponent(i) {
-
-            let componentCode = null
-
-            if (typeof i == 'string') {
-                componentCode = i
-            }
-
-            if (typeof i == 'object') {
-                componentCode = i.target.value
-            }
-
-            if (componentCode === null) {
-                return
-            }
-
+        addEmailComponent(componentCode) {
             this.components_email.blocks.push({
                 code: componentCode,
                 title: "title"
             })
-
         },
         emitValue() {
 
@@ -131,18 +117,14 @@ export default {
                 </section>
             </div>
             <div class="column is-2 email-component-list">
-                <div class="control has-icons-left">
-                    <div class="select is-fullwidth email-component-selector">
-                        <select v-model="selected" v-on:change="addEmailComponent">
-                            <option value="1">Add email component</option>
-                            <option :value="comp.code" v-for="(comp, i) in components" :key="i">
-                                {{ comp.title }}
-                            </option>
-                        </select>
-                    </div>
-                    <span class="icon is-small is-left has-text-info">
-                        <i class="fas fa-cube"></i>
-                    </span>
+                <div class="pt-2">
+                    <button 
+                        class="button is-fullwidth mb-2" 
+                        v-for="component in components" 
+                        :key="component.code"
+                        @click="addEmailComponent(component.code)">
+                        {{ component.title }}
+                    </button>
                 </div>
             </div>
         </div>
