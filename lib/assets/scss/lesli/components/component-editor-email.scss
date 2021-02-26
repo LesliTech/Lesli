@@ -26,23 +26,6 @@ For more information read the license file including with this software.
 
     .email-component-list {
 
-        .email-component-selector {
-            margin-bottom: .4rem;
-        }
-
-        .list-group .list-group-item {
-            padding: .6rem;
-            margin-bottom: .6rem;
-            box-shadow: 0 0 3px rgba(0, 0, 0, 0.1); 
-            border: 1px solid darken(lesli-css-get-color(silver, 100), 4);
-            background-color: lesli-css-get-color(solid, white);
-
-            &:hover {
-                cursor: grab;
-            }
-
-        }
-
     }
 
     .email-preview {
