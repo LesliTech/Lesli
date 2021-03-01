@@ -34,9 +34,11 @@ class AccountsController < ApplicationLesliController
     def show
         respond_to do |format| 
             format.html {}
-            format.json {
-                respond_with_successful()
-            }
+            format.json do
+                set_account 
+
+                respond_with_successful(@account)
+            end
         end
     end
 
