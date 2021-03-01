@@ -22,6 +22,17 @@ require "spec_helper"
 require "byebug"
 
 
+def db_format
+    format = @settings["date_format"]
+
+    # Convert Ruby to postgresql date format
+    format = format.gsub("%Y", "YYYY")
+    format = format.gsub("%m", "MM")
+    format = format.gsub("%d", "DD")
+
+    format
+end
+
 RSpec.describe LC::Date, type: :model do
 
     before(:all) do
@@ -47,12 +58,12 @@ RSpec.describe LC::Date, type: :model do
 
     it "LC::Date.db_to_char" do
         query_string = LC::Date.db_to_char(User.first.deleted_at, "deleted_at")
-        expect(query_string).to eq("TO_CHAR( at time zone 'utc' at time zone '#{@settings["time_zone"]}', 'DD.MM.YYYY') as deleted_at")
+        expect(query_string).to eq("TO_CHAR( at time zone 'utc' at time zone '#{@settings["time_zone"]}', '#{self.db_format}') as deleted_at")
     end
 
     it "LC::Date.db_to_char_custom" do
         query_string = LC::Date.db_to_char_custom(User.first.deleted_at)
-        expect(query_string).to eq("TO_CHAR( at time zone 'utc' at time zone '#{@settings["time_zone"]}', 'DD.MM.YYYY')")
+        expect(query_string).to eq("TO_CHAR( at time zone 'utc' at time zone '#{@settings["time_zone"]}', '#{self.db_format}')")
     end
 
     it "LC::Date.datetime" do
