@@ -48,15 +48,15 @@ RSpec.describe LC::Date2, type: :model do
     end
 
     it "is expect to render db_timestamps columns" do
-        expect(LC::Date2.new.db_timestamps).to eql("TO_CHAR(created_at at time zone 'utc' at time zone '#{@settings["time_zone"]}', 'DD.MM.YYYY') as created_at_date, TO_CHAR(updated_at at time zone 'utc' at time zone 'America/Guatemala', 'DD.MM.YYYY') as updated_at_date")
+        expect(LC::Date2.new.db_timestamps).to eql("TO_CHAR(created_at at time zone 'utc' at time zone '#{@settings["time_zone"]}', 'DD.MM.YYYY') as created_at_date, TO_CHAR(updated_at at time zone 'utc' at time zone '#{@settings["time_zone"]}', 'DD.MM.YYYY') as updated_at_date")
     end
 
     it "is expect to render db_timestamps columns with format date" do
-        expect(LC::Date2.new.date.db_timestamps).to eql("TO_CHAR(created_at at time zone 'utc' at time zone '#{@settings["time_zone"]}', 'DD.MM.YYYY') as created_at_date, TO_CHAR(updated_at at time zone 'utc' at time zone 'America/Guatemala', 'DD.MM.YYYY') as updated_at_date")
+        expect(LC::Date2.new.date.db_timestamps).to eql("TO_CHAR(created_at at time zone 'utc' at time zone '#{@settings["time_zone"]}', 'DD.MM.YYYY') as created_at_date, TO_CHAR(updated_at at time zone 'utc' at time zone '#{@settings["time_zone"]}', 'DD.MM.YYYY') as updated_at_date")
     end
 
     it "is expect to render db_timestamps columns with format date_time" do
-        expect(LC::Date2.new.date_time.db_timestamps).to eql("TO_CHAR(created_at at time zone 'utc' at time zone '#{@settings["time_zone"]}', 'DD.MM.YYYY HH24:MI') as created_at_date, TO_CHAR(updated_at at time zone 'utc' at time zone 'America/Guatemala', 'DD.MM.YYYY HH24:MI') as updated_at_date")
+        expect(LC::Date2.new.date_time.db_timestamps).to eql("TO_CHAR(created_at at time zone 'utc' at time zone '#{@settings["time_zone"]}', 'DD.MM.YYYY HH24:MI') as created_at_date, TO_CHAR(updated_at at time zone 'utc' at time zone '#{@settings["time_zone"]}', 'DD.MM.YYYY HH24:MI') as updated_at_date")
     end
 =begin
     it "is expect to render current_time as string" do
