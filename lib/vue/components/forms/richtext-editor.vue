@@ -144,6 +144,7 @@ export default {
             // that's why we guard against calling pasteHTML
             // calling that function while we are typing is undesirable
             this.$emit('input', this.editorContent)
+            this.$emit('html', this.editorInstance.root.innerHTML)
 
         },
         setEditorContent () {
