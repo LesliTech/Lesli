@@ -11,8 +11,9 @@ end
 
 RSpec.describe AccessCode, type: :model do
     describe '#create' do
+        response = TokenAuthenticationService.create_otp_secret
         subject {
-                described_class.new(otp_secret: TokenAuthenticationService.create_otp_secret,
+                described_class.new(otp_secret: response.payload[:otp_secret],
                                     user: user_factory())
         }
         it 'is valid with valid attributes' do
