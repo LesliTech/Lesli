@@ -263,7 +263,7 @@ module.exports = env => {
             webpackEngine.output.filename = `./engines/${engine}/app/assets/javascripts/${javascripts_engine_folder}/[name].js`
 
             // Configuration object for every engine
-            //webpackConfig.push(webpackEngine)
+            webpackConfig.push(webpackEngine)
 
         }
 
