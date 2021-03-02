@@ -22,22 +22,38 @@ require "spec_helper"
 require "byebug"
 
 
-
 =begin
 
+# Date formats
 LC::Date2.new.date
 LC::Date2.new.time
 LC::Date2.new.date_time
 LC::Date2.new.date_words
+LC::Date2.new.date_time_words
 
+# Date parse
 LC::Date2.new.date                                      => Tue, 23 Feb 2021 18:20:32.140146000 CST -06:00 (current time)
 LC::Date2.new(Time.current).date                        => Tue, 23 Feb 2021 18:20:32.140146000 CST -06:00
 LC::Date2.new(string in ISO 8601).date                  => Tue, 23 Feb 2021 18:20:32.140146000 CST -06:00
-LC::Date2.new("2021/02/23", "YYYY/MM/DD").date.to_s     => "2021/02/23"
+LC::Date2.new("2021/02/23", "YYYY/MM/DD").date          => "2021/02/23"
 
+# Date getters & setters
+LC::Date2.new.date.get_month
+
+# Date manipulate
+LC::Date2.new.date.start_of_day
+LC::Date2.new.date.start_of_week
+LC::Date2.new.date.start_of_month
+LC::Date2.new.date.end_of_day
+LC::Date2.new.date.end_of_week
+LC::Date2.new.date.end_of_month
+
+# Date display
+LC::Date2.new.date.from(Date.new)
+LC::Date2.new.date.to(Date.new)
+
+# Date helpers for database
 LC::Date2.new.date.db_timestamps
-LC::Date2.new.time.db_timestamps
-LC::Date2.new.date_time.db_timestamps
 
 =end
 
