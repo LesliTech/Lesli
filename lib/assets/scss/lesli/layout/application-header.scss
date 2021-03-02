@@ -38,6 +38,9 @@ header.application-header {
         display: flex;
         align-items: center;
         height: var(--application-header-height);
+        .dropdown-menu .dropdown-content {
+            width: 100%;
+        }
     }
 
     .header-left {
