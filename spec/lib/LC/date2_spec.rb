@@ -22,22 +22,38 @@ require "spec_helper"
 require "byebug"
 
 
-
 =begin
 
+# Date formats
 LC::Date2.new.date
 LC::Date2.new.time
 LC::Date2.new.date_time
 LC::Date2.new.date_words
+LC::Date2.new.date_time_words
 
+# Date parse
 LC::Date2.new.date                                      => Tue, 23 Feb 2021 18:20:32.140146000 CST -06:00 (current time)
 LC::Date2.new(Time.current).date                        => Tue, 23 Feb 2021 18:20:32.140146000 CST -06:00
 LC::Date2.new(string in ISO 8601).date                  => Tue, 23 Feb 2021 18:20:32.140146000 CST -06:00
-LC::Date2.new("2021/02/23", "YYYY/MM/DD").date.to_s     => "2021/02/23"
+LC::Date2.new("2021/02/23", "YYYY/MM/DD").date          => "2021/02/23"
 
+# Date getters & setters
+LC::Date2.new.date.get_month
+
+# Date manipulate
+LC::Date2.new.date.start_of_day
+LC::Date2.new.date.start_of_week
+LC::Date2.new.date.start_of_month
+LC::Date2.new.date.end_of_day
+LC::Date2.new.date.end_of_week
+LC::Date2.new.date.end_of_month
+
+# Date display
+LC::Date2.new.date.from(Date.new)
+LC::Date2.new.date.to(Date.new)
+
+# Date helpers for database
 LC::Date2.new.date.db_timestamps
-LC::Date2.new.time.db_timestamps
-LC::Date2.new.date_time.db_timestamps
 
 =end
 
@@ -48,15 +64,15 @@ RSpec.describe LC::Date2, type: :model do
     end
 
     it "is expect to render db_timestamps columns" do
-        expect(LC::Date2.new.db_timestamps).to eql("TO_CHAR(created_at at time zone 'utc' at time zone '#{@settings["time_zone"]}', 'DD.MM.YYYY') as created_at_date, TO_CHAR(updated_at at time zone 'utc' at time zone 'America/Guatemala', 'DD.MM.YYYY') as updated_at_date")
+        expect(LC::Date2.new.db_timestamps).to eql("TO_CHAR(created_at at time zone 'utc' at time zone '#{@settings["time_zone"]}', 'DD.MM.YYYY') as created_at_date, TO_CHAR(updated_at at time zone 'utc' at time zone '#{@settings["time_zone"]}', 'DD.MM.YYYY') as updated_at_date")
     end
 
     it "is expect to render db_timestamps columns with format date" do
-        expect(LC::Date2.new.date.db_timestamps).to eql("TO_CHAR(created_at at time zone 'utc' at time zone '#{@settings["time_zone"]}', 'DD.MM.YYYY') as created_at_date, TO_CHAR(updated_at at time zone 'utc' at time zone 'America/Guatemala', 'DD.MM.YYYY') as updated_at_date")
+        expect(LC::Date2.new.date.db_timestamps).to eql("TO_CHAR(created_at at time zone 'utc' at time zone '#{@settings["time_zone"]}', 'DD.MM.YYYY') as created_at_date, TO_CHAR(updated_at at time zone 'utc' at time zone '#{@settings["time_zone"]}', 'DD.MM.YYYY') as updated_at_date")
     end
 
     it "is expect to render db_timestamps columns with format date_time" do
-        expect(LC::Date2.new.date_time.db_timestamps).to eql("TO_CHAR(created_at at time zone 'utc' at time zone '#{@settings["time_zone"]}', 'DD.MM.YYYY HH24:MI') as created_at_date, TO_CHAR(updated_at at time zone 'utc' at time zone 'America/Guatemala', 'DD.MM.YYYY HH24:MI') as updated_at_date")
+        expect(LC::Date2.new.date_time.db_timestamps).to eql("TO_CHAR(created_at at time zone 'utc' at time zone '#{@settings["time_zone"]}', 'DD.MM.YYYY HH24:MI') as created_at_date, TO_CHAR(updated_at at time zone 'utc' at time zone '#{@settings["time_zone"]}', 'DD.MM.YYYY HH24:MI') as updated_at_date")
     end
 =begin
     it "is expect to render current_time as string" do

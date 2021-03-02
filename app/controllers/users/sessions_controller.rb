@@ -134,6 +134,11 @@ class Users::SessionsController < Devise::SessionsController
         # register a successful logout log for the current user
         current_user.logs.create({ session_uuid: session[:session_uuid], description: "logout" })
 
+        # expire session
+        if session.has_key?(:user_session_id)
+            current_user.sessions.update(session.fetch(:user_session_id), { expiration_at: LC::Date.now })
+        end
+
         # do a user logout
         sign_out current_user
 
