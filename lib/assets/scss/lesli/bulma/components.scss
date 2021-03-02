@@ -41,9 +41,9 @@ For more information read the license file including with this software.
 
 
 // · quickview
-body #lesli-cloud-application .quickview,
-body #lesli-cloud-application .application-component .quickview {
-    z-index: 101;
+body #lesli-application .quickview,
+body #lesli-application .application-component .quickview {
+    z-index: 75;
 }
 
 
