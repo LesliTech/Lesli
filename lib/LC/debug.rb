@@ -90,7 +90,10 @@ module LC
             separator_blank
         end
 
-
+        def self.simple_msg message
+            puts message
+        end
+        
         private
 
 

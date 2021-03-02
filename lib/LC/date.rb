@@ -15,7 +15,7 @@ For more information read the license file including with this software.
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
 // · 
 
-=end
+=end 
 
 # DEPRECATED: DO NOT implement new methods in this library.
 # Please check the docs for reference.
