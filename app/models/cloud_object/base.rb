@@ -51,6 +51,16 @@ module CloudObject
             return "#{self.class.name} - #{id}"
         end
 
+        # @return [void]
+        # @param original_cloud_object [CloudObject::Base] The original cloud object to be copied
+        # @description Clones the information of the original cloud_object into the new one
+        # @example
+        #       project = CloudHouse::Project.find(1)
+        #       new_project = CloudHouse::Project.create!()
+        #       new_project.clone_associations(project)
+        def clone_associations(original_cloud_object)
+        end
+
         #######################################################################################
         ##############################  Activities Log Methods   ##############################
         #######################################################################################
