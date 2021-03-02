@@ -33,26 +33,27 @@ class TokenAuthenticationService
     end
     
     def self.create_otp_secret
-        ROTP::Base32.random_base32
+        otp_secret = ROTP::Base32.random_base32
+        LC::Response.service(true, {otp_secret: otp_secret})
     end
 
     def create_token
         unless @resource && @resource.otp_secret
-            return nil
+            return LC::Response.service(false, {token: nil})
         end
         totp = ROTP::TOTP.new(@resource.otp_secret)
-        totp.now
+        LC::Response.service(true, {token: totp.now})
     end
 
     def is_token_valid?(token)
-        raise StandardError.new "User is not configured to use access code" if @resource.nil?
+        return LC::Response.service(false, {details: "User is not configured to use access code"}) if @resource.nil?
         totp = ROTP::TOTP.new(@resource.otp_secret)
         last_otp_at = totp.verify(otp=token, after:@resource.last_otp_at)
 
         unless last_otp_at
-            return false
+            return LC::Response.service(false, {details: "The token has already been used"})
         end
         @resource.update(last_otp_at: last_otp_at)
-        return true
+        LC::Response.service(true, {is_valid?: true})
     end
 end
