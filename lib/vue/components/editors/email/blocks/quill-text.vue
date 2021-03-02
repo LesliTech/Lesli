@@ -18,43 +18,58 @@ For more information read the license file including with this software.
 
 */
 
+import componentEditorRichText from "LesliVue/components/editors/richtext.vue"
+
 export default {
-    title: "Button",
-    code: "foundation-button",
+    title: "Text",
+    code: "quill-text",
+    components: {
+        "component-editor-richtext": componentEditorRichText
+    },
     props: {
         value: {
-            type: String,
-            default: "Button"
+            type: Object,
+            default: function() {
+                return {}
+            }
         }
+    },
+    data() {
+        return { 
+            text: {}
+        }
+    },
+    mounted() {
+        this.text = this.value
     },
     methods:{
         emitValue(e) {
             this.$emit('input', e.target.innerText)
+        }
+    },
+    watch: {
+        value(val) {
+            if (val !== this.text) {
+                this.text = val
+            }
+        },
+        text(val) {
+            this.$emit('input', val)
         }
     }
 }
 </script>
 <template>
     <table class="button">
-        <tbody>
-            <tr>
-                <td>
-                    <table>
-                        <tbody>
-                            <tr>
-                                <td>
-                                    <a 
-                                        href="#" 
-                                        @blur="emitValue" 
-                                        contenteditable="true">
-                                        {{ value }}
-                                    </a>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </td>
-            </tr>
-        </tbody>
+        <table>
+            <tbody>
+                <tr>
+                    <th>
+                        <component-editor-richtext @blur="emitValue" v-model="text">
+                        </component-editor-richtext>
+                    </th>
+                </tr>
+            </tbody>
+        </table>
     </table>
 </template>
