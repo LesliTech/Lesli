@@ -30,14 +30,21 @@ export default {
                 return {}
             }
 
+        },
+        type: {
+            type: String,
+            default: 'simple',
+            required: false,
+            validator: (val) => ['simple', 'full', 'read'].includes(val),
         }
     },
     data () {
         return {
             editorContent: null,
             editorInstance: null,
-            editorOpts: {
+            fullEditorOpts: {
                 theme: 'snow',
+                readOnly: false,
                 placeholder: I18n.t('core.shared.view_placeholder_text_editor'),
                 toolbar2: [
                         [{ 'header': [1, 2, 3, 4, 5, 6, false] }],
@@ -67,6 +74,41 @@ export default {
                         ['clean']                                         // remove formatting button
                     ]
                 },
+            },
+            simpleEditorOpts: {
+                theme: 'snow',
+                readOnly: false,
+                placeholder: I18n.t('core.shared.view_placeholder_text_editor'),
+                toolbar2: [
+                        [{ 'header': [1, 2, 3, 4, 5, 6, false] }],
+                        [{ 'font': [] }],
+                        ['bold', 'italic', 'underline', 'strike'],
+                        ['blockquote', 'code-block'],
+                        [{ 'list': 'ordered' }, { 'list': 'bullet' }, { 'align': [] }],
+                        [{ 'color': [] }, { 'background': [] }],
+                        ['clean'],
+                        ['link', 'image', 'video'],
+                        [{ 'direction': 'rtl' }]
+                    ],
+                modules: {
+                    toolbar: [
+                        ['bold', 'italic', 'underline', 'strike'],        // toggled buttons
+                        ['blockquote'],
+                        ['link'],
+                        [{ 'list': 'ordered'}, { 'list': 'bullet' }],
+                        [{ 'color': [] }, { 'background': [] }],          // dropdown with defaults from theme
+                        [{ 'align': [] }],
+                        ['clean']                                         // remove formatting button
+                    ]
+                },
+            },
+            readEditorOpts: {
+                theme: 'bubble',
+                readOnly: true,
+                toolbar2: [],
+                modules: {
+                    toolbar: []
+                },
             }
         }
     },
@@ -76,9 +118,11 @@ export default {
     methods: {
 
         initializeEditor () {
-            
+            let option_key = `${this.type}EditorOpts`;
+            let editorOpts = this[option_key]
+
             // Create the Quill instance
-            this.editorInstance = new Quill(this.$refs.editorNode, this.editorOpts)
+            this.editorInstance = new Quill(this.$refs.editorNode, editorOpts)
 
             // Set initial content that's going to be picked up by Quill
             this.editorInstance.setContents(this.value)
