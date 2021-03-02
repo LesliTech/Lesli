@@ -26,23 +26,6 @@ For more information read the license file including with this software.
 
     .email-component-list {
 
-        .email-component-selector {
-            margin-bottom: .4rem;
-        }
-
-        .list-group .list-group-item {
-            padding: .6rem;
-            margin-bottom: .6rem;
-            box-shadow: 0 0 3px rgba(0, 0, 0, 0.1); 
-            border: 1px solid darken(lesli-css-get-color(silver, 100), 4);
-            background-color: lesli-css-get-color(solid, white);
-
-            &:hover {
-                cursor: grab;
-            }
-
-        }
-
     }
 
     .email-preview {
@@ -51,12 +34,6 @@ For more information read the license file including with this software.
         &::before,
         &::after {
             all: revert;
-        }
-
-        *,
-        *::before,
-        *::after {
-            //all: revert;
         }
 
         .button,
@@ -70,8 +47,11 @@ For more information read the license file including with this software.
 
     section.email-preview {
         padding: 1rem;
-        box-shadow: 0 0 4px rgba(0, 0, 0, 0.2); 
-        background-color: lesli-css-get-color(solid, white);
+        border: 3px dotted silver;
+
+        .block-component {
+            border: 1px dotted silver;
+        }
 
         span.icon {
             width: 25px;
