@@ -58,7 +58,7 @@ module CloudObject
         #       project = CloudHouse::Project.find(1)
         #       new_project = CloudHouse::Project.create!()
         #       new_project.clone_associations(project)
-        def clone_associations(origina_cloud_object)
+        def clone_associations(original_cloud_object)
         end
 
         #######################################################################################
