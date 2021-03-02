@@ -171,6 +171,7 @@ module.exports = env => {
                 lesli_app_mode_production: JSON.stringify(production),
                 lesli_app_mode_development: JSON.stringify(!production),
                 lesli_app_compilation: JSON.stringify(get_compilation_time()),
+                lesli_app_instance: {},
                 lesli_app_company: {},
             })
         ]
@@ -201,6 +202,10 @@ module.exports = env => {
         // update company name in global variable
         if (engine_info.info.type && engine_info.info.type == "builder") {
             webpackConfig[0].plugins[1].definitions.lesli_app_company = JSON.stringify(engine_info.account.company)
+            webpackConfig[0].plugins[1].definitions.lesli_app_instance = JSON.stringify({
+                name: engine_info.info.name,
+                code: engine_info.info.code
+            })
         }
 
         if (engine_info.info.load == false) {
@@ -258,7 +263,7 @@ module.exports = env => {
             webpackEngine.output.filename = `./engines/${engine}/app/assets/javascripts/${javascripts_engine_folder}/[name].js`
 
             // Configuration object for every engine
-            webpackConfig.push(webpackEngine)
+            //webpackConfig.push(webpackEngine)
 
         }
 
