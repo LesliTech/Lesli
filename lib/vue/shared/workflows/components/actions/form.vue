@@ -44,6 +44,7 @@ export default {
             },
             main_route: '',
             action: {
+                active: true,
                 initial_status_id: null,
                 final_status_id: null,
                 name: '',
@@ -282,7 +283,7 @@ export default {
                 </div>
             </div>
             <div class="columns">
-                <div class="column is-6">
+                <div class="column is-5">
                     <div class="field">
                         <label class="label">{{translations.actions.column_initial_status_id}}</label>
                         <b-select expanded v-model="action.initial_status_id">
@@ -300,7 +301,7 @@ export default {
                         </b-select>
                     </div>
                 </div>
-                <div class="column is-6">
+                <div class="column is-5">
                     <div class="field">
                         <label class="label">{{translations.actions.column_final_status_id}}<sup class="has-text-danger">*</sup></label>
                         <b-select :placeholder="translations.core.view_placeholder_select_option" expanded v-model="action.final_status_id" required>
@@ -315,6 +316,15 @@ export default {
                                     object_utils.translateEnum(translations.statuses, 'status', status.name)
                                 }}</small>
                             </option>
+                        </b-select>
+                    </div>
+                </div>
+                <div class="column is-2">
+                    <div class="field">
+                        <label class="label">{{translations.actions.column_active}}</label>
+                        <b-select expanded v-model="action.active">
+                            <option :value="true">{{translations.core.view_text_yes}}</option>
+                            <option :value="false">{{translations.core.view_text_no}}</option>
                         </b-select>
                     </div>
                 </div>
