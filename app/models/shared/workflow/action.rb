@@ -93,7 +93,7 @@ module Shared
 
             if final_status_id && final_status_id != initial_status_id
                 
-                workflow_actions = cloud_object.status.workflow_including_deleted.actions.where("
+                workflow_actions = cloud_object.status.workflow_including_deleted.actions.where(active: true).where("
                     (final_status_id = ? and initial_status_id = ?) or
                     (final_status_id = ? and initial_status_id is ?)
                 ", final_status_id, initial_status_id, final_status_id, nil)
