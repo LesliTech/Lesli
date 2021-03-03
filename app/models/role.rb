@@ -55,8 +55,11 @@ class Role < ApplicationRecord
         .order(object_level_permission: :desc, name: :asc)
         .select(:id, :name, :active, :only_my_data, :default_path, :object_level_permission, "users.user_count")
 
-        roles = roles.where("roles.object_level_permission < ?", query[:filters][:object_level_permission]) unless query[:filters][:object_level_permission].blank?
-       
+        unless query[:filters].blank?
+            roles = roles.where("lower(roles.name) like ?", "%#{query[:filters][:text].downcase}%") unless query[:filters][:text].blank?
+            roles = roles.where("roles.object_level_permission < ?", query[:filters][:object_level_permission]) unless query[:filters][:object_level_permission].blank?
+        end
+
         roles = roles
             .page(query[:pagination][:page])
             .per(query[:pagination][:perPage])
