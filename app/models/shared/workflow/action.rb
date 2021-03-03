@@ -41,14 +41,15 @@ module Shared
             full_module_name = dynamic_info_[:full_module_name].underscore
 
             workflow.actions.joins(
-                "left join #{full_module_name}_workflow_statuses CHWSI on CHWSI.id = #{full_module_name}_workflow_actions.initial_status_id"
+                "left join #{full_module_name}_workflow_statuses WSI on WSI.id = #{full_module_name}_workflow_actions.initial_status_id"
             ).joins(
-                "inner join #{full_module_name}_workflow_statuses CHWSF on CHWSF.id = #{full_module_name}_workflow_actions.final_status_id"
+                "inner join #{full_module_name}_workflow_statuses WSF on WSF.id = #{full_module_name}_workflow_actions.final_status_id"
             ).select(
                 "#{full_module_name}_workflow_actions.id",
                 "#{full_module_name}_workflow_actions.name",
-                "CHWSI.name as initial_status_name",
-                "CHWSF.name as final_status_name",
+                "WSI.name as initial_status_name",
+                "WSF.name as final_status_name",
+                "#{full_module_name}_workflow_actions.active",
                 "#{full_module_name}_workflow_actions.action_type"
             ).order(id: :desc)
         end
