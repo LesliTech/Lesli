@@ -18,7 +18,7 @@ For more information read the license file including with this software.
 require 'rotp'
 
 
-class AccessCode < ApplicationLesliRecord
+class User::AccessCode < ApplicationLesliRecord
     belongs_to :user, class_name: "::User", foreign_key: "users_id"
 
     validates :otp_secret, :presence => true

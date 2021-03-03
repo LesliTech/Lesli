@@ -12,7 +12,7 @@ end
 def user_with_access_code
     user = user_factory()
     response = TokenAuthenticationService.create_otp_secret
-    access_code = AccessCode.new(otp_secret: response.payload[:otp_secret],
+    access_code = User::AccessCode.new(otp_secret: response.payload[:otp_secret],
                    user: user)
     access_code.save
     return user

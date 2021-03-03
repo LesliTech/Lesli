@@ -1,6 +1,6 @@
-class CreateAccessCodes < ActiveRecord::Migration[6.1]
+class CreateUserAccessCodes < ActiveRecord::Migration[6.1]
     def change
-        create_table :access_codes do |t|
+        create_table :user_access_codes do |t|
             t.string :otp_secret
             t.integer :last_otp_at
 
@@ -8,6 +8,6 @@ class CreateAccessCodes < ActiveRecord::Migration[6.1]
 
             t.timestamps
         end
-        add_reference :access_codes, :users, foreign_key: true
+        add_reference :user_access_codes, :users, foreign_key: true
     end
 end
