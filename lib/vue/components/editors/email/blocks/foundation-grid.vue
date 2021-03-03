@@ -1,11 +1,30 @@
 <script>
+/*
+
+Copyright (c) 2021, all rights reserved.
+
+All the information provided by this platform is protected by international laws related  to 
+industrial property, intellectual property, copyright and relative international laws. 
+All intellectual or industrial property rights of the code, texts, trade mark, design, 
+pictures and any other information belongs to the owner of this platform.
+
+Without the written permission of the owner, any replication, modification,
+transmission, publication is strictly forbidden.
+
+For more information read the license file including with this software.
+
+// · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
+// · 
+
+*/
+
 export default {
-    name: "Grid",
+    title: "Grid",
     code: "foundation-grid",
     props: {
         value: {
             type: String,
-            default: ""
+            default: "Grid"
         }
     },
     methods:{
@@ -16,14 +35,14 @@ export default {
 }
 </script>
 <template>
-    <table class="row">
-        <tbody draggable="true">
-            <tr draggable="true">
-                <th class="small-12 large-4 columns first" draggable="true">
-                    <table draggable="true">
-                        <tbody draggable="true">
-                            <tr draggable="true">
-                                <th contenteditable="true" draggable="true">One</th>
+    <table class="row block-component">
+        <tbody>
+            <tr>
+                <th class="small-12 large-4 columns first">
+                    <table>
+                        <tbody>
+                            <tr>
+                                <th contenteditable="true">One</th>
                             </tr>
                         </tbody>
                     </table>

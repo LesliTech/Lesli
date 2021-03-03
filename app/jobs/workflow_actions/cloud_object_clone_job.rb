@@ -80,6 +80,7 @@ class WorkflowActions::CloudObjectCloneJob < ApplicationJob
             new_cloud_object.set_workflow
 
             new_cloud_object.save
+            new_cloud_object.clone_associations(cloud_object)
             new_cloud_object.activities.create!(
                 category: "action_create",
                 user_creator: current_user

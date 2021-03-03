@@ -82,10 +82,15 @@ class ApplicationLesliController < ApplicationController
 
 
         # add company information (account)
+        account = current_user.account
         @account[:company] = {
-            id: current_user.account.id,
-            name: current_user.account.company_name,
-            tag_line: current_user.account.company_tag_line,
+            id: account.id,
+            name: account.company_name,
+            tag_line: account.company_tag_line,
+            address: account.address,
+            phone_number_1: account.phone_number_1,
+            website: account.website,
+            public_email: account.public_email,
             logo_id: logo_id,
             logo: logo,
         }
