@@ -71,6 +71,7 @@ class User < ApplicationLesliRecord
     #     designed to be invoked directly
     def initialize_user
         User::Detail.find_or_create_by({ user: self })
+        User::AccessCode.initialize_secret_code(self)
     end
 
 
