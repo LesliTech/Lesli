@@ -9,7 +9,7 @@ def user_factory
     return user
 end
 
-RSpec.describe AccessCode, type: :model do
+RSpec.describe User::AccessCode, type: :model do
     describe '#create' do
         response = TokenAuthenticationService.create_otp_secret
         subject {

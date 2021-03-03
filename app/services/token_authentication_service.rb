@@ -29,7 +29,7 @@ class TokenAuthenticationService
     # @param [Object] resource
     def initialize(user)
         @user = user
-        @resource = AccessCode.where(users_id: user.id).first
+        @resource = User::AccessCode.where(users_id: user.id).first
     end
     
     def self.create_otp_secret
