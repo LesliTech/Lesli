@@ -77,7 +77,7 @@ export default {
 
         resetForm(){
             this.ticket.subject = ''
-            this.ticket.description = ''
+            this.ticket.description = null
         },
 
         getTicketOptions() {

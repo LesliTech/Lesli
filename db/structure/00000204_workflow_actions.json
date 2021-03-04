@@ -2,9 +2,13 @@
     "name": "name",
     "type": "string"
 },{
+    "name": "active",
+    "type": "boolean",
+    "default": false
+},{
     "name": "initial_status_id",
     "type": "bigint"
-}, {
+},{
     "name": "final_status_id",
     "type": "bigint"
 },{
