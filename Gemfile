@@ -118,6 +118,9 @@ gem "ruby_cowsay"
 # faster json parser library
 gem 'fast_jsonparser'
 
+# One time passwords (HOTP AND TOTP)
+gem 'rotp', '~> 6.2'
+
 group :development, :test do
 
     gem "faker"
@@ -127,6 +130,7 @@ group :development, :test do
 
     # Using beta version of rspect-rails due: https://github.com/rails/rails/issues/35417
     gem "rspec-rails", "~> 4.0.0.beta2"
+    gem 'rspec-mocks', '~> 3.10'
 
     # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
     gem "tzinfo-data" if Gem.win_platform?
