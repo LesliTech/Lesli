@@ -13,37 +13,39 @@ namespace :app do
             routes = LC::System::Routes.scan
 
             account.roles.each do |role|
-                routes.each do |route|
-                    default_value = false
-                    default_value = true if role.name == "owner"
-                    default_value = true if role.name == "admin"
+                fork do 
+                    routes.each do |route|
+                        default_value = false
+                        default_value = true if role.name == "owner"
+                        default_value = true if role.name == "admin"
 
-                    attributes = {
-                        grant_list: default_value,
-                        grant_index: default_value, 
-                        grant_edit: default_value, 
-                        grant_show: default_value, 
-                        grant_new: default_value, 
-                        grant_create: default_value, 
-                        grant_update: default_value, 
-                        grant_destroy: default_value, 
-                        grant_search: default_value,
-                        grant_resources: default_value,
-                        grant_options: default_value 
-                    }
+                        attributes = {
+                            grant_list: default_value,
+                            grant_index: default_value, 
+                            grant_edit: default_value, 
+                            grant_show: default_value, 
+                            grant_new: default_value, 
+                            grant_create: default_value, 
+                            grant_update: default_value, 
+                            grant_destroy: default_value, 
+                            grant_search: default_value,
+                            grant_resources: default_value,
+                            grant_options: default_value 
+                        }
 
-                    privilege = role.privileges.find_or_initialize_by(grant_object: route[:controller_path])
+                        privilege = role.privileges.find_or_initialize_by(grant_object: route[:controller_path])
 
-                    if privilege.new_record?
-                        privilege.attributes = attributes
+                        if privilege.new_record?
+                            privilege.attributes = attributes
 
-                        if (privilege.save!)
-                            new_attributes = privilege.attributes
+                            if (privilege.save!)
+                                new_attributes = privilege.attributes
 
-                            Role.log_activity_create_role_privilege(system_user, role, new_attributes)
+                                Role.log_activity_create_role_privilege(system_user, role, new_attributes)
+                            end
+                            
+                            puts "role privilege created for controller: #{route[:controller_path]}"
                         end
-                        
-                        puts "role privilege created for controller: #{route[:controller_path]}"
                     end
                 end
             end
