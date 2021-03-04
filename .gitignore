@@ -59,3 +59,5 @@ package-lock.json
 # Editor settings:
 # Covers JetBrains IDEs: RubyMine
 .idea/
+
+/config/credentials/development.key
