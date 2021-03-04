@@ -20,7 +20,6 @@ For more information read the license file including with this software.
 
 
 // · Including plugins and dependencies
-// · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
 var fs = require("fs")
 var path = require("path")  
 var yaml = require("js-yaml")
@@ -34,6 +33,11 @@ var webpackConfig = []
 
 // · 
 module.exports = env => {
+
+    env = {
+        mode: 'production',
+        watch: false
+    }
 
     // set mode
     env.mode = env.mode ? env.mode : "development"
@@ -136,14 +140,6 @@ module.exports = env => {
                     "css-loader",   // translates CSS into CommonJS
                     {
                         loader: "sass-loader", // compiles Sass to CSS, using Node Sass by default
-                        /*
-                        options: {
-                            data: "@import "component.scss";",
-                            includePaths: [
-                                path.resolve(__dirname, "LesliCloud/scss/")
-                            ]
-                        }
-                        */
                     }
                 ]
             }, {
@@ -263,7 +259,7 @@ module.exports = env => {
             webpackEngine.output.filename = `./engines/${engine}/app/assets/javascripts/${javascripts_engine_folder}/[name].js`
 
             // Configuration object for every engine
-            //webpackConfig.push(webpackEngine)
+            webpackConfig.push(webpackEngine)
 
         }
 
@@ -278,7 +274,6 @@ module.exports = env => {
     }
 
     // · Update compilation version for frontend and backend
-    // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
     function update_software_version(engine, env) {
 
         // do not change if development
@@ -297,12 +292,8 @@ module.exports = env => {
 
             data = data.split("\n")
 
-            var date = new Date()
-
-            var build_date = `${date.getFullYear().toString().substr(2, 2)}.${date.getMonth()+1}.${date.getDate()}`
-            var build_time = date.getHours().toString().concat(".").concat(date.getMinutes().toString())
-
-            data[2] = `    BUILD = \"${build_date}-${build_time}\"`
+            data[2] = `    BUILD = \"${get_compilation_time()}\"`
+            data[3] = 'end'
 
             fs.writeFile(engine_version_file, data.join("\n"), "utf8", function (err) {
                 if (err) return console.log(err)
