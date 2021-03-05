@@ -60,12 +60,12 @@ export default {
 }
 </script>
 <template>
-    <table class="button">
+    <table class="email-block-quill-text">
         <table>
             <tbody>
                 <tr>
                     <th>
-                        <component-editor-richtext @blur="emitValue" v-model="text">
+                        <component-editor-richtext type="simple" @blur="emitValue" v-model="text">
                         </component-editor-richtext>
                     </th>
                 </tr>
@@ -73,3 +73,9 @@ export default {
         </table>
     </table>
 </template>
+<style lang="css" scoped>
+    .email-block-quill-text, 
+    .email-block-quill-text table {
+        width: 100%;
+    }
+</style>
