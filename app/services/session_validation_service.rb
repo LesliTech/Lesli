@@ -18,8 +18,13 @@ class SessionValidationService
     end
 
     def valid?
-        return respond_with_error(I18n.t("devise.errors.custom.confirmation_required")) unless self.confirmed?
-        return true
+        return LC::Response.service(false, {"message"=>I18n.t("devise.errors.custom.confirmation_required")}) unless self.confirmed?
+
+        return LC::Response.service(false, {"message"=>I18n.t("core.users/sessions.the_user_has_no_assigned_role")}) if self.roles_empty?
+
+        return LC::Response.service(false, {"message"=>I18n.t("deutscheleibrenten.users/sessions.role_access_denied")}) unless self.active_roles?
+
+        LC::Response.service(true)
     end
 
     private
@@ -31,6 +36,32 @@ class SessionValidationService
             @resource.logs.create({
                                          title: "session_creation_failed",
                                          description: "email_not_confirmed"
+                                 })
+            return false
+        end
+        return true
+    end
+
+    def roles_empty?
+        # check if user has roles assigned
+        if @resource.roles.empty?
+            @resource.logs.create({
+                                         title: "session_creation_failed",
+                                         description: "user_has_no_assigned_role"
+                                 })
+            return true
+        end
+
+        return false
+    end
+
+    def active_roles?
+        # check user has at least one active role before authorize the sign-in request
+        @resource.roles.select(:active).each do |role|
+            break if role[:active]
+            @resource.logs.create({
+                                         title: "session_creation_failed",
+                                         description: "user_has_no_active_role"
                                  })
             return false
         end
