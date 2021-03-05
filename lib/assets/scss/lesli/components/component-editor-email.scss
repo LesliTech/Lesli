@@ -46,7 +46,9 @@ For more information read the license file including with this software.
     }
 
     section.email-preview {
+        margin: .6rem 0;
         padding: 1rem;
+        min-height: 50%;
         border: 3px dotted silver;
 
         .block-component {

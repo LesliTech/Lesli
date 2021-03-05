@@ -61,10 +61,22 @@ class ApplicationLesliMailer < ActionMailer::Base
 
     protected
 
-
     def build_data_from_params(params)
+    end
+
+    def build_email_data_from_params(params, data={})
+
+        # make custom data available in mailer method and mailer template
+        @data.merge(data)
+
+
+
+    end
+
+    
+    def build_app_from_params(params)
+
         return {} if params[:user].blank?
-        
 
         custom_logo = params[:user].account.files.where(name: "company_logo").last
         logo = "/images/brand/lesli-name.svg"
@@ -76,6 +88,7 @@ class ApplicationLesliMailer < ActionMailer::Base
             tag_line: params[:user].account.company_tag_line,
             logo: logo
         }
+
     end
 
 
