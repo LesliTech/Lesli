@@ -49,12 +49,12 @@ Rails.application.config.assets.precompile += [ "users.css", "users/*.css", "use
 Rails.application.config.assets.precompile += [ "onboardings.css", "onboardings/*.css", "onboardings/*.js" ]
 
 
-=begin
+
 
 # Lesli core assets
 
 
-#Rails.application.config.assets.precompile += [ "users.css", "users/*.js" ]
+Rails.application.config.assets.precompile += [ "users.css", "users/*.js" ]
 Rails.application.config.assets.precompile += [ "abouts.css", "abouts/*.js" ]
 
 Rails.application.config.assets.precompile += [ "errors/*.css", "errors/*.js" ]
@@ -64,7 +64,7 @@ Rails.application.config.assets.precompile += [ "websites*.css", "websites/*.js"
 Rails.application.config.assets.precompile += [ "dashboards.css", "dashboards/app.js" ]
 Rails.application.config.assets.precompile += [ "settings.css", "settings/app.js" ]
 Rails.application.config.assets.precompile += [ "settings/*.css", "settings/*.js" ]
-=end
+
 
 
 Rails.application.config.assets.precompile += [ "i18n.js" ]
