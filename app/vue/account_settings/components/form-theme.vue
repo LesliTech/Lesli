@@ -1,5 +1,7 @@
+<script>
 /*
-Copyright (c) 2020, all rights reserved.
+
+Copyright (c) 2021, all rights reserved.
 
 All the information provided by this platform is protected by international laws related  to 
 industrial property, intellectual property, copyright and relative international laws. 
@@ -13,21 +15,22 @@ For more information read the license file including with this software.
 
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
 // · 
+
 */
+export default {
+    data() {
+        return {
 
+        }
+    },
+    methods: {
 
+    }
 
-// · Import main app
-import app from "LesliVue/app"
-import router from "LesliVue/functions/router.js"
+}
+</script>
+<template>
+    <div class="box">
 
-
-// · Import apps and components
-import pageList from "./pages/list.vue"
-
-
-// · 
-app("Lesli", "[new|list|show]", "/administration/account/settings", router.for_lesli([{
-    path: "/",
-    component: pageList,
-}]))
+    </div>
+</template>

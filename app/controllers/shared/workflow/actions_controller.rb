@@ -268,6 +268,7 @@ module Shared
 
             permitted_params = params.require("workflow_action".to_sym).permit(
                 :name,
+                :active,
                 :initial_status_id,
                 :final_status_id,
                 :action_type,
