@@ -1,17 +1,6 @@
 require 'rails_helper'
 
 
-def user_factory
-    user = Account.first.users.create!({
-                                               email: Faker::Internet.email,
-                                               password: "tardis2021$",
-                                               password_confirmation: "tardis2021$"
-                                       })
-    user.user_roles.create({ role: Account.first.roles.find_by(name: "limited") })
-    return user
-end
-
-
 def user_factory_without_roles
     user = Account.first.users.create!({
                                                email: Faker::Internet.email,
@@ -21,11 +10,15 @@ def user_factory_without_roles
     return user
 end
 
+
 RSpec.describe SessionValidationService, type: :model do
     describe 'Check if user is confirmed' do
         it 'is expected user is confirmed' do
-            user = user_factory()
+            user = user_factory_without_roles()
+            user_roles = user.user_roles.create({ role: Account.first.roles.find_by(name: "limited") })
+            user_roles.roles.update(active: true)
             user.confirm
+
             session_validation = SessionValidationService.new(user)
 
             response = session_validation.valid?
@@ -34,7 +27,10 @@ RSpec.describe SessionValidationService, type: :model do
         end
 
         it 'is expected to respond with an unconfirmed message' do
-            user = user_factory()
+            user = user_factory_without_roles()
+            user_roles = user.user_roles.create({ role: Account.first.roles.find_by(name: "limited") })
+            user_roles.roles.update(active: true)
+
             session_validation = SessionValidationService.new(user)
             response = session_validation.valid?
 
@@ -58,8 +54,10 @@ RSpec.describe SessionValidationService, type: :model do
         end
 
         it "is expected user is valid with roles'" do
-            user = user_factory()
+            user = user_factory_without_roles()
             user.confirm
+            user_roles = user.user_roles.create({ role: Account.first.roles.find_by(name: "limited") })
+            user_roles.roles.update(active: true)
 
             session_validation = SessionValidationService.new(user)
             response = session_validation.valid?
