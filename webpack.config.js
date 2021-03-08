@@ -33,12 +33,6 @@ var webpackConfig = []
 
 // · 
 module.exports = env => {
-
-    env = {
-        mode: 'production',
-        watch: false
-    }
-
     // set mode
     env.mode = env.mode ? env.mode : "development"
     env.watch = env.watch ? env.watch : false
