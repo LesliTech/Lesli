@@ -26,13 +26,17 @@ RSpec.describe 'GET:/administration/users.json', type: :request do
     include_context 'user authentication'
     
     before(:all) do
-        get '/administration/users.json' 
+        get '/administration/users.json', params: {
+                "perPage": 1000,
+        }
     end
 
     include_examples 'successful standard json response'
 
     it 'is expected to respond with all the users' do
-        expect(@response_body["data"]["users_count"]).to eql(@user.account.users.count)
+        expect_count = @user.account.users.joins(:detail, :user_roles).group("users.id, user_roles.users_id").map(&:id).uniq.count
+        expect(@response_body["data"]["users_count"]).to eql(expect_count)
+        expect(@response_body["data"]["users"].length).to eql(expect_count)
     end
 end
 
