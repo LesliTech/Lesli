@@ -60,7 +60,7 @@ class Users::PasswordsController < Devise::PasswordsController
         if not user.active
             user.logs.create({title: "password_creation_failed", description: "user_not_active"})
             Account::Activity.log("core", "/password/create", "password_creation_failed", "user_not_active") 
-            return respond_with_error("user is not active, please contact the administrator")
+            return respond_with_error(I18n.t("core.users/passwords.messages_danger_inactive_user"))
         end
 
         token = user.generate_password_reset_token
