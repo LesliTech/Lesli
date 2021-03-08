@@ -93,10 +93,18 @@ class ApplicationApiController < ActionController::API
             return respond_with_unauthorized "Not valid authorization token found"
         end
 
+        if @current_session.expiration_at && @current_session.expiration_at <= LC::Date.now
+            return respond_with_unauthorized "Authorization token already expired"
+        end
+
         @current_user = @current_session.user
 
         if @current_user.blank?
             return respond_with_unauthorized "Not valid authorization token found"
+        end
+
+        if @current_user.has_expired_password?
+            return respond_with_unauthorized "Password already expired"
         end
 
     end

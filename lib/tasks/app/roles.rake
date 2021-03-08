@@ -19,17 +19,17 @@ namespace :app do
                     default_value = true if role.name == "admin"
 
                     attributes = {
-                        grant_list: default_value,
-                        grant_index: default_value, 
-                        grant_edit: default_value, 
-                        grant_show: default_value, 
-                        grant_new: default_value, 
-                        grant_create: default_value, 
-                        grant_update: default_value, 
-                        grant_destroy: default_value, 
-                        grant_search: default_value,
-                        grant_resources: default_value,
-                        grant_options: default_value 
+                            grant_list: default_value,
+                            grant_index: default_value, 
+                            grant_edit: default_value, 
+                            grant_show: default_value, 
+                            grant_new: default_value, 
+                            grant_create: default_value, 
+                            grant_update: default_value, 
+                            grant_destroy: default_value, 
+                            grant_search: default_value,
+                            grant_resources: default_value,
+                            grant_options: default_value 
                     }
 
                     privilege = role.privileges.find_or_initialize_by(grant_object: route[:controller_path])
@@ -42,7 +42,6 @@ namespace :app do
 
                             Role.log_activity_create_role_privilege(system_user, role, new_attributes)
                         end
-                        
                         puts "role privilege created for controller: #{route[:controller_path]}"
                     end
                 end

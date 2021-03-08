@@ -27,7 +27,7 @@ ruby "2.7.2"
 # · Rails, gem, dependencies and tools
 
 # Rails framework
-gem "rails", "= 6.1.0"
+gem "rails", "= 6.1.3"
 
 # Rails translations
 gem "rails-i18n", "= 6.0.0"
@@ -48,7 +48,7 @@ gem "devise"
 gem "acts_as_paranoid"
 
 # Development web server
-gem "puma", "4.3.3"
+gem "puma", "4.3.7"
 
 # cron manager
 gem "whenever"
@@ -56,7 +56,7 @@ gem "whenever"
 gem "ancestry"
 
 # fontawesome icons
-gem "font-awesome-sass", "~> 5.12.0"
+gem "font-awesome-sass", "~> 5.15"
 
 # Collection of all country flags in SVG
 gem "flag-icons-rails"
