@@ -54,9 +54,8 @@ class User < ApplicationLesliRecord
     has_one :detail, inverse_of: :user, autosave: true, foreign_key: "users_id", dependent: :destroy 
     accepts_nested_attributes_for :detail, update_only: true
 
-
-    after_create :initialize_user
-
+    before_create :initialize_user
+    after_create :initialize_user_details
 
     # type of user
     #   system user
@@ -64,12 +63,17 @@ class User < ApplicationLesliRecord
     enum category: { user: "user", integration: "integration" }
 
 
+    # @return [void]
+    # @description Before creating a user we make sure there is no capitalized email
+    def initialize_user
+        self.email = (self.email||"").downcase
+    end
 
     # @return [void]
     # @description After creating a user, creates the necessary resources for them to access the different engines.
     #     At the current time, it only creates a default calendar. This is an *after_create* method, and is not
     #     designed to be invoked directly
-    def initialize_user
+    def initialize_user_details
         User::Detail.find_or_create_by({ user: self })
     end
 
