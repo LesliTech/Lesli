@@ -21,6 +21,11 @@ module Courier
     module Help
         class Ticket
 
+            def self.index(current_user, query)
+                return [] unless defined? CloudHelp
+                CloudHelp::Ticket.index(current_user, query)
+            end
+
             def self.with_deadline(current_user, query)
                 return [] unless defined? CloudHelp
                 CloudHelp::Ticket.tickets_with_deadline(current_user, query)
