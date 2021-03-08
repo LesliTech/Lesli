@@ -42,7 +42,7 @@ class UserMailer < ApplicationLesliMailer
             url: "/password/edit?reset_password_token="+token,
             user: {
                 full_name: user.full_name,
-                role: user.roles.first
+                roles: user.roles.map(&:name)
             }
         })
 
@@ -61,7 +61,7 @@ class UserMailer < ApplicationLesliMailer
             url: "/confirmation?k="+token,
             user: {
                 full_name: user.full_name,
-                role: user.roles.first
+                roles: user.roles.map(&:name)
             }
         })
 
