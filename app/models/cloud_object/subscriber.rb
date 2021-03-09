@@ -80,24 +80,24 @@ For more information read the license file including with this software.
     CloudHelp::Ticket::Subscriber.add_subscriber( second_ticket, current_user, :http_post, :email )
 =end
         def self.add_subscriber(cloud_object, user, action=nil, notification_type= :web)
-            model = dynamic_info[:model]
 
             if action
                 return cloud_object.subscribers.create(
                     user_creator: user,
                     action: action,
-                    notification_type: model.notification_types[notification_type]
+                    notification_type: self.notification_types[notification_type]
                 )
             end
             
-            model.actions.values.each do |action|
+            self.actions.values.each do |action|
                 cloud_object.subscribers.create(
                     user_creator: user,
                     action: action,
-                    notification_type: model.notification_types[notification_type]
+                    notification_type: self.notification_types[notification_type]
                 )
             end
         end
+        
 
         
 =begin
@@ -105,7 +105,8 @@ For more information read the license file including with this software.
 @param subject [String] The subject that will be shown in the notification
 @param action [Symbol] A valid action from this class's *action* enum
 @return [void]
-@description Notifies all the users subscribed to the *cloud_object*'s *action* using the *Courier* engine
+@description Notifies all the users subscribed to the *cloud_object*'s *action* using the *Courier* engine except the 
+    user that triggered the notification
 @example
     ticket = CloudHelp::Ticket.find( 1 )
     ClodHelp::Ticket::Subscriber.notify_subscribers(
@@ -114,9 +115,9 @@ For more information read the license file including with this software.
         :discussion_created
     )
 =end
-        def self.notify_subscribers(cloud_object, action, subject: nil, body: nil, url: nil)
+        def self.notify_subscribers(current_user, cloud_object, action, subject: nil, body: nil, url: nil)
 
-            cloud_object.subscribers.where(action: action).each do |subscriber|
+            cloud_object.subscribers.where(action: action).where("users_id != ?", current_user.id).each do |subscriber|
                 Courier::Bell::Notification.new(
                     subscriber.user_main || subscriber.user_creator,
                     subject || action,
