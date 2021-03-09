@@ -22,34 +22,32 @@ class UserMailer < ApplicationLesliMailer
 
     def welcome
         user = params[:user]
-        build_data_from_params(params)
-        @data = @data.merge({
+        build_data_from_params(params, {
             url: "/",
             user: {
                 full_name: user.full_name
             }
         })
-        mail(to: email_address_with_name(user.email, user.full_name), subject: "welcome email")
+        mail(to: @email[:to], subject: "welcome email")
     end
 
 
     # Send confirmation instruction email with the link and token to validate the account
     def invitation_instructions
+    
         user = params[:user]
         token = user.generate_password_reset_token
 
-        @data = @data.merge({
+        build_data_from_params(params, {
             url: "/password/edit?reset_password_token="+token,
             user: {
                 full_name: user.full_name,
                 roles: user.roles.map(&:name)
             }
         })
+        
+        mail(to: @email[:to], subject: "You have been invited")
 
-        mail(
-            to: email_address_with_name(user.email, user.full_name), 
-            subject: "You have been invited"
-        )
     end
 
 
