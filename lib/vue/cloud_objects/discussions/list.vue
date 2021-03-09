@@ -239,7 +239,7 @@ export default {
                                         class="has-text-danger"
                                         @click="confirmCommentDeletion(discussion, 'discussion')"
                                     >
-                                        <small>(Delete)</small>
+                                        <small>({{translations.core.view_text_delete}})</small>
                                     </a>
                                 </p>
                                 <div>
@@ -252,13 +252,13 @@ export default {
                                         href="javascript:void(0);"
                                         @click="showResponseForm(discussion.data)"
                                     >
-                                        <small>Respond</small>
+                                        <small>{{translations.core.view_text_discussions_respond}}</small>
                                     </a>
                                     <a 
                                         v-else
                                         href="javascript:void(0);"
                                         @click="hideResponseForm(discussion.data)"
-                                    ><small>Cancel</small></a>
+                                    ><small>{{translations.core.view_btn_cancel}}</small></a>
                                     <component-discussion-form-response
                                         v-if="discussion.data.show_response_form"
                                         :focus="discussion.data.focus"
@@ -288,7 +288,7 @@ export default {
                                                             @click="confirmCommentDeletion(response, 'response')"
                                                             role="button"
                                                         >
-                                                            <small>(Delete)</small>
+                                                            <small>({{translations.core.view_text_delete}})</small>
                                                         </a>
                                                     </p>
                                                     <div>
@@ -302,12 +302,12 @@ export default {
                                                             v-if="! response.show_response_form"
                                                             href="javascript:void(0);"
                                                             @click="showResponseForm(response)"
-                                                        ><small>Respond</small></a>
+                                                        ><small>{{translations.core.view_text_discussions_respond}}</small></a>
                                                         <a 
                                                             v-else
                                                             href="javascript:void(0);"
                                                             @click="hideResponseForm(response)"
-                                                        ><small>Cancel</small></a>
+                                                        ><small>{{translations.core.view_btn_cancel}}</small></a>
                                                         <component-discussion-form-response
                                                             v-if="response.show_response_form"
                                                             :focus="response.focus"
