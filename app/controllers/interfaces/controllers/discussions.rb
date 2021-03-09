@@ -89,6 +89,7 @@ module Interfaces::Controllers::Discussions
             cloud_object_class_translation = I18n.t("#{translations_path}.view_title_main")
 
             "#{cloud_object_model}::Subscriber".constantize.notify_subscribers(
+                current_user,
                 discussion.cloud_object,
                 "discussion_created",
                 subject: "#{cloud_object_class_translation} (#{@cloud_object.global_identifier}): #{I18n.t("core.shared.view_title_notification_discussions_created")}",
