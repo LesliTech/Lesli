@@ -1,5 +1,5 @@
-/*
-Copyright (c) 2020, all rights reserved.
+=begin
+Copyright (c) 2021, all rights reserved.
 
 All the information provided by this platform is protected by international laws related  to 
 industrial property, intellectual property, copyright and relative international laws. 
@@ -13,21 +13,22 @@ For more information read the license file including with this software.
 
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
 // · 
-*/
+=end
+
+require 'rotp'
 
 
+class User::AccessCode < ApplicationLesliRecord
+    belongs_to :user, class_name: "::User", foreign_key: "users_id"
 
-// · Import main app
-import app from "LesliVue/app"
-import router from "LesliVue/functions/router.js"
+    validates :otp_secret, :presence => true
+    validates :user, :presence => true
 
+    def self.index(current_user, query)
+        []
+    end
 
-// · Import apps and components
-import pageList from "./pages/list.vue"
-
-
-// · 
-app("Lesli", "[new|list|show]", "/administration/account/settings", router.for_lesli([{
-    path: "/",
-    component: pageList,
-}]))
+    def show(current_user, query)
+        self
+    end
+end
