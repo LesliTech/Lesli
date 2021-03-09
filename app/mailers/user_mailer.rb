@@ -48,7 +48,7 @@ class UserMailer < ApplicationLesliMailer
 
         mail(
             to: email_address_with_name(user.email, user.full_name), 
-            subject: "You have been invited"
+            subject: I18n.t("core.users.mailer_invitation_instructions_subject")
         )
     end
 
