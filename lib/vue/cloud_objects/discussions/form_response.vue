@@ -41,6 +41,9 @@ export default {
             object_name: null,
             discussion: {
                 content: ''
+            },
+            translations: {
+                core: I18n.t('core.shared')
             }
         }
     },

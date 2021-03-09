@@ -114,28 +114,17 @@ For more information read the license file including with this software.
         :discussion_created
     )
 =end
-        def self.notify_subscribers(cloud_object, action, subject = nil, custom_module = nil)
-            dynamic_info = self.dynamic_info
-            module_name = custom_module || dynamic_info[:module_name]
-            object_name = dynamic_info[:object_name]
+        def self.notify_subscribers(cloud_object, action, subject: nil, body: nil, url: nil)
 
             cloud_object.subscribers.where(action: action).each do |subscriber|
-                case subscriber.notification_type
-                when "email"
-                    Courier::Bell::Notification::Email.new(
-                        subscriber.user,
-                        subject || action,
-                        url: "#{module_name}/#{object_name}/#{cloud_object.id}",
-                        category: "info"
-                    )
-                when "web"
-                    Courier::Bell::Notification::Web.new(
-                        subscriber.user,
-                        subject || action,
-                        url: "#{module_name}/#{object_name}/#{cloud_object.id}",
-                        category: "info"
-                    )
-                end
+                Courier::Bell::Notification.new(
+                    subscriber.user_main || subscriber.user_creator,
+                    subject || action,
+                    body: body,
+                    url: url,
+                    category: "info",
+                    sender: subscriber.notification_type
+                )
             end
         end
 
@@ -154,10 +143,8 @@ For more information read the license file including with this software.
     )
 =end
         def self.subscription_actions(cloud_object, user)
-            model = dynamic_info[:model]
-
             data = { }
-            actions = model.actions.keys
+            actions = self.class.actions.keys
             actions.each do |action|
                 data[action] = {
                     action: action,
@@ -172,25 +159,14 @@ For more information read the license file including with this software.
             end
             data.values
         end
-    
-        private
 
-=begin
-@return [Hash] Hash that contains information about the class
-@description Returns dynamic information based on the current implementation of this abstract class
-@example
-    dynamic_info = CloudHelp::Ticket::Subscriber.dynamic_info
-    puts dynamic_info[:module_name] # will print 'help'
-    puts dynamic_info[:object_name] # will print 'ticket'
-    dynamic_info.model.new # will return an instance of CloudHelp::Ticket::Subscriber
-=end
-        def self.dynamic_info
-            module_info = self.lesli_classname().split("::")
-            {
-                module_name: module_info[0].sub("Cloud", "").downcase,
-                object_name: module_info[1].downcase,
-                model: "#{module_info[0]}::#{module_info[1]}::Subscriber".constantize
-            }
+        # @return [Class] The class of the association 'belongs_to'
+        # @description All subscribers belong to a *cloud_object*. This method returns the specific class of
+        #     that cloud_object.
+        # @example
+        #     puts DeutscheLeibrenten::Project::Discussion.cloud_object_model.new # This will display an instance of DeutscheLeibrenten::Project
+        def self.cloud_object_model
+            self.reflect_on_association(:cloud_object).klass
         end
 
     end

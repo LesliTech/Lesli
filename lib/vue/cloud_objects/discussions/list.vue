@@ -214,7 +214,7 @@ export default {
             <br>
             <component-data-loading v-if="loading">
             </component-data-loading>
-            <div class="columns is-multiline" v-else>
+            <div class="scrollable columns is-multiline" v-else>
                 <div
                     class="column is-12 is-paddingless"
                     v-for="discussion in filteredDiscussions"
@@ -341,5 +341,14 @@ export default {
     text-transform: uppercase;
     align-items: center;
     font-size: 0.7rem;
+}
+
+.scrollable {
+    max-height: 30rem;
+    overflow-y: auto;
+    overflow-x: hidden;
+    scrollbar-width: thin;
+    scrollbar-color: #cccccc #ffffff;
+    padding-right: 0.62rem;
 }
 </style>
