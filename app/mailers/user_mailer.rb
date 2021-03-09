@@ -41,7 +41,8 @@ class UserMailer < ApplicationLesliMailer
         @data = @data.merge({
             url: "/password/edit?reset_password_token="+token,
             user: {
-                full_name: user.full_name
+                full_name: user.full_name,
+                roles: user.roles.map(&:name)
             }
         })
 
@@ -59,7 +60,8 @@ class UserMailer < ApplicationLesliMailer
         @data = @data.merge({
             url: "/confirmation?k="+token,
             user: {
-                full_name: user.full_name
+                full_name: user.full_name,
+                roles: user.roles.map(&:name)
             }
         })
 
