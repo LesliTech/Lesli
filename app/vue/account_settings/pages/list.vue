@@ -18,6 +18,7 @@ For more information read the license file including with this software.
 
 
 // · 
+import componentFormTheme from "../components/form-theme.vue"
 import componentFormGeneral from "../components/form-general.vue"
 import componentFormBranding from "../components/form-branding.vue"
 
@@ -25,6 +26,7 @@ import componentFormBranding from "../components/form-branding.vue"
 // · 
 export default {
     components: {
+        "component-form-theme": componentFormTheme,
         "component-form-general": componentFormGeneral,
         "component-form-branding": componentFormBranding
     },
@@ -49,6 +51,7 @@ export default {
                 <component-form-branding></component-form-branding>
             </b-tab-item>
             <b-tab-item icon-pack="fas" icon="paint-brush" label="Theme">
+                <component-form-theme></component-form-theme>
             </b-tab-item>
         </b-tabs>
     </section>

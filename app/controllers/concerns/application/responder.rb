@@ -63,9 +63,10 @@ module Application
                 }
             }
 
+            error_object[:error][:detail] = detail if Rails.env == "development"
+
             if Rails.env == "development" and !current_user.blank?
                 error_object[:error][:role] = "( #{current_user.roles.map(&:name).join(", ")} )"
-                error_object[:error][:detail] = detail
             end
 
             respond_to do |format|
