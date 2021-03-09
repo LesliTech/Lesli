@@ -21,17 +21,17 @@ class CreateUserSessions < ActiveRecord::Migration[6.0]
     def change
         create_table :user_sessions do |t|
 
-            t.inet   :user_remote
-            t.string :user_agent
-            t.string :user_uuid
+            t.inet   :user_remote       # IPv4 and IPv6 hosts and networks
+            t.string :user_agent    
+            t.string :user_uuid         # unique user identifier
 
-            t.string :session_uuid
+            t.string :session_uuid      # unique session identifier
             t.string :session_token
-            t.string :session_source
+            t.string :session_source    # session created for/with
 
-            t.integer  :usage_count
-            t.datetime :last_used_at
-            t.datetime :expiration_at, index: true
+            t.integer  :usage_count                     # total number of interactions 
+            t.datetime :last_used_at                    # last datetime token was used
+            t.datetime :expiration_at, index: true      # auto-expire session at
             t.datetime :deleted_at, index: true
 
             t.timestamps
