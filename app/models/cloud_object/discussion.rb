@@ -155,6 +155,8 @@ For more information read the license file including with this software.
 
                 if discussion["#{self.table_name}_id"].present?
                     parent_discussion = data[discussion["#{self.table_name}_id"]]
+                    next unless parent_discussion
+
                     if parent_discussion[:data]["#{self.table_name}_id"].present?
                         discussion["response_to"] = parent_discussion[:data]["user_name"]
                     end
