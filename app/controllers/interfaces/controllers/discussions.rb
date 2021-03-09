@@ -85,6 +85,18 @@ module Interfaces::Controllers::Discussions
 
         discussion = discussion_model.new(new_discussion_params)
         if discussion.save
+            translations_path = @cloud_object.class.name.gsub("Cloud", "").underscore.pluralize.gsub("/", ".")
+            cloud_object_class_translation = I18n.t("#{translations_path}.view_title_main")
+
+            "#{cloud_object_model}::Subscriber".constantize.notify_subscribers(
+                discussion.cloud_object,
+                "discussion_created",
+                subject: "#{cloud_object_class_translation} (#{@cloud_object.global_identifier}): #{I18n.t("core.shared.view_title_notification_discussions_created")}",
+                body: "#{discussion.user_creator.full_name} #{I18n.t("core.shared.view_text_notification_discussion_created_body")}: '#{discussion.content}'",
+                url: "#{@cloud_object.id}?tab=discussions"
+            )
+
+
             if block_given?
                 yield(cloud_object, discussion)
             else
