@@ -74,7 +74,13 @@ app({
 
             this.notification.show = false
 
-            let data = {user: this.sign_in};
+            let data = {
+                user: {
+                    email: this.sign_in.email.toLowerCase(),
+                    password: this.sign_in.password
+                }
+            };
+            
             this.progress_bar_active = true;
 
             this.http.post(this.url.to("/login"), data).then(response => {

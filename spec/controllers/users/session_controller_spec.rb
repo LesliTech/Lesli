@@ -63,7 +63,36 @@ RSpec.describe Users::SessionsController, type: :request do
                     }
             }
         end
-        it "is expected to respond with successful" do
+        it "is expected to respond with error standard" do
+            expect(JSON.parse(response.body)).to eql({
+                                                             "successful"=> false,
+                                                             "error"=> {
+                                                                     "details"=> [],
+                                                                     "message"=> I18n.t("core.users/sessions.invalid_credentials")
+                                                             }
+                                                     })
+        end
+        include_examples 'error standard json response'
+    end
+
+    describe 'Sign in with wrong password' do
+        before(:all) do
+            user = Account.first.users.create!({
+                                                       email: Faker::Internet.email,
+                                                       password: "tardis2021$",
+                                                       password_confirmation: "tardis2021$"
+                                               })
+            user_roles = user.user_roles.create({ role: Account.first.roles.find_by(name: "limited") })
+            user_roles.roles.update(active: true)
+            user.confirm
+            post "/login", params: {
+                    "user": {
+                            "email": user.email,
+                            "password": "wrongpassword"
+                    }
+            }
+        end
+        it "is expected to respond with wrong password" do
             expect(JSON.parse(response.body)).to eql({
                                                              "successful"=> false,
                                                              "error"=> {
