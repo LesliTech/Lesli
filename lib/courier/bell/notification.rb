@@ -31,16 +31,17 @@ module Courier
                 CloudBell::Notification.index(current_user, query, view_type)
             end
 
-            def self.new(user, subject, body:nil, url:nil, category:nil)
+            def self.new(user, subject, body:nil, url:nil, category:nil, sender: "push")
                 return if not defined? CloudBell
+
                 user.account.bell.notifications.create({
                     subject: subject,
                     body: body,
                     kind: category,
                     user: user,
-                    url: url
+                    url: url,
+                    sender: sender
                 })
-                #LesliChannel.broadcast_to("Lesli", channel: "/lesli/layout/header/notification#getNotificationsCounter")
             end
 
         end

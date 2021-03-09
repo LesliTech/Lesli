@@ -41,6 +41,9 @@ export default {
             object_name: null,
             discussion: {
                 content: ''
+            },
+            translations: {
+                core: I18n.t('core.shared')
             }
         }
     },
@@ -91,13 +94,15 @@ export default {
     <section>
         <form @submit="postDiscussion">
             <div class="field is-expanded is-floating-label has-addons" size="is-small">
-                <label class="label"> Add a response </label>
+                <label class="label">
+                    {{translations.core.view_text_discussions_add_response}}
+                </label>
                 <div class="control is-clearfix is-expanded is-small">
                     <input class="input" type="input" autocomplete="on" ref="input" v-model="discussion.content"/>
                 </div>
                 <p class="control">
                     <button class="button is-primary" type="submit" :disabled="discussion.content == ''">
-                        Respond
+                        {{translations.core.view_text_discussions_respond}}
                     </button>
                 </p>
             </div>
