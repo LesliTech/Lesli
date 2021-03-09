@@ -48,7 +48,7 @@ class UserMailer < ApplicationLesliMailer
 
         mail(
             to: email_address_with_name(user.email, user.full_name), 
-            subject: "You have been invited"
+            subject: I18n.t("core.users.mailer_invitation_instructions_subject")
         )
     end
 
@@ -79,7 +79,8 @@ class UserMailer < ApplicationLesliMailer
         @data = @data.merge({
             url: "/password/edit?reset_password_token=#{token}",
             user: {
-                full_name: user.full_name
+                full_name: user.full_name,
+                roles: user.roles.map(&:name)
             }
         })
         mail(to: email_address_with_name(user.email, user.full_name), subject: I18n.t("core.users/passwords.mailer_password_reset_instructions"))
