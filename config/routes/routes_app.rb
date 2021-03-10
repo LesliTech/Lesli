@@ -67,6 +67,7 @@ module RoutesApp
                                 post :logout
                                 post :lock
                                 post :password
+                                post :magic_link
                             end
                         end
 
