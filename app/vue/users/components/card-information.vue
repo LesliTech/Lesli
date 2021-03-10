@@ -90,6 +90,26 @@ export default {
             }).catch(error => {
                 console.log(error)
             })
+        },
+
+        doGenerateMagicLink() {
+            this.http.post(`/administration/users/${this.user.id}/resources/magic_link`).then(result => {
+                if (!result.successful) {
+                    this.alert(result.error.message, "danger")
+                    return
+                }
+                this.alert("the magic link was generated", "success")
+                this.$buefy.dialog.confirm({
+                    title: 'Magic Link',
+                    message: `Magic link was generated: ${result.data}`,
+                    type: 'is-success',
+                    hasIcon: true,
+                    cancelText: 'Close',
+                    confirmText: 'Send to Email',
+                })
+            }).catch(error => {
+                console.log(error)
+            })
         }
 
     },
@@ -156,6 +176,11 @@ export default {
                         <button class="button is-white is-small" @click="doRevokeAccess()">
                             <span class="icon"><i class="fas fa-user-lock"></i></span>
                             <span> {{ translations.users.view_btn_revoke_access }} </span>
+                        </button>
+
+                        <button class="button is-white is-small" @click="doGenerateMagicLink()">
+                            <span class="icon"><i class="fas fa-user-lock"></i></span>
+                            <span>Generate a magic link</span>
                         </button>
                     </div>
                 </template>
