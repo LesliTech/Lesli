@@ -26,9 +26,11 @@ module LC
 
 
         def self.info *messages
+            message_string = pretty_separator(:blue)
             messages.each do |message|
-                puts pretty(message, :white, :blue)
-            end 
+                message_string << pretty("INFO:\ " <<  message, :white, :blue)
+            end
+            puts message_string
         end
 
         def self.warn *messages
@@ -41,9 +43,11 @@ module LC
 
 
         def self.error *messages
+            message_string = pretty_separator(:red)
             messages.each do |message|
-                puts pretty(message, :white, :red)
+                message_string << pretty("ERROR:\ " <<  message, :white, :red)
             end
+            puts message_string
         end
 
 
