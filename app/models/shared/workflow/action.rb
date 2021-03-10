@@ -25,7 +25,8 @@ module Shared
             create_bell_notification: "create_bell_notification",
             create_focus_task: "create_focus_task", # This action can always be created, but it will only be executed if CloudFocus is available
             cloud_object_clone: "cloud_object_clone",
-            create_cloud_object_file: "create_cloud_object_file"
+            create_cloud_object_file: "create_cloud_object_file",
+            send_talk_chatroom_message: "send_talk_chatroom_message"
         }
 
         enum concerning_user_types: {
@@ -146,6 +147,12 @@ module Shared
                         Template::Document.find(self.input_data["template_id"]),
                         self.input_data["file_type"]
                     )
+                end
+            when "send_talk_chatroom_message"
+                if execute_immediately
+                    WorkflowActions::SendTalkChatroomMessageJob.perform_now(current_user, cloud_object, self)
+                else
+                    WorkflowActions::SendTalkChatroomMessageJob.perform_later(current_user, cloud_object, self)
                 end
             end
         end
