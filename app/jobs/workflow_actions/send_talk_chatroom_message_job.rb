@@ -9,7 +9,7 @@ class WorkflowActions::SendTalkChatroomMessageJob < ApplicationJob
         when "creator"
             sender_user = cloud_object.user_creator
         when "main"
-            sender_user = cloud_object.user_main
+            sender_user = cloud_object.user_creator
         when "custom"
             sender_user = current_user.account.users.find(action.concerning_users["list"][0]["id"]) if action.concerning_users["list"]
         when "current_user"
@@ -19,7 +19,7 @@ class WorkflowActions::SendTalkChatroomMessageJob < ApplicationJob
         begin
             replacement_values = {
                 "%global_identifier%" => cloud_object.global_identifier,
-                "%current_user%" => (current_user.full_name || "")
+                "%current_user%" => (sender_user.full_name || "")
             }
 
             action.parse_input_data(replacement_values)
