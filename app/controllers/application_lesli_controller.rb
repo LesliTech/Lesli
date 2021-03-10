@@ -57,45 +57,31 @@ class ApplicationLesliController < ApplicationController
     # Set default query params for:
     #   pagination
     def set_helpers_for_account 
+        
 
         # @account is only for html requests
         return if !request.format.html?
 
-        @account = {
-            company: { },
-            settings: { },
-            current_user: { },
-            revision: LC::System::Info.revision,
-            notifications: Courier::Bell::Notification.count(current_user),
-            announcements: Courier::Bell::Announcement.count(current_user),
-            tasks: Courier::Focus::Task.count(current_user)
-        }
+
+        @account[:revision] = LC::System::Info.revision()
+        @account[:notifications] = Courier::Bell::Notification.count(current_user)
+        @account[:announcements] = Courier::Bell::Announcement.count(current_user)
+        @account[:tasks] = Courier::Focus::Task.count(current_user)
+
 
         return @account if current_user.account.blank?
 
-        custom_logo = current_user.account.files.where(name: "company_logo").last
-        logo = "/images/brand/lesli-name.svg"
-        logo_id = nil
-
-        logo = custom_logo.attachment.url if custom_logo
-        logo_id = custom_logo.id if custom_logo
-
 
         # add company information (account)
-        account = current_user.account
         @account[:company] = {
-            id: account.id,
-            name: account.company_name,
-            tag_line: account.company_tag_line,
-            address: account.address,
-            phone_number_1: account.phone_number_1,
-            website: account.website,
-            public_email: account.public_email,
-            logo_id: logo_id,
-            logo: logo,
+            id: current_user.account.id,
+            name: current_user.account.company_name,
+            tag_line: current_user.account.company_tag_line,
+            phone_number_1: current_user.account.phone_number_1,
+            public_email: current_user.account.public_email,
+            address: current_user.account.address,
+            website: current_user.account.website
         }
-
-
 
         @account[:settings] = { 
             datetime: Rails.application.config.lesli_settings["configuration"]["datetime"],
