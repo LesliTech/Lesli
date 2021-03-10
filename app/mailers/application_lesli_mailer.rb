@@ -49,12 +49,10 @@ class ApplicationLesliMailer < ActionMailer::Base
         super
 
         # some @email data is defined on: LesliMails/src/partials/data.html
-        @email = { }
-        @data = { }
-        @app = { 
-            host: default_url_options[:host],
-            instance: Rails.application.config.lesli_settings["instance"]
-        }
+        @custom = {}
+        @email = {}
+        @data = {}
+        @app = {}
 
     end 
 
@@ -62,62 +60,92 @@ class ApplicationLesliMailer < ActionMailer::Base
     protected
 
 
-    def build_data_from_params(params)
-        return {} if params[:user].blank?
-        
+    def build_data_from_params(params, data={})
 
-        custom_logo = params[:user].account.files.where(name: "company_logo").last
-        logo = "/images/brand/lesli-name.svg"
-        logo = custom_logo.attachment.url if custom_logo
+        # make custom data available in mailer method and mailer template
+        @data = @data.merge(data)
 
-        @app["company"] = {
-            id: params[:user].account.id,
-            name: params[:user].account.company_name,
-            tag_line: params[:user].account.company_tag_line,
-            logo: logo
-        }
+        build_app_from_params(params)
+
+        build_email_from_params(params)
+
+        build_customization_from_params(params)
+
     end
 
 
-    def build_recipients_from_params(params)
+    def build_customization_from_params(params)
+
+        return if params[:user].blank?
+
+        @custom[:logo] = "/images/brand/lesli-name.svg"
+
+        custom_logo = params[:user].account.files.where(name: "company_logo").last
+
+        @custom[:logo] = custom_logo.attachment.url if custom_logo
+
+    end
+
+    
+    def build_app_from_params(params)
+
+        return if params[:user].blank?
+        
+        @app[:host] = default_url_options[:host]
+        @app[:instance] = Rails.application.config.lesli_settings["instance"]
+        @app[:company] = {
+            id: params[:user].account.id,
+            name: params[:user].account.company_name,
+            tag_line: params[:user].account.company_tag_line,
+        }
+
+    end
+
+
+    def build_email_from_params(params)
+
 
         # Single recipient email
         if params[:to].is_a?(User)
             user = params[:to]
-            params[:to] = email_address_with_name(user.email, user.full_name)
+            @email[:to] = email_address_with_name(user.email, user.full_name)
         end
 
         if params[:cc].is_a?(User)
             user = params[:cc]
-            params[:cc] = email_address_with_name(user.email, user.full_name)
+            @email[:cc] = email_address_with_name(user.email, user.full_name)
         end
 
         if params[:bcc].is_a?(User)
             user = params[:bcc]
-            params[:bcc] = email_address_with_name(user.email, user.full_name)
+            @email[:bcc] = email_address_with_name(user.email, user.full_name)
         end
 
 
         # Multi recipient email
         if params[:to].is_a?(Array)
-            params[:to] = params[:to].map{ |user| email_address_with_name(user.email, user.full_name) } 
+            @email[:to] = params[:to].map{ |user| email_address_with_name(user.email, user.full_name) } 
         end
 
         if params[:cc].is_a?(Array)
-            params[:cc] = params[:cc].map{ |user| email_address_with_name(user.email, user.full_name) } 
+            @email[:cc] = params[:cc].map{ |user| email_address_with_name(user.email, user.full_name) } 
         end
 
         if params[:bcc].is_a?(Array)
-            params[:bcc] = params[:bcc].map{ |user| email_address_with_name(user.email, user.full_name) } 
+            @email[:bcc] = params[:bcc].map{ |user| email_address_with_name(user.email, user.full_name) } 
         end
 
 
+        # Use user param as destinatary
+        if params[:to].blank? and params[:user].is_a?(User)
+            @email[:to] = email_address_with_name(params[:user].email, params[:user].full_name)
+        end
+
+        
         # TODO: to add support to recipients as string emails, use params[:emails] instead of the :to key
         if params[:to].blank?
             log_mail_requests("email_not_sent", { error: "email_recipient_not_found" })
         end
-
-        params
 
     end
 
