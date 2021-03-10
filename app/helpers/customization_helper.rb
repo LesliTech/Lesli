@@ -1,5 +1,5 @@
-/*
-
+=begin
+    
 Copyright (c) 2020, all rights reserved.
 
 All the information provided by this platform is protected by international laws related  to 
@@ -15,50 +15,12 @@ For more information read the license file including with this software.
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
 // · 
 
-*/
+=end
 
+module CustomizationHelper
 
-// · 
-@import "lesli/templates/component";
+    def customization_instance_logo
+        image_tag(@account[:customization][:logo], alt: "#{@account[:company]} logo")
+    end
 
-
-.lesli-editor-email {
-
-    .email-component-list {
-
-    }
-
-    .email-preview {
-
-        &,
-        &::before,
-        &::after {
-            all: revert;
-        }
-
-        .button,
-        .columns {
-            all: revert;
-        }
-
-        @import "foundation-emails/scss/foundation-emails";
-
-    }
-
-    section.email-preview {
-        margin: .6rem 0;
-        padding: 1rem;
-        min-height: 50%;
-        border: 3px dotted silver;
-
-        .block-component {
-            border: 1px dotted silver;
-        }
-
-        span.icon {
-            width: 25px;
-        }
-
-    }
-
-}
+end

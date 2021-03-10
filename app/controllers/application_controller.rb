@@ -22,6 +22,26 @@ For more information read the license file including with this software.
 class ApplicationController < ActionController::Base
 
     layout "layouts/application-public"
+
+    def initialize
+
+        super
+
+        @account = {
+            company: {},
+            settings: {},
+            revision: {},
+            current_user: {},
+            notifications: 0,
+            announcements: 0,
+            customization: {
+                logo: "/images/brand/lesli-name.svg", 
+                color_primary: "#3689e6"
+            },
+            tasks: 0
+        }
+
+    end
  
     def switch_locale
 
