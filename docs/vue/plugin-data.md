@@ -1,4 +1,3 @@
-
 # Vue plugin data  
 Vue global state management built on top of observables
 
