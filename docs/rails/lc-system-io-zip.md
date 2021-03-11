@@ -1,5 +1,5 @@
-# Zip file creation utility 
-Provides an interface to create and handle zip files
+# Lesli Command System IO Zip (File Creation Utility) 
+LC::System::IO::Zip provides an interface to create and handle zip files
 
 ## Existing Methods
 
