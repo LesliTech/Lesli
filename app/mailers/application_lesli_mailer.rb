@@ -107,11 +107,19 @@ class ApplicationLesliMailer < ActionMailer::Base
 
     end
 
-    def build_recipients_from_contacts(contacts)
-        if contacts.is_a?(Array)
-            contacts.map { |contact| %(#{contact[:name]} <#{contact[:email]}>) }
+    def build_recipients_from_users(users)
+        if users.is_a?(Array)
+            users.map { |user| email_address_with_name(user.email, user.full_name) } 
         end
     end
+
+    def build_recipients_from_contacts(contacts)
+        if contacts.is_a?(Array)
+            contacts.map { |contact| email_address_with_name(contact[:email], contact[:name]) }
+        end
+    end
+
+    
 
 
     def build_email_from_params(params)
