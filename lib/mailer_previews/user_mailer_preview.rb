@@ -30,4 +30,8 @@ class UserMailerPreview < ActionMailer::Preview
         ).reset_password_instructions
     end
 
+    def invitation_instructions
+        UserMailer.with(user: User.first).invitation_instructions
+    end
+
 end

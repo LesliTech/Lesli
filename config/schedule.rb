@@ -68,6 +68,10 @@ every :day, at: '10:00 pm' do
     rake 'deutsche_leibrenten:cron:send_daily_email_leads_coming'
 end
 
+every :day, at: '11:45 pm' do
+    rake 'deutsche_leibrenten:cron:delete_old_local_reports'
+end
+
 every :day, at: '09:50 pm' do
     rake 'deutsche_leibrenten:cron:generate_reports'
 end

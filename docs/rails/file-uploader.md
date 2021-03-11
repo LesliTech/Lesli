@@ -1,20 +1,11 @@
+#  Lesli File Uploader
 
 
-<p align="center">
-	<img width="200" alt="LesliCloud logo" src="https://cdn.lesli.tech//lesli/brand/lesli-logo.svg" />
-</p>
-
-<h3 align="center">Rails File Uploader</h3>
-
-<hr/>
-
-
-#### Description
+### Description
 The file upload in lesli works in conjunction with Carrierwave using 2 different uploaders, located in **core/app/uploaders/**. These are the **local_uploader.rb** and **aws_uplaoder.rb**, and are used to perform a 2 step file upload.
 
-<hr/>
 
-#### Initialize
+### Initialize
 In order to take advantage of the 2-step upload, you need to do the following. In the model, you need to **mount** both uploaders. For this, your database table **must** have the **attachment_s3** and **attachment** columns, both of type *String*.
 
 ```ruby
@@ -43,7 +34,7 @@ class File < ApplicationLesliRecord
 end
 ```
 
-#### How to take advantage of 2-step upload
+### How to take advantage of 2-step upload
 
 In order to take advantage of the 2-step upload process, you need to send the file content using the **multipart/form-data** content-type for the HTTP request in the **attachment** field.
 
@@ -74,7 +65,7 @@ before returning a response to the user:
 	end
 ```
 
-#### Make it transparent to the user
+### Make it transparent to the user
 In order to make the 2-step upload transparent to the user, you just have to send the attachment_s3 that has a value at the moment of the request:
 
 ```ruby
@@ -86,14 +77,24 @@ In order to make the 2-step upload transparent to the user, you just have to sen
 
 			# Sending file using CarrierWave
 			if @file.attachment_s3.file
-				send_data(@file.attachment_s3.read, filename: "custom_filename.extension", disposition: disposition, stream: "true")
+				send_data(
+                    @file.attachment_s3.read,
+                    filename: "custom_filename.extension",
+                    disposition: disposition,
+                    stream: "true"
+                )
 			else
-				send_data(@file.attachment.read, filename: @file.name, disposition: disposition, stream: "true")
+				send_data(
+                    @file.attachment.read, 
+                    filename: @file.name, 
+                    disposition: disposition, 
+                    stream: "true"
+                )
 			end
 		end
 	end
 ```
 
-#### How does it work?
+### How does it work?
 
 Carrierwave uploader works using the column name to create and manage the file, either locally or in AWS. Once you create the file with the params, since the **attachment** column corresponds to the **LocalUploader**, carrierwave will create a local file and associate it to the record in the database, using that column. The **AwsUploadJob** then copies the file to AWS by simply assigning the **attachment** column to the **attachment_s3** column. Once this process is done, the **attachment** column is set to **null** which tells Carrierwave to delete the local file and only keep the AWS file.

@@ -3,7 +3,7 @@ require "spec_helper"
 require "byebug"
 require "faker"
 
-RSpec.describe "GET:/administration/users/:id/resources/resources/become.json with an user with no privileges", type: :request do
+RSpec.describe "GET:/administration/users/:id/resources/become.json with an user with no privileges", type: :request do
     include_context "user authentication" 
 
     before(:all) do
@@ -24,9 +24,10 @@ RSpec.describe "GET:/administration/users/:id/resources/resources/become.json wi
     end
 
     include_examples "unauthorized standard json response"
+
 end
 
-RSpec.describe "GET:/administration/users/:id/resources/resources/become.json with a user with the wrong email", type: :request do
+RSpec.describe "GET:/administration/users/:id/resources/become.json with a user with the wrong email", type: :request do
     include_context "user authentication" 
 
     before(:all) do
@@ -50,7 +51,7 @@ RSpec.describe "GET:/administration/users/:id/resources/resources/become.json wi
 end
 
 
-RSpec.describe "GET:/administration/users/:id/resources/resources/become.json with a the correct user", type: :request do
+RSpec.describe "GET:/administration/users/:id/resources/become.json with a the correct user", type: :request do
     include_context "user authentication" 
 
     before(:all) do
@@ -77,5 +78,5 @@ RSpec.describe "GET:/administration/users/:id/resources/resources/become.json wi
         get "/administration/users/#{random_user.id}/resources/become.json"
     end
 
-    include_examples "successful standard json response"
+    include_examples "unauthorized standard json response"
 end
