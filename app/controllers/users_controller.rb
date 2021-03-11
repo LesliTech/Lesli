@@ -278,16 +278,7 @@ class UsersController < ApplicationLesliController
         respond_with_successful
 
     end
-
-    def magic_link
-        user = User.find(params[:id])
-        token_auth_service = TokenAuthenticationService.new(user)
-        response = token_auth_service.create_token
-
-        respond_with_error "I cannot generate the magic link" unless response.success?
-        respond_with_successful url_for :controller => 'users/magic_links', :action => 'create', :token => response.payload[:token], :user_id => user.id
-    end
-
+    
     private
 
     def user_params
