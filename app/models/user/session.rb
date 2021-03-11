@@ -52,9 +52,6 @@ class User::Session < ApplicationLesliRecord
 
             session_token = SecureRandom.alphanumeric(16)
 
-            #LC::Debug.msg ::BCrypt::Engine.generate_salt
-            #LC::Debug.msg ::BCrypt::Engine.hash_secret("666", "ldonis")
-
             # assign token to user if token is unique
             if not User::Session.find_by(:session_token => session_token)
                 self.session_token = session_token
@@ -65,4 +62,5 @@ class User::Session < ApplicationLesliRecord
         end
         
     end
+
 end

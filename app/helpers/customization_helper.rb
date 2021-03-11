@@ -1,5 +1,5 @@
 =begin
-
+    
 Copyright (c) 2020, all rights reserved.
 
 All the information provided by this platform is protected by international laws related  to 
@@ -17,25 +17,10 @@ For more information read the license file including with this software.
 
 =end
 
-module Courier
-    module Help
-        class Ticket
+module CustomizationHelper
 
-            def self.index(current_user, query)
-                return [] unless defined? CloudHelp
-                CloudHelp::Ticket.index(current_user, query)
-            end
-
-            def self.create(current_user, ticket_params)
-                return nil unless defined? CloudHelp
-                CloudHelp::TicketServices.create(current_user, ticket_params)
-            end
-
-            def self.with_deadline(current_user, query)
-                return [] unless defined? CloudHelp
-                CloudHelp::Ticket.tickets_with_deadline(current_user, query)
-            end
-
-        end
+    def customization_instance_logo
+        image_tag(@account[:customization][:logo], alt: "#{@account[:company]} logo")
     end
+
 end

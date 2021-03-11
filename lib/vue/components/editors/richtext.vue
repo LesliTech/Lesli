@@ -46,17 +46,6 @@ export default {
                 theme: 'snow',
                 readOnly: false,
                 placeholder: I18n.t('core.shared.view_placeholder_text_editor'),
-                toolbar2: [
-                        [{ 'header': [1, 2, 3, 4, 5, 6, false] }],
-                        [{ 'font': [] }],
-                        ['bold', 'italic', 'underline', 'strike'],
-                        ['blockquote', 'code-block'],
-                        [{ 'list': 'ordered' }, { 'list': 'bullet' }, { 'align': [] }],
-                        [{ 'color': [] }, { 'background': [] }],
-                        ['clean'],
-                        ['link', 'image', 'video'],
-                        [{ 'direction': 'rtl' }]
-                    ],
                 modules: {
                     toolbar: [
                         ['bold', 'italic', 'underline', 'strike'],        // toggled buttons
@@ -79,25 +68,15 @@ export default {
                 theme: 'snow',
                 readOnly: false,
                 placeholder: I18n.t('core.shared.view_placeholder_text_editor'),
-                toolbar2: [
+                modules: {
+                    toolbar: [
                         [{ 'header': [1, 2, 3, 4, 5, 6, false] }],
-                        [{ 'font': [] }],
                         ['bold', 'italic', 'underline', 'strike'],
-                        ['blockquote', 'code-block'],
                         [{ 'list': 'ordered' }, { 'list': 'bullet' }, { 'align': [] }],
                         [{ 'color': [] }, { 'background': [] }],
                         ['clean'],
                         ['link', 'image', 'video'],
-                        [{ 'direction': 'rtl' }]
-                    ],
-                modules: {
-                    toolbar: [
-                        ['bold', 'italic', 'underline', 'strike'],        // toggled buttons
-                        ['blockquote'],
-                        ['link'],
-                        [{ 'list': 'ordered'}, { 'list': 'bullet' }],
-                        [{ 'color': [] }, { 'background': [] }],          // dropdown with defaults from theme
-                        [{ 'align': [] }],
+                        ['blockquote', 'code-block'],
                         ['clean']                                         // remove formatting button
                     ]
                 },
