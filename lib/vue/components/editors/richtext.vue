@@ -29,8 +29,15 @@ export default {
             default: function() {
                 return {}
             }
-
         },
+        mode: {
+            type: String,
+            default: 'simple',
+            required: false,
+            validator: (val) => ['simple', 'full', 'read'].includes(val),
+        },
+
+        // DO NOT USE TYPE, USE MODE INSTEAD
         type: {
             type: String,
             default: 'simple',
@@ -122,7 +129,10 @@ export default {
             // This $emit will be catched up in the watch:value
             // that's why we guard against calling pasteHTML
             // calling that function while we are typing is undesirable
-            this.$emit('input', this.editorContent)
+            this.$emit('input', { 
+                delta: this.editorContent, 
+                html: this.editorInstance.root.innerHTML 
+            })
 
         },
         setEditorContent () {
@@ -133,8 +143,8 @@ export default {
         value (newVal) {
             // Only update the content if it's changed from an external source
             // or else it'll act weird when you try to type anything
-            if (newVal !== this.editorContent) {
-                this.editorInstance.setContents(newVal)
+            if (newVal.delta !== this.editorContent) {
+                this.editorInstance.setContents(newVal.delta)
             }
         }
     },
