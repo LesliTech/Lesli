@@ -1,0 +1,2 @@
+module Ma::McsHelper
+end

@@ -20,7 +20,7 @@ For more information read the license file including with this software.
 module HtmlHelper
 
     def lesli_instance_logo
-        return if lesli_instance_code != "lesli_cloud"
+        return if lesli_instance_code == "lesli_cloud"
         image_tag(@account[:company][:logo], alt: "#{@account[:company]} logo")
     end
 
@@ -146,6 +146,13 @@ module HtmlHelper
     def navigation_engine_help text: "Help", icon_path: "cloud_help/help-logo.svg"
         if defined? CloudHelp
             navigation_engine_item text, icon_path, cloud_help.root_path, controller_path.include?("cloud_help")
+        end
+    end
+
+    # 07.03 Portal engine
+    def navigation_engine_portal text: "Portal", icon_path: "cloud_portal/portal-logo.svg"
+        if defined? CloudPortal
+            navigation_engine_item text, icon_path, cloud_portal.root_path, controller_path.include?("cloud_portal")
         end
     end
 
