@@ -20,7 +20,7 @@ For more information read the license file including with this software.
 module HtmlHelper
 
     def lesli_instance_logo
-        return if lesli_instance_code != "lesli_cloud"
+        return if lesli_instance_code == "lesli_cloud"
         image_tag(@account[:company][:logo], alt: "#{@account[:company]} logo")
     end
 
