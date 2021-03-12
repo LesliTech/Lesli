@@ -1,6 +1,16 @@
 class WorkflowActions::SendTalkChatroomMessageJob < ApplicationJob
     queue_as :default
 
+=begin
+@return [void]
+@description
+    This mehod is the responsable of the correct processing and execute of the Workflow Action. 
+    In this method we replace the variables in the content and execute the action in its respective engine
+    or log an activity of failure.
+
+    The actual functionality of this action is to send an automatic message to an existing chat via CloudOne,
+    and the result is visible on CloudTalk chatroom messages.
+=end
     def perform(current_user, cloud_object, action)
 
         sender_user = nil

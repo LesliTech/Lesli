@@ -26,7 +26,7 @@ module Shared
             create_focus_task: "create_focus_task", # This action can always be created, but it will only be executed if CloudFocus is available
             cloud_object_clone: "cloud_object_clone",
             create_cloud_object_file: "create_cloud_object_file",
-            send_talk_chatroom_message: "send_talk_chatroom_message"
+            send_talk_chatroom_message: "send_talk_chatroom_message" # This action can always be created, but it will be executed only if CloudOne is availabe, and it will be displayed in CloudTalk if is available
         }
 
         enum concerning_user_types: {
