@@ -1,23 +1,5 @@
 require 'rails_helper'
 
-def user_factory
-    user = User.new(
-            email:     Faker::Internet.email,
-            password:  "password",
-    )
-    user.save
-    return user
-end
-
-def user_with_access_code
-    user = user_factory()
-    response = TokenAuthenticationService.create_otp_secret
-    access_code = User::AccessCode.new(otp_secret: response.payload[:otp_secret],
-                   user: user)
-    access_code.save
-    return user
-end
-
 
 RSpec.describe TokenAuthenticationService, type: :model do
     describe '#create_otp_secret' do
@@ -31,7 +13,8 @@ RSpec.describe TokenAuthenticationService, type: :model do
 
     describe '#create_token' do
         it 'It is not created with a non-configured user' do
-            user = user_factory()
+            user = User.create(email: Faker::Internet.email, password:  "password")
+            User::AccessCode.find_by(users_id: user.id).delete
             token_auth_service = TokenAuthenticationService.new(user)
             response = token_auth_service.create_token
             expect(response.success?).to eq false
@@ -39,7 +22,7 @@ RSpec.describe TokenAuthenticationService, type: :model do
         end
 
         it 'Created with configured user' do
-            user = user_with_access_code()
+            user = User.create(email: Faker::Internet.email, password:  "password")
             allow_any_instance_of(ROTP::TOTP).to receive(:now).and_return("492039")
 
             token_auth_service = TokenAuthenticationService.new(user)
@@ -51,7 +34,8 @@ RSpec.describe TokenAuthenticationService, type: :model do
 
     describe '#is_token_valid?' do
         it 'Verify token with non-configured user' do
-            user = user_factory()
+            user = User.create(email: Faker::Internet.email, password:  "password")
+            User::AccessCode.find_by(users_id: user.id).delete
             token_auth_service = TokenAuthenticationService.new(user)
             response = token_auth_service.is_token_valid?("492039")
 
@@ -60,9 +44,9 @@ RSpec.describe TokenAuthenticationService, type: :model do
         end
 
         it 'verify token with configured user' do
-            user = user_with_access_code()
+            user = User.create(email: Faker::Internet.email, password:  "password")
             token_auth_service = TokenAuthenticationService.new(user)
-            response_token = token_auth_service.create_token()
+            response_token = token_auth_service.create_token
             response = token_auth_service.is_token_valid?(response_token.payload[:token])
 
             expect(response.success?).to eq true
@@ -70,9 +54,9 @@ RSpec.describe TokenAuthenticationService, type: :model do
         end
 
         it 'verify a token that has already been used' do
-            user = user_with_access_code()
+            user = User.create(email: Faker::Internet.email, password:  "password")
             token_auth_service = TokenAuthenticationService.new(user)
-            response_token = token_auth_service.create_token()
+            response_token = token_auth_service.create_token
 
             # First use
             token_auth_service.is_token_valid?(response_token.payload[:token])
