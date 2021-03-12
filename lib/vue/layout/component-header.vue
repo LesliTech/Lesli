@@ -34,36 +34,63 @@ export default {
     },
     data() {
         return {
-            loading: false
+            loading: false,
+            announcements: []
         }
     },
+    mounted() {
+        this.getAnnouncements()
+    },
     methods: {
+
+        getAnnouncements() {
+
+            if (this.lesli.announcements > 0) {
+                setTimeout(() => {
+                    this.http.get(this.url.bell("announcements")).then(result => {
+                        this.announcements = result.data.records
+                    })
+                }, 5000)
+            }
+
+        },
+
         clickButtonReload() {
             this.loading = true
             setTimeout(() => { this.loading = false }, 1000);
             this.$emit("clickButtonReload");
         }
+
     }
 }
 </script>
 <template>
-    <nav class="navbar component-header">
-        <div class="navbar-menu">
-            <div class="navbar-start">
-                <div class="navbar-item">
-                    <h3 v-if="title" class="is-size-3">
-                        {{ title }}
-                    </h3>
-                    <h4 v-if="subtitle" class="is-size-4">
-                        {{ subtitle }}
-                    </h4>
+    <section>
+        <b-notification 
+            v-for="announcement in announcements" 
+            :key="announcement.id" 
+            type="is-info">
+            <div v-html="announcement.message.html">
+            </div>
+        </b-notification>
+        <nav class="navbar component-header">
+            <div class="navbar-menu">
+                <div class="navbar-start">
+                    <div class="navbar-item">
+                        <h3 v-if="title" class="is-size-3">
+                            {{ title }}
+                        </h3>
+                        <h4 v-if="subtitle" class="is-size-4">
+                            {{ subtitle }}
+                        </h4>
+                    </div>
+                </div>
+                <div class="navbar-end">
+                    <div class="navbar-item">
+                        <slot></slot>
+                    </div>
                 </div>
             </div>
-            <div class="navbar-end">
-                <div class="navbar-item">
-                    <slot></slot>
-                </div>
-            </div>
-        </div>
-    </nav>
+        </nav>        
+    </section>
 </template>

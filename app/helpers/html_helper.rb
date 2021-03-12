@@ -149,6 +149,13 @@ module HtmlHelper
         end
     end
 
+    # 07.03 Portal engine
+    def navigation_engine_portal text: "Portal", icon_path: "cloud_portal/portal-logo.svg"
+        if defined? CloudPortal
+            navigation_engine_item text, icon_path, cloud_portal.root_path, controller_path.include?("cloud_portal")
+        end
+    end
+
     # SECURITY & PRIVACY
 
     # 08.03 Audit engine
