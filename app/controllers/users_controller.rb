@@ -281,9 +281,9 @@ class UsersController < ApplicationLesliController
         respond_with_successful
 
     end
-
-    private
     
+    private
+
     def user_params
         params.require(:user).permit(
             :active,

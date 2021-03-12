@@ -65,7 +65,7 @@ Rails.application.config.assets.precompile += [ "dashboards.css", "dashboards/ap
 Rails.application.config.assets.precompile += [ "settings.css", "settings/app.js" ]
 Rails.application.config.assets.precompile += [ "settings/*.css", "settings/*.js" ]
 
-
+Rails.application.config.assets.precompile += [ "ma/**.css", "ma/**.js" ]
 
 Rails.application.config.assets.precompile += [ "i18n.js" ]
 
