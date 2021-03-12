@@ -95,7 +95,7 @@ module Interfaces::Controllers::Discussions
                 subject: "#{cloud_object_class_translation} (#{@cloud_object.global_identifier}): #{I18n.t("core.shared.view_title_notification_discussions_created")}",
                 body: "#{discussion.user_creator.full_name} #{I18n.t("core.shared.view_text_notification_discussion_created_body")}: '#{discussion.content}'",
                 url: "#{@cloud_object.id}?tab=discussions"
-            )
+            ) if Object.const_defined?("#{cloud_object_model}::Subscriber")
 
 
             if block_given?
