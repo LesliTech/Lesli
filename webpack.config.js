@@ -81,6 +81,9 @@ module.exports = env => {
             "errors/app": "./app/vue/errors/app.js",
             
             "settings/workflows_app": "./app/vue/settings/workflows/app.js",
+
+            "ma/mls_app": "./app/vue/ma/mls/app.js",
+            "ma/mcs_app": "./app/vue/ma/mcs/app.js",
         },
         output: {
             path: __dirname,
