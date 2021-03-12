@@ -89,10 +89,16 @@ class ApplicationLesliMailer < ActionMailer::Base
     
     def build_app_from_params(params)
 
-        return if params[:user].blank?
-        
         @app[:host] = default_url_options[:host]
         @app[:instance] = Rails.application.config.lesli_settings["instance"]
+        @app[:company] = {
+            id: 0,
+            name: "",
+            tag_line: "",
+        }
+
+        return if params[:user].blank?
+
         @app[:company] = {
             id: params[:user].account.id,
             name: params[:user].account.company_name,
