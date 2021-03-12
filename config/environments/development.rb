@@ -118,6 +118,7 @@ Rails.application.configure do
         }
     end
 
+    # SES configuration credentials are initialzied in config/initializers/aws.rb
     if config.action_mailer.delivery_method == :ses
         # check settings on config/initializers/aws.rb
     end
