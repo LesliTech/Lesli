@@ -11,3 +11,48 @@ For more information read the license file including with this software.
 // ·
 */
 
+
+// ·
+import app from "LesliVue/public"
+
+
+app({
+    data: {
+        magic_link: {
+            email: "",
+        },
+        notification: {
+            message: "",
+            show: false,
+            type: "default"
+        }
+    },
+    mounted() {
+    },
+    methods: {
+        postSendMagicLink(event){
+            event.preventDefault();
+            this.notification.show = false
+
+            let data = {
+                user: {
+                    email: this.magic_link.email.toLowerCase(),
+                }
+            };
+
+            this.http.post(this.url.to("/ma/mls.json"), data).then(response => {
+                this.showNotification(response.data.message, "is-success")
+            }).catch(error => {
+                this.showNotification("Error")
+            })
+        },
+
+        showNotification(message, type="danger"){
+            this.notification.message = message;
+            this.notification.type = type;
+            this.notification.show = true;
+        }
+    }
+
+})
+
