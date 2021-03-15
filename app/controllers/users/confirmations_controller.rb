@@ -26,7 +26,7 @@ class Users::ConfirmationsController < Devise::ConfirmationsController
     def show
 
         # get the confirmation token sent through get params
-        token = params[:k]
+        token = params[:confirmation_token]
 
         # validate that token were sent
         if token.blank?
