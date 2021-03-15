@@ -20,7 +20,7 @@ For more information read the license file including with this software.
 module CustomizationHelper
 
     def customization_instance_logo
-        image_tag(@account[:customization][:logo], alt: "#{@account[:company]} logo")
+        image_tag(@account[:customization][:logo], alt: "#{@account[:company][:name]} logo")
     end
 
 end

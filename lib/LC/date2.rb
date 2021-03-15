@@ -23,14 +23,9 @@ module LC
 
     class Date2
 
-        def initialize(date = Time.current, format = nil)
+        def initialize(date = Time.current, format_string = "%Y/%m/%d")
             
             config = Rails.application.config.lesli_settings["configuration"]["datetime"]
-
-            # support the old date & time format definition
-            date = config["date_format"]
-            date_text = config["date_format_full"]
-            date_time = config["time_format"]
 
 
             # NOTE: Do not modify settings here,
@@ -41,28 +36,60 @@ module LC
                 "start_week_on" => config["start_week_on"],
                 "format": {
                     "date" => "%d.%m.%Y",
-                    "date_text" => "%a, %B %d, %Y",
+                    "time" => "%H:%M",
                     "date_time" => "%d.%m.%Y %H:%M",
-                    "time" => "%H:%M"
+                    "date_words" => "%a, %B %d, %Y",
+                    "date_time_words" => "%a, %B %d, %Y, %H:%M",
                 }
             }
 
             # default date format
             @format = "date"
 
+            # get a valid timezone
             @zone = ActiveSupport::TimeZone.new(@settings["time_zone"])
+
+            # work with the default date
+            if date.is_a?(String)
+                date = ::Date.strptime(date, format_string)
+            end
 
             @date = date
 
         end
 
+        # Date formats
         def date
             format "date"
+            self
         end 
+
+        def time
+            format "time"
+            self
+        end
 
         def date_time 
             format "date_time"
+            self
         end
+
+        def date_words
+            format "date_words"
+            self
+        end
+
+        def date_time_words
+            format "date_time_words"
+            self
+        end
+
+
+        # Date getters
+        def month
+            @date.strftime("%m")
+        end
+
 
         def db_timestamps table=""
 
@@ -76,9 +103,16 @@ module LC
 
         end
 
+        def now
+            Time.current.in_time_zone(@zone)
+        end
+
         def to_s
-            LC::Debug.msg @date, @date.strftime(@format)
-            "date"
+        end
+
+        def db_column column
+            format = self.db_format
+            "TO_CHAR(#{column} at time zone 'utc' at time zone '#{@settings["time_zone"]}', '#{format}') as #{column}_date" 
         end
 
 
@@ -86,7 +120,6 @@ module LC
 
         def format format
             @format = format
-            self
         end
 
         def db_format
