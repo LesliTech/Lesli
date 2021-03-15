@@ -28,8 +28,24 @@ app({
         }
     },
     mounted() {
+        let url = new URL(location.href);
+        let token = url.searchParams.get('token');
+        let user_id = url.searchParams.get('user_id');
+
+        if(token && user_id) this.redirect_url(token, user_id);
     },
     methods: {
+        redirect_url(token, user_id){
+            let redirect_url= "/"
+
+            this.http.get(`/ma/mls.json?token=${token}&user_id=${user_id}`).then(response => {
+                if (response.successful){
+                    this.url.go(redirect_url)
+                }
+            }).catch(error => {
+                console.log(error)
+            })
+        },
         postSendMagicLink(event){
             event.preventDefault();
             this.notification.show = false

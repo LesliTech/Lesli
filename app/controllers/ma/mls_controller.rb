@@ -39,8 +39,13 @@ class Ma::MlsController < ApplicationController
         respond_to do |format|
             format.html {}
             format.json do
-                if @user.present?
-                    send_email
+                # For security reasons, the response is always successful
+                begin
+                    if @user.present?
+                        token = User::AccessCode.find_by(user: @user).generate_code
+                        send_email(token)
+                        end
+                rescue
                 end
                 respond_with_successful({ message: "An access mail was sent"})
             end
@@ -57,8 +62,9 @@ class Ma::MlsController < ApplicationController
         @user = User.find_by(email: params[:user][:email], active: true)
     end
 
-    def send_email
+    def send_email(token)
         @user.logs.create({ title: "access_code_magic_link_request", description: "user_agent: #{get_user_agent}, user_remote: #{request.remote_ip}" })
+        UserMailer.with(user: @user, token: token).magic_link.deliver_now
     end
 
     def login
