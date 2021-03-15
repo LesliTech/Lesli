@@ -4,6 +4,7 @@ import componentFormSendCoreEmail from './forms/send_core_email.vue'
 import componentFormCreateBellNotification from './forms/create_bell_notification.vue'
 import componentFormCloudObjectClone from './forms/cloud_object_clone.vue'
 import componentFormCreateCloudObjectFile from './forms/create_cloud_object_file.vue'
+import componentFormSendTalkChatroomMessage from './forms/send_talk_chatroom_message.vue'
 
 export default {
     props: {
@@ -33,7 +34,8 @@ export default {
         'component-form-send-core-email': componentFormSendCoreEmail,
         'component-form-create-bell-notification': componentFormCreateBellNotification,
         'component-form-create-cloud-object-file': componentFormCreateCloudObjectFile,
-        'component-form-cloud-object-clone': componentFormCloudObjectClone
+        'component-form-cloud-object-clone': componentFormCloudObjectClone,
+        'component-form-send-talk-chatroom-message': componentFormSendTalkChatroomMessage
     },
 
     data(){
@@ -406,6 +408,14 @@ export default {
                 :view-type="viewType"
                 :engine-namespace="engineNamespace"
             ></component-form-cloud-object-clone>
+            <component-form-send-talk-chatroom-message
+                v-if="action.action_type == 'send_talk_chatroom_message'"
+                :options="options"
+                :workflow-id="workflowId"
+                :translations-path="translationsPath"
+                :workflow-action="action"
+                :view-type="viewType"
+            ></component-form-send-talk-chatroom-message>
             <br>
             <div class="buttons">
                 <b-button type="is-primary" expanded native-type="submit">
