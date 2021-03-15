@@ -46,7 +46,7 @@ module CloudObject
         # @description Returns a string that represents and identifies this cloud_object from all other cloud_objects in the same account
         # @example
         #     project = CloudHouse::Project.find(1)
-        #     puts projet.global_indentifier # If the CloudHouse::Project class does not have the method overrided, this wil print 'CloudHouse::Project - 1'
+        #     puts projet.global_indentifier # If the CloudHouse::Project class does not have the method overrided, this will print 'CloudHouse::Project - 1'
         def global_identifier
             return "#{self.class.name} - #{id}"
         end
@@ -59,6 +59,14 @@ module CloudObject
         #       new_project = CloudHouse::Project.create!()
         #       new_project.clone_associations(project)
         def clone_associations(original_cloud_object)
+        end
+
+        # @return [String]
+        # @description Returns a string that represents and identifies the chatroom related to this cloud object on the external service
+        # @example
+        #     chat = ClouTalk::Chatroom.first
+        #     puts chat.chatroom_external_id # If the class have the method overrided, this will print 'ZC57SgOT8KVKJXg7GKyh'
+        def chatroom_external_id
         end
 
         #######################################################################################
