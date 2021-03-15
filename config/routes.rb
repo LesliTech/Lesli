@@ -56,6 +56,7 @@ Rails.application.routes.draw do
         mount CloudFocus::Engine  => "/focus"  if defined?(CloudFocus)
         mount CloudDriver::Engine => "/driver" if defined?(CloudDriver)
         mount CloudMailer::Engine => "/mailer" if defined?(CloudMailer)
+        mount CloudPortal::Engine => "/portal" if defined?(CloudPortal)
         mount CloudThings::Engine => "/inventory" if defined?(CloudThings)
         mount CloudProposal::Engine => "/proposal" if defined?(CloudProposal)
         mount CloudDevelopment::Engine => "/development" if defined?(CloudDevelopment)
@@ -66,6 +67,14 @@ Rails.application.routes.draw do
 
     mount CloudDispatcher::Engine => "/api" if defined?(CloudDispatcher)
     mount CloudFederation::Engine => "/cloud" if defined?(CloudFederation)
+
+    # Access Codes
+    namespace :ma do
+        # Magic Links
+        resources :mls, only: [:index]
+        # Magic Code or OTP
+        resources :mcs
+    end
 
     match "/404", :to => "errors#not_found",             :via => :all
     match "/401", :to => "errors#unauthorized",          :via => :all

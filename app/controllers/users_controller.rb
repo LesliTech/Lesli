@@ -187,6 +187,9 @@ class UsersController < ApplicationLesliController
 
     def become
 
+        # always should be disabled
+        return respond_with_unauthorized 
+
         # Allow only admin to become as user
         return respond_with_unauthorized if current_user.email != "crm.admin@deutsche-leibrenten.de"
 
@@ -278,9 +281,9 @@ class UsersController < ApplicationLesliController
         respond_with_successful
 
     end
-
-    private
     
+    private
+
     def user_params
         params.require(:user).permit(
             :active,
