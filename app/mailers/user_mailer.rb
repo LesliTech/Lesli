@@ -55,7 +55,7 @@ class UserMailer < ApplicationLesliMailer
     def confirmation_instructions
         user = params[:user]
         token = user.confirmation_token
-        @data = @data.merge({
+        build_data_from_params(params, {
             url: "/confirmation?k="+token,
             user: {
                 full_name: user.full_name,
@@ -74,7 +74,7 @@ class UserMailer < ApplicationLesliMailer
     def reset_password_instructions
         user = params[:user]
         token = params[:token]
-        @data = @data.merge({
+        build_data_from_params(params, {
             url: "/password/edit?reset_password_token=#{token}",
             user: {
                 full_name: user.full_name,

@@ -62,6 +62,8 @@ class ApplicationLesliMailer < ActionMailer::Base
 
     def build_data_from_params(params, data={})
 
+        LC::Debug.info "build data from params"
+
         # make custom data available in mailer method and mailer template
         @data = @data.merge(data)
 
@@ -125,8 +127,6 @@ class ApplicationLesliMailer < ActionMailer::Base
 
 
     def log_mail_requests title="email_sent", payload=nil
-
-        LC::Debug.msg self, self.message
 
         if payload.blank?
             payload = {
