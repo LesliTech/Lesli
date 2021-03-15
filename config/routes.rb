@@ -71,7 +71,7 @@ Rails.application.routes.draw do
     # Access Codes
     namespace :ma do
         # Magic Links
-        resources :mls, only: [:index]
+        resources :mls, only: [:index, :create]
         # Magic Code or OTP
         resources :mcs
     end

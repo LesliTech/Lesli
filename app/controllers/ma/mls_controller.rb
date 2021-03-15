@@ -20,6 +20,7 @@ class Ma::MlsController < ApplicationController
     include Application::Logger
 
     before_action :set_user, only: [:index]
+    before_action :find_user, only: [:create]
 
     # GET /ma/mls
     def index
@@ -34,10 +35,30 @@ class Ma::MlsController < ApplicationController
         end
     end
 
+    def create
+        respond_to do |format|
+            format.html {}
+            format.json do
+                if @user.present?
+                    send_email
+                end
+                respond_with_successful({ message: "An access mail was sent"})
+            end
+        end
+    end
+
     private
 
     def set_user
         @user = User.find_by(id: params[:user_id], active: true)
+    end
+
+    def find_user
+        @user = User.find_by(email: params[:user][:email], active: true)
+    end
+
+    def send_email
+        @user.logs.create({ title: "access_code_magic_link_request", description: "user_agent: #{get_user_agent}, user_remote: #{request.remote_ip}" })
     end
 
     def login
