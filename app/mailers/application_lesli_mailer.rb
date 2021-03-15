@@ -89,10 +89,16 @@ class ApplicationLesliMailer < ActionMailer::Base
     
     def build_app_from_params(params)
 
-        return if params[:user].blank?
-        
         @app[:host] = default_url_options[:host]
         @app[:instance] = Rails.application.config.lesli_settings["instance"]
+        @app[:company] = {
+            id: 0,
+            name: "",
+            tag_line: "",
+        }
+
+        return if params[:user].blank?
+
         @app[:company] = {
             id: params[:user].account.id,
             name: params[:user].account.company_name,
@@ -101,9 +107,22 @@ class ApplicationLesliMailer < ActionMailer::Base
 
     end
 
+    def build_recipients_from_users(users)
+        if users.is_a?(Array)
+            users.map { |user| email_address_with_name(user.email, user.full_name) } 
+        end
+    end
+
+    def build_recipients_from_contacts(contacts)
+        if contacts.is_a?(Array)
+            contacts.map { |contact| email_address_with_name(contact[:email], contact[:name]) }
+        end
+    end
+
+    
+
 
     def build_email_from_params(params)
-
 
         # Single recipient email
         if params[:to].is_a?(User)
@@ -124,7 +143,7 @@ class ApplicationLesliMailer < ActionMailer::Base
 
         # Multi recipient email
         if params[:to].is_a?(Array)
-            @email[:to] = params[:to].map{ |user| email_address_with_name(user.email, user.full_name) } 
+            @email[:to] = params[:to].map { |user| email_address_with_name(user.email, user.full_name) } 
         end
 
         if params[:cc].is_a?(Array)

@@ -90,8 +90,7 @@ export default {
             }).catch(error => {
                 console.log(error)
             })
-        }
-
+        },
     },
     watch: {
         "data.user": function(user) {

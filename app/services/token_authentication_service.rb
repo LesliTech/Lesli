@@ -48,7 +48,7 @@ class TokenAuthenticationService
     def is_token_valid?(token)
         return LC::Response.service(false, {details: "User is not configured to use access code"}) if @resource.nil?
         totp = ROTP::TOTP.new(@resource.otp_secret)
-        last_otp_at = totp.verify(otp=token, after:@resource.last_otp_at)
+        last_otp_at = totp.verify(otp=token, drift_behind: 15, after:@resource.last_otp_at)
 
         unless last_otp_at
             return LC::Response.service(false, {details: "The token has already been used"})
