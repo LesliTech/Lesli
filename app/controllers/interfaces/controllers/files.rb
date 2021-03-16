@@ -138,10 +138,14 @@ module Interfaces::Controllers::Files
 
 
         if file.save
-            # Setting the file name in case it's blank
-            file.update(
-                name: params[:ticket_file][:attachment].original_filename
-            ) if file.name.blank?
+            # Setting the file name in case it's blank and updating the file in case the filename changed
+            if file.name.blank?
+                file.update(
+                    name: params["#{cloud_object_model.name.demodulize.underscore}_file".to_sym][:attachment].original_filename
+                )
+            else
+                file.update({})
+            end
 
             cloud_object = file.cloud_object
 
