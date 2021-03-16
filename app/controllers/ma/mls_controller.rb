@@ -58,6 +58,12 @@ class Ma::MlsController < ApplicationController
 
     def find_user
         @user = User.find_by(email: params[:user_email], active: true)
+
+        unless @user.present?
+            Account::Activity.log("core", "/ma/ml", "access_code_magic_link_session_creation_failed", "no_valid_email", {
+                    email: (params[:user_email] || "")
+            })
+        end
     end
 
     def send_email(token)
@@ -99,6 +105,7 @@ class Ma::MlsController < ApplicationController
         response = session_validation.valid?
 
         unless response.success?
+            @user.logs.create({ title: "access_code_magic_link_session_creation_failed", description: response.error["message"] })
             return false
         end
 
@@ -114,6 +121,7 @@ class Ma::MlsController < ApplicationController
         response = token_auth_service.is_token_valid?(params[:token])
 
         unless response.success?
+            @user.logs.create({ title: "access_code_magic_link_session_creation_failed", description: response.error[:details] })
             return false
         end
 
