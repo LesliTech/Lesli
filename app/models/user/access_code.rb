@@ -44,8 +44,8 @@ class User::AccessCode < ApplicationLesliRecord
     end
 
     def register_use
-        self.last_used_at = Time.now.utc
-        self.save()
+        self.update(last_used_at: Time.now.utc)
+        self.delete
     end
 
     def is_token_valid?
