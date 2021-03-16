@@ -88,7 +88,7 @@ class UserMailer < ApplicationLesliMailer
         user = params[:user]
         token = params[:token]
         build_data_from_params(params, {
-                url: "/ma/mls?user_id=#{user.id}&token=#{token}",
+                url: "/ma/ml?user_id=#{user.id}&token=#{token}",
                 user: {
                         full_name: user.full_name
                 }
