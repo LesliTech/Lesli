@@ -126,8 +126,6 @@ class ApplicationLesliMailer < ActionMailer::Base
 
     def log_mail_requests title="email_sent", payload=nil
 
-        LC::Debug.msg self, self.message
-
         if payload.blank?
             payload = {
                 subject: self.message.subject,
