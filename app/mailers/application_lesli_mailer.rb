@@ -67,8 +67,6 @@ class ApplicationLesliMailer < ActionMailer::Base
 
         build_app_from_params(params)
 
-        build_email_from_params(params)
-
         build_customization_from_params(params)
 
     end
@@ -119,53 +117,7 @@ class ApplicationLesliMailer < ActionMailer::Base
         end
     end
 
-    
-
-
-    def build_email_from_params(params)
-
-        # Single recipient email
-        if params[:to].is_a?(User)
-            user = params[:to]
-            @email[:to] = email_address_with_name(user.email, user.full_name)
-        end
-
-        if params[:cc].is_a?(User)
-            user = params[:cc]
-            @email[:cc] = email_address_with_name(user.email, user.full_name)
-        end
-
-        if params[:bcc].is_a?(User)
-            user = params[:bcc]
-            @email[:bcc] = email_address_with_name(user.email, user.full_name)
-        end
-
-
-        # Multi recipient email
-        if params[:to].is_a?(Array)
-            @email[:to] = params[:to].map { |user| email_address_with_name(user.email, user.full_name) } 
-        end
-
-        if params[:cc].is_a?(Array)
-            @email[:cc] = params[:cc].map{ |user| email_address_with_name(user.email, user.full_name) } 
-        end
-
-        if params[:bcc].is_a?(Array)
-            @email[:bcc] = params[:bcc].map{ |user| email_address_with_name(user.email, user.full_name) } 
-        end
-
-
-        # Use user param as destinatary
-        if params[:to].blank? and params[:user].is_a?(User)
-            @email[:to] = email_address_with_name(params[:user].email, params[:user].full_name)
-        end
-
-        
-        # TODO: to add support to recipients as string emails, use params[:emails] instead of the :to key
-        if params[:to].blank?
-            log_mail_requests("email_not_sent", { error: "email_recipient_not_found" })
-        end
-
+    def build_recipients_from_emails()
     end
 
     
