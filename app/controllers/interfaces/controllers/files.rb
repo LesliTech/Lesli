@@ -140,7 +140,7 @@ module Interfaces::Controllers::Files
         if file.save
             # Setting the file name in case it's blank
             file.update(
-                name: (file.attachment_identifier || file.attachment_s3_identifier)
+                name: params[:ticket_file][:attachment].original_filename
             ) if file.name.blank?
 
             cloud_object = file.cloud_object
@@ -184,9 +184,9 @@ module Interfaces::Controllers::Files
         
         # Sending file using CarrierWave
         if @file.attachment_s3.file
-            send_data(@file.attachment_s3.read, filename: @file.name, disposition: disposition, stream: "true")
+            send_data(@file.attachment_s3.read, filename: @file.attachment_s3_identifier, disposition: disposition, stream: "true")
         else
-            send_data(@file.attachment.read, filename: @file.name, disposition: disposition, stream: "true")
+            send_data(@file.attachment.read, filename: @file.attachment_identifier, disposition: disposition, stream: "true")
         end
     end
 

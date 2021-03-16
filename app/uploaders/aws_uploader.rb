@@ -30,15 +30,7 @@ class AwsUploader < CarrierWave::Uploader::Base
     def store_dir
         ["storage", model.class.to_s.underscore.sub("/file", ""), model.cloud_object.id].join("/")
     end
-
-    # Override the filename of the uploaded files:
-    # Avoid using model.id or version_name here, see uploader/store.rb for details.
-    def filename
-        if model.id && original_filename && ! original_filename.start_with?("#{model.id}-") 
-            return "#{model.id}-#{original_filename}"
-        end
-        original_filename
-    end
+    
     # Provide a default URL as a default if there hasn't been a file uploaded:
     # def default_url(*args)
     #   # For Rails 3.1+ asset pipeline compatibility:
