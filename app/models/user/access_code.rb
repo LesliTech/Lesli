@@ -19,18 +19,13 @@ require 'rotp'
 
 
 class User::AccessCode < ApplicationLesliRecord
+    before_create :generate_code
+
     belongs_to :user,   foreign_key: "users_id",    class_name: "::User"
 
-    validates :otp_secret, :presence => true
     validates :user, :presence => true
 
-    # @return [void]
-    # @description initialize secret code
-    def self.initialize_secret_code(user)
-        response = TokenAuthenticationService.create_otp_secret
-        return nil unless response.success?
-        self.create(otp_secret: response.payload[:otp_secret], user: user)
-    end
+    MIN_TOKEN_DURATION = 1*60
 
     def self.index(current_user, query)
         []
@@ -43,10 +38,21 @@ class User::AccessCode < ApplicationLesliRecord
     # @return [Integer]
     # @description generates an access code for the associated user
     def generate_code
-        token_service = TokenAuthenticationService.new(self.user)
-        response = token_service.create_token
+        _, enc = Devise.token_generator.generate(User, "id")
+        self.token = enc
+        self.expiration_at = Time.now.utc + MIN_TOKEN_DURATION
+    end
 
-        return nil unless response.success?
-        return response.payload[:token].to_i
+    def register_use
+        self.last_used_at = Time.now.utc
+        self.save()
+    end
+
+    def is_token_valid?
+        now = Time.now.utc
+        if  self.last_used_at.blank? and self.expiration_at > now
+            return true
+        end
+        false
     end
 end
