@@ -151,6 +151,13 @@ module HtmlHelper
         end
     end
 
+    # 07.05 Shared engine
+    def navigation_engine_shared text: "Shared", icon_path: "cloud_shared/shared-logo.svg"
+        if defined? CloudShared
+            navigation_engine_item text, icon_path, cloud_shared.root_path, controller_path.include?("cloud_shared")
+        end
+    end
+
     # SECURITY & PRIVACY
 
     # 08.03 Audit engine
