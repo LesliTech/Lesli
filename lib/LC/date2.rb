@@ -103,6 +103,11 @@ module LC
 
         end
 
+        def db_column column
+            format = self.db_format
+            "TO_CHAR(#{column} at time zone 'utc' at time zone '#{@settings["time_zone"]}', '#{format}') as #{column}_date" 
+        end
+
         def now
             Time.current.in_time_zone(@zone)
         end
@@ -110,14 +115,10 @@ module LC
         def to_s
         end
 
-        def db_column column
-            format = self.db_format
-            "TO_CHAR(#{column} at time zone 'utc' at time zone '#{@settings["time_zone"]}', '#{format}') as #{column}_date" 
-        end
-
 
         private 
 
+        
         def format format
             @format = format
         end

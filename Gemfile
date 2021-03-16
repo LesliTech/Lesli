@@ -193,3 +193,5 @@ Lesli::engines.each do |engine|
         end
     end
 end
+
+gem 'cloud_shared', path: 'cloud_shared'
