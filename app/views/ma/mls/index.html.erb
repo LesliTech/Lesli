@@ -17,16 +17,4 @@ For more information read the license file including with this software.
 
 =end
 %>
-
-<% if lesli_instance_code != "lesli" %>
-    <section class="<%= lesli_instance_code %>-login">
-        <%= render :template => "#{lesli_instance_code}/lesli/ma/mls/index" rescue nil %>
-    </section>
-<% end %>
-
-
-<% if lesli_instance_code == "lesli" %>
-    <h3>There is no a view for ma/mls path.</h3>
-<% end %>
-
-
+<router-view></router-view>

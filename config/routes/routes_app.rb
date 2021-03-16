@@ -134,6 +134,14 @@ module RoutesApp
 
             end
 
+            # Access Codes
+            namespace :ma do
+                # Magic Links
+                resource :ml, only: [:show, :create]
+                # Magic Code or OTP
+                resources :mcs
+            end
+
         end
     end
 end
