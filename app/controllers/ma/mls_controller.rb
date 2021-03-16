@@ -19,52 +19,71 @@ class Ma::MlsController < ApplicationController
     include Application::Responder
     include Application::Logger
 
-    before_action :set_user, only: [:index]
+    before_action :find_user, only: [:create]
 
     # GET /ma/mls
-    def index
-        respond_to do |format|
-            format.html {}
-            format.json do
-                if @user.present? and params[:token].present? and request.format.json?
-                    return self.login
-                end
-                respond_with_error("invalid token")
-            end
+    def show
+        if params[:token].blank?
+            return render status: 200
         end
+
+        access_token = User::AccessCode.find_by(token: params[:token])
+
+        unless is_token_valid?(access_token)
+            flash.alert = "The token has already been used"
+            return render status: 200
+        end
+
+        self.login(access_token)
+        redirect_to "/"
+
+    end
+
+    def create
+        begin
+            if @user.present?
+                access_code = User::AccessCode.create(user: @user)
+                send_email(access_code.token)
+            end
+        rescue
+        end
+        flash.notice = "An access mail was sent"
+        redirect_to ma_ml_path
     end
 
     private
 
-    def set_user
-        @user = User.find_by(id: params[:user_id], active: true)
+    def find_user
+        @user = User.find_by(email: params[:user_email], active: true)
+
+        if @user.blank?
+            Account::Activity.log("core", "/ma/ml", "access_code_magic_link_session_creation_failed", "no_valid_email", {
+                    email: (params[:user_email] || "")
+            })
+        end
     end
 
-    def login
-        session_validation = SessionValidationService.new(@user)
-        response = session_validation.valid?
+    def send_email(token)
+        @user.logs.create(
+                {
+                        title: "access_code_magic_link_request",
+                        description: "user_agent: #{get_user_agent},user_remote: #{request.remote_ip}"
+                }
+        )
+        UserMailer.with(user: @user, token: token).magic_link.deliver_now
+    end
 
-        unless response.success?
-            return respond_with_error(response.error["message"])
-        end
-
-        token_auth_service = TokenAuthenticationService.new(@user)
-        response = token_auth_service.is_token_valid?(params[:token])
-
-        unless response.success?
-            return respond_with_error(response.error[:details])
-        end
+    def login(access_token)
 
         # do a user login
-        sign_in @user
-
+        sign_in access_token.user
+        access_token.register_use
 
         # register a successful sign-in log for the current user
-        @user.logs.create({ title: "session_creation_successful" })
-
+        access_token.user.logs.create({ title: "access_code_magic_link_session_creation_successful", description: "token: #{access_token.token}" })
 
         # register a new unique session
-        @current_session = @user.sessions.create({
+        @current_session = access_token.user.sessions.create({
                                                          :user_agent => get_user_agent,
                                                          :user_remote => request.remote_ip,
                                                          :session_token => session[:session_id],
@@ -72,14 +91,27 @@ class Ma::MlsController < ApplicationController
                                                          :last_used_at => LC::Date.now
                                                  })
 
-
         session[:user_session_id] = @current_session[:id]
+    end
 
-        respond_with_successful
+    def is_token_valid?(access_token)
+        if access_token.blank?
+            Account::Activity.log("core", "/ma/ml", "access_code_magic_link_session_creation_failed", "no_exist_token", {
+                    token: (params[:token] || "")
+            })
+            return false
+        end
+
+        unless access_token.is_token_valid?
+            access_token.user.logs.create({ title: "access_code_magic_link_session_creation_failed", description: "no_valid_token: #{access_token.token}" })
+            return false
+        end
+
+        true
     end
 
     # Only allow a list of trusted parameters through.
     def ma_ml_params
-        params.require(:ma_ml).permit(:token, :user_id)
+        params.require(:ma_ml).permit(:token, :user_email)
     end
 end
