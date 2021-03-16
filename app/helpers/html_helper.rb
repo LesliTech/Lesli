@@ -1,10 +1,10 @@
 =begin
-    
+
 Copyright (c) 2020, all rights reserved.
 
-All the information provided by this platform is protected by international laws related  to 
-industrial property, intellectual property, copyright and relative international laws. 
-All intellectual or industrial property rights of the code, texts, trade mark, design, 
+All the information provided by this platform is protected by international laws related  to
+industrial property, intellectual property, copyright and relative international laws.
+All intellectual or industrial property rights of the code, texts, trade mark, design,
 pictures and any other information belongs to the owner of this platform.
 
 Without the written permission of the owner, any replication, modification,
@@ -13,7 +13,7 @@ transmission, publication is strictly forbidden.
 For more information read the license file including with this software.
 
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
-// · 
+// ·
 
 =end
 
@@ -21,11 +21,11 @@ module HtmlHelper
 
     def navigation_container(label, args, &block)
         # does not work
-        content_tag("b-menu-item") do 
-            content_tag("template", :slot => "label", "slot-scope" => "props") do 
+        content_tag("b-menu-item") do
+            content_tag("template", :slot => "label", "slot-scope" => "props") do
                 content_tag(:i, "", :class => args) +
-                content_tag(:span, label) +
-                %(<b-icon class="is-pulled-right" :icon="props.expanded ? 'caret-down' : 'caret-right'"></b-icon>).html_safe
+                        content_tag(:span, label) +
+                        %(<b-icon class="is-pulled-right" :icon="props.expanded ? 'caret-down' : 'caret-right'"></b-icon>).html_safe
             end
             (block_given? ? capture(&block) : content) + content_tag(:span, "this is the end")
         end
@@ -44,7 +44,7 @@ module HtmlHelper
     def navigation_engine_item text, icon_path, path, is_active = false
         content_tag(:a, :href => path, :class => is_active ? "is-active": nil) do
             image_tag(icon_path) +
-            content_tag(:span, text)
+                    content_tag(:span, text)
         end
     end
 
