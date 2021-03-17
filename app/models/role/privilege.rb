@@ -36,6 +36,7 @@ class Role::Privilege < ApplicationRecord
             :grant_options,
             :grant_resources,
             :grant_search,
+            :grant_actions,
             :created_at,
             :updated_at
         )
