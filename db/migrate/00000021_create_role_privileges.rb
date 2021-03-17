@@ -39,6 +39,7 @@ class CreateRolePrivileges < ActiveRecord::Migration[6.0]
 
             t.boolean :grant_resources, default: false
             t.boolean :grant_options,   default: false
+            t.boolean :grant_actions,   default: false
 
             t.datetime :deleted_at, index: true
             t.timestamps
