@@ -90,4 +90,16 @@ class UserMailer < ApplicationLesliMailer
         mail(to: email_address_with_name(user.email, user.full_name), subject: I18n.t("core.users/passwords.mailer_password_reset_instructions"))
     end
 
+    def magic_link
+        user = params[:user]
+        token = params[:token]
+        build_data_from_params(params, {
+                url: "/ma/ml?token=#{token}",
+                user: {
+                        full_name: user.full_name
+                }
+        })
+        mail(to: email_address_with_name(user.email, user.full_name), subject: "works")
+    end
+
 end
