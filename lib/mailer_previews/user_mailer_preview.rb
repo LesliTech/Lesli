@@ -34,4 +34,8 @@ class UserMailerPreview < ActionMailer::Preview
         UserMailer.with(user: User.first).invitation_instructions
     end
 
+    def magic_link
+        UserMailer.with(user: User.first, token: "my_token").magic_link
+    end
+
 end
