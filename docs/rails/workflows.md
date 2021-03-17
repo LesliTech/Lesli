@@ -296,3 +296,61 @@ Note that we mention an action type, the action type is limited by the platform 
 * (**Talk**) send_talk_chatroom_message
     - Send a message via CloudOne and displayed by CloudTalk
 
+There are important steps on the creation of an action type:
+
+1. First, we decide an original name for our new action type, this must be defined by an action, engine and object like this: action_engine_object. For example: "create_focus_task". And then we add this action type name to the action_type enum located at app/models/shared/workflow/action.rb
+
+2. Now, we must create the form component that we will use to create an action of that new specific action type at runtime, this form components are located on lib/vue/shared/workflows/components/actions/forms/. Here we create the new form with the relevant and necessary inputs. This file must have the same name as the action type that we are creating.
+
+3. Then we have to import and use the new form component on the principal form located at lib/vue/shared/workflows/components/actions/form.vue. And now we are able to see the new form when we select to create a new action of the new type.
+
+4. Finally, we have to create the Job that the action will execute. Create the Job file with the same action type name on the directory app/jobs/workflow_actions/. This Job is the one in charge of get the concerning users of the action and the replacement of variables in the text, and then execute the funcionality code. This functionality could be in the job, but commonly when the action is related to other engine functionality we call the respective Courier method. When we done with the Job, we have to call it from the method **execute** located on app/models/shared/workflow/action.rb on the case-when statement. Example:
+
+```ruby
+class WorkflowActions::SendTalkChatroomMessageJob < ApplicationJob
+     queue_as :default
+
+     def perform(current_user, cloud_object, action)
+
+         sender_user = nil
+
+         case action.concerning_users["type"]
+         when "creator"
+             sender_user = cloud_object.user_creator
+         when "main"
+             sender_user = cloud_object.user_main
+         when "custom"
+             sender_user = current_user.account.users.find(action.concerning_users["list"][0]["id"]) if action.concerning_users["list"]
+         when "current_user"
+             sender_user = current_user
+         end
+
+         begin
+             replacement_values = {
+                 "%global_identifier%" => cloud_object.global_identifier,
+                 "%current_user%" => (current_user.full_name || "")
+             }
+
+             action.parse_input_data(replacement_values)
+             input_data = action.input_data
+
+             class_data = cloud_object.class.name.split("::")
+
+             Courier::One::Firebase::Chatroom.send_message(
+                 sender_user,
+                 cloud_object.chatroom_external_id,
+                 input_data["message_text"]
+             )
+
+         rescue StandardError => e
+             if action.configuration["log_errors"]
+                 cloud_object.activities.create(
+                     user_creator: current_user,
+                     category: "action_workflow_action_failed",
+                     description: e.message
+                 )
+             end
+         end
+     end
+ end
+```
