@@ -46,7 +46,7 @@ LC::Date2.new.date.end_of_day
 LC::Date2.new.date.end_of_week
 LC::Date2.new.date.end_of_month
 
-# Date display
+# Date query**
 LC::Date2.new.date.from(Date.new)
 LC::Date2.new.date.to(Date.new)
 
