@@ -56,24 +56,25 @@ class Users::SessionsController < Devise::SessionsController
 
             # save a invalid credentials log for the requested user
             resource.logs.create({
-                                   title: "session_creation_failed",
-                                   description: "invalid_credentials"
-                                 })
+                title: "session_creation_failed",
+                description: "invalid_credentials"
+            })
 
             # respond with a no valid credentials generic error if not valid user found
             return respond_with_error(I18n.t("core.users/sessions.invalid_credentials"))
 
         end
 
-        session_validation = SessionValidationService.new(resource)
-        response = session_validation.valid?
+        # check if user meet requirements to login
+        user_validation = UserValidationService.new(resource).valid?
 
-        unless response.success?
+        # if user do not meet requirements to login
+        unless user_validation.success?
             return respond_with_error(response.error["message"])
         end
 
         # do a user login
-        sign_in :user, resource
+        sign_in(:user, resource)
 
 
         # register a successful sign-in log for the current user

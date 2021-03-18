@@ -1,2 +1,0 @@
-module Ma::MlsHelper
-end

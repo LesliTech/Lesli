@@ -42,7 +42,7 @@ class TokenAuthenticationService
             return LC::Response.service(false, {token: nil})
         end
         totp = ROTP::TOTP.new(@resource.otp_secret)
-        LC::Response.service(true, {token: totp.now})
+        LC::Response.service(true, { token: totp.now })
     end
 
     def is_token_valid?(token)
