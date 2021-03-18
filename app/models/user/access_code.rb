@@ -16,7 +16,7 @@ For more information read the license file including with this software.
 
 =end
 class User::AccessCode < ApplicationLesliRecord
-    before_create :generate_code
+    before_create :generate_token
 
     belongs_to :user,   foreign_key: "users_id",    class_name: "::User"
 
@@ -37,10 +37,35 @@ class User::AccessCode < ApplicationLesliRecord
 
     # @return [Integer]
     # @description generates an access code for the associated user
-    def generate_code
-        raw, enc = Devise.token_generator.generate(User, :id)
-        self.token = enc
+    def generate_token
+
+        token = nil
+
+        rebuild_token = true
+
+        # generate a random token
+        while rebuild_token do
+
+            # random token for passes
+            if self.token_type == "pass"
+                token = SecureRandom.alphanumeric(64)
+            end
+    
+            # random token for one time passwords
+            if self.token_type == "otp"
+                token = SecureRandom.hex(2)
+            end
+
+            # assign token to user if token is unique
+            if !User::AccessCode.find_by(:token => token, :token_type => self.token_type)
+                rebuild_token = false
+            end
+
+        end
+
+        self.token = token
         self.expiration_at = Time.now.utc + MIN_TOKEN_DURATION
+
     end
 
 

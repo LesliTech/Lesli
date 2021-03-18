@@ -65,6 +65,7 @@ Rails.application.config.assets.precompile += [ "settings.css", "settings/app.js
 Rails.application.config.assets.precompile += [ "settings/*.css", "settings/*.js" ]
 
 Rails.application.config.assets.precompile += [ "passes.css", "passes/**.js" ]
+Rails.application.config.assets.precompile += [ "otps.css", "otps/**.js" ]
 
 Rails.application.config.assets.precompile += [ "i18n.js" ]
 
