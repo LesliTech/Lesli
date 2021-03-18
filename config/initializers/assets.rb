@@ -60,12 +60,11 @@ Rails.application.config.assets.precompile += [ "abouts.css", "abouts/*.js" ]
 Rails.application.config.assets.precompile += [ "errors/*.css", "errors/*.js" ]
 Rails.application.config.assets.precompile += [ "websites*.css", "websites/*.js" ]
 
-
 Rails.application.config.assets.precompile += [ "dashboards.css", "dashboards/app.js" ]
 Rails.application.config.assets.precompile += [ "settings.css", "settings/app.js" ]
 Rails.application.config.assets.precompile += [ "settings/*.css", "settings/*.js" ]
 
-Rails.application.config.assets.precompile += [ "ma/**.css", "ma/**.js" ]
+Rails.application.config.assets.precompile += [ "passes.css", "passes/**.js" ]
 
 Rails.application.config.assets.precompile += [ "i18n.js" ]
 

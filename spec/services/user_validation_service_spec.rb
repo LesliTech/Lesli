@@ -1,3 +1,24 @@
+=begin
+
+Copyright (c) 2021, all rights reserved.
+
+All the information provided by this platform is protected by international laws related  to 
+industrial property, intellectual property, copyright and relative international laws. 
+All intellectual or industrial property rights of the code, texts, trade mark, design, 
+pictures and any other information belongs to the owner of this platform.
+
+Without the written permission of the owner, any replication, modification,
+transmission, publication is strictly forbidden.
+
+For more information read the license file including with this software.
+
+// · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
+// · 
+
+=end
+
+
+
 require 'rails_helper'
 
 
@@ -11,7 +32,7 @@ def user_factory_without_roles
 end
 
 
-RSpec.describe SessionValidationService, type: :model do
+RSpec.describe UserValidationService, type: :model do
     describe 'Check if user is confirmed' do
         it 'is expected user is confirmed' do
             user = user_factory_without_roles()
@@ -19,7 +40,7 @@ RSpec.describe SessionValidationService, type: :model do
             user_roles.roles.update(active: true)
             user.confirm
 
-            session_validation = SessionValidationService.new(user)
+            session_validation = UserValidationService.new(user)
 
             response = session_validation.valid?
 
@@ -31,7 +52,7 @@ RSpec.describe SessionValidationService, type: :model do
             user_roles = user.user_roles.create({ role: Account.first.roles.find_by(name: "limited") })
             user_roles.roles.update(active: true)
 
-            session_validation = SessionValidationService.new(user)
+            session_validation = UserValidationService.new(user)
             response = session_validation.valid?
 
             expect(response.success?).to eq false
@@ -44,7 +65,7 @@ RSpec.describe SessionValidationService, type: :model do
             user = user_factory_without_roles()
             user.confirm
 
-            session_validation = SessionValidationService.new(user)
+            session_validation = UserValidationService.new(user)
             response = session_validation.valid?
 
             expect(response.success?).to eq false
@@ -59,7 +80,7 @@ RSpec.describe SessionValidationService, type: :model do
             user_roles = user.user_roles.create({ role: Account.first.roles.find_by(name: "limited") })
             user_roles.roles.update(active: true)
 
-            session_validation = SessionValidationService.new(user)
+            session_validation = UserValidationService.new(user)
             response = session_validation.valid?
 
             expect(response.success?).to eq true
@@ -71,13 +92,13 @@ RSpec.describe SessionValidationService, type: :model do
             user_roles = user.user_roles.create({ role: Account.first.roles.find_by(name: "limited")})
             user_roles.roles.update(active: false)
 
-            session_validation = SessionValidationService.new(user)
+            session_validation = UserValidationService.new(user)
             response = session_validation.valid?
 
             expect(response.success?).to eq false
             expect(response.error).to eql({
-                                                  "message"=> I18n.t("deutscheleibrenten.users/sessions.role_access_denied")
-                                          })
+                "message"=> I18n.t("deutscheleibrenten.users/sessions.role_access_denied")
+            })
 
             # The limited role is used by other tests.
             # TODO: Create factory for roles so that the test is independent.
@@ -90,7 +111,7 @@ RSpec.describe SessionValidationService, type: :model do
             user_roles = user.user_roles.create({ role: Account.first.roles.find_by(name: "limited")})
             user_roles.roles.update(active: true)
 
-            session_validation = SessionValidationService.new(user)
+            session_validation = UserValidationService.new(user)
             response = session_validation.valid?
 
             expect(response.success?).to eq true
