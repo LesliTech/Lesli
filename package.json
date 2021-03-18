@@ -8,7 +8,7 @@
 
         "@rails/actioncable": "6.1.0",
 
-        "lesli-css": "0.7.5",
+        "lesli-css": "0.8.1",
         "lesli-js-debug-message": "0.3.5",
         
         "@babel/core": "7.12.10",
