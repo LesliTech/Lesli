@@ -25,6 +25,13 @@ export default {
             default: ()=>{
                 return {}
             }
+        },
+
+        roleOptions: {
+            type: Object,
+            default: ()=>{
+                return {}
+            }
         }
     },
 
@@ -91,6 +98,10 @@ export default {
                 }
             } 
 
+            if (this.$route.query.role) {
+                this.filters.role = this.$route.query.role
+            }
+
             this.filters_ready = true
         },
 
@@ -105,6 +116,7 @@ export default {
             }else{
                 url.query = {role: this.filters.role}
             }
+            
             url = url.filters({
                 status: this.filters.status,
                 view_type: 'index', 
@@ -148,7 +160,7 @@ export default {
 
             this.http.get(url).then(result => {
                 if (result.successful) {
-                    if(this.roleFilters && this.roleFilters.type == 'exclude' && this.roleFilters.role){
+                    if(this.roleOptions && this.roleOptions.type == 'exclude' && this.roleOptions.role){
                         let excluded_roles = this.roleFilters.role.split(',')
 
                         this.roles = result.data.filter((role)=>{
@@ -169,7 +181,8 @@ export default {
 
         searchUsers(text){
             this.filters.search = text.trim()
-
+            
+            this.pagination.current_page = 1 // clear pagination
             this.getUsers()
         },
 

@@ -295,6 +295,7 @@ class User < ApplicationLesliRecord
                 from user_roles ur 
                 join roles r 
                     on r.id = ur.roles_id  #{roles.blank? ? "" : "and r.name #{operator} (#{roles})"}
+                where ur.deleted_at is null
                 group by ur.users_id
             ) roles on roles.users_id = users.id
         ") 
@@ -363,6 +364,7 @@ class User < ApplicationLesliRecord
                 from user_roles ur 
                 join roles r 
                     on r.id = ur.roles_id  #{roles.blank? ? "" : "and r.name #{operator} (#{roles})"}
+                where ur.deleted_at is null
                 group by ur.users_id
             ) roles on roles.users_id = users.id
         ")
@@ -371,7 +373,7 @@ class User < ApplicationLesliRecord
         users = users.where("role_names #{operator} (#{roles})") unless roles.blank?
         users = users.where("category = ?", query[:filters][:category]) if query[:filters][:category]
         users = users.where("
-            email like '%#{query[:filters][:search]}%' or
+            lower(email) like '%#{query[:filters][:search]}%' or
             LOWER(concat(ud.first_name, ' ', ud.last_name)) like '%#{query[:filters][:search].downcase}%'
         ")  if not query[:filters][:search].blank?
 
