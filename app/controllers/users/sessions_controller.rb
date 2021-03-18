@@ -70,7 +70,7 @@ class Users::SessionsController < Devise::SessionsController
 
         # if user do not meet requirements to login
         unless user_validation.success?
-            return respond_with_error(response.error["message"])
+            return respond_with_error(user_validation.error["message"])
         end
 
         # do a user login
