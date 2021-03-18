@@ -8,7 +8,7 @@
 
 <hr/>
 
-Version 0.7.1  
+Version 0.8.1  
 
 
 #### Installation
@@ -21,7 +21,7 @@ npm install lesli-css --save
 #### Structure
 --------
 ```text
-LesliCSS  
+lesli-css  
 ├── src/  
 │    ├── base/  
 │    │    ├── fonts.scss  
@@ -45,7 +45,8 @@ LesliCSS
 
 @import "lesli-css";
 
-// Get color from the standard pallete
+
+// Work with the color pallete
 .test {
 	color: lesli-css-get-color(blue);
 	color: lesli-css-get-color(blue, 100);
@@ -53,6 +54,25 @@ LesliCSS
 	color: lesli-css-get-color(blue, 500); // default
 	color: lesli-css-get-color(blue, 700);
 	color: lesli-css-get-color(blue, 900);
+
+}
+
+
+// Breakpoints
+@include lesli-css-breakpoint("small") {
+	// your code
+}
+
+@include lesli-css-breakpoint-only("mobile") {
+	// styles for min-width: 320px and max-width: 768px only
+}
+
+@include lesli-css-breakpoint-custom(100px) {
+	// styles start at 100px
+}
+
+@include lesli-css-breakpoint-custom(200px, 300px) {
+	// styles for min-width: 200px and max-width: 300px only
 }
 
 ```
