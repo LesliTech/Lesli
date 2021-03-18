@@ -2585,10 +2585,10 @@ interface SimpleScrollGridState {
     shrinkWidth: number | null;
     forceYScrollbars: boolean;
     scrollerClientWidths: {
-        [index: string]: number;
+        [key: string]: number;
     };
     scrollerClientHeights: {
-        [index: string]: number;
+        [key: string]: number;
     };
 }
 declare class SimpleScrollGrid extends BaseComponent<SimpleScrollGridProps, SimpleScrollGridState> {
@@ -2598,8 +2598,8 @@ declare class SimpleScrollGrid extends BaseComponent<SimpleScrollGridProps, Simp
     scrollerElRefs: RefMap<HTMLElement>;
     state: SimpleScrollGridState;
     render(): VNode;
-    renderSection(sectionConfig: SimpleScrollGridSection, sectionI: number, microColGroupNode: VNode): createElement.JSX.Element;
-    renderChunkTd(sectionConfig: SimpleScrollGridSection, sectionI: number, microColGroupNode: VNode, chunkConfig: ChunkConfig): createElement.JSX.Element;
+    renderSection(sectionConfig: SimpleScrollGridSection, microColGroupNode: VNode): createElement.JSX.Element;
+    renderChunkTd(sectionConfig: SimpleScrollGridSection, microColGroupNode: VNode, chunkConfig: ChunkConfig): createElement.JSX.Element;
     _handleScrollerEl(scrollerEl: HTMLElement | null, key: string): void;
     handleSizing: () => void;
     componentDidMount(): void;
