@@ -1,5 +1,5 @@
 /*!
-FullCalendar v5.5.0
+FullCalendar v5.5.1
 Docs & License: https://fullcalendar.io/
 (c) 2020 Adam Shaw
 */
@@ -8607,15 +8607,15 @@ var SimpleScrollGrid = /** @class */ (function (_super) {
         var bodySectionNodes = [];
         var footSectionNodes = [];
         while (configI < configCnt && (currentConfig = sectionConfigs[configI]).type === 'header') {
-            headSectionNodes.push(this.renderSection(currentConfig, configI, microColGroupNode));
+            headSectionNodes.push(this.renderSection(currentConfig, microColGroupNode));
             configI += 1;
         }
         while (configI < configCnt && (currentConfig = sectionConfigs[configI]).type === 'body') {
-            bodySectionNodes.push(this.renderSection(currentConfig, configI, microColGroupNode));
+            bodySectionNodes.push(this.renderSection(currentConfig, microColGroupNode));
             configI += 1;
         }
         while (configI < configCnt && (currentConfig = sectionConfigs[configI]).type === 'footer') {
-            footSectionNodes.push(this.renderSection(currentConfig, configI, microColGroupNode));
+            footSectionNodes.push(this.renderSection(currentConfig, microColGroupNode));
             configI += 1;
         }
         // firefox bug: when setting height on table and there is a thead or tfoot,
@@ -8628,13 +8628,13 @@ var SimpleScrollGrid = /** @class */ (function (_super) {
             style: { height: props.height },
         }, Boolean(!isBuggy && headSectionNodes.length) && vdom_cjs.createElement.apply(void 0, tslib.__spreadArrays(['thead', {}], headSectionNodes)), Boolean(!isBuggy && bodySectionNodes.length) && vdom_cjs.createElement.apply(void 0, tslib.__spreadArrays(['tbody', {}], bodySectionNodes)), Boolean(!isBuggy && footSectionNodes.length) && vdom_cjs.createElement.apply(void 0, tslib.__spreadArrays(['tfoot', {}], footSectionNodes)), isBuggy && vdom_cjs.createElement.apply(void 0, tslib.__spreadArrays(['tbody', {}], headSectionNodes, bodySectionNodes, footSectionNodes)));
     };
-    SimpleScrollGrid.prototype.renderSection = function (sectionConfig, sectionI, microColGroupNode) {
+    SimpleScrollGrid.prototype.renderSection = function (sectionConfig, microColGroupNode) {
         if ('outerContent' in sectionConfig) {
             return (vdom_cjs.createElement(vdom_cjs.Fragment, { key: sectionConfig.key }, sectionConfig.outerContent));
         }
-        return (vdom_cjs.createElement("tr", { key: sectionConfig.key, className: getSectionClassNames(sectionConfig, this.props.liquid).join(' ') }, this.renderChunkTd(sectionConfig, sectionI, microColGroupNode, sectionConfig.chunk)));
+        return (vdom_cjs.createElement("tr", { key: sectionConfig.key, className: getSectionClassNames(sectionConfig, this.props.liquid).join(' ') }, this.renderChunkTd(sectionConfig, microColGroupNode, sectionConfig.chunk)));
     };
-    SimpleScrollGrid.prototype.renderChunkTd = function (sectionConfig, sectionI, microColGroupNode, chunkConfig) {
+    SimpleScrollGrid.prototype.renderChunkTd = function (sectionConfig, microColGroupNode, chunkConfig) {
         if ('outerContent' in chunkConfig) {
             return chunkConfig.outerContent;
         }
@@ -8648,11 +8648,12 @@ var SimpleScrollGrid = /** @class */ (function (_super) {
             forceYScrollbars ? 'scroll' :
                 !needsYScrolling ? 'hidden' :
                     'auto';
+        var sectionKey = sectionConfig.key;
         var content = renderChunkContent(sectionConfig, chunkConfig, {
             tableColGroupNode: microColGroupNode,
             tableMinWidth: '',
-            clientWidth: scrollerClientWidths[sectionI] !== undefined ? scrollerClientWidths[sectionI] : null,
-            clientHeight: scrollerClientHeights[sectionI] !== undefined ? scrollerClientHeights[sectionI] : null,
+            clientWidth: scrollerClientWidths[sectionKey] !== undefined ? scrollerClientWidths[sectionKey] : null,
+            clientHeight: scrollerClientHeights[sectionKey] !== undefined ? scrollerClientHeights[sectionKey] : null,
             expandRows: sectionConfig.expandRows,
             syncRowHeights: false,
             rowSyncHeights: [],
@@ -8660,13 +8661,14 @@ var SimpleScrollGrid = /** @class */ (function (_super) {
         });
         return (vdom_cjs.createElement("td", { ref: chunkConfig.elRef },
             vdom_cjs.createElement("div", { className: "fc-scroller-harness" + (isLiquid ? ' fc-scroller-harness-liquid' : '') },
-                vdom_cjs.createElement(Scroller, { ref: this.scrollerRefs.createRef(sectionI), elRef: this.scrollerElRefs.createRef(sectionI), overflowY: overflowY, overflowX: !props.liquid ? 'visible' : 'hidden' /* natural height? */, maxHeight: sectionConfig.maxHeight, liquid: isLiquid, liquidIsAbsolute // because its within a harness
+                vdom_cjs.createElement(Scroller, { ref: this.scrollerRefs.createRef(sectionKey), elRef: this.scrollerElRefs.createRef(sectionKey), overflowY: overflowY, overflowX: !props.liquid ? 'visible' : 'hidden' /* natural height? */, maxHeight: sectionConfig.maxHeight, liquid: isLiquid, liquidIsAbsolute // because its within a harness
                     : true }, content))));
     };
     SimpleScrollGrid.prototype._handleScrollerEl = function (scrollerEl, key) {
-        var sectionI = parseInt(key, 10);
-        var chunkConfig = this.props.sections[sectionI].chunk;
-        setRef(chunkConfig.scrollerElRef, scrollerEl);
+        var section = getSectionByKey(this.props.sections, key);
+        if (section) {
+            setRef(section.chunk.scrollerElRef, scrollerEl);
+        }
     };
     SimpleScrollGrid.prototype.componentDidMount = function () {
         this.handleSizing();
@@ -8686,26 +8688,27 @@ var SimpleScrollGrid = /** @class */ (function (_super) {
     };
     SimpleScrollGrid.prototype.computeScrollerDims = function () {
         var scrollbarWidth = getScrollbarWidths();
-        var sectionCnt = this.props.sections.length;
         var _a = this, scrollerRefs = _a.scrollerRefs, scrollerElRefs = _a.scrollerElRefs;
         var forceYScrollbars = false;
         var scrollerClientWidths = {};
         var scrollerClientHeights = {};
-        for (var sectionI = 0; sectionI < sectionCnt; sectionI += 1) { // along edge
-            var scroller = scrollerRefs.currentMap[sectionI];
+        for (var sectionKey in scrollerRefs.currentMap) {
+            var scroller = scrollerRefs.currentMap[sectionKey];
             if (scroller && scroller.needsYScrolling()) {
                 forceYScrollbars = true;
                 break;
             }
         }
-        for (var sectionI = 0; sectionI < sectionCnt; sectionI += 1) { // along edge
-            var scrollerEl = scrollerElRefs.currentMap[sectionI];
+        for (var _i = 0, _b = this.props.sections; _i < _b.length; _i++) {
+            var section = _b[_i];
+            var sectionKey = section.key;
+            var scrollerEl = scrollerElRefs.currentMap[sectionKey];
             if (scrollerEl) {
                 var harnessEl = scrollerEl.parentNode; // TODO: weird way to get this. need harness b/c doesn't include table borders
-                scrollerClientWidths[sectionI] = Math.floor(harnessEl.getBoundingClientRect().width - (forceYScrollbars
+                scrollerClientWidths[sectionKey] = Math.floor(harnessEl.getBoundingClientRect().width - (forceYScrollbars
                     ? scrollbarWidth.y // use global because scroller might not have scrollbars yet but will need them in future
                     : 0));
-                scrollerClientHeights[sectionI] = Math.floor(harnessEl.getBoundingClientRect().height);
+                scrollerClientHeights[sectionKey] = Math.floor(harnessEl.getBoundingClientRect().height);
             }
         }
         return { forceYScrollbars: forceYScrollbars, scrollerClientWidths: scrollerClientWidths, scrollerClientHeights: scrollerClientHeights };
@@ -8716,6 +8719,15 @@ SimpleScrollGrid.addStateEquality({
     scrollerClientWidths: isPropsEqual,
     scrollerClientHeights: isPropsEqual,
 });
+function getSectionByKey(sections, key) {
+    for (var _i = 0, sections_1 = sections; _i < sections_1.length; _i++) {
+        var section = sections_1[_i];
+        if (section.key === key) {
+            return section;
+        }
+    }
+    return null;
+}
 
 var EventRoot = /** @class */ (function (_super) {
     tslib.__extends(EventRoot, _super);
@@ -8897,7 +8909,7 @@ function renderInner$1(innerProps) {
 
 // exports
 // --------------------------------------------------------------------------------------------------
-var version = '5.5.0'; // important to type it, so .d.ts has generic string
+var version = '5.5.1'; // important to type it, so .d.ts has generic string
 
 Object.keys(vdom_cjs).forEach(function (k) {
     if (k !== 'default') Object.defineProperty(exports, k, {

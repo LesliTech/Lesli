@@ -28,7 +28,11 @@ class UserMailer < ApplicationLesliMailer
                 full_name: user.full_name
             }
         })
-        mail(to: @email[:to], subject: "welcome email")
+
+        mail(
+            to: email_address_with_name(user.email, user.full_name),
+            subject: "Welcome!"
+        )
     end
 
 
@@ -46,8 +50,10 @@ class UserMailer < ApplicationLesliMailer
             }
         })
 
-        mail(to: @email[:to], subject: "You have been invited")
-
+        mail(
+            to: email_address_with_name(user.email, user.full_name),
+            subject: "You have been invited"
+        )
     end
 
 
@@ -65,7 +71,7 @@ class UserMailer < ApplicationLesliMailer
 
         mail(
             to: email_address_with_name(user.email, user.full_name),
-            subject: "Welcome to Lesli! please confirm your account"
+            subject: "Welcome! please confirm your account"
         )
     end
 
@@ -82,6 +88,20 @@ class UserMailer < ApplicationLesliMailer
             }
         })
         mail(to: email_address_with_name(user.email, user.full_name), subject: I18n.t("core.users/passwords.mailer_password_reset_instructions"))
+    end
+
+
+    #
+    def magic_link
+        user = params[:user]
+        token = params[:token]
+        build_data_from_params(params, {
+                url: "/pass?t=#{token}",
+                user: {
+                        full_name: user.full_name
+                }
+        })
+        mail(to: email_address_with_name(user.email, user.full_name), subject: "works")
     end
 
 end

@@ -13,24 +13,18 @@ For more information read the license file including with this software.
 
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
 // · 
+
 =end
-
-require 'rotp'
-
-
 class User::AccessCode < ApplicationLesliRecord
+    before_create :generate_code
+
     belongs_to :user,   foreign_key: "users_id",    class_name: "::User"
 
-    validates :otp_secret, :presence => true
     validates :user, :presence => true
 
-    # @return [void]
-    # @description initialize secret code
-    def self.initialize_secret_code(user)
-        response = TokenAuthenticationService.create_otp_secret
-        return nil unless response.success?
-        self.create(otp_secret: response.payload[:otp_secret], user: user)
-    end
+    MIN_TOKEN_DURATION = 1*60
+
+    enum token_type: { pass: "pass", otp: "otp" }
 
     def self.index(current_user, query)
         []
@@ -40,13 +34,46 @@ class User::AccessCode < ApplicationLesliRecord
         self
     end
 
+
     # @return [Integer]
     # @description generates an access code for the associated user
     def generate_code
-        token_service = TokenAuthenticationService.new(self.user)
-        response = token_service.create_token
-
-        return nil unless response.success?
-        return response.payload[:token].to_i
+        raw, enc = Devise.token_generator.generate(User, :id)
+        self.token = enc
+        self.expiration_at = Time.now.utc + MIN_TOKEN_DURATION
     end
+
+
+    # @return [Boolean]
+    # @description Check if token meets requirements to be used as authentication method
+    def is_valid?
+
+        if !self.last_used_at.blank? 
+
+            self.user.logs.create({ 
+                title: "pass_session_creation_failed", 
+                description: "token_used_already" 
+            })
+
+            return false
+
+        end
+
+        if self.expiration_at < Time.now.utc
+
+            self.user.logs.create({ 
+                title: "pass_session_creation_failed", 
+                description: "token_expired" 
+            })
+
+            self.delete
+
+            return false
+
+        end
+
+        return true
+
+    end
+
 end
