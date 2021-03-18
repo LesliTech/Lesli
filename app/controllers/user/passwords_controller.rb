@@ -19,7 +19,7 @@ class User::PasswordsController < ApplicationLesliController
 
             # reset password expiration due the user just updated his password
             if @user.is_password_expired?
-                @user.update_attributes(password_expiration_at: nil)
+                @user.update(password_expiration_at: nil)
             end 
 
             # Sign in the user by passing validation in case their password changed
@@ -27,13 +27,13 @@ class User::PasswordsController < ApplicationLesliController
 
             respond_with_successful
 
-            log.update_attribute(:description, "password_update_successful")
+            log.update(description: "password_update_successful")
 
         else
 
             respond_with_error(@user.errors.full_messages.to_sentence)
 
-            log.update_attribute(:description, "password_update_error")
+            log.update(description: "password_update_error")
 
         end
         
