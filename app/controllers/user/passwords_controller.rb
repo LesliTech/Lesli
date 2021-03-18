@@ -27,13 +27,13 @@ class User::PasswordsController < ApplicationLesliController
 
             respond_with_successful
 
-            log.update(:description, "password_update_successful")
+            log.update(description: "password_update_successful")
 
         else
 
             respond_with_error(@user.errors.full_messages.to_sentence)
 
-            log.update(:description, "password_update_error")
+            log.update(description: "password_update_error")
 
         end
         
