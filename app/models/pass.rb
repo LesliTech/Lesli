@@ -1,4 +1,3 @@
-<%
 =begin
 Copyright (c) 2021, all rights reserved.
 
@@ -16,12 +15,12 @@ For more information read the license file including with this software.
 // · 
 
 =end
-%>
-<% if lesli_instance_code != "lesli" %>
-    <section class="<%= lesli_instance_code %>-login">
-        <%= render :template => "#{lesli_instance_code}/lesli/ma/mcs/index" rescue nil %>
-    </section>
-<% end %>
-<% if lesli_instance_code == "lesli" %>
-    <h3>There is no a view for ma/mcs path.</h3>
-<% end %>
+class Pass < ApplicationLesliRecord
+    def self.index(current_user, query)
+        []
+    end
+
+    def show(current_user, query)
+        self
+    end
+end

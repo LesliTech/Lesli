@@ -38,16 +38,17 @@ class User < ApplicationLesliRecord
     
 
     # users has activities and personal settings
-    has_many :logs,        foreign_key: "users_id", inverse_of: :user
-    has_many :settings,    foreign_key: "users_id"
-    has_many :sessions,    foreign_key: "users_id"
-    has_many :requests,    foreign_key: "users_id"
-    has_many :activities,  foreign_key: "users_id"
-    has_one  :integration, foreign_key: "users_id"
+    has_many :logs,         foreign_key: "users_id", inverse_of: :user
+    has_many :settings,     foreign_key: "users_id"
+    has_many :sessions,     foreign_key: "users_id"
+    has_many :requests,     foreign_key: "users_id"
+    has_many :activities,   foreign_key: "users_id"
+    has_one  :integration,  foreign_key: "users_id"
+    has_many :access_codes, foreign_key: "users_id"
 
-    has_many :user_roles,  foreign_key: "users_id", class_name: "User::Role"
-    has_many :roles, through: :user_roles, :source => "roles"
-    has_many :privileges, through: :roles
+    has_many :user_roles,   foreign_key: "users_id", class_name: "User::Role"
+    has_many :roles,        through: :user_roles, :source => "roles"
+    has_many :privileges,   through: :roles
 
     
     # user details are saved on separate table

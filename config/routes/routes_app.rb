@@ -21,7 +21,8 @@ module RoutesApp
     def self.extended(router)
         router.instance_exec do
 
-            #resource :onboarding
+            # Alternative logins - magic links
+            resource :pass, only: [:show, :new, :create]
 
             authenticated :user do
 
