@@ -19,12 +19,16 @@ For more information read the license file including with this software.
 
 
 // · 
+@import "lesli-css/";
+
+
+// · 
 @function lesli-css-theme-get-color($variant, $pallete: "app") {
 
     $lesli-cloud-colors: (
         app: (
-            primary:  #3a6bff,
-            secondary: #172347,
+            primary: darken(lesli-css-get-color(blue), 5),
+            secondary:#172347,
             complement_one:  #62cab6,
             complement_two:  #55b997,
             complement_three:#3a925b,
