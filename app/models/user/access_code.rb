@@ -24,6 +24,8 @@ class User::AccessCode < ApplicationLesliRecord
 
     MIN_TOKEN_DURATION = 1*60
 
+    enum token_type: { pass: "pass", otp: "otp" }
+
     def self.index(current_user, query)
         []
     end
@@ -31,6 +33,7 @@ class User::AccessCode < ApplicationLesliRecord
     def show(current_user, query)
         self
     end
+
 
     # @return [Integer]
     # @description generates an access code for the associated user
@@ -41,6 +44,8 @@ class User::AccessCode < ApplicationLesliRecord
     end
 
 
+    # @return [Boolean]
+    # @description Check if token meets requirements to be used as authentication method
     def is_valid?
 
         if !self.last_used_at.blank? 
