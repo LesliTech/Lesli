@@ -25,26 +25,19 @@ class PassesController < ApplicationController
     # GET /passes
     def show
 
-        token_is_valid = true
-
+        # we use "t" as alias for token
         if params[:t].blank?
-
-            #Account::Activity.log("core", "/pass", "pass_session_creation_failed", "not_valid_token_sent", {
-            #    token: (params[:t] || "")
-            #})
-            
-            #redirect_to "/login", notice: "Not valid token found"
 
             redirect_to("/pass/new") and return
 
         end
 
-        access_code = User::AccessCode.find_by(token: params[:t])
+        access_code = User::AccessCode.find_by(token: params[:t], token_type: "pass", last_used_at: nil)
 
         if access_code.blank?
 
             Account::Activity.log("core", "/pass", "pass_session_creation_failed", "not_valid_token_found", {
-                token: (params[:token] || "")
+                token: (params[:t] || "")
             })
 
             redirect_to "/login", alert: "Not valid token found" and return
@@ -68,7 +61,7 @@ class PassesController < ApplicationController
 
         # register a successful sign-in log for the current user
         access_code.user.logs.create({ 
-            title: "pass_session_zcreation_successful"
+            title: "pass_session_creation_successful"
         })
 
         # register a new unique session
@@ -86,9 +79,11 @@ class PassesController < ApplicationController
 
     end
 
+
     # GET /passes/new
     def new
     end
+
 
     # POST /passes
     def create
@@ -101,7 +96,7 @@ class PassesController < ApplicationController
 
         # create a new pass
         pass = @user.access_codes.new({
-            token_type: "hola"
+            token_type: "pass"
         })
 
         if pass.save
@@ -118,6 +113,7 @@ class PassesController < ApplicationController
         else
             respond_with_error(pass.errors.full_messages.to_sentence)
         end
+        
     end
 
     private
