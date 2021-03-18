@@ -48,6 +48,7 @@ class Role < ApplicationRecord
                     count(1) user_count, 
                     roles_id 
                 from user_roles 
+                where user_roles.deleted_at is null
                 group by (roles_id)
             ) 
             users on users.roles_id = roles.id
