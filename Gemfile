@@ -118,6 +118,8 @@ gem "ruby_cowsay"
 # faster json parser library
 gem 'fast_jsonparser'
 
+# One time passwords (HOTP AND TOTP)
+gem 'rotp', '~> 6.2'
 
 group :development, :test do
 

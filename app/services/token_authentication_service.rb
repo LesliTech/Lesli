@@ -18,7 +18,7 @@ For more information read the license file including with this software.
 // ·
 
 =end
-require 'rotp'
+
 
 ##
 # This class represents a One Time Password service for multiprosit such as 2FA, MagicLink, QuickLogin.
