@@ -70,7 +70,9 @@ module.exports = env => {
             "websites/app": "./app/vue/websites/app.js",
             "abouts/app": "./app/vue/abouts/app.js",
             "users/app": "./app/vue/users/app.js",
-            "roles/app": "./app/vue/roles/app.js",            
+            "roles/app": "./app/vue/roles/app.js",
+            
+            "passes/app": "./app/vue/passes/app.js",
 
             "users/sessions": "./app/vue/users/sessions.js",
             "users/passwords": "./app/vue/users/passwords.js",
@@ -80,10 +82,7 @@ module.exports = env => {
 
             "errors/app": "./app/vue/errors/app.js",
             
-            "settings/workflows_app": "./app/vue/settings/workflows/app.js",
-
-            "ma/mls_app": "./app/vue/ma/mls/app.js",
-            "ma/mcs_app": "./app/vue/ma/mcs/app.js",
+            "settings/workflows_app": "./app/vue/settings/workflows/app.js"
         },
         output: {
             path: __dirname,
@@ -163,9 +162,7 @@ module.exports = env => {
             new webpack.DefinePlugin({
                 lesli_app_mode_production: JSON.stringify(production),
                 lesli_app_mode_development: JSON.stringify(!production),
-                lesli_app_compilation: JSON.stringify(get_compilation_time()),
-                lesli_app_instance: {},
-                lesli_app_company: {},
+                lesli_app_compilation: JSON.stringify(get_compilation_time())
             })
         ]
         
@@ -191,15 +188,7 @@ module.exports = env => {
 
         // parse file content 
         let engine_info = yaml.load(rawdata)
-
-        // update company name in global variable
-        if (engine_info.info.type && engine_info.info.type == "builder") {
-            webpackConfig[0].plugins[1].definitions.lesli_app_company = JSON.stringify(engine_info.account.company)
-            webpackConfig[0].plugins[1].definitions.lesli_app_instance = JSON.stringify({
-                name: engine_info.info.name,
-                code: engine_info.info.code
-            })
-        }
+        
 
         if (engine_info.info.load == false) {
             return false

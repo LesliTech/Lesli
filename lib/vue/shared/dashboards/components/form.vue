@@ -247,6 +247,7 @@ export default {
                     this.alert(this.translations.dashboards.messages_info_dashboard_updated, 'success')
                     this.deleted_components = []
                     // We assign the ids of the components that were created
+                    this.selected_dashboard_component = null
                     this.$set(this.dashboard, 'components', result.data.components)
                     this.reload_dashboard_render = true
                 }else{

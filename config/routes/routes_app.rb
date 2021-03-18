@@ -21,7 +21,8 @@ module RoutesApp
     def self.extended(router)
         router.instance_exec do
 
-            #resource :onboarding
+            # Alternative logins - magic links
+            resource :pass, only: [:show, :new, :create]
 
             authenticated :user do
 
@@ -132,6 +133,14 @@ module RoutesApp
                 get "dashboard", to: "abouts#dashboard"
                 get "system-requirements", to: "abouts#system_requirements"
 
+            end
+
+            # Access Codes
+            namespace :ma do
+                # Magic Links
+                resource :ml, only: [:show, :create]
+                # Magic Code or OTP
+                resources :mcs
             end
 
         end

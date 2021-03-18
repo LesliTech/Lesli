@@ -38,16 +38,17 @@ class User < ApplicationLesliRecord
     
 
     # users has activities and personal settings
-    has_many :logs,        foreign_key: "users_id", inverse_of: :user
-    has_many :settings,    foreign_key: "users_id"
-    has_many :sessions,    foreign_key: "users_id"
-    has_many :requests,    foreign_key: "users_id"
-    has_many :activities,  foreign_key: "users_id"
-    has_one  :integration, foreign_key: "users_id"
+    has_many :logs,         foreign_key: "users_id", inverse_of: :user
+    has_many :settings,     foreign_key: "users_id"
+    has_many :sessions,     foreign_key: "users_id"
+    has_many :requests,     foreign_key: "users_id"
+    has_many :activities,   foreign_key: "users_id"
+    has_one  :integration,  foreign_key: "users_id"
+    has_many :access_codes, foreign_key: "users_id"
 
-    has_many :user_roles,  foreign_key: "users_id", class_name: "User::Role"
-    has_many :roles, through: :user_roles, :source => "roles"
-    has_many :privileges, through: :roles
+    has_many :user_roles,   foreign_key: "users_id", class_name: "User::Role"
+    has_many :roles,        through: :user_roles, :source => "roles"
+    has_many :privileges,   through: :roles
 
     
     # user details are saved on separate table
@@ -75,7 +76,6 @@ class User < ApplicationLesliRecord
     #     designed to be invoked directly
     def initialize_user_details
         User::Detail.find_or_create_by({ user: self })
-        User::AccessCode.initialize_secret_code(self)
     end
 
 
@@ -454,7 +454,7 @@ class User < ApplicationLesliRecord
             active: user[:active],
             created_at: user[:created_at],
             updated_at: user[:updated_at],
-            editable_security: current_user && current_user.is_role?("owner", "admin"),
+            editable_security: current_user && current_user.has_roles?("owner", "admin"),
             roles: user.roles.map { |r| { id: r[:id], name: r[:name] } },
             full_name: user.full_name,
             detail_attributes: {

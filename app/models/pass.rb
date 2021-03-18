@@ -15,10 +15,12 @@ For more information read the license file including with this software.
 // · 
 
 =end
-class Ma::McsController < ApplicationController
-    include Application::Responder
+class Pass < ApplicationLesliRecord
+    def self.index(current_user, query)
+        []
+    end
 
-    # GET /ma/mcs
-    def index
+    def show(current_user, query)
+        self
     end
 end
