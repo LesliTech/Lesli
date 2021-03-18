@@ -13,9 +13,12 @@ For more information read the license file including with this software.
 
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
 // · 
-
 =end
-class User::AccessCode < ApplicationLesliRecord
+
+require 'rotp'
+
+
+class User::AccessCode2 < ApplicationLesliRecord
     before_create :generate_code
 
     belongs_to :user,   foreign_key: "users_id",    class_name: "::User"
@@ -35,40 +38,21 @@ class User::AccessCode < ApplicationLesliRecord
     # @return [Integer]
     # @description generates an access code for the associated user
     def generate_code
-        raw, enc = Devise.token_generator.generate(User, :id)
+        _, enc = Devise.token_generator.generate(User, "id")
         self.token = enc
         self.expiration_at = Time.now.utc + MIN_TOKEN_DURATION
     end
 
-
-    def is_valid?
-
-        if !self.last_used_at.blank? 
-
-            self.user.logs.create({ 
-                title: "pass_session_creation_failed", 
-                description: "token_used_already" 
-            })
-
-            return false
-
-        end
-
-        if self.expiration_at < Time.now.utc
-
-            self.user.logs.create({ 
-                title: "pass_session_creation_failed", 
-                description: "token_expired" 
-            })
-
-            self.delete
-
-            return false
-
-        end
-
-        return true
-
+    def register_use
+        self.update(last_used_at: Time.now.utc)
+        self.delete
     end
 
+    def is_token_valid?
+        now = Time.now.utc
+        if  self.last_used_at.blank? and self.expiration_at > now
+            return true
+        end
+        false
+    end
 end

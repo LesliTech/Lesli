@@ -70,7 +70,9 @@ module.exports = env => {
             "websites/app": "./app/vue/websites/app.js",
             "abouts/app": "./app/vue/abouts/app.js",
             "users/app": "./app/vue/users/app.js",
-            "roles/app": "./app/vue/roles/app.js",            
+            "roles/app": "./app/vue/roles/app.js",
+            
+            "passes/app": "./app/vue/passes/app.js",
 
             "users/sessions": "./app/vue/users/sessions.js",
             "users/passwords": "./app/vue/users/passwords.js",
@@ -80,10 +82,7 @@ module.exports = env => {
 
             "errors/app": "./app/vue/errors/app.js",
             
-            "settings/workflows_app": "./app/vue/settings/workflows/app.js",
-
-            "ma/mls_app": "./app/vue/ma/mls/app.js",
-            "ma/mcs_app": "./app/vue/ma/mcs/app.js",
+            "settings/workflows_app": "./app/vue/settings/workflows/app.js"
         },
         output: {
             path: __dirname,

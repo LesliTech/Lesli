@@ -12,7 +12,8 @@ For more information read the license file including with this software.
 // ·
 =end
 
-class SessionValidationService
+class UserValidationService
+    
     def initialize(resource)
         @resource = resource
     end
@@ -30,41 +31,59 @@ class SessionValidationService
     private
 
     def confirmed?
+
         # check if user is already confirmed
         unless @resource.confirmed?
+
             # save a invalid credentials log for the requested user
             @resource.logs.create({
-                                         title: "session_creation_failed",
-                                         description: "email_not_confirmed"
-                                 })
+                title: "session_creation_failed",
+                description: "email_not_confirmed"
+            })
+
             return false
+
         end
+
         return true
+
     end
 
     def roles_empty?
+
         # check if user has roles assigned
         if @resource.roles.empty?
+
             @resource.logs.create({
-                                         title: "session_creation_failed",
-                                         description: "user_has_no_assigned_role"
-                                 })
+                title: "session_creation_failed",
+                description: "user_has_no_assigned_role"
+            })
+
             return true
+
         end
 
         return false
+
     end
 
     def active_roles?
+
         # check user has at least one active role before authorize the sign-in request
         @resource.roles.select(:active).each do |role|
+
             break if role[:active]
+
             @resource.logs.create({
-                                         title: "session_creation_failed",
-                                         description: "user_has_no_active_role"
-                                 })
+                title: "session_creation_failed",
+                description: "user_has_no_active_role"
+            })
+
             return false
+
         end
+
         return true
+        
     end
 end
