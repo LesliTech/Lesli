@@ -13,11 +13,8 @@ For more information read the license file including with this software.
 
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
 // · 
+
 =end
-
-require 'rotp'
-
-
 class User::AccessCode < ApplicationLesliRecord
     before_create :generate_code
 
@@ -27,6 +24,8 @@ class User::AccessCode < ApplicationLesliRecord
 
     MIN_TOKEN_DURATION = 1*60
 
+    enum token_type: { pass: "pass", otp: "otp" }
+
     def self.index(current_user, query)
         []
     end
@@ -35,24 +34,46 @@ class User::AccessCode < ApplicationLesliRecord
         self
     end
 
+
     # @return [Integer]
     # @description generates an access code for the associated user
     def generate_code
-        _, enc = Devise.token_generator.generate(User, "id")
+        raw, enc = Devise.token_generator.generate(User, :id)
         self.token = enc
         self.expiration_at = Time.now.utc + MIN_TOKEN_DURATION
     end
 
-    def register_use
-        self.update(last_used_at: Time.now.utc)
-        self.delete
+
+    # @return [Boolean]
+    # @description Check if token meets requirements to be used as authentication method
+    def is_valid?
+
+        if !self.last_used_at.blank? 
+
+            self.user.logs.create({ 
+                title: "pass_session_creation_failed", 
+                description: "token_used_already" 
+            })
+
+            return false
+
+        end
+
+        if self.expiration_at < Time.now.utc
+
+            self.user.logs.create({ 
+                title: "pass_session_creation_failed", 
+                description: "token_expired" 
+            })
+
+            self.delete
+
+            return false
+
+        end
+
+        return true
+
     end
 
-    def is_token_valid?
-        now = Time.now.utc
-        if  self.last_used_at.blank? and self.expiration_at > now
-            return true
-        end
-        false
-    end
 end
