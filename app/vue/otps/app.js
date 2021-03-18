@@ -38,7 +38,7 @@ app({
             main: I18n.t("core.otps/show")
         },
         pass: {
-            email: "ldonis@lomax.com.gt"
+            email: ""
         },
         progress_bar_active: false,
         notification: {
