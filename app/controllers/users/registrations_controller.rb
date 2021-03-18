@@ -125,7 +125,7 @@ class Users::RegistrationsController < Devise::RegistrationsController
                 @user.update(password_expiration_at: nil)
             end 
 
-            log.update(:description, "password_update_successful")
+            log.update(description: "password_update_successful")
 
             # Sign in the user by passing validation in case their password changed
             bypass_sign_in(@user)
@@ -134,7 +134,7 @@ class Users::RegistrationsController < Devise::RegistrationsController
 
         else
 
-            log.update(:description, "password_update_error")
+            log.update(description: "password_update_error")
 
             respond_with_error(@user.errors.full_messages)
 
