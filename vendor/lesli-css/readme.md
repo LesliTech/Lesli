@@ -8,7 +8,7 @@
 
 <hr/>
 
-Version 0.7.5  
+Version 0.7.1  
 
 
 #### Installation
