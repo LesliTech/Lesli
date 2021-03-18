@@ -453,7 +453,7 @@ class User < ApplicationLesliRecord
             active: user[:active],
             created_at: user[:created_at],
             updated_at: user[:updated_at],
-            editable_security: current_user && current_user.is_role?("owner", "admin"),
+            editable_security: current_user && current_user.has_roles?("owner", "admin"),
             roles: user.roles.map { |r| { id: r[:id], name: r[:name] } },
             full_name: user.full_name,
             detail_attributes: {
