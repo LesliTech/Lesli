@@ -23,8 +23,8 @@ For more information read the license file including with this software.
 ##
 # This class represents a One Time Password service for multiprosit such as 2FA, MagicLink, QuickLogin.
 
-class TokenAuthenticationService
-    ##
+class OtpAuthenticationService
+
     # The resource must have the property otp_secret
     # @param [Object] resource
     def initialize(user)
@@ -56,4 +56,5 @@ class TokenAuthenticationService
         @resource.update(last_otp_at: last_otp_at)
         LC::Response.service(true, {is_valid?: true})
     end
+
 end
