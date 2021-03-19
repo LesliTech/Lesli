@@ -22,6 +22,7 @@ module RoutesApp
         router.instance_exec do
 
             # Alternative logins - magic links
+            resource :otp,  only: [:show, :new, :create]
             resource :pass, only: [:show, :new, :create]
 
             authenticated :user do
