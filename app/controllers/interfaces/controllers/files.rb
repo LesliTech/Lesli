@@ -208,10 +208,6 @@ module Interfaces::Controllers::Files
         return respond_with_not_found unless @file
         return respond_with_unauthorized unless @file.is_editable_by?(current_user)
 
-        # We remove the attachment from local and S3 before deleting the file
-        @file.update!(attachment: nil)
-        @file.update!(attachment_s3: nil)
-
         if @file.destroy
             # Registering an activity in the cloud_object
             @file.cloud_object.activities.create(
