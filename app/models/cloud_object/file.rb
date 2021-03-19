@@ -26,6 +26,12 @@ module CloudObject
 
         enum file_type: {}
 
+        def destroy
+            update(attachment: nil, attachment_s3: nil)
+
+            super
+        end
+
         # @return [User] This method will always return nil
         # @description At the current time, this is a dummy method that returns nil, so the function is_editable_by? in
         #   ApplicationLesliRecord will work without issues
