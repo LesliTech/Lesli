@@ -50,6 +50,7 @@ class Account < ApplicationRecord
     has_one :things,     class_name: "CloudThings::Account",     foreign_key: "id"
     has_one :proposal,   class_name: "CloudProposal::Account",   foreign_key: "id"
     has_one :dispatcher, class_name: "CloudDispatcher::Account", foreign_key: "id"
+    has_one :shared,     class_name: "CloudShared::Account",     foreign_key: "id"
 
     after_create :initialize_account
     after_create :initialize_account_for_engines
@@ -230,6 +231,14 @@ class Account < ApplicationRecord
                 self.lesli = CloudLesli::Account.new
                 self.lesli.account = self
                 self.lesli.save!
+            end
+        end
+
+        if defined? CloudShared
+            if self.shared.blank?
+                self.shared = CloudShared::Account.new
+                self.shared.account = self
+                self.shared.save!
             end
         end
 
