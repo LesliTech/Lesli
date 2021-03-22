@@ -26,6 +26,12 @@ module Courier
                 CloudHelp::Ticket.index(current_user, query)
             end
 
+            def self.show(current_user, query, tickets_id)
+                return [] unless defined? CloudHelp
+                ticket = CloudHelp::Ticket.find(tickets_id)
+                ticket.show(current_user, query)
+            end
+
             def self.create(current_user, ticket_params)
                 return nil unless defined? CloudHelp
                 CloudHelp::TicketServices.create(current_user, ticket_params)
