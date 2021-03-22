@@ -17,24 +17,21 @@ For more information read the license file including with this software.
 
 %>
 
-<%= stylesheet_link_tag "lesli/templates/public", media: "all" %>
+<% template_path = "#{lesli_instance_code}/lesli/otps/show" %>
+<% template_exists = lookup_context.find_all(template_path).any? %>
 
-<% 
-core_apps_and_pages = [
-    "users/sessions", 
-    "users/passwords", 
-    "users/confirmations", 
-    "users/registrations", 
-    "passes",
-    "otps"
-]
-%>
-
-<% if core_apps_and_pages.include?(controller_path.to_s) %>
-    <%# Include controller path only for core apps and pages %>
-    <%= stylesheet_link_tag controller_path, media: "all" %>
-    <%= stylesheet_link_tag "#{lesli_instance_code}/lesli/#{controller_path}", media: "all" %>
+<% if template_exists %>
+<section id="lesli-cloud-application" class="<%= lesli_instance_code %>-otps">
+    <%= render :template => template_path %>
+</section>
 <% else %>
-    <%# Include full path for non-core apps and pages %>
-    <%= stylesheet_link_tag [controller_path, action_name].join("/"), media: "all" %>
-<% end%>
+<section class="hero is-fullheight">
+    <div class="hero-body">
+        <div class="container has-text-centered">
+            <p class="subtitle">
+                There is no template for this view at: <%= template_path %>        
+            </p>
+        </div>
+    </div>
+</section>
+<% end %>
