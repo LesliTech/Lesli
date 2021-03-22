@@ -35,7 +35,7 @@ app({
     },
     data: {
         translations: {
-            main: I18n.t("core.passes/new")
+            main: I18n.t("core.otps/show")
         },
         pass: {
             email: ""
@@ -49,13 +49,13 @@ app({
     },
     methods: {
 
-        postPassNew(event) {
+        postOtp(event) {
 
             event.preventDefault();
 
             this.progress_bar_active = true;
 
-            this.http.post("/pass", this.pass).then(result => {
+            this.http.post("/otp", this.pass).then(result => {
 
                 this.progress_bar_active = false
 
