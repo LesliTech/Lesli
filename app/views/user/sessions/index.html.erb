@@ -1,25 +1,19 @@
-<p id="notice"><%= notice %></p>
+<%#
 
-<h1>User Sessions</h1>
+Copyright (c) 2020, all rights reserved.
 
-<table>
-  <thead>
-    <tr>
-      <th colspan="3"></th>
-    </tr>
-  </thead>
+All the information provided by this platform is protected by international laws related  to
+industrial property, intellectual property, copyright and relative international laws.
+All intellectual or industrial property rights of the code, texts, trade mark, design,
+pictures and any other information belongs to the owner of this platform.
 
-  <tbody>
-    <% @user_sessions.each do |user_session| %>
-      <tr>
-        <td><%= link_to 'Show', user_session %></td>
-        <td><%= link_to 'Edit', edit_user_session_path(user_session) %></td>
-        <td><%= link_to 'Destroy', user_session, method: :delete, data: { confirm: 'Are you sure?' } %></td>
-      </tr>
-    <% end %>
-  </tbody>
-</table>
+Without the written permission of the owner, any replication, modification,
+transmission, publication is strictly forbidden.
 
-<br>
+For more information read the license file including with this software.
 
-<%= link_to 'New User Session', new_user_session_path %>
+// · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
+// ·
+
+%>
+<router-view></router-view>
