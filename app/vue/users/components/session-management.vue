@@ -50,6 +50,7 @@ export default {
     methods: {
         getSessions() {
             this.loading = true;
+            this.data = []
             let params = {
                 perPage: this.pagination_config.per_page,
                 page: this.pagination.current_page
