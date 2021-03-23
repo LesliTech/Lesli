@@ -94,7 +94,7 @@ export default {
                 <component-security-form></component-security-form>
             </b-tab-item>
             <b-tab-item label="Session Management">
-                <component-session-management></component-session-management>
+                <component-session-management :user_id="user_id"></component-session-management>
             </b-tab-item>
         </b-tabs>
     </section>
