@@ -21,6 +21,7 @@ For more information read the license file including with this software.
 import componentInformationCard from "Lesli/vue/users/components/card-information.vue"
 import componentInformationForm from "Lesli/vue/users/components/form-information.vue"
 import componentSecurityForm from "Lesli/vue/users/components/form-security.vue"
+import componentSessionManagement from "Lesli/vue/users/components/session-management.vue"
 
 
 // · 
@@ -28,7 +29,8 @@ export default {
     components: {
         'component-information-card': componentInformationCard,
         'component-information-form': componentInformationForm,
-        'component-security-form': componentSecurityForm
+        'component-security-form': componentSecurityForm,
+        'component-session-management': componentSessionManagement
     },
     data() {
         return {
@@ -90,6 +92,9 @@ export default {
             </b-tab-item>
             <b-tab-item :label="translations.core.users.view_tab_title_security">
                 <component-security-form></component-security-form>
+            </b-tab-item>
+            <b-tab-item label="Session Management">
+                <component-session-management></component-session-management>
             </b-tab-item>
         </b-tabs>
     </section>

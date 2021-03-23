@@ -63,4 +63,28 @@ class User::Session < ApplicationLesliRecord
         
     end
 
+    def self.index(current_user, query)
+        sessions = User::Session
+        .where(user: current_user, expiration_at: nil)
+        .select(
+            :id,
+            :user_remote,
+            :user_agent,
+            :session_source,
+            LC::Date2.new.db_column("last_used_at"),
+            LC::Date2.new.db_column("created_at")
+        )
+        .page(query[:pagination][:page])
+        .per(query[:pagination][:perPage])
+        .order(updated_at: :desc)
+
+        LC::Response.pagination(
+            sessions.current_page,
+            sessions.total_pages,
+            sessions.total_count,
+            sessions.length,
+            sessions.map
+        )
+    end
+
 end
