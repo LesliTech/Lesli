@@ -34,6 +34,7 @@ module RoutesApp
 
                     # Lesli user profile
                     resource :profile, only: [:show]
+                    resources :session_managements, only: [:index, :destroy]
 
                     # account management
                     resource :account, only: [:show] do
