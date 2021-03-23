@@ -32,23 +32,39 @@ export default {
             type: Boolean,
             default: false
         },
+
         strokeWidth: {
             type: Array,
             default: ()=>{
                 return [0,0,4]
             }
         },
+
+        colors: {
+            type: Array,
+            default: ()=>{
+                return [
+                    "rgb(0, 83, 128)",
+                    "rgb(32, 168, 216)",
+                    "rgb(10,10,10)"
+                ]
+            }
+        },
+
         dataSources: {
             type: Array,
             required: true
         },
+
         dataLabels: {
             type: Array,
             required: true
         },
+
         height: {
             default: "auto"            
         },
+
         padding: {
             default() {
                 return {
@@ -90,7 +106,7 @@ export default {
                     offsetY: -10,
                     enabledOnSeries: [2]
                 },
-                colors: ["rgb(0, 83, 128)", "rgb(32, 168, 216)", "rgb(10,10,10)"],
+                colors: this.colors,
                 stroke: {
                     show: true,
                     curve: "straight",
