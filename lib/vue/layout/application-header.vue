@@ -32,6 +32,8 @@ export default {
                     users: I18n.t('deutscheleibrenten.users'),
                 }
             },
+            cloud_bell_notifications: 0,
+            cloud_focus_tasks: 0,
             search: {
                 searching: false
             },
@@ -45,6 +47,7 @@ export default {
 
     mounted() {
         this.getBrowserData();
+        this.cloud_bell_notifications = this.lesli.notifications
     },
 
     methods: {
@@ -83,6 +86,12 @@ export default {
 
     },
 
+    watch: {
+        'data.global.cloud_bell_notifications': function(val) {
+            this.cloud_bell_notifications = val
+        }
+    },
+
     computed: {
         supportedBrowser(){
             if(this.browser_data.name == 'Microsoft Edge' && this.browser_data.version < 84){
@@ -119,9 +128,9 @@ export default {
                 </a>
 
                 <a class="navbar-item header-notification-indicator core" @click="data.global.show_panel_notifications = true">
-                    <i v-if="lesli.notifications > 0" class="fas fa-bell has-text-link"></i>
-                    <i v-if="lesli.notifications == 0" class="far fa-bell"></i>
-                    <span>{{ lesli.notifications }}</span>
+                    <i v-if="cloud_bell_notifications > 0" class="fas fa-bell has-text-link"></i>
+                    <i v-if="cloud_bell_notifications == 0" class="far fa-bell"></i>
+                    <span>{{ cloud_bell_notifications }}</span>
                 </a>
 
                 <a class="navbar-item header-navigation-engine core" @click="showApps('right')">
