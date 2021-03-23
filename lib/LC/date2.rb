@@ -113,6 +113,8 @@ module LC
         end
 
         def to_s
+            format = @settings[:format][@format || "date"]
+            @date.in_time_zone(@zone).strftime(format)
         end
 
 
