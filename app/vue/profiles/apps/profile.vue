@@ -62,7 +62,7 @@ export default {
         getUser() {
             this.http.get("/administration/profile.json").then(result => {
                 if (!result.successful) {
-                    this.alert(result.error.message,'danger')
+                    this.msg.error(result.error.message)
                     return
                 }
                 this.data.user = result.data
@@ -94,7 +94,7 @@ export default {
                 <component-security-form></component-security-form>
             </b-tab-item>
             <b-tab-item label="Session Management">
-                <component-session-management :user_id="user_id"></component-session-management>
+                <component-session-management v-if="user_id" :user_id="user_id"></component-session-management>
             </b-tab-item>
         </b-tabs>
     </section>
