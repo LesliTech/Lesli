@@ -183,6 +183,12 @@ export default {
                             </b-icon>
                         </b-button>
                     </b-tooltip>
+                    <b-tooltip :label="translations.actions.messages_info_tooltip_add_user_creator_reference" size="is-small" position="is-left" type="is-light">
+                        <b-button size="is-small" @click="addReference('user_creator', 'body')">
+                            <b-icon size="is-small" icon="user-tie">
+                            </b-icon>
+                        </b-button>
+                    </b-tooltip>
                     <b-tooltip :label="translations.actions.messages_info_tooltip_add_status_reference" size="is-small" position="is-left" type="is-light">
                         <b-button size="is-small" @click="addReference('status', 'body')">
                             <b-icon size="is-small" icon="project-diagram">
