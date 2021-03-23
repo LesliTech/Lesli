@@ -27,6 +27,7 @@ const lesli = {
     current_user:  <%= @account ? @account[:current_user].to_json.html_safe : "{}"%>,
     notifications: <%= @account ? @account[:notifications] : "-1" %>,
     announcements: <%= @account ? @account[:announcements] : "-1" %>,
-    tasks: <%= @account ?  @account[:tasks] : "-1" %>
+    tasks: <%= @account ?  @account[:tasks] : "-1" %>,
+    cable: <%= @account ?  @account[:cable] : false %>
 }
 </script>
