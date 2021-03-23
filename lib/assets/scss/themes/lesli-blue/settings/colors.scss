@@ -35,16 +35,27 @@ For more information read the license file including with this software.
             complement_gray_light: #f1f1f1,
             complement_blue_light: #edf6ff
         ),
+        collection2: (
+            administration: lesli-css-get-color(blue),
+            intelligence: lesli-css-get-color(bubble),
+            productivity: lesli-css-get-color(lime),
+            integration: lesli-css-get-color(mint),
+            analytics: lesli-css-get-color(berry),
+            security: lesli-css-get-color(slate),
+            finance: lesli-css-get-color(orange),
+            sales: lesli-css-get-color(grape),
+            it: lesli-css-get-color(banana)
+        ),
         collection: (
-            digital_blue: rgb(58, 107, 255),
-            neon_purple: rgb(118, 73, 255),
-            cherry_red: rgb(255, 35, 82),
-            mint_green: rgb(98, 204, 181),
-            deep_blue: rgb(22, 35, 70),
-            mid_grey: rgb(210, 210, 210),
-            yellow: rgb(255, 214, 0),
-            orange: rgb(255, 59, 0),
-            beige: rgb(212, 174, 138)
+            administration: #3b6cff,
+            intelligence: #172447,
+            productivity: #ff3c00,
+            integration: #edb78e,
+            analytics: #63ccb5,
+            security: #d3d3d3,
+            finance: #ff2453,
+            sales: #764aff,
+            it: #ffd700
         )
     );
 
