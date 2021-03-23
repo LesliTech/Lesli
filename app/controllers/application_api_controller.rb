@@ -83,6 +83,7 @@ class ApplicationApiController < ActionController::API
             end
 
             # check if token is a valid opaque integration token
+            # TODO: Add validation to allow only specific token sources
             @current_session = User::Session.find_by(
                 :session_token => token
             )
