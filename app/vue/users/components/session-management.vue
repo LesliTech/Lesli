@@ -21,14 +21,13 @@ For more information read the license file including with this software.
 export default {
     props: {
         user_id: {
-            type: String,
+            type: Number,
             required: true
         },
     },
 
     data() {
         return {
-            main_route: '/administration/users',
             data: [],
             loading: true,
             pagination: {
@@ -45,23 +44,22 @@ export default {
         }
     },
     mounted(){
-        this.getData()
+        this.getSessions()
     },
 
     methods: {
-        getData() {
+        getSessions() {
             this.loading = true;
             let params = {
                 perPage: this.pagination_config.per_page,
                 page: this.pagination.current_page
             }
-
-            this.http.get(`${this.main_route}/${this.user_id}/sessions.json`, {params}).then(result => {
+            this.http.get(this.url.admin("users/:id/sessions", { id: this.user_id}), {params}).then(result => {
                 if (result.successful) {
                     this.data = result.data.records;
                     this.pagination = result.data.pagination;
                 } else {
-                    this.alert(result.error.message,'danger');
+                    this.msg.error(result.error.message);
                 }
             }).catch(error => {
                 console.log(error)
@@ -70,29 +68,31 @@ export default {
             })
         },
 
-        deleteObject(object){
+        closeSession(object){
             let object_id = object.id
 
-            this.http.delete(`${this.main_route}/${this.user_id}/sessions/${object_id}`).then(result => {
+            this.http.delete(this.url.admin("users/:id/sessions/:session_id", { id: this.user_id, session_id: object_id})).then(result => {
                 if (result.successful) {
-                    this.alert("successfully Closed session", 'success')
+                    this.msg.success("successfully Closed session")
                     this.getData()
                 }else{
-                    this.alert(result.error.message,'danger')
+                    this.msg.error(result.error.message)
                 }
             }).catch(error => {
                 console.log(error)
             })
+
+            this.getSessions()
         },
 
-        confirmDeletion(object) {
+        confirmClosing(object) {
             this.$buefy.dialog.confirm({
                 title: "Close session",
                 message: `<b> confirm closing session</b>`,
                 confirmText: "Close session",
                 type: 'is-danger',
                 hasIcon: true,
-                onConfirm: () => this.deleteObject(object)
+                onConfirm: () => this.closeSession(object)
             })
         },
     },
@@ -132,7 +132,7 @@ export default {
                     </b-table-column>
                     <b-table-column label="actions" class="has-text-center">
                         <span>
-                            <b-button type="is-danger" outlined @click.stop="confirmDeletion(props.row)">
+                            <b-button type="is-danger" outlined @click.stop="confirmClosing(props.row)">
                                 <b-icon size="is-small" icon="fas fa-sign-out-alt">
                                 </b-icon>
                             </b-button>
