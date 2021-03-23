@@ -57,6 +57,8 @@ module RoutesApp
                     resources :users, only: [:index, :show, :update, :create] do
 
                         scope module: :user do
+                            # user sessions
+                            resources :sessions, only: [:index, :destroy]
 
                             # user role assignments
                             resources :roles, only: [:create, :destroy]
