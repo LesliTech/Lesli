@@ -19,9 +19,16 @@ For more information read the license file including with this software.
 
 // ·
 export default {
+    props: {
+        user_id: {
+            type: String,
+            required: true
+        },
+    },
+
     data() {
         return {
-            main_route: '/administration/session_managements',
+            main_route: '/administration/users',
             data: [],
             loading: true,
             pagination: {
@@ -49,7 +56,7 @@ export default {
                 page: this.pagination.current_page
             }
 
-            this.http.get(`${this.main_route}.json`, {params}).then(result => {
+            this.http.get(`${this.main_route}/${this.user_id}/sessions.json`, {params}).then(result => {
                 if (result.successful) {
                     this.data = result.data.records;
                     this.pagination = result.data.pagination;
@@ -66,7 +73,7 @@ export default {
         deleteObject(object){
             let object_id = object.id
 
-            this.http.delete(`${this.main_route}/${object_id}`).then(result => {
+            this.http.delete(`${this.main_route}/${this.user_id}/sessions/${object_id}`).then(result => {
                 if (result.successful) {
                     this.alert("successfully Closed session", 'success')
                     this.getData()
@@ -126,7 +133,7 @@ export default {
                     <b-table-column label="actions" class="has-text-center">
                         <span>
                             <b-button type="is-danger" outlined @click.stop="confirmDeletion(props.row)">
-                                <b-icon size="is-small" icon="trash-alt" >
+                                <b-icon size="is-small" icon="fas fa-sign-out-alt">
                                 </b-icon>
                             </b-button>
                         </span>
