@@ -57,6 +57,8 @@ configuration:
         allow_multiaccount: true
         allow_registration: true
         allow_invitation: true
+        enable_login_link: true
+        enable_login_otp: true
         log_activity: true
         roles:
             - "Administration"
