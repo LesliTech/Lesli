@@ -83,7 +83,7 @@ class User::Session < ApplicationLesliRecord
             sessions.total_pages,
             sessions.total_count,
             sessions.length,
-            sessions.map
+            sessions
         )
     end
 
