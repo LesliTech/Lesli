@@ -67,6 +67,7 @@ class ApplicationLesliController < ApplicationController
         @account[:notifications] = Courier::Bell::Notification.count(current_user)
         @account[:announcements] = Courier::Bell::Announcement.count(current_user)
         @account[:tasks] = Courier::Focus::Task.count(current_user)
+        @account[:cable] = Rails.application.config.lesli_settings["configuration"]["security"]["enable_websockets"] || false
 
 
         return @account if current_user.account.blank?
