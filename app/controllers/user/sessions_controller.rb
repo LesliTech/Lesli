@@ -1,58 +1,55 @@
-class User::SessionsController < ApplicationController
+class User::SessionsController < ApplicationLesliController
   before_action :set_user_session, only: [:show, :edit, :update, :destroy]
 
-  # GET /user/sessions
-  def index
-    @user_sessions = User::Session.all
-  end
-
-  # GET /user/sessions/1
-  def show
-  end
-
-  # GET /user/sessions/new
-  def new
-    @user_session = User::Session.new
-  end
-
-  # GET /user/sessions/1/edit
-  def edit
-  end
-
-  # POST /user/sessions
-  def create
-    @user_session = User::Session.new(user_session_params)
-
-    if @user_session.save
-      redirect_to @user_session, notice: 'Session was successfully created.'
-    else
-      render :new
+    # GET /user/sessions
+    def index
+        respond_to do |format|
+            format.html {}
+            format.json { respond_with_successful(User::Session.index(current_user, @query)) }
+        end
     end
-  end
 
-  # PATCH/PUT /user/sessions/1
-  def update
-    if @user_session.update(user_session_params)
-      redirect_to @user_session, notice: 'Session was successfully updated.'
-    else
-      render :edit
+    # GET /user/sessions/1
+    def show
     end
-  end
+
+    # GET /user/sessions/new
+    def new
+    end
+
+    # GET /user/sessions/1/edit
+    def edit
+    end
+
+    # POST /user/sessions
+    def create
+    end
+
+    # PATCH/PUT /user/sessions/1
+    def update
+    end
 
   # DELETE /user/sessions/1
   def destroy
-    @user_session.destroy
-    redirect_to user_sessions_url, notice: 'Session was successfully destroyed.'
+      return respond_with_not_found unless @user_session
+      current_user.logs.create({ session_uuid: @user_session.session_uuid, title: "session_closing_successful", description: "closing session from session managements, session_id: #{@user_session.id.to_s} " })
+      @user_session.update({ expiration_at: LC::Date.now })
+
+      if @user_session.delete
+        respond_with_successful
+      else
+        respond_with_error(@user_session.errors.full_messages.to_sentence)
+      end
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_user_session
-      @user_session = User::Session.find(params[:id])
-    end
+      # Use callbacks to share common setup or constraints between actions.
+      def set_user_session
+          @user_session = User::Session.find(params[:id])
+      end
 
-    # Only allow a trusted parameter "white list" through.
-    def user_session_params
-      params.fetch(:user_session, {})
-    end
+      # Only allow a trusted parameter "white list" through.
+      def user_session_params
+          params.require(:user_session).permit(:id,)
+      end
 end

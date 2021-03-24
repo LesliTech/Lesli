@@ -22,6 +22,7 @@ module RoutesApp
         router.instance_exec do
 
             # Alternative logins - magic links
+            resource :otp,  only: [:show, :new, :create]
             resource :pass, only: [:show, :new, :create]
 
             authenticated :user do
@@ -56,6 +57,8 @@ module RoutesApp
                     resources :users, only: [:index, :show, :update, :create] do
 
                         scope module: :user do
+                            # user sessions
+                            resources :sessions, only: [:index, :destroy]
 
                             # user role assignments
                             resources :roles, only: [:create, :destroy]
