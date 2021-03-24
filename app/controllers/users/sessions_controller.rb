@@ -105,8 +105,9 @@ class Users::SessionsController < Devise::SessionsController
         current_user.logs.create({ session_uuid: session[:session_uuid], description: "logout" })
 
         # expire session
-        if session.has_key?(:user_session_id)
-            current_user.sessions.update(session.fetch(:user_session_id), { expiration_at: LC::Date.now })
+        current_session = current_user.sessions.find_by(id: session[:user_session_id])
+        if current_session
+            current_session.update({ expiration_at: LC::Date.now })
         end
 
         # do a user logout

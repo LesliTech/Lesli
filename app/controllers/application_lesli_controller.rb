@@ -184,10 +184,12 @@ class ApplicationLesliController < ApplicationController
         return true if not request.format.html?
 
         # check if user has an active session
-        if (!current_user.sessions.last)
+        current_session = current_user.sessions.find_by(id: session[:user_session_id])
+
+        if current_session.equal? nil or not current_session.active?
             sign_out current_user
-            redirect_to "/logout"
-            return 
+            redirect_to "/logout" and return
+            return
         end
 
         # check password expiration date
