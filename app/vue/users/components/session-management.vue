@@ -21,7 +21,7 @@ For more information read the license file including with this software.
 export default {
     props: {
         user_id: {
-            type: Number,
+            type: [String, Number],
             required: true
         },
     },
@@ -123,6 +123,9 @@ export default {
                         </b-field>
                         <b-field v-if="props.row.session_source == 'cloud_shared_public'">
                             <b-tag><i class="fas fa-share-alt"></i> Shared Module</b-tag>
+                        </b-field>
+                        <b-field v-if="props.row.current_session">
+                            <b-tag><i class="fas fa-circle"></i> Current</b-tag>
                         </b-field>
                     </b-table-column>
                     <b-table-column label="created_at" field="lower(created_at)">
