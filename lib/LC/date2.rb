@@ -1,5 +1,5 @@
-
 =begin
+
 Copyright (c) 2020, all rights reserved.
 
 All the information provided by this platform is protected by international laws related  to 
@@ -17,14 +17,16 @@ For more information read the license file including with this software.
 
 =end
 
-include ActionView::Helpers::DateHelper
 
 module LC
 
     class Date2
 
-        def initialize(date = Time.current, format_string = "%Y/%m/%d")
+        def initialize(datetime = Time.current, format = "%Y-%m-%d %H:%M:%S")
             
+
+            # NOTE: user should be able to change this through settings table
+            # get initial datetime configuration
             config = Rails.application.config.lesli_settings["configuration"]["datetime"]
 
 
@@ -43,54 +45,51 @@ module LC
                 }
             }
 
+
             # default date format
-            @format = "date"
+            @format = set_format("date")
+
 
             # get a valid timezone
             @zone = ActiveSupport::TimeZone.new(@settings["time_zone"])
 
-            # work with the default date
-            if date.is_a?(String)
-                date = ::Date.strptime(date, format_string)
-            end
 
-            @date = date
+            # get datetime object from user params
+            @datetime = parse_initial_datetime(datetime, format).in_time_zone(@zone)
 
         end
 
-        # Date formats
-        def date
-            format "date"
+        # set date format and return Date2 instance
+        def date 
+            set_format("date")
             self
         end 
 
-        def time
-            format "time"
+        # set time format and return Date2 instance
+        def time 
+            set_format("time")
             self
         end
 
+        # set date_time format and return Date2 instance
         def date_time 
-            format "date_time"
+            set_format("date_time")
             self
         end
 
+        # set date_words format and return Date2 instance
         def date_words
-            format "date_words"
+            set_format("date_words")
             self
         end
 
+        # set date_time_words format and return Date2 instance
         def date_time_words
-            format "date_time_words"
+            set_format("date_time_words")
             self
         end
 
-
-        # Date getters
-        def month
-            @date.strftime("%m")
-        end
-
-
+        # return query string to get timestamps columns from database
         def db_timestamps table=""
 
             # avoid ambiguous columns
@@ -103,28 +102,43 @@ module LC
 
         end
 
+        # return query string to get a datetime column from database
         def db_column column
             format = self.db_format
             "TO_CHAR(#{column} at time zone 'utc' at time zone '#{@settings["time_zone"]}', '#{format}') as #{column}_date" 
         end
 
-        def now
-            Time.current.in_time_zone(@zone)
-        end
-
+        # convert a datetime object to string representation using defined format
         def to_s
+            @datetime.strftime(@format)
         end
 
+        def get
+            @datetime
+        end
 
         private 
 
-        
-        def format format
-            @format = format
+
+        # get datetime object or string datetime and return a datetime object
+        def parse_initial_datetime datetime, format
+
+            return datetime if datetime.is_a?(Time)
+
+            return ::DateTime.iso8601(datetime) if datetime.is_a?(String) and datetime.size == 25
+                
+            return ::DateTime.strptime(datetime, format)
+
         end
 
+        
+        def set_format format
+            @format = @settings[:format][format || "date"]
+        end
+
+        
         def db_format
-            format = @settings[:format][@format || "date"]
+            format = @format
 
             # Convert Ruby to postgresql date format
             format = format.gsub("%Y", "YYYY")
