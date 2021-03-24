@@ -24,18 +24,7 @@ require "byebug"
 
 =begin
 
-# Date formats
-LC::Date2.new.date
-LC::Date2.new.time
-LC::Date2.new.date_time
-LC::Date2.new.date_words
-LC::Date2.new.date_time_words
-
-# Date parse
-LC::Date2.new.date                                      => Tue, 23 Feb 2021 18:20:32.140146000 CST -06:00 (current time)
-LC::Date2.new(Time.current).date                        => Tue, 23 Feb 2021 18:20:32.140146000 CST -06:00
-LC::Date2.new(string in ISO 8601).date                  => Tue, 23 Feb 2021 18:20:32.140146000 CST -06:00
-LC::Date2.new("2021/02/23", "YYYY/MM/DD").date          => "2021/02/23"
+# TODO:
 
 # Date getters 
 LC::Date2.new.date.month
@@ -56,52 +45,202 @@ LC::Date2.new.date.db_column
 
 =end
 
-RSpec.describe LC::Date2, type: :model do
+RSpec.describe "LC::Date2.new", type: :model do
 
     before(:all) do
         @settings = LC::Date2.new.instance_variable_get(:@settings)
     end
 
-    it "should print all the available methods for dates" do 
-        LC::Debug.msg(
-            LC::Date2.new.date,
-            #LC::Date2.new.time,
-            #LC::Date2.new.date_time,
-            #LC::Date2.new.date_words,
-            #LC::Date2.new.date_time_words
-        )
-        #LC::Debug.msg(
-        #    LC::Date2.new.date,
-        #    LC::Date2.new(Time.current).date,
-        #    LC::Date2.new("2021/02/23", "%Y/%m/%d").date
-        #)
+    # -- from Time.current object
+
+    it "should parse a new date from Time.current object" do 
+        datetime = LC::Date2.new(Time.current).date
+        expect(LC::Date2.new(datetime.get).date.get).to eql(datetime.get)
+        expect(LC::Date2.new(datetime.get).date.to_s).to eql(datetime.to_s)
     end
 
-    it "is expect to return the number of month of the current date" do 
+    it "should parse a new time from Time.current object" do 
+        datetime = LC::Date2.new(Time.current).time
+        expect(LC::Date2.new(datetime.get).time.get).to eql(datetime.get)
+        expect(LC::Date2.new(datetime.get).time.to_s).to eql(datetime.to_s)
     end
 
-=begin
-    it "is expect to render db_timestamps columns" do
-        expect(LC::Date2.new.db_timestamps).to eql("TO_CHAR(created_at at time zone 'utc' at time zone '#{@settings["time_zone"]}', 'DD.MM.YYYY') as created_at_date, TO_CHAR(updated_at at time zone 'utc' at time zone '#{@settings["time_zone"]}', 'DD.MM.YYYY') as updated_at_date")
+    it "should parse a new date_time from Time.current object" do 
+        datetime = LC::Date2.new(Time.current).date_time
+        expect(LC::Date2.new(datetime.get).date_time.get).to eql(datetime.get)
+        expect(LC::Date2.new(datetime.get).date_time.to_s).to eql(datetime.to_s)
     end
 
-    it "is expect to render db_timestamps columns with format date" do
-        expect(LC::Date2.new.date.db_timestamps).to eql("TO_CHAR(created_at at time zone 'utc' at time zone '#{@settings["time_zone"]}', 'DD.MM.YYYY') as created_at_date, TO_CHAR(updated_at at time zone 'utc' at time zone '#{@settings["time_zone"]}', 'DD.MM.YYYY') as updated_at_date")
+    it "should parse a new date_words from Time.current object" do 
+        datetime = LC::Date2.new(Time.current).date_words
+        expect(LC::Date2.new(datetime.get).date_words.get).to eql(datetime.get)
+        expect(LC::Date2.new(datetime.get).date_words.to_s).to eql(datetime.to_s)
     end
 
-    it "is expect to render db_timestamps columns with format date_time" do
-        expect(LC::Date2.new.date_time.db_timestamps).to eql("TO_CHAR(created_at at time zone 'utc' at time zone '#{@settings["time_zone"]}', 'DD.MM.YYYY HH24:MI') as created_at_date, TO_CHAR(updated_at at time zone 'utc' at time zone '#{@settings["time_zone"]}', 'DD.MM.YYYY HH24:MI') as updated_at_date")
+    it "should parse a new date_time_words Time.current object" do 
+        datetime = LC::Date2.new(Time.current).date_time_words
+        expect(LC::Date2.new(datetime.get).date_time_words.get).to eql(datetime.get)
+        expect(LC::Date2.new(datetime.get).date_time_words.to_s).to eql(datetime.to_s)
     end
 
-    it "is expect to render db_column with format date_time" do
-        expect(LC::Date2.new.date_time.db_column("expiration_at")).to eql("TO_CHAR(expiration_at at time zone 'utc' at time zone '#{@settings["time_zone"]}', 'DD.MM.YYYY HH24:MI') as expiration_at_date")
-    end 
+    # -- from iso8601 string
 
-
-    it "is expect to render current_time as string" do
-        LC::Debug.msg LC::Date2.new.date.to_s
-        expect(LC::Date2.new.date.to_s).to eql("date")
+    it "should parse a new date from iso8601 string" do 
+        datetime = LC::Date2.new("1990-09-11T05:05:05+00:00").date
+        expect(LC::Date2.new(datetime.get).date.get).to eql(datetime.get)
+        expect(LC::Date2.new(datetime.get).date.to_s).to eql(datetime.to_s)
     end
-=end
+
+    it "should parse a new time from iso8601 string" do 
+        datetime = LC::Date2.new("1990-09-11T05:05:05+00:00").time
+        expect(LC::Date2.new(datetime.get).time.get).to eql(datetime.get)
+        expect(LC::Date2.new(datetime.get).time.to_s).to eql(datetime.to_s)
+    end
+
+    it "should parse a new date_time from iso8601 string" do 
+        datetime = LC::Date2.new("1990-09-11T05:05:05+00:00").date_time
+        expect(LC::Date2.new(datetime.get).date_time.get).to eql(datetime.get)
+        expect(LC::Date2.new(datetime.get).date_time.to_s).to eql(datetime.to_s)
+    end
+
+    it "should parse a new date_words from iso8601 string" do 
+        datetime = LC::Date2.new("1990-09-11T05:05:05+00:00").date_words
+        expect(LC::Date2.new(datetime.get).date_words.get).to eql(datetime.get)
+        expect(LC::Date2.new(datetime.get).date_words.to_s).to eql(datetime.to_s)
+    end
+
+    it "should parse a new date_time_words from iso8601 string" do 
+        datetime = LC::Date2.new("1990-09-11T05:05:05+00:00").date_time_words
+        expect(LC::Date2.new(datetime.get).date_time_words.get).to eql(datetime.get)
+        expect(LC::Date2.new(datetime.get).date_time_words.to_s).to eql(datetime.to_s)
+    end
+
+    # -- from database datetime column format
+
+    it "should parse a new date from database datetime column format" do 
+        datetime = LC::Date2.new("1990-09-11 05:05:00").date
+        expect(LC::Date2.new(datetime.get).date.get).to eql(datetime.get)
+        expect(LC::Date2.new(datetime.get).date.to_s).to eql(datetime.to_s)
+    end
+
+    it "should parse a new time from database datetime column format" do 
+        datetime = LC::Date2.new("1990-09-11 05:05:00").time
+        expect(LC::Date2.new(datetime.get).time.get).to eql(datetime.get)
+        expect(LC::Date2.new(datetime.get).time.to_s).to eql(datetime.to_s)
+    end
+
+    it "should parse a new date_time from database datetime column format" do 
+        datetime = LC::Date2.new("1990-09-11 05:05:00").date_time
+        expect(LC::Date2.new(datetime.get).date_time.get).to eql(datetime.get)
+        expect(LC::Date2.new(datetime.get).date_time.to_s).to eql(datetime.to_s)
+    end
+
+    it "should parse a new date_words from database datetime column format" do 
+        datetime = LC::Date2.new("1990-09-11 05:05:00").date_words
+        expect(LC::Date2.new(datetime.get).date_words.get).to eql(datetime.get)
+        expect(LC::Date2.new(datetime.get).date_words.to_s).to eql(datetime.to_s)
+    end
+
+    it "should parse a new date_time_words from database datetime column format" do 
+        datetime = LC::Date2.new("1990-09-11 05:05:00").date_time_words
+        expect(LC::Date2.new(datetime.get).date_time_words.get).to eql(datetime.get)
+        expect(LC::Date2.new(datetime.get).date_time_words.to_s).to eql(datetime.to_s)
+    end
+
+    # -- from string with custom format
+
+    it "should parse a new date from string with custom format" do 
+        datetime = LC::Date2.new("1990/09/11 05:05", "%Y/%m/%d %H:%M").date
+        expect(LC::Date2.new(datetime.get).date.get).to eql(datetime.get)
+        expect(LC::Date2.new(datetime.get).date.to_s).to eql(datetime.to_s)
+    end
+
+    it "should parse a new time from string with custom format" do 
+        datetime = LC::Date2.new("1990/09/11 05:05", "%Y/%m/%d %H:%M").time
+        expect(LC::Date2.new(datetime.get).time.get).to eql(datetime.get)
+        expect(LC::Date2.new(datetime.get).time.to_s).to eql(datetime.to_s)
+    end
+
+    it "should parse a new date_time from string with custom format" do 
+        datetime = LC::Date2.new("1990/09/11 05:05", "%Y/%m/%d %H:%M").date_time
+        expect(LC::Date2.new(datetime.get).date_time.get).to eql(datetime.get)
+        expect(LC::Date2.new(datetime.get).date_time.to_s).to eql(datetime.to_s)
+    end
+
+    it "should parse a new date_words from string with custom format" do 
+        datetime = LC::Date2.new("1990/09/11 05:05", "%Y/%m/%d %H:%M").date_words
+        expect(LC::Date2.new(datetime.get).date_words.get).to eql(datetime.get)
+        expect(LC::Date2.new(datetime.get).date_words.to_s).to eql(datetime.to_s)
+    end
+
+    it "should parse a new date_time_words from string with custom format" do 
+        datetime = LC::Date2.new("1990/09/11 05:05", "%Y/%m/%d %H:%M").date_time_words
+        expect(LC::Date2.new(datetime.get).date_time_words.get).to eql(datetime.get)
+        expect(LC::Date2.new(datetime.get).date_time_words.to_s).to eql(datetime.to_s)
+    end
+
+    # -- for database timestamps
+
+    it "should parse a new date for database timestamps" do 
+        datetime = LC::Date2.new.date.db_timestamps
+        querystring = "TO_CHAR(created_at at time zone 'utc' at time zone 'America/Guatemala', 'DD.MM.YYYY') as created_at_date, TO_CHAR(updated_at at time zone 'utc' at time zone 'America/Guatemala', 'DD.MM.YYYY') as updated_at_date"
+        expect(datetime).to eql(querystring)
+    end
+
+    it "should parse a new time for database timestamps" do 
+        datetime = LC::Date2.new.time.db_timestamps
+        querystring = "TO_CHAR(created_at at time zone 'utc' at time zone 'America/Guatemala', 'HH24:MI') as created_at_date, TO_CHAR(updated_at at time zone 'utc' at time zone 'America/Guatemala', 'HH24:MI') as updated_at_date"
+        expect(datetime).to eql(querystring)
+    end
+
+    it "should parse a new date_time for database timestamps" do 
+        datetime = LC::Date2.new.date_time.db_timestamps
+        querystring = "TO_CHAR(created_at at time zone 'utc' at time zone 'America/Guatemala', 'DD.MM.YYYY HH24:MI') as created_at_date, TO_CHAR(updated_at at time zone 'utc' at time zone 'America/Guatemala', 'DD.MM.YYYY HH24:MI') as updated_at_date"
+        expect(datetime).to eql(querystring)
+    end
+
+    it "should parse a new date_words for database timestamps" do 
+        datetime = LC::Date2.new.date_words.db_timestamps
+        querystring = "TO_CHAR(created_at at time zone 'utc' at time zone 'America/Guatemala', '%a, %B DD, YYYY') as created_at_date, TO_CHAR(updated_at at time zone 'utc' at time zone 'America/Guatemala', '%a, %B DD, YYYY') as updated_at_date"
+        expect(datetime).to eql(querystring)
+    end
+
+    it "should parse a new date_time_words for database timestamps" do 
+        datetime = LC::Date2.new.date_time_words.db_timestamps
+        querystring = "TO_CHAR(created_at at time zone 'utc' at time zone 'America/Guatemala', '%a, %B DD, YYYY, HH24:MI') as created_at_date, TO_CHAR(updated_at at time zone 'utc' at time zone 'America/Guatemala', '%a, %B DD, YYYY, HH24:MI') as updated_at_date"
+        expect(datetime).to eql(querystring)
+    end
+
+    # -- for database column
+
+    it "should parse a new date for database column" do 
+        datetime = LC::Date2.new.date.db_column("deleted_at")
+        querystring = "TO_CHAR(deleted_at at time zone 'utc' at time zone 'America/Guatemala', 'DD.MM.YYYY') as deleted_at_date"
+        expect(datetime).to eql(querystring)
+    end
+
+    it "should parse a new time for database column" do 
+        datetime = LC::Date2.new.time.db_column("deleted_at")
+        querystring = "TO_CHAR(deleted_at at time zone 'utc' at time zone 'America/Guatemala', 'HH24:MI') as deleted_at_date"
+        expect(datetime).to eql(querystring)
+    end
+
+    it "should parse a new date_time for database column" do 
+        datetime = LC::Date2.new.date_time.db_column("deleted_at")
+        querystring = "TO_CHAR(deleted_at at time zone 'utc' at time zone 'America/Guatemala', 'DD.MM.YYYY HH24:MI') as deleted_at_date"
+        expect(datetime).to eql(querystring)
+    end
+
+    it "should parse a new date_words for database column" do 
+        datetime = LC::Date2.new.date_words.db_column("deleted_at")
+        querystring = "TO_CHAR(deleted_at at time zone 'utc' at time zone 'America/Guatemala', '%a, %B DD, YYYY') as deleted_at_date"
+        expect(datetime).to eql(querystring)
+    end
+
+    it "should parse a new date_time_words for database column" do 
+        datetime = LC::Date2.new.date_time_words.db_column("deleted_at")
+        querystring = "TO_CHAR(deleted_at at time zone 'utc' at time zone 'America/Guatemala', '%a, %B DD, YYYY, HH24:MI') as deleted_at_date"
+        expect(datetime).to eql(querystring)
+    end
 
 end
