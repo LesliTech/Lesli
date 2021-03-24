@@ -33,6 +33,10 @@ var webpackConfig = []
 
 // · 
 module.exports = env => {
+
+    // get specific modules to work with, example: npm run webpack -- babel bell 
+    var requested_modules = process.argv.slice(5)
+
     // set mode
     env.mode = env.mode ? env.mode : "development"
     env.watch = env.watch ? env.watch : false
@@ -73,6 +77,7 @@ module.exports = env => {
             "roles/app": "./app/vue/roles/app.js",
             
             "passes/app": "./app/vue/passes/app.js",
+            "otps/app": "./app/vue/otps/app.js",
 
             "users/sessions": "./app/vue/users/sessions.js",
             "users/passwords": "./app/vue/users/passwords.js",
@@ -192,6 +197,19 @@ module.exports = env => {
 
         if (engine_info.info.load == false) {
             return false
+        }
+
+        // check if user sent specific modules to work with
+        if (requested_modules.length > 0) {
+
+            // check if current engine belongs to the list of desire engines
+            if (!requested_modules.includes(engine_info.info.code.replace("cloud_", ""))) {
+
+                // if the engine to exclude is not a builder
+                if (engine_info.info.type != "builder") {
+                    return false
+                }
+            }
         }
 
         return engine_info.info.code == engine
