@@ -189,7 +189,6 @@ class ApplicationLesliController < ApplicationController
         if current_session.equal? nil or not current_session.active?
             sign_out current_user
             redirect_to "/logout" and return
-            return
         end
 
         # check password expiration date

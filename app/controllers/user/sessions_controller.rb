@@ -38,7 +38,7 @@ class User::SessionsController < ApplicationLesliController
         return respond_with_not_found unless @user_session
 
         if @user_session.delete
-            current_user.logs.create({ session_uuid: @user_session.session_uuid, title: "session_closing_successful", description: "closing session from session managements, session_id: #{@user_session.id.to_s} " })
+            current_user.logs.create({ session_uuid: @user_session.session_uuid, title: "session_closed_successful", description: "closing session from session managements, session_id: #{@user_session.id.to_s} " })
             respond_with_successful
           else
             respond_with_error(@user_session.errors.full_messages.to_sentence)
