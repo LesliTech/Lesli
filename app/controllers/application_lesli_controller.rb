@@ -67,6 +67,7 @@ class ApplicationLesliController < ApplicationController
         @account[:notifications] = Courier::Bell::Notification.count(current_user)
         @account[:announcements] = Courier::Bell::Announcement.count(current_user)
         @account[:tasks] = Courier::Focus::Task.count(current_user)
+        @account[:cable] = Rails.application.config.lesli_settings["configuration"]["security"]["enable_websockets"] || false
 
 
         return @account if current_user.account.blank?
@@ -184,10 +185,11 @@ class ApplicationLesliController < ApplicationController
         return true if not request.format.html?
 
         # check if user has an active session
-        if (!current_user.sessions.last)
+        current_session = current_user.sessions.find_by(id: session[:user_session_id])
+
+        if current_session.equal? nil or not current_session.active?
             sign_out current_user
-            redirect_to "/logout"
-            return 
+            redirect_to "/logout" and return
         end
 
         # check password expiration date
