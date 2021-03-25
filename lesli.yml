@@ -42,6 +42,15 @@ configuration:
     locales:
         en: "English"
         es: "Español"
+    datetime2:
+        time_zone: "America/Guatemala" 
+        start_week_on: "sunday"
+        formats:
+            date: "%d.%m.%Y"
+            time: "%H:%M"
+            date_time: "%d.%m.%Y %H:%M"
+            date_words: "%a, %B %d, %Y"
+            date_time_words: "%a, %B %d, %Y, %H:%M"
     datetime: 
         date_format: "%d/%m/%Y"
         date_format_full: "%a, %B %d, %Y"
@@ -57,6 +66,7 @@ configuration:
         allow_multiaccount: true
         allow_registration: true
         allow_invitation: true
+        enable_websockets: true
         enable_login_link: true
         enable_login_otp: true
         log_activity: true

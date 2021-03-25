@@ -63,16 +63,17 @@ class User::Session < ApplicationLesliRecord
         
     end
 
-    def self.index(current_user, query)
-        sessions = current_user.sessions
-        .where(expiration_at: nil)
+    def self.index(user, query, current_session_id)
+        sessions = user.sessions
+        .where(users_id: user.id)
+        .where("expiration_at > ? or expiration_at is ?", Time.now.utc, nil)
         .select(
             :id,
             :user_remote,
             :user_agent,
             :session_source,
-            LC::Date2.new.db_column("last_used_at"),
-            LC::Date2.new.db_column("created_at"),
+            LC::Date2.new.db_timestamps("user_sessions"),
+            LC::Date2.new.db_column("expiration_at"),
             :users_id
         )
         .page(query[:pagination][:page])
@@ -84,8 +85,32 @@ class User::Session < ApplicationLesliRecord
             sessions.total_pages,
             sessions.total_count,
             sessions.length,
-            sessions
+            sessions.map do |session|
+                {
+                    id: session[:id],
+                    user_remote: session[:user_remote],
+                    user_agent: session[:user_agent],
+                    session_source: session[:session_source],
+                    created_at_date: session[:created_at_date],
+                    updated_at_date: session[:updated_at_date],
+                    expiration_at_date: session[:expiration_at_date],
+                    users_id: session[:users_id],
+                    current_session: current_session_id.eql?(session[:id])
+                }
+            end
         )
+    end
+
+    def active?
+        if self.deleted_at.present?
+            return false
+        end
+
+        if self.expiration_at != nil and self.expiration_at < Time.now.utc
+            return false
+        end
+
+        return true
     end
 
 end
