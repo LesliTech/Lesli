@@ -57,7 +57,6 @@ module Application
                 request_action: action_name, 
                 request_url: request.original_fullpath,
                 user_sessions_id: session[:user_session_id]
-                #params: request.filtered_parameters.except(:controller, :action)
             })
 
         end
