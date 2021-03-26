@@ -215,6 +215,7 @@ class UsersController < ApplicationLesliController
         
     end
 
+    # this method is going to close all the open user sessions
     def logout
 
         # get user
@@ -229,12 +230,12 @@ class UsersController < ApplicationLesliController
         return respond_with_error I18n.t("core.users.messages_warning_cannot_log_out_integration") if user.integration?
 
         # delete user active sessions
-        user.close_session
+        sessions_count = user.sessions.delete_all
 
         user.logs.create({ session_uuid: nil, description: "close_session by_user_id: " + current_user.id.to_s })
 
         # Response successful
-        respond_with_successful
+        respond_with_successful sessions_count
 
     end
 
