@@ -24,6 +24,12 @@ class User::Session < ApplicationLesliRecord
     
     after_create :set_uuid
 
+    enum session_sources: {
+        dispatcher_standar_session: "dispatcher_standar_session",
+        devise_standar_session: "devise_standar_session",
+        cloud_shared_public: "cloud_shared_public",
+    }
+
     def set_uuid
 
         rebuild_uuid = true
