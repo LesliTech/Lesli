@@ -23,6 +23,7 @@ import componentInformationCard from "Lesli/vue/users/components/card-informatio
 import componentInformationForm from "Lesli/vue/users/components/form-information.vue"
 import componentRolesPrivilegesForm from "Lesli/vue/users/components/form-roles-privileges.vue"
 import componentAccessManagementForm from "Lesli/vue/users/components/form-access-management.vue"
+import componentSessionManagement from "Lesli/vue/users/components/session-management.vue"
 
 
 
@@ -34,6 +35,7 @@ export default {
         "component-information-form": componentInformationForm,
         "component-roles-privileges-form": componentRolesPrivilegesForm,
         "component-access-management-form": componentAccessManagementForm,
+        'component-session-management': componentSessionManagement,
     },
     data() {
         return {
@@ -97,6 +99,9 @@ export default {
             </b-tab-item>
             <b-tab-item :label="translations.core.users.view_tab_title_roles_and_privileges">
                 <component-roles-privileges-form></component-roles-privileges-form>
+            </b-tab-item>
+            <b-tab-item label="Session Management">
+                <component-session-management v-if="user_id" :user_id="user_id"></component-session-management>
             </b-tab-item>
         </b-tabs>
     </section>

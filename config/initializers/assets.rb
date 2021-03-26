@@ -55,6 +55,7 @@ Rails.application.config.assets.precompile += [ "onboardings.css", "onboardings/
 
 
 Rails.application.config.assets.precompile += [ "users.css", "users/*.js" ]
+Rails.application.config.assets.precompile += [ "user/**.css", "user/*.js" ]
 Rails.application.config.assets.precompile += [ "abouts.css", "abouts/*.js" ]
 
 Rails.application.config.assets.precompile += [ "errors/*.css", "errors/*.js" ]
