@@ -2,9 +2,9 @@
 /*
 Copyright (c) 2020, all rights reserved.
 
-All the information provided by this platform is protected by international laws related  to 
-industrial property, intellectual property, copyright and relative international laws. 
-All intellectual or industrial property rights of the code, texts, trade mark, design, 
+All the information provided by this platform is protected by international laws related  to
+industrial property, intellectual property, copyright and relative international laws.
+All intellectual or industrial property rights of the code, texts, trade mark, design,
 pictures and any other information belongs to the owner of this platform.
 
 Without the written permission of the owner, any replication, modification,
@@ -13,7 +13,7 @@ transmission, publication is strictly forbidden.
 For more information read the license file including with this software.
 
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
-// · 
+// ·
 */
 
 export default {
@@ -47,7 +47,7 @@ export default {
         doUserLogout() {
             this.http.post(`/administration/users/${this.user.id}/resources/logout`).then(result => {
                 if (!result.successful) {
-                    this.alert(result.error.message, "danger")
+                    this.msg.error(result.error.message)
                     return
                 }
                 this.alert(this.translations.users.messages_success_user_updated)
@@ -59,10 +59,10 @@ export default {
         doRequestPasswordChange() {
             this.http.post(`/administration/users/${this.user.id}/resources/password`).then(result => {
                 if (!result.successful) {
-                    this.alert(result.error.message, "danger")
+                    this.msg.error(result.error.message)
                     return
                 }
-                this.alert(this.translations.users.messages_success_user_updated, "success")
+                this.msg.success(this.translations.users.messages_success_user_updated)
             }).catch(error => {
                 console.log(error)
             })
@@ -71,7 +71,7 @@ export default {
         doUserLogout(user) {
             this.http.post(`${this.main_route}/${user.id}/resources/logout`).then(result => {
                 if (!result.successful) {
-                    this.alert(result.error.message, "danger")
+                    this.msg.error(result.error.message)
                     return
                 }
                 this.alert("Operation successful")
@@ -83,10 +83,36 @@ export default {
         doRevokeAccess() {
             this.http.post(`/administration/users/${this.user.id}/resources/lock`).then(result => {
                 if (!result.successful) {
-                    this.alert(result.error.message, "danger")
+                    this.msg.error(result.error.message)
                     return
                 }
-                this.alert(this.translations.users.messages_success_user_updated, "success")
+                this.msg.success(this.translations.users.messages_success_user_updated)
+            }).catch(error => {
+                console.log(error)
+            })
+        },
+
+        confirmUserDeletion() {
+            window.scrollTo(0,0)
+            this.$buefy.dialog.confirm({
+                title: "Delete user?",
+                message: "Once deleted, you will not be able to recover this user.",
+                confirmText: "Yes, delete it",
+                cancelText: "Cancel",
+                type: 'is-danger',
+                hasIcon: true,
+                onConfirm: () => this.deleteUser()
+            })
+        },
+
+        deleteUser() {
+            this.http.delete(`/administration/users/${this.user.id}`).then(result => {
+                if (!result.successful) {
+                    this.msg.error(result.error.message)
+                } else {
+                    this.msg.success(this.translations.users.messages_success_user_updated)
+                    this.url.go(this.url.admin("users"))
+                }
             }).catch(error => {
                 console.log(error)
             })
@@ -155,6 +181,11 @@ export default {
                         <button class="button is-white is-small" @click="doRevokeAccess()">
                             <span class="icon"><i class="fas fa-user-lock"></i></span>
                             <span> {{ translations.users.view_btn_revoke_access }} </span>
+                        </button>
+
+                        <button class="button is-white is-small" @click="confirmUserDeletion()">
+                            <span class="icon"><i class="fas fa-user-slash"></i></span>
+                            <span> {{ "Delete User" }} </span>
                         </button>
                     </div>
                 </template>
