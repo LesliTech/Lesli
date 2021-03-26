@@ -91,6 +91,9 @@ export default {
 
     },
     watch: {
+        'data.global.cloud_bell_notification': function(notification) {
+            this.msg.info(notification.subject)
+        },
         'data.global.show_panel_notifications': function(open) {
             if (open) {
                 this.getNotifications()

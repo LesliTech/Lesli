@@ -28,6 +28,8 @@ class ApplicationController < ActionController::Base
         super
 
         @account = {
+            tasks: 0,
+            cable: false,
             company: {},
             settings: {},
             revision: {},
@@ -37,8 +39,7 @@ class ApplicationController < ActionController::Base
             customization: {
                 logo: "/images/brand/lesli-name.svg", 
                 color_primary: "#3689e6"
-            },
-            tasks: 0
+            }
         }
 
     end
