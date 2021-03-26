@@ -66,7 +66,6 @@ export default {
                     this.alert(result.error.message, "danger")
                     return
                 }
-                console.log(result)
                 this.alert("All the sessions of the user were delted successfully")
             }).catch(error => {
                 console.log(error)
