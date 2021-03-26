@@ -131,6 +131,7 @@ class ApplicationLesliController < ApplicationController
         
         action = params[:action]
         action = "resources" if request.path.include?("resources")
+        action = "actions" if request.path.include?("/actions/")
 
         # check if user has access to the requested controller
         # this search is over all the privileges for all the roles of the user
