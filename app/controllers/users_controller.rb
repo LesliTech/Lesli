@@ -281,6 +281,23 @@ class UsersController < ApplicationLesliController
         respond_with_successful
 
     end
+
+    # Resets the user email 
+    def email
+        user = current_user.account.users.find(params[:id])
+
+        if user.blank? 
+            return respond_with_error "User not found"
+        end
+
+        if params[:user][:email]
+            user.update(email: params[:user][:email])
+        end
+
+        user.logs.create({ session_uuid: nil, description: "changed_email_address_id: " + current_user.id.to_s })
+
+        respond_with_successful
+    end
     
     private
 
