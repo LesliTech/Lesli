@@ -23,7 +23,7 @@ class DeviseMailer < Devise::Mailer
         # Depending on wheter there is a new user or they are changing their email, one or another field will be used
         recipient_email = record.unconfirmed_email || record.email
 
-        @data = @data.merge({
+        self.build_data_from_params({}, {
             url: "/confirmation?confirmation_token=#{token}",
             user: {
                 full_name: record.full_name,
