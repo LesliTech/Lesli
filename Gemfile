@@ -172,6 +172,7 @@ group :test do
     #gem "chromedriver-helper"
 
     gem "rails-controller-testing"
+    gem "rails-ujs"
     
 end
 
