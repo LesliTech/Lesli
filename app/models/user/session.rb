@@ -24,6 +24,12 @@ class User::Session < ApplicationLesliRecord
     
     after_create :set_uuid
 
+    enum session_sources: {
+        dispatcher_standar_session: "dispatcher_standar_session",
+        devise_standar_session: "devise_standar_session",
+        cloud_shared_public: "cloud_shared_public",
+    }
+
     def set_uuid
 
         rebuild_uuid = true
@@ -63,17 +69,23 @@ class User::Session < ApplicationLesliRecord
         
     end
 
-    def self.index(user, query, current_session_id)
-        sessions = user.sessions
-        .where(users_id: user.id)
+    def self.index(current_user, query, params, current_session_id)
+        user_id = params[:user_id]
+        user_id = current_user.id unless current_user.has_privileges?(["users"], ["index"])
+
+        sessions = User::Session
+        .all
+        .joins(:user)
+        .where(users_id:user_id)
+        .where("users.accounts_id = ?", current_user.account.id)
         .where("expiration_at > ? or expiration_at is ?", Time.now.utc, nil)
         .select(
             :id,
             :user_remote,
             :user_agent,
             :session_source,
-            LC::Date2.new.db_timestamps("user_sessions"),
-            LC::Date2.new.db_column("expiration_at"),
+            LC::Date2.new.date_time.db_timestamps("user_sessions"),
+            LC::Date2.new.date_time.db_column("expiration_at"),
             :users_id
         )
         .page(query[:pagination][:page])

@@ -51,17 +51,47 @@ export default {
         getSessions() {
             this.loading = true;
             this.data = []
+
             let params = {
                 perPage: this.pagination_config.per_page,
                 page: this.pagination.current_page
             }
+
             this.http.get(this.url.admin("users/:id/sessions", { id: this.user_id}), {params}).then(result => {
-                if (result.successful) {
-                    this.data = result.data.records;
-                    this.pagination = result.data.pagination;
-                } else {
-                    this.msg.error(result.error.message);
-                }
+
+                if (!result.successful) {
+                    return this.msg.error(result.error.message);
+                    
+                } 
+
+                result.data.records.map(record => {
+
+                    record['icon'] = ""
+                    record['title'] = ""
+
+                    if (record.session_source == 'dispatcher_standar_session') {
+                        record['icon'] = "fas fa-key"
+                        record['title'] = "access key"
+                        return record
+                    }
+
+                    if (record.session_source == 'devise_standar_session') {
+                        record['icon'] = "fas fa-desktop"
+                        record['title'] = "web client"
+                        return record
+                    }
+
+                    if (record.session_source == 'cloud_shared_public') {
+                        record['icon'] = "fas fa-share-alt"
+                        record['title'] = "shared module"
+                        return record
+                    }
+
+                })
+
+                this.data = result.data.records;
+                this.pagination = result.data.pagination;
+
             }).catch(error => {
                 console.log(error)
             }).finally(() => {
@@ -118,14 +148,12 @@ export default {
                         {{props.row.user_agent}}
                     </b-table-column>
                     <b-table-column label="session_source" field="lower(session_source)">
-                        <b-field v-if="props.row.session_source == 'devise_standar_session'">
-                            <b-tag><i class="fas fa-desktop"></i> Computer</b-tag>
-                        </b-field>
-                        <b-field v-if="props.row.session_source == 'cloud_shared_public'">
-                            <b-tag><i class="fas fa-share-alt"></i> Shared Module</b-tag>
-                        </b-field>
-                        <b-field v-if="props.row.current_session">
-                            <b-tag><i class="fas fa-circle"></i> Current</b-tag>
+                        <b-field>
+                            <b-tag :type="props.row.current_session ? 'is-success' : '' ">
+                                <i :class="props.row.icon"></i>
+                                {{ props.row.title }}
+                                {{ props.row.current_session ? '(current)' : '' }}
+                            </b-tag>
                         </b-field>
                     </b-table-column>
                     <b-table-column label="created_at" field="lower(created_at)">
