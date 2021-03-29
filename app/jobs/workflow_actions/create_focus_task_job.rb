@@ -36,12 +36,12 @@ class WorkflowActions::CreateFocusTaskJob < ApplicationJob
                 user_main: task_employee,
                 model_type: model_type,
                 model_id: model_id,
+                cloud_focus_catalog_task_types_id: input_data["task_type"],
                 detail_attributes: {
                     title: input_data["title"],
                     description: input_data["description"],
                     deadline: LC::Date.now + (input_data["days_until_deadline"] || 0).to_i.days,
-                    importance: input_data["importance"],
-                    task_type: input_data["task_type"],
+                    importance: input_data["importance"]
                 }
             }
 
