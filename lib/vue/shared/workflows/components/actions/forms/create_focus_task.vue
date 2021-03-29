@@ -75,7 +75,10 @@ export default {
         },
 
         getFocusTaskOptions(){
-             this.http.get(`/focus/tasks/options.json?view_type=index`).then(result => {
+            let url = this.url.focus('tasks/options')
+            url.query = {model_type: 'all'}
+
+             this.http.get(url).then(result => {
                 if (result.successful) {
                     for(let key in result.data){
                         this.$set(this.task_options, key, result.data[key])
