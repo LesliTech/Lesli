@@ -69,6 +69,14 @@ module CloudObject
         def chatroom_external_id
         end
 
+        # @return [User] The user reviewer associated to this cloud_object
+        # @description Returns a user that is the reviewer of this cloud_object. This method must be implemented in any CloudObject
+        # @example
+        #     puts CloudHelp::Ticket.first.user_reviewer # will return null, but will work
+        #     puts CloudHouse::Project.first.user_reviewer # will return the user reviewer specified in the offer report
+        def user_reviewer
+        end
+
         #######################################################################################
         ##############################  Activities Log Methods   ##############################
         #######################################################################################
