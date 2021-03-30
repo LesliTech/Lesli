@@ -12,11 +12,17 @@ class WorkflowActions::CreateFocusTaskJob < ApplicationJob
             task_employee = current_user.account.users.find(action.concerning_users["list"][0]["id"]) if action.concerning_users["list"]
         when "current_user"
             task_employee = current_user
+        when "user_reviewer"
+            task_employee = cloud_object.user_reviewer
+
+            # Sanity check. If the association doesn't exist, or it is not a user, we default back to current_user
+            task_employee = current_user unless task_employee
         end
 
         begin
             replacement_values = {
                 "%global_identifier%" => cloud_object.global_identifier,
+                "%user_reviewer%" => (cloud_object.user_reviewer ? cloud_object.user_reviewer.full_name : "") 
                 "%current_user%" => (current_user.full_name || "")
             }
             action.parse_input_data(replacement_values)
