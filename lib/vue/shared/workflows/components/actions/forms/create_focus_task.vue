@@ -128,9 +128,27 @@ export default {
                             </b-icon>
                         </b-button>
                     </b-tooltip>
+                    <b-tooltip :label="translations.actions.messages_info_tooltip_add_user_reviewer_reference" size="is-small" position="is-left" type="is-light">
+                        <b-button size="is-small" @click="addReference('user_reviewer', 'title')">
+                            <b-icon size="is-small" icon="user-check">
+                            </b-icon>
+                        </b-button>
+                    </b-tooltip>
                     <b-tooltip :label="translations.actions.messages_info_tooltip_add_current_user_reference" size="is-small" position="is-left" type="is-light">
                         <b-button size="is-small" @click="addReference('current_user', 'title')">
                             <b-icon size="is-small" icon="user-circle">
+                            </b-icon>
+                        </b-button>
+                    </b-tooltip>
+                    <b-tooltip :label="translations.actions.messages_info_tooltip_add_user_creator_reference" size="is-small" position="is-left" type="is-light">
+                        <b-button size="is-small" @click="addReference('user_creator', 'title')">
+                            <b-icon size="is-small" icon="user-tie">
+                            </b-icon>
+                        </b-button>
+                    </b-tooltip>
+                    <b-tooltip :label="translations.actions.messages_info_tooltip_add_status_reference" size="is-small" position="is-left" type="is-light">
+                        <b-button size="is-small" @click="addReference('status', 'title')">
+                            <b-icon size="is-small" icon="project-diagram">
                             </b-icon>
                         </b-button>
                     </b-tooltip>
@@ -150,9 +168,27 @@ export default {
                             </b-icon>
                         </b-button>
                     </b-tooltip>
+                    <b-tooltip :label="translations.actions.messages_info_tooltip_add_user_reviewer_reference" size="is-small" position="is-left" type="is-light">
+                        <b-button size="is-small" @click="addReference('user_reviewer', 'description')">
+                            <b-icon size="is-small" icon="user-check">
+                            </b-icon>
+                        </b-button>
+                    </b-tooltip>
                     <b-tooltip :label="translations.actions.messages_info_tooltip_add_current_user_reference" size="is-small" position="is-left" type="is-light">
                         <b-button size="is-small" @click="addReference('current_user', 'description')">
                             <b-icon size="is-small" icon="user-circle">
+                            </b-icon>
+                        </b-button>
+                    </b-tooltip>
+                    <b-tooltip :label="translations.actions.messages_info_tooltip_add_user_creator_reference" size="is-small" position="is-left" type="is-light">
+                        <b-button size="is-small" @click="addReference('user_creator', 'description')">
+                            <b-icon size="is-small" icon="user-tie">
+                            </b-icon>
+                        </b-button>
+                    </b-tooltip>
+                    <b-tooltip :label="translations.actions.messages_info_tooltip_add_status_reference" size="is-small" position="is-left" type="is-light">
+                        <b-button size="is-small" @click="addReference('status', 'description')">
+                            <b-icon size="is-small" icon="project-diagram">
                             </b-icon>
                         </b-button>
                     </b-tooltip>

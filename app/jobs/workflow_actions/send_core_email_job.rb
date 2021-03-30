@@ -6,7 +6,7 @@ class WorkflowActions::SendCoreEmailJob < ApplicationJob
             replacement_values = {
                 "%global_identifier%" => cloud_object.global_identifier,
                 "%current_user%" => (current_user.full_name || ""),
-                "%user_creator%" => (cloud_object.user_creator.full_name || ""),
+                "%user_creator%" => (cloud_object.user_creator ? cloud_object.user_creator.full_name : ""),
                 "%user_reviewer%" => (cloud_object.user_reviewer ? cloud_object.user_reviewer.full_name : ""),
                 "%status%" => cloud_object.status.name
             }
@@ -26,6 +26,9 @@ class WorkflowActions::SendCoreEmailJob < ApplicationJob
             case action.concerning_users["type"]
             when "creator"
                 user = cloud_object.user_creator
+                user = current_user unless user
+                user = user.attributes
+
                 emails.push(user["email"])
                 send_email(user, action, input_data, href)
             when "main"
@@ -44,10 +47,12 @@ class WorkflowActions::SendCoreEmailJob < ApplicationJob
                     send_email(user, action, input_data, href)
                 end
             when "reviewer"
-                task_employee = cloud_object.user_reviewer
-    
-                # Sanity check. If the association doesn't exist, or it is not a user, we default back to current_user
-                task_employee = current_user unless task_employee
+                user = cloud_object.user_reviewer
+                user = current_user unless user
+                user = user.attributes
+
+                emails.push(user["email"])
+                send_email(user, action, input_data, href)
             end
 
             cloud_object.activities.create!(
