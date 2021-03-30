@@ -51,6 +51,15 @@ module CloudObject
             return "#{self.class.name} - #{id}"
         end
 
+        # @return [String]
+        # @description Returns the field used for generation a URL to this resource. In most cases, it's the id. If not, the child model must override this method
+        # @example
+        #     puts CloudHouse::Project.first.url_identifier # This will display the project code
+        #     puts CloudHelp::Ticket.first.url_identifier # This will display the ticket id
+        def url_identifier
+            return id
+        end
+
         # @return [void]
         # @param original_cloud_object [CloudObject::Base] The original cloud object to be copied
         # @description Clones the information of the original cloud_object into the new one
