@@ -43,7 +43,7 @@ class WorkflowActions::SendCoreEmailJob < ApplicationJob
                     emails.push(user["email"])
                     send_email(user, action, input_data, href)
                 end
-            when "user_reviewer"
+            when "reviewer"
                 task_employee = cloud_object.user_reviewer
     
                 # Sanity check. If the association doesn't exist, or it is not a user, we default back to current_user

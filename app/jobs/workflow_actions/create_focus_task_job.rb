@@ -12,7 +12,7 @@ class WorkflowActions::CreateFocusTaskJob < ApplicationJob
             task_employee = current_user.account.users.find(action.concerning_users["list"][0]["id"]) if action.concerning_users["list"]
         when "current_user"
             task_employee = current_user
-        when "user_reviewer"
+        when "reviewer"
             task_employee = cloud_object.user_reviewer
 
             # Sanity check. If the association doesn't exist, or it is not a user, we default back to current_user
