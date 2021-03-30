@@ -68,7 +68,7 @@ module Application
             return if !Rails.application.config.lesli_settings["configuration"]["security"]["log_activity"]
 
             current_user.logs.create({
-                session_uuid: session[:session_uuid],
+                user_sessions_id: session[:user_session_id],
                 description: description
             })
 
