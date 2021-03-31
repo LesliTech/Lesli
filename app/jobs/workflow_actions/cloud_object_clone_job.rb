@@ -81,6 +81,10 @@ class WorkflowActions::CloudObjectCloneJob < ApplicationJob
 
             new_cloud_object.save
             new_cloud_object.clone_associations(cloud_object)
+
+            actions_class = "#{new_cloud_object.status.workflow.class}::Action".constantize
+            actions_class.execute_actions(current_user, new_cloud_object, {}, new_cloud_object.attributes)
+
             new_cloud_object.activities.create!(
                 category: "action_create",
                 user_creator: current_user
