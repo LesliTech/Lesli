@@ -130,7 +130,10 @@ class ApplicationLesliController < ApplicationController
     def authorize_privileges
         
         action = params[:action]
-        action = "resources" if request.path.include?("resources")
+        
+        # This verifies that we are inside an actions/resources namespace, but outside the actions/resources controller
+        action = "resources" if request.path.include?("/resources/") && (self.class.name.demodulize.gsub("Controller", "").downcase != "resources")
+        action = "actions" if request.path.include?("/actions/") && (self.class.name.demodulize.gsub("Controller", "").downcase != "actions")
 
         # check if user has access to the requested controller
         # this search is over all the privileges for all the roles of the user

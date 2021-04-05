@@ -34,6 +34,7 @@ export default {
         }
     },
     methods: {
+
         initials() {
             let initials = ""
             if (this.user.detail_attributes.first_name) {
@@ -43,17 +44,6 @@ export default {
                 initials += this.user.detail_attributes.last_name[0]
             }
             return initials
-        },
-        doUserLogout() {
-            this.http.post(`/administration/users/${this.user.id}/resources/logout`).then(result => {
-                if (!result.successful) {
-                    this.msg.error(result.error.message)
-                    return
-                }
-                this.alert(this.translations.users.messages_success_user_updated)
-            }).catch(error => {
-                console.log(error)
-            })
         },
 
         doRequestPasswordChange() {
@@ -68,13 +58,15 @@ export default {
             })
         },
 
-        doUserLogout(user) {
-            this.http.post(`${this.main_route}/${user.id}/resources/logout`).then(result => {
+        doUserLogout() {
+            this.http.post(this.url.admin("/users/:user_id/resources/logout", {
+                user_id: this.user.id
+            })).then(result => {
                 if (!result.successful) {
                     this.msg.error(result.error.message)
                     return
                 }
-                this.alert("Operation successful")
+                this.alert("All the sessions of the user were delted successfully")
             }).catch(error => {
                 console.log(error)
             })
@@ -116,7 +108,8 @@ export default {
             }).catch(error => {
                 console.log(error)
             })
-        },
+        }
+
     },
     watch: {
         "data.user": function(user) {

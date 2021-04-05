@@ -143,6 +143,7 @@ class User < ApplicationLesliRecord
     # TODO:
     #   add support to delete sessions for specific devices
     #   add support to delete all sesssions
+    # DEPRECATED
     def close_session
 
         # get last session of the user
