@@ -29,7 +29,6 @@ app({
         seconds_left_to_redirect: 10
     },
     mounted() {
-        return 
         setInterval(() => {
             this.seconds_left_to_redirect -= 1
             if (this.seconds_left_to_redirect <= 0) {

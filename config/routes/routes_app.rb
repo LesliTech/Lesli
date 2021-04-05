@@ -79,6 +79,12 @@ module RoutesApp
                             get :list
                         end
 
+                        member do
+                            scope :actions do
+                                put :email
+                            end
+                        end
+
                     end
 
                     # roles & privileges management
