@@ -98,7 +98,9 @@ export default {
         },
 
         deleteUser() {
-            this.http.delete(`/administration/users/${this.user.id}`).then(result => {
+            this.http.delete(this.url.admin("/users/:user_id", {
+                user_id: this.user.id
+            })).then(result => {
                 if (!result.successful) {
                     this.msg.error(result.error.message)
                 } else {
