@@ -51,6 +51,15 @@ module CloudObject
             return "#{self.class.name} - #{id}"
         end
 
+        # @return [String]
+        # @description Returns the field used for generation a URL to this resource. In most cases, it's the id. If not, the child model must override this method
+        # @example
+        #     puts CloudHouse::Project.first.url_identifier # This will display the project code
+        #     puts CloudHelp::Ticket.first.url_identifier # This will display the ticket id
+        def url_identifier
+            return id
+        end
+
         # @return [void]
         # @param original_cloud_object [CloudObject::Base] The original cloud object to be copied
         # @description Clones the information of the original cloud_object into the new one
@@ -67,6 +76,14 @@ module CloudObject
         #     chat = ClouTalk::Chatroom.first
         #     puts chat.chatroom_external_id # If the class have the method overrided, this will print 'ZC57SgOT8KVKJXg7GKyh'
         def chatroom_external_id
+        end
+
+        # @return [User] The user reviewer associated to this cloud_object
+        # @description Returns a user that is the reviewer of this cloud_object. This method must be implemented in any CloudObject
+        # @example
+        #     puts CloudHelp::Ticket.first.user_reviewer # will return null, but will work
+        #     puts CloudHouse::Project.first.user_reviewer # will return the user reviewer specified in the offer report
+        def user_reviewer
         end
 
         #######################################################################################

@@ -31,6 +31,7 @@ module Shared
 
         enum concerning_user_types: {
             creator: "creator", # The creator of the cloud_object
+            reviewer: "reviewer", # A reviewer for the cloud_object. This field is not necessary in all cloud objects
             main: "main", # The main user will be returned by calling the main_user() function in a cloud_object
             custom: "custom", # If this type is chosen, the user will input the concerning users manually
             current_user: "current_user" # If this type is chosen the selected user will be current_user
