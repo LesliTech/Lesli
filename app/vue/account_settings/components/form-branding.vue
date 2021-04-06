@@ -68,8 +68,9 @@ export default {
 }
 </script>
 <template>
-    <div class="card settings-branding">
-        <div class="card-content">
+    <div class="box settings-branding">
+        <div class="main-logo">
+            <label class="label">Main logo</label>
             <div id="preview" class="has-text-centered">
                 <!-- <img class="company-logo-uploaded" v-if="image.url" :alt="image.alt" :src="image.url" @error="setAltImg"/> -->
             </div>
