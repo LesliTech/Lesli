@@ -20,7 +20,6 @@ For more information read the license file including with this software.
 class CreateUserLogs < ActiveRecord::Migration[6.0]
     def change
         create_table :user_logs do |t|
-            t.string :session_uuid
             t.string :description
             t.string :title
 
@@ -28,5 +27,6 @@ class CreateUserLogs < ActiveRecord::Migration[6.0]
             t.timestamps
         end
         add_reference :user_logs, :users, foreign_key: true
+        add_reference :user_logs, :user_sessions, foreign_key: true
     end
 end

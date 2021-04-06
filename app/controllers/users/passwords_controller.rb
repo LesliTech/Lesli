@@ -105,13 +105,13 @@ class Users::PasswordsController < Devise::PasswordsController
                     resource.update(password_expiration_at: nil)
                 end 
 
-                resource.logs.create(session_uuid: nil, description: "password_reset_successful")
+                resource.logs.create(description: "password_reset_successful")
                 
                 return respond_with_successful
 
             else
 
-                resource.logs.create(session_uuid: nil, description: "password_reset_error") if resource.id
+                resource.logs.create(description: "password_reset_error") if resource.id
 
                 return respond_with_error(resource.errors.full_messages.to_sentence)
 
