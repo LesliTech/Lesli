@@ -162,7 +162,7 @@ class UsersController < ApplicationLesliController
     def destroy
         return respond_with_not_found unless @user
 
-        if @user.delete
+        if @user.destroy
             current_user.logs.create({ session_uuid: nil, description: "deleted_user #{@user.id}-#{@user.full_name} by_user_id: #{current_user.id}" })
             respond_with_successful
           else
