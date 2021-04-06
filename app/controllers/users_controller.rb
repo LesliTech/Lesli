@@ -232,7 +232,7 @@ class UsersController < ApplicationLesliController
         # delete user active sessions
         sessions_count = user.sessions.delete_all
 
-        user.logs.create({ session_uuid: nil, description: "close_session by_user_id: " + current_user.id.to_s })
+        user.logs.create({ description: "close_session by_user_id: " + current_user.id.to_s })
 
         # Response successful
         respond_with_successful sessions_count
@@ -255,7 +255,7 @@ class UsersController < ApplicationLesliController
         # add delete date to the last active session
         user.revoke_access
 
-        user.logs.create({ session_uuid: nil, description: "revoke_access by_user_id: " + current_user.id.to_s })
+        user.logs.create({ description: "revoke_access by_user_id: " + current_user.id.to_s })
 
         # Response successful
         respond_with_successful
@@ -276,7 +276,7 @@ class UsersController < ApplicationLesliController
         # expire password
         user.set_password_as_expired
 
-        user.logs.create({ session_uuid: nil, description: "request_password_change by_user_id: " + current_user.id.to_s })
+        user.logs.create({ description: "request_password_change by_user_id: " + current_user.id.to_s })
 
         # Response successful
         respond_with_successful
@@ -295,7 +295,7 @@ class UsersController < ApplicationLesliController
             user.update(email: params[:user][:email])
         end
 
-        user.logs.create({ session_uuid: nil, description: "changed_email_address_id: " + current_user.id.to_s })
+        user.logs.create({ description: "changed_email_address_id: " + current_user.id.to_s })
 
         respond_with_successful
     end
