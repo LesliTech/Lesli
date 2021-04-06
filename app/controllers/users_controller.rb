@@ -2,9 +2,9 @@
 
 Copyright (c) 2020, all rights reserved.
 
-All the information provided by this platform is protected by international laws related  to 
-industrial property, intellectual property, copyright and relative international laws. 
-All intellectual or industrial property rights of the code, texts, trade mark, design, 
+All the information provided by this platform is protected by international laws related  to
+industrial property, intellectual property, copyright and relative international laws.
+All intellectual or industrial property rights of the code, texts, trade mark, design,
 pictures and any other information belongs to the owner of this platform.
 
 Without the written permission of the owner, any replication, modification,
@@ -13,23 +13,23 @@ transmission, publication is strictly forbidden.
 For more information read the license file including with this software.
 
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
-// · 
+// ·
 
 =end
 
 
 # @description User management
 class UsersController < ApplicationLesliController
-    before_action :set_user, only: [:show, :update]
+    before_action :set_user, only: [:show, :update, :destroy]
 
     def list
         respond_to do |format|
             format.json { respond_with_successful(User.list(current_user, @query, params)) }
         end
     end
-    
+
     # @return [Json] Json that contains a list of all files related to a *cloud_object*
-    # @description Retrieves and returns all files associated to a *cloud_object*. The id of the 
+    # @description Retrieves and returns all files associated to a *cloud_object*. The id of the
     #     *cloud_object* is within the *params* attribute
     # @example
     #     # Executing this controller's action from javascript's frontend
@@ -46,7 +46,7 @@ class UsersController < ApplicationLesliController
         respond_to do |format|
             format.html {}
             format.json {
-                
+
                 return respond_with_not_found unless @user
 
                 user = @user.show(current_user).merge({
@@ -63,13 +63,13 @@ class UsersController < ApplicationLesliController
         # check if request has an email to create the user
         if user_params[:email].blank?
             respond_with_error("not valid email found")
-            return 
+            return
         end
 
         # register the new user
         user = User.new({
-            :active => true, 
-            :email => user_params[:email], 
+            :active => true,
+            :email => user_params[:email],
             :detail_attributes => user_params[:detail_attributes]
         })
 
@@ -87,7 +87,7 @@ class UsersController < ApplicationLesliController
         if user.save
 
             # if a role is provided to assign to the new user
-            if not user_params[:roles_id].blank? 
+            if not user_params[:roles_id].blank?
 
                 # check if current user can work with the sent role
                 if current_user.can_work_with_role?(user_params[:roles_id])
@@ -107,14 +107,14 @@ class UsersController < ApplicationLesliController
 
                 # assign limited role
                 user.user_roles.create({ role: current_user.account.roles.find_by(:name => "limited") })
-                
-            end 
+
+            end
 
             # saving logs with information about the creation of the user
             user.logs.create({ description: "user_created_at " + LC::Date.to_string_datetime(LC::Date.datetime) })
             user.logs.create({ description: "user_created_by " + current_user.id.to_s })
             user.logs.create({ description: "user_created_with_role " + user.user_roles.first.roles_id.to_s })
-            
+
             User.log_activity_create(current_user, user)
 
             respond_with_successful(user)
@@ -134,7 +134,7 @@ class UsersController < ApplicationLesliController
 
     end
 
-    def update 
+    def update
 
         # validate that user exists
         return respond_with_not_found unless @user
@@ -149,14 +149,25 @@ class UsersController < ApplicationLesliController
                 active: @user.active
             })
 
-            # return a successful response 
+            # return a successful response
             respond_with_successful
-            
+
             User.log_activity_update(current_user, @user, old_attributes, new_attributes)
         else
             respond_with_error(@user.errors.full_messages.to_sentence)
         end
 
+    end
+
+    def destroy
+        return respond_with_not_found unless @user
+
+        if @user.delete
+            current_user.logs.create({ session_uuid: nil, description: "deleted_user #{@user.id}-#{@user.full_name} by_user_id: #{current_user.id}" })
+            respond_with_successful
+          else
+            respond_with_error(@user_session.errors.full_messages.to_sentence)
+        end
     end
 
     # @return [void]
@@ -171,7 +182,7 @@ class UsersController < ApplicationLesliController
     end
 
     def options
-        
+
         roles = current_user.account.roles.select(:id, :name)
 
         # only owner can assign any role
@@ -188,7 +199,7 @@ class UsersController < ApplicationLesliController
     def become
 
         # always should be disabled
-        return respond_with_unauthorized 
+        return respond_with_unauthorized
 
         # Allow only admin to become as user
         return respond_with_unauthorized if current_user.email != "crm.admin@deutsche-leibrenten.de"
@@ -199,7 +210,7 @@ class UsersController < ApplicationLesliController
         # Return an error if user does not exist
         return respond_with_error "Not valid user found" if become_user.blank?
 
-        # Extrictly save a log when becoming 
+        # Extrictly save a log when becoming
         current_user.activities.create!({
             users_id: become_user.id,
             owner_id: current_user.id,
@@ -211,8 +222,8 @@ class UsersController < ApplicationLesliController
         sign_in(:user, become_user)
 
         # Response successful
-        respond_with_successful(current_user) 
-        
+        respond_with_successful(current_user)
+
     end
 
     # this method is going to close all the open user sessions
@@ -299,7 +310,7 @@ class UsersController < ApplicationLesliController
 
         respond_with_successful
     end
-    
+
     private
 
     def user_params
@@ -310,15 +321,15 @@ class UsersController < ApplicationLesliController
             detail_attributes: [
                 :first_name,
                 :last_name,
-                :title, 
-                :salutation, 
-                :telephone, 
-                :address, 
-                :work_city, 
-                :work_region, 
+                :title,
+                :salutation,
+                :telephone,
+                :address,
+                :work_city,
+                :work_region,
                 :work_address
             ]
         )
     end
-    
+
 end
