@@ -161,7 +161,41 @@ export default {
 <template>
     <section v-if="workflow_action">
         <div class="field">
-            <label class="label">{{translations.actions.column_subject}}<sup class="has-text-danger">*</sup></label>
+            <label class="label">{{translations.actions.column_subject}}
+                <sup class="has-text-danger">*</sup>
+                <span class="is-pulled-right">
+                    <b-tooltip :label="translations.actions.messages_info_tooltip_add_resource_identifier_reference" size="is-small" position="is-left" type="is-light">
+                        <b-button size="is-small" @click="addReference('global_identifier', 'subject')">
+                            <b-icon size="is-small" icon="barcode">
+                            </b-icon>
+                        </b-button>
+                    </b-tooltip>
+                    <b-tooltip :label="translations.actions.messages_info_tooltip_add_user_reviewer_reference" size="is-small" position="is-left" type="is-light">
+                        <b-button size="is-small" @click="addReference('user_reviewer', 'subject')">
+                            <b-icon size="is-small" icon="user-check">
+                            </b-icon>
+                        </b-button>
+                    </b-tooltip>
+                    <b-tooltip :label="translations.actions.messages_info_tooltip_add_current_user_reference" size="is-small" position="is-left" type="is-light">
+                        <b-button size="is-small" @click="addReference('current_user', 'subject')">
+                            <b-icon size="is-small" icon="user-circle">
+                            </b-icon>
+                        </b-button>
+                    </b-tooltip>
+                    <b-tooltip :label="translations.actions.messages_info_tooltip_add_user_creator_reference" size="is-small" position="is-left" type="is-light">
+                        <b-button size="is-small" @click="addReference('user_creator', 'subject')">
+                            <b-icon size="is-small" icon="user-tie">
+                            </b-icon>
+                        </b-button>
+                    </b-tooltip>
+                    <b-tooltip :label="translations.actions.messages_info_tooltip_add_status_reference" size="is-small" position="is-left" type="is-light">
+                        <b-button size="is-small" @click="addReference('status', 'subject')">
+                            <b-icon size="is-small" icon="project-diagram">
+                            </b-icon>
+                        </b-button>
+                    </b-tooltip>
+                </span>
+            </label>
             <div class="control">
                 <input class="input" type="text" v-model="workflow_action.input_data.subject" required>
             </div>
@@ -174,6 +208,12 @@ export default {
                     <b-tooltip :label="translations.actions.messages_info_tooltip_add_resource_identifier_reference" size="is-small" position="is-left" type="is-light">
                         <b-button size="is-small" @click="addReference('global_identifier', 'body')">
                             <b-icon size="is-small" icon="barcode">
+                            </b-icon>
+                        </b-button>
+                    </b-tooltip>
+                    <b-tooltip :label="translations.actions.messages_info_tooltip_add_user_reviewer_reference" size="is-small" position="is-left" type="is-light">
+                        <b-button size="is-small" @click="addReference('user_reviewer', 'body')">
+                            <b-icon size="is-small" icon="user-check">
                             </b-icon>
                         </b-button>
                     </b-tooltip>
@@ -213,6 +253,9 @@ export default {
                     </small>
                 </option>
             </b-select>
+            <p v-if="workflow_action.concerning_users.type == 'reviewer'" class="help">
+                {{translations.actions.view_text_concerning_user_can_be_unavailable}}
+            </p>
         </div>
         <div v-if="workflow_action.concerning_users.type == 'custom'">
             <label class="label">{{translations.actions.column_select_employee_or_email_address}}</label>
