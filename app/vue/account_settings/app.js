@@ -27,7 +27,7 @@ import pageList from "./pages/list.vue"
 
 
 // · 
-app("Lesli", "[new|list|show]", "/administration/account/settings", router.for_lesli([{
+app("Lesli", "[new|list|show]", "/administration/account/settings", [{
     path: "/",
     component: pageList,
-}]))
+}])

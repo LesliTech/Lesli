@@ -46,7 +46,7 @@ class Users::ConfirmationsController < Devise::ConfirmationsController
         flash.discard
 
         # register a log with a validation atempt for the user
-        log = user.logs.create({ session_uuid: nil, description: "confirmation_atempt_successful" })
+        log = user.logs.create({ description: "confirmation_atempt_successful" })
 
         # confirm the user
         user.confirm
