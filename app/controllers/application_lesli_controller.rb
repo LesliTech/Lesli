@@ -30,6 +30,7 @@ class ApplicationLesliController < ApplicationController
     before_action :authorize_privileges
     before_action :set_helpers_for_request
     before_action :set_helpers_for_account
+    before_action :set_customization
     after_action  :log_user_requests
     
     layout "layouts/application-lesli"
@@ -68,6 +69,11 @@ class ApplicationLesliController < ApplicationController
         @account[:announcements] = Courier::Bell::Announcement.count(current_user)
         @account[:tasks] = Courier::Focus::Task.count(current_user)
         @account[:cable] = Rails.application.config.lesli_settings["configuration"]["security"]["enable_websockets"] || false
+
+
+        # default customization, set on builder_engine/application_controller.rb
+        @account[:customization] = { :logo => "image.svg", :color_primary => "#1f7ce3" }
+
 
 
         return @account if current_user.account.blank?
@@ -121,6 +127,21 @@ class ApplicationLesliController < ApplicationController
             abilities: abilities
         }
 
+    end
+
+
+    # set customization only for lesli_cloud instance
+    def set_customization
+
+        # @account is only for html requests
+        return if !request.format.html?
+
+        if Lesli.instance[:code] == "lesli_cloud"
+            @account[:customization][:logo] = "lesli_cloud/brand/lesli-name.svg"
+            custom_logo = current_user.account.files.where(name: "company_logo").last
+            @account[:customization][:logo] = custom_logo.attachment.url if custom_logo
+        end
+        
     end
 
 
