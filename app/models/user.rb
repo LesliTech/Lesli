@@ -58,8 +58,6 @@ class User < ApplicationLesliRecord
     before_create :initialize_user
     after_create :initialize_user_details
 
-    before_destroy :destroy_user
-
     # type of user
     #   system user
     #   integration apps
@@ -475,12 +473,6 @@ class User < ApplicationLesliRecord
             }
         }
         
-    end
-
-    # Change the email so it will be able for a re-register
-    def destroy_user
-        new_email = "#{self.id}-#{self.email}"
-        ActiveRecord::Base.connection.exec_query("UPDATE users SET email = '#{new_email}' WHERE id = #{self.id}")
     end
 
     #######################################################################################
