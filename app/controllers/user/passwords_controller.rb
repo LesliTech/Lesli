@@ -13,7 +13,7 @@ class User::PasswordsController < ApplicationLesliController
 
         @user = current_user
 
-        log = @user.logs.create({ session_uuid: nil, description: "password_update_atempt" })
+        log = @user.logs.create({ description: "password_update_atempt" })
 
         if @user.update(user_password_params)
 
