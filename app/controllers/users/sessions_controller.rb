@@ -76,39 +76,34 @@ class Users::SessionsController < Devise::SessionsController
         # do a user login
         sign_in(:user, resource)
 
-
-        # register a successful sign-in log for the current user
-        resource.logs.create({ title: "session_creation_successful" })
-
-
         # register a new unique session
         @current_session = resource.sessions.create({
             :user_agent => get_user_agent,
             :user_remote => request.remote_ip,
-            :session_token => session[:session_id],
             :session_source => "devise_standar_session",
             :last_used_at => LC::Date.now
         })
 
-
+        # make session id globally available
         session[:user_session_id] = @current_session[:id]
 
+        # register a successful sign-in log for the current user
+        resource.logs.create({ user_sessions_id: session[:user_session_id], title: "session_creation_successful" })
 
         respond_with_successful()
-
 
     end
 
     def destroy
 
-        # register a successful logout log for the current user
-        current_user.logs.create({ session_uuid: session[:session_uuid], description: "logout" })
-
         # expire session
         current_session = current_user.sessions.find_by(id: session[:user_session_id])
         if current_session
-            current_session.update({ expiration_at: LC::Date.now })
+            current_session.delete
         end
+
+        # register a successful logout log for the current user
+        current_user.logs.create({ user_sessions_id: session[:user_session_id], title: "session_logout_successful" })
 
         # do a user logout
         sign_out current_user

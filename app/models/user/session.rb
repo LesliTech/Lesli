@@ -22,7 +22,7 @@ require 'bcrypt'
 class User::Session < ApplicationLesliRecord
     belongs_to :user, foreign_key: "users_id"
     
-    after_create :set_uuid
+    after_create :set_session_token
 
     enum session_sources: {
         dispatcher_standar_session: "dispatcher_standar_session",
@@ -30,7 +30,9 @@ class User::Session < ApplicationLesliRecord
         cloud_shared_public: "cloud_shared_public",
     }
 
-    def set_uuid
+    def set_session_token
+
+        return if self.session_source == "devise_standar_session"
 
         rebuild_uuid = true
 
@@ -51,6 +53,7 @@ class User::Session < ApplicationLesliRecord
 
 
         return if not self.session_token.blank?
+
 
         rebuild_token = true
 

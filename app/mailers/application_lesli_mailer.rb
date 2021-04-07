@@ -74,9 +74,9 @@ class ApplicationLesliMailer < ActionMailer::Base
 
     def build_customization_from_params(params)
 
-        return if params[:user].blank?
-
         @custom[:logo] = "/images/brand/lesli-name.svg"
+        
+        return if params[:user].blank?
 
         custom_logo = params[:user].account.files.where(name: "company_logo").last
 
