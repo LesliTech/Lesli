@@ -163,10 +163,10 @@ class UsersController < ApplicationLesliController
         return respond_with_not_found unless @user
 
         if @user.delete
-            current_user.logs.create({ session_uuid: nil, description: "deleted_user #{@user.id}-#{@user.full_name} by_user_id: #{current_user.id}" })
+            current_user.logs.create({ description: "deleted_user #{@user.id}-#{@user.full_name} by_user_id: #{current_user.id}" })
             respond_with_successful
           else
-            respond_with_error(@user_session.errors.full_messages.to_sentence)
+            respond_with_error(@user.errors.full_messages.to_sentence)
         end
     end
 

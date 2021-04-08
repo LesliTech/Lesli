@@ -20,17 +20,40 @@ For more information read the license file including with this software.
 export default {
     data() {
         return {
-
+            color: '#64baff'
         }
     },
     methods: {
-
+        postTheme() {
+            this.http.post(this.url.admin("account/settings"), {
+                setting: {
+                    name: "theme_primary_color",
+                    value: this.color
+                }
+            }).then(result => {
+                if (!result.successful) {
+                    this.msg.error(result.error.message)
+                    return
+                }
+                this.msg.info("color saved successfully")
+            })
+        }
+    },
+    watch: {
+        color() {
+            this.postTheme()
+        }
     }
 
 }
 </script>
 <template>
-    <div class="box">
-
+    <div class="box settings-theme">
+        <div class="field">
+            <label class="label">Primary color {{ color }}</label>
+            <div class="control">
+                <input v-model="color" class="input" type="color" placeholder="Select color">
+            </div>
+        </div>
     </div>
 </template>
