@@ -87,10 +87,10 @@ export default {
         confirmUserDeletion() {
             window.scrollTo(0,0)
             this.$buefy.dialog.confirm({
-                title: "Delete user?",
-                message: "Once deleted, you will not be able to recover this user.",
-                confirmText: "Yes, delete it",
-                cancelText: "Cancel",
+                title: this.translations.users.messages_danger_delete_user,
+                message: this.translations.users.messages_danger_delete_user_message_detail,
+                confirmText: this.translations.users.messages_danger_delete_user_confirm,
+                cancelText: this.translations.users.messages_danger_delete_user_cancel  ,
                 type: 'is-danger',
                 hasIcon: true,
                 onConfirm: () => this.deleteUser()
@@ -180,7 +180,7 @@ export default {
 
                         <button class="button is-white is-small" @click="confirmUserDeletion()">
                             <span class="icon"><i class="fas fa-user-slash"></i></span>
-                            <span> {{ "Delete User" }} </span>
+                            <span> {{ translations.users.view_btn_delete_user }} </span>
                         </button>
                     </div>
                 </template>
