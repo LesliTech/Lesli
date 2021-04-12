@@ -4,14 +4,27 @@
 
     .settings-branding {
 
-        img.company-logo-uploaded {
-            width: 100%;
+        .main-logo {
+            max-width: 400px;
 
-            &.error {
-                margin: 0 auto;
-                max-width: 150px;
+            img.company-logo-uploaded {
+                width: 100%;
+
+                &.error {
+                    margin: 0 auto;
+                    max-width: 150px;
+                }
+
             }
 
+        }
+        
+    }
+
+    .settings-theme {
+
+        .field {
+            max-width: 400px;
         }
         
     }

@@ -24,6 +24,7 @@ import componentInformationForm from "Lesli/vue/users/components/form-informatio
 import componentRolesPrivilegesForm from "Lesli/vue/users/components/form-roles-privileges.vue"
 import componentAccessManagementForm from "Lesli/vue/users/components/form-access-management.vue"
 import componentSessionManagement from "Lesli/vue/users/components/session-management.vue"
+import componentSettingsForm from "Lesli/vue/users/components/form-settings.vue"
 
 
 
@@ -35,12 +36,13 @@ export default {
         "component-information-form": componentInformationForm,
         "component-roles-privileges-form": componentRolesPrivilegesForm,
         "component-access-management-form": componentAccessManagementForm,
-        'component-session-management': componentSessionManagement,
+        "component-session-management": componentSessionManagement,
+        "component-settings-form": componentSettingsForm
     },
     data() {
         return {
             user_id: null,
-            active: 0,
+            active: 5,
             user: {
                 detail_attributes: {}
             },
@@ -100,9 +102,14 @@ export default {
             <b-tab-item :label="translations.core.users.view_tab_title_roles_and_privileges">
                 <component-roles-privileges-form></component-roles-privileges-form>
             </b-tab-item>
-            <b-tab-item label="Session Management">
+            <b-tab-item label="Session management">
                 <component-session-management v-if="user_id" :user_id="user_id"></component-session-management>
             </b-tab-item>
+            <!-- 
+            <b-tab-item label="Settings">
+                <component-settings-form v-if="user_id" :user_id="user_id"></component-settings-form>
+            </b-tab-item>
+            -->
         </b-tabs>
     </section>
 </template>

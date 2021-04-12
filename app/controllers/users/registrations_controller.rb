@@ -116,7 +116,7 @@ class Users::RegistrationsController < Devise::RegistrationsController
 
     def update 
 
-        log = @user.logs.create({ session_uuid: nil, description: "password_update_atempt" })
+        log = @user.logs.create({ description: "password_update_atempt" })
 
         if @user.update(sign_up_params)
 
