@@ -40,9 +40,9 @@ class User::SessionsController < ApplicationLesliController
 
         if @user_session.delete
             current_user.logs.create({ 
-                session_uuid: @user_session.session_uuid, 
+                user_sessions_id: @user_session.id, 
                 title: "session_closed_successful", 
-                description: "closing session from session managements, session_id: #{@user_session.id.to_s}" 
+                description: "closing session from session managements" 
             })
             respond_with_successful
           else

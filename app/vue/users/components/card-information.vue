@@ -2,9 +2,9 @@
 /*
 Copyright (c) 2020, all rights reserved.
 
-All the information provided by this platform is protected by international laws related  to 
-industrial property, intellectual property, copyright and relative international laws. 
-All intellectual or industrial property rights of the code, texts, trade mark, design, 
+All the information provided by this platform is protected by international laws related  to
+industrial property, intellectual property, copyright and relative international laws.
+All intellectual or industrial property rights of the code, texts, trade mark, design,
 pictures and any other information belongs to the owner of this platform.
 
 Without the written permission of the owner, any replication, modification,
@@ -13,7 +13,7 @@ transmission, publication is strictly forbidden.
 For more information read the license file including with this software.
 
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
-// · 
+// ·
 */
 
 export default {
@@ -49,10 +49,10 @@ export default {
         doRequestPasswordChange() {
             this.http.post(`/administration/users/${this.user.id}/resources/password`).then(result => {
                 if (!result.successful) {
-                    this.alert(result.error.message, "danger")
+                    this.msg.error(result.error.message)
                     return
                 }
-                this.alert(this.translations.users.messages_success_user_updated, "success")
+                this.msg.success(this.translations.users.messages_success_user_updated)
             }).catch(error => {
                 console.log(error)
             })
@@ -63,7 +63,7 @@ export default {
                 user_id: this.user.id
             })).then(result => {
                 if (!result.successful) {
-                    this.alert(result.error.message, "danger")
+                    this.msg.error(result.error.message)
                     return
                 }
                 this.alert("All the sessions of the user were delted successfully")
@@ -75,10 +75,38 @@ export default {
         doRevokeAccess() {
             this.http.post(`/administration/users/${this.user.id}/resources/lock`).then(result => {
                 if (!result.successful) {
-                    this.alert(result.error.message, "danger")
+                    this.msg.error(result.error.message)
                     return
                 }
-                this.alert(this.translations.users.messages_success_user_updated, "success")
+                this.msg.success(this.translations.users.messages_success_user_updated)
+            }).catch(error => {
+                console.log(error)
+            })
+        },
+
+        confirmUserDeletion() {
+            window.scrollTo(0,0)
+            this.$buefy.dialog.confirm({
+                title: this.translations.users.messages_danger_delete_user,
+                message: this.translations.users.messages_danger_delete_user_message_detail,
+                confirmText: this.translations.users.messages_danger_delete_user_confirm,
+                cancelText: this.translations.users.messages_danger_delete_user_cancel  ,
+                type: 'is-danger',
+                hasIcon: true,
+                onConfirm: () => this.deleteUser()
+            })
+        },
+
+        deleteUser() {
+            this.http.delete(this.url.admin("/users/:user_id", {
+                user_id: this.user.id
+            })).then(result => {
+                if (!result.successful) {
+                    this.msg.error(result.error.message)
+                } else {
+                    this.msg.success(this.translations.users.messages_success_user_updated)
+                    this.url.go(this.url.admin("users"))
+                }
             }).catch(error => {
                 console.log(error)
             })
@@ -148,6 +176,11 @@ export default {
                         <button class="button is-white is-small" @click="doRevokeAccess()">
                             <span class="icon"><i class="fas fa-user-lock"></i></span>
                             <span> {{ translations.users.view_btn_revoke_access }} </span>
+                        </button>
+
+                        <button class="button is-white is-small" @click="confirmUserDeletion()">
+                            <span class="icon"><i class="fas fa-user-slash"></i></span>
+                            <span> {{ translations.users.view_btn_delete_user }} </span>
                         </button>
                     </div>
                 </template>
