@@ -106,14 +106,18 @@ export default {
     methods: {
 
         initializeEditor () {
-            let option_key = `${this.type}EditorOpts`;
+            let option_key = `${this.mode || this.type}EditorOpts`;
             let editorOpts = this[option_key]
 
             // Create the Quill instance
             this.editorInstance = new Quill(this.$refs.editorNode, editorOpts)
 
             // Set initial content that's going to be picked up by Quill
-            this.editorInstance.setContents(this.value)
+            if(this.value.delta){
+                this.editorInstance.setContents(this.value.delta)
+            }else{
+                this.editorInstance.setContents(this.value)
+            }
 
             // Setup handler for whenever things change inside Quill
             this.editorInstance.on('text-change', this.onEditorContentChange)
@@ -145,7 +149,7 @@ export default {
         value (newVal) {
             // Only update the content if it's changed from an external source
             // or else it'll act weird when you try to type anything
-            if (newVal.delta !== this.editorContent) {
+            if (newVal && newVal.delta !== this.editorContent) {
                 this.editorInstance.setContents(newVal.delta)
             }
         }
