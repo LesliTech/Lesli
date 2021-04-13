@@ -23,12 +23,14 @@ if Gem.loaded_specs.has_key? "wicked_pdf"
                 # (but can be overridden in `render :pdf` calls)
                 # layout: "pdf.html",
                 exe_path: "C:/Program Files/wkhtmltopdf/bin/wkhtmltopdf.exe",
-                enable_local_file_access: true
+                enable_local_file_access: true,
+                encoding: "utf8"
             }
         else
             WickedPdf.config = {
                 exe_path: Gem.bin_path("wkhtmltopdf-binary", "wkhtmltopdf"),
-                enable_local_file_access: true
+                enable_local_file_access: true,
+                encoding: "utf8"
             }
         end
     end
@@ -36,7 +38,8 @@ if Gem.loaded_specs.has_key? "wicked_pdf"
     if Rails.env.production?
         WickedPdf.config = {
             exe_path: Gem.bin_path("wkhtmltopdf-binary", "wkhtmltopdf"),
-            enable_local_file_access: true
+            enable_local_file_access: true,
+            encoding: "utf8"
         }
     end
 end
