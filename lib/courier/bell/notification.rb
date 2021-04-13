@@ -26,9 +26,9 @@ module Courier
                 CloudBell::Notification.count(current_user)
             end
 
-            def self.index(current_user, query, view_type)
+            def self.index(current_user, query)
                 return [] if not defined? CloudBell
-                CloudBell::Notification.index(current_user, query, view_type)
+                CloudBell::Notification.index(current_user, query)
             end
 
             def self.new(user, subject, body:nil, url:nil, category:nil, sender: "push")
