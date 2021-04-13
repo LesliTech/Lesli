@@ -32,6 +32,11 @@ module Courier
                     CloudOne::Firebase::User.update_photo(current_user, photo_url)
                 end
 
+                def self.update_data(current_user, params)
+                    return unless defined? CloudOne
+                    CloudOne::Firebase::User.update_data(current_user, params)
+                end
+
                 def self.generated_password(current_user)
                     return unless defined? CloudOne
                     CloudOne::Firebase::User.generated_password(current_user)
