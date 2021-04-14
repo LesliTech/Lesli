@@ -127,6 +127,15 @@ export default {
             })
         },
     },
+
+    watch: {
+        'pagination.current_page'(){
+            this.getSessions()
+        },
+        'pagination.per_page'(){
+            this.getSessions()
+        }
+    }
 }
 </script>
 
