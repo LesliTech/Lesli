@@ -117,7 +117,7 @@ export default {
                         if(this.search.length > 0){
                             this.search = this.search.slice(0, -1)
                         }
-                        this.$refs.input.focus();
+                        this.focusOnInput();
                     }
                 }
 
@@ -131,7 +131,7 @@ export default {
                                 this.index--;
                             }
                             if(this.index < 0){
-                                this.$refs.input.focus();
+                                this.focusOnInput();
                                 break;
                             }
                             this.children[this.index].focus();
@@ -177,6 +177,10 @@ export default {
             });
         },
 
+        focusOnInput(){
+            this.$refs.input.focus()
+        },
+
         select(e, option) {
             e.preventDefault();
 
@@ -185,7 +189,7 @@ export default {
             this.selected_option = option;
             this.search = option[this.textField];
             this.index = -1;
-            this.$refs.input.focus(); 
+            this.focusOnInput(); 
             this.$emit('input', option[this.keyField]);
             this.$emit('select', option)
 
@@ -282,7 +286,7 @@ export default {
             :placeholder="placeholder"
             ref="input"
             :required="required"
-            icon-right="eye-slash"
+            icon-right="times-circle"
             icon-right-clickable
             @icon-right-click="clearAutocompleteOptions"
             @change.native="verifySelectedOption"
