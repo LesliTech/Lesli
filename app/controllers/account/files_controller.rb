@@ -62,11 +62,9 @@ class Account::FilesController < ApplicationLesliController
         account_file = current_user.account.files.new(account_file_params)
 
         if account_file.save
-
-            # IMPORTANT: Due that we need unique attachment id for files, we have to manually update the attachment name to 
-            # match the name that the uploader assign to the file during the upload process.
-            sql = "update account_files set attachment = '#{account_file.id}-#{account_file.attachment_identifier}' where id = #{account_file.id}"
-            ActiveRecord::Base.connection.exec_query(sql)
+            # IMPORTANT: This update is neccesary after the save so the file can have 
+            # its id on its name and be always unique
+            account_file.update({})
 
             respond_with_successful(account_file)
         else
