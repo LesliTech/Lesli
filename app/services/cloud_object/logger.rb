@@ -22,8 +22,8 @@ module CloudObject
         # Example
         #   params = {...}
         #   ticket = CloudHelp::Ticket.create(params)
-        #   CloudHelp::Ticket.log_activity_create(User.first, ticket)
-        def self.log_activity_create(current_user, cloud_object)
+        #   CloudHelp::Ticket.log_create(User.first, ticket)
+        def self.log_create(current_user, cloud_object)
             cloud_object.activities.create(
                 user_creator: current_user,
                 category: "action_create"
@@ -53,8 +53,8 @@ module CloudObject
         #   old_attributes  = ticket.attributes
         #   ticket.update(user_main: User.find(33))
         #   new_attributes = ticket.attributes
-        #   CloudHelp::Ticket.log_activity_update(User.find(1), ticket, old_attributes, new_attributes)
-        def self.log_activity_update(current_user, cloud_object, old_attributes, new_attributes)
+        #   CloudHelp::TicketLogger.log_update(User.find(1), ticket, old_attributes, new_attributes)
+        def self.log_update(current_user, cloud_object, old_attributes, new_attributes)
 
             # We remove values that are not tracked in the activities
             old_attributes.except!("id", "created_at", "updated_at", "deleted_at")
@@ -80,9 +80,9 @@ module CloudObject
         # @description Creates an activity for this cloud_object indicating that someone deleted it
         # Example
         #   ticket = CloudHelp::Ticket.find(1)
-        #   CloudHelp::Ticket.log_activity_destroy(User.first, ticket)
+        #   CloudHelp::TicketLogger.log_destroy(User.first, ticket)
         #   ticket.destroy
-        def self.log_activity_destroy(current_user, cloud_object)
+        def self.log_destroy(current_user, cloud_object)
             cloud_object.activities.create(
                 user_creator: current_user,
                 category: "action_destroy"
@@ -100,7 +100,7 @@ module CloudObject
         # @description Logs an "action_update" activity. But instead of using the raw id of the user, it logs their name
         # @example
         #     project = CloudHouse::Project.first
-        #     CloudHouse::ProjectLogger.log_activity_update(User.first, project, "users_id", 1, 2)
+        #     CloudHouse::ProjectLogger.log_update(User.first, project, "users_id", 1, 2)
         #     # This will log a change from user with id 1 to user with id 2 using their names
         def self.update_user_field(cloud_object, current_user, key, old_user_id, new_user_id)
             cloud_object.activities.create(
@@ -121,7 +121,7 @@ module CloudObject
         # @description Logs an "action_update" activity. But instead of using the raw id of the workflow status, it logs its name
         # @example
         #     project = CloudHouse::Project.first
-        #     CloudHouse::ProjectLogger.log_activity_update(User.first, project, "cloud_house_workflow_statuses_id, 1, 2)
+        #     CloudHouse::ProjectLogger.log_update(User.first, project, "cloud_house_workflow_statuses_id, 1, 2)
         #     # This will log a change from workflow status with id 1 to workflow status with id 2 using their names
         def self.update_workflow_status_field(cloud_object, current_user, key, old_workflow_status_id, new_workflow_status_id)
             module_name = cloud_object.class.lesli_classname().split("::")[0]
@@ -148,7 +148,7 @@ module CloudObject
         #     otherwise, it logs it as is
         # @example
         #     ticket = CloudHelp::Ticket.first
-        #     CloudHelp::TicketLogger.log_activity_update(User.first, ticket, "deadline": Time.now - 1.days, Time.now)
+        #     CloudHelp::TicketLogger.log_update(User.first, ticket, "deadline": Time.now - 1.days, Time.now)
         #     # This will log a change from workflow on the deadline, and it will use the format specified by the lesli instance
         def self.update_field(cloud_object, current_user, key, old_field, new_field)
             old_field = LC::Date.to_string_datetime(old_field) if old_field.is_a?(Time) || old_field.is_a?(Date)

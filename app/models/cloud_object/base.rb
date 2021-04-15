@@ -97,10 +97,10 @@ module CloudObject
         # Example
         #   params = {...}
         #   ticket = CloudHelp::Ticket.create(params)
-        #   CloudHelp::Ticket.log_activity_create(User.first, ticket)
+        #   CloudHelp::TicketLogger.log_create(User.first, ticket)
         def self.log_activity_create(current_user, cloud_object)
             LC::Debug.deprecation("please use CloudObject::Logger or your own implementation of Engine::ModelLogger instead")
-            Logger.log_activity_create(current_user, cloud_object)
+            Logger.log_create(current_user, cloud_object)
         end
 
         # @return [void]
@@ -114,10 +114,10 @@ module CloudObject
         #   old_attributes  = ticket.attributes
         #   ticket.update(user_main: User.find(33))
         #   new_attributes = ticket.attributes
-        #   CloudHelp::Ticket.log_activity_update(User.find(1), ticket, old_attributes, new_attributes)
+        #   CloudHelp::TicketLogger.log_update(User.find(1), ticket, old_attributes, new_attributes)
         def self.log_activity_update(current_user, cloud_object, old_attributes, new_attributes)
             LC::Debug.deprecation("please use CloudObject::Logger or your own implementation of Engine::ModelLogger instead")
-            Logger.log_activity_update(current_user, cloud_object, old_attributes, new_attributes)
+            Logger.log_update(current_user, cloud_object, old_attributes, new_attributes)
         end
 
         # @return [void]
@@ -126,11 +126,11 @@ module CloudObject
         # @description Creates an activity for this cloud_object indicating that someone deleted it
         # Example
         #   ticket = CloudHelp::Ticket.find(1)
-        #   CloudHelp::Ticket.log_activity_destroy(User.first, ticket)
+        #   CloudHelp::TicketLogger.log_destroy(User.first, ticket)
         #   ticket.destroy
         def self.log_activity_destroy(current_user, cloud_object)
             LC::Debug.deprecation("please use CloudObject::Logger or your own implementation of Engine::ModelLogger instead")
-            Logger.log_activity_destroy(current_user, cloud_object)
+            Logger.log_destroy(current_user, cloud_object)
         end
 
     end
