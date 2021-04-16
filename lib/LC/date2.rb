@@ -105,7 +105,7 @@ module LC
         # return query string to get a datetime column from database
         def db_column column
             format = self.db_format
-            "TO_CHAR(#{column} at time zone 'utc' at time zone '#{@settings["time_zone"]}', '#{format}') as #{column}_date" 
+            "TO_CHAR(#{column} at time zone 'utc' at time zone '#{@settings["time_zone"]}', '#{format}') as #{column}_string" 
         end
 
         # convert a datetime object to string representation using defined format
