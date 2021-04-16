@@ -54,7 +54,7 @@ module CloudObject
         #   ticket.update(user_main: User.find(33))
         #   new_attributes = ticket.attributes
         #   CloudHelp::TicketLogger.log_update(User.find(1), ticket, old_attributes, new_attributes)
-        def self.log_update(current_user, cloud_object, old_attributes, new_attributes)
+        def self.log_update(current_user, cloud_object, old_attributes, new_attributes, category: "action_update")
 
             # We remove values that are not tracked in the activities
             old_attributes.except!("id", "created_at", "updated_at", "deleted_at")
@@ -62,14 +62,14 @@ module CloudObject
                 next if value == new_attributes[key]
                 if key.include?("id")
                     if key == "user_main_id" || key == "users_id"
-                        update_user_field(cloud_object, current_user, key, old_attributes[key], new_attributes[key])
+                        update_user_field(cloud_object, current_user, key, old_attributes[key], new_attributes[key], category)
                     elsif key.include?("workflow_statuses_id")
                         update_workflow_status_field(cloud_object, current_user, key, old_attributes[key], new_attributes[key])
                     else
-                        update_field(cloud_object, current_user, key, old_attributes[key], new_attributes[key])
+                        update_field(cloud_object, current_user, key, old_attributes[key], new_attributes[key], category)
                     end
                 else
-                    update_field(cloud_object, current_user, key, old_attributes[key], new_attributes[key])
+                    update_field(cloud_object, current_user, key, old_attributes[key], new_attributes[key], category)
                 end
             end
         end
@@ -102,10 +102,10 @@ module CloudObject
         #     project = CloudHouse::Project.first
         #     CloudHouse::ProjectLogger.log_update(User.first, project, "users_id", 1, 2)
         #     # This will log a change from user with id 1 to user with id 2 using their names
-        def self.update_user_field(cloud_object, current_user, key, old_user_id, new_user_id)
+        def self.update_user_field(cloud_object, current_user, key, old_user_id, new_user_id, category)
             cloud_object.activities.create(
                 user_creator: current_user,
-                category: "action_update",
+                category: category,
                 field_name: key,
                 value_from: ::User.with_deleted.find(old_user_id).full_name,
                 value_to:   ::User.with_deleted.find(new_user_id).full_name
@@ -150,13 +150,13 @@ module CloudObject
         #     ticket = CloudHelp::Ticket.first
         #     CloudHelp::TicketLogger.log_update(User.first, ticket, "deadline": Time.now - 1.days, Time.now)
         #     # This will log a change from workflow on the deadline, and it will use the format specified by the lesli instance
-        def self.update_field(cloud_object, current_user, key, old_field, new_field)
+        def self.update_field(cloud_object, current_user, key, old_field, new_field, category)
             old_field = LC::Date.to_string_datetime(old_field) if old_field.is_a?(Time) || old_field.is_a?(Date)
             new_field = LC::Date.to_string_datetime(new_field) if new_field.is_a?(Time) || new_field.is_a?(Date)
 
             cloud_object.activities.create(
                 user_creator: current_user,
-                category: "action_update",
+                category: category,
                 field_name: key,
                 value_from: old_field,
                 value_to: new_field
