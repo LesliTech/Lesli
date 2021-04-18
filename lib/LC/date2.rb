@@ -103,7 +103,7 @@ module LC
         end
 
         # return query string to get a datetime column from database
-        def db_column column
+        def db_column column, table=""
             format = self.db_format
             "TO_CHAR(#{column} at time zone 'utc' at time zone '#{@settings["time_zone"]}', '#{format}') as #{column}_string" 
         end
