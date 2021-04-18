@@ -63,7 +63,7 @@ export default {
                     if (permission === "granted") {
                         var notification = new Notification("Hi there!");
                     }
-                });
+                })
             }
             
         },
@@ -109,13 +109,18 @@ export default {
         :right="true"
         :overlay="false"
         :fullheight="true"> 
-        <p class="panel-title is-size-5">
-            Notifications
-            ({{ notifications.pagination ? notifications.pagination.count_total : 0 }})
-            <small class="is-pulled-right is-size-6">
+        <div class="panel-title is-size-5">
+            <h4>
+                Notifications
+                ({{ notifications.pagination ? notifications.pagination.count_total : 0 }})
+            </h4>
+            <button class="button is-text">
                 mark all as read
-            </small>
-        </p>
+            </button>
+            <span class="icon is-large hover" @click="data.global.show_panel_notifications = false">
+                <i class="fas fa-lg fa-chevron-right"></i>
+            </span>
+        </div>
         <div 
             :class="['notification', 'is-'+notification.kind, 'is-light']"
             v-for="notification in notifications.records" :key="notification.id">
