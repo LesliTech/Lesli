@@ -1,6 +1,6 @@
 class Template::Document < ApplicationLesliRecord
     belongs_to :template, foreign_key: "templates_id"
-    has_many :mappings, foreign_key: "template_documents_id", dependent: :destroy 
+    has_many :mappings, foreign_key: "template_documents_id", dependent: :destroy
 
     def self.index(current_user, query)
         filters = query[:filters]
@@ -13,12 +13,12 @@ class Template::Document < ApplicationLesliRecord
 
         unless filters[:model_type].blank?
             template_documents = template_documents
-            .where(model_type: filters[:model_type])             
+            .where(model_type: filters[:model_type])
         end
 
         template_documents
     end
-    
+
     def self.options
 
         model_types = []
@@ -30,23 +30,23 @@ class Template::Document < ApplicationLesliRecord
     end
 
     #upload file to s3
-    def self.upload_file(template_document, file_path, attachment)        
+    def self.upload_file(template_document, file_path, attachment)
         s3 = LC::Config::Providers::Aws::S3.new()
         s3_file = s3.create_object(file_path)
 
         s3_file.put(
-            body: attachment.to_io, 
+            body: attachment.to_io,
             acl: "private"
-        ) 
+        )
 
         template_document.update(
             attachment: s3_file.key
-        ) 
+        )
     end
 
     def self.extract_text(file)
         document_text = Yomu.new(file).text
-        
+
         unless document_text.valid_encoding?
             document_text = document_text.encode("UTF-16be", :invalid=>:replace, :replace=>"?").encode('UTF-8')
             document_variables = document_text.gsub(/\s+/, " ").scan(/\$\$\w+/)
