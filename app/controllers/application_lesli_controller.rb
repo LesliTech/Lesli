@@ -71,9 +71,8 @@ class ApplicationLesliController < ApplicationController
         @account[:cable] = Rails.application.config.lesli_settings["configuration"]["security"]["enable_websockets"] || false
 
 
-        # default customization, set on builder_engine/application_controller.rb
+        # default customization, set on before_action :set_customization hook
         @account[:customization] = { :logo => "image.svg", :color_primary => "#1f7ce3" }
-
 
 
         return @account if current_user.account.blank?
