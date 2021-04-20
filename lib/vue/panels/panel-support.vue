@@ -114,12 +114,17 @@ export default {
         :open.sync="data.global.show_support_sidebar"
         class="application-panel-support"
         right
+        :can-cancel="['escape']"
         fullheight
         overlay
     > 
         <div class="sidebar-content">
             <form @submit="postTicket">
-                <h5 class="title is-5">{{translations.main.view_title_quick_creation}}</h5>
+                <h5 class="title is-5">
+                    {{translations.main.view_title_quick_creation}}
+                    <button type="button" class="is-pulled-right delete" @click="() => data.global.show_support_sidebar = false">
+                    </button>
+                </h5>
                 <fieldset :disabled="submitting">
                     <b-field>
                         <template v-slot:label>
@@ -147,7 +152,7 @@ export default {
                             </option>
                         </b-select>
                     </b-field>
-                    <div class="field">
+                    <div class="field text-editor-container">
                         <label class="label">{{translations.main.column_description}}</label>
                         <div class="control">
                             <component-rich-text-editor v-model="ticket.description" type="simple">
@@ -173,3 +178,12 @@ export default {
         </div>
     </b-sidebar>
 </template>
+<style scoped>
+.text-editor-container {
+    max-height: 20rem;
+    overflow-y: auto;
+    overflow-x: hidden;
+    scrollbar-width: thin;
+    scrollbar-color: #cccccc #ffffff;
+}
+</style>
