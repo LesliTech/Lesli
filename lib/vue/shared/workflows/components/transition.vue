@@ -23,6 +23,10 @@ export default {
         translationsPath: {
             type: String,
             default: null
+        },
+        busSuffix: {
+            type: String,
+            default: ''
         }
     },
 
@@ -45,8 +49,8 @@ export default {
     },
 
     beforeDestroy(){
-        this.bus.$off('cancel:/status-change')
-        this.bus.$off('execute:/status-change')
+        this.bus.$off(`cancel:/status-change${this.busSuffix}`)
+        this.bus.$off(`execute:/status-change${this.busSuffix}`)
     },
 
     methods: {
@@ -57,11 +61,11 @@ export default {
         },
 
         setSubscriptions(){
-            this.bus.subscribe('cancel:/status-change', ()=>{
+            this.bus.subscribe(`cancel:/status-change${this.busSuffix}`, ()=>{
                 this.$emit('input', null)
             })
 
-            this.bus.subscribe('execute:/status-change', (status, callback)=>{
+            this.bus.subscribe(`execute:/status-change${this.busSuffix}`, (status, callback)=>{
                 this.patchStatus(status, callback)
             })
         },
