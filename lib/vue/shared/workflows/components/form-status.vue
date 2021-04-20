@@ -46,6 +46,10 @@ export default {
         cloudObjectVariable: {
             type: String,
             required: true
+        },
+        busSuffix: {
+            type: String,
+            default: ''
         }
     },
 
@@ -63,7 +67,7 @@ export default {
 
     methods: {
         cancelStatusChange(){
-            this.bus.publish('cancel:/status-change')
+            this.bus.publish(`cancel:/status-change${this.busSuffix}`)
         },
 
         patchCloudObjectStatus(event){
@@ -71,11 +75,14 @@ export default {
                 event.preventDefault()
             }
             
-            this.bus.publish('execute:/status-change', this.selectedStatus, ()=>{
+            this.bus.publish(`execute:/status-change${this.busSuffix}`, this.selectedStatus, ()=>{
                 this.cancelStatusChange()
-                // Reloading timelines and activities when we change the status
-                this.data.reload.timelines = true
-                this.data.reload.activities = true
+                // Reloading all important components when we change the status
+                if(this.data.reload){
+                    for(let key in this.data.reload){
+                        this.data.reload[key] = true
+                    }
+                }
 
                 // Setting the new status in the cloud_object_variable variable
                 this.data[this.cloudObjectVariable].status = this.selectedStatus.name
