@@ -44,11 +44,13 @@ Rails.application.routes.draw do
 
         mount ActionCable.server  => "/cable"
         mount CloudOne::Engine    => "/one"    if defined?(CloudOne)
+        mount CloudWork::Engine   => "/work"   if defined?(CloudWork)
         mount CloudTeam::Engine   => "/team"   if defined?(CloudTeam)
         mount CloudBell::Engine   => "/bell"   if defined?(CloudBell)
         mount CloudHelp::Engine   => "/help"   if defined?(CloudHelp)
         mount CloudText::Engine   => "/text"   if defined?(CloudText)
         mount CloudTalk::Engine   => "/talk"   if defined?(CloudTalk)
+        mount CloudBooks::Engine  => "/books"  if defined?(CloudBooks)
         mount CloudAudit::Engine  => "/audit"  if defined?(CloudAudit)
         mount CloudLesli::Engine  => "/lesli"  if defined?(CloudLesli)
         mount CloudBabel::Engine  => "/babel"  if defined?(CloudBabel)
