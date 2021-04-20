@@ -2,9 +2,9 @@
 
 Copyright (c) 2020, all rights reserved.
 
-All the information provided by this platform is protected by international laws related  to 
-industrial property, intellectual property, copyright and relative international laws. 
-All intellectual or industrial property rights of the code, texts, trade mark, design, 
+All the information provided by this platform is protected by international laws related  to
+industrial property, intellectual property, copyright and relative international laws.
+All intellectual or industrial property rights of the code, texts, trade mark, design,
 pictures and any other information belongs to the owner of this platform.
 
 Without the written permission of the owner, any replication, modification,
@@ -13,7 +13,7 @@ transmission, publication is strictly forbidden.
 For more information read the license file including with this software.
 
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
-// · 
+// ·
 
 =end
 
@@ -36,12 +36,12 @@ class Template::DocumentsController < ApplicationLesliController
 
                 respond_with_successful(template_documents)
             end
-        end 
+        end
     end
 =begin
 @return [HTML|Json] HTML view showing the requested template document or a Json that contains the
     information of the template document. If there is an error, an explanation message is sent
-@description Retrieves and returns the requested template document. The id of the 
+@description Retrieves and returns the requested template document. The id of the
     template document is within the *params* attribute of the controller. The HTTP request has to specify
     wheter the HTML or the JSON text should be rendered. This is the only method that uses the project
     code instead of the ID for searching.
@@ -58,7 +58,7 @@ class Template::DocumentsController < ApplicationLesliController
                     s3_file = s3.get_object(@template_document.attachment)
                     send_data(s3_file["body"].read, filename: @template_document.name, disposition: "inline", stream: "true")
                 rescue Aws::S3::Errors::NoSuchKey => ex
-                    redirect_to "/404" 
+                    redirect_to "/404"
                 end
             end
 
@@ -75,7 +75,7 @@ class Template::DocumentsController < ApplicationLesliController
 =begin
 @controller_action_param :file [File] The uploaded file
 @controller_action_param :model_type [String] The name of the model wich belongs to
-@return [Json] Json that contains wheter the creation of the file was successful or not. 
+@return [Json] Json that contains wheter the creation of the file was successful or not.
     If it is not successful, it returs an error message
 @description Creates a new template document
 @example
@@ -93,13 +93,13 @@ class Template::DocumentsController < ApplicationLesliController
         file_name = params[:file][:attachment].original_filename.gsub(/\s+/, " ")
 
         document_variables = Template::Document.extract_text(params[:file][:attachment])
-        
+
         template_document = current_user.account.template.documents.create(
             name: file_name,
             model_type: params[:model_type]
         )
-        
-        file_path = "storage/core/template/documents/#{template_document.id}-#{file_name}"
+
+        file_path = "storage/core/template/documents/#{template_document.id}-#{(file_name||"").gsub(/\s+/, "-")}"
 
         if (document_variables.any?)
             Template::Document.scan_variables(current_user, template_document, document_variables)
@@ -113,7 +113,7 @@ class Template::DocumentsController < ApplicationLesliController
 =begin
 @controller_action_param :file [File] The uploaded file
 @controller_action_param :model_type [String] The name of the model wich belongs to
-@return [Json] Json that contains wheter the creation of the file was successful or not. 
+@return [Json] Json that contains wheter the creation of the file was successful or not.
     If it is not successful, it returs an error message
 @description Update a template document
 @example
@@ -166,7 +166,7 @@ class Template::DocumentsController < ApplicationLesliController
     end
 
 =begin
-@controller_action_param :model_type [String] The class of the cloud object 
+@controller_action_param :model_type [String] The class of the cloud object
 @controller_action_param :model_id [String] The id of the cloud object
 @return [void] It will generate a file to the cloud object through a job execution
 @description Creates a new template document
@@ -182,7 +182,7 @@ class Template::DocumentsController < ApplicationLesliController
     let template_document_id = 1
     this.http.post(`127.0.0.1/panel/template/documents/${template_document_id}.json`, data);
 =end
-    def generate  
+    def generate
         set_template_document
         set_cloud_object
 
@@ -196,7 +196,7 @@ class Template::DocumentsController < ApplicationLesliController
         respond_with_successful
     end
 
-=begin    
+=begin
 @return [Json] Json that contains all the information needed to create a template document
 @description Retrieves and retuns all the information needed to create a template document,
     including the list of companies and contacts.
@@ -256,7 +256,7 @@ class Template::DocumentsController < ApplicationLesliController
     #    }
     #}
 =end
-    def cloud_object_file_params 
+    def cloud_object_file_params
         params.require(:cloud_object).permit(:model_id, :model_type, :file_type)
     end
 
