@@ -94,6 +94,13 @@ module HtmlHelper
         end
     end
 
+    # 03.02 Work engine
+    def navigation_engine_work text: "Projects", icon_path: "cloud_work/work-logo.svg"
+        if defined? CloudWork
+            navigation_engine_item text, icon_path, cloud_work.root_path, controller_path.include?("cloud_work")
+        end
+    end
+
     # 03.03 Focus engine
     def navigation_engine_focus text: "Tasks", icon_path: "cloud_focus/focus-logo.svg"
         if defined? CloudFocus
@@ -123,6 +130,13 @@ module HtmlHelper
     end
 
     # FINANCE
+
+    # 04.01 Books engine
+    def navigation_engine_books text: "Books", icon_path: "cloud_books/books-logo.svg"
+        if defined? CloudBooks
+            navigation_engine_item text, icon_path, cloud_books.root_path, controller_path.include?("cloud_books")
+        end
+    end
 
     # 04.03 Things engine
     def navigation_engine_things text: "Things", icon_path: "cloud_things/things-logo.svg"
