@@ -36,7 +36,7 @@ export default {
             },
             translations: {
                 focus: {
-                    tasks: I18n.t('deutscheleibrenten.tasks'),
+                    tasks: I18n.t('focus.tasks'),
                 },
                 bell: {
                     notifications: I18n.t('deutscheleibrenten.notifications')
@@ -72,16 +72,6 @@ export default {
                     message: message,
                     type: `is-${ type }`
                 })
-            })
-
-            this.bus.subscribe("show:/core/layout/tasks#panel", () => {
-                
-                // toggle notification panel
-                if (this.notification.show == true) {
-                    this.notification.show = false
-                    return
-                }
-                this.showNotificationPanel()
             })
 
         },
@@ -162,71 +152,62 @@ export default {
                 }
             }
         }
+    },
 
+    watch: {
+        'data.global.show_panel_tasks': function(){
+            if(this.data.global.show_panel_tasks){
+                // toggle notification panel
+                if (this.notification.show == true) {
+                    this.notification.show = false
+                    return
+                }
+                this.showNotificationPanel()
+            }
+        }
     }
 }
 </script>
 <template>
-    <section class="application-notification">
-        <div :class="[{ 'is-active': notification.show }, 'quickview']">
-            <header class="quickview-header" @click="notification.show = false">
-                <p class="title">{{ translations.bell.notifications.title }}</p>
-                <i class="fas fa-chevron-right"></i>
-            </header>
-            <div class="quickview-body">
-                <div class="quickview-block">
-                    <p class="filter-option has-text-right">
-                        <!-- <small @click="readNotifications()" class="has-text-grey-light">{{ translations.bell.notifications.text_mark_all_as_read }}</small> -->
-                    </p>
-                    <div class="section">
-                        <ul class="menu-list">
-                            <li v-for="notification in notification.list" :key="notification.id" >
-                                <a :href="`/crm/tasks/${notification.id}/edit`">
-                                    {{ notification.title }}
-                                </a> 
-                                <p>
-                                     <small class="has-text-grey-light"> 
-                                        {{ `${translations.focus.tasks.form_task_deadline} : ${notification.deadline}` }} 
-                                    </small>
-                                </p>
-                                <p>
-                                    <small class="has-text-grey-light">
-                                        {{ `${translations.focus.tasks.form_task_importance} :` }}
-                                    </small>
-                                    <small :class="classColor(notification)">
-                                        {{ notification.importance }}
-                                    </small>
-                                </p>
-                            </li>
-                            <!-- 
-                            <li v-for="notification in notification.list" :key="notification.id" >
-                                <i class="fas fa-info-circle"></i>
-                                <a @click="readNotification(index)" href="#">{{ notification.subject }}</a>
-                                <a v-if="notification.url" :href="notification.url">
-                                    {{ notification.subject }}
-                                </a> 
-                                <p v-if="!notification.url">
-                                    {{ notification.subject }}
-                                </p>
-                                <small class="has-text-grey-light">{{ notification.created_at }}</small>
-                                <small class="has-text-grey-light">-</small>
-                                <small class="mark-as-read has-text-grey-light"
-                                    @click="readNotification(notification.id)">
-                                    {{ translations.bell.notifications.text_mark_as_read }}
-                                </small>
-                            </li>
-                            -->
-                        </ul>
-                    </div>
-                </div>
-            </div>
-            <!-- 
-            <footer class="quickview-footer">
-                <a href="/bell/notifications">all notifications</a>
-            </footer>
-            -->
+    <b-sidebar
+        class="application-panel-notification"
+        :open.sync="data.global.show_panel_tasks"
+        :right="true"
+        :overlay="false"
+        :fullheight="true"> 
+        <div class="panel-title is-size-5">
+            <h4>
+                {{translations.focus.tasks.view_title_tasks_due_today}}
+            </h4>
+            <span class="icon is-large hover" @click="data.global.show_panel_tasks = false">
+                <i class="fas fa-lg fa-chevron-right"></i>
+            </span>
         </div>
-    </section>
+        <div class="quickview-body">
+            <div class="section">
+                <ul class="menu-list">
+                    <li v-for="notification in notification.list" :key="notification.id" >
+                        <a :href="`/crm/tasks/${notification.id}/edit`">
+                            {{ notification.title }}
+                        </a> 
+                        <p>
+                                <small class="has-text-grey-light"> 
+                                {{ `${translations.focus.tasks.column_deadline} : ${notification.deadline}` }} 
+                            </small>
+                        </p>
+                        <p>
+                            <small class="has-text-grey-light">
+                                {{ `${translations.focus.tasks.column_importance} :` }}
+                            </small>
+                            <small :class="classColor(notification)">
+                                {{ notification.importance }}
+                            </small>
+                        </p>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </b-sidebar>
 </template>
 <style>
     .notification-message {
