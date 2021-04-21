@@ -27,6 +27,8 @@ module RoutesApp
 
             authenticated :user do
 
+                resource  :account, only: [:new, :create]
+
                 # Lesli core administration components
                 scope :administration do
 
@@ -142,14 +144,6 @@ module RoutesApp
                 get "dashboard", to: "abouts#dashboard"
                 get "system-requirements", to: "abouts#system_requirements"
 
-            end
-
-            # Access Codes
-            namespace :ma do
-                # Magic Links
-                resource :ml, only: [:show, :create]
-                # Magic Code or OTP
-                resources :mcs
             end
 
         end
