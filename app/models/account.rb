@@ -91,12 +91,14 @@ class Account < ApplicationRecord
             object_level_permission = 2147483647 if role_name == "owner"
             object_level_permission = 1000 if role_name == "admin"
 
-            Role.create({
+            role = Role.create({
                 account: self,
                 name: role_name,
                 active: true,
                 object_level_permission: object_level_permission
             })
+
+            role.initialize_role_privileges
 
         end
 
