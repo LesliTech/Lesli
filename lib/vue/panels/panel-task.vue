@@ -22,6 +22,12 @@ For more information read the license file including with this software.
 // · 
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
 export default {
+    props: {
+        instanceEndpoint: {
+            type: String,
+            default: 'focus'
+        }
+    },
 
     data() {
         return {
@@ -76,8 +82,8 @@ export default {
 
         },
 
-        getNotifications() {
-            this.http.get('/crm/dashboards/resources/overdue-tasks.json?perPage=500&orderColumn=importance').then(result => {
+        getTasks() {
+            this.http.get('/focus/tasks/resources/overdue_tasks.json?perPage=500&orderColumn=importance').then(result => {
                 if (result.successful){
                     this.notification.list = result.data
                 }
@@ -87,56 +93,9 @@ export default {
         },
 
         showNotificationPanel() {
-            this.getNotifications()
+            this.getTasks()
             this.notification.show = true
             this.notification.timer = setTimeout(() => this.notification.show = false, 600000)
-        },
-        
-        prepareDesktopNotification() {
-
-            if (!("Notification" in window)) {
-                console.log("This browser does not support desktop notification");
-                return
-            }
-
-            // Let's check whether notification permissions have already been granted
-            if (Notification.permission === "granted") {
-                // If it's okay let's create a notification
-                var notification = new Notification("Hi there!");
-                return
-            }
-
-            // Otherwise, we need to ask the user for permission
-            if (Notification.permission !== "denied") {
-                Notification.requestPermission().then(function (permission) {
-                    // If the user accepts, let's create a notification
-                    if (permission === "granted") {
-                        var notification = new Notification("Hi there!");
-                    }
-                });
-            }
-            
-        },
-
-        readNotification(id) {
-
-            // In this case, there is no need to wait for a response
-            this.http.put(`/bell/notifications/${id}/read`).catch(error => {
-                console.log(error)
-            })
-
-            let position = this.notification.list.map(notification => notification.id).indexOf(id)
-
-            this.notification.list.splice(position, 1)
-
-        },
-
-        readNotifications() {
-            this.http.put('/bell/notifications/read').then(result => {
-                this.notification.list = []
-            }).catch(error => {
-                console.log(error)
-            })
         },
 
         classColor(notification){
@@ -187,7 +146,7 @@ export default {
             <div class="section">
                 <ul class="menu-list">
                     <li v-for="notification in notification.list" :key="notification.id" >
-                        <a :href="`/crm/tasks/${notification.id}/edit`">
+                        <a :href="`/${instanceEndpoint}/tasks/${notification.id}/edit`">
                             {{ notification.title }}
                         </a> 
                         <p>
