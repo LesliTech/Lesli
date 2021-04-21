@@ -18,8 +18,8 @@ class Templates::CreateCloudObjectFileWithTemplateJob < ApplicationJob
                 table_alias = document_map["table_alias"]
             else
                 table_alias = (document_map["table_name"]||"").split("_").map { |e| e.chars.first}.join("")
-            end 
-            
+            end
+
             variables.push(document_map["name"])
 
             query[:mapping][document_map["name"]] = { field_name: document_map["field_name"], alias: document_map["table_alias"]}
@@ -32,7 +32,7 @@ class Templates::CreateCloudObjectFileWithTemplateJob < ApplicationJob
         # fetch data of cloud_object query
         query[:fields] = query[:fields].join(",")
         data = cloud_object.template_data(query)
-        
+
         #looking for method calls
         document_mappings.find_all {|mapping| mapping.variable_type == Template::Variable.variable_types[:method]}.each do |document_map|
             if ((defined? ("#{document_map["table_name"]}.#{document_map["table_alias"]}"||"").constantize) == "method" ) # validate if method is defined
@@ -47,7 +47,7 @@ class Templates::CreateCloudObjectFileWithTemplateJob < ApplicationJob
                     end
                 end
             end
-        end    
+        end
 
         return if data.blank?
 
@@ -71,7 +71,7 @@ class Templates::CreateCloudObjectFileWithTemplateJob < ApplicationJob
         variables.each do |variable| #replace data
             xml_replace!(doc_template.instance_variable_get(:@document_content), "$$#{variable}", data[variable.downcase].nil? ? "" : data[variable.downcase])
         end
-        
+
         tmp_file = Tempfile.new(["#{document.name}".split(".docx")[0], '.docx'], "#{Rails.root}/tmp/templates/")
         doc_template.commit(tmp_file.path)
 
@@ -79,20 +79,20 @@ class Templates::CreateCloudObjectFileWithTemplateJob < ApplicationJob
             name: document.name,
             file_type: file_type,
             user_creator: current_user,
-            attachment: File.open(tmp_file.path, "rb") 
+            attachment: File.open(tmp_file.path, "rb")
         )
 
         if (cloud_object_file.save)
-            
-            cloud_object_file.update(
-                attachment: "#{cloud_object_file.id}-#{cloud_object_file.attachment_identifier}"
-            )
+
+            cloud_object_file.update({})
 
             cloud_object.activities.create(
                 user_creator: current_user,
                 category: "action_create_file",
                 description: cloud_object_file.name
             )
+
+            Files::AwsUploadJob.perform_now(cloud_object_file)
         end
     end
 

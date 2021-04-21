@@ -42,9 +42,9 @@ module Courier
                     CloudOne::Firebase::User.update_data(current_user, params)
                 end
 
-                def self.generated_password(current_user)
+                def self.generated_password(current_user, email = nil)
                     return unless defined? CloudOne
-                    CloudOne::Firebase::User.generated_password(current_user)
+                    CloudOne::Firebase::User.generated_password(current_user, email)
                 end
 
             end

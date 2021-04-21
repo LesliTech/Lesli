@@ -58,6 +58,8 @@ class User < ApplicationLesliRecord
     before_create :initialize_user
     after_create :initialize_user_details
 
+    after_update :change_after_update
+
     # type of user
     #   system user
     #   integration apps
@@ -78,7 +80,14 @@ class User < ApplicationLesliRecord
         User::Detail.find_or_create_by({ user: self })
     end
 
-
+    def change_after_update
+        if saved_change_to_email?
+            if defined? CloudOne
+                previous_email = saved_change_to_email[0]
+                CloudOne::Firebase::User.update_email(self, previous_email, self.email)
+            end
+        end
+    end
 
     # @return [void]
     # @description After creating a user, creates the necessary resources for them to access the different engines.
@@ -576,7 +585,7 @@ class User < ApplicationLesliRecord
     end
 
     def log_activity request_method, request_controller, request_action, request_url, description = nil
-        LC::Debug.msg "DEPRECATED: Use user.activities, user.logs or log_user_comments instead"
+        LC::Debug.deprecation("Use user.activities, user.logs or log_user_comments instead")
     end
 
     def generate_password_token
