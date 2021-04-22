@@ -66,7 +66,7 @@ class ApplicationLesliController < ApplicationController
 
         @account[:revision] = LC::System::Info.revision()
         @account[:notifications] = Courier::Bell::Notification.count(current_user)
-        @account[:announcements] = Courier::Bell::Announcement.count(current_user)
+        @account[:announcements] = 0 #Courier::Bell::Announcement.count(current_user)
         @account[:tasks] = Courier::Focus::Task.count(current_user)
         @account[:cable] = Rails.application.config.lesli_settings["configuration"]["security"]["enable_websockets"] || false
 
@@ -228,7 +228,7 @@ class ApplicationLesliController < ApplicationController
         return if controller_name == "accounts"
 
         # force user to complete registration before continue
-        redirect_to "/account/new" if current_user.account.status == "registered"
+        redirect_to "/onboarding" if current_user.account.status == "registered"
 
     end
 

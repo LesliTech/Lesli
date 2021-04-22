@@ -17,12 +17,50 @@ For more information read the license file including with this software.
 
 */
 
-// · Import main app from core
-// · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
-import app from 'LesliVue/app'
 
+// · 
+import app from 'LesliVue/public'
 
 
 // · 
-// · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
-app("Core", "[show]", "/onboarding", [])
+app({
+
+    data: {
+        translations: {},
+        working: true,
+        token: null
+    },
+    mounted() {
+        this.postOnboarding()
+    },
+    methods: {
+
+        postOnboarding() {
+
+            var token = null
+
+            try {
+                token = Object.fromEntries(new URLSearchParams(window.location.search)).t
+            } catch (error) {
+                token = null
+            }
+
+            this.http.post("/onboarding", { 
+                onboarding: {
+                    t: token
+                } 
+            }).then(result => {
+                if (!result.successful) {
+                    console.error(result)
+                    return 
+                }
+                this.working = false
+            }).catch(error => {
+                console.log(error)
+            })
+
+        }
+
+    }
+
+})
