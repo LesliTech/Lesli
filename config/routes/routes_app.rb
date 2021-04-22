@@ -21,10 +21,14 @@ module RoutesApp
     def self.extended(router)
         router.instance_exec do
 
-            # Alternative logins - magic links
-            resource :otp,  only: [:show, :new, :create]
-            resource :pass, only: [:show, :new, :create]
-            resource :onboarding, only: [:show, :create]
+            unauthenticated :user do 
+
+                # Alternative logins - magic links
+                resource :otp,  only: [:show, :new, :create]
+                resource :pass, only: [:show, :new, :create]
+                resource :onboarding, only: [:show, :create]
+                
+            end 
 
             authenticated :user do
 
