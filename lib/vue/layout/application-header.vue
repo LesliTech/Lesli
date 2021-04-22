@@ -121,7 +121,7 @@ export default {
 
                 <slot></slot>
 
-                <a class="navbar-item header-notification-indicator core" @click="showTasks()">
+                <a class="navbar-item header-notification-indicator core" @click="data.global.show_panel_tasks = true">
                     <i v-if="lesli.tasks > 0" class="fas fa-tasks has-text-link"></i>
                     <i v-if="lesli.tasks == 0" class="fas fa-tasks"></i>
                     <span>{{ lesli.tasks }}</span>
