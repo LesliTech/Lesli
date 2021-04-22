@@ -98,7 +98,7 @@ class Role < ApplicationRecord
 
             privilege = self.privileges.find_or_create_by(grant_object: route[:controller_path])
 
-            if self.name === "owner"
+            if self.name === "owner" || self.name === "admin"
                 grant_access = true 
                 privilege.update(
                     grant_index: grant_access,
@@ -115,6 +115,8 @@ class Role < ApplicationRecord
                     grant_actions: grant_access
                 )
             end
+
+            puts "role: #{self.name} privilege created for controller: #{route[:controller_path]}"
 
         end
 
