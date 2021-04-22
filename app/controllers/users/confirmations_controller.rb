@@ -52,6 +52,11 @@ class Users::ConfirmationsController < Devise::ConfirmationsController
         user.confirm
 
         flash[:message] = I18n.t("core.users/confirmations.messages_success_email_updated")
+
+        if user.account.blank?
+            redirect_to("#{onboarding_path}?t=#{user.confirmation_token}") and return
+        end 
+
     end
 
     
@@ -76,6 +81,11 @@ class Users::ConfirmationsController < Devise::ConfirmationsController
                 return respond_with_error(resource.errors.full_messages.to_sentence)
             end
         end
+    end
+
+
+    def update 
+        respond_with_successful("ldonis")
     end
 
 end

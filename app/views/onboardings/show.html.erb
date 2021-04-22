@@ -1,6 +1,6 @@
-<%
-=begin
-Copyright (c) 2021, all rights reserved.
+<%#
+
+Copyright (c) 2020, all rights reserved.
 
 All the information provided by this platform is protected by international laws related  to 
 industrial property, intellectual property, copyright and relative international laws. 
@@ -15,6 +15,37 @@ For more information read the license file including with this software.
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
 // · 
 
-=end
 %>
-<router-view></router-view>
+<main id="lesli-application">
+    <section class="hero is-fullheight">
+        <div class="hero-body is-paddingless">
+            <div class="container has-text-centered">
+
+                <%= image_tag "lesli_cloud/brand/lesli-name.svg", :alt => "Lesli logo" %>
+
+                <%# working on new account %>
+                <div class="content" v-if="working">
+
+                    <div  class="component-data-loading has-text-centered">
+                        <span class="loading-animation">
+                            <hr/><hr/><hr/><hr/>
+                        </span>
+                    </div>
+                    <h2>We are working on your account, please wait a moment</h2>
+
+                </div>
+
+                <div class="content" v-if="!working">
+                    <svg version="1.1" viewBox="0 0 512 512" width="512px" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+                        <path d="M256,6.998c-137.533,0-249,111.467-249,249c0,137.534,111.467,249,249,249s249-111.467,249-249  C505,118.464,393.533,6.998,256,6.998z M256,485.078c-126.309,0-229.08-102.771-229.08-229.081  c0-126.31,102.771-229.08,229.08-229.08c126.31,0,229.08,102.771,229.08,229.08C485.08,382.307,382.31,485.078,256,485.078z"/>
+                        <polygon points="384.235,158.192 216.919,325.518 127.862,236.481 113.72,250.624 216.919,353.803 398.28,172.334"/>
+                    </svg>
+
+                    <h2>Your new account is up and running</h2>
+                    <a href="/login">click here to siging</a>
+                </div>
+
+            </div>
+        </div>
+    </section>
+</main>

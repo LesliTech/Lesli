@@ -52,6 +52,10 @@ app({
     methods: {
 
         postRegistration(event) {
+
+            this.notification.show = false;
+            this.notification.message = "";
+
             event.preventDefault();
 
             let data = { user: this.sign_up }
@@ -62,14 +66,15 @@ app({
 
                 this.progress_bar_active = false
 
-                if (response.successful) {
-                    this.showNotification(this.translations.registration.notifications.success,'is-success')
-                    setTimeout(() => {
-                        this.$router.push('/login')
-                    }, 5000)
-                }else{
-                    this.showNotification(response.error.message);
+                if (!response.successful) {
+                    this.showNotification(response.error.message)
+                    return 
                 }
+
+                //this.showNotification(this.translations.registration.notifications.success, 'is-success')
+                this.showNotification("We sent an confirmation email, please confirm your email address", 'is-success')
+
+                //setTimeout(() => { this.url.go('/login') }, 5000)
 
             }).catch((err)=>{
                 console.log(err)

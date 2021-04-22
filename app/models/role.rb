@@ -121,6 +121,7 @@ class Role < ApplicationRecord
         # enable profile privileges 
         self.privileges.find_by(grant_object: "profiles").update(grant_show: true)
         self.privileges.find_by(grant_object: "users").update(grant_options: true, grant_update: true)
+        
     end
 
     #######################################################################################
