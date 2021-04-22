@@ -224,12 +224,6 @@ class ApplicationLesliController < ApplicationController
             end
         end
 
-        return if current_user.blank?
-        return if controller_name == "accounts"
-
-        # force user to complete registration before continue
-        redirect_to "/onboarding" if current_user.account.status == "registered"
-
     end
 
 end
