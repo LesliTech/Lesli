@@ -32,7 +32,7 @@ app({
         setInterval(() => {
             this.seconds_left_to_redirect -= 1
             if (this.seconds_left_to_redirect <= 0) {
-                this.url.go("/")
+                //this.url.go("/login")
             }
         }, 1000);
     }
