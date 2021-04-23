@@ -3,7 +3,6 @@ import accountForm from '../components/form.vue'
 
 export default {
     mounted() {
-        console.log("works")
     },
    components:{
       'account-form': accountForm
