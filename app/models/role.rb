@@ -90,16 +90,40 @@ class Role < ApplicationRecord
     #   # This method will be called automatically within an after_create callback
     #   puts role.privileges.to_json # Should display all privileges that existed at the moment of the role's creation
     def initialize_role_privileges
+
         # get all routes for application controllers
         routes = LC::System::Routes.scan
 
         routes.each do |route|
-            self.privileges.find_or_create_by(grant_object: route[:controller_path])
+
+            privilege = self.privileges.find_or_create_by(grant_object: route[:controller_path])
+
+            if self.name === "owner" || self.name === "admin"
+                grant_access = true 
+                privilege.update(
+                    grant_index: grant_access,
+                    grant_list: grant_access,
+                    grant_create: grant_access,
+                    grant_new: grant_access,
+                    grant_edit: grant_access,
+                    grant_show: grant_access,
+                    grant_update: grant_access,
+                    grant_destroy: grant_access,
+                    grant_options: grant_access,
+                    grant_resources: grant_access,
+                    grant_search: grant_access,
+                    grant_actions: grant_access
+                )
+            end
+
+            puts "role: #{self.name} privilege created for controller: #{route[:controller_path]}"
+
         end
 
         # enable profile privileges 
         self.privileges.find_by(grant_object: "profiles").update(grant_show: true)
         self.privileges.find_by(grant_object: "users").update(grant_options: true, grant_update: true)
+        
     end
 
     #######################################################################################
