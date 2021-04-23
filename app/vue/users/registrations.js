@@ -74,7 +74,7 @@ app({
                 //this.showNotification(this.translations.registration.notifications.success, 'is-success')
                 this.showNotification("We sent an confirmation email, please confirm your email address", 'is-success')
 
-                //setTimeout(() => { this.url.go('/login') }, 5000)
+                setTimeout(() => { this.url.go('/login') }, 5000)
 
             }).catch((err)=>{
                 console.log(err)
