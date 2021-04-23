@@ -1,0 +1,64 @@
+
+/*
+
+Copyright (c) 2020, all rights reserved.
+
+All the information provided by this platform is protected by international laws related  to 
+industrial property, intellectual property, copyright and relative international laws. 
+All intellectual or industrial property rights of the code, texts, trade mark, design, 
+pictures and any other information belongs to the owner of this platform.
+
+Without the written permission of the owner, any replication, modification,
+transmission, publication is strictly forbidden.
+
+For more information read the license file including with this software.
+
+// · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
+// · 
+
+*/
+
+
+// · 
+@import "lesli-css/";
+
+
+// · 
+#lesli-application {
+
+    .container {
+
+        img {
+            max-width: 140px;
+            margin-bottom: 2rem;
+        }
+
+        div.content {
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+            max-width: 800px;
+            padding: 2rem 1rem 1.4rem;
+            margin: 0 auto;
+
+            svg {
+                max-width: 90px;
+                fill: lesli-css-get-color(lime, 300);
+            }
+
+            h2 {
+                font-weight: 100;
+                font-size: 2rem;
+            }
+
+        }
+
+        .redirection {
+            padding: 2rem 0;
+
+            a {
+                font-size: 0.8rem;
+            }
+        }
+
+    }
+
+}
