@@ -22,10 +22,27 @@ import app from "LesliVue/app"
 
 // · Import apps and components
 import appShow from "./apps/show.vue"
+import appNew from "./apps/new.vue"
 
-
+/*
 // · 
 app("Lesli", "[show]", "/administration/account", [{
     path: "/",
     component: appShow,
+}, {
+    path: "/new",
+    component: appShow,
+}])
+
+
+// · 
+app("Lesli", "[show]", "/account", [{
+    path: "/new",
+    component: appNew,
+}])
+*/
+
+app("Lesli", "[show]", "/account/new", [{
+    path: "/",
+    component: appNew,
 }])
