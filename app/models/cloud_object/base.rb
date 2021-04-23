@@ -86,6 +86,21 @@ module CloudObject
         def user_reviewer
         end
 
+        # @return [Hash] Data containing information about the target for an automated task created by a workflow action
+        # @description Returns information of ClouObject that is the target for the automated task. By default, 
+        #     the target is the CloudObject itself. However, in some cases, like CloudHouse::MaintenanceServices, the target 
+        #     is a record associated to the CloudObject. If you have a custom target, you must override this method in your
+        #     implementation of the cloud_object
+        # @example
+        #   puts CloudHouse::Project.first.task_target.to_json # Will display something like {class: CloudHouse::Project, id: 1}
+        #   puts CloudHouse::MaintenanceService.first.task_target # Will display something like {class: CloudHouse::Project, id: 1}
+        def focus_task_target
+            return {
+                class: self.class.name,
+                id: self.id
+            }
+        end
+
         #######################################################################################
         ##############################  Activities Log Methods   ##############################
         #######################################################################################
