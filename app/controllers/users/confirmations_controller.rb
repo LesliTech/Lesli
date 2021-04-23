@@ -30,7 +30,7 @@ class Users::ConfirmationsController < Devise::ConfirmationsController
 
         # validate that token were sent
         if token.blank?
-            return flash[:error] = I18n.t("core.users/confirmations.messages_warning_invalid_token")
+            return flash[:danger] = I18n.t("core.users/confirmations.messages_warning_invalid_token")
         end
 
         # check if token belongs to a uncofirmed user
@@ -39,7 +39,7 @@ class Users::ConfirmationsController < Devise::ConfirmationsController
 
         # validate that user were found
         if user.blank?
-            return flash[:error] = I18n.t("core.users/confirmations.messages_warning_invalid_token")
+            return flash[:danger] = I18n.t("core.users/confirmations.messages_warning_invalid_token")
         end
 
         # delete all error messages
@@ -51,7 +51,10 @@ class Users::ConfirmationsController < Devise::ConfirmationsController
         # confirm the user
         user.confirm
 
-        flash[:message] = I18n.t("core.users/confirmations.messages_success_email_updated")
+        flash[:success] = I18n.t("core.users/confirmations.messages_success_email_updated")
+        
+        Thread.new { UserRegistrationService.new(user).create_account } if user.account.blank?
+
     end
 
     
