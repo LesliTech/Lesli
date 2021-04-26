@@ -34,7 +34,7 @@ class WorkflowActions::CreateFocusTaskJob < ApplicationJob
             task_target = cloud_object.focus_task_target
             model_id = task_target[:id]
             model_type = task_target[:class]
-            
+
             # If cloud_object is a task, the new task will be associated to the cloud_object of the original task, and not to the task itself
             if cloud_object.class.name == "CloudFocus::Task"
                 task_employee = cloud_object.model.user_main if action.concerning_users["type"] == "main"
