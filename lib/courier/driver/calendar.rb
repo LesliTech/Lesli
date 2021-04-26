@@ -21,7 +21,7 @@ module Courier
     module Driver
         class Calendar
 
-            def self.index(current_user, query, calendar)
+            def self.show(current_user, query, calendar)
                 return nil unless defined? CloudDriver
 
                 calendar_data = {
@@ -70,13 +70,12 @@ module Courier
                     .where("cloud_driver_event_details.event_date >= ?", query[:filters][:start_date])
                     .where("cloud_driver_event_details.event_date <= ? ", query[:filters][:end_date])
                     .order("date")
-            
+
                     driver_events.each do |event|
                         event[:editable] = event.is_editable_by?(current_user)
                     end
 
                     driver_events = self.filter_records_by_text(driver_events, query_text, fields: ["title", "description", "location"])
-
                     calendar_data[:driver_events] = driver_events
                 end
 
@@ -92,7 +91,7 @@ module Courier
                             description: task[:description],
                             date: task[:deadline],
                             start: task[:deadline],
-                            end: task[:deadline],
+                            end: task[:deadline] + 1.second,
                             event_date_string: task[:deadline_string],
                             classNames: ["cloud_focus_tasks"]
                         }
@@ -113,7 +112,7 @@ module Courier
                             description: ticket[:description],
                             date: ticket[:deadline],
                             start: ticket[:deadline],
-                            end: ticket[:deadline],
+                            end: ticket[:deadline] + 1.second,
                             event_date_string: ticket[:deadline_string],
                             classNames: ["cloud_help_tickets"]
                         }
