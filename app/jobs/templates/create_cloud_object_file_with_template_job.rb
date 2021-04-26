@@ -4,6 +4,8 @@ class Templates::CreateCloudObjectFileWithTemplateJob < ApplicationJob
     XML_TAG = /\<[^\>]+\>/
 
     def perform(current_user, cloud_object, document, file_type)
+        return if document.blank?
+
         document_mappings = document.mappings.joins(:variable).select("name, table_alias, table_name, field_name, template_variables.variable_type")
         query = {
             fields: [],
