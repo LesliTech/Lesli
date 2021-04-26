@@ -2,9 +2,9 @@
 
 Copyright (c) 2020, all rights reserved.
 
-All the information provided by this platform is protected by international laws related  to 
-industrial property, intellectual property, copyright and relative international laws. 
-All intellectual or industrial property rights of the code, texts, trade mark, design, 
+All the information provided by this platform is protected by international laws related  to
+industrial property, intellectual property, copyright and relative international laws.
+All intellectual or industrial property rights of the code, texts, trade mark, design,
 pictures and any other information belongs to the owner of this platform.
 
 Without the written permission of the owner, any replication, modification,
@@ -13,7 +13,7 @@ transmission, publication is strictly forbidden.
 For more information read the license file including with this software.
 
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
-// · 
+// ·
 
 =end
 module Shared
@@ -77,7 +77,7 @@ module Shared
                     next_statuses: next_statuses
                 }
             end
-            
+
             {
                 has_global_association: workflow.associations.find_by(global: true) != nil,
                 concerning_user_types: self.concerning_user_types.map { |key,value| {value: key, text: value} },
@@ -90,12 +90,12 @@ module Shared
             dynamic_info_ = self.dynamic_info
             module_name = dynamic_info_[:module_name]
             full_module_name = dynamic_info_[:full_module_name].underscore
-            
+
             initial_status_id = old_attributes["#{full_module_name}_workflow_statuses_id"]
             final_status_id = new_attributes["#{full_module_name}_workflow_statuses_id"]
 
             if final_status_id && final_status_id != initial_status_id
-                
+
                 workflow_actions = cloud_object.status.workflow_including_deleted.actions.where(active: true).where("
                     (final_status_id = ? and initial_status_id = ?) or
                     (final_status_id = ? and initial_status_id is ?)
@@ -138,14 +138,14 @@ module Shared
                     Templates::CreateCloudObjectFileWithTemplateJob.perform_now(
                         current_user,
                         cloud_object,
-                        Template::Document.find(self.input_data["template_id"]),
+                        Template::Document.find_by(id: self.input_data["template_id"]),
                         self.input_data["file_type"]
                     )
                 else
                     Templates::CreateCloudObjectFileWithTemplateJob.perform_later(
                         current_user,
                         cloud_object,
-                        Template::Document.find(self.input_data["template_id"]),
+                        Template::Document.find_by(id: self.input_data["template_id"]),
                         self.input_data["file_type"]
                     )
                 end
@@ -207,7 +207,7 @@ module Shared
 
             cloud_object_class = "#{engine_name}::#{main_association.workflow_for.capitalize}"
 
-            
+
             # Temporariy Translations calculation this must be changed once real translation standards are implemented
             # @todo Change this once translations standars are set
             translations_class_name = (self.name.split("::")[0]).gsub("Cloud","").downcase
@@ -218,7 +218,7 @@ module Shared
                     value: file_type,
                     text: I18n.t("deutscheleibrenten.#{main_association.workflow_for}/files.enum_file_type_#{file_type}")
                     # text: I18n.t("#{translations_class_name}.#{main_association.workflow_for}/files.model_enum_file_type_#{file_type}")
-                    
+
                 }
             end
 
@@ -248,4 +248,3 @@ module Shared
         end
     end
 end
-    
