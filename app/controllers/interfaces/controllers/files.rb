@@ -110,13 +110,13 @@ module Interfaces::Controllers::Files
             begin
                 extension = /(png|jpg|jpeg|jfif)/.match(img_from_base64[0,16].downcase)[0]
             rescue
-                return respond_with_error(I18n.t("core.shared.notification_error_file_type_not_allowed"))
+                return respond_with_error(I18n.t("core.shared.messages_warning_files_extension_not_allowed"))
             end
 
             # Due a encode issue, jpeg images are sent as jfif
             extension = "jpeg" if extension == "jfif"
 
-            return respond_with_error(I18n.t("core.shared.notification_error_file_type_not_allowed")) unless file_model.verify_file_extension(extension)
+            return respond_with_error(I18n.t("core.shared.messages_warning_files_extension_not_allowed")) unless file_model.verify_file_extension(extension)
 
             file_path = Rails.root.join("public", "uploads", "tmp", file_name << '.' << extension)
             File.open(file_path, 'wb') do|f|
@@ -131,7 +131,7 @@ module Interfaces::Controllers::Files
         else
             extension = new_file_params[:attachment].original_filename if new_file_params[:attachment]
 
-            return respond_with_error(I18n.t("core.shared.notification_error_file_type_not_allowed")) unless file_model.verify_file_extension(extension)
+            return respond_with_error(I18n.t("core.shared.messages_warning_files_extension_not_allowed")) unless file_model.verify_file_extension(extension)
 
             file = file_model.new(new_file_params)
         end
