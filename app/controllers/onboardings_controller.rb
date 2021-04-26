@@ -17,8 +17,11 @@ For more information read the license file including with this software.
 =end
 
 class OnboardingsController < ApplicationController
+    include Application::Responder
 
     layout "application-public"
+
+    #before_action :configure_sign_up_params, only: [:create]
 
     # GET /onboardings/1
     def show
@@ -32,14 +35,35 @@ class OnboardingsController < ApplicationController
     end
 
     # PATCH/PUT /onboardings/1
-    def update
-        return respond_with_not_found unless @onboarding
+    def create
 
-        if @onboarding.update(onboarding_params)
-            respond_with_successful(@onboarding.show(current_user, @query))
-        else
-            respond_with_error(@onboarding.errors.full_messages.to_sentence)
+        token = onboarding_params[:t]
+
+        # validate that token were sent
+        if token.blank?
+            return respond_with_error(I18n.t("core.users/confirmations.messages_warning_invalid_token"))
         end
+
+        # check if token belongs to a uncofirmed user
+        user = User.find_by(:confirmation_token => token)
+
+        # validate that user were found
+        if user.blank?
+            return respond_with_error(I18n.t("core.users/confirmations.messages_warning_invalid_token"))
+        end
+
+        registration = UserRegistrationService.new(user).create_account
+
+        if registration.successful?
+            #user.update(registration_token: nil )
+            respond_with_successful()
+        end
+        respond_with_error("Error creating account") if !registration.successful?
+
+    end
+
+    def onboarding_params
+        params.require(:onboarding).permit(:t)
     end
 
 end
