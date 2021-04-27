@@ -66,6 +66,11 @@ module Courier
                     events_count: events_count
                 }
             end
+
+            def self.with_deadline(current_user, query, calendar)
+                return [] unless defined? CloudDriver
+                CloudDriver::Event.with_deadline(current_user, query, calendar)
+            end
         end
     end
 end
