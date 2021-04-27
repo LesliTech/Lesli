@@ -32,6 +32,7 @@ module Courier
             end
 
             def self.read(current_user, id)
+                return 0 if not defined? CloudBell
                 CloudBell::Notification.read(current_user, id)
             end
 
