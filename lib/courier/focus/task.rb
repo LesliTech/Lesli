@@ -28,10 +28,10 @@ module Courier
 
             def self.with_deadline(current_user, query)
                 return [] unless defined? CloudFocus
-                CloudFocus::Task.tasks_with_deadline(current_user, query)
+                CloudFocus::Task.with_deadline(current_user, query)
             end
 
-            # Returns next due task for a project. Used in summary
+            # Returns next due task for a project. Used in deutsche_leibrenten/summary
             def self.find_next_task_due(current_user, project)
                 return nil unless defined? CloudFocus && CloudHouse
 
