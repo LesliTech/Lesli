@@ -32,7 +32,7 @@ module RoutesApp
 
             authenticated :user do
 
-                resource  :account, only: [:new, :create]
+                resource  :account, only: [:new, :create, :show]
 
                 # Lesli core administration components
                 scope :administration do
