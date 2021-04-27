@@ -1,6 +1,6 @@
 =begin
 
-Copyright (c) 2020, all rights reserved.
+Copyright (c) 2021, all rights reserved.
 
 All the information provided by this platform is protected by international laws related  to 
 industrial property, intellectual property, copyright and relative international laws. 
@@ -20,7 +20,38 @@ For more information read the license file including with this software.
 module Courier
     module Driver
         class Calendar
-
+            
+            # @return A hash that contains an array in each key. These arrays contain events, tasks and tickets
+            #     standarized to be displayed within the calendar
+            # @param current_user [User] The user that made this request
+            # @param query [Hash] Query information that contains wether all 3 kinkds of records should be included,
+            #     and text used to filter the results
+            # @description This method calls the '.with_deadline' method from the courier of all models that will be
+            #     displayed. Currently CloudDriver::Event, CloudFocus::Task and CloudHelp::Ticket are the ones included.
+            #     Each courier method should call the '.with_deadline' method of the specific engine. The results are
+            #     then standarized and returned to the fronted to be dispayed
+            # @example
+            #     current_user = User.find(2)
+            #     query = {
+            #         filters: {
+            #             include: {
+            #                 focus_tasks: false,
+            #                 help_tickets: true
+            #             },
+            #             start_date: '2020-01-01 00:00:00',
+            #             end_date: '2020-12-31 11:59:00',
+            #             query: 'notar'
+            #         }
+            #     }
+            #     puts Courier::Driver::Calendar.show(current_user, query, current_user.account.driver.calendars.default)
+            #     # This will display something like
+            #     # {
+            #     #     id: 1,
+            #     #     name: 'default',
+            #     #     driver_event: [...],
+            #     #     focus_tasks: [],
+            #     #     help_tickets: []
+            #     # }
             def self.show(current_user, query, calendar)
                 return nil unless defined? CloudDriver
 
@@ -38,44 +69,22 @@ module Courier
                 end
 
                 # events from CloudDriver
-                # This query is diferent because, by default, driver events are included
-                unless query[:filters][:include] && query[:filters][:include][:driver_events].to_s.downcase == "false"        
-
-                    # selection all my events in one query
-                    driver_events = calendar.events.joins(:detail)
-                    .joins("inner join cloud_driver_event_attendants CDEA on CDEA.cloud_driver_events_id = cloud_driver_events.id")
-                    .select(
-                        :users_id,
-                        :user_main_id,
-                        :id, 
-                        :title, 
-                        :description, 
-                        "event_date as date",
-                        "time_start as start", 
-                        "time_end as end", 
-                        :location,
-                        :model_type,
-                        :url,
-                        :event_type,
-                        "true as \"is_attendant\"",
-                        "false as \"editable\"",
-                        "CONCAT('cloud_driver_event',' ', LOWER(SPLIT_PART(cloud_driver_events.model_type, '::', 2)))  as \"classNames\"",
-                        LC::Date2.new.date_time.db_column("event_date")
-                    )
-                    .where("
-                        CDEA.users_id = :user 
-                        or cloud_driver_events.user_main_id = :user 
-                        or cloud_driver_events.users_id = :user
-                        or cloud_driver_event_details.public = true", { user: current_user.id })
-                    .where("cloud_driver_event_details.event_date >= ?", query[:filters][:start_date])
-                    .where("cloud_driver_event_details.event_date <= ? ", query[:filters][:end_date])
-                    .order("date")
-
-                    driver_events.each do |event|
-                        event[:editable] = event.is_editable_by?(current_user)
-                    end
-
+                # This condition is diferent because, by default, driver events are included
+                unless query[:filters][:include] && query[:filters][:include][:driver_events].to_s.downcase == "false"
+                    driver_events = Courier::Driver::Event.with_deadline(current_user, query, calendar)
                     driver_events = self.filter_records_by_text(driver_events, query_text, fields: ["title", "description", "location"])
+
+                    driver_events = driver_events.map do |event|
+                        {
+                            id: event[:id],
+                            title: event[:title],
+                            description: event[:description],
+                            date: event[:event_date],
+                            start: event[:time_start],
+                            end: event[:time_end] + 1.second, # The calendar will crash if start and end dates are the same
+                            classNames: ["cloud_driver_events"]
+                        }
+                    end
                     calendar_data[:driver_events] = driver_events
                 end
 
@@ -91,12 +100,10 @@ module Courier
                             description: task[:description],
                             date: task[:deadline],
                             start: task[:deadline],
-                            end: task[:deadline] + 1.second,
-                            event_date_string: task[:deadline_string],
+                            end: task[:deadline] + 1.second, # The calendar will crash if start and end dates are the same
                             classNames: ["cloud_focus_tasks"]
                         }
                     end
-
                     calendar_data[:focus_tasks] = focus_tasks
                 end
 
@@ -112,75 +119,14 @@ module Courier
                             description: ticket[:description],
                             date: ticket[:deadline],
                             start: ticket[:deadline],
-                            end: ticket[:deadline] + 1.second,
-                            event_date_string: ticket[:deadline_string],
+                            end: ticket[:deadline] + 1.second, # The calendar will crash if start and end dates are the same
                             classNames: ["cloud_help_tickets"]
                         }
                     end
-
                     calendar_data[:help_tickets] = help_tickets
                 end
 
                 calendar_data
-            end
-
-            def self.events_register_for(
-                current_user, reference_name, reference_id, 
-                title:, description:nil, time_start:nil, time_end:nil, location:nil, url:nil
-            )
-                return unless defined? CloudDriver
-                current_user.account.driver.calendars.default.events.create({
-                    reference_name: reference_name, 
-                    reference_id: reference_id,
-                    detail_attributes: {
-                        title: title,
-                        description: description,
-                        time_start: time_start || Time.now,
-                        time_end: time_end || Time.now,
-                        location: location,
-                        url: url
-                    }
-                })
-            end
-
-            def self.events_update_for(
-                current_user, reference_name, reference_id, 
-                title:, description:nil, time_start:nil, time_end:nil, location:nil, url:nil
-            )
-                return unless defined? CloudDriver
-                events = current_user.account.driver.calendars.default.events.where(reference_name: reference_name, reference_id: reference_id)
-
-                events.each do |event|
-                    event.detail.title = title unless title.blank?
-                    event.detail.description = description unless description.blank?
-                    event.detail.time_start = time_start unless time_start.blank?
-                    event.detail.time_end = time_end unless time_end.blank?
-                    event.detail.location = location unless location.blank?
-                    event.detail.url = url unless url.blank?
-                    event.save!
-                end
-
-            end
-            
-            def self.events_new(current_user, title:, description:nil, time_start:nil, time_end:nil, location:nil, url:nil)
-                return unless defined? CloudDriver
-                current_user.account.driver.calendars.default.events.create({
-                    detail_attributes: {
-                        title: title,
-                        description: description,
-                        time_start: time_start || Time.now,
-                        time_end: time_end || Time.now,
-                        location: location,
-                        url: url
-                    }
-                })
-            end
-
-            def self.events(current_user)
-                return unless defined? CloudDriver
-                current_user.account.driver.calendars.default.events
-                .joins(:detail)
-                .select(:id, :title, :description, :event_date, :time_start, :time_end, :location, :url, :event_type, :public, :model_type)
             end
 
             protected
