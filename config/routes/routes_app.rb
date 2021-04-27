@@ -40,7 +40,12 @@ module RoutesApp
                     root to: "accounts#show", as: :root_administration
 
                     # Lesli user profile
-                    resource :profile, only: [:show]
+                    resource :profile, only: [:show] do 
+                        scope module: :profile do
+                            resources :notifications, only: [:index, :update]
+                        end
+                        
+                    end
 
                     # account management
                     resource :account, only: [:show] do
