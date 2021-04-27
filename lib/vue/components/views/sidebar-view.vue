@@ -29,6 +29,9 @@ export default {
             required: false,
             validator: (val) => ["small", "medium", "large"].includes(val),
             default: "normal",
+        },
+        canCancel: {
+            default: ['escape', 'outside']
         }
     },
     data() {
@@ -51,6 +54,7 @@ export default {
 <template>
     <b-sidebar
         type="is-light"
+        :can-cancel="canCancel"
         :class="[size]"
         :fullheight="true"
         :fullwidth="false"
