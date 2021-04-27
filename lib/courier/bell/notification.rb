@@ -21,14 +21,18 @@ module Courier
     module Bell
         class Notification
 
-            def self.count(current_user)
+            def self.count(current_user, only_own_notifications=false)
                 return 0 if not defined? CloudBell
-                CloudBell::Notification.count(current_user)
+                CloudBell::Notification.count(current_user, only_own_notifications)
             end
 
-            def self.index(current_user, query)
+            def self.index(current_user, query, only_own_notifications=false)
                 return [] if not defined? CloudBell
-                CloudBell::Notification.index(current_user, query)
+                CloudBell::Notification.index(current_user, query, only_own_notifications)
+            end
+
+            def self.read(current_user, id)
+                CloudBell::Notification.read(current_user, id)
             end
 
             def self.new(user, subject, body:nil, url:nil, kind:nil, category:nil, sender: "push")
