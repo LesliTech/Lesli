@@ -33,14 +33,6 @@ export default {
         }
     },
     methods: {
-
-        getNotifications() {
-            this.http.get(this.url.bell("notifications")).then(result => {
-                if (result.successful) {
-                    this.notifications = result.data
-                }
-            })
-        },
         
         prepareDesktopNotification() {
 
@@ -68,29 +60,42 @@ export default {
             
         },
 
+        getNotifications() {
+            this.http.get(this.url.profile("notifications")).then(result => {
+                if (result.successful) {
+                    this.notifications = result.data
+                }
+            })
+        },
+
         putNotification(id) {
 
-            // In this case, there is no need to wait for a response
-            this.http.put(`/bell/notifications/${id}/read`).catch(error => {
-                console.log(error)
+            this.http.put(this.url.profile("notifications/:id", { id: id })).then(result => {
+
+                let position = this.notifications.records.map(notification => notification.id).indexOf(id)
+
+                this.notifications.records.splice(position, 1)
+
+                this.notifications.pagination.count_total--
+
             })
-
-            let position = this.notification.list.map(notification => notification.id).indexOf(id)
-
-            this.notification.list.splice(position, 1)
 
         },
 
         readNotifications() {
-            this.http.put(this.url.bell("/notifications/read").s).then(result => {
-                this.notification.list = []
-            }).catch(error => {
-                console.log(error)
+            this.http.put(this.url.profile("notifications/all")).then(result => {
+                this.notifications.pagination.count_total = 0
+                this.notifications.records = []
             })
         }
 
     },
     watch: {
+
+        // update notification count in the main header
+        'notifications.pagination.count_total': function (val) {
+            this.data.global.cloud_bell_notifications = val
+        },
         'data.global.cloud_bell_notification': function(notification) {
             this.msg.info(notification.subject)
         },
@@ -114,7 +119,7 @@ export default {
                 Notifications
                 ({{ notifications.pagination ? notifications.pagination.count_total : 0 }})
             </h4>
-            <button class="button is-text">
+            <button class="button is-text" @click="readNotifications()">
                 mark all as read
             </button>
             <span class="icon is-large hover" @click="data.global.show_panel_notifications = false">
