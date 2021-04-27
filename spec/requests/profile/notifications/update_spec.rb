@@ -30,15 +30,18 @@ RSpec.describe 'PUT:/administration/profile/notifications/:id.json', type: :requ
         # register a notification to the user, so we have at least one active notification
         @notification = Courier::Bell::Notification.new(@user, "notification from rspec")
 
+        # if CloudBell is not installed we'll work with zero as ID
+        @notification_id = @notification ? @notification[:id] : 0
+
         # mark notification as read
-        put "/administration/profile/notifications/#{ @notification[:id] }.json"
+        put "/administration/profile/notifications/#{ @notification_id }.json"
 
     end
 
     include_examples 'successful standard json response'
 
     it 'is expected to respond with notification id marked as read' do
-        expect(@response_body["data"]).to eql(@notification[:id])
+        expect(@response_body["data"]).to eql(@notification_id)
     end
 end
 
@@ -53,6 +56,9 @@ RSpec.describe 'PUT:/administration/profile/notifications/all.json', type: :requ
             Courier::Bell::Notification.new(@user, "notification from rspec #{ i }")
         end
 
+        # get number of active notifications
+        @local_count = Courier::Bell::Notification.count(@user, true)
+
         # mark notification as read
         put "/administration/profile/notifications/all.json"
 
@@ -61,6 +67,8 @@ RSpec.describe 'PUT:/administration/profile/notifications/all.json', type: :requ
     include_examples 'successful standard json response'
 
     it 'is expected to respond with total notifications marked as read' do
-        expect(@response_body["data"]).to eql(12)
+
+        expect(@response_body["data"]).to eql(@local_count)
+
     end
 end
