@@ -21,6 +21,28 @@ class Account::Setting < ApplicationRecord
 
     belongs_to :account, foreign_key: "accounts_id"
 
+    def self.initialize(account)
+        lesli_config = Rails.application.config.lesli_settings["configuration"]
+
+        # Initializing datetime settings
+        lesli_config["datetime"].each do |key, value|
+            account.settings.create!({
+                name: key,
+                value: value
+            })
+        end
+
+        # Initializing password settings
+        lesli_config["security"]["password"].each do |key, value|
+            key = "password_#{key}" unless key.start_with? "password"
+
+            account.settings.create!({
+                name: key, 
+                value: value
+            })
+        end
+    end
+
     def self.list(current_user, query)
         
         query_filters = []
@@ -40,7 +62,8 @@ class Account::Setting < ApplicationRecord
 
         password_settings = [
             'password_minimum_length',
-            'password_expiration_time_months'
+            'password_expiration_time_months',
+            'password_expiration_time_days'
         ]
 
         # filter[:theme] will indicate if must show theme settings.
