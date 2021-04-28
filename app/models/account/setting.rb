@@ -21,7 +21,7 @@ class Account::Setting < ApplicationRecord
 
     belongs_to :account, foreign_key: "accounts_id"
 
-    def self.initialize(account)
+    def self.initialize_data(account)
         lesli_config = Rails.application.config.lesli_settings["configuration"]
 
         # Initializing datetime settings

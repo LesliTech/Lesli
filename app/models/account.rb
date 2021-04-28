@@ -278,7 +278,7 @@ class Account < ApplicationRecord
     end
 
     def initialize_settings
-        Account::Setting.intialize(self)
+        Account::Setting.intialize_data(self)
     end
 
 
