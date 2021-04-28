@@ -48,101 +48,141 @@ module HtmlHelper
         end
     end
 
+    def navigation_engine_category(text, engine_tags)
+        if engine_tags.blank?
+            return
+        end
+        content_tag(:div, :class=>"module") do
+            content_tag(:p, text) +
+            engine_tags.html_safe
+        end
+    end
+
     # 00.00 System administration
     def navigation_administration text: "Admin", icon_path: "icons/administration-logo.svg"
         navigation_engine_item text, icon_path, main_app.account_path
     end
 
     # ADMINISTRATION
+    def navigation_administration_category(text: "Administration")
+        engines = navigation_engine_team
+        navigation_engine_category(text, engines)
+    end
 
     # 01.01 Team engine
     def navigation_engine_team text: "Team", icon_path: "cloud_team/team-logo.svg"
-        if defined? CloudTeam
-            navigation_engine_item text, icon_path, cloud_team.root_path, controller_path.include?("cloud_team")
+        unless defined? CloudTeam
+            return ""
         end
+        navigation_engine_item text, icon_path, cloud_team.root_path, controller_path.include?("cloud_team")
     end
 
     # SALES & MARKETING
+    def navigation_sales_marketing_category(text: "Sales & marketing")
+        engines = navigation_engine_house + navigation_engine_mailer + navigation_engine_proposal
+        navigation_engine_category(text, engines)
+    end
 
     # 02.04 House engine
     def navigation_engine_house text: "House", icon_path: "cloud_house/house-logo.svg"
-        if defined? CloudHouse
-            navigation_engine_item text, icon_path, cloud_house.root_path, controller_path.include?("cloud_house")
+        unless defined? CloudHouse
+            return ""
         end
+        navigation_engine_item text, icon_path, cloud_house.root_path, controller_path.include?("cloud_house")
     end
 
     # 02.05 Mailer engine
     def navigation_engine_mailer text: "Mailer", icon_path: "cloud_mailer/mailer-logo.svg"
-        if defined? CloudMailer
-            navigation_engine_item text, icon_path, cloud_mailer.root_path, controller_path.include?("cloud_mailer")
+        unless defined? CloudMailer
+            return ""
         end
+        navigation_engine_item text, icon_path, cloud_mailer.root_path, controller_path.include?("cloud_mailer")
     end
 
     # 02.08 Proposal engine
     def navigation_engine_proposal text: "Proposal", icon_path: "cloud_proposal/proposal-logo.svg"
-        if defined? CloudProposal
-            navigation_engine_item text, icon_path, cloud_proposal.root_path, controller_path.include?("cloud_proposal")
+        unless defined? CloudProposal
+            return ""
         end
+        navigation_engine_item text, icon_path, cloud_proposal.root_path, controller_path.include?("cloud_proposal")
     end
 
     # PRODUCTIVITY & TEAMWORK
 
+    def navigation_productivity_teamwork_category(text: "Productivity & teamwork")
+        engines = navigation_engine_driver + navigation_engine_work + navigation_engine_focus + navigation_engine_text + navigation_engine_bell + navigation_engine_talk
+        navigation_engine_category(text, engines)
+    end
+
     # 03.01 Driver engine
     def navigation_engine_driver text: "Calendar", icon_path: "cloud_driver/driver-logo.svg"
-        if defined? CloudDriver
-            navigation_engine_item text, icon_path, cloud_driver.root_path, controller_path.include?("cloud_driver")
+        unless defined? CloudDriver
+            return ""
         end
+        return navigation_engine_item text, icon_path, cloud_driver.root_path, controller_path.include?("cloud_driver")
     end
 
     # 03.02 Work engine
     def navigation_engine_work text: "Projects", icon_path: "cloud_work/work-logo.svg"
-        if defined? CloudWork
-            navigation_engine_item text, icon_path, cloud_work.root_path, controller_path.include?("cloud_work")
+        unless defined? CloudWork
+            return ""
         end
+        return navigation_engine_item text, icon_path, cloud_work.root_path, controller_path.include?("cloud_work")
     end
 
     # 03.03 Focus engine
     def navigation_engine_focus text: "Tasks", icon_path: "cloud_focus/focus-logo.svg"
-        if defined? CloudFocus
-            navigation_engine_item text, icon_path, cloud_focus.root_path, controller_path.include?("cloud_focus")
+        unless defined? CloudFocus
+            return ""
         end
+        return navigation_engine_item text, icon_path, cloud_focus.root_path, controller_path.include?("cloud_focus")
     end
 
     # 03.05 Text engine
     def navigation_engine_text text: "Text", icon_path: "cloud_text/text-logo.svg"
-        if defined? CloudText
-            navigation_engine_item text, icon_path, cloud_text.root_path, controller_path.include?("cloud_text")
+        unless defined? CloudText
+            return ""
         end
+        navigation_engine_item text, icon_path, cloud_text.root_path, controller_path.include?("cloud_text")
     end
 
     # 03.08 Bell engine
     def navigation_engine_bell text: "Bell", icon_path: "cloud_bell/bell-logo.svg"
-        if defined? CloudBell
-            navigation_engine_item text, icon_path, cloud_bell.root_path, controller_path.include?("cloud_bell")
+        unless defined? CloudBell
+            return ""
         end
+        navigation_engine_item text, icon_path, cloud_bell.root_path, controller_path.include?("cloud_bell")
     end
 
     # 03.10 Talk engine
     def navigation_engine_talk text: "Talk", icon_path: "cloud_talk/talk-logo.svg"
-        if defined? CloudTalk
-            navigation_engine_item text, icon_path, cloud_talk.root_path, controller_path.include?("cloud_talk")
+        unless defined? CloudTalk
+            return ""
         end
+        navigation_engine_item text, icon_path, cloud_talk.root_path, controller_path.include?("cloud_talk")
     end
 
     # FINANCE
 
+    def navigation_finance_category(text: "Finance")
+        engines = navigation_engine_books + navigation_engine_things
+        navigation_engine_category(text, engines)
+    end
+
     # 04.01 Books engine
     def navigation_engine_books text: "Books", icon_path: "cloud_books/books-logo.svg"
-        if defined? CloudBooks
-            navigation_engine_item text, icon_path, cloud_books.root_path, controller_path.include?("cloud_books")
+        unless defined? CloudBooks
+            return ""
         end
+        navigation_engine_item text, icon_path, cloud_books.root_path, controller_path.include?("cloud_books")
     end
 
     # 04.03 Things engine
     def navigation_engine_things text: "Things", icon_path: "cloud_things/things-logo.svg"
-        if defined? CloudThings
-            navigation_engine_item text, icon_path, cloud_things.root_path, controller_path.include?("cloud_things")
+        unless defined? CloudThings
+            return ""
         end
+        navigation_engine_item text, icon_path, cloud_things.root_path, controller_path.include?("cloud_things")
     end
 
     # ANALYTICS
@@ -151,71 +191,95 @@ module HtmlHelper
 
     # IT & HELP DESK
 
+    def navigation_it_help_desk_category(text: "IT & Help desk")
+        engines = navigation_engine_help + navigation_engine_portal + navigation_engine_shared
+        navigation_engine_category(text, engines)
+    end
+
     # 07.02 Help engine
     def navigation_engine_help text: "Help", icon_path: "cloud_help/help-logo.svg"
-        if defined? CloudHelp
-            navigation_engine_item text, icon_path, cloud_help.root_path, controller_path.include?("cloud_help")
+        unless defined? CloudHelp
+            return ""
         end
+        navigation_engine_item text, icon_path, cloud_help.root_path, controller_path.include?("cloud_help")
     end
 
     # 07.03 Portal engine
     def navigation_engine_portal text: "Portal", icon_path: "cloud_portal/portal-logo.svg"
-        if defined? CloudPortal
-            navigation_engine_item text, icon_path, cloud_portal.root_path, controller_path.include?("cloud_portal")
+        unless defined? CloudPortal
+            return ""
         end
+        navigation_engine_item text, icon_path, cloud_portal.root_path, controller_path.include?("cloud_portal")
     end
 
     # 07.05 Shared engine
     def navigation_engine_shared text: "Shared", icon_path: "cloud_shared/shared-logo.svg"
-        if defined? CloudShared
-            navigation_engine_item text, icon_path, cloud_shared.root_path, controller_path.include?("cloud_shared")
+        unless defined? CloudShared
+            return ""
         end
+        navigation_engine_item text, icon_path, cloud_shared.root_path, controller_path.include?("cloud_shared")
     end
 
     # SECURITY & PRIVACY
 
+    def navigation_security_privacy_category(text: "Security & privacy")
+        engines = navigation_engine_audit
+        navigation_engine_category(text, engines)
+    end
+
     # 08.03 Audit engine
     def navigation_engine_audit text: "Audit", icon_path: "cloud_audit/audit-logo.svg"
-        if defined? CloudAudit
-            navigation_engine_item text, icon_path, cloud_audit.root_path, controller_path.include?("cloud_audit")
+        unless defined? CloudAudit
+            return ""
         end
+        navigation_engine_item text, icon_path, cloud_audit.root_path, controller_path.include?("cloud_audit")
     end
 
     # INTEGRATIONS
 
+    def navigation_integrations_category(text: "Integrations")
+        engines = navigation_engine_babel + navigation_engine_federation + navigation_engine_one + navigation_engine_development
+        navigation_engine_category(text, engines)
+    end
+
     # 09.01 Babel engine
     def navigation_engine_babel text: "Babel", icon_path: "cloud_babel/babel-logo.svg"
-        if defined? CloudBabel
-            navigation_engine_item text, icon_path, cloud_babel.root_path, controller_path.include?("cloud_babel")
+        unless defined? CloudBabel
+            return ""
         end
+        navigation_engine_item text, icon_path, cloud_babel.root_path, controller_path.include?("cloud_babel")
     end
 
     # 09.02 Dispatcher engine
     def navigation_engine_dispatcher text: "Dispatcher", icon_path: "cloud_dispatcher/dispatcher-logo.svg"
-        if defined? CloudDispatcher
-            navigation_engine_item text, icon_path, cloud_dispatcher.root_path, controller_path.include?("cloud_dispatcher")
+        unless defined? CloudDispatcher
+            return ""
         end
+        navigation_engine_item text, icon_path, cloud_dispatcher.root_path, controller_path.include?("cloud_dispatcher")
     end
 
     # 09.03 Federation engine
     def navigation_engine_federation text: "Federation", icon_path: "cloud_federation/federation-logo.svg"
-        if defined? CloudFederation
-            navigation_engine_item text, icon_path, cloud_federation.root_path, controller_path.include?("cloud_federation")
+        unless defined? CloudFederation
+            return ""
         end
+        navigation_engine_item text, icon_path, cloud_federation.root_path, controller_path.include?("cloud_federation")
     end
 
     # 09.04 One engine
     def navigation_engine_one text: "One", icon_path: "cloud_one/one-logo.svg"
-        if defined? CloudOne
-            navigation_engine_item text, icon_path, cloud_one.root_path, controller_path.include?("cloud_one")
+        unless defined? CloudOne
+            return ""
         end
+        navigation_engine_item text, icon_path, cloud_one.root_path, controller_path.include?("cloud_one")
     end
 
     # 09.06 Development engine
     def navigation_engine_development text: "Dev", icon_path: "cloud_development/development-logo.svg"
-        if defined? CloudDevelopment
-            navigation_engine_item text, icon_path, cloud_development.root_path, controller_path.include?("cloud_development")
+        unless defined? CloudDevelopment
+            return ""
         end
+        navigation_engine_item text, icon_path, cloud_development.root_path, controller_path.include?("cloud_development")
     end
 
 end
