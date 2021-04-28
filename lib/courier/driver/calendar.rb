@@ -2,9 +2,9 @@
 
 Copyright (c) 2021, all rights reserved.
 
-All the information provided by this platform is protected by international laws related  to 
-industrial property, intellectual property, copyright and relative international laws. 
-All intellectual or industrial property rights of the code, texts, trade mark, design, 
+All the information provided by this platform is protected by international laws related  to
+industrial property, intellectual property, copyright and relative international laws.
+All intellectual or industrial property rights of the code, texts, trade mark, design,
 pictures and any other information belongs to the owner of this platform.
 
 Without the written permission of the owner, any replication, modification,
@@ -13,14 +13,14 @@ transmission, publication is strictly forbidden.
 For more information read the license file including with this software.
 
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
-// · 
+// ·
 
 =end
 
 module Courier
     module Driver
         class Calendar
-            
+
             # @return A hash that contains an array in each key. These arrays contain events, tasks and tickets
             #     standarized to be displayed within the calendar
             # @param current_user [User] The user that made this request
@@ -81,7 +81,7 @@ module Courier
                             description: event[:description],
                             date: event[:event_date],
                             start: event[:time_start],
-                            end: event[:time_end] + 1.second, # The calendar will crash if start and end dates are the same
+                            end: event[:time_end] ? event[:time_end] + 1.second : nil, # The calendar will crash if start and end dates are the same
                             classNames: ["cloud_driver_events"]
                         }
                     end
@@ -100,7 +100,7 @@ module Courier
                             description: task[:description],
                             date: task[:deadline],
                             start: task[:deadline],
-                            end: task[:deadline] + 1.second, # The calendar will crash if start and end dates are the same
+                            end: task[:deadline] ? task[:deadline] + 1.second : nil, # The calendar will crash if start and end dates are the same
                             classNames: ["cloud_focus_tasks"]
                         }
                     end
@@ -111,7 +111,7 @@ module Courier
                 if (defined? CloudHelp) && (query[:filters][:include]) && (query[:filters][:include][:help_tickets].to_s.downcase == "true")
                     help_tickets  = Courier::Help::Ticket.with_deadline(current_user, query)
                     help_tickets = self.filter_records_by_text(help_tickets, query_text, fields: ["subject", "description"])
-                    
+
                     help_tickets = help_tickets.map do |ticket|
                         {
                             id: ticket[:id],
@@ -119,7 +119,7 @@ module Courier
                             description: ticket[:description],
                             date: ticket[:deadline],
                             start: ticket[:deadline],
-                            end: ticket[:deadline] + 1.second, # The calendar will crash if start and end dates are the same
+                            end: ticket[:deadline] ? ticket[:deadline] + 1.second : nil, # The calendar will crash if start and end dates are the same
                             classNames: ["cloud_help_tickets"]
                         }
                     end
@@ -139,7 +139,7 @@ module Courier
                         fields.each do |field|
                             sql.push("lower(#{field}) like '%#{query_word}%'")
                         end
-        
+
                         records = records.where(sql.join(" or "))
                     end
                 end
