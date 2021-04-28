@@ -1,6 +1,5 @@
-/*
-
-Copyright (c) 2020, all rights reserved.
+=begin
+Copyright (c) 2021, all rights reserved.
 
 All the information provided by this platform is protected by international laws related  to 
 industrial property, intellectual property, copyright and relative international laws. 
@@ -15,32 +14,19 @@ For more information read the license file including with this software.
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
 // · 
 
-*/
+=end
+class Profile::Notification < ApplicationLesliRecord
 
-@import "lesli-css/";
+    def self.index(current_user, query)
+        Courier::Bell::Notification.index(current_user, query, true)
+    end
 
+    def self.read(current_user, id)
+        Courier::Bell::Notification.read(current_user, id)
+    end 
 
-.application-modules .sidebar-content {
-    background-color: lesli-css-get-color(solid, white);
+    def show(current_user, query)
+        self
+    end
 
-    .module {
-        width: 100%;
-        > a {
-            width: 82px;
-            text-align: center;
-            display: inline-block;
-            margin-bottom: 1.6rem;
-
-            img {
-                display: block;
-                margin: 0 auto .4rem;
-                width: 30px;
-            }
-
-            span {
-                font-size: .9rem;
-            }
-
-        }
-    }
-}
+end

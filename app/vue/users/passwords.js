@@ -49,7 +49,7 @@ app({
         notification: {
             message: "",
             show: false,
-            type: "is-danger"
+            type: "danger"
         }
     },
     methods: {
@@ -69,10 +69,12 @@ app({
 
             this.http.post("/password", data).then(response => {
 
+                console.log(response)
+
                 this.progress_bar_active = false
 
                 if(response.successful){
-                    this.showNotification(this.translations.main.notification_reset_password_instructions_sent, "is-success")
+                    this.showNotification(this.translations.main.notification_reset_password_instructions_sent, "success")
                 }else{
                     this.showNotification(response.error.message)
                 }
@@ -87,7 +89,7 @@ app({
 
             // check if passwords match
             if (this.password_edit.new_password != this.password_edit.new_password_confirmation) {
-                this.showNotification(this.translations.main.error_passwords_do_not_match, "is-warning")
+                this.showNotification(this.translations.main.error_passwords_do_not_match, "warning")
                 return
             }
 
@@ -112,7 +114,7 @@ app({
                 this.progress_bar_active = false
 
                 if(response.successful){
-                    this.showNotification(this.translations.main.notification_password_updated, "is-success")
+                    this.showNotification(this.translations.main.notification_password_updated, "success")
                     setTimeout(() => {
                         this.url.go("/login")
                     }, 1500)
@@ -125,7 +127,7 @@ app({
             })
         },
 
-        showNotification(message, type="is-danger"){
+        showNotification(message, type="danger"){
             this.notification.message = message;
             this.notification.type = type;
             this.notification.show = true;
