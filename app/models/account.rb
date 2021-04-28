@@ -56,6 +56,7 @@ class Account < ApplicationRecord
     after_create :initialize_account
     after_create :initialize_account_for_engines
     after_create :initialize_account_for_instance
+    after_create :initialize_settings
 
     # account status
     enum status: [:registered, :active, :suspended]
@@ -274,6 +275,10 @@ class Account < ApplicationRecord
 
         end
         
+    end
+
+    def initialize_settings
+        Account::Setting.intialize(self)
     end
 
 
