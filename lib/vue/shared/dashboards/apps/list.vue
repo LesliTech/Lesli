@@ -15,7 +15,7 @@ export default {
     // @return [Object] Data used by this component's methods
     // @description Returns the data needed for this component to work properly
     // @data_variable main_route [String] the main route to which this component connects to the lesli API
-    // @data_variable dashboards [Array] An array of objects, each object represents a 
+    // @data_variable dashboards [Array] An array of objects, each object represents a
     //      Dashboard, with the same params as the associated rails model
     data(){
         return {
@@ -76,7 +76,7 @@ export default {
             if(this.$route.query.status){
                 this.$set(this.filters, 'statuses', [{value: this.$route.query.status}])
             }
-            
+
             this.$nextTick(()=>{
                 this.filters_ready = true
             })
@@ -115,7 +115,7 @@ export default {
                         this.pagination.dashboards_count = result.data.total_count
                     }
                 }else{
-                    this.alert(result.error.message,'danger')
+                    this.msg.error(result.error.message)
                 }
             }).catch(error => {
                 console.log(error)
@@ -164,7 +164,7 @@ export default {
                 this.getDashboards(false)
             }
         },
-        
+
         'filters.per_page'(){
             if(this.filters_ready){
                 this.getDashboards(true)
@@ -175,7 +175,7 @@ export default {
 </script>
 <template>
     <section class="application-component">
-        <component-header 
+        <component-header
             :title="translations.dashboards.view_title_main">
             <div class="buttons">
                 <button class="button" @click="reloadDashboards()">
@@ -202,7 +202,7 @@ export default {
 
                 <component-data-loading v-if="loading" />
                 <component-data-empty v-if="!loading && dashboards.length == 0" />
-                
+
                 <b-table
                     :data="dashboards"
                     @click="showDashboard"
