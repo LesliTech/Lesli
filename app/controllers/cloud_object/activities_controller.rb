@@ -23,7 +23,7 @@ module CloudObject
         before_action :show_deprecated_message
 
         def show_deprecated_message
-            LC::Debug.msg "DEPRECATED: Your ActivitiesController must inherit from ApplicationLesliController and include Interfaces::Controllers::Activities instead"
+            LC::Debug.deprecation("Your ActivitiesController must inherit from ApplicationLesliController and include Interfaces::Controllers::Activities instead")
         end
     end
 end

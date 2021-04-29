@@ -40,12 +40,12 @@ class Users::PasswordsController < Devise::PasswordsController
 
         if params[:user].blank?
             Account::Activity.log("core", "/password/create", "password_creation_failed", "no_valid_email") 
-            return respond_with_error("valid_user_not_found")
+            return respond_with_error(I18n.t("core.shared.messages_warning_user_not_found"))
         end
 
         if params[:user][:email].blank?
             Account::Activity.log("core", "/password/create", "password_creation_failed", "no_valid_email") 
-            return respond_with_error("valid_user_not_found")
+            return respond_with_error(I18n.t("core.shared.messages_warning_user_not_found"))
         end
 
         user = User.find_by(:email => params[:user][:email])
@@ -54,7 +54,7 @@ class Users::PasswordsController < Devise::PasswordsController
             Account::Activity.log("core", "/password/create", "password_creation_failed", "no_valid_email", {
                 email: (params[:user][:email] || "")
             }) 
-            return respond_with_error("valid_user_not_found")
+            return respond_with_error(I18n.t("core.shared.messages_warning_user_not_found"))
         end
 
         if not user.active

@@ -62,7 +62,7 @@ class UsersController < ApplicationLesliController
 
         # check if request has an email to create the user
         if user_params[:email].blank?
-            respond_with_error("not valid email found")
+            respond_with_error(I18n.t("core.users.messages_danger_not_valid_email_found"))
             return
         end
 
@@ -208,7 +208,7 @@ class UsersController < ApplicationLesliController
         become_user = User.find(params[:id])
 
         # Return an error if user does not exist
-        return respond_with_error "Not valid user found" if become_user.blank?
+        return respond_with_error I18n.t("core.shared.messages_warning_user_not_found") if become_user.blank?
 
         # Extrictly save a log when becoming
         current_user.activities.create!({
@@ -234,7 +234,7 @@ class UsersController < ApplicationLesliController
 
         # check if user exist
         if user.blank?
-            return respond_with_error "User not found"
+            return respond_with_error I18n.t("core.shared.messages_warning_user_not_found")
         end
 
         # Integrations cannot be logged out. Since this is equivalent to revoking their access
@@ -257,7 +257,7 @@ class UsersController < ApplicationLesliController
 
         # check if user exist
         if user.blank?
-            return respond_with_error "User not found"
+            return respond_with_error I18n.t("core.shared.messages_warning_user_not_found")
         end
 
         # delete user active sessions
@@ -281,7 +281,7 @@ class UsersController < ApplicationLesliController
 
         # check if user exist
         if user.blank?
-            return respond_with_error "User not found"
+            return respond_with_error I18n.t("core.shared.messages_warning_user_not_found")
         end
 
         # expire password
@@ -299,7 +299,7 @@ class UsersController < ApplicationLesliController
         user = current_user.account.users.find(params[:id])
 
         if user.blank? 
-            return respond_with_error "User not found"
+            return respond_with_error I18n.t("core.shared.messages_warning_user_not_found")
         end
 
         if params[:user][:email]
