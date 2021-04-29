@@ -5,7 +5,7 @@ export default {
         return {
             translations: {
                 core: {
-                    shared: I18n.t('deutscheleibrenten.shared')
+                    abouts: I18n.t('core.abouts'),
                 }
             }
         }
@@ -19,7 +19,7 @@ export default {
                 <div class="navbar-start">
                     <div class="navbar-item">
                         <h4 class="is-size-3">
-                            System Requirements
+                            {{ translations.core.abouts.view_title_system_requirements }}
                         </h4>
                     </div>
                 </div>
@@ -28,7 +28,7 @@ export default {
         <div class="card">
             <div class="card-content">
                 <b-menu>
-                    <b-menu-list :label="translations.core.shared.about_system_requirements_supported_browsers">
+                    <b-menu-list :label="translations.core.abouts.view_text_supported_browsers">
                         <b-menu-item icon="account" href="https://www.microsoft.com/de-DE/edge" target="_download_explorer">
                             <template slot="label">
                                 <i class="fab fa-edge"></i>
