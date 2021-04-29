@@ -25,8 +25,10 @@ export default {
     data() {
         return {
             translations: {
-                users: I18n.t("core.users"),
-                shared: I18n.t("core.shared")
+                core: {
+                    users: I18n.t("core.users"),
+                    shared: I18n.t("core.shared"),
+                }
             },
             user: {
                 detail_attributes: {}
@@ -52,7 +54,7 @@ export default {
                     this.msg.error(result.error.message)
                     return
                 }
-                this.msg.success(this.translations.users.messages_success_user_updated)
+                this.msg.success(this.translations.core.users.messages_success_user_updated)
             }).catch(error => {
                 console.log(error)
             })
@@ -66,7 +68,7 @@ export default {
                     this.msg.error(result.error.message)
                     return
                 }
-                this.alert("All the sessions of the user were delted successfully")
+                this.msg.success(this.translations.core.users.messages_info_deleted_sessions)
             }).catch(error => {
                 console.log(error)
             })
@@ -78,7 +80,7 @@ export default {
                     this.msg.error(result.error.message)
                     return
                 }
-                this.msg.success(this.translations.users.messages_success_user_updated)
+                this.msg.success(this.translations.core.users.messages_success_user_updated)
             }).catch(error => {
                 console.log(error)
             })
@@ -87,10 +89,10 @@ export default {
         confirmUserDeletion() {
             window.scrollTo(0,0)
             this.$buefy.dialog.confirm({
-                title: this.translations.users.messages_danger_delete_user,
-                message: this.translations.users.messages_danger_delete_user_message_detail,
-                confirmText: this.translations.users.messages_danger_delete_user_confirm,
-                cancelText: this.translations.users.messages_danger_delete_user_cancel  ,
+                title: this.translations.core.users.messages_danger_delete_user,
+                message: this.translations.core.users.messages_danger_delete_user_message_detail,
+                confirmText: this.translations.core.users.messages_danger_delete_user_confirm,
+                cancelText: this.translations.core.users.messages_danger_delete_user_cancel,
                 type: 'is-danger',
                 hasIcon: true,
                 onConfirm: () => this.deleteUser()
@@ -104,7 +106,7 @@ export default {
                 if (!result.successful) {
                     this.msg.error(result.error.message)
                 } else {
-                    this.msg.success(this.translations.users.messages_success_user_updated)
+                    this.msg.success(this.translations.core.users.messages_success_user_updated)
                     this.url.go(this.url.admin("users"))
                 }
             }).catch(error => {
@@ -134,7 +136,7 @@ export default {
                 <div class="content mb-0">
                     <p>
                         <strong if="user.detail_attributes.salutation">
-                            {{ object_utils.translateEnum(translations.shared, 'column_enum_salutation', user.detail_attributes.salutation ) }}
+                            {{ object_utils.translateEnum(translations.core.shared, 'column_enum_salutation', user.detail_attributes.salutation ) }}
                         </strong>
                         <strong>{{ user.detail_attributes.first_name }}</strong>
                         <strong>{{ user.detail_attributes.last_name }}</strong>
@@ -165,22 +167,22 @@ export default {
                     <div class="buttons">
                         <button class="button is-white is-small" @click="doRequestPasswordChange()">
                             <span class="icon"><i class="fas fa-unlock-alt"></i></span>
-                            <span> {{ translations.users.view_btn_request_password_change }}</span>
+                            <span> {{ translations.core.users.view_btn_request_password_change }}</span>
                         </button>
 
                         <button class="button is-white is-small" @click="doUserLogout()">
                             <span class="icon"><i class="fas fa-sign-out-alt"></i></span>
-                            <span>  {{ translations.users.view_btn_force_logout }}</span>
+                            <span>  {{ translations.core.users.view_btn_force_logout }}</span>
                         </button>
 
                         <button class="button is-white is-small" @click="doRevokeAccess()">
                             <span class="icon"><i class="fas fa-user-lock"></i></span>
-                            <span> {{ translations.users.view_btn_revoke_access }} </span>
+                            <span> {{ translations.core.users.view_btn_revoke_access }} </span>
                         </button>
 
                         <button class="button is-white is-small" @click="confirmUserDeletion()">
                             <span class="icon"><i class="fas fa-user-slash"></i></span>
-                            <span> {{ translations.users.view_btn_delete_user }} </span>
+                            <span> {{ translations.core.users.view_btn_delete_user }} </span>
                         </button>
                     </div>
                 </template>

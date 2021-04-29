@@ -2,9 +2,9 @@
 /*
 Copyright (c) 2020, all rights reserved.
 
-All the information provided by this platform is protected by international laws related  to 
-industrial property, intellectual property, copyright and relative international laws. 
-All intellectual or industrial property rights of the code, texts, trade mark, design, 
+All the information provided by this platform is protected by international laws related  to
+industrial property, intellectual property, copyright and relative international laws.
+All intellectual or industrial property rights of the code, texts, trade mark, design,
 pictures and any other information belongs to the owner of this platform.
 
 Without the written permission of the owner, any replication, modification,
@@ -13,18 +13,18 @@ transmission, publication is strictly forbidden.
 For more information read the license file including with this software.
 
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
-// · 
+// ·
 */
 
 export default {
     props: {
-        mainPath: { 
+        mainPath: {
             required: true
         }
     },
 
     components: {},
-    
+
     // @return [Object] Data used by this component"s methods
     // @description Returns the data needed for this component to work properly
     // @data_variable main_route [String] the main route to which this component connects to the lesli API
@@ -61,7 +61,7 @@ export default {
                 this.postUser()
             }
         },
-        
+
         postUser() {
             let url = `/administration/users.json`
 
@@ -74,14 +74,14 @@ export default {
 
             this.http.post(url, data).then(result => {
                 if (result.successful) {
-                    this.alert(this.translations.users.messages_success_created_successfully, "success")
+                    this.msg.success(this.translations.users.messages_success_created_successfully)
                     this.url.go(this.mainPath)
-                }else{
-                    this.alert(result.error.message,"danger")
+                } else {
+                    this.msg.error(result.error.message)
                 }
             }).catch(error => {
                 console.log(error)
-            }) 
+            })
         },
 
         putUser() {
@@ -91,9 +91,9 @@ export default {
             }
             this.http.put(url, data).then(result => {
                 if (result.successful) {
-                    this.alert(this.translations.users.notification_user_updated, "success")
-                }else{
-                    this.alert(result.error.message,"danger")
+                    this.msg.success(this.translations.users.notification_user_updated)
+                } else {
+                    this.msg.error(result.error.message)
                 }
             }).catch(error => {
                 console.log(error)
@@ -122,7 +122,7 @@ export default {
                         <div class="field">
                             <label class="label">{{ translations.users.view_text_role }}</label>
                             <div class="control">
-                                <b-select 
+                                <b-select
                                     name="user_role"
                                     :placeholder="translations.shared.text_role"
                                     v-model="user.roles_id">
@@ -130,7 +130,7 @@ export default {
                                         v-for="role in options.roles"
                                         :value="role.id"
                                         :key="role.id">
-                                        {{object_utils.translateEnum(translations.roles, 'column_enum_role', role.name)}} 
+                                        {{object_utils.translateEnum(translations.roles, 'column_enum_role', role.name)}}
                                     </option>
                                 </b-select>
                             </div>
@@ -150,7 +150,7 @@ export default {
                                 :native-value="option.value">
                                 {{ translations.shared[`column_enum_salutation_${option.text}`] }}
                             </b-radio>
-                            
+
                         </div>
 
                         <!-- First name -->
@@ -176,7 +176,7 @@ export default {
                                 <input v-model="user.detail_attributes.title" class="input">
                             </div>
                         </div>
-        
+
                         <!-- phone -->
                         <div class="field">
                             <label class="label">{{ translations.shared.view_text_telephone }}</label>
