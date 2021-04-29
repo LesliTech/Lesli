@@ -23,8 +23,8 @@ class UserRegistrationService
 
     def create_account
 
-        return LC::Response.service(false, "Not valid user found") if @resource.blank?
-        return LC::Response.service(false, "User already belongs to accoutn") if @resource.account
+        return LC::Response.service(false, I18n.t("core.shared.messages_warning_user_not_found")) if @resource.blank?
+        return LC::Response.service(false, I18n.t("core.users.messages_info_user_already_belongs_to_account")) if @resource.account
 
         # check if instance is for multi-account
         allow_multiaccount = Rails.application.config.lesli_settings["configuration"]["security"]["allow_multiaccount"]
