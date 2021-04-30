@@ -101,7 +101,7 @@ export default {
             this.disable_search = false;
         });
     },
-    
+
     methods: {
 
         setListeners() {
@@ -170,7 +170,7 @@ export default {
                         this.setListeners();
                     })
                 }else{
-                    this.alert(response.error.message, 'danger');
+                    this.msg.error(response.error.message);
                 }
             }).catch((err)=>{
                 console.log(err);
@@ -189,7 +189,7 @@ export default {
             this.selected_option = option;
             this.search = option[this.textField];
             this.index = -1;
-            this.focusOnInput(); 
+            this.focusOnInput();
             this.$emit('input', option[this.keyField]);
             this.$emit('select', option)
 
@@ -293,7 +293,7 @@ export default {
             @focus="focus"
         >
         </b-input>
-        <ul 
+        <ul
             :class="['list', 'is-hoverable', 'autocomplete-wrap', {'w-100': Boolean(fullWidth), 'w-20-rem': ! Boolean(fullWidth)}]"
             v-show="options.length > 0"
             ref="list"

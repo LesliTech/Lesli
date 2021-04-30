@@ -6,12 +6,14 @@ export default {
             endpoint: "/administration/account/integrations",
             session: {},
             integration: {
-                name: "Zapier"
+                name: ""
             },
             translations: {
                 core: {
-                    integrations: I18n.t("core.account/integrations"),
-                    shared: I18n.t('core.shared')   
+                    shared: I18n.t('core.shared'),
+                    account: {
+                        integrations: I18n.t("core.account/integrations"),
+                    }
                 }
             },
             submitting_form: false
@@ -20,10 +22,10 @@ export default {
     methods: {
 
         postIntegration() {
-            this.submitting_form = true 
+            this.submitting_form = true
 
             this.http.post(this.endpoint,{ account_integration: this.integration}).then(result => {
-                this.submitting_form = false 
+                this.submitting_form = false
 
                 if (result.successful) {
                     this.alert(this.translations.core.integrations.messages_success_created_successfully, 'success')
@@ -31,7 +33,7 @@ export default {
                     this.url.go(`${this.endpoint}/${result.data.id}`)
                 } else {
                     this.alert(result.error.message, "danger")
-                    return 
+                    return
                 }
             }).catch(error => {
                 console.log(error)
@@ -44,7 +46,7 @@ export default {
 <template>
     <form @submit.prevent="postIntegration">
         <div class="field">
-            <label class="label"> {{ translations.core.integrations.column_name }} </label>
+            <label class="label"> {{ translations.core.account.integrations.column_name }} </label>
                 <div class="control">
                 <input class="input" type="text" placeholder="" v-model="integration.name">
             </div>
@@ -54,12 +56,12 @@ export default {
                 <span v-if="submitting_form">
                     <b-icon icon="circle-notch" custom-class="fa-spin" size="is-small" />
                     &nbsp;
-                    {{translations.core.shared.btn_saving}}
+                    {{ translations.core.shared.btn_saving }}
                 </span>
                 <span v-else>
                     <b-icon icon="save" size="is-small" />
                     &nbsp;
-                    {{translations.core.shared.btn_save}}
+                    {{ translations.core.shared.btn_save }}
                 </span>
             </button>
         </p>
