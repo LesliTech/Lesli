@@ -35,9 +35,9 @@ module CloudObject
                 cloud_object.activities.create(
                     user_creator: current_user,
                     category: "action_status",
-                    description: cloud_object.status.name,
+                    description: cloud_object.status&.name,
                     field_name: "#{module_name}_workflow_statuses_id",
-                    value_to: cloud_object.status.name
+                    value_to: cloud_object.status&.name
                 )
             end
         end
