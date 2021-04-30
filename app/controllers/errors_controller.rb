@@ -63,7 +63,7 @@ class ErrorsController < ApplicationController
                 render status: 500, json: {
                     successful: false,
                     error: {
-                        message: 'Internal error',
+                        message: I18n.t("core.shared.messages_danger_internal_error"),
                         details: []
                     }
                 }.to_json
