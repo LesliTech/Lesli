@@ -21,27 +21,27 @@ For more information read the license file including with this software.
 
     <%= navigation_item(main_app.account_path) do %>
         <i class="fas fa-building"></i>
-        <span>Account</span>
+        <span><%= I18n.t("core.shared.sidebar_nav_account") %></span>
     <% end %>
 
     <%= navigation_item(main_app.users_path) do %>
         <i class="fas fa-users"></i>
-        <span>Users</span>
+        <span><%= I18n.t("core.shared.sidebar_nav_users") %></span>
     <% end %>
 
     <%= navigation_item(main_app.roles_path) do %>
         <i class="fas fa-shield-alt"></i>
-        <span>Roles & privileges</span>
+        <span><%= I18n.t("core.shared.sidebar_nav_roles_privileges") %></span>
     <% end %>
 
     <%= navigation_item(main_app.account_integrations_path) do %>
         <i class="fas fa-network-wired"></i>
-        <span>Integrations</span>
+        <span><%= I18n.t("core.shared.sidebar_nav_integrations") %></span>
     <% end %>
 
     <%= navigation_item(main_app.account_settings_path) do %>
         <i class="fas fa-cogs"></i>
-        <span>Settings</span>
+        <span><%= I18n.t("core.shared.sidebar_nav_settings") %></span>
     <% end %>
 
 </template>

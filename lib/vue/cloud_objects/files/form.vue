@@ -62,7 +62,7 @@ export default {
             file_type: null
         }
     },
-    
+
     mounted(){
         this.parseCloudModule()
         this.setTranslations()
@@ -108,7 +108,7 @@ export default {
                 if (result.successful) {
                     this.file_options = result.data
                 }else{
-                    this.alert(result.error.message,'danger')
+                    this.msg.error(result.error.message)
                 }
             }).catch(error => {
                 console.log(error)
@@ -152,7 +152,7 @@ export default {
             }
 
             if(! accepted_file_type){
-                this.alert(this.translations.core.messages_warning_files_extension_not_allowed, 'danger')
+                this.msg.error(this.translations.core.messages_warning_files_extension_not_allowed)
                 this.$refs['dropzone'].removeFile(file)
             }
         },
@@ -160,7 +160,7 @@ export default {
         cleanDropzone(){
             this.submitting_form = false
             if(this.upload_successful){
-                this.alert(this.translations.core.messages_info_file_created, 'success')
+                this.msg.success(this.translations.core.messages_info_file_created)
             }
 
             this.$emit('upload-complete')
@@ -175,7 +175,7 @@ export default {
 
         displayUploadError(_file, message){
             this.upload_successful = false
-            this.alert(message,'danger')
+            this.msg.error(message)
         },
     },
 

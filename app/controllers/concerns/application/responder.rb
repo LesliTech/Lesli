@@ -47,7 +47,7 @@ module Application
             render status: 404, json: {
                 successful: false,
                 error: {
-                    message: I18n.t("deutscheleibrenten.shared.not_found_error_message"),
+                    message: I18n.t("core.shared.messages_danger_not_found"),
                     details: []
                 }
             }.to_json
@@ -59,7 +59,7 @@ module Application
             error_object = {
                 successful: false,
                 error: {
-                    message: I18n.t("deutscheleibrenten.shared.unauthorized_error_message")
+                    message: I18n.t("core.shared.view_text_unauthorized_request")
                 }
             }
 

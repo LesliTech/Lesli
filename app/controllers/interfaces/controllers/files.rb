@@ -246,7 +246,7 @@ module Interfaces::Controllers::Files
     #     this.http.get('127.0.0.1/house/projects/1/resources/files-zip-download&ids=1,2,3,4');
     def zip_download
         def show_deprecated_message
-            LC::Debug.msg "DEPRECATED: Use the index method with application/zip instead"
+            LC::Debug.deprecation "Use the index method with application/zip instead"
         end
 
         file_model = file_model() # If there is a custom file model, it must be returned in this method

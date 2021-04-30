@@ -26,33 +26,33 @@ module Application
         end
 
         def responseWithSuccessful(data = nil)
-            LC::Debug.simple_msg "DEPRECATED: use respond_with_successful instead"
+            LC::Debug.deprecation "use respond_with_successful instead"
             respond_with_successful(data)
         end
     
         def responseWithError(message = "", details = [])
-            LC::Debug.simple_msg "DEPRECATED: use respond_with_error instead"
+            LC::Debug.deprecation "use respond_with_error instead"
             respond_with_error(message, details)
         end
     
         def responseWithNotFound
-            LC::Debug.simple_msg "DEPRECATED: use respond_with_not_found instead"
+            LC::Debug.deprecation "use respond_with_not_found instead"
             respond_with_not_found()
         end
     
         def responseWithUnauthorized(detail = {})
-            LC::Debug.simple_msg "DEPRECATED: use respond_with_unauthorized instead"
+            LC::Debug.deprecation "use respond_with_unauthorized instead"
             respond_with_unauthorized(detail)
         end
 
         def respond_with_pagination data
-            LC::Debug.simple_msg "DEPRECATED: use LC::Response.pagination in combination with respond_with_successful instead"
+            LC::Debug.deprecation "use LC::Response.pagination in combination with respond_with_successful instead"
             respond_with_successful(data)
         end
 
         # Deprecated method used to log user messages logs
         def log_activity description=nil
-            LC::Debug.msg "DEPRECATED: Use log_user_commens or current_user.logs.create instead"
+            LC::Debug.deprecation "Use log_user_commens or current_user.logs.create instead"
             LC::Debug.msg session[:session_id]
             log_user_comments(description)
         end
