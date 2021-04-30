@@ -18,7 +18,25 @@ For more information read the license file including with this software.
 =end
 
 class DeviseMailer < Devise::Mailer
+
+
+    # This mailer is used in two different scenarios:
+    #       1. User register to create a new account
+    #       2. User wants to update his email address
+    # Due email update or new email is the same for Devise
+    # we have to use different strategies to know if the users is trying to create a new account
+    # or update his email address
     def confirmation_instructions(record, token, opts = {})
+
+        # defaults for new accounts/users
+        email_template = "new_account_confirmation_instructions"
+        email_subject = I18n.t("leslimails.devise_mailer.view_text_subject_new_account")
+
+        # custom email and subject if user is changin his email address
+        if !record.unconfirmed_email.blank?
+            email_template = "update_email_confirmation_instructions"
+            email_subject = I18n.t("core.users/confirmations.mailer_confirmation_instructions_subject")
+        end
 
         # Depending on wheter there is a new user or they are changing their email, one or another field will be used
         recipient_email = record.unconfirmed_email || record.email
@@ -33,7 +51,9 @@ class DeviseMailer < Devise::Mailer
 
         mail(
             to: email_address_with_name(recipient_email, record.full_name), 
-            subject: I18n.t("core.users/confirmations.mailer_confirmation_instructions_subject")
+            subject: email_subject,
+            template_name: email_template
         )
+
     end
 end

@@ -53,6 +53,8 @@ class Users::ConfirmationsController < Devise::ConfirmationsController
 
         flash[:success] = I18n.t("core.users/confirmations.messages_success_email_updated")
         
+        # if new account, launch account onboarding in another thread, 
+        # so the user can continue with the registration process
         Thread.new { UserRegistrationService.new(user).create_account } if user.account.blank?
 
     end
