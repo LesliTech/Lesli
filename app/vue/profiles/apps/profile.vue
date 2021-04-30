@@ -2,9 +2,9 @@
 /**
 Copyright (c) 2020, all rights reserved.
 
-All the information provided by this platform is protected by international laws related  to 
-industrial property, intellectual property, copyright and relative international laws. 
-All intellectual or industrial property rights of the code, texts, trade mark, design, 
+All the information provided by this platform is protected by international laws related  to
+industrial property, intellectual property, copyright and relative international laws.
+All intellectual or industrial property rights of the code, texts, trade mark, design,
 pictures and any other information belongs to the owner of this platform.
 
 Without the written permission of the owner, any replication, modification,
@@ -13,18 +13,18 @@ transmission, publication is strictly forbidden.
 For more information read the license file including with this software.
 
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
-// · 
+// ·
 */
 
 
-// · 
+// ·
 import componentInformationCard from "Lesli/vue/users/components/card-information.vue"
 import componentInformationForm from "Lesli/vue/users/components/form-information.vue"
 import componentSecurityForm from "Lesli/vue/users/components/form-security.vue"
 import componentSessionManagement from "Lesli/vue/users/components/session-management.vue"
 
 
-// · 
+// ·
 export default {
     components: {
         'component-information-card': componentInformationCard,
@@ -93,7 +93,7 @@ export default {
             <b-tab-item :label="translations.core.users.view_tab_title_security">
                 <component-security-form></component-security-form>
             </b-tab-item>
-            <b-tab-item label="Session Management">
+            <b-tab-item :label="translations.core.users.view_tab_title_session_management">
                 <component-session-management v-if="user_id" :user_id="user_id"></component-session-management>
             </b-tab-item>
         </b-tabs>

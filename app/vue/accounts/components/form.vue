@@ -62,8 +62,8 @@ export default {
                 <label class="sr-only">
                     Company name
                 </label>
-                <input 
-                    class="input" 
+                <input
+                    class="input"
                     type="text"
                     v-model="account.company_name"
                     required="true"

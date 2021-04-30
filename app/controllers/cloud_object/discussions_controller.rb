@@ -23,7 +23,7 @@ module CloudObject
         before_action :show_deprecated_message
 
         def show_deprecated_message
-            LC::Debug.msg "DEPRECATED: Your DiscussionsController must inherit from ApplicationLesliController and include Interfaces::Controllers::Discussions instead"
+            LC::Debug.deprecation("Your DiscussionsController must inherit from ApplicationLesliController and include Interfaces::Controllers::Discussions instead")
         end
     end
 end

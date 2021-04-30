@@ -2,9 +2,9 @@
 /*
 Copyright (c) 2020, all rights reserved.
 
-All the information provided by this platform is protected by international laws related  to 
-industrial property, intellectual property, copyright and relative international laws. 
-All intellectual or industrial property rights of the code, texts, trade mark, design, 
+All the information provided by this platform is protected by international laws related  to
+industrial property, intellectual property, copyright and relative international laws.
+All intellectual or industrial property rights of the code, texts, trade mark, design,
 pictures and any other information belongs to the owner of this platform.
 
 Without the written permission of the owner, any replication, modification,
@@ -13,11 +13,11 @@ transmission, publication is strictly forbidden.
 For more information read the license file including with this software.
 
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
-// · 
+// ·
 */
 
 
-// · 
+// ·
 export default {
     data() {
         return {
@@ -41,12 +41,12 @@ export default {
                     }
                 }).then(result => {
                     if (!result.successful) {
-                        this.alert(result.error.message, "danger")
-                        return 
+                        this.msg.error(result.error.message)
+                        return
                     }
                     this.data.user.roles = result.data
                     this.role_selected = {}
-                    this.alert(this.translations.users.messages_success_user_updated, "success")
+                    this.msg.success(this.translations.users.messages_success_user_updated)
                 })
             }, 500)
         },
@@ -75,7 +75,7 @@ export default {
                                 <div class="select">
                                     <select v-model="role_selected">
                                         <option v-for="role in data.options.roles" :key="role.id" :value="role">
-                                            {{object_utils.translateEnum(translations.roles, 'column_enum_role', role.name)}} 
+                                            {{object_utils.translateEnum(translations.roles, 'column_enum_role', role.name)}}
                                         </option>
                                     </select>
                                 </div>
@@ -106,8 +106,8 @@ export default {
                                 close-type="is-info"
                                 aria-close-label="Close tag"
                                 @close="deleteUserRole(role.id)">
-                                
-                                {{object_utils.translateEnum(translations.roles, 'column_enum_role', role.name)}} 
+
+                                {{object_utils.translateEnum(translations.roles, 'column_enum_role', role.name)}}
                             </b-tag>
                         </div>
                     </div>

@@ -39,9 +39,9 @@ export default {
                 }
             }).then(result => {
                 if (result.successful == true) {
-                    this.alert(this.translations.passwords.notification_password_updated, "success")
+                    this.msg.success(this.translations.passwords.notification_password_updated)
                 } else {
-                    this.alert(result.error.message, "danger")
+                    this.msg.error(result.error.message)
                 }
             }).catch(error => {
                 console.log(error)

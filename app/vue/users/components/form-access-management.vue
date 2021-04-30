@@ -2,9 +2,9 @@
 /*
 Copyright (c) 2020, all rights reserved.
 
-All the information provided by this platform is protected by international laws related  to 
-industrial property, intellectual property, copyright and relative international laws. 
-All intellectual or industrial property rights of the code, texts, trade mark, design, 
+All the information provided by this platform is protected by international laws related  to
+industrial property, intellectual property, copyright and relative international laws.
+All intellectual or industrial property rights of the code, texts, trade mark, design,
 pictures and any other information belongs to the owner of this platform.
 
 Without the written permission of the owner, any replication, modification,
@@ -13,11 +13,11 @@ transmission, publication is strictly forbidden.
 For more information read the license file including with this software.
 
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
-// · 
+// ·
 */
 
 
-// · 
+// ·
 export default {
     data() {
         return {
@@ -43,10 +43,10 @@ export default {
                     }
                 }).then(result => {
                     if (!result.successful) {
-                        this.alert(result.error.message, "danger")
-                        return 
+                        this.msg.error(result.error.message)
+                        return
                     }
-                    this.alert(this.translations.users.messages_success_user_updated, "success")
+                    this.msg.success(this.translations.users.messages_success_user_updated)
                 })
             }, 500)
         },
@@ -99,7 +99,7 @@ export default {
                         <div class="field is-narrow">
                             <div class="control">
                                 <div class="select is-fullwidth">
-                                    <select 
+                                    <select
                                         @input="putUserActive()"
                                         v-model="data.user.active">
                                         <option :value="true">{{ translations.shared.view_text_active }}</option>
@@ -125,11 +125,11 @@ export default {
                         <div class="field-body">
                             <div class="field">
                                 <div class="control has-icons-left">
-                                    <input 
+                                    <input
                                         required
-                                        class="input" 
-                                        type="text" 
-                                        v-model="user.email" 
+                                        class="input"
+                                        type="text"
+                                        v-model="user.email"
                                         :placeholder="translations.confirmations.view_placeholder_new_email">
                                     <span class="icon is-small is-left">
                                         <i class="fas fa-envelope"></i>
