@@ -3,9 +3,9 @@
 
 Copyright (c) 2020, all rights reserved.
 
-All the information provided by this platform is protected by international laws related  to 
-industrial property, intellectual property, copyright and relative international laws. 
-All intellectual or industrial property rights of the code, texts, trade mark, design, 
+All the information provided by this platform is protected by international laws related  to
+industrial property, intellectual property, copyright and relative international laws.
+All intellectual or industrial property rights of the code, texts, trade mark, design,
 pictures and any other information belongs to the owner of this platform.
 
 Without the written permission of the owner, any replication, modification,
@@ -14,7 +14,7 @@ transmission, publication is strictly forbidden.
 For more information read the license file including with this software.
 
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
-// · 
+// ·
 
 */
 
@@ -24,7 +24,7 @@ For more information read the license file including with this software.
 import componentDiscussionFormResponse from './form_response.vue'
 
 
-// · 
+// ·
 export default {
     components: {
         'component-discussion-form-response': componentDiscussionFormResponse
@@ -113,7 +113,7 @@ export default {
             if(event){
                 event.preventDefault()
             }
-            
+
             this.search = ''
         },
 
@@ -140,11 +140,11 @@ export default {
 
             this.http.delete(url).then(result => {
                 if (result.successful) {
-                    this.alert(this.translations.core.messages_info_discussion_destroyed, 'success')
+                    this.msg.success(this.translations.core.messages_info_discussion_destroyed)
                     this.bus.publish(`delete:/${this.module_name.slash}/${this.object_name.plural}/discussions`, discussion)
                     this.getDiscussions()
                 }else{
-                    this.alert(result.error.message,'danger')
+                    this.msg.error(result.error.message)
                 }
             }).catch(error => {
                 console.log(error)
@@ -247,14 +247,14 @@ export default {
                                     <span v-html="discussion.data.content"></span>
                                 </div>
                                 <div class="has-text-right">
-                                    <a 
+                                    <a
                                         v-if="! discussion.data.show_response_form"
                                         href="javascript:void(0);"
                                         @click="showResponseForm(discussion.data)"
                                     >
                                         <small>{{translations.core.view_text_discussions_respond}}</small>
                                     </a>
-                                    <a 
+                                    <a
                                         v-else
                                         href="javascript:void(0);"
                                         @click="hideResponseForm(discussion.data)"
@@ -298,12 +298,12 @@ export default {
                                                         <span v-html="response.content"></span>
                                                     </div>
                                                     <div class="has-text-right">
-                                                        <a 
+                                                        <a
                                                             v-if="! response.show_response_form"
                                                             href="javascript:void(0);"
                                                             @click="showResponseForm(response)"
                                                         ><small>{{translations.core.view_text_discussions_respond}}</small></a>
-                                                        <a 
+                                                        <a
                                                             v-else
                                                             href="javascript:void(0);"
                                                             @click="hideResponseForm(response)"
