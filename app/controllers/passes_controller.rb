@@ -40,17 +40,17 @@ class PassesController < ApplicationController
                 token: (params[:t] || "")
             })
 
-            redirect_to "/login", alert: "Not valid token found" and return
+            redirect_to "/login", alert: I18n.t("core.shared.messages_danger_not_valid_authorization_token_found") and return
 
         end
 
-        redirect_to "/login", alert: "Not valid token found" and return if !access_code.is_valid?
+        redirect_to "/login", alert: I18n.t("core.shared.messages_danger_not_valid_authorization_token_found") and return if !access_code.is_valid?
 
         # check if user meet requirements to login
         user_validation = UserValidationService.new(access_code.user).valid?
 
         # if user do not meet requirements to login
-        redirect_to "/login", alert: "Not valid token found" and return unless user_validation.success?
+        redirect_to "/login", alert: I18n.t("core.shared.messages_danger_not_valid_authorization_token_found") and return unless user_validation.success?
 
         # do a user login
         sign_in(access_code.user)

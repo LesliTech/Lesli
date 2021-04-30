@@ -3,9 +3,9 @@
 
 Copyright (c) 2020, all rights reserved.
 
-All the information provided by this platform is protected by international laws related  to 
-industrial property, intellectual property, copyright and relative international laws. 
-All intellectual or industrial property rights of the code, texts, trade mark, design, 
+All the information provided by this platform is protected by international laws related  to
+industrial property, intellectual property, copyright and relative international laws.
+All intellectual or industrial property rights of the code, texts, trade mark, design,
 pictures and any other information belongs to the owner of this platform.
 
 Without the written permission of the owner, any replication, modification,
@@ -14,7 +14,7 @@ transmission, publication is strictly forbidden.
 For more information read the license file including with this software.
 
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
-// · 
+// ·
 
 */
 
@@ -35,7 +35,10 @@ export default {
             },
             role_id: null,
             translations: {
-                shared: I18n.t('deutscheleibrenten.shared')
+                core: {
+                    shared: I18n.t('core.shared'),
+                    roles: I18n.t('core.roles'),
+                }
             }
         }
     },
@@ -68,7 +71,7 @@ export default {
                 if (result.successful) {
                     this.role = result.data
                 }else{
-                    this.alert(result.error.message, 'danger')
+                    this.msg.error(result.error.message)
                 }
             }).catch(error => {
                 console.log(error)
@@ -80,13 +83,13 @@ export default {
 
 <template>
     <section class="application-component">
-        <component-header :title="'Edit role: ' + role.name">
+        <component-header :title="translations.core.roles.view_title_edit_role + ': ' + role.name">
             <div class="buttons">
                 <router-link class="button" tag="button" to="/">
                     <span class="icon">
                         <i class="fas fa-list"></i>
                     </span>
-                    <span>List</span>
+                    <span>{{ translations.core.shared.view_btn_list }}</span>
                 </router-link>
             </div>
         </component-header>
