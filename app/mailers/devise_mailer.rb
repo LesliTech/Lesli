@@ -21,8 +21,8 @@ class DeviseMailer < Devise::Mailer
 
 
     # This mailer is used in two different scenarios:
-    #   1. User register to create a new account
-    #   2. User wants to update his email address
+    #       1. User register to create a new account
+    #       2. User wants to update his email address
     # Due email update or new email is the same for Devise
     # we have to use different strategies to know if the users is trying to create a new account
     # or update his email address
@@ -30,7 +30,7 @@ class DeviseMailer < Devise::Mailer
 
         # defaults for new accounts/users
         email_template = "new_account_confirmation_instructions"
-        email_subject = "New account"
+        email_subject = I18n.t("core.mailer/devise/confirmation_instructions.view_text_new_account_subject")
 
         # custom email and subject if user is changin his email address
         if !record.unconfirmed_email.blank?
