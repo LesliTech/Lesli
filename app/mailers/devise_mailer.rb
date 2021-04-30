@@ -30,7 +30,7 @@ class DeviseMailer < Devise::Mailer
 
         # defaults for new accounts/users
         email_template = "new_account_confirmation_instructions"
-        email_subject = I18n.t("core.mailer/devise/confirmation_instructions.view_text_new_account_subject")
+        email_subject = I18n.t("leslimails.devise_mailer.view_text_subject_new_account")
 
         # custom email and subject if user is changin his email address
         if !record.unconfirmed_email.blank?
