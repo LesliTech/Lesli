@@ -46,9 +46,9 @@ module LC
                     algorithm: @algorithm
                 }))
             rescue JWT::ExpiredSignature
-                LC::Response.service(false, "Not valid token found or token expired")
+                LC::Response.service(false, I18n.t("core.shared.messages_danger_not_valid_token_found_or_token_expired"))
             rescue
-                LC::Response.service(false, "Not valid token found")
+                LC::Response.service(false, I18n.t("core.shared.messages_danger_not_valid_token_found"))
             end
 
         end

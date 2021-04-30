@@ -66,7 +66,7 @@ export default {
                         callback()
                     }
                 }else{
-                    this.alert(this.translations.actions.messages_warning_send_core_email_address_empty, 'danger')
+                    this.msg.error(this.translations.actions.messages_warning_send_core_email_address_empty)
                 }
             })
         },
@@ -95,7 +95,7 @@ export default {
                 }
             }).catch(error => {
                 console.log(error)
-            }) 
+            })
         },
 
         addUserToList(user){
@@ -201,7 +201,7 @@ export default {
             </div>
         </div>
         <div class="field">
-            
+
             <label class="label">
                 {{translations.actions.column_body}}<sup class="has-text-danger">*</sup>
                 <span class="is-pulled-right">

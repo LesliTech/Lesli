@@ -2,9 +2,9 @@
 /*
 Copyright (c) 2020, all rights reserved.
 
-All the information provided by this platform is protected by international laws related  to 
-industrial property, intellectual property, copyright and relative international laws. 
-All intellectual or industrial property rights of the code, texts, trade mark, design, 
+All the information provided by this platform is protected by international laws related  to
+industrial property, intellectual property, copyright and relative international laws.
+All intellectual or industrial property rights of the code, texts, trade mark, design,
 pictures and any other information belongs to the owner of this platform.
 
 Without the written permission of the owner, any replication, modification,
@@ -13,21 +13,21 @@ transmission, publication is strictly forbidden.
 For more information read the license file including with this software.
 
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
-// · 
+// ·
 */
 
 
-// · 
+// ·
 import componentInformationCard from "Lesli/vue/users/components/card-information.vue"
 import componentInformationForm from "Lesli/vue/users/components/form-information.vue"
 import componentSecurityForm from "Lesli/vue/users/components/form-security.vue"
 import componentForm from "Lesli/vue/users/components/form-new.vue"
 
 
-// · 
+// ·
 export default {
     props: {
-        mainPath: { 
+        mainPath: {
             default: "/administration/users",
             type: String
         }
@@ -49,8 +49,8 @@ export default {
             ready: false,
             translations: {
                 core: {
-                    users: I18n.t('deutscheleibrenten.users'),
-                    shared: I18n.t('deutscheleibrenten.shared')
+                    users: I18n.t('core.users'),
+                    shared: I18n.t('core.shared')
                 }
             },
         }
@@ -68,11 +68,11 @@ export default {
                 if (result.successful) {
                     this.options = result.data
                     let user_role = this.options.roles.find(e => e.value === this.user.roles_id)
-                    this.options.roles = this.options.roles.filter(e => 
+                    this.options.roles = this.options.roles.filter(e =>
                         (
                             (e.text !== 'api' &&
                             e.text !== 'guest' &&
-                            e.text !== 'callcenter' && 
+                            e.text !== 'callcenter' &&
                             e.text !== 'kop' &&
                             e.text !== 'owner' &&
                             e.text !== 'limited') ||

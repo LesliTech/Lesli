@@ -2,9 +2,9 @@
 /*
 Copyright (c) 2020, all rights reserved.
 
-All the information provided by this platform is protected by international laws related  to 
-industrial property, intellectual property, copyright and relative international laws. 
-All intellectual or industrial property rights of the code, texts, trade mark, design, 
+All the information provided by this platform is protected by international laws related  to
+industrial property, intellectual property, copyright and relative international laws.
+All intellectual or industrial property rights of the code, texts, trade mark, design,
 pictures and any other information belongs to the owner of this platform.
 
 Without the written permission of the owner, any replication, modification,
@@ -13,11 +13,11 @@ transmission, publication is strictly forbidden.
 For more information read the license file including with this software.
 
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
-// · 
+// ·
 */
 
 
-// · 
+// ·
 import componentSecurityForm from "Lesli/vue/users/components/form-security.vue"
 import componentInformationCard from "Lesli/vue/users/components/card-information.vue"
 import componentInformationForm from "Lesli/vue/users/components/form-information.vue"
@@ -28,7 +28,7 @@ import componentSettingsForm from "Lesli/vue/users/components/form-settings.vue"
 
 
 
-// · 
+// ·
 export default {
     components: {
         "component-security-form": componentSecurityForm,
@@ -67,7 +67,7 @@ export default {
                 if (result.successful) {
                     this.data.user = result.data
                 }else{
-                    this.alert(result.error.message,"danger")
+                    this.msg.error(result.error.message)
                 }
             }).catch(error => {
                 console.log(error)
@@ -102,10 +102,10 @@ export default {
             <b-tab-item :label="translations.core.users.view_tab_title_roles_and_privileges">
                 <component-roles-privileges-form></component-roles-privileges-form>
             </b-tab-item>
-            <b-tab-item label="Session management">
+            <b-tab-item :label="translations.core.users.view_tab_title_session_management">
                 <component-session-management v-if="user_id" :user_id="user_id"></component-session-management>
             </b-tab-item>
-            <!-- 
+            <!--
             <b-tab-item label="Settings">
                 <component-settings-form v-if="user_id" :user_id="user_id"></component-settings-form>
             </b-tab-item>

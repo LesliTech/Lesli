@@ -45,7 +45,7 @@ export default {
             all_files_selected: false
         }
     },
-    
+
     mounted(){
         this.parseCloudModule()
         this.setTranslations()
@@ -103,7 +103,7 @@ export default {
                 if (result.successful) {
                     this.files = result.data
                 }else{
-                    this.alert(result.error.message,'danger')
+                    this.msg.error(result.error.message)
                 }
             }).catch(error => {
                 console.log(error)
@@ -129,7 +129,7 @@ export default {
 
             this.http.delete(url).then(result => {
                 if (result.successful) {
-                    this.alert(this.translations.core.messages_info_file_destroyed, 'success')
+                    this.msg.success(this.translations.core.messages_info_file_destroyed)
                     this.bus.publish(`delete:${this.main_route}/files`, deleted_file)
 
                     // We trigger a reload in the activities when a file is uploaded
@@ -137,7 +137,7 @@ export default {
                         this.data.reload.activities = true
                     }
                 }else{
-                    this.alert(result.error.message,'danger')
+                    this.msg.error(result.error.message)
                 }
             }).catch(error => {
                 console.log(error)
@@ -170,7 +170,7 @@ export default {
             if(! this.files){
                 return true
             }
-            
+
             return this.files.filter( file => file.selected).length == 0
         }
     },
@@ -189,7 +189,7 @@ export default {
                 })
             }
         },
-        
+
         cloudId(){
             this.getBackendData()
         }
