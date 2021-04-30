@@ -20,7 +20,7 @@ For more information read the license file including with this software.
 class DeviseMailerPreview < ActionMailer::Preview
 
     def confirmation_instructions
-        record = User.find(8)
+        record = User.find(1)
         token = "abc123"
         opts = {}
         DeviseMailer.confirmation_instructions(record, token, opts)
