@@ -145,7 +145,7 @@ export default {
                     this.select(this.filterUser[0])
                 } else if(this.user_input != ''){
                     this.user_input = ''
-                    this.alert(this.translations.core.messages_warning_user_not_found, 'warning')
+                    this.msg.warn(this.translations.core.messages_warning_user_not_found)
                 }
             }, 5000)
         },

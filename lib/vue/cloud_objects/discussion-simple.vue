@@ -27,7 +27,7 @@ export default {
             search: '',
             submitting_form: false,
             discussion: {
-                content: ''   
+                content: ''
             },
             sort: {
                 icon_size: 'is-small',
@@ -70,7 +70,7 @@ export default {
                 if (result.successful) {
                     this.discussions = result.data
                 }else{
-                    this.alert(result.error.message,'danger')
+                    this.msg.error(result.error.message)
                 }
             }).catch(error => {
                 console.log(error)
@@ -79,7 +79,7 @@ export default {
 
         postDiscussion(event) {
             if(event){
-                event.preventDefault() 
+                event.preventDefault()
             }
 
             let form_data = {}
@@ -90,7 +90,7 @@ export default {
             this.http.post(url, form_data).then(result => {
                 this.submitting_form = false
                 if (result.successful) {
-                    this.alert(this.translations.core.messages_info_discussion_created, 'success')
+                    this.msg.success(this.translations.core.messages_info_discussion_created)
                     this.bus.publish(`post:/${this.module_name.slash}/${this.object_name.plural}/discussions`, result.data)
                     this.clearContentInput()
                     this.discussions.unshift({
@@ -98,7 +98,7 @@ export default {
                         responses: []
                     })
                 }else{
-                    this.alert(result.error.message,'danger')
+                    this.msg.error(result.error.message)
                 }
             }).catch(error => {
                 console.log(error)
@@ -110,7 +110,7 @@ export default {
             if(event){
                 event.preventDefault()
             }
-            
+
             this.discussion.content = ''
         },
 
@@ -118,10 +118,10 @@ export default {
             if(event){
                 event.preventDefault()
             }
-            
+
             this.search = ''
         },
-        
+
         confirmCommentDeletion(comment) {
             window.scrollTo(0,0)
             this.$buefy.dialog.confirm({
@@ -148,10 +148,10 @@ export default {
                     this.$set(comment.data, 'content', comment.data.new_content)
                     this.$set(comment.data, 'editing', false)
                     this.bus.publish(`put:/${this.module_name.slash}/${this.object_name.plural}/discussions`, result.data)
-                    this.alert(this.translations.core.messages_info_discussion_updated, 'success')
-                    
+                    this.msg.success(this.translations.core.messages_info_discussion_updated)
+
                 }else{
-                    this.alert(result.error.message,'danger')
+                    this.msg.error(result.error.message)
                 }
             }).catch(error => {
                 console.log(error)
@@ -164,13 +164,13 @@ export default {
 
             this.http.delete(url).then(result => {
                 if (result.successful) {
-                    this.alert(this.translations.core.messages_info_discussion_destroyed, 'success')
+                    this.msg.success(this.translations.core.messages_info_discussion_destroyed)
                     this.bus.publish(`delete:/${this.module_name.slash}/${this.object_name.plural}/discussions`, comment.data)
                     this.discussions = this.discussions.filter((discussion)=>{
                         return discussion.data.id != comment.data.id
                     })
                 }else{
-                    this.alert(result.error.message,'danger')
+                    this.msg.error(result.error.message)
                 }
             }).catch(error => {
                 console.log(error)
@@ -205,7 +205,7 @@ export default {
         cloudId(){
             this.getDiscussions()
         },
-        
+
         active(){
             if(! this.discussions){
                 this.getBackendData()
