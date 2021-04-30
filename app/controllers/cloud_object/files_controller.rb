@@ -23,7 +23,7 @@ module CloudObject
         before_action :show_deprecated_message
 
         def show_deprecated_message
-            LC::Debug.msg "DEPRECATED: Your FilesController must inherit from ApplicationLesliController and include Interfaces::Controllers::Files instead"
+            LC::Debug.deprecation("Your FilesController must inherit from ApplicationLesliController and include Interfaces::Controllers::Files instead")
         end
     end
 end
