@@ -58,7 +58,7 @@ class OnboardingsController < ApplicationController
             #user.update(registration_token: nil )
             respond_with_successful()
         end
-        respond_with_error("Error creating account") if !registration.successful?
+        respond_with_error(I18n.t("core.accounts.messages_danger_error_creating_account")) if !registration.successful?
 
     end
 

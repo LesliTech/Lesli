@@ -2,9 +2,9 @@
 /*
 Copyright (c) 2020, all rights reserved.
 
-All the information provided by this platform is protected by international laws related  to 
-industrial property, intellectual property, copyright and relative international laws. 
-All intellectual or industrial property rights of the code, texts, trade mark, design, 
+All the information provided by this platform is protected by international laws related  to
+industrial property, intellectual property, copyright and relative international laws.
+All intellectual or industrial property rights of the code, texts, trade mark, design,
 pictures and any other information belongs to the owner of this platform.
 
 Without the written permission of the owner, any replication, modification,
@@ -13,11 +13,11 @@ transmission, publication is strictly forbidden.
 For more information read the license file including with this software.
 
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
-// · 
+// ·
 */
 
 
-// · 
+// ·
 export default {
     data() {
         return {
@@ -37,9 +37,9 @@ export default {
                 user: this.user
             }).then(result => {
                 if (result.successful) {
-                    this.alert(this.translations.users.messages_success_user_updated, "success")
+                    this.msg.success(this.translations.users.messages_success_user_updated)
                 }else{
-                    this.alert(result.error.message,"danger")
+                    this.msg.error(result.error.message)
                 }
             })
         }
@@ -75,25 +75,25 @@ export default {
                             </b-radio>
                         </div>
                         <div class="field">
-                            <label class="label"> {{ translations.shared.view_text_first_name}} </label> 
+                            <label class="label"> {{ translations.shared.view_text_first_name}} </label>
                             <div class="control">
                                 <input v-model="user.detail_attributes.first_name" required="required" type="text" class="input">
                             </div>
                         </div>
                         <div class="field">
-                            <label class="label"> {{ translations.shared.view_text_last_name }} </label> 
+                            <label class="label"> {{ translations.shared.view_text_last_name }} </label>
                             <div class="control">
                                 <input v-model="user.detail_attributes.last_name" required="required" class="input">
                             </div>
                         </div>
                         <div class="field">
-                            <label class="label"> {{ translations.users.view_text_title }} </label> 
+                            <label class="label"> {{ translations.users.view_text_title }} </label>
                             <div class="control">
                                 <input v-model="user.detail_attributes.title" class="input">
                             </div>
                         </div>
                         <div class="field">
-                            <label class="label"> {{ translations.shared.view_text_telephone }} </label> 
+                            <label class="label"> {{ translations.shared.view_text_telephone }} </label>
                             <div class="control">
                                 <input v-model="user.detail_attributes.telephone" class="input">
                             </div>
