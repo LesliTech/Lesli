@@ -61,7 +61,7 @@ export default {
                 // "foundation-grid": blockFoundationGrid,
                 // "foundation-menu": blockFoundationMenu,
                 // "foundation-button": blockFoundationButton,
-                "foundation-spacer": blockFoundationSpacer,
+                // "foundation-spacer": blockFoundationSpacer,
                 // "foundation-callout": blockFoundationCallout,
                 "quill-text": blockQuillText
             },
