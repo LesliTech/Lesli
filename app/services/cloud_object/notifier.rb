@@ -19,7 +19,11 @@ module CloudObject
             foreign_key = status.class.table_name
 
             if old_attributes["#{foreign_key}_id"] != new_attributes["#{foreign_key}_id"]
-                cloud_object.subscribers.where(action: "object_status_updated").each do |subscriber|
+                cloud_object.subscribers.where(
+                    action: "object_status_updated"
+                ).where.not(
+                    user_creator: current_user
+                ).each do |subscriber|
                     payload = {
                         subject: "",
                         body: "",
