@@ -33,6 +33,11 @@ For more information read the license file including with this software.
     @return [:discussion_created, :action_created, :file_created, :activity_created, :workflow_updated, :priority_updated, :http_get, :http_post, :http_put, :http_patch, :http_update]
 =end
         enum action: {
+            object_created: "object_created",
+            object_updated: "object_updated",
+            object_destroyed: "object_destroyed",
+            object_status_updated: "object_status_updated",
+
             action_created: "action_created",
             action_updated: "action_updated",
             action_destroyed: "action_destroyed",
@@ -43,14 +48,7 @@ For more information read the license file including with this software.
 
             file_created: "file_created",
             file_updated: "file_updated",
-            file_destroyed: "file_destroyed",
-
-            activity_created: "activity_created",
-
-            object_created: "object_created",
-            object_updated: "object_updated",
-            object_destroyed: "object_destroyed",
-            object_status_updated: "object_status_updated"
+            file_destroyed: "file_destroyed"
         }
         validates :action, presence: true, inclusion: { in: :action }
 
@@ -145,12 +143,12 @@ For more information read the license file including with this software.
 =end
         def self.subscription_actions(cloud_object, user)
             data = { }
-            actions = self.class.actions.keys
+            actions = self.actions.keys
             actions.each do |action|
                 data[action] = {
                     action: action,
                     subscribed: false,
-                    notification_type: :web
+                    notification_type: :email
                 }
             end
             cloud_object.subscribers.where(users_id: user.id).each do |subscriber|
