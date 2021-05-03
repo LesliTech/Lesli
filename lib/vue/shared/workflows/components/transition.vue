@@ -87,7 +87,7 @@ export default {
             }
         },
 
-        
+
 
         patchStatus(status, callback){
 
@@ -101,7 +101,7 @@ export default {
             data[this.object_name] = {}
             let detail_key = `cloud_${module_name}_workflow_statuses_id`
             data[this.object_name][detail_key] = status.id
-            
+
             this.http.patch(url, data).then(result =>{
                 if (result.successful) {
                     this.bus.publish(`patch:/${this.cloudModule}/status`, status)
@@ -109,9 +109,9 @@ export default {
                         callback()
                     }
                     this.getTransitionOptions()
-                    this.alert(this.translations.workflow_statuses.messages_success_status_updated, 'success')
+                    this.msg.success(this.translations.workflow_statuses.messages_success_status_updated)
                 } else {
-                    this.alert(result.error.message, 'danger')
+                    this.msg.error(result.error.message)
                 }
             }).catch(error => {
                 console.log(error)

@@ -28,7 +28,7 @@ export default {
                 this.submitting_form = false
 
                 if (result.successful) {
-                    this.alert(this.translations.core.integrations.messages_success_created_successfully, 'success')
+                    this.alert(this.translations.core.account.integrations.messages_success_created_successfully, 'success')
 
                     this.url.go(`${this.endpoint}/${result.data.id}`)
                 } else {
