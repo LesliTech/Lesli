@@ -3,9 +3,9 @@
 
 Copyright (c) 2021, all rights reserved.
 
-All the information provided by this platform is protected by international laws related  to 
-industrial property, intellectual property, copyright and relative international laws. 
-All intellectual or industrial property rights of the code, texts, trade mark, design, 
+All the information provided by this platform is protected by international laws related  to
+industrial property, intellectual property, copyright and relative international laws.
+All intellectual or industrial property rights of the code, texts, trade mark, design,
 pictures and any other information belongs to the owner of this platform.
 
 Without the written permission of the owner, any replication, modification,
@@ -14,7 +14,7 @@ transmission, publication is strictly forbidden.
 For more information read the license file including with this software.
 
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
-// · 
+// ·
 
 */
 
@@ -25,11 +25,11 @@ IMPORTANT: The use of @input on block components make text writing going backwar
 */
 
 
-// · 
+// ·
 import draggable from "vuedraggable";
 
 
-// · 
+// ·
 import blockFoundationGrid from "./email/blocks/foundation-grid.vue"
 import blockFoundationMenu from "./email/blocks/foundation-menu.vue"
 import blockFoundationButton from "./email/blocks/foundation-button.vue"
@@ -39,7 +39,7 @@ import blockQuillText from "./email/blocks/quill-text.vue"
 //import blockFoundationWrapper from "./email/blocks/foundation-wrapper.vue"
 
 
-// · 
+// ·
 export default {
     props: {
         value: {
@@ -58,11 +58,11 @@ export default {
     data() {
         return {
             components: {
-                "foundation-grid": blockFoundationGrid,
-                "foundation-menu": blockFoundationMenu,
-                "foundation-button": blockFoundationButton,
+                // "foundation-grid": blockFoundationGrid,
+                // "foundation-menu": blockFoundationMenu,
+                // "foundation-button": blockFoundationButton,
                 "foundation-spacer": blockFoundationSpacer,
-                "foundation-callout": blockFoundationCallout,
+                // "foundation-callout": blockFoundationCallout,
                 "quill-text": blockQuillText
             },
             components_email: { blocks:[] },
@@ -107,7 +107,7 @@ export default {
                             class="list-group-item"
                             v-for="(element, i) in components_email.blocks"
                             :key="element.code+'-'+i" >
-                            <component 
+                            <component
                                 v-model="element.content"
                                 @input="emitValue"
                                 v-bind:is="components[element.code]">
@@ -118,9 +118,9 @@ export default {
             </div>
             <div class="column is-2 email-component-list">
                 <div class="pt-2">
-                    <button 
-                        class="button is-fullwidth mb-2" 
-                        v-for="component in components" 
+                    <button
+                        class="button is-fullwidth mb-2"
+                        v-for="component in components"
                         :key="component.code"
                         @click="addEmailComponent(component.code)">
                         {{ component.title }}
