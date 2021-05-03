@@ -65,10 +65,10 @@ export default {
                 this.submitting = false
                 if (result.successful) {
                     this.data.global.show_support_sidebar = false
-                    this.alert(this.translations.main.messages_info_ticket_created, 'success')
+                    this.msg.success(this.translations.main.messages_info_ticket_created)
                     this.resetForm()
                 } else {
-                    this.alert(result.error.message, 'danger')
+                    this.msg.error(result.error.message)
                 }
             }).catch(error => {
                 console.log(error)

@@ -3,9 +3,9 @@
 
 Copyright (c) 2020, all rights reserved.
 
-All the information provided by this platform is protected by international laws related  to 
-industrial property, intellectual property, copyright and relative international laws. 
-All intellectual or industrial property rights of the code, texts, trade mark, design, 
+All the information provided by this platform is protected by international laws related  to
+industrial property, intellectual property, copyright and relative international laws.
+All intellectual or industrial property rights of the code, texts, trade mark, design,
 pictures and any other information belongs to the owner of this platform.
 
 Without the written permission of the owner, any replication, modification,
@@ -14,22 +14,22 @@ transmission, publication is strictly forbidden.
 For more information read the license file including with this software.
 
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
-// · 
+// ·
 
 */
 
 
-// · 
+// ·
 import componentLogs from '../components/logs.vue'
 import componentFormNormal from '../components/forms/form-normal.vue'
 
 
-// · 
+// ·
 export default {
     props: {
 
     },
-    
+
     components: {
         'component-form-normal': componentFormNormal,
         'component-logs': componentLogs,
@@ -41,7 +41,7 @@ export default {
     // @data_variable role [Object] An object representing a Role, with
     //      the same params as the associated rails model
     // @data_variable role_id [String|Integer] The id of the Role, as
-    //      obtained from the route using the *Vue-router* *params* 
+    //      obtained from the route using the *Vue-router* *params*
     data(){
         return {
             main_route: '/administration/roles',
@@ -172,10 +172,10 @@ export default {
 </script>
 <template>
     <section class="application-component">
-        <component-form-normal 
-            v-if="role.id && ready" 
-            :role="role" 
-            :privileges="privileges" 
+        <component-form-normal
+            v-if="role.id && ready"
+            :role="role"
+            :privileges="privileges"
             :translations="translations">
         </component-form-normal>
     </section>

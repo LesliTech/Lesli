@@ -92,21 +92,21 @@ class ApplicationApiController < ActionController::API
 
 
         if @current_session.blank?
-            return respond_with_unauthorized "Not valid authorization token found"
+            return respond_with_unauthorized I18n.t("core.shared.messages_danger_not_valid_authorization_token_found")
         end
 
         if @current_session.expiration_at && @current_session.expiration_at <= LC::Date.now
-            return respond_with_unauthorized "Authorization token already expired"
+            return respond_with_unauthorized I18n.t("core.shared.messages_danger_authorization_token_already_expired")
         end
 
         @current_user = @current_session.user
 
         if @current_user.blank?
-            return respond_with_unauthorized "Not valid authorization token found"
+            return respond_with_unauthorized I18n.t("core.shared.messages_danger_not_valid_authorization_token_found")
         end
 
         if @current_user.has_expired_password?
-            return respond_with_unauthorized "Password already expired"
+            return respond_with_unauthorized I18n.t("core.shared.messages_danger_password_already_expired")
         end
 
     end

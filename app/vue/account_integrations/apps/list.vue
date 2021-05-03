@@ -41,43 +41,43 @@ export default {
 </script>
 <template>
     <section class="application-component">
-        <component-header title="Integrations">
+        <component-header :title="translations.core.integrations.view_title_list_integrations">
             <router-link to="/new" class="button is-primary">
                 {{ translations.core.integrations.view_btn_new }}
             </router-link>
         </component-header>
         <div class="card">
             <div class="card-content">
-                <b-table 
+                <b-table
                     @click="showIntegration"
-                    :data="integrations" 
+                    :data="integrations"
                 >
-        
+
                     <template v-slot="props">
 
                         <b-table-column :label="translations.core.integrations.column_id" field="id">
-                            {{ props.row.id }} 
-                        </b-table-column>  
+                            {{ props.row.id }}
+                        </b-table-column>
 
                         <b-table-column :label="translations.core.integrations.column_name" field="name">
-                            {{ props.row.name }} 
-                        </b-table-column>  
+                            {{ props.row.name }}
+                        </b-table-column>
 
                         <b-table-column :label="translations.core.users.column_active" field="active">
-                            {{ props.row.active ? translations.core.shared.view_text_yes : translations.core.shared.view_text_no }} 
-                        </b-table-column> 
+                            {{ props.row.active ? translations.core.shared.view_text_yes : translations.core.shared.view_text_no }}
+                        </b-table-column>
 
                         <b-table-column :label="translations.core.integrations.view_text_usage_count" field="usage_count">
-                            {{ props.row.usage_count }} 
-                        </b-table-column>  
+                            {{ props.row.usage_count }}
+                        </b-table-column>
 
                         <b-table-column :label="translations.core.integrations.view_text_last_used_at" field="last_used_at">
-                            {{ props.row.last_used_at }} 
-                        </b-table-column>  
+                            {{ props.row.last_used_at }}
+                        </b-table-column>
 
                         <b-table-column :label="translations.core.integrations.view_text_expiration_at" field="expiration_at">
-                            {{ props.row.expiration_at }} 
-                        </b-table-column>  
+                            {{ props.row.expiration_at }}
+                        </b-table-column>
                     </template>
                 </b-table>
             </div>

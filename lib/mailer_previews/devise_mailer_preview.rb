@@ -1,6 +1,6 @@
 =begin
-
-Copyright (c) 2020, all rights reserved.
+    
+Copyright (c) 2021, all rights reserved.
 
 All the information provided by this platform is protected by international laws related  to 
 industrial property, intellectual property, copyright and relative international laws. 
@@ -14,16 +14,16 @@ For more information read the license file including with this software.
 
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
 // · 
-
+    
 =end
-module CloudObject
-    class FilesController < ApplicationLesliController
-        include Interfaces::Controllers::Files
-        
-        before_action :show_deprecated_message
 
-        def show_deprecated_message
-            LC::Debug.deprecation("Your FilesController must inherit from ApplicationLesliController and include Interfaces::Controllers::Files instead")
-        end
+class DeviseMailerPreview < ActionMailer::Preview
+
+    def confirmation_instructions
+        record = User.find(1)
+        token = "abc123"
+        opts = {}
+        DeviseMailer.confirmation_instructions(record, token, opts)
     end
+
 end

@@ -31,7 +31,7 @@ class UserMailer < ApplicationLesliMailer
 
         mail(
             to: email_address_with_name(user.email, user.full_name),
-            subject: "Welcome!"
+            subject: I18n.t("core.users.mailer_subject_welcome")
         )
     end
 
@@ -52,7 +52,7 @@ class UserMailer < ApplicationLesliMailer
 
         mail(
             to: email_address_with_name(user.email, user.full_name),
-            subject: "You have been invited"
+            subject: I18n.t("core.users.mailer_subject_you_have_been_invited")
         )
     end
 
@@ -71,7 +71,7 @@ class UserMailer < ApplicationLesliMailer
 
         mail(
             to: email_address_with_name(user.email, user.full_name),
-            subject: "Welcome! please confirm your account"
+            subject: I18n.t("core.users.mailer_welcome_please_confirm_your_account")
         )
     end
 
