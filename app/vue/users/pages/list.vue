@@ -2,9 +2,9 @@
 /*
 Copyright (c) 2020, all rights reserved.
 
-All the information provided by this platform is protected by international laws related  to 
-industrial property, intellectual property, copyright and relative international laws. 
-All intellectual or industrial property rights of the code, texts, trade mark, design, 
+All the information provided by this platform is protected by international laws related  to
+industrial property, intellectual property, copyright and relative international laws.
+All intellectual or industrial property rights of the code, texts, trade mark, design,
 pictures and any other information belongs to the owner of this platform.
 
 Without the written permission of the owner, any replication, modification,
@@ -13,11 +13,11 @@ transmission, publication is strictly forbidden.
 For more information read the license file including with this software.
 
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
-// · 
+// ·
 */
 
 
-// · 
+// ·
 export default {
     props: {
         roleFilters: {
@@ -38,7 +38,7 @@ export default {
     // @return [Object] Data used by this component's methods
     // @description Returns the data needed for this component to work properly
     // @data_variable main_route [String] the main route to which this component connects to the lesli API
-    // @data_variable users [Array] An array of objects, each object represents a 
+    // @data_variable users [Array] An array of objects, each object represents a
     //      Users, with the same params as the associated rails model
     data(){
         return {
@@ -91,12 +91,12 @@ export default {
 
         setSessionStorageFilters(){
             let stored_filters = this.storage.local("filters")
-            
+
             if (stored_filters) {
                 for(let key in stored_filters){
                     this.$set(this.filters, key, stored_filters[key])
                 }
-            } 
+            }
 
             if (this.$route.query.role) {
                 this.filters.role = this.$route.query.role
@@ -107,7 +107,7 @@ export default {
 
         getUsers() {
             this.storage.local("filters", this.filters)
-            
+
             this.loading = true
 
             let url = this.url.lesli('administration/users')
@@ -116,11 +116,11 @@ export default {
             }else{
                 url.query = {role: this.filters.role}
             }
-            
+
             url = url.filters({
                 status: this.filters.status,
-                view_type: 'index', 
-                search: this.filters.search, 
+                view_type: 'index',
+                search: this.filters.search,
                 category: 'user'
             }).paginate(
                 this.pagination.current_page, this.pagination.per_page
@@ -134,7 +134,7 @@ export default {
                     this.users = result.data.users.map(user => {
                         user.roles = (user.roles||[]).map(role => {
                             return this.object_utils.translateEnum(this.translations.core.roles, 'column_enum_role', role.name)
-                            
+
                         })
 
                         user.active_text = user.active ? this.translations.core.shared.text_active : this.translations.core.shared.text_disabled
@@ -144,7 +144,7 @@ export default {
 
                     this.pagination.users_count = result.data.users_count
                 }else{
-                    this.alert(result.error.message,'danger')
+                    this.msg.error(result.error.message)
                 }
 
                 this.loading = false
@@ -174,14 +174,14 @@ export default {
                 console.log(error)
             })
         },
-        
+
         showUser(user) {
             this.$router.push(`${user.id}`)
         },
 
         searchUsers(text){
             this.filters.search = text.trim()
-            
+
             this.pagination.current_page = 1 // clear pagination
             this.getUsers()
         },
@@ -189,11 +189,11 @@ export default {
         doUserLogout(user) {
             this.http.post(`${this.main_route}/${user.id}/resources/logout`).then(result => {
                 if (!result.successful) {
-                    this.alert(result.error.message, "danger")
+                    this.msg.error(result.error.message)
                     return
                 }
                 this.getUsers()
-                this.alert(translations.core.users.messages_success_operation)
+                this.msg.success(translations.core.users.messages_success_operation)
             }).catch(error => {
                 console.log(error)
             })
@@ -202,11 +202,11 @@ export default {
         doRevokeAccess(user) {
             this.http.post(`${this.main_route}/${user.id}/resources/lock`).then(result => {
                 if (!result.successful) {
-                    this.alert(result.error.message, "danger")
+                    this.msg.error(result.error.message)
                     return
                 }
                 this.getUsers()
-                this.alert(translations.core.users.messages_success_operation)
+                this.msg.success(translations.core.users.messages_success_operation)
             }).catch(error => {
                 console.log(error)
             })
@@ -243,7 +243,7 @@ export default {
             }
         }
     }
-    
+
 }
 </script>
 <template>
@@ -298,7 +298,7 @@ export default {
             <div class="control">
                 <div class="select">
                     <select
-                        name="filter-per-page" 
+                        name="filter-per-page"
                         v-model="pagination.per_page"
                     >
                         <option :value="10">10</option>
@@ -314,9 +314,9 @@ export default {
             <div class="card-content">
                 <component-data-loading v-if="loading" />
                 <component-data-empty v-if="!loading && users.length == 0" />
-                <b-table 
+                <b-table
                     v-if="!loading && users.length > 0"
-                    :data="users" 
+                    :data="users"
                     :sort-icon-size="sorting.icon_size"
                     :default-sort-direction="sorting.order"
                     :hoverable="true"
@@ -335,7 +335,7 @@ export default {
                             </template>
                             <small> {{ props.row.name }} </small>
                         </b-table-column>
-                        
+
                         <b-table-column :label="translations.core.users.view_table_header_email" field="lower(email)" sortable>
                             <template slot="header" slot-scope="{ column }">
                                 {{ column.label }}
@@ -344,7 +344,7 @@ export default {
                                     <b-icon v-else size="is-small" icon="arrow-down"></b-icon>
                                 </span>
                             </template>
-                            <a v-on:click.stop="mailTo(props.row.email)">  
+                            <a v-on:click.stop="mailTo(props.row.email)">
                                 <i class="fas fa-envelope"> </i>
                             </a>
                             &nbsp;
@@ -370,11 +370,11 @@ export default {
                                     <b-icon v-else size="is-small" icon="arrow-down"></b-icon>
                                 </span>
                             </template>
-                            <small>  
+                            <small>
                                 <span class="tag is-success" v-if="props.row.active">
                                     {{ translations.core.shared.view_text_active }}
                                 </span>
-                                <span class="tag is-warning" v-else> 
+                                <span class="tag is-warning" v-else>
                                     {{ translations.core.shared.view_text_inactive }}
                                 </span>
                             </small>
@@ -384,7 +384,7 @@ export default {
                             <span class="tag is-success" v-if="props.row.session_active">
                                 {{ props.row.last_sign_in_at }}
                             </span>
-                            <span class="tag" v-else> 
+                            <span class="tag" v-else>
                                 {{ props.row.last_sign_in_at }}
                             </span>
                         </b-table-column>

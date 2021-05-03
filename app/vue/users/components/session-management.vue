@@ -61,8 +61,8 @@ export default {
 
                 if (!result.successful) {
                     return this.msg.error(result.error.message);
-                    
-                } 
+
+                }
 
                 result.data.records.map(record => {
 

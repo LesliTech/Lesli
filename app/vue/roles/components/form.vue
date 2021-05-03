@@ -3,9 +3,9 @@
 
 Copyright (c) 2020, all rights reserved.
 
-All the information provided by this platform is protected by international laws related  to 
-industrial property, intellectual property, copyright and relative international laws. 
-All intellectual or industrial property rights of the code, texts, trade mark, design, 
+All the information provided by this platform is protected by international laws related  to
+industrial property, intellectual property, copyright and relative international laws.
+All intellectual or industrial property rights of the code, texts, trade mark, design,
 pictures and any other information belongs to the owner of this platform.
 
 Without the written permission of the owner, any replication, modification,
@@ -14,7 +14,7 @@ transmission, publication is strictly forbidden.
 For more information read the license file including with this software.
 
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
-// · 
+// ·
 
 */
 
@@ -26,7 +26,7 @@ export default {
         },
         role: {
             type: Object,
-            default() { 
+            default() {
                 return {
                     name: "",
                     active: true,
@@ -40,6 +40,12 @@ export default {
     data() {
         return {
             roles: [],
+            translations: {
+                core: {
+                    shared: I18n.t('core.shared'),
+                    roles: I18n.t('core.roles'),
+                }
+            }
         }
     },
     mounted() {
@@ -66,7 +72,7 @@ export default {
                     this.msg.warn(result.error.message)
                     return
                 }
-                this.msg.success("Role updated successfully")
+                this.msg.success(this.translations.core.roles.messages_success_role_successfully_updated)
             })
 
         },
@@ -80,7 +86,7 @@ export default {
                     this.msg.warn(result.error.message)
                     return
                 }
-                this.msg.success("Role created successfully")
+                this.msg.success(this.translations.core.roles.messages_success_role_created_successfully)
             })
 
         },
@@ -88,7 +94,7 @@ export default {
         getRoles() {
 
             this.http.get(this.url.admin("roles/list")).then(result => {
-                
+
                 result.data.forEach((role, index) => {
 
                     this.roles.push({
@@ -98,7 +104,7 @@ export default {
                     })
 
                     if (index < result.data.length - 1) {
-                        
+
                         let next_olp = result.data[index + 1].object_level_permission
 
                         let level = (role.object_level_permission + next_olp) / 2
@@ -115,7 +121,7 @@ export default {
 
                     }
 
-                    
+
                 })
 
             })
@@ -123,7 +129,7 @@ export default {
         }
 
     }
-    
+
 }
 </script>
 <template>
@@ -133,7 +139,7 @@ export default {
 
                 <div class="field">
                     <label class="label">
-                        Name
+                        {{ translations.core.roles.column_name }}
                         <sup class="has-text-danger">*</sup>
                     </label>
                     <div class="control">
@@ -143,15 +149,15 @@ export default {
 
                 <div class="field">
                     <label class="label">
-                        Hierarchical level
+                        {{ translations.core.roles.view_text_hierarchical_level }}
                         <sup class="has-text-danger">*</sup>
                     </label>
                     <div class="control">
                         <div class="select">
                             <select v-model="role.object_level_permission">
-                                <option 
-                                    v-for="(role, i) in roles" 
-                                    :key="i" 
+                                <option
+                                    v-for="(role, i) in roles"
+                                    :key="i"
                                     :disabled = "i == 0"
                                     :value="role.object_level_permission">
                                     {{ i + 1 }}.  {{ role.name }}
@@ -162,9 +168,9 @@ export default {
                 </div>
 
                 <div class="field">
-                    <label class="label">Default path</label>
+                    <label class="label">{{ translations.core.roles.column_default_path }}</label>
                     <div class="control">
-                        <input v-model="role.default_path" class="input" type="text" placeholder="Default path at login">
+                        <input v-model="role.default_path" class="input" type="text" :placeholder="translations.core.roles.view_placeholder_default_path_at_login">
                     </div>
                 </div>
 
@@ -174,14 +180,14 @@ export default {
                     <div class="column is-4">
                         <div class="field">
                             <label class="label">
-                                Status
+                                {{ translations.core.roles.view_text_status }}
                                 <sup class="has-text-danger">*</sup>
                             </label>
                             <div class="control">
                                 <div class="select">
                                     <select v-model="role.active">
-                                        <option value="true">Active</option>
-                                        <option value="false">Disabled</option>
+                                        <option value="true">{{ translations.core.roles.view_text_active }}</option>
+                                        <option value="false">{{ translations.core.roles.view_text_disabled }}</option>
                                     </select>
                                 </div>
                             </div>
@@ -190,21 +196,21 @@ export default {
                     <div class="column is-4">
                         <div class="field">
                             <label class="label">
-                                Only own data 
+                                {{ translations.core.roles.column_only_my_data }}
                                 <sup class="has-text-danger">*</sup>
                             </label>
                             <div class="control">
                                 <div class="select">
                                     <select v-model="role.only_my_data">
-                                        <option value="true">Restrict data access</option>
-                                        <option value="false">Allow to see all the data</option>
+                                        <option value="true">{{ translations.core.roles.view_text_restrict_data_access }}</option>
+                                        <option value="false">{{ translations.core.roles.view_text_allow_to_see_all_the_data }}</option>
                                     </select>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-                
+
 
                 <hr>
 
@@ -214,7 +220,7 @@ export default {
                         <span class="icon">
                             <i class="far fa-save"></i>
                         </span>
-                        <span>Save</span>
+                        <span>{{ translations.core.shared.view_btn_save }}</span>
                     </button>
                 </p>
 

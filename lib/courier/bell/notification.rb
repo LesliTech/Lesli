@@ -2,9 +2,9 @@
 
 Copyright (c) 2020, all rights reserved.
 
-All the information provided by this platform is protected by international laws related  to 
-industrial property, intellectual property, copyright and relative international laws. 
-All intellectual or industrial property rights of the code, texts, trade mark, design, 
+All the information provided by this platform is protected by international laws related  to
+industrial property, intellectual property, copyright and relative international laws.
+All intellectual or industrial property rights of the code, texts, trade mark, design,
 pictures and any other information belongs to the owner of this platform.
 
 Without the written permission of the owner, any replication, modification,
@@ -13,7 +13,7 @@ transmission, publication is strictly forbidden.
 For more information read the license file including with this software.
 
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
-// · 
+// ·
 
 =end
 
@@ -36,19 +36,32 @@ module Courier
                 CloudBell::Notification.read(current_user, id)
             end
 
-            def self.new(user, subject, body:nil, url:nil, kind:nil, category:nil, sender: "push")
+            def self.new(user, subject, role_names:nil, body:nil, url:nil, kind:nil, category:nil, sender: "push")
                 return if not defined? CloudBell
 
-                result = user.account.bell.notifications.create({
-                    subject: subject,
-                    body: body,
-                    kind: category || kind,
-                    user: user,
-                    url: url,
-                    sender: sender
-                })
+                if not user or role_names
+                    User.joins(:roles).where("roles.name in (?)", role_names).each do |user|
+                        user.account.bell.notifications.create({
+                            subject: subject,
+                            body: body,
+                            kind: category || kind,
+                            user: user,
+                            url: url,
+                            sender: sender
+                        })
+                    end
+                else
+                    user.account.bell.notifications.create({
+                        subject: subject,
+                        body: body,
+                        kind: category || kind,
+                        user: user,
+                        url: url,
+                        sender: sender
+                    })
+                end
 
-                return { id: result.id }
+                return
 
             end
 
