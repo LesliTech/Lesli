@@ -19,31 +19,48 @@ module CloudObject
             foreign_key = status.class.table_name
 
             if old_attributes["#{foreign_key}_id"] != new_attributes["#{foreign_key}_id"]
-                cloud_object.subscribers.where(action: "object_status_updated").each do |subscriber|
-                    payload = {
-                        subject: "",
-                        body: "",
-                        url: "",
-                        kind: "info",
-                        sender: subscriber.notification_type
-                    }
+                self.create_notification(current_user, cloud_object) do |cloud_object, payload|
                     yield(cloud_object, payload) if block_given?
-                    self.create_notification(subscriber.user_creator, payload)
+                end
+            end
+        end
+
+        def self.notify_update(current_user, cloud_object, old_attributes, new_attributes)
+            if old_attributes.updated_at != new_attributes.updated_at
+                self.create_notification(current_user, cloud_object) do |cloud_object, payload|
+                    yield(cloud_object, payload) if block_given?
                 end
             end
         end
 
         protected
 
-        def self.create_notification(user, payload)
-            Courier::Bell::Notification.new(
-                user,
-                payload[:subject],
-                body: payload[:body],
-                url: payload[:url],
-                kind: payload[:info],
-                sender: payload[:sender]
-            )
+        def self.create_notification(current_user, cloud_object)
+            cloud_object.subscribers.where(
+                action: "object_status_updated"
+            ).where.not(
+                user_creator: current_user
+            ).each do |subscriber|
+                payload = {
+                    subject: "",
+                    body: "",
+                    url: "",
+                    kind: "info",
+                    sender: subscriber.notification_type
+                }
+
+                # This yield is in charge of modifying the payload values
+                yield(cloud_object, payload) if block_given?
+            
+                Courier::Bell::Notification.new(
+                    current_user,
+                    payload[:subject],
+                    body: payload[:body],
+                    url: payload[:url],
+                    kind: payload[:info],
+                    sender: payload[:sender]
+                )
+            end
         end
     end
 end
