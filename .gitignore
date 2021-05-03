@@ -35,6 +35,8 @@ package-lock.json
 !/storage/keep/
 !/storage/templates/
 
+/app/assets/**/lesli_cloud
+/app/assets/**/lesli_cloud2
 
 /public/tmp
 /public/assets
@@ -52,7 +54,7 @@ package-lock.json
 /config/master.key
 /config/credentials/*
 !/config/credentials/.gitkeep
-!/config/credentials/test_ci.enc
+!/config/credentials/testci.yml.enc
 
 *.pem
 
