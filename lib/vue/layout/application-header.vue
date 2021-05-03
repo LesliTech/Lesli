@@ -2,9 +2,9 @@
 /*
 Copyright (c) 2020, all rights reserved.
 
-All the information provided by this platform is protected by international laws related  to 
-industrial property, intellectual property, copyright and relative international laws. 
-All intellectual or industrial property rights of the code, texts, trade mark, design, 
+All the information provided by this platform is protected by international laws related  to
+industrial property, intellectual property, copyright and relative international laws.
+All intellectual or industrial property rights of the code, texts, trade mark, design,
 pictures and any other information belongs to the owner of this platform.
 
 Without the written permission of the owner, any replication, modification,
@@ -13,15 +13,15 @@ transmission, publication is strictly forbidden.
 For more information read the license file including with this software.
 
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
-// · 
+// ·
 */
 
 
-// · 
+// ·
 const platform = require('platform');
 
 
-// · 
+// ·
 export default {
 
     data() {
@@ -41,16 +41,34 @@ export default {
                 active: false
             },
             browser_data: {
-            }
+            },
+            $navbar: null,
+            $application_header: null
         }
     },
 
     mounted() {
+        this.addListeners();
         this.getBrowserData();
         this.cloud_bell_notifications = this.lesli.notifications
     },
 
     methods: {
+        addListeners(){
+            window.addEventListener('scroll', this.handleScroll);
+            this.$navbar = document.querySelector('#lesli-application .application-header .header-navigation')
+            this.$application_header = document.querySelector('#lesli-application .application-header')
+        },
+
+        handleScroll($event){
+            let scrollTop = window.pageYOffset || document.body.scrollTop;
+            if (scrollTop > this.$application_header.offsetHeight - 10) {
+                this.$navbar.classList.add("scrolling-header-navigation")
+            } else {
+                this.$navbar.classList.remove("scrolling-header-navigation")
+            }
+        },
+
         getBrowserData(){
             this.browser_data = {
                 name: platform.name,
@@ -84,6 +102,10 @@ export default {
 
         }
 
+    },
+
+    destroyed () {
+      window.removeEventListener('scroll', this.handleScroll);
     },
 
     watch: {
