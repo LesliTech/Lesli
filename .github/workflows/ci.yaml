@@ -13,7 +13,7 @@ on:
 
 jobs:
   test:
-    runs-on: ubuntu-20.04
+    runs-on: self-hosted
     services:
       postgres:
         image: postgres:11.5
@@ -56,6 +56,8 @@ jobs:
       uses: ruby/setup-ruby@v1
       with:
         ruby-version: 2.7.2
+      env:
+        ImageOS: ubuntu20
     - name: Install dependencies of Rails
       run: |
         bundle config https://rubygems.pkg.github.com/leitfaden ${GEM_HOST_API_KEY}
