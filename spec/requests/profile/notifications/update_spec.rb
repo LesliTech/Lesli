@@ -82,12 +82,19 @@ RSpec.describe 'PUT:/administration/profile/notifications/:id.json', type: :requ
         # register a notification to all the users of a rol
         @notifications = Courier::Bell::Notification.new(nil, "notification from rspec", role_names: "owner")
 
-        @notifications.each do |notification|
-            # mark notification as read
-            put "/administration/profile/notifications/#{ notification[:id] }.json"
-        end
+        # get number of active notifications
+        @local_count = Courier::Bell::Notification.count(@user, true)
+
+        # mark notification as read
+        put "/administration/profile/notifications/all.json"
 
     end
 
     include_examples 'successful standard json response'
+
+    it 'is expected to respond with total notifications marked as read' do
+
+        expect(@response_body["data"]).to eql(@local_count)
+
+    end
 end
