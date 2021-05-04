@@ -133,7 +133,7 @@ export default {
         :open.sync="data.global.show_panel_tasks"
         :right="true"
         :overlay="false"
-        :fullheight="true"> 
+        :fullheight="true">
         <div class="panel-title is-size-5">
             <h4>
                 {{translations.focus.tasks.view_title_tasks_due_today}}
@@ -143,15 +143,15 @@ export default {
             </span>
         </div>
         <div class="quickview-body">
-            <div class="section">
+            <div class="section overdue-tasks-section">
                 <ul class="menu-list">
                     <li v-for="notification in notification.list" :key="notification.id" >
-                        <a :href="`/${instanceEndpoint}/tasks/${notification.id}/edit`">
+                        <a class="overdue-tasks-title" :href="`/${instanceEndpoint}/tasks/${notification.id}/edit`">
                             {{ notification.title }}
-                        </a> 
+                        </a>
                         <p>
-                                <small class="has-text-grey-light"> 
-                                {{ `${translations.focus.tasks.column_deadline} : ${notification.deadline}` }} 
+                                <small class="has-text-grey-light">
+                                {{ `${translations.focus.tasks.column_deadline} : ${notification.deadline}` }}
                             </small>
                         </p>
                         <p>
@@ -179,5 +179,12 @@ export default {
         width: 5px;
         height: 5px;
         background-color: blue;
+    }
+    .overdue-tasks-section {
+        padding-top: 0;
+    }
+
+    .overdue-tasks-section .overdue-tasks-title {
+      padding-left: 0;
     }
 </style>
