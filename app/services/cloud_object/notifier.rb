@@ -53,7 +53,7 @@ module CloudObject
                 yield(cloud_object, payload) if block_given?
             
                 Courier::Bell::Notification.new(
-                    current_user,
+                    subscriber.user_creator,
                     payload[:subject],
                     body: payload[:body],
                     url: payload[:url],
