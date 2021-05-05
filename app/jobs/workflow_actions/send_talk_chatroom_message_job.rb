@@ -19,12 +19,17 @@ class WorkflowActions::SendTalkChatroomMessageJob < ApplicationJob
         when "creator"
             sender_user = cloud_object.user_creator
         when "main"
-            sender_user = cloud_object.user_creator
+            sender_user = cloud_object.user_main
+        when "branch_office"
+            sender_user = cloud_object.user_branch_office
         when "custom"
             sender_user = current_user.account.users.find(action.concerning_users["list"][0]["id"]) if action.concerning_users["list"]
         when "current_user"
             sender_user = current_user
         end
+
+        # Sanity check. If the association doesn't exist, or it is not a user, we default back to current_user
+        sender_user = current_user unless sender_user
 
         begin
             replacement_values = {

@@ -8,11 +8,16 @@ class WorkflowActions::CloudObjectCloneJob < ApplicationJob
             user_main = cloud_object.user_creator
         when "main"
             user_main = cloud_object.user_main
+        when "branch_office"
+            user_main = cloud_object.user_branch_office
         when "custom"
             user_main = current_user.account.users.find(action.concerning_users["list"][0]["id"]) if action.concerning_users["list"]
         when "current_user"
             user_main = current_user
         end
+
+        # Sanity check. If the association doesn't exist, or it is not a user, we default back to current_user
+        user_main = current_user unless user_main
 
         begin
             replacement_values = {

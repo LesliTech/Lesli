@@ -46,6 +46,13 @@ class WorkflowActions::SendCoreEmailJob < ApplicationJob
                     emails.push(user["email"])
                     send_email(user, action, input_data, href)
                 end
+            when "branch_office"
+                user = cloud_object.user_branch_office
+                user = current_user unless user
+                user = user.attributes
+
+                emails.push(user["email"])
+                send_email(user, action, input_data, href)
             when "reviewer"
                 user = cloud_object.user_reviewer
                 user = current_user unless user

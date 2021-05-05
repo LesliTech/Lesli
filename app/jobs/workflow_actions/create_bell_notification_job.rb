@@ -8,11 +8,16 @@ class WorkflowActions::CreateBellNotificationJob < ApplicationJob
             notification_user = cloud_object.user_creator
         when "main"
             notification_user = cloud_object.user_main
+        when "branch_office"
+            notification_user = cloud_object.user_branch_office
         when "custom"
             notification_user = current_user.account.users.find(action.concerning_users["list"][0]["id"]) if action.concerning_users["list"]
         when "current_user"
             notification_user = current_user
         end
+
+        # Sanity check. If the association doesn't exist, or it is not a user, we default back to current_user
+        notification_user = current_user unless notification_user
 
         begin
             replacement_values = {
