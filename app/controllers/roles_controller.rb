@@ -2,9 +2,9 @@
 
 Copyright (c) 2020, all rights reserved.
 
-All the information provided by this platform is protected by international laws related  to 
-industrial property, intellectual property, copyright and relative international laws. 
-All intellectual or industrial property rights of the code, texts, trade mark, design, 
+All the information provided by this platform is protected by international laws related  to
+industrial property, intellectual property, copyright and relative international laws.
+All intellectual or industrial property rights of the code, texts, trade mark, design,
 pictures and any other information belongs to the owner of this platform.
 
 Without the written permission of the owner, any replication, modification,
@@ -13,14 +13,14 @@ transmission, publication is strictly forbidden.
 For more information read the license file including with this software.
 
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
-// · 
+// ·
 
 =end
 
-class RolesController < ApplicationLesliController    
+class RolesController < ApplicationLesliController
     before_action :set_role, only: [:show, :update, :destroy]
 
-    #@return [HTML|JSON] HTML view for listing all roles or a Json that contains a list of all roles 
+    #@return [HTML|JSON] HTML view for listing all roles or a Json that contains a list of all roles
     #    associated to this *account*
     #@description Retrieves and returns all roles associated to a *CloudHouse::Account*. The account
     #    is obtained directly from *current_user*. The HTTP request has to specify
@@ -34,7 +34,7 @@ class RolesController < ApplicationLesliController
         end
     end
 
-    #@return [HTML|JSON] HTML view for listing all roles or a Json that contains a list of all roles 
+    #@return [HTML|JSON] HTML view for listing all roles or a Json that contains a list of all roles
     #    associated to this *account*
     #@description Retrieves and returns all roles associated to a *CloudHouse::Account*. The account
     #    is obtained directly from *current_user*. The HTTP request has to specify
@@ -46,14 +46,14 @@ class RolesController < ApplicationLesliController
         respond_to do |format|
             format.html { }
             format.json {
-                respond_with_successful(Role.index(current_user, @query)) 
+                respond_with_successful(Role.index(current_user, @query))
             }
         end
     end
 
     # @return [HTML|Json] HTML view showing the requested role or a Json that contains the
     #     information of the role. If there is an error, an explanation message is sent
-    # @description Retrieves and returns the requested roles. The id of the 
+    # @description Retrieves and returns the requested roles. The id of the
     #     role is within the *params* attribute of the controller. The HTTP request has to specify
     #     wheter the HTML or the JSON text should be rendered. This is the only method that uses the role
     #     code instead of the ID for searching.
@@ -64,9 +64,9 @@ class RolesController < ApplicationLesliController
     def show
         respond_to do |format|
             format.html {  }
-            format.json { 
+            format.json {
                 return respond_with_not_found unless @role
-                respond_with_successful(@role.show) 
+                respond_with_successful(@role.show)
             }
         end
     end
@@ -88,7 +88,7 @@ class RolesController < ApplicationLesliController
     def edit
     end
 
-    # @return [Json] Json that contains wheter the creation of the role was successful or not. 
+    # @return [Json] Json that contains wheter the creation of the role was successful or not.
     #     If it is not successful, it returns an error message
     # @description Creates a new role associated to the *current_user*'s *account*.
     # @example
@@ -104,7 +104,7 @@ class RolesController < ApplicationLesliController
         role = current_user.account.roles.new(role_params)
 
         # check if user can work with that object level permission
-        if role.object_level_permission >= current_user.roles.map(&:object_level_permission).max() 
+        if role.object_level_permission >= current_user.roles.map(&:object_level_permission).max()
             respond_with_error("object_level_permission_too_high")
             return
         end
@@ -121,7 +121,7 @@ class RolesController < ApplicationLesliController
     end
 
     # @controller_action_param :name [String] The name of the role
-    # @return [Json] Json that contains wheter the role was successfully updated or not. 
+    # @return [Json] Json that contains wheter the role was successfully updated or not.
     #     If it it not successful, it returns an error message
     # @description Updates an existing role associated to the *current_user*'s *account*.
     # @example
@@ -136,7 +136,7 @@ class RolesController < ApplicationLesliController
     def update
         return respond_with_not_found unless @role
 
-        user_role_level_max = current_user.roles.map(&:object_level_permission).max() 
+        user_role_level_max = current_user.roles.map(&:object_level_permission).max()
 
         # check if user can work with that object level permission
         if @role.object_level_permission > user_role_level_max
@@ -149,7 +149,7 @@ class RolesController < ApplicationLesliController
                 return respond_with_error("object_level_permission_too_high")
             end
         end
-        
+
         old_attributes = @role.attributes
 
         if @role.update(role_params)
@@ -163,7 +163,7 @@ class RolesController < ApplicationLesliController
         end
     end
 
-    # @return [Json] Json that contains wheter the role was successfully deleted or not. 
+    # @return [Json] Json that contains wheter the role was successfully deleted or not.
     #     If it it not successful, it returns an error message
     # @description Deletes an existing *role* associated to the *current_user*'s *account*.
     # @example
@@ -172,7 +172,9 @@ class RolesController < ApplicationLesliController
     #     this.http.delete(`127.0.0.1/roles/${role_id}`);
     def destroy
         return respond_with_not_found unless @role
-        
+
+        return respond_with_error(I18n.t("core.roles.messages_danger_users_assigned_validation")) if @role.has_users?
+
         if @role.destroy
             respond_with_successful
 
@@ -219,7 +221,7 @@ class RolesController < ApplicationLesliController
         params.require(:role).permit(
             :name,
             :active,
-            :only_my_data, 
+            :only_my_data,
             :default_path,
             :object_level_permission
         )
