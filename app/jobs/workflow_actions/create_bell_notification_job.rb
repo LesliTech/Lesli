@@ -22,7 +22,11 @@ class WorkflowActions::CreateBellNotificationJob < ApplicationJob
         begin
             replacement_values = {
                 "%global_identifier%" => cloud_object.global_identifier,
-                "%current_user%" => (current_user.full_name || "")
+                "%user_reviewer%" => (cloud_object.user_reviewer ? cloud_object.user_reviewer.full_name : ""),
+                "%user_branch_office%" => (cloud_object.user_branch_office ? cloud_object.user_branch_office.full_name : ""),
+                "%user_creator%" => (cloud_object.user_creator ? cloud_object.user_creator.full_name : ""),
+                "%current_user%" => (current_user.full_name || ""),
+                "%status%" => cloud_object.status.name
             }
             action.parse_input_data(replacement_values)
             input_data = action.input_data
