@@ -107,8 +107,8 @@ module CloudObject
                 user_creator: current_user,
                 category: category,
                 field_name: key,
-                value_from: ::User.with_deleted.find(old_user_id).full_name,
-                value_to:   ::User.with_deleted.find(new_user_id).full_name
+                value_from: old_user_id ? User.with_deleted.find(old_user_id).full_name : nil,
+                value_to:   new_user_id ? User.with_deleted.find(new_user_id).full_name : nil
             )
         end
 
