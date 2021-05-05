@@ -19,15 +19,16 @@ module CloudObject
             foreign_key = status.class.table_name
 
             if old_attributes["#{foreign_key}_id"] != new_attributes["#{foreign_key}_id"]
-                self.create_notification(current_user, cloud_object) do |cloud_object, payload|
+                self.create_notification(current_user, cloud_object, "object_status_updated") do |cloud_object, payload|
                     yield(cloud_object, payload) if block_given?
                 end
             end
         end
 
-        def self.notify_update(current_user, cloud_object, old_attributes, new_attributes)
-            if old_attributes.updated_at != new_attributes.updated_at
-                self.create_notification(current_user, cloud_object) do |cloud_object, payload|
+        # If there are no attributes, we immediately send the notification, otherwise, we check updated_at values
+        def self.notify_update(current_user, cloud_object, old_attributes, new_attributes, updated_table)
+            if old_attributes.nil? || (old_attributes["updated_at"] != new_attributes["updated_at"])
+                self.create_notification(current_user, cloud_object, "object_updated") do |cloud_object, payload|
                     yield(cloud_object, payload) if block_given?
                 end
             end
@@ -35,9 +36,9 @@ module CloudObject
 
         protected
 
-        def self.create_notification(current_user, cloud_object)
+        def self.create_notification(current_user, cloud_object, action)
             cloud_object.subscribers.where(
-                action: "object_status_updated"
+                action: action
             ).where.not(
                 user_creator: current_user
             ).each do |subscriber|

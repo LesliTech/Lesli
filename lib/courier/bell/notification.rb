@@ -40,8 +40,9 @@ module Courier
                 return if not defined? CloudBell
 
                 if not user or role_names
+                    notifications = []
                     User.joins(:roles).where("roles.name in (?)", role_names).each do |user|
-                        user.account.bell.notifications.create({
+                        notification = user.account.bell.notifications.create({
                             subject: subject,
                             body: body,
                             kind: category || kind,
@@ -49,9 +50,13 @@ module Courier
                             url: url,
                             sender: sender
                         })
+
+                        notifications.append({ id: notification.id })
                     end
+
+                    return notifications
                 else
-                    user.account.bell.notifications.create({
+                    notification = user.account.bell.notifications.create({
                         subject: subject,
                         body: body,
                         kind: category || kind,
@@ -59,9 +64,9 @@ module Courier
                         url: url,
                         sender: sender
                     })
-                end
 
-                return
+                    return { id: notification.id }
+                end
 
             end
 

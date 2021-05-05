@@ -2,9 +2,9 @@
 
 Copyright (c) 2020, all rights reserved.
 
-All the information provided by this platform is protected by international laws related  to 
-industrial property, intellectual property, copyright and relative international laws. 
-All intellectual or industrial property rights of the code, texts, trade mark, design, 
+All the information provided by this platform is protected by international laws related  to
+industrial property, intellectual property, copyright and relative international laws.
+All intellectual or industrial property rights of the code, texts, trade mark, design,
 pictures and any other information belongs to the owner of this platform.
 
 Without the written permission of the owner, any replication, modification,
@@ -13,7 +13,7 @@ transmission, publication is strictly forbidden.
 For more information read the license file including with this software.
 
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
-// · 
+// ·
 
 =end
 
@@ -119,7 +119,6 @@ gem "ruby_cowsay"
 # faster json parser library
 gem 'fast_jsonparser'
 
-
 group :development, :test do
 
     gem "faker"
@@ -152,7 +151,7 @@ group :development do
     gem "web-console", ">= 3.3.0"
 
     gem "listen", "3.2.1"
-    
+
     gem "spring"
 
     gem "spring-watcher-listen", "~> 2.0.0"
@@ -168,13 +167,13 @@ group :test do
     #gem "capybara", ">= 2.15"
 
     #gem "selenium-webdriver"
-    
+
     # Easy installation and use of chromedriver to run system tests with Chrome
     #gem "chromedriver-helper"
 
     gem "rails-controller-testing"
     gem "rails-ujs"
-    
+
 end
 
 Lesli::engines.each do |engine|
