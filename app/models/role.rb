@@ -2,9 +2,9 @@
 
 Copyright (c) 2020, all rights reserved.
 
-All the information provided by this platform is protected by international laws related  to 
-industrial property, intellectual property, copyright and relative international laws. 
-All intellectual or industrial property rights of the code, texts, trade mark, design, 
+All the information provided by this platform is protected by international laws related  to
+industrial property, intellectual property, copyright and relative international laws.
+All intellectual or industrial property rights of the code, texts, trade mark, design,
 pictures and any other information belongs to the owner of this platform.
 
 Without the written permission of the owner, any replication, modification,
@@ -13,24 +13,16 @@ transmission, publication is strictly forbidden.
 For more information read the license file including with this software.
 
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
-// · 
+// ·
 
 =end
 
-class Role < ApplicationRecord
-    
+class Role < ApplicationLesliRecord
+
     belongs_to :account,            foreign_key: "accounts_id"
 
     has_many :privileges,           foreign_key: "roles_id",    class_name: "Role::Privilege",          dependent: :delete_all
     has_many :activities,           foreign_key: "roles_id"
-
-    has_one :detail,                foreign_key: "roles_id",    inverse_of: :role, autosave: true, dependent: :destroy 
-    accepts_nested_attributes_for :detail, update_only: true
-
-    def destroy(*args)
-        super
-        rescue ActiveRecord::InvalidForeignKey => error
-    end
 
     def self.list current_user, query
         current_user.account.roles
@@ -44,13 +36,13 @@ class Role < ApplicationRecord
         roles = current_user.account.roles
         .joins("
             left join (
-                select 
-                    count(1) user_count, 
-                    roles_id 
-                from user_roles 
+                select
+                    count(1) user_count,
+                    roles_id
+                from user_roles
                 where user_roles.deleted_at is null
                 group by (roles_id)
-            ) 
+            )
             users on users.roles_id = roles.id
         ")
         .order(object_level_permission: :desc, name: :asc)
@@ -99,7 +91,7 @@ class Role < ApplicationRecord
             privilege = self.privileges.find_or_create_by(grant_object: route[:controller_path])
 
             if self.name === "owner" || self.name === "admin"
-                grant_access = true 
+                grant_access = true
                 privilege.update(
                     grant_index: grant_access,
                     grant_list: grant_access,
@@ -120,10 +112,20 @@ class Role < ApplicationRecord
 
         end
 
-        # enable profile privileges 
+        # enable profile privileges
         self.privileges.find_by(grant_object: "profiles").update(grant_show: true)
         self.privileges.find_by(grant_object: "users").update(grant_options: true, grant_update: true)
-        
+
+    end
+
+    # @return [Boolean]
+    # @description Returns if a role it is assigned to users.
+    def has_users?
+        if User::Role.where(role: self).count > 0
+            return true
+        end
+
+        return false
     end
 
     #######################################################################################
@@ -133,7 +135,7 @@ class Role < ApplicationRecord
     # @return [void]
     # @param current_user [::User] The user that created the role
     # @param [Role] The role that was created
-    # @description Creates an activity for this role indicating who created it. And 
+    # @description Creates an activity for this role indicating who created it. And
     #   also creates an activity with the initial status of the role
     # Example
     #   params = {...}
@@ -194,7 +196,7 @@ class Role < ApplicationRecord
 
     # @return [void]
     # @param current_user [::User] The user that created the role
-    # @param role [Role] The role 
+    # @param role [Role] The role
     # @param attributes [Role::Privilege.attributes] The attributes of the role privilege created
     # @description Adds an activity if a new privilege is added to the role
     # Example
