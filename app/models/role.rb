@@ -121,11 +121,7 @@ class Role < ApplicationLesliRecord
     # @return [Boolean]
     # @description Returns if a role it is assigned to users.
     def has_users?
-        if User::Role.where(role: self).count > 0
-            return true
-        end
-
-        return false
+        User::Role.where(role: self).count > 0
     end
 
     #######################################################################################
