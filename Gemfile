@@ -2,9 +2,9 @@
 
 Copyright (c) 2020, all rights reserved.
 
-All the information provided by this platform is protected by international laws related  to 
-industrial property, intellectual property, copyright and relative international laws. 
-All intellectual or industrial property rights of the code, texts, trade mark, design, 
+All the information provided by this platform is protected by international laws related  to
+industrial property, intellectual property, copyright and relative international laws.
+All intellectual or industrial property rights of the code, texts, trade mark, design,
 pictures and any other information belongs to the owner of this platform.
 
 Without the written permission of the owner, any replication, modification,
@@ -13,7 +13,7 @@ transmission, publication is strictly forbidden.
 For more information read the license file including with this software.
 
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
-// · 
+// ·
 
 =end
 
@@ -22,16 +22,13 @@ require "./lesli"
 source "https://rubygems.org"
 git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
-# workaround until we wait to all gem that depends on mimemagic to migrate to the new mimemagic MIT
-# or upgrade to rails 6.1.3.1 -> https://weblog.rubyonrails.org/2021/3/26/marcel-upgrade-releases/
-gem 'mimemagic', github: 'mimemagicrb/mimemagic', ref: '01f92d86d15d85cfd0f20dabd025dcbd36a8a60f'
 
 ruby "2.7.2"
 
 # · Rails, gem, dependencies and tools
 
 # Rails framework
-gem "rails", "= 6.1.3"
+gem "rails", "= 6.1.3.1"
 
 # Rails translations
 gem "rails-i18n", "= 6.0.0"
@@ -122,7 +119,6 @@ gem "ruby_cowsay"
 # faster json parser library
 gem 'fast_jsonparser'
 
-
 group :development, :test do
 
     gem "faker"
@@ -155,7 +151,7 @@ group :development do
     gem "web-console", ">= 3.3.0"
 
     gem "listen", "3.2.1"
-    
+
     gem "spring"
 
     gem "spring-watcher-listen", "~> 2.0.0"
@@ -171,13 +167,13 @@ group :test do
     #gem "capybara", ">= 2.15"
 
     #gem "selenium-webdriver"
-    
+
     # Easy installation and use of chromedriver to run system tests with Chrome
     #gem "chromedriver-helper"
 
     gem "rails-controller-testing"
     gem "rails-ujs"
-    
+
 end
 
 Lesli::engines.each do |engine|
