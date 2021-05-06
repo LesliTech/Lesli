@@ -16,25 +16,26 @@ For more information read the license file including with this software.
 // · 
 
 =end
+class FocusMailer < ApplicationLesliMailer
+    def task_new
+        user = params[:user]
+        task = params[:task]
+        url = params[:url]
+        receipt = params[:receipt]
 
-class FocusMailer < ApplicationMailer
-
-    # @return [void]
-    # @param to [String] The address to which the email will be sent
-    # @param subject [String] The subject of the e-mail
-    # @param data [Hash] Information to substitute in the template. For this email, the params
-    #       :name (the assigned user name), :title (the title of the task), and :href (the path of the task)
-    # @description Sends an email informing the assigned user of a new task. The task is an instance of
-    # CloudFocus::Task. Important: If the role of the creator is "student", the email must be sent to
-    # werksstudenten@deutsche-leibrenten.de. Please check CloudFocus::TasksControler#send_email_notification_new
-    # to see that verification
-    def task_new(to, subject, data, template:"", options:{})
-        data = data.merge({
-            href: "#{default_url_options[:host]}#{data[:href]}"
+        build_data_from_params(params, {
+            url: url,
+            user: {
+                full_name: user.full_name
+            },
+            task: {
+                title: task.detail.title
+            }
         })
-
-        send2(to, subject, data, template: template, options: options)
-        
+        mail(
+            to: receipt,
+            subject: I18n.t("focus.tasks.mailer_new_task_subject")
+        )
     end
 
     def task_list(to, subject, data, template:"", options:{})
