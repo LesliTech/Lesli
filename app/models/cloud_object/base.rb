@@ -86,6 +86,14 @@ module CloudObject
         def user_reviewer
         end
 
+        # @return [User] The user branch_office associated to this cloud_object
+        # @description Returns a user that is the branch_office of this cloud_object. This method must be implemented in any CloudObject
+        # @example
+        #     puts CloudHelp::Ticket.first.user_branch_office # will return null, but will work
+        #     puts CloudHouse::Project.first.user_branch_office # will return the user branch_office specified in the offer report
+        def user_branch_office
+        end
+
         # @return [Hash] Data containing information about the target for an automated task created by a workflow action
         # @description Returns information of ClouObject that is the target for the automated task. By default, 
         #     the target is the CloudObject itself. However, in some cases, like CloudHouse::MaintenanceServices, the target 
