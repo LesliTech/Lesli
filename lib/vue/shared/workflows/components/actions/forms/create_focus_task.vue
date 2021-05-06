@@ -128,9 +128,9 @@ export default {
                             </b-icon>
                         </b-button>
                     </b-tooltip>
-                    <b-tooltip :label="translations.actions.messages_info_tooltip_add_user_reviewer_reference" size="is-small" position="is-left" type="is-light">
-                        <b-button size="is-small" @click="addReference('user_reviewer', 'title')">
-                            <b-icon size="is-small" icon="user-check">
+                    <b-tooltip :label="translations.actions.messages_info_tooltip_add_status_reference" size="is-small" position="is-left" type="is-light">
+                        <b-button size="is-small" @click="addReference('status', 'title')">
+                            <b-icon size="is-small" icon="project-diagram">
                             </b-icon>
                         </b-button>
                     </b-tooltip>
@@ -146,9 +146,15 @@ export default {
                             </b-icon>
                         </b-button>
                     </b-tooltip>
-                    <b-tooltip :label="translations.actions.messages_info_tooltip_add_status_reference" size="is-small" position="is-left" type="is-light">
-                        <b-button size="is-small" @click="addReference('status', 'title')">
-                            <b-icon size="is-small" icon="project-diagram">
+                    <b-tooltip :label="translations.actions.messages_info_tooltip_add_user_reviewer_reference" size="is-small" position="is-left" type="is-light">
+                        <b-button size="is-small" @click="addReference('user_reviewer', 'title')">
+                            <b-icon size="is-small" icon="user-check">
+                            </b-icon>
+                        </b-button>
+                    </b-tooltip>
+                    <b-tooltip :label="translations.actions.messages_info_tooltip_add_user_branch_office_reference" size="is-small" position="is-left" type="is-light">
+                        <b-button size="is-small" @click="addReference('user_branch_office', 'title')">
+                            <b-icon size="is-small" icon="user-tag">
                             </b-icon>
                         </b-button>
                     </b-tooltip>
@@ -168,9 +174,9 @@ export default {
                             </b-icon>
                         </b-button>
                     </b-tooltip>
-                    <b-tooltip :label="translations.actions.messages_info_tooltip_add_user_reviewer_reference" size="is-small" position="is-left" type="is-light">
-                        <b-button size="is-small" @click="addReference('user_reviewer', 'description')">
-                            <b-icon size="is-small" icon="user-check">
+                    <b-tooltip :label="translations.actions.messages_info_tooltip_add_status_reference" size="is-small" position="is-left" type="is-light">
+                        <b-button size="is-small" @click="addReference('status', 'description')">
+                            <b-icon size="is-small" icon="project-diagram">
                             </b-icon>
                         </b-button>
                     </b-tooltip>
@@ -186,9 +192,15 @@ export default {
                             </b-icon>
                         </b-button>
                     </b-tooltip>
-                    <b-tooltip :label="translations.actions.messages_info_tooltip_add_status_reference" size="is-small" position="is-left" type="is-light">
-                        <b-button size="is-small" @click="addReference('status', 'description')">
-                            <b-icon size="is-small" icon="project-diagram">
+                    <b-tooltip :label="translations.actions.messages_info_tooltip_add_user_reviewer_reference" size="is-small" position="is-left" type="is-light">
+                        <b-button size="is-small" @click="addReference('user_reviewer', 'description')">
+                            <b-icon size="is-small" icon="user-check">
+                            </b-icon>
+                        </b-button>
+                    </b-tooltip>
+                    <b-tooltip :label="translations.actions.messages_info_tooltip_add_user_branch_office_reference" size="is-small" position="is-left" type="is-light">
+                        <b-button size="is-small" @click="addReference('user_branch_office', 'description')">
+                            <b-icon size="is-small" icon="user-tag">
                             </b-icon>
                         </b-button>
                     </b-tooltip>
@@ -249,7 +261,7 @@ export default {
                         </small>
                     </option>
                 </b-select>
-                <p v-if="workflow_action.concerning_users.type == 'reviewer'" class="help">
+                <p v-if="workflow_action.concerning_users.type == 'reviewer' || workflow_action.concerning_users.type == 'branch_office'" class="help">
                     {{translations.actions.view_text_concerning_user_can_be_unavailable}}
                 </p>
             </div>
