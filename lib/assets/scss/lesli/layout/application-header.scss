@@ -26,6 +26,11 @@ header.application-header {
     width: calc(100% - var(--application-navigation-width));
     height: var(--application-header-height);
 
+    .scrolling-header-navigation {
+        box-shadow: 0 0 0.125em 0 rgba(0, 0, 0, 0.25);
+        background: white;
+    }
+
     .header-navigation {
         display: flex;
         align-items: center;

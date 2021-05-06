@@ -186,6 +186,18 @@ module HtmlHelper
     end
 
     # ANALYTICS
+    def navigation_analytics_category(text: "Analytics")
+        engines = navigation_engine_insights
+        navigation_engine_category(text, engines)
+    end
+
+    # 05.04 Insights engine
+    def navigation_engine_insights text: "Insights", icon_path: "cloud_insights/insights-logo.svg"
+        unless defined? CloudInsights
+            return ""
+        end
+        navigation_engine_item text, icon_path, cloud_insights.root_path, controller_path.include?("cloud_insights")
+    end
 
     # INTELLIGENCE
 
