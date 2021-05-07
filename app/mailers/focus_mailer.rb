@@ -55,18 +55,18 @@ class FocusMailer < ApplicationLesliMailer
         )
     end
 
-    def task_report_delayed(data, template:"", options:{})
-        to = ["m.auel@deutsche-leibrenten.de","b.norgiev@deutsche-leibrenten.de"]
-        subject = I18n.t("deutscheleibrenten.tasks.email_subject_report_delayed_tasks")
+    def task_report_delayed
+        users_and_tasks = params[:users_and_tasks]
+        receipts = params[:receipts]
 
-        data[:users].each do |user|
-            user[:tasks] = user[:tasks].map do |task|
-                task[:href] = "#{default_url_options[:host]}#{task[:href]}"
-                task
-            end
-        end
-        
-        send2(to, subject, data, template: template, options: options)
+        build_data_from_params(params, {
+            users_and_tasks: users_and_tasks
+        })
+
+        mail(
+            to: receipts,
+            subject: I18n.t("focus.tasks.mailer_task_report_deplayed_subject")
+        )
     end
 
 end
