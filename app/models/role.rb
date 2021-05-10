@@ -40,6 +40,9 @@ class Role < ApplicationLesliRecord
                     count(1) user_count,
                     roles_id
                 from user_roles
+                inner join  users as u
+                    on u.id = user_roles.users_id
+                    and u.deleted_at is null
                 where user_roles.deleted_at is null
                 group by (roles_id)
             )
