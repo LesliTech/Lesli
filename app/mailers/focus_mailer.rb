@@ -16,48 +16,57 @@ For more information read the license file including with this software.
 // · 
 
 =end
+class FocusMailer < ApplicationLesliMailer
+    def task_new
+        user = params[:user]
+        task = params[:task]
+        url = params[:url]
+        receipt = params[:receipt]
 
-class FocusMailer < ApplicationMailer
+        build_data_from_params(params, {
+            url: url,
+            user: {
+                full_name: user.full_name
+            },
+            task: {
+                title: task.detail.title
+            }
+        })
+        mail(
+            to: receipt,
+            subject: I18n.t("focus.tasks.mailer_new_task_subject")
+        )
+    end
 
-    # @return [void]
-    # @param to [String] The address to which the email will be sent
-    # @param subject [String] The subject of the e-mail
-    # @param data [Hash] Information to substitute in the template. For this email, the params
-    #       :name (the assigned user name), :title (the title of the task), and :href (the path of the task)
-    # @description Sends an email informing the assigned user of a new task. The task is an instance of
-    # CloudFocus::Task. Important: If the role of the creator is "student", the email must be sent to
-    # werksstudenten@deutsche-leibrenten.de. Please check CloudFocus::TasksControler#send_email_notification_new
-    # to see that verification
-    def task_new(to, subject, data, template:"", options:{})
-        data = data.merge({
-            href: "#{default_url_options[:host]}#{data[:href]}"
+    def task_list
+        tasks = params[:tasks]
+        user = params[:user]
+
+        build_data_from_params(params, {
+            user: {
+                full_name: user.full_name
+            },
+            tasks: tasks
         })
 
-        send2(to, subject, data, template: template, options: options)
-        
+        mail(
+            to: email_address_with_name(user.email, user.full_name),
+            subject: I18n.t("focus.tasks.mailer_task_remainder_subject")
+        )
     end
 
-    def task_list(to, subject, data, template:"", options:{})
-        data[:tasks] = data[:tasks].map do |task|
-            task[:href] = "#{default_url_options[:host]}#{task[:href]}"
-            task
-        end
+    def task_report_delayed
+        users_and_tasks = params[:users_and_tasks]
+        receipts = params[:receipts]
 
-        send2(to, subject, data, template: template, options: options)
-    end
+        build_data_from_params(params, {
+            users_and_tasks: users_and_tasks
+        })
 
-    def task_report_delayed(data, template:"", options:{})
-        to = ["m.auel@deutsche-leibrenten.de","b.norgiev@deutsche-leibrenten.de"]
-        subject = I18n.t("deutscheleibrenten.tasks.email_subject_report_delayed_tasks")
-
-        data[:users].each do |user|
-            user[:tasks] = user[:tasks].map do |task|
-                task[:href] = "#{default_url_options[:host]}#{task[:href]}"
-                task
-            end
-        end
-        
-        send2(to, subject, data, template: template, options: options)
+        mail(
+            to: receipts,
+            subject: I18n.t("focus.tasks.mailer_task_report_deplayed_subject")
+        )
     end
 
 end
