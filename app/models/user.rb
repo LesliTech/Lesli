@@ -2,9 +2,9 @@
 
 Copyright (c) 2020, all rights reserved.
 
-All the information provided by this platform is protected by international laws related  to 
-industrial property, intellectual property, copyright and relative international laws. 
-All intellectual or industrial property rights of the code, texts, trade mark, design, 
+All the information provided by this platform is protected by international laws related  to
+industrial property, intellectual property, copyright and relative international laws.
+All intellectual or industrial property rights of the code, texts, trade mark, design,
 pictures and any other information belongs to the owner of this platform.
 
 Without the written permission of the owner, any replication, modification,
@@ -13,7 +13,7 @@ transmission, publication is strictly forbidden.
 For more information read the license file including with this software.
 
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
-// · 
+// ·
 
 =end
 
@@ -23,19 +23,19 @@ class User < ApplicationLesliRecord
 
     validates :email, :presence => true
 
-    devise  :database_authenticatable, 
-            :registerable, 
-            :rememberable, 
-            :recoverable, 
+    devise  :database_authenticatable,
+            :registerable,
+            :rememberable,
+            :recoverable,
             :validatable,
             :confirmable,
-            :trackable 
-    
+            :trackable
+
 
     # users belongs to an account only and must have a role
     belongs_to :account, foreign_key: "accounts_id", optional: true
     belongs_to :role, foreign_key: "roles_id", optional: true
-    
+
 
     # users has activities and personal settings
     has_many :logs,         foreign_key: "users_id", inverse_of: :user
@@ -50,9 +50,9 @@ class User < ApplicationLesliRecord
     has_many :roles,        through: :user_roles, :source => "roles"
     has_many :privileges,   through: :roles
 
-    
+
     # user details are saved on separate table
-    has_one :detail, inverse_of: :user, autosave: true, foreign_key: "users_id", dependent: :destroy 
+    has_one :detail, inverse_of: :user, autosave: true, foreign_key: "users_id", dependent: :destroy
     accepts_nested_attributes_for :detail, update_only: true
 
     before_create :initialize_user
@@ -125,13 +125,13 @@ class User < ApplicationLesliRecord
 
     # @return [Boolean]
     # @description Return true/false if a user has the privileges to do an action based on a controllers list
-    # @examples 
+    # @examples
     #     validate privileges on a controller with the same actions on each one
     #     controllers = ["cloud_house/companies", "cloud_house/projects"]
     #     actions = ["index"]
-    # 
+    #
     #     current_user.has_privileges?(controllers, actions)
-    def has_privileges?(controllers, actions) 
+    def has_privileges?(controllers, actions)
         actions = actions.map { |action| "bool_or(grant_#{action})" }.join(" and ")
 
         granted = self.privileges
@@ -142,7 +142,7 @@ class User < ApplicationLesliRecord
         return granted[0]
     rescue => exception
         Honeybadger.notify(exception)
-        return false    
+        return false
     end
 
 
@@ -178,7 +178,7 @@ class User < ApplicationLesliRecord
 
     # @return [void]
     # @description Change user password forcing user to reset the password
-    def set_password_as_expired 
+    def set_password_as_expired
         self.update(password_expiration_at: Time.current)
     end
 
@@ -221,7 +221,7 @@ class User < ApplicationLesliRecord
         #   role to assign is the same of the greater role assigned to the current user
         #   current user is not admin or owner
         self.roles.each do |current_role|
-            return true if current_role.object_level_permission > role.object_level_permission 
+            return true if current_role.object_level_permission > role.object_level_permission
             return true if current_role.name == "owner"
         end
 
@@ -279,12 +279,12 @@ class User < ApplicationLesliRecord
     #     puts users_info.to_json
     # will print something like: [
     #    {
-    #        "id":1,                     
+    #        "id":1,
     #        "created_at":"2020-01-08T16:23:10.976Z",
     #        "name":"Diego Alay"
     #        "role":"manager"
     #    },{
-    #        "id":2,                     
+    #        "id":2,
     #        "created_at":"2020-01-10T16:23:10.976Z",
     #        "name":"Carlos Hermosilla"
     #        "role":"b2b"
@@ -302,27 +302,25 @@ class User < ApplicationLesliRecord
             inner join (
                 select
                     ur.users_id, string_agg(r.\"name\", ', ') role_names
-                from user_roles ur 
-                join roles r 
+                from user_roles ur
+                join roles r
                     on r.id = ur.roles_id  #{roles.blank? ? "" : "and r.name #{operator} (#{roles})"}
                 where ur.deleted_at is null
                 group by ur.users_id
             ) roles on roles.users_id = users.id
-        ") 
+        ")
 
         if (query[:filters][:status] != "all")
             users = users.where("users.active = ?", true)
         end
-        
+
         # sort by name by default
         if query[:pagination][:orderColumn] == "id"
-            query[:pagination][:orderColumn] = "first_name" 
+            query[:pagination][:orderColumn] = "first_name"
             query[:pagination][:order] = "asc"
         end
 
         users = users.where("email like '%#{query[:filters][:domain]}%'")  unless query[:filters][:domain].blank?
-
-        users = users.where("role_names #{operator} (#{roles})") unless roles.blank?
         users = users.order("#{query[:pagination][:orderColumn]} #{query[:pagination][:order]} NULLS LAST")
 
         users = users.select(
@@ -337,7 +335,7 @@ class User < ApplicationLesliRecord
     end
 
 
-    
+
     # @param accounnt [Account] The account associated to *current_user*
     # @param roles [String] The roles separate by comma for filter users by role
     # @param type [String] if type=exclude will remove users with roles listed in @param roles
@@ -348,12 +346,12 @@ class User < ApplicationLesliRecord
     #     puts users_info.to_json
     # will print something like: [
     #    {
-    #        "id":1,                     
+    #        "id":1,
     #        "created_at":"2020-01-08T16:23:10.976Z",
     #        "name":"Diego Alay"
     #        "role":"manager"
     #    },{
-    #        "id":2,                     
+    #        "id":2,
     #        "created_at":"2020-01-10T16:23:10.976Z",
     #        "name":"Carlos Hermosilla"
     #        "role":"b2b"
@@ -371,8 +369,8 @@ class User < ApplicationLesliRecord
             inner join (
                 select
                     ur.users_id, string_agg(r.\"name\", ', ') role_names
-                from user_roles ur 
-                join roles r 
+                from user_roles ur
+                join roles r
                     on r.id = ur.roles_id  #{roles.blank? ? "" : "and r.name #{operator} (#{roles})"}
                 where ur.deleted_at is null
                 group by ur.users_id
@@ -380,7 +378,6 @@ class User < ApplicationLesliRecord
         ")
 
         users = users.where("email like '%#{query[:filters][:domain]}%'")  unless query[:filters][:domain].blank?
-        users = users.where("role_names #{operator} (#{roles})") unless roles.blank?
         users = users.where("category = ?", query[:filters][:category]) if query[:filters][:category]
         users = users.where("
             lower(email) like '%#{query[:filters][:search]}%' or
@@ -408,7 +405,7 @@ class User < ApplicationLesliRecord
         .page(query[:pagination][:page])
         .per(query[:pagination][:perPage])
         .order("#{query[:pagination][:orderBy]} #{query[:pagination][:order]} NULLS LAST")
-        
+
         users_count = users.total_count
 
         users = users.map do |user|
@@ -417,7 +414,7 @@ class User < ApplicationLesliRecord
             last_sign_in_at = LC::Date.distance_to_words(user[:current_sign_in_at], Time.current)
 
             # last action the user perform an action into the system
-            last_action_performed_at = user.requests.last 
+            last_action_performed_at = user.requests.last
             last_action_performed_at = LC::Date.distance_to_words(last_action_performed_at[:created_at], Time.current) if not last_action_performed_at.blank?
 
             # check if user has an active session
@@ -432,9 +429,9 @@ class User < ApplicationLesliRecord
                 active: user[:active],
                 roles: user.roles,
                 last_activity_at: last_action_performed_at,
-                session_active: session 
+                session_active: session
             }
-        end        
+        end
 
         return {
             users_count: users_count,
@@ -443,7 +440,7 @@ class User < ApplicationLesliRecord
 
     end
 
-    
+
 
     # @return [Hash] Detailed information about the user.
     # @description Creates a query that selects all user information from several tables if CloudLock is present
@@ -452,7 +449,7 @@ class User < ApplicationLesliRecord
     #     user = User.find(43)
     #     puts user.show
     #     will print something like: {
-    #        "id":1,                     
+    #        "id":1,
     #        "created_at":"2020-01-08T16:23:10.976Z",
     #        "name":"Diego Alay"
     #        "role":"manager"
@@ -478,10 +475,10 @@ class User < ApplicationLesliRecord
                 address: user.detail[:address],
                 work_city: user.detail[:work_city],
                 work_region: user.detail[:work_region],
-                work_address: user.detail[:work_address] 
+                work_address: user.detail[:work_address]
             }
         }
-        
+
     end
 
     #######################################################################################
@@ -503,7 +500,7 @@ class User < ApplicationLesliRecord
         )
     end
 
-    
+
     # @return [void]
     # @param current_user [::User] The user that created the user
     # @param user [User] The User that was created
@@ -546,7 +543,7 @@ class User < ApplicationLesliRecord
     #   role = User.find(1)
     #   user.log_activity_create_user_role(current_user, user, role)
     def self.log_activity_create_user_role(current_user, user, role)
-        role_name = role.name 
+        role_name = role.name
 
         user.activities.create(
             owner: current_user,
@@ -559,13 +556,13 @@ class User < ApplicationLesliRecord
     # @param current_user [::User] The user that created the user
     # @param user [User] The User that was created
     # @param user [Role] The Role assigned to the user
-    # @description Creates an activity for this user if someone removes a role 
+    # @description Creates an activity for this user if someone removes a role
     # Example
     #   user = User.find(1)
     #   role = User.find(1)
     #   user.log_activity_destroy_user_role(current_user, user, role)
     def self.log_activity_destroy_user_role(current_user, user, role)
-        role_name = role.name 
+        role_name = role.name
 
         user.activities.create(
             owner: current_user,
@@ -574,7 +571,7 @@ class User < ApplicationLesliRecord
         )
     end
 
-    # DEPRECATED 
+    # DEPRECATED
 
     # @return [void]
     # @description After creating a user, creates the necessary resources for them to access the different engines.
