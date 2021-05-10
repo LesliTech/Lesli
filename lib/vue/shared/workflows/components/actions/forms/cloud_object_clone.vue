@@ -155,6 +155,9 @@ export default {
                             </small>
                         </option>
                     </b-select>
+                    <p v-if="workflow_action.concerning_users.type == 'reviewer' || workflow_action.concerning_users.type == 'branch_office'" class="help">
+                        {{translations.actions.view_text_concerning_user_can_be_unavailable}}
+                    </p>
                 </div>
                 <div class="column is-7">
                     <div class="field" v-if="workflow_action.concerning_users.type == 'custom'">
