@@ -61,7 +61,7 @@ module CloudObject
             old_attributes.each do |key, value|
                 next if value == new_attributes[key]
                 if key.include?("id")
-                    if key == "user_main_id" || key == "users_id"
+                    if key == "user_main_id" || key == "users_id" || key == "user_branch_office_id"
                         update_user_field(cloud_object, current_user, key, old_attributes[key], new_attributes[key], category)
                     elsif key.include?("workflow_statuses_id")
                         update_workflow_status_field(cloud_object, current_user, key, old_attributes[key], new_attributes[key])
@@ -107,8 +107,8 @@ module CloudObject
                 user_creator: current_user,
                 category: category,
                 field_name: key,
-                value_from: ::User.with_deleted.find(old_user_id).full_name,
-                value_to:   ::User.with_deleted.find(new_user_id).full_name
+                value_from: old_user_id ? User.with_deleted.find(old_user_id).full_name : nil,
+                value_to:   new_user_id ? User.with_deleted.find(new_user_id).full_name : nil
             )
         end
 
