@@ -231,6 +231,7 @@ export default {
         },
 
         clearAutocompleteOptions(){
+            this.search = '';
             this.disable_search = true;
             this.options = [];
             this.index = -1;
