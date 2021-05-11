@@ -1,0 +1,18 @@
+{
+    "short_name": "FirstVuePWA",
+    "name": "First Vue PWA App",
+    "icons": [{
+        "src": "/192.png",
+        "type": "image/png",
+        "sizes": "192x192"
+    }, {
+        "src": "/512.png",
+        "type": "image/png",
+        "sizes": "512x512"
+    }],
+    "start_url": "/?utm_source=a2hs",
+    "background_color": "#FFFFFF",
+    "display": "standalone",
+    "scope": "/",
+    "theme_color": "#FFFFFF"
+}

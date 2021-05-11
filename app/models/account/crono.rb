@@ -1,16 +1,4 @@
-<p align="center">
-    <img width="250" alt="Lesli logo" src="https://cdn.lesli.tech/lesli/brand/lesli-logo.svg" />
-</p>
-
-<h3 align="center">Lesli app for desktop</h3>
-
-<hr/>
-
-Version 0.1.0-alpha
-
-
-#### License
--------
+=begin
 Copyright (c) 2021, all rights reserved.
 
 All the information provided by this platform is protected by international laws related  to 
@@ -23,8 +11,19 @@ transmission, publication is strictly forbidden.
 
 For more information read the license file including with this software.
 
-<br>
+// · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
+// · 
 
-<p align="center">
-    <img alt="Lesli logo" width="100" src="./app/assets/images/brand/lesli-icon.svg" />
-</p>
+=end
+class Account::Crono < ApplicationLesliRecord
+    belongs_to :account, foreign_key: "accounts_id"
+    belongs_to :user, foreign_key: "users_id"
+
+    def self.index(current_user, query)
+        []
+    end
+
+    def show(current_user, query)
+        self
+    end
+end
