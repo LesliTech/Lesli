@@ -46,6 +46,9 @@ Rails.application.config.assets.precompile += [ "profiles.css", "profiles/app.js
 Rails.application.config.assets.precompile += [ "users.css", "users/*.css", "users/*.js" ]
 
 # 
+Rails.application.config.assets.precompile += [ "cronos.css", "cronos/*.js" ]
+
+# 
 Rails.application.config.assets.precompile += [ "onboardings.css", "onboardings/*.css", "onboardings/*.js" ]
 
 
