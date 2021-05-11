@@ -63,3 +63,8 @@ package-lock.json
 .idea/
 
 /config/credentials/development.key
+
+
+
+# temp
+/public/pwa/*
