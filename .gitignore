@@ -57,6 +57,8 @@ package-lock.json
 !/config/credentials/testci.yml.enc
 
 *.pem
+*.crt
+*.key 
 
 # Editor settings:
 # Covers JetBrains IDEs: RubyMine
