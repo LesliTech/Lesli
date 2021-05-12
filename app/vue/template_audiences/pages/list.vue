@@ -24,7 +24,7 @@ export default {
             filters_ready: false,
             translations: {
                 core: I18n.t('core.shared'),
-                main: I18n.t('mailer.audiences')
+                main: I18n.t('core.template/audiences')
             },
             filters: {
                 search: '',
@@ -61,7 +61,7 @@ export default {
 
         getTemplateAudiences() {
             this.loading = true
-            let url = this.url.lesli("template/audiences")
+            let url = this.url.admin("template/audiences")
 
             url = url.filters({
                 search: this.filters.search,
@@ -108,7 +108,7 @@ export default {
         },
 
         deleteTemplateAudience(audience){
-            let url = this.url.lesli(`template_audiences/${audience.id}`)
+            let url = this.url.admin(`template_audiences/${audience.id}`)
 
             this.http.delete(url).then(result => {
                 if (result.successful) {
@@ -157,7 +157,7 @@ export default {
         <component-toolbar
             v-if="filters_ready"
             :search-text="translations.core.view_placeholder_search"
-            @search="searchAudiences"
+            @search="searchTemplateAudiences"
             :initial-value="filters.search"
         >
             <div class="control">

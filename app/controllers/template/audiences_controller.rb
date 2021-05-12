@@ -23,7 +23,7 @@ class Template::AudiencesController < ApplicationLesliController
         respond_to do |format|
             format.html {}
             format.json {
-                respond_with_successful(Audience.index(current_user, @query))
+                respond_with_successful(Template::Audience.index(current_user, @query))
             }
         end
     end
@@ -32,7 +32,7 @@ class Template::AudiencesController < ApplicationLesliController
         respond_to do |format|
             format.html {}
             format.json {
-                respond_with_successful(Audience.list(current_user, @query))
+                respond_with_successful(Template::Audience.list(current_user, @query))
             }
         end
     end
@@ -41,7 +41,7 @@ class Template::AudiencesController < ApplicationLesliController
         respond_to do |format|
             format.html {}
             format.json {
-                respond_with_successful(CloudMailer::Audience.show(current_user, @template_audience.id))
+                respond_with_successful(Template::Audience.show(current_user, @template_audience.id))
             }
         end
     end
@@ -89,7 +89,7 @@ class Template::AudiencesController < ApplicationLesliController
     private
 
     def set_template_audience
-        @template_audience = current_user.account.template_audiences.find(class_name, params[:id])
+        @template_audience = current_user.account.template.audiences.find_by(id: params[:id])
     end
 
     def template_audience_params

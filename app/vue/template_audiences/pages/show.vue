@@ -97,7 +97,7 @@ export default {
 
         <b-tabs v-model="active.main_tab">
             <b-tab-item :label="translations.main.view_text_contacts">
-                <component-list-contacts :source_translation_path="source_translation_path" :active="active" :audience-id="audience_id"></component-list-contacts>
+                <component-list-contacts :active="active" :audience-id="audience_id"></component-list-contacts>
             </b-tab-item>
 
             <b-tab-item :label="translations.main.view_text_add_contacts">
@@ -105,7 +105,7 @@ export default {
             </b-tab-item >
 
             <b-tab-item :label="translations.main.view_text_import_contact">
-                <component-form-import-contacts :source_translation_path="source_translation_path" :active="active" :audience-id="audience_id"></component-form-import-contacts>
+                <component-form-import-contacts :active="active" :audience-id="audience_id"></component-form-import-contacts>
             </b-tab-item>
         </b-tabs>
     </section>
