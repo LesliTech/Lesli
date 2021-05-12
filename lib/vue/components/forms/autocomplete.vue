@@ -235,6 +235,8 @@ export default {
             this.disable_search = true;
             this.options = [];
             this.index = -1;
+            this.$emit('input', null);
+            this.$emit('clear')
             this.$nextTick(()=>{
                 this.disable_search = false;
             });
