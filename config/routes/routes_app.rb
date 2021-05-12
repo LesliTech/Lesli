@@ -21,14 +21,14 @@ module RoutesApp
     def self.extended(router)
         router.instance_exec do
 
-            unauthenticated :user do 
+            unauthenticated :user do
 
                 # Alternative logins - magic links
                 resource :otp,  only: [:show, :new, :create]
                 resource :pass, only: [:show, :new, :create]
                 resource :onboarding, only: [:show, :create]
-                
-            end 
+
+            end
 
             authenticated :user do
 
@@ -40,11 +40,11 @@ module RoutesApp
                     root to: "accounts#show", as: :root_administration
 
                     # Lesli user profile
-                    resource :profile, only: [:show] do 
+                    resource :profile, only: [:show] do
                         scope module: :profile do
                             resources :notifications, only: [:index, :update]
                         end
-                        
+
                     end
 
                     # account management
@@ -128,6 +128,8 @@ module RoutesApp
                                 end
                             end
                         end
+                        resources :audience_references
+                        resources :audiences
                         resources :variables
                         resources :mappings
                     end

@@ -1,0 +1,2 @@
+module Template::AudiencesHelper
+end
