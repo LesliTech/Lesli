@@ -38,7 +38,8 @@ export default {
             },
             transition_statuses: null,
             module_name: null,
-            object_name: null
+            object_name: null,
+            loading: true,
         }
     },
 
@@ -83,6 +84,8 @@ export default {
                     }
                 }).catch(error => {
                     console.log(error)
+                }).finally(() => {
+                    this.loading = false;
                 })
             }
         },
@@ -135,14 +138,18 @@ export default {
 }
 </script>
 <template>
-    <b-dropdown hoverable aria-role="list" position="is-bottom-left" expanded>
+    <component-data-loading v-if="loading"> </component-data-loading>
+    <b-dropdown :disabled="transition_statuses.length === 0" v-else hoverable aria-role="list" position="is-bottom-left" expanded>
         <button class="button" slot="trigger" type="button" >
             <span v-if="value">
                 {{translations.workflow_statuses.view_title_new_status}}:
                 <component-status-name :translations-path="translationsPath" :name="value.name"></component-status-name>
             </span>
-            <span v-else>{{translations.workflow_statuses.view_title_change_status}}</span>
-            <b-icon icon="chevron-down" size="is-small" />
+            <span v-else>
+              <span v-if="transition_statuses.length > 0">{{translations.workflow_statuses.view_title_change_status}}</span>
+              <span v-else>{{translations.workflow_statuses.view_text_closed}}</span>
+            </span>
+            <b-icon v-if="transition_statuses.length > 0" icon="chevron-down" size="is-small" />
         </button>
         <b-dropdown-item
             @click="submitStatus(status)"
