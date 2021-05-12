@@ -67,7 +67,7 @@ module Courier
                 task.set_workflow
                 if task.save!
                     if send_email
-                        CloudFocus::TasksService::SendNotifications.send_email_for_new_task(task)
+                        CloudFocus::TaskService::SendNotifications.send_email_for_new_task(task)
                     else
                         CloudFocus::Task.send_notification_new(task)
                     end
