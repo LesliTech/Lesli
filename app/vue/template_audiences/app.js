@@ -22,20 +22,20 @@ import app from "LesliVue/app"
 
 // · Import pages and components
 import pageList from "./pages/list.vue";
-import pageEdit from "./pages/edit.vue";
+import pageShow from "./pages/show.vue";
 import pageNew from "./pages/new.vue";
 
 
 // ·
-app("CloudMailer", "[list, new, edit]", "/mailer/audiences", [{
+app("Core", "[list, new, show]", "/template_documents", [{
     path: "/",
     component: pageList
 }, {
     path: "/new",
     component: pageNew
 }, {
-    path: "/:id/edit",
-    component: pageEdit, props: {lesli_instance_code: lesli_instance_code}
+    path: "/:id",
+    component: pageShow
 }], {
     audiences: {},
     selected_audience_contact: {}

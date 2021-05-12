@@ -19,12 +19,18 @@ For more information read the license file including with this software.
 
 // ·
 export default {
+    props: {
+        base_path: {
+            required: true
+        }
+    },
+
     data() {
         return {
             audience: {},
             translations: {
                 core: I18n.t('core.shared'),
-                main: I18n.t('mailer.audiences')
+                main: I18n.t('core.template/audiences')
             },
             submitting_form: false
         }
@@ -34,13 +40,13 @@ export default {
             if (event) { event.preventDefault() }
 
             if(this.audience.id){
-                this.putAudience()
+                this.putTemplateAudience()
             }else{
-                this.postAudience()
+                this.postTemplateAudience()
             }
         },
 
-        postAudience() {
+        postTemplateAudience() {
             this.submitting_form = true
 
             let url = this.url.mailer(`audiences`)
@@ -56,13 +62,16 @@ export default {
 
                 this.msg.success(this.translations.main.messages_success_created)
 
-                this.url.go(this.url.mailer(`audiences/${result.data.id}/edit`))
+
+                if (base_path) {
+                    this.url.go(`${this.base_path}/${result.data.id}`)
+                }
             }).catch(error => {
                 console.log(error)
             })
         },
 
-        putAudience() {
+        putTemplateAudience() {
             this.submitting_form = true
 
             let url = this.url.mailer('audiences/:audience_id', { audience_id: this.audienceId})
@@ -75,7 +84,7 @@ export default {
 
                 this.submitting_form = false
 
-                this.msg.success(this.translations.main.messages_success_created)
+                this.msg.success(this.translations.main.messages_success_updated)
             }).catch(error => {
                 console.log(error)
             })
@@ -85,7 +94,7 @@ export default {
 
 </script>
 <template>
-    <form @submit.prevent="postAudience()">
+    <form @submit.prevent="postTemplateAudience()">
         <fieldset :disabled="submitting_form">
             <div class="field">
                 <label class="label"> {{ translations.main.column_name }} </label>
@@ -93,6 +102,10 @@ export default {
                     <input class="input" type="text" placeholder="" v-model="audience.name">
                 </div>
             </div>
+
+            <b-field :label="translations.main.column_description">
+                <b-input type="textarea" placeholder="" v-model="audience.description"></b-input>
+            </b-field>
 
             <div class="field is-grouped">
                 <div class="control">

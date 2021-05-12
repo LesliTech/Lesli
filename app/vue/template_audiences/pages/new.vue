@@ -23,6 +23,12 @@ import componentForm from "../components/form.vue"
 
 // ·
 export default {
+    props: {
+        base_path: {
+            default: null
+        }
+    },
+
     components: {
         "component-form": componentForm
     },
@@ -48,7 +54,7 @@ export default {
         </component-header>
         <div class="card">
             <div class="card-content">
-                <component-form></component-form>
+                <component-form :base_path="base_path"></component-form>
             </div>
         </div>
     </section>
