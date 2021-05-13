@@ -16,7 +16,7 @@ For more information read the license file including with this software.
 
 =end
 class Template::AudiencesController < ApplicationLesliController
-    before_action :set_template_audience, only: [:show, :update, :destroy]
+    before_action :set_audience, only: [:show, :update, :destroy, :generate_file]
 
     # GET /audiences
     def index
@@ -41,7 +41,7 @@ class Template::AudiencesController < ApplicationLesliController
         respond_to do |format|
             format.html {}
             format.json {
-                respond_with_successful(Template::Audience.show(current_user, @template_audience.id))
+                respond_with_successful(Template::Audience.show(current_user, @audience.id))
             }
         end
     end
@@ -53,46 +53,70 @@ class Template::AudiencesController < ApplicationLesliController
     end
 
     def create
-        template_audience = current_user.account.mailer.audiences.new(template_audience_params)
+        audience = current_user.account.template.audiences.new(audience_params)
 
-        if template_audience.save
-            respond_with_successful(template_audience)
+        if audience.save
+            respond_with_successful(audience)
         else
-            respond_with_error(template_audience.errors.full_messages)
+            respond_with_error(audience.errors.full_messages)
         end
     end
 
     def update
-        return respond_with_not_found unless @template_audience
+        return respond_with_not_found unless @audience
 
-        old_attributes = @template_audience.attributes
+        old_attributes = @audience.attributes
 
-        if @template_audience.update(template_audience_params)
-            new_attributes = @template_audience.attributes
+        if @audience.update(audience_params)
+            new_attributes = @audience.attributes
 
-            respond_with_successful(@template_audience)
+            respond_with_successful(@audience)
         else
-            respond_with_error(@template_audience.errors.full_messages.to_sentence)
+            respond_with_error(@audience.errors.full_messages.to_sentence)
         end
     end
 
     def destroy
-        return respond_with_not_found unless @template_audience
+        return respond_with_not_found unless @audience
 
-        if @template_audience.destroy
+        if @audience.destroy
             respond_with_successful
         else
-            respond_with_error(@template_audience.errors.full_messages.to_sentence)
+            respond_with_error(@audience.errors.full_messages.to_sentence)
         end
+    end
+
+    def options
+        options = Template::AudienceReference.options(current_user, @query)
+
+        respond_with_successful(options)
+    end
+
+    def generate_file
+        return respond_with_not_found unless @audience
+
+        references_id = import_audience_generete_file_params[:ids]
+        template_document_id = import_audience_generete_file_params[:template_document_id]
+
+        Templates::CreateFileForAudienceJob.perform_later(
+            current_user,
+            @audience,
+            template_document_id,
+            references_id
+        )
     end
 
     private
 
-    def set_template_audience
-        @template_audience = current_user.account.template.audiences.find_by(id: params[:id])
+    def set_audience
+        @audience = current_user.account.template.audiences.find_by(id: params[:id])
     end
 
-    def template_audience_params
-        params.require(:template_audience).permit(:name)
+    def audience_params
+        params.require(:audience).permit(:name, :description, :model_type)
+    end
+
+    def import_audience_generete_file_params
+        params.permit(:template_document_id, :ids => [])
     end
 end

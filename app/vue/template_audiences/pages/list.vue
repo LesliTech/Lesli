@@ -107,13 +107,13 @@ export default {
             this.getTemplateAudiences()
         },
 
-        deleteTemplateAudience(audience){
-            let url = this.url.admin(`template_audiences/${audience.id}`)
+        deleteTemplateAudience(template_audience){
+            let url = this.url.admin(`template/audiences/:id`, { id: template_audience.id })
 
             this.http.delete(url).then(result => {
                 if (result.successful) {
 
-                    this.getTemplateAudiences()
+                    this.template_audiences = this.template_audiences.filter(e => e.id !== template_audience.id)
 
                     this.msg.success(this.translations.main.messages_success_deleted)
                 }else{
@@ -124,8 +124,8 @@ export default {
             })
         },
 
-        gotoTemplateAudience(audience) {
-            this.$router.push(`${audience.id}/edit`)
+        gotoTemplateAudience(template_audience) {
+            this.$router.push(`${template_audience.id}`)
         }
     },
     watch: {
@@ -181,7 +181,7 @@ export default {
             v-if="!loading && template_audiences.length > 0"
             @click="gotoTemplateAudience"
             backend-sorting
-            @sort="sortAudiences"
+            @sort="sortTemplateAudiences"
         >
             <template slot-scope="props">
                 <b-table-column field="id" :label="translations.main.view_text_id" sortable>

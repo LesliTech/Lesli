@@ -128,11 +128,23 @@ module RoutesApp
                                 end
                             end
                         end
-                        resources :audience_references
-                        resources :audiences
+                        resources :audience_references do
+                            collection do
+                                get  :options
+                            end
+                        end
+                        resources :audiences do
+                            member do
+                                scope :resources do
+                                    post :generate_file
+                                end
+                            end
+                        end
+
                         resources :variables
                         resources :mappings
                     end
+
 
                     #
                     resources :workflows do

@@ -15,27 +15,18 @@ For more information read the license file including with this software.
 // ·
 
 =end
-class Template::AudienceReference < ApplicationLesliRecord
-    belongs_to :model,          polymorphic: true, optional: true
+class Template::AudienceFile < ApplicationLesliRecord
     belongs_to :audience,       class_name: "Template::Audience",   foreign_key: "template_audiences_id"
 
-    belongs_to :audience, foreign_key: "cloud_mailer_audiences_id"
-    validates :email, uniqueness: { scope: :audience,  message: -> (object, data) do
-            "#{object.email} #{I18n.t("core.template/audience_references.messages_danger_reference_has_already_been_taken")}"
-        end
-    }
-
     def self.index current_user, audience, query
-        return audience.contacts
+        return audience.files.select(
+            :id,
+            :name,
+            LC::Date.db_timestamps()
+        )
     end
 
-    def self.options(current_user, query)
-        if defined? DeutscheLeibrenten
-            tables = DeutscheLeibrenten::TemplateOptionsService.new(current_user).tables
-        end
-
-        return {
-            tables: tables
-        }
+    def show(current_user, query)
+        self
     end
 end

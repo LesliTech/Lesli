@@ -19,21 +19,16 @@ For more information read the license file including with this software.
 
 // ·
 import componentForm from "../components/form.vue"
-import componentFormContact from "../components/form-contact.vue"
 import componentListContacts from "../components/list-contacts.vue"
 import componentFormImportContacts from "../components/form-import-contacts.vue"
 
 
 // ·
 export default {
-    props: {
-        lesli_instance_code: {
-            required: true
-        }
-    },
+    props: {},
+
     components: {
         "component-form": componentForm,
-        "component-form-contact": componentFormContact,
         "component-list-contacts": componentListContacts,
         "component-form-import-contacts": componentFormImportContacts
     },
@@ -42,7 +37,7 @@ export default {
             audience_id: null,
             audience: {},
             translations: {
-                main: I18n.t('mailer.audiences'),
+                main: I18n.t('core.template/audiences'),
                 core: I18n.t('core.shared')
             },
             active: {
@@ -52,32 +47,22 @@ export default {
         }
     },
     mounted() {
-
-        // translate the sources depending on builder
-        this.source_translation_path = I18n.t(`${this.lesli_instance_code}.shared`)
-
         this.audience_id = this.$route.params.id
-        this.getAudience()
+        this.getTemplateAudience()
     },
     methods: {
-        getAudience() {
-            this.http.get(`/mailer/audiences/${this.audience_id}.json`).then(result => {
+        getTemplateAudience() {
+            let url = this.url.admin('template/audiences/:id', {id: this.audience_id})
+            this.http.get(url).then(result => {
+
                 if (!result.successful) {
                     return
                 }
+
                 this.audience = result.data
             }).catch(error => {
                 console.log(error)
             })
-        }
-    },
-    watch: {
-        'active.main_tab': {
-            handler(value){
-                if (value == 1 && this.data.selected_audience_contact.id) {
-                    this.data.selected_audience_contact = {} // remove selected contact from form
-                }
-            }
         }
     }
 }
@@ -95,17 +80,24 @@ export default {
             </div>
         </component-header>
 
-        <b-tabs v-model="active.main_tab">
-            <b-tab-item :label="translations.main.view_text_contacts">
-                <component-list-contacts :active="active" :audience-id="audience_id"></component-list-contacts>
+        <b-tabs vertical>
+            <b-tab-item :label="translations.core.view_tab_title_form">
+                <component-form v-if="audience.id" :base_path="null" :audience="audience"></component-form>
             </b-tab-item>
 
-            <b-tab-item :label="translations.main.view_text_add_contacts">
-                <component-form-contact v-if="audience" :active="active" :audience-id="audience_id"></component-form-contact>
-            </b-tab-item >
+            <b-tab-item v-if="audience.id" :label="translations.main.view_tab_title_references">
+                <div class="box">
+                    <component-form-import-contacts :audience="audience"></component-form-import-contacts>
+                </div>
 
-            <b-tab-item :label="translations.main.view_text_import_contact">
-                <component-form-import-contacts :active="active" :audience-id="audience_id"></component-form-import-contacts>
+                <!-- <b-tabs expanded>
+                    <b-tab-item :label="translations.core.view_tab_title_list">
+                        <component-list-contacts :template-audience-id="audience_id"></component-list-contacts>
+                    </b-tab-item>
+                    <b-tab-item :label="translations.main.view_tab_title_import_references">
+
+                    </b-tab-item>
+                </b-tabs> -->
             </b-tab-item>
         </b-tabs>
     </section>

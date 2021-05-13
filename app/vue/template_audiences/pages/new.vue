@@ -37,6 +37,9 @@ export default {
             translations: {
                 main: I18n.t('mailer.audiences'),
                 core: I18n.t('core.shared')
+            },
+            audience: {
+                id: null
             }
         }
     }
@@ -52,10 +55,7 @@ export default {
                 </router-link>
             </div>
         </component-header>
-        <div class="card">
-            <div class="card-content">
-                <component-form :base_path="base_path"></component-form>
-            </div>
-        </div>
+
+        <component-form :audience="audience" :base_path="base_path"></component-form>
     </section>
 </template>
