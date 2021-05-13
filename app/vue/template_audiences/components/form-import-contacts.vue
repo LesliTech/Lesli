@@ -18,7 +18,7 @@ For more information read the license file including with this software.
 
 export default {
     props: {
-        audienceId: {
+        audience: {
             required: true
         },
         source_translation_path: {
@@ -32,64 +32,92 @@ export default {
                 emails: {},
                 filters: {}
             },
-            contacts: [],
+            references: [],
             current_table: null,
             translations: {
                 core: I18n.t('core.shared'),
-                main: I18n.t('mailer.audiences'),
-                contacts: I18n.t('mailer.audience/contacts'),
+                main: I18n.t('core.template/audiences'),
+                references: I18n.t('core.template/audience_references'),
             },
-            filteredEmails: [],
+            filteredData: [],
             submitting_form: false,
             requests: [],
             currentFilters: [],
             filters_selected: {},
             search: null,
-            current_data: []
+            current_data: [],
+            template_documents: [],
+            template_documents_options: {
+                id: null,
+                model_type: '',
+            }
         }
     },
     mounted() {
         this.getOptions()
+        this.getTemplateDocuments()
     },
     methods: {
-        submitContacts(event){
-            if (event) { event.preventDefault() }
+        submitReferences(event){
+            // if (event) { event.preventDefault() }
 
-            this.submitting_form = true
+            // this.submitting_form = true
 
-            if (this.contacts.length == 0) return
+            // if (this.references.length == 0) return
 
-            this.importContacts()
+            // this.importReferences()
+
+            this.generateFile()
         },
 
-        importContacts(){
+        generateFile(){
+            let form = {
+                ids: this.references.map(e => e.id),
+                template_document_id: this.template_documents_options.id
+            }
+
+            let url = this.url.admin('template/audiences/:audience_id/resources/generate_file', { audience_id: this.audience.id})
+            this.http.post(url, form).then(result => {
+                this.submitting_form = false
+
+                if (!result.successful) {
+                    this.msg.error(result.error.message)
+                    return
+
+                }
+            }).catch(error => {
+                console.log(error)
+            })
+        },
+
+        importReferences(){
             let form = {
                 import: {
-                    contacts: this.contacts
+                    references: this.references
                 }
             }
 
-            let url = this.url.mailer('audiences/:audience_id/resources/import_contacts', { audience_id: this.audienceId})
+            let url = this.url.admin('template/audience/:audience_id/resources/import_references', { audience_id: this.audience.id})
             this.http.post(url, form).then(result => {
                 if (!result.successful) {
                     this.msg.error(result.error.message)
                 }
 
-                if (result.data.contacts_not_imported.length > 0){
-                    for(let contact of result.data.contacts_not_imported){
-                        this.msg.error(contact.errors)
+                if (result.data.references_not_imported.length > 0){
+                    for(let reference of result.data.references_not_imported){
+                        this.msg.error(reference.errors)
                     }
                 }
 
                 this.submitting_form = false
 
                 setTimeout(() => {
-                    this.contacts = []
+                    this.references = []
 
-                    this.data.audiences.getContacts()
-                    this.msg.info(this.translations.main.messages_info_contacts_import_finished)
+                    this.data.audiences.getReferences()
+                    this.msg.info(this.translations.main.messages_info_reference_import_finished)
 
-                }, (result.data.contacts_not_imported.length||0) * 300)
+                }, (result.data.references_not_imported.length||0) * 300)
 
             }).catch(error => {
                 console.log(error)
@@ -97,7 +125,7 @@ export default {
         },
 
         getOptions() {
-            let url = this.url.mailer('audiences/contacts/options')
+            let url = this.url.admin('template/audiences/options')
 
             this.http.get(url).then(result => {
                 if (!result.successful) {
@@ -105,14 +133,12 @@ export default {
                     return
                 }
 
-                for(let option of result.data.tables) {
-                    this.options.emails[`${option.name}`] = option.data.map(e => {
-                        let text = e[`text`]
-                        if (!text) text = e[`name`]
+                let table_options = result.data.tables.filter(e => e.model_type === this.audience.model_type)
 
+                for(let option of table_options) {
+                    this.options.emails[`${option.name}`] = option.data.map(e => {
                         return {
                             ...e,
-                            text: text,
                             source: option.name
                         }
                     })
@@ -138,29 +164,46 @@ export default {
                         (option.text||'').toString().toLowerCase().indexOf(text.toLowerCase()) >= 0
             })
 
-            this.filteredEmails = emails
+            this.filteredData = emails
         },
 
-        importAllContacts(){
-            this.contacts = this.current_data
+        importAllReferences(){
+            this.references = this.current_data
         },
 
         clearForm(){
-            this.contacts = []
+            this.references = []
             this.options = {
                 tables: [],
                 emails: {}
             }
+        },
+
+        getTemplateDocuments(){
+            let url = this.url.admin(`template/documents`)
+            url.filters = { model_type: this.audience.model_type}
+
+            this.http.get(url).then(result => {
+
+                if (result.successful) {
+                    this.template_documents = result.data
+                }else{
+                    this.alert(result.error.message,'danger')
+                }
+            }).catch(error => {
+                console.log(error)
+            })
         }
     },
     watch: {
+
         current_table(){
             if (this.current_table) {
                 this.filters_selected = {}
                 this.current_data = this.options.emails[`${this.current_table}`]
                 this.currentFilters = this.options.filters[`${this.current_table}`]
 
-                this.filteredEmails = this.current_data
+                this.filteredData = this.current_data
 
                 for(let filter of this.currentFilters) {
                     this.$set(this.filters_selected, filter.field, {value: null, type: filter['type']||null}) // create filters
@@ -210,107 +253,118 @@ export default {
 
 </script>
 <template>
-    <div class="box">
-        <form @submit.prevent="submitContacts()">
-            <fieldset :disabled="submitting_form">
-                <div class="column is-12">
-                    <div class="field is-grouped">
-                        <b-field :label="translations.contacts.view_text_select_source">
-                            <b-select
-                                :placeholder="translations.contacts.view_placeholder_source"
-                                v-model="current_table"
-                            >
-                                <option
-                                    v-for="source in options.tables"
-                                    :value="source.value"
-                                    :key="source.value"
-                                >
-                                    {{ object_utils.translateEnum(source_translation_path, 'view_text_table_name', source.text ) }}
-                                </option>
-                            </b-select>
-                        </b-field>
-                        <template v-for="filter in currentFilters" :label="filter.label">
-                            <div class="field">
-                                <div class="label">
-                                    {{ filter.label }}
-                                </div>
-                                <div class="control">
-                                    <span class="select">
-                                        <select v-model="filters_selected[`${filter.field}`]['value']">
-                                            <option value=""> {{ translations.contacts.view_text_select_all }} </option>
-                                            <option v-for="option in filter.data"
-                                                :value="option"
-                                            >
-                                                {{ option }}
-                                            </option>
-                                        </select>
-                                    </span>
-                                </div>
-                            </div>
-                        </template>
+    <form @submit.prevent="submitReferences">
+        <fieldset :disabled="submitting_form">
+            <div class="field is-grouped">
+                <b-field :label="translations.references.view_text_select_source">
+                    <b-select
+                        :placeholder="translations.references.view_placeholder_source"
+                        v-model="current_table"
+                    >
+                        <option
+                            v-for="source in options.tables"
+                            :value="source.value"
+                            :key="source.value"
+                        >
+                            {{ object_utils.translateEnum(source_translation_path, 'view_text_table_name', source.text ) }}
+                        </option>
+                    </b-select>
+                </b-field>
+                <template v-for="filter in currentFilters" :label="filter.label">
+                    <div class="field">
+                        <div class="label">
+                            {{ filter.label }}
+                        </div>
+                        <div class="control">
+                            <span class="select">
+                                <select v-model="filters_selected[`${filter.field}`]['value']">
+                                    <option value=""> {{ translations.references.view_text_select_all }} </option>
+                                    <option v-for="option in filter.data"
+                                        :value="option"
+                                    >
+                                        {{ option }}
+                                    </option>
+                                </select>
+                            </span>
+                        </div>
+                    </div>
+                </template>
+
+                <div class="buttons buttons-box">
+                    <span class="button is-default" @click.stop="importAllReferences">
+                        <b-icon icon="users" size="is-small" />
+                        &nbsp; &nbsp;
+                        {{translations.references.view_text_import_all}}
+                    </span>
+
+                    <span class="button is-default" @click.stop="references = []">
+                        <b-icon icon="user-times" size="is-small" />
+                        &nbsp; &nbsp;
+                        {{translations.references.view_text_clear_list}}
+                    </span>
+                </div>
+            </div>
+
+            <template v-if="current_table">
+                <div class="field">
+                    <label class="label">
+                        {{ translations.references.view_text_data_entry }} {{ `(${filteredData.length} / ${(options.emails[`${this.current_table}`]||[]).length})` }}
+                        <sup class="has-text-danger">*</sup>
+                    </label>
+                    <div class="columns">
+                        <div class="column is-12">
+                            <b-taginput
+                                v-model="references"
+                                :data="filteredData"
+                                autocomplete
+                                field="text"
+                                :open-on-focus="true"
+                                icon="tag"
+                                :placeholder="translations.core.view_placeholder_search"
+                                @typing="getFilteredEmails">
+                                <template v-slot="props">
+                                    <strong> {{props.option.text}} </strong>
+
+                                    <template v-if="props.option.text != props.option.email">
+                                        : {{ props.option.email }}
+                                    </template>
+                                </template>
+                                <template #empty>
+                                    {{ translations.references.view_text_email_not_found }}
+                                </template>
+                            </b-taginput>
+                        </div>
                     </div>
                 </div>
 
-                <template v-if="current_table">
-                    <b-field :label="translations.contacts.view_text_contacts_entry">
-                        <div class="columns">
-                            <div class="column is-8">
-                                <b-taginput
-                                    v-model="contacts"
-                                    :data="filteredEmails"
-                                    autocomplete
-                                    field="email"
-                                    :open-on-focus="true"
-                                    icon="tag"
-                                    :placeholder="translations.core.view_placeholder_search"
-                                    @typing="getFilteredEmails">
-                                    <template v-slot="props">
-                                        <strong> {{props.option.text}} </strong>
-
-                                        <template v-if="props.option.text != props.option.email">
-                                            : {{ props.option.email }}
-                                        </template>
-                                    </template>
-                                    <template #empty>
-                                        {{ translations.contacts.view_text_email_not_found }}
-                                    </template>
-                                </b-taginput>
-                            </div>
-
-                            <div class="column is-2">
-                                <div class="buttons">
-                                    <span class="button is-default" @click.stop="importAllContacts">
-                                        <b-icon icon="users" size="is-small" />
-                                        &nbsp; &nbsp;
-                                        {{translations.contacts.view_text_import_all}}
-                                    </span>
-
-                                    <span class="button is-default" @click.stop="contacts = []">
-                                        <b-icon icon="user-times" size="is-small" />
-                                        &nbsp; &nbsp;
-                                        {{translations.contacts.view_text_clear_list}}
-                                    </span>
-                                </div>
-                            </div>
-                        </div>
-                    </b-field>
-
+                <div class="field">
+                    <label class="label"> {{ 'Template'}} <sup class="has-text-danger">*</sup> </label>
                     <div class="control">
-                        <button class="button is-primary">
-                            <span v-if="submitting_form">
-                                <b-icon icon="circle-notch" custom-class="fa-spin" size="is-small" />
-                                &nbsp;
-                                {{translations.core.view_btn_saving}}
-                            </span>
-                            <span v-else>
-                                <b-icon icon="save" size="is-small" />
-                                &nbsp;
-                                {{translations.core.view_btn_save}}
-                            </span>
-                        </button>
+                        <b-select expanded :placeholder="translations.main.text_select_option" v-model="template_documents_options.id" required>
+                            <option v-for="template_document in template_documents" :key="template_document.id" :value="template_document.id">
+                                {{(
+                                    template_document.name
+                                )}}
+                            </option>
+                        </b-select>
                     </div>
-                </template>
-            </fieldset>
-        </form>
-    </div>
+                </div>
+
+                <div class="control">
+                    <button class="button is-primary">
+                        <span v-if="submitting_form">
+                            <b-icon icon="circle-notch" custom-class="fa-spin" size="is-small" />
+                            &nbsp;
+                            {{translations.core.view_btn_saving}}
+                        </span>
+                        <span v-else>
+                            <b-icon icon="save" size="is-small" />
+                            &nbsp;
+                            {{translations.core.view_btn_save}}
+                        </span>
+                    </button>
+                </div>
+            </template>
+        </fieldset>
+    </form>
 </template>

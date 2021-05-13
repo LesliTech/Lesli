@@ -18,24 +18,13 @@ For more information read the license file including with this software.
 
 export default {
     props: {
-        audienceId: {
+        templateAudienceId: {
             required: true
-        },
-
-        source_translation_path: {
-            required: true
-        },
-
-        active: {
-            type: Object,
-            default: ()=>{
-                return {}
-            }
         }
     },
     data() {
         return {
-            contacts: [],
+            references: [],
             filters: {
                 search: ''
             },
@@ -48,50 +37,43 @@ export default {
             translations: {
                 core: I18n.t('core.shared'),
                 main: I18n.t('mailer.audiences'),
-                contacts: I18n.t('mailer.audience/contacts'),
+                references: I18n.t('mailer.audience/references'),
             },
             loading: false
         }
     },
     mounted() {
-        this.data.audiences.getContacts = () => this.getContacts()
+        this.data.audiences.getReferences = () => this.getReferences()
     },
     methods: {
-        getContacts() {
+        getReferences() {
             this.loading = true
 
-            let url = this.url.mailer(`audiences/${this.audienceId}/contacts`)
+            let url = this.url.mailer(`audiences/${this.templateAudienceId}/references`)
 
             this.http.get(url).then(result => {
                 if (result.successful) {
 
                     this.loading = false
-                    this.contacts = result.data.map(e => {
-                        return {
-                            ...e,
-                            source_translated: this.object_utils.translateEnum(this.source_translation_path, 'view_text_table_name', e.source)
-                        }
-                    })
+                    this.references = result.data
 
                 } else {
                     this.msg.error(result.error.message)
                 }
-
-                this.$set(this.active, 'main_tab', 0)
             }).catch(error => {
                 console.log(error)
             })
         },
 
-        deleteAudienceContact(contact){
-            let url = this.url.mailer(`audiences/${this.audienceId}/contacts/${contact.id}`)
+        deleteAudienceReference(reference){
+            let url = this.url.mailer(`audiences/${this.templateAudienceId}/references/${reference.id}`)
 
             this.http.delete(url).then(result => {
 
                 if (result.successful) {
-                    this.msg.success(this.translations.main.messages_success_contact_deleted)
+                    this.msg.success(this.translations.main.messages_success_reference_deleted)
 
-                    this.contacts = this.contacts.filter(e => e.id !== contact.id)
+                    this.references = this.references.filter(e => e.id !== reference.id)
                 }else{
                     this.msg.error(result.error.message)
                 }
@@ -106,27 +88,21 @@ export default {
             }
 
             this.filters.search = ''
-        },
-
-        showContact(contact){
-            this.$set(this.active, 'main_tab', 2)
-            this.data.selected_audience_contact = contact
-        },
+        }
     },
     watch: {
         audienceId: function() {
-            this.getContacts()
+            this.getReferences()
         }
     },
     computed: {
-        filteredContacts(){
-            this.storage.local("contact_filters", this.filters)
+        filteredReferences(){
+            this.storage.local("reference_filters", this.filters)
             let search_field = this.filters.search.toLowerCase()
 
-            return this.contacts.filter((contact)=>{
-                return (contact.name||'').toLowerCase().includes(search_field.toLowerCase()) ||
-                    (contact.email||'').toLowerCase().includes(search_field.toLowerCase()) ||
-                    (contact.source_translated||'').toString().toLowerCase().indexOf(search_field.toLowerCase()) >= 0
+            return this.references.filter((reference)=>{
+                return (reference.name||'').toLowerCase().includes(search_field.toLowerCase()) ||
+                    (reference.email||'').toLowerCase().includes(search_field.toLowerCase()) >= 0
             })
         }
     },
@@ -135,9 +111,9 @@ export default {
 <template>
     <section>
         <component-data-loading v-if="loading" />
-        <component-data-empty v-if="!loading && contacts.length == 0" />
+        <component-data-empty v-if="!loading && references.length == 0" />
 
-        <template v-if="!loading && contacts.length > 0">
+        <template v-if="!loading && references.length > 0">
             <div class="box">
                 <div class="columns">
                     <div class="column is-full">
@@ -156,7 +132,7 @@ export default {
                 </div>
 
                 <b-table
-                    :data="filteredContacts"
+                    :data="filteredReferences"
                     :paginated="true"
                     :per-page="pagination.per_page"
                     :current-page.sync="pagination.current_page"
@@ -164,20 +140,20 @@ export default {
                     pagination-position="bottom"
                 >
                     <template slot-scope="props">
-                        <b-table-column width="30%" field="name" sortable :label="translations.contacts.column_name">
+                        <b-table-column width="30%" field="name" sortable :label="translations.references.column_name">
                             {{props.row.name}}
                         </b-table-column>
 
-                        <b-table-column width="30%" field="email" sortable :label="translations.contacts.column_email">
+                        <b-table-column width="30%" field="email" sortable :label="translations.references.column_email">
                             {{props.row.email}}
                         </b-table-column>
 
-                        <b-table-column width="20%" field="source" sortable :label="translations.contacts.column_source">
+                        <b-table-column width="20%" field="source" sortable :label="translations.references.column_source">
                             {{props.row.source_translated}}
                         </b-table-column>
 
                         <b-table-column centered width="5%" field="actions" :label="translations.core.view_table_header_actions" class="has-text-right">
-                            <b-button type="is-danger" outlined @click.stop="deleteAudienceContact(props.row)">
+                            <b-button type="is-danger" outlined @click.stop="deleteAudienceReference(props.row)">
                                 <b-icon size="is-small" icon="trash-alt" />
                             </b-button>
                         </b-table-column>

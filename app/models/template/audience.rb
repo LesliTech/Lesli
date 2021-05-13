@@ -57,6 +57,7 @@ class Template::Audience < ApplicationLesliRecord
         audience = current_user.account.template.audiences.select(
             :id,
             :name,
+            :model_type,
             LC::Date.db_timestamps()
         ).find(id)
     end
