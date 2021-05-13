@@ -8,18 +8,18 @@ class Templates::CreateFileForAudienceJob < ApplicationJob
 
     def perform(current_user, audience, template_document_id, references_id)
 
-        template = current_user.account.template.documents.find_by(id: template_document_id) # template document
+        document = current_user.account.template.documents.find_by(id: template_document_id) # template document
 
         word_template_file = LC::Config::Providers::Aws::S3.new()
-        word_template_file = word_template_file.get_object(template.attachment) # download word template file from s3
+        word_template_file = word_template_file.get_object(document.attachment) # download word document file from s3
 
-        doc_template_path = "#{Rails.root}/tmp/templates-#{template.name}"
+        doc_template_path = "#{Rails.root}/tmp/templates-#{document.name}"
 
         File.open(doc_template_path, "w") do |file|
             file.write word_template_file["body"].read()
         end
 
-        document_mappings = template.mappings.joins(:variable).select("name, table_alias, table_name, field_name") # template variables
+        document_mappings = document.mappings.joins(:variable).select("name, table_alias, table_name, field_name, template_variables.variable_type")
         query = {
             fields: [],
             mapping: {}
@@ -27,21 +27,38 @@ class Templates::CreateFileForAudienceJob < ApplicationJob
 
         variables = []
 
-        document_mappings.each do |document_map|
+        document_mappings.find_all {|mapping| mapping.variable_type == Template::Variable.variable_types[:table]}.each do |document_map|
 
             unless document_map["table_alias"].blank?
                 table_alias = document_map["table_alias"]
             else
-                table_alias = document_map["table_name"].split("_").map { |e| e.chars.first}.join("")
+                table_alias = (document_map["table_name"]||"").split("_").map { |e| e.chars.first}.join("")
             end
 
             variables.push(document_map["name"])
 
             query[:mapping][document_map["name"]] = { field_name: document_map["field_name"], alias: document_map["table_alias"]}
-            query[:fields].push("#{table_alias}.#{document_map["field_name"]} as #{document_map["name"]}")
+
+            if not (document_map["table_name"].blank?)
+                query[:fields].push("#{table_alias}.#{document_map["field_name"]} as #{document_map["name"]}")
+            end
         end
 
-        query[:fields] = query[:fields].join(",")
+        #looking for method calls
+        document_mappings.find_all {|mapping| mapping.variable_type == Template::Variable.variable_types[:method]}.each do |document_map|
+            if ((defined? ("#{document_map["table_name"]}.#{document_map["table_alias"]}"||"").constantize) == "method" ) # validate if method is defined
+
+                if (document_map["field_name"] == "today")
+                    value = document_map["table_name"].constantize.send(document_map["table_alias"], Time.now)
+
+                    unless value.blank?
+                        data = data.merge(document_map["name"].downcase => value)
+
+                        variables.push(document_map["name"])
+                    end
+                end
+            end
+        end
 
         #validate if directories exist
         directory_name = "#{Rails.root}/tmp/templates/"
@@ -52,21 +69,15 @@ class Templates::CreateFileForAudienceJob < ApplicationJob
 
         # end #
 
-        # billing document variables #
-
-        billing_filename = "FILE-TEST.pdf"
-
-        # end #
-
         final_pdf = CombinePDF.new # final doc
 
         audience.model_type.constantize.where(id: references_id)
         .order(:id)
-        .each do |property_management|
+        .each do |object|
             ############### GENERATE WORD DOCUMENT ###############
 
             #fetch data of the object
-            data = property_management.template_data(query)
+            data = object.template_data(query)
 
             #write document with variable values
             doc_template = DocxReplace::Doc.new(doc_template_path, "#{Rails.root}/tmp")
@@ -75,7 +86,7 @@ class Templates::CreateFileForAudienceJob < ApplicationJob
                 xml_replace!(doc_template.instance_variable_get(:@document_content), "$$#{variable}", data[variable.downcase].nil? ? "" : data[variable.downcase])
             end
 
-            tmp_file = Tempfile.new(["#{property_management.id}-#{template.name}".split(".docx")[0], '.docx'], "#{Rails.root}/tmp/templates/")
+            tmp_file = Tempfile.new(["#{object.id}-#{document.name}".split(".docx")[0], '.docx'], "#{Rails.root}/tmp/templates/")
             doc_template.commit(tmp_file.path)
 
             # convert to pdf
