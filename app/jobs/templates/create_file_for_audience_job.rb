@@ -44,6 +44,7 @@ class Templates::CreateFileForAudienceJob < ApplicationJob
             end
         end
 
+        document_data = {}
         #looking for method calls
         document_mappings.find_all {|mapping| mapping.variable_type == Template::Variable.variable_types[:method]}.each do |document_map|
             if ((defined? ("#{document_map["table_name"]}.#{document_map["table_alias"]}"||"").constantize) == "method" ) # validate if method is defined
@@ -52,7 +53,7 @@ class Templates::CreateFileForAudienceJob < ApplicationJob
                     value = document_map["table_name"].constantize.send(document_map["table_alias"], Time.now)
 
                     unless value.blank?
-                        data = data.merge(document_map["name"].downcase => value)
+                        document_data = document_data.merge(document_map["name"].downcase => value)
 
                         variables.push(document_map["name"])
                     end
@@ -77,7 +78,7 @@ class Templates::CreateFileForAudienceJob < ApplicationJob
             ############### GENERATE WORD DOCUMENT ###############
 
             #fetch data of the object
-            data = object.template_data(query)
+            data = document_data.merge(object.template_data(query))
 
             #write document with variable values
             doc_template = DocxReplace::Doc.new(doc_template_path, "#{Rails.root}/tmp")
