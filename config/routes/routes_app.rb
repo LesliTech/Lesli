@@ -51,7 +51,7 @@ module RoutesApp
                     resource :account, only: [:show] do
                         scope module: :account do
                             resources :files, only: [:index, :show, :new, :create]
-                            resources :settings, only: [:index, :show, :new, :create]
+                            resource :settings
                             resources :integrations, only: [:index, :show, :new, :create]
                             resources :locations, only: [:index, :show, :create]
                             resources :cronos

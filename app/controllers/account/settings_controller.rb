@@ -18,16 +18,10 @@ For more information read the license file including with this software.
 =end
 
 class Account::SettingsController < ApplicationLesliController
-    before_action :set_account_setting, only: [:show, :update, :destroy]
+    before_action :set_account_setting, only: [:destroy]
 
     # GET /settings
     def index
-        respond_to do |format|
-            format.html {}
-            format.json {
-                respond_with_successful(Account::Setting.list(current_user, @query))
-            }
-        end
     end
 
     # GET /settings/1
@@ -35,10 +29,7 @@ class Account::SettingsController < ApplicationLesliController
         respond_to do |format|
             format.html {}
             format.json {
-                set_account_setting
-                return respond_with_successful unless @setting
-
-                respond_with_successful(@setting)
+                respond_with_successful(Account::Setting.list(current_user, @query))
             }
         end
     end
@@ -79,18 +70,21 @@ class Account::SettingsController < ApplicationLesliController
         
     end
 
-    # PATCH/PUT /settings/1
+    # PATCH/PUT /settings/
     def update
-        return respond_with_not_found unless @setting
-
-        if @setting.update(setting_params)
-            if @setting.name.include?('date_format')
-                LC::Date.reset_db_settings
-            end
-            respond_with_successful(@setting)
-        else
-            respond_with_error(@setting.error.full_messages.to_sentence)
+        if params[:settings].empty?
+            return respond_with_not_found
         end
+
+        params[:settings].each do |key, value|
+            setting = current_user.account.settings.find_by(name: key)
+            if setting.present?
+                setting.update_attribute(:value, value)
+            else
+                return respond_with_not_found
+            end
+        end
+        respond_with_successful
     end
 
     # DELETE /settings/1
@@ -120,7 +114,7 @@ class Account::SettingsController < ApplicationLesliController
 
     # Only allow a trusted parameter "white list" through.
     def setting_params
-        params.require(:setting).permit(:name, :value)
+        params.require(:settings)
     end
     
 end
