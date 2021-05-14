@@ -21,7 +21,6 @@ export default {
     },
     mounted() {
         this.getSettings();
-        console.log(this.translations.core.account.column_password_minimum_length)
     },
     methods: {
         parseSettings(settings_raw){
