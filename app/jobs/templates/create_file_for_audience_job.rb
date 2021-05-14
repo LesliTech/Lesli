@@ -6,14 +6,13 @@ class Templates::CreateFileForAudienceJob < ApplicationJob
 
     XML_TAG = /\<[^\>]+\>/
 
-    def perform(current_user, audience, template_document_id, references_id)
-
+    def perform(current_user, audience_document, template_document_id, references_id)
         document = current_user.account.template.documents.find_by(id: template_document_id) # template document
 
         word_template_file = LC::Config::Providers::Aws::S3.new()
         word_template_file = word_template_file.get_object(document.attachment) # download word document file from s3
 
-        doc_template_path = "#{Rails.root}/tmp/templates-#{document.name}"
+        doc_template_path = "#{Rails.root}/tmp/templates/#{document.id}-#{document.name}"
 
         File.open(doc_template_path, "w") do |file|
             file.write word_template_file["body"].read()
@@ -71,8 +70,9 @@ class Templates::CreateFileForAudienceJob < ApplicationJob
         # end #
 
         final_pdf = CombinePDF.new # final doc
+        pdf_tmp_path = "#{Rails.root}/tmp/pdfs/#{audience_document.id}-#{document.name}.pdf"
 
-        audience.model_type.constantize.where(id: references_id)
+        audience_document.model_type.constantize.where(id: references_id)
         .order(:id)
         .each do |object|
             ############### GENERATE WORD DOCUMENT ###############
@@ -91,29 +91,39 @@ class Templates::CreateFileForAudienceJob < ApplicationJob
             doc_template.commit(tmp_file.path)
 
             # convert to pdf
-            Libreconv.convert(tmp_file.path, "#{Rails.root}/tmp/pdfs/test-script.pdf")
+            Libreconv.convert(tmp_file.path, pdf_tmp_path)
 
-            final_pdf << CombinePDF.load("#{Rails.root}/tmp/pdfs/test-script.pdf")  #join file
+            final_pdf << CombinePDF.load(pdf_tmp_path)  #join file
 
             ############################### END ################################
         end
 
-        upload_document(final_pdf)
+        final_pdf.save pdf_tmp_path
+
+        upload_document(current_user, audience_document, document, pdf_tmp_path)
     end
 
-    def upload_document(final_pdf)
+    def upload_document(current_user, audience_document, document, pdf_tmp_path)
 
-        file_path = "storage/core/template/audience/merge-word"
-        file_path += "-test" if Rails.env.development?
-        file_path += ".pdf"
+        if (audience_document&.file.present?) # update file
+            file = current_user.account.files.find_by(id: audience_document.file.id)
 
-        s3 = LC::Config::Providers::Aws::S3.new()
-        s3_file = s3.create_object(file_path)
+            file.destroy
+        end
 
-        s3_file.put(
-            body: final_pdf.to_pdf,
-            acl: "private"
+
+        file = current_user.account.files.new(
+            file_type: "template_audience",
+            user_creator: current_user,
+            attachment_s3: File.open(pdf_tmp_path, "rb"),
+            name: "#{(audience_document.name||'').gsub(/\s+/, "-")}.pdf"
         )
+
+        if file.save
+            file.update({})
+
+            audience_document.update(file: file) # update audience file
+        end
     end
 
     def xml_replace!(word_xml, pattern, replacement)
