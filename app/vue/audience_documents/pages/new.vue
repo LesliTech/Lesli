@@ -52,7 +52,7 @@ export default {
                 <router-link class="button" tag="button" to="/">
                     <span class="icon"><i class="fas fa-list"></i></span>
                     <span> {{ translations.core.view_btn_list }}</span>
-                </router-links>
+                </router-link>
             </div>
         </component-header>
 

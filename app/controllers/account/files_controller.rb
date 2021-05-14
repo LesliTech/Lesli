@@ -1,9 +1,9 @@
 =begin
 Copyright (c) 2021, all rights reserved.
 
-All the information provided by this platform is protected by international laws related  to 
-industrial property, intellectual property, copyright and relative international laws. 
-All intellectual or industrial property rights of the code, texts, trade mark, design, 
+All the information provided by this platform is protected by international laws related  to
+industrial property, intellectual property, copyright and relative international laws.
+All intellectual or industrial property rights of the code, texts, trade mark, design,
 pictures and any other information belongs to the owner of this platform.
 
 Without the written permission of the owner, any replication, modification,
@@ -12,7 +12,7 @@ transmission, publication is strictly forbidden.
 For more information read the license file including with this software.
 
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
-// · 
+// ·
 
 =end
 
@@ -32,10 +32,10 @@ class Account::FilesController < ApplicationLesliController
     # GET /account/files/1
     def show
         return respond_with_not_found unless @account_file
-        
+
         disposition = "inline"
         disposition = "attachment" if params["download"]
-        
+
         # Sending file using CarrierWave
         if @account_file.attachment_s3.file
             file_name = @account_file.attachment_s3.file.filename
@@ -62,7 +62,7 @@ class Account::FilesController < ApplicationLesliController
         account_file = current_user.account.files.new(account_file_params)
 
         if account_file.save
-            # IMPORTANT: This update is neccesary after the save so the file can have 
+            # IMPORTANT: This update is neccesary after the save so the file can have
             # its id on its name and be always unique
             account_file.update({})
 

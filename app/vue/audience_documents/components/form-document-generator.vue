@@ -21,7 +21,7 @@ export default {
         audience_document: {
             required: true
         },
-        source_translation_path: {
+        base_translation_path: {
             reuired: true
         }
     },
@@ -75,6 +75,10 @@ export default {
                     return
 
                 }
+
+                this.msg.info(this.translations.main.messages_info_generating_document)
+
+                this.$router.push("/")
             }).catch(error => {
                 console.log(error)
             })
@@ -222,7 +226,7 @@ export default {
                             :value="source.value"
                             :key="source.value"
                         >
-                            {{ object_utils.translateEnum(source_translation_path, 'view_text_table_name', source.text ) }}
+                            {{ object_utils.translateEnum(base_translation_path, 'view_text', source.text ) }}
                         </option>
                     </b-select>
                 </b-field>
