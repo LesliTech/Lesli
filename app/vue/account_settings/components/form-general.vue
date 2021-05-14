@@ -75,12 +75,12 @@ export default {
                 <fieldset>
                     <div class="columns is-multiline">
                         <div class="column is-12">
-                            <b-field label="translations.core.account.column_password_minimum_length">
+                            <b-field :label="translations.core.account.settings.column_password_minimum_length">
                                 <b-input v-model="settings.password_minimum_length"></b-input>
                             </b-field>
                         </div>
                         <div class="column is-12">
-                            <b-field label="translations.core.account.column_password_expiration_time_days">
+                            <b-field :label="translations.core.account.settings.column_password_expiration_time_days">
                                 <b-input v-model="settings.password_expiration_time_days"></b-input>
                             </b-field>
                         </div>
