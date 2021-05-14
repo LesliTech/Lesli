@@ -16,7 +16,7 @@ For more information read the license file including with this software.
 
 =end
 class Template::AudienceDocumentsController < ApplicationLesliController
-    before_action :set_audience_file, only: [:show, :update, :destroy]
+    before_action :set_audience_document, only: [:update, :destroy, :generate_file]
 
     def index
         respond_to do |format|
@@ -31,6 +31,8 @@ class Template::AudienceDocumentsController < ApplicationLesliController
         respond_to do |format|
             format.html {}
             format.json do
+                set_audience_document
+
                 return respond_with_not_found unless @audience_document
                 return respond_with_successful(@audience_document.show(current_user, @query))
             end
@@ -44,7 +46,9 @@ class Template::AudienceDocumentsController < ApplicationLesliController
     end
 
     def create
-        audience_document = Template::AudienceDocument.new(audience_file_params)
+        audience_document = current_user.account.template.audience_documents.new(audience_document_params)
+        audience_document.user_creator = current_user
+
         if audience_document.save
             respond_with_successful(audience_document)
         else
@@ -55,7 +59,7 @@ class Template::AudienceDocumentsController < ApplicationLesliController
     def update
         return respond_with_not_found unless @audience_document
 
-        if @audience_document.update(audience_file_params)
+        if @audience_document.update(audience_document_params)
             respond_with_successful(@audience_document.show(current_user, @query))
         else
             respond_with_error(@audience_document.errors.full_messages.to_sentence)
@@ -73,17 +77,19 @@ class Template::AudienceDocumentsController < ApplicationLesliController
     end
 
     def generate_file
-        return respond_with_not_found unless @audience
+        return respond_with_not_found unless @audience_document
 
         references_id = import_audience_generete_file_params[:ids]
         template_document_id = import_audience_generete_file_params[:template_document_id]
 
         Templates::CreateFileForAudienceJob.perform_later(
             current_user,
-            @audience,
+            @audience_document,
             template_document_id,
             references_id
         )
+
+        respond_with_successful()
     end
 
     def options
@@ -94,11 +100,11 @@ class Template::AudienceDocumentsController < ApplicationLesliController
 
     private
 
-    def set_audience_file
-        @audience_document = current_user.account.template.audience_files.find_by(id: params[:id])
+    def set_audience_document
+        @audience_document = current_user.account.template.audience_documents.find_by(id: params[:id])
     end
 
-    def audience_file_params
+    def audience_document_params
         params.require(:audience_document).permit(:name, :description, :model_type)
     end
 

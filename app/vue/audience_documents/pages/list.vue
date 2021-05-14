@@ -124,8 +124,10 @@ export default {
             })
         },
 
-        downloadAudienceDocument(template_audiencee){
+        downloadAudienceDocument(template_audience){
+            let url = `/administration/account/files/${template_audience.account_files_id}?download=true`
 
+            window.open(url, '_blank');
         },
 
         gotoAudienceDocument(template_audience) {
@@ -234,7 +236,7 @@ export default {
                     </span>
 
                     <span>
-                        <b-button type="is-danger" outlined @click.stop="downloadAudienceDocument(props.row)">
+                        <b-button v-if="props.row.account_files_id" type="is-info" outlined @click.stop="downloadAudienceDocument(props.row)">
                             <b-icon size="is-small" icon="download" >
                             </b-icon>
                         </b-button>

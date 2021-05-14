@@ -74,13 +74,12 @@ export default {
             let url = this.url.admin(`template/audience_documents`)
 
             this.http.post(url, { audience_document: this.audience_document }).then(result => {
+                this.submitting_form = false
 
                 if (!result.successful) {
                     this.msg.error(result.error.message)
                     return
                 }
-
-                this.submitting_form = false
 
                 this.msg.success(this.translations.main.messages_success_created)
 
@@ -98,31 +97,17 @@ export default {
 
             let url = this.url.admin('template/audience_documents/:audience_document_id', { audience_document_id: this.audience_document.id})
             this.http.put(url, { audience: this.audience }).then(result => {
+                this.submitting_form = false
 
                 if (!result.successful) {
                     this.msg.error(result.error.message)
                     return
                 }
 
-                this.submitting_form = false
-
                 this.msg.success(this.translations.main.messages_success_updated)
             }).catch(error => {
                 console.log(error)
             })
-        },
-
-        translateModelType(value){
-            let value_splited = value.toLowerCase().split('::')
-            let text = this.object_utils.pluralize(value_splited[value_splited.length - 1])
-
-            let new_value = this.translations.templates[`view_text_${text}`]
-
-            if(new_value){
-                return new_value
-            }
-
-            return value
         }
     }
 }
@@ -149,11 +134,11 @@ export default {
                             expanded
                         >
                             <option
-                                v-for="model_type in options.model_types"
+                                v-for="(model_type, index) in options.model_types"
                                 :value="model_type.value"
-                                :key="'model_type-'+model_type.value"
+                                :key="`${index}-${model_type.value}`"
                             >
-                                {{ translateModelType(model_type.text) }}
+                                {{ model_type.text }}
                             </option>
                         </b-select>
                     </div>

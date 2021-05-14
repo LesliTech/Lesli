@@ -24,7 +24,11 @@ import componentDocumentGenerator from "../components/form-document-generator.vu
 
 // ·
 export default {
-    props: {},
+    props: {
+        base_translation_path: {
+            default: ""
+        }
+    },
 
     components: {
         "component-form": componentForm,
@@ -41,15 +45,14 @@ export default {
             active: {
                 main_tab: 0
             },
-            source_translation_path: null
         }
     },
     mounted() {
         this.audience_document_id = this.$route.params.id
-        this.getTemplateAudience()
+        this.getAudienceDocument()
     },
     methods: {
-        getTemplateAudience() {
+        getAudienceDocument() {
             let url = this.url.admin('template/audience_documents/:id', {id: this.audience_document_id})
             this.http.get(url).then(result => {
 
@@ -83,9 +86,9 @@ export default {
                 <component-form v-if="audience_document.id" :base_path="null" :audience_document="audience_document"></component-form>
             </b-tab-item>
 
-            <b-tab-item v-if="audience_document.id" :label="translations.main.view_tab_title_references">
+            <b-tab-item :label="translations.main.view_tab_title_generate_file">
                 <div class="box">
-                    <component-form-import-contacts :audience_document="audience_document"></component-form-import-contacts>
+                    <component-document-generator v-if="audience_document.id" :audience_document="audience_document" :base_translation_path="base_translation_path"></component-document-generator>
                 </div>
             </b-tab-item>
         </b-tabs>

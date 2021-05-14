@@ -129,6 +129,9 @@ module RoutesApp
                             end
                         end
                         resources :audience_documents do
+                            collection do
+                                get :options
+                            end
                             member do
                                 scope :resources do
                                     post :generate_file
