@@ -2,9 +2,9 @@
 
 Copyright (c) 2020, all rights reserved.
 
-All the information provided by this platform is protected by international laws related  to 
-industrial property, intellectual property, copyright and relative international laws. 
-All intellectual or industrial property rights of the code, texts, trade mark, design, 
+All the information provided by this platform is protected by international laws related  to
+industrial property, intellectual property, copyright and relative international laws.
+All intellectual or industrial property rights of the code, texts, trade mark, design,
 pictures and any other information belongs to the owner of this platform.
 
 Without the written permission of the owner, any replication, modification,
@@ -13,7 +13,7 @@ transmission, publication is strictly forbidden.
 For more information read the license file including with this software.
 
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
-// · 
+// ·
 
 =end
 class AwsUploader < CarrierWave::Uploader::Base
@@ -44,7 +44,7 @@ class AwsUploader < CarrierWave::Uploader::Base
 
         return nil
     end
-    
+
     # Provide a default URL as a default if there hasn't been a file uploaded:
     # def default_url(*args)
     #   # For Rails 3.1+ asset pipeline compatibility:
@@ -90,12 +90,12 @@ CarrierWave.configure do |config|
         aws_credetials[:aws_secret_access_key] = Rails.application.credentials.providers[:aws][:s3][:secret_access_key]
         aws_credetials[:region] = Rails.application.credentials.providers[:aws][:s3][:region]
 
-        
+
         aws_bucket = Rails.application.credentials.providers[:aws][:s3][:bucket]
     end
 
     config.fog_credentials = aws_credetials
-    config.fog_directory  = aws_bucket 
+    config.fog_directory  = aws_bucket
     config.fog_public     = false
     config.fog_attributes = { cache_control: "public, max-age=#{365.days.to_i}" }
 end

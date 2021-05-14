@@ -1,2 +1,0 @@
-module Template::AudienceFilesHelper
-end
