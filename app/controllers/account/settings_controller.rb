@@ -99,6 +99,10 @@ class Account::SettingsController < ApplicationLesliController
 
     end
 
+    def options
+        respond_with_successful(current_user.account.settings.options(current_user, @query))
+    end
+
     private
 
     # @return [void]

@@ -21,14 +21,15 @@ For more information read the license file including with this software.
 import componentFormTheme from "../components/form-theme.vue"
 import componentFormGeneral from "../components/form-general.vue"
 import componentFormBranding from "../components/form-branding.vue"
-
+import componentFormTime from "../components/form-time-settings.vue"
 
 // ·
 export default {
     components: {
         "component-form-theme": componentFormTheme,
         "component-form-general": componentFormGeneral,
-        "component-form-branding": componentFormBranding
+        "component-form-branding": componentFormBranding,
+        "component-form-time": componentFormTime
     },
     data() {
         return {
@@ -54,6 +55,9 @@ export default {
         <b-tabs v-model="tab">
             <b-tab-item icon-pack="fas" icon="cog" :label="translations.core.account.settings.view_tab_title_general">
                 <component-form-general></component-form-general>
+            </b-tab-item>
+            <b-tab-item icon-pack="fas" icon="cog" :label="translations.core.account.settings.view_tab_title_time_settings">
+                <component-form-time></component-form-time>
             </b-tab-item>
             <b-tab-item icon-pack="fas" icon="palette" :label="translations.core.account.settings.view_tab_title_branding">
                 <component-form-branding></component-form-branding>
