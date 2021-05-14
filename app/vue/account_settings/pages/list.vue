@@ -32,7 +32,7 @@ export default {
     },
     data() {
         return {
-            tab: 2,
+            tab: 0,
             translations: {
                 core: {
                     shared: I18n.t('core.shared'),
