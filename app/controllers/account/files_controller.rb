@@ -45,6 +45,8 @@ class Account::FilesController < ApplicationLesliController
             file_data = @account_file.attachment.read
         end
 
+        file_name = @account_file.name||file_name
+
         send_data(file_data, filename: file_name, disposition: disposition, stream: "true")
     end
 
