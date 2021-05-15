@@ -128,7 +128,7 @@ export default {
         },
 
         importAllReferences(){
-            this.references = this.current_data
+            this.references = this.references.concat(this.current_data)
         },
 
         clearForm(){

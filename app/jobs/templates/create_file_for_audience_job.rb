@@ -123,6 +123,11 @@ class Templates::CreateFileForAudienceJob < ApplicationJob
             file.update({})
 
             audience_document.update(file: file) # update audience file
+
+            # send email
+            url = "/administration/account/files/#{file.id}?download=true"
+
+            TemplateMailer.with(url: url, audience_document: audience_document).audience_document_ready.deliver_now
         end
     end
 
