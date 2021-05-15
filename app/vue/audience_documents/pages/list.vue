@@ -24,7 +24,7 @@ export default {
             filters_ready: false,
             translations: {
                 core: I18n.t('core.shared'),
-                main: I18n.t('core.template/template_audiences')
+                main: I18n.t('core.template/audience_documents')
             },
             filters: {
                 search: '',
