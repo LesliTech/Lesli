@@ -190,7 +190,7 @@ export default {
             @sort="sortAudienceDocuments"
         >
             <template slot-scope="props">
-                <b-table-column field="id" :label="translations.main.view_text_id" sortable>
+                <b-table-column field="id" :label="translations.core.view_text_id" sortable>
                     <template slot="header" slot-scope="{ column }">
                         {{ column.label }}
                         <span v-if="sorting.field == 'id'">
@@ -201,11 +201,11 @@ export default {
                     {{props.row.id}}
                 </b-table-column>
 
-                <b-table-column field="name" :label="translations.core.view_text_name" sortable>
+                <b-table-column field="template_audience_documents.name" :label="translations.core.view_text_name" sortable>
                     <template slot="header" slot-scope="{ column }">
                         <span>
                             {{ column.label }}
-                            <span v-if="sorting.field == 'name'">
+                            <span v-if="sorting.field == 'template_audience_documents.name'">
                                 <b-icon v-if="sorting.order == 'asc'" size="is-small" icon="arrow-up" ></b-icon>
                                 <b-icon v-else size="is-small" icon="arrow-down"></b-icon>
                             </span>

@@ -29,7 +29,7 @@ class Template::AudienceDocument < ApplicationLesliRecord
             :account_files_id
         )
 
-        audience_documents = audience_documents.where("trim(lower(name)) like ?", "%#{query[:filters][:search].downcase}%") unless query[:filters][:search].blank?
+        audience_documents = audience_documents.where("trim(lower(template_audience_documents.name)) like ?", "%#{query[:filters][:search].downcase}%") unless query[:filters][:search].blank?
 
         audience_documents = audience_documents
         .page(query[:pagination][:page])
