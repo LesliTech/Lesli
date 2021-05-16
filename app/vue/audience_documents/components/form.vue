@@ -96,7 +96,7 @@ export default {
             this.submitting_form = true
 
             let url = this.url.admin('template/audience_documents/:audience_document_id', { audience_document_id: this.audience_document.id})
-            this.http.put(url, { audience: this.audience }).then(result => {
+            this.http.put(url, { audience_document: this.audience_document }).then(result => {
                 this.submitting_form = false
 
                 if (!result.successful) {

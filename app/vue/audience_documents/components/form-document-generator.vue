@@ -142,13 +142,11 @@ export default {
         },
 
         getTemplateDocuments(){
-            let url = this.url.admin(`template/documents`)
-            url.filters = { model_type: this.audience_document.model_type}
+            let url = this.url.admin(`template/documents`).filters({ model_type: this.audience_document.model_type})
 
             this.http.get(url).then(result => {
-
                 if (result.successful) {
-                    this.template_documents = result.data
+                    this.template_documents = result.data.filter(e => e.model_type === this.audience_document.model_type)
                 }else{
                     this.alert(result.error.message,'danger')
                 }
