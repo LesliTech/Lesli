@@ -33,8 +33,8 @@ module LC
             Rails.application.config.lesli_settings["configuration"]["currency"]
         )
 
-        def self.format(value, symbol = symbol())
-            return "#{number_to_currency(value, separator: @settings["separator"], delimiter: @settings["delimiter"], precision: @settings["precision"], unit: symbol)}"
+        def self.format(value, symbol = symbol(), precision=@settings["precision"])
+            return "#{number_to_currency(value, separator: @settings["separator"], delimiter: @settings["delimiter"], precision: precision, unit: symbol)}"
         end
 
         def self.symbol
