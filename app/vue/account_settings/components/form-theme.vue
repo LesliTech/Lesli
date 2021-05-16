@@ -33,10 +33,9 @@ export default {
     },
     methods: {
         postTheme() {
-            this.http.post(this.url.admin("account/settings"), {
-                setting: {
-                    name: "theme_primary_color",
-                    value: this.color
+            this.http.put(this.url.admin("account/settings"), {
+                settings: {
+                    "theme_primary_color": this.color
                 }
             }).then(result => {
                 if (!result.successful) {
