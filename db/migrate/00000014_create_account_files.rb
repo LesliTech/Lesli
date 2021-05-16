@@ -31,5 +31,5 @@ class CreateAccountFiles < ActiveRecord::Migration[6.1]
         end
         add_reference :account_files, :users, foreign_key: true
         add_reference :account_files, :account, foreign_key: true
-    ends
+    end
 end
