@@ -155,7 +155,7 @@ export default {
             <div class="buttons">
                 <router-link class="button" tag="button" to="/new">
                     <b-icon icon="plus" size="is-small" />
-                    <span> {{ translations.main.view_btn_new_template_audience }}</span>
+                    <span> {{ translations.main.view_btn_new_audience_document }}</span>
                 </router-link>
             </div>
         </component-header>

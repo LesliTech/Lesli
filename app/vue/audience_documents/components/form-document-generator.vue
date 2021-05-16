@@ -29,15 +29,14 @@ export default {
         return {
             options: {
                 tables: [],
-                emails: {},
+                data: {},
                 filters: {}
             },
             references: [],
             current_table: null,
             translations: {
                 core: I18n.t('core.shared'),
-                main: I18n.t('core.template/audience_documents'),
-                references: I18n.t('core.template/audience_references'),
+                main: I18n.t('core.template/audience_documents')
             },
             filteredData: [],
             submitting_form: false,
@@ -78,7 +77,10 @@ export default {
 
                 this.msg.info(this.translations.main.messages_info_generating_document)
 
-                this.$router.push("/")
+                setTimeout(() => {
+                    this.$router.push("/")
+                }, 1500)
+
             }).catch(error => {
                 console.log(error)
             })
@@ -96,7 +98,7 @@ export default {
                 let table_options = result.data.tables.filter(e => e.model_type === this.audience_document.model_type)
 
                 for(let option of table_options) {
-                    this.options.emails[`${option.name}`] = option.data.map(e => {
+                    this.options.data[`${option.name}`] = option.data.map(e => {
                         return {
                             ...e,
                             source: option.name
@@ -113,18 +115,18 @@ export default {
             })
         },
 
-        getFilteredEmails(text) {
+        getFilteredData(text) {
             if (text) {
                 this.search = text
             }
 
-            let emails = this.current_data.filter((option) => {
-                return (option.email||'').toString().toLowerCase().indexOf(text.toLowerCase()) >= 0 ||
+            let data = this.current_data.filter((option) => {
+                return (option.description||'').toString().toLowerCase().indexOf(text.toLowerCase()) >= 0 ||
                         (option.name||'').toString().toLowerCase().indexOf(text.toLowerCase()) >= 0 ||
                         (option.text||'').toString().toLowerCase().indexOf(text.toLowerCase()) >= 0
             })
 
-            this.filteredData = emails
+            this.filteredData = data
         },
 
         importAllReferences(){
@@ -135,7 +137,7 @@ export default {
             this.references = []
             this.options = {
                 tables: [],
-                emails: {}
+                data: {}
             }
         },
 
@@ -160,7 +162,7 @@ export default {
         current_table(){
             if (this.current_table) {
                 this.filters_selected = {}
-                this.current_data = this.options.emails[`${this.current_table}`]
+                this.current_data = this.options.data[`${this.current_table}`]
                 this.currentFilters = this.options.filters[`${this.current_table}`]
 
                 this.filteredData = this.current_data
@@ -178,7 +180,7 @@ export default {
                     }
                 }
 
-                this.current_data = this.options.emails[`${this.current_table}`]
+                this.current_data = this.options.data[`${this.current_table}`]
 
                 for(let index in this.filters_selected) {
                     let value = this.filters_selected[index]['value']
@@ -204,7 +206,7 @@ export default {
                     }
                 }
 
-                this.getFilteredEmails(this.search||'')
+                this.getFilteredData(this.search||'')
             },
             deep: true
         }
@@ -268,7 +270,7 @@ export default {
             <template v-if="current_table">
                 <div class="field">
                     <label class="label">
-                        {{ translations.main.view_text_records }} {{ `(${filteredData.length} / ${(options.emails[`${this.current_table}`]||[]).length})` }}
+                        {{ translations.main.view_text_records }} {{ `(${filteredData.length} / ${(options.data[`${this.current_table}`]||[]).length})` }}
                         <sup class="has-text-danger">*</sup>
                     </label>
                     <div class="columns">
@@ -281,12 +283,12 @@ export default {
                                 :open-on-focus="true"
                                 icon="tag"
                                 :placeholder="translations.core.view_placeholder_search"
-                                @typing="getFilteredEmails">
+                                @typing="getFilteredData">
                                 <template v-slot="props">
                                     <strong> {{props.option.text}} </strong>
 
                                     <template v-if="props.option.text != props.option.email">
-                                        : {{ props.option.email }}
+                                        : {{ props.option.description }}
                                     </template>
                                 </template>
                                 <template #empty>
