@@ -100,7 +100,7 @@ class Account::FilesController < ApplicationLesliController
 
     # Use callbacks to share common setup or constraints between actions.
     def set_account_file
-        @account_file = current_user.account.files.find(params[:id])
+        @account_file = current_user.account.files.find_by(id: params[:id])
     end
 
     # Only allow a list of trusted parameters through.
