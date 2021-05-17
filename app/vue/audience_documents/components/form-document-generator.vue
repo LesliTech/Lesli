@@ -255,20 +255,6 @@ export default {
                         </div>
                     </div>
                 </template>
-
-                <div class="buttons buttons-box">
-                    <span class="button is-default" @click.stop="importAllReferences">
-                        <b-icon icon="users" size="is-small" />
-                        &nbsp; &nbsp;
-                        {{translations.main.view_text_select_all}}
-                    </span>
-
-                    <span class="button is-default" @click.stop="references = []">
-                        <b-icon icon="user-times" size="is-small" />
-                        &nbsp; &nbsp;
-                        {{translations.main.view_text_clear_list}}
-                    </span>
-                </div>
             </div>
 
             <template v-if="current_table">
@@ -278,7 +264,7 @@ export default {
                         <sup class="has-text-danger">*</sup>
                     </label>
                     <div class="columns">
-                        <div class="column is-12">
+                        <div class="column is-8">
                             <b-taginput
                                 v-model="references"
                                 :data="filteredData"
@@ -299,6 +285,21 @@ export default {
                                     {{ translations.main.view_text_records_not_found }}
                                 </template>
                             </b-taginput>
+                        </div>
+                        <div class="column is-4">
+                            <div class="buttons">
+                                <b-button class="is-default" outlined @click.stop="importAllReferences">
+                                    <b-icon icon="users" size="is-small" />
+                                    &nbsp; &nbsp;
+                                    {{translations.main.view_text_select_all}}
+                                </b-button>
+
+                                <b-button class="is-danger" outlined @click.stop="references = []">
+                                    <b-icon icon="user-times" size="is-small" />
+                                    &nbsp; &nbsp;
+                                    {{translations.main.view_text_clear_list}}
+                                </b-button>
+                            </div>
                         </div>
                     </div>
                 </div>
