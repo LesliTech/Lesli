@@ -17,11 +17,21 @@ For more information read the license file including with this software.
 
 =end
 class FocusMailer < ApplicationLesliMailer
+    # @return [void]
+    # @param user [User] User assigned to the task
+    # @param task [CloudFocus::Task] The new task created
+    # @description Sends an email informing the assigned user of a new task.
     def task_new
         user = params[:user]
         task = params[:task]
-        url = params[:url]
-        receipt = params[:receipt]
+
+        # By default it is the CloudFocus path but you can change the url as for example "crm/task".
+        url = "#{CloudFocus::Engine.routes.url_helpers.tasks_path}/#{task.id}"
+        url = params[:url] if params[:url].present?
+
+        # By default the recipients is the assigned user but you can customize by sending to a specific email.
+        receipts = task.user_main.email
+        receipts = params[:receipts] if params[:receipts].present?
 
         build_data_from_params(params, {
             url: url,
@@ -33,7 +43,7 @@ class FocusMailer < ApplicationLesliMailer
             }
         })
         mail(
-            to: receipt,
+            to: receipts,
             subject: I18n.t("focus.tasks.mailer_new_task_subject")
         )
     end
