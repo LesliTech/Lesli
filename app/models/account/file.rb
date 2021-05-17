@@ -25,4 +25,10 @@ class Account::File < ApplicationLesliRecord
     belongs_to :account, foreign_key: "account_id"
     belongs_to :cloud_object, class_name: "::Account", foreign_key: "account_id"
     belongs_to :user_creator, class_name: "::User", foreign_key: "users_id", optional: true
+
+    def destroy
+        update(attachment: nil, attachment_s3: nil)
+
+        super
+    end
 end
