@@ -70,7 +70,7 @@ class Templates::CreateFileForAudienceJob < ApplicationJob
         # end #
 
         final_pdf = CombinePDF.new # final doc
-        pdf_tmp_path = "#{Rails.root}/tmp/pdfs/#{audience_document.id}-#{document.name}.pdf"
+        pdf_tmp_path = "#{Rails.root}/tmp/pdfs/#{audience_document.id}-#{document.name.gsub(".docx", "")}.pdf"
 
         audience_document.model_type.constantize.where(id: references_id)
         .order(:id)
