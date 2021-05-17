@@ -25,13 +25,12 @@ require 'byebug'
 RSpec.describe 'POST:/administration/template/audience_documents.json', type: :request do
     include_context 'user authentication'
 
+    debugger
     before(:all) do
-        @audience_document_id = @user.account.template.audience_documents.count + 1
-
-        options = Template::Document.options
+        options = Template::Document.options[:model_types]
         model_type = ""
 
-        if options[:model_types]
+        unless options[:model_types].blank?
             model_type = options[:model_types][0][:value]
         end
 
@@ -45,7 +44,9 @@ RSpec.describe 'POST:/administration/template/audience_documents.json', type: :r
 
     include_examples 'successful standard json response'
 
-    it 'is expected to create a new audience document' do
-        expect(@response_body["data"]["id"]).to eql(@audience_document_id)
+    audience_document_id = @user.account.template.audience_documents.count + 1
+
+    it 'is expected to create a new role' do
+        expect(@response_body["data"]["id"]).to eql(audience_document_id)
     end
 end
