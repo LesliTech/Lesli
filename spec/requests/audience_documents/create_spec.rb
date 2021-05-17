@@ -26,7 +26,9 @@ RSpec.describe 'POST:/administration/template/audience_documents.json', type: :r
     include_context 'user authentication'
 
     before(:all) do
-        options = Template::Document.options[:model_types]
+        @audience_document_id = @user.account.template.audience_documents.count + 1
+
+        options = Template::Document.options
         model_type = ""
 
         if options[:model_types]
@@ -43,9 +45,7 @@ RSpec.describe 'POST:/administration/template/audience_documents.json', type: :r
 
     include_examples 'successful standard json response'
 
-    audience_document_id = @user.account.template.audience_documents.count + 1
-
-    it 'is expected to create a new role' do
-        expect(@response_body["data"]["id"]).to eql(audience_document_id)
+    it 'is expected to create a new audience document' do
+        expect(@response_body["data"]["id"]).to eql(@audience_document_id)
     end
 end
