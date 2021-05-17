@@ -28,28 +28,6 @@ import ApexCharts from 'apexcharts'
 // · 
 export default {
     props: {
-        enableDataLabels: {
-            type: Boolean,
-            default: false
-        },
-
-        strokeWidth: {
-            type: Array,
-            default: ()=>{
-                return [0,0,4]
-            }
-        },
-
-        colors: {
-            type: Array,
-            default: ()=>{
-                return [
-                    "rgb(0, 83, 128)",
-                    "rgb(32, 168, 216)",
-                    "rgb(10,10,10)"
-                ]
-            }
-        },
 
         dataSources: {
             type: Array,
@@ -61,8 +39,18 @@ export default {
             required: true
         },
 
+        title: {
+            type: String,
+            default: ""
+        },
+
         height: {
             default: "auto"            
+        },
+
+        enableDataLabels: {
+            type: Boolean,
+            default: true
         },
 
         padding: {
@@ -87,10 +75,9 @@ export default {
                     padding: this.padding
                 },
                 chart: {
-                    stacked: true,
                     height: this.height,
                     toolbar: {
-                        show: false,
+                        show: false
                     }
                 },
                 title: {
@@ -102,16 +89,13 @@ export default {
                     horizontalAlign: 'center'
                 },
                 dataLabels: {
-                    enabled: this.enableDataLabels,
-                    offsetY: -10,
-                    enabledOnSeries: [2]
+                    enabled: true, //this.enableDataLabels,
                 },
-                colors: this.colors,
+                colors: this.lesli.colors("charts"),
                 stroke: {
                     show: true,
                     curve: "straight",
                     lineCap: 'round',
-                    width: this.strokeWidth
                 },
                 plotOptions: {
                     bar: {
@@ -131,10 +115,6 @@ export default {
                             fontSize: '15px'
                         },
                     }
-                },
-                yaxis: {
-                    show: false,
-                    //max: 800
                 }
             }
         }
@@ -176,7 +156,8 @@ export default {
 }
 </script>
 <template>
-    <section>
+    <article>
+        <h4 class="is-size-4">{{ title }}</h4>
         <div :id="'chart-'+_uid"></div>
-    </section>
+    </article>
 </template>
