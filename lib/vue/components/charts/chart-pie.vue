@@ -28,6 +28,10 @@ import ApexCharts from 'apexcharts'
 // · 
 export default {
     props: {
+        title: {
+            type: String,
+            default: ""
+        },
         enableDataLabels: {
             type: Boolean,
             default: false
@@ -68,7 +72,7 @@ export default {
                     height: this.height,
                     type: 'pie',
                 },
-                colors: ["rgb(0, 83, 128)", "rgb(32, 168, 216)", "rgb(10,10,10)"],
+                colors: this.lesli.colors("charts"),
                 stroke: {
                     show: true,
                     curve: "straight",
@@ -116,7 +120,8 @@ export default {
 }
 </script>
 <template>
-    <section>
+    <article>
+        <h4 class="is-size-4">{{ title }}</h4>
         <div :id="'chart-'+_uid"></div>
-    </section>
+    </article>
 </template>
