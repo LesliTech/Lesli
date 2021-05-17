@@ -58,6 +58,12 @@ export default {
     },
     methods: {
         submitAudienceDocument(event){
+            if (this.references.length === 0) {
+                this.msg.warn(this.translations.main.messages_warning_data_is_empty)
+
+                return
+            }
+
             if (event) { event.preventDefault() }
 
             let form = {
