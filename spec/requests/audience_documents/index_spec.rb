@@ -34,4 +34,4 @@ RSpec.describe 'GET:/administration/template/audience_documents.json', type: :re
     it 'is expected to respond with an index of audience documents' do
         expect(@response_body["data"]["pagination"]["count_total"]).to eql(@user.account.template.audience_documents.count)
     end
-ends
+end
