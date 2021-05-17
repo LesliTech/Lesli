@@ -25,7 +25,6 @@ require 'byebug'
 RSpec.describe 'POST:/administration/template/audience_documents.json', type: :request do
     include_context 'user authentication'
 
-    debugger
     before(:all) do
         options = Template::Document.options[:model_types]
         model_type = ""
