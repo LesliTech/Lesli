@@ -305,7 +305,7 @@ export default {
                 </div>
 
                 <div class="field">
-                    <label class="label"> {{ 'Template'}} <sup class="has-text-danger">*</sup> </label>
+                    <label class="label"> {{ translations.main.view_text_template }} <sup class="has-text-danger">*</sup> </label>
                     <div class="control">
                         <b-select expanded :placeholder="translations.main.text_select_option" v-model="template_documents_options.id" required>
                             <option v-for="template_document in template_documents" :key="template_document.id" :value="template_document.id">
