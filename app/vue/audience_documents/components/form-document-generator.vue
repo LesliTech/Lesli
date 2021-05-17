@@ -58,6 +58,12 @@ export default {
     },
     methods: {
         submitAudienceDocument(event){
+            if (this.references.length === 0) {
+                this.msg.warn(this.translations.main.messages_warning_data_is_empty)
+
+                return
+            }
+
             if (event) { event.preventDefault() }
 
             let form = {
@@ -249,20 +255,6 @@ export default {
                         </div>
                     </div>
                 </template>
-
-                <div class="buttons buttons-box">
-                    <span class="button is-default" @click.stop="importAllReferences">
-                        <b-icon icon="users" size="is-small" />
-                        &nbsp; &nbsp;
-                        {{translations.main.view_text_select_all}}
-                    </span>
-
-                    <span class="button is-default" @click.stop="references = []">
-                        <b-icon icon="user-times" size="is-small" />
-                        &nbsp; &nbsp;
-                        {{translations.main.view_text_clear_list}}
-                    </span>
-                </div>
             </div>
 
             <template v-if="current_table">
@@ -272,7 +264,7 @@ export default {
                         <sup class="has-text-danger">*</sup>
                     </label>
                     <div class="columns">
-                        <div class="column is-12">
+                        <div class="column is-8">
                             <b-taginput
                                 v-model="references"
                                 :data="filteredData"
@@ -294,11 +286,26 @@ export default {
                                 </template>
                             </b-taginput>
                         </div>
+                        <div class="column is-4">
+                            <div class="buttons">
+                                <b-button class="is-default" outlined @click.stop="importAllReferences">
+                                    <b-icon icon="users" size="is-small" />
+                                    &nbsp; &nbsp;
+                                    {{translations.main.view_text_select_all}}
+                                </b-button>
+
+                                <b-button class="is-danger" outlined @click.stop="references = []">
+                                    <b-icon icon="user-times" size="is-small" />
+                                    &nbsp; &nbsp;
+                                    {{translations.main.view_text_clear_list}}
+                                </b-button>
+                            </div>
+                        </div>
                     </div>
                 </div>
 
                 <div class="field">
-                    <label class="label"> {{ 'Template'}} <sup class="has-text-danger">*</sup> </label>
+                    <label class="label"> {{ translations.main.view_text_template }} <sup class="has-text-danger">*</sup> </label>
                     <div class="control">
                         <b-select expanded :placeholder="translations.main.text_select_option" v-model="template_documents_options.id" required>
                             <option v-for="template_document in template_documents" :key="template_document.id" :value="template_document.id">
