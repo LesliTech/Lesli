@@ -2,9 +2,9 @@
 
 Copyright (c) 2020, all rights reserved.
 
-All the information provided by this platform is protected by international laws related  to 
-industrial property, intellectual property, copyright and relative international laws. 
-All intellectual or industrial property rights of the code, texts, trade mark, design, 
+All the information provided by this platform is protected by international laws related  to
+industrial property, intellectual property, copyright and relative international laws.
+All intellectual or industrial property rights of the code, texts, trade mark, design,
 pictures and any other information belongs to the owner of this platform.
 
 Without the written permission of the owner, any replication, modification,
@@ -13,7 +13,7 @@ transmission, publication is strictly forbidden.
 For more information read the license file including with this software.
 
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
-// · 
+// ·
 
 =end
 module CloudObject
@@ -21,7 +21,7 @@ module CloudObject
         self.abstract_class = true
         mount_uploader :attachment_s3,  AwsUploader
         mount_uploader :attachment,     LocalUploader
-        
+
         belongs_to :user_creator, class_name: "::User", foreign_key: "users_id"
 
         enum file_type: {}
@@ -39,13 +39,13 @@ module CloudObject
             return nil
         end
 
-        # @return [Hash] A list of options needed to create a File. 
+        # @return [Hash] A list of options needed to create a File.
         # @description Returns lists of all fields needed to create a file. For the time being, it only returns a list of
         #     all available file types
         # @example
         #     options = CloudHelp::File.options
         #     puts options.to_json
-        #     # This will display something like 
+        #     # This will display something like
         #     # {
         #     #     value: "draft", text: "draft",
         #     #     value: "images", text: "images"
@@ -68,7 +68,7 @@ module CloudObject
         # @description Returns an array that contains all file extensions that are supported on this model
         # @example
         #     puts CloudHelp::Sla::File.allowed_file_extensions
-        #     # This will display something like 
+        #     # This will display something like
         #     # [
         #     #     "jpeg",
         #     #     "gif",
@@ -90,7 +90,7 @@ module CloudObject
             allowed_file_extensions_ = self.allowed_file_extensions
 
             return true unless allowed_file_extensions_
-            
+
             allowed_file_extensions_.each do |file_extesion|
                 if filename.downcase.end_with?(file_extesion)
                     return true
