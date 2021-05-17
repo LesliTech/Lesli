@@ -150,7 +150,6 @@ export default {
             })
         },
         dataSources() {
-            console.log(this.dataSources)
             this.chart.updateSeries(this.dataSources)
         }
     }
