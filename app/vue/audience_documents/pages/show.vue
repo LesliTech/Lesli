@@ -42,9 +42,7 @@ export default {
                 main: I18n.t('core.template/audience_documents'),
                 core: I18n.t('core.shared')
             },
-            active: {
-                main_tab: 0
-            },
+            active_tab: 1
         }
     },
     mounted() {
@@ -81,7 +79,7 @@ export default {
             </div>
         </component-header>
 
-        <b-tabs vertical>
+        <b-tabs vertical v-model="active_tab">
             <b-tab-item :label="translations.core.view_tab_title_form">
                 <component-form v-if="audience_document.id" :base_path="null" :audience_document="audience_document"></component-form>
             </b-tab-item>
