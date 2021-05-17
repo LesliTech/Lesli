@@ -376,6 +376,24 @@ class User < ApplicationLesliRecord
                 group by ur.users_id
             ) roles on roles.users_id = users.id
         ")
+        .joins("
+            left join (
+                select
+                    max(created_at) as last_action_performed_at,
+                    users_id
+                from user_requests ureq
+                group by(ureq.users_id)
+            ) requests on requests.users_id = users.id
+        ")
+        .joins("
+            left join (
+                select
+                    max(created_at) as last_login_at,
+                    users_id
+                from user_sessions us
+                group by(us.users_id)
+            ) sessions on sessions.users_id = users.id
+        ")
 
         users = users.where("email like '%#{query[:filters][:domain]}%'")  unless query[:filters][:domain].blank?
         users = users.where("category = ?", query[:filters][:category]) if query[:filters][:category]
@@ -392,7 +410,9 @@ class User < ApplicationLesliRecord
             :current_sign_in_at,
             "false as editable",
             "CONCAT(ud.first_name, ' ',ud.last_name) as name",
-            "role_names as roles"
+            "role_names as roles",
+            "requests.last_action_performed_at",
+            "sessions.last_login_at"
         )
 
         if (query[:filters][:status] == 'active')
@@ -409,16 +429,12 @@ class User < ApplicationLesliRecord
         users_count = users.total_count
 
         users = users.map do |user|
-
             # last time user use the login form to access the platform
             last_sign_in_at = LC::Date.distance_to_words(user[:current_sign_in_at], Time.current)
-
             # last action the user perform an action into the system
-            last_action_performed_at = user.requests.last
-            last_action_performed_at = LC::Date.distance_to_words(last_action_performed_at[:created_at], Time.current) if not last_action_performed_at.blank?
-
+            last_action_performed_at = LC::Date.distance_to_words(user["last_action_performed_at"], Time.current) if not user["last_action_performed_at"].blank?
             # check if user has an active session
-            session = user.sessions.last ? true : false
+            session = user["last_login_at"].blank? ? false : true
 
             {
                 id: user[:id],
