@@ -17,18 +17,21 @@ For more information read the license file including with this software.
 
 =end
 
-class Account::File < ApplicationLesliRecord
-    mount_uploader :attachment_s3,  AwsUploader
-    mount_uploader :attachment,     LocalUploader
+require 'rails_helper'
+require 'spec_helper'
+require 'byebug'
 
 
-    belongs_to :account, foreign_key: "account_id"
-    belongs_to :cloud_object, class_name: "::Account", foreign_key: "account_id"
-    belongs_to :user_creator, class_name: "::User", foreign_key: "users_id", optional: true
+RSpec.describe 'GET:/administration/template/audience_documents.json', type: :request do
+    include_context 'user authentication'
 
-    def destroy
-        update(attachment: nil, attachment_s3: nil)
+    before(:all) do
+        get '/administration/template/audience_documents.json'
+    end
 
-        super
+    include_examples 'successful standard json response'
+
+    it 'is expected to respond with an index of audience documents' do
+        expect(@response_body["data"]["pagination"]["count_total"]).to eql(@user.account.template.audience_documents.count)
     end
 end
