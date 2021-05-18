@@ -68,6 +68,7 @@ module.exports = env => {
             "accounts/app": "./app/vue/accounts/app.js",
             "account/cronos_app": "./app/vue/account_cronos/app.js",
             "account/settings_app": "./app/vue/account_settings/app.js",
+            "account/currencies_app": "./app/vue/account_currencies/app.js",
             "account/integrations_app": "./app/vue/account_integrations/app.js",
             
             "dashboards/app": "./app/vue/dashboards/app.js",
