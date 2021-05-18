@@ -42,6 +42,8 @@ module RoutesApp
                 resource :profile, only: [:show] do
                     scope module: :profile do
 
+                        resources :webpushes, only: [:create]
+
                         # current user notifications
                         resources :notifications, only: [:index, :update]
 
