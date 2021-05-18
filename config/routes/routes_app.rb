@@ -61,6 +61,9 @@ module RoutesApp
                             resources :cronos
                             resources :currencies do
                                 resources :exchange_rates
+                                collection do
+                                    get :list
+                                end
                             end
                         end
                         member do
