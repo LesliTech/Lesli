@@ -67,7 +67,7 @@ export default {
             <b-tab-item icon-pack="fas" icon="paint-brush" :label="translations.core.account.settings.view_tab_title_theme">
                 <component-form-theme></component-form-theme>
             </b-tab-item>
-            <b-tab-item icon-pack="fas" icon="coins" label="Currencies">
+            <b-tab-item icon-pack="fas" icon="coins" :label="translations.core.account.settings.view_tab_title_currency">
                 <component-form-currencies></component-form-currencies>
             </b-tab-item>
         </b-tabs>

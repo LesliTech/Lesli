@@ -107,11 +107,11 @@ export default {
             <form @submit.prevent="putSettings()">
                 <div class="columns is-multiline">
                     <div class="column is-12">
-                        <b-field label="translations.core.account.settings.column_start_week_on">
+                        <b-field :label="translations.core.account.settings.column_enum_default_currency">
                             <b-select
                                 name="settings-default-currency"
                                 v-model="settings.default_currency"
-                                placeholder="translations.main.view_placeholder_select_brand"
+                                :placeholder="translations.core.account.settings.view_placeholder_select_currency"
                                 expanded
                                 :loading="loading_options"
                             >
