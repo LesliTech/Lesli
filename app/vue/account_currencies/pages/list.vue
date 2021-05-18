@@ -31,7 +31,7 @@ export default {
             loading: false,
             pagination: {
                 total_pages: 0,
-                current_page: 1,
+                current_page: 10,
                 count_total: 0,
                 count_results: 0,
             },
