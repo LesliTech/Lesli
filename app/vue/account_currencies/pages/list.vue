@@ -79,32 +79,6 @@ export default {
         showObject(object) {
             this.$router.push(`/${object.id}`)
         },
-
-        deleteObject(object) {
-            let object_id = object.id
-
-            this.http.delete(`${this.main_route}/${object_id}`).then(result => {
-                if (result.successful) {
-                    this.alert(this.translations.main.messages_success_deleted_successfully, 'success')
-                    this.getCurrencies()
-                }else{
-                    this.alert(result.error.message,'danger')
-                }
-            }).catch(error => {
-                console.log(error)
-            })
-        },
-
-        confirmDeletion(object) {
-            this.$buefy.dialog.confirm({
-                title: this.translations.main.view_text_confirm_deleting_title,
-                message: `<b> ${this.translations.main.view_text_confirm_deleting_question}</b>`,
-                confirmText: this.translations.main.view_text_deleting,
-                type: 'is-danger',
-                hasIcon: true,
-                onConfirm: () => this.deleteObject(object)
-            })
-        },
     },
 
     watch: {
