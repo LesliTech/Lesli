@@ -86,4 +86,14 @@ class Account::Currency < ApplicationLesliRecord
     def show(current_user, query)
         self
     end
+
+    def self.list(current_user, query)
+        current_user.account.currencies.select(
+            :id,
+            :name,
+            :symbol,
+            :country_alpha_3,
+            :accounts_id
+        ).all
+    end
 end

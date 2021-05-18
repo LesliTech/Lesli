@@ -22,6 +22,7 @@ import componentFormTheme from "../components/form-theme.vue"
 import componentFormGeneral from "../components/form-general.vue"
 import componentFormBranding from "../components/form-branding.vue"
 import componentFormTime from "../components/form-time-settings.vue"
+import componentFormCurrencies from "../components/form-currencies.vue"
 
 // ·
 export default {
@@ -29,7 +30,8 @@ export default {
         "component-form-theme": componentFormTheme,
         "component-form-general": componentFormGeneral,
         "component-form-branding": componentFormBranding,
-        "component-form-time": componentFormTime
+        "component-form-time": componentFormTime,
+        "component-form-currencies": componentFormCurrencies
     },
     data() {
         return {
@@ -56,7 +58,7 @@ export default {
             <b-tab-item icon-pack="fas" icon="cog" :label="translations.core.account.settings.view_tab_title_general">
                 <component-form-general></component-form-general>
             </b-tab-item>
-            <b-tab-item icon-pack="fas" icon="cog" :label="translations.core.account.settings.view_tab_title_time_settings">
+            <b-tab-item icon-pack="fas" icon="clock" :label="translations.core.account.settings.view_tab_title_time_settings">
                 <component-form-time></component-form-time>
             </b-tab-item>
             <b-tab-item icon-pack="fas" icon="palette" :label="translations.core.account.settings.view_tab_title_branding">
@@ -64,6 +66,9 @@ export default {
             </b-tab-item>
             <b-tab-item icon-pack="fas" icon="paint-brush" :label="translations.core.account.settings.view_tab_title_theme">
                 <component-form-theme></component-form-theme>
+            </b-tab-item>
+            <b-tab-item icon-pack="fas" icon="coins" label="Currencies">
+                <component-form-currencies></component-form-currencies>
             </b-tab-item>
         </b-tabs>
     </section>
