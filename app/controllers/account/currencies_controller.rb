@@ -79,6 +79,15 @@ class Account::CurrenciesController < ApplicationLesliController
         end
     end
 
+    def list
+        respond_to do |format|
+            format.html {}
+            format.json {
+                respond_with_successful(Account::Currency.list(current_user, @query))
+            }
+        end
+    end
+
     private
 
     # Use callbacks to share common setup or constraints between actions.
