@@ -32,7 +32,34 @@ export default {
             notifications: []
         }
     },
+
+    mounted() {
+        this.prepareDesktopNotification();
+    },
+
     methods: {
+
+        prepareDesktopNotification() {
+
+            if (!("Notification" in window)) {
+                console.log("This browser does not support desktop notification");
+                return
+            }
+
+            // Let's check whether notification permissions have already been granted
+            if (Notification.permission === "granted") {
+                // If it's okay let's create a notification
+                return
+            }
+
+            // Otherwise, we need to ask the user for permission
+            if (Notification.permission !== "denied") {
+                Notification.requestPermission().then(function (permission) {
+                    console.log(permission)
+                })
+            }
+
+        },
 
         getNotifications() {
             this.http.get(this.url.profile("notifications")).then(result => {
