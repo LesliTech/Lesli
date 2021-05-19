@@ -34,32 +34,6 @@ export default {
     },
     methods: {
 
-        prepareDesktopNotification() {
-
-            if (!("Notification" in window)) {
-                console.log("This browser does not support desktop notification");
-                return
-            }
-
-            // Let's check whether notification permissions have already been granted
-            if (Notification.permission === "granted") {
-                // If it's okay let's create a notification
-                var notification = new Notification("Hi there!");
-                return
-            }
-
-            // Otherwise, we need to ask the user for permission
-            if (Notification.permission !== "denied") {
-                Notification.requestPermission().then(function (permission) {
-                    // If the user accepts, let's create a notification
-                    if (permission === "granted") {
-                        var notification = new Notification("Hi there!");
-                    }
-                })
-            }
-
-        },
-
         getNotifications() {
             this.http.get(this.url.profile("notifications")).then(result => {
                 if (result.successful) {
@@ -98,6 +72,7 @@ export default {
         },
         'data.global.cloud_bell_notification': function(notification) {
             this.msg.info(notification.subject)
+            var notification = new Notification(notification.subject);
         },
         'data.global.show_panel_notifications': function(open) {
             if (open) {
