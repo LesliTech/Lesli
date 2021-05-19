@@ -47,6 +47,7 @@ class Account::Currency < ApplicationLesliRecord
         .where("account_currency_exchange_rates.valid_to >= ?", current_date)
         .where(filters_query.join(" and "))
         .select(
+            LC::Date2.new.date_time.db_timestamps("account_currencies"),
             "account_currencies.created_at",
             "account_currencies.id",
             :name,
@@ -54,9 +55,11 @@ class Account::Currency < ApplicationLesliRecord
             :country_alpha_3,
             :users_id,
             :user_main_id,
+            LC::Date2.new.date_time.db_column("valid_from"),
+            LC::Date2.new.date_time.db_column("valid_to"),
             :valid_from,
             :valid_to,
-            :exchange_rate
+            :exchange_rate,
         )
 
         # Adding pagination to the currencies
@@ -85,5 +88,27 @@ class Account::Currency < ApplicationLesliRecord
 
     def show(current_user, query)
         self
+    end
+
+    def self.list(current_user, query)
+        current_date = LC::Date.now
+        current_user.account.currencies.joins(:exchange_rates)
+        .where("account_currency_exchange_rates.valid_from <= ?", current_date)
+        .where("account_currency_exchange_rates.valid_to >= ?", current_date)
+        .select(
+            LC::Date2.new.date_time.db_timestamps("account_currencies"),
+            "account_currencies.created_at",
+            "account_currencies.id",
+            :name,
+            :symbol,
+            :country_alpha_3,
+            :users_id,
+            :user_main_id,
+            LC::Date2.new.date_time.db_column("valid_from"),
+            LC::Date2.new.date_time.db_column("valid_to"),
+            :valid_from,
+            :valid_to,
+            :exchange_rate,
+        )
     end
 end
