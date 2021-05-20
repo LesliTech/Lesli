@@ -57,6 +57,7 @@ class User < ApplicationLesliRecord
 
     before_create :initialize_user
     after_create :initialize_user_details
+    after_create :initialize_cloud_one_user
 
     after_update :change_after_update
 
@@ -78,6 +79,16 @@ class User < ApplicationLesliRecord
     #     designed to be invoked directly
     def initialize_user_details
         User::Detail.find_or_create_by({ user: self })
+    end
+
+    def initialize_cloud_one_user
+        if defined? CloudOne
+            registration_params = {
+                password: Courier::One::Firebase::User.generated_password(self)
+            }
+
+            Courier::One::Firebase::User.registration(self, registration_params)
+        end
     end
 
     def change_after_update
