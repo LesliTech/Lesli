@@ -31,12 +31,12 @@ export default {
             loading: false,
             pagination: {
                 total_pages: 0,
-                current_page: 10,
+                current_page: 1,
                 count_total: 0,
                 count_results: 0,
             },
             pagination_config: {
-                per_page: 1,
+                per_page: 10,
                 range_before: 3,
                 range_after: 3,
             },
@@ -62,7 +62,13 @@ export default {
                 page: this.pagination.current_page,
             }
 
-            this.http.get(this.url.admin("account/currencies"), {params}).then(result => {
+            this.http.get(this.url.admin("account/currencies").filters(
+                {
+                  include: {
+                    only: "exchange_rates"
+                  }
+                }
+            ), {params}).then(result => {
                 if (result.successful) {
                     this.currencies = result.data.records;
                     this.pagination = result.data.pagination;
