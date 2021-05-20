@@ -43,6 +43,7 @@ module RoutesApp
                     resource :profile, only: [:show] do
                         scope module: :profile do
                             resources :notifications, only: [:index, :update]
+                            resources :subscriptions, only: [:index, :destroy, :update]
                         end
 
                     end
