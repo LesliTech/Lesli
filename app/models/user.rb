@@ -88,7 +88,6 @@ class User < ApplicationLesliRecord
             }
 
             Courier::One::Firebase::User.registration(self, registration_params)
-            LC::Debug.msg "Register successful on firebase for user: #{self[:email]}"
         end
     end
 
