@@ -16,16 +16,13 @@ export default {
             default: true
         },
 
-        translationsFileTypes: {
+        translations: {
             required: true
         }
     },
 
     data(){
         return {
-            translations: {
-                core: I18n.t('core.shared')
-            },
             loading: false,
             files: null,
             main_route: null,
@@ -47,18 +44,11 @@ export default {
 
     mounted(){
         this.parseCloudModule()
-        this.setTranslations()
         this.getBackendData()
         this.setSubscriptions()
     },
 
     methods: {
-        setTranslations(){
-            if(this.translationsFileTypes){
-                this.$set(this.translations, 'file_types', this.translationsFileTypes)
-            }
-        },
-
         setSubscriptions(){
             this.bus.subscribe(`post:${this.main_route}/files-complete`, ()=>{
                 if(this.files){
