@@ -39,9 +39,9 @@ export default {
             type: Boolean,
             default: true
         },
-        translationsFileTypesPath: {
-            type: String,
-            default: null
+        translationsFileTypes: {
+            type: Object,
+            default: () => ({})
         },
         acceptedFileExtensions: {
             type: Array,
@@ -109,7 +109,7 @@ export default {
                         :cloud-id="cloudId"
                         :active="active"
                         @upload-complete="switchToList"
-                        :translations-file-types-path="translationsFileTypesPath"
+                        :translations-file-types="translationsFileTypes"
                         :accepted-file-extensions="acceptedFileExtensions"
                     />
                 </b-tab-item>
@@ -118,7 +118,7 @@ export default {
                         :cloud-module="cloudModule"
                         :cloud-id="cloudId"
                         :active="active"
-                        :translations-file-types-path="translationsFileTypesPath"
+                        :translations-file-types="translationsFileTypes"
                     />
                 </b-tab-item>
             </b-tabs>

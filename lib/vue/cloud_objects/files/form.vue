@@ -23,9 +23,9 @@ export default {
             default: null
         },
 
-        translationsFileTypesPath: {
-            type: String,
-            default: null
+        translationsFileTypes: {
+            type: Object,
+            required: true
         }
     },
 
@@ -73,8 +73,8 @@ export default {
     methods: {
 
         setTranslations(){
-            if(this.translationsFileTypesPath){
-                this.$set(this.translations, 'file_types', I18n.t(this.translationsFileTypesPath))
+            if(this.translationsFileTypes){
+                this.$set(this.translations, 'file_types', this.translationsFileTypes)
             }
         },
 
