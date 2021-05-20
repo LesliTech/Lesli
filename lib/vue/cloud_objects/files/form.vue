@@ -23,8 +23,7 @@ export default {
             default: null
         },
 
-        translationsFileTypes: {
-            type: Object,
+        translations: {
             required: true
         }
     },
@@ -36,9 +35,6 @@ export default {
     data(){
         return {
             main_route: null,
-            translations: {
-                core: I18n.t('core.shared')
-            },
             submitting_form: false,
             module_name: null,
             object_name: null,
@@ -65,19 +61,11 @@ export default {
 
     mounted(){
         this.parseCloudModule()
-        this.setTranslations()
         this.setDropzoneOptions()
         this.getBackendData()
     },
 
     methods: {
-
-        setTranslations(){
-            if(this.translationsFileTypes){
-                this.$set(this.translations, 'file_types', this.translationsFileTypes)
-            }
-        },
-
         setDropzoneOptions(){
             this.dropzone_options.url = `${this.main_route}/${this.cloudId}/files`
             this.dropzone_options.paramName = `${this.object_name.singular}_file[attachment]`

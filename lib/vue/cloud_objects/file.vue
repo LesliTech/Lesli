@@ -39,9 +39,9 @@ export default {
             type: Boolean,
             default: true
         },
-        translationsFileTypes: {
-            type: Object,
-            default: () => ({})
+        translationsFileTypesPaths: {
+            type: Array,
+            default: []
         },
         acceptedFileExtensions: {
             type: Array,
@@ -73,13 +73,24 @@ export default {
         this.deleteSubscriptions()
     },
 
-    methods: {
+    methods: {        
         setSubscriptions(){
             this.bus.subscribe('show:/module/app/files', () => this.show = !this.show )
         },
 
-        setTranslations(){
-            this.$set(this.translations, 'main', I18n.t(this.translationsPath)) 
+        setTranslations(){            
+            if(this.translationsFileTypesPaths){
+                for(let translation_path of this.translationsFileTypesPaths) {
+                    this.$set(
+                        this.translations, 
+                        'file_types', 
+                        {
+                            ...this.translations.file_types,
+                            ...I18n.t(translation_path)
+                        }
+                    )   
+                }
+            }
         },
 
         deleteSubscriptions(){
@@ -109,8 +120,8 @@ export default {
                         :cloud-id="cloudId"
                         :active="active"
                         @upload-complete="switchToList"
-                        :translations-file-types="translationsFileTypes"
                         :accepted-file-extensions="acceptedFileExtensions"
+                        :translations="translations"
                     />
                 </b-tab-item>
                 <b-tab-item :label="translations.core.view_tab_title_files_list">
@@ -118,7 +129,7 @@ export default {
                         :cloud-module="cloudModule"
                         :cloud-id="cloudId"
                         :active="active"
-                        :translations-file-types="translationsFileTypes"
+                        :translations="translations"
                     />
                 </b-tab-item>
             </b-tabs>
