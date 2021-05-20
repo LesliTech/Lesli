@@ -94,7 +94,7 @@ class Account::CurrenciesController < ApplicationLesliController
 
     # Use callbacks to share common setup or constraints between actions.
     def set_account_currency
-        @account_currency = current_user.account.account_currencies.find(class_name, params[:id])
+        @account_currency = current_user.account.currencies.find(params[:id])
     end
 
     # Only allow a list of trusted parameters through.

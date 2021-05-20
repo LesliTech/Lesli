@@ -22,9 +22,10 @@ import DatePicker from 'v-calendar/lib/components/date-picker.umd'
 
 export default {
     props: {
-        account_currency: {
+        viewType: {
+            type: String,
             required: true
-        },
+        }
     },
 
     components: {
@@ -42,13 +43,24 @@ export default {
                     }
                 }
             },
-            submitting_form: false
+            submitting_form: false,
+            account_currency: {
+                name: null,
+                symbol: null,
+                country_alpha_3: null,
+            },
         }
     },
 
-    mounted() {},
+    mounted() {
+        this.setAccountCurrency();
+    },
 
     methods: {
+        setAccountCurrency(){
+            this.account_currency_id = this.$route.params.id;
+            this.account_currency = this.data.account_currency;
+        },
         submitCurrency(event){
             if (event) { event.preventDefault() }
 
@@ -85,16 +97,16 @@ export default {
             let data = {
                 account_currency: this.account_currency
             }
-            this.http.put(this.url.admin("account/currencies"), data).then(result => {
+            this.http.put(this.url.admin("account/currencies/:id", {id: this.account_currency_id}), data).then(result => {
                 if (result.successful) {
-                    this.msg.success(this.translations.main.messages_success_updated_successfully)
+                    this.msg.success(this.translations.core.account.currencies.messages_success_currency_updated_successfully)
                 }else{
                     this.msg.error(result.error.message)
                 }
-
-                this.submitting_form = false 
             }).catch(error => {
                 console.log(error)
+            }).finally(error => {
+                this.submitting_form = false
             })
 
         }
@@ -105,7 +117,7 @@ export default {
     <div class="card">
         <div class="card-content">
             <b-tabs>
-                <b-tab-item label="translations.core.account.currencies.view_tab_title_general_information">
+                <b-tab-item :label="translations.core.account.currencies.view_tab_title_general_information">
                     <form @submit.prevent="submitCurrency">
                         <fieldset :disabled="submitting_form">
                             <!-- Name -->
@@ -171,7 +183,7 @@ export default {
                         </fieldset>
                     </form>
                 </b-tab-item>
-                <b-tab-item label="translations.core.account.currencies.view_tab_title_exchange_rates">
+                <b-tab-item :label="translations.core.account.currencies.view_tab_title_exchange_rates">
                 </b-tab-item>
             </b-tabs>
         </div>
