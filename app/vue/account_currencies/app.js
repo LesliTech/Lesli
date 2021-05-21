@@ -25,6 +25,8 @@ import app from "LesliVue/app"
 // · Import pages
 import pageList from "./pages/list.vue"
 import pageNew from "./pages/new.vue"
+import pageShow from "./pages/show.vue"
+import pageEdit from "./pages/edit.vue"
 
 
 // · Cloud app
@@ -34,4 +36,15 @@ app("Lesli", "[currencies]", "/administration/account/currencies", [{
 }, {
     path: "/new",
     component: pageNew
-}])
+}, {
+    path: "/:id",
+    component: pageShow
+},{
+    path: "/:id/edit",
+    component: pageEdit
+}],{
+    account_currency: null,
+    reload: {
+        account_currency: false
+    }
+})

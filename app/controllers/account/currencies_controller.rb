@@ -49,7 +49,9 @@ class Account::CurrenciesController < ApplicationLesliController
 
     # POST /account/currencies
     def create
-        account_currency = Account::Currency.new(account_currency_params)
+        account_currency = current_user.account.currencies.new(account_currency_params)
+        account_currency.user_main_id = current_user.id
+        account_currency.users_id = current_user.id
         if account_currency.save
             respond_with_successful(account_currency)
         else
@@ -92,11 +94,17 @@ class Account::CurrenciesController < ApplicationLesliController
 
     # Use callbacks to share common setup or constraints between actions.
     def set_account_currency
-        @account_currency = current_user.account.account_currencies.find(class_name, params[:id])
+        @account_currency = current_user.account.currencies.find(params[:id])
     end
 
     # Only allow a list of trusted parameters through.
     def account_currency_params
-        params.require(:account_currency).permit(:id, :name)
+        params.require(:account_currency)
+        .permit(
+            :id,
+            :name,
+            :symbol,
+            :country_alpha_3
+        )
     end
 end
