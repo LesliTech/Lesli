@@ -214,7 +214,7 @@ export default {
                 this.selected_option = selected_option;
                 this.search = this.selected_option[this.textField];
                 this.$emit('input', this.selected_option[this.keyField]);
-                this.$emit('select', option)
+                this.$emit('select', selected_option)
                 if(this.options.length == 1){
                     this.disable_search = true;
                     this.options = [];
@@ -230,13 +230,22 @@ export default {
             }
         },
 
-        clearAutocompleteOptions(){
+        clearField(){
             this.search = '';
             this.disable_search = true;
             this.options = [];
             this.index = -1;
             this.$emit('input', null);
             this.$emit('clear')
+            this.$nextTick(()=>{
+                this.disable_search = false;
+            });
+        },
+
+        clearAutocompleteOptions(){
+            this.disable_search = true;
+            this.options = [];
+            this.index = -1;
             this.$nextTick(()=>{
                 this.disable_search = false;
             });
@@ -291,7 +300,7 @@ export default {
             :required="required"
             icon-right="times-circle"
             icon-right-clickable
-            @icon-right-click="clearAutocompleteOptions"
+            @icon-right-click="clearField"
             @change.native="verifySelectedOption"
             @focus="focus"
         >

@@ -81,7 +81,7 @@ class Account::SettingsController < ApplicationLesliController
             if setting.present?
                 setting.update_attribute(:value, value)
             else
-                return respond_with_not_found
+                current_user.account.settings.create!(name: key, value: value)
             end
         end
         respond_with_successful

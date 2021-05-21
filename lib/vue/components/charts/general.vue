@@ -2,57 +2,58 @@
 /*
 
 Copyright (c) 2020, all rights reserved.
-
 All the information provided by this platform is protected by international laws related  to 
 industrial property, intellectual property, copyright and relative international laws. 
 All intellectual or industrial property rights of the code, texts, trade mark, design, 
 pictures and any other information belongs to the owner of this platform.
-
 Without the written permission of the owner, any replication, modification,
 transmission, publication is strictly forbidden.
 
 For more information read the license file including with this software.
-
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
 // · 
 
 */
 
 
-
 // · Import frameworks, libraries and tools
-// · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
 import ApexCharts from 'apexcharts'
 
 
 // · 
 export default {
     props: {
-
+        enableDataLabels: {
+            type: Boolean,
+            default: false
+        },
+        strokeWidth: {
+            type: Array,
+            default: ()=>{
+                return [0,0,4]
+            }
+        },
+        colors: {
+            type: Array,
+            default: ()=>{
+                return [
+                    "rgb(0, 83, 128)",
+                    "rgb(32, 168, 216)",
+                    "rgb(10,10,10)"
+                ]
+            }
+        },
         dataSources: {
             type: Array,
             required: true
         },
-
         dataLabels: {
             type: Array,
             required: true
         },
-
-        title: {
-            type: String,
-            default: ""
-        },
-
         height: {
             default: "auto"            
         },
-
-        enableDataLabels: {
-            type: Boolean,
-            default: true
-        },
-
         padding: {
             default() {
                 return {
@@ -75,9 +76,10 @@ export default {
                     padding: this.padding
                 },
                 chart: {
+                    stacked: true,
                     height: this.height,
                     toolbar: {
-                        show: false
+                        show: false,
                     }
                 },
                 title: {
@@ -89,13 +91,16 @@ export default {
                     horizontalAlign: 'center'
                 },
                 dataLabels: {
-                    enabled: true, //this.enableDataLabels,
+                    enabled: this.enableDataLabels,
+                    offsetY: -10,
+                    enabledOnSeries: [2]
                 },
-                colors: this.lesli.colors("charts"),
+                colors: this.colors,
                 stroke: {
                     show: true,
                     curve: "straight",
                     lineCap: 'round',
+                    width: this.strokeWidth
                 },
                 plotOptions: {
                     bar: {
@@ -115,6 +120,10 @@ export default {
                             fontSize: '15px'
                         },
                     }
+                },
+                yaxis: {
+                    show: false,
+                    //max: 800
                 }
             }
         }
@@ -126,21 +135,17 @@ export default {
         initChart() {
             this.chart_options.labels = []
             this.chart_options.series = []
-
             this.chart = new ApexCharts(document.querySelector("#chart-"+this._uid), this.chart_options)
             this.chart.render()
-
             // If the information is available from the start, we update the labels and sources
             if(this.dataLabels){
                 this.chart.updateOptions({
                     labels: this.dataLabels
                 })
             }
-
             if(this.dataSources){
             this.chart.updateSeries(this.dataSources)
             }
-
         }
     },
     watch: {
@@ -156,8 +161,7 @@ export default {
 }
 </script>
 <template>
-    <article>
-        <h4 class="is-size-4">{{ title }}</h4>
+    <section>
         <div :id="'chart-'+_uid"></div>
-    </article>
+    </section>
 </template>
