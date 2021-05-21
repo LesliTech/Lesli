@@ -66,6 +66,10 @@ class Account::Setting < ApplicationRecord
             'password_expiration_time_days'
         ]
 
+        currency_settings = [
+            'default_currency',
+        ]
+
         # filter[:theme] will indicate if must show theme settings.
         # filter[:time] will indicate if must show time settings.
         # filter[:password] will indicate if must show password settings.
@@ -91,6 +95,12 @@ class Account::Setting < ApplicationRecord
 
         if query[:filters][:goals] == 'true'
             query_filters.push("name = 'configuration_dashboard_goals'")
+        end
+
+        if query[:filters][:currency] == 'true'
+            currency_settings.map do |setting_name|
+                query_filters.push("name = '#{setting_name}'")
+            end
         end
 
         current_user.account.settings.where(query_filters.join(" or "))

@@ -1,7 +1,6 @@
 <script>
 /*
-
-Copyright (c) 2020, all rights reserved.
+Copyright (c) 2021, all rights reserved.
 
 All the information provided by this platform is protected by international laws related  to 
 industrial property, intellectual property, copyright and relative international laws. 
@@ -15,157 +14,136 @@ For more information read the license file including with this software.
 
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
 // · 
-
 */
 
 
-//  · Loading core framework and libraries
-// ~·~        ~·~        ~·~        ~·~        ~·~        ~·~        ~·~        ~·~        ~·~
-import dayjs from 'dayjs'
+// · Import frameworks, libraries and tools
+import ApexCharts from 'apexcharts'
 
 
-//  · Loading apps, modules and components
-// ~·~        ~·~        ~·~        ~·~        ~·~        ~·~        ~·~        ~·~        ~·~
-//import VueApexCharts from 'vue-apexcharts'
-
-
-// · LesliCloud app
-// · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
+// · 
 export default {
-
-    mounted() {
-        let data = []
-        let labels = []
-        let d = [0,1,2,3,4,5,6,7,8,9]
-
-        d.forEach(i => {
-            data.push(i*75+3)
-            labels.push(dayjs().add(i, 'day').format())
-        })
-
-        this.chart.series[0].data = data
-        this.chart.options = { labels: labels }
-
+    props: {
+        dataSources: {
+            type: Array,
+            required: true
+        },
+        dataLabels: {
+            type: Array,
+            required: true
+        },
+        title: {
+            type: String,
+            default: ""
+        },
+        height: {
+            default: "auto"            
+        },
+        enableDataLabels: {
+            type: Boolean,
+            default: true
+        },
+        padding: {
+            default() {
+                return {
+                    top: 0,
+                    right: 0,
+                    bottom: 0,
+                    left: 0
+                }
+            }
+        }
     },
     data() {
         return {
-            chart: {
-                series: [{
-                    data: [0]
-                }],
-                options: {
-                    labels: [],
-                    annotations: {
-                        yaxis: [{
-                            y: 420,
-                            borderColor: '#00E396',
-                            label: {
-                                text: 'Support',
-                                borderColor: '#00E396',
-                                style: {
-                                    color: '#fff',
-                                    background: '#00E396',
-                                },
-                            }
-                        }, {
-                            y: 20,
-                            y2: 250,
-                            borderColor: '#FEB019',
-                            opacity: 0.1,
-                            label: {
-                                text: 'Y-axis range',
-                                borderColor: '#333',
-                                style: {
-                                    fontSize: '10px',
-                                    color: '#333',
-                                    background: '#FEB019',
-                                },
-                            }
-                        }],
-                        xaxis: [{
-                            x: dayjs().add(1, 'day').valueOf(),
-                            strokeDashArray: 0,
-                            borderColor: '#775DD0',
-                            label: {
-                                text: 'Anno Test',
-                                borderColor: '#775DD0',
-                                style: {
-                                    color: '#fff',
-                                    background: '#775DD0',
-                                },
-                                
-                            }
-                        }, {
-                            x: dayjs().add(2, 'day').valueOf(),
-                            x2: dayjs().add(3, 'day').valueOf(),
-                            borderColor: '#B3F7CA',
-                            opacity: 0.5,
-                            label: {
-                                offsetY: -10,
-                                text: 'X-axis range',
-                                borderColor: '#B3F7CA',
-                                style: {
-                                    fontSize: '10px',
-                                    color: '#fff',
-                                    background: '#00E396',
-                                },
-                            }
-                        }],
-                        points: [{
-                            x: dayjs().add(5, 'day').valueOf(),
-                            y: 507.55,
-                            marker: {
-                                size: 8,
-                                fillColor: '#fff',
-                                strokeColor: 'red',
-                                radius: 2,
-                                cssClass: 'apexcharts-custom-class'
-                            },
-                            label: {
-                                text: 'Point Annotation',
-                                borderColor: '#FF4560',
-                                offsetY: 0,
-                                style: {
-                                    color: '#fff',
-                                    background: '#FF4560',
-                                },
-                            }
-                        }]
-                    },
-                    chart: {
-                        height: 350,
-                        type: 'line',
-                        id: 'areachart-2'
-                    },
-                    dataLabels: {
-                        enabled: false
-                    },
-                    stroke: {
-                        curve: 'straight'
-                    },
-                    grid: {
-                        padding: {
-                            right: 30,
-                            left: 20
-                        }
-                    },
-                    title: {
-                        text: 'Line with Annotations',
-                        align: 'left'
-                    },
-                    
-                    xaxis: {
-                        type: 'datetime',
+            chart: null,
+            chart_options: {
+                series: [],
+                labels: [],
+                grid: {
+                    show: false,
+                    padding: this.padding
+                },
+                chart: {
+                    height: this.height,
+                    toolbar: {
+                        show: false
+                    }
+                },
+                title: {
+                    text: ''
+                },
+                legend: {
+                    show: true,
+                    position: 'top',
+                    horizontalAlign: 'center'
+                },
+                dataLabels: {
+                    enabled: true, //this.enableDataLabels,
+                },
+                colors: this.lesli.colors("charts"),
+                stroke: {
+                    show: true,
+                    curve: "straight",
+                    lineCap: 'round',
+                },
+                plotOptions: {
+                    bar: {
+                        columnWidth: '99%',
+                        barHeight: '100%'
+                    }
+                },
+                xaxis: {
+                    tickPlacement: 'between',
+                    labels: {
+                        show: true,
+                        rotate: -65,
+                        rotateAlways: false,
+                        trim: false,
+                        offsetY: 5,
+                        style: {
+                            fontSize: '15px'
+                        },
                     }
                 }
             }
+        }
+    },
+    mounted() {
+        this.initChart()
+    },
+    methods: {
+        initChart() {
+            this.chart_options.labels = []
+            this.chart_options.series = []
+            this.chart = new ApexCharts(document.querySelector("#chart-"+this._uid), this.chart_options)
+            this.chart.render()
+            // If the information is available from the start, we update the labels and sources
+            if(this.dataLabels){
+                this.chart.updateOptions({
+                    labels: this.dataLabels
+                })
+            }
+            if(this.dataSources){
+            this.chart.updateSeries(this.dataSources)
+            }
+        }
+    },
+    watch: {
+        dataLabels() {
+            this.chart.updateOptions({
+                labels: this.dataLabels
+            })
+        },
+        dataSources() {
+            this.chart.updateSeries(this.dataSources)
         }
     }
 }
 </script>
 <template>
-    
+    <article>
+        <h4 class="is-size-4">{{ title }}</h4>
+        <div :id="'chart-'+_uid"></div>
+    </article>
 </template>
-<style scoped>
-
-</style>
