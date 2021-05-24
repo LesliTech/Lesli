@@ -32,37 +32,51 @@ class PassesController < ApplicationController
 
         end
 
+
+        # alias for token error message
+        error_msg = I18n.t("core.shared.messages_danger_not_valid_authorization_token_found")
+
+
+        # search for the requested pass
         access_code = User::AccessCode.find_by(token: params[:t], token_type: "pass", last_used_at: nil)
 
+
+        # denied access if token not found
         if access_code.blank?
 
             Account::Activity.log("core", "/pass", "pass_session_creation_failed", "not_valid_token_found", {
                 token: (params[:t] || "")
             })
 
-            redirect_to "/login", alert: I18n.t("core.shared.messages_danger_not_valid_authorization_token_found") and return
+            redirect_to(new_user_session_path, alert: error_msg) and return
 
         end
 
-        redirect_to "/login", alert: I18n.t("core.shared.messages_danger_not_valid_authorization_token_found") and return if !access_code.is_valid?
+
+        # denied access if token do not meet validations
+        redirect_to(new_user_session_path, alert: error_msg) and return if !access_code.is_valid?
+
 
         # check if user meet requirements to login
         user_validation = UserValidationService.new(access_code.user).valid?
 
+
         # if user do not meet requirements to login
-        redirect_to "/login", alert: I18n.t("core.shared.messages_danger_not_valid_authorization_token_found") and return unless user_validation.success?
+        redirect_to(new_user_session_path, alert: error_msg) and return unless user_validation.success?
+
 
         # do a user login
         sign_in(access_code.user)
+
 
         # delete used token
         access_code.update({ last_used_at: Time.current })
         access_code.delete
 
+
         # register a successful sign-in log for the current user
-        access_code.user.logs.create({ 
-            title: "pass_session_creation_successful"
-        })
+        access_code.user.logs.create({ title: "pass_session_creation_successful" })
+
 
         # register a new unique session
         @current_session = access_code.user.sessions.create({
@@ -73,9 +87,11 @@ class PassesController < ApplicationController
             :last_used_at => Time.current
         })
 
+
         session[:user_session_id] = @current_session[:id]
 
-        redirect_to "/"
+
+        redirect_to("/") and return 
 
     end
 

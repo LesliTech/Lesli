@@ -69,7 +69,7 @@ class Template::AudienceDocument < ApplicationLesliRecord
 
     def self.options(current_user, query)
         if defined? DeutscheLeibrenten
-            tables = DeutscheLeibrenten::TemplateAudienceDocumentOptionsService.new(current_user).tables
+            tables = DeutscheLeibrenten::TemplateAudienceDocumentOptionsService.new(current_user, query).tables
         end
 
         return {
