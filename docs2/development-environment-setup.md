@@ -65,7 +65,7 @@ sudo apt-get -y install libpq-dev
 ```
 
 
-__Credentail file example:__
+__Credentials file example:__
 ```
 RailsApp/config/credentials/development.yml  
 
