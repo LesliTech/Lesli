@@ -39,7 +39,8 @@ export default {
 
     data(){
         return {
-            account_currency: {},
+            account_currency: null,
+            account_currency_id: null,
             translations: {
                 core: {
                     shared: I18n.t('core.shared'),
@@ -52,20 +53,26 @@ export default {
     },
 
     mounted(){
-        this.initializeCurrency();
+        this.setAccountCurrencyId();
+        this.getAccountCurrency();
     },
 
     methods: {
-        initializeCurrency(){
-          this.data.account_currency = null
-          this.account_currency = {
-              name: null,
-              symbol: null,
-              country_alpha_3: null,
-          }
-          this.$nextTick(()=>{
-              this.data.account_currency = this.account_currency
-          })
+        setAccountCurrencyId(){
+            this.account_currency_id = this.$route.params.id
+        },
+        getAccountCurrency() {
+            this.http.get(this.url.admin("account/currencies/:id", { id: this.account_currency_id  })).then(result => {
+                if (result.successful) {
+                    this.account_currency = result.data;
+                    this.data.account_currency = this.account_currency;
+                    this.data.reload.account_currency = true;
+                }else{
+                    this.alert(result.error.message,'danger');
+                }
+            }).catch(error => {
+                console.log(error)
+            })
         }
     }
 }
@@ -82,6 +89,6 @@ export default {
                 </div>
             </div>
         </component-header>
-        <component-form v-if="data.account_currency" view-type="new"></component-form>
+        <component-form v-if="data.account_currency" view-type="edit"></component-form>
     </section>
 </template>

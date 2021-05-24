@@ -17,10 +17,14 @@ For more information read the license file including with this software.
 =end
 class Account::Currency < ApplicationLesliRecord
     belongs_to :account, foreign_key: "accounts_id", class_name: "Account"
+    belongs_to :user_main, foreign_key: "user_main_id", class_name: "User"
+    belongs_to :user, foreign_key: "users_id", class_name: "User"
+
 
     has_many :exchange_rates, inverse_of: :currency, foreign_key: "account_currencies_id"
 
     def self.index(current_user, query)
+        currencies = current_user.account.currencies
         # Parsing filters
         filters = query[:filters]
         filters_query = []
@@ -38,13 +42,35 @@ class Account::Currency < ApplicationLesliRecord
                 )")
             end
         end
-        
-        # Executing the query
-        current_date = LC::Date.now
-        currencies = current_user.account.currencies
-        .joins(:exchange_rates)
-        .where("account_currency_exchange_rates.valid_from <= ?", current_date)
-        .where("account_currency_exchange_rates.valid_to >= ?", current_date)
+
+        if query[:search] && query[:search].present?
+            currencies =  currencies.where("lower(account_currencies.name) like :search_string", {
+                search_string: "%#{query[:search]}%"
+            })
+        end
+
+        # To include only currencies with valid exchange rates
+        # .filters({
+        #   include: {
+        #       only: "exchange_rates"
+        #   }
+        # })
+        if filters[:include] && filters[:include][:only].present? && filters[:include][:only] == "exchange_rates"
+            current_date = LC::Date.now
+            currencies = currencies
+                .joins(:exchange_rates)
+                .where("account_currency_exchange_rates.valid_from <= ?", current_date)
+                .where("account_currency_exchange_rates.valid_to >= ?", current_date)
+                .select(
+                    :valid_from,
+                    :valid_to,
+                    :exchange_rate,
+                    LC::Date2.new.date_time.db_column("valid_from"),
+                    LC::Date2.new.date_time.db_column("valid_to")
+                )
+        end
+
+        currencies = currencies
         .where(filters_query.join(" and "))
         .select(
             LC::Date2.new.date_time.db_timestamps("account_currencies"),
@@ -54,12 +80,7 @@ class Account::Currency < ApplicationLesliRecord
             :symbol,
             :country_alpha_3,
             :users_id,
-            :user_main_id,
-            LC::Date2.new.date_time.db_column("valid_from"),
-            LC::Date2.new.date_time.db_column("valid_to"),
-            :valid_from,
-            :valid_to,
-            :exchange_rate,
+            :user_main_id
         )
 
         # Adding pagination to the currencies
