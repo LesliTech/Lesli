@@ -93,7 +93,9 @@ export default {
         },
 
         getOptions() {
-            let url = this.url.admin('template/audience_documents/options')
+            let url = this.url.admin('template/audience_documents/options').filters({
+                model_type: this.audience_document.model_type
+            })
 
             this.http.get(url).then(result => {
                 if (!result.successful) {
