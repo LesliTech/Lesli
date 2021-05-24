@@ -21,7 +21,7 @@ class Account::Currency < ApplicationLesliRecord
     belongs_to :user, foreign_key: "users_id", class_name: "User"
 
 
-    has_many :exchange_rates, inverse_of: :currency, foreign_key: "account_currencies_id"
+    has_many :exchange_rates, inverse_of: :currency, foreign_key: "account_currencies_id", class_name: "Account::Currency::ExchangeRate"
 
     def self.index(current_user, query)
         currencies = current_user.account.currencies
