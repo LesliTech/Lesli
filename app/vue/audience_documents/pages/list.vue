@@ -153,6 +153,10 @@ export default {
     <section class="application-component">
         <component-header :title="translations.main.view_title_main">
             <div class="buttons">
+                <button class="button" @click="getAudienceDocuments">
+                    <b-icon icon="sync" size="is-small" :custom-class="loading ? 'fa-spin' : ''" />
+                    <span> {{ translations.core.view_btn_reload }}</span>
+                </button>
                 <router-link class="button" tag="button" to="/new">
                     <b-icon icon="plus" size="is-small" />
                     <span> {{ translations.main.view_btn_new_audience_document }}</span>
