@@ -22,24 +22,20 @@ For more information read the license file including with this software.
 // · List of Imported Components
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
 import componentForm from '../components/form.vue'
-
+import componentCurrency from '../components/currency.vue'
 
 // ·
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
-
-
 export default {
-    props: {
-
-    },
+    props: {},
 
     components: {
-        'component-form': componentForm
+        'component-form': componentForm,
+        'component-currency': componentCurrency
     },
 
     data(){
         return {
-            account_currency: {},
             translations: {
                 core: {
                     shared: I18n.t('core.shared'),
@@ -47,25 +43,30 @@ export default {
                         currencies: I18n.t("core.account/currencies"),
                     }
                 }
-            }
+            },
+            account_currency: null,
+            account_currency_id: null,
         }
     },
 
     mounted(){
-        this.initializeCurrency();
+        this.account_currency_id = this.$route.params.id;
+        this.getAccountCurrency();
     },
 
     methods: {
-        initializeCurrency(){
-          this.data.account_currency = null
-          this.account_currency = {
-              name: null,
-              symbol: null,
-              country_alpha_3: null,
-          }
-          this.$nextTick(()=>{
-              this.data.account_currency = this.account_currency
-          })
+        getAccountCurrency() {
+            this.http.get(this.url.admin("account/currencies/:id", { id: this.account_currency_id  })).then(result => {
+                if (result.successful) {
+                    this.account_currency = result.data;
+                    this.data.account_currency = this.account_currency;
+                    this.data.reload.account_currency = true;
+                }else{
+                    this.alert(result.error.message,'danger');
+                }
+            }).catch(error => {
+                console.log(error)
+            })
         }
     }
 }
@@ -79,9 +80,19 @@ export default {
                         <b-icon icon="list" size="is-small" />
                         <span>{{ translations.core.shared.view_btn_list }}</span>
                     </router-link>
+                    <router-link class="button" :to="`/${account_currency_id}/edit`">
+                        <b-icon icon="edit" size="is-small" />
+                        <span>{{ translations.core.shared.view_btn_edit }}</span>
+                    </router-link>
                 </div>
             </div>
         </component-header>
-        <component-form v-if="data.account_currency" view-type="new"></component-form>
+        <b-tabs>
+            <b-tab-item :label="translations.core.account.currencies.view_tab_title_general_information">
+                <component-currency v-if="data.account_currency" :account_currency="account_currency"></component-currency>
+            </b-tab-item>
+            <b-tab-item :label="translations.core.account.currencies.view_tab_title_exchange_rates">
+            </b-tab-item>
+        </b-tabs>
     </section>
 </template>
