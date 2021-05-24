@@ -98,26 +98,26 @@ providers:
             secret_access_key: ""
     google:
         maps_sdk_token: ""
-        firebase:
-            api_key: ""
-            admin_sdk_private_key:
-                type: ""
-                project_id: ""
-                private_key_id: ""
-                private_key: ""
-                client_email: ""
-                client_id: ""
-                auth_uri: ""
-                token_uri: ""
-                auth_provider_x509_cert_url: ""
-                client_x509_cert_url: ""
-            web:
-                apiKey: ""
-                authDomain: ""
-                projectId: ""
-                storageBucket: ""
-                messagingSenderId: ""
-                appId: ""
+    firebase:
+        api_key: ""
+        admin_sdk_private_key:
+            type: ""
+            project_id: ""
+            private_key_id: ""
+            private_key: ""
+            client_email: ""
+            client_id: ""
+            auth_uri: ""
+            token_uri: ""
+            auth_provider_x509_cert_url: ""
+            client_x509_cert_url: ""
+        web:
+            apiKey: ""
+            authDomain: ""
+            projectId: ""
+            storageBucket: ""
+            messagingSenderId: ""
+            appId: ""
     honey_badger:
         api_key: ""
         personal_token: ""
