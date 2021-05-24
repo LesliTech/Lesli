@@ -24,11 +24,25 @@ module Courier
             def self.by_model(model_type, model_id, current_user, query)
                 return [] unless defined? CloudFocus
                 events = current_user.account.driver.events
-                        .select(:id, :title, :description, :time_start, :time_end, :location, :url, :event_type, :public, :user_main_id, :users_id, :event_date)
+                        .select(
+                            :id, 
+                            :title, 
+                            :description, 
+                            :time_start, 
+                            :time_end, 
+                            :location,
+                            :url, 
+                            :public, 
+                            :user_main_id, 
+                            :users_id, 
+                            :event_date,
+                            "cloud_driver_catalog_event_types.name as event_type"
+                        )
                         .joins(:detail)
+                        .left_joins(:type)
                         .where("cloud_driver_events.model_id = ? AND cloud_driver_events.model_type = ?", model_id, model_type)
                 
-                events = events.where("cloud_driver_event_details.event_type = ? ", query[:condition][:type]) unless query[:condition].nil?
+                events = events.where("cloud_driver_catalog_event_types.name = ? ", query[:condition][:type]) unless query[:condition].nil?
                 events = events.page(query[:pagination][:page]).per(query[:pagination][:perPage])
                 
                 # If the order column is time_start, we order by event date first, in case the time is not set and 'time_start' is null
