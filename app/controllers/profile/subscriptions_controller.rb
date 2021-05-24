@@ -18,23 +18,40 @@ For more information read the license file including with this software.
 =end
 class Profile::SubscriptionsController < ApplicationLesliController
 
+    before_action :set_builder_model, only: :options
+
     def index
         respond_to do |format|
             format.html {}
             format.json do
-                subscriptions = Profile::Subscription.index(current_user, @query)
-                respond_with_successful(subscriptions)
+                set_builder_model
+
+                if @builder_model && (@builder_model.respond_to? :index)
+                    respond_with_successful(@builder_model.index(current_user, @query))
+                else
+                    respond_with_successful(Profile::Subscription.index(current_user, @query))
+                end
             end
         end
     end
 
     def options
-        respond_with_successful(Profile::Subscription.options(current_user, @query))
+        if @builder_model && (@builder_model.respond_to? :options)
+            respond_with_successful(@builder_model.options(current_user, @query))
+        else
+            respond_with_successful(Profile::Subscription.options(current_user, @query))
+        end
     end
 
     def update
     end
 
     def destroy
+    end
+
+    protected
+
+    def set_builder_model
+        @builder_model = "#{Rails.application.config.lesli_settings["info"]["name"]}::Profile::Subscription".safe_constantize
     end
 end

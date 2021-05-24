@@ -35,10 +35,11 @@ class Profile::Subscription < ApplicationLesliRecord
 
         # We format the data and return it
         subscriber_classes.each do |subscriber_class|
-            subscriptions_data = subscriber_class.constantize.where(user_creator: current_user).all.filter_map do |subscriber|
+            subscriptions_data = subscriber_class.constantize.where(user_creator: current_user).order(id: :desc).all.filter_map do |subscriber|
                 if subscriber.cloud_object
                     cloud_object = subscriber.cloud_object
                     cloud_object_table = subscriber.class.reflect_on_association(:cloud_object).table_name
+                    engine_url = "#{engine.classify}::Engine".constantize.routes.find_script_name({})
                     
                     action = I18n.t(
                         "core.shared.column_enum_subscriptions_action_#{subscriber.action}",
@@ -55,8 +56,10 @@ class Profile::Subscription < ApplicationLesliRecord
                         cloud_object_id: subscriber["#{cloud_object_table.pluralize}_id"],
                         cloud_object_global_identifier: cloud_object.global_identifier,
                         cloud_object_type: I18n.t("#{cloud_object.class.name.underscore.pluralize.gsub("cloud_", "").sub("/", ".")}.view_title_main"),
-                        url: "#{engine.classify}::Engine".constantize.routes.find_script_name({}),
-                        urn: "/#{cloud_object_table.sub("#{engine}_", "")}/#{cloud_object.url_identifier}"
+                        resource_url: engine_url,
+                        resource_urn: "/#{cloud_object_table.sub("#{engine}_", "")}/#{cloud_object.url_identifier}",
+                        url: "#{engine_url}/#{cloud_object_table.sub("#{engine}_", "")}/#{cloud_object.id}/subscribers/#{subscriber.id}",
+                        subscriber_key: "#{cloud_object.class.name.underscore.gsub("#{engine}/", "").downcase}_subscriber"
                     }
                 else
                     nil
@@ -70,11 +73,16 @@ class Profile::Subscription < ApplicationLesliRecord
     end
 
     def self.options(current_user, query)
-        available_engines = Rails.application.config.lesli_settings["engines"].map do |engine|
+        engines = Rails.application.config.lesli_settings["engines"].map do |engine|
             {
                 value: engine[:name],
                 text: engine[:code]
             }
         end
+
+        {
+            engines: engines,
+            notification_types: CloudObject::Subscriber.notification_types
+        }
     end
 end
