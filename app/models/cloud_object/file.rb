@@ -110,7 +110,7 @@ module CloudObject
         end
 
         def self.lesli_classname
-            self.class.name
+            self.name
         end
 
     end
