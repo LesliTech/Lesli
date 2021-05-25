@@ -80,14 +80,14 @@ jobs:
         bundle exec rake db:setup
       env:
         RAILS_ENV: test
-        RAILS_MASTER_KEY: ${{ secrets.RAILS_MASTER_KEY_TEST }}
+        RAILS_MASTER_KEY: ${{ secrets.CORE_RAILS_MASTER_KEY_TEST }}
     - name: Run Spec tests
       run: |
         cp ./config/credentials/testci.yml.enc ./config/credentials/test.yml.enc
         bundle exec rspec
       env:
         RAILS_ENV: test
-        RAILS_MASTER_KEY: ${{ secrets.RAILS_MASTER_KEY_TEST }}
+        RAILS_MASTER_KEY: ${{ secrets.CORE_RAILS_MASTER_KEY_TEST }}
     - name: Notify by slack
       if: always()
       uses: ./.github/actions/slack_job_status
