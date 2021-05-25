@@ -28,8 +28,6 @@ class CreateAccountCurrencyExchangeRates < ActiveRecord::Migration[6.1]
             t.datetime  :deleted_at, index: true
             
             t.timestamps
-
-            t.belongs_to :account_currency
         end
         
         add_reference   :account_currency_exchange_rates, :account_currencies,  foreign_key: true, index: {name: "account_currency_exchange_rates_account_currencies"}
