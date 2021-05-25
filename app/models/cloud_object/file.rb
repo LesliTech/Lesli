@@ -109,5 +109,9 @@ module CloudObject
             self.reflect_on_association(:cloud_object).klass
         end
 
+        def self.lesli_classname
+            self.class.name
+        end
+
     end
 end
