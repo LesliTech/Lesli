@@ -12,6 +12,8 @@ server {
     index index.html index.htm index.nginx-debian.html;
 
     server_name dev.lesli.cloud;
+    access_log /var/www/logs/dev.lesli.cloud.access.log;
+    error_log /var/www/logs/dev.lesli.cloud.error.log;
 
     passenger_enabled on;
     passenger_ruby /home/ubuntu/.rvm/gems/ruby-2.7.2/wrappers/ruby;
