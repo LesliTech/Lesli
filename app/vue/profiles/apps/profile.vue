@@ -22,6 +22,7 @@ import componentInformationCard from "Lesli/vue/users/components/card-informatio
 import componentInformationForm from "Lesli/vue/users/components/form-information.vue"
 import componentSecurityForm from "Lesli/vue/users/components/form-security.vue"
 import componentSessionManagement from "Lesli/vue/users/components/session-management.vue"
+import componentSubscriptions from "Lesli/vue/users/components/subscriptions.vue"
 
 
 // ·
@@ -30,7 +31,8 @@ export default {
         'component-information-card': componentInformationCard,
         'component-information-form': componentInformationForm,
         'component-security-form': componentSecurityForm,
-        'component-session-management': componentSessionManagement
+        'component-session-management': componentSessionManagement,
+        'component-subscriptions': componentSubscriptions
     },
     data() {
         return {
@@ -38,7 +40,9 @@ export default {
             user: {
                 detail_attributes: {}
             },
-            options: [],
+            options: {
+                engines: null
+            },
             ready: false,
             active_tab: 0,
             translations: {
@@ -89,6 +93,9 @@ export default {
         <b-tabs v-model="active_tab">
             <b-tab-item :label="translations.core.users.view_tab_title_information">
                 <component-information-form></component-information-form>
+            </b-tab-item>
+            <b-tab-item :label="translations.core.users.view_tab_title_subscriptions">
+                <component-subscriptions v-if="user_id"></component-subscriptions>
             </b-tab-item>
             <b-tab-item :label="translations.core.users.view_tab_title_security">
                 <component-security-form></component-security-form>
