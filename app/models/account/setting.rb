@@ -34,6 +34,7 @@ class Account::Setting < ApplicationRecord
 
         # Initializing password settings
         lesli_config["security"]["password"].each do |key, value|
+            next if key == "development"
             key = "password_#{key}" unless key.start_with? "password"
 
             account.settings.create!({
