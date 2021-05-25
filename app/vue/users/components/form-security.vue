@@ -60,7 +60,7 @@ export default {
             <form @submit.prevent="putUserPassword()">
                 <fieldset :disabled="lesli.current_user.id !== data.user.id">
 
-                    <h4 class="is-size-4 mb-6"> {{ translations.passwords.view_title_security }}</h4>
+                    <h4 class="is-size-4 mb-4"> {{ translations.passwords.view_title_security }}</h4>
                     <!--
                     <div class="field is-horizontal">
                         <div class="field-label is-normal">
