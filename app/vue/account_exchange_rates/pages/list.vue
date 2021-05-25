@@ -60,12 +60,13 @@ export default {
 
     methods: {
         getExchangeRates() {
-            let params = {
-                perPage: this.pagination_config.per_page,
-                page: this.pagination.current_page,
-            }
+            let url = this.url.admin("account/currencies/:account_currency_id/exchange_rates",
+                {
+                    account_currency_id: this.account_currency_id
+                }
+            ).paginate(this.pagination.current_page, this.pagination_config.per_page)
 
-            this.http.get(this.url.admin("account/currencies/:account_currency_id/exchange_rates", {account_currency_id: this.account_currency_id}), {params}).then(result => {
+            this.http.get(url).then(result => {
                 if (result.successful) {
                     this.exchange_rates = result.data.records;
                     this.pagination = result.data.pagination;
