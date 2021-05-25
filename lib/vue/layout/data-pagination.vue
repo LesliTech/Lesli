@@ -19,8 +19,8 @@ export default {
             total: 200,
             current: 10,
             perPage: 10,
-            rangeBefore: 2,
-            rangeAfter: 2,
+            rangeBefore: 3,
+            rangeAfter: 3,
             prevIcon: 'chevron-left',
             nextIcon: 'chevron-right'
         }
@@ -31,12 +31,12 @@ export default {
     <div class="component-data-pagination">
         <b-pagination
             class="mt-5"
-            v-model="current"
-            :total="total"
             :simple="simple"
-            :per-page="perPage"
-            :range-before="2"
-            :range-after="2"
+            :total="pagination.count_total"
+            :per-page="pagination.perPage"
+            :current.sync="pagination.current_page"
+            :range-before="rangeBefore"
+            :range-after="rangeAfter"
             :order="(simple === false ? 'is-centered' : 'is-right')"
             icon-prev="chevron-left"
             icon-next="chevron-right"
@@ -47,9 +47,3 @@ export default {
         </b-pagination>
     </div>
 </template>
-<style scoped>
-    .component-data-pagination .pagination {
-        max-width: 600px;
-        margin: 0 auto;
-    }
-</style>
