@@ -63,9 +63,8 @@ module RoutesApp
                             resources :locations, only: [:index, :show, :create]
                             resources :cronos
                             resources :currencies do
-                                resources :exchange_rates
-                                collection do
-                                    get :list
+                                scope module: :currency do
+                                    resources :exchange_rates
                                 end
                             end
                         end
