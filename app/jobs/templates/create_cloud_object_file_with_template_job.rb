@@ -14,15 +14,17 @@ class Templates::CreateCloudObjectFileWithTemplateJob < ApplicationJob
 
         variables = []
 
-        document_mappings.find_all {|mapping| mapping.variable_type == Template::Variable.variable_types[:table]}.each do |document_map|
+        document_mappings.find_all {|mapping| mapping.variable_type.include? "table"}.each do |document_map|
 
-            unless document_map["table_alias"].blank?
+            if not document_map["table_alias"].blank?
                 table_alias = document_map["table_alias"]
+            elsif (document_map["table_alias"].nil?)  # use table name
+                table_alias = document_map["table_name"]
             else
                 table_alias = (document_map["table_name"]||"").split("_").map { |e| e.chars.first}.join("")
             end
 
-            variables.push(document_map["name"])
+            variables.push({"name" => document_map["name"], "type" => document_map["variable_type"]})
 
             query[:mapping][document_map["name"]] = { field_name: document_map["field_name"], alias: document_map["table_alias"]}
 
@@ -34,7 +36,7 @@ class Templates::CreateCloudObjectFileWithTemplateJob < ApplicationJob
         # fetch data of cloud_object query
         query[:fields] = query[:fields].join(",")
         data = cloud_object.template_data(query)
-
+        
         #looking for method calls
         document_mappings.find_all {|mapping| mapping.variable_type == Template::Variable.variable_types[:method]}.each do |document_map|
             if ((defined? ("#{document_map["table_name"]}.#{document_map["table_alias"]}"||"").constantize) == "method" ) # validate if method is defined
@@ -45,12 +47,12 @@ class Templates::CreateCloudObjectFileWithTemplateJob < ApplicationJob
                     unless value.blank?
                         data = data.merge(document_map["name"].downcase => value)
 
-                        variables.push(document_map["name"])
+                        variables.push({"name" => document_map["name"], "type" => document_map["variable_type"]})
                     end
                 end
             end
         end
-
+        
         return if data.blank?
 
         #download file from s3
@@ -71,12 +73,23 @@ class Templates::CreateCloudObjectFileWithTemplateJob < ApplicationJob
         doc_template = DocxReplace::Doc.new(tmp_path, "#{Rails.root}/tmp")
 
         variables.each do |variable| #replace data
-            xml_replace!(doc_template.instance_variable_get(:@document_content), "$$#{variable}", data[variable.downcase].nil? ? "" : data[variable.downcase])
+            value = ""
+            if data[variable["name"].downcase].present?
+                if variable["type"] ==  "table_date"
+                    value = LC::Date.to_string(data[variable["name"].downcase])
+                elsif variable["type"] ==  "table_currency"
+                    value = LC::Currency.format(data[variable["name"].downcase])
+                else
+                    value = data[variable["name"].downcase]
+                end     
+            end
+            
+            xml_replace!(doc_template.instance_variable_get(:@document_content), "$$#{variable["name"]}", value)
         end
 
-        tmp_file = Tempfile.new(["#{document.name}".split(".docx")[0], '.docx'], "#{Rails.root}/tmp/templates/")
+        tmp_file = File.new("#{Rails.root}/tmp/templates/#{document.name}", "w")
         doc_template.commit(tmp_file.path)
-
+        
         cloud_object_file = cloud_object.files.new(
             name: document.name,
             file_type: file_type,
