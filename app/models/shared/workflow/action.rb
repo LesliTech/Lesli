@@ -206,7 +206,7 @@ module Shared
             main_association = workflow.associations.order(id: :asc).first
             return nil unless main_association
 
-            cloud_object_class = "#{engine_name}::#{main_association.workflow_for.capitalize}"
+            cloud_object_class = "#{engine_name}::#{main_association.workflow_for.classify}"
 
 
             # Temporariy Translations calculation this must be changed once real translation standards are implemented
