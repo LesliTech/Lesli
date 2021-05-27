@@ -26,15 +26,17 @@ class Templates::CreateFileForAudienceJob < ApplicationJob
 
         variables = []
 
-        document_mappings.find_all {|mapping| mapping.variable_type == Template::Variable.variable_types[:table]}.each do |document_map|
+        document_mappings.find_all {|mapping| mapping.variable_type.include? "table"}.each do |document_map|
 
-            unless document_map["table_alias"].blank?
+            if not document_map["table_alias"].blank?
                 table_alias = document_map["table_alias"]
+            elsif (document_map["table_alias"].nil?)  # use table name
+                table_alias = document_map["table_name"]
             else
                 table_alias = (document_map["table_name"]||"").split("_").map { |e| e.chars.first}.join("")
             end
 
-            variables.push(document_map["name"])
+            variables.push({"name" => document_map["name"], "type" => document_map["variable_type"]})
 
             query[:mapping][document_map["name"]] = { field_name: document_map["field_name"], alias: document_map["table_alias"]}
 
@@ -54,7 +56,7 @@ class Templates::CreateFileForAudienceJob < ApplicationJob
                     unless value.blank?
                         document_data = document_data.merge(document_map["name"].downcase => value)
 
-                        variables.push(document_map["name"])
+                        variables.push({"name" => document_map["name"], "type" => document_map["variable_type"]})
                     end
                 end
             end
@@ -83,8 +85,19 @@ class Templates::CreateFileForAudienceJob < ApplicationJob
             #write document with variable values
             doc_template = DocxReplace::Doc.new(doc_template_path, "#{Rails.root}/tmp")
 
-            variables.each do |variable|
-                xml_replace!(doc_template.instance_variable_get(:@document_content), "$$#{variable}", data[variable.downcase].nil? ? "" : data[variable.downcase])
+            variables.each do |variable| #replace data
+                value = ""
+                if data[variable["name"].downcase].present?
+                    if variable["type"] ==  "table_date"
+                        value = LC::Date.to_string(data[variable["name"].downcase])
+                    elsif variable["type"] ==  "table_currency"
+                        value = LC::Currency.format(data[variable["name"].downcase])
+                    else
+                        value = data[variable["name"].downcase]
+                    end     
+                end
+                
+                xml_replace!(doc_template.instance_variable_get(:@document_content), "$$#{variable["name"]}", value)
             end
 
             tmp_file = Tempfile.new(["#{object.id}-#{document.name}".split(".docx")[0], '.docx'], "#{Rails.root}/tmp/templates/")
