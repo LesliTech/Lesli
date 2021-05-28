@@ -74,3 +74,34 @@ rm -rf node_modules
 # install packages again
 npm install
 ```
+
+# Upgrade gems version
+
+## Configure github packages
+
+Generate a [personal token (PAT)](https://docs.github.com/en/github/authenticating-to-github/keeping-your-account-and-data-secure/creating-a-personal-access-token)  with read permissions for Github Packages.
+
+Configure bundle with the following command:
+
+```sh
+# run this command at core level: lesli/
+bundle config https://rubygems.pkg.github.com/leitfaden "${{user_github}}:${{secrets.READ_GEM_BY_ACTIONS}}"
+```
+
+Example:
+
+```sh
+# run this command at core level: lesli/
+bundle config https://rubygems.pkg.github.com/leitfaden "sagastume:GH_898DJKLJKLASD993"
+```
+
+## Upgrade Gems
+
+After configuring the gem source with Github Packges just run the following command.
+
+```sh
+# run this command at core level: lesli/
+bundle update
+```
+
+> Warning: Check the lesli.yml version configuration in the modules section before performing a bundle update.
