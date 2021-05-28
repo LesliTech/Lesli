@@ -5,7 +5,7 @@ class Template::VariablesController < ApplicationLesliController
         respond_to do |format|
             format.html {}
             format.json do
-                template_variables = current_user.account.template.variables
+                template_variables = current_user.account.template.variables.order(:variable_type)
 
                 respond_with_successful(template_variables)
             end

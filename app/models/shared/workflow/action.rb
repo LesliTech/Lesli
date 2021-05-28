@@ -136,9 +136,7 @@ module Shared
                 end
             when "create_cloud_object_file"
                 if execute_immediately
-                    Templates::CreateCloudObjectFileWithTemplateJob.perform_now(
-                        current_user,
-                        cloud_object,
+                    Templates::CreateCloudObjectFileWithTemplateJob.perform_now(current_user, cloud_object,
                         Template::Document.find_by(id: self.input_data["template_id"]),
                         self.input_data["file_type"]
                     )
@@ -210,16 +208,19 @@ module Shared
 
 
             # Temporariy Translations calculation this must be changed once real translation standards are implemented
-            # @todo Change this once translations standars are set
+            # @todo Change this once translations standars are set            
             translations_class_name = (self.name.split("::")[0]).gsub("Cloud","").downcase
             translations_class_name = "deutscheleibrenten" if translations_class_name == "house"
+            translations_class_name = "" if translations_class_name == "house"
 
             file_types = "#{cloud_object_class}::File".constantize.file_types.values.map do |file_type|
+                
+                text = I18n.t("deutscheleibrenten.#{main_association.workflow_for}/files.enum_file_type_#{file_type}", default: nil)
+                text = I18n.t("house.#{main_association.workflow_for}/files.column_enum_file_type_#{file_type}", default: file_type) if text.nil?
+                
                 {
                     value: file_type,
-                    text: I18n.t("deutscheleibrenten.#{main_association.workflow_for}/files.enum_file_type_#{file_type}")
-                    # text: I18n.t("#{translations_class_name}.#{main_association.workflow_for}/files.model_enum_file_type_#{file_type}")
-
+                    text: text
                 }
             end
 
