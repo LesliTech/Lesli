@@ -32,12 +32,22 @@ export default {
             type: Array,
             required: true
         },
+        markerClick: {
+            type: Function,
+            default: ()=>{
+                return () => {}
+            }
+        },
         title: {
             type: String,
             default: ""
         },
         height: {
             default: "auto"            
+        },
+        enableXAxisLabels: {
+            type: Boolean,
+            default: true
         },
         enableDataLabels: {
             type: Boolean,
@@ -65,6 +75,9 @@ export default {
                     padding: this.padding
                 },
                 chart: {
+                    events: {
+                        markerClick: this.markerClick
+                    },
                     height: this.height,
                     toolbar: {
                         show: false
@@ -79,7 +92,7 @@ export default {
                     horizontalAlign: 'center'
                 },
                 dataLabels: {
-                    enabled: true, //this.enableDataLabels,
+                    enabled: this.enableDataLabels,
                 },
                 colors: this.lesli.colors("charts"),
                 stroke: {
@@ -96,7 +109,7 @@ export default {
                 xaxis: {
                     tickPlacement: 'between',
                     labels: {
-                        show: true,
+                        show: this.enableXAxisLabels,
                         rotate: -65,
                         rotateAlways: false,
                         trim: false,
@@ -125,7 +138,7 @@ export default {
                 })
             }
             if(this.dataSources){
-            this.chart.updateSeries(this.dataSources)
+                this.chart.updateSeries(this.dataSources)
             }
         }
     },
