@@ -10,6 +10,8 @@ class Template::Variable < ApplicationRecord
 
     enum variable_type: {
         table: "table",
+        table_date: "table_date",
+        table_currency: "table_currency",
         method: "method"
     }, _suffix: true
 end
