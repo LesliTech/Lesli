@@ -14,6 +14,7 @@ on:
 jobs:
   test:
     runs-on: self-hosted
+    if: "!contains(github.event.head_commit.message, 'release(gem):') && !contains(github.event.head_commit.message, 'assets(js):')"
     services:
       postgres:
         image: postgres:11.5
