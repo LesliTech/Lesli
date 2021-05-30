@@ -32,36 +32,13 @@ export default {
             type: Array,
             required: true
         },
-        markerClick: {
-            type: Function,
-            default: ()=>{
-                return () => {}
-            }
-        },
         title: {
             type: String,
-            default: ""
+            required: false
         },
-        height: {
-            default: "auto"            
-        },
-        enableXAxisLabels: {
-            type: Boolean,
-            default: true
-        },
-        enableDataLabels: {
-            type: Boolean,
-            default: true
-        },
-        padding: {
-            default() {
-                return {
-                    top: 0,
-                    right: 0,
-                    bottom: 0,
-                    left: 0
-                }
-            }
+        options: {
+            type: Object,
+            required: false
         }
     },
     data() {
@@ -72,13 +49,15 @@ export default {
                 labels: [],
                 grid: {
                     show: false,
-                    padding: this.padding
+                    padding: {
+                        top: 0,
+                        right: 0,
+                        bottom: 0,
+                        left: 0
+                    }
                 },
                 chart: {
-                    events: {
-                        markerClick: this.markerClick
-                    },
-                    height: this.height,
+                    height: "auto",
                     toolbar: {
                         show: false
                     }
@@ -92,7 +71,7 @@ export default {
                     horizontalAlign: 'center'
                 },
                 dataLabels: {
-                    enabled: this.enableDataLabels,
+                    enabled: true,
                 },
                 colors: this.lesli.colors("charts"),
                 stroke: {
@@ -109,7 +88,7 @@ export default {
                 xaxis: {
                     tickPlacement: 'between',
                     labels: {
-                        show: this.enableXAxisLabels,
+                        show: true,
                         rotate: -65,
                         rotateAlways: false,
                         trim: false,
@@ -127,19 +106,27 @@ export default {
     },
     methods: {
         initChart() {
+
             this.chart_options.labels = []
             this.chart_options.series = []
             this.chart = new ApexCharts(document.querySelector("#chart-"+this._uid), this.chart_options)
             this.chart.render()
+
             // If the information is available from the start, we update the labels and sources
-            if(this.dataLabels){
+            if (this.dataLabels) {
                 this.chart.updateOptions({
                     labels: this.dataLabels
                 })
             }
-            if(this.dataSources){
+
+            if (this.options) {
+                this.chart.updateOptions(this.options)
+            }
+
+            if (this.dataSources) {
                 this.chart.updateSeries(this.dataSources)
             }
+
         }
     },
     watch: {
@@ -150,7 +137,14 @@ export default {
         },
         dataSources() {
             this.chart.updateSeries(this.dataSources)
+        },
+        options: {
+            deep: true, 
+            handler: function(val) {
+                this.chart.updateOptions(val)
+            }
         }
+        
     }
 }
 </script>
