@@ -58,12 +58,17 @@ export default {
             <b-tab-item icon-pack="fas" icon="cog" :label="translations.core.account.settings.view_tab_title_general">
                 <component-form-general></component-form-general>
             </b-tab-item>
+            <b-tab-item icon-pack="fas" icon="lock" label="Security">
+                <component-form-general></component-form-general>
+            </b-tab-item>
             <b-tab-item icon-pack="fas" icon="clock" :label="translations.core.account.settings.view_tab_title_time_settings">
                 <component-form-time></component-form-time>
             </b-tab-item>
+            <!-- 
             <b-tab-item icon-pack="fas" icon="palette" :label="translations.core.account.settings.view_tab_title_branding">
                 <component-form-branding></component-form-branding>
-            </b-tab-item>
+            </b-tab-item> 
+            -->
             <b-tab-item icon-pack="fas" icon="paint-brush" :label="translations.core.account.settings.view_tab_title_theme">
                 <component-form-theme></component-form-theme>
             </b-tab-item>
