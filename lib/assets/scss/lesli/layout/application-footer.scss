@@ -21,12 +21,20 @@ footer.application-footer {
     width: 100%;
     padding: .5rem;
     padding-left: 1rem;
+
+    a {
+        color: lesli-css-get-color(silver, 700);
+    }
+
     .navbar {
         padding-left: .1rem;
         background-color: transparent;
         margin-left: var(--application-navigation-width);
+
+        .navbar-end a.navbar-item {
+            font-size: .9rem;
+        }
+
     }
-    a {
-        color: lesli-css-get-color(silver, 700);
-    }
+    
 }
