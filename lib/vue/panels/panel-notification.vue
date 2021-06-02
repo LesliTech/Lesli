@@ -16,7 +16,6 @@ For more information read the license file including with this software.
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
 // ·
 
-
 */
 
 
@@ -35,6 +34,17 @@ export default {
 
     mounted() {
         this.prepareDesktopNotification();
+        this.wss.onmessage = (message) => {
+
+            let data = JSON.parse(message.data)
+
+            if (!data.subject) {
+                return 
+            }
+
+            var notification = new Notification(data.subject);
+
+        } 
     },
 
     methods: {
