@@ -234,7 +234,7 @@ module Interfaces::Controllers::Files
     #     this.http.get('127.0.0.1/house/options/project/files')
     def options
         file_model = file_model() # If there is a custom file model, it must be returned in this method
-        respond_with_successful(file_model.options)
+        respond_with_successful(file_model.options(@query))
     end
 
     # @return [void]
