@@ -15,6 +15,7 @@ git pull origin production
 
 echo "Updating builder engine"
 cd engines/*/
+git reset --hard production
 git pull origin production
 
 echo "Updating Gems"
@@ -38,6 +39,4 @@ echo "Restarting server"
 sudo service nginx restart
 
 echo "Basic Deploy Completed. Remember to run any extra tasks written in Trello manually"
-
-
 
