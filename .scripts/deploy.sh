@@ -11,11 +11,13 @@ rake deploy:execute RAILS_ENV=production
 
 echo "Updating core"
 git reset --hard production
+git checkout production
 git pull origin production
 
 echo "Updating builder engine"
 cd engines/*/
 git reset --hard production
+git checkout production
 git pull origin production
 
 echo "Updating Gems"

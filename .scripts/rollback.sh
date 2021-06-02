@@ -4,13 +4,13 @@ echo "Changing directories to wwww"
 cd /var/www
 
 echo "Removing current version"
-rm -r ./lesli
+sudo rm -r ./lesli
 
 echo "Moving previous version to current"
 mv -v ./lesli_previous ./lesli
 
 echo "Updating Gems"
-cd ../../
+cd /var/www/lesli
 bundle update
 
 echo "Restarting server"
