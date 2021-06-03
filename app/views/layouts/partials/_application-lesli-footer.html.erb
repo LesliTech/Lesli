@@ -29,13 +29,10 @@ For more information read the license file including with this software.
         <div class="navbar-menu">
             <div class="navbar-start"></div>
             <div class="navbar-end">
-                <% if defined?(DeutscheLeibrenten) %>
-                    <span class="navbar-item has-text-grey">
-                        version <%= @account[:revision][:version] %> - 
-                        build <%= @account[:revision][:build] %>
-                    </span>
-                <% end %>
+
+                <%# Show standard footer links for LesliClou %>
                 <% if defined?(LesliCloud) %>
+                
                     <a class="navbar-item has-text-grey" href="#">
                         Support
                     </a>
@@ -47,7 +44,17 @@ For more information read the license file including with this software.
                     <a class="navbar-item has-text-grey" href="#">
                         About
                     </a>
+
+                <% else %>
+
+                    <%# Show platform version for custom instances %>
+                    <span class="navbar-item has-text-grey">
+                        version <%= @account[:revision][:version] %> - 
+                        build <%= @account[:revision][:build] %>
+                    </span>
+
                 <% end %>
+
             </div>
         </div>
     </nav>
