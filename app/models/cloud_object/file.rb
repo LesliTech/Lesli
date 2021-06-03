@@ -50,7 +50,7 @@ module CloudObject
         #     #     value: "draft", text: "draft",
         #     #     value: "images", text: "images"
         #     # }
-        def self.options
+        def self.options(query)
             data_file_types = []
             self.file_types.each do |key, value|
                 data_file_types.push({
