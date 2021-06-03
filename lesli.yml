@@ -23,6 +23,7 @@ info:
 modules:
     cloud_babel: "~> 0.1.0"
 
+
 # Information about the main account in the platform
 account: 
     user: 
@@ -75,6 +76,7 @@ configuration:
             - "Sales & Marketing"
     notifications:
         sms: false
+
 
 # Configuration by environment
 env:
