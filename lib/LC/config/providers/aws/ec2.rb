@@ -5,6 +5,7 @@ module LC
                 class Ec2
                     def initialize
                         @client = ::Aws::EC2::Client.new()
+                        @resource = ::Aws::EC2::Resource.new()
 
                         if Rails.application.credentials.providers[:aws][:ec2]
                             ec2_credentials = {
@@ -14,6 +15,18 @@ module LC
                             }
 
                             @client = ::Aws::EC2::Client.new(ec2_credentials)
+                            @resource = ::Aws::EC2::Resource.new(client: @client)
+                        end
+                    end
+
+                    def get_instance(instance_id)
+                        begin
+                            instance = @resource.instance(instance_id)
+
+                            parse_instance(instance)
+                        rescue StandardError => e
+                            puts "There was an error while retrieving the  instance's information #{instance_id}: #{e.message}"
+                            return false
                         end
                     end
 
@@ -67,6 +80,31 @@ module LC
                         @client.start_instances(instance_ids: [instance_id])
                         @client.wait_until(:instance_running, instance_ids: [instance_id])
                     end
+
+                    def list_instances
+                        instances = []
+                        response = @resource.instances
+
+                        response.each do |instance|
+                            instances.push(parse_instance(instance))
+                        end
+
+                        instances
+                    end
+
+                    protected
+
+                    def parse_instance(instance)
+                        {
+                            id: instance.id,
+                            type: instance.instance_type,
+                            tags: instance.tags,
+                            status: instance.state.name,
+                            availability_zone: instance.placement.availability_zone,
+                            public_ip: instance.public_ip_address
+                        }
+                    end
+
                 end
             end
         end
