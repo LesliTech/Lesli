@@ -19,14 +19,14 @@ For more information read the license file including with this software.
 
 class User::Detail < ApplicationRecord
     belongs_to :user, foreign_key: "users_id"
-    after_update :change_after_update
+    after_update :update_associated_record
 
     enum salutation: {
         mr: 'mr',
         mrs: 'mrs'
     }
 
-    def change_after_update
+    def update_associated_record
         if saved_change_to_first_name? || saved_change_to_last_name?
             if defined? CloudOne
 
