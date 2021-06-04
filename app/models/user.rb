@@ -49,6 +49,7 @@ class User < ApplicationLesliRecord
     has_many :user_roles,   foreign_key: "users_id", class_name: "User::Role"
     has_many :roles,        through: :user_roles, :source => "roles"
     has_many :privileges,   through: :roles
+    has_many :privilege_actions,   through: :roles
 
 
     # user details are saved on separate table

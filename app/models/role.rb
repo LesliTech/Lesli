@@ -23,7 +23,8 @@ class Role < ApplicationLesliRecord
 
     has_many :privileges,           foreign_key: "roles_id",    class_name: "Role::Privilege",          dependent: :delete_all
     has_many :activities,           foreign_key: "roles_id"
-
+    has_many :privilege_actions,    foreign_key: "roles_id",    class_name: "Role::PrivilegeAction"
+    
     def self.list current_user, query
         current_user.account.roles
         .order(object_level_permission: :desc, name: :asc)
