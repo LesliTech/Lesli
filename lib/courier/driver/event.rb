@@ -21,6 +21,11 @@ module Courier
     module Driver
         class Event
 
+            def self.create(current_user, event_params)
+                return nil unless defined? CloudDriver
+                CloudDriver::EventServices.create(current_user, event_params)
+            end
+
             def self.by_model(model_type, model_id, current_user, query)
                 return [] unless defined? CloudFocus
                 events = current_user.account.driver.events
