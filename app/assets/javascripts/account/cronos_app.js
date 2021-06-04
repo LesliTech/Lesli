@@ -459,6 +459,17 @@ eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpac
 
 /***/ }),
 
+/***/ "./lib/vue/plugins/wss.js":
+/*!********************************!*\
+  !*** ./lib/vue/plugins/wss.js ***!
+  \********************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"default\": () => __WEBPACK_DEFAULT_EXPORT__\n/* harmony export */ });\n/*\nCopyright (c) 2020, all rights reserved.\n\nAll the information provided by this platform is protected by international laws related  to \nindustrial property, intellectual property, copyright and relative international laws. \nAll intellectual or industrial property rights of the code, texts, trade mark, design, \npictures and any other information belongs to the owner of this platform.\n\nWithout the written permission of the owner, any replication, modification,\ntransmission, publication is strictly forbidden.\n\nFor more information read the license file including with this software.\n\n// · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~\n// · \n*/\n// · \n/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({\n  install: function install(Vue, options) {\n    if (!options.cable) {\n      return Vue.prototype.wss = {};\n    }\n\n    var channel = \"notifications_\".concat(options.current_user.id);\n    channel = \"ws://localhost:8080/wss?channel=\".concat(channel);\n    Vue.prototype.wss = new WebSocket(channel);\n  }\n});\n\n//# sourceURL=webpack://lesli/./lib/vue/plugins/wss.js?");
+
+/***/ }),
+
 /***/ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-3[0].rules[0].use!./node_modules/vue-loader/lib/index.js??vue-loader-options!./app/vue/account_cronos/pages/list.vue?vue&type=script&lang=js&":
 /*!*************************************************************************************************************************************************************************************************************!*\
   !*** ./node_modules/babel-loader/lib/index.js??clonedRuleSet-3[0].rules[0].use!./node_modules/vue-loader/lib/index.js??vue-loader-options!./app/vue/account_cronos/pages/list.vue?vue&type=script&lang=js& ***!
