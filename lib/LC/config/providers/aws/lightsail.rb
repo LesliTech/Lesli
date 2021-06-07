@@ -99,6 +99,7 @@ module LC
                             id: instance.name,
                             type: "#{instance.blueprint_name} #{instance.bundle_id}",
                             tags: instance.tags,
+                            service: "Lightsail",
                             status: instance.state.name,
                             availability_zone: instance.location.availability_zone,
                             public_ip: instance.public_ip_address
