@@ -239,22 +239,32 @@ module.exports = env => {
         }
 
         // get app directories
-        fs.readdirSync(path.join("./engines", engine, "app", "vue")).forEach(app => {
+        if (["cloud_text", "cloud_house", "cloud_driver", "cloud_focus"].includes(engine)) {
 
-            fs.readdirSync(path.join("./engines", engine, "app", "vue", app)).forEach(action => {
+            let filePath = "./"+path.join("./engines", engine, "app", "vue", "app.js")
+            let fileName = [engine, "app"].join("_")
+            webpackEngine.entry[fileName] = filePath
 
-                if (!action.endsWith(".js")) {
-                    return
-                }
+        } else {
 
-                let filePath = "./"+path.join("./engines", engine, "app", "vue", app, action)
-                let fileName = [app, action.replace(".js","")].join("_")
+            fs.readdirSync(path.join("./engines", engine, "app", "vue")).forEach(app => {
 
-                webpackEngine.entry[fileName] = filePath
-
+                fs.readdirSync(path.join("./engines", engine, "app", "vue", app)).forEach(action => {
+    
+                    if (!action.endsWith(".js")) {
+                        return
+                    }
+    
+                    let filePath = "./"+path.join("./engines", engine, "app", "vue", app, action)
+                    let fileName = [app, action.replace(".js","")].join("_")
+    
+                    webpackEngine.entry[fileName] = filePath
+    
+                })
+    
             })
 
-        })
+        }
         
         if (Object.keys(webpackEngine.entry).length > 0) {
 
@@ -274,6 +284,7 @@ module.exports = env => {
 
     })
 
+    // · 
     function get_compilation_time() {
 
         return dayjs().format("YYYYMMDD.HHmm")
