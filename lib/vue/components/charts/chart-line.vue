@@ -44,6 +44,7 @@ export default {
     data() {
         return {
             chart: null,
+            options_watcher_enabled: true,
             chart_options: {
                 series: [],
                 labels: [],
@@ -141,7 +142,17 @@ export default {
         options: {
             deep: true, 
             handler: function(val) {
-                this.chart.updateOptions(val)
+                try{
+                    // This condition prevents an infinite loop in the watcher
+                    if(this.options_watcher_enabled){
+                        this.options_watcher_enabled = false
+
+                        this.chart.updateOptions(val)
+                        this.$nextTick(()=>{
+                            this.options_watcher_enabled = true
+                        })
+                    }
+                }catch(error){}
             }
         }
         
