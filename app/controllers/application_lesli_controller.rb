@@ -136,15 +136,14 @@ class ApplicationLesliController < ApplicationController
         return if !request.format.html?
 
         return unless Lesli.instance[:code] == "lesli_cloud"
-            
-            
-            @account[:customization] = Rails.cache.fetch("customization", expires_in: 12.hours) do
-                custom_logo = current_user.account.files.where(name: "company_logo").last
-                custom_logo = custom_logo.attachment.url if custom_logo
-                {
-                    logo: custom_logo
-                }
-            end
+    
+        @account[:customization] = Rails.cache.fetch("customization", expires_in: 12.hours) do
+            custom_logo = current_user.account.files.where(name: "company_logo").last
+            custom_logo = custom_logo.attachment.url if custom_logo
+            {
+                logo: custom_logo
+            }
+        end
         
     end
 
