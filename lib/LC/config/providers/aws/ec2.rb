@@ -39,8 +39,7 @@ module LC
 
                                 case intance_status
                                 when "running"
-                                    self.stop_instance(instance_id)
-                                    self.start_instance(instance_id)
+                                    @client.reboot_instances(instance_ids: [instance_id])
                                     return true
                                     
                                 when "stopping"
@@ -73,12 +72,10 @@ module LC
 
                     def stop_instance(instance_id)
                         @client.stop_instances(instance_ids: [instance_id])
-                        @client.wait_until(:instance_stopped, instance_ids: [instance_id])
                     end
 
                     def start_instance(instance_id)
                         @client.start_instances(instance_ids: [instance_id])
-                        @client.wait_until(:instance_running, instance_ids: [instance_id])
                     end
 
                     def list_instances
@@ -100,6 +97,7 @@ module LC
                             type: instance.instance_type,
                             tags: instance.tags,
                             status: instance.state.name,
+                            service: "EC2",
                             availability_zone: instance.placement.availability_zone,
                             public_ip: instance.public_ip_address
                         }
