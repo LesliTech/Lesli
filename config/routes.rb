@@ -19,6 +19,12 @@ For more information read the license file including with this software.
 
 Rails.application.routes.draw do
 
+  namespace :account do
+    resources :privilege_group_actions
+  end
+  namespace :account do
+    resources :privilege_groups
+  end
   namespace :role do
     resources :privilege_actions
   end
