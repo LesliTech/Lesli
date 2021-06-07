@@ -19,9 +19,25 @@ For more information read the license file including with this software.
 
 class User::Detail < ApplicationRecord
     belongs_to :user, foreign_key: "users_id"
+    after_update :update_associated_record
 
     enum salutation: {
         mr: 'mr',
         mrs: 'mrs'
     }
+
+    def update_associated_record
+        if saved_change_to_first_name? || saved_change_to_last_name?
+            if defined? CloudOne
+
+                data = {
+                    full_name: self.user.full_name
+                }
+
+                CloudOne::Firebase::User.update_data(self, data)
+
+            end
+        end
+    end
+
 end
