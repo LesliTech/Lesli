@@ -41,6 +41,16 @@ module HtmlHelper
         end
     end
 
+    def navigation_vue_item(link_path)
+        class_name = request.original_fullpath.include?(link_path) ? "is-active" : nil
+        class_name = current_page?(link_path) ? "is-active" : nil
+        content_tag(:li) do
+            content_tag("router-link", :to => link_path) do
+                yield
+            end
+        end
+    end
+
     def navigation_engine_item text, icon_path, path, is_active = false
         content_tag(:a, :href => path, :class => is_active ? "is-active": nil) do
             image_tag(icon_path) +
