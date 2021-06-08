@@ -29,12 +29,6 @@ module ApplicationHelper
         [application_body_class, controller_path.gsub("/","-"), action_name].join(" ")
     end
 
-    def application_javascript_path
-        path_segments = controller_path.split("/")
-        cloud_module = path_segments.shift
-        [cloud_module, path_segments.push("app").compact().join("_")].join("/")
-    end
-
     def get_application_navigation_path
         navigation = "layouts/#{lesli_engine_or_instance}/partials/application-navigation"
         navigation = "layouts/components/navigation-administration" if is_lesli_engine_administration?
@@ -86,21 +80,7 @@ module ApplicationHelper
         end
     end
 
-    def application_stylesheet_theme_path()
 
-        theme = "themes/blank"
-
-        unless Rails.application.config.lesli_settings["configuration"]["theme"].blank?
-            theme = [
-                "themes", 
-                Rails.application.config.lesli_settings["configuration"]["theme"],
-                Rails.application.config.lesli_settings["configuration"]["theme"]
-            ].join("/")
-        end
-
-        theme
-
-    end
 
     
 
