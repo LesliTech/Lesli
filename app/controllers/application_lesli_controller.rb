@@ -98,25 +98,26 @@ class ApplicationLesliController < ApplicationController
         # set user abilities
         abilities = {}
 
-        current_user.privileges
-        .select(
-            "grant_object",
-            "bool_or(grant_index) as grant_index",
-            "bool_or(grant_edit) as grant_edit",
-            "bool_or(grant_show) as grant_show",
-            "bool_or(grant_new) as grant_new",
-            "bool_or(grant_create) as grant_create",
-            "bool_or(grant_update) as grant_update",
-            "bool_or(grant_destroy) as grant_destroy",
-            "bool_or(grant_search) as grant_search",
-            "bool_or(grant_resources) as grant_resources",
-            "bool_or(grant_options) as grant_options"
-        )
-        .group("grant_object")
-        .each do |privilege| 
-            abilities[privilege["grant_object"]] = privilege
+        current_user.privilege_actions
+        .select("
+            bool_or(role_privilege_actions.status) as value,
+            system_controller_actions.name as action,
+            system_controllers.name as controller
+        ")
+        .joins(action: [:system_controller])
+        .group("
+            system_controller_actions.name,
+            system_controllers.name
+        ")
+        .each do |route|            
+            abilities[route["controller"]] = {} if abilities[route["controller"]].nil?
+            
+            abilities[route["controller"]].merge(route["action"] => route["value"])
         end
 
+        puts "LOG: FINALITO "
+        puts abilities
+        
         # set user information
         @account[:current_user] = { 
             id: current_user.id,
@@ -125,7 +126,6 @@ class ApplicationLesliController < ApplicationController
             roles: current_user.roles.map(&:name),
             abilities: abilities
         }
-
     end
 
 

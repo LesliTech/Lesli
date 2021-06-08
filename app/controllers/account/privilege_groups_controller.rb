@@ -16,9 +16,8 @@ For more information read the license file including with this software.
 
 =end
 class Account::PrivilegeGroupsController < ApplicationLesliController
-    before_action :set_account_privilege_group, only: [:show, :update, :destroy]
+    before_action :set_account_privilege_group, only: [:update, :destroy]
 
-    # GET /account/privilege_groups
     def index
         respond_to do |format|
             format.html {}
@@ -28,28 +27,26 @@ class Account::PrivilegeGroupsController < ApplicationLesliController
         end
     end
 
-    # GET /account/privilege_groups/1
     def show
         respond_to do |format|
             format.html {}
             format.json do
+                set_account_privilege_group
+                
                 return respond_with_not_found unless @account_privilege_group
                 return respond_with_successful(@account_privilege_group.show(current_user, @query))
             end
         end
     end
 
-    # GET /account/privilege_groups/new
     def new
     end
 
-    # GET /account/privilege_groups/1/edit
     def edit
     end
 
-    # POST /account/privilege_groups
     def create
-        account_privilege_group = Account::PrivilegeGroup.new(account_privilege_group_params)
+        account_privilege_group = current_user.account.privilege_groups.new(account_privilege_group_params)
         if account_privilege_group.save
             respond_with_successful(account_privilege_group)
         else
@@ -57,7 +54,6 @@ class Account::PrivilegeGroupsController < ApplicationLesliController
         end
     end
 
-    # PATCH/PUT /account/privilege_groups/1
     def update
         return respond_with_not_found unless @account_privilege_group
 
@@ -68,7 +64,6 @@ class Account::PrivilegeGroupsController < ApplicationLesliController
         end
     end
 
-    # DELETE /account/privilege_groups/1
     def destroy
         return respond_with_not_found unless @account_privilege_group
 
@@ -81,13 +76,14 @@ class Account::PrivilegeGroupsController < ApplicationLesliController
 
     private
 
-    # Use callbacks to share common setup or constraints between actions.
     def set_account_privilege_group
-        @account_privilege_group = current_user.account.account_privilege_groups.find(class_name, params[:id])
+        @account_privilege_group = current_user.account.privilege_groups.find_id(id: params[:id])
     end
 
-    # Only allow a list of trusted parameters through.
     def account_privilege_group_params
-        params.require(:account_privilege_group).permit(:id, :name)
+        params.require(:account_privilege_group).permit(
+            :name,
+            :description
+        )
     end
 end
