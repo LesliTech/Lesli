@@ -95,8 +95,17 @@ class Role < ApplicationLesliRecord
         end
 
         # enable profile privileges
-        privilege_actions.joins(action: [:system_controller]).where("system_controllers.name = ?", "profiles").where("system_controller_actions.name = ?", 'show').update(status: false)
-        privilege_actions.joins(action: [:system_controller]).where("system_controllers.name = ?", "users").where("system_controller_actions.name = ?", ['options', 'show']).update(status: true)
+        privilege_actions
+            .joins(action: [:system_controller])
+            .where("system_controllers.name = ?", "profiles")
+            .where("system_controller_actions.name = ?", 'show')
+            .update(status: false)
+            
+        privilege_actions
+            .joins(action: [:system_controller])
+            .where("system_controllers.name = ?", "users")
+            .where("system_controller_actions.name = ?", ['options', 'show'])
+            .update(status: true)
     end
 
     # @return [Boolean]
