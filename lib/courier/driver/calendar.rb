@@ -52,8 +52,10 @@ module Courier
             #     #     focus_tasks: [],
             #     #     help_tickets: []
             #     # }
-            def self.show(current_user, query, calendar)
+            def self.show(current_user, query, calendar=nil)
                 return nil unless defined? CloudDriver
+
+                calendar = current_user.account.driver.calendars.default unless calendar
 
                 calendar_data = {
                     id: calendar.id,

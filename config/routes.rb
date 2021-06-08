@@ -55,7 +55,6 @@ Rails.application.routes.draw do
 
     authenticated :user do
 
-        mount ActionCable.server  => "/cable"
         mount CloudOne::Engine    => "/one"    if defined?(CloudOne)
         mount CloudWork::Engine   => "/work"   if defined?(CloudWork)
         mount CloudTeam::Engine   => "/team"   if defined?(CloudTeam)
