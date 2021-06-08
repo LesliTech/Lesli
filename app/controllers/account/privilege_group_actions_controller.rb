@@ -16,19 +16,18 @@ For more information read the license file including with this software.
 
 =end
 class Account::PrivilegeGroupActionsController < ApplicationLesliController
+    before_action :set_account_privilege_group,  only: [:index]
     before_action :set_account_privilege_group_action, only: [:show, :update, :destroy]
 
-    # GET /account/privilege_group_actions
     def index
         respond_to do |format|
             format.html {}
             format.json do
-                respond_with_successful(Account::PrivilegeGroupAction.index(current_user, @query))
+                respond_with_successful(Account::PrivilegeGroupAction.index(current_user, @account_privilege_group , @query))
             end
         end
     end
-
-    # GET /account/privilege_group_actions/1
+    
     def show
         respond_to do |format|
             format.html {}
@@ -39,15 +38,12 @@ class Account::PrivilegeGroupActionsController < ApplicationLesliController
         end
     end
 
-    # GET /account/privilege_group_actions/new
     def new
     end
 
-    # GET /account/privilege_group_actions/1/edit
     def edit
     end
-
-    # POST /account/privilege_group_actions
+    
     def create
         account_privilege_group_action = Account::PrivilegeGroupAction.new(account_privilege_group_action_params)
         if account_privilege_group_action.save
@@ -57,7 +53,6 @@ class Account::PrivilegeGroupActionsController < ApplicationLesliController
         end
     end
 
-    # PATCH/PUT /account/privilege_group_actions/1
     def update
         return respond_with_not_found unless @account_privilege_group_action
 
@@ -68,7 +63,6 @@ class Account::PrivilegeGroupActionsController < ApplicationLesliController
         end
     end
 
-    # DELETE /account/privilege_group_actions/1
     def destroy
         return respond_with_not_found unless @account_privilege_group_action
 
@@ -81,13 +75,24 @@ class Account::PrivilegeGroupActionsController < ApplicationLesliController
 
     private
 
-    # Use callbacks to share common setup or constraints between actions.
+    def options 
+        respond_with_successful(Account::PrivilegeGroupAction.options(current_user))
+    end
+    
+    def set_account_privilege_group
+        @account_privilege_group = current_user.account.privilege_groups.find_by(id: account_privilege_group_action_params[:account_privilege_group_id])
+    end
+    
     def set_account_privilege_group_action
-        @account_privilege_group_action = current_user.account.account_privilege_group_actions.find(class_name, params[:id])
+        set_account_privilege_group
+        
+        @account_privilege_group_action = @account_privilege_group.actions.find_by(id: params[:id])
     end
 
-    # Only allow a list of trusted parameters through.
     def account_privilege_group_action_params
-        params.require(:account_privilege_group_action).permit(:id, :name)
+        params.require(:account_privilege_group_action).permit(
+            :status, 
+            :account_privilege_group_id
+        )
     end
 end
