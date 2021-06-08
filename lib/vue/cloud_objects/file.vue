@@ -3,9 +3,9 @@
 
 Copyright (c) 2020, all rights reserved.
 
-All the information provided by this platform is protected by international laws related  to 
-industrial property, intellectual property, copyright and relative international laws. 
-All intellectual or industrial property rights of the code, texts, trade mark, design, 
+All the information provided by this platform is protected by international laws related  to
+industrial property, intellectual property, copyright and relative international laws.
+All intellectual or industrial property rights of the code, texts, trade mark, design,
 pictures and any other information belongs to the owner of this platform.
 
 Without the written permission of the owner, any replication, modification,
@@ -14,7 +14,7 @@ transmission, publication is strictly forbidden.
 For more information read the license file including with this software.
 
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
-// · 
+// ·
 
 */
 
@@ -25,7 +25,7 @@ import componentForm from './files/form.vue'
 import componentList from './files/list.vue'
 
 
-// · 
+// ·
 export default {
     props: {
         cloudModule: {
@@ -46,6 +46,14 @@ export default {
         acceptedFileExtensions: {
             type: Array,
             default: null
+        },
+        showNewFileTab: {
+            type: Boolean,
+            default: true
+        },
+        showListFilesTab: {
+            type: Boolean,
+            default: true
         }
     },
 
@@ -73,22 +81,22 @@ export default {
         this.deleteSubscriptions()
     },
 
-    methods: {        
+    methods: {
         setSubscriptions(){
             this.bus.subscribe('show:/module/app/files', () => this.show = !this.show )
         },
 
-        setTranslations(){            
+        setTranslations(){
             if(this.translationsFileTypesPaths){
                 for(let translation_path of this.translationsFileTypesPaths) {
                     this.$set(
-                        this.translations, 
-                        'file_types', 
+                        this.translations,
+                        'file_types',
                         {
                             ...this.translations.file_types,
                             ...I18n.t(translation_path)
                         }
-                    )   
+                    )
                 }
             }
         },
@@ -108,13 +116,13 @@ export default {
         <div class="card-header">
             <div class="card-header-title is-shadowless">
                 <h4 class=" title is-4">
-                    {{translations.core.view_text_files}}
+                    {{ translations.core.view_text_files }}
                 </h4>
             </div>
         </div>
         <div class="card-content">
             <b-tabs expanded v-model="active_tab">
-                <b-tab-item :label="translations.core.view_tab_title_files_new">
+                <b-tab-item :label="translations.core.view_tab_title_files_new" v-if="showNewFileTab">
                     <component-form
                         :cloud-module="cloudModule"
                         :cloud-id="cloudId"
@@ -124,7 +132,7 @@ export default {
                         :translations="translations"
                     />
                 </b-tab-item>
-                <b-tab-item :label="translations.core.view_tab_title_files_list">
+                <b-tab-item :label="translations.core.view_tab_title_files_list" v-if="showListFilesTab">
                     <component-list
                         :cloud-module="cloudModule"
                         :cloud-id="cloudId"
