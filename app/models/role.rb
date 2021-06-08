@@ -24,7 +24,7 @@ class Role < ApplicationLesliRecord
     has_many :privileges,           foreign_key: "roles_id",    class_name: "Role::Privilege",          dependent: :delete_all
     has_many :activities,           foreign_key: "roles_id"
     has_many :privilege_actions,    foreign_key: "roles_id",    class_name: "Role::PrivilegeAction"
-    
+
     def self.list current_user, query
         current_user.account.roles
         .order(object_level_permission: :desc, name: :asc)
@@ -86,40 +86,17 @@ class Role < ApplicationLesliRecord
     #   # This method will be called automatically within an after_create callback
     #   puts role.privileges.to_json # Should display all privileges that existed at the moment of the role's creation
     def initialize_role_privileges
+        status = false
+        status = true if (name == "admin" ||name == "owner")
 
-        # get all routes for application controllers
-        routes = LC::System::Routes.scan
-
-        routes.each do |route|
-
-            privilege = self.privileges.find_or_create_by(grant_object: route[:controller_path])
-
-            if self.name === "owner" || self.name === "admin"
-                grant_access = true
-                privilege.update(
-                    grant_index: grant_access,
-                    grant_list: grant_access,
-                    grant_create: grant_access,
-                    grant_new: grant_access,
-                    grant_edit: grant_access,
-                    grant_show: grant_access,
-                    grant_update: grant_access,
-                    grant_destroy: grant_access,
-                    grant_options: grant_access,
-                    grant_resources: grant_access,
-                    grant_search: grant_access,
-                    grant_actions: grant_access
-                )
-            end
-
-            puts "role: #{self.name} privilege created for controller: #{route[:controller_path]}"
-
+        # get all actions of the controllers
+        controllers = SystemController::Action.joins(:system_controller).all.each do |controller_action|
+            # self.privilege_actions.create(action: controller_action, status: status)
         end
 
         # enable profile privileges
-        self.privileges.find_by(grant_object: "profiles").update(grant_show: true)
-        self.privileges.find_by(grant_object: "users").update(grant_options: true, grant_update: true)
-
+        privilege_actions.joins(action: [:system_controller]).where("system_controllers.name = ?", "profiles").where("system_controller_actions.name = ?", 'show').update(status: false)
+        privilege_actions.joins(action: [:system_controller]).where("system_controllers.name = ?", "users").where("system_controller_actions.name = ?", ['options', 'show']).update(status: true)
     end
 
     # @return [Boolean]
