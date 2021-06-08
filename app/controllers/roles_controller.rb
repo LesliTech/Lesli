@@ -136,6 +136,8 @@ class RolesController < ApplicationLesliController
     def update
         return respond_with_not_found unless @role
 
+        debugger
+        
         user_role_level_max = current_user.roles.map(&:object_level_permission).max()
 
         # check if user can work with that object level permission

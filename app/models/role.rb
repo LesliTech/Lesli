@@ -26,9 +26,13 @@ class Role < ApplicationLesliRecord
     has_many :privilege_actions,    foreign_key: "roles_id",    class_name: "Role::PrivilegeAction"
 
     def self.list current_user, query
+        
+        role_max = current_user.roles.map(&:object_level_permission).max()
+        role_max =  query[:filters][:object_level_permission] unless query[:filters][:object_level_permission].blank?
+        
         current_user.account.roles
         .order(object_level_permission: :desc, name: :asc)
-        .where("object_level_permission <= ?", current_user.roles.map(&:object_level_permission).max())
+        .where("object_level_permission <= ?", role_max)
         .select(:id, :name, :object_level_permission)
         .order(object_level_permission: :desc)
     end
@@ -91,7 +95,11 @@ class Role < ApplicationLesliRecord
 
         # get all actions of the controllers
         controllers = SystemController::Action.joins(:system_controller).all.each do |controller_action|
-            # self.privilege_actions.create(action: controller_action, status: status)
+            Role::PrivilegeAction.create(
+                action: controller_action, 
+                status: status,
+                role: self
+            )
         end
 
         # enable profile privileges
@@ -104,7 +112,7 @@ class Role < ApplicationLesliRecord
         privilege_actions
             .joins(action: [:system_controller])
             .where("system_controllers.name = ?", "users")
-            .where("system_controller_actions.name = ?", ['options', 'show'])
+            .where("system_controller_actions.name in (?)", ['options','show'])
             .update(status: true)
     end
 
