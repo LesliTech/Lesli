@@ -18,19 +18,6 @@ For more information read the license file including with this software.
 =end
 
 Rails.application.routes.draw do
-
-  namespace :account do
-    resources :privilege_group_actions
-  end
-  namespace :account do
-    resources :privilege_groups
-  end
-  namespace :role do
-    resources :privilege_actions
-  end
-  namespace :system_controllers do
-    resources :actions
-  end
   resources :system_controllers
     devise_for :users,
     :path => "",
