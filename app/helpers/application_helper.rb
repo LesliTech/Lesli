@@ -29,6 +29,49 @@ module ApplicationHelper
         [application_body_class, controller_path.gsub("/","-"), action_name].join(" ")
     end
 
+    def application_stylesheet_theme_path()
+
+        theme = "themes/blank"
+
+        unless Rails.application.config.lesli_settings["configuration"]["theme"].blank?
+            theme = [
+                "themes", 
+                Rails.application.config.lesli_settings["configuration"]["theme"],
+                Rails.application.config.lesli_settings["configuration"]["theme"]
+            ].join("/")
+        end
+
+        theme
+
+    end
+
+    def application_stylesheet_path
+
+        path_segments = controller_path.split("/")
+        cloud_module = path_segments.shift
+
+        if ["cloud_text", "cloud_house", "cloud_driver", "cloud_focus"].include?(cloud_module)
+            return [cloud_module, [cloud_module, "app"].join("_")].join("/")
+        end
+
+        controller_path
+    end
+
+    def application_javascript_path
+
+        path_segments = controller_path.split("/")
+        cloud_module = path_segments.shift
+
+        if ["cloud_text", "cloud_house", "cloud_driver", "cloud_focus"].include?(cloud_module)
+            return [cloud_module, [cloud_module, "app"].join("_")].join("/")
+        end
+
+        path_segments = controller_path.split("/")
+        cloud_module = path_segments.shift
+        [cloud_module, path_segments.push("app").compact().join("_")].join("/")
+        
+    end
+
     def get_application_navigation_path
         navigation = "layouts/#{lesli_engine_or_instance}/partials/application-navigation"
         navigation = "layouts/components/navigation-administration" if is_lesli_engine_administration?
@@ -59,7 +102,6 @@ module ApplicationHelper
     # The code below need to be reviewed and refactored to work with gems instead of engines
 
 
-
     def website_title
 
         title = @application_html_title || controller_path.gsub("cloud","").gsub("_", "")
@@ -69,8 +111,6 @@ module ApplicationHelper
 
     end
 
-    
-
     def nav_link(link_path)
         class_name = current_page?(link_path) ? "is-active" : nil
         content_tag(:li) do
@@ -79,10 +119,6 @@ module ApplicationHelper
             end
         end
     end
-
-
-
-    
 
     def language_url(locale)
         "/language?locale=#{locale}"
@@ -134,11 +170,8 @@ module ApplicationHelper
 
     end
 
-
-
-
-
     def integration_access_token(integration_name)
         return Rails.application.credentials.integrations[integration_name][:access_token]
     end
+
 end
