@@ -219,7 +219,7 @@ export default {
                     <b-icon icon="sync" size="is-small" :custom-class="loading.global ? 'fa-spin' : ''" />
                     <span>{{translations.core.view_text_btn_reload}}</span>
                 </button>
-                <router-link class="button" tag="button" to="/new" v-if="workflows_abilities.grant_create">
+                <router-link class="button" tag="button" to="/new" v-if="workflows_abilities.create">
                     <b-icon icon="plus" size="is-small" />
                     <span>{{ translations.workflows.view_btn_new_workflow }}</span>
                 </router-link>
