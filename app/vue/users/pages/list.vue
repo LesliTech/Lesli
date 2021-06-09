@@ -74,7 +74,7 @@ export default {
                 users_count: 0
             },
             index_privileges: {
-                users: this.abilities.privilege("", "users")
+                users: this.abilities.privilege("users")
             }
         }
     },

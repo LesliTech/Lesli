@@ -67,6 +67,8 @@ module RoutesApp
                                     resources :exchange_rates
                                 end
                             end
+                            resources :privilege_groups
+                            resources :privilege_group_actions
                         end
                         member do
                             scope :resources do

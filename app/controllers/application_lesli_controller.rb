@@ -96,8 +96,8 @@ class ApplicationLesliController < ApplicationController
         }
 
         # set user abilities
-        abilities = {}
-
+        abilities =  {}
+        
         current_user.privilege_actions
         .select("
             bool_or(role_privilege_actions.status) as value,
@@ -111,12 +111,8 @@ class ApplicationLesliController < ApplicationController
         ")
         .each do |route|            
             abilities[route["controller"]] = {} if abilities[route["controller"]].nil?
-            
-            abilities[route["controller"]].merge(route["action"] => route["value"])
+            abilities[route["controller"]][route["action"]] = route["value"]
         end
-
-        puts "LOG: FINALITO "
-        puts abilities
         
         # set user information
         @account[:current_user] = { 
