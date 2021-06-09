@@ -1,9 +1,10 @@
 class CreateAccountPrivilegeGroups < ActiveRecord::Migration[6.1]
     def change
         create_table :account_privilege_groups do |t|
-            t.string :name
+            t.string  :name
             t.boolean :status
-
+            t.text    :description
+            
             t.datetime :deleted_at, index: true
 
             t.timestamps
