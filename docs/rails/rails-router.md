@@ -59,6 +59,14 @@ resources :notebooks, only: [:index, :show, :edit, :update, :new, :create] do
     # resource cloud objects
     scope module: :notebook do
 
+        resources :files,       only: [:index, :get, :create, :update, :destroy]
+        # GET    /notebooks/:notebook_id/files(.:format)           cloud_text/notebook/files#index
+        # POST   /notebooks/:notebook_id/files(.:format)           cloud_text/notebook/files#create
+        # PATCH  /notebooks/:notebook_id/files/:id(.:format)       cloud_text/notebook/files#update
+        # PUT    /notebooks/:notebook_id/files/:id(.:format)       cloud_text/notebook/files#update
+        # DELETE /notebooks/:notebook_id/files/:id(.:format)       cloud_text/notebook/files#destroy
+
+
         resources :actions,     only: [:index, :get, :create, :update, :destroy]
         # GET    /notebooks/:notebook_id/actions(.:format)         cloud_text/notebook/actions#index
         # POST   /notebooks/:notebook_id/actions(.:format)         cloud_text/notebook/actions#create
@@ -83,14 +91,6 @@ resources :notebooks, only: [:index, :show, :edit, :update, :new, :create] do
         # DELETE /notebooks/:notebook_id/discussions/:id(.:format) cloud_text/notebook/discussions#destroy
 
 
-        resources :files,       only: [:index, :get, :create, :update, :destroy]
-        # GET    /notebooks/:notebook_id/files(.:format)           cloud_text/notebook/files#index
-        # POST   /notebooks/:notebook_id/files(.:format)           cloud_text/notebook/files#create
-        # PATCH  /notebooks/:notebook_id/files/:id(.:format)       cloud_text/notebook/files#update
-        # PUT    /notebooks/:notebook_id/files/:id(.:format)       cloud_text/notebook/files#update
-        # DELETE /notebooks/:notebook_id/files/:id(.:format)       cloud_text/notebook/files#destroy
-
-
         resources :subscribers, only: [:index, :get, :create, :update, :destroy]
         # GET    /notebooks/:notebook_id/subscribers(.:format)      cloud_text/notebook/subscribers#index
         # POST   /notebooks/:notebook_id/subscribers(.:format)      cloud_text/notebook/subscribers#create
@@ -100,7 +100,7 @@ resources :notebooks, only: [:index, :show, :edit, :update, :new, :create] do
 
     end
 
-    # extended resource methods
+    # extended controller methods
     collection do
 
         get  :list
@@ -113,17 +113,28 @@ resources :notebooks, only: [:index, :show, :edit, :update, :new, :create] do
 
     end
 
-    # extend resource actions
+    # extend resource routes
     member do
-        scope :resources do
+
+        # extend resource actions
+        scope :actions do
 
             get  :aditional_action_get
             post :aditional_action_post
 
-            # GET    /notebooks/:id/resources/aditional_action_get(.:format)   cloud_text/notebooks#aditional_action_get
-            # POST   /notebooks/:id/resources/aditional_action_post(.:format)  cloud_text/notebooks#aditional_action_post
+            # GET    /notebooks/:id/actions/aditional_action_get(.:format)   cloud_text/notebooks#aditional_action_get
+            # POST   /notebooks/:id/actions/aditional_action_post(.:format)  cloud_text/notebooks#aditional_action_post
 
         end
+
+        # resources that belongs to a resource
+        scope :resources do
+
+            get  :images
+            # GET    /notebooks/:id/resources/images(.:format)   cloud_text/notebooks#images
+
+        end
+
     end
 
 end
