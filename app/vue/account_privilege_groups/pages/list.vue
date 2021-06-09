@@ -24,7 +24,7 @@ export default {
             filters_ready: false,
             translations: {
                 core: I18n.t('core.shared'),
-                main: I18n.t('core.role/groups')
+                main: I18n.t('core.account/privilege_groups')
             },
             filters: {
                 search: '',
@@ -61,7 +61,7 @@ export default {
 
         getRoleGroups() {
             this.loading = true
-            let url = this.url.admin("role/groups")
+            let url = this.url.admin("account/privilege_groups")
 
             url = url.filters({
                 search: this.filters.search,
@@ -108,7 +108,7 @@ export default {
         },
 
         deleteRoleGroup(role_group){
-            let url = this.url.admin(`role/groups/:id`, { id: role_group.id })
+            let url = this.url.admin(`account/privilege_groups/:id`, { id: role_group.id })
 
             this.http.delete(url).then(result => {
                 if (result.successful) {
@@ -153,7 +153,7 @@ export default {
                 </button>
                 <router-link class="button" tag="button" to="/new">
                     <b-icon icon="plus" size="is-small" />
-                    <span> {{ translations.main.view_btn_new_audience_document }}</span>
+                    <span> {{ translations.main.view_btn_new }}</span>
                 </router-link>
             </div>
         </component-header>
