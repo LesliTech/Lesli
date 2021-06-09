@@ -3,20 +3,20 @@ module LC
         module Providers
             module Aws
                 class Ec2
-                    def initialize
-                        @client = ::Aws::EC2::Client.new()
-                        @resource = ::Aws::EC2::Resource.new()
+                    def initialize(credentials = nil)
 
-                        if Rails.application.credentials.providers[:aws][:ec2]
-                            ec2_credentials = {
+                        if (!credentials) && Rails.application.credentials.providers[:aws][:ec2]
+                            credentials = {
                                 region: Rails.application.credentials.providers[:aws][:ec2][:region],
                                 access_key_id: Rails.application.credentials.providers[:aws][:ec2][:access_key_id],
                                 secret_access_key: Rails.application.credentials.providers[:aws][:ec2][:secret_access_key]
                             }
-
-                            @client = ::Aws::EC2::Client.new(ec2_credentials)
-                            @resource = ::Aws::EC2::Resource.new(client: @client)
                         end
+                        
+                        credentials = {} unless credentials
+
+                        @client = ::Aws::EC2::Client.new(credentials)
+                        @resource = ::Aws::EC2::Resource.new(client: @client)
                     end
 
                     def get_instance(instance_id)
@@ -80,13 +80,18 @@ module LC
 
                     def list_instances
                         instances = []
-                        response = @resource.instances
 
-                        response.each do |instance|
-                            instances.push(parse_instance(instance))
+                        begin
+                            response = @resource.instances
+                            response.each do |instance|
+                                instances.push(parse_instance(instance))
+                            end
+
+                            instances
+                        rescue StandardError => e
+                            puts "There was an error while listing instances: #{e.message}"
+                            return []
                         end
-
-                        instances
                     end
 
                     protected
