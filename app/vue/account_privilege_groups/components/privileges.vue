@@ -57,7 +57,7 @@ export default {
             
             Promise.all(this.requests).then(() => {
                 this.requests = []
-                this.msg.success(this.translations.main.messages_success_privileges_updated)    
+                this.msg.success(this.translations.main.messages_success_privilege_group_actions_updated)    
             })
         },
         
@@ -208,7 +208,6 @@ export default {
                         this.privilege_group_actions = result.data
                     }
                                         
-                    console.log(this.privilege_group_actions)
                     resolve()
                 }).catch(error => {
                     console.log(error)
@@ -351,7 +350,7 @@ export default {
                                                 v-for="category in options.categories"
                                                 :value="category.value"
                                                 :key="category.value">
-                                                {{ category.text }}
+                                                {{ object_utils.translateEnum(translations.main, 'column_enum_category', category.text)}}
                                             </option>
                                         </b-select>
                                     </b-field>
@@ -372,11 +371,11 @@ export default {
                                 detail-key="controller"
                             >
                                 <template v-slot="props">
-                                    <b-table-column field="controller" label="Resource" >
+                                    <b-table-column field="controller" :label="translations.main.view_text_resource" >
                                         <strong> {{ `${props.row.controller}` }} </strong>
                                     </b-table-column>
 
-                                    <b-table-column field="all" label="All" >
+                                    <b-table-column field="all" :label="translations.view_text_all_actions" >
                                         <b-switch
                                             :rounded="false"
                                             :ref="props.row.controller + '-all'"

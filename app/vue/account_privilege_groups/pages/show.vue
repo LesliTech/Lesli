@@ -77,7 +77,7 @@ export default {
             <b-tab-item :label="translations.core.view_tab_title_form">
                 <component-form v-if="privilege_group.id" :privilege_group="privilege_group"></component-form>
             </b-tab-item>
-            <b-tab-item :label="translations.main.view_tab_title_privileges">
+            <b-tab-item :label="translations.main.view_tab_title_actions">
                 <component-privileges v-if="privilege_group.id" :privilege_group="privilege_group"></component-privileges>
             </b-tab-item>
         </b-tabs>
