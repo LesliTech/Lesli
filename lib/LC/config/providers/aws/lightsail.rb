@@ -3,18 +3,19 @@ module LC
         module Providers
             module Aws
                 class Lightsail
-                    def initialize
-                        @client = ::Aws::Lightsail::Client.new()
+                    def initialize(credentials = nil)
 
-                        if Rails.application.credentials.providers[:aws][:ec2]
-                            ec2_credentials = {
+                        if (!credentials) && Rails.application.credentials.providers[:aws][:ec2]
+                            credentials = {
                                 region: Rails.application.credentials.providers[:aws][:ec2][:region],
                                 access_key_id: Rails.application.credentials.providers[:aws][:ec2][:access_key_id],
                                 secret_access_key: Rails.application.credentials.providers[:aws][:ec2][:secret_access_key]
                             }
-
-                            @client = ::Aws::Lightsail::Client.new(ec2_credentials)
                         end
+                        
+                        credentials = {} unless credentials
+
+                        @client = ::Aws::Lightsail::Client.new(credentials)
                     end
 
                     def reboot_instance(instance_id)
@@ -99,6 +100,7 @@ module LC
                             id: instance.name,
                             type: "#{instance.blueprint_name} #{instance.bundle_id}",
                             tags: instance.tags,
+                            service: "Lightsail",
                             status: instance.state.name,
                             availability_zone: instance.location.availability_zone,
                             public_ip: instance.public_ip_address
