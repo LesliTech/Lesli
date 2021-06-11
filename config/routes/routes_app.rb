@@ -72,6 +72,9 @@ module RoutesApp
                                         get :actions
                                     end
                                 end
+                                collection do
+                                    get :list
+                                end
                             end
                             resources :privilege_group_actions do 
                                 collection do

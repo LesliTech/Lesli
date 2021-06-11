@@ -225,6 +225,19 @@ export default {
                     {{props.row.created_at_text}}
                 </b-table-column>
 
+                <b-table-column field="actions_length" :label="translations.main.view_text_actions_length" sortable>
+                    <template slot="header" slot-scope="{ column }">
+                        <span>
+                            {{ column.label }}
+                            <span v-if="sorting.field == 'actions_length'">
+                                <b-icon v-if="sorting.order == 'asc'" size="is-small" icon="arrow-up" ></b-icon>
+                                <b-icon v-else size="is-small" icon="arrow-down"></b-icon>
+                            </span>
+                        </span>
+                    </template>
+                    {{props.row.actions_length}}
+                </b-table-column>
+                
                 <b-table-column :label="translations.core.view_table_header_actions">
                     <span>
                         <b-button type="is-danger" outlined @click.stop="deleteRoleGroup(props.row)">

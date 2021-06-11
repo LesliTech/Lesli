@@ -31,11 +31,14 @@ export default {
                 core: I18n.t('core.shared'),
                 main: I18n.t('core.account/privilege_groups')
             },
-            submitting_form: false
+            submitting_form: false,
+            privilege_groups: []
         }
     },
 
-    mounted() {},
+    mounted() {
+        this.getPrivilegeGroups()
+    },
 
     methods: {
         submitForm(event){
@@ -85,6 +88,25 @@ export default {
             }).catch(error => {
                 console.log(error)
             })
+        },
+        
+        getPrivilegeGroups(){
+            let url = this.url.admin('account/privilege_groups/list')
+            this.http.get(url).then(result => {
+                if (!result.successful) {
+                    this.msg.error(result.error.message)
+                    return
+                }
+                
+                this.privilege_groups = result.data.filter((e) => {
+                    return (
+                        e.account_privilege_groups_id !== this.privilege_group.id &&
+                        e.id !== this.privilege_group.id
+                    )
+                })
+            }).catch(error => {
+                console.log(error)
+            }) 
         }
     }
 }
@@ -103,6 +125,17 @@ export default {
                         <b-input type="text" placeholder="" v-model="privilege_group.name" required></b-input>
                     </b-field>
 
+                    <b-field :label="translations.main.column_account_privilege_groups_id" v-if="privilege_groups.length > 0">
+                        <b-select v-model="privilege_group.account_privilege_groups_id" expanded>
+                            <option
+                                v-for="privilege_group in privilege_groups"
+                                :value="privilege_group.id"
+                                :key="privilege_group.id">
+                                {{ privilege_group.name }}
+                            </option>
+                        </b-select>
+                    </b-field>
+                    
                     <b-field :label="translations.main.column_description">
                         <b-input v-model="privilege_group.description" type="textarea"></b-input>
                     </b-field>

@@ -345,7 +345,7 @@ export default {
                                 </div>
                                 <div class="column">
                                     <b-field>
-                                        <b-select v-model="category" expanded placeholder="Select a category">
+                                        <b-select v-model="category" expanded :placeholder="translations.main.view_placeholder_category">
                                             <option
                                                 v-for="category in options.categories"
                                                 :value="category.value"
