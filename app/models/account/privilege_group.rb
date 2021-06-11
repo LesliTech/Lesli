@@ -16,13 +16,13 @@ For more information read the license file including with this software.
 
 =end
 class Account::PrivilegeGroup < ApplicationLesliRecord
-    has_many :actions,    foreign_key: "account_privilege_groups_id"
+    has_many :actions,    foreign_key: "account_privilege_groups_id", class_name: "Account::PrivilegeGroupAction"  
+    
+    belongs_to :user_creator,   foreign_key: "users_id",            class_name: "::User"
+    belongs_to :account,        foreign_key: "accounts_id",         class_name: "Account"  
     
     def self.index(current_user, query)
-        belongs_to :user_creator,   foreign_key: "users_id",            class_name: "::User"
-        belongs_to :account,        foreign_key: "accounts_id",         class_name: "Account"  
-        
-        role_groups = current_user.account.privilege_groups.select(
+        privilege_groups = current_user.account.privilege_groups.select(
             :id,
             :name,
             :description,
@@ -30,22 +30,22 @@ class Account::PrivilegeGroup < ApplicationLesliRecord
         )
         .joins(:user_creator)
 
-        role_groups = role_groups.where("
-            trim(lower(account_role_groups.name)) like '%#{query[:filters][:search].downcase}%' or  
-            trim(lower(account_role_groups.description)) like '%#{query[:filters][:search].downcase}%'
+        privilege_groups = privilege_groups.where("
+            trim(lower(account_privilege_groups.name)) like '%#{query[:filters][:search].downcase}%' or  
+            trim(lower(account_privilege_groups.description)) like '%#{query[:filters][:search].downcase}%'
         ") unless query[:filters][:search].blank?
 
-        role_groups = role_groups
+        privilege_groups = privilege_groups
         .page(query[:pagination][:page])
         .per(query[:pagination][:perPage])
         .order("#{query[:pagination][:orderBy]} #{query[:pagination][:order]} NULLS LAST")
 
         LC::Response.pagination(
-            role_groups.current_page,
-            role_groups.total_pages,
-            role_groups.total_count,
-            role_groups.length,
-            role_groups.map do |audience_document|
+            privilege_groups.current_page,
+            privilege_groups.total_pages,
+            privilege_groups.total_count,
+            privilege_groups.length,
+            privilege_groups.map do |audience_document|
                 audience_document.attributes.merge({
                     created_at_text: LC::Date.to_string_datetime(audience_document.created_at)
                 })
@@ -53,11 +53,26 @@ class Account::PrivilegeGroup < ApplicationLesliRecord
         )
     end
 
+    def role_group_actions(current_user, query)        
+        actions = self.actions.select(
+            "account_privilege_group_actions.id",
+            :status,
+            :category,
+            "system_controllers.name as controller",
+            "system_controllers.id as controller_id",
+            "system_controller_actions.name as action",
+            "system_controller_actions.id as action_id"
+        )
+        .joins(system_action: [:system_controller] )
+        
+        actions
+    end
+    
     def show(current_user, query)
         audience = current_user.account.privilege_groups.select(
             :id,
             :name,
-            :description
+            :description,
             LC::Date.db_timestamps()
         ).find(id)
     end
