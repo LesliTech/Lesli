@@ -103,7 +103,7 @@ export default {
                         <b-input type="text" placeholder="" v-model="privilege_group.name" required></b-input>
                     </b-field>
 
-                    <b-field :label="translations.main.description">
+                    <b-field :label="translations.main.column_description">
                         <b-input v-model="privilege_group.description" type="textarea"></b-input>
                     </b-field>
 
