@@ -239,18 +239,27 @@ module.exports = env => {
         }
 
         // get app directories
-        if (["cloud_text", "cloud_house", "cloud_driver", "cloud_focus"].includes(engine)) {
+        if (["cloud_text", "cloud_house", "cloud_driver", "cloud_focus", "cloud_babel"].includes(engine)) {
 
             let filePath = "./"+path.join("./engines", engine, "app", "vue", "app.js")
             let fileName = [engine, "app"].join("_")
+
+            if (!fs.existsSync(filePath)) {
+                return
+            }
+
             webpackEngine.entry[fileName] = filePath
 
         } else {
 
             fs.readdirSync(path.join("./engines", engine, "app", "vue")).forEach(app => {
 
+                if (app == "app.js") {
+                    return 
+                }
+
                 fs.readdirSync(path.join("./engines", engine, "app", "vue", app)).forEach(action => {
-    
+
                     if (!action.endsWith(".js")) {
                         return
                     }

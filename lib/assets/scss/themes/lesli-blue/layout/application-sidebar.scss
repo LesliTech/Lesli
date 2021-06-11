@@ -35,14 +35,20 @@ aside.application-sidebar {
         margin-top: 11px;
         
         li {
+
             a {
                 padding-left: .6rem;
                 color: lesli-css-get-color(slate, 500);
                 color: lesli-css-get-color(slate, 900);
                 transition: all linear .2s;
 
-                // active sidebar navigation items
                 &.is-active {
+                    background-color: inherit;
+                    color: inherit;
+                }
+
+                // active sidebar navigation items
+                &.route-is-active {
                     background-color: darken(#f3f7fd, 4);
                     color: lesli-css-get-color(slate, 900);
                     i {
@@ -51,7 +57,7 @@ aside.application-sidebar {
                 }
 
                 // highlight sidebar navigation item on hover
-                &:not(.is-active):hover {
+                &:not(.route-is-active):hover {
                     background-color: transparent;
                     color: lesli-css-get-color(slate, 900);
                     i {

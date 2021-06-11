@@ -16,13 +16,8 @@ For more information read the license file including with this software.
 
 =end
 
-class OnboardingsController < ApplicationController
-    include Application::Responder
-
-    layout "application-public"
-
-    #before_action :configure_sign_up_params, only: [:create]
-
+class OnboardingsController < ApplicationLesliController
+    
     # GET /onboardings/1
     def show
         respond_to do |format|
