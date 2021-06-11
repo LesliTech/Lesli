@@ -27,8 +27,20 @@ class Account::PrivilegeGroup < ApplicationLesliRecord
             :name,
             :description,
             :created_at,
+            "actions.total as actions_length"
         )
         .joins(:user_creator)
+        .joins("
+            left join  (
+                select 
+                    count(1) as total,
+                    apga.account_privilege_groups_id as privilege_group_id
+                from account_privilege_group_actions apga
+                where apga.deleted_at is null
+                group by apga.account_privilege_groups_id
+            ) as actions 
+                on actions.privilege_group_id = account_privilege_groups.id
+        ")
 
         privilege_groups = privilege_groups.where("
             trim(lower(account_privilege_groups.name)) like '%#{query[:filters][:search].downcase}%' or  
@@ -47,12 +59,24 @@ class Account::PrivilegeGroup < ApplicationLesliRecord
             privilege_groups.length,
             privilege_groups.map do |audience_document|
                 audience_document.attributes.merge({
-                    created_at_text: LC::Date.to_string_datetime(audience_document.created_at)
+                    created_at_text: LC::Date.to_string_datetime(audience_document.created_at),
+                    actions_length:  audience_document.actions_length ? audience_document.actions_length : 0
                 })
             end
         )
     end
 
+    def self.list(current_user, query)
+        privilege_groups = current_user.account.privilege_groups.select(
+            :id,
+            :name,
+            :description,
+            :created_at,
+        )
+        
+        return privilege_groups
+    end
+    
     def role_group_actions(current_user, query)        
         actions = self.actions.select(
             "account_privilege_group_actions.id",
@@ -73,6 +97,7 @@ class Account::PrivilegeGroup < ApplicationLesliRecord
             :id,
             :name,
             :description,
+            :account_privilege_groups_id,
             LC::Date.db_timestamps()
         ).find(id)
     end

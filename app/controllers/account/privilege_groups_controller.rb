@@ -17,7 +17,15 @@ For more information read the license file including with this software.
 =end
 class Account::PrivilegeGroupsController < ApplicationLesliController
     before_action :set_account_privilege_group, only: [:update, :destroy, :actions]
-
+    
+    def list 
+        respond_to do |format|
+            format.json { 
+                respond_with_successful(Account::PrivilegeGroup.list(current_user, @query)) 
+            }
+        end
+    end
+    
     def index
         respond_to do |format|
             format.html {}
@@ -75,7 +83,7 @@ class Account::PrivilegeGroupsController < ApplicationLesliController
             respond_with_error(@account_privilege_group.errors.full_messages.to_sentence)
         end
     end
-
+    
     def actions         
         return respond_with_not_found unless @account_privilege_group
         
@@ -91,7 +99,8 @@ class Account::PrivilegeGroupsController < ApplicationLesliController
     def account_privilege_group_params
         params.require(:account_privilege_group).permit(
             :name,
-            :description
+            :description,
+            :account_privilege_groups_id
         )
     end
 end
