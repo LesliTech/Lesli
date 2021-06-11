@@ -41,7 +41,9 @@ export default {
         },
         translationsFileTypesPaths: {
             type: Array,
-            default: []
+            default: ()=>{
+                return 
+            }
         },
         acceptedFileExtensions: {
             type: Array,
