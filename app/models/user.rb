@@ -396,6 +396,7 @@ class User < ApplicationLesliRecord
                     max(created_at) as last_action_performed_at,
                     users_id
                 from user_requests ureq
+                where ureq.deleted_at is null
                 group by(ureq.users_id)
             ) requests on requests.users_id = users.id
         ")
@@ -405,6 +406,7 @@ class User < ApplicationLesliRecord
                     max(created_at) as last_login_at,
                     users_id
                 from user_sessions us
+                where us.deleted_at is null
                 group by(us.users_id)
             ) sessions on sessions.users_id = users.id
         ")
@@ -457,7 +459,7 @@ class User < ApplicationLesliRecord
                 category: user[:category],
                 last_sign_in_at: last_sign_in_at,
                 active: user[:active],
-                roles: user.roles,
+                roles: user[:roles],
                 last_activity_at: last_action_performed_at,
                 session_active: session
             }
