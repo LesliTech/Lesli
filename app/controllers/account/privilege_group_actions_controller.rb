@@ -16,17 +16,7 @@ For more information read the license file including with this software.
 
 =end
 class Account::PrivilegeGroupActionsController < ApplicationLesliController
-    before_action :set_account_privilege_group,  only: [:index]
     before_action :set_account_privilege_group_action, only: [:show, :update, :destroy]
-
-    def index
-        respond_to do |format|
-            format.html {}
-            format.json do
-                respond_with_successful(Account::PrivilegeGroupAction.index(current_user, @account_privilege_group , @query))
-            end
-        end
-    end
     
     def show
         respond_to do |format|
@@ -45,7 +35,12 @@ class Account::PrivilegeGroupActionsController < ApplicationLesliController
     end
     
     def create
-        account_privilege_group_action = Account::PrivilegeGroupAction.new(account_privilege_group_action_params)
+        set_account_privilege_group
+        
+        return respond_with_not_found unless @account_privilege_group
+        
+        account_privilege_group_action = @account_privilege_group.actions.new(account_privilege_group_action_params)
+        
         if account_privilege_group_action.save
             respond_with_successful(account_privilege_group_action)
         else
@@ -55,7 +50,7 @@ class Account::PrivilegeGroupActionsController < ApplicationLesliController
 
     def update
         return respond_with_not_found unless @account_privilege_group_action
-
+        
         if @account_privilege_group_action.update(account_privilege_group_action_params)
             respond_with_successful(@account_privilege_group_action.show(current_user, @query))
         else
@@ -73,18 +68,22 @@ class Account::PrivilegeGroupActionsController < ApplicationLesliController
         end
     end
 
-    private
-
     def options 
-        respond_with_successful(Account::PrivilegeGroupAction.options(current_user))
+        options = Account::PrivilegeGroupAction.options(current_user)
+        
+        respond_with_successful(options)
     end
     
+    private
+    
     def set_account_privilege_group
-        @account_privilege_group = current_user.account.privilege_groups.find_by(id: account_privilege_group_action_params[:account_privilege_group_id])
+        @account_privilege_group = current_user.account.privilege_groups.find_by(id: account_privilege_group_action_params[:account_privilege_groups_id])
     end
     
     def set_account_privilege_group_action
         set_account_privilege_group
+        
+        return respond_with_not_found unless @account_privilege_group
         
         @account_privilege_group_action = @account_privilege_group.actions.find_by(id: params[:id])
     end
@@ -92,7 +91,9 @@ class Account::PrivilegeGroupActionsController < ApplicationLesliController
     def account_privilege_group_action_params
         params.require(:account_privilege_group_action).permit(
             :status, 
-            :account_privilege_group_id
+            :category,
+            :account_privilege_groups_id,
+            :system_controller_actions_id
         )
     end
 end

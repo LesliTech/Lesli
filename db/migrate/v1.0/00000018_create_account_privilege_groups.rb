@@ -10,6 +10,7 @@ class CreateAccountPrivilegeGroups < ActiveRecord::Migration[6.1]
             t.timestamps
         end
 
+        add_reference :account_privilege_groups, :users, foreign_key:true
         add_reference :account_privilege_groups, :accounts, foreign_key:true
         add_reference :account_privilege_groups, :account_privilege_groups, foreign_key:true
     end

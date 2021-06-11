@@ -16,7 +16,7 @@ For more information read the license file including with this software.
 
 =end
 class Account::PrivilegeGroupsController < ApplicationLesliController
-    before_action :set_account_privilege_group, only: [:update, :destroy]
+    before_action :set_account_privilege_group, only: [:update, :destroy, :actions]
 
     def index
         respond_to do |format|
@@ -47,6 +47,8 @@ class Account::PrivilegeGroupsController < ApplicationLesliController
 
     def create
         account_privilege_group = current_user.account.privilege_groups.new(account_privilege_group_params)
+        account_privilege_group.user_creator = current_user
+        
         if account_privilege_group.save
             respond_with_successful(account_privilege_group)
         else
@@ -74,10 +76,16 @@ class Account::PrivilegeGroupsController < ApplicationLesliController
         end
     end
 
+    def actions         
+        return respond_with_not_found unless @account_privilege_group
+        
+        respond_with_successful(@account_privilege_group.role_group_actions(current_user, @query))
+    end
+    
     private
 
     def set_account_privilege_group
-        @account_privilege_group = current_user.account.privilege_groups.find_id(id: params[:id])
+        @account_privilege_group = current_user.account.privilege_groups.find_by(id: params[:id])
     end
 
     def account_privilege_group_params
