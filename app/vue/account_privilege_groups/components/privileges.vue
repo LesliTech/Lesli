@@ -31,7 +31,6 @@ export default {
                 core: I18n.t('core.shared'),
                 main: I18n.t('core.account/privilege_groups')
             },
-            submitting_form: false,
             loading: false,
             category: 'index',
             privilege_group_actions_list: [],
@@ -51,77 +50,36 @@ export default {
     },
 
     methods: {
-        submitForm(event){
-            if (event) { event.preventDefault() }
-
-            this.updatePrivilegeGroupActions()
-        },
-
-        updatePrivilegeGroupActions() {
-            this.submitting_form = true
-            this.copyCheckedCategoryRows(this.category)
-            console.log(this.checkedRows)
-            
-            for(let index in this.checkedRows) {        
-                console.log(index)        
-                let rows  = this.checkedRows[index]
-                for(let action of rows) {
-                    let privilege_action = this.privilege_group_actions.find(
-                        e => e.controller === action.controller  &&
-                            e.action_id === action.action_id &&
-                            e.category === index
-                    )
-                    
-                    if (!privilege_action) {
-                        this.postPrivilegeGroupAction(action, index)
-                    }
-                }
-                
-                for(let privilege_group_action of this.privilege_group_actions) {
-                    if (!rows.find(e => 
-                        (privilege_group_action.action_id == e.action_id)
-                    )) {
-                        if (privilege_group_action.status) {
-                            console.log(1)
-                            console.log(privilege_group_action)
-                            // this.putPrivilegeGroupAction(privilege_group_action.id, false)
-                        }
-                    } else {
-                        if (!privilege_group_action.status) {
-                            console.log(2)
-                            console.log(privilege_group_action)
-                            // this.putPrivilegeGroupAction(privilege_group_action.id, true)   
-                        }
-                    }
-                }
+        submitActions(actions, value){
+            for(let action of  actions) {
+                this.handleSubmit(action, value)
             }
-        
+            
             Promise.all(this.requests).then(() => {
                 this.requests = []
-                this.msg.success(this.translations.main.messages_success_privileges_updated)            
-                this.submitting_form = false
-                
-                this.getPrivilegeActions() // reload privileges
-                Promise.all(this.requests).then(() => {
-                    console.log('ENTRA AQUI')
-                    this.requests = []
-                    
-                    // reload form
-                    this.privilege_group_actions_list = []
-                    this.checkedRows = []
-                    this.checkedCategoryRows = []
-                    
-                    // fetch new data
-                    this.parseData(this.category)
-                })
-            })   
+                this.msg.success(this.translations.main.messages_success_privileges_updated)    
+            })
         },
-
-        postPrivilegeGroupAction(route, category, status = true) {
+        
+        handleSubmit(action, value){
+            let privilege_action = this.privilege_group_actions.find(
+                e => e.controller === action.controller  &&
+                    e.action_id === action.action_id &&
+                    e.category === this.category
+            )
+            
+            if (!privilege_action) {
+                this.postPrivilegeGroupAction(action)
+            } else {
+                this.putPrivilegeGroupAction(privilege_action.id, value)
+            }
+        },
+        
+        postPrivilegeGroupAction(route, status = true) {
             let data = { 
                 account_privilege_group_action: { 
                     status: status, 
-                    category: category,
+                    category: this.category,
                     system_controller_actions_id: route.action_id,
                     account_privilege_groups_id: this.privilege_group.id
                 }
@@ -134,6 +92,13 @@ export default {
                         this.msg.error(result.error.message)
                     }
                 
+                    this.privilege_group_actions.push({
+                        id: result.data.id,
+                        controller: route.controller,
+                        action_id: route.action_id,
+                        category: result.data.category
+                    })
+                    
                     resolve()
                 }).catch(error => {
                     console.log(error)
@@ -288,22 +253,34 @@ export default {
                 e => e.controller === controller
             )
     
+            let actions = this.checkedCategoryRows.filter((e) =>{
+                return e.controller === controller
+            })
+              
             this.checkedCategoryRows = this.checkedCategoryRows.filter((e) =>{
                 return e.controller !== controller
             })
                
-            if (value) {
+            if (value) { 
+                actions = []
+                
                 for(let action of this.privilege_group_actions_list[this.category][resource_index]['actions']) {
-                    this.checkedCategoryRows.push({ controller: controller, action_id: action.id})
+                    let new_action =  { controller: controller, action_id: action.id}
+                    
+                    actions.push(new_action)
+                    this.checkedCategoryRows.push(new_action)
                 }
             }
+            
+            this.submitActions(actions, value)
         },
         
         setControllerActions(controller,  action_id, event){  
             let value = event.target.checked     
-            
+            let action = { controller: controller, action_id: action_id}
+                            
             if (value) {
-                this.checkedCategoryRows.push({ controller: controller, action_id: action_id, value: })
+                this.checkedCategoryRows.push(action)
             } else {
                 this.checkedCategoryRows = this.checkedCategoryRows.filter((e) => {
                     return  e.action_id  !== action_id
@@ -314,7 +291,9 @@ export default {
                 )
             
                 this.$set(this.privilege_group_actions_list[this.category][resource_index], 'all', false)
-            }  
+            }
+            
+            this.submitActions([action], value)
         }
     },
 
@@ -349,8 +328,8 @@ export default {
             <component-data-loading v-if="loading" />
             <template v-else>
                 <div class="card-content">
-                    <form @submit.prevent="submitForm">
-                        <fieldset :disabled="submitting_form">
+                    <form>
+                        <fieldset>
                             <div class="columns">
                                 <div class="column is-10">
                                     <b-field>
@@ -421,23 +400,6 @@ export default {
                                     </tr>
                                 </template>
                             </b-table>
-                            
-                            <div class="field is-grouped">
-                                <div class="control">
-                                    <button class="button is-primary">
-                                        <span v-if="submitting_form">
-                                            <b-icon icon="circle-notch" custom-class="fa-spin" size="is-small" />
-                                            &nbsp;
-                                            {{translations.core.view_btn_saving}}
-                                        </span>
-                                        <span v-else>
-                                            <b-icon icon="save" size="is-small" />
-                                            &nbsp;
-                                            {{translations.core.view_btn_save}}
-                                        </span>
-                                    </button>
-                                </div>
-                            </div>
                         </fieldset>
                     </form>
                 </div>

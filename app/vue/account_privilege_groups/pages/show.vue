@@ -73,7 +73,7 @@ export default {
             </div>
         </component-header>
 
-        <b-tabs vertical v-model="active_tab">
+        <b-tabs v-model="active_tab">
             <b-tab-item :label="translations.core.view_tab_title_form">
                 <component-form v-if="privilege_group.id" :privilege_group="privilege_group"></component-form>
             </b-tab-item>
