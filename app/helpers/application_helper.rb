@@ -50,7 +50,7 @@ module ApplicationHelper
         path_segments = controller_path.split("/")
         cloud_module = path_segments.shift
 
-        if ["cloud_text", "cloud_house", "cloud_driver", "cloud_focus"].include?(cloud_module)
+        if ["cloud_text", "cloud_house", "cloud_driver", "cloud_focus", "cloud_babel"].include?(cloud_module)
             return [cloud_module, [cloud_module, "app"].join("_")].join("/")
         end
 
@@ -62,7 +62,7 @@ module ApplicationHelper
         path_segments = controller_path.split("/")
         cloud_module = path_segments.shift
 
-        if ["cloud_text", "cloud_house", "cloud_driver", "cloud_focus"].include?(cloud_module)
+        if ["cloud_text", "cloud_house", "cloud_driver", "cloud_focus", "cloud_babel"].include?(cloud_module)
             return [cloud_module, [cloud_module, "app"].join("_")].join("/")
         end
 
@@ -83,7 +83,7 @@ module ApplicationHelper
     end
 
     def is_lesli_engine_administration?
-        ["accounts", "account", "roles", "profiles", "users", "abouts", "settings", "cronos"].include?(lesli_engine)
+        ["accounts", "account", "roles", "profiles", "users", "abouts", "settings", "cronos", "onboardings"].include?(lesli_engine)
     end 
 
     def is_lesli_engine?(engine=nil)

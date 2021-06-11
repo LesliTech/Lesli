@@ -19,48 +19,16 @@ For more information read the license file including with this software.
 
 
 // · 
-import app from 'LesliVue/public'
+import app from "LesliVue/app"
 
 
 // · 
-app({
+import showOnboarding from "./pages/show.vue"
 
-    data: {
-        translations: {},
-        working: true,
-        token: null
-    },
-    mounted() {
-        this.postOnboarding()
-    },
-    methods: {
 
-        postOnboarding() {
+// · 
+app("Onboarding", "[show]", "/onboarding", [{
+    path: "/",
+    component: showOnboarding,
+}])
 
-            var token = null
-
-            try {
-                token = Object.fromEntries(new URLSearchParams(window.location.search)).t
-            } catch (error) {
-                token = null
-            }
-
-            this.http.post("/onboarding", { 
-                onboarding: {
-                    t: token
-                } 
-            }).then(result => {
-                if (!result.successful) {
-                    console.error(result)
-                    return 
-                }
-                this.working = false
-            }).catch(error => {
-                console.log(error)
-            })
-
-        }
-
-    }
-
-})
