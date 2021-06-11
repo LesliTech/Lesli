@@ -132,10 +132,7 @@ export default {
             this.http.get(url).then(result => {
                 if (result.successful) {
                     this.users = result.data.users.map(user => {
-                        user.roles = (user.roles||[]).map(role => {
-                            return this.object_utils.translateEnum(this.translations.core.roles, 'column_enum_role', role.name)
-
-                        })
+                        user.roles = user.roles.split(',')
 
                         user.active_text = user.active ? this.translations.core.shared.text_active : this.translations.core.shared.text_disabled
 
@@ -353,7 +350,7 @@ export default {
 
                         <b-table-column :label="translations.core.users.view_table_header_role">
                             <span>
-                                <span v-for="(role, index) in props.row.roles" :key="`role-${props.row.id}-${index}`">
+                                <span v-for="(role, index) in props.row.roles" :key="`role-${role}-${index}`">
                                     <b-tooltip type="is-white" :label="role">
                                         <b-tag type="is-info">{{ object_utils.extractInitials(role)}}</b-tag>
                                         &nbsp;

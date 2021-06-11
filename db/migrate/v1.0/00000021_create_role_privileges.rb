@@ -27,19 +27,19 @@ class CreateRolePrivileges < ActiveRecord::Migration[6.0]
             t.boolean :grant_list,      default: false
             t.boolean :grant_index,     default: false
 
-            t.boolean :grant_edit,      default: false
-            t.boolean :grant_show,      default: false
             t.boolean :grant_new,       default: false
+            t.boolean :grant_show,      default: false
+            t.boolean :grant_edit,      default: false
 
             t.boolean :grant_create,    default: false
             t.boolean :grant_update,    default: false
             t.boolean :grant_destroy,   default: false
 
             t.boolean :grant_search,    default: false
-
-            t.boolean :grant_resources, default: false
             t.boolean :grant_options,   default: false
+            
             t.boolean :grant_actions,   default: false
+            t.boolean :grant_resources, default: false
 
             t.datetime :deleted_at, index: true
             t.timestamps

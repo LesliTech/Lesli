@@ -33,18 +33,14 @@ export default {
     },
 
     mounted() {
+
         this.prepareDesktopNotification();
-        this.wss.onmessage = (message) => {
+        this.startListeners();
+        
+    },
 
-            let data = JSON.parse(message.data)
-
-            if (!data.subject) {
-                return 
-            }
-
-            var notification = new Notification(data.subject);
-
-        } 
+    beforeDestroy() {
+        this.wss.close()
     },
 
     methods: {
@@ -69,6 +65,30 @@ export default {
                 })
             }
 
+        },
+
+        startListeners() {
+            this.wss.onmessage = (message) => {
+
+                let data = JSON.parse(message.data)
+
+                if (!data.subject) {
+                    return 
+                }
+
+                var notification = new Notification(data.subject, {
+                    lang: I18n.locale,
+                    body: data.body,
+                    data: data.url
+                });
+
+                if (!data.url) { return }
+
+                notification.onclick = function(e) {
+                    window.location.href = e.target.data
+                }
+
+            } 
         },
 
         getNotifications() {
