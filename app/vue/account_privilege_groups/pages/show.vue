@@ -34,7 +34,7 @@ export default {
             privilege_group: {},
             translations: {
                 core: I18n.t('core.shared'),
-                main: I18n.t('core.template/audience_documents')
+                main: I18n.t('core.account/privilege_groups')
             },
             active_tab: 1
         }
