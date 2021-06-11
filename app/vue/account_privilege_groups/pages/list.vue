@@ -153,7 +153,7 @@ export default {
                 </button>
                 <router-link class="button" tag="button" to="/new">
                     <b-icon icon="plus" size="is-small" />
-                    <span> {{ translations.main.view_btn_new }}</span>
+                    <span> {{ translations.main.view_btn_new_privilege_group }}</span>
                 </router-link>
             </div>
         </component-header>
