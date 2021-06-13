@@ -128,6 +128,11 @@ module RoutesApp
                         scope module: :role do
                             resources :privileges
                             resources :activities
+                            resources :privilege_actions do 
+                                collection do
+                                    get :options
+                                end
+                            end
                             collection do
                                 get "/activities/options",                   to: "/role/activities#options"
                             end
@@ -136,6 +141,7 @@ module RoutesApp
                         collection do
                             get :list
                             get :options
+                            get "/privilege_actions/options",               to: "role/privilege_actions#options"
                         end
                     end
 

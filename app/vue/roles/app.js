@@ -18,7 +18,8 @@ For more information read the license file including with this software.
 */
 
 
-// · 
+// · Import main app
+// · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
 import app from 'LesliVue/app'
 
 

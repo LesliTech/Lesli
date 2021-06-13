@@ -72,6 +72,7 @@ class Account::PrivilegeGroup < ApplicationLesliRecord
             :name,
             :description,
             :created_at,
+            :account_privilege_groups_id
         )
         
         return privilege_groups
