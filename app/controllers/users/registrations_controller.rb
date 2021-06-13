@@ -82,13 +82,13 @@ IMPORTANT: re-enable this and fix registration tests
             respond_with_error("No registration allowed, please contact the owner to receive an invitation.")
             return 
         end
+=end
 
         # Validate user is unique
         if ::User.find_by(email: sign_up_params["email"])
             return respond_with_error(I18n.t("core.users/registrations.messages_info_user_already_exists"))
         end
 
-=end
         # build new user
         user = build_resource(sign_up_params)
 
