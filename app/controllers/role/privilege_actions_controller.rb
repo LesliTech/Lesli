@@ -79,6 +79,10 @@ class Role::PrivilegeActionsController < ApplicationLesliController
         end
     end
 
+    def options
+        respond_with_successful(Role::PrivilegeAction.options(current_user, @query))
+    end
+    
     private
 
     # Use callbacks to share common setup or constraints between actions.

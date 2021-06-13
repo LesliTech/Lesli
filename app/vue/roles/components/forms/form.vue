@@ -20,10 +20,6 @@ For more information read the license file including with this software.
 
 export default {
     props: {
-        view_type: {
-            type: String,
-            required: true
-        },
         role: {
             type: Object,
             required: true
@@ -32,6 +28,10 @@ export default {
 
     components: {
 
+    },
+
+    mounted(){
+        this.getRoles()
     },
 
     // @return [Object] Data used by this component's methods
@@ -47,6 +47,7 @@ export default {
             },
             main_route: '/administration/roles',
             submitting_form: false,
+            roles: []
         }
     },
 
@@ -54,11 +55,25 @@ export default {
         handleSubmit(event){
             if (event) { event.preventDefault() }
 
-            if(this.view_type == 'new'){
-                this.postRole()
-            }else if(this.view_type == 'edit'){
+            if(this.role.id){
                 this.putRole()
+            } else {
+                this.postRole()
             }
+        },
+
+        getRoles() {
+            let url = `${this.main_route}/list.json?filters[object_level_permission]=${this.role.object_level_permission}`
+
+            this.http.get(url).then(result => {
+                if (!result.successful) {
+                    this.alert(result.error.message,'danger')
+                } else {
+                    this.roles = result.data.map(e => e.name)
+                }
+            }).catch(error => {
+                console.log(error)
+            })
         },
 
         postRole() {
@@ -99,6 +114,12 @@ export default {
                 console.log(error)
             })
         },
+    },
+
+    watch: {
+        'role.object_level_permission'(){
+            this.getRoles()
+        }
     }
 }
 </script>
@@ -129,13 +150,21 @@ export default {
                                 {{ translations.shared.text_name }}
                                 <sup class="has-text-danger">*</sup>
                             </label>
-                            <div class="control">
+                            <div v-if="!role.id">
+                                <input
+                                    v-model="role.name"
+                                    class="input"
+                                    type="text"
+                                    required
+                                >
+                            </div>
+                            <div v-else class="control">
                                 <input
                                     :value="object_utils.translateEnum(translations.core_roles, 'column_enum_role', role.name)"
                                     class="input"
                                     type="text"
                                     required
-                                    :readonly="view_type != 'new'"
+                                    :readonly="role.id"
                                 >
                             </div>
                         </div>
@@ -148,14 +177,22 @@ export default {
                                         <sup class="has-text-danger">*</sup>
                                     </template>
                                     <b-select v-model="role.object_level_permission" expanded required>
-                                        <option :value="10">{{translations.roles.view_text_object_level_permission_10_description}}</option>
-                                        <option :value="1000">{{translations.roles.view_text_object_level_permission_1000_description}}</option>
-                                        <option :hidden="role.name != 'owner'" :disabled="role.name != 'owner'" :value="2147483647">
-                                            {{translations.roles.view_text_object_level_permission_max_description}}
-                                        </option>
+                                        <option :value="10">{{translations.roles.view_text_object_level_permission_low}}</option>
+                                        <option :value="1000">{{translations.roles.view_text_object_level_permission_medium}}</option>
+                                        <option :value="10000">{{translations.roles.view_text_object_level_permission_high}}</option>
+                                        <option :disabled="role.name != 'owner'" :value="2147483647"> {{translations.roles.view_text_object_level_permission_max}}</option>
                                     </b-select>
                                 </b-field>
+
+                                <template>
+                                    <b-taglist>
+                                        <b-tag v-for="role in roles" :key="role.id">
+                                            {{  object_utils.translateEnum(translations.core_roles, 'column_enum_role', role) }}
+                                        </b-tag>
+                                    </b-taglist>
+                                </template>
                             </div>
+
                             <div class="column is-2">
                                 <div class="field">
                                     <label class="label">{{ translations.shared.text_active }}</label>
