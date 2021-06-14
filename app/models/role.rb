@@ -20,10 +20,11 @@ For more information read the license file including with this software.
 class Role < ApplicationLesliRecord
 
     belongs_to :account,            foreign_key: "accounts_id"
-
+    
     has_many :privileges,           foreign_key: "roles_id",    class_name: "Role::Privilege",          dependent: :delete_all
     has_many :activities,           foreign_key: "roles_id"
     has_many :privilege_actions,    foreign_key: "roles_id",    class_name: "Role::PrivilegeAction"
+    has_many :privilege_groups,     foreign_key: "roles_id",    class_name: "Role::PrivilegeGroup"
     
     after_create :generate_code,
     
@@ -135,7 +136,7 @@ class Role < ApplicationLesliRecord
     def has_users?
         User::Role.where(role: self).count > 0
     end
-
+    
     #######################################################################################
     ##############################  Activities Log Methods   ##############################
     #######################################################################################
@@ -270,5 +271,87 @@ class Role < ApplicationLesliRecord
                 )
             end
         end
+    end
+    
+    # @return [void]
+    # @param current_user [::User] The user that created the role
+    # @param role [Role] The role
+    # @param attributes [Role::Privilege.attributes] The attributes of the role privilege created
+    # @description Adds an activity if a new privilege is added to the role
+    # Example
+    #   params = {...}
+    #   role = Role.find(1)
+    #   privilege = role.privileges.create(params)
+    #   Role.log_activity_create_privilege(
+    #        User.find(1),
+    #        role,
+    #        privilege
+    #    )
+    def self.log_activity_create_role_privilege(current_user, role, attributes)
+        controller_name = attributes["grant_object"]
+
+        attributes.except!("id", "roles_id", "grant_object", "created_at", "updated_at", "deleted_at")
+        attributes.each do |key, value|
+            value_to = attributes[key]
+            value_to = Courier::Core::Date.to_string_datetime(value_to) if value_to.is_a?(Time) || value_to.is_a?(Date)
+
+            role.activities.create(
+                user_creator: current_user,
+                category: "action_create_role_privilege",
+                field_name: key,
+                value_to: value_to,
+                description: controller_name
+            )
+        end
+    end
+
+    # @return [void]
+    # @param current_user [::User] The user that created the role
+    # @param role [Role] The role
+    # @param privilege_group [Account::PrivilegeGroup] The group that is being changed
+    # @param status [Boolean] The status depending on the user action
+    # @description Adds an activity if a group is created  
+    # Example                   
+    #   params = {...}
+    #   role = Role.find(1)
+    #   privilege = role.privileges.create(params)
+    #   Role.log_activity_create_role_privilege_group(
+    #        User.find(1),
+    #        role,
+    #        privilege_group.
+    #        true 
+    #    )
+    def self.log_activity_create_role_privilege_group(current_user, role, privilege_group, status, category)     
+        role.activities.create(
+            user_creator: current_user,
+            field_name: category,
+            description: privilege_group.name,
+            category: "action_create_role_privilege_group"
+        )
+    end
+    
+    # @return [void]
+    # @param current_user [::User] The user that created the role
+    # @param role [Role] The role
+    # @param privilege_group [Account::PrivilegeGroup] The group that is being changed
+    # @param status [Boolean] The status depending on the user action
+    # @description Adds an activity if a group is created  
+    # Example                   
+    #   params = {...}
+    #   role = Role.find(1)
+    #   privilege = role.privileges.create(params)
+    #   Role.log_activity_destroy_role_privilege_group(
+    #        User.find(1),
+    #        role,
+    #        privilege_group.
+    #        true 
+    #    )
+    def self.log_activity_destroy_role_privilege_group(current_user, role, privilege_group, status, category)     
+        role.activities.create(
+            user_creator: current_user,
+            field_name: category,
+            description: privilege_group.name,
+            category: "action_destroy_role_privilege_group"
+        )
     end
 end
