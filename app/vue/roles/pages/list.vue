@@ -1,5 +1,6 @@
 <script>
 /*
+
 Copyright (c) 2020, all rights reserved.
 
 All the information provided by this platform is protected by international laws related  to
@@ -14,6 +15,7 @@ For more information read the license file including with this software.
 
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
 // ·
+
 */
 
 
@@ -21,95 +23,264 @@ For more information read the license file including with this software.
 export default {
     data() {
         return {
-            roles: {},
-            translations: {
-                core: {
-                    roles: I18n.t('core.roles'),
-                    shared: I18n.t('core.shared'),
-                }
+            roles: [],
+            roles_name: [],
+            sort: {
+                icon_size: 'is-small',
+                direction: 'desc'
             },
+            filters: {
+                per_page: 10,
+                text: ''
+            },
+            sorting: {
+                order: "asc",
+                field: "id",
+                icon_size: "is-small",
+            },
+            pagination: {
+                roles_count: 0,
+                current_page: 1,
+                range_before: 3,
+                range_after: 3
+            },
+            main_route: 'administration/roles',
+            translations: {
+                roles: I18n.t('deutscheleibrenten.roles'),
+                shared: I18n.t('deutscheleibrenten.shared'),
+                users: I18n.t('deutscheleibrenten.users'),
+                core_roles: I18n.t('core.roles')
+            },
+            loading: false,
+            index_abilities: {
+                users: this.abilities.privilege('users'),
+                roles: this.abilities.privilege('roles'),
+                logs: this.abilities.privilege('role/activities')
+            },
+            filters_ready: false,
+            roles_name_ready: false
         }
     },
     mounted() {
+        this.setSessionStorageFilters()
+        this.getRolesOptions()
         this.getRoles()
     },
     methods: {
-        getRoles() {
-            this.http.get(this.url.admin("roles").paginate(1)).then(result => {
-                if (!result.successful) {
-                    return
+        setSessionStorageFilters(){
+            let stored_filters = this.storage.local("filters")
+
+            if (stored_filters) {
+                for(let key in stored_filters){
+                    this.$set(this.filters, key, stored_filters[key])
                 }
-                this.roles = result.data
+            }
+
+            this.filters_ready = true
+        },
+
+        getRolesOptions(){
+            let url = `/${this.main_route}/list.json`
+            this.http.get(url).then(result => {
+                if (result.successful) {
+                    this.roles_name = result.data.map(role => {
+                        return {
+                            name: role.name,
+                            translated_name: (this.object_utils.translateEnum(this.translations.core_roles, 'column_enum_role',  role.name))||role.name
+                        }
+                    })
+
+                    this.roles_name_ready = true
+                }else{
+                    this.alert(result.error.message,'danger')
+                }
             }).catch(error => {
                 console.log(error)
             })
         },
-        updateRoleStatus(role) {
-            this.http.put(this.url.admin("roles/:id", { id: role.id }), {
-                role: {
-                    active: role.active
+
+        getRoles() {
+            this.storage.local("filters", this.filters)
+
+            this.loading = true
+
+            let url = this.url.lesli(`${this.main_route}`)
+
+            url = url.filters({
+                text: (this.filters.role_name || this.filters.text),
+            }).paginate(
+                this.pagination.current_page,
+                this.filters.per_page
+            )
+
+            this.http.get(url).then(result => {
+                this.loading = false
+                if (result.successful) {
+                    this.roles = result.data.records.map(role => {
+                        return {
+                            ...role,
+                            translated_name: (this.object_utils.translateEnum(this.translations.core_roles, 'column_enum_role',  role.name))||role.name
+                        }
+                    })
+
+                    this.pagination.roles_count = result.data.pagination.count_total
+                }else{
+                    this.alert(result.error.message,'danger')
                 }
-            }).then(result => {
-                if (!result.successful) {
-                    this.msg.warn("Error")
-                    return
-                }
-                this.msg.success(this.translations.core.roles.messages_success_role_successfully_updated)
+            }).catch(error => {
+                console.log(error)
             })
         },
-        updateRole() {
+
+        searchRoles(text){
+            this.pagination.current_page = 1
+
+            text = (text||"").trim()
+            this.filters.role_name = null
+
+            if (text != "") {
+              for(let role of this.roles_name) {
+                  if ((role.translated_name||"").toLowerCase() === text.toLowerCase()) {
+
+                      this.filters.role_name = role.name
+
+                      break;
+                  }
+              }
+            }
+
+            this.filters.text = text
+
+            this.getRoles()
+        },
+
+        deleteRole(role_id){
+            this.http.delete(`/${this.main_route}/${role_id}`).then(result => {
+                if (result.successful) {
+                    this.alert(this.translations.roles.notification_delete, 'success')
+                    this.roles = this.roles.filter(e => {
+                        return e.id !== role_id
+                    })
+                }else{
+                    this.msg.error(result.error.message)
+                }
+            }).catch(error => {
+                console.log(error)
+            })
+        },
+
+        showRole(role) {
+            this.$router.push(`/${role.id}`)
+        }
+    },
+    watch: {
+        'pagination.current_page'(){
+            this.getRoles()
+        },
+
+        'filters.per_page'(){
+            if(this.filters_ready && this.roles_name_ready){
+                this.getRoles()
+            }
         }
     }
 }
 </script>
 <template>
     <section class="application-component">
-        <component-header :title="translations.core.roles.view_title_roles">
+        <component-header
+            :title="translations.roles.title">
             <div class="buttons">
-                <router-link class="button" tag="button" to="/">
-                    <span class="icon">
-                        <i class="fas fa-list"></i>
-                    </span>
-                    <span>{{ translations.core.shared.view_btn_list }}</span>
-                </router-link>
-                <router-link class="button" tag="button" to="/new">
+                <button class="button" @click="getRoles()">
+                    <b-icon icon="sync" size="is-small" :custom-class="loading ? 'fa-spin' : ''" />
+                    <span> {{ translations.shared.btn_reload }}</span>
+                </button>
+                <router-link class="button" tag="button" to="/new" v-if="index_abilities.roles.create">
                     <b-icon icon="plus" size="is-small" />
-                    <span>{{ translations.core.roles.view_btn_new_role }}</span>
+                    <span>{{ translations.roles.btn_new }}</span>
                 </router-link>
             </div>
         </component-header>
-        <component-toolbar></component-toolbar>
-        <div class="box">
-            <b-table
-                hoverable
-                :data="roles.records">
-                <template slot-scope="props">
-                    <b-table-column :label="translations.core.roles.column_id" width="50" :numeric="true" sortable centered>
-                        <router-link :to="'/'+props.row.id">
-                            {{ props.row.id }}
-                        </router-link>
-                    </b-table-column>
-                    <b-table-column :label="translations.core.roles.column_name" sortable>
-                        <router-link :to="'/'+props.row.id">
-                            <u>{{ props.row.name }}</u>
-                        </router-link>
-                    </b-table-column>
-                    <b-table-column :label="translations.core.roles.column_active" sortable>
-                        <b-switch v-model="props.row.active" :true-value="true" :false-value="false" @input="updateRoleStatus(props.row)" type="is-success">
-                        </b-switch>
-                    </b-table-column>
-                    <b-table-column :label="translations.core.roles.column_only_my_data" sortable>
-                        <b-switch :value="props.row.only_my_data" type="is-success">
-                        </b-switch>
-                    </b-table-column>
-                    <b-table-column :label="translations.core.roles.column_default_path" sortable centered>
-                        {{ props.row.default_path }}
-                    </b-table-column>
-                    <b-table-column :label="translations.core.roles.view_table_header_users_count" sortable centered>
-                        {{ props.row.user_count || 0 }}
-                    </b-table-column>
-                </template>
-            </b-table>
+
+        <component-toolbar
+            v-if="filters_ready"
+            :search-text="translations.roles.view_toolbar_search_by_placeholder_text"
+            @search="searchRoles"
+            :initial-value="filters.text">
+
+            <div class="control">
+                <div class="select">
+                    <select
+                        name="filter-per-page"
+                        v-model="filters.per_page"
+                    >
+                        <option :value="10">10</option>
+                        <option :value="15">15</option>
+                        <option :value="30">30</option>
+                        <option :value="50">50</option>
+                    </select>
+                </div>
+            </div>
+        </component-toolbar>
+
+        <component-data-loading v-if="loading" />
+        <component-data-empty v-if="!loading && roles.length == 0" />
+
+        <div class="card" v-if="roles.length > 0">
+            <div class="card-content">
+
+                <b-table
+                    :data="roles"
+                    :hoverable="true"
+                    v-if="!loading && roles.length > 0"
+                    :sort-icon-size="sort.icon_size"
+                    :default-sort-direction="sort.direction"
+                    @click="showRole"
+                >
+                    <template v-slot="props">
+
+                        <b-table-column :label="translations.shared.text_name" field="name">
+                            {{ props.row.translated_name }}
+                        </b-table-column>
+
+                        <b-table-column :label="translations.users.title_users" field="users_count">
+                            {{ props.row.user_count ? props.row.user_count : 0 }}
+                        </b-table-column>
+
+                        <b-table-column :label="translations.shared.text_active" field="active">
+                            {{ props.row.active ? translations.shared.text_yes : translations.shared.text_no }}
+                        </b-table-column>
+
+                        <b-table-column :label="translations.shared.text_actions" class="has-text-center">
+                            <b-button type="is-danger" outlined @click.stop="deleteRole(props.row.id)" v-if="index_abilities.roles.destroy">
+                                <b-icon icon="trash-alt" />
+                            </b-button>
+                            <b-tooltip v-if="index_abilities.logs.index" :label="translations.roles.view_text_role_logs" type="is-info">
+                                <b-button type="is-default" outlined @click.stop="url.go(`/crm/roles/${props.row.id}?view_type=logs`)">
+                                    <b-icon icon="history" />
+                                </b-button>
+                            </b-tooltip>
+                            <b-button type="is-default" outlined @click.stop="url.go(url.dl(`users?role=${props.row.name}`))">
+                                <b-icon icon="users" />
+                            </b-button>
+                        </b-table-column>
+                    </template>
+                </b-table>
+                <b-pagination
+                    :simple="false"
+                    :total="pagination.roles_count"
+                    :current.sync="pagination.current_page"
+                    :per-page="filters.per_page"
+                    order="is-centered"
+                    icon-prev="chevron-left"
+                    icon-next="chevron-right"
+                    aria-next-label="Next page"
+                    aria-previous-label="Previous page"
+                    aria-page-label="Page"
+                    aria-current-label="Current page"
+                >
+                </b-pagination>
+            </div>
         </div>
     </section>
 </template>

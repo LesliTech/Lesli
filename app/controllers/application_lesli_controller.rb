@@ -96,27 +96,24 @@ class ApplicationLesliController < ApplicationController
         }
 
         # set user abilities
-        abilities = {}
-
-        current_user.privileges
-        .select(
-            "grant_object",
-            "bool_or(grant_index) as grant_index",
-            "bool_or(grant_edit) as grant_edit",
-            "bool_or(grant_show) as grant_show",
-            "bool_or(grant_new) as grant_new",
-            "bool_or(grant_create) as grant_create",
-            "bool_or(grant_update) as grant_update",
-            "bool_or(grant_destroy) as grant_destroy",
-            "bool_or(grant_search) as grant_search",
-            "bool_or(grant_resources) as grant_resources",
-            "bool_or(grant_options) as grant_options"
-        )
-        .group("grant_object")
-        .each do |privilege| 
-            abilities[privilege["grant_object"]] = privilege
+        abilities =  {}
+        
+        current_user.privilege_actions
+        .select("
+            bool_or(role_privilege_actions.status) as value,
+            system_controller_actions.name as action,
+            system_controllers.name as controller
+        ")
+        .joins(action: [:system_controller])
+        .group("
+            system_controller_actions.name,
+            system_controllers.name
+        ")
+        .each do |route|            
+            abilities[route["controller"]] = {} if abilities[route["controller"]].nil?
+            abilities[route["controller"]][route["action"]] = route["value"]
         end
-
+        
         # set user information
         @account[:current_user] = { 
             id: current_user.id,
@@ -125,7 +122,6 @@ class ApplicationLesliController < ApplicationController
             roles: current_user.roles.map(&:name),
             abilities: abilities
         }
-
     end
 
 
@@ -153,19 +149,14 @@ class ApplicationLesliController < ApplicationController
     #   [:index, :create, :update, :destroy, :new, :show, :edit, :options, :search, :resources]
     def authorize_privileges
         
-        action = params[:action]
-        
-        # This verifies that we are inside an actions/resources namespace, but outside the actions/resources controller
-        action = "resources" if request.path.include?("/resources/") && (self.class.name.demodulize.gsub("Controller", "").downcase != "resources")
-        action = "actions" if request.path.include?("/actions/") && (self.class.name.demodulize.gsub("Controller", "").downcase != "actions")
-
         # check if user has access to the requested controller
         # this search is over all the privileges for all the roles of the user
-        granted = current_user.privileges
-        .where("role_privileges.grant_object = ?", params[:controller])
-        .where("role_privileges.grant_#{action} = TRUE")
-        .first
-
+        granted = current_user.privilege_actions
+        .joins(action: [:system_controller])
+        .where("system_controllers.name = ?", params[:controller])
+        .where("system_controller_actions.name = '#{params[:action]}'")
+        &.first.present?
+        
         # Check if user can be redirected to role default path
         can_redirect_to_default_path = -> () { 
             return false if request[:format] == "json"
@@ -176,26 +167,17 @@ class ApplicationLesliController < ApplicationController
             return true
         }
 
-        # empty privileges if null privileges
-        granted ||= {} 
-
         # if user do not has access to the requested route and can go to default route        
-        if ((granted["grant_#{action}"] == false || granted.blank?) && can_redirect_to_default_path.call())
+        if (!granted && can_redirect_to_default_path.call())
             # TODO: add support for multiple roles
             return redirect_to current_user.roles.first[:default_path] 
         end 
 
         # privilege for object not found
-        if granted.blank?
+        unless granted
             log_user_comments("privilege_not_found")
-            return respond_with_unauthorized({ controller: params[:controller], privilege: "grant_#{action}" }) 
+            return respond_with_unauthorized({ controller: params[:controller], privilege: params[:action] }) 
         end
-
-        if granted["grant_#{action}"] == false
-            log_user_comments("privilege_not_granted")
-            return respond_with_unauthorized({ controller: params[:controller], privilege: "grant_#{action}" }) 
-        end
-
     end
 
     

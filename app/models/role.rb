@@ -23,11 +23,30 @@ class Role < ApplicationLesliRecord
 
     has_many :privileges,           foreign_key: "roles_id",    class_name: "Role::Privilege",          dependent: :delete_all
     has_many :activities,           foreign_key: "roles_id"
-
+    has_many :privilege_actions,    foreign_key: "roles_id",    class_name: "Role::PrivilegeAction"
+    
+    after_create :generate_code,
+    
+    def generate_code 
+        code = name
+            .downcase                           # string to lowercase
+            .gsub(/[^0-9A-Za-z\s\-\_]/, '')     # remove special characters from string
+            .gsub(/-/, '_')                     # replace dashes with underscore
+            .gsub(/\s+/, '_')                   # replace spaces or spaces with single dash
+            
+        code = I18n.transliterate(code) + id.too_s # transform UTF-8 characters to ASCI
+        
+        self.update_attribute('code', code)
+    end
+    
     def self.list current_user, query
+        
+        role_max = current_user.roles.map(&:object_level_permission).max()
+        role_max =  query[:filters][:object_level_permission] unless query[:filters][:object_level_permission].blank?
+        
         current_user.account.roles
         .order(object_level_permission: :desc, name: :asc)
-        .where("object_level_permission <= ?", current_user.roles.map(&:object_level_permission).max())
+        .where("object_level_permission <= ?", role_max)
         .select(:id, :name, :object_level_permission)
         .order(object_level_permission: :desc)
     end
@@ -85,40 +104,30 @@ class Role < ApplicationLesliRecord
     #   # This method will be called automatically within an after_create callback
     #   puts role.privileges.to_json # Should display all privileges that existed at the moment of the role's creation
     def initialize_role_privileges
+        status = false
+        status = true if (name == "admin" ||name == "owner")
 
-        # get all routes for application controllers
-        routes = LC::System::Routes.scan
-
-        routes.each do |route|
-
-            privilege = self.privileges.find_or_create_by(grant_object: route[:controller_path])
-
-            if self.name === "owner" || self.name === "admin"
-                grant_access = true
-                privilege.update(
-                    grant_index: grant_access,
-                    grant_list: grant_access,
-                    grant_create: grant_access,
-                    grant_new: grant_access,
-                    grant_edit: grant_access,
-                    grant_show: grant_access,
-                    grant_update: grant_access,
-                    grant_destroy: grant_access,
-                    grant_options: grant_access,
-                    grant_resources: grant_access,
-                    grant_search: grant_access,
-                    grant_actions: grant_access
-                )
-            end
-
-            puts "role: #{self.name} privilege created for controller: #{route[:controller_path]}"
-
+        # get all actions of the controllers
+        controllers = SystemController::Action.joins(:system_controller).all.each do |controller_action|
+            Role::PrivilegeAction.create(
+                action: controller_action, 
+                status: status,
+                role: self
+            )
         end
 
         # enable profile privileges
-        self.privileges.find_by(grant_object: "profiles").update(grant_show: true)
-        self.privileges.find_by(grant_object: "users").update(grant_options: true, grant_update: true)
-
+        privilege_actions
+            .joins(action: [:system_controller])
+            .where("system_controllers.name = ?", "profiles")
+            .where("system_controller_actions.name = ?", 'show')
+            .update(status: false)
+            
+        privilege_actions
+            .joins(action: [:system_controller])
+            .where("system_controllers.name = ?", "users")
+            .where("system_controller_actions.name in (?)", ['options','show'])
+            .update(status: true)
     end
 
     # @return [Boolean]

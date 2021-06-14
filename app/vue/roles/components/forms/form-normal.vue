@@ -20,9 +20,6 @@ For more information read the license file including with this software.
 */
 export default {
     props: {
-        privileges: {
-            type: Object
-        },
         role: {
             required: true
         },
@@ -50,110 +47,45 @@ export default {
             },
             role_abilities: [],
             requests: [],
-            ready: false
+            ready: false,
+            groups: []
         }
     },
     mounted() {
-        this.getOptions()
+        this.getRoleGroups()
     },
 
-    methods: {
-        getOptions() {
-
-        },
-
-        parsePrivileges(privileges){
-            let role_abilities = []
-
-            for (let index in this.options) {
-                let view = this.options[index]
-                let module_name = view.name
-
-                role_abilities.push({
-                    index: role_abilities.length,
-                    is_subrow: false,
-                    name: module_name,
-                    privileges: {}
-                })
-
-                let actions = Object.keys(view.privileges)
-
-                for(let action of actions) {
-
-                    let default_privileges = view.privileges[action] || []
-
-                    for (let default_privilege of default_privileges) {
-                        let object_name = Object.keys(default_privilege)[0]
-                        let ability = privileges[object_name]
-
-
-                        if (!ability) {
-                            ability = {
-                                actions: [],
-                                id: null
-                            }
-                        }
-
-                        let granted = default_privilege[object_name].every(e => {
-                            return ability.actions.includes(e)
-
-                        })
-
-                        if (!role_abilities[index].privileges[action]) {
-                            role_abilities[index].privileges[action] = {
-                                granted: granted,
-                                role_privileges: [{id: ability.id, grant_object: object_name, actions: default_privilege[object_name]}],
+    methods: {    
+        getRoleGroups() {
+            let url = this.url.admin(`roles/privilege_actions/options`)
+            this.http.get(url).then(result => {
+                if (result.successful) {
+                    let groups = []
+                    for(let group of result.data.groups) {
+                        if (group.account_privilege_groups_id) {
+                            let parent_index = groups.findIndex(e => 
+                                e.id ===  group.account_privilege_groups_id
+                            )
+                            
+                            if (parent_index !== -1){
+                                groups[parent_index]['subgroup'].push(group)   
                             }
                         } else {
-                            role_abilities[index].privileges[action].role_privileges.push(
-                                {id: ability.id, grant_object: object_name, actions: default_privilege[object_name]}
-                            )
-
-                            role_abilities[index].privileges[action].granted = granted &&
-                                role_abilities[index].privileges[action].granted
+                            groups.push({
+                                ...group,
+                                subgroup: []
+                            })
                         }
                     }
+                    
+                    this.groups = groups
+                    console.log(this.groups)
+                } else {
+                    this.msg.error(result.error.message)
                 }
-            }
-
-
-            for(let row_index in role_abilities) {
-                let role_privilege = role_abilities[row_index]
-
-                if (!(role_privilege.is_subrow)) {
-                    let row_name = this.object_utils.singularize(role_privilege.name)
-
-                    let sub_role_privileges = role_abilities.filter(e => e.name.startsWith(`${row_name}_`))
-
-
-                    if (sub_role_privileges) {
-
-                        for(let subrow_index in sub_role_privileges){
-                            let role_privilege = sub_role_privileges[subrow_index]
-                            let subrow_name = role_privilege.name.split(`${row_name}_`)[1]
-
-                            role_abilities[role_privilege.index].is_subrow = true
-
-                            if (!(role_abilities[row_index]['sub_categories'])) {
-                                role_abilities[row_index]['sub_categories'] = [{
-                                    name: subrow_name,
-                                    privileges: role_privilege.privileges
-                                }]
-                            } else {
-                                role_abilities[row_index]['sub_categories'].push({
-                                    name: subrow_name,
-                                    privileges: role_privilege.privileges
-                                })
-                            }
-
-                        }
-                    }
-                }
-            }
-
-            this.role_abilities = role_abilities.filter(e => e.is_subrow === false)
-
-            this.ready = true
+            }).catch(error => {
+                console.log(error)
+            })
         },
 
         putPrivileges(abilities, module_name, model_action, event, sub_category_name = null){
@@ -279,7 +211,7 @@ export default {
                 }
 
                 let request = new Promise((resolve, reject) => {
-                    this.http.put(`/administration/roles/${this.role.id}/privileges/${privilege_id}`, data_form).then(result => {
+                    this.http.put(`/administration/roles/${this.role.id}/privileges/${privilege_id}.json`, data_form).then(result => {
                         if (!result.successful) {
                             this.alert(result.error.message,'danger')
                         }
@@ -299,6 +231,10 @@ export default {
 
         searchRoles(text){
             this.filters.search = text
+        },
+
+        hasDetails(row){
+            return Boolean(row.sub_categories)
         }
     },
 
@@ -310,7 +246,7 @@ export default {
             if (search_field.length > 0) {
                 return this.role_abilities.filter((role_ability)=>{
                     return (
-                        this.translations.roles[`module_${role_ability.name}_title` || role_ability.name].toLowerCase().includes(search_field)
+                        this.translations.roles[`view_text_${role_ability.name}_title` || role_ability.name].toLowerCase().includes(search_field)
                     )
                 })
             } else {
@@ -370,147 +306,6 @@ export default {
 
         <div class="card">
             <div class="card-content">
-                <b-table
-                    v-if="ready"
-                    :data="filteredRoles"
-                    :hoverable="true"
-                    custom-detail-row
-                    detailed
-                    detail-key="name"
-                    focusable
-                >
-                    <template v-slot="props">
-                        <b-table-column field="name" label="Name" >
-                            <strong> {{ translations.roles[`module_${props.row.name}_title`] || `${props.row.name}` }} </strong>
-                        </b-table-column>
-
-                        <b-table-column field="grant_index" centered  :label="translations.roles.table_header_grant_index" >
-                            <b-switch
-                                :rounded="true"
-                                :ref="props.row.name + '-index'"
-                                v-if="props.row.privileges.hasOwnProperty('index')"
-                                v-model="props.row.privileges.index.granted"
-                                @change.native="event => putPrivileges(props.row.privileges.index, props.row.name, 'index', event)"
-                            />
-                        </b-table-column >
-
-                        <b-table-column field="grant_create" centered  :label="translations.roles.table_header_grant_create" >
-                            <b-switch
-                                :rounded="true"
-                                :ref="props.row.name + '-create'" v-if="props.row.privileges.hasOwnProperty('create')"
-                                v-model="props.row.privileges.create.granted"
-                                @change.native="event => putPrivileges(props.row.privileges.create, props.row.name, 'create', event)"
-                            />
-                        </b-table-column >
-
-                        <b-table-column field="grant_update" centered  :label="translations.roles.table_header_grant_update" >
-                            <b-switch
-                                :rounded="true"
-                                :ref="props.row.name + '-update'"
-                                v-if="props.row.privileges.hasOwnProperty('update')"
-                                v-model="props.row.privileges.update.granted"
-                                @change.native="event => putPrivileges(props.row.privileges.update, props.row.name, 'update', event)"
-                            />
-                        </b-table-column >
-
-                        <b-table-column field="grant_show" centered  :label="translations.roles.table_header_grant_show" >
-                            <b-switch
-                                :rounded="true"
-                                :ref="props.row.name + '-show'"
-                                v-if="props.row.privileges.hasOwnProperty('show')"
-                                v-model="props.row.privileges.show.granted"
-                                @change.native="event => putPrivileges(props.row.privileges.show, props.row.name, 'show', event)"
-                            />
-                        </b-table-column >
-
-                        <b-table-column field="grant_destroy" centered  :label="translations.roles.table_header_grant_destroy" >
-                            <b-switch
-                                :rounded="true"
-                                :ref="props.row.name + '-destroy'"
-                                v-if="props.row.privileges.hasOwnProperty('destroy')"
-                                v-model="props.row.privileges.destroy.granted"
-                                @change.native="event => putPrivileges(props.row.privileges.destroy, props.row.name, 'destroy', event)"
-                            />
-                        </b-table-column >
-
-                        <b-table-column field="grant_search" centered  :label="translations.roles.table_header_grant_search" >
-                            <b-switch
-                                :rounded="true"
-                                :ref="props.row.name + '-search'" v-if="props.row.privileges.hasOwnProperty('search')"
-                                v-model="props.row.privileges.search.granted"
-                                @change.native="event => putPrivileges(props.row.privileges.search, props.row.name, 'search', event)"
-                            />
-                        </b-table-column>
-
-                    </template>
-
-                    <template slot="detail" slot-scope="props">
-                        <tr v-for="sub_category in props.row.sub_categories" :key="`${props.row.name}-${sub_category.name}`">
-                            <td> </td>
-                            <td> &nbsp; &nbsp; {{ translations.roles[`module_${sub_category.name}_title`] || `${sub_category.name}` }} </td>
-                            <td class="has-text-centered">
-                                <b-switch
-                                    :rounded="true"
-                                    :ref="sub_category.name + '-index'"
-                                    v-if="sub_category.privileges.hasOwnProperty('index')"
-                                    v-model="sub_category.privileges.index.granted"
-                                    @change.native="event => putPrivileges(sub_category.privileges.index, props.row.name, 'index', event, sub_category.name,)"
-                                />
-                            </td>
-
-                            <td class="has-text-centered">
-                                <b-switch
-                                    :rounded="true"
-                                    :ref="sub_category.name + '-create'"
-                                    v-if="sub_category.privileges.hasOwnProperty('create')"
-                                    v-model="sub_category.privileges.create.granted"
-                                    @change.native="event => putPrivileges(sub_category.privileges.create, props.row.name, 'create', event, sub_category.name)"
-                                />
-                            </td>
-
-                            <td class="has-text-centered">
-                                <b-switch
-                                    :rounded="true"
-                                    :ref="props.row.name + '-update'"
-                                    v-if="sub_category.privileges.hasOwnProperty('update')"
-                                    v-model="sub_category.privileges.update.granted"
-                                    @change.native="event => putPrivileges(sub_category.privileges.update, props.row.name, 'update', event, sub_category.name)"
-                                />
-                            </td>
-
-                            <td class="has-text-centered">
-                                <b-switch
-                                    :rounded="true"
-                                    :ref="sub_category.name + '-show'"
-                                    v-if="sub_category.privileges.hasOwnProperty('show')"
-                                    v-model="sub_category.privileges.show.granted"
-                                    @change.native="event => putPrivileges(sub_category.privileges.show, props.row.name, 'show', event, sub_category.name)"
-                                />
-                            </td>
-
-                            <td class="has-text-centered">
-                                <b-switch
-                                    :rounded="true"
-                                    :ref="sub_category.name + '-destroy'"
-                                    v-if="sub_category.privileges.hasOwnProperty('destroy')"
-                                    v-model="sub_category.privileges.destroy.granted"
-                                    @change.native="event => putPrivileges(sub_category.privileges.destroy, props.row.name, 'destroy', event, sub_category.name)"
-                                />
-                            </td>
-
-                            <td class="has-text-centered">
-                                <b-switch
-                                    :rounded="true"
-                                    :ref="sub_category.name + '-search'"
-                                    v-if="sub_category.privileges.hasOwnProperty('search')"
-                                    v-model="sub_category.privileges.search.granted"
-                                    @change.native="event => putPrivileges(sub_category.privileges.search, sub_category.name, 'search', event, sub_category.name)"
-                                />
-                            </td>
-                        </tr>
-                    </template>
-                </b-table>
-                <hr>
             </div>
         </div>
     </section>
