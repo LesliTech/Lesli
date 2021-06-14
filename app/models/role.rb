@@ -19,11 +19,11 @@ For more information read the license file including with this software.
 
 class Role < ApplicationLesliRecord
 
-    belongs_to :account,            foreign_key: "accounts_id"
+    belongs_to :account,                foreign_key: "accounts_id"
 
-    has_many :privileges,           foreign_key: "roles_id",    class_name: "Role::Privilege",          dependent: :delete_all
-    has_many :activities,           foreign_key: "roles_id"
-    has_many :privilege_actions,    foreign_key: "roles_id",    class_name: "Role::PrivilegeAction"
+    has_many :privileges,               foreign_key: "roles_id",    class_name: "Role::Privilege",          dependent: :delete_all
+    has_many :activities,               foreign_key: "roles_id"
+    has_many :role_privilege_actions,   foreign_key: "roles_id",    class_name: "Role::PrivilegeAction"
     
     after_create :generate_code,
     
@@ -128,6 +128,10 @@ class Role < ApplicationLesliRecord
             .where("system_controllers.name = ?", "users")
             .where("system_controller_actions.name in (?)", ['options','show'])
             .update(status: true)
+    end
+
+    def privilege_actions
+        self.role_privilege_actions
     end
 
     # @return [Boolean]
