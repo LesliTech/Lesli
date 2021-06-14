@@ -49,6 +49,7 @@ class User < ApplicationLesliRecord
     has_many :user_roles,   foreign_key: "users_id", class_name: "User::Role"
     has_many :roles,        through: :user_roles, :source => "roles"
     has_many :privileges,   through: :roles
+    has_many :privilege_actions,   through: :roles
 
 
     # user details are saved on separate table
@@ -143,20 +144,22 @@ class User < ApplicationLesliRecord
     #
     #     current_user.has_privileges?(controllers, actions)
     def has_privileges?(controllers, actions)
-        actions = actions.map { |action| "bool_or(grant_#{action})" }.join(" and ")
-
-        granted = self.privileges
-        .where(grant_object: controllers)
-        .select(actions + " as value ")
+        granted = self.privilege_actions
+        .select("bool_or(role_privilege_actions.status) as value")
+        .joins(action: [:system_controller])
+        .where("system_controllers.name in (?)", controllers)
+        .where("system_controller_actions.name in (?)", actions)
+        .group("system_controller_actions.name")
         .map(&:value)
+        &.uniq
 
-        return granted[0]
+        return false if granted.include? false
+
+        return true
     rescue => exception
         Honeybadger.notify(exception)
         return false
     end
-
-
 
     # @return [void]
     # @description Delete all the active sessions for a given user
