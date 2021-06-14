@@ -243,6 +243,11 @@ module.exports = env => {
 
             let filePath = "./"+path.join("./engines", engine, "app", "vue", "app.js")
             let fileName = [engine, "app"].join("_")
+
+            if (!fs.existsSync(filePath)) {
+                return
+            }
+
             webpackEngine.entry[fileName] = filePath
 
         } else {
