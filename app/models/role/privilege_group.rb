@@ -6,7 +6,7 @@ industrial property, intellectual property, copyright and relative international
 All intellectual or industrial property rights of the code, texts, trade mark, design, 
 pictures and any other information belongs to the owner of this platform.
 
-Without the written permission of the owner, any replication, modification,
+Without the written permssion of the owner, any replication, modification,
 transmission, publication is strictly forbidden.
 
 For more information read the license file including with this software.
@@ -15,8 +15,7 @@ For more information read the license file including with this software.
 // · 
 
 =end
-class Role::PrivilegeActionsController < ApplicationLesliController
-    def options
-        respond_with_successful(Role::PrivilegeAction.options(current_user, @query))
-    end
+class Role::PrivilegeGroup < ApplicationRecord
+    belongs_to :role,               foreign_key: "roles_id",    class_name: "::Role"
+    belongs_to :privilege_group,    foreign_key: "account_privilege_groups_id",  class_name: "::Account::PrivilegeGroup"
 end
