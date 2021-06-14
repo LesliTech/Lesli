@@ -48,8 +48,8 @@ class User < ApplicationLesliRecord
 
     has_many :user_roles,   foreign_key: "users_id", class_name: "User::Role"
     has_many :roles,        through: :user_roles, :source => "roles"
-    has_many :privileges,   through: :roles
-    has_many :privilege_actions,   through: :roles
+    has_many :role_privileges,          through: :roles
+    has_many :role_privilege_actions,   through: :roles
 
 
     # user details are saved on separate table
@@ -159,6 +159,11 @@ class User < ApplicationLesliRecord
     rescue => exception
         Honeybadger.notify(exception)
         return false
+    end
+
+    def privilege_actions
+        # self.roles.first.privilege_actions
+        self.role_privilege_actions
     end
 
     # @return [void]
