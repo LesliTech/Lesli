@@ -34,7 +34,7 @@ class Role < ApplicationLesliRecord
             .gsub(/-/, '_')                     # replace dashes with underscore
             .gsub(/\s+/, '_')                   # replace spaces or spaces with single dash
             
-        code = I18n.transliterate(code) + id.too_s # transform UTF-8 characters to ASCI
+        code = I18n.transliterate(code) + id.to_s # transform UTF-8 characters to ASCI
         
         self.update_attribute('code', code)
     end
