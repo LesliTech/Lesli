@@ -1,3 +1,4 @@
+
 /*
 
 Copyright (c) 2020, all rights reserved.
@@ -16,3 +17,32 @@ For more information read the license file including with this software.
 // · 
 
 */
+
+
+// · 
+@import "lesli-css/";
+//@import "buefy/src/scss/components/steps";
+
+
+// · 
+
+aside.application-sidebar {
+    border-right: none;
+
+    nav.application-navigation {
+        display: none;
+    }
+
+}
+
+
+.b-steps {
+
+    .step-items {
+        width: 100%;
+    }
+
+    .step-navigation {
+        text-align: center;
+    }
+}
