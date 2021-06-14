@@ -14,4 +14,13 @@
     "name": "deleted_at",
     "type": "datetime",
     "index": true
+},{
+    "name": "size_mb",
+    "type": "decimal"
+},{
+    "name": "external_url",
+    "type": "text"
+},{
+    "name": "external_url_expiration_date",
+    "type": "datetime"
 }]
