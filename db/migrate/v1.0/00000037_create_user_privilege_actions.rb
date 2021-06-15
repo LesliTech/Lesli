@@ -19,7 +19,6 @@ For more information read the license file including with this software.
 class CreateUserPrivilegeActions < ActiveRecord::Migration[6.1]
     def change
         create_table :user_privilege_actions do |t|
-            t.string :name
             t.boolean :status
 
             t.datetime :deleted_at, index: true

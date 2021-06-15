@@ -145,6 +145,7 @@ class User < ApplicationLesliRecord
     #
     #     current_user.has_privileges?(controllers, actions)
     def has_privileges?(controllers, actions)
+        # TODO: compare every controller between role and user
         granted_list_by_role = self.role_privilege_actions
         .select("bool_or(status) as value")
         .joins(action: [:system_controller])
@@ -163,7 +164,6 @@ class User < ApplicationLesliRecord
         .map(&:value)
         &.uniq
 
-        # This must be a comparition between the privilege over every action
         granted_by_role = !(granted_list_by_role.include? false)
         granted_by_user = !(granted_list_by_user.include? false)
 
