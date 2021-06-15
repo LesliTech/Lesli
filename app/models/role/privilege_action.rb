@@ -29,7 +29,10 @@ class Role::PrivilegeAction < ApplicationLesliRecord
             privilege_group_actions = privilege_group.actions
             
             categories_name.each do |category|
-                actions[category] =  privilege_group_actions.find_all {|e| e["category"] == category }
+                actions[category] =  { 
+                    actions: privilege_group_actions.find_all {|e| e["category"] == category },
+                    status: false
+                }
             end
             
             groups.push({
@@ -42,7 +45,8 @@ class Role::PrivilegeAction < ApplicationLesliRecord
         end
         
         return {
-            groups: groups
+            groups: groups,
+            categories: categories_name
         }
     end
 end

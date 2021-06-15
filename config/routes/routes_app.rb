@@ -128,6 +128,7 @@ module RoutesApp
                         scope module: :role do
                             resources :privileges
                             resources :activities
+                            resources :privilege_groups
                             resources :privilege_actions do 
                                 collection do
                                     get :options

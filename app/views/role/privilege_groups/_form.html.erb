@@ -1,3 +1,4 @@
+<%
 =begin
 Copyright (c) 2021, all rights reserved.
 
@@ -15,8 +16,4 @@ For more information read the license file including with this software.
 // · 
 
 =end
-class Role::PrivilegeActionsController < ApplicationLesliController
-    def options
-        respond_with_successful(Role::PrivilegeAction.options(current_user, @query))
-    end
-end
+%>

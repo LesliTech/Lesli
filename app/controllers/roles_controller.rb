@@ -191,6 +191,23 @@ class RolesController < ApplicationLesliController
         respond_with_successful()
     end
 
+    def actions_by_privilege_group
+        group_privilege_id = params[:group_privilege_id]
+        status = params[:status]
+        category = params[:category]
+
+        actions = @role.actions_available_by_privilege_group(current_user, category, group_privilege_id)
+        
+        actions.each do |action_id|
+            role_privilege_action = self.privilege_actions.find_or_initialize_by(system_controller_actions_id: action_id)
+            role_privilege_action.status = status
+            
+            role_privilege_action.save
+        end
+        
+        Role.log_activity_update_role_privilege_group(current_user, @role, status, )
+    end
+    
     private
 
     # @return [void]
