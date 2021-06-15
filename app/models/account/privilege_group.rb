@@ -36,7 +36,7 @@ class Account::PrivilegeGroup < ApplicationLesliRecord
                     count(1) as total,
                     apga.account_privilege_groups_id as privilege_group_id
                 from account_privilege_group_actions apga
-                where apga.deleted_at is null
+                where apga.status = TRUE
                 group by apga.account_privilege_groups_id
             ) as actions 
                 on actions.privilege_group_id = account_privilege_groups.id

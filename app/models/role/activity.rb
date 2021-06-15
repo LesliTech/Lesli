@@ -26,7 +26,8 @@ class Role::Activity < ApplicationRecord
         action_update:                          "action_update",
         action_destroy:                         "action_destroy",
         action_update_role_privilege:           "action_update_role_privilege",
-        action_create_role_privilege:           "action_create_role_privilege"
+        action_create_role_privilege:           "action_create_role_privilege",
+        action_update_privilege_group:          "action_update_privilege_group"
     }
 
     def self.options(current_user, query)
