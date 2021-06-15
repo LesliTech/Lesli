@@ -137,6 +137,37 @@ class User < ApplicationLesliRecord
 
 
     # @return [Boolean]
+    # @description Return true/false if a user has the privilege to do an action of a controller
+    # @examples
+    #     controller = "cloud_house/companies"
+    #     action = "index"
+    #
+    #     current_user.has_privilege?(controller, action)
+    def has_privilege?(controller, action)
+        # These queries find all the privileges that the user has about the same controller's action over the different roles it has
+        granted_by_role = self.role_privilege_actions
+        .joins(action: [:system_controller])
+        .where("system_controllers.name = ?", controller)
+        .where("system_controller_actions.name = '#{action}'")
+        .where("status = ?", true)
+        &.first.present?
+
+        granted_by_user = self.user_privilege_actions
+        .joins(action: [:system_controller])
+        .where("system_controllers.name = ?", controller)
+        .where("system_controller_actions.name = '#{action}'")
+        .where("status = ?", true)
+        &.first.present?
+
+        return granted_by_role || granted_by_user
+    rescue => exception
+        Honeybadger.notify(exception)
+        return false
+    end
+
+
+
+    # @return [Boolean]
     # @description Return true/false if a user has the privileges to do an action based on a controllers list
     # @examples
     #     validate privileges on a controller with the same actions on each one
@@ -145,7 +176,6 @@ class User < ApplicationLesliRecord
     #
     #     current_user.has_privileges?(controllers, actions)
     def has_privileges?(controllers, actions)
-        # TODO: compare every controller between role and user
         granted_list_by_role = self.role_privilege_actions
         .select("bool_or(status) as value")
         .joins(action: [:system_controller])
@@ -169,37 +199,6 @@ class User < ApplicationLesliRecord
 
         granted_by_role = false if granted_list_by_role.empty?
         granted_by_user = false if granted_list_by_user.empty?
-
-        return granted_by_role || granted_by_user
-    rescue => exception
-        Honeybadger.notify(exception)
-        return false
-    end
-
-
-
-    # @return [Boolean]
-    # @description Return true/false if a user has the privilege to do an action of a controller
-    # @examples
-    #     controller = "cloud_house/companies"
-    #     action = "index"
-    #
-    #     current_user.has_privilege?(controller, action)
-    def has_privilege?(controller, action)
-        # These queries find all the privileges that the user has about the same controller's action over the different roles it has
-        granted_by_role = self.role_privilege_actions
-        .joins(action: [:system_controller])
-        .where("system_controllers.name = ?", controller)
-        .where("system_controller_actions.name = '#{action}'")
-        .where("status = ?", true)
-        &.first.present?
-
-        granted_by_user = self.user_privilege_actions
-        .joins(action: [:system_controller])
-        .where("system_controllers.name = ?", controller)
-        .where("system_controller_actions.name = '#{action}'")
-        .where("status = ?", true)
-        &.first.present?
 
         return granted_by_role || granted_by_user
     rescue => exception
