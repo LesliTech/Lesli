@@ -173,6 +173,15 @@ class User < ApplicationLesliRecord
         return false
     end
 
+
+
+    # @return [Boolean]
+    # @description Return true/false if a user has the privilege to do an action of a controller
+    # @examples
+    #     controller = "cloud_house/companies"
+    #     action = "index"
+    #
+    #     current_user.has_privilege?(controller, action)
     def has_privilege?(controller, action)
         granted_by_role = self.role_privilege_actions
         .joins(action: [:system_controller])
@@ -194,9 +203,54 @@ class User < ApplicationLesliRecord
         return false
     end
 
-    def privilege_actions
+
+
+    # @return [Hash]
+    # @description Return a hash that contains all the abilities grouped by controller and define every action privilege
+    # @examples
+    #     current_user.abilities_by_controller
+    def abilities_by_controller
+        abilities = {}
+
+        # Evaluate role privileges
+        self.role_privilege_actions
+        .select("
+            bool_or(status) as value,
+            system_controller_actions.name as action,
+            system_controllers.name as controller
+        ")
+        .joins(action: [:system_controller])
+        .group("
+            system_controller_actions.name,
+            system_controllers.name
+        ")
+        .each do |route|
+            abilities[route["controller"]] = {} if abilities[route["controller"]].nil?
+            abilities[route["controller"]][route["action"]] = route["value"]
+        end
+
+        # Evaluate user privileges
         self.user_privilege_actions
+        .select("
+            bool_or(status) as value,
+            system_controller_actions.name as action,
+            system_controllers.name as controller
+        ")
+        .joins(action: [:system_controller])
+        .group("
+            system_controller_actions.name,
+            system_controllers.name
+        ")
+        .each do |route|
+            abilities[route["controller"]] = {} if abilities[route["controller"]].nil?
+            # If privilege is granted by role or by user keep it as granted
+            abilities[route["controller"]][route["action"]] = abilities[route["controller"]][route["action"]] || route["value"]
+        end
+
+        abilities
     end
+
+
 
     # @return [void]
     # @description Delete all the active sessions for a given user
