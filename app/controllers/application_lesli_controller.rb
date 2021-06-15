@@ -96,23 +96,7 @@ class ApplicationLesliController < ApplicationController
         }
 
         # set user abilities
-        abilities =  {}
-
-        current_user.privilege_actions
-        .select("
-            bool_or(status) as value,
-            system_controller_actions.name as action,
-            system_controllers.name as controller
-        ")
-        .joins(action: [:system_controller])
-        .group("
-            system_controller_actions.name,
-            system_controllers.name
-        ")
-        .each do |route|
-            abilities[route["controller"]] = {} if abilities[route["controller"]].nil?
-            abilities[route["controller"]][route["action"]] = route["value"]
-        end
+        abilities =  current_user.abilities_by_controller
 
         # set user information
         @account[:current_user] = {
@@ -151,7 +135,7 @@ class ApplicationLesliController < ApplicationController
 
         # check if user has access to the requested controller
         # this search is over all the privileges for all the roles of the user
-        granted = current_user.has_privileges?([params[:controller]], [params[:action]])
+        granted = current_user.has_privilege?(params[:controller], params[:action])
 
         # Check if user can be redirected to role default path
         can_redirect_to_default_path = -> () {
