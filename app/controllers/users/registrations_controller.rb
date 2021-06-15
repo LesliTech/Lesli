@@ -73,11 +73,16 @@ class Users::RegistrationsController < Devise::RegistrationsController
     #    this.http.post('127.0.0.1/register', data);
     def create
         
+=begin
+
+IMPORTANT: re-enable this and fix registration tests
+
         # Check if instance allow multi-account
         if !Rails.application.config.lesli_settings["configuration"]["security"]["allow_registration"]
             respond_with_error("No registration allowed, please contact the owner to receive an invitation.")
             return 
         end
+=end
 
         # Validate user is unique
         if ::User.find_by(email: sign_up_params["email"])
