@@ -167,6 +167,9 @@ class User < ApplicationLesliRecord
         granted_by_role = !(granted_list_by_role.include? false)
         granted_by_user = !(granted_list_by_user.include? false)
 
+        granted_by_role = false if granted_list_by_role.empty?
+        granted_by_user = false if granted_list_by_user.empty?
+
         return granted_by_role || granted_by_user
     rescue => exception
         Honeybadger.notify(exception)
@@ -183,6 +186,7 @@ class User < ApplicationLesliRecord
     #
     #     current_user.has_privilege?(controller, action)
     def has_privilege?(controller, action)
+        # These queries find all the privileges that the user has about the same controller's action over the different roles it has
         granted_by_role = self.role_privilege_actions
         .joins(action: [:system_controller])
         .where("system_controllers.name = ?", controller)
