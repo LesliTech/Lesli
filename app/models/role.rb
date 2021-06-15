@@ -24,26 +24,26 @@ class Role < ApplicationLesliRecord
     has_many :privileges,               foreign_key: "roles_id",    class_name: "Role::Privilege",          dependent: :delete_all
     has_many :activities,               foreign_key: "roles_id"
     has_many :role_privilege_actions,   foreign_key: "roles_id",    class_name: "Role::PrivilegeAction"
-    
+
     after_create :generate_code,
-    
-    def generate_code 
+
+    def generate_code
         code = name
             .downcase                           # string to lowercase
             .gsub(/[^0-9A-Za-z\s\-\_]/, '')     # remove special characters from string
             .gsub(/-/, '_')                     # replace dashes with underscore
             .gsub(/\s+/, '_')                   # replace spaces or spaces with single dash
-            
+
         code = I18n.transliterate(code) + id.to_s # transform UTF-8 characters to ASCI
-        
+
         self.update_attribute('code', code)
     end
-    
+
     def self.list current_user, query
-        
+
         role_max = current_user.roles.map(&:object_level_permission).max()
         role_max =  query[:filters][:object_level_permission] unless query[:filters][:object_level_permission].blank?
-        
+
         current_user.account.roles
         .order(object_level_permission: :desc, name: :asc)
         .where("object_level_permission <= ?", role_max)
@@ -110,7 +110,7 @@ class Role < ApplicationLesliRecord
         # get all actions of the controllers
         controllers = SystemController::Action.joins(:system_controller).all.each do |controller_action|
             Role::PrivilegeAction.create(
-                action: controller_action, 
+                action: controller_action,
                 status: status,
                 role: self
             )
@@ -122,7 +122,7 @@ class Role < ApplicationLesliRecord
             .where("system_controllers.name = ?", "profiles")
             .where("system_controller_actions.name = ?", 'show')
             .update(status: false)
-            
+
         privilege_actions
             .joins(action: [:system_controller])
             .where("system_controllers.name = ?", "users")
