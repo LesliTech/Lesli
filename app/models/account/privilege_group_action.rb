@@ -19,6 +19,9 @@ class Account::PrivilegeGroupAction < ApplicationLesliRecord
     belongs_to :privilege_group,    foreign_key: "account_privilege_groups_id"
     belongs_to :system_action,      foreign_key: "system_controller_actions_id",    class_name: "SystemController::Action"
     
+    after_create :set_role_privilege_actions
+    after_update :set_role_privilege_actions
+    
     enum category: {
         index:   'index',
         create:  'create',
@@ -45,4 +48,14 @@ class Account::PrivilegeGroupAction < ApplicationLesliRecord
         
         return options
     end
+    
+    private 
+    
+    def set_role_privilege_actions
+        
+    end
 end
+
+
+
+# Role.find(19).privilege_groups.joins(group: [actions: [system_action: [:system_controller]]]).where("role_privilege_groups.category = account_privilege_group_actions.category").select("system_controller_actions.id, system_controllers.name").map { |route| { action_id: route["id"], controller: route["name"] }}

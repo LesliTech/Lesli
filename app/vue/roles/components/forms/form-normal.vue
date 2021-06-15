@@ -132,7 +132,6 @@ export default {
         },
         
         postRolePrivilegeGroup(category, group_privilege, group_privilege_parent){
-            console.log('AQUI')
             console.log(group_privilege)
             
             let data = {
@@ -201,7 +200,7 @@ export default {
         },
 
         hasDetails(row){
-            return Boolean(row.subgroups)
+            return (row.subgroups.length > 0)
         }
     },
 
