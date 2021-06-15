@@ -17,5 +17,58 @@ For more information read the license file including with this software.
 =end
 class Role::PrivilegeGroup < ApplicationRecord
     belongs_to :role,               foreign_key: "roles_id",    class_name: "::Role"
-    belongs_to :privilege_group,    foreign_key: "account_privilege_groups_id",  class_name: "::Account::PrivilegeGroup"
+    belongs_to :group,              foreign_key: "account_privilege_groups_id",  class_name: "::Account::PrivilegeGroup"
+    
+    after_create  :add_privilege_actions
+    after_destroy :remove_privilege_actions
+    
+    def add_privilege_actions
+        actions_id = Account::PrivilegeGroup.where(id: self.group.id)
+        .select("account_privilege_group_actions.system_controller_actions_id as action_id")
+        .joins(:actions)
+        .where("account_privilege_group_actions.category = ?", self.category)
+        .where("account_privilege_group_actions.status = ?", FALSE)
+        .map(&:action_id)
+        
+        self.role.privilege_actions.where(system_controller_actions_id: actions_id).update_all(status: true)
+    end
+    
+    def remove_privilege_actions
+        actions_id = self.available_actions
+               
+        unless actions_id.blank?
+            self.role.privilege_actions.where(system_controller_actions_id: actions_id).update_all(status: false)
+        end
+    end
+    
+    private
+    
+    def available_actions  
+        Account::PrivilegeGroup.where(id: self.group.id)
+        .select("
+            account_privilege_group_actions.system_controller_actions_id as action_id
+        ")
+        .joins(:actions)
+        .joins("
+            left join (
+                select
+                    apga.system_controller_actions_id as id
+                from
+                    role_privilege_groups rpg 
+                inner join account_privilege_groups apg 
+                    on  apg.id = rpg.account_privilege_groups_id
+                    and apg.deleted_at is null
+                inner join account_privilege_group_actions apga 
+                    on  apga.account_privilege_groups_id = apg.id 
+                    and apga.status = 'TRUE'
+                where rpg.roles_id =  #{self.role.id}
+                and rpg.id != #{self.id}
+            ) as actions
+            on actions.id = account_privilege_group_actions.system_controller_actions_id
+        ")
+        .where("account_privilege_group_actions.category = ?", self.category)
+        .where("account_privilege_group_actions.status = ?", TRUE)
+        .where("actions.id is null")
+        .map(&:action_id)
+    end
 end
