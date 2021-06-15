@@ -16,16 +16,8 @@ For more information read the license file including with this software.
 
 =end
 
-class CreateRolePrivilegeActions < ActiveRecord::Migration[6.1]
-    def change
-        create_table :role_privilege_actions do |t|
-            t.boolean :status
+class User::PrivilegeAction < ApplicationLesliRecord
+    belongs_to :user,   foreign_key: "users_id"
+    belongs_to :action, foreign_key: "system_controller_actions_id", class_name: "SystemController::Action"
 
-            t.datetime :deleted_at, index: true
-            t.timestamps
-        end
-
-        add_reference   :role_privilege_actions, :roles, foreign_key: true, index: { name: "role_privilege_actions_roles" }
-        # Reference added on system controllers migration
-    end
 end

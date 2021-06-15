@@ -73,9 +73,13 @@ module Lesli
             allow do
                 origins "*"
                 resource "/api/*",
-                headers: :any,
-                expose: %w(access-token expiry token-type uid client),
-                methods: %i(get post options put)
+                    headers: :any,
+                    expose: %w(access-token expiry token-type uid client),
+                    methods: %i(get post options put)
+                resource "/ws/*",
+                    headers: :any,
+                    expose: %w(access-token expiry token-type uid client),
+                    methods: %i(get post options put)
             end
         end
 
