@@ -46,8 +46,9 @@ class User < ApplicationLesliRecord
     has_one  :integration,  foreign_key: "users_id"
     has_many :access_codes, foreign_key: "users_id"
 
-    has_many :user_roles,   foreign_key: "users_id", class_name: "User::Role"
-    has_many :roles,        through: :user_roles, :source => "roles"
+    has_many :user_privilege_actions,   foreign_key: "users_id",    class_name: "User::PrivilegeAction"
+    has_many :user_roles,               foreign_key: "users_id",    class_name: "User::Role"
+    has_many :roles,                    through: :user_roles,       :source => "roles"
     has_many :role_privileges,          through: :roles
     has_many :role_privilege_actions,   through: :roles
 
@@ -144,8 +145,8 @@ class User < ApplicationLesliRecord
     #
     #     current_user.has_privileges?(controllers, actions)
     def has_privileges?(controllers, actions)
-        granted = self.privilege_actions
-        .select("bool_or(role_privilege_actions.status) as value")
+        granted_list_by_role = self.role_privilege_actions
+        .select("bool_or(status) as value")
         .joins(action: [:system_controller])
         .where("system_controllers.name in (?)", controllers)
         .where("system_controller_actions.name in (?)", actions)
@@ -153,17 +154,48 @@ class User < ApplicationLesliRecord
         .map(&:value)
         &.uniq
 
-        return false if granted.include? false
+        granted_list_by_user = self.user_privilege_actions
+        .select("bool_or(status) as value")
+        .joins(action: [:system_controller])
+        .where("system_controllers.name in (?)", controllers)
+        .where("system_controller_actions.name in (?)", actions)
+        .group("system_controller_actions.name")
+        .map(&:value)
+        &.uniq
 
-        return true
+        # This must be a comparition between the privilege over every action
+        granted_by_role = !(granted_list_by_role.include? false)
+        granted_by_user = !(granted_list_by_user.include? false)
+
+        return granted_by_role || granted_by_user
+    rescue => exception
+        Honeybadger.notify(exception)
+        return false
+    end
+
+    def has_privilege?(controller, action)
+        granted_by_role = self.role_privilege_actions
+        .joins(action: [:system_controller])
+        .where("system_controllers.name = ?", controller)
+        .where("system_controller_actions.name = '#{action}'")
+        .where("status = ?", true)
+        &.first.present?
+
+        granted_by_user = self.user_privilege_actions
+        .joins(action: [:system_controller])
+        .where("system_controllers.name = ?", controller)
+        .where("system_controller_actions.name = '#{action}'")
+        .where("status = ?", true)
+        &.first.present?
+
+        return granted_by_role || granted_by_user
     rescue => exception
         Honeybadger.notify(exception)
         return false
     end
 
     def privilege_actions
-        # self.roles.first.privilege_actions
-        self.role_privilege_actions
+        self.user_privilege_actions
     end
 
     # @return [void]

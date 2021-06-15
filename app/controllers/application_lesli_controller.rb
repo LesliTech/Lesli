@@ -100,7 +100,7 @@ class ApplicationLesliController < ApplicationController
 
         current_user.privilege_actions
         .select("
-            bool_or(role_privilege_actions.status) as value,
+            bool_or(status) as value,
             system_controller_actions.name as action,
             system_controllers.name as controller
         ")
@@ -151,12 +151,7 @@ class ApplicationLesliController < ApplicationController
 
         # check if user has access to the requested controller
         # this search is over all the privileges for all the roles of the user
-        granted = current_user.privilege_actions
-        .joins(action: [:system_controller])
-        .where("system_controllers.name = ?", params[:controller])
-        .where("system_controller_actions.name = '#{params[:action]}'")
-        .where("status = ?", true)
-        &.first.present?
+        granted = current_user.has_privileges?([params[:controller]], [params[:action]])
 
         # Check if user can be redirected to role default path
         can_redirect_to_default_path = -> () {
