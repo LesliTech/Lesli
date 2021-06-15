@@ -176,31 +176,32 @@ class User < ApplicationLesliRecord
     #
     #     current_user.has_privileges?(controllers, actions)
     def has_privileges?(controllers, actions)
-        granted_list_by_role = self.role_privilege_actions
-        .select("bool_or(status) as value")
+        granted_hash_by_role = self.role_privilege_actions
+        .select("bool_or(status) as value, system_controllers.name as controller")
         .joins(action: [:system_controller])
         .where("system_controllers.name in (?)", controllers)
         .where("system_controller_actions.name in (?)", actions)
-        .group("system_controller_actions.name")
-        .map(&:value)
-        &.uniq
+        .group("system_controllers.name")
+        .map{ |granted| [granted.controller, granted.value] }.to_h
 
-        granted_list_by_user = self.user_privilege_actions
-        .select("bool_or(status) as value")
+        granted_hash_by_user = self.user_privilege_actions
+        .select("bool_or(status) as value, system_controllers.name as controller")
         .joins(action: [:system_controller])
         .where("system_controllers.name in (?)", controllers)
         .where("system_controller_actions.name in (?)", actions)
-        .group("system_controller_actions.name")
-        .map(&:value)
-        &.uniq
+        .group("system_controllers.name")
+        .map{ |granted| [granted.controller, granted.value] }.to_h
 
-        granted_by_role = !(granted_list_by_role.include? false)
-        granted_by_user = !(granted_list_by_user.include? false)
+        granted_list = []
+        controllers.each do |controller|
+            granted_by_role = granted_hash_by_role[controller]? granted_hash_by_role[controller] : false
+            granted_by_user = granted_hash_by_user[controller]? granted_hash_by_user[controller] : false
+            granted_list.append(granted_by_role || granted_by_user)
+        end
 
-        granted_by_role = false if granted_list_by_role.empty?
-        granted_by_user = false if granted_list_by_user.empty?
-
-        return granted_by_role || granted_by_user
+        granted = !(granted_list.include? false)
+        granted = false if granted_list.empty?
+        return granted
     rescue => exception
         Honeybadger.notify(exception)
         return false

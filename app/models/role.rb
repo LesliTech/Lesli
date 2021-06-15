@@ -140,7 +140,7 @@ class Role < ApplicationLesliRecord
     def has_users?
         User::Role.where(role: self).count > 0
     end
-    
+
     #######################################################################################
     ##############################  Activities Log Methods   ##############################
     #######################################################################################
@@ -276,7 +276,7 @@ class Role < ApplicationLesliRecord
             end
         end
     end
-    
+
     # @return [void]
     # @param current_user [::User] The user that created the role
     # @param role [Role] The role
@@ -314,8 +314,8 @@ class Role < ApplicationLesliRecord
     # @param role [Role] The role
     # @param privilege_group [Account::PrivilegeGroup] The group that is being changed
     # @param status [Boolean] The status depending on the user action
-    # @description Adds an activity if a group is created  
-    # Example                   
+    # @description Adds an activity if a group is created
+    # Example
     #   params = {...}
     #   role = Role.find(1)
     #   privilege = role.privileges.create(params)
@@ -323,9 +323,9 @@ class Role < ApplicationLesliRecord
     #        User.find(1),
     #        role,
     #        privilege_group.
-    #        true 
+    #        true
     #    )
-    def self.log_activity_create_role_privilege_group(current_user, role, privilege_group, status, category)     
+    def self.log_activity_create_role_privilege_group(current_user, role, privilege_group, status, category)
         role.activities.create(
             user_creator: current_user,
             field_name: category,
@@ -333,14 +333,14 @@ class Role < ApplicationLesliRecord
             category: "action_create_role_privilege_group"
         )
     end
-    
+
     # @return [void]
     # @param current_user [::User] The user that created the role
     # @param role [Role] The role
     # @param privilege_group [Account::PrivilegeGroup] The group that is being changed
     # @param status [Boolean] The status depending on the user action
-    # @description Adds an activity if a group is created  
-    # Example                   
+    # @description Adds an activity if a group is created
+    # Example
     #   params = {...}
     #   role = Role.find(1)
     #   privilege = role.privileges.create(params)
@@ -348,9 +348,9 @@ class Role < ApplicationLesliRecord
     #        User.find(1),
     #        role,
     #        privilege_group.
-    #        true 
+    #        true
     #    )
-    def self.log_activity_destroy_role_privilege_group(current_user, role, privilege_group, status, category)     
+    def self.log_activity_destroy_role_privilege_group(current_user, role, privilege_group, status, category)
         role.activities.create(
             user_creator: current_user,
             field_name: category,
