@@ -56,26 +56,13 @@ module HtmlHelper
         end
     end
 
-    def navigation_engine_category(text, engine_tags)
-        if engine_tags.blank?
-            return
-        end
-        content_tag(:div, :class=>"module") do
-            content_tag(:p, text) +
-            engine_tags.html_safe
-        end
-    end
-
     # 00.00 System administration
     def navigation_administration text: "Admin", icon_path: "icons/administration-logo.svg"
         navigation_engine_item text, icon_path, main_app.account_path
     end
 
+
     # ADMINISTRATION
-    def navigation_administration_category(text: "Administration")
-        engines = navigation_engine_team
-        navigation_engine_category(text, engines)
-    end
 
     # 01.01 Team engine
     def navigation_engine_team text: "Team", icon_path: "cloud_team/team-logo.svg"
@@ -85,11 +72,8 @@ module HtmlHelper
         navigation_engine_item text, icon_path, cloud_team.root_path, controller_path.include?("cloud_team")
     end
 
+
     # SALES & MARKETING
-    def navigation_sales_marketing_category(text: "Sales & marketing")
-        engines = navigation_engine_house + navigation_engine_mailer + navigation_engine_proposal
-        navigation_engine_category(text, engines)
-    end
 
     # 02.04 House engine
     def navigation_engine_house text: "House", icon_path: "cloud_house/house-logo.svg"
@@ -115,12 +99,8 @@ module HtmlHelper
         navigation_engine_item text, icon_path, cloud_proposal.root_path, controller_path.include?("cloud_proposal")
     end
 
-    # PRODUCTIVITY & TEAMWORK
 
-    def navigation_productivity_teamwork_category(text: "Productivity & teamwork")
-        engines = navigation_engine_driver + navigation_engine_work + navigation_engine_focus + navigation_engine_text + navigation_engine_bell + navigation_engine_talk
-        navigation_engine_category(text, engines)
-    end
+    # PRODUCTIVITY & TEAMWORK
 
     # 03.01 Driver engine
     def navigation_engine_driver text: "Calendar", icon_path: "cloud_driver/driver-logo.svg"
@@ -170,12 +150,8 @@ module HtmlHelper
         navigation_engine_item text, icon_path, cloud_talk.root_path, controller_path.include?("cloud_talk")
     end
 
-    # FINANCE
 
-    def navigation_finance_category(text: "Finance")
-        engines = navigation_engine_books + navigation_engine_things
-        navigation_engine_category(text, engines)
-    end
+    # FINANCE
 
     # 04.01 Books engine
     def navigation_engine_books text: "Books", icon_path: "cloud_books/books-logo.svg"
@@ -193,11 +169,8 @@ module HtmlHelper
         navigation_engine_item text, icon_path, cloud_things.root_path, controller_path.include?("cloud_things")
     end
 
+
     # ANALYTICS
-    def navigation_analytics_category(text: "Analytics")
-        engines = navigation_engine_insights
-        navigation_engine_category(text, engines)
-    end
 
     # 05.04 Insights engine
     def navigation_engine_insights text: "Insights", icon_path: "cloud_insights/insights-logo.svg"
@@ -207,14 +180,11 @@ module HtmlHelper
         navigation_engine_item text, icon_path, cloud_insights.root_path, controller_path.include?("cloud_insights")
     end
 
+
     # INTELLIGENCE
 
-    # IT & HELP DESK
 
-    def navigation_it_help_desk_category(text: "IT & Help desk")
-        engines = navigation_engine_help + navigation_engine_portal + navigation_engine_shared
-        navigation_engine_category(text, engines)
-    end
+    # IT & HELP DESK
 
     # 07.02 Help engine
     def navigation_engine_help text: "Help", icon_path: "cloud_help/help-logo.svg"
@@ -240,12 +210,8 @@ module HtmlHelper
         navigation_engine_item text, icon_path, cloud_shared.root_path, controller_path.include?("cloud_shared")
     end
 
-    # SECURITY & PRIVACY
 
-    def navigation_security_privacy_category(text: "Security & privacy")
-        engines = navigation_engine_audit
-        navigation_engine_category(text, engines)
-    end
+    # SECURITY & PRIVACY
 
     # 08.03 Audit engine
     def navigation_engine_audit text: "Audit", icon_path: "cloud_audit/audit-logo.svg"
@@ -255,12 +221,8 @@ module HtmlHelper
         navigation_engine_item text, icon_path, cloud_audit.root_path, controller_path.include?("cloud_audit")
     end
 
+    
     # INTEGRATIONS
-
-    def navigation_integrations_category(text: "Integrations")
-        engines = navigation_engine_babel + navigation_engine_federation + navigation_engine_one + navigation_engine_development
-        navigation_engine_category(text, engines)
-    end
 
     # 09.01 Babel engine
     def navigation_engine_babel text: "Babel", icon_path: "cloud_babel/babel-logo.svg"
