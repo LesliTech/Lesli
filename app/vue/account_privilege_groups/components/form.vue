@@ -100,6 +100,7 @@ export default {
                 
                 this.privilege_groups = result.data.filter((e) => {
                     return (
+                        e.account_privilege_groups_id === null &&
                         e.account_privilege_groups_id !== this.privilege_group.id &&
                         e.id !== this.privilege_group.id
                     )
