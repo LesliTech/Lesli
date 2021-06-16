@@ -135,14 +135,14 @@ export default {
         },
 
         getData(){
-            this.getPrivilegeActions()
             this.getOptions()
+            this.getPrivilegeActions()
             
             this.loading = true
             Promise.all(this.requests).then(() => {
                 this.requests = []
                 this.loading = false,
-                this.parseData(this.category)
+                this.parseData()
             })
         },
 
@@ -151,50 +151,42 @@ export default {
             this.checkedCategoryRows = this.checkedRows[category].slice()
         },
         
-        copyCheckedCategoryRows(category){
-            this.checkedRows[category] = []
-            this.checkedRows[category] = this.checkedCategoryRows.slice()
-        },
-        
-        parseData(category){                        
-            // copy the configuration
-            if (!this.checkedRows[category]) this.checkedRows[category] = []
-            if (!this.privilege_group_actions_list[category]) {
-                this.privilege_group_actions_list[category] = []
-            } else {
-                this.copyCheckedRows(category)
-                return 
-            }
-            
-            for (let route of this.options.system_controllers){
-                let active = false                
-                if (this.privilege_group_actions.find(e => 
-                    (route.controller_id === e.controller_id) &&
-                    (route.action_id === e.action_id) &&
-                    (e.category === category) &&
-                    e.status
-                )) {
-                    active = true
-                    this.checkedRows[category].push({controller: route.controller, action_id: route.action_id})
+        parseData(){                        
+            for(let category in options.categories) {
+                
+                if (!this.checkedRows[category]) this.checkedRows[category] = []
+                if (!this.privilege_group_actions_list[category]) {
+                    this.privilege_group_actions_list[category] = []
                 }
                 
-               let index = this.privilege_group_actions_list[category].findIndex(e => e.controller === route.controller)
+                for (let route of this.options.system_controllers){
+                    let active = false                
+                    if (this.privilege_group_actions.find(e => 
+                        (route.controller_id === e.controller_id) &&
+                        (route.action_id === e.action_id) &&
+                        (e.category === category) &&
+                        e.status
+                    )) {
+                        active = true
+                        this.checkedRows[category].push({controller: route.controller, action_id: route.action_id})
+                    }
+                    
+                let index = this.privilege_group_actions_list[category].findIndex(e => e.controller === route.controller)
 
-                if  (index === -1){
-                    this.privilege_group_actions_list[category].push(
-                        {
-                            all: active,
-                            controller: route.controller,
-                            actions: [{name: route.action, id: route.action_id}]
-                        }
-                    )
-                } else {
-                    this.privilege_group_actions_list[category][index]['all'] = this.privilege_group_actions_list[category][index]['all'] && active
-                    this.privilege_group_actions_list[category][index]['actions'].push({name: route.action, id: route.action_id})
+                    if  (index === -1){
+                        this.privilege_group_actions_list[category].push(
+                            {
+                                all: active,
+                                controller: route.controller,
+                                actions: [{name: route.action, id: route.action_id}]
+                            }
+                        )
+                    } else {
+                        this.privilege_group_actions_list[category][index]['all'] = this.privilege_group_actions_list[category][index]['all'] && active
+                        this.privilege_group_actions_list[category][index]['actions'].push({name: route.action, id: route.action_id})
+                    }
                 }
             }
-            
-            this.copyCheckedRows(category)
         },
         
         getPrivilegeActions(){
@@ -314,7 +306,7 @@ export default {
 
     watch: {
         category(newValue, oldValue){
-            this.copyCheckedCategoryRows(oldValue)
+            this.copyCheckedRows(oldValue)
             this.parseData(newValue)
         }
     }
