@@ -76,7 +76,10 @@ Rails.application.config.assets.precompile += [ "i18n.js" ]
 # dynamic include assets for engines
 Rails.configuration.lesli_settings["engines"].each do |engine|
 
-    if ["cloud_text", "cloud_house", "cloud_driver", "cloud_focus", "cloud_babel"].include?(engine[:code])
+    if [
+        "cloud_text", "cloud_house", "cloud_driver", 
+        "cloud_focus", "cloud_babel", "cloud_audit"
+    ].include?(engine[:code])
         Rails.application.config.assets.precompile += [
             "#{engine[:code]}/#{engine[:code]}_app.css", 
             "#{engine[:code]}/#{engine[:code]}_app.js"
