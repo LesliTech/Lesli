@@ -30,9 +30,13 @@ app({
     },
     mounted() {
         setInterval(() => {
-            this.seconds_left_to_redirect -= 1
-            if (this.seconds_left_to_redirect <= 0) {
-                //this.url.go("/login")
+
+            if (this.seconds_left_to_redirect > 0) {
+                this.seconds_left_to_redirect -= 1
+            }
+
+            if (this.seconds_left_to_redirect <= 0) {    
+                this.url.go("/")
             }
         }, 1000);
     }

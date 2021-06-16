@@ -50,7 +50,10 @@ module ApplicationHelper
         path_segments = controller_path.split("/")
         cloud_module = path_segments.shift
 
-        if ["cloud_text", "cloud_house", "cloud_driver", "cloud_focus", "cloud_babel"].include?(cloud_module)
+        if [
+            "cloud_text", "cloud_house", "cloud_driver", 
+            "cloud_focus", "cloud_babel", "cloud_audit"
+        ].include?(cloud_module)
             return [cloud_module, [cloud_module, "app"].join("_")].join("/")
         end
 
@@ -62,7 +65,10 @@ module ApplicationHelper
         path_segments = controller_path.split("/")
         cloud_module = path_segments.shift
 
-        if ["cloud_text", "cloud_house", "cloud_driver", "cloud_focus", "cloud_babel"].include?(cloud_module)
+        if [
+            "cloud_text", "cloud_house", "cloud_driver", 
+            "cloud_focus", "cloud_babel", "cloud_audit"
+        ].include?(cloud_module)
             return [cloud_module, [cloud_module, "app"].join("_")].join("/")
         end
 
