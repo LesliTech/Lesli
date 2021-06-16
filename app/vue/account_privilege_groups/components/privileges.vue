@@ -32,16 +32,17 @@ export default {
                 main: I18n.t('core.account/privilege_groups')
             },
             loading: false,
-            category: 'index',
             privilege_group_actions_list: [],
             privilege_group_actions: [],
-            options: [],
+            options: {},
             filters: {
-                search_constrollers_list: '',
+                search_constrollers_value: '',
+                search_constrollers_list: {},
             },
             requests: [],
             checkedRows: {},
-            checkedCategoryRows: []
+            checkedCategoryRows: [],
+            active_tab: 0
         }
     },
 
@@ -65,7 +66,7 @@ export default {
             let privilege_action = this.privilege_group_actions.find(
                 e => e.controller === action.controller  &&
                     e.action_id === action.action_id &&
-                    e.category === this.category
+                    e.category === this.getCategory()
             )
             
             if (!privilege_action) {
@@ -79,7 +80,7 @@ export default {
             let data = { 
                 account_privilege_group_action: { 
                     status: status, 
-                    category: this.category,
+                    category: this.getCategory(),
                     system_controller_actions_id: route.action_id,
                     account_privilege_groups_id: this.privilege_group.id
                 }
@@ -146,18 +147,23 @@ export default {
             })
         },
 
+        copyCheckedCategoryRows(category){
+            this.checkedRows[category] = []
+            this.checkedRows[category] = this.checkedCategoryRows.slice()
+        },
+        
         copyCheckedRows(category){
             this.checkedCategoryRows = []
             this.checkedCategoryRows = this.checkedRows[category].slice()
         },
         
         parseData(){                        
-            for(let category in options.categories) {
+            for(let category of this.options.categories) {
+                category = category.value 
                 
                 if (!this.checkedRows[category]) this.checkedRows[category] = []
-                if (!this.privilege_group_actions_list[category]) {
-                    this.privilege_group_actions_list[category] = []
-                }
+                if (!this.privilege_group_actions_list[category]) this.privilege_group_actions_list[category] = []
+                if (!this.filters.search_constrollers_list[category]) this.filters.search_constrollers_list[category] = ''
                 
                 for (let route of this.options.system_controllers){
                     let active = false                
@@ -187,6 +193,9 @@ export default {
                     }
                 }
             }
+            
+            
+            this.copyCheckedRows(this.getCategory()) // initial checked rows of index
         },
         
         getPrivilegeActions(){
@@ -240,7 +249,7 @@ export default {
         selectAllControllerActions(controller, event){
             let value = event.target.checked  
             
-            let resource_index = this.privilege_group_actions_list[this.category].findIndex(
+            let resource_index = this.privilege_group_actions_list[this.getCategory()].findIndex(
                 e => e.controller === controller
             )
     
@@ -255,7 +264,7 @@ export default {
             if (value) { 
                 actions = []
                 
-                for(let action of this.privilege_group_actions_list[this.category][resource_index]['actions']) {
+                for(let action of this.privilege_group_actions_list[this.getCategory()][resource_index]['actions']) {
                     let new_action =  { controller: controller, action_id: action.id}
                     
                     actions.push(new_action)
@@ -277,124 +286,140 @@ export default {
                     return  e.action_id  !== action_id
                 })
                 
-                let resource_index = this.privilege_group_actions_list[this.category].findIndex(
+                let resource_index = this.privilege_group_actions_list[this.getCategory()].findIndex(
                     e => e.controller === controller
                 )
             
-                this.$set(this.privilege_group_actions_list[this.category][resource_index], 'all', false)
+                this.$set(this.privilege_group_actions_list[this.getCategory()][resource_index], 'all', false)
             }
             
             this.submitActions([action], value)
+        },
+        
+        getCategory(index){
+            if (!(index >= 0)) {
+                index = this.active_tab
+            }
+            
+            return this.options.categories[index].value
+        },
+        
+        copyFilters(text){
+            this.filters.search_constrollers_list[this.getCategory()] = this.filters.search_constrollers_value
         }
     },
 
     computed: {
         filteredControllers(){
-            let search_field = this.filters.search_constrollers_list.toLowerCase().trim()
-
+            let search_field = this.filters.search_constrollers_value
+            this.copyFilters(search_field)
+            
+            search_field = search_field.toLowerCase().trim()
             if (search_field.length > 0) {
-                return this.privilege_group_actions_list[this.category].filter((action)=>{
+                return this.privilege_group_actions_list[this.getCategory()].filter((action)=>{
                     return (
                         action.controller.toLowerCase().includes(search_field)
                     )
                 })
             } else {
-                return this.privilege_group_actions_list[this.category]
+                return this.privilege_group_actions_list[this.getCategory()]
             }
         }
     },
 
     watch: {
-        category(newValue, oldValue){
-            this.copyCheckedRows(oldValue)
-            this.parseData(newValue)
+        active_tab(newValue, oldValue){
+            this.filters.search_constrollers_value = this.filters.search_constrollers_list[this.getCategory(newValue)]           
+            this.copyCheckedCategoryRows(this.getCategory(oldValue))
+            this.copyCheckedRows(this.getCategory(newValue))
+            
         }
     }
 }
 
 </script>
 <template>
-    <div class="card">
-        <div class="card-content">
-            <component-data-loading v-if="loading" />
-            <template v-else>
-                <div class="card-content">
-                    <form>
-                        <fieldset>
-                            <div class="columns">
-                                <div class="column is-10">
-                                    <b-field>
-                                        <b-input
-                                            :placeholder="translations.core.view_toolbar_filter_placeholder_search"
-                                            v-model="filters.search_constrollers_list"
-                                            type="text"
-                                            icon="search"
-                                            icon-right="close-circle"
-                                            icon-right-clickable
-                                            @icon-right-click="filters.search_constrollers_list = ''">
-                                        </b-input>
-                                    </b-field>
+    <section>
+    <component-data-loading v-if="loading" />
+    <template v-else>
+        <b-tabs expanded v-model="active_tab">
+            <b-tab-item 
+                v-for="category in options.categories"
+                :label="object_utils.translateEnum(translations.main, 'column_enum_category', category.text)"
+            >
+                <div class="card">
+                    <div class="card-header">
+                        <p class="card-header-title">
+                            {{ translations.main[`view_text_description_${category.value}`]}}
+                        </p>
+                    </div>
+                    <div class="card-content">
+                        <form>
+                            <fieldset>
+                                <div class="columns">
+                                    <div class="column is-full">
+                                        <b-field>
+                                            <b-input
+                                                :placeholder="translations.core.view_toolbar_filter_placeholder_search"
+                                                v-model="filters.search_constrollers_value"
+                                                type="text"
+                                                icon="search"
+                                                icon-right="close-circle"
+                                                icon-right-clickable
+                                                @icon-right-click="filters.search_constrollers_value = ''">
+                                            </b-input>
+                                        </b-field>
+                                    </div>
                                 </div>
-                                <div class="column">
-                                    <b-field>
-                                        <b-select v-model="category" expanded :placeholder="translations.main.view_placeholder_category">
-                                            <option
-                                                v-for="category in options.categories"
-                                                :value="category.value"
-                                                :key="category.value">
-                                                {{ object_utils.translateEnum(translations.main, 'column_enum_category', category.text)}}
-                                            </option>
-                                        </b-select>
-                                    </b-field>
-                                </div>
-                            </div>
 
-                            <b-table
-                                v-if="privilege_group_actions_list[category]"
-                                :data="filteredControllers"
-                                :hoverable="true"
-                                custom-detail-row
-                                :has-detailed-visible="hasDetails"
-                                :bordered="true"
-                                :striped="true"
-                                detailed
-                                :paginated="true"
-                                :per-page="15"
-                                detail-key="controller"
-                            >
-                                <template v-slot="props">
-                                    <b-table-column field="controller" :label="translations.main.view_text_resource" >
-                                        <strong> {{ `${props.row.controller}` }} </strong>
-                                    </b-table-column>
+                                <b-table
+                                    v-if="privilege_group_actions_list[getCategory()]"
+                                    :data="filteredControllers"
+                                    :hoverable="true"
+                                    custom-detail-row
+                                    :has-detailed-visible="hasDetails"
+                                    :bordered="true"
+                                    :striped="true"
+                                    detailed
+                                    :paginated="true"
+                                    :per-page="15"
+                                    detail-key="controller"
+                                >
+                                    <template v-slot="props">
+                                        <b-table-column field="controller" :label="translations.main.view_text_resource" >
+                                            <strong> {{ `${props.row.controller}` }} </strong>
+                                        </b-table-column>
 
-                                    <b-table-column field="all" :label="translations.view_text_all_actions" >
-                                        <b-switch
-                                            :rounded="false"
-                                            :ref="props.row.controller + '-all'"
-                                            v-model="props.row.all"
-                                            @change.native="event => selectAllControllerActions(props.row.controller,event)"
-                                        />
-                                    </b-table-column>
-                                </template>
-
-                                <template slot="detail" slot-scope="props">
-                                    <tr v-for="(item, index) in props.row.actions" :key="`${props.row.controller}-${index}`">
-                                        <td></td>
-                                        <td> {{ item.name }} </td>
-                                        <td>
+                                        <b-table-column field="all" :label="translations.view_text_all_actions" >
                                             <b-switch
                                                 :rounded="false"
-                                                :value="checkedCategoryRows.findIndex(e => e.controller === props.row.controller && e.action_id === item.id) === -1 ? false : true"
-                                                @change.native="event => setControllerActions(props.row.controller, item.id, event)"
+                                                :ref="props.row.controller + '-all'"
+                                                v-model="props.row.all"
+                                                @change.native="event => selectAllControllerActions(props.row.controller,event)"
                                             />
-                                        </td>
-                                    </tr>
-                                </template>
-                            </b-table>
-                        </fieldset>
-                    </form>
+                                        </b-table-column>
+                                    </template>
+
+                                    <template slot="detail" slot-scope="props">
+                                        <tr v-for="(item, index) in props.row.actions" :key="`${props.row.controller}-${index}`">
+                                            <td></td>
+                                            <td> {{ item.name }} </td>
+                                            <td>
+                                                <b-switch
+                                                    :rounded="false"
+                                                    :value="checkedCategoryRows.findIndex(e => e.controller === props.row.controller && e.action_id === item.id) === -1 ? false : true"
+                                                    @change.native="event => setControllerActions(props.row.controller, item.id, event)"
+                                                />
+                                            </td>
+                                        </tr>
+                                    </template>
+                                </b-table>
+                            </fieldset>
+                        </form>
+                    </div>
                 </div>
-            </template>
-        </div>
-    </div>
+            </b-tab-item>
+        </b-tabs>
+    </template>
+    </section>
 </template>
