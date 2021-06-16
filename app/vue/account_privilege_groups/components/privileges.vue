@@ -318,7 +318,7 @@ export default {
             if (search_field.length > 0) {
                 return this.privilege_group_actions_list[this.getCategory()].filter((action)=>{
                     return (
-                        action.controller.toLowerCase().includes(search_field)
+                        (action.controller || '').toLowerCase().includes(search_field)
                     )
                 })
             } else {
