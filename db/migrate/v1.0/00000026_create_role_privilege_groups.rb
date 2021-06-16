@@ -1,8 +1,9 @@
 class CreateRolePrivilegeGroups < ActiveRecord::Migration[6.1]
     def change
         create_table :role_privilege_groups do |t|
-            t.datetime :deleted_at, index: true
+            t.string   :category
             
+            t.datetime :deleted_at, index: true
             t.timestamps
         end
         
