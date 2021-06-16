@@ -84,3 +84,7 @@ every :day, at: '11:00 pm' do
     rake 'deutsche_leibrenten:cron:create_lead_origin_reminder_task' if defined? DeutscheLeibrenten
     rake 'mitwerken_cloud:cron:notify_outdated_projects' if defined? MitwerkenCloud
 end
+
+every :monday, at: '4:00 am' do
+    rake 'deutsche_leibrenten:cron:send_report_companies_projects' if defined? DeutscheLeibrenten
+end
