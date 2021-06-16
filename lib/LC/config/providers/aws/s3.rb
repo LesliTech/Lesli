@@ -65,6 +65,21 @@ module LC
                             key: key
                         })
                     end
+
+                    # @param key [String] The object identifier within the bucked
+                    # @return [Aws::S3::Types::HeadObjectOutput] An output stream associated to the S3 object.
+                    # @description Connects to Aws and retrieves the HEAD information of the object associated to the **key** argument.
+                    # @example
+                    #     file_path = "storage/cloud_house/projects/1/files/112-my-file.docx"
+                    #
+                    #     s3 = LC::Config::Providers::Aws::S3.new()
+                    #     puts s3.head_object(file_path)
+                    def head_object(key)
+                        @client.head_object({
+                            bucket: self.class.bucket,
+                            key: key
+                        })
+                    end
                     
                     # @param key [String] The object identifier within the bucked
                     # @return [Aws::S3::Types::DeleteObjectOutput] An output stream associated to the deleted S3 object.
@@ -104,7 +119,7 @@ module LC
                     #     client = LC::Config::Providers::Aws::S3.new()
                     #     object_url = client.generate_object_url("storage/cloud_house/1/files/11-my-file.docx")
                     #     redirect_to object_url
-                    def generate_object_url(key, expires_in_seconds: 30)
+                    def generate_object_url(key, expires_in_seconds: 60)
                         @signer.presigned_url(
                             :get_object,
                             bucket: self.class.bucket,
