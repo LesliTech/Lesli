@@ -39,91 +39,11 @@ RSpec.describe "/system_controllers", type: :request do
     end
   end
 
-  describe "GET /new" do
-    it "renders a successful response" do
-      get new_system_controller_url
-      expect(response).to be_successful
-    end
-  end
-
   describe "GET /edit" do
     it "render a successful response" do
       system_controller = SystemController.create! valid_attributes
       get edit_system_controller_url(system_controller)
       expect(response).to be_successful
-    end
-  end
-
-  describe "POST /create" do
-    context "with valid parameters" do
-      it "creates a new SystemController" do
-        expect {
-          post system_controllers_url, params: { system_controller: valid_attributes }
-        }.to change(SystemController, :count).by(1)
-      end
-
-      it "redirects to the created system_controller" do
-        post system_controllers_url, params: { system_controller: valid_attributes }
-        expect(response).to redirect_to(system_controller_url(SystemController.last))
-      end
-    end
-
-    context "with invalid parameters" do
-      it "does not create a new SystemController" do
-        expect {
-          post system_controllers_url, params: { system_controller: invalid_attributes }
-        }.to change(SystemController, :count).by(0)
-      end
-
-      it "renders a successful response (i.e. to display the 'new' template)" do
-        post system_controllers_url, params: { system_controller: invalid_attributes }
-        expect(response).to be_successful
-      end
-    end
-  end
-
-  describe "PATCH /update" do
-    context "with valid parameters" do
-      let(:new_attributes) {
-        skip("Add a hash of attributes valid for your model")
-      }
-
-      it "updates the requested system_controller" do
-        system_controller = SystemController.create! valid_attributes
-        patch system_controller_url(system_controller), params: { system_controller: new_attributes }
-        system_controller.reload
-        skip("Add assertions for updated state")
-      end
-
-      it "redirects to the system_controller" do
-        system_controller = SystemController.create! valid_attributes
-        patch system_controller_url(system_controller), params: { system_controller: new_attributes }
-        system_controller.reload
-        expect(response).to redirect_to(system_controller_url(system_controller))
-      end
-    end
-
-    context "with invalid parameters" do
-      it "renders a successful response (i.e. to display the 'edit' template)" do
-        system_controller = SystemController.create! valid_attributes
-        patch system_controller_url(system_controller), params: { system_controller: invalid_attributes }
-        expect(response).to be_successful
-      end
-    end
-  end
-
-  describe "DELETE /destroy" do
-    it "destroys the requested system_controller" do
-      system_controller = SystemController.create! valid_attributes
-      expect {
-        delete system_controller_url(system_controller)
-      }.to change(SystemController, :count).by(-1)
-    end
-
-    it "redirects to the system_controllers list" do
-      system_controller = SystemController.create! valid_attributes
-      delete system_controller_url(system_controller)
-      expect(response).to redirect_to(system_controllers_url)
     end
   end
 end

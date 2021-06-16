@@ -39,46 +39,11 @@ RSpec.describe "/role/privilege_actions", type: :request do
     end
   end
 
-  describe "GET /new" do
-    it "renders a successful response" do
-      get new_role_privilege_action_url
-      expect(response).to be_successful
-    end
-  end
-
   describe "GET /edit" do
     it "render a successful response" do
       privilege_action = Role::PrivilegeAction.create! valid_attributes
       get edit_role_privilege_action_url(role_privilege_action)
       expect(response).to be_successful
-    end
-  end
-
-  describe "POST /create" do
-    context "with valid parameters" do
-      it "creates a new Role::PrivilegeAction" do
-        expect {
-          post role_privilege_actions_url, params: { role_privilege_action: valid_attributes }
-        }.to change(Role::PrivilegeAction, :count).by(1)
-      end
-
-      it "redirects to the created role_privilege_action" do
-        post role_privilege_actions_url, params: { role_privilege_action: valid_attributes }
-        expect(response).to redirect_to(role_privilege_action_url(@role_privilege_action))
-      end
-    end
-
-    context "with invalid parameters" do
-      it "does not create a new Role::PrivilegeAction" do
-        expect {
-          post role_privilege_actions_url, params: { role_privilege_action: invalid_attributes }
-        }.to change(Role::PrivilegeAction, :count).by(0)
-      end
-
-      it "renders a successful response (i.e. to display the 'new' template)" do
-        post role_privilege_actions_url, params: { role_privilege_action: invalid_attributes }
-        expect(response).to be_successful
-      end
     end
   end
 
