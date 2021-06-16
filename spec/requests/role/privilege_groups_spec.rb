@@ -40,10 +40,10 @@ RSpec.describe "/role/privilege_groups", type: :request do
   end
 
   describe "GET /new" do
-    it "renders a successful response" do
-      get new_role_privilege_group_url
-      expect(response).to be_successful
-    end
+    # it "renders a successful response" do
+    #   get new_role_privilege_group_url
+    #   expect(response).to be_successful
+    # end
   end
 
   describe "GET /edit" do
@@ -55,31 +55,31 @@ RSpec.describe "/role/privilege_groups", type: :request do
   end
 
   describe "POST /create" do
-    context "with valid parameters" do
-      it "creates a new Role::PrivilegeGroup" do
-        expect {
-          post role_privilege_groups_url, params: { role_privilege_group: valid_attributes }
-        }.to change(Role::PrivilegeGroup, :count).by(1)
-      end
+    # context "with valid parameters" do
+    #   it "creates a new Role::PrivilegeGroup" do
+    #     expect {
+    #       post role_privilege_groups_url, params: { role_privilege_group: valid_attributes }
+    #     }.to change(Role::PrivilegeGroup, :count).by(1)
+    #   end
 
-      it "redirects to the created role_privilege_group" do
-        post role_privilege_groups_url, params: { role_privilege_group: valid_attributes }
-        expect(response).to redirect_to(role_privilege_group_url(@role_privilege_group))
-      end
-    end
+    #   it "redirects to the created role_privilege_group" do
+    #     post role_privilege_groups_url, params: { role_privilege_group: valid_attributes }
+    #     expect(response).to redirect_to(role_privilege_group_url(@role_privilege_group))
+    #   end
+    # end
 
-    context "with invalid parameters" do
-      it "does not create a new Role::PrivilegeGroup" do
-        expect {
-          post role_privilege_groups_url, params: { role_privilege_group: invalid_attributes }
-        }.to change(Role::PrivilegeGroup, :count).by(0)
-      end
+    # context "with invalid parameters" do
+    #   it "does not create a new Role::PrivilegeGroup" do
+    #     expect {
+    #       post role_privilege_groups_url, params: { role_privilege_group: invalid_attributes }
+    #     }.to change(Role::PrivilegeGroup, :count).by(0)
+    #   end
 
-      it "renders a successful response (i.e. to display the 'new' template)" do
-        post role_privilege_groups_url, params: { role_privilege_group: invalid_attributes }
-        expect(response).to be_successful
-      end
-    end
+    #   it "renders a successful response (i.e. to display the 'new' template)" do
+    #     post role_privilege_groups_url, params: { role_privilege_group: invalid_attributes }
+    #     expect(response).to be_successful
+    #   end
+    # end
   end
 
   describe "PATCH /update" do
