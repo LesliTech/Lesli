@@ -36,7 +36,6 @@ export default {
                 range_before: 3,
                 range_after: 3
             },
-            options: [],
             sort: {
                 icon_size: 'is-small',
                 direction: 'desc'
@@ -69,7 +68,7 @@ export default {
         },
         
         getRoleGroupOptions(role_groups) {
-            let url = this.url.admin(`roles/privilege_groups/options`)
+            let url = this.url.admin(`roles/privilege_actions/options`)
             this.http.get(url).then(result => {
                 if (result.successful) {
                     let groups = []
@@ -131,9 +130,7 @@ export default {
             }
         },
         
-        postRolePrivilegeGroup(category, group_privilege, group_privilege_parent){
-            console.log(group_privilege)
-            
+        postRolePrivilegeGroup(category, group_privilege, group_privilege_parent){            
             let data = {
                 role_privilege_group: {
                     account_privilege_groups_id: group_privilege.id,
@@ -148,7 +145,7 @@ export default {
                     return
                 }
                 
-                if (parent) {
+                if (group_privilege_parent) {
                     let parent_index = this.options.groups.findIndex(
                         e => e.id === group_privilege_parent.id
                     )
@@ -168,6 +165,7 @@ export default {
                     this.$set(this.options.groups[index].actions[category], 'role_group_id', result.data.id)
                 }
                 
+                const message = 
                 this.msg.success('GREAT 1')
             }).catch(error => {
                 console.log(error)
@@ -176,7 +174,6 @@ export default {
         },
 
         destroyRolePrivilegeGroup(category, group_privilege){
-            console.log(group_privilege.actions[category])
             let url = this.url.admin('roles/:role_id/privilege_groups/:id', 
                 {role_id: this.role.id, 
                 id: group_privilege.actions[category].role_group_id
