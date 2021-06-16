@@ -16,20 +16,15 @@ For more information read the license file including with this software.
 // · 
 
 %>
-<% if Rails.env == "production" %>
-<!-- Analytics -->
+
+<% tracking_id = "UA-123529158-1" # TODO: get tracking code from credentials %>
+
+<% # if (Rails.env.production? and tracking_id.present?) %>
+<% if Rails.env.production? %>
+
 <script type="text/javascript">
 
-    var _paq = window._paq || [];
-        _paq.push(['trackPageView']);
-        _paq.push(['enableLinkTracking']);
-
-    (function() {
-
-        var u = "//analytics.lesli.tech/";
-
-        _paq.push(['setTrackerUrl', u + 'matomo.php']);
-        _paq.push(['setSiteId', '2']);
+    function loadAnalytics() {
 
         var d=document, 
             g=d.createElement('script'), 
@@ -38,11 +33,18 @@ For more information read the license file including with this software.
         g.type='text/javascript'; 
         g.async=true; 
         g.defer=true; 
-        g.src=u+'matomo.js'; 
+        g.src="https://www.googletagmanager.com/gtag/js?id=<%= tracking_id %>"; 
         s.parentNode.insertBefore(g,s);
 
-    })();
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag("js", new Date());
+        gtag("config", "<%= tracking_id %>");
+
+    }
+
+    setTimeout(() => { loadAnalytics() }, 2000);
     
 </script>
-<!-- End Analytics Code -->
+
 <% end %>
