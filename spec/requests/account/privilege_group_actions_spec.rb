@@ -39,13 +39,6 @@ RSpec.describe "/account/privilege_group_actions", type: :request do
     end
   end
 
-  describe "GET /new" do
-    it "renders a successful response" do
-      get new_account_privilege_group_action_url
-      expect(response).to be_successful
-    end
-  end
-
   describe "GET /edit" do
     it "render a successful response" do
       privilege_group_action = Account::PrivilegeGroupAction.create! valid_attributes
