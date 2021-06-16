@@ -69,7 +69,7 @@ export default {
         },
         
         getRoleGroupOptions(role_groups) {
-            let url = this.url.admin(`roles/privilege_actions/options`)
+            let url = this.url.admin(`roles/privilege_groups/options`)
             this.http.get(url).then(result => {
                 if (result.successful) {
                     let groups = []
