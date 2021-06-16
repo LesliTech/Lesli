@@ -40,10 +40,10 @@ RSpec.describe "/account/privilege_groups", type: :request do
   end
 
   describe "GET /new" do
-    it "renders a successful response" do
-      get new_account_privilege_group_url
-      expect(response).to be_successful
-    end
+    # it "renders a successful response" do
+    #   get new_account_privilege_group_url
+    #   expect(response).to be_successful
+    # end
   end
 
   describe "GET /edit" do
