@@ -40,10 +40,10 @@ RSpec.describe "/user/privilege_actions", type: :request do
   end
 
   describe "GET /new" do
-    it "renders a successful response" do
-      get new_user_privilege_action_url
-      expect(response).to be_successful
-    end
+    # it "renders a successful response" do
+    #   get new_user_privilege_action_url
+    #   expect(response).to be_successful
+    # end
   end
 
   describe "GET /edit" do
@@ -55,31 +55,31 @@ RSpec.describe "/user/privilege_actions", type: :request do
   end
 
   describe "POST /create" do
-    context "with valid parameters" do
-      it "creates a new User::PrivilegeAction" do
-        expect {
-          post user_privilege_actions_url, params: { user_privilege_action: valid_attributes }
-        }.to change(User::PrivilegeAction, :count).by(1)
-      end
+    # context "with valid parameters" do
+    #   it "creates a new User::PrivilegeAction" do
+    #     expect {
+    #       post user_privilege_actions_url, params: { user_privilege_action: valid_attributes }
+    #     }.to change(User::PrivilegeAction, :count).by(1)
+    #   end
 
-      it "redirects to the created user_privilege_action" do
-        post user_privilege_actions_url, params: { user_privilege_action: valid_attributes }
-        expect(response).to redirect_to(user_privilege_action_url(@user_privilege_action))
-      end
-    end
+    #   it "redirects to the created user_privilege_action" do
+    #     post user_privilege_actions_url, params: { user_privilege_action: valid_attributes }
+    #     expect(response).to redirect_to(user_privilege_action_url(@user_privilege_action))
+    #   end
+    # end
 
-    context "with invalid parameters" do
-      it "does not create a new User::PrivilegeAction" do
-        expect {
-          post user_privilege_actions_url, params: { user_privilege_action: invalid_attributes }
-        }.to change(User::PrivilegeAction, :count).by(0)
-      end
+    # context "with invalid parameters" do
+    #   it "does not create a new User::PrivilegeAction" do
+    #     expect {
+    #       post user_privilege_actions_url, params: { user_privilege_action: invalid_attributes }
+    #     }.to change(User::PrivilegeAction, :count).by(0)
+    #   end
 
-      it "renders a successful response (i.e. to display the 'new' template)" do
-        post user_privilege_actions_url, params: { user_privilege_action: invalid_attributes }
-        expect(response).to be_successful
-      end
-    end
+    #   it "renders a successful response (i.e. to display the 'new' template)" do
+    #     post user_privilege_actions_url, params: { user_privilege_action: invalid_attributes }
+    #     expect(response).to be_successful
+    #   end
+    # end
   end
 
   describe "PATCH /update" do
