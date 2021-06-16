@@ -48,6 +48,10 @@ class Role::PrivilegeGroupsController < ApplicationLesliController
         end
     end
 
+    def options
+        respond_with_successful(Role::PrivilegeGroup.options(current_user, @query))
+    end
+    
     private
 
     def set_role

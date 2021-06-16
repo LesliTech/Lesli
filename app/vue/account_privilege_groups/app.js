@@ -21,18 +21,18 @@ import app from 'LesliVue/app'
 
 
 // · Import common apps
-import pageList  from 'Lesli/vue/account_role_groups/pages/list.vue'
-import pageShow  from 'Lesli/vue/account_role_groups/pages/show.vue'
-import pageNew   from 'Lesli/vue/account_role_groups/pages/new.vue'
+import pageList  from './pages/list.vue'
+import pageShow  from './pages/show.vue'
+import pageNew   from './pages/new.vue'
 
 
 // · 
-app("Core", "[list|new|edit|show]", "/crm/role_groups", [{
+app("Core", "[list|new|edit|show]", "/administration/account/privilege_groups", [{
     path: "/",
     component: pageList,
 },{
     path: "/new",
-    component: pageNew, props: { mainPath: '/crm/users' }
+    component: pageNew
 },{
     path: "/:id",
     component: pageShow
