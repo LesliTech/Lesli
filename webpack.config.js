@@ -73,7 +73,7 @@ module.exports = env => {
             "account/privilege_groups_app": "./app/vue/account_privilege_groups/app.js",
             "account/currency_exchange_rates_app": "./app/vue/account_exchange_rates/app.js",
             
-            "dashboards/app": "./app/vue/dashboardswha/app.js",
+            "dashboards/app": "./app/vue/dashboards/app.js",
             "profiles/app": "./app/vue/profiles/app.js",
             "websites/app": "./app/vue/websites/app.js",
             "abouts/app": "./app/vue/abouts/app.js",
