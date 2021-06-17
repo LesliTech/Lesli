@@ -20,44 +20,38 @@ For more information read the license file including with this software.
 module Docm
     module Generator
         class Xlsx
-            def self.generate filename, xlsx_datasets
-
+            def self.generate(filename, xlsx_datasets, style_data: nil)
+                style_data = {styles: {}, sheets: []} unless style_data
                 axlsx = Axlsx::Package.new
-
-                styles_header = axlsx.workbook.styles.add_style(
-                    bg_color: 'DBDBDB', sz: 14
-                )
+                workbook = axlsx.workbook
+                
+                # We take the styles sent as hash, and turn them insto workbook styles
+                style_data[:styles].each do |style_name, data|
+                    style_data[:styles][style_name] = workbook.styles.add_style(data)
+                end
 
                 # Creates a new excel file
-                xlsx_datasets.each do |xlsx_data|
-
-                    axlsx.workbook.add_worksheet(:name => xlsx_data[0]) do |sheet|
+                xlsx_datasets.each_with_index do |xlsx_data, sheet_index|
+                    sheet_styles = style_data[:sheets][sheet_index] || []
+                    
+                    workbook.add_worksheet(:name => xlsx_data[0]) do |sheet|
 
                         # Adding column names on the first row of the excel
-                        sheet.add_row xlsx_data[1]['headers']
+                        xlsx_data[1]['rows'].unshift(xlsx_data[1]['headers'])
+                        row_styles = nil
+                        expanded_row_styles = []
 
                         # Adding all the rows found in database
-                        xlsx_data[1]['rows'].each do |row|
+                        xlsx_data[1]['rows'].each_with_index do |row, row_index|
+                            if (! row_styles) || (row_styles[:end_row] && (row_styles[:end_row] < row_index))
+                                row_styles = sheet_styles.shift || {}
+                                expanded_row_styles = self.expand_styles(row, row_styles, style_data[:styles])
 
-                            sheet.add_row row
+                            end
 
-                            # search for special data like [links]
-                            #row.each_with_index do |cell, index|
-                            # check if cell has hyperlink
-                            #if (cell.to_s.start_with?('http'))
-                            # it is to hard to add dynamic hyperlinks, because some reports contains a lot of columns
-                            #column where the excel is going to insert the hyperlinks, to make this work I should add all the possibles column names here from A to XFD
-                            #al = ['A','B','C'] 
-                            # sheet.add_hyperlink :location => cell.to_s, :ref => "#{al[index]}#{index}"
-                            #end
-                            #end
-
+                            sheet.add_row(row, style: expanded_row_styles)
                         end
-
-                        #sheet.auto_filter = "A1:AA20"
-
                     end
-
                 end
 
                 # Saving excel file on the server disk for every user
@@ -78,7 +72,27 @@ module Docm
 
                 # return file path to send/download to the user
                 file_path + file_name
+            end
 
+            def self.expand_styles(row, row_styles, styles)
+                column_styles = row_styles[:columns] || {}
+                expanded_styles = []
+                column_style = column_styles.shift
+
+                row.each_with_index do |column, column_index|
+                    unless column_style
+                        expanded_styles.push(nil)
+                        next
+                    end
+
+                    expanded_styles.push(styles[column_style[:style_name]])
+
+                    if column_style[:end_column] && column_style[:end_column] <= column_index 
+                        column_style = column_styles.shift
+                    end
+                end
+
+                expanded_styles
             end
         end
     end
