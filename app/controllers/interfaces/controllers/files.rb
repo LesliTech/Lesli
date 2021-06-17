@@ -136,6 +136,9 @@ module Interfaces::Controllers::Files
             file = file_model.new(new_file_params)
         end
 
+        # We calculate the file size in MB
+        file_size = new_file_params[:attachment].size
+        file.size_mb = file_size.to_f / (1024*1024)
 
         if file.save
             # Setting the file name in case it's blank and updating the file in case the filename changed
@@ -182,13 +185,21 @@ module Interfaces::Controllers::Files
     def show
         set_file
         return respond_with_not_found unless @file
+
+        file_model = file_model()
         
         disposition = "inline"
         disposition = "attachment" if params["download"]
         
         # Sending file using CarrierWave
         if @file.attachment_s3.file
-            send_data(@file.attachment_s3.read, filename: @file.attachment_s3_identifier, disposition: disposition, stream: "true")
+
+            # We either get the file from AWS and serve it ourselves or provide a direct AWS link with expiration time
+            if @file.size_mb && @file.size_mb > file_model.size_threshold
+                redirect_to @file.refresh_external_url
+            else
+                send_data(@file.attachment_s3.read, filename: @file.attachment_s3_identifier, disposition: disposition, stream: "true")
+            end
         else
             send_data(@file.attachment.read, filename: @file.attachment_identifier, disposition: disposition, stream: "true")
         end

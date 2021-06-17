@@ -239,7 +239,10 @@ module.exports = env => {
         }
 
         // get app directories
-        if (["cloud_text", "cloud_house", "cloud_driver", "cloud_focus", "cloud_babel"].includes(engine)) {
+        if ([
+                "cloud_text", "cloud_house", "cloud_driver", 
+                "cloud_focus", "cloud_babel", "cloud_audit"
+            ].includes(engine)) {
 
             let filePath = "./"+path.join("./engines", engine, "app", "vue", "app.js")
             let fileName = [engine, "app"].join("_")

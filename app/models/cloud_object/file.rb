@@ -39,6 +39,34 @@ module CloudObject
             return nil
         end
 
+        # @return [String] A string representing a 1-minute valid external URL to download the file
+        # @description Checks if this file has an external URL associated and it is valid. If it is not, it refreshes the URL
+        #     and then returns it. All urls are valid for 1 minute after creation
+        # @example
+        #     # If executed from the controller's show action
+        #     @file = current_user.account.help.tickets.find(1).files.find(2)
+        #     @file.refresh_external_url
+        #     redirect_to @file.external_url
+        def refresh_external_url
+            return external_url if (external_url && (external_url_expiration_date > LC::Date.now + 5.seconds))
+            
+            client = LC::Config::Providers::Aws::S3.new()
+            object_key = [
+                "storage",
+                self.class.lesli_classname.underscore.sub("/file", ""),
+                self.cloud_object.id,
+                self.attachment_s3_identifier
+            ].join("/")
+
+            object_url = client.generate_object_url(object_key, expires_in_seconds: 60)
+            self.update!(
+                external_url: object_url,
+                external_url_expiration_date: LC::Date.now + 1.minute
+            )
+
+            external_url
+        end
+
         # @return [Hash] A list of options needed to create a File.
         # @description Returns lists of all fields needed to create a file. For the time being, it only returns a list of
         #     all available file types
@@ -113,5 +141,9 @@ module CloudObject
             self.name
         end
 
+
+        def self.size_threshold
+            return 0
+        end
     end
 end
