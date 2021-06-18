@@ -21,7 +21,7 @@ module Docm
     module Generator
         class Xlsx
             def self.generate(filename, xlsx_datasets, style_data: nil)
-                style_data = {styles: {}, sheets: []} unless style_data
+                style_data = {styles: {}, sheets: {data: []}} unless style_data
                 axlsx = Axlsx::Package.new
                 workbook = axlsx.workbook
                 
@@ -30,9 +30,20 @@ module Docm
                     style_data[:styles][style_name] = workbook.styles.add_style(data)
                 end
 
+                sheet_styles = nil
+                static_sheet_styles = nil
+
                 # Creates a new excel file
                 xlsx_datasets.each_with_index do |xlsx_data, sheet_index|
-                    sheet_styles = style_data[:sheets][sheet_index] || []
+
+                    if (! sheet_styles) || (sheet_styles[:end_sheet] && (sheet_styles[:end_sheet] < sheet_index))
+                        if sheet_styles && sheet_styles[:end_sheet]
+                        end
+                        static_sheet_styles = (style_data[:sheets].shift || {})
+                        sheet_styles = JSON.parse(static_sheet_styles.to_json).deep_symbolize_keys
+                    else
+                        sheet_styles = JSON.parse(static_sheet_styles.to_json).deep_symbolize_keys
+                    end
                     
                     workbook.add_worksheet(:name => xlsx_data[0]) do |sheet|
 
@@ -44,14 +55,15 @@ module Docm
                         # Adding all the rows found in database
                         xlsx_data[1]['rows'].each_with_index do |row, row_index|
                             if (! row_styles) || (row_styles[:end_row] && (row_styles[:end_row] < row_index))
-                                row_styles = sheet_styles.shift || {}
+                                row_styles = sheet_styles[:data].shift || {}
                                 expanded_row_styles = self.expand_styles(row, row_styles, style_data[:styles])
-
                             end
 
                             sheet.add_row(row, style: expanded_row_styles)
                         end
                     end
+
+                    
                 end
 
                 # Saving excel file on the server disk for every user
@@ -75,7 +87,7 @@ module Docm
             end
 
             def self.expand_styles(row, row_styles, styles)
-                column_styles = row_styles[:columns] || {}
+                column_styles = row_styles[:columns] || []
                 expanded_styles = []
                 column_style = column_styles.shift
 
@@ -85,7 +97,11 @@ module Docm
                         next
                     end
 
-                    expanded_styles.push(styles[column_style[:style_name]])
+                    if column_style[:style_name]
+                        expanded_styles.push(styles[column_style[:style_name].to_sym])
+                    else
+                        expanded_styles.push(nil)
+                    end
 
                     if column_style[:end_column] && column_style[:end_column] <= column_index 
                         column_style = column_styles.shift
