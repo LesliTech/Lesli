@@ -15,12 +15,6 @@ For more information read the license file including with this software.
 // · 
 
 =end
-class Invite < ApplicationLesliRecord
-    def self.index(current_user, query)
-        []
-    end
 
-    def show(current_user, query)
-        self
-    end
+class Invite < ApplicationLesliRecord
 end
