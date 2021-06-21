@@ -26,10 +26,16 @@ module CloudObject
 
         enum file_type: {}
 
+        # @return [String] This method will return the path of the file
+        # @description This method return the path that should be used to get the file via HTTP GET.
+        #       On the query param it receive the custom base path, for example to serve files via the CloudDispatcher.
+        # @example
+        #       query[:base_path] = "/api"
+        #       image_path = project.files.last.show_url(current_user, query) if project.files.last
         def show_url current_user, query
-            return "" unless query[:base_path]
+            cloud_object_controller = self.cloud_object.class.lesli_classname.underscore.split("/").last.pluralize
 
-            "#{query[:base_path]}/#{self.cloud_object.id}/files/#{self.id}"
+            "#{query[:base_path]}/#{cloud_object_controller}/#{self.cloud_object.id}/files/#{self.id}"
         end
 
         def destroy
