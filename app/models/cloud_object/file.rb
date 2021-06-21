@@ -26,6 +26,10 @@ module CloudObject
 
         enum file_type: {}
 
+        def show cloud_object_path
+            "#{cloud_object_path}/#{self.cloud_object.id}/files/#{self.id}"
+        end
+
         def destroy
             update(attachment: nil, attachment_s3: nil)
 
