@@ -1,37 +1,32 @@
 # RSpect tests
 Integration tests for Rails applications
 
+## Generate tests
+There is a custom generator to scaffold a basic set of CRUD tests
+
+```bash
+
+# generate tests for a core feature
+rails generate test core/invite
+
+# generate tests for a module feature
+rails generate test cloud_focus/tasks
+```
 
 ## Folder structure
 
 ```plaintext
-Rails app/
+Rails app or engine/
 └── spec
     ├── controllers/
-    ├── requests/           (your tests goes here!) 
-    │   └── controllers/    (your tests goes here!) 
-    │       └── methods     (your tests goes here!) 
+    ├── requests/                       -> (your tests goes here!) 
+    │   └── [controllers_name]/         -> (your tests goes here!) 
+    │       └── method_name_spec.rb     -> (your tests goes here!) 
     ├── support/
     ├── rails_helper.rb
     └── spec_helper.rb
 ```
 
-## Creating a test
-
-**Folder structure**
-
-```plaintext
-Rails app/
-└── spec
-    ├── controllers/
-    ├── requests/
-    │   └── users/
-    │       ├── index_spec.rb
-    │       └── show_spec.rb
-    ├── support/
-    ├── rails_helper.rb
-    └── spec_helper.rb
-```
 
 ## Testing index request
 
