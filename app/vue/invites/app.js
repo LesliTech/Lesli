@@ -38,10 +38,10 @@ app({
             main: I18n.t("core.invites")
         },
         invite: {
-            email: "dev666@lesli.cloud",
-            telephone: "+502 5690 6973",
-            full_name: "Lesli Development",
-            note: "My cool note"
+            email: "",
+            telephone: "",
+            full_name: "",
+            note: ""
         },
         progress_bar_active: false,
         notification: {
