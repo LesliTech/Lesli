@@ -52,7 +52,8 @@ module ApplicationHelper
 
         if [
             "cloud_text", "cloud_house", "cloud_driver", 
-            "cloud_focus", "cloud_babel", "cloud_audit"
+            "cloud_focus", "cloud_babel", "cloud_audit",
+            "cloud_realty"
         ].include?(cloud_module)
             return [cloud_module, [cloud_module, "app"].join("_")].join("/")
         end
@@ -67,7 +68,8 @@ module ApplicationHelper
 
         if [
             "cloud_text", "cloud_house", "cloud_driver", 
-            "cloud_focus", "cloud_babel", "cloud_audit"
+            "cloud_focus", "cloud_babel", "cloud_audit",
+            "cloud_realty"
         ].include?(cloud_module)
             return [cloud_module, [cloud_module, "app"].join("_")].join("/")
         end

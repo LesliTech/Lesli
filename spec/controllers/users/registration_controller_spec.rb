@@ -62,7 +62,7 @@ RSpec.describe Users::RegistrationsController, type: :controller do
                 "successful"=> false,
                 "error"=>{
                     "details"=> [], 
-                    "message"=> 'translation missing: en.core.users/registrations.messages_info_user_already_exists'
+                    "message"=> I18n.t('core.users/registrations.messages_info_user_already_exists')
                 }
             })
         end
