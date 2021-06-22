@@ -31,7 +31,7 @@ module CloudObject
         #       On the query param it receive the custom base path, for example to serve files via the CloudDispatcher.
         # @example
         #       query[:base_path] = "/api"
-        #       image_path = project.files.last.show_url(current_user, query) if project.files.last
+        #       image_path = project.files.first.show_url(current_user, query) if project.files.first
         def show_url current_user, query
             cloud_object_controller = self.cloud_object.class.lesli_classname.underscore.split("/").last.pluralize
 
