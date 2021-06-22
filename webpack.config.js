@@ -79,6 +79,7 @@ module.exports = env => {
             "users/app": "./app/vue/users/app.js",
             "roles/app": "./app/vue/roles/app.js",
             
+            "invites/app": "./app/vue/invites/app.js",
             "passes/app": "./app/vue/passes/app.js",
             "otps/app": "./app/vue/otps/app.js",
 
