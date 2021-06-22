@@ -169,6 +169,14 @@ module HtmlHelper
         navigation_engine_item text, icon_path, cloud_things.root_path, controller_path.include?("cloud_things")
     end
 
+    # 04.05 Realty engine
+    def navigation_engine_realty text: "Realty", icon_path: "cloud_realty/realty-logo.svg"
+        unless defined? CloudRealty
+            return ""
+        end
+        navigation_engine_item text, icon_path, cloud_realty.root_path, controller_path.include?("cloud_realty")
+    end 
+
 
     # ANALYTICS
 

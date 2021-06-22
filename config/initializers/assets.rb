@@ -79,7 +79,8 @@ Rails.configuration.lesli_settings["engines"].each do |engine|
 
     if [
         "cloud_text", "cloud_house", "cloud_driver", 
-        "cloud_focus", "cloud_babel", "cloud_audit"
+        "cloud_focus", "cloud_babel", "cloud_audit",
+        "cloud_realty"
     ].include?(engine[:code])
         Rails.application.config.assets.precompile += [
             "#{engine[:code]}/#{engine[:code]}_app.css", 
