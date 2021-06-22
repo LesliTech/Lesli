@@ -27,6 +27,8 @@ module CloudObject
         enum file_type: {}
 
         # @return [String] This method will return the path of the file
+        # @param current_user [User] The user that made a request to execute this method
+        # @param query [Hash] A hash that contains the query params of the request
         # @description This method return the path that should be used to get the file via HTTP GET.
         #       On the query param it receive the custom base path, for example to serve files via the CloudDispatcher.
         # @example
