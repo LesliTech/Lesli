@@ -3,6 +3,7 @@ import componentFormCreateFocusTask from './forms/create_focus_task.vue'
 import componentFormSendCoreEmail from './forms/send_core_email.vue'
 import componentFormCreateBellNotification from './forms/create_bell_notification.vue'
 import componentFormCloudObjectClone from './forms/cloud_object_clone.vue'
+import componentFormCreateAndSendCloudObjectFile from './forms/create_and_send_cloud_object_file.vue'
 import componentFormCreateCloudObjectFile from './forms/create_cloud_object_file.vue'
 import componentFormSendTalkChatroomMessage from './forms/send_talk_chatroom_message.vue'
 
@@ -30,6 +31,7 @@ export default {
     },
 
     components: {
+        'component-form-create-and-send-cloud-object-file': componentFormCreateAndSendCloudObjectFile,
         'component-form-create-focus-task': componentFormCreateFocusTask,
         'component-form-send-core-email': componentFormSendCoreEmail,
         'component-form-create-bell-notification': componentFormCreateBellNotification,
@@ -399,6 +401,15 @@ export default {
                 :view-type="viewType"
                 :engine-namespace="engineNamespace"
             ></component-form-create-cloud-object-file>
+            <component-form-create-and-send-cloud-object-file
+                v-if="action.action_type == 'create_and_send_cloud_object_file'"
+                :options="options"
+                :workflow-id="workflowId"
+                :translations-path="translationsPath"
+                :workflow-action="action"
+                :view-type="viewType"
+                :engine-namespace="engineNamespace"
+            ></component-form-create-and-send-cloud-object-file>
             <component-form-cloud-object-clone
                 v-if="action.action_type == 'cloud_object_clone'"
                 :options="options"
