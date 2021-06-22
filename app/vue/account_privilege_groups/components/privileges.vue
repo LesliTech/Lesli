@@ -397,6 +397,14 @@ export default {
                                                 v-model="props.row.all"
                                                 @change.native="event => selectAllControllerActions(props.row.controller,event)"
                                             />
+                                            
+                                            <span>
+                                                <small>
+                                                    <strong>
+                                                        {{ '(' + (checkedCategoryRows.filter(e => e.controller === props.row.controller)||[]).length + '/' + (options.system_controllers.filter(e => e.controller === props.row.controller)).length + ')'}}
+                                                    </strong> 
+                                                </small>
+                                            </span>
                                         </b-table-column>
                                     </template>
 
