@@ -114,51 +114,47 @@ export default {
 
 </script>
 <template>
-    <div class="card">
-        <div class="card-content">
-            <form @submit.prevent="submitForm">
-                <fieldset :disabled="submitting_form">
-                    <b-field>
-                        <template v-slot:label> 
-                            {{ translations.core.view_text_name }} 
-                            <sup class="has-text-danger">*</sup> 
-                        </template>
-                        <b-input type="text" placeholder="" v-model="privilege_group.name" required></b-input>
-                    </b-field>
+    <form @submit.prevent="submitForm">
+        <fieldset :disabled="submitting_form">
+            <b-field>
+                <template v-slot:label> 
+                    {{ translations.core.view_text_name }} 
+                    <sup class="has-text-danger">*</sup> 
+                </template>
+                <b-input type="text" placeholder="" v-model="privilege_group.name" required></b-input>
+            </b-field>
 
-                    <b-field :label="translations.main.column_account_privilege_groups_id" v-if="privilege_groups.length > 0">
-                        <b-select v-model="privilege_group.account_privilege_groups_id" expanded>
-                            <option
-                                v-for="privilege_group in privilege_groups"
-                                :value="privilege_group.id"
-                                :key="privilege_group.id">
-                                {{ privilege_group.name }}
-                            </option>
-                        </b-select>
-                    </b-field>
-                    
-                    <b-field :label="translations.main.column_description">
-                        <b-input v-model="privilege_group.description" type="textarea"></b-input>
-                    </b-field>
+            <b-field :label="translations.main.column_account_privilege_groups_id" v-if="privilege_groups.length > 0">
+                <b-select v-model="privilege_group.account_privilege_groups_id" expanded>
+                    <option
+                        v-for="privilege_group in privilege_groups"
+                        :value="privilege_group.id"
+                        :key="privilege_group.id">
+                        {{ privilege_group.name }}
+                    </option>
+                </b-select>
+            </b-field>
+            
+            <b-field :label="translations.main.column_description">
+                <b-input v-model="privilege_group.description" type="textarea"></b-input>
+            </b-field>
 
-                    <div class="field is-grouped">
-                        <div class="control">
-                            <button class="button is-primary">
-                                <span v-if="submitting_form">
-                                    <b-icon icon="circle-notch" custom-cla           ss="fa-spin" size="is-small" />
-                                    &nbsp;
-                                    {{translations.core.view_btn_saving}}
-                                </span>
-                                <span v-else>
-                                    <b-icon icon="save" size="is-small" />
-                                    &nbsp;
-                                    {{translations.core.view_btn_save}}
-                                </span>
-                            </button>
-                        </div>
-                    </div>
-                </fieldset>
-            </form>
-        </div>
-    </div>
+            <div class="field is-grouped">
+                <div class="control">
+                    <button class="button is-primary">
+                        <span v-if="submitting_form">
+                            <b-icon icon="circle-notch" custom-cla           ss="fa-spin" size="is-small" />
+                            &nbsp;
+                            {{translations.core.view_btn_saving}}
+                        </span>
+                        <span v-else>
+                            <b-icon icon="save" size="is-small" />
+                            &nbsp;
+                            {{translations.core.view_btn_save}}
+                        </span>
+                    </button>
+                </div>
+            </div>
+        </fieldset>
+    </form>
 </template>
