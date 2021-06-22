@@ -101,7 +101,7 @@ class UserMailer < ApplicationLesliMailer
                         full_name: user.full_name
                 }
         })
-        mail(to: email_address_with_name(user.email, user.full_name), subject: "works")
+        mail(to: email_address_with_name(user.email, user.full_name), subject: I18n.t("core.passes.mailer_login_link_instructions"))
     end
 
 
