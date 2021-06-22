@@ -58,6 +58,7 @@ Rails.application.routes.draw do
         mount CloudDriver::Engine => "/driver" if defined?(CloudDriver)
         mount CloudMailer::Engine => "/mailer" if defined?(CloudMailer)
         mount CloudPortal::Engine => "/portal" if defined?(CloudPortal)
+        mount CloudRealty::Engine => "/realty" if defined?(CloudRealty)
         mount CloudThings::Engine => "/inventory" if defined?(CloudThings)
         mount CloudInsights::Engine => "/insights" if defined?(CloudInsights)
         mount CloudProposal::Engine => "/proposal" if defined?(CloudProposal)
