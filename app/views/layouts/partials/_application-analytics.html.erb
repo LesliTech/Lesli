@@ -17,14 +17,22 @@ For more information read the license file including with this software.
 
 %>
 
-<% tracking_id = "UA-123529158-1" # TODO: get tracking code from credentials %>
+<% tracking_id = "2" # TODO: get tracking code from a config file %>
 
-<% # if (Rails.env.production? and tracking_id.present?) %>
 <% if Rails.env.production? %>
 
 <script type="text/javascript">
 
-    function loadAnalytics() {
+    var _paq = window._paq || [];
+        _paq.push(['trackPageView']);
+        _paq.push(['enableLinkTracking']);
+
+    function loadMotomoAnalytics() {
+
+        var u = "//analytics.lesli.tech/";
+
+        _paq.push(['setTrackerUrl', u + 'matomo.php']);
+        _paq.push(['setSiteId', '<%= tracking_id %>']);
 
         var d=document, 
             g=d.createElement('script'), 
@@ -33,17 +41,12 @@ For more information read the license file including with this software.
         g.type='text/javascript'; 
         g.async=true; 
         g.defer=true; 
-        g.src="https://www.googletagmanager.com/gtag/js?id=<%= tracking_id %>"; 
+        g.src=u+'matomo.js'; 
         s.parentNode.insertBefore(g,s);
-
-        window.dataLayer = window.dataLayer || [];
-        function gtag(){dataLayer.push(arguments);}
-        gtag("js", new Date());
-        gtag("config", "<%= tracking_id %>");
 
     }
 
-    setTimeout(() => { loadAnalytics() }, 2000);
+    setTimeout(() => { loadMotomoAnalytics() }, 2000);
     
 </script>
 
