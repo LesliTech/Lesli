@@ -16,20 +16,23 @@ For more information read the license file including with this software.
 // · 
 
 %>
-<% if Rails.env == "production" %>
-<!-- Analytics -->
+
+<% tracking_id = "2" # TODO: get tracking code from a config file %>
+
+<% if Rails.env.production? %>
+
 <script type="text/javascript">
 
     var _paq = window._paq || [];
         _paq.push(['trackPageView']);
         _paq.push(['enableLinkTracking']);
 
-    (function() {
+    function loadMotomoAnalytics() {
 
         var u = "//analytics.lesli.tech/";
 
         _paq.push(['setTrackerUrl', u + 'matomo.php']);
-        _paq.push(['setSiteId', '2']);
+        _paq.push(['setSiteId', '<%= tracking_id %>']);
 
         var d=document, 
             g=d.createElement('script'), 
@@ -41,8 +44,10 @@ For more information read the license file including with this software.
         g.src=u+'matomo.js'; 
         s.parentNode.insertBefore(g,s);
 
-    })();
+    }
+
+    setTimeout(() => { loadMotomoAnalytics() }, 2000);
     
 </script>
-<!-- End Analytics Code -->
+
 <% end %>
