@@ -31,7 +31,7 @@ export default {
             translations: {
                 shared: I18n.t('deutscheleibrenten.shared'),
                 users: I18n.t('deutscheleibrenten.users'),
-                roles: I18n.t('core.roles'),
+                main: I18n.t('core.roles'),
                 role_activities: I18n.t('core.role/activities')
             },
             sorting: {
@@ -164,13 +164,17 @@ export default {
                     <b-icon icon="list" size="is-small" />
                     <span>{{ translations.shared.btn_list }}</span>
                 </router-link>
-                <router-link class="button" :to="this.role.id + '/edit'">
+                <b-button class="button" @click.stop="$set(data, 'view_type', 'edit')">
                     <b-icon icon="edit" size="is-small" />
                     <span>{{ translations.shared.btn_edit }}</span>
-                </router-link>
-                <b-button class="button" @click.stop="url.go(`/crm/roles/${role.id}`)">
+                </b-button>
+                <b-button class="button" @click.stop="$set(data, 'view_type', 'simple')">
                     <b-icon icon="eye" size="is-small" />
-                    <span>{{ translations.shared.btn_show }}</span>
+                    <span>{{ translations.main.view_btn_simple }}</span>
+                </b-button>
+                <b-button class="button" @click.stop="$set(data, 'view_type', 'advanced')">
+                    <b-icon icon="cogs" size="is-small" />
+                    <span>{{ translations.main.view_btn_advanced }}</span>
                 </b-button>
             </div>
         </component-header>
@@ -189,9 +193,9 @@ export default {
                         v-model="filters.text_category"
                         @change="getRoleActivities"
                     >
-                        <option value=""> {{ translations.roles.view_toolbar_filter_all_categories }} </option>
+                        <option value=""> {{ translations.main.view_toolbar_filter_all_categories }} </option>
                         <option v-for="category in options.categories" v-bind:key="category.value" v-bind:value="category.value">
-                            {{ object_utils.translateEnum(translations.roles, 'column_enum_category', category.text) }}
+                            {{ object_utils.translateEnum(translations.main, 'column_enum_category', category.text) }}
                         </option>
                     </select>
                 </div>

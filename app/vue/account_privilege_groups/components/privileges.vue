@@ -182,13 +182,11 @@ export default {
                     if  (index === -1){
                         this.privilege_group_actions_list[category].push(
                             {
-                                all: active,
                                 controller: route.controller,
                                 actions: [{name: route.action, id: route.action_id}]
                             }
                         )
                     } else {
-                        this.privilege_group_actions_list[category][index]['all'] = this.privilege_group_actions_list[category][index]['all'] && active
                         this.privilege_group_actions_list[category][index]['actions'].push({name: route.action, id: route.action_id})
                     }
                 }
@@ -289,8 +287,6 @@ export default {
                 let resource_index = this.privilege_group_actions_list[this.getCategory()].findIndex(
                     e => e.controller === controller
                 )
-            
-                this.$set(this.privilege_group_actions_list[this.getCategory()][resource_index], 'all', false)
             }
             
             this.submitActions([action], value)
@@ -344,7 +340,8 @@ export default {
     <template v-else>
         <b-tabs expanded v-model="active_tab">
             <b-tab-item 
-                v-for="category in options.categories"
+                v-for="category in options.categories" 
+                :key="category"
                 :label="object_utils.translateEnum(translations.main, 'column_enum_category', category.text)"
             >
                 <div class="card">
@@ -394,16 +391,16 @@ export default {
                                             <b-switch
                                                 :rounded="false"
                                                 :ref="props.row.controller + '-all'"
-                                                v-model="props.row.all"
+                                                :value="(checkedCategoryRows.filter(e => e.controller === props.row.controller)||[]).length === (options.system_controllers.filter(e => e.controller === props.row.controller)).length"
                                                 @change.native="event => selectAllControllerActions(props.row.controller,event)"
                                             />
                                             
                                             <span>
-                                                <small>
+                                                <b-tag rounded type="is-default">
                                                     <strong>
                                                         {{ '(' + (checkedCategoryRows.filter(e => e.controller === props.row.controller)||[]).length + '/' + (options.system_controllers.filter(e => e.controller === props.row.controller)).length + ')'}}
                                                     </strong> 
-                                                </small>
+                                                </b-tag rounded>
                                             </span>
                                         </b-table-column>
                                     </template>

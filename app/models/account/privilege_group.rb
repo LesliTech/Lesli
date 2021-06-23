@@ -16,7 +16,7 @@ For more information read the license file including with this software.
 
 =end
 class Account::PrivilegeGroup < ApplicationLesliRecord
-    has_many :actions,    foreign_key: "account_privilege_groups_id", class_name: "Account::PrivilegeGroupAction"  
+    has_many :actions,    foreign_key: "account_privilege_groups_id", class_name: "PrivilegeGroupAction"  
     
     belongs_to :user_creator,   foreign_key: "users_id",            class_name: "::User"
     belongs_to :account,        foreign_key: "accounts_id",         class_name: "Account"  

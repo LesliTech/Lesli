@@ -52,6 +52,10 @@ export default {
             </div>
         </component-header>
 
-        <component-form :privilege_group="privilege_group"></component-form>
+        <div class="card">
+            <div class="card-content">
+                <component-form :privilege_group="privilege_group"></component-form>
+            </div>
+        </div>
     </section>
 </template>

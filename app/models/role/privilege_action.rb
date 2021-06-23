@@ -19,6 +19,22 @@ class Role::PrivilegeAction < ApplicationLesliRecord
     belongs_to :role, foreign_key: "roles_id"
     belongs_to :action, foreign_key: "system_controller_actions_id",    class_name: "SystemController::Action"
     
+    def self.index(current_user, role)
+        role.role_privilege_actions.joins(action: [:system_controller])
+        .select(
+            "role_privilege_actions.id",
+            "role_privilege_actions.status",
+            "system_controllers.name as controller",
+            "system_controllers.id as controller_id",
+            "system_controller_actions.name as action_name",
+            "system_controller_actions.id as action_id"
+        )
+    end
+    
+    def show(current_user, query)
+        self    
+    end
+    
     def self.options(current_user, query)
         groups = []
         categories_name = Account::PrivilegeGroupAction.categories.map{|k, _| k}
