@@ -60,13 +60,15 @@ app({
                 this.progress_bar_active = false
 
                 if (result.successful) {
-                    this.showNotification(this.translations.main.notification_reset_password_instructions_sent, "is-success")
+                    this.showNotification("Login link sent successfuly", "has-text-success")
                 } else {
                     this.showNotification(result.error.message)
                 }
 
             }).catch(error => {
                 console.log(error)
+            }).finally(() => {
+                this.pass.email = ""
             })
         },
 
