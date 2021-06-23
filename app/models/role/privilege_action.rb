@@ -65,4 +65,21 @@ class Role::PrivilegeAction < ApplicationLesliRecord
             categories: categories_name
         }
     end
+    
+    def is_available?        
+        groups = self.role.privilege_groups.joins(group: [actions: [:system_action]])
+        .select("account_privilege_groups.name")
+        .where("system_controller_actions.id = ?", self.action.id)
+        
+        unless groups.blank?
+            return {
+                status: false,
+                groups: groups.map(&:name)&.uniq.join(", ")
+            }
+        else
+            return {
+                status: true
+            }
+        end
+    end
 end

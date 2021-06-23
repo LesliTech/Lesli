@@ -43,7 +43,8 @@ export default {
             },
             requests: [],
             checkedRows: [],
-            active_tab: 0
+            active_tab: 0,
+            errors: [] 
         }
     },
 
@@ -58,8 +59,14 @@ export default {
             }
             
             Promise.all(this.requests).then(() => {
+                if (this.errors.length > 0) {
+                    this.msg.error(this.errors.join('. '))
+                } else {
+                    this.msg.success(this.translations.privilege_actions.messages_success_actions_updated)
+                }  
+                
                 this.requests = []
-                this.msg.success(this.translations.privilege_actions.messages_success_actions_updated)    
+                this.errors = []  
             })
         },
         
@@ -74,7 +81,14 @@ export default {
                 let url = this.url.admin('roles/:role_id/privilege_actions/:id', { role_id: this.role.id, id: role_privilege_action_id})
                 this.http.put(url, data).then(result => {
                     if (!result.successful) {
-                        this.msg.error(result.error.message)
+                        this.errors.push(result.error.message)
+                        
+                        if (status) {
+                            this.checkedRows = this.checkedRows.filter(e => e.id !== role_privilege_action_id) // disabled in the view
+                        } else {
+                            let route = this.role_privilege_actions.find(e => e.id === role_privilege_action_id)
+                            this.checkedRows.push({controller: route.controller, id: route.id}) // enable in the view
+                        }
                     }
                     resolve()
                 }).catch(error => {
@@ -83,7 +97,8 @@ export default {
                     reject()
                 })
             })
-    
+            
+            this.requests.push(request)
         },
 
         getData(){
