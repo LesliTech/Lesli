@@ -79,6 +79,7 @@ module.exports = env => {
             "users/app": "./app/vue/users/app.js",
             "roles/app": "./app/vue/roles/app.js",
             
+            "invites/app": "./app/vue/invites/app.js",
             "passes/app": "./app/vue/passes/app.js",
             "otps/app": "./app/vue/otps/app.js",
 
@@ -241,7 +242,8 @@ module.exports = env => {
         // get app directories
         if ([
                 "cloud_text", "cloud_house", "cloud_driver", 
-                "cloud_focus", "cloud_babel", "cloud_audit"
+                "cloud_focus", "cloud_babel", "cloud_audit",
+                "cloud_realty"
             ].includes(engine)) {
 
             let filePath = "./"+path.join("./engines", engine, "app", "vue", "app.js")
