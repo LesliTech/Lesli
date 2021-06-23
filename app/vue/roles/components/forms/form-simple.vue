@@ -22,9 +22,6 @@ export default {
     props: {
         role: {
             required: true
-        },
-        translations: {
-            required: true
         }
     },
     data() {
@@ -46,7 +43,15 @@ export default {
             },
             requests: [],
             options: {},
-            ready: false
+            ready: false,
+            translations: {
+                privilege_actions: I18n.t('core.role/privilege_actions'),
+                privilege_groups: I18n.t('core.account/privilege_groups'),
+                shared: I18n.t('deutscheleibrenten.shared'),
+                users: I18n.t('deutscheleibrenten.users'),
+                core: I18n.t('core.shared'),
+                main: I18n.t('core.roles')
+            },
         }
     },
     mounted() {
@@ -165,8 +170,11 @@ export default {
                     this.$set(this.options.groups[index].actions[category], 'role_group_id', result.data.id)
                 }
                 
-                const message = 
-                this.msg.success('GREAT 1')
+                let message = group_privilege.name 
+                message += ':[' + this.object_utils.translateEnum(this.translations.privilege_groups, 'column_enum_category', category) + '] '
+                message += this.translations.privilege_actions.messages_success_role_group_added
+                
+                this.msg.success(message) 
             }).catch(error => {
                 console.log(error)
 
@@ -185,7 +193,11 @@ export default {
                     return
                 }
                 
-                this.msg.success('GREAT')
+                let message =  message += group_privilege.name 
+                message += ':[' + this.object_utils.translateEnum(this.translations.privilege_groups, 'column_enum_category', category) + '] '
+                message += this.translations.privilege_actions.messages_success_role_group_deleted
+                
+                this.msg.success(message) 
             }).catch(error => {
                 console.log(error)
 
@@ -231,13 +243,17 @@ export default {
                     <b-icon icon="list" size="is-small" />
                     <span>{{ translations.shared.btn_list }}</span>
                 </router-link>
-                <router-link class="button" :to="this.role.id + '/edit'">
+                <b-button class="button" @click.stop="$set(data, 'view_type', 'edit')">
                     <b-icon icon="edit" size="is-small" />
                     <span>{{ translations.shared.btn_edit }}</span>
-                </router-link>
-                <b-button class="button" @click.stop="url.go(`/crm/roles/${role.id}?view_type=logs`)">
+                </b-button>
+                <b-button class="button" @click.stop="$set(data, 'view_type', 'logs')">
                     <b-icon icon="history" size="is-small" />
                     <span>{{ translations.shared.view_btn_logs }}</span>
+                </b-button>
+                <b-button class="button" @click.stop="$set(data, 'view_type', 'advanced')">
+                    <b-icon icon="cogs" size="is-small" />
+                    <span>{{ translations.main.view_btn_advanced }}</span>
                 </b-button>
             </div>
         </component-header>
@@ -263,13 +279,12 @@ export default {
                     focusable
                 >
                     <template v-slot="props">
-                        <b-table-column field="name" label="Name" >
+                        <b-table-column field="name" :label="translations.core.view_text_name" >
                             <strong> {{  props.row.name }} </strong>
                         </b-table-column>
                         
-                        <b-table-column v-for="category in options.categories" :field="category" :label="category" >
+                        <b-table-column v-for="category in options.categories" :key="category" :field="category" :label="object_utils.translateEnum(translations.privilege_groups, 'column_enum_category', category)" >
                             <b-switch
-                                :rounded="true"
                                 :ref="props.row.name + '-' + category"
                                 v-if="props.row.actions[category]['actions'].length > 0"
                                 :value="props.row.actions[category]['status']"
@@ -284,7 +299,6 @@ export default {
                             <td> &nbsp; &nbsp; {{ subgroup.name }} </td>
                             <td v-for="category in options.categories" :field="category" :label="category" >
                                 <b-switch
-                                    :rounded="true"
                                     :ref="subgroup.name + '-' + category"
                                     v-if="subgroup.actions[category]['actions'].length > 0"
                                     :value="subgroup.actions[category]['status']"

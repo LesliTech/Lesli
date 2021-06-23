@@ -16,11 +16,11 @@ For more information read the license file including with this software.
 
 =end
 class Account::PrivilegeGroupAction < ApplicationLesliRecord
-    belongs_to :privilege_group,    foreign_key: "account_privilege_groups_id"
+    belongs_to :privilege_group,    foreign_key: "account_privilege_groups_id",     class_name: "PrivilegeGroup"  
     belongs_to :system_action,      foreign_key: "system_controller_actions_id",    class_name: "SystemController::Action"
     
-    after_create :set_role_privilege_actions
-    after_update :set_role_privilege_actions
+    after_create  :set_role_privilege_actions
+    after_update  :set_role_privilege_actions
     
     enum category: {
         index:   'index',
@@ -51,11 +51,12 @@ class Account::PrivilegeGroupAction < ApplicationLesliRecord
     
     private 
     
-    def set_role_privilege_actions
-        
+    # Enable the role action after an action is added to the group
+    def set_role_privilege_actions     
+        if (status)
+            Role::PrivilegeGroup.where(group: self.privilege_group).each do |group|            
+                group.role.privilege_actions.where(system_controller_actions_id: self).update_all(status: true)
+            end
+        end
     end
 end
-
-
-
-# Role.find(19).privilege_groups.joins(group: [actions: [system_action: [:system_controller]]]).where("role_privilege_groups.category = account_privilege_group_actions.category").select("system_controller_actions.id, system_controllers.name").map { |route| { action_id: route["id"], controller: route["name"] }}
