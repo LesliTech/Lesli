@@ -52,16 +52,19 @@ app({
 
         build_redirect_url() {
 
-            let redirect_url= "/"
+            // redirect to the root of the domain by default
+            let redirect_url = "/"
 
             try {
+
+                // search for a redirection route in the url params
                 redirect_url = Object.fromEntries(new URLSearchParams(window.location.search)).r
+
             } catch (error) {
                 
-            }
+                // redirect to the root if something happens parsing redirection route
+                redirect_url = "/"
 
-            if (!redirect_url) {
-                redirect_url= "/" 
             }
 
             return redirect_url
