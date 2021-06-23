@@ -31,6 +31,22 @@ class Role::PrivilegeActionsController < ApplicationLesliController
     def update
         return respond_with_not_found unless @role_privilege_action
         
+        # cannot be disabled if the privilege action it is include in a group added to the role
+        if !role_privilege_action_params[:status]
+            
+            privilege_action_available = @role_privilege_action.is_available?
+            
+            if !privilege_action_available[:status]
+                return respond_with_error(
+                    I18n.t(
+                        "core.role/privilege_actions.messages_danger_action_blocked_by_group", 
+                        action: @role_privilege_action.action.name,
+                        groups: privilege_action_available[:groups]
+                    )
+                )
+            end
+        end
+        
         if @role_privilege_action.update(role_privilege_action_params)
             respond_with_successful(@role_privilege_action.show(current_user, @query))
         else
