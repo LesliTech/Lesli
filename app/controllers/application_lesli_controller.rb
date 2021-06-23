@@ -204,8 +204,15 @@ class ApplicationLesliController < ApplicationController
 
         # check if the users is logged into the system
         if not user_signed_in?
-            redirect_to root, notice: "Please Login to view that page!"
-            return 
+            
+            message = "Please Login to view that page!"
+            
+            if !request.fullpath.blank?
+                redirect_to("/login?r=#{request.fullpath}", notice: message) and return 
+            end
+            
+            redirect_to(new_user_session_path, notice: message) and return 
+
         end
 
         # check if account is active (only for html requests)
