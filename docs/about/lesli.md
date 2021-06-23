@@ -82,7 +82,7 @@ A workflow is defined as a series of statuses connected by transitions. Users ca
 Dashboard is a useful tool where you can display important information of your company, for example the latest news, tasks assigned to you or reported timesheets.
 
 ## Cloud objects
-A cloud object is an special type of record in the system. Cloud objects are they only ones that can have workflows attached to them, and they have a series of sub entities that allow for extra functionality and control. You can view cloud objects as the main tables of each of the diferent modules in the system. For example, in **Focus**, **Tasks** and **Checklists** are cloud objects, in **Driver**, **Calendars** and **Events** are, and so on. At minimum, each cloud object in the platform has the following sub entities:
+A cloud object is an special type of record in the system. Cloud objects are they only ones that can have workflows attached to them, and they have a series of sub entities that allow for extra functionality and control. You can view cloud objects as the main tables of each of the different modules in the system. For example, in **Focus**, **Tasks** and **Checklists** are cloud objects, in **Driver**, **Calendars** and **Events** are, and so on. At minimum, each cloud object in the platform has the following sub entities:
 ### Files  
 Easily upload documents to share with your team at one central place to keep them organized and find them quickly whenever required. 
 
