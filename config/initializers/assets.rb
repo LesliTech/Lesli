@@ -67,6 +67,7 @@ Rails.application.config.assets.precompile += [ "dashboards.css", "dashboards/ap
 Rails.application.config.assets.precompile += [ "settings.css", "settings/app.js" ]
 Rails.application.config.assets.precompile += [ "settings/*.css", "settings/*.js" ]
 
+Rails.application.config.assets.precompile += [ "invites.css", "invites/**.js" ]
 Rails.application.config.assets.precompile += [ "passes.css", "passes/**.js" ]
 Rails.application.config.assets.precompile += [ "otps.css", "otps/**.js" ]
 
@@ -78,7 +79,8 @@ Rails.configuration.lesli_settings["engines"].each do |engine|
 
     if [
         "cloud_text", "cloud_house", "cloud_driver", 
-        "cloud_focus", "cloud_babel", "cloud_audit"
+        "cloud_focus", "cloud_babel", "cloud_audit",
+        "cloud_realty"
     ].include?(engine[:code])
         Rails.application.config.assets.precompile += [
             "#{engine[:code]}/#{engine[:code]}_app.css", 
