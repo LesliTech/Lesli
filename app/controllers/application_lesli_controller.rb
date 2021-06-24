@@ -134,8 +134,8 @@ class ApplicationLesliController < ApplicationController
     def authorize_privileges
 
         # check if user has access to the requested controller
-        # this search is over all the privileges for all the roles of the user
-        granted = current_user.has_privilege?(params[:controller], params[:action])
+        # this search is over all the privileges for all the roles of the user        
+        granted = current_user.has_privileges?([params[:controller]], [params[:action]])
 
         # Check if user can be redirected to role default path
         can_redirect_to_default_path = -> () {

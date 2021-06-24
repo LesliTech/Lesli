@@ -45,4 +45,6 @@ app("Administration", "[list|new|edit|show]", "/administration/roles", [{
 }, {
     path: '/:id/edit',
     component: pageEdit
-}])
+}],{
+    view_type: {}
+})

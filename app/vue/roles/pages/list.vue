@@ -21,6 +21,11 @@ For more information read the license file including with this software.
 
 // ·
 export default {
+    props: {
+        lesli_engine: {
+            default: "admin"
+        }  
+    },
     data() {
         return {
             roles: [],
@@ -252,17 +257,28 @@ export default {
                         </b-table-column>
 
                         <b-table-column :label="translations.shared.text_actions" class="has-text-center">
-                            <b-button type="is-danger" outlined @click.stop="deleteRole(props.row.id)" v-if="index_abilities.roles.destroy">
-                                <b-icon icon="trash-alt" />
-                            </b-button>
-                            <b-tooltip v-if="index_abilities.logs.index" :label="translations.roles.view_text_role_logs" type="is-info">
-                                <b-button type="is-default" outlined @click.stop="url.go(`/crm/roles/${props.row.id}?view_type=logs`)">
-                                    <b-icon icon="history" />
+                            <span>
+                                <router-link class="button" :to="`/${props.row.id}?view_type=simple`">
+                                    <b-icon icon="eye" />
+                                </router-link>
+                                <router-link class="button" :to="`/${props.row.id}?view_type=advanced`">
+                                    <b-icon icon="cogs" />
+                                </router-link>
+                                <router-link class="button" :to="`/${props.row.id}?view_type=edit`">
+                                    <b-icon icon="edit" />
+                                </router-link>
+                                <b-button type="is-default" outlined @click.stop="url.go(url[lesli_engine](`users?role=${props.row.name}`))">
+                                    <b-icon icon="users" />
                                 </b-button>
-                            </b-tooltip>
-                            <b-button type="is-default" outlined @click.stop="url.go(url.dl(`users?role=${props.row.name}`))">
-                                <b-icon icon="users" />
-                            </b-button>
+                                <b-tooltip v-if="index_abilities.logs.index" :label="translations.roles.view_text_role_logs" type="is-info">
+                                    <router-link class="button" :to="`/${props.row.id}`">
+                                        <b-icon icon="history" />
+                                    </router-link>
+                                </b-tooltip>
+                                <b-button type="is-danger" outlined @click.stop="deleteRole(props.row.id)" v-if="index_abilities.roles.destroy">
+                                    <b-icon icon="trash-alt" />
+                                </b-button>
+                            </span>
                         </b-table-column>
                     </template>
                 </b-table>

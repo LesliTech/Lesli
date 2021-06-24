@@ -134,39 +134,6 @@ class User < ApplicationLesliRecord
         !roles.intersection(self.roles.map{ |r| r[:name] }).empty?
     end
 
-
-
-    # @return [Boolean]
-    # @description Return true/false if a user has the privilege to do an action of a controller
-    # @examples
-    #     controller = "cloud_house/companies"
-    #     action = "index"
-    #
-    #     current_user.has_privilege?(controller, action)
-    def has_privilege?(controller, action)
-        # These queries find all the privileges that the user has about the same controller's action over the different roles it has
-        granted_by_role = self.role_privilege_actions
-        .joins(action: [:system_controller])
-        .where("system_controllers.name = ?", controller)
-        .where("system_controller_actions.name = '#{action}'")
-        .where("status = ?", true)
-        &.first.present?
-
-        granted_by_user = self.user_privilege_actions
-        .joins(action: [:system_controller])
-        .where("system_controllers.name = ?", controller)
-        .where("system_controller_actions.name = '#{action}'")
-        .where("status = ?", true)
-        &.first.present?
-
-        return granted_by_role || granted_by_user
-    rescue => exception
-        Honeybadger.notify(exception)
-        return false
-    end
-
-
-
     # @return [Boolean]
     # @description Return true/false if a user has the privileges to do an action based on a controllers list
     # @examples
@@ -205,8 +172,6 @@ class User < ApplicationLesliRecord
         Honeybadger.notify(exception)
         return false
     end
-
-
 
     # @return [Hash]
     # @description Return a hash that contains all the abilities grouped by controller and define every action privilege
