@@ -207,10 +207,10 @@ class ApplicationLesliController < ApplicationController
 
             message = "Please Login to view that page!"
 
-            # save url for redirection if possible
+            # check if requested url is valid
             if (request.get? && is_navigational_format? && !request.xhr? && !request.fullpath.blank?)
 
-                # save url for redirection for the current user
+                # redirect with requested url, so user will be redirected after login
                 redirect_to("/login?r=#{request.fullpath}", notice: message) and return 
 
             end 
