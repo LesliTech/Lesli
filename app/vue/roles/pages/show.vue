@@ -21,8 +21,10 @@ For more information read the license file including with this software.
 
 // · List of Imported Components
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
-import componentFormNormal from '../components/forms/form-normal.vue'
-import componentLogs from '../components/logs.vue'
+import componentForm from '../components/forms/form.vue'
+import componentFormSimple from '../components/forms/form-simple.vue'
+import componentFormAdvanced from '../components/forms/form-advanced.vue'
+import componentFormLogs from '../components/forms/form-logs.vue'
 // · 
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
 
@@ -33,17 +35,12 @@ export default {
     },
     
     components: {
-        'component-form-normal': componentFormNormal,
-        'component-logs': componentLogs,
+        'component-form': componentForm,
+        'component-form-simple': componentFormSimple,
+        'component-form-advanced': componentFormAdvanced,
+        'component-form-logs': componentFormLogs,
     },
 
-    // @return [Object] Data used by this component's methods
-    // @description Returns the data needed for this component to work properly
-    // @data_variable main_route [String] the main route to which this component connects to the lesli API
-    // @data_variable role [Object] An object representing a Role, with
-    //      the same params as the associated rails model
-    // @data_variable role_id [String|Integer] The id of the Role, as
-    //      obtained from the route using the *Vue-router* *params* 
     data(){
         return {
             main_route: '/administration/roles',
@@ -56,8 +53,7 @@ export default {
                 roles: I18n.t('deutscheleibrenten.roles'),
                 shared: I18n.t('deutscheleibrenten.shared'),
                 users: I18n.t('deutscheleibrenten.users')
-            },
-            view_type: 'show',
+            }
         }
     },
     
@@ -74,7 +70,9 @@ export default {
 
         setViewType(){
             if (this.$route.query.view_type) {
-                this.view_type = this.$route.query.view_type
+                this.$set(this.data, 'view_type', this.$route.query.view_type)
+            } else {
+                this.$set(this.data, 'view_type', 'simple')
             }
         },
 
@@ -116,16 +114,26 @@ export default {
 }
 </script>
 <template>
-    <section class="application-component">
-        <component-logs
-            v-if="role.id && view_type === 'logs'"
-            :role="role"  
+    <section class="application-component">        
+        <component-form 
+            v-if="role.id && data.view_type === 'edit'"
+            :role="role"
         >
-        </component-logs>
-        <component-form-normal 
-            v-else-if="role.id" 
+        </component-form>
+        <component-form-logs
+            v-if="role.id && data.view_type === 'logs'"
+            :role="role"
+        >
+        </component-form-logs>
+        <component-form-simple 
+            v-if="role.id && data.view_type === 'simple'" 
             :role="role" 
-            :translations="translations">
-        </component-form-normal>
+        >
+        </component-form-simple>
+        <component-form-advanced
+            v-if="role.id && data.view_type === 'advanced'" 
+            :role="role" 
+        >
+        </component-form-advanced>
     </section>
 </template>

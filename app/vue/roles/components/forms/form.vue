@@ -34,16 +34,12 @@ export default {
         this.getRoles()
     },
 
-    // @return [Object] Data used by this component's methods
-    // @description Returns the data needed for this component to work properly
-    // @data_variable settings [Object] An object representing a Settings, with
-    //      the same params as the associated rails model
     data(){
         return {
             translations: {
                 shared: I18n.t('deutscheleibrenten.shared'),
                 roles: I18n.t('deutscheleibrenten.roles'),
-                core_roles: I18n.t('core.roles')
+                main: I18n.t('core.roles')
             },
             main_route: '/administration/roles',
             submitting_form: false,
@@ -134,10 +130,18 @@ export default {
                         <b-icon icon="list" size="is-small" />
                         <span>{{ translations.shared.btn_list }}</span>
                     </router-link>
-                    <router-link v-if="role.id" class="button" :to="'/' + role.id">
+                    <b-button class="button" @click.stop="$set(data, 'view_type', 'logs')">
+                        <b-icon icon="history" size="is-small" />
+                        <span>{{ translations.shared.view_btn_logs }}</span>
+                    </b-button>
+                    <b-button class="button" @click.stop="$set(data, 'view_type', 'simple')">
                         <b-icon icon="eye" size="is-small" />
-                        <span>{{ translations.shared.btn_show }}</span>
-                    </router-link>
+                        <span>{{ translations.main.view_btn_simple }}</span>
+                    </b-button>
+                    <b-button class="button" @click.stop="$set(data, 'view_type', 'advanced')">
+                        <b-icon icon="cogs" size="is-small" />
+                        <span>{{ translations.main.view_btn_advanced }}</span>
+                    </b-button>
                 </div>
             </template>
         </component-header>
@@ -160,7 +164,7 @@ export default {
                             </div>
                             <div v-else class="control">
                                 <input
-                                    :value="object_utils.translateEnum(translations.core_roles, 'column_enum_role', role.name)"
+                                    :value="object_utils.translateEnum(translations.main, 'column_enum_role', role.name)"
                                     class="input"
                                     type="text"
                                     required
@@ -187,7 +191,7 @@ export default {
                                 <template>
                                     <b-taglist>
                                         <b-tag v-for="role in roles" :key="role.id">
-                                            {{  object_utils.translateEnum(translations.core_roles, 'column_enum_role', role) }}
+                                            {{  object_utils.translateEnum(translations.main, 'column_enum_role', role) }}
                                         </b-tag>
                                     </b-taglist>
                                 </template>

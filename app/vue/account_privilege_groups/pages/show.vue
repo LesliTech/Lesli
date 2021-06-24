@@ -73,13 +73,21 @@ export default {
             </div>
         </component-header>
 
-        <b-tabs v-model="active_tab">
-            <b-tab-item :label="translations.core.view_tab_title_form">
+        <div class="card">
+            <div class="card-content">
                 <component-form v-if="privilege_group.id" :privilege_group="privilege_group"></component-form>
-            </b-tab-item>
-            <b-tab-item :label="translations.main.view_tab_title_actions">
+            </div>
+        </div>
+        <br>
+        <div class="card">
+            <div class="card-header">
+                <p class="card-header-title">
+                    {{ 'Actions' }}
+                </p>
+            </div>
+            <div class="card-content">
                 <component-privileges v-if="privilege_group.id" :privilege_group="privilege_group"></component-privileges>
-            </b-tab-item>
-        </b-tabs>
+            </div>
+        </div>
     </section>
 </template>
