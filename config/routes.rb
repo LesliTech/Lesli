@@ -39,32 +39,27 @@ Rails.application.routes.draw do
     extend RoutesBuilder
     extend RoutesApp
 
-    authenticated :user do
-
-        mount CloudOne::Engine    => "/one"    if defined?(CloudOne)
-        mount CloudWork::Engine   => "/work"   if defined?(CloudWork)
-        mount CloudTeam::Engine   => "/team"   if defined?(CloudTeam)
-        mount CloudBell::Engine   => "/bell"   if defined?(CloudBell)
-        mount CloudHelp::Engine   => "/help"   if defined?(CloudHelp)
-        mount CloudText::Engine   => "/text"   if defined?(CloudText)
-        mount CloudTalk::Engine   => "/talk"   if defined?(CloudTalk)
-        mount CloudBooks::Engine  => "/books"  if defined?(CloudBooks)
-        mount CloudAudit::Engine  => "/audit"  if defined?(CloudAudit)
-        mount CloudLesli::Engine  => "/lesli"  if defined?(CloudLesli)
-        mount CloudBabel::Engine  => "/babel"  if defined?(CloudBabel)
-        mount CloudHouse::Engine  => "/house"  if defined?(CloudHouse)
-        mount CloudFocus::Engine  => "/focus"  if defined?(CloudFocus)
-        mount CloudDriver::Engine => "/driver" if defined?(CloudDriver)
-        mount CloudMailer::Engine => "/mailer" if defined?(CloudMailer)
-        mount CloudPortal::Engine => "/portal" if defined?(CloudPortal)
-        mount CloudThings::Engine => "/inventory" if defined?(CloudThings)
-        mount CloudInsights::Engine => "/insights" if defined?(CloudInsights)
-        mount CloudProposal::Engine => "/proposal" if defined?(CloudProposal)
-        mount CloudDevelopment::Engine => "/development" if defined?(CloudDevelopment)
-
-        root to: redirect("/dashboard"), as: :root_authenticated
-
-    end
+    mount CloudOne::Engine    => "/one"    if defined?(CloudOne)
+    mount CloudWork::Engine   => "/work"   if defined?(CloudWork)
+    mount CloudTeam::Engine   => "/team"   if defined?(CloudTeam)
+    mount CloudBell::Engine   => "/bell"   if defined?(CloudBell)
+    mount CloudHelp::Engine   => "/help"   if defined?(CloudHelp)
+    mount CloudText::Engine   => "/text"   if defined?(CloudText)
+    mount CloudTalk::Engine   => "/talk"   if defined?(CloudTalk)
+    mount CloudBooks::Engine  => "/books"  if defined?(CloudBooks)
+    mount CloudAudit::Engine  => "/audit"  if defined?(CloudAudit)
+    mount CloudLesli::Engine  => "/lesli"  if defined?(CloudLesli)
+    mount CloudBabel::Engine  => "/babel"  if defined?(CloudBabel)
+    mount CloudHouse::Engine  => "/house"  if defined?(CloudHouse)
+    mount CloudFocus::Engine  => "/focus"  if defined?(CloudFocus)
+    mount CloudDriver::Engine => "/driver" if defined?(CloudDriver)
+    mount CloudMailer::Engine => "/mailer" if defined?(CloudMailer)
+    mount CloudPortal::Engine => "/portal" if defined?(CloudPortal)
+    mount CloudRealty::Engine => "/realty" if defined?(CloudRealty)
+    mount CloudThings::Engine => "/inventory" if defined?(CloudThings)
+    mount CloudInsights::Engine => "/insights" if defined?(CloudInsights)
+    mount CloudProposal::Engine => "/proposal" if defined?(CloudProposal)
+    mount CloudDevelopment::Engine => "/development" if defined?(CloudDevelopment)
 
     mount CloudShared::Engine => "/shared" if defined?(CloudShared)
     mount CloudDispatcher::Engine => "/api" if defined?(CloudDispatcher)
@@ -75,5 +70,9 @@ Rails.application.routes.draw do
     match "/500", :to => "errors#internal_server_error", :via => :all
 
     root to: "websites#show", as: :root_unauthenticated
+
+    authenticated :user do
+        root to: redirect("/dashboard"), as: :root_authenticated
+    end
 
 end

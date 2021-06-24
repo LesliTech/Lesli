@@ -62,6 +62,7 @@ end
 
 every :day, at: '06:00 am' do
     rake 'deutsche_leibrenten:cron:notify_projects_created_by_callcenter' if defined? DeutscheLeibrenten
+    rake 'mitwerken_cloud:cron:notify_outdated_projects' if defined? MitwerkenCloud
 end
 
 every :day, at: '10:00 pm' do
@@ -82,7 +83,6 @@ end
 
 every :day, at: '11:00 pm' do
     rake 'deutsche_leibrenten:cron:create_lead_origin_reminder_task' if defined? DeutscheLeibrenten
-    rake 'mitwerken_cloud:cron:notify_outdated_projects' if defined? MitwerkenCloud
 end
 
 every :monday, at: '4:00 am' do
