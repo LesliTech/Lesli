@@ -69,10 +69,12 @@ Rails.application.routes.draw do
     match "/401", :to => "errors#unauthorized",          :via => :all
     match "/500", :to => "errors#internal_server_error", :via => :all
 
-    root to: "websites#show", as: :root_unauthenticated
-
     authenticated :user do
         root to: redirect("/dashboard"), as: :root_authenticated
+    end
+
+    unauthenticated :user do 
+        root to: "websites#show", as: :root_unauthenticated
     end
 
 end
