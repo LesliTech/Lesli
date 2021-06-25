@@ -39,7 +39,6 @@ class Users::SessionsController < Devise::SessionsController
     #     this.http.post("127.0.0.1/login", data);
     def create
 
-
         # search for a existing user 
         resource = User.find_for_database_authentication(email: sign_in_params[:email], active: true)
 
