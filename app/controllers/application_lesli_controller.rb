@@ -204,16 +204,29 @@ class ApplicationLesliController < ApplicationController
 
         # check if the users is logged into the system
         if not user_signed_in?
-            redirect_to root, notice: "Please Login to view that page!"
-            return 
+
+            message = "Please Login to view that page!"
+
+            # check if requested url is valid
+            if (request.get? && is_navigational_format? && !request.xhr? && !request.fullpath.blank?)
+
+                # redirect with requested url, so user will be redirected after login
+                redirect_to("/login?r=#{request.fullpath}", notice: message) and return 
+
+            end 
+
+            # redirect to root route
+            redirect_to("/login", notice: message) and return 
+
         end
 
-        # check if account is active (only for html requests)
+        # run aditinal validations only for html requests
         return true if not request.format.html?
 
-        # check if user has an active session
+        # get the current user session 
         current_session = current_user.sessions.find_by(id: session[:user_session_id])
 
+        # check if user has an active session
         if current_session.equal? nil or not current_session.active?
             sign_out current_user
             redirect_to "/logout" and return
