@@ -64,7 +64,9 @@ app({
 
             }
 
-            // redirect to the root if something happens parsing redirection route
+            // redirect to the root if: 
+            //      - error parsing redirection route
+            //      - there is no query params with redirection
             if (!redirect_url) {
                 redirect_url = "/" 
             }
