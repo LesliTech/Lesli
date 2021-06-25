@@ -77,7 +77,12 @@ aside.application-sidebar {
             ul {
                 padding-left: .6rem;
             }
-            
+   
+        }
+
+        hr {
+            margin: .8rem 0;
+            border-top: 1px solid rgba(lesli-css-get-color(slate, 100), .4);
         }
 
     }
