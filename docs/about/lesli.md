@@ -67,13 +67,16 @@ Currently we have planned the development of 45 modules, 24 modules are already 
 ## Core features
 
 ### User administration
+Create, modify, search and view user accounts.
 
 ### Role & privilege management
 Create custom roles and stay in control of who gets access to what resources according to your organizational workflow or users responsibilities.
 
 ### Document templates
+Upload document templates like word files.
 
 ### Mailing system
+Send emails through the platform.
 
 ### Workflows (automation)  
 A workflow is defined as a series of statuses connected by transitions. Users can create completely custom workflows, adding new statuses and changing transitions between them; they can also modify them in real time. Between each transition, user can define one or more actions. These actions trigger when a user changes the status of an entity in the system. For example: you can create an action that triggers when an *Event*'s status is changed from **Waiting for Authorization** to **Authorized**. This action can then send an email to the organizer of the event, informing them to proceed with the preparations. Actions can range from things like sending notifications, generating documents, sending automatic emails, creating tasks, and even creating new entities in the system.
@@ -81,12 +84,17 @@ A workflow is defined as a series of statuses connected by transitions. Users ca
 ### Dynamic dashboards  
 Dashboard is a useful tool where you can display important information of your company, for example the latest news, tasks assigned to you or reported timesheets.
 
+### Global search
+The search bar can be found at the top of the application. To search just enter the terms you’re looking for and press the Enter key. 
+
+
 ## Cloud objects
 A cloud object is an special type of record in the system. Cloud objects are they only ones that can have workflows attached to them, and they have a series of sub entities that allow for extra functionality and control. You can view cloud objects as the main tables of each of the different modules in the system. For example, in **Focus**, **Tasks** and **Checklists** are cloud objects, in **Driver**, **Calendars** and **Events** are, and so on. At minimum, each cloud object in the platform has the following sub entities:
 ### Files  
 Easily upload documents to share with your team at one central place to keep them organized and find them quickly whenever required. 
 
 ### Actions
+Small tasks like sticky notes to help you remember important things to do for an specific resource.
 
 ### Activities  
 Keep updated on all activities and updates across all the objects in Lesli, all through an organized and easy to use view.
