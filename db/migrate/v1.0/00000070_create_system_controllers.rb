@@ -17,17 +17,14 @@ For more information read the license file including with this software.
 
 =end
 
-class CreateInvites < ActiveRecord::Migration[6.1]
+class CreateSystemControllers < ActiveRecord::Migration[6.1]
     def change
-        create_table :invites do |t|
-            t.string :email, null: false
-            t.string :full_name
-            t.string :telephone
-            t.text   :note
+        create_table :system_controllers do |t|
+            t.string :name
 
             t.datetime :deleted_at, index: true
+
             t.timestamps
         end
-        add_reference :invites, :accounts, foreign_key: true
     end
 end
