@@ -26,6 +26,7 @@ module Shared
             create_focus_task: "create_focus_task", # This action can always be created, but it will only be executed if CloudFocus is available
             cloud_object_clone: "cloud_object_clone",
             create_cloud_object_file: "create_cloud_object_file",
+            create_and_send_cloud_object_file: "create_and_send_cloud_object_file",
             send_talk_chatroom_message: "send_talk_chatroom_message" # This action can always be created, but it will be executed only if CloudOne is availabe, and it will be displayed in CloudTalk if is available
         }
 
@@ -133,6 +134,20 @@ module Shared
                     WorkflowActions::CloudObjectCloneJob.perform_now(current_user, cloud_object, self)
                 else
                     WorkflowActions::CloudObjectCloneJob.perform_later(current_user, cloud_object, self)
+                end
+            when "create_and_send_cloud_object_file"
+                if execute_immediately
+                    Templates::CreateAndSendCloudObjectFileJob.perform_now(
+                        current_user,
+                        cloud_object,
+                        self
+                    )
+                else
+                    Templates::CreateAndSendCloudObjectFileJob.perform_later(
+                        current_user,
+                        cloud_object,
+                        self
+                    )
                 end
             when "create_cloud_object_file"
                 if execute_immediately
