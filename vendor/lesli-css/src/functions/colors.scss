@@ -30,18 +30,17 @@ Building a better future, one line of code at a time.
 */
 
 
-// · 
-@function lesli-css-get-color($pallete, $variant: 500) {
 
-    @return lesli-css-get-base-color((
-      
-    ), $pallete, $variant);
+// · 
+@function lesli-css-color($pallete, $variant: 500) {
+
+    @return lesli-css-base-color((), $pallete, $variant);
     
 }
 
 
 // · 
-@function lesli-css-get-base-color($lesli-css-app-colors, $pallete, $variant: 500) {
+@function lesli-css-base-color($lesli-css-app-colors, $pallete, $variant: 500) {
 
     $lesli-css-base-colors: (
 
@@ -168,4 +167,15 @@ Building a better future, one line of code at a time.
 
     @return $color;
 
+}
+
+
+// DEPRECATED: Use lesli-css-color() instead
+@function lesli-css-get-color($pallete, $variant: 500) {
+      @return lesli-css-color($pallete, $variant);
+}
+
+// DEPRECATED: Use lesli-css-base-color() instead
+@function lesli-css-get-base-color($lesli-css-app-colors, $pallete, $variant: 500) {
+      @return lesli-css-base-color($lesli-css-app-colors, $pallete, $variant);
 }
