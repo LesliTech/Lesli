@@ -250,7 +250,7 @@ class DevGit < LesliTasks
             "bulma-o-steps", 
             "bulma-extensions", 
             "foundation-emails",
-            "grapesjs"
+            "remixicon"
         ].each do |package|
             FileUtils.cp_r "node_modules/#{package}/", "vendor/", :verbose => true
         end
