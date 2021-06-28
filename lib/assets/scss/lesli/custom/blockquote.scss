@@ -20,12 +20,12 @@ For more information read the license file including with this software.
 blockquote.blockquote {
     margin: 1.5em 10px;
     padding: 0.5em 10px;
-    background-color: lesli-css-get-color(silver, 100);
-    border-left: 10px solid lesli-css-get-color(silver, 300);
+    background-color: lesli-css-color(silver, 100);
+    border-left: 10px solid lesli-css-color(silver, 300);
     quotes: "\201C""\201D""\2018""\2019";
 
     &:before {
-        color: lesli-css-get-color(silver);
+        color: lesli-css-color(silver);
         vertical-align: -0.4em;
         margin-right: 0.25em;
         line-height: 0.1em;
