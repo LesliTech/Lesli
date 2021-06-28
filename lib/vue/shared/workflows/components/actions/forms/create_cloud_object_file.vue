@@ -31,10 +31,10 @@ export default {
 
     data(){
         return {
+            main_route: null,
             translations: {
                 core: I18n.t('core.shared'),
-                actions: I18n.t('core.workflow/actions'),
-                bell: I18n.t('bell.notifications')
+                actions: I18n.t('core.workflow/actions')
             },
             workflow_action: null,
             file_options: {

@@ -31,19 +31,9 @@ Building a better future, one line of code at a time.
 
 
 // · 
-@function lesli-css-get-color($pallete, $variant: 500) {
+@function lesli-css-color($pallete, $variant: 500) {
 
-    @return lesli-css-get-base-color((
-      
-    ), $pallete, $variant);
-    
-}
-
-
-// · 
-@function lesli-css-get-base-color($lesli-css-app-colors, $pallete, $variant: 500) {
-
-    $lesli-css-base-colors: (
+    $lesli-css-colors: (
 
         // · blue
         blue: (
@@ -160,9 +150,19 @@ Building a better future, one line of code at a time.
 
     );
 
-    $color-pallete: map-merge($lesli-css-base-colors, $lesli-css-app-colors);
+    $pallete: map-get($lesli-css-colors, $pallete);
 
-    $pallete: map-get($color-pallete, $pallete);
+    $color: map-get($pallete, $variant);
+
+    @return $color;
+
+}
+
+
+// · 
+@function lesli-css-color-map($lesli-css-app-colors, $pallete, $variant) {
+
+    $pallete: map-get($lesli-css-app-colors, $pallete);
 
     $color: map-get($pallete, $variant);
 
