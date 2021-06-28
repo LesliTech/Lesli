@@ -25,7 +25,7 @@ For more information read the license file including with this software.
 
 // · Navigation sidebar
 aside.application-sidebar {
-    border-right: 1px solid rgba(lesli-css-get-color(slate, 100), .4);
+    border-right: 1px solid RGBA(lesli-css-color(slate, 100), .4);
 
     a.brand {
         padding: .4rem;
@@ -38,8 +38,8 @@ aside.application-sidebar {
 
             a {
                 padding-left: .6rem;
-                color: lesli-css-get-color(slate, 500);
-                color: lesli-css-get-color(slate, 900);
+                color: lesli-css-color(slate, 500);
+                color: lesli-css-color(slate, 900);
                 transition: all linear .2s;
 
                 &.is-active {
@@ -50,25 +50,25 @@ aside.application-sidebar {
                 // active sidebar navigation items
                 &.route-is-active {
                     background-color: darken(#f3f7fd, 4);
-                    color: lesli-css-get-color(slate, 900);
+                    color: lesli-css-color(slate, 900);
                     i {
-                        color: lesli-css-theme-get-color(primary);
+                        color: lesli-css-color-theme(primary);
                     }
                 }
 
                 // highlight sidebar navigation item on hover
                 &:not(.route-is-active):hover {
                     background-color: transparent;
-                    color: lesli-css-get-color(slate, 900);
+                    color: lesli-css-color(slate, 900);
                     i {
-                        color: lesli-css-theme-get-color(primary);
+                        color: lesli-css-color-theme(primary);
                     }
                 }
 
                 //
                 i {
                     width: 3rem;
-                    color: lesli-css-get-color(slate, 100);
+                    color: lesli-css-color(slate, 100);
                     transition: all linear .2s;
                 }
 
