@@ -18,19 +18,19 @@ For more information read the license file including with this software.
 .application-panel-notification {
 
     .sidebar-background {
-        background: rgba(lesli-css-get-color(slate, 300), 0.86);
+        background: RGBA(lesli-css-color(slate, 300), 0.86);
     }
 
     .sidebar-content {
-        background-color: lesli-css-get-color(solid, white);
+        background-color: lesli-css-color(solid, white);
         width: 500px;
 
         .panel-title {
             display: flex;
             align-items: center;
             justify-content: flex-start;
-            color: 1px solid lesli-css-get-color(slate, 300);
-            border-bottom: 1px solid lesli-css-get-color(slate, 100);
+            color: 1px solid lesli-css-color(slate, 300);
+            border-bottom: 1px solid lesli-css-color(slate, 100);
 
             h4 {
                 flex: 1;
@@ -48,7 +48,7 @@ For more information read the license file including with this software.
 
         .notification {
             margin: 0;
-            background-color: lesli-css-get-color(solid, white);
+            background-color: lesli-css-color(solid, white);
             /*
             &.is-info {
                 border: 1px solid darken(#eef6fc, 4);
