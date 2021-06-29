@@ -35,7 +35,7 @@ aside.application-sidebar {
             padding-left: .1rem;
             padding-right: .1rem;
             border-bottom: 1px solid lesli-css-color-theme(app, secondary);
-            color: lesli-css-color-theme(solid, white);
+            color: lesli-css-color(solid, white);
             &:hover {
                 background-color: lesli-css-color-theme(app, secondary);
             }
