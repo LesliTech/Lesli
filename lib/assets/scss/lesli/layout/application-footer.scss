@@ -31,6 +31,27 @@ footer.application-footer {
         background-color: transparent;
         margin-left: var(--application-navigation-width);
 
+        .navbar-start {
+            flex: 1;
+
+            .navbar-item {
+                flex: 1;
+            }
+            
+            input {
+                flex: 1;
+                border: none;
+                background-color: transparent;
+                color: lesli-css-color(silver, 900);
+                &::placeholder { 
+                    opacity: 1;
+                    color: lesli-css-color(silver, 900);
+                }
+
+            }
+
+        }
+
         .navbar-end a.navbar-item {
             font-size: .9rem;
         }
