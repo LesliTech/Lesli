@@ -32,7 +32,7 @@
             border-radius: 50%;
             background-color: lesli-css-color(slate, 300);
             &.cloud_driver_event.project {
-                background-color: lesli-css-color(app, secondary);
+                //background-color: lesli-css-color-theme(app, secondary);
             }
             &.cloud_driver_event.company {
                 background-color: lesli-css-color(orange, 700);
