@@ -1,4 +1,4 @@
-## Lesli
+# Lesli
 Lesli is a full-featured web platform designed to build highly scalable, secure and customizable software products.
 
 ### Collections
