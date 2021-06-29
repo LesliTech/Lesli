@@ -7,7 +7,7 @@
     }
 
     .quickview-header {
-        background-color: lesli-css-theme-get-color(app, tertiary);
+        background-color: lesli-css-color-theme(app, tertiary);
         h4.title {
             font-weight: 600;
             font-size: 1.45rem;
@@ -25,7 +25,7 @@
     }
 
     .quickview-header {
-        background-color: lesli-css-theme-get-color(app, tertiary);
+        background-color: lesli-css-color-theme(app, tertiary);
         h4.title {
             font-weight: 600;
             font-size: 1.45rem;

@@ -23,21 +23,21 @@ For more information read the license file including with this software.
 aside.application-sidebar {
     a.brand {
         padding: 2px 0;
-        background-color: lesli-css-get-color(solid,white);
+        background-color: lesli-css-color(solid,white);
         height: 100vh;
     }
     .application-navigation {
-        background-color: lesli-css-theme-get-color(app, primary);
+        background-color: lesli-css-color-theme(app, primary);
         li:hover ul {
             display: block !important;
         }
         a {
             padding-left: .1rem;
             padding-right: .1rem;
-            border-bottom: 1px solid lesli-css-theme-get-color(app, secondary);
-            color: lesli-css-theme-get-color(solid, white);
+            border-bottom: 1px solid lesli-css-color-theme(app, secondary);
+            color: lesli-css-color-theme(solid, white);
             &:hover {
-                background-color: lesli-css-theme-get-color(app, secondary);
+                background-color: lesli-css-color-theme(app, secondary);
             }
         }
     }

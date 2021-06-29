@@ -19,7 +19,7 @@ For more information read the license file including with this software.
 
 
 // · 
-@function lesli-css-theme-get-color($variant,$pallete:"app") {
+@function lesli-css-color-theme($variant,$pallete:"app") {
 
     $lesli-cloud-colors: (
         app: (
