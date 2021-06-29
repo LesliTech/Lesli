@@ -8,7 +8,7 @@
 
 <hr/>
 
-Version 0.8.3  
+Version 0.9.1  
 
 
 #### Installation
@@ -48,12 +48,12 @@ lesli-css
 
 // Work with the color pallete
 .test {
-	color: lesli-css-get-color(blue);
-	color: lesli-css-get-color(blue, 100);
-	color: lesli-css-get-color(blue, 300);
-	color: lesli-css-get-color(blue, 500); // default
-	color: lesli-css-get-color(blue, 700);
-	color: lesli-css-get-color(blue, 900);
+	color: lesli-css-color(blue);
+	color: lesli-css-color(blue, 100);
+	color: lesli-css-color(blue, 300);
+	color: lesli-css-color(blue, 500); // default
+	color: lesli-css-color(blue, 700);
+	color: lesli-css-color(blue, 900);
 
 }
 
