@@ -44,7 +44,7 @@ For more information read the license file including with this software.
             border-radius: 0;
         }
         &::after {
-            border-color: lesli-css-get-color(silver) !important;
+            border-color: lesli-css-color(silver) !important;
         }
     }
 }

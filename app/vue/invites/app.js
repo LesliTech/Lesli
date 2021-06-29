@@ -65,13 +65,18 @@ app({
                 this.progress_bar_active = false
 
                 if (result.successful) {
-                    this.showNotification(this.translations.main.notification_reset_password_instructions_sent, "is-success")
+                    this.showNotification("Invitation request sent", "success")
                 } else {
                     this.showNotification(result.error.message)
                 }
 
             }).catch(error => {
                 console.log(error)
+            }).finally(() => {
+                this.invite.email= ""
+                this.invite.telephone= ""
+                this.invite.full_name= ""
+                this.invite.note= ""
             })
         },
 
