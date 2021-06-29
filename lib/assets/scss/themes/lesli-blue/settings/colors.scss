@@ -23,11 +23,11 @@ For more information read the license file including with this software.
 
 
 // · 
-@function lesli-css-theme-get-color($variant, $pallete: "app") {
+@function lesli-css-color-theme($variant, $pallete: "app") {
 
     $lesli-cloud-colors: (
         app: (
-            primary: darken(lesli-css-get-color(blue), 5),
+            primary: darken(lesli-css-color(blue), 5),
             secondary:#172347,
             complement_one:  #62cab6,
             complement_two:  #55b997,
@@ -36,15 +36,15 @@ For more information read the license file including with this software.
             complement_blue_light: #edf6ff
         ),
         collection2: (
-            administration: lesli-css-get-color(blue),
-            intelligence: lesli-css-get-color(bubble),
-            productivity: lesli-css-get-color(lime),
-            integration: lesli-css-get-color(mint),
-            analytics: lesli-css-get-color(berry),
-            security: lesli-css-get-color(slate),
-            finance: lesli-css-get-color(orange),
-            sales: lesli-css-get-color(grape),
-            it: lesli-css-get-color(banana)
+            administration: lesli-css-color(blue),
+            intelligence: lesli-css-color(bubble),
+            productivity: lesli-css-color(lime),
+            integration: lesli-css-color(mint),
+            analytics: lesli-css-color(berry),
+            security: lesli-css-color(slate),
+            finance: lesli-css-color(orange),
+            sales: lesli-css-color(grape),
+            it: lesli-css-color(banana)
         ),
         collection: (
             administration: #3b6cff,
@@ -59,6 +59,6 @@ For more information read the license file including with this software.
         )
     );
 
-    @return lesli-css-get-base-color($lesli-cloud-colors, $pallete, $variant);
+    @return lesli-css-color-map($lesli-cloud-colors, $pallete, $variant);
 
 }
