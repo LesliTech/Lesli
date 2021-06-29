@@ -19,7 +19,7 @@ For more information read the license file including with this software.
 
 
 // · 
-@function lesli-css-theme-get-color($pallete, $variant: 500) {
+@function lesli-css-color-theme($pallete, $variant: 500) {
 
     $deutsche-leibrenten-colors: (
         app: (

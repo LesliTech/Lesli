@@ -26,9 +26,9 @@ section.application-component {
 
             // selected tab
             li.is-active {
-                background-color: lesli-css-theme-get-color(primary);
+                background-color: lesli-css-color-theme(primary);
                 a {
-                    color: lesli-css-get-color(solid, white);
+                    color: lesli-css-color(solid, white);
                     border-bottom-color: #dbdbdb;
                 }
             }
@@ -41,14 +41,14 @@ section.application-component {
 
         // vertical tab navigation
         .tabs.tabs.is-boxed {
-            background-color: lesli-css-get-color(solid, white);
+            background-color: lesli-css-color(solid, white);
             a {
                 padding: 1.6rem 0 1.6rem 1.6rem;
             }
             li.is-active {
                 a {
-                    background-color: lesli-css-theme-get-color(primary);
-                    color: lesli-css-get-color(solid, white);
+                    background-color: lesli-css-color-theme(primary);
+                    color: lesli-css-color(solid, white);
                 }
             }
         }
@@ -61,7 +61,7 @@ section.application-component {
                         .tabs {
                             a {
                                 //padding: 0.5rem 1rem;
-                                color: lesli-css-get-color(solid, white);
+                                color: lesli-css-color(solid, white);
                             }
                         }
                     }
