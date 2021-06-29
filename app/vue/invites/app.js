@@ -38,10 +38,10 @@ app({
             main: I18n.t("core.invites")
         },
         invite: {
-            email: "ldonis999@lomax.com.gt",
-            telephone: "56906973",
-            full_name: "Luis Donis",
-            note: "holi"
+            email: "",
+            telephone: "",
+            full_name: "",
+            note: ""
         },
         progress_bar_active: false,
         notification: {
