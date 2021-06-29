@@ -20,14 +20,20 @@ For more information read the license file including with this software.
 <footer class="application-footer">
     <nav class="navbar" aria-label="main navigation" role="navigation">
         <div class="navbar-brand">
+            <%#
             <a class="navbar-item">
-                <%= @account[:company][:name] %>
+                <%= @account[:company][:name] % >
                 &bull;
-                <%= @account[:company][:tag_line] %>
+                <%= @account[:company][:tag_line] % >
             </a>
+            %>
         </div>
         <div class="navbar-menu">
-            <div class="navbar-start"></div>
+            <div class="navbar-start">
+                <p class="navbar-item">
+                    <input type="text" class="input is-shadowless" placeholder="<%= @account[:company][:name] %> &bull; <%= @account[:company][:tag_line] %>">
+                </p>
+            </div>
             <div class="navbar-end">
 
                 <%# Show standard footer links for LesliClou %>
