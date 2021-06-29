@@ -1,5 +1,5 @@
 .fc-view-container {
-    background-color: lesli-css-color-theme(solid, white);
+    background-color: lesli-css-color(solid, white);
     .fc-event {
         border: none;
         padding: 4px 8px;
@@ -12,13 +12,13 @@
         border-left-color: lesli-css-color-theme(app, secondary);
     }
     .fc-event.cloud_driver_event.company {
-        border-left-color: lesli-css-color-theme(orange, 700);
+        border-left-color: lesli-css-color(orange, 700);
     }
     .fc-event.cloud_driver_event {
-        border-left-color: lesli-css-color-theme(cocoa, 700);
+        border-left-color: lesli-css-color(cocoa, 700);
     }
     .fc-event.cloud_focus_task {
-        border-left-color: lesli-css-color-theme(lime, 700);
+        border-left-color: lesli-css-color(lime, 700);
     }
 }
 
@@ -30,18 +30,18 @@
             width: 9px;
             height: 9px;
             border-radius: 50%;
-            background-color: lesli-css-color-theme(slate, 300);
+            background-color: lesli-css-color(slate, 300);
             &.cloud_driver_event.project {
-                background-color: lesli-css-color-theme(app, secondary);
+                background-color: lesli-css-color(app, secondary);
             }
             &.cloud_driver_event.company {
-                background-color: lesli-css-color-theme(orange, 700);
+                background-color: lesli-css-color(orange, 700);
             }
             &.cloud_driver_event {
-                background-color: lesli-css-color-theme(cocoa, 700);
+                background-color: lesli-css-color(cocoa, 700);
             }
             &.cloud_focus_task {
-                background-color: lesli-css-color-theme(lime, 700);
+                background-color: lesli-css-color(lime, 700);
             }
         }
     }
