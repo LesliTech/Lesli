@@ -25,7 +25,7 @@ For more information read the license file including with this software.
         .is-active {
             background-color: lesli-css-color-theme(app, primary);
             a {
-                color: lesli-css-color-theme(solid, white);
+                color: lesli-css-color(solid, white);
             }
         }
     }
@@ -34,7 +34,7 @@ For more information read the license file including with this software.
         flex: 0 0 200px;
         padding: 1rem 0;
         ul {
-            background-color: lesli-css-color-theme(solid, white);
+            background-color: lesli-css-color(solid, white);
         }
         a {
             padding: 2rem 1rem;
