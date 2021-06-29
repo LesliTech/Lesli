@@ -39,7 +39,7 @@ module Docm
             #         style_data: XlsxReport::StyleService.daily_changes
             #     )
             def self.generate(filename, xlsx_datasets, style_data: nil)
-                style_data = {styles: {}, sheets: {rows: []}} unless style_data
+                style_data = {styles: {}, sheets: [{rows: []}]} unless style_data
                 axlsx = Axlsx::Package.new
                 workbook = axlsx.workbook
                 
@@ -57,8 +57,7 @@ module Docm
                     # adding to the xlsx file is bigger than the :end_sheet param of the styles. We deep copy the styles
                     # to keep an original version, because the rows and columns pop elements from the arrays.
                     if (! sheet_styles) || (sheet_styles[:end_sheet] && (sheet_styles[:end_sheet] < sheet_index))
-                        if sheet_styles && sheet_styles[:end_sheet]
-                        end
+
                         static_sheet_styles = (style_data[:sheets].shift || {})
                         sheet_styles = JSON.parse(static_sheet_styles.to_json).deep_symbolize_keys
                     else
