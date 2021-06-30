@@ -198,13 +198,15 @@ class UsersController < ApplicationLesliController
 
     def become
 
+
+
         # always should be disabled
         if Rails.configuration.lesli_settings["configuration"]["security"]["allow_becoming"] != true
             return respond_with_unauthorized
         end
 
         # Allow only admin to become as user
-        #return respond_with_unauthorized if current_user.email != "crm.admin@deutsche-leibrenten.de"
+        return respond_with_unauthorized if current_user.email != "crm.admin@deutsche-leibrenten.de"
 
         # Search for desire user
         becoming_user = User.find(params[:id])
