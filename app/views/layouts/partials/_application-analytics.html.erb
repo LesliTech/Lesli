@@ -19,7 +19,7 @@ For more information read the license file including with this software.
 <% # Support only motomo for intranet tracking - 7 development default %>
 <% tracking_id = Rails.application.credentials.providers[:motomo] || 7 %>
 
-<% if Rails.env.development? %>
+<% if Rails.env.production? %>
 
 <script type="text/javascript">
 
