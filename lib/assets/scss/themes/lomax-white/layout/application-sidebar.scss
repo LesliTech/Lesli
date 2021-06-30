@@ -27,7 +27,7 @@ For more information read the license file including with this software.
 
 aside.application-sidebar {
     @include box-shadow;
-    background-color: lesli-css-get-color(solid, white);
+    background-color: lesli-css-color(solid, white);
 
     a.brand { 
         padding: 20px;
@@ -39,15 +39,15 @@ aside.application-sidebar {
 
     nav {
         li a {
-            color: lesli-css-theme-get-color(primary);
+            color: lesli-css-color-theme(primary);
 
             &:not(.is-active):hover {
-                color: lesli-css-get-color(blue);
-                background-color: lesli-css-get-color(solid, white);
+                color: lesli-css-color(blue);
+                background-color: lesli-css-color(solid, white);
             }
 
             &.is-active {
-                background-color: lesli-css-theme-get-color(primary);
+                background-color: lesli-css-color-theme(primary);
             }
 
             i {

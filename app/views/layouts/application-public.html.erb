@@ -1,12 +1,31 @@
+<%#
+
+Copyright (c) 2020, all rights reserved.
+
+All the information provided by this platform is protected by international laws related  to 
+industrial property, intellectual property, copyright and relative international laws. 
+All intellectual or industrial property rights of the code, texts, trade mark, design, 
+pictures and any other information belongs to the owner of this platform.
+
+Without the written permission of the owner, any replication, modification,
+transmission, publication is strictly forbidden.
+
+For more information read the license file including with this software.
+
+// · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
+// · 
+
+%>
+
 <!DOCTYPE html>
 <html>
 <head>
     <%= render partial: "layouts/partials/application-head" %>
     <%= render partial: "layouts/partials/application-data" %>
-    <%= render partial: "layouts/partials/application-public-assets-css" %>
+    <%= render partial: "layouts/partials/application-public-scss" %>
 
-    <% if flash[:logout] == true %>
     <%# Disable back button in browser after Logout using JavaScript %>
+    <% if flash[:logout] == true %>
     <script>
     history.pushState(null, null, null);
     window.addEventListener('popstate', function () {
@@ -14,10 +33,11 @@
     });
     </script>
     <% end %>
+
 </head>
 <body class="<%= application_body_class() %>">
     <%= yield %>
-    <%= render partial: "layouts/partials/application-public-assets-js" %>
+    <%= render partial: "layouts/partials/application-public-javascript" %>
     <%= render partial: "layouts/partials/application-analytics" %>
 </body>
 </html>
