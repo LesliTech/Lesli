@@ -170,6 +170,12 @@ module Shared
                 else
                     WorkflowActions::SendTalkChatroomMessageJob.perform_later(current_user, cloud_object, self)
                 end
+            when "update_relevant_user"
+                if execute_immediately
+                    WorkflowActions::UpdateRelevantUserJob.perform_now(current_user, cloud_object, self)
+                else
+                    WorkflowActions::UpdateRelevantUserJob.perform_later(current_user, cloud_object, self)
+                end
             end
         end
 
