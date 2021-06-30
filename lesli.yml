@@ -43,7 +43,7 @@ configuration:
     locales:
         en: "English"
         es: "Español"
-    datetime2:
+    datetime:
         time_zone: "America/Guatemala" 
         start_week_on: "sunday"
         formats:
@@ -52,13 +52,6 @@ configuration:
             date_time: "%d.%m.%Y %H:%M"
             date_words: "%a, %B %d, %Y"
             date_time_words: "%a, %B %d, %Y, %H:%M"
-    datetime: 
-        date_format: "%d/%m/%Y"
-        date_format_full: "%a, %B %d, %Y"
-        date_format_time: "%d/%m/%Y %H:%M"
-        time_format: "%H:%M"
-        time_zone: "America/Guatemala"
-        start_week_on: "sunday"
     security:
         password:
             minimum_length: 8
