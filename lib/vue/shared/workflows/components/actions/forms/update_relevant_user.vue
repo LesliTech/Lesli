@@ -63,9 +63,9 @@ export default {
             this.workflow_action = JSON.parse(JSON.stringify(this.workflowAction))
             if(! this.workflow_action.input_data.relevant_user_flags){
                 this.$set(this.workflow_action.input_data, 'relevant_user_flags', {
-                    user_main: false,
-                    user_reviewer: false,
-                    user_branch_office: false
+                    user_main: null,
+                    user_reviewer: null,
+                    user_branch_office: null
                 })
             }
 
