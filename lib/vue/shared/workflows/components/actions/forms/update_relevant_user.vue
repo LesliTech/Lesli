@@ -29,11 +29,8 @@ export default {
             users: [],
             selected_user_names: {
                 user_main: '',
-                user_reviewer: ''
-            },
-            selected_users: {
-                user_main: null,
-                user_reviewer: null
+                user_reviewer: '',
+                user_branch_office: ''
             }
         }
     },
@@ -51,23 +48,34 @@ export default {
     methods: {
         setSubscriptions(){
             this.bus.subscribe(`sync:/module/workflow/action/${this.viewType}-update_relevant_user`, (action, callback)=>{
-                if(this.workflow_action.concerning_users.type != 'custom' || this.workflow_action.concerning_users.list.length > 0){
-                    this.$set(action, 'template_path', this.workflow_action.template_path)
-                    this.$set(action, 'input_data', this.workflow_action.input_data)
-                    this.$set(action, 'system_data', this.workflow_action.system_data)
-                    this.$set(action, 'concerning_users', this.workflow_action.concerning_users)
-                    this.$set(action, 'configuration', this.workflow_action.configuration)
-                    if(callback){
-                        callback()
-                    }
-                }else{
-                    this.msg.error(this.translations.actions.messages_warning_update_relevant_user_address_empty)
+                this.$set(action, 'template_path', this.workflow_action.template_path)
+                this.$set(action, 'input_data', this.workflow_action.input_data)
+                this.$set(action, 'system_data', this.workflow_action.system_data)
+                this.$set(action, 'concerning_users', this.workflow_action.concerning_users)
+                this.$set(action, 'configuration', this.workflow_action.configuration)
+                if(callback){
+                    callback()
                 }
             })
         },
 
         cloneWorkflowAction(){
             this.workflow_action = JSON.parse(JSON.stringify(this.workflowAction))
+            if(! this.workflow_action.input_data.relevant_user_flags){
+                this.$set(this.workflow_action.input_data, 'relevant_user_flags', {
+                    user_main: false,
+                    user_reviewer: false,
+                    user_branch_office: false
+                })
+            }
+
+            if(! this.workflow_action.input_data.relevant_user_values){
+                this.$set(this.workflow_action.input_data, 'relevant_user_values', {
+                    user_main: {id: null, name: ''},
+                    user_reviewer: {id: null, name: ''},
+                    user_branch_office: {id: null, name: ''}
+                })
+            }
         },
 
         getUsers(){
@@ -81,36 +89,40 @@ export default {
         },
 
         selectUser(user, user_type){
-            console.log(JSON.stringify(user))
-            console.log(user_type)
             if(user){
-                this.workflow_action.input_data[user_type]  = user
+                this.$set(this.workflow_action.input_data.relevant_user_values[user_type], 'name', user.name)
+                this.$set(this.workflow_action.input_data.relevant_user_values[user_type], 'id', user.id)
             }
         },
 
-        removeUserFromList(user){
-            if(user.id){
-                this.workflow_action.concerning_users.list = this.workflow_action.concerning_users.list.filter((concerning_user)=>{
-                    return user.id != concerning_user.id
-                })
-            }else{
-                this.workflow_action.concerning_users.list = this.workflow_action.concerning_users.list.filter((concerning_user)=>{
-                    return user.email != concerning_user.email
-                })
-            }
+        clearSelectedUser(user_type){
+            this.$set(this.workflow_action.input_data.relevant_user_flags, user_type, null)
+            this.$set(this.workflow_action.input_data.relevant_user_values[user_type], 'name', '')
+            this.$set(this.workflow_action.input_data.relevant_user_values[user_type], 'id', null)
+        },
+
+        filteredUsers(user_type){
+            let filtered_users = this.users.filter((user) => {
+                return (user.name || "").toLowerCase().includes(
+                    this.workflow_action.input_data.relevant_user_values[user_type].name.toLowerCase()
+                )
+            })
+
+            return filtered_users
         }
     },
 
     computed: {
-        filteredUsers(){
-            let filtered_users = this.users.filter((user) => {
-                return (user.name || "").toLowerCase().includes(this.selected_user_names.user_main.toLowerCase())
-            })
-            this.workflow_action.concerning_users.list.forEach((user)=>{
-                filtered_users = filtered_users.filter((filtered_user) => filtered_user.email != user.email)
-            })
+        filteredMainUsers(){
+            return this.filteredUsers('user_main')
+        },
 
-            return filtered_users
+        filteredReviewerUsers(){
+            return this.filteredUsers('user_reviewer')
+        },
+
+        filteredBranchOfficeUsers(){
+            return this.filteredUsers('user_reviewer')
         }
     }
 }
@@ -118,7 +130,7 @@ export default {
 <template>
     <section v-if="workflow_action">
         <div>
-            <h4 class="title is-4">
+            <h4 class="title is-5">
                 {{translations.actions.view_title_update_user_main}}
             </h4>
             <div class="columns">
@@ -127,7 +139,11 @@ export default {
                         :label="translations.actions.view_title_select_concerning_user_type"
                         :message="translations.actions.view_text_select_concerning_user_type_description"
                     >
-                        <b-select :placeholder="translations.core.view_placeholder_select_option" expanded v-model="workflow_action.concerning_users.type" required>
+                        <b-select
+                            :placeholder="translations.core.view_placeholder_select_option"
+                            expanded
+                            v-model="workflow_action.input_data.relevant_user_flags.user_main"
+                        >
                             <option
                                 v-for="concerning_user_type in options.concerning_user_types"
                                 :value="concerning_user_type.value"
@@ -144,30 +160,151 @@ export default {
                     <b-field>
                         <template v-slot:label> &nbsp; </template>
                         <b-button expanded @click="clearSelectedUser('user_main')">
-                            {{translations.core.view_btn_clear}}
+                            <b-icon icon="eraser" size="is-small"></b-icon>
+                            <span>{{translations.core.view_btn_clear}}</span>
                         </b-button>
                     </b-field>
                 </div>
             </div>
-            <div v-if="workflow_action.concerning_users.type == 'custom'">
-                <label class="label">{{translations.actions.view_placeholder_select_employee}}</label>
+            <div v-if="workflow_action.input_data.relevant_user_flags.user_main == 'custom'">
+                <label class="label">
+                    {{translations.actions.view_placeholder_select_employee}}
+                    <sup class="has-text-danger">*</sup>
+                </label>
                 <b-field grouped >
                     <b-autocomplete
                         expanded
+                        required
                         ref="autocomplete"
                         :placeholder="translations.actions.view_placeholder_select_employee"
-                        v-model="selected_user_names.user_main"
+                        v-model="workflow_action.input_data.relevant_user_values.user_main.name"
                         field="name"
                         @select="(option, event)=>{selectUser(option, 'user_main')}"
-                        :data="filteredUsers"
+                        :data="filteredMainUsers"
                     >
                     </b-autocomplete>
                 </b-field>
             </div>
         </div>
 
+        <hr>
 
         <div>
+            <h4 class="title is-5">
+                {{translations.actions.view_title_update_user_reviewer}}
+            </h4>
+            <div class="columns">
+                <div class="column is-9">
+                    <b-field
+                        :label="translations.actions.view_title_select_concerning_user_type"
+                        :message="translations.actions.view_text_select_concerning_user_type_description_with_nonexistant_field_warning"
+                    >
+                        <b-select
+                            :placeholder="translations.core.view_placeholder_select_option"
+                            expanded
+                            v-model="workflow_action.input_data.relevant_user_flags.user_reviewer"
+                        >
+                            <option
+                                v-for="concerning_user_type in options.concerning_user_types"
+                                :value="concerning_user_type.value"
+                                :key="concerning_user_type.value"
+                            >
+                                <small>
+                                    {{ object_utils.translateEnum(translations.actions, 'column_enum_concerning_user_types', concerning_user_type.text) }}
+                                </small>
+                            </option>
+                        </b-select>
+                    </b-field>
+                </div>
+                <div class="column is-3">
+                    <b-field>
+                        <template v-slot:label> &nbsp; </template>
+                        <b-button expanded @click="clearSelectedUser('user_reviewer')">
+                            <b-icon icon="eraser" size="is-small"></b-icon>
+                            <span>{{translations.core.view_btn_clear}}</span>
+                        </b-button>
+                    </b-field>
+                </div>
+            </div>
+            <div v-if="workflow_action.input_data.relevant_user_flags.user_reviewer == 'custom'">
+                <label class="label">
+                    {{translations.actions.view_placeholder_select_employee}}
+                    <sup class="has-text-danger">*</sup>
+                </label>
+                <b-field grouped >
+                    <b-autocomplete
+                        expanded
+                        required
+                        ref="autocomplete"
+                        :placeholder="translations.actions.view_placeholder_select_employee"
+                        v-model="workflow_action.input_data.relevant_user_values.user_reviewer.name"
+                        field="name"
+                        @select="(option, event)=>{selectUser(option, 'user_reviewer')}"
+                        :data="filteredReviewerUsers"
+                    >
+                    </b-autocomplete>
+                </b-field>
+            </div>
+        </div>
+
+        <hr>
+
+        <div>
+            <h4 class="title is-5">
+                {{translations.actions.view_title_update_user_branch_office}}
+            </h4>
+            <div class="columns">
+                <div class="column is-9">
+                    <b-field
+                        :label="translations.actions.view_title_select_concerning_user_type"
+                        :message="translations.actions.view_text_select_concerning_user_type_description_with_nonexistant_field_warning"
+                    >
+                        <b-select
+                            :placeholder="translations.core.view_placeholder_select_option"
+                            expanded
+                            v-model="workflow_action.input_data.relevant_user_flags.user_branch_office"
+                        >
+                            <option
+                                v-for="concerning_user_type in options.concerning_user_types"
+                                :value="concerning_user_type.value"
+                                :key="concerning_user_type.value"
+                            >
+                                <small>
+                                    {{ object_utils.translateEnum(translations.actions, 'column_enum_concerning_user_types', concerning_user_type.text) }}
+                                </small>
+                            </option>
+                        </b-select>
+                    </b-field>
+                </div>
+                <div class="column is-3">
+                    <b-field>
+                        <template v-slot:label> &nbsp; </template>
+                        <b-button expanded @click="clearSelectedUser('user_branch_office')">
+                            <b-icon icon="eraser" size="is-small"></b-icon>
+                            <span> {{translations.core.view_btn_clear}} </span>
+                        </b-button>
+                    </b-field>
+                </div>
+            </div>
+            <div v-if="workflow_action.input_data.relevant_user_flags.user_branch_office == 'custom'">
+                <label class="label">
+                    {{translations.actions.view_placeholder_select_employee}}
+                    <sup class="has-text-danger">*</sup>
+                </label>
+                <b-field grouped >
+                    <b-autocomplete
+                        expanded
+                        required
+                        ref="autocomplete"
+                        :placeholder="translations.actions.view_placeholder_select_employee"
+                        v-model="workflow_action.input_data.relevant_user_values.user_branch_office.name"
+                        field="name"
+                        @select="(option, event)=>{selectUser(option, 'user_branch_office')}"
+                        :data="filteredBranchOfficeUsers"
+                    >
+                    </b-autocomplete>
+                </b-field>
+            </div>
         </div>
 
     </section>
