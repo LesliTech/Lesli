@@ -134,7 +134,7 @@ module Lesli
             instance_settings = YAML.load_file(File.join("./engines", instance_engine[:code], "lesli.yml"))
 
             # overwrite core settings with specific settings from instance
-            lesli_settings = lesli_settings.merge(instance_settings) 
+            lesli_settings = lesli_settings.deep_merge(instance_settings) 
 
         end
 
@@ -143,6 +143,7 @@ module Lesli
 
         # parse available locales for instance
         lesli_settings["configuration"]["locales_available"] = lesli_settings["configuration"]["locales"]
+
         lesli_settings["configuration"]["locales"] = lesli_settings["configuration"]["locales"].keys
 
         lesli_settings["engines"] = engines()
@@ -154,4 +155,5 @@ module Lesli
         lesli_settings
 
     end
+
 end
