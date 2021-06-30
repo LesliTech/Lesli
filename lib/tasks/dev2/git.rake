@@ -250,9 +250,9 @@ class DevGit < LesliTasks
             "bulma-o-steps", 
             "bulma-extensions", 
             "foundation-emails",
-            "grapesjs"
+            "remixicon"
         ].each do |package|
-            FileUtils.cp_r "node_modules/#{package}/", "vendor/", :verbose => true
+            FileUtils.cp_r "node_modules/#{package}/", "vendor/#{package}", :verbose => true
         end
 
         Dir.glob("vendor/**/*").each do |file|
@@ -262,6 +262,7 @@ class DevGit < LesliTasks
             FileUtils.rm(file, :verbose => true) if file.index("CONTRIBUTING.md")
             FileUtils.rm(file, :verbose => true) if file.index("package.json")
             FileUtils.rm(file, :verbose => true) if file.index("package-lock.json")
+            FileUtils.rm(file, :verbose => true) if file.end_with?(".spec.js")
         end
 
         # commit any change in vendor

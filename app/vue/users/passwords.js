@@ -20,7 +20,6 @@ For more information read the license file including with this software.
 import app from "LesliVue/public"
 
 
-
 // · 
 import componentNotificationMessageSimple from "LesliCoreVue/components/notifications/message-simple.vue" 
 import componentNotificationProgressBar from "LesliCoreVue/components/notifications/progress-bar.vue" 
@@ -74,9 +73,9 @@ app({
                 this.progress_bar_active = false
 
                 if(response.successful){
-                    this.showNotification(this.translations.main.notification_reset_password_instructions_sent, "success")
+                    this.showNotification(this.translations.main.notification_reset_password_instructions_sent, "has-text-success")
                 }else{
-                    this.showNotification(response.error.message)
+                    this.showNotification(response.error.message, "has-text-danger")
                 }
 
             }).catch(error => {
