@@ -15,7 +15,7 @@ export default {
         },
 
         options: {
-            rquired: true
+            required: true
         },
 
         viewType: {

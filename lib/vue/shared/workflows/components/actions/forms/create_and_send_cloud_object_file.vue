@@ -294,7 +294,7 @@ export default {
             </div>
             <div class="field">
                 <label class="label">{{translations.actions.column_send_email_to}}<sup class="has-text-danger">*</sup></label>
-                <b-select :placeholder="translations.core.text_select_option" expanded v-model="workflow_action.concerning_users.type" required>
+                <b-select :placeholder="translations.core.view_placeholder_select_option" expanded v-model="workflow_action.concerning_users.type" required>
                     <option
                         v-for="concerning_user_type in options.concerning_user_types"
                         :value="concerning_user_type.value"
