@@ -109,6 +109,8 @@ class Templates::CreateCloudObjectFileWithTemplateJob < ApplicationJob
 
             Files::AwsUploadJob.perform_now(cloud_object_file)
         end
+
+        cloud_object_file
     end
 
     def xml_replace!(word_xml, pattern, replacement)
