@@ -27,7 +27,8 @@ module Shared
             cloud_object_clone: "cloud_object_clone",
             create_cloud_object_file: "create_cloud_object_file",
             create_and_send_cloud_object_file: "create_and_send_cloud_object_file",
-            send_talk_chatroom_message: "send_talk_chatroom_message" # This action can always be created, but it will be executed only if CloudOne is availabe, and it will be displayed in CloudTalk if is available
+            send_talk_chatroom_message: "send_talk_chatroom_message", # This action can always be created, but it will be executed only if CloudOne is availabe, and it will be displayed in CloudTalk if is available
+            update_relevant_user: "update_relevant_user"
         }
 
         enum concerning_user_types: {
