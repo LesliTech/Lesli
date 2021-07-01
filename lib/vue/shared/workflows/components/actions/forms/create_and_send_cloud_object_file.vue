@@ -49,6 +49,9 @@ export default {
                 templates: {},
                 file_types: []
             },
+            link_options: {
+                system_urls: []
+            },
             action_unavailable: false
         }
     },
@@ -60,6 +63,7 @@ export default {
         this.cloneWorkflowAction()
         this.getUsers()
         this.getCloudObjectFileOptions()
+        this.getGenerateAndSendDocumentOptions()
     },
 
     beforeDestroy(){
@@ -180,6 +184,18 @@ export default {
             }).catch(error => {
                 console.log(error)
             }) 
+        },
+
+        getGenerateAndSendDocumentOptions(){
+            let url = `${this.files_route}/${this.workflowId}/actions/resources/options_generate_and_send_cloud_object_file.json`
+
+            this.http.get(url).then(result => {
+                if (result.successful) {
+                    this.link_options = result.data
+                }
+            }).catch(error => {
+                console.log(error)
+            }) 
         }
     },
 
@@ -292,6 +308,17 @@ export default {
                 <b-input expanded type="textarea" v-model="workflow_action.input_data.body" required>
                 </b-input>
             </div>
+            <b-field :label="translations.actions.column_add_link_to_email">
+                <b-select expanded v-model="workflow_action.input_data.system_url">
+                    <option
+                        v-for="url in link_options.system_urls"
+                        :key="url.name"
+                        :value="url.endpoint"
+                    >
+                        {{object_utils.translateEnum(translations.actions, 'column_enum_add_link_to_email', url.name)}}
+                    </option>
+                </b-select>
+            </b-field>
             <div class="field">
                 <label class="label">{{translations.actions.column_send_email_to}}<sup class="has-text-danger">*</sup></label>
                 <b-select :placeholder="translations.core.view_placeholder_select_option" expanded v-model="workflow_action.concerning_users.type" required>
