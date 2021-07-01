@@ -86,6 +86,19 @@ module CloudObject
         def user_reviewer
         end
 
+        # @return [String] A string representing the url to access this object with ID's  included
+        # @param base_url [String] The base url with variables to be replaced
+        # @description Replaces variables values un the **base_url** param receied and returns a new String
+        # @example
+        #     service = CloudHouse::ManteinanceService.last
+        #     base_url = "/house/maintenance_services/:id:.json?property_management_id=:cloud_house_property_managements_id:"
+        #     service.generate_url_link(base_url)
+        #     # This will display something like
+        #     /house/maintenance_services/193.json?property_management_id=5623
+        def generate_link_url(base_url)
+            return base_url
+        end
+
         # @return [User] The user branch_office associated to this cloud_object
         # @description Returns a user that is the branch_office of this cloud_object. This method must be implemented in any CloudObject
         # @example
