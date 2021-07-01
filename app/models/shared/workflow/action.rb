@@ -219,6 +219,12 @@ module Shared
             return nil
         end
 
+        def self.options_generate_and_send_cloud_object_file(current_user, query, workflow)
+            return {
+                system_urls: []
+            }
+        end
+
         def self.options_create_cloud_object_file(current_user, query, workflow)
             dynamic_info_ = self.dynamic_info
             engine_name = dynamic_info_[:engine_name]
