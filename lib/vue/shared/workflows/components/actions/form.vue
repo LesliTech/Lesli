@@ -6,6 +6,7 @@ import componentFormCloudObjectClone from './forms/cloud_object_clone.vue'
 import componentFormCreateAndSendCloudObjectFile from './forms/create_and_send_cloud_object_file.vue'
 import componentFormCreateCloudObjectFile from './forms/create_cloud_object_file.vue'
 import componentFormSendTalkChatroomMessage from './forms/send_talk_chatroom_message.vue'
+import componentFormUpdateRelevantUser from './forms/update_relevant_user.vue'
 
 export default {
     props: {
@@ -37,7 +38,8 @@ export default {
         'component-form-create-bell-notification': componentFormCreateBellNotification,
         'component-form-create-cloud-object-file': componentFormCreateCloudObjectFile,
         'component-form-cloud-object-clone': componentFormCloudObjectClone,
-        'component-form-send-talk-chatroom-message': componentFormSendTalkChatroomMessage
+        'component-form-send-talk-chatroom-message': componentFormSendTalkChatroomMessage,
+        'component-form-update-relevant-user': componentFormUpdateRelevantUser
     },
 
     data(){
@@ -427,6 +429,14 @@ export default {
                 :workflow-action="action"
                 :view-type="viewType"
             ></component-form-send-talk-chatroom-message>
+            <component-form-update-relevant-user
+                v-if="action.action_type == 'update_relevant_user'"
+                :options="options"
+                :workflow-id="workflowId"
+                :translations-path="translationsPath"
+                :workflow-action="action"
+                :view-type="viewType"
+            ></component-form-update-relevant-user>
             <br>
             <div class="buttons">
                 <b-button type="is-primary" expanded native-type="submit">
