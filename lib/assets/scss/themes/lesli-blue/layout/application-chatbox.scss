@@ -25,29 +25,29 @@ For more information read the license file including with this software.
 // · Application module navigation
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
 section.lesli-app-chatbox {
-    background-color: lesli-css-get-color(solid, white);
+    background-color: lesli-css-color(solid, white);
 
     .chat-header {
-        border-bottom: 1px solid lesli-css-get-color(silver, 300);
+        border-bottom: 1px solid lesli-css-color(silver, 300);
     }
 
     .chat-footer {
         input {
-            border-bottom: 1px solid lesli-css-get-color(silver, 300);
+            border-bottom: 1px solid lesli-css-color(silver, 300);
         }
     }
 
     // · request & response components
     .chat-request {
         p {
-            color: lesli-css-get-color(black);
-            background-color: lesli-css-get-color(silver, 300);
+            color: lesli-css-color(black);
+            background-color: lesli-css-color(silver, 300);
         }
     }
     .chat-response {
         p {
-            color: lesli-css-get-color(solid, white);
-            background-color: lesli-css-get-color(blue, 700);
+            color: lesli-css-color(solid, white);
+            background-color: lesli-css-color(blue, 700);
         }
     }
 
