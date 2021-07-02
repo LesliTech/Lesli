@@ -63,7 +63,8 @@ Building a better future, one line of code at a time.
 
     & > * {
         flex: 1 1 $items-width;
-        margin: 0 $margin;
+        max-width: $items-width;
+        margin: 0 $margin ($margin * 2);
     }
 
 }
