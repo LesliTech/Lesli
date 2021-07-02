@@ -75,6 +75,9 @@ export default {
             <b-tab-item icon-pack="fas" icon="coins" :label="translations.core.account.settings.view_tab_title_currency">
                 <component-form-currencies></component-form-currencies>
             </b-tab-item>
+            <b-tab-item icon-pack="fas" icon="star" label="About">
+                
+            </b-tab-item>
         </b-tabs>
     </section>
 </template>

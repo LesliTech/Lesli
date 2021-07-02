@@ -18,7 +18,7 @@ For more information read the license file including with this software.
 =end
 module Shared
     class Workflow::ActionsController < ApplicationLesliController
-        before_action :set_workflow, only: [:index, :create, :options_cloud_object_clone, :options_create_cloud_object_file]
+        before_action :set_workflow, only: [:index, :create, :options_cloud_object_clone, :options_create_cloud_object_file, :options_generate_and_send_cloud_object_file]
         before_action :set_workflow_action, only: [:update, :destroy]
 
     
@@ -192,6 +192,15 @@ module Shared
             model = dynamic_info[:model]
             respond_with_successful(model.options_create_cloud_object_file(current_user, @query, @workflow))
         end
+
+        def options_generate_and_send_cloud_object_file
+            return respond_with_not_found unless @workflow
+            
+            dynamic_info = self.class.dynamic_info
+            model = dynamic_info[:model]
+            respond_with_successful(model.options_generate_and_send_cloud_object_file(current_user, @query, @workflow))
+        end
+
 
         private
 
