@@ -16,8 +16,8 @@ For more information read the license file including with this software.
 // · 
 
 %>
-
-<% tracking_id = "2" # TODO: get tracking code from a config file %>
+<% # Support only motomo for intranet tracking - 7 development default %>
+<% tracking_id = Rails.application.credentials.providers[:motomo] || 7 %>
 
 <% if Rails.env.production? %>
 

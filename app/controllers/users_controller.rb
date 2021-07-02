@@ -198,31 +198,47 @@ class UsersController < ApplicationLesliController
 
     def become
 
+
+
         # always should be disabled
-        return respond_with_unauthorized
+        if Rails.configuration.lesli_settings["configuration"]["security"]["allow_becoming"] != true
+            return respond_with_unauthorized
+        end
 
         # Allow only admin to become as user
         return respond_with_unauthorized if current_user.email != "crm.admin@deutsche-leibrenten.de"
 
         # Search for desire user
-        become_user = User.find(params[:id])
+        becoming_user = User.find(params[:id])
 
         # Return an error if user does not exist
-        return respond_with_error I18n.t("core.shared.messages_warning_user_not_found") if become_user.blank?
+        return respond_with_error I18n.t("core.shared.messages_warning_user_not_found") if becoming_user.blank?
 
         # Extrictly save a log when becoming
         current_user.activities.create!({
-            users_id: become_user.id,
+            users_id: becoming_user.id,
             owner_id: current_user.id,
-            description: "#{current_user.full_name} -> #{become_user.full_name}",
+            description: "#{current_user.full_name} -> #{becoming_user.full_name}",
             category: "action_become"
         })
 
         # Sign in as the becoming user
-        sign_in(:user, become_user)
+        sign_in(:user, becoming_user)
+
+        # Create a new session for the becoming user
+        becoming_session = becoming_user.sessions.create({
+            :user_agent => get_user_agent,
+            :user_remote => request.remote_ip,
+            :session_source => "become_session",
+            :last_used_at => LC::Date.now,
+            :expiration_at => 60.minutes.from_now
+        })
+
+        # assign the session of the becomer user to the becoming user
+        session[:user_session_id] = becoming_session[:id]        
 
         # Response successful
-        respond_with_successful(current_user)
+        respond_with_successful([current_user, becoming_user])
 
     end
 
