@@ -157,7 +157,7 @@ export default {
             let field_value = this.workflow_action.input_data[field] || ''
             field_value = `${field_value} %${reference}% `
 
-            this.workflow_action.input_data[field] = field_value
+            this.$set(this.workflow_action.input_data, field, field_value)
         },
 
         setFilesRoute(){
