@@ -198,10 +198,8 @@ class UsersController < ApplicationLesliController
 
     def become
 
-
-
         # always should be disabled
-        if Rails.configuration.lesli_settings["configuration"]["security"]["allow_becoming"] != true
+        if Rails.configuration.lesli_settings["configuration"]["security"]["enable_becoming"] != true
             return respond_with_unauthorized
         end
 
