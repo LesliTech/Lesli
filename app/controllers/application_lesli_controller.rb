@@ -227,7 +227,14 @@ class ApplicationLesliController < ApplicationController
         current_session = current_user.sessions.find_by(id: session[:user_session_id])
 
         # check if user has an active session
-        if current_session.equal? nil or not current_session.active?
+        if current_session.equal? nil or !current_session.active?
+            current_user.logs.create({ title: "system_session_logout", description: "session finished by the system"})
+            sign_out current_user
+            redirect_to "/logout" and return
+        end
+
+        if !current_session.expiration_at.blank? && current_session.expiration_at < Time.current
+            current_user.logs.create({ title: "system_session_logout", description: "session expired by the system"})
             sign_out current_user
             redirect_to "/logout" and return
         end
