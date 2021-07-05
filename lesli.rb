@@ -138,12 +138,23 @@ module Lesli
 
         end
 
+        # specific settings for server, override core and instance settings
+        if File.exist?(File.join("./lesli.server.yml"))
+
+            server_settings = YAML.load_file("./lesli.server.yml")
+
+            # overwrite core and instance settings with specific settings for server
+            lesli_settings = lesli_settings.deep_merge(server_settings) 
+
+        end
+
         # disable web sockets by default if bell is not installed
         lesli_settings["configuration"]["security"]["enable_websockets"] = false if !defined?(CloudBell)
 
         # parse available locales for instance
         lesli_settings["configuration"]["locales_available"] = lesli_settings["configuration"]["locales"]
 
+        # parse available locale codes for Rails
         lesli_settings["configuration"]["locales"] = lesli_settings["configuration"]["locales"].keys
 
         lesli_settings["engines"] = engines()
