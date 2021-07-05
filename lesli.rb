@@ -141,10 +141,16 @@ module Lesli
         # specific settings for server, override core and instance settings
         if File.exist?(File.join("./lesli.server.yml"))
 
-            server_settings = YAML.load_file("./lesli.server.yml")
+            begin
 
-            # overwrite core and instance settings with specific settings for server
-            lesli_settings = lesli_settings.deep_merge(server_settings) 
+                server_settings = YAML.load_file("./lesli.server.yml")
+
+                # overwrite core and instance settings with specific settings for server
+                lesli_settings = lesli_settings.deep_merge(server_settings) 
+
+            rescue => exception
+
+            end
 
         end
 
