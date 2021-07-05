@@ -51,6 +51,40 @@ module LC
 
             end
 
+            def self.revisions(as_string: false)
+
+                revisions = {}
+
+                Lesli::engines().each do |engine|
+
+                    next if engine[:type] == "builder"
+                
+                    version = 0
+                    build = 0
+            
+                    # Every module is loaded into the platform using the engine name
+                    modulo = engine[:name]
+
+                    if (defined?(modulo.safe_constantize))
+                        version = modulo.safe_constantize::VERSION
+                        build = modulo.safe_constantize::BUILD
+                    end
+            
+                    if as_string == true
+                        next
+                    end 
+
+                    revisions[engine[:code]] = { 
+                        version: version, 
+                        build: build 
+                    }
+
+                end
+
+                revisions
+
+            end
+
         end
 
     end
