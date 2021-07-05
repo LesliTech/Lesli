@@ -67,10 +67,11 @@ configuration:
         allow_multiaccount: true
         allow_registration: true
         allow_invitation: true
-        allow_becoming: false
         enable_websockets: true
         enable_login_link: true
         enable_login_otp: true
+        enable_becoming: false
+        enable_debug: false
         log_activity: true
         roles:
             - "Administration"
