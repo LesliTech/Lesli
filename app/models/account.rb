@@ -30,7 +30,7 @@ class Account < ApplicationRecord
     has_many :activities,       foreign_key: "accounts_id", class_name: "Account::Activity"
     has_many :currencies,       foreign_key: "accounts_id", class_name: "Account::Currency"
     has_many :integrations,     foreign_key: "accounts_id"
-    has_many :privilege_groups, foreign_key: "accounts_id", class_name: "Account::PrivilegeGroup"
+    has_many :role_descriptors, foreign_key: "accounts_id", class_name: "RoleDescriptor"
 
     has_one :template, class_name: "Template", foreign_key: "accounts_id"
 
@@ -104,6 +104,12 @@ class Account < ApplicationRecord
             role.initialize_role_privileges
 
         end
+        
+        
+        # create default descriptors
+        self.role_descriptors.find_or_create_by(name: "owner")
+        self.role_descriptors.find_or_create_by(name: "admin")
+        
 
     end
 
