@@ -10,6 +10,8 @@ module Notifications
                 return
             end
 
+            LC::Debug.msg "New SMS.", telephone, message if Rails.env == "development"
+
             sms = LC::Config::Providers::Aws::Sns.new()
 
             begin
@@ -17,6 +19,7 @@ module Notifications
                 log_account_activity("Lesli", "app/jobs/notifications/sms", "sms_send_true", { telephone: telephone })
             rescue => error
                 log_account_activity("Lesli", "app/jobs/notifications/sms", "sms_send_false", { telephone: telephone })
+                LC::Debug.msg error
             end
         end
 
