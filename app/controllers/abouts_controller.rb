@@ -27,6 +27,16 @@ class AboutsController < ApplicationLesliController
     end
 
     def version
+        @instance_name = LC::System::Info.instance[:code].humanize
+        @engines = LC::System::Info.revisions()
+        @engines.map do |engine|
+            engine[1][:name] = engine[0].titleize()
+            engine[1][:image] = "#{ engine[0] }/#{ engine[0].sub('cloud_', '') }-logo.svg"
+            if engine[0] == "cloud_dispatcher"
+                engine[1][:image] = "brand/lesli-icon.svg"
+            end
+            engine
+        end
     end
 
     def show

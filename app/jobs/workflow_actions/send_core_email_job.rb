@@ -1,7 +1,7 @@
 class WorkflowActions::SendCoreEmailJob < ApplicationJob
     queue_as :default
 
-    def perform(current_user, cloud_object, action, attachment_files: nil)
+    def perform(current_user, cloud_object, action, attachment_files: nil, custom_href: nil)
         begin
             replacement_values = {
                 "%global_identifier%" => cloud_object.global_identifier,
@@ -22,6 +22,8 @@ class WorkflowActions::SendCoreEmailJob < ApplicationJob
             else
                 href = "/#{class_data[0].underscore().gsub("Cloud", "")}/#{cloud_object.urn}"
             end
+
+            href = custom_href if custom_href 
 
             emails = []
             case action.concerning_users["type"]

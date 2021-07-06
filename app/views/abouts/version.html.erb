@@ -1,3 +1,26 @@
 <section class="application-component">
-    <h1><%= @account[:revision] %></h1>
+
+    <%
+        revision = LC::System::Info.revision()
+        name = LC::System::Info.instance[:code].titleize()
+        version = "version: #{ revision[:version] }"
+        build = "build: #{ revision[:build] }"
+    %>
+
+    <div class="header mb-6 pb-4 pl-3">
+        <h3 class="is-size-3"><%= name %></h3>
+        <h3 class="is-size-4"><%= version %> &bull; <%= build %></h3>
+    </div>
+
+    <%# <component-header title="Modules"></component-header> %>
+    <article class="engines">
+        <% @engines.each do |engine| %>
+            <div class="engine">
+                <%= image_tag engine[1][:image] %>
+                <p><%= engine[1][:name] %></p>
+                <p>version: <%= engine[1][:version] %></p>
+                <p>build: <%= engine[1][:build] %></p>
+            </div>
+        <% end %>
+    </article>
 </section>
