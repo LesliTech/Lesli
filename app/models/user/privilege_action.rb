@@ -17,7 +17,6 @@ For more information read the license file including with this software.
 =end
 
 class User::PrivilegeAction < ApplicationLesliRecord
-    belongs_to :user,   foreign_key: "users_id"
-    belongs_to :action, foreign_key: "system_controller_actions_id", class_name: "SystemController::Action"
-
+    belongs_to :user,          foreign_key: "users_id"
+    belongs_to :system_action, foreign_key: "system_controller_actions_id", class_name: "SystemController::Action"
 end

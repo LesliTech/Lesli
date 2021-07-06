@@ -22,24 +22,23 @@ namespace :app do
 
                 if (controller.save)
                     value[:actions].each do |action|
-                        privilege_action = controller.actions.find_or_initialize_by(name: action)
+                        system_action = controller.actions.find_or_initialize_by(name: action)
 
-                        if (privilege_action.new_record?)
-                            if (privilege_action.save)
+                        if (system_action.new_record?)
+                            if (system_action.save)
 
                                 puts "action #{action} created for controller: #{controller_name}"
 
-                                account.roles.each do |role|
-                                    status = false
-                                    status = true if (role.name == "admin" ||role.name == "owner")
+                                account.role_descriptors.each do |descriptor|
+                                    if (descriptor.name == "owner"||descriptor.name == "admin")
+                                        threads << Thread.new do
+                                            role_descriptor_action = descriptor.privilege_actions.new(system_action: system_action, status: true)
 
-                                    threads << Thread.new do
-                                        role_privilege_action = role.privilege_actions.new(action: privilege_action, status: status)
-
-                                        role_privilege_action.save
-                                    end
-
-                                    threads.map { |thread| thread.join }
+                                            role_descriptor_action.save
+                                        end
+                                        
+                                        threads.map { |thread| thread.join }
+                                    end 
                                 end
                             end
                         end
