@@ -15,6 +15,12 @@ class WorkflowActions::UpdateRelevantUserJob < ApplicationJob
                 else
                     cloud_object.update!(key.to_sym => cloud_object.send("user_#{value}"))
                 end
+
+                # If there is a timestamp, we update it
+                if cloud_object.class.column_names.include? "#{key}_id_updated_at"
+                    cloud_object.update!("#{key}_id_updated_at".to_sym => LC::Date.now)
+                end
+
             rescue StandardError => e
                 cloud_object.activities.create(
                     user_creator: current_user,
