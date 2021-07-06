@@ -66,8 +66,11 @@ module LC
                     modulo = engine[:name]
 
                     if (defined?(modulo.safe_constantize))
-                        version = modulo.safe_constantize::VERSION
-                        build = modulo.safe_constantize::BUILD
+                        begin
+                            version = modulo.safe_constantize::VERSION
+                            build = modulo.safe_constantize::BUILD    
+                        rescue => exception
+                        end
                     end
             
                     if as_string == true
