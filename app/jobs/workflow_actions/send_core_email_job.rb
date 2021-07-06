@@ -18,9 +18,9 @@ class WorkflowActions::SendCoreEmailJob < ApplicationJob
             
             # @todo Improve this href definition
             if defined? DeutscheLeibrenten
-                href = "/crm/#{class_data[1].downcase().pluralize()}/#{cloud_object.url_identifier}"
+                href = "/crm#{cloud_object.urn}"
             else
-                href = "/#{class_data[0].downcase().gsub("Cloud", "")}/#{class_data[1].downcase().pluralize()}/#{cloud_object.id}"
+                href = "/#{class_data[0].underscore().gsub("Cloud", "")}/#{cloud_object.urn}"
             end
 
             emails = []
