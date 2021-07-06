@@ -7,6 +7,7 @@
 .byebug_history
 .DS_store
 Gemfile.lock
+lesli.server.yml
 package-lock.json
 
 
