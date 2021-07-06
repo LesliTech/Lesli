@@ -3,7 +3,6 @@ class CreateRoleDescriptors < ActiveRecord::Migration[6.1]
         create_table :role_descriptors do |t|
 
             t.string  :name
-            t.boolean :status
             t.text    :description
             
             t.datetime :deleted_at, index: true
