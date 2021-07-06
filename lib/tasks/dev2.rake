@@ -17,6 +17,7 @@ For more information read the license file including with this software.
 
 =end
 
+require "./lesli"
 require "./lib/tasks/lesli_tasks"
 
 class Dev < LesliTasks
@@ -25,8 +26,9 @@ class Dev < LesliTasks
         namespace :dev2 do
 
             desc "List the available tasks"
-            task help: :environment do
+            task settings: :environment do
                 ARGV.each { |a| task a.to_sym do ; end }
+                settings
             end
 
             desc "Test debug messages"
@@ -40,8 +42,8 @@ class Dev < LesliTasks
 
     private
 
-    def help
-
+    def settings 
+        pp Lesli::settings()
     end
 
     def debug
