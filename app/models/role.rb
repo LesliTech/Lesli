@@ -23,9 +23,9 @@ class Role < ApplicationLesliRecord
 
     has_many :privileges,               foreign_key: "roles_id",    class_name: "Role::Privilege",          dependent: :delete_all
     has_many :activities,               foreign_key: "roles_id"
-    has_many :role_privilege_actions,   foreign_key: "roles_id",    class_name: "Role::PrivilegeAction"
-    has_many :privilege_groups,         foreign_key: "roles_id",    class_name: "Role::PrivilegeGroup"
-
+    has_many :descriptor_assignments,   foreign_key: "roles_id",    class_name: "Role::DescriptorAssignment"
+    has_many :privilege_actions,        through: :descriptor_assignments
+    
     after_create :generate_code,
 
     def generate_code

@@ -70,7 +70,6 @@ module.exports = env => {
             "account/settings_app": "./app/vue/account_settings/app.js",
             "account/currencies_app": "./app/vue/account_currencies/app.js",
             "account/integrations_app": "./app/vue/account_integrations/app.js",
-            "account/privilege_groups_app": "./app/vue/account_privilege_groups/app.js",
             "account/currency_exchange_rates_app": "./app/vue/account_exchange_rates/app.js",
             
             "dashboards/app": "./app/vue/dashboards/app.js",
@@ -79,6 +78,7 @@ module.exports = env => {
             "abouts/app": "./app/vue/abouts/app.js",
             "users/app": "./app/vue/users/app.js",
             "roles/app": "./app/vue/roles/app.js",
+            "role_descriptors_app": "./app/vue/role_descriptors/app.js",
             
             "invites/app": "./app/vue/invites/app.js",
             "passes/app": "./app/vue/passes/app.js",

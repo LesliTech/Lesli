@@ -1,0 +1,2 @@
+module RoleDescriptor::PrivilegeActionsHelper
+end
