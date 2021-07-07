@@ -17,7 +17,7 @@ For more information read the license file including with this software.
 
 =end
 
-class User::Detail < ApplicationRecord
+class User::Detail < ApplicationLesliRecord
     belongs_to :user, foreign_key: "users_id"
     after_update :update_associated_record
 
