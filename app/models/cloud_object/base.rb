@@ -60,6 +60,16 @@ module CloudObject
             return id
         end
 
+        # @return [String]
+        # @description Returns the relative route the user needs to follow to get to this resource. In most cases, it's: /cloud_object_class/url_identifier.
+        #     If not, the child model must override this method. Note that the URL does not contain the engine name.
+        # @example
+        #     puts CloudHelp::Ticket.first.urn # This will display something like /tickets/1
+        #     puts CloudHouse::MaintenanceServices.first.urn # This will display something like /property_managements/1?tab=maintenance_services&maintenance_service_id=1
+        def urn
+            return "/#{self.class.name.split("::")[-1].underscore.pluralize}/#{url_identifier}"
+        end
+        
         # @return [void]
         # @param original_cloud_object [CloudObject::Base] The original cloud object to be copied
         # @description Clones the information of the original cloud_object into the new one

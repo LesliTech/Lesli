@@ -61,6 +61,23 @@ export default {
             this.object_name = module_data[1]
         },
 
+        // @return [void]
+        // @param name [String] The name of the status you want to select
+        // @description Sets the status specified by the **name** param into the v-model of this component
+        // @example
+        //     # Suppose you are inside another component that will import this use using the *ref* attribute
+        //     this.$refs['component-transition'].selectStatusByName('Created')
+        //     # This will simulate the user selecting the 'Created' status from the dropdown
+        selectStatusByName(name){
+            if(this.transition_statuses){
+                let status = this.transition_statuses.find(status=> status.name.toLowerCase().trim() == name.toLowerCase().trim())
+
+                if(status){
+                    this.submitStatus(status)
+                }
+            }
+        },
+
         setSubscriptions(){
             this.bus.subscribe(`cancel:/status-change${this.busSuffix}`, ()=>{
                 this.$emit('input', null)
@@ -89,8 +106,6 @@ export default {
                 })
             }
         },
-
-
 
         patchStatus(status, callback){
 
