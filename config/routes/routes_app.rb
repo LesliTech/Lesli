@@ -67,21 +67,6 @@ module RoutesApp
                                     resources :exchange_rates
                                 end
                             end
-                            resources :privilege_groups do 
-                                member do  
-                                    scope :resources do
-                                        get :actions
-                                    end
-                                end
-                                collection do
-                                    get :list
-                                end
-                            end
-                            resources :privilege_group_actions do 
-                                collection do
-                                    get :options
-                                end
-                            end
                         end
                         member do
                             scope :resources do
@@ -121,7 +106,6 @@ module RoutesApp
                                 put :email
                             end
                         end
-
                     end
 
                     # roles & privileges management
@@ -129,12 +113,7 @@ module RoutesApp
                         scope module: :role do
                             resources :privileges
                             resources :activities
-                            resources :privilege_groups
-                            resources :privilege_actions do 
-                                collection do
-                                    get :options
-                                end
-                            end
+                            resources :descriptor_assignments
                             collection do
                                 get "/activities/options",                   to: "/role/activities#options"
                             end
@@ -147,6 +126,19 @@ module RoutesApp
                         end
                     end
 
+                    # role descriptors
+                    resources :role_descriptors do
+                        scope module: :role_descriptor do 
+                            resources :privilege_actions 
+                        end
+                        collection do
+                            get :list
+                        end
+                        collection do 
+                            get "/privilege_actions/options",        to: "role_descriptor/privilege_actions#options" 
+                        end
+                    end
+                    
                     # template generators
                     namespace :template do
                         resources :documents do

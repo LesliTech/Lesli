@@ -45,12 +45,11 @@ class User < ApplicationLesliRecord
     has_many :activities,   foreign_key: "users_id"
     has_one  :integration,  foreign_key: "users_id"
     has_many :access_codes, foreign_key: "users_id"
+    has_many :user_roles,               foreign_key: "users_id",    class_name: "User::Role"
+    has_many :roles,                    through: :user_roles,       source: :roles
 
     has_many :user_privilege_actions,   foreign_key: "users_id",    class_name: "User::PrivilegeAction"
-    has_many :user_roles,               foreign_key: "users_id",    class_name: "User::Role"
-    has_many :roles,                    through: :user_roles,       :source => "roles"
-    has_many :role_privileges,          through: :roles
-    has_many :role_privilege_actions,   through: :roles
+    has_many :role_privilege_actions,   through: :roles,            source: :privilege_actions
 
 
     # user details are saved on separate table
@@ -142,10 +141,10 @@ class User < ApplicationLesliRecord
     #     actions = ["index"]
     #
     #     current_user.has_privileges?(controllers, actions)
-    def has_privileges?(controllers, actions)
+    def has_privileges?(controllers, actions)         
         granted_list_by_role = self.role_privilege_actions
-        .select("bool_or(status) as value")
-        .joins(action: [:system_controller])
+        .select("bool_or(role_descriptor_privilege_actions.status) as value")
+        .joins(system_action: [:system_controller])
         .where("system_controllers.name in (?)", controllers)
         .where("system_controller_actions.name in (?)", actions)
         .group("system_controller_actions.name")
@@ -154,7 +153,7 @@ class User < ApplicationLesliRecord
 
         granted_list_by_user = self.user_privilege_actions
         .select("bool_or(status) as value")
-        .joins(action: [:system_controller])
+        .joins(system_action: [:system_controller])
         .where("system_controllers.name in (?)", controllers)
         .where("system_controller_actions.name in (?)", actions)
         .group("system_controller_actions.name")
@@ -168,9 +167,9 @@ class User < ApplicationLesliRecord
         granted_by_user = false if granted_list_by_user.empty?
 
         return granted_by_role || granted_by_user
-    rescue => exception
-        Honeybadger.notify(exception)
-        return false
+    # rescue => exception
+    #     Honeybadger.notify(exception)
+    #     return false
     end
 
     # @return [Hash]
@@ -183,11 +182,11 @@ class User < ApplicationLesliRecord
         # Evaluate role privileges
         self.role_privilege_actions
         .select("
-            bool_or(status) as value,
+            bool_or(role_descriptor_privilege_actions.status) as value,
             system_controller_actions.name as action,
             system_controllers.name as controller
         ")
-        .joins(action: [:system_controller])
+        .joins(system_action: [:system_controller])
         .group("
             system_controller_actions.name,
             system_controllers.name
@@ -204,7 +203,7 @@ class User < ApplicationLesliRecord
             system_controller_actions.name as action,
             system_controllers.name as controller
         ")
-        .joins(action: [:system_controller])
+        .joins(system_action: [:system_controller])
         .group("
             system_controller_actions.name,
             system_controllers.name
