@@ -51,6 +51,7 @@ class ApplicationLesliRecord < ApplicationRecord
 
 =begin
 @return [Boolean]
+@param fields_list [Array] The list of the fields to delete
 @description Set all fields to nil excluding foreign key ids 
 @example
     company_details = CloudHouse::Company.first.detail
@@ -70,7 +71,7 @@ class ApplicationLesliRecord < ApplicationRecord
         "company_type": nil    
     }
 =end
-    def clear_fields
+    def clear_fields(fields_list = nil)    
         attributes_hash = {}
         self.attributes.keys.each do |key|
             if key != "id" && 
@@ -78,7 +79,13 @@ class ApplicationLesliRecord < ApplicationRecord
                 key != "updated_at" && 
                 key != "deleted_at" && 
                 !(key.include? "_id")
-                    attributes_hash["#{key}"] = nil
+                    unless fields_list.nil? 
+                        if (fields_list.include?(key))
+                            attributes_hash["#{key}"] = nil
+                        end
+                    else
+                        attributes_hash["#{key}"] = nil
+                    end
             end
         end
 
