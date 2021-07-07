@@ -108,13 +108,14 @@ module Interfaces::Controllers::Files
             img_from_base64 = Base64.decode64(new_file_params[:attachment])
 
             begin
-                extension = /(png|jpg|jpeg|jfif)/.match(img_from_base64[0,16].downcase)[0]
+                extension = /(png|jpg|jpeg|exif|jfif)/.match(img_from_base64[0,16].downcase)[0]
             rescue
                 return respond_with_error(I18n.t("core.shared.messages_warning_files_extension_not_allowed"))
             end
 
             # Due a encode issue, jpeg images are sent as jfif
             extension = "jpeg" if extension == "jfif"
+            extension = "png"  if extension == "exif"
 
             return respond_with_error(I18n.t("core.shared.messages_warning_files_extension_not_allowed")) unless file_model.verify_file_extension(extension)
 
