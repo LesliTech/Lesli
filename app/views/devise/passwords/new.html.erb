@@ -17,6 +17,13 @@ For more information read the license file including with this software.
 
 %>
 
+<%#
+<% if lookup_context.exists?("new", "#{ lesli_instance_code }/lesli/devise/passwords") % >
+<section id="lesli-application" class="<%= lesli_instance_code % >-password">
+    <%= render :template => "#{lesli_instance_code}/lesli/devise/passwords/new" % >
+</section>
+<% end % >
+%>
 
 <% if lesli_instance_code != "lesli" %>
 <section id="lesli-application" class="<%= lesli_instance_code %>-password">
