@@ -21,7 +21,7 @@ RSpec.shared_context 'user authentication' do
 
     # Creates a new valid user session
     before(:all) do
-        @user = User.find_by(email: "test@lesli.cloud")
+        @user = User.find_by(email: Rails.application.config.lesli_settings["account"]["user"]["email"])
         sign_in @user
     end
 
