@@ -45,7 +45,7 @@ export default {
             options: {},
             ready: false,
             translations: {
-                privilege_actions: I18n.t('core.role/privilege_actions'),
+                descriptor_assignments: I18n.t('core.role/descriptor_assignments'),
                 role_descriptors: I18n.t('core.role_descriptors'),
                 shared: I18n.t('deutscheleibrenten.shared'),
                 users: I18n.t('deutscheleibrenten.users'),
@@ -60,7 +60,7 @@ export default {
 
     methods: {   
         getRoleDescriptors(){
-            let url = this.url.admin(`roles/:role_id/role_descriptors`, {role_id: this.role.id})
+            let url = this.url.admin(`roles/:role_id/descriptor_assignments`, {role_id: this.role.id})
             this.http.get(url).then(result => {
                 if (result.successful) {
                     this.getRoleDescriptorOptions(result.data)
@@ -73,7 +73,7 @@ export default {
         },
         
         getRoleDescriptorOptions(role_descriptors) {
-            let url = this.url.admin(`role_descriptors/privilege_actions/options`)
+            let url = this.url.admin(`roles/descriptor_assignments/options`)
             this.http.get(url).then(result => {
                 if (result.successful) {
                     let descriptors = []
@@ -137,13 +137,13 @@ export default {
         
         postRolePrivilegeDescriptor(category, descriptor_privilege, descriptor_privilege_parent){            
             let data = {
-                role_privilege_descriptor: {
+                role_descriptor_assignment: {
                     role_descriptors_id: descriptor_privilege.id,
                     category: category   
                 }
             }
             
-            let url = this.url.admin('roles/:role_id/role_descriptors', {role_id: this.role.id})
+            let url = this.url.admin('roles/:role_id/descriptor_assignments', {role_id: this.role.id})
             this.http.post(url, data).then(result => {
                 if (!result.successful) {
                     this.msg.error(result.error.message)
@@ -172,7 +172,7 @@ export default {
                 
                 let message = descriptor_privilege.name 
                 message += ':[' + this.object_utils.translateEnum(this.translations.role_descriptors, 'column_enum_category', category) + '] '
-                message += this.translations.privilege_actions.messages_success_role_descriptor_added
+                message += this.translations.descriptor_assignments.messages_success_role_descriptor_added
                 
                 this.msg.success(message) 
             }).catch(error => {
@@ -182,7 +182,7 @@ export default {
         },
 
         destroyRolePrivilegeDescriptor(category, descriptor_privilege){
-            let url = this.url.admin('roles/:role_id/role_descriptors/:id', 
+            let url = this.url.admin('roles/:role_id/descriptor_assignments/:id', 
                 {role_id: this.role.id, 
                 id: descriptor_privilege.actions[category].role_descriptor_id
             })
@@ -193,9 +193,9 @@ export default {
                     return
                 }
                 
-                let message =  message += descriptor_privilege.name 
+                let message = descriptor_privilege.name 
                 message += ':[' + this.object_utils.translateEnum(this.translations.role_descriptors, 'column_enum_category', category) + '] '
-                message += this.translations.privilege_actions.messages_success_role_descriptor_deleted
+                message += this.translations.descriptor_assignments.messages_success_role_descriptor_deleted
                 
                 this.msg.success(message) 
             }).catch(error => {

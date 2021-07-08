@@ -16,40 +16,21 @@ For more information read the license file including with this software.
 
 =end
 class Role::DescriptorAssignmentsController < ApplicationLesliController
-    before_action :set_role_descriptor_assignment, only: [:show, :update, :destroy]
+    before_action :set_role, only: [:index, :create]
+    before_action :set_role_descriptor_assignment, only: [:destroy]
 
-    # GET /role/descriptor_assignments
-    def index
+    def index        
         respond_to do |format|
-            format.html {}
-            format.json do
-                respond_with_successful(Role::DescriptorAssignment.index(current_user, @query))
-            end
+            format.html { }
+            format.json {
+                respond_with_successful(@role.descriptor_assignments)
+            }
         end
     end
-
-    # GET /role/descriptor_assignments/1
-    def show
-        respond_to do |format|
-            format.html {}
-            format.json do
-                return respond_with_not_found unless @role_descriptor_assignment
-                return respond_with_successful(@role_descriptor_assignment.show(current_user, @query))
-            end
-        end
-    end
-
-    # GET /role/descriptor_assignments/new
-    def new
-    end
-
-    # GET /role/descriptor_assignments/1/edit
-    def edit
-    end
-
-    # POST /role/descriptor_assignments
+    
     def create
-        role_descriptor_assignment = Role::DescriptorAssignment.new(role_descriptor_assignment_params)
+        role_descriptor_assignment = @role.descriptor_assignments.new(role_descriptor_assignment_params)
+        
         if role_descriptor_assignment.save
             respond_with_successful(role_descriptor_assignment)
         else
@@ -57,18 +38,6 @@ class Role::DescriptorAssignmentsController < ApplicationLesliController
         end
     end
 
-    # PATCH/PUT /role/descriptor_assignments/1
-    def update
-        return respond_with_not_found unless @role_descriptor_assignment
-
-        if @role_descriptor_assignment.update(role_descriptor_assignment_params)
-            respond_with_successful(@role_descriptor_assignment.show(current_user, @query))
-        else
-            respond_with_error(@role_descriptor_assignment.errors.full_messages.to_sentence)
-        end
-    end
-
-    # DELETE /role/descriptor_assignments/1
     def destroy
         return respond_with_not_found unless @role_descriptor_assignment
 
@@ -79,15 +48,28 @@ class Role::DescriptorAssignmentsController < ApplicationLesliController
         end
     end
 
+    def options
+        respond_with_successful(Role::DescriptorAssignment.options(current_user))
+    end
+    
     private
 
-    # Use callbacks to share common setup or constraints between actions.
+    def set_role
+        @role = current_user.account.roles.find_by(id: params[:role_id])
+    end
+    
     def set_role_descriptor_assignment
-        @role_descriptor_assignment = current_user.account.role_descriptor_assignments.find(class_name, params[:id])
+        set_role 
+        
+        return respond_with_not_found unless @role 
+        
+        @role_descriptor_assignment = @role.descriptor_assignments.find_by(id: params[:id])
     end
 
-    # Only allow a list of trusted parameters through.
-    def role_descriptor_assignment_params
-        params.require(:role_descriptor_assignment).permit(:id, :name)
+    def role_descriptor_assignment_params        
+        params.require(:role_descriptor_assignment).permit(
+            :role_descriptors_id,
+            :category
+        )
     end
 end
