@@ -20,4 +20,8 @@ class Role::DescriptorAssignment < ApplicationLesliRecord
     belongs_to :descriptor,         foreign_key: "role_descriptors_id",  class_name: "::RoleDescriptor"
     
     has_many   :privilege_actions,  through: :descriptor
+    
+    def self.index(current_user, role, query)
+        
+    end
 end
