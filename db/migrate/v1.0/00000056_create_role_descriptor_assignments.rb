@@ -2,6 +2,8 @@ class CreateRoleDescriptorAssignments < ActiveRecord::Migration[6.1]
     def change
         create_table :role_descriptor_assignments do |t|
 
+            t.string   :category, index: true
+            
             t.datetime :deleted_at, index: true
             t.timestamps
         end

@@ -59,6 +59,11 @@ class RoleDescriptorsController < ApplicationLesliController
     # POST /role_descriptors
     def create
         role_descriptor = RoleDescriptor.new(role_descriptor_params)
+        
+        if (role_descriptor_params[:name] == "owner" || role_descriptor_params[:name] == "admin")
+            respond_with_error(I18n.t("core.role_descriptors.message_danger_reserved_name"))
+        end
+        
         if role_descriptor.save
             respond_with_successful(role_descriptor)
         else
