@@ -7,10 +7,7 @@ namespace :app do
             puts  "START SCAN AT: #{Time.now}"
 
             company_name = Rails.application.config.lesli_settings["account"]["company"]["name"]
-
             account = Account.find_by(company_name: company_name)
-
-            system_user = account.users.first
 
             # get all routes for application controllers
             controllers = LC::System::Controllers.scan
