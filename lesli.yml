@@ -32,7 +32,7 @@ account:
         name: "Lesli Development"
         email: "dev@lesli.cloud"
     company: 
-        name: "Lesli Technologies, S. A."
+        name: "LesliTech"
         email: "hello@lesli.tech"
         tag_line: "Building a better future, one line of code at a time."
     website:
@@ -101,18 +101,6 @@ security:
     roles:
         - "Administration"
         - "Sales & Marketing"
-
-
-# Instance customization
-customization:
-    theme: "lesli-blue"
-    page_login: false
-    page_register: false
-    page_register_confirmation: false
-    page_password_reset: false
-    page_invite: false
-    page_pass: false
-    page_otp: false
 
 
 # Configuration by environment
