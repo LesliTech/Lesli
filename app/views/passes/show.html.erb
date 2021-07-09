@@ -17,14 +17,4 @@ For more information read the license file including with this software.
 
 %>
 
-
-<% if lesli_instance_code != "lesli" %>
-<section id="lesli-application" class="<%= lesli_instance_code %>-passes">
-    <%= render :template => "#{lesli_instance_code}/lesli/passes/show" %>
-</section>
-<% end %>
-
-
-<% if lesli_instance_code == "lesli" %>
 <h3>There is no a view for passes path.</h3>
-<% end %>
