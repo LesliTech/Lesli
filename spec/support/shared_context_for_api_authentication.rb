@@ -19,6 +19,9 @@ For more information read the license file including with this software.
 
 RSpec.shared_context 'api authentication' do   
 
+    password = Rails.application.config.lesli_settings["security"]["password"]["development"]
+    password = password + Time.now.year.to_s + "$"
+
     @token = nil
 
     # Creates a new valid user session
@@ -30,7 +33,7 @@ RSpec.shared_context 'api authentication' do
             post '/api/authentication', params: {
                 authentication: {
                     "email": "api@lesli.cloud",
-                    "password": "tardis2021$",
+                    "password": password,
                     "source": "Rspec tests"
                 }
             }
