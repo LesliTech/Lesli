@@ -20,7 +20,7 @@ For more information read the license file including with this software.
 
 
 <% 
-core_apps_and_pages = [
+customizable_apps_and_pages = [
     "users/sessions", 
     "users/passwords", 
     "users/confirmations", 
@@ -31,7 +31,9 @@ core_apps_and_pages = [
 ]
 %>
 
-<% if core_apps_and_pages.include?(controller_path.to_s) %>
+<%#= debug Rails.application.config.lesli_settings["customization"] %>
+
+<% if customizable_apps_and_pages.include?(controller_path.to_s) %>
     <%# Include controller path only for core apps and pages %>
     <%= stylesheet_link_tag "lesli/templates/public", media: "all" %>
     <%= stylesheet_link_tag controller_path, media: "all" %>
