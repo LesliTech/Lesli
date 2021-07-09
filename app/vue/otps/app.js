@@ -20,7 +20,6 @@ For more information read the license file including with this software.
 import app from "LesliVue/public"
 
 
-
 // · 
 import componentNotificationMessageSimple from "LesliCoreVue/components/notifications/message-simple.vue" 
 import componentNotificationProgressBar from "LesliCoreVue/components/notifications/progress-bar.vue" 
@@ -28,7 +27,6 @@ import componentNotificationProgressBar from "LesliCoreVue/components/notificati
 
 // · 
 app({
-
     components: {
         "component-notification-message-simple": componentNotificationMessageSimple,
         "component-notification-progress-bar": componentNotificationProgressBar
@@ -37,15 +35,19 @@ app({
         translations: {
             main: I18n.t("core.otps/show")
         },
-        pass: {
+        otp: {
             email: ""
         },
+        validate_otp: false,
         progress_bar_active: false,
         notification: {
             message: "",
             show: false,
             type: "is-danger"
         }
+    },
+    mounted() {
+        this.validate_otp = false
     },
     methods: {
 
@@ -55,13 +57,15 @@ app({
 
             this.progress_bar_active = true;
 
-            this.http.post("/otp", this.pass).then(result => {
+            this.http.post("/otp", this.otp).then(result => {
 
                 this.progress_bar_active = false
 
                 if (result.successful) {
+                    this.validate_otp = true
                     this.showNotification(this.translations.main.notification_reset_password_instructions_sent, "is-success")
                 } else {
+                    this.validate_otp = false
                     this.showNotification(result.error.message)
                 }
 

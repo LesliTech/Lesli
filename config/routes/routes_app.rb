@@ -25,7 +25,6 @@ module RoutesApp
             # Alternative logins - magic links
             resource :otp,  only: [:show, :new, :create]
             resource :pass, only: [:show, :new, :create]
-            resource :onboarding, only: [:show, :create]
             resource :invite, only: [:show, :create]
 
             authenticated :user do

@@ -26,20 +26,19 @@ class PassesController < ApplicationController
     def show
 
         # we use "t" as alias for token
-        if params[:t].blank?
-
-            redirect_to("/pass/new") and return
-
-        end
-
+        redirect_to("/pass/new") and return if params[:t].blank?
 
         # alias for token error message
         error_msg = I18n.t("core.shared.messages_danger_not_valid_authorization_token_found")
 
+        # rebuild the token based on the user-token sent by email
+        digest_token = Devise.token_generator.digest(User::AccessCode, :token, params[:t])
+
+        # denied access if can't build the token
+        redirect_to(new_user_session_path, alert: error_msg) and return if digest_token.blank?
 
         # search for the requested pass
-        access_code = User::AccessCode.find_by(token: params[:t], token_type: "pass", last_used_at: nil)
-
+        access_code = User::AccessCode.find_by(token: digest_token, token_type: "pass", last_used_at: nil)
 
         # denied access if token not found
         if access_code.blank?
@@ -52,31 +51,24 @@ class PassesController < ApplicationController
 
         end
 
-
         # denied access if token do not meet validations
         redirect_to(new_user_session_path, alert: error_msg) and return if !access_code.is_valid?
-
 
         # check if user meet requirements to login
         user_validation = UserValidationService.new(access_code.user).valid?
 
-
         # if user do not meet requirements to login
         redirect_to(new_user_session_path, alert: error_msg) and return unless user_validation.success?
-
-
-        # do a user login
-        sign_in(access_code.user)
-
 
         # delete used token
         access_code.update({ last_used_at: Time.current })
         access_code.delete
 
 
-        # register a successful sign-in log for the current user
-        access_code.user.logs.create({ title: "pass_session_creation_successful" })
+        # IMPORTANT: this is a copy of the main login method at: app/controllers/users/sessions
 
+        # do a user login
+        sign_in(access_code.user)
 
         # register a new unique session
         @current_session = access_code.user.sessions.create({
@@ -87,10 +79,13 @@ class PassesController < ApplicationController
             :last_used_at => Time.current
         })
 
-
+        # make session id globally available
         session[:user_session_id] = @current_session[:id]
 
+        # register a successful sign-in log for the current user
+        access_code.user.logs.create({ user_sessions_id: session[:user_session_id], title: "pass_session_creation_successful" })
 
+        # redirect to the root path and return 
         redirect_to("/") and return 
 
     end
@@ -105,16 +100,17 @@ class PassesController < ApplicationController
     def create
 
         # check if is a valid user
-        if @user.blank?
-            respond_with_successful()
-            return
-        end
+        return respond_with_successful() if @user.blank?
 
         # create a new pass
-        pass = @user.access_codes.new({
-            token_type: "pass"
-        })
+        pass = @user.access_codes.new({ token_type: "pass" })
 
+        raw, enc = Devise.token_generator.generate(pass.class, :token)
+
+        # save encrypted token in database
+        pass.token = enc
+
+        # try to save the access code
         if pass.save
 
             @user.logs.create({
@@ -122,7 +118,7 @@ class PassesController < ApplicationController
                 description: "user_agent: #{get_user_agent},user_remote: #{request.remote_ip}"
             })
 
-            UserMailer.with(user: @user, token: pass.token).magic_link.deliver_now
+            UserMailer.with(user: @user, token: raw).magic_link.deliver_now
 
             respond_with_successful()
 
