@@ -34,7 +34,7 @@ export default {
                 main: I18n.t('core.role_descriptors'),
                 core: I18n.t('core.shared')
             },
-            privilege_group: {
+            role_descriptor: {
                 id: null
             }
         }
@@ -54,7 +54,7 @@ export default {
 
         <div class="card">
             <div class="card-content">
-                <component-form :privilege_group="privilege_group"></component-form>
+                <component-form :role_descriptor="role_descriptor"></component-form>
             </div>
         </div>
     </section>

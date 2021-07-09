@@ -98,13 +98,9 @@ export default {
                     return
                 }
                 
-                this.role_descriptors = result.data.filter((e) => {
-                    return (
-                        e.role_descriptors_id === null &&
-                        e.role_descriptors_id !== this.role_descriptor.id &&
-                        e.id !== this.role_descriptor.id
-                    )
-                })
+                this.role_descriptors = result.data.filter((e) => 
+                    e.role_descriptors_id === null && e.id !== this.role_descriptor.id
+                )
             }).catch(error => {
                 console.log(error)
             }) 
@@ -124,7 +120,7 @@ export default {
                 <b-input type="text" placeholder="" v-model="role_descriptor.name" required></b-input>
             </b-field>
 
-            <b-field :label="translations.main.column_role_descriptors_id" v-if="role_descriptors.length > 0">
+            <b-field :label="translations.main.view_text_assign_to_parent_descriptor" v-if="role_descriptors.length > 0">
                 <b-select v-model="role_descriptor.role_descriptors_id" expanded>
                     <option
                         v-for="role_descriptor in role_descriptors"
