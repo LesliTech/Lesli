@@ -22,7 +22,7 @@ class User::AccessCode < ApplicationLesliRecord
 
     validates :user, :presence => true
 
-    MIN_TOKEN_DURATION = 2*60
+    MIN_TOKEN_DURATION = 4 * 60
 
     enum token_type: { pass: "pass", otp: "otp" }
 
