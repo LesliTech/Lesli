@@ -36,8 +36,8 @@ class RoleDescriptor::Activity < CloudObject::Activity
         self.log_privilege_action(current_user, role_descriptor, privilege_action, false, true)
     end
     
-    def self.log_update_privilege_action(current_user, role_descriptor, privilege_action, old_attributes, new_attributes)
-        self.log_privilege_action(current_user, role_descriptor, privilege_action, old_attributes[:status], new_attributes[:status])
+    def self.log_update_privilege_action(current_user, role_descriptor, privilege_action, old_attributes, new_attributes)        
+        self.log_privilege_action(current_user, role_descriptor, privilege_action, old_attributes["status"], new_attributes["status"])
     end
         
     protected
