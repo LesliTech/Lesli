@@ -112,7 +112,7 @@ class RolesController < ApplicationLesliController
         if role.save
             respond_with_successful(role)
 
-            Role.log_activity_create(current_user, role)
+            Role::Activity.log_create(current_user, role)
 
             role.initialize_role_privileges
         else
@@ -157,7 +157,7 @@ class RolesController < ApplicationLesliController
 
             respond_with_successful(@role)
 
-            Role.log_activity_update(current_user, @role, old_attributes, new_attributes)
+            Role::Activity.log_update(current_user, @role, old_attributes, new_attributes)
         else
             respond_with_error(@role.errors.full_messages.to_sentence)
         end
@@ -178,32 +178,10 @@ class RolesController < ApplicationLesliController
         if @role.destroy
             respond_with_successful
 
-            Role.log_activity_destroy(current_user, @role)
+            Role::Activity.log_destroy(current_user, @role)
         else
             respond_with_error(@role.errors.full_messages.to_sentence)
         end
-    end
-
-
-    def options
-        respond_with_successful()
-    end
-
-    def actions_by_privilege_group
-        group_privilege_id = params[:group_privilege_id]
-        status = params[:status]
-        category = params[:category]
-
-        actions = @role.actions_available_by_privilege_group(current_user, category, group_privilege_id)
-        
-        actions.each do |action_id|
-            role_privilege_action = self.privilege_actions.find_or_initialize_by(system_controller_actions_id: action_id)
-            role_privilege_action.status = status
-            
-            role_privilege_action.save
-        end
-        
-        Role.log_activity_update_role_privilege_group(current_user, @role, status, )
     end
     
     private

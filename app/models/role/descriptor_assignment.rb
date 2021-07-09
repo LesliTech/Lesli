@@ -21,10 +21,6 @@ class Role::DescriptorAssignment < ApplicationLesliRecord
     
     has_many   :privilege_actions,  through: :descriptor
     
-    def self.index(current_user, role, query)
-        
-    end
-    
     def self.options(current_user)
         descriptors = []
         categories_name = Account::PrivilegeGroupAction.categories.map{|k, _| k}

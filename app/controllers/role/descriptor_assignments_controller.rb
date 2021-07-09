@@ -32,6 +32,8 @@ class Role::DescriptorAssignmentsController < ApplicationLesliController
         role_descriptor_assignment = @role.descriptor_assignments.new(role_descriptor_assignment_params)
         
         if role_descriptor_assignment.save
+            Role::Activity.log_create_descriptor_assignment(current_user, @role, role_descriptor_assignment)
+            
             respond_with_successful(role_descriptor_assignment)
         else
             respond_with_error(role_descriptor_assignment.errors.full_messages.to_sentence)
@@ -42,6 +44,9 @@ class Role::DescriptorAssignmentsController < ApplicationLesliController
         return respond_with_not_found unless @role_descriptor_assignment
 
         if @role_descriptor_assignment.destroy
+            
+            Role::Activity.log_destroy_descriptor_assignment(current_user, @role, @role_descriptor_assignment)
+            
             respond_with_successful
         else
             respond_with_error(@role_descriptor_assignment.errors.full_messages.to_sentence)
