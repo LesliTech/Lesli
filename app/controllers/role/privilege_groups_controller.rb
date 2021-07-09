@@ -15,7 +15,7 @@ For more information read the license file including with this software.
 // · 
 
 =end
-class Role::PrivilegeGroupsController < ApplicationLesliController
+class Role::DescriptorAssignmentsController < ApplicationLesliController
     before_action :set_role, only: [:index, :create]
     before_action :set_role_privilege_group, only: [:destroy]
 
@@ -49,7 +49,7 @@ class Role::PrivilegeGroupsController < ApplicationLesliController
     end
 
     def options
-        respond_with_successful(Role::PrivilegeGroup.options(current_user, @query))
+        respond_with_successful(Role::DescriptorAssignment.options(current_user, @query))
     end
     
     private

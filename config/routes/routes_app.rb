@@ -116,6 +116,7 @@ module RoutesApp
                             resources :descriptor_assignments
                             collection do
                                 get "/activities/options",                   to: "/role/activities#options"
+                                get "/descriptor_assignments/options",        to: "/role/descriptor_assignments#options"
                             end
                         end
 
