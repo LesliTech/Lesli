@@ -312,6 +312,8 @@ module Devise
 
         # This declaration attach a new method to the Devise module to generate user-friendly tokens
         # we use this method to reset password through Dispatcher or like-otp validations
+        # important we use this method only when we need compatibility with Devise
+        # example: easy password reset, through otp
         def generate_otp(klass, column, length=2, downcase=true)
             key = key_for(column)
 
@@ -323,5 +325,6 @@ module Devise
             end
 
         end
+
     end
 end
