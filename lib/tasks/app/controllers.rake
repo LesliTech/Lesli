@@ -7,10 +7,7 @@ namespace :app do
             puts  "START SCAN AT: #{Time.now}"
 
             company_name = Rails.application.config.lesli_settings["account"]["company"]["name"]
-
             account = Account.find_by(company_name: company_name)
-
-            system_user = account.users.first
 
             # get all routes for application controllers
             controllers = LC::System::Controllers.scan
@@ -25,21 +22,14 @@ namespace :app do
                         system_action = controller.actions.find_or_initialize_by(name: action)
 
                         if (system_action.new_record?)
-                            if (system_action.save)
+                            puts "action #{action} created for controller: #{controller_name}"
+                        end
+                        
+                        if (system_action.save)
+                            account.role_descriptors.where("name = ? or name = ?", "owner", "admin").each do |descriptor|
+                                role_descriptor_action = descriptor.privilege_actions.new(system_action: system_action, status: true)
 
-                                puts "action #{action} created for controller: #{controller_name}"
-
-                                account.role_descriptors.each do |descriptor|
-                                    if (descriptor.name == "owner"||descriptor.name == "admin")
-                                        threads << Thread.new do
-                                            role_descriptor_action = descriptor.privilege_actions.new(system_action: system_action, status: true)
-
-                                            role_descriptor_action.save
-                                        end
-                                        
-                                        threads.map { |thread| thread.join }
-                                    end 
-                                end
+                                role_descriptor_action.save!
                             end
                         end
                     end

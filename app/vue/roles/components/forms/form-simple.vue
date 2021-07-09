@@ -45,8 +45,8 @@ export default {
             options: {},
             ready: false,
             translations: {
-                privilege_actions: I18n.t('core.role/privilege_actions'),
-                privilege_groups: I18n.t('core.account/privilege_groups'),
+                descriptor_assignments: I18n.t('core.role/descriptor_assignments'),
+                role_descriptors: I18n.t('core.role_descriptors'),
                 shared: I18n.t('deutscheleibrenten.shared'),
                 users: I18n.t('deutscheleibrenten.users'),
                 core: I18n.t('core.shared'),
@@ -55,15 +55,15 @@ export default {
         }
     },
     mounted() {
-        this.getRoleGroups()
+        this.getRoleDescriptors()
     },
 
     methods: {   
-        getRoleGroups(){
-            let url = this.url.admin(`roles/:role_id/privilege_groups`, {role_id: this.role.id})
+        getRoleDescriptors(){
+            let url = this.url.admin(`roles/:role_id/descriptor_assignments`, {role_id: this.role.id})
             this.http.get(url).then(result => {
                 if (result.successful) {
-                    this.getRoleGroupOptions(result.data)
+                    this.getRoleDescriptorOptions(result.data)
                 } else {
                     this.msg.error(result.error.message)
                 }
@@ -72,47 +72,47 @@ export default {
             })
         },
         
-        getRoleGroupOptions(role_groups) {
-            let url = this.url.admin(`roles/privilege_actions/options`)
+        getRoleDescriptorOptions(role_descriptors) {
+            let url = this.url.admin(`roles/descriptor_assignments/options`)
             this.http.get(url).then(result => {
                 if (result.successful) {
-                    let groups = []
-                    for(let group of result.data.groups) {                        
-                        for(let index in group.actions) {
-                            let role_group = role_groups.find(e => 
-                                e.account_privilege_groups_id === group.id &&
+                    let descriptors = []
+                    for(let descriptor of result.data.descriptors) {                        
+                        for(let index in descriptor.actions) {
+                            let role_descriptor = role_descriptors.find(e => 
+                                e.role_descriptors_id === descriptor.id &&
                                 e.category === index                                
                             )    
                             
-                            if (role_group){                                
-                                group.actions[index] = {
-                                    ...group.actions[index],
+                            if (role_descriptor){                                
+                                descriptor.actions[index] = {
+                                    ...descriptor.actions[index],
                                     status: true,
-                                    role_group_id: role_group.id 
+                                    role_descriptor_id: role_descriptor.id 
                                 }
                             }
                         }
                         
                                             
-                        if (group.account_privilege_groups_id) {
-                            let parent_index = groups.findIndex(e => 
-                                e.id ===  group.account_privilege_groups_id
+                        if (descriptor.role_descriptors_id) {
+                            let parent_index = descriptors.findIndex(e => 
+                                e.id ===  descriptor.role_descriptors_id
                             )
                             
                             if (parent_index !== -1){
-                                groups[parent_index]['subgroups'].push(group)   
+                                descriptors[parent_index]['subdescriptors'].push(descriptor)   
                             }
                         } else {
-                            groups.push({
-                                ...group,
-                                subgroups: []
+                            descriptors.push({
+                                ...descriptor,
+                                subdescriptors: []
                             })
                         }
                     }
                 
                     
                     this.options = {
-                        groups: groups,
+                        descriptors: descriptors,
                         categories: result.data.categories
                     }
                     
@@ -125,54 +125,54 @@ export default {
             })
         },
 
-        handleSubmit(category, group_privilege, event, group_privilege_parent = null){            
+        handleSubmit(category, descriptor_privilege, event, descriptor_privilege_parent = null){            
             let value = event.target.checked
             
             if  (value) {
-                this.postRolePrivilegeGroup(category, group_privilege, group_privilege_parent)
+                this.postRolePrivilegeDescriptor(category, descriptor_privilege, descriptor_privilege_parent)
             } else {
-                this.destroyRolePrivilegeGroup(category, group_privilege) 
+                this.destroyRolePrivilegeDescriptor(category, descriptor_privilege) 
             }
         },
         
-        postRolePrivilegeGroup(category, group_privilege, group_privilege_parent){            
+        postRolePrivilegeDescriptor(category, descriptor_privilege, descriptor_privilege_parent){            
             let data = {
-                role_privilege_group: {
-                    account_privilege_groups_id: group_privilege.id,
+                role_descriptor_assignment: {
+                    role_descriptors_id: descriptor_privilege.id,
                     category: category   
                 }
             }
             
-            let url = this.url.admin('roles/:role_id/privilege_groups', {role_id: this.role.id})
+            let url = this.url.admin('roles/:role_id/descriptor_assignments', {role_id: this.role.id})
             this.http.post(url, data).then(result => {
                 if (!result.successful) {
                     this.msg.error(result.error.message)
                     return
                 }
                 
-                if (group_privilege_parent) {
-                    let parent_index = this.options.groups.findIndex(
-                        e => e.id === group_privilege_parent.id
+                if (descriptor_privilege_parent) {
+                    let parent_index = this.options.descriptors.findIndex(
+                        e => e.id === descriptor_privilege_parent.id
                     )
                     
-                    let index = this.options.groups[parent_index]['subgroups'].findIndex(
-                        e => e.id === group_privilege.id
+                    let index = this.options.descriptors[parent_index]['subdescriptors'].findIndex(
+                        e => e.id === descriptor_privilege.id
                     )
                 
-                    this.$set(this.options.groups[parent_index]['subgroups'][index].actions[category], 'status', true)
-                    this.$set(this.options.groups[parent_index]['subgroups'][index].actions[category], 'role_group_id', result.data.id)    
+                    this.$set(this.options.descriptors[parent_index]['subdescriptors'][index].actions[category], 'status', true)
+                    this.$set(this.options.descriptors[parent_index]['subdescriptors'][index].actions[category], 'role_descriptor_id', result.data.id)    
                 } else {
-                    let index = this.options.groups.findIndex(
-                        e => e.id === group_privilege.id
+                    let index = this.options.descriptors.findIndex(
+                        e => e.id === descriptor_privilege.id
                     )
                 
-                    this.$set(this.options.groups[index].actions[category], 'status', true)
-                    this.$set(this.options.groups[index].actions[category], 'role_group_id', result.data.id)
+                    this.$set(this.options.descriptors[index].actions[category], 'status', true)
+                    this.$set(this.options.descriptors[index].actions[category], 'role_descriptor_id', result.data.id)
                 }
                 
-                let message = group_privilege.name 
-                message += ':[' + this.object_utils.translateEnum(this.translations.privilege_groups, 'column_enum_category', category) + '] '
-                message += this.translations.privilege_actions.messages_success_role_group_added
+                let message = descriptor_privilege.name 
+                message += ':[' + this.object_utils.translateEnum(this.translations.role_descriptors, 'column_enum_category', category) + '] '
+                message += this.translations.descriptor_assignments.messages_success_role_descriptor_added
                 
                 this.msg.success(message) 
             }).catch(error => {
@@ -181,10 +181,10 @@ export default {
             })
         },
 
-        destroyRolePrivilegeGroup(category, group_privilege){
-            let url = this.url.admin('roles/:role_id/privilege_groups/:id', 
+        destroyRolePrivilegeDescriptor(category, descriptor_privilege){
+            let url = this.url.admin('roles/:role_id/descriptor_assignments/:id', 
                 {role_id: this.role.id, 
-                id: group_privilege.actions[category].role_group_id
+                id: descriptor_privilege.actions[category].role_descriptor_id
             })
             
             this.http.delete(url).then(result => {
@@ -193,9 +193,9 @@ export default {
                     return
                 }
                 
-                let message =  message += group_privilege.name 
-                message += ':[' + this.object_utils.translateEnum(this.translations.privilege_groups, 'column_enum_category', category) + '] '
-                message += this.translations.privilege_actions.messages_success_role_group_deleted
+                let message = descriptor_privilege.name 
+                message += ':[' + this.object_utils.translateEnum(this.translations.role_descriptors, 'column_enum_category', category) + '] '
+                message += this.translations.descriptor_assignments.messages_success_role_descriptor_deleted
                 
                 this.msg.success(message) 
             }).catch(error => {
@@ -209,7 +209,7 @@ export default {
         },
 
         hasDetails(row){
-            return (row.subgroups.length > 0)
+            return (row.subdescriptors.length > 0)
         }
     },
 
@@ -219,13 +219,13 @@ export default {
             this.pagination.current_page = 1
 
             if (search_field.length > 0) {
-                return this.options.groups.filter((role_ability)=>{
+                return this.options.descriptors.filter((role_ability)=>{
                     return (
                         role_ability.name.toLowerCase().includes(search_field)
                     )
                 })
             } else {
-                return this.options.groups
+                return this.options.descriptors
             }
         }
     }
@@ -283,7 +283,7 @@ export default {
                             <strong> {{  props.row.name }} </strong>
                         </b-table-column>
                         
-                        <b-table-column v-for="category in options.categories" :key="category" :field="category" :label="object_utils.translateEnum(translations.privilege_groups, 'column_enum_category', category)" >
+                        <b-table-column v-for="category in options.categories" :key="category" :field="category" :label="object_utils.translateEnum(translations.role_descriptors, 'column_enum_category', category)" >
                             <b-switch
                                 :ref="props.row.name + '-' + category"
                                 v-if="props.row.actions[category]['actions'].length > 0"
@@ -294,15 +294,15 @@ export default {
                     </template>
 
                     <template slot="detail" slot-scope="props">
-                        <tr v-for="subgroup in props.row.subgroups" :key="`${props.row.name}-${subgroup.name}`">
+                        <tr v-for="subdescriptor in props.row.subdescriptors" :key="`${props.row.name}-${subdescriptor.name}`">
                             <td> </td>
-                            <td> &nbsp; &nbsp; {{ subgroup.name }} </td>
+                            <td> &nbsp; &nbsp; {{ subdescriptor.name }} </td>
                             <td v-for="category in options.categories" :field="category" :label="category" >
                                 <b-switch
-                                    :ref="subgroup.name + '-' + category"
-                                    v-if="subgroup.actions[category]['actions'].length > 0"
-                                    :value="subgroup.actions[category]['status']"
-                                    @change.native="event => handleSubmit(category, subgroup, event, props.row)"
+                                    :ref="subdescriptor.name + '-' + category"
+                                    v-if="subdescriptor.actions[category]['actions'].length > 0"
+                                    :value="subdescriptor.actions[category]['status']"
+                                    @change.native="event => handleSubmit(category, subdescriptor, event, props.row)"
                                 />
                             </td>
                         </tr>

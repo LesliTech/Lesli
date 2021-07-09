@@ -20,4 +20,41 @@ class Role::DescriptorAssignment < ApplicationLesliRecord
     belongs_to :descriptor,         foreign_key: "role_descriptors_id",  class_name: "::RoleDescriptor"
     
     has_many   :privilege_actions,  through: :descriptor
+    
+    def self.index(current_user, role, query)
+        
+    end
+    
+    def self.options(current_user)
+        descriptors = []
+        categories_name = Account::PrivilegeGroupAction.categories.map{|k, _| k}
+
+        
+        current_user.account.role_descriptors.order(created_at: :asc)
+        .where.not("role_descriptors.name = ? or role_descriptors.name = ?", "admin", "owner")
+        .each do |role_descriptor|
+            actions = {}            
+            role_descriptor_actions = role_descriptor.privilege_actions
+            
+            categories_name.each do |category|
+                actions[category] =  { 
+                    actions: role_descriptor_actions.find_all {|e| e["category"] == category },
+                    status: false
+                }
+            end
+            
+            descriptors.push({
+                actions: actions,
+                id: role_descriptor.id,
+                name: role_descriptor.name,
+                description: role_descriptor.description,
+                role_descriptors_id: role_descriptor.role_descriptors_id
+            }) 
+        end 
+        
+        return {
+            descriptors: descriptors,
+            categories: categories_name
+        }
+    end
 end
