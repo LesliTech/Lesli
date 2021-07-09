@@ -1,4 +1,5 @@
 /*
+
 Copyright (c) 2021, all rights reserved.
 
 All the information provided by this platform is protected by international laws related  to 
@@ -13,6 +14,55 @@ For more information read the license file including with this software.
 
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
 // · 
+
 */
 
+
+// · 
 @import "lesli/templates/component";
+@import "lesli/settings/icons.scss";
+
+
+// · 
+body.otps.new {
+    background: white;
+
+
+    .hero-head {
+        padding: 8rem 0 4rem;
+
+        .app-logo {
+            max-width: 130px;
+        }
+    }
+
+    .hero-body {
+        flex-direction: column;
+        border-top: 1px solid #ebebeb;
+        background-color: whitesmoke;
+
+        form {
+            padding: 4rem;
+            margin: 2rem auto;
+            width: 100%;
+            max-width: 750px;
+            border-radius: 6px;
+            border: 1px solid #ececec;
+            background-color: white;
+        }
+
+        .label {
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 0;
+            color: lesli-css-color(slate, 500);
+        }
+
+        .app-logo {
+            margin-top: 4rem;
+            max-width: 100px;
+        }
+
+    }
+
+}

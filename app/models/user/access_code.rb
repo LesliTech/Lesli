@@ -16,54 +16,23 @@ For more information read the license file including with this software.
 
 =end
 class User::AccessCode < ApplicationLesliRecord
+
     before_create :generate_token
 
-    belongs_to :user,   foreign_key: "users_id",    class_name: "::User"
+    belongs_to :user, foreign_key: "users_id", class_name: "::User"
 
     validates :user, :presence => true
 
-    MIN_TOKEN_DURATION = 4 * 60
+    MIN_TOKEN_DURATION = 40 * 60
 
     enum token_type: { pass: "pass", otp: "otp" }
-
-    def self.index(current_user, query)
-        []
-    end
-
-    def show(current_user, query)
-        self
-    end
 
 
     # @return [Integer]
     # @description generates an access code for the associated user
     def generate_token
 
-        token = nil
-
-        rebuild_token = true
-
-        # generate a random token
-        while rebuild_token do
-
-            # random token for passes
-            if self.token_type == "pass"
-                token = SecureRandom.alphanumeric(64)
-            end
-    
-            # random token for one time passwords
-            if self.token_type == "otp"
-                token = SecureRandom.hex(2)
-            end
-
-            # assign token to user if token is unique
-            if !User::AccessCode.find_by(:token => token, :token_type => self.token_type)
-                rebuild_token = false
-            end
-
-        end
-
-        self.token = token
+        # set an expiration time
         self.expiration_at = Time.now.utc + MIN_TOKEN_DURATION
 
     end
