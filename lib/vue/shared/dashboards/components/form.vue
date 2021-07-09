@@ -446,6 +446,22 @@ export default {
                                                 >
                                                 </b-input>
                                             </b-field>
+                                            <b-field
+                                                v-if="option.type == 'Select'"
+                                                :label="translations.main_components[`column_configuration_${option.name}`]"
+                                                :message="translations.main_components[`view_text_column_configuration_${option.name}_description`]"
+                                            >
+                                                <b-select
+                                                    expanded
+                                                    v-model="selected_dashboard_component[option.column][option.group][option.name]"
+                                                    @change.native="notifyUnsavedChanges"
+                                                    :placeholder="translations.core.view_placeholder_select_option"
+                                                >
+                                                    <option v-for="item in option.items" :key="item" :value="item">
+                                                        {{translations.main_components[`column_enum_configuration_${option.name}_${item}`]}}
+                                                    </option>
+                                                </b-select>
+                                            </b-field>
                                         </div>
                                     </div>
                                 </div>
