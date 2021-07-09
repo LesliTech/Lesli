@@ -17,7 +17,7 @@ For more information read the license file including with this software.
 =end
 class RoleDescriptor::PrivilegeActionsController < ApplicationLesliController
     before_action :set_role_descriptor_privilege, only: [:index, :create]
-    before_action :set_role_descriptor_privilege_action, only: [:show, :update, :destroy]
+    before_action :set_role_descriptor_privilege_action, only: [:update]
 
     def index
         respond_to do |format|
@@ -28,22 +28,6 @@ class RoleDescriptor::PrivilegeActionsController < ApplicationLesliController
         end
     end
     
-    def show
-        respond_to do |format|
-            format.html {}
-            format.json do
-                return respond_with_not_found unless @role_descriptor_privilege_action
-                return respond_with_successful(@role_descriptor_privilege_action.show(current_user, @query))
-            end
-        end
-    end
-
-    def new
-    end
-    
-    def edit
-    end
-    
     def create
         return respond_with_not_found unless @role_descriptor
         
@@ -51,6 +35,8 @@ class RoleDescriptor::PrivilegeActionsController < ApplicationLesliController
         
         if role_descriptor_privilege_action.save
             respond_with_successful(role_descriptor_privilege_action)
+            
+            RoleDescriptor::Activity.log_create_privilege_action(current_user, @role_descriptor, role_descriptor_privilege_action)
         else
             respond_with_error(role_descriptor_privilege_action.errors.full_messages.to_sentence)
         end
@@ -59,18 +45,14 @@ class RoleDescriptor::PrivilegeActionsController < ApplicationLesliController
     def update
         return respond_with_not_found unless @role_descriptor_privilege_action
 
+        new_attributes = @role_descriptor_privilege_action.attributes
+        
         if @role_descriptor_privilege_action.update(role_descriptor_privilege_action_params)
+            old_attributes = @role_descriptor_privilege_action.attributes
+            
             respond_with_successful(@role_descriptor_privilege_action.show(current_user, @query))
-        else
-            respond_with_error(@role_descriptor_privilege_action.errors.full_messages.to_sentence)
-        end
-    end
-
-    def destroy
-        return respond_with_not_found unless @role_descriptor_privilege_action
-
-        if @role_descriptor_privilege_action.destroy
-            respond_with_successful
+            
+            RoleDescriptor::Activity.log_update_privilege_action(current_user, @role_descriptor, @role_descriptor_privilege_action, old_attributes, new_attributes)
         else
             respond_with_error(@role_descriptor_privilege_action.errors.full_messages.to_sentence)
         end

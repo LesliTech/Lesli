@@ -58,14 +58,16 @@ class RoleDescriptorsController < ApplicationLesliController
 
     # POST /role_descriptors
     def create
-        role_descriptor = RoleDescriptor.new(role_descriptor_params)
+        role_descriptor = current_user.account.role_descriptors.new(role_descriptor_params)
         
-        if (role_descriptor_params[:name] == "owner" || role_descriptor_params[:name] == "admin")
+        if (role_descriptor[:name] == "owner"||role_descriptor[:name] == "admin")
             respond_with_error(I18n.t("core.role_descriptors.message_danger_reserved_name"))
         end
         
         if role_descriptor.save
             respond_with_successful(role_descriptor)
+            
+            RoleDescriptor::Activity.log_create(current_user, role_descriptor)
         else
             respond_with_error(role_descriptor.errors.full_messages.to_sentence)
         end
@@ -75,8 +77,14 @@ class RoleDescriptorsController < ApplicationLesliController
     def update
         return respond_with_not_found unless @role_descriptor
 
+        old_attributes = @role_descriptor.attributes
+        
         if @role_descriptor.update(role_descriptor_params)
+            new_attributes = @role_descriptor.attributes
+            
             respond_with_successful(@role_descriptor.show(current_user, @query))
+            
+            RoleDescriptor::Activity.log_update(current_user, @role_descriptor, old_attributes, new_attributes)
         else
             respond_with_error(@role_descriptor.errors.full_messages.to_sentence)
         end
@@ -88,6 +96,8 @@ class RoleDescriptorsController < ApplicationLesliController
 
         if @role_descriptor.destroy
             respond_with_successful
+            
+            RoleDescriptor::Activity.log_destroy(current_user, @role_descriptor)
         else
             respond_with_error(@role_descriptor.errors.full_messages.to_sentence)
         end
@@ -108,6 +118,11 @@ class RoleDescriptorsController < ApplicationLesliController
 
     # Only allow a list of trusted parameters through.
     def role_descriptor_params
-        params.require(:role_descriptor).permit(:id, :name)
+        params.require(:role_descriptor).permit(
+            :id, 
+            :name, 
+            :description,
+            :role_descriptors_id
+        )
     end
 end
