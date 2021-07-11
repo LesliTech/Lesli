@@ -16,16 +16,26 @@ For more information read the license file including with this software.
 // · 
 
 %>
-<application-component-panel-engine>
-    <%# Custom module navigation from builder engine %>
-    <% if lesli_instance_code != "lesli" %>
-    <%= render partial: "layouts/#{ lesli_instance_code }/partials/engine-navigation" %>
-    <% end %>
-</application-component-panel-engine>
+
+<%# Custom module navigation from builder engine %>
+<% custom_engine_navigation_partial_path = "layouts/#{lesli_instance_code}/partials/engine-navigation" %>
+<% custom_engine_navigation_partial_exists = lookup_context.exists?(custom_engine_navigation_partial_path, nil, true) %>
+
+<% if custom_engine_navigation_partial_exists %>
+    <application-component-panel-engine>
+        <%= render partial: custom_engine_navigation_partial_path %>
+    </application-component-panel-engine>
+<% end %>
+
 
 <application-component-panel-task :instance-endpoint="'<%= lesli_instance_code == "deutsche_leibrenten" ? "crm" : "focus" %>'">
 </application-component-panel-task>
+
+
 <application-component-panel-notification></application-component-panel-notification>
+
+
 <% if defined? CloudHelp %>
     <application-component-panel-support></application-component-panel-support>
 <% end %>
+
