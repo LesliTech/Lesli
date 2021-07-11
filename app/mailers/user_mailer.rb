@@ -92,7 +92,7 @@ class UserMailer < ApplicationLesliMailer
 
 
     #
-    def magic_link
+    def pass
         user = params[:user]
         token = params[:token]
         build_data_from_params(params, {
