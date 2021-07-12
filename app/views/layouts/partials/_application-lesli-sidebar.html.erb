@@ -17,10 +17,23 @@ For more information read the license file including with this software.
 
 %>
 
+
+<%# check if custom navigation partial exists, getting the path from application helper %>
+<% custom_navigation_partial_exists = lookup_context.exists?(get_application_navigation_path, nil, true) %>
+
+
 <application-component-sidebar>
 
-    <% if lesli_instance_code != "lesli" %>
-    <%= render partial: "layouts/#{lesli_instance_code}/partials/application-brand" %>
+    <%# load logos %>
+    <template v-slot:brand>
+        <a class="brand" href="/">
+            <%= image_tag "#{lesli_instance_code}/brand/app-logo-desktop.svg", alt: "Lesli logo", :class => "is-hidden-desktop" %>
+            <%= image_tag "#{lesli_instance_code}/brand/app-logo-touch.svg", alt: "Lesli logo", :class => "is-hidden-touch" %>
+        </a>
+    </template>
+
+    <%# render navigation partial %>
+    <% if custom_navigation_partial_exists %>
     <%= render partial: get_application_navigation_path %>
     <% end %>
 

@@ -17,20 +17,27 @@ For more information read the license file including with this software.
 
 %>
 
+
+<% custom_footer_partial_path = "layouts/#{lesli_instance_code}/partials/application-footer" %>
+<% custom_footer_partial_exists = lookup_context.exists?(custom_footer_partial_path, nil, true) %>
+
+
+
+<%# render custom partial in builder module %>
+<% if custom_footer_partial_exists %>
+<%= render partial: custom_footer_partial_path %>
+<% end %>
+
+
+
+<%# core footer partial %>
+<% unless custom_footer_partial_exists %>
 <footer class="application-footer">
     <nav class="navbar" aria-label="main navigation" role="navigation">
-        <div class="navbar-brand">
-            <%#
-            <a class="navbar-item">
-                <%= @account[:company][:name] % >
-                &bull;
-                <%= @account[:company][:tag_line] % >
-            </a>
-            %>
-        </div>
         <div class="navbar-menu">
             <div class="navbar-start">
                 <p class="navbar-item">
+                    <%# we'll use this input later for command execution %>
                     <input type="text" class="input is-shadowless" placeholder="<%= @account[:company][:name] %> &bull; <%= @account[:company][:tag_line] %>">
                 </p>
             </div>
@@ -65,3 +72,4 @@ For more information read the license file including with this software.
         </div>
     </nav>
 </footer>
+<% end %>
