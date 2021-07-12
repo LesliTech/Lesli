@@ -341,6 +341,16 @@ class User < ApplicationLesliRecord
 
 
 
+    # @return [String] The name initials of this user.
+    # @description Retrieves and returns the name initials of the user depending on the available information.
+    # @example
+    #     puts current_user.full_name_initials # would print JD
+    def full_name_initials
+        detail.first_name.blank? ? "" : detail.first_name[0].upcase + "" + (detail.last_name.blank? ? "" : detail.last_name[0].upcase)
+    end
+
+
+
     # @param accounnt [Account] The account associated to *current_user*
     # @param roles [String] The roles separate by comma for filter users by role
     # @param type [String] if type=exclude will remove users with roles listed in @param roles

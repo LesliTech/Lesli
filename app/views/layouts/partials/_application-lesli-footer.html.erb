@@ -17,51 +17,51 @@ For more information read the license file including with this software.
 
 %>
 
-<footer class="application-footer">
-    <nav class="navbar" aria-label="main navigation" role="navigation">
-        <div class="navbar-brand">
-            <%#
-            <a class="navbar-item">
-                <%= @account[:company][:name] % >
-                &bull;
-                <%= @account[:company][:tag_line] % >
+
+<% custom_footer_partial_path = "layouts/#{lesli_instance_code}/partials/application-footer" %>
+<% custom_footer_partial_exists = lookup_context.exists?(custom_footer_partial_path, nil, true) %>
+
+
+
+<%# render custom partial in builder module %>
+<% if custom_footer_partial_exists %>
+<%= render partial: custom_footer_partial_path %>
+<% end %>
+
+
+
+<%# core footer partial %>
+<% unless custom_footer_partial_exists %>
+
+<application-component-footer title="<%= @account[:company][:name] %> &bull; <%= @account[:company][:tag_line] %>">
+
+    <template v-slot:navbar-end>
+        <%# Show standard footer links for LesliClou %>
+        <% if defined?(LesliCloud) %>
+
+            <a class="navbar-item has-text-grey" href="#">
+                Support
             </a>
-            %>
-        </div>
-        <div class="navbar-menu">
-            <div class="navbar-start">
-                <p class="navbar-item">
-                    <input type="text" class="input is-shadowless" placeholder="<%= @account[:company][:name] %> &bull; <%= @account[:company][:tag_line] %>">
-                </p>
-            </div>
-            <div class="navbar-end">
+            <span class="navbar-item has-text-grey-light">|</span>
+            <a class="navbar-item has-text-grey" href="#">
+                Privacy
+            </a>
+            <span class="navbar-item has-text-grey-light">|</span>
+            <a class="navbar-item has-text-grey" href="#">
+                About
+            </a>
 
-                <%# Show standard footer links for LesliClou %>
-                <% if defined?(LesliCloud) %>
-                
-                    <a class="navbar-item has-text-grey" href="#">
-                        Support
-                    </a>
-                    <span class="navbar-item has-text-grey-light">|</span>
-                    <a class="navbar-item has-text-grey" href="#">
-                        Privacy
-                    </a>
-                    <span class="navbar-item has-text-grey-light">|</span>
-                    <a class="navbar-item has-text-grey" href="#">
-                        About
-                    </a>
+        <% else %>
 
-                <% else %>
+            <%# Show platform version for custom instances %>
+            <span class="navbar-item has-text-grey">
+                version <%= @account[:revision][:version] %> - 
+                build <%= @account[:revision][:build] %>
+            </span>
 
-                    <%# Show platform version for custom instances %>
-                    <span class="navbar-item has-text-grey">
-                        version <%= @account[:revision][:version] %> - 
-                        build <%= @account[:revision][:build] %>
-                    </span>
+        <% end %>
+    </template>
 
-                <% end %>
+</application-component-footer>
 
-            </div>
-        </div>
-    </nav>
-</footer>
+<% end %>

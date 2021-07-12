@@ -76,7 +76,7 @@ class Users::SessionsController < Devise::SessionsController
         sign_in(:user, resource)
 
         # register a new unique session
-        @current_session = resource.sessions.create({
+        current_session = resource.sessions.create({
             :user_agent => get_user_agent,
             :user_remote => request.remote_ip,
             :session_source => "devise_standar_session",
@@ -84,7 +84,7 @@ class Users::SessionsController < Devise::SessionsController
         })
 
         # make session id globally available
-        session[:user_session_id] = @current_session[:id]
+        session[:user_session_id] = current_session[:id]
 
         # register a successful sign-in log for the current user
         resource.logs.create({ user_sessions_id: session[:user_session_id], title: "session_creation_successful" })
