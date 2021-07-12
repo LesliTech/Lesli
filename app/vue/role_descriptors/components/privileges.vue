@@ -66,7 +66,7 @@ export default {
             let privilege_action = this.role_descriptor_actions.find(
                 e => e.controller === action.controller  &&
                     e.action_id === action.action_id &&
-                    e.category == null || e.category === this.getCategory()
+                    e.category === this.getCategory()
             )
             
             if (!privilege_action) {
@@ -147,7 +147,8 @@ export default {
             this.loading = true
             Promise.all(this.requests).then(() => {
                 this.requests = []
-                this.loading = false,
+                this.loading = false
+
                 this.parseData()
             })
         },
@@ -346,7 +347,7 @@ export default {
         <b-tabs expanded v-model="active_tab">
             <b-tab-item 
                 v-for="category in options.categories" 
-                :key="category"
+                :key="category.value"
                 :label="object_utils.translateEnum(translations.main, 'column_enum_category', category.text)"
             >
                 <form>

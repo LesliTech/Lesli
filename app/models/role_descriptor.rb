@@ -18,6 +18,8 @@ For more information read the license file including with this software.
 class RoleDescriptor < ApplicationLesliRecord
     has_many :privilege_actions,          foreign_key: "role_descriptors_id", class_name: "RoleDescriptor::PrivilegeAction"  
     
+    has_many :activities,                 foreign_key: "role_descriptors_id"
+    
     belongs_to :user_creator,   foreign_key: "users_id",            class_name: "::User",   optional: true
     belongs_to :account,        foreign_key: "accounts_id",         class_name: "Account"  
     
@@ -84,6 +86,7 @@ class RoleDescriptor < ApplicationLesliRecord
             :id,
             :name,
             :description,
+            :role_descriptors_id,
             LC::Date.db_timestamps()
         ).find(id)
     end
