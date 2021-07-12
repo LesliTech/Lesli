@@ -32,8 +32,6 @@ export default {
                     users: I18n.t('deutscheleibrenten.users'),
                 }
             },
-            cloud_bell_notifications: 0,
-            cloud_focus_tasks: 0,
             search: {
                 searching: false
             },
@@ -50,7 +48,6 @@ export default {
     mounted() {
         this.addListeners();
         this.getBrowserData();
-        this.cloud_bell_notifications = this.lesli.notifications
     },
 
     methods: {
@@ -139,21 +136,10 @@ export default {
             </div>
             <div class="header-right">
 
-                <slot name="languages"></slot>
-
                 <slot></slot>
-
-                <a class="navbar-item header-notification-indicator core" @click="data.global.show_panel_tasks = true">
-                    <i v-if="lesli.tasks > 0" class="fas fa-tasks has-text-link"></i>
-                    <i v-if="lesli.tasks == 0" class="fas fa-tasks"></i>
-                    <span>{{ lesli.tasks }}</span>
-                </a>
-
-                <a class="navbar-item header-notification-indicator core" @click="data.global.show_panel_notifications = true">
-                    <i v-if="cloud_bell_notifications > 0" class="fas fa-bell has-text-link"></i>
-                    <i v-if="cloud_bell_notifications == 0" class="far fa-bell"></i>
-                    <span>{{ cloud_bell_notifications }}</span>
-                </a>
+                <slot name="languages"></slot>
+                <slot name="tasks"></slot>
+                <slot name="notifications"></slot>
 
                 <a class="navbar-item header-navigation-engine core" @click="showApps('right')">
                     <span class="icon">
