@@ -50,7 +50,7 @@ export default {
                     this.http.get(this.url.bell("announcements")).then(result => {
                         this.announcements = result.data.records
                     })
-                }, 5000)
+                }, 2000)
             }
 
         },
@@ -68,11 +68,13 @@ export default {
     <section>
         <b-notification 
             v-for="announcement in announcements" 
+            :closable="announcement.can_be_closed"
             :key="announcement.id" 
-            type="is-info">
+            :type="`is-${announcement.category}`">
             <div v-html="announcement.message.html">
             </div>
         </b-notification>
+
         <nav class="navbar component-header">
             <div class="navbar-menu">
                 <div class="navbar-start">
