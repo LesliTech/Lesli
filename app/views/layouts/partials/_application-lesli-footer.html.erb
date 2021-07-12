@@ -32,44 +32,36 @@ For more information read the license file including with this software.
 
 <%# core footer partial %>
 <% unless custom_footer_partial_exists %>
-<footer class="application-footer">
-    <nav class="navbar" aria-label="main navigation" role="navigation">
-        <div class="navbar-menu">
-            <div class="navbar-start">
-                <p class="navbar-item">
-                    <%# we'll use this input later for command execution %>
-                    <input type="text" class="input is-shadowless" placeholder="<%= @account[:company][:name] %> &bull; <%= @account[:company][:tag_line] %>">
-                </p>
-            </div>
-            <div class="navbar-end">
 
-                <%# Show standard footer links for LesliClou %>
-                <% if defined?(LesliCloud) %>
-                
-                    <a class="navbar-item has-text-grey" href="#">
-                        Support
-                    </a>
-                    <span class="navbar-item has-text-grey-light">|</span>
-                    <a class="navbar-item has-text-grey" href="#">
-                        Privacy
-                    </a>
-                    <span class="navbar-item has-text-grey-light">|</span>
-                    <a class="navbar-item has-text-grey" href="#">
-                        About
-                    </a>
+<application-component-footer title="<%= @account[:company][:name] %> &bull; <%= @account[:company][:tag_line] %>">
 
-                <% else %>
+    <template v-slot:navbar-end>
+        <%# Show standard footer links for LesliClou %>
+        <% if defined?(LesliCloud) %>
 
-                    <%# Show platform version for custom instances %>
-                    <span class="navbar-item has-text-grey">
-                        version <%= @account[:revision][:version] %> - 
-                        build <%= @account[:revision][:build] %>
-                    </span>
+            <a class="navbar-item has-text-grey" href="#">
+                Support
+            </a>
+            <span class="navbar-item has-text-grey-light">|</span>
+            <a class="navbar-item has-text-grey" href="#">
+                Privacy
+            </a>
+            <span class="navbar-item has-text-grey-light">|</span>
+            <a class="navbar-item has-text-grey" href="#">
+                About
+            </a>
 
-                <% end %>
+        <% else %>
 
-            </div>
-        </div>
-    </nav>
-</footer>
+            <%# Show platform version for custom instances %>
+            <span class="navbar-item has-text-grey">
+                version <%= @account[:revision][:version] %> - 
+                build <%= @account[:revision][:build] %>
+            </span>
+
+        <% end %>
+    </template>
+
+</application-component-footer>
+
 <% end %>
