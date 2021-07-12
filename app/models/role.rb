@@ -141,58 +141,6 @@ class Role < ApplicationLesliRecord
         User::Role.where(role: self).count > 0
     end
 
-    #######################################################################################
-    ##############################  Activities Log Methods   ##############################
-    #######################################################################################
-
-    # @return [void]
-    # @param current_user [::User] The user that created the role
-    # @param [Role] The role that was created
-    # @description Creates an activity for this role indicating who created it. And
-    #   also creates an activity with the initial status of the role
-    # Example
-    #   params = {...}
-    #   role = Role.create(params)
-    #   Role.log_activity_create(User.find(1), role)
-    def self.log_activity_create(current_user, role)
-        role.activities.create(
-            user_creator: current_user,
-            category: "action_create"
-        )
-    end
-
-    # @return [void]
-    # @param current_user [::User] The user that created the role
-    # @param role [Role] The role that was created
-    # @param old_attributes[Hash] The data of the record before update
-    # @param new_attributes[Hash] The data of the record after update
-    # @description Creates an activity for this role if someone changed any of this values
-    # Example
-    #   role = Role.find(1)
-    #   old_attributes  = role.attributes.merge({detail_attributes: role.detail.attributes})
-    #   role.update(main_employee: User.find(33))
-    #   new_attributes = role.attributes.merge({detail_attributes: role.detail.attributes})
-    #   Role.log_activity_update(User.find(1), role, old_attributes, new_attributes)
-    def self.log_activity_update(current_user, role, old_attributes, new_attributes)
-        old_attributes.except!("id", "accounts_id", "created_at", "updated_at", "deleted_at")
-        old_attributes.each do |key, value|
-            if value != new_attributes[key]
-                value_from = value
-                value_to = new_attributes[key]
-                value_from = Courier::Core::Date.to_string_datetime(value_from) if value_from.is_a?(Time) || value_from.is_a?(Date)
-                value_to = Courier::Core::Date.to_string_datetime(value_to) if value_to.is_a?(Time) || value_to.is_a?(Date)
-
-                role.activities.create(
-                    user_creator: current_user,
-                    category: "action_update",
-                    field_name: key,
-                    value_from: value_from,
-                    value_to: value_to
-                )
-            end
-        end
-    end
-
     # @return [void]
     # @param current_user [::User] The user that deleted the role
     # @param [Role] The role that was deleted
