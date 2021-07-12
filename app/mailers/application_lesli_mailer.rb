@@ -74,7 +74,9 @@ class ApplicationLesliMailer < ActionMailer::Base
 
     def build_customization_from_params(params)
 
-        @custom[:logo] = "/images/brand/lesli-name.svg"
+        instance = Rails.application.config.lesli_settings["instance"]
+
+        @custom[:logo] = "#{instance[:code]}/brand/app-logo.svg"
         
         return if params[:user].blank?
 
