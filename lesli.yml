@@ -84,11 +84,11 @@ configuration:
             - "Sales & Marketing"
 
 
-
 # Instance security settings
 security:
     log_activity: true
     enable_debug: false
+    enable_commands: true
     enable_becoming: false
     enable_analytics: true
     enable_login_otp: true
