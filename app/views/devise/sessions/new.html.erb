@@ -17,13 +17,103 @@ For more information read the license file including with this software.
 
 %>
 
-<% if lesli_instance_code != "lesli" %>
-<section class="<%= lesli_instance_code %>-login">
-    <%= render :template => "#{lesli_instance_code}/lesli/devise/sessions/new" %>
-</section>
+
+<% custom_app_page_clas = "#{ lesli_instance_code }-session" %>
+<% custom_app_page_path = "#{ lesli_instance_code }/lesli/devise/sessions/new" %>
+<% custom_app_page_exists = lookup_context.exists?(custom_app_page_path) %>
+
+
+
+<%# render custom view in builder module %>
+<% if custom_app_page_exists %>
+<main id="lesli-application" class="<%= custom_app_page_clas %>">
+    <%= render :template => custom_app_page_path %>
+</main>
 <% end %>
 
 
-<% if lesli_instance_code == "lesli" %>
-<h3>There is no a view for sessions path.</h3>
+
+<%# core view for passses %>
+<% unless custom_app_page_exists %>
+<main id="lesli-application">
+    <section class="hero is-fullheight">
+        <div class="hero-body is-paddingless">
+            <div class="columns is-gapless">
+                <div class="column has-session-form">
+                    <div class="container">
+                        <%= link_to "/" do %>
+                            <%= image_tag "lesli_cloud/brand/app-logo.svg", :alt => "logo" %>
+                        <%end%>
+                        <form @submit.prevent="postLogin">
+                            <p v-if="notification.show" :class="[`has-text-${notification.type}`]">
+                                {{ notification.message }}
+                            </p>
+                            <div class="field">
+                                <p class="control has-icons-left has-icons-right">
+                                    <input
+                                        name="user_email"
+                                        type="email"
+                                        placeholder="Email"
+                                        :class="['input', `is-${notification.type}`]"
+                                        v-model="sign_in.email"
+                                        @input="typing">
+                                    <span :class="['icon', 'is-small', 'is-left', `has-text-${notification.type}`]">
+                                        <i class="fas fa-envelope"></i>
+                                    </span>
+                                    <span class="icon is-small is-right">
+                                        <%# <i class="fas fa-check"></i> %>
+                                    </span>
+                                </p>
+                            </div>
+
+                            <div class="field">
+                                <p class="control has-icons-left has-icons-right">
+                                    <input
+                                        name="user_password"
+                                        type="password"
+                                        class="input"
+                                        placeholder="Password"
+                                        :class="['input', `is-${notification.type}`]"
+                                        v-model="sign_in.password"
+                                        @input="typing">
+                                    <span :class="['icon', 'is-small', 'is-left', `has-text-${notification.type}`]">
+                                        <i class="fas fa-key"></i>
+                                    </span>
+                                    <span class="icon is-small is-right">
+                                        <%#<i class="fas fa-eye"></i>%>
+                                    </span>
+                                </p>
+                            </div>
+
+                            <div class="field">
+                                <div class="control">
+                                    <input type="submit" class="button is-primary" value="Login">
+                                </div>
+                            </div>
+
+                        </form>
+
+                        <%= link_to "Reset password", new_user_password_path %>
+                        <br>
+                        <%= link_to "Request a pass", new_pass_path %>
+                        <br>
+                        <%= link_to "Request an otp", new_otp_path %>
+                        <hr>
+                        <%= link_to "Create account", new_user_registration_path %>
+                    </div>
+                </div>
+                <div class="column has-solution-background">
+                    <div class="container">
+                        <div>
+                            <h2 class="is-size-1"><%= I18n.t("lesli.shared.view_title_welcome_title_of_sessions") %></h2>
+                            <p class="is-size-5">
+                              <%= I18n.t("lesli.shared.view_text_welcome_text_of_sessions") %>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</main>
 <% end %>
