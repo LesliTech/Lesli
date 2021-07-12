@@ -18,6 +18,9 @@ lesli.cloud/
         vue/
             cloud_objects/
             components/
+                charts/
+                tables/
+                cards/
             functions/
             layout/
             panels/
