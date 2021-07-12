@@ -1,4 +1,5 @@
 =begin
+
 Copyright (c) 2021, all rights reserved.
 
 All the information provided by this platform is protected by international laws related  to 
@@ -15,6 +16,7 @@ For more information read the license file including with this software.
 // · 
 
 =end
+
 class User::AccessCode < ApplicationLesliRecord
 
     before_create :generate_token
@@ -23,9 +25,9 @@ class User::AccessCode < ApplicationLesliRecord
 
     validates :user, :presence => true
 
-    MIN_TOKEN_DURATION = 40 * 60
-
     enum token_type: { pass: "pass", otp: "otp" }
+
+    MIN_TOKEN_DURATION = 4 * 60
 
 
     # @return [Integer]
