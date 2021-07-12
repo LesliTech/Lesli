@@ -19,12 +19,8 @@ For more information read the license file including with this software.
 
 <application-component-header>
 
-    <%# Custom header from builder engine %>
-    <% if lesli_instance_code != "lesli" %>
-    <%= render partial: "layouts/#{lesli_instance_code}/partials/application-header" %>
-    <% end %>
 
-    <%# show language selector %>
+    <%# language selector %>
     <% if I18n.available_locales.length > 1 %>
     <template v-slot:languages>
         <div class="dropdown is-hoverable header-language-selector">
@@ -52,9 +48,39 @@ For more information read the license file including with this software.
     </template>
     <% end %>
 
+
+    <%# tasks icon indicator %>
+    <template v-slot:tasks>
+        <a class="navbar-item header-notification-indicator core" @click="data.global.show_panel_tasks = true">
+            <i v-if="lesli.tasks > 0" class="fas fa-tasks has-text-link"></i>
+            <i v-if="lesli.tasks == 0" class="fas fa-tasks"></i>
+            <span>{{ lesli.tasks }}</span>
+        </a>
+    </template>
+
+
+    <%# notifications icon indicator %>
+    <template v-slot:notifications>
+        <a class="navbar-item header-notification-indicator core" @click="data.global.show_panel_notifications = true">
+            <i v-if="lesli.notifications > 0" class="fas fa-bell has-text-link"></i>
+            <i v-if="lesli.notifications == 0" class="far fa-bell"></i>
+            <span>{{ lesli.notifications }}</span>
+        </a>
+    </template>
+    
+
     <%# username %>
     <template v-slot:username>
     <%= current_user.full_name %>
     </template>
+
+
+    <%# Custom header from builder engine %>
+    <% custom_header_partial_path = "layouts/#{lesli_instance_code}/partials/application-header" %>
+    <% custom_header_partial_exists = lookup_context.exists?(custom_header_partial_path, nil, true) %>
+
+    <% if custom_header_partial_exists %>
+    <%= render partial: custom_header_partial_path %>
+    <% end %>
     
 </application-component-header>
