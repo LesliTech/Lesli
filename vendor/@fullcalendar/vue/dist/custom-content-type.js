@@ -11,7 +11,7 @@ export function wrapVDomGenerator(vDomGenerator) {
 export function createVueContentTypePlugin(parent) {
     return createPlugin({
         contentTypeHandlers: {
-            vue: function () { return buildVDomHandler(parent); },
+            vue: function () { return buildVDomHandler(parent); }, // looks for the `vue` key
         }
     });
 }

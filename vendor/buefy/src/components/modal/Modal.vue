@@ -13,6 +13,7 @@
             v-trap-focus="trapFocus"
             tabindex="-1"
             :role="ariaRole"
+            :aria-label="ariaLabel"
             :aria-modal="ariaModal">
             <div class="modal-background" @click="cancel('outside')"/>
             <div
@@ -24,11 +25,16 @@
                     v-bind="props"
                     v-on="events"
                     :is="component"
-                    @close="close"/>
-                <div
-                    v-else-if="content"
-                    v-html="content"/>
-                <slot v-else/>
+                    :can-cancel="canCancel"
+                    @close="close"
+                />
+                <template v-else-if="content">
+                    <div v-html="content" />
+                </template>
+                <slot
+                    v-else
+                    :can-cancel="canCancel"
+                    :close="close"/>
                 <button
                     type="button"
                     v-if="showX"
@@ -50,10 +56,15 @@ export default {
     directives: {
         trapFocus
     },
+    // deprecated, to replace with default 'value' in the next breaking change
+    model: {
+        prop: 'active',
+        event: 'update:active'
+    },
     props: {
         active: Boolean,
-        component: [Object, Function],
-        content: String,
+        component: [Object, Function, String],
+        content: [String, Array],
         programmatic: Boolean,
         props: Object,
         events: Object,
@@ -97,6 +108,12 @@ export default {
                 return config.defaultTrapFocus
             }
         },
+        autoFocus: {
+            type: Boolean,
+            default: () => {
+                return config.defaultAutoFocus
+            }
+        },
         customClass: String,
         ariaRole: {
             type: String,
@@ -108,6 +125,12 @@ export default {
             }
         },
         ariaModal: Boolean,
+        ariaLabel: {
+            type: String,
+            validator: (value) => {
+                return Boolean(value)
+            }
+        },
         destroyOnHide: {
             type: Boolean,
             default: true
@@ -120,7 +143,7 @@ export default {
             newWidth: typeof this.width === 'number'
                 ? this.width + 'px'
                 : this.width,
-            animating: true,
+            animating: !this.active,
             destroyed: !this.active
         }
     },
@@ -150,7 +173,7 @@ export default {
             if (value) this.destroyed = false
             this.handleScroll()
             this.$nextTick(() => {
-                if (value && this.$el && this.$el.focus) {
+                if (value && this.$el && this.$el.focus && this.autoFocus) {
                     this.$el.focus()
                 }
             })
@@ -194,7 +217,7 @@ export default {
         */
         cancel(method) {
             if (this.cancelOptions.indexOf(method) < 0) return
-
+            this.$emit('cancel', arguments)
             this.onCancel.apply(null, arguments)
             this.close()
         },
@@ -220,9 +243,8 @@ export default {
         /**
         * Keypress event that is bound to the document.
         */
-        keyPress(event) {
-            // Esc key
-            if (this.isActive && event.keyCode === 27) this.cancel('escape')
+        keyPress({ key }) {
+            if (this.isActive && (key === 'Escape' || key === 'Esc')) this.cancel('escape')
         },
 
         /**
@@ -230,6 +252,7 @@ export default {
         */
         afterEnter() {
             this.animating = false
+            this.$emit('after-enter')
         },
 
         /**
@@ -246,6 +269,7 @@ export default {
             if (this.destroyOnHide) {
                 this.destroyed = true
             }
+            this.$emit('after-leave')
         }
     },
     created() {
