@@ -16,22 +16,3 @@ For more information read the license file including with this software.
 // · 
 
 %>
-
-<% template_path = "#{lesli_instance_code}/lesli/otps/show" %>
-<% template_exists = lookup_context.find_all(template_path).any? %>
-
-<% if template_exists %>
-<section id="lesli-cloud-application" class="<%= lesli_instance_code %>-otps">
-    <%= render :template => template_path %>
-</section>
-<% else %>
-<section class="hero is-fullheight">
-    <div class="hero-body">
-        <div class="container has-text-centered">
-            <p class="subtitle">
-                There is no template for this view at: <%= template_path %>        
-            </p>
-        </div>
-    </div>
-</section>
-<% end %>
