@@ -23,15 +23,14 @@
             :false-value="falseValue">
         <span
             class="check"
-            :class="[
-                { 'is-elastic': isMouseDown && !disabled },
-                (passiveType &&`${passiveType}-passive`),
-                type]"/>
+            :class="checkClasses"/>
         <span class="control-label"><slot/></span>
     </label>
 </template>
 
 <script>
+import config from '../../utils/config'
+
 export default {
     name: 'BSwitch',
     props: {
@@ -53,9 +52,15 @@ export default {
         },
         rounded: {
             type: Boolean,
-            default: true
+            default: () => {
+                return config.defaultSwitchRounded
+            }
         },
         outlined: {
+            type: Boolean,
+            default: false
+        },
+        leftLabel: {
             type: Boolean,
             default: false
         }
@@ -82,8 +87,16 @@ export default {
                 {
                     'is-disabled': this.disabled,
                     'is-rounded': this.rounded,
-                    'is-outlined': this.outlined
+                    'is-outlined': this.outlined,
+                    'has-left-label': this.leftLabel
                 }
+            ]
+        },
+        checkClasses() {
+            return [
+                { 'is-elastic': this.isMouseDown && !this.disabled },
+                (this.passiveType && `${this.passiveType}-passive`),
+                this.type
             ]
         }
     },

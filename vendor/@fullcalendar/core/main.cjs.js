@@ -1,7 +1,7 @@
 /*!
-FullCalendar v5.5.0
+FullCalendar v5.8.0
 Docs & License: https://fullcalendar.io/
-(c) 2020 Adam Shaw
+(c) 2021 Adam Shaw
 */
 'use strict';
 
@@ -124,12 +124,12 @@ var Calendar = /** @class */ (function (_super) {
     return Calendar;
 }(common.CalendarApi));
 
+exports.Calendar = Calendar;
 Object.keys(common).forEach(function (k) {
-    if (k !== 'default') Object.defineProperty(exports, k, {
+    if (k !== 'default' && !exports.hasOwnProperty(k)) Object.defineProperty(exports, k, {
         enumerable: true,
         get: function () {
             return common[k];
         }
     });
 });
-exports.Calendar = Calendar;
