@@ -32,9 +32,9 @@ account:
         name: "Lesli Development"
         email: "dev@lesli.cloud"
     company: 
-        name: "LesliTech"
+        name: "LesliCloud"
         email: "hello@lesli.tech"
-        tag_line: "Building a better future, one line of code at a time."
+        tag_line: "Your smart business assistant"
     website:
         title_prefix: "Lesli"
 
@@ -61,6 +61,9 @@ configuration:
             date_time: "%d.%m.%Y %H:%M"
             date_words: "%a, %B %d, %Y"
             date_time_words: "%a, %B %d, %Y, %H:%M"
+    notifications:
+        sms: false
+
     # deprecated: use the own security section
     security:
         log_activity: true
@@ -79,15 +82,15 @@ configuration:
         roles:
             - "Administration"
             - "Sales & Marketing"
-    notifications:
-        sms: false
 
 
 # Instance security settings
 security:
     log_activity: true
     enable_debug: false
+    enable_commands: true
     enable_becoming: false
+    enable_analytics: true
     enable_login_otp: true
     enable_websockets: true
     enable_login_link: true

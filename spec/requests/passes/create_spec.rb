@@ -1,5 +1,5 @@
 =begin
-    
+
 Copyright (c) 2021, all rights reserved.
 
 All the information provided by this platform is protected by international laws related  to 
@@ -14,28 +14,48 @@ For more information read the license file including with this software.
 
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
 // · 
-    
+
 =end
 
-class UserMailerPreview < ActionMailer::Preview
 
-    def welcome
-        UserMailer.with(user: User.first).welcome
+require 'rails_helper'
+require 'spec_helper'
+require 'byebug'
+
+
+
+RSpec.describe 'POST:/pass', type: :request do
+
+    before(:all) do
+        post("/pass", params: {
+            pass: {
+                email: "test@lesli.cloud"
+            }
+        })
     end
 
-    def reset_password_instructions
-        UserMailer.with(
-            user: User.first, 
-            token: "my_reset_password_token"
-        ).reset_password_instructions
+    include_examples 'successful standard json response'
+
+    it 'is expected to request a new pass' do
     end
 
-    def invitation_instructions
-        UserMailer.with(user: User.first).invitation_instructions
+end
+
+RSpec.describe 'POST:/pass', type: :request do
+
+    @email = "fake@email.scam"
+
+    before(:all) do
+        post("/pass", params: {
+            pass: {
+                email: @emailº
+            }
+        })
     end
 
-    def pass
-        UserMailer.with(user: User.first, token: "my_token").pass
+    include_examples 'successful standard json response'
+
+    it 'is expected to reject pass from unknown user' do
     end
 
 end

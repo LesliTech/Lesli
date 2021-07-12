@@ -22,27 +22,94 @@ class OtpsController < ApplicationController
     include Application::Logger
 
     before_action :set_user, only: [:create]
-    before_action :set_otp, only: [:update]
 
     # GET /otp
     def show
+
+        # we use "t" as alias for token
+        redirect_to("/otp/new") and return if params[:t].blank?
+
+        # alias for token error message
+        error_msg = I18n.t("core.shared.messages_danger_not_valid_authorization_token_found")
+
+        # rebuild the token based on the user-token sent by email
+        digest_token = Devise.token_generator.digest(User::AccessCode, :token, params[:t])
+
+        # denied access if can't build the token
+        redirect_to(new_user_session_path, alert: error_msg) and return if digest_token.blank?
+
+        # search for the requested pass
+        access_code = User::AccessCode.find_by(token: digest_token, token_type: "otp", last_used_at: nil)
+
+        # denied access if token not found
+        if access_code.blank?
+
+            Account::Activity.log("core", "/otp", "otp_session_creation_failed", "not_valid_token_found", {
+                token: (params[:t] || "")
+            })
+
+            redirect_to(new_user_session_path, alert: error_msg) and return
+
+        end
+
+        # denied access if token do not meet validations
+        redirect_to(new_user_session_path, alert: error_msg) and return if !access_code.is_valid?
+
+        # check if user meet requirements to login
+        user_validation = UserValidationService.new(access_code.user).valid?
+
+        # if user do not meet requirements to login
+        redirect_to(new_user_session_path, alert: error_msg) and return unless user_validation.success?
+
+        # delete used token
+        access_code.update({ last_used_at: Time.current })
+        access_code.delete
+
+
+        # IMPORTANT: this is a copy of the main login method at: app/controllers/users/sessions
+
+        # do a user login
+        sign_in(access_code.user)
+
+        # register a new unique session
+        @current_session = access_code.user.sessions.create({
+            :user_agent => get_user_agent,
+            :user_remote => request.remote_ip,
+            :session_token => session[:session_id],
+            :session_source => "otp_session",
+            :last_used_at => Time.current
+        })
+
+        # make session id globally available
+        session[:user_session_id] = @current_session[:id]
+
+        # register a successful sign-in log for the current user
+        access_code.user.logs.create({ user_sessions_id: session[:user_session_id], title: "otp_session_creation_successful" })
+
+        # redirect to the root path and return 
+        redirect_to("/") and return 
+
+    end
+
+    def new
     end
 
 
     # POST /otps
     def create
 
-        # check if is a valid user
-        if @user.blank?
-            respond_with_successful()
-            return
-        end
+        # return if there is no a valid user on set_user
+        return respond_with_successful() if @user.blank?
 
-        # create a new pass
-        otp = @user.access_codes.new({
-            token_type: "otp"
-        })
+        otp = @user.access_codes.new({ token_type: "otp" })
 
+        # generate a user-friendly token
+        raw, enc = Devise.token_generator.generate_otp(otp.class, :token)
+
+        # save encrypted token in database
+        otp.token = enc
+
+        # try to save the access code
         if otp.save
 
             @user.logs.create({
@@ -50,9 +117,9 @@ class OtpsController < ApplicationController
                 description: "user_agent: #{get_user_agent}, user_remote: #{request.remote_ip}"
             })
 
-            UserMailer.with(user: @user, token: otp.token).otp.deliver_now
+            UserMailer.with(user: @user, token: raw).otp.deliver_now
 
-            respond_with_successful()
+            respond_with_successful(raw)
 
         else
             respond_with_error(otp.errors.full_messages.to_sentence)
@@ -60,23 +127,7 @@ class OtpsController < ApplicationController
 
     end
 
-    # PATCH/PUT /otps/1
-    def update
-        return respond_with_not_found unless @otp
-
-        if @otp.update(otp_params)
-            respond_with_successful(@otp.show(current_user, @query))
-        else
-            respond_with_error(@otp.errors.full_messages.to_sentence)
-        end
-    end
-
     private
-
-    # Use callbacks to share common setup or constraints between actions.
-    def set_otp
-        @otp = current_user.account.otps.find(class_name, params[:id])
-    end
 
     def set_user
         @user = User.find_by(email: params[:email], active: true)
@@ -90,7 +141,6 @@ class OtpsController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def otp_params
-        params.require(:otp).permit(:id, :name)
     end
     
 end
