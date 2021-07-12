@@ -60,3 +60,25 @@ footer.application-footer {
     }
     
 }
+
+
+
+
+section.application-commands {
+    position: absolute;
+    z-index: 98;
+
+    width: 100%;
+    padding: 1.2rem;
+    top: var(--application-header-height);
+    margin-left: var(--application-navigation-width);
+    max-width: calc(100% - var(--application-navigation-width) - 30px);
+    min-height: calc(100vh - var(--application-header-height) - var(--application-footer-height));
+    background-color: lesli-css-color(blue);
+
+    .content {
+        padding: 1.3rem;
+        background-color: lesli-css-color(blue, 100);
+    }
+
+}
