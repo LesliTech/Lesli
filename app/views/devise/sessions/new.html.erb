@@ -41,9 +41,9 @@ For more information read the license file including with this software.
             <div class="columns is-gapless">
                 <div class="column has-session-form">
                     <div class="container">
-                        <%= link_to "/" do %>
-                            <%= image_tag "lesli_cloud/brand/app-logo.svg", :alt => "logo" %>
-                        <%end%>
+                        <div class="logo-container">
+                            <%= image_tag "#{ lesli_instance_code }/brand/app-logo.svg", :alt => "logo" %>
+                        </div>
                         <form @submit.prevent="postLogin">
                             <p v-if="notification.show" :class="[`has-text-${notification.type}`]">
                                 {{ notification.message }}
@@ -104,12 +104,10 @@ For more information read the license file including with this software.
                 </div>
                 <div class="column has-solution-background">
                     <div class="container">
-                        <div>
-                            <h2 class="is-size-1"><%= I18n.t("lesli.shared.view_title_welcome_title_of_sessions") %></h2>
-                            <p class="is-size-5">
-                              <%= I18n.t("lesli.shared.view_text_welcome_text_of_sessions") %>
-                            </p>
-                        </div>
+                        <h2 class="is-size-1"><%= I18n.t("lesli.shared.view_title_welcome_title_of_sessions") %></h2>
+                        <p class="is-size-5">
+                            <%= I18n.t("lesli.shared.view_text_welcome_text_of_sessions") %>
+                        </p>
                     </div>
                 </div>
             </div>

@@ -19,7 +19,7 @@ For more information read the license file including with this software.
 
 
 // ·
-//@import "../../lesli/template.scss";
+@import "lesli-css";
 @import "lesli/settings/icons.scss";
 
 
@@ -40,8 +40,13 @@ body.users-sessions.new {
             max-width: 320px;
         }
 
-        img {
-            width: 200px;
+        .logo-container {
+            text-align: center;
+
+            img {
+                width: 200px;
+            }
+
         }
 
         form {
@@ -65,18 +70,15 @@ body.users-sessions.new {
         background-size: cover;
 
         .container {
-            display: flex;
             height: 100%;
-            background-color: rgba(37, 37, 37, .45);
-            align-items: flex-end;
-
-            div {
-                margin: 2rem;
-            }
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            padding: 2rem;
         }
 
         h2, p {
-            color: lesli-css-color(solid, white);
+            color: lesli-css-color(silver, 900);
         }
     }
 }
