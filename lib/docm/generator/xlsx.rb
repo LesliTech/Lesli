@@ -79,10 +79,15 @@ module Docm
                             if (! row_styles) || (row_styles[:end_row] && (row_styles[:end_row] < row_index))
                                 row_styles = sheet_styles[:rows].shift || {}
                                 expanded_row_styles = self.expand_styles(row, row_styles, style_data[:styles])
+
                             end
 
                             sheet.add_row(row, style: expanded_row_styles)
                         end
+
+                        x = self.expand_widths(sheet_styles[:widths], expanded_row_styles.length)
+                        
+                        sheet.column_widths(*x)
                     end
 
                     
@@ -106,6 +111,29 @@ module Docm
 
                 # return file path to send/download to the user
                 file_path + file_name
+            end
+
+            # @return [Array] An array the same length as all the rows in the sheet. Each element contract_living_space_area
+            #     a number representing the width of each one of the columns in the sheet.
+            # @param widths [Array] Array containing the different widths of all columns within the sheet. This array should not
+            #     necessarily have the same number of elements as the amount of columns within the sheet.
+            # @param num_columns [Integer] The amount of columns within the sheet
+            # @description Takes the array of widths and expands it, copying the last element until the array has the same size
+            #     as the number of columns on the current xlsx sheet. Null values mean that the default column size will be used
+            # @example
+            #     # Imagine also that your current sheet has 10 columns and that widths is:
+            #     # [10, 15, 20, 20, nil, 5]
+            #     widths = [10, 15, 20, 20, nil, 5]
+            #     expanded_widths = Docm::Generator::Xlsx.expand_widths(widths, 10)
+            #     # This will return an array like this
+            #     [10, 15, 20, 20, nil, 5, 5, 5, 5, 5]
+            def self.expand_widths(widths, num_columns)
+                widths = [] unless widths
+                if widths.length < num_columns
+                   widths = widths + Array.new(num_columns - widths.length, widths[-1])
+                end
+
+                return widths
             end
 
             # @return [Array] An array the same length as the row to be recorded, containing 
