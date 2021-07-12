@@ -128,6 +128,7 @@ module Docm
             #     # This will return an array like this
             #     [10, 15, 20, 20, nil, 5, 5, 5, 5, 5]
             def self.expand_widths(widths, num_columns)
+                widths = [] unless widths
                 if widths.length < num_columns
                    widths = widths + Array.new(num_columns - widths.length, widths[-1])
                 end
