@@ -9,7 +9,11 @@ The hash you must return should contain the following keys: **:styles** and **:s
 
 
 ### The :sheets array
-Each element in the **:sheets** array is a hash, with 2 main keys: **:end_sheet** and **:rows**. The key **:end_sheet** contains a number; the index of the sheet in which you will stop using these stylesheet and move to the next one (for example, if it's 2, you will use the first stylesheet for the sheets number 0, number 1 and number 3). Note that if the key **:end_sheet** is **nil**, that means that this stylesheet will be used for all the sheets in the xlsx file that don't have styles yet. The second key **:rows**, is an array, this time containing the styles of each row of the sheet.  
+Each element in the **:sheets** array is a hash, with 3 main keys: **:end_sheet**, **:rows** and **:widths**. The key **:end_sheet** contains a number; the index of the sheet in which you will stop using these stylesheet and move to the next one (for example, if it's 2, you will use the first stylesheet for the sheets number 0, number 1 and number 3). Note that if the key **:end_sheet** is **nil**, that means that this stylesheet will be used for all the sheets in the xlsx file that don't have styles yet. The second key **:rows**, is an array, this time containing the styles of each row of the sheet. 
+
+### The :widths array
+This is an array of integers that can also include the *nil* value. This indicates the width of the columns within the xlsx sheet. If you want to use
+a default value, you can send *nil*. It is not necessary to provide an array of the same length as the number of columns within your sheet; if the array is smaller, the last value will be replicated for the last columns.
 
 ### The :rows array
 Each element of the **:rows** arrays is a hash, with 2 main keys: **:end_row** and **:columns**. The key **:end_row** contains a number; the index of the row in which you will stop using these styles and move to the next ones (for example, if it's 0, you will use the first set of styles only for the first row, before moving to the second set of styles). Note that if the key **:end_row** is **nil**, that means that these styles will be used for all the rows in the sheet that don't have styles yet. The second key **:columns** is an array, this time containing the styles for each column if the row.  
