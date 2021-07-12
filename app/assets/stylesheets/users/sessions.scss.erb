@@ -1,0 +1,82 @@
+/*
+
+Copyright (c) 2020, all rights reserved.
+
+All the information provided by this platform is protected by international laws related  to
+industrial property, intellectual property, copyright and relative international laws.
+All intellectual or industrial property rights of the code, texts, trade mark, design,
+pictures and any other information belongs to the owner of this platform.
+
+Without the written permission of the owner, any replication, modification,
+transmission, publication is strictly forbidden.
+
+For more information read the license file including with this software.
+
+// · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
+// ·
+
+*/
+
+
+// ·
+//@import "../../lesli/template.scss";
+@import "lesli/settings/icons.scss";
+
+
+
+// ·
+body.users-sessions.new {
+
+    .columns {
+        width: 100%;
+        height: 100vh;
+    }
+
+    .has-session-form {
+        max-width: 500px;
+        align-self: center;
+
+        .container {
+            max-width: 320px;
+        }
+
+        img {
+            width: 200px;
+        }
+
+        form {
+            margin: 4rem 0 6rem;
+        }
+
+        .buttons {
+            width: 100%;
+            margin-top: 1rem;
+            justify-content: space-between;
+
+            .is-primary {
+                width: 150px;
+            }
+        }
+    }
+
+    .has-solution-background {
+        background-image: image_url("lesli_cloud/login/login-background.jpg");
+        background-position: center;
+        background-size: cover;
+
+        .container {
+            display: flex;
+            height: 100%;
+            background-color: rgba(37, 37, 37, .45);
+            align-items: flex-end;
+
+            div {
+                margin: 2rem;
+            }
+        }
+
+        h2, p {
+            color: lesli-css-color(solid, white);
+        }
+    }
+}
