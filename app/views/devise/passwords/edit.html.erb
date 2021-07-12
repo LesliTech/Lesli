@@ -18,13 +18,83 @@ For more information read the license file including with this software.
 %>
 
 
-<% if lesli_instance_code != "lesli" %>
-<section id="lesli-application" class="<%= lesli_instance_code %>-password">
-    <%= render :template => "#{lesli_instance_code}/lesli/devise/passwords/edit" %>
-</section>
+<% custom_app_page_clas = "#{ lesli_instance_code }-passwords-new" %>
+<% custom_app_page_path = "#{ lesli_instance_code }/lesli/devise/passwords/edit" %>
+<% custom_app_page_exists = lookup_context.exists?(custom_app_page_path) %>
+
+
+
+<%# render custom view in builder module %>
+<% if custom_app_page_exists %>
+<main id="lesli-application" class="<%= custom_app_page_clas %>">
+    <%= render :template => custom_app_page_path %>
+</main>
 <% end %>
 
 
-<% if lesli_instance_code == "lesli" %>
-<h3>There is no a view for sessions path.</h3>
+
+<%# core view for passses %>
+<% unless custom_app_page_exists %>
+<main id="lesli-application">
+    <section class="hero is-fullheight">
+        <div class="hero-head">
+            <div class="form-title has-text-centered">
+                <%= image_tag "lesli_cloud/brand/app-logo.svg", :alt => "logo", :class => "app-logo" %>
+                <h2 class="is-size-2">Cambiar contraseña</h2>
+            </div>
+        </div>
+        <div class="hero-body">
+            <form ref="form" @submit="putPasswordEdit">
+                <p v-if="notification.show" :class="[notification.type, 'is-size-5', 'mt-2']">
+                    {{ notification.message }}
+                </p>
+                <div class="field mb-4">
+                    <p class="label mb-2">Ingrese su nueva contraseña</p>
+                    <p class="control has-icons-left">  
+                        <input 
+                            class="input" 
+                            type="password"
+                            v-model="password_edit.new_password"
+                            required="true"
+                            name="user_email"
+                            placeholder="email"
+                        />
+                        <span class="icon is-small is-left">
+                            <i class="fas fa-envelope"></i>
+                        </span>
+                    </p>
+                </div>
+                <div class="field mb-4">
+                    <p class="label mb-1">Confirmar contraseña</p>
+                    <p class="control has-icons-left">  
+                        <input 
+                            class="input" 
+                            type="password"
+                            v-model="password_edit.new_password_confirmation"
+                            required="true"
+                            name="user_email"
+                            placeholder="email"
+                        />
+                        <span class="icon is-small is-left">
+                            <i class="fas fa-envelope"></i>
+                        </span>
+                    </p>
+                </div>
+                <div class="login-controls has-text-centered">
+                    <button class="button is-primary">
+                        Cambiar contraseña
+                    </button>
+                </div>
+            </form>
+            <div class="links">
+                <p class="has-text-centered">
+                    <%= link_to "Request a pass", new_pass_path %>
+                </p>
+                <p class="has-text-centered">
+                    <%= link_to "Login", new_user_session_path %>
+                </p>
+            </div>
+        </div>
+    </section>
+</main>
 <% end %>
