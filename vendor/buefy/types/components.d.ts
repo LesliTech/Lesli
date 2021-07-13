@@ -1,5 +1,5 @@
 import _Vue from "vue";
-import { ColorModifiers, GlobalPositions } from "./helpers";
+import {ColorModifiers, GlobalPositions, SizesModifiers} from "./helpers";
 
 // Component base definition
 export class BComponent extends _Vue {
@@ -13,6 +13,7 @@ export declare type BuefyConfig = {
     defaultIconComponent?: string;
     defaultIconPrev?: string;
     defaultIconNext?: string;
+    defaultLocale?: undefined | string | string[],
     defaultDialogConfirmText?: string;
     defaultDialogCancelText?: string;
     defaultSnackbarDuration?: number;
@@ -24,6 +25,7 @@ export declare type BuefyConfig = {
     defaultTooltipType?: ColorModifiers;
     defaultTooltipAnimated?: boolean;
     defaultTooltipDelay?: number;
+    defaultSidebarDelay?: number,
     defaultInputAutocomplete?: string;
     defaultDateFormatter?: Function;
     defaultDateParser?: Function;
@@ -52,9 +54,17 @@ export declare type BuefyConfig = {
     defaultClockpickerMinutesLabel?: string;
     defaultTrapFocus?: boolean;
     defaultButtonRounded?: boolean;
+    defaultSwitchRounded?: boolean;
     defaultCarouselInterval?: number;
+    defaultTabsExpanded?: boolean;
     defaultTabsAnimated?: boolean;
-    defaultLinkTags: string[];
+    defaultTabsType?: string;
+    defaultLinkTags?: string[];
+    defaultImageWebpFallback?: string,
+    defaultImageLazy?: boolean,
+    defaultImageResponsive?: boolean,
+    defaultImageRatio?: string,
+    defaultImageSrcsetFormatter?: Function,
     customIconPacks?: any;
 };
 
@@ -67,7 +77,7 @@ export declare type BDialogConfig = {
     /**
      * Message text
      */
-    message: string;
+    message: string | any[];
 
     /**
      * Adds an icon on the left side depending on the <code>type</code> or <code>icon</code>
@@ -87,7 +97,7 @@ export declare type BDialogConfig = {
     /**
      * Dialog\'s size, optional
      */
-    size?: 'is-small' | 'is-medium' | 'is-large';
+    size?: SizesModifiers;
 
     /**
      * Custom animation (transition name)
@@ -107,12 +117,24 @@ export declare type BDialogConfig = {
     /**
      * Can close dialog by clicking cancel button, pressing escape or clicking outside
      */
-    canCancel?: boolean | Array<any>;
+    canCancel?: boolean | Array<'escape' | 'button' | 'outside'>;
+
+    /**
+     * Turning this prop into false allows to make async requests in onConfirm callback
+     */
+    closeOnConfirm?: boolean;
+
+    /**
+    * DOM element the dialog will be created on.
+    * Note that this also changes the position of the dialog from fixed
+    * to absolute. Meaning that the container should be fixed.
+    */
+    container?: string;
 
     /**
      * Callback function when the confirm button is clicked
      */
-    onConfirm?: (value: string) => any;
+    onConfirm?: (value: string, dialog: BComponent) => any;
 
     /**
      * Callback function when the dialog is canceled (cancel button is clicked / pressed escape / clicked outside)
@@ -144,6 +166,11 @@ export declare type BDialogConfig = {
      * Role attribute to be passed to modal container for better accessibility.
      */
     ariaRole?: 'dialog' | 'alertdialog';
+
+   /**
+    * Aria label attribute to be passed to modal container for better accessibility.
+    */
+   ariaLabel?: string;
 
    /**
     * Improve accessiblity when enabled.
@@ -299,15 +326,15 @@ export declare type BNoticeConfig = {
     /**
     * Message text
     */
-    message: string;
+    message: string | any[];
 
     /**
-    * Type (color) of the toast
+    * Type (color)
     */
     type?: ColorModifiers;
 
     /**
-    * Which position the toast will appear
+    * Which position it will appear
     */
     position?: GlobalPositions;
 
@@ -317,8 +344,13 @@ export declare type BNoticeConfig = {
     duration?: number;
 
     /**
-    * DOM element the toast will be created on.
-    * Note that this also changes the position of the toast from fixed
+     * Show indefinitely until it is dismissed
+     */
+    indefinite?: boolean;
+
+    /**
+    * DOM element it will be created on.
+    * Note that this also changes the position of the element from fixed
     * to absolute. Meaning that the container should be fixed.
     */
     container?: string;
@@ -336,9 +368,9 @@ export declare type BSnackbarConfig = BNoticeConfig & {
     actionText?: string | null;
 
     /**
-     * Show the Snackbar indefinitely until it is dismissed
+     * Snackbar's cancel button text
      */
-    indefinite?: boolean;
+    cancelText?: string | null;
 
     /**
      * 	Callback function when the button is clicked
@@ -356,14 +388,44 @@ export declare const ToastProgrammatic: {
 
 export declare type BNotificationConfig = BNoticeConfig & {
     /**
-     * Show the Notification indefinitely until it is dismissed
+     * Whether notification is active or not, use the .sync modifier to make it two-way binding
      */
-    indefinite?: boolean;
+    active?: boolean;
+
+    /**
+     * Hide notification after duration only not programmatic
+     */
+    autoClose?: boolean;
+
+    /**
+     * Custom animation (transition name)
+     */
+    animation?: string;
+
+    /**
+     * Label for the close button, to be read by accessibility screenreaders.
+     */
+    ariaCloseLabel?: string;
+
+    /**
+     * Adds an 'X' button that closes the notification
+     */
+    closable?: boolean;
 
     /**
      * Adds an icon on the left side
      */
     hasIcon?: boolean;
+
+    /**
+     * Icon name to use with has-icon
+     */
+    icon?: string;
+
+    /**
+     * Icon pack to use
+     */
+    iconPack?: string;
 }
 export declare const NotificationProgrammatic: {
     open: (params: BNotificationConfig | string) => BNoticeComponent;
@@ -374,5 +436,3 @@ export declare const ConfigProgrammatic: {
     getOptions: () => BuefyConfig
     setOptions: (params: BuefyConfig) => any
 }
-
-

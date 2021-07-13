@@ -1,12 +1,12 @@
 /*!
-FullCalendar v5.5.0
+FullCalendar v5.8.0
 Docs & License: https://fullcalendar.io/
-(c) 2020 Adam Shaw
+(c) 2021 Adam Shaw
 */
 import './main.css';
 
-import { createRef, getStickyHeaderDates, createElement, ViewRoot, SimpleScrollGrid, getStickyFooterScrollbar, DateComponent, renderScrollShim, buildNavLinkData, DayCellContent, Fragment, BaseComponent, createFormatter, setRef, DayCellRoot, WeekNumberRoot, RenderHook, buildSegTimeText, EventRoot, StandardEvent, sortEventSegs, addDays, intersectRanges, RefMap, isPropsEqual, getSegMeta, buildEventRangeKey, BgEvent, renderFill, PositionCache, mapHash, DelayedRunner, applyStyle, memoize, NowTimer, EventApi, Slicer, DayHeader, DaySeriesModel, DayTableModel, addWeeks, diffWeeks, DateProfileGenerator, identity, createPlugin } from '@fullcalendar/common';
-import { __extends, __assign, __spreadArrays } from 'tslib';
+import { createRef, getStickyHeaderDates, createElement, ViewRoot, SimpleScrollGrid, getStickyFooterScrollbar, renderScrollShim, DateComponent, buildNavLinkData, DayCellContent, Fragment, BaseComponent, createFormatter, StandardEvent, buildSegTimeText, EventRoot, memoize, MoreLinkRoot, getSegMeta, setRef, DayCellRoot, WeekNumberRoot, intersectSpans, buildEntryKey, SegHierarchy, intersectRanges, addDays, RefMap, sortEventSegs, isPropsEqual, buildEventRangeKey, BgEvent, renderFill, PositionCache, NowTimer, Slicer, DayHeader, DaySeriesModel, DayTableModel, addWeeks, diffWeeks, DateProfileGenerator, createPlugin } from '@fullcalendar/common';
+import { __extends, __assign, __spreadArray } from 'tslib';
 
 /* An abstract class for the daygrid views, as well as month view. Renders one or more rows of day cells.
 ----------------------------------------------------------------------------------------------------------------------*/
@@ -42,7 +42,7 @@ var TableView = /** @class */ (function (_super) {
             chunk: { content: bodyContent },
         });
         return (createElement(ViewRoot, { viewSpec: context.viewSpec }, function (rootElRef, classNames) { return (createElement("div", { ref: rootElRef, className: ['fc-daygrid'].concat(classNames).join(' ') },
-            createElement(SimpleScrollGrid, { liquid: !props.isHeightAuto && !props.forPrint, cols: [] /* TODO: make optional? */, sections: sections }))); }));
+            createElement(SimpleScrollGrid, { liquid: !props.isHeightAuto && !props.forPrint, collapsibleWidth: props.forPrint, cols: [] /* TODO: make optional? */, sections: sections }))); }));
     };
     TableView.prototype.renderHScrollLayout = function (headerRowContent, bodyContent, colCnt, dayMinWidth) {
         var ScrollGrid = this.context.pluginHooks.scrollGridImpl;
@@ -87,7 +87,7 @@ var TableView = /** @class */ (function (_super) {
             });
         }
         return (createElement(ViewRoot, { viewSpec: context.viewSpec }, function (rootElRef, classNames) { return (createElement("div", { ref: rootElRef, className: ['fc-daygrid'].concat(classNames).join(' ') },
-            createElement(ScrollGrid, { liquid: !props.isHeightAuto && !props.forPrint, colGroups: [{ cols: [{ span: colCnt, minWidth: dayMinWidth }] }], sections: sections }))); }));
+            createElement(ScrollGrid, { liquid: !props.isHeightAuto && !props.forPrint, collapsibleWidth: props.forPrint, colGroups: [{ cols: [{ span: colCnt, minWidth: dayMinWidth }] }], sections: sections }))); }));
     };
     return TableView;
 }(DateComponent));
@@ -156,64 +156,6 @@ function renderTopInner(props) {
     return props.dayNumberText;
 }
 
-var DEFAULT_WEEK_NUM_FORMAT = createFormatter({ week: 'narrow' });
-var TableCell = /** @class */ (function (_super) {
-    __extends(TableCell, _super);
-    function TableCell() {
-        var _this = _super !== null && _super.apply(this, arguments) || this;
-        _this.handleRootEl = function (el) {
-            _this.rootEl = el;
-            setRef(_this.props.elRef, el);
-        };
-        _this.handleMoreLinkClick = function (ev) {
-            var props = _this.props;
-            if (props.onMoreClick) {
-                var allSegs = props.segsByEachCol;
-                var hiddenSegs = allSegs.filter(function (seg) { return props.segIsHidden[seg.eventRange.instance.instanceId]; });
-                props.onMoreClick({
-                    date: props.date,
-                    allSegs: allSegs,
-                    hiddenSegs: hiddenSegs,
-                    moreCnt: props.moreCnt,
-                    dayEl: _this.rootEl,
-                    ev: ev,
-                });
-            }
-        };
-        return _this;
-    }
-    TableCell.prototype.render = function () {
-        var _this = this;
-        var _a = this.context, options = _a.options, viewApi = _a.viewApi;
-        var props = this.props;
-        var date = props.date, dateProfile = props.dateProfile;
-        var hookProps = {
-            num: props.moreCnt,
-            text: props.buildMoreLinkText(props.moreCnt),
-            view: viewApi,
-        };
-        var navLinkAttrs = options.navLinks
-            ? { 'data-navlink': buildNavLinkData(date, 'week'), tabIndex: 0 }
-            : {};
-        return (createElement(DayCellRoot, { date: date, dateProfile: dateProfile, todayRange: props.todayRange, showDayNumber: props.showDayNumber, extraHookProps: props.extraHookProps, elRef: this.handleRootEl }, function (dayElRef, dayClassNames, rootDataAttrs, isDisabled) { return (createElement("td", __assign({ ref: dayElRef, className: ['fc-daygrid-day'].concat(dayClassNames, props.extraClassNames || []).join(' ') }, rootDataAttrs, props.extraDataAttrs),
-            createElement("div", { className: "fc-daygrid-day-frame fc-scrollgrid-sync-inner", ref: props.innerElRef /* different from hook system! RENAME */ },
-                props.showWeekNumber && (createElement(WeekNumberRoot, { date: date, defaultFormat: DEFAULT_WEEK_NUM_FORMAT }, function (weekElRef, weekClassNames, innerElRef, innerContent) { return (createElement("a", __assign({ ref: weekElRef, className: ['fc-daygrid-week-number'].concat(weekClassNames).join(' ') }, navLinkAttrs), innerContent)); })),
-                !isDisabled && (createElement(TableCellTop, { date: date, dateProfile: dateProfile, showDayNumber: props.showDayNumber, forceDayTop: props.forceDayTop, todayRange: props.todayRange, extraHookProps: props.extraHookProps })),
-                createElement("div", { className: "fc-daygrid-day-events", ref: props.fgContentElRef, style: { paddingBottom: props.fgPaddingBottom } },
-                    props.fgContent,
-                    Boolean(props.moreCnt) && (createElement("div", { className: "fc-daygrid-day-bottom", style: { marginTop: props.moreMarginTop } },
-                        createElement(RenderHook, { hookProps: hookProps, classNames: options.moreLinkClassNames, content: options.moreLinkContent, defaultContent: renderMoreLinkInner, didMount: options.moreLinkDidMount, willUnmount: options.moreLinkWillUnmount }, function (rootElRef, classNames, innerElRef, innerContent) { return (createElement("a", { ref: rootElRef, className: ['fc-daygrid-more-link'].concat(classNames).join(' '), onClick: _this.handleMoreLinkClick }, innerContent)); })))),
-                createElement("div", { className: "fc-daygrid-day-bg" }, props.bgContent)))); }));
-    };
-    return TableCell;
-}(DateComponent));
-TableCell.addPropsEquality({
-    onMoreClick: true,
-});
-function renderMoreLinkInner(props) {
-    return props.text;
-}
-
 var DEFAULT_TABLE_EVENT_TIME_FORMAT = createFormatter({
     hour: 'numeric',
     minute: '2-digit',
@@ -229,6 +171,18 @@ function hasListItemDisplay(seg) {
         seg.isEnd // "
     );
 }
+
+var TableBlockEvent = /** @class */ (function (_super) {
+    __extends(TableBlockEvent, _super);
+    function TableBlockEvent() {
+        return _super !== null && _super.apply(this, arguments) || this;
+    }
+    TableBlockEvent.prototype.render = function () {
+        var props = this.props;
+        return (createElement(StandardEvent, __assign({}, props, { extraClassNames: ['fc-daygrid-event', 'fc-daygrid-block-event', 'fc-h-event'], defaultTimeFormat: DEFAULT_TABLE_EVENT_TIME_FORMAT, defaultDisplayEventEnd: props.defaultDisplayEventEnd, disableResizing: !props.seg.eventRange.def.allDay })));
+    };
+    return TableBlockEvent;
+}(BaseComponent));
 
 var TableListItemEvent = /** @class */ (function (_super) {
     __extends(TableListItemEvent, _super);
@@ -255,256 +209,312 @@ function getSegAnchorAttrs(seg) {
     return url ? { href: url } : {};
 }
 
-var TableBlockEvent = /** @class */ (function (_super) {
-    __extends(TableBlockEvent, _super);
-    function TableBlockEvent() {
-        return _super !== null && _super.apply(this, arguments) || this;
+var TableCellMoreLink = /** @class */ (function (_super) {
+    __extends(TableCellMoreLink, _super);
+    function TableCellMoreLink() {
+        var _this = _super !== null && _super.apply(this, arguments) || this;
+        _this.compileSegs = memoize(compileSegs);
+        return _this;
     }
-    TableBlockEvent.prototype.render = function () {
+    TableCellMoreLink.prototype.render = function () {
         var props = this.props;
-        return (createElement(StandardEvent, __assign({}, props, { extraClassNames: ['fc-daygrid-event', 'fc-daygrid-block-event', 'fc-h-event'], defaultTimeFormat: DEFAULT_TABLE_EVENT_TIME_FORMAT, defaultDisplayEventEnd: props.defaultDisplayEventEnd, disableResizing: !props.seg.eventRange.def.allDay })));
+        var _a = this.compileSegs(props.singlePlacements), allSegs = _a.allSegs, invisibleSegs = _a.invisibleSegs;
+        return (createElement(MoreLinkRoot, { dateProfile: props.dateProfile, todayRange: props.todayRange, allDayDate: props.allDayDate, moreCnt: props.moreCnt, allSegs: allSegs, hiddenSegs: invisibleSegs, alignmentElRef: props.alignmentElRef, alignGridTop: props.alignGridTop, extraDateSpan: props.extraDateSpan, popoverContent: function () {
+                var isForcedInvisible = (props.eventDrag ? props.eventDrag.affectedInstances : null) ||
+                    (props.eventResize ? props.eventResize.affectedInstances : null) ||
+                    {};
+                return (createElement(Fragment, null, allSegs.map(function (seg) {
+                    var instanceId = seg.eventRange.instance.instanceId;
+                    return (createElement("div", { className: "fc-daygrid-event-harness", key: instanceId, style: {
+                            visibility: isForcedInvisible[instanceId] ? 'hidden' : '',
+                        } }, hasListItemDisplay(seg) ? (createElement(TableListItemEvent, __assign({ seg: seg, isDragging: false, isSelected: instanceId === props.eventSelection, defaultDisplayEventEnd: false }, getSegMeta(seg, props.todayRange)))) : (createElement(TableBlockEvent, __assign({ seg: seg, isDragging: false, isResizing: false, isDateSelecting: false, isSelected: instanceId === props.eventSelection, defaultDisplayEventEnd: false }, getSegMeta(seg, props.todayRange))))));
+                })));
+            } }, function (rootElRef, classNames, innerElRef, innerContent, handleClick) { return (createElement("a", { ref: rootElRef, className: ['fc-daygrid-more-link'].concat(classNames).join(' '), onClick: handleClick }, innerContent)); }));
     };
-    return TableBlockEvent;
+    return TableCellMoreLink;
 }(BaseComponent));
+function compileSegs(singlePlacements) {
+    var allSegs = [];
+    var invisibleSegs = [];
+    for (var _i = 0, singlePlacements_1 = singlePlacements; _i < singlePlacements_1.length; _i++) {
+        var placement = singlePlacements_1[_i];
+        allSegs.push(placement.seg);
+        if (!placement.isVisible) {
+            invisibleSegs.push(placement.seg);
+        }
+    }
+    return { allSegs: allSegs, invisibleSegs: invisibleSegs };
+}
 
-function computeFgSegPlacement(// for one row. TODO: print mode?
-cellModels, segs, dayMaxEvents, dayMaxEventRows, eventHeights, maxContentHeight, colCnt, eventOrderSpecs) {
-    var colPlacements = []; // if event spans multiple cols, its present in each col
-    var moreCnts = []; // by-col
-    var segIsHidden = {};
-    var segTops = {}; // always populated for each seg
-    var segMarginTops = {}; // simetimes populated for each seg
-    var moreTops = {};
-    var paddingBottoms = {}; // for each cell's inner-wrapper div
-    for (var i = 0; i < colCnt; i += 1) {
-        colPlacements.push([]);
-        moreCnts.push(0);
+var DEFAULT_WEEK_NUM_FORMAT = createFormatter({ week: 'narrow' });
+var TableCell = /** @class */ (function (_super) {
+    __extends(TableCell, _super);
+    function TableCell() {
+        var _this = _super !== null && _super.apply(this, arguments) || this;
+        _this.rootElRef = createRef();
+        _this.handleRootEl = function (el) {
+            setRef(_this.rootElRef, el);
+            setRef(_this.props.elRef, el);
+        };
+        return _this;
     }
-    segs = sortEventSegs(segs, eventOrderSpecs);
-    for (var _i = 0, segs_1 = segs; _i < segs_1.length; _i++) {
-        var seg = segs_1[_i];
-        var instanceId = seg.eventRange.instance.instanceId;
-        var eventHeight = eventHeights[instanceId + ':' + seg.firstCol];
-        placeSeg(seg, eventHeight || 0); // will keep colPlacements sorted by top
-    }
+    TableCell.prototype.render = function () {
+        var _a = this, props = _a.props, context = _a.context, rootElRef = _a.rootElRef;
+        var options = context.options;
+        var date = props.date, dateProfile = props.dateProfile;
+        var navLinkAttrs = options.navLinks
+            ? { 'data-navlink': buildNavLinkData(date, 'week'), tabIndex: 0 }
+            : {};
+        return (createElement(DayCellRoot, { date: date, dateProfile: dateProfile, todayRange: props.todayRange, showDayNumber: props.showDayNumber, extraHookProps: props.extraHookProps, elRef: this.handleRootEl }, function (dayElRef, dayClassNames, rootDataAttrs, isDisabled) { return (createElement("td", __assign({ ref: dayElRef, className: ['fc-daygrid-day'].concat(dayClassNames, props.extraClassNames || []).join(' ') }, rootDataAttrs, props.extraDataAttrs),
+            createElement("div", { className: "fc-daygrid-day-frame fc-scrollgrid-sync-inner", ref: props.innerElRef /* different from hook system! RENAME */ },
+                props.showWeekNumber && (createElement(WeekNumberRoot, { date: date, defaultFormat: DEFAULT_WEEK_NUM_FORMAT }, function (weekElRef, weekClassNames, innerElRef, innerContent) { return (createElement("a", __assign({ ref: weekElRef, className: ['fc-daygrid-week-number'].concat(weekClassNames).join(' ') }, navLinkAttrs), innerContent)); })),
+                !isDisabled && (createElement(TableCellTop, { date: date, dateProfile: dateProfile, showDayNumber: props.showDayNumber, forceDayTop: props.forceDayTop, todayRange: props.todayRange, extraHookProps: props.extraHookProps })),
+                createElement("div", { className: "fc-daygrid-day-events", ref: props.fgContentElRef },
+                    props.fgContent,
+                    createElement("div", { className: "fc-daygrid-day-bottom", style: { marginTop: props.moreMarginTop } },
+                        createElement(TableCellMoreLink, { allDayDate: date, singlePlacements: props.singlePlacements, moreCnt: props.moreCnt, alignmentElRef: rootElRef, alignGridTop: !props.showDayNumber, extraDateSpan: props.extraDateSpan, dateProfile: props.dateProfile, eventSelection: props.eventSelection, eventDrag: props.eventDrag, eventResize: props.eventResize, todayRange: props.todayRange }))),
+                createElement("div", { className: "fc-daygrid-day-bg" }, props.bgContent)))); }));
+    };
+    return TableCell;
+}(DateComponent));
+
+function computeFgSegPlacement(segs, // assumed already sorted
+dayMaxEvents, dayMaxEventRows, strictOrder, eventInstanceHeights, maxContentHeight, cells) {
+    var hierarchy = new DayGridSegHierarchy();
+    hierarchy.allowReslicing = true;
+    hierarchy.strictOrder = strictOrder;
     if (dayMaxEvents === true || dayMaxEventRows === true) {
-        limitByMaxHeight(moreCnts, segIsHidden, colPlacements, maxContentHeight); // populates moreCnts/segIsHidden
+        hierarchy.maxCoord = maxContentHeight;
+        hierarchy.hiddenConsumes = true;
     }
     else if (typeof dayMaxEvents === 'number') {
-        limitByMaxEvents(moreCnts, segIsHidden, colPlacements, dayMaxEvents); // populates moreCnts/segIsHidden
+        hierarchy.maxStackCnt = dayMaxEvents;
     }
     else if (typeof dayMaxEventRows === 'number') {
-        limitByMaxRows(moreCnts, segIsHidden, colPlacements, dayMaxEventRows); // populates moreCnts/segIsHidden
+        hierarchy.maxStackCnt = dayMaxEventRows;
+        hierarchy.hiddenConsumes = true;
     }
-    // computes segTops/segMarginTops/moreTops/paddingBottoms
-    for (var col = 0; col < colCnt; col += 1) {
-        var placements = colPlacements[col];
-        var currentNonAbsBottom = 0;
-        var currentAbsHeight = 0;
-        for (var _a = 0, placements_1 = placements; _a < placements_1.length; _a++) {
-            var placement = placements_1[_a];
-            var seg = placement.seg;
-            if (!segIsHidden[seg.eventRange.instance.instanceId]) {
-                segTops[seg.eventRange.instance.instanceId] = placement.top; // from top of container
-                if (seg.firstCol === seg.lastCol && seg.isStart && seg.isEnd) { // TODO: simpler way? NOT DRY
-                    segMarginTops[seg.eventRange.instance.instanceId] =
-                        placement.top - currentNonAbsBottom; // from previous seg bottom
-                    currentAbsHeight = 0;
-                    currentNonAbsBottom = placement.bottom;
-                }
-                else { // multi-col event, abs positioned
-                    currentAbsHeight = placement.bottom - currentNonAbsBottom;
-                }
-            }
+    // create segInputs only for segs with known heights
+    var segInputs = [];
+    var unknownHeightSegs = [];
+    for (var i = 0; i < segs.length; i += 1) {
+        var seg = segs[i];
+        var instanceId = seg.eventRange.instance.instanceId;
+        var eventHeight = eventInstanceHeights[instanceId];
+        if (eventHeight != null) {
+            segInputs.push({
+                index: i,
+                thickness: eventHeight,
+                span: {
+                    start: seg.firstCol,
+                    end: seg.lastCol + 1,
+                },
+            });
         }
-        if (currentAbsHeight) {
-            if (moreCnts[col]) {
-                moreTops[col] = currentAbsHeight;
-            }
-            else {
-                paddingBottoms[col] = currentAbsHeight;
-            }
+        else {
+            unknownHeightSegs.push(seg);
         }
     }
-    function placeSeg(seg, segHeight) {
-        if (!tryPlaceSegAt(seg, segHeight, 0)) {
-            for (var col = seg.firstCol; col <= seg.lastCol; col += 1) {
-                for (var _i = 0, _a = colPlacements[col]; _i < _a.length; _i++) { // will repeat multi-day segs!!!!!!! bad!!!!!!
-                    var placement = _a[_i];
-                    if (tryPlaceSegAt(seg, segHeight, placement.bottom)) {
-                        return;
-                    }
-                }
-            }
-        }
-    }
-    function tryPlaceSegAt(seg, segHeight, top) {
-        if (canPlaceSegAt(seg, segHeight, top)) {
-            for (var col = seg.firstCol; col <= seg.lastCol; col += 1) {
-                var placements = colPlacements[col];
-                var insertionIndex = 0;
-                while (insertionIndex < placements.length &&
-                    top >= placements[insertionIndex].top) {
-                    insertionIndex += 1;
-                }
-                placements.splice(insertionIndex, 0, {
-                    seg: seg,
-                    top: top,
-                    bottom: top + segHeight,
-                });
-            }
-            return true;
-        }
-        return false;
-    }
-    function canPlaceSegAt(seg, segHeight, top) {
+    var hiddenEntries = hierarchy.addSegs(segInputs);
+    var segRects = hierarchy.toRects();
+    var _a = placeRects(segRects, segs, cells), singleColPlacements = _a.singleColPlacements, multiColPlacements = _a.multiColPlacements, leftoverMargins = _a.leftoverMargins;
+    var moreCnts = [];
+    var moreMarginTops = [];
+    // add segs with unknown heights
+    for (var _i = 0, unknownHeightSegs_1 = unknownHeightSegs; _i < unknownHeightSegs_1.length; _i++) {
+        var seg = unknownHeightSegs_1[_i];
+        multiColPlacements[seg.firstCol].push({
+            seg: seg,
+            isVisible: false,
+            isAbsolute: true,
+            absoluteTop: 0,
+            marginTop: 0,
+        });
         for (var col = seg.firstCol; col <= seg.lastCol; col += 1) {
-            for (var _i = 0, _a = colPlacements[col]; _i < _a.length; _i++) {
-                var placement = _a[_i];
-                if (top < placement.bottom && top + segHeight > placement.top) { // collide?
-                    return false;
+            singleColPlacements[col].push({
+                seg: resliceSeg(seg, col, col + 1, cells),
+                isVisible: false,
+                isAbsolute: false,
+                absoluteTop: 0,
+                marginTop: 0,
+            });
+        }
+    }
+    // add the hidden entries
+    for (var col = 0; col < cells.length; col += 1) {
+        moreCnts.push(0);
+    }
+    for (var _b = 0, hiddenEntries_1 = hiddenEntries; _b < hiddenEntries_1.length; _b++) {
+        var hiddenEntry = hiddenEntries_1[_b];
+        var seg = segs[hiddenEntry.index];
+        var hiddenSpan = hiddenEntry.span;
+        multiColPlacements[hiddenSpan.start].push({
+            seg: resliceSeg(seg, hiddenSpan.start, hiddenSpan.end, cells),
+            isVisible: false,
+            isAbsolute: true,
+            absoluteTop: 0,
+            marginTop: 0,
+        });
+        for (var col = hiddenSpan.start; col < hiddenSpan.end; col += 1) {
+            moreCnts[col] += 1;
+            singleColPlacements[col].push({
+                seg: resliceSeg(seg, col, col + 1, cells),
+                isVisible: false,
+                isAbsolute: false,
+                absoluteTop: 0,
+                marginTop: 0,
+            });
+        }
+    }
+    // deal with leftover margins
+    for (var col = 0; col < cells.length; col += 1) {
+        moreMarginTops.push(leftoverMargins[col]);
+    }
+    return { singleColPlacements: singleColPlacements, multiColPlacements: multiColPlacements, moreCnts: moreCnts, moreMarginTops: moreMarginTops };
+}
+// rects ordered by top coord, then left
+function placeRects(allRects, segs, cells) {
+    var rectsByEachCol = groupRectsByEachCol(allRects, cells.length);
+    var singleColPlacements = [];
+    var multiColPlacements = [];
+    var leftoverMargins = [];
+    for (var col = 0; col < cells.length; col += 1) {
+        var rects = rectsByEachCol[col];
+        // compute all static segs in singlePlacements
+        var singlePlacements = [];
+        var currentHeight = 0;
+        var currentMarginTop = 0;
+        for (var _i = 0, rects_1 = rects; _i < rects_1.length; _i++) {
+            var rect = rects_1[_i];
+            var seg = segs[rect.index];
+            singlePlacements.push({
+                seg: resliceSeg(seg, col, col + 1, cells),
+                isVisible: true,
+                isAbsolute: false,
+                absoluteTop: 0,
+                marginTop: rect.levelCoord - currentHeight,
+            });
+            currentHeight = rect.levelCoord + rect.thickness;
+        }
+        // compute mixed static/absolute segs in multiPlacements
+        var multiPlacements = [];
+        currentHeight = 0;
+        currentMarginTop = 0;
+        for (var _a = 0, rects_2 = rects; _a < rects_2.length; _a++) {
+            var rect = rects_2[_a];
+            var seg = segs[rect.index];
+            var isAbsolute = rect.span.end - rect.span.start > 1; // multi-column?
+            var isFirstCol = rect.span.start === col;
+            currentMarginTop += rect.levelCoord - currentHeight; // amount of space since bottom of previous seg
+            currentHeight = rect.levelCoord + rect.thickness; // height will now be bottom of current seg
+            if (isAbsolute) {
+                currentMarginTop += rect.thickness;
+                if (isFirstCol) {
+                    multiPlacements.push({
+                        seg: resliceSeg(seg, rect.span.start, rect.span.end, cells),
+                        isVisible: true,
+                        isAbsolute: true,
+                        absoluteTop: rect.levelCoord,
+                        marginTop: 0,
+                    });
                 }
             }
+            else if (isFirstCol) {
+                multiPlacements.push({
+                    seg: resliceSeg(seg, rect.span.start, rect.span.end, cells),
+                    isVisible: true,
+                    isAbsolute: false,
+                    absoluteTop: 0,
+                    marginTop: currentMarginTop, // claim the margin
+                });
+                currentMarginTop = 0;
+            }
         }
-        return true;
+        singleColPlacements.push(singlePlacements);
+        multiColPlacements.push(multiPlacements);
+        leftoverMargins.push(currentMarginTop);
     }
-    // what does this do!?
-    for (var instanceIdAndFirstCol in eventHeights) {
-        if (!eventHeights[instanceIdAndFirstCol]) {
-            segIsHidden[instanceIdAndFirstCol.split(':')[0]] = true;
+    return { singleColPlacements: singleColPlacements, multiColPlacements: multiColPlacements, leftoverMargins: leftoverMargins };
+}
+function groupRectsByEachCol(rects, colCnt) {
+    var rectsByEachCol = [];
+    for (var col = 0; col < colCnt; col += 1) {
+        rectsByEachCol.push([]);
+    }
+    for (var _i = 0, rects_3 = rects; _i < rects_3.length; _i++) {
+        var rect = rects_3[_i];
+        for (var col = rect.span.start; col < rect.span.end; col += 1) {
+            rectsByEachCol[col].push(rect);
         }
     }
-    var segsByFirstCol = colPlacements.map(extractFirstColSegs); // operates on the sorted cols
-    var segsByEachCol = colPlacements.map(function (placements, col) {
-        var segsForCols = extractAllColSegs(placements);
-        segsForCols = resliceDaySegs(segsForCols, cellModels[col].date, col);
-        return segsForCols;
+    return rectsByEachCol;
+}
+function resliceSeg(seg, spanStart, spanEnd, cells) {
+    if (seg.firstCol === spanStart && seg.lastCol === spanEnd - 1) {
+        return seg;
+    }
+    var eventRange = seg.eventRange;
+    var origRange = eventRange.range;
+    var slicedRange = intersectRanges(origRange, {
+        start: cells[spanStart].date,
+        end: addDays(cells[spanEnd - 1].date, 1),
     });
-    return {
-        segsByFirstCol: segsByFirstCol,
-        segsByEachCol: segsByEachCol,
-        segIsHidden: segIsHidden,
-        segTops: segTops,
-        segMarginTops: segMarginTops,
-        moreCnts: moreCnts,
-        moreTops: moreTops,
-        paddingBottoms: paddingBottoms,
+    return __assign(__assign({}, seg), { firstCol: spanStart, lastCol: spanEnd - 1, eventRange: {
+            def: eventRange.def,
+            ui: __assign(__assign({}, eventRange.ui), { durationEditable: false }),
+            instance: eventRange.instance,
+            range: slicedRange,
+        }, isStart: seg.isStart && slicedRange.start.valueOf() === origRange.start.valueOf(), isEnd: seg.isEnd && slicedRange.end.valueOf() === origRange.end.valueOf() });
+}
+var DayGridSegHierarchy = /** @class */ (function (_super) {
+    __extends(DayGridSegHierarchy, _super);
+    function DayGridSegHierarchy() {
+        var _this = _super !== null && _super.apply(this, arguments) || this;
+        // config
+        _this.hiddenConsumes = false;
+        // allows us to keep hidden entries in the hierarchy so they take up space
+        _this.forceHidden = {};
+        return _this;
+    }
+    DayGridSegHierarchy.prototype.addSegs = function (segInputs) {
+        var _this = this;
+        var hiddenSegs = _super.prototype.addSegs.call(this, segInputs);
+        var entriesByLevel = this.entriesByLevel;
+        var excludeHidden = function (entry) { return !_this.forceHidden[buildEntryKey(entry)]; };
+        // remove the forced-hidden segs
+        for (var level = 0; level < entriesByLevel.length; level += 1) {
+            entriesByLevel[level] = entriesByLevel[level].filter(excludeHidden);
+        }
+        return hiddenSegs;
     };
-}
-function extractFirstColSegs(oneColPlacements, col) {
-    var segs = [];
-    for (var _i = 0, oneColPlacements_1 = oneColPlacements; _i < oneColPlacements_1.length; _i++) {
-        var placement = oneColPlacements_1[_i];
-        if (placement.seg.firstCol === col) {
-            segs.push(placement.seg);
-        }
-    }
-    return segs;
-}
-function extractAllColSegs(oneColPlacements) {
-    var segs = [];
-    for (var _i = 0, oneColPlacements_2 = oneColPlacements; _i < oneColPlacements_2.length; _i++) {
-        var placement = oneColPlacements_2[_i];
-        segs.push(placement.seg);
-    }
-    return segs;
-}
-function limitByMaxHeight(hiddenCnts, segIsHidden, colPlacements, maxContentHeight) {
-    limitEvents(hiddenCnts, segIsHidden, colPlacements, true, function (placement) { return placement.bottom <= maxContentHeight; });
-}
-function limitByMaxEvents(hiddenCnts, segIsHidden, colPlacements, dayMaxEvents) {
-    limitEvents(hiddenCnts, segIsHidden, colPlacements, false, function (placement, levelIndex) { return levelIndex < dayMaxEvents; });
-}
-function limitByMaxRows(hiddenCnts, segIsHidden, colPlacements, dayMaxEventRows) {
-    limitEvents(hiddenCnts, segIsHidden, colPlacements, true, function (placement, levelIndex) { return levelIndex < dayMaxEventRows; });
-}
-/*
-populates the given hiddenCnts/segIsHidden, which are supplied empty.
-TODO: return them instead
-*/
-function limitEvents(hiddenCnts, segIsHidden, colPlacements, _moreLinkConsumesLevel, isPlacementInBounds) {
-    var colCnt = hiddenCnts.length;
-    var segIsVisible = {}; // TODO: instead, use segIsHidden with true/false?
-    var visibleColPlacements = []; // will mirror colPlacements
-    for (var col = 0; col < colCnt; col += 1) {
-        visibleColPlacements.push([]);
-    }
-    for (var col = 0; col < colCnt; col += 1) {
-        var placements = colPlacements[col];
-        var level = 0;
-        for (var _i = 0, placements_2 = placements; _i < placements_2.length; _i++) {
-            var placement = placements_2[_i];
-            if (isPlacementInBounds(placement, level)) {
-                recordVisible(placement);
-            }
-            else {
-                recordHidden(placement, level, _moreLinkConsumesLevel);
-            }
-            // only considered a level if the seg had height
-            if (placement.top !== placement.bottom) {
-                level += 1;
-            }
-        }
-    }
-    function recordVisible(placement) {
-        var seg = placement.seg;
-        var instanceId = seg.eventRange.instance.instanceId;
-        if (!segIsVisible[instanceId]) {
-            segIsVisible[instanceId] = true;
-            for (var col = seg.firstCol; col <= seg.lastCol; col += 1) {
-                var destPlacements = visibleColPlacements[col];
-                var newPosition = 0;
-                // insert while keeping top sorted in each column
-                while (newPosition < destPlacements.length &&
-                    placement.top >= destPlacements[newPosition].top) {
-                    newPosition += 1;
+    DayGridSegHierarchy.prototype.handleInvalidInsertion = function (insertion, entry, hiddenEntries) {
+        var _a = this, entriesByLevel = _a.entriesByLevel, forceHidden = _a.forceHidden;
+        var touchingLevel = insertion.touchingLevel;
+        if (this.hiddenConsumes && touchingLevel >= 0) {
+            for (var lateral = insertion.lateralStart; lateral < insertion.lateralEnd; lateral += 1) {
+                var leadingEntry = entriesByLevel[touchingLevel][lateral];
+                if (this.allowReslicing) {
+                    var placeholderEntry = __assign(__assign({}, leadingEntry), { span: intersectSpans(leadingEntry.span, entry.span) });
+                    var placeholderEntryId = buildEntryKey(placeholderEntry);
+                    if (!forceHidden[placeholderEntryId]) { // if not already hidden
+                        forceHidden[placeholderEntryId] = true;
+                        entriesByLevel[touchingLevel][lateral] = placeholderEntry; // replace leadingEntry with our placeholder
+                        this.splitEntry(leadingEntry, entry, hiddenEntries); // split up the leadingEntry, reinsert it
+                    }
                 }
-                destPlacements.splice(newPosition, 0, placement);
-            }
-        }
-    }
-    function recordHidden(placement, currentLevel, moreLinkConsumesLevel) {
-        var seg = placement.seg;
-        var instanceId = seg.eventRange.instance.instanceId;
-        if (!segIsHidden[instanceId]) {
-            segIsHidden[instanceId] = true;
-            for (var col = seg.firstCol; col <= seg.lastCol; col += 1) {
-                hiddenCnts[col] += 1;
-                var hiddenCnt = hiddenCnts[col];
-                if (moreLinkConsumesLevel && hiddenCnt === 1 && currentLevel > 0) {
-                    var doomedLevel = currentLevel - 1;
-                    while (visibleColPlacements[col].length > doomedLevel) {
-                        recordHidden(visibleColPlacements[col].pop(), // removes
-                        visibleColPlacements[col].length, // will execute after the pop. will be the index of the removed placement
-                        false);
+                else {
+                    var placeholderEntryId = buildEntryKey(leadingEntry);
+                    if (!forceHidden[placeholderEntryId]) {
+                        forceHidden[placeholderEntryId] = true;
+                        hiddenEntries.push(leadingEntry);
                     }
                 }
             }
         }
-    }
-}
-// Given the events within an array of segment objects, reslice them to be in a single day
-function resliceDaySegs(segs, dayDate, colIndex) {
-    var dayStart = dayDate;
-    var dayEnd = addDays(dayStart, 1);
-    var dayRange = { start: dayStart, end: dayEnd };
-    var newSegs = [];
-    for (var _i = 0, segs_2 = segs; _i < segs_2.length; _i++) {
-        var seg = segs_2[_i];
-        var eventRange = seg.eventRange;
-        var origRange = eventRange.range;
-        var slicedRange = intersectRanges(origRange, dayRange);
-        if (slicedRange) {
-            newSegs.push(__assign(__assign({}, seg), { firstCol: colIndex, lastCol: colIndex, eventRange: {
-                    def: eventRange.def,
-                    ui: __assign(__assign({}, eventRange.ui), { durationEditable: false }),
-                    instance: eventRange.instance,
-                    range: slicedRange,
-                }, isStart: seg.isStart && slicedRange.start.valueOf() === origRange.start.valueOf(), isEnd: seg.isEnd && slicedRange.end.valueOf() === origRange.end.valueOf() }));
-        }
-    }
-    return newSegs;
-}
+        return _super.prototype.handleInvalidInsertion.call(this, insertion, entry, hiddenEntries);
+    };
+    return DayGridSegHierarchy;
+}(SegHierarchy));
 
 var TableRow = /** @class */ (function (_super) {
     __extends(TableRow, _super);
@@ -518,32 +528,30 @@ var TableRow = /** @class */ (function (_super) {
         _this.state = {
             framePositions: null,
             maxContentHeight: null,
-            segHeights: {},
+            eventInstanceHeights: {},
         };
         return _this;
     }
     TableRow.prototype.render = function () {
         var _this = this;
         var _a = this, props = _a.props, state = _a.state, context = _a.context;
+        var options = context.options;
         var colCnt = props.cells.length;
         var businessHoursByCol = splitSegsByFirstCol(props.businessHourSegs, colCnt);
         var bgEventSegsByCol = splitSegsByFirstCol(props.bgEventSegs, colCnt);
         var highlightSegsByCol = splitSegsByFirstCol(this.getHighlightSegs(), colCnt);
         var mirrorSegsByCol = splitSegsByFirstCol(this.getMirrorSegs(), colCnt);
-        var _b = computeFgSegPlacement(props.cells, props.fgEventSegs, props.dayMaxEvents, props.dayMaxEventRows, state.segHeights, state.maxContentHeight, colCnt, context.options.eventOrder), paddingBottoms = _b.paddingBottoms, segsByFirstCol = _b.segsByFirstCol, segsByEachCol = _b.segsByEachCol, segIsHidden = _b.segIsHidden, segTops = _b.segTops, segMarginTops = _b.segMarginTops, moreCnts = _b.moreCnts, moreTops = _b.moreTops;
-        var selectedInstanceHash = // TODO: messy way to compute this
+        var _b = computeFgSegPlacement(sortEventSegs(props.fgEventSegs, options.eventOrder), props.dayMaxEvents, props.dayMaxEventRows, options.eventOrderStrict, state.eventInstanceHeights, state.maxContentHeight, props.cells), singleColPlacements = _b.singleColPlacements, multiColPlacements = _b.multiColPlacements, moreCnts = _b.moreCnts, moreMarginTops = _b.moreMarginTops;
+        var isForcedInvisible = // TODO: messy way to compute this
          (props.eventDrag && props.eventDrag.affectedInstances) ||
             (props.eventResize && props.eventResize.affectedInstances) ||
             {};
         return (createElement("tr", { ref: this.rootElRef },
             props.renderIntro && props.renderIntro(),
             props.cells.map(function (cell, col) {
-                var normalFgNodes = _this.renderFgSegs(segsByFirstCol[col], segIsHidden, segTops, segMarginTops, selectedInstanceHash, props.todayRange);
-                var mirrorFgNodes = _this.renderFgSegs(mirrorSegsByCol[col], {}, segTops, // use same tops as real rendering
-                {}, {}, props.todayRange, Boolean(props.eventDrag), Boolean(props.eventResize), false);
-                return (createElement(TableCell, { key: cell.key, elRef: _this.cellElRefs.createRef(cell.key), innerElRef: _this.frameElRefs.createRef(cell.key) /* FF <td> problem, but okay to use for left/right. TODO: rename prop */, dateProfile: props.dateProfile, date: cell.date, showDayNumber: props.showDayNumbers, showWeekNumber: props.showWeekNumbers && col === 0, forceDayTop: props.showWeekNumbers /* even displaying weeknum for row, not necessarily day */, todayRange: props.todayRange, extraHookProps: cell.extraHookProps, extraDataAttrs: cell.extraDataAttrs, extraClassNames: cell.extraClassNames, moreCnt: moreCnts[col], buildMoreLinkText: props.buildMoreLinkText, onMoreClick: function (arg) {
-                        props.onMoreClick(__assign(__assign({}, arg), { fromCol: col }));
-                    }, segIsHidden: segIsHidden, moreMarginTop: moreTops[col] /* rename */, segsByEachCol: segsByEachCol[col], fgPaddingBottom: paddingBottoms[col], fgContentElRef: _this.fgElRefs.createRef(cell.key), fgContent: ( // Fragment scopes the keys
+                var normalFgNodes = _this.renderFgSegs(col, props.forPrint ? singleColPlacements[col] : multiColPlacements[col], props.todayRange, isForcedInvisible);
+                var mirrorFgNodes = _this.renderFgSegs(col, buildMirrorPlacements(mirrorSegsByCol[col], multiColPlacements), props.todayRange, {}, Boolean(props.eventDrag), Boolean(props.eventResize), false);
+                return (createElement(TableCell, { key: cell.key, elRef: _this.cellElRefs.createRef(cell.key), innerElRef: _this.frameElRefs.createRef(cell.key) /* FF <td> problem, but okay to use for left/right. TODO: rename prop */, dateProfile: props.dateProfile, date: cell.date, showDayNumber: props.showDayNumbers, showWeekNumber: props.showWeekNumbers && col === 0, forceDayTop: props.showWeekNumbers /* even displaying weeknum for row, not necessarily day */, todayRange: props.todayRange, eventSelection: props.eventSelection, eventDrag: props.eventDrag, eventResize: props.eventResize, extraHookProps: cell.extraHookProps, extraDataAttrs: cell.extraDataAttrs, extraClassNames: cell.extraClassNames, extraDateSpan: cell.extraDateSpan, moreCnt: moreCnts[col], moreMarginTop: moreMarginTops[col], singlePlacements: singleColPlacements[col], fgContentElRef: _this.fgElRefs.createRef(cell.key), fgContent: ( // Fragment scopes the keys
                     createElement(Fragment, null,
                         createElement(Fragment, null, normalFgNodes),
                         createElement(Fragment, null, mirrorFgNodes))), bgContent: ( // Fragment scopes the keys
@@ -577,28 +585,24 @@ var TableRow = /** @class */ (function (_super) {
         }
         return [];
     };
-    TableRow.prototype.renderFgSegs = function (segs, segIsHidden, // does NOT mean display:hidden
-    segTops, segMarginTops, selectedInstanceHash, todayRange, isDragging, isResizing, isDateSelecting) {
+    TableRow.prototype.renderFgSegs = function (col, segPlacements, todayRange, isForcedInvisible, isDragging, isResizing, isDateSelecting) {
         var context = this.context;
         var eventSelection = this.props.eventSelection;
         var framePositions = this.state.framePositions;
         var defaultDisplayEventEnd = this.props.cells.length === 1; // colCnt === 1
+        var isMirror = isDragging || isResizing || isDateSelecting;
         var nodes = [];
         if (framePositions) {
-            for (var _i = 0, segs_1 = segs; _i < segs_1.length; _i++) {
-                var seg = segs_1[_i];
+            for (var _i = 0, segPlacements_1 = segPlacements; _i < segPlacements_1.length; _i++) {
+                var placement = segPlacements_1[_i];
+                var seg = placement.seg;
                 var instanceId = seg.eventRange.instance.instanceId;
-                var isMirror = isDragging || isResizing || isDateSelecting;
-                var isSelected = selectedInstanceHash[instanceId];
-                var isInvisible = segIsHidden[instanceId] || isSelected;
-                // TODO: simpler way? NOT DRY
-                var isAbsolute = segIsHidden[instanceId] || isMirror || seg.firstCol !== seg.lastCol || !seg.isStart || !seg.isEnd;
-                var marginTop = void 0;
-                var top_1 = void 0;
-                var left = void 0;
-                var right = void 0;
+                var key = instanceId + ':' + col;
+                var isVisible = placement.isVisible && !isForcedInvisible[instanceId];
+                var isAbsolute = placement.isAbsolute;
+                var left = '';
+                var right = '';
                 if (isAbsolute) {
-                    top_1 = segTops[instanceId];
                     if (context.isRtl) {
                         right = 0;
                         left = framePositions.lefts[seg.lastCol] - framePositions.lefts[seg.firstCol];
@@ -608,20 +612,16 @@ var TableRow = /** @class */ (function (_super) {
                         right = framePositions.rights[seg.firstCol] - framePositions.rights[seg.lastCol];
                     }
                 }
-                else {
-                    marginTop = segMarginTops[instanceId];
-                }
                 /*
                 known bug: events that are force to be list-item but span multiple days still take up space in later columns
+                todo: in print view, for multi-day events, don't display title within non-start/end segs
                 */
-                nodes.push(createElement("div", { className: 'fc-daygrid-event-harness' + (isAbsolute ? ' fc-daygrid-event-harness-abs' : ''), key: instanceId, 
-                    // in print mode when in mult cols, could collide
-                    ref: isMirror ? null : this.segHarnessRefs.createRef(instanceId + ':' + seg.firstCol), style: {
-                        visibility: isInvisible ? 'hidden' : '',
-                        marginTop: marginTop || '',
-                        top: top_1 || '',
-                        left: left || '',
-                        right: right || '',
+                nodes.push(createElement("div", { className: 'fc-daygrid-event-harness' + (isAbsolute ? ' fc-daygrid-event-harness-abs' : ''), key: key, ref: isMirror ? null : this.segHarnessRefs.createRef(key), style: {
+                        visibility: isVisible ? '' : 'hidden',
+                        marginTop: isAbsolute ? '' : placement.marginTop,
+                        top: isAbsolute ? placement.absoluteTop : '',
+                        left: left,
+                        right: right,
                     } }, hasListItemDisplay(seg) ? (createElement(TableListItemEvent, __assign({ seg: seg, isDragging: isDragging, isSelected: instanceId === eventSelection, defaultDisplayEventEnd: defaultDisplayEventEnd }, getSegMeta(seg, todayRange)))) : (createElement(TableBlockEvent, __assign({ seg: seg, isDragging: isDragging, isResizing: isResizing, isDateSelecting: isDateSelecting, isSelected: instanceId === eventSelection, defaultDisplayEventEnd: defaultDisplayEventEnd }, getSegMeta(seg, todayRange))))));
             }
         }
@@ -633,8 +633,8 @@ var TableRow = /** @class */ (function (_super) {
         var framePositions = this.state.framePositions;
         var nodes = [];
         if (framePositions) {
-            for (var _i = 0, segs_2 = segs; _i < segs_2.length; _i++) {
-                var seg = segs_2[_i];
+            for (var _i = 0, segs_1 = segs; _i < segs_1.length; _i++) {
+                var seg = segs_1[_i];
                 var leftRightCss = isRtl ? {
                     right: 0,
                     left: framePositions.lefts[seg.lastCol] - framePositions.lefts[seg.firstCol],
@@ -647,11 +647,13 @@ var TableRow = /** @class */ (function (_super) {
                     renderFill(fillType)));
             }
         }
-        return createElement.apply(void 0, __spreadArrays([Fragment, {}], nodes));
+        return createElement.apply(void 0, __spreadArray([Fragment, {}], nodes));
     };
     TableRow.prototype.updateSizing = function (isExternalSizingChange) {
         var _a = this, props = _a.props, frameElRefs = _a.frameElRefs;
-        if (props.clientWidth !== null) { // positioning ready?
+        if (!props.forPrint &&
+            props.clientWidth !== null // positioning ready?
+        ) {
             if (isExternalSizingChange) {
                 var frameEls = props.cells.map(function (cell) { return frameElRefs.currentMap[cell.key]; });
                 if (frameEls.length) {
@@ -664,13 +666,21 @@ var TableRow = /** @class */ (function (_super) {
             }
             var limitByContentHeight = props.dayMaxEvents === true || props.dayMaxEventRows === true;
             this.setState({
-                segHeights: this.computeSegHeights(),
+                eventInstanceHeights: this.queryEventInstanceHeights(),
                 maxContentHeight: limitByContentHeight ? this.computeMaxContentHeight() : null,
             });
         }
     };
-    TableRow.prototype.computeSegHeights = function () {
-        return mapHash(this.segHarnessRefs.currentMap, function (eventHarnessEl) { return (eventHarnessEl.getBoundingClientRect().height); });
+    TableRow.prototype.queryEventInstanceHeights = function () {
+        var segElMap = this.segHarnessRefs.currentMap;
+        var eventInstanceHeights = {};
+        // get the max height amongst instance segs
+        for (var key in segElMap) {
+            var height = Math.round(segElMap[key].getBoundingClientRect().height);
+            var instanceId = key.split(':')[0]; // deconstruct how renderFgSegs makes the key
+            eventInstanceHeights[instanceId] = Math.max(eventInstanceHeights[instanceId] || 0, height);
+        }
+        return eventInstanceHeights;
     };
     TableRow.prototype.computeMaxContentHeight = function () {
         var firstKey = this.props.cells[0].key;
@@ -684,154 +694,33 @@ var TableRow = /** @class */ (function (_super) {
     };
     return TableRow;
 }(DateComponent));
-TableRow.addPropsEquality({
-    onMoreClick: true,
-});
 TableRow.addStateEquality({
-    segHeights: isPropsEqual,
+    eventInstanceHeights: isPropsEqual,
 });
-
-var PADDING_FROM_VIEWPORT = 10;
-var SCROLL_DEBOUNCE = 10;
-var Popover = /** @class */ (function (_super) {
-    __extends(Popover, _super);
-    function Popover() {
-        var _this = _super !== null && _super.apply(this, arguments) || this;
-        _this.repositioner = new DelayedRunner(_this.updateSize.bind(_this));
-        _this.handleRootEl = function (el) {
-            _this.rootEl = el;
-            if (_this.props.elRef) {
-                setRef(_this.props.elRef, el);
-            }
-        };
-        // Triggered when the user clicks *anywhere* in the document, for the autoHide feature
-        _this.handleDocumentMousedown = function (ev) {
-            var onClose = _this.props.onClose;
-            // only hide the popover if the click happened outside the popover
-            if (onClose && !_this.rootEl.contains(ev.target)) {
-                onClose();
-            }
-        };
-        _this.handleDocumentScroll = function () {
-            _this.repositioner.request(SCROLL_DEBOUNCE);
-        };
-        _this.handleCloseClick = function () {
-            var onClose = _this.props.onClose;
-            if (onClose) {
-                onClose();
-            }
-        };
-        return _this;
+function buildMirrorPlacements(mirrorSegs, colPlacements) {
+    if (!mirrorSegs.length) {
+        return [];
     }
-    Popover.prototype.render = function () {
-        var theme = this.context.theme;
-        var props = this.props;
-        var classNames = [
-            'fc-popover',
-            theme.getClass('popover'),
-        ].concat(props.extraClassNames || []);
-        return (createElement("div", __assign({ className: classNames.join(' ') }, props.extraAttrs, { ref: this.handleRootEl }),
-            createElement("div", { className: 'fc-popover-header ' + theme.getClass('popoverHeader') },
-                createElement("span", { className: "fc-popover-title" }, props.title),
-                createElement("span", { className: 'fc-popover-close ' + theme.getIconClass('close'), onClick: this.handleCloseClick })),
-            createElement("div", { className: 'fc-popover-body ' + theme.getClass('popoverContent') }, props.children)));
-    };
-    Popover.prototype.componentDidMount = function () {
-        document.addEventListener('mousedown', this.handleDocumentMousedown);
-        document.addEventListener('scroll', this.handleDocumentScroll);
-        this.updateSize();
-    };
-    Popover.prototype.componentWillUnmount = function () {
-        document.removeEventListener('mousedown', this.handleDocumentMousedown);
-        document.removeEventListener('scroll', this.handleDocumentScroll);
-    };
-    // TODO: adjust on window resize
-    /*
-    NOTE: the popover is position:fixed, so coordinates are relative to the viewport
-    NOTE: the PARENT calls this as well, on window resize. we would have wanted to use the repositioner,
-          but need to ensure that all other components have updated size first (for alignmentEl)
-    */
-    Popover.prototype.updateSize = function () {
-        var _a = this.props, alignmentEl = _a.alignmentEl, topAlignmentEl = _a.topAlignmentEl;
-        var rootEl = this.rootEl;
-        if (!rootEl) {
-            return; // not sure why this was null, but we shouldn't let external components call updateSize() anyway
+    var topsByInstanceId = buildAbsoluteTopHash(colPlacements); // TODO: cache this at first render?
+    return mirrorSegs.map(function (seg) { return ({
+        seg: seg,
+        isVisible: true,
+        isAbsolute: true,
+        absoluteTop: topsByInstanceId[seg.eventRange.instance.instanceId],
+        marginTop: 0,
+    }); });
+}
+function buildAbsoluteTopHash(colPlacements) {
+    var topsByInstanceId = {};
+    for (var _i = 0, colPlacements_1 = colPlacements; _i < colPlacements_1.length; _i++) {
+        var placements = colPlacements_1[_i];
+        for (var _a = 0, placements_1 = placements; _a < placements_1.length; _a++) {
+            var placement = placements_1[_a];
+            topsByInstanceId[placement.seg.eventRange.instance.instanceId] = placement.absoluteTop;
         }
-        var dims = rootEl.getBoundingClientRect(); // only used for width,height
-        var alignment = alignmentEl.getBoundingClientRect();
-        var top = topAlignmentEl ? topAlignmentEl.getBoundingClientRect().top : alignment.top;
-        top = Math.min(top, window.innerHeight - dims.height - PADDING_FROM_VIEWPORT);
-        top = Math.max(top, PADDING_FROM_VIEWPORT);
-        var left;
-        if (this.context.isRtl) {
-            left = alignment.right - dims.width;
-        }
-        else {
-            left = alignment.left;
-        }
-        left = Math.min(left, window.innerWidth - dims.width - PADDING_FROM_VIEWPORT);
-        left = Math.max(left, PADDING_FROM_VIEWPORT);
-        applyStyle(rootEl, { top: top, left: left });
-    };
-    return Popover;
-}(BaseComponent));
-
-var MorePopover = /** @class */ (function (_super) {
-    __extends(MorePopover, _super);
-    function MorePopover() {
-        var _this = _super !== null && _super.apply(this, arguments) || this;
-        _this.rootElRef = createRef();
-        return _this;
     }
-    MorePopover.prototype.render = function () {
-        var _a = this.context, options = _a.options, dateEnv = _a.dateEnv;
-        var props = this.props;
-        var date = props.date, hiddenInstances = props.hiddenInstances, todayRange = props.todayRange, dateProfile = props.dateProfile, selectedInstanceId = props.selectedInstanceId;
-        var title = dateEnv.format(date, options.dayPopoverFormat);
-        return (createElement(DayCellRoot, { date: date, dateProfile: dateProfile, todayRange: todayRange, elRef: this.rootElRef }, function (rootElRef, dayClassNames, dataAttrs) { return (createElement(Popover, { elRef: rootElRef, title: title, extraClassNames: ['fc-more-popover'].concat(dayClassNames), extraAttrs: dataAttrs, onClose: props.onCloseClick, alignmentEl: props.alignmentEl, topAlignmentEl: props.topAlignmentEl },
-            createElement(DayCellContent, { date: date, dateProfile: dateProfile, todayRange: todayRange }, function (innerElRef, innerContent) { return (innerContent &&
-                createElement("div", { className: "fc-more-popover-misc", ref: innerElRef }, innerContent)); }),
-            props.segs.map(function (seg) {
-                var instanceId = seg.eventRange.instance.instanceId;
-                return (createElement("div", { className: "fc-daygrid-event-harness", key: instanceId, style: {
-                        visibility: hiddenInstances[instanceId] ? 'hidden' : '',
-                    } }, hasListItemDisplay(seg) ? (createElement(TableListItemEvent, __assign({ seg: seg, isDragging: false, isSelected: instanceId === selectedInstanceId, defaultDisplayEventEnd: false }, getSegMeta(seg, todayRange)))) : (createElement(TableBlockEvent, __assign({ seg: seg, isDragging: false, isResizing: false, isDateSelecting: false, isSelected: instanceId === selectedInstanceId, defaultDisplayEventEnd: false }, getSegMeta(seg, todayRange))))));
-            }))); }));
-    };
-    MorePopover.prototype.positionToHit = function (positionLeft, positionTop, originEl) {
-        var rootEl = this.rootElRef.current;
-        if (!originEl || !rootEl) { // why?
-            return null;
-        }
-        var originRect = originEl.getBoundingClientRect();
-        var elRect = rootEl.getBoundingClientRect();
-        var newOriginLeft = elRect.left - originRect.left;
-        var newOriginTop = elRect.top - originRect.top;
-        var localLeft = positionLeft - newOriginLeft;
-        var localTop = positionTop - newOriginTop;
-        var date = this.props.date;
-        if ( // ugly way to detect intersection
-        localLeft >= 0 && localLeft < elRect.width &&
-            localTop >= 0 && localTop < elRect.height) {
-            return {
-                dateSpan: {
-                    allDay: true,
-                    range: { start: date, end: addDays(date, 1) },
-                },
-                dayEl: rootEl,
-                relativeRect: {
-                    left: newOriginLeft,
-                    top: newOriginTop,
-                    right: elRect.width,
-                    bottom: elRect.height,
-                },
-                layer: 1,
-            };
-        }
-        return null;
-    };
-    return MorePopover;
-}(DateComponent));
+    return colPlacements;
+}
 
 var Table = /** @class */ (function (_super) {
     __extends(Table, _super);
@@ -843,54 +732,18 @@ var Table = /** @class */ (function (_super) {
         _this.splitDateSelectionSegs = memoize(splitSegsByRow);
         _this.splitEventDrag = memoize(splitInteractionByRow);
         _this.splitEventResize = memoize(splitInteractionByRow);
-        _this.buildBuildMoreLinkText = memoize(buildBuildMoreLinkText);
-        _this.morePopoverRef = createRef();
         _this.rowRefs = new RefMap();
-        _this.state = {
-            morePopoverState: null,
-        };
         _this.handleRootEl = function (rootEl) {
             _this.rootEl = rootEl;
-            setRef(_this.props.elRef, rootEl);
-        };
-        // TODO: bad names "more link click" versus "more click"
-        _this.handleMoreLinkClick = function (arg) {
-            var context = _this.context;
-            var dateEnv = context.dateEnv;
-            var clickOption = context.options.moreLinkClick;
-            function segForPublic(seg) {
-                var _a = seg.eventRange, def = _a.def, instance = _a.instance, range = _a.range;
-                return {
-                    event: new EventApi(context, def, instance),
-                    start: dateEnv.toDate(range.start),
-                    end: dateEnv.toDate(range.end),
-                    isStart: seg.isStart,
-                    isEnd: seg.isEnd,
-                };
-            }
-            if (typeof clickOption === 'function') {
-                clickOption = clickOption({
-                    date: dateEnv.toDate(arg.date),
-                    allDay: true,
-                    allSegs: arg.allSegs.map(segForPublic),
-                    hiddenSegs: arg.hiddenSegs.map(segForPublic),
-                    jsEvent: arg.ev,
-                    view: context.viewApi,
-                }); // hack to handle void
-            }
-            if (!clickOption || clickOption === 'popover') {
-                _this.setState({
-                    morePopoverState: __assign(__assign({}, arg), { currentFgEventSegs: _this.props.fgEventSegs, fromRow: arg.fromRow, fromCol: arg.fromCol }),
+            if (rootEl) {
+                _this.context.registerInteractiveComponent(_this, {
+                    el: rootEl,
+                    isHitComboAllowed: _this.props.isHitComboAllowed,
                 });
             }
-            else if (typeof clickOption === 'string') { // a view name
-                context.calendarApi.zoomTo(arg.date, clickOption);
+            else {
+                _this.context.unregisterInteractiveComponent(_this);
             }
-        };
-        _this.handleMorePopoverClose = function () {
-            _this.setState({
-                morePopoverState: null,
-            });
         };
         return _this;
     }
@@ -898,7 +751,6 @@ var Table = /** @class */ (function (_super) {
         var _this = this;
         var props = this.props;
         var dateProfile = props.dateProfile, dayMaxEventRows = props.dayMaxEventRows, dayMaxEvents = props.dayMaxEvents, expandRows = props.expandRows;
-        var morePopoverState = this.state.morePopoverState;
         var rowCnt = props.cells.length;
         var businessHourSegsByRow = this.splitBusinessHourSegs(props.businessHourSegs, rowCnt);
         var bgEventSegsByRow = this.splitBgEventSegs(props.bgEventSegs, rowCnt);
@@ -906,7 +758,6 @@ var Table = /** @class */ (function (_super) {
         var dateSelectionSegsByRow = this.splitDateSelectionSegs(props.dateSelectionSegs, rowCnt);
         var eventDragByRow = this.splitEventDrag(props.eventDrag, rowCnt);
         var eventResizeByRow = this.splitEventResize(props.eventResize, rowCnt);
-        var buildMoreLinkText = this.buildBuildMoreLinkText(this.context.options.moreLinkText);
         var limitViaBalanced = dayMaxEvents === true || dayMaxEventRows === true;
         // if rows can't expand to fill fixed height, can't do balanced-height event limit
         // TODO: best place to normalize these options?
@@ -918,7 +769,7 @@ var Table = /** @class */ (function (_super) {
         var classNames = [
             'fc-daygrid-body',
             limitViaBalanced ? 'fc-daygrid-body-balanced' : 'fc-daygrid-body-unbalanced',
-            expandRows ? '' : 'fc-daygrid-body-natural',
+            expandRows ? '' : 'fc-daygrid-body-natural', // will height of one row depend on the others?
         ];
         return (createElement("div", { className: classNames.join(' '), ref: this.handleRootEl, style: {
                 // these props are important to give this wrapper correct dimensions for interactions
@@ -936,13 +787,7 @@ var Table = /** @class */ (function (_super) {
                     createElement("tbody", null, props.cells.map(function (cells, row) { return (createElement(TableRow, { ref: _this.rowRefs.createRef(row), key: cells.length
                             ? cells[0].date.toISOString() /* best? or put key on cell? or use diff formatter? */
                             : row // in case there are no cells (like when resource view is loading)
-                        , showDayNumbers: rowCnt > 1, showWeekNumbers: props.showWeekNumbers, todayRange: todayRange, dateProfile: dateProfile, cells: cells, renderIntro: props.renderRowIntro, businessHourSegs: businessHourSegsByRow[row], eventSelection: props.eventSelection, bgEventSegs: bgEventSegsByRow[row].filter(isSegAllDay) /* hack */, fgEventSegs: fgEventSegsByRow[row], dateSelectionSegs: dateSelectionSegsByRow[row], eventDrag: eventDragByRow[row], eventResize: eventResizeByRow[row], dayMaxEvents: dayMaxEvents, dayMaxEventRows: dayMaxEventRows, clientWidth: props.clientWidth, clientHeight: props.clientHeight, buildMoreLinkText: buildMoreLinkText, onMoreClick: function (arg) {
-                            _this.handleMoreLinkClick(__assign(__assign({}, arg), { fromRow: row }));
-                        } })); }))),
-                (!props.forPrint && morePopoverState && morePopoverState.currentFgEventSegs === props.fgEventSegs) && (createElement(MorePopover, { ref: _this.morePopoverRef, date: morePopoverState.date, dateProfile: dateProfile, segs: morePopoverState.allSegs, alignmentEl: morePopoverState.dayEl, topAlignmentEl: rowCnt === 1 ? props.headerAlignElRef.current : null, onCloseClick: _this.handleMorePopoverClose, selectedInstanceId: props.eventSelection, hiddenInstances: // yuck
-                    (props.eventDrag ? props.eventDrag.affectedInstances : null) ||
-                        (props.eventResize ? props.eventResize.affectedInstances : null) ||
-                        {}, todayRange: todayRange })))); })));
+                        , showDayNumbers: rowCnt > 1, showWeekNumbers: props.showWeekNumbers, todayRange: todayRange, dateProfile: dateProfile, cells: cells, renderIntro: props.renderRowIntro, businessHourSegs: businessHourSegsByRow[row], eventSelection: props.eventSelection, bgEventSegs: bgEventSegsByRow[row].filter(isSegAllDay) /* hack */, fgEventSegs: fgEventSegsByRow[row], dateSelectionSegs: dateSelectionSegsByRow[row], eventDrag: eventDragByRow[row], eventResize: eventResizeByRow[row], dayMaxEvents: dayMaxEvents, dayMaxEventRows: dayMaxEventRows, clientWidth: props.clientWidth, clientHeight: props.clientHeight, forPrint: props.forPrint })); }))))); })));
     };
     // Hit System
     // ----------------------------------------------------------------------------------------------------
@@ -953,31 +798,23 @@ var Table = /** @class */ (function (_super) {
         true, // horizontal
         false);
     };
-    Table.prototype.positionToHit = function (leftPosition, topPosition) {
-        var morePopover = this.morePopoverRef.current;
-        var morePopoverHit = morePopover ? morePopover.positionToHit(leftPosition, topPosition, this.rootEl) : null;
-        var morePopoverState = this.state.morePopoverState;
-        if (morePopoverHit) {
-            return __assign({ row: morePopoverState.fromRow, col: morePopoverState.fromCol }, morePopoverHit);
-        }
+    Table.prototype.queryHit = function (positionLeft, positionTop) {
         var _a = this, colPositions = _a.colPositions, rowPositions = _a.rowPositions;
-        var col = colPositions.leftToIndex(leftPosition);
-        var row = rowPositions.topToIndex(topPosition);
+        var col = colPositions.leftToIndex(positionLeft);
+        var row = rowPositions.topToIndex(positionTop);
         if (row != null && col != null) {
+            var cell = this.props.cells[row][col];
             return {
-                row: row,
-                col: col,
-                dateSpan: {
-                    range: this.getCellRange(row, col),
-                    allDay: true,
-                },
+                dateProfile: this.props.dateProfile,
+                dateSpan: __assign({ range: this.getCellRange(row, col), allDay: true }, cell.extraDateSpan),
                 dayEl: this.getCellEl(row, col),
-                relativeRect: {
+                rect: {
                     left: colPositions.lefts[col],
                     right: colPositions.rights[col],
                     top: rowPositions.tops[row],
                     bottom: rowPositions.bottoms[row],
                 },
+                layer: 0,
             };
         }
         return null;
@@ -992,12 +829,6 @@ var Table = /** @class */ (function (_super) {
     };
     return Table;
 }(DateComponent));
-function buildBuildMoreLinkText(moreLinkTextInput) {
-    if (typeof moreLinkTextInput === 'function') {
-        return moreLinkTextInput;
-    }
-    return function (num) { return "+" + num + " " + moreLinkTextInput; };
-}
 function isSegAllDay(seg) {
     return seg.eventRange.def.allDay;
 }
@@ -1021,40 +852,11 @@ var DayTable = /** @class */ (function (_super) {
         var _this = _super !== null && _super.apply(this, arguments) || this;
         _this.slicer = new DayTableSlicer();
         _this.tableRef = createRef();
-        _this.handleRootEl = function (rootEl) {
-            if (rootEl) {
-                _this.context.registerInteractiveComponent(_this, { el: rootEl });
-            }
-            else {
-                _this.context.unregisterInteractiveComponent(_this);
-            }
-        };
         return _this;
     }
     DayTable.prototype.render = function () {
         var _a = this, props = _a.props, context = _a.context;
-        return (createElement(Table, __assign({ ref: this.tableRef, elRef: this.handleRootEl }, this.slicer.sliceProps(props, props.dateProfile, props.nextDayThreshold, context, props.dayTableModel), { dateProfile: props.dateProfile, cells: props.dayTableModel.cells, colGroupNode: props.colGroupNode, tableMinWidth: props.tableMinWidth, renderRowIntro: props.renderRowIntro, dayMaxEvents: props.dayMaxEvents, dayMaxEventRows: props.dayMaxEventRows, showWeekNumbers: props.showWeekNumbers, expandRows: props.expandRows, headerAlignElRef: props.headerAlignElRef, clientWidth: props.clientWidth, clientHeight: props.clientHeight, forPrint: props.forPrint })));
-    };
-    DayTable.prototype.prepareHits = function () {
-        this.tableRef.current.prepareHits();
-    };
-    DayTable.prototype.queryHit = function (positionLeft, positionTop) {
-        var rawHit = this.tableRef.current.positionToHit(positionLeft, positionTop);
-        if (rawHit) {
-            return {
-                component: this,
-                dateSpan: rawHit.dateSpan,
-                dayEl: rawHit.dayEl,
-                rect: {
-                    left: rawHit.relativeRect.left,
-                    right: rawHit.relativeRect.right,
-                    top: rawHit.relativeRect.top,
-                    bottom: rawHit.relativeRect.bottom,
-                },
-                layer: 0,
-            };
-        }
-        return null;
+        return (createElement(Table, __assign({ ref: this.tableRef }, this.slicer.sliceProps(props, props.dateProfile, props.nextDayThreshold, context, props.dayTableModel), { dateProfile: props.dateProfile, cells: props.dayTableModel.cells, colGroupNode: props.colGroupNode, tableMinWidth: props.tableMinWidth, renderRowIntro: props.renderRowIntro, dayMaxEvents: props.dayMaxEvents, dayMaxEventRows: props.dayMaxEventRows, showWeekNumbers: props.showWeekNumbers, expandRows: props.expandRows, headerAlignElRef: props.headerAlignElRef, clientWidth: props.clientWidth, clientHeight: props.clientHeight, forPrint: props.forPrint })));
     };
     return DayTable;
 }(DateComponent));
@@ -1119,17 +921,8 @@ var TableDateProfileGenerator = /** @class */ (function (_super) {
     return TableDateProfileGenerator;
 }(DateProfileGenerator));
 
-var OPTION_REFINERS = {
-    moreLinkClick: identity,
-    moreLinkClassNames: identity,
-    moreLinkContent: identity,
-    moreLinkDidMount: identity,
-    moreLinkWillUnmount: identity,
-};
-
 var main = createPlugin({
     initialView: 'dayGridMonth',
-    optionRefiners: OPTION_REFINERS,
     views: {
         dayGrid: {
             component: DayTableView,

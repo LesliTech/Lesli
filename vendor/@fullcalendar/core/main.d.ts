@@ -1,5 +1,6 @@
 import './vdom';
-import { CalendarApi, CalendarData, DelayedRunner, ViewApi, CalendarOptions, Action, CssDimValue } from '@fullcalendar/common';
+import * as _fullcalendar_common from '@fullcalendar/common';
+import { CalendarApi, CalendarData, DelayedRunner, CalendarOptions, Action, CssDimValue } from '@fullcalendar/common';
 export * from '@fullcalendar/common';
 
 declare class Calendar extends CalendarApi {
@@ -10,7 +11,7 @@ declare class Calendar extends CalendarApi {
     isRendered: boolean;
     currentClassNames: string[];
     customContentRenderId: number;
-    get view(): ViewApi;
+    get view(): _fullcalendar_common.ViewApi;
     constructor(el: HTMLElement, optionOverrides?: CalendarOptions);
     handleAction: (action: Action) => void;
     handleData: (data: CalendarData) => void;
@@ -25,6 +26,5 @@ declare class Calendar extends CalendarApi {
     setClassNames(classNames: string[]): void;
     setHeight(height: CssDimValue): void;
 }
-
 
 export { Calendar };
