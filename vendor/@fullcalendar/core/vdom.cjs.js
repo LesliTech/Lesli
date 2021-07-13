@@ -2,6 +2,30 @@
 
 var tslib = require('tslib');
 var preact = require('preact');
+var preactCompat = require('preact/compat');
+
+function _interopNamespace(e) {
+    if (e && e.__esModule) return e;
+    var n = Object.create(null);
+    if (e) {
+        Object.keys(e).forEach(function (k) {
+            if (k !== 'default') {
+                var d = Object.getOwnPropertyDescriptor(e, k);
+                Object.defineProperty(n, k, d.get ? d : {
+                    enumerable: true,
+                    get: function () {
+                        return e[k];
+                    }
+                });
+            }
+        });
+    }
+    n['default'] = e;
+    return Object.freeze(n);
+}
+
+var preact__namespace = /*#__PURE__*/_interopNamespace(preact);
+var preactCompat__namespace = /*#__PURE__*/_interopNamespace(preactCompat);
 
 var globalObj = typeof globalThis !== 'undefined' ? globalThis : window; // // TODO: streamline when killing IE11 support
 if (globalObj.FullCalendarVDom) {
@@ -9,12 +33,13 @@ if (globalObj.FullCalendarVDom) {
 }
 else {
     globalObj.FullCalendarVDom = {
-        Component: preact.Component,
-        createElement: preact.createElement,
-        render: preact.render,
-        createRef: preact.createRef,
-        Fragment: preact.Fragment,
+        Component: preact__namespace.Component,
+        createElement: preact__namespace.createElement,
+        render: preact__namespace.render,
+        createRef: preact__namespace.createRef,
+        Fragment: preact__namespace.Fragment,
         createContext: createContext,
+        createPortal: preactCompat__namespace.createPortal,
         flushToDom: flushToDom,
         unmountComponentAtNode: unmountComponentAtNode,
     };
@@ -23,29 +48,29 @@ else {
 // TODO: lock version
 // TODO: link gh issues
 function flushToDom() {
-    var oldDebounceRendering = preact.options.debounceRendering; // orig
+    var oldDebounceRendering = preact__namespace.options.debounceRendering; // orig
     var callbackQ = [];
     function execCallbackSync(callback) {
         callbackQ.push(callback);
     }
-    preact.options.debounceRendering = execCallbackSync;
-    preact.render(preact.createElement(FakeComponent, {}), document.createElement('div'));
+    preact__namespace.options.debounceRendering = execCallbackSync;
+    preact__namespace.render(preact__namespace.createElement(FakeComponent, {}), document.createElement('div'));
     while (callbackQ.length) {
         callbackQ.shift()();
     }
-    preact.options.debounceRendering = oldDebounceRendering;
+    preact__namespace.options.debounceRendering = oldDebounceRendering;
 }
 var FakeComponent = /** @class */ (function (_super) {
     tslib.__extends(FakeComponent, _super);
     function FakeComponent() {
         return _super !== null && _super.apply(this, arguments) || this;
     }
-    FakeComponent.prototype.render = function () { return preact.createElement('div', {}); };
+    FakeComponent.prototype.render = function () { return preact__namespace.createElement('div', {}); };
     FakeComponent.prototype.componentDidMount = function () { this.setState({}); };
     return FakeComponent;
-}(preact.Component));
+}(preact__namespace.Component));
 function createContext(defaultValue) {
-    var ContextType = preact.createContext(defaultValue);
+    var ContextType = preact__namespace.createContext(defaultValue);
     var origProvider = ContextType.Provider;
     ContextType.Provider = function () {
         var _this = this;
@@ -75,5 +100,5 @@ function createContext(defaultValue) {
     return ContextType;
 }
 function unmountComponentAtNode(node) {
-    preact.render(null, node);
+    preact__namespace.render(null, node);
 }
