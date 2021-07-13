@@ -1,4 +1,5 @@
 import * as preact from 'preact';
+import * as preactCompat from 'preact/compat';
 declare global {
     namespace FullCalendarVDom {
         export import Ref = preact.Ref;
@@ -14,6 +15,7 @@ declare global {
         export import createRef = preact.createRef;
         export import Fragment = preact.Fragment;
         export import createContext = preact.createContext;
+        export import createPortal = preactCompat.createPortal;
         type VUIEvent = UIEvent;
         function flushToDom(): void;
         function unmountComponentAtNode(node: HTMLElement): void;
