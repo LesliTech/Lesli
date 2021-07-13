@@ -1,7 +1,7 @@
 /*!
-FullCalendar v5.5.0
+FullCalendar v5.8.0
 Docs & License: https://fullcalendar.io/
-(c) 2020 Adam Shaw
+(c) 2021 Adam Shaw
 */
 var FullCalendarTimeGrid = (function (exports, common, daygrid) {
     'use strict';
@@ -30,6 +30,8 @@ var FullCalendarTimeGrid = (function (exports, common, daygrid) {
     };
 
     function __extends(d, b) {
+        if (typeof b !== "function" && b !== null)
+            throw new TypeError("Class extends value " + String(b) + " is not a constructor or null");
         extendStatics(d, b);
         function __() { this.constructor = d; }
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
@@ -232,7 +234,7 @@ var FullCalendarTimeGrid = (function (exports, common, daygrid) {
                 },
             });
             return (common.createElement(common.ViewRoot, { viewSpec: context.viewSpec, elRef: this.rootElRef }, function (rootElRef, classNames) { return (common.createElement("div", { className: ['fc-timegrid'].concat(classNames).join(' '), ref: rootElRef },
-                common.createElement(common.SimpleScrollGrid, { liquid: !props.isHeightAuto && !props.forPrint, cols: [{ width: 'shrink' }], sections: sections }))); }));
+                common.createElement(common.SimpleScrollGrid, { liquid: !props.isHeightAuto && !props.forPrint, collapsibleWidth: props.forPrint, cols: [{ width: 'shrink' }], sections: sections }))); }));
         };
         TimeColsView.prototype.renderHScrollLayout = function (headerRowContent, allDayContent, timeContent, colCnt, dayMinWidth, slatMetas, slatCoords) {
             var _this = this;
@@ -340,7 +342,7 @@ var FullCalendarTimeGrid = (function (exports, common, daygrid) {
                 });
             }
             return (common.createElement(common.ViewRoot, { viewSpec: context.viewSpec, elRef: this.rootElRef }, function (rootElRef, classNames) { return (common.createElement("div", { className: ['fc-timegrid'].concat(classNames).join(' '), ref: rootElRef },
-                common.createElement(ScrollGrid, { liquid: !props.isHeightAuto && !props.forPrint, colGroups: [
+                common.createElement(ScrollGrid, { liquid: !props.isHeightAuto && !props.forPrint, collapsibleWidth: false, colGroups: [
                         { width: 'shrink', cols: [{ width: 'shrink' }] },
                         { cols: [{ span: colCnt, minWidth: dayMinWidth }] },
                     ], sections: sections }))); }));
@@ -362,10 +364,10 @@ var FullCalendarTimeGrid = (function (exports, common, daygrid) {
     }
 
     var TimeColsSlatsCoords = /** @class */ (function () {
-        function TimeColsSlatsCoords(positions, dateProfile, slatMetas) {
+        function TimeColsSlatsCoords(positions, dateProfile, slotDuration) {
             this.positions = positions;
             this.dateProfile = dateProfile;
-            this.slatMetas = slatMetas;
+            this.slotDuration = slotDuration;
         }
         TimeColsSlatsCoords.prototype.safeComputeTop = function (date) {
             var dateProfile = this.dateProfile;
@@ -391,12 +393,10 @@ var FullCalendarTimeGrid = (function (exports, common, daygrid) {
         // This is a makeshify way to compute the time-top. Assumes all slatMetas dates are uniform.
         // Eventually allow computation with arbirary slat dates.
         TimeColsSlatsCoords.prototype.computeTimeTop = function (duration) {
-            var _a = this, positions = _a.positions, dateProfile = _a.dateProfile, slatMetas = _a.slatMetas;
+            var _a = this, positions = _a.positions, dateProfile = _a.dateProfile;
             var len = positions.els.length;
-            // we assume dates are uniform
-            var slotDurationMs = slatMetas[1].date.valueOf() - slatMetas[0].date.valueOf();
             // floating-point value of # of slots covered
-            var slatCoverage = (duration.milliseconds - common.asRoughMs(dateProfile.slotMinTime)) / slotDurationMs;
+            var slatCoverage = (duration.milliseconds - common.asRoughMs(dateProfile.slotMinTime)) / common.asRoughMs(this.slotDuration);
             var slatIndex;
             var slatRemainder;
             // compute a floating-point number for how many slats should be progressed through.
@@ -479,13 +479,13 @@ var FullCalendarTimeGrid = (function (exports, common, daygrid) {
             }
         };
         TimeColsSlats.prototype.updateSizing = function () {
-            var props = this.props;
+            var _a = this, context = _a.context, props = _a.props;
             if (props.onCoords &&
                 props.clientWidth !== null // means sizing has stabilized
             ) {
                 var rootEl = this.rootElRef.current;
                 if (rootEl.offsetHeight) { // not hidden by css
-                    props.onCoords(new TimeColsSlatsCoords(new common.PositionCache(this.rootElRef.current, collectSlatEls(this.slatElRefs.currentMap, props.slatMetas), false, true), this.props.dateProfile, props.slatMetas));
+                    props.onCoords(new TimeColsSlatsCoords(new common.PositionCache(this.rootElRef.current, collectSlatEls(this.slatElRefs.currentMap, props.slatMetas), false, true), this.props.dateProfile, context.options.slotDuration));
                 }
             }
         };
@@ -531,173 +531,221 @@ var FullCalendarTimeGrid = (function (exports, common, daygrid) {
         return byRow;
     }
 
-    // UNFORTUNATELY, assigns results to the top/bottom/level/forwardCoord/backwardCoord props of the actual segs.
-    // TODO: return hash (by instanceId) of results
-    function computeSegCoords(segs, dayDate, slatCoords, eventMinHeight, eventOrderSpecs) {
-        computeSegVerticals(segs, dayDate, slatCoords, eventMinHeight);
-        return computeSegHorizontals(segs, eventOrderSpecs); // requires top/bottom from computeSegVerticals
-    }
-    // For each segment in an array, computes and assigns its top and bottom properties
-    function computeSegVerticals(segs, dayDate, slatCoords, eventMinHeight) {
-        for (var _i = 0, segs_1 = segs; _i < segs_1.length; _i++) {
-            var seg = segs_1[_i];
-            seg.top = slatCoords.computeDateTop(seg.start, dayDate);
-            seg.bottom = Math.max(seg.top + (eventMinHeight || 0), // yuck
-            slatCoords.computeDateTop(seg.end, dayDate));
+    var TimeColMoreLink = /** @class */ (function (_super) {
+        __extends(TimeColMoreLink, _super);
+        function TimeColMoreLink() {
+            var _this = _super !== null && _super.apply(this, arguments) || this;
+            _this.rootElRef = common.createRef();
+            return _this;
         }
+        TimeColMoreLink.prototype.render = function () {
+            var _this = this;
+            var props = this.props;
+            return (common.createElement(common.MoreLinkRoot, { allDayDate: null, moreCnt: props.hiddenSegs.length, allSegs: props.hiddenSegs, hiddenSegs: props.hiddenSegs, alignmentElRef: this.rootElRef, defaultContent: renderMoreLinkInner, extraDateSpan: props.extraDateSpan, dateProfile: props.dateProfile, todayRange: props.todayRange, popoverContent: function () { return renderPlainFgSegs(props.hiddenSegs, props); } }, function (rootElRef, classNames, innerElRef, innerContent, handleClick) { return (common.createElement("a", { ref: function (el) {
+                    common.setRef(rootElRef, el);
+                    common.setRef(_this.rootElRef, el);
+                }, className: ['fc-timegrid-more-link'].concat(classNames).join(' '), style: { top: props.top, bottom: props.bottom }, onClick: handleClick },
+                common.createElement("div", { ref: innerElRef, className: "fc-timegrid-more-link-inner fc-sticky" }, innerContent))); }));
+        };
+        return TimeColMoreLink;
+    }(common.BaseComponent));
+    function renderMoreLinkInner(props) {
+        return props.shortText;
     }
-    // Given an array of segments that are all in the same column, sets the backwardCoord and forwardCoord on each.
-    // Assumed the segs are already ordered.
-    // NOTE: Also reorders the given array by date!
-    function computeSegHorizontals(segs, eventOrderSpecs) {
-        // IMPORTANT TO CLEAR OLD RESULTS :(
-        for (var _i = 0, segs_2 = segs; _i < segs_2.length; _i++) {
-            var seg = segs_2[_i];
-            seg.level = null;
-            seg.forwardCoord = null;
-            seg.backwardCoord = null;
-            seg.forwardPressure = null;
+
+    // segInputs assumed sorted
+    function buildPositioning(segInputs, strictOrder, maxStackCnt) {
+        var hierarchy = new common.SegHierarchy();
+        if (strictOrder != null) {
+            hierarchy.strictOrder = strictOrder;
         }
-        segs = common.sortEventSegs(segs, eventOrderSpecs);
-        var level0;
-        var levels = buildSlotSegLevels(segs);
-        computeForwardSlotSegs(levels);
-        if ((level0 = levels[0])) {
-            for (var _a = 0, level0_1 = level0; _a < level0_1.length; _a++) {
-                var seg = level0_1[_a];
-                computeSlotSegPressures(seg);
+        if (maxStackCnt != null) {
+            hierarchy.maxStackCnt = maxStackCnt;
+        }
+        var hiddenEntries = hierarchy.addSegs(segInputs);
+        var hiddenGroups = common.groupIntersectingEntries(hiddenEntries);
+        var web = buildWeb(hierarchy);
+        web = stretchWeb(web, 1); // all levelCoords/thickness will have 0.0-1.0
+        var segRects = webToRects(web);
+        return { segRects: segRects, hiddenGroups: hiddenGroups };
+    }
+    function buildWeb(hierarchy) {
+        var entriesByLevel = hierarchy.entriesByLevel;
+        var buildNode = cacheable(function (level, lateral) { return level + ':' + lateral; }, function (level, lateral) {
+            var siblingRange = findNextLevelSegs(hierarchy, level, lateral);
+            var nextLevelRes = buildNodes(siblingRange, buildNode);
+            var entry = entriesByLevel[level][lateral];
+            return [
+                __assign(__assign({}, entry), { nextLevelNodes: nextLevelRes[0] }),
+                entry.thickness + nextLevelRes[1], // the pressure builds
+            ];
+        });
+        return buildNodes(entriesByLevel.length
+            ? { level: 0, lateralStart: 0, lateralEnd: entriesByLevel[0].length }
+            : null, buildNode)[0];
+    }
+    function buildNodes(siblingRange, buildNode) {
+        if (!siblingRange) {
+            return [[], 0];
+        }
+        var level = siblingRange.level, lateralStart = siblingRange.lateralStart, lateralEnd = siblingRange.lateralEnd;
+        var lateral = lateralStart;
+        var pairs = [];
+        while (lateral < lateralEnd) {
+            pairs.push(buildNode(level, lateral));
+            lateral += 1;
+        }
+        pairs.sort(cmpDescPressures);
+        return [
+            pairs.map(extractNode),
+            pairs[0][1], // first item's pressure
+        ];
+    }
+    function cmpDescPressures(a, b) {
+        return b[1] - a[1];
+    }
+    function extractNode(a) {
+        return a[0];
+    }
+    function findNextLevelSegs(hierarchy, subjectLevel, subjectLateral) {
+        var levelCoords = hierarchy.levelCoords, entriesByLevel = hierarchy.entriesByLevel;
+        var subjectEntry = entriesByLevel[subjectLevel][subjectLateral];
+        var afterSubject = levelCoords[subjectLevel] + subjectEntry.thickness;
+        var levelCnt = levelCoords.length;
+        var level = subjectLevel;
+        // skip past levels that are too high up
+        for (; level < levelCnt && levelCoords[level] < afterSubject; level += 1)
+            ; // do nothing
+        for (; level < levelCnt; level += 1) {
+            var entries = entriesByLevel[level];
+            var entry = void 0;
+            var searchIndex = common.binarySearch(entries, subjectEntry.span.start, common.getEntrySpanEnd);
+            var lateralStart = searchIndex[0] + searchIndex[1]; // if exact match (which doesn't collide), go to next one
+            var lateralEnd = lateralStart;
+            while ( // loop through entries that horizontally intersect
+            (entry = entries[lateralEnd]) && // but not past the whole seg list
+                entry.span.start < subjectEntry.span.end) {
+                lateralEnd += 1;
             }
-            for (var _b = 0, level0_2 = level0; _b < level0_2.length; _b++) {
-                var seg = level0_2[_b];
-                computeSegForwardBack(seg, 0, 0, eventOrderSpecs);
+            if (lateralStart < lateralEnd) {
+                return { level: level, lateralStart: lateralStart, lateralEnd: lateralEnd };
             }
         }
-        return segs;
+        return null;
     }
-    // Builds an array of segments "levels". The first level will be the leftmost tier of segments if the calendar is
-    // left-to-right, or the rightmost if the calendar is right-to-left. Assumes the segments are already ordered by date.
-    function buildSlotSegLevels(segs) {
-        var levels = [];
-        var i;
-        var seg;
-        var j;
-        for (i = 0; i < segs.length; i += 1) {
-            seg = segs[i];
-            // go through all the levels and stop on the first level where there are no collisions
-            for (j = 0; j < levels.length; j += 1) {
-                if (!computeSlotSegCollisions(seg, levels[j]).length) {
-                    break;
-                }
-            }
-            seg.level = j;
-            (levels[j] || (levels[j] = [])).push(seg);
-        }
-        return levels;
-    }
-    // Find all the segments in `otherSegs` that vertically collide with `seg`.
-    // Append into an optionally-supplied `results` array and return.
-    function computeSlotSegCollisions(seg, otherSegs, results) {
-        if (results === void 0) { results = []; }
-        for (var i = 0; i < otherSegs.length; i += 1) {
-            if (isSlotSegCollision(seg, otherSegs[i])) {
-                results.push(otherSegs[i]);
-            }
-        }
-        return results;
-    }
-    // Do these segments occupy the same vertical space?
-    function isSlotSegCollision(seg1, seg2) {
-        return seg1.bottom > seg2.top && seg1.top < seg2.bottom;
-    }
-    // For every segment, figure out the other segments that are in subsequent
-    // levels that also occupy the same vertical space. Accumulate in seg.forwardSegs
-    function computeForwardSlotSegs(levels) {
-        var i;
-        var level;
-        var j;
-        var seg;
-        var k;
-        for (i = 0; i < levels.length; i += 1) {
-            level = levels[i];
-            for (j = 0; j < level.length; j += 1) {
-                seg = level[j];
-                seg.forwardSegs = [];
-                for (k = i + 1; k < levels.length; k += 1) {
-                    computeSlotSegCollisions(seg, levels[k], seg.forwardSegs);
-                }
-            }
-        }
-    }
-    // Figure out which path forward (via seg.forwardSegs) results in the longest path until
-    // the furthest edge is reached. The number of segments in this path will be seg.forwardPressure
-    function computeSlotSegPressures(seg) {
-        var forwardSegs = seg.forwardSegs;
-        var forwardPressure = 0;
-        var i;
-        var forwardSeg;
-        if (seg.forwardPressure == null) { // not already computed
-            for (i = 0; i < forwardSegs.length; i += 1) {
-                forwardSeg = forwardSegs[i];
-                // figure out the child's maximum forward path
-                computeSlotSegPressures(forwardSeg);
-                // either use the existing maximum, or use the child's forward pressure
-                // plus one (for the forwardSeg itself)
-                forwardPressure = Math.max(forwardPressure, 1 + forwardSeg.forwardPressure);
-            }
-            seg.forwardPressure = forwardPressure;
-        }
-    }
-    // Calculate seg.forwardCoord and seg.backwardCoord for the segment, where both values range
-    // from 0 to 1. If the calendar is left-to-right, the seg.backwardCoord maps to "left" and
-    // seg.forwardCoord maps to "right" (via percentage). Vice-versa if the calendar is right-to-left.
-    //
-    // The segment might be part of a "series", which means consecutive segments with the same pressure
-    // who's width is unknown until an edge has been hit. `seriesBackwardPressure` is the number of
-    // segments behind this one in the current series, and `seriesBackwardCoord` is the starting
-    // coordinate of the first segment in the series.
-    function computeSegForwardBack(seg, seriesBackwardPressure, seriesBackwardCoord, eventOrderSpecs) {
-        var forwardSegs = seg.forwardSegs;
-        var i;
-        if (seg.forwardCoord == null) { // not already computed
-            if (!forwardSegs.length) {
-                // if there are no forward segments, this segment should butt up against the edge
-                seg.forwardCoord = 1;
+    function stretchWeb(topLevelNodes, totalThickness) {
+        var stretchNode = cacheable(function (node, startCoord, prevThickness) { return common.buildEntryKey(node); }, function (node, startCoord, prevThickness) {
+            var nextLevelNodes = node.nextLevelNodes, thickness = node.thickness;
+            var allThickness = thickness + prevThickness;
+            var thicknessFraction = thickness / allThickness;
+            var endCoord;
+            var newChildren = [];
+            if (!nextLevelNodes.length) {
+                endCoord = totalThickness;
             }
             else {
-                // sort highest pressure first
-                sortForwardSegs(forwardSegs, eventOrderSpecs);
-                // this segment's forwardCoord will be calculated from the backwardCoord of the
-                // highest-pressure forward segment.
-                computeSegForwardBack(forwardSegs[0], seriesBackwardPressure + 1, seriesBackwardCoord, eventOrderSpecs);
-                seg.forwardCoord = forwardSegs[0].backwardCoord;
+                for (var _i = 0, nextLevelNodes_1 = nextLevelNodes; _i < nextLevelNodes_1.length; _i++) {
+                    var childNode = nextLevelNodes_1[_i];
+                    if (endCoord === undefined) {
+                        var res = stretchNode(childNode, startCoord, allThickness);
+                        endCoord = res[0];
+                        newChildren.push(res[1]);
+                    }
+                    else {
+                        var res = stretchNode(childNode, endCoord, 0);
+                        newChildren.push(res[1]);
+                    }
+                }
             }
-            // calculate the backwardCoord from the forwardCoord. consider the series
-            seg.backwardCoord = seg.forwardCoord -
-                (seg.forwardCoord - seriesBackwardCoord) / // available width for series
-                    (seriesBackwardPressure + 1); // # of segments in the series
-            // use this segment's coordinates to computed the coordinates of the less-pressurized
-            // forward segments
-            for (i = 0; i < forwardSegs.length; i += 1) {
-                computeSegForwardBack(forwardSegs[i], 0, seg.forwardCoord, eventOrderSpecs);
+            var newThickness = (endCoord - startCoord) * thicknessFraction;
+            return [endCoord - newThickness, __assign(__assign({}, node), { thickness: newThickness, nextLevelNodes: newChildren })];
+        });
+        return topLevelNodes.map(function (node) { return stretchNode(node, 0, 0)[1]; });
+    }
+    // not sorted in any particular order
+    function webToRects(topLevelNodes) {
+        var rects = [];
+        var processNode = cacheable(function (node, levelCoord, stackDepth) { return common.buildEntryKey(node); }, function (node, levelCoord, stackDepth) {
+            var rect = __assign(__assign({}, node), { levelCoord: levelCoord,
+                stackDepth: stackDepth, stackForward: 0 });
+            rects.push(rect);
+            return (rect.stackForward = processNodes(node.nextLevelNodes, levelCoord + node.thickness, stackDepth + 1) + 1);
+        });
+        function processNodes(nodes, levelCoord, stackDepth) {
+            var stackForward = 0;
+            for (var _i = 0, nodes_1 = nodes; _i < nodes_1.length; _i++) {
+                var node = nodes_1[_i];
+                stackForward = Math.max(processNode(node, levelCoord, stackDepth), stackForward);
+            }
+            return stackForward;
+        }
+        processNodes(topLevelNodes, 0, 0);
+        return rects; // TODO: sort rects by levelCoord to be consistent with toRects?
+    }
+    // TODO: move to general util
+    function cacheable(keyFunc, workFunc) {
+        var cache = {};
+        return function () {
+            var args = [];
+            for (var _i = 0; _i < arguments.length; _i++) {
+                args[_i] = arguments[_i];
+            }
+            var key = keyFunc.apply(void 0, args);
+            return (key in cache)
+                ? cache[key]
+                : (cache[key] = workFunc.apply(void 0, args));
+        };
+    }
+
+    function computeSegVCoords(segs, colDate, slatCoords, eventMinHeight) {
+        if (slatCoords === void 0) { slatCoords = null; }
+        if (eventMinHeight === void 0) { eventMinHeight = 0; }
+        var vcoords = [];
+        if (slatCoords) {
+            for (var i = 0; i < segs.length; i += 1) {
+                var seg = segs[i];
+                var spanStart = slatCoords.computeDateTop(seg.start, colDate);
+                var spanEnd = Math.max(spanStart + (eventMinHeight || 0), // :(
+                slatCoords.computeDateTop(seg.end, colDate));
+                vcoords.push({
+                    start: Math.round(spanStart),
+                    end: Math.round(spanEnd), //
+                });
             }
         }
+        return vcoords;
     }
-    function sortForwardSegs(forwardSegs, eventOrderSpecs) {
-        var objs = forwardSegs.map(buildTimeGridSegCompareObj);
-        var specs = [
-            // put higher-pressure first
-            { field: 'forwardPressure', order: -1 },
-            // put segments that are closer to initial edge first (and favor ones with no coords yet)
-            { field: 'backwardCoord', order: 1 },
-        ].concat(eventOrderSpecs);
-        objs.sort(function (obj0, obj1) { return common.compareByFieldSpecs(obj0, obj1, specs); });
-        return objs.map(function (c) { return c._seg; });
-    }
-    function buildTimeGridSegCompareObj(seg) {
-        var obj = common.buildSegCompareObj(seg);
-        obj.forwardPressure = seg.forwardPressure;
-        obj.backwardCoord = seg.backwardCoord;
-        return obj;
+    function computeFgSegPlacements(segs, segVCoords, // might not have for every seg
+    eventOrderStrict, eventMaxStack) {
+        var segInputs = [];
+        var dumbSegs = []; // segs without coords
+        for (var i = 0; i < segs.length; i += 1) {
+            var vcoords = segVCoords[i];
+            if (vcoords) {
+                segInputs.push({
+                    index: i,
+                    thickness: 1,
+                    span: vcoords,
+                });
+            }
+            else {
+                dumbSegs.push(segs[i]);
+            }
+        }
+        var _a = buildPositioning(segInputs, eventOrderStrict, eventMaxStack), segRects = _a.segRects, hiddenGroups = _a.hiddenGroups;
+        var segPlacements = [];
+        for (var _i = 0, segRects_1 = segRects; _i < segRects_1.length; _i++) {
+            var segRect = segRects_1[_i];
+            segPlacements.push({
+                seg: segs[segRect.index],
+                rect: segRect,
+            });
+        }
+        for (var _b = 0, dumbSegs_1 = dumbSegs; _b < dumbSegs_1.length; _b++) {
+            var dumbSeg = dumbSegs_1[_b];
+            segPlacements.push({ seg: dumbSeg, rect: null });
+        }
+        return { segPlacements: segPlacements, hiddenGroups: hiddenGroups };
     }
 
     var DEFAULT_TIME_FORMAT = common.createFormatter({
@@ -715,8 +763,8 @@ var FullCalendarTimeGrid = (function (exports, common, daygrid) {
                 'fc-timegrid-event',
                 'fc-v-event',
             ];
-            if (this.props.isCondensed) {
-                classNames.push('fc-timegrid-event-condensed');
+            if (this.props.isShort) {
+                classNames.push('fc-timegrid-event-short');
             }
             return (common.createElement(common.StandardEvent, __assign({}, this.props, { defaultTimeFormat: DEFAULT_TIME_FORMAT, extraClassNames: classNames })));
         };
@@ -736,12 +784,14 @@ var FullCalendarTimeGrid = (function (exports, common, daygrid) {
         return TimeColMisc;
     }(common.BaseComponent));
 
-    common.config.timeGridEventCondensedHeight = 30;
     var TimeCol = /** @class */ (function (_super) {
         __extends(TimeCol, _super);
         function TimeCol() {
-            return _super !== null && _super.apply(this, arguments) || this;
+            var _this = _super !== null && _super.apply(this, arguments) || this;
+            _this.sortEventSegs = common.memoize(common.sortEventSegs);
+            return _this;
         }
+        // TODO: memoize event-placement?
         TimeCol.prototype.render = function () {
             var _this = this;
             var _a = this, props = _a.props, context = _a.context;
@@ -754,62 +804,66 @@ var FullCalendarTimeGrid = (function (exports, common, daygrid) {
              (props.eventDrag && props.eventDrag.affectedInstances) ||
                 (props.eventResize && props.eventResize.affectedInstances) ||
                 {};
+            var sortedFgSegs = this.sortEventSegs(props.fgEventSegs, context.options.eventOrder);
             return (common.createElement(common.DayCellRoot, { elRef: props.elRef, date: props.date, dateProfile: props.dateProfile, todayRange: props.todayRange, extraHookProps: props.extraHookProps }, function (rootElRef, classNames, dataAttrs) { return (common.createElement("td", __assign({ ref: rootElRef, className: ['fc-timegrid-col'].concat(classNames, props.extraClassNames || []).join(' ') }, dataAttrs, props.extraDataAttrs),
                 common.createElement("div", { className: "fc-timegrid-col-frame" },
                     common.createElement("div", { className: "fc-timegrid-col-bg" },
                         _this.renderFillSegs(props.businessHourSegs, 'non-business'),
                         _this.renderFillSegs(props.bgEventSegs, 'bg-event'),
                         _this.renderFillSegs(props.dateSelectionSegs, 'highlight')),
-                    common.createElement("div", { className: "fc-timegrid-col-events" }, _this.renderFgSegs(props.fgEventSegs, interactionAffectedInstances)),
+                    common.createElement("div", { className: "fc-timegrid-col-events" }, _this.renderFgSegs(sortedFgSegs, interactionAffectedInstances, false, false, false)),
                     common.createElement("div", { className: "fc-timegrid-col-events" }, _this.renderFgSegs(mirrorSegs, {}, Boolean(props.eventDrag), Boolean(props.eventResize), Boolean(isSelectMirror))),
                     common.createElement("div", { className: "fc-timegrid-now-indicator-container" }, _this.renderNowIndicator(props.nowIndicatorSegs)),
                     common.createElement(TimeColMisc, { date: props.date, dateProfile: props.dateProfile, todayRange: props.todayRange, extraHookProps: props.extraHookProps })))); }));
         };
-        TimeCol.prototype.renderFgSegs = function (segs, segIsInvisible, isDragging, isResizing, isDateSelecting) {
+        TimeCol.prototype.renderFgSegs = function (sortedFgSegs, segIsInvisible, isDragging, isResizing, isDateSelecting) {
             var props = this.props;
             if (props.forPrint) {
-                return this.renderPrintFgSegs(segs);
+                return renderPlainFgSegs(sortedFgSegs, props);
             }
-            if (props.slatCoords) {
-                return this.renderPositionedFgSegs(segs, segIsInvisible, isDragging, isResizing, isDateSelecting);
-            }
-            return null;
+            return this.renderPositionedFgSegs(sortedFgSegs, segIsInvisible, isDragging, isResizing, isDateSelecting);
         };
-        TimeCol.prototype.renderPrintFgSegs = function (segs) {
-            var _a = this, props = _a.props, context = _a.context;
-            // not DRY
-            segs = common.sortEventSegs(segs, context.options.eventOrder);
-            return segs.map(function (seg) { return (common.createElement("div", { className: "fc-timegrid-event-harness", key: seg.eventRange.instance.instanceId },
-                common.createElement(TimeColEvent, __assign({ seg: seg, isDragging: false, isResizing: false, isDateSelecting: false, isSelected: false, isCondensed: false }, common.getSegMeta(seg, props.todayRange, props.nowDate))))); });
-        };
-        TimeCol.prototype.renderPositionedFgSegs = function (segs, segIsInvisible, isDragging, isResizing, isDateSelecting) {
+        TimeCol.prototype.renderPositionedFgSegs = function (segs, // if not mirror, needs to be sorted
+        segIsInvisible, isDragging, isResizing, isDateSelecting) {
             var _this = this;
-            var _a = this, context = _a.context, props = _a.props;
-            // assigns TO THE SEGS THEMSELVES
-            // also, receives resorted array
-            segs = computeSegCoords(segs, props.date, props.slatCoords, context.options.eventMinHeight, context.options.eventOrder);
-            return segs.map(function (seg) {
-                var instanceId = seg.eventRange.instance.instanceId;
-                var isMirror = isDragging || isResizing || isDateSelecting;
-                var positionCss = isMirror
-                    // will span entire column width
-                    // also, won't assign z-index, which is good, fc-event-mirror will overpower other harnesses
-                    ? __assign({ left: 0, right: 0 }, _this.computeSegTopBottomCss(seg)) : _this.computeFgSegPositionCss(seg);
-                return (common.createElement("div", { className: 'fc-timegrid-event-harness' + (seg.level > 0 ? ' fc-timegrid-event-harness-inset' : ''), key: instanceId, style: __assign({ visibility: segIsInvisible[instanceId] ? 'hidden' : '' }, positionCss) },
-                    common.createElement(TimeColEvent, __assign({ seg: seg, isDragging: isDragging, isResizing: isResizing, isDateSelecting: isDateSelecting, isSelected: instanceId === props.eventSelection, isCondensed: (seg.bottom - seg.top) < common.config.timeGridEventCondensedHeight }, common.getSegMeta(seg, props.todayRange, props.nowDate)))));
-            });
+            var _a = this.context.options, eventMaxStack = _a.eventMaxStack, eventShortHeight = _a.eventShortHeight, eventOrderStrict = _a.eventOrderStrict, eventMinHeight = _a.eventMinHeight;
+            var _b = this.props, date = _b.date, slatCoords = _b.slatCoords, eventSelection = _b.eventSelection, todayRange = _b.todayRange, nowDate = _b.nowDate;
+            var isMirror = isDragging || isResizing || isDateSelecting;
+            var segVCoords = computeSegVCoords(segs, date, slatCoords, eventMinHeight);
+            var _c = computeFgSegPlacements(segs, segVCoords, eventOrderStrict, eventMaxStack), segPlacements = _c.segPlacements, hiddenGroups = _c.hiddenGroups;
+            return (common.createElement(common.Fragment, null,
+                this.renderHiddenGroups(hiddenGroups, segs),
+                segPlacements.map(function (segPlacement) {
+                    var seg = segPlacement.seg, rect = segPlacement.rect;
+                    var instanceId = seg.eventRange.instance.instanceId;
+                    var isVisible = isMirror || Boolean(!segIsInvisible[instanceId] && rect);
+                    var vStyle = computeSegVStyle(rect && rect.span);
+                    var hStyle = (!isMirror && rect) ? _this.computeSegHStyle(rect) : { left: 0, right: 0 };
+                    var isInset = Boolean(rect) && rect.stackForward > 0;
+                    var isShort = Boolean(rect) && (rect.span.end - rect.span.start) < eventShortHeight; // look at other places for this problem
+                    return (common.createElement("div", { className: 'fc-timegrid-event-harness' +
+                            (isInset ? ' fc-timegrid-event-harness-inset' : ''), key: instanceId, style: __assign(__assign({ visibility: isVisible ? '' : 'hidden' }, vStyle), hStyle) },
+                        common.createElement(TimeColEvent, __assign({ seg: seg, isDragging: isDragging, isResizing: isResizing, isDateSelecting: isDateSelecting, isSelected: instanceId === eventSelection, isShort: isShort }, common.getSegMeta(seg, todayRange, nowDate)))));
+                })));
+        };
+        // will already have eventMinHeight applied because segInputs already had it
+        TimeCol.prototype.renderHiddenGroups = function (hiddenGroups, segs) {
+            var _a = this.props, extraDateSpan = _a.extraDateSpan, dateProfile = _a.dateProfile, todayRange = _a.todayRange, nowDate = _a.nowDate, eventSelection = _a.eventSelection, eventDrag = _a.eventDrag, eventResize = _a.eventResize;
+            return (common.createElement(common.Fragment, null, hiddenGroups.map(function (hiddenGroup) {
+                var positionCss = computeSegVStyle(hiddenGroup.span);
+                var hiddenSegs = compileSegsFromEntries(hiddenGroup.entries, segs);
+                return (common.createElement(TimeColMoreLink, { key: common.buildIsoString(common.computeEarliestSegStart(hiddenSegs)), hiddenSegs: hiddenSegs, top: positionCss.top, bottom: positionCss.bottom, extraDateSpan: extraDateSpan, dateProfile: dateProfile, todayRange: todayRange, nowDate: nowDate, eventSelection: eventSelection, eventDrag: eventDrag, eventResize: eventResize }));
+            })));
         };
         TimeCol.prototype.renderFillSegs = function (segs, fillType) {
-            var _this = this;
-            var _a = this, context = _a.context, props = _a.props;
-            if (!props.slatCoords) {
-                return null;
-            }
-            // BAD: assigns TO THE SEGS THEMSELVES
-            computeSegVerticals(segs, props.date, props.slatCoords, context.options.eventMinHeight);
-            var children = segs.map(function (seg) { return (common.createElement("div", { key: common.buildEventRangeKey(seg.eventRange), className: "fc-timegrid-bg-harness", style: _this.computeSegTopBottomCss(seg) }, fillType === 'bg-event' ?
-                common.createElement(common.BgEvent, __assign({ seg: seg }, common.getSegMeta(seg, props.todayRange, props.nowDate))) :
-                common.renderFill(fillType))); });
+            var _a = this, props = _a.props, context = _a.context;
+            var segVCoords = computeSegVCoords(segs, props.date, props.slatCoords, context.options.eventMinHeight); // don't assume all populated
+            var children = segVCoords.map(function (vcoords, i) {
+                var seg = segs[i];
+                return (common.createElement("div", { key: common.buildEventRangeKey(seg.eventRange), className: "fc-timegrid-bg-harness", style: computeSegVStyle(vcoords) }, fillType === 'bg-event' ?
+                    common.createElement(common.BgEvent, __assign({ seg: seg }, common.getSegMeta(seg, props.todayRange, props.nowDate))) :
+                    common.renderFill(fillType)));
+            });
             return common.createElement(common.Fragment, null, children);
         };
         TimeCol.prototype.renderNowIndicator = function (segs) {
@@ -821,44 +875,61 @@ var FullCalendarTimeGrid = (function (exports, common, daygrid) {
                 // key doesn't matter. will only ever be one
                 key: i }, function (rootElRef, classNames, innerElRef, innerContent) { return (common.createElement("div", { ref: rootElRef, className: ['fc-timegrid-now-indicator-line'].concat(classNames).join(' '), style: { top: slatCoords.computeDateTop(seg.start, date) } }, innerContent)); })); });
         };
-        TimeCol.prototype.computeFgSegPositionCss = function (seg) {
+        TimeCol.prototype.computeSegHStyle = function (segHCoords) {
             var _a = this.context, isRtl = _a.isRtl, options = _a.options;
             var shouldOverlap = options.slotEventOverlap;
-            var backwardCoord = seg.backwardCoord; // the left side if LTR. the right side if RTL. floating-point
-            var forwardCoord = seg.forwardCoord; // the right side if LTR. the left side if RTL. floating-point
+            var nearCoord = segHCoords.levelCoord; // the left side if LTR. the right side if RTL. floating-point
+            var farCoord = segHCoords.levelCoord + segHCoords.thickness; // the right side if LTR. the left side if RTL. floating-point
             var left; // amount of space from left edge, a fraction of the total width
             var right; // amount of space from right edge, a fraction of the total width
             if (shouldOverlap) {
                 // double the width, but don't go beyond the maximum forward coordinate (1.0)
-                forwardCoord = Math.min(1, backwardCoord + (forwardCoord - backwardCoord) * 2);
+                farCoord = Math.min(1, nearCoord + (farCoord - nearCoord) * 2);
             }
             if (isRtl) {
-                left = 1 - forwardCoord;
-                right = backwardCoord;
+                left = 1 - farCoord;
+                right = nearCoord;
             }
             else {
-                left = backwardCoord;
-                right = 1 - forwardCoord;
+                left = nearCoord;
+                right = 1 - farCoord;
             }
             var props = {
-                zIndex: seg.level + 1,
+                zIndex: segHCoords.stackDepth + 1,
                 left: left * 100 + '%',
                 right: right * 100 + '%',
             };
-            if (shouldOverlap && seg.forwardPressure) {
+            if (shouldOverlap && !segHCoords.stackForward) {
                 // add padding to the edge so that forward stacked events don't cover the resizer's icon
                 props[isRtl ? 'marginLeft' : 'marginRight'] = 10 * 2; // 10 is a guesstimate of the icon's width
             }
-            return __assign(__assign({}, props), this.computeSegTopBottomCss(seg));
-        };
-        TimeCol.prototype.computeSegTopBottomCss = function (seg) {
-            return {
-                top: seg.top,
-                bottom: -seg.bottom,
-            };
+            return props;
         };
         return TimeCol;
     }(common.BaseComponent));
+    function renderPlainFgSegs(sortedFgSegs, _a) {
+        var todayRange = _a.todayRange, nowDate = _a.nowDate, eventSelection = _a.eventSelection, eventDrag = _a.eventDrag, eventResize = _a.eventResize;
+        var hiddenInstances = (eventDrag ? eventDrag.affectedInstances : null) ||
+            (eventResize ? eventResize.affectedInstances : null) ||
+            {};
+        return (common.createElement(common.Fragment, null, sortedFgSegs.map(function (seg) {
+            var instanceId = seg.eventRange.instance.instanceId;
+            return (common.createElement("div", { key: instanceId, style: { visibility: hiddenInstances[instanceId] ? 'hidden' : '' } },
+                common.createElement(TimeColEvent, __assign({ seg: seg, isDragging: false, isResizing: false, isDateSelecting: false, isSelected: instanceId === eventSelection, isShort: false }, common.getSegMeta(seg, todayRange, nowDate)))));
+        })));
+    }
+    function computeSegVStyle(segVCoords) {
+        if (!segVCoords) {
+            return { top: '', bottom: '' };
+        }
+        return {
+            top: segVCoords.start,
+            bottom: -segVCoords.end,
+        };
+    }
+    function compileSegsFromEntries(segEntries, allSegs) {
+        return segEntries.map(function (segEntry) { return allSegs[segEntry.index]; });
+    }
 
     var TimeColsContent = /** @class */ (function (_super) {
         __extends(TimeColsContent, _super);
@@ -900,7 +971,7 @@ var FullCalendarTimeGrid = (function (exports, common, daygrid) {
                             props.axis && (common.createElement("td", { className: "fc-timegrid-col fc-timegrid-axis" },
                                 common.createElement("div", { className: "fc-timegrid-col-frame" },
                                     common.createElement("div", { className: "fc-timegrid-now-indicator-container" }, typeof nowIndicatorTop === 'number' && (common.createElement(common.NowIndicatorRoot, { isAxis: true, date: props.nowDate }, function (rootElRef, classNames, innerElRef, innerContent) { return (common.createElement("div", { ref: rootElRef, className: ['fc-timegrid-now-indicator-arrow'].concat(classNames).join(' '), style: { top: nowIndicatorTop } }, innerContent)); })))))),
-                            props.cells.map(function (cell, i) { return (common.createElement(TimeCol, { key: cell.key, elRef: _this.cellElRefs.createRef(cell.key), dateProfile: props.dateProfile, date: cell.date, nowDate: props.nowDate, todayRange: props.todayRange, extraHookProps: cell.extraHookProps, extraDataAttrs: cell.extraDataAttrs, extraClassNames: cell.extraClassNames, fgEventSegs: fgEventSegsByRow[i], bgEventSegs: bgEventSegsByRow[i], businessHourSegs: businessHourSegsByRow[i], nowIndicatorSegs: nowIndicatorSegsByRow[i], dateSelectionSegs: dateSelectionSegsByRow[i], eventDrag: eventDragByRow[i], eventResize: eventResizeByRow[i], slatCoords: props.slatCoords, eventSelection: props.eventSelection, forPrint: props.forPrint })); }))))));
+                            props.cells.map(function (cell, i) { return (common.createElement(TimeCol, { key: cell.key, elRef: _this.cellElRefs.createRef(cell.key), dateProfile: props.dateProfile, date: cell.date, nowDate: props.nowDate, todayRange: props.todayRange, extraHookProps: cell.extraHookProps, extraDataAttrs: cell.extraDataAttrs, extraClassNames: cell.extraClassNames, extraDateSpan: cell.extraDateSpan, fgEventSegs: fgEventSegsByRow[i], bgEventSegs: bgEventSegsByRow[i], businessHourSegs: businessHourSegsByRow[i], nowIndicatorSegs: nowIndicatorSegsByRow[i], dateSelectionSegs: dateSelectionSegsByRow[i], eventDrag: eventDragByRow[i], eventResize: eventResizeByRow[i], slatCoords: props.slatCoords, eventSelection: props.eventSelection, forPrint: props.forPrint })); }))))));
         };
         TimeColsContent.prototype.componentDidMount = function () {
             this.updateCoords();
@@ -933,6 +1004,17 @@ var FullCalendarTimeGrid = (function (exports, common, daygrid) {
             _this.state = {
                 slatCoords: null,
             };
+            _this.handleRootEl = function (el) {
+                if (el) {
+                    _this.context.registerInteractiveComponent(_this, {
+                        el: el,
+                        isHitComboAllowed: _this.props.isHitComboAllowed,
+                    });
+                }
+                else {
+                    _this.context.unregisterInteractiveComponent(_this);
+                }
+            };
             _this.handleScrollRequest = function (request) {
                 var onScrollTopRequest = _this.props.onScrollTopRequest;
                 var slatCoords = _this.state.slatCoords;
@@ -962,7 +1044,7 @@ var FullCalendarTimeGrid = (function (exports, common, daygrid) {
         }
         TimeCols.prototype.render = function () {
             var _a = this, props = _a.props, state = _a.state;
-            return (common.createElement("div", { className: "fc-timegrid-body", ref: props.rootElRef, style: {
+            return (common.createElement("div", { className: "fc-timegrid-body", ref: this.handleRootEl, style: {
                     // these props are important to give this wrapper correct dimensions for interactions
                     // TODO: if we set it here, can we avoid giving to inner tables?
                     width: props.clientWidth,
@@ -980,7 +1062,7 @@ var FullCalendarTimeGrid = (function (exports, common, daygrid) {
         TimeCols.prototype.componentWillUnmount = function () {
             this.scrollResponder.detach();
         };
-        TimeCols.prototype.positionToHit = function (positionLeft, positionTop) {
+        TimeCols.prototype.queryHit = function (positionLeft, positionTop) {
             var _a = this.context, dateEnv = _a.dateEnv, options = _a.options;
             var colCoords = this.colCoords;
             var dateProfile = this.props.dateProfile;
@@ -989,6 +1071,7 @@ var FullCalendarTimeGrid = (function (exports, common, daygrid) {
             var colIndex = colCoords.leftToIndex(positionLeft);
             var slatIndex = slatCoords.positions.topToIndex(positionTop);
             if (colIndex != null && slatIndex != null) {
+                var cell = this.props.cells[colIndex];
                 var slatTop = slatCoords.positions.tops[slatIndex];
                 var slatHeight = slatCoords.positions.getHeight(slatIndex);
                 var partial = (positionTop - slatTop) / slatHeight; // floating point number between 0 and 1
@@ -999,24 +1082,22 @@ var FullCalendarTimeGrid = (function (exports, common, daygrid) {
                 var start = dateEnv.add(dayDate, time);
                 var end = dateEnv.add(start, snapDuration);
                 return {
-                    col: colIndex,
-                    dateSpan: {
-                        range: { start: start, end: end },
-                        allDay: false,
-                    },
+                    dateProfile: dateProfile,
+                    dateSpan: __assign({ range: { start: start, end: end }, allDay: false }, cell.extraDateSpan),
                     dayEl: colCoords.els[colIndex],
-                    relativeRect: {
+                    rect: {
                         left: colCoords.lefts[colIndex],
                         right: colCoords.rights[colIndex],
                         top: slatTop,
                         bottom: slatTop + slatHeight,
                     },
+                    layer: 0,
                 };
             }
             return null;
         };
         return TimeCols;
-    }(common.BaseComponent));
+    }(common.DateComponent));
     function processSlotOptions(slotDuration, snapDurationOverride) {
         var snapDuration = snapDurationOverride || slotDuration;
         var snapsPerSlot = common.wholeDivideDurations(slotDuration, snapDuration);
@@ -1059,14 +1140,6 @@ var FullCalendarTimeGrid = (function (exports, common, daygrid) {
             _this.buildDayRanges = common.memoize(buildDayRanges);
             _this.slicer = new DayTimeColsSlicer();
             _this.timeColsRef = common.createRef();
-            _this.handleRootEl = function (rootEl) {
-                if (rootEl) {
-                    _this.context.registerInteractiveComponent(_this, { el: rootEl });
-                }
-                else {
-                    _this.context.unregisterInteractiveComponent(_this);
-                }
-            };
             return _this;
         }
         DayTimeCols.prototype.render = function () {
@@ -1077,25 +1150,7 @@ var FullCalendarTimeGrid = (function (exports, common, daygrid) {
             var dayRanges = this.buildDayRanges(dayTableModel, dateProfile, context.dateEnv);
             // give it the first row of cells
             // TODO: would move this further down hierarchy, but sliceNowDate needs it
-            return (common.createElement(common.NowTimer, { unit: isNowIndicator ? 'minute' : 'day' }, function (nowDate, todayRange) { return (common.createElement(TimeCols, __assign({ ref: _this.timeColsRef, rootElRef: _this.handleRootEl }, _this.slicer.sliceProps(props, dateProfile, null, context, dayRanges), { forPrint: props.forPrint, axis: props.axis, dateProfile: dateProfile, slatMetas: props.slatMetas, slotDuration: props.slotDuration, cells: dayTableModel.cells[0], tableColGroupNode: props.tableColGroupNode, tableMinWidth: props.tableMinWidth, clientWidth: props.clientWidth, clientHeight: props.clientHeight, expandRows: props.expandRows, nowDate: nowDate, nowIndicatorSegs: isNowIndicator && _this.slicer.sliceNowDate(nowDate, context, dayRanges), todayRange: todayRange, onScrollTopRequest: props.onScrollTopRequest, onSlatCoords: props.onSlatCoords }))); }));
-        };
-        DayTimeCols.prototype.queryHit = function (positionLeft, positionTop) {
-            var rawHit = this.timeColsRef.current.positionToHit(positionLeft, positionTop);
-            if (rawHit) {
-                return {
-                    component: this,
-                    dateSpan: rawHit.dateSpan,
-                    dayEl: rawHit.dayEl,
-                    rect: {
-                        left: rawHit.relativeRect.left,
-                        right: rawHit.relativeRect.right,
-                        top: rawHit.relativeRect.top,
-                        bottom: rawHit.relativeRect.bottom,
-                    },
-                    layer: 0,
-                };
-            }
-            return null;
+            return (common.createElement(common.NowTimer, { unit: isNowIndicator ? 'minute' : 'day' }, function (nowDate, todayRange) { return (common.createElement(TimeCols, __assign({ ref: _this.timeColsRef }, _this.slicer.sliceProps(props, dateProfile, null, context, dayRanges), { forPrint: props.forPrint, axis: props.axis, dateProfile: dateProfile, slatMetas: props.slatMetas, slotDuration: props.slotDuration, cells: dayTableModel.cells[0], tableColGroupNode: props.tableColGroupNode, tableMinWidth: props.tableMinWidth, clientWidth: props.clientWidth, clientHeight: props.clientHeight, expandRows: props.expandRows, nowDate: nowDate, nowIndicatorSegs: isNowIndicator && _this.slicer.sliceNowDate(nowDate, context, dayRanges), todayRange: todayRange, onScrollTopRequest: props.onScrollTopRequest, onSlatCoords: props.onSlatCoords }))); }));
         };
         return DayTimeCols;
     }(common.DateComponent));
@@ -1203,7 +1258,7 @@ var FullCalendarTimeGrid = (function (exports, common, daygrid) {
                 usesMinMaxTime: true,
                 allDaySlot: true,
                 slotDuration: '00:30:00',
-                slotEventOverlap: true,
+                slotEventOverlap: true, // a bad name. confused with overlap/constraint system
             },
             timeGridDay: {
                 type: 'timeGrid',

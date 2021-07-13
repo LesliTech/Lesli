@@ -12,13 +12,16 @@ var render = FullCalendarVDom.render;
 var createRef = FullCalendarVDom.createRef;
 var Fragment = FullCalendarVDom.Fragment;
 var createContext = FullCalendarVDom.createContext;
+var createPortal = FullCalendarVDom.createPortal;
 var flushToDom = FullCalendarVDom.flushToDom;
 var unmountComponentAtNode = FullCalendarVDom.unmountComponentAtNode;
+/* eslint-enable */
 
 exports.Component = Component;
 exports.Fragment = Fragment;
 exports.createContext = createContext;
 exports.createElement = createElement;
+exports.createPortal = createPortal;
 exports.createRef = createRef;
 exports.flushToDom = flushToDom;
 exports.render = render;

@@ -1,6 +1,6 @@
 
-import { Splitter, DateSpan, EventDef, DateMarker, Duration, DateEnv, PositionCache, DateProfile, DateComponent, ViewProps, RefObject, VNode, ChunkContentCallbackArgs, createElement, CssDimValue, DateProfileGenerator, DayTableModel, Seg, Hit, DateRange, EventStore, EventUiHash, EventInteractionState, Slicer, BaseComponent, ScrollRequest, EventSegUiInteractionState, Ref, PluginDef } from '@fullcalendar/common';
-import { TableCellModel } from '@fullcalendar/daygrid';
+import * as _fullcalendar_common from '@fullcalendar/common';
+import { Splitter, DateSpan, EventDef, DateMarker, Duration, DateEnv, PositionCache, DateProfile, DateComponent, ViewProps, RefObject, VNode, ChunkContentCallbackArgs, createElement, CssDimValue, DateProfileGenerator, DayTableModel, Seg, DateRange, EventStore, EventUiHash, EventInteractionState, Slicer, ScrollRequest, Hit, DayTableCell, EventSegUiInteractionState } from '@fullcalendar/common';
 
 declare class AllDaySplitter extends Splitter {
     getKeyInfo(): {
@@ -11,7 +11,6 @@ declare class AllDaySplitter extends Splitter {
     getKeysForEventDef(eventDef: EventDef): string[];
 }
 
-
 interface TimeSlatMeta {
     date: DateMarker;
     time: Duration;
@@ -21,17 +20,15 @@ interface TimeSlatMeta {
 }
 declare function buildSlatMetas(slotMinTime: Duration, slotMaxTime: Duration, explicitLabelInterval: Duration | null, slotDuration: Duration, dateEnv: DateEnv): TimeSlatMeta[];
 
-
 declare class TimeColsSlatsCoords {
     positions: PositionCache;
     private dateProfile;
-    private slatMetas;
-    constructor(positions: PositionCache, dateProfile: DateProfile, slatMetas: TimeSlatMeta[]);
+    private slotDuration;
+    constructor(positions: PositionCache, dateProfile: DateProfile, slotDuration: Duration);
     safeComputeTop(date: DateMarker): number;
     computeDateTop(when: DateMarker, startOfDayDate?: DateMarker): number;
     computeTimeTop(duration: Duration): number;
 }
-
 
 interface TimeColsViewState {
     slatCoords: TimeColsSlatsCoords | null;
@@ -62,7 +59,6 @@ declare class DayTimeColsView extends TimeColsView {
     render(): createElement.JSX.Element;
 }
 declare function buildTimeColsModel(dateProfile: DateProfile, dateProfileGenerator: DateProfileGenerator): DayTableModel;
-
 
 interface TimeColsSeg extends Seg {
     col: number;
@@ -97,21 +93,16 @@ declare class DayTimeCols extends DateComponent<DayTimeColsProps> {
     private slicer;
     private timeColsRef;
     render(): createElement.JSX.Element;
-    handleRootEl: (rootEl: HTMLDivElement | null) => void;
-    queryHit(positionLeft: number, positionTop: number): Hit;
 }
 declare function buildDayRanges(dayTableModel: DayTableModel, dateProfile: DateProfile, dateEnv: DateEnv): DateRange[];
-
 
 declare class DayTimeColsSlicer extends Slicer<TimeColsSeg, [DateRange[]]> {
     sliceRange(range: DateRange, dayRanges: DateRange[]): TimeColsSeg[];
 }
 
-
 declare const OPTION_REFINERS: {
     allDaySlot: BooleanConstructor;
 };
-
 
 declare type ExtraOptionRefiners = typeof OPTION_REFINERS;
 declare module '@fullcalendar/common' {
@@ -119,8 +110,9 @@ declare module '@fullcalendar/common' {
     }
 }
 
+
 interface TimeColsProps {
-    cells: TableCellModel[];
+    cells: DayTableCell[];
     dateProfile: DateProfile;
     slotDuration: Duration;
     nowDate: DateMarker;
@@ -132,7 +124,6 @@ interface TimeColsProps {
     eventSelection: string;
     eventDrag: EventSegUiInteractionState | null;
     eventResize: EventSegUiInteractionState | null;
-    rootElRef?: Ref<HTMLDivElement>;
     tableColGroupNode: VNode;
     tableMinWidth: CssDimValue;
     clientWidth: number | null;
@@ -144,11 +135,12 @@ interface TimeColsProps {
     axis: boolean;
     slatMetas: TimeSlatMeta[];
     onSlatCoords?: (slatCoords: TimeColsSlatsCoords) => void;
+    isHitComboAllowed?: (hit0: Hit, hit1: Hit) => boolean;
 }
 interface TimeColsState {
     slatCoords: TimeColsSlatsCoords | null;
 }
-declare class TimeCols extends BaseComponent<TimeColsProps, TimeColsState> {
+declare class TimeCols extends DateComponent<TimeColsProps, TimeColsState> {
     private processSlotOptions;
     private scrollResponder;
     private colCoords;
@@ -156,32 +148,18 @@ declare class TimeCols extends BaseComponent<TimeColsProps, TimeColsState> {
         slatCoords: any;
     };
     render(): createElement.JSX.Element;
+    handleRootEl: (el: HTMLElement | null) => void;
     componentDidMount(): void;
     componentDidUpdate(prevProps: TimeColsProps): void;
     componentWillUnmount(): void;
     handleScrollRequest: (request: ScrollRequest) => boolean;
     handleColCoords: (colCoords: PositionCache | null) => void;
     handleSlatCoords: (slatCoords: TimeColsSlatsCoords | null) => void;
-    positionToHit(positionLeft: any, positionTop: any): {
-        col: any;
-        dateSpan: {
-            range: {
-                start: Date;
-                end: Date;
-            };
-            allDay: boolean;
-        };
-        dayEl: HTMLElement;
-        relativeRect: {
-            left: any;
-            right: any;
-            top: any;
-            bottom: any;
-        };
-    };
+    queryHit(positionLeft: number, positionTop: number): Hit;
 }
 
-declare const _default: PluginDef;
+declare const _default: _fullcalendar_common.PluginDef;
+
 
 export default _default;
 export { DayTimeCols, DayTimeColsSlicer, DayTimeColsView, TimeCols, TimeColsSeg, TimeColsSlatsCoords, TimeColsView, TimeSlatMeta, buildDayRanges, buildSlatMetas, buildTimeColsModel };
