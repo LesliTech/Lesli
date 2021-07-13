@@ -34,12 +34,14 @@ after installations steps:
 
 - change rails version at:
     - lesli/Gemfile
+    - install rails new version `bundle update rails`
     - engine/engine_name.gemspec
 
 - check for gem updates
     - `bundle outdated`
     - update gems at lesli/Gemfile *DO NOT* forget to delete your local Gemfile.lock
     - install gems again `bundle install`
+    
 
 RoR provides a task that check and update configuration files
 

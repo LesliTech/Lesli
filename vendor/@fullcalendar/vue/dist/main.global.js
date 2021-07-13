@@ -75,7 +75,7 @@ var FullCalendarVue = (function (exports, Vue, core) {
     function createVueContentTypePlugin(parent) {
         return core.createPlugin({
             contentTypeHandlers: {
-                vue: function () { return buildVDomHandler(parent); },
+                vue: function () { return buildVDomHandler(parent); }, // looks for the `vue` key
             }
         });
     }
@@ -243,16 +243,16 @@ var FullCalendarVue = (function (exports, Vue, core) {
         });
     }
 
+    exports.default = FullCalendar;
+    exports.install = install;
     Object.keys(core).forEach(function (k) {
-        if (k !== 'default') Object.defineProperty(exports, k, {
+        if (k !== 'default' && !exports.hasOwnProperty(k)) Object.defineProperty(exports, k, {
             enumerable: true,
             get: function () {
                 return core[k];
             }
         });
     });
-    exports.default = FullCalendar;
-    exports.install = install;
 
     Object.defineProperty(exports, '__esModule', { value: true });
 

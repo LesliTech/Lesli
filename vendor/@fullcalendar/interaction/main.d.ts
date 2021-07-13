@@ -1,4 +1,5 @@
-import { Emitter, PointerDragEvent, Rect, ScrollController, ElementDragging, DatePointApi, ViewApi, EventApi, EventChangeArg, Duration, Identity, EventDropArg, DragMetaInput, PluginDef } from '@fullcalendar/common';
+import * as _fullcalendar_common from '@fullcalendar/common';
+import { Emitter, PointerDragEvent, Rect, ScrollController, ElementDragging, DatePointApi, ViewApi, EventApi, EventChangeArg, Duration, Identity, EventDropArg, DragMetaInput } from '@fullcalendar/common';
 
 declare class PointerDragging {
     containerEl: EventTarget;
@@ -39,7 +40,6 @@ declare class PointerDragging {
     createEventFromTouch(ev: TouchEvent, isFirst?: boolean): PointerDragEvent;
 }
 
-
 declare class ElementMirror {
     isVisible: boolean;
     origScreenX?: number;
@@ -61,7 +61,6 @@ declare class ElementMirror {
     updateElPosition(): void;
     getMirrorEl(): HTMLElement;
 }
-
 
 declare abstract class ScrollGeomCache extends ScrollController {
     clientRect: Rect;
@@ -91,7 +90,6 @@ declare abstract class ScrollGeomCache extends ScrollController {
     handleScrollChange(): void;
 }
 
-
 declare class AutoScroller {
     isEnabled: boolean;
     scrollQuery: (Window | string)[];
@@ -116,7 +114,6 @@ declare class AutoScroller {
     private buildCaches;
     private queryScrollEls;
 }
-
 
 declare class FeaturefulElementDragging extends ElementDragging {
     pointer: PointerDragging;
@@ -147,7 +144,6 @@ declare class FeaturefulElementDragging extends ElementDragging {
     setMirrorNeedsRevert(bool: boolean): void;
     setAutoScrollEnabled(bool: boolean): void;
 }
-
 
 interface DateClickArg extends DatePointApi {
     dayEl: HTMLElement;
@@ -211,7 +207,6 @@ declare const LISTENER_REFINERS: {
     eventLeave: Identity<(arg: EventLeaveArg) => void>;
 };
 
-
 declare type ExtraOptionRefiners = typeof OPTION_REFINERS;
 declare type ExtraListenerRefiners = typeof LISTENER_REFINERS;
 declare module '@fullcalendar/common' {
@@ -220,6 +215,7 @@ declare module '@fullcalendar/common' {
     interface CalendarListenerRefiners extends ExtraListenerRefiners {
     }
 }
+
 
 declare type DragMetaGenerator = DragMetaInput | ((el: HTMLElement) => DragMetaInput);
 
@@ -239,7 +235,6 @@ declare class ExternalDraggable {
     destroy(): void;
 }
 
-
 declare class InferredElementDragging extends ElementDragging {
     pointer: PointerDragging;
     shouldIgnoreMove: boolean;
@@ -254,7 +249,6 @@ declare class InferredElementDragging extends ElementDragging {
     setMirrorIsVisible(bool: boolean): void;
 }
 
-
 interface ThirdPartyDraggableSettings {
     eventData?: DragMetaGenerator;
     itemSelector?: string;
@@ -266,8 +260,8 @@ declare class ThirdPartyDraggable {
     destroy(): void;
 }
 
+declare const _default: _fullcalendar_common.PluginDef;
 
-declare const _default: PluginDef;
 
 export default _default;
 export { DateClickArg, ExternalDraggable as Draggable, DropArg, EventDragStartArg, EventDragStopArg, EventLeaveArg, EventReceiveArg, EventResizeDoneArg, EventResizeStartArg, EventResizeStopArg, FeaturefulElementDragging, PointerDragging, ThirdPartyDraggable };
