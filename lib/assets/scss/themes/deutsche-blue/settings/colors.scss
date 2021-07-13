@@ -21,9 +21,6 @@ For more information read the license file including with this software.
 // · 
 @function lesli-css-color-theme($pallete, $variant: 500) {
 
-    @debug $pallete;
-    @debug $variant;
-
     $deutsche-leibrenten-colors: (
         app: (
             primary: rgb(0, 83, 128),
