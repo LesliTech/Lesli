@@ -17,9 +17,14 @@ For more information read the license file including with this software.
 
 */
 
+
+// · 
 @import "lesli-css/";
 
+
+// · 
 .application-modules .sidebar-content {
+    z-index: 45;
     width: 340px;
 
     .header b {
