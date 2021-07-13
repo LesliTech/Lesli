@@ -1,7 +1,7 @@
 /*!
-FullCalendar v5.5.0
+FullCalendar v5.8.0
 Docs & License: https://fullcalendar.io/
-(c) 2020 Adam Shaw
+(c) 2021 Adam Shaw
 */
 var FullCalendarInteraction = (function (exports, common) {
     'use strict';
@@ -30,6 +30,8 @@ var FullCalendarInteraction = (function (exports, common) {
     };
 
     function __extends(d, b) {
+        if (typeof b !== "function" && b !== null)
+            throw new TypeError("Class extends value " + String(b) + " is not a constructor or null");
         extendStatics(d, b);
         function __() { this.constructor = d; }
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
@@ -1080,12 +1082,12 @@ var FullCalendarInteraction = (function (exports, common) {
                     positionLeft >= 0 && positionLeft < width &&
                         positionTop >= 0 && positionTop < height) {
                         var hit = component.queryHit(positionLeft, positionTop, width, height);
-                        var dateProfile = component.context.getCurrentData().dateProfile;
-                        if (hit &&
-                            (
-                            // make sure the hit is within activeRange, meaning it's not a deal cell
-                            common.rangeContainsRange(dateProfile.activeRange, hit.dateSpan.range)) &&
+                        if (hit && (
+                        // make sure the hit is within activeRange, meaning it's not a dead cell
+                        common.rangeContainsRange(hit.dateProfile.activeRange, hit.dateSpan.range)) &&
                             (!bestHit || hit.layer > bestHit.layer)) {
+                            hit.componentId = id;
+                            hit.context = component.context;
                             // TODO: better way to re-orient rectangle
                             hit.rect.left += originLeft;
                             hit.rect.right += originLeft;
@@ -1185,7 +1187,7 @@ var FullCalendarInteraction = (function (exports, common) {
                 // don't bother to watch expensive moves if component won't do selection
                 dragging.setIgnoreMove(!canSelect);
                 // if touch, require user to hold down
-                dragging.delay = ev.isTouch ? getComponentTouchDelay(component) : null;
+                dragging.delay = ev.isTouch ? getComponentTouchDelay$1(component) : null;
             };
             _this.handleDragStart = function (ev) {
                 _this.component.context.calendarApi.unselect(ev); // unselect previous selections
@@ -1195,8 +1197,14 @@ var FullCalendarInteraction = (function (exports, common) {
                 var dragSelection = null;
                 var isInvalid = false;
                 if (hit) {
-                    dragSelection = joinHitsIntoSelection(_this.hitDragging.initialHit, hit, context.pluginHooks.dateSelectionTransformers);
-                    if (!dragSelection || !_this.component.isDateSelectionValid(dragSelection)) {
+                    var initialHit = _this.hitDragging.initialHit;
+                    var disallowed = hit.componentId === initialHit.componentId
+                        && _this.isHitComboAllowed
+                        && !_this.isHitComboAllowed(initialHit, hit);
+                    if (!disallowed) {
+                        dragSelection = joinHitsIntoSelection(initialHit, hit, context.pluginHooks.dateSelectionTransformers);
+                    }
+                    if (!dragSelection || !common.isDateSelectionValid(dragSelection, hit.dateProfile, context)) {
                         isInvalid = true;
                         dragSelection = null;
                     }
@@ -1242,7 +1250,7 @@ var FullCalendarInteraction = (function (exports, common) {
         };
         return DateSelecting;
     }(common.Interaction));
-    function getComponentTouchDelay(component) {
+    function getComponentTouchDelay$1(component) {
         var options = component.context.options;
         var delay = options.selectLongPressDelay;
         if (delay == null) {
@@ -1304,7 +1312,7 @@ var FullCalendarInteraction = (function (exports, common) {
                 dragging.delay =
                     // only do a touch delay if touch and this event hasn't been selected yet
                     (ev.isTouch && eventInstanceId !== component.props.eventSelection) ?
-                        getComponentTouchDelay$1(component) :
+                        getComponentTouchDelay(component) :
                         null;
                 if (options.fixedMirrorParent) {
                     mirror.parentNode = options.fixedMirrorParent;
@@ -1363,8 +1371,7 @@ var FullCalendarInteraction = (function (exports, common) {
                     isEvent: true,
                 };
                 if (hit) {
-                    var receivingComponent = hit.component;
-                    receivingContext = receivingComponent.context;
+                    receivingContext = hit.context;
                     var receivingOptions = receivingContext.options;
                     if (initialContext === receivingContext ||
                         (receivingOptions.editable && receivingOptions.droppable)) {
@@ -1372,7 +1379,7 @@ var FullCalendarInteraction = (function (exports, common) {
                         if (mutation) {
                             mutatedRelevantEvents = common.applyMutationToEventStore(relevantEvents, receivingContext.getCurrentData().eventUiBases, mutation, receivingContext);
                             interaction.mutatedEvents = mutatedRelevantEvents;
-                            if (!receivingComponent.isInteractionValid(interaction)) {
+                            if (!common.isInteractionValid(interaction, hit.dateProfile, receivingContext)) {
                                 isInvalid = true;
                                 mutation = null;
                                 mutatedRelevantEvents = null;
@@ -1444,7 +1451,7 @@ var FullCalendarInteraction = (function (exports, common) {
                                 revert: function () {
                                     initialContext_1.dispatch({
                                         type: 'MERGE_EVENTS',
-                                        eventStore: relevantEvents_1,
+                                        eventStore: relevantEvents_1, // the pre-change data
                                     });
                                 },
                             };
@@ -1498,8 +1505,8 @@ var FullCalendarInteraction = (function (exports, common) {
                                     eventInstanceId: eventInstance.instanceId,
                                 });
                             }
-                            receivingContext_1.emitter.trigger('drop', __assign(__assign({}, buildDatePointApiWithContext(finalHit.dateSpan, receivingContext_1)), { draggedEl: ev.subjectEl, jsEvent: ev.origEvent, view: finalHit.component.context.viewApi }));
-                            receivingContext_1.emitter.trigger('eventReceive', __assign(__assign({}, eventAddArg), { draggedEl: ev.subjectEl, view: finalHit.component.context.viewApi }));
+                            receivingContext_1.emitter.trigger('drop', __assign(__assign({}, buildDatePointApiWithContext(finalHit.dateSpan, receivingContext_1)), { draggedEl: ev.subjectEl, jsEvent: ev.origEvent, view: finalHit.context.viewApi }));
+                            receivingContext_1.emitter.trigger('eventReceive', __assign(__assign({}, eventAddArg), { draggedEl: ev.subjectEl, view: finalHit.context.viewApi }));
                         }
                     }
                     else {
@@ -1586,15 +1593,15 @@ var FullCalendarInteraction = (function (exports, common) {
         var standardProps = {};
         if (dateSpan0.allDay !== dateSpan1.allDay) {
             standardProps.allDay = dateSpan1.allDay;
-            standardProps.hasEnd = hit1.component.context.options.allDayMaintainDuration;
+            standardProps.hasEnd = hit1.context.options.allDayMaintainDuration;
             if (dateSpan1.allDay) {
                 // means date1 is already start-of-day,
                 // but date0 needs to be converted
                 date0 = common.startOfDay(date0);
             }
         }
-        var delta = common.diffDates(date0, date1, hit0.component.context.dateEnv, hit0.component === hit1.component ?
-            hit0.component.largeUnit :
+        var delta = common.diffDates(date0, date1, hit0.context.dateEnv, hit0.componentId === hit1.componentId ?
+            hit0.largeUnit :
             null);
         if (delta.milliseconds) { // has hours/minutes/seconds
             standardProps.allDay = false;
@@ -1609,7 +1616,7 @@ var FullCalendarInteraction = (function (exports, common) {
         }
         return mutation;
     }
-    function getComponentTouchDelay$1(component) {
+    function getComponentTouchDelay(component) {
         var options = component.context.options;
         var delay = options.eventLongPressDelay;
         if (delay == null) {
@@ -1668,12 +1675,17 @@ var FullCalendarInteraction = (function (exports, common) {
                     isEvent: true,
                 };
                 if (hit) {
-                    mutation = computeMutation(initialHit, hit, ev.subjectEl.classList.contains('fc-event-resizer-start'), eventInstance.range, context.pluginHooks.eventResizeJoinTransforms);
+                    var disallowed = hit.componentId === initialHit.componentId
+                        && _this.isHitComboAllowed
+                        && !_this.isHitComboAllowed(initialHit, hit);
+                    if (!disallowed) {
+                        mutation = computeMutation(initialHit, hit, ev.subjectEl.classList.contains('fc-event-resizer-start'), eventInstance.range);
+                    }
                 }
                 if (mutation) {
                     mutatedRelevantEvents = common.applyMutationToEventStore(relevantEvents, context.getCurrentData().eventUiBases, mutation, context);
                     interaction.mutatedEvents = mutatedRelevantEvents;
-                    if (!_this.component.isInteractionValid(interaction)) {
+                    if (!common.isInteractionValid(interaction, hit.dateProfile, context)) {
                         isInvalid = true;
                         mutation = null;
                         mutatedRelevantEvents = null;
@@ -1729,7 +1741,7 @@ var FullCalendarInteraction = (function (exports, common) {
                         revert: function () {
                             context.dispatch({
                                 type: 'MERGE_EVENTS',
-                                eventStore: relevantEvents,
+                                eventStore: relevantEvents, // the pre-change events
                             });
                         },
                     };
@@ -1765,31 +1777,18 @@ var FullCalendarInteraction = (function (exports, common) {
         };
         return EventResizing;
     }(common.Interaction));
-    function computeMutation(hit0, hit1, isFromStart, instanceRange, transforms) {
-        var dateEnv = hit0.component.context.dateEnv;
+    function computeMutation(hit0, hit1, isFromStart, instanceRange) {
+        var dateEnv = hit0.context.dateEnv;
         var date0 = hit0.dateSpan.range.start;
         var date1 = hit1.dateSpan.range.start;
-        var delta = common.diffDates(date0, date1, dateEnv, hit0.component.largeUnit);
-        var props = {};
-        for (var _i = 0, transforms_1 = transforms; _i < transforms_1.length; _i++) {
-            var transform = transforms_1[_i];
-            var res = transform(hit0, hit1);
-            if (res === false) {
-                return null;
-            }
-            if (res) {
-                __assign(props, res);
-            }
-        }
+        var delta = common.diffDates(date0, date1, dateEnv, hit0.largeUnit);
         if (isFromStart) {
             if (dateEnv.add(instanceRange.start, delta) < instanceRange.end) {
-                props.startDelta = delta;
-                return props;
+                return { startDelta: delta };
             }
         }
         else if (dateEnv.add(instanceRange.end, delta) > instanceRange.start) {
-            props.endDelta = delta;
-            return props;
+            return { endDelta: delta };
         }
         return null;
     }
@@ -1893,11 +1892,11 @@ var FullCalendarInteraction = (function (exports, common) {
                     isEvent: _this.dragMeta.create,
                 };
                 if (hit) {
-                    receivingContext = hit.component.context;
+                    receivingContext = hit.context;
                     if (_this.canDropElOnCalendar(ev.subjectEl, receivingContext)) {
                         droppableEvent = computeEventForDateSpan(hit.dateSpan, _this.dragMeta, receivingContext);
                         interaction.mutatedEvents = common.eventTupleToStore(droppableEvent);
-                        isInvalid = !common.isInteractionValid(interaction, receivingContext);
+                        isInvalid = !common.isInteractionValid(interaction, hit.dateProfile, receivingContext);
                         if (isInvalid) {
                             interaction.mutatedEvents = common.createEmptyEventStore();
                             droppableEvent = null;
@@ -1925,7 +1924,7 @@ var FullCalendarInteraction = (function (exports, common) {
                 _this.clearDrag();
                 if (receivingContext && droppableEvent) {
                     var finalHit = _this.hitDragging.finalHit;
-                    var finalView = finalHit.component.context.viewApi;
+                    var finalView = finalHit.context.viewApi;
                     var dragMeta = _this.dragMeta;
                     receivingContext.emitter.trigger('drop', __assign(__assign({}, buildDatePointApiWithContext(finalHit.dateSpan, receivingContext)), { draggedEl: pev.subjectEl, jsEvent: pev.origEvent, view: finalView }));
                     if (dragMeta.create) {

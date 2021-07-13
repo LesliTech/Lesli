@@ -1,7 +1,7 @@
 /*!
-FullCalendar v5.5.0
+FullCalendar v5.8.0
 Docs & License: https://fullcalendar.io/
-(c) 2020 Adam Shaw
+(c) 2021 Adam Shaw
 */
 import './vdom.js';
 import { __extends, __assign } from 'tslib';
