@@ -60,47 +60,66 @@ export default {
         <div class="card-content">
             <form @submit.prevent="putUser()">
                 <fieldset>
-                    <div class="column is-half">
-                        <div class="field">
-                            <label class="label">
-                                {{ translations.shared.view_text_salutation }}
-                            </label>
-                            <b-radio
-                                v-for="option in options.salutations"
-                                :key="option.value"
-                                v-model="user.detail_attributes.salutation"
-                                type="is-info"
-                                :native-value="option.value">
-                                {{ translations.shared[`column_enum_salutation_${option.text}`] }}
-                            </b-radio>
+                    <div class="columns">
+                        <div class="column is-half">
+                            <div class="field">
+                                <label class="label">
+                                    {{ translations.shared.view_text_salutation }}
+                                </label>
+                                <b-radio
+                                    v-for="option in options.salutations"
+                                    :key="option.value"
+                                    v-model="user.detail_attributes.salutation"
+                                    type="is-info"
+                                    :native-value="option.value">
+                                    {{ translations.shared[`column_enum_salutation_${option.text}`] }}
+                                </b-radio>
+                            </div>
+                            <div class="field">
+                                <label class="label"> {{ translations.shared.view_text_first_name}} </label>
+                                <div class="control">
+                                    <input v-model="user.detail_attributes.first_name" required="required" type="text" class="input">
+                                </div>
+                            </div>
+                            <div class="field">
+                                <label class="label"> {{ translations.shared.view_text_last_name }} </label>
+                                <div class="control">
+                                    <input v-model="user.detail_attributes.last_name" required="required" class="input">
+                                </div>
+                            </div>
+                            <div class="field">
+                                <label class="label"> {{ translations.users.view_text_title }} </label>
+                                <div class="control">
+                                    <input v-model="user.detail_attributes.title" class="input">
+                                </div>
+                            </div>
+                            <div class="field">
+                                <label class="label"> {{ translations.shared.view_text_telephone }} </label>
+                                <div class="control">
+                                    <input v-model="user.detail_attributes.telephone" class="input">
+                                </div>
+                            </div>
+                            <p class="control">
+                                <button class="button is-primary">{{ translations.shared.view_btn_save }}</button>
+                            </p>
                         </div>
-                        <div class="field">
-                            <label class="label"> {{ translations.shared.view_text_first_name}} </label>
-                            <div class="control">
-                                <input v-model="user.detail_attributes.first_name" required="required" type="text" class="input">
+                        <div class="column is-half">
+                            <div class="field">
+                                <label class="label"> {{ translations.users.column_work_region }} </label>
+                                <div class="control">
+                                    <div :class="['select is-fullwidth', {'is-empty': user.detail_attributes.work_region == null}]">
+                                        <select v-model="user.detail_attributes.work_region">
+                                            <option :disabled="true" :value="null" :hidden="true">
+                                                {{translations.shared.view_placeholder_select_option}}
+                                            </option>
+                                            <option v-for="region in options.regions" :key="region.name" :value="region.id">
+                                                {{region.name}}
+                                            </option>
+                                        </select>
+                                    </div>
+                                </div>
                             </div>
                         </div>
-                        <div class="field">
-                            <label class="label"> {{ translations.shared.view_text_last_name }} </label>
-                            <div class="control">
-                                <input v-model="user.detail_attributes.last_name" required="required" class="input">
-                            </div>
-                        </div>
-                        <div class="field">
-                            <label class="label"> {{ translations.users.view_text_title }} </label>
-                            <div class="control">
-                                <input v-model="user.detail_attributes.title" class="input">
-                            </div>
-                        </div>
-                        <div class="field">
-                            <label class="label"> {{ translations.shared.view_text_telephone }} </label>
-                            <div class="control">
-                                <input v-model="user.detail_attributes.telephone" class="input">
-                            </div>
-                        </div>
-                        <p class="control">
-                            <button class="button is-primary">{{ translations.shared.view_btn_save }}</button>
-                        </p>
                     </div>
                 </fieldset>
             </form>
