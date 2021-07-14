@@ -53,10 +53,8 @@ declare function greatestDurationDenominator(dur: Duration): {
     value: number;
 };
 
-
 declare type ClassNamesInput = string | string[];
 declare function parseClassNames(raw: ClassNamesInput): string[];
-
 
 declare type DateMarker = Date;
 declare function addWeeks(m: DateMarker, n: number): Date;
@@ -116,9 +114,6 @@ interface DateFormatter {
     formatRange(start: ZonedMarker, end: ZonedMarker, context: DateFormattingContext, betterDefaultSeparator?: string): string;
 }
 
-
-declare type FuncFormatterFunc = (arg: VerboseFormattingArg) => string;
-
 interface NativeFormatterOptions extends Intl.DateTimeFormatOptions {
     week?: 'short' | 'narrow' | 'numeric';
     meridiem?: 'lowercase' | 'short' | 'narrow' | boolean;
@@ -127,9 +122,10 @@ interface NativeFormatterOptions extends Intl.DateTimeFormatOptions {
     separator?: string;
 }
 
+declare type FuncFormatterFunc = (arg: VerboseFormattingArg) => string;
+
 declare type FormatterInput = NativeFormatterOptions | string | FuncFormatterFunc;
 declare function createFormatter(input: FormatterInput): DateFormatter;
-
 
 declare function guid(): string;
 declare function disableCursor(): void;
@@ -153,7 +149,6 @@ declare function padStart(val: any, len: any): string;
 declare function compareNumbers(a: any, b: any): number;
 declare function isInt(n: any): boolean;
 declare function computeSmallestCellWidth(cellEl: HTMLElement): number;
-
 
 interface DateRangeInput {
     start?: DateInput;
@@ -183,13 +178,11 @@ interface PointerDragEvent {
     deltaY: number;
 }
 
-
 interface EventInteractionState {
     affectedEvents: EventStore;
     mutatedEvents: EventStore;
     isEvent: boolean;
 }
-
 
 declare type Action = {
     type: 'NOTHING';
@@ -241,6 +234,7 @@ declare type Action = {
 } | {
     type: 'FETCH_EVENT_SOURCES';
     sourceIds?: string[];
+    isRefetch?: boolean;
 } | 
 {
     type: 'RECEIVE_EVENTS';
@@ -271,7 +265,6 @@ declare type Action = {
     type: 'REMOVE_ALL_EVENTS';
 };
 
-
 interface EventMutation {
     datesDelta?: Duration;
     startDelta?: Duration;
@@ -281,7 +274,6 @@ interface EventMutation {
 }
 declare function applyMutationToEventStore(eventStore: EventStore, eventConfigBase: EventUiHash, mutation: EventMutation, context: CalendarContext): EventStore;
 declare type eventDefMutationApplier = (eventDef: EventDef, mutation: EventMutation, context: CalendarContext) => void;
-
 
 interface DateProfile {
     currentRange: DateRange;
@@ -355,7 +347,6 @@ declare class DateProfileGenerator {
     skipHiddenDays(date: DateMarker, inc?: number, isExclusive?: boolean): Date;
 }
 
-
 interface ViewProps {
     dateProfile: DateProfile;
     businessHours: EventStore;
@@ -372,7 +363,6 @@ declare function sliceEvents(props: ViewProps & {
     dateProfile: DateProfile;
     nextDayThreshold: Duration;
 }, allDay?: boolean): EventRenderRange[];
-
 
 declare type MountArg<ContentArg> = ContentArg & {
     el: HTMLElement;
@@ -439,7 +429,6 @@ declare class MountHook<ContentArg> extends BaseComponent<MountHookProps<Content
 declare function buildClassNameNormalizer<HookProps>(): (generator: ClassNamesGenerator<HookProps>, hookProps: HookProps) => string[];
 declare type ClassNamesGenerator<HookProps> = ClassNamesInput | ((hookProps: HookProps) => ClassNamesInput);
 
-
 declare type ViewComponentType = ComponentType<ViewProps>;
 declare type ViewConfigInput = ViewComponentType | ViewOptions;
 declare type ViewConfigInputHash = {
@@ -449,7 +438,6 @@ interface SpecificViewContentArg extends ViewProps {
     nextDayThreshold: Duration;
 }
 declare type SpecificViewMountArg = MountArg<SpecificViewContentArg>;
-
 
 interface ViewSpec {
     type: string;
@@ -481,7 +469,6 @@ declare class Emitter<HandlerFuncs extends HandlerFuncTypeHash> {
     hasHandlers(type: keyof HandlerFuncs): number | Partial<HandlerFuncs>[keyof HandlerFuncs];
 }
 
-
 declare class Theme {
     classes: any;
     iconClasses: any;
@@ -500,7 +487,6 @@ declare class Theme {
 declare type ThemeClass = {
     new (calendarOptions: any): Theme;
 };
-
 
 interface CalendarDataManagerState {
     dynamicOptionOverrides: CalendarOptions;
@@ -557,7 +543,6 @@ declare class ViewApi {
     getOption(name: string): unknown;
 }
 
-
 interface DateSelectionApi extends DateSpanApi {
     jsEvent: UIEvent;
     view: ViewApi;
@@ -587,9 +572,37 @@ interface DateUnselectArg {
 }
 declare function getDefaultEventEnd(allDay: boolean, marker: DateMarker, context: CalendarContext): DateMarker;
 
+interface Point {
+    left: number;
+    top: number;
+}
+interface Rect {
+    left: number;
+    right: number;
+    top: number;
+    bottom: number;
+}
+declare function pointInsideRect(point: Point, rect: Rect): boolean;
+declare function intersectRects(rect1: Rect, rect2: Rect): Rect | false;
+declare function translateRect(rect: Rect, deltaX: number, deltaY: number): Rect;
+declare function constrainPoint(point: Point, rect: Rect): Point;
+declare function getRectCenter(rect: Rect): Point;
+declare function diffPoints(point1: Point, point2: Point): Point;
+
+interface Hit {
+    componentId?: string;
+    context?: ViewContext;
+    dateProfile: DateProfile;
+    dateSpan: DateSpan;
+    dayEl: HTMLElement;
+    rect: Rect;
+    layer: number;
+    largeUnit?: string;
+}
 
 declare abstract class Interaction {
     component: DateComponent<any>;
+    isHitComboAllowed: ((hit0: Hit, hit1: Hit) => boolean) | null;
     constructor(settings: InteractionSettings);
     destroy(): void;
 }
@@ -599,11 +612,13 @@ declare type InteractionClass = {
 interface InteractionSettingsInput {
     el: HTMLElement;
     useEventCenter?: boolean;
+    isHitComboAllowed?: (hit0: Hit, hit1: Hit) => boolean;
 }
 interface InteractionSettings {
     component: DateComponent<any>;
     el: HTMLElement;
     useEventCenter: boolean;
+    isHitComboAllowed: ((hit0: Hit, hit1: Hit) => boolean) | null;
 }
 declare type InteractionSettingsStore = {
     [componenUid: string]: InteractionSettings;
@@ -612,7 +627,6 @@ declare function interactionSettingsToStore(settings: InteractionSettings): {
     [x: string]: InteractionSettings;
 };
 declare const interactionSettingsStore: InteractionSettingsStore;
-
 
 declare class DelayedRunner {
     private drainedOption?;
@@ -630,7 +644,6 @@ declare class DelayedRunner {
     private clearTimeout;
     protected drained(): void;
 }
-
 
 interface CalendarContentProps extends CalendarData {
     forPrint: boolean;
@@ -658,44 +671,11 @@ declare class CalendarContent extends PureComponent<CalendarContentProps> {
     handleWindowResize: (ev: UIEvent) => void;
 }
 
-
-interface Point {
-    left: number;
-    top: number;
-}
-interface Rect {
-    left: number;
-    right: number;
-    top: number;
-    bottom: number;
-}
-declare function pointInsideRect(point: Point, rect: Rect): boolean;
-declare function intersectRects(rect1: Rect, rect2: Rect): Rect | false;
-declare function translateRect(rect: Rect, deltaX: number, deltaY: number): Rect;
-declare function constrainPoint(point: Point, rect: Rect): Point;
-declare function getRectCenter(rect: Rect): Point;
-declare function diffPoints(point1: Point, point2: Point): Point;
-
-
-interface Hit {
-    component: DateComponent<any>;
-    dateSpan: DateSpan;
-    dayEl: HTMLElement;
-    rect: Rect;
-    layer: number;
-}
-
-
 declare type eventDragMutationMassager = (mutation: EventMutation, hit0: Hit, hit1: Hit) => void;
 declare type EventDropTransformers = (mutation: EventMutation, context: CalendarContext) => Dictionary;
 declare type eventIsDraggableTransformer = (val: boolean, eventDef: EventDef, eventUi: EventUi, context: CalendarContext) => boolean;
 
-
 declare type dateSelectionJoinTransformer = (hit0: Hit, hit1: Hit) => any;
-
-
-declare type EventResizeJoinTransforms = (hit0: Hit, hit1: Hit) => false | Dictionary;
-
 
 declare const DRAG_META_REFINERS: {
     startTime: typeof createDuration;
@@ -717,7 +697,6 @@ declare function parseDragMeta(raw: DragMetaInput): DragMeta;
 
 declare type ExternalDefTransform = (dateSpan: DateSpan, dragMeta: DragMeta) => any;
 
-
 declare type EventSourceFunc = (arg: {
     start: Date;
     end: Date;
@@ -728,12 +707,11 @@ declare type EventSourceFunc = (arg: {
 
 declare const JSON_FEED_EVENT_SOURCE_REFINERS: {
     method: StringConstructor;
-    extraParams: Identity<Record<string, any> | (() => Dictionary)>;
+    extraParams: Identity<Dictionary | (() => Dictionary)>;
     startParam: StringConstructor;
     endParam: StringConstructor;
     timeZoneParam: StringConstructor;
 };
-
 
 declare const EVENT_SOURCE_REFINERS: {
     id: StringConstructor;
@@ -760,7 +738,6 @@ interface EventSourceDef<Meta> {
     fetch: EventSourceFetcher<Meta>;
 }
 
-
 interface ParsedRecurring<RecurringData> {
     typeData: RecurringData;
     allDayGuess: boolean | null;
@@ -781,7 +758,6 @@ declare type NamedTimeZoneImplClass = {
     new (timeZoneName: string): NamedTimeZoneImpl;
 };
 
-
 declare abstract class ElementDragging {
     emitter: Emitter<any>;
     constructor(el: HTMLElement, selector?: string);
@@ -794,7 +770,6 @@ declare abstract class ElementDragging {
 declare type ElementDraggingClass = {
     new (el: HTMLElement, selector?: string): ElementDragging;
 };
-
 
 declare type CssDimValue = string | number;
 interface ColProps {
@@ -854,11 +829,11 @@ declare function renderScrollShim(arg: ChunkContentCallbackArgs): createElement.
 declare function getStickyHeaderDates(options: BaseOptionsRefined): boolean;
 declare function getStickyFooterScrollbar(options: BaseOptionsRefined): boolean;
 
-
 interface ScrollGridProps {
     colGroups?: ColGroupConfig[];
     sections: ScrollGridSectionConfig[];
     liquid: boolean;
+    collapsibleWidth: boolean;
     elRef?: Ref<any>;
 }
 interface ScrollGridSectionConfig extends SectionConfig {
@@ -875,7 +850,6 @@ interface ColGroupConfig {
 declare type ScrollGridImpl = {
     new (props: ScrollGridProps, context: ViewContext): Component<ScrollGridProps>;
 };
-
 
 interface PluginDefInput {
     deps?: PluginDef[];
@@ -895,7 +869,6 @@ interface PluginDefInput {
     viewPropsTransformers?: ViewPropsTransformerClass[];
     isPropsValid?: isPropsValidTester;
     externalDefTransforms?: ExternalDefTransform[];
-    eventResizeJoinTransforms?: EventResizeJoinTransforms[];
     viewContainerAppends?: ViewContainerAppend[];
     eventDropTransformers?: EventDropTransformers[];
     componentInteractions?: InteractionClass[];
@@ -935,7 +908,6 @@ interface PluginHooks {
     viewPropsTransformers: ViewPropsTransformerClass[];
     isPropsValid: isPropsValidTester | null;
     externalDefTransforms: ExternalDefTransform[];
-    eventResizeJoinTransforms: EventResizeJoinTransforms[];
     viewContainerAppends: ViewContainerAppend[];
     eventDropTransformers: EventDropTransformers[];
     componentInteractions: InteractionClass[];
@@ -967,7 +939,6 @@ interface ViewPropsTransformer {
     transform(viewProps: ViewProps, calendarProps: CalendarContentProps): any;
 }
 declare type ViewContainerAppend = (context: CalendarContext) => ComponentChildren;
-
 
 interface CalendarDataManagerProps {
     optionOverrides: CalendarOptions;
@@ -1027,7 +998,6 @@ declare class CalendarDataManager {
     };
 }
 
-
 declare class CalendarApi {
     currentDataManager?: CalendarDataManager;
     getCurrentData(): CalendarData;
@@ -1070,7 +1040,6 @@ declare class CalendarApi {
     scrollToTime(timeInput: DurationInput): void;
 }
 
-
 interface ScrollRequest {
     time?: Duration;
     [otherProp: string]: any;
@@ -1080,15 +1049,15 @@ declare class ScrollResponder {
     private execFunc;
     private emitter;
     private scrollTime;
+    private scrollTimeReset;
     queuedRequest: ScrollRequest;
-    constructor(execFunc: ScrollRequestHandler, emitter: Emitter<CalendarListeners>, scrollTime: Duration);
+    constructor(execFunc: ScrollRequestHandler, emitter: Emitter<CalendarListeners>, scrollTime: Duration, scrollTimeReset: boolean);
     detach(): void;
     update(isDatesNew: boolean): void;
     private fireInitialScroll;
     private handleScrollRequest;
     private drain;
 }
-
 
 declare const ViewContextType: Context<any>;
 declare type ResizeHandler = (force: boolean) => void;
@@ -1126,7 +1095,6 @@ declare function compareObjs(oldProps: any, newProps: any, equalityFuncs?: Equal
 declare function collectFromHash<Item>(hash: {
     [key: string]: Item;
 }, startIndex?: number, endIndex?: number, step?: number): Item[];
-
 
 declare abstract class PureComponent<Props = Dictionary, State = Dictionary> extends Component<Props, State> {
     static addPropsEquality: typeof addPropsEquality;
@@ -1166,7 +1134,6 @@ declare type EventInstanceHash = {
 };
 declare function createEventInstance(defId: string, range: DateRange, forcedStartTzo?: number, forcedEndTzo?: number): EventInstance;
 
-
 interface Seg {
     component?: DateComponent<any, any>;
     isStart: boolean;
@@ -1182,15 +1149,11 @@ interface EventSegUiInteractionState {
 }
 declare abstract class DateComponent<Props = Dictionary, State = Dictionary> extends BaseComponent<Props, State> {
     uid: string;
-    largeUnit: any;
     prepareHits(): void;
     queryHit(positionLeft: number, positionTop: number, elWidth: number, elHeight: number): Hit | null;
-    isInteractionValid(interaction: EventInteractionState): boolean;
-    isDateSelectionValid(selection: DateSpan): boolean;
     isValidSegDownEl(el: HTMLElement): boolean;
     isValidDateDownEl(el: HTMLElement): boolean;
 }
-
 
 declare class EventApi {
     _context: CalendarContext;
@@ -1239,15 +1202,14 @@ declare class EventApi {
     get borderColor(): string;
     get textColor(): string;
     get classNames(): string[];
-    get extendedProps(): Record<string, any>;
+    get extendedProps(): Dictionary;
     toPlainObject(settings?: {
         collapseExtendedProps?: boolean;
         collapseColor?: boolean;
     }): Dictionary;
-    toJSON(): Record<string, any>;
+    toJSON(): Dictionary;
 }
 declare function buildEventApis(eventStore: EventStore, context: CalendarContext, excludeInstance?: EventInstance): EventApi[];
-
 
 interface EventRenderRange extends EventTuple {
     ui: EventUi;
@@ -1283,7 +1245,7 @@ declare function buildSegCompareObj(seg: Seg): {
     title: string;
     url: string;
     ui: EventUi;
-    extendedProps: Record<string, any>;
+    extendedProps: Dictionary;
 };
 interface EventContentArg {
     event: EventApi;
@@ -1319,7 +1281,6 @@ declare function getSegMeta(seg: Seg, todayRange: DateRange, nowDate?: DateMarke
 };
 declare function getEventClassNames(props: EventContentArg): string[];
 declare function buildEventRangeKey(eventRange: EventRenderRange): string;
-
 
 interface OpenDateSpanInput {
     start?: DateInput;
@@ -1361,7 +1322,6 @@ declare function isDateSpansEqual(span0: DateSpan, span1: DateSpan): boolean;
 declare type BusinessHoursInput = boolean | EventInput | EventInput[];
 declare function parseBusinessHours(input: BusinessHoursInput, context: CalendarContext): EventStore;
 
-
 interface NowIndicatorRootProps {
     isAxis: boolean;
     date: DateMarker;
@@ -1374,7 +1334,6 @@ interface NowIndicatorContentArg {
 }
 declare type NowIndicatorMountArg = MountArg<NowIndicatorContentArg>;
 declare const NowIndicatorRoot: (props: NowIndicatorRootProps) => createElement.JSX.Element;
-
 
 interface WeekNumberRootProps {
     date: DateMarker;
@@ -1389,6 +1348,65 @@ interface WeekNumberContentArg {
 declare type WeekNumberMountArg = MountArg<WeekNumberContentArg>;
 declare const WeekNumberRoot: (props: WeekNumberRootProps) => createElement.JSX.Element;
 
+declare type MoreLinkChildren = (rootElRef: Ref<any>, classNames: string[], innerElRef: Ref<any>, innerContent: ComponentChildren, handleClick: (ev: MouseEvent) => void) => ComponentChildren;
+interface MoreLinkRootProps {
+    dateProfile: DateProfile;
+    todayRange: DateRange;
+    allDayDate: DateMarker | null;
+    moreCnt: number;
+    allSegs: Seg[];
+    hiddenSegs: Seg[];
+    extraDateSpan?: Dictionary;
+    alignmentElRef: RefObject<HTMLElement>;
+    alignGridTop?: boolean;
+    topAlignmentElRef?: RefObject<HTMLElement>;
+    defaultContent?: (hookProps: MoreLinkContentArg) => ComponentChildren;
+    popoverContent: () => VNode;
+    children: MoreLinkChildren;
+}
+interface MoreLinkContentArg {
+    num: number;
+    text: string;
+    shortText: string;
+    view: ViewApi;
+}
+declare type MoreLinkMountArg = MountArg<MoreLinkContentArg>;
+interface MoreLinkRootState {
+    isPopoverOpen: boolean;
+}
+declare class MoreLinkRoot extends BaseComponent<MoreLinkRootProps, MoreLinkRootState> {
+    private linkElRef;
+    private parentEl;
+    state: {
+        isPopoverOpen: boolean;
+    };
+    render(): createElement.JSX.Element;
+    componentDidMount(): void;
+    componentDidUpdate(): void;
+    updateParentEl(): void;
+    handleClick: (ev: MouseEvent) => void;
+    handlePopoverClose: () => void;
+}
+declare function computeEarliestSegStart(segs: Seg[]): DateMarker;
+
+interface EventSegment {
+    event: EventApi;
+    start: Date;
+    end: Date;
+    isStart: boolean;
+    isEnd: boolean;
+}
+declare type MoreLinkAction = MoreLinkSimpleAction | MoreLinkHandler;
+declare type MoreLinkSimpleAction = 'popover' | 'week' | 'day' | 'timeGridWeek' | 'timeGridDay' | string;
+interface MoreLinkArg {
+    date: Date;
+    allDay: boolean;
+    allSegs: EventSegment[];
+    hiddenSegs: EventSegment[];
+    jsEvent: VUIEvent;
+    view: ViewApi;
+}
+declare type MoreLinkHandler = (arg: MoreLinkArg) => MoreLinkSimpleAction | void;
 
 interface DateMeta {
     dow: number;
@@ -1401,7 +1419,6 @@ interface DateMeta {
 declare function getDateMeta(date: DateMarker, todayRange?: DateRange, nowDate?: DateMarker, dateProfile?: DateProfile): DateMeta;
 declare function getDayClassNames(meta: DateMeta, theme: Theme): string[];
 declare function getSlotClassNames(meta: DateMeta, theme: Theme): string[];
-
 
 interface SlotLaneContentArg extends Partial<DateMeta> {
     time?: Duration;
@@ -1430,17 +1447,16 @@ interface DayHeaderContentArg extends DateMeta {
 }
 declare type DayHeaderMountArg = MountArg<DayHeaderContentArg>;
 
-
 interface DayCellContentProps {
     date: DateMarker;
     dateProfile: DateProfile;
     todayRange: DateRange;
     showDayNumber?: boolean;
     extraHookProps?: Dictionary;
-    defaultContent?: (hookProps: DayCellContentArg) => ComponentChildren;
+    defaultContent?: (hookProps: DayCellContentArg$1) => ComponentChildren;
     children: (innerElRef: Ref<any>, innerContent: ComponentChildren) => ComponentChildren;
 }
-interface DayCellContentArg extends DateMeta {
+interface DayCellContentArg$1 extends DateMeta {
     date: DateMarker;
     view: ViewApi;
     dayNumberText: string;
@@ -1459,13 +1475,13 @@ declare class DayCellContent extends BaseComponent<DayCellContentProps> {
     render(): createElement.JSX.Element;
 }
 
-interface DayCellContentArg$1 extends DateMeta {
+interface DayCellContentArg extends DateMeta {
     date: DateMarker;
     view: ViewApi;
     dayNumberText: string;
     [extraProp: string]: any;
 }
-declare type DayCellMountArg = MountArg<DayCellContentArg$1>;
+declare type DayCellMountArg = MountArg<DayCellContentArg>;
 interface DayCellRootProps {
     elRef?: Ref<any>;
     date: DateMarker;
@@ -1476,11 +1492,10 @@ interface DayCellRootProps {
     children: (rootElRef: Ref<any>, classNames: string[], rootDataAttrs: any, isDisabled: boolean) => ComponentChildren;
 }
 declare class DayCellRoot extends BaseComponent<DayCellRootProps> {
-    refineHookProps: (arg: DayCellHookPropsInput) => DayCellContentArg;
-    normalizeClassNames: (generator: ClassNamesGenerator<DayCellContentArg$1>, hookProps: DayCellContentArg$1) => string[];
+    refineHookProps: (arg: DayCellHookPropsInput) => DayCellContentArg$1;
+    normalizeClassNames: (generator: ClassNamesGenerator<DayCellContentArg>, hookProps: DayCellContentArg) => string[];
     render(): createElement.JSX.Element;
 }
-
 
 interface ViewRootProps {
     viewSpec: ViewSpec;
@@ -1495,7 +1510,6 @@ declare class ViewRoot extends BaseComponent<ViewRootProps> {
     normalizeClassNames: (generator: ClassNamesGenerator<ViewContentArg>, hookProps: ViewContentArg) => string[];
     render(): createElement.JSX.Element;
 }
-
 
 interface EventClickArg {
     el: HTMLElement;
@@ -1545,7 +1559,6 @@ interface ButtonTextCompoundInput {
     [viewOrCustomButton: string]: string | undefined;
 }
 
-
 declare type DatesSetArg = RangeApiWithTimeZone & {
     view: ViewApi;
 };
@@ -1586,6 +1599,7 @@ declare const BASE_OPTION_REFINERS: {
     defaultTimedEventDuration: typeof createDuration;
     nextDayThreshold: typeof createDuration;
     scrollTime: typeof createDuration;
+    scrollTimeReset: BooleanConstructor;
     slotMinTime: typeof createDuration;
     slotMaxTime: typeof createDuration;
     dayPopoverFormat: typeof createFormatter;
@@ -1600,12 +1614,12 @@ declare const BASE_OPTION_REFINERS: {
     dayHeaderFormat: typeof createFormatter;
     dayHeaderClassNames: Identity<ClassNamesGenerator<DayHeaderContentArg>>;
     dayHeaderContent: Identity<CustomContentGenerator<DayHeaderContentArg>>;
-    dayHeaderDidMount: Identity<DidMountHandler<MountArg<DayHeaderContentArg>>>;
-    dayHeaderWillUnmount: Identity<WillUnmountHandler<MountArg<DayHeaderContentArg>>>;
-    dayCellClassNames: Identity<ClassNamesGenerator<DayCellContentArg$1>>;
-    dayCellContent: Identity<CustomContentGenerator<DayCellContentArg$1>>;
-    dayCellDidMount: Identity<DidMountHandler<MountArg<DayCellContentArg$1>>>;
-    dayCellWillUnmount: Identity<WillUnmountHandler<MountArg<DayCellContentArg$1>>>;
+    dayHeaderDidMount: Identity<DidMountHandler<DayHeaderMountArg>>;
+    dayHeaderWillUnmount: Identity<WillUnmountHandler<DayHeaderMountArg>>;
+    dayCellClassNames: Identity<ClassNamesGenerator<DayCellContentArg>>;
+    dayCellContent: Identity<CustomContentGenerator<DayCellContentArg>>;
+    dayCellDidMount: Identity<DidMountHandler<DayCellMountArg>>;
+    dayCellWillUnmount: Identity<WillUnmountHandler<DayCellMountArg>>;
     initialView: StringConstructor;
     aspectRatio: NumberConstructor;
     weekends: BooleanConstructor;
@@ -1613,17 +1627,17 @@ declare const BASE_OPTION_REFINERS: {
     weekNumbers: BooleanConstructor;
     weekNumberClassNames: Identity<ClassNamesGenerator<WeekNumberContentArg>>;
     weekNumberContent: Identity<CustomContentGenerator<WeekNumberContentArg>>;
-    weekNumberDidMount: Identity<DidMountHandler<MountArg<WeekNumberContentArg>>>;
-    weekNumberWillUnmount: Identity<WillUnmountHandler<MountArg<WeekNumberContentArg>>>;
+    weekNumberDidMount: Identity<DidMountHandler<WeekNumberMountArg>>;
+    weekNumberWillUnmount: Identity<WillUnmountHandler<WeekNumberMountArg>>;
     editable: BooleanConstructor;
     viewClassNames: Identity<ClassNamesGenerator<ViewContentArg>>;
-    viewDidMount: Identity<DidMountHandler<MountArg<ViewContentArg>>>;
-    viewWillUnmount: Identity<WillUnmountHandler<MountArg<ViewContentArg>>>;
+    viewDidMount: Identity<DidMountHandler<ViewMountArg>>;
+    viewWillUnmount: Identity<WillUnmountHandler<ViewMountArg>>;
     nowIndicator: BooleanConstructor;
     nowIndicatorClassNames: Identity<ClassNamesGenerator<NowIndicatorContentArg>>;
     nowIndicatorContent: Identity<CustomContentGenerator<NowIndicatorContentArg>>;
-    nowIndicatorDidMount: Identity<DidMountHandler<MountArg<NowIndicatorContentArg>>>;
-    nowIndicatorWillUnmount: Identity<WillUnmountHandler<MountArg<NowIndicatorContentArg>>>;
+    nowIndicatorDidMount: Identity<DidMountHandler<NowIndicatorMountArg>>;
+    nowIndicatorWillUnmount: Identity<WillUnmountHandler<NowIndicatorMountArg>>;
     showNonCurrentDates: BooleanConstructor;
     lazyFetching: BooleanConstructor;
     startParam: StringConstructor;
@@ -1639,13 +1653,14 @@ declare const BASE_OPTION_REFINERS: {
     unselectAuto: BooleanConstructor;
     dropAccept: Identity<string | ((this: CalendarApi, draggable: any) => boolean)>;
     eventOrder: typeof parseFieldSpecs;
+    eventOrderStrict: BooleanConstructor;
     handleWindowResize: BooleanConstructor;
     windowResizeDelay: NumberConstructor;
     longPressDelay: NumberConstructor;
     eventDragMinDistance: NumberConstructor;
     expandRows: BooleanConstructor;
-    height: Identity<string | number>;
-    contentHeight: Identity<string | number>;
+    height: Identity<CssDimValue>;
+    contentHeight: Identity<CssDimValue>;
     direction: Identity<"ltr" | "rtl">;
     weekNumberFormat: typeof createFormatter;
     eventResizableFromStart: BooleanConstructor;
@@ -1655,11 +1670,11 @@ declare const BASE_OPTION_REFINERS: {
     progressiveEventRendering: BooleanConstructor;
     businessHours: Identity<BusinessHoursInput>;
     initialDate: Identity<DateInput>;
-    now: Identity<string | number | Date | number[] | ((this: CalendarApi) => DateInput)>;
+    now: Identity<DateInput | ((this: CalendarApi) => DateInput)>;
     eventDataTransform: Identity<EventInputTransformer>;
     stickyHeaderDates: Identity<boolean | "auto">;
     stickyFooterScrollbar: Identity<boolean | "auto">;
-    viewHeight: Identity<string | number>;
+    viewHeight: Identity<CssDimValue>;
     defaultAllDay: BooleanConstructor;
     eventSourceFailure: Identity<(this: CalendarApi, error: any) => void>;
     eventSourceSuccess: Identity<(this: CalendarApi, eventsInput: EventInput[], xhr?: XMLHttpRequest) => EventInput[] | void>;
@@ -1675,22 +1690,22 @@ declare const BASE_OPTION_REFINERS: {
     eventColor: StringConstructor;
     eventClassNames: Identity<ClassNamesGenerator<EventContentArg>>;
     eventContent: Identity<CustomContentGenerator<EventContentArg>>;
-    eventDidMount: Identity<DidMountHandler<MountArg<EventContentArg>>>;
-    eventWillUnmount: Identity<WillUnmountHandler<MountArg<EventContentArg>>>;
+    eventDidMount: Identity<DidMountHandler<EventMountArg>>;
+    eventWillUnmount: Identity<WillUnmountHandler<EventMountArg>>;
     selectConstraint: Identity<ConstraintInput>;
     selectOverlap: Identity<boolean | OverlapFunc>;
     selectAllow: Identity<AllowFunc>;
     droppable: BooleanConstructor;
     unselectCancel: StringConstructor;
-    slotLabelFormat: Identity<string | NativeFormatterOptions | FuncFormatterFunc | FormatterInput[]>;
+    slotLabelFormat: Identity<FormatterInput | FormatterInput[]>;
     slotLaneClassNames: Identity<ClassNamesGenerator<SlotLaneContentArg>>;
     slotLaneContent: Identity<CustomContentGenerator<SlotLaneContentArg>>;
-    slotLaneDidMount: Identity<DidMountHandler<MountArg<SlotLaneContentArg>>>;
-    slotLaneWillUnmount: Identity<WillUnmountHandler<MountArg<SlotLaneContentArg>>>;
+    slotLaneDidMount: Identity<DidMountHandler<SlotLaneMountArg>>;
+    slotLaneWillUnmount: Identity<WillUnmountHandler<SlotLaneMountArg>>;
     slotLabelClassNames: Identity<ClassNamesGenerator<SlotLabelContentArg>>;
     slotLabelContent: Identity<CustomContentGenerator<SlotLabelContentArg>>;
-    slotLabelDidMount: Identity<DidMountHandler<MountArg<SlotLabelContentArg>>>;
-    slotLabelWillUnmount: Identity<WillUnmountHandler<MountArg<SlotLabelContentArg>>>;
+    slotLabelDidMount: Identity<DidMountHandler<SlotLabelMountArg>>;
+    slotLabelWillUnmount: Identity<WillUnmountHandler<SlotLabelMountArg>>;
     dayMaxEvents: Identity<number | boolean>;
     dayMaxEventRows: Identity<number | boolean>;
     dayMinWidth: NumberConstructor;
@@ -1698,8 +1713,8 @@ declare const BASE_OPTION_REFINERS: {
     allDayText: StringConstructor;
     allDayClassNames: Identity<ClassNamesGenerator<AllDayContentArg>>;
     allDayContent: Identity<CustomContentGenerator<AllDayContentArg>>;
-    allDayDidMount: Identity<DidMountHandler<MountArg<AllDayContentArg>>>;
-    allDayWillUnmount: Identity<WillUnmountHandler<MountArg<AllDayContentArg>>>;
+    allDayDidMount: Identity<DidMountHandler<AllDayMountArg>>;
+    allDayWillUnmount: Identity<WillUnmountHandler<AllDayMountArg>>;
     slotMinWidth: NumberConstructor;
     navLinks: BooleanConstructor;
     eventTimeFormat: typeof createFormatter;
@@ -1710,7 +1725,10 @@ declare const BASE_OPTION_REFINERS: {
     selectLongPressDelay: NumberConstructor;
     eventLongPressDelay: NumberConstructor;
     selectMirror: BooleanConstructor;
+    eventMaxStack: NumberConstructor;
     eventMinHeight: NumberConstructor;
+    eventMinWidth: NumberConstructor;
+    eventShortHeight: NumberConstructor;
     slotEventOverlap: BooleanConstructor;
     plugins: Identity<PluginDef[]>;
     firstDay: NumberConstructor;
@@ -1724,6 +1742,11 @@ declare const BASE_OPTION_REFINERS: {
     visibleRange: Identity<DateRangeInput | ((this: CalendarApi, currentDate: Date) => DateRangeInput)>;
     titleFormat: Identity<FormatterInput>;
     noEventsText: StringConstructor;
+    moreLinkClick: Identity<MoreLinkAction>;
+    moreLinkClassNames: Identity<ClassNamesGenerator<MoreLinkContentArg>>;
+    moreLinkContent: Identity<CustomContentGenerator<MoreLinkContentArg>>;
+    moreLinkDidMount: Identity<DidMountHandler<MoreLinkMountArg>>;
+    moreLinkWillUnmount: Identity<WillUnmountHandler<MoreLinkMountArg>>;
 };
 declare type BuiltInBaseOptionRefiners = typeof BASE_OPTION_REFINERS;
 interface BaseOptionRefiners extends BuiltInBaseOptionRefiners {
@@ -1754,6 +1777,7 @@ declare const BASE_OPTION_DEFAULTS: {
     editable: boolean;
     nowIndicator: boolean;
     scrollTime: string;
+    scrollTimeReset: boolean;
     slotMinTime: string;
     slotMaxTime: string;
     showNonCurrentDates: boolean;
@@ -1783,6 +1807,9 @@ declare const BASE_OPTION_DEFAULTS: {
     expandRows: boolean;
     navLinks: boolean;
     selectable: boolean;
+    eventMinHeight: number;
+    eventMinWidth: number;
+    eventShortHeight: number;
 };
 declare type BaseOptionsRefined = DefaultedRefinedOptions<RefinedOptionsFromRefiners<Required<BaseOptionRefiners>>, 
 keyof typeof BASE_OPTION_DEFAULTS>;
@@ -1953,7 +1980,6 @@ declare class DateEnv {
     toDate(m: DateMarker, forcedTzo?: number): Date;
 }
 
-
 interface CalendarContext {
     dateEnv: DateEnv;
     options: BaseOptionsRefined;
@@ -1963,7 +1989,6 @@ interface CalendarContext {
     getCurrentData(): CalendarData;
     calendarApi: CalendarApi;
 }
-
 
 declare const EVENT_UI_REFINERS: {
     display: StringConstructor;
@@ -2024,7 +2049,6 @@ declare type EventDefHash = {
     [defId: string]: EventDef;
 };
 
-
 interface EventStore {
     defs: EventDefHash;
     instances: EventInstanceHash;
@@ -2070,7 +2094,6 @@ declare abstract class Splitter<PropsType extends SplittableProps = SplittablePr
     private _splitInteraction;
 }
 
-
 declare type ConstraintInput = 'businessHours' | string | EventInput | EventInput[];
 declare type Constraint = 'businessHours' | string | EventStore | false;
 declare type OverlapFunc = ((stillEvent: EventApi, movingEvent: EventApi | null) => boolean);
@@ -2078,7 +2101,7 @@ declare type AllowFunc = (span: DateSpanApi, movingEvent: EventApi | null) => bo
 declare type isPropsValidTester = (props: SplittableProps, context: CalendarContext) => boolean;
 
 declare const EVENT_REFINERS: {
-    extendedProps: Identity<Record<string, any>>;
+    extendedProps: Identity<Dictionary>;
     start: Identity<DateInput>;
     end: Identity<DateInput>;
     date: Identity<DateInput>;
@@ -2103,7 +2126,7 @@ interface EventTuple {
 declare type EventInputTransformer = (input: EventInput) => EventInput;
 declare type EventDefMemberAdder = (refined: EventRefined) => Partial<EventDef>;
 declare function refineEventDef(raw: EventInput, context: CalendarContext, refiners?: {
-    extendedProps: Identity<Record<string, any>>;
+    extendedProps: Identity<Dictionary>;
     start: Identity<DateInput>;
     end: Identity<DateInput>;
     date: Identity<DateInput>;
@@ -2127,7 +2150,7 @@ declare function refineEventDef(raw: EventInput, context: CalendarContext, refin
     textColor: StringConstructor;
 }): {
     refined: RefinedOptionsFromRefiners<{
-        extendedProps: Identity<Record<string, any>>;
+        extendedProps: Identity<Dictionary>;
         start: Identity<DateInput>;
         end: Identity<DateInput>;
         date: Identity<DateInput>;
@@ -2150,7 +2173,7 @@ declare function refineEventDef(raw: EventInput, context: CalendarContext, refin
         borderColor: StringConstructor;
         textColor: StringConstructor;
     }>;
-    extra: Record<string, any>;
+    extra: Dictionary;
 };
 declare function parseEventDef(refined: EventRefined, extra: Dictionary, sourceId: string, allDay: boolean, hasEnd: boolean, context: CalendarContext): EventDef;
 
@@ -2183,12 +2206,12 @@ declare type EventSourceHash = {
 declare type EventSourceFetcher<Meta> = (arg: {
     eventSource: EventSource<Meta>;
     range: DateRange;
+    isRefetch: boolean;
     context: CalendarContext;
 }, success: (res: {
     rawEvents: EventInput[];
     xhr?: XMLHttpRequest;
 }) => void, failure: (error: EventSourceError) => void) => (void | PromiseLike<EventInput[]>);
-
 
 declare class EventSourceApi {
     private context;
@@ -2201,7 +2224,6 @@ declare class EventSourceApi {
     get format(): string;
 }
 
-
 interface FormatDateOptions extends NativeFormatterOptions {
     locale?: string;
 }
@@ -2212,15 +2234,12 @@ interface FormatRangeOptions extends FormatDateOptions {
 declare function formatDate(dateInput: DateInput, options?: FormatDateOptions): string;
 declare function formatRange(startInput: DateInput, endInput: DateInput, options: FormatRangeOptions): string;
 
-
 declare function computeVisibleDayRange(timedRange: OpenDateRange, nextDayThreshold?: Duration): OpenDateRange;
 declare function isMultiDayRange(range: DateRange): boolean;
 declare function diffDates(date0: DateMarker, date1: DateMarker, dateEnv: DateEnv, largeUnit?: string): Duration;
 
-
 declare function removeExact(array: any, exactVal: any): number;
 declare function isArraysEqual(a0: any, a1: any, equalityFunc?: (v0: any, v1: any) => boolean): boolean;
-
 
 declare function memoize<Args extends any[], Res>(workerFunc: (...args: Args) => Res, resEquality?: (res0: Res, res1: Res) => boolean, teardownFunc?: (res: Res) => void): (...args: Args) => Res;
 declare function memoizeObjArg<Arg extends Dictionary, Res>(workerFunc: (arg: Arg) => Res, resEquality?: (res0: Res, res1: Res) => boolean, teardownFunc?: (res: Res) => void): (arg: Arg) => Res;
@@ -2233,7 +2252,6 @@ workerFunc: (...args: Args) => Res, resEquality?: (res0: Res, res1: Res) => bool
     [key: string]: Res;
 };
 
-
 declare function removeElement(el: HTMLElement): void;
 declare function elementClosest(el: HTMLElement, selector: string): HTMLElement;
 declare function elementMatches(el: HTMLElement, selector: string): HTMLElement;
@@ -2242,17 +2260,13 @@ declare function findDirectChildren(parent: HTMLElement[] | HTMLElement, selecto
 declare function applyStyle(el: HTMLElement, props: Dictionary): void;
 declare function applyStyleProp(el: HTMLElement, name: string, val: any): void;
 
-
 declare function getCanVGrowWithinCell(): boolean;
 
-
 declare function buildNavLinkData(date: DateMarker, type?: string): string;
-
 
 declare function preventDefault(ev: any): void;
 declare function listenBySelector(container: HTMLElement, eventType: string, selector: string, handler: (ev: Event, matchedTarget: HTMLElement) => void): () => void;
 declare function whenTransitionDone(el: HTMLElement, callback: (ev: Event) => void): void;
-
 
 interface EdgeInfo {
     borderLeft: number;
@@ -2278,9 +2292,7 @@ declare function computeRect(el: any): Rect;
 declare function computeHeightAndMargins(el: HTMLElement): number;
 declare function getClippingParents(el: HTMLElement): HTMLElement[];
 
-
 declare function unpromisify(func: any, success: any, failure?: any): void;
-
 
 declare class PositionCache {
     els: HTMLElement[];
@@ -2297,7 +2309,6 @@ declare class PositionCache {
     getWidth(leftIndex: number): number;
     getHeight(topIndex: number): number;
 }
-
 
 declare abstract class ScrollController {
     abstract getScrollTop(): number;
@@ -2340,7 +2351,6 @@ declare class WindowScrollController extends ScrollController {
     getClientWidth(): number;
 }
 
-
 interface CalendarDataProviderProps {
     optionOverrides: any;
     calendarApi: CalendarApi;
@@ -2354,7 +2364,6 @@ declare class CalendarDataProvider extends Component<CalendarDataProviderProps, 
     componentDidUpdate(prevProps: CalendarDataProviderProps): void;
 }
 
-
 interface ViewDef {
     type: string;
     component: ViewComponentType;
@@ -2362,6 +2371,7 @@ interface ViewDef {
     defaults: ViewOptions;
 }
 
+declare function buildIsoString(marker: DateMarker, timeZoneOffset?: number, stripZeroTime?: boolean): string;
 declare function formatDayString(marker: DateMarker): string;
 declare function formatIsoTimeString(marker: DateMarker): string;
 
@@ -2371,12 +2381,60 @@ declare function parse(str: any): {
     timeZoneOffset: any;
 };
 
+interface SegSpan {
+    start: number;
+    end: number;
+}
+interface SegEntry {
+    index: number;
+    thickness: number;
+    span: SegSpan;
+}
+interface SegInsertion {
+    level: number;
+    levelCoord: number;
+    lateralStart: number;
+    lateralEnd: number;
+    touchingLevel: number;
+    touchingEntry: SegEntry;
+    stackCnt: number;
+}
+interface SegRect extends SegEntry {
+    levelCoord: number;
+}
+interface SegEntryGroup {
+    entries: SegEntry[];
+    span: SegSpan;
+}
+declare class SegHierarchy {
+    strictOrder: boolean;
+    allowReslicing: boolean;
+    maxCoord: number;
+    maxStackCnt: number;
+    levelCoords: number[];
+    entriesByLevel: SegEntry[][];
+    stackCnts: {
+        [entryId: string]: number;
+    };
+    addSegs(inputs: SegEntry[]): SegEntry[];
+    insertEntry(entry: SegEntry, hiddenEntries: SegEntry[]): number;
+    isInsertionValid(insertion: SegInsertion, entry: SegEntry): boolean;
+    handleInvalidInsertion(insertion: SegInsertion, entry: SegEntry, hiddenEntries: SegEntry[]): number;
+    splitEntry(entry: SegEntry, barrier: SegEntry, hiddenEntries: SegEntry[]): number;
+    insertEntryAt(entry: SegEntry, insertion: SegInsertion): void;
+    findInsertion(newEntry: SegEntry): SegInsertion;
+    toRects(): SegRect[];
+}
+declare function getEntrySpanEnd(entry: SegEntry): number;
+declare function buildEntryKey(entry: SegEntry): string;
+declare function groupIntersectingEntries(entries: SegEntry[]): SegEntryGroup[];
+declare function joinSpans(span0: SegSpan, span1: SegSpan): SegSpan;
+declare function intersectSpans(span0: SegSpan, span1: SegSpan): SegSpan | null;
+declare function binarySearch<Item>(a: Item[], searchVal: number, getItemVal: (item: Item) => number): [number, number];
 
 declare const config: any;
 
-
 declare const globalLocales: LocaleInput[];
-
 
 declare function createPlugin(input: PluginDefInput): PluginDef;
 
@@ -2411,9 +2469,7 @@ declare class DayHeader extends BaseComponent<DayHeaderProps> {
     render(): createElement.JSX.Element;
 }
 
-
 declare function computeFallbackHeaderFormat(datesRepDistinctDays: boolean, dayCnt: number): DateFormatter;
-
 
 interface TableDateCellProps {
     date: DateMarker;
@@ -2430,7 +2486,6 @@ declare class TableDateCell extends BaseComponent<TableDateCellProps> {
     render(): createElement.JSX.Element;
 }
 
-
 interface TableDowCellProps {
     dow: number;
     dayHeaderFormat: DateFormatter;
@@ -2443,7 +2498,6 @@ interface TableDowCellProps {
 declare class TableDowCell extends BaseComponent<TableDowCellProps> {
     render(): createElement.JSX.Element;
 }
-
 
 interface DaySeriesSeg {
     firstIndex: number;
@@ -2460,7 +2514,6 @@ declare class DaySeriesModel {
     private getDateDayIndex;
 }
 
-
 interface DayTableSeg extends Seg {
     row: number;
     firstCol: number;
@@ -2472,6 +2525,7 @@ interface DayTableCell {
     extraHookProps?: Dictionary;
     extraDataAttrs?: Dictionary;
     extraClassNames?: string[];
+    extraDateSpan?: Dictionary;
 }
 declare class DayTableModel {
     rowCnt: number;
@@ -2485,7 +2539,6 @@ declare class DayTableModel {
     private buildHeaderDates;
     sliceRange(range: DateRange): DayTableSeg[];
 }
-
 
 interface SliceableProps {
     dateSelection: DateSpan;
@@ -2524,13 +2577,11 @@ declare abstract class Slicer<SegType extends Seg, ExtraArgs extends any[] = []>
     private sliceEventRange;
 }
 
-
-declare function isInteractionValid(interaction: EventInteractionState, context: CalendarContext): boolean;
+declare function isInteractionValid(interaction: EventInteractionState, dateProfile: DateProfile, context: CalendarContext): boolean;
+declare function isDateSelectionValid(dateSelection: DateSpan, dateProfile: DateProfile, context: CalendarContext): boolean;
 declare function isPropsValid(state: SplittableProps, context: CalendarContext, dateSpanMeta?: {}, filterConfig?: any): boolean;
 
-
 declare function requestJson(method: string, url: string, params: Dictionary, successCallback: any, failureCallback: any): void;
-
 
 declare type OverflowValue = 'auto' | 'hidden' | 'scroll' | 'visible';
 interface ScrollerProps {
@@ -2555,7 +2606,6 @@ declare class Scroller extends BaseComponent<ScrollerProps> implements ScrollerL
     getYScrollbarWidth(): number;
 }
 
-
 declare class RefMap<RefType> {
     masterCallback?: (val: RefType | null, key: string) => void;
     currentMap: {
@@ -2570,11 +2620,11 @@ declare class RefMap<RefType> {
     getAll(): RefType[];
 }
 
-
 interface SimpleScrollGridProps {
     cols: ColProps[];
     sections: SimpleScrollGridSection[];
     liquid: boolean;
+    collapsibleWidth: boolean;
     height?: CssDimValue;
 }
 interface SimpleScrollGridSection extends SectionConfig {
@@ -2624,7 +2674,6 @@ interface ScrollbarWidths {
 declare function getScrollbarWidths(): ScrollbarWidths;
 
 declare function getIsRtlScrollbarOnLeft(): boolean;
-
 
 interface NowTimerProps {
     unit: string;
@@ -2676,7 +2725,6 @@ declare class EventRoot extends BaseComponent<EventRootProps> {
     componentDidUpdate(prevProps: EventRootProps): void;
 }
 
-
 interface StandardEventProps extends MinimalEventProps {
     extraClassNames: string[];
     defaultTimeFormat: DateFormatter;
@@ -2690,7 +2738,6 @@ declare class StandardEvent extends BaseComponent<StandardEventProps> {
     render(): createElement.JSX.Element;
 }
 
-
 declare function renderFill(fillType: string): createElement.JSX.Element;
 interface BgEventProps {
     seg: Seg;
@@ -2700,7 +2747,6 @@ interface BgEventProps {
 }
 declare const BgEvent: (props: BgEventProps) => createElement.JSX.Element;
 
-
 declare const version: string;
 
-export { Action, AllDayContentArg, AllDayMountArg, AllowFunc, BASE_OPTION_DEFAULTS, BASE_OPTION_REFINERS, BaseComponent, BaseOptionRefiners, BaseOptionsRefined, BgEvent, BgEventProps, BusinessHoursInput, ButtonIconsInput, ButtonTextCompoundInput, CalendarApi, CalendarContent, CalendarContentProps, CalendarContext, CalendarData, CalendarDataManager, CalendarDataProvider, CalendarDataProviderProps, CalendarListenerRefiners, CalendarListeners, CalendarOptionRefiners, CalendarOptions, CalendarOptionsRefined, CalendarRoot, ChunkConfig, ChunkConfigContent, ChunkConfigRowContent, ChunkContentCallbackArgs, ClassNamesGenerator, ColGroupConfig, ColProps, Constraint, ConstraintInput, ContentHook, CssDimValue, CustomButtonInput, CustomContentGenerator, CustomContentRenderContext, DateComponent, DateEnv, DateFormatter, DateInput, DateMarker, DateMarkerMeta, DateMeta, DatePointApi, DatePointTransform, DateProfile, DateProfileGenerator, DateRange, DateRangeInput, DateSelectArg, DateSelectionApi, DateSpan, DateSpanApi, DateSpanInput, DateSpanTransform, DateUnselectArg, DatesSetArg, DayCellContent, DayCellContentArg$1 as DayCellContentArg, DayCellContentProps, DayCellMountArg, DayCellRoot, DayCellRootProps, DayHeader, DayHeaderContentArg, DayHeaderMountArg, DaySeriesModel, DayTableCell, DayTableModel, DayTableSeg, DelayedRunner, Dictionary, DidMountHandler, DragMeta, DragMetaInput, Duration, DurationInput, ElementDragging, ElementScrollController, Emitter, EventAddArg, EventApi, EventChangeArg, EventClickArg, EventContentArg, EventDef, EventDefHash, EventDropArg, EventDropTransformers, EventHoveringArg, EventInput, EventInputTransformer, EventInstance, EventInstanceHash, EventInteractionState, EventMountArg, EventMutation, EventRefined, EventRefiners, EventRemoveArg, EventRenderRange, EventResizeJoinTransforms, EventRoot, EventSegUiInteractionState, EventSource, EventSourceApi, EventSourceDef, EventSourceFunc, EventSourceHash, EventSourceInput, EventSourceRefined, EventSourceRefiners, EventStore, EventTuple, EventUi, EventUiHash, FormatDateOptions, FormatRangeOptions, FormatterInput, Hit, Identity, Interaction, InteractionSettings, InteractionSettingsStore, LocaleInput, LocaleSingularArg, MinimalEventProps, MountArg, MountHook, MountHookProps, NamedTimeZoneImpl, NowIndicatorContentArg, NowIndicatorMountArg, NowIndicatorRoot, NowIndicatorRootProps, NowTimer, OrderSpec, OverflowValue, OverlapFunc, ParsedRecurring, PluginDef, PluginDefInput, Point, PointerDragEvent, PositionCache, RawOptionsFromRefiners, Rect, RecurringType, RefMap, RefinedOptionsFromRefiners, RenderHook, RenderHookProps, RenderHookPropsChildren, ScrollController, ScrollGridChunkConfig, ScrollGridImpl, ScrollGridProps, ScrollGridSectionConfig, ScrollRequest, ScrollResponder, Scroller, ScrollerLike, ScrollerProps, SectionConfig, Seg, SimpleScrollGrid, SimpleScrollGridSection, SlicedProps, Slicer, SlotLabelContentArg, SlotLabelMountArg, SlotLaneContentArg, SlotLaneMountArg, SpecificViewContentArg, SpecificViewMountArg, SplittableProps, Splitter, StandardEvent, StandardEventProps, TableDateCell, TableDowCell, Theme, ToolbarInput, VerboseFormattingArg, ViewApi, ViewComponentType, ViewContainerAppend, ViewContentArg, ViewContext, ViewContextType, ViewDef, ViewMountArg, ViewOptionRefiners, ViewOptionsRefined, ViewProps, ViewPropsTransformer, ViewRoot, ViewRootProps, ViewSpec, WeekNumberCalculation, WeekNumberContentArg, WeekNumberMountArg, WeekNumberRoot, WeekNumberRootProps, WillUnmountHandler, WindowScrollController, addDays, addDurations, addMs, addWeeks, allowContextMenu, allowSelection, applyMutationToEventStore, applyStyle, applyStyleProp, asCleanDays, asRoughMinutes, asRoughMs, asRoughSeconds, buildClassNameNormalizer, buildEventApis, buildEventRangeKey, buildHashFromArray, buildNavLinkData, buildSegCompareObj, buildSegTimeText, collectFromHash, combineEventUis, compareByFieldSpec, compareByFieldSpecs, compareNumbers, compareObjs, computeEdges, computeFallbackHeaderFormat, computeHeightAndMargins, computeInnerRect, computeRect, computeSegDraggable, computeSegEndResizable, computeSegStartResizable, computeShrinkWidth, computeSmallestCellWidth, computeVisibleDayRange, config, constrainPoint, createDuration, createEmptyEventStore, createEventInstance, createEventUi, createFormatter, createPlugin, dateSelectionJoinTransformer, diffDates, diffDayAndTime, diffDays, diffPoints, diffWeeks, diffWholeDays, diffWholeWeeks, disableCursor, elementClosest, elementMatches, enableCursor, eventDragMutationMassager, eventTupleToStore, filterEventStoreDefs, filterHash, findDirectChildren, findElements, flexibleCompare, formatDate, formatDayString, formatIsoTimeString, formatRange, getAllowYScrolling, getCanVGrowWithinCell, getClippingParents, getDateMeta, getDayClassNames, getDefaultEventEnd, getElSeg, getEventClassNames, getIsRtlScrollbarOnLeft, getRectCenter, getRelevantEvents, getScrollGridClassNames, getScrollbarWidths, getSectionClassNames, getSectionHasLiquidHeight, getSegMeta, getSlotClassNames, getStickyFooterScrollbar, getStickyHeaderDates, getUnequalProps, globalLocales, globalPlugins, greatestDurationDenominator, guid, hasBgRendering, hasShrinkWidth, identity, interactionSettingsStore, interactionSettingsToStore, intersectRanges, intersectRects, isArraysEqual, isColPropsEqual, isDateSpansEqual, isInt, isInteractionValid, isMultiDayRange, isPropsEqual, isPropsValid, isValidDate, listenBySelector, mapHash, memoize, memoizeArraylike, memoizeHashlike, memoizeObjArg, mergeEventStores, multiplyDuration, padStart, parseBusinessHours, parseClassNames, parseDragMeta, parseEventDef, parseFieldSpecs, parse as parseMarker, pointInsideRect, preventContextMenu, preventDefault, preventSelection, rangeContainsMarker, rangeContainsRange, rangesEqual, rangesIntersect, refineEventDef, refineProps, removeElement, removeExact, renderChunkContent, renderFill, renderMicroColGroup, renderScrollShim, requestJson, sanitizeShrinkWidth, setElSeg, setRef, sliceEventStore, sliceEvents, sortEventSegs, startOfDay, translateRect, triggerDateSelect, unpromisify, version, whenTransitionDone, wholeDivideDurations };
+export { Action, AllDayContentArg, AllDayMountArg, AllowFunc, BASE_OPTION_DEFAULTS, BASE_OPTION_REFINERS, BaseComponent, BaseOptionRefiners, BaseOptionsRefined, BgEvent, BgEventProps, BusinessHoursInput, ButtonIconsInput, ButtonTextCompoundInput, CalendarApi, CalendarContent, CalendarContentProps, CalendarContext, CalendarData, CalendarDataManager, CalendarDataProvider, CalendarDataProviderProps, CalendarListenerRefiners, CalendarListeners, CalendarOptionRefiners, CalendarOptions, CalendarOptionsRefined, CalendarRoot, ChunkConfig, ChunkConfigContent, ChunkConfigRowContent, ChunkContentCallbackArgs, ClassNamesGenerator, ColGroupConfig, ColProps, Constraint, ConstraintInput, ContentHook, CssDimValue, CustomButtonInput, CustomContentGenerator, CustomContentRenderContext, DateComponent, DateEnv, DateFormatter, DateInput, DateMarker, DateMarkerMeta, DateMeta, DatePointApi, DatePointTransform, DateProfile, DateProfileGenerator, DateRange, DateRangeInput, DateSelectArg, DateSelectionApi, DateSpan, DateSpanApi, DateSpanInput, DateSpanTransform, DateUnselectArg, DatesSetArg, DayCellContent, DayCellContentArg, DayCellContentProps, DayCellMountArg, DayCellRoot, DayCellRootProps, DayHeader, DayHeaderContentArg, DayHeaderMountArg, DaySeriesModel, DayTableCell, DayTableModel, DayTableSeg, DelayedRunner, Dictionary, DidMountHandler, DragMeta, DragMetaInput, Duration, DurationInput, ElementDragging, ElementScrollController, Emitter, EventAddArg, EventApi, EventChangeArg, EventClickArg, EventContentArg, EventDef, EventDefHash, EventDropArg, EventDropTransformers, EventHoveringArg, EventInput, EventInputTransformer, EventInstance, EventInstanceHash, EventInteractionState, EventMountArg, EventMutation, EventRefined, EventRefiners, EventRemoveArg, EventRenderRange, EventRoot, EventSegUiInteractionState, EventSegment, EventSource, EventSourceApi, EventSourceDef, EventSourceFunc, EventSourceHash, EventSourceInput, EventSourceRefined, EventSourceRefiners, EventStore, EventTuple, EventUi, EventUiHash, FormatDateOptions, FormatRangeOptions, FormatterInput, Hit, Identity, Interaction, InteractionSettings, InteractionSettingsStore, LocaleInput, LocaleSingularArg, MinimalEventProps, MoreLinkAction, MoreLinkArg, MoreLinkContentArg, MoreLinkHandler, MoreLinkMountArg, MoreLinkRoot, MoreLinkRootProps, MoreLinkSimpleAction, MountArg, MountHook, MountHookProps, NamedTimeZoneImpl, NowIndicatorContentArg, NowIndicatorMountArg, NowIndicatorRoot, NowIndicatorRootProps, NowTimer, OrderSpec, OverflowValue, OverlapFunc, ParsedRecurring, PluginDef, PluginDefInput, Point, PointerDragEvent, PositionCache, RawOptionsFromRefiners, Rect, RecurringType, RefMap, RefinedOptionsFromRefiners, RenderHook, RenderHookProps, RenderHookPropsChildren, ScrollController, ScrollGridChunkConfig, ScrollGridImpl, ScrollGridProps, ScrollGridSectionConfig, ScrollRequest, ScrollResponder, Scroller, ScrollerLike, ScrollerProps, SectionConfig, Seg, SegEntry, SegEntryGroup, SegHierarchy, SegInsertion, SegRect, SegSpan, SimpleScrollGrid, SimpleScrollGridSection, SlicedProps, Slicer, SlotLabelContentArg, SlotLabelMountArg, SlotLaneContentArg, SlotLaneMountArg, SpecificViewContentArg, SpecificViewMountArg, SplittableProps, Splitter, StandardEvent, StandardEventProps, TableDateCell, TableDowCell, Theme, ToolbarInput, VerboseFormattingArg, ViewApi, ViewComponentType, ViewContainerAppend, ViewContentArg, ViewContext, ViewContextType, ViewDef, ViewMountArg, ViewOptionRefiners, ViewOptionsRefined, ViewProps, ViewPropsTransformer, ViewRoot, ViewRootProps, ViewSpec, WeekNumberCalculation, WeekNumberContentArg, WeekNumberMountArg, WeekNumberRoot, WeekNumberRootProps, WillUnmountHandler, WindowScrollController, addDays, addDurations, addMs, addWeeks, allowContextMenu, allowSelection, applyMutationToEventStore, applyStyle, applyStyleProp, asCleanDays, asRoughMinutes, asRoughMs, asRoughSeconds, binarySearch, buildClassNameNormalizer, buildEntryKey, buildEventApis, buildEventRangeKey, buildHashFromArray, buildIsoString, buildNavLinkData, buildSegCompareObj, buildSegTimeText, collectFromHash, combineEventUis, compareByFieldSpec, compareByFieldSpecs, compareNumbers, compareObjs, computeEarliestSegStart, computeEdges, computeFallbackHeaderFormat, computeHeightAndMargins, computeInnerRect, computeRect, computeSegDraggable, computeSegEndResizable, computeSegStartResizable, computeShrinkWidth, computeSmallestCellWidth, computeVisibleDayRange, config, constrainPoint, createDuration, createEmptyEventStore, createEventInstance, createEventUi, createFormatter, createPlugin, dateSelectionJoinTransformer, diffDates, diffDayAndTime, diffDays, diffPoints, diffWeeks, diffWholeDays, diffWholeWeeks, disableCursor, elementClosest, elementMatches, enableCursor, eventDragMutationMassager, eventTupleToStore, filterEventStoreDefs, filterHash, findDirectChildren, findElements, flexibleCompare, formatDate, formatDayString, formatIsoTimeString, formatRange, getAllowYScrolling, getCanVGrowWithinCell, getClippingParents, getDateMeta, getDayClassNames, getDefaultEventEnd, getElSeg, getEntrySpanEnd, getEventClassNames, getIsRtlScrollbarOnLeft, getRectCenter, getRelevantEvents, getScrollGridClassNames, getScrollbarWidths, getSectionClassNames, getSectionHasLiquidHeight, getSegMeta, getSlotClassNames, getStickyFooterScrollbar, getStickyHeaderDates, getUnequalProps, globalLocales, globalPlugins, greatestDurationDenominator, groupIntersectingEntries, guid, hasBgRendering, hasShrinkWidth, identity, interactionSettingsStore, interactionSettingsToStore, intersectRanges, intersectRects, intersectSpans, isArraysEqual, isColPropsEqual, isDateSelectionValid, isDateSpansEqual, isInt, isInteractionValid, isMultiDayRange, isPropsEqual, isPropsValid, isValidDate, joinSpans, listenBySelector, mapHash, memoize, memoizeArraylike, memoizeHashlike, memoizeObjArg, mergeEventStores, multiplyDuration, padStart, parseBusinessHours, parseClassNames, parseDragMeta, parseEventDef, parseFieldSpecs, parse as parseMarker, pointInsideRect, preventContextMenu, preventDefault, preventSelection, rangeContainsMarker, rangeContainsRange, rangesEqual, rangesIntersect, refineEventDef, refineProps, removeElement, removeExact, renderChunkContent, renderFill, renderMicroColGroup, renderScrollShim, requestJson, sanitizeShrinkWidth, setElSeg, setRef, sliceEventStore, sliceEvents, sortEventSegs, startOfDay, translateRect, triggerDateSelect, unpromisify, version, whenTransitionDone, wholeDivideDurations };
