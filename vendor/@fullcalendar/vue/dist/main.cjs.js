@@ -54,7 +54,7 @@ function wrapVDomGenerator(vDomGenerator) {
 function createVueContentTypePlugin(parent) {
     return core.createPlugin({
         contentTypeHandlers: {
-            vue: function () { return buildVDomHandler(parent); },
+            vue: function () { return buildVDomHandler(parent); }, // looks for the `vue` key
         }
     });
 }
@@ -222,13 +222,13 @@ if (GlobalVue) {
     });
 }
 
+exports.default = FullCalendar;
+exports.install = install;
 Object.keys(core).forEach(function (k) {
-    if (k !== 'default') Object.defineProperty(exports, k, {
+    if (k !== 'default' && !exports.hasOwnProperty(k)) Object.defineProperty(exports, k, {
         enumerable: true,
         get: function () {
             return core[k];
         }
     });
 });
-exports.default = FullCalendar;
-exports.install = install;
