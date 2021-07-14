@@ -214,44 +214,46 @@ export default {
             :pagination-simple="false"
             pagination-position="bottom"
         >
-            <b-table-column field="checbox" label="" v-slot="props">
-                <b-checkbox size="is-small" v-model="props.row.selected" />
-            </b-table-column>
+            <template slot-scope="props">
+                <b-table-column field="checbox" label="">
+                    <b-checkbox size="is-small" v-model="props.row.selected" />
+                </b-table-column>
 
-            <b-table-column field="name" :label="translations.core.column_files_name" v-slot="props" sortable>
-                {{ props.row.name }}
-            </b-table-column>
+                <b-table-column field="name" :label="translations.core.column_files_name" sortable>
+                    {{ props.row.name }}
+                </b-table-column>
 
-            <b-table-column field="file_type" :label="translations.core.column_files_file_type" v-slot="props" sortable>
-                {{
-                    object_utils.translateEnum(translations.file_types, 'enum_file_type', props.row.file_type, null) ||
-                    object_utils.translateEnum(translations.file_types, 'column_enum_file_type', props.row.file_type)
-                }}
-            </b-table-column>
+                <b-table-column field="file_type" :label="translations.core.column_files_file_type" sortable>
+                    {{
+                        object_utils.translateEnum(translations.file_types, 'enum_file_type', props.row.file_type, null) ||
+                        object_utils.translateEnum(translations.file_types, 'column_enum_file_type', props.row.file_type)
+                    }}
+                </b-table-column>
 
-            <b-table-column field="created_at_raw" :label="translations.core.column_created_at" v-slot="props" sortable>
-                {{ props.row.created_at }}
-            </b-table-column>
+                <b-table-column field="created_at_raw" :label="translations.core.column_created_at" sortable>
+                    {{ props.row.created_at }}
+                </b-table-column>
 
-            <b-table-column field="actions" :label="translations.core.view_table_header_actions" class="has-text-right" v-slot="props">
-                <a
-                    :href="`${main_route}/${cloudId}/files/${props.row.id}`"
-                    target="_blank"
-                    class="button is-outlined"
-                >
-                    <b-icon size="is-small" icon="eye" />
-                </a>
-                <a
-                    :href="`${main_route}/${cloudId}/files/${props.row.id}?download=true`"
-                    download
-                    class="button is-outlined"
-                >
-                    <b-icon size="is-small" icon="download" />
-                </a>
-                <b-button v-if="props.row.editable" type="is-danger" outlined @click="confirmFileDeletion(props.row)">
-                    <b-icon size="is-small" icon="trash-alt" />
-                </b-button>
-            </b-table-column>
+                <b-table-column field="actions" :label="translations.core.view_table_header_actions" class="has-text-right">
+                    <a
+                        :href="`${main_route}/${cloudId}/files/${props.row.id}`"
+                        target="_blank"
+                        class="button is-outlined"
+                    >
+                        <b-icon size="is-small" icon="eye" />
+                    </a>
+                    <a
+                        :href="`${main_route}/${cloudId}/files/${props.row.id}?download=true`"
+                        download
+                        class="button is-outlined"
+                    >
+                        <b-icon size="is-small" icon="download" />
+                    </a>
+                    <b-button v-if="props.row.editable" type="is-danger" outlined @click="confirmFileDeletion(props.row)">
+                        <b-icon size="is-small" icon="trash-alt" />
+                    </b-button>
+                </b-table-column>
+            </template>
         </b-table>
     </section>
 </template>
