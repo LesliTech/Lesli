@@ -8,6 +8,7 @@ class Account::Location < ApplicationRecord
         empty: "empty",
         continent: "continent",
         country: "country",
+        region: "region",
         state: "state",
         city: "city",
         zone: "zone"
