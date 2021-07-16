@@ -29,14 +29,16 @@ class CreateUserDetails < ActiveRecord::Migration[6.0]
             t.string :telephone
             t.string :address
 
-            t.integer :work_city
-            t.integer :work_region
-            t.integer :work_address
+            t.bigint :work_city
+            t.bigint :work_region
+            t.bigint :work_address
 
             t.datetime :deleted_at, index: true            
             t.timestamps
             
         end
         add_reference :user_details, :users, foreign_key: true
+        add_foreign_key :user_details, :account_locations, column: :work_region
+        add_foreign_key :user_details, :account_locations, column: :work_city
     end
 end
