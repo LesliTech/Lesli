@@ -102,7 +102,7 @@ module Shared
         #     the user understand what each component does. Any class that inherits from this one can send a block to add extra
         #     functionality. For example, the descriptions must be implemented directly from the engine.
         # @example
-        #         CloudHouse::Project.options(User.find(2), nil)
+        #         CloudHouse::Dashboard.options(User.find(2), nil)
         def self.options(current_user, query)
             dynamic_info = self.dynamic_info
             component_model = dynamic_info[:component_model]
