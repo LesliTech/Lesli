@@ -192,6 +192,7 @@ class UsersController < ApplicationLesliController
 
         respond_with_successful({
             roles: roles,
+            regions: current_user.account.locations.where(level: "region"),
             salutations: User::Detail.salutations.map {|k, v| {value: k, text: v}},
         })
     end
