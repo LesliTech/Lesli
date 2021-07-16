@@ -19,11 +19,10 @@ For more information read the license file including with this software.
 
 // · Import main app
 import app from "LesliVue/app"
-import router from "LesliVue/functions/router.js"
 
 
 // · Import apps and components
-import pageList from "./pages/list.vue"
+import pageList from "./apps/show.vue"
 
 
 // · 
