@@ -21,6 +21,8 @@ class User::Detail < ApplicationLesliRecord
     belongs_to :user, foreign_key: "users_id"
     after_update :update_associated_record
 
+    before_save :validate_work_region
+
     enum salutation: {
         mr: 'mr',
         mrs: 'mrs'
@@ -40,4 +42,13 @@ class User::Detail < ApplicationLesliRecord
         end
     end
 
+    protected
+
+    def validate_work_region
+        return true unless work_region
+        return true if Account::Location.find_by_id(work_region)
+
+        errors.add(:base, :work_region_invalid)
+        throw :abort
+    end
 end
