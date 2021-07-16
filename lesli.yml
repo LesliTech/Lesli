@@ -76,8 +76,6 @@ configuration:
         allow_registration: true
         allow_invitation: true
         password:
-            minimum_length: 8
-            expiration_time_days: 7
             development: "lesli"
         roles:
             - "Administration"
