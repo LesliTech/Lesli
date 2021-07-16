@@ -120,8 +120,6 @@ RSpec.describe "lesli_settings.yml" do
     it "expect to have a section for configuration security settings" do
         expect(@lesli_settings["configuration"]).to have_key("security")
         expect(@lesli_settings["configuration"]["security"]).to have_key("password")
-        expect(@lesli_settings["configuration"]["security"]["password"]).to have_key("minimum_length")
-        expect(@lesli_settings["configuration"]["security"]["password"]).to have_key("expiration_time_days")
         expect(@lesli_settings["configuration"]["security"]["password"]).to have_key("development")
 
         expect(@lesli_settings["configuration"]["security"]).to have_key("allow_multiaccount") 
