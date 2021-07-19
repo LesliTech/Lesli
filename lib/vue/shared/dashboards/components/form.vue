@@ -40,7 +40,8 @@ export default {
             active_tab: 0,
             options: {
                 roles: [],
-                component_ids: []
+                component_ids: [],
+                descriptions: {}
             },
             submitting_dashboard: false,
             deleting_dashboard: false,
@@ -350,6 +351,17 @@ export default {
                                 </h6>
                                 <div v-if="selected_dashboard_component">
                                     <div class="columns is-multiline">
+                                        <div
+                                            v-if="options.descriptions && options.descriptions[selected_dashboard_component.component_id]"
+                                            class="column is-12"
+                                        >
+                                            <label class="label">
+                                                {{translations.components.view_title_brief_description}}
+                                            </label>
+                                            <p>
+                                                {{options.descriptions[selected_dashboard_component.component_id]}}
+                                            </p>
+                                        </div>
                                         <div class="column is-12">
                                             <b-field
                                                 :label="translations.components.column_name"
