@@ -252,7 +252,7 @@ export default {
                             v-model="announcement.expiration_at"
                             :locale="date.vcDatepickerConfig()"
                             :popover="{ visibility: 'focus' }"
-                            :min-date="new Date()"
+                            :min-date="announcement.id ? null : new Date()"
                         >
                             <template v-slot="{ inputValue, inputEvents }">
                                 <input
