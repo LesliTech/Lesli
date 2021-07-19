@@ -85,7 +85,7 @@ export default {
             v-for="announcement in announcements" 
             :closable="announcement.can_be_closed"
             :key="announcement.id" 
-            :type="`is-${announcement.category}`">
+            :type="`is-${announcement.kind}`">
             <div v-html="announcement.message.html">
             </div>
         </b-notification>
