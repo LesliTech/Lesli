@@ -25,6 +25,7 @@
 00.36. user_roles
 00.37. user_logs
 00.38. user_access_codes
+00.39. user_shortcuts
 
 00.50. role_descriptors (role_groups)
 00.51. role_descriptor_actions
