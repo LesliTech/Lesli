@@ -207,14 +207,6 @@ export default {
                 this.getAnnouncementOptions()
                 this.getAnnouncements()
             }
-        },
-        
-        'data.global.reload_announcements'(value){
-            if(value){
-                this.getAvailableAnnouncements()
-                
-                this.$set(this.data.global, 'reload_announcements', false)
-            }
         }
     }
 }
@@ -225,7 +217,7 @@ export default {
         class="application-panel-announcement"
         right
         :can-cancel="['escape']"
-        fullheight
+        fullheigsht
         overlay
     >
         <div class="sidebar-content">
