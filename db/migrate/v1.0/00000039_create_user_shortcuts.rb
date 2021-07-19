@@ -17,28 +17,17 @@ For more information read the license file including with this software.
 
 =end
 
-class CreateUserDetails < ActiveRecord::Migration[6.0]
+class CreateUserShortcuts < ActiveRecord::Migration[6.1]
     def change
-        create_table :user_details do |t|
+        create_table :user_shortcuts do |t|
+            t.string :name
+            t.string :icon
+            t.string :url
+            t.string :engine_code
 
-            t.string :title
-            t.string :salutation
-
-            t.string :first_name
-            t.string :last_name
-            t.string :telephone
-            t.string :address
-
-            t.bigint :work_city
-            t.bigint :work_region
-            t.bigint :work_address
-
-            t.datetime :deleted_at, index: true            
+            t.datetime :deleted_at, index: true
             t.timestamps
-            
         end
-        add_reference :user_details, :users, foreign_key: true
-        add_foreign_key :user_details, :account_locations, column: :work_region
-        add_foreign_key :user_details, :account_locations, column: :work_city
+        add_reference :user_shortcuts, :users, foreign_key: true
     end
 end

@@ -21,7 +21,7 @@ For more information read the license file including with this software.
 import componentInformationCard from "Lesli/vue/users/components/card-information.vue"
 import componentInformationForm from "Lesli/vue/users/components/form-information.vue"
 import componentSecurityForm from "Lesli/vue/users/components/form-security.vue"
-import componentSessionManagement from "Lesli/vue/users/components/session-management.vue"
+import componentSessionManagement from "Lesli/vue/users/components/management-sessions.vue"
 import componentSubscriptions from "Lesli/vue/users/components/subscriptions.vue"
 
 

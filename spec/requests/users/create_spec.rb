@@ -180,3 +180,76 @@ RSpec.describe 'POST:/administration/users.json', type: :request do
     end
 
 end
+
+RSpec.describe 'POST:/administration/users.json', type: :request do
+    include_context 'user authentication'
+
+    before(:all) do
+        @account = Account.first
+        @account = Account.create!(company_name: Faker::Company.name) unless @account
+        @region = @account.locations.create!(
+            name: Faker::Address.state,
+            level: "region"
+        )
+
+        @email = Faker::Internet.email
+        @roles_id = Role.first.id
+        @first_name = Faker::Name.first_name
+        @last_name = Faker::Name.last_name
+        post("/administration/users.json", params: {
+            user: {
+                accounts_id: @account.id,
+                email: @email,
+                roles_id: @roles_id,
+                active: true,
+                detail_attributes: {
+                    salutation: "mr",
+                    first_name: @first_name,
+                    last_name: @last_name,
+                    work_region: @region.id
+                }
+            }
+        })
+    end
+
+    include_examples 'successful standard json response'
+
+    it 'is expected to create a new user with the specific account and region' do
+        expect(@response_body["data"]["category"]).to eql("user")
+        expect(@response_body["data"]["active"]).to eql(true)
+        expect(@response_body["data"]["email"]).to eql(@email)
+        expect(User.find(@response_body["data"]["id"]).detail.work_region).to eql(@region.id)
+    end
+end
+
+RSpec.describe 'POST:/administration/users.json', type: :request do
+    include_context 'user authentication'
+
+    before(:all) do
+        @account = Account.first
+        @account = Account.create!(company_name: Faker::Company.name) unless @account
+        @region = Account::Location.order(id: :desc).first
+        @invalid_region_id = @region ? (@region.id + 1) : 1
+
+        @email = Faker::Internet.email
+        @roles_id = Role.first.id
+        @first_name = Faker::Name.first_name
+        @last_name = Faker::Name.last_name
+        post("/administration/users.json", params: {
+            user: {
+                accounts_id: @account.id,
+                email: @email,
+                roles_id: @roles_id,
+                active: true,
+                detail_attributes: {
+                    salutation: "mr",
+                    first_name: @first_name,
+                    last_name: @last_name,
+                    work_region: @invalid_region_id
+                }
+            }
+        })
+    end
+
+    include_examples 'failed standard json response'
+end
