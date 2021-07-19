@@ -121,6 +121,8 @@ gem "ruby_cowsay"
 # faster json parser library
 gem 'fast_jsonparser'
 
+gem 'active_record_union'
+
 group :development, :test do
 
     gem "faker"
