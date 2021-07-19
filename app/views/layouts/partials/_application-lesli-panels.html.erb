@@ -35,6 +35,11 @@ For more information read the license file including with this software.
 <application-component-panel-notification></application-component-panel-notification>
 
 
+<% if defined? CloudBell %>
+    <application-component-panel-announcement></application-component-panel-announcement>
+<% end %>
+
+
 <% if defined? CloudHelp %>
     <application-component-panel-support></application-component-panel-support>
 <% end %>
