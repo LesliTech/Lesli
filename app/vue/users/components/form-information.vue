@@ -104,7 +104,7 @@ export default {
                             </p>
                         </div>
                         <div class="column is-half">
-                            <div class="field">
+                            <div v-if="options.regions && options.regions.length > 0" class="field">
                                 <label class="label"> {{ translations.users.column_work_region }} </label>
                                 <div class="control">
                                     <div :class="['select is-fullwidth', {'is-empty': user.detail_attributes.work_region == null}]">
