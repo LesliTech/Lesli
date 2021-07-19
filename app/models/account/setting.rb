@@ -33,7 +33,7 @@ class Account::Setting < ApplicationRecord
         end
 
         # Set default password complexity configuration 
-        account.settings.create!({ name: 'password_enforce_complexity', value: true })
+        account.settings.create!({ name: 'password_enforce_complexity', value: 1 })
         account.settings.create!({ name: 'password_expiration_time_days', value: 365 })
         account.settings.create!({ name: 'password_special_char_count', value: 0 })
         account.settings.create!({ name: 'password_lowercase_count', value: 0 })
