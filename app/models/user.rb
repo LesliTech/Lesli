@@ -499,6 +499,7 @@ class User < ApplicationLesliRecord
         return {
             id: user[:id],
             email: user[:email],
+            alias: user[:alias],
             active: user[:active],
             created_at: user[:created_at],
             updated_at: user[:updated_at],
