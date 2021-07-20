@@ -51,6 +51,11 @@ header.application-header {
 
         .navbar-item {
             padding: 0.5rem 0.9rem;
+
+            &:hover {
+                color: darken(lesli-css-color(blue), 5);
+                background-color: transparent;
+            }
         }
 
     }

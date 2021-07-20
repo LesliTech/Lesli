@@ -24,11 +24,11 @@
         
         "vue": "2.6.14",
         "vue-router": "3.5.2",
-        "vue-loader": "15.9.7",
+        "vue-loader": "15.9.6",
         "vue-template-compiler": "2.6.14",
 
         "v-calendar": "2.3.0",
-        "vue-mermaid": "0.0.15",
+        "vue-mermaid": "0.0.14",
         "flipbook-vue": "0.10.1",
         "vue2-dropzone": "3.6.0",
         "vue-currency-input": "1.22.4",
@@ -42,7 +42,7 @@
         "frappe-gantt": "0.5.0",
         "vuedraggable": "2.24.3",
         
-        "buefy": "0.9.8",
+        "buefy": "0.8.20",
         "bulma": "0.9.3",
         "bulma-o-steps": "1.1.0",
         "bulma-extensions": "6.2.7",

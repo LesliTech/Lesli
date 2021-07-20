@@ -32,16 +32,14 @@ class Account::Setting < ApplicationRecord
             })
         end
 
-        # Initializing password settings
-        lesli_config["security"]["password"].each do |key, value|
-            next if key == "development"
-            key = "password_#{key}" unless key.start_with? "password"
-
-            account.settings.create!({
-                name: key, 
-                value: value
-            })
-        end
+        # Set default password complexity configuration 
+        account.settings.create!({ name: 'password_enforce_complexity', value: 1 })
+        account.settings.create!({ name: 'password_expiration_time_days', value: 365 })
+        account.settings.create!({ name: 'password_special_char_count', value: 0 })
+        account.settings.create!({ name: 'password_lowercase_count', value: 0 })
+        account.settings.create!({ name: 'password_uppercase_count', value: 0 })
+        account.settings.create!({ name: 'password_minimum_length', value: 8 })
+        account.settings.create!({ name: 'password_digit_count', value: 0 })
     end
 
     def self.list(current_user, query)
@@ -62,9 +60,13 @@ class Account::Setting < ApplicationRecord
         ]
 
         password_settings = [
+            'password_enforce_complexity',
+            'password_expiration_time_days',
+            'password_special_char_count',
+            'password_lowercase_count',
+            'password_uppercase_count',
             'password_minimum_length',
-            'password_expiration_time_months',
-            'password_expiration_time_days'
+            'password_digit_count'
         ]
 
         currency_settings = [

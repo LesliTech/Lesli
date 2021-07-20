@@ -116,7 +116,15 @@ module.exports = env => {
                 // Resolve alias for core resources
                 Lesli: path.resolve(__dirname, "./app"), 
                 LesliVue: path.resolve(__dirname, "./lib/vue"), 
+
+                // Resolve alias for widgets
+                LesliWidgetsCore: path.resolve(__dirname, "./lib/vue/widgets"), 
+                LesliWidgetsPortal: path.resolve(__dirname, "./engines/cloud_portal/lib/vue/widgets"),
+
+                LesliWidgets: path.resolve(__dirname, "./lib/vue/widgets"), 
+                CloudPortalWidgets: path.resolve(__dirname, "./engines/cloud_portal/lib/vue/widgets"),
                 
+
                 // Resolve alias for module resources
                 CloudHouse: path.resolve(__dirname, "./engines/cloud_house/app"),
                 CloudFocus: path.resolve(__dirname, "./engines/cloud_focus/app"),
