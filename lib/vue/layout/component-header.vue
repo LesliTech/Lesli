@@ -24,21 +24,17 @@ export default {
         },
         subtitle: {
             default: null
-        },
-        buttons: {
-            default: true
-        },
-        titleButtonCreate: {
-            default: "Create"
         }
     },
     data() {
         return {
             loading: false,
+            shortcuts: [],
             announcements: []
         }
     },
     mounted() {
+        this.shortcuts = shortcuts
         this.getAnnouncements()
     },
     methods: {
@@ -109,6 +105,15 @@ export default {
                     </div>
                 </div>
             </div>
-        </nav>        
+        </nav>
+
+        <div class="component-header-shortcuts buttons">
+            <a 
+                class="button"
+                v-for="shortcut in shortcuts" :key="shortcut.id"
+                :href="shortcut.url" >
+                {{ shortcut.name }}
+            </a>
+        </div>
     </section>
 </template>
