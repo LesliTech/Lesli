@@ -16,6 +16,10 @@ export default {
         },
         setDashboardName: {
             default: null
+        },
+        appMountPath: {
+            type: String,
+            required: true
         }
     },
 
@@ -170,7 +174,7 @@ export default {
                 this.deleting_dashboard = false
                 if (result.successful) {
                     this.alert(this.translations.dashboards.messages_info_dashboard_deleted, 'success')
-                    this.$router.push('/')
+                    this.$router.push(`${this.appMountPath}/`)
                 } else {
                     this.alert(result.error.message,'danger')
                 }
@@ -212,7 +216,7 @@ export default {
                 this.submitting_dashboard = false
                 if (result.successful) {
                     this.alert(this.translations.dashboards.messages_info_dashboard_created, 'success')
-                    this.$router.push(`/${result.data.id}`)
+                    this.$router.push(`${this.appMountPath}/${result.data.id}`)
                 }else{
                     this.alert(result.error.message,'danger')
                 }
