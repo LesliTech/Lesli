@@ -39,22 +39,37 @@ export default {
         }
     },
     mounted() {
-        this.getAnnouncements()
+        this.getAvailableAnnouncements()
     },
     methods: {
 
-        getAnnouncements() {
+        getAvailableAnnouncements(){
+            let url = this.url.bell('announcements/list').filters({
+                base_path: this.lesli.url.path,
+                expiration_at: true,
+                status: true
+            })
 
-            if (this.lesli.announcements > 0) {
-                setTimeout(() => {
-                    this.http.get(this.url.bell("announcements")).then(result => {
-                        this.announcements = result.data.records
-                    })
-                }, 2000)
-            }
-
+            this.http.get(url).then(result => {            
+                if (result.successful) {                    
+                    this.announcements = result.data.map(announcement => this.parseAnnouncement(announcement))
+                    
+                    console.log(this.announcements)
+                } else {
+                    this.msg.error(result.error.message)
+                }
+            }).catch(error => {
+                console.log(error)
+            })
         },
 
+        parseAnnouncement(announcement){
+            return {
+                ...announcement,
+                message: JSON.parse(announcement.message)
+            }
+        },
+        
         clickButtonReload() {
             this.loading = true
             setTimeout(() => { this.loading = false }, 1000);
@@ -70,7 +85,7 @@ export default {
             v-for="announcement in announcements" 
             :closable="announcement.can_be_closed"
             :key="announcement.id" 
-            :type="`is-${announcement.category}`">
+            :type="`is-${announcement.kind}`">
             <div v-html="announcement.message.html">
             </div>
         </b-notification>

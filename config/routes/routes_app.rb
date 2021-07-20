@@ -83,6 +83,9 @@ module RoutesApp
 
                             # user role assignments
                             resources :roles, only: [:create, :destroy]
+
+                            # user shortcuts
+                            resources :shortcuts, only: [:index, :create, :update, :destroy]
                         end
 
                         # user helper resources

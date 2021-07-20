@@ -20,7 +20,7 @@ For more information read the license file including with this software.
 <script>
 const lesli = {
     app: "<%= params[:controller] %>",
-    url: { root: "<%= request.base_url.to_s %>" },
+    url: { root: "<%= request.base_url.to_s %>", path: "<%= request.path%>" },
     view_id: "<%= "#{params[:controller].gsub("/", "_")}_#{params[:action]}" %>",
     company:  <%= @account ? @account[:company].to_json.html_safe : "{}"%>,
     settings: <%= @account ? @account[:settings].to_json.html_safe : "{}"%>,
@@ -30,4 +30,5 @@ const lesli = {
     tasks: <%= @account ?  @account[:tasks] : "-1" %>,
     cable: <%= @account ?  @account[:cable] : false %>
 }
+
 </script>
