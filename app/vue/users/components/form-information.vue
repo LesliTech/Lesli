@@ -88,6 +88,12 @@ export default {
                                 </div>
                             </div>
                             <div class="field">
+                                <label class="label"> {{ translations.shared.view_text_alias }} </label>
+                                <div class="control">
+                                    <input v-model="user.alias" required="required" class="input">
+                                </div>
+                            </div>
+                            <div class="field">
                                 <label class="label"> {{ translations.users.view_text_title }} </label>
                                 <div class="control">
                                     <input v-model="user.detail_attributes.title" class="input">
