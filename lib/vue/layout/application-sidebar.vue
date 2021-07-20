@@ -19,7 +19,32 @@ For more information read the license file including with this software.
 */
 
 export default {
-
+    data() {
+        return {
+            translations: {
+                core: {
+                    sidebar_nav_settings: I18n.t("core.shared.sidebar_nav_settings")
+                }
+            }
+        }
+    },
+    methods: {
+        postUserShortcut() {
+            this.http.post(this.url.admin("users/:id/shortcuts", { id: this.lesli.current_user.id}), {
+                user_shortcut: {
+                    name: document.title,
+                    url: window.location.toString()
+                }
+            }).then(result => {
+                if (result.successful) {
+                    this.msg.success("Shortcut created successfuly")
+                }
+                console.log(result)
+            }).catch(error => {
+                console.log(error)
+            })
+        }
+    }
 }
 </script>
 <template>
@@ -31,6 +56,20 @@ export default {
             </ul>
             <ul class="menu-list">
                 <slot name="nav-end"></slot>
+                <b-menu-item>
+                    <template slot="label" slot-scope="props">
+                        <i class="fas fa-cogs"></i>
+                        <span>{{ translations.core.sidebar_nav_settings }}</span>
+                        <b-icon class="is-pulled-right" :icon="props.expanded ? 'caret-down' : 'caret-right'"></b-icon>
+                    </template>
+                    <li>
+                        <slot name="settings"></slot>
+                        <a @click="postUserShortcut()">
+                            <i class="fas fa-thumbtack"></i>
+                            <span>pin page</span>
+                        </a>
+                    </li>
+                </b-menu-item>
             </ul>
         </nav>
     </aside>

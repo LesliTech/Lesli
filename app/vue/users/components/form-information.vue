@@ -88,6 +88,12 @@ export default {
                                 </div>
                             </div>
                             <div class="field">
+                                <label class="label"> {{ translations.shared.view_text_alias }} </label>
+                                <div class="control">
+                                    <input v-model="user.alias" required="required" class="input">
+                                </div>
+                            </div>
+                            <div class="field">
                                 <label class="label"> {{ translations.users.view_text_title }} </label>
                                 <div class="control">
                                     <input v-model="user.detail_attributes.title" class="input">
@@ -104,7 +110,7 @@ export default {
                             </p>
                         </div>
                         <div class="column is-half">
-                            <div class="field">
+                            <div v-if="options.regions && options.regions.length > 0" class="field">
                                 <label class="label"> {{ translations.users.column_work_region }} </label>
                                 <div class="control">
                                     <div :class="['select is-fullwidth', {'is-empty': user.detail_attributes.work_region == null}]">

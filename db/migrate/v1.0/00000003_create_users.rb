@@ -2,9 +2,9 @@
 
 Copyright (c) 2020, all rights reserved.
 
-All the information provided by this platform is protected by international laws related  to 
-industrial property, intellectual property, copyright and relative international laws. 
-All intellectual or industrial property rights of the code, texts, trade mark, design, 
+All the information provided by this platform is protected by international laws related  to
+industrial property, intellectual property, copyright and relative international laws.
+All intellectual or industrial property rights of the code, texts, trade mark, design,
 pictures and any other information belongs to the owner of this platform.
 
 Without the written permission of the owner, any replication, modification,
@@ -13,7 +13,7 @@ transmission, publication is strictly forbidden.
 For more information read the license file including with this software.
 
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
-// · 
+// ·
 
 =end
 
@@ -22,14 +22,17 @@ class CreateUsers < ActiveRecord::Migration[5.2]
         create_table :users do |t|
 
             # Hard-lock strategy
-            t.boolean :active, default: true, null: false
+            t.boolean   :active, default: true, null: false
 
             # Multi-authorization strategy: user|integration
-            t.string :category, default: "user", null: false
+            t.string    :category, default: "user", null: false
+
+            # Customizable
+            # t.string    :alias
 
             # Database authenticatable
-            t.string :email,              null: false, default: ""
-            t.string :encrypted_password, null: false, default: ""
+            t.string    :email,              null: false, default: ""
+            t.string    :encrypted_password, null: false, default: ""
 
             # Recoverable
             t.string    :reset_password_token
@@ -57,11 +60,11 @@ class CreateUsers < ActiveRecord::Migration[5.2]
             t.datetime  :locked_at
 
             # Acts as paranoid
-            t.datetime :deleted_at, index: true
+            t.datetime  :deleted_at, index: true
 
             # Password and access management
-            t.datetime :password_expiration_at
-            t.datetime :locked_until
+            t.datetime  :password_expiration_at
+            t.datetime  :locked_until
 
             t.timestamps null: false
 
@@ -76,6 +79,6 @@ class CreateUsers < ActiveRecord::Migration[5.2]
 
         # adding account owner (user)
         add_reference :accounts, :users, foreign_key: true
-        
+
     end
 end

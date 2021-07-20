@@ -332,6 +332,7 @@ class UsersController < ApplicationLesliController
         params.require(:user).permit(
             :active,
             :email,
+            :alias,
             :roles_id,
             detail_attributes: [
                 :first_name,
