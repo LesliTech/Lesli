@@ -12,6 +12,11 @@ export default {
         engineNamespace: {
             type: String,
             required: true
+        },
+
+        appMountPath: {
+            type: String,
+            default: ''
         }
     },
     
@@ -37,7 +42,7 @@ export default {
         >
             <div class="navbar-item">
                 <div class="buttons">
-                    <router-link class="button" to="/">
+                    <router-link class="button" :to="`${appMountPath}/`">
                         <b-icon icon="list" size="is-small" />
                         <span>{{ translations.core.view_btn_list }}</span>
                     </router-link>
@@ -47,6 +52,7 @@ export default {
         <component-form
             :cloud-engine="cloudEngine"
             :engineNamespace="engineNamespace"
+            :app-mount-path="appMountPath"
         >
         </component-form>
     </section>
