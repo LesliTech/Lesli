@@ -2,9 +2,9 @@
 /*
 Copyright (c) 2020, all rights reserved.
 
-All the information provided by this platform is protected by international laws related  to 
-industrial property, intellectual property, copyright and relative international laws. 
-All intellectual or industrial property rights of the code, texts, trade mark, design, 
+All the information provided by this platform is protected by international laws related  to
+industrial property, intellectual property, copyright and relative international laws.
+All intellectual or industrial property rights of the code, texts, trade mark, design,
 pictures and any other information belongs to the owner of this platform.
 
 Without the written permission of the owner, any replication, modification,
@@ -38,6 +38,7 @@ export default {
 
     data() {
         return {
+            main_route: null,
             activities: null,
             module_name: {
                 slash: null,
@@ -72,6 +73,12 @@ export default {
             let parsed_data = this.object_utils.parseCloudModule(this.cloudModule)
             this.object_name = parsed_data.cloud_object_name
             this.module_name = parsed_data.cloud_module_name
+
+            if(this.module_name.slash == '/') {
+                this.main_route = `/${this.object_name.plural}`
+            } else {
+                this.main_route = `/${this.module_name.slash}/${this.object_name.plural}`
+            }
         },
 
         setTranslations(){
@@ -82,7 +89,7 @@ export default {
         getActivities() {
             this.loading = true
             if(this.cloudId){
-                let url = `/${this.module_name.slash}/${this.object_name.plural}/${this.cloudId}/activities.json`
+                let url = `${this.main_route}/${this.cloudId}/activities.json`
                 this.http.get(url).then(result => {
                     if (result.successful) {
                         this.activities = result.data
@@ -144,7 +151,7 @@ export default {
                         </span>
                     </p>
                     <span v-if="activity.category == 'action_update'">
-                        {{activity.field_name}}: ({{activity.value_from || 'null'}}) - ({{activity.value_to}}) 
+                        {{activity.field_name}}: ({{activity.value_from || 'null'}}) - ({{activity.value_to}})
                     </span>
                 </div>
             </div>

@@ -18,7 +18,7 @@ For more information read the license file including with this software.
 %>
 
 
-<% custom_app_page_clas = "#{ lesli_instance_code }-session" %>
+<% custom_app_page_clas = "#{ lesli_instance_code }-session".downcase %>
 <% custom_app_page_path = "#{ lesli_instance_code }/lesli/devise/sessions/new" %>
 <% custom_app_page_exists = lookup_context.exists?(custom_app_page_path) %>
 
@@ -35,8 +35,8 @@ For more information read the license file including with this software.
 
 <%# core view for passses %>
 <% unless custom_app_page_exists %>
-<main id="lesli-application">
-    <section class="hero is-fullheight">
+<main id="lesli-application" class="lesli">
+    <section class="hero is-fullheight lesli">
         <div class="hero-body is-paddingless">
             <div class="columns is-gapless">
                 <div class="column has-session-form">

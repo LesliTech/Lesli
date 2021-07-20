@@ -192,6 +192,7 @@ class UsersController < ApplicationLesliController
 
         respond_with_successful({
             roles: roles,
+            regions: current_user.account.locations.where(level: "region"),
             salutations: User::Detail.salutations.map {|k, v| {value: k, text: v}},
         })
     end
@@ -331,6 +332,7 @@ class UsersController < ApplicationLesliController
         params.require(:user).permit(
             :active,
             :email,
+            :alias,
             :roles_id,
             detail_attributes: [
                 :first_name,
