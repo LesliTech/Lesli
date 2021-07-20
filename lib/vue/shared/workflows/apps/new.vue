@@ -35,6 +35,11 @@ export default {
         translationsPath: {
             type: String,
             default: null
+        },
+
+        appMountPath: {
+            type: String,
+            default: ''
         }
     },
 
@@ -66,7 +71,7 @@ export default {
                 <div class="navbar-end">
                     <div class="navbar-item">
                         <div class="buttons">
-                            <router-link to="/" class="button">
+                            <router-link :to="`${appMountPath}/`" class="button">
                                 <b-icon icon="list" size="is-small"></b-icon>
                                 <span>{{translations.core.view_btn_list}}</span>
                             </router-link>
@@ -75,7 +80,7 @@ export default {
                 </div>
             </div>
         </nav>
-        <component-form :engine-namespace="engineNamespace" :translations-path="translationsPath">
+        <component-form :engine-namespace="engineNamespace" :translations-path="translationsPath" :app-mount-path="appMountPath">
         </component-form>
     </section>
 </template>
