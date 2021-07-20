@@ -25,6 +25,8 @@ class CreateUserSessions < ActiveRecord::Migration[6.0]
             t.string :user_agent    
             t.string :user_uuid         # unique user identifier
 
+            #t.string :timezone         # timezone of the logged user
+
             t.string :session_uuid      # unique session identifier
             t.string :session_token
             t.string :session_source    # session created for/with
