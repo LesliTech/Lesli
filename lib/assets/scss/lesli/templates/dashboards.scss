@@ -25,10 +25,41 @@ For more information read the license file including with this software.
 // · 
 section.lesli-dashboards {
 
+    section.columns {
+
+        div.column {
+            height: 280px;
+        }
+
+        div.widget-component {
+            height: 100%;
+        }
+
+    }
+
+    nav.component-header {
+
+        div.navbar-start .navbar-item {
+            padding-right: 0;
+            padding-left: 0;
+        }
+
+    }
+
+    div.widget-component {
+        box-shadow: 0 20px 27px 0 rgba(0,0,0,.05);
+        border: none;
+    }
+
     div.card {
 
         div.card-header {
             box-shadow: none;
+
+            h3.card-header-title {
+                font-size: 1.1rem;
+            }
+            
         }
 
         div.card-content {
