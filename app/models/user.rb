@@ -42,6 +42,7 @@ class User < ApplicationLesliRecord
     has_many :settings,     foreign_key: "users_id"
     has_many :sessions,     foreign_key: "users_id"
     has_many :requests,     foreign_key: "users_id"
+    has_many :shortcuts,    foreign_key: "users_id"
     has_many :activities,   foreign_key: "users_id"
     has_one  :integration,  foreign_key: "users_id"
     has_many :access_codes, foreign_key: "users_id"
@@ -80,6 +81,11 @@ class User < ApplicationLesliRecord
     #     designed to be invoked directly
     def initialize_user_details
         User::Detail.find_or_create_by({ user: self })
+
+        if detail&.first_name && detail&.last_name
+            self.alias = "#{detail.first_name[0..1]}. #{detail.last_name[0..1]}."
+            self.save
+        end
     end
 
     def initialize_cloud_one_user
@@ -560,6 +566,7 @@ class User < ApplicationLesliRecord
         return {
             id: user[:id],
             email: user[:email],
+            alias: user[:alias],
             active: user[:active],
             created_at: user[:created_at],
             updated_at: user[:updated_at],

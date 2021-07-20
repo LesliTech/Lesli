@@ -23,7 +23,8 @@ import componentInformationCard from "Lesli/vue/users/components/card-informatio
 import componentInformationForm from "Lesli/vue/users/components/form-information.vue"
 import componentRolesPrivilegesForm from "Lesli/vue/users/components/form-roles-privileges.vue"
 import componentAccessManagementForm from "Lesli/vue/users/components/form-access-management.vue"
-import componentSessionManagement from "Lesli/vue/users/components/session-management.vue"
+import componentManagementShortcuts from "Lesli/vue/users/components/management-shortcuts.vue"
+import componentManagementSessions from "Lesli/vue/users/components/management-sessions.vue"
 import componentSettingsForm from "Lesli/vue/users/components/form-settings.vue"
 
 
@@ -36,7 +37,8 @@ export default {
         "component-information-form": componentInformationForm,
         "component-roles-privileges-form": componentRolesPrivilegesForm,
         "component-access-management-form": componentAccessManagementForm,
-        "component-session-management": componentSessionManagement,
+        "component-management-shortcuts": componentManagementShortcuts,
+        "component-management-sessions": componentManagementSessions,
         "component-settings-form": componentSettingsForm
     },
     data() {
@@ -103,7 +105,10 @@ export default {
                 <component-roles-privileges-form></component-roles-privileges-form>
             </b-tab-item>
             <b-tab-item :label="translations.core.users.view_tab_title_session_management">
-                <component-session-management v-if="user_id" :user_id="user_id"></component-session-management>
+                <component-management-sessions v-if="user_id" :user_id="user_id"></component-management-sessions>
+            </b-tab-item>
+            <b-tab-item :label="translations.core.users.view_tab_title_shortcut_management">
+                <component-management-shortcuts v-if="user_id" :user_id="user_id"></component-management-shortcuts>
             </b-tab-item>
             <!--
             <b-tab-item label="Settings">
