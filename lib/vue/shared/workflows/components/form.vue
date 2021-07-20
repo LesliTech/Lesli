@@ -34,6 +34,11 @@ export default {
         translationsPath: {
             type: String,
             default: null
+        },
+
+        appMountPath: {
+            type: String,
+            required: true
         }
     },
 
@@ -277,7 +282,7 @@ export default {
                         this.alert(this.translations.workflows.messages_success_workflow_created, 'success')
                         
                         this.workflow = result.data
-                        this.$router.push(`/${result.data.id}/edit`)
+                        this.$router.push(`${this.appMountPath}/${result.data.id}/edit`)
                     }else{
                         this.alert(result.error.message,'danger')
                     }
