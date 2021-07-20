@@ -38,6 +38,11 @@ export default {
         translationsPath: {
             type: String,
             default: null
+        },
+
+        appMountPath: {
+            type: String,
+            default: ''
         }
     },
 
@@ -136,7 +141,7 @@ export default {
             this.http.delete(url).then(result => {
                 if(result.successful){
                     this.alert(this.translations.workflows.messages_info_workflow_deleted, 'success')
-                    this.$router.push('/')
+                    this.$router.push(`${this.appMountPath}/`)
                 }else{
                     this.alert(result.error.message,'danger')
                 }
@@ -233,11 +238,11 @@ export default {
                 <div class="navbar-end">
                     <div class="navbar-item">
                         <div class="buttons">
-                            <router-link to="/" class="button">
+                            <router-link :to="`${appMountPath}/`" class="button">
                                 <b-icon icon="list" size="is-small"></b-icon>
                                 <span>{{translations.core.view_btn_list}}</span>
                             </router-link>
-                            <router-link :to="`/${workflow_id}/edit`" class="button">
+                            <router-link :to="`${appMountPath}/${workflow_id}/edit`" class="button">
                                 <b-icon icon="edit" size="is-small"></b-icon>
                                 <span>{{translations.core.view_btn_edit}}</span>
                             </router-link>
