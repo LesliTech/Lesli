@@ -30,6 +30,9 @@ class User::Detail < ApplicationLesliRecord
 
     def update_associated_record
         if saved_change_to_first_name? || saved_change_to_last_name? || saved_change_to_telephone?
+
+            self.user.set_alias
+
             if defined? CloudOne
 
                 data = {
