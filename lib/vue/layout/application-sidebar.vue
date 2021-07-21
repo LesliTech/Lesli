@@ -54,7 +54,7 @@ export default {
             <ul class="menu-list">
                 <slot></slot>
             </ul>
-            <ul class="menu-list">
+            <!-- <ul class="menu-list">
                 <slot name="nav-end"></slot>
                 <b-menu-item>
                     <template slot="label" slot-scope="props">
@@ -70,7 +70,7 @@ export default {
                         </a>
                     </li>
                 </b-menu-item>
-            </ul>
+            </ul> -->
         </nav>
     </aside>
 </template>
