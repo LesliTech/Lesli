@@ -30,7 +30,10 @@ export default {
         return {
             loading: false,
             shortcuts: [],
-            announcements: []
+            announcements: [],
+            privileges: {
+                announcements: this.abilities.privilege("announcements", "cloud_bell")
+            }
         }
     },
     mounted() {
@@ -42,8 +45,11 @@ export default {
             this.shortcuts = shortcuts
         }
         
-        this.getAnnouncements()
-
+        if (this.privileges.announcements.grant_list) {
+            this.getAnnouncements()   
+        }
+        
+        this.data.global.component_header_mounted = true
     },
     methods: {
 
