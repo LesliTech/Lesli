@@ -81,10 +81,8 @@ class User < ApplicationLesliRecord
     def initialize_user_details
         User::Detail.find_or_create_by({ user: self })
 
-        if detail&.first_name && detail&.last_name
-            self.alias = "#{detail.first_name[0..1]}. #{detail.last_name[0..1]}."
-            self.save
-        end
+        self.alias = (detail&.first_name && detail&.last_name) ? "#{detail.first_name[0..1]}. #{detail.last_name[0..1]}." : ""
+        self.save
     end
 
     def initialize_cloud_one_user
