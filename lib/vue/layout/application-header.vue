@@ -188,6 +188,5 @@ export default {
                 {{translations.core.shared.notice_browser_not_supported_3}}
             </a>
         </b-notification>
-
     </header>
 </template>
