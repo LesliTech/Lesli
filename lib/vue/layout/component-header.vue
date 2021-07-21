@@ -52,16 +52,7 @@ export default {
 }
 </script>
 <template>
-    <section>
-        <b-notification 
-            v-for="announcement in lesli.announcements" 
-            :closable="announcement.can_be_closed"
-            :key="announcement.id" 
-            :type="`is-${announcement.kind}`">
-            <div v-html="announcement.message.html">
-            </div>
-        </b-notification>
-        
+    <section>        
         <nav class="navbar component-header">
             <div class="navbar-menu">
                 <div class="navbar-start">
