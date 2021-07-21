@@ -5,7 +5,6 @@ $checkbox-border-radius: $radius !default;
 $checkbox-border-width: 2px !default;
 $checkbox-checkmark-color: $primary-invert !default;
 $checkbox-size: 1.25em !default;
-$checkbox-colors: $form-colors !default;
 
 .b-checkbox {
     &.checkbox {
@@ -37,7 +36,7 @@ $checkbox-colors: $form-colors !default;
             &:checked + .check {
                 background: $checkbox-active-background-color url(checkmark($checkbox-checkmark-color)) no-repeat center center;
                 border-color: $checkbox-active-background-color;
-                @each $name, $pair in $checkbox-colors {
+                @each $name, $pair in $colors {
                     $color: nth($pair, 1);
                     $color-invert: nth($pair, 2);
                     &.is-#{$name} {
@@ -49,7 +48,7 @@ $checkbox-colors: $form-colors !default;
             &:indeterminate + .check {
                 background: $checkbox-active-background-color url(indeterminate($checkbox-checkmark-color)) no-repeat center center;
                 border-color: $checkbox-active-background-color;
-                @each $name, $pair in $checkbox-colors {
+                @each $name, $pair in $colors {
                     $color: nth($pair, 1);
                     $color-invert: nth($pair, 2);
                     &.is-#{$name} {
@@ -64,7 +63,7 @@ $checkbox-colors: $form-colors !default;
                 }
                 &:checked + .check {
                     box-shadow: 0 0 0.5em rgba($checkbox-active-background-color, 0.8);
-                    @each $name, $pair in $checkbox-colors {
+                    @each $name, $pair in $colors {
                         $color: nth($pair, 1);
                         &.is-#{$name} {
                             box-shadow: 0 0 0.5em rgba($color, 0.8);
@@ -74,7 +73,7 @@ $checkbox-colors: $form-colors !default;
             }
         }
         .control-label {
-            padding-left: $control-padding-horizontal;
+            padding-left: 0.5em;
         }
         &.button {
             display: flex;
@@ -85,7 +84,7 @@ $checkbox-colors: $form-colors !default;
         &:hover {
             input[type=checkbox]:not(:disabled) + .check {
                 border-color: $checkbox-active-background-color;
-                @each $name, $pair in $checkbox-colors {
+                @each $name, $pair in $colors {
                     $color: nth($pair, 1);
                     &.is-#{$name} {
                         border-color: $color;
