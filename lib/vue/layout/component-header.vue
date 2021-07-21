@@ -34,8 +34,16 @@ export default {
         }
     },
     mounted() {
-        this.shortcuts = shortcuts
+
+        // check that the constat is defined
+        // this constant is defined in: app/views/layouts/components/dashboard-shortcuts
+        // you must include this partial in every view where you want to use shortcuts
+        if (typeof shortcuts !== 'undefined') {
+            this.shortcuts = shortcuts
+        }
+        
         this.getAnnouncements()
+
     },
     methods: {
 
