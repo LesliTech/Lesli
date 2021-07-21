@@ -10,7 +10,7 @@ common: &common
 
 development:
     <<: *common
-    database: <%= Rails.application.credentials.db[:database] %>
+    database: leslicloud_development_migration
     username: <%= Rails.application.credentials.db[:username] %>
     password: <%= Rails.application.credentials.db[:password] %>
 
