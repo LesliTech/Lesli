@@ -24,26 +24,30 @@ export default {
         },
         subtitle: {
             default: null
-        },
-        buttons: {
-            default: true
-        },
-        titleButtonCreate: {
-            default: "Create"
         }
     },
     data() {
         return {
             loading: false,
+            shortcuts: [],
             announcements: []
         }
     },
     mounted() {
-        this.getAvailableAnnouncements()
+
+        // check that the constat is defined
+        // this constant is defined in: app/views/layouts/components/dashboard-shortcuts
+        // you must include this partial in every view where you want to use shortcuts
+        if (typeof shortcuts !== 'undefined') {
+            this.shortcuts = shortcuts
+        }
+        
+        this.getAnnouncements()
+
     },
     methods: {
 
-        getAvailableAnnouncements(){
+        getAnnouncements(){
             let url = this.url.bell('announcements/list').filters({
                 base_path: this.lesli.url.path,
                 expiration_at: true,
@@ -101,6 +105,7 @@ export default {
                             {{ subtitle }}
                         </h4>
                     </div>
+                    <slot name="start"></slot>
                 </div>
                 <div class="navbar-end">
                     <div class="navbar-item">
@@ -108,6 +113,15 @@ export default {
                     </div>
                 </div>
             </div>
-        </nav>        
+        </nav>
+
+        <div class="component-header-shortcuts buttons">
+            <a 
+                class="button"
+                v-for="shortcut in shortcuts" :key="shortcut.id"
+                :href="shortcut.url" >
+                {{ shortcut.name }}
+            </a>
+        </div>
     </section>
 </template>
