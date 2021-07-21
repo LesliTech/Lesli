@@ -39,11 +39,11 @@ export default {
         }
     },
     mounted() {
-        this.getAvailableAnnouncements()
+        this.getAnnouncements()
     },
     methods: {
 
-        getAvailableAnnouncements(){
+        getAnnouncements(){
             let url = this.url.bell('announcements/list').filters({
                 base_path: this.lesli.url.path,
                 expiration_at: true,
@@ -101,6 +101,7 @@ export default {
                             {{ subtitle }}
                         </h4>
                     </div>
+                    <slot name="start"></slot>
                 </div>
                 <div class="navbar-end">
                     <div class="navbar-item">
