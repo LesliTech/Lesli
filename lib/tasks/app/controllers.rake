@@ -25,8 +25,8 @@ namespace :app do
                             puts "action #{action} created for controller: #{controller_name}"
                         end
                         
-                        if (system_action.save)
-                            account.role_descriptors.where("name = ? or name = ?", "owner", "admin").each do |descriptor|
+                        if (system_action.save)                            
+                            account.role_descriptors.where("name in (?)", ["owner", "admin"]).each do |descriptor|
                                 role_descriptor_action = descriptor.privilege_actions.new(system_action: system_action, status: true)
 
                                 role_descriptor_action.save!

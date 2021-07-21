@@ -81,6 +81,12 @@ class Account < ApplicationRecord
             self.template.save!
         end
 
+        # create role descriptors 
+        self.role_descriptors.find_or_create_by(name: "owner")
+        self.role_descriptors.find_or_create_by(name: "admin")
+        self.role_descriptors.find_or_create_by(name: "profile")
+
+
         # create default roles
         account_roles = Rails.application.config.lesli_settings["configuration"]["security"]["roles"]
         account_roles.append "api"     # api-access only
