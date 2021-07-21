@@ -101,6 +101,7 @@ export default {
                             {{ subtitle }}
                         </h4>
                     </div>
+                    <slot name="start"></slot>
                 </div>
                 <div class="navbar-end">
                     <div class="navbar-item">
