@@ -24,6 +24,7 @@ For more information read the license file including with this software.
     .sidebar-content {
         background-color: lesli-css-color(solid, white);
         width: 500px;
+        z-index: 50;
 
         .panel-title {
             display: flex;
