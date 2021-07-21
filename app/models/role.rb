@@ -21,9 +21,9 @@ class Role < ApplicationLesliRecord
 
     belongs_to :account,                foreign_key: "accounts_id"
 
-    has_many :privileges,               foreign_key: "roles_id",    class_name: "Role::Privilege",          dependent: :delete_all
+    has_many :privileges,               foreign_key: "roles_id",    class_name: "Privilege",          dependent: :delete_all
     has_many :activities,               foreign_key: "roles_id"
-    has_many :descriptor_assignments,   foreign_key: "roles_id",    class_name: "Role::DescriptorAssignment"
+    has_many :descriptor_assignments,   foreign_key: "roles_id",    class_name: "DescriptorAssignment",  dependent: :delete_all
     has_many :privilege_actions,        through: :descriptor_assignments
     
     after_create :generate_code,
@@ -104,31 +104,12 @@ class Role < ApplicationLesliRecord
     #   role = Role.new(detail_attributes: {name: "test_role", object_level_permission: 10})
     #   # This method will be called automatically within an after_create callback
     #   puts role.privileges.to_json # Should display all privileges that existed at the moment of the role's creation
-    def initialize_role_privileges
-        status = false
-        status = true if (name == "admin" ||name == "owner")
-
-        # get all actions of the controllers
-        controllers = SystemController::Action.joins(:system_controller).all.each do |controller_action|
-            Role::PrivilegeAction.create(
-                action: controller_action,
-                status: status,
-                role: self
-            )
+    def initialize_role_privileges       
+        if (self.name == "admin" ||self.name == "owner")
+            self.descriptor_assignments.find_or_create_by(descriptor: self.account.role_descriptors.find_by(name: self.name))    
         end
-
-        # enable profile privileges
-        privilege_actions
-            .joins(action: [:system_controller])
-            .where("system_controllers.name = ?", "profiles")
-            .where("system_controller_actions.name = ?", 'show')
-            .update(status: false)
-
-        privilege_actions
-            .joins(action: [:system_controller])
-            .where("system_controllers.name = ?", "users")
-            .where("system_controller_actions.name in (?)", ['options','show'])
-            .update(status: true)
+        
+        self.descriptor_assignments.find_or_create_by(descriptor: self.account.role_descriptors.find_by(name: "profile"))    
     end
 
     def privilege_actions
