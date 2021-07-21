@@ -29,11 +29,12 @@ class User::Detail < ApplicationLesliRecord
     }
 
     def update_associated_record
-        if saved_change_to_first_name? || saved_change_to_last_name?
+        if saved_change_to_first_name? || saved_change_to_last_name? || saved_change_to_telephone?
             if defined? CloudOne
 
                 data = {
-                    full_name: self.user.full_name
+                    full_name: self.user.full_name,
+                    telephone: self.telephone,
                 }
 
                 CloudOne::Firebase::User.update_data(self, data)
