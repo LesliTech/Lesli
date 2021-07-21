@@ -39,7 +39,7 @@ export default {
             loaded: false,
             announcement: {
                 can_be_closed: true,
-                kind:  'normal',
+                category:  'normal',
                 status: true
             },
             submitting: false,
@@ -115,7 +115,7 @@ export default {
                         
             let url = this.url.bell('announcements/list').filters({
                 base_path: this.lesli.url.path,
-                expiration_at: true,
+                end_at: true,
                 status: true
             })
 
@@ -159,7 +159,7 @@ export default {
         clearForm(){
             this.announcement = {
                 can_be_closed: true,
-                kind:  'normal',
+                category:  'normal',
                 status: true
             }
             
@@ -245,11 +245,31 @@ export default {
                     </b-field>
 
                     <b-field 
-                        :label="translations.bell.announcements.column_expiration_at"
+                        :label="translations.bell.announcements.column_start_at"
+                    >
+                        <vc-date-picker
+                            v-model="announcement.start_at"
+                            :locale="date.vcDatepickerConfig()"
+                            :popover="{ visibility: 'focus' }"
+                            :min-date="announcement.id ? null : new Date()"
+                        >
+                            <template v-slot="{ inputValue, inputEvents }">
+                                <input
+                                    class="input is-default"
+                                    v-on="inputEvents"
+                                    :value="inputValue"
+                                    :placeholder="translations.core.shared.text_select_date"
+                                />
+                            </template>
+                        </vc-date-picker>
+                    </b-field>
+                    
+                    <b-field 
+                        :label="translations.bell.announcements.column_end_at"
                         :message="translations.bell.announcements.view_text_expiration_date_indefinite"
                     >
                         <vc-date-picker
-                            v-model="announcement.expiration_at"
+                            v-model="announcement.end_at"
                             :locale="date.vcDatepickerConfig()"
                             :popover="{ visibility: 'focus' }"
                             :min-date="announcement.id ? null : new Date()"
@@ -267,7 +287,7 @@ export default {
                     
                     <b-field>
                         <template v-slot:label>
-                            {{translations.bell.announcements.column_kind}}<sup class="has-text-danger">*</sup>
+                            {{translations.bell.announcements.column_category}}<sup class="has-text-danger">*</sup>
                         </template>
                         <div class="columns">
                             <div class="column is-10">
@@ -276,19 +296,19 @@ export default {
                                     :placeholder="translations.core.view_placeholder_select_option"
                                     expanded
                                     required
-                                    v-model="announcement.kind"
+                                    v-model="announcement.category"
                                 >
                                     <option
-                                        v-for="kind in options.kinds"
-                                        :key="kind.value"
-                                        :value="kind.value"
+                                        v-for="category in options.categories"
+                                        :key="category.value"
+                                        :value="category.value"
                                     >
-                                        {{ object_utils.translateEnum(translations.bell.announcements, 'column_enum_kind', kind.text)}}
+                                        {{ object_utils.translateEnum(translations.bell.announcements, 'column_enum_category', category.text)}}
                                     </option>
                                 </b-select>
                             </div>
                             <div class="column">
-                                <b-button :type="`is-${announcement.kind}`">
+                                <b-button :type="`is-${announcement.category}`">
                                     <span>
                                         <b-icon icon="fa-brush" size="is-small">
                                         </b-icon>
@@ -374,12 +394,12 @@ export default {
 
             >
                 <template slot-scope="props">
-                    <b-table-column :label="translations.bell.announcements.column_name" sortable field="kind">
+                    <b-table-column :label="translations.bell.announcements.column_name" sortable field="name">
                         {{ props.row.name }}
                     </b-table-column>
                     
-                    <b-table-column :label="translations.bell.announcements.column_kind" sortable field="kind">
-                        {{ props.row.kind }}
+                    <b-table-column :label="translations.bell.announcements.column_category" sortable field="category">
+                        {{ props.row.category }}
                     </b-table-column>
                 
                     <b-table-column :label="translations.bell.announcements.column_users_id" sortable field="user_creator">
