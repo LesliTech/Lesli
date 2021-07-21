@@ -110,7 +110,8 @@ class ApplicationLesliController < ApplicationController
             "bool_or(grant_destroy) as grant_destroy",
             "bool_or(grant_search) as grant_search",
             "bool_or(grant_resources) as grant_resources",
-            "bool_or(grant_options) as grant_options"
+            "bool_or(grant_options) as grant_options",
+            "bool_or(grant_list) as grant_list"
         )
         .group("grant_object")
         .each do |privilege| 
