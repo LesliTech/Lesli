@@ -39,11 +39,11 @@ export default {
         }
     },
     mounted() {
-        this.getAvailableAnnouncements()
+        this.getAnnouncements()
     },
     methods: {
 
-        getAvailableAnnouncements(){
+        getAnnouncements(){
             let url = this.url.bell('announcements/list').filters({
                 base_path: this.lesli.url.path,
                 expiration_at: true,
