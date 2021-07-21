@@ -7,18 +7,7 @@
             class="snackbar"
             :class="[type,position]"
             :role="actionText ? 'alertdialog' : 'alert'">
-            <template v-if="$slots.default">
-                <slot />
-            </template>
-            <template v-else>
-                <div class="text" v-html="message" />
-            </template>
-            <div
-                v-if="cancelText"
-                class="action is-light is-cancel"
-                @click="close">
-                <button class="button">{{ cancelText }}</button>
-            </div>
+            <div class="text" v-html="message"/>
             <div
                 v-if="actionText"
                 class="action"
@@ -46,9 +35,9 @@ export default {
             type: Function,
             default: () => {}
         },
-        cancelText: {
-            type: String | null,
-            default: null
+        indefinite: {
+            type: Boolean,
+            default: false
         }
     },
     data() {

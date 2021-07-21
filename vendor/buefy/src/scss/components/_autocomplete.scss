@@ -4,7 +4,8 @@ $dropdown-content-max-height: 200px !default;
     position: relative;
     .dropdown-menu {
         display: block;
-        width: 100%;
+        min-width: 100%;
+        max-width: 100%;
         &.is-opened-top {
             top: auto;
             bottom: 100%;

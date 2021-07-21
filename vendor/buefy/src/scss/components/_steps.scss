@@ -5,7 +5,6 @@ Wikiki (https://github.com/Wikiki) licensed under
 MIT (https://github.com/Wikiki/bulma-steps/blob/master/LICENSE)
 */
 
-$steps-items-focused-outline: none !default;
 $steps-details-background-color: $body-background-color !default;
 $steps-maker-default-color: $grey-light !default;
 $steps-marker-default-border: .2em solid #fff !default;
@@ -15,7 +14,6 @@ $steps-active-color: $primary !default;
 $steps-divider-height: .2em !default;
 $steps-vertical-padding: 1em 0 !default;
 $steps-mobile-max-width: $tablet !default;
-$steps-colors: $colors !default;
 
 @mixin steps-size($size) {
     .steps {
@@ -71,7 +69,7 @@ $steps-colors: $colors !default;
                     .step-item {
                         &:not(:first-child), &:only-child {
                             &::before, &::after {
-                                left: calc(#{$size} - #{$steps-divider-height * 0.5});
+                                left: calc(#{$size} - #{$steps-divider-height / 2});
                             }
                         }
                     }
@@ -83,7 +81,7 @@ $steps-colors: $colors !default;
                         &:not(:first-child), &:only-child {
                             &::before, &::after {
                                 left: auto;
-                                right: calc(#{$size} - #{$steps-divider-height * 0.5});
+                                right: calc(#{$size} - #{$steps-divider-height / 2});
                             }
                         }
                     }
@@ -98,7 +96,7 @@ $steps-colors: $colors !default;
                         .step-item {
                             &:not(:first-child), &:only-child {
                                 &::before, &::after {
-                                    left: calc(#{$size} - #{$steps-divider-height * 0.5});
+                                    left: calc(#{$size} - #{$steps-divider-height / 2});
                                 }
                             }
                         }
@@ -110,7 +108,7 @@ $steps-colors: $colors !default;
                             &:not(:first-child), &:only-child {
                                 &::before, &::after {
                                     left: auto;
-                                    right: calc(#{$size} - #{$steps-divider-height * 0.5});
+                                    right: calc(#{$size} - #{$steps-divider-height / 2});
                                 }
                             }
                         }
@@ -152,14 +150,14 @@ $steps-colors: $colors !default;
                     font-weight: $weight-bold;
                     justify-content: center;
                     background: $steps-maker-default-color;
-                    color: $scheme-main;
+                    color: $white;
                     border: $steps-marker-default-border;
                     z-index: 1;
                     overflow: hidden;
                 }
 
                 // Override marker color per step
-                @each $name, $pair in $steps-colors {
+                @each $name, $pair in $colors {
                     $color: nth($pair, 1);
                     $color-invert: nth($pair, 2);
 
@@ -171,7 +169,7 @@ $steps-colors: $colors !default;
                         }
                         &.is-active {
                             .step-marker {
-                                background-color: $scheme-main;
+                                background-color: $white;
                                 border-color: $color;
                                 color: $color;
                             }
@@ -194,7 +192,7 @@ $steps-colors: $colors !default;
                 }
 
                 .step-marker{
-                    color: $scheme-main;
+                    color: $white;
                 }
 
                 .step-details {
@@ -246,7 +244,7 @@ $steps-colors: $colors !default;
                     }
 
                     .step-marker {
-                        background-color: $scheme-main;
+                        background-color: $white;
                         border-color: $steps-active-color;
                         color: $steps-active-color;
                     }
@@ -257,7 +255,7 @@ $steps-colors: $colors !default;
                 }
                 &.is-previous {
                     .step-marker {
-                        color: $scheme-main;
+                        color: $white;
                         background-color: $steps-previous-color;
                     }
 
@@ -277,10 +275,6 @@ $steps-colors: $colors !default;
             .step-item {
                 flex-shrink: 0;
                 flex-basis: auto;
-
-                &:focus {
-                    outline: $steps-items-focused-outline;
-                }
             }
             &.is-transitioning {
                 overflow: hidden;
@@ -366,7 +360,7 @@ $steps-colors: $colors !default;
                     }
 
                     // Override marker connector color per step
-                    @each $name, $pair in $steps-colors {
+                    @each $name, $pair in $colors {
                         $color: nth($pair, 1);
 
                         &.is-#{$name} {
@@ -383,7 +377,7 @@ $steps-colors: $colors !default;
                             height: 100%;
                             width: $steps-divider-height;
                             top: -50%;
-                            left: calc(50% - #{$steps-divider-height * 0.5});
+                            left: calc(50% - #{$steps-divider-height / 2});
                         }
                     }
 
