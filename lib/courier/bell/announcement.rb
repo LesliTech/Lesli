@@ -26,6 +26,12 @@ module Courier
                 CloudBell::Announcement.count(current_user)
             end
 
+            def self.list(current_user, query)
+                return [] if not defined? CloudBell
+                return [] if not current_user.has_privileges?(["cloud_bell/announcements"], ["list"])
+                
+                CloudBell::Announcement.list(current_user, query)
+            end
         end
     end
 end
