@@ -110,26 +110,6 @@ export default {
             })
         },
         
-        getAvailableAnnouncements(){
-            this.loading = true
-                        
-            let url = this.url.bell('announcements/list').filters({
-                base_path: this.lesli.url.path,
-                end_at: true,
-                status: true
-            })
-
-            this.http.get(url).then(result => {            
-                if (result.successful) {                    
-                    for (let announcement of result.data) {      
-                        this.notify.show(this.parseAnnouncement(announcement))
-                    }
-                }
-            }).catch(error => {
-                console.log(error)
-            })
-        },
-        
         getAnnouncements(){            
             this.loading = true
                         
@@ -167,9 +147,7 @@ export default {
         },
         
         showAnnouncement(announcement){
-            announcement = this.parseAnnouncement(
-               this.announcements.find(e => e.id === announcement.id) 
-            )
+            this.announcements.find(e => e.id === announcement.id) 
             
             this.$refs['announcement-name'].focus()
             
@@ -191,13 +169,6 @@ export default {
             }).catch(error => {
                 console.log(error)
             })
-        },
-        
-        parseAnnouncement(announcement){
-            return {
-                ...announcement,
-                message: JSON.parse(announcement.message)
-            }
         }
     },
     
