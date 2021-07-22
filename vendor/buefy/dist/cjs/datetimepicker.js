@@ -4,26 +4,23 @@ Object.defineProperty(exports, '__esModule', { value: true });
 
 var __chunk_1 = require('./chunk-14c82365.js');
 var helpers = require('./helpers.js');
-var __chunk_2 = require('./chunk-60255743.js');
-var __chunk_3 = require('./chunk-a3692b4c.js');
-require('./chunk-3acb500b.js');
+var __chunk_2 = require('./chunk-cd0dcc1d.js');
+var __chunk_3 = require('./chunk-cdf52db8.js');
+require('./chunk-d7fda995.js');
 var __chunk_5 = require('./chunk-13e039f5.js');
-require('./chunk-b31bdce7.js');
-require('./chunk-dcdbe2e8.js');
-require('./chunk-32c2c30f.js');
+require('./chunk-2c156199.js');
+require('./chunk-b3a7625f.js');
 require('./chunk-ae7e641a.js');
-require('./chunk-6c490ddf.js');
-require('./chunk-adb01a93.js');
-require('./chunk-6963051d.js');
-var __chunk_16 = require('./chunk-34b36649.js');
-var __chunk_17 = require('./chunk-103d067d.js');
+require('./chunk-a8b51847.js');
+require('./chunk-e2b9e5bd.js');
+require('./chunk-c9f4ec1d.js');
+var __chunk_15 = require('./chunk-763efdc9.js');
+var __chunk_16 = require('./chunk-56901b7f.js');
 
 var _components;
-var AM = 'AM';
-var PM = 'PM';
 var script = {
   name: 'BDatetimepicker',
-  components: (_components = {}, __chunk_1._defineProperty(_components, __chunk_16.Datepicker.name, __chunk_16.Datepicker), __chunk_1._defineProperty(_components, __chunk_17.Timepicker.name, __chunk_17.Timepicker), _components),
+  components: (_components = {}, __chunk_1._defineProperty(_components, __chunk_15.Datepicker.name, __chunk_15.Datepicker), __chunk_1._defineProperty(_components, __chunk_16.Timepicker.name, __chunk_16.Timepicker), _components),
   mixins: [__chunk_3.FormElementMixin],
   inheritAttrs: false,
   props: {
@@ -108,34 +105,13 @@ var script = {
 
           this.newValue = new Date(val.getTime());
         } else {
-          this.newValue = this.adjustValue(value);
+          this.newValue = this.adjustValue(this.value);
         }
 
         var adjustedValue = this.adjustValue(this.newValue, true); // reverse adjust
 
         this.$emit('input', adjustedValue);
       }
-    },
-    localeOptions: function localeOptions() {
-      return new Intl.DateTimeFormat(this.locale, {
-        year: 'numeric',
-        month: 'numeric',
-        day: 'numeric',
-        hour: 'numeric',
-        minute: 'numeric',
-        second: this.enableSeconds() ? 'numeric' : undefined
-      }).resolvedOptions();
-    },
-    dtf: function dtf() {
-      return new Intl.DateTimeFormat(this.locale, {
-        year: this.localeOptions.year || 'numeric',
-        month: this.localeOptions.month || 'numeric',
-        day: this.localeOptions.day || 'numeric',
-        hour: this.localeOptions.hour || 'numeric',
-        minute: this.localeOptions.minute || 'numeric',
-        second: this.enableSeconds() ? this.localeOptions.second || 'numeric' : undefined,
-        hour12: !this.isHourFormat24()
-      });
     },
     isMobileNative: function isMobileNative() {
       return this.mobileNative && this.tzOffset === 0;
@@ -192,28 +168,14 @@ var script = {
     }
   },
   watch: {
-    value: function value() {
+    value: function value(val) {
       this.newValue = this.adjustValue(this.value);
     },
-    tzOffset: function tzOffset() {
+    tzOffset: function tzOffset(val) {
       this.newValue = this.adjustValue(this.value);
     }
   },
   methods: {
-    enableSeconds: function enableSeconds() {
-      if (this.$refs.timepicker) {
-        return this.$refs.timepicker.enableSeconds;
-      }
-
-      return false;
-    },
-    isHourFormat24: function isHourFormat24() {
-      if (this.$refs.timepicker) {
-        return this.$refs.timepicker.isHourFormat24;
-      }
-
-      return !this.localeOptions.hour12;
-    },
     adjustValue: function adjustValue(value) {
       var reverse = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : false;
       if (!value) return value;
@@ -230,37 +192,6 @@ var script = {
       } else if (typeof __chunk_2.config.defaultDatetimeParser === 'function') {
         return __chunk_2.config.defaultDatetimeParser(date);
       } else {
-        if (this.dtf.formatToParts && typeof this.dtf.formatToParts === 'function') {
-          var dayPeriods = [AM, PM, AM.toLowerCase(), PM.toLowerCase()];
-
-          if (this.$refs.timepicker) {
-            dayPeriods.push(this.$refs.timepicker.amString);
-            dayPeriods.push(this.$refs.timepicker.pmString);
-          }
-
-          var parts = this.dtf.formatToParts(new Date());
-          var formatRegex = parts.map(function (part, idx) {
-            if (part.type === 'literal') {
-              if (idx + 1 < parts.length && parts[idx + 1].type === 'hour') {
-                return "[^\\d]+";
-              }
-
-              return part.value.replace(/ /g, '\\s?');
-            } else if (part.type === 'dayPeriod') {
-              return "((?!=<".concat(part.type, ">)(").concat(dayPeriods.join('|'), ")?)");
-            }
-
-            return "((?!=<".concat(part.type, ">)\\d+)");
-          }).join('');
-          var datetimeGroups = helpers.matchWithGroups(formatRegex, date); // We do a simple validation for the group.
-          // If it is not valid, it will fallback to Date.parse below
-
-          if (datetimeGroups.year && datetimeGroups.year.length === 4 && datetimeGroups.month && datetimeGroups.month <= 12 && datetimeGroups.day && datetimeGroups.day <= 31 && datetimeGroups.hour && datetimeGroups.hour >= 0 && datetimeGroups.hour < 24 && datetimeGroups.minute && datetimeGroups.minute >= 0 && datetimeGroups.minute < 59) {
-            var d = new Date(datetimeGroups.year, datetimeGroups.month - 1, datetimeGroups.day, datetimeGroups.hour, datetimeGroups.minute, datetimeGroups.second || 0);
-            return d;
-          }
-        }
-
         return new Date(Date.parse(date));
       }
     },
@@ -270,7 +201,12 @@ var script = {
       } else if (typeof __chunk_2.config.defaultDatetimeFormatter === 'function') {
         return __chunk_2.config.defaultDatetimeFormatter(date);
       } else {
-        return this.dtf.format(date);
+        if (this.$refs.timepicker) {
+          var d = new Date(date.getFullYear(), date.getMonth(), date.getDate(), 12);
+          return d.toLocaleDateString() + ' ' + this.$refs.timepicker.timeFormatter(date, this.$refs.timepicker);
+        }
+
+        return null;
       }
     },
 
@@ -327,7 +263,7 @@ var script = {
 const __vue_script__ = script;
 
 /* template */
-var __vue_render__ = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return (!_vm.isMobile || _vm.inline)?_c('b-datepicker',_vm._b({ref:"datepicker",attrs:{"rounded":_vm.rounded,"open-on-focus":_vm.openOnFocus,"position":_vm.position,"loading":_vm.loading,"inline":_vm.inline,"editable":_vm.editable,"expanded":_vm.expanded,"close-on-click":false,"date-formatter":_vm.defaultDatetimeFormatter,"date-parser":_vm.defaultDatetimeParser,"min-date":_vm.minDate,"max-date":_vm.maxDate,"icon":_vm.icon,"icon-pack":_vm.iconPack,"size":_vm.datepickerSize,"placeholder":_vm.placeholder,"horizontal-time-picker":_vm.horizontalTimePicker,"range":false,"disabled":_vm.disabled,"mobile-native":_vm.isMobileNative,"locale":_vm.locale,"focusable":_vm.focusable,"append-to-body":_vm.appendToBody},on:{"focus":_vm.onFocus,"blur":_vm.onBlur,"change-month":function($event){return _vm.$emit('change-month', $event)},"change-year":function($event){return _vm.$emit('change-year', $event)}},model:{value:(_vm.computedValue),callback:function ($$v) {_vm.computedValue=$$v;},expression:"computedValue"}},'b-datepicker',_vm.datepicker,false),[_c('nav',{staticClass:"level is-mobile"},[(_vm.$slots.left !== undefined)?_c('div',{staticClass:"level-item has-text-centered"},[_vm._t("left")],2):_vm._e(),_c('div',{staticClass:"level-item has-text-centered"},[_c('b-timepicker',_vm._b({ref:"timepicker",attrs:{"inline":"","editable":_vm.editable,"min-time":_vm.minTime,"max-time":_vm.maxTime,"size":_vm.timepickerSize,"disabled":_vm.timepickerDisabled,"focusable":_vm.focusable,"mobile-native":_vm.isMobileNative,"locale":_vm.locale},model:{value:(_vm.computedValue),callback:function ($$v) {_vm.computedValue=$$v;},expression:"computedValue"}},'b-timepicker',_vm.timepicker,false))],1),(_vm.$slots.right !== undefined)?_c('div',{staticClass:"level-item has-text-centered"},[_vm._t("right")],2):_vm._e()])]):_c('b-input',_vm._b({ref:"input",attrs:{"type":"datetime-local","autocomplete":"off","value":_vm.formatNative(_vm.computedValue),"placeholder":_vm.placeholder,"size":_vm.size,"icon":_vm.icon,"icon-pack":_vm.iconPack,"rounded":_vm.rounded,"loading":_vm.loading,"max":_vm.formatNative(_vm.maxDate),"min":_vm.formatNative(_vm.minDate),"disabled":_vm.disabled,"readonly":false,"use-html5-validation":_vm.useHtml5Validation},on:{"focus":_vm.onFocus,"blur":_vm.onBlur},nativeOn:{"change":function($event){return _vm.onChangeNativePicker($event)}}},'b-input',_vm.$attrs,false))};
+var __vue_render__ = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return (!_vm.isMobile || _vm.inline)?_c('b-datepicker',_vm._b({ref:"datepicker",attrs:{"open-on-focus":_vm.openOnFocus,"position":_vm.position,"loading":_vm.loading,"inline":_vm.inline,"editable":_vm.editable,"expanded":_vm.expanded,"close-on-click":false,"date-formatter":_vm.defaultDatetimeFormatter,"date-parser":_vm.defaultDatetimeParser,"min-date":_vm.minDate,"max-date":_vm.maxDate,"icon":_vm.icon,"icon-pack":_vm.iconPack,"size":_vm.datepickerSize,"placeholder":_vm.placeholder,"horizontal-time-picker":_vm.horizontalTimePicker,"range":false,"disabled":_vm.disabled,"mobile-native":_vm.isMobileNative,"focusable":_vm.focusable,"append-to-body":_vm.appendToBody},on:{"focus":_vm.onFocus,"blur":_vm.onBlur,"change-month":function($event){_vm.$emit('change-month', $event);},"change-year":function($event){_vm.$emit('change-year', $event);}},model:{value:(_vm.computedValue),callback:function ($$v) {_vm.computedValue=$$v;},expression:"computedValue"}},'b-datepicker',_vm.datepicker,false),[_c('nav',{staticClass:"level is-mobile"},[(_vm.$slots.left !== undefined)?_c('div',{staticClass:"level-item has-text-centered"},[_vm._t("left")],2):_vm._e(),_vm._v(" "),_c('div',{staticClass:"level-item has-text-centered"},[_c('b-timepicker',_vm._b({ref:"timepicker",attrs:{"inline":"","editable":_vm.editable,"min-time":_vm.minTime,"max-time":_vm.maxTime,"size":_vm.timepickerSize,"disabled":_vm.timepickerDisabled,"focusable":_vm.focusable,"mobile-native":_vm.isMobileNative},model:{value:(_vm.computedValue),callback:function ($$v) {_vm.computedValue=$$v;},expression:"computedValue"}},'b-timepicker',_vm.timepicker,false))],1),_vm._v(" "),(_vm.$slots.right !== undefined)?_c('div',{staticClass:"level-item has-text-centered"},[_vm._t("right")],2):_vm._e()])]):_c('b-input',_vm._b({ref:"input",attrs:{"type":"datetime-local","autocomplete":"off","value":_vm.formatNative(_vm.computedValue),"placeholder":_vm.placeholder,"size":_vm.size,"icon":_vm.icon,"icon-pack":_vm.iconPack,"rounded":_vm.rounded,"loading":_vm.loading,"max":_vm.formatNative(_vm.maxDate),"min":_vm.formatNative(_vm.minDate),"disabled":_vm.disabled,"readonly":false,"use-html5-validation":_vm.useHtml5Validation},on:{"focus":_vm.onFocus,"blur":_vm.onBlur},nativeOn:{"change":function($event){return _vm.onChangeNativePicker($event)}}},'b-input',_vm.$attrs,false))};
 var __vue_staticRenderFns__ = [];
 
   /* style */
