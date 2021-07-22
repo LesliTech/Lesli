@@ -7,7 +7,7 @@ const instances = []
 function processArgs(bindingValue) {
     const isFunction = typeof bindingValue === 'function'
     if (!isFunction && typeof bindingValue !== 'object') {
-        throw new Error(`v-click-outside: Binding value should be a function or an object, ${typeof bindingValue} given`)
+        throw new Error(`v-click-outside: Binding value should be a function or an object, typeof ${bindingValue} given`)
     }
 
     return {
@@ -20,17 +20,13 @@ function processArgs(bindingValue) {
 function onEvent({ el, event, handler, middleware }) {
     const isClickOutside = event.target !== el && !el.contains(event.target)
 
-    if (!isClickOutside || !middleware(event, el)) {
+    if (!isClickOutside) {
         return
     }
 
-    handler(event, el)
-}
-
-function toggleEventListeners({ eventHandlers } = {}, action = 'add') {
-    eventHandlers.forEach(({ event, handler }) => {
-        document[`${action}EventListener`](event, handler)
-    })
+    if (middleware(event, el)) {
+        handler(event, el)
+    }
 }
 
 function bind(el, { value }) {
@@ -44,8 +40,8 @@ function bind(el, { value }) {
         }))
     }
 
-    toggleEventListeners(instance, 'add')
-
+    instance.eventHandlers.forEach(({ event, handler }) =>
+        document.addEventListener(event, handler))
     instances.push(instance)
 }
 
@@ -54,21 +50,25 @@ function update(el, { value }) {
     // `filter` instead of `find` for compat with IE
     const instance = instances.filter((instance) => instance.el === el)[0]
 
-    toggleEventListeners(instance, 'remove')
+    instance.eventHandlers.forEach(({ event, handler }) =>
+        document.removeEventListener(event, handler)
+    )
 
     instance.eventHandlers = events.map((eventName) => ({
         event: eventName,
         handler: (event) => onEvent({ event, el, handler, middleware })
     }))
 
-    toggleEventListeners(instance, 'add')
+    instance.eventHandlers.forEach(({ event, handler }) =>
+        document.addEventListener(event, handler))
 }
 
 function unbind(el) {
     // `filter` instead of `find` for compat with IE
     const instance = instances.filter((instance) => instance.el === el)[0]
-
-    toggleEventListeners(instance, 'remove')
+    instance.eventHandlers.forEach(({ event, handler }) =>
+        document.removeEventListener(event, handler)
+    )
 }
 
 const directive = {

@@ -1,4 +1,4 @@
-/*! Buefy v0.9.8 | MIT License | github.com/buefy/buefy */
+/*! Buefy v0.8.20 | MIT License | github.com/buefy/buefy */
 (function (global, factory) {
   typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports) :
   typeof define === 'function' && define.amd ? define(['exports'], factory) :
@@ -92,7 +92,6 @@
     defaultIconComponent: null,
     defaultIconPrev: 'chevron-left',
     defaultIconNext: 'chevron-right',
-    defaultLocale: undefined,
     defaultDialogConfirmText: null,
     defaultDialogCancelText: null,
     defaultSnackbarDuration: 3500,
@@ -102,8 +101,8 @@
     defaultNotificationDuration: 2000,
     defaultNotificationPosition: null,
     defaultTooltipType: 'is-primary',
-    defaultTooltipDelay: null,
-    defaultSidebarDelay: null,
+    defaultTooltipAnimated: false,
+    defaultTooltipDelay: 0,
     defaultInputAutocomplete: 'on',
     defaultDateFormatter: null,
     defaultDateParser: null,
@@ -125,53 +124,19 @@
     defaultUseHtml5Validation: true,
     defaultDropdownMobileModal: true,
     defaultFieldLabelPosition: null,
-    defaultDatepickerYearsRange: [-100, 10],
+    defaultDatepickerYearsRange: [-100, 3],
     defaultDatepickerNearbyMonthDays: true,
     defaultDatepickerNearbySelectableMonthDays: false,
     defaultDatepickerShowWeekNumber: false,
-    defaultDatepickerWeekNumberClickable: false,
     defaultDatepickerMobileModal: true,
-    defaultTrapFocus: true,
-    defaultAutoFocus: true,
+    defaultTrapFocus: false,
     defaultButtonRounded: false,
-    defaultSwitchRounded: true,
     defaultCarouselInterval: 3500,
-    defaultTabsExpanded: false,
     defaultTabsAnimated: true,
-    defaultTabsType: null,
-    defaultStatusIcon: true,
-    defaultProgrammaticPromise: false,
     defaultLinkTags: ['a', 'button', 'input', 'router-link', 'nuxt-link', 'n-link', 'RouterLink', 'NuxtLink', 'NLink'],
-    defaultImageWebpFallback: null,
-    defaultImageLazy: true,
-    defaultImageResponsive: true,
-    defaultImageRatio: null,
-    defaultImageSrcsetFormatter: null,
     customIconPacks: null
-  };
+  }; // TODO defaultTrapFocus to true in the next breaking change
 
-  /**
-   * Checks if the flag is set
-   * @param val
-   * @param flag
-   * @returns {boolean}
-   */
-
-  function hasFlag(val, flag) {
-    return (val & flag) === flag;
-  }
-  /**
-   * Asserts a value is beetween min and max
-   * @param val
-   * @param min
-   * @param max
-   * @returns {number}
-   */
-
-
-  function bound(val, min, max) {
-    return Math.max(min, Math.min(max, val));
-  }
   /**
    * Merge function to replace Object.assign with deep merging possibility
    */
@@ -200,9 +165,6 @@
   };
 
   var merge = mergeFn;
-  function isVueComponent(c) {
-    return c && c._isVue;
-  }
 
   var mdiIcons = {
     sizes: {
@@ -218,10 +180,10 @@
     var faIconPrefix = config && config.defaultIconComponent ? '' : 'fa-';
     return {
       sizes: {
-        'default': null,
+        'default': faIconPrefix + 'lg',
         'is-small': null,
-        'is-medium': faIconPrefix + 'lg',
-        'is-large': faIconPrefix + '2x'
+        'is-medium': faIconPrefix + '2x',
+        'is-large': faIconPrefix + '3x'
       },
       iconPrefix: faIconPrefix,
       internalIcons: {
@@ -500,296 +462,59 @@
     methods: {
       refresh: function refresh() {
         this.$forceUpdate();
+      },
+      isVueComponent: function isVueComponent() {
+        return this.component && this.component._isVue;
       }
     },
     created: function created() {
-      if (isVueComponent(this.component)) {
+      if (this.isVueComponent()) {
         this.component.$on(this.event, this.refresh);
       }
     },
     beforeDestroy: function beforeDestroy() {
-      if (isVueComponent(this.component)) {
+      if (this.isVueComponent()) {
         this.component.$off(this.event, this.refresh);
       }
     },
     render: function render(createElement) {
-      if (isVueComponent(this.component)) {
+      if (this.isVueComponent()) {
         return createElement(this.tag, {}, this.scoped ? this.component.$scopedSlots[this.name](this.props) : this.component.$slots[this.name]);
       }
     }
   };
 
-  var items = 1;
-  var sorted = 3;
-  var Sorted = sorted;
-  var ProviderParentMixin = (function (itemName) {
-    var flags = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 0;
-    var mixin = {
-      provide: function provide() {
-        return _defineProperty({}, 'b' + itemName, this);
-      }
-    };
-
-    if (hasFlag(flags, items)) {
-      mixin.data = function () {
-        return {
-          childItems: []
-        };
-      };
-
-      mixin.methods = {
-        _registerItem: function _registerItem(item) {
-          this.childItems.push(item);
-        },
-        _unregisterItem: function _unregisterItem(item) {
-          this.childItems = this.childItems.filter(function (i) {
-            return i !== item;
-          });
-        }
-      };
-
-      if (hasFlag(flags, sorted)) {
-        mixin.watch = {
-          /**
-           * When items are added/removed deep search in the elements default's slot
-           * And mark the items with their index
-           */
-          childItems: function childItems(items) {
-            if (items.length > 0 && this.$scopedSlots.default) {
-              var tag = items[0].$vnode.tag;
-              var index = 0;
-
-              var deepSearch = function deepSearch(children) {
-                var _iteratorNormalCompletion = true;
-                var _didIteratorError = false;
-                var _iteratorError = undefined;
-
-                try {
-                  var _loop = function _loop() {
-                    var child = _step.value;
-
-                    if (child.tag === tag) {
-                      // An item with the same tag will for sure be found
-                      var it = items.find(function (i) {
-                        return i.$vnode === child;
-                      });
-
-                      if (it) {
-                        it.index = index++;
-                      }
-                    } else if (child.tag) {
-                      var sub = child.componentInstance ? child.componentInstance.$scopedSlots.default ? child.componentInstance.$scopedSlots.default() : child.componentInstance.$children : child.children;
-
-                      if (Array.isArray(sub) && sub.length > 0) {
-                        deepSearch(sub.map(function (e) {
-                          return e.$vnode;
-                        }));
-                      }
-                    }
-                  };
-
-                  for (var _iterator = children[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
-                    _loop();
-                  }
-                } catch (err) {
-                  _didIteratorError = true;
-                  _iteratorError = err;
-                } finally {
-                  try {
-                    if (!_iteratorNormalCompletion && _iterator.return != null) {
-                      _iterator.return();
-                    }
-                  } finally {
-                    if (_didIteratorError) {
-                      throw _iteratorError;
-                    }
-                  }
-                }
-
-                return false;
-              };
-
-              deepSearch(this.$scopedSlots.default());
-            }
-          }
-        };
-        mixin.computed = {
-          /**
-           * When items are added/removed sort them according to their position
-           */
-          sortedItems: function sortedItems() {
-            return this.childItems.slice().sort(function (i1, i2) {
-              return i1.index - i2.index;
-            });
-          }
-        };
-      }
-    }
-
-    return mixin;
-  });
-
-  var TabbedMixin = (function (cmp) {
-    var _components;
-
-    return {
-      mixins: [ProviderParentMixin(cmp, Sorted)],
-      components: (_components = {}, _defineProperty(_components, Icon.name, Icon), _defineProperty(_components, SlotComponent.name, SlotComponent), _components),
-      props: {
-        value: {
-          type: [String, Number],
-          default: undefined
-        },
-        size: String,
-        animated: {
-          type: Boolean,
-          default: true
-        },
-        animation: String,
-        animateInitially: Boolean,
-        vertical: {
-          type: Boolean,
-          default: false
-        },
-        position: String,
-        destroyOnHide: {
-          type: Boolean,
-          default: false
-        }
-      },
-      data: function data() {
-        return {
-          activeId: this.value,
-          // Internal state
-          defaultSlots: [],
-          contentHeight: 0,
-          isTransitioning: false
-        };
-      },
-      mounted: function mounted() {
-        if (typeof this.value === 'number') {
-          // Backward compatibility: converts the index value to an id
-          var value = bound(this.value, 0, this.items.length - 1);
-          this.activeId = this.items[value].value;
-        } else {
-          this.activeId = this.value;
-        }
-      },
-      computed: {
-        activeItem: function activeItem() {
-          var _this = this;
-
-          return this.activeId === undefined ? this.items[0] : this.activeId === null ? null : this.childItems.find(function (i) {
-            return i.value === _this.activeId;
-          });
-        },
-        items: function items() {
-          return this.sortedItems;
-        }
-      },
-      watch: {
-        /**
-         * When v-model is changed set the new active tab.
-         */
-        value: function value(_value) {
-          if (typeof _value === 'number') {
-            // Backward compatibility: converts the index value to an id
-            _value = bound(_value, 0, this.items.length - 1);
-            this.activeId = this.items[_value].value;
-          } else {
-            this.activeId = _value;
-          }
-        },
-
-        /**
-         * Sync internal state with external state
-         */
-        activeId: function activeId(val, oldValue) {
-          var oldTab = oldValue !== undefined && oldValue !== null ? this.childItems.find(function (i) {
-            return i.value === oldValue;
-          }) : null;
-
-          if (oldTab && this.activeItem) {
-            oldTab.deactivate(this.activeItem.index);
-            this.activeItem.activate(oldTab.index);
-          }
-
-          val = this.activeItem ? typeof this.value === 'number' ? this.items.indexOf(this.activeItem) : this.activeItem.value : undefined;
-
-          if (val !== this.value) {
-            this.$emit('input', val);
-          }
-        }
-      },
-      methods: {
-        /**
-        * Child click listener, emit input event and change active child.
-        */
-        childClick: function childClick(child) {
-          this.activeId = child.value;
-        },
-        getNextItemIdx: function getNextItemIdx(fromIdx) {
-          var skipDisabled = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : false;
-          var nextItemIdx = null;
-          var idx = fromIdx + 1;
-
-          for (; idx < this.items.length; idx++) {
-            var item = this.items[idx];
-
-            if (item.visible && (!skipDisabled || skipDisabled && !item.disabled)) {
-              nextItemIdx = idx;
-              break;
-            }
-          }
-
-          return nextItemIdx;
-        },
-        getPrevItemIdx: function getPrevItemIdx(fromIdx) {
-          var skipDisabled = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : false;
-          var prevItemIdx = null;
-
-          for (var idx = fromIdx - 1; idx >= 0; idx--) {
-            var item = this.items[idx];
-
-            if (item.visible && (!skipDisabled || skipDisabled && !item.disabled)) {
-              prevItemIdx = idx;
-              break;
-            }
-          }
-
-          return prevItemIdx;
-        }
-      }
-    };
-  });
-
+  var _components;
   var script$1 = {
     name: 'BTabs',
-    mixins: [TabbedMixin('tab')],
+    components: (_components = {}, _defineProperty(_components, Icon.name, Icon), _defineProperty(_components, SlotComponent.name, SlotComponent), _components),
     props: {
-      expanded: {
-        type: Boolean,
-        default: function _default() {
-          return config.defaultTabsExpanded;
-        }
-      },
-      type: {
-        type: [String, Object],
-        default: function _default() {
-          return config.defaultTabsType;
-        }
-      },
+      value: [Number, String],
+      expanded: Boolean,
+      type: String,
+      size: String,
+      position: String,
       animated: {
         type: Boolean,
         default: function _default() {
           return config.defaultTabsAnimated;
         }
       },
+      destroyOnHide: {
+        type: Boolean,
+        default: false
+      },
+      vertical: Boolean,
       multiline: Boolean
     },
     data: function data() {
       return {
-        currentFocus: this.value
+        activeTab: 0,
+        defaultSlots: [],
+        contentHeight: 0,
+        isTransitioning: false,
+        _isTabs: true // Used internally by TabItem
+
       };
     },
     computed: {
@@ -803,75 +528,94 @@
       navClasses: function navClasses() {
         var _ref2;
 
-        return [this.type, this.size, (_ref2 = {}, _defineProperty(_ref2, this.position, this.position && !this.vertical), _defineProperty(_ref2, 'is-fullwidth', this.expanded), _defineProperty(_ref2, 'is-toggle', this.type === 'is-toggle-rounded'), _ref2)];
+        return [this.type, this.size, (_ref2 = {}, _defineProperty(_ref2, this.position, this.position && !this.vertical), _defineProperty(_ref2, 'is-fullwidth', this.expanded), _defineProperty(_ref2, 'is-toggle-rounded is-toggle', this.type === 'is-toggle-rounded'), _ref2)];
+      },
+      tabItems: function tabItems() {
+        return this.defaultSlots.filter(function (vnode) {
+          return vnode.componentInstance && vnode.componentInstance.$data && vnode.componentInstance.$data._isTabItem;
+        }).map(function (vnode) {
+          return vnode.componentInstance;
+        });
+      }
+    },
+    watch: {
+      /**
+      * When v-model is changed set the new active tab.
+      */
+      value: function value(_value) {
+        var index = this.getIndexByValue(_value, _value);
+        this.changeTab(index);
+      },
+
+      /**
+      * When tab-items are updated, set active one.
+      */
+      tabItems: function tabItems() {
+        var _this = this;
+
+        if (this.activeTab < this.tabItems.length) {
+          var previous = this.activeTab;
+          this.tabItems.map(function (tab, idx) {
+            if (tab.isActive) {
+              previous = idx;
+
+              if (previous < _this.tabItems.length) {
+                _this.tabItems[previous].isActive = false;
+              }
+            }
+          });
+          this.tabItems[this.activeTab].isActive = true;
+        } else if (this.activeTab > 0) {
+          this.changeTab(this.activeTab - 1);
+        }
       }
     },
     methods: {
-      giveFocusToTab: function giveFocusToTab(tab) {
-        if (tab.$el && tab.$el.focus) {
-          tab.$el.focus();
-        } else if (tab.focus) {
-          tab.focus();
+      /**
+      * Change the active tab and emit change event.
+      */
+      changeTab: function changeTab(newIndex) {
+        if (this.activeTab === newIndex || this.tabItems[newIndex] === undefined) return;
+
+        if (this.activeTab < this.tabItems.length) {
+          this.tabItems[this.activeTab].deactivate(this.activeTab, newIndex);
         }
+
+        this.tabItems[newIndex].activate(this.activeTab, newIndex);
+        this.activeTab = newIndex;
+        this.$emit('change', this.getValueByIndex(newIndex));
       },
-      manageTablistKeydown: function manageTablistKeydown(event) {
-        // https://developer.mozilla.org/fr/docs/Web/API/KeyboardEvent/key/Key_Values#Navigation_keys
-        var key = event.key;
 
-        switch (key) {
-          case this.vertical ? 'ArrowUp' : 'ArrowLeft':
-          case this.vertical ? 'Up' : 'Left':
-            {
-              var prevIdx = this.getPrevItemIdx(this.currentFocus, true);
-
-              if (prevIdx === null) {
-                // We try to give focus back to the last visible element
-                prevIdx = this.getPrevItemIdx(this.items.length, true);
-              }
-
-              if (prevIdx !== null && this.$refs.tabLink && prevIdx < this.$refs.tabLink.length && !this.items[prevIdx].disabled) {
-                this.giveFocusToTab(this.$refs.tabLink[prevIdx]);
-              }
-
-              event.preventDefault();
-              break;
-            }
-
-          case this.vertical ? 'ArrowDown' : 'ArrowRight':
-          case this.vertical ? 'Down' : 'Right':
-            {
-              var nextIdx = this.getNextItemIdx(this.currentFocus, true);
-
-              if (nextIdx === null) {
-                // We try to give focus back to the first visible element
-                nextIdx = this.getNextItemIdx(-1, true);
-              }
-
-              if (nextIdx !== null && this.$refs.tabLink && nextIdx < this.$refs.tabLink.length && !this.items[nextIdx].disabled) {
-                this.giveFocusToTab(this.$refs.tabLink[nextIdx]);
-              }
-
-              event.preventDefault();
-              break;
-            }
-        }
+      /**
+      * Tab click listener, emit input event and change active tab.
+      */
+      tabClick: function tabClick(index) {
+        if (this.activeTab === index) return;
+        this.$emit('input', this.getValueByIndex(index));
+        this.changeTab(index);
       },
-      manageTabKeydown: function manageTabKeydown(event, childItem) {
-        // https://developer.mozilla.org/fr/docs/Web/API/KeyboardEvent/key/Key_Values#Navigation_keys
-        var key = event.key;
-
-        switch (key) {
-          case ' ':
-          case 'Space':
-          case 'Spacebar':
-          case 'Enter':
-            {
-              this.childClick(childItem);
-              event.preventDefault();
-              break;
-            }
-        }
+      refreshSlots: function refreshSlots() {
+        this.defaultSlots = this.$slots.default || [];
+      },
+      getIndexByValue: function getIndexByValue(value) {
+        var index = this.tabItems.map(function (t) {
+          return t.$options.propsData ? t.$options.propsData.value : undefined;
+        }).indexOf(value);
+        return index >= 0 ? index : value;
+      },
+      getValueByIndex: function getValueByIndex(index) {
+        var propsData = this.tabItems[index].$options.propsData;
+        return propsData && propsData.value ? propsData.value : index;
       }
+    },
+    mounted: function mounted() {
+      this.activeTab = this.getIndexByValue(this.value || 0);
+
+      if (this.activeTab < this.tabItems.length) {
+        this.tabItems[this.activeTab].isActive = true;
+      }
+
+      this.refreshSlots();
     }
   };
 
@@ -879,8 +623,7 @@
   const __vue_script__$1 = script$1;
 
   /* template */
-  var __vue_render__$1 = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"b-tabs",class:_vm.mainClasses},[_c('nav',{staticClass:"tabs",class:_vm.navClasses,attrs:{"role":"tablist","aria-orientation":_vm.vertical ? 'vertical' : 'horizontal'},on:{"keydown":_vm.manageTablistKeydown}},[_c('ul',_vm._l((_vm.items),function(childItem,childIdx){return _c('li',{directives:[{name:"show",rawName:"v-show",value:(childItem.visible),expression:"childItem.visible"}],key:childItem.value,class:[ childItem.headerClass, { 'is-active': childItem.isActive,
-                                                     'is-disabled': childItem.disabled }],attrs:{"role":"presentation"}},[(childItem.$scopedSlots.header)?_c('b-slot-component',{ref:"tabLink",refInFor:true,attrs:{"component":childItem,"name":"header","tag":"a","role":"tab","id":((childItem.value) + "-label"),"aria-controls":((childItem.value) + "-content"),"aria-selected":("" + (childItem.isActive)),"tabindex":childItem.isActive ? 0 : -1},on:{"keydown":function($event){return _vm.manageTabKeydown($event, childItem)}},nativeOn:{"focus":function($event){_vm.currentFocus = childIdx;},"click":function($event){return _vm.childClick(childItem)}}}):_c('a',{ref:"tabLink",refInFor:true,attrs:{"role":"tab","id":((childItem.value) + "-tab"),"aria-controls":((childItem.value) + "-content"),"aria-selected":("" + (childItem.isActive)),"tabindex":childItem.isActive ? 0 : -1},on:{"focus":function($event){_vm.currentFocus = childIdx;},"click":function($event){return _vm.childClick(childItem)},"keydown":function($event){return _vm.manageTabKeydown($event, childItem)}}},[(childItem.icon)?_c('b-icon',{attrs:{"icon":childItem.icon,"pack":childItem.iconPack,"size":_vm.size}}):_vm._e(),_c('span',[_vm._v(_vm._s(childItem.label))])],1)],1)}),0)]),_c('section',{staticClass:"tab-content",class:{'is-transitioning': _vm.isTransitioning}},[_vm._t("default")],2)])};
+  var __vue_render__$1 = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"b-tabs",class:_vm.mainClasses},[_c('nav',{staticClass:"tabs",class:_vm.navClasses},[_c('ul',_vm._l((_vm.tabItems),function(tabItem,index){return _c('li',{directives:[{name:"show",rawName:"v-show",value:(tabItem.visible),expression:"tabItem.visible"}],key:index,class:{ 'is-active': _vm.activeTab === index, 'is-disabled': tabItem.disabled }},[(tabItem.$slots.header)?_c('b-slot-component',{attrs:{"component":tabItem,"name":"header","tag":"a"},nativeOn:{"click":function($event){_vm.tabClick(index);}}}):_c('a',{on:{"click":function($event){_vm.tabClick(index);}}},[(tabItem.icon)?_c('b-icon',{attrs:{"icon":tabItem.icon,"pack":tabItem.iconPack,"size":_vm.size}}):_vm._e(),_vm._v(" "),_c('span',[_vm._v(_vm._s(tabItem.label))])],1)],1)}))]),_vm._v(" "),_c('section',{staticClass:"tab-content",class:{'is-transitioning': _vm.isTransitioning}},[_vm._t("default")],2)])};
   var __vue_staticRenderFns__$1 = [];
 
     /* style */
@@ -908,152 +651,90 @@
       undefined
     );
 
-  var sorted$1 = 1;
-  var optional = 2;
-  var Sorted$1 = sorted$1;
-  var InjectedChildMixin = (function (parentItemName) {
-    var flags = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 0;
-    var mixin = {
-      inject: {
-        parent: {
-          from: 'b' + parentItemName,
-          default: false
-        }
-      },
-      created: function created() {
-        if (!this.parent) {
-          if (!hasFlag(flags, optional)) {
-            this.$destroy();
-            throw new Error('You should wrap ' + this.$options.name + ' in a ' + parentItemName);
-          }
-        } else if (this.parent._registerItem) {
-          this.parent._registerItem(this);
-        }
-      },
-      beforeDestroy: function beforeDestroy() {
-        if (this.parent && this.parent._unregisterItem) {
-          this.parent._unregisterItem(this);
-        }
-      }
-    };
-
-    if (hasFlag(flags, sorted$1)) {
-      mixin.data = function () {
-        return {
-          index: null
-        };
-      };
-    }
-
-    return mixin;
-  });
-
-  var TabbedChildMixin = (function (parentCmp) {
-    return {
-      mixins: [InjectedChildMixin(parentCmp, Sorted$1)],
-      props: {
-        label: String,
-        icon: String,
-        iconPack: String,
-        visible: {
-          type: Boolean,
-          default: true
-        },
-        value: {
-          type: String,
-          default: function _default() {
-            return this._uid.toString();
-          }
-        },
-        headerClass: {
-          type: [String, Array, Object],
-          default: null
-        }
-      },
-      data: function data() {
-        return {
-          transitionName: null,
-          elementClass: 'item',
-          elementRole: null
-        };
-      },
-      computed: {
-        isActive: function isActive() {
-          return this.parent.activeItem === this;
-        }
-      },
-      methods: {
-        /**
-         * Activate element, alter animation name based on the index.
-         */
-        activate: function activate(oldIndex) {
-          this.transitionName = this.index < oldIndex ? this.parent.vertical ? 'slide-down' : 'slide-next' : this.parent.vertical ? 'slide-up' : 'slide-prev';
-        },
-
-        /**
-         * Deactivate element, alter animation name based on the index.
-         */
-        deactivate: function deactivate(newIndex) {
-          this.transitionName = newIndex < this.index ? this.parent.vertical ? 'slide-down' : 'slide-next' : this.parent.vertical ? 'slide-up' : 'slide-prev';
-        }
-      },
-      render: function render(createElement) {
-        var _this = this;
-
-        // if destroy apply v-if
-        if (this.parent.destroyOnHide) {
-          if (!this.isActive || !this.visible) {
-            return;
-          }
-        }
-
-        var vnode = createElement('div', {
-          directives: [{
-            name: 'show',
-            value: this.isActive && this.visible
-          }],
-          attrs: {
-            'class': this.elementClass,
-            'role': this.elementRole,
-            'id': "".concat(this.value, "-content"),
-            'aria-labelledby': this.elementRole ? "".concat(this.value, "-label") : null,
-            'tabindex': this.isActive ? 0 : -1
-          }
-        }, this.$slots.default); // check animated prop
-
-        if (this.parent.animated) {
-          return createElement('transition', {
-            props: {
-              'name': this.parent.animation || this.transitionName,
-              'appear': this.parent.animateInitially === true || undefined
-            },
-            on: {
-              'before-enter': function beforeEnter() {
-                _this.parent.isTransitioning = true;
-              },
-              'after-enter': function afterEnter() {
-                _this.parent.isTransitioning = false;
-              }
-            }
-          }, [vnode]);
-        }
-
-        return vnode;
-      }
-    };
-  });
-
   var script$2 = {
     name: 'BTabItem',
-    mixins: [TabbedChildMixin('tab')],
     props: {
-      disabled: Boolean
+      label: String,
+      icon: String,
+      iconPack: String,
+      disabled: Boolean,
+      visible: {
+        type: Boolean,
+        default: true
+      },
+      value: [String, Number]
     },
     data: function data() {
       return {
-        elementClass: 'tab-item',
-        elementRole: 'tabpanel'
+        isActive: false,
+        transitionName: null,
+        _isTabItem: true // Used internally by Tab
+
       };
+    },
+    methods: {
+      /**
+      * Activate tab, alter animation name based on the index.
+      */
+      activate: function activate(oldIndex, index) {
+        this.transitionName = index < oldIndex ? this.$parent.vertical ? 'slide-down' : 'slide-next' : this.$parent.vertical ? 'slide-up' : 'slide-prev';
+        this.isActive = true;
+      },
+
+      /**
+      * Deactivate tab, alter animation name based on the index.
+      */
+      deactivate: function deactivate(oldIndex, index) {
+        this.transitionName = index < oldIndex ? this.$parent.vertical ? 'slide-down' : 'slide-next' : this.$parent.vertical ? 'slide-up' : 'slide-prev';
+        this.isActive = false;
+      }
+    },
+    created: function created() {
+      if (!this.$parent.$data._isTabs) {
+        this.$destroy();
+        throw new Error('You should wrap bTabItem on a bTabs');
+      }
+
+      this.$parent.refreshSlots();
+    },
+    beforeDestroy: function beforeDestroy() {
+      this.$parent.refreshSlots();
+    },
+    render: function render(createElement) {
+      var _this = this;
+
+      // if destroy apply v-if
+      if (this.$parent.destroyOnHide) {
+        if (!this.isActive || !this.visible) {
+          return;
+        }
+      }
+
+      var vnode = createElement('div', {
+        directives: [{
+          name: 'show',
+          value: this.isActive && this.visible
+        }],
+        class: 'tab-item'
+      }, this.$slots.default); // check animated prop
+
+      if (this.$parent.animated) {
+        return createElement('transition', {
+          props: {
+            'name': this.transitionName
+          },
+          on: {
+            'before-enter': function beforeEnter() {
+              _this.$parent.isTransitioning = true;
+            },
+            'after-enter': function afterEnter() {
+              _this.$parent.isTransitioning = false;
+            }
+          }
+        }, [vnode]);
+      }
+
+      return vnode;
     }
   };
 

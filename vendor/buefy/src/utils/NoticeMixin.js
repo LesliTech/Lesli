@@ -7,15 +7,11 @@ export default {
             type: String,
             default: 'is-dark'
         },
-        message: [String, Array],
+        message: String,
         duration: Number,
         queue: {
             type: Boolean,
             default: undefined
-        },
-        indefinite: {
-            type: Boolean,
-            default: false
         },
         position: {
             type: String,
@@ -100,10 +96,6 @@ export default {
             }, 150)
         },
 
-        timeoutCallback() {
-            return this.close()
-        },
-
         showNotice() {
             if (this.shouldQueue()) {
                 // Call recursively if should queue
@@ -114,7 +106,7 @@ export default {
             this.isActive = true
 
             if (!this.indefinite) {
-                this.timer = setTimeout(() => this.timeoutCallback(), this.newDuration)
+                this.timer = setTimeout(() => this.close(), this.newDuration)
             }
         },
 

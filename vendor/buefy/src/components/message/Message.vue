@@ -4,11 +4,8 @@
             v-if="isActive"
             class="message"
             :class="[type, size]">
-            <header v-if="$slots.header || title" class="message-header">
-                <div v-if="$slots.header">
-                    <slot name="header" />
-                </div>
-                <p v-else-if="title">{{ title }}</p>
+            <header v-if="title" class="message-header">
+                <p>{{ title }}</p>
                 <button
                     v-if="closable"
                     type="button"
@@ -17,7 +14,7 @@
                     :aria-label="ariaCloseLabel"
                 />
             </header>
-            <section class="message-body" v-if="$slots.default">
+            <section class="message-body">
                 <div class="media">
                     <div v-if="computedIcon && hasIcon" class="media-left">
                         <b-icon

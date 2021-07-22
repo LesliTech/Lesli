@@ -1,26 +1,27 @@
 <template>
     <div class="datepicker-row">
-        <a
-            class="datepicker-cell is-week-number"
-            :class="{'is-clickable': weekNumberClickable }"
-            v-if="showWeekNumber"
-            @click.prevent="clickWeekNumber(getWeekNumber(week[6]))">
+        <a class="datepicker-cell is-week-number" v-if="showWeekNumber">
             <span>{{ getWeekNumber(week[6]) }}</span>
         </a>
         <template v-for="(weekDay, index) in week">
             <a
-                :ref="`day-${weekDay.getMonth()}-${weekDay.getDate()}`"
+                :ref="`day-${weekDay.getDate()}`"
                 v-if="selectableDate(weekDay) && !disabled"
                 :key="index"
-                :class="classObject(weekDay)"
+                :class="[classObject(weekDay), {'has-event': eventsDateMatch(weekDay)}, indicators]"
                 class="datepicker-cell"
                 role="button"
                 href="#"
                 :disabled="disabled"
                 @click.prevent="emitChosenDate(weekDay)"
+                @keydown.enter.prevent="emitChosenDate(weekDay)"
+                @keydown.space.prevent="emitChosenDate(weekDay)"
                 @mouseenter="setRangeHoverEndDate(weekDay)"
-                @keydown="manageKeydown($event, weekDay)"
-                :tabindex="day === weekDay.getDate() && month === weekDay.getMonth() ? null : -1">
+                @keydown.arrow-left.prevent="changeFocus(weekDay, -1)"
+                @keydown.arrow-right.prevent="changeFocus(weekDay, 1)"
+                @keydown.arrow-up.prevent="changeFocus(weekDay, -7)"
+                @keydown.arrow-down.prevent="changeFocus(weekDay, 7)"
+                :tabindex="day === weekDay.getDate() ? null : -1">
                 <span>{{ weekDay.getDate() }}</span>
                 <div class="events" v-if="eventsDateMatch(weekDay)">
                     <div
@@ -36,13 +37,6 @@
                 :class="classObject(weekDay)"
                 class="datepicker-cell">
                 <span>{{ weekDay.getDate() }}</span>
-                <div class="events" v-if="eventsDateMatch(weekDay)">
-                    <div
-                        class="event"
-                        :class="event.type"
-                        v-for="(event, index) in eventsDateMatch(weekDay)"
-                        :key="index"/>
-                </div>
             </div>
         </template>
     </div>
@@ -51,9 +45,6 @@
 <script>
 export default {
     name: 'BDatepickerTableRow',
-    inject: {
-        $datepicker: { name: '$datepicker', default: false }
-    },
     props: {
         selectedDate: {
             type: [Date, Array]
@@ -73,31 +64,39 @@ export default {
         minDate: Date,
         maxDate: Date,
         disabled: Boolean,
-        unselectableDates: [Array, Function],
+        unselectableDates: Array,
         unselectableDaysOfWeek: Array,
-        selectableDates: [Array, Function],
+        selectableDates: Array,
         events: Array,
         indicators: String,
         dateCreator: Function,
         nearbyMonthDays: Boolean,
         nearbySelectableMonthDays: Boolean,
-        showWeekNumber: Boolean,
-        weekNumberClickable: Boolean,
+        showWeekNumber: {
+            type: Boolean,
+            default: () => false
+        },
         range: Boolean,
         multiple: Boolean,
-        rulesForFirstWeek: Number,
+        rulesForFirstWeek: {
+            type: Number,
+            default: () => 4
+        },
         firstDayOfWeek: Number
     },
     watch: {
-        day(day) {
-            const refName = `day-${this.month}-${day}`
-            this.$nextTick(() => {
+        day: {
+            handler(day) {
+                const refName = `day-${day}`
                 if (this.$refs[refName] && this.$refs[refName].length > 0) {
-                    if (this.$refs[refName][0]) {
-                        this.$refs[refName][0].focus()
-                    }
+                    this.$nextTick(() => {
+                        if (this.$refs[refName][0]) {
+                            this.$refs[refName][0].focus()
+                        }
+                    }) // $nextTick needed when month is changed
                 }
-            }) // $nextTick needed when month is changed
+            },
+            immediate: true
         }
     },
     methods: {
@@ -144,11 +143,6 @@ export default {
 
             return resWeek
         },
-        clickWeekNumber(week) {
-            if (this.weekNumberClickable) {
-                this.$datepicker.$emit('week-number-click', week)
-            }
-        },
         /*
          * Check that selected day is within earliest/latest params and
          * is within this month
@@ -169,38 +163,26 @@ export default {
             }
 
             if (this.selectableDates) {
-                if (typeof this.selectableDates === 'function') {
-                    if (this.selectableDates(day)) {
+                for (let i = 0; i < this.selectableDates.length; i++) {
+                    const enabledDate = this.selectableDates[i]
+                    if (day.getDate() === enabledDate.getDate() &&
+                        day.getFullYear() === enabledDate.getFullYear() &&
+                        day.getMonth() === enabledDate.getMonth()) {
                         return true
                     } else {
                         validity.push(false)
-                    }
-                } else {
-                    for (let i = 0; i < this.selectableDates.length; i++) {
-                        const enabledDate = this.selectableDates[i]
-                        if (day.getDate() === enabledDate.getDate() &&
-                            day.getFullYear() === enabledDate.getFullYear() &&
-                            day.getMonth() === enabledDate.getMonth()) {
-                            return true
-                        } else {
-                            validity.push(false)
-                        }
                     }
                 }
             }
 
             if (this.unselectableDates) {
-                if (typeof this.unselectableDates === 'function') {
-                    validity.push(!this.unselectableDates(day))
-                } else {
-                    for (let i = 0; i < this.unselectableDates.length; i++) {
-                        const disabledDate = this.unselectableDates[i]
-                        validity.push(
-                            day.getDate() !== disabledDate.getDate() ||
-                                day.getFullYear() !== disabledDate.getFullYear() ||
-                                day.getMonth() !== disabledDate.getMonth()
-                        )
-                    }
+                for (let i = 0; i < this.unselectableDates.length; i++) {
+                    const disabledDate = this.unselectableDates[i]
+                    validity.push(
+                        day.getDate() !== disabledDate.getDate() ||
+                            day.getFullYear() !== disabledDate.getFullYear() ||
+                            day.getMonth() !== disabledDate.getMonth()
+                    )
                 }
             }
 
@@ -306,9 +288,7 @@ export default {
                 'is-selectable': this.selectableDate(day) && !this.disabled,
                 'is-unselectable': !this.selectableDate(day) || this.disabled,
                 'is-invisible': !this.nearbyMonthDays && day.getMonth() !== this.month,
-                'is-nearby': this.nearbySelectableMonthDays && day.getMonth() !== this.month,
-                'has-event': this.eventsDateMatch(day),
-                [this.indicators]: this.eventsDateMatch(day)
+                'is-nearby': this.nearbySelectableMonthDays && day.getMonth() !== this.month
             }
         },
         setRangeHoverEndDate(day) {
@@ -317,62 +297,9 @@ export default {
             }
         },
 
-        manageKeydown(event, weekDay) {
-            // https://developer.mozilla.org/fr/docs/Web/API/KeyboardEvent/key/Key_Values#Navigation_keys
-            const { key } = event
-            let preventDefault = true
-            switch (key) {
-                case 'Tab': {
-                    preventDefault = false
-                    break
-                }
-
-                case ' ':
-                case 'Space':
-                case 'Spacebar':
-                case 'Enter': {
-                    this.emitChosenDate(weekDay)
-                    break
-                }
-
-                case 'ArrowLeft':
-                case 'Left': {
-                    this.changeFocus(weekDay, -1)
-                    break
-                }
-                case 'ArrowRight':
-                case 'Right': {
-                    this.changeFocus(weekDay, 1)
-                    break
-                }
-                case 'ArrowUp':
-                case 'Up': {
-                    this.changeFocus(weekDay, -7)
-                    break
-                }
-                case 'ArrowDown':
-                case 'Down': {
-                    this.changeFocus(weekDay, 7)
-                    break
-                }
-            }
-
-            if (preventDefault) {
-                event.preventDefault()
-            }
-        },
-
         changeFocus(day, inc) {
-            const nextDay = new Date(day.getTime())
+            const nextDay = day
             nextDay.setDate(day.getDate() + inc)
-            while (
-                (!this.minDate || nextDay > this.minDate) &&
-                (!this.maxDate || nextDay < this.maxDate) &&
-                !this.selectableDate(nextDay)
-            ) {
-                nextDay.setDate(day.getDate() + Math.sign(inc))
-            }
-            this.setRangeHoverEndDate(nextDay)
             this.$emit('change-focus', nextDay)
         }
     }

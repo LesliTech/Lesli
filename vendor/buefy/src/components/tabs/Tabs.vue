@@ -1,54 +1,27 @@
 <template>
     <div class="b-tabs" :class="mainClasses">
-        <nav
-            class="tabs"
-            :class="navClasses"
-            role="tablist"
-            :aria-orientation="vertical ? 'vertical' : 'horizontal'"
-            @keydown="manageTablistKeydown"
-        >
+        <nav class="tabs" :class="navClasses">
             <ul>
                 <li
-                    v-for="(childItem, childIdx) in items"
-                    :key="childItem.value"
-                    v-show="childItem.visible"
-                    :class="[ childItem.headerClass, { 'is-active': childItem.isActive,
-                                                       'is-disabled': childItem.disabled }]"
-                    role="presentation"
-                >
+                    v-for="(tabItem, index) in tabItems"
+                    :key="index"
+                    v-show="tabItem.visible"
+                    :class="{ 'is-active': activeTab === index, 'is-disabled': tabItem.disabled }">
+
                     <b-slot-component
-                        ref="tabLink"
-                        v-if="childItem.$scopedSlots.header"
-                        :component="childItem"
+                        v-if="tabItem.$slots.header"
+                        :component="tabItem"
                         name="header"
                         tag="a"
-                        role="tab"
-                        :id="`${childItem.value}-label`"
-                        :aria-controls="`${childItem.value}-content`"
-                        :aria-selected="`${childItem.isActive}`"
-                        :tabindex="childItem.isActive ? 0 : -1"
-                        @focus.native="currentFocus = childIdx"
-                        @click.native="childClick(childItem)"
-                        @keydown="manageTabKeydown($event, childItem)"
+                        @click.native="tabClick(index)"
                     />
-                    <a
-                        ref="tabLink"
-                        v-else
-                        role="tab"
-                        :id="`${childItem.value}-tab`"
-                        :aria-controls="`${childItem.value}-content`"
-                        :aria-selected="`${childItem.isActive}`"
-                        :tabindex="childItem.isActive ? 0 : -1"
-                        @focus="currentFocus = childIdx"
-                        @click="childClick(childItem)"
-                        @keydown="manageTabKeydown($event, childItem)"
-                    >
+                    <a v-else @click="tabClick(index)">
                         <b-icon
-                            v-if="childItem.icon"
-                            :icon="childItem.icon"
-                            :pack="childItem.iconPack"
+                            v-if="tabItem.icon"
+                            :icon="tabItem.icon"
+                            :pack="tabItem.iconPack"
                             :size="size"/>
-                        <span>{{ childItem.label }}</span>
+                        <span>{{ tabItem.label }}</span>
                     </a>
                 </li>
             </ul>
@@ -61,35 +34,41 @@
 
 <script>
 import config from '../../utils/config'
-import TabbedMixin from '../../utils/TabbedMixin.js'
+import Icon from '../icon/Icon'
+import SlotComponent from '../../utils/SlotComponent'
 
 export default {
     name: 'BTabs',
-    mixins: [TabbedMixin('tab')],
+    components: {
+        [Icon.name]: Icon,
+        [SlotComponent.name]: SlotComponent
+    },
     props: {
-        expanded: {
-            type: Boolean,
-            default: () => {
-                return config.defaultTabsExpanded
-            }
-        },
-        type: {
-            type: [String, Object],
-            default: () => {
-                return config.defaultTabsType
-            }
-        },
+        value: [Number, String],
+        expanded: Boolean,
+        type: String,
+        size: String,
+        position: String,
         animated: {
             type: Boolean,
             default: () => {
                 return config.defaultTabsAnimated
             }
         },
+        destroyOnHide: {
+            type: Boolean,
+            default: false
+        },
+        vertical: Boolean,
         multiline: Boolean
     },
     data() {
         return {
-            currentFocus: this.value
+            activeTab: 0,
+            defaultSlots: [],
+            contentHeight: 0,
+            isTransitioning: false,
+            _isTabs: true // Used internally by TabItem
         }
     },
     computed: {
@@ -108,76 +87,96 @@ export default {
                 {
                     [this.position]: this.position && !this.vertical,
                     'is-fullwidth': this.expanded,
-                    'is-toggle': this.type === 'is-toggle-rounded'
+                    'is-toggle-rounded is-toggle': this.type === 'is-toggle-rounded'
                 }
             ]
+        },
+        tabItems() {
+            return this.defaultSlots
+                .filter((vnode) =>
+                    vnode.componentInstance &&
+                    vnode.componentInstance.$data &&
+                    vnode.componentInstance.$data._isTabItem)
+                .map((vnode) => vnode.componentInstance)
+        }
+    },
+    watch: {
+        /**
+        * When v-model is changed set the new active tab.
+        */
+        value(value) {
+            const index = this.getIndexByValue(value, value)
+            this.changeTab(index)
+        },
+
+        /**
+        * When tab-items are updated, set active one.
+        */
+        tabItems() {
+            if (this.activeTab < this.tabItems.length) {
+                let previous = this.activeTab
+                this.tabItems.map((tab, idx) => {
+                    if (tab.isActive) {
+                        previous = idx
+                        if (previous < this.tabItems.length) {
+                            this.tabItems[previous].isActive = false
+                        }
+                    }
+                })
+                this.tabItems[this.activeTab].isActive = true
+            } else if (this.activeTab > 0) {
+                this.changeTab(this.activeTab - 1)
+            }
         }
     },
     methods: {
-        giveFocusToTab(tab) {
-            if (tab.$el && tab.$el.focus) {
-                tab.$el.focus()
-            } else if (tab.focus) {
-                tab.focus()
+
+        /**
+        * Change the active tab and emit change event.
+        */
+        changeTab(newIndex) {
+            if (this.activeTab === newIndex || this.tabItems[newIndex] === undefined) return
+
+            if (this.activeTab < this.tabItems.length) {
+                this.tabItems[this.activeTab].deactivate(this.activeTab, newIndex)
             }
-        },
-        manageTablistKeydown(event) {
-            // https://developer.mozilla.org/fr/docs/Web/API/KeyboardEvent/key/Key_Values#Navigation_keys
-            const { key } = event
-            switch (key) {
-                case this.vertical ? 'ArrowUp' : 'ArrowLeft':
-                case this.vertical ? 'Up' : 'Left': {
-                    let prevIdx = this.getPrevItemIdx(this.currentFocus, true)
-                    if (prevIdx === null) {
-                        // We try to give focus back to the last visible element
-                        prevIdx = this.getPrevItemIdx(this.items.length, true)
-                    }
-                    if (
-                        prevIdx !== null &&
-                        this.$refs.tabLink &&
-                        prevIdx < this.$refs.tabLink.length &&
-                        !this.items[prevIdx].disabled
-                    ) {
-                        this.giveFocusToTab(this.$refs.tabLink[prevIdx])
-                    }
-                    event.preventDefault()
-                    break
-                }
-                case this.vertical ? 'ArrowDown' : 'ArrowRight':
-                case this.vertical ? 'Down' : 'Right': {
-                    let nextIdx = this.getNextItemIdx(this.currentFocus, true)
-                    if (nextIdx === null) {
-                        // We try to give focus back to the first visible element
-                        nextIdx = this.getNextItemIdx(-1, true)
-                    }
-                    if (
-                        nextIdx !== null &&
-                        this.$refs.tabLink &&
-                        nextIdx < this.$refs.tabLink.length &&
-                        !this.items[nextIdx].disabled
-                    ) {
-                        this.giveFocusToTab(this.$refs.tabLink[nextIdx])
-                    }
-                    event.preventDefault()
-                    break
-                }
-            }
+            this.tabItems[newIndex].activate(this.activeTab, newIndex)
+            this.activeTab = newIndex
+            this.$emit('change', this.getValueByIndex(newIndex))
         },
 
-        manageTabKeydown(event, childItem) {
-            // https://developer.mozilla.org/fr/docs/Web/API/KeyboardEvent/key/Key_Values#Navigation_keys
-            const { key } = event
-            switch (key) {
-                case ' ':
-                case 'Space':
-                case 'Spacebar':
-                case 'Enter': {
-                    this.childClick(childItem)
-                    event.preventDefault()
-                    break
-                }
-            }
+        /**
+        * Tab click listener, emit input event and change active tab.
+        */
+        tabClick(index) {
+            if (this.activeTab === index) return
+
+            this.$emit('input', this.getValueByIndex(index))
+            this.changeTab(index)
+        },
+
+        refreshSlots() {
+            this.defaultSlots = this.$slots.default || []
+        },
+
+        getIndexByValue(value) {
+            let index = this.tabItems.map((t) =>
+                t.$options.propsData ? t.$options.propsData.value : undefined
+            ).indexOf(value)
+            return index >= 0 ? index : value
+        },
+
+        getValueByIndex(index) {
+            const propsData = this.tabItems[index].$options.propsData
+            return propsData && propsData.value ? propsData.value : index
         }
+    },
+    mounted() {
+        this.activeTab = this.getIndexByValue(this.value || 0)
+        if (this.activeTab < this.tabItems.length) {
+            this.tabItems[this.activeTab].isActive = true
+        }
+        this.refreshSlots()
     }
 }
 </script>
