@@ -22,10 +22,14 @@ For more information read the license file including with this software.
 // · Import components
 import componentCoreShowToday from "LesliWidgetsCore/show-today.vue"
 import componentCoreShowEventsNext from "LesliWidgetsCore/show-events-next.vue"
+import componentCoreChartTasks from "LesliWidgetsCore/chart-tasks.vue"
 import componentCoreShowEventsCalendar from "LesliWidgetsCore/show-events-calendar.vue"
 import componentCoreListSessionsActive from "LesliWidgetsCore/list-sessions-active.vue"
-// import componentPortalHelloWorld from "CloudPortalWidgets/hello-world.vue"
 
+
+import componentChartGeneral from 'LesliVue/components/charts/general.vue'
+import componentChartLine from 'LesliVue/components/charts/line.vue'
+import componentChartBar from 'LesliVue/components/charts/bar.vue'
 
 
 // · 
@@ -34,18 +38,27 @@ export default {
         "component-core-show-today": componentCoreShowToday,
         "component-core-show-events-next": componentCoreShowEventsNext,
         "component-core-show-events-calendar": componentCoreShowEventsCalendar,
+        "component-core-chart-tasks": componentCoreChartTasks,
         "component-core-list-sessions-active": componentCoreListSessionsActive,
-        // "component-portal-hello-world": componentPortalHelloWorld
+
+        'component-chart-general': componentChartGeneral,
+        'component-chart-line': componentChartLine,
+        'component-chart-bar': componentChartBar
     },
     props: {
         engine: String
     },
     data() {
         return {
-            dashboard: {}
+            dashboard: {},
+            ooptions: {}
         }
     },
     mounted() {
+
+        setTimeout(() => {
+            this.ooptions = { stroke: { curve: 'smooth' } }
+        }, 2000)
 
         this.shortcuts = shortcuts
         //this.getDefaultDashboard()
@@ -74,6 +87,10 @@ export default {
             }, {
                 name: "Upcoming events",
                 component_id: "core-show-events-next",
+                layout: 5,
+            }, {
+                name: "My tasks",
+                component_id: "core-chart-tasks",
                 layout: 5,
             }]
         }
@@ -130,6 +147,54 @@ export default {
                 </component>
             </div>
         </section>
+
+        <div class="columns">
+            <div class="column is-4">
+                <component-chart-general 
+                    type="bar"
+                    :data-sources="[{
+                        name: 'numeros',
+                        data: [1,2,3,4]
+                    }]"
+                    :data-labels="['uno', 'dos', 'tres', 'cuatro']">
+                </component-chart-general>
+            </div>
+            <div class="column is-4">
+                <component-chart-line 
+                    :data-sources="[{
+                        name: 'numeros',
+                        data: [1,2,6,3]
+                    }, {
+                        name: 'numeros',
+                        data: [2,6,3,10]
+                    }]"
+                    :data-labels="['uno', 'dos', 'tres', 'cuatro']">
+                </component-chart-line>
+            </div>
+            <div class="column is-4">
+                <component-chart-bar 
+                    :data-sources="[{
+                        name: 'numeros',
+                        data: [1,2,3,4]
+                    }]"
+                    :data-labels="['uno', 'dos', 'tres', 'cuatro']">
+                </component-chart-bar>
+            </div>
+        </div>
+
+<!--         <div class="columns">
+            <div class="column is-4">
+                <component-chart-line 
+                    :data-sources="[{
+                        name: 'numeros',
+                        data: [1,2,6,3]
+                    }]"
+                    :data-labels="['uno', 'dos', 'tres', 'cuatro']"
+                    :options="this.ooptions">
+                </component-chart-line>
+            </div>
+        </div> -->
+        
 
 
     </section>
