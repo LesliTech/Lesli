@@ -24,7 +24,7 @@ import componentCoreShowToday from "LesliWidgetsCore/show-today.vue"
 import componentCoreShowEventsNext from "LesliWidgetsCore/show-events-next.vue"
 import componentCoreShowEventsCalendar from "LesliWidgetsCore/show-events-calendar.vue"
 import componentCoreListSessionsActive from "LesliWidgetsCore/list-sessions-active.vue"
-import componentPortalHelloWorld from "CloudPortalWidgets/hello-world.vue"
+// import componentPortalHelloWorld from "CloudPortalWidgets/hello-world.vue"
 
 
 
@@ -35,7 +35,7 @@ export default {
         "component-core-show-events-next": componentCoreShowEventsNext,
         "component-core-show-events-calendar": componentCoreShowEventsCalendar,
         "component-core-list-sessions-active": componentCoreListSessionsActive,
-        "component-portal-hello-world": componentPortalHelloWorld
+        // "component-portal-hello-world": componentPortalHelloWorld
     },
     props: {
         engine: String
@@ -63,10 +63,6 @@ export default {
                 component_id: "core-list-sessions-active",
                 custom_configuration: {},
                 query_configuration: {}
-            }, {
-                name: "visitantes",
-                component_id: "portal-hello-world",
-                layout: 2,
             }, {
                 name: "events",
                 component_id: "core-show-events-calendar",
