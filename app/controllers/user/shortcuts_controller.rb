@@ -30,14 +30,24 @@ class User::ShortcutsController < ApplicationLesliController
 
     # POST /user/shortcuts
     def create
+
+        # get the website title prefix from the lesli.yml file
+        title_prefix = Rails.application.config.lesli_settings["account"]["website"]["title_prefix"] || ""
+
+        # remove the default prefix from the final shortcutname
+        shortcut_name = (user_shortcut_params[:name]).gsub("#{ title_prefix } · ", "")
+
+        # save shortcut if url does not exists
         user_shortcut = current_user.shortcuts
-        .create_with(name: user_shortcut_params[:name])
+        .create_with(name: shortcut_name)
         .find_or_create_by(url: user_shortcut_params[:url])
+
         if user_shortcut.save
             respond_with_successful(user_shortcut)
         else
             respond_with_error(user_shortcut.errors.full_messages.to_sentence)
         end
+        
     end
 
     # PATCH/PUT /user/shortcuts/1

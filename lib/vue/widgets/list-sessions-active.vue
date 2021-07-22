@@ -26,21 +26,18 @@ export default {
 }
 </script>
 <template>
-    <div>
-        <div class="card">
-            <div class="card-header">
-                <h3 class="card-header-title">{{ component.name }}</h3>
-            </div>
-            <div class="card-content">
-                <b-table 
-                    :data="sessions.records" 
-                    :columns="[
-                        { field:'id', label: 'id'},
-                        { field:'user_agent', label: 'devise'},
-                        { field:'created_at_date', label: 'date'},
-                    ]">
-                </b-table>
-            </div>
+    <div class="card">
+        <div class="card-header">
+            <h3 class="card-header-title">{{ component.name }}</h3>
+        </div>
+        <div class="card-content">
+            <b-table 
+                :data="sessions.records" 
+                :columns="[
+                    { field:'user_agent', label: 'devise'},
+                    { field:'created_at_date', label: 'date'},
+                ]">
+            </b-table>
         </div>
     </div>
 </template>
