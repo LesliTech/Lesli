@@ -90,7 +90,7 @@ export default {
                             <div class="field">
                                 <label class="label"> {{ translations.shared.view_text_alias }} </label>
                                 <div class="control">
-                                    <input v-model="user.alias" required="required" class="input">
+                                    <input v-model="user.alias" class="input">
                                 </div>
                             </div>
                             <div class="field">
