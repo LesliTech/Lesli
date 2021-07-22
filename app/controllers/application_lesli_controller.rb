@@ -62,15 +62,14 @@ class ApplicationLesliController < ApplicationController
 
         # @account is only for html requests
         return if !request.format.html?
-
-
+        
         @account[:revision] = LC::System::Info.revision()
         @account[:notifications] = Courier::Bell::Notification.count(current_user, true)
-        @account[:announcements] = Courier::Bell::Announcement.count(current_user)
+        @account[:announcements] = Courier::Bell::Announcement.list(current_user, {base_path: request.path, end_at: true, start_at: true, status: true}).to_json.html_safe
         @account[:tasks] = Courier::Focus::Task.count(current_user)
         @account[:cable] = Rails.application.config.lesli_settings["configuration"]["security"]["enable_websockets"] || false
 
-
+        
         # default customization, set on before_action :set_customization hook
         @account[:customization] = { :logo => "image.svg", :color_primary => "#1f7ce3" }
 
@@ -110,7 +109,8 @@ class ApplicationLesliController < ApplicationController
             "bool_or(grant_destroy) as grant_destroy",
             "bool_or(grant_search) as grant_search",
             "bool_or(grant_resources) as grant_resources",
-            "bool_or(grant_options) as grant_options"
+            "bool_or(grant_options) as grant_options",
+            "bool_or(grant_list) as grant_list"
         )
         .group("grant_object")
         .each do |privilege| 
