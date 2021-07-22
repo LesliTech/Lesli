@@ -28,14 +28,7 @@
                                 size="is-large"/>
                         </div>
                         <div class="media-content">
-                            <p>
-                                <template v-if="$slots.default">
-                                    <slot />
-                                </template>
-                                <template v-else>
-                                    <div v-html="message" />
-                                </template>
-                            </p>
+                            <p v-html="message"/>
 
                             <div v-if="hasInput" class="field">
                                 <div class="control">
@@ -88,7 +81,7 @@ export default {
     extends: Modal,
     props: {
         title: String,
-        message: [String, Array],
+        message: String,
         icon: String,
         iconPack: String,
         hasIcon: Boolean,
@@ -204,7 +197,6 @@ export default {
                     return
                 }
             }
-            this.$emit('confirm', this.prompt)
             this.onConfirm(this.prompt, this)
             if (this.closeOnConfirm) this.close()
         },

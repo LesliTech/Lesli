@@ -1,6 +1,6 @@
 import { _ as __vue_normalize__, r as registerComponent, u as use } from './chunk-cca88db8.js';
-import { T as Tag } from './chunk-3c2169d7.js';
-export { T as BTag } from './chunk-3c2169d7.js';
+import { T as Tag } from './chunk-7292bea2.js';
+export { T as BTag } from './chunk-7292bea2.js';
 
 //
 //

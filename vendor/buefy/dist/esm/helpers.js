@@ -10,46 +10,14 @@ function signPoly(value) {
 
 var sign = Math.sign || signPoly;
 /**
- * Checks if the flag is set
- * @param val
- * @param flag
- * @returns {boolean}
- */
-
-function hasFlag(val, flag) {
-  return (val & flag) === flag;
-}
-/**
- * Native modulo bug with negative numbers
- * @param n
- * @param mod
- * @returns {number}
- */
-
-
-function mod(n, mod) {
-  return (n % mod + mod) % mod;
-}
-/**
- * Asserts a value is beetween min and max
- * @param val
- * @param min
- * @param max
- * @returns {number}
- */
-
-
-function bound(val, min, max) {
-  return Math.max(min, Math.min(max, val));
-}
-/**
  * Get value of an object property/path even if it's nested
  */
 
 function getValueByPath(obj, path) {
-  return path.split('.').reduce(function (o, i) {
+  var value = path.split('.').reduce(function (o, i) {
     return o ? o[i] : null;
   }, obj);
+  return value;
 }
 /**
  * Extension of indexOf method by equality function if specified
@@ -108,7 +76,7 @@ var isMobile = {
     return typeof window !== 'undefined' && window.navigator.userAgent.match(/BlackBerry/i);
   },
   iOS: function iOS() {
-    return typeof window !== 'undefined' && (window.navigator.userAgent.match(/iPhone|iPad|iPod/i) || window.navigator.platform === 'MacIntel' && window.navigator.maxTouchPoints > 1);
+    return typeof window !== 'undefined' && window.navigator.userAgent.match(/iPhone|iPad|iPod/i);
   },
   Opera: function Opera() {
     return typeof window !== 'undefined' && window.navigator.userAgent.match(/Opera Mini/i);
@@ -132,15 +100,11 @@ function createAbsoluteElement(el) {
   root.style.position = 'absolute';
   root.style.left = '0px';
   root.style.top = '0px';
-  root.style.width = '100%';
   var wrapper = document.createElement('div');
   root.appendChild(wrapper);
   wrapper.appendChild(el);
   document.body.appendChild(root);
   return root;
-}
-function isVueComponent(c) {
-  return c && c._isVue;
 }
 /**
  * Escape regex characters
@@ -166,9 +130,7 @@ function multiColumnSort(inputArray, sortingPriority) {
           o = o.substring(1);
         }
 
-        var aValue = getValueByPath(a, o);
-        var bValue = getValueByPath(b, o);
-        return aValue > bValue ? dir : aValue < bValue ? -dir : 0;
+        return a[o] > b[o] ? dir : a[o] < b[o] ? -dir : 0;
       }).reduce(function (p, n) {
         return p || n;
       }, 0);
@@ -189,117 +151,5 @@ function createNewEvent(eventName) {
 
   return event;
 }
-function toCssWidth(width) {
-  return width === undefined ? null : isNaN(width) ? width : width + 'px';
-}
-/**
- * Return month names according to a specified locale
- * @param  {String} locale A bcp47 localerouter. undefined will use the user browser locale
- * @param  {String} format long (ex. March), short (ex. Mar) or narrow (M)
- * @return {Array<String>} An array of month names
- */
 
-function getMonthNames() {
-  var locale = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : undefined;
-  var format = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 'long';
-  var dates = [];
-
-  for (var i = 0; i < 12; i++) {
-    dates.push(new Date(2000, i, 15));
-  }
-
-  var dtf = new Intl.DateTimeFormat(locale, {
-    month: format,
-    timeZone: 'UTC'
-  });
-  return dates.map(function (d) {
-    return dtf.format(d);
-  });
-}
-/**
- * Return weekday names according to a specified locale
- * @param  {String} locale A bcp47 localerouter. undefined will use the user browser locale
- * @param  {String} format long (ex. Thursday), short (ex. Thu) or narrow (T)
- * @return {Array<String>} An array of weekday names
- */
-
-function getWeekdayNames() {
-  var locale = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : undefined;
-  var format = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 'narrow';
-  var dates = [];
-
-  for (var i = 0; i < 7; i++) {
-    var dt = new Date(2000, 0, i + 1);
-    dates[dt.getDay()] = dt;
-  }
-
-  var dtf = new Intl.DateTimeFormat(locale, {
-    weekday: format
-  });
-  return dates.map(function (d) {
-    return dtf.format(d);
-  });
-}
-/**
- * Accept a regex with group names and return an object
- * ex. matchWithGroups(/((?!=<year>)\d+)\/((?!=<month>)\d+)\/((?!=<day>)\d+)/, '2000/12/25')
- * will return { year: 2000, month: 12, day: 25 }
- * @param  {String} includes injections of (?!={groupname}) for each group
- * @param  {String} the string to run regex
- * @return {Object} an object with a property for each group having the group's match as the value
- */
-
-function matchWithGroups(pattern, str) {
-  var matches = str.match(pattern);
-  return pattern // get the pattern as a string
-  .toString() // suss out the groups
-  .match(/<(.+?)>/g) // remove the braces
-  .map(function (group) {
-    var groupMatches = group.match(/<(.+)>/);
-
-    if (!groupMatches || groupMatches.length <= 0) {
-      return null;
-    }
-
-    return group.match(/<(.+)>/)[1];
-  }) // create an object with a property for each group having the group's match as the value
-  .reduce(function (acc, curr, index, arr) {
-    if (matches && matches.length > index) {
-      acc[curr] = matches[index + 1];
-    } else {
-      acc[curr] = null;
-    }
-
-    return acc;
-  }, {});
-}
-/**
- * Based on
- * https://github.com/fregante/supports-webp
- */
-
-function isWebpSupported() {
-  return new Promise(function (resolve) {
-    var image = new Image();
-
-    image.onerror = function () {
-      return resolve(false);
-    };
-
-    image.onload = function () {
-      return resolve(image.width === 1);
-    };
-
-    image.src = 'data:image/webp;base64,UklGRiQAAABXRUJQVlA4IBgAAAAwAQCdASoBAAEAAwA0JaQAA3AA/vuUAAA=';
-  }).catch(function () {
-    return false;
-  });
-}
-function isCustomElement(vm) {
-  return 'shadowRoot' in vm.$root.$options;
-}
-var isDefined = function isDefined(d) {
-  return d !== undefined;
-};
-
-export { bound, createAbsoluteElement, createNewEvent, escapeRegExpChars, getMonthNames, getValueByPath, getWeekdayNames, hasFlag, indexOf, isCustomElement, isDefined, isMobile, isVueComponent, isWebpSupported, matchWithGroups, merge, mod, multiColumnSort, removeElement, sign, toCssWidth };
+export { createAbsoluteElement, createNewEvent, escapeRegExpChars, getValueByPath, indexOf, isMobile, merge, multiColumnSort, removeElement, sign };
