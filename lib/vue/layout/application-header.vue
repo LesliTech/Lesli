@@ -136,8 +136,9 @@ export default {
             </div>
             <div class="header-right">
 
-                <slot></slot>
                 <slot name="languages"></slot>
+                <slot></slot>
+                <slot name="announcements"></slot>
                 <slot name="tasks"></slot>
                 <slot name="notifications"></slot>
 
@@ -188,14 +189,6 @@ export default {
                 {{translations.core.shared.notice_browser_not_supported_3}}
             </a>
         </b-notification>
-        
-        <b-notification 
-            v-for="announcement in lesli.announcements" 
-            :closable="announcement.can_be_closed"
-            :key="announcement.id" 
-            :type="`is-${announcement.kind}`">
-            <div v-html="announcement.message.html">
-            </div>
-        </b-notification>
+
     </header>
 </template>
