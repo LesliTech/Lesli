@@ -12,7 +12,6 @@
             type="checkbox"
             ref="input"
             @click.stop
-            :autocomplete="autocomplete"
             :disabled="disabled"
             :required="required"
             :name="name"
@@ -39,10 +38,6 @@ export default {
         falseValue: {
             type: [String, Number, Boolean, Function, Object, Array],
             default: false
-        },
-        autocomplete: {
-            type: String,
-            default: 'on'
         }
     }
 }

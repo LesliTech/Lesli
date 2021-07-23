@@ -22,7 +22,7 @@ def create_development_user dev_user, password=nil
 
     # get password
     if not password
-        password = Rails.application.config.lesli_settings["configuration"]["security"]["password"]["development"]
+        password = Rails.application.config.lesli_settings["security"]["password"]["development"]
         password = password + Time.now.year.to_s + "$"
     end
 

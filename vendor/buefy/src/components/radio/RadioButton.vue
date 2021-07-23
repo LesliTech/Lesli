@@ -3,7 +3,10 @@
         <label
             class="b-radio radio button"
             ref="label"
-            :class="labelClass"
+            :class="[newValue === nativeValue ? type : null, size, {
+                'is-disabled': disabled,
+                'is-focused': isFocused
+            }]"
             :disabled="disabled"
             @click="focus"
             @keydown.prevent.enter="$refs.label.click()">
@@ -39,22 +42,6 @@ export default {
     data() {
         return {
             isFocused: false
-        }
-    },
-    computed: {
-        isSelected() {
-            return this.newValue === this.nativeValue
-        },
-        labelClass() {
-            return [
-                this.isSelected ? this.type : null,
-                this.size,
-                {
-                    'is-selected': this.isSelected,
-                    'is-disabled': this.disabled,
-                    'is-focused': this.isFocused
-                }
-            ]
         }
     }
 }

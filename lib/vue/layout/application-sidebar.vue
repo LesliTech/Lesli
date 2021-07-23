@@ -21,12 +21,16 @@ For more information read the license file including with this software.
 export default {
     data() {
         return {
+            slot_settings: false,
             translations: {
                 core: {
                     sidebar_nav_settings: I18n.t("core.shared.sidebar_nav_settings")
                 }
             }
         }
+    },
+    mounted() {
+        this.slot_settings = this.$slots['settings']
     },
     methods: {
         postUserShortcut() {
@@ -56,7 +60,7 @@ export default {
             </ul>
             <ul class="menu-list">
                 <slot name="nav-end"></slot>
-                <b-menu-item>
+                <b-menu-item v-if="slot_settings">
                     <template slot="label" slot-scope="props">
                         <i class="fas fa-cogs"></i>
                         <span>{{ translations.core.sidebar_nav_settings }}</span>

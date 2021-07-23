@@ -20,25 +20,47 @@ For more information read the license file including with this software.
 
 
 // · Import components
+import componentCoreShowToday from "LesliWidgetsCore/show-today.vue"
+import componentCoreShowEventsNext from "LesliWidgetsCore/show-events-next.vue"
+import componentCoreChartTasks from "LesliWidgetsCore/chart-tasks.vue"
+import componentCoreShowEventsCalendar from "LesliWidgetsCore/show-events-calendar.vue"
 import componentCoreListSessionsActive from "LesliWidgetsCore/list-sessions-active.vue"
-import componentPortalHelloWorld from "CloudPortalWidgets/hello-world.vue"
+
+
+import componentChartGeneral from 'LesliVue/components/charts/general.vue'
+import componentChartLine from 'LesliVue/components/charts/line.vue'
+import componentChartBar from 'LesliVue/components/charts/bar.vue'
 
 
 // · 
 export default {
     components: {
+        "component-core-show-today": componentCoreShowToday,
+        "component-core-show-events-next": componentCoreShowEventsNext,
+        "component-core-show-events-calendar": componentCoreShowEventsCalendar,
+        "component-core-chart-tasks": componentCoreChartTasks,
         "component-core-list-sessions-active": componentCoreListSessionsActive,
-        "component-portal-hello-world": componentPortalHelloWorld
+
+        'component-chart-general': componentChartGeneral,
+        'component-chart-line': componentChartLine,
+        'component-chart-bar': componentChartBar
     },
     props: {
         engine: String
     },
     data() {
         return {
-            dashboard: {}
+            dashboard: {},
+            ooptions: {}
         }
     },
     mounted() {
+
+        setTimeout(() => {
+            this.ooptions = { stroke: { curve: 'smooth' } }
+        }, 2000)
+
+        this.shortcuts = shortcuts
         //this.getDefaultDashboard()
         this.dashboard = {
             "id": 1,
@@ -46,36 +68,30 @@ export default {
             "default": true,
             "main": false,
             "user_main_id": null,
-            "deleted_at": null,
-            "created_at": "2021-07-12T19:26:52.028Z",
-            "updated_at": "2021-07-12T19:26:52.028Z",
-            "cloud_portal_accounts_id": 1,
             "users_id": null,
             "roles_id": null,
             "components": [{
-                "id": 1,
-                "name": "Active sessions",
-                "component_id": "core-list-sessions-active",
-                "layout": 4,
-                "index": 0,
-                "query_configuration": {
-                    "filters": {},
-                    "pagination": {
-                        "per_page": 6
-                    }
-                },
-                "custom_configuration": {
-                    "arrangement": {}
-                },
-                "deleted_at": null,
-                "created_at": "2021-07-12T19:26:52.034Z",
-                "updated_at": "2021-07-12T19:26:52.034Z",
-                "cloud_portal_dashboards_id": 1,
-                "component_ids": null
+                layout: 5,
+                name: "Active sessions",
+                component_id: "core-list-sessions-active",
+                custom_configuration: {},
+                query_configuration: {}
             }, {
-                name: "visitantes",
-                component_id: "portal-hello-world",
+                name: "events",
+                component_id: "core-show-events-calendar",
+                layout: 5,
+            }, {
+                name: "today",
+                component_id: "core-show-today",
                 layout: 2,
+            }, {
+                name: "Upcoming events",
+                component_id: "core-show-events-next",
+                layout: 5,
+            }, {
+                name: "My tasks",
+                component_id: "core-chart-tasks",
+                layout: 5,
             }]
         }
     },
@@ -107,13 +123,16 @@ export default {
 <template>
     <section class="application-component lesli-dashboards">
 
+
         {{ /* dashboard header */ }}
-        <component-header></component-header>
+        <component-header title="Dashboard"></component-header>
+
 
         {{ /* show message if there is no dashboard */ }}
         <div v-if="!dashboard" class="container">
             <component-data-empty text="empty dashboard"></component-data-empty>
         </div>
+
 
         {{ /* show message if there is no dashboard */ }}
         <section v-if="dashboard" class="columns is-multiline">
@@ -128,6 +147,55 @@ export default {
                 </component>
             </div>
         </section>
+
+        <div class="columns">
+            <div class="column is-4">
+                <component-chart-general 
+                    type="bar"
+                    :data-sources="[{
+                        name: 'numeros',
+                        data: [1,2,3,4]
+                    }]"
+                    :data-labels="['uno', 'dos', 'tres', 'cuatro']">
+                </component-chart-general>
+            </div>
+            <div class="column is-4">
+                <component-chart-line 
+                    :data-sources="[{
+                        name: 'numeros',
+                        data: [1,2,6,3]
+                    }, {
+                        name: 'numeros',
+                        data: [2,6,3,10]
+                    }]"
+                    :data-labels="['uno', 'dos', 'tres', 'cuatro']">
+                </component-chart-line>
+            </div>
+            <div class="column is-4">
+                <component-chart-bar 
+                    :data-sources="[{
+                        name: 'numeros',
+                        data: [1,2,3,4]
+                    }]"
+                    :data-labels="['uno', 'dos', 'tres', 'cuatro']">
+                </component-chart-bar>
+            </div>
+        </div>
+
+<!--         <div class="columns">
+            <div class="column is-4">
+                <component-chart-line 
+                    :data-sources="[{
+                        name: 'numeros',
+                        data: [1,2,6,3]
+                    }]"
+                    :data-labels="['uno', 'dos', 'tres', 'cuatro']"
+                    :options="this.ooptions">
+                </component-chart-line>
+            </div>
+        </div> -->
+        
+
 
     </section>
 </template>
