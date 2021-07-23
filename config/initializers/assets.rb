@@ -38,6 +38,7 @@ Rails.application.config.assets.precompile += [ "accounts.css", "account/*.css",
 
 # Roles and privileges configuration
 Rails.application.config.assets.precompile += [ "roles.css", "roles/*.js" ]
+Rails.application.config.assets.precompile += [ "role_descriptors.css", "role_descriptors/*.js" ]
 
 # User profile management
 Rails.application.config.assets.precompile += [ "profiles.css", "profiles/app.js" ]
