@@ -113,7 +113,9 @@ class RoleDescriptorsController < ApplicationLesliController
 
     # Use callbacks to share common setup or constraints between actions.
     def set_role_descriptor
-        @role_descriptor = current_user.account.role_descriptors.find_by(id: params[:id])
+        @role_descriptor = current_user.account.role_descriptors
+        .where.not("role_descriptors.name in (?)", ["admin", "owner", "profile"])
+        .find_by(id: params[:id])
     end
 
     # Only allow a list of trusted parameters through.

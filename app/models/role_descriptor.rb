@@ -43,7 +43,7 @@ class RoleDescriptor < ApplicationLesliRecord
             ) as actions 
                 on actions.role_descriptor_id = role_descriptors.id
         ")
-        .where.not("role_descriptors.name = ? or role_descriptors.name = ?", "admin", "owner")
+        .where.not("role_descriptors.name in (?)", ["admin", "owner", "profile"])
 
         role_descriptors = role_descriptors.where("
             trim(lower(role_descriptors.name)) like '%#{query[:filters][:search].downcase}%' or  
@@ -77,6 +77,7 @@ class RoleDescriptor < ApplicationLesliRecord
             :created_at,
             :role_descriptors_id
         )
+        .where.not("role_descriptors.name in (?)", ["admin", "owner", "profile"])
         
         return role_descriptors
     end

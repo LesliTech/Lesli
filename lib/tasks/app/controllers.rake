@@ -34,9 +34,39 @@ namespace :app do
                         end
                     end
                 end
-            end
-
+            end            
             puts  "FINISH SCAN AT: #{Time.now}"
+            
+            add_profile_privileges(account)
+        end
+        
+        
+        def add_profile_privileges(account)
+            puts "ADDING DEFAULT PRIVILEGE ACTIONS FOR PROFILE DESCRIPTOR"
+            
+            profile_descriptor = account.role_descriptors.find_by(name: "profile")
+            
+            if (profile_descriptor) 
+
+                [   
+                    {controller: "profiles", actions: ["show"] },
+                    {controller: "users",    actions: ["options", "update"] },
+                    {controller: "user/sessions", actions: ["index"] }
+                ].each do |privilege|
+                    privilege[:actions].each do |action|
+                    
+                        system_action = SystemController::Action.joins(:system_controller)
+                        .where("system_controllers.name = ?", privilege[:controller])
+                        .where("system_controller_actions.name = ?", action)
+                        .first
+                        
+                        profile_descriptor.privilege_actions.find_or_create_by(
+                            category: RoleDescriptor::PrivilegeAction.categories["update"], 
+                            system_action: system_action
+                        ).update(status: TRUE) if system_action
+                    end
+                end 
+            end 
         end
     end
 end
