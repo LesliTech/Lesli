@@ -20,30 +20,25 @@ For more information read the license file including with this software.
 
 
 // · Import components
-import componentCoreShowToday from "LesliWidgetsCore/show-today.vue"
-import componentCoreShowEventsNext from "LesliWidgetsCore/show-events-next.vue"
-import componentCoreChartTasks from "LesliWidgetsCore/chart-tasks.vue"
-import componentCoreShowEventsCalendar from "LesliWidgetsCore/show-events-calendar.vue"
-import componentCoreListSessionsActive from "LesliWidgetsCore/list-sessions-active.vue"
-
-
-import componentChartGeneral from 'LesliVue/components/charts/general.vue'
-import componentChartLine from 'LesliVue/components/charts/line.vue'
-import componentChartBar from 'LesliVue/components/charts/bar.vue'
+import componentCoreHelloWorld from "LesliWidgets/core/hello-world.vue"
+import componentCoreListSessions from "LesliWidgets/core/list-sessions.vue"
+import componentDriverShowToday from "LesliWidgets/cloud_driver/show-today.vue"
+import componentDriverListEvents from "LesliWidgets/cloud_driver/list-events.vue"
+import componentDriverShowCalendar from "LesliWidgets/cloud_driver/show-calendar.vue"
+import componentFocusChartTasks from "LesliWidgets/cloud_focus/chart-tasks.vue"
 
 
 // · 
 export default {
     components: {
-        "component-core-show-today": componentCoreShowToday,
-        "component-core-show-events-next": componentCoreShowEventsNext,
-        "component-core-show-events-calendar": componentCoreShowEventsCalendar,
-        "component-core-chart-tasks": componentCoreChartTasks,
-        "component-core-list-sessions-active": componentCoreListSessionsActive,
+        'component-core-hello-world': componentCoreHelloWorld,
+        'component-core-list-sessions': componentCoreListSessions,
 
-        'component-chart-general': componentChartGeneral,
-        'component-chart-line': componentChartLine,
-        'component-chart-bar': componentChartBar
+        'component-driver-show-today': componentDriverShowToday,
+        'component-driver-list-events': componentDriverListEvents,
+        'component-driver-show-calendar': componentDriverShowCalendar,
+
+        'component-focus-chart-tasks': componentFocusChartTasks,
     },
     props: {
         engine: String
@@ -55,10 +50,6 @@ export default {
         }
     },
     mounted() {
-
-        setTimeout(() => {
-            this.ooptions = { stroke: { curve: 'smooth' } }
-        }, 2000)
 
         this.shortcuts = shortcuts
         //this.getDefaultDashboard()
@@ -73,28 +64,28 @@ export default {
             "components": [{
                 layout: 5,
                 name: "Active sessions",
-                component_id: "core-list-sessions-active",
+                component_id: "core-list-sessions",
                 custom_configuration: {},
                 query_configuration: {}
             }, {
+                name: "hello world",
+                component_id: "core-hello-world",
+                layout: 2,
+            }, {
                 name: "events",
-                component_id: "core-show-events-calendar",
+                component_id: "driver-show-calendar",
                 layout: 5,
             }, {
                 name: "today",
-                component_id: "core-show-today",
-                layout: 2,
-            }, {
-                name: "today",
-                component_id: "core-show-today",
+                component_id: "driver-show-today",
                 layout: 2,
             }, {
                 name: "Upcoming events",
-                component_id: "core-show-events-next",
+                component_id: "driver-list-events",
                 layout: 5,
             }, {
                 name: "My tasks",
-                component_id: "core-chart-tasks",
+                component_id: "focus-chart-tasks",
                 layout: 5,
             }]
         }
@@ -151,54 +142,6 @@ export default {
                 </component>
             </div>
         </section>
-
-        <div class="columns">
-            <div class="column is-4">
-                <component-chart-general 
-                    type="bar"
-                    :data-sources="[{
-                        name: 'numeros',
-                        data: [1,2,3,4]
-                    }]"
-                    :data-labels="['uno', 'dos', 'tres', 'cuatro']">
-                </component-chart-general>
-            </div>
-            <div class="column is-4">
-                <component-chart-line 
-                    :data-sources="[{
-                        name: 'numeros',
-                        data: [1,2,6,3]
-                    }, {
-                        name: 'numeros',
-                        data: [2,6,3,10]
-                    }]"
-                    :data-labels="['uno', 'dos', 'tres', 'cuatro']">
-                </component-chart-line>
-            </div>
-            <div class="column is-4">
-                <component-chart-bar 
-                    :data-sources="[{
-                        name: 'numeros',
-                        data: [1,2,3,4]
-                    }]"
-                    :data-labels="['uno', 'dos', 'tres', 'cuatro']">
-                </component-chart-bar>
-            </div>
-        </div>
-
-<!--         <div class="columns">
-            <div class="column is-4">
-                <component-chart-line 
-                    :data-sources="[{
-                        name: 'numeros',
-                        data: [1,2,6,3]
-                    }]"
-                    :data-labels="['uno', 'dos', 'tres', 'cuatro']"
-                    :options="this.ooptions">
-                </component-chart-line>
-            </div>
-        </div> -->
-        
 
 
     </section>
