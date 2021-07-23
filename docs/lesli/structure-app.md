@@ -51,6 +51,10 @@ lesli.cloud/
     lib/
         vue/
             widgets
+                base/
+                    list.vue
+                    table.vue
+                    chart.vue
                 core/
                     list-sessions.vue
                         active

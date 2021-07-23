@@ -20,6 +20,8 @@ For more information read the license file including with this software.
 
 
 // · Import components
+import componentBaseTable from "LesliWidgets/base/table.vue"
+
 import componentCoreHelloWorld from "LesliWidgets/core/hello-world.vue"
 import componentCoreListSessions from "LesliWidgets/core/list-sessions.vue"
 import componentDriverShowToday from "LesliWidgets/cloud_driver/show-today.vue"
@@ -31,6 +33,8 @@ import componentFocusChartTasks from "LesliWidgets/cloud_focus/chart-tasks.vue"
 // · 
 export default {
     components: {
+        'component-base-table': componentBaseTable,
+
         'component-core-hello-world': componentCoreHelloWorld,
         'component-core-list-sessions': componentCoreListSessions,
 
@@ -87,6 +91,12 @@ export default {
                 name: "My tasks",
                 component_id: "focus-chart-tasks",
                 layout: 5,
+            }, {
+                name: "table",
+                component_id: 'base-table',
+                layout: 5,
+                url: "/administration/users/8/sessions.json",
+                columns: [ 'user_agent', 'created_at_date'],
             }]
         }
     },
