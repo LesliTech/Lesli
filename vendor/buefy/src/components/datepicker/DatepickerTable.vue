@@ -28,7 +28,6 @@
                 :nearby-month-days="nearbyMonthDays"
                 :nearby-selectable-month-days="nearbySelectableMonthDays"
                 :show-week-number="showWeekNumber"
-                :week-number-clickable="weekNumberClickable"
                 :first-day-of-week="firstDayOfWeek"
                 :rules-for-first-week="rulesForFirstWeek"
                 :range="range"
@@ -43,7 +42,8 @@
 
 <script>
 import DatepickerTableRow from './DatepickerTableRow'
-import { isDefined } from '../../utils/helpers'
+
+const isDefined = (d) => d !== undefined
 
 export default {
     name: 'BDatepickerTable',
@@ -64,14 +64,19 @@ export default {
         focused: Object,
         disabled: Boolean,
         dateCreator: Function,
-        unselectableDates: [Array, Function],
+        unselectableDates: Array,
         unselectableDaysOfWeek: Array,
-        selectableDates: [Array, Function],
+        selectableDates: Array,
         nearbyMonthDays: Boolean,
         nearbySelectableMonthDays: Boolean,
-        showWeekNumber: Boolean,
-        weekNumberClickable: Boolean,
-        rulesForFirstWeek: Number,
+        showWeekNumber: {
+            type: Boolean,
+            default: () => false
+        },
+        rulesForFirstWeek: {
+            type: Number,
+            default: () => 4
+        },
         range: Boolean,
         multiple: Boolean
     },
@@ -79,18 +84,11 @@ export default {
         return {
             selectedBeginDate: undefined,
             selectedEndDate: undefined,
-            hoveredEndDate: undefined
+            hoveredEndDate: undefined,
+            multipleSelectedDates: this.multiple && this.value ? this.value : []
         }
     },
     computed: {
-        multipleSelectedDates: {
-            get() {
-                return this.multiple && this.value ? this.value : []
-            },
-            set(value) {
-                this.$emit('input', value)
-            }
-        },
         visibleDayNames() {
             const visibleDayNames = []
             let index = this.firstDayOfWeek
@@ -222,8 +220,9 @@ export default {
                     selectedDate.getMonth() !== date.getMonth()
                 )
             } else {
-                this.multipleSelectedDates = [...this.multipleSelectedDates, date]
+                this.multipleSelectedDates.push(date)
             }
+            this.$emit('input', this.multipleSelectedDates)
         },
 
         /*
@@ -304,38 +303,26 @@ export default {
             }
 
             if (this.selectableDates) {
-                if (typeof this.selectableDates === 'function') {
-                    if (this.selectableDates(day)) {
+                for (let i = 0; i < this.selectableDates.length; i++) {
+                    const enabledDate = this.selectableDates[i]
+                    if (day.getDate() === enabledDate.getDate() &&
+                        day.getFullYear() === enabledDate.getFullYear() &&
+                        day.getMonth() === enabledDate.getMonth()) {
                         return true
                     } else {
                         validity.push(false)
-                    }
-                } else {
-                    for (let i = 0; i < this.selectableDates.length; i++) {
-                        const enabledDate = this.selectableDates[i]
-                        if (day.getDate() === enabledDate.getDate() &&
-                            day.getFullYear() === enabledDate.getFullYear() &&
-                            day.getMonth() === enabledDate.getMonth()) {
-                            return true
-                        } else {
-                            validity.push(false)
-                        }
                     }
                 }
             }
 
             if (this.unselectableDates) {
-                if (typeof this.unselectableDates === 'function') {
-                    validity.push(!this.unselectableDates(day))
-                } else {
-                    for (let i = 0; i < this.unselectableDates.length; i++) {
-                        const disabledDate = this.unselectableDates[i]
-                        validity.push(
-                            day.getDate() !== disabledDate.getDate() ||
-                                day.getFullYear() !== disabledDate.getFullYear() ||
-                                day.getMonth() !== disabledDate.getMonth()
-                        )
-                    }
+                for (let i = 0; i < this.unselectableDates.length; i++) {
+                    const disabledDate = this.unselectableDates[i]
+                    validity.push(
+                        day.getDate() !== disabledDate.getDate() ||
+                            day.getFullYear() !== disabledDate.getFullYear() ||
+                            day.getMonth() !== disabledDate.getMonth()
+                    )
                 }
             }
 
