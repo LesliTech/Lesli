@@ -44,7 +44,7 @@ namespace :app do
         def add_profile_privileges(account)
             puts "ADDING DEFAULT PRIVILEGE ACTIONS FOR PROFILE DESCRIPTOR"
             
-            profile_descriptor = account.role_descriptors.find_by(name: "profile")
+            profile_descriptor = account.role_descriptors.find_or_create_by(name: "profile")
             
             if (profile_descriptor) 
 
