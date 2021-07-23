@@ -56,6 +56,9 @@ lesli.cloud/
                     list-activities.vue
                     list-shortcuts.vue
                     list-actions.vue
+                    settings-list.vue
+                    settings-table.vue
+                    settings-chart.vue
                 cloud_focus/
                     list-tasks.vue
                         next
