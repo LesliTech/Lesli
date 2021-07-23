@@ -83,6 +83,7 @@ section.application-component {
 
         // vertical tab container
         & > .tab-content {
+            flex: 1;
             padding-top: 0;
         }
 

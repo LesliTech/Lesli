@@ -18,7 +18,11 @@ For more information read the license file including with this software.
 .application-panel-notification {
 
     .sidebar-background {
-        background: RGBA(lesli-css-color(slate, 300), 0.86);
+        background: rgba(lesli-css-color(slate, 300), 0.86);
+        background: linear-gradient(to left,
+            rgba(lesli-css-color(silver, 900), 1),
+            rgba(lesli-css-color(silver), .3),
+        );
     }
 
     .sidebar-content {
