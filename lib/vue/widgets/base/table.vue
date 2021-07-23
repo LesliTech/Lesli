@@ -18,27 +18,32 @@ For more information read the license file including with this software.
 
 */
 
-
-
 export default {
     props: {
         component: Object
     },
     data() {
         return {
-            sessions: {}
+            payload: {},
+            table_columns: []
         }
     },
     mounted() {
-        this.getSessions()
+        this.component.columns.forEach(column => {
+            this.table_columns.push({
+                field: column,
+                label: column.replace("_", " ")
+            })
+        })
+        this.getPayload()
     },
     methods: {
-
-        getSessions() {
-            this.http.get(this.url.admin("users/:user_id/sessions", { user_id: lesli.current_user.id }))
+        
+        getPayload() {
+            this.http.get(this.component.url)
             .then(result => {
                 if (!result.successful) { return; }
-                this.sessions = result.data
+                this.payload = result.data
             }).catch(error => {
                 console.log(error)
             })
@@ -54,11 +59,8 @@ export default {
         </div>
         <div class="card-content">
             <b-table 
-                :data="sessions.records" 
-                :columns="[
-                    { field:'user_agent', label: 'devise'},
-                    { field:'created_at_date', label: 'date'},
-                ]">
+                :data="payload.records" 
+                :columns="table_columns">
             </b-table>
         </div>
     </div>
