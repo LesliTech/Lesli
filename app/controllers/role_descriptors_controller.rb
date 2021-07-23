@@ -60,7 +60,7 @@ class RoleDescriptorsController < ApplicationLesliController
     def create
         role_descriptor = current_user.account.role_descriptors.new(role_descriptor_params)
         
-        if (role_descriptor[:name] == "owner"||role_descriptor[:name] == "admin")
+        if (role_descriptor[:name] == "owner"||role_descriptor[:name] == "admin"||role_descriptor[:name] == "profile")
             respond_with_error(I18n.t("core.role_descriptors.message_danger_reserved_name"))
         end
         
