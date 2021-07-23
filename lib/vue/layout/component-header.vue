@@ -29,8 +29,7 @@ export default {
     data() {
         return {
             loading: false,
-            shortcuts: [],
-            announcements: []
+            shortcuts: []
         }
     },
     mounted() {
@@ -41,39 +40,8 @@ export default {
         if (typeof shortcuts !== 'undefined') {
             this.shortcuts = shortcuts
         }
-        
-        this.getAnnouncements()
-
     },
-    methods: {
-
-        getAnnouncements(){
-            let url = this.url.bell('announcements/list').filters({
-                base_path: this.lesli.url.path,
-                expiration_at: true,
-                status: true
-            })
-
-            this.http.get(url).then(result => {            
-                if (result.successful) {                    
-                    this.announcements = result.data.map(announcement => this.parseAnnouncement(announcement))
-                    
-                    console.log(this.announcements)
-                } else {
-                    this.msg.error(result.error.message)
-                }
-            }).catch(error => {
-                console.log(error)
-            })
-        },
-
-        parseAnnouncement(announcement){
-            return {
-                ...announcement,
-                message: JSON.parse(announcement.message)
-            }
-        },
-        
+    methods: {        
         clickButtonReload() {
             this.loading = true
             setTimeout(() => { this.loading = false }, 1000);
@@ -84,16 +52,7 @@ export default {
 }
 </script>
 <template>
-    <section>
-        <b-notification 
-            v-for="announcement in announcements" 
-            :closable="announcement.can_be_closed"
-            :key="announcement.id" 
-            :type="`is-${announcement.kind}`">
-            <div v-html="announcement.message.html">
-            </div>
-        </b-notification>
-
+    <section>        
         <nav class="navbar component-header">
             <div class="navbar-menu">
                 <div class="navbar-start">
@@ -105,7 +64,6 @@ export default {
                             {{ subtitle }}
                         </h4>
                     </div>
-                    <slot name="start"></slot>
                 </div>
                 <div class="navbar-end">
                     <div class="navbar-item">
