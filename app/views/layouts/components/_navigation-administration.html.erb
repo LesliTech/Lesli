@@ -29,9 +29,9 @@ For more information read the license file including with this software.
         <span><%= I18n.t("core.shared.sidebar_nav_users") %></span>
     <% end %>
 
-    <%= navigation_item(main_app.account_privilege_groups_path) do %>
+    <%= navigation_item(main_app.role_descriptors_path) do %>
         <i class="fas fa-user-tag"></i>
-        <span><%= I18n.t("core.shared.sidebar_nav_privilege_groups") %></span>
+        <span><%= I18n.t("core.shared.sidebar_nav_role_descriptors_path") %></span>
     <% end %>
     
     <%= navigation_item(main_app.roles_path) do %>
