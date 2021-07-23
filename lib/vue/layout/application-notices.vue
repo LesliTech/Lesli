@@ -1,45 +1,38 @@
 <script>
+/*
+
+Lesli
+
+Copyright (c) 2020, all rights reserved.
+
+All the information provided by this platform is protected by international laws related  to 
+industrial property, intellectual property, copyright and relative international laws. 
+All intellectual or industrial property rights of the code, texts, trade mark, design, 
+pictures and any other information belongs to the owner of this platform.
+
+Without the written permission of the owner, any replication, modification,
+transmission, publication is strictly forbidden.
+
+For more information read the license file including with this software.
+
+// · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
+// · 
+
+*/
+
+
+// · 
 export default {
-    data() {
-        return {
-            index: 0,
-            total: 0,
-            announcement: {}
-        }
-    },
-    mounted() {
-        this.total = lesli.announcements.length
-        setInterval(() => {
-            this.announcement = lesli.announcements[this.index];
-            this.index++;
-            if (this.index >= this.total) {
-                this.index = 0
-            }
-        }, 2000);
-    }
+
 }
 </script>
 <template>
     <section class="application-notices">
-        <article 
-            v-for="announcement in lesli.announcements" 
+        <article v-for="announcement in lesli.announcements" 
             :key="announcement.id"
-            :class="['message', `is-${announcement.category}`]">
-            <div class="message-header">
-                <p>{{ announcement.name }}</p>
-                <button :v-if="announcement.can_be_closed" class="delete" aria-label="delete"></button>
-            </div>
-            <div class="message-body" v-if="announcement.message" v-html="announcement.message.html">
-            </div>
-        </article>
-
-        <article :class="['message', `is-${announcement.category}`]">
-            <div class="message-header">
-                <p>{{ announcement.name }}</p>
-                <button :v-if="announcement.can_be_closed" class="delete" aria-label="delete"></button>
-            </div>
-            <div class="message-body" v-if="announcement.message" v-html="announcement.message.html">
-            </div>
+            :class="['notification', `is-${announcement.category}`]">
+            <button class="delete"></button>
+            <div class="notification-body" v-html="announcement.message.html"></div>
         </article>
     </section>
 </template>
