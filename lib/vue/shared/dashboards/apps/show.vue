@@ -85,6 +85,10 @@ export default {
                 component_id: "core-show-today",
                 layout: 2,
             }, {
+                name: "today",
+                component_id: "core-show-today",
+                layout: 2,
+            }, {
                 name: "Upcoming events",
                 component_id: "core-show-events-next",
                 layout: 5,
