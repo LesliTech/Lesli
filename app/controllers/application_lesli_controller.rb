@@ -67,7 +67,7 @@ class ApplicationLesliController < ApplicationController
         @account[:notifications] = Courier::Bell::Notification.count(current_user, true)        
         @account[:announcements] = Courier::Bell::Announcement.list(current_user, {filters: {base_path: request.path, end_at: true, start_at: true, status: true}}).to_json.html_safe
         @account[:tasks] = Courier::Focus::Task.count(current_user)
-        @account[:cable] = Rails.application.config.lesli_settings["configuration"]["security"]["enable_websockets"] || false
+        @account[:cable] = Rails.application.config.lesli_settings["security"]["enable_websockets"] || false
 
         
         # default customization, set on before_action :set_customization hook
