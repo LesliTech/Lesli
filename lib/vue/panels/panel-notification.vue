@@ -144,7 +144,7 @@ export default {
         class="application-panel-notification"
         :open.sync="data.global.show_panel_notifications"
         :right="true"
-        :overlay="false"
+        :overlay="true"
         :fullheight="true">
         <div class="panel-title is-size-5">
             <h4>
