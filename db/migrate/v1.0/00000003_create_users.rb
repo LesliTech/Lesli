@@ -28,7 +28,7 @@ class CreateUsers < ActiveRecord::Migration[5.2]
             t.string    :category, default: "user", null: false
 
             # Customizable
-            # t.string    :alias
+            t.string    :alias
 
             # Database authenticatable
             t.string    :email,              null: false, default: ""
