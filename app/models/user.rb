@@ -81,11 +81,7 @@ class User < ApplicationLesliRecord
     #     designed to be invoked directly
     def initialize_user_details
         User::Detail.find_or_create_by({ user: self })
-
-        if detail&.first_name && detail&.last_name
-            self.alias = "#{detail.first_name[0..1]}. #{detail.last_name[0..1]}."
-            self.save
-        end
+        self.set_alias
     end
 
     def initialize_cloud_one_user
@@ -355,6 +351,16 @@ class User < ApplicationLesliRecord
         detail.first_name.blank? ? "" : detail.first_name[0].upcase + "" + (detail.last_name.blank? ? "" : detail.last_name[0].upcase)
     end
 
+
+    # @return [nil]
+    # @description Set the user alias based on the full_name.
+    # @example
+    #     puts current_user.full_name # John Doe
+    #     puts current_user.set_alias # Jo. Do.
+    def set_alias
+        self.alias = (detail&.first_name && detail&.last_name) ? "#{detail.first_name[0..1]}. #{detail.last_name[0..1]}." : ""
+        self.save
+    end
 
 
     # @param accounnt [Account] The account associated to *current_user*

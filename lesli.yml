@@ -64,23 +64,6 @@ configuration:
     notifications:
         sms: false
 
-    # deprecated: use the own security section
-    security:
-        log_activity: true
-        enable_debug: false
-        enable_becoming: false
-        enable_login_otp: true
-        enable_websockets: false
-        enable_login_link: true
-        allow_multiaccount: true
-        allow_registration: true
-        allow_invitation: true
-        password:
-            development: "lesli"
-        roles:
-            - "Administration"
-            - "Sales & Marketing"
-
 
 # Instance security settings
 security:

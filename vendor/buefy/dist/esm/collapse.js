@@ -2,11 +2,6 @@ import { _ as __vue_normalize__, r as registerComponent, u as use } from './chun
 
 var script = {
   name: 'BCollapse',
-  // deprecated, to replace with default 'value' in the next breaking change
-  model: {
-    prop: 'open',
-    event: 'update:open'
-  },
   props: {
     open: {
       type: Boolean,

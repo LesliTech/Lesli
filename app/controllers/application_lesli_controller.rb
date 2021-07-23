@@ -62,15 +62,14 @@ class ApplicationLesliController < ApplicationController
 
         # @account is only for html requests
         return if !request.format.html?
-
-
+        
         @account[:revision] = LC::System::Info.revision()
-        @account[:notifications] = Courier::Bell::Notification.count(current_user, true)
-        @account[:announcements] = Courier::Bell::Announcement.count(current_user)
+        @account[:notifications] = Courier::Bell::Notification.count(current_user, true)        
+        @account[:announcements] = Courier::Bell::Announcement.list(current_user, {filters: {base_path: request.path, end_at: true, start_at: true, status: true}}).to_json.html_safe
         @account[:tasks] = Courier::Focus::Task.count(current_user)
-        @account[:cable] = Rails.application.config.lesli_settings["configuration"]["security"]["enable_websockets"] || false
+        @account[:cable] = Rails.application.config.lesli_settings["security"]["enable_websockets"] || false
 
-
+        
         # default customization, set on before_action :set_customization hook
         @account[:customization] = { :logo => "image.svg", :color_primary => "#1f7ce3" }
 

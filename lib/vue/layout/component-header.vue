@@ -24,52 +24,24 @@ export default {
         },
         subtitle: {
             default: null
-        },
-        buttons: {
-            default: true
-        },
-        titleButtonCreate: {
-            default: "Create"
         }
     },
     data() {
         return {
             loading: false,
-            announcements: []
+            shortcuts: []
         }
     },
     mounted() {
-        this.getAvailableAnnouncements()
+
+        // check that the constat is defined
+        // this constant is defined in: app/views/layouts/components/dashboard-shortcuts
+        // you must include this partial in every view where you want to use shortcuts
+        if (typeof shortcuts !== 'undefined') {
+            this.shortcuts = shortcuts
+        }
     },
-    methods: {
-
-        getAvailableAnnouncements(){
-            let url = this.url.bell('announcements/list').filters({
-                base_path: this.lesli.url.path,
-                expiration_at: true,
-                status: true
-            })
-
-            this.http.get(url).then(result => {            
-                if (result.successful) {                    
-                    this.announcements = result.data.map(announcement => this.parseAnnouncement(announcement))
-                    
-                    console.log(this.announcements)
-                } else {
-                    this.msg.error(result.error.message)
-                }
-            }).catch(error => {
-                console.log(error)
-            })
-        },
-
-        parseAnnouncement(announcement){
-            return {
-                ...announcement,
-                message: JSON.parse(announcement.message)
-            }
-        },
-        
+    methods: {        
         clickButtonReload() {
             this.loading = true
             setTimeout(() => { this.loading = false }, 1000);
@@ -80,16 +52,7 @@ export default {
 }
 </script>
 <template>
-    <section>
-        <b-notification 
-            v-for="announcement in announcements" 
-            :closable="announcement.can_be_closed"
-            :key="announcement.id" 
-            :type="`is-${announcement.kind}`">
-            <div v-html="announcement.message.html">
-            </div>
-        </b-notification>
-
+    <section>        
         <nav class="navbar component-header">
             <div class="navbar-menu">
                 <div class="navbar-start">
@@ -108,6 +71,15 @@ export default {
                     </div>
                 </div>
             </div>
-        </nav>        
+        </nav>
+
+        <div class="component-header-shortcuts buttons">
+            <a 
+                class="button"
+                v-for="shortcut in shortcuts" :key="shortcut.id"
+                :href="shortcut.url" >
+                {{ shortcut.name }}
+            </a>
+        </div>
     </section>
 </template>
