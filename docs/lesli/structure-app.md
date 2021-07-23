@@ -52,10 +52,9 @@ lesli.cloud/
         vue/
             widgets
                 core/
-                    list-sessions-active.vue
+                    list-sessions.vue
+                        active
                     list-activities.vue
-                    list-shortcuts.vue
-                    list-actions.vue
                     settings-list.vue
                     settings-table.vue
                     settings-chart.vue
@@ -64,7 +63,7 @@ lesli.cloud/
                         next
                         pending
                         overdue
-                    show-task-next.vue
+                    chart-task.vue
                 cloud_driver/
                     list-events.vue
                         overdue
