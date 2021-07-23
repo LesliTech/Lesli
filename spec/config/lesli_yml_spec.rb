@@ -118,7 +118,7 @@ RSpec.describe "lesli_settings.yml" do
     end
 
     it "expect to have a section for security settings" do
-        expect(@lesli_settings["configuration"]).to have_key("security")
+        expect(@lesli_settings).to have_key("security")
         expect(@lesli_settings["security"]).to have_key("password")
         expect(@lesli_settings["security"]["password"]).to have_key("development")
 
