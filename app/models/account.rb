@@ -81,7 +81,7 @@ class Account < ApplicationRecord
         end
 
         # create default roles
-        account_roles = Rails.application.config.lesli_settings["configuration"]["security"]["roles"]
+        account_roles = Rails.application.config.lesli_settings["security"]["roles"]
         account_roles.append "api"     # api-access only
         account_roles.append "guest"   # read-only
         account_roles.append "limited" # access only to user profile
