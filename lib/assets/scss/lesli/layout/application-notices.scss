@@ -24,8 +24,9 @@ section.application-notices {
     margin-left: var(--application-navigation-width);
     width: calc(100% - var(--application-navigation-width));
 
-    article.message {
-        box-shadow: 0 20px 27px 0 rgba(0,0,0,.1);
+    article.notification {
+        margin-bottom: 1rem;
+        box-shadow: 0 2px 7px 0 rgba(lesli-css-color(slate), .3);
     }
 
 }
