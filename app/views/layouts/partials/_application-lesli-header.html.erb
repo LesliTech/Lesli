@@ -49,7 +49,18 @@ For more information read the license file including with this software.
     <% end %>
 
 
+    <%# notifications icon indicator %>
+    <% if defined?(CloudBell) %>
+    <template v-slot:announcements>
+        <a class="navbar-item header-notification-indicator" @click="data.global.show_announcement_sidebar = !data.global.show_announcement_sidebar">
+            <i class="fas fa-bullhorn"></i>
+        </a>
+    </template>
+    <% end %>
+
+
     <%# tasks icon indicator %>
+    <% if defined?(CloudFocus) %>
     <template v-slot:tasks>
         <a class="navbar-item header-notification-indicator core" @click="data.global.show_panel_tasks = true">
             <i v-if="lesli.tasks > 0" class="fas fa-tasks has-text-link"></i>
@@ -57,9 +68,11 @@ For more information read the license file including with this software.
             <span>{{ lesli.tasks }}</span>
         </a>
     </template>
+    <% end %>
 
 
     <%# notifications icon indicator %>
+    <% if defined?(CloudBell) %>
     <template v-slot:notifications>
         <a class="navbar-item header-notification-indicator core" @click="data.global.show_panel_notifications = true">
             <i v-if="lesli.notifications > 0" class="fas fa-bell has-text-link"></i>
@@ -67,6 +80,7 @@ For more information read the license file including with this software.
             <span>{{ lesli.notifications }}</span>
         </a>
     </template>
+    <% end %>
     
 
     <%# username %>
