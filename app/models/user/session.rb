@@ -89,6 +89,7 @@ class User::Session < ApplicationLesliRecord
             :session_source,
             LC::Date2.new.date_time.db_timestamps("user_sessions"),
             LC::Date2.new.date_time.db_column("expiration_at"),
+            LC::Date2.new.date_time.db_column("last_used_at"),
             :users_id
         )
         .page(query[:pagination][:page])
@@ -108,7 +109,8 @@ class User::Session < ApplicationLesliRecord
                     session_source: session[:session_source],
                     created_at_date: session[:created_at_date],
                     updated_at_date: session[:updated_at_date],
-                    expiration_at_date: session[:expiration_at_date],
+                    expiration_at_string: session[:expiration_at_string],
+                    last_used_at_string: session[:last_used_at_string],
                     users_id: session[:users_id],
                     current_session: current_session_id.eql?(session[:id])
                 }
