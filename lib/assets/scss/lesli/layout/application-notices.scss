@@ -23,7 +23,8 @@ section.application-notices {
     padding: 2rem;
     margin-left: var(--application-navigation-width);
     width: calc(100% - var(--application-navigation-width));
-
+    padding: 2rem 2rem 0; 
+    
     article.notification {
         margin-bottom: 1rem;
         box-shadow: 0 2px 7px 0 rgba(lesli-css-color(slate), .3);
