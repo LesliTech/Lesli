@@ -174,11 +174,11 @@ export default {
         },
 
         showRole(role) {
-            this.$router.push(`/${role.id}`)
+            this.navigateTo(`/${role.id}`)
         },
         
         navigateTo(path){
-            this.$router.push()
+            this.$router.push(path)
         }
     },
     watch: {
