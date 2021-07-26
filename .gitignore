@@ -36,6 +36,7 @@ package-lock.json
 !/storage/keep/
 !/storage/templates/
 
+/app/assets/**/lesli_cloud
 /app/assets/**/lesli_cloud_*
 
 /public/tmp
