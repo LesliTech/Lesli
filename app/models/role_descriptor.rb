@@ -91,4 +91,8 @@ class RoleDescriptor < ApplicationLesliRecord
             LC::Date.db_timestamps()
         ).find(id)
     end
+    
+    def has_roles_assigned?
+        return Role::DescriptorAssignment.where(descriptor: self).count > 0
+    end
 end
