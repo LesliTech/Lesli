@@ -124,7 +124,7 @@ export default {
 
             // labels and data series are empty by default due child (wrapper) components 
             // may set this arrays dynamically, so we have to always listen for changes on
-            // this arrays
+            // these arrays
             this.chart_options.labels = []
             this.chart_options.series = []
 
@@ -164,7 +164,7 @@ export default {
             this.chart.updateSeries(this.dataSources)
         },
 
-        // watch for changes on options, so we can change the behavior of the chart 
+        // watch for changes on options, so we can change the behavior of the chart on real time
         options: {
 
             // watch for every change on the options object
