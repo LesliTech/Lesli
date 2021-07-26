@@ -92,11 +92,17 @@ export default {
                 component_id: "focus-chart-tasks",
                 layout: 5,
             }, {
-                name: "table",
+                name: "Table widget",
                 component_id: 'base-table',
+                type: 'base-table',
                 layout: 5,
                 url: "/administration/users/8/sessions.json",
-                columns: [ 'user_agent', 'created_at_date'],
+                custom_configuration: {
+                    arrangement:{},
+                    url: "/administration/users/8/sessions.json",
+                    columns: ['user_agent', 'created_at_date']
+                },
+                query_configuration: {"filters":{},"pagination":{"per_page":6}}
             }]
         }
     },
