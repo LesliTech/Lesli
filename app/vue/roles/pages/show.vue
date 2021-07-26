@@ -23,7 +23,6 @@ For more information read the license file including with this software.
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
 import componentForm from '../components/forms/form.vue'
 import componentFormSimple from '../components/forms/form-simple.vue'
-import componentFormAdvanced from '../components/forms/form-advanced.vue'
 import componentFormLogs from '../components/forms/form-logs.vue'
 // · 
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
@@ -37,7 +36,6 @@ export default {
     components: {
         'component-form': componentForm,
         'component-form-simple': componentFormSimple,
-        'component-form-advanced': componentFormAdvanced,
         'component-form-logs': componentFormLogs,
     },
 

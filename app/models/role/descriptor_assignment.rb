@@ -23,7 +23,7 @@ class Role::DescriptorAssignment < ApplicationLesliRecord
     
     def self.options(current_user)
         descriptors = []
-        categories_name = Account::PrivilegeGroupAction.categories.map{|k, _| k}
+        categories_name = RoleDescriptor::PrivilegeAction.categories.map{|k, _| k}
 
         
         current_user.account.role_descriptors.order(created_at: :asc)

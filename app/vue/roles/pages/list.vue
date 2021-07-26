@@ -51,10 +51,8 @@ export default {
             },
             main_route: 'administration/roles',
             translations: {
-                roles: I18n.t('deutscheleibrenten.roles'),
-                shared: I18n.t('deutscheleibrenten.shared'),
-                users: I18n.t('deutscheleibrenten.users'),
-                core_roles: I18n.t('core.roles')
+                main: I18n.t('core.roles'),
+                shared: I18n.t('deutscheleibrenten.shared')
             },
             loading: false,
             index_abilities: {
@@ -91,7 +89,7 @@ export default {
                     this.roles_name = result.data.map(role => {
                         return {
                             name: role.name,
-                            translated_name: (this.object_utils.translateEnum(this.translations.core_roles, 'column_enum_role',  role.name))||role.name
+                            translated_name: (this.object_utils.translateEnum(this.translations.main, 'column_enum_role',  role.name))||role.name
                         }
                     })
 
@@ -124,7 +122,7 @@ export default {
                     this.roles = result.data.records.map(role => {
                         return {
                             ...role,
-                            translated_name: (this.object_utils.translateEnum(this.translations.core_roles, 'column_enum_role',  role.name))||role.name
+                            translated_name: (this.object_utils.translateEnum(this.translations.main, 'column_enum_role',  role.name))||role.name
                         }
                     })
 
@@ -162,7 +160,8 @@ export default {
         deleteRole(role_id){
             this.http.delete(`/${this.main_route}/${role_id}`).then(result => {
                 if (result.successful) {
-                    this.alert(this.translations.roles.notification_delete, 'success')
+                    this.msg.success(this.translations.main.notification_delete, 'success')
+                    
                     this.roles = this.roles.filter(e => {
                         return e.id !== role_id
                     })
@@ -176,6 +175,10 @@ export default {
 
         showRole(role) {
             this.$router.push(`/${role.id}`)
+        },
+        
+        navigateTo(path){
+            this.$router.push()
         }
     },
     watch: {
@@ -194,7 +197,7 @@ export default {
 <template>
     <section class="application-component">
         <component-header
-            :title="translations.roles.title">
+            :title="translations.main.view_text_roles">
             <div class="buttons">
                 <button class="button" @click="getRoles()">
                     <b-icon icon="sync" size="is-small" :custom-class="loading ? 'fa-spin' : ''" />
@@ -202,14 +205,14 @@ export default {
                 </button>
                 <router-link class="button" tag="button" to="/new" v-if="index_abilities.roles.create">
                     <b-icon icon="plus" size="is-small" />
-                    <span>{{ translations.roles.btn_new }}</span>
+                    <span>{{ translations.main.view_btn_new }}</span>
                 </router-link>
             </div>
         </component-header>
 
         <component-toolbar
             v-if="filters_ready"
-            :search-text="translations.roles.view_toolbar_search_by_placeholder_text"
+            :search-text="translations.main.view_toolbar_search_by_placeholder_text"
             @search="searchRoles"
             :initial-value="filters.text">
 
@@ -248,7 +251,7 @@ export default {
                             {{ props.row.translated_name }}
                         </b-table-column>
 
-                        <b-table-column :label="translations.users.title_users" field="users_count">
+                        <b-table-column :label="translations.main.view_text_users_count" field="users_count">
                             {{ props.row.user_count ? props.row.user_count : 0 }}
                         </b-table-column>
 
@@ -256,29 +259,45 @@ export default {
                             {{ props.row.active ? translations.shared.text_yes : translations.shared.text_no }}
                         </b-table-column>
 
-                        <b-table-column :label="translations.shared.text_actions" class="has-text-center">
-                            <span>
-                                <router-link class="button" :to="`/${props.row.id}?view_type=simple`">
-                                    <b-icon icon="eye" />
-                                </router-link>
-                                <router-link class="button" :to="`/${props.row.id}?view_type=advanced`">
-                                    <b-icon icon="cogs" />
-                                </router-link>
-                                <router-link class="button" :to="`/${props.row.id}?view_type=edit`">
-                                    <b-icon icon="edit" />
-                                </router-link>
-                                <b-button type="is-default" outlined @click.stop="url.go(url[lesli_engine](`users?role=${props.row.name}`))">
-                                    <b-icon icon="users" />
-                                </b-button>
-                                <b-tooltip v-if="index_abilities.logs.index" :label="translations.roles.view_text_role_logs" type="is-info">
-                                    <router-link class="button" :to="`/${props.row.id}`">
-                                        <b-icon icon="history" />
-                                    </router-link>
-                                </b-tooltip>
-                                <b-button type="is-danger" outlined @click.stop="deleteRole(props.row.id)" v-if="index_abilities.roles.destroy">
-                                    <b-icon icon="trash-alt" />
-                                </b-button>
-                            </span>
+                        <b-table-column @click.native.prevent="e=>e.stopPropagation()" :label="translations.shared.text_actions"s centered>
+                            <b-dropdown aria-role="menu" position="is-bottom-left">
+                                <button class="button is-rounded is-default" slot="trigger" slot-scope="{ active }">
+                                    <span class="icon">
+                                        <i v-if="!active" class="fas fa-ellipsis-h fa-1x"></i>
+                                        <i v-if="active" class="far fa-circle"></i>
+                                    </span>
+                                </button>
+                                <b-dropdown-item @click="navigateTo(`/${props.row.id}?view_type=simple`)" class="has-text-right pr-4">
+                                    {{ translations.main.view_btn_edit_privilege_actions }}
+                                    <span class="icon">
+                                        <i class="fas fa-cogs"></i>
+                                    </span>
+                                </b-dropdown-item>
+                                <b-dropdown-item @click="navigateTo(`/${props.row.id}?view_type=edit`)" class="has-text-right pr-4">
+                                    {{ translations.main.view_btn_edit_role_information }}
+                                    <span class="icon">
+                                        <i class="fas fa-edit"></i>
+                                    </span>
+                                </b-dropdown-item>
+                                <b-dropdown-item @click="url.go(url[lesli_engine](`users?role=${props.row.name}`))" class="has-text-right pr-4">
+                                    {{ translations.main.view_btn_users_list }}
+                                    <span class="icon">
+                                        <i class="fas fa-users"></i>
+                                    </span>
+                                </b-dropdown-item>
+                                <b-dropdown-item @click="navigateTo(`/${props.row.id}?view_type=logs`)" class="has-text-right pr-4">
+                                    {{ translations.main.view_btn_logs }}
+                                    <span class="icon">
+                                        <i class="fas fa-history"></i>
+                                    </span>
+                                </b-dropdown-item>
+                                <b-dropdown-item@click.stop="deleteRole(props.row.id)" v-if="index_abilities.roles.destroy" class="has-text-right pr-4">
+                                    {{ translations.main.view_btn_delete }}
+                                    <span class="icon">
+                                        <i class="fas fa-trash"></i>
+                                    </span>
+                                </b-dropdown-item>
+                            </b-dropdown>
                         </b-table-column>
                     </template>
                 </b-table>
