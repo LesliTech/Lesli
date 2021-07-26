@@ -29,7 +29,7 @@ export default {
         }
     },
     mounted() {
-        this.component.columns.forEach(column => {
+        this.component.custom_configuration.columns.forEach(column => {
             this.table_columns.push({
                 field: column,
                 label: column.replace("_", " ")
@@ -53,15 +53,11 @@ export default {
 }
 </script>
 <template>
-    <div class="card">
-        <div class="card-header">
-            <h3 class="card-header-title">{{ component.name }}</h3>
-        </div>
-        <div class="card-content">
-            <b-table 
-                :data="payload.records" 
-                :columns="table_columns">
-            </b-table>
-        </div>
+    <div>
+        <h4>{{ component.name }}</h4>
+        <b-table 
+            :data="payload.records" 
+            :columns="table_columns">
+        </b-table>
     </div>
 </template>

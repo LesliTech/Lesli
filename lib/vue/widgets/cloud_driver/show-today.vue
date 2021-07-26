@@ -45,7 +45,7 @@ export default {
 </template>
 <style lang="scss" scoped>
 
-    .today {
+    .today.widget-component {
         display: flex;
         flex-direction: column;
         justify-content: center;
