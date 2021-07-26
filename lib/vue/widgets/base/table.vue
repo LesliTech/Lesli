@@ -18,55 +18,46 @@ For more information read the license file including with this software.
 
 */
 
-
-// · 
-import dayjs from 'dayjs'
-
-
-// · 
 export default {
+    props: {
+        component: Object
+    },
     data() {
         return {
-            date: null,
-            month: null
+            payload: {},
+            table_columns: []
         }
     },
     mounted() {
-        this.date = dayjs().date()
-        this.month = (new Date()).toLocaleString(I18n.locale, { month: 'long' })
+        this.component.custom_configuration.columns.forEach(column => {
+            this.table_columns.push({
+                field: column,
+                label: column.replace("_", " ")
+            })
+        })
+        this.getPayload()
+    },
+    methods: {
+        
+        getPayload() {
+            this.http.get(this.component.url)
+            .then(result => {
+                if (!result.successful) { return; }
+                this.payload = result.data
+            }).catch(error => {
+                console.log(error)
+            })
+        }
+
     }
 }
 </script>
 <template>
-    <div class="today">
-        <p class="day">{{ date }}</p>
-        <p class="month">{{ month }}</p>
+    <div>
+        <h4>{{ component.name }}</h4>
+        <b-table 
+            :data="payload.records" 
+            :columns="table_columns">
+        </b-table>
     </div>
 </template>
-<style lang="scss" scoped>
-
-    .today.widget-component {
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        padding: 1rem 0 1.5rem;
-        border-radius: 5px;
-        text-align: center;
-        background: #e66b6b;
-        color: #fff;
-
-        .day {
-            line-height: 1;
-            font-size: 4rem;
-            font-weight: 900;
-        }
-
-        .month {
-            line-height: 1;
-            font-size: 2.8rem;
-            text-transform: lowercase;
-        }
-
-    }
-
-</style>
