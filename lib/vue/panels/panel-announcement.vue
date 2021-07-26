@@ -148,7 +148,7 @@ export default {
             this.message = {}
         },
         
-        showAnnouncement(announcement, event){            
+        showAnnouncement(announcement){            
             this.announcements.find(e => e.id === announcement.id) 
             
             this.$refs['announcement-name'].focus()
