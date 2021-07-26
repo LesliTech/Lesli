@@ -19,7 +19,7 @@ For more information read the license file including with this software.
 export default {
     data() {
         return {
-            role_groups: [],
+            role_descriptors: [],
             loading: false,
             filters_ready: false,
             translations: {
@@ -44,7 +44,7 @@ export default {
     },
     mounted() {
         this.setSessionStorageFilters()
-        this.getRoleGroups()
+        this.getRoleDescriptors()
     },
     methods: {
         setSessionStorageFilters(){
@@ -59,7 +59,7 @@ export default {
             this.filters_ready = true
         },
 
-        getRoleGroups() {
+        getRoleDescriptors() {
             this.loading = true
             let url = this.url.admin("role_descriptors")
 
@@ -76,7 +76,7 @@ export default {
                 this.loading = false
 
                 if (result.successful) {
-                    this.role_groups = result.data.records
+                    this.role_descriptors = result.data.records
                     this.pagination.total_count = result.data.pagination.count_total
                 }else{
                     this.msg.error(result.error.message)
@@ -86,13 +86,13 @@ export default {
             })
         },
 
-        searchRoleGroups(text) {
+        searchRoleDescriptors(text) {
             this.pagination.current_page = 1
             this.filters.search= text
-            this.getRoleGroups()
+            this.getRoleDescriptors()
         },
 
-        sortRoleGroups(field, _order){
+        sortRoleDescriptors(field, _order){
             if(this.sorting.field == field){
                 if(this.sorting.order == 'asc'){
                     this.sorting.order = 'desc'
@@ -103,16 +103,16 @@ export default {
                 this.sorting.field = field
                 this.sorting.order = 'desc'
             }
-            this.getRoleGroups()
+            this.getRoleDescriptors()
         },
 
-        deleteRoleGroup(role_group){
-            let url = this.url.admin(`role_descriptors/:id`, { id: role_group.id })
+        deleteRoleDescriptor(role_descriptor){
+            let url = this.url.admin(`role_descriptors/:id`, { id: role_descriptor.id })
 
             this.http.delete(url).then(result => {
                 if (result.successful) {
 
-                    this.role_groups = this.role_groups.filter(e => e.id !== role_group.id)
+                    this.role_descriptors = this.role_descriptors.filter(e => e.id !== role_descriptor.id)
 
                     this.msg.success(this.translations.main.messages_success_deleted)
                 }else{
@@ -123,20 +123,31 @@ export default {
             })
         },
 
-        gotoRoleGroup(role_group) {
-            this.$router.push(`${role_group.id}`)
+        gotoRoleDescriptor(role_descriptor) {
+            this.$router.push(`${role_descriptor.id}`)
+        },
+        
+        confirmRoleDescriptorDeletion(role_descriptor){
+            this.$buefy.dialog.confirm({
+                title: this.translations.main.view_text_confirm_deletion_title,
+                message: this.translations.main.view_text_delete_confirmation,
+                confirmText: this.translations.main.view_text_confirm_deletion,
+                type: 'is-danger',
+                hasIcon: true,
+                onConfirm: () => this.deleteRoleDescriptor(role_descriptor)
+            })
         }
     },
     watch: {
         'pagination.current_page': function(){
             if(! this.loading){
-                this.getRoleGroups()
+                this.getRoleDescriptors()
             }
         },
 
         'filters.per_page'(){
             if(this.filters_ready){
-                this.getRoleGroups()
+                this.getRoleDescriptors()
             }
         }
     }
@@ -146,7 +157,7 @@ export default {
     <section class="application-component">
         <component-header :title="translations.main.view_title_main">
             <div class="buttons">
-                <button class="button" @click="getRoleGroups">
+                <button class="button" @click="getRoleDescriptors">
                     <b-icon icon="sync" size="is-small" :custom-class="loading ? 'fa-spin' : ''" />
                     <span> {{ translations.core.view_btn_reload }}</span>
                 </button>
@@ -160,7 +171,7 @@ export default {
         <component-toolbar
             v-if="filters_ready"
             :search-text="translations.core.view_placeholder_search"
-            @search="searchRoleGroups"
+            @search="searchRoleDescriptors"
             :initial-value="filters.search"
         >
             <div class="control">
@@ -178,15 +189,15 @@ export default {
         <div class="card">
             <div class="card-content">
                 <component-data-loading v-if="loading" />
-                <component-data-empty v-if="!loading && role_groups.length == 0" />
+                <component-data-empty v-if="!loading && role_descriptors.length == 0" />
 
                 <b-table
-                    :data="role_groups"
+                    :data="role_descriptors"
                     :hoverable="true"
-                    v-if="!loading && role_groups.length > 0"
-                    @click="gotoRoleGroup"
+                    v-if="!loading && role_descriptors.length > 0"
+                    @click="gotoRoleDescriptor"
                     backend-sorting
-                    @sort="sortRoleGroups"
+                    @sort="sortRoleDescriptors"
                 >
                     <template slot-scope="props">
                         <b-table-column field="id" :label="translations.core.view_text_id" sortable>
@@ -241,7 +252,7 @@ export default {
                         
                         <b-table-column :label="translations.core.view_table_header_actions">
                             <span>
-                                <b-button type="is-danger" outlined @click.stop="deleteRoleGroup(props.row)">
+                                <b-button type="is-danger" outlined @click.stop="confirmRoleDescriptorDeletion(props.row)">
                                     <b-icon size="is-small" icon="trash-alt" >
                                     </b-icon>
                                 </b-button>

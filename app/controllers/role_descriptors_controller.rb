@@ -93,7 +93,8 @@ class RoleDescriptorsController < ApplicationLesliController
     # DELETE /role_descriptors/1
     def destroy
         return respond_with_not_found unless @role_descriptor
-
+        return respond_with_error(I18n.t("")) if @role_descriptor.has_roles_assigned?
+        
         if @role_descriptor.destroy
             respond_with_successful
             
