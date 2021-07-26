@@ -170,7 +170,7 @@ export default {
                 </b-button>
                 <b-button class="button" @click.stop="$set(data, 'view_type', 'simple')">
                     <b-icon icon="cogs" size="is-small" />
-                    <span>{{ translations.main.view_btn_simple }}</span>
+                    <span>{{ translations.main.view_btn_edit_privilege_actions }}</span>
                 </b-button>
             </div>
         </component-header>

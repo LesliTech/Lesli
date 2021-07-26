@@ -36,15 +36,15 @@ class Role < ApplicationLesliRecord
     end
     
     def generate_code
-        code = name
+        role_code = name
             .downcase                           # string to lowercase
             .gsub(/[^0-9A-Za-z\s\-\_]/, '')     # remove special characters from string
             .gsub(/-/, '_')                     # replace dashes with underscore
             .gsub(/\s+/, '_')                   # replace spaces or spaces with single dash
 
-        code = I18n.transliterate(code) + id.to_s # transform UTF-8 characters to ASCI
+        role_code = I18n.transliterate(role_code) + id.to_s # transform UTF-8 characters to ASCI
 
-        self.update_attribute('code', code)
+        self.update_attribute('code', role_code)
     end
 
     def self.list current_user, query

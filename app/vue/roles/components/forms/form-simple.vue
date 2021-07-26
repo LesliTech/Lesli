@@ -276,7 +276,7 @@ export default {
                 >
                     <template v-slot="props">
                         <b-table-column field="name" :label="translations.core.view_text_name" >
-                            <strong> {{  props.row.name }} </strong>
+                            <strong> {{ translations.role_descriptors[`view_title_role_descriptor_${props.row.name}`]||props.row.name }} </strong>
                         </b-table-column>
                         
                         <b-table-column v-for="category in options.categories" :key="category" :field="category" :label="object_utils.translateEnum(translations.role_descriptors, 'column_enum_category', category)" >
@@ -293,7 +293,7 @@ export default {
                         <tr v-for="subdescriptor in props.row.subdescriptors" :key="`${props.row.name}-${subdescriptor.name}`">
                             <td> </td>
                             <td> &nbsp; &nbsp; {{ subdescriptor.name }} </td>
-                            <td v-for="category in options.categories" :field="category" :label="category" >
+                            <td v-for="category in options.categories" :field="category" :label="category">
                                 <b-switch
                                     :ref="subdescriptor.name + '-' + category"
                                     v-if="subdescriptor.actions[category]['actions'].length > 0"
