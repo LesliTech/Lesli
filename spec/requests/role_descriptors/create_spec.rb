@@ -22,17 +22,25 @@ require 'spec_helper'
 require 'byebug'
 
 
-RSpec.describe 'GET:/administration/role_descriptors.json', type: :request do
+RSpec.describe 'POST:/administration/role_descriptors.json', type: :request do
     include_context 'user authentication'
 
     before(:all) do
-        get('/administration/role_descriptors.json')
+        @name = Faker::Lorem.word
+        @description = Faker::Lorem.paragraph
+
+        post('/administration/role_descriptors.json', params: {
+            role_descriptor: {
+                name: @name,
+                description: @description
+            }
+        })
     end
 
     include_examples 'successful standard json response'
 
-    it 'is expected to respond with all the role descriptors' do
-        expect(@response_body['successful']['name']).to eql(@name)
+    it 'is expected to create a new role descriptor' do
+        expect(@response_body['data']['name']).to eql(@name)
         expect(@response_body['data']['description']).to eql(@description)
     end
 
