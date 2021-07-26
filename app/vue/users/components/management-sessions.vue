@@ -169,7 +169,7 @@ export default {
                         {{props.row.created_at_date}}
                     </b-table-column>
                     <b-table-column label="last_used_at" field="lower(last_used_at)">
-                        {{props.row.last_used_at_date}}
+                        {{props.row.last_used_at_string}}
                     </b-table-column>
                     <b-table-column label="actions" class="has-text-center">
                         <span>

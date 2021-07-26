@@ -412,12 +412,12 @@ class User < ApplicationLesliRecord
         .joins("
             left join (
                 select
-                    max(created_at) as last_action_performed_at,
+                    max(last_used_at) as last_action_performed_at,
                     users_id
-                from user_requests ureq
-                where ureq.deleted_at is null
-                group by(ureq.users_id)
-            ) requests on requests.users_id = users.id
+                from user_sessions us
+                where us.deleted_at is null
+                group by(us.users_id)
+            ) session_activity on session_activity.users_id = users.id
         ")
         .joins("
             left join (
@@ -446,7 +446,7 @@ class User < ApplicationLesliRecord
             "false as editable",
             "CONCAT(ud.first_name, ' ',ud.last_name) as name",
             "role_names as roles",
-            "requests.last_action_performed_at",
+            "session_activity.last_action_performed_at",
             "sessions.last_login_at"
         )
 
