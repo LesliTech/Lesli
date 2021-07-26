@@ -241,19 +241,15 @@ export default {
             <div class="buttons">
                 <router-link class="button" to="/">
                     <b-icon icon="list" size="is-small" />
-                    <span>{{ translations.shared.btn_list }}</span>
+                    <span>{{ translations.main.view_btn_roles_list }}</span>
                 </router-link>
                 <b-button class="button" @click.stop="$set(data, 'view_type', 'edit')">
                     <b-icon icon="edit" size="is-small" />
-                    <span>{{ translations.shared.btn_edit }}</span>
+                    <span>{{ translations.main.view_btn_edit_role_information }}</span>
                 </b-button>
                 <b-button class="button" @click.stop="$set(data, 'view_type', 'logs')">
                     <b-icon icon="history" size="is-small" />
-                    <span>{{ translations.shared.view_btn_logs }}</span>
-                </b-button>
-                <b-button class="button" @click.stop="$set(data, 'view_type', 'advanced')">
-                    <b-icon icon="cogs" size="is-small" />
-                    <span>{{ translations.main.view_btn_advanced }}</span>
+                    <span>{{ translations.main.view_btn_logs }}</span>
                 </b-button>
             </div>
         </component-header>
