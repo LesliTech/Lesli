@@ -80,6 +80,8 @@ export default {
                 
                 this.clearForm()
             })
+            
+            this.getAnnouncements()
         },
 
         putAnnouncement() {
@@ -146,7 +148,7 @@ export default {
             this.message = {}
         },
         
-        showAnnouncement(announcement){
+        showAnnouncement(announcement){            
             this.announcements.find(e => e.id === announcement.id) 
             
             this.$refs['announcement-name'].focus()
