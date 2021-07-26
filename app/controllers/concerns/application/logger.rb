@@ -59,6 +59,8 @@ module Application
                 user_sessions_id: session[:user_session_id]
             })
 
+            current_user.sessions.find_by(id: session[:user_session_id]).touch(:last_used_at)
+
         end
 
         # Track all user activity
