@@ -23,12 +23,43 @@ For more information read the license file including with this software.
 
 // · 
 export default {
-
+    data(){
+        return {
+            announcements: [],
+            announcements_abilities: this.abilities.privilege("announcements", "cloud_bell")
+        }
+    },
+    
+    mounted(){
+        if (this.announcements_abilities.grant_list) {
+            this.getAnnouncements()   
+        }
+    },
+    
+    methods: {
+        getAnnouncements(){
+            let url = this.url.bell('announcements/list').filters({
+                base_path: this.lesli.url.path,
+                start_at: true,
+                end_at: true,
+                status: true
+            })
+            this.http.get(url).then(result => {            
+                if (result.successful) {                    
+                    this.announcements = result.data
+                } else {
+                    this.msg.error(result.error.message)
+                }
+            }).catch(error => {
+                console.log(error)
+            })
+        },
+    }
 }
 </script>
 <template>
-    <section class="application-notices">
-        <article v-for="announcement in lesli.announcements" 
+    <section class="application-notices" v-if="announcements.length > 0">
+        <article v-for="announcement in announcements" 
             :key="announcement.id"
             :class="['notification', `is-${announcement.category}`]">
             <button class="delete"></button>
