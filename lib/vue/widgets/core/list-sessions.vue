@@ -18,6 +18,8 @@ For more information read the license file including with this software.
 
 */
 
+
+
 export default {
     props: {
         component: Object
