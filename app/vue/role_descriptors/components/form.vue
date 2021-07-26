@@ -120,8 +120,9 @@ export default {
                 <b-input type="text" placeholder="" v-model="role_descriptor.name" required></b-input>
             </b-field>
 
-            <b-field :label="translations.main.view_text_assign_to_parent_descriptor" v-if="role_descriptors.length > 0">
+            <b-field :label="translations.main.view_text_assign_parent_descriptor" v-if="role_descriptors.length > 0">
                 <b-select v-model="role_descriptor.role_descriptors_id" expanded>
+                    <option :value="null"> {{ translations.core.view_text_none }} </option> 
                     <option
                         v-for="role_descriptor in role_descriptors"
                         :value="role_descriptor.id"

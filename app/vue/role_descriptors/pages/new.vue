@@ -35,7 +35,8 @@ export default {
                 core: I18n.t('core.shared')
             },
             role_descriptor: {
-                id: null
+                id: null,
+                role_descriptors_id: null                
             }
         }
     }
