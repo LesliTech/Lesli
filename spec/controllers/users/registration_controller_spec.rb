@@ -82,7 +82,7 @@ RSpec.describe Users::RegistrationsController, type: :controller do
                 "successful"=> false,
                 "error"=>{
                     "details"=> [], 
-                    "message"=> "Email can't be blank, Password can't be blank, and Password confirmation doesn't match Password"
+                    "message"=> "error_password_cannot_be_blank"
                 }
             })
         end
@@ -102,7 +102,7 @@ RSpec.describe Users::RegistrationsController, type: :controller do
                 "successful"=> false,
                 "error"=> {
                     "details"=> [], 
-                    "message"=> "Password can't be blank and Password confirmation doesn't match Password"
+                    "message"=> "error_password_cannot_be_blank"
                 }
             })
         end

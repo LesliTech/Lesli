@@ -34,14 +34,6 @@ class Account::SettingsController < ApplicationLesliController
         end
     end
 
-    # GET /settings/new
-    def new
-    end
-
-    # GET /settings/1/edit
-    def edit
-    end
-
     # POST /settings
     def create
 
@@ -67,7 +59,6 @@ class Account::SettingsController < ApplicationLesliController
             end
         end
 
-        
     end
 
     # PATCH/PUT /settings/

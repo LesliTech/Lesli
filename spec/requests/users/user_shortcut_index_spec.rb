@@ -39,7 +39,8 @@ RSpec.describe 'GET:/administration/users/:id/shortcuts.json', type: :request do
     include_examples 'successful standard json response'
 
     it 'is expected to respond with all the shortcuts that belongs to the user' do
-        expect_count = @user.shortcuts.all.count
+        expect_count = @user.shortcuts.count
+        expect_count = 15 if expect_count > 15 # the api paginates the results
         expect(@response_body['data']['records'].size).to be >= (expect_count)
         expect(@response_body['data']['pagination']['count_results']).to eql(expect_count)
     end
