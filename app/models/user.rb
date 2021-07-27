@@ -69,6 +69,12 @@ class User < ApplicationLesliRecord
     enum category: { user: "user", integration: "integration" }
 
 
+    def self.privilege_actions 
+        User.select("
+        
+        ")
+    end
+    
     # @return [void]
     # @description Before creating a user we make sure there is no capitalized email
     def initialize_user
@@ -145,24 +151,48 @@ class User < ApplicationLesliRecord
     #     current_user.has_privileges?(controllers, actions)
     def has_privileges?(controllers, actions)         
         begin
-            granted_list_by_role = self.role_privilege_actions
-            .select("bool_or(role_descriptor_privilege_actions.status) as value")
+            sql_role_privile_actions = self.role_privilege_actions
+            .select(
+                "status",
+                "system_controller_actions.name as action",
+                "system_controllers.name as controller"
+            )
             .joins(system_action: [:system_controller])
             .where("system_controllers.name in (?)", controllers)
             .where("system_controller_actions.name in (?)", actions)
-            .group("system_controller_actions.name")
+            .to_sql
 
-            granted_list_by_user = self.user_privilege_actions
-            .select("bool_or(status) as value")
+            sql_user_privilege_actions = self.user_privilege_actions
+            .select(
+                "status",
+                "system_controller_actions.name as action",
+                "system_controllers.name as controller"
+            )
             .joins(system_action: [:system_controller])
             .where("system_controllers.name in (?)", controllers)
             .where("system_controller_actions.name in (?)", actions)
-            .group("system_controller_actions.name")
-
-            granted_list = granted_list_by_role.union_all(granted_list_by_user).map(&:value)&.uniq
-
-            granted = !(granted_list.include? false)
-            granted = false if granted_list.empty?
+            .to_sql
+            
+            granted = ActiveRecord::Base.connection.exec_query("
+                select 
+                    bool_and(grouped_privileges.status) as value
+                from (
+                    select
+                        privilege_actions.controller,
+                        privilege_actions.action,
+                        BOOL_OR(privilege_actions.status) as status 
+                    from (
+                        #{sql_role_privile_actions}
+                        union
+                        #{sql_user_privilege_actions}
+                    ) AS privilege_actions  
+                    group by (
+                        controller,
+                        action
+                    ) 
+                ) AS grouped_privileges
+            ")
+            .first["value"]
 
             return granted
         rescue => exception
