@@ -19,8 +19,9 @@ For more information read the license file including with this software.
 
 RSpec.shared_examples 'error standard json response' do   
 
-    before(:all) do
+    before :each do
         @response_body = JSON.parse(response.body)
+        @response_body_error = @response_body["error"]
     end
 
     it 'is expected to respond with a success status code (2xx)' do 
