@@ -1,5 +1,8 @@
 # NGINX
 
+The file is located at
+cd ../../etc/nginx/sites-enabled/
+
 ## Configuration example:
 
 ```nginx
