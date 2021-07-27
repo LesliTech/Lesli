@@ -72,17 +72,12 @@ class Users::RegistrationsController < Devise::RegistrationsController
     #    };
     #    this.http.post('127.0.0.1/register', data);
     def create
-        
-=begin
-
-IMPORTANT: re-enable this and fix registration tests
 
         # Check if instance allow multi-account
         if !Rails.application.config.lesli_settings["security"]["allow_registration"]
             respond_with_error("No registration allowed, please contact the owner to receive an invitation.")
             return 
         end
-=end
 
         # Validate user is unique
         if ::User.find_by(email: sign_up_params["email"])
@@ -91,6 +86,12 @@ IMPORTANT: re-enable this and fix registration tests
 
         # build new user
         user = build_resource(sign_up_params)
+
+        # run password complexity validations
+        password_complexity = UserValidationService.new(user).password_complexity(sign_up_params[:password])
+
+        # return if there are errors with the complexity validations
+        return respond_with_error(password_complexity.error) if not password_complexity.successful?
 
         # persist new user
         if user.save
@@ -105,6 +106,12 @@ IMPORTANT: re-enable this and fix registration tests
     def update 
 
         log = @user.logs.create({ description: "password_update_atempt" })
+
+        # run password complexity validations
+        password_complexity = UserValidationService.new(@user).password_complexity(sign_up_params[:password])
+
+        # return if there are errors with the complexity validations
+        return respond_with_error(password_complexity.error) if not password_complexity.successful?
 
         if @user.update(sign_up_params)
 
