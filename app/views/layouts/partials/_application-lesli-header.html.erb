@@ -52,7 +52,7 @@ For more information read the license file including with this software.
     <%# notifications icon indicator %>
     <% if defined?(CloudBell) %>
     <template v-slot:announcements>
-        <a class="navbar-item header-notification-indicator" @click="data.global.show_announcement_sidebar = !data.global.show_announcement_sidebar">
+        <a class="navbar-item header-notification-indicator" @click="data.global.show_panel_announcement = !data.global.show_panel_announcement">
             <i class="fas fa-bullhorn"></i>
         </a>
     </template>
