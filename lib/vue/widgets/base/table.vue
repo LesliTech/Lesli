@@ -53,11 +53,15 @@ export default {
 }
 </script>
 <template>
-    <div>
-        <h4>{{ component.name }}</h4>
-        <b-table 
-            :data="payload.records" 
-            :columns="table_columns">
-        </b-table>
+    <div class="card">
+        <div class="card-header">
+            <h3 class="card-header-title">{{ component.name }}</h3>
+        </div>
+        <div class="card-content">
+            <b-table 
+                :data="payload.records" 
+                :columns="table_columns">
+            </b-table>
+        </div>
     </div>
 </template>
