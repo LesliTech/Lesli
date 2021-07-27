@@ -155,7 +155,7 @@ module Lesli
         end
 
         # disable web sockets by default if bell is not installed
-        lesli_settings["configuration"]["security"]["enable_websockets"] = false if !defined?(CloudBell)
+        lesli_settings["security"]["enable_websockets"] = false if !defined?(CloudBell)
 
         # parse available locales for instance
         lesli_settings["configuration"]["locales_available"] = lesli_settings["configuration"]["locales"]

@@ -20,29 +20,37 @@ For more information read the license file including with this software.
 
 
 // · Import components
-import componentCoreShowToday from "LesliWidgetsCore/show-today.vue"
-import componentCoreShowEventsNext from "LesliWidgetsCore/show-events-next.vue"
-import componentCoreShowEventsCalendar from "LesliWidgetsCore/show-events-calendar.vue"
-import componentCoreListSessionsActive from "LesliWidgetsCore/list-sessions-active.vue"
-// import componentPortalHelloWorld from "CloudPortalWidgets/hello-world.vue"
+import componentBaseTable from "LesliWidgets/base/table.vue"
 
+import componentCoreHelloWorld from "LesliWidgets/core/hello-world.vue"
+import componentCoreListSessions from "LesliWidgets/core/list-sessions.vue"
+import componentDriverShowToday from "LesliWidgets/cloud_driver/show-today.vue"
+import componentDriverListEvents from "LesliWidgets/cloud_driver/list-events.vue"
+import componentDriverShowCalendar from "LesliWidgets/cloud_driver/show-calendar.vue"
+import componentFocusChartTasks from "LesliWidgets/cloud_focus/chart-tasks.vue"
 
 
 // · 
 export default {
     components: {
-        "component-core-show-today": componentCoreShowToday,
-        "component-core-show-events-next": componentCoreShowEventsNext,
-        "component-core-show-events-calendar": componentCoreShowEventsCalendar,
-        "component-core-list-sessions-active": componentCoreListSessionsActive,
-        // "component-portal-hello-world": componentPortalHelloWorld
+        'component-base-table': componentBaseTable,
+
+        'component-core-hello-world': componentCoreHelloWorld,
+        'component-core-list-sessions': componentCoreListSessions,
+
+        'component-driver-show-today': componentDriverShowToday,
+        'component-driver-list-events': componentDriverListEvents,
+        'component-driver-show-calendar': componentDriverShowCalendar,
+
+        'component-focus-chart-tasks': componentFocusChartTasks,
     },
     props: {
         engine: String
     },
     data() {
         return {
-            dashboard: {}
+            dashboard: {},
+            ooptions: {}
         }
     },
     mounted() {
@@ -60,21 +68,41 @@ export default {
             "components": [{
                 layout: 5,
                 name: "Active sessions",
-                component_id: "core-list-sessions-active",
+                component_id: "core-list-sessions",
                 custom_configuration: {},
                 query_configuration: {}
             }, {
+                name: "hello world",
+                component_id: "core-hello-world",
+                layout: 2,
+            }, {
                 name: "events",
-                component_id: "core-show-events-calendar",
+                component_id: "driver-show-calendar",
                 layout: 5,
             }, {
                 name: "today",
-                component_id: "core-show-today",
+                component_id: "driver-show-today",
                 layout: 2,
             }, {
                 name: "Upcoming events",
-                component_id: "core-show-events-next",
+                component_id: "driver-list-events",
                 layout: 5,
+            }, {
+                name: "My tasks",
+                component_id: "focus-chart-tasks",
+                layout: 5,
+            }, {
+                name: "Table widget",
+                component_id: 'base-table',
+                type: 'base-table',
+                layout: 5,
+                url: "/administration/users/8/sessions.json",
+                custom_configuration: {
+                    arrangement:{},
+                    url: "/administration/users/8/sessions.json",
+                    columns: ['user_agent', 'created_at_date']
+                },
+                query_configuration: {"filters":{},"pagination":{"per_page":6}}
             }]
         }
     },

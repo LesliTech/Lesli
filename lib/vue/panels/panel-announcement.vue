@@ -80,6 +80,8 @@ export default {
                 
                 this.clearForm()
             })
+            
+            this.getAnnouncements()
         },
 
         putAnnouncement() {
@@ -146,7 +148,7 @@ export default {
             this.message = {}
         },
         
-        showAnnouncement(announcement){
+        showAnnouncement(announcement){            
             this.announcements.find(e => e.id === announcement.id) 
             
             this.$refs['announcement-name'].focus()
@@ -184,13 +186,11 @@ export default {
 </script>
 <template>
     <b-sidebar
-        :open.sync="data.global.show_announcement_sidebar"
         class="application-panel-announcement"
-        right
-        :can-cancel="['escape']"
-        fullheigsht
-        overlay
-    >
+        :open.sync="data.global.show_announcement_sidebar"
+        :right="true"
+        :overlay="true"
+        :fullheight="true">
         <div class="sidebar-content">
             <form @submit.prevent="formSubmit()">
                 <h5 class="title is-5">
