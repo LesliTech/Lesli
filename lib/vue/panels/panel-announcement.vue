@@ -175,7 +175,7 @@ export default {
     },
     
     watch: {
-        'data.global.show_announcement_sidebar'(value){
+        'data.global.show_panel_announcement'(value){
             if(value && !this.options){
                 this.getAnnouncementOptions()
                 this.getAnnouncements()
@@ -187,9 +187,9 @@ export default {
 <template>
     <b-sidebar
         class="application-panel-announcement"
-        :open.sync="data.global.show_announcement_sidebar"
+        :open.sync="data.global.show_panel_announcement"
         :right="true"
-        :overlay="true"
+        :overlay="false"
         :fullheight="true">
         <div class="sidebar-content">
             <form @submit.prevent="formSubmit()">
@@ -199,7 +199,7 @@ export default {
                             {{ translations.bell.announcements.view_title_creating_announcement }}
                         </div>
                         <div class="column is-2">
-                            <button type="button" class="is-pulled-right delete" @click="() => data.global.show_announcement_sidebar = false">
+                            <button type="button" class="is-pulled-right delete" @click="() => data.global.show_panel_announcement = false">
                             </button>
                         </div>
                     </div>
@@ -288,47 +288,33 @@ export default {
                             </div>
                         </div>
                     </b-field>
-                            
-                    <div class="columns">
-                        <div class="column is-5">                            
-                            <div class="field">
-                                <label class="label">{{ translations.bell.announcements.column_can_be_closed }}</label>
-                                <div class="block">
-                                    <b-radio
-                                        id="can_be_closed_true"
-                                        v-model="announcement.can_be_closed"
-                                        type="is-info"
-                                        :native-value="true"
-                                    >
-                                    {{ translations.core.shared.view_text_yes }}
-                                    </b-radio> 
-                                    <b-radio
-                                        id="can_be_closed_false"
-                                        v-model="announcement.can_be_closed"
-                                        type="is-info"
-                                        :native-value="false"
-                                    >
-                                    {{ translations.core.shared.view_text_no }}
-                                    </b-radio> 
-                                </div>
-                            </div>
-                        </div>
-                        <div class="column">
-                            <b-field>
-                                <template v-slot:label>
-                                    {{ translations.bell.announcements.column_status }}<sup class="has-text-danger">*</sup>
-                                </template>
-                                <b-checkbox v-model="announcement.status">
-                                    {{ announcement.status ? translations.core.shared.view_text_yes : translations.core.shared.view_text_no }}
-                                </b-checkbox>
-                            </b-field>
+                                                  
+                    <div class="field">
+                        <label class="label">{{ translations.bell.announcements.column_can_be_closed }}</label>
+                        <div class="block">
+                            <b-radio
+                                id="can_be_closed_true"
+                                v-model="announcement.can_be_closed"
+                                type="is-info"
+                                :native-value="true"
+                            >
+                            {{ translations.core.shared.view_text_yes }}
+                            </b-radio> 
+                            <b-radio
+                                id="can_be_closed_false"
+                                v-model="announcement.can_be_closed"
+                                type="is-info"
+                                :native-value="false"
+                            >
+                            {{ translations.core.shared.view_text_no }}
+                            </b-radio> 
                         </div>
                     </div>
 
                     <div class="field text-editor-container">
                         <label class="label">{{translations.bell.announcements.column_description}}</label>
                         <div class="control">
-                            <component-rich-text-editor :value="message" @input="richTextInput" @html="richTextHtml" type="simple">
+                            <component-rich-text-editor :value="message" @input="richTextInput" @html="richTextHtml" type="tiny">
                             </component-rich-text-editor>
                         </div>
                     </div>
@@ -361,9 +347,7 @@ export default {
             <b-table 
                 v-if="!loading && announcements.length > 0"
                 @click="showAnnouncement" 
-                :data="announcements"
-
-            >
+                :data="announcements">
                 <template slot-scope="props">
                     <b-table-column :label="translations.bell.announcements.column_name" sortable field="name">
                         {{ props.row.name }}
