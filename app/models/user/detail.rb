@@ -40,7 +40,7 @@ class User::Detail < ApplicationLesliRecord
                     telephone: self.telephone,
                 }
 
-                CloudOne::Firebase::User.update_data(self, data)
+                CloudOne::Firebase::User.update_data(self.user, data)
 
             end
         end
