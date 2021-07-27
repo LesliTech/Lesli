@@ -1,14 +1,17 @@
 # NGINX
 
-The file is located at
-cd ../../etc/nginx/sites-enabled/
+## Install NGINX
 
-## Configuration example:
+   - `sudo apt-get install nginx`
+   - after install go to the nginx installation path `cd /etc/nginx`
+   - create your website configuration file in to sites-available
+   - `sudo nano /etc/nginx/sites-available/dev.lesli.cloud.conf`
+   - Setup your configuration like this:
 
 ```nginx
 server {
 
-    root /var/www/lesli/public;
+    root /var/www/dev.lesli.cloud/public;
 
     client_max_body_size 120M;
 
@@ -22,7 +25,7 @@ server {
     passenger_ruby /home/ubuntu/.rvm/gems/ruby-2.7.2/wrappers/ruby;
 
     location ~ ^/(assets)/  {
-        root /var/www/lesli/public;
+        root /var/www/dev.lesli.cloud/public;
         gzip_static on; # to serve pre-gzipped version
         expires max;
         add_header Cache-Control public;
@@ -53,3 +56,8 @@ server {
 
 }
 ```
+
+- after setup your website create the symbolic link
+- `sudo ln -s /etc/nginx/sites-available/dev.lesli.cloud.conf /etc/nginx/sites-enabled/`
+- now test your configuration with the command `sudo nginx -t`
+- if all is fine restart nginx service `sudo service nginx restart`
