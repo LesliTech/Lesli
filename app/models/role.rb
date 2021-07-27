@@ -26,14 +26,7 @@ class Role < ApplicationLesliRecord
     has_many :descriptor_assignments,   foreign_key: "roles_id",    class_name: "DescriptorAssignment",  dependent: :delete_all
     has_many :privilege_actions,        through: :descriptor_assignments
     
-    after_create :setup_role_descriptors 
     after_create :generate_code,
-
-    def setup_role_descriptors
-        profile_descriptor = RoleDescriptor.find_by(name: "profile")
-        
-        self.descriptor_assignments.create(descriptor: profile_descriptor) if profile_descriptor
-    end
     
     def generate_code
         role_code = name
