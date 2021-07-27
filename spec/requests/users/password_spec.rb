@@ -38,6 +38,6 @@ RSpec.describe 'POST:/password', type: :request do
     #include_examples 'successful standard json response'
 
     it 'is expected to create a password reset token' do
-        LC::Debug.msg(@response_body)
+        
     end
 end
