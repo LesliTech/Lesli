@@ -192,7 +192,7 @@ class User < ApplicationLesliRecord
                     ) 
                 ) AS grouped_privileges
             ")
-            .first["value"]
+            .first["value"]||false
 
             return granted
         rescue => exception
