@@ -50,16 +50,9 @@ section.lesli-dashboards {
     div.widget-component {
         background-color: lesli-css-color(solid, white);
         box-shadow: 0 10px 27px 0 rgba(0,0,0,.15);
+        overflow-x: hidden;
+        overflow-y: scroll;
         border: none;
-
-        // widget title
-        h4 {
-            font-weight: 700;
-            font-size: 1.1rem;
-            padding: 0.75rem 1rem;
-            color: lesli-css-color(slate, 700);
-        }
-
     }
 
     div.card {
@@ -75,8 +68,6 @@ section.lesli-dashboards {
 
         div.card-content {
             padding: 0px;
-            overflow-x: scroll;
-            overflow-y: hidden;
         }
 
     }
