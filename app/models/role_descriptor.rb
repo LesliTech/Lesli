@@ -62,12 +62,6 @@ class RoleDescriptor < ApplicationLesliRecord
             role_descriptors.total_count,
             role_descriptors.length,
             role_descriptors
-            # role_descriptors.map do |role_descriptor|
-            #     role_descriptor.attributes.merge({
-            #         created_at_text: LC::Date.to_string_datetime(role_descriptor.created_at),
-            #         actions_length:  role_descriptor.actions_length ? role_descriptor.actions_length : 0
-            #     })
-            # end
         )
     end
 
@@ -79,7 +73,7 @@ class RoleDescriptor < ApplicationLesliRecord
             :created_at,
             :role_descriptors_id
         )
-        .where.not("role_descriptors.name in (?)", ["admin", "owner", "profile"])
+        .where.not("role_descriptors.name in (?)", ["admin", "owner", "profile"]) # Role descriptors which a user is not able to edit edit
         
         return role_descriptors
     end
