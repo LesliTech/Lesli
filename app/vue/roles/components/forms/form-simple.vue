@@ -45,12 +45,13 @@ export default {
             options: {},
             ready: false,
             translations: {
-                descriptor_assignments: I18n.t('core.role/descriptor_assignments'),
-                role_descriptors: I18n.t('core.role_descriptors'),
-                shared: I18n.t('deutscheleibrenten.shared'),
-                users: I18n.t('deutscheleibrenten.users'),
-                core: I18n.t('core.shared'),
-                main: I18n.t('core.roles')
+                core: {
+                    descriptor_assignments: I18n.t('core.role/descriptor_assignments'),
+                    role_descriptors: I18n.t('core.role_descriptors'),
+                    shared: I18n.t('core.shared'),
+                    roles: I18n.t('core.roles'),
+                    core: I18n.t('core.shared')
+                }
             },
         }
     },
@@ -171,8 +172,8 @@ export default {
                 }
                 
                 let message = descriptor_privilege.name 
-                message += ':[' + this.object_utils.translateEnum(this.translations.role_descriptors, 'column_enum_category', category) + '] '
-                message += this.translations.descriptor_assignments.messages_success_role_descriptor_added
+                message += ':[' + this.object_utils.translateEnum(this.translations.core.role_descriptors, 'column_enum_category', category) + '] '
+                message += this.translations.core.descriptor_assignments.messages_success_role_descriptor_added
                 
                 this.msg.success(message) 
             }).catch(error => {
@@ -194,8 +195,8 @@ export default {
                 }
                 
                 let message = descriptor_privilege.name 
-                message += ':[' + this.object_utils.translateEnum(this.translations.role_descriptors, 'column_enum_category', category) + '] '
-                message += this.translations.descriptor_assignments.messages_success_role_descriptor_deleted
+                message += ':[' + this.object_utils.translateEnum(this.translations.core.role_descriptors, 'column_enum_category', category) + '] '
+                message += this.translations.core.descriptor_assignments.messages_success_role_descriptor_deleted
                 
                 this.msg.success(message) 
             }).catch(error => {
@@ -236,27 +237,27 @@ export default {
     <section>
         <component-header
             :buttons="false"
-            :title="translations.users[`column_enum_role_${(role.name || '').toLowerCase()}`] || role.name"
+            :title="translations.core.roles[`column_enum_role_${(role.name || '').toLowerCase()}`] || role.name"
         >
             <div class="buttons">
                 <router-link class="button" to="/">
                     <b-icon icon="list" size="is-small" />
-                    <span>{{ translations.main.view_btn_roles_list }}</span>
+                    <span>{{ translations.core.roles.view_btn_roles_list }}</span>
                 </router-link>
                 <b-button class="button" @click.stop="$set(data, 'view_type', 'edit')">
                     <b-icon icon="edit" size="is-small" />
-                    <span>{{ translations.main.view_btn_edit_role_information }}</span>
+                    <span>{{ translations.core.roles.view_btn_edit_role_information }}</span>
                 </b-button>
                 <b-button class="button" @click.stop="$set(data, 'view_type', 'logs')">
                     <b-icon icon="history" size="is-small" />
-                    <span>{{ translations.main.view_btn_logs }}</span>
+                    <span>{{ translations.core.roles.view_btn_logs }}</span>
                 </b-button>
             </div>
         </component-header>
 
         <component-toolbar
             :initialValue="filters.search"
-            :search-text="translations.shared.search_placeholder"
+            :search-text="translations.core.shared.view_toolbar_search_by_placeholder_search"
             @search="searchRoles"
             v-if="ready"    
         >
@@ -276,10 +277,10 @@ export default {
                 >
                     <template v-slot="props">
                         <b-table-column field="name" :label="translations.core.view_text_name" >
-                            <strong> {{ translations.role_descriptors[`view_title_role_descriptor_${props.row.name}`]||props.row.name }} </strong>
+                            <strong> {{ translations.core.role_descriptors[`view_title_role_descriptor_${props.row.name}`]||props.row.name }} </strong>
                         </b-table-column>
                         
-                        <b-table-column v-for="category in options.categories" :key="category" :field="category" :label="object_utils.translateEnum(translations.role_descriptors, 'column_enum_category', category)" >
+                        <b-table-column v-for="category in options.categories" :key="category" :field="category" :label="object_utils.translateEnum(translations.core.role_descriptors, 'column_enum_category', category)" >
                             <b-switch
                                 :ref="props.row.name + '-' + category"
                                 v-if="props.row.actions[category]['actions'].length > 0"

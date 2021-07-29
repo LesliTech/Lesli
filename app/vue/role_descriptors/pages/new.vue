@@ -29,7 +29,7 @@ export default {
     data() {
         return {
             translations: {
-                main: I18n.t('core.role_descriptors'),
+                role_descriptors: I18n.t('core.role_descriptors'),
                 core: I18n.t('core.shared')
             },
             role_descriptor: {
