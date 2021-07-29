@@ -140,7 +140,7 @@ export default {
                 <div class="control">
                     <button class="button is-primary">
                         <span v-if="submitting_form">
-                            <b-icon icon="circle-notch" custom-cla           ss="fa-spin" size="is-small" />
+                            <b-icon icon="circle-notch" custom-class="fa-spin" size="is-small" />
                             &nbsp;
                             {{translations.core.view_btn_saving}}
                         </span>

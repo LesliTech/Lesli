@@ -37,11 +37,11 @@ export default {
     data(){
         return {
             translations: {
-                shared: I18n.t('deutscheleibrenten.shared'),
-                roles: I18n.t('deutscheleibrenten.roles'),
-                main: I18n.t('core.roles')
+                core: {
+                    shared: I18n.t('core.shared'),
+                    roles: I18n.t('core.roles')
+                }
             },
-            main_route: '/administration/roles',
             submitting_form: false,
             roles: []
         }
@@ -59,11 +59,13 @@ export default {
         },
 
         getRoles() {
-            let url = `${this.main_route}/list.json?filters[object_level_permission]=${this.role.object_level_permission}`
+            const url = this.url.admin('roles/list').filters({
+                object_level_permission: this.role.object_level_permission
+            }) 
 
             this.http.get(url).then(result => {
                 if (!result.successful) {
-                    this.alert(result.error.message,'danger')
+                    this.msg.error(result.error.message)
                 } else {
                     this.roles = result.data.map(e => e.name)
                 }
@@ -76,19 +78,20 @@ export default {
             let form_data = {
                 role: this.role
             }
-            let url = `${this.main_route}`
+            
+            const url = this.url.admin('roles')
 
             this.submitting_form = true
-            this.alert(this.translations.roles.notification_wait_role_creation, 'info')
+            this.msg.info(this.translations.core.roles.messages_info_waiting_role_creation)
             
             this.http.post(url, form_data).then(result => {
                 if (result.successful) {
-                    this.alert(this.translations.roles.notification_created, 'success')
+                    this.msg.success(this.translations.core.roles.messages_success_created)
                     this.$router.push(`${result.data.id}/edit`)
 
                     this.submitting_form = false
                 }else{
-                    this.alert(result.error.message,'danger')
+                    this.msg.error(result.error.message)
                 }
             }).catch(error => {
                 console.log(error)
@@ -99,13 +102,14 @@ export default {
             let form_data = {
                 role: this.role
             }
-            let url = `${this.main_route}/${this.role.id}.json`
+            
+            const url = this.url.admin('roles', {id: this.role.id})
 
             this.http.put(url, form_data).then(result => {
                 if (result.successful) {
-                    this.alert(this.translations.roles.notification_updated, 'success')
+                    this.msg.success(this.translations.core.roles.messages_success_updated)
                 }else{
-                    this.alert(result.error.message, 'danger')
+                    this.msg.error(result.error.message)
                 }
             }).catch(error => {
                 console.log(error)
@@ -129,15 +133,15 @@ export default {
                 <div class="buttons">
                     <router-link class="button" to="/">
                         <b-icon icon="list" size="is-small" />
-                        <span>{{ translations.main.view_btn_roles_list }}</span>
+                        <span>{{ translations.core.roles.view_btn_roles_list }}</span>
                     </router-link>
                     <b-button v-if="role.id" class="button" @click.stop="$set(data, 'view_type', 'logs')">
                         <b-icon icon="history" size="is-small" />
-                        <span>{{ translations.main.view_btn_logs }}</span>
+                        <span>{{ translations.core.roles.view_btn_logs }}</span>
                     </b-button>
                     <b-button v-if="role.id" class="button" @click.stop="$set(data, 'view_type', 'simple')">
                         <b-icon icon="cogs" size="is-small" />
-                        <span>{{ translations.main.view_btn_edit_privilege_actions }}</span>
+                        <span>{{ translations.core.roles.view_btn_edit_privilege_actions }}</span>
                     </b-button>
                 </div>
             </template>
@@ -148,7 +152,7 @@ export default {
                     <fieldset :disabled="submitting_form">
                         <div class="field">
                             <label class="label">
-                                {{ translations.shared.text_name }}
+                                {{ translations.core.roles.column_name }}
                                 <sup class="has-text-danger">*</sup>
                             </label>
                             <div v-if="!role.id">
@@ -161,7 +165,7 @@ export default {
                             </div>
                             <div v-else class="control">
                                 <input
-                                    :value="object_utils.translateEnum(translations.main, 'column_enum_role', role.name)"
+                                    :value="object_utils.translateEnum(translations.core.roles, 'column_enum_role', role.name)"
                                     class="input"
                                     type="text"
                                     required
@@ -170,25 +174,32 @@ export default {
                             </div>
                         </div>
 
+                        <div class="field">
+                            <label class="label">{{ translations.core.roles.column_default_path }}</label>
+                            <div class="control">
+                                <input v-model="role.default_path" class="input" type="text" :placeholder="translations.core.roles.view_placeholder_default_path_at_login">
+                            </div>
+                        </div>
+                
                         <div class="columns">
                             <div class="column is-10">
-                                <b-field :message="translations.roles.view_text_column_object_level_permission_description">
+                                <b-field :message="translations.core.roles.view_text_object_level_permission_description">
                                     <template v-slot:label>
-                                        {{ translations.roles.text_object_level_permission }}
+                                        {{ translations.core.roles.view_text_object_level_permission }}
                                         <sup class="has-text-danger">*</sup>
                                     </template>
                                     <b-select v-model="role.object_level_permission" expanded required>
-                                        <option :value="10">{{translations.roles.view_text_object_level_permission_low}}</option>
-                                        <option :value="1000">{{translations.roles.view_text_object_level_permission_medium}}</option>
-                                        <option :value="10000">{{translations.roles.view_text_object_level_permission_high}}</option>
-                                        <option :disabled="role.name != 'owner'" :value="2147483647"> {{translations.roles.view_text_object_level_permission_max}}</option>
+                                        <option :value="10">{{translations.core.roles.view_text_object_level_permission_low}}</option>
+                                        <option :value="1000">{{translations.core.roles.view_text_object_level_permission_medium}}</option>
+                                        <option :value="10000">{{translations.core.roles.view_text_object_level_permission_high}}</option>
+                                        <option :disabled="role.name != 'owner'" :value="2147483647"> {{translations.core.roles.view_text_object_level_permission_max}}</option>
                                     </b-select>
                                 </b-field>
 
                                 <template>
                                     <b-taglist>
                                         <b-tag v-for="role in roles" :key="role.id">
-                                            {{  object_utils.translateEnum(translations.main, 'column_enum_role', role) }}
+                                            {{  object_utils.translateEnum(translations.core.roles, 'column_enum_role', role) }}
                                         </b-tag>
                                     </b-taglist>
                                 </template>
@@ -196,7 +207,7 @@ export default {
 
                             <div class="column is-2">
                                 <div class="field">
-                                    <label class="label">{{ translations.shared.text_active }}</label>
+                                    <label class="label">{{ translations.core.roles.view_text_active }}</label>
                                     <div class="control">
                                         <b-checkbox v-model="role.active"></b-checkbox>
                                     </div>
@@ -209,12 +220,12 @@ export default {
                                 <span v-if="submitting_form">
                                     <b-icon icon="circle-notch" custom-class="fa-spin" size="is-small" />
                                     &nbsp;
-                                    {{translations.shared.btn_saving}}
+                                    {{translations.core.shared.view_btn_saving}}
                                 </span>
                                 <span v-else>
                                     <b-icon icon="save" size="is-small" />
                                     &nbsp;
-                                    {{translations.shared.btn_save}}
+                                    {{translations.core.shared.view_btn_save}}
                                 </span>
                             </button>
                         </p>

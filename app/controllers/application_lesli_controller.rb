@@ -96,14 +96,16 @@ class ApplicationLesliController < ApplicationController
 
         # set user abilities
         abilities =  current_user.abilities_by_controller
-
+        current_user_roles = current_user.roles
+        
         # set user information
         @account[:current_user] = {
             id: current_user.id,
             email: current_user.email,
             full_name: current_user.full_name,
-            roles: current_user.roles.map(&:name),
-            abilities: abilities
+            roles: current_user_roles.map(&:name),
+            abilities: abilities,
+            max_object_level_permission: current_user_roles.map(&:object_level_permission).max
         }
     end
 

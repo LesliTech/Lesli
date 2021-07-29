@@ -43,7 +43,10 @@ class Role < ApplicationLesliRecord
     def self.list current_user, query
 
         role_max = current_user.roles.map(&:object_level_permission).max()
-        role_max =  query[:filters][:object_level_permission] unless query[:filters][:object_level_permission].blank?
+        
+        unless query[:filters][:object_level_permission].blank?
+            role_max = query[:filters][:object_level_permission] if query[:filters][:object_level_permission].to_i <= role_max
+        end
 
         current_user.account.roles
         .order(object_level_permission: :desc, name: :asc)

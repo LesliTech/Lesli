@@ -36,7 +36,6 @@ export default {
 
     data(){
         return {
-            main_route: '/administration/roles',
             role_id: null,
             role: {},
             modal:{
@@ -70,7 +69,8 @@ export default {
         },
 
         getRole(){
-            let url = `${this.main_route}/${this.role_id}.json`
+            const url = this.url.admin('roles/:id', {id: this.role_id})
+            
             this.http.get(url).then(result => {
                 if (result.successful) {
                     this.role = result.data

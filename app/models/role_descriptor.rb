@@ -29,7 +29,8 @@ class RoleDescriptor < ApplicationLesliRecord
             :name,
             :description,
             :created_at,
-            "actions.total as actions_length"
+            "coalesce(actions.total, 0) as actions_length",
+            LC::Date2.new.date_time.db_timestamps("role_descriptors", "created_at_text")
         )
         .left_joins(:user_creator)
         .joins("
@@ -60,12 +61,13 @@ class RoleDescriptor < ApplicationLesliRecord
             role_descriptors.total_pages,
             role_descriptors.total_count,
             role_descriptors.length,
-            role_descriptors.map do |role_descriptor|
-                role_descriptor.attributes.merge({
-                    created_at_text: LC::Date.to_string_datetime(role_descriptor.created_at),
-                    actions_length:  role_descriptor.actions_length ? role_descriptor.actions_length : 0
-                })
-            end
+            role_descriptors
+            # role_descriptors.map do |role_descriptor|
+            #     role_descriptor.attributes.merge({
+            #         created_at_text: LC::Date.to_string_datetime(role_descriptor.created_at),
+            #         actions_length:  role_descriptor.actions_length ? role_descriptor.actions_length : 0
+            #     })
+            # end
         )
     end
 

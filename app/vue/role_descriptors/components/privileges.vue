@@ -234,7 +234,6 @@ export default {
                     } else {
                         this.options = result.data
                     }
-
                     resolve()
                 }).catch(error => {
                     console.log(error)

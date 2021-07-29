@@ -47,7 +47,6 @@ export default {
                 range_before: 3,
                 range_after: 3
             },
-            main_route: 'administration/roles',
             translations: {
                 roles: I18n.t('core.roles'),
                 shared: I18n.t('core.shared')
@@ -81,7 +80,8 @@ export default {
         },
 
         getRolesOptions(){
-            let url = `/${this.main_route}/list.json`
+            const url =  this.url.admin('roles/list')
+            
             this.http.get(url).then(result => {
                 if (result.successful) {
                     this.roles_name = result.data.map(role => {
@@ -105,7 +105,7 @@ export default {
 
             this.loading = true
 
-            let url = this.url.lesli(`${this.main_route}`)
+            let url = this.url.admin('roles')
 
             url = url.filters({
                 text: (this.filters.role_name || this.filters.text),
@@ -156,9 +156,11 @@ export default {
         },
 
         deleteRole(role_id){
-            this.http.delete(`/${this.main_route}/${role_id}`).then(result => {
+            const url = this.url.admin('roles/:id', {id: role_id})
+            
+            this.http.delete(url).then(result => {
                 if (result.successful) {
-                    this.msg.success(this.translations.roles.notification_delete, 'success')
+                    this.msg.success(this.translations.roles.notification_delete)
                     
                     this.roles = this.roles.filter(e => {
                         return e.id !== role_id
