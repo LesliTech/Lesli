@@ -17,38 +17,43 @@ For more information read the license file including with this software.
     
 =end
 
-
 # Test coverage
 require 'simplecov'
 require 'simplecov-console'
 
-# add console stats and html generator
-SimpleCov.formatter = SimpleCov::Formatter::MultiFormatter.new([
-    SimpleCov::Formatter::HTMLFormatter,
-    SimpleCov::Formatter::Console,
-])
+# COVERAGE=true rspec spec
+# run test coverage on demand only
+if ENV["COVERAGE"]
 
-# limit the number of missing lines
-SimpleCov::Formatter::Console.missing_len = 20 
+    # add console stats and html generator
+    SimpleCov.formatter = SimpleCov::Formatter::MultiFormatter.new([
+        SimpleCov::Formatter::HTMLFormatter,
+        SimpleCov::Formatter::Console,
+    ])
 
-# configure the files to track and ignore
-SimpleCov.start do 
-    #track_files 'lib/**/*.rb'
-    add_filter '/lib'
-    add_filter '/spec'
-    add_filter '/vendor'
-    add_filter '/app/models'
-    add_filter '/app/helpers'
-    add_filter '/app/mailers'
-    add_filter '/engines'
-    add_filter '/config'
-end
+    # limit the number of missing lines
+    SimpleCov::Formatter::Console.missing_len = 20 
 
-# execute test coverage after test suites
-RSpec.configure do |config|
-    config.after(:suite) do
-        RSpec::Puppet::Coverage.report!
+    # configure the files to track and ignore
+    SimpleCov.start do 
+        #track_files 'lib/**/*.rb'
+        add_filter '/lib'
+        add_filter '/spec'
+        add_filter '/vendor'
+        add_filter '/app/models'
+        add_filter '/app/helpers'
+        add_filter '/app/mailers'
+        add_filter '/engines'
+        add_filter '/config'
     end
+
+    # execute test coverage after test suites
+    RSpec.configure do |config|
+        config.after(:suite) do
+            RSpec::Puppet::Coverage.report!
+        end
+    end
+
 end
 
 
@@ -149,7 +154,6 @@ RSpec.configure do |config|
     Kernel.srand config.seed
 =end
 end
-
 
 # Load helper context and examples
 # DEPRECATED: This requires will be deleted in the feature
