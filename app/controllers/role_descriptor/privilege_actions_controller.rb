@@ -45,10 +45,10 @@ class RoleDescriptor::PrivilegeActionsController < ApplicationLesliController
     def update
         return respond_with_not_found unless @role_descriptor_privilege_action
 
-        new_attributes = @role_descriptor_privilege_action.attributes
+        old_attributes = @role_descriptor_privilege_action.attributes
         
         if @role_descriptor_privilege_action.update(role_descriptor_privilege_action_params)
-            old_attributes = @role_descriptor_privilege_action.attributes
+            new_attributes = @role_descriptor_privilege_action.attributes
             
             respond_with_successful(@role_descriptor_privilege_action.show(current_user, @query))
             

@@ -108,12 +108,11 @@ export default {
             let url = this.url.admin('roles')
 
             url = url.filters({
-                text: (this.filters.role_name || this.filters.text),
+                text: (this.filters.role_name || this.filters.text)
             }).paginate(
-                this.pagination.current_page,
-                this.filters.per_page
+                this.pagination.current_page, this.filters.per_page
             )
-
+            
             this.http.get(url).then(result => {
                 this.loading = false
                 if (result.successful) {
@@ -136,7 +135,7 @@ export default {
         searchRoles(text){
             this.pagination.current_page = 1
 
-            text = (text||"").trim()
+            text = text.trim()
             this.filters.role_name = null
 
             if (text != "") {
@@ -171,14 +170,6 @@ export default {
             }).catch(error => {
                 console.log(error)
             })
-        },
-
-        showRole(role) {
-            this.navigateTo(`/${role.id}`)
-        },
-        
-        navigateTo(path){
-            this.$router.push(path)
         }
     },
     watch: {
@@ -243,7 +234,6 @@ export default {
                     v-if="!loading && roles.length > 0"
                     :sort-icon-size="sort.icon_size"
                     :default-sort-direction="sort.direction"
-                    @click="showRole"
                 >
                     <template v-slot="props">
 
@@ -267,13 +257,13 @@ export default {
                                         <i v-if="active" class="far fa-circle"></i>
                                     </span>
                                 </button>
-                                <b-dropdown-item @click="navigateTo(`/${props.row.id}?view_type=simple`)" class="has-text-right pr-4">
+                                <b-dropdown-item @click="$router.push(`/${props.row.id}?view_type=simple`)" class="has-text-right pr-4">
                                     {{ translations.roles.view_btn_edit_privilege_actions }}
                                     <span class="icon">
                                         <i class="fas fa-cogs"></i>
                                     </span>
                                 </b-dropdown-item>
-                                <b-dropdown-item @click="navigateTo(`/${props.row.id}?view_type=edit`)" class="has-text-right pr-4">
+                                <b-dropdown-item @click="$router.push(`/${props.row.id}?view_type=edit`)" class="has-text-right pr-4">
                                     {{ translations.roles.view_btn_edit_role_information }}
                                     <span class="icon">
                                         <i class="fas fa-edit"></i>
@@ -285,7 +275,7 @@ export default {
                                         <i class="fas fa-users"></i>
                                     </span>
                                 </b-dropdown-item>
-                                <b-dropdown-item @click="navigateTo(`/${props.row.id}?view_type=logs`)" class="has-text-right pr-4">
+                                <b-dropdown-item @click="$router.push(`/${props.row.id}?view_type=logs`)" class="has-text-right pr-4">
                                     {{ translations.roles.view_btn_logs }}
                                     <span class="icon">
                                         <i class="fas fa-history"></i>

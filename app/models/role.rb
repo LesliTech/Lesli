@@ -48,14 +48,15 @@ class Role < ApplicationLesliRecord
             role_max = query[:filters][:object_level_permission] if query[:filters][:object_level_permission].to_i <= role_max
         end
 
-        current_user.account.roles
-        .order(object_level_permission: :desc, name: :asc)
-        .where("object_level_permission <= ?", role_max)
-        .select(:id, :name, :object_level_permission)
-        .order(object_level_permission: :desc)
+        roles = current_user.account.roles.select(:id, :name, :object_level_permission)
+        
+        roles = roles.where("object_level_permission <= ?", role_max)
+        roles = roles.order(object_level_permission: :desc, name: :asc)
     end
 
     def self.index(current_user, query)
+        role_max = current_user.roles.map(&:object_level_permission).max()
+        
         roles = current_user.account.roles
         .joins("
             left join (
@@ -75,10 +76,15 @@ class Role < ApplicationLesliRecord
         .select(:id, :name, :active, :only_my_data, :default_path, :object_level_permission, "users.user_count")
 
         unless query[:filters].blank?
-            roles = roles.where("lower(roles.name) like ?", "%#{query[:filters][:text].downcase}%") unless query[:filters][:text].blank?
-            roles = roles.where("roles.object_level_permission < ?", query[:filters][:object_level_permission]) unless query[:filters][:object_level_permission].blank?
+            roles = roles.where("lower(roles.name) like ?", "%#{query[:filters][:text].downcase.strip}%") unless query[:filters][:text].blank?
+            
+            unless query[:filters][:object_level_permission].blank?
+                role_max = query[:filters][:object_level_permission] if query[:filters][:object_level_permission].to_i <= role_max
+            end
+        
+            roles = roles.where("roles.object_level_permission <= ?", role_max)
         end
-
+        
         roles = roles
             .page(query[:pagination][:page])
             .per(query[:pagination][:perPage])
