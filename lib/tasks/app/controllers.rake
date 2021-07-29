@@ -5,10 +5,7 @@ namespace :app do
         desc "Scan new routes added and create role privileges"
         task build: :environment do
             puts  "START SCAN AT: #{Time.now}"
-
-            company_name = Rails.application.config.lesli_settings["account"]["company"]["name"]
-            account = Account.find_by(company_name: company_name)
-
+            
             # get all routes for application controllers
             controllers = LC::System::Controllers.scan
 
@@ -17,29 +14,35 @@ namespace :app do
             controllers.each do |controller_name, value|
                 controller = SystemController.find_or_initialize_by(name: controller_name)
 
+                puts "setting up actions for the controller: #{controller_name}"
+                
                 if (controller.save)
                     value[:actions].each do |action|
                         system_action = controller.actions.find_or_initialize_by(name: action)
-
-                        if (system_action.new_record?)
-                            puts "action #{action} created for controller: #{controller_name}"
-                        end
                         
-                        if (system_action.save)                            
-                            account.role_descriptors.where("name in (?)", ["owner", "admin"]).each do |descriptor|
-                                role_descriptor_action = descriptor.privilege_actions.new(system_action: system_action, status: true)
+                        if (system_action.save)   
+                            Account.all.each do |account|                      
+                                account.role_descriptors.where("name in (?)", ["owner", "admin"]).each do |descriptor|
+                                    role_descriptor_action = descriptor.privilege_actions.new(system_action: system_action, status: true)
 
-                                role_descriptor_action.save!
+                                    role_descriptor_action.save!
+                                end
                             end
                         end
                     end
                 end
-            end            
+            end    
+                    
             puts  "FINISH SCAN AT: #{Time.now}"
             
-            add_profile_privileges(account)
+            add_default_privilege_actions() # add actions of defaults role descriptors
         end
         
+        def add_default_privilege_actions()
+            Account.all.each do |account|  
+                add_profile_privileges(account)
+            end
+        end
         
         def add_profile_privileges(account)
             puts "ADDING DEFAULT PRIVILEGE ACTIONS FOR PROFILE DESCRIPTOR"
