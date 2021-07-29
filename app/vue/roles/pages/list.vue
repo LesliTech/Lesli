@@ -18,8 +18,6 @@ For more information read the license file including with this software.
 
 */
 
-
-// ·
 export default {
     props: {
         lesli_engine: {
@@ -51,8 +49,8 @@ export default {
             },
             main_route: 'administration/roles',
             translations: {
-                main: I18n.t('core.roles'),
-                shared: I18n.t('deutscheleibrenten.shared')
+                roles: I18n.t('core.roles'),
+                shared: I18n.t('core.shared')
             },
             loading: false,
             index_abilities: {
@@ -89,7 +87,7 @@ export default {
                     this.roles_name = result.data.map(role => {
                         return {
                             name: role.name,
-                            translated_name: (this.object_utils.translateEnum(this.translations.main, 'column_enum_role',  role.name))||role.name
+                            translated_name: (this.object_utils.translateEnum(this.translations.roles, 'column_enum_role',  role.name))||role.name
                         }
                     })
 
@@ -122,7 +120,7 @@ export default {
                     this.roles = result.data.records.map(role => {
                         return {
                             ...role,
-                            translated_name: (this.object_utils.translateEnum(this.translations.main, 'column_enum_role',  role.name))||role.name
+                            translated_name: (this.object_utils.translateEnum(this.translations.roles, 'column_enum_role',  role.name))||role.name
                         }
                     })
 
@@ -160,7 +158,7 @@ export default {
         deleteRole(role_id){
             this.http.delete(`/${this.main_route}/${role_id}`).then(result => {
                 if (result.successful) {
-                    this.msg.success(this.translations.main.notification_delete, 'success')
+                    this.msg.success(this.translations.roles.notification_delete, 'success')
                     
                     this.roles = this.roles.filter(e => {
                         return e.id !== role_id
@@ -197,22 +195,22 @@ export default {
 <template>
     <section class="application-component">
         <component-header
-            :title="translations.main.view_text_roles">
+            :title="translations.roles.view_text_roles">
             <div class="buttons">
                 <button class="button" @click="getRoles()">
                     <b-icon icon="sync" size="is-small" :custom-class="loading ? 'fa-spin' : ''" />
-                    <span> {{ translations.shared.btn_reload }}</span>
+                    <span> {{ translations.roles.view_btn_new_role }}</span>
                 </button>
                 <router-link class="button" tag="button" to="/new" v-if="index_abilities.roles.create">
                     <b-icon icon="plus" size="is-small" />
-                    <span>{{ translations.main.view_btn_new }}</span>
+                    <span>{{ translations.roles.view_btn_new }}</span>
                 </router-link>
             </div>
         </component-header>
 
         <component-toolbar
             v-if="filters_ready"
-            :search-text="translations.main.view_toolbar_search_by_placeholder_text"
+            :search-text="translations.roles.view_toolbar_search_by_placeholder_text"
             @search="searchRoles"
             :initial-value="filters.text">
 
@@ -247,19 +245,19 @@ export default {
                 >
                     <template v-slot="props">
 
-                        <b-table-column :label="translations.shared.text_name" field="name">
+                        <b-table-column :label="translations.shared.view_text_name" field="name">
                             {{ props.row.translated_name }}
                         </b-table-column>
 
-                        <b-table-column :label="translations.main.view_text_users_count" field="users_count">
+                        <b-table-column :label="translations.roles.view_text_users_count" field="users_count">
                             {{ props.row.user_count ? props.row.user_count : 0 }}
                         </b-table-column>
 
-                        <b-table-column :label="translations.shared.text_active" field="active">
-                            {{ props.row.active ? translations.shared.text_yes : translations.shared.text_no }}
+                        <b-table-column :label="translations.shared.view_text_active" field="active">
+                            {{ props.row.active ? translations.shared.view_text_yes : translations.shared.view_text_no }}
                         </b-table-column>
 
-                        <b-table-column @click.native.prevent="e=>e.stopPropagation()" :label="translations.shared.text_actions"s centered>
+                        <b-table-column @click.native.prevent="e=>e.stopPropagation()" :label="translations.shared.view_text_actions" centered>
                             <b-dropdown aria-role="menu" position="is-bottom-left">
                                 <button class="button is-rounded is-default" slot="trigger" slot-scope="{ active }">
                                     <span class="icon">
@@ -268,31 +266,31 @@ export default {
                                     </span>
                                 </button>
                                 <b-dropdown-item @click="navigateTo(`/${props.row.id}?view_type=simple`)" class="has-text-right pr-4">
-                                    {{ translations.main.view_btn_edit_privilege_actions }}
+                                    {{ translations.roles.view_btn_edit_privilege_actions }}
                                     <span class="icon">
                                         <i class="fas fa-cogs"></i>
                                     </span>
                                 </b-dropdown-item>
                                 <b-dropdown-item @click="navigateTo(`/${props.row.id}?view_type=edit`)" class="has-text-right pr-4">
-                                    {{ translations.main.view_btn_edit_role_information }}
+                                    {{ translations.roles.view_btn_edit_role_information }}
                                     <span class="icon">
                                         <i class="fas fa-edit"></i>
                                     </span>
                                 </b-dropdown-item>
                                 <b-dropdown-item @click="url.go(url[lesli_engine](`users?role=${props.row.name}`))" class="has-text-right pr-4">
-                                    {{ translations.main.view_btn_users_list }}
+                                    {{ translations.roles.view_btn_users_list }}
                                     <span class="icon">
                                         <i class="fas fa-users"></i>
                                     </span>
                                 </b-dropdown-item>
                                 <b-dropdown-item @click="navigateTo(`/${props.row.id}?view_type=logs`)" class="has-text-right pr-4">
-                                    {{ translations.main.view_btn_logs }}
+                                    {{ translations.roles.view_btn_logs }}
                                     <span class="icon">
                                         <i class="fas fa-history"></i>
                                     </span>
                                 </b-dropdown-item>
                                 <b-dropdown-item@click.stop="deleteRole(props.row.id)" v-if="index_abilities.roles.destroy" class="has-text-right pr-4">
-                                    {{ translations.main.view_btn_delete }}
+                                    {{ translations.roles.view_btn_delete }}
                                     <span class="icon">
                                         <i class="fas fa-trash"></i>
                                     </span>

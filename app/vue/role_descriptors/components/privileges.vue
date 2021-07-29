@@ -1,5 +1,6 @@
 <script>
 /*
+
 Copyright (c) 2021, all rights reserved.
 
 All the information provided by this platform is protected by international laws related  to
@@ -14,10 +15,9 @@ For more information read the license file including with this software.
 
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
 // ·
+
 */
 
-
-// ·
 export default {
     props: {
         role_descriptor: {
@@ -29,7 +29,7 @@ export default {
         return {
             translations: {
                 core: I18n.t('core.shared'),
-                main: I18n.t('core.role_descriptors')
+                role_descriptors: I18n.t('core.role_descriptors')
             },
             loading: false,
             role_descriptor_actions_list: [],
@@ -58,7 +58,7 @@ export default {
             
             Promise.all(this.requests).then(() => {
                 this.requests = []
-                this.msg.success(this.translations.main.messages_success_role_descriptor_actions_updated)    
+                this.msg.success(this.translations.role_descriptors.messages_success_role_descriptor_actions_updated)    
             })
         },
         
@@ -348,7 +348,7 @@ export default {
             <b-tab-item 
                 v-for="category in options.categories" 
                 :key="category.value"
-                :label="object_utils.translateEnum(translations.main, 'column_enum_category', category.text)"
+                :label="object_utils.translateEnum(translations.role_descriptors, 'column_enum_category', category.text)"
             >
                 <form>
                     <fieldset>
@@ -382,7 +382,7 @@ export default {
                             detail-key="controller"
                         >
                             <template v-slot="props">
-                                <b-table-column field="controller" :label="translations.main.view_text_resource" >
+                                <b-table-column field="controller" :label="translations.role_descriptors.view_text_resource" >
                                     <strong> {{ `${props.row.controller}` }} </strong>
                                 </b-table-column>
 

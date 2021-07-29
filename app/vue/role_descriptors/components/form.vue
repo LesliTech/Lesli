@@ -1,5 +1,6 @@
 <script>
 /*
+
 Copyright (c) 2021, all rights reserved.
 
 All the information provided by this platform is protected by international laws related  to
@@ -14,10 +15,9 @@ For more information read the license file including with this software.
 
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
 // ·
+
 */
 
-
-// ·
 export default {
     props: {
         role_descriptor: {
@@ -29,7 +29,7 @@ export default {
         return {
             translations: {
                 core: I18n.t('core.shared'),
-                main: I18n.t('core.role_descriptors')
+                role_descriptors: I18n.t('core.role_descriptors')
             },
             submitting_form: false,
             role_descriptors: []
@@ -64,7 +64,7 @@ export default {
                     return
                 }
 
-                this.msg.success(this.translations.main.messages_success_created)
+                this.msg.success(this.translations.role_descriptors.messages_success_created)
 
                 this.$router.push(`${result.data.id}`)
             }).catch(error => {
@@ -84,7 +84,7 @@ export default {
                     return
                 }
 
-                this.msg.success(this.translations.main.messages_success_updated)
+                this.msg.success(this.translations.role_descriptors.messages_success_updated)
             }).catch(error => {
                 console.log(error)
             })
@@ -120,7 +120,7 @@ export default {
                 <b-input type="text" placeholder="" v-model="role_descriptor.name" required></b-input>
             </b-field>
 
-            <b-field :label="translations.main.view_text_assign_parent_descriptor" v-if="role_descriptors.length > 0">
+            <b-field :label="translations.role_descriptors.view_text_assign_parent_descriptor" v-if="role_descriptors.length > 0">
                 <b-select v-model="role_descriptor.role_descriptors_id" expanded>
                     <option :value="null"> {{ translations.core.view_text_none }} </option> 
                     <option
@@ -132,7 +132,7 @@ export default {
                 </b-select>
             </b-field>
             
-            <b-field :label="translations.main.column_description">
+            <b-field :label="translations.role_descriptors.column_description">
                 <b-input v-model="role_descriptor.description" type="textarea"></b-input>
             </b-field>
 

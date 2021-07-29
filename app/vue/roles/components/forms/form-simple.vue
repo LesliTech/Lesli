@@ -1,5 +1,4 @@
 <script>
-
 /*
 
 Copyright (c) 2020, all rights reserved.
@@ -18,6 +17,7 @@ For more information read the license file including with this software.
 // ·
 
 */
+
 export default {
     props: {
         role: {

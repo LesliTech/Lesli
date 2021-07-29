@@ -1,5 +1,6 @@
 <script>
 /*
+
 Copyright (c) 2021, all rights reserved.
 
 All the information provided by this platform is protected by international laws related  to
@@ -14,14 +15,11 @@ For more information read the license file including with this software.
 
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
 // ·
+
 */
 
-
-// ·
 import componentForm from "../components/form.vue"
 
-
-// ·
 export default {
     props: {},
 
@@ -44,7 +42,7 @@ export default {
 </script>
 <template>
     <section class="application-component">
-        <component-header :title="translations.main.view_btn_new_role_desccriptors">
+        <component-header :title="translations.role_descriptors.view_btn_new_role_desccriptors">
             <div class="buttons">
                 <router-link class="button" tag="button" to="/">
                     <span class="icon"><i class="fas fa-list"></i></span>
