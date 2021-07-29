@@ -19,7 +19,7 @@ For more information read the license file including with this software.
 
 RSpec.shared_examples 'error standard json response' do   
 
-    before :each do
+    before(:all) do
         @response_body = JSON.parse(response.body)
         @response_body_error = @response_body["error"]
     end
