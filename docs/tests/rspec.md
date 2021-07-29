@@ -1,4 +1,4 @@
-# RSpect tests
+# RSpec tests
 Integration tests for Rails applications
 
 ## Generate tests
