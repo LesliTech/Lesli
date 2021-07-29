@@ -125,19 +125,36 @@ gem 'active_record_union'
 
 group :development, :test do
 
+    # Fake data generator 
+    # https://github.com/faker-ruby/faker
     gem "faker"
+
+    # Preview email in the default browser instead of sending it
+    # https://github.com/ryanb/letter_opener
+    gem "letter_opener"
+
+    # Documentation generation tool for the Ruby programming language
+    # https://github.com/lsegal/yard
+    gem "yard"
+
+    # RSpec for testing
+    # https://github.com/rspec/rspec-rails
+    # Using beta version of rspect-rails due: https://github.com/rails/rails/issues/35417
+    gem "rspec-rails", "~> 4.0.0.beta2"
+
+    # https://github.com/rspec/rspec-mocks
+    gem 'rspec-mocks', '~> 3.10'
+
+    # Code coverage
+    # https://github.com/simplecov-ruby/simplecov
+    gem 'simplecov', require: false
+    
+    # Code coverage stats in the console
+    # https://github.com/chetan/simplecov-console
+    gem 'simplecov-console', require: false
 
     # Call "byebug" anywhere in the code to stop execution and get a debugger console
     gem "byebug", platforms: [:mri, :mingw, :x64_mingw]
-
-    # Using beta version of rspect-rails due: https://github.com/rails/rails/issues/35417
-    gem "rspec-rails", "~> 4.0.0.beta2"
-    gem 'rspec-mocks', '~> 3.10'
-
-    # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
-    gem "tzinfo-data" if Gem.win_platform?
-
-    gem "yard"
 
     # Avoiding polling in widows
     gem "wdm", ">= 0.1.0" if Gem.win_platform?
@@ -145,8 +162,8 @@ group :development, :test do
     # Workaround for nokogiri when using ruby 2.7.0
     gem "nokogiri", "~> 1.11.0.rc1" if Gem.win_platform?
 
-    # Preview emails in browser
-    gem "letter_opener"
+    # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
+    gem "tzinfo-data" if Gem.win_platform?
 
 end
 
