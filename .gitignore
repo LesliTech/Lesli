@@ -39,6 +39,8 @@ package-lock.json
 /app/assets/**/lesli_cloud
 /app/assets/**/lesli_cloud_*
 
+/coverage
+
 /public/tmp
 /public/assets
 /public/javascripts/translations.js
