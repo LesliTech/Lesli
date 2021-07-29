@@ -1,6 +1,7 @@
 <script>
 /*
-Copyright (c) 2020, all rights reserved.
+
+Copyright (c) 2021, all rights reserved.
 
 All the information provided by this platform is protected by international laws related  to
 industrial property, intellectual property, copyright and relative international laws.
@@ -14,6 +15,7 @@ For more information read the license file including with this software.
 
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
 // ·
+
 */
 
 export default {
@@ -24,7 +26,7 @@ export default {
             filters_ready: false,
             translations: {
                 core: I18n.t('core.shared'),
-                main: I18n.t('core.role_descriptors')
+                role_descriptors: I18n.t('core.role_descriptors')
             },
             filters: {
                 search: '',
@@ -114,7 +116,7 @@ export default {
 
                     this.role_descriptors = this.role_descriptors.filter(e => e.id !== role_descriptor.id)
 
-                    this.msg.success(this.translations.main.messages_success_deleted)
+                    this.msg.success(this.translations.role_descriptors.messages_success_deleted)
                 }else{
                     this.msg.error(result.error.message)
                 }
@@ -129,9 +131,9 @@ export default {
         
         confirmRoleDescriptorDeletion(role_descriptor){
             this.$buefy.dialog.confirm({
-                title: this.translations.main.view_text_confirm_deletion_title,
-                message: this.translations.main.view_text_delete_confirmation,
-                confirmText: this.translations.main.view_text_confirm_deletion,
+                title: this.translations.role_descriptors.view_text_confirm_deletion_title,
+                message: this.translations.role_descriptors.view_text_delete_confirmation,
+                confirmText: this.translations.role_descriptors.view_text_confirm_deletion,
                 type: 'is-danger',
                 hasIcon: true,
                 onConfirm: () => this.deleteRoleDescriptor(role_descriptor)
@@ -155,7 +157,7 @@ export default {
 </script>
 <template>
     <section class="application-component">
-        <component-header :title="translations.main.view_title_main">
+        <component-header :title="translations.role_descriptors.view_title_main">
             <div class="buttons">
                 <button class="button" @click="getRoleDescriptors">
                     <b-icon icon="sync" size="is-small" :custom-class="loading ? 'fa-spin' : ''" />
@@ -163,7 +165,7 @@ export default {
                 </button>
                 <router-link class="button" tag="button" to="/new">
                     <b-icon icon="plus" size="is-small" />
-                    <span> {{ translations.main.view_btn_new_role_descriptor }}</span>
+                    <span> {{ translations.role_descriptors.view_btn_new_role_descriptor }}</span>
                 </router-link>
             </div>
         </component-header>
@@ -237,7 +239,7 @@ export default {
                             {{props.row.created_at_text}}
                         </b-table-column>
 
-                        <b-table-column field="actions_length" :label="translations.main.view_text_actions_length" sortable>
+                        <b-table-column field="actions_length" :label="translations.role_descriptors.view_text_actions_length" sortable>
                             <template slot="header" slot-scope="{ column }">
                                 <span>
                                     {{ column.label }}

@@ -18,8 +18,6 @@ For more information read the license file including with this software.
 
 */
 
-// · List of Imported Components
-// · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
 import componentForm from '../components/forms/form.vue'
 
 export default {

@@ -18,14 +18,9 @@ For more information read the license file including with this software.
 
 */
 
-
-// · List of Imported Components
-// · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
 import componentForm from '../components/forms/form.vue'
 import componentFormSimple from '../components/forms/form-simple.vue'
 import componentFormLogs from '../components/forms/form-logs.vue'
-// · 
-// · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
 
 
 export default {

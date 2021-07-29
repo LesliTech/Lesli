@@ -1,5 +1,6 @@
 <script>
 /*
+
 Copyright (c) 2021, all rights reserved.
 
 All the information provided by this platform is protected by international laws related  to
@@ -14,13 +15,12 @@ For more information read the license file including with this software.
 
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
 // ·
+
 */
 
-// ·
 import componentForm from '../components/form.vue'
 import componentPrivileges from '../components/privileges.vue'
 
-// ·
 export default {
     props: {},
 
@@ -33,8 +33,7 @@ export default {
             role_descriptor_id: null,
             role_descriptor: {},
             translations: {
-                core: I18n.t('core.shared'),
-                main: I18n.t('core.role_descriptors')
+                core: I18n.t('core.shared')
             },
             active_tab: 1
         }
