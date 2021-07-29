@@ -146,7 +146,7 @@ class User < ApplicationLesliRecord
     # @examples
     #     validate privileges on a controller with the same actions on each one
     #     controllers = ["cloud_house/companies", "cloud_house/projects"]
-    #     actions = ["index"]
+    #     actions = ["index", "update"]
     #
     #     current_user.has_privileges?(controllers, actions)
     def has_privileges?(controllers, actions)         
@@ -160,7 +160,7 @@ class User < ApplicationLesliRecord
             .joins(system_action: [:system_controller])
             .where("system_controllers.name in (?)", controllers)
             .where("system_controller_actions.name in (?)", actions)
-            .to_sql
+            .to_sql # used to fetch privileges actions through role descriptor assignments
 
             sql_user_privilege_actions = self.user_privilege_actions
             .select(
@@ -171,7 +171,7 @@ class User < ApplicationLesliRecord
             .joins(system_action: [:system_controller])
             .where("system_controllers.name in (?)", controllers)
             .where("system_controller_actions.name in (?)", actions)
-            .to_sql
+            .to_sql # used to fetch privileges actions through privileges actions added to the user
             
             granted = ActiveRecord::Base.connection.exec_query("
                 select 
