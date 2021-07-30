@@ -97,7 +97,7 @@ export default {
                 modules: {
                     toolbar: [
                         ['bold', 'italic', 'underline'],
-                        ['blockquote'],
+                        [],
                         ['link']
                     ]
                 },
