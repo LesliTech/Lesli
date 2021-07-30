@@ -67,13 +67,6 @@ class User < ApplicationLesliRecord
     #   system user
     #   integration apps
     enum category: { user: "user", integration: "integration" }
-
-
-    def self.privilege_actions 
-        User.select("
-        
-        ")
-    end
     
     # @return [void]
     # @description Before creating a user we make sure there is no capitalized email
