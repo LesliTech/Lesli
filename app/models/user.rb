@@ -135,7 +135,9 @@ class User < ApplicationLesliRecord
     end
 
     # @return [Boolean]
-    # @description Return true/false if a user has the privileges to do an action based on a controllers list
+    # @description Return true/false if a user has all the privileges to do an action based on a controllers list,
+    #     this validation includes the privileges that the user could have based on its roles and the privileges
+    #     that has been added to the specific user.
     # @examples
     #     validate privileges on a controller with the same actions on each one
     #     controllers = ["cloud_house/companies", "cloud_house/projects"]
@@ -144,6 +146,8 @@ class User < ApplicationLesliRecord
     #     current_user.has_privileges?(controllers, actions)
     def has_privileges?(controllers, actions)         
         begin
+
+            # This query fetch all the privileges actions that the user have through role descriptor assignments
             sql_role_privile_actions = self.role_privilege_actions
             .select(
                 "status",
@@ -153,8 +157,10 @@ class User < ApplicationLesliRecord
             .joins(system_action: [:system_controller])
             .where("system_controllers.name in (?)", controllers)
             .where("system_controller_actions.name in (?)", actions)
-            .to_sql # used to fetch privileges actions through role descriptor assignments
+            .to_sql
 
+
+            # This query fetch all the privileges actions that the user have through privileges actions added to the specific user
             sql_user_privilege_actions = self.user_privilege_actions
             .select(
                 "status",
@@ -164,8 +170,15 @@ class User < ApplicationLesliRecord
             .joins(system_action: [:system_controller])
             .where("system_controllers.name in (?)", controllers)
             .where("system_controller_actions.name in (?)", actions)
-            .to_sql # used to fetch privileges actions through privileges actions added to the user
-            
+            .to_sql
+
+
+            # This query is on charge of evaluate if the user have every specific privilege action
+            # no matter if is given indirectly by role or directly to the user. Then, after getting each
+            # specific boolean value of every privilege action, the query evalueate if is there some privilege
+            # action on false, if there is a false then the return of the method will be false, but if every
+            # privilege action is on true the permission is granted.
+            # This is possible by the union of the two previous queries
             granted = ActiveRecord::Base.connection.exec_query("
                 select 
                     bool_and(grouped_privileges.status) as value
@@ -188,14 +201,18 @@ class User < ApplicationLesliRecord
             .first["value"]
 
             return granted
+
         rescue => exception
+
             Honeybadger.notify(exception)
             return false
+
         end
     end
 
     # @return [Hash]
-    # @description Return a hash that contains all the abilities grouped by controller and define every action privilege
+    # @description Return a hash that contains all the abilities grouped by controller and define every action privilege. It also
+    #     evaluate if the user has the ability no matter if is given to the user by role or by itself.
     # @examples
     #     current_user.abilities_by_controller
     def abilities_by_controller
