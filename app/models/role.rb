@@ -100,10 +100,8 @@ class Role < ApplicationLesliRecord
 
     end
 
-    def show()
-        Role.where("roles.id = ?", id)
-        .select(:id, :name, :active, :object_level_permission, :only_my_data, :default_path)
-        .first
+    def show
+        self
     end
 
     # @return [void]
