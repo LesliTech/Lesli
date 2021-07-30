@@ -3,11 +3,7 @@
 ## Code
 
 ### Branching
-
-**Master**: Main branch
-**Test**: Branch for testing and QA (this branch is a previous step for production)
-**Production**: Stable branch
+[Git Management](/development/docs/md-git-management)
 
 ## Release
-
-## Deploy
+[Git Software Release]()
