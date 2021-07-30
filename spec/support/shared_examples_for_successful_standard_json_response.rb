@@ -33,16 +33,15 @@ RSpec.shared_examples "successful standard json response" do
     end
 
     it "is expected to respond with a successful property" do
-        expect(JSON.parse(response.body)).to have_key('successful') 
+        expect(@response_body).to have_key('successful') 
     end
 
     it "is expected to respond with successful" do
-        expect(JSON.parse(response.body)["successful"]).to eql(true)
+        expect(@response_body["successful"]).to eql(true)
     end
 
     it "is expected to respond with data" do
         expect(@response_body).to have_key("data")
-        #expect(@response_body["data"]).to be_a(Hash)
     end
 
 end

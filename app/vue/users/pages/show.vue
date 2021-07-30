@@ -44,7 +44,7 @@ export default {
     data() {
         return {
             user_id: null,
-            active: 0,
+            active: 1,
             user: {
                 detail_attributes: {}
             },
