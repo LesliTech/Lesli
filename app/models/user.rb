@@ -297,7 +297,7 @@ class User < ApplicationLesliRecord
     #     puts current_user.full_name # John Doe
     #     puts current_user.set_alias # Jo. Do.
     def set_alias
-        self.alias = (detail&.first_name && detail&.last_name) ? "#{detail.first_name[0..1]}. #{detail.last_name[0..1]}." : ""
+        self.alias = (detail&.first_name && detail&.last_name) ? "#{detail.first_name[0..1]} #{detail.last_name[0..1]}" : ""
         self.save
     end
 

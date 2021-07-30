@@ -1,5 +1,5 @@
 =begin
-
+    
 Copyright (c) 2020, all rights reserved.
 
 All the information provided by this platform is protected by international laws related  to 
@@ -14,30 +14,16 @@ For more information read the license file including with this software.
 
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
 // · 
-
+    
 =end
 
+RSpec.shared_context 'controller user authentication' do 
 
-require 'rails_helper'
-require 'spec_helper'
-require 'byebug'
-
-
-RSpec.describe 'POST:/password', type: :request do
-    #include_context 'user authentication'
-
-    before(:all) do
-        @user = User.find_by(:email => "test@lesli.cloud")
-        post("/password", params: {
-            user: {
-                email: @user.email
-            }
-        })
+    # Creates a new valid user session
+    before :each do
+        request.env["HTTP_ACCEPT"] = 'application/json'
+        @user = User.find_by(email: "test@lesli.cloud")
+        sign_in @user
     end
 
-    #include_examples 'successful standard json response'
-
-    it 'is expected to create a password reset token' do
-        
-    end
 end

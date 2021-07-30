@@ -42,7 +42,7 @@ export default {
             type: String,
             default: 'simple',
             required: false,
-            validator: (val) => ['simple', 'full', 'read'].includes(val),
+            validator: (val) => ['tiny', 'simple', 'full', 'read'].includes(val),
         }
     },
     data () {
@@ -87,6 +87,18 @@ export default {
                         ['blockquote', 'code-block'],
                         [],
                         ['clean']                                         // remove formatting button
+                    ]
+                },
+            },
+            tinyEditorOpts: {
+                theme: 'snow',
+                readOnly: false,
+                placeholder: I18n.t('core.shared.view_placeholder_text_editor'),
+                modules: {
+                    toolbar: [
+                        ['bold', 'italic', 'underline'],
+                        [],
+                        ['link']
                     ]
                 },
             },
@@ -165,3 +177,8 @@ export default {
         <div class="editor-node" ref="editorNode"></div>
     </div>
 </template>
+<style lang="css" scope>
+.ql-editor {
+    height: 100px;
+}
+</style>
