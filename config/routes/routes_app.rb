@@ -108,7 +108,6 @@ module RoutesApp
                                 put :email
                             end
                         end
-
                     end
 
                     # roles & privileges management
@@ -116,17 +115,33 @@ module RoutesApp
                         scope module: :role do
                             resources :privileges
                             resources :activities
+                            resources :descriptor_assignments
                             collection do
                                 get "/activities/options",                   to: "/role/activities#options"
+                                get "/descriptor_assignments/options",        to: "/role/descriptor_assignments#options"
                             end
                         end
 
                         collection do
                             get :list
                             get :options
+                            get "/privilege_actions/options",               to: "role/privilege_actions#options"
                         end
                     end
 
+                    # role descriptors
+                    resources :role_descriptors do
+                        scope module: :role_descriptor do 
+                            resources :privilege_actions 
+                        end
+                        collection do
+                            get :list
+                        end
+                        collection do 
+                            get "/privilege_actions/options",        to: "role_descriptor/privilege_actions#options" 
+                        end
+                    end
+                    
                     # template generators
                     namespace :template do
                         resources :documents do
