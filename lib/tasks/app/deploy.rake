@@ -25,7 +25,7 @@ namespace :app do
 
         task after: :environment do
             Rake::Task["babel:scan"].invoke if defined?(CloudBabel)
-            Rake::Task["app:roles:build"].invoke 
+            Rake::Task["app:controllers:build"].invoke 
         end
 
     end
