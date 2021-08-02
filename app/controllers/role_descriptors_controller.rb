@@ -154,7 +154,7 @@ class RoleDescriptorsController < ApplicationLesliController
     #     this.http.delete(`127.0.0.1/administration/role_descriptors/${role_id}`);
     def destroy
         return respond_with_not_found unless @role_descriptor
-        return respond_with_error(I18n.t("")) if @role_descriptor.has_roles_assigned?
+        return respond_with_error(I18n.t("core.role_descriptors.messages_danger_cannot_delete_due_to_roles_assigned")) if @role_descriptor.has_roles_assigned?
         
         if @role_descriptor.destroy
             respond_with_successful
