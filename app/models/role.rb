@@ -19,20 +19,44 @@ For more information read the license file including with this software.
 
 class Role < ApplicationLesliRecord
 
-    belongs_to :account,            foreign_key: "accounts_id"
+    belongs_to :account,                foreign_key: "accounts_id"
 
-    has_many :privileges,           foreign_key: "roles_id",    class_name: "Role::Privilege",          dependent: :delete_all
-    has_many :activities,           foreign_key: "roles_id"
+    has_many :privileges,               foreign_key: "roles_id",    class_name: "Privilege",          dependent: :delete_all
+    has_many :activities,               foreign_key: "roles_id"
+    has_many :descriptor_assignments,   foreign_key: "roles_id",    class_name: "DescriptorAssignment",  dependent: :delete_all
+    has_many :privilege_actions,        through: :descriptor_assignments
+    
+    after_create :generate_code,
+    
+    def generate_code
+        role_code = name
+            .downcase                           # string to lowercase
+            .gsub(/[^0-9A-Za-z\s\-\_]/, '')     # remove special characters from string
+            .gsub(/-/, '_')                     # replace dashes with underscore
+            .gsub(/\s+/, '_')                   # replace spaces or spaces with single dash
+
+        role_code = I18n.transliterate(role_code) + id.to_s # transform UTF-8 characters to ASCI
+
+        self.update_attribute('code', role_code)
+    end
 
     def self.list current_user, query
-        current_user.account.roles
-        .order(object_level_permission: :desc, name: :asc)
-        .where("object_level_permission <= ?", current_user.roles.map(&:object_level_permission).max())
-        .select(:id, :name, :object_level_permission)
-        .order(object_level_permission: :desc)
+
+        role_max = current_user.roles.map(&:object_level_permission).max()
+        
+        unless query[:filters][:object_level_permission].blank?
+            role_max = query[:filters][:object_level_permission] if query[:filters][:object_level_permission].to_i <= role_max
+        end
+
+        roles = current_user.account.roles.select(:id, :name, :object_level_permission)
+        
+        roles = roles.where("object_level_permission <= ?", role_max)
+        roles = roles.order(object_level_permission: :desc, name: :asc)
     end
 
     def self.index(current_user, query)
+        role_max = current_user.roles.map(&:object_level_permission).max()
+        
         roles = current_user.account.roles
         .joins("
             left join (
@@ -52,10 +76,15 @@ class Role < ApplicationLesliRecord
         .select(:id, :name, :active, :only_my_data, :default_path, :object_level_permission, "users.user_count")
 
         unless query[:filters].blank?
-            roles = roles.where("lower(roles.name) like ?", "%#{query[:filters][:text].downcase}%") unless query[:filters][:text].blank?
-            roles = roles.where("roles.object_level_permission < ?", query[:filters][:object_level_permission]) unless query[:filters][:object_level_permission].blank?
+            roles = roles.where("lower(roles.name) like ?", "%#{query[:filters][:text].downcase.strip}%") unless query[:filters][:text].blank?
+            
+            unless query[:filters][:object_level_permission].blank?
+                role_max = query[:filters][:object_level_permission] if query[:filters][:object_level_permission].to_i <= role_max
+            end
+        
+            roles = roles.where("roles.object_level_permission <= ?", role_max)
         end
-
+        
         roles = roles
             .page(query[:pagination][:page])
             .per(query[:pagination][:perPage])
@@ -71,10 +100,8 @@ class Role < ApplicationLesliRecord
 
     end
 
-    def show()
-        Role.where("roles.id = ?", id)
-        .select(:id, :name, :active, :object_level_permission, :only_my_data, :default_path)
-        .first
+    def show
+        self
     end
 
     # @return [void]
@@ -84,99 +111,22 @@ class Role < ApplicationLesliRecord
     #   role = Role.new(detail_attributes: {name: "test_role", object_level_permission: 10})
     #   # This method will be called automatically within an after_create callback
     #   puts role.privileges.to_json # Should display all privileges that existed at the moment of the role's creation
-    def initialize_role_privileges
-
-        # get all routes for application controllers
-        routes = LC::System::Routes.scan
-
-        routes.each do |route|
-
-            privilege = self.privileges.find_or_create_by(grant_object: route[:controller_path])
-
-            if self.name === "owner" || self.name === "admin"
-                grant_access = true
-                privilege.update(
-                    grant_index: grant_access,
-                    grant_list: grant_access,
-                    grant_create: grant_access,
-                    grant_new: grant_access,
-                    grant_edit: grant_access,
-                    grant_show: grant_access,
-                    grant_update: grant_access,
-                    grant_destroy: grant_access,
-                    grant_options: grant_access,
-                    grant_resources: grant_access,
-                    grant_search: grant_access,
-                    grant_actions: grant_access
-                )
-            end
-
-            puts "role: #{self.name} privilege created for controller: #{route[:controller_path]}"
-
+    def initialize_role_privileges       
+        if (self.name == "admin" ||self.name == "owner")
+            self.descriptor_assignments.find_or_create_by(descriptor: self.account.role_descriptors.find_by(name: self.name))    
         end
+        
+        self.descriptor_assignments.find_or_create_by(descriptor: self.account.role_descriptors.find_by(name: "profile"))    
+    end
 
-        # enable profile privileges
-        self.privileges.find_by(grant_object: "profiles").update(grant_show: true)
-        self.privileges.find_by(grant_object: "users").update(grant_options: true, grant_update: true)
-
+    def privilege_actions
+        self.role_privilege_actions
     end
 
     # @return [Boolean]
     # @description Returns if a role it is assigned to users.
     def has_users?
         User::Role.where(role: self).count > 0
-    end
-
-    #######################################################################################
-    ##############################  Activities Log Methods   ##############################
-    #######################################################################################
-
-    # @return [void]
-    # @param current_user [::User] The user that created the role
-    # @param [Role] The role that was created
-    # @description Creates an activity for this role indicating who created it. And
-    #   also creates an activity with the initial status of the role
-    # Example
-    #   params = {...}
-    #   role = Role.create(params)
-    #   Role.log_activity_create(User.find(1), role)
-    def self.log_activity_create(current_user, role)
-        role.activities.create(
-            user_creator: current_user,
-            category: "action_create"
-        )
-    end
-
-    # @return [void]
-    # @param current_user [::User] The user that created the role
-    # @param role [Role] The role that was created
-    # @param old_attributes[Hash] The data of the record before update
-    # @param new_attributes[Hash] The data of the record after update
-    # @description Creates an activity for this role if someone changed any of this values
-    # Example
-    #   role = Role.find(1)
-    #   old_attributes  = role.attributes.merge({detail_attributes: role.detail.attributes})
-    #   role.update(main_employee: User.find(33))
-    #   new_attributes = role.attributes.merge({detail_attributes: role.detail.attributes})
-    #   Role.log_activity_update(User.find(1), role, old_attributes, new_attributes)
-    def self.log_activity_update(current_user, role, old_attributes, new_attributes)
-        old_attributes.except!("id", "accounts_id", "created_at", "updated_at", "deleted_at")
-        old_attributes.each do |key, value|
-            if value != new_attributes[key]
-                value_from = value
-                value_to = new_attributes[key]
-                value_from = Courier::Core::Date.to_string_datetime(value_from) if value_from.is_a?(Time) || value_from.is_a?(Date)
-                value_to = Courier::Core::Date.to_string_datetime(value_to) if value_to.is_a?(Time) || value_to.is_a?(Date)
-
-                role.activities.create(
-                    user_creator: current_user,
-                    category: "action_update",
-                    field_name: key,
-                    value_from: value_from,
-                    value_to: value_to
-                )
-            end
-        end
     end
 
     # @return [void]
@@ -261,5 +211,87 @@ class Role < ApplicationLesliRecord
                 )
             end
         end
+    end
+
+    # @return [void]
+    # @param current_user [::User] The user that created the role
+    # @param role [Role] The role
+    # @param attributes [Role::Privilege.attributes] The attributes of the role privilege created
+    # @description Adds an activity if a new privilege is added to the role
+    # Example
+    #   params = {...}
+    #   role = Role.find(1)
+    #   privilege = role.privileges.create(params)
+    #   Role.log_activity_create_privilege(
+    #        User.find(1),
+    #        role,
+    #        privilege
+    #    )
+    def self.log_activity_create_role_privilege(current_user, role, attributes)
+        controller_name = attributes["grant_object"]
+
+        attributes.except!("id", "roles_id", "grant_object", "created_at", "updated_at", "deleted_at")
+        attributes.each do |key, value|
+            value_to = attributes[key]
+            value_to = Courier::Core::Date.to_string_datetime(value_to) if value_to.is_a?(Time) || value_to.is_a?(Date)
+
+            role.activities.create(
+                user_creator: current_user,
+                category: "action_create_role_privilege",
+                field_name: key,
+                value_to: value_to,
+                description: controller_name
+            )
+        end
+    end
+
+    # @return [void]
+    # @param current_user [::User] The user that created the role
+    # @param role [Role] The role
+    # @param privilege_group [Account::PrivilegeGroup] The group that is being changed
+    # @param status [Boolean] The status depending on the user action
+    # @description Adds an activity if a group is created
+    # Example
+    #   params = {...}
+    #   role = Role.find(1)
+    #   privilege = role.privileges.create(params)
+    #   Role.log_activity_create_role_privilege_group(
+    #        User.find(1),
+    #        role,
+    #        privilege_group.
+    #        true
+    #    )
+    def self.log_activity_create_role_privilege_group(current_user, role, privilege_group, status, category)
+        role.activities.create(
+            user_creator: current_user,
+            field_name: category,
+            description: privilege_group.name,
+            category: "action_create_role_privilege_group"
+        )
+    end
+
+    # @return [void]
+    # @param current_user [::User] The user that created the role
+    # @param role [Role] The role
+    # @param privilege_group [Account::PrivilegeGroup] The group that is being changed
+    # @param status [Boolean] The status depending on the user action
+    # @description Adds an activity if a group is created
+    # Example
+    #   params = {...}
+    #   role = Role.find(1)
+    #   privilege = role.privileges.create(params)
+    #   Role.log_activity_destroy_role_privilege_group(
+    #        User.find(1),
+    #        role,
+    #        privilege_group.
+    #        true
+    #    )
+    def self.log_activity_destroy_role_privilege_group(current_user, role, privilege_group, status, category)
+        role.activities.create(
+            user_creator: current_user,
+            field_name: category,
+            description: privilege_group.name,
+            category: "action_destroy_role_privilege_group"
+        )
     end
 end
