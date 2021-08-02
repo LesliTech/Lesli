@@ -1,0 +1,2 @@
+module RoleDescriptor::ActivitiesHelper
+end

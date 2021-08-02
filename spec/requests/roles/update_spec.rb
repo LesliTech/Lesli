@@ -90,3 +90,27 @@ RSpec.describe 'PUT:/administration/roles.json', type: :request do
         expect(@response_body["data"]["object_level_permission"]).to eql(@role.object_level_permission)
     end
 end
+
+
+RSpec.describe 'PUT:/administration/roles/1/descriptor_assignments.json', type: :request do
+    include_context 'user authentication'
+
+    before(:all) do
+        categories = ["index", "create", "update", "show", "destroy", "search"]
+        @category = categories[Faker::Number.between(from: 0, to: categories.size)]
+        @role_descriptor = RoleDescriptor.order(Arel.sql('RANDOM()')).first
+
+        post("/administration/roles/1/descriptor_assignments.json", params: {
+            role_descriptor_assignment: {
+                role_descriptors_id: @role_descriptor.id,
+                category: @category
+            }
+        })
+    end
+
+    include_examples 'successful standard json response'
+
+    it 'is expected to update a role with same object level permission' do
+        expect(@response_body["data"]["category"]).to eql(@category)
+    end
+end
