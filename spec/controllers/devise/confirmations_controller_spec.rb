@@ -54,7 +54,7 @@ RSpec.describe Users::ConfirmationsController, type: :controller do
         expect(response.content_type).to eq("text/html; charset=utf-8")
 
         expect(flash[:danger]).to be_present
-        expect(flash[:danger]).to eql("The token you provided is not valid")
+        expect(flash[:danger]).to eql(I18n.t("core.users/confirmations.messages_warning_invalid_token"))
 
     end
 
@@ -66,7 +66,7 @@ RSpec.describe Users::ConfirmationsController, type: :controller do
         expect(response.content_type).to eq("text/html; charset=utf-8")
 
         expect(flash[:danger]).to be_present
-        expect(flash[:danger]).to eql("The token you provided is not valid")
+        expect(flash[:danger]).to eql(I18n.t("core.users/confirmations.messages_warning_invalid_token"))
 
     end
 
@@ -78,7 +78,7 @@ RSpec.describe Users::ConfirmationsController, type: :controller do
         expect(response.content_type).to eq("text/html; charset=utf-8")
 
         expect(flash[:success]).to be_present
-        expect(flash[:success]).to eql("Your email address has been updated successfully")
+        expect(flash[:success]).to eql(I18n.t("core.users/confirmations.messages_success_email_updated"))
 
     end
 
