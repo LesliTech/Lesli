@@ -25,6 +25,9 @@ class Users::ConfirmationsController < Devise::ConfirmationsController
 
     def show
 
+        # delete all previus messages
+        flash.clear
+
         # get the confirmation token sent through get params
         token = params[:confirmation_token]
 
@@ -34,16 +37,12 @@ class Users::ConfirmationsController < Devise::ConfirmationsController
         end
 
         # check if token belongs to a uncofirmed user
-        #user = User.where(:confirmation_token => token).where(:confirmed_at => nil).first
-        user = User.find_by(:confirmation_token => token)
+        user = User.find_by(:confirmation_token => token, :confirmed_at => nil)
 
         # validate that user were found
         if user.blank?
             return flash[:danger] = I18n.t("core.users/confirmations.messages_warning_invalid_token")
         end
-
-        # delete all error messages
-        flash.discard
 
         # register a log with a validation atempt for the user
         log = user.logs.create({ description: "confirmation_atempt_successful" })
@@ -51,6 +50,10 @@ class Users::ConfirmationsController < Devise::ConfirmationsController
         # confirm the user
         user.confirm
 
+        # force token deletion so we are sure nobody will be able to use the token again
+        user.update(confirmation_token: nil)
+
+        # let the user knows that the confirmation is done
         flash[:success] = I18n.t("core.users/confirmations.messages_success_email_updated")
         
         # if new account, launch account onboarding in another thread, 
