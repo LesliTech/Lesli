@@ -26,6 +26,7 @@ end
 RSpec.describe Users::RegistrationsController, type: :controller do
 
     before :each do
+        @allow_registration =  Rails.application.config.lesli_settings["security"]["allow_registration"]
         request.env["devise.mapping"] = Devise.mappings[:user]
     end
 
@@ -39,7 +40,7 @@ RSpec.describe Users::RegistrationsController, type: :controller do
             }
         } 
 
-        unless Rails.application.config.lesli_settings["security"]["allow_registration"]
+        unless @allow_registration 
             expect(response_error["message"]).to eql(I18n.t("core.users/registrations.messages_error_registration_not_allowed"))
         else
             expect_json_response_successful
@@ -57,7 +58,7 @@ RSpec.describe Users::RegistrationsController, type: :controller do
             }
         }
 
-        unless Rails.application.config.lesli_settings["security"]["allow_registration"]
+        unless @allow_registration 
             expect(response_error["message"]).to eql(I18n.t("core.users/registrations.messages_error_registration_not_allowed"))
         else
             expect_json_response_error
@@ -75,7 +76,7 @@ RSpec.describe Users::RegistrationsController, type: :controller do
             }
         }
 
-        unless Rails.application.config.lesli_settings["security"]["allow_registration"]
+        unless @allow_registration 
             expect(response_error["message"]).to eql(I18n.t("core.users/registrations.messages_error_registration_not_allowed"))
         else
             expect_json_response_error
@@ -93,7 +94,7 @@ RSpec.describe Users::RegistrationsController, type: :controller do
             }
         }
 
-        unless Rails.application.config.lesli_settings["security"]["allow_registration"]
+        unless @allow_registration 
             expect(response_error["message"]).to eql(I18n.t("core.users/registrations.messages_error_registration_not_allowed"))
         else
             expect_json_response_error
