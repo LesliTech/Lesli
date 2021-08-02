@@ -18,7 +18,8 @@ For more information read the license file including with this software.
 */
 
 
-// · 
+// · Import main app
+// · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
 import app from 'LesliVue/app'
 
 
@@ -26,7 +27,6 @@ import app from 'LesliVue/app'
 // · 
 import pageList from './pages/list.vue'
 import pageShow from './pages/show.vue'
-import pageEdit from './pages/edit.vue'
 import pageNew from './pages/new.vue'
 
 
@@ -41,7 +41,6 @@ app("Administration", "[list|new|edit|show]", "/administration/roles", [{
 }, {
     path: '/:id',
     component: pageShow
-}, {
-    path: '/:id/edit',
-    component: pageEdit
-}])
+}],{
+    view_type: {}
+})
