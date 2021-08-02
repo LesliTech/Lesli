@@ -28,8 +28,10 @@ export default {
     data() {
         return {
             translations: {
-                core: I18n.t('core.shared'),
-                role_descriptors: I18n.t('core.role_descriptors')
+                core: {
+                    shared: I18n.t('core.shared'),
+                    role_descriptors: I18n.t('core.role_descriptors')
+                }
             },
             loading: false,
             role_descriptor_actions_list: [],
@@ -58,7 +60,7 @@ export default {
             
             Promise.all(this.requests).then(() => {
                 this.requests = []
-                this.msg.success(this.translations.role_descriptors.messages_success_role_descriptor_actions_updated)    
+                this.msg.success(this.translations.core.role_descriptors.messages_success_role_descriptor_actions_updated)    
             })
         },
         
@@ -343,19 +345,31 @@ export default {
     <section>
     <component-data-loading v-if="loading" />
     <template v-else>
+        <b-notification 
+            type="is-warning"
+            has-icon
+        >
+            {{ translations.core.role_descriptors.messages_warning_changes_in_actions_of_role_descriptor }}
+        </b-notification>
+        
         <b-tabs expanded v-model="active_tab">
             <b-tab-item 
                 v-for="category in options.categories" 
                 :key="category.value"
-                :label="object_utils.translateEnum(translations.role_descriptors, 'column_enum_category', category.text)"
+                :label="object_utils.translateEnum(translations.core.role_descriptors, 'column_enum_category', category.text)"
             >
+                <h1>
+                    <b> {{ translations.core.role_descriptors[`view_text_description_${category.text}`]}} </b>
+                </h1>
+            
+                <hr>
                 <form>
                     <fieldset>
                         <div class="columns">
                             <div class="column is-full">
                                 <b-field>
                                     <b-input
-                                        :placeholder="translations.core.view_toolbar_filter_placeholder_search"
+                                        :placeholder="translations.core.shared.view_toolbar_filter_placeholder_search"
                                         v-model="filters.search_constrollers_value"
                                         type="text"
                                         icon="search"
@@ -381,7 +395,7 @@ export default {
                             detail-key="controller"
                         >
                             <template v-slot="props">
-                                <b-table-column field="controller" :label="translations.role_descriptors.view_text_resource" >
+                                <b-table-column field="controller" :label="translations.core.role_descriptors.view_text_resource" >
                                     <strong> {{ `${props.row.controller}` }} </strong>
                                 </b-table-column>
 
