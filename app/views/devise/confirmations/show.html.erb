@@ -17,13 +17,51 @@ For more information read the license file including with this software.
 
 %>
 
-<% if lesli_instance_code != "lesli" %>
-<section class="<%= lesli_instance_code %>-login">
-    <%= render :template => "#{lesli_instance_code}/lesli/devise/confirmations/show" %>
-</section>
+
+<% custom_app_page_clas = "#{ lesli_instance_code }-session".downcase %>
+<% custom_app_page_path = "#{ lesli_instance_code }/lesli/devise/confirmations/show" %>
+<% custom_app_page_exists = lookup_context.exists?(custom_app_page_path) %>
+
+
+
+<%# render custom view in builder module %>
+<% if custom_app_page_exists %>
+<main id="lesli-application" class="<%= custom_app_page_clas %>">
+    <%= render :template => custom_app_page_path %>
+</main>
 <% end %>
 
 
-<% if lesli_instance_code == "lesli" %>
-<h3>There is no a view for confirmations path.</h3>
+
+<%# core view for passses %>
+<% unless custom_app_page_exists %>
+<main id="lesli-application">
+    <section class="hero is-fullheight">
+        <div class="hero-body is-paddingless">
+            <div class="container has-text-centered">
+
+                <%= image_tag "lesli_cloud/brand/app-logo.svg", :alt => "Lesli logo" %>
+
+                <% if flash[:danger] %>
+                    <% flash.each do |type, msg| %>
+                        <div class="notification is-<%= type %>">
+                            <%= msg %>
+                        </div>
+                    <% end %>
+                <% end %>
+
+                <% if flash[:success] %>
+                    <div class="content">
+                        <svg version="1.1" viewBox="0 0 512 512" width="512px" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+                            <path d="M256,6.998c-137.533,0-249,111.467-249,249c0,137.534,111.467,249,249,249s249-111.467,249-249  C505,118.464,393.533,6.998,256,6.998z M256,485.078c-126.309,0-229.08-102.771-229.08-229.081  c0-126.31,102.771-229.08,229.08-229.08c126.31,0,229.08,102.771,229.08,229.08C485.08,382.307,382.31,485.078,256,485.078z"/>
+                            <polygon points="384.235,158.192 216.919,325.518 127.862,236.481 113.72,250.624 216.919,353.803 398.28,172.334"/>
+                        </svg>
+                        <h2>Confirmation successfully</h2>
+                    </div>
+                <% end %>
+
+            </div>
+        </div>
+    </section>
+</main>
 <% end %>
