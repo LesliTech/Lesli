@@ -66,6 +66,10 @@ class User::RolesController < ApplicationLesliController
             return true if current_role.object_level_permission > role.object_level_permission 
             return true if current_role.name == "owner"
         end
+
+        # check if user can work with that object level permission
+        user_role_level_max = current_user.roles.map(&:object_level_permission).max()
+        return false if role.object_level_permission > user_role_level_max
     end
 
     # Use callbacks to share common setup or constraints between actions.
