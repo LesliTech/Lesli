@@ -171,6 +171,8 @@ module RoutesApp
 
                 end
 
+                resource :onboarding
+
                 get "version", to: "abouts#version"
                 get "dashboard", to: "abouts#dashboard"
                 get "system-requirements", to: "abouts#system_requirements"
