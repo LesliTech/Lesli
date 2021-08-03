@@ -30,5 +30,8 @@ import showOnboarding from "./pages/show.vue"
 app("Onboarding", "[show]", "/onboarding", [{
     path: "/",
     component: showOnboarding,
-}])
+}], {
+    account: {},
+    account_settings: {},
+})
 

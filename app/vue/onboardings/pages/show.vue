@@ -36,12 +36,18 @@ export default {
     },
 
     data() {
-        return {
-        }
+        return {}
     },
 
-    mounted() {
+    watch: {
+        'data.account': function(account) {
+            console.log(account)
+        },
+        'data.account_settings': function(account_settings) {
+            console.log(account_settings)
+        }
     }
+
 }
 </script>
 <template>
