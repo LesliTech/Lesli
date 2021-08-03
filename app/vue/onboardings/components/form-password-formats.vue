@@ -20,6 +20,7 @@ export default {
 
     data() {
         return {
+            submitting_form: false,
             translations: {
                 core: {
                     users: I18n.t("core.users"),
@@ -33,12 +34,32 @@ export default {
         }
     },
 
+    methods: {
+        submit() {
+            this.submitting_form = true
+            this.http.post(this.url.admin("onboarding"), {
+                account: this.data.account,
+                account_settings: this.data.account_settings
+            }).then(result => {
+                if (!result.successful) {
+                    this.msg.error(result.error.message)
+                    return
+                }
+                this.msg.info(this.translations.core.account.settings.messages_success_settings_saved_successfully)
+            }).catch(error => {
+                console.log(error)
+            }).finally(() => {
+                this.submitting_form = false
+            })
+        }
+    }
+
 }
 </script>
 <template>
     <div class="card">
         <div class="card-content">
-            <form>
+            <form @submit.prevent="submit()">
                 <br />
                 <h1><strong>Security</strong></h1>
                 <br />
@@ -156,22 +177,22 @@ export default {
                     </div>
                 </div>
 
-                <!-- <div class="field is-grouped is-grouped-right">
+                <div class="field">
                     <div class="control">
                         <button class="button is-primary">
                             <span v-if="submitting_form">
                                 <b-icon icon="circle-notch" custom-class="fa-spin" size="is-small" />
                                 &nbsp;
-                                {{translations.core.shared.view_btn_saving}}
+                                {{ translations.core.shared.view_btn_saving }}
                             </span>
                             <span v-else>
                                 <b-icon icon="save" size="is-small" />
                                 &nbsp;
-                                {{translations.core.shared.view_btn_save}}
+                                {{ translations.core.shared.view_btn_save }}
                             </span>
                         </button>
                     </div>
-                </div> -->
+                </div>
             </form>
         </div>
     </div>

@@ -93,7 +93,7 @@ module ApplicationHelper
     end
 
     def is_lesli_engine_administration?
-        ["accounts", "account", "roles", "profiles", "users", "abouts", "settings", "cronos", "onboardings", "role_descriptors"].include?(lesli_engine)
+        ["accounts", "account", "roles", "profiles", "users", "abouts", "settings", "cronos", "onboarding", "role_descriptors"].include?(lesli_engine)
     end 
 
     def is_lesli_engine?(engine=nil)

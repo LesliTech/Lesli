@@ -43,12 +43,10 @@ export default {
 <template>
     <div class="card">
         <div class="card-content">
-            <form>
-                <br />
-                <h1><strong>Invite users</strong></h1>
-                <br />
-                <br />
-            </form>
+            <br />
+            <h1><strong>Invite users</strong></h1>
+            <br />
+            <br />
         </div>
     </div>
 </template>
