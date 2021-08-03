@@ -103,7 +103,7 @@ export default {
                 role: this.role
             }
             
-            const url = this.url.admin('roles', {id: this.role.id})
+            const url = this.url.admin('roles/:id', {id: this.role.id})
 
             this.http.put(url, form_data).then(result => {
                 if (result.successful) {
@@ -189,10 +189,10 @@ export default {
                                         <sup class="has-text-danger">*</sup>
                                     </template>
                                     <b-select v-model="role.object_level_permission" expanded required>
-                                        <option :value="10">{{translations.core.roles.view_text_object_level_permission_low}}</option>
-                                        <option :value="1000">{{translations.core.roles.view_text_object_level_permission_medium}}</option>
-                                        <option :value="10000">{{translations.core.roles.view_text_object_level_permission_high}}</option>
-                                        <option :disabled="role.name != 'owner'" :value="2147483647"> {{translations.core.roles.view_text_object_level_permission_max}}</option>
+                                        <option :value="10">{{translations.core.roles.view_text_object_level_permission_10_description}}</option>
+                                        <option :value="1000">{{translations.core.roles.view_text_object_level_permission_1000_description}}</option>
+                                        <option :value="10000">{{translations.core.roles.view_text_object_level_permission_10000_description}}</option>
+                                        <option :disabled="role.name != 'owner'" :value="2147483647"> {{translations.core.roles.view_text_object_level_permission_max_description}}</option>
                                     </b-select>
                                 </b-field>
 

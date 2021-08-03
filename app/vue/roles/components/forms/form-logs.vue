@@ -65,7 +65,7 @@ export default {
 
     methods: {
         setSessionStorageFilters(){
-            let stored_filters = this.storage.local('filters')
+            let stored_filters = this.storage.local('logs-filters')
 
             if (stored_filters) {
                 for(let key in stored_filters){
@@ -107,7 +107,7 @@ export default {
                 this.sorting.order
             )
     
-            this.storage.local('filters', this.filters)
+            this.storage.local('logs-filters', this.filters)
 
             this.http.get(url).then(result => {
                 if (result.successful) {
@@ -147,6 +147,14 @@ export default {
             this.filters.text = text.trim()
             this.getRoleActivities()
         },
+        
+        getTitle(){
+            let title = ''
+            title += (this.translations.core.roles[`column_enum_role_${(this.role.name || '').toLowerCase()}`])||this.role.name 
+            title += ' [' + (this.translations.core.shared.view_text_logs||'') + ']'
+            
+            return title
+        }
     },
 
     watch: {
@@ -166,7 +174,7 @@ export default {
     <section>
         <component-header
             :buttons="false"
-            :title="`${translations.core.roles[`column_enum_role_${(role.name || '').toLowerCase()}`] || role.name} [${translations.core.shared.view_text_logs}]`"
+            :title="getTitle()"
         >
             <div class="buttons">
                 <router-link class="button" to="/">
