@@ -14,15 +14,7 @@ export default {
             }
         }
     },
-    mounted() {
-        this.initListeners()
-    },
     methods: {
-        initListeners() {
-            this.bus.subscribe("search:/core/layouts/component-global-search", text =>{
-                this.text = text
-            })
-        },
         getSearch() {
             let text = (this.searchGermanCharacters(this.text) || "").replace(/[+*]/g, '')
             
@@ -94,6 +86,9 @@ export default {
         }
     },
     watch: {
+        'data.global.search': function(val) {
+            this.text = val
+        },
         text() {
             if (this.text == "") {
                 this.show = false
