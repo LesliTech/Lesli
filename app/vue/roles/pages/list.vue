@@ -170,6 +170,10 @@ export default {
             }).catch(error => {
                 console.log(error)
             })
+        },
+        
+        showRole(role){
+            this.$router.push(`${role.id}`)
         }
     },
     watch: {
@@ -234,6 +238,7 @@ export default {
                     v-if="!loading && roles.length > 0"
                     :sort-icon-size="sort.icon_size"
                     :default-sort-direction="sort.direction"
+                    @click="showRole"
                 >
                     <template v-slot="props">
 
