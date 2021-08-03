@@ -35,47 +35,45 @@ export default {
 <template>
     <div class="card">
         <div class="card-content">
-            <form>
-                <h1><strong>Welcome to Lesli configuration wizard</strong></h1>
-                <br />
-                <h1>Here you will be able to set information about your account and other configuration. Let's start with basic information...</h1>
-                <br />
-                <br />
+            <h1><strong>Welcome to Lesli configuration wizard</strong></h1>
+            <br />
+            <h1>Here you will be able to set information about your account and other configuration. Let's start with basic information...</h1>
+            <br />
+            <br />
 
-                <div class="columns is-marginless has-border-bottom">
-                    <div class="column is-3">
-                        <label class="label">
-                            Company Name
-                            <sup class="has-text-danger">*</sup>
-                        </label>
-                    </div>
-                    <div class="column">
-                        <b-input name="company-name" v-model="data.account.company_name" required></b-input>
-                    </div>
+            <div class="columns is-marginless has-border-bottom">
+                <div class="column is-3">
+                    <label class="label">
+                        Company Name
+                        <sup class="has-text-danger">*</sup>
+                    </label>
                 </div>
+                <div class="column">
+                    <b-input name="company-name" v-model="data.account.company_name" required></b-input>
+                </div>
+            </div>
 
-                <div class="columns is-marginless has-border-bottom">
-                    <div class="column is-3">
-                        <label class="label">
-                            Company Name Legal
-                        </label>
-                    </div>
-                    <div class="column">
-                        <b-input name="company-name-legal" v-model="data.account.company_name_legal"></b-input>
-                    </div>
+            <div class="columns is-marginless has-border-bottom">
+                <div class="column is-3">
+                    <label class="label">
+                        Company Name Legal
+                    </label>
                 </div>
+                <div class="column">
+                    <b-input name="company-name-legal" v-model="data.account.company_name_legal"></b-input>
+                </div>
+            </div>
 
-                <div class="columns is-marginless has-border-bottom">
-                    <div class="column is-3">
-                        <label class="label">
-                            Company Tag Line
-                        </label>
-                    </div>
-                    <div class="column">
-                        <b-input name="company-tag-line" v-model="data.account.company_tag_line"></b-input>
-                    </div>
+            <div class="columns is-marginless has-border-bottom">
+                <div class="column is-3">
+                    <label class="label">
+                        Company Tag Line
+                    </label>
                 </div>
-            </form>
+                <div class="column">
+                    <b-input name="company-tag-line" v-model="data.account.company_tag_line"></b-input>
+                </div>
+            </div>
         </div>
     </div>
 </template>

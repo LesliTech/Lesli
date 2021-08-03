@@ -35,90 +35,88 @@ export default {
 <template>
     <div class="card">
         <div class="card-content">
-            <form>
-                <br />
-                <h1><strong>Contact Information</strong></h1>
-                <br />
-                <br />
-                <div class="columns is-marginless has-border-bottom">
-                    <div class="column is-3">
-                        <label class="label">
-                            Country
-                            <sup class="has-text-danger">*</sup>
-                        </label>
-                    </div>
-                    <div class="column">
-                        <b-input name="country" v-model="data.account.country" required></b-input>
-                    </div>
+            <br />
+            <h1><strong>Contact Information</strong></h1>
+            <br />
+            <br />
+            <div class="columns is-marginless has-border-bottom">
+                <div class="column is-3">
+                    <label class="label">
+                        Country
+                        <sup class="has-text-danger">*</sup>
+                    </label>
                 </div>
+                <div class="column">
+                    <b-input name="country" v-model="data.account.country" required></b-input>
+                </div>
+            </div>
 
-                <div class="columns is-marginless has-border-bottom">
-                    <div class="column is-3">
-                        <label class="label">
-                            Address
-                        </label>
-                    </div>
-                    <div class="column">
-                        <b-input name="address" v-model="data.account.address"></b-input>
-                    </div>
+            <div class="columns is-marginless has-border-bottom">
+                <div class="column is-3">
+                    <label class="label">
+                        Address
+                    </label>
                 </div>
+                <div class="column">
+                    <b-input name="address" v-model="data.account.address"></b-input>
+                </div>
+            </div>
 
-                <div class="columns is-marginless has-border-bottom">
-                    <div class="column is-3">
-                        <label class="label">
-                            Region
-                        </label>
-                    </div>
-                    <div class="column">
-                        <b-input name="region" v-model="data.account.region"></b-input>
-                    </div>
+            <div class="columns is-marginless has-border-bottom">
+                <div class="column is-3">
+                    <label class="label">
+                        Region
+                    </label>
                 </div>
+                <div class="column">
+                    <b-input name="region" v-model="data.account.region"></b-input>
+                </div>
+            </div>
 
-                <div class="columns is-marginless has-border-bottom">
-                    <div class="column is-3">
-                        <label class="label">
-                            Phone Number 1
-                            <sup class="has-text-danger">*</sup>
-                        </label>
-                    </div>
-                    <div class="column">
-                        <b-input name="phone-number-1" v-model="data.account.phone_number_1" required></b-input>
-                    </div>
+            <div class="columns is-marginless has-border-bottom">
+                <div class="column is-3">
+                    <label class="label">
+                        Phone Number 1
+                        <sup class="has-text-danger">*</sup>
+                    </label>
                 </div>
+                <div class="column">
+                    <b-input name="phone-number-1" v-model="data.account.phone_number_1" required></b-input>
+                </div>
+            </div>
 
-                <div class="columns is-marginless has-border-bottom">
-                    <div class="column is-3">
-                        <label class="label">
-                            Phone Number 2
-                        </label>
-                    </div>
-                    <div class="column">
-                        <b-input name="phone-number-2" v-model="data.account.phone_number_2"></b-input>
-                    </div>
+            <div class="columns is-marginless has-border-bottom">
+                <div class="column is-3">
+                    <label class="label">
+                        Phone Number 2
+                    </label>
                 </div>
+                <div class="column">
+                    <b-input name="phone-number-2" v-model="data.account.phone_number_2"></b-input>
+                </div>
+            </div>
 
-                <div class="columns is-marginless has-border-bottom">
-                    <div class="column is-3">
-                        <label class="label">
-                            Phone Number 3
-                        </label>
-                    </div>
-                    <div class="column">
-                        <b-input name="phone-number-3" v-model="data.account.phone_number_3"></b-input>
-                    </div>
+            <div class="columns is-marginless has-border-bottom">
+                <div class="column is-3">
+                    <label class="label">
+                        Phone Number 3
+                    </label>
                 </div>
+                <div class="column">
+                    <b-input name="phone-number-3" v-model="data.account.phone_number_3"></b-input>
+                </div>
+            </div>
 
-                <div class="columns is-marginless has-border-bottom">
-                    <div class="column is-3">
-                        <label class="label">
-                            Phone Number 4
-                        </label>
-                    </div>
-                    <div class="column">
-                        <b-input name="phone-number-4" v-model="data.account.phone_number_4"></b-input>
-                    </div>
+            <div class="columns is-marginless has-border-bottom">
+                <div class="column is-3">
+                    <label class="label">
+                        Phone Number 4
+                    </label>
                 </div>
-            </form>
+                <div class="column">
+                    <b-input name="phone-number-4" v-model="data.account.phone_number_4"></b-input>
+                </div>
+            </div>
         </div>
     </div>
 </template>

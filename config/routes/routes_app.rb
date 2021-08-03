@@ -184,9 +184,9 @@ module RoutesApp
                         end
                     end
 
+                    resource :onboarding
                 end
 
-                resource :onboarding
 
                 get "version", to: "abouts#version"
                 get "dashboard", to: "abouts#dashboard"

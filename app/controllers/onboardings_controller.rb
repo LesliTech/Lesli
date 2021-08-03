@@ -22,40 +22,36 @@ class OnboardingsController < ApplicationLesliController
     def show
         respond_to do |format|
             format.html {}
+            format.json do
+                account = Account.find_by_id(@current_user.account.id)
+                return respond_with_not_found unless account
+                return respond_with_successful({
+                    account: account,
+                    account_settings: account.settings
+                })
+            end
         end
     end
 
 
-    # PATCH/PUT /onboardings/1
+    # POST /onboarding
     def create
 
-        token = onboarding_params[:t]
+        account = Account.find_by_id(@current_user.account.id)
 
-        # validate that token were sent
-        if token.blank?
-            return respond_with_error(I18n.t("core.users/confirmations.messages_warning_invalid_token"))
+        if account.update(params[:account]) && account.settings.update(params[:account_settings])
+            respond_with_successful(account)
+        else
+            respond_with_error(account.errors.full_messages.to_sentence)
         end
-
-        # check if token belongs to a uncofirmed user
-        user = User.find_by(:confirmation_token => token)
-
-        # validate that user were found
-        if user.blank?
-            return respond_with_error(I18n.t("core.users/confirmations.messages_warning_invalid_token"))
-        end
-
-        registration = UserRegistrationService.new(user).create_account
-
-        if registration.successful?
-            #user.update(registration_token: nil )
-            respond_with_successful()
-        end
-        respond_with_error(I18n.t("core.accounts.messages_danger_error_creating_account")) if !registration.successful?
 
     end
 
     def onboarding_params
-        params.require(:onboarding).permit(:t)
+        params.require(:onboarding).permit(
+            account: {},
+            account_settings: {}
+        )
     end
 
 end
