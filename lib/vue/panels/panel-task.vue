@@ -50,37 +50,7 @@ export default {
             },
         }
     },
-    mounted() {
-        this.mountListeners()
-    },
     methods: {
-
-        mountListeners() {
-
-            // alerts
-            this.bus.subscribe("show:/lesli/layout/alert", (message, type="info") => {
-                this.$buefy.toast.open({
-                    queue: false,
-                    duration: 5000,
-                    position: 'is-bottom-right',
-                    message: message,
-                    type: `is-${ type }`
-                })
-            })
-
-            // Notifications
-            this.bus.subscribe("show:/lesli/layout/notification", (message, type="info") => {
-                this.$buefy.notification.open({
-                    queue: false,
-                    hasIcon: true,
-                    duration: 5000,
-                    position: 'is-bottom-right',
-                    message: message,
-                    type: `is-${ type }`
-                })
-            })
-
-        },
 
         getTasks() {
             this.http.get('/focus/tasks/resources/overdue_tasks.json?perPage=500&orderColumn=importance').then(result => {
