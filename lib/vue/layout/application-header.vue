@@ -131,9 +131,6 @@ export default {
                 <slot name="tasks"></slot>
                 <slot name="notifications"></slot>
                 <slot name="engines"></slot>
-                <a class="navbar-item header-notification-indicator" @click="data.global.show_panel_support = true">
-                    <i class="fas fa-ticket-alt has-text-link"></i>
-                </a>
 
                 <div class="dropdown is-right is-hoverable header-user-options">
                     <div class="dropdown-trigger">
