@@ -41,6 +41,28 @@ export default {
 
         }
 
+    },
+    watch: {
+
+        'data.global.search': function(text) {
+
+            if (text == "") {
+                this.show = false
+                return 
+            }
+
+            this.text = text
+
+            clearTimeout(this.timer)
+
+            this.timer = setTimeout(() => {
+
+                this.show = true // temp
+                //this.getSearch()
+            }, 800);
+
+        }
+
     }
 
 }
