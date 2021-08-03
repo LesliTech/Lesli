@@ -18,8 +18,6 @@ For more information read the license file including with this software.
 
 export default {
 
-    components: {},
-
     data() {
         return {
             translations: {
@@ -32,12 +30,6 @@ export default {
         }
     },
 
-    watch: {
-    },
-
-    methods: {
-    }
-
 }
 </script>
 <template>
@@ -45,18 +37,17 @@ export default {
         <div class="card-content">
             <form>
                 <br />
-                <h1>And public information.</h1>
+                <h1><strong>Public Information</strong></h1>
                 <br />
                 <br />
                 <div class="columns is-marginless has-border-bottom">
                     <div class="column is-3">
                         <label class="label">
                             Website
-                            <sup class="has-text-danger">*</sup>
                         </label>
                     </div>
                     <div class="column">
-                        <b-input name="website" required></b-input>
+                        <b-input name="website" v-model="data.account.website"></b-input>
                     </div>
                 </div>
 
@@ -64,11 +55,10 @@ export default {
                     <div class="column is-3">
                         <label class="label">
                             Public Email
-                            <sup class="has-text-danger">*</sup>
                         </label>
                     </div>
                     <div class="column">
-                        <b-input name="public-email" required></b-input>
+                        <b-input name="public-email" v-model="data.account.public_email"></b-input>
                     </div>
                 </div>
 
@@ -79,7 +69,7 @@ export default {
                         </label>
                     </div>
                     <div class="column">
-                        <b-input name="github"></b-input>
+                        <b-input name="github" v-model="data.account.github"></b-input>
                     </div>
                 </div>
 
@@ -90,7 +80,7 @@ export default {
                         </label>
                     </div>
                     <div class="column">
-                        <b-input name="twitter"></b-input>
+                        <b-input name="twitter" v-model="data.account.twitter"></b-input>
                     </div>
                 </div>
 
@@ -101,7 +91,7 @@ export default {
                         </label>
                     </div>
                     <div class="column">
-                        <b-input name="youtube"></b-input>
+                        <b-input name="youtube" v-model="data.account.youtube"></b-input>
                     </div>
                 </div>
 
@@ -112,7 +102,7 @@ export default {
                         </label>
                     </div>
                     <div class="column">
-                        <b-input name="linkedin"></b-input>
+                        <b-input name="linkedin" v-model="data.account.linkedin"></b-input>
                     </div>
                 </div>
 
@@ -123,7 +113,7 @@ export default {
                         </label>
                     </div>
                     <div class="column">
-                        <b-input name="facebook"></b-input>
+                        <b-input name="facebook" v-model="data.account.facebook"></b-input>
                     </div>
                 </div>
             </form>

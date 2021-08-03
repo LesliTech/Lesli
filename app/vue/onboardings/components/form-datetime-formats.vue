@@ -18,8 +18,6 @@ For more information read the license file including with this software.
 
 export default {
 
-    components: {},
-
     data() {
         return {
             translations: {
@@ -32,12 +30,6 @@ export default {
         }
     },
 
-    watch: {
-    },
-
-    methods: {
-    }
-
 }
 </script>
 <template>
@@ -45,7 +37,7 @@ export default {
         <div class="card-content">
             <form>
                 <br />
-                <h1>Datetime formats.</h1>
+                <h1><strong>Date-Time Formats</strong></h1>
                 <br />
                 <br />
                 <div class="columns is-marginless has-border-bottom">
@@ -56,7 +48,7 @@ export default {
                         </label>
                     </div>
                     <div class="column">
-                        <b-input name="time-zone" required></b-input>
+                        <b-input name="time-zone" v-model="data.account_settings.datetime_time_zone" required></b-input>
                     </div>
                 </div>
 
@@ -68,7 +60,7 @@ export default {
                         </label>
                     </div>
                     <div class="column">
-                        <b-input name="start-week-on" required></b-input>
+                        <b-input name="start-week-on" v-model="data.account_settings.datetime_start_week_on" required></b-input>
                     </div>
                 </div>
 
@@ -79,7 +71,7 @@ export default {
                         </label>
                     </div>
                     <div class="column">
-                        <b-input name="date-format"></b-input>
+                        <b-input name="date-format" v-model="data.account_settings.datetime_format_date"></b-input>
                     </div>
                 </div>
 
@@ -90,7 +82,7 @@ export default {
                         </label>
                     </div>
                     <div class="column">
-                        <b-input name="time-format"></b-input>
+                        <b-input name="time-format" v-model="data.account_settings.datetime_format_time"></b-input>
                     </div>
                 </div>
 
@@ -101,7 +93,7 @@ export default {
                         </label>
                     </div>
                     <div class="column">
-                        <b-input name="datetime-format"></b-input>
+                        <b-input name="datetime-format" v-model="data.account_settings.datetime_format_date_time"></b-input>
                     </div>
                 </div>
 
@@ -112,7 +104,7 @@ export default {
                         </label>
                     </div>
                     <div class="column">
-                        <b-input name="date-words"></b-input>
+                        <b-input name="date-words" v-model="data.account_settings.datetime_format_date_words"></b-input>
                     </div>
                 </div>
 
@@ -123,7 +115,7 @@ export default {
                         </label>
                     </div>
                     <div class="column">
-                        <b-input name="datetime-words"></b-input>
+                        <b-input name="datetime-words" v-model="data.account_settings.datetime_format_date_time_words"></b-input>
                     </div>
                 </div>
             </form>

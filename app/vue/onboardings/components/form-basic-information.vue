@@ -18,8 +18,6 @@ For more information read the license file including with this software.
 
 export default {
 
-    components: {},
-
     data() {
         return {
             translations: {
@@ -32,12 +30,6 @@ export default {
         }
     },
 
-    watch: {
-    },
-
-    methods: {
-    }
-
 }
 </script>
 <template>
@@ -49,6 +41,7 @@ export default {
                 <h1>Here you will be able to set information about your account and other configuration. Let's start with basic information...</h1>
                 <br />
                 <br />
+
                 <div class="columns is-marginless has-border-bottom">
                     <div class="column is-3">
                         <label class="label">
@@ -57,7 +50,7 @@ export default {
                         </label>
                     </div>
                     <div class="column">
-                        <b-input name="company-name" required></b-input>
+                        <b-input name="company-name" v-model="data.account.company_name" required></b-input>
                     </div>
                 </div>
 
@@ -68,7 +61,7 @@ export default {
                         </label>
                     </div>
                     <div class="column">
-                        <b-input name="company-name-legal"></b-input>
+                        <b-input name="company-name-legal" v-model="data.account.company_name_legal"></b-input>
                     </div>
                 </div>
 
@@ -79,7 +72,7 @@ export default {
                         </label>
                     </div>
                     <div class="column">
-                        <b-input name="company-tag-line"></b-input>
+                        <b-input name="company-tag-line" v-model="data.account.company_tag_line"></b-input>
                     </div>
                 </div>
             </form>

@@ -18,8 +18,6 @@ For more information read the license file including with this software.
 
 export default {
 
-    components: {},
-
     data() {
         return {
             translations: {
@@ -32,12 +30,6 @@ export default {
         }
     },
 
-    watch: {
-    },
-
-    methods: {
-    }
-
 }
 </script>
 <template>
@@ -45,7 +37,7 @@ export default {
         <div class="card-content">
             <form>
                 <br />
-                <h1>Now some contact information...</h1>
+                <h1><strong>Contact Information</strong></h1>
                 <br />
                 <br />
                 <div class="columns is-marginless has-border-bottom">
@@ -56,7 +48,7 @@ export default {
                         </label>
                     </div>
                     <div class="column">
-                        <b-input name="country" required></b-input>
+                        <b-input name="country" v-model="data.account.country" required></b-input>
                     </div>
                 </div>
 
@@ -67,7 +59,7 @@ export default {
                         </label>
                     </div>
                     <div class="column">
-                        <b-input name="address"></b-input>
+                        <b-input name="address" v-model="data.account.address"></b-input>
                     </div>
                 </div>
 
@@ -78,7 +70,7 @@ export default {
                         </label>
                     </div>
                     <div class="column">
-                        <b-input name="region"></b-input>
+                        <b-input name="region" v-model="data.account.region"></b-input>
                     </div>
                 </div>
 
@@ -90,7 +82,7 @@ export default {
                         </label>
                     </div>
                     <div class="column">
-                        <b-input name="phone-number-1" required></b-input>
+                        <b-input name="phone-number-1" v-model="data.account.phone_number_1" required></b-input>
                     </div>
                 </div>
 
@@ -101,7 +93,7 @@ export default {
                         </label>
                     </div>
                     <div class="column">
-                        <b-input name="phone-number-2"></b-input>
+                        <b-input name="phone-number-2" v-model="data.account.phone_number_2"></b-input>
                     </div>
                 </div>
 
@@ -112,7 +104,7 @@ export default {
                         </label>
                     </div>
                     <div class="column">
-                        <b-input name="phone-number-3"></b-input>
+                        <b-input name="phone-number-3" v-model="data.account.phone_number_3"></b-input>
                     </div>
                 </div>
 
@@ -123,7 +115,7 @@ export default {
                         </label>
                     </div>
                     <div class="column">
-                        <b-input name="phone-number-4"></b-input>
+                        <b-input name="phone-number-4" v-model="data.account.phone_number_4"></b-input>
                     </div>
                 </div>
             </form>

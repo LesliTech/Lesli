@@ -45,7 +45,7 @@ export default {
         <div class="card-content">
             <form>
                 <br />
-                <h1>Invite users.</h1>
+                <h1><strong>Invite users</strong></h1>
                 <br />
                 <br />
             </form>
