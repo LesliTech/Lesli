@@ -75,7 +75,7 @@ class Users::RegistrationsController < Devise::RegistrationsController
 
         # Check if instance allow multi-account
         if !Rails.application.config.lesli_settings["security"]["allow_registration"]
-            respond_with_error("No registration allowed, please contact the owner to receive an invitation.")
+            respond_with_error(I18n.t("core.users/registrations.messages_error_registration_not_allowed"))
             return 
         end
 
