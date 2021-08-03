@@ -99,9 +99,9 @@ export default {
     },
 
     watch: {
-        'data.global.show_support_sidebar'(){
+        'data.global.show_panel_support'() {
             // If the component is shown, and hasn't loaded
-            if(this.data.global.show_support_sidebar && !this.loaded){
+            if(this.data.global.show_panel_support && !this.loaded){
                 this.getTicketOptions()
             }
         }
@@ -111,13 +111,11 @@ export default {
 </script>
 <template>
     <b-sidebar
-        :open.sync="data.global.show_support_sidebar"
+        :overlay="false"
+        :open.sync="data.global.show_panel_support"
         class="application-panel-support"
-        right
-        :can-cancel="['escape']"
         fullheight
-        overlay
-    >
+        right>
         <div class="sidebar-content">
             <form @submit="postTicket">
                 <h5 class="title is-5">
@@ -126,7 +124,7 @@ export default {
                             {{translations.main.view_title_quick_creation}}
                         </div>
                         <div class="column is-2">
-                            <button type="button" class="is-pulled-right delete" @click="() => data.global.show_support_sidebar = false">
+                            <button type="button" class="is-pulled-right delete" @click="() => data.global.show_panel_support = false">
                             </button>
                         </div>
                     </div>
