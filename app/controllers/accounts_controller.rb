@@ -2,9 +2,9 @@
 
 Copyright (c) 2020, all rights reserved.
 
-All the information provided by this platform is protected by international laws related  to 
-industrial property, intellectual property, copyright and relative international laws. 
-All intellectual or industrial property rights of the code, texts, trade mark, design, 
+All the information provided by this platform is protected by international laws related  to
+industrial property, intellectual property, copyright and relative international laws.
+All intellectual or industrial property rights of the code, texts, trade mark, design,
 pictures and any other information belongs to the owner of this platform.
 
 Without the written permission of the owner, any replication, modification,
@@ -13,7 +13,7 @@ transmission, publication is strictly forbidden.
 For more information read the license file including with this software.
 
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
-// · 
+// ·
 
 =end
 
@@ -32,10 +32,10 @@ class AccountsController < ApplicationLesliController
     # GET /accounts/1
     # GET /accounts/1.json
     def show
-        respond_to do |format| 
+        respond_to do |format|
             format.html {}
             format.json do
-                set_account 
+                set_account
 
                 respond_with_successful(@account)
             end
@@ -92,6 +92,10 @@ class AccountsController < ApplicationLesliController
 
     def company_logo
         respond_with_successful(current_user.account.files.where(name: "company_logo").delete_all)
+    end
+
+    def options
+        respond_with_successful(current_user.account.options(@current_user, @query))
     end
 
     private

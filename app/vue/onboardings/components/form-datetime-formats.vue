@@ -27,8 +27,30 @@ export default {
                     shared: I18n.t("core.shared")
                 }
             },
+            options: {
+                time_zones: [],
+                days_into_week: []
+            },
         }
     },
+
+    mounted() {
+        this.getOptions()
+    },
+
+    methods: {
+        getOptions(){
+            this.http.get(this.url.admin("account/settings/options")).then(result => {
+                if (result.successful) {
+                    this.options = result.data;
+                } else {
+                    this.msg.error(result.error.message)
+                }
+            }).catch(error => {
+                console.log(error)
+            })
+        },
+    }
 
 }
 </script>
@@ -43,11 +65,23 @@ export default {
                 <div class="column is-3">
                     <label class="label">
                         Time Zone
-                        <sup class="has-text-danger">*</sup>
                     </label>
                 </div>
                 <div class="column">
-                    <b-input name="time-zone" v-model="data.account_settings.datetime_time_zone" required></b-input>
+                    <b-select
+                        v-if="options.time_zones"
+                        name="time-zone"
+                        v-model="data.account_settings.datetime_time_zone"
+                        expanded
+                    >
+                        <option
+                            v-for="time_zone in options.time_zones"
+                            :value="time_zone.value"
+                            :key="time_zone.value"
+                        >
+                            {{ time_zone.text }}
+                        </option>
+                    </b-select>
                 </div>
             </div>
 
@@ -55,11 +89,23 @@ export default {
                 <div class="column is-3">
                     <label class="label">
                         Start week on
-                        <sup class="has-text-danger">*</sup>
                     </label>
                 </div>
                 <div class="column">
-                    <b-input name="start-week-on" v-model="data.account_settings.datetime_start_week_on" required></b-input>
+                    <b-select
+                        v-if="options.days_into_week"
+                        name="start-week-on"
+                        v-model="data.account_settings.datetime_start_week_on"
+                        expanded
+                    >
+                        <option
+                            v-for="day in options.days_into_week"
+                            :value="day.value"
+                            :key="day.value"
+                        >
+                            {{ day.text }}
+                        </option>
+                    </b-select>
                 </div>
             </div>
 

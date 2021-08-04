@@ -2,9 +2,9 @@
 
 Copyright (c) 2020, all rights reserved.
 
-All the information provided by this platform is protected by international laws related  to 
-industrial property, intellectual property, copyright and relative international laws. 
-All intellectual or industrial property rights of the code, texts, trade mark, design, 
+All the information provided by this platform is protected by international laws related  to
+industrial property, intellectual property, copyright and relative international laws.
+All intellectual or industrial property rights of the code, texts, trade mark, design,
 pictures and any other information belongs to the owner of this platform.
 
 Without the written permission of the owner, any replication, modification,
@@ -13,10 +13,10 @@ transmission, publication is strictly forbidden.
 For more information read the license file including with this software.
 
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
-// · 
+// ·
 
 =end
-  
+
 class Account < ApplicationRecord
 
     belongs_to :user, foreign_key: "users_id", optional: true
@@ -69,7 +69,7 @@ class Account < ApplicationRecord
         latin_america: "latin_america",
         united_states: "united_states",
         european_union: "european_union"
-    } 
+    }
 
 
     def initialize_account
@@ -81,7 +81,7 @@ class Account < ApplicationRecord
             self.template.save!
         end
 
-        # create role descriptors 
+        # create role descriptors
         self.role_descriptors.find_or_create_by(name: "owner")
         self.role_descriptors.find_or_create_by(name: "admin")
         self.role_descriptors.find_or_create_by(name: "profile")
@@ -95,7 +95,7 @@ class Account < ApplicationRecord
         account_roles.prepend "admin"  # platform administrator role
         account_roles.prepend "owner"  # super admin role
         account_roles.uniq.each do |role_name|
-            
+
             object_level_permission = 10
             object_level_permission = 2147483647 if role_name == "owner"
             object_level_permission = 1000 if role_name == "admin"
@@ -110,12 +110,12 @@ class Account < ApplicationRecord
             role.initialize_role_privileges
 
         end
-        
-        
+
+
         # create default descriptors
         self.role_descriptors.find_or_create_by(name: "owner")
         self.role_descriptors.find_or_create_by(name: "admin")
-        
+
 
     end
 
@@ -243,7 +243,7 @@ class Account < ApplicationRecord
                 self.proposal.save!
             end
         end
-        
+
         if defined? CloudLesli
             if self.lesli.blank?
                 self.lesli = CloudLesli::Account.new
@@ -272,7 +272,7 @@ class Account < ApplicationRecord
 
     def initialize_account_for_instance
 
-        # Every instance (builder module) is loaded into the platform using the same 
+        # Every instance (builder module) is loaded into the platform using the same
         # name of the engine
         instance = Rails.application.config.lesli_settings["instance"][:name]
 
@@ -288,11 +288,24 @@ class Account < ApplicationRecord
             instance_account_klass.find_or_create_by(:id => self.id)
 
         end
-        
+
     end
 
     def initialize_settings
         Account::Setting.initialize_data(self)
+    end
+
+    def options(current_user, query)
+        countries = Account::Location.list(current_user, {
+            :filters => { :type => "country" }
+        }).map { |country| { id: country.id, name: country.name } }
+
+        regions = Account.regions.map { |key, value| { key: key, value: value } }
+
+        return {
+            regions: regions,
+            countries: countries,
+        }
     end
 
 
