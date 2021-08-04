@@ -16,7 +16,7 @@ For more information read the license file including with this software.
 // · 
   
 =end
-class Role::Activity < ApplicationRecord
+class Role::Activity < CloudObject::Activity
     belongs_to :role,           foreign_key: "roles_id"
     belongs_to :user_creator,   foreign_key: "users_id", class_name: "::User", optional: true
 
@@ -26,7 +26,9 @@ class Role::Activity < ApplicationRecord
         action_update:                          "action_update",
         action_destroy:                         "action_destroy",
         action_update_role_privilege:           "action_update_role_privilege",
-        action_create_role_privilege:           "action_create_role_privilege"
+        action_create_role_privilege:           "action_create_role_privilege",
+        action_create_descriptor_assignment:    "action_create_descriptor_assignment",
+        action_destroy_descriptor_assignment:   "action_destroy_descriptor_assignment"
     }
 
     def self.options(current_user, query)
@@ -51,6 +53,7 @@ class Role::Activity < ApplicationRecord
                     )
                     .where("role_activities.category not in (?)", [
                             "action_show",
+                            "action_update_role_privilege",
                             "action_create_role_privilege"
                         ]
                     )
@@ -96,8 +99,8 @@ class Role::Activity < ApplicationRecord
     def self.translate_activity_field(field_name, category, description)
         return "" if field_name.blank? 
 
-        if (category == "action_create_role_privilege" || category == "action_update_role_privilege")
-            return I18n.t("core.roles.view_text_#{field_name}", default: field_name)
+        if (category == "action_create_descriptor_assignment" || category == "action_destroy_descriptor_assignment")
+            return I18n.t(".core.role_descriptors.view_text_description_#{field_name}", default: field_name)
         else
             return I18n.t("core.roles.column_#{field_name}", default: field_name)
         end
@@ -106,7 +109,7 @@ class Role::Activity < ApplicationRecord
     def self.translate_activity_value(value, category, field_name)
         return "" if value.blank? 
 
-        if (category == "action_create_role_privilege" || category == "action_update_role_privilege")
+        if (category == "action_create_descriptor_assignment" || category == "action_destroy_descriptor_assignment")
             return I18n.t("core.roles.view_text_enabled") if value == "t"
 
             return I18n.t("core.roles.view_text_disabled") 
@@ -126,5 +129,28 @@ class Role::Activity < ApplicationRecord
         new_category = I18n.t("core.roles.column_enum_category_#{category}", default: new_category)
         
         new_category
+    end
+    
+    #######################################################################################
+    ##############################  Activities Log Methods   ##############################
+    #######################################################################################
+        
+    def self.log_create_descriptor_assignment(current_user, role, descriptor_assignment)
+        self.log_descriptor_assignment(current_user, role, descriptor_assignment, "action_create_descriptor_assignment")
+    end
+
+    def self.log_destroy_descriptor_assignment(current_user, role, descriptor_assignment)
+        self.log_descriptor_assignment(current_user, role, descriptor_assignment, "action_destroy_descriptor_assignment")
+    end
+
+    protected
+
+    def self.log_descriptor_assignment(current_user, role, descriptor_assignment, category)
+        role.activities.create(
+            user_creator: current_user,
+            category: category,
+            field_name: descriptor_assignment.category,
+            description: descriptor_assignment.descriptor.name
+        )
     end
 end

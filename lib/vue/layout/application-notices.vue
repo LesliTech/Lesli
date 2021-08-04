@@ -31,7 +31,7 @@ export default {
     },
     
     mounted(){
-        if (this.announcements_abilities.grant_list) {
+        if (this.announcements_abilities.list) {
             this.getAnnouncements()   
         }
     },
