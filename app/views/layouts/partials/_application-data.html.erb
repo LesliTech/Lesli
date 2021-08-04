@@ -21,6 +21,7 @@ For more information read the license file including with this software.
 const lesli = {
     app: "<%= params[:controller] %>",
     url: { root: "<%= request.base_url.to_s %>", path: "<%= request.path%>" },
+    engine: "<%= lesli_engine_or_instance %>",
     view_id: "<%= "#{params[:controller].gsub("/", "_")}_#{params[:action]}" %>",
     company:  <%= @account ? @account[:company].to_json.html_safe : "{}"%>,
     settings: <%= @account ? @account[:settings].to_json.html_safe : "{}"%>,
