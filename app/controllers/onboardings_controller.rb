@@ -39,7 +39,7 @@ class OnboardingsController < ApplicationLesliController
 
         account = Account.find_by_id(@current_user.account.id)
 
-        if account.update(params[:account]) && account.settings.update(params[:account_settings])
+        if account.update(onboarding_params[:account]) && account.settings.update(@current_user, onboarding_params[:account_settings])
             respond_with_successful(account)
         else
             respond_with_error(account.errors.full_messages.to_sentence)
@@ -50,7 +50,22 @@ class OnboardingsController < ApplicationLesliController
     def onboarding_params
         params.require(:onboarding).permit(
             account: {},
-            account_settings: {}
+            account_settings: [
+                :password_enforce_complexity,
+                :password_minimum_length,
+                :password_expiration_time_days,
+                :password_special_char_count,
+                :password_uppercase_count,
+                :password_lowercase_count,
+                :password_digit_count,
+                :datetime_time_zone,
+                :datetime_start_week_on,
+                :datetime_format_date,
+                :datetime_format_time,
+                :datetime_format_date_time,
+                :datetime_format_date_words,
+                :datetime_format_date_time_words,
+            ]
         )
     end
 

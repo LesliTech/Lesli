@@ -128,4 +128,23 @@ class Account::Setting < ApplicationRecord
             days_into_week: DateAndTime::Calculations::DAYS_INTO_WEEK.map {|day, value| { value: day, text: I18n.t("core.shared.view_text_day_#{day}") }},
         }
     end
+
+    def self.update(current_user, params)
+        if params.empty?
+            return false
+        end
+
+        params.each do |key, value|
+            setting = current_user.account.settings.find_by(name: key)
+
+            if setting.present?
+                setting.update_attribute(:value, value)
+            else
+                current_user.account.settings.create!(name: key, value: value)
+            end
+        end
+
+        return true
+    end
+
 end
