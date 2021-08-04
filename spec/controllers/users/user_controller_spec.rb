@@ -40,7 +40,7 @@ RSpec.describe UsersController, type: :controller do
 
     it "get the dev user" do 
 
-        user = User.find_by(email: "dev@lesli.cloud")
+        user = User.find_by(email: Rails.application.config.lesli_settings["account"]["user"]["email"])
 
         get :show, params: { id: user.id }
 
