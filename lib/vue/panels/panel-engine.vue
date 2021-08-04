@@ -25,23 +25,19 @@ export default {
     data() {
         return {
             open: false,
-            right: false,
+            right: true,
             overlay: false,
             fullwidth: false,
             fullheight: true,
             translations: {}
         }
     },
-    mounted() {
-        this.mountListeners()
-    },
-    methods: {
-        mountListeners() {
-            this.bus.subscribe("show:/core/layout/apps#panel", side => {
-                this.open = true
-                this.right = side == 'right'
-            })
+    watch: {
+
+        'data.global.show_panel_engines': function() {
+            this.open = true
         }
+
     }
 }
 </script>
@@ -53,8 +49,7 @@ export default {
             :fullwidth="fullwidth"
             :overlay="overlay"
             :right="right"
-            :open.sync="open"
-        >
+            :open.sync="open">
             <div class="header">
                 <slot name="header"></slot>
             </div>

@@ -75,23 +75,12 @@ export default {
             }
         },
 
-        showApps(side) {
-            this.bus.publish("show:/core/layout/apps#panel", side)
-        },
-
-        showTasks() {
-            this.bus.publish("show:/core/layout/tasks#panel")
-        },
-
-        showNotifications() {
-            this.bus.publish("show:/core/layout/notification#panel")
-        },
-
         searchText(input) {
 
             this.search.searching = !input.srcElement.value == ""
 
-            this.bus.publish("search:/core/layouts/component-global-search", input.srcElement.value)
+            //this.bus.publish("search:/core/layouts/component-global-search", input.srcElement.value)
+            this.data.global.search = input.srcElement.value
 
             setTimeout(() => {
                 this.search.searching = false
@@ -136,20 +125,12 @@ export default {
             </div>
             <div class="header-right">
 
-                <slot name="languages"></slot>
                 <slot></slot>
+                <slot name="languages"></slot>
                 <slot name="announcements"></slot>
                 <slot name="tasks"></slot>
                 <slot name="notifications"></slot>
-
-                <a class="navbar-item header-navigation-engine core" @click="showApps('right')">
-                    <span class="icon">
-                        <svg viewBox="0 0 24 24">
-                            <path d="M6,8c1.1,0 2,-0.9 2,-2s-0.9,-2 -2,-2 -2,0.9 -2,2 0.9,2 2,2zM12,20c1.1,0 2,-0.9 2,-2s-0.9,-2 -2,-2 -2,0.9 -2,2 0.9,2 2,2zM6,20c1.1,0 2,-0.9 2,-2s-0.9,-2 -2,-2 -2,0.9 -2,2 0.9,2 2,2zM6,14c1.1,0 2,-0.9 2,-2s-0.9,-2 -2,-2 -2,0.9 -2,2 0.9,2 2,2zM12,14c1.1,0 2,-0.9 2,-2s-0.9,-2 -2,-2 -2,0.9 -2,2 0.9,2 2,2zM16,6c0,1.1 0.9,2 2,2s2,-0.9 2,-2 -0.9,-2 -2,-2 -2,0.9 -2,2zM12,8c1.1,0 2,-0.9 2,-2s-0.9,-2 -2,-2 -2,0.9 -2,2 0.9,2 2,2zM18,14c1.1,0 2,-0.9 2,-2s-0.9,-2 -2,-2 -2,0.9 -2,2 0.9,2 2,2zM18,20c1.1,0 2,-0.9 2,-2s-0.9,-2 -2,-2 -2,0.9 -2,2 0.9,2 2,2z">
-                            </path>
-                        </svg>
-                    </span>
-                </a>
+                <slot name="engines"></slot>
 
                 <div class="dropdown is-right is-hoverable header-user-options">
                     <div class="dropdown-trigger">
