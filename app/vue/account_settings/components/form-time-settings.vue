@@ -112,21 +112,21 @@ export default {
                         </div>
                         <div class="column is-12">
                             <b-field :label="translations.core.account.settings.column_time_zone">
-                              <b-select
-                                  v-if="options.time_zones"
-                                  name="settings-time-time_zone"
-                                  v-model="settings.time_zone"
-                                  placeholder="translations.main.view_placeholder_select_brand"
-                                  expanded
-                              >
-                                <option
-                                    v-for="time_zone in options.time_zones"
-                                    :value="time_zone.value"
-                                    :key="time_zone.value"
+                                <b-select
+                                    v-if="options.time_zones"
+                                    name="settings-time-time_zone"
+                                    v-model="settings.time_zone"
+                                    placeholder="translations.main.view_placeholder_select_brand"
+                                    expanded
                                 >
-                                  {{time_zone.text}}
-                                </option>
-                              </b-select>
+                                    <option
+                                        v-for="time_zone in options.time_zones"
+                                        :value="time_zone.value"
+                                        :key="time_zone.value"
+                                    >
+                                        {{time_zone.text}}
+                                    </option>
+                                </b-select>
                             </b-field>
                         </div>
                         <div class="column is-12">
@@ -138,13 +138,13 @@ export default {
                                     placeholder="translations.main.view_placeholder_select_brand"
                                     expanded
                                 >
-                                  <option
-                                      v-for="day in options.days_into_week"
-                                      :value="day.value"
-                                      :key="day.value"
-                                  >
-                                      {{day.text}}
-                                  </option>
+                                    <option
+                                        v-for="day in options.days_into_week"
+                                        :value="day.value"
+                                        :key="day.value"
+                                    >
+                                        {{day.text}}
+                                    </option>
                                 </b-select>
                             </b-field>
                         </div>

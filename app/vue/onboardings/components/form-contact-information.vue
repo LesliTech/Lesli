@@ -27,8 +27,30 @@ export default {
                     shared: I18n.t("core.shared")
                 }
             },
+            options: {
+                countries: [],
+                regions: []
+            }
         }
     },
+
+    mounted() {
+        this.getOptions()
+    },
+
+    methods: {
+        getOptions(){
+            this.http.get(this.url.admin("account/options")).then(result => {
+                if (result.successful) {
+                    this.options = result.data;
+                } else {
+                    this.msg.error(result.error.message)
+                }
+            }).catch(error => {
+                console.log(error)
+            })
+        },
+    }
 
 }
 </script>
@@ -43,11 +65,23 @@ export default {
                 <div class="column is-3">
                     <label class="label">
                         Country
-                        <sup class="has-text-danger">*</sup>
                     </label>
                 </div>
                 <div class="column">
-                    <b-input name="country" v-model="data.account.country" required></b-input>
+                    <b-select
+                        v-if="options.countries"
+                        name="country"
+                        v-model="data.account.country"
+                        expanded
+                    >
+                        <option
+                            v-for="country in options.countries"
+                            :value="country.id"
+                            :key="country.name"
+                        >
+                            {{ country.name }}
+                        </option>
+                    </b-select>
                 </div>
             </div>
 
@@ -69,7 +103,20 @@ export default {
                     </label>
                 </div>
                 <div class="column">
-                    <b-input name="region" v-model="data.account.region"></b-input>
+                    <b-select
+                        v-if="options.regions"
+                        name="region"
+                        v-model="data.account.region"
+                        expanded
+                    >
+                        <option
+                            v-for="region in options.regions"
+                            :value="region.value"
+                            :key="region.key"
+                        >
+                            {{ region.value }}
+                        </option>
+                    </b-select>
                 </div>
             </div>
 
@@ -77,11 +124,10 @@ export default {
                 <div class="column is-3">
                     <label class="label">
                         Phone Number 1
-                        <sup class="has-text-danger">*</sup>
                     </label>
                 </div>
                 <div class="column">
-                    <b-input name="phone-number-1" v-model="data.account.phone_number_1" required></b-input>
+                    <b-input name="phone-number-1" v-model="data.account.phone_number_1"></b-input>
                 </div>
             </div>
 
