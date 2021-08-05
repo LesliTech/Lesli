@@ -103,6 +103,9 @@ module ApplicationHelper
         return true
     end 
 
+    # return the name of the engine loaded for the current path
+    # this helper return the name of the engine of the code we are running on
+    # example: https://lesli.cloud/driver/events/1/edit -> engine loaded: cloud_driver
     def lesli_engine_or_instance
         return lesli_instance_code if not is_lesli_engine?
         return lesli_engine

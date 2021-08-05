@@ -49,6 +49,21 @@ module LC
             }
         end
 
+        # Ussage example
+        # tasks = Task
+        # .joins(:detail)
+        # .page(query[:pagination][:page])
+        # .per(query[:pagination][:perPage])
+        # 
+        # response_message = LC::Response.search(tasks)
+        # respond_with_successful(response_message)
+        def self.search payload
+            {
+                columns: payload.first.as_json.keys,
+                records: payload
+            }
+        end
+
 
         # Response template for service objects
         def self.service successful, payload=nil
