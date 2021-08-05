@@ -56,11 +56,10 @@ export default {
 </script>
 <template>
     <div class="card">
-        <div class="card-content">
-            <br />
+        <div class="card-header-title">
             <h1><strong>Date-Time Formats</strong></h1>
-            <br />
-            <br />
+        </div>
+        <div class="card-content">
             <div class="columns is-marginless has-border-bottom">
                 <div class="column is-3">
                     <label class="label">

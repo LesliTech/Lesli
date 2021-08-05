@@ -34,12 +34,11 @@ export default {
 </script>
 <template>
     <div class="card">
-        <div class="card-content">
+        <div class="card-header-title">
             <h1><strong>Welcome to Lesli configuration wizard</strong></h1>
-            <br />
+        </div>
+        <div class="card-content">
             <h1>Here you will be able to set information about your account and other configuration. Let's start with basic information...</h1>
-            <br />
-            <br />
 
             <div class="columns is-marginless has-border-bottom">
                 <div class="column is-3">

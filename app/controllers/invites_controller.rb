@@ -34,7 +34,7 @@ class InvitesController < ApplicationController
 
     # POST /invites
     def create
-        invite = current_user.account.invites.new(invite_params)
+        invite = Invite.new(invite_params)
 
         if invite.save
             respond_with_successful(invite)

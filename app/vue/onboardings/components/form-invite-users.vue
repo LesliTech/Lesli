@@ -71,10 +71,10 @@ export default {
 </script>
 <template>
     <div class="card">
-        <div class="card-content">
-            <br />
+        <div class="card-header-title">
             <h1><strong>Invite users</strong></h1>
-            <br />
+        </div>
+        <div class="card-content">
             <div v-if="invitedUsers.length > 0">
                 <h1>Invited users</h1>
                 <div class="columns is-marginless has-border-bottom" v-bind:key="invitedUser.email" v-for="invitedUser in invitedUsers">
@@ -137,7 +137,7 @@ export default {
                     </div>
                 </div>
 
-                <div class="field centered">
+                <div class="field has-text-centered">
                     <div class="control">
                         <button class="button is-primary">
                             <span v-if="submittingForm">
@@ -159,7 +159,7 @@ export default {
     </div>
 </template>
 <style scoped>
-.centered {
+.has-text-centered {
     text-align: center;
 }
 </style>

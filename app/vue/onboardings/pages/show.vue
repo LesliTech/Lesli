@@ -20,7 +20,6 @@ import componentFormBasicInformation from "../components/form-basic-information.
 import componentFormContactInformation from "../components/form-contact-information.vue"
 import componentFormPublicInformation from "../components/form-public-information.vue"
 import componentFormDatetimeFormats from "../components/form-datetime-formats.vue"
-import componentFormPasswordFormats from "../components/form-password-formats.vue"
 import componentFormInviteUsers from "../components/form-invite-users.vue"
 
 
@@ -31,20 +30,12 @@ export default {
         'component-form-contact-information': componentFormContactInformation,
         'component-form-public-information': componentFormPublicInformation,
         'component-form-datetime-formats': componentFormDatetimeFormats,
-        'component-form-password-formats': componentFormPasswordFormats,
         'component-form-invite-users': componentFormInviteUsers,
     },
 
     data() {
         return {
             settings: {
-                "password_enforce_complexity": null,
-                "password_minimum_length": null,
-                "password_expiration_time_days": null,
-                "password_special_char_count": null,
-                "password_uppercase_count": null,
-                "password_lowercase_count": null,
-                "password_digit_count": null,
                 "datetime_time_zone": null,
                 "datetime_start_week_on": null,
                 "datetime_format_date": null,
@@ -52,7 +43,17 @@ export default {
                 "datetime_format_date_time": null,
                 "datetime_format_date_words": null,
                 "datetime_format_date_time_words": null,
-            }
+            },
+            translations: {
+                core: {
+                    users: I18n.t("core.users"),
+                    roles: I18n.t("core.roles"),
+                    shared: I18n.t("core.shared"),
+                    account: {
+                        settings: I18n.t("core.account/settings")
+                    }
+                }
+            },
         }
     },
 
@@ -80,7 +81,19 @@ export default {
         },
 
         finishConfiguration() {
-            this.url.go(this.url.admin("/"))
+            this.http.post(this.url.admin("onboarding"), {
+                account: this.data.account,
+                account_settings: this.data.account_settings
+            }).then(result => {
+                if (!result.successful) {
+                    this.msg.error(result.error.message)
+                    return
+                }
+                this.msg.info(this.translations.core.account.settings.messages_success_settings_saved_successfully)
+                this.url.go(this.url.admin("/"))
+            }).catch(error => {
+                console.log(error)
+            })
         }
     },
 
@@ -109,21 +122,18 @@ export default {
                 <component-form-datetime-formats></component-form-datetime-formats>
             </b-step-item>
             <b-step-item icon="account-key">
-                <component-form-password-formats></component-form-password-formats>
-            </b-step-item>
-            <b-step-item icon="account-key">
                 <component-form-invite-users></component-form-invite-users>
             </b-step-item>
             <b-step-item icon="account-key">
                 <div class="card">
                     <div class="card-content">
                         <form @submit.prevent="finishConfiguration()">
-                            <div class="welcome-title centered">
+                            <div class="welcome-title has-text-centered">
                                 <h1><strong>Welcome</strong></h1>
                             </div>
 
                             <br />
-                            <div class="centered">
+                            <div class="has-text-centered">
                                 <button class="button is-primary">
                                     <span>
                                         {{ "Finish Configuration" }}
@@ -142,7 +152,7 @@ export default {
 .welcome-title {
     font-size: 4rem;
 }
-.centered {
+.has-text-centered {
     text-align: center;
 }
 </style>
