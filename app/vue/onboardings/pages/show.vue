@@ -78,6 +78,10 @@ export default {
                 }
             });
         },
+
+        finishConfiguration() {
+            this.url.go(this.url.admin("/"))
+        }
     },
 
     mounted() {
@@ -110,9 +114,35 @@ export default {
             <b-step-item icon="account-key">
                 <component-form-invite-users></component-form-invite-users>
             </b-step-item>
+            <b-step-item icon="account-key">
+                <div class="card">
+                    <div class="card-content">
+                        <form @submit.prevent="finishConfiguration()">
+                            <div class="welcome-title centered">
+                                <h1><strong>Welcome</strong></h1>
+                            </div>
+
+                            <br />
+                            <div class="centered">
+                                <button class="button is-primary">
+                                    <span>
+                                        {{ "Finish Configuration" }}
+                                    </span>
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </b-step-item>
         </b-steps>
 
     </section>
 </template>
-
-
+<style scoped>
+.welcome-title {
+    font-size: 4rem;
+}
+.centered {
+    text-align: center;
+}
+</style>

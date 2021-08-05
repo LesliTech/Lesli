@@ -177,7 +177,7 @@ export default {
                     </div>
                 </div>
 
-                <div class="field">
+                <div class="field centered">
                     <div class="control">
                         <button class="button is-primary">
                             <span v-if="submitting_form">
@@ -197,3 +197,8 @@ export default {
         </div>
     </div>
 </template>
+<style scoped>
+.centered {
+    text-align: center;
+}
+</style>
