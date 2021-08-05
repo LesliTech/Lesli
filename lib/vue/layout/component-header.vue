@@ -73,7 +73,7 @@ export default {
             </div>
         </nav>
 
-        <div class="component-header-shortcuts buttons">
+        <div v-if="shortcuts.length > 0" class="component-header-shortcuts buttons">
             <a 
                 class="button"
                 v-for="shortcut in shortcuts" :key="shortcut.id"
