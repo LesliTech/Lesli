@@ -51,6 +51,7 @@ export default {
     },
 
     methods: {
+
         addListeners(){
             window.addEventListener('scroll', this.handleScroll);
             this.$navbar = document.querySelector('#lesli-application .application-header .header-navigation')
@@ -78,13 +79,9 @@ export default {
         searchText(input) {
 
             this.search.searching = !input.srcElement.value == ""
-
-            //this.bus.publish("search:/core/layouts/component-global-search", input.srcElement.value)
             this.data.global.search = input.srcElement.value
 
-            setTimeout(() => {
-                this.search.searching = false
-            }, 1400)
+            setTimeout(() => { this.search.searching = false }, 1400)
 
         }
 
@@ -116,7 +113,12 @@ export default {
         <div class="header-navigation">
             <div class="header-left">
                 <div class="control is-medium has-icons-left has-text-grey">
-                    <input class="input is-medium is-shadowless" name='global_search' type="email" @input="searchText" :placeholder="translations.core.shared.search_placeholder">
+                    <input 
+                        type="email" 
+                        name="global_search"
+                        class="input is-medium is-shadowless" 
+                        :placeholder="translations.core.shared.search_placeholder"
+                        @input="searchText">
                     <span class="icon is-left has-text-gray">
                         <i v-if="!search.searching" class="fas fa-search"></i>
                         <component-data-loading v-if="search.searching && searchText!=''" :icon-only="true"/>
