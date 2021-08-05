@@ -21,6 +21,7 @@ class CreateRoles < ActiveRecord::Migration[6.0]
     def change
         create_table :roles do |t|
             t.string    :name
+            t.string    :code
             t.boolean   :active
             t.string    :default_path
             t.boolean   :only_my_data, default: false

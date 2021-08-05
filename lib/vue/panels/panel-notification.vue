@@ -136,7 +136,9 @@ export default {
                 this.getNotifications()
             }
         }
+
     }
+    
 }
 </script>
 <template>

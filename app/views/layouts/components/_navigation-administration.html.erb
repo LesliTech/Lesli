@@ -29,6 +29,11 @@ For more information read the license file including with this software.
         <span><%= I18n.t("core.shared.sidebar_nav_users") %></span>
     <% end %>
 
+    <%= navigation_item(main_app.role_descriptors_path) do %>
+        <i class="fas fa-user-shield"></i>
+        <span><%= I18n.t("core.shared.sidebar_nav_role_descriptors") %></span>
+    <% end %>
+    
     <%= navigation_item(main_app.roles_path) do %>
         <i class="fas fa-shield-alt"></i>
         <span><%= I18n.t("core.shared.sidebar_nav_roles_privileges") %></span>
@@ -38,7 +43,7 @@ For more information read the license file including with this software.
         <i class="fas fa-network-wired"></i>
         <span><%= I18n.t("core.shared.sidebar_nav_integrations") %></span>
     <% end %>
-
+    
     <%= navigation_item(main_app.account_cronos_path) do %>
         <i class="fas fa-hourglass-half"></i>
         <%# <span><%= I18n.t("core.shared.sidebar_nav_cronos") % ></span> %>

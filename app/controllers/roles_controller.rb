@@ -105,14 +105,14 @@ class RolesController < ApplicationLesliController
 
         # check if user can work with that object level permission
         if role.object_level_permission >= current_user.roles.map(&:object_level_permission).max()
-            respond_with_error("object_level_permission_too_high")
+            respond_with_error(I18n.t("core.roles.messages_danger_object_level_permission_too_high"))
             return
         end
 
         if role.save
             respond_with_successful(role)
 
-            Role.log_activity_create(current_user, role)
+            Role::Activity.log_create(current_user, role)
 
             role.initialize_role_privileges
         else
@@ -140,13 +140,13 @@ class RolesController < ApplicationLesliController
 
         # check if user can work with that object level permission
         if @role.object_level_permission > user_role_level_max
-            return respond_with_error("object_level_permission_too_high")
+            return respond_with_error(I18n.t("core.roles.messages_danger_object_level_permission_too_high"))
         end
 
         # if user tries to change level of a role with a highest level he can work with
         if !role_params[:object_level_permission].blank?
             if role_params[:object_level_permission] >= user_role_level_max
-                return respond_with_error("object_level_permission_too_high")
+                return respond_with_error(I18n.t("core.roles.messages_danger_object_level_permission_too_high"))
             end
         end
 
@@ -157,7 +157,7 @@ class RolesController < ApplicationLesliController
 
             respond_with_successful(@role)
 
-            Role.log_activity_update(current_user, @role, old_attributes, new_attributes)
+            Role::Activity.log_update(current_user, @role, old_attributes, new_attributes)
         else
             respond_with_error(@role.errors.full_messages.to_sentence)
         end
@@ -178,17 +178,12 @@ class RolesController < ApplicationLesliController
         if @role.destroy
             respond_with_successful
 
-            Role.log_activity_destroy(current_user, @role)
+            Role::Activity.log_destroy(current_user, @role)
         else
             respond_with_error(@role.errors.full_messages.to_sentence)
         end
     end
-
-
-    def options
-        respond_with_successful()
-    end
-
+    
     private
 
     # @return [void]
