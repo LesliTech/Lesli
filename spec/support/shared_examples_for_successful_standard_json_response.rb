@@ -19,7 +19,7 @@ For more information read the license file including with this software.
 
 RSpec.shared_examples "successful standard json response" do   
 
-    before :each do
+    before(:all) do
         @response_body = JSON.parse(response.body)
         @response_body_data = @response_body["data"]
     end

@@ -12,28 +12,45 @@ Contents
     00.02. roles 
     00.03. users   # manage access fo users|integrations|federations
 
-    00.11. account/settings
-    00.12. account/locations
-    00.13. account/activities     # tracks system tasks and processes
-    00.14. account/integrations   # manage access to external apps
-    00.15. account/federations    # manage access to external servers
+    00.10. account/settings
+    00.11. account/locations
+    00.12. account/activities     # tracks system tasks and processes
+    00.13. account/integrations   # manage access to external apps
+    00.14. account/files
+    00.15. account/currencies
+    00.16. account/currency_exchange_rates
+    00.17. account/cronos
+    00.18. account/privilege_groups
+    00.19. account/privilege_group_actions
+    00.20. account/federations    # manage access to external servers
 
     00.21. role/privileges
     00.22. role/overrides
-    00.23. role/privilege_defaults
+    00.24. role/activities
+    00.25. role/privilege_actions
+    00.26. role/privilege_groups
 
-    00.31. user/details
-    00.32. user/settings
-    00.33. user/sessions     # save user login information
-    00.34. user/requests     # tracks user activities on the system
-    00.35. user/activities   # tracks changes over current_user
-    00.36. user/roles        # roles assigned to the user
-    00.37. user/logs         # custom log for user
+    00.30. user/details
+    00.31. user/settings
+    00.32. user/sessions            # save user login information
+    00.33. user/requests            # tracks user activities on the system
+    00.34. user/activities          # tracks changes over current_user
+    00.35. user/roles               # roles assigned to the user
+    00.36. user/logs                # custom log for user
+    00.37. user/privilege_actions   # custom privileges for user
 
-    00.41. templates
-    00.42. template/documents
-    00.43. template/variables
-    00.44. template/mapping
+    00.40. templates
+    00.41. template/documents
+    00.42. template/variables
+    00.43. template/mapping
+    00.44. template/audience_documents
+
+    00.50. user/access_codes
+
+    00.60. invites
+
+    00.70. system/controllers
+    00.71. system/controller_actions
 ```
 
 

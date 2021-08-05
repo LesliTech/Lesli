@@ -46,10 +46,11 @@ class User < ApplicationLesliRecord
     has_many :activities,   foreign_key: "users_id"
     has_one  :integration,  foreign_key: "users_id"
     has_many :access_codes, foreign_key: "users_id"
+    has_many :user_roles,               foreign_key: "users_id",    class_name: "User::Role"
+    has_many :roles,                    through: :user_roles,       source: :roles
 
-    has_many :user_roles,   foreign_key: "users_id", class_name: "User::Role"
-    has_many :roles,        through: :user_roles, :source => "roles"
-    has_many :privileges,   through: :roles
+    has_many :user_privilege_actions,   foreign_key: "users_id",    class_name: "User::PrivilegeAction"
+    has_many :role_privilege_actions,   through: :roles,            source: :privilege_actions
 
 
     # user details are saved on separate table
@@ -66,8 +67,7 @@ class User < ApplicationLesliRecord
     #   system user
     #   integration apps
     enum category: { user: "user", integration: "integration" }
-
-
+    
     # @return [void]
     # @description Before creating a user we make sure there is no capitalized email
     def initialize_user
@@ -134,28 +134,126 @@ class User < ApplicationLesliRecord
         !roles.intersection(self.roles.map{ |r| r[:name] }).empty?
     end
 
-
-
     # @return [Boolean]
-    # @description Return true/false if a user has the privileges to do an action based on a controllers list
+    # @description Return true/false if a user has all the privileges to do an action based on a controllers list,
+    #     this validation includes the privileges that the user could have based on its roles and the privileges
+    #     that has been added to the specific user.
     # @examples
     #     validate privileges on a controller with the same actions on each one
     #     controllers = ["cloud_house/companies", "cloud_house/projects"]
-    #     actions = ["index"]
+    #     actions = ["index", "update"]
     #
     #     current_user.has_privileges?(controllers, actions)
-    def has_privileges?(controllers, actions)
-        actions = actions.map { |action| "bool_or(grant_#{action})" }.join(" and ")
+    def has_privileges?(controllers, actions)         
+        begin
 
-        granted = self.privileges
-        .where(grant_object: controllers)
-        .select(actions + " as value ")
-        .map(&:value)
+            # This query fetch all the privileges actions that the user have through role descriptor assignments
+            sql_role_privile_actions = self.role_privilege_actions
+            .select(
+                "status",
+                "system_controller_actions.name as action",
+                "system_controllers.name as controller"
+            )
+            .joins(system_action: [:system_controller])
+            .where("system_controllers.name in (?)", controllers)
+            .where("system_controller_actions.name in (?)", actions)
+            .to_sql
 
-        return granted[0]
-    rescue => exception
-        Honeybadger.notify(exception)
-        return false
+
+            # This query fetch all the privileges actions that the user have through privileges actions added to the specific user
+            sql_user_privilege_actions = self.user_privilege_actions
+            .select(
+                "status",
+                "system_controller_actions.name as action",
+                "system_controllers.name as controller"
+            )
+            .joins(system_action: [:system_controller])
+            .where("system_controllers.name in (?)", controllers)
+            .where("system_controller_actions.name in (?)", actions)
+            .to_sql
+
+
+            # This query is on charge of evaluate if the user have every specific privilege action
+            # no matter if is given indirectly by role or directly to the user. Then, after getting each
+            # specific boolean value of every privilege action, the query evalueate if is there some privilege
+            # action on false, if there is a false then the return of the method will be false, but if every
+            # privilege action is on true the permission is granted.
+            # This is possible by the union of the two previous queries
+            granted = ActiveRecord::Base.connection.exec_query("
+                select 
+                    bool_and(grouped_privileges.status) as value
+                from (
+                    select
+                        privilege_actions.controller,
+                        privilege_actions.action,
+                        BOOL_OR(privilege_actions.status) as status 
+                    from (
+                        #{sql_role_privile_actions}
+                        union
+                        #{sql_user_privilege_actions}
+                    ) AS privilege_actions  
+                    group by (
+                        controller,
+                        action
+                    ) 
+                ) AS grouped_privileges
+            ")
+            .first["value"]
+
+            return granted
+
+        rescue => exception
+
+            Honeybadger.notify(exception)
+            return false
+
+        end
+    end
+
+    # @return [Hash]
+    # @description Return a hash that contains all the abilities grouped by controller and define every action privilege. It also
+    #     evaluate if the user has the ability no matter if is given to the user by role or by itself.
+    # @examples
+    #     current_user.abilities_by_controller
+    def abilities_by_controller
+        abilities = {}
+
+        # Evaluate role privileges
+        self.role_privilege_actions
+        .select("
+            bool_or(role_descriptor_privilege_actions.status) as value,
+            system_controller_actions.name as action,
+            system_controllers.name as controller
+        ")
+        .joins(system_action: [:system_controller])
+        .group("
+            system_controller_actions.name,
+            system_controllers.name
+        ")
+        .each do |route|
+            abilities[route["controller"]] = {} if abilities[route["controller"]].nil?
+            abilities[route["controller"]][route["action"]] = route["value"]
+        end
+
+        # Evaluate user privileges
+        self.user_privilege_actions
+        .select("
+            bool_or(status) as value,
+            system_controller_actions.name as action,
+            system_controllers.name as controller
+        ")
+        .joins(system_action: [:system_controller])
+        .group("
+            system_controller_actions.name,
+            system_controllers.name
+        ")
+        .each do |route|
+            abilities[route["controller"]] = {} if abilities[route["controller"]].nil?
+            # If privilege is granted by role or by user keep it as granted
+            abilities[route["controller"]][route["action"]] = abilities[route["controller"]][route["action"]] || route["value"]
+        end
+
+        abilities
     end
 
 
@@ -297,7 +395,7 @@ class User < ApplicationLesliRecord
     #     puts current_user.full_name # John Doe
     #     puts current_user.set_alias # Jo. Do.
     def set_alias
-        self.alias = (detail&.first_name && detail&.last_name) ? "#{detail.first_name[0..1]}. #{detail.last_name[0..1]}." : ""
+        self.alias = (detail&.first_name && detail&.last_name) ? "#{detail.first_name[0..1]} #{detail.last_name[0..1]}" : ""
         self.save
     end
 

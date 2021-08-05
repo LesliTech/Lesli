@@ -21,15 +21,16 @@ class Account < ApplicationRecord
 
     belongs_to :user, foreign_key: "users_id", optional: true
 
-    has_many :users,        foreign_key: "accounts_id"
-    has_many :roles,        foreign_key: "accounts_id"
-    has_many :files,        foreign_key: "account_id"
-    has_many :cronos,       foreign_key: "accounts_id"
-    has_many :settings,     foreign_key: "accounts_id", class_name: "Account::Setting"
-    has_many :locations,    foreign_key: "accounts_id"
-    has_many :activities,   foreign_key: "accounts_id", class_name: "Account::Activity"
-    has_many :currencies,   foreign_key: "accounts_id", class_name: "Account::Currency"
-    has_many :integrations, foreign_key: "accounts_id"
+    has_many :users,            foreign_key: "accounts_id"
+    has_many :roles,            foreign_key: "accounts_id"
+    has_many :files,            foreign_key: "account_id"
+    has_many :cronos,           foreign_key: "accounts_id"
+    has_many :settings,         foreign_key: "accounts_id", class_name: "Account::Setting"
+    has_many :locations,        foreign_key: "accounts_id"
+    has_many :activities,       foreign_key: "accounts_id", class_name: "Account::Activity"
+    has_many :currencies,       foreign_key: "accounts_id", class_name: "Account::Currency"
+    has_many :integrations,     foreign_key: "accounts_id"
+    has_many :role_descriptors, foreign_key: "accounts_id", class_name: "RoleDescriptor"
 
     has_one :template, class_name: "Template", foreign_key: "accounts_id"
 
@@ -49,10 +50,10 @@ class Account < ApplicationRecord
     has_one :driver,     class_name: "CloudDriver::Account",     foreign_key: "id"
     has_one :mailer,     class_name: "CloudMailer::Account",     foreign_key: "id"
     has_one :things,     class_name: "CloudThings::Account",     foreign_key: "id"
-    has_one :proposal,   class_name: "CloudProposal::Account",   foreign_key: "id"
-    has_one :dispatcher, class_name: "CloudDispatcher::Account", foreign_key: "id"
     has_one :shared,     class_name: "CloudShared::Account",     foreign_key: "id"
     has_one :portal,     class_name: "CloudPortal::Account",     foreign_key: "id"
+    has_one :proposal,   class_name: "CloudProposal::Account",   foreign_key: "id"
+    has_one :dispatcher, class_name: "CloudDispatcher::Account", foreign_key: "id"
 
     after_create :initialize_account
     after_create :initialize_account_for_engines
@@ -80,6 +81,12 @@ class Account < ApplicationRecord
             self.template.save!
         end
 
+        # create role descriptors 
+        self.role_descriptors.find_or_create_by(name: "owner")
+        self.role_descriptors.find_or_create_by(name: "admin")
+        self.role_descriptors.find_or_create_by(name: "profile")
+
+
         # create default roles
         account_roles = Rails.application.config.lesli_settings["security"]["roles"]
         account_roles.append "api"     # api-access only
@@ -103,6 +110,12 @@ class Account < ApplicationRecord
             role.initialize_role_privileges
 
         end
+        
+        
+        # create default descriptors
+        self.role_descriptors.find_or_create_by(name: "owner")
+        self.role_descriptors.find_or_create_by(name: "admin")
+        
 
     end
 
