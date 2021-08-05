@@ -19,22 +19,23 @@ For more information read the license file including with this software.
 
 
 <%# check if custom navigation partial exists, getting the path from application helper %>
-<% custom_navigation_partial_exists = lookup_context.exists?(get_application_navigation_path, nil, true) %>
-
+<% custom_navigation_path = "layouts/#{lesli_engine_or_instance}/partials/application-navigation" %>
+<% custom_navigation_path = "layouts/components/navigation-administration" if is_lesli_engine_administration? %>
+<% custom_navigation_exists = lookup_context.exists?(custom_navigation_path, nil, true) %>
 
 <application-component-sidebar>
 
     <%# load logos %>
     <template v-slot:brand>
         <a class="brand" href="/">
-            <%= image_tag "#{lesli_instance_code}/brand/app-logo-touch.svg", alt: "Lesli logo", :class => "is-hidden-desktop" %>
-            <%= image_tag "#{lesli_instance_code}/brand/app-logo-desktop.svg", alt: "Lesli logo", :class => "is-hidden-touch" %>
+            <%= image_tag "#{lesli_instance_code}/brand/app-logo-touch.svg", alt: "App logo", :class => "is-hidden-desktop" %>
+            <%= image_tag "#{lesli_instance_code}/brand/app-logo-desktop.svg", alt: "App logo", :class => "is-hidden-touch" %>
         </a>
     </template>
 
     <%# render navigation partial %>
-    <% if custom_navigation_partial_exists %>
-    <%= render partial: get_application_navigation_path %>
+    <% if custom_navigation_exists %>
+    <%= render partial: custom_navigation_path %>
     <% end %>
 
 </application-component-sidebar>

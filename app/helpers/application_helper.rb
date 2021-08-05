@@ -82,12 +82,6 @@ module ApplicationHelper
         
     end
 
-    def get_application_navigation_path
-        navigation = "layouts/#{lesli_engine_or_instance}/partials/application-navigation"
-        navigation = "layouts/components/navigation-administration" if is_lesli_engine_administration?
-        navigation
-    end
-
     def lesli_engine()
         controller_path.split('/')[0]
     end
