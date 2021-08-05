@@ -34,8 +34,10 @@ export default {
 </script>
 <template>
     <div class="card">
-        <div class="card-header-title">
-            <h1><strong>Public Information</strong></h1>
+        <div class="card-header">
+            <p class="card-header-title">
+                Public Information
+            </p>
         </div>
         <div class="card-content">
             <div class="columns is-marginless has-border-bottom">

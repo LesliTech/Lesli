@@ -34,8 +34,10 @@ export default {
 </script>
 <template>
     <div class="card">
-        <div class="card-header-title">
-            <h1><strong>Welcome to Lesli configuration wizard</strong></h1>
+        <div class="card-header">
+            <p class="card-header-title">
+                Welcome to Lesli configuration wizard
+            </p>
         </div>
         <div class="card-content">
             <h1>Here you will be able to set information about your account and other configuration. Let's start with basic information...</h1>

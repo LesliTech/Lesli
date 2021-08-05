@@ -71,8 +71,10 @@ export default {
 </script>
 <template>
     <div class="card">
-        <div class="card-header-title">
-            <h1><strong>Invite users</strong></h1>
+        <div class="card-header">
+            <p class="card-header-title">
+                Invite users
+            </p>
         </div>
         <div class="card-content">
             <div v-if="invitedUsers.length > 0">
