@@ -23,11 +23,10 @@ class OnboardingsController < ApplicationLesliController
         respond_to do |format|
             format.html {}
             format.json do
-                account = Account.find_by_id(@current_user.account.id)
-                return respond_with_not_found unless account
+                return respond_with_not_found unless @current_user.account
                 return respond_with_successful({
-                    account: account,
-                    account_settings: account.settings
+                    account: @current_user.account,
+                    account_settings: @current_user.account.settings
                 })
             end
         end
