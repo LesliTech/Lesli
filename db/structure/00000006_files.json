@@ -8,6 +8,12 @@
     "name": "attachment_s3",
     "type": "string"
 },{
+    "name": "attachment_public",
+    "type": "string"
+},{
+    "name": "public",
+    "type": "boolean"
+},{
     "name": "file_type",
     "type": "string"
 },{

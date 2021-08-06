@@ -40,6 +40,7 @@ module Interfaces::Controllers::Files
                     "#{cloud_object_model.table_name}_id".to_sym => params["#{cloud_object_model.name.demodulize.underscore}_id".to_sym]
                 ).order(id: :desc).map do |file|
                     file_attributes = file.attributes
+                    file_attributes["public_url"] = file.attachment_public.url if file.attachment_public
                     file_attributes["created_at_raw"] = file_attributes["created_at"]
                     file_attributes["created_at"] = LC::Date.to_string_datetime(file_attributes["created_at"])
                     file_attributes["editable"] = file.is_editable_by?(current_user)
