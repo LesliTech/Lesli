@@ -184,7 +184,7 @@ export default {
             }
             this.selected_workflow_status = {}
             this.rerender_chart = true
-            this.alert(this.translations.workflows.messages_info_status_deleted, 'info')
+            this.msg.info(this.translations.workflows.messages_info_status_deleted)
         },
 
         addFollowUpStatus(){
