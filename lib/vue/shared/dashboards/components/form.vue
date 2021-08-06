@@ -97,7 +97,7 @@ export default {
         notifyUnsavedChanges(){
             if( (!this.unsaved_changes) && this.dashboard_id){
                 this.unsaved_changes = true
-                this.alert(this.translations.dashboards.messages_warning_save_changes_reminder, 'warning')
+                this.msg.warn(this.translations.dashboards.messages_warning_save_changes_reminder)
             }
         },
 
