@@ -18,9 +18,15 @@ For more information read the license file including with this software.
 =end
 module CloudObject
     class File < ApplicationLesliRecord
+        include ActiveModel::Dirty
+
         self.abstract_class = true
-        mount_uploader :attachment_s3,  AwsUploader
-        mount_uploader :attachment,     LocalUploader
+        mount_uploader :attachment_s3,      AwsUploader
+        mount_uploader :attachment_public,  PublicUploader
+        mount_uploader :attachment,         LocalUploader
+
+        before_save  :set_public_accesibility
+        after_update :update_attachment
 
         belongs_to :user_creator, class_name: "::User", foreign_key: "users_id"
 
@@ -40,8 +46,14 @@ module CloudObject
             "#{query[:base_path]}/#{cloud_object_controller}/#{self.cloud_object.id}/files/#{self.id}"
         end
 
+        
+        # @return [void]
+        # @description Overrides the destroy method to set all attachments to nil. This will cause the attachments to be deleted
+        # @example
+        #     ticket = CloudHelp::Ticket.last
+        #     ticket.files.first.destroy # This will trigger the destroy method
         def destroy
-            update(attachment: nil, attachment_s3: nil)
+            update(attachment: nil, attachment_s3: nil, attachment_public: nil)
 
             super
         end
@@ -151,13 +163,74 @@ module CloudObject
             self.reflect_on_association(:cloud_object).klass
         end
 
+        # @return [String] The lesli classname associated with this new_record
+        # @description Some objects inherit the functionality fron other parent objects. Deutsche Leibrenten is a clear example of this.
+        #     This method ensures that the associations obtained by child methods that do not follw the lesli standard, will use a class
+        #     that does follow it to calculate foreign keys, associations, and so on. Since most models do follow the standard, by default,
+        #     the lesli classname is the same name of the class
+        # @example
+        #     puts CloudHouse::Project.lesli_classname # This will return "CloudHouse::Project"
+        #     puts DeutscheLEibrenten::Project.lesli_classname # This will also return "CloudHouse::Project"
         def self.lesli_classname
             self.name
         end
 
-
+        # @return [Integer] The size threshold used to determine whether to serve images from the server, or from AWS
+        # @description This methods returns a number that indicates the max size, im MB, threshold used to serve images from the server.
+        #     If the size of the file is greater than this threshould, AWS will be used to serve the image instead.
+        # @example
+        #     CloudHouse::Project::File.size_threshould # This will display the configured size threshould
         def self.size_threshold
             return 0
+        end
+
+        protected
+
+        # @return [Boolean] True if the objects on this class should be publicly accessible. False otherwise.
+        # @descriptions This method returns whether all the objects on this model are publicly accessible. By default, they are not
+        # @example
+        #     CloudHelp::Ticket::File.public_accesibility # This will return false, unless this method is overriden on that specific model
+        def self.public_accesibility
+            return false
+        end
+
+        # @return [void]
+        # @description This is an before_save callback that sets the param "public" depending on the value returned by the static method 
+        #     "public accesibility"
+        # @example
+        #     # Note that this method is not called directly
+        #     file = current_user.account.house.projects.files.create({...}) # it will be executed here, before saving the record
+        def set_public_accesibility
+            if new_record?
+                self.public = self.class.public_accesibility
+            end
+        end
+
+        # @return [void]
+        # @description This is an after_update callback that moves the attachment between public and private folders if needed. When the "public"
+        #    attribute of the model is changed, this method will move the attachment from the normal directory to the public one and vice versa
+        # @example
+        #     # Note that this method is not called directly
+        #     file = CloudFocus::Task::File.last
+        #     file.update!(public: true)
+        def update_attachment
+            if saved_change_to_public?
+                if saved_changes[:public][1]
+                    # We move the attachment from attachment_s3 to attachment_public
+                    update!(attachment_public: attachment_s3)
+
+                    if attachment_public
+                        update!(attachment_s3: nil)
+                    end
+                else
+                    # We move the attachment from attachment_public to attachment_s3
+                    update!(attachment_s3: attachment_public)
+
+                    if attachment_s3
+                        update!(attachment_public: nil)
+                    end
+                end
+            end
         end
     end
 end
