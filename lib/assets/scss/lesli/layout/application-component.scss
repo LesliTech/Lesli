@@ -27,7 +27,9 @@ For more information read the license file including with this software.
 // · 
 section.application-component {
     width: 100%;
-    padding: 1.2rem;
+    padding-top: 0;
+    padding-left: 2rem;
+    padding-right: 2rem;
     margin-left: var(--application-navigation-width);
     max-width: calc(100% - var(--application-navigation-width));
     min-height: calc(100vh - var(--application-header-height) - var(--application-footer-height));
