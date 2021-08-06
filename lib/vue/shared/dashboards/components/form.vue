@@ -87,7 +87,7 @@ export default {
                 if (result.successful) {
                     this.dashboard = result.data
                 }else{
-                    this.alert(result.error.message,'danger')
+                    this.msg.error(result.error.message)
                 }
             }).catch(error => {
                 console.log(error)
@@ -108,7 +108,7 @@ export default {
                 if (result.successful) {
                     this.options = result.data
                 }else{
-                    this.alert(result.error.message,'danger')
+                    this.msg.error(result.error.message)
                 }
             }).catch(error => {
                 console.log(error)
@@ -173,10 +173,10 @@ export default {
             this.http.delete(url).then(result => {
                 this.deleting_dashboard = false
                 if (result.successful) {
-                    this.alert(this.translations.dashboards.messages_info_dashboard_deleted, 'success')
+                    this.msg.success(this.translations.dashboards.messages_info_dashboard_deleted)
                     this.$router.push(`${this.appMountPath}/`)
                 } else {
-                    this.alert(result.error.message,'danger')
+                    this.msg.error(result.error.message)
                 }
             }).catch(error => {
                 console.log(error)
@@ -215,10 +215,10 @@ export default {
             this.http.post(this.main_route, data).then(result => {
                 this.submitting_dashboard = false
                 if (result.successful) {
-                    this.alert(this.translations.dashboards.messages_info_dashboard_created, 'success')
+                    this.msg.success(this.translations.dashboards.messages_info_dashboard_created)
                     this.$router.push(`${this.appMountPath}/${result.data.id}`)
                 }else{
-                    this.alert(result.error.message,'danger')
+                    this.msg.error(result.error.message)
                 }
             }).catch(error => {
                 console.log(error)
@@ -249,14 +249,14 @@ export default {
                 this.submitting_dashboard = false
                 this.unsaved_changes = false
                 if (result.successful) {
-                    this.alert(this.translations.dashboards.messages_info_dashboard_updated, 'success')
+                    this.msg.success(this.translations.dashboards.messages_info_dashboard_updated)
                     this.deleted_components = []
                     // We assign the ids of the components that were created
                     this.selected_dashboard_component = null
                     this.$set(this.dashboard, 'components', result.data.components)
                     this.reload_dashboard_render = true
                 }else{
-                    this.alert(result.error.message,'danger')
+                    this.msg.error(result.error.message)
                 }
             }).catch(error => {
                 console.log(error)
