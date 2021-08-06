@@ -194,7 +194,11 @@ module RoutesApp
                         end
                     end
 
-                    resource :onboarding
+                    resource :onboarding do
+                        collection do
+                            post :invite
+                        end
+                    end
                 end
 
 

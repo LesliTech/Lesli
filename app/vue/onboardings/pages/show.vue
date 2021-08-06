@@ -128,10 +128,8 @@ export default {
                 <div class="card">
                     <div class="card-content">
                         <form @submit.prevent="finishConfiguration()">
-                            <div class="has-text-centered">
-                                <h1 style="font-size: 4rem">
-                                    <strong>Welcome</strong>
-                                </h1>
+                            <div class="welcome-title has-text-centered">
+                                <h1><strong>Welcome</strong></h1>
                             </div>
 
                             <br />
@@ -151,6 +149,9 @@ export default {
     </section>
 </template>
 <style scoped>
+.welcome-title {
+    font-size: 4rem;
+}
 .has-text-centered {
     text-align: center;
 }

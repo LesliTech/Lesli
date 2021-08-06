@@ -31,9 +31,11 @@ export default {
             },
             invite: {
                 email: null,
-                full_name: null,
-                telephone: null,
-                note: null
+                detail_attributes: {
+                    first_name: null,
+                    last_name: null,
+                    telephone: null
+                },
             },
             invitedUsers: [],
             submittingForm: false,
@@ -46,7 +48,7 @@ export default {
     methods: {
         postInvite() {
             this.submittingForm = true
-            this.http.post("/invite", {
+            this.http.post(this.url.admin("onboarding/invite"), {
                 invite: this.invite
             }).then(result => {
                 if (!result.successful) {
@@ -60,9 +62,11 @@ export default {
             }).finally(() => {
                 this.submittingForm = false
                 this.invite.email = null
-                this.invite.full_name = null
-                this.invite.telephone = null
-                this.invite.note = null
+                this.invite.detail_attributes = {
+                    first_name: null,
+                    last_name: null,
+                    telephone: null
+                }
             })
         }
     }
@@ -79,17 +83,11 @@ export default {
         <div class="card-content">
             <div v-if="invitedUsers.length > 0">
                 <h1>Invited users</h1>
-                <div class="columns is-marginless has-border-bottom" v-bind:key="invitedUser.email" v-for="invitedUser in invitedUsers">
-                    <div class="column is-3">
+                <ul>
+                    <li v-bind:key="invitedUser.email" v-for="invitedUser in invitedUsers">
                         <label class="label">{{ invitedUser.email }}</label>
-                    </div>
-                    <div class="column is-3">
-                        <label class="label">{{ invitedUser.full_name }}</label>
-                    </div>
-                    <div class="column is-3">
-                        <label class="label">{{ invitedUser.telephone }}</label>
-                    </div>
-                </div>
+                    </li>
+                </ul>
             </div>
             <br />
             <br />
@@ -109,11 +107,22 @@ export default {
                 <div class="columns is-marginless has-border-bottom">
                     <div class="column is-3">
                         <label class="label">
-                            Full name
+                            First name
                         </label>
                     </div>
                     <div class="column">
-                        <b-input name="full-name" v-model="invite.full_name"></b-input>
+                        <b-input name="first-name" v-model="invite.detail_attributes.first_name"></b-input>
+                    </div>
+                </div>
+
+                <div class="columns is-marginless has-border-bottom">
+                    <div class="column is-3">
+                        <label class="label">
+                            Last name
+                        </label>
+                    </div>
+                    <div class="column">
+                        <b-input name="last-name" v-model="invite.detail_attributes.last_name"></b-input>
                     </div>
                 </div>
 
@@ -124,18 +133,7 @@ export default {
                         </label>
                     </div>
                     <div class="column">
-                        <b-input name="telephone" v-model="invite.telephone"></b-input>
-                    </div>
-                </div>
-
-                <div class="columns is-marginless has-border-bottom">
-                    <div class="column is-3">
-                        <label class="label">
-                            Note
-                        </label>
-                    </div>
-                    <div class="column">
-                        <b-input name="note" v-model="invite.note"></b-input>
+                        <b-input name="telephone" v-model="invite.detail_attributes.telephone"></b-input>
                     </div>
                 </div>
 

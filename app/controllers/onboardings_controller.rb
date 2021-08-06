@@ -46,6 +46,59 @@ class OnboardingsController < ApplicationLesliController
 
     end
 
+
+    # POST /onboarding/invite
+    def invite
+
+        # check if request has an email to create the user
+        return respond_with_error(I18n.t("core.users.messages_danger_not_valid_email_found")) if invite_user_params[:email].blank?
+
+        # register the new user
+        user = User.new({
+            :active => true,
+            :email => invite_user_params[:email],
+            :detail_attributes => invite_user_params[:detail_attributes]
+        })
+
+        # assign a random password
+        user.password = Devise.friendly_token
+
+        # enrol user to my own account
+        user.account = current_user.account
+
+        # users created through the administration area does not need to confirm their accounts
+        # instead we send a password reset link, so they can have access to the platform
+        user.confirm
+
+        if user.save
+
+            # role validation - if new user does not have any role assigned assign limited role
+            user.user_roles.create({ role: current_user.account.roles.find_by(:name => "limited") }) if user.roles.blank?
+
+            # saving logs with information about the creation of the user
+            user.logs.create({ description: "user_created_at " + LC::Date.to_string_datetime(LC::Date.datetime) })
+            user.logs.create({ description: "user_created_by " + current_user.id.to_s })
+            user.logs.create({ description: "user_created_with_role " + user.user_roles.first.roles_id.to_s })
+
+            User.log_activity_create(current_user, user)
+
+            respond_with_successful(user)
+
+            begin
+                # users created through the administration area does not need to confirm their accounts
+                # instead we send a password reset link, so they can have access to the platform
+                UserMailer.with(user: user).invitation_instructions.deliver_now
+            rescue => exception
+                Honeybadger.notify(exception)
+                user.logs.create({ description: "user_creation_email_failed " + exception.message })
+            end
+
+        else
+            respond_with_error(user.errors.full_messages.to_sentence)
+        end
+    end
+
+
     def onboarding_params
         params.require(:onboarding).permit(
             account: {},
@@ -65,6 +118,13 @@ class OnboardingsController < ApplicationLesliController
                 :datetime_format_date_words,
                 :datetime_format_date_time_words,
             ]
+        )
+    end
+
+    def invite_user_params
+        params.require(:invite).permit(
+            :email,
+            detail_attributes: {}
         )
     end
 
