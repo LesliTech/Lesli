@@ -65,7 +65,7 @@ export default {
                     this.data.exchange_rate = this.exchange_rate;
                     this.data.reload.exchange_rate = true;
                 }else{
-                    this.alert(result.error.message,'danger');
+                    this.msg.error(result.error.message);
                 }
             }).catch(error => {
                 console.log(error)

@@ -1,7 +1,7 @@
 class Account::Location < ApplicationRecord
     belongs_to  :account,         class_name: "Account",  foreign_key: "accounts_id"
     belongs_to  :parent_location, class_name: "Location", foreign_key: "parent_id", optional: true
-    
+
     has_many    :sub_locations,   class_name: "Location", foreign_key: "parent_id"
 
     enum level: {
@@ -30,7 +30,8 @@ class Account::Location < ApplicationRecord
         if query[:filters][:search]
             query_filters.push("LOWER(name) like '%#{query[:filters][:search]}%'")
         end
-        current_user.account.locations.where(query_filters.join(" and ")).limit(6)
+
+        current_user.account.locations.where(query_filters.join(" and "))
     end
 
     def show

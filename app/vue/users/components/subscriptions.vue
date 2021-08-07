@@ -34,7 +34,7 @@ export default {
                         this.getSubscriptions()
                     }
                 }else{
-                    this.alert(result.error.message,'danger')
+                    this.msg.error(result.error.message)
                 }
             }).catch(error => {
                 console.log(error)
@@ -52,7 +52,7 @@ export default {
                 if (result.successful) {
                     this.subscriptions = result.data
                 }else{
-                    this.alert(result.error.message,'danger')
+                    this.msg.error(result.error.message)
                 }
             }).catch(error => {
                 console.log(error)
@@ -83,7 +83,7 @@ export default {
                 if (result.successful) {
                     this.msg.success(this.translations.subscriptions.messages_success_subscription_destroyed)
                 }else{
-                    this.alert(result.error.message,'danger')
+                    this.msg.error(result.error.message)
                 }
             }).catch(error => {
                 console.log(error)
@@ -98,7 +98,7 @@ export default {
                     this.subscriptions = this.subscriptions.filter(subscription => deleted_subscription.id != subscription.id)
                     this.msg.success(this.translations.subscriptions.messages_success_subscription_destroyed)
                 }else{
-                    this.alert(result.error.message,'danger')
+                    this.msg.error(result.error.message)
                 }
             }).catch(error => {
                 console.log(error)

@@ -52,21 +52,31 @@ module RoutesApp
                     # account management
                     resource :account, only: [:show] do
                         scope module: :account do
+
                             resources :files, only: [:index, :show, :new, :create]
+
                             resource :settings do
                                 collection do
                                     get :options
                                 end
                             end
+
                             resources :integrations, only: [:index, :show, :new, :create]
                             resources :locations, only: [:index, :show, :create]
                             resources :cronos
+
                             resources :currencies do
                                 scope module: :currency do
                                     resources :exchange_rates
                                 end
                             end
+
                         end
+
+                        collection do
+                            get :options
+                        end
+
                         member do
                             scope :resources do
                                 delete :company_logo
@@ -131,17 +141,17 @@ module RoutesApp
 
                     # role descriptors
                     resources :role_descriptors do
-                        scope module: :role_descriptor do 
-                            resources :privilege_actions 
+                        scope module: :role_descriptor do
+                            resources :privilege_actions
                         end
                         collection do
                             get :list
                         end
-                        collection do 
-                            get "/privilege_actions/options",        to: "role_descriptor/privilege_actions#options" 
+                        collection do
+                            get "/privilege_actions/options",        to: "role_descriptor/privilege_actions#options"
                         end
                     end
-                    
+
                     # template generators
                     namespace :template do
                         resources :documents do
@@ -184,7 +194,13 @@ module RoutesApp
                         end
                     end
 
+                    resource :onboarding do
+                        collection do
+                            post :invite
+                        end
+                    end
                 end
+
 
                 get "version", to: "abouts#version"
                 get "dashboard", to: "abouts#dashboard"

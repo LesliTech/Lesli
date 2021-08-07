@@ -120,12 +120,31 @@ class Account::Setting < ApplicationRecord
     end
 
     def self.options(current_user, query)
-        time_zones = ActiveSupport::TimeZone::MAPPING.map do |key, value|
-            {value: value, text: value}
-        end
+        time_zones = ActiveSupport::TimeZone::MAPPING.map { |key, value| { value: value, text: value } }
+
         return {
-            time_zones: time_zones.uniq {|time_zone| [time_zone[:value], time_zone[:text]]},
-            days_into_week: DateAndTime::Calculations::DAYS_INTO_WEEK.map {|day, value| { value: day, text: I18n.t("core.shared.view_text_day_#{day}") }},
+            time_zones: time_zones.uniq { |time_zone| [time_zone[:value], time_zone[:text]] },
+            days_into_week: DateAndTime::Calculations::DAYS_INTO_WEEK.map { |day, value| { value: day, text: I18n.t("core.shared.view_text_day_#{day}") } },
         }
     end
+
+    # This method updates a list of settings for the current account
+    def self.update(current_user, params)
+        if params.empty?
+            return false
+        end
+
+        params.each do |key, value|
+            setting = current_user.account.settings.find_by(name: key)
+
+            if setting.present?
+                setting.update_attribute(:value, value)
+            else
+                current_user.account.settings.create!(name: key, value: value)
+            end
+        end
+
+        return true
+    end
+
 end
