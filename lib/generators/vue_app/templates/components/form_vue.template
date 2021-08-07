@@ -105,10 +105,10 @@ export default {
 
             this.http.post(url, form_data).then(result => {
                 if (result.successful) {
-                    this.alert('%humanized_resource% created successfully', 'success')
+                    this.msg.success('%humanized_resource% created successfully')
                     this.$router.push(`/${result.data.id}`)
                 }else{
-                    this.alert(result.error.message,'danger')
+                    this.msg.error(result.error.message)
                 }
             }).catch(error => {
                 console.log(error)
@@ -130,10 +130,10 @@ export default {
 
             this.http.put(url, form_data).then(result => {
                 if (result.successful) {
-                    this.alert('%humanized_resource% updated successfully', 'success')
+                    this.msg.success('%humanized_resource% updated successfully')
                     this.$router.push(`/${this.%underscore_resource%.id}`)
                 }else{
-                    this.alert(result.error.message, 'danger')
+                    this.msg.error(result.error.message)
                 }
             }).catch(error => {
                 console.log(error)
@@ -152,10 +152,10 @@ export default {
 
             this.http.delete(url).then(result => {
                 if (result.successful) {
-                    this.alert('%humanized_resource% deleted successfully', 'success')
+                    this.msg.success('%humanized_resource% deleted successfully')
                     this.$router.push('/')
                 }else{
-                    this.alert(result.error.message, 'danger')
+                    this.msg.error(result.error.message)
                 }
             }).catch(error => {
                 console.log(error)

@@ -113,7 +113,7 @@ export default {
                     this.workflow = result.data
                     this.statuses_count = this.workflow.statuses_count
                 }else{
-                    this.alert(result.error.message,'danger')
+                    this.msg.error(result.error.message)
                 }
             }).catch(error => {
                 console.log(error)
@@ -147,12 +147,12 @@ export default {
                 if (result.successful) {
                     new_status.id = result.data.id
                     this.$set(this.workflow.statuses, new_status.id, new_status)
-                    this.alert(this.translations.workflows.messages_success_status_created, 'success')
+                    this.msg.success(this.translations.workflows.messages_success_status_created)
                     this.new_status_name = ''
                     this.$refs['input-status-name'].focus()
                     this.rerender_chart = true
                 }else{
-                    this.alert(result.error.message,'danger')
+                    this.msg.error(result.error.message)
                 }
             }).catch(error => {
                 console.log(error)
@@ -184,7 +184,7 @@ export default {
             }
             this.selected_workflow_status = {}
             this.rerender_chart = true
-            this.alert(this.translations.workflows.messages_info_status_deleted, 'info')
+            this.msg.info(this.translations.workflows.messages_info_status_deleted)
         },
 
         addFollowUpStatus(){
@@ -279,19 +279,19 @@ export default {
 
                 this.http.post(`${this.main_route}`, data).then(result => {
                     if (result.successful) {
-                        this.alert(this.translations.workflows.messages_success_workflow_created, 'success')
+                        this.msg.success(this.translations.workflows.messages_success_workflow_created)
                         
                         this.workflow = result.data
                         this.$router.push(`${this.appMountPath}/${result.data.id}/edit`)
                     }else{
-                        this.alert(result.error.message,'danger')
+                        this.msg.error(result.error.message)
                     }
                 }).catch(error => {
                     console.log(error)
                 })
             }else{
                 this.$refs['input-workflow-name'].focus()
-                this.alert(this.translations.workflows.messages_warning_workflow_name_missing,'danger')
+                this.msg.error(this.translations.workflows.messages_warning_workflow_name_missing)
             }
         },
 
@@ -308,9 +308,9 @@ export default {
 
             this.http.put(url, data).then(result => {
                 if (result.successful) {
-                    this.alert(this.translations.workflows.messages_success_workflow_updated, 'success')
+                    this.msg.success(this.translations.workflows.messages_success_workflow_updated)
                 }else{
-                    this.alert(result.error.message,'danger')
+                    this.msg.error(result.error.message)
                 }
             }).catch(error => {
                 console.log(error)
@@ -328,9 +328,9 @@ export default {
                 let url = `${this.main_route}/${this.workflow_id}`
                 this.http.patch(url, data).then(result => {
                     if (result.successful) {
-                        this.alert(this.translations.workflows.messages_success_workflow_name_updated, 'success')
+                        this.msg.success(this.translations.workflows.messages_success_workflow_name_updated)
                     }else{
-                        this.alert(result.error.message,'danger')
+                        this.msg.error(result.error.message)
                     }
                 }).catch(error => {
                     console.log(error)
@@ -340,13 +340,13 @@ export default {
                 this.http.post(url, data).then(result => {
                     if (result.successful) {
                         this.workflow_id = result.data.id
-                        this.alert(this.translations.workflows.messages_success_workflow_created, 'success')
+                        this.msg.success(this.translations.workflows.messages_success_workflow_created)
 
                         this.$nextTick(()=>{
                             this.$refs["input-status-name"].focus()
                         })
                     }else{
-                        this.alert(result.error.message,'danger')
+                        this.msg.error(result.error.message)
                     }
                 }).catch(error => {
                     console.log(error)

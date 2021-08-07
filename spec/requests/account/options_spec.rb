@@ -1,4 +1,5 @@
 =begin
+
 Copyright (c) 2021, all rights reserved.
 
 All the information provided by this platform is protected by international laws related  to
@@ -16,5 +17,27 @@ For more information read the license file including with this software.
 
 =end
 
-class Onboarding < ApplicationLesliRecord
+
+require 'rails_helper'
+require 'spec_helper'
+require 'byebug'
+
+
+
+RSpec.describe 'GET:/administration/account/options.json', type: :request do
+    include_context 'user authentication'
+
+    before(:all) do
+        @countries_count = Account::Location.list(@user, {:filters => { :type => "country" }}).count
+        @regions_count = Account.regions.count
+        get("/administration/account/options.json")
+    end
+
+    include_examples 'successful standard json response'
+
+    it 'is expected to create an invitation request' do
+        expect(@response_body["data"]["countries"].length).to eql(@countries_count)
+        expect(@response_body["data"]["regions"].length).to eql(@regions_count)
+    end
+
 end

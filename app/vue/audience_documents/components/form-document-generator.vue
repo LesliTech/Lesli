@@ -156,7 +156,7 @@ export default {
                 if (result.successful) {
                     this.template_documents = result.data.filter(e => e.model_type === this.audience_document.model_type)
                 }else{
-                    this.alert(result.error.message,'danger')
+                    this.msg.error(result.error.message)
                 }
             }).catch(error => {
                 console.log(error)
