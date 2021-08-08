@@ -183,6 +183,98 @@ class RolesController < ApplicationLesliController
             respond_with_error(@role.errors.full_messages.to_sentence)
         end
     end
+
+    def options
+
+        levels = current_user.account.roles
+                .select(:object_level_permission)
+                .distinct
+                .map { |level| level.object_level_permission }
+
+        store = {}
+
+        levels.each_with_index do |value, i|
+
+            next_value = levels.to_a[i+1].nil? ? 0 : levels.to_a[i+1]
+            current_level = value
+            new_value = (current_level + next_value) / 2
+
+            store[current_level] = []
+
+            next if next_value == 0
+
+            store[new_value] = []
+
+        end
+
+        current_user.account.roles.each do |role|
+            if store.has_key?(role.object_level_permission)
+                store[role.object_level_permission].push(role)
+            end 
+        end
+
+        respond_with_successful(store)
+
+    end
+
+    def roles_old_2
+        roles_new = {}
+        roles_final = {}
+        roles = current_user.account.roles.order(object_level_permission: :desc)
+        roles.each do |role|
+            unless roles_final.has_key?(role.object_level_permission)
+                roles_final[role.object_level_permission] = [] 
+            end
+            roles_final[role.object_level_permission].push(role)
+            roles_final[role.object_level_permission] = []
+        end
+        
+        current_level = 0
+        previous_level = 0
+
+        roles_final.each_with_index do |level, index|
+            current_level =  level[0]
+            new_level = (previous_level - current_level) / 2
+            LC::Debug.msg(current_level, new_level, previous_level)
+            previous_level = current_level
+
+            roles_new[new_level] = []
+        end
+        roles_final
+    end
+
+    def roles_old
+        roles_final = []
+        roles = current_user.account.roles
+        roles_total = roles.length
+        
+        roles.each_with_index do |role, index|
+            roles_final.push({
+                id: role.id,
+                name: role.name,
+                object_level_permission: role.object_level_permission
+            })
+
+            if (index < roles_total - 1)
+
+                next_olp = roles[index + 1].object_level_permission
+
+                level = (role.object_level_permission + next_olp) / 2
+
+                if (role.object_level_permission == level) 
+                    next;
+                end
+
+                roles_final.push({
+                    id: 0,
+                    name: "----",
+                    object_level_permission: level
+                })
+            end
+
+        end
+        roles_final
+    end 
     
     private
 
