@@ -39,7 +39,7 @@ export default {
     data() {
         return {
             roles: [],
-            options: [],
+            options: {},
             translations: {
                 core: {
                     shared: I18n.t('core.shared'),
