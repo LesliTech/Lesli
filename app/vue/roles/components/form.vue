@@ -1,15 +1,22 @@
 <script>
 /*
-Copyright (c) 2020, all rights reserved.
-All the information provided by this platform is protected by international laws related  to
-industrial property, intellectual property, copyright and relative international laws.
-All intellectual or industrial property rights of the code, texts, trade mark, design,
+Copyright (c) 2021, all rights reserved.
+
+All the information provided by this platform is protected by international laws related  to 
+industrial property, intellectual property, copyright and relative international laws. 
+All intellectual or industrial property rights of the code, texts, trade mark, design, 
 pictures and any other information belongs to the owner of this platform.
+
 Without the written permission of the owner, any replication, modification,
 transmission, publication is strictly forbidden.
+
 For more information read the license file including with this software.
+
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
-// ·
+// · 
+
+TODO: 
+- Add "disbled class" to the owner level
 */
 export default {
     props: {
@@ -43,11 +50,13 @@ export default {
     },
     mounted() {
         this.getRoles()
+        this.role.active = true
+        this.role.only_my_data = false
     },
     methods: {
 
-        test(e) {
-            console.log(e)
+        setObjectLevelPermission(level) {
+            this.role.object_level_permission = level
         },
         submit() {
             if (this.role.id) {
@@ -145,8 +154,8 @@ export default {
                     <b-menu>
                         <b-menu-list>
                             <b-menu-item 
-                                @click="test(level)"
-
+                                :disabled="index == 0 ? true : false"
+                                @click="setObjectLevelPermission(level.level)"
                                 :key="index" 
                                 v-for="(level, index) in options.levels">
                                 <template #label="props">
