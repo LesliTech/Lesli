@@ -17,7 +17,6 @@ For more information read the license file including with this software.
     
 =end
 
-# This file is copied to spec/ when you run 'rails generate rspec:install'
 require 'spec_helper'
 
 ENV['RAILS_ENV'] ||= 'test'
@@ -85,27 +84,4 @@ RSpec.configure do |config|
     # arbitrary gems may also be filtered via:
     # config.filter_gems_from_backtrace("gem name")
     
-end
-
-# Include devise helpers to be able to login on test runtime
-RSpec.configure do |config|
-    config.include Devise::Test::IntegrationHelpers
-end
-
-LC::Debug.info(
-    "Running RSpec test...", 
-    "For a better result run test over a clean database", 
-    "You can use rake dev:db:reset test before rspec."
-)
-
-
-# Validate users before run tests
-if ::User.all.count < 5
-    LC::Debug.error("Not all the test users were loaded")
-    exit;
-end
-
-if ::User.where(:email => "test@lesli.cloud").count <= 0
-    LC::Debug.error("No test user found")
-    exit;
 end

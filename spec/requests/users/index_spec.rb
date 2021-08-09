@@ -17,54 +17,52 @@ For more information read the license file including with this software.
 
 =end
 
-require 'rails_helper'
-require 'spec_helper'
-require 'byebug'
-
+# include helpers, configuration & initializers for request tests
+require 'lesli_request_helper'
 
 RSpec.describe 'GET:/administration/users.json', type: :request do
-    include_context 'user authentication'
+
+    include_context 'request user authentication'
     
-    before(:all) do
-        get '/administration/users.json', params: {
-                "perPage": 1000,
-        }
-    end
-
-    include_examples 'successful standard json response'
-
     it 'is expected to respond with all the users' do
-        expect_count = @user.account.users.joins(:detail, :user_roles).group("users.id, user_roles.users_id").map(&:id).uniq.count
-        expect(@response_body["data"]["users_count"]).to eql(expect_count)
-        expect(@response_body["data"]["users"].length).to eql(expect_count)
+
+        get '/administration/users.json', params: {
+            :perPage => 1000
+        }
+
+        expect_json_response_successful
+
+        expect_count = @current_user.account.users
+            .joins(:detail, :user_roles)
+            .group("users.id, user_roles.users_id")
+            .map(&:id).uniq.count
+
+        response_body = response_json
+        
+        expect(response_body["data"]["users_count"]).to eql(expect_count)
+        expect(response_body["data"]["users"].length).to eql(expect_count)
+
     end
 end
 
+RSpec.describe 'GET:/administration/users/list.json', type: :request do
 
+    include_context 'request user authentication'
 
-RSpec.describe 'GET:/administration/users/list?role=owner', type: :request do
-    include_context 'user authentication'
+    it "is expected to respond with total of user with a specific role" do
 
-    before(:all) do
-        @role = "owner"
-        get "/administration/users/list.json?role=#{ @role }"
-    end
+        ['owner', 'admin', 'api', 'guest', 'limited'].each do |role|
     
-    include_examples 'successful standard json response'
+            get "/administration/users/list.json?role=#{role}"
+    
+            expect_json_response_successful
+    
+            users_by_role_in_database = @current_user.account.users.joins(:roles).where("roles.name = ?", role).count
 
-    it 'is expected to respond with total of user with a specific role' do
-        expect(@response_body["data"].length).to eql(@user.account.users.joins(:roles).where("roles.name = ?", @role).count)
-    end
-
-    it 'is expected to respond with users with a specific role' do
-        roles_count = 0
-        @response_body["data"].each do |user|
-            role_existance = user["roles"].select do |role|
-                role["name"] == @role
-            end
-
-            roles_count += 1 if role_existance.length > 0
+            expect(response_data.count).to eql(users_by_role_in_database)
+    
         end
-        expect(roles_count).to eql(@response_body["data"].length)
+
     end
+
 end

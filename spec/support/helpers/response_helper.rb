@@ -1,5 +1,5 @@
 =begin
-    
+
 Copyright (c) 2020, all rights reserved.
 
 All the information provided by this platform is protected by international laws related  to 
@@ -14,40 +14,43 @@ For more information read the license file including with this software.
 
 // · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
 // · 
-    
+
 =end
 
-module ControllerHelpers
+module ResponseHelpers
 
-    def json_response
-        JSON.parse(response.body)
+    @@response_json = nil
+
+    def response_json
+        @@response_json = JSON.parse(response.body) if @@response_json.blank?
+        @@response_json 
     end
 
-    def response_body
-        json_response["data"]
+    def response_data
+        response_json["data"]
     end
 
     def response_error
-        json_response["error"]
+        response_json["error"]
     end
 
     def expect_json_response_successful
-        response_body = json_response
+        @@response_json = nil
         expect(response).to have_http_status(:success)
         expect(response.content_type).to eq("application/json; charset=utf-8")
-        expect(response_body).to have_key('successful') 
-        expect(response_body["successful"]).to eql(true)
-        expect(response_body).to have_key("data")
+        expect(response_json).to have_key('successful') 
+        expect(response_json["successful"]).to eql(true)
+        expect(response_json).to have_key("data")
     end
 
     def expect_json_response_error
-        response_body = json_response
+        @@response_json = nil
         expect(response).to have_http_status(:success) 
         expect(response.content_type).to eq('application/json; charset=utf-8')
-        expect(response_body).to have_key('successful') 
-        expect(response_body['successful']).to eql(false)
-        expect(response_body).to have_key('error') 
-        expect(response_body["error"]).to have_key('message') 
+        expect(response_json).to have_key('successful') 
+        expect(response_json['successful']).to eql(false)
+        expect(response_json).to have_key('error') 
+        expect(response_json["error"]).to have_key('message') 
     end
 
 end
