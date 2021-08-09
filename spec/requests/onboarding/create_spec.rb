@@ -24,7 +24,7 @@ require 'byebug'
 
 
 
-RSpec.describe 'POST:/administration/onboarding.json', type: :request do
+RSpec.describe 'POST:/onboarding.json', type: :request do
     include_context 'user authentication'
 
     before(:all) do
@@ -47,7 +47,7 @@ RSpec.describe 'POST:/administration/onboarding.json', type: :request do
         @linkedin = Faker::Internet.url
         @facebook = Faker::Internet.url
 
-        post("/administration/onboarding.json", params: {
+        post("/onboarding.json", params: {
             onboarding: {
                 account: {
                     company_name: @company_name,
