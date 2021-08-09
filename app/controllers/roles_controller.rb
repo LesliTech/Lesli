@@ -186,34 +186,44 @@ class RolesController < ApplicationLesliController
 
     def options
 
-        levels = current_user.account.roles
-                .select(:object_level_permission)
-                .distinct
-                .map { |level| level.object_level_permission }
+        existing_levels = current_user.account.roles
+            .select(:object_level_permission)
+            .order(object_level_permission: :desc)
+            .distinct
+            .map { |level| level.object_level_permission }
 
-        store = {}
+        levels = {}
 
-        levels.each_with_index do |value, i|
+        levels_sorted = []
 
-            next_value = levels.to_a[i+1].nil? ? 0 : levels.to_a[i+1]
-            current_level = value
-            new_value = (current_level + next_value) / 2
+        existing_levels.each_with_index do |level, i|
 
-            store[current_level] = []
+            level_next = existing_levels.to_a[i+1].nil? ? 0 : existing_levels.to_a[i+1]
+            level_current = level
+            level_new = (level_current + level_next) / 2
 
-            next if next_value == 0
+            levels[level_current] = []
 
-            store[new_value] = []
+            next if level_next == 0
+
+            levels[level_new] = []
 
         end
 
-        current_user.account.roles.each do |role|
-            if store.has_key?(role.object_level_permission)
-                store[role.object_level_permission].push(role)
+        current_user.account.roles.select(:id, :name, :object_level_permission).each do |role|
+            if levels.has_key?(role.object_level_permission)
+                levels[role.object_level_permission].push(role)
             end 
         end
 
-        respond_with_successful(store)
+        levels.keys.each do |key|
+            levels_sorted.push({
+                level: key,
+                roles: levels[key]
+            })
+        end 
+
+        respond_with_successful({ levels: levels_sorted })
 
     end
 
