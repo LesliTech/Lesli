@@ -62,7 +62,7 @@ export default {
                     this.data.account_currency = this.account_currency;
                     this.data.reload.account_currency = true;
                 }else{
-                    this.alert(result.error.message,'danger');
+                    this.msg.error(result.error.message);
                 }
             }).catch(error => {
                 console.log(error)

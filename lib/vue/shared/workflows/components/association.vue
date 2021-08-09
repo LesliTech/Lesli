@@ -68,7 +68,7 @@ export default {
                 if (result.successful) {
                     this.associations = result.data
                 }else{
-                    this.alert(result.error.message,'danger')
+                    this.msg.error(result.error.message)
                 }
             }).catch(error => {
                 console.log(error)
@@ -80,7 +80,7 @@ export default {
                 if (result.successful) {
                     this.association_options = result.data
                 }else{
-                    this.alert(result.error.message,'danger')
+                    this.msg.error(result.error.message)
                 }
             }).catch(error => {
                 console.log(error)
@@ -99,10 +99,10 @@ export default {
             this.http.post(this.endpoint, data).then(result => {
                 if (result.successful) {
                     this.getAssociations()
-                    this.alert(this.translations.associations.messages_success_association_created, 'success')
+                    this.msg.success(this.translations.associations.messages_success_association_created)
                     this.clearNewAssociation()
                 }else{
-                    this.alert(result.error.message,'danger')
+                    this.msg.error(result.error.message)
                 }
             }).catch(error => {
                 console.log(error)
@@ -133,9 +133,9 @@ export default {
             this.http.delete(url).then(result => {
                 if (result.successful) {
                     this.getAssociations()
-                    this.alert(this.translations.associations.messages_info_association_deleted, 'success')
+                    this.msg.success(this.translations.associations.messages_info_association_deleted)
                 }else{
-                    this.alert(result.error.message,'danger')
+                    this.msg.error(result.error.message)
                 }
             }).catch(error => {
                 console.log(error)

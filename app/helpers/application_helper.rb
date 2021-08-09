@@ -82,18 +82,12 @@ module ApplicationHelper
         
     end
 
-    def get_application_navigation_path
-        navigation = "layouts/#{lesli_engine_or_instance}/partials/application-navigation"
-        navigation = "layouts/components/navigation-administration" if is_lesli_engine_administration?
-        navigation
-    end
-
     def lesli_engine()
         controller_path.split('/')[0]
     end
 
     def is_lesli_engine_administration?
-        ["accounts", "account", "roles", "profiles", "users", "abouts", "settings", "cronos", "onboardings", "role_descriptors"].include?(lesli_engine)
+        ["accounts", "account", "roles", "profiles", "users", "abouts", "settings", "cronos", "onboarding", "role_descriptors"].include?(lesli_engine)
     end 
 
     def is_lesli_engine?(engine=nil)
@@ -103,6 +97,9 @@ module ApplicationHelper
         return true
     end 
 
+    # return the name of the engine loaded for the current path
+    # this helper return the name of the engine of the code we are running on
+    # example: https://lesli.cloud/driver/events/1/edit -> engine loaded: cloud_driver
     def lesli_engine_or_instance
         return lesli_instance_code if not is_lesli_engine?
         return lesli_engine

@@ -27,8 +27,11 @@ import showOnboarding from "./pages/show.vue"
 
 
 // · 
-app("Onboarding", "[show]", "/onboarding", [{
+app("Onboarding", "[show]", "/administration/onboarding", [{
     path: "/",
     component: showOnboarding,
-}])
+}], {
+    account: {},
+    account_settings: {},
+})
 
