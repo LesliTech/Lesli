@@ -40,6 +40,7 @@ export default {
             },
             browser_data: {
             },
+            shortcuts: [],
             $navbar: null,
             $application_header: null
         }
