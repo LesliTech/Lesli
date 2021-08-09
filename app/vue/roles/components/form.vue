@@ -32,7 +32,7 @@ export default {
     data() {
         return {
             roles: [],
-            options: {},
+            options: [],
             translations: {
                 core: {
                     shared: I18n.t('core.shared'),
@@ -128,6 +128,16 @@ export default {
                 </div>
 
                 <div class="field">
+                    <label class="label">{{ translations.core.roles.column_default_path }}</label>
+                    <div class="control">
+                        <input v-model="role.default_path" class="input" type="text" :placeholder="translations.core.roles.view_placeholder_default_path_at_login">
+                    </div>
+                     <p class="help">User will be redirected to this route always.</p>
+                </div>
+
+                <hr>
+
+                <div class="field">
                     <label class="label">
                         {{ translations.core.roles.view_text_hierarchical_level }}
                         <sup class="has-text-danger">*</sup>
@@ -135,81 +145,76 @@ export default {
                     <b-menu>
                         <b-menu-list>
                             <b-menu-item 
-                                @click="test"
-                                :data-level="i"
-                                icon="chevron-right" 
+                                @click="test(level)"
+
                                 :key="index" 
-                                v-for="(level, i, index) in options" 
-                                :label="`Level ${index + 1} (${level.length})`">
-                                <b-menu-item disabled :label="role.name" :value="i" v-for="role in level" :key="role.id"></b-menu-item>
+                                v-for="(level, index) in options.levels">
+                                <template #label="props">
+                                    <span class="icon is-small">
+                                        <i :class="['fas', 
+                                            {'fa-chevron-right': !props.expanded},
+                                            {'fa-check': props.expanded}
+                                        ]"></i>
+                                    </span>
+                                    {{ `Level ${index + 1}` }}
+                                    {{ props.expanded ? '- selected' :  `(${level.roles.length})` }}
+                                </template>
+                                <b-menu-item 
+                                    disabled 
+                                    :label="role.name" 
+                                    :value="index" 
+                                    :key="role.id"
+                                    v-for="role in level.roles">
+                                </b-menu-item>
                             </b-menu-item>
                         </b-menu-list>
                     </b-menu>
                 </div>
 
+                <hr>
+
                 <div class="field">
-                    <label class="label">{{ translations.core.roles.column_default_path }}</label>
+                    <label class="label">
+                        {{ translations.core.roles.column_only_my_data }}
+                        <sup class="has-text-danger">*</sup>
+                    </label>
                     <div class="control">
-                        <input v-model="role.default_path" class="input" type="text" :placeholder="translations.core.roles.view_placeholder_default_path_at_login">
-                    </div>
-                </div>
-
-                <hr>
-
-                <div class="columns">
-                    <div class="column is-4">
-                        <div class="field">
-                            <label class="label">
-                                {{ translations.core.roles.view_text_status }}
-                                <sup class="has-text-danger">*</sup>
-                            </label>
-                            <div class="control">
-                                <div class="select">
-                                    <select v-model="role.active">
-                                        <option value="true">{{ translations.core.roles.view_text_active }}</option>
-                                        <option value="false">{{ translations.core.roles.view_text_disabled }}</option>
-                                    </select>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="column is-4">
-                        <div class="field">
-                            <label class="label">
-                                {{ translations.core.roles.column_only_my_data }}
-                                <sup class="has-text-danger">*</sup>
-                            </label>
-                            <div class="control">
-                                <div class="select">
-                                    <select v-model="role.only_my_data">
-                                        <option value="true">{{ translations.core.roles.view_text_restrict_data_access }}</option>
-                                        <option value="false">{{ translations.core.roles.view_text_allow_to_see_all_the_data }}</option>
-                                    </select>
-                                </div>
-                            </div>
+                        <div class="select">
+                            <select v-model="role.only_my_data">
+                                <option value="true">{{ translations.core.roles.view_text_restrict_data_access }}</option>
+                                <option value="false">{{ translations.core.roles.view_text_allow_to_see_all_the_data }}</option>
+                            </select>
                         </div>
                     </div>
                 </div>
 
+                <div class="field">
+                    <label class="label">
+                        {{ translations.core.roles.view_text_status }}
+                        <sup class="has-text-danger">*</sup>
+                    </label>
+                    <div class="control">
+                        <div class="select">
+                            <select v-model="role.active">
+                                <option value="true">{{ translations.core.roles.view_text_active }}</option>
+                                <option value="false">{{ translations.core.roles.view_text_disabled }}</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
 
-                <hr>
-
-                <!-- Submitt -->
-                <p class="control">
-                    <button class="button is-primary">
-                        <span class="icon">
-                            <i class="far fa-save"></i>
-                        </span>
-                        <span>{{ translations.core.shared.view_btn_save }}</span>
-                    </button>
-                </p>
+                <div class="field mt-6">
+                    <div class="control">
+                        <button class="button is-primary">
+                            <span class="icon">
+                                <i class="far fa-save"></i>
+                            </span>
+                            <span>{{ translations.core.shared.view_btn_save }}</span>
+                        </button>
+                    </div>
+                </div>
 
             </fieldset>
         </form>
     </div>
 </template>
-<style>
-    select span {
-        background-color: red;
-    }
-</style>
