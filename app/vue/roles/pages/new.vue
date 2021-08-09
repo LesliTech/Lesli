@@ -47,9 +47,7 @@ export default {
 
 <template>
     <section class="application-component">
-        <component-form 
-            :role="role"
-        >
-        </component-form>
+        <component-header title="New role"></component-header>
+        <component-form :role="role"></component-form>
     </section>
 </template>
