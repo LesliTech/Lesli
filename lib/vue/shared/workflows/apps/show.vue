@@ -102,7 +102,7 @@ export default {
                 if (result.successful) {
                     this.workflow = result.data
                 } else {
-                    this.alert(result.error.message,'danger')
+                    this.msg.error(result.error.message)
                 }
             }).catch(error => {
                 console.log(error)
@@ -127,9 +127,9 @@ export default {
             this.http.patch(url, data).then(result => {
                 if(result.successful){
                     this.workflow.default = true
-                    this.alert(this.translations.workflows.messages_success_workflow_set_as_default, 'success')
+                    this.msg.success(this.translations.workflows.messages_success_workflow_set_as_default)
                 } else {
-                    this.alert(result.error.message,'danger')
+                    this.msg.error(result.error.message)
                 }
             }).catch(error => {
                 console.log(error)
@@ -140,10 +140,10 @@ export default {
             let url = `${this.main_route}/${this.workflow_id}`
             this.http.delete(url).then(result => {
                 if(result.successful){
-                    this.alert(this.translations.workflows.messages_info_workflow_deleted, 'success')
+                    this.msg.success(this.translations.workflows.messages_info_workflow_deleted)
                     this.$router.push(`${this.appMountPath}/`)
                 }else{
-                    this.alert(result.error.message,'danger')
+                    this.msg.error(result.error.message)
                 }
             }).catch(error => {
                 console.log(error)

@@ -17,6 +17,13 @@ For more information read the license file including with this software.
     
 =end
 
+require 'faker'
+require 'rails_helper'
+require 'support/helpers/response_helper'
+
+
+# · Authentication context
+# · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
 RSpec.shared_context 'controller user authentication' do 
 
     # Creates a new valid user session
@@ -25,5 +32,19 @@ RSpec.shared_context 'controller user authentication' do
         @user = User.find_by(email: "test@lesli.cloud")
         sign_in @user
     end
+
+end
+
+
+# · Configuration
+# · ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~     ~·~
+RSpec.configure do |config|
+
+    # Include devise helpers to be able to login on test runtime
+    config.include Devise::Test::IntegrationHelpers
+    config.include Devise::Test::ControllerHelpers, type: :controller
+
+    # Include helper methods 
+    config.include ResponseHelpers
 
 end

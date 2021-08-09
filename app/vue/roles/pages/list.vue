@@ -93,7 +93,7 @@ export default {
 
                     this.roles_name_ready = true
                 }else{
-                    this.alert(result.error.message,'danger')
+                    this.msg.error(result.error.message)
                 }
             }).catch(error => {
                 console.log(error)
@@ -125,7 +125,7 @@ export default {
 
                     this.pagination.roles_count = result.data.pagination.count_total
                 }else{
-                    this.alert(result.error.message,'danger')
+                    this.msg.error(result.error.message)
                 }
             }).catch(error => {
                 console.log(error)

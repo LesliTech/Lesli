@@ -28,11 +28,11 @@ export default {
                 this.submitting_form = false
 
                 if (result.successful) {
-                    this.alert(this.translations.core.account.integrations.messages_success_created_successfully, 'success')
+                    this.msg.success(this.translations.core.account.integrations.messages_success_created_successfully)
 
                     this.url.go(`${this.endpoint}/${result.data.id}`)
                 } else {
-                    this.alert(result.error.message, "danger")
+                    this.msg.error(result.error.message)
                     return
                 }
             }).catch(error => {
