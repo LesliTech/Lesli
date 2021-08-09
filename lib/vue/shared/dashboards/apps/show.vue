@@ -136,7 +136,7 @@ export default {
 
 
         {{ /* dashboard header */ }}
-        <component-header title="Dashboard"></component-header>
+        <!-- <component-header title="Dashboard"></component-header> -->
 
 
         {{ /* show message if there is no dashboard */ }}
@@ -145,8 +145,8 @@ export default {
         </div>
 
 
-        {{ /* show message if there is no dashboard */ }}
-        <section v-if="dashboard" class="columns is-multiline">
+        {{ /* render dashboard components */ }}
+        <section v-if="dashboard" class="columns is-multiline mt-1">
             <div 
                 v-for="component in dashboard.components" 
                 :key="component.id" 
