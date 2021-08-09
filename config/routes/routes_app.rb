@@ -31,6 +31,12 @@ module RoutesApp
 
                 resource  :account, only: [:new, :create, :show]
 
+                resource :onboarding do
+                    collection do
+                        post :invite
+                    end
+                end
+
                 # Lesli core administration components
                 scope :administration do
 
@@ -194,13 +200,7 @@ module RoutesApp
                         end
                     end
 
-                    resource :onboarding do
-                        collection do
-                            post :invite
-                        end
-                    end
                 end
-
 
                 get "version", to: "abouts#version"
                 get "dashboard", to: "abouts#dashboard"

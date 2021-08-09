@@ -40,6 +40,7 @@ export default {
             },
             browser_data: {
             },
+            shortcuts: [],
             $navbar: null,
             $application_header: null
         }
@@ -48,6 +49,14 @@ export default {
     mounted() {
         this.addListeners();
         this.getBrowserData();
+
+        // check that the constat is defined
+        // this constant is defined in: app/views/layouts/components/dashboard-shortcuts
+        // you must include this partial in every view where you want to use shortcuts
+        if (typeof shortcuts !== 'undefined') {
+            this.shortcuts = shortcuts
+        }
+
     },
 
     methods: {
@@ -126,6 +135,13 @@ export default {
                 </div>
             </div>
             <div class="header-right">
+
+                <a class="navbar-item shortcut" 
+                    v-for="shortcut in shortcuts" 
+                    :key="shortcut.id"
+                    :href="shortcut.url" >
+                    {{ shortcut.name }}
+                </a>
 
                 <slot></slot>
                 <slot name="languages"></slot>
