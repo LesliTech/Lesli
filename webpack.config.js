@@ -243,10 +243,12 @@ module.exports = env => {
         }
 
         // get app directories
+        // @TODO: See Trello card 2450. We must migrate all functionallity to 
+        // this.data and remove this.bus before enabling help for a global JS file
         if ([
                 "cloud_text", "cloud_house", "cloud_driver", 
                 "cloud_focus", "cloud_babel", "cloud_audit",
-                "cloud_realty", "cloud_bell", "cloud_help",
+                "cloud_realty", "cloud_bell", //"cloud_help",
                 "cloud_mailer"
             ].includes(engine)) {
 
