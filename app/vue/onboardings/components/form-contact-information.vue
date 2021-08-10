@@ -24,7 +24,9 @@ export default {
                 core: {
                     users: I18n.t("core.users"),
                     roles: I18n.t("core.roles"),
-                    shared: I18n.t("core.shared")
+                    shared: I18n.t("core.shared"),
+                    accounts: I18n.t("core.accounts"),
+                    onboardings: I18n.t("core.onboardings"),
                 }
             },
             options: {
@@ -58,14 +60,14 @@ export default {
     <div class="card">
         <div class="card-header">
             <p class="card-header-title">
-                Contact Information
+                {{ translations.core.onboardings.view_title_contact_information }}
             </p>
         </div>
         <div class="card-content">
             <div class="columns is-marginless has-border-bottom">
                 <div class="column is-3">
                     <label class="label">
-                        Country
+                        {{ translations.core.accounts.column_country }}
                     </label>
                 </div>
                 <div class="column">
@@ -89,7 +91,7 @@ export default {
             <div class="columns is-marginless has-border-bottom">
                 <div class="column is-3">
                     <label class="label">
-                        Address
+                        {{ translations.core.accounts.column_address }}
                     </label>
                 </div>
                 <div class="column">
@@ -100,7 +102,7 @@ export default {
             <div class="columns is-marginless has-border-bottom">
                 <div class="column is-3">
                     <label class="label">
-                        Region
+                        {{ translations.core.accounts.column_region }}
                     </label>
                 </div>
                 <div class="column">
@@ -124,7 +126,7 @@ export default {
             <div class="columns is-marginless has-border-bottom">
                 <div class="column is-3">
                     <label class="label">
-                        Phone Number 1
+                        {{ translations.core.accounts.column_phone_number_1 }}
                     </label>
                 </div>
                 <div class="column">
@@ -135,7 +137,7 @@ export default {
             <div class="columns is-marginless has-border-bottom">
                 <div class="column is-3">
                     <label class="label">
-                        Phone Number 2
+                        {{ translations.core.accounts.column_phone_number_2 }}
                     </label>
                 </div>
                 <div class="column">
@@ -146,7 +148,7 @@ export default {
             <div class="columns is-marginless has-border-bottom">
                 <div class="column is-3">
                     <label class="label">
-                        Phone Number 3
+                        {{ translations.core.accounts.column_phone_number_3 }}
                     </label>
                 </div>
                 <div class="column">
@@ -157,7 +159,7 @@ export default {
             <div class="columns is-marginless has-border-bottom">
                 <div class="column is-3">
                     <label class="label">
-                        Phone Number 4
+                        {{ translations.core.accounts.column_phone_number_4 }}
                     </label>
                 </div>
                 <div class="column">

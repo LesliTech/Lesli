@@ -24,7 +24,9 @@ export default {
                 core: {
                     users: I18n.t("core.users"),
                     roles: I18n.t("core.roles"),
-                    shared: I18n.t("core.shared")
+                    shared: I18n.t("core.shared"),
+                    accounts: I18n.t("core.accounts"),
+                    onboardings: I18n.t("core.onboardings"),
                 }
             },
         }
@@ -35,29 +37,29 @@ export default {
 <template>
     <div class="card">
         <div class="card-header">
-            <h3>Welcome to Lesli configuration wizard</h3>
-            <p>Let's start with basic information...</p>
+            <h3>{{ translations.core.onboardings.view_title_welcome_configuration_wizard }}</h3>
+            <p>{{ translations.core.onboardings.view_text_basic_information}}</p>
         </div>
         <div class="card-content">
-            
+
             <form>
 
                 <div class="field">
-                    <label class="label">Company name</label>
+                    <label class="label">{{ translations.core.accounts.column_company_name }}</label>
                     <div class="control">
                         <input class="input" v-model="data.account.company_name" required />
                     </div>
                 </div>
 
                 <div class="field">
-                    <label class="label">Company legal name</label>
+                    <label class="label">{{ translations.core.accounts.column_company_legal_name }}</label>
                     <div class="control">
                         <input class="input" name="company-name-legal" v-model="data.account.company_name_legal" />
                     </div>
                 </div>
 
                 <div class="field">
-                    <label class="label">Tag line</label>
+                    <label class="label">{{ translations.core.accounts.column_tag_line }}</label>
                     <div class="control">
                         <input class="input" name="company-tag-line" v-model="data.account.company_tag_line" />
                     </div>
