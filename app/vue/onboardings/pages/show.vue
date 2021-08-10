@@ -52,7 +52,8 @@ export default {
                     shared: I18n.t("core.shared"),
                     account: {
                         settings: I18n.t("core.account/settings")
-                    }
+                    },
+                    onboardings: I18n.t("core.onboardings")
                 }
             },
         }
@@ -86,7 +87,7 @@ export default {
         },
 
         finishConfiguration() {
-            this.http.post(this.url.admin("onboarding"), {
+            this.http.post(this.url.to("onboarding"), {
                 account: this.data.account,
                 account_settings: this.data.account_settings
             }).then(result => {
@@ -133,14 +134,14 @@ export default {
                         <div class="card-content">
                             <form @submit.prevent="finishConfiguration()">
                                 <div class="welcome-title has-text-centered">
-                                    <h1><strong>Welcome</strong></h1>
+                                    <h3>{{ translations.core.onboardings.view_text_welcome }}</h3>
                                 </div>
 
                                 <br />
                                 <div class="has-text-centered">
                                     <button class="button is-primary">
                                         <span>
-                                            {{ "Finish Configuration" }}
+                                            {{ translations.core.onboardings.view_btn_finish_configuration }}
                                         </span>
                                     </button>
                                 </div>
