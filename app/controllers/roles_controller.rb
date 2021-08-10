@@ -183,6 +183,108 @@ class RolesController < ApplicationLesliController
             respond_with_error(@role.errors.full_messages.to_sentence)
         end
     end
+
+    def options
+
+        existing_levels = current_user.account.roles
+            .select(:object_level_permission)
+            .order(object_level_permission: :desc)
+            .distinct
+            .map { |level| level.object_level_permission }
+
+        levels = {}
+
+        levels_sorted = []
+
+        existing_levels.each_with_index do |level, i|
+
+            level_next = existing_levels.to_a[i+1].nil? ? 0 : existing_levels.to_a[i+1]
+            level_current = level
+            level_new = (level_current + level_next) / 2
+
+            levels[level_current] = []
+
+            next if level_next == 0
+
+            levels[level_new] = []
+
+        end
+
+        current_user.account.roles.select(:id, :name, :object_level_permission).each do |role|
+            if levels.has_key?(role.object_level_permission)
+                levels[role.object_level_permission].push(role)
+            end 
+        end
+
+        levels.keys.each do |key|
+            levels_sorted.push({
+                level: key,
+                roles: levels[key]
+            })
+        end 
+
+        respond_with_successful({ levels: levels_sorted })
+
+    end
+
+    def roles_old_2
+        roles_new = {}
+        roles_final = {}
+        roles = current_user.account.roles.order(object_level_permission: :desc)
+        roles.each do |role|
+            unless roles_final.has_key?(role.object_level_permission)
+                roles_final[role.object_level_permission] = [] 
+            end
+            roles_final[role.object_level_permission].push(role)
+            roles_final[role.object_level_permission] = []
+        end
+        
+        current_level = 0
+        previous_level = 0
+
+        roles_final.each_with_index do |level, index|
+            current_level =  level[0]
+            new_level = (previous_level - current_level) / 2
+            LC::Debug.msg(current_level, new_level, previous_level)
+            previous_level = current_level
+
+            roles_new[new_level] = []
+        end
+        roles_final
+    end
+
+    def roles_old
+        roles_final = []
+        roles = current_user.account.roles
+        roles_total = roles.length
+        
+        roles.each_with_index do |role, index|
+            roles_final.push({
+                id: role.id,
+                name: role.name,
+                object_level_permission: role.object_level_permission
+            })
+
+            if (index < roles_total - 1)
+
+                next_olp = roles[index + 1].object_level_permission
+
+                level = (role.object_level_permission + next_olp) / 2
+
+                if (role.object_level_permission == level) 
+                    next;
+                end
+
+                roles_final.push({
+                    id: 0,
+                    name: "----",
+                    object_level_permission: level
+                })
+            end
+
+        end
+        roles_final
+    end 
     
     private
 
