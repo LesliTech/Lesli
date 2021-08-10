@@ -194,7 +194,7 @@ group :test do
 
     gem "rails-controller-testing"
     gem "rails-ujs"
-    #gem "jquery-rails"
+    gem "jquery-rails"
 
 end
 
