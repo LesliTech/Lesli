@@ -37,9 +37,6 @@ export default {
             role_descriptor_actions_list: [],
             role_descriptor_actions: [],
             options: {},
-            filters: {
-                search_constrollers_list: '',
-            },
             requests: [],
             checkedRows: {},
             checkedCategoryRows: [],
