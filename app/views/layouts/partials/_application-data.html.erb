@@ -31,5 +31,5 @@ const lesli = {
     tasks: <%= @account ?  @account[:tasks] : "-1" %>,
     cable: <%= @account ?  @account[:cable] : false %>
 }
-const shortcuts = <%= current_user.shortcuts.select(:id, :name, :url).to_json.html_safe %>
+const shortcuts = <%= current_user.nil? ? [] : current_user.shortcuts.select(:id, :name, :url).to_json.html_safe %>
 </script>

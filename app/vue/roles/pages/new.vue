@@ -18,7 +18,8 @@ For more information read the license file including with this software.
 
 */
 
-import componentForm from '../components/forms/form.vue'
+//import componentForm from '../components/forms/form.vue'
+import componentForm from '../components/form.vue'
 
 export default {
   
@@ -46,9 +47,7 @@ export default {
 
 <template>
     <section class="application-component">
-        <component-form 
-            :role="role"
-        >
-        </component-form>
+        <component-header title="New role"></component-header>
+        <component-form :role="role"></component-form>
     </section>
 </template>
