@@ -17,7 +17,8 @@ For more information read the license file including with this software.
 
 %>
 
-
+<% custom_app_logo_path = "brand/lesli-icon.svg" %>
+<% custom_app_logo_path = "#{ lesli_instance_code }/brand/app-logo.svg" if lesli_instance_code != 'lesli' %>
 <% custom_app_page_clas = "#{ lesli_instance_code }-session".downcase %>
 <% custom_app_page_path = "#{ lesli_instance_code }/lesli/devise/sessions/new" %>
 <% custom_app_page_exists = lookup_context.exists?(custom_app_page_path) %>
@@ -42,7 +43,7 @@ For more information read the license file including with this software.
                 <div class="column has-session-form">
                     <div class="container">
                         <div class="logo-container">
-                            <%= image_tag "#{ lesli_instance_code }/brand/app-logo.svg", :alt => "logo" %>
+                            <%= image_tag custom_app_logo_path, :class => "#{lesli_instance_code}-logo", :alt => "logo" %>
                         </div>
                         <form @submit.prevent="postLogin">
                             <p v-if="notification.show" :class="[`has-text-${notification.type}`]">
