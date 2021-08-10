@@ -43,7 +43,7 @@ For more information read the license file including with this software.
                 <div class="column has-session-form">
                     <div class="container">
                         <div class="logo-container">
-                            <%= image_tag custom_app_logo_path, :class => "#{lesli_instance_code}-logo", :alt => "logo" %>
+                            <%#= image_tag custom_app_logo_path, :class => "#{lesli_instance_code}-logo", :alt => "logo" %>
                         </div>
                         <form @submit.prevent="postLogin">
                             <p v-if="notification.show" :class="[`has-text-${notification.type}`]">
