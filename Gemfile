@@ -194,6 +194,8 @@ group :test do
 
     gem "rails-controller-testing"
     gem "rails-ujs"
+
+    # Sprockets needs jquery to render views on test environment
     gem "jquery-rails"
 
 end
