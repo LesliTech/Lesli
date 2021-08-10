@@ -20,21 +20,16 @@ For more information read the license file including with this software.
 # include helpers, configuration & initializers for request tests
 require 'lesli_request_helper'
 
-RSpec.describe 'GET:/login', type: :request do
-    
+RSpec.feature "Widget management", :type => :feature do
     it 'is expected to respond with login view' do
-
-        get '/login'
-
-        expect(response).to have_http_status(:success)
-        expect(response.content_type).to eq("text/html; charset=utf-8")
-        expect(response.body).to include("/password/new")
-        expect(response.body).to include("/register")
-        expect(response.body).to include("/pass/new")
-        expect(response.body).to include("/otp/new")
-
+        visit "/login"
+        expect(page.status_code).to be(200)
+        expect(page.response_headers['Content-Type']).to eq("text/html; charset=utf-8")
+        expect(page).to have_link('', href: '/password/new')
+        expect(page).to have_link('', href: '/register')
+        expect(page).to have_link('', href: '/pass/new')
+        expect(page).to have_link('', href: '/otp/new')
     end
-
 end
 
 RSpec.describe "devise/sessions/new", type: :view do

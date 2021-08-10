@@ -37,7 +37,6 @@ For more information read the license file including with this software.
 <% # define @account data for the lesli plugin %>
 <script>const lesli = <%= @account.to_json.html_safe %></script>
 
-
 <% if user_signed_in? %>
 <script>
     <% # special data for authenticated users  %>
