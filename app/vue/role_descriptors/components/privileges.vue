@@ -38,13 +38,14 @@ export default {
             role_descriptor_actions: [],
             options: {},
             filters: {
-                search_constrollers_value: '',
-                search_constrollers_list: {},
+                search_constrollers_list: '',
             },
             requests: [],
             checkedRows: {},
             checkedCategoryRows: [],
-            active_tab: 0
+            active_tab: 0,
+            search: '',
+            timer: null
         }
     },
 
@@ -150,7 +151,7 @@ export default {
             Promise.all(this.requests).then(() => {
                 this.requests = []
                 this.loading = false
-
+                            
                 this.parseData()
             })
         },
@@ -171,7 +172,6 @@ export default {
                 
                 if (!this.checkedRows[category]) this.checkedRows[category] = []
                 if (!this.role_descriptor_actions_list[category]) this.role_descriptor_actions_list[category] = []
-                if (!this.filters.search_constrollers_list[category]) this.filters.search_constrollers_list[category] = ''
                 
                 for (let route of this.options.system_controllers){
                     let active = false                
@@ -307,15 +307,18 @@ export default {
             return this.options.categories[index].value
         },
         
-        copyFilters(text){
-            this.filters.search_constrollers_list[this.getCategory()] = this.filters.search_constrollers_value
-        }
+        searchText(text) {
+            clearTimeout(this.timer)
+            
+            this.timer = setTimeout(() => { 
+                this.search = text
+            }, 500)
+        },
     },
 
     computed: {
         filteredControllers(){
-            let search_field = this.filters.search_constrollers_value
-            this.copyFilters(search_field)
+            let search_field = this.search
             
             search_field = search_field.toLowerCase().trim()
             if (search_field.length > 0) {
@@ -331,8 +334,7 @@ export default {
     },
 
     watch: {
-        active_tab(newValue, oldValue){
-            this.filters.search_constrollers_value = this.filters.search_constrollers_list[this.getCategory(newValue)]           
+        active_tab(newValue, oldValue){                 
             this.copyCheckedCategoryRows(this.getCategory(oldValue))
             this.copyCheckedRows(this.getCategory(newValue))
             
@@ -369,13 +371,14 @@ export default {
                             <div class="column is-full">
                                 <b-field>
                                     <b-input
+                                        ref="search"
                                         :placeholder="translations.core.shared.view_toolbar_filter_placeholder_search"
-                                        v-model="filters.search_constrollers_value"
+                                        @input="text => searchText(text)"
                                         type="text"
                                         icon="search"
                                         icon-right="close-circle"
                                         icon-right-clickable
-                                        @icon-right-click="filters.search_constrollers_value = ''">
+                                        @icon-right-click="search = ''">
                                     </b-input>
                                 </b-field>
                             </div>
