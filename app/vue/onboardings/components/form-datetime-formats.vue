@@ -24,7 +24,12 @@ export default {
                 core: {
                     users: I18n.t("core.users"),
                     roles: I18n.t("core.roles"),
-                    shared: I18n.t("core.shared")
+                    shared: I18n.t("core.shared"),
+                    accounts: I18n.t("core.accounts"),
+                    account: {
+                        settings: I18n.t("core.account/settings")
+                    },
+                    onboardings: I18n.t("core.onboardings"),
                 }
             },
             options: {
@@ -58,14 +63,14 @@ export default {
     <div class="card">
         <div class="card-header">
             <p class="card-header-title">
-                Date-Time Formats
+                {{ translations.core.onboardings.view_title_datetime_formats }}
             </p>
         </div>
         <div class="card-content">
             <div class="columns is-marginless has-border-bottom">
                 <div class="column is-3">
                     <label class="label">
-                        Time Zone
+                        {{ translations.core.account.settings.column_time_zone }}
                     </label>
                 </div>
                 <div class="column">
@@ -89,7 +94,7 @@ export default {
             <div class="columns is-marginless has-border-bottom">
                 <div class="column is-3">
                     <label class="label">
-                        Start week on
+                        {{ translations.core.account.settings.column_start_week_on }}
                     </label>
                 </div>
                 <div class="column">
@@ -113,7 +118,7 @@ export default {
             <div class="columns is-marginless has-border-bottom">
                 <div class="column is-3">
                     <label class="label">
-                        Date Format
+                        {{ translations.core.account.settings.column_date_format }}
                     </label>
                 </div>
                 <div class="column">
@@ -124,7 +129,7 @@ export default {
             <div class="columns is-marginless has-border-bottom">
                 <div class="column is-3">
                     <label class="label">
-                        Time Format
+                        {{ translations.core.account.settings.column_time_format }}
                     </label>
                 </div>
                 <div class="column">
@@ -135,7 +140,7 @@ export default {
             <div class="columns is-marginless has-border-bottom">
                 <div class="column is-3">
                     <label class="label">
-                        Datetime Format
+                        {{ translations.core.account.settings.column_datetime_format }}
                     </label>
                 </div>
                 <div class="column">
@@ -146,7 +151,7 @@ export default {
             <div class="columns is-marginless has-border-bottom">
                 <div class="column is-3">
                     <label class="label">
-                        Date Words
+                        {{ translations.core.account.settings.column_date_words }}
                     </label>
                 </div>
                 <div class="column">
@@ -157,7 +162,7 @@ export default {
             <div class="columns is-marginless has-border-bottom">
                 <div class="column is-3">
                     <label class="label">
-                        Datetime words
+                        {{ translations.core.account.settings.column_datetime_words }}
                     </label>
                 </div>
                 <div class="column">
