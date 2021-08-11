@@ -84,8 +84,19 @@ module Lesli
         end
 
         # Haml is deprecated, but we still have it until we change all files to erb
+        config.generators.system_tests = nil
         config.generators do |g|
+            g.helper false
             g.template_engine :erb
+            g.test_framework(
+                :rspec,
+                fixtures: false, 
+                view_specs: false, 
+                model_specs: false,
+                helper_specs: false,
+                routing_specs: false,
+                controller_specs: false
+            )
         end
 
     end
