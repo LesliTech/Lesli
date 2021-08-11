@@ -24,7 +24,9 @@ export default {
                 core: {
                     users: I18n.t("core.users"),
                     roles: I18n.t("core.roles"),
-                    shared: I18n.t("core.shared")
+                    shared: I18n.t("core.shared"),
+                    accounts: I18n.t("core.accounts"),
+                    onboardings: I18n.t("core.onboardings"),
                 }
             },
         }
@@ -36,14 +38,14 @@ export default {
     <div class="card">
         <div class="card-header">
             <p class="card-header-title">
-                Public Information
+                {{ translations.core.onboardings.view_title_public_information }}
             </p>
         </div>
         <div class="card-content">
             <div class="columns is-marginless has-border-bottom">
                 <div class="column is-3">
                     <label class="label">
-                        Website
+                        {{ translations.core.accounts.column_website }}
                     </label>
                 </div>
                 <div class="column">
@@ -54,7 +56,7 @@ export default {
             <div class="columns is-marginless has-border-bottom">
                 <div class="column is-3">
                     <label class="label">
-                        Public Email
+                        {{ translations.core.accounts.column_public_email }}
                     </label>
                 </div>
                 <div class="column">
@@ -65,7 +67,7 @@ export default {
             <div class="columns is-marginless has-border-bottom">
                 <div class="column is-3">
                     <label class="label">
-                        Github
+                        {{ translations.core.accounts.column_github }}
                     </label>
                 </div>
                 <div class="column">
@@ -76,7 +78,7 @@ export default {
             <div class="columns is-marginless has-border-bottom">
                 <div class="column is-3">
                     <label class="label">
-                        Twitter
+                        {{ translations.core.accounts.column_twitter}}
                     </label>
                 </div>
                 <div class="column">
@@ -87,7 +89,7 @@ export default {
             <div class="columns is-marginless has-border-bottom">
                 <div class="column is-3">
                     <label class="label">
-                        Youtube
+                        {{ translations.core.accounts.column_youtube }}
                     </label>
                 </div>
                 <div class="column">
@@ -98,7 +100,7 @@ export default {
             <div class="columns is-marginless has-border-bottom">
                 <div class="column is-3">
                     <label class="label">
-                        LinkedIn
+                        {{ translations.core.accounts.column_linkedin}}
                     </label>
                 </div>
                 <div class="column">
@@ -109,7 +111,7 @@ export default {
             <div class="columns is-marginless has-border-bottom">
                 <div class="column is-3">
                     <label class="label">
-                        Facebook
+                        {{ translations.core.accounts.column_facebook }}
                     </label>
                 </div>
                 <div class="column">
