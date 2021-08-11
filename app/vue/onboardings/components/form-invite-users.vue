@@ -26,7 +26,9 @@ export default {
                 core: {
                     users: I18n.t("core.users"),
                     roles: I18n.t("core.roles"),
-                    shared: I18n.t("core.shared")
+                    shared: I18n.t("core.shared"),
+                    accounts: I18n.t("core.accounts"),
+                    onboardings: I18n.t("core.onboardings"),
                 }
             },
             invite: {
@@ -48,14 +50,14 @@ export default {
     methods: {
         postInvite() {
             this.submittingForm = true
-            this.http.post(this.url.admin("onboarding/invite"), {
+            this.http.post(this.url.to("onboarding/invite"), {
                 invite: this.invite
             }).then(result => {
                 if (!result.successful) {
                     this.msg.error(result.error.message)
                     return
                 }
-                this.msg.info("Invitation request sent successfully")
+                this.msg.info(this.translations.core.onboardings.messages_success_invitation_request_sent_successfully)
                 this.invitedUsers.push(result.data)
             }).catch(error => {
                 console.log(error)
@@ -77,12 +79,12 @@ export default {
     <div class="card">
         <div class="card-header">
             <p class="card-header-title">
-                Invite users
+                {{ translations.core.onboardings.view_title_invite_users }}
             </p>
         </div>
         <div class="card-content">
             <div v-if="invitedUsers.length > 0">
-                <h1>Invited users</h1>
+                <h1>{{ translations.core.onboardings.view_text_invited_users }}</h1>
                 <ul>
                     <li v-bind:key="invitedUser.email" v-for="invitedUser in invitedUsers">
                         <label class="label">{{ invitedUser.email }}</label>
@@ -95,7 +97,7 @@ export default {
                 <div class="columns is-marginless has-border-bottom">
                     <div class="column is-3">
                         <label class="label">
-                            Email
+                            {{ translations.core.onboardings.view_text_email }}
                             <sup class="has-text-danger">*</sup>
                         </label>
                     </div>
@@ -107,7 +109,7 @@ export default {
                 <div class="columns is-marginless has-border-bottom">
                     <div class="column is-3">
                         <label class="label">
-                            First name
+                            {{ translations.core.onboardings.view_text_first_name }}
                         </label>
                     </div>
                     <div class="column">
@@ -118,7 +120,7 @@ export default {
                 <div class="columns is-marginless has-border-bottom">
                     <div class="column is-3">
                         <label class="label">
-                            Last name
+                            {{ translations.core.onboardings.view_text_last_name }}
                         </label>
                     </div>
                     <div class="column">
@@ -129,7 +131,7 @@ export default {
                 <div class="columns is-marginless has-border-bottom">
                     <div class="column is-3">
                         <label class="label">
-                            Telephone
+                            {{ translations.core.onboardings.view_text_telephone }}
                         </label>
                     </div>
                     <div class="column">
