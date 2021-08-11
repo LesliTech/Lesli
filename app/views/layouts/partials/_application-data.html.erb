@@ -17,19 +17,29 @@ For more information read the license file including with this software.
 
 %>
 
-<script>
-const lesli = {
-    app: "<%= params[:controller] %>",
-    url: { root: "<%= request.base_url.to_s %>", path: "<%= request.path%>" },
-    engine: "<%= lesli_engine_or_instance %>",
-    view_id: "<%= "#{params[:controller].gsub("/", "_")}_#{params[:action]}" %>",
-    company:  <%= @account ? @account[:company].to_json.html_safe : "{}"%>,
-    settings: <%= @account ? @account[:settings].to_json.html_safe : "{}"%>,
-    current_user:  <%= @account ? @account[:current_user].to_json.html_safe : "{}"%>,
-    notifications: <%= @account ? @account[:notifications] : "-1" %>,
-    announcements: <%= @account ? @account[:announcements] : "-1" %>,
-    tasks: <%= @account ?  @account[:tasks] : "-1" %>,
-    cable: <%= @account ?  @account[:cable] : false %>
+<%
+
+# Include defaults to account
+# @account[:view_id] use as key for local storage data
+# @account[:engine] use into url plugin to for dynamic search 
+# @account[:url] use as base for url plugin
+
+@account[:view_id] = "#{params[:controller].gsub("/", "_")}_#{params[:action]}",
+@account[:engine] = lesli_engine_or_instance,
+@account[:app] = params[:controller]
+@account[:url] = {
+    root: request.base_url.to_s, 
+    path: request.path
 }
-const shortcuts = <%= current_user.nil? ? [] : current_user.shortcuts.select(:id, :name, :url).to_json.html_safe %>
+
+%>
+
+<% # define @account data for the lesli plugin %>
+<script>const lesli = <%= @account.to_json.html_safe %></script>
+
+<% if user_signed_in? %>
+<script>
+    <% # special data for authenticated users  %>
+    const shortcuts = <%= current_user.shortcuts.select(:id, :name, :url).to_json.html_safe %>
 </script>
+<% end %>
