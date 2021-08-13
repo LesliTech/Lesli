@@ -50,6 +50,7 @@ package-lock.json
 
 /engines/*
 /engines2/*
+/enginesdev/*
 !/engines/.gitkeep
 
 

@@ -24,24 +24,8 @@ class ApplicationController < ActionController::Base
     layout "layouts/application-public"
 
     def initialize
-
         super
-
-        @account = {
-            tasks: 0,
-            cable: false,
-            company: {},
-            settings: {},
-            revision: {},
-            current_user: {},
-            notifications: 0,
-            announcements: 0,
-            customization: {
-                logo: "/images/brand/lesli-name.svg", 
-                color_primary: "#3689e6"
-            }
-        }
-
+        @account = {}
     end
  
     def switch_locale
