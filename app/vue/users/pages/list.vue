@@ -351,7 +351,7 @@ export default {
                         <b-table-column :label="translations.core.users.view_table_header_role">
                             <span>
                                 <span v-for="(role, index) in props.row.roles" :key="`role-${role}-${index}`">
-                                    <b-tooltip type="is-white" :label="role">
+                                    <b-tooltip type="is-white" :label="object_utils.translateEnum(translations.core.roles, 'column_enum_role', role)">
                                         <b-tag type="is-info">{{ object_utils.extractInitials(role)}}</b-tag>
                                         &nbsp;
                                     </b-tooltip>
