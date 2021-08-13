@@ -35,10 +35,14 @@ export default {
         return {
             view_type: 'new',
             role: {
-                object_level_permission: 10
+                object_level_permission: 10,
+                only_my_data: false,
+                active: true
             },
             translations: {
-                shared: I18n.t('deutscheleibrenten.shared')
+                core: {
+                    roles: I18n.t('core.roles'),
+                }
             }
         }
     },
@@ -47,7 +51,6 @@ export default {
 
 <template>
     <section class="application-component">
-        <component-header title="New role"></component-header>
         <component-form :role="role"></component-form>
     </section>
 </template>
